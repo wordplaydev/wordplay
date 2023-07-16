@@ -8,6 +8,7 @@
     export let submit: boolean = false;
     export let uiid: string | undefined = undefined;
     export let classes: string | undefined = undefined;
+    export let scale: boolean = true;
 </script>
 
 <!-- Note that we don't make the button inactive using "disabled" because that makes
@@ -16,6 +17,7 @@
     class:stretch
     data-uiid={uiid}
     class={classes}
+    class:scale
     type={submit ? 'submit' : null}
     title={tip}
     aria-label={tip}
@@ -64,8 +66,8 @@
         fill: var(--wordplay-highlight);
     }
 
-    button:focus[aria-disabled='false'],
-    button:hover[aria-disabled='false'] {
+    button.scale:focus[aria-disabled='false'],
+    button.scale:hover[aria-disabled='false'] {
         transform: scale(1.1);
     }
 </style>

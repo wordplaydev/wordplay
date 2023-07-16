@@ -92,6 +92,8 @@
         gap: var(--wordplay-spacing);
         background-color: var(--wordplay-background);
         align-items: baseline;
+        border-top: var(--wordplay-border-color) solid 1px;
+        border-bottom: var(--wordplay-border-color) solid 1px;
     }
 
     .matches {

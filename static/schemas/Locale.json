@@ -5235,6 +5235,9 @@
                 "settings": {
                   "type": "string"
                 },
+                "showOutput": {
+                  "type": "string"
+                },
                 "start": {
                   "type": "string"
                 },
@@ -5299,7 +5302,8 @@
                 "previousLesson",
                 "nextLessonStep",
                 "previousLessonStep",
-                "revertProject"
+                "revertProject",
+                "showOutput"
               ],
               "type": "object"
             }

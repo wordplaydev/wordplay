@@ -71,6 +71,7 @@ type UITexts = {
         nextLessonStep: string;
         previousLessonStep: string;
         revertProject: string;
+        showOutput: string;
     };
     prompt: {
         deleteSource: string;

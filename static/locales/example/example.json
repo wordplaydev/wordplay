@@ -1522,6 +1522,7 @@
             "collapse": "$?",
             "expand": "$?",
             "close": "$?",
+            "changeLanguage": "$?",
             "addLanguage": "$?",
             "removeLanguage": "$?",
             "horizontal": "$?",
@@ -1555,7 +1556,8 @@
             "previousLesson": "$?",
             "nextLessonStep": "$?",
             "previousLessonStep": "$?",
-            "revertProject": "$?"
+            "revertProject": "$?",
+            "showOutput": "$?"
         },
         "prompt": { "deleteSource": "$?", "deleteProject": "$?" },
         "labels": {

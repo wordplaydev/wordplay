@@ -2893,7 +2893,8 @@
             "previousLesson": "previous lesson",
             "nextLessonStep": "next step",
             "previousLessonStep": "previous step",
-            "revertProject": "revert to original code"
+            "revertProject": "revert to original code",
+            "showOutput": "show this output on stage"
         },
         "prompt": { "deleteSource": "delete", "deleteProject": "delete" },
         "labels": {

@@ -1556,7 +1556,8 @@
             "previousLesson": "$?",
             "nextLessonStep": "$?",
             "previousLessonStep": "$?",
-            "revertProject": "$?"
+            "revertProject": "$?",
+            "showOutput": "$?"
         },
         "prompt": { "deleteSource": "$?", "deleteProject": "$?" },
         "labels": {

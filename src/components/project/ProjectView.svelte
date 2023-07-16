@@ -43,7 +43,6 @@
     import TileView, { type ResizeDirection } from './TileView.svelte';
     import Tile, { Content, Mode } from './Tile';
     import OutputView from '../output/OutputView.svelte';
-    import type Value from '@runtime/Value';
     import Editor from '../editor/Editor.svelte';
     import Layout, { DocsID, OutputID, PaletteID } from './Layout';
     import NonSourceTileToggle from './NonSourceTileToggle.svelte';
@@ -76,6 +75,7 @@
         PALETTE_SYMBOL,
         STAGE_SYMBOL,
     } from '../../parser/Symbols';
+    import type Value from '../../runtime/Value';
 
     export let project: Project;
     export let original: Project | undefined = undefined;
@@ -119,6 +119,10 @@
 
     /** The new source recently added. Used to remember to keep it expanded initially. */
     let newSource: Source | undefined = undefined;
+
+    /** Keep a source select, to decide what value is shown on stage */
+    let selectedSourceIndex: number = 0;
+    $: selectedSource = project.getSources()[selectedSourceIndex];
 
     /** The conflicts present in the current project. **/
     const conflicts: ConflictsContext = writable([]);
@@ -191,6 +195,7 @@
      * When the project changes,
      */
     const evaluator: Writable<Evaluator> = writable();
+    let latestValue: Value | undefined;
 
     setContext<EvaluatorContext>(EvaluatorSymbol, evaluator);
 
@@ -430,9 +435,6 @@
     let dragged = writable<Node | undefined>(undefined);
     setContext<DraggedContext>(DraggedSymbol, dragged);
 
-    /** The latest value of main in the project */
-    let latest: Value | undefined;
-
     /** True if the output should show a grid */
     let grid: boolean = false;
 
@@ -500,6 +502,12 @@
                           .map((concept) => $index?.getEquivalent(concept))
                           .filter((c): c is Concept => c !== undefined)
                     : []
+            );
+
+            // Ensure the selected source index is in bounds.
+            selectedSourceIndex = Math.min(
+                selectedSourceIndex,
+                project.supplements.length
             );
         }
     }
@@ -593,7 +601,7 @@
     $: {
         $evaluation;
         $creator.getLanguages();
-        latest = $evaluator.getLatestSourceValue(project.main);
+        latestValue = $evaluator.getLatestSourceValue(selectedSource);
     }
 
     /**
@@ -843,8 +851,12 @@
         menu = menu;
     }
 
+    function getSourceIndexByID(id: string) {
+        return parseInt(id.replace('source', ''));
+    }
+
     function getSourceByID(id: string) {
-        return project.getSources()[parseInt(id.replace('source', ''))];
+        return project.getSources()[getSourceIndexByID(id)];
     }
 
     function handleKey(event: KeyboardEvent) {
@@ -1095,8 +1107,8 @@
                                     <OutputView
                                         {project}
                                         evaluator={$evaluator}
-                                        source={project.main}
-                                        {latest}
+                                        source={selectedSource}
+                                        latest={latestValue}
                                         fullscreen={layout.fullscreenID ===
                                             tile.id}
                                         bind:fit
@@ -1105,11 +1117,13 @@
                                         {paintingConfig}
                                         bind:background={outputBackground}
                                     />
+                                    <!-- Show an editor and a mini output view -->
                                 {:else}
+                                    {@const source = getSourceByID(tile.id)}
                                     <Editor
                                         {project}
                                         evaluator={$evaluator}
-                                        source={getSourceByID(tile.id)}
+                                        {source}
                                         autofocus={autofocus &&
                                             tile.isExpanded() &&
                                             getSourceByID(tile.id) ===
@@ -1122,6 +1136,42 @@
                                                     event.detail.conflicts
                                                 ))}
                                     />
+                                    {#if project.supplements.length > 0}
+                                        <div class="output-preview-container">
+                                            <Button
+                                                tip={$creator.getLocale().ui
+                                                    .tooltip.showOutput}
+                                                enabled={source !==
+                                                    selectedSource}
+                                                action={() =>
+                                                    (selectedSourceIndex =
+                                                        getSourceIndexByID(
+                                                            tile.id
+                                                        ))}
+                                                scale={false}
+                                            >
+                                                <div class="output-preview">
+                                                    {#if source === selectedSource}
+                                                        <span
+                                                            style="font-size:200%"
+                                                            >🎭</span
+                                                        >
+                                                    {:else}
+                                                        <OutputView
+                                                            {project}
+                                                            evaluator={$evaluator}
+                                                            {source}
+                                                            latest={$evaluator.getLatestSourceValue(
+                                                                source
+                                                            )}
+                                                            fullscreen={false}
+                                                            mini
+                                                        />
+                                                    {/if}
+                                                </div>
+                                            </Button>
+                                        </div>
+                                    {/if}
                                 {/if}</svelte:fragment
                             ><svelte:fragment slot="footer"
                                 >{#if tile.kind === Content.Source}<GlyphChooser
@@ -1291,6 +1341,24 @@
         font-size: 1000%;
         display: flex;
         flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .output-preview-container {
+        position: absolute;
+        bottom: var(--wordplay-spacing);
+        right: var(--wordplay-spacing);
+    }
+
+    .output-preview {
+        width: 5em;
+        height: 5em;
+        border: var(--wordplay-border-color) solid var(--wordplay-border-width);
+        border-radius: var(--wordplay-border-radius);
+        overflow: hidden;
+        cursor: pointer;
+        display: flex;
         align-items: center;
         justify-content: center;
     }

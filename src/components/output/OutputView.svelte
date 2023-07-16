@@ -144,6 +144,7 @@
         flex-direction: column;
         flex-grow: 1;
         max-height: 100%;
+        width: 100%;
         padding: var(--wordplay-spacing);
         text-align: center;
         line-height: 100%;
