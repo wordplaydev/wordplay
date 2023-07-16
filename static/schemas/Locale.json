@@ -5152,6 +5152,9 @@
                 "expand": {
                   "type": "string"
                 },
+                "expandCode": {
+                  "type": "string"
+                },
                 "fit": {
                   "type": "string"
                 },
@@ -5319,7 +5322,8 @@
                 "nextLessonStep",
                 "previousLessonStep",
                 "revertProject",
-                "showOutput"
+                "showOutput",
+                "expandCode"
               ],
               "type": "object"
             }

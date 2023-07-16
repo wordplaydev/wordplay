@@ -8,6 +8,8 @@
     import Node from '@nodes/Node';
     import { getCaret } from '../project/Contexts';
     import NodeView from './NodeView.svelte';
+    import Button from '../widgets/Button.svelte';
+    import { creator } from '../../db/Creator';
 
     export let nodes: Node[];
     export let elide: boolean = false;
@@ -42,6 +44,7 @@
                 ? $caret.source.getNodeFirstPosition(node)
                 : undefined;
 
+            // Find the node in the list on which we'll anchor.
             const anchor =
                 anchorPosition !== undefined &&
                 firstPosition !== undefined &&
@@ -49,7 +52,7 @@
                 firstPosition < anchorPosition &&
                 anchorPosition < lastPosition
                     ? nodes.find((n) => node && n.contains(node))
-                    : undefined;
+                    : nodes.at(-1);
 
             // A caret? See if it's in the list, and if so, show what's around it.
             if (anchor) {
@@ -73,26 +76,16 @@
 </script>
 
 {#if hiddenBefore > 0}
-    <span
-        role="button"
-        tabindex="0"
-        class="count"
-        on:pointerdown={() => (elide = false)}
-        on:keydown={(event) =>
-            event.key === ' ' || event.key === 'Enter'
-                ? (elide = false)
-                : undefined}><br />… {hiddenBefore}</span
+    <Button
+        tip={$creator.getLocale().ui.tooltip.expandCode}
+        action={() => (elide = false)}
+        ><span class="count">… {hiddenBefore}</span></Button
     >{/if}{#each visible as node (node.id)}<NodeView
         {node}
-    />{/each}{#if hiddenAfter > 0}<span
-        class="count"
-        role="button"
-        tabindex="0"
-        on:pointerdown={() => (elide = false)}
-        on:keydown={(event) =>
-            event.key === ' ' || event.key === 'Enter'
-                ? (elide = false)
-                : undefined}><br />… {hiddenAfter}</span
+    />{/each}{#if hiddenAfter > 0}<Button
+        tip={$creator.getLocale().ui.tooltip.expandCode}
+        action={() => (elide = false)}
+        ><span class="count">… {hiddenAfter}</span></Button
     >{/if}
 
 <style>

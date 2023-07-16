@@ -1590,7 +1590,8 @@
             "nextLessonStep": "$?",
             "previousLessonStep": "$?",
             "revertProject": "$?",
-            "showOutput": "$?"
+            "showOutput": "$?",
+            "expandCode": "$?"
         },
         "prompt": { "deleteSource": "$?", "deleteProject": "$?" },
         "labels": {
