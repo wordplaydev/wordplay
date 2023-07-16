@@ -8,8 +8,9 @@
     export let node: StructureDefinition;
 </script>
 
-<NodeView node={node.docs} /><NodeView node={node.share} />
-<NodeView node={node.type} /><NodeView node={node.names} /><NodeSequenceView
+<NodeView node={node.docs} /><NodeView node={node.share} /><NodeView
+    node={node.type}
+/><NodeView node={node.names} /><NodeSequenceView
     nodes={node.interfaces}
 /><NodeView node={node.types} /><NodeView node={node.open} /><NodeSequenceView
     nodes={node.inputs}
