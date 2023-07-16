@@ -44,18 +44,18 @@
 -->
 {#key space}
     <span class="space" data-id={token.id}
-        >{#if beforeSpaces}<span class="before"
-                >{#each beforeSpaces as s, index}{#if index > 0}<br
-                            class="break"
-                        />{/if}{#if s === ''}&ZeroWidthSpace;{:else}{s}{/if}{:else}&ZeroWidthSpace;{/each}{#if insertion}<InsertionPointView
-                    />{/if}</span
-            >{/if}{#if afterSpaces}<span class="after"
-                >{#each afterSpaces as s, index}{#if index > 0}<br
-                            class="break"
-                        />{/if}{s}{/each}{#each additionalSpaces as s, index}{#if index > 0}<br
-                            class="break"
-                        />{/if}{#if s === ''}&ZeroWidthSpace;{:else}{s}{/if}{/each}</span
-            >{/if}</span
+        ><span class="before"
+            >{#each beforeSpaces as s, index}{#if index > 0}<br
+                        class="break"
+                    />{/if}{#if s === ''}&ZeroWidthSpace;{:else}{s}{/if}{:else}&ZeroWidthSpace;{/each}{#if insertion}<InsertionPointView
+                />{/if}</span
+        ><span class="after"
+            >{#each afterSpaces as s, index}{#if index > 0}<br
+                        class="break"
+                    />{/if}{s}{/each}{#each additionalSpaces as s, index}{#if index > 0}<br
+                        class="break"
+                    />{/if}{#if s === ''}&ZeroWidthSpace;{:else}{s}{/if}{/each}</span
+        ></span
     >
 {/key}
 
