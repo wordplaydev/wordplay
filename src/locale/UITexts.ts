@@ -72,6 +72,7 @@ type UITexts = {
         previousLessonStep: string;
         revertProject: string;
         showOutput: string;
+        /** The button shown when a list of code is ellided; clicking it shows the hidden code. */
         expandCode: string;
     };
     prompt: {
