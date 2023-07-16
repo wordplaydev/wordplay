@@ -475,6 +475,8 @@ const commands: Command[] = [
         description: 'Type',
         key: undefined,
         mode: undefined,
+        alt: false,
+        control: false,
         execute: (caret: Caret, _: HTMLElement, __: Evaluator, key: string) =>
             key.length === 1 ? caret.insert(key) : undefined,
     },
