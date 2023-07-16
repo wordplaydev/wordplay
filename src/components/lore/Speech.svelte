@@ -17,8 +17,8 @@
     export let bind: Bind | undefined = undefined;
     /** If true, speech is placed below glyph. If false, speech is placed to the right or left of glyph. */
     export let below: boolean = false;
-    /** If true and speech is not below, places the speech on the right, otherwise on the left. */
-    export let right: boolean = true;
+    /** If true and speech is not below, reading order is flipped. */
+    export let flip: boolean = true;
     /** If true and speech is not below, baseline aligns the glyph and speech */
     export let baseline: boolean = false;
     /** If true, uses foreground color for background, and background for foreground. */
@@ -44,7 +44,7 @@
 </script>
 
 <div
-    class="dialog {below ? 'column' : right ? 'row' : 'row reverse'} {!below &&
+    class="dialog {below ? 'column' : flip ? 'row' : 'row reverse'} {!below &&
     baseline
         ? 'baseline'
         : ''}"
@@ -73,7 +73,10 @@
             {/if}
         </div>
     {/key}
-    <div class="message {below ? 'below' : right ? 'right' : 'left'}">
+    <div
+        class="message {below ? 'below' : flip ? 'flip' : 'reading'} {document
+            .documentElement.dir}"
+    >
         {#if scroll}
             <div class="scroller"><slot /></div>
         {:else}
@@ -151,22 +154,26 @@
         position: relative;
         background: var(--wordplay-background);
         color: var(--wordplay-foreground);
-        text-align: left;
         flex-grow: 1;
         --tail-width: 0.25em;
+        --direction: 1;
         max-height: 100%;
         padding: var(--wordplay-spacing);
     }
 
-    .message.right {
-        margin-left: var(--tail-width);
+    .message.rtl {
+        --direction: -1;
+    }
+
+    .message.flip {
+        margin-inline-start: var(--tail-width);
     }
 
     .message.below {
         margin-top: var(--tail-width);
     }
 
-    .message.right:after {
+    .message.flip:after {
         content: '';
         position: absolute;
         border-style: solid;
@@ -175,15 +182,15 @@
         display: block;
         width: 0;
         margin-top: calc(-1 * var(--tail-width));
-        left: calc(-1 * var(--tail-width));
+        inset-inline-start: calc(-1 * var(--tail-width));
         top: 50%;
     }
 
-    .baseline .message.right:after {
+    .baseline .message.flip:after {
         top: calc(2 * var(--wordplay-spacing));
     }
 
-    .message.right:before {
+    .message.flip:before {
         content: '';
         position: absolute;
         border-style: solid;
@@ -196,15 +203,17 @@
         margin-top: calc(
             -1 * (var(--tail-width) + var(--wordplay-border-width))
         );
-        left: calc(-1 * (var(--tail-width) + 1 * var(--wordplay-border-width)));
+        inset-inline-start: calc(
+            -1 * (var(--tail-width) + 1 * var(--wordplay-border-width))
+        );
         top: 50%;
     }
 
-    .baseline .message.right:before {
+    .baseline .message.flip:before {
         top: calc(2 * var(--wordplay-spacing));
     }
 
-    .message.left:after {
+    .message.reading:after {
         content: '';
         position: absolute;
         border-style: solid;
@@ -213,15 +222,15 @@
         display: block;
         width: 0;
         margin-top: calc(-1 * var(--tail-width));
-        right: calc(-1 * var(--tail-width));
+        inset-inline-end: calc(-1 * var(--direction) * var(--tail-width));
         top: 50%;
     }
 
-    .baseline .message.left:after {
+    .baseline .message.reading:after {
         top: calc(2 * var(--wordplay-spacing));
     }
 
-    .message.left:before {
+    .message.reading:before {
         content: '';
         position: absolute;
         border-style: solid;
@@ -234,13 +243,14 @@
         margin-top: calc(
             -1 * (var(--tail-width) + var(--wordplay-border-width))
         );
-        right: calc(
-            -1 * (var(--tail-width) + 1 * var(--wordplay-border-width))
+        inset-inline-end: calc(
+            var(--direction) * -1 *
+                (var(--tail-width) + 1 * var(--wordplay-border-width))
         );
         top: 50%;
     }
 
-    .baseline .message.left:before {
+    .baseline .message.reading:before {
         top: calc(2 * var(--wordplay-spacing));
     }
 
@@ -253,7 +263,7 @@
         display: block;
         width: 0;
         top: calc(-1 * var(--tail-width));
-        left: calc(2 * var(--tail-width));
+        inset-inline-start: calc(2 * var(--tail-width));
     }
 
     .message.below:before {
@@ -266,7 +276,9 @@
         display: block;
         width: 0;
         top: calc(-1 * (var(--tail-width) + var(--wordplay-border-width)));
-        left: calc(2 * var(--tail-width) - 1 * var(--wordplay-border-width));
+        inset-inline-start: calc(
+            2 * var(--tail-width) - 1 * var(--wordplay-border-width)
+        );
     }
 
     .emotion-kind {

@@ -222,7 +222,7 @@
                                 ?.getGlyphs($creator.getLanguages()) ?? {
                                 symbols: turn.dialog[0],
                             }}
-                            right={turn.dialog[0] === 'FunctionDefinition'}
+                            flip={turn.dialog[0] === 'FunctionDefinition'}
                             baseline
                             scroll={false}
                             emotion={Emotion[turn.dialog[1]]}

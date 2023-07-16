@@ -42,10 +42,9 @@
     }
 
     .annotation {
-        padding-left: var(--wordplay-spacing);
-        border-left: var(--wordplay-border-radius) solid var(--wordplay-error);
-        border-top-right-radius: var(--wordplay-border-radius);
-        border-bottom-right-radius: var(--wordplay-border-radius);
+        padding-inline-start: var(--wordplay-spacing);
+        border-inline-start: var(--wordplay-border-radius) solid
+            var(--wordplay-error);
     }
 
     .annotation.step {
