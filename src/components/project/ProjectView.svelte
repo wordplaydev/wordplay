@@ -4,7 +4,7 @@
 </script>
 
 <script lang="ts">
-    import { beforeUpdate, onDestroy, onMount, setContext, tick } from 'svelte';
+    import { beforeUpdate, onDestroy, setContext, tick } from 'svelte';
     import { derived, writable, type Writable } from 'svelte/store';
     import {
         type DraggedContext,
@@ -438,23 +438,33 @@
 
     /** Set up project wide concept index and path context */
     export let index: ConceptIndexContext = writable(
-        new ConceptIndex([], $creator.getLocales())
+        ConceptIndex.make(project, $creator.getLocales())
     );
     setContext(ConceptIndexSymbol, index);
 
+    // After mounting, see if there's a concept in the URL, and set the path to it if so.
     let path = getConceptPath();
 
-    // After mounting, see if there's a concept in the URL, and set the path to it if so.
-    onMount(() => {
-        const conceptPath = $page.url.searchParams.get(PROJECT_PARAM_CONCEPT);
+    // Restore the concept in the URL.
+    restoreConcept();
+
+    function resolveConcept(conceptPath: string): Concept | undefined {
         if (conceptPath && $index) {
             const [ownerName, name] = conceptPath.split('/');
-            const concept = ownerName
-                ? $index?.getSubConcept(ownerName, name)
-                : $index?.getConceptByName(name);
-            if (concept) path.set([concept]);
+            const concept =
+                ownerName && name
+                    ? $index?.getSubConcept(ownerName, name)
+                    : $index?.getConceptByName(ownerName);
+            return concept;
         }
-    });
+        return undefined;
+    }
+
+    function restoreConcept() {
+        const id = $page.url.searchParams.get(PROJECT_PARAM_CONCEPT);
+        const concept = id ? resolveConcept(id) : undefined;
+        if (concept) path.set([concept]);
+    }
 
     let latestProject: Project | undefined;
 
