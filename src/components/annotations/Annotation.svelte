@@ -39,6 +39,7 @@
         flex-direction: column;
         gap: var(--wordplay-spacing);
         padding: var(--wordplay-spacing);
+        align-items: flex-start;
     }
 
     .annotation {
