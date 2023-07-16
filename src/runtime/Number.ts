@@ -225,7 +225,13 @@ export default class Number extends Primitive {
     }
 
     toWordplay(): string {
-        return `${this.num.toString()}${this.unit.toString()}`;
+        return `${
+            this.num.isNaN()
+                ? '!#'
+                : !this.num.isFinite()
+                ? `${this.num.isPositive() ? '' : '-'}∞`
+                : this.num.toString()
+        }${this.unit.toString()}`;
     }
 
     getDescription(locale: Locale) {
