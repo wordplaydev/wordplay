@@ -1107,7 +1107,7 @@
                                         {project}
                                         evaluator={$evaluator}
                                         source={selectedSource}
-                                        latest={latestValue}
+                                        value={latestValue}
                                         fullscreen={layout.fullscreenID ===
                                             tile.id}
                                         bind:fit
@@ -1170,7 +1170,7 @@
                                                             {project}
                                                             evaluator={$evaluator}
                                                             {source}
-                                                            latest={$evaluator.getLatestSourceValue(
+                                                            value={$evaluator.getLatestSourceValue(
                                                                 source
                                                             )}
                                                             fullscreen={false}

@@ -77,7 +77,7 @@
                 {project}
                 {evaluator}
                 {source}
-                {latest}
+                value={latest}
                 fullscreen={false}
                 mini
             />

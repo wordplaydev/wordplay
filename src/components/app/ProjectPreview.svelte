@@ -36,7 +36,7 @@
             {project}
             {evaluator}
             source={project.main}
-            latest={value}
+            {value}
             fullscreen={false}
             fit={true}
             grid={false}

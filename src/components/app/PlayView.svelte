@@ -29,7 +29,7 @@
     {project}
     {evaluator}
     source={project.main}
-    {latest}
+    value={latest}
     fullscreen={false}
     fit={true}
     grid={false}

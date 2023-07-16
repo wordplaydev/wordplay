@@ -21,7 +21,7 @@
     export let project: Project;
     export let evaluator: Evaluator;
     export let source: Source;
-    export let latest: Value | undefined;
+    export let value: Value | undefined;
     export let fullscreen: boolean;
     export let fit: boolean = true;
     export let grid: boolean = false;
@@ -34,9 +34,9 @@
     let evaluation = getEvaluation();
     let keyboardEditIdle = getKeyboardEditIdle();
 
-    $: verse = latest === undefined ? undefined : toStage(project, latest);
+    $: verse = value === undefined ? undefined : toStage(project, value);
     $: background =
-        $keyboardEditIdle && latest instanceof Exception
+        $keyboardEditIdle && value instanceof Exception
             ? 'var(--wordplay-error)'
             : verse?.background.toCSS() ?? null;
 
@@ -56,35 +56,38 @@
     {#if !mini && $evaluation?.playing === true && !$keyboardEditIdle}
         <div class="message editing">⌨️</div>
         <!-- If there's an exception, show that. -->
-    {:else if latest instanceof Exception}
+    {:else if value instanceof Exception}
         <div class="message exception" data-uiid="exception"
             >{#if mini}!{:else}<Speech
-                    glyph={$index?.getNodeConcept(latest.creator) ??
-                        latest.creator.getGlyphs()}
+                    glyph={$index?.getNodeConcept(value.creator) ??
+                        value.creator.getGlyphs()}
                     invert
                     >{#each $creator.getLocales() as locale}
-                        <MarkupHTMLView
-                            markup={latest.getExplanation(locale)}
-                        />
+                        <!-- This is some strange Svelte error were a non-exception value is sneaking through. -->
+                        {#if value instanceof Exception}
+                            <MarkupHTMLView
+                                markup={value.getExplanation(locale)}
+                            />
+                        {/if}
                     {/each}</Speech
                 >{/if}
         </div>
         <!-- If there's no verse -->
-    {:else if latest === undefined}
+    {:else if value === undefined}
         <div class="message evaluating">◆</div>
         <!-- If there's a value, but it's not a verse, show that -->
     {:else if verse === undefined}
         <div class="message">
             {#if mini}
-                <ValueView value={latest} interactive={false} />
+                <ValueView {value} interactive={false} />
             {:else}
                 <h2
                     >{$creator
                         .getLocales()
                         .map((translation) =>
-                            latest === undefined
+                            value === undefined
                                 ? undefined
-                                : latest
+                                : value
                                       .getType(project.getContext(source))
                                       .getDescription(
                                           concretize,
@@ -94,7 +97,7 @@
                                       .toText()
                         )}</h2
                 >
-                <p><ValueView value={latest} /></p>
+                <p><ValueView {value} /></p>
             {/if}
         </div>
         <!-- Otherwise, show the Stage -->
