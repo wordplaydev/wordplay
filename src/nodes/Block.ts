@@ -78,18 +78,22 @@ export default class Block extends Expression {
     getGrammar() {
         return [
             { name: 'docs', types: [Docs, undefined] },
-            { name: 'open', types: [Token] },
+            { name: 'open', types: [Token, undefined] },
             {
                 name: 'statements',
                 types: [[Expression, Bind]],
                 label: (translation: Locale) =>
                     translation.node.Block.statement,
                 space: true,
-                indent: (parent: Node) =>
-                    parent instanceof Block && parent.kind !== BlockKind.Root,
+                indent: !this.isRoot(),
                 newline: this.isRoot() || this.isStructure(),
+                initial: this.isStructure(),
             },
-            { name: 'close', types: [Token] },
+            {
+                name: 'close',
+                types: [Token, undefined],
+                newline: this.isStructure(),
+            },
         ];
     }
 

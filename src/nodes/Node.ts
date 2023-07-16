@@ -39,6 +39,8 @@ export type Field = {
     newline?: boolean;
     /** True if the field should have double newlines */
     double?: boolean;
+    /** True if the first item in the list should get a newline too */
+    initial?: boolean;
     /** Generates a Token of the expected type, if a token is permitted on the field */
     getToken?: (text?: string, op?: string) => Token;
     /** Given a context and an optional index in a list, return a type required for this field. Used to filter autocomplete menus. */
@@ -214,6 +216,10 @@ export default abstract class Node {
             this === node ||
             this.getChildren().some((child) => child.contains(node))
         );
+    }
+
+    containsChild(child: Node) {
+        return this.getChildren().includes(child);
     }
 
     /** Use the subclass's child name list to construct a flat list of nodes. We use this list for tree traversal. */
@@ -593,7 +599,7 @@ export default abstract class Node {
     // WHITESPACE
 
     isBlockFor(child: Node) {
-        return this.getFieldOfChild(child)?.indent;
+        return this.getFieldOfChild(child)?.indent === true;
     }
 
     getPreferredPrecedingSpace(
@@ -605,17 +611,25 @@ export default abstract class Node {
 
         if (field === undefined) return '';
 
+        // If the child should have a newline before it, and the field is a list, and it's not the first node in the list or we want a newline for the first item, return a newline (or two if it wants double, as in the case of Markup).
         if (field.newline === true) {
             const value = this.getField(field.name);
-            if (Array.isArray(value) && child !== value[0])
+            if (
+                !Array.isArray(value) ||
+                (Array.isArray(value) && (field.initial || child !== value[0]))
+            )
                 return field.double ? '\n\n' : '\n';
         }
 
+        // If there's no newline before this child, and this node wants it to have a space before it,
+        // return a space.
         if (
             space.indexOf('\n') < 0 &&
             (field.space === true ||
                 (typeof field.space === 'function' && field.space(this)))
         ) {
+            // Get the field value of this child, and if it's not a list and it's not the first child, then
+            // return the space. Otherwise, no space.
             const value = this.getField(field.name);
             return !Array.isArray(value) || value[0] !== child ? ' ' : '';
         }

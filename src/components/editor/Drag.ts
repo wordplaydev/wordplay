@@ -134,7 +134,11 @@ export function dropNodeOnSource(
         ]);
 
         // Format the node containing the list
-        nodeToFormat = insertion.node;
+        nodeToFormat =
+            editedProgram
+                .nodes()
+                .find((node) => node.containsChild(draggedClone)) ??
+            draggedClone;
 
         // Find the node at the index. It's either the node in the list at the index or or the token after the list,
         // which might be empty. To find this, we ask the node the list is in
