@@ -666,9 +666,11 @@ export default class Caret {
                 new Caret(newSource, newPosition, undefined, newToken),
             ];
         } else {
+            // Try wrapping the node
             const wrap = this.wrap(text);
             if (wrap !== undefined) return wrap;
 
+            // If that didn't do anything, try deleting the node and replacing it with the inserted text.
             const edit = this.deleteNode(this.position);
             if (edit === undefined) return;
             const [source, caret] = edit;

@@ -467,6 +467,13 @@ const commands: Command[] = [
         mode: undefined,
         execute: (caret: Caret) => caret.wrap('['),
     },
+    {
+        description: 'Type',
+        key: undefined,
+        mode: undefined,
+        execute: (caret: Caret, _: HTMLElement, __: Evaluator, key: string) =>
+            key.length === 1 ? caret.insert(key) : undefined,
+    },
 ];
 
 export default commands;

@@ -1018,7 +1018,7 @@
                     $caret,
                     editor,
                     evaluator,
-                    event.code
+                    event.key
                 );
 
                 // If it produced a new caret and optionally a new project, update the stores.
