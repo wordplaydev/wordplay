@@ -208,5 +208,7 @@
         max-height: 50%;
         overflow-y: scroll;
         width: 100%;
+        border-top: var(--wordplay-border-width) solid
+            var(--wordplay-border-color);
     }
 </style>

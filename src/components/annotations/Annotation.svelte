@@ -15,7 +15,9 @@
 <div class="annotations" data-uiid="conflict">
     {#each annotations as annotation}
         <div
-            class={`annotation conflict ${annotation.kind}`}
+            class={`annotation ${annotation.kind} ${
+                annotation.kind === 'secondary' ? 'flip' : ''
+            }`}
             data-annotationid={id}
             transition:fade|local={{
                 duration: $creator.getAnimationDuration(),
@@ -24,6 +26,7 @@
             <Speech
                 glyph={$index?.getNodeConcept(annotation.node) ??
                     annotation.node.getGlyphs()}
+                flip={annotation.kind === 'secondary'}
             >
                 {#each annotation.messages as markup}
                     <MarkupHTMLView {markup} />
@@ -46,6 +49,10 @@
         padding-inline-start: var(--wordplay-spacing);
         border-inline-start: var(--wordplay-border-radius) solid
             var(--wordplay-error);
+    }
+
+    .annotation.flip {
+        align-self: flex-end;
     }
 
     .annotation.step {

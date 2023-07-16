@@ -1348,6 +1348,7 @@
         padding: calc(2 * var(--wordplay-spacing));
         flex: 1;
         cursor: text;
+        margin-bottom: auto;
     }
 
     .editor:focus {
