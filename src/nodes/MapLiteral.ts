@@ -62,9 +62,9 @@ export default class MapLiteral extends Expression {
     getGrammar() {
         return [
             { name: 'open', types: [Token] },
+            { name: 'bind', types: [Token, undefined] },
             { name: 'values', types: [[KeyValue]], space: true, indent: true },
             { name: 'close', types: [Token] },
-            { name: 'bind', types: [Token, undefined] },
         ];
     }
 
