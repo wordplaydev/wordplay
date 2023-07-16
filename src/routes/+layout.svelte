@@ -14,6 +14,7 @@
     import { goto } from '$app/navigation';
     import { PUBLIC_CONTEXT } from '$env/static/public';
     import { page } from '$app/stores';
+    import { getLanguageDirection } from '../locale/LanguageCode';
 
     /** Expose the translations as context, updating them as necessary */
     $: setContext(LocalesSymbol, $creator.getLocales());
@@ -23,6 +24,16 @@
     /** Create a user store to share globally. */
     const user = writable<User | null>(null);
     setContext(UserSymbol, user);
+
+    // Keep the page's language and direction up to date.
+    $: {
+        const language = $creator.getLocale().language;
+        document.documentElement.setAttribute('lang', language);
+        document.documentElement.setAttribute(
+            'dir',
+            getLanguageDirection(language)
+        );
+    }
 
     onMount(() => {
         if (PUBLIC_CONTEXT === 'prod') goto('/');

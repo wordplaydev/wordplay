@@ -181,3 +181,7 @@ export function getLanguageName(code: LanguageCode): string | undefined {
 export function getLanguageQuote(code: LanguageCode): string | undefined {
     return Languages[code]?.quote ?? "'";
 }
+
+export function getLanguageDirection(code: LanguageCode): WritingDirection {
+    return Languages[code]?.direction ?? 'ltr';
+}

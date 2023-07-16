@@ -28,7 +28,7 @@
                       ...languages.slice(0, languages.indexOf(language)),
                       ...languages.slice(languages.indexOf(language) + 1),
                   ]
-            : [language, ...languages];
+            : [...languages, language];
 
         // Set the layout and direction based on the preferred language.
         if (languages.length > 0) {

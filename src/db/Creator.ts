@@ -164,22 +164,26 @@ export class Creator {
 
     async loadLocales(languages: LanguageCode[], refresh: boolean = false) {
         // Asynchronously load all unloaded
-        await Promise.all(
-            languages.map(async (lang) => {
-                // If we don't already have it, load it.
-                if (refresh || !Object.hasOwn(this.locales, lang)) {
-                    const raw = await fetch(`/locales/${lang}/${lang}.json`);
-                    const json = await raw.json();
-                    this.locales[lang] = json as Locale;
-                }
-            })
-        );
+        try {
+            await Promise.all(
+                languages.map(async (lang) => {
+                    // If we don't already have it, load it.
+                    if (refresh || !Object.hasOwn(this.locales, lang)) {
+                        const raw = await fetch(
+                            `/locales/${lang}/${lang}.json`
+                        );
+                        const json = await raw.json();
+                        this.locales[lang] = json as Locale;
+                    }
+                })
+            );
 
-        // Update the native bindings to include all locales
-        this.rebootstrap();
+            // Update the native bindings to include all locales
+            this.rebootstrap();
 
-        // Notify config listeners.
-        this.configStore.set(this);
+            // Notify config listeners.
+            this.configStore.set(this);
+        } catch (_) {}
     }
 
     getLayout() {
