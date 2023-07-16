@@ -119,8 +119,8 @@ test.each([
     ["1m→''", '"1m"'],
     // Union types should work
     // ["(1 < 2 ? 0 [0]) → ''", '0'],
-    // Non-numbers should be !nan
-    ["'1.1.1'→#", 'NaN'],
+    // Non-numbers !should be !nan
+    ["'1.1.1'→#", '!#'],
 
     // TIME
     // No change if matching type.
