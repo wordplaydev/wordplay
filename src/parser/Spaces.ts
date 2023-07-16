@@ -152,17 +152,7 @@ export default class Spaces {
         while (parent) {
             const field = parent.getFieldOfChild(child);
 
-            // Add a tab if there's a newline and the parent wishes the child indented.
-            if (
-                field &&
-                (field.indent === true ||
-                    (field.indent instanceof Function &&
-                        field.indent(parent, child) === true)) &&
-                currentPrecedingSpace.indexOf('\n') >= 0
-            )
-                preferredSpace = '\t' + preferredSpace;
-
-            // Prepend more space if the child's first leaf is the leaf we're analyzing.
+            // Prepend space if the child's first leaf is the leaf we're analyzing.
             if (child.getFirstLeaf() === leaf) {
                 preferredSpace =
                     parent.getPreferredPrecedingSpace(
@@ -171,6 +161,16 @@ export default class Spaces {
                         depth
                     ) + preferredSpace;
             }
+
+            // Add a tab if there's a newline and the parent wishes the child indented.
+            if (
+                field &&
+                (field.indent === true ||
+                    (field.indent instanceof Function &&
+                        field.indent(parent, child) === true)) &&
+                preferredSpace.indexOf('\n') >= 0
+            )
+                preferredSpace = preferredSpace + '\t';
 
             // Move to the next parent.
             child = parent;
