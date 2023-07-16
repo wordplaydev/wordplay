@@ -109,6 +109,9 @@ export function dropNodeOnSource(
     // one or more sources, since it's possible to drag from one source to another.
     const sourceReplacements: [Source, Source][] = [];
 
+    // This should be the node to pretty print after dropping, to ensure semantic spacing is intact.
+    let nodeToFormat: Node;
+
     // Case 1: We're replacing the hovered node with the dragged node.
     if (target instanceof Node) {
         // Replace the hovered node in this source with the dragged node.
@@ -116,6 +119,9 @@ export function dropNodeOnSource(
 
         // Give the space of the hovered node to the dragged clone.
         editedSpace = editedSpace.withReplacement(target, draggedClone);
+
+        // Format what was dragged
+        nodeToFormat = draggedClone;
     }
     // Case 2: We're inserting into a list
     else {
@@ -126,6 +132,9 @@ export function dropNodeOnSource(
             draggedClone,
             ...insertion.list.slice(insertion.index),
         ]);
+
+        // Format the node containing the list
+        nodeToFormat = insertion.node;
 
         // Find the node at the index. It's either the node in the list at the index or or the token after the list,
         // which might be empty. To find this, we ask the node the list is in
@@ -191,7 +200,7 @@ export function dropNodeOnSource(
     // Make a new source
     let newSource = source.withProgram(editedProgram, editedSpace);
     newSource = newSource.withSpaces(
-        editedSpace.withPreferredSpaceForNode(newSource, draggedNode)
+        editedSpace.withPreferredSpaceForNode(newSource, nodeToFormat)
     );
 
     // Finally, add this editor's updated source to the list of sources to replace in the project.
