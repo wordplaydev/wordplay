@@ -73,7 +73,7 @@ const commands: Command[] = [
         shift: false,
         key: 'ArrowLeft',
         mode: undefined,
-        execute: (caret: Caret, _, __, direction) =>
+        execute: (caret: Caret, _, __, ___, direction) =>
             caret.moveInline(false, direction === 'ltr' ? -1 : 1),
     },
     {
@@ -83,7 +83,7 @@ const commands: Command[] = [
         shift: false,
         key: 'ArrowRight',
         mode: undefined,
-        execute: (caret: Caret, _, __, direction) =>
+        execute: (caret: Caret, _, __, ___, direction) =>
             caret.moveInline(false, direction === 'ltr' ? 1 : -1),
     },
     {
