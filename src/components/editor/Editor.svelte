@@ -64,6 +64,7 @@
     import { TYPE_SYMBOL } from '../../parser/Symbols';
     import { creator } from '../../db/Creator';
     import concretize from '../../locale/concretize';
+    import { getLanguageDirection } from '../../locale/LanguageCode';
 
     export let evaluator: Evaluator;
     export let project: Project;
@@ -997,6 +998,9 @@
         // Map meta to control on Mac OS/iOS.
         const control = event.metaKey || event.ctrlKey;
 
+        // Get the language direction, to handle left and right commands correctly.
+        const direction = getLanguageDirection($creator.getLocale().language);
+
         // Loop through the commands and see if there's a match to this event.
         for (let i = 0; i < commands.length; i++) {
             const command = commands[i];
@@ -1018,7 +1022,8 @@
                     $caret,
                     editor,
                     evaluator,
-                    event.key
+                    event.key,
+                    direction
                 );
 
                 // If it produced a new caret and optionally a new project, update the stores.

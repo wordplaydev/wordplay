@@ -12,6 +12,8 @@
     import type Source from '@nodes/Source';
     import Node from '@nodes/Node';
     import Token from '../../nodes/Token';
+    import { getLanguageDirection } from '../../locale/LanguageCode';
+    import { creator } from '../../db/Creator';
 
     type CaretPosition = {
         top: string;
@@ -35,6 +37,9 @@
 
     // The current token we're on.
     $: token = $caret?.getToken();
+
+    $: leftToRight =
+        getLanguageDirection($creator.getLocale().language) === 'ltr';
 
     // The index we should render
     let caretIndex: number | undefined = undefined;
@@ -114,6 +119,7 @@
         if (viewport === null) return;
         const viewportRect = viewport.getBoundingClientRect();
 
+        // Compute the top left of the editor's viewport.
         const viewportXOffset = -viewportRect.left + viewport.scrollLeft;
         const viewportYOffset = -viewportRect.top + viewport.scrollTop;
 
@@ -182,7 +188,10 @@
         // Figure out where the token view is, so we can properly offset the caret position in the editor.
         const tokenViewRect = tokenView.getBoundingClientRect();
 
-        let tokenLeft = tokenViewRect.left + viewportXOffset;
+        // Find the token start position, depending on whether we're rendering left to right or right to left.
+        let tokenStart =
+            (leftToRight ? tokenViewRect.left : tokenViewRect.right) +
+            viewportXOffset;
         let tokenTop = tokenViewRect.top + viewportYOffset;
 
         // To compute line height, find two tokens on adjacent lines and difference their tops.
@@ -246,9 +255,9 @@
             // Restore the text node
             tempNode.replaceWith(textNode);
 
-            // Set the left of the caret at the measured width.
+            // Set the left of the caret offset at the measured width in the direction of the writing.
             return {
-                left: `${tokenLeft + widthAtCaret}px`,
+                left: `${tokenStart + (leftToRight ? 1 : -1) * widthAtCaret}px`,
                 top: `${tokenTop}px`,
                 height: `${tokenHeight}px`,
                 bottom: tokenTop + tokenViewRect.height,
@@ -270,12 +279,15 @@
 
             let spaceTop: number;
 
-            // Get some measurements about the viewport.
+            // Find the start position of the editor, based on language direction.
             const editorStyle = window.getComputedStyle(editorView);
-            const editorPaddingLeft = parseInt(
+            const editorHorizontalPadding = parseInt(
                 editorStyle.getPropertyValue('padding-left').replace('px', '')
             );
-            const editorPaddingTop =
+            const editorHorizontalStart = leftToRight
+                ? editorHorizontalPadding
+                : viewportRect.width - editorHorizontalPadding;
+            const editorVerticalStart =
                 parseInt(
                     editorStyle
                         .getPropertyValue('padding-top')
@@ -305,15 +317,17 @@
                           `.token-view[data-id="${priorToken.id}"]`
                       );
             const priorTokenViewRect = priorTokenView?.getBoundingClientRect();
-            let priorTokenRight =
+            let priorTokenHorizontalEnd =
                 priorTokenViewRect === undefined
-                    ? editorPaddingLeft
-                    : priorTokenViewRect.right -
+                    ? editorHorizontalStart
+                    : (leftToRight
+                          ? priorTokenViewRect.right
+                          : priorTokenViewRect.left) -
                       viewportRect.left +
                       viewport.scrollLeft;
             let priorTokenTop =
                 priorTokenViewRect === undefined
-                    ? editorPaddingTop
+                    ? editorVerticalStart
                     : priorTokenViewRect.top -
                       viewportRect.top +
                       viewport.scrollTop;
@@ -321,7 +335,7 @@
             let spaces: undefined | number;
             let tabs: undefined | number;
 
-            let leftOffset = 0;
+            let horizontalOffset: number | undefined = undefined;
 
             // 1) Trailing space (the caret is before the first newline)
             if (spaceBefore.indexOf('\n') < 0) {
@@ -330,7 +344,7 @@
                 tabs = spaceBefore.split('\t').length - 1;
 
                 // Place the caret to the right of the prior token, {spaces} after.
-                leftOffset = priorTokenRight;
+                horizontalOffset = priorTokenHorizontalEnd;
                 spaceTop = priorTokenTop;
             }
             // 2) Empty line (there is a newline before and after the current position)
@@ -382,9 +396,11 @@
 
             return {
                 left: `${
-                    (leftOffset === 0 ? editorPaddingLeft : leftOffset) +
-                    spaces * spaceWidth +
-                    tabs * tabWidth
+                    (horizontalOffset === undefined
+                        ? editorHorizontalStart
+                        : horizontalOffset) +
+                    (leftToRight ? 1 : -1) *
+                        (spaces * spaceWidth + tabs * tabWidth)
                 }px`,
                 top: `${spaceTop}px`,
                 height: `${tokenHeight}px`,

@@ -24,6 +24,7 @@ import type Evaluator from '@runtime/Evaluator';
 import FunctionDefinition from '@nodes/FunctionDefinition';
 import ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
 import Names from '@nodes/Names';
+import type { WritingDirection } from '../../../locale/LanguageCode';
 
 export type Edit = Caret | Revision;
 export type Revision = [Source, Caret];
@@ -39,7 +40,8 @@ export type Command = {
         caret: Caret,
         editor: HTMLElement,
         evaluator: Evaluator,
-        key: string
+        key: string,
+        direction: WritingDirection
     ) => Edit | Promise<Edit | undefined> | boolean | undefined;
 };
 
@@ -71,7 +73,8 @@ const commands: Command[] = [
         shift: false,
         key: 'ArrowLeft',
         mode: undefined,
-        execute: (caret: Caret) => caret.left(false),
+        execute: (caret: Caret, _, __, direction) =>
+            caret.moveInline(false, direction === 'ltr' ? -1 : 1),
     },
     {
         description: 'Move the caret one position right',
@@ -80,7 +83,8 @@ const commands: Command[] = [
         shift: false,
         key: 'ArrowRight',
         mode: undefined,
-        execute: (caret: Caret) => caret.right(false),
+        execute: (caret: Caret, _, __, direction) =>
+            caret.moveInline(false, direction === 'ltr' ? 1 : -1),
     },
     {
         description: 'Move the caret one sibling left',
