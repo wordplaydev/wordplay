@@ -1056,11 +1056,11 @@
         const newCaret = unmodified ? edit : edit[1];
         const newSource = unmodified ? undefined : edit[0];
 
+        // Set the keyboard edit idle to false.
+        if (keyboard) keyboardEditIdle.set(false);
+
         // Update the caret and project.
         if (newSource) {
-            // Set the keyboard edit idle to false.
-            if (keyboard) keyboardEditIdle.set(false);
-
             $creator.reviseProject(
                 project,
                 project
