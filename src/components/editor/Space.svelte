@@ -18,7 +18,7 @@
     // If there's an insertion, figure out what space to render before the insertion.
     $: beforeSpaces =
         insertionIndex === undefined
-            ? undefined
+            ? []
             : render(space.substring(0, insertionIndex), true);
     // If there's no insertion, just render the space, otherwise render the right side of the insertion.
     $: afterSpaces = render(
@@ -44,13 +44,12 @@
 -->
 {#key space}
     <span class="space" data-id={token.id}
-        >{#if beforeSpaces !== undefined && beforeSpaces.length > 0}<span
-                class="before"
+        >{#if beforeSpaces}<span class="before"
                 >{#each beforeSpaces as s, index}{#if index > 0}<br
                             class="break"
-                        />{/if}{#if s === ''}&ZeroWidthSpace;{:else}{s}{/if}{:else}&ZeroWidthSpace;{/each}<InsertionPointView
-                /></span
-            >{/if}{#if afterSpaces.length > 0}<span class="after"
+                        />{/if}{#if s === ''}&ZeroWidthSpace;{:else}{s}{/if}{:else}&ZeroWidthSpace;{/each}{#if insertion}<InsertionPointView
+                    />{/if}</span
+            >{/if}{#if afterSpaces}<span class="after"
                 >{#each afterSpaces as s, index}{#if index > 0}<br
                             class="break"
                         />{/if}{s}{/each}{#each additionalSpaces as s, index}{#if index > 0}<br
