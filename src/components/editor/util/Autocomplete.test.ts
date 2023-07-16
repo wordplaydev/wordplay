@@ -49,7 +49,12 @@ test.each([
                 : source.nodes().find((node) => position(node));
         expect(resolvedPosition).toBeDefined();
         if (resolvedPosition !== undefined) {
-            const caret = new Caret(source, resolvedPosition, undefined);
+            const caret = new Caret(
+                source,
+                resolvedPosition,
+                undefined,
+                undefined
+            );
             const transforms = getEditsAt(project, caret);
 
             const match = transforms.some(

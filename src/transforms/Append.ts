@@ -67,7 +67,12 @@ export default class Append<NodeType extends Node> extends Transform {
         // Return the new source and put the caret immediately after the inserted new child.
         return [
             newSource,
-            new Caret(newSource, newCaretPosition ?? this.position, newChild),
+            new Caret(
+                newSource,
+                newCaretPosition ?? this.position,
+                undefined,
+                newChild
+            ),
         ];
     }
 

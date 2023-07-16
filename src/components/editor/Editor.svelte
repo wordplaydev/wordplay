@@ -95,13 +95,18 @@
 
     // A per-editor store that contains the current editor's cursor. We expose it as context to children.
     const caret = writable<Caret>(
-        new Caret(source, project.getCaretPosition(source) ?? 0, undefined)
+        new Caret(
+            source,
+            project.getCaretPosition(source) ?? 0,
+            undefined,
+            undefined
+        )
     );
     setContext(CaretSymbol, caret);
 
     // Whenever the project or source changes, set the caret to the project's caret for the source.
     const position = project.getCaretPosition(source);
-    if (position) caret.set(new Caret(source, position, undefined));
+    if (position) caret.set(new Caret(source, position, undefined, undefined));
 
     // A store of highlighted nodes, used by node views to highlight themselves.
     // We store centrally since the logic that determines what's highlighted is in the Editor.
@@ -774,7 +779,7 @@
         const position = getCaretPositionAt(event);
 
         if (position !== undefined) {
-            const caret = new Caret(source, position, undefined);
+            const caret = new Caret(source, position, undefined, undefined);
             const token = caret.getToken();
             if (token === undefined) return [];
 
@@ -1147,6 +1152,7 @@
                             new Caret(
                                 newSource,
                                 newCaret.position,
+                                undefined,
                                 newSource.getTokenAt(newCaret.position)
                             ),
                         ];

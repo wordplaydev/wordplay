@@ -55,7 +55,12 @@ export default class Replace<NodeType extends Node> extends Transform {
         // Return the new source and place the caret after the replacement.
         return [
             newSource,
-            new Caret(newSource, newCaretPosition ?? position, replacement),
+            new Caret(
+                newSource,
+                newCaretPosition ?? position,
+                undefined,
+                replacement
+            ),
         ];
     }
 
