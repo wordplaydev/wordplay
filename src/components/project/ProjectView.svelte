@@ -114,8 +114,11 @@
     /** The background color of the output, so we can make the tile match. */
     let outputBackground: string | null;
 
-    /** The current tile layout */
+    /** True if the layout has been initialized. Used to remember to only initalize once. */
     let layoutInitialized = false;
+
+    /** The new source recently added. Used to remember to keep it expanded initially. */
+    let newSource: Source | undefined = undefined;
 
     /** The conflicts present in the current project. **/
     const conflicts: ConflictsContext = writable([]);
@@ -280,6 +283,7 @@
             const tile = tiles.find(
                 (tile) => tile.id === Layout.getSourceID(index)
             );
+            // No tile for this source yet? Create one.
             if (tile === undefined)
                 newTiles.push(createSourceTile(source, index));
             index++;
@@ -289,11 +293,14 @@
     }
 
     function createSourceTile(source: Source, index: number) {
+        const expandNewTile = newSource === source;
+        newSource = undefined;
+
         return new Tile(
             Layout.getSourceID(index),
             source.names.getLocaleText($creator.getLanguages()),
             Content.Source,
-            index === 0 ? Mode.Expanded : Mode.Collapsed,
+            index === 0 || expandNewTile ? Mode.Expanded : Mode.Collapsed,
             undefined,
             Tile.randomPosition(1024, 768)
         );
@@ -328,7 +335,8 @@
                           ...project.getSources().map((source, index) =>
                               // If not editable, collapse the source.
                               createSourceTile(source, index).withMode(
-                                  editable && index === 0
+                                  editable &&
+                                      (index === 0 || source === newSource)
                                       ? Mode.Expanded
                                       : Mode.Collapsed
                               )
@@ -562,14 +570,13 @@
         }
     }
 
-    $: {
-        if (canvasWidth && canvasHeight) {
-            layout = layout.resized(
-                $creator.getArrangement(),
-                canvasWidth,
-                canvasHeight
-            );
-        }
+    /** When the canvas size changes, resize the layout */
+    $: if (canvasWidth && canvasHeight) {
+        layout = layout.resized(
+            $creator.getArrangement(),
+            canvasWidth,
+            canvasHeight
+        );
     }
 
     /** Recompute the bounds based every time the layout changes. */
@@ -938,14 +945,17 @@
     }
 
     function addSource() {
-        $creator.reviseProject(
-            project,
-            project.withNewSource(
-                `${$creator.getLocale().term.source}${
-                    project.supplements.length + 1
-                }`
-            )
+        const newProject = project.withNewSource(
+            `${$creator.getLocale().term.source}${
+                project.supplements.length + 1
+            }`
         );
+
+        // Remember this new source so when we compute the new layout, we can remember to expand it initially.
+        newSource = newProject.supplements.at(-1);
+
+        // This will propogate back to a new project here, updating the UI.
+        $creator.reviseProject(project, newProject);
     }
 
     function removeSource(source: Source) {
@@ -1005,9 +1015,11 @@
         {/if}
 
         {#key tileIDSequence}
+            <!-- Are all the tiles collapsed? Show a bit of feedback suggesting navigating down. -->
             {#if layout.tiles.every((tile) => tile.isCollapsed())}
                 <div class="empty">⬇️</div>
             {:else}
+                <!-- Lay out each of the tiles according to its specification. -->
                 {#each layout.tiles as tile (tile.id)}
                     {#if tile.isExpanded() && (layout.fullscreenID === undefined || layout.fullscreenID === tile.id)}
                         <TileView
