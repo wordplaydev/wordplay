@@ -40,7 +40,7 @@ export const Languages: Record<string, LanguageMetadata> = {
     dsb: { name: 'dolnoserbšćina', en: 'Lower Sorbian' },
     dv: { name: 'ދިވެހިބަސް', en: 'Divehi' },
     el: { name: 'ελληνικά', en: 'Greek', quote: '«', secondary: "'" },
-    en: { name: 'English', en: 'English', direction: 'rtl' },
+    en: { name: 'English', en: 'English', direction: 'ltr' },
     es: { name: 'español', en: 'Spanish', quote: '«', secondary: '"' },
     et: { name: 'eesti', en: 'Estonian', quote: '«', secondary: '"' },
     eu: { name: 'euskara', en: 'Basque' },
