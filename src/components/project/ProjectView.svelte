@@ -847,7 +847,6 @@
     }
 
     function repositionFloaters() {
-        conflictsOfInterest = new Map(conflictsOfInterest);
         menu = menu;
     }
 
@@ -1117,25 +1116,35 @@
                                         {paintingConfig}
                                         bind:background={outputBackground}
                                     />
-                                    <!-- Show an editor and a mini output view -->
+                                    <!-- Show an editor, annotations, and a mini output view -->
                                 {:else}
                                     {@const source = getSourceByID(tile.id)}
-                                    <Editor
-                                        {project}
-                                        evaluator={$evaluator}
-                                        {source}
-                                        autofocus={autofocus &&
-                                            tile.isExpanded() &&
-                                            getSourceByID(tile.id) ===
-                                                project.main}
-                                        bind:menu
-                                        on:conflicts={(event) =>
-                                            (conflictsOfInterest =
-                                                conflictsOfInterest.set(
-                                                    event.detail.source,
-                                                    event.detail.conflicts
-                                                ))}
-                                    />
+                                    <div class="annotated-editor">
+                                        <Editor
+                                            {project}
+                                            evaluator={$evaluator}
+                                            {source}
+                                            autofocus={autofocus &&
+                                                tile.isExpanded() &&
+                                                getSourceByID(tile.id) ===
+                                                    project.main}
+                                            bind:menu
+                                            on:conflicts={(event) =>
+                                                (conflictsOfInterest =
+                                                    conflictsOfInterest.set(
+                                                        event.detail.source,
+                                                        event.detail.conflicts
+                                                    ))}
+                                        />
+                                        <Annotations
+                                            {project}
+                                            evaluator={$evaluator}
+                                            {source}
+                                            conflicts={visibleConflicts}
+                                            stepping={$evaluation.playing ===
+                                                false}
+                                        />
+                                    </div>
                                     {#if project.supplements.length > 0}
                                         <div class="output-preview-container">
                                             <Button
@@ -1231,16 +1240,6 @@
                 action={addSource}>+</Button
             >
         </nav>
-
-        <!-- Render annotations on top of the tiles and the footer, unless dragging -->
-        {#if $dragged === undefined}
-            <Annotations
-                {project}
-                evaluator={$evaluator}
-                conflicts={visibleConflicts}
-                stepping={$evaluation.playing === false}
-            />
-        {/if}
 
         <!-- Render the menu on top of the annotations -->
         {#if menu && menuPosition}
@@ -1361,5 +1360,12 @@
         display: flex;
         align-items: center;
         justify-content: center;
+    }
+
+    .annotated-editor {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        height: 100%;
     }
 </style>

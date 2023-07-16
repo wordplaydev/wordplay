@@ -1335,8 +1335,7 @@
         position: relative;
         user-select: none;
         padding: calc(2 * var(--wordplay-spacing));
-        min-height: 100%;
-        min-width: 100%;
+        flex: 1;
         cursor: text;
     }
 

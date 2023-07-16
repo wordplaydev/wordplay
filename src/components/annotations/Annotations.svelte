@@ -4,7 +4,6 @@
         element: Element | null;
         messages: Markup[];
         kind: 'step' | 'primary' | 'secondary' | 'minor';
-        position?: Position | undefined;
     };
 </script>
 
@@ -13,7 +12,6 @@
     import Expression from '@nodes/Expression';
     import type Node from '@nodes/Node';
     import Annotation from './Annotation.svelte';
-    import type Position from './Position';
     import { tick } from 'svelte';
     import type Step from '@runtime/Step';
     import type Evaluator from '@runtime/Evaluator';
@@ -22,9 +20,12 @@
     import { creator } from '../../db/Creator';
     import type Markup from '../../nodes/Markup';
     import concretize from '../../locale/concretize';
+    import type Source from '../../nodes/Source';
 
     export let project: Project;
     export let evaluator: Evaluator;
+    /** The source who's annotations to show.*/
+    export let source: Source;
     export let stepping: boolean;
     export let conflicts: Conflict[];
 
@@ -46,7 +47,7 @@
             const [node, view] = getStepView();
 
             // Return a single annotation for the step.
-            if (node)
+            if (node && source.contains(node))
                 annotations = [
                     {
                         node: node,
@@ -77,7 +78,6 @@
                                       )
                                   ),
                         kind: 'step',
-                        position: getPosition(view),
                     },
                 ];
         } else {
@@ -93,25 +93,33 @@
                     // 2) zero or more secondary nodes
                     // From these, we generate one or two speech bubbles to illustrate the conflict.
                     return [
-                        {
-                            node: primary.node,
-                            element: getNodeView(primary.node),
-                            messages: $creator
-                                .getLocales()
-                                .map((locale) =>
-                                    primary.explanation(
-                                        locale,
-                                        project.getNodeContext(primary.node) ??
-                                            project.getContext(project.main)
-                                    )
-                                ),
-                            kind: conflict.isMinor()
-                                ? ('minor' as const)
-                                : ('primary' as const),
-                        },
-                        ...(secondary === undefined
-                            ? []
-                            : [
+                        ...(source.contains(primary.node)
+                            ? [
+                                  {
+                                      node: primary.node,
+                                      element: getNodeView(primary.node),
+                                      messages: $creator
+                                          .getLocales()
+                                          .map((locale) =>
+                                              primary.explanation(
+                                                  locale,
+                                                  project.getNodeContext(
+                                                      primary.node
+                                                  ) ??
+                                                      project.getContext(
+                                                          project.main
+                                                      )
+                                              )
+                                          ),
+                                      kind: conflict.isMinor()
+                                          ? ('minor' as const)
+                                          : ('primary' as const),
+                                  },
+                              ]
+                            : []),
+                        ...(secondary !== undefined &&
+                        source.contains(secondary.node)
+                            ? [
                                   {
                                       node: secondary.node,
                                       element: getNodeView(secondary.node),
@@ -127,7 +135,8 @@
                                           ),
                                       kind: 'secondary' as const,
                                   },
-                              ]),
+                              ]
+                            : []),
                     ];
                 })
                 .flat();
@@ -140,16 +149,6 @@
                 annotation,
                 ...(annotationsByNode.get(annotation.node) ?? []),
             ]);
-    }
-
-    // When the annotations positions change, update the positions to their default positions.
-    $: {
-        if (annotations) {
-            annotations = annotations.map((annotation) => {
-                annotation.position = getPosition(annotation.element);
-                return annotation;
-            });
-        }
     }
 
     function getStepView(): [Node | null, Element | null] {
@@ -195,47 +194,19 @@
             `.editor .node-view[data-id="${node.id}"]`
         );
     }
-
-    function getPosition(nodeView: Element | null): Position | undefined {
-        // Find the canvas
-        const canvas = nodeView?.closest('.canvas');
-        // Find the tile that contains the node
-        const tile = nodeView?.closest('.content');
-
-        if (nodeView && canvas && tile) {
-            // Find the position of the node in the window.
-            const nodeRect = nodeView.getBoundingClientRect();
-
-            // Find the position of the tile it's in.
-            const tileRect = tile.getBoundingClientRect();
-
-            // If the bubble would be outside the bounds of the window, adjust it's position.
-            return {
-                left:
-                    nodeRect.right < tileRect.left
-                        ? tileRect.left
-                        : nodeRect.left > tileRect.right
-                        ? tileRect.right
-                        : nodeRect.right + 1,
-                top:
-                    nodeRect.bottom < tileRect.top
-                        ? tileRect.top
-                        : nodeRect.bottom > tileRect.bottom
-                        ? tileRect.bottom
-                        : nodeRect.bottom + 1,
-            };
-        }
-        // If we couldn't find a view, put it in the corner of the editor.
-        else return undefined;
-    }
 </script>
 
 <!-- Render annotations by node -->
-<section
-    class="annotations"
-    aria-label={$creator.getLocale().ui.section.conflicts}
->
+<section aria-label={$creator.getLocale().ui.section.conflicts}>
     {#each Array.from(annotationsByNode.values()) as annotations, index}
         <Annotation id={index} {annotations} />
     {/each}
 </section>
+
+<style>
+    section {
+        max-height: 50%;
+        overflow-y: scroll;
+        width: 100%;
+    }
+</style>
