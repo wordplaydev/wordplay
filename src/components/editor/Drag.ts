@@ -190,7 +190,9 @@ export function dropNodeOnSource(
 
     // Make a new source
     let newSource = source.withProgram(editedProgram, editedSpace);
-    newSource = newSource.withSpaces(editedSpace.withPreferredSpace(newSource));
+    newSource = newSource.withSpaces(
+        editedSpace.withPreferredSpaceForNode(newSource, draggedNode)
+    );
 
     // Finally, add this editor's updated source to the list of sources to replace in the project.
     sourceReplacements.push([source, newSource]);

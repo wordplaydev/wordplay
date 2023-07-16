@@ -70,10 +70,7 @@ export default class Source extends Expression {
                 new Tokens(this.tokens, tokens.getSpaces())
             );
             this.root = new Root(this);
-            this.spaces = tokens
-                .getSpaces()
-                .withRoot(this)
-                .withPreferredSpace(this);
+            this.spaces = tokens.getSpaces().withRoot(this);
         } else {
             // Save the AST provided
             const [program, spaces] = code;
