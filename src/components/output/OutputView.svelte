@@ -64,7 +64,7 @@
                     invert
                     >{#each $creator.getLocales() as locale}
                         <MarkupHTMLView
-                            markup={latest.getDescription(locale)}
+                            markup={latest.getExplanation(locale)}
                         />
                     {/each}</Speech
                 >{/if}

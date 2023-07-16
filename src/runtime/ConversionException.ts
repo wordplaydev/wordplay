@@ -19,10 +19,14 @@ export default class ConversionException extends Exception {
         this.to = to;
     }
 
-    getDescription(locale: Locale) {
+    getExceptionText(locale: Locale) {
+        return locale.node.Convert.exception.ConversionException;
+    }
+
+    getExplanation(locale: Locale) {
         return concretize(
             locale,
-            locale.node.Convert.exception.ConversionException,
+            this.getExceptionText(locale).explanation,
             // Wrap the node containing the name in a link
             new ValueRef(
                 this.from,

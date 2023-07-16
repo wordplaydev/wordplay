@@ -11,10 +11,11 @@ export default class StepLimitException extends Exception {
         this.program = program;
     }
 
-    getDescription(locale: Locale) {
-        return concretize(
-            locale,
-            locale.node.Program.exception.StepLimitException
-        );
+    getExceptionText(locale: Locale) {
+        return locale.node.Program.exception.StepLimitException;
+    }
+
+    getExplanation(locale: Locale) {
+        return concretize(locale, this.getExceptionText(locale).explanation);
     }
 }

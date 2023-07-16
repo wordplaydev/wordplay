@@ -297,7 +297,10 @@
                 "BorrowCycle": "$?"
             },
             "exception": {
-                "CycleException": "$?"
+                "CycleException": {
+                    "description": "$?",
+                    "explanation": "$?"
+                }
             }
         },
         "Changed": {
@@ -355,7 +358,10 @@
                 "UnknownConversion": "$?"
             },
             "exception": {
-                "ConversionException": "$?"
+                "ConversionException": {
+                    "description": "$?",
+                    "explanation": "$?"
+                }
             }
         },
         "Delete": {
@@ -392,7 +398,10 @@
                 "InputListMustBeLast": "$?"
             },
             "exception": {
-                "FunctionException": "$?"
+                "FunctionException": {
+                    "description": "$?",
+                    "explanation": "$?"
+                }
             }
         },
         "ExpressionPlaceholder": {
@@ -406,7 +415,10 @@
                 "Placeholder": "$?"
             },
             "exception": {
-                "UnimplementedException": "$?"
+                "UnimplementedException": {
+                    "description": "$?",
+                    "explanation": "$?"
+                }
             }
         },
         "FunctionDefinition": {
@@ -452,7 +464,10 @@
                 "ImpossibleType": "$?"
             },
             "exception": {
-                "TypeException": "$?"
+                "TypeException": {
+                    "description": "$?",
+                    "explanation": "$?"
+                }
             }
         },
         "ListAccess": {
@@ -521,10 +536,22 @@
             "finish": "$?",
             "done": "$?",
             "exception": {
-                "BlankException": "$?",
-                "EvaluationLimitException": "$?",
-                "StepLimitException": "$?",
-                "ValueException": "$?"
+                "BlankException": {
+                    "description": "$?",
+                    "explanation": "$?"
+                },
+                "EvaluationLimitException": {
+                    "description": "$?",
+                    "explanation": "$?"
+                },
+                "StepLimitException": {
+                    "description": "$?",
+                    "explanation": "$?"
+                },
+                "ValueException": {
+                    "description": "$?",
+                    "explanation": "$?"
+                }
             }
         },
         "PropertyBind": {
@@ -569,7 +596,10 @@
                 "UnexpectedTypeVariable": "$?"
             },
             "exception": {
-                "NameException": "$?"
+                "NameException": {
+                    "description": "$?",
+                    "explanation": "$?"
+                }
             }
         },
         "Select": {
@@ -674,7 +704,10 @@
                 "UnclosedDelimiter": "$?"
             },
             "exception": {
-                "UnparsableException": "$?"
+                "UnparsableException": {
+                    "description": "$?",
+                    "explanation": "$?"
+                }
             }
         },
         "Update": {

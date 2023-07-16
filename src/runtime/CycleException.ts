@@ -14,10 +14,14 @@ export default class CycleException extends Exception {
         this.borrow = borrow;
     }
 
-    getDescription(locale: Locale) {
+    getExceptionText(locale: Locale) {
+        return locale.node.Borrow.exception.CycleException;
+    }
+
+    getExplanation(locale: Locale) {
         return concretize(
             locale,
-            locale.node.Borrow.exception.CycleException,
+            this.getExceptionText(locale).explanation,
             new NodeRef(
                 this.borrow,
                 locale,

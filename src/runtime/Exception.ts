@@ -5,6 +5,10 @@ import type Evaluator from './Evaluator';
 import type { NativeTypeName } from '../native/NativeConstants';
 import type Node from '@nodes/Node';
 import type Expression from '../nodes/Expression';
+import concretize from '../locale/concretize';
+import type Locale from '../locale/Locale';
+import type { ExceptionText } from '../locale/NodeTexts';
+import type Markup from '../nodes/Markup';
 
 export default abstract class Exception extends Primitive {
     readonly evaluator: Evaluator;
@@ -28,6 +32,14 @@ export default abstract class Exception extends Primitive {
     getType() {
         return new ExceptionType(this);
     }
+
+    abstract getExceptionText(locale: Locale): ExceptionText;
+
+    getDescription(locale: Locale) {
+        return concretize(locale, this.getExceptionText(locale).description);
+    }
+
+    abstract getExplanation(locale: Locale): Markup;
 
     getNativeTypeName(): NativeTypeName {
         return 'exception';

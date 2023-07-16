@@ -279,7 +279,10 @@
                 "BorrowCycle": "$?"
             },
             "exception": {
-                "CycleException": "$?"
+                "CycleException": {
+                    "description": "$?",
+                    "explanation": "$?"
+                }
             }
         },
         "Changed": {
@@ -337,7 +340,10 @@
                 "UnknownConversion": "$?"
             },
             "exception": {
-                "ConversionException": "$?"
+                "ConversionException": {
+                    "description": "$?",
+                    "explanation": "$?"
+                }
             }
         },
         "Delete": {
@@ -374,7 +380,10 @@
                 "InputListMustBeLast": "$?"
             },
             "exception": {
-                "FunctionException": "$?"
+                "FunctionException": {
+                    "description": "$?",
+                    "explanation": "$?"
+                }
             }
         },
         "ExpressionPlaceholder": {
@@ -388,7 +397,10 @@
                 "Placeholder": "$?"
             },
             "exception": {
-                "UnimplementedException": "I don't know what to do here!!"
+                "UnimplementedException": {
+                    "description": "$?",
+                    "explanation": "$?"
+                }
             }
         },
         "FunctionDefinition": {
@@ -434,7 +446,10 @@
                 "ImpossibleType": "$?"
             },
             "exception": {
-                "TypeException": "$?"
+                "TypeException": {
+                    "description": "$?",
+                    "explanation": "$?"
+                }
             }
         },
         "ListAccess": {
@@ -503,10 +518,22 @@
             "finish": "$?",
             "done": "terminado de evaluar",
             "exception": {
-                "BlankException": "¡Estoy tan emocionada de montar un espectáculo contigo! ¿Por dónde deberíamos empezar?",
-                "EvaluationLimitException": "$?",
-                "StepLimitException": "$?",
-                "ValueException": "$?"
+                "BlankException": {
+                    "description": "$?",
+                    "explanation": "¡Estoy tan emocionada de montar un espectáculo contigo! ¿Por dónde deberíamos empezar?"
+                },
+                "EvaluationLimitException": {
+                    "description": "$?",
+                    "explanation": "$?"
+                },
+                "StepLimitException": {
+                    "description": "$?",
+                    "explanation": "$?"
+                },
+                "ValueException": {
+                    "description": "$?",
+                    "explanation": "$?"
+                }
             }
         },
         "PropertyBind": {
@@ -551,7 +578,10 @@
                 "UnexpectedTypeVariable": "$?"
             },
             "exception": {
-                "NameException": "I feel... unbound, with no value. Am I supposed to have a value in $1 ?? [ $1 | this @Block ]?"
+                "NameException": {
+                    "description": "$?",
+                    "explanation": "$?"
+                }
             }
         },
         "Select": {
@@ -650,13 +680,16 @@
             "name": "no analizable",
             "emotion": "neutral",
             "doc": "$?",
-            "start": "cannot evaluate unparsable code",
+            "start": "$?",
             "conflict": {
                 "UnparsableConflict": "$?",
                 "UnclosedDelimiter": "$?"
             },
             "exception": {
-                "UnparsableException": "$?"
+                "UnparsableException": {
+                    "description": "$?",
+                    "explanation": "$?"
+                }
             }
         },
         "Update": {

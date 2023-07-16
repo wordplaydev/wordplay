@@ -24,10 +24,14 @@ export default class TypeException extends Exception {
         this.received = received;
     }
 
-    getDescription(locale: Locale) {
+    getExceptionText(locale: Locale) {
+        return locale.node.Is.exception.TypeException;
+    }
+
+    getExplanation(locale: Locale) {
         return concretize(
             locale,
-            locale.node.Is.exception.TypeException,
+            this.getExceptionText(locale).explanation,
             new NodeRef(
                 this.expected,
                 locale,

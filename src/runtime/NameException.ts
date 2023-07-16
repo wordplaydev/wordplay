@@ -24,10 +24,14 @@ export default class NameException extends Exception {
         this.scope = scope;
     }
 
-    getDescription(locale: Locale) {
+    getExceptionText(locale: Locale) {
+        return locale.node.Reference.exception.NameException;
+    }
+
+    getExplanation(locale: Locale) {
         return concretize(
             locale,
-            locale.node.Reference.exception.NameException,
+            this.getExceptionText(locale).explanation,
             this.name
                 ? new NodeRef(
                       this.name,

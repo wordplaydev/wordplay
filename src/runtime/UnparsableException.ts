@@ -14,10 +14,14 @@ export default class UnparsableException extends Exception {
         this.unparsable = unparsable;
     }
 
-    getDescription(locale: Locale) {
+    getExceptionText(locale: Locale) {
+        return locale.node.UnparsableExpression.exception.UnparsableException;
+    }
+
+    getExplanation(locale: Locale) {
         return concretize(
             locale,
-            locale.node.UnparsableExpression.exception.UnparsableException,
+            this.getExceptionText(locale).explanation,
             new NodeRef(
                 this.unparsable,
                 locale,

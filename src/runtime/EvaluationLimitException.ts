@@ -22,7 +22,11 @@ export default class EvaluationLimitException extends Exception {
         this.functions = functions;
     }
 
-    getDescription(locale: Locale) {
+    getExceptionText(locale: Locale) {
+        return locale.node.Program.exception.EvaluationLimitException;
+    }
+
+    getExplanation(locale: Locale) {
         const counts = new Map<EvaluationNode, number>();
         for (const fun of this.functions)
             counts.set(fun, (counts.get(fun) ?? 0) + 1);
@@ -32,7 +36,7 @@ export default class EvaluationLimitException extends Exception {
 
         return concretize(
             locale,
-            locale.node.Program.exception.EvaluationLimitException,
+            this.getExceptionText(locale).explanation,
             new NodeRef(
                 mostFrequent instanceof FunctionDefinition ||
                 mostFrequent instanceof StructureDefinition ||

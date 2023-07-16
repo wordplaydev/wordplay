@@ -55,6 +55,22 @@
         }
       ]
     },
+    "ExceptionText": {
+      "additionalProperties": false,
+      "properties": {
+        "description": {
+          "$ref": "#/definitions/Template"
+        },
+        "explanation": {
+          "$ref": "#/definitions/Template"
+        }
+      },
+      "required": [
+        "description",
+        "explanation"
+      ],
+      "type": "object"
+    },
     "FunctionText<[]>": {
       "additionalProperties": false,
       "properties": {
@@ -1684,7 +1700,7 @@
                   "additionalProperties": false,
                   "properties": {
                     "CycleException": {
-                      "$ref": "#/definitions/Template",
+                      "$ref": "#/definitions/ExceptionText",
                       "description": "$1: Borrow that it depends on"
                     }
                   },
@@ -1888,7 +1904,7 @@
                   "additionalProperties": false,
                   "properties": {
                     "ConversionException": {
-                      "$ref": "#/definitions/Template",
+                      "$ref": "#/definitions/ExceptionText",
                       "description": "$1: From type $2: To type"
                     }
                   },
@@ -2048,7 +2064,7 @@
                   "additionalProperties": false,
                   "properties": {
                     "FunctionException": {
-                      "$ref": "#/definitions/Template",
+                      "$ref": "#/definitions/ExceptionText",
                       "description": "$1: Expression that didn't produce a function $2: Scope not found in, or undefined"
                     }
                   },
@@ -2123,7 +2139,7 @@
                   "additionalProperties": false,
                   "properties": {
                     "UnimplementedException": {
-                      "$ref": "#/definitions/Template",
+                      "$ref": "#/definitions/ExceptionText",
                       "description": "No inputs"
                     }
                   },
@@ -2304,7 +2320,7 @@
                   "additionalProperties": false,
                   "properties": {
                     "TypeException": {
-                      "$ref": "#/definitions/Template",
+                      "$ref": "#/definitions/ExceptionText",
                       "description": "$1 = expected type $2 = received type"
                     }
                   },
@@ -2716,19 +2732,19 @@
                   "additionalProperties": false,
                   "properties": {
                     "BlankException": {
-                      "$ref": "#/definitions/Template",
+                      "$ref": "#/definitions/ExceptionText",
                       "description": "No inputs"
                     },
                     "EvaluationLimitException": {
-                      "$ref": "#/definitions/Template",
+                      "$ref": "#/definitions/ExceptionText",
                       "description": "$1: The function that was evaluated too many times"
                     },
                     "StepLimitException": {
-                      "$ref": "#/definitions/Template",
+                      "$ref": "#/definitions/ExceptionText",
                       "description": "No inputs"
                     },
                     "ValueException": {
-                      "$ref": "#/definitions/Template"
+                      "$ref": "#/definitions/ExceptionText"
                     }
                   },
                   "required": [
@@ -2930,7 +2946,7 @@
                   "additionalProperties": false,
                   "properties": {
                     "NameException": {
-                      "$ref": "#/definitions/Template",
+                      "$ref": "#/definitions/ExceptionText",
                       "description": "$1: Scope in which name was not found"
                     }
                   },
@@ -3538,7 +3554,7 @@
                   "additionalProperties": false,
                   "properties": {
                     "UnparsableException": {
-                      "$ref": "#/definitions/Template",
+                      "$ref": "#/definitions/ExceptionText",
                       "description": "No inputs"
                     }
                   },

@@ -462,7 +462,10 @@
                 "BorrowCycle": "this depends on $1, which depends on this $source, so the program can't be evaluated"
             },
             "exception": {
-                "CycleException": "$1 depends on itself"
+                "CycleException": {
+                    "description": "borrow cycle",
+                    "explanation": "$1 depends on itself"
+                }
             }
         },
         "Changed": {
@@ -533,7 +536,10 @@
                 "UnknownConversion": "Bummer, no way make $1 into $2"
             },
             "exception": {
-                "ConversionException": "I don't know how to convert from $1 to $2"
+                "ConversionException": {
+                    "description": "impossible conversion",
+                    "explanation": "I don't know how to convert from $1 to $2"
+                }
             }
         },
         "Delete": {
@@ -600,7 +606,10 @@
                 "InputListMustBeLast": "list of inputs must be last"
             },
             "exception": {
-                "FunctionException": "oh no, $1 isn't a function in $2[$2|this @Block]!"
+                "FunctionException": {
+                    "description": "unknown function",
+                    "explanation": "oh no, $1 isn't a function in $2[$2|this @Block]!"
+                }
             }
         },
         "ExpressionPlaceholder": {
@@ -622,7 +631,10 @@
                 "Placeholder": "can someone take my place?"
             },
             "exception": {
-                "UnimplementedException": "I don't know what to do!"
+                "UnimplementedException": {
+                    "description": "unimplemented",
+                    "explanation": "I don't know what to do!"
+                }
             }
         },
         "FunctionDefinition": {
@@ -696,7 +708,10 @@
                 "ImpossibleType": "this can't ever be this type"
             },
             "exception": {
-                "TypeException": "I expected a $1 but received $2"
+                "TypeException": {
+                    "description": "incompatible values",
+                    "explanation": "I expected a $1 but received $2"
+                }
             }
         },
         "ListAccess": {
@@ -786,10 +801,22 @@
             "finish": "all done, I evaluated to $1",
             "done": "there's nothing evaluating",
             "exception": {
-                "BlankException": "Let's put on a show! Where should we start?",
-                "EvaluationLimitException": "@Evaluate and I are tired of evaluating, especially $1.\n\nIs it possible that $1 is evaluating itself forever, without ever stopping?",
-                "StepLimitException": "there are so. many. steps -- too many to finish! Can you make the performance simpler?",
-                "ValueException": "oh no, someone excepted a value but didn't get one…"
+                "BlankException": {
+                    "description": "empty program",
+                    "explanation": "Let's put on a show! Where should we start?"
+                },
+                "EvaluationLimitException": {
+                    "description": "evaluation limit",
+                    "explanation": "@Evaluate and I are tired of evaluating, especially $1.\n\nIs it possible that $1 is evaluating itself forever, without ever stopping?"
+                },
+                "StepLimitException": {
+                    "description": "step limit",
+                    "explanation": "there are so. many. steps -- too many to finish! Can you make the performance simpler?"
+                },
+                "ValueException": {
+                    "description": "missing value",
+                    "explanation": "oh no, someone excepted a value but didn't get one…"
+                }
             }
         },
         "PropertyBind": {
@@ -854,7 +881,10 @@
                 "UnexpectedTypeVariable": "I don't now what to do with these type inputs"
             },
             "exception": {
-                "NameException": "I don't know anyone named $1 in $2[$2|this @Block]…"
+                "NameException": {
+                    "description": "unknown name",
+                    "explanation": "I don't know anyone named $1 in $2[$2|this @Block]…"
+                }
             }
         },
         "Select": {
@@ -1015,7 +1045,10 @@
                 "UnclosedDelimiter": "I expected $2 sometime after $1"
             },
             "exception": {
-                "UnparsableException": "???"
+                "UnparsableException": {
+                    "description": "???",
+                    "explanation": "???"
+                }
             }
         },
         "Update": {

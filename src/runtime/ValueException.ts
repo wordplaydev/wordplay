@@ -12,10 +12,14 @@ export default class ValueException extends Exception {
         this.expression = expression;
     }
 
-    getDescription(locale: Locale) {
+    getExceptionText(locale: Locale) {
+        return locale.node.Program.exception.ValueException;
+    }
+
+    getExplanation(locale: Locale) {
         return concretize(
             locale,
-            locale.node.Program.exception.ValueException,
+            this.getExceptionText(locale).explanation,
             new NodeRef(
                 this.expression,
                 locale,

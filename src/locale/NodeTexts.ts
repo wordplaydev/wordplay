@@ -34,6 +34,11 @@ export interface Exceptions<T> {
     exception: T;
 }
 
+export interface ExceptionText {
+    description: Template;
+    explanation: Template;
+}
+
 type NodeTexts = {
     Dimension: DescriptiveNodeText;
     Doc: NodeText;
@@ -180,7 +185,7 @@ type NodeTexts = {
         }> &
         Exceptions<{
             /** $1: Borrow that it depends on */
-            CycleException: Template;
+            CycleException: ExceptionText;
         }>;
 
     /**
@@ -233,7 +238,7 @@ type NodeTexts = {
              * $1: From type
              * $2: To type
              */
-            ConversionException: Template;
+            ConversionException: ExceptionText;
         }>;
     /**
      * Start
@@ -288,7 +293,7 @@ type NodeTexts = {
              * $1: Expression that didn't produce a function
              * $2: Scope not found in, or undefined
              */
-            FunctionException: Template;
+            FunctionException: ExceptionText;
         }>;
     /**
      * Description
@@ -300,7 +305,7 @@ type NodeTexts = {
         } & Conflicts<{ Placeholder: InternalConflictText }> &
         Exceptions<{
             /** No inputs */
-            UnimplementedException: Template;
+            UnimplementedException: ExceptionText;
         }>;
     /**
      * Description
@@ -346,7 +351,7 @@ type NodeTexts = {
              * $1 = expected type
              * $2 = received type
              */
-            TypeException: Template;
+            TypeException: ExceptionText;
         }>;
     /**
      * Start
@@ -401,12 +406,12 @@ type NodeTexts = {
             done: Template;
             unevaluated: Template;
         } & Exceptions<{
-            /** No inputs */ BlankException: Template;
+            /** No inputs */ BlankException: ExceptionText;
             /** $1: The function that was evaluated too many times */
-            EvaluationLimitException: Template;
+            EvaluationLimitException: ExceptionText;
             /** No inputs */
-            StepLimitException: Template;
-            ValueException: Template;
+            StepLimitException: ExceptionText;
+            ValueException: ExceptionText;
         }>;
     /**
      * Description
@@ -455,7 +460,7 @@ type NodeTexts = {
         }> &
         Exceptions<{
             /** $1: Scope in which name was not found */
-            NameException: Template;
+            NameException: ExceptionText;
         }>;
     /**
      * Finish
@@ -549,7 +554,7 @@ type NodeTexts = {
         }> &
         Exceptions<{
             /** No inputs */
-            UnparsableException: Template;
+            UnparsableException: ExceptionText;
         }>;
     /**
      * Start

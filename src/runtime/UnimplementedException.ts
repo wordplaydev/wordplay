@@ -12,10 +12,15 @@ export default class UnimplementedException extends Exception {
         this.placeholder = placeholder;
     }
 
-    getDescription(locale: Locale) {
+    getExceptionText(locale: Locale) {
+        return locale.node.ExpressionPlaceholder.exception
+            .UnimplementedException;
+    }
+
+    getExplanation(locale: Locale) {
         return concretize(
             locale,
-            locale.node.ExpressionPlaceholder.exception.UnimplementedException,
+            this.getExceptionText(locale).explanation,
             new NodeRef(
                 this.placeholder,
                 locale,

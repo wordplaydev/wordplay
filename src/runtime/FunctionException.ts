@@ -29,10 +29,14 @@ export default class FunctionException extends Exception {
         this.verb = verb;
     }
 
-    getDescription(locale: Locale) {
+    getExceptionText(locale: Locale) {
+        return locale.node.Evaluate.exception.FunctionException;
+    }
+
+    getExplanation(locale: Locale) {
         return concretize(
             locale,
-            locale.node.Evaluate.exception.FunctionException,
+            this.getExceptionText(locale).explanation,
             // Wrap the node containing the name in a link
             new NodeRef(
                 this.verb,
