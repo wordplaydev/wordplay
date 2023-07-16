@@ -87,7 +87,7 @@ export default class Block extends Expression {
                 space: true,
                 indent: (parent: Node) =>
                     parent instanceof Block && parent.kind !== BlockKind.Root,
-                newline: this.isRoot(),
+                newline: this.isRoot() || this.isStructure(),
             },
             { name: 'close', types: [Token] },
         ];

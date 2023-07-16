@@ -53,13 +53,22 @@
 
     let index = getConceptIndex();
 
-    if ($index) {
-        $index.addExample(example.program.expression);
-
-        onDestroy(() => {
-            $index?.removeExample(example.program.expression);
-        });
+    // Keep track of the last example so we can remove it when the example changes.
+    let lastExample = example;
+    $: {
+        if ($index) {
+            if (lastExample) {
+                $index.removeExample(lastExample.program.expression);
+            }
+            lastExample = example;
+            $index.addExample(example.program.expression);
+        }
     }
+
+    // Remove the example from the index.
+    onDestroy(() => {
+        $index?.removeExample(example.program.expression);
+    });
 </script>
 
 <div class="example" class:evaluated class:inline
