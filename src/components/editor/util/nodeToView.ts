@@ -60,7 +60,7 @@ import ProgramView from '../ProgramView.svelte';
 import UnparsableTypeView from '../UnparsableTypeView.svelte';
 import DimensionView from '../DimensionView.svelte';
 import UnparsableExpressionView from '../UnparsableExpressionView.svelte';
-import AnyTypeView from '../AnyTypeView.svelte';
+import TypeView from '../TypeView.svelte';
 import DocumentedExpressionView from '../DocumentedExpressionView.svelte';
 import TypeInputsView from '../TypeInputsView.svelte';
 import ChangedView from '../ChangedView.svelte';
@@ -142,7 +142,6 @@ import UnparsableType from '@nodes/UnparsableType';
 import UnparsableExpression from '@nodes/UnparsableExpression';
 import DocumentedExpression from '@nodes/DocumentedExpression';
 import TypeVariable from '@nodes/TypeVariable';
-import AnyType from '@nodes/AnyType';
 import StructureDefinitionType from '@nodes/StructureDefinitionType';
 import Paragraph from '@nodes/Paragraph';
 import WebLink from '@nodes/WebLink';
@@ -155,6 +154,7 @@ import Markup from '@nodes/Markup';
 import VariableType from '@nodes/VariableType';
 import VariableTypeView from '../VariableTypeView.svelte';
 import Source from '@nodes/Source';
+import Type from '../../../nodes/Type';
 
 const nodeToView = new Map<Function, ConstructorOfATypedSvelteComponent>();
 nodeToView.set(Source, SourceView);
@@ -252,11 +252,12 @@ nodeToView.set(Is, IsView);
 
 nodeToView.set(This, ThisView);
 
-nodeToView.set(AnyType, AnyTypeView);
+nodeToView.set(Type, TypeView);
 
 nodeToView.set(StructureDefinitionType, StructureDefinitionTypeView);
 
 export default function getNodeView(node: Node) {
+    // Climp the class hierarchy until finding a satisfactory view of the node.
     let constructor = node.constructor;
     do {
         const view = nodeToView.get(constructor);
