@@ -602,6 +602,7 @@ export default abstract class Node {
         return this.getFieldOfChild(child)?.indent === true;
     }
 
+    /** Get the preferred preceding space of this node's child. */
     getPreferredPrecedingSpace(
         child: Node,
         space: string,

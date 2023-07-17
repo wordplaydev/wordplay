@@ -71,6 +71,7 @@ export default class Append<NodeType extends Node> extends Transform {
                 newSource,
                 newCaretPosition ?? this.position,
                 undefined,
+                undefined,
                 newChild
             ),
         ];

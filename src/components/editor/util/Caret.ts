@@ -28,6 +28,8 @@ export default class Caret {
     readonly time: number;
     readonly source: Source;
     readonly position: CaretPosition;
+    /** The latest column of the caret in the code with preferred spacing */
+    readonly column: number;
     readonly entry: Entry;
     // The node recently added.
     readonly addition: Node | undefined;
@@ -41,12 +43,21 @@ export default class Caret {
     constructor(
         source: Source,
         position: CaretPosition,
+        column: number | undefined,
         entry: Entry,
         addition: Node | undefined
     ) {
         this.time = Date.now();
         this.source = source;
         this.position = position;
+        // No column provided? Compute it from the position. Otherwise set it.
+        this.column =
+            column === undefined
+                ? typeof position === 'number'
+                    ? this.source.getColumn(position)
+                    : 0
+                : column;
+
         this.entry = entry;
         this.addition = addition;
 
@@ -328,20 +339,6 @@ export default class Caret {
         return rowPosition;
     }
 
-    /* Compute the column of text the caret is at, if a number. */
-    column() {
-        if (typeof this.position === 'number') {
-            let column = 0;
-            let index = this.position;
-            while (index > 0 && this.source.getCode().at(index) !== '\n') {
-                index = index - 1;
-                column = column + 1;
-            }
-            return Math.max(column - 1, 0);
-        }
-        return undefined;
-    }
-
     left(sibling: boolean): Caret {
         return this.moveInline(sibling, -1);
     }
@@ -374,7 +371,9 @@ export default class Caret {
                 if (children === undefined) return this;
                 const sibling =
                     children[children.indexOf(this.position) + direction];
-                return sibling ? this.withPosition(sibling, entry) : this;
+                return sibling
+                    ? this.withPosition(sibling, undefined, entry)
+                    : this;
             }
             // If requesting the non-sibling, get the token after/before the current selection
             // in the depth first traversal of the search.
@@ -406,7 +405,11 @@ export default class Caret {
 
                 const index = this.getTextPosition(start, offset);
                 return index !== undefined
-                    ? this.withPosition(index, entry)
+                    ? this.withPosition(
+                          index,
+                          this.source.getColumn(index),
+                          entry
+                      )
                     : this;
             }
         } else {
@@ -421,7 +424,12 @@ export default class Caret {
             const placeholder = this.getPlaceholderAtPosition(
                 this.position - (direction < 0 ? 1 : 0)
             );
-            if (placeholder) return this.withPosition(placeholder, entry);
+            if (placeholder)
+                return this.withPosition(
+                    placeholder,
+                    this.source.getColumn(this.position),
+                    entry
+                );
 
             // At a token start and going next? Select the token.
             const token = this.source.getTokenAt(this.position, false);
@@ -436,6 +444,7 @@ export default class Caret {
             )
                 return this.withPosition(
                     this.getParentOfOnlyChild(token),
+                    this.column,
                     entry
                 );
             else if (
@@ -445,10 +454,15 @@ export default class Caret {
             )
                 return this.withPosition(
                     this.getParentOfOnlyChild(tokenBefore),
+                    this.column,
                     entry
                 );
 
-            return this.withPosition(this.position + direction, entry);
+            return this.withPosition(
+                this.position + direction,
+                this.source.getColumn(this.position + direction),
+                entry
+            );
         }
     }
 
@@ -501,7 +515,11 @@ export default class Caret {
         } else return this;
     }
 
-    withPosition(position: number | Node, entry?: Entry): Caret {
+    withPosition(
+        position: number | Node,
+        column?: number,
+        entry?: Entry
+    ): Caret {
         if (typeof position === 'number' && isNaN(position))
             throw Error('NaN on caret set!');
         return new Caret(
@@ -512,21 +530,41 @@ export default class Caret {
                       Math.min(position, this.source.getCode().getLength())
                   )
                 : position,
+            // If given a column set it, otherwise keep the old one.
+            column ?? this.column,
             entry,
             this.addition
         );
     }
 
     withSource(source: Source) {
-        return new Caret(source, this.position, this.entry, this.addition);
+        return new Caret(
+            source,
+            this.position,
+            this.column,
+            this.entry,
+            this.addition
+        );
     }
 
     withAddition(addition: Node | undefined) {
-        return new Caret(this.source, this.position, this.entry, addition);
+        return new Caret(
+            this.source,
+            this.position,
+            this.column,
+            this.entry,
+            addition
+        );
     }
 
     withoutAddition() {
-        return new Caret(this.source, this.position, this.entry, undefined);
+        return new Caret(
+            this.source,
+            this.position,
+            this.column,
+            this.entry,
+            undefined
+        );
     }
 
     insertNode(node: Node, offset: number): Edit | undefined {
@@ -537,7 +575,13 @@ export default class Caret {
             const newSource = this.source.replace(this.position, node);
             return [
                 newSource,
-                new Caret(newSource, position + offset, undefined, node),
+                new Caret(
+                    newSource,
+                    position + offset,
+                    this.column,
+                    undefined,
+                    node
+                ),
             ];
         } else {
             const position = this.position;
@@ -553,6 +597,7 @@ export default class Caret {
                 new Caret(
                     newSource,
                     position + offset,
+                    this.column,
                     undefined,
                     newSource.getTokenAt(position)
                 ),
@@ -601,6 +646,7 @@ export default class Caret {
                     new Caret(
                         this.source,
                         this.position + 1,
+                        undefined,
                         undefined,
                         undefined
                     ),
@@ -663,7 +709,13 @@ export default class Caret {
 
             return [
                 newSource,
-                new Caret(newSource, newPosition, undefined, newToken),
+                new Caret(
+                    newSource,
+                    newPosition,
+                    undefined,
+                    undefined,
+                    newToken
+                ),
             ];
         } else {
             // Try wrapping the node
@@ -684,6 +736,7 @@ export default class Caret {
                       new Caret(
                           newSource,
                           newPosition,
+                          undefined,
                           undefined,
                           newSource.getTokenAt(newPosition - text.length)
                       ),
@@ -770,6 +823,7 @@ export default class Caret {
                 newSource,
                 newPosition,
                 undefined,
+                undefined,
                 newSource.getTokenAt(newPosition)
             ),
         ];
@@ -799,6 +853,7 @@ export default class Caret {
                               newSource,
                               Math.max(0, this.position - 1),
                               undefined,
+                              undefined,
                               undefined
                           ),
                       ];
@@ -813,6 +868,7 @@ export default class Caret {
                           new Caret(
                               newSource,
                               Math.max(0, this.position - 1),
+                              undefined,
                               undefined,
                               undefined
                           ),
@@ -899,168 +955,344 @@ export default class Caret {
         );
         return newSource === undefined
             ? undefined
-            : [newSource, new Caret(newSource, range[0], undefined, undefined)];
+            : [
+                  newSource,
+                  new Caret(
+                      newSource,
+                      range[0],
+                      undefined,
+                      undefined,
+                      undefined
+                  ),
+              ];
     }
 
-    moveVertical(editor: HTMLElement, direction: 1 | -1): Edit | undefined {
+    moveVertical(direction: 1 | -1): Edit | undefined {
         if (this.position instanceof Node) {
             const position = this.source.getNodeFirstPosition(this.position);
             if (position === undefined) return;
-            const newCaret = this.getVertical(
-                editor,
-                direction,
-                position,
-                false
-            );
-            if (newCaret === undefined || newCaret.position instanceof Node)
-                return newCaret;
-            const token = this.source.getTokenAt(newCaret.position, true);
-            if (token === undefined) return this;
-            return this.withPosition(token);
-        } else return this.getVertical(editor, direction, this.position);
+            return this.getVertical(direction, position);
+        } else return this.getVertical(direction, this.position);
     }
 
-    getVertical(
-        editor: HTMLElement,
-        direction: 1 | -1,
-        position: number,
-        includeSpace = true
-    ) {
-        // Find the start of the previous line.
-        if (direction < 0) {
-            // Keep moving previous while the symbol before isn't a newline.
-            while (
-                this.getCode().at(position - 1) !== undefined &&
-                this.getCode().at(position - 1) !== '\n'
-            )
-                position--;
-            // Move the before the newline to the line above.
-            position--;
-            // Move to the beginning of this line.
-            while (
-                this.getCode().at(position - 1) !== undefined &&
-                this.getCode().at(position - 1) !== '\n'
-            )
-                position--;
-        } else {
-            // If we're at a newline, just move forward past it to the beginning of the next line.
-            if (this.getCode().at(position) === '\n') position++;
-            // Otherwise, move forward until we find a newline, then move past it.
-            else {
-                while (
-                    this.getCode().at(position) !== undefined &&
-                    this.getCode().at(position) !== '\n'
-                )
-                    position++;
-                position++;
-            }
+    scanLines<Result>(
+        checker: (
+            line: number,
+            column: number,
+            physical: number,
+            actual: string,
+            rendered: string,
+            text: string,
+            length: number,
+            lastOnLine: boolean
+        ) => Result | undefined
+    ): Result | undefined {
+        const tokens = this.source.leaves() as Token[];
+        let line = 0;
+        let column = 0;
+        let physical = 0;
+
+        for (let index = 0; index < tokens.length; index++) {
+            const token = tokens[index];
+            // Get rendered and actual space
+            const rendered = this.source.spaces.getPreferredTokenSpace(
+                this.source,
+                token
+            );
+            const actual = this.source.spaces.getSpace(token);
+
+            const lines = rendered.split('\n');
+            const newlines = lines.length - 1;
+            const preceding = lines[lines.length - 1];
+
+            const result = checker(
+                line,
+                column,
+                physical,
+                actual,
+                rendered,
+                token.getText(),
+                token.getTextLength(),
+                index + 1 === tokens.length ||
+                    this.source.spaces
+                        .getPreferredTokenSpace(this.source, tokens[index + 1])
+                        .includes('\n')
+            );
+            if (result !== undefined) return result;
+
+            // Increment the lines and columns based on the rendered position.
+            line += newlines;
+            column =
+                newlines > 0
+                    ? preceding.length + token.getTextLength()
+                    : column + rendered.length + token.getTextLength();
+
+            // Increment the physical position based on actual space and token.
+            physical += actual.length + token.getTextLength();
         }
+        return undefined;
+    }
 
-        // If we're not including space, and the current position is space, keep moving past it.
-        if (!includeSpace) {
-            while (this.source.isEmptyLine(position)) position += direction;
-            position += direction;
-        }
+    getRenderedLineAndColumn(position: number): [number, number] | undefined {
+        return this.scanLines(
+            (
+                line: number,
+                column: number,
+                physical: number,
+                actual: string,
+                rendered: string,
+                text: string,
+                length: number
+            ) => {
+                const physicalLength = actual.length + length;
 
-        // If we hit the beginning, set the position to the beginning.
-        if (position < 0) return this.withPosition(0);
-        // If we hit the end, set the position to the end.
-        if (position >= this.getCode().getLength())
-            return this.withPosition(this.getCode().getLength());
-
-        // Get the starting token on this line.
-        let currentToken = this.source.getTokenAt(position);
-        if (currentToken === undefined) return;
-
-        const index = this.source.getTokenTextPosition(currentToken);
-        // If the position is on a different line from the current token, just move to the line.
-        if (
-            index !== undefined &&
-            position <
-                index - this.source.spaces.getLastLineSpaces(currentToken)
-        ) {
-            return this.withPosition(position);
-        }
-        // Find the tokens on the row in the direction we're moving.
-        else {
-            // Find the caret and it's position.
-            let caretView = editor.querySelector('.caret');
-            if (!(caretView instanceof HTMLElement)) return;
-            if (caretView.classList.contains('node')) {
-                caretView = editor.querySelector('.selected');
-                if (!(caretView instanceof SVGElement)) return;
-            }
-            let caretRect = caretView.getBoundingClientRect();
-
-            const caretX = caretRect.left;
-
-            // Find the views on this line and their horizontal distance from the caret.
-            const candidates: {
-                token: Token;
-                rect: DOMRect;
-                distance: number;
-            }[] = [];
-            const firstTokenOnLine = currentToken;
-
-            // Get a list of all tokens after the current token, in order.
-            const tokensAfter = this.source.getTokensAfter(currentToken);
-
-            while (currentToken !== undefined) {
-                const view = editor.querySelector(
-                    `.token-view[data-id="${currentToken.id}"]`
-                );
-                if (view) {
-                    const rect = view.getBoundingClientRect();
-                    candidates.push({
-                        token: currentToken,
-                        rect: rect,
-                        distance: Math.min(
-                            Math.abs(caretX - rect.left),
-                            Math.abs(caretX - rect.right)
-                        ),
-                    });
-                }
-                currentToken = tokensAfter.shift();
-                // If we reached a token with newlines, then we're done adding tokens for consideration.
+                // If this contains the physical position, return the current line and column.
                 if (
-                    currentToken &&
-                    this.source.spaces.hasLineBreak(currentToken)
-                )
-                    break;
-            }
-
-            // Sort the candidates by distance, then find the offset within the token closest to the caret.
-            const sorted = candidates.sort((a, b) => a.distance - b.distance);
-            if (sorted.length > 0) {
-                const choice = sorted[0];
-                const length = choice.token.getTextLength();
-                const startPosition = this.source.getTokenTextPosition(
-                    choice.token
-                );
-                if (startPosition !== undefined && length !== undefined) {
-                    // Choose the offset based on whether the caret is to the left, right, or in between the horizontal axis of the chosen token.
-                    const offset =
-                        caretRect.left > choice.rect.right
-                            ? length
-                            : caretRect.left < choice.rect.left
-                            ? 0
-                            : choice.rect.width === 0
-                            ? 0
-                            : Math.round(
-                                  length *
-                                      ((caretRect.left - choice.rect.left) /
-                                          choice.rect.width)
-                              );
-                    return this.withPosition(startPosition + offset);
+                    physical <= position &&
+                    position <= physical + physicalLength
+                ) {
+                    // Find the text prior to the position.
+                    const subtext = (rendered + text).substring(
+                        0,
+                        position - physical
+                    );
+                    // Split the text before into lines.
+                    const linesBefore = subtext.split('\n');
+                    return [
+                        // Our line is the current line plus the number of lines before the position.
+                        line + linesBefore.length - 1,
+                        // Our column is the number of characters on the last line if there are newlines
+                        linesBefore.length > 1
+                            ? linesBefore[linesBefore.length - 1].length
+                            : // And the current column plus the length of the subtext if there are no lines.
+                              column + subtext.length,
+                    ];
                 }
+                return undefined;
             }
-            // If there were no candidates (e.g., the line is hidden), just choose the first token in the line.
-            else {
-                const startPosition =
-                    this.source.getTokenTextPosition(firstTokenOnLine);
-                return startPosition ? this.withPosition(startPosition) : this;
+        );
+    }
+
+    getPhysical(
+        preferredLine: number,
+        preferredColumn: number
+    ): number | undefined {
+        return this.scanLines(
+            (
+                line: number,
+                column: number,
+                physical: number,
+                actual: string,
+                rendered: string,
+                text: string,
+                length: number,
+                lastOnLine: boolean
+            ) => {
+                const lines = actual.split('\n');
+                // Scan through empty lines for matches, skipping the last
+                for (let index = 0; index < lines.length - 1; index++) {
+                    const next = lines[index];
+                    if (
+                        line === preferredLine &&
+                        column <= preferredColumn &&
+                        // Within column or this is end of line (there is one more line after this)
+                        (preferredColumn <= column + next.length ||
+                            index + 1 < lines.length)
+                    )
+                        return (
+                            physical +
+                            (Math.min(preferredColumn, column + next.length) -
+                                column)
+                        );
+                    // Advance to the next line, resetting the column, advancing physical by the length of the text on the line and the newline itself
+                    line++;
+                    column = 0;
+                    physical += next.length + 1;
+                }
+                // Add any extra lines that didn't actually exist in the physical text.
+                const extraLines =
+                    rendered.split('\n').length - 1 - (lines.length - 1);
+                if (extraLines > 0) {
+                    line += extraLines;
+                    column = 0;
+                }
+
+                // Get the last space on the last line.
+                const lastLineSpace = lines[lines.length - 1].length;
+                // Are we on the right line and the text contains the column, or its the end of the line?
+                if (
+                    line === preferredLine &&
+                    column <= preferredColumn &&
+                    (preferredColumn <= column + lastLineSpace + length ||
+                        lastOnLine)
+                )
+                    return (
+                        physical +
+                        Math.min(
+                            column + lastLineSpace + length,
+                            preferredColumn - column
+                        )
+                    );
             }
+        );
+    }
+
+    getVertical(direction: 1 | -1, position: number): Caret | undefined {
+        // Get the current rendered line and column. Iterate through the tokens, and along the way, tracking the physical position and rendered position.
+        // When we find the physical position, we'll have the rendered line and column.
+        const match = this.getRenderedLineAndColumn(position);
+        if (match === undefined) return;
+        const [line, column] = match;
+
+        console.log(`line = ${line}, column = ${column}`);
+
+        const newLine = line + direction;
+
+        if (newLine < 0) return this.withPosition(0, this.column);
+
+        const newPosition = this.getPhysical(newLine, this.column);
+
+        console.log(`position = ${newPosition}`);
+
+        return newPosition !== undefined
+            ? this.withPosition(newPosition, this.column)
+            : undefined;
+    }
+
+    getVerticalInColumn(
+        direction: 1 | -1,
+        position: number
+    ): Caret | undefined {
+        // Get all the tokens in the program.
+        const tokens = this.source.leaves() as Token[];
+
+        type TokensAndSpaces = {
+            token: Token;
+            renderedSpace: string;
+            actualSpace: string;
+        }[];
+
+        // Make a logical list of rendered lines, where a line is one of:
+        // 1) a list of tokens with preceding space metadata
+        // 2) a string representing an empty line with some preceding space
+        const lines: (TokensAndSpaces | string)[] = [[]];
+        for (const token of tokens) {
+            const spaces = this.source.spaces.getPreferredTokenSpace(
+                this.source,
+                token
+            );
+
+            // If the preceding spaces have any newlines, create lines with their preceding space
+            // Split the spaces into newlines
+            const newlines = spaces.split('\n');
+            // Get the preceding space on the line before this token.
+            const last = newlines.pop() as string;
+            // Make a token and space with the final bit of space
+            const tokenAndSpace = {
+                token,
+                renderedSpace: last,
+                actualSpace: this.source.spaces.getSpace(token),
+            };
+
+            // Add lines for all of the empty lines.
+            for (const newline of newlines) lines.push(newline + '\n');
+
+            // Add the token.
+            const line = lines[lines.length - 1];
+            if (typeof line === 'string') {
+                tokenAndSpace.renderedSpace =
+                    line + tokenAndSpace.renderedSpace;
+                if (typeof lines[lines.length - 2] === 'string')
+                    lines[lines.length - 2] = line;
+                lines[lines.length - 1] = [tokenAndSpace];
+            } else line.push(tokenAndSpace);
         }
+
+        // Now that we have a logical presentation of the rendered lines, find the line that we're on.
+        // First, find the number of extra lines to add due to new line insertion prior to this caret.
+        // This is key for mapping back to the position within the buffer.
+        let extraLines: number;
+        {
+            const tokenLines = lines
+                // Filter out empty lines first
+                .filter(
+                    (line): line is TokensAndSpaces => typeof line !== 'string'
+                )
+                // Flatten to a list of tokens with space metadata
+                .flat();
+
+            // Find the last token at this postion.
+            const lastTokenIndex = tokenLines.findLastIndex(
+                (token) => token.token === this.tokenPrior
+            );
+            const filteredTokenLines =
+                lastTokenIndex >= 0 ? tokenLines.slice(0, lastTokenIndex) : [];
+            extraLines = filteredTokenLines.reduce(
+                (sum, token) =>
+                    sum +
+                    (token.renderedSpace.split('\n').length -
+                        1 -
+                        (token.actualSpace.split('\n').length - 1)),
+                0
+            );
+        }
+
+        const currentPhysicalLine = this.source.getLine(position);
+        if (currentPhysicalLine === undefined) return;
+        const currentLineNumber = currentPhysicalLine + extraLines;
+
+        // Get the requested line.
+        const requestedLineNumber = currentLineNumber + direction;
+        const requestedLine = lines[requestedLineNumber];
+
+        // No line? Choose the start or end.
+        if (requestedLine === undefined)
+            return this.withPosition(
+                direction < 0 ? 0 : this.source.getCode().getLength(),
+                this.column
+            );
+
+        // Find the highest valid column on the requested line.
+        const requestedColumn =
+            typeof requestedLine === 'string'
+                ? Math.min(this.column, requestedLine.length - 1)
+                : Math.min(
+                      this.column,
+                      requestedLine.reduce(
+                          (sum, tokenAndSpace) =>
+                              sum +
+                              tokenAndSpace.renderedSpace.split('\n').join('')
+                                  .length +
+                              tokenAndSpace.token.getTextLength(),
+                          0
+                      )
+                  );
+
+        // Find the position of the requested line and column in the code in the physical program.
+        let glyphs = this.source.getCode().split('');
+        let lineNumber = 0;
+        let column = 0;
+        let newPosition = 0;
+        let match: number | undefined = undefined;
+        for (const glyph of glyphs) {
+            if (
+                lineNumber === requestedLineNumber &&
+                column === requestedColumn
+            ) {
+                match = newPosition;
+                break;
+            }
+            if (glyph === '\n') {
+                lineNumber++;
+                column = 0;
+            } else {
+                column++;
+            }
+            newPosition++;
+        }
+
+        // If we found match, return the new caret.
+        return match ? this.withPosition(match, this.column) : undefined;
     }
 
     wrap(key: string): Edit | undefined {

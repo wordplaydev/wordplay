@@ -44,7 +44,7 @@ export default class Remove extends Transform {
         // Return the new source and place the caret after the replacement.
         return [
             newSource,
-            new Caret(newSource, position, undefined, undefined),
+            new Caret(newSource, position, undefined, undefined, undefined),
         ];
     }
 

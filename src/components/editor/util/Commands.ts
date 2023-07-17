@@ -53,8 +53,7 @@ const commands: Command[] = [
         control: false,
         key: 'ArrowUp',
         mode: undefined,
-        execute: (caret: Caret, editor: HTMLElement) =>
-            caret.moveVertical(editor, -1),
+        execute: (caret: Caret) => caret.moveVertical(-1),
     },
     {
         description:
@@ -63,8 +62,7 @@ const commands: Command[] = [
         control: false,
         key: 'ArrowDown',
         mode: undefined,
-        execute: (caret: Caret, editor: HTMLElement) =>
-            caret.moveVertical(editor, 1),
+        execute: (caret: Caret) => caret.moveVertical(1),
     },
     {
         description: 'Move the caret one position left',

@@ -69,7 +69,13 @@ export default class Add<NodeType extends Node> extends Transform {
             ? undefined
             : [
                   newSource,
-                  new Caret(newSource, newCaretPosition, undefined, newNode),
+                  new Caret(
+                      newSource,
+                      newCaretPosition,
+                      undefined,
+                      undefined,
+                      newNode
+                  ),
               ];
     }
 

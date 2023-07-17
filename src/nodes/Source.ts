@@ -439,6 +439,22 @@ export default class Source extends Expression {
         }
     }
 
+    /* Compute the column of text the caret is at, if a number. */
+    getColumn(position: number) {
+        // Pretty print and get the column
+        const renderedSource = this.withPreferredSpace();
+
+        // Starting from the current position, step backwards until finding
+        // the start of the code or a newline.
+        let column = 0;
+        let index = position;
+        do {
+            index = index - 1;
+            column = column + 1;
+        } while (index > 0 && renderedSource.getCode().at(index) !== '\n');
+        return index === 0 ? column : Math.max(column - 1, 0);
+    }
+
     getTokenAt(position: number, includingWhitespace: boolean = true) {
         // This could be faster with binary search, but let's not prematurely optimize.
         for (const [token, index] of this.tokenPositions) {
@@ -580,6 +596,11 @@ export default class Source extends Expression {
             if (next !== '\n' && next !== undefined) empty = false;
         }
         return empty;
+    }
+
+    withPreferredSpace() {
+        // Pretty print and get the column
+        return this.withSpaces(this.spaces.withPreferredSpace(this));
     }
 
     toWordplay(spaces?: Spaces) {

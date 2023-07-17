@@ -59,6 +59,7 @@ export default class Replace<NodeType extends Node> extends Transform {
                 newSource,
                 newCaretPosition ?? position,
                 undefined,
+                undefined,
                 replacement
             ),
         ];

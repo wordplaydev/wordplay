@@ -53,6 +53,7 @@ test.each([
                 source,
                 resolvedPosition,
                 undefined,
+                undefined,
                 undefined
             );
             const transforms = getEditsAt(project, caret);
