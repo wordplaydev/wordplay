@@ -1142,7 +1142,7 @@ export default class Caret {
         // When we find the physical position, we'll have the rendered line and column.
         const match = this.getRenderedLineAndColumn(position);
         if (match === undefined) return;
-        const [line, column] = match;
+        const [line] = match;
 
         // console.log(`line = ${line}, column = ${column}`);
 
