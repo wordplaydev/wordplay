@@ -31,6 +31,7 @@
         MenuNodeSymbol,
         getKeyboardEditIdle,
         getInsertions,
+        IdleKind,
     } from '../project/Contexts';
     import {
         type Highlights,
@@ -1036,13 +1037,16 @@
 
                 // If it produced a new caret and optionally a new project, update the stores.
                 if (result !== undefined) {
-                    const activeKeyboard = event.key.length === 1;
+                    const idle =
+                        event.key.length === 1
+                            ? IdleKind.Typing
+                            : IdleKind.Navigating;
 
                     if (typeof result === 'boolean') {
                         if (result === false) lastKeyDownIgnored = true;
                     } else if (result instanceof Promise)
-                        result.then((edit) => handleEdit(edit, activeKeyboard));
-                    else handleEdit(result, activeKeyboard);
+                        result.then((edit) => handleEdit(edit, idle));
+                    else handleEdit(result, idle);
 
                     // Prevent default keyboard commands from being otherwise handled.
                     event.preventDefault();
@@ -1061,7 +1065,7 @@
 
     async function handleEdit(
         edit: Edit | undefined,
-        activeKeyboard: boolean = false
+        idle: IdleKind = IdleKind.Typing
     ) {
         if (edit === undefined) return;
 
@@ -1072,7 +1076,7 @@
         const newSource = unmodified ? undefined : edit[0];
 
         // Set the keyboard edit idle to false.
-        if (activeKeyboard) keyboardEditIdle.set(false);
+        keyboardEditIdle.set(idle);
 
         // Update the caret and project.
         if (newSource) {
@@ -1196,7 +1200,7 @@
         }
 
         // Did we make an update?
-        if (edit) handleEdit(edit);
+        if (edit) handleEdit(edit, IdleKind.Typing);
         else lastKeyDownIgnored = true;
     }
 
@@ -1271,7 +1275,7 @@
     <!-- Render the caret on top of the program -->
     <CaretView
         {source}
-        blink={$keyboardEditIdle && focused}
+        blink={$keyboardEditIdle === IdleKind.Idle && focused}
         ignored={$evaluation !== undefined &&
             $evaluation.playing === true &&
             lastKeyDownIgnored}

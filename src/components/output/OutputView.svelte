@@ -9,6 +9,7 @@
     import MarkupHTMLView from '../concepts/MarkupHTMLView.svelte';
     import Speech from '../lore/Speech.svelte';
     import {
+        IdleKind,
         getConceptIndex,
         getEvaluation,
         getKeyboardEditIdle,
@@ -36,7 +37,7 @@
 
     $: verse = value === undefined ? undefined : toStage(project, value);
     $: background =
-        $keyboardEditIdle && value instanceof Exception
+        $keyboardEditIdle === IdleKind.Idle && value instanceof Exception
             ? 'var(--wordplay-error)'
             : verse?.background.toCSS() ?? null;
 
@@ -53,7 +54,7 @@
     style:writing-mode={$creator.getWritingLayout()}
 >
     <!-- If it's because the keyboard isn't idle, show feedback instead of the value.-->
-    {#if !mini && $evaluation?.playing === true && !$keyboardEditIdle}
+    {#if !mini && $evaluation?.playing === true && $keyboardEditIdle === IdleKind.Typing}
         <div class="message editing">⌨️</div>
         <!-- If there's an exception, show that. -->
     {:else if value instanceof Exception}

@@ -30,6 +30,7 @@
         InsertionsSymbol,
         type InsertionsContext,
         getConceptPath,
+        IdleKind,
     } from './Contexts';
     import type Project from '@models/Project';
     import Documentation from '@components/concepts/Documentation.svelte';
@@ -132,17 +133,17 @@
     $: if ($projectStore !== project) projectStore.set(project);
 
     /** Keep a project view global store indicating whether the creator is idle. */
-    const keyboardEditIdle = writable<boolean>(true);
+    const keyboardEditIdle = writable<IdleKind>(IdleKind.Idle);
     setContext(KeyboardEditIdleSymbol, keyboardEditIdle);
     let keyboardIdleTimeout: NodeJS.Timer | undefined = undefined;
 
     // When keyboard edit idle changes to true, set a timeout
     // to reset it to false after a delay.
     $: {
-        if (!$keyboardEditIdle) {
+        if ($keyboardEditIdle !== IdleKind.Idle) {
             if (keyboardIdleTimeout) clearTimeout(keyboardIdleTimeout);
             keyboardIdleTimeout = setTimeout(
-                () => keyboardEditIdle.set(true),
+                () => keyboardEditIdle.set(IdleKind.Idle),
                 500
             );
         }

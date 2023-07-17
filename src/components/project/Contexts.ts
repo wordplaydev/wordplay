@@ -45,7 +45,12 @@ export function getProject() {
     return getContext<ProjectContext>(ProjectSymbol);
 }
 
-export type KeyboardEditIdleContext = Writable<boolean>;
+export enum IdleKind {
+    Idle,
+    Navigating,
+    Typing,
+}
+export type KeyboardEditIdleContext = Writable<IdleKind>;
 export const KeyboardEditIdleSymbol = Symbol('idle');
 export function getKeyboardEditIdle() {
     return getContext<KeyboardEditIdleContext>(KeyboardEditIdleSymbol);
