@@ -639,7 +639,7 @@
                 if (!space.includes('\n')) {
                     const tokenView = getNodeView(token);
                     const spacePosition = source.getTokenSpacePosition(token);
-                    if (tokenView && spacePosition) {
+                    if (tokenView && spacePosition !== undefined) {
                         const spaceRect = spaceView.getBoundingClientRect();
                         const percent =
                             (spaceRect.width -
@@ -758,19 +758,33 @@
                 .sort((a, b) => a.offset - b.offset)[0]; // Chose the closest
 
         // If we have a closest line, find the line number
-        if (closestLine) {
+        if (closestLine && spaceView) {
+            // Compute the horizontal position at which to place the caret.
+            // Find the width of the space view.
+            const spaceBounds = spaceView.getBoundingClientRect();
+            const tokenSpace = source.spaces.getSpace(closestLine.token);
+            const spaceWidth =
+                spaceBounds.width /
+                Math.max.apply(
+                    null,
+                    tokenSpace
+                        .replaceAll('\t', ' '.repeat(TAB_WIDTH))
+                        .split('\n')
+                        .map((s) => s.length)
+                );
+            const positionOffset = Math.round(
+                (event.clientX - spaceBounds.left) / spaceWidth
+            );
+
             const index = $caret.source.getTokenSpacePosition(
                 closestLine.token
             );
             return index !== undefined
-                ? index === 0 && closestLine.index === 0
-                    ? 0
-                    : index +
-                      source.spaces
-                          .getSpace(closestLine.token)
-                          .split('\n', closestLine.index)
-                          .join('\n').length +
-                      1
+                ? index +
+                      tokenSpace.split('\n', closestLine.index).join('\n')
+                          .length +
+                      1 +
+                      positionOffset
                 : undefined;
         }
 

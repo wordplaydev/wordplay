@@ -45,16 +45,16 @@
 {#key space}
     <span class="space" data-id={token.id}
         ><span class="before"
-            >{#each beforeSpaces as s, index}{#if index > 0}<br
-                        class="break"
-                    />{/if}{#if s === ''}&ZeroWidthSpace;{:else}{s}{/if}{:else}&ZeroWidthSpace;{/each}{#if insertion}<InsertionPointView
+            >{#each beforeSpaces as s, index}{#if index > 0}<span
+                        ><br class="break" /></span
+                    >{/if}{#if s === ''}&ZeroWidthSpace;{:else}{s}{/if}{:else}&ZeroWidthSpace;{/each}{#if insertion}<InsertionPointView
                 />{/if}</span
         ><span class="after"
-            >{#each afterSpaces as s, index}{#if index > 0}<br
-                        class="break"
-                    />{/if}{s}{/each}{#each additionalSpaces as s, index}{#if index > 0}<br
-                        class="break"
-                    />{/if}{#if s === ''}&ZeroWidthSpace;{:else}{s}{/if}{/each}</span
+            >{#each afterSpaces as s, index}{#if index > 0}<span
+                        ><br class="break" /></span
+                    >{/if}{s}{/each}{#each additionalSpaces as s, index}{#if index > 0}<span
+                        ><br class="break" /></span
+                    >{/if}{#if s === ''}&ZeroWidthSpace;{:else}{s}{/if}{/each}</span
         ></span
     >
 {/key}
