@@ -1144,7 +1144,7 @@ export default class Caret {
         if (match === undefined) return;
         const [line, column] = match;
 
-        console.log(`line = ${line}, column = ${column}`);
+        // console.log(`line = ${line}, column = ${column}`);
 
         const newLine = line + direction;
 
@@ -1152,7 +1152,7 @@ export default class Caret {
 
         const newPosition = this.getPhysical(newLine, this.column);
 
-        console.log(`position = ${newPosition}`);
+        // console.log(`position = ${newPosition}`);
 
         return newPosition !== undefined
             ? this.withPosition(newPosition, this.column)
