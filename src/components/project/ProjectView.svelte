@@ -1125,6 +1125,7 @@
                                             {project}
                                             evaluator={$evaluator}
                                             {source}
+                                            selected={source === selectedSource}
                                             autofocus={autofocus &&
                                                 tile.isExpanded() &&
                                                 getSourceByID(tile.id) ===
@@ -1136,6 +1137,11 @@
                                                         event.detail.source,
                                                         event.detail.conflicts
                                                     ))}
+                                            on:preview={() =>
+                                                (selectedSourceIndex =
+                                                    getSourceIndexByID(
+                                                        tile.id
+                                                    ))}
                                         />
                                         <Annotations
                                             {project}
@@ -1146,42 +1152,6 @@
                                                 false}
                                         />
                                     </div>
-                                    {#if project.supplements.length > 0}
-                                        <div class="output-preview-container">
-                                            <Button
-                                                tip={$creator.getLocale().ui
-                                                    .tooltip.showOutput}
-                                                enabled={source !==
-                                                    selectedSource}
-                                                action={() =>
-                                                    (selectedSourceIndex =
-                                                        getSourceIndexByID(
-                                                            tile.id
-                                                        ))}
-                                                scale={false}
-                                            >
-                                                <div class="output-preview">
-                                                    {#if source === selectedSource}
-                                                        <span
-                                                            style="font-size:200%"
-                                                            >🎭</span
-                                                        >
-                                                    {:else}
-                                                        <OutputView
-                                                            {project}
-                                                            evaluator={$evaluator}
-                                                            {source}
-                                                            value={$evaluator.getLatestSourceValue(
-                                                                source
-                                                            )}
-                                                            fullscreen={false}
-                                                            mini
-                                                        />
-                                                    {/if}
-                                                </div>
-                                            </Button>
-                                        </div>
-                                    {/if}
                                 {/if}</svelte:fragment
                             ><svelte:fragment slot="footer"
                                 >{#if tile.kind === Content.Source}<GlyphChooser
@@ -1341,24 +1311,6 @@
         font-size: 1000%;
         display: flex;
         flex-direction: column;
-        align-items: center;
-        justify-content: center;
-    }
-
-    .output-preview-container {
-        position: absolute;
-        bottom: var(--wordplay-spacing);
-        right: var(--wordplay-spacing);
-    }
-
-    .output-preview {
-        width: 5em;
-        height: 5em;
-        border: var(--wordplay-border-color) solid var(--wordplay-border-width);
-        border-radius: var(--wordplay-border-radius);
-        overflow: hidden;
-        cursor: pointer;
-        display: flex;
         align-items: center;
         justify-content: center;
     }

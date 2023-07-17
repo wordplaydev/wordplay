@@ -66,10 +66,14 @@
     import { creator } from '../../db/Creator';
     import concretize from '../../locale/concretize';
     import { getLanguageDirection } from '../../locale/LanguageCode';
+    import Button from '../widgets/Button.svelte';
+    import OutputView from '../output/OutputView.svelte';
 
     export let evaluator: Evaluator;
     export let project: Project;
     export let source: Source;
+    /** True if this editor's output is selected by the container. */
+    export let selected: boolean;
     export let autofocus: boolean = true;
 
     const SHOW_OUTPUT_IN_PALETTE = false;
@@ -1367,6 +1371,31 @@
         >
     {/key}
 </div>
+{#if project.supplements.length > 0}
+    <div class="output-preview-container">
+        <Button
+            tip={$creator.getLocale().ui.tooltip.showOutput}
+            enabled={!selected}
+            action={() => dispatch('preview')}
+            scale={false}
+        >
+            <div class="output-preview">
+                {#if selected}
+                    <span style="font-size:200%">🎭</span>
+                {:else}
+                    <OutputView
+                        {project}
+                        {evaluator}
+                        {source}
+                        value={evaluator.getLatestSourceValue(source)}
+                        fullscreen={false}
+                        mini
+                    />
+                {/if}
+            </div>
+        </Button>
+    </div>
+{/if}
 
 <style>
     .editor {
@@ -1417,5 +1446,25 @@
 
     .screen-reader-description {
         font-size: 0;
+    }
+
+    .output-preview-container {
+        position: sticky;
+        bottom: var(--wordplay-spacing);
+        right: var(--wordplay-spacing);
+        background: var(--wordplay-background);
+        align-self: flex-end;
+    }
+
+    .output-preview {
+        width: 5em;
+        height: 5em;
+        border: var(--wordplay-border-color) solid var(--wordplay-border-width);
+        border-radius: var(--wordplay-border-radius);
+        overflow: hidden;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
 </style>
