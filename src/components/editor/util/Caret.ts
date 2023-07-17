@@ -372,7 +372,7 @@ export default class Caret {
                 const sibling =
                     children[children.indexOf(this.position) + direction];
                 return sibling
-                    ? this.withPosition(sibling, undefined, entry)
+                    ? this.withPosition(sibling, this.column, entry)
                     : this;
             }
             // If requesting the non-sibling, get the token after/before the current selection
@@ -405,11 +405,7 @@ export default class Caret {
 
                 const index = this.getTextPosition(start, offset);
                 return index !== undefined
-                    ? this.withPosition(
-                          index,
-                          this.source.getColumn(index),
-                          entry
-                      )
+                    ? this.withPosition(index, this.column, entry)
                     : this;
             }
         } else {
@@ -1199,15 +1195,13 @@ export default class Caret {
         const [line, column] = match;
         const newLine = line + direction;
 
-        if (newLine < 0) return this.withPosition(0, this.column);
-
-        // console.log(
-        //     `on line = ${line}, column = ${column}, seeking line ${newLine}`
-        // );
+        console.log(
+            `on line = ${line}, column = ${column}, seeking line ${newLine}, column ${this.column}`
+        );
 
         const newPosition = this.getPhysicalPositionFromLineAndColumn(
             newLine,
-            column
+            this.column
         );
 
         // console.log(`position = ${newPosition}`);
