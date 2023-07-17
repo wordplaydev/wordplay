@@ -54,7 +54,7 @@ export default class Caret {
         this.column =
             column === undefined
                 ? typeof position === 'number'
-                    ? this.getColumn(position) ?? 0
+                    ? this.source.getColumn(position) ?? 0
                     : 0
                 : column;
 
@@ -423,7 +423,7 @@ export default class Caret {
             if (placeholder)
                 return this.withPosition(
                     placeholder,
-                    this.getColumn(this.position),
+                    this.source.getColumn(this.position),
                     entry
                 );
 
@@ -456,7 +456,7 @@ export default class Caret {
 
             return this.withPosition(
                 this.position + direction,
-                this.getColumn(this.position + direction),
+                this.source.getColumn(this.position + direction),
                 entry
             );
         }
@@ -971,241 +971,16 @@ export default class Caret {
         } else return this.getVertical(direction, this.position);
     }
 
-    scanLines<Result>(
-        checker: (
-            line: number,
-            column: number,
-            physical: number,
-            actualSpace: string,
-            renderedSpace: string,
-            text: string,
-            textLength: number,
-            lastOnLine: boolean
-        ) => Result | undefined
-    ): Result | undefined {
-        const tokens = this.source.leaves() as Token[];
-
-        // Track the rendered line, rendered column, and physical index.
-        // "Physical" here means the text string that repreesents the program in memory
-        // as opposed to how it is rendered.
-        let line = 0;
-        let column = 0;
-        let physical = 0;
-
-        // Iterate through the tokens in the program.
-        for (let index = 0; index < tokens.length; index++) {
-            const token = tokens[index];
-            const tokenLength = token.getTextLength();
-
-            // Get rendered space prior to the token.
-            const renderedSpace = this.source.spaces.getPreferredTokenSpace(
-                this.source,
-                token
-            );
-            // Get the physical space prior to the token.
-            const actualSpace = this.source.spaces.getSpace(token);
-
-            // Get the space before each line break.
-            const lineSpaces = renderedSpace.split('\n');
-            // Compute the number of lines in the preceding rendered space.
-            const lineCount = lineSpaces.length - 1;
-            // Compute the space on the final line prior to the token text.
-            const lastLineSpace = lineSpaces[lineSpaces.length - 1];
-
-            // Evaluate this token and return its result if not undefined.
-            const result = checker(
-                line,
-                column,
-                physical,
-                actualSpace,
-                renderedSpace,
-                token.getText(),
-                tokenLength,
-                // Last on line if the last token
-                index + 1 === tokens.length ||
-                    // Or the next token has a line break before it.
-                    this.source.spaces
-                        .getPreferredTokenSpace(this.source, tokens[index + 1])
-                        .includes('\n')
-            );
-            if (result !== undefined) return result;
-
-            // Increment the lines and columns based on the rendered position.
-            line += lineCount;
-            column =
-                lineCount > 0
-                    ? // Set the column to the length of the last line of space plus the token's length.
-                      lastLineSpace.length + tokenLength
-                    : // Increment the column by the rendered length of space and text.
-                      column + renderedSpace.length + tokenLength;
-
-            // Increment the physical position based on actual space and token.
-            physical += actualSpace.length + tokenLength;
-        }
-
-        // Nothing matched? Return undefined.
-        return undefined;
-    }
-
-    getRenderedLineAndColumnFromPhysicalPosition(
-        position: number
-    ): [number, number] | undefined {
-        return this.scanLines(
-            (
-                line: number,
-                column: number,
-                physical: number,
-                actualSpace: string,
-                renderedSpace: string,
-                text: string,
-                textLength: number
-            ) => {
-                // If this token and it's space contains the physical position, find the corresponding line and column.
-                if (
-                    physical <= position &&
-                    position <= physical + actualSpace.length + textLength
-                ) {
-                    // Find the rendered text prior to the position, including rendered lines
-                    const textBeforePosition = (renderedSpace + text).substring(
-                        0,
-                        position - physical
-                    );
-                    // Split the text before into lines.
-                    const linesBefore = textBeforePosition.split('\n');
-                    return [
-                        // Our line is the current line plus the number of lines before the position.
-                        line + linesBefore.length - 1,
-                        // Our column is ...
-                        linesBefore.length > 1
-                            ? // If there are line breaks, the number of them plus the length of the text on the last line.
-                              linesBefore[linesBefore.length - 1].length
-                            : // If no line breaks, increment by the length of the text before position
-                              column + textBeforePosition.length,
-                    ];
-                }
-                return undefined;
-            }
-        );
-    }
-
-    getColumn(position: number) {
-        const match =
-            this.getRenderedLineAndColumnFromPhysicalPosition(position);
-        return match ? match[1] : undefined;
-    }
-
-    getPhysicalPositionFromLineAndColumn(
-        preferredLine: number,
-        preferredColumn: number
-    ): number | undefined {
-        return this.scanLines(
-            (
-                line: number,
-                column: number,
-                physical: number,
-                actualSpace: string,
-                renderedSpace: string,
-                text: string,
-                textLength: number,
-                lastOnLine: boolean
-            ) => {
-                // Get the space prior to each rendered line break.
-                const renderedSpacesBeforeBreaks = renderedSpace.split('\n');
-                const actualSpacesBeforeBreaks = actualSpace.split('\n');
-
-                // Check if there are any inserted lines
-                let extraLines =
-                    renderedSpacesBeforeBreaks.length -
-                    1 -
-                    (actualSpacesBeforeBreaks.length - 1);
-
-                // Remember the starting position
-                const originalPhysical = physical;
-
-                // Scan through each line except the last, updating the lines, columns, and physical position.
-                for (
-                    let index = 0;
-                    index < renderedSpacesBeforeBreaks.length - 1;
-                    index++
-                ) {
-                    const spaceBeforeBreak = renderedSpacesBeforeBreaks[index];
-                    // If this line matches and
-                    if (
-                        line === preferredLine &&
-                        // If the preferred column is between the current column and the end of the space.
-                        column <= preferredColumn &&
-                        // Within column or this is end of line (there is one more line after this)
-                        (preferredColumn <= column + spaceBeforeBreak.length ||
-                            index < renderedSpacesBeforeBreaks.length - 1)
-                    )
-                        // Return the current physical position plus the number of physical lines
-                        // BUG This includes any space that's rendered only
-                        return (
-                            physical +
-                            Math.min(
-                                preferredColumn - column,
-                                spaceBeforeBreak.length
-                            )
-                        );
-                    // Advance to the next line, accounting for this line break.
-                    line++;
-                    // Reset the column to the start
-                    column = 0;
-                    // Advancing physical by the length of the text on the line, plus the line break
-                    physical +=
-                        spaceBeforeBreak.length + (extraLines > 0 ? 0 : 1);
-                    // Account for the extra line, so we start adding physical lines.
-                    if (extraLines > 0) extraLines--;
-                }
-
-                // Get the last space on the last line.
-                const lastLineRenderedSpace =
-                    renderedSpacesBeforeBreaks[
-                        renderedSpacesBeforeBreaks.length - 1
-                    ].length;
-                const lastLineActualSpace =
-                    actualSpacesBeforeBreaks[
-                        actualSpacesBeforeBreaks.length - 1
-                    ].length;
-
-                // Reset the physical position to the original, plus the actual preceding space.
-                physical =
-                    originalPhysical + actualSpace.length - lastLineActualSpace;
-
-                // Are we on the right line and the text contains the column, or its the end of the line?
-                if (
-                    line === preferredLine &&
-                    column <= preferredColumn &&
-                    (preferredColumn <=
-                        column + lastLineRenderedSpace + textLength ||
-                        lastOnLine)
-                )
-                    // Advance by the smaller of the preferred column position and the end of the line.
-                    return (
-                        physical +
-                        Math.min(
-                            preferredColumn - column,
-                            lastLineActualSpace + textLength
-                        )
-                    );
-            }
-        );
-    }
-
     getVertical(direction: 1 | -1, position: number): Caret | undefined {
         // Get the current rendered line and column. Iterate through the tokens, and along the way, tracking the physical position and rendered position.
         // When we find the physical position, we'll have the rendered line and column.
         const match =
-            this.getRenderedLineAndColumnFromPhysicalPosition(position);
+            this.source.getRenderedLineAndColumnFromPhysicalPosition(position);
         if (match === undefined) return;
-        const [line, column] = match;
+        const [line] = match;
         const newLine = line + direction;
 
-        console.log(
-            `on line = ${line}, column = ${column}, seeking line ${newLine}, column ${this.column}`
-        );
-
-        const newPosition = this.getPhysicalPositionFromLineAndColumn(
+        const newPosition = this.source.getPhysicalPositionFromLineAndColumn(
             newLine,
             this.column
         );
