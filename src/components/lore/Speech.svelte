@@ -18,7 +18,7 @@
     /** If true, speech is placed below glyph. If false, speech is placed to the right or left of glyph. */
     export let below: boolean = false;
     /** If true and speech is not below, reading order is flipped. */
-    export let flip: boolean = true;
+    export let flip: boolean = false;
     /** If true and speech is not below, baseline aligns the glyph and speech */
     export let baseline: boolean = false;
     /** If true, uses foreground color for background, and background for foreground. */
@@ -44,7 +44,7 @@
 </script>
 
 <div
-    class="dialog {below ? 'column' : flip ? 'row' : 'row reverse'} {!below &&
+    class="dialog {below ? 'column' : flip ? 'row reverse' : 'row'} {!below &&
     baseline
         ? 'baseline'
         : ''}"
