@@ -119,6 +119,7 @@
                     for (const nameOrDoc of nameOrDocs.slice(1))
                         newHidden.add(nameOrDoc);
                 }
+
                 // If this is a doc and we're not in a program, hide it.
                 if (tag instanceof Docs && !(root.root instanceof Program))
                     newHidden.add(tag);

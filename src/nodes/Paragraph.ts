@@ -15,6 +15,7 @@ import NodeRef from '../locale/NodeRef';
 import ValueRef from '../locale/ValueRef';
 import type Branch from './Branch';
 import { unescapeDocSymbols } from '../parser/Tokenizer';
+import Node from '@nodes/Node';
 
 export type NodeSegment =
     | Token
@@ -56,9 +57,7 @@ export default class Paragraph extends Content {
     }
 
     getNodeSegments() {
-        return this.segments.filter(
-            (s) => s instanceof Content
-        ) as NodeSegment[];
+        return this.segments.filter((s) => s instanceof Node) as NodeSegment[];
     }
 
     getPurpose() {
