@@ -58,7 +58,7 @@ export function getHighlights(
     insertion: InsertionPoint | undefined,
     animatingNodes: Set<Node> | undefined,
     selectedOutput: Evaluate[] | undefined
-) {
+): Highlights {
     const project = evaluator.project;
 
     const latestValue = evaluator.getLatestSourceValue(source);
@@ -189,10 +189,22 @@ export function getHighlights(
         }
     }
 
+    // Get the caret's parent and give it a hover highlight
+    let caretParent;
+    if (caret.position instanceof Node)
+        caretParent = source.root.getParent(caret.position);
+    else {
+        const token = source.getTokenAt(caret.position);
+        if (token) caretParent = source.root.getParent(token);
+    }
+    if (caretParent)
+        addHighlight(source, newHighlights, caretParent, 'hovered');
+
     // Update the store, broadcasting the highlights to all node views for rendering.
     return newHighlights;
 }
 
+/** Populate the given Set with nodes to highlight. */
 export function updateOutlines(
     highlights: Highlights,
     getNodeView: (node: Node) => HTMLElement | undefined
