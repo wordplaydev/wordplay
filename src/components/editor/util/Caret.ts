@@ -54,7 +54,7 @@ export default class Caret {
         this.column =
             column === undefined
                 ? typeof position === 'number'
-                    ? this.source.getColumn(position)
+                    ? this.getColumn(position) ?? 0
                     : 0
                 : column;
 
@@ -423,7 +423,7 @@ export default class Caret {
             if (placeholder)
                 return this.withPosition(
                     placeholder,
-                    this.source.getColumn(this.position),
+                    this.getColumn(this.position),
                     entry
                 );
 
@@ -456,7 +456,7 @@ export default class Caret {
 
             return this.withPosition(
                 this.position + direction,
-                this.source.getColumn(this.position + direction),
+                this.getColumn(this.position + direction),
                 entry
             );
         }
@@ -1086,6 +1086,12 @@ export default class Caret {
                 return undefined;
             }
         );
+    }
+
+    getColumn(position: number) {
+        const match =
+            this.getRenderedLineAndColumnFromPhysicalPosition(position);
+        return match ? match[1] : undefined;
     }
 
     getPhysicalPositionFromLineAndColumn(
