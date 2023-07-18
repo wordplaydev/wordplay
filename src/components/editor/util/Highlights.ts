@@ -12,6 +12,7 @@ import { isValidDropTarget, type InsertionPoint } from '../Drag';
 import type Caret from './Caret';
 import { getUnderlineOf, type Outline } from './outline';
 import getOutlineOf from './outline';
+import Reference from '../../../nodes/Reference';
 
 /** Highlight types and whether they are rendered above or below the code. True for above. */
 export const HighlightTypes = {
@@ -199,6 +200,18 @@ export function getHighlights(
     }
     if (caretParent)
         addHighlight(source, newHighlights, caretParent, 'hovered');
+
+    const reference =
+        caret.position instanceof Reference
+            ? caret.position
+            : caretParent instanceof Reference
+            ? caretParent
+            : undefined;
+    if (reference) {
+        const definition = reference.resolve(project.getContext(source));
+        if (definition !== undefined)
+            addHighlight(source, newHighlights, definition, 'hovered');
+    }
 
     // Update the store, broadcasting the highlights to all node views for rendering.
     return newHighlights;
