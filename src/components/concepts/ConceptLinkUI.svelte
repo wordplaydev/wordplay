@@ -120,6 +120,7 @@
 
     span:focus {
         outline: none;
+        background: var(--wordplay-highlight);
         text-decoration: underline;
     }
 </style>
