@@ -165,7 +165,7 @@
         --direction: -1;
     }
 
-    .message.flip {
+    .message.reading {
         margin-inline-start: var(--tail-width);
     }
 
@@ -173,7 +173,7 @@
         margin-top: var(--tail-width);
     }
 
-    .message.flip:after {
+    .message.reading:after {
         content: '';
         position: absolute;
         border-style: solid;
@@ -186,11 +186,11 @@
         top: 50%;
     }
 
-    .baseline .message.flip:after {
+    .baseline .message.reading:after {
         top: calc(2 * var(--wordplay-spacing));
     }
 
-    .message.flip:before {
+    .message.reading:before {
         content: '';
         position: absolute;
         border-style: solid;
@@ -209,11 +209,11 @@
         top: 50%;
     }
 
-    .baseline .message.flip:before {
+    .baseline .message.reading:before {
         top: calc(2 * var(--wordplay-spacing));
     }
 
-    .message.reading:after {
+    .message.flip:after {
         content: '';
         position: absolute;
         border-style: solid;
@@ -226,11 +226,11 @@
         top: 50%;
     }
 
-    .baseline .message.reading:after {
+    .baseline .message.flip:after {
         top: calc(2 * var(--wordplay-spacing));
     }
 
-    .message.reading:before {
+    .message.flip:before {
         content: '';
         position: absolute;
         border-style: solid;
@@ -250,7 +250,7 @@
         top: 50%;
     }
 
-    .baseline .message.reading:before {
+    .baseline .message.flip:before {
         top: calc(2 * var(--wordplay-spacing));
     }
 
