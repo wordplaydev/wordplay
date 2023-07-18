@@ -231,11 +231,13 @@
     // When source changes, update various nested state from the source.
     $: caret.set($caret.withSource(source));
 
+    $: context = project.getContext(source);
     $: caretExpressionType =
         $caret.position instanceof Expression
             ? $caret.position
-                  .getType(project.getContext(source))
-                  .simplify(project.getContext(source))
+                  .getType(context)
+                  .simplify(context)
+                  .generalize(context)
             : undefined;
 
     // When the caret changes, if it's a node, focus on the node, and if it's an index, focus on the hidden text field.
