@@ -14,6 +14,7 @@
     import RootView from '../project/RootView.svelte';
     import ExpressionPlaceholder from '../../nodes/ExpressionPlaceholder';
     import { creator } from '../../db/Creator';
+    import FunctionType from '../../nodes/FunctionType';
 
     export let node: Evaluate;
 
@@ -44,9 +45,11 @@
     function insert() {
         if ($project && $caret && nextBind) {
             const context = $project.getNodeContext(node);
-            const placeholder = ExpressionPlaceholder.make(
-                nextBind.getType(context)
-            );
+            const type = nextBind.getType(context);
+            const placeholder =
+                type instanceof FunctionType
+                    ? type.getTemplate(context)
+                    : ExpressionPlaceholder.make(nextBind.getType(context));
             const newSource = $caret.source.replace(
                 node,
                 node.withBindAs(

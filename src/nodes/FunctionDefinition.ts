@@ -36,6 +36,12 @@ import concretize from '../locale/concretize';
 import IncompatibleType from '../conflicts/IncompatibleType';
 import NameType from './NameType';
 import FunctionType from './FunctionType';
+import StructureDefinition from './StructureDefinition';
+import UnaryOperation from './UnaryOperation';
+import BinaryOperation from './BinaryOperation';
+import Evaluate from './Evaluate';
+import PropertyReference from './PropertyReference';
+import Reference from './Reference';
 
 export default class FunctionDefinition extends Expression {
     readonly docs?: Docs;
@@ -102,6 +108,55 @@ export default class FunctionDefinition extends Expression {
             output,
             expression
         );
+    }
+
+    /** Create an expression that evaluates this function with typed placeholders for its inputs. */
+    getEvaluateTemplate(
+        languages: LanguageCode[],
+        context: Context,
+        structureType: Type | undefined
+    ) {
+        const possibleStructure = context.getRoot(this)?.getParent(this);
+        const structure =
+            possibleStructure instanceof StructureDefinition
+                ? possibleStructure
+                : undefined;
+        const reference = Reference.make(
+            this.names.getLocaleText(languages),
+            this
+        );
+        return this.isUnaryOperator() && structure
+            ? new UnaryOperation(
+                  new Token(
+                      this.getUnaryOperatorName() ?? '_',
+                      TokenType.UnaryOperator
+                  ),
+                  ExpressionPlaceholder.make(structureType)
+              )
+            : this.isBinaryOperator() && structure
+            ? new BinaryOperation(
+                  ExpressionPlaceholder.make(structureType),
+                  new Token(
+                      this.getBinaryOperatorName() ?? '_',
+                      TokenType.BinaryOperator
+                  ),
+                  ExpressionPlaceholder.make(this.inputs[0]?.type)
+              )
+            : Evaluate.make(
+                  structure
+                      ? PropertyReference.make(
+                            ExpressionPlaceholder.make(structureType),
+                            reference
+                        )
+                      : reference,
+                  this.inputs
+                      .filter((input) => !input.hasDefault())
+                      .map((input) => {
+                          if (input.type instanceof FunctionType)
+                              return input.type.getTemplate(context);
+                          else return ExpressionPlaceholder.make(input.type);
+                      })
+              );
     }
 
     getGrammar() {

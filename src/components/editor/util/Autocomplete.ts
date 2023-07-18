@@ -967,7 +967,7 @@ function toEvaluateReplacement(
                       .map((bind) => {
                           const type = bind.getType(context);
                           if (type instanceof FunctionType)
-                              return type.getFunctionPlaceholder();
+                              return type.getTemplate(context);
                           else return ExpressionPlaceholder.make(type);
                       })
               );

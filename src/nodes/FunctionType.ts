@@ -16,7 +16,6 @@ import Glyphs from '../lore/Glyphs';
 import FunctionDefinition from './FunctionDefinition';
 import Names from './Names';
 import ExpressionPlaceholder from './ExpressionPlaceholder';
-import Name from './Name';
 
 export default class FunctionType extends Type {
     readonly fun: Token;
@@ -65,6 +64,18 @@ export default class FunctionType extends Type {
             new EvalCloseToken(),
             output,
             definition
+        );
+    }
+
+    getTemplate(context: Context): FunctionDefinition {
+        return FunctionDefinition.make(
+            undefined,
+            Names.make([]),
+            undefined,
+            this.inputs
+                .filter((input) => input.isRequired())
+                .map((input) => input.simplify(context).withoutType()),
+            ExpressionPlaceholder.make()
         );
     }
 
@@ -123,22 +134,6 @@ export default class FunctionType extends Type {
             }
             return true;
         });
-    }
-
-    /** Create a function that matches the expected type */
-    getFunctionPlaceholder(): FunctionDefinition {
-        return FunctionDefinition.make(
-            undefined,
-            new Names([]),
-            undefined,
-            this.inputs.map((i) =>
-                Bind.make(
-                    undefined,
-                    new Names([Name.make(i.names.names[0].getName())])
-                )
-            ),
-            ExpressionPlaceholder.make(this.output)
-        );
     }
 
     simplify(context: Context) {
