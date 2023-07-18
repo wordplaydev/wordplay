@@ -243,16 +243,21 @@ function getConcreteTypeVariable(
             else {
                 const inputByIndex =
                     evaluation.inputs[inputFromWhichToInferType];
+                // Check to see if such an input exists
                 if (inputByIndex instanceof Expression)
                     concreteType = inputByIndex.getType(context);
             }
-            // Finally, if we're extracting the output type of a function input, get the function type's output.
-            if (
-                inOutput &&
-                concreteType instanceof FunctionType &&
-                concreteType.definition
-            )
-                concreteType = concreteType.output;
+            // Finally, if we're extracting the output type of a function input, and the output isn't a type variable itself, get the output type.
+            if (inOutput && concreteType instanceof FunctionType) {
+                // This prevents infinite recursion; if we returned this, this algorithm would forever
+                // try to infer this type variable.
+                if (
+                    concreteType.output instanceof NameType &&
+                    concreteType.output.isTypeVariable(context)
+                )
+                    concreteType = new UnknownVariableType(evaluation);
+                else concreteType = concreteType.output;
+            }
 
             // If we found a type, return it!
             if (concreteType !== undefined) return concreteType;

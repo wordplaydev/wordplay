@@ -45,7 +45,7 @@
         if ($project && $caret && nextBind) {
             const context = $project.getNodeContext(node);
             const placeholder = ExpressionPlaceholder.make(
-                nextBind.getType(context).clone()
+                nextBind.getType(context)
             );
             const newSource = $caret.source.replace(
                 node,
