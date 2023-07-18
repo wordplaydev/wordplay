@@ -11,4 +11,6 @@
     const caret = getCaret();
 </script>
 
-<NodeView node={node.value} />{#if $caret?.isIn(node)}<Adjust {node} />{/if}
+<NodeView node={node.value} />{#if $caret?.isIn(node, false)}<Adjust
+        {node}
+    />{/if}

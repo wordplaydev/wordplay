@@ -101,14 +101,15 @@
                 ) {
                     let first = false;
                     for (const nameOrDoc of nameOrDocs) {
+                        const caretIn = $caret?.isIn(nameOrDoc, true);
                         const selectedLocale = $creator
                             .getLanguages()
                             .some((t) => t === nameOrDoc.getLanguage());
                         // Not a selected language and not in the node? Hide it.
-                        if (!selectedLocale && !$caret?.isIn(nameOrDoc))
+                        if (!selectedLocale && !caretIn)
                             newHidden.add(nameOrDoc);
                         // Is the selected language and inert? Hide the language tag.
-                        else if (selectedLocale && nameOrDoc.lang)
+                        else if (selectedLocale && nameOrDoc.lang && !caretIn)
                             newHidden.add(nameOrDoc.lang);
                         // Not first? Hide the separator.
                         if (!first) {

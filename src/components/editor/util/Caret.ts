@@ -315,7 +315,7 @@ export default class Caret {
     }
 
     /** True if this caret's position is or is inside of the given node. */
-    isIn(node: Node) {
+    isIn(node: Node, includeEnd: boolean) {
         if (this.position instanceof Node)
             return (
                 this.position === node ||
@@ -328,7 +328,7 @@ export default class Caret {
             start !== undefined &&
             end !== undefined &&
             start <= this.position &&
-            this.position < end
+            (includeEnd ? this.position <= end : this.position < end)
         );
     }
 

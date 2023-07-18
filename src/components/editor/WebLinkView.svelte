@@ -8,7 +8,7 @@
     export let node: WebLink;
 
     let caret = getCaret();
-    $: editing = $caret?.isIn(node);
+    $: editing = $caret?.isIn(node, true);
 </script>
 
 {#if editing}

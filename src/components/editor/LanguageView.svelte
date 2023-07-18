@@ -9,7 +9,7 @@
 
     let caret = getCaret();
     $: parent = $caret?.source.root.getParent(node);
-    $: show = $caret === undefined || (parent && $caret.isIn(parent));
+    $: show = $caret === undefined || (parent && $caret.isIn(parent, true));
 </script>
 
 {#if show}<em><NodeView node={node.slash} /><NodeView node={node.lang} /></em

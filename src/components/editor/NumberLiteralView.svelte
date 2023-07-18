@@ -14,4 +14,4 @@
 <NodeView node={node.number} /><NodeView
     node={node.unit}
     small
-/>{#if $caret?.isIn(node)}<Adjust {node} />{/if}
+/>{#if $caret?.isIn(node, false)}<Adjust {node} />{/if}

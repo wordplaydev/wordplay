@@ -40,7 +40,7 @@
         context === undefined || $root === undefined
             ? node.getText()
             : node.localized(
-                  $caret === undefined || !$caret.isIn(node),
+                  $caret === undefined || !$caret.isIn(node, true),
                   $creator.getLocales(),
                   $root,
                   context

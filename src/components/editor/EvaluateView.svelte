@@ -24,7 +24,7 @@
 
     let nextBind: Bind | undefined;
     $: {
-        if ($caret && $project && $caret?.isIn(node)) {
+        if ($caret && $project && $caret?.isIn(node, true)) {
             const fun = node.getFunction($project.getNodeContext(node));
             if (fun) {
                 const mapping = node.getInputMapping(fun);

@@ -13,6 +13,6 @@
 
 <NodeView node={node.text} /><NodeView
     node={node.language}
-/>{#if node.getValue().text.length === 1 && $caret?.isIn(node)}<Adjust
+/>{#if node.getValue().text.length === 1 && $caret?.isIn(node, false)}<Adjust
         {node}
     />{/if}
