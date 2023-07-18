@@ -64,7 +64,7 @@ const GlyphSet = {
         symbols: '@,@',
     },
     Reference: {
-        symbols: PROPERTY_SYMBOL,
+        symbols: '@',
     },
     Bind: {
         symbols: BIND_SYMBOL,

@@ -26,11 +26,11 @@ import type Locale from '@locale/Locale';
 import AtomicExpression from './AtomicExpression';
 import NameException from '@runtime/NameException';
 import NodeRef from '@locale/NodeRef';
-import Emotion from '../lore/Emotion';
 import Evaluate from './Evaluate';
 import StreamDefinitionType from './StreamDefinitionType';
 import TokenType from './TokenType';
 import concretize, { type TemplateInput } from '../locale/concretize';
+import Glyphs from '../lore/Glyphs';
 
 /**
  * A reference to some Definition. Can optionally take the definition which it refers,
@@ -97,10 +97,7 @@ export default class Reference extends AtomicExpression {
         if (bindOrTypeVar === undefined) {
             const scope = this.getScope(context);
             conflicts.push(
-                new UnknownName(
-                    this.name,
-                    scope instanceof Type ? scope : undefined
-                )
+                new UnknownName(this, scope instanceof Type ? scope : undefined)
             );
         }
         // Type variables aren't alowed in type variables.
@@ -266,9 +263,6 @@ export default class Reference extends AtomicExpression {
     }
 
     getGlyphs() {
-        return {
-            symbols: this.name.getText(),
-            emotion: Emotion.kind,
-        };
+        return Glyphs.Reference;
     }
 }

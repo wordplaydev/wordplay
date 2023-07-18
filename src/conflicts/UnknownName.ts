@@ -5,12 +5,14 @@ import NodeRef from '@locale/NodeRef';
 import type Locale from '@locale/Locale';
 import Conflict from './Conflict';
 import concretize from '../locale/concretize';
+import type NameType from '../nodes/NameType';
+import type Reference from '../nodes/Reference';
 
 export class UnknownName extends Conflict {
-    readonly name: Token;
+    readonly name: Reference | NameType | Token;
     readonly type: Type | undefined;
 
-    constructor(name: Token, type: Type | undefined) {
+    constructor(name: Reference | NameType | Token, type: Type | undefined) {
         super(false);
         this.name = name;
         this.type = type;
