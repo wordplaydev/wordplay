@@ -91,7 +91,7 @@ const commands: Command[] = [
         execute: (caret, key, evaluator, creator) =>
             caret.moveInline(
                 false,
-                creator.getWritingDirection() === 'ltr' ? -1 : 1
+                creator.getWritingDirection() === 'ltr' ? 1 : -1
             ),
     },
     {
