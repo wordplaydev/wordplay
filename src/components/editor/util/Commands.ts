@@ -17,7 +17,6 @@ import { AND_SYMBOL, OR_SYMBOL, NOT_SYMBOL } from '@parser/Symbols';
 
 import type Source from '@nodes/Source';
 import { toClipboard } from './Clipboard';
-import type { Mode } from '@runtime/Evaluator';
 import type Evaluator from '@runtime/Evaluator';
 import FunctionDefinition from '@nodes/FunctionDefinition';
 import ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
@@ -30,10 +29,9 @@ export type Revision = [Source, Caret];
 export type Command = {
     description: string;
     key?: string;
-    shift?: boolean;
-    alt?: boolean;
-    control?: boolean;
-    mode: Mode | undefined;
+    shift: boolean | undefined;
+    alt: boolean | undefined;
+    control: boolean | undefined;
     execute: (
         caret: Caret,
         key: string,
@@ -55,8 +53,8 @@ const commands: Command[] = [
             'Move caret up a line to the closest horizontal position visually',
         alt: false,
         control: false,
+        shift: false,
         key: 'ArrowUp',
-        mode: undefined,
         execute: (caret: Caret) => caret.moveVertical(-1),
     },
     {
@@ -64,8 +62,8 @@ const commands: Command[] = [
             'Move caret down a line to the closest horizontal position visually',
         alt: false,
         control: false,
+        shift: false,
         key: 'ArrowDown',
-        mode: undefined,
         execute: (caret: Caret) => caret.moveVertical(1),
     },
     {
@@ -74,7 +72,7 @@ const commands: Command[] = [
         control: false,
         shift: false,
         key: 'ArrowLeft',
-        mode: undefined,
+
         execute: (caret, key, evaluator, creator) =>
             caret.moveInline(
                 false,
@@ -87,7 +85,7 @@ const commands: Command[] = [
         control: false,
         shift: false,
         key: 'ArrowRight',
-        mode: undefined,
+
         execute: (caret, key, evaluator, creator) =>
             caret.moveInline(
                 false,
@@ -100,7 +98,7 @@ const commands: Command[] = [
         shift: true,
         control: false,
         key: 'ArrowLeft',
-        mode: undefined,
+
         execute: (caret: Caret) => caret.left(true),
     },
     {
@@ -109,7 +107,7 @@ const commands: Command[] = [
         control: false,
         shift: true,
         key: 'ArrowRight',
-        mode: undefined,
+
         execute: (caret: Caret) => caret.right(true),
     },
     {
@@ -118,7 +116,7 @@ const commands: Command[] = [
         shift: false,
         control: false,
         key: 'ArrowLeft',
-        mode: undefined,
+
         execute: (caret: Caret) => caret.moveNodeHorizontal(-1),
     },
     {
@@ -127,14 +125,15 @@ const commands: Command[] = [
         shift: false,
         control: false,
         key: 'ArrowRight',
-        mode: undefined,
+
         execute: (caret: Caret) => caret.moveNodeHorizontal(1),
     },
     {
         description: 'Select the parent of the current caret position',
         key: 'Escape',
+        alt: undefined,
         control: false,
-        mode: undefined,
+        shift: undefined,
         execute: (caret: Caret) => {
             const position = caret.position;
             if (position instanceof Node) {
@@ -174,107 +173,115 @@ const commands: Command[] = [
     },
     {
         description: 'Select the entire program',
+        alt: false,
+        shift: false,
         control: true,
         key: 'KeyA',
-        mode: undefined,
         execute: (caret: Caret) => caret.withPosition(caret.getProgram()),
     },
     {
         description: `Insert reaction symbol (${STREAM_SYMBOL})`,
         alt: true,
+        shift: false,
+        control: false,
         key: 'KeyD',
-        mode: undefined,
         execute: (caret: Caret) => caret.insert(STREAM_SYMBOL),
     },
     {
         description: `Insert previous symbol (${PREVIOUS_SYMBOL})`,
         alt: true,
+        shift: false,
+        control: false,
         key: 'ArrowLeft',
-        mode: undefined,
         execute: (caret: Caret) => caret.insert(PREVIOUS_SYMBOL),
     },
     {
         description: `Insert convert symbol (${CONVERT_SYMBOL})`,
         alt: true,
+        shift: false,
+        control: false,
         key: 'ArrowRight',
-        mode: undefined,
         execute: (caret: Caret) => caret.insert(CONVERT_SYMBOL),
     },
     {
         description: `Increment`,
         control: false,
         alt: true,
+        shift: false,
         key: 'ArrowUp',
-        mode: undefined,
         execute: (caret: Caret) => caret.adjustLiteral(undefined, 1),
     },
     {
         description: `Decrement`,
+        shift: false,
         control: false,
         alt: true,
         key: 'ArrowDown',
-        mode: undefined,
         execute: (caret: Caret) => caret.adjustLiteral(undefined, -1),
     },
     {
         description: `Insert type open symbol (${TYPE_OPEN_SYMBOL})`,
         shift: true,
         control: true,
+        alt: false,
         key: 'Digit9',
-        mode: undefined,
         execute: (caret: Caret) => caret.insert(TYPE_OPEN_SYMBOL),
     },
     {
         description: `Insert type close symbol (${TYPE_CLOSE_SYMBOL})`,
         shift: true,
         control: true,
+        alt: false,
         key: 'Digit0',
-        mode: undefined,
         execute: (caret: Caret) => caret.insert(TYPE_CLOSE_SYMBOL),
     },
     {
         description: `Insert infinity symbol (∞)`,
         alt: true,
+        shift: false,
+        control: false,
         key: 'Digit5',
-        mode: undefined,
         execute: (caret: Caret) => caret.insert('∞'),
     },
     {
         description: 'Insert pi symbol (π)',
         alt: true,
+        shift: false,
+        control: false,
         key: 'KeyP',
-        mode: undefined,
         execute: (caret: Caret) => caret.insert('π'),
     },
     {
         description: `Insert Boolean AND symbol (${AND_SYMBOL})`,
         alt: true,
+        shift: false,
+        control: false,
         key: 'Digit6',
-        mode: undefined,
         execute: (caret: Caret) => caret.insert(AND_SYMBOL),
     },
     {
         description: `Insert Boolean OR symbol (${OR_SYMBOL})`,
         alt: true,
+        shift: false,
+        control: false,
         key: 'Digit7',
-        mode: undefined,
         execute: (caret: Caret) => caret.insert(OR_SYMBOL),
     },
     {
         description: `Insert type symbol (${TYPE_SYMBOL})`,
-        shift: false,
         alt: true,
+        shift: false,
+        control: false,
         key: 'Digit8',
-        mode: undefined,
+
         execute: (caret: Caret) => caret.insert(TYPE_SYMBOL),
     },
     {
         description: `Insert true symbol (${TRUE_SYMBOL})`,
+        alt: true,
         shift: false,
         control: false,
-        alt: true,
         key: 'Digit9',
-        mode: undefined,
         execute: (caret: Caret) => caret.insert(TRUE_SYMBOL),
     },
     {
@@ -283,28 +290,30 @@ const commands: Command[] = [
         control: false,
         alt: true,
         key: 'Digit0',
-        mode: undefined,
         execute: (caret: Caret) => caret.insert(FALSE_SYMBOL),
     },
     {
         description: 'Insert not equal symbol (≠)',
         alt: true,
+        shift: false,
+        control: false,
         key: 'Equal',
-        mode: undefined,
         execute: (caret: Caret) => caret.insert('≠'),
     },
     {
         description: 'Insert product symbol (·)',
         alt: true,
+        shift: false,
+        control: false,
         key: 'x',
-        mode: undefined,
         execute: (caret: Caret) => caret.insert('·'),
     },
     {
         description: `Insert function symbol (${FUNCTION_SYMBOL})`,
         alt: true,
         key: 'KeyF',
-        mode: undefined,
+        shift: false,
+        control: false,
         execute: (caret: Caret) =>
             caret.insertNode(
                 FunctionDefinition.make(
@@ -320,43 +329,50 @@ const commands: Command[] = [
     {
         description: `Insert Boolean NOT symbol (${NOT_SYMBOL})`,
         alt: true,
+        shift: false,
+        control: false,
         key: 'Digit1',
-        mode: undefined,
         execute: (caret: Caret) => caret.insert(NOT_SYMBOL),
     },
     {
         description: 'Insert less than or equal to symbol (≤)',
+        shift: false,
+        control: false,
         alt: true,
         key: 'Comma',
-        mode: undefined,
         execute: (caret: Caret) => caret.insert('≤'),
     },
     {
         description: 'Insert greater than or equal to symbol (≥)',
+        shift: false,
+        control: false,
         alt: true,
         key: 'Period',
-        mode: undefined,
         execute: (caret: Caret) => caret.insert('≥'),
     },
     {
         description: `Insert etc symbol (${ETC_SYMBOL})`,
+        shift: false,
+        control: false,
         alt: true,
         key: 'Semicolon',
-        mode: undefined,
         execute: (caret: Caret) => caret.insert(ETC_SYMBOL),
     },
     {
         description: 'Insert multiply symbol (·)',
         alt: true,
+        shift: false,
+        control: false,
         key: 'KeyX',
-        mode: undefined,
+
         execute: (caret: Caret) => caret.insert('·'),
     },
     {
         description: 'Insert divide symbol (÷)',
         alt: true,
+        shift: false,
+        control: false,
         key: 'Slash',
-        mode: undefined,
         execute: (caret: Caret) => caret.insert('÷'),
     },
     {
@@ -365,7 +381,6 @@ const commands: Command[] = [
         shift: false,
         alt: false,
         control: false,
-        mode: undefined,
         execute: (caret: Caret) =>
             caret.isNode() ? caret.enter() : caret.insert('\n'),
     },
@@ -375,7 +390,7 @@ const commands: Command[] = [
         shift: false,
         alt: false,
         control: true,
-        mode: undefined,
+
         execute: (caret: Caret, _, evaluator) => {
             if (caret.position instanceof Node) {
                 evaluator.stepToNode(caret.position);
@@ -389,7 +404,7 @@ const commands: Command[] = [
         shift: false,
         alt: false,
         control: true,
-        mode: undefined,
+
         execute: (caret: Caret, _, evaluator) => {
             if (caret.position instanceof Node) {
                 evaluator.stepBackToNode(caret.position);
@@ -401,7 +416,8 @@ const commands: Command[] = [
         description: 'Move to next',
         key: 'Tab',
         shift: false,
-        mode: undefined,
+        control: false,
+        alt: false,
         execute: (caret: Caret) =>
             caret.isNode() ? caret.moveInline(false, 1) : undefined,
     },
@@ -409,21 +425,25 @@ const commands: Command[] = [
         description: 'Move to previous',
         key: 'Tab',
         shift: true,
-        mode: undefined,
+        control: false,
+        alt: false,
         execute: (caret: Caret) =>
             caret.isNode() ? caret.moveInline(false, -1) : undefined,
     },
     {
         description: 'Delete previous character',
         key: 'Backspace',
-        mode: undefined,
+        shift: false,
+        control: false,
+        alt: false,
         execute: (caret: Caret) => caret.backspace(),
     },
     {
         description: 'Copy',
         control: true,
+        shift: false,
+        alt: false,
         key: 'KeyC',
-        mode: undefined,
         execute: (caret: Caret) => {
             if (!(caret.position instanceof Node)) return undefined;
             return toClipboard(caret.position, caret.source.spaces);
@@ -432,8 +452,9 @@ const commands: Command[] = [
     {
         description: 'Cut',
         control: true,
+        shift: false,
+        alt: false,
         key: 'KeyX',
-        mode: undefined,
         execute: (caret: Caret) => {
             if (!(caret.position instanceof Node)) return undefined;
             toClipboard(caret.position, caret.source.spaces);
@@ -443,8 +464,9 @@ const commands: Command[] = [
     {
         description: 'Paste',
         control: true,
+        shift: false,
+        alt: false,
         key: 'KeyV',
-        mode: undefined,
         execute: async (caret: Caret) => {
             // See if there's something on the clipboard.
             if (navigator.clipboard === undefined) return undefined;
@@ -465,21 +487,24 @@ const commands: Command[] = [
     {
         description: 'Parenthesize',
         key: '(',
-        mode: undefined,
+        control: false,
+        shift: undefined,
+        alt: undefined,
         execute: (caret: Caret) => caret.wrap('('),
     },
     {
         description: 'Listify',
+        control: undefined,
+        shift: undefined,
+        alt: undefined,
         key: '[',
-        mode: undefined,
         execute: (caret: Caret) => caret.wrap('['),
     },
     {
         description: 'Type',
-        key: undefined,
-        mode: undefined,
-        alt: false,
-        control: false,
+        control: undefined,
+        shift: undefined,
+        alt: undefined,
         execute: (caret, key) =>
             key.length === 1 ? caret.insert(key) : undefined,
     },
@@ -489,7 +514,7 @@ const commands: Command[] = [
         control: true,
         alt: false,
         key: 'z',
-        mode: undefined,
+
         execute: (caret, key, evaluator, creator) =>
             creator.undoProject(evaluator.project.id) === true,
     },
@@ -499,7 +524,7 @@ const commands: Command[] = [
         control: true,
         alt: false,
         key: 'z',
-        mode: undefined,
+
         execute: (caret, key, evaluator, creator) =>
             creator.redoProject(evaluator.project.id) === true,
     },

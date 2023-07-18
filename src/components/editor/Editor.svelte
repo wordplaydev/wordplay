@@ -1050,9 +1050,7 @@
                 (command.alt === undefined || command.alt === event.altKey) &&
                 (command.key === undefined ||
                     command.key === event.code ||
-                    command.key === event.key) &&
-                (command.mode === undefined ||
-                    evaluator.getMode() === command.mode)
+                    command.key === event.key)
             ) {
                 // If so, execute it.
                 const result = command.execute(
