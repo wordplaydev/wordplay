@@ -22,7 +22,8 @@
     title={tip}
     aria-label={tip}
     tabindex={enabled ? 0 : null}
-    on:pointerdown={() => (enabled ? action() : undefined)}
+    on:dblclick|stopPropagation
+    on:pointerdown|stopPropagation={() => (enabled ? action() : undefined)}
     on:keydown={(event) =>
         event.key === 'Enter' || event.key === ' ' ? action() : undefined}
     aria-disabled={!enabled}

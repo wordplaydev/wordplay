@@ -5137,6 +5137,10 @@
                 "dark": {
                   "type": "string"
                 },
+                "decrement": {
+                  "description": "The down arrow that appears next to numbers, text, and booleans",
+                  "type": "string"
+                },
                 "deleteProject": {
                   "type": "string"
                 },
@@ -5153,6 +5157,7 @@
                   "type": "string"
                 },
                 "expandCode": {
+                  "description": "The button shown when a list of code is ellided; clicking it shows the hidden code.",
                   "type": "string"
                 },
                 "fit": {
@@ -5177,6 +5182,10 @@
                   "type": "string"
                 },
                 "horizontal": {
+                  "type": "string"
+                },
+                "increment": {
+                  "description": "The up arrow that appears next to numbers, text, and booleans",
                   "type": "string"
                 },
                 "moveContentDown": {
@@ -5323,7 +5332,9 @@
                 "previousLessonStep",
                 "revertProject",
                 "showOutput",
-                "expandCode"
+                "expandCode",
+                "increment",
+                "decrement"
               ],
               "type": "object"
             }

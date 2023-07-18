@@ -18,6 +18,7 @@ import type { User } from 'firebase/auth';
 import type Evaluator from '@runtime/Evaluator';
 import type Locale from '@locale/Locale';
 import type Root from '@nodes/Root';
+import type { Edit } from '../editor/util/Commands';
 
 // App related contexts
 
@@ -89,6 +90,14 @@ export type CaretContext = Writable<Caret> | undefined;
 export const CaretSymbol = Symbol('caret');
 export function getCaret() {
     return getContext<CaretContext>(CaretSymbol);
+}
+
+export type EditHandlerContext = Writable<
+    (edit: Edit | undefined, idle: IdleKind) => void
+>;
+export const EditHandlerSymbol = Symbol('editor');
+export function getEditor() {
+    return getContext<EditHandlerContext>(EditHandlerSymbol);
 }
 
 export const ConflictsSymbol = Symbol('conflicts');

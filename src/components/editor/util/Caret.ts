@@ -326,7 +326,7 @@ export default class Caret {
             start !== undefined &&
             end !== undefined &&
             start <= this.position &&
-            this.position <= end
+            this.position < end
         );
     }
 
@@ -1010,5 +1010,30 @@ export default class Caret {
 
         const newSource = this.source.replace(node, wrapper);
         return [newSource, this.withSource(newSource).withAddition(wrapper)];
+    }
+
+    adjustLiteral(node: Node | undefined, direction: -1 | 1): Edit | undefined {
+        // Find the token we're at
+        const token = node
+            ? node
+            : typeof this.position === 'number'
+            ? this.tokenExcludingSpace ?? this.tokenPrior
+            : this.position;
+
+        if (token === undefined) return;
+
+        const ancestors = [token, ...this.source.root.getAncestors(token)];
+        for (const ancestor of ancestors) {
+            const revision = ancestor.adjust(direction);
+            if (revision) {
+                const newSource = this.source.replace(ancestor, revision);
+                return [
+                    newSource,
+                    this.withPosition(revision)
+                        .withSource(newSource)
+                        .withAddition(revision),
+                ];
+            }
+        }
     }
 }

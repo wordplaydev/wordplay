@@ -34,10 +34,10 @@ export default class TextLiteral extends Literal {
         this.computeChildren();
     }
 
-    static make(text?: string, format?: Language) {
+    static make(text?: string, language?: Language) {
         return new TextLiteral(
             new Token(`'${text ?? ''}'`, TokenType.Text),
-            format
+            language
         );
     }
 
@@ -118,6 +118,19 @@ export default class TextLiteral extends Literal {
 
     getDescriptionInputs() {
         return [this.getText()];
+    }
+
+    adjust(direction: -1 | 1): this | undefined {
+        const text = this.getValue().text;
+        const last = text.codePointAt(text.length - 1);
+        if (last !== undefined) {
+            return TextLiteral.make(
+                text.substring(0, text.length - 1) +
+                    String.fromCodePoint(last + direction),
+                this.language
+            ) as this;
+        }
+        return undefined;
     }
 }
 

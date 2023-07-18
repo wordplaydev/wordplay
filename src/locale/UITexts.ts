@@ -74,6 +74,10 @@ type UITexts = {
         showOutput: string;
         /** The button shown when a list of code is ellided; clicking it shows the hidden code. */
         expandCode: string;
+        /** The up arrow that appears next to numbers, text, and booleans */
+        increment: string;
+        /** The down arrow that appears next to numbers, text, and booleans */
+        decrement: string;
     };
     prompt: {
         deleteSource: string;

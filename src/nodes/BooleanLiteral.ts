@@ -101,4 +101,8 @@ export default class BooleanLiteral extends Literal {
     getGlyphs() {
         return Glyphs.BooleanLiteral;
     }
+
+    adjust(): this | undefined {
+        return BooleanLiteral.make(!this.bool()) as this;
+    }
 }

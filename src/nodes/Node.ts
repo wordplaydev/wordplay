@@ -596,6 +596,11 @@ export default abstract class Node {
         return this.clone({ original, replacement });
     }
 
+    /** Adjust this node in the requested direction, if that makes sense. By default, do nothing. */
+    adjust(direction: -1 | 1): this | undefined {
+        return undefined;
+    }
+
     // WHITESPACE
 
     isBlockFor(child: Node) {

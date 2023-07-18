@@ -46,6 +46,10 @@ export default class NumberLiteral extends Literal {
         );
     }
 
+    isPercent() {
+        return this.number.getText().endsWith('%');
+    }
+
     getGrammar() {
         return [
             { name: 'number', types: [Token] },
@@ -123,5 +127,22 @@ export default class NumberLiteral extends Literal {
 
     getDescriptionInputs(_: Locale, __: Context): TemplateInput[] {
         return [this.number.getText(), this.unit.toWordplay()];
+    }
+
+    adjust(direction: -1 | 1): this | undefined {
+        const value = this.getValue().num;
+
+        const isPercent = this.isPercent();
+        const amount = this.isPercent() ? 0.01 : 1;
+
+        return value
+            ? (NumberLiteral.make(
+                  value
+                      .plus(direction * amount)
+                      .times(isPercent ? 100 : 1)
+                      .toString() + (isPercent ? '%' : ''),
+                  this.unit
+              ) as this)
+            : undefined;
     }
 }

@@ -32,6 +32,7 @@
         getKeyboardEditIdle,
         getInsertions,
         IdleKind,
+        EditHandlerSymbol,
     } from '../project/Contexts';
     import {
         type Highlights,
@@ -135,6 +136,10 @@
     // A store of the currently requested node for which to show a menu.
     const menuNode = writable<Node | undefined>(undefined);
     setContext(MenuNodeSymbol, menuNode);
+
+    // A store of the handle edit function
+    const editHandler = writable<typeof handleEdit>(handleEdit);
+    setContext(EditHandlerSymbol, editHandler);
 
     // When the menu node changes, show the menu.
     const unsubscribe = menuNode.subscribe((node) => {

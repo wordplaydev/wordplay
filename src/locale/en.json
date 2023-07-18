@@ -2928,7 +2928,9 @@
             "previousLessonStep": "previous step",
             "revertProject": "revert to original code",
             "showOutput": "show this output on stage",
-            "expandCode": "expand this collapsed code"
+            "expandCode": "expand this collapsed code",
+            "increment": "increase value by 1",
+            "decrement": "decrease value by 1"
         },
         "prompt": { "deleteSource": "delete", "deleteProject": "delete" },
         "labels": {

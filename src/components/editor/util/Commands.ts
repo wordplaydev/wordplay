@@ -1,11 +1,9 @@
 import type Caret from './Caret';
 import Node from '@nodes/Node';
 import {
-    BORROW_SYMBOL,
     CONVERT_SYMBOL,
     FALSE_SYMBOL,
     FUNCTION_SYMBOL,
-    SHARE_SYMBOL,
     STREAM_SYMBOL,
     TRUE_SYMBOL,
     TYPE_SYMBOL,
@@ -177,13 +175,6 @@ const commands: Command[] = [
         execute: (caret: Caret) => caret.insert(STREAM_SYMBOL),
     },
     {
-        description: `Insert borrow symbol (${BORROW_SYMBOL})`,
-        alt: true,
-        key: 'ArrowDown',
-        mode: undefined,
-        execute: (caret: Caret) => caret.insert(BORROW_SYMBOL),
-    },
-    {
         description: `Insert previous symbol (${PREVIOUS_SYMBOL})`,
         alt: true,
         key: 'ArrowLeft',
@@ -198,11 +189,20 @@ const commands: Command[] = [
         execute: (caret: Caret) => caret.insert(CONVERT_SYMBOL),
     },
     {
-        description: `Insert share symbol (${SHARE_SYMBOL})`,
+        description: `Increment`,
+        control: false,
         alt: true,
         key: 'ArrowUp',
         mode: undefined,
-        execute: (caret: Caret) => caret.insert(SHARE_SYMBOL),
+        execute: (caret: Caret) => caret.adjustLiteral(undefined, 1),
+    },
+    {
+        description: `Decrement`,
+        control: false,
+        alt: true,
+        key: 'ArrowDown',
+        mode: undefined,
+        execute: (caret: Caret) => caret.adjustLiteral(undefined, -1),
     },
     {
         description: `Insert type open symbol (${TYPE_OPEN_SYMBOL})`,
@@ -219,13 +219,6 @@ const commands: Command[] = [
         key: 'Digit0',
         mode: undefined,
         execute: (caret: Caret) => caret.insert(TYPE_CLOSE_SYMBOL),
-    },
-    {
-        description: `Insert share (${SHARE_SYMBOL})`,
-        alt: true,
-        key: 'ArrowUp',
-        mode: undefined,
-        execute: (caret: Caret) => caret.insert(SHARE_SYMBOL),
     },
     {
         description: `Insert infinity symbol (∞)`,
