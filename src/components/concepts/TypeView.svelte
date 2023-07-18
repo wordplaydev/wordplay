@@ -5,6 +5,7 @@
     import { OR_SYMBOL } from '@parser/Symbols';
     import type Type from '@nodes/Type';
     import type Context from '@nodes/Context';
+    import type FunctionConcept from '../../concepts/FunctionConcept';
 
     export let type: Type;
     export let context: Context;
@@ -17,7 +18,7 @@
         .list()
         .map((type) => [type, $index?.getConceptOfType(type)] as const);
 
-    function navigate(type: StructureConcept) {
+    function navigate(type: StructureConcept | FunctionConcept) {
         path.set([...$path, type]);
     }
 </script>

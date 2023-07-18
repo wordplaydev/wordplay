@@ -19,6 +19,7 @@ import {
 import type TypeSet from '@nodes/TypeSet';
 import type StreamDefinition from '../nodes/StreamDefinition';
 import NodeConcept from './NodeConcept';
+import FunctionType from '../nodes/FunctionType';
 
 export default class ConceptIndex {
     readonly concepts: Concept[];
@@ -167,6 +168,13 @@ export default class ConceptIndex {
         );
     }
 
+    getFunctionConcept(fun: FunctionDefinition): FunctionConcept | undefined {
+        return this.concepts.find(
+            (concept): concept is FunctionConcept =>
+                concept instanceof FunctionConcept && concept.definition === fun
+        );
+    }
+
     getStructureConcept(definition: Node) {
         return this.concepts.find(
             (concept) =>
@@ -192,7 +200,12 @@ export default class ConceptIndex {
         return this.primaryConcepts.filter((c) => c.purpose === purpose);
     }
 
-    getConceptOfType(type: Type): StructureConcept | undefined {
+    getConceptOfType(
+        type: Type
+    ): FunctionConcept | StructureConcept | undefined {
+        if (type instanceof FunctionType && type.definition)
+            return this.getFunctionConcept(type.definition);
+
         return this.concepts.find(
             (c): c is StructureConcept =>
                 c instanceof StructureConcept && c.representsType(type)

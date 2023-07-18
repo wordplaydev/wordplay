@@ -9,7 +9,7 @@ import Purpose from './Purpose';
 import type StreamDefinition from '../nodes/StreamDefinition';
 import Emotion from '../lore/Emotion';
 import BindConcept from './BindConcept';
-import type StructureConcept from './StructureConcept';
+import StructureConcept from './StructureConcept';
 import Evaluate from '../nodes/Evaluate';
 import ExpressionPlaceholder from '../nodes/ExpressionPlaceholder';
 import type Markup from '../nodes/Markup';
@@ -71,7 +71,8 @@ export default class StreamConcept extends Concept {
     }
 
     getTypeConcept(index: ConceptIndex): StructureConcept | undefined {
-        return index.getConceptOfType(this.definition.output);
+        const concept = index.getConceptOfType(this.definition.output);
+        return concept instanceof StructureConcept ? concept : undefined;
     }
 
     getRepresentation() {

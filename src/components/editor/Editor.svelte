@@ -33,6 +33,7 @@
         getInsertions,
         IdleKind,
         EditHandlerSymbol,
+        getConceptIndex,
     } from '../project/Contexts';
     import {
         type Highlights,
@@ -63,12 +64,13 @@
     import { TAB_WIDTH } from '../../parser/Spaces';
     import PlaceholderView from './PlaceholderView.svelte';
     import Expression from '../../nodes/Expression';
-    import { TYPE_SYMBOL } from '../../parser/Symbols';
+    import { DOCUMENTATION_SYMBOL, TYPE_SYMBOL } from '../../parser/Symbols';
     import { creator } from '../../db/Creator';
     import concretize from '../../locale/concretize';
     import { getLanguageDirection } from '../../locale/LanguageCode';
     import Button from '../widgets/Button.svelte';
     import OutputView from '../output/OutputView.svelte';
+    import ConceptLinkUI from '../concepts/ConceptLinkUI.svelte';
 
     export let evaluator: Evaluator;
     export let project: Project;
@@ -90,6 +92,7 @@
     const nodeConflicts = getConflicts();
     const keyboardEditIdle = getKeyboardEditIdle();
     const insertions = getInsertions();
+    const concepts = getConceptIndex();
 
     const dispatch = createEventDispatcher();
 
@@ -231,11 +234,9 @@
 
     $: caretExpressionType =
         $caret.position instanceof Expression
-            ? TYPE_SYMBOL +
-              $caret.position
+            ? $caret.position
                   .getType(project.getContext(source))
                   .simplify(project.getContext(source))
-                  .toWordplay()
             : undefined;
 
     // When the caret changes, if it's a node, focus on the node, and if it's an index, focus on the hidden text field.
@@ -1327,22 +1328,35 @@
         on:input={handleTextInput}
     />
     <!-- 
-        This is a localized description of the current caret position, a live region for screen readers
+        This is a localized description of the current caret position, a live region for screen readers,
         and a visual label for sighted folks.
      -->
     {#key $caret.position}
         <div
             class="caret-description"
             class:node={$caret.isNode()}
+            on:pointerdown|stopPropagation
             style:left={caretLocation
                 ? `calc(${caretLocation.left} - ${OutlinePadding}px)`
                 : undefined}
             style:top={caretLocation ? `${caretLocation.bottom}px` : undefined}
-            >{#if $caret.position instanceof Node}
+            >{#if $caret.position instanceof Node}{@const concept =
+                    $concepts?.getNodeConcept(
+                        $caret.position
+                    )}{@const typeConcept =
+                    $concepts && caretExpressionType
+                        ? $concepts.getConceptOfType(caretExpressionType)
+                        : undefined}<!-- Make a link to the node's documentation -->{#if concept}<ConceptLinkUI
+                        link={concept}
+                        label={DOCUMENTATION_SYMBOL}
+                    />{/if}
                 <!-- Show the node's label and type, if an expression -->
                 {$caret.position.getLabel(
                     $creator.getLocale()
-                )}{#if caretExpressionType}{caretExpressionType}{/if}
+                )}{#if caretExpressionType}&nbsp;{TYPE_SYMBOL}&nbsp;{#if typeConcept}<ConceptLinkUI
+                            link={typeConcept}
+                            label={caretExpressionType.toWordplay()}
+                        />{:else}{caretExpressionType.toWordplay()}{/if}{/if}
                 <PlaceholderView node={$caret.position} />{/if}<div
                 class="screen-reader-description"
                 aria-live="polite"
@@ -1358,7 +1372,9 @@
                               project.getNodeContext($caret.position)
                           )
                           .toText() +
-                      (caretExpressionType ? `, ${caretExpressionType}` : '')
+                      (caretExpressionType
+                          ? `, ${caretExpressionType.toWordplay()}`
+                          : '')
                     : $caret.tokenExcludingSpace
                     ? concretize(
                           $creator.getLocale(),
@@ -1443,18 +1459,17 @@
 
     .caret-description {
         position: absolute;
-        font-size: small;
-        color: var(--wordplay-background);
         background: var(--wordplay-highlight);
-        padding-left: var(--wordplay-spacing);
-        padding-right: var(--wordplay-spacing);
+        color: var(--wordplay-background);
+        /* border:  var(--wordplay-border-width) solid var(--wordplay-border-color); */
+        padding-left: calc(var(--wordplay-spacing) / 2);
+        padding-right: calc(var(--wordplay-spacing) / 2);
         border-radius: var(--wordplay-border-radius);
         opacity: 0;
     }
 
     .caret-description.node {
         opacity: 1;
-        font-style: italic;
     }
 
     .screen-reader-description {

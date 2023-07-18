@@ -106,7 +106,6 @@
 <style>
     span {
         display: inline-block;
-        font-style: italic;
     }
 
     span.interactive .long {
@@ -115,7 +114,12 @@
     }
 
     span.interactive:hover {
-        color: var(--wordplay-highlight);
+        transform: scale(1.2);
         cursor: pointer;
+    }
+
+    span:focus {
+        outline: none;
+        text-decoration: underline;
     }
 </style>
