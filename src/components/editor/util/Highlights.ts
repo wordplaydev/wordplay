@@ -13,6 +13,8 @@ import type Caret from './Caret';
 import { getUnderlineOf, type Outline } from './outline';
 import getOutlineOf from './outline';
 import Reference from '../../../nodes/Reference';
+import Program from '../../../nodes/Program';
+import Block from '../../../nodes/Block';
 
 /** Highlight types and whether they are rendered above or below the code. True for above. */
 export const HighlightTypes = {
@@ -198,7 +200,11 @@ export function getHighlights(
         const token = source.getTokenAt(caret.position);
         if (token) caretParent = source.root.getParent(token);
     }
-    if (caretParent)
+    if (
+        caretParent &&
+        !(caretParent instanceof Program) &&
+        !(caretParent instanceof Block && caretParent.isRoot())
+    )
         addHighlight(source, newHighlights, caretParent, 'hovered');
 
     const reference =
