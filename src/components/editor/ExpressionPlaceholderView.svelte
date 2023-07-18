@@ -3,14 +3,28 @@
 <script lang="ts">
     import type ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
     import NodeView from './NodeView.svelte';
+    import { getProject } from '../project/Contexts';
+    import RootView from '../project/RootView.svelte';
 
     export let node: ExpressionPlaceholder;
+
+    const project = getProject();
+    $: inferredType = $project
+        ? node.getType($project.getNodeContext(node))
+        : undefined;
 </script>
 
 <span class="placeholder"
     ><span class={node.dot && node.type ? 'hidden' : ''}
         ><NodeView node={node.placeholder} /><NodeView node={node.dot} /></span
-    ><NodeView node={node.type} /></span
+    >{#if node.type}<NodeView
+            node={node.type}
+        />{:else if inferredType}<RootView
+            inline
+            inert
+            localized
+            node={inferredType}
+        />{/if}</span
 >
 
 <style>

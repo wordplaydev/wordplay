@@ -23,6 +23,10 @@ import Glyphs from '../lore/Glyphs';
 import type Root from './Root';
 import concretize from '../locale/concretize';
 import NodeRef from '../locale/NodeRef';
+import Evaluate from './Evaluate';
+import getConcreteExpectedType from './Generics';
+import BinaryOperation from './BinaryOperation';
+import FunctionDefinition from './FunctionDefinition';
 
 export default class ExpressionPlaceholder extends AtomicExpression {
     readonly placeholder: Token;
@@ -92,7 +96,34 @@ export default class ExpressionPlaceholder extends AtomicExpression {
         return [new Placeholder(this)];
     }
 
-    computeType(): Type {
+    computeType(context: Context): Type {
+        // Is the type given? Return it.
+        if (this.type) return this.type;
+
+        // Try to infer from surroundings.
+        const parent = context.getRoot(this)?.getParent(this);
+
+        // In an evaluate? Infer from the function's bind type.
+        if (parent instanceof Evaluate || parent instanceof BinaryOperation) {
+            const fun = parent.getFunction(context);
+            if (fun) {
+                const bind =
+                    parent instanceof Evaluate
+                        ? parent
+                              .getInputMapping(fun)
+                              .inputs.find((map) => map.given === this)
+                              ?.expected
+                        : fun.inputs[0];
+                if (bind) {
+                    return getConcreteExpectedType(fun, bind, parent, context);
+                }
+            }
+        }
+        // Expression of a function definition? Infer from the function's output type.
+        else if (parent instanceof FunctionDefinition) {
+            if (parent.output) return parent.output;
+        }
+
         return this.type ?? new UnimplementedType(this);
     }
 

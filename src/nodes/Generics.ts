@@ -22,8 +22,8 @@ export type EvaluationType = Evaluate | BinaryOperation | UnaryOperation;
  * using the information in the given evaluation.
  *
  * @param definition The function or structure definition that potentially defines type variables that need to be concretized in the given evaluation.
- * @param evaluation The node that is evaluating the given definition.
  * @param input The bind on the definition whose concrete type we want, or undefined if we're trying to get the definition's output.
+ * @param evaluation The node that is evaluating the given definition.
  * @param context The context in which we're evaluating types.
  */
 export default function getConcreteExpectedType(
