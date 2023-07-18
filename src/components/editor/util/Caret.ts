@@ -25,7 +25,6 @@ export type CaretPosition = number | Node;
 export type Entry = 'previous' | 'next' | undefined;
 
 export default class Caret {
-    readonly time: number;
     readonly source: Source;
     readonly position: CaretPosition;
     /** The latest column of the caret in the code with preferred spacing */
@@ -47,7 +46,6 @@ export default class Caret {
         entry: Entry,
         addition: Node | undefined
     ) {
-        this.time = Date.now();
         this.source = source;
         this.position = position;
         // No column provided? Compute it from the position. Otherwise set it.
@@ -77,6 +75,10 @@ export default class Caret {
             typeof this.position === 'number'
                 ? this.source.getTokenAt(this.position, false)
                 : undefined;
+    }
+
+    getTokenPrior() {
+        return this.tokenPrior;
     }
 
     atBeginningOfTokenSpace() {
