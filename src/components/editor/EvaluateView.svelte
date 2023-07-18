@@ -86,7 +86,8 @@
     >{/if}<NodeView node={node.close} />
 
 <style>
-    .hint {
-        opacity: 0.25;
+    .hint :global(.token-view) {
+        color: var(--wordplay-inactive-color);
+        font-style: italic;
     }
 </style>
