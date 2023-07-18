@@ -502,7 +502,7 @@ const commands: Command[] = [
     },
     {
         description: 'Type',
-        control: undefined,
+        control: false,
         shift: undefined,
         alt: undefined,
         execute: (caret, key) =>
