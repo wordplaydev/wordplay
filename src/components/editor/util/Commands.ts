@@ -22,7 +22,7 @@ import type Evaluator from '@runtime/Evaluator';
 import FunctionDefinition from '@nodes/FunctionDefinition';
 import ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
 import Names from '@nodes/Names';
-import type { WritingDirection } from '../../../locale/LanguageCode';
+import type { Creator } from '../../../db/Creator';
 
 export type Edit = Caret | Revision;
 export type Revision = [Source, Caret];
@@ -36,11 +36,17 @@ export type Command = {
     mode: Mode | undefined;
     execute: (
         caret: Caret,
-        editor: HTMLElement,
-        evaluator: Evaluator,
         key: string,
-        direction: WritingDirection
-    ) => Edit | Promise<Edit | undefined> | boolean | undefined;
+        evaluator: Evaluator,
+        creator: Creator
+    ) => // Process this edit
+    | Edit
+        // Wait and process this edit
+        | Promise<Edit | undefined>
+        // Handled
+        | boolean
+        // Not handled
+        | undefined;
 };
 
 const commands: Command[] = [
@@ -69,8 +75,11 @@ const commands: Command[] = [
         shift: false,
         key: 'ArrowLeft',
         mode: undefined,
-        execute: (caret: Caret, _, __, ___, direction) =>
-            caret.moveInline(false, direction === 'ltr' ? -1 : 1),
+        execute: (caret, key, evaluator, creator) =>
+            caret.moveInline(
+                false,
+                creator.getWritingDirection() === 'ltr' ? -1 : 1
+            ),
     },
     {
         description: 'Move the caret one position right',
@@ -79,8 +88,11 @@ const commands: Command[] = [
         shift: false,
         key: 'ArrowRight',
         mode: undefined,
-        execute: (caret: Caret, _, __, ___, direction) =>
-            caret.moveInline(false, direction === 'ltr' ? 1 : -1),
+        execute: (caret, key, evaluator, creator) =>
+            caret.moveInline(
+                false,
+                creator.getWritingDirection() === 'ltr' ? -1 : 1
+            ),
     },
     {
         description: 'Move the caret one sibling left',
@@ -468,8 +480,28 @@ const commands: Command[] = [
         mode: undefined,
         alt: false,
         control: false,
-        execute: (caret: Caret, _: HTMLElement, __: Evaluator, key: string) =>
+        execute: (caret, key) =>
             key.length === 1 ? caret.insert(key) : undefined,
+    },
+    {
+        description: 'undo',
+        shift: false,
+        control: true,
+        alt: false,
+        key: 'z',
+        mode: undefined,
+        execute: (caret, key, evaluator, creator) =>
+            creator.undoProject(evaluator.project.id) === true,
+    },
+    {
+        description: 'redo',
+        shift: true,
+        control: true,
+        alt: false,
+        key: 'z',
+        mode: undefined,
+        execute: (caret, key, evaluator, creator) =>
+            creator.redoProject(evaluator.project.id) === true,
     },
 ];
 

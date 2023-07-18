@@ -48,7 +48,7 @@ const deviceSpecific: Record<keyof CreatorConfig, boolean> = {
 const ANIMATION_DURATION = 200;
 
 // Remember this many project edits.
-const PROJECT_HISTORY_LIMIT = 128;
+const PROJECT_HISTORY_LIMIT = 1000;
 
 export enum SaveStatus {
     Saved = 'saved',
@@ -123,6 +123,8 @@ export class Creator {
             current: Project;
             // Previous versions of the project.
             // It always contains the current version of the project and is therefore never empty.
+            // There is one history for the entire project; no per-source history.
+            // History is not persisted, it's session-only.
             history: [Project, ...Project[]];
             // The index of the current project in the history.
             // The present is the last value in the history.
@@ -415,8 +417,11 @@ export class Creator {
             return;
         }
 
-        // Is the undo pointer before the end? Trim the future.
-        info.history.splice(info.index, info.history.length - info.index - 1);
+        // Is the undo pointer before the end? Trim the future, keeping the present intact.
+        info.history.splice(
+            info.index + 1,
+            info.history.length - info.index - 1
+        );
 
         // Is the length of the history great than the limit? Trim it.
         if (info.history.length > PROJECT_HISTORY_LIMIT)
@@ -426,7 +431,7 @@ export class Creator {
         info.history.push(revised);
 
         // Reset the pointer to the end of the history
-        info.index = info.history.length;
+        info.index = info.history.length - 1;
 
         // Set the current project to the revised project.
         info.current = revised;
@@ -434,27 +439,28 @@ export class Creator {
         // Mark unsaved
         info.saved = false;
 
-        // Request a save.
+        // Request a save to persist the current version.
         this.requestProjectsSave();
     }
 
     undoProject(id: string) {
-        this.undoRedoProject(id, -1);
+        return this.undoRedoProject(id, -1);
     }
 
     redoProject(id: string) {
-        this.undoRedoProject(id, 1);
+        return this.undoRedoProject(id, 1);
     }
 
-    undoRedoProject(id: string, direction: -1 | 1) {
+    undoRedoProject(id: string, direction: -1 | 1): boolean {
         const info = this.projects.get(id);
         // No record of this project? Do nothing.
-        if (info === undefined) return;
+        if (info === undefined) return false;
 
         // In the present? Do nothing.
-        if (direction > 0 && info.index === info.history.length - 1) return;
+        if (direction > 0 && info.index === info.history.length - 1)
+            return false;
         // No more history? Do nothing.
-        else if (direction < 0 && info.index === 0) return;
+        else if (direction < 0 && info.index === 0) return false;
 
         // Move the index back a step in time
         info.index += direction;
@@ -463,6 +469,10 @@ export class Creator {
         info.current = info.history[info.index];
 
         this.requestProjectsSave();
+
+        console.log(info);
+
+        return true;
     }
 
     /** Shorthand for revising nodes in a project */

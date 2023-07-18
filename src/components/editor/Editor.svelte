@@ -67,7 +67,6 @@
     import { DOCUMENTATION_SYMBOL, TYPE_SYMBOL } from '../../parser/Symbols';
     import { creator } from '../../db/Creator';
     import concretize from '../../locale/concretize';
-    import { getLanguageDirection } from '../../locale/LanguageCode';
     import Button from '../widgets/Button.svelte';
     import OutputView from '../output/OutputView.svelte';
     import ConceptLinkUI from '../concepts/ConceptLinkUI.svelte';
@@ -105,6 +104,12 @@
 
     // A per-editor store that contains the current editor's cursor. We expose it as context to children.
     const caret = writable<Caret>(
+        new Caret(source, 0, undefined, undefined, undefined)
+    );
+    setContext(CaretSymbol, caret);
+
+    // Whenever the project or source changes, set the caret to the project's caret for the source.
+    $: caret.set(
         new Caret(
             source,
             project.getCaretPosition(source) ?? 0,
@@ -113,12 +118,6 @@
             undefined
         )
     );
-    setContext(CaretSymbol, caret);
-
-    // Whenever the project or source changes, set the caret to the project's caret for the source.
-    const position = project.getCaretPosition(source);
-    if (position)
-        caret.set(new Caret(source, position, undefined, undefined, undefined));
 
     // A store of highlighted nodes, used by node views to highlight themselves.
     // We store centrally since the logic that determines what's highlighted is in the Editor.
@@ -1036,11 +1035,8 @@
             }
         }
 
-        // Map meta to control on Mac OS/iOS.
+        // Map meta key to control on Mac OS/iOS.
         const control = event.metaKey || event.ctrlKey;
-
-        // Get the language direction, to handle left and right commands correctly.
-        const direction = getLanguageDirection($creator.getLocale().language);
 
         // Loop through the commands and see if there's a match to this event.
         for (let i = 0; i < commands.length; i++) {
@@ -1061,10 +1057,9 @@
                 // If so, execute it.
                 const result = command.execute(
                     $caret,
-                    editor,
-                    evaluator,
                     event.key,
-                    direction
+                    evaluator,
+                    $creator
                 );
 
                 // If it produced a new caret and optionally a new project, update the stores.

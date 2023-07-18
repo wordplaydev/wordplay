@@ -862,7 +862,6 @@
     function handleKey(event: KeyboardEvent) {
         const key = event.key;
         const command = event.ctrlKey || event.metaKey;
-        const shift = event.shiftKey;
 
         if (key === 'Escape' && layout.isFullscreen()) {
             layout = layout.withoutFullscreen();
@@ -884,13 +883,6 @@
                 $evaluator.pause();
             else $evaluator.play();
             event.preventDefault();
-            return;
-        }
-        if (key === 'z' && command) {
-            if (shift) $creator.redoProject(project.id);
-            else $creator.undoProject(project.id);
-            event.preventDefault();
-            event.stopPropagation();
             return;
         }
 
