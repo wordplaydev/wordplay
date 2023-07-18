@@ -5,6 +5,7 @@
     import NodeView from './NodeView.svelte';
     import { getProject } from '../project/Contexts';
     import RootView from '../project/RootView.svelte';
+    import UnknownType from '../../nodes/UnknownType';
 
     export let node: ExpressionPlaceholder;
 
@@ -19,7 +20,7 @@
         ><NodeView node={node.placeholder} /><NodeView node={node.dot} /></span
     >{#if node.type}<NodeView
             node={node.type}
-        />{:else if inferredType}<RootView
+        />{:else if inferredType && !(inferredType instanceof UnknownType)}<RootView
             inline
             inert
             localized
