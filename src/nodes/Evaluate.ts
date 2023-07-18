@@ -259,7 +259,8 @@ export default class Evaluate extends Expression {
     withBindAs(
         name: string,
         expression: Expression | undefined,
-        context: Context
+        context: Context,
+        named: boolean = true
     ): Evaluate {
         const mapping = this.getMappingFor(name, context);
         if (mapping === undefined) return this;
@@ -275,11 +276,18 @@ export default class Evaluate extends Expression {
         } else if (mapping.given instanceof Expression) {
             return this.replace(mapping.given, expression);
         }
-        // If it's not, then add a binding.
-        else if (mapping.given === undefined) {
+        // If it's not, then add a binding, optionally named
+        else if (mapping.given === undefined && expression !== undefined) {
             return this.replace(this.inputs, [
                 ...this.inputs,
-                Bind.make(undefined, Names.make([name]), undefined, expression),
+                named
+                    ? Bind.make(
+                          undefined,
+                          Names.make([name]),
+                          undefined,
+                          expression
+                      )
+                    : expression,
             ]);
         }
 

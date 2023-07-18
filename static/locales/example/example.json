@@ -1593,7 +1593,8 @@
             "showOutput": "$?",
             "expandCode": "$?",
             "increment": "$?",
-            "decrement": "$?"
+            "decrement": "$?",
+            "addInput": "$?"
         },
         "prompt": { "deleteSource": "$?", "deleteProject": "$?" },
         "labels": {

@@ -78,6 +78,8 @@ type UITexts = {
         increment: string;
         /** The down arrow that appears next to numbers, text, and booleans */
         decrement: string;
+        /** The next input shown in evaluate expressions that, when clicked, add a placeholder */
+        addInput: string;
     };
     prompt: {
         deleteSource: string;

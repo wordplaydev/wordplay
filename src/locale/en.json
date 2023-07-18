@@ -2930,7 +2930,8 @@
             "showOutput": "show this output on stage",
             "expandCode": "expand this collapsed code",
             "increment": "increase value by 1",
-            "decrement": "decrease value by 1"
+            "decrement": "decrease value by 1",
+            "addInput": "add this input"
         },
         "prompt": { "deleteSource": "delete", "deleteProject": "delete" },
         "labels": {

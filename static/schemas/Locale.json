@@ -5101,6 +5101,10 @@
                 "addGroup": {
                   "type": "string"
                 },
+                "addInput": {
+                  "description": "The next input shown in evaluate expressions that, when clicked, add a placeholder",
+                  "type": "string"
+                },
                 "addLanguage": {
                   "type": "string"
                 },
@@ -5334,7 +5338,8 @@
                 "showOutput",
                 "expandCode",
                 "increment",
-                "decrement"
+                "decrement",
+                "addInput"
               ],
               "type": "object"
             }

@@ -13,6 +13,7 @@
         RootSymbol,
         SpaceSymbol,
         type SpaceContext,
+        CaretSymbol,
     } from './Contexts';
     import Root from '@nodes/Root';
     import Source from '@nodes/Source';
@@ -39,6 +40,9 @@
     // When the spaces change, update the rendered spaces
     let renderedSpace: SpaceContext = writable(new Map());
     setContext(SpaceSymbol, renderedSpace);
+
+    $: if (inert) setContext(CaretSymbol, undefined);
+
     $: {
         // Reset the space.
         const newSpace = new Map();
@@ -97,14 +101,17 @@
                 ) {
                     let first = false;
                     for (const nameOrDoc of nameOrDocs) {
-                        if (
-                            !$creator
-                                .getLanguages()
-                                .some((t) => t === nameOrDoc.getLanguage()) &&
-                            !$caret?.isIn(nameOrDoc)
-                        )
+                        const selectedLocale = $creator
+                            .getLanguages()
+                            .some((t) => t === nameOrDoc.getLanguage());
+                        // Not a selected language and not in the node? Hide it.
+                        if (!selectedLocale && !$caret?.isIn(nameOrDoc))
                             newHidden.add(nameOrDoc);
-                        else if (!first) {
+                        // Is the selected language and inert? Hide the language tag.
+                        else if (selectedLocale && nameOrDoc.lang)
+                            newHidden.add(nameOrDoc.lang);
+                        // Not first? Hide the separator.
+                        if (!first) {
                             first = true;
                             if (
                                 nameOrDoc instanceof Name &&
