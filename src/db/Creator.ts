@@ -470,8 +470,6 @@ export class Creator {
 
         this.requestProjectsSave();
 
-        console.log(info);
-
         return true;
     }
 
