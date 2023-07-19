@@ -82,7 +82,7 @@ enum TokenType {
     End = 'end',
 }
 
-export function isTokenType(text: string) {
+export function isTokenType(text: string): text is TokenType {
     return Object.values(TokenType).includes(text as unknown as TokenType);
 }
 
