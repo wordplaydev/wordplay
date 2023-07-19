@@ -135,8 +135,9 @@ export default class Name extends Node {
         return this.getLanguage() === (lang as LanguageCode);
     }
 
-    isEqualTo(alias: Name) {
+    isEqualTo(alias: Node) {
         const thisLang = this.lang;
+        if (!(alias instanceof Name)) return false;
         const thatLang = alias.lang;
 
         return (
