@@ -5,6 +5,6 @@ Phrase(
     "wowie" 
     name: "kitty"    
     size: 6m
-    rest: Pose(color: color tilt: (Random()- 0.5)·30°)
+    rest: Pose(color: color tilt: (Random() - 0.5) · 30°)
     duration: .1s
 )

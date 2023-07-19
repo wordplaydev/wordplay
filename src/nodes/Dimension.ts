@@ -28,7 +28,7 @@ export default class Dimension extends Node {
         this.name = name;
         this.caret =
             exponent !== undefined && caret === undefined
-                ? new Token(EXPONENT_SYMBOL, TokenType.BinaryOperator)
+                ? new Token(EXPONENT_SYMBOL, TokenType.Operator)
                 : caret;
         this.exponent = exponent === undefined ? undefined : exponent;
 
@@ -38,11 +38,11 @@ export default class Dimension extends Node {
     static make(subsequent: boolean, unit: string, exponent: number) {
         return new Dimension(
             subsequent
-                ? new Token(PRODUCT_SYMBOL, TokenType.BinaryOperator)
+                ? new Token(PRODUCT_SYMBOL, TokenType.Operator)
                 : undefined,
             new NameToken(unit),
             exponent > 1
-                ? new Token(EXPONENT_SYMBOL, TokenType.BinaryOperator)
+                ? new Token(EXPONENT_SYMBOL, TokenType.Operator)
                 : undefined,
             exponent > 1
                 ? new Token('' + exponent, TokenType.Number)

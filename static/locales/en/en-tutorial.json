@@ -966,8 +966,8 @@
                         ["⊥", "precise", "Not there."],
                         [
                             "fit",
-                            "multiple:10",
-                            "                        Stage([Group(Grid(multiple multiple) ('⊤⊥'.repeat(multiple^2) ÷ '').translate(ƒ(glyph•'') Phrase(glyph rest: Pose(color: Color(75% 0 0°)))))])"
+                            "multiple: 10",
+                            "Stage([Group(Grid(multiple multiple) ('⊤⊥'.repeat(multiple ^ 2) ÷ '').translate(ƒ(glyph•'') Phrase(glyph rest: Pose(color: Color(75% 0 0°)))))])"
                         ],
                         null,
                         [
@@ -1071,7 +1071,7 @@
                         [
                             "fit",
                             "multiple:10",
-                            "                        Stage([Group(Grid(multiple multiple) ('⊤⊥'.repeat(multiple^2) ÷ '').translate(ƒ(glyph•'') Phrase(glyph rest: Pose(color: Color(75% 0 0°)))))])"
+                            "                        Stage([Group(Grid(multiple multiple) ('⊤⊥'.repeat(multiple ^ 2) ÷ '').translate(ƒ(glyph•'') Phrase(glyph rest: Pose(color: Color(75% 0 0°)))))])"
                         ],
                         [
                             "FunctionDefinition",
@@ -1090,7 +1090,7 @@
                         [
                             "fit",
                             "multiple:10",
-                            "                        Stage([Group(Grid(multiple multiple) ('⊤⊥'.repeat(multiple^2) ÷ '').translate(ƒ(glyph•'') Phrase(glyph rest: Pose(color: Color(75% 0 0°) tilt: 90°))))])"
+                            "                        Stage([Group(Grid(multiple multiple) ('⊤⊥'.repeat(multiple ^ 2) ÷ '').translate(ƒ(glyph•'') Phrase(glyph rest: Pose(color: Color(75% 0 0°) tilt: 90°))))])"
                         ],
                         [
                             "FunctionDefinition",
@@ -1107,12 +1107,12 @@
                             "                        [",
                             "                        Group(",
                             "                        Grid(multiple multiple) ",
-                            "                        ('⊤⊥'.repeat(multiple^2) ÷ '').translate(",
+                            "                        ('⊤⊥'.repeat(multiple ^ 2) ÷ '').translate(",
                             "                        ƒ(glyph•'') ",
                             "                        Phrase(glyph rest: Pose(",
                             "                            color: Color(75% 0 0°) ",
                             "                            tilt: 90° ",
-                            "                            offset:Place(0m (Time() ^ 2)·-0.000025m/ms^2))",
+                            "                            offset:Place(0m (Time() ^ 2) · -0.000025m/ms^2))",
                             "                        )))])"
                         ],
                         ["⊤", "precise", "… no."],
@@ -2980,7 +2980,7 @@
                             "kind",
                             "That size can be any expression. For example, say we wanted it to grow as @Time ticks. We can take time, multiply it by a fraction of a meter, and glorious, tick tick tick, hi hi hi. Try changing the frequency or the multiplier. See what beautiful growth you can create!"
                         ],
-                        ["fit", "Phrase('hi' Time(100ms)·0.001m/ms)"],
+                        ["fit", "Phrase('hi' Time(100ms) · 0.001m/ms)"],
                         null,
                         [
                             "Phrase",
@@ -2990,7 +2990,7 @@
                         [
                             "use",
                             "Symbol",
-                            "hi' Time(100ms)·0.001m/ms 'Poor Story"
+                            "hi' Time(100ms) · 0.001m/ms 'Poor Story"
                         ],
                         null,
                         [
@@ -3000,7 +3000,7 @@
                         ],
                         [
                             "fit",
-                            "Phrase('hi' Time(100ms)·0.001m/ms 'Poor Story' Place(2m 2m))"
+                            "Phrase('hi' Time(100ms) · 0.001m/ms 'Poor Story' Place(2m 2m))"
                         ],
                         null,
                         [
@@ -3010,7 +3010,7 @@
                         ],
                         [
                             "fit",
-                            "Phrase('hi' Time(100ms)·0.001m/ms 'Poor Story' Place(2m 2m) 20°)"
+                            "Phrase('hi' Time(100ms) · 0.001m/ms 'Poor Story' Place(2m 2m) 20°)"
                         ],
                         null,
                         [
@@ -3093,8 +3093,8 @@
                         [
                             "fit",
                             "Time(1000ms) < 3000ms ? ",
-                            "                            Phrase('hi' size: 5m place: Place(Time(1000ms) · 0.001m/ms 0m) move: Pose(tilt: 5°) duration: 0.5s) ",
-                            "                            Phrase('')"
+                            "Phrase('hi' size: 5m place: Place(Time(1000ms) · 0.001m/ms 0m) move: Pose(tilt: 5°) duration: 0.5s) ",
+                            "Phrase('')"
                         ],
                         null,
                         [
@@ -3162,7 +3162,7 @@
                         ],
                         [
                             "edit",
-                            "Phrase('red' size: 5m rest: Pose(color: 🌈(50% 300 (Time() % 360)·1°/ms)))"
+                            "Phrase('red' size: 5m rest: Pose(color: 🌈(50% 300 (Time() % 360) · 1°/ms)))"
                         ],
                         [
                             "FunctionDefinition",
@@ -3478,7 +3478,7 @@
                         [
                             "edit",
                             "Group(",
-                            "    Stack(Time(100ms)·0.001m/ms) ",
+                            "    Stack(Time(100ms) · 0.001m/ms) ",
                             "    [",
                             "        Phrase('one')",
                             "        Phrase('two')",
@@ -3495,7 +3495,7 @@
                         [
                             "edit",
                             "Group(",
-                            "    Row(Time(100ms)·0.001m/ms) [",
+                            "    Row(Time(100ms) · 0.001m/ms) [",
                             "        Phrase('one')",
                             "        Phrase('two')",
                             "        Phrase('three')",

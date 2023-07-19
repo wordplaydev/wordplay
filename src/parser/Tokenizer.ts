@@ -17,7 +17,6 @@ import {
     LIST_OPEN_SYMBOL,
     MEASUREMENT_SYMBOL,
     COMMA_SYMBOL,
-    NEGATE_SYMBOL,
     NONE_SYMBOL,
     NOT_SYMBOL,
     OR_SYMBOL,
@@ -56,11 +55,9 @@ import ConceptRegEx from './ConceptRegEx';
 import ReservedSymbols from './ReservedSymbols';
 
 const TEXT_SEPARATORS = '\'‘’"“”„«»‹›「」『』';
-const UNARY_OPERATORS = `${NOT_SYMBOL}${NEGATE_SYMBOL}`;
-const BINARY_OPERATORS = `${SUM_SYMBOL}\\${DIFFERENCE_SYMBOL}×${PRODUCT_SYMBOL}÷%^<≤=≠≥>&|~\?\\u2200-\\u22FF\\u2A00-\\u2AFF\\u2190-\\u21FF\\u27F0-\\u27FF\\u2900-\\u297F`;
+const OPERATORS = `${NOT_SYMBOL}\\-\\^${SUM_SYMBOL}\\${DIFFERENCE_SYMBOL}×${PRODUCT_SYMBOL}÷%<≤=≠≥>&|~\?\\u2200-\\u22FF\\u2A00-\\u2AFF\\u2190-\\u21FF\\u27F0-\\u27FF\\u2900-\\u297F`;
 
-export const UnaryOpRegEx = new RegExp(`^[${UNARY_OPERATORS}](?! )`, 'u');
-export const BinaryOpRegEx = new RegExp(`^[${BINARY_OPERATORS}]`, 'u');
+export const OperatorRegEx = new RegExp(`^[${OPERATORS}]`, 'u');
 export const URLRegEx = new RegExp(
     /^https?:\/\/(www.)?[-a-zA-Z0-9@:%._+~#=]{1,256}.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()!@:%_+.~#?&//=]*)/,
     'u'
@@ -113,7 +110,7 @@ export const WordsRegEx = new RegExp(
 
 export const NameRegExPattern = `^[^\n\t ${ReservedSymbols.map((s) =>
     escapeRegexCharacter(s)
-).join('')}${TEXT_SEPARATORS}${BINARY_OPERATORS}]+`;
+).join('')}${TEXT_SEPARATORS}${OPERATORS}]+`;
 export const NameRegEx = new RegExp(NameRegExPattern, 'u');
 
 export function isName(name: string) {
@@ -153,17 +150,17 @@ const patterns = [
     { pattern: TYPE_SYMBOL, types: [TokenType.Type, TokenType.TypeOperator] },
     {
         pattern: OR_SYMBOL,
-        types: [TokenType.BinaryOperator, TokenType.Union, TokenType.Light],
+        types: [TokenType.Operator, TokenType.Union, TokenType.Light],
     },
     { pattern: TYPE_OPEN_SYMBOL, types: [TokenType.TypeOpen] },
     { pattern: TYPE_CLOSE_SYMBOL, types: [TokenType.TypeClose] },
     {
         pattern: TAG_OPEN_SYMBOL,
-        types: [TokenType.BinaryOperator, TokenType.TagOpen],
+        types: [TokenType.Operator, TokenType.TagOpen],
     },
     {
         pattern: TAG_CLOSE_SYMBOL,
-        types: [TokenType.BinaryOperator, TokenType.TagClose],
+        types: [TokenType.Operator, TokenType.TagClose],
     },
     {
         pattern: STREAM_SYMBOL,
@@ -280,15 +277,15 @@ const patterns = [
     // Light is tokenized with the | operator above
     {
         pattern: UNDERSCORE_SYMBOL,
-        types: [TokenType.Underline, TokenType.BinaryOperator],
+        types: [TokenType.Underline, TokenType.Operator],
     },
     {
         pattern: BOLD_SYMBOL,
-        types: [TokenType.Bold, TokenType.BinaryOperator],
+        types: [TokenType.Bold, TokenType.Operator],
     },
     {
         pattern: EXTRA_SYMBOL,
-        types: [TokenType.Extra, TokenType.BinaryOperator],
+        types: [TokenType.Extra, TokenType.Operator],
     },
     // Prefix and infix operators are single Unicode glyphs that are surrounded by whitespace that are not one of the above
     // and one of the following:
@@ -296,11 +293,7 @@ const patterns = [
     // - Supplementary operators: U+2A00–U+2AFF
     // - Arrows: U+2190–U+21FF, U+27F0–U+27FF, U+2900–U+297F
     // - Basic latin operators: +-×·÷%^<≤=≠≥>&|
-    {
-        pattern: UnaryOpRegEx,
-        types: [TokenType.UnaryOperator, TokenType.BinaryOperator],
-    },
-    { pattern: BinaryOpRegEx, types: [TokenType.BinaryOperator] },
+    { pattern: OperatorRegEx, types: [TokenType.Operator] },
     { pattern: DOCS_SYMBOL, types: [TokenType.Doc] },
     {
         pattern: new RegExp(`^${ConceptRegEx}`),

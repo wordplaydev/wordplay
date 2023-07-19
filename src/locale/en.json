@@ -97,8 +97,7 @@
         "Placeholder": "placeholder",
         "Etc": "et cetera",
         "This": "this",
-        "UnaryOperator": "unary operator",
-        "BinaryOperator": "binary operator",
+        "Operator": "operator",
         "Conditional": "conditional",
         "Text": "text",
         "TemplateOpen": "template open",
@@ -596,7 +595,7 @@
                 },
                 "NotInstantiable": "I can't make this @StructureDefinition, it has unimplemented functions.",
                 "UnexpectedInput": {
-                    "primary": "I didn't expect this input $2",
+                    "primary": "I didn't expect this input $1",
                     "secondary": "am I supposed to be here?"
                 },
                 "UnknownInput": {

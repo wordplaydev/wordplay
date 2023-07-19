@@ -35,6 +35,7 @@ import FunctionType from './FunctionType';
 import AnyType from './AnyType';
 import concretize from '../locale/concretize';
 import Reference from './Reference';
+import ValueException from '../runtime/ValueException';
 
 export default class BinaryEvaluate extends Expression {
     readonly left: Expression;
@@ -288,6 +289,9 @@ export default class BinaryEvaluate extends Expression {
         const fun = functionValue.definition;
 
         const operand = fun.inputs[0];
+
+        // No operand? Exception.
+        if (operand === undefined) return new ValueException(evaluator, this);
 
         // Start the function's expression. Pass the source of the function.
         evaluator.startEvaluation(

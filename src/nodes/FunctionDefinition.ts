@@ -11,7 +11,7 @@ import FunctionValue from '@runtime/FunctionValue';
 import type Step from '@runtime/Step';
 import type Context from './Context';
 import type Definition from './Definition';
-import { BinaryOpRegEx, UnaryOpRegEx } from '@parser/Tokenizer';
+import { OperatorRegEx } from '@parser/Tokenizer';
 import { FUNCTION_SYMBOL, SHARE_SYMBOL } from '@parser/Symbols';
 import type TypeSet from './TypeSet';
 import EvalCloseToken from './EvalCloseToken';
@@ -125,20 +125,20 @@ export default class FunctionDefinition extends Expression {
             this.names.getLocaleText(languages),
             this
         );
-        return this.isUnaryOperator() && structure
+        return this.isOperator() && structure && this.inputs.length === 0
             ? new UnaryEvaluate(
                   new Reference(
                       new Token(
-                          this.getUnaryOperatorName() ?? '_',
-                          TokenType.UnaryOperator
+                          this.getOperatorName() ?? '_',
+                          TokenType.Operator
                       )
                   ),
                   ExpressionPlaceholder.make(structureType)
               )
-            : this.isBinaryOperator() && structure
+            : this.isOperator() && structure && this.inputs.length === 1
             ? new BinaryEvaluate(
                   ExpressionPlaceholder.make(structureType),
-                  Reference.make(this.getBinaryOperatorName() ?? '_'),
+                  Reference.make(this.getOperatorName() ?? '_'),
                   ExpressionPlaceholder.make(this.inputs[0]?.type)
               )
             : Evaluate.make(
@@ -221,24 +221,12 @@ export default class FunctionDefinition extends Expression {
         return this.names.getLocaleText(lang);
     }
 
-    isBinaryOperator() {
-        return (
-            this.inputs.length === 1 &&
-            this.getBinaryOperatorName() !== undefined
-        );
-    }
-    isUnaryOperator() {
-        return (
-            this.inputs.length === 0 &&
-            this.getUnaryOperatorName() !== undefined
-        );
+    isOperator() {
+        return this.inputs.length === 1 && this.getOperatorName() !== undefined;
     }
 
-    getBinaryOperatorName() {
-        return this.names.getNames().find((name) => BinaryOpRegEx.test(name));
-    }
-    getUnaryOperatorName() {
-        return this.names.getNames().find((name) => UnaryOpRegEx.test(name));
+    getOperatorName() {
+        return this.names.getNames().find((name) => OperatorRegEx.test(name));
     }
 
     /**

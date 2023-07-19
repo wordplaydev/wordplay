@@ -793,7 +793,7 @@ function getPostfixEdits(context: Context, expr: Expression): Transform[] {
                           expr,
                           new UnaryEvaluate(
                               new Reference(
-                                  new Token(NOT_SYMBOL, TokenType.UnaryOperator)
+                                  new Token(NOT_SYMBOL, TokenType.Operator)
                               ),
                               expr
                           )
@@ -808,10 +808,7 @@ function getPostfixEdits(context: Context, expr: Expression): Transform[] {
                           expr,
                           new UnaryEvaluate(
                               new Reference(
-                                  new Token(
-                                      NEGATE_SYMBOL,
-                                      TokenType.UnaryOperator
-                                  )
+                                  new Token(NEGATE_SYMBOL, TokenType.Operator)
                               ),
                               expr
                           )
@@ -883,7 +880,7 @@ function getPostfixEdits(context: Context, expr: Expression): Transform[] {
                       .filter(
                           (def: Definition): def is FunctionDefinition =>
                               def instanceof FunctionDefinition &&
-                              def.isBinaryOperator()
+                              def.isOperator()
                       )
                       .map(
                           (def: FunctionDefinition) =>
@@ -896,7 +893,7 @@ function getPostfixEdits(context: Context, expr: Expression): Transform[] {
                                           new BinaryEvaluate(
                                               Block.make([expr]),
                                               Reference.make(
-                                                  def.getBinaryOperatorName() ??
+                                                  def.getOperatorName() ??
                                                       PLACEHOLDER_SYMBOL
                                               ),
                                               ExpressionPlaceholder.make()

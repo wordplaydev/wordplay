@@ -1,4 +1,4 @@
-import Evaluate from '@nodes/Evaluate';
+import type Evaluate from '@nodes/Evaluate';
 import Conflict from './Conflict';
 import type Expression from '@nodes/Expression';
 import type Bind from '@nodes/Bind';
@@ -35,13 +35,7 @@ export default class UnexpectedInputs extends Conflict {
                     concretize(
                         locale,
                         locale.node.Evaluate.conflict.UnexpectedInput.primary,
-                        new NodeRef(
-                            this.evaluate instanceof Evaluate
-                                ? this.evaluate.fun
-                                : this.evaluate.fun,
-                            locale,
-                            context
-                        )
+                        new NodeRef(this.input, locale, context)
                     ),
             },
             secondary: {

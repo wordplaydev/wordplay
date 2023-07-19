@@ -4441,9 +4441,6 @@
             "Base": {
               "type": "string"
             },
-            "BinaryOperator": {
-              "type": "string"
-            },
             "Bind": {
               "type": "string"
             },
@@ -4555,6 +4552,9 @@
             "NumberType": {
               "type": "string"
             },
+            "Operator": {
+              "type": "string"
+            },
             "Pi": {
               "type": "string"
             },
@@ -4625,9 +4625,6 @@
               "type": "string"
             },
             "URL": {
-              "type": "string"
-            },
-            "UnaryOperator": {
               "type": "string"
             },
             "Underline": {
@@ -4703,8 +4700,7 @@
             "Placeholder",
             "Etc",
             "This",
-            "UnaryOperator",
-            "BinaryOperator",
+            "Operator",
             "Conditional",
             "Text",
             "TemplateOpen",

@@ -220,8 +220,7 @@ export class Tokens {
 
     nextIsUnary(): boolean {
         return (
-            this.nextIs(TokenType.UnaryOperator) &&
-            this.afterLacksPrecedingSpace()
+            this.nextIs(TokenType.Operator) && this.afterLacksPrecedingSpace()
         );
     }
 
@@ -464,7 +463,7 @@ export function parseBind(tokens: Tokens): Bind {
     return new Bind(docs, share, names, etc, dot, type, colon, value);
 }
 
-/** ALIAS :: (name LANGUAGE?)+ */
+/** NAMES :: (name LANGUAGE?)+ */
 export function parseNames(tokens: Tokens): Names {
     const names: Name[] = [];
 
@@ -473,7 +472,11 @@ export function parseNames(tokens: Tokens): Names {
             names.length > 0 &&
             tokens.nextIs(TokenType.Separator)) ||
         (names.length === 0 &&
-            tokens.nextIsOneOf(TokenType.Name, TokenType.Placeholder))
+            tokens.nextIsOneOf(
+                TokenType.Name,
+                TokenType.Placeholder,
+                TokenType.Operator
+            ))
     ) {
         const comma = tokens.nextIs(TokenType.Separator)
             ? tokens.read(TokenType.Separator)
@@ -483,6 +486,8 @@ export function parseNames(tokens: Tokens): Names {
             ? tokens.read(TokenType.Name)
             : tokens.nextIs(TokenType.Placeholder)
             ? tokens.read(TokenType.Placeholder)
+            : tokens.nextIs(TokenType.Operator)
+            ? tokens.read(TokenType.Operator)
             : undefined;
         const lang = tokens.nextIs(TokenType.Language)
             ? parseLanguage(tokens)
@@ -495,7 +500,7 @@ export function parseNames(tokens: Tokens): Names {
     return new Names(names);
 }
 
-/** LANGUAGE :: / name */
+/** LANGUAGE :: /NAME */
 export function parseLanguage(tokens: Tokens): Language {
     const slash = tokens.read(TokenType.Language);
     const lang =
@@ -548,7 +553,7 @@ export function parseBinaryEvaluate(tokens: Tokens): Expression {
     while (
         tokens.hasNext() &&
         !tokens.nextIsUnary() &&
-        (tokens.nextIs(TokenType.BinaryOperator) ||
+        (tokens.nextIs(TokenType.Operator) ||
             (tokens.nextIs(TokenType.TypeOperator) &&
                 !tokens.nextHasPrecedingLineBreak()))
     ) {
@@ -610,7 +615,7 @@ function parseAtomicExpression(tokens: Tokens): Expression {
                   parseAtomicExpression(tokens)
               )
             : // References can be names or binary operators
-            tokens.nextIsOneOf(TokenType.Name, TokenType.BinaryOperator)
+            tokens.nextIsOneOf(TokenType.Name, TokenType.Operator)
             ? parseReference(tokens)
             : // Booleans
             tokens.nextIs(TokenType.Boolean)
@@ -708,11 +713,7 @@ function parseInitial(tokens: Tokens): Initial {
 
 function parseReference(tokens: Tokens): Reference {
     const name = tokens.read(
-        tokens.nextIs(TokenType.BinaryOperator)
-            ? TokenType.BinaryOperator
-            : tokens.nextIs(TokenType.Name)
-            ? TokenType.Name
-            : TokenType.UnaryOperator
+        tokens.nextIs(TokenType.Operator) ? TokenType.Operator : TokenType.Name
     );
 
     return new Reference(name);
@@ -772,7 +773,7 @@ function parseUnit(tokens: Tokens): Unit {
 
     while (
         (tokens.nextIs(TokenType.Name) ||
-            tokens.nextIs(TokenType.BinaryOperator, PRODUCT_SYMBOL)) &&
+            tokens.nextIs(TokenType.Operator, PRODUCT_SYMBOL)) &&
         tokens.nextLacksPrecedingSpace()
     )
         numerator.push(parseDimension(tokens));
@@ -783,7 +784,7 @@ function parseUnit(tokens: Tokens): Unit {
         slash = tokens.read(TokenType.Language);
         while (
             (tokens.nextIs(TokenType.Name) ||
-                tokens.nextIs(TokenType.BinaryOperator, PRODUCT_SYMBOL)) &&
+                tokens.nextIs(TokenType.Operator, PRODUCT_SYMBOL)) &&
             tokens.nextLacksPrecedingSpace()
         )
             denominator.push(parseDimension(tokens));
@@ -794,17 +795,17 @@ function parseUnit(tokens: Tokens): Unit {
 
 /** DIMENSION :: NAME (^NUMBER)? */
 function parseDimension(tokens: Tokens): Dimension {
-    const product = tokens.nextIs(TokenType.BinaryOperator, PRODUCT_SYMBOL)
-        ? tokens.read(TokenType.BinaryOperator)
+    const product = tokens.nextIs(TokenType.Operator, PRODUCT_SYMBOL)
+        ? tokens.read(TokenType.Operator)
         : undefined;
     const name = tokens.read(TokenType.Name);
     let caret = undefined;
     let exponent = undefined;
     if (
-        tokens.nextIs(TokenType.BinaryOperator, EXPONENT_SYMBOL) &&
+        tokens.nextIs(TokenType.Operator, EXPONENT_SYMBOL) &&
         tokens.nextLacksPrecedingSpace()
     ) {
-        caret = tokens.read(TokenType.BinaryOperator);
+        caret = tokens.read(TokenType.Operator);
         exponent =
             tokens.nextIs(TokenType.Number) && tokens.nextLacksPrecedingSpace()
                 ? tokens.read(TokenType.Number)
@@ -1169,8 +1170,7 @@ function parsePropertyReference(left: Expression, tokens: Tokens): Expression {
             tokens.nextIsOneOf(
                 TokenType.Name,
                 TokenType.Placeholder,
-                TokenType.UnaryOperator,
-                TokenType.BinaryOperator
+                TokenType.Operator
             ) &&
             !tokens.nextHasMoreThanOneLineBreak()
         )
@@ -1213,7 +1213,7 @@ export function parseType(tokens: Tokens, isExpression: boolean = false): Type {
         ? parseNameType(tokens)
         : tokens.nextIs(TokenType.BooleanType)
         ? new BooleanType(tokens.read(TokenType.BooleanType))
-        : tokens.nextIs(TokenType.BinaryOperator, '%') ||
+        : tokens.nextIs(TokenType.Operator, '%') ||
           tokens.nextIsOneOf(TokenType.Number, TokenType.NumberType)
         ? parseNumberType(tokens)
         : tokens.nextIs(TokenType.Text)
@@ -1262,8 +1262,8 @@ function parseTextType(tokens: Tokens): TextType {
 
 /** NUMBER_TYPE :: #NAME? */
 function parseNumberType(tokens: Tokens): NumberType {
-    if (tokens.nextIs(TokenType.BinaryOperator, '%'))
-        return new NumberType(tokens.read(TokenType.BinaryOperator));
+    if (tokens.nextIs(TokenType.Operator, '%'))
+        return new NumberType(tokens.read(TokenType.Operator));
 
     const number = tokens.nextIs(TokenType.Number)
         ? tokens.read(TokenType.Number)

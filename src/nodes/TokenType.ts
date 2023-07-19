@@ -60,8 +60,7 @@ enum TokenType {
 
     // These are the only operators eligible for unary, binary, or teriary notation.
     // We’ve included them for consistency with math notation and readability.
-    UnaryOperator = 'unary',
-    BinaryOperator = 'binary',
+    Operator = 'binary',
     Conditional = 'conditional',
 
     // Also supports escapes with \to encode various characters
