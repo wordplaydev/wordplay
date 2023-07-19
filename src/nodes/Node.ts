@@ -609,6 +609,12 @@ export default abstract class Node {
                     (typeof allowedType === 'string' &&
                         !isTokenType(allowedType))) &&
                     node === undefined) ||
+                // A token type is allowed and this node is a token of that type
+                (node !== undefined &&
+                    typeof allowedType === 'string' &&
+                    isTokenType(allowedType) &&
+                    !Array.isArray(node) &&
+                    node.isType(allowedType)) ||
                 // The allowed type is a list and...
                 (Array.isArray(allowedType) &&
                     // The node is a list and every element in it is one of the allowed types
