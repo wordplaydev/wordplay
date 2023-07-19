@@ -9,7 +9,7 @@ import { OR_SYMBOL } from '@parser/Symbols';
 import type TypeSet from './TypeSet';
 import NeverType from './NeverType';
 import type { NativeTypeName } from '../native/NativeConstants';
-import type { Replacement } from './Node';
+import { node, type Grammar, type Replacement } from './Node';
 import type Locale from '@locale/Locale';
 import NoneType from './NoneType';
 import Glyphs from '../lore/Glyphs';
@@ -42,11 +42,11 @@ export default class UnionType extends Type {
         return this.make(left, NoneType.make());
     }
 
-    getGrammar() {
+    getGrammar(): Grammar {
         return [
-            { name: 'left', types: [Type] },
-            { name: 'or', types: [TokenType.Union] },
-            { name: 'right', types: [Type] },
+            { name: 'left', types: node(Type) },
+            { name: 'or', types: node(TokenType.Union) },
+            { name: 'right', types: node(Type) },
         ];
     }
 

@@ -1,6 +1,6 @@
 import Language from './Language';
-import Node from './Node';
-import type { Replacement } from './Node';
+import Node, { any, node, none } from './Node';
+import type { Grammar, Replacement } from './Node';
 import Token from './Token';
 import type Locale from '@locale/Locale';
 import { DOCS_SYMBOL } from '@parser/Symbols';
@@ -42,12 +42,12 @@ export default class Doc extends Node {
         );
     }
 
-    getGrammar() {
+    getGrammar(): Grammar {
         return [
-            { name: 'open', types: [TokenType.Doc] },
-            { name: 'markup', types: [Markup] },
-            { name: 'close', types: [TokenType.Doc] },
-            { name: 'lang', types: [Language, undefined] },
+            { name: 'open', types: node(TokenType.Doc) },
+            { name: 'markup', types: node(Markup) },
+            { name: 'close', types: node(TokenType.Doc) },
+            { name: 'lang', types: any(node(Language), none()) },
         ];
     }
 

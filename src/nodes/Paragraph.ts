@@ -3,7 +3,7 @@ import type Locale from '@locale/Locale';
 import ConceptLink from './ConceptLink';
 import type Example from './Example';
 import WebLink from './WebLink';
-import type { Field, Replacement } from './Node';
+import type { Grammar, Replacement } from './Node';
 import Words from './Words';
 import Glyphs from '../lore/Glyphs';
 import Purpose from '../concepts/Purpose';
@@ -15,7 +15,7 @@ import NodeRef from '../locale/NodeRef';
 import ValueRef from '../locale/ValueRef';
 import type Branch from './Branch';
 import { unescapeDocSymbols } from '../parser/Tokenizer';
-import Node from '@nodes/Node';
+import Node, { list, node } from '@nodes/Node';
 
 export type NodeSegment =
     | Token
@@ -37,11 +37,11 @@ export default class Paragraph extends Content {
         this.segments = segments;
     }
 
-    getGrammar(): Field[] {
+    getGrammar(): Grammar {
         return [
             {
                 name: 'segments',
-                types: [[Words, WebLink, ConceptLink]],
+                types: list(node(Words), node(WebLink), node(ConceptLink)),
             },
         ];
     }

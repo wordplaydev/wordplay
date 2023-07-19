@@ -142,11 +142,12 @@ export function analyzeRow(
 export function endsWithName(node: Node) {
     const tokens = node.nodes((t) => t instanceof Token) as Token[];
     return (
-        tokens.length > 0 && tokens[tokens.length - 1].isType(TokenType.Name)
+        tokens.length > 0 &&
+        tokens[tokens.length - 1].isTokenType(TokenType.Name)
     );
 }
 
 export function startsWithName(node: Node) {
     const tokens = node.nodes((t) => t instanceof Token) as Token[];
-    return tokens.length > 0 && tokens[0].isType(TokenType.Name);
+    return tokens.length > 0 && tokens[0].isTokenType(TokenType.Name);
 }

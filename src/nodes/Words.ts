@@ -2,7 +2,7 @@ import type Conflict from '@conflicts/Conflict';
 import type Locale from '@locale/Locale';
 import Purpose from '../concepts/Purpose';
 import Glyphs from '../lore/Glyphs';
-import type { Field, Replacement } from './Node';
+import { node, type Grammar, type Replacement, any, none } from './Node';
 import Token from './Token';
 import TokenType from './TokenType';
 import { unescaped } from './TextLiteral';
@@ -43,30 +43,38 @@ export default class Words extends Content {
         );
     }
 
-    getGrammar(): Field[] {
+    getGrammar(): Grammar {
         return [
             {
                 name: 'open',
-                types: [
-                    TokenType.Italic,
-                    TokenType.Underline,
-                    TokenType.Light,
-                    TokenType.Bold,
-                    TokenType.Extra,
-                    'close',
-                ],
+                types: any(
+                    node(TokenType.Italic),
+                    node(TokenType.Underline),
+                    node(TokenType.Light),
+                    node(TokenType.Bold),
+                    node(TokenType.Extra),
+                    none('close')
+                ),
             },
-            { name: 'segments', types: [Words, WebLink, ConceptLink, Example] },
+            {
+                name: 'segments',
+                types: any(
+                    node(Words),
+                    node(WebLink),
+                    node(ConceptLink),
+                    node(Example)
+                ),
+            },
             {
                 name: 'close',
-                types: [
-                    TokenType.Italic,
-                    TokenType.Underline,
-                    TokenType.Light,
-                    TokenType.Bold,
-                    TokenType.Extra,
-                    'open',
-                ],
+                types: any(
+                    node(TokenType.Italic),
+                    node(TokenType.Underline),
+                    node(TokenType.Light),
+                    node(TokenType.Bold),
+                    node(TokenType.Extra),
+                    none('open')
+                ),
             },
         ];
     }
@@ -100,13 +108,13 @@ export default class Words extends Content {
     getFormat(): Format | undefined {
         return this.open === undefined
             ? undefined
-            : this.open.isType(TokenType.Italic)
+            : this.open.isTokenType(TokenType.Italic)
             ? 'italic'
-            : this.open.isType(TokenType.Underline)
+            : this.open.isTokenType(TokenType.Underline)
             ? 'underline'
-            : this.open.isType(TokenType.Light)
+            : this.open.isTokenType(TokenType.Light)
             ? 'light'
-            : this.open.isType(TokenType.Bold)
+            : this.open.isTokenType(TokenType.Bold)
             ? 'bold'
             : 'extra';
     }

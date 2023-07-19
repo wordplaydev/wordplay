@@ -7,7 +7,7 @@ import type Context from './Context';
 import type TypeSet from './TypeSet';
 import { NONE_SYMBOL } from '@parser/Symbols';
 import TokenType from './TokenType';
-import type { Replacement } from './Node';
+import { node, type Grammar, type Replacement } from './Node';
 import type Locale from '@locale/Locale';
 import Literal from './Literal';
 import Glyphs from '../lore/Glyphs';
@@ -29,8 +29,8 @@ export default class NoneLiteral extends Literal {
         return new NoneLiteral(new Token(NONE_SYMBOL, TokenType.None));
     }
 
-    getGrammar() {
-        return [{ name: 'none', types: [TokenType.None] }];
+    getGrammar(): Grammar {
+        return [{ name: 'none', types: node(TokenType.None) }];
     }
 
     clone(replace?: Replacement) {

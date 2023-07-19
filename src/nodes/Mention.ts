@@ -6,7 +6,7 @@ import type { TemplateInput } from '../locale/concretize';
 import type Glyph from '../lore/Glyph';
 import Glyphs from '../lore/Glyphs';
 import Content from './Content';
-import type { Field, Replacement } from './Node';
+import { node, type Replacement, type Grammar } from './Node';
 import Token from './Token';
 import TokenType from './TokenType';
 
@@ -31,8 +31,8 @@ export default class Mention extends Content {
         this.name = name;
     }
 
-    getGrammar(): Field[] {
-        return [{ name: 'name', types: [TokenType.Mention] }];
+    getGrammar(): Grammar {
+        return [{ name: 'name', types: node(TokenType.Mention) }];
     }
     computeConflicts() {
         return [];

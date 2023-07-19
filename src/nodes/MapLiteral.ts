@@ -20,7 +20,7 @@ import BindToken from './BindToken';
 import SetOpenToken from './SetOpenToken';
 import SetCloseToken from './SetCloseToken';
 import UnclosedDelimiter from '@conflicts/UnclosedDelimiter';
-import type { Replacement } from './Node';
+import { node, type Grammar, type Replacement, optional, list } from './Node';
 import type Locale from '@locale/Locale';
 import Glyphs from '../lore/Glyphs';
 import Purpose from '../concepts/Purpose';
@@ -60,12 +60,17 @@ export default class MapLiteral extends Expression {
         );
     }
 
-    getGrammar() {
+    getGrammar(): Grammar {
         return [
-            { name: 'open', types: [TokenType.SetOpen] },
-            { name: 'bind', types: [TokenType.Bind, undefined] },
-            { name: 'values', types: [[KeyValue]], space: true, indent: true },
-            { name: 'close', types: [TokenType.SetClose] },
+            { name: 'open', types: node(TokenType.SetOpen) },
+            { name: 'bind', types: optional(node(TokenType.Bind)) },
+            {
+                name: 'values',
+                types: list(node(KeyValue)),
+                space: true,
+                indent: true,
+            },
+            { name: 'close', types: node(TokenType.SetClose) },
         ];
     }
 

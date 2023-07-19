@@ -6,7 +6,7 @@ import Token from './Token';
 import TokenType from './TokenType';
 import Type from './Type';
 import type TypeSet from './TypeSet';
-import type { Replacement } from './Node';
+import { node, type Grammar, type Replacement, optional } from './Node';
 import type Locale from '@locale/Locale';
 import Glyphs from '../lore/Glyphs';
 import NodeRef from '../locale/NodeRef';
@@ -43,11 +43,11 @@ export default class ListType extends NativeType {
         );
     }
 
-    getGrammar() {
+    getGrammar(): Grammar {
         return [
-            { name: 'open', types: [TokenType.ListOpen] },
-            { name: 'type', types: [Type, undefined] },
-            { name: 'close', types: [TokenType.ListClose] },
+            { name: 'open', types: node(TokenType.ListOpen) },
+            { name: 'type', types: optional(node(Type)) },
+            { name: 'close', types: node(TokenType.ListClose) },
         ];
     }
 

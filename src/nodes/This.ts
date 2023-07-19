@@ -18,7 +18,7 @@ import NumberType from './NumberType';
 import StartFinish from '@runtime/StartFinish';
 import Reaction from './Reaction';
 import ValueException from '@runtime/ValueException';
-import type { Replacement } from './Node';
+import { node, type Grammar, type Replacement } from './Node';
 import AtomicExpression from './AtomicExpression';
 import type Locale from '@locale/Locale';
 import { UnenclosedType } from './UnenclosedType';
@@ -43,8 +43,8 @@ export default class This extends AtomicExpression {
         return new This(new Token(PROPERTY_SYMBOL, TokenType.Access));
     }
 
-    getGrammar() {
-        return [{ name: 'dis', types: [TokenType.This] }];
+    getGrammar(): Grammar {
+        return [{ name: 'dis', types: node(TokenType.This) }];
     }
 
     clone(replace?: Replacement) {

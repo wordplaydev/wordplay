@@ -9,7 +9,7 @@ import type { NativeTypeName } from '../native/NativeConstants';
 import AnyType from './AnyType';
 import type Conflict from '@conflicts/Conflict';
 import ExpectedColumnType from '@conflicts/ExpectedColumnType';
-import type { Replacement } from './Node';
+import { node, type Grammar, type Replacement, list } from './Node';
 import type Locale from '@locale/Locale';
 import Glyphs from '../lore/Glyphs';
 
@@ -36,11 +36,11 @@ export default class TableType extends Type {
         );
     }
 
-    getGrammar() {
+    getGrammar(): Grammar {
         return [
-            { name: 'open', types: [TokenType.TableOpen] },
-            { name: 'columns', types: [[Bind]] },
-            { name: 'close', types: [TokenType.TableClose] },
+            { name: 'open', types: node(TokenType.TableOpen) },
+            { name: 'columns', types: list(node(Bind)) },
+            { name: 'close', types: node(TokenType.TableClose) },
         ];
     }
 

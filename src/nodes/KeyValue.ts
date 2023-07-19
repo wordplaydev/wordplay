@@ -1,12 +1,12 @@
 import Expression from './Expression';
-import type { Replacement } from './Node';
+import type { Grammar, Replacement } from './Node';
 import type Token from './Token';
 import BindToken from './BindToken';
 import type Locale from '@locale/Locale';
 import Glyphs from '../lore/Glyphs';
 import Purpose from '../concepts/Purpose';
 import type { NativeTypeName } from '../native/NativeConstants';
-import Node from './Node';
+import Node, { node } from './Node';
 import TokenType from './TokenType';
 
 export default class KeyValue extends Node {
@@ -28,17 +28,17 @@ export default class KeyValue extends Node {
         return new KeyValue(key, value, new BindToken());
     }
 
-    getGrammar() {
+    getGrammar(): Grammar {
         return [
             {
                 name: 'key',
-                types: [Expression],
+                types: node(Expression),
                 label: (translation: Locale) => translation.term.key,
             },
-            { name: 'bind', types: [TokenType.Bind] },
+            { name: 'bind', types: node(TokenType.Bind) },
             {
                 name: 'value',
-                types: [Expression],
+                types: node(Expression),
                 label: (translation: Locale) => translation.term.value,
             },
         ];

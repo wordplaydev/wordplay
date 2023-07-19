@@ -2,11 +2,11 @@ import type Locale from '@locale/Locale';
 import Purpose from '../concepts/Purpose';
 import Glyphs from '../lore/Glyphs';
 import { TYPE_CLOSE_SYMBOL, TYPE_OPEN_SYMBOL } from '../parser/Symbols';
-import type { Replacement } from './Node';
+import type { Grammar, Replacement } from './Node';
 import Token from './Token';
 import TokenType from './TokenType';
 import Type from './Type';
-import Node from './Node';
+import Node, { list, node, optional } from './Node';
 
 export default class TypeInputs extends Node {
     readonly open: Token;
@@ -35,11 +35,11 @@ export default class TypeInputs extends Node {
         return Purpose.Evaluate;
     }
 
-    getGrammar() {
+    getGrammar(): Grammar {
         return [
-            { name: 'open', types: [TokenType.TypeOpen] },
-            { name: 'types', types: [[Type]] },
-            { name: 'close', types: [TokenType.TypeClose, undefined] },
+            { name: 'open', types: node(TokenType.TypeOpen) },
+            { name: 'types', types: list(node(Type)) },
+            { name: 'close', types: optional(node(TokenType.TypeClose)) },
         ];
     }
 

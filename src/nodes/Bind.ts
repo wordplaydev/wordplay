@@ -35,7 +35,7 @@ import type Value from '@runtime/Value';
 import TokenType from './TokenType';
 import type Name from './Name';
 import DuplicateName from '@conflicts/DuplicateName';
-import type { Replacement } from './Node';
+import { node, none, type Grammar, type Replacement, any } from './Node';
 import type Locale from '@locale/Locale';
 import NodeRef from '@locale/NodeRef';
 import Glyphs from '../lore/Glyphs';
@@ -103,32 +103,32 @@ export default class Bind extends Expression {
         );
     }
 
-    getGrammar() {
+    getGrammar(): Grammar {
         return [
             {
                 name: 'docs',
-                types: [Docs, undefined],
+                types: any(node(Docs), none()),
             },
             {
                 name: 'share',
-                types: [TokenType.Share, undefined],
+                types: any(node(TokenType.Share), none()),
                 getToken: () => new Token(SHARE_SYMBOL, TokenType.Share),
             },
             {
                 name: 'names',
-                types: [Names],
+                types: node(Names),
             },
             {
                 name: 'etc',
-                types: [TokenType.Etc, undefined],
+                types: any(node(TokenType.Etc), none()),
                 getToken: () => new Token(ETC_SYMBOL, TokenType.Etc),
             },
-            { name: 'dot', types: [TokenType.Access, 'type'] },
-            { name: 'type', types: [Type, 'dot'] },
-            { name: 'colon', types: [TokenType.Bind, 'value'] },
+            { name: 'dot', types: any(node(TokenType.Access), none('type')) },
+            { name: 'type', types: any(node(Type), none('dot')) },
+            { name: 'colon', types: any(node(TokenType.Bind), none('value')) },
             {
                 name: 'value',
-                types: [Expression, 'colon'],
+                types: any(node(Expression), none('colon')),
                 space: true,
                 indent: true,
                 // If there's a type, the value must match it, otherwise anything

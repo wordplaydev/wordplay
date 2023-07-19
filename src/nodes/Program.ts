@@ -18,7 +18,7 @@ import type Bind from './Bind';
 import type Type from './Type';
 import type TypeSet from './TypeSet';
 import type Value from '@runtime/Value';
-import type { Replacement } from './Node';
+import { node, type Grammar, type Replacement, optional, list } from './Node';
 import type Locale from '@locale/Locale';
 import type LanguageCode from '@locale/LanguageCode';
 import TokenType from './TokenType';
@@ -57,12 +57,12 @@ export default class Program extends Expression {
         );
     }
 
-    getGrammar() {
+    getGrammar(): Grammar {
         return [
-            { name: 'docs', types: [Docs, undefined] },
-            { name: 'borrows', types: [[Borrow]] },
-            { name: 'expression', types: [Block] },
-            { name: 'end', types: [TokenType.End] },
+            { name: 'docs', types: optional(node(Docs)) },
+            { name: 'borrows', types: list(node(Borrow)) },
+            { name: 'expression', types: node(Block) },
+            { name: 'end', types: node(TokenType.End) },
         ];
     }
 

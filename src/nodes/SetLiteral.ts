@@ -15,7 +15,7 @@ import AnyType from './AnyType';
 import type Bind from './Bind';
 import { SET_CLOSE_SYMBOL, SET_OPEN_SYMBOL } from '@parser/Symbols';
 import TokenType from './TokenType';
-import type { Replacement } from './Node';
+import { node, type Grammar, type Replacement, list } from './Node';
 import type Locale from '@locale/Locale';
 import Glyphs from '../lore/Glyphs';
 import type { NativeTypeName } from '../native/NativeConstants';
@@ -48,16 +48,16 @@ export default class SetLiteral extends Expression {
         );
     }
 
-    getGrammar() {
+    getGrammar(): Grammar {
         return [
-            { name: 'open', types: [TokenType.SetOpen] },
+            { name: 'open', types: node(TokenType.SetOpen) },
             {
                 name: 'values',
-                types: [[Expression]],
+                types: list(node(Expression)),
                 space: true,
                 indent: true,
             },
-            { name: 'close', types: [TokenType.SetClose] },
+            { name: 'close', types: node(TokenType.SetClose) },
         ];
     }
 

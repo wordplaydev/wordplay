@@ -19,7 +19,7 @@ import type Definition from './Definition';
 import type TypeSet from './TypeSet';
 import UnimplementedException from '@runtime/UnimplementedException';
 import type Evaluator from '@runtime/Evaluator';
-import type { Replacement } from './Node';
+import { node, type Grammar, type Replacement } from './Node';
 import type Locale from '@locale/Locale';
 import NodeRef from '@locale/NodeRef';
 import Glyphs from '../lore/Glyphs';
@@ -44,22 +44,22 @@ export default class Update extends Expression {
         this.computeChildren();
     }
 
-    getGrammar() {
+    getGrammar(): Grammar {
         return [
             {
                 name: 'table',
-                types: [Expression],
+                types: node(Expression),
                 label: (translation: Locale) => translation.term.table,
             },
-            { name: 'update', types: [TokenType.Update] },
+            { name: 'update', types: node(TokenType.Update) },
             {
                 name: 'row',
-                types: [Row],
+                types: node(Row),
                 label: (translation: Locale) => translation.term.row,
             },
             {
                 name: 'query',
-                types: [Expression],
+                types: node(Expression),
                 label: (translation: Locale) => translation.term.query,
             },
         ];

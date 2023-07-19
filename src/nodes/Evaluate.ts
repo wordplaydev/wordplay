@@ -38,7 +38,7 @@ import UnclosedDelimiter from '@conflicts/UnclosedDelimiter';
 import UnexpectedTypeInput from '@conflicts/UnexpectedTypeInput';
 import PropertyReference from './PropertyReference';
 import NeverType from './NeverType';
-import type { Replacement } from './Node';
+import { node, type Grammar, type Replacement, any, none, list } from './Node';
 import type Locale from '@locale/Locale';
 import type Node from './Node';
 import StartEvaluation from '@runtime/StartEvaluation';
@@ -99,19 +99,19 @@ export default class Evaluate extends Expression {
         );
     }
 
-    getGrammar() {
+    getGrammar(): Grammar {
         return [
             {
                 name: 'fun',
-                types: [Expression],
+                types: node(Expression),
                 label: (translation: Locale) =>
                     translation.node.Evaluate.function,
             },
-            { name: 'types', types: [TypeInputs, undefined] },
-            { name: 'open', types: [TokenType.EvalOpen] },
+            { name: 'types', types: any(node(TypeInputs), none()) },
+            { name: 'open', types: node(TokenType.EvalOpen) },
             {
                 name: 'inputs',
-                types: [[Expression]],
+                types: list(node(Expression)),
                 label: (translation: Locale, child: Node, context: Context) => {
                     // Get the function called
                     const fun = this.getFunction(context);
@@ -168,7 +168,7 @@ export default class Evaluate extends Expression {
                     );
                 },
             },
-            { name: 'close', types: [TokenType.EvalClose] },
+            { name: 'close', types: node(TokenType.EvalClose) },
         ];
     }
 

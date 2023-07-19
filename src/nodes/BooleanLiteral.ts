@@ -7,7 +7,7 @@ import type Bind from './Bind';
 import type Context from './Context';
 import type TypeSet from './TypeSet';
 import TokenType from './TokenType';
-import type { Replacement } from './Node';
+import { node, type Grammar, type Replacement } from './Node';
 import type Locale from '@locale/Locale';
 import NodeRef from '@locale/NodeRef';
 import Literal from './Literal';
@@ -35,8 +35,8 @@ export default class BooleanLiteral extends Literal {
         );
     }
 
-    getGrammar() {
-        return [{ name: 'value', types: [TokenType.Boolean] }];
+    getGrammar(): Grammar {
+        return [{ name: 'value', types: node(TokenType.Boolean) }];
     }
 
     clone(replace?: Replacement) {

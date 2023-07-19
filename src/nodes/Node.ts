@@ -13,68 +13,10 @@ import type { NativeTypeName } from '../native/NativeConstants';
 import type Root from './Root';
 import type { TemplateInput } from '../locale/concretize';
 import type Markup from './Markup';
-import TokenType, { isTokenType } from './TokenType';
+import type TokenType from './TokenType';
 
 /* A global ID for nodes, for helping index them */
 let NODE_ID_COUNTER = 0;
-
-/** These types help define a node's grammar at runtime, allowing for a range of rules to be specified about their structure.
- * This helps with edits, autocomplete, spacing rules, and more.
- */
-export type FieldValue = Node | Node[] | undefined;
-export type FieldType =
-    // A field can be undefined
-    | undefined
-    // A field can be of this type
-    | Function
-    // A field can be a token of this type
-    | TokenType
-    // A field can be a list of these node types or token types
-    | (Function | TokenType)[]
-    // A field can be undefined, but if it is, the field of this name must also be undefined. (e.g., the colon in a: 1 can be undefined if the value is also undefined.)
-    | string;
-export type Field = {
-    /** The name of the field, corresponding to a name on the Node class. Redundant with the class, but no reflection in JavaScript. */
-    name: string;
-    /** A list of possible Node class types that the field may be. Redundant with the class, but no reflection in JavaScript. */
-    types: FieldType[];
-    /** A description of the field for the UI */
-    label?: (
-        locale: Locale,
-        child: Node,
-        context: Context,
-        root: Root
-    ) => Template;
-    /** True if a preceding space is preferred the node */
-    space?: boolean | ((node: Node) => boolean);
-    /** True if the field should be indented if on a new line */
-    indent?: boolean | ((parent: Node, child: Node) => boolean);
-    /** True if the field should have newlines */
-    newline?: boolean;
-    /** True if the field should have double newlines */
-    double?: boolean;
-    /** True if the first item in the list should get a newline too */
-    initial?: boolean;
-    /** Generates a Token of the expected type, if a token is permitted on the field */
-    getToken?: (text?: string, op?: string) => Token;
-    /** Given a context and an optional index in a list, return a type required for this field. Used to filter autocomplete menus. */
-    getType?: (context: Context, index: number | undefined) => Type;
-    /** Given a context and an optional prefix, determine definitions are available for this field. Used to populate autocomplete menus. */
-    getDefinitions?: (context: Context) => Definition[];
-    /** Given position in a field that corresponds to a list, true if something can be inserted at that position.  */
-    canInsertAt?: (context: Context, index: number) => boolean;
-};
-
-export type Replacement = {
-    original: Node | Node[] | string;
-    replacement: FieldValue;
-};
-
-export type Concretizer = (
-    locale: Locale,
-    template: string,
-    ...inputs: TemplateInput[]
-) => Markup;
 
 export default abstract class Node {
     /* A unique ID to represent this node in memory. */
@@ -104,7 +46,7 @@ export default abstract class Node {
     /**
      * A list of fields that represent this node's sequence of nodes and the types of nodes allowed on each field.
      */
-    abstract getGrammar(): Field[];
+    abstract getGrammar(): Grammar;
 
     /**
      * A list of names that determine this node's children. Can't extract these through reflection, so they must be manually supplied
@@ -284,7 +226,7 @@ export default abstract class Node {
         );
     }
 
-    getAllowedFieldNodeTypes(name: string): FieldType[] | undefined {
+    getAllowedFieldNodeTypes(name: string): FieldKind | undefined {
         let field = this.getGrammar().find((field) => field.name === name);
         if (field === undefined) return undefined;
         else return field.types;
@@ -418,12 +360,10 @@ export default abstract class Node {
         const { original, replacement } = replace;
 
         // Let's get the allowed types of the field we're trying to update.
-        const allowedTypes = this.getGrammar().find(
-            (f) => f.name === field
-        )?.types;
+        const kind = this.getGrammar().find((f) => f.name === field)?.types;
 
         // Bail if the field couldn't be found. This means there's a fatal problem with one of the Node's clone() implementations.
-        if (typeof field !== 'string' || allowedTypes === undefined)
+        if (typeof field !== 'string' || kind === undefined)
             throw Error(
                 `Could not find field ${String(field)} on ${
                     this.constructor.name
@@ -440,16 +380,12 @@ export default abstract class Node {
             // Is this the field we're trying to update?
             if (field === original) {
                 // See if the replacement is valid.
-                valid = Array.isArray(replacement)
-                    ? replacement.every((n) =>
-                          Node.nodeIsAllowed(n, allowedTypes)
-                      )
-                    : Node.nodeIsAllowed(replacement, allowedTypes);
+                valid = kind.allows(replacement);
                 if (!valid) {
                     console.error(
                         Node.invalidReplacementToString(
                             field,
-                            allowedTypes,
+                            kind,
                             replacement
                         )
                     );
@@ -458,21 +394,17 @@ export default abstract class Node {
             }
             // Otherwise, delegate the search to the child below.
         }
-        // Replacement by array:
+        // Replace an array with a new array:
         else if (Array.isArray(original)) {
             // Does this node have the list provided?
             if (child === original) {
                 // Verify that the replacement list is valid.
-                valid =
-                    Array.isArray(replacement) &&
-                    replacement.every((r) =>
-                        Node.nodeIsAllowed(r, allowedTypes)
-                    );
+                valid = kind.allows(replacement);
                 if (!valid) {
                     console.error(
                         Node.invalidReplacementToString(
                             field,
-                            allowedTypes,
+                            kind,
                             replacement
                         )
                     );
@@ -487,17 +419,16 @@ export default abstract class Node {
             if (
                 Array.isArray(child) &&
                 child.includes(original) &&
-                Array.isArray(allowedTypes[0])
+                kind instanceof ListOf
             ) {
                 // Verify that the replacement node is valid. It can be undefined (which indicates removal) or one of the allowed types.
                 valid =
-                    replacement === undefined ||
-                    Node.nodeIsAllowed(replacement, allowedTypes[0]);
+                    replacement === undefined || kind.allowsItem(replacement);
                 if (!valid) {
                     console.error(
                         Node.invalidReplacementToString(
                             field,
-                            allowedTypes,
+                            kind,
                             replacement
                         )
                     );
@@ -507,12 +438,12 @@ export default abstract class Node {
             // Is this child the node provided?
             else if (child === original) {
                 // Verify that the replacement node is valid.
-                valid = Node.nodeIsAllowed(replacement, allowedTypes);
+                valid = kind.allows(replacement);
                 if (!valid) {
                     console.error(
                         Node.invalidReplacementToString(
                             field,
-                            allowedTypes,
+                            kind,
                             replacement
                         )
                     );
@@ -574,22 +505,14 @@ export default abstract class Node {
     /** A helper function that generates an error message about allowed types on a node. */
     static invalidReplacementToString(
         field: string,
-        allowedTypes: FieldType[],
+        kind: FieldKind,
         replacement: FieldValue
     ) {
         return `Attempt to replace list field ${String(
             field
-        )} failed because replacement list is not a list or contains invalid items; expected [${allowedTypes
-            .map((type) =>
-                type instanceof Function
-                    ? type.name
-                    : Array.isArray(type)
-                    ? type.map((type) =>
-                          type instanceof Function ? type.name : type
-                      )
-                    : 'undefined'
-            )
-            .join(', ')}], but received ${(Array.isArray(replacement)
+        )} failed because replacement list is not a list or contains invalid items; expected ${kind.toString()}, but received ${(Array.isArray(
+            replacement
+        )
             ? replacement
             : [replacement]
         )
@@ -597,50 +520,8 @@ export default abstract class Node {
             .join(', ')}`;
     }
 
-    /** A helper functino that checks whether the given node or undefined value is allowed on the specified types */
-    static nodeIsAllowed(node: FieldValue, allowedTypes: FieldType[]) {
-        return allowedTypes.some(
-            (allowedType) =>
-                // The nodes an instance of an allowed type
-                (allowedType instanceof Function &&
-                    node instanceof allowedType) ||
-                // Undefined is allowed (conditionally or unconditionally) and the node is undefined
-                ((allowedType === undefined ||
-                    (typeof allowedType === 'string' &&
-                        !isTokenType(allowedType))) &&
-                    node === undefined) ||
-                // A token type is allowed and this node is a token of that type
-                (node !== undefined &&
-                    typeof allowedType === 'string' &&
-                    isTokenType(allowedType) &&
-                    !Array.isArray(node) &&
-                    node.isType(allowedType)) ||
-                // The allowed type is a list and...
-                (Array.isArray(allowedType) &&
-                    // The node is a list and every element in it is one of the allowed types
-                    ((Array.isArray(node) &&
-                        node.every((element) =>
-                            allowedType.some(
-                                (listType) =>
-                                    (listType instanceof Function &&
-                                        element instanceof listType) ||
-                                    (!(listType instanceof Function) &&
-                                        element.isType(listType))
-                            )
-                        )) ||
-                        // Or the node is a single vlaue and it is one of the list's allowed types
-                        (!Array.isArray(node) &&
-                            allowedType.some((listType) =>
-                                listType instanceof Function
-                                    ? node instanceof listType
-                                    : node !== undefined &&
-                                      node.isType(listType)
-                            ))))
-        );
-    }
-
     /** Always true, except in Token, which overrids. This helps us aovid importing Token here, creating an import cycle. */
-    isType(type: TokenType) {
+    isTokenType(type: TokenType) {
         return false;
     }
 
@@ -797,3 +678,227 @@ export default abstract class Node {
             .join('\n')}`;
     }
 }
+
+export type Field = {
+    /** The name of the field, corresponding to a name on the Node class. Redundant with the class, but no reflection in JavaScript. */
+    name: string;
+    /** A list of possible Node class types that the field may be. Redundant with the class, but no reflection in JavaScript. */
+    types: Any | Empty | ListOf | IsA;
+    /** A description of the field for the UI */
+    label?: (
+        locale: Locale,
+        child: Node,
+        context: Context,
+        root: Root
+    ) => Template;
+    /** True if a preceding space is preferred the node */
+    space?: boolean | ((node: Node) => boolean);
+    /** True if the field should be indented if on a new line */
+    indent?: boolean | ((parent: Node, child: Node) => boolean);
+    /** True if the field should have newlines */
+    newline?: boolean;
+    /** True if the field should have double newlines */
+    double?: boolean;
+    /** True if the first item in the list should get a newline too */
+    initial?: boolean;
+    /** Generates a Token of the expected type, if a token is permitted on the field */
+    getToken?: (text?: string, op?: string) => Token;
+    /** Given a context and an optional index in a list, return a type required for this field. Used to filter autocomplete menus. */
+    getType?: (context: Context, index: number | undefined) => Type;
+    /** Given a context and an optional prefix, determine definitions are available for this field. Used to populate autocomplete menus. */
+    getDefinitions?: (context: Context) => Definition[];
+    /** Given position in a field that corresponds to a list, true if something can be inserted at that position.  */
+    canInsertAt?: (context: Context, index: number) => boolean;
+};
+
+/** These types help define a node's grammar at runtime, allowing for a range of rules to be specified about their structure.
+ * This helps with edits, autocomplete, spacing rules, and more.
+ */
+export type FieldValue = Node | Node[] | undefined;
+
+export type NodeKind = Function | TokenType | undefined;
+
+/** These classes help encapsulate field definitions for node grammars, centralizing reasoning about validity. */
+export abstract class FieldKind {
+    constructor() {}
+    abstract allows(value: FieldValue): boolean;
+    abstract allowsKind(kind: Function): boolean;
+    abstract enumerate(): NodeKind[];
+    abstract isOptional(): boolean;
+    abstract toString(): string;
+}
+
+// A field can be of this type of node or token type.
+export class IsA extends FieldKind {
+    readonly kind: Function | TokenType;
+    constructor(kind: Function | TokenType) {
+        super();
+        this.kind = kind;
+    }
+
+    /** If this is a function, true if the given value is an instance of this function; if a token type, true if the value is a token of this type. */
+    allows(value: FieldValue) {
+        return this.kind instanceof Function
+            ? value instanceof this.kind
+            : value !== undefined &&
+                  !Array.isArray(value) &&
+                  value.isTokenType(this.kind);
+    }
+
+    allowsKind(kind: Function) {
+        return (
+            this.kind instanceof Function && kind.prototype instanceof this.kind
+        );
+    }
+
+    isOptional(): boolean {
+        return false;
+    }
+
+    enumerate(): NodeKind[] {
+        return [this.kind];
+    }
+
+    toString() {
+        return this.kind instanceof Function ? this.kind.name : this.kind;
+    }
+}
+
+// A field can be a list of these node types or token types
+export class ListOf extends FieldKind {
+    readonly kinds: IsA[];
+    constructor(...kinds: IsA[]) {
+        super();
+        this.kinds = kinds;
+    }
+
+    /** True if the value is a list and it's contents are valid */
+    allows(value: FieldValue): boolean {
+        return (
+            Array.isArray(value) && value.every((item) => this.allowsItem(item))
+        );
+    }
+
+    allowsItem(item: FieldValue): boolean {
+        return this.kinds.some((kind) => kind.allows(item));
+    }
+
+    allowsKind(kind: Function) {
+        return this.kinds.some((k) => k.allowsKind(kind));
+    }
+
+    allowsUnconditionalNone() {
+        return this.kinds.some(
+            (kind) => kind instanceof Empty && kind.dependency === undefined
+        );
+    }
+
+    isOptional(): boolean {
+        return this.kinds.some((kind) => kind.isOptional());
+    }
+
+    enumerate(): NodeKind[] {
+        return this.kinds.reduce(
+            (list, kind) => [...list, ...kind.enumerate()],
+            [] as NodeKind[]
+        );
+    }
+
+    toString() {
+        return `a list of ${this.kinds
+            .map((kind) => kind.toString())
+            .join(', ')}`;
+    }
+}
+
+// A field can be undefined, and if a dependency field name is specified, only if that field is also undefined.
+export class Empty extends FieldKind {
+    readonly dependency: string | undefined;
+    constructor(dependency?: string) {
+        super();
+        this.dependency = dependency;
+    }
+
+    /** True if the value is undefined */
+    allows(value: FieldValue): boolean {
+        return value === undefined;
+    }
+
+    allowsKind(kind: Function): boolean {
+        return false;
+    }
+
+    isOptional(): boolean {
+        return true;
+    }
+
+    enumerate(): NodeKind[] {
+        return [undefined];
+    }
+
+    toString() {
+        return `nothing`;
+    }
+}
+export class Any extends FieldKind {
+    readonly kinds: (IsA | Empty)[];
+    constructor(...kinds: (IsA | Empty)[]) {
+        super();
+        this.kinds = kinds;
+    }
+
+    /** True if any of the kinds allow this value */
+    allows(value: FieldValue): boolean {
+        return this.kinds.some((kind) => kind.allows(value));
+    }
+
+    allowsKind(kind: Function) {
+        return this.kinds.some((k) => k.allowsKind(kind));
+    }
+
+    isOptional(): boolean {
+        return this.kinds.some((kind) => kind.isOptional());
+    }
+
+    enumerate(): NodeKind[] {
+        return this.kinds.reduce(
+            (list, kind) => [...list, ...kind.enumerate()],
+            [] as NodeKind[]
+        );
+    }
+
+    toString() {
+        return `one of ${this.kinds.map((kind) => kind.toString()).join(', ')}`;
+    }
+}
+
+/** These are shorthand functions for making grammars a bit less verbose. */
+export function node(kind: Function | TokenType) {
+    return new IsA(kind);
+}
+export function none(dependency?: string) {
+    return new Empty(dependency);
+}
+export function list(...kinds: IsA[]) {
+    return new ListOf(...kinds);
+}
+export function any(...kinds: (IsA | Empty)[]) {
+    return new Any(...kinds);
+}
+
+export function optional(kind: IsA) {
+    return new Any(kind, none());
+}
+
+export type Grammar = Field[];
+
+export type Replacement = {
+    original: Node | Node[] | string;
+    replacement: FieldValue;
+};
+
+export type Concretizer = (
+    locale: Locale,
+    template: string,
+    ...inputs: TemplateInput[]
+) => Markup;

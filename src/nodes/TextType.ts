@@ -3,7 +3,7 @@ import { TEXT_SYMBOL } from '@parser/Symbols';
 import type Locale from '@locale/Locale';
 import Language from './Language';
 import NativeType from './NativeType';
-import type { Replacement } from './Node';
+import { node, type Grammar, type Replacement, optional } from './Node';
 import Token from './Token';
 import TokenType from './TokenType';
 import type TypeSet from './TypeSet';
@@ -34,10 +34,10 @@ export default class TextType extends NativeType {
         );
     }
 
-    getGrammar() {
+    getGrammar(): Grammar {
         return [
-            { name: 'text', types: [TokenType.Text] },
-            { name: 'language', types: [Language, undefined] },
+            { name: 'text', types: node(TokenType.Text) },
+            { name: 'language', types: optional(node(Language)) },
         ];
     }
 

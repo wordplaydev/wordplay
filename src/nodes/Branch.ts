@@ -5,7 +5,7 @@ import type Glyph from '../lore/Glyph';
 import Glyphs from '../lore/Glyphs';
 import Content from './Content';
 import Mention from './Mention';
-import type { Field, Replacement } from './Node';
+import { node, type Replacement, type Grammar, list } from './Node';
 import Token from './Token';
 import TokenType from './TokenType';
 import Words from './Words';
@@ -44,14 +44,14 @@ export default class Branch extends Content {
         this.close = close;
     }
 
-    getGrammar(): Field[] {
+    getGrammar(): Grammar {
         return [
-            { name: 'mention', types: [Mention] },
-            { name: 'open', types: [TokenType.ListOpen] },
-            { name: 'yes', types: [[Words]] },
-            { name: 'bar', types: [TokenType.Union] },
-            { name: 'no', types: [[Words]] },
-            { name: 'close', types: [TokenType.ListClose] },
+            { name: 'mention', types: node(Mention) },
+            { name: 'open', types: node(TokenType.ListOpen) },
+            { name: 'yes', types: list(node(Words)) },
+            { name: 'bar', types: node(TokenType.Union) },
+            { name: 'no', types: list(node(Words)) },
+            { name: 'close', types: node(TokenType.ListClose) },
         ];
     }
     computeConflicts() {

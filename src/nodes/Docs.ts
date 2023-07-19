@@ -1,10 +1,10 @@
-import type { Replacement } from './Node';
+import type { Grammar, Replacement } from './Node';
 import Doc from './Doc';
 import type LanguageCode from '@locale/LanguageCode';
 import type Locale from '@locale/Locale';
 import Glyphs from '../lore/Glyphs';
 import Purpose from '../concepts/Purpose';
-import Node from './Node';
+import Node, { list, node } from './Node';
 
 export default class Docs extends Node {
     readonly docs: Doc[];
@@ -17,8 +17,8 @@ export default class Docs extends Node {
         this.computeChildren();
     }
 
-    getGrammar() {
-        return [{ name: 'docs', types: [[Doc]] }];
+    getGrammar(): Grammar {
+        return [{ name: 'docs', types: list(node(Doc)) }];
     }
 
     clone(replace?: Replacement) {

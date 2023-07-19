@@ -1,4 +1,11 @@
-import Node, { type Concretizer, type Replacement } from './Node';
+import Node, {
+    none,
+    type Concretizer,
+    type Replacement,
+    node,
+    any,
+    type Grammar,
+} from './Node';
 import Token from './Token';
 import { EXPONENT_SYMBOL } from '@parser/Symbols';
 import { PRODUCT_SYMBOL } from '@parser/Symbols';
@@ -50,12 +57,18 @@ export default class Dimension extends Node {
         );
     }
 
-    getGrammar() {
+    getGrammar(): Grammar {
         return [
-            { name: 'product', types: [TokenType.Operator, undefined] },
-            { name: 'name', types: [TokenType.Name] },
-            { name: 'caret', types: [TokenType.Operator, 'exponent'] },
-            { name: 'exponent', types: [TokenType.Number, 'caret'] },
+            { name: 'product', types: any(node(TokenType.Operator), none()) },
+            { name: 'name', types: node(TokenType.Name) },
+            {
+                name: 'caret',
+                types: any(node(TokenType.Operator), none('exponent')),
+            },
+            {
+                name: 'exponent',
+                types: any(node(TokenType.Number), none('caret')),
+            },
         ];
     }
 

@@ -21,7 +21,7 @@ import type StructureDefinition from './StructureDefinition';
 import NameToken from './NameToken';
 import StartFinish from '@runtime/StartFinish';
 import UnknownNameType from './UnknownNameType';
-import type { Replacement } from './Node';
+import { node, type Grammar, type Replacement } from './Node';
 import type Locale from '@locale/Locale';
 import AtomicExpression from './AtomicExpression';
 import NameException from '@runtime/NameException';
@@ -55,11 +55,11 @@ export default class Reference extends AtomicExpression {
         return new Reference(new NameToken(name), definition);
     }
 
-    getGrammar() {
+    getGrammar(): Grammar {
         return [
             {
                 name: 'name',
-                types: [TokenType.Name],
+                types: node(TokenType.Name),
                 label: (translation: Locale) => translation.node.Reference.name,
                 // The valid definitions of the name are anything in scope, except for the current name.
                 getDefinitions: (context: Context) =>
@@ -77,7 +77,7 @@ export default class Reference extends AtomicExpression {
     }
 
     isPlaceholder() {
-        return this.name.isType(TokenType.Placeholder);
+        return this.name.isTokenType(TokenType.Placeholder);
     }
 
     getName() {

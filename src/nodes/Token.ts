@@ -1,7 +1,7 @@
 import UnicodeString from '../models/UnicodeString';
 import type Spaces from '../parser/Spaces';
 import type Locale from '../locale/Locale';
-import Node, { type Replacement } from './Node';
+import Node, { type Grammar, type Replacement } from './Node';
 import TokenType from './TokenType';
 import Emotion from '../lore/Emotion';
 import Purpose from '../concepts/Purpose';
@@ -32,15 +32,15 @@ export default class Token extends Node {
         // No token is allowed to be empty except the end token.
         if (
             this.text.isEmpty() &&
-            !this.isType(TokenType.End) &&
-            !this.isType(TokenType.Words)
+            !this.isTokenType(TokenType.End) &&
+            !this.isTokenType(TokenType.Words)
         )
             throw Error('This token has no text');
     }
 
     // NODE CONTRACT
 
-    getGrammar() {
+    getGrammar(): Grammar {
         return [];
     }
     isLeaf() {
@@ -59,14 +59,14 @@ export default class Token extends Node {
     // TOKEN TYPES
 
     isntType(type: TokenType) {
-        return !this.isType(type);
+        return !this.isTokenType(type);
     }
 
-    isType(type: TokenType) {
+    isTokenType(type: TokenType) {
         return this.getTypes().includes(type);
     }
     isName() {
-        return this.isType(TokenType.Name);
+        return this.isTokenType(TokenType.Name);
     }
     getTypes() {
         return this.types;
@@ -126,7 +126,7 @@ export default class Token extends Node {
         context: Context,
         translation: Locale
     ): Template | undefined {
-        if (!this.isType(TokenType.Placeholder)) return undefined;
+        if (!this.isTokenType(TokenType.Placeholder)) return undefined;
         const parent = root.getParent(this);
         return parent === undefined
             ? undefined
@@ -147,9 +147,9 @@ export default class Token extends Node {
         let text = this.getText();
 
         // Is this text? Localize delimiters.
-        const isText = this.isType(TokenType.Text);
-        const isTextOpen = this.isType(TokenType.TemplateOpen);
-        const isTextClose = this.isType(TokenType.TemplateClose);
+        const isText = this.isTokenType(TokenType.Text);
+        const isTextOpen = this.isTokenType(TokenType.TemplateOpen);
+        const isTextClose = this.isTokenType(TokenType.TemplateClose);
         if (isText || isTextOpen || isTextClose) {
             // Is there a closing delimiter? If not, we don't replace it.
             const lastChar = text.at(-1);
@@ -172,7 +172,7 @@ export default class Token extends Node {
         }
 
         // Is this a name? Choose the most appropriate name.
-        if (this.isType(TokenType.Name) && name) {
+        if (this.isTokenType(TokenType.Name) && name) {
             const parent = root.getParent(this);
             let def: Definition | undefined = undefined;
             if (parent) {

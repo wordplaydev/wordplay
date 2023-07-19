@@ -17,7 +17,7 @@ import type Bind from './Bind';
 import type TypeSet from './TypeSet';
 import Docs from './Docs';
 import StartFinish from '@runtime/StartFinish';
-import type { Replacement } from './Node';
+import { node, none, type Grammar, type Replacement, any } from './Node';
 import type Locale from '@locale/Locale';
 import AtomicExpression from './AtomicExpression';
 import InternalException from '@runtime/InternalException';
@@ -67,15 +67,15 @@ export default class ConversionDefinition extends AtomicExpression {
         );
     }
 
-    getGrammar() {
+    getGrammar(): Grammar {
         return [
-            { name: 'docs', types: [Docs, undefined] },
-            { name: 'arrow', types: [TokenType.Convert] },
-            { name: 'input', types: [Type], space: true },
-            { name: 'output', types: [Type], space: true },
+            { name: 'docs', types: any(node(Docs), none()) },
+            { name: 'arrow', types: node(TokenType.Convert) },
+            { name: 'input', types: node(Type), space: true },
+            { name: 'output', types: node(Type), space: true },
             {
                 name: 'expression',
-                types: [Expression],
+                types: node(Expression),
                 space: true,
                 indent: true,
                 // Must match the output type

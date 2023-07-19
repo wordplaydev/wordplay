@@ -48,7 +48,7 @@
     import type Project from '@models/Project';
     import type Conflict from '@conflicts/Conflict';
     import { tick } from 'svelte';
-    import { getCaretTransforms, getEditsAt } from './util/Autocomplete';
+    import { getEditsAt } from './util/Autocomplete';
     import { OutlinePadding } from './util/outline';
     import Highlight from './Highlight.svelte';
     import { afterUpdate } from 'svelte';
@@ -520,7 +520,7 @@
                 ? nonTokenNodeUnderPointer
                 : // If the node is a placeholder token, select it's placeholder ancestor
                 tokenUnderPointer instanceof Token &&
-                  tokenUnderPointer.isType(TokenType.Placeholder)
+                  tokenUnderPointer.isTokenType(TokenType.Placeholder)
                 ? source.root
                       .getAncestors(tokenUnderPointer)
                       .find((a) => a.isPlaceholder())
@@ -966,8 +966,6 @@
         // Get the unique valid edits at the caret.
         const transforms = getEditsAt(project, $caret.withPosition(position));
 
-        getCaretTransforms(project, $caret.withPosition(position));
-
         // Set the menu.
         menu = new Menu($caret, transforms, 0, handleEdit);
     }
@@ -979,12 +977,12 @@
         if (
             // Recent addition needs to be an access or name token
             $caret.addition instanceof Token &&
-            ($caret.addition.isType(TokenType.Access) ||
-                $caret.addition.isType(TokenType.Name)) &&
+            ($caret.addition.isTokenType(TokenType.Access) ||
+                $caret.addition.isTokenType(TokenType.Name)) &&
             // If it's a name, the token prior to the name needs to be an access token
             $caret.tokenPrior !== undefined &&
-            ($caret.tokenPrior.isType(TokenType.Access) ||
-                $caret.tokenPrior.isType(TokenType.Name))
+            ($caret.tokenPrior.isTokenType(TokenType.Access) ||
+                $caret.tokenPrior.isTokenType(TokenType.Name))
             //  &&
             //     source
             //         .getTokenBefore($caret.tokenPrior)

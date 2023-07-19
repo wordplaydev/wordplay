@@ -1,6 +1,6 @@
 import MissingLanguage from '@conflicts/MissingLanguage';
-import Node from './Node';
-import type { Replacement } from './Node';
+import Node, { node, optional } from './Node';
+import type { Grammar, Replacement } from './Node';
 import type Token from './Token';
 import NameToken from './NameToken';
 import LanguageToken from './LanguageToken';
@@ -29,10 +29,10 @@ export default class Language extends Node {
         return new Language(new LanguageToken(), new NameToken(lang));
     }
 
-    getGrammar() {
+    getGrammar(): Grammar {
         return [
-            { name: 'slash', types: [TokenType.Language] },
-            { name: 'lang', types: [TokenType.Name, undefined] },
+            { name: 'slash', types: node(TokenType.Language) },
+            { name: 'lang', types: optional(node(TokenType.Name)) },
         ];
     }
 

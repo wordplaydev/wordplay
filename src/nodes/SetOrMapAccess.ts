@@ -21,7 +21,7 @@ import UnionType from './UnionType';
 import SetOpenToken from './SetOpenToken';
 import SetCloseToken from './SetCloseToken';
 import UnclosedDelimiter from '@conflicts/UnclosedDelimiter';
-import type { Replacement } from './Node';
+import { node, type Grammar, type Replacement } from './Node';
 import type Locale from '@locale/Locale';
 import NodeRef from '@locale/NodeRef';
 import Glyphs from '../lore/Glyphs';
@@ -63,22 +63,22 @@ export default class SetOrMapAccess extends Expression {
         );
     }
 
-    getGrammar() {
+    getGrammar(): Grammar {
         return [
             {
                 name: 'setOrMap',
-                types: [Expression],
+                types: node(Expression),
                 label: (translation: Locale) => translation.term.set,
                 // Must be a number
                 getType: () => UnionType.make(SetType.make(), MapType.make()),
             },
-            { name: 'open', types: [TokenType.SetOpen] },
+            { name: 'open', types: node(TokenType.SetOpen) },
             {
                 name: 'key',
-                types: [Expression],
+                types: node(Expression),
                 label: (translation: Locale) => translation.term.key,
             },
-            { name: 'close', types: [TokenType.SetClose] },
+            { name: 'close', types: node(TokenType.SetClose) },
         ];
     }
 

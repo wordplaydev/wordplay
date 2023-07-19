@@ -2,7 +2,7 @@ import type Conflict from '@conflicts/Conflict';
 import { UnparsableConflict } from '@conflicts/UnparsableConflict';
 import type { NativeTypeName } from '../native/NativeConstants';
 import type Locale from '@locale/Locale';
-import Node, { type Replacement } from './Node';
+import Node, { list, type Grammar, type Replacement, node } from './Node';
 import Type from './Type';
 import Glyphs from '../lore/Glyphs';
 
@@ -23,8 +23,8 @@ export default class UnparsableType extends Type {
         return 'unparsable';
     }
 
-    getGrammar() {
-        return [{ name: 'unparsables', types: [[Node]] }];
+    getGrammar(): Grammar {
+        return [{ name: 'unparsables', types: list(node(Node)) }];
     }
 
     computeConflicts(): void | Conflict[] {

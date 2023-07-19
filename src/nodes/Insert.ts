@@ -19,7 +19,7 @@ import { analyzeRow } from './util';
 import Halt from '@runtime/Halt';
 import Exception from '@runtime/Exception';
 import TypeException from '@runtime/TypeException';
-import type { Replacement } from './Node';
+import { node, type Grammar, type Replacement } from './Node';
 import type Locale from '@locale/Locale';
 import UnimplementedException from '@runtime/UnimplementedException';
 import NodeRef from '@locale/NodeRef';
@@ -43,17 +43,17 @@ export default class Insert extends Expression {
         this.computeChildren();
     }
 
-    getGrammar() {
+    getGrammar(): Grammar {
         return [
             {
                 name: 'table',
-                types: [Expression],
+                types: node(Expression),
                 label: (translation: Locale) => translation.term.table,
             },
-            { name: 'insert', types: [TokenType.Insert] },
+            { name: 'insert', types: node(TokenType.Insert) },
             {
                 name: 'row',
-                types: [Row],
+                types: node(Row),
                 label: (translation: Locale) => translation.term.row,
             },
         ];

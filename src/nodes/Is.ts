@@ -16,7 +16,7 @@ import { ImpossibleType } from '@conflicts/ImpossibleType';
 import UnionType from './UnionType';
 import TypeSet from './TypeSet';
 import Start from '@runtime/Start';
-import type { Replacement } from './Node';
+import { node, type Grammar, type Replacement } from './Node';
 import type Locale from '@locale/Locale';
 import NodeRef from '@locale/NodeRef';
 import Glyphs from '../lore/Glyphs';
@@ -48,11 +48,11 @@ export default class Is extends Expression {
         );
     }
 
-    getGrammar() {
+    getGrammar(): Grammar {
         return [
-            { name: 'expression', types: [Expression] },
-            { name: 'operator', types: [TokenType.Type] },
-            { name: 'type', types: [Type] },
+            { name: 'expression', types: node(Expression) },
+            { name: 'operator', types: node(TokenType.Type) },
+            { name: 'type', types: node(Type) },
         ];
     }
 

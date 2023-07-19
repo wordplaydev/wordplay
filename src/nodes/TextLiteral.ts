@@ -7,7 +7,7 @@ import type Bind from './Bind';
 import type Context from './Context';
 import type TypeSet from './TypeSet';
 import TokenType from './TokenType';
-import type { Replacement } from './Node';
+import { node, type Grammar, type Replacement, optional } from './Node';
 import type Locale from '@locale/Locale';
 import Literal from './Literal';
 import Emotion from '../lore/Emotion';
@@ -41,10 +41,10 @@ export default class TextLiteral extends Literal {
         );
     }
 
-    getGrammar() {
+    getGrammar(): Grammar {
         return [
-            { name: 'text', types: [TokenType.Text] },
-            { name: 'language', types: [Language, undefined] },
+            { name: 'text', types: node(TokenType.Text) },
+            { name: 'language', types: optional(node(Language)) },
         ];
     }
 

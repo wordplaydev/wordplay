@@ -24,7 +24,7 @@ import StructureDefinitionValue from '@runtime/StructureDefinitionValue';
 import Start from '@runtime/Start';
 import Finish from '@runtime/Finish';
 import UnknownNameType from './UnknownNameType';
-import type { Replacement } from './Node';
+import { node, type Grammar, type Replacement, none, any } from './Node';
 import type Locale from '@locale/Locale';
 import AtomicExpression from './AtomicExpression';
 import UnimplementedException from '@runtime/UnimplementedException';
@@ -66,24 +66,24 @@ export default class Borrow extends AtomicExpression {
         this.computeChildren();
     }
 
-    getGrammar() {
+    getGrammar(): Grammar {
         return [
-            { name: 'borrow', types: [TokenType.Borrow] },
+            { name: 'borrow', types: node(TokenType.Borrow) },
             {
                 name: 'source',
-                types: [TokenType.Name, undefined],
+                types: any(node(TokenType.Name), none()),
                 space: true,
                 label: (locale: Locale) => locale.node.Borrow.source,
             },
-            { name: 'dot', types: [TokenType.Access, 'name'] },
+            { name: 'dot', types: any(node(TokenType.Access), none('name')) },
             {
                 name: 'name',
-                types: [TokenType.Name, 'dot'],
+                types: any(node(TokenType.Name), none('dot')),
                 label: (locale: Locale) => locale.node.Borrow.name,
             },
             {
                 name: 'version',
-                types: [TokenType.Number, undefined],
+                types: any(node(TokenType.Number), none()),
                 label: (locale: Locale) => locale.node.Borrow.version,
             },
         ];

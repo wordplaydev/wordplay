@@ -19,7 +19,15 @@ import type LanguageCode from '@locale/LanguageCode';
 import type Value from '@runtime/Value';
 import StartFinish from '@runtime/StartFinish';
 import TypeToken from './TypeToken';
-import type { Replacement } from './Node';
+import {
+    node,
+    type Grammar,
+    type Replacement,
+    optional,
+    list,
+    any,
+    none,
+} from './Node';
 import type Locale from '@locale/Locale';
 import StreamDefinitionValue from '../runtime/StreamDefinitionValue';
 import type TypeSet from './TypeSet';
@@ -85,16 +93,21 @@ export default class StreamDefinition extends Expression {
         );
     }
 
-    getGrammar() {
+    getGrammar(): Grammar {
         return [
-            { name: 'docs', types: [Docs, undefined] },
-            { name: 'dots', types: [TokenType.Stream] },
-            { name: 'names', types: [Names] },
-            { name: 'open', types: [TokenType.EvalOpen] },
-            { name: 'inputs', types: [[Bind]], space: true, indent: true },
-            { name: 'close', types: [TokenType.EvalClose] },
-            { name: 'dot', types: [Token, 'output'] },
-            { name: 'output', types: [Type, 'dot'] },
+            { name: 'docs', types: optional(node(Docs)) },
+            { name: 'dots', types: node(TokenType.Stream) },
+            { name: 'names', types: node(Names) },
+            { name: 'open', types: node(TokenType.EvalOpen) },
+            {
+                name: 'inputs',
+                types: list(node(Bind)),
+                space: true,
+                indent: true,
+            },
+            { name: 'close', types: node(TokenType.EvalClose) },
+            { name: 'dot', types: any(node(TokenType.Type), none('output')) },
+            { name: 'output', types: any(node(Type), none('dot')) },
         ];
     }
 

@@ -10,7 +10,7 @@ import type Context from './Context';
 import type TypeSet from './TypeSet';
 import PlaceholderToken from './PlaceholderToken';
 import TokenType from './TokenType';
-import type { Replacement } from './Node';
+import { node, type Grammar, type Replacement } from './Node';
 import type Locale from '@locale/Locale';
 import NodeRef from '@locale/NodeRef';
 import Literal from './Literal';
@@ -50,10 +50,10 @@ export default class NumberLiteral extends Literal {
         return this.number.getText().endsWith('%');
     }
 
-    getGrammar() {
+    getGrammar(): Grammar {
         return [
-            { name: 'number', types: [TokenType.Number] },
-            { name: 'unit', types: [Unit] },
+            { name: 'number', types: node(TokenType.Number) },
+            { name: 'unit', types: node(Unit) },
         ];
     }
 

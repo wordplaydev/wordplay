@@ -10,7 +10,13 @@ import EvalOpenToken from './EvalOpenToken';
 import TypeVariables from './TypeVariables';
 import type TypeSet from './TypeSet';
 import type { NativeTypeName } from '../native/NativeConstants';
-import type { Replacement } from './Node';
+import {
+    node,
+    type Grammar,
+    type Replacement,
+    optional as optional,
+    list,
+} from './Node';
 import type Locale from '@locale/Locale';
 import Glyphs from '../lore/Glyphs';
 import FunctionDefinition from './FunctionDefinition';
@@ -79,14 +85,23 @@ export default class FunctionType extends Type {
         );
     }
 
-    getGrammar() {
+    getGrammar(): Grammar {
         return [
-            { name: 'fun', types: [TokenType.Function] },
-            { name: 'types', types: [TypeVariables, undefined], space: true },
-            { name: 'open', types: [TokenType.EvalOpen] },
-            { name: 'inputs', types: [[Bind]], space: true, indent: true },
-            { name: 'close', types: [TokenType.EvalClose] },
-            { name: 'output', types: [Type], space: true },
+            { name: 'fun', types: node(TokenType.Function) },
+            {
+                name: 'types',
+                types: optional(node(TypeVariables)),
+                space: true,
+            },
+            { name: 'open', types: node(TokenType.EvalOpen) },
+            {
+                name: 'inputs',
+                types: list(node(Bind)),
+                space: true,
+                indent: true,
+            },
+            { name: 'close', types: node(TokenType.EvalClose) },
+            { name: 'output', types: node(Type), space: true },
         ];
     }
 

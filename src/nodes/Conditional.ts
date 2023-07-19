@@ -17,7 +17,7 @@ import TokenType from './TokenType';
 import Finish from '@runtime/Finish';
 import type Evaluator from '@runtime/Evaluator';
 import type Value from '@runtime/Value';
-import type { Replacement } from './Node';
+import { node, type Grammar, type Replacement } from './Node';
 import type Locale from '@locale/Locale';
 import NodeRef from '@locale/NodeRef';
 import Glyphs from '../lore/Glyphs';
@@ -55,20 +55,24 @@ export default class Conditional extends Expression {
         );
     }
 
-    getGrammar() {
+    getGrammar(): Grammar {
         return [
             {
                 name: 'condition',
-                types: [Expression],
+                types: node(Expression),
                 label: (translation: Locale) =>
                     translation.node.Conditional.condition,
                 // Must be boolean typed
                 getType: () => BooleanType.make(),
             },
-            { name: 'question', types: [TokenType.Conditional], space: true },
+            {
+                name: 'question',
+                types: node(TokenType.Conditional),
+                space: true,
+            },
             {
                 name: 'yes',
-                types: [Expression],
+                types: node(Expression),
                 label: (translation: Locale) =>
                     translation.node.Conditional.yes,
                 space: true,
@@ -76,7 +80,7 @@ export default class Conditional extends Expression {
             },
             {
                 name: 'no',
-                types: [Expression],
+                types: node(Expression),
                 label: (translation: Locale) => translation.node.Conditional.no,
                 space: true,
                 indent: true,

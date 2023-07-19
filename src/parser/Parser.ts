@@ -150,19 +150,23 @@ export class Tokens {
     /** Returns true if the token list isn't empty. */
     hasNext(): boolean {
         return (
-            this.#unread.length > 0 && !this.#unread[0].isType(TokenType.End)
+            this.#unread.length > 0 &&
+            !this.#unread[0].isTokenType(TokenType.End)
         );
     }
 
     nextIsEnd(): boolean {
-        return this.#unread.length > 0 && this.#unread[0].isType(TokenType.End);
+        return (
+            this.#unread.length > 0 &&
+            this.#unread[0].isTokenType(TokenType.End)
+        );
     }
 
     /** Returns true if and only if the next token is the specified type. */
     nextIs(type: TokenType, text?: string): boolean {
         return (
             this.hasNext() &&
-            this.peek()?.isType(type) === true &&
+            this.peek()?.isTokenType(type) === true &&
             (text === undefined || this.peekText() === text)
         );
     }
@@ -176,7 +180,8 @@ export class Tokens {
     nextAre(...types: TokenType[]) {
         return types.every(
             (type, index) =>
-                index < this.#unread.length && this.#unread[index].isType(type)
+                index < this.#unread.length &&
+                this.#unread[index].isTokenType(type)
         );
     }
 
@@ -184,7 +189,7 @@ export class Tokens {
     previousWas(type: TokenType): boolean {
         return (
             this.#read.length > 0 &&
-            this.#read[this.#read.length - 1].isType(type)
+            this.#read[this.#read.length - 1].isTokenType(type)
         );
     }
 
@@ -195,11 +200,13 @@ export class Tokens {
             const token = this.#unread[index];
             if (index > 0 && this.#spaces.hasLineBreak(this.#unread[index]))
                 break;
-            if (token.isType(type)) break;
+            if (token.isTokenType(type)) break;
             index++;
         }
         // If we found a bind, it's a bind.
-        return index < this.#unread.length && this.#unread[index].isType(type);
+        return (
+            index < this.#unread.length && this.#unread[index].isTokenType(type)
+        );
     }
 
     nextIsOneOf(...types: TokenType[]): boolean {
@@ -216,7 +223,7 @@ export class Tokens {
         const after = this.#unread[1];
         return (
             after !== undefined &&
-            !after.isType(TokenType.End) &&
+            !after.isTokenType(TokenType.End) &&
             !this.#spaces.hasSpace(after)
         );
     }
@@ -243,7 +250,7 @@ export class Tokens {
     read(expectedType?: TokenType): Token {
         const next = this.#unread.shift();
         if (next !== undefined) {
-            if (expectedType !== undefined && !next.isType(expectedType)) {
+            if (expectedType !== undefined && !next.isTokenType(expectedType)) {
                 throw new Error(
                     `Internal parsing error at ${this.#read
                         .slice(this.#read.length - 10, this.#read.length)
@@ -839,7 +846,8 @@ function parseTemplate(tokens: Tokens): Template {
             ? tokens.read(TokenType.TemplateClose)
             : undefined;
         if (close !== undefined) expressions.push(close);
-        if (close === undefined || close.isType(TokenType.TemplateClose)) break;
+        if (close === undefined || close.isTokenType(TokenType.TemplateClose))
+            break;
     } while (
         tokens.hasNext() &&
         !tokens.nextHasMoreThanOneLineBreak() &&

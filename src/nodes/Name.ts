@@ -1,4 +1,4 @@
-import type { Replacement } from './Node';
+import type { Grammar, Replacement } from './Node';
 import Token from './Token';
 import type Conflict from '@conflicts/Conflict';
 import Language from './Language';
@@ -14,7 +14,7 @@ import type Context from './Context';
 import type Definition from './Definition';
 import Evaluate from './Evaluate';
 import ReservedSymbols from '../parser/ReservedSymbols';
-import Node from './Node';
+import Node, { node, optional } from './Node';
 
 export default class Name extends Node {
     readonly separator: Token | undefined;
@@ -43,11 +43,11 @@ export default class Name extends Node {
         );
     }
 
-    getGrammar() {
+    getGrammar(): Grammar {
         return [
-            { name: 'separator', types: [TokenType.Separator, undefined] },
-            { name: 'name', types: [TokenType.Name, undefined] },
-            { name: 'lang', types: [Language, undefined] },
+            { name: 'separator', types: optional(node(TokenType.Separator)) },
+            { name: 'name', types: optional(node(TokenType.Name)) },
+            { name: 'lang', types: optional(node(Language)) },
         ];
     }
 

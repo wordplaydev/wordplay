@@ -1,6 +1,6 @@
 import type Conflict from '@conflicts/Conflict';
 import type Locale from '@locale/Locale';
-import type { Field, Replacement } from './Node';
+import { node, type Field, type Replacement } from './Node';
 import Token from './Token';
 import Glyphs from '../lore/Glyphs';
 import { LINK_SYMBOL } from '../parser/Symbols';
@@ -52,7 +52,7 @@ export default class ConceptLink extends Content {
     }
 
     getGrammar(): Field[] {
-        return [{ name: 'concept', types: [TokenType.Concept] }];
+        return [{ name: 'concept', types: node(TokenType.Concept) }];
     }
 
     clone(replace?: Replacement | undefined): this {

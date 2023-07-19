@@ -15,7 +15,7 @@ import UnimplementedException from '@runtime/UnimplementedException';
 import PlaceholderToken from './PlaceholderToken';
 import UnimplementedType from './UnimplementedType';
 import TypeToken from './TypeToken';
-import type { Replacement } from './Node';
+import { node, type Grammar, type Replacement, none, any } from './Node';
 import type Locale from '@locale/Locale';
 import AtomicExpression from './AtomicExpression';
 import type { Template } from '@locale/Locale';
@@ -57,11 +57,11 @@ export default class ExpressionPlaceholder extends AtomicExpression {
         );
     }
 
-    getGrammar() {
+    getGrammar(): Grammar {
         return [
             {
                 name: 'placeholder',
-                types: [TokenType.Placeholder],
+                types: node(TokenType.Placeholder),
                 label: (
                     translation: Locale,
                     _: Node,
@@ -80,8 +80,8 @@ export default class ExpressionPlaceholder extends AtomicExpression {
                     );
                 },
             },
-            { name: 'dot', types: [TokenType.Access, 'type'] },
-            { name: 'type', types: [Type, 'dot'] },
+            { name: 'dot', types: any(node(TokenType.Access), none('type')) },
+            { name: 'type', types: any(node(Type), none('dot')) },
         ];
     }
 

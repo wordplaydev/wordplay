@@ -5,7 +5,7 @@ import Token from './Token';
 import TokenType from './TokenType';
 import Type from './Type';
 import type TypeSet from './TypeSet';
-import type { Replacement } from './Node';
+import { node, type Grammar, type Replacement } from './Node';
 import type Locale from '@locale/Locale';
 import Glyphs from '../lore/Glyphs';
 
@@ -32,11 +32,11 @@ export default class ConversionType extends Type {
         );
     }
 
-    getGrammar() {
+    getGrammar(): Grammar {
         return [
-            { name: 'input', types: [Type] },
-            { name: 'convert', types: [TokenType.Convert], space: true },
-            { name: 'output', types: [Type], space: true },
+            { name: 'input', types: node(Type) },
+            { name: 'convert', types: node(TokenType.Convert), space: true },
+            { name: 'output', types: node(Type), space: true },
         ];
     }
 

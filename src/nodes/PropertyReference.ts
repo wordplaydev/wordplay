@@ -24,7 +24,7 @@ import StreamType from './StreamType';
 import Reference from './Reference';
 import NameType from './NameType';
 import UnknownNameType from './UnknownNameType';
-import type { Replacement } from './Node';
+import { node, type Grammar, type Replacement } from './Node';
 import type Locale from '@locale/Locale';
 import NodeRef from '@locale/NodeRef';
 import Glyphs from '../lore/Glyphs';
@@ -56,13 +56,13 @@ export default class PropertyReference extends Expression {
         );
     }
 
-    getGrammar() {
+    getGrammar(): Grammar {
         return [
-            { name: 'structure', types: [Expression] },
-            { name: 'dot', types: [TokenType.Access] },
+            { name: 'structure', types: node(Expression) },
+            { name: 'dot', types: node(TokenType.Access) },
             {
                 name: 'name',
-                types: [Reference],
+                types: node(Reference),
                 // The label is
                 label: (translation: Locale) =>
                     translation.node.PropertyReference.property,

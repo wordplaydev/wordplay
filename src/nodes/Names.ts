@@ -1,4 +1,4 @@
-import type { Replacement } from './Node';
+import type { Grammar, Replacement } from './Node';
 import type LanguageCode from '@locale/LanguageCode';
 import Name from './Name';
 import Token from './Token';
@@ -9,7 +9,7 @@ import Language from './Language';
 import type Locale from '@locale/Locale';
 import Purpose from '../concepts/Purpose';
 import Emotion from '../lore/Emotion';
-import Node from './Node';
+import Node, { list, node } from './Node';
 
 export default class Names extends Node {
     readonly names: Name[];
@@ -62,8 +62,8 @@ export default class Names extends Node {
         }
     }
 
-    getGrammar() {
-        return [{ name: 'names', types: [[Name]] }];
+    getGrammar(): Grammar {
+        return [{ name: 'names', types: list(node(Name)) }];
     }
 
     clone(replace?: Replacement) {

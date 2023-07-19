@@ -1,4 +1,4 @@
-import type { Replacement } from './Node';
+import type { Grammar, Replacement } from './Node';
 import Token from './Token';
 import TokenType from './TokenType';
 import { TYPE_CLOSE_SYMBOL, TYPE_OPEN_SYMBOL } from '@parser/Symbols';
@@ -9,7 +9,7 @@ import type Locale from '@locale/Locale';
 import DuplicateTypeVariable from '@conflicts/DuplicateTypeVariable';
 import Glyphs from '../lore/Glyphs';
 import Purpose from '../concepts/Purpose';
-import Node from './Node';
+import Node, { node } from './Node';
 
 export default class TypeVariables extends Node {
     readonly open: Token;
@@ -34,11 +34,11 @@ export default class TypeVariables extends Node {
         );
     }
 
-    getGrammar() {
+    getGrammar(): Grammar {
         return [
-            { name: 'open', types: [TokenType.TypeOpen] },
-            { name: 'variables', types: [Names] },
-            { name: 'close', types: [TokenType.TypeClose] },
+            { name: 'open', types: node(TokenType.TypeOpen) },
+            { name: 'variables', types: node(Names) },
+            { name: 'close', types: node(TokenType.TypeClose) },
         ];
     }
 

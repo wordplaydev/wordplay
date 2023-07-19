@@ -23,7 +23,7 @@ import EvalCloseToken from './EvalCloseToken';
 import EvalOpenToken from './EvalOpenToken';
 import UnclosedDelimiter from '@conflicts/UnclosedDelimiter';
 import NoExpressionType from './NoExpressionType';
-import type { Replacement } from './Node';
+import { none, type Grammar, type Replacement, node, list, any } from './Node';
 import type Locale from '@locale/Locale';
 import Glyphs from '../lore/Glyphs';
 import concretize from '../locale/concretize';
@@ -76,13 +76,13 @@ export default class Block extends Expression {
         );
     }
 
-    getGrammar() {
+    getGrammar(): Grammar {
         return [
-            { name: 'docs', types: [Docs, undefined] },
-            { name: 'open', types: [TokenType.EvalOpen, undefined] },
+            { name: 'docs', types: any(node(Docs), none()) },
+            { name: 'open', types: any(node(TokenType.EvalOpen), none()) },
             {
                 name: 'statements',
-                types: [[Expression, Bind]],
+                types: list(node(Expression), node(Bind)),
                 label: (translation: Locale) =>
                     translation.node.Block.statement,
                 space: true,
@@ -92,7 +92,7 @@ export default class Block extends Expression {
             },
             {
                 name: 'close',
-                types: [TokenType.EvalClose, undefined],
+                types: any(node(TokenType.EvalClose), none()),
                 newline: this.isStructure(),
             },
         ];

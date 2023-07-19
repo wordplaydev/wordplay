@@ -1,4 +1,4 @@
-import Node, { type Replacement } from './Node';
+import Node, { node, type Grammar, type Replacement } from './Node';
 import Token from './Token';
 import Program from './Program';
 import type Conflict from '@conflicts/Conflict';
@@ -101,11 +101,11 @@ export default class Source extends Expression {
         return new Source(Names.make([mainName]), '');
     }
 
-    getGrammar() {
+    getGrammar(): Grammar {
         return [
             {
                 name: 'expression',
-                types: [Program],
+                types: node(Program),
                 space: false,
                 indent: false,
             },

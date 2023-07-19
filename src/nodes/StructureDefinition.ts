@@ -29,7 +29,7 @@ import StartFinish from '@runtime/StartFinish';
 import TypeVariables from './TypeVariables';
 import Reference from './Reference';
 import NotAnInterface from '@conflicts/NotAnInterface';
-import type { Replacement } from './Node';
+import { optional, type Grammar, type Replacement, node, list } from './Node';
 import type Locale from '@locale/Locale';
 import AtomicExpression from './AtomicExpression';
 import type NameType from './NameType';
@@ -105,24 +105,33 @@ export default class StructureDefinition extends AtomicExpression {
         );
     }
 
-    getGrammar() {
+    getGrammar(): Grammar {
         return [
-            { name: 'docs', types: [Docs, undefined] },
+            { name: 'docs', types: optional(node(Docs)) },
             {
                 name: 'share',
-                types: [TokenType.Share, undefined],
+                types: optional(node(TokenType.Share)),
                 getToken: () => new Token(SHARE_SYMBOL, TokenType.Share),
             },
-            { name: 'type', types: [TokenType.Type] },
-            { name: 'names', types: [Names] },
-            { name: 'interfaces', types: [[Reference]], space: true },
-            { name: 'types', types: [TypeVariables, undefined], space: true },
-            { name: 'open', types: [TokenType.EvalOpen] },
-            { name: 'inputs', types: [[Bind]], space: true, indent: true },
-            { name: 'close', types: [TokenType.EvalClose] },
+            { name: 'type', types: node(TokenType.Type) },
+            { name: 'names', types: node(Names) },
+            { name: 'interfaces', types: list(node(Reference)), space: true },
+            {
+                name: 'types',
+                types: optional(node(TypeVariables)),
+                space: true,
+            },
+            { name: 'open', types: node(TokenType.EvalOpen) },
+            {
+                name: 'inputs',
+                types: list(node(Bind)),
+                space: true,
+                indent: true,
+            },
+            { name: 'close', types: node(TokenType.EvalClose) },
             {
                 name: 'expression',
-                types: [Block, undefined],
+                types: optional(node(Block)),
                 space: true,
                 indent: (_: Node, child: Node) => !(child instanceof Block),
             },

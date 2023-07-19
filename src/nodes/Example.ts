@@ -1,6 +1,6 @@
 import type Conflict from '@conflicts/Conflict';
 import type Locale from '@locale/Locale';
-import type { Field, Replacement } from './Node';
+import { node, type Replacement, type Grammar } from './Node';
 import Program from './Program';
 import Token from './Token';
 import Glyphs from '../lore/Glyphs';
@@ -31,11 +31,11 @@ export default class Example extends Content {
         );
     }
 
-    getGrammar(): Field[] {
+    getGrammar(): Grammar {
         return [
-            { name: 'open', types: [TokenType.ExampleOpen] },
-            { name: 'program', types: [Program] },
-            { name: 'close', types: [TokenType.ExampleClose] },
+            { name: 'open', types: node(TokenType.ExampleOpen) },
+            { name: 'program', types: node(Program) },
+            { name: 'close', types: node(TokenType.ExampleClose) },
         ];
     }
 

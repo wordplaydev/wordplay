@@ -7,7 +7,7 @@ import {
     TAG_CLOSE_SYMBOL,
     TAG_OPEN_SYMBOL,
 } from '../parser/Symbols';
-import type { Field, Replacement } from './Node';
+import { node, type Grammar, type Replacement } from './Node';
 import Token from './Token';
 import TokenType from './TokenType';
 import type { TemplateInput } from '../locale/concretize';
@@ -47,13 +47,13 @@ export default class WebLink extends Content {
         );
     }
 
-    getGrammar(): Field[] {
+    getGrammar(): Grammar {
         return [
-            { name: 'open', types: [TokenType.TagOpen] },
-            { name: 'description', types: [TokenType.Words] },
-            { name: 'at', types: [TokenType.Link] },
-            { name: 'url', types: [TokenType.URL] },
-            { name: 'close', types: [TokenType.TagClose] },
+            { name: 'open', types: node(TokenType.TagOpen) },
+            { name: 'description', types: node(TokenType.Words) },
+            { name: 'at', types: node(TokenType.Link) },
+            { name: 'url', types: node(TokenType.URL) },
+            { name: 'close', types: node(TokenType.TagClose) },
         ];
     }
 

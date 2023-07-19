@@ -19,7 +19,7 @@ import UnclosedDelimiter from '@conflicts/UnclosedDelimiter';
 import ListOpenToken from './ListOpenToken';
 import ListCloseToken from './ListCloseToken';
 import NumberLiteral from './NumberLiteral';
-import type { Replacement } from './Node';
+import { node, type Grammar, type Replacement } from './Node';
 import type Locale from '@locale/Locale';
 import { NotAType } from './NotAType';
 import NodeRef from '@locale/NodeRef';
@@ -62,24 +62,24 @@ export default class ListAccess extends Expression {
         );
     }
 
-    getGrammar() {
+    getGrammar(): Grammar {
         return [
             {
                 name: 'list',
-                types: [Expression],
+                types: node(Expression),
                 label: (translation: Locale) => translation.term.list,
                 // Must be a list
                 getType: () => ListType.make(),
             },
-            { name: 'open', types: [TokenType.ListOpen] },
+            { name: 'open', types: node(TokenType.ListOpen) },
             {
                 name: 'index',
-                types: [Expression],
+                types: node(Expression),
                 label: (translation: Locale) => translation.term.index,
                 // Must be a number
                 getType: () => NumberType.make(),
             },
-            { name: 'close', types: [TokenType.ListClose] },
+            { name: 'close', types: node(TokenType.ListClose) },
         ];
     }
 

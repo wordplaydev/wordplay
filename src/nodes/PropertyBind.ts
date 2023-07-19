@@ -11,7 +11,7 @@ import type Bind from './Bind';
 import type TypeSet from './TypeSet';
 import NameException from '@runtime/NameException';
 import type Value from '@runtime/Value';
-import type { Replacement } from './Node';
+import { node, type Grammar, type Replacement } from './Node';
 import type Locale from '@locale/Locale';
 import BindToken from './BindToken';
 import Structure from '../runtime/Structure';
@@ -43,11 +43,11 @@ export default class PropertyBind extends Expression {
         return new PropertyBind(reference, new BindToken(), value);
     }
 
-    getGrammar() {
+    getGrammar(): Grammar {
         return [
-            { name: 'reference', types: [PropertyReference] },
-            { name: 'bind', types: [TokenType.Bind] },
-            { name: 'value', types: [Expression] },
+            { name: 'reference', types: node(PropertyReference) },
+            { name: 'bind', types: node(TokenType.Bind) },
+            { name: 'value', types: node(Expression) },
         ];
     }
 

@@ -16,7 +16,7 @@ import TokenType from './TokenType';
 import { CHANGE_SYMBOL } from '@parser/Symbols';
 import Start from '@runtime/Start';
 import Bool from '@runtime/Bool';
-import type { Replacement } from './Node';
+import { node, type Grammar, type Replacement } from './Node';
 import type Locale from '@locale/Locale';
 import AtomicExpression from './AtomicExpression';
 import NodeRef from '@locale/NodeRef';
@@ -44,12 +44,12 @@ export default class Changed extends AtomicExpression {
         return new Changed(new Token(CHANGE_SYMBOL, TokenType.Change), stream);
     }
 
-    getGrammar() {
+    getGrammar(): Grammar {
         return [
-            { name: 'change', types: [TokenType.Change] },
+            { name: 'change', types: node(TokenType.Change) },
             {
                 name: 'stream',
-                types: [Expression],
+                types: node(Expression),
                 space: true,
                 // Must be a stream with any type
                 getType: () => StreamType.make(new AnyType()),

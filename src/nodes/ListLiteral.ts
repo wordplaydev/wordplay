@@ -16,7 +16,7 @@ import UnclosedDelimiter from '@conflicts/UnclosedDelimiter';
 import type Conflict from '@conflicts/Conflict';
 import ListOpenToken from './ListOpenToken';
 import ListCloseToken from './ListCloseToken';
-import type { Replacement } from './Node';
+import { node, type Grammar, type Replacement, list } from './Node';
 import type Locale from '@locale/Locale';
 import Glyphs from '../lore/Glyphs';
 import Purpose from '../concepts/Purpose';
@@ -47,18 +47,18 @@ export default class ListLiteral extends Expression {
         );
     }
 
-    getGrammar() {
+    getGrammar(): Grammar {
         return [
-            { name: 'open', types: [TokenType.ListOpen] },
+            { name: 'open', types: node(TokenType.ListOpen) },
             {
                 name: 'values',
-                types: [[Expression]],
+                types: list(node(Expression)),
                 label: (translation: Locale) =>
                     translation.node.ListLiteral.item,
                 space: true,
                 indent: true,
             },
-            { name: 'close', types: [TokenType.ListClose], space: true },
+            { name: 'close', types: node(TokenType.ListClose), space: true },
         ];
     }
 

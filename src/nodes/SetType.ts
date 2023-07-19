@@ -8,7 +8,7 @@ import SetCloseToken from './SetCloseToken';
 import UnclosedDelimiter from '@conflicts/UnclosedDelimiter';
 import type Conflict from '@conflicts/Conflict';
 import type TypeSet from './TypeSet';
-import type { Replacement } from './Node';
+import { node, type Grammar, type Replacement, optional } from './Node';
 import type Locale from '@locale/Locale';
 import Glyphs from '../lore/Glyphs';
 import NodeRef from '../locale/NodeRef';
@@ -33,11 +33,11 @@ export default class SetType extends NativeType {
         return new SetType(new SetOpenToken(), key, new SetCloseToken());
     }
 
-    getGrammar() {
+    getGrammar(): Grammar {
         return [
-            { name: 'open', types: [TokenType.SetOpen] },
-            { name: 'key', types: [Type, undefined] },
-            { name: 'close', types: [TokenType.SetClose] },
+            { name: 'open', types: node(TokenType.SetOpen) },
+            { name: 'key', types: optional(node(Type)) },
+            { name: 'close', types: node(TokenType.SetClose) },
         ];
     }
 

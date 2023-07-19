@@ -12,7 +12,7 @@ import type TypeSet from './TypeSet';
 import type { NativeTypeName } from '../native/NativeConstants';
 import LanguageToken from './LanguageToken';
 import TokenType from './TokenType';
-import type { Replacement } from './Node';
+import { node, type Grammar, type Replacement, list, optional } from './Node';
 import type Locale from '@locale/Locale';
 import Emotion from '../lore/Emotion';
 
@@ -121,11 +121,11 @@ export default class Unit extends Type {
         return new Unit(exp);
     })();
 
-    getGrammar() {
+    getGrammar(): Grammar {
         return [
-            { name: 'numerator', types: [[Dimension]] },
-            { name: 'slash', types: [TokenType.Language, undefined] },
-            { name: 'denominator', types: [[Dimension]] },
+            { name: 'numerator', types: list(node(Dimension)) },
+            { name: 'slash', types: optional(node(TokenType.Language)) },
+            { name: 'denominator', types: list(node(Dimension)) },
         ];
     }
 

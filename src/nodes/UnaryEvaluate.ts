@@ -15,7 +15,7 @@ import Evaluation from '@runtime/Evaluation';
 import getConcreteExpectedType from './Generics';
 import type Value from '@runtime/Value';
 import UnknownNameType from './UnknownNameType';
-import type { Replacement } from './Node';
+import { node, type Grammar, type Replacement } from './Node';
 import type Locale from '@locale/Locale';
 import StartEvaluation from '@runtime/StartEvaluation';
 import NodeRef from '@locale/NodeRef';
@@ -41,10 +41,10 @@ export default class UnaryEvaluate extends Expression {
         this.computeChildren();
     }
 
-    getGrammar() {
+    getGrammar(): Grammar {
         return [
-            { name: 'fun', types: [Reference] },
-            { name: 'input', types: [Expression] },
+            { name: 'fun', types: node(Reference) },
+            { name: 'input', types: node(Expression) },
         ];
     }
 

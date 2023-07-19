@@ -9,7 +9,7 @@ import SetCloseToken from './SetCloseToken';
 import UnclosedDelimiter from '@conflicts/UnclosedDelimiter';
 import type Conflict from '@conflicts/Conflict';
 import type TypeSet from './TypeSet';
-import type { Replacement } from './Node';
+import { node, type Grammar, type Replacement, any, none } from './Node';
 import type Locale from '@locale/Locale';
 import Glyphs from '../lore/Glyphs';
 import NodeRef from '../locale/NodeRef';
@@ -50,13 +50,13 @@ export default class MapType extends NativeType {
         );
     }
 
-    getGrammar() {
+    getGrammar(): Grammar {
         return [
-            { name: 'open', types: [TokenType.SetOpen] },
-            { name: 'key', types: [Type, 'value'] },
-            { name: 'bind', types: [TokenType.Bind] },
-            { name: 'value', types: [Type, 'key'] },
-            { name: 'close', types: [TokenType.SetClose] },
+            { name: 'open', types: node(TokenType.SetOpen) },
+            { name: 'key', types: any(node(Type), none('value')) },
+            { name: 'bind', types: node(TokenType.Bind) },
+            { name: 'value', types: any(node(Type), none('key')) },
+            { name: 'close', types: node(TokenType.SetClose) },
         ];
     }
 

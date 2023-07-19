@@ -23,7 +23,7 @@ import UnknownNameType from './UnknownNameType';
 import NeverType from './NeverType';
 import type Definition from './Definition';
 import NumberType from './NumberType';
-import type { Replacement } from './Node';
+import { node, type Grammar, type Replacement } from './Node';
 import type Locale from '@locale/Locale';
 import type { Template } from '@locale/Locale';
 import StartEvaluation from '@runtime/StartEvaluation';
@@ -52,11 +52,11 @@ export default class BinaryEvaluate extends Expression {
         this.computeChildren();
     }
 
-    getGrammar() {
+    getGrammar(): Grammar {
         return [
             {
                 name: 'left',
-                types: [Expression],
+                types: node(Expression),
                 // The label comes from the type of left, or the default label from the translation.
                 label: (
                     translation: Locale,
@@ -66,7 +66,7 @@ export default class BinaryEvaluate extends Expression {
             },
             {
                 name: 'fun',
-                types: [Reference],
+                types: node(Reference),
                 space: true,
                 indent: true,
                 getDefinitions: (context: Context): Definition[] => {
@@ -79,7 +79,7 @@ export default class BinaryEvaluate extends Expression {
             },
             {
                 name: 'right',
-                types: [Expression],
+                types: node(Expression),
                 // The name of the input from the function, or the translation default
                 label: (
                     translation: Locale,

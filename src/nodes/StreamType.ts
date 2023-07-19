@@ -3,7 +3,7 @@ import { STREAM_SYMBOL } from '@parser/Symbols';
 import type Locale from '@locale/Locale';
 import AnyType from './AnyType';
 import type Context from './Context';
-import type { Replacement } from './Node';
+import { node, type Grammar, type Replacement } from './Node';
 import Token from './Token';
 import TokenType from './TokenType';
 import Type from './Type';
@@ -32,10 +32,10 @@ export default class StreamType extends Type {
         );
     }
 
-    getGrammar() {
+    getGrammar(): Grammar {
         return [
-            { name: 'stream', types: [TokenType.Stream] },
-            { name: 'type', types: [Type] },
+            { name: 'stream', types: node(TokenType.Stream) },
+            { name: 'type', types: node(Type) },
         ];
     }
 

@@ -4,6 +4,7 @@ import Type from './Type';
 import type TypeSet from './TypeSet';
 import type TypeVariable from './TypeVariable';
 import Glyphs from '../lore/Glyphs';
+import type { Grammar } from './Node';
 
 export default class VariableType extends Type {
     readonly definition: TypeVariable;
@@ -14,7 +15,7 @@ export default class VariableType extends Type {
         this.definition = definition;
     }
 
-    getGrammar() {
+    getGrammar(): Grammar {
         return [];
     }
 

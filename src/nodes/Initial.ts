@@ -10,7 +10,7 @@ import type TypeSet from './TypeSet';
 import TokenType from './TokenType';
 import { INITIAL_SYMBOL } from '@parser/Symbols';
 import Bool from '@runtime/Bool';
-import type { Replacement } from './Node';
+import { node, type Grammar, type Replacement } from './Node';
 import type Locale from '@locale/Locale';
 import AtomicExpression from './AtomicExpression';
 import BooleanType from './BooleanType';
@@ -36,8 +36,8 @@ export default class Initial extends AtomicExpression {
         return new Initial(new Token(INITIAL_SYMBOL, TokenType.Initial));
     }
 
-    getGrammar() {
-        return [{ name: 'diamond', types: [TokenType.Initial] }];
+    getGrammar(): Grammar {
+        return [{ name: 'diamond', types: node(TokenType.Initial) }];
     }
 
     clone(replace?: Replacement) {

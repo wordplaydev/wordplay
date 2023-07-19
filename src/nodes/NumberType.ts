@@ -12,7 +12,7 @@ import Number from '@runtime/Number';
 import Evaluate from './Evaluate';
 import PropertyReference from './PropertyReference';
 import type TypeSet from './TypeSet';
-import type { Replacement } from './Node';
+import { node, type Grammar, type Replacement } from './Node';
 import type Locale from '@locale/Locale';
 import Glyphs from '../lore/Glyphs';
 import NodeRef from '../locale/NodeRef';
@@ -62,10 +62,10 @@ export default class NumberType extends NativeType {
         return NumberType.make(this.unit);
     }
 
-    getGrammar() {
+    getGrammar(): Grammar {
         return [
-            { name: 'number', types: [TokenType.NumberType] },
-            { name: 'unit', types: [Unit] },
+            { name: 'number', types: node(TokenType.NumberType) },
+            { name: 'unit', types: node(Unit) },
         ];
     }
 
@@ -116,7 +116,7 @@ export default class NumberType extends NativeType {
 
             // If this is a specific number, then all other possible type must be the same specific number.
             if (
-                this.number.isType(TokenType.Number) &&
+                this.number.isTokenType(TokenType.Number) &&
                 this.number.getText() !== possibleType.number.getText()
             )
                 return false;

@@ -14,7 +14,7 @@ import type Context from './Context';
 import type TypeSet from './TypeSet';
 import { analyzeRow } from './util';
 import Exception from '@runtime/Exception';
-import type { Replacement } from './Node';
+import { node, type Grammar, type Replacement, list } from './Node';
 import type Locale from '@locale/Locale';
 import Glyphs from '../lore/Glyphs';
 import Purpose from '../concepts/Purpose';
@@ -33,14 +33,14 @@ export default class TableLiteral extends Expression {
         this.computeChildren();
     }
 
-    getGrammar() {
+    getGrammar(): Grammar {
         return [
             {
                 name: 'type',
-                types: [TableType],
+                types: node(TableType),
                 label: (translation: Locale) => translation.term.table,
             },
-            { name: 'rows', types: [[Row]] },
+            { name: 'rows', types: list(node(Row)) },
         ];
     }
 

@@ -14,7 +14,7 @@ import type Context from './Context';
 import UnionType from './UnionType';
 import type TypeSet from './TypeSet';
 import Exception from '@runtime/Exception';
-import type { Replacement } from './Node';
+import { node, type Grammar, type Replacement } from './Node';
 import type Locale from '@locale/Locale';
 import BooleanType from './BooleanType';
 import ExpectedBooleanCondition from '../conflicts/ExpectedBooleanCondition';
@@ -65,31 +65,31 @@ export default class Reaction extends Expression {
         );
     }
 
-    getGrammar() {
+    getGrammar(): Grammar {
         return [
             {
                 name: 'initial',
-                types: [Expression],
+                types: node(Expression),
                 label: (translation: Locale) =>
                     translation.node.Reaction.initial,
             },
-            { name: 'dots', types: [TokenType.Stream], space: true },
+            { name: 'dots', types: node(TokenType.Stream), space: true },
             {
                 name: 'condition',
-                types: [Expression],
+                types: node(Expression),
                 space: true,
                 label: (translation: Locale) =>
                     translation.node.Reaction.condition,
             },
             {
                 name: 'nextdots',
-                types: [TokenType.Stream],
+                types: node(TokenType.Stream),
                 space: true,
                 indent: true,
             },
             {
                 name: 'next',
-                types: [Expression],
+                types: node(Expression),
                 label: (translation: Locale) => translation.node.Reaction.next,
                 space: true,
                 indent: true,

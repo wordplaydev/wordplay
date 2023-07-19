@@ -19,7 +19,7 @@ import TokenType from './TokenType';
 import Names from './Names';
 import type Evaluator from '@runtime/Evaluator';
 import type Value from '@runtime/Value';
-import type { Replacement } from './Node';
+import { node, type Grammar, type Replacement } from './Node';
 import type Locale from '@locale/Locale';
 import StartConversion from '@runtime/StartConversion';
 import NodeRef from '@locale/NodeRef';
@@ -53,11 +53,11 @@ export default class Convert extends Expression {
         );
     }
 
-    getGrammar() {
+    getGrammar(): Grammar {
         return [
-            { name: 'expression', types: [Expression] },
-            { name: 'convert', types: [TokenType.Convert], space: true },
-            { name: 'type', types: [Type], space: true },
+            { name: 'expression', types: node(Expression) },
+            { name: 'convert', types: node(TokenType.Convert), space: true },
+            { name: 'type', types: node(Type), space: true },
         ];
     }
 

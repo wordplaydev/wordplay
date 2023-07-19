@@ -1,5 +1,5 @@
 import Source from '@nodes/Source';
-import Node from '@nodes/Node';
+import Node, { ListOf } from '@nodes/Node';
 import Expression from '@nodes/Expression';
 import ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
 import TypePlaceholder from '@nodes/TypePlaceholder';
@@ -92,15 +92,15 @@ export function dropNodeOnSource(
         field === undefined || !draggedInSource
             ? null
             : // Does the field allow undefined or the field is a list? Replace with undefined (which means unset or remove from the list).
-            field.types.includes(undefined) || Array.isArray(field.types[0])
+            field.types.isOptional() || field.types instanceof ListOf
             ? undefined
             : // Is the node an expression and the field allows expressions? Replace with an expression placeholder of the type of the current expression.
-            dragged instanceof Expression && field.types.includes(Expression)
+            dragged instanceof Expression && field.types.allowsKind(Expression)
             ? ExpressionPlaceholder.make(
                   dragged.getType(project.getContext(source))
               )
             : // Is the field a type? Replace with a type placeholder.
-            field.types.includes(Type)
+            field.types.allowsKind(Type)
             ? new TypePlaceholder()
             : // Otherwise, don't do a replacement.
               null;
@@ -224,7 +224,7 @@ export function getInsertionPoint(
     if (parent === undefined) return;
 
     // Special case the end token of the Program, since it's block has no delimters.
-    if (node instanceof Token && node.isType(TokenType.End)) {
+    if (node instanceof Token && node.isTokenType(TokenType.End)) {
         if (parent instanceof Program && parent.expression instanceof Block) {
             return new InsertionPoint(
                 parent.expression,
@@ -274,19 +274,7 @@ export function isValidDropTarget(
             ?.getFieldOfChild(target);
 
         // If we found a field and the dragged node is an instanceof one of the allowed types, it's a valid drop target.
-        if (
-            field &&
-            field.types.some((type) =>
-                Array.isArray(type)
-                    ? type.some(
-                          (t) => t instanceof Function && dragged instanceof t
-                      )
-                    : type instanceof Function
-                    ? dragged instanceof type
-                    : false
-            )
-        )
-            return true;
+        if (field && field.types.allowsKind(dragged.constructor)) return true;
     }
 
     // Allow binds to be dropped on children of blocks.

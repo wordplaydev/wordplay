@@ -2,7 +2,7 @@ import type { NativeTypeName } from '../native/NativeConstants';
 import { NONE_SYMBOL } from '@parser/Symbols';
 import type Locale from '@locale/Locale';
 import NativeType from './NativeType';
-import type { Replacement } from './Node';
+import { node, type Grammar, type Replacement } from './Node';
 import Token from './Token';
 import TokenType from './TokenType';
 import type TypeSet from './TypeSet';
@@ -25,8 +25,8 @@ export default class NoneType extends NativeType {
         return new NoneType(new Token(NONE_SYMBOL, TokenType.None));
     }
 
-    getGrammar() {
-        return [{ name: 'none', types: [TokenType.None] }];
+    getGrammar(): Grammar {
+        return [{ name: 'none', types: node(TokenType.None) }];
     }
 
     computeConflicts() {}

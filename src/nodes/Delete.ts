@@ -15,7 +15,7 @@ import type Definition from './Definition';
 import type TypeSet from './TypeSet';
 import UnimplementedException from '@runtime/UnimplementedException';
 import type Evaluator from '@runtime/Evaluator';
-import type { Replacement } from './Node';
+import { node, type Grammar, type Replacement } from './Node';
 import type Locale from '@locale/Locale';
 import NodeRef from '@locale/NodeRef';
 import Glyphs from '../lore/Glyphs';
@@ -38,17 +38,17 @@ export default class Delete extends Expression {
         this.computeChildren();
     }
 
-    getGrammar() {
+    getGrammar(): Grammar {
         return [
             {
                 name: 'table',
-                types: [Expression],
+                types: node(Expression),
                 label: (translation: Locale) => translation.term.table,
             },
-            { name: 'del', types: [TokenType.Delete] },
+            { name: 'del', types: node(TokenType.Delete) },
             {
                 name: 'query',
-                types: [Expression],
+                types: node(Expression),
                 label: (translation: Locale) => translation.term.query,
                 // Must be a boolean
                 getType: () => BooleanType.make(),

@@ -26,7 +26,7 @@ import NoExpression from '@conflicts/NoExpression';
 import UnimplementedType from './UnimplementedType';
 import AnyType from './AnyType';
 import TypeToken from './TypeToken';
-import type { Replacement } from './Node';
+import { any, node, none, type Grammar, type Replacement, list } from './Node';
 import type Locale from '@locale/Locale';
 import InternalException from '@runtime/InternalException';
 import Glyphs from '../lore/Glyphs';
@@ -158,25 +158,30 @@ export default class FunctionDefinition extends Expression {
               );
     }
 
-    getGrammar() {
+    getGrammar(): Grammar {
         return [
-            { name: 'docs', types: [Docs, undefined] },
+            { name: 'docs', types: any(node(Docs), none()) },
             {
                 name: 'share',
-                types: [TokenType.Share, undefined],
+                types: any(node(TokenType.Share), none()),
                 getToken: () => new Token(SHARE_SYMBOL, TokenType.Share),
             },
-            { name: 'fun', types: [TokenType.Function] },
-            { name: 'names', types: [Names], space: true },
-            { name: 'types', types: [TypeVariables, undefined] },
-            { name: 'open', types: [TokenType.EvalOpen] },
-            { name: 'inputs', types: [[Bind]], space: true, indent: true },
-            { name: 'close', types: [TokenType.EvalClose] },
-            { name: 'dot', types: [TokenType.Type, 'output'] },
-            { name: 'output', types: [Type, 'dot'] },
+            { name: 'fun', types: node(TokenType.Function) },
+            { name: 'names', types: node(Names), space: true },
+            { name: 'types', types: any(node(TypeVariables), none()) },
+            { name: 'open', types: node(TokenType.EvalOpen) },
+            {
+                name: 'inputs',
+                types: list(node(Bind)),
+                space: true,
+                indent: true,
+            },
+            { name: 'close', types: node(TokenType.EvalClose) },
+            { name: 'dot', types: any(node(TokenType.Type), none('output')) },
+            { name: 'output', types: any(node(Type), none('dot')) },
             {
                 name: 'expression',
-                types: [Expression, TokenType.Etc, undefined],
+                types: any(node(Expression), node(TokenType.Etc), none()),
                 space: true,
                 indent: (_: Node, child: Node) => !(child instanceof Block),
                 // Must match output type if provided

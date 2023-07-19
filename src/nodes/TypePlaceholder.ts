@@ -4,7 +4,7 @@ import type Token from './Token';
 import Type from './Type';
 import PlaceholderToken from './PlaceholderToken';
 import type { NativeTypeName } from '../native/NativeConstants';
-import type { Replacement } from './Node';
+import { node, type Grammar, type Replacement } from './Node';
 import type Locale from '@locale/Locale';
 import Glyphs from '../lore/Glyphs';
 import TokenType from './TokenType';
@@ -24,11 +24,11 @@ export default class TypePlaceholder extends Type {
         return new TypePlaceholder(new PlaceholderToken());
     }
 
-    getGrammar() {
+    getGrammar(): Grammar {
         return [
             {
                 name: 'placeholder',
-                types: [TokenType.Placeholder],
+                types: node(TokenType.Placeholder),
                 label: (translation: Locale) =>
                     translation.ui.placeholders.type,
             },

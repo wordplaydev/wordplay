@@ -1,6 +1,6 @@
 import type { Edit, Revision } from './Commands';
 import Block from '@nodes/Block';
-import Node from '@nodes/Node';
+import Node, { ListOf } from '@nodes/Node';
 import Token from '@nodes/Token';
 import TokenType from '@nodes/TokenType';
 import {
@@ -19,6 +19,8 @@ import ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
 import Program from '@nodes/Program';
 import UnicodeString from '../../../models/UnicodeString';
 import ListLiteral from '@nodes/ListLiteral';
+import SetLiteral from '../../../nodes/SetLiteral';
+import MapLiteral from '../../../nodes/MapLiteral';
 
 export type InsertionContext = { before: Node[]; after: Node[] };
 export type CaretPosition = number | Node;
@@ -629,7 +631,7 @@ export default class Caret {
                 // Is the text being typed what's already there?
                 text === this.source.code.at(this.position) &&
                 // Is what's being typed a closing delimiter of a text literal?
-                ((this.tokenIncludingSpace.isType(TokenType.Text) &&
+                ((this.tokenIncludingSpace.isTokenType(TokenType.Text) &&
                     REVERSE_TEXT_DELIMITERS[
                         this.tokenIncludingSpace.getText().charAt(0)
                     ] === text) ||
@@ -657,8 +659,10 @@ export default class Caret {
                     !(
                         // The token prior is text or unknown
                         (
-                            (this.tokenPrior.isType(TokenType.Text) ||
-                                this.tokenPrior.isType(TokenType.Unknown)) &&
+                            (this.tokenPrior.isTokenType(TokenType.Text) ||
+                                this.tokenPrior.isTokenType(
+                                    TokenType.Unknown
+                                )) &&
                             // The text typed closes a matching delimiter
                             text ===
                                 DELIMITERS[this.tokenPrior.getText().charAt(0)]
@@ -745,16 +749,18 @@ export default class Caret {
     isInsideText() {
         const isText =
             this.tokenExcludingSpace !== undefined &&
-            (this.tokenExcludingSpace.isType(TokenType.Text) ||
-                this.tokenExcludingSpace.isType(TokenType.TemplateBetween) ||
-                this.tokenExcludingSpace.isType(TokenType.TemplateOpen) ||
-                this.tokenExcludingSpace.isType(TokenType.TemplateClose));
+            (this.tokenExcludingSpace.isTokenType(TokenType.Text) ||
+                this.tokenExcludingSpace.isTokenType(
+                    TokenType.TemplateBetween
+                ) ||
+                this.tokenExcludingSpace.isTokenType(TokenType.TemplateOpen) ||
+                this.tokenExcludingSpace.isTokenType(TokenType.TemplateClose));
         const isAfterText =
             this.tokenPrior &&
-            (this.tokenPrior.isType(TokenType.Text) ||
-                this.tokenPrior.isType(TokenType.TemplateBetween) ||
-                this.tokenPrior.isType(TokenType.TemplateOpen) ||
-                this.tokenPrior.isType(TokenType.TemplateClose));
+            (this.tokenPrior.isTokenType(TokenType.Text) ||
+                this.tokenPrior.isTokenType(TokenType.TemplateBetween) ||
+                this.tokenPrior.isTokenType(TokenType.TemplateOpen) ||
+                this.tokenPrior.isTokenType(TokenType.TemplateClose));
         return (isText && !this.betweenDelimiters()) || isAfterText;
     }
 
@@ -885,36 +891,36 @@ export default class Caret {
                     this.source.replace(parent, parent.statements[0]),
                     this.withPosition(parent.statements[0]),
                 ];
-            } else if (
-                parent instanceof ListLiteral &&
+            }
+            // Is the parent a list with on element? Unwrap the list.
+            else if (
+                (parent instanceof ListLiteral ||
+                    parent instanceof SetLiteral ||
+                    parent instanceof MapLiteral) &&
                 parent.values.length === 1
             ) {
                 return [
                     this.source.replace(parent, parent.values[0]),
                     this.withPosition(parent.values[0]),
                 ];
-            } else {
-                const field = parent?.getFieldOfChild(node);
+            }
+            // Other grammar-dependent cases.
+            else {
+                const kind = parent?.getFieldOfChild(node)?.types;
                 const index = this.source.getNodeFirstPosition(node);
-                if (field && index !== undefined) {
+                if (kind && index !== undefined) {
                     // If in a list or undefined is allowed, just remove it
                     if (
-                        Array.isArray(field.types[0]) ||
-                        field.types.includes(undefined)
+                        kind instanceof ListOf &&
+                        kind.allowsUnconditionalNone()
                     ) {
                         return [
                             this.source.replace(node, undefined),
                             this.withPosition(index).withAddition(undefined),
                         ];
-                    } else if (field.types.includes(Expression)) {
-                        const placeholder = ExpressionPlaceholder.make();
-                        return [
-                            this.source.replace(node, placeholder),
-                            this.withPosition(placeholder).withAddition(
-                                undefined
-                            ),
-                        ];
-                    } else if (field.types.includes(Program)) {
+                    }
+                    // If it allows a program, replace it with a program.
+                    else if (kind.allowsKind(Program)) {
                         return [
                             this.source.replace(node, Program.make()),
                             this.withPosition(index).withAddition(undefined),
@@ -922,7 +928,7 @@ export default class Caret {
                     }
                     // Is the parent an expression with a single token and its field accepts expressions? Replace the parent.
                     else if (
-                        field.types.includes(Expression) &&
+                        kind.allowsKind(Expression) &&
                         parent instanceof Expression &&
                         node instanceof Token &&
                         parent.leaves().length === 1
@@ -933,6 +939,16 @@ export default class Caret {
                                 parent,
                                 ExpressionPlaceholder.make()
                             ),
+                            this.withPosition(placeholder).withAddition(
+                                undefined
+                            ),
+                        ];
+                    }
+                    // If allows an expression, replace it with an expression placeholder.
+                    else if (kind.allowsKind(Expression)) {
+                        const placeholder = ExpressionPlaceholder.make();
+                        return [
+                            this.source.replace(node, placeholder),
                             this.withPosition(placeholder).withAddition(
                                 undefined
                             ),
@@ -996,7 +1012,7 @@ export default class Caret {
 
     wrap(key: string): Edit | undefined {
         let node = this.position instanceof Node ? this.position : undefined;
-        if (node instanceof Token && !node.isType(TokenType.End))
+        if (node instanceof Token && !node.isTokenType(TokenType.End))
             node = this.source.root.getParent(node);
         if (node === undefined || !(node instanceof Expression))
             return undefined;

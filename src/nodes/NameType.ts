@@ -14,7 +14,7 @@ import type TypeSet from './TypeSet';
 import type { NativeTypeName } from '../native/NativeConstants';
 import UnknownNameType from './UnknownNameType';
 import type Node from './Node';
-import type { Replacement } from './Node';
+import { node, type Grammar, type Replacement, optional } from './Node';
 import type Locale from '@locale/Locale';
 import { UnknownName } from '@conflicts/UnknownName';
 import Emotion from '../lore/Emotion';
@@ -43,10 +43,10 @@ export default class NameType extends Type {
         return new NameType(new NameToken(name), undefined, definition);
     }
 
-    getGrammar() {
+    getGrammar(): Grammar {
         return [
-            { name: 'name', types: [TokenType.Name] },
-            { name: 'types', types: [TypeInputs, undefined] },
+            { name: 'name', types: node(TokenType.Name) },
+            { name: 'types', types: optional(node(TypeInputs)) },
         ];
     }
 

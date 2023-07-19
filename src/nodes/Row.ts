@@ -1,11 +1,11 @@
-import type { Replacement } from './Node';
+import type { Grammar, Replacement } from './Node';
 import type Token from './Token';
 import Bind from './Bind';
 import Expression from './Expression';
 import type Locale from '@locale/Locale';
 import Glyphs from '../lore/Glyphs';
 import Purpose from '../concepts/Purpose';
-import Node from './Node';
+import Node, { list, node } from './Node';
 import TokenType from './TokenType';
 
 export default class Row extends Node {
@@ -27,11 +27,11 @@ export default class Row extends Node {
         this.computeChildren();
     }
 
-    getGrammar() {
+    getGrammar(): Grammar {
         return [
-            { name: 'open', types: [TokenType.TableOpen] },
-            { name: 'cells', types: [[Bind, Expression]] },
-            { name: 'close', types: [TokenType.TableClose] },
+            { name: 'open', types: node(TokenType.TableOpen) },
+            { name: 'cells', types: list(node(Bind), node(Expression)) },
+            { name: 'close', types: node(TokenType.TableClose) },
         ];
     }
 

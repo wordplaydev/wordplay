@@ -6,6 +6,7 @@ import Type from './Type';
 import { UNKNOWN_SYMBOL } from '../parser/Symbols';
 import Glyphs from '../lore/Glyphs';
 import type Markup from './Markup';
+import type { Grammar } from './Node';
 
 export default abstract class UnknownType<
     ExpressionType extends Node
@@ -20,7 +21,7 @@ export default abstract class UnknownType<
         this.why = why;
     }
 
-    getGrammar() {
+    getGrammar(): Grammar {
         return [];
     }
 

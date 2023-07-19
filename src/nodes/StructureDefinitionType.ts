@@ -9,6 +9,7 @@ import type Definition from './Definition';
 import type Node from './Node';
 import type Locale from '@locale/Locale';
 import Glyphs from '../lore/Glyphs';
+import type { Grammar } from './Node';
 
 export const STRUCTURE_NATIVE_TYPE_NAME = 'structure';
 
@@ -26,7 +27,7 @@ export default class StructureDefinitionType extends Type {
         this.types = types;
     }
 
-    getGrammar() {
+    getGrammar(): Grammar {
         return [];
     }
 

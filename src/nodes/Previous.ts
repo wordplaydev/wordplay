@@ -20,7 +20,7 @@ import { PREVIOUS_SYMBOL } from '@parser/Symbols';
 import Start from '@runtime/Start';
 import UnionType from './UnionType';
 import NoneType from './NoneType';
-import type { Replacement } from './Node';
+import { node, type Grammar, type Replacement } from './Node';
 import type Locale from '@locale/Locale';
 import NodeRef from '@locale/NodeRef';
 import Glyphs from '../lore/Glyphs';
@@ -51,19 +51,19 @@ export default class Previous extends Expression {
         );
     }
 
-    getGrammar() {
+    getGrammar(): Grammar {
         return [
             {
                 name: 'stream',
-                types: [Expression],
+                types: node(Expression),
                 label: (translation: Locale) => translation.term.stream,
                 // Must be a stream
                 getType: () => StreamType.make(new AnyType()),
             },
-            { name: 'previous', types: [TokenType.Previous] },
+            { name: 'previous', types: node(TokenType.Previous) },
             {
                 name: 'index',
-                types: [Expression],
+                types: node(Expression),
                 label: (translation: Locale) => translation.term.index,
                 // Must be a number
                 getType: () => NumberType.make(),

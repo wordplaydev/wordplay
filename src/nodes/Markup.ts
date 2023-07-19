@@ -4,7 +4,7 @@ import Glyphs from '../lore/Glyphs';
 import Purpose from '../concepts/Purpose';
 import Content from './Content';
 import type { TemplateInput } from '../locale/concretize';
-import type { Replacement } from './Node';
+import { list, node, type Grammar, type Replacement } from './Node';
 import type Spaces from '../parser/Spaces';
 import { toMarkup } from '../parser/Parser';
 import Token from './Token';
@@ -34,11 +34,11 @@ export default class Markup extends Content {
         return markup;
     }
 
-    getGrammar() {
+    getGrammar(): Grammar {
         return [
             {
                 name: 'paragraphs',
-                types: [[Paragraph]],
+                types: list(node(Paragraph)),
                 newline: true,
                 double: true,
             },
@@ -88,7 +88,7 @@ export default class Markup extends Content {
             .flat()
             .filter(
                 (n): n is Token =>
-                    n instanceof Token && n.isType(TokenType.Words)
+                    n instanceof Token && n.isTokenType(TokenType.Words)
             )
             .filter((w) => w.getText().indexOf(text) >= 0);
 

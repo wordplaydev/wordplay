@@ -1,11 +1,11 @@
-import type { Replacement } from './Node';
+import type { Grammar, Replacement } from './Node';
 import Names from './Names';
 import type LanguageCode from '@locale/LanguageCode';
 import type Locale from '@locale/Locale';
 import NameType from './NameType';
 import Glyphs from '../lore/Glyphs';
 import Purpose from '../concepts/Purpose';
-import Node from './Node';
+import Node, { node } from './Node';
 
 export default class TypeVariable extends Node {
     readonly names: Names;
@@ -18,8 +18,8 @@ export default class TypeVariable extends Node {
         this.computeChildren();
     }
 
-    getGrammar() {
-        return [{ name: 'names', types: [Names] }];
+    getGrammar(): Grammar {
+        return [{ name: 'names', types: node(Names) }];
     }
 
     clone(replace?: Replacement) {

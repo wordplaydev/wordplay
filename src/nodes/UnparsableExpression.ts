@@ -7,7 +7,7 @@ import type Step from '@runtime/Step';
 import type Value from '@runtime/Value';
 import type Bind from './Bind';
 import type Expression from './Expression';
-import Node, { type Replacement } from './Node';
+import Node, { node, type Grammar, type Replacement, list } from './Node';
 import type TypeSet from './TypeSet';
 import UnparsableType from './UnparsableType';
 import type Locale from '@locale/Locale';
@@ -24,8 +24,8 @@ export default class UnparsableExpression extends AtomicExpression {
         this.unparsables = nodes;
     }
 
-    getGrammar() {
-        return [{ name: 'unparsables', types: [[Node]] }];
+    getGrammar(): Grammar {
+        return [{ name: 'unparsables', types: list(node(Node)) }];
     }
 
     computeConflicts(): void | Conflict[] {

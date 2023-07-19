@@ -14,7 +14,7 @@ import type TypeSet from './TypeSet';
 import Start from '@runtime/Start';
 import TokenType from './TokenType';
 import ExpressionPlaceholder from './ExpressionPlaceholder';
-import type { Replacement } from './Node';
+import { node, type Grammar, type Replacement, list, optional } from './Node';
 import type Locale from '@locale/Locale';
 import Glyphs from '../lore/Glyphs';
 import Purpose from '../concepts/Purpose';
@@ -50,15 +50,15 @@ export default class Template extends Expression {
         ]);
     }
 
-    getGrammar() {
+    getGrammar(): Grammar {
         return [
-            { name: 'open', types: [TokenType.TemplateOpen] },
+            { name: 'open', types: node(TokenType.TemplateOpen) },
             {
                 name: 'expressions',
-                types: [[Expression, TokenType.Text]],
+                types: list(node(Expression), node(TokenType.Text)),
                 label: (translation: Locale) => translation.term.text,
             },
-            { name: 'language', types: [Language, undefined] },
+            { name: 'language', types: optional(node(Language)) },
         ];
     }
 

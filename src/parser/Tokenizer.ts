@@ -365,7 +365,7 @@ export function tokenize(source: string): TokenList {
 
         const tokenizeDocs =
             openExampleAndDocs.length > 0 &&
-            openExampleAndDocs[0].isType(TokenType.Doc);
+            openExampleAndDocs[0].isTokenType(TokenType.Doc);
 
         // If we're in a doc, then read whitespace starting with newlines only.
         if (tokenizeDocs && !source.startsWith(EXAMPLE_CLOSE_SYMBOL)) {
@@ -396,24 +396,24 @@ export function tokenize(source: string): TokenList {
         source = source.substring(nextToken.text.toString().length);
 
         // If the token was a text open, push it on the stack.
-        if (nextToken.isType(TokenType.TemplateOpen))
+        if (nextToken.isTokenType(TokenType.TemplateOpen))
             openTemplates.unshift(nextToken);
         // If the token was a close, pop
-        else if (nextToken.isType(TokenType.TemplateClose))
+        else if (nextToken.isTokenType(TokenType.TemplateClose))
             openTemplates.shift();
 
         // If the token was an eval open, push it on the stack.
-        if (nextToken.isType(TokenType.ExampleOpen))
+        if (nextToken.isTokenType(TokenType.ExampleOpen))
             openExampleAndDocs.unshift(nextToken);
         // If the token was a close, pop
-        else if (nextToken.isType(TokenType.ExampleClose))
+        else if (nextToken.isTokenType(TokenType.ExampleClose))
             openExampleAndDocs.shift();
 
         // If we encountered a doc, toggle the flag.
-        if (nextToken.isType(TokenType.Doc)) {
+        if (nextToken.isTokenType(TokenType.Doc)) {
             if (
                 openExampleAndDocs.length > 0 &&
-                openExampleAndDocs[0].isType(TokenType.Doc)
+                openExampleAndDocs[0].isTokenType(TokenType.Doc)
             )
                 openExampleAndDocs.shift();
             else openExampleAndDocs.unshift(nextToken);
@@ -423,7 +423,7 @@ export function tokenize(source: string): TokenList {
     // If there's nothing left -- or nothing but space -- and the last token isn't a already end token, add one, and remember the space before it.
     if (
         tokens.length === 0 ||
-        !tokens[tokens.length - 1].isType(TokenType.End)
+        !tokens[tokens.length - 1].isTokenType(TokenType.End)
     ) {
         const end = new Token('', TokenType.End);
         tokens.push(end);
@@ -490,7 +490,7 @@ function getNextToken(
     return new Token(
         source.substring(
             0,
-            next.isType(TokenType.End)
+            next.isTokenType(TokenType.End)
                 ? source.length
                 : source.indexOf(next.getText())
         ),
