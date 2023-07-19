@@ -1,6 +1,5 @@
 import type Conflict from '@conflicts/Conflict';
 import Expression from './Expression';
-import Token from './Token';
 import type Type from './Type';
 import type Evaluator from '@runtime/Evaluator';
 import type Step from '@runtime/Step';
@@ -26,53 +25,62 @@ import IncompatibleInput from '../conflicts/IncompatibleInput';
 import AnyType from './AnyType';
 import FunctionType from './FunctionType';
 import concretize from '../locale/concretize';
+import Reference from './Reference';
+import type Node from './Node';
 
 export default class UnaryEvaluate extends Expression {
-    readonly operator: Token;
-    readonly operand: Expression;
+    readonly fun: Reference;
+    readonly input: Expression;
 
-    constructor(operator: Token, operand: Expression) {
+    constructor(operator: Reference, operand: Expression) {
         super();
 
-        this.operator = operator;
-        this.operand = operand;
+        this.fun = operator;
+        this.input = operand;
 
         this.computeChildren();
     }
 
     getGrammar() {
         return [
-            { name: 'operator', types: [Token] },
-            { name: 'operand', types: [Expression] },
+            { name: 'fun', types: [Reference] },
+            { name: 'input', types: [Expression] },
         ];
     }
 
     clone(replace?: Replacement) {
         return new UnaryEvaluate(
-            this.replaceChild('operator', this.operator, replace),
-            this.replaceChild('operand', this.operand, replace)
+            this.replaceChild('fun', this.fun, replace),
+            this.replaceChild('input', this.input, replace)
         ) as this;
     }
 
     getOperator() {
-        return this.operator.text.toString();
+        return this.fun.getName();
     }
 
     isNegation() {
         return this.getOperator() === NEGATE_SYMBOL;
     }
 
-    getFunction(context: Context) {
+    getInputType(context: Context) {
         // Find the function on the left's type.
-        const expressionType =
-            this.operand instanceof Expression
-                ? this.operand.getType(context)
-                : undefined;
-        const fun = expressionType?.getDefinitionOfNameInScope(
+        return this.input.getType(context);
+    }
+
+    getFunction(context: Context) {
+        const fun = this.getInputType(context).getDefinitionOfNameInScope(
             this.getOperator(),
             context
         );
         return fun instanceof FunctionDefinition ? fun : undefined;
+    }
+
+    getScopeOfChild(child: Node, context: Context): Node | undefined {
+        // The name's scope is the structure referred to in the subject expression.
+        // The subject expression's scope is this property reference's parent.
+        if (child === this.fun) return this.getInputType(context);
+        else return this.getParent(context);
     }
 
     computeConflicts(context: Context): Conflict[] {
@@ -85,8 +93,8 @@ export default class UnaryEvaluate extends Expression {
         if (fun === undefined)
             conflicts.push(
                 new IncompatibleInput(
-                    this.operator,
-                    this.operand.getType(context),
+                    this.fun,
+                    this.input.getType(context),
                     FunctionType.make(undefined, [], new AnyType())
                 )
             );
@@ -100,15 +108,15 @@ export default class UnaryEvaluate extends Expression {
             ? getConcreteExpectedType(fun, undefined, this, context)
             : new UnknownNameType(
                   this,
-                  this.operator,
-                  this.operand.getType(context)
+                  this.fun.name,
+                  this.input.getType(context)
               );
     }
 
     getDependencies(context: Context): Expression[] {
         const fun = this.getFunction(context);
         return [
-            this.operand,
+            this.input,
             ...(fun === undefined || fun.expression === undefined
                 ? []
                 : [fun.expression]),
@@ -118,7 +126,7 @@ export default class UnaryEvaluate extends Expression {
     compile(context: Context): Step[] {
         return [
             new Start(this),
-            ...this.operand.compile(context),
+            ...this.input.compile(context),
             new StartEvaluation(this),
             new Finish(this),
         ];
@@ -135,7 +143,7 @@ export default class UnaryEvaluate extends Expression {
             !(fun instanceof FunctionValue) ||
             fun.definition.expression === undefined
         )
-            return new FunctionException(evaluator, this, value, this.operator);
+            return new FunctionException(evaluator, this, value, this.fun);
 
         // Start the function's expression.
         evaluator.startEvaluation(
@@ -160,10 +168,10 @@ export default class UnaryEvaluate extends Expression {
         context: Context
     ) {
         // We only manipulate possible types for logical negation operators.
-        if (this.operator.getText() !== NOT_SYMBOL) return current;
+        if (this.getOperator() !== NOT_SYMBOL) return current;
 
         // Get the possible types of the operand.
-        const possible = this.operand.evaluateTypeSet(
+        const possible = this.input.evaluateTypeSet(
             bind,
             original,
             current,
@@ -175,10 +183,10 @@ export default class UnaryEvaluate extends Expression {
     }
 
     getStart() {
-        return this.operator;
+        return this.fun;
     }
     getFinish() {
-        return this.operator;
+        return this.fun;
     }
 
     getNodeLocale(translation: Locale) {
@@ -189,7 +197,7 @@ export default class UnaryEvaluate extends Expression {
         return concretize(
             locale,
             locale.node.UnaryEvaluate.start,
-            new NodeRef(this.operand, locale, context)
+            new NodeRef(this.input, locale, context)
         );
     }
 
@@ -207,7 +215,7 @@ export default class UnaryEvaluate extends Expression {
 
     getGlyphs() {
         return {
-            symbols: this.operator.getText(),
+            symbols: this.getOperator(),
             emotion: Emotion.kind,
         };
     }

@@ -73,7 +73,7 @@
     }
 </script>
 
-<NodeView node={node.func} /><NodeView node={node.types} /><NodeView
+<NodeView node={node.fun} /><NodeView node={node.types} /><NodeView
     node={node.open}
 />{#each node.inputs as input}<NodeView
         node={input}

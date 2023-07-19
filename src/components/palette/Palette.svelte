@@ -58,7 +58,7 @@
                 outputs.length === 0
                     ? '🎨'
                     : outputs
-                          .map((output) => output.node.func.toWordplay())
+                          .map((output) => output.node.fun.toWordplay())
                           .join(', '),
         }}
     >

@@ -324,7 +324,7 @@ test('Parse expressions', () => {
 
     const evaluate = parseExpression(toTokens('a()'));
     expect(evaluate).toBeInstanceOf(Evaluate);
-    expect((evaluate as Evaluate).func).toBeInstanceOf(Reference);
+    expect((evaluate as Evaluate).fun).toBeInstanceOf(Reference);
 
     const evaluateWithUnnamedInputs = parseExpression(toTokens('a(1 2)'));
     expect(evaluateWithUnnamedInputs).toBeInstanceOf(Evaluate);
@@ -414,14 +414,14 @@ test('Parse expressions', () => {
     ).toBeInstanceOf(Evaluate);
     expect(
         (((access as SetOrMapAccess).setOrMap as ListAccess).list as Evaluate)
-            .func
+            .fun
     ).toBeInstanceOf(PropertyReference);
     expect(
         (
             (
                 ((access as SetOrMapAccess).setOrMap as ListAccess)
                     .list as Evaluate
-            ).func as PropertyReference
+            ).fun as PropertyReference
         ).structure
     ).toBeInstanceOf(PropertyReference);
     expect(
@@ -430,7 +430,7 @@ test('Parse expressions', () => {
                 (
                     ((access as SetOrMapAccess).setOrMap as ListAccess)
                         .list as Evaluate
-                ).func as PropertyReference
+                ).fun as PropertyReference
             ).structure as PropertyReference
         ).structure
     ).toBeInstanceOf(Reference);

@@ -52,7 +52,7 @@ export default class Bool extends Primitive {
             case NOT_SYMBOL:
                 return this.not(requestor);
             default:
-                return new FunctionException(evaluator, op, this, op.operator);
+                return new FunctionException(evaluator, op, this, op.fun);
         }
     }
 

@@ -163,9 +163,9 @@ function getConcreteTypeVariable(
     // This case handles Evaluate syntax.
     if (
         evaluation instanceof Evaluate &&
-        evaluation.func instanceof PropertyReference
+        evaluation.fun instanceof PropertyReference
     ) {
-        const structureType = evaluation.func.structure.getType(context);
+        const structureType = evaluation.fun.structure.getType(context);
         const typeInput = structureType.resolveTypeVariable(
             type.getName(),
             context

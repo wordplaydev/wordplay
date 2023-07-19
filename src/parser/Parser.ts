@@ -560,7 +560,7 @@ export function parseBinaryEvaluate(tokens: Tokens): Expression {
               )
             : new BinaryEvaluate(
                   left,
-                  tokens.read(TokenType.BinaryOperator),
+                  parseReference(tokens),
                   parseAtomicExpression(tokens)
               );
     }
@@ -603,8 +603,14 @@ function parseAtomicExpression(tokens: Tokens): Expression {
             : // Nones
             tokens.nextIs(TokenType.None)
             ? parseNone(tokens)
-            : // Names or booleans are easy
-            tokens.nextIs(TokenType.Name)
+            : // Unary expressions before names and binary operators, since some unary can be multiple.
+            tokens.nextIsUnary()
+            ? new UnaryEvaluate(
+                  parseReference(tokens),
+                  parseAtomicExpression(tokens)
+              )
+            : // References can be names or binary operators
+            tokens.nextIsOneOf(TokenType.Name, TokenType.BinaryOperator)
             ? parseReference(tokens)
             : // Booleans
             tokens.nextIs(TokenType.Boolean)
@@ -647,12 +653,6 @@ function parseAtomicExpression(tokens: Tokens): Expression {
             : // A documented expression
             tokens.nextIs(TokenType.Doc)
             ? parseDocumentedExpression(tokens)
-            : // Unary expressions!
-            tokens.nextIsUnary()
-            ? new UnaryEvaluate(
-                  tokens.read(TokenType.UnaryOperator),
-                  parseAtomicExpression(tokens)
-              )
             : // Unknown expression
               new UnparsableExpression(tokens.readLine());
 
@@ -707,7 +707,13 @@ function parseInitial(tokens: Tokens): Initial {
 }
 
 function parseReference(tokens: Tokens): Reference {
-    const name = tokens.read(TokenType.Name);
+    const name = tokens.read(
+        tokens.nextIs(TokenType.BinaryOperator)
+            ? TokenType.BinaryOperator
+            : tokens.nextIs(TokenType.Name)
+            ? TokenType.Name
+            : TokenType.UnaryOperator
+    );
 
     return new Reference(name);
 }

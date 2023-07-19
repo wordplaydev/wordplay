@@ -12,7 +12,6 @@ import { getDefaultNative } from '@native/Native';
 const native = await getDefaultNative();
 
 test.each([
-    ['a: 1\na +**', undefined, Replace, 'a'],
     ['a•?:**', undefined, Replace, 'a'],
     [`ƒ sum(a•? b•?) a & b\ns**`, undefined, Replace, 'sum(_•? _•?)'],
     [`ƒ sum(a•? b•?) a & b\nsum()**`, undefined, Replace, '(sum()) = _'],

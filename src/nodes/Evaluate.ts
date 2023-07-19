@@ -64,7 +64,7 @@ type InputMapping = {
 };
 
 export default class Evaluate extends Expression {
-    readonly func: Expression;
+    readonly fun: Expression;
     readonly types: TypeInputs | undefined;
     readonly open: Token;
     readonly inputs: Expression[];
@@ -80,7 +80,7 @@ export default class Evaluate extends Expression {
         super();
 
         this.open = open;
-        this.func = func;
+        this.fun = func;
         this.types = types;
         this.inputs = inputs;
         this.close = close;
@@ -101,7 +101,7 @@ export default class Evaluate extends Expression {
     getGrammar() {
         return [
             {
-                name: 'func',
+                name: 'fun',
                 types: [Expression],
                 label: (translation: Locale) =>
                     translation.node.Evaluate.function,
@@ -173,7 +173,7 @@ export default class Evaluate extends Expression {
 
     clone(replace?: Replacement) {
         return new Evaluate(
-            this.replaceChild('func', this.func, replace),
+            this.replaceChild('fun', this.fun, replace),
             this.replaceChild('types', this.types, replace),
             this.replaceChild('open', this.open, replace),
             this.replaceChild('inputs', this.inputs, replace),
@@ -297,7 +297,7 @@ export default class Evaluate extends Expression {
 
     withInputAppended(expression: Expression) {
         return new Evaluate(
-            this.func,
+            this.fun,
             this.types,
             this.open,
             [...this.inputs, expression],
@@ -350,14 +350,14 @@ export default class Evaluate extends Expression {
         )
             return [
                 new IncompatibleInput(
-                    this.func instanceof PropertyReference
-                        ? this.func.name ?? this.func
-                        : this.func instanceof Reference
-                        ? this.func
-                        : this.func,
-                    this.func instanceof PropertyReference
-                        ? this.func.structure.getType(context)
-                        : this.func.getType(context),
+                    this.fun instanceof PropertyReference
+                        ? this.fun.name ?? this.fun
+                        : this.fun instanceof Reference
+                        ? this.fun
+                        : this.fun,
+                    this.fun instanceof PropertyReference
+                        ? this.fun.structure.getType(context)
+                        : this.fun.getType(context),
                     FunctionType.make(undefined, [], new AnyType())
                 ),
             ];
@@ -496,7 +496,7 @@ export default class Evaluate extends Expression {
     getFunction(
         context: Context
     ): FunctionDefinition | StructureDefinition | StreamDefinition | undefined {
-        const type = this.func.getType(context);
+        const type = this.fun.getType(context);
 
         return type instanceof FunctionType && type.definition
             ? type.definition
@@ -538,7 +538,7 @@ export default class Evaluate extends Expression {
         else
             return new NotAType(
                 this,
-                this.func.getType(context),
+                this.fun.getType(context),
                 FunctionType.make(undefined, [], new AnyType())
             );
     }
@@ -557,7 +557,7 @@ export default class Evaluate extends Expression {
 
         // Evaluates depend on their function, their inputs, and the function's expression.
         return [
-            this.func,
+            this.fun,
             ...this.inputs,
             ...(expression === undefined ? [] : [expression]),
         ];
@@ -582,7 +582,7 @@ export default class Evaluate extends Expression {
                             evaluator,
                             this,
                             undefined,
-                            this.func
+                            this.fun
                         ),
                     this
                 ),
@@ -641,7 +641,7 @@ export default class Evaluate extends Expression {
         return [
             new Start(this),
             ...inputSteps.reduce((steps: Step[], s) => [...steps, ...s], []),
-            ...this.func.compile(context),
+            ...this.fun.compile(context),
             new StartEvaluation(this),
             new Finish(this),
         ];
@@ -661,7 +661,7 @@ export default class Evaluate extends Expression {
                 evaluator,
                 this,
                 definitionValue,
-                this.func
+                this.fun
             );
 
         // Pop as many values as the definition requires, or the number of inputs provided, whichever is larger.
@@ -779,8 +779,8 @@ export default class Evaluate extends Expression {
         current: TypeSet,
         context: Context
     ) {
-        if (this.func instanceof Expression)
-            this.func.evaluateTypeSet(bind, original, current, context);
+        if (this.fun instanceof Expression)
+            this.fun.evaluateTypeSet(bind, original, current, context);
         this.inputs.forEach((input) => {
             if (input instanceof Expression)
                 input.evaluateTypeSet(bind, original, current, context);
@@ -791,8 +791,9 @@ export default class Evaluate extends Expression {
     getStart() {
         return this.open;
     }
+
     getFinish() {
-        return this.close ?? this.func;
+        return this.close ?? this.fun;
     }
 
     getNodeLocale(translation: Locale) {

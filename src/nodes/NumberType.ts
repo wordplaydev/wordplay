@@ -148,9 +148,9 @@ export default class NumberType extends NativeType {
             this.op instanceof BinaryEvaluate
                 ? this.op.left.getType(context)
                 : this.op instanceof UnaryEvaluate
-                ? this.op.operand.getType(context)
-                : this.op.func instanceof PropertyReference
-                ? this.op.func.structure.getType(context)
+                ? this.op.input.getType(context)
+                : this.op.fun instanceof PropertyReference
+                ? this.op.fun.structure.getType(context)
                 : undefined;
         const rightType =
             this.op instanceof BinaryEvaluate

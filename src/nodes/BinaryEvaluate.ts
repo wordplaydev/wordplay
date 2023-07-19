@@ -1,6 +1,5 @@
 import type Conflict from '@conflicts/Conflict';
 import Expression from './Expression';
-import Token from './Token';
 import type Type from './Type';
 import type Evaluator from '@runtime/Evaluator';
 import type Step from '@runtime/Step';
@@ -23,7 +22,6 @@ import type Value from '@runtime/Value';
 import UnknownNameType from './UnknownNameType';
 import NeverType from './NeverType';
 import type Definition from './Definition';
-import TokenType from './TokenType';
 import NumberType from './NumberType';
 import type { Replacement } from './Node';
 import type Locale from '@locale/Locale';
@@ -36,17 +34,18 @@ import Glyphs from '../lore/Glyphs';
 import FunctionType from './FunctionType';
 import AnyType from './AnyType';
 import concretize from '../locale/concretize';
+import Reference from './Reference';
 
 export default class BinaryEvaluate extends Expression {
     readonly left: Expression;
-    readonly operator: Token;
+    readonly fun: Reference;
     readonly right: Expression;
 
-    constructor(left: Expression, operator: Token, right: Expression) {
+    constructor(left: Expression, operator: Reference, right: Expression) {
         super();
 
         this.left = left;
-        this.operator = operator;
+        this.fun = operator;
         this.right = right;
 
         this.computeChildren();
@@ -65,13 +64,10 @@ export default class BinaryEvaluate extends Expression {
                 ): Template => this.left.getType(context).getLabel(translation),
             },
             {
-                name: 'operator',
-                types: [Token],
+                name: 'fun',
+                types: [Reference],
                 space: true,
                 indent: true,
-                // The operators should be all those that exist on the type on the left.
-                getToken: (text?: string, op?: string): Token =>
-                    new Token(op ?? text ?? '_', TokenType.BinaryOperator),
                 getDefinitions: (context: Context): Definition[] => {
                     const leftType =
                         this.left instanceof Expression
@@ -116,26 +112,34 @@ export default class BinaryEvaluate extends Expression {
     clone(replace?: Replacement) {
         return new BinaryEvaluate(
             this.replaceChild('left', this.left, replace),
-            this.replaceChild('operator', this.operator, replace),
+            this.replaceChild('fun', this.fun, replace),
             this.replaceChild('right', this.right, replace)
         ) as this;
     }
 
     getOperator() {
-        return this.operator.text.toString();
+        return this.fun.getName();
+    }
+
+    getLeftType(context: Context) {
+        return this.left.getType(context);
     }
 
     getFunction(context: Context): FunctionDefinition | undefined {
         // Find the function on the left's type.
-        const leftType =
-            this.left instanceof Expression
-                ? this.left.getType(context)
-                : undefined;
-        const fun = leftType?.getDefinitionOfNameInScope(
+        const leftType = this.getLeftType(context);
+        const fun = leftType.getDefinitionOfNameInScope(
             this.getOperator(),
             context
         );
         return fun instanceof FunctionDefinition ? fun : undefined;
+    }
+
+    getScopeOfChild(child: Node, context: Context): Node | undefined {
+        // The name's scope is the structure referred to in the subject expression.
+        // The subject expression's scope is this property reference's parent.
+        if (child === this.fun) return this.getLeftType(context);
+        else return this.getParent(context);
     }
 
     computeConflicts(context: Context): Conflict[] {
@@ -144,7 +148,7 @@ export default class BinaryEvaluate extends Expression {
         // Warn on sequences of different operators about evaluation order.
         if (
             this.left instanceof BinaryEvaluate &&
-            this.operator.getText() !== this.left.operator.getText()
+            this.getOperator() !== this.left.getOperator()
         )
             conflicts.push(new OrderOfOperations(this.left, this));
 
@@ -158,7 +162,7 @@ export default class BinaryEvaluate extends Expression {
         if (fun === undefined)
             return [
                 new IncompatibleInput(
-                    this.operator,
+                    this.fun,
                     this.left.getType(context),
                     FunctionType.make(undefined, [], new AnyType())
                 ),
@@ -174,7 +178,7 @@ export default class BinaryEvaluate extends Expression {
                 const secondInput = fun.inputs[1];
                 if (secondInput instanceof Bind)
                     conflicts.push(
-                        new MissingInput(fun, this, this.operator, secondInput)
+                        new MissingInput(fun, this, this.fun, secondInput)
                     );
             }
             // Is the right operand the correct type?
@@ -211,7 +215,7 @@ export default class BinaryEvaluate extends Expression {
             ? getConcreteExpectedType(fun, undefined, this, context)
             : new UnknownNameType(
                   this,
-                  this.operator,
+                  this.fun.name,
                   this.left.getType(context)
               );
     }
@@ -279,7 +283,7 @@ export default class BinaryEvaluate extends Expression {
             !(functionValue instanceof FunctionValue) ||
             !(functionValue.definition.expression !== undefined)
         )
-            return new FunctionException(evaluator, this, left, this.operator);
+            return new FunctionException(evaluator, this, left, this.fun);
 
         const fun = functionValue.definition;
 
@@ -315,7 +319,7 @@ export default class BinaryEvaluate extends Expression {
     ) {
         // If conjunction, then we compute the intersection of the left and right's possible types.
         // Note that we pass the left's possible types because we don't evaluate the right if the left isn't true.
-        if (this.operator.getText() === AND_SYMBOL) {
+        if (this.getOperator() === AND_SYMBOL) {
             const left = this.left.evaluateTypeSet(
                 bind,
                 original,
@@ -332,7 +336,7 @@ export default class BinaryEvaluate extends Expression {
         }
         // If disjunction of type checks, then we return the union.
         // Note that we pass the left's possible types because we don't evaluate the right if the left is true.
-        else if (this.operator.getText() === OR_SYMBOL) {
+        else if (this.getOperator() === OR_SYMBOL) {
             const left = this.left.evaluateTypeSet(
                 bind,
                 original,
@@ -360,10 +364,10 @@ export default class BinaryEvaluate extends Expression {
     }
 
     getStart() {
-        return this.operator;
+        return this.fun;
     }
     getFinish() {
-        return this.operator;
+        return this.fun;
     }
 
     getStartExplanations(locale: Locale, context: Context) {
@@ -393,7 +397,7 @@ export default class BinaryEvaluate extends Expression {
         };
     }
 
-    getDescriptionInputs() {
-        return [this.operator.getText()];
+    getDescriptionInputs(locale: Locale, context: Context) {
+        return [new NodeRef(this.fun, locale, context)];
     }
 }

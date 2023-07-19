@@ -117,7 +117,7 @@ export default class Reference extends AtomicExpression {
                     (n) =>
                         n instanceof Reaction ||
                         (n instanceof Evaluate &&
-                            n.func.getType(context) instanceof
+                            n.fun.getType(context) instanceof
                                 StreamDefinitionType)
                 );
             const validCircularReference =

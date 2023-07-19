@@ -123,9 +123,9 @@
                             ? sequence.value.creator instanceof Evaluate &&
                               sequence.value.creator.inputs[0] instanceof
                                   Evaluate &&
-                              sequence.value.creator.inputs[0].func instanceof
+                              sequence.value.creator.inputs[0].fun instanceof
                                   Reference
-                                ? sequence.value.creator.inputs[0].func.getName()
+                                ? sequence.value.creator.inputs[0].fun.getName()
                                 : ''
                             : undefined;
                         changed.push(

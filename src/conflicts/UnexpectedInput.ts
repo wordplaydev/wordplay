@@ -37,8 +37,8 @@ export default class UnexpectedInputs extends Conflict {
                         locale.node.Evaluate.conflict.UnexpectedInput.primary,
                         new NodeRef(
                             this.evaluate instanceof Evaluate
-                                ? this.evaluate.func
-                                : this.evaluate.operator,
+                                ? this.evaluate.fun
+                                : this.evaluate.fun,
                             locale,
                             context
                         )

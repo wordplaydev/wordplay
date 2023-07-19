@@ -7,6 +7,6 @@
     export let node: BinaryEvaluate;
 </script>
 
-<NodeView node={node.left} /><NodeView node={node.operator} /><NodeView
+<NodeView node={node.left} /><NodeView node={node.fun} /><NodeView
     node={node.right}
 />

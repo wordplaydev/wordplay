@@ -23,8 +23,8 @@ export function getNumber(given: Expression): number | undefined {
             ? given.value
             : given instanceof UnaryEvaluate &&
               given.isNegation() &&
-              given.operand instanceof NumberLiteral
-            ? given.operand
+              given.input instanceof NumberLiteral
+            ? given.input
             : undefined;
     return measurement
         ? (given instanceof UnaryEvaluate && given.isNegation() ? -1 : 1) *

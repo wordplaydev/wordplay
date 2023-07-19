@@ -11,14 +11,14 @@ test('Test name conflicts', () => {
         'ƒ(a•# b•#) a + c',
         Reference,
         UnknownName,
-        1
+        2
     );
     testConflict(
         '•Math(a b) (z: a + b)',
         '•Math(a b) (z: a + c)',
         Reference,
         UnknownName,
-        1
+        2
     );
     testConflict(
         'table: ⎡a•#⎦\ntable ⎡- a = 0',

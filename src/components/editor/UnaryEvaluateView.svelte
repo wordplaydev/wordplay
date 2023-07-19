@@ -7,4 +7,4 @@
     export let node: UnaryEvaluate;
 </script>
 
-<NodeView node={node.operator} /><NodeView node={node.operand} />
+<NodeView node={node.fun} /><NodeView node={node.input} />

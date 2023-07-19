@@ -90,13 +90,10 @@ const templates: Node[] = [
     ),
     new BinaryEvaluate(
         ExpressionPlaceholder.make(),
-        new Token(PLACEHOLDER_SYMBOL, TokenType.BinaryOperator),
+        Reference.make(PLACEHOLDER_SYMBOL),
         ExpressionPlaceholder.make()
     ),
-    new UnaryEvaluate(
-        new Token('-', TokenType.UnaryOperator),
-        ExpressionPlaceholder.make()
-    ),
+    new UnaryEvaluate(Reference.make('-'), ExpressionPlaceholder.make()),
     Block.make([ExpressionPlaceholder.make()]),
     Convert.make(ExpressionPlaceholder.make(), TypePlaceholder.make()),
     ConversionDefinition.make(

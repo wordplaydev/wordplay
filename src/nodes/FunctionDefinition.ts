@@ -127,19 +127,18 @@ export default class FunctionDefinition extends Expression {
         );
         return this.isUnaryOperator() && structure
             ? new UnaryEvaluate(
-                  new Token(
-                      this.getUnaryOperatorName() ?? '_',
-                      TokenType.UnaryOperator
+                  new Reference(
+                      new Token(
+                          this.getUnaryOperatorName() ?? '_',
+                          TokenType.UnaryOperator
+                      )
                   ),
                   ExpressionPlaceholder.make(structureType)
               )
             : this.isBinaryOperator() && structure
             ? new BinaryEvaluate(
                   ExpressionPlaceholder.make(structureType),
-                  new Token(
-                      this.getBinaryOperatorName() ?? '_',
-                      TokenType.BinaryOperator
-                  ),
+                  Reference.make(this.getBinaryOperatorName() ?? '_'),
                   ExpressionPlaceholder.make(this.inputs[0]?.type)
               )
             : Evaluate.make(

@@ -45,10 +45,9 @@ import BinaryEvaluate from '@nodes/BinaryEvaluate';
 import TokenType from '@nodes/TokenType';
 import Convert from '@nodes/Convert';
 import UnaryEvaluate from '@nodes/UnaryEvaluate';
-import { NOT_SYMBOL, NEGATE_SYMBOL } from '@parser/Symbols';
+import { NOT_SYMBOL, NEGATE_SYMBOL, PLACEHOLDER_SYMBOL } from '@parser/Symbols';
 import Evaluate from '@nodes/Evaluate';
 import PropertyReference from '@nodes/PropertyReference';
-import NameToken from '@nodes/NameToken';
 import FunctionType from '@nodes/FunctionType';
 
 /** Given a project and a caret in it, generate a set of valid transformations at that caret. */
@@ -793,7 +792,9 @@ function getPostfixEdits(context: Context, expr: Expression): Transform[] {
                           parent,
                           expr,
                           new UnaryEvaluate(
-                              new Token(NOT_SYMBOL, TokenType.UnaryOperator),
+                              new Reference(
+                                  new Token(NOT_SYMBOL, TokenType.UnaryOperator)
+                              ),
                               expr
                           )
                       ),
@@ -806,7 +807,12 @@ function getPostfixEdits(context: Context, expr: Expression): Transform[] {
                           parent,
                           expr,
                           new UnaryEvaluate(
-                              new Token(NEGATE_SYMBOL, TokenType.UnaryOperator),
+                              new Reference(
+                                  new Token(
+                                      NEGATE_SYMBOL,
+                                      TokenType.UnaryOperator
+                                  )
+                              ),
                               expr
                           )
                       ),
@@ -889,10 +895,9 @@ function getPostfixEdits(context: Context, expr: Expression): Transform[] {
                                       () =>
                                           new BinaryEvaluate(
                                               Block.make([expr]),
-                                              new Token(
+                                              Reference.make(
                                                   def.getBinaryOperatorName() ??
-                                                      '',
-                                                  TokenType.BinaryOperator
+                                                      PLACEHOLDER_SYMBOL
                                               ),
                                               ExpressionPlaceholder.make()
                                           ),
@@ -955,7 +960,7 @@ function toEvaluateReplacement(
         fun.inputs.length === 1 && op !== undefined
             ? new BinaryEvaluate(
                   ref instanceof PropertyReference ? ref.structure : ref,
-                  new NameToken(op),
+                  Reference.make(op),
                   ExpressionPlaceholder.make(fun.inputs[0].getType(context))
               )
             : Evaluate.make(

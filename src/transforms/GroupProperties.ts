@@ -18,7 +18,7 @@ export default function getGroupProperties(project: Project): OutputProperty[] {
                 (text: string) => Evaluate.make(Reference.make(text), []),
                 (expression: Expression | undefined) =>
                     expression instanceof Evaluate
-                        ? expression.func.toWordplay()
+                        ? expression.fun.toWordplay()
                         : undefined
             ),
             required: true,
