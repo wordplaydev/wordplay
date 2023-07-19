@@ -42,7 +42,6 @@ TokenCategories.set(TokenType.JapaneseNumeral, TokenCategoryLiteral);
 TokenCategories.set(TokenType.RomanNumeral, TokenCategoryLiteral);
 TokenCategories.set(TokenType.Pi, TokenCategoryLiteral);
 TokenCategories.set(TokenType.Infinity, TokenCategoryLiteral);
-TokenCategories.set(TokenType.NoneType, TokenCategoryType);
 TokenCategories.set(TokenType.Select, TokenCategoryOperator);
 TokenCategories.set(TokenType.Insert, TokenCategoryOperator);
 TokenCategories.set(TokenType.Update, TokenCategoryOperator);

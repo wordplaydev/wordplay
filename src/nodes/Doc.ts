@@ -44,9 +44,9 @@ export default class Doc extends Node {
 
     getGrammar() {
         return [
-            { name: 'open', types: [Token] },
+            { name: 'open', types: [TokenType.Doc] },
             { name: 'markup', types: [Markup] },
-            { name: 'close', types: [Token] },
+            { name: 'close', types: [TokenType.Doc] },
             { name: 'lang', types: [Language, undefined] },
         ];
     }

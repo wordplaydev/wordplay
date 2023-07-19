@@ -87,7 +87,8 @@ export default class Markup extends Content {
             .map((p) => p.nodes())
             .flat()
             .filter(
-                (n): n is Token => n instanceof Token && n.is(TokenType.Words)
+                (n): n is Token =>
+                    n instanceof Token && n.isType(TokenType.Words)
             )
             .filter((w) => w.getText().indexOf(text) >= 0);
 

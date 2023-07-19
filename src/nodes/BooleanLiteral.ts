@@ -36,7 +36,7 @@ export default class BooleanLiteral extends Literal {
     }
 
     getGrammar() {
-        return [{ name: 'value', types: [Token] }];
+        return [{ name: 'value', types: [TokenType.Boolean] }];
     }
 
     clone(replace?: Replacement) {

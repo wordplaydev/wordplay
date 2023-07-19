@@ -37,9 +37,9 @@ export default class TypeInputs extends Node {
 
     getGrammar() {
         return [
-            { name: 'open', types: [Token] },
+            { name: 'open', types: [TokenType.TypeOpen] },
             { name: 'types', types: [[Type]] },
-            { name: 'close', types: [Token, undefined] },
+            { name: 'close', types: [TokenType.TypeClose, undefined] },
         ];
     }
 

@@ -82,7 +82,6 @@
         "RomanNumeral": "$?",
         "Pi": "$?",
         "Infinity": "$?",
-        "NoneType": "$?",
         "TableOpen": "$?",
         "TableClose": "$?",
         "Select": "$?",

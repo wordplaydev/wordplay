@@ -44,7 +44,7 @@ export default class This extends AtomicExpression {
     }
 
     getGrammar() {
-        return [{ name: 'dis', types: [Token] }];
+        return [{ name: 'dis', types: [TokenType.This] }];
     }
 
     clone(replace?: Replacement) {

@@ -36,9 +36,9 @@ export default class TypeVariables extends Node {
 
     getGrammar() {
         return [
-            { name: 'open', types: [Token] },
+            { name: 'open', types: [TokenType.TypeOpen] },
             { name: 'variables', types: [Names] },
-            { name: 'close', types: [Token] },
+            { name: 'close', types: [TokenType.TypeClose] },
         ];
     }
 

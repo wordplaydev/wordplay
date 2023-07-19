@@ -30,7 +30,7 @@ export default class NoneLiteral extends Literal {
     }
 
     getGrammar() {
-        return [{ name: 'none', types: [Token] }];
+        return [{ name: 'none', types: [TokenType.None] }];
     }
 
     clone(replace?: Replacement) {

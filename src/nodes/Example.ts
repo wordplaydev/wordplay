@@ -33,9 +33,9 @@ export default class Example extends Content {
 
     getGrammar(): Field[] {
         return [
-            { name: 'open', types: [Token] },
+            { name: 'open', types: [TokenType.ExampleOpen] },
             { name: 'program', types: [Program] },
-            { name: 'close', types: [Token] },
+            { name: 'close', types: [TokenType.ExampleClose] },
         ];
     }
 

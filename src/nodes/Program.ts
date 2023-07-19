@@ -62,7 +62,7 @@ export default class Program extends Expression {
             { name: 'docs', types: [Docs, undefined] },
             { name: 'borrows', types: [[Borrow]] },
             { name: 'expression', types: [Block] },
-            { name: 'end', types: [Token] },
+            { name: 'end', types: [TokenType.End] },
         ];
     }
 

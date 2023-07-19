@@ -4543,9 +4543,6 @@
             "None": {
               "type": "string"
             },
-            "NoneType": {
-              "type": "string"
-            },
             "Number": {
               "type": "string"
             },
@@ -4685,7 +4682,6 @@
             "RomanNumeral",
             "Pi",
             "Infinity",
-            "NoneType",
             "TableOpen",
             "TableClose",
             "Select",

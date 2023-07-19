@@ -52,10 +52,10 @@ export default class Dimension extends Node {
 
     getGrammar() {
         return [
-            { name: 'product', types: [Token] },
-            { name: 'name', types: [Token] },
-            { name: 'caret', types: [Token, undefined] },
-            { name: 'exponent', types: [Token, undefined] },
+            { name: 'product', types: [TokenType.Operator, undefined] },
+            { name: 'name', types: [TokenType.Name] },
+            { name: 'caret', types: [TokenType.Operator, 'exponent'] },
+            { name: 'exponent', types: [TokenType.Number, 'caret'] },
         ];
     }
 

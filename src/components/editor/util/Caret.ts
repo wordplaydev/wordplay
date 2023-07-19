@@ -629,7 +629,7 @@ export default class Caret {
                 // Is the text being typed what's already there?
                 text === this.source.code.at(this.position) &&
                 // Is what's being typed a closing delimiter of a text literal?
-                ((this.tokenIncludingSpace.is(TokenType.Text) &&
+                ((this.tokenIncludingSpace.isType(TokenType.Text) &&
                     REVERSE_TEXT_DELIMITERS[
                         this.tokenIncludingSpace.getText().charAt(0)
                     ] === text) ||
@@ -657,8 +657,8 @@ export default class Caret {
                     !(
                         // The token prior is text or unknown
                         (
-                            (this.tokenPrior.is(TokenType.Text) ||
-                                this.tokenPrior.is(TokenType.Unknown)) &&
+                            (this.tokenPrior.isType(TokenType.Text) ||
+                                this.tokenPrior.isType(TokenType.Unknown)) &&
                             // The text typed closes a matching delimiter
                             text ===
                                 DELIMITERS[this.tokenPrior.getText().charAt(0)]
@@ -745,16 +745,16 @@ export default class Caret {
     isInsideText() {
         const isText =
             this.tokenExcludingSpace !== undefined &&
-            (this.tokenExcludingSpace.is(TokenType.Text) ||
-                this.tokenExcludingSpace.is(TokenType.TemplateBetween) ||
-                this.tokenExcludingSpace.is(TokenType.TemplateOpen) ||
-                this.tokenExcludingSpace.is(TokenType.TemplateClose));
+            (this.tokenExcludingSpace.isType(TokenType.Text) ||
+                this.tokenExcludingSpace.isType(TokenType.TemplateBetween) ||
+                this.tokenExcludingSpace.isType(TokenType.TemplateOpen) ||
+                this.tokenExcludingSpace.isType(TokenType.TemplateClose));
         const isAfterText =
             this.tokenPrior &&
-            (this.tokenPrior.is(TokenType.Text) ||
-                this.tokenPrior.is(TokenType.TemplateBetween) ||
-                this.tokenPrior.is(TokenType.TemplateOpen) ||
-                this.tokenPrior.is(TokenType.TemplateClose));
+            (this.tokenPrior.isType(TokenType.Text) ||
+                this.tokenPrior.isType(TokenType.TemplateBetween) ||
+                this.tokenPrior.isType(TokenType.TemplateOpen) ||
+                this.tokenPrior.isType(TokenType.TemplateClose));
         return (isText && !this.betweenDelimiters()) || isAfterText;
     }
 
@@ -996,7 +996,7 @@ export default class Caret {
 
     wrap(key: string): Edit | undefined {
         let node = this.position instanceof Node ? this.position : undefined;
-        if (node instanceof Token && !node.is(TokenType.End))
+        if (node instanceof Token && !node.isType(TokenType.End))
             node = this.source.root.getParent(node);
         if (node === undefined || !(node instanceof Expression))
             return undefined;

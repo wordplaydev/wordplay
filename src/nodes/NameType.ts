@@ -1,6 +1,6 @@
 import type Conflict from '@conflicts/Conflict';
 import { UnknownTypeName } from '@conflicts/UnknownTypeName';
-import Token from './Token';
+import type Token from './Token';
 import Type from './Type';
 import TypeVariable from './TypeVariable';
 import type Context from './Context';
@@ -18,6 +18,7 @@ import type { Replacement } from './Node';
 import type Locale from '@locale/Locale';
 import { UnknownName } from '@conflicts/UnknownName';
 import Emotion from '../lore/Emotion';
+import TokenType from './TokenType';
 
 export default class NameType extends Type {
     readonly name: Token;
@@ -44,7 +45,7 @@ export default class NameType extends Type {
 
     getGrammar() {
         return [
-            { name: 'name', types: [Token] },
+            { name: 'name', types: [TokenType.Name] },
             { name: 'types', types: [TypeInputs, undefined] },
         ];
     }

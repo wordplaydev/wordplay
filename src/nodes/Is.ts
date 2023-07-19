@@ -51,7 +51,7 @@ export default class Is extends Expression {
     getGrammar() {
         return [
             { name: 'expression', types: [Expression] },
-            { name: 'operator', types: [Token] },
+            { name: 'operator', types: [TokenType.Type] },
             { name: 'type', types: [Type] },
         ];
     }

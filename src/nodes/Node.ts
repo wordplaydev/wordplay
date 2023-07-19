@@ -13,12 +13,26 @@ import type { NativeTypeName } from '../native/NativeConstants';
 import type Root from './Root';
 import type { TemplateInput } from '../locale/concretize';
 import type Markup from './Markup';
+import TokenType, { isTokenType } from './TokenType';
 
 /* A global ID for nodes, for helping index them */
 let NODE_ID_COUNTER = 0;
 
+/** These types help define a node's grammar at runtime, allowing for a range of rules to be specified about their structure.
+ * This helps with edits, autocomplete, spacing rules, and more.
+ */
 export type FieldValue = Node | Node[] | undefined;
-export type FieldType = undefined | Function | Function[];
+export type FieldType =
+    // A field can be undefined
+    | undefined
+    // A field can be of this type
+    | Function
+    // A field can be a token of this type
+    | TokenType
+    // A field can be a list of these node types or token types
+    | (Function | TokenType)[]
+    // A field can be undefined, but if it is, the field of this name must also be undefined. (e.g., the colon in a: 1 can be undefined if the value is also undefined.)
+    | string;
 export type Field = {
     /** The name of the field, corresponding to a name on the Node class. Redundant with the class, but no reflection in JavaScript. */
     name: string;
@@ -570,7 +584,9 @@ export default abstract class Node {
                 type instanceof Function
                     ? type.name
                     : Array.isArray(type)
-                    ? type.map((type) => type.name)
+                    ? type.map((type) =>
+                          type instanceof Function ? type.name : type
+                      )
                     : 'undefined'
             )
             .join(', ')}], but received ${(Array.isArray(replacement)
@@ -584,12 +600,42 @@ export default abstract class Node {
     /** A helper functino that checks whether the given node or undefined value is allowed on the specified types */
     static nodeIsAllowed(node: FieldValue, allowedTypes: FieldType[]) {
         return allowedTypes.some(
-            (type) =>
-                (type instanceof Function && node instanceof type) ||
-                (type === undefined && node === undefined) ||
-                (Array.isArray(type) &&
-                    type.some((listType) => node instanceof listType))
+            (allowedType) =>
+                // The nodes an instance of an allowed type
+                (allowedType instanceof Function &&
+                    node instanceof allowedType) ||
+                // Undefined is allowed (conditionally or unconditionally) and the node is undefined
+                ((allowedType === undefined ||
+                    (typeof allowedType === 'string' &&
+                        !isTokenType(allowedType))) &&
+                    node === undefined) ||
+                // The allowed type is a list and...
+                (Array.isArray(allowedType) &&
+                    // The node is a list and every element in it is one of the allowed types
+                    ((Array.isArray(node) &&
+                        node.every((element) =>
+                            allowedType.some(
+                                (listType) =>
+                                    (listType instanceof Function &&
+                                        element instanceof listType) ||
+                                    (!(listType instanceof Function) &&
+                                        element.isType(listType))
+                            )
+                        )) ||
+                        // Or the node is a single vlaue and it is one of the list's allowed types
+                        (!Array.isArray(node) &&
+                            allowedType.some((listType) =>
+                                listType instanceof Function
+                                    ? node instanceof listType
+                                    : node !== undefined &&
+                                      node.isType(listType)
+                            ))))
         );
+    }
+
+    /** Always true, except in Token, which overrids. This helps us aovid importing Token here, creating an import cycle. */
+    isType(type: TokenType) {
+        return false;
     }
 
     replace(original: Node | Node[] | string, replacement: FieldValue) {

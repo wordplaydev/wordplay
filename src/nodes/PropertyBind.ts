@@ -1,6 +1,6 @@
 import type Conflict from '@conflicts/Conflict';
 import Expression from './Expression';
-import Token from './Token';
+import type Token from './Token';
 import type Type from './Type';
 import type Evaluator from '@runtime/Evaluator';
 import type Step from '@runtime/Step';
@@ -22,6 +22,7 @@ import Glyphs from '../lore/Glyphs';
 import Purpose from '../concepts/Purpose';
 import concretize from '../locale/concretize';
 import NodeRef from '../locale/NodeRef';
+import TokenType from './TokenType';
 
 export default class PropertyBind extends Expression {
     readonly reference: PropertyReference;
@@ -45,7 +46,7 @@ export default class PropertyBind extends Expression {
     getGrammar() {
         return [
             { name: 'reference', types: [PropertyReference] },
-            { name: 'bind', types: [Token] },
+            { name: 'bind', types: [TokenType.Bind] },
             { name: 'value', types: [Expression] },
         ];
     }

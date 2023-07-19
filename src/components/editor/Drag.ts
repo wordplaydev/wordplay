@@ -224,7 +224,7 @@ export function getInsertionPoint(
     if (parent === undefined) return;
 
     // Special case the end token of the Program, since it's block has no delimters.
-    if (node instanceof Token && node.is(TokenType.End)) {
+    if (node instanceof Token && node.isType(TokenType.End)) {
         if (parent instanceof Program && parent.expression instanceof Block) {
             return new InsertionPoint(
                 parent.expression,
@@ -278,7 +278,9 @@ export function isValidDropTarget(
             field &&
             field.types.some((type) =>
                 Array.isArray(type)
-                    ? type.some((t) => dragged instanceof t)
+                    ? type.some(
+                          (t) => t instanceof Function && dragged instanceof t
+                      )
                     : type instanceof Function
                     ? dragged instanceof type
                     : false

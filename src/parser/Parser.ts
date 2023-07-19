@@ -149,39 +149,42 @@ export class Tokens {
 
     /** Returns true if the token list isn't empty. */
     hasNext(): boolean {
-        return this.#unread.length > 0 && !this.#unread[0].is(TokenType.End);
+        return (
+            this.#unread.length > 0 && !this.#unread[0].isType(TokenType.End)
+        );
     }
 
     nextIsEnd(): boolean {
-        return this.#unread.length > 0 && this.#unread[0].is(TokenType.End);
+        return this.#unread.length > 0 && this.#unread[0].isType(TokenType.End);
     }
 
     /** Returns true if and only if the next token is the specified type. */
     nextIs(type: TokenType, text?: string): boolean {
         return (
             this.hasNext() &&
-            this.peek()?.is(type) === true &&
+            this.peek()?.isType(type) === true &&
             (text === undefined || this.peekText() === text)
         );
     }
 
     /** Returns true if and only if there is a next token and it's not the specified type. */
     nextIsnt(type: TokenType): boolean {
-        return this.hasNext() && this.peek()?.isnt(type) === true;
+        return this.hasNext() && this.peek()?.isntType(type) === true;
     }
 
     /** Returns true if and only if the next series of tokens matches the series of given token types. */
     nextAre(...types: TokenType[]) {
         return types.every(
             (type, index) =>
-                index < this.#unread.length && this.#unread[index].is(type)
+                index < this.#unread.length && this.#unread[index].isType(type)
         );
     }
 
     /** Returns true if and only there was a previous token and it was of the given type. */
     previousWas(type: TokenType): boolean {
         return (
-            this.#read.length > 0 && this.#read[this.#read.length - 1].is(type)
+            this.#read.length > 0 &&
+            this.#read[this.#read.length - 1].isType(type)
         );
     }
 
@@ -192,11 +195,11 @@ export class Tokens {
             const token = this.#unread[index];
             if (index > 0 && this.#spaces.hasLineBreak(this.#unread[index]))
                 break;
-            if (token.is(type)) break;
+            if (token.isType(type)) break;
             index++;
         }
         // If we found a bind, it's a bind.
-        return index < this.#unread.length && this.#unread[index].is(type);
+        return index < this.#unread.length && this.#unread[index].isType(type);
     }
 
     nextIsOneOf(...types: TokenType[]): boolean {
@@ -213,7 +216,7 @@ export class Tokens {
         const after = this.#unread[1];
         return (
             after !== undefined &&
-            !after.is(TokenType.End) &&
+            !after.isType(TokenType.End) &&
             !this.#spaces.hasSpace(after)
         );
     }
@@ -240,7 +243,7 @@ export class Tokens {
     read(expectedType?: TokenType): Token {
         const next = this.#unread.shift();
         if (next !== undefined) {
-            if (expectedType !== undefined && !next.is(expectedType)) {
+            if (expectedType !== undefined && !next.isType(expectedType)) {
                 throw new Error(
                     `Internal parsing error at ${this.#read
                         .slice(this.#read.length - 10, this.#read.length)
@@ -836,7 +839,7 @@ function parseTemplate(tokens: Tokens): Template {
             ? tokens.read(TokenType.TemplateClose)
             : undefined;
         if (close !== undefined) expressions.push(close);
-        if (close === undefined || close.is(TokenType.TemplateClose)) break;
+        if (close === undefined || close.isType(TokenType.TemplateClose)) break;
     } while (
         tokens.hasNext() &&
         !tokens.nextHasMoreThanOneLineBreak() &&
@@ -1281,7 +1284,7 @@ function parseNumberType(tokens: Tokens): NumberType {
 
 /** NONE_TYPE :: !NAME? */
 function parseNoneType(tokens: Tokens): NoneType {
-    const none = tokens.read(TokenType.NoneType);
+    const none = tokens.read(TokenType.None);
     return new NoneType(none);
 }
 

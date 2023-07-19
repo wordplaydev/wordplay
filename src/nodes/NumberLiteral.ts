@@ -52,7 +52,7 @@ export default class NumberLiteral extends Literal {
 
     getGrammar() {
         return [
-            { name: 'number', types: [Token] },
+            { name: 'number', types: [TokenType.Number] },
             { name: 'unit', types: [Unit] },
         ];
     }

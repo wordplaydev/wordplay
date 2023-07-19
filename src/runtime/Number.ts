@@ -59,11 +59,11 @@ export default class Number extends Primitive {
         if (negated) text = text.substring(1);
 
         // Infinity
-        if (number.is(TokenType.Infinity)) {
+        if (number.isType(TokenType.Infinity)) {
             return new Decimal(Infinity * (negated ? -1 : 1));
         }
         // If it matches the decimal pattern, randomize requested digits, then convert to a Decimal.
-        else if (number.is(TokenType.Decimal)) {
+        else if (number.isType(TokenType.Decimal)) {
             // Is there a trailing %? Strip it.
             const isPercent = text.endsWith('%');
 
@@ -75,15 +75,15 @@ export default class Number extends Primitive {
                 : new Decimal(text).times(negated ? -1 : 1);
         }
         // If it matches a number with a different base, convert it to a Decimal.
-        else if (number.is(TokenType.Base)) {
+        else if (number.isType(TokenType.Base)) {
             return convertBase(text).times(negated ? -1 : 1);
-        } else if (number.is(TokenType.RomanNumeral)) {
+        } else if (number.isType(TokenType.RomanNumeral)) {
             return convertRoman(text).times(negated ? -1 : 1);
-        } else if (number.is(TokenType.JapaneseNumeral)) {
+        } else if (number.isType(TokenType.JapaneseNumeral)) {
             return convertJapanese(text).times(negated ? -1 : 1);
         }
         // If it matches the Pi token, convert to Pi.
-        else if (number.is(TokenType.Pi)) {
+        else if (number.isType(TokenType.Pi)) {
             return Decimal.acos(-1).times(negated ? -1 : 1);
         } else {
             return new Decimal(NaN);

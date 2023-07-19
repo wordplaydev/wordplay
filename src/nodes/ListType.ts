@@ -45,9 +45,9 @@ export default class ListType extends NativeType {
 
     getGrammar() {
         return [
-            { name: 'open', types: [Token] },
+            { name: 'open', types: [TokenType.ListOpen] },
             { name: 'type', types: [Type, undefined] },
-            { name: 'close', types: [Token, undefined] },
+            { name: 'close', types: [TokenType.ListClose] },
         ];
     }
 

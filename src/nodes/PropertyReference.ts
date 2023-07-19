@@ -59,7 +59,7 @@ export default class PropertyReference extends Expression {
     getGrammar() {
         return [
             { name: 'structure', types: [Expression] },
-            { name: 'dot', types: [Token] },
+            { name: 'dot', types: [TokenType.Access] },
             {
                 name: 'name',
                 types: [Reference],

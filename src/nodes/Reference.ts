@@ -2,7 +2,7 @@ import type Conflict from '@conflicts/Conflict';
 import { UnexpectedTypeVariable } from '@conflicts/UnexpectedTypeVariable';
 import { UnknownName } from '@conflicts/UnknownName';
 import Expression from './Expression';
-import Token from './Token';
+import type Token from './Token';
 import Type from './Type';
 import TypeVariable from './TypeVariable';
 import type Evaluator from '@runtime/Evaluator';
@@ -59,7 +59,7 @@ export default class Reference extends AtomicExpression {
         return [
             {
                 name: 'name',
-                types: [Token],
+                types: [TokenType.Name],
                 label: (translation: Locale) => translation.node.Reference.name,
                 // The valid definitions of the name are anything in scope, except for the current name.
                 getDefinitions: (context: Context) =>
@@ -77,7 +77,7 @@ export default class Reference extends AtomicExpression {
     }
 
     isPlaceholder() {
-        return this.name.is(TokenType.Placeholder);
+        return this.name.isType(TokenType.Placeholder);
     }
 
     getName() {

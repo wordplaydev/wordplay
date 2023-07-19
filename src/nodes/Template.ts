@@ -28,9 +28,9 @@ export type TemplatePart = Expression | Token;
 export default class Template extends Expression {
     readonly open: Token;
     readonly expressions: TemplatePart[];
-    readonly format?: Language;
+    readonly language?: Language;
 
-    constructor(open: Token, expressions: TemplatePart[], format?: Language) {
+    constructor(open: Token, expressions: TemplatePart[], language?: Language) {
         super();
 
         this.open = open;
@@ -39,7 +39,7 @@ export default class Template extends Expression {
             ExpressionPlaceholder.make(TextType.make()),
             new Token(`${TEMPLATE_SYMBOL}'`, TokenType.TemplateClose),
         ];
-        this.format = format;
+        this.language = language;
 
         this.computeChildren();
     }
@@ -52,13 +52,13 @@ export default class Template extends Expression {
 
     getGrammar() {
         return [
-            { name: 'open', types: [Token] },
+            { name: 'open', types: [TokenType.TemplateOpen] },
             {
                 name: 'expressions',
-                types: [[Expression, Token]],
+                types: [[Expression, TokenType.Text]],
                 label: (translation: Locale) => translation.term.text,
             },
-            { name: 'format', types: [Language, undefined] },
+            { name: 'language', types: [Language, undefined] },
         ];
     }
 
@@ -66,7 +66,7 @@ export default class Template extends Expression {
         return new Template(
             this.replaceChild('open', this.open, replace),
             this.replaceChild('expressions', this.expressions, replace),
-            this.replaceChild('format', this.format, replace)
+            this.replaceChild('language', this.language, replace)
         ) as this;
     }
 
@@ -83,7 +83,7 @@ export default class Template extends Expression {
     }
 
     computeType(): Type {
-        return TextType.make(this.format);
+        return TextType.make(this.language);
     }
 
     getDependencies(): Expression[] {
@@ -133,7 +133,7 @@ export default class Template extends Expression {
             this.open.text
                 .toString()
                 .substring(1, this.open.text.toString().length - 1) + text;
-        return new Text(this, text, this.format?.getLanguage());
+        return new Text(this, text, this.language?.getLanguage());
     }
 
     evaluateTypeSet(

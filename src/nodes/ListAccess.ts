@@ -2,7 +2,7 @@ import type Conflict from '@conflicts/Conflict';
 import Expression from './Expression';
 import ListType from './ListType';
 import NumberType from './NumberType';
-import Token from './Token';
+import type Token from './Token';
 import Type from './Type';
 import type Evaluator from '@runtime/Evaluator';
 import type Value from '@runtime/Value';
@@ -29,6 +29,7 @@ import Purpose from '../concepts/Purpose';
 import None from '../runtime/None';
 import IncompatibleInput from '../conflicts/IncompatibleInput';
 import concretize from '../locale/concretize';
+import TokenType from './TokenType';
 
 export default class ListAccess extends Expression {
     readonly list: Expression;
@@ -70,7 +71,7 @@ export default class ListAccess extends Expression {
                 // Must be a list
                 getType: () => ListType.make(),
             },
-            { name: 'open', types: [Token] },
+            { name: 'open', types: [TokenType.ListOpen] },
             {
                 name: 'index',
                 types: [Expression],
@@ -78,7 +79,7 @@ export default class ListAccess extends Expression {
                 // Must be a number
                 getType: () => NumberType.make(),
             },
-            { name: 'close', types: [Token] },
+            { name: 'close', types: [TokenType.ListClose] },
         ];
     }
 

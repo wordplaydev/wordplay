@@ -1,7 +1,7 @@
 import type Conflict from '@conflicts/Conflict';
 import { IncompatibleKey } from '@conflicts/IncompatibleKey';
 import Expression from './Expression';
-import Token from './Token';
+import type Token from './Token';
 import Type from './Type';
 import type Evaluator from '@runtime/Evaluator';
 import type Value from '@runtime/Value';
@@ -30,6 +30,7 @@ import Purpose from '../concepts/Purpose';
 import IncompatibleInput from '../conflicts/IncompatibleInput';
 import { NotAType } from './NotAType';
 import concretize from '../locale/concretize';
+import TokenType from './TokenType';
 
 export default class SetOrMapAccess extends Expression {
     readonly setOrMap: Expression;
@@ -71,13 +72,13 @@ export default class SetOrMapAccess extends Expression {
                 // Must be a number
                 getType: () => UnionType.make(SetType.make(), MapType.make()),
             },
-            { name: 'open', types: [Token] },
+            { name: 'open', types: [TokenType.SetOpen] },
             {
                 name: 'key',
                 types: [Expression],
                 label: (translation: Locale) => translation.term.key,
             },
-            { name: 'close', types: [Token] },
+            { name: 'close', types: [TokenType.SetClose] },
         ];
     }
 

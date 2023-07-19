@@ -56,7 +56,7 @@ export default class Convert extends Expression {
     getGrammar() {
         return [
             { name: 'expression', types: [Expression] },
-            { name: 'convert', types: [Token], space: true },
+            { name: 'convert', types: [TokenType.Convert], space: true },
             { name: 'type', types: [Type], space: true },
         ];
     }

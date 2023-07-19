@@ -146,7 +146,7 @@ const patterns = [
     { pattern: CONVERT_SYMBOL, types: [TokenType.Convert] },
     { pattern: CONVERT_SYMBOL2, types: [TokenType.Convert] },
     { pattern: CONVERT_SYMBOL3, types: [TokenType.Convert] },
-    { pattern: NONE_SYMBOL, types: [TokenType.None, TokenType.NoneType] },
+    { pattern: NONE_SYMBOL, types: [TokenType.None, TokenType.None] },
     { pattern: TYPE_SYMBOL, types: [TokenType.Type, TokenType.TypeOperator] },
     {
         pattern: OR_SYMBOL,
@@ -365,7 +365,7 @@ export function tokenize(source: string): TokenList {
 
         const tokenizeDocs =
             openExampleAndDocs.length > 0 &&
-            openExampleAndDocs[0].is(TokenType.Doc);
+            openExampleAndDocs[0].isType(TokenType.Doc);
 
         // If we're in a doc, then read whitespace starting with newlines only.
         if (tokenizeDocs && !source.startsWith(EXAMPLE_CLOSE_SYMBOL)) {
@@ -396,23 +396,24 @@ export function tokenize(source: string): TokenList {
         source = source.substring(nextToken.text.toString().length);
 
         // If the token was a text open, push it on the stack.
-        if (nextToken.is(TokenType.TemplateOpen))
+        if (nextToken.isType(TokenType.TemplateOpen))
             openTemplates.unshift(nextToken);
         // If the token was a close, pop
-        else if (nextToken.is(TokenType.TemplateClose)) openTemplates.shift();
+        else if (nextToken.isType(TokenType.TemplateClose))
+            openTemplates.shift();
 
         // If the token was an eval open, push it on the stack.
-        if (nextToken.is(TokenType.ExampleOpen))
+        if (nextToken.isType(TokenType.ExampleOpen))
             openExampleAndDocs.unshift(nextToken);
         // If the token was a close, pop
-        else if (nextToken.is(TokenType.ExampleClose))
+        else if (nextToken.isType(TokenType.ExampleClose))
             openExampleAndDocs.shift();
 
         // If we encountered a doc, toggle the flag.
-        if (nextToken.is(TokenType.Doc)) {
+        if (nextToken.isType(TokenType.Doc)) {
             if (
                 openExampleAndDocs.length > 0 &&
-                openExampleAndDocs[0].is(TokenType.Doc)
+                openExampleAndDocs[0].isType(TokenType.Doc)
             )
                 openExampleAndDocs.shift();
             else openExampleAndDocs.unshift(nextToken);
@@ -420,7 +421,10 @@ export function tokenize(source: string): TokenList {
     }
 
     // If there's nothing left -- or nothing but space -- and the last token isn't a already end token, add one, and remember the space before it.
-    if (tokens.length === 0 || !tokens[tokens.length - 1].is(TokenType.End)) {
+    if (
+        tokens.length === 0 ||
+        !tokens[tokens.length - 1].isType(TokenType.End)
+    ) {
         const end = new Token('', TokenType.End);
         tokens.push(end);
         if (source.length > 0) spaces.set(end, source);
@@ -486,7 +490,7 @@ function getNextToken(
     return new Token(
         source.substring(
             0,
-            next.is(TokenType.End)
+            next.isType(TokenType.End)
                 ? source.length
                 : source.indexOf(next.getText())
         ),

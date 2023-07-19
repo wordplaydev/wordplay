@@ -60,7 +60,7 @@ export default class Previous extends Expression {
                 // Must be a stream
                 getType: () => StreamType.make(new AnyType()),
             },
-            { name: 'previous', types: [Token] },
+            { name: 'previous', types: [TokenType.Previous] },
             {
                 name: 'index',
                 types: [Expression],

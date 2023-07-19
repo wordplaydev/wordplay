@@ -1,6 +1,6 @@
 import Expression from './Expression';
 import ListType from './ListType';
-import Token from './Token';
+import type Token from './Token';
 import type Type from './Type';
 import List from '@runtime/List';
 import type Evaluator from '@runtime/Evaluator';
@@ -22,6 +22,7 @@ import Glyphs from '../lore/Glyphs';
 import Purpose from '../concepts/Purpose';
 import type { NativeTypeName } from '../native/NativeConstants';
 import concretize from '../locale/concretize';
+import TokenType from './TokenType';
 
 export default class ListLiteral extends Expression {
     readonly open: Token;
@@ -48,7 +49,7 @@ export default class ListLiteral extends Expression {
 
     getGrammar() {
         return [
-            { name: 'open', types: [Token] },
+            { name: 'open', types: [TokenType.ListOpen] },
             {
                 name: 'values',
                 types: [[Expression]],
@@ -57,7 +58,7 @@ export default class ListLiteral extends Expression {
                 space: true,
                 indent: true,
             },
-            { name: 'close', types: [Token], sapce: true },
+            { name: 'close', types: [TokenType.ListClose], sapce: true },
         ];
     }
 

@@ -45,9 +45,29 @@ export default class Words extends Content {
 
     getGrammar(): Field[] {
         return [
-            { name: 'open', types: [Token] },
+            {
+                name: 'open',
+                types: [
+                    TokenType.Italic,
+                    TokenType.Underline,
+                    TokenType.Light,
+                    TokenType.Bold,
+                    TokenType.Extra,
+                    'close',
+                ],
+            },
             { name: 'segments', types: [Words, WebLink, ConceptLink, Example] },
-            { name: 'close', types: [Token] },
+            {
+                name: 'close',
+                types: [
+                    TokenType.Italic,
+                    TokenType.Underline,
+                    TokenType.Light,
+                    TokenType.Bold,
+                    TokenType.Extra,
+                    'open',
+                ],
+            },
         ];
     }
 
@@ -80,13 +100,13 @@ export default class Words extends Content {
     getFormat(): Format | undefined {
         return this.open === undefined
             ? undefined
-            : this.open.is(TokenType.Italic)
+            : this.open.isType(TokenType.Italic)
             ? 'italic'
-            : this.open.is(TokenType.Underline)
+            : this.open.isType(TokenType.Underline)
             ? 'underline'
-            : this.open.is(TokenType.Light)
+            : this.open.isType(TokenType.Light)
             ? 'light'
-            : this.open.is(TokenType.Bold)
+            : this.open.isType(TokenType.Bold)
             ? 'bold'
             : 'extra';
     }

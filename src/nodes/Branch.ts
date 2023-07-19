@@ -7,6 +7,7 @@ import Content from './Content';
 import Mention from './Mention';
 import type { Field, Replacement } from './Node';
 import Token from './Token';
+import TokenType from './TokenType';
 import Words from './Words';
 
 /**
@@ -45,12 +46,12 @@ export default class Branch extends Content {
 
     getGrammar(): Field[] {
         return [
-            { name: 'mention', types: [[Mention]] },
-            { name: 'open', types: [[Token]] },
+            { name: 'mention', types: [Mention] },
+            { name: 'open', types: [TokenType.ListOpen] },
             { name: 'yes', types: [[Words]] },
-            { name: 'bar', types: [[Token]] },
+            { name: 'bar', types: [TokenType.Union] },
             { name: 'no', types: [[Words]] },
-            { name: 'close', types: [[Token]] },
+            { name: 'close', types: [TokenType.ListClose] },
         ];
     }
     computeConflicts() {

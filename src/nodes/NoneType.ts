@@ -26,7 +26,7 @@ export default class NoneType extends NativeType {
     }
 
     getGrammar() {
-        return [{ name: 'none', types: [Token] }];
+        return [{ name: 'none', types: [TokenType.None] }];
     }
 
     computeConflicts() {}

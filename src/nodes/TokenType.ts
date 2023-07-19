@@ -42,7 +42,6 @@ enum TokenType {
     RomanNumeral = '#rom',
     Pi = '#pi',
     Infinity = '∞',
-    NoneType = '•ø',
     TableOpen = '⎡',
     TableClose = '⎦',
     Select = '⎡=',
@@ -81,6 +80,10 @@ enum TokenType {
     Name = 'name',
     Unknown = 'unknown',
     End = 'end',
+}
+
+export function isTokenType(text: string) {
+    return Object.values(TokenType).includes(text as unknown as TokenType);
 }
 
 export default TokenType;

@@ -88,13 +88,13 @@ export default class StreamDefinition extends Expression {
     getGrammar() {
         return [
             { name: 'docs', types: [Docs, undefined] },
-            { name: 'dots', types: [Token] },
+            { name: 'dots', types: [TokenType.Stream] },
             { name: 'names', types: [Names] },
-            { name: 'open', types: [Token] },
+            { name: 'open', types: [TokenType.EvalOpen] },
             { name: 'inputs', types: [[Bind]], space: true, indent: true },
-            { name: 'close', types: [Token] },
-            { name: 'dot', types: [Token, undefined] },
-            { name: 'output', types: [Type, undefined] },
+            { name: 'close', types: [TokenType.EvalClose] },
+            { name: 'dot', types: [Token, 'output'] },
+            { name: 'output', types: [Type, 'dot'] },
         ];
     }
 

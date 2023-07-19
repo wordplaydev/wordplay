@@ -1,6 +1,6 @@
 import type Conflict from '@conflicts/Conflict';
 import type Expression from './Expression';
-import Token from './Token';
+import type Token from './Token';
 import Type from './Type';
 import type Node from './Node';
 import type Value from '@runtime/Value';
@@ -27,6 +27,7 @@ import Evaluate from './Evaluate';
 import getConcreteExpectedType from './Generics';
 import BinaryEvaluate from './BinaryEvaluate';
 import FunctionDefinition from './FunctionDefinition';
+import TokenType from './TokenType';
 
 export default class ExpressionPlaceholder extends AtomicExpression {
     readonly placeholder: Token;
@@ -60,7 +61,7 @@ export default class ExpressionPlaceholder extends AtomicExpression {
         return [
             {
                 name: 'placeholder',
-                types: [Token],
+                types: [TokenType.Placeholder],
                 label: (
                     translation: Locale,
                     _: Node,
@@ -79,8 +80,8 @@ export default class ExpressionPlaceholder extends AtomicExpression {
                     );
                 },
             },
-            { name: 'dot', types: [Token, undefined] },
-            { name: 'type', types: [Type, undefined] },
+            { name: 'dot', types: [TokenType.Access, 'type'] },
+            { name: 'type', types: [Type, 'dot'] },
         ];
     }
 

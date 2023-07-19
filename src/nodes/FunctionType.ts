@@ -81,11 +81,11 @@ export default class FunctionType extends Type {
 
     getGrammar() {
         return [
-            { name: 'fun', types: [Token] },
+            { name: 'fun', types: [TokenType.Function] },
             { name: 'types', types: [TypeVariables, undefined], space: true },
-            { name: 'open', types: [Token] },
+            { name: 'open', types: [TokenType.EvalOpen] },
             { name: 'inputs', types: [[Bind]], space: true, indent: true },
-            { name: 'close', types: [Token] },
+            { name: 'close', types: [TokenType.EvalClose] },
             { name: 'output', types: [Type], space: true },
         ];
     }

@@ -124,7 +124,7 @@ export default class Unit extends Type {
     getGrammar() {
         return [
             { name: 'numerator', types: [[Dimension]] },
-            { name: 'slash', types: [Token, undefined] },
+            { name: 'slash', types: [TokenType.Language, undefined] },
             { name: 'denominator', types: [[Dimension]] },
         ];
     }

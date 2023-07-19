@@ -45,7 +45,7 @@ export default class UnionType extends Type {
     getGrammar() {
         return [
             { name: 'left', types: [Type] },
-            { name: 'or', types: [Token] },
+            { name: 'or', types: [TokenType.Union] },
             { name: 'right', types: [Type] },
         ];
     }

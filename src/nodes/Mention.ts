@@ -32,7 +32,7 @@ export default class Mention extends Content {
     }
 
     getGrammar(): Field[] {
-        return [{ name: 'name', types: [[Token]] }];
+        return [{ name: 'name', types: [TokenType.Mention] }];
     }
     computeConflicts() {
         return [];

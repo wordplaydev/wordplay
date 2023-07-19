@@ -1,5 +1,5 @@
 import type Node from './Node';
-import Token from './Token';
+import type Token from './Token';
 import Expression from './Expression';
 import Row from './Row';
 import type Conflict from '@conflicts/Conflict';
@@ -26,6 +26,7 @@ import NodeRef from '@locale/NodeRef';
 import Glyphs from '../lore/Glyphs';
 import IncompatibleInput from '../conflicts/IncompatibleInput';
 import concretize from '../locale/concretize';
+import TokenType from './TokenType';
 
 export default class Insert extends Expression {
     readonly table: Expression;
@@ -49,7 +50,7 @@ export default class Insert extends Expression {
                 types: [Expression],
                 label: (translation: Locale) => translation.term.table,
             },
-            { name: 'insert', types: [Token] },
+            { name: 'insert', types: [TokenType.Insert] },
             {
                 name: 'row',
                 types: [Row],

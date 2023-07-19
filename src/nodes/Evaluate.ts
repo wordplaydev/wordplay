@@ -7,7 +7,7 @@ import IncompatibleInput from '@conflicts/IncompatibleInput';
 import NotInstantiable from '@conflicts/NotInstantiable';
 import StructureDefinitionType from './StructureDefinitionType';
 import Expression from './Expression';
-import Token from './Token';
+import type Token from './Token';
 import Type from './Type';
 import type Evaluator from '@runtime/Evaluator';
 import type Value from '@runtime/Value';
@@ -52,6 +52,7 @@ import FunctionType from './FunctionType';
 import AnyType from './AnyType';
 import { NotAType } from './NotAType';
 import concretize from '../locale/concretize';
+import TokenType from './TokenType';
 
 type Mapping = {
     expected: Bind;
@@ -107,7 +108,7 @@ export default class Evaluate extends Expression {
                     translation.node.Evaluate.function,
             },
             { name: 'types', types: [TypeInputs, undefined] },
-            { name: 'open', types: [Token] },
+            { name: 'open', types: [TokenType.EvalOpen] },
             {
                 name: 'inputs',
                 types: [[Expression]],
@@ -167,7 +168,7 @@ export default class Evaluate extends Expression {
                     );
                 },
             },
-            { name: 'close', types: [Token] },
+            { name: 'close', types: [TokenType.EvalClose] },
         ];
     }
 

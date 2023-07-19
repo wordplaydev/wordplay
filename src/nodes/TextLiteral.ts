@@ -43,7 +43,7 @@ export default class TextLiteral extends Literal {
 
     getGrammar() {
         return [
-            { name: 'text', types: [Token] },
+            { name: 'text', types: [TokenType.Text] },
             { name: 'language', types: [Language, undefined] },
         ];
     }

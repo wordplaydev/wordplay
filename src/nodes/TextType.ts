@@ -36,7 +36,7 @@ export default class TextType extends NativeType {
 
     getGrammar() {
         return [
-            { name: 'text', types: [Token] },
+            { name: 'text', types: [TokenType.Text] },
             { name: 'language', types: [Language, undefined] },
         ];
     }

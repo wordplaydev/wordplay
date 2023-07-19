@@ -32,8 +32,8 @@ export default class Token extends Node {
         // No token is allowed to be empty except the end token.
         if (
             this.text.isEmpty() &&
-            !this.is(TokenType.End) &&
-            !this.is(TokenType.Words)
+            !this.isType(TokenType.End) &&
+            !this.isType(TokenType.Words)
         )
             throw Error('This token has no text');
     }
@@ -58,14 +58,15 @@ export default class Token extends Node {
 
     // TOKEN TYPES
 
-    isnt(type: TokenType) {
-        return !this.is(type);
+    isntType(type: TokenType) {
+        return !this.isType(type);
     }
-    is(type: TokenType) {
+
+    isType(type: TokenType) {
         return this.getTypes().includes(type);
     }
     isName() {
-        return this.is(TokenType.Name);
+        return this.isType(TokenType.Name);
     }
     getTypes() {
         return this.types;
@@ -125,7 +126,7 @@ export default class Token extends Node {
         context: Context,
         translation: Locale
     ): Template | undefined {
-        if (!this.is(TokenType.Placeholder)) return undefined;
+        if (!this.isType(TokenType.Placeholder)) return undefined;
         const parent = root.getParent(this);
         return parent === undefined
             ? undefined
@@ -146,9 +147,9 @@ export default class Token extends Node {
         let text = this.getText();
 
         // Is this text? Localize delimiters.
-        const isText = this.is(TokenType.Text);
-        const isTextOpen = this.is(TokenType.TemplateOpen);
-        const isTextClose = this.is(TokenType.TemplateClose);
+        const isText = this.isType(TokenType.Text);
+        const isTextOpen = this.isType(TokenType.TemplateOpen);
+        const isTextClose = this.isType(TokenType.TemplateClose);
         if (isText || isTextOpen || isTextClose) {
             // Is there a closing delimiter? If not, we don't replace it.
             const lastChar = text.at(-1);
@@ -171,7 +172,7 @@ export default class Token extends Node {
         }
 
         // Is this a name? Choose the most appropriate name.
-        if (this.is(TokenType.Name) && name) {
+        if (this.isType(TokenType.Name) && name) {
             const parent = root.getParent(this);
             let def: Definition | undefined = undefined;
             if (parent) {

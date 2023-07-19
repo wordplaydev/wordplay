@@ -111,7 +111,7 @@ export default class Bind extends Expression {
             },
             {
                 name: 'share',
-                types: [Token, undefined],
+                types: [TokenType.Share, undefined],
                 getToken: () => new Token(SHARE_SYMBOL, TokenType.Share),
             },
             {
@@ -120,15 +120,15 @@ export default class Bind extends Expression {
             },
             {
                 name: 'etc',
-                types: [Token, undefined],
+                types: [TokenType.Etc, undefined],
                 getToken: () => new Token(ETC_SYMBOL, TokenType.Etc),
             },
-            { name: 'dot', types: [Token, undefined] },
-            { name: 'type', types: [Type, undefined] },
-            { name: 'colon', types: [Token, undefined] },
+            { name: 'dot', types: [TokenType.Access, 'type'] },
+            { name: 'type', types: [Type, 'dot'] },
+            { name: 'colon', types: [TokenType.Bind, 'value'] },
             {
                 name: 'value',
-                types: [Expression, undefined],
+                types: [Expression, 'colon'],
                 space: true,
                 indent: true,
                 // If there's a type, the value must match it, otherwise anything

@@ -1,7 +1,7 @@
 import type { NativeTypeName } from '../native/NativeConstants';
 import type Context from './Context';
 import NativeType from './NativeType';
-import Token from './Token';
+import type Token from './Token';
 import Type from './Type';
 import BindToken from './BindToken';
 import SetOpenToken from './SetOpenToken';
@@ -13,6 +13,7 @@ import type { Replacement } from './Node';
 import type Locale from '@locale/Locale';
 import Glyphs from '../lore/Glyphs';
 import NodeRef from '../locale/NodeRef';
+import TokenType from './TokenType';
 
 export default class MapType extends NativeType {
     readonly open: Token;
@@ -51,11 +52,11 @@ export default class MapType extends NativeType {
 
     getGrammar() {
         return [
-            { name: 'open', types: [Token] },
-            { name: 'key', types: [Type, undefined] },
-            { name: 'bind', types: [Token] },
-            { name: 'value', types: [Type, undefined] },
-            { name: 'close', types: [Token] },
+            { name: 'open', types: [TokenType.SetOpen] },
+            { name: 'key', types: [Type, 'value'] },
+            { name: 'bind', types: [TokenType.Bind] },
+            { name: 'value', types: [Type, 'key'] },
+            { name: 'close', types: [TokenType.SetClose] },
         ];
     }
 

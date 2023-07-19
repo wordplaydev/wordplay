@@ -1,6 +1,6 @@
 import Expression from './Expression';
 import KeyValue from './KeyValue';
-import Token from './Token';
+import type Token from './Token';
 import type Type from './Type';
 import type Conflict from '@conflicts/Conflict';
 import type Evaluator from '@runtime/Evaluator';
@@ -27,6 +27,7 @@ import Purpose from '../concepts/Purpose';
 import type { NativeTypeName } from '../native/NativeConstants';
 import concretize from '../locale/concretize';
 import ValueException from '../runtime/ValueException';
+import TokenType from './TokenType';
 
 export default class MapLiteral extends Expression {
     readonly open: Token;
@@ -61,10 +62,10 @@ export default class MapLiteral extends Expression {
 
     getGrammar() {
         return [
-            { name: 'open', types: [Token] },
-            { name: 'bind', types: [Token, undefined] },
+            { name: 'open', types: [TokenType.SetOpen] },
+            { name: 'bind', types: [TokenType.Bind, undefined] },
             { name: 'values', types: [[KeyValue]], space: true, indent: true },
-            { name: 'close', types: [Token] },
+            { name: 'close', types: [TokenType.SetClose] },
         ];
     }
 

@@ -34,7 +34,7 @@ export default class StreamType extends Type {
 
     getGrammar() {
         return [
-            { name: 'stream', types: [Token] },
+            { name: 'stream', types: [TokenType.Stream] },
             { name: 'type', types: [Type] },
         ];
     }

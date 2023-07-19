@@ -38,9 +38,9 @@ export default class TableType extends Type {
 
     getGrammar() {
         return [
-            { name: 'open', types: [Token] },
+            { name: 'open', types: [TokenType.TableOpen] },
             { name: 'columns', types: [[Bind]] },
-            { name: 'close', types: [Type] },
+            { name: 'close', types: [TokenType.TableClose] },
         ];
     }
 

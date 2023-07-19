@@ -1,12 +1,13 @@
 import type Conflict from '@conflicts/Conflict';
 import Placeholder from '@conflicts/Placeholder';
-import Token from './Token';
+import type Token from './Token';
 import Type from './Type';
 import PlaceholderToken from './PlaceholderToken';
 import type { NativeTypeName } from '../native/NativeConstants';
 import type { Replacement } from './Node';
 import type Locale from '@locale/Locale';
 import Glyphs from '../lore/Glyphs';
+import TokenType from './TokenType';
 
 export default class TypePlaceholder extends Type {
     readonly placeholder: Token;
@@ -27,7 +28,7 @@ export default class TypePlaceholder extends Type {
         return [
             {
                 name: 'placeholder',
-                types: [Token],
+                types: [TokenType.Placeholder],
                 label: (translation: Locale) =>
                     translation.ui.placeholders.type,
             },

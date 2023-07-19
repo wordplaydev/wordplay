@@ -1,7 +1,7 @@
 import type Conflict from '@conflicts/Conflict';
 import Expression from './Expression';
 import CycleType from './CycleType';
-import Token from './Token';
+import type Token from './Token';
 import type Type from './Type';
 import type Evaluator from '@runtime/Evaluator';
 import type Value from '@runtime/Value';
@@ -28,6 +28,7 @@ import type { NativeTypeName } from '../native/NativeConstants';
 import StreamToken from './StreamToken';
 import concretize from '../locale/concretize';
 import ExpectedStream from '../conflicts/ExpectedStream';
+import TokenType from './TokenType';
 
 export default class Reaction extends Expression {
     readonly initial: Expression;
@@ -72,7 +73,7 @@ export default class Reaction extends Expression {
                 label: (translation: Locale) =>
                     translation.node.Reaction.initial,
             },
-            { name: 'dots', types: [Token], space: true },
+            { name: 'dots', types: [TokenType.Stream], space: true },
             {
                 name: 'condition',
                 types: [Expression],
@@ -82,7 +83,7 @@ export default class Reaction extends Expression {
             },
             {
                 name: 'nextdots',
-                types: [Token, undefined],
+                types: [TokenType.Stream],
                 space: true,
                 indent: true,
             },

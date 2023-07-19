@@ -10,4 +10,4 @@
 
 <NodeView node={node.open} /><NodeSequenceView
     nodes={node.expressions}
-/><NodeView node={node.format} />
+/><NodeView node={node.language} />

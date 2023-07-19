@@ -37,7 +37,7 @@ export default class Initial extends AtomicExpression {
     }
 
     getGrammar() {
-        return [{ name: 'diamond', types: [Token] }];
+        return [{ name: 'diamond', types: [TokenType.Initial] }];
     }
 
     clone(replace?: Replacement) {

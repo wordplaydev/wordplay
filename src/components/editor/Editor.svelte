@@ -48,7 +48,7 @@
     import type Project from '@models/Project';
     import type Conflict from '@conflicts/Conflict';
     import { tick } from 'svelte';
-    import { getEditsAt } from './util/Autocomplete';
+    import { getCaretTransforms, getEditsAt } from './util/Autocomplete';
     import { OutlinePadding } from './util/outline';
     import Highlight from './Highlight.svelte';
     import { afterUpdate } from 'svelte';
@@ -520,7 +520,7 @@
                 ? nonTokenNodeUnderPointer
                 : // If the node is a placeholder token, select it's placeholder ancestor
                 tokenUnderPointer instanceof Token &&
-                  tokenUnderPointer.is(TokenType.Placeholder)
+                  tokenUnderPointer.isType(TokenType.Placeholder)
                 ? source.root
                       .getAncestors(tokenUnderPointer)
                       .find((a) => a.isPlaceholder())
@@ -912,7 +912,6 @@
             // And filter them by kinds that match, getting the field's allowed types,
             // and seeing if the dragged node is an instance of any of the dragged types.
             // This only works if the types list contains a single item that is a list of types.
-
             const insertionPoint = getInsertionPointsAt(event).filter(
                 (insertion) => {
                     const types = insertion.node.getAllowedFieldNodeTypes(
@@ -922,7 +921,11 @@
                         $dragged &&
                         Array.isArray(types) &&
                         Array.isArray(types[0]) &&
-                        types[0].some((kind) => $dragged instanceof kind)
+                        types[0].some(
+                            (kind) =>
+                                kind instanceof Function &&
+                                $dragged instanceof kind
+                        )
                     );
                 }
             )[0];
@@ -963,6 +966,8 @@
         // Get the unique valid edits at the caret.
         const transforms = getEditsAt(project, $caret.withPosition(position));
 
+        getCaretTransforms(project, $caret.withPosition(position));
+
         // Set the menu.
         menu = new Menu($caret, transforms, 0, handleEdit);
     }
@@ -974,12 +979,12 @@
         if (
             // Recent addition needs to be an access or name token
             $caret.addition instanceof Token &&
-            ($caret.addition.is(TokenType.Access) ||
-                $caret.addition.is(TokenType.Name)) &&
+            ($caret.addition.isType(TokenType.Access) ||
+                $caret.addition.isType(TokenType.Name)) &&
             // If it's a name, the token prior to the name needs to be an access token
             $caret.tokenPrior !== undefined &&
-            ($caret.tokenPrior.is(TokenType.Access) ||
-                $caret.tokenPrior.is(TokenType.Name))
+            ($caret.tokenPrior.isType(TokenType.Access) ||
+                $caret.tokenPrior.isType(TokenType.Name))
             //  &&
             //     source
             //         .getTokenBefore($caret.tokenPrior)

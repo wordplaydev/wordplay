@@ -4,7 +4,7 @@ import type Conflict from '@conflicts/Conflict';
 import { ExpectedEndingExpression } from '@conflicts/ExpectedEndingExpression';
 import { IgnoredExpression } from '@conflicts/IgnoredExpression';
 import Expression from './Expression';
-import Token from './Token';
+import type Token from './Token';
 import type Type from './Type';
 import type Evaluator from '@runtime/Evaluator';
 import Start from '@runtime/Start';
@@ -27,6 +27,7 @@ import type { Replacement } from './Node';
 import type Locale from '@locale/Locale';
 import Glyphs from '../lore/Glyphs';
 import concretize from '../locale/concretize';
+import TokenType from './TokenType';
 
 export enum BlockKind {
     Root = 'root',
@@ -78,7 +79,7 @@ export default class Block extends Expression {
     getGrammar() {
         return [
             { name: 'docs', types: [Docs, undefined] },
-            { name: 'open', types: [Token, undefined] },
+            { name: 'open', types: [TokenType.EvalOpen, undefined] },
             {
                 name: 'statements',
                 types: [[Expression, Bind]],
@@ -91,7 +92,7 @@ export default class Block extends Expression {
             },
             {
                 name: 'close',
-                types: [Token, undefined],
+                types: [TokenType.EvalClose, undefined],
                 newline: this.isStructure(),
             },
         ];

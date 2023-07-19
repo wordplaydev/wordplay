@@ -50,14 +50,14 @@ export default class SetLiteral extends Expression {
 
     getGrammar() {
         return [
-            { name: 'open', types: [Token] },
+            { name: 'open', types: [TokenType.SetOpen] },
             {
                 name: 'values',
                 types: [[Expression]],
                 space: true,
                 indent: true,
             },
-            { name: 'close', types: [Token] },
+            { name: 'close', types: [TokenType.SetClose] },
         ];
     }
 

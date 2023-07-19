@@ -64,7 +64,7 @@ export default class NumberType extends NativeType {
 
     getGrammar() {
         return [
-            { name: 'number', types: [Token] },
+            { name: 'number', types: [TokenType.NumberType] },
             { name: 'unit', types: [Unit] },
         ];
     }
@@ -116,7 +116,7 @@ export default class NumberType extends NativeType {
 
             // If this is a specific number, then all other possible type must be the same specific number.
             if (
-                this.number.is(TokenType.Number) &&
+                this.number.isType(TokenType.Number) &&
                 this.number.getText() !== possibleType.number.getText()
             )
                 return false;

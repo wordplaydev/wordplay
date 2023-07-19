@@ -46,7 +46,7 @@ export default class Changed extends AtomicExpression {
 
     getGrammar() {
         return [
-            { name: 'change', types: [Token] },
+            { name: 'change', types: [TokenType.Change] },
             {
                 name: 'stream',
                 types: [Expression],

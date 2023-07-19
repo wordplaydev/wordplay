@@ -1,4 +1,4 @@
-import Token from './Token';
+import type Token from './Token';
 import Expression from './Expression';
 import Row from './Row';
 import type Conflict from '@conflicts/Conflict';
@@ -27,6 +27,7 @@ import Glyphs from '../lore/Glyphs';
 import IncompatibleInput from '../conflicts/IncompatibleInput';
 import { NotAType } from './NotAType';
 import concretize from '../locale/concretize';
+import TokenType from './TokenType';
 
 export default class Select extends Expression {
     readonly table: Expression;
@@ -52,7 +53,7 @@ export default class Select extends Expression {
                 types: [Expression],
                 label: (translation: Locale) => translation.term.table,
             },
-            { name: 'select', types: [Token] },
+            { name: 'select', types: [TokenType.Select] },
             {
                 name: 'row',
                 types: [Row],

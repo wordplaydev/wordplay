@@ -65,7 +65,7 @@ export default class Conditional extends Expression {
                 // Must be boolean typed
                 getType: () => BooleanType.make(),
             },
-            { name: 'question', types: [Token], space: true },
+            { name: 'question', types: [TokenType.Conditional], space: true },
             {
                 name: 'yes',
                 types: [Expression],

@@ -1,7 +1,7 @@
 import MissingLanguage from '@conflicts/MissingLanguage';
 import Node from './Node';
 import type { Replacement } from './Node';
-import Token from './Token';
+import type Token from './Token';
 import NameToken from './NameToken';
 import LanguageToken from './LanguageToken';
 import type Conflict from '@conflicts/Conflict';
@@ -10,6 +10,7 @@ import UnknownLanguage from '@conflicts/UnknownLanguage';
 import type Locale from '@locale/Locale';
 import Glyphs from '../lore/Glyphs';
 import Purpose from '../concepts/Purpose';
+import TokenType from './TokenType';
 
 export default class Language extends Node {
     readonly slash: Token;
@@ -30,8 +31,8 @@ export default class Language extends Node {
 
     getGrammar() {
         return [
-            { name: 'slash', types: [Token] },
-            { name: 'lang', types: [Token, undefined] },
+            { name: 'slash', types: [TokenType.Language] },
+            { name: 'lang', types: [TokenType.Name, undefined] },
         ];
     }
 

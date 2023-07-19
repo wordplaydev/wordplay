@@ -1,11 +1,12 @@
 import type { Replacement } from './Node';
-import Token from './Token';
+import type Token from './Token';
 import Bind from './Bind';
 import Expression from './Expression';
 import type Locale from '@locale/Locale';
 import Glyphs from '../lore/Glyphs';
 import Purpose from '../concepts/Purpose';
 import Node from './Node';
+import TokenType from './TokenType';
 
 export default class Row extends Node {
     readonly open: Token;
@@ -28,9 +29,9 @@ export default class Row extends Node {
 
     getGrammar() {
         return [
-            { name: 'open', types: [Token] },
+            { name: 'open', types: [TokenType.TableOpen] },
             { name: 'cells', types: [[Bind, Expression]] },
-            { name: 'close', types: [Token] },
+            { name: 'close', types: [TokenType.TableClose] },
         ];
     }
 

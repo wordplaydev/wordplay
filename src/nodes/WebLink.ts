@@ -49,11 +49,11 @@ export default class WebLink extends Content {
 
     getGrammar(): Field[] {
         return [
-            { name: 'open', types: [Token] },
-            { name: 'description', types: [Token] },
-            { name: 'at', types: [Token] },
-            { name: 'url', types: [Token] },
-            { name: 'close', types: [Token] },
+            { name: 'open', types: [TokenType.TagOpen] },
+            { name: 'description', types: [TokenType.Words] },
+            { name: 'at', types: [TokenType.Link] },
+            { name: 'url', types: [TokenType.URL] },
+            { name: 'close', types: [TokenType.TagClose] },
         ];
     }
 

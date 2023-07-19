@@ -1,5 +1,5 @@
 import type Node from './Node';
-import Token from './Token';
+import type Token from './Token';
 import Expression from './Expression';
 import type Conflict from '@conflicts/Conflict';
 import type Type from './Type';
@@ -21,6 +21,7 @@ import NodeRef from '@locale/NodeRef';
 import Glyphs from '../lore/Glyphs';
 import IncompatibleInput from '../conflicts/IncompatibleInput';
 import concretize from '../locale/concretize';
+import TokenType from './TokenType';
 
 export default class Delete extends Expression {
     readonly table: Expression;
@@ -44,7 +45,7 @@ export default class Delete extends Expression {
                 types: [Expression],
                 label: (translation: Locale) => translation.term.table,
             },
-            { name: 'del', types: [Token] },
+            { name: 'del', types: [TokenType.Delete] },
             {
                 name: 'query',
                 types: [Expression],
