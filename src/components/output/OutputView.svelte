@@ -37,7 +37,7 @@
 
     $: verse = value === undefined ? undefined : toStage(project, value);
     $: background =
-        $keyboardEditIdle === IdleKind.Idle && value instanceof Exception
+        $keyboardEditIdle !== IdleKind.Typing && value instanceof Exception
             ? 'var(--wordplay-error)'
             : verse?.background.toCSS() ?? null;
 
