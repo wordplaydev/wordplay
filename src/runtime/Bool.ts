@@ -1,6 +1,6 @@
 import type { NativeTypeName } from '../native/NativeConstants';
 import BooleanType from '@nodes/BooleanType';
-import type UnaryOperation from '@nodes/UnaryOperation';
+import type UnaryEvaluate from '@nodes/UnaryEvaluate';
 import { FALSE_SYMBOL, TRUE_SYMBOL } from '@parser/Symbols';
 import { NOT_SYMBOL } from '@parser/Symbols';
 import type Evaluator from './Evaluator';
@@ -45,7 +45,7 @@ export default class Bool extends Primitive {
     evaluatePrefix(
         requestor: Expression,
         evaluator: Evaluator,
-        op: UnaryOperation
+        op: UnaryEvaluate
     ): Value {
         switch (op.getOperator()) {
             case '~':

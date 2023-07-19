@@ -25,7 +25,7 @@ import concretize from '../locale/concretize';
 import NodeRef from '../locale/NodeRef';
 import Evaluate from './Evaluate';
 import getConcreteExpectedType from './Generics';
-import BinaryOperation from './BinaryOperation';
+import BinaryEvaluate from './BinaryEvaluate';
 import FunctionDefinition from './FunctionDefinition';
 
 export default class ExpressionPlaceholder extends AtomicExpression {
@@ -104,7 +104,7 @@ export default class ExpressionPlaceholder extends AtomicExpression {
         const parent = context.getRoot(this)?.getParent(this);
 
         // In an evaluate? Infer from the function's bind type.
-        if (parent instanceof Evaluate || parent instanceof BinaryOperation) {
+        if (parent instanceof Evaluate || parent instanceof BinaryEvaluate) {
             const fun = parent.getFunction(context);
             if (fun) {
                 const bind =

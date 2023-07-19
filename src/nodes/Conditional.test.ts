@@ -2,7 +2,7 @@ import { testConflict } from '@conflicts/TestUtilities';
 import ExpectedBooleanCondition from '@conflicts/ExpectedBooleanCondition';
 import Evaluator from '@runtime/Evaluator';
 import Conditional from './Conditional';
-import BinaryOperation from './BinaryOperation';
+import BinaryEvaluate from './BinaryEvaluate';
 import { test, expect } from 'vitest';
 import IncompatibleInput from '../conflicts/IncompatibleInput';
 import { getDefaultNative } from '../native/Native';
@@ -20,7 +20,7 @@ test.each([
         a: 1 > 0 ? 1 "hi"
         ⊤ ? a + 1 a
         `,
-        BinaryOperation,
+        BinaryEvaluate,
         IncompatibleInput,
         1,
     ],
@@ -33,7 +33,7 @@ test.each([
         a: 1 > 0 ? 1 "hi"
         ~((a•#) & (a > 1)) ? a + 1 a
         `,
-        BinaryOperation,
+        BinaryEvaluate,
         IncompatibleInput,
         3,
     ],
@@ -48,7 +48,7 @@ test.each([
         a: Cat(1)
         a.name•"" ? a.name + 1 a
         `,
-        BinaryOperation,
+        BinaryEvaluate,
         IncompatibleInput,
         0,
     ],
@@ -61,7 +61,7 @@ test.each([
         a•#|"": 1
         ~(a•#) ? a + 1 a
         `,
-        BinaryOperation,
+        BinaryEvaluate,
         IncompatibleInput,
     ],
     [
@@ -72,7 +72,7 @@ test.each([
         a•#|"": 1
         ~~(a•#) ? a a + 1
         `,
-        BinaryOperation,
+        BinaryEvaluate,
         IncompatibleInput,
     ],
 ])(

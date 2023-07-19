@@ -37,7 +37,7 @@ import FunctionType from './FunctionType';
 import AnyType from './AnyType';
 import concretize from '../locale/concretize';
 
-export default class BinaryOperation extends Expression {
+export default class BinaryEvaluate extends Expression {
     readonly left: Expression;
     readonly operator: Token;
     readonly right: Expression;
@@ -93,7 +93,7 @@ export default class BinaryOperation extends Expression {
                     return (
                         fun?.inputs[0].names.getLocaleText(
                             translation.language
-                        ) ?? translation.node.BinaryOperation.right
+                        ) ?? translation.node.BinaryEvaluate.right
                     );
                 },
                 space: true,
@@ -114,7 +114,7 @@ export default class BinaryOperation extends Expression {
     }
 
     clone(replace?: Replacement) {
-        return new BinaryOperation(
+        return new BinaryEvaluate(
             this.replaceChild('left', this.left, replace),
             this.replaceChild('operator', this.operator, replace),
             this.replaceChild('right', this.right, replace)
@@ -143,7 +143,7 @@ export default class BinaryOperation extends Expression {
 
         // Warn on sequences of different operators about evaluation order.
         if (
-            this.left instanceof BinaryOperation &&
+            this.left instanceof BinaryEvaluate &&
             this.operator.getText() !== this.left.operator.getText()
         )
             conflicts.push(new OrderOfOperations(this.left, this));
@@ -356,7 +356,7 @@ export default class BinaryOperation extends Expression {
     }
 
     getNodeLocale(translation: Locale) {
-        return translation.node.BinaryOperation;
+        return translation.node.BinaryEvaluate;
     }
 
     getStart() {
@@ -369,7 +369,7 @@ export default class BinaryOperation extends Expression {
     getStartExplanations(locale: Locale, context: Context) {
         return concretize(
             locale,
-            locale.node.BinaryOperation.start,
+            locale.node.BinaryEvaluate.start,
             new NodeRef(this.left, locale, context)
         );
     }
@@ -381,14 +381,14 @@ export default class BinaryOperation extends Expression {
     ) {
         return concretize(
             translation,
-            translation.node.BinaryOperation.finish,
+            translation.node.BinaryEvaluate.finish,
             this.getValueIfDefined(translation, context, evaluator)
         );
     }
 
     getGlyphs() {
         return {
-            symbols: Glyphs.BinaryOperation.symbols,
+            symbols: Glyphs.BinaryEvaluate.symbols,
             emotion: Emotion.kind,
         };
     }

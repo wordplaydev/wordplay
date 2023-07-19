@@ -1450,7 +1450,7 @@
             "AnyType": {
               "$ref": "#/definitions/NodeText"
             },
-            "BinaryOperation": {
+            "BinaryEvaluate": {
               "additionalProperties": false,
               "description": "Description $1: the operator Start $1: left expression Finish $1: result",
               "properties": {
@@ -3447,7 +3447,7 @@
             "TypeVariables": {
               "$ref": "#/definitions/NodeText"
             },
-            "UnaryOperation": {
+            "UnaryEvaluate": {
               "additionalProperties": false,
               "description": "Description $1: the operator Finish $1: resulting value",
               "properties": {
@@ -3662,7 +3662,7 @@
             "Example",
             "Mention",
             "Branch",
-            "BinaryOperation",
+            "BinaryEvaluate",
             "Bind",
             "Block",
             "BooleanLiteral",
@@ -3702,7 +3702,7 @@
             "Template",
             "TextLiteral",
             "This",
-            "UnaryOperation",
+            "UnaryEvaluate",
             "UnparsableExpression",
             "Update",
             "AnyType",

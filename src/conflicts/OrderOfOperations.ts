@@ -1,13 +1,13 @@
-import type BinaryOperation from '@nodes/BinaryOperation';
+import type BinaryEvaluate from '@nodes/BinaryEvaluate';
 import type Locale from '@locale/Locale';
 import Conflict from './Conflict';
 import concretize from '../locale/concretize';
 
 export default class OrderOfOperations extends Conflict {
-    readonly operation: BinaryOperation;
-    readonly after: BinaryOperation;
+    readonly operation: BinaryEvaluate;
+    readonly after: BinaryEvaluate;
 
-    constructor(operation: BinaryOperation, after: BinaryOperation) {
+    constructor(operation: BinaryEvaluate, after: BinaryEvaluate) {
         super(true);
 
         this.operation = operation;
@@ -21,7 +21,7 @@ export default class OrderOfOperations extends Conflict {
                 explanation: (locale: Locale) =>
                     concretize(
                         locale,
-                        locale.node.BinaryOperation.conflict.OrderOfOperations
+                        locale.node.BinaryEvaluate.conflict.OrderOfOperations
                     ),
             },
         };

@@ -35,7 +35,7 @@ import StructureConcept from './StructureConcept';
 import Purpose from './Purpose';
 import type Node from '../nodes/Node';
 import AnyType from '../nodes/AnyType';
-import BinaryOperation from '../nodes/BinaryOperation';
+import BinaryEvaluate from '../nodes/BinaryEvaluate';
 import { CONVERT_SYMBOL, PLACEHOLDER_SYMBOL } from '../parser/Symbols';
 import ConceptLink from '../nodes/ConceptLink';
 import ConversionType from '../nodes/ConversionType';
@@ -61,7 +61,7 @@ import Reference from '../nodes/Reference';
 import This from '../nodes/This';
 import TypeInputs from '../nodes/TypeInputs';
 import TypeVariables from '../nodes/TypeVariables';
-import UnaryOperation from '../nodes/UnaryOperation';
+import UnaryEvaluate from '../nodes/UnaryEvaluate';
 import UnionType from '../nodes/UnionType';
 import WebLink from '../nodes/WebLink';
 import UnparsableExpression from '../nodes/UnparsableExpression';
@@ -88,12 +88,12 @@ const templates: Node[] = [
         [],
         ExpressionPlaceholder.make()
     ),
-    new BinaryOperation(
+    new BinaryEvaluate(
         ExpressionPlaceholder.make(),
         new Token(PLACEHOLDER_SYMBOL, TokenType.BinaryOperator),
         ExpressionPlaceholder.make()
     ),
-    new UnaryOperation(
+    new UnaryEvaluate(
         new Token('-', TokenType.UnaryOperator),
         ExpressionPlaceholder.make()
     ),

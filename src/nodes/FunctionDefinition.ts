@@ -37,8 +37,8 @@ import IncompatibleType from '../conflicts/IncompatibleType';
 import NameType from './NameType';
 import FunctionType from './FunctionType';
 import StructureDefinition from './StructureDefinition';
-import UnaryOperation from './UnaryOperation';
-import BinaryOperation from './BinaryOperation';
+import UnaryEvaluate from './UnaryEvaluate';
+import BinaryEvaluate from './BinaryEvaluate';
 import Evaluate from './Evaluate';
 import PropertyReference from './PropertyReference';
 import Reference from './Reference';
@@ -126,7 +126,7 @@ export default class FunctionDefinition extends Expression {
             this
         );
         return this.isUnaryOperator() && structure
-            ? new UnaryOperation(
+            ? new UnaryEvaluate(
                   new Token(
                       this.getUnaryOperatorName() ?? '_',
                       TokenType.UnaryOperator
@@ -134,7 +134,7 @@ export default class FunctionDefinition extends Expression {
                   ExpressionPlaceholder.make(structureType)
               )
             : this.isBinaryOperator() && structure
-            ? new BinaryOperation(
+            ? new BinaryEvaluate(
                   ExpressionPlaceholder.make(structureType),
                   new Token(
                       this.getBinaryOperatorName() ?? '_',

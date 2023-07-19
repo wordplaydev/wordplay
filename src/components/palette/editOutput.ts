@@ -7,7 +7,7 @@ import Reference from '@nodes/Reference';
 import Unit from '@nodes/Unit';
 import type LanguageCode from '@locale/LanguageCode';
 import type { Creator } from '../../db/Creator';
-import UnaryOperation from '../../nodes/UnaryOperation';
+import UnaryEvaluate from '../../nodes/UnaryEvaluate';
 import Decimal from 'decimal.js';
 import TextLiteral from '../../nodes/TextLiteral';
 import ListLiteral from '../../nodes/ListLiteral';
@@ -21,13 +21,13 @@ export function getNumber(given: Expression): number | undefined {
             ? given
             : given instanceof Bind && given.value instanceof NumberLiteral
             ? given.value
-            : given instanceof UnaryOperation &&
+            : given instanceof UnaryEvaluate &&
               given.isNegation() &&
               given.operand instanceof NumberLiteral
             ? given.operand
             : undefined;
     return measurement
-        ? (given instanceof UnaryOperation && given.isNegation() ? -1 : 1) *
+        ? (given instanceof UnaryEvaluate && given.isNegation() ? -1 : 1) *
               measurement.getValue().num.toNumber()
         : undefined;
 }

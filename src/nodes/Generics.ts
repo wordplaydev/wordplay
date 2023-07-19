@@ -1,4 +1,4 @@
-import BinaryOperation from './BinaryOperation';
+import BinaryEvaluate from './BinaryEvaluate';
 import Bind from './Bind';
 import type Context from './Context';
 import Evaluate from './Evaluate';
@@ -12,10 +12,10 @@ import StreamDefinition from './StreamDefinition';
 import StructureDefinition from './StructureDefinition';
 import type Type from './Type';
 import TypeVariable from './TypeVariable';
-import type UnaryOperation from './UnaryOperation';
+import type UnaryEvaluate from './UnaryEvaluate';
 import { UnknownVariableType } from './UnknownVariableType';
 
-export type EvaluationType = Evaluate | BinaryOperation | UnaryOperation;
+export type EvaluationType = Evaluate | BinaryEvaluate | UnaryEvaluate;
 
 /**
  * Find all abstract types in the given bind's type and construct a type that replaces all of them with concrete types,
@@ -174,7 +174,7 @@ function getConcreteTypeVariable(
     }
 
     // This case handles the BinaryOperator syntax.
-    if (evaluation instanceof BinaryOperation) {
+    if (evaluation instanceof BinaryEvaluate) {
         const structureType = evaluation.left.getType(context);
         const typeInput = structureType.resolveTypeVariable(
             type.getName(),

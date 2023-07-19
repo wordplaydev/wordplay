@@ -2,7 +2,7 @@ import Evaluate from '@nodes/Evaluate';
 import Conflict from './Conflict';
 import type Expression from '@nodes/Expression';
 import type Bind from '@nodes/Bind';
-import type BinaryOperation from '@nodes/BinaryOperation';
+import type BinaryEvaluate from '@nodes/BinaryEvaluate';
 import type StructureDefinition from '@nodes/StructureDefinition';
 import type FunctionDefinition from '@nodes/FunctionDefinition';
 import type Locale from '@locale/Locale';
@@ -13,12 +13,12 @@ import concretize from '../locale/concretize';
 
 export default class UnexpectedInputs extends Conflict {
     readonly func: FunctionDefinition | StructureDefinition | StreamDefinition;
-    readonly evaluate: Evaluate | BinaryOperation;
+    readonly evaluate: Evaluate | BinaryEvaluate;
     readonly input: Expression | Bind;
 
     constructor(
         func: FunctionDefinition | StructureDefinition | StreamDefinition,
-        evaluate: Evaluate | BinaryOperation,
+        evaluate: Evaluate | BinaryEvaluate,
         input: Expression | Bind
     ) {
         super(false);

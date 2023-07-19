@@ -17,8 +17,8 @@ import type Node from '@nodes/Node';
 import Names from '@nodes/Names';
 import type Expression from '@nodes/Expression';
 import Finish from './Finish';
-import type UnaryOperation from '@nodes/UnaryOperation';
-import type BinaryOperation from '@nodes/BinaryOperation';
+import type UnaryEvaluate from '@nodes/UnaryEvaluate';
+import type BinaryEvaluate from '@nodes/BinaryEvaluate';
 import type Evaluate from '@nodes/Evaluate';
 import type HOF from '../native/HOF';
 import type Source from '@nodes/Source';
@@ -34,8 +34,8 @@ import type Context from '../nodes/Context';
 import StartFinish from './StartFinish';
 
 export type EvaluatorNode =
-    | UnaryOperation
-    | BinaryOperation
+    | UnaryEvaluate
+    | BinaryEvaluate
     | Evaluate
     | PropertyBind
     | Convert

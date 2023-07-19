@@ -335,7 +335,7 @@
                 "This is mostly an internal feature though, so you shouldn't need to know it."
             ]
         },
-        "BinaryOperation": {
+        "BinaryEvaluate": {
             "name": "binary operation",
             "description": "$1 operation",
             "emotion": "insecure",
@@ -344,7 +344,7 @@
                 "For example, here's how you might use @Evaluate to add two numbers:",
                 "⧼1.+(1)⧽",
                 "Doesn't that look a little funny? It's not wrong: it just says get the add function on 1 and then evaluate it.",
-                "But it's much easier to use @BinaryOperation",
+                "But it's much easier to use @BinaryEvaluate",
                 "⧼1 + 1⧽",
                 "This makes everythign a bit tidier, even though its basically the same thing.",
                 "There's only one thing to watch out for: when I'm in this form, I evaluate from left to right. That might be confusing if you're used to things like order of operations in mathematics.",
@@ -569,7 +569,7 @@
                 "⧼ƒ greeting(message•'')\ngreeting('kitty')⧽",
                 "Functions can come from anywhere. For example, @Text has functions. Like this:",
                 "⧼'kitty'.length()⧽",
-                "If a function has a single symbol name, you can write me as a @BinaryOperation.",
+                "If a function has a single symbol name, you can write me as a @BinaryEvaluate.",
                 "⧼'kitty' ⊆ 'itty'⧽",
                 "That does the same thing as this:",
                 "⧼'kitty'.⊆('itty')⧽",
@@ -1009,7 +1009,7 @@
                 "MisplacedThis": "I'm only allowed in a structure, conversion, or reaction."
             }
         },
-        "UnaryOperation": {
+        "UnaryEvaluate": {
             "name": "unary operation",
             "description": "$1",
             "emotion": "kind",
@@ -1021,7 +1021,7 @@
                 "⧼~⊥⧽",
                 "Those are much easier to read than ⧼(1 + 1).negate()⧽ or ⧼⊥.not()⧽, aren't they?",
                 "You don't have to write me that way, but it might be easier overall.",
-                "There's only one rule: you can't put any space between the name and the value. Otherwise you might be making a @Reference or @BinaryOperation."
+                "There's only one rule: you can't put any space between the name and the value. Otherwise you might be making a @Reference or @BinaryEvaluate."
             ],
             "start": "what's the value?",
             "finish": "I made it $1"

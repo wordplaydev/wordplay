@@ -215,7 +215,7 @@
             "emotion": "serious",
             "doc": "$?"
         },
-        "BinaryOperation": {
+        "BinaryEvaluate": {
             "name": "operación binaria",
             "description": "operación $1",
             "emotion": "neutral",
@@ -668,7 +668,7 @@
                 "MisplacedThis": "$?"
             }
         },
-        "UnaryOperation": {
+        "UnaryEvaluate": {
             "name": "operación unaria",
             "description": "$?",
             "emotion": "neutral",

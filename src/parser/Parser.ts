@@ -11,8 +11,8 @@ import Block, { BlockKind } from '@nodes/Block';
 import ListLiteral from '@nodes/ListLiteral';
 import Bind from '@nodes/Bind';
 import Evaluate from '@nodes/Evaluate';
-import UnaryOperation from '@nodes/UnaryOperation';
-import BinaryOperation from '@nodes/BinaryOperation';
+import UnaryEvaluate from '@nodes/UnaryEvaluate';
+import BinaryEvaluate from '@nodes/BinaryEvaluate';
 import PropertyReference from '@nodes/PropertyReference';
 import FunctionDefinition from '@nodes/FunctionDefinition';
 import Template from '@nodes/Template';
@@ -517,7 +517,7 @@ export function parseExpression(
     if (!expectSpace && tokens.nextHasMoreThanOneLineBreak())
         return new UnparsableExpression([]);
 
-    let left = parseBinaryOperation(tokens);
+    let left = parseBinaryEvaluate(tokens);
 
     // Is it conditional statement?
     if (tokens.nextIs(TokenType.Conditional))
@@ -542,7 +542,7 @@ export function parseConditional(
 }
 
 /** BINARY_OPERATION :: ATOMIC_EXPRESSION [ binary_op ATOMIC_EXPRESSION ]* */
-export function parseBinaryOperation(tokens: Tokens): Expression {
+export function parseBinaryEvaluate(tokens: Tokens): Expression {
     let left = parseAtomicExpression(tokens);
 
     while (
@@ -558,7 +558,7 @@ export function parseBinaryOperation(tokens: Tokens): Expression {
                   tokens.read(TokenType.TypeOperator),
                   parseType(tokens)
               )
-            : new BinaryOperation(
+            : new BinaryEvaluate(
                   left,
                   tokens.read(TokenType.BinaryOperator),
                   parseAtomicExpression(tokens)
@@ -649,7 +649,7 @@ function parseAtomicExpression(tokens: Tokens): Expression {
             ? parseDocumentedExpression(tokens)
             : // Unary expressions!
             tokens.nextIsUnary()
-            ? new UnaryOperation(
+            ? new UnaryEvaluate(
                   tokens.read(TokenType.UnaryOperator),
                   parseAtomicExpression(tokens)
               )

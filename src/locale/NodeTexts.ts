@@ -117,7 +117,7 @@ type NodeTexts = {
      * Finish
      * $1: result
      */
-    BinaryOperation: DescriptiveNodeText &
+    BinaryEvaluate: DescriptiveNodeText &
         ExpressionText & {
             right: Template;
         } & Conflicts<{ OrderOfOperations: InternalConflictText }>;
@@ -538,7 +538,7 @@ type NodeTexts = {
      * Finish
      * $1: resulting value
      */
-    UnaryOperation: DescriptiveNodeText & ExpressionText;
+    UnaryEvaluate: DescriptiveNodeText & ExpressionText;
     UnparsableExpression: NodeText &
         AtomicExpressionText &
         Conflicts<{

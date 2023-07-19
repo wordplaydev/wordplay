@@ -30,7 +30,7 @@ import UnionType from '@nodes/UnionType';
 import TextLiteral from '@nodes/TextLiteral';
 import NoneLiteral from '@nodes/NoneLiteral';
 import Template from '@nodes/Template';
-import BinaryOperation from '@nodes/BinaryOperation';
+import BinaryEvaluate from '@nodes/BinaryEvaluate';
 import ListLiteral from '@nodes/ListLiteral';
 import ListAccess from '@nodes/ListAccess';
 import SetOrMapAccess from '@nodes/SetOrMapAccess';
@@ -185,7 +185,7 @@ test('Parse expressions', () => {
     expect(template).toBeInstanceOf(Template);
     expect((template as Template).expressions).toHaveLength(2);
     expect((template as Template).expressions[0]).toBeInstanceOf(
-        BinaryOperation
+        BinaryEvaluate
     );
     expect((template as Template).expressions[1]).toBeInstanceOf(Token);
 
@@ -233,7 +233,7 @@ test('Parse expressions', () => {
     const select = parseExpression(toTokens('table ⎡? ⎡a b⎦ c > 3'));
     expect(select).toBeInstanceOf(Select);
     expect((select as Select).row.cells).toHaveLength(2);
-    expect((select as Select).query).toBeInstanceOf(BinaryOperation);
+    expect((select as Select).query).toBeInstanceOf(BinaryEvaluate);
 
     const insert = parseExpression(toTokens('table ⎡+ ⎡1 2 3⎦'));
     expect(insert).toBeInstanceOf(Insert);
@@ -242,27 +242,27 @@ test('Parse expressions', () => {
     const update = parseExpression(toTokens('table ⎡: ⎡a:1⎦ b > 5'));
     expect(update).toBeInstanceOf(Update);
     expect((update as Update).row.cells).toHaveLength(1);
-    expect((update as Update).query).toBeInstanceOf(BinaryOperation);
+    expect((update as Update).query).toBeInstanceOf(BinaryEvaluate);
 
     const stream = parseExpression(toTokens('0 … Button() … a + 1'));
     expect(stream).toBeInstanceOf(Reaction);
-    expect((stream as Reaction).next).toBeInstanceOf(BinaryOperation);
+    expect((stream as Reaction).next).toBeInstanceOf(BinaryEvaluate);
 
     const previous = parseExpression(toTokens('a←1'));
     expect(previous).toBeInstanceOf(Previous);
     expect((previous as Previous).index).toBeInstanceOf(NumberLiteral);
 
     const binary = parseExpression(toTokens('1 + 2 + 3 + 4'));
-    expect(binary).toBeInstanceOf(BinaryOperation);
-    expect((binary as BinaryOperation).right).toBeInstanceOf(NumberLiteral);
-    expect((binary as BinaryOperation).left).toBeInstanceOf(BinaryOperation);
+    expect(binary).toBeInstanceOf(BinaryEvaluate);
+    expect((binary as BinaryEvaluate).right).toBeInstanceOf(NumberLiteral);
+    expect((binary as BinaryEvaluate).left).toBeInstanceOf(BinaryEvaluate);
     expect(
-        ((binary as BinaryOperation).left as BinaryOperation).left
-    ).toBeInstanceOf(BinaryOperation);
+        ((binary as BinaryEvaluate).left as BinaryEvaluate).left
+    ).toBeInstanceOf(BinaryEvaluate);
     expect(
         (
-            ((binary as BinaryOperation).left as BinaryOperation)
-                .left as BinaryOperation
+            ((binary as BinaryEvaluate).left as BinaryEvaluate)
+                .left as BinaryEvaluate
         ).left
     ).toBeInstanceOf(NumberLiteral);
 
@@ -304,7 +304,7 @@ test('Parse expressions', () => {
     const withBody = parseExpression(toTokens('ƒ(a b) •# a + b'));
     expect(withBody).toBeInstanceOf(FunctionDefinition);
     expect((withBody as FunctionDefinition).expression).toBeInstanceOf(
-        BinaryOperation
+        BinaryEvaluate
     );
 
     const withDocs = parseExpression(toTokens('`Add things`/en ƒ(a b) a = b'));

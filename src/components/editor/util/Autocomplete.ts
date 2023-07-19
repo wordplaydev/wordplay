@@ -41,10 +41,10 @@ import SetOrMapAccess from '@nodes/SetOrMapAccess';
 import StreamType from '@nodes/StreamType';
 import Previous from '@nodes/Previous';
 import type Definition from '@nodes/Definition';
-import BinaryOperation from '@nodes/BinaryOperation';
+import BinaryEvaluate from '@nodes/BinaryEvaluate';
 import TokenType from '@nodes/TokenType';
 import Convert from '@nodes/Convert';
-import UnaryOperation from '@nodes/UnaryOperation';
+import UnaryEvaluate from '@nodes/UnaryEvaluate';
 import { NOT_SYMBOL, NEGATE_SYMBOL } from '@parser/Symbols';
 import Evaluate from '@nodes/Evaluate';
 import PropertyReference from '@nodes/PropertyReference';
@@ -792,7 +792,7 @@ function getPostfixEdits(context: Context, expr: Expression): Transform[] {
                           context,
                           parent,
                           expr,
-                          new UnaryOperation(
+                          new UnaryEvaluate(
                               new Token(NOT_SYMBOL, TokenType.UnaryOperator),
                               expr
                           )
@@ -805,7 +805,7 @@ function getPostfixEdits(context: Context, expr: Expression): Transform[] {
                           context,
                           parent,
                           expr,
-                          new UnaryOperation(
+                          new UnaryEvaluate(
                               new Token(NEGATE_SYMBOL, TokenType.UnaryOperator),
                               expr
                           )
@@ -869,7 +869,7 @@ function getPostfixEdits(context: Context, expr: Expression): Transform[] {
             //         )
             //     ),
             // ],
-            // If given a type, any binary operations that are available on the type. Wrap in a block if a BinaryOperation or Conditional
+            // If given a type, any binary operations that are available on the type. Wrap in a block if a BinaryEvaluate or Conditional
             ...(type === undefined
                 ? []
                 : type
@@ -887,7 +887,7 @@ function getPostfixEdits(context: Context, expr: Expression): Transform[] {
                                   expr,
                                   new Refer(
                                       () =>
-                                          new BinaryOperation(
+                                          new BinaryEvaluate(
                                               Block.make([expr]),
                                               new Token(
                                                   def.getBinaryOperatorName() ??
@@ -944,7 +944,7 @@ function toEvaluateReplacement(
     ref: PropertyReference | Reference,
     fun: FunctionDefinition | StructureDefinition,
     context: Context
-): Replace<Evaluate | BinaryOperation> | undefined {
+): Replace<Evaluate | BinaryEvaluate> | undefined {
     const parent = context.getRoot(ref)?.getParent(ref);
     if (parent === undefined) return;
     const reference = Reference.make(fun.getNames()[0], fun);
@@ -953,7 +953,7 @@ function toEvaluateReplacement(
     const op = fun.names.getSymbolicName();
     const evaluate =
         fun.inputs.length === 1 && op !== undefined
-            ? new BinaryOperation(
+            ? new BinaryEvaluate(
                   ref instanceof PropertyReference ? ref.structure : ref,
                   new NameToken(op),
                   ExpressionPlaceholder.make(fun.inputs[0].getType(context))

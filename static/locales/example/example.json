@@ -233,7 +233,7 @@
             "emotion": "$?",
             "doc": "$?"
         },
-        "BinaryOperation": {
+        "BinaryEvaluate": {
             "name": "$?",
             "description": "$?",
             "emotion": "$?",
@@ -686,7 +686,7 @@
                 "MisplacedThis": "$?"
             }
         },
-        "UnaryOperation": {
+        "UnaryEvaluate": {
             "name": "$?",
             "description": "$?",
             "emotion": "$?",

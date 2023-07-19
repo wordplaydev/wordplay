@@ -27,7 +27,7 @@ import AnyType from './AnyType';
 import FunctionType from './FunctionType';
 import concretize from '../locale/concretize';
 
-export default class UnaryOperation extends Expression {
+export default class UnaryEvaluate extends Expression {
     readonly operator: Token;
     readonly operand: Expression;
 
@@ -48,7 +48,7 @@ export default class UnaryOperation extends Expression {
     }
 
     clone(replace?: Replacement) {
-        return new UnaryOperation(
+        return new UnaryEvaluate(
             this.replaceChild('operator', this.operator, replace),
             this.replaceChild('operand', this.operand, replace)
         ) as this;
@@ -182,13 +182,13 @@ export default class UnaryOperation extends Expression {
     }
 
     getNodeLocale(translation: Locale) {
-        return translation.node.UnaryOperation;
+        return translation.node.UnaryEvaluate;
     }
 
     getStartExplanations(locale: Locale, context: Context) {
         return concretize(
             locale,
-            locale.node.UnaryOperation.start,
+            locale.node.UnaryEvaluate.start,
             new NodeRef(this.operand, locale, context)
         );
     }
@@ -200,7 +200,7 @@ export default class UnaryOperation extends Expression {
     ) {
         return concretize(
             locale,
-            locale.node.UnaryOperation.finish,
+            locale.node.UnaryEvaluate.finish,
             this.getValueIfDefined(locale, context, evaluator)
         );
     }

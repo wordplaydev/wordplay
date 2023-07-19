@@ -1,8 +1,8 @@
-import type BinaryOperation from '@nodes/BinaryOperation';
+import type BinaryEvaluate from '@nodes/BinaryEvaluate';
 import type Convert from '@nodes/Convert';
 import type Evaluate from '@nodes/Evaluate';
 import type Token from '@nodes/Token';
-import type UnaryOperation from '@nodes/UnaryOperation';
+import type UnaryEvaluate from '@nodes/UnaryEvaluate';
 import NodeRef from '@locale/NodeRef';
 import type Locale from '@locale/Locale';
 import type Evaluator from './Evaluator';
@@ -13,12 +13,12 @@ import type Expression from '../nodes/Expression';
 
 export default class FunctionException extends Exception {
     readonly subject: Value | undefined;
-    readonly node: Evaluate | BinaryOperation | UnaryOperation | Convert;
+    readonly node: Evaluate | BinaryEvaluate | UnaryEvaluate | Convert;
     readonly verb: Token | Expression;
 
     constructor(
         evaluator: Evaluator,
-        node: Evaluate | BinaryOperation | UnaryOperation | Convert,
+        node: Evaluate | BinaryEvaluate | UnaryEvaluate | Convert,
         subject: Value | undefined,
         verb: Token | Expression
     ) {

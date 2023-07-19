@@ -4,9 +4,9 @@ import type Context from './Context';
 import Token from './Token';
 import TokenType from './TokenType';
 import Unit from './Unit';
-import BinaryOperation from './BinaryOperation';
+import BinaryEvaluate from './BinaryEvaluate';
 import NativeType from './NativeType';
-import UnaryOperation from './UnaryOperation';
+import UnaryEvaluate from './UnaryEvaluate';
 import NumberLiteral from './NumberLiteral';
 import Number from '@runtime/Number';
 import Evaluate from './Evaluate';
@@ -27,12 +27,12 @@ export default class NumberType extends NativeType {
     readonly number: Token;
     readonly unit: Unit | UnitDeriver;
 
-    readonly op: BinaryOperation | UnaryOperation | Evaluate | undefined;
+    readonly op: BinaryEvaluate | UnaryEvaluate | Evaluate | undefined;
 
     constructor(
         number: Token,
         unit?: Unit | UnitDeriver,
-        op?: BinaryOperation | UnaryOperation | Evaluate
+        op?: BinaryEvaluate | UnaryEvaluate | Evaluate
     ) {
         super();
 
@@ -45,7 +45,7 @@ export default class NumberType extends NativeType {
 
     static make(
         unit?: Unit | UnitDeriver,
-        op?: BinaryOperation | UnaryOperation | Evaluate
+        op?: BinaryEvaluate | UnaryEvaluate | Evaluate
     ) {
         return new NumberType(
             new Token(NUMBER_SYMBOL, TokenType.NumberType),
@@ -91,7 +91,7 @@ export default class NumberType extends NativeType {
         return this.hasDerivedUnit();
     }
 
-    withOp(op: BinaryOperation | UnaryOperation | Evaluate) {
+    withOp(op: BinaryEvaluate | UnaryEvaluate | Evaluate) {
         return new NumberType(this.number, this.unit, op);
     }
 
@@ -145,15 +145,15 @@ export default class NumberType extends NativeType {
 
         // What is the type of the left?
         const leftType =
-            this.op instanceof BinaryOperation
+            this.op instanceof BinaryEvaluate
                 ? this.op.left.getType(context)
-                : this.op instanceof UnaryOperation
+                : this.op instanceof UnaryEvaluate
                 ? this.op.operand.getType(context)
                 : this.op.func instanceof PropertyReference
                 ? this.op.func.structure.getType(context)
                 : undefined;
         const rightType =
-            this.op instanceof BinaryOperation
+            this.op instanceof BinaryEvaluate
                 ? this.op.right.getType(context)
                 : this.op instanceof Evaluate && this.op.inputs.length > 0
                 ? this.op.inputs[0].getType(context)
@@ -162,14 +162,14 @@ export default class NumberType extends NativeType {
         // If either type isn't a measurement type — which shouldn't be possible for binary operations or evaluates — then we just return a blank unit.
         if (!(leftType instanceof NumberType)) return Unit.Empty;
         if (
-            !(this.op instanceof UnaryOperation) &&
+            !(this.op instanceof UnaryEvaluate) &&
             !(rightType instanceof NumberType)
         )
             return Unit.Empty;
 
         // Get the constant from the right if available.
         const constant =
-            this.op instanceof BinaryOperation &&
+            this.op instanceof BinaryEvaluate &&
             this.op.right instanceof NumberLiteral
                 ? new Number(this.op.right, this.op.right.number).toNumber()
                 : undefined;

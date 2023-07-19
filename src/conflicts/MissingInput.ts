@@ -1,7 +1,7 @@
 import type Evaluate from '@nodes/Evaluate';
 import Conflict from './Conflict';
 import type Bind from '@nodes/Bind';
-import type BinaryOperation from '@nodes/BinaryOperation';
+import type BinaryEvaluate from '@nodes/BinaryEvaluate';
 import type FunctionDefinition from '@nodes/FunctionDefinition';
 import type StructureDefinition from '@nodes/StructureDefinition';
 import type Locale from '@locale/Locale';
@@ -14,13 +14,13 @@ import concretize from '../locale/concretize';
 
 export default class MissingInput extends Conflict {
     readonly func: FunctionDefinition | StructureDefinition | StreamDefinition;
-    readonly evaluate: Evaluate | BinaryOperation;
+    readonly evaluate: Evaluate | BinaryEvaluate;
     readonly last: Token | Expression;
     readonly input: Bind;
 
     constructor(
         func: FunctionDefinition | StructureDefinition | StreamDefinition,
-        evaluate: Evaluate | BinaryOperation,
+        evaluate: Evaluate | BinaryEvaluate,
         last: Token | Expression,
         expected: Bind
     ) {

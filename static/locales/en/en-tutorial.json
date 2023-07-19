@@ -886,7 +886,7 @@
                         [
                             "FunctionDefinition",
                             "neutral",
-                            "For example, did you know they come in another form? You saw them in ⧼function()⧽ form, but they also have this beautiful trick when a single input function is evaluated on a value. @Evaluate calls it @BinaryOperation. For example, you know that repeat function that text just showed you? It looked like this."
+                            "For example, did you know they come in another form? You saw them in ⧼function()⧽ form, but they also have this beautiful trick when a single input function is evaluated on a value. @Evaluate calls it @BinaryEvaluate. For example, you know that repeat function that text just showed you? It looked like this."
                         ],
                         ["edit", "'hi'.repeat(5)"],
                         null,
@@ -936,7 +936,7 @@
                             "FunctionDefinition",
                             "happy",
                             "This is one of the many ways that @Evaluate is amazing ♥ They are so versatile!",
-                            "But they aren't perfect. With any @BinaryOperation, you need to always make sure to give a second input. This won't work, for example. One plus what? @UnparsableExpression won't be far away when this happens."
+                            "But they aren't perfect. With any @BinaryEvaluate, you need to always make sure to give a second input. This won't work, for example. One plus what? @UnparsableExpression won't be far away when this happens."
                         ],
                         ["conflict", "1 +"],
                         null,
@@ -4068,7 +4068,7 @@
                         [
                             "FunctionDefinition",
                             "kind",
-                            "Yes, of course! So, it turns out that @Program is mostly just a @Block. It's just @Block without parentheses. But you can put @Block with parentheses anywhere in a program. For example, you can use @Block to clarify the order of evaluating math. Here, @BinaryOperation evaluates ⧼1⧽, then evaluates @Block, then they are added together. @Block, did I get that right?"
+                            "Yes, of course! So, it turns out that @Program is mostly just a @Block. It's just @Block without parentheses. But you can put @Block with parentheses anywhere in a program. For example, you can use @Block to clarify the order of evaluating math. Here, @BinaryEvaluate evaluates ⧼1⧽, then evaluates @Block, then they are added together. @Block, did I get that right?"
                         ],
                         ["edit", "1 + (2 · 3)"],
                         ["Block", "shy", "… yeah!"],
