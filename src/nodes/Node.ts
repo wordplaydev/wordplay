@@ -747,7 +747,8 @@ export class IsA extends FieldKind {
 
     allowsKind(kind: Function) {
         return (
-            this.kind instanceof Function && kind.prototype instanceof this.kind
+            this.kind instanceof Function &&
+            (kind.prototype instanceof this.kind || kind === this.kind)
         );
     }
 
