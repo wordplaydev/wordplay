@@ -2,13 +2,17 @@ import Step from './Step';
 import type Evaluator from './Evaluator';
 import type Value from './Value';
 import type Locale from '@locale/Locale';
-import type Evaluable from '@nodes/Evaluable';
 import concretize from '../locale/concretize';
+import type Evaluate from '../nodes/Evaluate';
+import type UnaryEvaluate from '../nodes/UnaryEvaluate';
+import type BinaryEvaluate from '../nodes/BinaryEvaluate';
+
+type Eval = BinaryEvaluate | UnaryEvaluate | Evaluate;
 
 export default class StartEvaluation extends Step {
-    readonly evaluable: Evaluable;
+    readonly evaluable: Eval;
 
-    constructor(node: Evaluable) {
+    constructor(node: Eval) {
         super(node);
         this.evaluable = node;
     }
