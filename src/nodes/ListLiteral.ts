@@ -58,7 +58,7 @@ export default class ListLiteral extends Expression {
                 space: true,
                 indent: true,
             },
-            { name: 'close', types: [TokenType.ListClose], sapce: true },
+            { name: 'close', types: [TokenType.ListClose], space: true },
         ];
     }
 
