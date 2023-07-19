@@ -45,6 +45,7 @@ import type Reaction from './Reaction';
 import Evaluate from './Evaluate';
 import FunctionType from './FunctionType';
 import concretize from '../locale/concretize';
+import getConcreteExpectedType from './Generics';
 
 export default class Bind extends Expression {
     readonly docs?: Docs;
@@ -360,14 +361,14 @@ export default class Bind extends Expression {
                   this.isVariableLength()
                     ? ListType.make(this.type)
                     : this.type
-                : // If it has an expression. ask the expression.
+                : // If it has an expression, ask the expression.
                 this.value instanceof Expression
                 ? this.value.getType(context)
                 : // Otherwise, we don't know, it could be anything.
-                  new AnyType();
+                  undefined;
 
         // If the type is a name, and it refers to a structure, resolve it.
-        // Leave names that refer to type variables to be resolved in Evaluate.
+        // Leave any other names (namely those that refer to type variables) to be concretized by others.
         if (type instanceof NameType) {
             const nameType = type.getType(context);
             if (nameType instanceof StructureDefinitionType) return nameType;
@@ -375,7 +376,7 @@ export default class Bind extends Expression {
 
         // If the bind is in a function definition that is part of a function evaluation that takes a function input,
         // get the type from the function input.
-        if (type instanceof AnyType) {
+        if (type === undefined) {
             const func = this.getParent(context);
             if (func instanceof FunctionDefinition) {
                 const bindIndex = func.inputs.indexOf(this);
@@ -392,13 +393,27 @@ export default class Bind extends Expression {
                         if (bindType instanceof FunctionType) {
                             const funcBind = bindType.inputs[bindIndex];
                             if (funcBind) type = funcBind.getType(context);
+
+                            const concreteFunctionType =
+                                getConcreteExpectedType(
+                                    evalFunc,
+                                    bind,
+                                    evaluate,
+                                    context
+                                );
+                            if (concreteFunctionType instanceof FunctionType) {
+                                type =
+                                    concreteFunctionType.inputs[
+                                        bindIndex
+                                    ].getType(context);
+                            }
                         }
                     }
                 }
             }
         }
 
-        return type;
+        return type ?? new AnyType();
     }
 
     getDefinitionOfNameInScope() {
