@@ -4,7 +4,7 @@ import Glyphs from '../lore/Glyphs';
 import { TYPE_CLOSE_SYMBOL, TYPE_OPEN_SYMBOL } from '../parser/Symbols';
 import type { Grammar, Replacement } from './Node';
 import Token from './Token';
-import TokenType from './TokenType';
+import Symbol from './Symbol';
 import Type from './Type';
 import Node, { list, node, optional } from './Node';
 
@@ -25,9 +25,9 @@ export default class TypeInputs extends Node {
 
     static make(types: Type[]) {
         return new TypeInputs(
-            new Token(TYPE_OPEN_SYMBOL, TokenType.TypeOpen),
+            new Token(TYPE_OPEN_SYMBOL, Symbol.TypeOpen),
             types,
-            new Token(TYPE_CLOSE_SYMBOL, TokenType.TypeClose)
+            new Token(TYPE_CLOSE_SYMBOL, Symbol.TypeClose)
         );
     }
 
@@ -37,9 +37,9 @@ export default class TypeInputs extends Node {
 
     getGrammar(): Grammar {
         return [
-            { name: 'open', types: node(TokenType.TypeOpen) },
+            { name: 'open', types: node(Symbol.TypeOpen) },
             { name: 'types', types: list(node(Type)) },
-            { name: 'close', types: optional(node(TokenType.TypeClose)) },
+            { name: 'close', types: optional(node(Symbol.TypeClose)) },
         ];
     }
 

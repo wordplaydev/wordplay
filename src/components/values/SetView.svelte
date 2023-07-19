@@ -3,7 +3,7 @@
 <script lang="ts">
     import type Set from '@runtime/Set';
     import SymbolView from './SymbolView.svelte';
-    import TokenType from '@nodes/TokenType';
+    import Symbol from '@nodes/Symbol';
     import ValueView from './ValueView.svelte';
     import { SET_CLOSE_SYMBOL, SET_OPEN_SYMBOL } from '@parser/Symbols';
     import Expandable from './Expandable.svelte';
@@ -15,7 +15,7 @@
 
 <SymbolView
     symbol={SET_OPEN_SYMBOL}
-    type={TokenType.SetOpen}
+    type={Symbol.SetOpen}
 />{#if value.values.length > limit}<Expandable
         ><svelte:fragment slot="expanded"
             >{#each value.values as item, index}<ValueView
@@ -30,5 +30,5 @@
             value={item}
         />{#if index < value.values.length - 1}{' '}{/if}{/each}{/if}<SymbolView
     symbol={SET_CLOSE_SYMBOL}
-    type={TokenType.SetClose}
+    type={Symbol.SetClose}
 />

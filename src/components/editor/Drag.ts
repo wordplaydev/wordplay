@@ -6,7 +6,7 @@ import TypePlaceholder from '@nodes/TypePlaceholder';
 import Type from '@nodes/Type';
 import type Project from '@models/Project';
 import Token from '@nodes/Token';
-import TokenType from '@nodes/TokenType';
+import Symbol from '@nodes/Symbol';
 import Program from '@nodes/Program';
 import Block from '@nodes/Block';
 import Bind from '../../nodes/Bind';
@@ -224,7 +224,7 @@ export function getInsertionPoint(
     if (parent === undefined) return;
 
     // Special case the end token of the Program, since it's block has no delimters.
-    if (node instanceof Token && node.isTokenType(TokenType.End)) {
+    if (node instanceof Token && node.isTokenType(Symbol.End)) {
         if (parent instanceof Program && parent.expression instanceof Block) {
             return new InsertionPoint(
                 parent.expression,

@@ -6,7 +6,7 @@ import Language from './Language';
 import type Bind from './Bind';
 import type Context from './Context';
 import type TypeSet from './TypeSet';
-import TokenType from './TokenType';
+import Symbol from './Symbol';
 import { node, type Grammar, type Replacement, optional } from './Node';
 import type Locale from '@locale/Locale';
 import Literal from './Literal';
@@ -36,14 +36,14 @@ export default class TextLiteral extends Literal {
 
     static make(text?: string, language?: Language) {
         return new TextLiteral(
-            new Token(`'${text ?? ''}'`, TokenType.Text),
+            new Token(`'${text ?? ''}'`, Symbol.Text),
             language
         );
     }
 
     getGrammar(): Grammar {
         return [
-            { name: 'text', types: node(TokenType.Text) },
+            { name: 'text', types: node(Symbol.Text) },
             { name: 'language', types: optional(node(Language)) },
         ];
     }

@@ -20,7 +20,7 @@ import { node, type Grammar, type Replacement } from './Node';
 import type Locale from '@locale/Locale';
 import NodeRef from '@locale/NodeRef';
 import Glyphs from '../lore/Glyphs';
-import TokenType from './TokenType';
+import Symbol from './Symbol';
 import { TYPE_SYMBOL } from '../parser/Symbols';
 import Purpose from '../concepts/Purpose';
 import concretize from '../locale/concretize';
@@ -41,17 +41,13 @@ export default class Is extends Expression {
     }
 
     static make(left: Expression, right: Type) {
-        return new Is(
-            left,
-            new Token(TYPE_SYMBOL, TokenType.TypeOperator),
-            right
-        );
+        return new Is(left, new Token(TYPE_SYMBOL, Symbol.TypeOperator), right);
     }
 
     getGrammar(): Grammar {
         return [
             { name: 'expression', types: node(Expression) },
-            { name: 'operator', types: node(TokenType.Type) },
+            { name: 'operator', types: node(Symbol.Type) },
             { name: 'type', types: node(Type) },
         ];
     }

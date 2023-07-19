@@ -6,7 +6,7 @@ import type Evaluator from '@runtime/Evaluator';
 import type Step from '@runtime/Step';
 import Number from '@runtime/Number';
 import Unit from './Unit';
-import TokenType from './TokenType';
+import Symbol from './Symbol';
 import { BORROW_SYMBOL } from '@parser/Symbols';
 import Expression from './Expression';
 import Bind from './Bind';
@@ -57,7 +57,7 @@ export default class Borrow extends AtomicExpression {
     ) {
         super();
 
-        this.borrow = borrow ?? new Token(BORROW_SYMBOL, TokenType.Borrow);
+        this.borrow = borrow ?? new Token(BORROW_SYMBOL, Symbol.Borrow);
         this.source = source;
         this.dot = dot;
         this.name = name;
@@ -68,22 +68,22 @@ export default class Borrow extends AtomicExpression {
 
     getGrammar(): Grammar {
         return [
-            { name: 'borrow', types: node(TokenType.Borrow) },
+            { name: 'borrow', types: node(Symbol.Borrow) },
             {
                 name: 'source',
-                types: any(node(TokenType.Name), none()),
+                types: any(node(Symbol.Name), none()),
                 space: true,
                 label: (locale: Locale) => locale.node.Borrow.source,
             },
-            { name: 'dot', types: any(node(TokenType.Access), none('name')) },
+            { name: 'dot', types: any(node(Symbol.Access), none('name')) },
             {
                 name: 'name',
-                types: any(node(TokenType.Name), none('dot')),
+                types: any(node(Symbol.Name), none('dot')),
                 label: (locale: Locale) => locale.node.Borrow.name,
             },
             {
                 name: 'version',
-                types: any(node(TokenType.Number), none()),
+                types: any(node(Symbol.Number), none()),
                 label: (locale: Locale) => locale.node.Borrow.version,
             },
         ];

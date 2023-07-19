@@ -28,7 +28,7 @@ import NameException from '@runtime/NameException';
 import NodeRef from '@locale/NodeRef';
 import Evaluate from './Evaluate';
 import StreamDefinitionType from './StreamDefinitionType';
-import TokenType from './TokenType';
+import Symbol from './Symbol';
 import concretize, { type TemplateInput } from '../locale/concretize';
 import Glyphs from '../lore/Glyphs';
 
@@ -59,7 +59,7 @@ export default class Reference extends AtomicExpression {
         return [
             {
                 name: 'name',
-                types: node(TokenType.Name),
+                types: node(Symbol.Name),
                 label: (translation: Locale) => translation.node.Reference.name,
                 // The valid definitions of the name are anything in scope, except for the current name.
                 getDefinitions: (context: Context) =>
@@ -77,7 +77,7 @@ export default class Reference extends AtomicExpression {
     }
 
     isPlaceholder() {
-        return this.name.isTokenType(TokenType.Placeholder);
+        return this.name.isTokenType(Symbol.Placeholder);
     }
 
     getName() {

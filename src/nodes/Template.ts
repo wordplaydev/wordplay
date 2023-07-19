@@ -12,7 +12,7 @@ import Language from './Language';
 import type Bind from './Bind';
 import type TypeSet from './TypeSet';
 import Start from '@runtime/Start';
-import TokenType from './TokenType';
+import Symbol from './Symbol';
 import ExpressionPlaceholder from './ExpressionPlaceholder';
 import { node, type Grammar, type Replacement, list, optional } from './Node';
 import type Locale from '@locale/Locale';
@@ -35,9 +35,9 @@ export default class Template extends Expression {
 
         this.open = open;
         this.expressions = expressions ?? [
-            new Token(`'${TEMPLATE_SYMBOL}`, TokenType.TemplateOpen),
+            new Token(`'${TEMPLATE_SYMBOL}`, Symbol.TemplateOpen),
             ExpressionPlaceholder.make(TextType.make()),
-            new Token(`${TEMPLATE_SYMBOL}'`, TokenType.TemplateClose),
+            new Token(`${TEMPLATE_SYMBOL}'`, Symbol.TemplateClose),
         ];
         this.language = language;
 
@@ -45,17 +45,17 @@ export default class Template extends Expression {
     }
 
     static make() {
-        return new Template(new Token('"\\', TokenType.TemplateOpen), [
-            new Token('\\"', TokenType.TemplateClose),
+        return new Template(new Token('"\\', Symbol.TemplateOpen), [
+            new Token('\\"', Symbol.TemplateClose),
         ]);
     }
 
     getGrammar(): Grammar {
         return [
-            { name: 'open', types: node(TokenType.TemplateOpen) },
+            { name: 'open', types: node(Symbol.TemplateOpen) },
             {
                 name: 'expressions',
-                types: list(node(Expression), node(TokenType.Text)),
+                types: list(node(Expression), node(Symbol.Text)),
                 label: (translation: Locale) => translation.term.text,
             },
             { name: 'language', types: optional(node(Language)) },

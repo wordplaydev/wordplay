@@ -1,5 +1,5 @@
 import Token from './Token';
-import TokenType from './TokenType';
+import Symbol from './Symbol';
 import { QUESTION_SYMBOL } from '@parser/Symbols';
 import NativeType from './NativeType';
 import type TypeSet from './TypeSet';
@@ -20,13 +20,11 @@ export default class BooleanType extends NativeType {
     }
 
     static make() {
-        return new BooleanType(
-            new Token(QUESTION_SYMBOL, TokenType.BooleanType)
-        );
+        return new BooleanType(new Token(QUESTION_SYMBOL, Symbol.BooleanType));
     }
 
     getGrammar(): Grammar {
-        return [{ name: 'type', types: node(TokenType.BooleanType) }];
+        return [{ name: 'type', types: node(Symbol.BooleanType) }];
     }
 
     clone(replace?: Replacement) {

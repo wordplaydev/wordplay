@@ -1,7 +1,7 @@
 import type Node from './Node';
 import Expression from './Expression';
 import Token from './Token';
-import TokenType from './TokenType';
+import Symbol from './Symbol';
 import type Conflict from '@conflicts/Conflict';
 import { MisplacedConversion } from '@conflicts/MisplacedConversion';
 import Block from './Block';
@@ -60,7 +60,7 @@ export default class ConversionDefinition extends AtomicExpression {
     ) {
         return new ConversionDefinition(
             docs,
-            new Token(CONVERT_SYMBOL, TokenType.Convert),
+            new Token(CONVERT_SYMBOL, Symbol.Convert),
             input instanceof Type ? input : parseType(toTokens(input)),
             output instanceof Type ? output : parseType(toTokens(output)),
             expression
@@ -70,7 +70,7 @@ export default class ConversionDefinition extends AtomicExpression {
     getGrammar(): Grammar {
         return [
             { name: 'docs', types: any(node(Docs), none()) },
-            { name: 'arrow', types: node(TokenType.Convert) },
+            { name: 'arrow', types: node(Symbol.Convert) },
             { name: 'input', types: node(Type), space: true },
             { name: 'output', types: node(Type), space: true },
             {

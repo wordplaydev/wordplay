@@ -15,7 +15,7 @@ import ConversionDefinition from './ConversionDefinition';
 import Halt from '@runtime/Halt';
 import Block from './Block';
 import { CONVERT_SYMBOL, PROPERTY_SYMBOL } from '@parser/Symbols';
-import TokenType from './TokenType';
+import Symbol from './Symbol';
 import Names from './Names';
 import type Evaluator from '@runtime/Evaluator';
 import type Value from '@runtime/Value';
@@ -48,7 +48,7 @@ export default class Convert extends Expression {
     static make(expression: Expression, type: Type) {
         return new Convert(
             expression,
-            new Token(CONVERT_SYMBOL, TokenType.Convert),
+            new Token(CONVERT_SYMBOL, Symbol.Convert),
             type
         );
     }
@@ -56,7 +56,7 @@ export default class Convert extends Expression {
     getGrammar(): Grammar {
         return [
             { name: 'expression', types: node(Expression) },
-            { name: 'convert', types: node(TokenType.Convert), space: true },
+            { name: 'convert', types: node(Symbol.Convert), space: true },
             { name: 'type', types: node(Type), space: true },
         ];
     }

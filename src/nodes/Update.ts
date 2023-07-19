@@ -25,7 +25,7 @@ import NodeRef from '@locale/NodeRef';
 import Glyphs from '../lore/Glyphs';
 import IncompatibleInput from '../conflicts/IncompatibleInput';
 import concretize from '../locale/concretize';
-import TokenType from './TokenType';
+import Symbol from './Symbol';
 
 export default class Update extends Expression {
     readonly table: Expression;
@@ -51,7 +51,7 @@ export default class Update extends Expression {
                 types: node(Expression),
                 label: (translation: Locale) => translation.term.table,
             },
-            { name: 'update', types: node(TokenType.Update) },
+            { name: 'update', types: node(Symbol.Update) },
             {
                 name: 'row',
                 types: node(Row),

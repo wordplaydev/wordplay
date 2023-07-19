@@ -3,7 +3,7 @@ import type FunctionDefinition from './FunctionDefinition';
 import type Context from './Context';
 import Token from './Token';
 import type Node from './Node';
-import TokenType from './TokenType';
+import Symbol from './Symbol';
 import Type from './Type';
 import { OR_SYMBOL } from '@parser/Symbols';
 import type TypeSet from './TypeSet';
@@ -31,11 +31,7 @@ export default class UnionType extends Type {
     }
 
     static make(left: Type, right: Type) {
-        return new UnionType(
-            left,
-            new Token(OR_SYMBOL, TokenType.Union),
-            right
-        );
+        return new UnionType(left, new Token(OR_SYMBOL, Symbol.Union), right);
     }
 
     static orNone(left: Type) {
@@ -45,7 +41,7 @@ export default class UnionType extends Type {
     getGrammar(): Grammar {
         return [
             { name: 'left', types: node(Type) },
-            { name: 'or', types: node(TokenType.Union) },
+            { name: 'or', types: node(Symbol.Union) },
             { name: 'right', types: node(Type) },
         ];
     }

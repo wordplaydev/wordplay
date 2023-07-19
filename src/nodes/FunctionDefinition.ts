@@ -2,7 +2,7 @@ import type Node from './Node';
 import Bind from './Bind';
 import Expression from './Expression';
 import Token from './Token';
-import TokenType from './TokenType';
+import Symbol from './Symbol';
 import Type from './Type';
 import type Conflict from '@conflicts/Conflict';
 import { getEvaluationInputConflicts } from './util';
@@ -98,7 +98,7 @@ export default class FunctionDefinition extends Expression {
         return new FunctionDefinition(
             docs,
             undefined,
-            new Token(FUNCTION_SYMBOL, TokenType.Function),
+            new Token(FUNCTION_SYMBOL, Symbol.Function),
             names instanceof Names ? names : Names.make(names),
             types,
             new EvalOpenToken(),
@@ -128,10 +128,7 @@ export default class FunctionDefinition extends Expression {
         return this.isOperator() && structure && this.inputs.length === 0
             ? new UnaryEvaluate(
                   new Reference(
-                      new Token(
-                          this.getOperatorName() ?? '_',
-                          TokenType.Operator
-                      )
+                      new Token(this.getOperatorName() ?? '_', Symbol.Operator)
                   ),
                   ExpressionPlaceholder.make(structureType)
               )
@@ -163,25 +160,25 @@ export default class FunctionDefinition extends Expression {
             { name: 'docs', types: any(node(Docs), none()) },
             {
                 name: 'share',
-                types: any(node(TokenType.Share), none()),
-                getToken: () => new Token(SHARE_SYMBOL, TokenType.Share),
+                types: any(node(Symbol.Share), none()),
+                getToken: () => new Token(SHARE_SYMBOL, Symbol.Share),
             },
-            { name: 'fun', types: node(TokenType.Function) },
+            { name: 'fun', types: node(Symbol.Function) },
             { name: 'names', types: node(Names), space: true },
             { name: 'types', types: any(node(TypeVariables), none()) },
-            { name: 'open', types: node(TokenType.EvalOpen) },
+            { name: 'open', types: node(Symbol.EvalOpen) },
             {
                 name: 'inputs',
                 types: list(node(Bind)),
                 space: true,
                 indent: true,
             },
-            { name: 'close', types: node(TokenType.EvalClose) },
-            { name: 'dot', types: any(node(TokenType.Type), none('output')) },
+            { name: 'close', types: node(Symbol.EvalClose) },
+            { name: 'dot', types: any(node(Symbol.Type), none('output')) },
             { name: 'output', types: any(node(Type), none('dot')) },
             {
                 name: 'expression',
-                types: any(node(Expression), node(TokenType.Etc), none()),
+                types: any(node(Expression), node(Symbol.Etc), none()),
                 space: true,
                 indent: (_: Node, child: Node) => !(child instanceof Block),
                 // Must match output type if provided

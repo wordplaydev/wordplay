@@ -2,7 +2,7 @@ import type { Edit, Revision } from './Commands';
 import Block from '@nodes/Block';
 import Node, { ListOf } from '@nodes/Node';
 import Token from '@nodes/Token';
-import TokenType from '@nodes/TokenType';
+import Symbol from '@nodes/Symbol';
 import {
     DELIMITERS,
     REVERSE_DELIMITERS,
@@ -631,7 +631,7 @@ export default class Caret {
                 // Is the text being typed what's already there?
                 text === this.source.code.at(this.position) &&
                 // Is what's being typed a closing delimiter of a text literal?
-                ((this.tokenIncludingSpace.isTokenType(TokenType.Text) &&
+                ((this.tokenIncludingSpace.isTokenType(Symbol.Text) &&
                     REVERSE_TEXT_DELIMITERS[
                         this.tokenIncludingSpace.getText().charAt(0)
                     ] === text) ||
@@ -659,10 +659,8 @@ export default class Caret {
                     !(
                         // The token prior is text or unknown
                         (
-                            (this.tokenPrior.isTokenType(TokenType.Text) ||
-                                this.tokenPrior.isTokenType(
-                                    TokenType.Unknown
-                                )) &&
+                            (this.tokenPrior.isTokenType(Symbol.Text) ||
+                                this.tokenPrior.isTokenType(Symbol.Unknown)) &&
                             // The text typed closes a matching delimiter
                             text ===
                                 DELIMITERS[this.tokenPrior.getText().charAt(0)]
@@ -749,18 +747,16 @@ export default class Caret {
     isInsideText() {
         const isText =
             this.tokenExcludingSpace !== undefined &&
-            (this.tokenExcludingSpace.isTokenType(TokenType.Text) ||
-                this.tokenExcludingSpace.isTokenType(
-                    TokenType.TemplateBetween
-                ) ||
-                this.tokenExcludingSpace.isTokenType(TokenType.TemplateOpen) ||
-                this.tokenExcludingSpace.isTokenType(TokenType.TemplateClose));
+            (this.tokenExcludingSpace.isTokenType(Symbol.Text) ||
+                this.tokenExcludingSpace.isTokenType(Symbol.TemplateBetween) ||
+                this.tokenExcludingSpace.isTokenType(Symbol.TemplateOpen) ||
+                this.tokenExcludingSpace.isTokenType(Symbol.TemplateClose));
         const isAfterText =
             this.tokenPrior &&
-            (this.tokenPrior.isTokenType(TokenType.Text) ||
-                this.tokenPrior.isTokenType(TokenType.TemplateBetween) ||
-                this.tokenPrior.isTokenType(TokenType.TemplateOpen) ||
-                this.tokenPrior.isTokenType(TokenType.TemplateClose));
+            (this.tokenPrior.isTokenType(Symbol.Text) ||
+                this.tokenPrior.isTokenType(Symbol.TemplateBetween) ||
+                this.tokenPrior.isTokenType(Symbol.TemplateOpen) ||
+                this.tokenPrior.isTokenType(Symbol.TemplateClose));
         return (isText && !this.betweenDelimiters()) || isAfterText;
     }
 
@@ -1012,7 +1008,7 @@ export default class Caret {
 
     wrap(key: string): Edit | undefined {
         let node = this.position instanceof Node ? this.position : undefined;
-        if (node instanceof Token && !node.isTokenType(TokenType.End))
+        if (node instanceof Token && !node.isTokenType(Symbol.End))
             node = this.source.root.getParent(node);
         if (node === undefined || !(node instanceof Expression))
             return undefined;

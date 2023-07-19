@@ -5,7 +5,7 @@ import Program from './Program';
 import Token from './Token';
 import Glyphs from '../lore/Glyphs';
 import Purpose from '../concepts/Purpose';
-import TokenType from './TokenType';
+import Symbol from './Symbol';
 import { EXAMPLE_CLOSE_SYMBOL, EXAMPLE_OPEN_SYMBOL } from '../parser/Symbols';
 import Content from './Content';
 import type { TemplateInput } from '../locale/concretize';
@@ -25,17 +25,17 @@ export default class Example extends Content {
 
     static make(program: Program) {
         return new Example(
-            new Token(EXAMPLE_OPEN_SYMBOL, TokenType.ExampleOpen),
+            new Token(EXAMPLE_OPEN_SYMBOL, Symbol.ExampleOpen),
             program,
-            new Token(EXAMPLE_CLOSE_SYMBOL, TokenType.ExampleClose)
+            new Token(EXAMPLE_CLOSE_SYMBOL, Symbol.ExampleClose)
         );
     }
 
     getGrammar(): Grammar {
         return [
-            { name: 'open', types: node(TokenType.ExampleOpen) },
+            { name: 'open', types: node(Symbol.ExampleOpen) },
             { name: 'program', types: node(Program) },
-            { name: 'close', types: node(TokenType.ExampleClose) },
+            { name: 'close', types: node(Symbol.ExampleClose) },
         ];
     }
 

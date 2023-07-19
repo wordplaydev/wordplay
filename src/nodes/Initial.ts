@@ -7,7 +7,7 @@ import type Value from '@runtime/Value';
 import type Step from '@runtime/Step';
 import type Bind from './Bind';
 import type TypeSet from './TypeSet';
-import TokenType from './TokenType';
+import Symbol from './Symbol';
 import { INITIAL_SYMBOL } from '@parser/Symbols';
 import Bool from '@runtime/Bool';
 import { node, type Grammar, type Replacement } from './Node';
@@ -33,11 +33,11 @@ export default class Initial extends AtomicExpression {
     }
 
     static make() {
-        return new Initial(new Token(INITIAL_SYMBOL, TokenType.Initial));
+        return new Initial(new Token(INITIAL_SYMBOL, Symbol.Initial));
     }
 
     getGrammar(): Grammar {
-        return [{ name: 'diamond', types: node(TokenType.Initial) }];
+        return [{ name: 'diamond', types: node(Symbol.Initial) }];
     }
 
     clone(replace?: Replacement) {

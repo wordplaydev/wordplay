@@ -1,9 +1,9 @@
 import { BIND_SYMBOL } from '@parser/Symbols';
 import Token from './Token';
-import TokenType from './TokenType';
+import Symbol from './Symbol';
 
 export default class BindToken extends Token {
     constructor() {
-        super(BIND_SYMBOL, TokenType.Bind);
+        super(BIND_SYMBOL, Symbol.Bind);
     }
 }

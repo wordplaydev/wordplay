@@ -7,7 +7,7 @@ import type { NativeTypeName } from '../native/NativeConstants';
 import { node, type Grammar, type Replacement } from './Node';
 import type Locale from '@locale/Locale';
 import Glyphs from '../lore/Glyphs';
-import TokenType from './TokenType';
+import Symbol from './Symbol';
 
 export default class TypePlaceholder extends Type {
     readonly placeholder: Token;
@@ -28,7 +28,7 @@ export default class TypePlaceholder extends Type {
         return [
             {
                 name: 'placeholder',
-                types: node(TokenType.Placeholder),
+                types: node(Symbol.Placeholder),
                 label: (translation: Locale) =>
                     translation.ui.placeholders.type,
             },

@@ -2,7 +2,7 @@ import { tokenize } from './Tokenizer';
 import { DOCS_SYMBOL, EXPONENT_SYMBOL, PRODUCT_SYMBOL } from './Symbols';
 import type Node from '@nodes/Node';
 import Token from '@nodes/Token';
-import TokenType from '@nodes/TokenType';
+import Symbol from '@nodes/Symbol';
 import type Expression from '@nodes/Expression';
 import type Type from '@nodes/Type';
 import Program from '@nodes/Program';
@@ -150,20 +150,18 @@ export class Tokens {
     /** Returns true if the token list isn't empty. */
     hasNext(): boolean {
         return (
-            this.#unread.length > 0 &&
-            !this.#unread[0].isTokenType(TokenType.End)
+            this.#unread.length > 0 && !this.#unread[0].isTokenType(Symbol.End)
         );
     }
 
     nextIsEnd(): boolean {
         return (
-            this.#unread.length > 0 &&
-            this.#unread[0].isTokenType(TokenType.End)
+            this.#unread.length > 0 && this.#unread[0].isTokenType(Symbol.End)
         );
     }
 
     /** Returns true if and only if the next token is the specified type. */
-    nextIs(type: TokenType, text?: string): boolean {
+    nextIs(type: Symbol, text?: string): boolean {
         return (
             this.hasNext() &&
             this.peek()?.isTokenType(type) === true &&
@@ -172,12 +170,12 @@ export class Tokens {
     }
 
     /** Returns true if and only if there is a next token and it's not the specified type. */
-    nextIsnt(type: TokenType): boolean {
+    nextIsnt(type: Symbol): boolean {
         return this.hasNext() && this.peek()?.isntType(type) === true;
     }
 
     /** Returns true if and only if the next series of tokens matches the series of given token types. */
-    nextAre(...types: TokenType[]) {
+    nextAre(...types: Symbol[]) {
         return types.every(
             (type, index) =>
                 index < this.#unread.length &&
@@ -186,14 +184,14 @@ export class Tokens {
     }
 
     /** Returns true if and only there was a previous token and it was of the given type. */
-    previousWas(type: TokenType): boolean {
+    previousWas(type: Symbol): boolean {
         return (
             this.#read.length > 0 &&
             this.#read[this.#read.length - 1].isTokenType(type)
         );
     }
 
-    beforeNextLineIs(type: TokenType) {
+    beforeNextLineIs(type: Symbol) {
         // To detect this, we'll just peek ahead and see if there's a bind before the next line.
         let index = 0;
         while (index < this.#unread.length) {
@@ -209,7 +207,7 @@ export class Tokens {
         );
     }
 
-    nextIsOneOf(...types: TokenType[]): boolean {
+    nextIsOneOf(...types: Symbol[]): boolean {
         return types.find((type) => this.nextIs(type)) !== undefined;
     }
 
@@ -223,15 +221,13 @@ export class Tokens {
         const after = this.#unread[1];
         return (
             after !== undefined &&
-            !after.isTokenType(TokenType.End) &&
+            !after.isTokenType(Symbol.End) &&
             !this.#spaces.hasSpace(after)
         );
     }
 
     nextIsUnary(): boolean {
-        return (
-            this.nextIs(TokenType.Operator) && this.afterLacksPrecedingSpace()
-        );
+        return this.nextIs(Symbol.Operator) && this.afterLacksPrecedingSpace();
     }
 
     /** Returns true if and only if the next token has a preceding line break. */
@@ -247,7 +243,7 @@ export class Tokens {
     }
 
     /** Returns a token list without the first token. */
-    read(expectedType?: TokenType): Token {
+    read(expectedType?: Symbol): Token {
         const next = this.#unread.shift();
         if (next !== undefined) {
             if (expectedType !== undefined && !next.isTokenType(expectedType)) {
@@ -265,10 +261,10 @@ export class Tokens {
             }
             this.#read.push(next);
             return next;
-        } else return new Token('', TokenType.End);
+        } else return new Token('', Symbol.End);
     }
 
-    readIf(type: TokenType) {
+    readIf(type: Symbol) {
         return this.nextIs(type) ? this.read() : undefined;
     }
 
@@ -282,7 +278,7 @@ export class Tokens {
         } while (
             this.hasNext() &&
             this.nextHasPrecedingLineBreak() === false &&
-            this.nextIsnt(TokenType.ExampleClose)
+            this.nextIsnt(Symbol.ExampleClose)
         );
         return nodes;
     }
@@ -320,7 +316,7 @@ export function parseProgram(tokens: Tokens, doc: boolean = false): Program {
     const docs = parseDocs(tokens);
 
     const borrows = [];
-    while (tokens.hasNext() && tokens.nextIs(TokenType.Borrow))
+    while (tokens.hasNext() && tokens.nextIs(Symbol.Borrow))
         borrows.push(parseBorrow(tokens));
 
     const block = parseBlock(tokens, BlockKind.Root, doc);
@@ -328,24 +324,24 @@ export function parseProgram(tokens: Tokens, doc: boolean = false): Program {
     // If the next token is the end, we're done! Otherwise, read all of the remaining
     // tokens and bundle them into an unparsable.
     const end = tokens.nextIsEnd()
-        ? tokens.read(TokenType.End)
-        : new Token('', TokenType.End);
+        ? tokens.read(Symbol.End)
+        : new Token('', Symbol.End);
 
     return new Program(docs, borrows, block, end);
 }
 
 // BORROW :: ↓ name number?
 export function parseBorrow(tokens: Tokens): Borrow {
-    const borrow = tokens.read(TokenType.Borrow);
-    const source = tokens.readIf(TokenType.Name);
-    const dot = tokens.readIf(TokenType.Access);
+    const borrow = tokens.read(Symbol.Borrow);
+    const source = tokens.readIf(Symbol.Name);
+    const dot = tokens.readIf(Symbol.Access);
     const name =
-        dot && tokens.nextIs(TokenType.Name)
-            ? tokens.read(TokenType.Name)
+        dot && tokens.nextIs(Symbol.Name)
+            ? tokens.read(Symbol.Name)
             : undefined;
     const version =
-        tokens.nextIs(TokenType.Number) && !tokens.nextHasPrecedingLineBreak()
-            ? tokens.read(TokenType.Number)
+        tokens.nextIs(Symbol.Number) && !tokens.nextHasPrecedingLineBreak()
+            ? tokens.read(Symbol.Number)
             : undefined;
 
     return new Borrow(borrow, source, dot, name, version);
@@ -364,8 +360,8 @@ export function parseBlock(
 
     const open = root
         ? undefined
-        : tokens.nextIs(TokenType.EvalOpen)
-        ? tokens.read(TokenType.EvalOpen)
+        : tokens.nextIs(Symbol.EvalOpen)
+        ? tokens.read(Symbol.EvalOpen)
         : undefined;
 
     const statements = [];
@@ -377,8 +373,8 @@ export function parseBlock(
     while (
         tokens.hasNext() &&
         ((root && !doc) ||
-            (!root && !doc && tokens.nextIsnt(TokenType.EvalClose)) ||
-            (doc && tokens.nextIsnt(TokenType.ExampleClose)))
+            (!root && !doc && tokens.nextIsnt(Symbol.EvalClose)) ||
+            (doc && tokens.nextIsnt(Symbol.ExampleClose)))
     )
         statements.push(
             nextIsBind(tokens, true)
@@ -388,14 +384,14 @@ export function parseBlock(
 
     const close = root
         ? undefined
-        : tokens.nextIs(TokenType.EvalClose)
-        ? tokens.read(TokenType.EvalClose)
+        : tokens.nextIs(Symbol.EvalClose)
+        ? tokens.read(Symbol.EvalClose)
         : undefined;
 
     return new Block(statements, kind, open, close, docs);
 }
 
-function nextAreOptionalDocsThen(tokens: Tokens, types: TokenType[]): boolean {
+function nextAreOptionalDocsThen(tokens: Tokens, types: Symbol[]): boolean {
     const rollbackToken = tokens.peek();
     if (rollbackToken === undefined) return false;
 
@@ -424,9 +420,9 @@ function nextIsEvaluate(tokens: Tokens): boolean {
     const rollbackToken = tokens.peek();
     if (rollbackToken === undefined) return false;
 
-    if (tokens.nextIs(TokenType.TypeOpen)) parseTypeInputs(tokens);
+    if (tokens.nextIs(Symbol.TypeOpen)) parseTypeInputs(tokens);
 
-    const nextIsEval = tokens.nextIs(TokenType.EvalOpen);
+    const nextIsEval = tokens.nextIs(Symbol.EvalOpen);
 
     tokens.unreadTo(rollbackToken);
 
@@ -452,21 +448,21 @@ function nextIsBind(tokens: Tokens, expectValue: boolean): boolean {
 /** BIND :: NAMES TYPE? (: EXPRESSION)? */
 export function parseBind(tokens: Tokens): Bind {
     let docs = parseDocs(tokens);
-    const share = tokens.readIf(TokenType.Share);
+    const share = tokens.readIf(Symbol.Share);
     const names = parseNames(tokens);
-    const etc = tokens.readIf(TokenType.Etc);
+    const etc = tokens.readIf(Symbol.Etc);
     let colon;
     let value;
     let dot;
     let type;
 
-    if (tokens.nextIs(TokenType.Type)) {
-        dot = tokens.read(TokenType.Type);
+    if (tokens.nextIs(Symbol.Type)) {
+        dot = tokens.read(Symbol.Type);
         type = parseType(tokens);
     }
 
-    if (tokens.nextIs(TokenType.Bind)) {
-        colon = tokens.read(TokenType.Bind);
+    if (tokens.nextIs(Symbol.Bind)) {
+        colon = tokens.read(Symbol.Bind);
         value = parseExpression(tokens);
     }
 
@@ -480,26 +476,26 @@ export function parseNames(tokens: Tokens): Names {
     while (
         (tokens.hasNext() &&
             names.length > 0 &&
-            tokens.nextIs(TokenType.Separator)) ||
+            tokens.nextIs(Symbol.Separator)) ||
         (names.length === 0 &&
             tokens.nextIsOneOf(
-                TokenType.Name,
-                TokenType.Placeholder,
-                TokenType.Operator
+                Symbol.Name,
+                Symbol.Placeholder,
+                Symbol.Operator
             ))
     ) {
-        const comma = tokens.nextIs(TokenType.Separator)
-            ? tokens.read(TokenType.Separator)
+        const comma = tokens.nextIs(Symbol.Separator)
+            ? tokens.read(Symbol.Separator)
             : undefined;
         if (names.length > 0 && comma === undefined) break;
-        const name = tokens.nextIs(TokenType.Name)
-            ? tokens.read(TokenType.Name)
-            : tokens.nextIs(TokenType.Placeholder)
-            ? tokens.read(TokenType.Placeholder)
-            : tokens.nextIs(TokenType.Operator)
-            ? tokens.read(TokenType.Operator)
+        const name = tokens.nextIs(Symbol.Name)
+            ? tokens.read(Symbol.Name)
+            : tokens.nextIs(Symbol.Placeholder)
+            ? tokens.read(Symbol.Placeholder)
+            : tokens.nextIs(Symbol.Operator)
+            ? tokens.read(Symbol.Operator)
             : undefined;
-        const lang = tokens.nextIs(TokenType.Language)
+        const lang = tokens.nextIs(Symbol.Language)
             ? parseLanguage(tokens)
             : undefined;
         if (comma !== undefined || name !== undefined)
@@ -512,10 +508,10 @@ export function parseNames(tokens: Tokens): Names {
 
 /** LANGUAGE :: /NAME */
 export function parseLanguage(tokens: Tokens): Language {
-    const slash = tokens.read(TokenType.Language);
+    const slash = tokens.read(Symbol.Language);
     const lang =
-        tokens.nextIs(TokenType.Name) && !tokens.nextHasPrecedingLineBreak()
-            ? tokens.read(TokenType.Name)
+        tokens.nextIs(Symbol.Name) && !tokens.nextHasPrecedingLineBreak()
+            ? tokens.read(Symbol.Name)
             : undefined;
     return new Language(slash, lang);
 }
@@ -535,11 +531,11 @@ export function parseExpression(
     let left = parseBinaryEvaluate(tokens);
 
     // Is it conditional statement?
-    if (tokens.nextIs(TokenType.Conditional))
+    if (tokens.nextIs(Symbol.Conditional))
         left = parseConditional(left, tokens);
 
     // Is it a reaction?
-    if (tokens.nextIs(TokenType.Stream) && allowReaction)
+    if (tokens.nextIs(Symbol.Stream) && allowReaction)
         left = parseReaction(left, tokens);
 
     // Return whatever expression we got
@@ -550,7 +546,7 @@ export function parseConditional(
     condition: Expression,
     tokens: Tokens
 ): Conditional {
-    const question = tokens.read(TokenType.Conditional);
+    const question = tokens.read(Symbol.Conditional);
     const yes = parseExpression(tokens);
     const no = parseExpression(tokens);
     return new Conditional(condition, question, yes, no);
@@ -563,16 +559,12 @@ export function parseBinaryEvaluate(tokens: Tokens): Expression {
     while (
         tokens.hasNext() &&
         !tokens.nextIsUnary() &&
-        (tokens.nextIs(TokenType.Operator) ||
-            (tokens.nextIs(TokenType.TypeOperator) &&
+        (tokens.nextIs(Symbol.Operator) ||
+            (tokens.nextIs(Symbol.TypeOperator) &&
                 !tokens.nextHasPrecedingLineBreak()))
     ) {
-        left = tokens.nextIs(TokenType.TypeOperator)
-            ? new Is(
-                  left,
-                  tokens.read(TokenType.TypeOperator),
-                  parseType(tokens)
-              )
+        left = tokens.nextIs(Symbol.TypeOperator)
+            ? new Is(left, tokens.read(Symbol.TypeOperator), parseType(tokens))
             : new BinaryEvaluate(
                   left,
                   parseReference(tokens),
@@ -604,19 +596,19 @@ function parseAtomicExpression(tokens: Tokens): Expression {
     // All expressions must start with one of the following
     let left: Expression =
         // This
-        tokens.nextIs(TokenType.This)
-            ? new This(tokens.read(TokenType.This))
+        tokens.nextIs(Symbol.This)
+            ? new This(tokens.read(Symbol.This))
             : // Placeholder
-            tokens.nextIs(TokenType.Placeholder)
+            tokens.nextIs(Symbol.Placeholder)
             ? parsePlaceholder(tokens)
             : // Start
-            tokens.nextIs(TokenType.Initial)
+            tokens.nextIs(Symbol.Initial)
             ? parseInitial(tokens)
             : // Change
-            tokens.nextIs(TokenType.Change)
+            tokens.nextIs(Symbol.Change)
             ? parseChanged(tokens)
             : // Nones
-            tokens.nextIs(TokenType.None)
+            tokens.nextIs(Symbol.None)
             ? parseNone(tokens)
             : // Unary expressions before names and binary operators, since some unary can be multiple.
             tokens.nextIsUnary()
@@ -625,91 +617,84 @@ function parseAtomicExpression(tokens: Tokens): Expression {
                   parseAtomicExpression(tokens)
               )
             : // References can be names or binary operators
-            tokens.nextIsOneOf(TokenType.Name, TokenType.Operator)
+            tokens.nextIsOneOf(Symbol.Name, Symbol.Operator)
             ? parseReference(tokens)
             : // Booleans
-            tokens.nextIs(TokenType.Boolean)
-            ? new BooleanLiteral(tokens.read(TokenType.Boolean))
+            tokens.nextIs(Symbol.Boolean)
+            ? new BooleanLiteral(tokens.read(Symbol.Boolean))
             : // Numbers with units
-            tokens.nextIs(TokenType.Number)
+            tokens.nextIs(Symbol.Number)
             ? parseNumber(tokens)
             : // Text with optional formats
-            tokens.nextIs(TokenType.Text)
+            tokens.nextIs(Symbol.Text)
             ? parseText(tokens)
             : // A string template
-            tokens.nextIs(TokenType.TemplateOpen)
+            tokens.nextIs(Symbol.TemplateOpen)
             ? parseTemplate(tokens)
             : // A list
-            tokens.nextIs(TokenType.ListOpen)
+            tokens.nextIs(Symbol.ListOpen)
             ? parseList(tokens)
             : // A set or map
-            tokens.nextIs(TokenType.SetOpen)
+            tokens.nextIs(Symbol.SetOpen)
             ? parseSetOrMap(tokens)
             : // Table literals
-            tokens.nextIs(TokenType.TableOpen)
+            tokens.nextIs(Symbol.TableOpen)
             ? parseTable(tokens)
             : // A block expression
-            nextAreOptionalDocsThen(tokens, [TokenType.EvalOpen])
+            nextAreOptionalDocsThen(tokens, [Symbol.EvalOpen])
             ? parseBlock(tokens, BlockKind.Block)
             : // A structure definition
-            nextAreOptionalDocsThen(tokens, [TokenType.Type]) ||
-              nextAreOptionalDocsThen(tokens, [TokenType.Share, TokenType.Type])
+            nextAreOptionalDocsThen(tokens, [Symbol.Type]) ||
+              nextAreOptionalDocsThen(tokens, [Symbol.Share, Symbol.Type])
             ? parseStructure(tokens)
             : // A function function
-            nextAreOptionalDocsThen(tokens, [TokenType.Function]) ||
-              nextAreOptionalDocsThen(tokens, [
-                  TokenType.Share,
-                  TokenType.Function,
-              ])
+            nextAreOptionalDocsThen(tokens, [Symbol.Function]) ||
+              nextAreOptionalDocsThen(tokens, [Symbol.Share, Symbol.Function])
             ? parseFunction(tokens)
             : // A conversion function.
-            nextAreOptionalDocsThen(tokens, [TokenType.Convert])
+            nextAreOptionalDocsThen(tokens, [Symbol.Convert])
             ? parseConversion(tokens)
             : // A documented expression
-            tokens.nextIs(TokenType.Doc)
+            tokens.nextIs(Symbol.Doc)
             ? parseDocumentedExpression(tokens)
             : // Unknown expression
               new UnparsableExpression(tokens.readLine());
 
     // But wait! Is it one or more infix expressions? Slurp them up.
     while (true) {
-        if (tokens.nextIs(TokenType.Access))
+        if (tokens.nextIs(Symbol.Access))
             left = parsePropertyReference(left, tokens);
         else if (
-            tokens.nextIs(TokenType.ListOpen) &&
+            tokens.nextIs(Symbol.ListOpen) &&
             tokens.nextLacksPrecedingSpace()
         )
             left = parseListAccess(left, tokens);
         else if (
-            tokens.nextIs(TokenType.SetOpen) &&
+            tokens.nextIs(Symbol.SetOpen) &&
             tokens.nextLacksPrecedingSpace()
         )
             left = parseSetOrMapAccess(left, tokens);
-        else if (tokens.nextIs(TokenType.Previous))
+        else if (tokens.nextIs(Symbol.Previous))
             left = parsePrevious(left, tokens);
         else if (nextIsEvaluate(tokens)) left = parseEvaluate(left, tokens);
-        else if (tokens.nextIs(TokenType.Convert))
+        else if (tokens.nextIs(Symbol.Convert))
             left = parseConvert(left, tokens);
-        else if (tokens.nextIs(TokenType.Select))
-            left = parseSelect(left, tokens);
-        else if (tokens.nextIs(TokenType.Insert))
-            left = parseInsert(left, tokens);
-        else if (tokens.nextIs(TokenType.Update))
-            left = parseUpdate(left, tokens);
-        else if (tokens.nextIs(TokenType.Delete))
-            left = parseDelete(left, tokens);
+        else if (tokens.nextIs(Symbol.Select)) left = parseSelect(left, tokens);
+        else if (tokens.nextIs(Symbol.Insert)) left = parseInsert(left, tokens);
+        else if (tokens.nextIs(Symbol.Update)) left = parseUpdate(left, tokens);
+        else if (tokens.nextIs(Symbol.Delete)) left = parseDelete(left, tokens);
         else break;
     }
     return left;
 }
 
 function parsePlaceholder(tokens: Tokens): ExpressionPlaceholder {
-    const placeholder = tokens.read(TokenType.Placeholder);
+    const placeholder = tokens.read(Symbol.Placeholder);
 
     let dot;
     let type;
-    if (tokens.nextIs(TokenType.Type)) {
-        dot = tokens.read(TokenType.Type);
+    if (tokens.nextIs(Symbol.Type)) {
+        dot = tokens.read(Symbol.Type);
         type = parseType(tokens);
     }
 
@@ -717,20 +702,20 @@ function parsePlaceholder(tokens: Tokens): ExpressionPlaceholder {
 }
 
 function parseInitial(tokens: Tokens): Initial {
-    const diamond = tokens.read(TokenType.Initial);
+    const diamond = tokens.read(Symbol.Initial);
     return new Initial(diamond);
 }
 
 function parseReference(tokens: Tokens): Reference {
     const name = tokens.read(
-        tokens.nextIs(TokenType.Operator) ? TokenType.Operator : TokenType.Name
+        tokens.nextIs(Symbol.Operator) ? Symbol.Operator : Symbol.Name
     );
 
     return new Reference(name);
 }
 
 function parseChanged(tokens: Tokens): Changed {
-    const change = tokens.read(TokenType.Change);
+    const change = tokens.read(Symbol.Change);
     const stream = parseAtomicExpression(tokens);
 
     return new Changed(change, stream);
@@ -744,15 +729,15 @@ function parseDocumentedExpression(tokens: Tokens): Expression {
 
 /** NONE :: ! ALIASES */
 function parseNone(tokens: Tokens): NoneLiteral {
-    const error = tokens.read(TokenType.None);
+    const error = tokens.read(Symbol.None);
     return new NoneLiteral(error);
 }
 
 /** NUMBER :: number name? */
 export function parseNumber(tokens: Tokens): NumberLiteral {
-    const number = tokens.read(TokenType.Number);
+    const number = tokens.read(Symbol.Number);
     const unit =
-        tokens.nextIsOneOf(TokenType.Name, TokenType.Language) &&
+        tokens.nextIsOneOf(Symbol.Name, Symbol.Language) &&
         tokens.nextLacksPrecedingSpace()
             ? parseUnit(tokens)
             : undefined;
@@ -762,13 +747,13 @@ export function parseNumber(tokens: Tokens): NumberLiteral {
 /** UNIT :: DIMENSION (·DIMENSION)* (/ DIMENSION (·DIMENSION*))? */
 function parseUnit(tokens: Tokens): Unit {
     // Parse a wildcard unit.
-    if (tokens.nextIs(TokenType.Conditional)) {
+    if (tokens.nextIs(Symbol.Conditional)) {
         return new Unit(
             undefined,
             [
                 new Dimension(
                     undefined,
-                    tokens.read(TokenType.Conditional),
+                    tokens.read(Symbol.Conditional),
                     undefined,
                     undefined
                 ),
@@ -782,19 +767,19 @@ function parseUnit(tokens: Tokens): Unit {
     const numerator: Dimension[] = [];
 
     while (
-        (tokens.nextIs(TokenType.Name) ||
-            tokens.nextIs(TokenType.Operator, PRODUCT_SYMBOL)) &&
+        (tokens.nextIs(Symbol.Name) ||
+            tokens.nextIs(Symbol.Operator, PRODUCT_SYMBOL)) &&
         tokens.nextLacksPrecedingSpace()
     )
         numerator.push(parseDimension(tokens));
 
     let slash = undefined;
     const denominator: Dimension[] = [];
-    if (tokens.nextIs(TokenType.Language)) {
-        slash = tokens.read(TokenType.Language);
+    if (tokens.nextIs(Symbol.Language)) {
+        slash = tokens.read(Symbol.Language);
         while (
-            (tokens.nextIs(TokenType.Name) ||
-                tokens.nextIs(TokenType.Operator, PRODUCT_SYMBOL)) &&
+            (tokens.nextIs(Symbol.Name) ||
+                tokens.nextIs(Symbol.Operator, PRODUCT_SYMBOL)) &&
             tokens.nextLacksPrecedingSpace()
         )
             denominator.push(parseDimension(tokens));
@@ -805,20 +790,20 @@ function parseUnit(tokens: Tokens): Unit {
 
 /** DIMENSION :: NAME (^NUMBER)? */
 function parseDimension(tokens: Tokens): Dimension {
-    const product = tokens.nextIs(TokenType.Operator, PRODUCT_SYMBOL)
-        ? tokens.read(TokenType.Operator)
+    const product = tokens.nextIs(Symbol.Operator, PRODUCT_SYMBOL)
+        ? tokens.read(Symbol.Operator)
         : undefined;
-    const name = tokens.read(TokenType.Name);
+    const name = tokens.read(Symbol.Name);
     let caret = undefined;
     let exponent = undefined;
     if (
-        tokens.nextIs(TokenType.Operator, EXPONENT_SYMBOL) &&
+        tokens.nextIs(Symbol.Operator, EXPONENT_SYMBOL) &&
         tokens.nextLacksPrecedingSpace()
     ) {
-        caret = tokens.read(TokenType.Operator);
+        caret = tokens.read(Symbol.Operator);
         exponent =
-            tokens.nextIs(TokenType.Number) && tokens.nextLacksPrecedingSpace()
-                ? tokens.read(TokenType.Number)
+            tokens.nextIs(Symbol.Number) && tokens.nextLacksPrecedingSpace()
+                ? tokens.read(Symbol.Number)
                 : undefined;
     }
     return new Dimension(product, name, caret, exponent);
@@ -826,8 +811,8 @@ function parseDimension(tokens: Tokens): Dimension {
 
 /** TEXT :: text name? */
 function parseText(tokens: Tokens): TextLiteral {
-    const text = tokens.read(TokenType.Text);
-    const format = tokens.nextIs(TokenType.Language)
+    const text = tokens.read(Symbol.Text);
+    const format = tokens.nextIs(Symbol.Language)
         ? parseLanguage(tokens)
         : undefined;
     return new TextLiteral(text, format);
@@ -835,27 +820,27 @@ function parseText(tokens: Tokens): TextLiteral {
 
 /** TEMPLATE :: text_open ( EXPRESSION text_between )* EXPRESSION text_close name? */
 function parseTemplate(tokens: Tokens): Template {
-    const open = tokens.read(TokenType.TemplateOpen);
+    const open = tokens.read(Symbol.TemplateOpen);
     const expressions: (Expression | Token)[] = [];
 
     do {
         expressions.push(parseExpression(tokens));
-        const close = tokens.nextIs(TokenType.TemplateBetween)
-            ? tokens.read(TokenType.TemplateBetween)
-            : tokens.nextIs(TokenType.TemplateClose)
-            ? tokens.read(TokenType.TemplateClose)
+        const close = tokens.nextIs(Symbol.TemplateBetween)
+            ? tokens.read(Symbol.TemplateBetween)
+            : tokens.nextIs(Symbol.TemplateClose)
+            ? tokens.read(Symbol.TemplateClose)
             : undefined;
         if (close !== undefined) expressions.push(close);
-        if (close === undefined || close.isTokenType(TokenType.TemplateClose))
+        if (close === undefined || close.isTokenType(Symbol.TemplateClose))
             break;
     } while (
         tokens.hasNext() &&
         !tokens.nextHasMoreThanOneLineBreak() &&
-        tokens.nextIsnt(TokenType.ExampleClose)
+        tokens.nextIsnt(Symbol.ExampleClose)
     );
 
     // Read an optional format.
-    const format = tokens.nextIs(TokenType.Language)
+    const format = tokens.nextIs(Symbol.Language)
         ? parseLanguage(tokens)
         : undefined;
 
@@ -864,19 +849,19 @@ function parseTemplate(tokens: Tokens): Template {
 
 /** LIST :: [ EXPRESSION* ] */
 function parseList(tokens: Tokens): ListLiteral {
-    let open = tokens.read(TokenType.ListOpen);
+    let open = tokens.read(Symbol.ListOpen);
     let values: Expression[] = [];
     let close;
 
     while (
         tokens.hasNext() &&
-        tokens.nextIsnt(TokenType.ListClose) &&
-        tokens.nextIsnt(TokenType.ExampleClose) &&
+        tokens.nextIsnt(Symbol.ListClose) &&
+        tokens.nextIsnt(Symbol.ExampleClose) &&
         !tokens.nextHasMoreThanOneLineBreak()
     )
         values.push(parseExpression(tokens));
 
-    close = tokens.readIf(TokenType.ListClose);
+    close = tokens.readIf(Symbol.ListClose);
 
     return new ListLiteral(open, values, close);
 }
@@ -884,16 +869,16 @@ function parseList(tokens: Tokens): ListLiteral {
 /** LIST_ACCESS :: EXPRESSION ([ EXPRESSION ])+ */
 function parseListAccess(left: Expression, tokens: Tokens): Expression {
     do {
-        const open = tokens.read(TokenType.ListOpen);
+        const open = tokens.read(Symbol.ListOpen);
         const index = parseExpression(tokens);
-        const close = tokens.readIf(TokenType.ListClose);
+        const close = tokens.readIf(Symbol.ListClose);
 
         left = new ListAccess(left, open, index, close);
 
         // But wait, is it a function evaluation?
         if (nextIsEvaluate(tokens) && tokens.nextLacksPrecedingSpace())
             left = parseEvaluate(left, tokens);
-    } while (tokens.nextIs(TokenType.ListOpen));
+    } while (tokens.nextIs(Symbol.ListOpen));
 
     // Return the series of accesses and evaluations we created.
     return left;
@@ -901,30 +886,30 @@ function parseListAccess(left: Expression, tokens: Tokens): Expression {
 
 /** SET :: { EXPRESSION* } | { (EXPRESSION:EXPRESSION)* } | {:} */
 function parseSetOrMap(tokens: Tokens): MapLiteral | SetLiteral {
-    let open = tokens.read(TokenType.SetOpen);
+    let open = tokens.read(Symbol.SetOpen);
     const values: (Expression | KeyValue)[] = [];
 
     // Is this an empty map?
-    if (tokens.nextAre(TokenType.Bind, TokenType.SetClose)) {
-        const bind = tokens.read(TokenType.Bind);
-        return new MapLiteral(open, [], bind, tokens.read(TokenType.SetClose));
+    if (tokens.nextAre(Symbol.Bind, Symbol.SetClose)) {
+        const bind = tokens.read(Symbol.Bind);
+        return new MapLiteral(open, [], bind, tokens.read(Symbol.SetClose));
     }
 
     while (
         tokens.hasNext() &&
-        tokens.nextIsnt(TokenType.SetClose) &&
-        tokens.nextIsnt(TokenType.ExampleClose) &&
+        tokens.nextIsnt(Symbol.SetClose) &&
+        tokens.nextIsnt(Symbol.ExampleClose) &&
         !tokens.nextHasMoreThanOneLineBreak()
     ) {
         const key = parseExpression(tokens);
-        if (tokens.nextIs(TokenType.Bind)) {
-            const bind = tokens.read(TokenType.Bind);
+        if (tokens.nextIs(Symbol.Bind)) {
+            const bind = tokens.read(Symbol.Bind);
             const value = parseExpression(tokens);
             values.push(new KeyValue(key, value, bind));
         } else values.push(key);
     }
 
-    const close = tokens.readIf(TokenType.SetClose);
+    const close = tokens.readIf(Symbol.SetClose);
 
     // Make a map
     return values.some((v): v is KeyValue => v instanceof KeyValue)
@@ -935,11 +920,11 @@ function parseSetOrMap(tokens: Tokens): MapLiteral | SetLiteral {
 /** SET_ACCESS :: EXPRESSION ([ EXPRESSION ])+ */
 function parseSetOrMapAccess(left: Expression, tokens: Tokens): Expression {
     do {
-        const open = tokens.read(TokenType.SetOpen);
+        const open = tokens.read(Symbol.SetOpen);
         const key = parseExpression(tokens);
 
-        const close = tokens.nextIs(TokenType.SetClose)
-            ? tokens.read(TokenType.SetClose)
+        const close = tokens.nextIs(Symbol.SetClose)
+            ? tokens.read(Symbol.SetClose)
             : undefined;
 
         left = new SetOrMapAccess(left, open, key, close);
@@ -949,7 +934,7 @@ function parseSetOrMapAccess(left: Expression, tokens: Tokens): Expression {
             left = parseEvaluate(left, tokens);
     } while (
         tokens.hasNext() &&
-        tokens.nextIs(TokenType.SetOpen) &&
+        tokens.nextIs(Symbol.SetOpen) &&
         !tokens.nextHasMoreThanOneLineBreak()
     );
 
@@ -959,7 +944,7 @@ function parseSetOrMapAccess(left: Expression, tokens: Tokens): Expression {
 
 /** PREVIOUS :: EXPRESSION @ EXPRESSION */
 function parsePrevious(stream: Expression, tokens: Tokens): Previous {
-    const previous = tokens.read(TokenType.Previous);
+    const previous = tokens.read(Symbol.Previous);
     const index = parseExpression(tokens);
 
     return new Previous(stream, previous, index);
@@ -970,20 +955,20 @@ function parseTable(tokens: Tokens): TableLiteral {
 
     // Read the rows.
     const rows = [];
-    while (tokens.nextIs(TokenType.TableOpen)) rows.push(parseRow(tokens));
+    while (tokens.nextIs(Symbol.TableOpen)) rows.push(parseRow(tokens));
 
     return new TableLiteral(type, rows);
 }
 
 /** ROW :: ⎡ (BIND|EXPRESSION)* ⎦ */
 function parseRow(tokens: Tokens): Row {
-    const open = tokens.read(TokenType.TableOpen);
+    const open = tokens.read(Symbol.TableOpen);
 
     const cells: (Bind | Expression)[] = [];
     // Read the cells.
     while (
         tokens.hasNext() &&
-        !tokens.nextIs(TokenType.TableClose) &&
+        !tokens.nextIs(Symbol.TableClose) &&
         !tokens.nextHasMoreThanOneLineBreak()
     )
         cells.push(
@@ -993,14 +978,14 @@ function parseRow(tokens: Tokens): Row {
         );
 
     // Read the closing row marker.
-    const close = tokens.readIf(TokenType.TableClose);
+    const close = tokens.readIf(Symbol.TableClose);
 
     return new Row(open, cells, close);
 }
 
 /** SELECT :: EXPRESSION |? ROW EXPRESSION */
 function parseSelect(table: Expression, tokens: Tokens): Select {
-    const select = tokens.read(TokenType.Select);
+    const select = tokens.read(Symbol.Select);
     const row = parseRow(tokens);
     const query = parseExpression(tokens);
 
@@ -1009,7 +994,7 @@ function parseSelect(table: Expression, tokens: Tokens): Select {
 
 /** INSERT :: EXPRESSION |+ ROW */
 function parseInsert(table: Expression, tokens: Tokens): Insert {
-    const insert = tokens.read(TokenType.Insert);
+    const insert = tokens.read(Symbol.Insert);
     const row = parseRow(tokens);
 
     return new Insert(table, insert, row);
@@ -1017,7 +1002,7 @@ function parseInsert(table: Expression, tokens: Tokens): Insert {
 
 /** UPDATE :: EXPRESSION |: ROW EXPRESSION */
 function parseUpdate(table: Expression, tokens: Tokens): Update {
-    const update = tokens.read(TokenType.Update);
+    const update = tokens.read(Symbol.Update);
     const row = parseRow(tokens);
     const query = parseExpression(tokens);
 
@@ -1026,7 +1011,7 @@ function parseUpdate(table: Expression, tokens: Tokens): Update {
 
 /** DELETE :: EXPRESSION |- EXPRESSION */
 function parseDelete(table: Expression, tokens: Tokens): Delete {
-    const del = tokens.read(TokenType.Delete);
+    const del = tokens.read(Symbol.Delete);
     const query = parseExpression(tokens);
 
     return new Delete(table, del, query);
@@ -1034,10 +1019,10 @@ function parseDelete(table: Expression, tokens: Tokens): Delete {
 
 /** STREAM :: EXPRESSION … EXPRESSION */
 function parseReaction(initial: Expression, tokens: Tokens): Reaction {
-    const dots = tokens.read(TokenType.Stream);
+    const dots = tokens.read(Symbol.Stream);
     const condition = parseExpression(tokens, false, false);
-    const nextdots = tokens.nextIs(TokenType.Stream)
-        ? tokens.read(TokenType.Stream)
+    const nextdots = tokens.nextIs(Symbol.Stream)
+        ? tokens.read(Symbol.Stream)
         : undefined;
     const next = parseExpression(tokens, false, false);
     return new Reaction(initial, dots, condition, nextdots, next);
@@ -1046,33 +1031,33 @@ function parseReaction(initial: Expression, tokens: Tokens): Reaction {
 /** FUNCTION :: DOCS? (ƒ | ALIASES) TYPE_VARIABLES? ( BIND* ) (•TYPE)? EXPRESSION */
 export function parseFunction(tokens: Tokens): FunctionDefinition {
     const docs = parseDocs(tokens);
-    const share = tokens.nextIs(TokenType.Share)
-        ? tokens.read(TokenType.Share)
+    const share = tokens.nextIs(Symbol.Share)
+        ? tokens.read(Symbol.Share)
         : undefined;
 
-    const fun = tokens.read(TokenType.Function);
+    const fun = tokens.read(Symbol.Function);
     const names = parseNames(tokens);
 
-    const types = tokens.nextIs(TokenType.TypeOpen)
+    const types = tokens.nextIs(Symbol.TypeOpen)
         ? parseTypeVariables(tokens)
         : undefined;
 
-    const open = tokens.nextIs(TokenType.EvalOpen)
-        ? tokens.read(TokenType.EvalOpen)
+    const open = tokens.nextIs(Symbol.EvalOpen)
+        ? tokens.read(Symbol.EvalOpen)
         : undefined;
 
     const inputs: Bind[] = [];
-    while (tokens.nextIsnt(TokenType.EvalClose) && nextIsBind(tokens, false))
+    while (tokens.nextIsnt(Symbol.EvalClose) && nextIsBind(tokens, false))
         inputs.push(parseBind(tokens));
 
-    const close = tokens.nextIs(TokenType.EvalClose)
-        ? tokens.read(TokenType.EvalClose)
+    const close = tokens.nextIs(Symbol.EvalClose)
+        ? tokens.read(Symbol.EvalClose)
         : undefined;
 
     let dot;
     let output;
-    if (tokens.nextIs(TokenType.Type)) {
-        dot = tokens.read(TokenType.Type);
+    if (tokens.nextIs(Symbol.Type)) {
+        dot = tokens.read(Symbol.Type);
         output = parseType(tokens);
     }
 
@@ -1100,18 +1085,18 @@ export function parseFunction(tokens: Tokens): FunctionDefinition {
 
 /** EVAL :: EXPRESSION (<TYPE*>)? (EXPRESSION*) */
 function parseEvaluate(left: Expression, tokens: Tokens): Evaluate {
-    const types = tokens.nextIs(TokenType.TypeOpen)
+    const types = tokens.nextIs(Symbol.TypeOpen)
         ? parseTypeInputs(tokens)
         : undefined;
 
-    const open = tokens.read(TokenType.EvalOpen);
+    const open = tokens.read(Symbol.EvalOpen);
     const inputs: Expression[] = [];
 
     // This little peek at space just prevents runaway parsing. It uses space to make an assumption that everything below isn't part of the evaluate.
     while (
         tokens.hasNext() &&
-        tokens.nextIsnt(TokenType.ExampleClose) &&
-        tokens.nextIsnt(TokenType.EvalClose) &&
+        tokens.nextIsnt(Symbol.ExampleClose) &&
+        tokens.nextIsnt(Symbol.EvalClose) &&
         !tokens.nextHasMoreThanOneLineBreak()
     )
         inputs.push(
@@ -1120,7 +1105,7 @@ function parseEvaluate(left: Expression, tokens: Tokens): Evaluate {
                 : parseExpression(tokens)
         );
 
-    let close = tokens.readIf(TokenType.EvalClose);
+    let close = tokens.readIf(Symbol.EvalClose);
 
     return new Evaluate(left, types, open, inputs, close);
 }
@@ -1128,7 +1113,7 @@ function parseEvaluate(left: Expression, tokens: Tokens): Evaluate {
 /** CONVERSION :: DOCS? TYPE → TYPE EXPRESSION */
 function parseConversion(tokens: Tokens): ConversionDefinition {
     const docs = parseDocs(tokens);
-    const convert = tokens.read(TokenType.Convert);
+    const convert = tokens.read(Symbol.Convert);
     const input = parseType(tokens, true);
     const output = parseType(tokens, true);
     const expression = parseExpression(tokens);
@@ -1138,7 +1123,7 @@ function parseConversion(tokens: Tokens): ConversionDefinition {
 
 /** CONVERT :: EXPRESSION → TYPE */
 function parseConvert(expression: Expression, tokens: Tokens): Convert {
-    const convert = tokens.read(TokenType.Convert);
+    const convert = tokens.read(Symbol.Convert);
     const type = parseType(tokens, true);
 
     return new Convert(expression, convert, type);
@@ -1146,42 +1131,42 @@ function parseConvert(expression: Expression, tokens: Tokens): Convert {
 
 /** TYPE_VARS :: <NAMES*> */
 function parseTypeVariables(tokens: Tokens): TypeVariables {
-    const open = tokens.read(TokenType.TypeOpen);
+    const open = tokens.read(Symbol.TypeOpen);
     const variables: TypeVariable[] = [];
-    while (tokens.hasNext() && tokens.nextIs(TokenType.Name))
+    while (tokens.hasNext() && tokens.nextIs(Symbol.Name))
         variables.push(new TypeVariable(parseNames(tokens)));
-    const close = tokens.nextIs(TokenType.TypeClose)
-        ? tokens.read(TokenType.TypeClose)
+    const close = tokens.nextIs(Symbol.TypeClose)
+        ? tokens.read(Symbol.TypeClose)
         : undefined;
     return new TypeVariables(open, variables, close);
 }
 
 function parseTypeInputs(tokens: Tokens): TypeInputs {
-    const open = tokens.read(TokenType.TypeOpen);
+    const open = tokens.read(Symbol.TypeOpen);
     const inputs: Type[] = [];
     while (
         tokens.hasNext() &&
-        tokens.nextIsnt(TokenType.TypeClose) &&
+        tokens.nextIsnt(Symbol.TypeClose) &&
         !tokens.nextHasPrecedingLineBreak()
     )
         inputs.push(parseType(tokens));
-    const close = tokens.readIf(TokenType.TypeClose);
+    const close = tokens.readIf(Symbol.TypeClose);
     return new TypeInputs(open, inputs, close);
 }
 
 /** ACCESS :: EXPRESSION (.NAME)+ */
 function parsePropertyReference(left: Expression, tokens: Tokens): Expression {
-    if (!tokens.nextIs(TokenType.Access)) return left;
+    if (!tokens.nextIs(Symbol.Access)) return left;
     do {
-        const access = tokens.read(TokenType.Access);
+        const access = tokens.read(Symbol.Access);
         // See if there's a name, operator, or placeholder next, all of which are valid property names.
         // Note that we require it to be on the same line or the next line, but not later.
         let name;
         if (
             tokens.nextIsOneOf(
-                TokenType.Name,
-                TokenType.Placeholder,
-                TokenType.Operator
+                Symbol.Name,
+                Symbol.Placeholder,
+                Symbol.Operator
             ) &&
             !tokens.nextHasMoreThanOneLineBreak()
         )
@@ -1194,11 +1179,8 @@ function parsePropertyReference(left: Expression, tokens: Tokens): Expression {
         );
 
         // If there's a bind symbol next, then parse a PropertyBind
-        if (
-            left instanceof PropertyReference &&
-            tokens.nextIs(TokenType.Bind)
-        ) {
-            const bind = tokens.read(TokenType.Bind);
+        if (left instanceof PropertyReference && tokens.nextIs(Symbol.Bind)) {
+            const bind = tokens.read(Symbol.Bind);
             const value = parseExpression(tokens);
 
             left = new PropertyBind(left, bind, value);
@@ -1206,11 +1188,11 @@ function parsePropertyReference(left: Expression, tokens: Tokens): Expression {
 
         // But wait, is it a function evaluation?
         if (
-            tokens.nextIsOneOf(TokenType.EvalOpen, TokenType.TypeOpen) &&
+            tokens.nextIsOneOf(Symbol.EvalOpen, Symbol.TypeOpen) &&
             tokens.nextLacksPrecedingSpace()
         )
             left = parseEvaluate(left, tokens);
-    } while (tokens.nextIs(TokenType.Access));
+    } while (tokens.nextIs(Symbol.Access));
 
     // Return the series of accesses and evaluations we created.
     return left;
@@ -1218,36 +1200,36 @@ function parsePropertyReference(left: Expression, tokens: Tokens): Expression {
 
 /** TYPE :: (? | name | MEASUREMENT_TYPE | TEXT_TYPE | NONE_TYPE | LIST_TYPE | SET_TYPE | FUNCTION_TYPE | STREAM_TYPE) (| TYPE)* */
 export function parseType(tokens: Tokens, isExpression: boolean = false): Type {
-    let left: Type = tokens.nextIs(TokenType.Placeholder)
-        ? new TypePlaceholder(tokens.read(TokenType.Placeholder))
-        : tokens.nextIs(TokenType.Name)
+    let left: Type = tokens.nextIs(Symbol.Placeholder)
+        ? new TypePlaceholder(tokens.read(Symbol.Placeholder))
+        : tokens.nextIs(Symbol.Name)
         ? parseNameType(tokens)
-        : tokens.nextIs(TokenType.BooleanType)
-        ? new BooleanType(tokens.read(TokenType.BooleanType))
-        : tokens.nextIs(TokenType.Operator, '%') ||
-          tokens.nextIsOneOf(TokenType.Number, TokenType.NumberType)
+        : tokens.nextIs(Symbol.BooleanType)
+        ? new BooleanType(tokens.read(Symbol.BooleanType))
+        : tokens.nextIs(Symbol.Operator, '%') ||
+          tokens.nextIsOneOf(Symbol.Number, Symbol.NumberType)
         ? parseNumberType(tokens)
-        : tokens.nextIs(TokenType.Text)
+        : tokens.nextIs(Symbol.Text)
         ? parseTextType(tokens)
-        : tokens.nextIs(TokenType.None)
+        : tokens.nextIs(Symbol.None)
         ? parseNoneType(tokens)
-        : tokens.nextIs(TokenType.ListOpen)
+        : tokens.nextIs(Symbol.ListOpen)
         ? parseListType(tokens)
-        : tokens.nextIs(TokenType.SetOpen)
+        : tokens.nextIs(Symbol.SetOpen)
         ? parseSetOrMapType(tokens)
-        : tokens.nextIs(TokenType.TableOpen)
+        : tokens.nextIs(Symbol.TableOpen)
         ? parseTableType(tokens)
-        : tokens.nextIs(TokenType.Function)
+        : tokens.nextIs(Symbol.Function)
         ? parseFunctionType(tokens)
-        : tokens.nextIs(TokenType.Stream)
+        : tokens.nextIs(Symbol.Stream)
         ? parseStreamType(tokens)
         : new UnparsableType(tokens.readLine());
 
-    if (!isExpression && tokens.nextIs(TokenType.Convert))
+    if (!isExpression && tokens.nextIs(Symbol.Convert))
         left = parseConversionType(left, tokens);
 
-    while (tokens.nextIs(TokenType.Union)) {
-        const or = tokens.read(TokenType.Union);
+    while (tokens.nextIs(Symbol.Union)) {
+        const or = tokens.read(Symbol.Union);
         left = new UnionType(left, or, parseType(tokens));
     }
 
@@ -1255,8 +1237,8 @@ export function parseType(tokens: Tokens, isExpression: boolean = false): Type {
 }
 
 function parseNameType(tokens: Tokens): NameType {
-    const name = tokens.read(TokenType.Name);
-    const types = tokens.nextIs(TokenType.TypeOpen)
+    const name = tokens.read(Symbol.Name);
+    const types = tokens.nextIs(Symbol.TypeOpen)
         ? parseTypeInputs(tokens)
         : undefined;
     return new NameType(name, types);
@@ -1264,8 +1246,8 @@ function parseNameType(tokens: Tokens): NameType {
 
 /** TEXT_TYPE :: TEXT LANGUAGE? */
 function parseTextType(tokens: Tokens): TextType {
-    const quote = tokens.read(TokenType.Text);
-    const format = tokens.nextIs(TokenType.Language)
+    const quote = tokens.read(Symbol.Text);
+    const format = tokens.nextIs(Symbol.Language)
         ? parseLanguage(tokens)
         : undefined;
     return new TextType(quote, format);
@@ -1273,18 +1255,15 @@ function parseTextType(tokens: Tokens): TextType {
 
 /** NUMBER_TYPE :: #NAME? */
 function parseNumberType(tokens: Tokens): NumberType {
-    if (tokens.nextIs(TokenType.Operator, '%'))
-        return new NumberType(tokens.read(TokenType.Operator));
+    if (tokens.nextIs(Symbol.Operator, '%'))
+        return new NumberType(tokens.read(Symbol.Operator));
 
-    const number = tokens.nextIs(TokenType.Number)
-        ? tokens.read(TokenType.Number)
-        : tokens.read(TokenType.NumberType);
+    const number = tokens.nextIs(Symbol.Number)
+        ? tokens.read(Symbol.Number)
+        : tokens.read(Symbol.NumberType);
     const unit =
-        tokens.nextIsOneOf(
-            TokenType.Conditional,
-            TokenType.Name,
-            TokenType.Language
-        ) && tokens.nextLacksPrecedingSpace()
+        tokens.nextIsOneOf(Symbol.Conditional, Symbol.Name, Symbol.Language) &&
+        tokens.nextLacksPrecedingSpace()
             ? parseUnit(tokens)
             : undefined;
     return new NumberType(number, unit);
@@ -1292,44 +1271,44 @@ function parseNumberType(tokens: Tokens): NumberType {
 
 /** NONE_TYPE :: !NAME? */
 function parseNoneType(tokens: Tokens): NoneType {
-    const none = tokens.read(TokenType.None);
+    const none = tokens.read(Symbol.None);
     return new NoneType(none);
 }
 
 /** STREAM_TYPE :: … TYPE */
 function parseStreamType(tokens: Tokens): StreamType {
-    const stream = tokens.read(TokenType.Stream);
+    const stream = tokens.read(Symbol.Stream);
     const type = parseType(tokens);
     return new StreamType(stream, type);
 }
 
 /** LIST_TYPE :: [ TYPE ] */
 function parseListType(tokens: Tokens): ListType {
-    const open = tokens.read(TokenType.ListOpen);
-    const type = tokens.nextIsnt(TokenType.ListClose)
+    const open = tokens.read(Symbol.ListOpen);
+    const type = tokens.nextIsnt(Symbol.ListClose)
         ? parseType(tokens)
         : undefined;
-    const close = tokens.nextIs(TokenType.ListClose)
-        ? tokens.read(TokenType.ListClose)
+    const close = tokens.nextIs(Symbol.ListClose)
+        ? tokens.read(Symbol.ListClose)
         : undefined;
     return new ListType(open, type, close);
 }
 
 /** SET_TYPE :: { TYPE } | { TYPE:TYPE } */
 function parseSetOrMapType(tokens: Tokens): SetType | MapType {
-    const open = tokens.read(TokenType.SetOpen);
+    const open = tokens.read(Symbol.SetOpen);
     let key = undefined;
     let bind = undefined;
     let value = undefined;
-    if (tokens.nextIsnt(TokenType.SetClose)) {
-        if (!tokens.nextIs(TokenType.Bind)) key = parseType(tokens);
-        bind = tokens.readIf(TokenType.Bind);
+    if (tokens.nextIsnt(Symbol.SetClose)) {
+        if (!tokens.nextIs(Symbol.Bind)) key = parseType(tokens);
+        bind = tokens.readIf(Symbol.Bind);
         value =
-            bind !== undefined && !tokens.nextIs(TokenType.SetClose)
+            bind !== undefined && !tokens.nextIs(Symbol.SetClose)
                 ? parseType(tokens)
                 : undefined;
     }
-    const close = tokens.readIf(TokenType.SetClose);
+    const close = tokens.readIf(Symbol.SetClose);
     return bind === undefined
         ? new SetType(open, key, close)
         : new MapType(open, key, bind, value, close);
@@ -1337,32 +1316,32 @@ function parseSetOrMapType(tokens: Tokens): SetType | MapType {
 
 /** TABLE_TYPE :: (| BIND)+ | */
 function parseTableType(tokens: Tokens): TableType {
-    const open = tokens.read(TokenType.TableOpen);
+    const open = tokens.read(Symbol.TableOpen);
 
     const columns: Bind[] = [];
-    while (tokens.hasNext() && !tokens.nextIs(TokenType.TableClose)) {
+    while (tokens.hasNext() && !tokens.nextIs(Symbol.TableClose)) {
         const bind = nextIsBind(tokens, false) ? parseBind(tokens) : undefined;
         if (bind === undefined) break;
         else columns.push(bind);
     }
-    const close = tokens.readIf(TokenType.TableClose);
+    const close = tokens.readIf(Symbol.TableClose);
     return new TableType(open, columns, close);
 }
 
 /** FUNCTION_TYPE :: ƒ( BIND* ) TYPE */
 function parseFunctionType(tokens: Tokens): FunctionType {
-    const fun = tokens.read(TokenType.Function);
+    const fun = tokens.read(Symbol.Function);
 
-    const typeVars = tokens.nextIs(TokenType.TypeOpen)
+    const typeVars = tokens.nextIs(Symbol.TypeOpen)
         ? parseTypeVariables(tokens)
         : undefined;
 
-    const open = tokens.readIf(TokenType.EvalOpen);
+    const open = tokens.readIf(Symbol.EvalOpen);
 
     const inputs: Bind[] = [];
     while (nextIsBind(tokens, false)) inputs.push(parseBind(tokens));
 
-    const close = tokens.readIf(TokenType.EvalClose);
+    const close = tokens.readIf(Symbol.EvalClose);
 
     const output = parseType(tokens);
 
@@ -1371,7 +1350,7 @@ function parseFunctionType(tokens: Tokens): FunctionType {
 
 /** CONVERSION_TYPE :: TYPE → TYPE */
 function parseConversionType(left: Type, tokens: Tokens): ConversionType {
-    const convert = tokens.read(TokenType.Convert);
+    const convert = tokens.read(Symbol.Convert);
     const to = parseType(tokens);
 
     return new ConversionType(left, convert, to);
@@ -1380,30 +1359,29 @@ function parseConversionType(left: Type, tokens: Tokens): ConversionType {
 /** CUSTOM_TYPE :: DOCS? •NAMES (•NAME)* TYPE_VARS ( BIND* ) BLOCK? */
 export function parseStructure(tokens: Tokens): StructureDefinition {
     const docs = parseDocs(tokens);
-    const share = tokens.nextIs(TokenType.Share)
-        ? tokens.read(TokenType.Share)
+    const share = tokens.nextIs(Symbol.Share)
+        ? tokens.read(Symbol.Share)
         : undefined;
 
-    const type = tokens.read(TokenType.Type);
+    const type = tokens.read(Symbol.Type);
     const names = parseNames(tokens);
 
     const interfaces: Reference[] = [];
-    while (tokens.nextIs(TokenType.Name))
-        interfaces.push(parseReference(tokens));
+    while (tokens.nextIs(Symbol.Name)) interfaces.push(parseReference(tokens));
 
-    const types = tokens.nextIs(TokenType.TypeOpen)
+    const types = tokens.nextIs(Symbol.TypeOpen)
         ? parseTypeVariables(tokens)
         : undefined;
-    const open = tokens.nextIs(TokenType.EvalOpen)
-        ? tokens.read(TokenType.EvalOpen)
+    const open = tokens.nextIs(Symbol.EvalOpen)
+        ? tokens.read(Symbol.EvalOpen)
         : undefined;
     const inputs: Bind[] = [];
-    while (tokens.nextIsnt(TokenType.EvalClose) && nextIsBind(tokens, false))
+    while (tokens.nextIsnt(Symbol.EvalClose) && nextIsBind(tokens, false))
         inputs.push(parseBind(tokens));
-    const close = tokens.nextIs(TokenType.EvalClose)
-        ? tokens.read(TokenType.EvalClose)
+    const close = tokens.nextIs(Symbol.EvalClose)
+        ? tokens.read(Symbol.EvalClose)
         : undefined;
-    const block = nextAreOptionalDocsThen(tokens, [TokenType.EvalOpen])
+    const block = nextAreOptionalDocsThen(tokens, [Symbol.EvalOpen])
         ? parseBlock(tokens, BlockKind.Structure)
         : undefined;
 
@@ -1424,7 +1402,7 @@ export function parseStructure(tokens: Tokens): StructureDefinition {
 function parseDocs(tokens: Tokens): Docs | undefined {
     const docs: Doc[] = [];
     while (
-        tokens.nextIs(TokenType.Doc) &&
+        tokens.nextIs(Symbol.Doc) &&
         (docs.length === 0 ||
             (tokens.peekSpace()?.split('\n').length ?? 0) - 1 <= 1)
     ) {
@@ -1434,11 +1412,11 @@ function parseDocs(tokens: Tokens): Docs | undefined {
 }
 
 export function parseDoc(tokens: Tokens): Doc {
-    const open = tokens.read(TokenType.Doc);
+    const open = tokens.read(Symbol.Doc);
     const content = parseMarkup(tokens);
 
-    const close = tokens.readIf(TokenType.Doc);
-    const lang = tokens.nextIs(TokenType.Language)
+    const close = tokens.readIf(Symbol.Doc);
+    const lang = tokens.nextIs(Symbol.Language)
         ? parseLanguage(tokens)
         : undefined;
     return new Doc(open, content, close, lang);
@@ -1446,15 +1424,15 @@ export function parseDoc(tokens: Tokens): Doc {
 
 function nextIsContent(tokens: Tokens) {
     return tokens.nextIsOneOf(
-        TokenType.Words,
-        TokenType.TagOpen,
-        TokenType.Concept,
-        TokenType.ExampleOpen,
-        TokenType.Mention,
-        TokenType.Italic,
-        TokenType.Bold,
-        TokenType.Underline,
-        TokenType.Extra
+        Symbol.Words,
+        Symbol.TagOpen,
+        Symbol.Concept,
+        Symbol.ExampleOpen,
+        Symbol.Mention,
+        Symbol.Italic,
+        Symbol.Bold,
+        Symbol.Underline,
+        Symbol.Extra
     );
 }
 
@@ -1462,8 +1440,8 @@ export function parseMarkup(tokens: Tokens): Markup {
     const content: Paragraph[] = [];
     while (
         tokens.hasNext() &&
-        tokens.nextIsnt(TokenType.Doc) &&
-        tokens.nextIsnt(TokenType.ExampleClose) &&
+        tokens.nextIsnt(Symbol.Doc) &&
+        tokens.nextIsnt(Symbol.ExampleClose) &&
         nextIsContent(tokens)
     )
         content.push(parseParagraph(tokens));
@@ -1481,7 +1459,7 @@ function parseParagraph(tokens: Tokens): Paragraph {
     // Stop the paragraph if the content we just parsed has a Words with two or more line breaks.
     while (
         tokens.hasNext() &&
-        tokens.nextIsnt(TokenType.Doc) &&
+        tokens.nextIsnt(Symbol.Doc) &&
         nextIsContent(tokens)
     ) {
         content.push(parseSegment(tokens));
@@ -1492,47 +1470,42 @@ function parseParagraph(tokens: Tokens): Paragraph {
 }
 
 function parseSegment(tokens: Tokens) {
-    return tokens.nextIs(TokenType.Words)
-        ? tokens.read(TokenType.Words)
-        : tokens.nextIs(TokenType.TagOpen)
+    return tokens.nextIs(Symbol.Words)
+        ? tokens.read(Symbol.Words)
+        : tokens.nextIs(Symbol.TagOpen)
         ? parseWebLink(tokens)
-        : tokens.nextIs(TokenType.Concept)
+        : tokens.nextIs(Symbol.Concept)
         ? parseConceptLink(tokens)
-        : tokens.nextIs(TokenType.ExampleOpen)
+        : tokens.nextIs(Symbol.ExampleOpen)
         ? parseExample(tokens)
-        : tokens.nextIs(TokenType.Mention)
+        : tokens.nextIs(Symbol.Mention)
         ? parseMention(tokens)
         : parseWords(tokens);
 }
 
 function parseWebLink(tokens: Tokens): WebLink {
-    const open = tokens.read(TokenType.TagOpen);
-    const description = tokens.readIf(TokenType.Words);
-    const at = tokens.readIf(TokenType.Link);
-    const url = tokens.readIf(TokenType.URL);
-    const close = tokens.readIf(TokenType.TagClose);
+    const open = tokens.read(Symbol.TagOpen);
+    const description = tokens.readIf(Symbol.Words);
+    const at = tokens.readIf(Symbol.Link);
+    const url = tokens.readIf(Symbol.URL);
+    const close = tokens.readIf(Symbol.TagClose);
 
     return new WebLink(open, description, at, url, close);
 }
 
 function parseConceptLink(tokens: Tokens): ConceptLink {
-    const concept = tokens.read(TokenType.Concept);
+    const concept = tokens.read(Symbol.Concept);
     return new ConceptLink(concept);
 }
 
-const FORMATS = [
-    TokenType.Italic,
-    TokenType.Underline,
-    TokenType.Bold,
-    TokenType.Extra,
-];
+const FORMATS = [Symbol.Italic, Symbol.Underline, Symbol.Bold, Symbol.Extra];
 
 function parseWords(tokens: Tokens): Words {
     // Read an optional format
     const open = tokens.nextIsOneOf(...FORMATS) ? tokens.read() : undefined;
 
     // Figure out what token type it is.
-    let format: TokenType | undefined = undefined;
+    let format: Symbol | undefined = undefined;
     if (open !== undefined) {
         const types = new Set(FORMATS);
         const intersection = open.types.filter((type) => types.has(type));
@@ -1543,13 +1516,13 @@ function parseWords(tokens: Tokens): Words {
     const segments: Segment[] = [];
     while (
         tokens.hasNext() &&
-        tokens.nextIsnt(TokenType.Doc) &&
+        tokens.nextIsnt(Symbol.Doc) &&
         (format === undefined || !tokens.nextIs(format)) &&
         nextIsContent(tokens)
     ) {
         segments.push(
-            tokens.nextIs(TokenType.Words)
-                ? tokens.read(TokenType.Words)
+            tokens.nextIs(Symbol.Words)
+                ? tokens.read(Symbol.Words)
                 : parseSegment(tokens)
         );
         if (tokens.nextHasMoreThanOneLineBreak()) break;
@@ -1562,9 +1535,9 @@ function parseWords(tokens: Tokens): Words {
 }
 
 function parseExample(tokens: Tokens): Example {
-    const open = tokens.read(TokenType.ExampleOpen);
+    const open = tokens.read(Symbol.ExampleOpen);
     const program = parseProgram(tokens, true);
-    const close = tokens.readIf(TokenType.ExampleClose);
+    const close = tokens.readIf(Symbol.ExampleClose);
 
     return new Example(open, program, close);
 }
@@ -1573,15 +1546,15 @@ function parseMention(tokens: Tokens): Mention | Branch {
     const name = tokens.read();
     const mention = new Mention(name);
 
-    if (tokens.nextIs(TokenType.ListOpen)) return parseBranch(mention, tokens);
+    if (tokens.nextIs(Symbol.ListOpen)) return parseBranch(mention, tokens);
     else return mention;
 }
 
 function parseBranch(mention: Mention, tokens: Tokens): Branch {
-    const open = tokens.read(TokenType.ListOpen);
+    const open = tokens.read(Symbol.ListOpen);
     const yes = parseWords(tokens);
-    const bar = tokens.read(TokenType.Union);
+    const bar = tokens.read(Symbol.Union);
     const no = parseWords(tokens);
-    const close = tokens.read(TokenType.ListClose);
+    const close = tokens.read(Symbol.ListClose);
     return new Branch(mention, open, yes, bar, no, close);
 }

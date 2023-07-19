@@ -9,7 +9,7 @@ import Node, {
 import Token from './Token';
 import { EXPONENT_SYMBOL } from '@parser/Symbols';
 import { PRODUCT_SYMBOL } from '@parser/Symbols';
-import TokenType from './TokenType';
+import Symbol from './Symbol';
 import NameToken from './NameToken';
 import type Locale from '@locale/Locale';
 import Glyphs from '../lore/Glyphs';
@@ -35,7 +35,7 @@ export default class Dimension extends Node {
         this.name = name;
         this.caret =
             exponent !== undefined && caret === undefined
-                ? new Token(EXPONENT_SYMBOL, TokenType.Operator)
+                ? new Token(EXPONENT_SYMBOL, Symbol.Operator)
                 : caret;
         this.exponent = exponent === undefined ? undefined : exponent;
 
@@ -44,30 +44,26 @@ export default class Dimension extends Node {
 
     static make(subsequent: boolean, unit: string, exponent: number) {
         return new Dimension(
-            subsequent
-                ? new Token(PRODUCT_SYMBOL, TokenType.Operator)
-                : undefined,
+            subsequent ? new Token(PRODUCT_SYMBOL, Symbol.Operator) : undefined,
             new NameToken(unit),
             exponent > 1
-                ? new Token(EXPONENT_SYMBOL, TokenType.Operator)
+                ? new Token(EXPONENT_SYMBOL, Symbol.Operator)
                 : undefined,
-            exponent > 1
-                ? new Token('' + exponent, TokenType.Number)
-                : undefined
+            exponent > 1 ? new Token('' + exponent, Symbol.Number) : undefined
         );
     }
 
     getGrammar(): Grammar {
         return [
-            { name: 'product', types: any(node(TokenType.Operator), none()) },
-            { name: 'name', types: node(TokenType.Name) },
+            { name: 'product', types: any(node(Symbol.Operator), none()) },
+            { name: 'name', types: node(Symbol.Name) },
             {
                 name: 'caret',
-                types: any(node(TokenType.Operator), none('exponent')),
+                types: any(node(Symbol.Operator), none('exponent')),
             },
             {
                 name: 'exponent',
-                types: any(node(TokenType.Number), none('caret')),
+                types: any(node(Symbol.Number), none('caret')),
             },
         ];
     }

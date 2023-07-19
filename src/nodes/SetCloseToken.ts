@@ -1,9 +1,9 @@
 import { SET_CLOSE_SYMBOL } from '@parser/Symbols';
 import Token from './Token';
-import TokenType from './TokenType';
+import Symbol from './Symbol';
 
 export default class SetOpenToken extends Token {
     constructor() {
-        super(SET_CLOSE_SYMBOL, TokenType.SetClose);
+        super(SET_CLOSE_SYMBOL, Symbol.SetClose);
     }
 }

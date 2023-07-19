@@ -15,7 +15,7 @@ import type Bind from './Bind';
 import type TypeSet from './TypeSet';
 import TypeException from '@runtime/TypeException';
 import AnyType from './AnyType';
-import TokenType from './TokenType';
+import Symbol from './Symbol';
 import { PREVIOUS_SYMBOL } from '@parser/Symbols';
 import Start from '@runtime/Start';
 import UnionType from './UnionType';
@@ -46,7 +46,7 @@ export default class Previous extends Expression {
     static make(stream: Expression, index: Expression) {
         return new Previous(
             stream,
-            new Token(PREVIOUS_SYMBOL, TokenType.Previous),
+            new Token(PREVIOUS_SYMBOL, Symbol.Previous),
             index
         );
     }
@@ -60,7 +60,7 @@ export default class Previous extends Expression {
                 // Must be a stream
                 getType: () => StreamType.make(new AnyType()),
             },
-            { name: 'previous', types: node(TokenType.Previous) },
+            { name: 'previous', types: node(Symbol.Previous) },
             {
                 name: 'index',
                 types: node(Expression),

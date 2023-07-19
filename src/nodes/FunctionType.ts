@@ -1,5 +1,5 @@
 import Token from './Token';
-import TokenType from './TokenType';
+import Symbol from './Symbol';
 import Type from './Type';
 import type Context from './Context';
 import { FUNCTION_SYMBOL } from '@parser/Symbols';
@@ -63,7 +63,7 @@ export default class FunctionType extends Type {
         definition?: FunctionDefinition
     ) {
         return new FunctionType(
-            new Token(FUNCTION_SYMBOL, TokenType.Function),
+            new Token(FUNCTION_SYMBOL, Symbol.Function),
             typeVars,
             new EvalOpenToken(),
             inputs,
@@ -87,20 +87,20 @@ export default class FunctionType extends Type {
 
     getGrammar(): Grammar {
         return [
-            { name: 'fun', types: node(TokenType.Function) },
+            { name: 'fun', types: node(Symbol.Function) },
             {
                 name: 'types',
                 types: optional(node(TypeVariables)),
                 space: true,
             },
-            { name: 'open', types: node(TokenType.EvalOpen) },
+            { name: 'open', types: node(Symbol.EvalOpen) },
             {
                 name: 'inputs',
                 types: list(node(Bind)),
                 space: true,
                 indent: true,
             },
-            { name: 'close', types: node(TokenType.EvalClose) },
+            { name: 'close', types: node(Symbol.EvalClose) },
             { name: 'output', types: node(Type), space: true },
         ];
     }

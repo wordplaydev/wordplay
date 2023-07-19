@@ -43,7 +43,7 @@ import Dimension from '../nodes/Dimension';
 import Doc from '../nodes/Doc';
 import Paragraph from '../nodes/Paragraph';
 import Words from '../nodes/Words';
-import TokenType from '../nodes/TokenType';
+import Symbol from '../nodes/Symbol';
 import Token from '../nodes/Token';
 import Evaluate from '../nodes/Evaluate';
 import Example from '../nodes/Example';
@@ -214,7 +214,7 @@ const templates: Node[] = [
         new ListCloseToken(),
         new EvalOpenToken(),
         new SetCloseToken(),
-        new Token(CONVERT_SYMBOL, TokenType.Convert),
+        new Token(CONVERT_SYMBOL, Symbol.Convert),
     ]),
 ];
 

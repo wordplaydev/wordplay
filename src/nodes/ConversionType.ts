@@ -2,7 +2,7 @@ import type { NativeTypeName } from '../native/NativeConstants';
 import { CONVERT_SYMBOL } from '@parser/Symbols';
 import type Context from './Context';
 import Token from './Token';
-import TokenType from './TokenType';
+import Symbol from './Symbol';
 import Type from './Type';
 import type TypeSet from './TypeSet';
 import { node, type Grammar, type Replacement } from './Node';
@@ -27,7 +27,7 @@ export default class ConversionType extends Type {
     static make(input: Type, output: Type) {
         return new ConversionType(
             input,
-            new Token(CONVERT_SYMBOL, TokenType.Convert),
+            new Token(CONVERT_SYMBOL, Symbol.Convert),
             output
         );
     }
@@ -35,7 +35,7 @@ export default class ConversionType extends Type {
     getGrammar(): Grammar {
         return [
             { name: 'input', types: node(Type) },
-            { name: 'convert', types: node(TokenType.Convert), space: true },
+            { name: 'convert', types: node(Symbol.Convert), space: true },
             { name: 'output', types: node(Type), space: true },
         ];
     }

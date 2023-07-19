@@ -1,5 +1,5 @@
 import type LanguageCode from './LanguageCode';
-import type TokenType from '../nodes/TokenType';
+import type Symbol from '../nodes/Symbol';
 import type NativeTexts from './NativeTexts';
 import type NodeTexts from './NodeTexts';
 import type OutputTexts from './OutputTexts';
@@ -20,7 +20,7 @@ export type Locale = {
     /** The name of the platform */
     wordplay: string;
     term: TermTexts;
-    token: Record<keyof typeof TokenType, string>;
+    token: Record<keyof typeof Symbol, string>;
     node: NodeTexts;
     native: NativeTexts;
     input: InputTexts;

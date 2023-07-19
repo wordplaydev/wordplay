@@ -43,7 +43,7 @@
     } from './util/Highlights';
     import ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
     import TypePlaceholder from '@nodes/TypePlaceholder';
-    import TokenType from '@nodes/TokenType';
+    import Symbol from '@nodes/Symbol';
     import RootView from '../project/RootView.svelte';
     import type Project from '@models/Project';
     import type Conflict from '@conflicts/Conflict';
@@ -520,7 +520,7 @@
                 ? nonTokenNodeUnderPointer
                 : // If the node is a placeholder token, select it's placeholder ancestor
                 tokenUnderPointer instanceof Token &&
-                  tokenUnderPointer.isTokenType(TokenType.Placeholder)
+                  tokenUnderPointer.isTokenType(Symbol.Placeholder)
                 ? source.root
                       .getAncestors(tokenUnderPointer)
                       .find((a) => a.isPlaceholder())
@@ -977,12 +977,12 @@
         if (
             // Recent addition needs to be an access or name token
             $caret.addition instanceof Token &&
-            ($caret.addition.isTokenType(TokenType.Access) ||
-                $caret.addition.isTokenType(TokenType.Name)) &&
+            ($caret.addition.isTokenType(Symbol.Access) ||
+                $caret.addition.isTokenType(Symbol.Name)) &&
             // If it's a name, the token prior to the name needs to be an access token
             $caret.tokenPrior !== undefined &&
-            ($caret.tokenPrior.isTokenType(TokenType.Access) ||
-                $caret.tokenPrior.isTokenType(TokenType.Name))
+            ($caret.tokenPrior.isTokenType(Symbol.Access) ||
+                $caret.tokenPrior.isTokenType(Symbol.Name))
             //  &&
             //     source
             //         .getTokenBefore($caret.tokenPrior)

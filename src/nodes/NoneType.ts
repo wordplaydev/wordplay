@@ -4,7 +4,7 @@ import type Locale from '@locale/Locale';
 import NativeType from './NativeType';
 import { node, type Grammar, type Replacement } from './Node';
 import Token from './Token';
-import TokenType from './TokenType';
+import Symbol from './Symbol';
 import type TypeSet from './TypeSet';
 import Glyphs from '../lore/Glyphs';
 
@@ -19,14 +19,14 @@ export default class NoneType extends NativeType {
         this.computeChildren();
     }
 
-    static None = new NoneType(new Token(NONE_SYMBOL, TokenType.None));
+    static None = new NoneType(new Token(NONE_SYMBOL, Symbol.None));
 
     static make() {
-        return new NoneType(new Token(NONE_SYMBOL, TokenType.None));
+        return new NoneType(new Token(NONE_SYMBOL, Symbol.None));
     }
 
     getGrammar(): Grammar {
-        return [{ name: 'none', types: node(TokenType.None) }];
+        return [{ name: 'none', types: node(Symbol.None) }];
     }
 
     computeConflicts() {}

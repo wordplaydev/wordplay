@@ -26,7 +26,7 @@ import NodeRef from '@locale/NodeRef';
 import Glyphs from '../lore/Glyphs';
 import IncompatibleInput from '../conflicts/IncompatibleInput';
 import concretize from '../locale/concretize';
-import TokenType from './TokenType';
+import Symbol from './Symbol';
 
 export default class Insert extends Expression {
     readonly table: Expression;
@@ -50,7 +50,7 @@ export default class Insert extends Expression {
                 types: node(Expression),
                 label: (translation: Locale) => translation.term.table,
             },
-            { name: 'insert', types: node(TokenType.Insert) },
+            { name: 'insert', types: node(Symbol.Insert) },
             {
                 name: 'row',
                 types: node(Row),

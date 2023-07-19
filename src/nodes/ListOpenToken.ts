@@ -1,9 +1,9 @@
 import { LIST_OPEN_SYMBOL } from '@parser/Symbols';
 import Token from './Token';
-import TokenType from './TokenType';
+import Symbol from './Symbol';
 
 export default class ListOpenToken extends Token {
     constructor() {
-        super(LIST_OPEN_SYMBOL, TokenType.ListOpen);
+        super(LIST_OPEN_SYMBOL, Symbol.ListOpen);
     }
 }

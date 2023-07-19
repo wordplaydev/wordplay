@@ -1,11 +1,11 @@
 <svelte:options immutable={true} />
 
 <script lang="ts">
-    import type TokenType from '@nodes/TokenType';
+    import type Symbol from '@nodes/Symbol';
     import TokenCategories from '../editor/TokenCategories';
 
     export let symbol: string;
-    export let type: TokenType;
+    export let type: Symbol;
 
     $: category = TokenCategories.get(type);
 </script>

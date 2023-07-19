@@ -6,7 +6,7 @@ import type Locale from '@locale/Locale';
 import Glyphs from '../lore/Glyphs';
 import Purpose from '../concepts/Purpose';
 import Node, { list, node } from './Node';
-import TokenType from './TokenType';
+import Symbol from './Symbol';
 
 export default class Row extends Node {
     readonly open: Token;
@@ -29,9 +29,9 @@ export default class Row extends Node {
 
     getGrammar(): Grammar {
         return [
-            { name: 'open', types: node(TokenType.TableOpen) },
+            { name: 'open', types: node(Symbol.TableOpen) },
             { name: 'cells', types: list(node(Bind), node(Expression)) },
-            { name: 'close', types: node(TokenType.TableClose) },
+            { name: 'close', types: node(Symbol.TableClose) },
         ];
     }
 

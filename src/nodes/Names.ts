@@ -3,7 +3,7 @@ import type LanguageCode from '@locale/LanguageCode';
 import Name from './Name';
 import Token from './Token';
 import { COMMA_SYMBOL } from '@parser/Symbols';
-import TokenType from './TokenType';
+import Symbol from './Symbol';
 import NameToken from './NameToken';
 import Language from './Language';
 import type Locale from '@locale/Locale';
@@ -36,7 +36,7 @@ export default class Names extends Node {
                     new Name(
                         first
                             ? undefined
-                            : new Token(COMMA_SYMBOL, TokenType.Separator),
+                            : new Token(COMMA_SYMBOL, Symbol.Separator),
                         new NameToken(name)
                     )
                 );
@@ -50,11 +50,8 @@ export default class Names extends Node {
                         new Name(
                             index === 0
                                 ? undefined
-                                : new Token(COMMA_SYMBOL, TokenType.Separator),
-                            new Token(
-                                names[lang as LanguageCode],
-                                TokenType.Name
-                            ),
+                                : new Token(COMMA_SYMBOL, Symbol.Separator),
+                            new Token(names[lang as LanguageCode], Symbol.Name),
                             Language.make(lang)
                         )
                 )

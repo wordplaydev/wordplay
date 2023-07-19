@@ -1,7 +1,7 @@
 <svelte:options immutable={true} />
 
 <script lang="ts">
-    import TokenType from '@nodes/TokenType';
+    import Symbol from '@nodes/Symbol';
     import type Text from '@runtime/Text';
     import UnicodeString from '../../models/UnicodeString';
     import Expandable from './Expandable.svelte';
@@ -16,11 +16,11 @@
 {#if text.length > limit}
     <Expandable
         ><svelte:fragment slot="expanded"
-            ><SymbolView symbol={text} type={TokenType.Text} /></svelte:fragment
+            ><SymbolView symbol={text} type={Symbol.Text} /></svelte:fragment
         ><svelte:fragment slot="collapsed"
             ><SymbolView
                 symbol={new UnicodeString(text).substring(0, limit).toString()}
-                type={TokenType.Text}
+                type={Symbol.Text}
             />…</svelte:fragment
         ></Expandable
-    >{:else}<SymbolView symbol={text} type={TokenType.Text} />{/if}
+    >{:else}<SymbolView symbol={text} type={Symbol.Text} />{/if}

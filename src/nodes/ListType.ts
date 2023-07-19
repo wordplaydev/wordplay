@@ -3,7 +3,7 @@ import { LIST_CLOSE_SYMBOL, LIST_OPEN_SYMBOL } from '@parser/Symbols';
 import type Context from './Context';
 import NativeType from './NativeType';
 import Token from './Token';
-import TokenType from './TokenType';
+import Symbol from './Symbol';
 import Type from './Type';
 import type TypeSet from './TypeSet';
 import { node, type Grammar, type Replacement, optional } from './Node';
@@ -36,18 +36,18 @@ export default class ListType extends NativeType {
 
     static make(type?: Type, length?: number) {
         return new ListType(
-            new Token(LIST_OPEN_SYMBOL, TokenType.ListOpen),
+            new Token(LIST_OPEN_SYMBOL, Symbol.ListOpen),
             type,
-            new Token(LIST_CLOSE_SYMBOL, TokenType.ListClose),
+            new Token(LIST_CLOSE_SYMBOL, Symbol.ListClose),
             length
         );
     }
 
     getGrammar(): Grammar {
         return [
-            { name: 'open', types: node(TokenType.ListOpen) },
+            { name: 'open', types: node(Symbol.ListOpen) },
             { name: 'type', types: optional(node(Type)) },
-            { name: 'close', types: node(TokenType.ListClose) },
+            { name: 'close', types: node(Symbol.ListClose) },
         ];
     }
 

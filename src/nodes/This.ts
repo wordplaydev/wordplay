@@ -24,7 +24,7 @@ import type Locale from '@locale/Locale';
 import { UnenclosedType } from './UnenclosedType';
 import Glyphs from '../lore/Glyphs';
 import { PROPERTY_SYMBOL } from '../parser/Symbols';
-import TokenType from './TokenType';
+import Symbol from './Symbol';
 import concretize from '../locale/concretize';
 
 type ThisStructure = StructureDefinition | ConversionDefinition | Reaction;
@@ -40,11 +40,11 @@ export default class This extends AtomicExpression {
     }
 
     static make() {
-        return new This(new Token(PROPERTY_SYMBOL, TokenType.Access));
+        return new This(new Token(PROPERTY_SYMBOL, Symbol.Access));
     }
 
     getGrammar(): Grammar {
-        return [{ name: 'dis', types: node(TokenType.This) }];
+        return [{ name: 'dis', types: node(Symbol.This) }];
     }
 
     clone(replace?: Replacement) {

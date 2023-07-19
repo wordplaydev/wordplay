@@ -28,7 +28,7 @@ import type { NativeTypeName } from '../native/NativeConstants';
 import StreamToken from './StreamToken';
 import concretize from '../locale/concretize';
 import ExpectedStream from '../conflicts/ExpectedStream';
-import TokenType from './TokenType';
+import Symbol from './Symbol';
 
 export default class Reaction extends Expression {
     readonly initial: Expression;
@@ -73,7 +73,7 @@ export default class Reaction extends Expression {
                 label: (translation: Locale) =>
                     translation.node.Reaction.initial,
             },
-            { name: 'dots', types: node(TokenType.Stream), space: true },
+            { name: 'dots', types: node(Symbol.Stream), space: true },
             {
                 name: 'condition',
                 types: node(Expression),
@@ -83,7 +83,7 @@ export default class Reaction extends Expression {
             },
             {
                 name: 'nextdots',
-                types: node(TokenType.Stream),
+                types: node(Symbol.Stream),
                 space: true,
                 indent: true,
             },

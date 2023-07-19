@@ -27,7 +27,7 @@ import Evaluate from './Evaluate';
 import getConcreteExpectedType from './Generics';
 import BinaryEvaluate from './BinaryEvaluate';
 import FunctionDefinition from './FunctionDefinition';
-import TokenType from './TokenType';
+import Symbol from './Symbol';
 
 export default class ExpressionPlaceholder extends AtomicExpression {
     readonly placeholder: Token;
@@ -61,7 +61,7 @@ export default class ExpressionPlaceholder extends AtomicExpression {
         return [
             {
                 name: 'placeholder',
-                types: node(TokenType.Placeholder),
+                types: node(Symbol.Placeholder),
                 label: (
                     translation: Locale,
                     _: Node,
@@ -80,7 +80,7 @@ export default class ExpressionPlaceholder extends AtomicExpression {
                     );
                 },
             },
-            { name: 'dot', types: any(node(TokenType.Access), none('type')) },
+            { name: 'dot', types: any(node(Symbol.Access), none('type')) },
             { name: 'type', types: any(node(Type), none('dot')) },
         ];
     }

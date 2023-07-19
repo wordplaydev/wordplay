@@ -11,7 +11,7 @@ import IncompatibleCellType from '@conflicts/IncompatibleCellType';
 import MissingCell from '@conflicts/MissingCell';
 import InvalidRow from '@conflicts/InvalidRow';
 import Token from './Token';
-import TokenType from './TokenType';
+import Symbol from './Symbol';
 import DuplicateName from '@conflicts/DuplicateName';
 
 export function requiredBindAfterOptional(
@@ -142,12 +142,11 @@ export function analyzeRow(
 export function endsWithName(node: Node) {
     const tokens = node.nodes((t) => t instanceof Token) as Token[];
     return (
-        tokens.length > 0 &&
-        tokens[tokens.length - 1].isTokenType(TokenType.Name)
+        tokens.length > 0 && tokens[tokens.length - 1].isTokenType(Symbol.Name)
     );
 }
 
 export function startsWithName(node: Node) {
     const tokens = node.nodes((t) => t instanceof Token) as Token[];
-    return tokens.length > 0 && tokens[0].isTokenType(TokenType.Name);
+    return tokens.length > 0 && tokens[0].isTokenType(Symbol.Name);
 }

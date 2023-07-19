@@ -15,7 +15,7 @@ import type TypeSet from './TypeSet';
 import Conditional from './Conditional';
 import Is from './Is';
 import { PROPERTY_SYMBOL } from '@parser/Symbols';
-import TokenType from './TokenType';
+import Symbol from './Symbol';
 import TypeVariable from './TypeVariable';
 import NameException from '@runtime/NameException';
 import type Definition from './Definition';
@@ -51,7 +51,7 @@ export default class PropertyReference extends Expression {
     static make(subject: Expression, name: Reference) {
         return new PropertyReference(
             subject,
-            new Token(PROPERTY_SYMBOL, TokenType.Access),
+            new Token(PROPERTY_SYMBOL, Symbol.Access),
             name
         );
     }
@@ -59,7 +59,7 @@ export default class PropertyReference extends Expression {
     getGrammar(): Grammar {
         return [
             { name: 'structure', types: node(Expression) },
-            { name: 'dot', types: node(TokenType.Access) },
+            { name: 'dot', types: node(Symbol.Access) },
             {
                 name: 'name',
                 types: node(Reference),

@@ -6,7 +6,7 @@ import type Bind from './Bind';
 import type Context from './Context';
 import type TypeSet from './TypeSet';
 import { NONE_SYMBOL } from '@parser/Symbols';
-import TokenType from './TokenType';
+import Symbol from './Symbol';
 import { node, type Grammar, type Replacement } from './Node';
 import type Locale from '@locale/Locale';
 import Literal from './Literal';
@@ -26,11 +26,11 @@ export default class NoneLiteral extends Literal {
     }
 
     static make() {
-        return new NoneLiteral(new Token(NONE_SYMBOL, TokenType.None));
+        return new NoneLiteral(new Token(NONE_SYMBOL, Symbol.None));
     }
 
     getGrammar(): Grammar {
-        return [{ name: 'none', types: node(TokenType.None) }];
+        return [{ name: 'none', types: node(Symbol.None) }];
     }
 
     clone(replace?: Replacement) {

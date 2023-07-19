@@ -52,7 +52,7 @@ import FunctionType from './FunctionType';
 import AnyType from './AnyType';
 import { NotAType } from './NotAType';
 import concretize from '../locale/concretize';
-import TokenType from './TokenType';
+import Symbol from './Symbol';
 
 type Mapping = {
     expected: Bind;
@@ -108,7 +108,7 @@ export default class Evaluate extends Expression {
                     translation.node.Evaluate.function,
             },
             { name: 'types', types: any(node(TypeInputs), none()) },
-            { name: 'open', types: node(TokenType.EvalOpen) },
+            { name: 'open', types: node(Symbol.EvalOpen) },
             {
                 name: 'inputs',
                 types: list(node(Expression)),
@@ -168,7 +168,7 @@ export default class Evaluate extends Expression {
                     );
                 },
             },
-            { name: 'close', types: node(TokenType.EvalClose) },
+            { name: 'close', types: node(Symbol.EvalClose) },
         ];
     }
 

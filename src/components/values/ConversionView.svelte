@@ -1,7 +1,7 @@
 <svelte:options immutable={true} />
 
 <script lang="ts">
-    import TokenType from '@nodes/TokenType';
+    import Symbol from '@nodes/Symbol';
     import { CONVERT_SYMBOL } from '@parser/Symbols';
     import type Conversion from '@runtime/Conversion';
     import SymbolView from './SymbolView.svelte';
@@ -11,8 +11,8 @@
 
 <SymbolView
     symbol={value.definition.input.toWordplay()}
-    type={TokenType.Type}
-/><SymbolView symbol={CONVERT_SYMBOL} type={TokenType.Convert} /><SymbolView
+    type={Symbol.Type}
+/><SymbolView symbol={CONVERT_SYMBOL} type={Symbol.Convert} /><SymbolView
     symbol={value.definition.output.toWordplay()}
-    type={TokenType.Type}
+    type={Symbol.Type}
 />

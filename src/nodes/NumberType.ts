@@ -2,7 +2,7 @@ import type { NativeTypeName } from '../native/NativeConstants';
 import { MEASUREMENT_SYMBOL as NUMBER_SYMBOL } from '@parser/Symbols';
 import type Context from './Context';
 import Token from './Token';
-import TokenType from './TokenType';
+import Symbol from './Symbol';
 import Unit from './Unit';
 import BinaryEvaluate from './BinaryEvaluate';
 import NativeType from './NativeType';
@@ -48,7 +48,7 @@ export default class NumberType extends NativeType {
         op?: BinaryEvaluate | UnaryEvaluate | Evaluate
     ) {
         return new NumberType(
-            new Token(NUMBER_SYMBOL, TokenType.NumberType),
+            new Token(NUMBER_SYMBOL, Symbol.NumberType),
             unit ?? Unit.Empty,
             op
         );
@@ -64,7 +64,7 @@ export default class NumberType extends NativeType {
 
     getGrammar(): Grammar {
         return [
-            { name: 'number', types: node(TokenType.NumberType) },
+            { name: 'number', types: node(Symbol.NumberType) },
             { name: 'unit', types: node(Unit) },
         ];
     }
@@ -116,7 +116,7 @@ export default class NumberType extends NativeType {
 
             // If this is a specific number, then all other possible type must be the same specific number.
             if (
-                this.number.isTokenType(TokenType.Number) &&
+                this.number.isTokenType(Symbol.Number) &&
                 this.number.getText() !== possibleType.number.getText()
             )
                 return false;

@@ -32,7 +32,7 @@ import { MisplacedShare } from '@conflicts/MisplacedShare';
 import { DuplicateShare } from '@conflicts/DuplicateShare';
 import type TypeSet from './TypeSet';
 import type Value from '@runtime/Value';
-import TokenType from './TokenType';
+import Symbol from './Symbol';
 import type Name from './Name';
 import DuplicateName from '@conflicts/DuplicateName';
 import { node, none, type Grammar, type Replacement, any } from './Node';
@@ -111,8 +111,8 @@ export default class Bind extends Expression {
             },
             {
                 name: 'share',
-                types: any(node(TokenType.Share), none()),
-                getToken: () => new Token(SHARE_SYMBOL, TokenType.Share),
+                types: any(node(Symbol.Share), none()),
+                getToken: () => new Token(SHARE_SYMBOL, Symbol.Share),
             },
             {
                 name: 'names',
@@ -120,12 +120,12 @@ export default class Bind extends Expression {
             },
             {
                 name: 'etc',
-                types: any(node(TokenType.Etc), none()),
-                getToken: () => new Token(ETC_SYMBOL, TokenType.Etc),
+                types: any(node(Symbol.Etc), none()),
+                getToken: () => new Token(ETC_SYMBOL, Symbol.Etc),
             },
-            { name: 'dot', types: any(node(TokenType.Access), none('type')) },
+            { name: 'dot', types: any(node(Symbol.Access), none('type')) },
             { name: 'type', types: any(node(Type), none('dot')) },
-            { name: 'colon', types: any(node(TokenType.Bind), none('value')) },
+            { name: 'colon', types: any(node(Symbol.Bind), none('value')) },
             {
                 name: 'value',
                 types: any(node(Expression), none('colon')),

@@ -12,7 +12,7 @@ import { node, type Grammar, type Replacement, optional } from './Node';
 import type Locale from '@locale/Locale';
 import Glyphs from '../lore/Glyphs';
 import NodeRef from '../locale/NodeRef';
-import TokenType from './TokenType';
+import Symbol from './Symbol';
 
 export default class SetType extends NativeType {
     readonly open: Token;
@@ -35,9 +35,9 @@ export default class SetType extends NativeType {
 
     getGrammar(): Grammar {
         return [
-            { name: 'open', types: node(TokenType.SetOpen) },
+            { name: 'open', types: node(Symbol.SetOpen) },
             { name: 'key', types: optional(node(Type)) },
-            { name: 'close', types: node(TokenType.SetClose) },
+            { name: 'close', types: node(Symbol.SetClose) },
         ];
     }
 

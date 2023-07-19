@@ -8,7 +8,7 @@ import Glyphs from '../lore/Glyphs';
 import Content from './Content';
 import { node, type Replacement, type Grammar } from './Node';
 import Token from './Token';
-import TokenType from './TokenType';
+import Symbol from './Symbol';
 
 /**
  * To refer to an input, use a $, followed by the number of the input desired,
@@ -32,7 +32,7 @@ export default class Mention extends Content {
     }
 
     getGrammar(): Grammar {
-        return [{ name: 'name', types: node(TokenType.Mention) }];
+        return [{ name: 'name', types: node(Symbol.Mention) }];
     }
     computeConflicts() {
         return [];
@@ -65,7 +65,7 @@ export default class Mention extends Content {
         // Is it a number? Resolve to an input.
         const numberMatch = name.match(/^[0-9]+/);
         if (name === '?')
-            return new Token(locale.ui.error.unwritten, TokenType.Words);
+            return new Token(locale.ui.error.unwritten, Symbol.Words);
         else if (numberMatch !== null) {
             // Find the corresponding input
             const number = parseInt(numberMatch[0]);
@@ -78,7 +78,7 @@ export default class Mention extends Content {
                 ? input
                 : input === undefined
                 ? undefined
-                : new Token(input.toString(), TokenType.Words);
+                : new Token(input.toString(), Symbol.Words);
         }
         // Try to resolve terminology.
         else {
@@ -87,7 +87,7 @@ export default class Mention extends Content {
                 ? locale.term[id]
                 : undefined;
 
-            return phrase ? new Token(phrase, TokenType.Words) : undefined;
+            return phrase ? new Token(phrase, Symbol.Words) : undefined;
         }
     }
 

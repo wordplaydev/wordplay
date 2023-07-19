@@ -13,7 +13,7 @@ import type { NativeTypeName } from '../native/NativeConstants';
 import type Root from './Root';
 import type { TemplateInput } from '../locale/concretize';
 import type Markup from './Markup';
-import type TokenType from './TokenType';
+import type Symbol from './Symbol';
 
 /* A global ID for nodes, for helping index them */
 let NODE_ID_COUNTER = 0;
@@ -521,7 +521,7 @@ export default abstract class Node {
     }
 
     /** Always true, except in Token, which overrids. This helps us aovid importing Token here, creating an import cycle. */
-    isTokenType(type: TokenType) {
+    isTokenType(type: Symbol) {
         return false;
     }
 
@@ -716,7 +716,7 @@ export type Field = {
  */
 export type FieldValue = Node | Node[] | undefined;
 
-export type NodeKind = Function | TokenType | undefined;
+export type NodeKind = Function | Symbol | undefined;
 
 /** These classes help encapsulate field definitions for node grammars, centralizing reasoning about validity. */
 export abstract class FieldKind {
@@ -730,8 +730,8 @@ export abstract class FieldKind {
 
 // A field can be of this type of node or token type.
 export class IsA extends FieldKind {
-    readonly kind: Function | TokenType;
-    constructor(kind: Function | TokenType) {
+    readonly kind: Function | Symbol;
+    constructor(kind: Function | Symbol) {
         super();
         this.kind = kind;
     }
@@ -873,7 +873,7 @@ export class Any extends FieldKind {
 }
 
 /** These are shorthand functions for making grammars a bit less verbose. */
-export function node(kind: Function | TokenType) {
+export function node(kind: Function | Symbol) {
     return new IsA(kind);
 }
 export function none(dependency?: string) {

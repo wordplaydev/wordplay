@@ -1,8 +1,8 @@
 import Token from './Token';
-import TokenType from './TokenType';
+import Symbol from './Symbol';
 
 export default class NameToken extends Token {
     constructor(name: string) {
-        super(name, TokenType.Name);
+        super(name, Symbol.Name);
     }
 }

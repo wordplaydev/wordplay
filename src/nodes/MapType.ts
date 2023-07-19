@@ -13,7 +13,7 @@ import { node, type Grammar, type Replacement, any, none } from './Node';
 import type Locale from '@locale/Locale';
 import Glyphs from '../lore/Glyphs';
 import NodeRef from '../locale/NodeRef';
-import TokenType from './TokenType';
+import Symbol from './Symbol';
 
 export default class MapType extends NativeType {
     readonly open: Token;
@@ -52,11 +52,11 @@ export default class MapType extends NativeType {
 
     getGrammar(): Grammar {
         return [
-            { name: 'open', types: node(TokenType.SetOpen) },
+            { name: 'open', types: node(Symbol.SetOpen) },
             { name: 'key', types: any(node(Type), none('value')) },
-            { name: 'bind', types: node(TokenType.Bind) },
+            { name: 'bind', types: node(Symbol.Bind) },
             { name: 'value', types: any(node(Type), none('key')) },
-            { name: 'close', types: node(TokenType.SetClose) },
+            { name: 'close', types: node(Symbol.SetClose) },
         ];
     }
 

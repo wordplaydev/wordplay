@@ -4,7 +4,7 @@ import Purpose from '../concepts/Purpose';
 import Glyphs from '../lore/Glyphs';
 import { node, type Grammar, type Replacement, any, none } from './Node';
 import Token from './Token';
-import TokenType from './TokenType';
+import Symbol from './Symbol';
 import { unescaped } from './TextLiteral';
 import Example from './Example';
 import WebLink from './WebLink';
@@ -36,11 +36,7 @@ export default class Words extends Content {
     }
 
     static make() {
-        return new Words(
-            undefined,
-            [new Token('…', TokenType.Words)],
-            undefined
-        );
+        return new Words(undefined, [new Token('…', Symbol.Words)], undefined);
     }
 
     getGrammar(): Grammar {
@@ -48,11 +44,11 @@ export default class Words extends Content {
             {
                 name: 'open',
                 types: any(
-                    node(TokenType.Italic),
-                    node(TokenType.Underline),
-                    node(TokenType.Light),
-                    node(TokenType.Bold),
-                    node(TokenType.Extra),
+                    node(Symbol.Italic),
+                    node(Symbol.Underline),
+                    node(Symbol.Light),
+                    node(Symbol.Bold),
+                    node(Symbol.Extra),
                     none('close')
                 ),
             },
@@ -68,11 +64,11 @@ export default class Words extends Content {
             {
                 name: 'close',
                 types: any(
-                    node(TokenType.Italic),
-                    node(TokenType.Underline),
-                    node(TokenType.Light),
-                    node(TokenType.Bold),
-                    node(TokenType.Extra),
+                    node(Symbol.Italic),
+                    node(Symbol.Underline),
+                    node(Symbol.Light),
+                    node(Symbol.Bold),
+                    node(Symbol.Extra),
                     none('open')
                 ),
             },
@@ -108,13 +104,13 @@ export default class Words extends Content {
     getFormat(): Format | undefined {
         return this.open === undefined
             ? undefined
-            : this.open.isTokenType(TokenType.Italic)
+            : this.open.isTokenType(Symbol.Italic)
             ? 'italic'
-            : this.open.isTokenType(TokenType.Underline)
+            : this.open.isTokenType(Symbol.Underline)
             ? 'underline'
-            : this.open.isTokenType(TokenType.Light)
+            : this.open.isTokenType(Symbol.Light)
             ? 'light'
-            : this.open.isTokenType(TokenType.Bold)
+            : this.open.isTokenType(Symbol.Bold)
             ? 'bold'
             : 'extra';
     }

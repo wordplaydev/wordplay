@@ -1,7 +1,7 @@
 <svelte:options immutable={true} />
 
 <script lang="ts">
-    import TokenType from '@nodes/TokenType';
+    import Symbol from '@nodes/Symbol';
     import {
         BIND_SYMBOL,
         EVAL_CLOSE_SYMBOL,
@@ -20,16 +20,13 @@
 
 <SymbolView
     symbol={value.type.names.getLocaleText($creator.getLanguages())}
-    type={TokenType.Name}
-/><SymbolView symbol={EVAL_OPEN_SYMBOL} type={TokenType.EvalOpen} /><Expandable
+    type={Symbol.Name}
+/><SymbolView symbol={EVAL_OPEN_SYMBOL} type={Symbol.EvalOpen} /><Expandable
     ><svelte:fragment slot="expanded">
         {#each value.type.inputs as input, index}<SymbolView
                 symbol={input.names.getLocaleText($creator.getLanguages())}
-                type={TokenType.Name}
-            /><SymbolView
-                symbol={BIND_SYMBOL}
-                type={TokenType.Bind}
-            /><ValueView
+                type={Symbol.Name}
+            /><SymbolView symbol={BIND_SYMBOL} type={Symbol.Bind} /><ValueView
                 value={value.resolve(input.getNames()[0]) ??
                     new None(value.type)}
             />{#if index < value.type.inputs.length - 1}{' '}{/if}{/each}</svelte:fragment
@@ -40,7 +37,7 @@
                 >&ZeroWidthSpace;</span
             >{:else}…{/if}</svelte:fragment
     ></Expandable
-><SymbolView symbol={EVAL_CLOSE_SYMBOL} type={TokenType.EvalClose} />
+><SymbolView symbol={EVAL_CLOSE_SYMBOL} type={Symbol.EvalClose} />
 
 <style>
     .color {

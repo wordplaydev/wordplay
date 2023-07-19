@@ -11,7 +11,7 @@ import Number from '@runtime/Number';
 import type TypeSet from './TypeSet';
 import type { NativeTypeName } from '../native/NativeConstants';
 import LanguageToken from './LanguageToken';
-import TokenType from './TokenType';
+import Symbol from './Symbol';
 import { node, type Grammar, type Replacement, list, optional } from './Node';
 import type Locale from '@locale/Locale';
 import Emotion from '../lore/Emotion';
@@ -100,7 +100,7 @@ export default class Unit extends Type {
                             if (this.slash === undefined)
                                 this.slash = new Token(
                                     LANGUAGE_SYMBOL,
-                                    TokenType.Language
+                                    Symbol.Language
                                 );
                         }
                     }
@@ -124,7 +124,7 @@ export default class Unit extends Type {
     getGrammar(): Grammar {
         return [
             { name: 'numerator', types: list(node(Dimension)) },
-            { name: 'slash', types: optional(node(TokenType.Language)) },
+            { name: 'slash', types: optional(node(Symbol.Language)) },
             { name: 'denominator', types: list(node(Dimension)) },
         ];
     }

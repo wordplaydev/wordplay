@@ -6,7 +6,7 @@ import { FALSE_SYMBOL, TRUE_SYMBOL } from '@parser/Symbols';
 import type Bind from './Bind';
 import type Context from './Context';
 import type TypeSet from './TypeSet';
-import TokenType from './TokenType';
+import Symbol from './Symbol';
 import { node, type Grammar, type Replacement } from './Node';
 import type Locale from '@locale/Locale';
 import NodeRef from '@locale/NodeRef';
@@ -30,13 +30,13 @@ export default class BooleanLiteral extends Literal {
         return new BooleanLiteral(
             new Token(
                 value === true ? TRUE_SYMBOL : FALSE_SYMBOL,
-                TokenType.Boolean
+                Symbol.Boolean
             )
         );
     }
 
     getGrammar(): Grammar {
-        return [{ name: 'value', types: node(TokenType.Boolean) }];
+        return [{ name: 'value', types: node(Symbol.Boolean) }];
     }
 
     clone(replace?: Replacement) {

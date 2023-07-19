@@ -1,7 +1,7 @@
 <svelte:options immutable={true} />
 
 <script lang="ts">
-    import TokenType from '@nodes/TokenType';
+    import Symbol from '@nodes/Symbol';
     import type Stream from '@runtime/Stream';
     import { creator } from '../../db/Creator';
     import SymbolView from './SymbolView.svelte';
@@ -11,5 +11,5 @@
 
 <SymbolView
     symbol={value.getName($creator.getLanguages())}
-    type={TokenType.Name}
+    type={Symbol.Name}
 />

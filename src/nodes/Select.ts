@@ -27,7 +27,7 @@ import Glyphs from '../lore/Glyphs';
 import IncompatibleInput from '../conflicts/IncompatibleInput';
 import { NotAType } from './NotAType';
 import concretize from '../locale/concretize';
-import TokenType from './TokenType';
+import Symbol from './Symbol';
 
 export default class Select extends Expression {
     readonly table: Expression;
@@ -53,7 +53,7 @@ export default class Select extends Expression {
                 types: node(Expression),
                 label: (translation: Locale) => translation.term.table,
             },
-            { name: 'select', types: node(TokenType.Select) },
+            { name: 'select', types: node(Symbol.Select) },
             {
                 name: 'row',
                 types: node(Row),

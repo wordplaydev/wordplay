@@ -1,4 +1,4 @@
-enum TokenType {
+enum Symbol {
     EvalOpen = '(',
     EvalClose = ')',
     SetOpen = '{',
@@ -82,8 +82,8 @@ enum TokenType {
     End = 'end',
 }
 
-export function isTokenType(text: string): text is TokenType {
-    return Object.values(TokenType).includes(text as unknown as TokenType);
+export function isTokenType(text: string): text is Symbol {
+    return Object.values(Symbol).includes(text as unknown as Symbol);
 }
 
-export default TokenType;
+export default Symbol;

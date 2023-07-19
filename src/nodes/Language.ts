@@ -10,7 +10,7 @@ import UnknownLanguage from '@conflicts/UnknownLanguage';
 import type Locale from '@locale/Locale';
 import Glyphs from '../lore/Glyphs';
 import Purpose from '../concepts/Purpose';
-import TokenType from './TokenType';
+import Symbol from './Symbol';
 
 export default class Language extends Node {
     readonly slash: Token;
@@ -31,8 +31,8 @@ export default class Language extends Node {
 
     getGrammar(): Grammar {
         return [
-            { name: 'slash', types: node(TokenType.Language) },
-            { name: 'lang', types: optional(node(TokenType.Name)) },
+            { name: 'slash', types: node(Symbol.Language) },
+            { name: 'lang', types: optional(node(Symbol.Name)) },
         ];
     }
 

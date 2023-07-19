@@ -1,5 +1,5 @@
 import Token from '@nodes/Token';
-import TokenType from '@nodes/TokenType';
+import Symbol from '@nodes/Symbol';
 import {
     BIND_SYMBOL,
     QUESTION_SYMBOL,
@@ -122,170 +122,170 @@ function escapeRegexCharacter(c: string) {
 }
 
 const patterns = [
-    { pattern: LIST_OPEN_SYMBOL, types: [TokenType.ListOpen] },
-    { pattern: LIST_CLOSE_SYMBOL, types: [TokenType.ListClose] },
-    { pattern: SET_OPEN_SYMBOL, types: [TokenType.SetOpen] },
-    { pattern: SET_CLOSE_SYMBOL, types: [TokenType.SetClose] },
+    { pattern: LIST_OPEN_SYMBOL, types: [Symbol.ListOpen] },
+    { pattern: LIST_CLOSE_SYMBOL, types: [Symbol.ListClose] },
+    { pattern: SET_OPEN_SYMBOL, types: [Symbol.SetOpen] },
+    { pattern: SET_CLOSE_SYMBOL, types: [Symbol.SetClose] },
     {
         pattern: COMMA_SYMBOL,
-        types: [TokenType.Separator],
+        types: [Symbol.Separator],
     },
-    { pattern: EXAMPLE_OPEN_SYMBOL, types: [TokenType.ExampleOpen] },
-    { pattern: EXAMPLE_CLOSE_SYMBOL, types: [TokenType.ExampleClose] },
-    { pattern: LANGUAGE_SYMBOL, types: [TokenType.Language, TokenType.Italic] },
-    { pattern: `${TABLE_OPEN_SYMBOL}?`, types: [TokenType.Select] },
-    { pattern: `${TABLE_OPEN_SYMBOL}+`, types: [TokenType.Insert] },
-    { pattern: `${TABLE_OPEN_SYMBOL}-`, types: [TokenType.Delete] },
-    { pattern: `${TABLE_OPEN_SYMBOL}:`, types: [TokenType.Update] },
-    { pattern: TABLE_OPEN_SYMBOL, types: [TokenType.TableOpen] },
-    { pattern: TABLE_CLOSE_SYMBOL, types: [TokenType.TableClose] },
-    { pattern: BIND_SYMBOL, types: [TokenType.Bind] },
-    { pattern: FUNCTION_SYMBOL, types: [TokenType.Function] },
-    { pattern: BORROW_SYMBOL, types: [TokenType.Borrow] },
-    { pattern: SHARE_SYMBOL, types: [TokenType.Share] },
-    { pattern: CONVERT_SYMBOL, types: [TokenType.Convert] },
-    { pattern: CONVERT_SYMBOL2, types: [TokenType.Convert] },
-    { pattern: CONVERT_SYMBOL3, types: [TokenType.Convert] },
-    { pattern: NONE_SYMBOL, types: [TokenType.None, TokenType.None] },
-    { pattern: TYPE_SYMBOL, types: [TokenType.Type, TokenType.TypeOperator] },
+    { pattern: EXAMPLE_OPEN_SYMBOL, types: [Symbol.ExampleOpen] },
+    { pattern: EXAMPLE_CLOSE_SYMBOL, types: [Symbol.ExampleClose] },
+    { pattern: LANGUAGE_SYMBOL, types: [Symbol.Language, Symbol.Italic] },
+    { pattern: `${TABLE_OPEN_SYMBOL}?`, types: [Symbol.Select] },
+    { pattern: `${TABLE_OPEN_SYMBOL}+`, types: [Symbol.Insert] },
+    { pattern: `${TABLE_OPEN_SYMBOL}-`, types: [Symbol.Delete] },
+    { pattern: `${TABLE_OPEN_SYMBOL}:`, types: [Symbol.Update] },
+    { pattern: TABLE_OPEN_SYMBOL, types: [Symbol.TableOpen] },
+    { pattern: TABLE_CLOSE_SYMBOL, types: [Symbol.TableClose] },
+    { pattern: BIND_SYMBOL, types: [Symbol.Bind] },
+    { pattern: FUNCTION_SYMBOL, types: [Symbol.Function] },
+    { pattern: BORROW_SYMBOL, types: [Symbol.Borrow] },
+    { pattern: SHARE_SYMBOL, types: [Symbol.Share] },
+    { pattern: CONVERT_SYMBOL, types: [Symbol.Convert] },
+    { pattern: CONVERT_SYMBOL2, types: [Symbol.Convert] },
+    { pattern: CONVERT_SYMBOL3, types: [Symbol.Convert] },
+    { pattern: NONE_SYMBOL, types: [Symbol.None, Symbol.None] },
+    { pattern: TYPE_SYMBOL, types: [Symbol.Type, Symbol.TypeOperator] },
     {
         pattern: OR_SYMBOL,
-        types: [TokenType.Operator, TokenType.Union, TokenType.Light],
+        types: [Symbol.Operator, Symbol.Union, Symbol.Light],
     },
-    { pattern: TYPE_OPEN_SYMBOL, types: [TokenType.TypeOpen] },
-    { pattern: TYPE_CLOSE_SYMBOL, types: [TokenType.TypeClose] },
+    { pattern: TYPE_OPEN_SYMBOL, types: [Symbol.TypeOpen] },
+    { pattern: TYPE_CLOSE_SYMBOL, types: [Symbol.TypeClose] },
     {
         pattern: TAG_OPEN_SYMBOL,
-        types: [TokenType.Operator, TokenType.TagOpen],
+        types: [Symbol.Operator, Symbol.TagOpen],
     },
     {
         pattern: TAG_CLOSE_SYMBOL,
-        types: [TokenType.Operator, TokenType.TagClose],
+        types: [Symbol.Operator, Symbol.TagClose],
     },
     {
         pattern: STREAM_SYMBOL,
-        types: [TokenType.Stream, TokenType.Etc],
+        types: [Symbol.Stream, Symbol.Etc],
     },
     {
         pattern: STREAM_SYMBOL2,
-        types: [TokenType.Stream, TokenType.Etc],
+        types: [Symbol.Stream, Symbol.Etc],
     },
     {
         pattern: /^\$[a-zA-Z0-9?]+/,
-        types: [TokenType.Mention],
+        types: [Symbol.Mention],
     },
-    { pattern: INITIAL_SYMBOL, types: [TokenType.Initial] },
-    { pattern: CHANGE_SYMBOL, types: [TokenType.Change] },
-    { pattern: PREVIOUS_SYMBOL, types: [TokenType.Previous] },
-    { pattern: PLACEHOLDER_SYMBOL, types: [TokenType.Placeholder] },
+    { pattern: INITIAL_SYMBOL, types: [Symbol.Initial] },
+    { pattern: CHANGE_SYMBOL, types: [Symbol.Change] },
+    { pattern: PREVIOUS_SYMBOL, types: [Symbol.Previous] },
+    { pattern: PLACEHOLDER_SYMBOL, types: [Symbol.Placeholder] },
     // Roman numerals
     {
         pattern: /^-?[ⅠⅡⅢⅣⅤⅥⅦⅧⅨⅩⅪⅫⅬⅭⅮⅯ]+/,
-        types: [TokenType.Number, TokenType.RomanNumeral],
+        types: [Symbol.Number, Symbol.RomanNumeral],
     },
     // Japanese numbers
     {
         pattern:
             /^-?[0-9]*[一二三四五六七八九十百千万]+(・[一二三四五六七八九分厘毛糸忽]+)?/u,
-        types: [TokenType.Number, TokenType.JapaneseNumeral],
+        types: [Symbol.Number, Symbol.JapaneseNumeral],
     },
     // Numbers with bases between base 2 and 16
     {
         pattern: /^-?([2-9]|1[0-6]);[0-9A-F]+([.,][0-9A-F]+)?%?/,
-        types: [TokenType.Number, TokenType.Base],
+        types: [Symbol.Number, Symbol.Base],
     },
     // Tokenize numbers before - gets slurped up, to allow for negative numbers.
     {
         pattern: /^-?[0-9]+([.,][0-9]+)?%?/,
-        types: [TokenType.Number, TokenType.Decimal],
+        types: [Symbol.Number, Symbol.Decimal],
     },
     {
         pattern: /^-?[.,][0-9]+%?/,
-        types: [TokenType.Number, TokenType.Decimal],
+        types: [Symbol.Number, Symbol.Decimal],
     },
-    { pattern: /^-?π/, types: [TokenType.Number, TokenType.Pi] },
-    { pattern: /^-?∞/, types: [TokenType.Number, TokenType.Infinity] },
+    { pattern: /^-?π/, types: [Symbol.Number, Symbol.Pi] },
+    { pattern: /^-?∞/, types: [Symbol.Number, Symbol.Infinity] },
     // Must be after numbers, which can have a leading period.
-    { pattern: PROPERTY_SYMBOL, types: [TokenType.Access, TokenType.This] },
-    { pattern: TRUE_SYMBOL, types: [TokenType.Boolean] },
-    { pattern: FALSE_SYMBOL, types: [TokenType.Boolean] },
+    { pattern: PROPERTY_SYMBOL, types: [Symbol.Access, Symbol.This] },
+    { pattern: TRUE_SYMBOL, types: [Symbol.Boolean] },
+    { pattern: FALSE_SYMBOL, types: [Symbol.Boolean] },
     // Match non-template open/close/between strings.
     // (Starts with an open quote, followed by any sequence of 1) escaped template markers or 2) non-template markers, closed by either a matching quote or a new line)
-    { pattern: /^"(\\\\|[^\\])*?("|(?=\n))/u, types: [TokenType.Text] },
-    { pattern: /^[“”„](\\\\|[^\\])*?([“”„]|(?=\n))/u, types: [TokenType.Text] },
-    { pattern: /^'(\\\\|[^\\])*?('|(?=\n))/u, types: [TokenType.Text] },
-    { pattern: /^‘(\\\\|[^\\])*?(’|(?=\n))/u, types: [TokenType.Text] },
-    { pattern: /^‹(\\\\|[^\\])*?(›|(?=\n))/u, types: [TokenType.Text] },
-    { pattern: /^«(\\\\|[^\\])*?(»|(?=\n))/u, types: [TokenType.Text] },
-    { pattern: /^「(\\\\|[^\\])*?(」|(?=\n))/u, types: [TokenType.Text] },
-    { pattern: /^『(\\\\|[^\\])*?(』|(?=\n))/u, types: [TokenType.Text] },
+    { pattern: /^"(\\\\|[^\\])*?("|(?=\n))/u, types: [Symbol.Text] },
+    { pattern: /^[“”„](\\\\|[^\\])*?([“”„]|(?=\n))/u, types: [Symbol.Text] },
+    { pattern: /^'(\\\\|[^\\])*?('|(?=\n))/u, types: [Symbol.Text] },
+    { pattern: /^‘(\\\\|[^\\])*?(’|(?=\n))/u, types: [Symbol.Text] },
+    { pattern: /^‹(\\\\|[^\\])*?(›|(?=\n))/u, types: [Symbol.Text] },
+    { pattern: /^«(\\\\|[^\\])*?(»|(?=\n))/u, types: [Symbol.Text] },
+    { pattern: /^「(\\\\|[^\\])*?(」|(?=\n))/u, types: [Symbol.Text] },
+    { pattern: /^『(\\\\|[^\\])*?(』|(?=\n))/u, types: [Symbol.Text] },
     // Match template open strings
     // (Start with an open quote, followed by any 1) escaped template markers or 2) non-template markers, ending with a template marker not preceded by an escape character.)
     {
         pattern: /^["“„'‘‹«「『](\\\\|[^\\])*?\\/u,
-        types: [TokenType.TemplateOpen],
+        types: [Symbol.TemplateOpen],
     },
     // Match template close strings that don't contain another close (those are template "between" strings below).
     {
         pattern: /^\\(\\\\|[^\\⧽])*?("|(?=\n))/u,
-        types: [TokenType.TemplateClose],
+        types: [Symbol.TemplateClose],
     },
     {
         pattern: /^\\(\\\\|[^\\⧽])*?(”|(?=\n))/u,
-        types: [TokenType.TemplateClose],
+        types: [Symbol.TemplateClose],
     },
     {
         pattern: /^\\(\\\\|[^\\⧽])*?([']|(?=\n))/u,
-        types: [TokenType.TemplateClose],
+        types: [Symbol.TemplateClose],
     },
     {
         pattern: /^\\(\\\\|[^\\⧽])*?(’|(?=\n))/u,
-        types: [TokenType.TemplateClose],
+        types: [Symbol.TemplateClose],
     },
     {
         pattern: /^\\(\\\\|[^\\⧽])*?(›|(?=\n))/u,
-        types: [TokenType.TemplateClose],
+        types: [Symbol.TemplateClose],
     },
     {
         pattern: /^\\(\\\\|[^\\⧽])*?(»|(?=\n))/u,
-        types: [TokenType.TemplateClose],
+        types: [Symbol.TemplateClose],
     },
     {
         pattern: /^\\(\\\\|[^\\⧽])*?(」|(?=\n))/u,
-        types: [TokenType.TemplateClose],
+        types: [Symbol.TemplateClose],
     },
     {
         pattern: /^\\(\\\\|[^\\⧽])*?(』|(?=\n))/u,
-        types: [TokenType.TemplateClose],
+        types: [Symbol.TemplateClose],
     },
     // If none of the template close patterns match above, allow a new line to close.
-    { pattern: /^\\(\\\\|[^\\⧽])*?(?=\n)/u, types: [TokenType.TemplateClose] },
+    { pattern: /^\\(\\\\|[^\\⧽])*?(?=\n)/u, types: [Symbol.TemplateClose] },
     // Match template "between" strings that have open and unescaped close markers
     // (Start with an open template marker, followed by any 1) escaped template markers or 2) non-template markers, ending with a close template marker.)
-    { pattern: /^\\(\\\\|[^\\])*?\\/u, types: [TokenType.TemplateBetween] },
+    { pattern: /^\\(\\\\|[^\\])*?\\/u, types: [Symbol.TemplateBetween] },
     // Finally, catch any leftover single open or close parentheses.
-    { pattern: EVAL_OPEN_SYMBOL, types: [TokenType.EvalOpen] },
-    { pattern: EVAL_CLOSE_SYMBOL, types: [TokenType.EvalClose] },
+    { pattern: EVAL_OPEN_SYMBOL, types: [Symbol.EvalOpen] },
+    { pattern: EVAL_CLOSE_SYMBOL, types: [Symbol.EvalClose] },
     // Match primtive types after strings since one is a standalone quote symbol.
-    { pattern: MEASUREMENT_SYMBOL, types: [TokenType.NumberType] },
+    { pattern: MEASUREMENT_SYMBOL, types: [Symbol.NumberType] },
     {
         pattern: QUESTION_SYMBOL,
-        types: [TokenType.BooleanType, TokenType.Conditional],
+        types: [Symbol.BooleanType, Symbol.Conditional],
     },
-    { pattern: '¿', types: [TokenType.BooleanType, TokenType.Conditional] },
+    { pattern: '¿', types: [Symbol.BooleanType, Symbol.Conditional] },
     // Tokenize formatting symbols before binary ops
     // Light is tokenized with the | operator above
     {
         pattern: UNDERSCORE_SYMBOL,
-        types: [TokenType.Underline, TokenType.Operator],
+        types: [Symbol.Underline, Symbol.Operator],
     },
     {
         pattern: BOLD_SYMBOL,
-        types: [TokenType.Bold, TokenType.Operator],
+        types: [Symbol.Bold, Symbol.Operator],
     },
     {
         pattern: EXTRA_SYMBOL,
-        types: [TokenType.Extra, TokenType.Operator],
+        types: [Symbol.Extra, Symbol.Operator],
     },
     // Prefix and infix operators are single Unicode glyphs that are surrounded by whitespace that are not one of the above
     // and one of the following:
@@ -293,18 +293,18 @@ const patterns = [
     // - Supplementary operators: U+2A00–U+2AFF
     // - Arrows: U+2190–U+21FF, U+27F0–U+27FF, U+2900–U+297F
     // - Basic latin operators: +-×·÷%^<≤=≠≥>&|
-    { pattern: OperatorRegEx, types: [TokenType.Operator] },
-    { pattern: DOCS_SYMBOL, types: [TokenType.Doc] },
+    { pattern: OperatorRegEx, types: [Symbol.Operator] },
+    { pattern: DOCS_SYMBOL, types: [Symbol.Doc] },
     {
         pattern: new RegExp(`^${ConceptRegEx}`),
-        types: [TokenType.Concept],
+        types: [Symbol.Concept],
     },
-    { pattern: LINK_SYMBOL, types: [TokenType.Link] },
+    { pattern: LINK_SYMBOL, types: [Symbol.Link] },
 
     // All other tokens are names, which are sequences of Unicode glyphs that are not one of the reserved symbols above or whitespace.
     {
         pattern: NameRegEx,
-        types: [TokenType.Name],
+        types: [Symbol.Name],
     },
 ];
 
@@ -365,7 +365,7 @@ export function tokenize(source: string): TokenList {
 
         const tokenizeDocs =
             openExampleAndDocs.length > 0 &&
-            openExampleAndDocs[0].isTokenType(TokenType.Doc);
+            openExampleAndDocs[0].isTokenType(Symbol.Doc);
 
         // If we're in a doc, then read whitespace starting with newlines only.
         if (tokenizeDocs && !source.startsWith(EXAMPLE_CLOSE_SYMBOL)) {
@@ -396,24 +396,24 @@ export function tokenize(source: string): TokenList {
         source = source.substring(nextToken.text.toString().length);
 
         // If the token was a text open, push it on the stack.
-        if (nextToken.isTokenType(TokenType.TemplateOpen))
+        if (nextToken.isTokenType(Symbol.TemplateOpen))
             openTemplates.unshift(nextToken);
         // If the token was a close, pop
-        else if (nextToken.isTokenType(TokenType.TemplateClose))
+        else if (nextToken.isTokenType(Symbol.TemplateClose))
             openTemplates.shift();
 
         // If the token was an eval open, push it on the stack.
-        if (nextToken.isTokenType(TokenType.ExampleOpen))
+        if (nextToken.isTokenType(Symbol.ExampleOpen))
             openExampleAndDocs.unshift(nextToken);
         // If the token was a close, pop
-        else if (nextToken.isTokenType(TokenType.ExampleClose))
+        else if (nextToken.isTokenType(Symbol.ExampleClose))
             openExampleAndDocs.shift();
 
         // If we encountered a doc, toggle the flag.
-        if (nextToken.isTokenType(TokenType.Doc)) {
+        if (nextToken.isTokenType(Symbol.Doc)) {
             if (
                 openExampleAndDocs.length > 0 &&
-                openExampleAndDocs[0].isTokenType(TokenType.Doc)
+                openExampleAndDocs[0].isTokenType(Symbol.Doc)
             )
                 openExampleAndDocs.shift();
             else openExampleAndDocs.unshift(nextToken);
@@ -423,9 +423,9 @@ export function tokenize(source: string): TokenList {
     // If there's nothing left -- or nothing but space -- and the last token isn't a already end token, add one, and remember the space before it.
     if (
         tokens.length === 0 ||
-        !tokens[tokens.length - 1].isTokenType(TokenType.End)
+        !tokens[tokens.length - 1].isTokenType(Symbol.End)
     ) {
-        const end = new Token('', TokenType.End);
+        const end = new Token('', Symbol.End);
         tokens.push(end);
         if (source.length > 0) spaces.set(end, source);
     }
@@ -439,20 +439,20 @@ function getNextToken(
     inDoc: boolean
 ): Token {
     // If there's nothing left after trimming source, return an end of file token.
-    if (source.length === 0) return new Token('', TokenType.End);
+    if (source.length === 0) return new Token('', Symbol.End);
 
     // If we're in a doc, special case a few token types that only appear in docs (URL, WORDS)
     if (inDoc) {
         // Check URLs first, since the word regex will match URLs.
         const urlMatch = source.match(URLRegEx);
-        if (urlMatch !== null) return new Token(urlMatch[0], TokenType.URL);
+        if (urlMatch !== null) return new Token(urlMatch[0], Symbol.URL);
 
         const wordsMatch = source.match(WordsRegEx);
         if (wordsMatch !== null) {
             // Take everything up until two newlines separated only by space.
             const match = wordsMatch[0].split(/\n[ \t]*\n/)[0];
             // Add the preceding space back on, since it's part of the words.
-            return new Token(match, TokenType.Words);
+            return new Token(match, Symbol.Words);
         }
     }
 
@@ -473,7 +473,7 @@ function getNextToken(
             // 3) There is an open template and it's the closing delimiter matches the current open text delimiter.
             if (
                 match !== null &&
-                (!pattern.types.includes(TokenType.TemplateClose) ||
+                (!pattern.types.includes(Symbol.TemplateClose) ||
                     openTemplates.length === 0 ||
                     match[0].endsWith(
                         TEXT_DELIMITERS[openTemplates[0].getText().charAt(0)]
@@ -490,11 +490,11 @@ function getNextToken(
     return new Token(
         source.substring(
             0,
-            next.isTokenType(TokenType.End)
+            next.isTokenType(Symbol.End)
                 ? source.length
                 : source.indexOf(next.getText())
         ),
-        TokenType.Unknown
+        Symbol.Unknown
     );
 
     // for (; nextSpace < source.length; nextSpace++) {

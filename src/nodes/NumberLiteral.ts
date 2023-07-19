@@ -9,7 +9,7 @@ import type Bind from './Bind';
 import type Context from './Context';
 import type TypeSet from './TypeSet';
 import PlaceholderToken from './PlaceholderToken';
-import TokenType from './TokenType';
+import Symbol from './Symbol';
 import { node, type Grammar, type Replacement } from './Node';
 import type Locale from '@locale/Locale';
 import NodeRef from '@locale/NodeRef';
@@ -40,7 +40,7 @@ export default class NumberLiteral extends Literal {
                 ? new PlaceholderToken()
                 : new Token(
                       typeof number === 'number' ? '' + number : number,
-                      TokenType.Decimal
+                      Symbol.Decimal
                   ),
             unit === undefined ? Unit.Empty : unit
         );
@@ -52,7 +52,7 @@ export default class NumberLiteral extends Literal {
 
     getGrammar(): Grammar {
         return [
-            { name: 'number', types: node(TokenType.Number) },
+            { name: 'number', types: node(Symbol.Number) },
             { name: 'unit', types: node(Unit) },
         ];
     }

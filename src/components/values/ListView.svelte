@@ -5,7 +5,7 @@
     import { LIST_CLOSE_SYMBOL, LIST_OPEN_SYMBOL } from '@parser/Symbols';
     import SymbolView from './SymbolView.svelte';
     import ValueView from './ValueView.svelte';
-    import TokenType from '@nodes/TokenType';
+    import Symbol from '@nodes/Symbol';
     import Expandable from './Expandable.svelte';
 
     export let value: List;
@@ -15,7 +15,7 @@
 
 <SymbolView
     symbol={LIST_OPEN_SYMBOL}
-    type={TokenType.ListOpen}
+    type={Symbol.ListOpen}
 />{#if value.values.length > limit}<Expandable
         ><svelte:fragment slot="expanded"
             >{#each value.values as item, index}<ValueView
@@ -30,5 +30,5 @@
             value={item}
         />{#if index < value.values.length - 1}{' '}{/if}{/each}{/if}<SymbolView
     symbol={LIST_CLOSE_SYMBOL}
-    type={TokenType.ListClose}
+    type={Symbol.ListClose}
 />

@@ -7,7 +7,7 @@ import NameToken from './NameToken';
 import PlaceholderToken from './PlaceholderToken';
 import type Locale from '@locale/Locale';
 import { COMMA_SYMBOL } from '@parser/Symbols';
-import TokenType from './TokenType';
+import Symbol from './Symbol';
 import Emotion from '../lore/Emotion';
 import Purpose from '../concepts/Purpose';
 import type Context from './Context';
@@ -45,8 +45,8 @@ export default class Name extends Node {
 
     getGrammar(): Grammar {
         return [
-            { name: 'separator', types: optional(node(TokenType.Separator)) },
-            { name: 'name', types: optional(node(TokenType.Name)) },
+            { name: 'separator', types: optional(node(Symbol.Separator)) },
+            { name: 'name', types: optional(node(Symbol.Name)) },
             { name: 'lang', types: optional(node(Language)) },
         ];
     }
@@ -93,7 +93,7 @@ export default class Name extends Node {
         return this.separator !== undefined
             ? this
             : new Name(
-                  new Token(COMMA_SYMBOL, TokenType.Separator),
+                  new Token(COMMA_SYMBOL, Symbol.Separator),
                   this.name,
                   this.lang
               );

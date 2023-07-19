@@ -8,7 +8,7 @@ import { list, node, type Grammar, type Replacement } from './Node';
 import type Spaces from '../parser/Spaces';
 import { toMarkup } from '../parser/Parser';
 import Token from './Token';
-import TokenType from './TokenType';
+import Symbol from './Symbol';
 
 /**
  * To refer to an input, use a $, followed by the number of the input desired,
@@ -88,7 +88,7 @@ export default class Markup extends Content {
             .flat()
             .filter(
                 (n): n is Token =>
-                    n instanceof Token && n.isTokenType(TokenType.Words)
+                    n instanceof Token && n.isTokenType(Symbol.Words)
             )
             .filter((w) => w.getText().indexOf(text) >= 0);
 

@@ -7,7 +7,7 @@ import Glyphs from '../lore/Glyphs';
 import Purpose from '../concepts/Purpose';
 import type { NativeTypeName } from '../native/NativeConstants';
 import Node, { node } from './Node';
-import TokenType from './TokenType';
+import Symbol from './Symbol';
 
 export default class KeyValue extends Node {
     readonly key: Expression;
@@ -35,7 +35,7 @@ export default class KeyValue extends Node {
                 types: node(Expression),
                 label: (translation: Locale) => translation.term.key,
             },
-            { name: 'bind', types: node(TokenType.Bind) },
+            { name: 'bind', types: node(Symbol.Bind) },
             {
                 name: 'value',
                 types: node(Expression),

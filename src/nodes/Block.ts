@@ -27,7 +27,7 @@ import { none, type Grammar, type Replacement, node, list, any } from './Node';
 import type Locale from '@locale/Locale';
 import Glyphs from '../lore/Glyphs';
 import concretize from '../locale/concretize';
-import TokenType from './TokenType';
+import Symbol from './Symbol';
 
 export enum BlockKind {
     Root = 'root',
@@ -79,7 +79,7 @@ export default class Block extends Expression {
     getGrammar(): Grammar {
         return [
             { name: 'docs', types: any(node(Docs), none()) },
-            { name: 'open', types: any(node(TokenType.EvalOpen), none()) },
+            { name: 'open', types: any(node(Symbol.EvalOpen), none()) },
             {
                 name: 'statements',
                 types: list(node(Expression), node(Bind)),
@@ -92,7 +92,7 @@ export default class Block extends Expression {
             },
             {
                 name: 'close',
-                types: any(node(TokenType.EvalClose), none()),
+                types: any(node(Symbol.EvalClose), none()),
                 newline: this.isStructure(),
             },
         ];

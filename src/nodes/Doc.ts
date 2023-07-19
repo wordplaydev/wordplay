@@ -4,7 +4,7 @@ import type { Grammar, Replacement } from './Node';
 import Token from './Token';
 import type Locale from '@locale/Locale';
 import { DOCS_SYMBOL } from '@parser/Symbols';
-import TokenType from './TokenType';
+import Symbol from './Symbol';
 import type Paragraph from './Paragraph';
 import Words from './Words';
 import Glyphs from '../lore/Glyphs';
@@ -35,18 +35,18 @@ export default class Doc extends Node {
 
     static make(content: Paragraph[]) {
         return new Doc(
-            new Token(DOCS_SYMBOL, TokenType.Doc),
+            new Token(DOCS_SYMBOL, Symbol.Doc),
             new Markup(content),
-            new Token(DOCS_SYMBOL, TokenType.Doc),
+            new Token(DOCS_SYMBOL, Symbol.Doc),
             undefined
         );
     }
 
     getGrammar(): Grammar {
         return [
-            { name: 'open', types: node(TokenType.Doc) },
+            { name: 'open', types: node(Symbol.Doc) },
             { name: 'markup', types: node(Markup) },
-            { name: 'close', types: node(TokenType.Doc) },
+            { name: 'close', types: node(Symbol.Doc) },
             { name: 'lang', types: any(node(Language), none()) },
         ];
     }

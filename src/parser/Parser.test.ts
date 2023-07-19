@@ -25,7 +25,7 @@ import StreamType from '@nodes/StreamType';
 import TableType from '@nodes/TableType';
 import TextType from '@nodes/TextType';
 import Token from '@nodes/Token';
-import TokenType from '@nodes/TokenType';
+import Symbol from '@nodes/Symbol';
 import UnionType from '@nodes/UnionType';
 import TextLiteral from '@nodes/TextLiteral';
 import NoneLiteral from '@nodes/NoneLiteral';
@@ -73,14 +73,14 @@ test('Parse borrows', () => {
     const good = toProgram('↓ mouse');
     expect(good.borrows).toHaveLength(1);
     expect(good.borrows[0]).toBeInstanceOf(Borrow);
-    expect(
-        (good.borrows[0] as Borrow).source?.isTokenType(TokenType.Name)
-    ).toBe(true);
+    expect((good.borrows[0] as Borrow).source?.isTokenType(Symbol.Name)).toBe(
+        true
+    );
 
     const prop = toProgram('↓ time.clock');
     expect(prop.borrows).toHaveLength(1);
     expect(prop.borrows[0]).toBeInstanceOf(Borrow);
-    expect((prop.borrows[0] as Borrow).name?.isTokenType(TokenType.Name)).toBe(
+    expect((prop.borrows[0] as Borrow).name?.isTokenType(Symbol.Name)).toBe(
         true
     );
 });
@@ -159,7 +159,7 @@ test('Parse expressions', () => {
 
     const bool = parseExpression(toTokens('⊤'));
     expect(bool).toBeInstanceOf(BooleanLiteral);
-    expect((bool as BooleanLiteral).value.isTokenType(TokenType.Boolean)).toBe(
+    expect((bool as BooleanLiteral).value.isTokenType(Symbol.Boolean)).toBe(
         true
     );
 

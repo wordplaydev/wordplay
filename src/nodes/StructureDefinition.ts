@@ -37,7 +37,7 @@ import InternalException from '@runtime/InternalException';
 import Glyphs from '../lore/Glyphs';
 import Purpose from '../concepts/Purpose';
 import { SHARE_SYMBOL } from '../parser/Symbols';
-import TokenType from './TokenType';
+import Symbol from './Symbol';
 import concretize from '../locale/concretize';
 
 export default class StructureDefinition extends AtomicExpression {
@@ -110,10 +110,10 @@ export default class StructureDefinition extends AtomicExpression {
             { name: 'docs', types: optional(node(Docs)) },
             {
                 name: 'share',
-                types: optional(node(TokenType.Share)),
-                getToken: () => new Token(SHARE_SYMBOL, TokenType.Share),
+                types: optional(node(Symbol.Share)),
+                getToken: () => new Token(SHARE_SYMBOL, Symbol.Share),
             },
-            { name: 'type', types: node(TokenType.Type) },
+            { name: 'type', types: node(Symbol.Type) },
             { name: 'names', types: node(Names) },
             { name: 'interfaces', types: list(node(Reference)), space: true },
             {
@@ -121,14 +121,14 @@ export default class StructureDefinition extends AtomicExpression {
                 types: optional(node(TypeVariables)),
                 space: true,
             },
-            { name: 'open', types: node(TokenType.EvalOpen) },
+            { name: 'open', types: node(Symbol.EvalOpen) },
             {
                 name: 'inputs',
                 types: list(node(Bind)),
                 space: true,
                 indent: true,
             },
-            { name: 'close', types: node(TokenType.EvalClose) },
+            { name: 'close', types: node(Symbol.EvalClose) },
             {
                 name: 'expression',
                 types: optional(node(Block)),

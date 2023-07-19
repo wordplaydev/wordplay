@@ -4,7 +4,7 @@ import { node, type Field, type Replacement } from './Node';
 import Token from './Token';
 import Glyphs from '../lore/Glyphs';
 import { LINK_SYMBOL } from '../parser/Symbols';
-import TokenType from './TokenType';
+import Symbol from './Symbol';
 import Purpose from '../concepts/Purpose';
 import Content from './Content';
 import type { TemplateInput } from '../locale/concretize';
@@ -20,7 +20,7 @@ export default class ConceptLink extends Content {
 
     static make(concept: string) {
         return new ConceptLink(
-            new Token(`${LINK_SYMBOL}${concept}`, TokenType.Concept)
+            new Token(`${LINK_SYMBOL}${concept}`, Symbol.Concept)
         );
     }
 
@@ -52,7 +52,7 @@ export default class ConceptLink extends Content {
     }
 
     getGrammar(): Field[] {
-        return [{ name: 'concept', types: node(TokenType.Concept) }];
+        return [{ name: 'concept', types: node(Symbol.Concept) }];
     }
 
     clone(replace?: Replacement | undefined): this {

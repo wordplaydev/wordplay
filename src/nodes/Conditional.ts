@@ -13,7 +13,7 @@ import type TypeSet from './TypeSet';
 import type Bind from './Bind';
 import Start from '@runtime/Start';
 import { QUESTION_SYMBOL } from '@parser/Symbols';
-import TokenType from './TokenType';
+import Symbol from './Symbol';
 import Finish from '@runtime/Finish';
 import type Evaluator from '@runtime/Evaluator';
 import type Value from '@runtime/Value';
@@ -49,7 +49,7 @@ export default class Conditional extends Expression {
     static make(condition: Expression, yes: Expression, no: Expression) {
         return new Conditional(
             condition,
-            new Token(QUESTION_SYMBOL, TokenType.BooleanType),
+            new Token(QUESTION_SYMBOL, Symbol.BooleanType),
             yes,
             no
         );
@@ -67,7 +67,7 @@ export default class Conditional extends Expression {
             },
             {
                 name: 'question',
-                types: node(TokenType.Conditional),
+                types: node(Symbol.Conditional),
                 space: true,
             },
             {

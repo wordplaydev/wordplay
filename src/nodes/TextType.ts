@@ -5,7 +5,7 @@ import Language from './Language';
 import NativeType from './NativeType';
 import { node, type Grammar, type Replacement, optional } from './Node';
 import Token from './Token';
-import TokenType from './TokenType';
+import Symbol from './Symbol';
 import type TypeSet from './TypeSet';
 import Emotion from '../lore/Emotion';
 import { TEXT_DELIMITERS } from '../parser/Tokenizer';
@@ -29,14 +29,14 @@ export default class TextType extends NativeType {
 
     static make(format?: Language) {
         return new TextType(
-            new Token(TEXT_SYMBOL + TEXT_SYMBOL, TokenType.Text),
+            new Token(TEXT_SYMBOL + TEXT_SYMBOL, Symbol.Text),
             format
         );
     }
 
     getGrammar(): Grammar {
         return [
-            { name: 'text', types: node(TokenType.Text) },
+            { name: 'text', types: node(Symbol.Text) },
             { name: 'language', types: optional(node(Language)) },
         ];
     }

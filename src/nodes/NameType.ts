@@ -18,7 +18,7 @@ import { node, type Grammar, type Replacement, optional } from './Node';
 import type Locale from '@locale/Locale';
 import { UnknownName } from '@conflicts/UnknownName';
 import Emotion from '../lore/Emotion';
-import TokenType from './TokenType';
+import Symbol from './Symbol';
 
 export default class NameType extends Type {
     readonly name: Token;
@@ -45,7 +45,7 @@ export default class NameType extends Type {
 
     getGrammar(): Grammar {
         return [
-            { name: 'name', types: node(TokenType.Name) },
+            { name: 'name', types: node(Symbol.Name) },
             { name: 'types', types: optional(node(TypeInputs)) },
         ];
     }
