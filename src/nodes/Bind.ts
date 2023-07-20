@@ -143,7 +143,7 @@ export default class Bind extends Expression {
                 kind: any(node(Symbol.Etc), none()),
                 getToken: () => new Token(ETC_SYMBOL, Symbol.Etc),
             },
-            { name: 'dot', kind: any(node(Symbol.Access), none('type')) },
+            { name: 'dot', kind: any(node(Symbol.Type), none('type')) },
             { name: 'type', kind: any(node(Type), none('dot')) },
             { name: 'colon', kind: any(node(Symbol.Bind), none('value')) },
             {
