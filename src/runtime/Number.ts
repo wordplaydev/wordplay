@@ -59,8 +59,12 @@ export default class Number extends Primitive {
         if (negated) text = text.substring(1);
 
         // Infinity
-        if (number.isTokenType(Symbol.Infinity)) {
+        if (number.isTokenType(Symbol.Infinity) || text === '∞') {
             return new Decimal(Infinity * (negated ? -1 : 1));
+        }
+        // Pi
+        else if (number.isTokenType(Symbol.Pi) || text === 'π') {
+            return new Decimal(Math.PI * (negated ? -1 : 1));
         }
         // If it matches the decimal pattern, randomize requested digits, then convert to a Decimal.
         else if (number.isTokenType(Symbol.Decimal)) {
