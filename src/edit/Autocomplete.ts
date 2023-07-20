@@ -61,6 +61,7 @@ import Mention from '../nodes/Mention';
 import Paragraph from '../nodes/Paragraph';
 import WebLink from '../nodes/WebLink';
 import Remove from './Remove';
+import UnknownType from '../nodes/UnknownType';
 
 /** Given a project and a caret, generate a set of transforms that can be applied at the location. */
 export function getEditsAt(project: Project, caret: Caret): Transform[] {
@@ -250,20 +251,29 @@ function getRelativeFieldEdits(
 
     // Generate possible nodes that could replace the token prior
     // (e.g., autocomplete References, create binary operations)
-    // We only do this if this is before.
-    if (before && adjacent)
+    // We only do this if this is before, and we're immediately after
+    // a node, and the node is an expression, to ensure
+    // we only generate relevant suggestions.
+    if (before && adjacent && node instanceof Expression) {
+        const type = node.getType(context);
         edits = [
             ...edits,
             ...field.kind
                 .enumerate()
                 .map((kind) =>
-                    getPossibleNodes(kind, undefined, node, context).map(
+                    getPossibleNodes(
+                        kind,
+                        type instanceof UnknownType ? undefined : type,
+                        node,
+                        context
+                    ).map(
                         (replacement) =>
                             new Replace(context, parent, node, replacement)
                     )
                 )
                 .flat(),
         ];
+    }
 
     // Scan the parent's grammar for fields before or after to the current node the caret is it.
     const grammar = parent.getGrammar();
