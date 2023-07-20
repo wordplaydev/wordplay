@@ -8,9 +8,6 @@ import NameType from '@nodes/NameType';
 import type Context from '@nodes/Context';
 import ConversionConcept from './ConversionConcept';
 import StructureDefinitionType from '@nodes/StructureDefinitionType';
-import Evaluate from '@nodes/Evaluate';
-import Reference from '@nodes/Reference';
-import ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
 import type LanguageCode from '@locale/LanguageCode';
 import type Locale from '@locale/Locale';
 import type Purpose from './Purpose';
@@ -62,19 +59,7 @@ export default class StructureConcept extends Concept {
             );
         this.examples =
             examples === undefined || examples.length === 0
-                ? [
-                      Evaluate.make(
-                          Reference.make(
-                              this.definition.names.getLocaleText(languages),
-                              this.definition
-                          ),
-                          this.definition.inputs
-                              .filter((input) => !input.hasDefault())
-                              .map((input) =>
-                                  ExpressionPlaceholder.make(input.type)
-                              )
-                      ),
-                  ]
+                ? [this.definition.getEvaluateTemplate(languages)]
                 : examples;
 
         this.functions = this.definition

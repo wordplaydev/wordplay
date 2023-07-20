@@ -17,7 +17,7 @@ import Conditional from './Conditional';
 import UnionType from './UnionType';
 import type TypeSet from './TypeSet';
 import Is from './Is';
-import type StructureDefinition from './StructureDefinition';
+import StructureDefinition from './StructureDefinition';
 import NameToken from './NameToken';
 import StartFinish from '@runtime/StartFinish';
 import UnknownNameType from './UnknownNameType';
@@ -33,6 +33,7 @@ import concretize, { type TemplateInput } from '../locale/concretize';
 import Glyphs from '../lore/Glyphs';
 import type Node from './Node';
 import Refer from '../edit/Refer';
+import FunctionDefinition from './FunctionDefinition';
 
 /**
  * A reference to some Definition. Can optionally take the definition which it refers,
@@ -71,23 +72,53 @@ export default class Reference extends AtomicExpression {
                     .getDefinitionsInScope(context)
                     // Only accept ones that have names starting with the prefix
                     // and that have a matching type, if provided.
-                    .filter(
-                        (def) =>
-                            def
-                                .getNames()
-                                .some((name) => name.startsWith(prefix)) &&
-                            (type === undefined ||
-                                !(def instanceof Bind) ||
-                                type.accepts(def.getType(context), context))
+                    .filter((def) =>
+                        def.getNames().some((name) => name.startsWith(prefix))
                     )
                     // Translate the definitions into references to the definitions.
-                    .map(
-                        (definition) =>
-                            new Refer(
+                    .map((definition) => {
+                        // Bind of acceptible type? Make a reference.
+                        if (
+                            definition instanceof Bind &&
+                            (type === undefined ||
+                                type.accepts(
+                                    definition.getType(context),
+                                    context
+                                ))
+                        )
+                            return new Refer(
                                 (name) => Reference.make(name),
                                 definition
-                            )
-                    )
+                            );
+                        // Function definition of an acceptable type? Make an (Binary/Unary)Evaluate.
+                        else if (
+                            definition instanceof FunctionDefinition &&
+                            (type === undefined ||
+                                type.accepts(
+                                    definition.getOutputType(context),
+                                    context
+                                ))
+                        ) {
+                            return new Refer(
+                                (name) =>
+                                    definition.getEvaluateTemplate(
+                                        name,
+                                        context,
+                                        undefined
+                                    ),
+                                definition
+                            );
+                        }
+                        // Structure definition? Make an Evaluate.
+                        else if (definition instanceof StructureDefinition) {
+                            return new Refer(
+                                (name) => definition.getEvaluateTemplate(name),
+                                definition
+                            );
+                        } else return undefined;
+                    })
+                    // Filter out undefined.
+                    .filter((ref): ref is Refer => ref !== undefined)
             );
         }
 

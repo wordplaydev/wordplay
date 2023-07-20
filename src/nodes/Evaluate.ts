@@ -99,7 +99,11 @@ export default class Evaluate extends Expression {
         );
     }
 
-    static getPossibleNodes() {
+    static getPossibleNodes(
+        type: Type | undefined,
+        selection: Node | undefined,
+        context: Context
+    ) {
         return [];
     }
 

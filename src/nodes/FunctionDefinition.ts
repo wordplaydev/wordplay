@@ -148,7 +148,7 @@ export default class FunctionDefinition extends Expression {
                   ),
                   structureType instanceof Expression
                       ? structureType
-                      : ExpressionPlaceholder.make(structureType)
+                      : ExpressionPlaceholder.make(structureType?.clone())
               )
             : this.isOperator() && structure && this.inputs.length === 1
             ? new BinaryEvaluate(
@@ -156,7 +156,7 @@ export default class FunctionDefinition extends Expression {
                       ? structureType
                       : ExpressionPlaceholder.make(structureType),
                   Reference.make(this.getOperatorName() ?? '_'),
-                  ExpressionPlaceholder.make(this.inputs[0]?.type)
+                  ExpressionPlaceholder.make(this.inputs[0]?.type?.clone())
               )
             : Evaluate.make(
                   structure
@@ -172,7 +172,10 @@ export default class FunctionDefinition extends Expression {
                       .map((input) => {
                           if (input.type instanceof FunctionType)
                               return input.type.getTemplate(context);
-                          else return ExpressionPlaceholder.make(input.type);
+                          else
+                              return ExpressionPlaceholder.make(
+                                  input.type?.clone()
+                              );
                       })
               );
     }

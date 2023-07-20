@@ -39,6 +39,8 @@ import Purpose from '../concepts/Purpose';
 import { SHARE_SYMBOL } from '../parser/Symbols';
 import Symbol from './Symbol';
 import concretize from '../locale/concretize';
+import Evaluate from './Evaluate';
+import ExpressionPlaceholder from './ExpressionPlaceholder';
 
 export default class StructureDefinition extends AtomicExpression {
     readonly docs: Docs | undefined;
@@ -189,9 +191,25 @@ export default class StructureDefinition extends AtomicExpression {
     isEvaluationInvolved() {
         return true;
     }
+
+    getEvaluateTemplate(nameOrLanguages: LanguageCode[] | string) {
+        return Evaluate.make(
+            Reference.make(
+                typeof nameOrLanguages === 'string'
+                    ? nameOrLanguages
+                    : this.names.getLocaleText(nameOrLanguages),
+                this
+            ),
+            this.inputs
+                .filter((input) => !input.hasDefault())
+                .map((input) => ExpressionPlaceholder.make(input.type?.clone()))
+        );
+    }
+
     isEvaluationRoot() {
         return true;
     }
+
     getScopeOfChild(child: Node, context: Context): Node | undefined {
         // This is the scope of the expression and inputs, and its parent is for everything else.
         return child === this.expression || this.inputs.includes(child as Bind)
