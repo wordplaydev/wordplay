@@ -47,13 +47,13 @@ export default class Insert extends Expression {
         return [
             {
                 name: 'table',
-                types: node(Expression),
+                kind: node(Expression),
                 label: (translation: Locale) => translation.term.table,
             },
-            { name: 'insert', types: node(Symbol.Insert) },
+            { name: 'insert', kind: node(Symbol.Insert) },
             {
                 name: 'row',
-                types: node(Row),
+                kind: node(Row),
                 label: (translation: Locale) => translation.term.row,
             },
         ];

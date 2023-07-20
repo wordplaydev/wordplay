@@ -50,18 +50,18 @@ export default class Select extends Expression {
         return [
             {
                 name: 'table',
-                types: node(Expression),
+                kind: node(Expression),
                 label: (translation: Locale) => translation.term.table,
             },
-            { name: 'select', types: node(Symbol.Select) },
+            { name: 'select', kind: node(Symbol.Select) },
             {
                 name: 'row',
-                types: node(Row),
+                kind: node(Row),
                 label: (translation: Locale) => translation.term.row,
             },
             {
                 name: 'query',
-                types: node(Expression),
+                kind: node(Expression),
                 label: (translation: Locale) => translation.term.query,
             },
         ];

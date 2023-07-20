@@ -73,9 +73,9 @@ export default class Convert extends Expression {
 
     getGrammar(): Grammar {
         return [
-            { name: 'expression', types: node(Expression) },
-            { name: 'convert', types: node(Symbol.Convert), space: true },
-            { name: 'type', types: node(Type), space: true },
+            { name: 'expression', kind: node(Expression) },
+            { name: 'convert', kind: node(Symbol.Convert), space: true },
+            { name: 'type', kind: node(Type), space: true },
         ];
     }
 

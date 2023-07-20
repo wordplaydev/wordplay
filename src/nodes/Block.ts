@@ -90,11 +90,11 @@ export default class Block extends Expression {
 
     getGrammar(): Grammar {
         return [
-            { name: 'docs', types: any(node(Docs), none()) },
-            { name: 'open', types: any(node(Symbol.EvalOpen), none()) },
+            { name: 'docs', kind: any(node(Docs), none()) },
+            { name: 'open', kind: any(node(Symbol.EvalOpen), none()) },
             {
                 name: 'statements',
-                types: list(node(Expression), node(Bind)),
+                kind: list(node(Expression), node(Bind)),
                 label: (translation: Locale) =>
                     translation.node.Block.statement,
                 space: true,
@@ -104,7 +104,7 @@ export default class Block extends Expression {
             },
             {
                 name: 'close',
-                types: any(node(Symbol.EvalClose), none()),
+                kind: any(node(Symbol.EvalClose), none()),
                 newline: this.isStructure(),
             },
         ];

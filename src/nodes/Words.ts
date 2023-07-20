@@ -43,7 +43,7 @@ export default class Words extends Content {
         return [
             {
                 name: 'open',
-                types: any(
+                kind: any(
                     node(Symbol.Italic),
                     node(Symbol.Underline),
                     node(Symbol.Light),
@@ -54,7 +54,7 @@ export default class Words extends Content {
             },
             {
                 name: 'segments',
-                types: any(
+                kind: any(
                     node(Words),
                     node(WebLink),
                     node(ConceptLink),
@@ -63,7 +63,7 @@ export default class Words extends Content {
             },
             {
                 name: 'close',
-                types: any(
+                kind: any(
                     node(Symbol.Italic),
                     node(Symbol.Underline),
                     node(Symbol.Light),

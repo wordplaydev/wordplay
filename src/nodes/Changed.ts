@@ -46,10 +46,10 @@ export default class Changed extends AtomicExpression {
 
     getGrammar(): Grammar {
         return [
-            { name: 'change', types: node(Symbol.Change) },
+            { name: 'change', kind: node(Symbol.Change) },
             {
                 name: 'stream',
-                types: node(Expression),
+                kind: node(Expression),
                 space: true,
                 // Must be a stream with any type
                 getType: () => StreamType.make(new AnyType()),

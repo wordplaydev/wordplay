@@ -68,8 +68,8 @@ export default class NumberType extends NativeType {
 
     getGrammar(): Grammar {
         return [
-            { name: 'number', types: node(Symbol.NumberType) },
-            { name: 'unit', types: node(Unit) },
+            { name: 'number', kind: node(Symbol.NumberType) },
+            { name: 'unit', kind: node(Unit) },
         ];
     }
 

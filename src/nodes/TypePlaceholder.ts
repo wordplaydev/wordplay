@@ -32,7 +32,7 @@ export default class TypePlaceholder extends Type {
         return [
             {
                 name: 'placeholder',
-                types: node(Symbol.Placeholder),
+                kind: node(Symbol.Placeholder),
                 label: (translation: Locale) =>
                     translation.ui.placeholders.type,
             },

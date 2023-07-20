@@ -85,7 +85,7 @@ export function getEditsAt(project: Project, caret: Caret): Transform[] {
                 context,
                 (field, parent, node) => [
                     // Generate all the possible types
-                    ...field.types
+                    ...field.kind
                         .enumerate()
                         .map((kind) =>
                             getPossibleNodes(
@@ -105,7 +105,7 @@ export function getEditsAt(project: Project, caret: Caret): Transform[] {
                         )
                         .flat(),
                     // Is this node in a field? Offer to remove it.
-                    ...(field.types instanceof ListOf
+                    ...(field.kind instanceof ListOf
                         ? [new Remove(context, parent, node)]
                         : []),
                 ]
@@ -123,7 +123,7 @@ export function getEditsAt(project: Project, caret: Caret): Transform[] {
             if (parent === undefined || field === undefined) continue;
 
             // If the field is a list, get possible insertions for all allowable node kinds.
-            if (field.types instanceof ListOf) {
+            if (field.kind instanceof ListOf) {
                 const list = parent.getField(field.name);
                 if (Array.isArray(list)) {
                     const index = list.indexOf(node);
@@ -133,7 +133,7 @@ export function getEditsAt(project: Project, caret: Caret): Transform[] {
                             : undefined;
                         edits = [
                             ...edits,
-                            ...field.types
+                            ...field.kind
                                 .enumerate()
                                 .map((kind) =>
                                     getPossibleNodes(
@@ -168,7 +168,7 @@ export function getEditsAt(project: Project, caret: Caret): Transform[] {
             // (e.g., autocomplete References, create binary operations)
             edits = [
                 ...edits,
-                ...field.types
+                ...field.kind
                     .enumerate()
                     .map((kind) =>
                         getPossibleNodes(
@@ -196,7 +196,7 @@ export function getEditsAt(project: Project, caret: Caret): Transform[] {
                         : undefined;
                     edits = [
                         ...edits,
-                        ...fieldAfter.types
+                        ...fieldAfter.kind
                             .enumerate()
                             .map((kind) =>
                                 getPossibleNodes(

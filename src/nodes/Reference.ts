@@ -63,7 +63,7 @@ export default class Reference extends AtomicExpression {
         return [
             {
                 name: 'name',
-                types: node(Symbol.Name),
+                kind: node(Symbol.Name),
                 label: (translation: Locale) => translation.node.Reference.name,
                 // The valid definitions of the name are anything in scope, except for the current name.
                 getDefinitions: (context: Context) =>

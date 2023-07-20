@@ -43,7 +43,7 @@ export default class BooleanLiteral extends Literal {
         return [
             {
                 name: 'value',
-                types: node(Symbol.Boolean),
+                kind: node(Symbol.Boolean),
                 getType: () => BooleanType.make(),
             },
         ];

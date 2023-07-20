@@ -24,7 +24,7 @@ export default class UnparsableType extends Type {
     }
 
     getGrammar(): Grammar {
-        return [{ name: 'unparsables', types: list(node(Node)) }];
+        return [{ name: 'unparsables', kind: list(node(Node)) }];
     }
 
     computeConflicts(): void | Conflict[] {

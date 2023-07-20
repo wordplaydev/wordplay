@@ -38,9 +38,9 @@ export default class TableType extends Type {
 
     getGrammar(): Grammar {
         return [
-            { name: 'open', types: node(Symbol.TableOpen) },
-            { name: 'columns', types: list(node(Bind)) },
-            { name: 'close', types: node(Symbol.TableClose) },
+            { name: 'open', kind: node(Symbol.TableOpen) },
+            { name: 'columns', kind: list(node(Bind)) },
+            { name: 'close', kind: node(Symbol.TableClose) },
         ];
     }
 

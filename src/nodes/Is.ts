@@ -61,9 +61,9 @@ export default class Is extends Expression {
 
     getGrammar(): Grammar {
         return [
-            { name: 'expression', types: node(Expression) },
-            { name: 'operator', types: node(Symbol.Type) },
-            { name: 'type', types: node(Type) },
+            { name: 'expression', kind: node(Expression) },
+            { name: 'operator', kind: node(Symbol.Type) },
+            { name: 'type', kind: node(Type) },
         ];
     }
 

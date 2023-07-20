@@ -55,15 +55,15 @@ export default class Dimension extends Node {
 
     getGrammar(): Grammar {
         return [
-            { name: 'product', types: any(node(Symbol.Operator), none()) },
-            { name: 'name', types: node(Symbol.Name) },
+            { name: 'product', kind: any(node(Symbol.Operator), none()) },
+            { name: 'name', kind: node(Symbol.Name) },
             {
                 name: 'caret',
-                types: any(node(Symbol.Operator), none('exponent')),
+                kind: any(node(Symbol.Operator), none('exponent')),
             },
             {
                 name: 'exponent',
-                types: any(node(Symbol.Number), none('caret')),
+                kind: any(node(Symbol.Number), none('caret')),
             },
         ];
     }

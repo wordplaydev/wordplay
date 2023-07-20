@@ -76,20 +76,20 @@ export default class ListAccess extends Expression {
         return [
             {
                 name: 'list',
-                types: node(Expression),
+                kind: node(Expression),
                 label: (translation: Locale) => translation.term.list,
                 // Must be a list
                 getType: () => ListType.make(),
             },
-            { name: 'open', types: node(Symbol.ListOpen) },
+            { name: 'open', kind: node(Symbol.ListOpen) },
             {
                 name: 'index',
-                types: node(Expression),
+                kind: node(Expression),
                 label: (translation: Locale) => translation.term.index,
                 // Must be a number
                 getType: () => NumberType.make(),
             },
-            { name: 'close', types: node(Symbol.ListClose) },
+            { name: 'close', kind: node(Symbol.ListClose) },
         ];
     }
 

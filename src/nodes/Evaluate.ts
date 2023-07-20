@@ -107,15 +107,15 @@ export default class Evaluate extends Expression {
         return [
             {
                 name: 'fun',
-                types: node(Expression),
+                kind: node(Expression),
                 label: (translation: Locale) =>
                     translation.node.Evaluate.function,
             },
-            { name: 'types', types: any(node(TypeInputs), none()) },
-            { name: 'open', types: node(Symbol.EvalOpen) },
+            { name: 'types', kind: any(node(TypeInputs), none()) },
+            { name: 'open', kind: node(Symbol.EvalOpen) },
             {
                 name: 'inputs',
-                types: list(node(Expression)),
+                kind: list(node(Expression)),
                 label: (translation: Locale, child: Node, context: Context) => {
                     // Get the function called
                     const fun = this.getFunction(context);
@@ -172,7 +172,7 @@ export default class Evaluate extends Expression {
                     );
                 },
             },
-            { name: 'close', types: node(Symbol.EvalClose) },
+            { name: 'close', kind: node(Symbol.EvalClose) },
         ];
     }
 

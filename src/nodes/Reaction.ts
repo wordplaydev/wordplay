@@ -93,14 +93,14 @@ export default class Reaction extends Expression {
         return [
             {
                 name: 'initial',
-                types: node(Expression),
+                kind: node(Expression),
                 label: (translation: Locale) =>
                     translation.node.Reaction.initial,
             },
-            { name: 'dots', types: node(Symbol.Stream), space: true },
+            { name: 'dots', kind: node(Symbol.Stream), space: true },
             {
                 name: 'condition',
-                types: node(Expression),
+                kind: node(Expression),
                 space: true,
                 label: (translation: Locale) =>
                     translation.node.Reaction.condition,
@@ -108,13 +108,13 @@ export default class Reaction extends Expression {
             },
             {
                 name: 'nextdots',
-                types: node(Symbol.Stream),
+                kind: node(Symbol.Stream),
                 space: true,
                 indent: true,
             },
             {
                 name: 'next',
-                types: node(Expression),
+                kind: node(Expression),
                 label: (translation: Locale) => translation.node.Reaction.next,
                 space: true,
                 indent: true,

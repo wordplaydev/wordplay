@@ -92,21 +92,21 @@ export default class FunctionType extends Type {
 
     getGrammar(): Grammar {
         return [
-            { name: 'fun', types: node(Symbol.Function) },
+            { name: 'fun', kind: node(Symbol.Function) },
             {
                 name: 'types',
-                types: optional(node(TypeVariables)),
+                kind: optional(node(TypeVariables)),
                 space: true,
             },
-            { name: 'open', types: node(Symbol.EvalOpen) },
+            { name: 'open', kind: node(Symbol.EvalOpen) },
             {
                 name: 'inputs',
-                types: list(node(Bind)),
+                kind: list(node(Bind)),
                 space: true,
                 indent: true,
             },
-            { name: 'close', types: node(Symbol.EvalClose) },
-            { name: 'output', types: node(Type), space: true },
+            { name: 'close', kind: node(Symbol.EvalClose) },
+            { name: 'output', kind: node(Type), space: true },
         ];
     }
 

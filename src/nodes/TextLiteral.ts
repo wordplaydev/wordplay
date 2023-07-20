@@ -47,8 +47,8 @@ export default class TextLiteral extends Literal {
 
     getGrammar(): Grammar {
         return [
-            { name: 'text', types: node(Symbol.Text) },
-            { name: 'language', types: optional(node(Language)) },
+            { name: 'text', kind: node(Symbol.Text) },
+            { name: 'language', kind: optional(node(Language)) },
         ];
     }
 

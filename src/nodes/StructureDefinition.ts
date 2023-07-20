@@ -120,31 +120,31 @@ export default class StructureDefinition extends AtomicExpression {
 
     getGrammar(): Grammar {
         return [
-            { name: 'docs', types: optional(node(Docs)) },
+            { name: 'docs', kind: optional(node(Docs)) },
             {
                 name: 'share',
-                types: optional(node(Symbol.Share)),
+                kind: optional(node(Symbol.Share)),
                 getToken: () => new Token(SHARE_SYMBOL, Symbol.Share),
             },
-            { name: 'type', types: node(Symbol.Type) },
-            { name: 'names', types: node(Names) },
-            { name: 'interfaces', types: list(node(Reference)), space: true },
+            { name: 'type', kind: node(Symbol.Type) },
+            { name: 'names', kind: node(Names) },
+            { name: 'interfaces', kind: list(node(Reference)), space: true },
             {
                 name: 'types',
-                types: optional(node(TypeVariables)),
+                kind: optional(node(TypeVariables)),
                 space: true,
             },
-            { name: 'open', types: node(Symbol.EvalOpen) },
+            { name: 'open', kind: node(Symbol.EvalOpen) },
             {
                 name: 'inputs',
-                types: list(node(Bind)),
+                kind: list(node(Bind)),
                 space: true,
                 indent: true,
             },
-            { name: 'close', types: node(Symbol.EvalClose) },
+            { name: 'close', kind: node(Symbol.EvalClose) },
             {
                 name: 'expression',
-                types: optional(node(Block)),
+                kind: optional(node(Block)),
                 space: true,
                 indent: (_: Node, child: Node) => !(child instanceof Block),
             },

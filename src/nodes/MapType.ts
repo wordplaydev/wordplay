@@ -66,11 +66,11 @@ export default class MapType extends NativeType {
 
     getGrammar(): Grammar {
         return [
-            { name: 'open', types: node(Symbol.SetOpen) },
-            { name: 'key', types: any(node(Type), none('value')) },
-            { name: 'bind', types: node(Symbol.Bind) },
-            { name: 'value', types: any(node(Type), none('key')) },
-            { name: 'close', types: node(Symbol.SetClose) },
+            { name: 'open', kind: node(Symbol.SetOpen) },
+            { name: 'key', kind: any(node(Type), none('value')) },
+            { name: 'bind', kind: node(Symbol.Bind) },
+            { name: 'value', kind: any(node(Type), none('key')) },
+            { name: 'close', kind: node(Symbol.SetClose) },
         ];
     }
 

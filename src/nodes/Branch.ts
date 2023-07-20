@@ -46,12 +46,12 @@ export default class Branch extends Content {
 
     getGrammar(): Grammar {
         return [
-            { name: 'mention', types: node(Mention) },
-            { name: 'open', types: node(Symbol.ListOpen) },
-            { name: 'yes', types: list(node(Words)) },
-            { name: 'bar', types: node(Symbol.Union) },
-            { name: 'no', types: list(node(Words)) },
-            { name: 'close', types: node(Symbol.ListClose) },
+            { name: 'mention', kind: node(Mention) },
+            { name: 'open', kind: node(Symbol.ListOpen) },
+            { name: 'yes', kind: list(node(Words)) },
+            { name: 'bar', kind: node(Symbol.Union) },
+            { name: 'no', kind: list(node(Words)) },
+            { name: 'close', kind: node(Symbol.ListClose) },
         ];
     }
     computeConflicts() {

@@ -52,7 +52,7 @@ export default class ConceptLink extends Content {
     }
 
     getGrammar(): Field[] {
-        return [{ name: 'concept', types: node(Symbol.Concept) }];
+        return [{ name: 'concept', kind: node(Symbol.Concept) }];
     }
 
     clone(replace?: Replacement | undefined): this {

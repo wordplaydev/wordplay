@@ -19,7 +19,7 @@ export default class TypeVariable extends Node {
     }
 
     getGrammar(): Grammar {
-        return [{ name: 'names', types: node(Names) }];
+        return [{ name: 'names', kind: node(Names) }];
     }
 
     clone(replace?: Replacement) {

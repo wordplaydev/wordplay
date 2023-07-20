@@ -56,14 +56,14 @@ export default class Template extends Expression {
 
     getGrammar(): Grammar {
         return [
-            { name: 'open', types: node(Symbol.TemplateOpen) },
+            { name: 'open', kind: node(Symbol.TemplateOpen) },
             {
                 name: 'expressions',
-                types: list(node(Expression), node(Symbol.Text)),
+                kind: list(node(Expression), node(Symbol.Text)),
                 label: (translation: Locale) => translation.term.text,
                 getType: () => TextType.make(),
             },
-            { name: 'language', types: optional(node(Language)) },
+            { name: 'language', kind: optional(node(Language)) },
         ];
     }
 

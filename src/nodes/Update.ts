@@ -48,18 +48,18 @@ export default class Update extends Expression {
         return [
             {
                 name: 'table',
-                types: node(Expression),
+                kind: node(Expression),
                 label: (translation: Locale) => translation.term.table,
             },
-            { name: 'update', types: node(Symbol.Update) },
+            { name: 'update', kind: node(Symbol.Update) },
             {
                 name: 'row',
-                types: node(Row),
+                kind: node(Row),
                 label: (translation: Locale) => translation.term.row,
             },
             {
                 name: 'query',
-                types: node(Expression),
+                kind: node(Expression),
                 label: (translation: Locale) => translation.term.query,
             },
         ];

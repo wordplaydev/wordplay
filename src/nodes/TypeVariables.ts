@@ -40,9 +40,9 @@ export default class TypeVariables extends Node {
 
     getGrammar(): Grammar {
         return [
-            { name: 'open', types: node(Symbol.TypeOpen) },
-            { name: 'variables', types: node(Names) },
-            { name: 'close', types: node(Symbol.TypeClose) },
+            { name: 'open', kind: node(Symbol.TypeOpen) },
+            { name: 'variables', kind: node(Names) },
+            { name: 'close', kind: node(Symbol.TypeClose) },
         ];
     }
 

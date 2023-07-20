@@ -45,7 +45,7 @@ export default class Paragraph extends Content {
         return [
             {
                 name: 'segments',
-                types: list(node(Words), node(WebLink), node(ConceptLink)),
+                kind: list(node(Words), node(WebLink), node(ConceptLink)),
             },
         ];
     }

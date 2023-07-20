@@ -169,28 +169,28 @@ export default class FunctionDefinition extends Expression {
 
     getGrammar(): Grammar {
         return [
-            { name: 'docs', types: any(node(Docs), none()) },
+            { name: 'docs', kind: any(node(Docs), none()) },
             {
                 name: 'share',
-                types: any(node(Symbol.Share), none()),
+                kind: any(node(Symbol.Share), none()),
                 getToken: () => new Token(SHARE_SYMBOL, Symbol.Share),
             },
-            { name: 'fun', types: node(Symbol.Function) },
-            { name: 'names', types: node(Names), space: true },
-            { name: 'types', types: any(node(TypeVariables), none()) },
-            { name: 'open', types: node(Symbol.EvalOpen) },
+            { name: 'fun', kind: node(Symbol.Function) },
+            { name: 'names', kind: node(Names), space: true },
+            { name: 'types', kind: any(node(TypeVariables), none()) },
+            { name: 'open', kind: node(Symbol.EvalOpen) },
             {
                 name: 'inputs',
-                types: list(node(Bind)),
+                kind: list(node(Bind)),
                 space: true,
                 indent: true,
             },
-            { name: 'close', types: node(Symbol.EvalClose) },
-            { name: 'dot', types: any(node(Symbol.Type), none('output')) },
-            { name: 'output', types: any(node(Type), none('dot')) },
+            { name: 'close', kind: node(Symbol.EvalClose) },
+            { name: 'dot', kind: any(node(Symbol.Type), none('output')) },
+            { name: 'output', kind: any(node(Type), none('dot')) },
             {
                 name: 'expression',
-                types: any(node(Expression), node(Symbol.Etc), none()),
+                kind: any(node(Expression), node(Symbol.Etc), none()),
                 space: true,
                 indent: (_: Node, child: Node) => !(child instanceof Block),
                 // Must match output type if provided

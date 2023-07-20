@@ -95,19 +95,19 @@ export default class StreamDefinition extends Expression {
 
     getGrammar(): Grammar {
         return [
-            { name: 'docs', types: optional(node(Docs)) },
-            { name: 'dots', types: node(Symbol.Stream) },
-            { name: 'names', types: node(Names) },
-            { name: 'open', types: node(Symbol.EvalOpen) },
+            { name: 'docs', kind: optional(node(Docs)) },
+            { name: 'dots', kind: node(Symbol.Stream) },
+            { name: 'names', kind: node(Names) },
+            { name: 'open', kind: node(Symbol.EvalOpen) },
             {
                 name: 'inputs',
-                types: list(node(Bind)),
+                kind: list(node(Bind)),
                 space: true,
                 indent: true,
             },
-            { name: 'close', types: node(Symbol.EvalClose) },
-            { name: 'dot', types: any(node(Symbol.Type), none('output')) },
-            { name: 'output', types: any(node(Type), none('dot')) },
+            { name: 'close', kind: node(Symbol.EvalClose) },
+            { name: 'dot', kind: any(node(Symbol.Type), none('output')) },
+            { name: 'output', kind: any(node(Type), none('dot')) },
         ];
     }
 

@@ -36,7 +36,7 @@ export default class Mention extends Content {
     }
 
     getGrammar(): Grammar {
-        return [{ name: 'name', types: node(Symbol.Mention) }];
+        return [{ name: 'name', kind: node(Symbol.Mention) }];
     }
     computeConflicts() {
         return [];

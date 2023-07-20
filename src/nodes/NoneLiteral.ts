@@ -29,7 +29,7 @@ export default class NoneLiteral extends Literal {
         return [
             {
                 name: 'none',
-                types: node(Symbol.None),
+                kind: node(Symbol.None),
                 getType: () => NoneType.make(),
             },
         ];

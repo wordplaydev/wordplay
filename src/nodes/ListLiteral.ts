@@ -53,16 +53,16 @@ export default class ListLiteral extends Expression {
 
     getGrammar(): Grammar {
         return [
-            { name: 'open', types: node(Symbol.ListOpen) },
+            { name: 'open', kind: node(Symbol.ListOpen) },
             {
                 name: 'values',
-                types: list(node(Expression)),
+                kind: list(node(Expression)),
                 label: (translation: Locale) =>
                     translation.node.ListLiteral.item,
                 space: true,
                 indent: true,
             },
-            { name: 'close', types: node(Symbol.ListClose), space: true },
+            { name: 'close', kind: node(Symbol.ListClose), space: true },
         ];
     }
 

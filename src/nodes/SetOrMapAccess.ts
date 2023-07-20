@@ -67,18 +67,18 @@ export default class SetOrMapAccess extends Expression {
         return [
             {
                 name: 'setOrMap',
-                types: node(Expression),
+                kind: node(Expression),
                 label: (translation: Locale) => translation.term.set,
                 // Must be a number
                 getType: () => UnionType.make(SetType.make(), MapType.make()),
             },
-            { name: 'open', types: node(Symbol.SetOpen) },
+            { name: 'open', kind: node(Symbol.SetOpen) },
             {
                 name: 'key',
-                types: node(Expression),
+                kind: node(Expression),
                 label: (translation: Locale) => translation.term.key,
             },
-            { name: 'close', types: node(Symbol.SetClose) },
+            { name: 'close', kind: node(Symbol.SetClose) },
         ];
     }
 

@@ -42,13 +42,13 @@ export default class KeyValue extends Node {
         return [
             {
                 name: 'key',
-                types: node(Expression),
+                kind: node(Expression),
                 label: (translation: Locale) => translation.term.key,
             },
-            { name: 'bind', types: node(Symbol.Bind) },
+            { name: 'bind', kind: node(Symbol.Bind) },
             {
                 name: 'value',
-                types: node(Expression),
+                kind: node(Expression),
                 label: (translation: Locale) => translation.term.value,
             },
         ];

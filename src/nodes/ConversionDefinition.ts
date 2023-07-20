@@ -82,13 +82,13 @@ export default class ConversionDefinition extends AtomicExpression {
 
     getGrammar(): Grammar {
         return [
-            { name: 'docs', types: any(node(Docs), none()) },
-            { name: 'arrow', types: node(Symbol.Convert) },
-            { name: 'input', types: node(Type), space: true },
-            { name: 'output', types: node(Type), space: true },
+            { name: 'docs', kind: any(node(Docs), none()) },
+            { name: 'arrow', kind: node(Symbol.Convert) },
+            { name: 'input', kind: node(Type), space: true },
+            { name: 'output', kind: node(Type), space: true },
             {
                 name: 'expression',
-                types: node(Expression),
+                kind: node(Expression),
                 space: true,
                 indent: true,
                 // Must match the output type

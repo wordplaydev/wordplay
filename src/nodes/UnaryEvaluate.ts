@@ -47,8 +47,8 @@ export default class UnaryEvaluate extends Expression {
 
     getGrammar(): Grammar {
         return [
-            { name: 'fun', types: node(Reference) },
-            { name: 'input', types: node(Expression) },
+            { name: 'fun', kind: node(Reference) },
+            { name: 'input', kind: node(Expression) },
         ];
     }
 

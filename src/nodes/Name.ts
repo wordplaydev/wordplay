@@ -45,9 +45,9 @@ export default class Name extends Node {
 
     getGrammar(): Grammar {
         return [
-            { name: 'separator', types: optional(node(Symbol.Separator)) },
-            { name: 'name', types: optional(node(Symbol.Name)) },
-            { name: 'lang', types: optional(node(Language)) },
+            { name: 'separator', kind: optional(node(Symbol.Separator)) },
+            { name: 'name', kind: optional(node(Symbol.Name)) },
+            { name: 'lang', kind: optional(node(Language)) },
         ];
     }
 

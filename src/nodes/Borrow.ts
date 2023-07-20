@@ -68,22 +68,22 @@ export default class Borrow extends AtomicExpression {
 
     getGrammar(): Grammar {
         return [
-            { name: 'borrow', types: node(Symbol.Borrow) },
+            { name: 'borrow', kind: node(Symbol.Borrow) },
             {
                 name: 'source',
-                types: any(node(Symbol.Name), none()),
+                kind: any(node(Symbol.Name), none()),
                 space: true,
                 label: (locale: Locale) => locale.node.Borrow.source,
             },
-            { name: 'dot', types: any(node(Symbol.Access), none('name')) },
+            { name: 'dot', kind: any(node(Symbol.Access), none('name')) },
             {
                 name: 'name',
-                types: any(node(Symbol.Name), none('dot')),
+                kind: any(node(Symbol.Name), none('dot')),
                 label: (locale: Locale) => locale.node.Borrow.name,
             },
             {
                 name: 'version',
-                types: any(node(Symbol.Number), none()),
+                kind: any(node(Symbol.Number), none()),
                 label: (locale: Locale) => locale.node.Borrow.version,
             },
         ];

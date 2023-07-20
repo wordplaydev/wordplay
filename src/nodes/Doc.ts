@@ -48,10 +48,10 @@ export default class Doc extends Node {
 
     getGrammar(): Grammar {
         return [
-            { name: 'open', types: node(Symbol.Doc) },
-            { name: 'markup', types: node(Markup) },
-            { name: 'close', types: node(Symbol.Doc) },
-            { name: 'lang', types: any(node(Language), none()) },
+            { name: 'open', kind: node(Symbol.Doc) },
+            { name: 'markup', kind: node(Markup) },
+            { name: 'close', kind: node(Symbol.Doc) },
+            { name: 'lang', kind: any(node(Language), none()) },
         ];
     }
 

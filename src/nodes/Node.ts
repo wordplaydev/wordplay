@@ -229,7 +229,7 @@ export default abstract class Node {
     getAllowedFieldNodeTypes(name: string): FieldKind | undefined {
         let field = this.getGrammar().find((field) => field.name === name);
         if (field === undefined) return undefined;
-        else return field.types;
+        else return field.kind;
     }
 
     // CONFLICTS
@@ -360,7 +360,7 @@ export default abstract class Node {
         const { original, replacement } = replace;
 
         // Let's get the allowed types of the field we're trying to update.
-        const kind = this.getGrammar().find((f) => f.name === field)?.types;
+        const kind = this.getGrammar().find((f) => f.name === field)?.kind;
 
         // Bail if the field couldn't be found. This means there's a fatal problem with one of the Node's clone() implementations.
         if (typeof field !== 'string' || kind === undefined)
@@ -683,7 +683,7 @@ export type Field = {
     /** The name of the field, corresponding to a name on the Node class. Redundant with the class, but no reflection in JavaScript. */
     name: string;
     /** A list of possible Node class types that the field may be. Redundant with the class, but no reflection in JavaScript. */
-    types: Any | Empty | ListOf | IsA;
+    kind: Any | Empty | ListOf | IsA;
     /** A description of the field for the UI */
     label?: (
         locale: Locale,

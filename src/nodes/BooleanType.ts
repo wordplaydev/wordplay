@@ -28,7 +28,7 @@ export default class BooleanType extends NativeType {
     }
 
     getGrammar(): Grammar {
-        return [{ name: 'type', types: node(Symbol.BooleanType) }];
+        return [{ name: 'type', kind: node(Symbol.BooleanType) }];
     }
 
     clone(replace?: Replacement) {

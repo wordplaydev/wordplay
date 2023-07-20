@@ -34,8 +34,8 @@ export default class StreamType extends Type {
 
     getGrammar(): Grammar {
         return [
-            { name: 'stream', types: node(Symbol.Stream) },
-            { name: 'type', types: node(Type) },
+            { name: 'stream', kind: node(Symbol.Stream) },
+            { name: 'type', kind: node(Type) },
         ];
     }
 

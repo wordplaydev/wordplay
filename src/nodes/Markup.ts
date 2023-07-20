@@ -42,7 +42,7 @@ export default class Markup extends Content {
         return [
             {
                 name: 'paragraphs',
-                types: list(node(Paragraph)),
+                kind: list(node(Paragraph)),
                 newline: true,
                 double: true,
             },

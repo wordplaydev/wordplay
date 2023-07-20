@@ -29,9 +29,9 @@ export default class Row extends Node {
 
     getGrammar(): Grammar {
         return [
-            { name: 'open', types: node(Symbol.TableOpen) },
-            { name: 'cells', types: list(node(Bind), node(Expression)) },
-            { name: 'close', types: node(Symbol.TableClose) },
+            { name: 'open', kind: node(Symbol.TableOpen) },
+            { name: 'cells', kind: list(node(Bind), node(Expression)) },
+            { name: 'close', kind: node(Symbol.TableClose) },
         ];
     }
 

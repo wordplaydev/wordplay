@@ -56,9 +56,9 @@ export default class ListType extends NativeType {
 
     getGrammar(): Grammar {
         return [
-            { name: 'open', types: node(Symbol.ListOpen) },
-            { name: 'type', types: optional(node(Type)) },
-            { name: 'close', types: node(Symbol.ListClose) },
+            { name: 'open', kind: node(Symbol.ListOpen) },
+            { name: 'type', kind: optional(node(Type)) },
+            { name: 'close', kind: node(Symbol.ListClose) },
         ];
     }
 

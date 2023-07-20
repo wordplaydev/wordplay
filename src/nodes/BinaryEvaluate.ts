@@ -60,7 +60,7 @@ export default class BinaryEvaluate extends Expression {
         return [
             {
                 name: 'left',
-                types: node(Expression),
+                kind: node(Expression),
                 // The label comes from the type of left, or the default label from the translation.
                 label: (
                     translation: Locale,
@@ -70,7 +70,7 @@ export default class BinaryEvaluate extends Expression {
             },
             {
                 name: 'fun',
-                types: node(Reference),
+                kind: node(Reference),
                 space: true,
                 indent: true,
                 getDefinitions: (context: Context): Definition[] => {
@@ -83,7 +83,7 @@ export default class BinaryEvaluate extends Expression {
             },
             {
                 name: 'right',
-                types: node(Expression),
+                kind: node(Expression),
                 // The name of the input from the function, or the translation default
                 label: (
                     translation: Locale,

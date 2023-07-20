@@ -66,15 +66,15 @@ export default class MapLiteral extends Expression {
 
     getGrammar(): Grammar {
         return [
-            { name: 'open', types: node(Symbol.SetOpen) },
-            { name: 'bind', types: optional(node(Symbol.Bind)) },
+            { name: 'open', kind: node(Symbol.SetOpen) },
+            { name: 'bind', kind: optional(node(Symbol.Bind)) },
             {
                 name: 'values',
-                types: list(node(KeyValue)),
+                kind: list(node(KeyValue)),
                 space: true,
                 indent: true,
             },
-            { name: 'close', types: node(Symbol.SetClose) },
+            { name: 'close', kind: node(Symbol.SetClose) },
         ];
     }
 

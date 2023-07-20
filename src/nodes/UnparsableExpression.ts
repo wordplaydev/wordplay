@@ -25,7 +25,7 @@ export default class UnparsableExpression extends AtomicExpression {
     }
 
     getGrammar(): Grammar {
-        return [{ name: 'unparsables', types: list(node(Node)) }];
+        return [{ name: 'unparsables', kind: list(node(Node)) }];
     }
 
     computeConflicts(): void | Conflict[] {

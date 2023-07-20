@@ -37,9 +37,9 @@ export default class Example extends Content {
 
     getGrammar(): Grammar {
         return [
-            { name: 'open', types: node(Symbol.ExampleOpen) },
-            { name: 'program', types: node(Program) },
-            { name: 'close', types: node(Symbol.ExampleClose) },
+            { name: 'open', kind: node(Symbol.ExampleOpen) },
+            { name: 'program', kind: node(Program) },
+            { name: 'close', kind: node(Symbol.ExampleClose) },
         ];
     }
 

@@ -902,7 +902,7 @@ export default class Caret {
             }
             // Other grammar-dependent cases.
             else {
-                const kind = parent?.getFieldOfChild(node)?.types;
+                const kind = parent?.getFieldOfChild(node)?.kind;
                 const index = this.source.getNodeFirstPosition(node);
                 if (kind && index !== undefined) {
                     // If in a list or undefined is allowed, just remove it

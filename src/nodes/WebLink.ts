@@ -53,11 +53,11 @@ export default class WebLink extends Content {
 
     getGrammar(): Grammar {
         return [
-            { name: 'open', types: node(Symbol.TagOpen) },
-            { name: 'description', types: node(Symbol.Words) },
-            { name: 'at', types: node(Symbol.Link) },
-            { name: 'url', types: node(Symbol.URL) },
-            { name: 'close', types: node(Symbol.TagClose) },
+            { name: 'open', kind: node(Symbol.TagOpen) },
+            { name: 'description', kind: node(Symbol.Words) },
+            { name: 'at', kind: node(Symbol.Link) },
+            { name: 'url', kind: node(Symbol.URL) },
+            { name: 'close', kind: node(Symbol.TagClose) },
         ];
     }
 

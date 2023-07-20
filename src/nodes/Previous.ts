@@ -65,15 +65,15 @@ export default class Previous extends Expression {
         return [
             {
                 name: 'stream',
-                types: node(Expression),
+                kind: node(Expression),
                 label: (translation: Locale) => translation.term.stream,
                 // Must be a stream
                 getType: () => StreamType.make(new AnyType()),
             },
-            { name: 'previous', types: node(Symbol.Previous) },
+            { name: 'previous', kind: node(Symbol.Previous) },
             {
                 name: 'index',
-                types: node(Expression),
+                kind: node(Expression),
                 label: (translation: Locale) => translation.term.index,
                 // Must be a number
                 getType: () => NumberType.make(),

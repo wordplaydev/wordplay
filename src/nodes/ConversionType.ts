@@ -34,9 +34,9 @@ export default class ConversionType extends Type {
 
     getGrammar(): Grammar {
         return [
-            { name: 'input', types: node(Type) },
-            { name: 'convert', types: node(Symbol.Convert), space: true },
-            { name: 'output', types: node(Type), space: true },
+            { name: 'input', kind: node(Type) },
+            { name: 'convert', kind: node(Symbol.Convert), space: true },
+            { name: 'output', kind: node(Type), space: true },
         ];
     }
 

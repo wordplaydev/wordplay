@@ -50,9 +50,9 @@ export default class UnionType extends Type {
 
     getGrammar(): Grammar {
         return [
-            { name: 'left', types: node(Type) },
-            { name: 'or', types: node(Symbol.Union) },
-            { name: 'right', types: node(Type) },
+            { name: 'left', kind: node(Type) },
+            { name: 'or', kind: node(Symbol.Union) },
+            { name: 'right', kind: node(Type) },
         ];
     }
 

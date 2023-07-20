@@ -85,7 +85,7 @@ export default class Conditional extends Expression {
         return [
             {
                 name: 'condition',
-                types: node(Expression),
+                kind: node(Expression),
                 label: (translation: Locale) =>
                     translation.node.Conditional.condition,
                 // Must be boolean typed
@@ -93,12 +93,12 @@ export default class Conditional extends Expression {
             },
             {
                 name: 'question',
-                types: node(Symbol.Conditional),
+                kind: node(Symbol.Conditional),
                 space: true,
             },
             {
                 name: 'yes',
-                types: node(Expression),
+                kind: node(Expression),
                 label: (translation: Locale) =>
                     translation.node.Conditional.yes,
                 space: true,
@@ -106,7 +106,7 @@ export default class Conditional extends Expression {
             },
             {
                 name: 'no',
-                types: node(Expression),
+                kind: node(Expression),
                 label: (translation: Locale) => translation.node.Conditional.no,
                 space: true,
                 indent: true,

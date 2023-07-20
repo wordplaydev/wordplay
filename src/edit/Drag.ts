@@ -92,15 +92,15 @@ export function dropNodeOnSource(
         field === undefined || !draggedInSource
             ? null
             : // Does the field allow undefined or the field is a list? Replace with undefined (which means unset or remove from the list).
-            field.types.isOptional() || field.types instanceof ListOf
+            field.kind.isOptional() || field.kind instanceof ListOf
             ? undefined
             : // Is the node an expression and the field allows expressions? Replace with an expression placeholder of the type of the current expression.
-            dragged instanceof Expression && field.types.allowsKind(Expression)
+            dragged instanceof Expression && field.kind.allowsKind(Expression)
             ? ExpressionPlaceholder.make(
                   dragged.getType(project.getContext(source))
               )
             : // Is the field a type? Replace with a type placeholder.
-            field.types.allowsKind(Type)
+            field.kind.allowsKind(Type)
             ? new TypePlaceholder()
             : // Otherwise, don't do a replacement.
               null;
@@ -274,7 +274,7 @@ export function isValidDropTarget(
             ?.getFieldOfChild(target);
 
         // If we found a field and the dragged node is an instanceof one of the allowed types, it's a valid drop target.
-        if (field && field.types.allowsKind(dragged.constructor)) return true;
+        if (field && field.kind.allowsKind(dragged.constructor)) return true;
     }
 
     // Allow binds to be dropped on children of blocks.

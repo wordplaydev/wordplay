@@ -59,10 +59,10 @@ export default class Program extends Expression {
 
     getGrammar(): Grammar {
         return [
-            { name: 'docs', types: optional(node(Docs)) },
-            { name: 'borrows', types: list(node(Borrow)) },
-            { name: 'expression', types: node(Block) },
-            { name: 'end', types: node(Symbol.End) },
+            { name: 'docs', kind: optional(node(Docs)) },
+            { name: 'borrows', kind: list(node(Borrow)) },
+            { name: 'expression', kind: node(Block) },
+            { name: 'end', kind: node(Symbol.End) },
         ];
     }
 

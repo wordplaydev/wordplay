@@ -28,8 +28,8 @@ export default class DocumentedExpression extends AtomicExpression {
 
     getGrammar(): Grammar {
         return [
-            { name: 'docs', types: node(Docs) },
-            { name: 'expression', types: node(Expression) },
+            { name: 'docs', kind: node(Docs) },
+            { name: 'expression', kind: node(Expression) },
         ];
     }
 

@@ -65,7 +65,7 @@ export default class ExpressionPlaceholder extends AtomicExpression {
         return [
             {
                 name: 'placeholder',
-                types: node(Symbol.Placeholder),
+                kind: node(Symbol.Placeholder),
                 label: (
                     translation: Locale,
                     _: Node,
@@ -84,10 +84,10 @@ export default class ExpressionPlaceholder extends AtomicExpression {
                     );
                 },
             },
-            { name: 'dot', types: any(node(Symbol.Access), none('type')) },
+            { name: 'dot', kind: any(node(Symbol.Access), none('type')) },
             {
                 name: 'type',
-                types: any(node(Type), none('dot')),
+                kind: any(node(Type), none('dot')),
             },
         ];
     }

@@ -134,9 +134,9 @@ export default class Unit extends Type {
 
     getGrammar(): Grammar {
         return [
-            { name: 'numerator', types: list(node(Dimension)) },
-            { name: 'slash', types: optional(node(Symbol.Language)) },
-            { name: 'denominator', types: list(node(Dimension)) },
+            { name: 'numerator', kind: list(node(Dimension)) },
+            { name: 'slash', kind: optional(node(Symbol.Language)) },
+            { name: 'denominator', kind: list(node(Dimension)) },
         ];
     }
 

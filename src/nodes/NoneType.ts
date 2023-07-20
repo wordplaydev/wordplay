@@ -30,7 +30,7 @@ export default class NoneType extends NativeType {
     }
 
     getGrammar(): Grammar {
-        return [{ name: 'none', types: node(Symbol.None) }];
+        return [{ name: 'none', kind: node(Symbol.None) }];
     }
 
     computeConflicts() {}

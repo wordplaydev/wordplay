@@ -46,9 +46,9 @@ export default class SetType extends NativeType {
 
     getGrammar(): Grammar {
         return [
-            { name: 'open', types: node(Symbol.SetOpen) },
-            { name: 'key', types: optional(node(Type)) },
-            { name: 'close', types: node(Symbol.SetClose) },
+            { name: 'open', kind: node(Symbol.SetOpen) },
+            { name: 'key', kind: optional(node(Type)) },
+            { name: 'close', kind: node(Symbol.SetClose) },
         ];
     }
 

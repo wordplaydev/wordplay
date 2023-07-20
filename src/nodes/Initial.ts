@@ -41,7 +41,7 @@ export default class Initial extends AtomicExpression {
     }
 
     getGrammar(): Grammar {
-        return [{ name: 'diamond', types: node(Symbol.Initial) }];
+        return [{ name: 'diamond', kind: node(Symbol.Initial) }];
     }
 
     clone(replace?: Replacement) {

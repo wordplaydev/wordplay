@@ -37,8 +37,8 @@ export default class Language extends Node {
 
     getGrammar(): Grammar {
         return [
-            { name: 'slash', types: node(Symbol.Language) },
-            { name: 'lang', types: optional(node(Symbol.Name)) },
+            { name: 'slash', kind: node(Symbol.Language) },
+            { name: 'lang', kind: optional(node(Symbol.Name)) },
         ];
     }
 

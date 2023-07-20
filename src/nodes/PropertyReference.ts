@@ -71,11 +71,11 @@ export default class PropertyReference extends Expression {
 
     getGrammar(): Grammar {
         return [
-            { name: 'structure', types: node(Expression) },
-            { name: 'dot', types: node(Symbol.Access) },
+            { name: 'structure', kind: node(Expression) },
+            { name: 'dot', kind: node(Symbol.Access) },
             {
                 name: 'name',
-                types: node(Reference),
+                kind: node(Reference),
                 // The label is
                 label: (translation: Locale) =>
                     translation.node.PropertyReference.property,

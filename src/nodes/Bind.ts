@@ -127,28 +127,28 @@ export default class Bind extends Expression {
         return [
             {
                 name: 'docs',
-                types: any(node(Docs), none()),
+                kind: any(node(Docs), none()),
             },
             {
                 name: 'share',
-                types: any(node(Symbol.Share), none()),
+                kind: any(node(Symbol.Share), none()),
                 getToken: () => new Token(SHARE_SYMBOL, Symbol.Share),
             },
             {
                 name: 'names',
-                types: node(Names),
+                kind: node(Names),
             },
             {
                 name: 'etc',
-                types: any(node(Symbol.Etc), none()),
+                kind: any(node(Symbol.Etc), none()),
                 getToken: () => new Token(ETC_SYMBOL, Symbol.Etc),
             },
-            { name: 'dot', types: any(node(Symbol.Access), none('type')) },
-            { name: 'type', types: any(node(Type), none('dot')) },
-            { name: 'colon', types: any(node(Symbol.Bind), none('value')) },
+            { name: 'dot', kind: any(node(Symbol.Access), none('type')) },
+            { name: 'type', kind: any(node(Type), none('dot')) },
+            { name: 'colon', kind: any(node(Symbol.Bind), none('value')) },
             {
                 name: 'value',
-                types: any(node(Expression), none('colon')),
+                kind: any(node(Expression), none('colon')),
                 space: true,
                 indent: true,
                 // If there's a type, the value must match it, otherwise anything
