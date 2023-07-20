@@ -165,6 +165,45 @@ export function getEditsAt(project: Project, caret: Caret): Transform[] {
                 ),
             ];
         }
+
+        // We have to special case empty Program Blocks. This is because all other sequences are
+        // delimited except for program blocks, so when we're in an empty program block, there is no
+        // delimiter to anchor off of.
+        if (context.source.leaves().length === 1) {
+            const kind =
+                source.expression.expression.getFieldKind('statements');
+            if (kind) {
+                edits = [
+                    ...edits,
+                    ...kind
+                        .enumerate()
+                        .map((kind) =>
+                            getPossibleNodes(
+                                kind,
+                                undefined,
+                                undefined,
+                                context
+                            )
+                                .filter(
+                                    (kind): kind is Node | Refer =>
+                                        kind !== undefined
+                                )
+                                .map(
+                                    (insertion) =>
+                                        new Append(
+                                            context,
+                                            caret.position as number,
+                                            source.expression.expression,
+                                            source.expression.expression.statements,
+                                            0,
+                                            insertion
+                                        )
+                                )
+                        )
+                        .flat(),
+                ];
+            }
+        }
     }
 
     return edits;
@@ -232,6 +271,7 @@ function getRelativeFieldEdits(
     const relativeFields = before
         ? grammar.slice(fieldIndex)
         : grammar.slice(0, fieldIndex + 1);
+
     for (const relativeField of relativeFields) {
         // If the field is a list, get possible insertions for all allowable node kinds.
         if (relativeField.kind instanceof ListOf) {

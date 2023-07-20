@@ -8,7 +8,6 @@ import { NotANumber } from '@conflicts/NotANumber';
 import type Bind from './Bind';
 import type Context from './Context';
 import type TypeSet from './TypeSet';
-import PlaceholderToken from './PlaceholderToken';
 import Symbol from './Symbol';
 import { node, type Grammar, type Replacement } from './Node';
 import type Locale from '@locale/Locale';
@@ -36,12 +35,14 @@ export default class NumberLiteral extends Literal {
 
     static make(number?: number | string, unit?: Unit, ...types: Symbol[]) {
         return new NumberLiteral(
-            number === undefined
-                ? new PlaceholderToken()
-                : new Token(
-                      typeof number === 'number' ? '' + number : number,
-                      types.length === 0 ? Symbol.Decimal : types
-                  ),
+            new Token(
+                number === undefined
+                    ? 'NaN'
+                    : typeof number === 'number'
+                    ? '' + number
+                    : number,
+                types.length === 0 ? Symbol.Decimal : types
+            ),
             unit === undefined ? Unit.Empty : unit
         );
     }

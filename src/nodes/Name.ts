@@ -4,7 +4,6 @@ import type Conflict from '@conflicts/Conflict';
 import Language from './Language';
 import type LanguageCode from '@locale/LanguageCode';
 import NameToken from './NameToken';
-import PlaceholderToken from './PlaceholderToken';
 import type Locale from '@locale/Locale';
 import { COMMA_SYMBOL } from '@parser/Symbols';
 import Symbol from './Symbol';
@@ -36,11 +35,7 @@ export default class Name extends Node {
     }
 
     static make(name?: string, lang?: Language) {
-        return new Name(
-            undefined,
-            name !== undefined ? new NameToken(name) : new PlaceholderToken(),
-            lang
-        );
+        return new Name(undefined, new NameToken(name ?? '_'), lang);
     }
 
     getGrammar(): Grammar {

@@ -843,30 +843,32 @@
 
             // If there are nodes between the point, construct insertion points
             // that exist in lists.
-            return [
-                      ...before.map((tree) =>
-                          getInsertionPoint(source, tree, true, token, line)
-                      ),
-                      ...after.map((tree) =>
-                          getInsertionPoint(source, tree, false, token, line)
-                      ),
-                  ]
-                      // Filter out duplicates and undefineds
-                      .filter<InsertionPoint>(
-                          (
-                              insertion1: InsertionPoint | undefined,
-                              i1,
-                              insertions
-                          ): insertion1 is InsertionPoint =>
-                              insertion1 !== undefined &&
-                              insertions.find(
-                                  (insertion2, i2) =>
-                                      i1 > i2 &&
-                                      insertion1 !== insertion2 &&
-                                      insertion2 !== undefined &&
-                                      insertion1.equals(insertion2)
-                              ) === undefined
-                      );
+            return (
+                [
+                    ...before.map((tree) =>
+                        getInsertionPoint(source, tree, true, token, line)
+                    ),
+                    ...after.map((tree) =>
+                        getInsertionPoint(source, tree, false, token, line)
+                    ),
+                ]
+                    // Filter out duplicates and undefineds
+                    .filter<InsertionPoint>(
+                        (
+                            insertion1: InsertionPoint | undefined,
+                            i1,
+                            insertions
+                        ): insertion1 is InsertionPoint =>
+                            insertion1 !== undefined &&
+                            insertions.find(
+                                (insertion2, i2) =>
+                                    i1 > i2 &&
+                                    insertion1 !== insertion2 &&
+                                    insertion2 !== undefined &&
+                                    insertion1.equals(insertion2)
+                            ) === undefined
+                    )
+            );
         }
         return [];
     }
@@ -912,9 +914,7 @@
             // This only works if the types list contains a single item that is a list of types.
             const insertionPoint = getInsertionPointsAt(event).filter(
                 (insertion) => {
-                    const types = insertion.node.getAllowedFieldNodeTypes(
-                        insertion.field
-                    );
+                    const types = insertion.node.getFieldKind(insertion.field);
                     return (
                         $dragged &&
                         Array.isArray(types) &&

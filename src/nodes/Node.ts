@@ -226,7 +226,7 @@ export default abstract class Node {
         );
     }
 
-    getAllowedFieldNodeTypes(name: string): FieldKind | undefined {
+    getFieldKind(name: string): FieldKind | undefined {
         let field = this.getGrammar().find((field) => field.name === name);
         if (field === undefined) return undefined;
         else return field.kind;
