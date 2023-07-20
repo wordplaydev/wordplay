@@ -881,7 +881,7 @@
             "exception": {
                 "NameException": {
                     "description": "unknown name",
-                    "explanation": "I don't know anyone named $1 in $2[$2|this @Block]…"
+                    "explanation": "$1[I don't know anyone named $1 in $2[$2|this @Block]…|Eep, no name!]"
                 }
             }
         },
