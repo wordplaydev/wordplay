@@ -1,6 +1,6 @@
-import type Transform from '../../../transforms/Transform';
+import type Transform from '../../../edit/Transform';
 import type LanguageCode from '@locale/LanguageCode';
-import type Caret from './Caret';
+import type Caret from '../../../edit/Caret';
 import type { Edit } from './Commands';
 
 /** An immutable container for menu state. */

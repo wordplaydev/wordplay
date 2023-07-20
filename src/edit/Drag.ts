@@ -9,7 +9,7 @@ import Token from '@nodes/Token';
 import Symbol from '@nodes/Symbol';
 import Program from '@nodes/Program';
 import Block from '@nodes/Block';
-import Bind from '../../nodes/Bind';
+import Bind from '../nodes/Bind';
 
 /**
  * Represents a node, list on the node, and index in the list at which to insert a node.

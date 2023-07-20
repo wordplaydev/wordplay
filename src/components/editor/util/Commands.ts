@@ -1,4 +1,4 @@
-import type Caret from './Caret';
+import type Caret from '../../../edit/Caret';
 import Node from '@nodes/Node';
 import {
     CONVERT_SYMBOL,

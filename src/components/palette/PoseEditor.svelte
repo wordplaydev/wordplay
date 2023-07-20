@@ -1,9 +1,9 @@
 <script lang="ts">
-    import type OutputProperty from '@transforms/OutputProperty';
-    import OutputPropertyValueSet from '@transforms/OutputPropertyValueSet';
+    import type OutputProperty from '@edit/OutputProperty';
+    import OutputPropertyValueSet from '@edit/OutputPropertyValueSet';
     import PaletteProperty from './PaletteProperty.svelte';
     import type Project from '@models/Project';
-    import type OutputExpression from '@transforms/OutputExpression';
+    import type OutputExpression from '@edit/OutputExpression';
     import Button from '../widgets/Button.svelte';
     import Evaluate from '@nodes/Evaluate';
     import Reference from '@nodes/Reference';
@@ -11,7 +11,7 @@
     import KeyValue from '@nodes/KeyValue';
     import NumberLiteral from '@nodes/NumberLiteral';
     import { creator } from '../../db/Creator';
-    import getPoseProperties from '@transforms/PoseProperties';
+    import getPoseProperties from '@edit/PoseProperties';
 
     export let project: Project;
     export let outputs: OutputExpression[];

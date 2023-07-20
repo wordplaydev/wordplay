@@ -4,9 +4,9 @@
     import NumberLiteral from '@nodes/NumberLiteral';
     import Reference from '@nodes/Reference';
     import Unit from '@nodes/Unit';
-    import type OutputPropertyValueSet from '@transforms/OutputPropertyValueSet';
+    import type OutputPropertyValueSet from '@edit/OutputPropertyValueSet';
     import ColorChooser from '../widgets/ColorChooser.svelte';
-    import type OutputProperty from '../../transforms/OutputProperty';
+    import type OutputProperty from '../../edit/OutputProperty';
     import { getProject, getSelectedOutput } from '../project/Contexts';
     import { creator } from '../../db/Creator';
 

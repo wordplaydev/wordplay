@@ -18,7 +18,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { parseNames, toTokens } from '../parser/Parser';
 import Root from '../nodes/Root';
 import type { Path } from '../nodes/Root';
-import type { CaretPosition } from '../components/editor/util/Caret';
+import type { CaretPosition } from '../edit/Caret';
 import type { Native } from '../native/Native';
 import type createDefaultShares from '../runtime/createDefaultShares';
 import FunctionType from '../nodes/FunctionType';

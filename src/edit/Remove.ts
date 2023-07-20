@@ -1,7 +1,7 @@
 import type { Edit } from '../components/editor/util/Commands';
 import Transform from './Transform';
 import Node from '@nodes/Node';
-import Caret from '../components/editor/util/Caret';
+import Caret from './Caret';
 import type Context from '@nodes/Context';
 import type Locale from '@locale/Locale';
 import concretize from '../locale/concretize';

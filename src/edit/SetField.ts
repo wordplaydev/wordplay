@@ -3,7 +3,7 @@ import Transform from './Transform';
 import Node from '@nodes/Node';
 import type LanguageCode from '@locale/LanguageCode';
 import Refer from './Refer';
-import Caret from '../components/editor/util/Caret';
+import Caret from './Caret';
 import type Context from '@nodes/Context';
 import type Locale from '@locale/Locale';
 import concretize from '../locale/concretize';

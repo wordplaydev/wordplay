@@ -1,11 +1,11 @@
 <script lang="ts">
-    import type OutputProperty from '@transforms/OutputProperty';
-    import OutputPropertyValueSet from '@transforms/OutputPropertyValueSet';
+    import type OutputProperty from '@edit/OutputProperty';
+    import OutputPropertyValueSet from '@edit/OutputPropertyValueSet';
     import PaletteProperty from './PaletteProperty.svelte';
     import type Project from '@models/Project';
-    import type OutputExpression from '@transforms/OutputExpression';
+    import type OutputExpression from '@edit/OutputExpression';
     import { creator } from '../../db/Creator';
-    import getSequenceProperties from '../../transforms/SequenceProperties';
+    import getSequenceProperties from '../../edit/SequenceProperties';
 
     export let project: Project;
     export let outputs: OutputExpression[];

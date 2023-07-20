@@ -3,7 +3,7 @@
 <script lang="ts">
     import type Token from '@nodes/Token';
     import InsertionPointView from './InsertionPointView.svelte';
-    import type { InsertionPoint } from './Drag';
+    import type { InsertionPoint } from '../../edit/Drag';
     import { EXPLICIT_TAB_TEXT, TAB_TEXT } from '../../parser/Spaces';
 
     export let token: Token;

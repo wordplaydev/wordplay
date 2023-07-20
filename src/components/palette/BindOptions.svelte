@@ -1,8 +1,8 @@
 <script lang="ts">
     import Options from '../widgets/Options.svelte';
-    import type OutputPropertyValues from '@transforms/OutputPropertyValueSet';
-    import type OutputProperty from '@transforms/OutputProperty';
-    import type OutputPropertyOptions from '@transforms/OutputPropertyOptions';
+    import type OutputPropertyValues from '@edit/OutputPropertyValueSet';
+    import type OutputProperty from '@edit/OutputProperty';
+    import type OutputPropertyOptions from '@edit/OutputPropertyOptions';
     import { getProject } from '../project/Contexts';
     import { creator } from '../../db/Creator';
 

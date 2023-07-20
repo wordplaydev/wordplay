@@ -16,7 +16,7 @@ import { node, type Grammar, type Replacement, list, optional } from './Node';
 import type Locale from '@locale/Locale';
 import Emotion from '../lore/Emotion';
 import type Context from './Context';
-import { getPossibleUnits } from '../transforms/getPossibleUnits';
+import { getPossibleUnits } from '../edit/getPossibleUnits';
 import type Node from './Node';
 
 export default class Unit extends Type {

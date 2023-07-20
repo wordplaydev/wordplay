@@ -1,9 +1,9 @@
 <script lang="ts">
     import type Project from '@models/Project';
-    import OutputPropertyValueSet from '@transforms/OutputPropertyValueSet';
+    import OutputPropertyValueSet from '@edit/OutputPropertyValueSet';
     import PaletteProperty from './PaletteProperty.svelte';
-    import type OutputProperty from '@transforms/OutputProperty';
-    import OutputExpression from '@transforms/OutputExpression';
+    import type OutputProperty from '@edit/OutputProperty';
+    import OutputExpression from '@edit/OutputExpression';
     import Speech from '../lore/Speech.svelte';
     import { getConceptIndex, getSelectedOutput } from '../project/Contexts';
     import { creator } from '../../db/Creator';

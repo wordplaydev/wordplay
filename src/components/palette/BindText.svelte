@@ -1,8 +1,8 @@
 <script lang="ts">
-    import type OutputPropertyValues from '@transforms/OutputPropertyValueSet';
+    import type OutputPropertyValues from '@edit/OutputPropertyValueSet';
     import TextLiteral from '@nodes/TextLiteral';
     import TextField from '../widgets/TextField.svelte';
-    import type OutputProperty from '@transforms/OutputProperty';
+    import type OutputProperty from '@edit/OutputProperty';
     import { getProject } from '../project/Contexts';
     import { creator } from '../../db/Creator';
 

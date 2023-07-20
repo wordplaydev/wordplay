@@ -2,7 +2,7 @@
 
 <script lang="ts">
     import Node from '@nodes/Node';
-    import Caret from './util/Caret';
+    import Caret from '../../edit/Caret';
     import {
         createEventDispatcher,
         onDestroy,
@@ -48,7 +48,7 @@
     import type Project from '@models/Project';
     import type Conflict from '@conflicts/Conflict';
     import { tick } from 'svelte';
-    import { getEditsAt } from './util/Autocomplete';
+    import { getEditsAt } from '../../edit/Autocomplete';
     import { OutlinePadding } from './util/outline';
     import Highlight from './Highlight.svelte';
     import { afterUpdate } from 'svelte';
@@ -57,7 +57,7 @@
         getInsertionPoint,
         InsertionPoint,
         isValidDropTarget,
-    } from './Drag';
+    } from '../../edit/Drag';
     import Menu from './util/Menu';
     import Evaluate from '@nodes/Evaluate';
     import type Evaluator from '@runtime/Evaluator';

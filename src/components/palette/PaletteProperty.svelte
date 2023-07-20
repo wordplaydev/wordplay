@@ -1,6 +1,6 @@
 <script lang="ts">
-    import OutputPropertyRange from '@transforms/OutputPropertyRange';
-    import type OutputPropertyValueSet from '@transforms/OutputPropertyValueSet';
+    import OutputPropertyRange from '@edit/OutputPropertyRange';
+    import type OutputPropertyValueSet from '@edit/OutputPropertyValueSet';
     import Button from '../widgets/Button.svelte';
     import BindCheckbox from './BindCheckbox.svelte';
     import BindColor from './BindColor.svelte';
@@ -8,9 +8,9 @@
     import BindSlider from './BindSlider.svelte';
     import BindText from './BindText.svelte';
     import type Project from '@models/Project';
-    import OutputPropertyOptions from '@transforms/OutputPropertyOptions';
-    import OutputPropertyText from '@transforms/OutputPropertyText';
-    import type OutputProperty from '@transforms/OutputProperty';
+    import OutputPropertyOptions from '@edit/OutputPropertyOptions';
+    import OutputPropertyText from '@edit/OutputPropertyText';
+    import type OutputProperty from '@edit/OutputProperty';
     import Note from '../widgets/Note.svelte';
     import NodeView from '../editor/NodeView.svelte';
     import Evaluate from '@nodes/Evaluate';

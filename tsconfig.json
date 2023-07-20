@@ -22,7 +22,7 @@
             "@concepts/*": ["concepts/*"],
             "@parser/*": ["parser/*"],
             "@native/*": ["native/*"],
-            "@transforms/*": ["transforms/*"],
+            "@edit/*": ["edit/*"],
             "@models/*": ["models/*"],
             "@db/*": ["db/*"]
         }

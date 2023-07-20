@@ -35,7 +35,7 @@ const config = {
             '@input': path.resolve('./src/input'),
             '@output': path.resolve('./src/output'),
             '@native': path.resolve('./src/native'),
-            '@transforms': path.resolve('./src/transforms'),
+            '@edit': path.resolve('./src/edit'),
             '@models': path.resolve('./src/models'),
             '@db': path.resolve('./src/db'),
         },

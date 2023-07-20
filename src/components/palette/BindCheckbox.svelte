@@ -1,8 +1,8 @@
 <script lang="ts">
-    import type OutputPropertyValues from '@transforms/OutputPropertyValueSet';
+    import type OutputPropertyValues from '@edit/OutputPropertyValueSet';
     import Checkbox from '../widgets/Checkbox.svelte';
     import BooleanLiteral from '@nodes/BooleanLiteral';
-    import type OutputProperty from '@transforms/OutputProperty';
+    import type OutputProperty from '@edit/OutputProperty';
     import { getProject } from '../project/Contexts';
     import { creator } from '../../db/Creator';
 

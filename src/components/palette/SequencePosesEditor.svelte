@@ -7,7 +7,7 @@
     import NumberLiteral from '@nodes/NumberLiteral';
     import { createPoseLiteral } from '@output/Pose';
     import Evaluate from '@nodes/Evaluate';
-    import OutputExpression from '@transforms/OutputExpression';
+    import OutputExpression from '@edit/OutputExpression';
     import Unit from '@nodes/Unit';
     import type Expression from '@nodes/Expression';
     import Button from '../widgets/Button.svelte';

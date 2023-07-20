@@ -1,5 +1,5 @@
 <script lang="ts">
-    import type Transform from '@transforms/Transform';
+    import type Transform from '@edit/Transform';
     import RootView from '../project/RootView.svelte';
     import Block from '@nodes/Block';
     import type Menu from './util/Menu';

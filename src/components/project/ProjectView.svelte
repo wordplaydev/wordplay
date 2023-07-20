@@ -64,7 +64,7 @@
     import Evaluator from '@runtime/Evaluator';
     import Evaluate from '@nodes/Evaluate';
     import { page } from '$app/stores';
-    import type Caret from '../editor/util/Caret';
+    import type Caret from '../../edit/Caret';
     import GlyphChooser from '../editor/GlyphChooser.svelte';
     import Timeline from '../evaluator/Timeline.svelte';
     import Painting from '../output/Painting.svelte';

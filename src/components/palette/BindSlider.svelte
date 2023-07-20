@@ -1,9 +1,9 @@
 <script lang="ts">
     import { parseNumber, toTokens } from '@parser/Parser';
     import Slider from '../widgets/Slider.svelte';
-    import type OutputPropertyValues from '@transforms/OutputPropertyValueSet';
-    import type OutputPropertyRange from '@transforms/OutputPropertyRange';
-    import type OutputProperty from '@transforms/OutputProperty';
+    import type OutputPropertyValues from '@edit/OutputPropertyValueSet';
+    import type OutputPropertyRange from '@edit/OutputPropertyRange';
+    import type OutputProperty from '@edit/OutputProperty';
     import { getProject } from '../project/Contexts';
     import { creator } from '../../db/Creator';
 

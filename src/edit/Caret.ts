@@ -1,4 +1,4 @@
-import type { Edit, Revision } from './Commands';
+import type { Edit, Revision } from '../components/editor/util/Commands';
 import Block from '@nodes/Block';
 import Node, { ListOf } from '@nodes/Node';
 import Token from '@nodes/Token';
@@ -17,10 +17,10 @@ import type Source from '@nodes/Source';
 import Expression from '@nodes/Expression';
 import ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
 import Program from '@nodes/Program';
-import UnicodeString from '../../../models/UnicodeString';
+import UnicodeString from '../models/UnicodeString';
 import ListLiteral from '@nodes/ListLiteral';
-import SetLiteral from '../../../nodes/SetLiteral';
-import MapLiteral from '../../../nodes/MapLiteral';
+import SetLiteral from '../nodes/SetLiteral';
+import MapLiteral from '../nodes/MapLiteral';
 
 export type InsertionContext = { before: Node[]; after: Node[] };
 export type CaretPosition = number | Node;
