@@ -585,7 +585,7 @@
                 },
                 "UnexpectedTypeInput": {
                     "primary": "I wasn't expecting this type input",
-                    "secondary": "am I supposed to be here?"
+                    "secondary": "oh, am I not supposed to be here?"
                 },
                 "MisplacedInput": "this input is out of order.",
                 "MissingInput": {
@@ -595,7 +595,7 @@
                 "NotInstantiable": "I can't make this @StructureDefinition, it has unimplemented functions.",
                 "UnexpectedInput": {
                     "primary": "I didn't expect this input $1",
-                    "secondary": "am I supposed to be here?"
+                    "secondary": "Oh, am I not supposed to be here?"
                 },
                 "UnknownInput": {
                     "primary": "I don't know of an input by this name",
