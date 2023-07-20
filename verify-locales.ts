@@ -4,7 +4,7 @@ import path from 'path';
 import Locale from './src/locale/Locale';
 import { parseDoc, toTokens } from './src/parser/Parser';
 import Token from './src/nodes/Token';
-import TokenType from './src/nodes/TokenType';
+import Symbol from './src/nodes/Symbol';
 import ConceptLink from './src/nodes/ConceptLink';
 import { concretizeOrUndefined } from './src/locale/concretize';
 import Tutorial, { Performance, Line, Dialog } from './src/tutorial/Tutorial';
@@ -190,7 +190,8 @@ function verifyLocale(locale: Locale) {
                 .leaves()
                 .filter(
                     (node) =>
-                        node instanceof Token && node.is(TokenType.Unknown)
+                        node instanceof Token &&
+                        node.isTokenType(Symbol.Unknown)
                 );
 
             if (unknownTokens.length > 0)
