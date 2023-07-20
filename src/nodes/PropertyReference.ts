@@ -33,6 +33,8 @@ import Purpose from '../concepts/Purpose';
 import { UnknownName } from '../conflicts/UnknownName';
 import concretize from '../locale/concretize';
 import ExpressionPlaceholder from './ExpressionPlaceholder';
+import Refer from '../edit/Refer';
+import FunctionDefinition from './FunctionDefinition';
 
 export default class PropertyReference extends Expression {
     readonly structure: Expression;
@@ -59,14 +61,64 @@ export default class PropertyReference extends Expression {
 
     static getPossibleNodes(
         type: Type | undefined,
-        selection: Node | undefined
+        selection: Node | undefined,
+        context: Context
     ) {
-        return [
-            PropertyReference.make(ExpressionPlaceholder.make(), undefined),
-            ...(selection instanceof Expression
-                ? [PropertyReference.make(selection)]
-                : []),
-        ];
+        if (selection === undefined)
+            return [
+                PropertyReference.make(ExpressionPlaceholder.make(), undefined),
+            ];
+        else if (selection instanceof PropertyReference && selection.name) {
+            const selectionType = selection.structure.getType(context);
+            // Is the type a structure? Suggest reference to it's properties.
+            if (selectionType instanceof StructureDefinitionType) {
+                const prefix = selection.name?.getName() ?? '';
+                return (
+                    selectionType.structure
+                        .getDefinitions(selection)
+                        // Filter my matching prefixes
+                        .filter((def) =>
+                            def
+                                .getNames()
+                                .some((name) => name.startsWith(prefix))
+                        )
+                        .map((def) =>
+                            // Bind with matching type? Generate a PropertyReference to it.
+                            def instanceof Bind &&
+                            (type === undefined ||
+                                type.accepts(def.getType(context), context))
+                                ? new Refer(
+                                      (name: string) =>
+                                          PropertyReference.make(
+                                              selection.structure,
+                                              Reference.make(name)
+                                          ),
+                                      def
+                                  )
+                                : // Function with a matching type? Generate an (Binary/Unary)Evaluate to it.
+                                def instanceof FunctionDefinition &&
+                                  (type === undefined ||
+                                      type.accepts(
+                                          def.getOutputType(context),
+                                          context
+                                      ))
+                                ? new Refer(
+                                      (name) =>
+                                          def.getEvaluateTemplate(
+                                              name,
+                                              context,
+                                              selection.structure
+                                          ),
+                                      def
+                                  )
+                                : undefined
+                        )
+                        .filter((node): node is Refer => node !== undefined)
+                );
+            }
+        }
+
+        return [];
     }
 
     getGrammar(): Grammar {

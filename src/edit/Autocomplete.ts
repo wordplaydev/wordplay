@@ -465,8 +465,10 @@ function getPossibleNodes(
                         type.accepts(node.getType(context), context)) &&
                     (selection === undefined ||
                         (node instanceof Refer &&
-                            selection instanceof Reference &&
-                            node.definition !== selection.resolve(context)) ||
+                            (!(selection instanceof Reference) ||
+                                (selection instanceof Reference &&
+                                    node.definition !==
+                                        selection.resolve(context)))) ||
                         (node instanceof Node && !selection.isEqualTo(node)))
             )
     );

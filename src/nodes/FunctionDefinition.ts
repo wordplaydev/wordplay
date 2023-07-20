@@ -124,17 +124,21 @@ export default class FunctionDefinition extends Expression {
 
     /** Create an expression that evaluates this function with typed placeholders for its inputs. */
     getEvaluateTemplate(
-        languages: LanguageCode[],
+        nameOrLanguages: LanguageCode[] | string,
         context: Context,
-        structureType: Type | undefined
+        structureType: Expression | Type | undefined
     ) {
         const possibleStructure = context.getRoot(this)?.getParent(this);
         const structure =
-            possibleStructure instanceof StructureDefinition
+            structureType instanceof Expression
+                ? structureType
+                : possibleStructure instanceof StructureDefinition
                 ? possibleStructure
                 : undefined;
         const reference = Reference.make(
-            this.names.getLocaleText(languages),
+            typeof nameOrLanguages === 'string'
+                ? nameOrLanguages
+                : this.names.getLocaleText(nameOrLanguages),
             this
         );
         return this.isOperator() && structure && this.inputs.length === 0
@@ -142,18 +146,24 @@ export default class FunctionDefinition extends Expression {
                   new Reference(
                       new Token(this.getOperatorName() ?? '_', Symbol.Operator)
                   ),
-                  ExpressionPlaceholder.make(structureType)
+                  structureType instanceof Expression
+                      ? structureType
+                      : ExpressionPlaceholder.make(structureType)
               )
             : this.isOperator() && structure && this.inputs.length === 1
             ? new BinaryEvaluate(
-                  ExpressionPlaceholder.make(structureType),
+                  structureType instanceof Expression
+                      ? structureType
+                      : ExpressionPlaceholder.make(structureType),
                   Reference.make(this.getOperatorName() ?? '_'),
                   ExpressionPlaceholder.make(this.inputs[0]?.type)
               )
             : Evaluate.make(
                   structure
                       ? PropertyReference.make(
-                            ExpressionPlaceholder.make(structureType),
+                            structureType instanceof Expression
+                                ? structureType
+                                : ExpressionPlaceholder.make(structureType),
                             reference
                         )
                       : reference,
