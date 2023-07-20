@@ -31,6 +31,8 @@ import StreamDefinitionType from './StreamDefinitionType';
 import Symbol from './Symbol';
 import concretize, { type TemplateInput } from '../locale/concretize';
 import Glyphs from '../lore/Glyphs';
+import type Node from './Node';
+import Refer from '../edit/Refer';
 
 /**
  * A reference to some Definition. Can optionally take the definition which it refers,
@@ -55,7 +57,40 @@ export default class Reference extends AtomicExpression {
         return new Reference(new NameToken(name), definition);
     }
 
-    static getPossibleNodes() {
+    static getPossibleNodes(
+        type: Type | undefined,
+        selection: Node | undefined,
+        context: Context
+    ): Refer[] {
+        // If the node prior is a reference, find potential matching definitions in scope.
+        if (selection instanceof Reference) {
+            const prefix = selection.getName();
+            return (
+                selection
+                    // Find all the definitions in scope.
+                    .getDefinitionsInScope(context)
+                    // Only accept ones that have names starting with the prefix
+                    // and that have a matching type, if provided.
+                    .filter(
+                        (def) =>
+                            def
+                                .getNames()
+                                .some((name) => name.startsWith(prefix)) &&
+                            (type === undefined ||
+                                !(def instanceof Bind) ||
+                                type.accepts(def.getType(context), context))
+                    )
+                    // Translate the definitions into references to the definitions.
+                    .map(
+                        (definition) =>
+                            new Refer(
+                                (name) => Reference.make(name),
+                                definition
+                            )
+                    )
+            );
+        }
+
         return [];
     }
 

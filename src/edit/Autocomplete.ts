@@ -449,7 +449,11 @@ function getPossibleNodes(
                     (type === undefined ||
                         !(node instanceof Expression) ||
                         type.accepts(node.getType(context), context)) &&
-                    (selection === undefined || !selection.isEqualTo(node))
+                    (selection === undefined ||
+                        (node instanceof Refer &&
+                            selection instanceof Reference &&
+                            node.definition !== selection.resolve(context)) ||
+                        (node instanceof Node && !selection.isEqualTo(node)))
             )
     );
 }
