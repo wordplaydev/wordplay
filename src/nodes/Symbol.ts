@@ -79,7 +79,7 @@ enum Symbol {
     Boolean = 'boolean',
     Name = 'name',
     Unknown = 'unknown',
-    End = 'end',
+    End = '',
 }
 
 export function isTokenType(text: string): text is Symbol {

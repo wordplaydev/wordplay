@@ -4,7 +4,7 @@ import type Project from '../models/Project';
 import type Transform from '@edit/Transform';
 import type Context from '@nodes/Context';
 import Replace from '@edit/Replace';
-import type Refer from '@edit/Refer';
+import Refer from '@edit/Refer';
 import Append from '@edit/Append';
 import SetField from '@edit/SetField';
 import BooleanLiteral from '@nodes/BooleanLiteral';
@@ -135,111 +135,35 @@ export function getEditsAt(project: Project, caret: Caret): Transform[] {
     }
     // If the token is a position rather than a node, find edits for the nodes between.
     else {
-        const { before } = caret.getNodesBetween();
+        const { before, after } = caret.getNodesBetween();
+        const adjacent = caret.position === caret.tokenSpaceIndex;
 
-        // For each node before, find it's field.
+        // For each node before, get edits for what can come after.
         for (const node of before) {
-            const parent = node.getParent(context);
-            const field = parent?.getFieldOfChild(node);
-            if (parent === undefined || field === undefined) continue;
-
-            // If the field is a list, get possible insertions for all allowable node kinds.
-            if (field.kind instanceof ListOf) {
-                const list = parent.getField(field.name);
-                if (Array.isArray(list)) {
-                    const index = list.indexOf(node);
-                    if (index >= 0) {
-                        const expectedType = field.getType
-                            ? field.getType(context, index)
-                            : undefined;
-                        edits = [
-                            ...edits,
-                            ...field.kind
-                                .enumerate()
-                                .map((kind) =>
-                                    getPossibleNodes(
-                                        kind,
-                                        expectedType,
-                                        undefined,
-                                        context
-                                    )
-                                        .filter(
-                                            (kind): kind is Node | Refer =>
-                                                kind !== undefined
-                                        )
-                                        .map(
-                                            (insertion) =>
-                                                new Append(
-                                                    context,
-                                                    caret.position as number,
-                                                    parent,
-                                                    list,
-                                                    index + 1,
-                                                    insertion
-                                                )
-                                        )
-                                )
-                                .flat(),
-                        ];
-                    }
-                }
-            }
-
-            // Generate possible nodes that could replace the token prior
-            // (e.g., autocomplete References, create binary operations)
             edits = [
                 ...edits,
-                ...field.kind
-                    .enumerate()
-                    .map((kind) =>
-                        getPossibleNodes(
-                            kind,
-                            undefined,
-                            undefined,
-                            context
-                        ).map(
-                            (replacement) =>
-                                new Replace(context, parent, node, replacement)
-                        )
-                    )
-                    .flat(),
+                ...getRelativeFieldEdits(
+                    true,
+                    node,
+                    caret.position,
+                    adjacent,
+                    context
+                ),
             ];
+        }
 
-            // Scan the parent's grammar for fields prior to the current node the caret is it.
-            if (caret.tokenIncludingSpace) {
-                const grammar = parent.getGrammar();
-                const fieldsAfter = grammar.slice(
-                    grammar.findIndex((f) => f.name === field.name) + 1
-                );
-                for (const fieldAfter of fieldsAfter) {
-                    const expectedType = fieldAfter.getType
-                        ? fieldAfter.getType(context, undefined)
-                        : undefined;
-                    edits = [
-                        ...edits,
-                        ...fieldAfter.kind
-                            .enumerate()
-                            .map((kind) =>
-                                getPossibleNodes(
-                                    kind,
-                                    expectedType,
-                                    undefined,
-                                    context
-                                ).map(
-                                    (addition) =>
-                                        new SetField(
-                                            context,
-                                            caret.position as number,
-                                            parent,
-                                            fieldAfter.name,
-                                            addition
-                                        )
-                                )
-                            )
-                            .flat(),
-                    ];
-                }
-            }
+        // For each node after, get edits for what can come before.
+        for (const node of after) {
+            edits = [
+                ...edits,
+                ...getRelativeFieldEdits(
+                    false,
+                    node,
+                    caret.position,
+                    adjacent,
+                    context
+                ),
+            ];
         }
     }
 
@@ -270,6 +194,125 @@ function getFieldEdits(
         }
     }
     return kinds;
+}
+
+function getRelativeFieldEdits(
+    before: boolean,
+    node: Node,
+    position: number,
+    adjacent: boolean,
+    context: Context
+): Transform[] {
+    let edits: Transform[] = [];
+
+    const parent = node.getParent(context);
+    const field = parent?.getFieldOfChild(node);
+    if (parent === undefined || field === undefined) return [];
+
+    // Generate possible nodes that could replace the token prior
+    // (e.g., autocomplete References, create binary operations)
+    // We only do this if this is before.
+    if (before && adjacent)
+        edits = [
+            ...edits,
+            ...field.kind
+                .enumerate()
+                .map((kind) =>
+                    getPossibleNodes(kind, undefined, node, context).map(
+                        (replacement) =>
+                            new Replace(context, parent, node, replacement)
+                    )
+                )
+                .flat(),
+        ];
+
+    // Scan the parent's grammar for fields before or after to the current node the caret is it.
+    const grammar = parent.getGrammar();
+    const fieldIndex = grammar.findIndex((f) => f.name === field.name);
+    const relativeFields = before
+        ? grammar.slice(fieldIndex)
+        : grammar.slice(0, fieldIndex + 1);
+    for (const relativeField of relativeFields) {
+        // If the field is a list, get possible insertions for all allowable node kinds.
+        if (relativeField.kind instanceof ListOf) {
+            const list = parent.getField(relativeField.name);
+            if (Array.isArray(list)) {
+                // Account for empty lists.
+                const index = Math.max(0, list.indexOf(node));
+                if (index >= 0) {
+                    const expectedType = relativeField.getType
+                        ? relativeField.getType(context, index)
+                        : undefined;
+                    edits = [
+                        ...edits,
+                        ...relativeField.kind
+                            .enumerate()
+                            .map((kind) =>
+                                getPossibleNodes(
+                                    kind,
+                                    expectedType,
+                                    undefined,
+                                    context
+                                )
+                                    .filter(
+                                        (kind): kind is Node | Refer =>
+                                            kind !== undefined
+                                    )
+                                    .map(
+                                        (insertion) =>
+                                            new Append(
+                                                context,
+                                                position,
+                                                parent,
+                                                list,
+                                                index + 1,
+                                                insertion
+                                            )
+                                    )
+                            )
+                            .flat(),
+                    ];
+                }
+            }
+        }
+
+        const expectedType = relativeField.getType
+            ? relativeField.getType(context, undefined)
+            : undefined;
+        const fieldValue = parent.getField(relativeField.name);
+        // We don't do this for list fields.
+        if (!(relativeField.kind instanceof ListOf))
+            edits = [
+                ...edits,
+                ...relativeField.kind
+                    .enumerate()
+                    .map((kind) =>
+                        getPossibleNodes(kind, expectedType, undefined, context)
+                            // Filter out any equivalent value already set
+                            .filter((node) =>
+                                node === undefined
+                                    ? fieldValue !== undefined
+                                    : Array.isArray(fieldValue) ||
+                                      fieldValue === undefined ||
+                                      node instanceof Refer ||
+                                      !fieldValue.isEqualTo(node)
+                            )
+                            .map(
+                                (addition) =>
+                                    new SetField(
+                                        context,
+                                        position,
+                                        parent,
+                                        relativeField.name,
+                                        addition
+                                    )
+                            )
+                    )
+                    .flat(),
+            ];
+    }
+
+    return edits;
 }
 
 /** A list of node types from which we can generate replacements. */

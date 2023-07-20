@@ -7,6 +7,7 @@ import Caret from './Caret';
 import type Context from '@nodes/Context';
 import type Locale from '@locale/Locale';
 import concretize from '../locale/concretize';
+import NodeRef from '../locale/NodeRef';
 
 /** Set a field on a child */
 export default class SetField<NodeType extends Node> extends Transform {
@@ -56,14 +57,9 @@ export default class SetField<NodeType extends Node> extends Transform {
                       newNode
                   );
 
-        const newProgram = this.context.source.expression.replace(
-            this.parent,
-            newParent
-        );
-        const newSource = this.context.source.withProgram(
-            newProgram,
-            newSpaces
-        );
+        const newSource = this.context.source
+            .replace(this.parent, newParent)
+            .withSpaces(newSpaces);
 
         // Place the caret at first placeholder or the end of the node in the source.
         let newCaretPosition =
@@ -92,7 +88,14 @@ export default class SetField<NodeType extends Node> extends Transform {
             this.child instanceof Refer
                 ? this.child.getNode([locale.language])
                 : this.getNewNode([locale.language]);
-        return concretize(locale, locale.ui.edit.add, node?.getLabel(locale));
+        return concretize(
+            locale,
+            locale.ui.edit.add,
+            this.field,
+            node === undefined
+                ? undefined
+                : new NodeRef(node, locale, this.context)
+        );
     }
 
     equals(transform: Transform) {

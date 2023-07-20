@@ -2988,7 +2988,7 @@
         "edit": {
             "before": "before $1",
             "inside": "inside $1",
-            "add": "add $1",
+            "add": "$2[add $2|remove $1]",
             "append": "append $1",
             "remove": "remove $1",
             "replace": "replace with $1[$1|nothing]",
