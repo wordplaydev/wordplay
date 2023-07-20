@@ -1,5 +1,5 @@
 import type { Edit } from '../components/editor/util/Commands';
-import Transform from './Transform';
+import Revision from './Revision';
 import Node from '@nodes/Node';
 import Caret from './Caret';
 import type LanguageCode from '@locale/LanguageCode';
@@ -9,7 +9,7 @@ import type Locale from '@locale/Locale';
 import concretize from '../locale/concretize';
 import Markup from '../nodes/Markup';
 
-export default class Replace<NodeType extends Node> extends Transform {
+export default class Replace<NodeType extends Node> extends Revision {
     readonly parent: Node;
     readonly node: Node;
     readonly replacement: NodeType | Refer | undefined;
@@ -91,7 +91,7 @@ export default class Replace<NodeType extends Node> extends Transform {
         );
     }
 
-    equals(transform: Transform) {
+    equals(transform: Revision) {
         return (
             transform instanceof Replace &&
             this.node === transform.node &&

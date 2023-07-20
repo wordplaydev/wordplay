@@ -1,5 +1,5 @@
 import type { Edit } from '../components/editor/util/Commands';
-import Transform from './Transform';
+import Revision from './Revision';
 import type Node from '@nodes/Node';
 import Caret from './Caret';
 import type Context from '@nodes/Context';
@@ -9,7 +9,7 @@ import concretize from '../locale/concretize';
 /**
  * Remove one or more nodes from sequence of nodes in a parent.
  */
-export default class Remove extends Transform {
+export default class Remove extends Revision {
     readonly parent: Node;
     readonly nodes: Node[];
 
@@ -96,7 +96,7 @@ export default class Remove extends Transform {
         );
     }
 
-    equals(transform: Transform) {
+    equals(transform: Revision) {
         return (
             transform instanceof Remove &&
             this.nodes.every(

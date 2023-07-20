@@ -1,5 +1,5 @@
 import Node from '@nodes/Node';
-import Transform from './Transform';
+import Revision from './Revision';
 import type LanguageCode from '@locale/LanguageCode';
 import type { Edit } from '../components/editor/util/Commands';
 import Refer from './Refer';
@@ -8,7 +8,7 @@ import type Context from '@nodes/Context';
 import type Locale from '@locale/Locale';
 import concretize from '../locale/concretize';
 
-export default class Append<NodeType extends Node> extends Transform {
+export default class Append<NodeType extends Node> extends Revision {
     readonly parent: Node;
     readonly position: number;
     /** Undefined means after the last child. Otherwise, the node should be whatever child we're inserting before, even if it's not part of the list. */
@@ -38,7 +38,7 @@ export default class Append<NodeType extends Node> extends Transform {
 
         // Find the space before the insertion by finding the token that contains the index.
         // Insert the space we find before it.
-        const newSpaces = Transform.splitSpace(
+        const newSpaces = Revision.splitSpace(
             this.context.source,
             this.position,
             newChild
@@ -108,7 +108,7 @@ export default class Append<NodeType extends Node> extends Transform {
         else return this.insertion.getNode(languages);
     }
 
-    equals(transform: Transform): boolean {
+    equals(transform: Revision): boolean {
         return (
             transform instanceof Append &&
             this.index === transform.index &&

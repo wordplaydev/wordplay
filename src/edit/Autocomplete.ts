@@ -1,12 +1,12 @@
 import Node, { ListOf, type Field, type NodeKind, Empty } from '@nodes/Node';
 import type Caret from './Caret';
 import type Project from '../models/Project';
-import type Transform from '@edit/Transform';
+import type Revision from '@edit/Revision';
 import type Context from '@nodes/Context';
 import Replace from '@edit/Replace';
 import Refer from '@edit/Refer';
 import Append from '@edit/Append';
-import SetField from '@edit/SetField';
+import Add from '@edit/Add';
 import BooleanLiteral from '@nodes/BooleanLiteral';
 import NumberLiteral from '../nodes/NumberLiteral';
 import Token from '../nodes/Token';
@@ -64,11 +64,11 @@ import Remove from './Remove';
 import UnknownType from '../nodes/UnknownType';
 
 /** Given a project and a caret, generate a set of transforms that can be applied at the location. */
-export function getEditsAt(project: Project, caret: Caret): Transform[] {
+export function getEditsAt(project: Project, caret: Caret): Revision[] {
     const source = caret.source;
     const context = project.getContext(source);
 
-    let edits: Transform[] = [];
+    let edits: Revision[] = [];
 
     // If the token is a node, find the allowable nodes to replace this node, or whether it's removable
     if (caret.position instanceof Node) {
@@ -214,11 +214,11 @@ export function getEditsAt(project: Project, caret: Caret): Transform[] {
 function getFieldEdits(
     node: Node,
     context: Context,
-    handler: (field: Field, parent: Node, node: Node) => Transform[]
-): Transform[] {
+    handler: (field: Field, parent: Node, node: Node) => Revision[]
+): Revision[] {
     let parent = node.getParent(context);
     let current = node;
-    let kinds: Transform[] = [];
+    let kinds: Revision[] = [];
     while (parent !== undefined) {
         const field = parent.getFieldOfChild(current);
         if (field) {
@@ -242,8 +242,8 @@ function getRelativeFieldEdits(
     position: number,
     adjacent: boolean,
     context: Context
-): Transform[] {
-    let edits: Transform[] = [];
+): Revision[] {
+    let edits: Revision[] = [];
 
     const parent = node.getParent(context);
     const field = parent?.getFieldOfChild(node);
@@ -362,7 +362,7 @@ function getRelativeFieldEdits(
                                 )
                                 .map(
                                     (addition) =>
-                                        new SetField(
+                                        new Add(
                                             context,
                                             position,
                                             parent,

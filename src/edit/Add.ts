@@ -1,5 +1,5 @@
 import type { Edit } from '../components/editor/util/Commands';
-import Transform from './Transform';
+import Revision from './Revision';
 import Node from '@nodes/Node';
 import type LanguageCode from '@locale/LanguageCode';
 import Refer from './Refer';
@@ -10,7 +10,7 @@ import concretize from '../locale/concretize';
 import NodeRef from '../locale/NodeRef';
 
 /** Set a field on a child */
-export default class SetField<NodeType extends Node> extends Transform {
+export default class Add<NodeType extends Node> extends Revision {
     readonly parent: Node;
     readonly position: number;
     readonly child: NodeType | Refer | undefined;
@@ -51,7 +51,7 @@ export default class SetField<NodeType extends Node> extends Transform {
         let newSpaces =
             newNode === undefined
                 ? this.context.source.spaces
-                : Transform.splitSpace(
+                : Revision.splitSpace(
                       this.context.source,
                       this.position,
                       newNode
@@ -98,9 +98,9 @@ export default class SetField<NodeType extends Node> extends Transform {
         );
     }
 
-    equals(transform: Transform) {
+    equals(transform: Revision) {
         return (
-            transform instanceof SetField &&
+            transform instanceof Add &&
             this.parent === transform.parent &&
             ((this.child instanceof Node &&
                 transform.child instanceof Node &&

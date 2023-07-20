@@ -1,5 +1,5 @@
 <script lang="ts">
-    import type Transform from '@edit/Transform';
+    import type Revision from '@edit/Revision';
     import RootView from '../project/RootView.svelte';
     import Block from '@nodes/Block';
     import type Menu from './util/Menu';
@@ -17,7 +17,7 @@
 
     const WINDOW = 2;
 
-    function handleItemClick(item: Transform) {
+    function handleItemClick(item: Revision) {
         menu.doEdit($creator.getLanguages(), item);
     }
 

@@ -1,4 +1,4 @@
-import type Transform from '../../../edit/Transform';
+import type Revision from '../../../edit/Revision';
 import type LanguageCode from '@locale/LanguageCode';
 import type Caret from '../../../edit/Caret';
 import type { Edit } from './Commands';
@@ -9,7 +9,7 @@ export default class Menu {
     readonly caret: Caret;
 
     /** The transforms generated from the caret */
-    readonly transforms: Transform[];
+    readonly transforms: Revision[];
 
     /** The currently selected transform */
     readonly selection: number;
@@ -19,7 +19,7 @@ export default class Menu {
 
     constructor(
         caret: Caret,
-        transforms: Transform[],
+        transforms: Revision[],
         selection: number,
         edit: (edit: Edit | undefined) => void
     ) {
@@ -62,7 +62,7 @@ export default class Menu {
             : this;
     }
 
-    doEdit(languages: LanguageCode[], transform?: Transform) {
+    doEdit(languages: LanguageCode[], transform?: Revision) {
         return this.edit(
             this.selection === undefined
                 ? undefined
