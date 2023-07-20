@@ -1,4 +1,4 @@
-import Node, { ListOf, type Field, type NodeKind } from '@nodes/Node';
+import Node, { ListOf, type Field, type NodeKind, Empty } from '@nodes/Node';
 import type Caret from './Caret';
 import type Project from '../models/Project';
 import type Transform from '@edit/Transform';
@@ -104,12 +104,33 @@ export function getEditsAt(project: Project, caret: Caret): Transform[] {
                             )
                         )
                         .flat(),
-                    // Is this node in a field? Offer to remove it.
+                    // Is this node in a field? Offer to remove it, and any dependent field.
                     ...(field.kind instanceof ListOf
                         ? [new Remove(context, parent, node)]
                         : []),
                 ]
             );
+
+            // Is the field optional and set?
+            if (
+                field.kind.isOptional() &&
+                parent.getField(field.name) !== undefined
+            ) {
+                edits = [
+                    ...edits,
+                    new Remove(
+                        context,
+                        parent,
+                        selection,
+                        ...(field.kind
+                            .enumerateFieldKinds()
+                            .find(
+                                (kind): kind is Empty => kind instanceof Empty
+                            )
+                            ?.getDependencies(parent, context) ?? [])
+                    ),
+                ];
+            }
         }
     }
     // If the token is a position rather than a node, find edits for the nodes between.

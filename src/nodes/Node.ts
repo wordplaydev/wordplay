@@ -724,6 +724,7 @@ export abstract class FieldKind {
     abstract allows(value: FieldValue): boolean;
     abstract allowsKind(kind: Function): boolean;
     abstract enumerate(): NodeKind[];
+    abstract enumerateFieldKinds(): FieldKind[];
     abstract isOptional(): boolean;
     abstract toString(): string;
 }
@@ -758,6 +759,10 @@ export class IsA extends FieldKind {
 
     enumerate(): NodeKind[] {
         return [this.kind];
+    }
+
+    enumerateFieldKinds(): FieldKind[] {
+        return [this];
     }
 
     toString() {
@@ -805,6 +810,10 @@ export class ListOf extends FieldKind {
         );
     }
 
+    enumerateFieldKinds(): FieldKind[] {
+        return [...this.kinds];
+    }
+
     toString() {
         return `a list of ${this.kinds
             .map((kind) => kind.toString())
@@ -837,6 +846,23 @@ export class Empty extends FieldKind {
         return [undefined];
     }
 
+    enumerateFieldKinds(): FieldKind[] {
+        return [this];
+    }
+
+    getDependencies(parent: Node, context: Context): Node[] {
+        if (this.dependency === undefined) return [];
+        const grammar = parent.getGrammar();
+        const field = grammar.find((field) => field.name === this.dependency);
+        if (field === undefined) return [];
+        const dependencies = parent.getField(field.name);
+        return dependencies === undefined
+            ? []
+            : Array.isArray(dependencies)
+            ? dependencies
+            : [dependencies];
+    }
+
     toString() {
         return `nothing`;
     }
@@ -866,6 +892,10 @@ export class Any extends FieldKind {
             (list, kind) => [...list, ...kind.enumerate()],
             [] as NodeKind[]
         );
+    }
+
+    enumerateFieldKinds(): FieldKind[] {
+        return [...this.kinds];
     }
 
     toString() {
