@@ -60,6 +60,7 @@ import Markup from '../nodes/Markup';
 import Mention from '../nodes/Mention';
 import Paragraph from '../nodes/Paragraph';
 import WebLink from '../nodes/WebLink';
+import Remove from './Remove';
 
 /** Given a project and a caret, generate a set of transforms that can be applied at the location. */
 export function getEditsAt(project: Project, caret: Caret): Transform[] {
@@ -70,136 +71,153 @@ export function getEditsAt(project: Project, caret: Caret): Transform[] {
 
     // If the token is a node, find the allowable nodes to replace this node, or whether it's removable
     if (caret.position instanceof Node) {
+        const selection = caret.position;
         const parent = caret.position.getParent(context);
-        if (parent) {
+        const field = parent?.getFieldOfChild(selection);
+        if (parent && field) {
             // Match the type of the current node
-            const expectedType =
-                caret.position instanceof Expression
-                    ? caret.position.getType(context)
-                    : undefined;
+            const expectedType = field.getType
+                ? field.getType(context, undefined)
+                : undefined;
             // Get the allowed kinds on this node and then translate them into replacement edits.
-            edits = getFieldEdits(caret.position, context, (field) =>
-                field.types
+            edits = getFieldEdits(
+                caret.position,
+                context,
+                (field, parent, node) => [
+                    // Generate all the possible types
+                    ...field.types
+                        .enumerate()
+                        .map((kind) =>
+                            getPossibleNodes(
+                                kind,
+                                expectedType,
+                                selection,
+                                context
+                            ).map(
+                                (replacement) =>
+                                    new Replace(
+                                        context,
+                                        parent,
+                                        selection,
+                                        replacement
+                                    )
+                            )
+                        )
+                        .flat(),
+                    // Is this node in a field? Offer to remove it.
+                    ...(field.types instanceof ListOf
+                        ? [new Remove(context, parent, node)]
+                        : []),
+                ]
+            );
+        }
+    }
+    // If the token is a position rather than a node, find edits for the nodes between.
+    else {
+        const { before } = caret.getNodesBetween();
+
+        // For each node before, find it's field.
+        for (const node of before) {
+            const parent = node.getParent(context);
+            const field = parent?.getFieldOfChild(node);
+            if (parent === undefined || field === undefined) continue;
+
+            // If the field is a list, get possible insertions for all allowable node kinds.
+            if (field.types instanceof ListOf) {
+                const list = parent.getField(field.name);
+                if (Array.isArray(list)) {
+                    const index = list.indexOf(node);
+                    if (index >= 0) {
+                        const expectedType = field.getType
+                            ? field.getType(context, index)
+                            : undefined;
+                        edits = [
+                            ...edits,
+                            ...field.types
+                                .enumerate()
+                                .map((kind) =>
+                                    getPossibleNodes(
+                                        kind,
+                                        expectedType,
+                                        undefined,
+                                        context
+                                    )
+                                        .filter(
+                                            (kind): kind is Node | Refer =>
+                                                kind !== undefined
+                                        )
+                                        .map(
+                                            (insertion) =>
+                                                new Append(
+                                                    context,
+                                                    caret.position as number,
+                                                    parent,
+                                                    list,
+                                                    index + 1,
+                                                    insertion
+                                                )
+                                        )
+                                )
+                                .flat(),
+                        ];
+                    }
+                }
+            }
+
+            // Generate possible nodes that could replace the token prior
+            // (e.g., autocomplete References, create binary operations)
+            edits = [
+                ...edits,
+                ...field.types
                     .enumerate()
                     .map((kind) =>
                         getPossibleNodes(
                             kind,
-                            expectedType,
+                            undefined,
                             undefined,
                             context
                         ).map(
                             (replacement) =>
-                                new Replace(
-                                    context,
-                                    parent,
-                                    caret.position as Node,
-                                    replacement
-                                )
+                                new Replace(context, parent, node, replacement)
                         )
                     )
-                    .flat()
-            );
-        }
-    }
-    // If the token is a position, find the allowable nodes between the position that aren't already present.
-    // Allowable nodes include
-    else {
-        const anchor = caret.tokenIncludingSpace;
-        // Get token prior to the one who's space we're in.
-        if (anchor) {
-            const before = source.getTokenBefore(anchor);
-            const parent = before ? before.getParent(context) : undefined;
-            if (before && parent) {
-                edits = getFieldEdits(
-                    before,
-                    context,
-                    (field, parent, child) => {
-                        let edits: Transform[] = [];
+                    .flat(),
+            ];
 
-                        // Is the field a list? Generate possible insertions at this position.
-                        if (field.types instanceof ListOf) {
-                            const list = parent.getField(field.name);
-                            if (Array.isArray(list)) {
-                                const index = list.indexOf(child);
-                                const expectedType = field.getType
-                                    ? field.getType(context, index)
-                                    : undefined;
-                                if (index >= 0) {
-                                    edits = [
-                                        ...edits,
-                                        ...field.types
-                                            .enumerate()
-                                            .map((kind) =>
-                                                getPossibleNodes(
-                                                    kind,
-                                                    expectedType,
-                                                    undefined,
-                                                    context
-                                                )
-                                                    .filter(
-                                                        (
-                                                            kind
-                                                        ): kind is
-                                                            | Node
-                                                            | Refer =>
-                                                            kind !== undefined
-                                                    )
-                                                    .map(
-                                                        (insertion) =>
-                                                            new Append(
-                                                                context,
-                                                                caret.position as number,
-                                                                parent,
-                                                                list,
-                                                                index + 1,
-                                                                insertion
-                                                            )
-                                                    )
-                                            )
-                                            .flat(),
-                                    ];
-                                }
-                            }
-                        }
-
-                        // Find the field prior
-                        const grammar = parent.getGrammar();
-                        const fieldAfter = grammar.find(
-                            (_, index, grammar) =>
-                                field && grammar[index - 1]?.name === field.name
-                        );
-                        if (fieldAfter) {
-                            const expectedType = fieldAfter.getType
-                                ? fieldAfter.getType(context, undefined)
-                                : undefined;
-                            edits = [
-                                ...edits,
-                                ...fieldAfter.types
-                                    .enumerate()
-                                    .map((kind) =>
-                                        getPossibleNodes(
-                                            kind,
-                                            expectedType,
-                                            before,
-                                            context
-                                        ).map(
-                                            (addition) =>
-                                                new SetField(
-                                                    context,
-                                                    caret.position as number,
-                                                    parent,
-                                                    fieldAfter.name,
-                                                    addition
-                                                )
-                                        )
-                                    )
-                                    .flat(),
-                            ];
-                        }
-
-                        return edits;
-                    }
+            // Scan the parent's grammar for fields prior to the current node the caret is it.
+            if (caret.tokenIncludingSpace) {
+                const grammar = parent.getGrammar();
+                const fieldsAfter = grammar.slice(
+                    grammar.findIndex((f) => f.name === field.name) + 1
                 );
+                for (const fieldAfter of fieldsAfter) {
+                    const expectedType = fieldAfter.getType
+                        ? fieldAfter.getType(context, undefined)
+                        : undefined;
+                    edits = [
+                        ...edits,
+                        ...fieldAfter.types
+                            .enumerate()
+                            .map((kind) =>
+                                getPossibleNodes(
+                                    kind,
+                                    expectedType,
+                                    undefined,
+                                    context
+                                ).map(
+                                    (addition) =>
+                                        new SetField(
+                                            context,
+                                            caret.position as number,
+                                            parent,
+                                            fieldAfter.name,
+                                            addition
+                                        )
+                                )
+                            )
+                            .flat(),
+                    ];
+                }
             }
         }
     }
@@ -321,11 +339,13 @@ function getPossibleNodes(
             // Flatten the list of possible nodes.
             .flat()
             // Filter out nodes that don't match the given type, if provided.
+            // Filter out nodes that are equivalent to the selection node
             .filter(
                 (node) =>
-                    type === undefined ||
-                    !(node instanceof Expression) ||
-                    type.accepts(node.getType(context), context)
+                    (type === undefined ||
+                        !(node instanceof Expression) ||
+                        type.accepts(node.getType(context), context)) &&
+                    (selection === undefined || !selection.isEqualTo(node))
             )
     );
 }

@@ -254,7 +254,7 @@ export default class Caret {
                 (this.source.getLine(node) === lineNumber ||
                     (parent instanceof Block && emptyLine))
             )
-                pairs.before.push(node);
+                pairs.after.push(node);
             node = parent;
         }
 
@@ -275,7 +275,7 @@ export default class Caret {
                         nodesTokens.length > 0 &&
                         nodesTokens[nodesTokens.length - 1] === tokenBefore
                     )
-                        pairs.after.push(node);
+                        pairs.before.push(node);
                 }
                 node = parent;
             }

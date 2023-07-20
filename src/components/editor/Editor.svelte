@@ -839,17 +839,15 @@
             const line = spacePrior.split('\n').length - 1;
 
             // What nodes are between this and are any of them insertion points?
-            const between = caret.getNodesBetween();
+            const { before, after } = caret.getNodesBetween();
 
             // If there are nodes between the point, construct insertion points
             // that exist in lists.
-            return between === undefined
-                ? []
-                : [
-                      ...between.before.map((tree) =>
+            return [
+                      ...before.map((tree) =>
                           getInsertionPoint(source, tree, true, token, line)
                       ),
-                      ...between.after.map((tree) =>
+                      ...after.map((tree) =>
                           getInsertionPoint(source, tree, false, token, line)
                       ),
                   ]

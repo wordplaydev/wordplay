@@ -34,13 +34,13 @@ export default class NumberLiteral extends Literal {
         this.computeChildren();
     }
 
-    static make(number?: number | string, unit?: Unit) {
+    static make(number?: number | string, unit?: Unit, ...types: Symbol[]) {
         return new NumberLiteral(
             number === undefined
                 ? new PlaceholderToken()
                 : new Token(
                       typeof number === 'number' ? '' + number : number,
-                      Symbol.Decimal
+                      types.length === 0 ? Symbol.Decimal : types
                   ),
             unit === undefined ? Unit.Empty : unit
         );
@@ -48,9 +48,9 @@ export default class NumberLiteral extends Literal {
 
     static getPossibleNodes() {
         return [
-            NumberLiteral.make(0),
-            NumberLiteral.make('π'),
-            NumberLiteral.make('∞'),
+            NumberLiteral.make(0, undefined, Symbol.Number, Symbol.Decimal),
+            NumberLiteral.make('π', undefined, Symbol.Number, Symbol.Pi),
+            NumberLiteral.make('∞', undefined, Symbol.Number, Symbol.Infinity),
         ];
     }
 
