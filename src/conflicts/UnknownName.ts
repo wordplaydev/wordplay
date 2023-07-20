@@ -1,5 +1,5 @@
 import type Context from '@nodes/Context';
-import type Token from '@nodes/Token';
+import Token from '@nodes/Token';
 import type Type from '@nodes/Type';
 import NodeRef from '@locale/NodeRef';
 import type Locale from '@locale/Locale';
@@ -26,7 +26,9 @@ export class UnknownName extends Conflict {
                     concretize(
                         locale,
                         locale.node.Reference.conflict.UnknownName,
-                        new NodeRef(this.name, locale, context),
+                        this.name instanceof Token
+                            ? undefined
+                            : new NodeRef(this.name, locale, context),
                         this.type
                             ? new NodeRef(this.type, locale, context)
                             : undefined

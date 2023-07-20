@@ -874,7 +874,7 @@
             ],
             "start": "what value does $1 have?",
             "conflict": {
-                "UnknownName": "I don't know anyone named $1 in $2[$2|this @Block]",
+                "UnknownName": "$1[I don't know anyone named $1 in $2[$2|this @Block]|Can you give me a name?]",
                 "ReferenceCycle": "um, $1's value depends on itself, so how do I know what value to give it?",
                 "UnexpectedTypeVariable": "I don't now what to do with these type inputs"
             },
