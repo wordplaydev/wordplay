@@ -50,6 +50,10 @@ export default class Template extends Expression {
         ]);
     }
 
+    static getPossibleNodes() {
+        return [Template.make()];
+    }
+
     getGrammar(): Grammar {
         return [
             { name: 'open', types: node(Symbol.TemplateOpen) },
@@ -57,6 +61,7 @@ export default class Template extends Expression {
                 name: 'expressions',
                 types: list(node(Expression), node(Symbol.Text)),
                 label: (translation: Locale) => translation.term.text,
+                getType: () => TextType.make(),
             },
             { name: 'language', types: optional(node(Language)) },
         ];

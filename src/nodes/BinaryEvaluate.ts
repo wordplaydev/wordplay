@@ -52,6 +52,10 @@ export default class BinaryEvaluate extends Expression {
         this.computeChildren();
     }
 
+    static getPossibleNodes() {
+        return [];
+    }
+
     getGrammar(): Grammar {
         return [
             {

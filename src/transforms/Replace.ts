@@ -103,4 +103,8 @@ export default class Replace<NodeType extends Node> extends Transform {
                     this.replacement.equals(transform.replacement)))
         );
     }
+
+    toString() {
+        return `replace with ${this.replacement?.toString()}`;
+    }
 }

@@ -22,6 +22,7 @@ import Glyphs from '../lore/Glyphs';
 import FunctionDefinition from './FunctionDefinition';
 import Names from './Names';
 import ExpressionPlaceholder from './ExpressionPlaceholder';
+import TypePlaceholder from './TypePlaceholder';
 
 export default class FunctionType extends Type {
     readonly fun: Token;
@@ -71,6 +72,10 @@ export default class FunctionType extends Type {
             output,
             definition
         );
+    }
+
+    static getPossibleNodes() {
+        return [FunctionType.make(undefined, [], TypePlaceholder.make())];
     }
 
     getTemplate(context: Context): FunctionDefinition {

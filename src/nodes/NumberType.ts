@@ -54,6 +54,10 @@ export default class NumberType extends NativeType {
         );
     }
 
+    static getPossibleNodes() {
+        return [NumberType.make()];
+    }
+
     static wildcard() {
         return NumberType.make(Unit.Wildcard);
     }

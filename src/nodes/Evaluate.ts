@@ -99,6 +99,10 @@ export default class Evaluate extends Expression {
         );
     }
 
+    static getPossibleNodes() {
+        return [];
+    }
+
     getGrammar(): Grammar {
         return [
             {

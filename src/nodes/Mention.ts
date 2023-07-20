@@ -31,6 +31,10 @@ export default class Mention extends Content {
         this.name = name;
     }
 
+    static getPossibleNodes() {
+        return [];
+    }
+
     getGrammar(): Grammar {
         return [{ name: 'name', types: node(Symbol.Mention) }];
     }

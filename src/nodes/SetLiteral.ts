@@ -40,12 +40,16 @@ export default class SetLiteral extends Expression {
         this.computeChildren();
     }
 
-    static make(values: Expression[]) {
+    static make(values?: Expression[]) {
         return new SetLiteral(
             new Token(SET_OPEN_SYMBOL, Symbol.SetOpen),
-            values,
+            values ?? [],
             new Token(SET_CLOSE_SYMBOL, Symbol.SetClose)
         );
+    }
+
+    static getPossibleNodes() {
+        return [SetLiteral.make()];
     }
 
     getGrammar(): Grammar {

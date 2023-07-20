@@ -67,13 +67,25 @@ export default class Block extends Expression {
         this.computeChildren();
     }
 
-    static make(statements: Expression[]) {
+    static make(statements?: Expression[]) {
         return new Block(
-            statements,
+            statements ?? [],
             BlockKind.Block,
             new EvalOpenToken(),
             new EvalCloseToken()
         );
+    }
+
+    static getPossibleNodes(
+        type: Type | undefined,
+        selection: Node | undefined
+    ) {
+        return [
+            Block.make(),
+            ...(selection instanceof Expression
+                ? [Block.make([selection])]
+                : []),
+        ];
     }
 
     getGrammar(): Grammar {

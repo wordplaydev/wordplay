@@ -24,6 +24,10 @@ export default class TypePlaceholder extends Type {
         return new TypePlaceholder(new PlaceholderToken());
     }
 
+    static getPossibleNodes() {
+        return [TypePlaceholder.make()];
+    }
+
     getGrammar(): Grammar {
         return [
             {

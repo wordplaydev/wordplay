@@ -25,6 +25,10 @@ export default class NoneType extends NativeType {
         return new NoneType(new Token(NONE_SYMBOL, Symbol.None));
     }
 
+    static getPossibleNodes() {
+        return [NoneType.make()];
+    }
+
     getGrammar(): Grammar {
         return [{ name: 'none', types: node(Symbol.None) }];
     }

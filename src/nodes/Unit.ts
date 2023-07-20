@@ -15,6 +15,9 @@ import Symbol from './Symbol';
 import { node, type Grammar, type Replacement, list, optional } from './Node';
 import type Locale from '@locale/Locale';
 import Emotion from '../lore/Emotion';
+import type Context from './Context';
+import { getPossibleUnits } from '../transforms/getPossibleUnits';
+import type Node from './Node';
 
 export default class Unit extends Type {
     /** In case this was parsed, we keep the original tokens around. */
@@ -112,6 +115,14 @@ export default class Unit extends Type {
         }
 
         this.computeChildren();
+    }
+
+    static getPossibleNodes(
+        _: Type | undefined,
+        node: Node | undefined,
+        context: Context
+    ) {
+        return getPossibleUnits(context.project);
     }
 
     static Empty = new Unit();

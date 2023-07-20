@@ -35,8 +35,18 @@ export default class BooleanLiteral extends Literal {
         );
     }
 
+    static getPossibleNodes() {
+        return [BooleanLiteral.make(true), BooleanLiteral.make(false)];
+    }
+
     getGrammar(): Grammar {
-        return [{ name: 'value', types: node(Symbol.Boolean) }];
+        return [
+            {
+                name: 'value',
+                types: node(Symbol.Boolean),
+                getType: () => BooleanType.make(),
+            },
+        ];
     }
 
     clone(replace?: Replacement) {

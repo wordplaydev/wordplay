@@ -41,6 +41,10 @@ export default class UnaryEvaluate extends Expression {
         this.computeChildren();
     }
 
+    static getPossibleNodes() {
+        return [];
+    }
+
     getGrammar(): Grammar {
         return [
             { name: 'fun', types: node(Reference) },

@@ -23,6 +23,8 @@ import NodeRef from '@locale/NodeRef';
 import Glyphs from '../lore/Glyphs';
 import Purpose from '../concepts/Purpose';
 import concretize from '../locale/concretize';
+import ExpressionPlaceholder from './ExpressionPlaceholder';
+import type Node from './Node';
 
 export default class Conditional extends Expression {
     readonly condition: Expression;
@@ -53,6 +55,30 @@ export default class Conditional extends Expression {
             yes,
             no
         );
+    }
+
+    static getPossibleNodes(
+        type: Type | undefined,
+        selection: Node | undefined,
+        context: Context
+    ) {
+        return [
+            Conditional.make(
+                ExpressionPlaceholder.make(BooleanType.make()),
+                ExpressionPlaceholder.make(),
+                ExpressionPlaceholder.make()
+            ),
+            ...(selection instanceof Expression &&
+            BooleanType.make().accepts(selection.getType(context), context)
+                ? [
+                      Conditional.make(
+                          selection,
+                          ExpressionPlaceholder.make(),
+                          ExpressionPlaceholder.make()
+                      ),
+                  ]
+                : []),
+        ];
     }
 
     getGrammar(): Grammar {

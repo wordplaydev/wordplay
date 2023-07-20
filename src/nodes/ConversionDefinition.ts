@@ -26,6 +26,8 @@ import Purpose from '../concepts/Purpose';
 import concretize from '../locale/concretize';
 import type Value from '../runtime/Value';
 import NodeRef from '../locale/NodeRef';
+import TypePlaceholder from './TypePlaceholder';
+import ExpressionPlaceholder from './ExpressionPlaceholder';
 
 export default class ConversionDefinition extends AtomicExpression {
     readonly docs: Docs | undefined;
@@ -65,6 +67,17 @@ export default class ConversionDefinition extends AtomicExpression {
             output instanceof Type ? output : parseType(toTokens(output)),
             expression
         );
+    }
+
+    static getPossibleNodes() {
+        return [
+            ConversionDefinition.make(
+                undefined,
+                TypePlaceholder.make(),
+                TypePlaceholder.make(),
+                ExpressionPlaceholder.make()
+            ),
+        ];
     }
 
     getGrammar(): Grammar {

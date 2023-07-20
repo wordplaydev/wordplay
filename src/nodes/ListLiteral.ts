@@ -39,12 +39,16 @@ export default class ListLiteral extends Expression {
         this.computeChildren();
     }
 
-    static make(values: Expression[]) {
+    static make(values?: Expression[]) {
         return new ListLiteral(
             new ListOpenToken(),
-            values,
+            values ?? [],
             new ListCloseToken()
         );
+    }
+
+    static getPossibleNodes() {
+        return [ListLiteral.make()];
     }
 
     getGrammar(): Grammar {

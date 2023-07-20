@@ -34,6 +34,10 @@ export default class TextType extends NativeType {
         );
     }
 
+    static getPossibleNodes() {
+        return [TextType.make()];
+    }
+
     getGrammar(): Grammar {
         return [
             { name: 'text', types: node(Symbol.Text) },

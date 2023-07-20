@@ -8,10 +8,11 @@ import type Context from '@nodes/Context';
 import type Locale from '@locale/Locale';
 import concretize from '../locale/concretize';
 
-export default class Add<NodeType extends Node> extends Transform {
+/** Set a field on a child */
+export default class SetField<NodeType extends Node> extends Transform {
     readonly parent: Node;
     readonly position: number;
-    readonly child: NodeType | Refer;
+    readonly child: NodeType | Refer | undefined;
     readonly field: string;
 
     constructor(
@@ -19,7 +20,7 @@ export default class Add<NodeType extends Node> extends Transform {
         position: number,
         parent: Node,
         field: string,
-        child: NodeType | Refer
+        child: NodeType | Refer | undefined
     ) {
         super(context);
 
@@ -29,13 +30,15 @@ export default class Add<NodeType extends Node> extends Transform {
         this.child = child;
     }
 
-    getNewNode(languages: LanguageCode[]): Node {
-        return this.child instanceof Node
+    getNewNode(languages: LanguageCode[]) {
+        return this.child === undefined
+            ? undefined
+            : this.child instanceof Node
             ? this.child
             : this.child.getNode(languages);
     }
 
-    getEditedNode(lang: LanguageCode[]): [Node, Node] {
+    getEditedNode(lang: LanguageCode[]): [Node | undefined, Node] {
         const newNode = this.getNewNode(lang);
         return [newNode, this.parent.replace(this.field, newNode)];
     }
@@ -44,11 +47,14 @@ export default class Add<NodeType extends Node> extends Transform {
         const [newNode, newParent] = this.getEditedNode(languages);
 
         // Split the space using the position, defaulting to the original space.
-        let newSpaces = Transform.splitSpace(
-            this.context.source,
-            this.position,
-            newNode
-        );
+        let newSpaces =
+            newNode === undefined
+                ? this.context.source.spaces
+                : Transform.splitSpace(
+                      this.context.source,
+                      this.position,
+                      newNode
+                  );
 
         const newProgram = this.context.source.expression.replace(
             this.parent,
@@ -61,8 +67,10 @@ export default class Add<NodeType extends Node> extends Transform {
 
         // Place the caret at first placeholder or the end of the node in the source.
         let newCaretPosition =
-            newNode.getFirstPlaceholder() ||
-            newSource.getNodeLastPosition(newNode);
+            newNode === undefined
+                ? this.position
+                : newNode.getFirstPlaceholder() ??
+                  newSource.getNodeLastPosition(newNode);
 
         // If we didn't find a caret position, bail. Otherwise, return the edit.
         return newCaretPosition === undefined
@@ -84,12 +92,12 @@ export default class Add<NodeType extends Node> extends Transform {
             this.child instanceof Refer
                 ? this.child.getNode([locale.language])
                 : this.getNewNode([locale.language]);
-        return concretize(locale, locale.ui.edit.add, node.getLabel(locale));
+        return concretize(locale, locale.ui.edit.add, node?.getLabel(locale));
     }
 
     equals(transform: Transform) {
         return (
-            transform instanceof Add &&
+            transform instanceof SetField &&
             this.parent === transform.parent &&
             ((this.child instanceof Node &&
                 transform.child instanceof Node &&
@@ -98,5 +106,9 @@ export default class Add<NodeType extends Node> extends Transform {
                     transform.child instanceof Refer &&
                     this.child.equals(transform.child)))
         );
+    }
+
+    toString() {
+        return `add ${this.child?.toString()}`;
     }
 }

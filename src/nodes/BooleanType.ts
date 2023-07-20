@@ -23,6 +23,10 @@ export default class BooleanType extends NativeType {
         return new BooleanType(new Token(QUESTION_SYMBOL, Symbol.BooleanType));
     }
 
+    static getPossibleNodes() {
+        return [BooleanType.make()];
+    }
+
     getGrammar(): Grammar {
         return [{ name: 'type', types: node(Symbol.BooleanType) }];
     }

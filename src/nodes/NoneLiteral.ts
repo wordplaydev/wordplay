@@ -25,12 +25,22 @@ export default class NoneLiteral extends Literal {
         this.computeChildren();
     }
 
+    getGrammar(): Grammar {
+        return [
+            {
+                name: 'none',
+                types: node(Symbol.None),
+                getType: () => NoneType.make(),
+            },
+        ];
+    }
+
     static make() {
         return new NoneLiteral(new Token(NONE_SYMBOL, Symbol.None));
     }
 
-    getGrammar(): Grammar {
-        return [{ name: 'none', types: node(Symbol.None) }];
+    static getPossibleNodes() {
+        return [NoneLiteral.make()];
     }
 
     clone(replace?: Replacement) {

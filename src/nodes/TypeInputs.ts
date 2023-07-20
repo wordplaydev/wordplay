@@ -23,12 +23,16 @@ export default class TypeInputs extends Node {
         this.computeChildren();
     }
 
-    static make(types: Type[]) {
+    static make(types?: Type[]) {
         return new TypeInputs(
             new Token(TYPE_OPEN_SYMBOL, Symbol.TypeOpen),
-            types,
+            types ?? [],
             new Token(TYPE_CLOSE_SYMBOL, Symbol.TypeClose)
         );
+    }
+
+    static getPossibleNodes() {
+        return [TypeInputs.make()];
     }
 
     getPurpose() {

@@ -43,6 +43,10 @@ export default class This extends AtomicExpression {
         return new This(new Token(PROPERTY_SYMBOL, Symbol.Access));
     }
 
+    static getPossibleNodes() {
+        return [This.make()];
+    }
+
     getGrammar(): Grammar {
         return [{ name: 'dis', types: node(Symbol.This) }];
     }

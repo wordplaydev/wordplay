@@ -105,6 +105,19 @@ export default class StructureDefinition extends AtomicExpression {
         );
     }
 
+    static getPossibleNodes() {
+        return [
+            StructureDefinition.make(
+                undefined,
+                Names.make(['_']),
+                [],
+                undefined,
+                [],
+                Block.make()
+            ),
+        ];
+    }
+
     getGrammar(): Grammar {
         return [
             { name: 'docs', types: optional(node(Docs)) },

@@ -36,6 +36,10 @@ export default class Initial extends AtomicExpression {
         return new Initial(new Token(INITIAL_SYMBOL, Symbol.Initial));
     }
 
+    static getPossibleNodes() {
+        return [Initial.make()];
+    }
+
     getGrammar(): Grammar {
         return [{ name: 'diamond', types: node(Symbol.Initial) }];
     }

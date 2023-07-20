@@ -32,4 +32,8 @@ export default class Refer {
     equals(refer: Refer) {
         return refer.definition === this.definition;
     }
+
+    toString() {
+        return `${this.definition.getNames()[0]}`;
+    }
 }

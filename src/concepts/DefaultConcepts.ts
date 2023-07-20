@@ -149,7 +149,6 @@ const templates: Node[] = [
             ExpressionPlaceholder.make(),
             Reference.make(PLACEHOLDER_SYMBOL)
         ),
-        PLACEHOLDER_SYMBOL,
         ExpressionPlaceholder.make()
     ),
     Name.make('@'),

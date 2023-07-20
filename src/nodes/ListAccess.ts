@@ -30,6 +30,7 @@ import None from '../runtime/None';
 import IncompatibleInput from '../conflicts/IncompatibleInput';
 import concretize from '../locale/concretize';
 import Symbol from './Symbol';
+import ExpressionPlaceholder from './ExpressionPlaceholder';
 
 export default class ListAccess extends Expression {
     readonly list: Expression;
@@ -60,6 +61,15 @@ export default class ListAccess extends Expression {
             index,
             new ListCloseToken()
         );
+    }
+
+    static getPossibleNodes() {
+        return [
+            ListAccess.make(
+                ExpressionPlaceholder.make(ListType.make()),
+                ExpressionPlaceholder.make(NumberType.make())
+            ),
+        ];
     }
 
     getGrammar(): Grammar {

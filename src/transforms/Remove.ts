@@ -106,4 +106,8 @@ export default class Remove extends Transform {
             this.node.isEqualTo(transform.node)
         );
     }
+
+    toString() {
+        return `remove ${this.nodes.map((node) => node.toString()).join(', ')}`;
+    }
 }

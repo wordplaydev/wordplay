@@ -121,4 +121,8 @@ export default class Append<NodeType extends Node> extends Transform {
                     this.insertion.equals(transform.insertion)))
         );
     }
+
+    toString() {
+        return `insert ${this.insertion.toString()}`;
+    }
 }

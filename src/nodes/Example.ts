@@ -31,6 +31,10 @@ export default class Example extends Content {
         );
     }
 
+    static getPossibleNodes() {
+        return [Example.make(Program.make())];
+    }
+
     getGrammar(): Grammar {
         return [
             { name: 'open', types: node(Symbol.ExampleOpen) },

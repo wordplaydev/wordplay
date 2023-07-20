@@ -23,6 +23,9 @@ import Purpose from '../concepts/Purpose';
 import concretize from '../locale/concretize';
 import NodeRef from '../locale/NodeRef';
 import Symbol from './Symbol';
+import ExpressionPlaceholder from './ExpressionPlaceholder';
+import Reference from './Reference';
+import type Node from './Node';
 
 export default class PropertyBind extends Expression {
     readonly reference: PropertyReference;
@@ -39,8 +42,31 @@ export default class PropertyBind extends Expression {
         this.computeChildren();
     }
 
-    static make(reference: PropertyReference, name: string, value: Expression) {
+    static make(reference: PropertyReference, value: Expression) {
         return new PropertyBind(reference, new BindToken(), value);
+    }
+
+    static getPossibleNodes(
+        type: Type | undefined,
+        selection: Node | undefined
+    ) {
+        return [
+            PropertyBind.make(
+                PropertyReference.make(
+                    ExpressionPlaceholder.make(),
+                    Reference.make('_')
+                ),
+                ExpressionPlaceholder.make(type)
+            ),
+            ...(selection instanceof PropertyReference
+                ? [
+                      PropertyBind.make(
+                          selection,
+                          ExpressionPlaceholder.make(type)
+                      ),
+                  ]
+                : []),
+        ];
     }
 
     getGrammar(): Grammar {

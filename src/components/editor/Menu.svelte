@@ -7,6 +7,7 @@
     import { getConceptIndex } from '../project/Contexts';
     import Speech from '../lore/Speech.svelte';
     import { creator } from '../../db/Creator';
+    import MarkupHTMLView from '../concepts/MarkupHTMLView.svelte';
 
     export let menu: Menu;
     export let position: { left: number; top: number };
@@ -82,9 +83,11 @@
                         {/if}
                     </td><td class="col"
                         ><em
-                            >{transform.getDescription(
-                                $creator.getLocale()
-                            )}</em
+                            ><MarkupHTMLView
+                                markup={transform.getDescription(
+                                    $creator.getLocale()
+                                )}
+                            /></em
                         ></td
                     >
                 </tr>

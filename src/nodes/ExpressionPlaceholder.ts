@@ -57,6 +57,10 @@ export default class ExpressionPlaceholder extends AtomicExpression {
         );
     }
 
+    static getPossibleNodes(type: Type | undefined) {
+        return [ExpressionPlaceholder.make(type)];
+    }
+
     getGrammar(): Grammar {
         return [
             {
@@ -81,7 +85,10 @@ export default class ExpressionPlaceholder extends AtomicExpression {
                 },
             },
             { name: 'dot', types: any(node(Symbol.Access), none('type')) },
-            { name: 'type', types: any(node(Type), none('dot')) },
+            {
+                name: 'type',
+                types: any(node(Type), none('dot')),
+            },
         ];
     }
 

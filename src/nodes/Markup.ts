@@ -34,6 +34,10 @@ export default class Markup extends Content {
         return markup;
     }
 
+    static getPossibleNodes() {
+        return [new Markup([new Paragraph([])])];
+    }
+
     getGrammar(): Grammar {
         return [
             {

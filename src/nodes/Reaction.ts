@@ -29,6 +29,8 @@ import StreamToken from './StreamToken';
 import concretize from '../locale/concretize';
 import ExpectedStream from '../conflicts/ExpectedStream';
 import Symbol from './Symbol';
+import ExpressionPlaceholder from './ExpressionPlaceholder';
+import type Node from './Node';
 
 export default class Reaction extends Expression {
     readonly initial: Expression;
@@ -65,6 +67,28 @@ export default class Reaction extends Expression {
         );
     }
 
+    static getPossibleNodes(
+        type: Type | undefined,
+        selection: Node | undefined
+    ) {
+        return [
+            Reaction.make(
+                ExpressionPlaceholder.make(),
+                ExpressionPlaceholder.make(BooleanType.make()),
+                ExpressionPlaceholder.make()
+            ),
+            ...(selection instanceof Expression
+                ? [
+                      Reaction.make(
+                          selection,
+                          ExpressionPlaceholder.make(BooleanType.make()),
+                          ExpressionPlaceholder.make()
+                      ),
+                  ]
+                : []),
+        ];
+    }
+
     getGrammar(): Grammar {
         return [
             {
@@ -80,6 +104,7 @@ export default class Reaction extends Expression {
                 space: true,
                 label: (translation: Locale) =>
                     translation.node.Reaction.condition,
+                getType: () => BooleanType.make(),
             },
             {
                 name: 'nextdots',

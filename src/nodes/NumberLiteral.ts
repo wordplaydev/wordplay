@@ -46,6 +46,14 @@ export default class NumberLiteral extends Literal {
         );
     }
 
+    static getPossibleNodes() {
+        return [
+            NumberLiteral.make(0),
+            NumberLiteral.make('π'),
+            NumberLiteral.make('∞'),
+        ];
+    }
+
     isPercent() {
         return this.number.getText().endsWith('%');
     }

@@ -47,6 +47,10 @@ export default class WebLink extends Content {
         );
     }
 
+    static getPossibleNodes() {
+        return [WebLink.make('...', 'https://')];
+    }
+
     getGrammar(): Grammar {
         return [
             { name: 'open', types: node(Symbol.TagOpen) },

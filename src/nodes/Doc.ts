@@ -33,13 +33,17 @@ export default class Doc extends Node {
         this.computeChildren();
     }
 
-    static make(content: Paragraph[]) {
+    static make(content?: Paragraph[]) {
         return new Doc(
             new Token(DOCS_SYMBOL, Symbol.Doc),
-            new Markup(content),
+            new Markup(content ?? []),
             new Token(DOCS_SYMBOL, Symbol.Doc),
             undefined
         );
+    }
+
+    static getPossibleNodes() {
+        return [Doc.make()];
     }
 
     getGrammar(): Grammar {

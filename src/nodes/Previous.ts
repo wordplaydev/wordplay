@@ -27,6 +27,7 @@ import Glyphs from '../lore/Glyphs';
 import IncompatibleInput from '../conflicts/IncompatibleInput';
 import { NotAType } from './NotAType';
 import concretize from '../locale/concretize';
+import ExpressionPlaceholder from './ExpressionPlaceholder';
 
 export default class Previous extends Expression {
     readonly stream: Expression;
@@ -49,6 +50,15 @@ export default class Previous extends Expression {
             new Token(PREVIOUS_SYMBOL, Symbol.Previous),
             index
         );
+    }
+
+    static getPossibleNodes() {
+        return [
+            Previous.make(
+                ExpressionPlaceholder.make(StreamType.make()),
+                ExpressionPlaceholder.make(NumberType.make())
+            ),
+        ];
     }
 
     getGrammar(): Grammar {

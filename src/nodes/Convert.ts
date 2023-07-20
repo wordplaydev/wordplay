@@ -29,6 +29,9 @@ import ConversionType from './ConversionType';
 import NeverType from './NeverType';
 import concretize from '../locale/concretize';
 import ConversionException from '../runtime/ConversionException';
+import ExpressionPlaceholder from './ExpressionPlaceholder';
+import TypePlaceholder from './TypePlaceholder';
+import type Node from './Node';
 
 export default class Convert extends Expression {
     readonly expression: Expression;
@@ -51,6 +54,21 @@ export default class Convert extends Expression {
             new Token(CONVERT_SYMBOL, Symbol.Convert),
             type
         );
+    }
+
+    static getPossibleNodes(
+        type: Type | undefined,
+        selection: Node | undefined
+    ) {
+        return [
+            Convert.make(
+                ExpressionPlaceholder.make(),
+                type ?? TypePlaceholder.make()
+            ),
+            ...(selection instanceof Expression
+                ? [Convert.make(selection, type ?? TypePlaceholder.make())]
+                : []),
+        ];
     }
 
     getGrammar(): Grammar {

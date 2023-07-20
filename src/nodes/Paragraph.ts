@@ -37,6 +37,10 @@ export default class Paragraph extends Content {
         this.segments = segments;
     }
 
+    static getPossibleNodes() {
+        return [];
+    }
+
     getGrammar(): Grammar {
         return [
             {

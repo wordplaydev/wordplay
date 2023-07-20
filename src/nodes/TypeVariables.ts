@@ -26,12 +26,16 @@ export default class TypeVariables extends Node {
         this.computeChildren();
     }
 
-    static make(variables: TypeVariable[]) {
+    static make(variables?: TypeVariable[]) {
         return new TypeVariables(
             new Token(TYPE_OPEN_SYMBOL, Symbol.TypeOpen),
-            variables,
+            variables ?? [],
             new Token(TYPE_CLOSE_SYMBOL, Symbol.TypeClose)
         );
+    }
+
+    static getPossibleNodes() {
+        return [TypeVariables.make()];
     }
 
     getGrammar(): Grammar {

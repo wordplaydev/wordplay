@@ -17,6 +17,10 @@ export default class Docs extends Node {
         this.computeChildren();
     }
 
+    static getPossibleNodes() {
+        return [new Docs([Doc.make()])];
+    }
+
     getGrammar(): Grammar {
         return [{ name: 'docs', types: list(node(Doc)) }];
     }

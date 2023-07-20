@@ -14,6 +14,7 @@ import type Locale from '@locale/Locale';
 import NoneType from './NoneType';
 import Glyphs from '../lore/Glyphs';
 import NodeRef from '../locale/NodeRef';
+import TypePlaceholder from './TypePlaceholder';
 
 export default class UnionType extends Type {
     readonly left: Type;
@@ -32,6 +33,15 @@ export default class UnionType extends Type {
 
     static make(left: Type, right: Type) {
         return new UnionType(left, new Token(OR_SYMBOL, Symbol.Union), right);
+    }
+
+    static getPossibleNodes(_: Type | undefined, prior: Node | undefined) {
+        return [
+            UnionType.make(TypePlaceholder.make(), TypePlaceholder.make()),
+            ...(prior instanceof Type
+                ? [UnionType.make(prior, TypePlaceholder.make())]
+                : []),
+        ];
     }
 
     static orNone(left: Type) {

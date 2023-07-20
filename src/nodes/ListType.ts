@@ -10,6 +10,7 @@ import { node, type Grammar, type Replacement, optional } from './Node';
 import type Locale from '@locale/Locale';
 import Glyphs from '../lore/Glyphs';
 import NodeRef from '../locale/NodeRef';
+import type Node from './Node';
 
 export default class ListType extends NativeType {
     readonly open: Token;
@@ -41,6 +42,16 @@ export default class ListType extends NativeType {
             new Token(LIST_CLOSE_SYMBOL, Symbol.ListClose),
             length
         );
+    }
+
+    static getPossibleNodes(
+        type: Type | undefined,
+        selection: Node | undefined
+    ) {
+        return [
+            ListType.make(),
+            ...(selection instanceof Type ? [ListType.make(selection)] : []),
+        ];
     }
 
     getGrammar(): Grammar {

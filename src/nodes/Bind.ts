@@ -46,6 +46,7 @@ import Evaluate from './Evaluate';
 import FunctionType from './FunctionType';
 import concretize from '../locale/concretize';
 import getConcreteExpectedType from './Generics';
+import type Node from './Node';
 
 export default class Bind extends Expression {
     readonly docs?: Docs;
@@ -103,6 +104,25 @@ export default class Bind extends Expression {
         );
     }
 
+    static getPossibleNodes(
+        type: Type | undefined,
+        selection: Node | undefined
+    ) {
+        return [
+            Bind.make(undefined, Names.make(['_'])),
+            ...(selection instanceof Expression
+                ? [
+                      Bind.make(
+                          undefined,
+                          Names.make(['_']),
+                          undefined,
+                          selection
+                      ),
+                  ]
+                : []),
+        ];
+    }
+
     getGrammar(): Grammar {
         return [
             {
@@ -132,7 +152,8 @@ export default class Bind extends Expression {
                 space: true,
                 indent: true,
                 // If there's a type, the value must match it, otherwise anything
-                getType: () => this.type ?? new AnyType(),
+                getType: (context: Context) =>
+                    this.getType(context) ?? new AnyType(),
             },
         ];
     }

@@ -24,6 +24,9 @@ import Symbol from './Symbol';
 import { TYPE_SYMBOL } from '../parser/Symbols';
 import Purpose from '../concepts/Purpose';
 import concretize from '../locale/concretize';
+import ExpressionPlaceholder from './ExpressionPlaceholder';
+import TypePlaceholder from './TypePlaceholder';
+import type Node from './Node';
 
 export default class Is extends Expression {
     readonly expression: Expression;
@@ -42,6 +45,18 @@ export default class Is extends Expression {
 
     static make(left: Expression, right: Type) {
         return new Is(left, new Token(TYPE_SYMBOL, Symbol.TypeOperator), right);
+    }
+
+    static getPossibleNodes(
+        type: Type | undefined,
+        selection: Node | undefined
+    ) {
+        return [
+            Is.make(ExpressionPlaceholder.make(), TypePlaceholder.make()),
+            ...(selection instanceof Expression
+                ? [Is.make(selection, TypePlaceholder.make())]
+                : []),
+        ];
     }
 
     getGrammar(): Grammar {

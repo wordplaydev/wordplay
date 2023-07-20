@@ -55,6 +55,10 @@ export default class Reference extends AtomicExpression {
         return new Reference(new NameToken(name), definition);
     }
 
+    static getPossibleNodes() {
+        return [];
+    }
+
     getGrammar(): Grammar {
         return [
             {

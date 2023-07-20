@@ -29,6 +29,12 @@ export default class Language extends Node {
         return new Language(new LanguageToken(), new NameToken(lang));
     }
 
+    static getPossibleNodes() {
+        return Object.keys(Languages).map((language) =>
+            Language.make(language)
+        );
+    }
+
     getGrammar(): Grammar {
         return [
             { name: 'slash', types: node(Symbol.Language) },

@@ -51,13 +51,17 @@ export default class MapLiteral extends Expression {
         this.computeChildren();
     }
 
-    static make(values: KeyValue[]) {
+    static make(values?: KeyValue[]) {
         return new MapLiteral(
             new SetOpenToken(),
-            values,
-            values.length === 0 ? new BindToken() : undefined,
+            values ?? [],
+            (values ?? []).length === 0 ? new BindToken() : undefined,
             new SetCloseToken()
         );
+    }
+
+    static getPossibleNodes() {
+        return [MapLiteral.make()];
     }
 
     getGrammar(): Grammar {

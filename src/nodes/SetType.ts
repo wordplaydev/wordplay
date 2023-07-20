@@ -13,6 +13,7 @@ import type Locale from '@locale/Locale';
 import Glyphs from '../lore/Glyphs';
 import NodeRef from '../locale/NodeRef';
 import Symbol from './Symbol';
+import type Node from './Node';
 
 export default class SetType extends NativeType {
     readonly open: Token;
@@ -31,6 +32,16 @@ export default class SetType extends NativeType {
 
     static make(key?: Type) {
         return new SetType(new SetOpenToken(), key, new SetCloseToken());
+    }
+
+    static getPossibleNodes(
+        type: Type | undefined,
+        selection: Node | undefined
+    ) {
+        return [
+            SetType.make(),
+            ...(selection instanceof Type ? [SetType.make(selection)] : []),
+        ];
     }
 
     getGrammar(): Grammar {

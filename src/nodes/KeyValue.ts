@@ -8,6 +8,7 @@ import Purpose from '../concepts/Purpose';
 import type { NativeTypeName } from '../native/NativeConstants';
 import Node, { node } from './Node';
 import Symbol from './Symbol';
+import ExpressionPlaceholder from './ExpressionPlaceholder';
 
 export default class KeyValue extends Node {
     readonly key: Expression;
@@ -26,6 +27,15 @@ export default class KeyValue extends Node {
 
     static make(key: Expression, value: Expression) {
         return new KeyValue(key, value, new BindToken());
+    }
+
+    static getPossibleNodes() {
+        return [
+            KeyValue.make(
+                ExpressionPlaceholder.make(),
+                ExpressionPlaceholder.make()
+            ),
+        ];
     }
 
     getGrammar(): Grammar {

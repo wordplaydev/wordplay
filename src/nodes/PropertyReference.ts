@@ -32,6 +32,7 @@ import UnimplementedException from '../runtime/UnimplementedException';
 import Purpose from '../concepts/Purpose';
 import { UnknownName } from '../conflicts/UnknownName';
 import concretize from '../locale/concretize';
+import ExpressionPlaceholder from './ExpressionPlaceholder';
 
 export default class PropertyReference extends Expression {
     readonly structure: Expression;
@@ -48,12 +49,24 @@ export default class PropertyReference extends Expression {
         this.computeChildren();
     }
 
-    static make(subject: Expression, name: Reference) {
+    static make(subject: Expression, name?: Reference) {
         return new PropertyReference(
             subject,
             new Token(PROPERTY_SYMBOL, Symbol.Access),
             name
         );
+    }
+
+    static getPossibleNodes(
+        type: Type | undefined,
+        selection: Node | undefined
+    ) {
+        return [
+            PropertyReference.make(ExpressionPlaceholder.make(), undefined),
+            ...(selection instanceof Expression
+                ? [PropertyReference.make(selection)]
+                : []),
+        ];
     }
 
     getGrammar(): Grammar {

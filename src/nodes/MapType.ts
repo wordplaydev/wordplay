@@ -14,6 +14,8 @@ import type Locale from '@locale/Locale';
 import Glyphs from '../lore/Glyphs';
 import NodeRef from '../locale/NodeRef';
 import Symbol from './Symbol';
+import TypePlaceholder from './TypePlaceholder';
+import type Node from './Node';
 
 export default class MapType extends NativeType {
     readonly open: Token;
@@ -48,6 +50,18 @@ export default class MapType extends NativeType {
             value,
             new SetCloseToken()
         );
+    }
+
+    static getPossibleNodes(
+        type: Type | undefined,
+        selection: Node | undefined
+    ) {
+        return [
+            MapType.make(),
+            ...(selection instanceof Type
+                ? [MapType.make(selection, TypePlaceholder.make())]
+                : []),
+        ];
     }
 
     getGrammar(): Grammar {

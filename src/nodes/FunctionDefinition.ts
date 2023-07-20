@@ -24,7 +24,6 @@ import StartFinish from '@runtime/StartFinish';
 import TypeVariables from './TypeVariables';
 import NoExpression from '@conflicts/NoExpression';
 import UnimplementedType from './UnimplementedType';
-import AnyType from './AnyType';
 import TypeToken from './TypeToken';
 import { any, node, none, type Grammar, type Replacement, list } from './Node';
 import type Locale from '@locale/Locale';
@@ -110,6 +109,19 @@ export default class FunctionDefinition extends Expression {
         );
     }
 
+    static getPossibleNodes() {
+        return [
+            FunctionDefinition.make(
+                undefined,
+                Names.make(['_']),
+                undefined,
+                [],
+                ExpressionPlaceholder.make(),
+                undefined
+            ),
+        ];
+    }
+
     /** Create an expression that evaluates this function with typed placeholders for its inputs. */
     getEvaluateTemplate(
         languages: LanguageCode[],
@@ -182,7 +194,7 @@ export default class FunctionDefinition extends Expression {
                 space: true,
                 indent: (_: Node, child: Node) => !(child instanceof Block),
                 // Must match output type if provided
-                getType: () => this.output ?? new AnyType(),
+                getType: (context) => this.getOutputType(context),
             },
         ];
     }

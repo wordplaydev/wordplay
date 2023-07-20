@@ -41,6 +41,10 @@ export default class TextLiteral extends Literal {
         );
     }
 
+    static getPossibleNodes() {
+        return [TextLiteral.make()];
+    }
+
     getGrammar(): Grammar {
         return [
             { name: 'text', types: node(Symbol.Text) },
