@@ -68,7 +68,7 @@ export default class PropertyReference extends Expression {
             return [
                 PropertyReference.make(ExpressionPlaceholder.make(), undefined),
             ];
-        else if (selection instanceof PropertyReference && selection.name) {
+        else if (selection instanceof PropertyReference) {
             const selectionType = selection.structure.getType(context);
             // Is the type a structure? Suggest reference to it's properties.
             if (selectionType instanceof StructureDefinitionType) {
