@@ -270,7 +270,8 @@ function getRelativeFieldEdits(
     const fieldIndex = grammar.findIndex((f) => f.name === field.name);
     const relativeFields = before
         ? grammar.slice(fieldIndex)
-        : grammar.slice(0, fieldIndex + 1);
+        : // We reverse this so we can from most proximal to anchor to the beginning of the node.
+          grammar.slice(0, fieldIndex + 1).reverse();
 
     for (const relativeField of relativeFields) {
         // If the field is a list, get possible insertions for all allowable node kinds.
@@ -315,41 +316,54 @@ function getRelativeFieldEdits(
                 }
             }
         }
-
-        const expectedType = relativeField.getType
-            ? relativeField.getType(context, undefined)
-            : undefined;
-        const fieldValue = parent.getField(relativeField.name);
-        // We don't do this for list fields.
-        if (!(relativeField.kind instanceof ListOf))
-            edits = [
-                ...edits,
-                ...relativeField.kind
-                    .enumerate()
-                    .map((kind) =>
-                        getPossibleNodes(kind, expectedType, undefined, context)
-                            // Filter out any equivalent value already set
-                            .filter((node) =>
-                                node === undefined
-                                    ? fieldValue !== undefined
-                                    : Array.isArray(fieldValue) ||
-                                      fieldValue === undefined ||
-                                      node instanceof Refer ||
-                                      !fieldValue.isEqualTo(node)
+        // If this is not a list, and it's not the field we started at, and the field is set, stop scanning for empty fields we could set.
+        else if (
+            relativeField.name !== field.name &&
+            parent.getField(relativeField.name) !== undefined
+        )
+            break;
+        // Otherwise, offer to set or unset this field.
+        else {
+            const expectedType = relativeField.getType
+                ? relativeField.getType(context, undefined)
+                : undefined;
+            const fieldValue = parent.getField(relativeField.name);
+            // We don't do this for list fields.
+            if (!(relativeField.kind instanceof ListOf))
+                edits = [
+                    ...edits,
+                    ...relativeField.kind
+                        .enumerate()
+                        .map((kind) =>
+                            getPossibleNodes(
+                                kind,
+                                expectedType,
+                                undefined,
+                                context
                             )
-                            .map(
-                                (addition) =>
-                                    new SetField(
-                                        context,
-                                        position,
-                                        parent,
-                                        relativeField.name,
-                                        addition
-                                    )
-                            )
-                    )
-                    .flat(),
-            ];
+                                // Filter out any equivalent value already set
+                                .filter((node) =>
+                                    node === undefined
+                                        ? fieldValue !== undefined
+                                        : Array.isArray(fieldValue) ||
+                                          fieldValue === undefined ||
+                                          node instanceof Refer ||
+                                          !fieldValue.isEqualTo(node)
+                                )
+                                .map(
+                                    (addition) =>
+                                        new SetField(
+                                            context,
+                                            position,
+                                            parent,
+                                            relativeField.name,
+                                            addition
+                                        )
+                                )
+                        )
+                        .flat(),
+                ];
+        }
     }
 
     return edits;
