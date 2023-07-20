@@ -1,24 +1,22 @@
 import type { Edit } from '../components/editor/util/Commands';
 import Transform from './Transform';
-import Node from '@nodes/Node';
+import type Node from '@nodes/Node';
 import Caret from './Caret';
 import type Context from '@nodes/Context';
 import type Locale from '@locale/Locale';
 import concretize from '../locale/concretize';
 
 /**
- * Remove a node from sequence of nodes in a parent.
+ * Remove one or more nodes from sequence of nodes in a parent.
  */
 export default class Remove extends Transform {
     readonly parent: Node;
-    readonly node: Node;
     readonly nodes: Node[];
 
-    constructor(context: Context, parent: Node, node: Node, ...nodes: Node[]) {
+    constructor(context: Context, parent: Node, ...nodes: Node[]) {
         super(context);
 
         this.parent = parent;
-        this.node = node;
         this.nodes = nodes;
     }
 
@@ -38,7 +36,7 @@ export default class Remove extends Transform {
         const newSource = this.context.source.withProgram(
             this.context.source.expression.replace(this.parent, newParent),
             // Preserve the space before the removed node.
-            this.context.source.spaces.withReplacement(this.node, undefined)
+            this.context.source.spaces.withReplacement(this.nodes[0], undefined)
         );
 
         // Return the new source and place the caret after the replacement.
@@ -49,11 +47,11 @@ export default class Remove extends Transform {
     }
 
     getNodes() {
-        return [this.node, ...this.nodes];
+        return [...this.nodes];
     }
 
     getEditedNode(): [Node, Node] {
-        return [this.node, this.getNewNode()];
+        return [this.nodes[0], this.getNewNode()];
     }
 
     getNewNode() {
@@ -101,9 +99,11 @@ export default class Remove extends Transform {
     equals(transform: Transform) {
         return (
             transform instanceof Remove &&
-            this.node instanceof Node &&
-            transform.node instanceof Node &&
-            this.node.isEqualTo(transform.node)
+            this.nodes.every(
+                (node, index) =>
+                    transform.nodes[index] !== undefined &&
+                    node.isEqualTo(transform.nodes[index])
+            )
         );
     }
 
