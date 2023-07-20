@@ -376,7 +376,11 @@ function getRelativeFieldEdits(
         }
     }
 
-    return edits;
+    // Return the edits, removing any duplicates
+    return edits.filter(
+        (edit1) =>
+            !edits.some((edit2) => edit1 !== edit2 && edit1.equals(edit2))
+    );
 }
 
 /** A list of node types from which we can generate replacements. */
