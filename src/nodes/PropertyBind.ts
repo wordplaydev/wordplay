@@ -52,16 +52,15 @@ export default class PropertyBind extends Expression {
         selected: boolean
     ) {
         return [
-            PropertyBind.make(
-                PropertyReference.make(
-                    ExpressionPlaceholder.make(),
-                    Reference.make('_')
-                ),
-                ExpressionPlaceholder.make(type)
-            ),
-            ...(node instanceof PropertyReference && selected
-                ? [PropertyBind.make(node, ExpressionPlaceholder.make(type))]
-                : []),
+            node instanceof PropertyReference && selected
+                ? PropertyBind.make(node, ExpressionPlaceholder.make(type))
+                : PropertyBind.make(
+                      PropertyReference.make(
+                          ExpressionPlaceholder.make(),
+                          Reference.make('_')
+                      ),
+                      ExpressionPlaceholder.make(type)
+                  ),
         ];
     }
 
