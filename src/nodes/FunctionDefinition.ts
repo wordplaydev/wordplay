@@ -141,7 +141,7 @@ export default class FunctionDefinition extends Expression {
                 : this.names.getLocaleText(nameOrLanguages),
             this
         );
-        return this.isOperator() && structure && this.inputs.length === 0
+        return this.isOperator() && this.inputs.length === 0
             ? new UnaryEvaluate(
                   new Reference(
                       new Token(this.getOperatorName() ?? '_', Symbol.Operator)
@@ -150,7 +150,7 @@ export default class FunctionDefinition extends Expression {
                       ? structureType
                       : ExpressionPlaceholder.make(structureType?.clone())
               )
-            : this.isOperator() && structure && this.inputs.length === 1
+            : this.isOperator() && this.inputs.length === 1
             ? new BinaryEvaluate(
                   structureType instanceof Expression
                       ? structureType

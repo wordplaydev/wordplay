@@ -78,11 +78,12 @@ export default class Block extends Expression {
 
     static getPossibleNodes(
         type: Type | undefined,
-        selection: Node | undefined
+        selection: Node | undefined,
+        selected: boolean
     ) {
         return [
             Block.make(),
-            ...(selection instanceof Expression
+            ...(selection instanceof Expression && selected
                 ? [Block.make([selection])]
                 : []),
         ];

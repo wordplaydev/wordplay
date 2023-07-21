@@ -48,7 +48,8 @@ export default class PropertyBind extends Expression {
 
     static getPossibleNodes(
         type: Type | undefined,
-        selection: Node | undefined
+        node: Node,
+        selected: boolean
     ) {
         return [
             PropertyBind.make(
@@ -58,13 +59,8 @@ export default class PropertyBind extends Expression {
                 ),
                 ExpressionPlaceholder.make(type)
             ),
-            ...(selection instanceof PropertyReference
-                ? [
-                      PropertyBind.make(
-                          selection,
-                          ExpressionPlaceholder.make(type)
-                      ),
-                  ]
+            ...(node instanceof PropertyReference && selected
+                ? [PropertyBind.make(node, ExpressionPlaceholder.make(type))]
                 : []),
         ];
     }

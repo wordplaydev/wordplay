@@ -118,8 +118,9 @@ export default class Unit extends Type {
     }
 
     static getPossibleNodes(
-        _: Type | undefined,
-        node: Node | undefined,
+        type: Type | undefined,
+        node: Node,
+        selected: boolean,
         context: Context
     ) {
         return getPossibleUnits(context.project);

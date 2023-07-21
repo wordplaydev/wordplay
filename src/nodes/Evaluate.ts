@@ -53,6 +53,7 @@ import AnyType from './AnyType';
 import { NotAType } from './NotAType';
 import concretize from '../locale/concretize';
 import Symbol from './Symbol';
+import Refer from '../edit/Refer';
 
 type Mapping = {
     expected: Bind;
@@ -101,10 +102,33 @@ export default class Evaluate extends Expression {
 
     static getPossibleNodes(
         type: Type | undefined,
-        selection: Node | undefined,
+        node: Node,
+        selected: boolean,
         context: Context
     ) {
-        return [];
+        // If a node is selected, find the definitions in its scope and create evaluates that provide matching types.
+        return node
+            .getDefinitionsInScope(context)
+            .filter(
+                (def): def is FunctionDefinition | StructureDefinition =>
+                    (def instanceof FunctionDefinition &&
+                        (type === undefined ||
+                            type.accepts(
+                                def.getOutputType(context),
+                                context
+                            ))) ||
+                    (def instanceof StructureDefinition &&
+                        (type === undefined ||
+                            type.accepts(def.getType(context), context)))
+            )
+            .map(
+                (def) =>
+                    new Refer(
+                        (name) =>
+                            def.getEvaluateTemplate(name, context, undefined),
+                        def
+                    )
+            );
     }
 
     getGrammar(): Grammar {

@@ -49,12 +49,13 @@ export default class Is extends Expression {
 
     static getPossibleNodes(
         type: Type | undefined,
-        selection: Node | undefined
+        node: Node,
+        selected: boolean
     ) {
         return [
             Is.make(ExpressionPlaceholder.make(), TypePlaceholder.make()),
-            ...(selection instanceof Expression
-                ? [Is.make(selection, TypePlaceholder.make())]
+            ...(node instanceof Expression && selected
+                ? [Is.make(node, TypePlaceholder.make())]
                 : []),
         ];
     }

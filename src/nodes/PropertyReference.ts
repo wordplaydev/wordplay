@@ -61,21 +61,22 @@ export default class PropertyReference extends Expression {
 
     static getPossibleNodes(
         type: Type | undefined,
-        selection: Node | undefined,
+        node: Node,
+        selected: boolean,
         context: Context
     ) {
-        if (selection === undefined)
+        if (!selected)
             return [
                 PropertyReference.make(ExpressionPlaceholder.make(), undefined),
             ];
-        else if (selection instanceof PropertyReference) {
-            const selectionType = selection.structure.getType(context);
+        else if (node instanceof PropertyReference) {
+            const selectionType = node.structure.getType(context);
             // Is the type a structure? Suggest reference to it's properties.
             if (selectionType instanceof StructureDefinitionType) {
-                const prefix = selection.name?.getName() ?? '';
+                const prefix = node.name?.getName() ?? '';
                 return (
                     selectionType.structure
-                        .getDefinitions(selection)
+                        .getDefinitions(node)
                         // Filter my matching prefixes
                         .filter((def) =>
                             def
@@ -90,7 +91,7 @@ export default class PropertyReference extends Expression {
                                 ? new Refer(
                                       (name: string) =>
                                           PropertyReference.make(
-                                              selection.structure,
+                                              node.structure,
                                               Reference.make(name)
                                           ),
                                       def
@@ -107,7 +108,7 @@ export default class PropertyReference extends Expression {
                                           def.getEvaluateTemplate(
                                               name,
                                               context,
-                                              selection.structure
+                                              node.structure
                                           ),
                                       def
                                   )

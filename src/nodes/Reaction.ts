@@ -69,7 +69,8 @@ export default class Reaction extends Expression {
 
     static getPossibleNodes(
         type: Type | undefined,
-        selection: Node | undefined
+        node: Node | undefined,
+        selected: boolean
     ) {
         return [
             Reaction.make(
@@ -77,10 +78,10 @@ export default class Reaction extends Expression {
                 ExpressionPlaceholder.make(BooleanType.make()),
                 ExpressionPlaceholder.make()
             ),
-            ...(selection instanceof Expression
+            ...(node instanceof Expression && selected
                 ? [
                       Reaction.make(
-                          selection,
+                          node,
                           ExpressionPlaceholder.make(BooleanType.make()),
                           ExpressionPlaceholder.make()
                       ),

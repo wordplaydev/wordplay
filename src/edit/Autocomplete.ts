@@ -93,6 +93,7 @@ export function getEditsAt(project: Project, caret: Caret): Revision[] {
                                 kind,
                                 expectedType,
                                 selection,
+                                false,
                                 context
                             ).map(
                                 (replacement) =>
@@ -182,7 +183,8 @@ export function getEditsAt(project: Project, caret: Caret): Revision[] {
                             getPossibleNodes(
                                 kind,
                                 undefined,
-                                undefined,
+                                source.expression.expression,
+                                false,
                                 context
                             )
                                 .filter(
@@ -271,6 +273,7 @@ function getRelativeFieldEdits(
                         kind,
                         type instanceof UnknownType ? undefined : type,
                         node,
+                        true,
                         context
                     ).map(
                         (replacement) =>
@@ -308,7 +311,8 @@ function getRelativeFieldEdits(
                                 getPossibleNodes(
                                     kind,
                                     expectedType,
-                                    undefined,
+                                    node,
+                                    false,
                                     context
                                 )
                                     .filter(
@@ -354,7 +358,8 @@ function getRelativeFieldEdits(
                             getPossibleNodes(
                                 kind,
                                 expectedType,
-                                undefined,
+                                node,
+                                false,
                                 context
                             )
                                 // Filter out any equivalent value already set
@@ -451,7 +456,8 @@ const Nodes = [
 function getPossibleNodes(
     kind: NodeKind,
     type: Type | undefined,
-    selection: Node | undefined,
+    anchor: Node,
+    selected: boolean,
     context: Context
 ): (Node | Refer | undefined)[] {
     // Undefined? That's just undefined,
@@ -469,7 +475,7 @@ function getPossibleNodes(
             // Convert each node type to possible nodes. Each node implements a static function that generates possibilities
             // from the context given.
             .map((possibleKind) =>
-                possibleKind.getPossibleNodes(type, selection, context)
+                possibleKind.getPossibleNodes(type, anchor, selected, context)
             )
             // Flatten the list of possible nodes.
             .flat()
@@ -480,13 +486,13 @@ function getPossibleNodes(
                     (type === undefined ||
                         !(node instanceof Expression) ||
                         type.accepts(node.getType(context), context)) &&
-                    (selection === undefined ||
+                    (anchor === undefined ||
                         (node instanceof Refer &&
-                            (!(selection instanceof Reference) ||
-                                (selection instanceof Reference &&
+                            (!(anchor instanceof Reference) ||
+                                (anchor instanceof Reference &&
                                     node.definition !==
-                                        selection.resolve(context)))) ||
-                        (node instanceof Node && !selection.isEqualTo(node)))
+                                        anchor.resolve(context)))) ||
+                        (node instanceof Node && !anchor.isEqualTo(node)))
             )
     );
 }

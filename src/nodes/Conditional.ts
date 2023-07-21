@@ -59,7 +59,8 @@ export default class Conditional extends Expression {
 
     static getPossibleNodes(
         type: Type | undefined,
-        selection: Node | undefined,
+        node: Node,
+        selected: boolean,
         context: Context
     ) {
         return [
@@ -68,11 +69,12 @@ export default class Conditional extends Expression {
                 ExpressionPlaceholder.make(),
                 ExpressionPlaceholder.make()
             ),
-            ...(selection instanceof Expression &&
-            BooleanType.make().accepts(selection.getType(context), context)
+            ...(node instanceof Expression &&
+            selected &&
+            BooleanType.make().accepts(node.getType(context), context)
                 ? [
                       Conditional.make(
-                          selection,
+                          node,
                           ExpressionPlaceholder.make(),
                           ExpressionPlaceholder.make()
                       ),

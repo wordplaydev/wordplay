@@ -106,19 +106,13 @@ export default class Bind extends Expression {
 
     static getPossibleNodes(
         type: Type | undefined,
-        selection: Node | undefined
+        anchor: Node,
+        selected: boolean
     ) {
         return [
             Bind.make(undefined, Names.make(['_'])),
-            ...(selection instanceof Expression
-                ? [
-                      Bind.make(
-                          undefined,
-                          Names.make(['_']),
-                          undefined,
-                          selection
-                      ),
-                  ]
+            ...(anchor instanceof Expression && selected
+                ? [Bind.make(undefined, Names.make(['_']), undefined, anchor)]
                 : []),
         ];
     }

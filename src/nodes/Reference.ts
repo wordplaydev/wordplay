@@ -60,14 +60,15 @@ export default class Reference extends AtomicExpression {
 
     static getPossibleNodes(
         type: Type | undefined,
-        selection: Node | undefined,
+        node: Node,
+        selected: boolean,
         context: Context
     ): Refer[] {
         // If the node prior is a reference, find potential matching definitions in scope.
-        if (selection instanceof Reference) {
-            const prefix = selection.getName();
+        if (node instanceof Reference && selected) {
+            const prefix = node.getName();
             return (
-                selection
+                node
                     // Find all the definitions in scope.
                     .getDefinitionsInScope(context)
                     // Only accept ones that have names starting with the prefix

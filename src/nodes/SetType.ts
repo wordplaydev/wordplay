@@ -36,11 +36,12 @@ export default class SetType extends NativeType {
 
     static getPossibleNodes(
         type: Type | undefined,
-        selection: Node | undefined
+        node: Node,
+        selected: boolean
     ) {
         return [
             SetType.make(),
-            ...(selection instanceof Type ? [SetType.make(selection)] : []),
+            ...(node instanceof Type && selected ? [SetType.make(node)] : []),
         ];
     }
 

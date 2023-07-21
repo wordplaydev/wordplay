@@ -46,11 +46,12 @@ export default class ListType extends NativeType {
 
     static getPossibleNodes(
         type: Type | undefined,
-        selection: Node | undefined
+        node: Node,
+        selected: boolean
     ) {
         return [
             ListType.make(),
-            ...(selection instanceof Type ? [ListType.make(selection)] : []),
+            ...(node instanceof Type && selected ? [ListType.make(node)] : []),
         ];
     }
 

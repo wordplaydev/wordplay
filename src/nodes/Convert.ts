@@ -58,15 +58,16 @@ export default class Convert extends Expression {
 
     static getPossibleNodes(
         type: Type | undefined,
-        selection: Node | undefined
+        node: Node,
+        selected: boolean
     ) {
         return [
             Convert.make(
                 ExpressionPlaceholder.make(),
                 type ?? TypePlaceholder.make()
             ),
-            ...(selection instanceof Expression
-                ? [Convert.make(selection, type ?? TypePlaceholder.make())]
+            ...(node instanceof Expression && selected
+                ? [Convert.make(node, type ?? TypePlaceholder.make())]
                 : []),
         ];
     }

@@ -54,12 +54,13 @@ export default class MapType extends NativeType {
 
     static getPossibleNodes(
         type: Type | undefined,
-        selection: Node | undefined
+        node: Node,
+        selected: boolean
     ) {
         return [
             MapType.make(),
-            ...(selection instanceof Type
-                ? [MapType.make(selection, TypePlaceholder.make())]
+            ...(node instanceof Type && selected
+                ? [MapType.make(node, TypePlaceholder.make())]
                 : []),
         ];
     }
