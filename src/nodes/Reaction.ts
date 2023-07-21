@@ -73,20 +73,17 @@ export default class Reaction extends Expression {
         selected: boolean
     ) {
         return [
-            Reaction.make(
-                ExpressionPlaceholder.make(),
-                ExpressionPlaceholder.make(BooleanType.make()),
-                ExpressionPlaceholder.make()
-            ),
-            ...(node instanceof Expression && selected
-                ? [
-                      Reaction.make(
-                          node,
-                          ExpressionPlaceholder.make(BooleanType.make()),
-                          ExpressionPlaceholder.make()
-                      ),
-                  ]
-                : []),
+            node instanceof Expression && selected
+                ? Reaction.make(
+                      node,
+                      ExpressionPlaceholder.make(BooleanType.make()),
+                      ExpressionPlaceholder.make()
+                  )
+                : Reaction.make(
+                      ExpressionPlaceholder.make(),
+                      ExpressionPlaceholder.make(BooleanType.make()),
+                      ExpressionPlaceholder.make()
+                  ),
         ];
     }
 
