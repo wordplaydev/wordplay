@@ -302,6 +302,8 @@ function getRelativeFieldEdits(
           grammar.slice(0, fieldIndex + 1).reverse();
 
     for (const relativeField of relativeFields) {
+        const fieldIsEmpty = parent.getField(relativeField.name) === undefined;
+
         // If the field is a list, and it's not a block, or we're on an empty line in a block, get possible insertions for all allowable node kinds.
         if (
             relativeField.kind instanceof ListOf &&
@@ -350,18 +352,14 @@ function getRelativeFieldEdits(
             }
         }
         // If this is not a list, and it's not the field we started at, and the field is set, stop scanning for empty fields we could set.
-        else if (
-            relativeField.name !== field.name &&
-            parent.getField(relativeField.name) !== undefined
-        )
-            break;
+        else if (relativeField.name !== field.name && !fieldIsEmpty) break;
         // Otherwise, offer to set or unset this field.
-        else {
+        else if (fieldIsEmpty) {
             const expectedType = relativeField.getType
                 ? relativeField.getType(context, undefined)
                 : undefined;
             const fieldValue = parent.getField(relativeField.name);
-            // We don't do this for list fields.
+            // We don't do this for list fields and we only do it if the field isn't set.
             if (!(relativeField.kind instanceof ListOf))
                 edits = [
                     ...edits,
