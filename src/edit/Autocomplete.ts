@@ -262,10 +262,10 @@ function getRelativeFieldEdits(
     // Generate possible nodes that could replace the token prior
     // (e.g., autocomplete References, create binary operations)
     // We only do this if this is before, and we're immediately after
-    // a node, and the node is an expression, to ensure
-    // we only generate relevant suggestions.
-    if (before && adjacent && node instanceof Expression) {
-        const type = node.getType(context);
+    // a node.
+    if (before && adjacent) {
+        const type =
+            node instanceof Expression ? node.getType(context) : undefined;
         edits = [
             ...edits,
             ...field.kind
@@ -468,9 +468,12 @@ function getPossibleNodes(
 ): (Node | Refer | undefined)[] {
     // Undefined? That's just undefined,
     if (kind === undefined) return [undefined];
-    // Symbol? That's just a token. We use the symbol's string as the text.
+    // Symbol? That's just a token. We use the symbol's string as the text. Don't recommend it if it's already that.
     if (!(kind instanceof Function)) {
-        return field.uncompletable ? [] : [new Token(kind.toString(), kind)];
+        const newToken = new Token(kind.toString(), kind);
+        return field.uncompletable || newToken.isEqualTo(anchor)
+            ? []
+            : [newToken];
     }
     // Otherwise, it's a non-terminal. Let's find all the nodes that we can make that satisify the node kind,
     // creating nodes or node references that are compatible with the requested kind.

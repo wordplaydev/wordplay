@@ -441,7 +441,7 @@ function nextIsBind(tokens: Tokens, expectValue: boolean): boolean {
     // It's a bind if it has a name and either doesn't expect a value, or has one, or has a name with a language tag
     return (
         bind.names.names.length > 0 &&
-        (!expectValue || bind.hasValue() || bind.names.hasLanguage())
+        (!expectValue || bind.colon !== undefined || bind.names.hasLanguage())
     );
 }
 
@@ -463,7 +463,7 @@ export function parseBind(tokens: Tokens): Bind {
 
     if (tokens.nextIs(Symbol.Bind)) {
         colon = tokens.read(Symbol.Bind);
-        value = parseExpression(tokens);
+        value = tokens.hasNext() ? parseExpression(tokens) : undefined;
     }
 
     return new Bind(docs, share, names, etc, dot, type, colon, value);

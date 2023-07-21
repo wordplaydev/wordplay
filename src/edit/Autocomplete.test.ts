@@ -5,11 +5,12 @@ import Source from '@nodes/Source';
 import { getEditsAt } from './Autocomplete';
 import type Node from '@nodes/Node';
 import { getDefaultNative } from '@native/Native';
+import Add from './Add';
 
 const native = await getDefaultNative();
 
 test.each([
-    // ['a•?:**', undefined, Replace, 'a'],
+    ['a:**', undefined, Add, '0'],
     // [`ƒ sum(a•? b•?) a & b\ns**`, undefined, Replace, 'sum(_•? _•?)'],
     // [`ƒ sum(a•? b•?) a & b\nsum()**`, undefined, Replace, '(sum()) = _'],
     // [`"hi".**`, undefined, Replace, '"hi".📏()'],
@@ -23,7 +24,7 @@ test.each([
     //     'c',
     // ],
 ])(
-    'Code %s should have a transform',
+    'Code %s should have a transform ',
     (
         code: string,
         position: ((node: Node) => boolean) | undefined,
