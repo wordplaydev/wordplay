@@ -47,6 +47,15 @@ export default class Add<NodeType extends Node> extends Revision {
     getEdit(languages: LanguageCode[]): Edit | undefined {
         const [newNode, newParent] = this.getEditedNode(languages);
 
+        const existingChild = this.parent.getField(this.field);
+        const originalPosition = existingChild
+            ? this.context.source.getNodeFirstPosition(
+                  Array.isArray(existingChild)
+                      ? existingChild[0]
+                      : existingChild
+              )
+            : undefined;
+
         // Split the space using the position, defaulting to the original space.
         let newSpaces =
             newNode === undefined
@@ -64,7 +73,7 @@ export default class Add<NodeType extends Node> extends Revision {
         // Place the caret at first placeholder or the end of the node in the source.
         let newCaretPosition =
             newNode === undefined
-                ? this.position
+                ? originalPosition ?? this.position
                 : newNode.getFirstPlaceholder() ??
                   newSource.getNodeLastPosition(newNode);
 

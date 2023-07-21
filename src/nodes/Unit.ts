@@ -197,11 +197,13 @@ export default class Unit extends Type {
 
     isEqualTo(unit: Unit) {
         return (
-            (this.exponents.size === 0 && unit.isWildcard()) ||
-            (this.exponents.size === unit.exponents.size &&
-                Array.from(this.exponents.keys()).every(
-                    (key) => this.exponents.get(key) === unit.exponents.get(key)
-                ))
+            unit instanceof Unit &&
+            ((this.exponents.size === 0 && unit.isWildcard()) ||
+                (this.exponents.size === unit.exponents.size &&
+                    Array.from(this.exponents.keys()).every(
+                        (key) =>
+                            this.exponents.get(key) === unit.exponents.get(key)
+                    )))
         );
     }
 
