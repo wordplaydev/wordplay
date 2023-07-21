@@ -68,6 +68,8 @@ export function getEditsAt(project: Project, caret: Caret): Revision[] {
     const source = caret.source;
     const context = project.getContext(source);
 
+    const isEmptyLine = caret.isEmptyLine();
+
     let edits: Revision[] = [];
 
     // If the token is a node, find the allowable nodes to replace this node, or whether it's removable
@@ -150,6 +152,7 @@ export function getEditsAt(project: Project, caret: Caret): Revision[] {
                     node,
                     caret.position,
                     adjacent,
+                    isEmptyLine,
                     context
                 ),
             ];
@@ -164,6 +167,7 @@ export function getEditsAt(project: Project, caret: Caret): Revision[] {
                     node,
                     caret.position,
                     adjacent,
+                    isEmptyLine,
                     context
                 ),
             ];
@@ -251,6 +255,8 @@ function getRelativeFieldEdits(
     node: Node,
     position: number,
     adjacent: boolean,
+    /** True if the line the caret is on is empty */
+    empty: boolean,
     context: Context
 ): Revision[] {
     let edits: Revision[] = [];
@@ -296,8 +302,11 @@ function getRelativeFieldEdits(
           grammar.slice(0, fieldIndex + 1).reverse();
 
     for (const relativeField of relativeFields) {
-        // If the field is a list, get possible insertions for all allowable node kinds.
-        if (relativeField.kind instanceof ListOf) {
+        // If the field is a list, and it's not a block, or we're on an empty line in a block, get possible insertions for all allowable node kinds.
+        if (
+            relativeField.kind instanceof ListOf &&
+            (!(parent instanceof Block) || empty)
+        ) {
             const list = parent.getField(relativeField.name);
             if (Array.isArray(list)) {
                 // Account for empty lists.
