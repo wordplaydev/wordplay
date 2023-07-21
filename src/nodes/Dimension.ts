@@ -56,7 +56,7 @@ export default class Dimension extends Node {
     getGrammar(): Grammar {
         return [
             { name: 'product', kind: any(node(Symbol.Operator), none()) },
-            { name: 'name', kind: node(Symbol.Name) },
+            { name: 'name', kind: node(Symbol.Name), uncompletable: true },
             {
                 name: 'caret',
                 kind: any(node(Symbol.Operator), none('exponent')),

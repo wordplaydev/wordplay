@@ -45,7 +45,7 @@ export default class NameType extends Type {
 
     getGrammar(): Grammar {
         return [
-            { name: 'name', kind: node(Symbol.Name) },
+            { name: 'name', kind: node(Symbol.Name), uncompletable: true },
             { name: 'types', kind: optional(node(TypeInputs)) },
         ];
     }
