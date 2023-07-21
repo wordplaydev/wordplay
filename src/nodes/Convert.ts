@@ -62,13 +62,12 @@ export default class Convert extends Expression {
         selected: boolean
     ) {
         return [
-            Convert.make(
-                ExpressionPlaceholder.make(),
-                type ?? TypePlaceholder.make()
-            ),
-            ...(node instanceof Expression && selected
-                ? [Convert.make(node, type ?? TypePlaceholder.make())]
-                : []),
+            node instanceof Expression && selected
+                ? Convert.make(node, TypePlaceholder.make())
+                : Convert.make(
+                      ExpressionPlaceholder.make(),
+                      TypePlaceholder.make()
+                  ),
         ];
     }
 
