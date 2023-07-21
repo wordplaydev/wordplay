@@ -26,6 +26,7 @@ import Glyphs from '../lore/Glyphs';
 import { PROPERTY_SYMBOL } from '../parser/Symbols';
 import Symbol from './Symbol';
 import concretize from '../locale/concretize';
+import type Node from './Node';
 
 type ThisStructure = StructureDefinition | ConversionDefinition | Reaction;
 
@@ -43,8 +44,23 @@ export default class This extends AtomicExpression {
         return new This(new Token(PROPERTY_SYMBOL, Symbol.Access));
     }
 
-    static getPossibleNodes() {
-        return [This.make()];
+    static getPossibleNodes(
+        type: Type | undefined,
+        node: Node,
+        selected: boolean,
+        context: Context
+    ) {
+        return context
+            .getRoot(node)
+            ?.getAncestors(node)
+            .some(
+                (a) =>
+                    a instanceof StructureDefinition ||
+                    a instanceof ConversionDefinition ||
+                    a instanceof Reaction
+            )
+            ? [This.make()]
+            : [];
     }
 
     getGrammar(): Grammar {
