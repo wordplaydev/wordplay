@@ -11,6 +11,7 @@ import type Locale from '@locale/Locale';
 import Glyphs from '../lore/Glyphs';
 import Purpose from '../concepts/Purpose';
 import Symbol from './Symbol';
+import type Type from './Type';
 
 export default class Language extends Node {
     readonly slash: Token;
@@ -29,10 +30,16 @@ export default class Language extends Node {
         return new Language(new LanguageToken(), new NameToken(lang));
     }
 
-    static getPossibleNodes() {
-        return Object.keys(Languages).map((language) =>
-            Language.make(language)
-        );
+    static getPossibleNodes(
+        type: Type | undefined,
+        node: Node | undefined,
+        selected: boolean
+    ) {
+        const prefix =
+            node instanceof Language && node.lang ? node.lang.getText() : '';
+        return Object.keys(Languages)
+            .filter((lang) => lang.startsWith(prefix))
+            .map((language) => Language.make(language));
     }
 
     getGrammar(): Grammar {
