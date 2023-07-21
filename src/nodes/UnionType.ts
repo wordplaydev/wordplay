@@ -41,10 +41,13 @@ export default class UnionType extends Type {
         selected: boolean
     ) {
         return [
-            UnionType.make(TypePlaceholder.make(), TypePlaceholder.make()),
-            ...(node instanceof Type && selected
-                ? [UnionType.make(node, TypePlaceholder.make())]
-                : []),
+            node instanceof Type && selected
+                ? UnionType.make(node, TypePlaceholder.make())
+                : UnionType.make(
+                      TypePlaceholder.make(),
+                      TypePlaceholder.make()
+                  ),
+            ,
         ];
     }
 
