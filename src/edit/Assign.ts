@@ -10,7 +10,7 @@ import concretize from '../locale/concretize';
 import NodeRef from '../locale/NodeRef';
 
 /** Set a field on a child */
-export default class Add<NodeType extends Node> extends Revision {
+export default class Assign<NodeType extends Node> extends Revision {
     readonly parent: Node;
     readonly position: number;
     readonly child: NodeType | Refer | undefined;
@@ -109,7 +109,7 @@ export default class Add<NodeType extends Node> extends Revision {
 
     equals(transform: Revision) {
         return (
-            transform instanceof Add &&
+            transform instanceof Assign &&
             this.parent === transform.parent &&
             ((this.child instanceof Node &&
                 transform.child instanceof Node &&

@@ -6,7 +6,7 @@ import type Context from '@nodes/Context';
 import Replace from '@edit/Replace';
 import Refer from '@edit/Refer';
 import Append from '@edit/Append';
-import Add from '@edit/Add';
+import Assign from '@edit/Assign';
 import BooleanLiteral from '@nodes/BooleanLiteral';
 import NumberLiteral from '../nodes/NumberLiteral';
 import Token from '../nodes/Token';
@@ -378,7 +378,7 @@ function getRelativeFieldEdits(
                                 )
                                 .map(
                                     (addition) =>
-                                        new Add(
+                                        new Assign(
                                             context,
                                             position,
                                             parent,

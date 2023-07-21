@@ -5,12 +5,12 @@ import Source from '@nodes/Source';
 import { getEditsAt } from './Autocomplete';
 import type Node from '@nodes/Node';
 import { getDefaultNative } from '@native/Native';
-import Add from './Add';
+import Assign from './Assign';
 
 const native = await getDefaultNative();
 
 test.each([
-    ['a:**', undefined, Add, '0'],
+    ['a:**', undefined, Assign, '0'],
     // [`ƒ sum(a•? b•?) a & b\ns**`, undefined, Replace, 'sum(_•? _•?)'],
     // [`ƒ sum(a•? b•?) a & b\nsum()**`, undefined, Replace, '(sum()) = _'],
     // [`"hi".**`, undefined, Replace, '"hi".📏()'],
