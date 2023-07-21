@@ -183,23 +183,6 @@ export default class Evaluate extends Expression {
                         ? fun.inputs[index ?? 0].getType(context)
                         : new NeverType();
                 },
-                canInsertAt: (context: Context, index: number) => {
-                    // We only allow insertions that are 1) required next or 2) optional, and not already provided.
-                    const fun = this.getFunction(context);
-                    if (fun === undefined) return true;
-
-                    // Get this evaluate's mapping from expected to given inputs.
-                    const mapping = this.getInputMapping(fun);
-
-                    // Find the input at this index.
-                    const input = mapping.inputs[index];
-
-                    // This position is insertable if its a variable length input or not provided.
-                    return (
-                        input?.given === undefined ||
-                        input?.expected.isVariableLength()
-                    );
-                },
             },
             { name: 'close', kind: node(Symbol.EvalClose) },
         ];
