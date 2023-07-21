@@ -94,7 +94,7 @@ export function getEditsAt(project: Project, caret: Caret): Revision[] {
                                 kind,
                                 expectedType,
                                 selection,
-                                false,
+                                true,
                                 context
                             ).map(
                                 (replacement) =>
