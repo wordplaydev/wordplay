@@ -11,7 +11,6 @@ import type Context from './Context';
 import UnionType from './UnionType';
 import type TypeSet from './TypeSet';
 import SetType from './SetType';
-import AnyType from './AnyType';
 import type Bind from './Bind';
 import { SET_CLOSE_SYMBOL, SET_OPEN_SYMBOL } from '@parser/Symbols';
 import Symbol from './Symbol';
@@ -24,6 +23,7 @@ import UnclosedDelimiter from '../conflicts/UnclosedDelimiter';
 import SetCloseToken from './SetCloseToken';
 import type Conflict from '../conflicts/Conflict';
 import concretize from '../locale/concretize';
+import AnyType from './AnyType';
 
 export default class SetLiteral extends Expression {
     readonly open: Token;
@@ -58,6 +58,9 @@ export default class SetLiteral extends Expression {
             {
                 name: 'values',
                 kind: list(node(Expression)),
+                // Only allow types to be inserted that are of the list's type, if provided.
+                getType: (context) =>
+                    this.getItemType(context) ?? new AnyType(),
                 space: true,
                 indent: true,
             },
@@ -87,17 +90,18 @@ export default class SetLiteral extends Expression {
             : [];
     }
 
-    computeType(context: Context): Type {
-        let types =
-            this.values.length === 0
-                ? new AnyType()
-                : UnionType.getPossibleUnion(
-                      context,
-                      this.values.map((v) => (v as Expression).getType(context))
-                  );
+    getItemType(context: Context) {
+        return this.values.length === 0
+            ? undefined
+            : UnionType.getPossibleUnion(
+                  context,
+                  this.values.map((v) => (v as Expression).getType(context))
+              );
+    }
 
+    computeType(context: Context): Type {
         // Strip away any concrete types in the item types.
-        return SetType.make(types).generalize(context);
+        return SetType.make(this.getItemType(context)).generalize(context);
     }
 
     getDependencies(): Expression[] {

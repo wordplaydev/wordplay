@@ -30,6 +30,13 @@ test.each([
         '💬(_•""|[""])',
     ],
     [
+        'suggest matching evaluates',
+        'Group(Row() [**])',
+        undefined,
+        Append,
+        '💬(_•""|[""])',
+    ],
+    [
         'suggest evaluate on function',
         `ƒ sum(a•? b•?) a & b\ns**`,
         undefined,

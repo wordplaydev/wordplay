@@ -23,6 +23,7 @@ import Purpose from '../concepts/Purpose';
 import type { NativeTypeName } from '../native/NativeConstants';
 import concretize from '../locale/concretize';
 import Symbol from './Symbol';
+import AnyType from './AnyType';
 
 export default class ListLiteral extends Expression {
     readonly open: Token;
@@ -59,6 +60,9 @@ export default class ListLiteral extends Expression {
                 kind: list(node(Expression)),
                 label: (translation: Locale) =>
                     translation.node.ListLiteral.item,
+                // Only allow types to be inserted that are of the list's type, if provided.
+                getType: (context) =>
+                    this.getItemType(context) ?? new AnyType(),
                 space: true,
                 indent: true,
             },
@@ -82,20 +86,24 @@ export default class ListLiteral extends Expression {
         return 'list';
     }
 
-    computeType(context: Context): Type {
+    getItemType(context: Context): Type | undefined {
         const expressions = this.values.filter(
             (e) => e instanceof Expression
         ) as Expression[];
-        let itemType =
-            expressions.length === 0
-                ? undefined
-                : UnionType.getPossibleUnion(
-                      context,
-                      expressions.map((v) => v.getType(context))
-                  );
+        return expressions.length === 0
+            ? undefined
+            : UnionType.getPossibleUnion(
+                  context,
+                  expressions.map((v) => v.getType(context))
+              );
+    }
 
+    computeType(context: Context): Type {
         // Strip away any concrete types in the item types.
-        return ListType.make(itemType, this.values.length).generalize(context);
+        return ListType.make(
+            this.getItemType(context),
+            this.values.length
+        ).generalize(context);
     }
 
     computeConflicts(): Conflict[] {
