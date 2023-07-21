@@ -226,10 +226,12 @@ export default abstract class Node {
         );
     }
 
+    getFieldNamed(name: string): Field | undefined {
+        return this.getGrammar().find((field) => field.name === name);
+    }
+
     getFieldKind(name: string): FieldKind | undefined {
-        let field = this.getGrammar().find((field) => field.name === name);
-        if (field === undefined) return undefined;
-        else return field.kind;
+        return this.getFieldNamed(name)?.kind;
     }
 
     // CONFLICTS
@@ -701,6 +703,8 @@ export type Field = {
     double?: boolean;
     /** True if the first item in the list should get a newline too */
     initial?: boolean;
+    /** True if the token should not be autocompleted */
+    uncompletable?: boolean;
     /** Generates a Token of the expected type, if a token is permitted on the field */
     getToken?: (text?: string, op?: string) => Token;
     /** Given a context and an optional index in a list, return a type required for this field. Used to filter autocomplete menus. */

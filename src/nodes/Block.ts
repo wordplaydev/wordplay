@@ -92,7 +92,11 @@ export default class Block extends Expression {
     getGrammar(): Grammar {
         return [
             { name: 'docs', kind: any(node(Docs), none()) },
-            { name: 'open', kind: any(node(Symbol.EvalOpen), none()) },
+            {
+                name: 'open',
+                kind: any(node(Symbol.EvalOpen), none()),
+                uncompletable: true,
+            },
             {
                 name: 'statements',
                 kind: list(node(Expression), node(Bind)),
@@ -107,6 +111,7 @@ export default class Block extends Expression {
                 name: 'close',
                 kind: any(node(Symbol.EvalClose), none()),
                 newline: this.isStructure(),
+                uncompletable: true,
             },
         ];
     }

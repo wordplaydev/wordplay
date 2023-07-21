@@ -90,6 +90,7 @@ export function getEditsAt(project: Project, caret: Caret): Revision[] {
                         .enumerate()
                         .map((kind) =>
                             getPossibleNodes(
+                                field,
                                 kind,
                                 expectedType,
                                 selection,
@@ -172,15 +173,16 @@ export function getEditsAt(project: Project, caret: Caret): Revision[] {
         // delimited except for program blocks, so when we're in an empty program block, there is no
         // delimiter to anchor off of.
         if (context.source.leaves().length === 1) {
-            const kind =
-                source.expression.expression.getFieldKind('statements');
-            if (kind) {
+            const programField =
+                source.expression.expression.getFieldNamed('statements');
+            if (programField) {
                 edits = [
                     ...edits,
-                    ...kind
+                    ...programField.kind
                         .enumerate()
                         .map((kind) =>
                             getPossibleNodes(
+                                programField,
                                 kind,
                                 undefined,
                                 source.expression.expression,
@@ -270,6 +272,7 @@ function getRelativeFieldEdits(
                 .enumerate()
                 .map((kind) =>
                     getPossibleNodes(
+                        field,
                         kind,
                         type instanceof UnknownType ? undefined : type,
                         node,
@@ -309,6 +312,7 @@ function getRelativeFieldEdits(
                             .enumerate()
                             .map((kind) =>
                                 getPossibleNodes(
+                                    relativeField,
                                     kind,
                                     expectedType,
                                     node,
@@ -356,6 +360,7 @@ function getRelativeFieldEdits(
                         .enumerate()
                         .map((kind) =>
                             getPossibleNodes(
+                                relativeField,
                                 kind,
                                 expectedType,
                                 node,
@@ -454,6 +459,7 @@ const Nodes = [
 ];
 
 function getPossibleNodes(
+    field: Field,
     kind: NodeKind,
     type: Type | undefined,
     anchor: Node,
@@ -463,7 +469,9 @@ function getPossibleNodes(
     // Undefined? That's just undefined,
     if (kind === undefined) return [undefined];
     // Symbol? That's just a token. We use the symbol's string as the text.
-    if (!(kind instanceof Function)) return [new Token(kind.toString(), kind)];
+    if (!(kind instanceof Function)) {
+        return field.uncompletable ? [] : [new Token(kind.toString(), kind)];
+    }
     // Otherwise, it's a non-terminal. Let's find all the nodes that we can make that satisify the node kind,
     // creating nodes or node references that are compatible with the requested kind.
     return (
