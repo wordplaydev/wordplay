@@ -8,11 +8,13 @@ import { getDefaultNative } from '@native/Native';
 import Assign from './Assign';
 import Replace from './Replace';
 import NumberLiteral from '../nodes/NumberLiteral';
+import Append from './Append';
 
 const native = await getDefaultNative();
 
 test.each([
     ['a:**', undefined, Assign, '0'],
+    ['**', undefined, Append, '💬(_•""|[""])'],
     [`ƒ sum(a•? b•?) a & b\ns**`, undefined, Replace, 'sum(_•? _•?)'],
     [`ƒ sum(a•? b•?) a & b\nsum()**`, undefined, Replace, '(sum())'],
     [`"hi".**`, undefined, Replace, '"hi".📏()'],
@@ -71,7 +73,12 @@ test.each([
             if (match === undefined) {
                 console.log(
                     transforms
-                        .map((t) => t.getNewNode(['en'])?.toWordplay())
+                        .map(
+                            (t) =>
+                                `${t.constructor.name}\t${t
+                                    .getNewNode(['en'])
+                                    ?.toWordplay()}`
+                        )
                         .join('\n')
                 );
             }
