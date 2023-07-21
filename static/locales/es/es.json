@@ -1651,7 +1651,7 @@
         "edit": {
             "before": "antes de $1",
             "inside": "dentro de $1",
-            "add": "$?",
+            "assign": "$?",
             "append": "$?",
             "remove": "$?",
             "replace": "$?",

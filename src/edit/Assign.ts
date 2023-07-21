@@ -99,7 +99,7 @@ export default class Assign<NodeType extends Node> extends Revision {
                 : this.getNewNode([locale.language]);
         return concretize(
             locale,
-            locale.ui.edit.add,
+            locale.ui.edit.assign,
             this.field,
             node === undefined
                 ? undefined

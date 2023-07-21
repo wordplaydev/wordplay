@@ -6,7 +6,7 @@ type EditTexts = {
     /** A way to say "inside [description]" */
     inside: Template;
     /** $1: node description */
-    add: Template;
+    assign: Template;
     /** $1: node description */
     append: Template;
     /** $1: node description */

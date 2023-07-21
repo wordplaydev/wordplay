@@ -1649,7 +1649,7 @@
         "edit": {
             "before": "$?",
             "inside": "$?",
-            "add": "$?",
+            "assign": "$?",
             "append": "$?",
             "remove": "$?",
             "replace": "$?",
