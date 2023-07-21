@@ -9,17 +9,56 @@ import Assign from './Assign';
 import Replace from './Replace';
 import NumberLiteral from '../nodes/NumberLiteral';
 import Append from './Append';
+import Reference from '../nodes/Reference';
 
 const native = await getDefaultNative();
 
 test.each([
-    ['a:**', undefined, Assign, '0'],
-    ['**', undefined, Append, '💬(_•""|[""])'],
-    [`ƒ sum(a•? b•?) a & b\ns**`, undefined, Replace, 'sum(_•? _•?)'],
-    [`ƒ sum(a•? b•?) a & b\nsum()**`, undefined, Replace, '(sum())'],
-    [`"hi".**`, undefined, Replace, '"hi".📏()'],
-    [`"hi".**`, undefined, Replace, '"hi" = _•\'\''],
+    ['set unset bind value', 'a:**', undefined, Assign, '0'],
     [
+        'suggest conditional on boolean value',
+        'b: ⊥\nb',
+        (node: Node) => node instanceof Reference,
+        Replace,
+        'b ? _ _',
+    ],
+    [
+        'suggest phrase on empty program',
+        '**',
+        undefined,
+        Append,
+        '💬(_•""|[""])',
+    ],
+    [
+        'suggest evaluate on function',
+        `ƒ sum(a•? b•?) a & b\ns**`,
+        undefined,
+        Replace,
+        'sum(_•? _•?)',
+    ],
+    [
+        'suggest evaluate wrap',
+        `ƒ sum(a•? b•?) a & b\nsum()**`,
+        undefined,
+        Replace,
+        '(sum())',
+    ],
+    [
+        'suggest structure function eval',
+        `"hi".**`,
+        undefined,
+        Replace,
+        '"hi".📏()',
+    ],
+    [
+        'suggest structure property',
+        `"hi".**`,
+        undefined,
+        Replace,
+        '"hi" = _•\'\'',
+    ],
+    [
+        'suggest property reference',
         `•Cat(hat•"")\nboomy: Cat("none")\nboomy.**`,
         undefined,
         Replace,
@@ -27,6 +66,7 @@ test.each([
     ],
     // Selecting 2 should offer to replace with c
     [
+        'suggest bind reference',
         `c: 1\n1 + 2`,
         (node: Node) =>
             node instanceof NumberLiteral && node.toWordplay() === '2',
@@ -34,8 +74,9 @@ test.each([
         'c',
     ],
 ])(
-    'Code %s should have a transform ',
+    '%s: %s',
     (
+        description: string,
         code: string,
         position: ((node: Node) => boolean) | undefined,
         kind: Function,

@@ -64,22 +64,19 @@ export default class Conditional extends Expression {
         context: Context
     ) {
         return [
-            Conditional.make(
-                ExpressionPlaceholder.make(BooleanType.make()),
-                ExpressionPlaceholder.make(),
-                ExpressionPlaceholder.make()
-            ),
-            ...(node instanceof Expression &&
+            node instanceof Expression &&
             selected &&
             BooleanType.make().accepts(node.getType(context), context)
-                ? [
-                      Conditional.make(
-                          node,
-                          ExpressionPlaceholder.make(),
-                          ExpressionPlaceholder.make()
-                      ),
-                  ]
-                : []),
+                ? Conditional.make(
+                      node,
+                      ExpressionPlaceholder.make(),
+                      ExpressionPlaceholder.make()
+                  )
+                : Conditional.make(
+                      ExpressionPlaceholder.make(BooleanType.make()),
+                      ExpressionPlaceholder.make(),
+                      ExpressionPlaceholder.make()
+                  ),
         ];
     }
 
