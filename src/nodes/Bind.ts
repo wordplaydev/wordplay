@@ -109,12 +109,9 @@ export default class Bind extends Expression {
         anchor: Node,
         selected: boolean
     ) {
-        return [
-            Bind.make(undefined, Names.make(['_'])),
-            ...(anchor instanceof Expression && selected
-                ? [Bind.make(undefined, Names.make(['_']), undefined, anchor)]
-                : []),
-        ];
+        return anchor instanceof Expression && selected
+            ? [Bind.make(undefined, Names.make(['_']), undefined, anchor)]
+            : [];
     }
 
     getGrammar(): Grammar {
