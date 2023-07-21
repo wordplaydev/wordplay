@@ -7,6 +7,7 @@ import type Node from '@nodes/Node';
 import { getDefaultNative } from '@native/Native';
 import Assign from './Assign';
 import Replace from './Replace';
+import NumberLiteral from '../nodes/NumberLiteral';
 
 const native = await getDefaultNative();
 
@@ -15,15 +16,21 @@ test.each([
     [`ƒ sum(a•? b•?) a & b\ns**`, undefined, Replace, 'sum(_•? _•?)'],
     [`ƒ sum(a•? b•?) a & b\nsum()**`, undefined, Replace, '(sum())'],
     [`"hi".**`, undefined, Replace, '"hi".📏()'],
-    // [`•Cat(hat•"")\nboomy: Cat("none")\nboomy.**`, undefined, Add, 'hat'],
-    // // Selecting 2 should offer to replace with c
-    // [
-    //     `c: 1\n1 + 2`,
-    //     (node: Node) =>
-    //         node instanceof NumberLiteral && node.toWordplay() === '2',
-    //     Replace,
-    //     'c',
-    // ],
+    [`"hi".**`, undefined, Replace, '"hi" = _•\'\''],
+    [
+        `•Cat(hat•"")\nboomy: Cat("none")\nboomy.**`,
+        undefined,
+        Replace,
+        'boomy.hat',
+    ],
+    // Selecting 2 should offer to replace with c
+    [
+        `c: 1\n1 + 2`,
+        (node: Node) =>
+            node instanceof NumberLiteral && node.toWordplay() === '2',
+        Replace,
+        'c',
+    ],
 ])(
     'Code %s should have a transform ',
     (
@@ -56,12 +63,20 @@ test.each([
             );
             const transforms = getEditsAt(project, caret);
 
-            const match = transforms.some(
+            const match = transforms.find(
                 (transform) =>
                     transform instanceof kind &&
                     transform.getNewNode(['en'])?.toWordplay() === edit
             );
-            expect(match).toBeTruthy();
+            if (match === undefined) {
+                console.log(
+                    transforms
+                        .map((t) => t.getNewNode(['en'])?.toWordplay())
+                        .join('\n')
+                );
+            }
+
+            expect(match?.getNewNode(['en'])?.toWordplay()).toBe(edit);
         }
     }
 );

@@ -76,7 +76,9 @@ export default class Token extends Node {
         return (
             node instanceof Token &&
             this.getText() === node.getText() &&
-            JSON.stringify(this.types) === JSON.stringify(node.types)
+            this.types.some((type1) =>
+                node.types.some((type2) => type1 === type2)
+            )
         );
     }
 
