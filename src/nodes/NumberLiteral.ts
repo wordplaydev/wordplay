@@ -61,7 +61,7 @@ export default class NumberLiteral extends Literal {
 
     getGrammar(): Grammar {
         return [
-            { name: 'number', kind: node(Symbol.Number) },
+            { name: 'number', kind: node(Symbol.Number), uncompletable: true },
             { name: 'unit', kind: node(Unit) },
         ];
     }
