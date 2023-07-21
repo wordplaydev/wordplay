@@ -6,14 +6,15 @@ import { getEditsAt } from './Autocomplete';
 import type Node from '@nodes/Node';
 import { getDefaultNative } from '@native/Native';
 import Assign from './Assign';
+import Replace from './Replace';
 
 const native = await getDefaultNative();
 
 test.each([
     ['a:**', undefined, Assign, '0'],
-    // [`ƒ sum(a•? b•?) a & b\ns**`, undefined, Replace, 'sum(_•? _•?)'],
-    // [`ƒ sum(a•? b•?) a & b\nsum()**`, undefined, Replace, '(sum()) = _'],
-    // [`"hi".**`, undefined, Replace, '"hi".📏()'],
+    [`ƒ sum(a•? b•?) a & b\ns**`, undefined, Replace, 'sum(_•? _•?)'],
+    [`ƒ sum(a•? b•?) a & b\nsum()**`, undefined, Replace, '(sum())'],
+    [`"hi".**`, undefined, Replace, '"hi".📏()'],
     // [`•Cat(hat•"")\nboomy: Cat("none")\nboomy.**`, undefined, Add, 'hat'],
     // // Selecting 2 should offer to replace with c
     // [

@@ -65,8 +65,8 @@ export default class Reference extends AtomicExpression {
         context: Context
     ): Refer[] {
         // If the node prior is a reference, find potential matching definitions in scope.
-        if (node instanceof Reference && selected) {
-            const prefix = node.getName();
+        if (selected) {
+            const prefix = node instanceof Reference ? node.getName() : '';
             return (
                 node
                     // Find all the definitions in scope.
