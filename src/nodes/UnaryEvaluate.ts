@@ -41,6 +41,7 @@ export default class UnaryEvaluate extends Expression {
         this.computeChildren();
     }
 
+    /** Note: we don't generate any possibilities here because Evaluate generates them. */
     static getPossibleNodes() {
         return [];
     }

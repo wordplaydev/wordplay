@@ -52,6 +52,7 @@ export default class BinaryEvaluate extends Expression {
         this.computeChildren();
     }
 
+    /** Note: we don't generate any possibilities here because Evaluate generates them. */
     static getPossibleNodes() {
         return [];
     }
