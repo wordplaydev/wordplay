@@ -118,6 +118,7 @@ export default class Evaluate extends Expression {
                                 context
                             ))) ||
                     (def instanceof StructureDefinition &&
+                        !def.isInterface() &&
                         (type === undefined ||
                             type.accepts(def.getType(context), context)))
             )
