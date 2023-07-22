@@ -27,6 +27,7 @@ import { PROPERTY_SYMBOL } from '../parser/Symbols';
 import Symbol from './Symbol';
 import concretize from '../locale/concretize';
 import type Node from './Node';
+import Purpose from '../concepts/Purpose';
 
 type ThisStructure = StructureDefinition | ConversionDefinition | Reaction;
 
@@ -65,6 +66,10 @@ export default class This extends AtomicExpression {
 
     getGrammar(): Grammar {
         return [{ name: 'dis', kind: node(Symbol.This) }];
+    }
+
+    getPurpose() {
+        return Purpose.Bind;
     }
 
     clone(replace?: Replacement) {

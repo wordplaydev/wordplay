@@ -25,6 +25,7 @@ import Symbol from './Symbol';
 import Glyphs from '../lore/Glyphs';
 import BlankException from '../runtime/BlankException';
 import concretize from '../locale/concretize';
+import Purpose from '../concepts/Purpose';
 
 export default class Program extends Expression {
     readonly docs?: Docs;
@@ -64,6 +65,10 @@ export default class Program extends Expression {
             { name: 'expression', kind: node(Block) },
             { name: 'end', kind: node(Symbol.End) },
         ];
+    }
+
+    getPurpose() {
+        return Purpose.Evaluate;
     }
 
     clone(replace?: Replacement) {

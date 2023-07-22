@@ -1,5 +1,5 @@
 <script lang="ts">
-    import type Revision from '@edit/Revision';
+    import Revision from '@edit/Revision';
     import RootView from '../project/RootView.svelte';
     import Block from '@nodes/Block';
     import type Menu from './util/Menu';
@@ -8,10 +8,8 @@
     import { creator } from '../../db/Creator';
     import MarkupHTMLView from '../concepts/MarkupHTMLView.svelte';
     import Glyphs from '../../lore/Glyphs';
-    import Reference from '../../nodes/Reference';
-    import Evaluate from '../../nodes/Evaluate';
-    import BinaryEvaluate from '../../nodes/BinaryEvaluate';
-    import UnaryEvaluate from '../../nodes/UnaryEvaluate';
+    import { RevisionSet } from './util/Menu';
+    import concretize from '../../locale/concretize';
 
     export let menu: Menu;
     /* The ideal position for the menu, adjusted based on viewport below. */
@@ -27,31 +25,22 @@
     $: menuLeft = Math.min(position.left, window.innerWidth - menuWidth);
     $: menuTop = Math.min(position.top, window.innerHeight - menuHeight);
 
-    function handleItemClick(item: Revision) {
+    function handleItemClick(item: Revision | RevisionSet) {
         menu.doEdit($creator.getLanguages(), item);
     }
 
     let index = getConceptIndex();
 
     $: selectedRevision = menu.getSelection();
-    $: selectedNewNode = selectedRevision?.getNewNode($creator.getLanguages());
-    $: selectedDefinition = selectedRevision
-        ? selectedNewNode instanceof Reference
-            ? selectedNewNode.resolve(selectedRevision.context)
-            : selectedNewNode instanceof Evaluate ||
-              selectedNewNode instanceof BinaryEvaluate ||
-              selectedNewNode instanceof UnaryEvaluate
-            ? selectedNewNode.getFunction(selectedRevision.context)
-            : undefined
-        : undefined;
+    $: selectedNewNode =
+        selectedRevision instanceof Revision
+            ? selectedRevision.getNewNode($creator.getLanguages())
+            : undefined;
     $: selectedDocs = selectedConcept?.getDocs($creator.getLocale());
-    $: selectedConcept = $index
-        ? selectedDefinition
-            ? $index.getStructureConcept(selectedDefinition)
-            : selectedNewNode
-            ? $index.getNodeConcept(selectedNewNode)
-            : undefined
-        : undefined;
+    $: selectedConcept =
+        $index && selectedNewNode
+            ? $index.getRelevantConcept(selectedNewNode)
+            : undefined;
 
     let revisionViews: HTMLElement[] = [];
     $: {
@@ -68,8 +57,7 @@
     style:top="{menuTop}px"
 >
     <div class="revisions">
-        {#each menu.getRevisions() as revision, itemIndex}
-            {@const [newNode] = revision.getEditedNode($creator.getLanguages())}
+        {#each menu.getRevisionList() as entry, itemIndex}
             <!-- Prevent default is to ensure focus isn't lost on editor -->
             <div
                 class={`revision ${
@@ -77,19 +65,36 @@
                 }`}
                 bind:this={revisionViews[itemIndex]}
                 on:pointerdown|preventDefault|stopPropagation={() =>
-                    handleItemClick(revision)}
+                    handleItemClick(entry)}
             >
-                {#if newNode !== undefined}
-                    <RootView
-                        node={newNode instanceof Block &&
-                        newNode.statements.length > 1
-                            ? newNode
-                            : newNode}
-                        localized
+                {#if entry instanceof Revision}
+                    {@const revision = entry}
+                    {@const [newNode] = entry.getEditedNode(
+                        $creator.getLanguages()
+                    )}
+                    {#if newNode !== undefined}
+                        <RootView
+                            node={newNode instanceof Block &&
+                            newNode.statements.length > 1
+                                ? newNode
+                                : newNode}
+                            localized
+                        />
+                        <!-- If the new parent is a block with more than one statement, show the new node only instead -->
+                    {:else}
+                        <MarkupHTMLView
+                            markup={revision.getDescription(
+                                $creator.getLocale()
+                            )}
+                        />
+                    {/if}
+                {:else if entry instanceof RevisionSet}
+                    <MarkupHTMLView
+                        markup={concretize(
+                            $creator.getLocale(),
+                            $creator.getLocale().term[entry.purpose]
+                        )}
                     />
-                    <!-- If the new parent is a block with more than one statement, show the new node only instead -->
-                {:else}
-                    <em>Remove</em>
                 {/if}
             </div>
         {:else}
@@ -97,8 +102,8 @@
             &mdash;
         {/each}
     </div>
-    {#if selectedRevision}
-        <div class="details">
+    <div class="details">
+        {#if selectedRevision instanceof Revision}
             <Speech glyph={selectedConcept ?? Glyphs.Program} below>
                 <MarkupHTMLView
                     markup={selectedRevision.getDescription(
@@ -106,11 +111,28 @@
                     )}
                 />
                 {#if selectedDocs}
-                    <MarkupHTMLView markup={selectedDocs.asFirstParagraph()} />
+                    <MarkupHTMLView markup={selectedDocs} />
                 {/if}
             </Speech>
-        </div>
-    {/if}
+        {:else if selectedRevision instanceof RevisionSet}
+            {#each selectedRevision.revisions as revision}
+                {@const [newNode] = revision.getEditedNode(
+                    $creator.getLanguages()
+                )}
+                {#if newNode !== undefined}
+                    <div class="revision">
+                        <RootView
+                            node={newNode instanceof Block &&
+                            newNode.statements.length > 1
+                                ? newNode
+                                : newNode}
+                            localized
+                        />
+                    </div>
+                {/if}
+            {/each}
+        {/if}
+    </div>
 </div>
 
 <style>
@@ -157,6 +179,7 @@
 
     .revision.selected {
         background: var(--wordplay-highlight);
+        color: var(--wordplay-background);
     }
 
     .revision.selected :global(.token-view) {

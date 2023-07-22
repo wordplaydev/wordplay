@@ -30,6 +30,18 @@ export default class Assign<NodeType extends Node> extends Revision {
         this.child = child;
     }
 
+    isReference(): boolean {
+        return this.child instanceof Refer;
+    }
+
+    isRemoval(): boolean {
+        return this.child === undefined;
+    }
+
+    isCompletion(): boolean {
+        return false;
+    }
+
     getNewNode(languages: LanguageCode[]) {
         return this.child === undefined
             ? undefined

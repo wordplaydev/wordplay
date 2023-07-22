@@ -33,6 +33,7 @@ import StreamDefinition from './StreamDefinition';
 import StreamDefinitionValue from '../runtime/StreamDefinitionValue';
 import Glyphs from '../lore/Glyphs';
 import concretize from '../locale/concretize';
+import Purpose from '../concepts/Purpose';
 
 export type SharedDefinition =
     | Source
@@ -87,6 +88,10 @@ export default class Borrow extends AtomicExpression {
                 label: (locale: Locale) => locale.node.Borrow.version,
             },
         ];
+    }
+
+    getPurpose() {
+        return Purpose.Project;
     }
 
     clone(replace?: Replacement) {

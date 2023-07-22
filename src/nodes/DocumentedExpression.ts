@@ -12,6 +12,7 @@ import type Locale from '@locale/Locale';
 import AtomicExpression from './AtomicExpression';
 import Glyphs from '../lore/Glyphs';
 import concretize from '../locale/concretize';
+import Purpose from '../concepts/Purpose';
 
 export default class DocumentedExpression extends AtomicExpression {
     readonly docs: Docs;
@@ -31,6 +32,10 @@ export default class DocumentedExpression extends AtomicExpression {
             { name: 'docs', kind: node(Docs) },
             { name: 'expression', kind: node(Expression) },
         ];
+    }
+
+    getPurpose() {
+        return Purpose.Document;
     }
 
     computeConflicts() {}

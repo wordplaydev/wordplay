@@ -34,6 +34,10 @@ import type TypeSet from './TypeSet';
 import StreamDefinitionType from './StreamDefinitionType';
 import Glyphs from '../lore/Glyphs';
 import concretize from '../locale/concretize';
+import Purpose from '../concepts/Purpose';
+import Evaluate from './Evaluate';
+import Reference from './Reference';
+import ExpressionPlaceholder from './ExpressionPlaceholder';
 
 export default class StreamDefinition extends Expression {
     readonly docs?: Docs;
@@ -111,6 +115,10 @@ export default class StreamDefinition extends Expression {
         ];
     }
 
+    getPurpose() {
+        return Purpose.Input;
+    }
+
     clone(replace?: Replacement) {
         return new StreamDefinition(
             this.replaceChild('docs', this.docs, replace),
@@ -123,6 +131,20 @@ export default class StreamDefinition extends Expression {
             this.replaceChild('dot', this.dot, replace),
             this.replaceChild('output', this.output, replace)
         ) as this;
+    }
+
+    getEvaluateTemplate(nameOrLanguages: LanguageCode[] | string) {
+        return Evaluate.make(
+            Reference.make(
+                typeof nameOrLanguages === 'string'
+                    ? nameOrLanguages
+                    : this.names.getLocaleText(nameOrLanguages),
+                this
+            ),
+            this.inputs
+                .filter((input) => !input.hasDefault())
+                .map((input) => ExpressionPlaceholder.make(input.type?.clone()))
+        );
     }
 
     sharesName(fun: StreamDefinition) {

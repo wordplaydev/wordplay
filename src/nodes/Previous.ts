@@ -28,6 +28,7 @@ import IncompatibleInput from '../conflicts/IncompatibleInput';
 import { NotAType } from './NotAType';
 import concretize from '../locale/concretize';
 import ExpressionPlaceholder from './ExpressionPlaceholder';
+import Purpose from '../concepts/Purpose';
 
 export default class Previous extends Expression {
     readonly stream: Expression;
@@ -79,6 +80,10 @@ export default class Previous extends Expression {
                 getType: () => NumberType.make(),
             },
         ];
+    }
+
+    getPurpose() {
+        return Purpose.Input;
     }
 
     clone(replace?: Replacement) {

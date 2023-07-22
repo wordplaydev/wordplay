@@ -20,6 +20,18 @@ export default class Remove extends Revision {
         this.nodes = nodes;
     }
 
+    isReference(): boolean {
+        return false;
+    }
+
+    isRemoval(): boolean {
+        return true;
+    }
+
+    isCompletion(): boolean {
+        return false;
+    }
+
     getEdit(): Edit | undefined {
         // Generalize the nodes given to a list.
         const nodes = this.getNodes();

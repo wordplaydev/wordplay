@@ -34,6 +34,8 @@ import Glyphs from '../lore/Glyphs';
 import type Node from './Node';
 import Refer from '../edit/Refer';
 import FunctionDefinition from './FunctionDefinition';
+import Purpose from '../concepts/Purpose';
+import StreamDefinition from './StreamDefinition';
 
 /**
  * A reference to some Definition. Can optionally take the definition which it refers,
@@ -119,9 +121,10 @@ export default class Reference extends AtomicExpression {
                                 definition
                             );
                         }
-                        // Structure definition? Make an Evaluate.
+                        // Structure definition or stream definition? Make an Evaluate.
                         else if (
-                            definition instanceof StructureDefinition &&
+                            (definition instanceof StructureDefinition ||
+                                definition instanceof StreamDefinition) &&
                             (type === undefined ||
                                 type.accepts(
                                     definition.getType(context),
@@ -159,6 +162,10 @@ export default class Reference extends AtomicExpression {
                     ),
             },
         ];
+    }
+
+    getPurpose() {
+        return Purpose.Bind;
     }
 
     clone(replace?: Replacement) {

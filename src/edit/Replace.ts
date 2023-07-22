@@ -13,6 +13,7 @@ export default class Replace<NodeType extends Node> extends Revision {
     readonly parent: Node;
     readonly node: Node;
     readonly replacement: NodeType | Refer | undefined;
+    readonly completes: boolean;
     readonly description: ((translation: Locale) => string) | undefined;
 
     constructor(
@@ -20,6 +21,8 @@ export default class Replace<NodeType extends Node> extends Revision {
         parent: Node,
         node: Node,
         replacement: NodeType | Refer | undefined,
+        /** True if this replacement completes an existing node */
+        completes: boolean,
         description: ((translation: Locale) => string) | undefined = undefined
     ) {
         super(context);
@@ -27,7 +30,20 @@ export default class Replace<NodeType extends Node> extends Revision {
         this.parent = parent;
         this.node = node;
         this.replacement = replacement;
+        this.completes = completes;
         this.description = description;
+    }
+
+    isReference(): boolean {
+        return this.replacement instanceof Refer;
+    }
+
+    isRemoval(): boolean {
+        return this.replacement === undefined;
+    }
+
+    isCompletion(): boolean {
+        return this.completes;
     }
 
     getEdit(lang: LanguageCode[]): Edit | undefined {

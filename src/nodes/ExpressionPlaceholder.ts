@@ -28,6 +28,7 @@ import getConcreteExpectedType from './Generics';
 import BinaryEvaluate from './BinaryEvaluate';
 import FunctionDefinition from './FunctionDefinition';
 import Symbol from './Symbol';
+import Purpose from '../concepts/Purpose';
 
 export default class ExpressionPlaceholder extends AtomicExpression {
     readonly placeholder: Token;
@@ -90,6 +91,10 @@ export default class ExpressionPlaceholder extends AtomicExpression {
                 kind: any(node(Type), none('dot')),
             },
         ];
+    }
+
+    getPurpose() {
+        return Purpose.Evaluate;
     }
 
     clone(replace?: Replacement) {

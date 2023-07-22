@@ -27,6 +27,7 @@ import FunctionType from './FunctionType';
 import concretize from '../locale/concretize';
 import Reference from './Reference';
 import type Node from './Node';
+import Purpose from '../concepts/Purpose';
 
 export default class UnaryEvaluate extends Expression {
     readonly fun: Reference;
@@ -51,6 +52,10 @@ export default class UnaryEvaluate extends Expression {
             { name: 'fun', kind: node(Reference) },
             { name: 'input', kind: node(Expression) },
         ];
+    }
+
+    getPurpose() {
+        return Purpose.Evaluate;
     }
 
     clone(replace?: Replacement) {

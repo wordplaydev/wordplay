@@ -33,6 +33,18 @@ export default class Append<NodeType extends Node> extends Revision {
         this.insertion = insertion;
     }
 
+    isReference(): boolean {
+        return this.insertion instanceof Refer;
+    }
+
+    isRemoval(): boolean {
+        return false;
+    }
+
+    isCompletion(): boolean {
+        return false;
+    }
+
     getEdit(lang: LanguageCode[]): Edit | undefined {
         const [newChild, newParent] = this.getEditedNode(lang);
 

@@ -28,6 +28,7 @@ import type Locale from '@locale/Locale';
 import Glyphs from '../lore/Glyphs';
 import concretize from '../locale/concretize';
 import Symbol from './Symbol';
+import Purpose from '../concepts/Purpose';
 
 export enum BlockKind {
     Root = 'root',
@@ -114,6 +115,10 @@ export default class Block extends Expression {
                 uncompletable: true,
             },
         ];
+    }
+
+    getPurpose() {
+        return Purpose.Evaluate;
     }
 
     isRoot() {

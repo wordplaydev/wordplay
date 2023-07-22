@@ -11,6 +11,7 @@
         "source": "fuente",
         "input": "input",
         "output": "producción",
+        "convert": "$?",
         "act": "acto",
         "scene": "escena",
         "phrase": "frase",

@@ -104,7 +104,8 @@ export function getEditsAt(project: Project, caret: Caret): Revision[] {
                                         context,
                                         parent,
                                         selection,
-                                        replacement
+                                        replacement,
+                                        false
                                     )
                             )
                         )
@@ -301,7 +302,13 @@ function getRelativeFieldEdits(
                         // Convert the matching nodes to replacements.
                         .map(
                             (replacement) =>
-                                new Replace(context, parent, node, replacement)
+                                new Replace(
+                                    context,
+                                    parent,
+                                    node,
+                                    replacement,
+                                    true
+                                )
                         )
                 )
                 .flat(),
@@ -434,6 +441,7 @@ function completes(original: Node, replacement: Node): boolean {
                     n1.isName() &&
                     n2isToken &&
                     n2.isName() &&
+                    n1.getText() !== n2.getText() &&
                     n1.getText().startsWith(n2.getText())) ||
                 (!n1isToken && !n2isToken && n1.isEqualTo(n2))
             );

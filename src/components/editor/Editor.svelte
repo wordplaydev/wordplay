@@ -58,7 +58,7 @@
         InsertionPoint,
         isValidDropTarget,
     } from '../../edit/Drag';
-    import Menu from './util/Menu';
+    import Menu, { RevisionSet } from './util/Menu';
     import Evaluate from '@nodes/Evaluate';
     import type Evaluator from '@runtime/Evaluator';
     import { TAB_WIDTH } from '../../parser/Spaces';
@@ -962,10 +962,32 @@
         const position = node ?? $caret.position;
 
         // Get the unique valid edits at the caret.
-        const transforms = getEditsAt(project, $caret.withPosition(position));
+        const revisions = getEditsAt(project, $caret.withPosition(position));
 
         // Set the menu.
-        menu = new Menu($caret, transforms, 0, handleEdit);
+        if ($concepts)
+            menu = new Menu(
+                $caret,
+                revisions,
+                undefined,
+                $concepts,
+                [0, undefined],
+                handleMenuItem
+            );
+    }
+
+    function handleMenuItem(edit: Edit | RevisionSet | undefined): boolean {
+        if (menu) {
+            if (edit instanceof RevisionSet) {
+                const newIndex = menu.getOrganization().indexOf(edit);
+                menu = menu.withSelection([newIndex, 0]);
+                return false;
+            } else {
+                handleEdit(edit);
+                return true;
+            }
+        }
+        return false;
     }
 
     function handleKeyDown(event: KeyboardEvent) {
@@ -984,13 +1006,22 @@
                 menu = menu.up();
                 event.stopPropagation();
                 return;
+            }
+            if (event.key === 'ArrowLeft') {
+                menu = menu.out();
+                event.stopPropagation();
+                return;
+            } else if (event.key === 'ArrowRight') {
+                menu = menu.in();
+                event.stopPropagation();
+                return;
             } else if (event.key === 'Escape') {
                 hideMenu();
                 event.stopPropagation();
                 return;
             } else if (event.key === 'Enter' && menu.hasSelection()) {
-                menu.doEdit($creator.getLanguages());
-                hideMenu();
+                if (menu.doEdit($creator.getLanguages())) hideMenu();
+                event.stopPropagation();
                 return;
             }
         }

@@ -22,6 +22,7 @@ import Glyphs from '../lore/Glyphs';
 import IncompatibleInput from '../conflicts/IncompatibleInput';
 import concretize from '../locale/concretize';
 import Symbol from './Symbol';
+import Purpose from '../concepts/Purpose';
 
 export default class Delete extends Expression {
     readonly table: Expression;
@@ -54,6 +55,10 @@ export default class Delete extends Expression {
                 getType: () => BooleanType.make(),
             },
         ];
+    }
+
+    getPurpose() {
+        return Purpose.Value;
     }
 
     clone(replace?: Replacement) {

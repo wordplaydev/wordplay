@@ -26,6 +26,7 @@ import Glyphs from '../lore/Glyphs';
 import IncompatibleInput from '../conflicts/IncompatibleInput';
 import concretize from '../locale/concretize';
 import Symbol from './Symbol';
+import Purpose from '../concepts/Purpose';
 
 export default class Update extends Expression {
     readonly table: Expression;
@@ -72,6 +73,10 @@ export default class Update extends Expression {
             this.replaceChild('row', this.row, replace),
             this.replaceChild('query', this.query, replace)
         ) as this;
+    }
+
+    getPurpose() {
+        return Purpose.Value;
     }
 
     getScopeOfChild(child: Node, context: Context): Node | undefined {

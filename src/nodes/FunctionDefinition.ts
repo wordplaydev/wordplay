@@ -41,6 +41,7 @@ import BinaryEvaluate from './BinaryEvaluate';
 import Evaluate from './Evaluate';
 import PropertyReference from './PropertyReference';
 import Reference from './Reference';
+import Purpose from '../concepts/Purpose';
 
 export default class FunctionDefinition extends Expression {
     readonly docs?: Docs;
@@ -210,6 +211,10 @@ export default class FunctionDefinition extends Expression {
                 getType: (context) => this.getOutputType(context),
             },
         ];
+    }
+
+    getPurpose() {
+        return Purpose.Evaluate;
     }
 
     clone(replace?: Replacement) {

@@ -4292,6 +4292,9 @@
               "description": "How to describe output that has changed",
               "type": "string"
             },
+            "convert": {
+              "type": "string"
+            },
             "decide": {
               "type": "string"
             },
@@ -4401,6 +4404,7 @@
             "source",
             "input",
             "output",
+            "convert",
             "act",
             "scene",
             "phrase",

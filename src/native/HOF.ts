@@ -7,10 +7,15 @@ import type Evaluator from '@runtime/Evaluator';
 import type Locale from '@locale/Locale';
 import Glyphs from '../lore/Glyphs';
 import concretize from '../locale/concretize';
+import Purpose from '../concepts/Purpose';
 
 export default abstract class HOF extends Expression {
     getGrammar() {
         return [];
+    }
+
+    getPurpose() {
+        return Purpose.Evaluate;
     }
 
     /** Given an evaluator, get the binds of the inputs passed into the function. */

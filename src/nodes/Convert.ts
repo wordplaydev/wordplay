@@ -32,6 +32,7 @@ import ConversionException from '../runtime/ConversionException';
 import ExpressionPlaceholder from './ExpressionPlaceholder';
 import TypePlaceholder from './TypePlaceholder';
 import type Node from './Node';
+import Purpose from '../concepts/Purpose';
 
 export default class Convert extends Expression {
     readonly expression: Expression;
@@ -77,6 +78,10 @@ export default class Convert extends Expression {
             { name: 'convert', kind: node(Symbol.Convert), space: true },
             { name: 'type', kind: node(Type), space: true },
         ];
+    }
+
+    getPurpose() {
+        return Purpose.Convert;
     }
 
     clone(replace?: Replacement) {

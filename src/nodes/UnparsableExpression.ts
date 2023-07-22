@@ -14,6 +14,7 @@ import type Locale from '@locale/Locale';
 import AtomicExpression from './AtomicExpression';
 import Glyphs from '../lore/Glyphs';
 import concretize from '../locale/concretize';
+import Purpose from '../concepts/Purpose';
 
 export default class UnparsableExpression extends AtomicExpression {
     readonly unparsables: Node[];
@@ -26,6 +27,10 @@ export default class UnparsableExpression extends AtomicExpression {
 
     getGrammar(): Grammar {
         return [{ name: 'unparsables', kind: list(node(Node)) }];
+    }
+
+    getPurpose() {
+        return Purpose.Evaluate;
     }
 
     computeConflicts(): void | Conflict[] {

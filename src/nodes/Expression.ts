@@ -8,16 +8,11 @@ import type Bind from './Bind';
 import type TypeSet from './TypeSet';
 import type Locale from '@locale/Locale';
 import ValueRef from '@locale/ValueRef';
-import Purpose from '../concepts/Purpose';
 import type Markup from './Markup';
 
 export default abstract class Expression extends Node {
     constructor() {
         super();
-    }
-
-    getPurpose() {
-        return Purpose.Evaluate;
     }
 
     /**

@@ -55,6 +55,7 @@ import concretize from '../locale/concretize';
 import Symbol from './Symbol';
 import Refer from '../edit/Refer';
 import NativeType from './NativeType';
+import Purpose from '../concepts/Purpose';
 
 type Mapping = {
     expected: Bind;
@@ -127,7 +128,12 @@ export default class Evaluate extends Expression {
         // Convert the definitions to evaluate suggestions.
         return definitions
             .filter(
-                (def): def is FunctionDefinition | StructureDefinition =>
+                (
+                    def
+                ): def is
+                    | FunctionDefinition
+                    | StructureDefinition
+                    | StreamDefinition =>
                     (def instanceof FunctionDefinition &&
                         (type === undefined ||
                             type.accepts(
@@ -136,6 +142,9 @@ export default class Evaluate extends Expression {
                             ))) ||
                     (def instanceof StructureDefinition &&
                         !def.isInterface() &&
+                        (type === undefined ||
+                            type.accepts(def.getType(context), context))) ||
+                    (def instanceof StreamDefinition &&
                         (type === undefined ||
                             type.accepts(def.getType(context), context)))
             )
@@ -209,6 +218,10 @@ export default class Evaluate extends Expression {
             },
             { name: 'close', kind: node(Symbol.EvalClose) },
         ];
+    }
+
+    getPurpose() {
+        return Purpose.Value;
     }
 
     clone(replace?: Replacement) {

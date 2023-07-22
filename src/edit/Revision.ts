@@ -14,7 +14,18 @@ export default abstract class Revision {
         this.context = context;
     }
 
+    /** True if the revision will insert some named thing (e.g., a Refer) */
+    abstract isReference(): boolean;
+
+    /** True if the revision removes something */
+    abstract isRemoval(): boolean;
+
+    /** True if the revision is a completion */
+    abstract isCompletion(): boolean;
+
+    /** Create the edit to be processed by Editor. */
     abstract getEdit(lang: LanguageCode[]): Edit | undefined;
+
     abstract getDescription(translation: Locale): Markup;
 
     /** Gets the node to be added, removed, inserted, etc. */

@@ -28,6 +28,7 @@ import IncompatibleInput from '../conflicts/IncompatibleInput';
 import { NotAType } from './NotAType';
 import concretize from '../locale/concretize';
 import Symbol from './Symbol';
+import Purpose from '../concepts/Purpose';
 
 export default class Select extends Expression {
     readonly table: Expression;
@@ -65,6 +66,10 @@ export default class Select extends Expression {
                 label: (translation: Locale) => translation.term.query,
             },
         ];
+    }
+
+    getPurpose() {
+        return Purpose.Value;
     }
 
     clone(replace?: Replacement) {

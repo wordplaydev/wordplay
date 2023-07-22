@@ -14,6 +14,7 @@ import type Locale from '@locale/Locale';
 import InternalException from '@runtime/InternalException';
 import Glyphs from '../lore/Glyphs';
 import concretize from '../locale/concretize';
+import Purpose from '../concepts/Purpose';
 
 export default class NativeExpression extends AtomicExpression {
     readonly type: Type;
@@ -37,6 +38,10 @@ export default class NativeExpression extends AtomicExpression {
 
     getGrammar() {
         return [];
+    }
+
+    getPurpose() {
+        return Purpose.Evaluate;
     }
 
     computeType(): Type {

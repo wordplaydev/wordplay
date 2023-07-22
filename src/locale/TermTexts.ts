@@ -7,6 +7,7 @@ type TermTexts = {
     source: string;
     input: string;
     output: string;
+    convert: string;
     act: string;
     scene: string;
     phrase: string;

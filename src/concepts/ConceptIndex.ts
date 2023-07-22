@@ -17,11 +17,15 @@ import {
     getOutputConcepts,
 } from './DefaultConcepts';
 import type TypeSet from '@nodes/TypeSet';
-import type StreamDefinition from '../nodes/StreamDefinition';
+import StreamDefinition from '../nodes/StreamDefinition';
 import NodeConcept from './NodeConcept';
 import FunctionType from '../nodes/FunctionType';
+import BinaryEvaluate from '../nodes/BinaryEvaluate';
+import UnaryEvaluate from '../nodes/UnaryEvaluate';
+import Evaluate from '../nodes/Evaluate';
 
 export default class ConceptIndex {
+    readonly project: Project;
     readonly concepts: Concept[];
     readonly primaryConcepts: Concept[];
     readonly subConcepts: Map<Concept, Set<Concept>> = new Map();
@@ -30,7 +34,9 @@ export default class ConceptIndex {
     /** A mapping of node ids to nodes, registered by examples that are generated. */
     readonly examples: Map<number, Node> = new Map();
 
-    constructor(concepts: Concept[], locales: Locale[]) {
+    constructor(project: Project, concepts: Concept[], locales: Locale[]) {
+        this.project = project;
+
         // Store the primary concepts
         this.primaryConcepts = [...concepts];
 
@@ -137,6 +143,7 @@ export default class ConceptIndex {
         );
 
         return new ConceptIndex(
+            project,
             [
                 ...native,
                 ...projectStructures,
@@ -162,6 +169,29 @@ export default class ConceptIndex {
         return this.examples.get(id);
     }
 
+    /** Given a node, get the most relevant concept to represent. Generally prefers functions, structures, binds, and streams over nodes. */
+    getRelevantConcept(node: Node): Concept | undefined {
+        const context = this.project.getNodeContext(node);
+        if (
+            node instanceof Evaluate ||
+            node instanceof BinaryEvaluate ||
+            node instanceof UnaryEvaluate
+        ) {
+            const fun = node.getFunction(context);
+            if (fun instanceof FunctionDefinition) {
+                const concept = this.getFunctionConcept(fun);
+                if (concept) return concept;
+            } else if (fun instanceof StructureDefinition) {
+                const concept = this.getStructureConcept(fun);
+                if (concept) return concept;
+            } else if (fun instanceof StreamDefinition) {
+                const concept = this.getStreamConcept(fun);
+                if (concept) return concept;
+            }
+        }
+        return this.getNodeConcept(node);
+    }
+
     getBindConcept(bind: Bind) {
         return this.concepts.find(
             (concept) => concept instanceof BindConcept && concept.bind === bind
@@ -180,6 +210,13 @@ export default class ConceptIndex {
             (concept) =>
                 concept instanceof StructureConcept &&
                 concept.definition === definition
+        );
+    }
+
+    getStreamConcept(fun: StreamDefinition): StreamConcept | undefined {
+        return this.concepts.find(
+            (concept): concept is StreamConcept =>
+                concept instanceof StreamConcept && concept.definition === fun
         );
     }
 

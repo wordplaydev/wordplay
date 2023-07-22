@@ -11,6 +11,7 @@
         "source": "source",
         "input": "input",
         "output": "output",
+        "convert": "convert",
         "act": "act",
         "scene": "scene",
         "phrase": "phrase",

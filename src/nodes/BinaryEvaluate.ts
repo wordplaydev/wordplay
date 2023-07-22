@@ -36,6 +36,7 @@ import AnyType from './AnyType';
 import concretize from '../locale/concretize';
 import Reference from './Reference';
 import ValueException from '../runtime/ValueException';
+import Purpose from '../concepts/Purpose';
 
 export default class BinaryEvaluate extends Expression {
     readonly left: Expression;
@@ -113,6 +114,10 @@ export default class BinaryEvaluate extends Expression {
                 },
             },
         ];
+    }
+
+    getPurpose() {
+        return Purpose.Evaluate;
     }
 
     clone(replace?: Replacement) {
