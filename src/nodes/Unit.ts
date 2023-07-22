@@ -166,7 +166,7 @@ export default class Unit extends Type {
     }
 
     static make(numerator: string[], denominator: string[] = []) {
-        return Unit.get(Unit.map(numerator, denominator));
+        return Unit.get(Unit.map(numerator, denominator)).clone();
     }
 
     /** A unit pool, since they recur so frequently. We map the exponents to a unique string */
