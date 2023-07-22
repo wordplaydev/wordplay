@@ -9,6 +9,7 @@
     export let uiid: string | undefined = undefined;
     export let classes: string | undefined = undefined;
     export let scale: boolean = true;
+    export let view: HTMLButtonElement | undefined = undefined;
 </script>
 
 <!-- Note that we don't make the button inactive using "disabled" because that makes
@@ -22,6 +23,7 @@
     title={tip}
     aria-label={tip}
     tabindex={enabled ? 0 : null}
+    bind:this={view}
     on:dblclick|stopPropagation
     on:pointerdown|stopPropagation={() => (enabled ? action() : undefined)}
     on:keydown={(event) =>

@@ -22,6 +22,7 @@
     import ConceptLinkUI from '../concepts/ConceptLinkUI.svelte';
     import { getConceptIndex } from '../project/Contexts';
     import { creator } from '../../db/Creator';
+    import { tick } from 'svelte';
 
     export let project: Project;
     export let property: OutputProperty;
@@ -30,6 +31,17 @@
     let index = getConceptIndex();
     $: bind = values.getBind();
     $: bindConcept = bind ? $index?.getBindConcept(bind) : undefined;
+    $: valuesAreSet = values.areSet();
+
+    let toggleView: HTMLButtonElement | undefined;
+
+    async function toggleValues(set: boolean) {
+        if (set) values.set($creator, project, $creator.getLanguages());
+        else values.unset($creator, project, $creator.getLanguages());
+        // Preserve focus on toggle button after setting.
+        await tick();
+        toggleView?.focus();
+    }
 </script>
 
 <div class="property">
@@ -38,21 +50,14 @@
                 link={bindConcept}
             />{:else}&mdash;{/if}</h3
     >
-    {#if values.areSet()}
-        <Button
-            tip={$creator.getLocale().ui.tooltip.revert}
-            action={() =>
-                values.unset($creator, project, $creator.getLanguages())}
-            >⨉</Button
-        >
-    {:else}
-        <Button
-            tip={$creator.getLocale().ui.tooltip.set}
-            action={() =>
-                values.set($creator, project, $creator.getLanguages())}
-            >✎</Button
-        >
-    {/if}
+    <Button
+        tip={valuesAreSet
+            ? $creator.getLocale().ui.tooltip.revert
+            : $creator.getLocale().ui.tooltip.set}
+        bind:view={toggleView}
+        action={() => toggleValues(!valuesAreSet)}
+        >{valuesAreSet ? '⨉' : '✎'}</Button
+    >
     <div class="control">
         {#if values.areMixed()}
             <Note
