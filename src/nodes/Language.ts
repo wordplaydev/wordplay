@@ -30,11 +30,7 @@ export default class Language extends Node {
         return new Language(new LanguageToken(), new NameToken(lang));
     }
 
-    static getPossibleNodes(
-        type: Type | undefined,
-        node: Node | undefined,
-        selected: boolean
-    ) {
+    static getPossibleNodes(type: Type | undefined, node: Node | undefined) {
         const prefix =
             node instanceof Language && node.lang ? node.lang.getText() : '';
         return Object.keys(Languages)

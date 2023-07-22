@@ -268,7 +268,7 @@ function getRelativeFieldEdits(
     // Generate possible nodes that could replace the token prior
     // (e.g., autocomplete References, create binary operations)
     // We only do this if this is before, and we're immediately after
-    // a node.
+    // a node, and only for suggestions of the same node kind.
     if (before && adjacent) {
         const type =
             node instanceof Expression ? node.getType(context) : undefined;

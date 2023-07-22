@@ -38,12 +38,18 @@ export default class Replace<NodeType extends Node> extends Revision {
         if (position === undefined) return;
 
         // Replace the child in the parent, pretty printing it, then clone the program with the new parent, and create a new source from it.
-        const newSource = this.context.source.withProgram(
-            // Replace the parent with the new parent
-            this.context.source.expression.replace(this.parent, newParent),
-            // Preserve the space before the old parent
-            this.context.source.spaces.withReplacement(this.node, replacement)
-        );
+        const newSource =
+            // Make a new source with the new parent
+            this.context.source
+                .replace(this.parent, newParent)
+                // Preserve the space before the old parent
+
+                .withSpaces(
+                    this.context.source.spaces.withReplacement(
+                        this.node,
+                        replacement
+                    )
+                );
 
         let newCaretPosition =
             replacement !== undefined
