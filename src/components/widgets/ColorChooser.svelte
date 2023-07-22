@@ -4,15 +4,17 @@
     // Create a list of hues in the LCH color space from 0 to 360
     function getColors(lightness: number, chroma: number) {
         const values = [];
-        for (let i = 0; i < 360; i += 10) values.push(i);
-        return values.map((i) =>
-            new ColorJS(ColorJS.spaces.lch, [lightness, chroma, i], 1)
-                .to('srgb')
-                .toString()
+        for (let hue = 0; hue < 360; hue += 10) values.push(hue);
+        return values.map((hue) =>
+            new ColorJS(
+                ColorJS.spaces.lch,
+                [lightness, chroma, hue],
+                1
+            ).display()
         );
     }
 
-    const MaxChroma = 100;
+    const MaxChroma = 150;
 
     /** 0-1 => 0-359 */
     function percentToHue(percent: number) {
@@ -115,7 +117,7 @@
         <Slider
             value={chroma}
             min={0}
-            max={100}
+            max={150}
             increment={1}
             unit=""
             tip={getFirstName($creator.getLocale().output.Color.chroma.names)}

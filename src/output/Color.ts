@@ -46,9 +46,7 @@ export default class Color extends Output {
                 this.hue.toNumber(),
             ],
             1
-        )
-            .to('srgb')
-            .toString();
+        ).display();
     }
 
     equals(color: Color) {
