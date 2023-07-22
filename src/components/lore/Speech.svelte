@@ -52,31 +52,29 @@
         : ''}"
     class:scroll
 >
-    {#key glyph}
-        <div>
-            <div
-                class="glyphs {symbols.length >= 3
-                    ? 'small'
-                    : ''} {renderedEmotion && emote
-                    ? `emotion-${renderedEmotion}`
-                    : ''}"
-            >
-                {#if glyph instanceof Concept}
-                    <ConceptLinkUI link={glyph} label={symbols} />
-                {:else}
-                    {symbols}
-                {/if}
-                <Eyes {invert} emotion={emotion ?? Emotion.neutral} />
-            </div>
-            {#if bind && bind.type}
-                • <RootView node={bind.type} inline />{#if bind.value}: <RootView
-                        node={bind.value}
-                        inline
-                        localized
-                    />{/if}
+    <div>
+        <div
+            class="glyphs {symbols.length >= 3
+                ? 'small'
+                : ''} {renderedEmotion && emote
+                ? `emotion-${renderedEmotion}`
+                : ''}"
+        >
+            {#if glyph instanceof Concept}
+                <ConceptLinkUI link={glyph} label={symbols} />
+            {:else}
+                {symbols}
             {/if}
+            <Eyes {invert} emotion={emotion ?? Emotion.neutral} />
         </div>
-    {/key}
+        {#if bind && bind.type}
+            • <RootView node={bind.type} inline />{#if bind.value}: <RootView
+                    node={bind.value}
+                    inline
+                    localized
+                />{/if}
+        {/if}
+    </div>
     <div
         class="message {below ? 'below' : flip ? 'flip' : 'reading'} {document
             .documentElement.dir}"
