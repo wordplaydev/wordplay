@@ -1,7 +1,11 @@
 <script lang="ts">
+    import { tick } from 'svelte';
+
     export let value: string | undefined;
     export let options: (string | undefined)[];
     export let change: (value: string | undefined) => void;
+
+    let view: HTMLSelectElement | undefined = undefined;
 
     function handleKey(event: KeyboardEvent) {
         const index = options.indexOf(value as string);
@@ -15,16 +19,23 @@
                     options[index === 0 ? options.length - 1 : index - 1];
             if (newValue !== null) {
                 event.preventDefault();
-                change(newValue);
+                commitChange(newValue);
             }
         }
+    }
+
+    async function commitChange(newValue: string | undefined) {
+        change(newValue);
+        await tick();
+        view?.focus();
     }
 </script>
 
 <select
     bind:value
-    on:change={() => change(value)}
+    on:change={() => commitChange(value)}
     on:keydown|stopPropagation={handleKey}
+    bind:this={view}
 >
     {#each options as option}
         <option value={option}>{option === undefined ? '—' : option}</option>
