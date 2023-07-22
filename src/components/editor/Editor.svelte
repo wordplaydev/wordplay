@@ -968,28 +968,6 @@
         menu = new Menu($caret, transforms, 0, handleEdit);
     }
 
-    // Always show the menu if the caret is after a property reference
-    // and the dot was just typed or text after the dot was typed.
-    // This is annoying; disabling it.
-    $: {
-        if (
-            // Recent addition needs to be an access or name token
-            $caret.addition instanceof Token &&
-            ($caret.addition.isTokenType(Symbol.Access) ||
-                $caret.addition.isTokenType(Symbol.Name)) &&
-            // If it's a name, the token prior to the name needs to be an access token
-            $caret.tokenPrior !== undefined &&
-            ($caret.tokenPrior.isTokenType(Symbol.Access) ||
-                $caret.tokenPrior.isTokenType(Symbol.Name))
-            //  &&
-            //     source
-            //         .getTokenBefore($caret.tokenPrior)
-            //         ?.is(TokenType.Access)*/)
-        ) {
-            showMenu();
-        } else hideMenu();
-    }
-
     function handleKeyDown(event: KeyboardEvent) {
         if (evaluator === undefined) return;
         if (editor === null) return;
