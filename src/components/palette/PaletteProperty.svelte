@@ -131,7 +131,7 @@
     }
 
     .name {
-        flex-basis: 3em;
+        flex-basis: 5em;
         text-align: left;
         margin: 0;
     }
