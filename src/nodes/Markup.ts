@@ -92,7 +92,7 @@ export default class Markup extends Content {
             .flat()
             .filter(
                 (n): n is Token =>
-                    n instanceof Token && n.isTokenType(Symbol.Words)
+                    n instanceof Token && n.isSymbol(Symbol.Words)
             )
             .filter((w) => w.getText().indexOf(text) >= 0);
 

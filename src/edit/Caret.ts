@@ -488,7 +488,7 @@ export default class Caret {
         const tokenAtPosition = this.source.getTokenAt(position, false);
         if (tokenAtPosition === undefined) return undefined;
         // If the token is a placeholder token, get the placeholder ancestor it's in.
-        if (tokenAtPosition.isTokenType(Symbol.Placeholder))
+        if (tokenAtPosition.isSymbol(Symbol.Placeholder))
             return this.source.root
                 .getAncestors(tokenAtPosition)
                 .find((a) => a.isPlaceholder());
@@ -624,7 +624,7 @@ export default class Caret {
                 // Is the text being typed what's already there?
                 text === this.source.code.at(this.position) &&
                 // Is what's being typed a closing delimiter of a text literal?
-                ((this.tokenIncludingSpace.isTokenType(Symbol.Text) &&
+                ((this.tokenIncludingSpace.isSymbol(Symbol.Text) &&
                     REVERSE_TEXT_DELIMITERS[
                         this.tokenIncludingSpace.getText().charAt(0)
                     ] === text) ||
@@ -652,8 +652,8 @@ export default class Caret {
                     !(
                         // The token prior is text or unknown
                         (
-                            (this.tokenPrior.isTokenType(Symbol.Text) ||
-                                this.tokenPrior.isTokenType(Symbol.Unknown)) &&
+                            (this.tokenPrior.isSymbol(Symbol.Text) ||
+                                this.tokenPrior.isSymbol(Symbol.Unknown)) &&
                             // The text typed closes a matching delimiter
                             text ===
                                 DELIMITERS[this.tokenPrior.getText().charAt(0)]
@@ -740,23 +740,23 @@ export default class Caret {
     isInsideText() {
         const isText =
             this.tokenExcludingSpace !== undefined &&
-            (this.tokenExcludingSpace.isTokenType(Symbol.Text) ||
-                this.tokenExcludingSpace.isTokenType(Symbol.TemplateBetween) ||
-                this.tokenExcludingSpace.isTokenType(Symbol.TemplateOpen) ||
-                this.tokenExcludingSpace.isTokenType(Symbol.TemplateClose));
+            (this.tokenExcludingSpace.isSymbol(Symbol.Text) ||
+                this.tokenExcludingSpace.isSymbol(Symbol.TemplateBetween) ||
+                this.tokenExcludingSpace.isSymbol(Symbol.TemplateOpen) ||
+                this.tokenExcludingSpace.isSymbol(Symbol.TemplateClose));
         const isAfterText =
             this.tokenPrior &&
-            (this.tokenPrior.isTokenType(Symbol.Text) ||
-                this.tokenPrior.isTokenType(Symbol.TemplateBetween) ||
-                this.tokenPrior.isTokenType(Symbol.TemplateOpen) ||
-                this.tokenPrior.isTokenType(Symbol.TemplateClose));
+            (this.tokenPrior.isSymbol(Symbol.Text) ||
+                this.tokenPrior.isSymbol(Symbol.TemplateBetween) ||
+                this.tokenPrior.isSymbol(Symbol.TemplateOpen) ||
+                this.tokenPrior.isSymbol(Symbol.TemplateClose));
         return (isText && !this.betweenDelimiters()) || isAfterText;
     }
 
     isPlaceholder() {
         return (
             this.position instanceof Token &&
-            this.position.isTokenType(Symbol.Placeholder)
+            this.position.isSymbol(Symbol.Placeholder)
         );
     }
 
@@ -1004,7 +1004,7 @@ export default class Caret {
 
     wrap(key: string): Edit | undefined {
         let node = this.position instanceof Node ? this.position : undefined;
-        if (node instanceof Token && !node.isTokenType(Symbol.End))
+        if (node instanceof Token && !node.isSymbol(Symbol.End))
             node = this.source.root.getParent(node);
         if (node === undefined || !(node instanceof Expression))
             return undefined;

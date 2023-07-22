@@ -175,7 +175,7 @@ export default class Reference extends AtomicExpression {
     }
 
     isPlaceholder() {
-        return this.name.isTokenType(Symbol.Placeholder);
+        return this.name.isSymbol(Symbol.Placeholder);
     }
 
     getName() {

@@ -73,16 +73,14 @@ test('Parse borrows', () => {
     const good = toProgram('↓ mouse');
     expect(good.borrows).toHaveLength(1);
     expect(good.borrows[0]).toBeInstanceOf(Borrow);
-    expect((good.borrows[0] as Borrow).source?.isTokenType(Symbol.Name)).toBe(
+    expect((good.borrows[0] as Borrow).source?.isSymbol(Symbol.Name)).toBe(
         true
     );
 
     const prop = toProgram('↓ time.clock');
     expect(prop.borrows).toHaveLength(1);
     expect(prop.borrows[0]).toBeInstanceOf(Borrow);
-    expect((prop.borrows[0] as Borrow).name?.isTokenType(Symbol.Name)).toBe(
-        true
-    );
+    expect((prop.borrows[0] as Borrow).name?.isSymbol(Symbol.Name)).toBe(true);
 });
 
 test('Parse shares', () => {
@@ -159,9 +157,7 @@ test('Parse expressions', () => {
 
     const bool = parseExpression(toTokens('⊤'));
     expect(bool).toBeInstanceOf(BooleanLiteral);
-    expect((bool as BooleanLiteral).value.isTokenType(Symbol.Boolean)).toBe(
-        true
-    );
+    expect((bool as BooleanLiteral).value.isSymbol(Symbol.Boolean)).toBe(true);
 
     const sec = parseExpression(toTokens('1s'));
     expect(sec).toBeInstanceOf(NumberLiteral);

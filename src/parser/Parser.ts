@@ -149,29 +149,25 @@ export class Tokens {
 
     /** Returns true if the token list isn't empty. */
     hasNext(): boolean {
-        return (
-            this.#unread.length > 0 && !this.#unread[0].isTokenType(Symbol.End)
-        );
+        return this.#unread.length > 0 && !this.#unread[0].isSymbol(Symbol.End);
     }
 
     nextIsEnd(): boolean {
-        return (
-            this.#unread.length > 0 && this.#unread[0].isTokenType(Symbol.End)
-        );
+        return this.#unread.length > 0 && this.#unread[0].isSymbol(Symbol.End);
     }
 
     /** Returns true if and only if the next token is the specified type. */
     nextIs(type: Symbol, text?: string): boolean {
         return (
             this.hasNext() &&
-            this.peek()?.isTokenType(type) === true &&
+            this.peek()?.isSymbol(type) === true &&
             (text === undefined || this.peekText() === text)
         );
     }
 
     /** Returns true if and only if there is a next token and it's not the specified type. */
     nextIsnt(type: Symbol): boolean {
-        return this.hasNext() && this.peek()?.isntType(type) === true;
+        return this.hasNext() && this.peek()?.isntSymbol(type) === true;
     }
 
     /** Returns true if and only if the next series of tokens matches the series of given token types. */
@@ -179,7 +175,7 @@ export class Tokens {
         return types.every(
             (type, index) =>
                 index < this.#unread.length &&
-                this.#unread[index].isTokenType(type)
+                this.#unread[index].isSymbol(type)
         );
     }
 
@@ -187,7 +183,7 @@ export class Tokens {
     previousWas(type: Symbol): boolean {
         return (
             this.#read.length > 0 &&
-            this.#read[this.#read.length - 1].isTokenType(type)
+            this.#read[this.#read.length - 1].isSymbol(type)
         );
     }
 
@@ -198,12 +194,12 @@ export class Tokens {
             const token = this.#unread[index];
             if (index > 0 && this.#spaces.hasLineBreak(this.#unread[index]))
                 break;
-            if (token.isTokenType(type)) break;
+            if (token.isSymbol(type)) break;
             index++;
         }
         // If we found a bind, it's a bind.
         return (
-            index < this.#unread.length && this.#unread[index].isTokenType(type)
+            index < this.#unread.length && this.#unread[index].isSymbol(type)
         );
     }
 
@@ -221,7 +217,7 @@ export class Tokens {
         const after = this.#unread[1];
         return (
             after !== undefined &&
-            !after.isTokenType(Symbol.End) &&
+            !after.isSymbol(Symbol.End) &&
             !this.#spaces.hasSpace(after)
         );
     }
@@ -246,7 +242,7 @@ export class Tokens {
     read(expectedType?: Symbol): Token {
         const next = this.#unread.shift();
         if (next !== undefined) {
-            if (expectedType !== undefined && !next.isTokenType(expectedType)) {
+            if (expectedType !== undefined && !next.isSymbol(expectedType)) {
                 throw new Error(
                     `Internal parsing error at ${this.#read
                         .slice(this.#read.length - 10, this.#read.length)
@@ -831,8 +827,7 @@ function parseTemplate(tokens: Tokens): Template {
             ? tokens.read(Symbol.TemplateClose)
             : undefined;
         if (close !== undefined) expressions.push(close);
-        if (close === undefined || close.isTokenType(Symbol.TemplateClose))
-            break;
+        if (close === undefined || close.isSymbol(Symbol.TemplateClose)) break;
     } while (
         tokens.hasNext() &&
         !tokens.nextHasMoreThanOneLineBreak() &&

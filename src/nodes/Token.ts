@@ -32,8 +32,8 @@ export default class Token extends Node {
         // No token is allowed to be empty except the end token.
         if (
             this.text.isEmpty() &&
-            !this.isTokenType(Symbol.End) &&
-            !this.isTokenType(Symbol.Words)
+            !this.isSymbol(Symbol.End) &&
+            !this.isSymbol(Symbol.Words)
         )
             throw Error('This token has no text');
     }
@@ -43,9 +43,11 @@ export default class Token extends Node {
     getGrammar(): Grammar {
         return [];
     }
+
     isLeaf() {
         return true;
     }
+
     computeConflicts() {}
 
     getNodeLocale(translation: Locale) {
@@ -58,16 +60,18 @@ export default class Token extends Node {
 
     // TOKEN TYPES
 
-    isntType(type: Symbol) {
-        return !this.isTokenType(type);
+    isntSymbol(type: Symbol) {
+        return !this.isSymbol(type);
     }
 
-    isTokenType(type: Symbol) {
+    isSymbol(type: Symbol) {
         return this.getTypes().includes(type);
     }
+
     isName() {
-        return this.isTokenType(Symbol.Name);
+        return this.isSymbol(Symbol.Name);
     }
+
     getTypes() {
         return this.types;
     }
@@ -128,7 +132,7 @@ export default class Token extends Node {
         context: Context,
         translation: Locale
     ): Template | undefined {
-        if (!this.isTokenType(Symbol.Placeholder)) return undefined;
+        if (!this.isSymbol(Symbol.Placeholder)) return undefined;
         const parent = root.getParent(this);
         return parent === undefined
             ? undefined
@@ -149,9 +153,9 @@ export default class Token extends Node {
         let text = this.getText();
 
         // Is this text? Localize delimiters.
-        const isText = this.isTokenType(Symbol.Text);
-        const isTextOpen = this.isTokenType(Symbol.TemplateOpen);
-        const isTextClose = this.isTokenType(Symbol.TemplateClose);
+        const isText = this.isSymbol(Symbol.Text);
+        const isTextOpen = this.isSymbol(Symbol.TemplateOpen);
+        const isTextClose = this.isSymbol(Symbol.TemplateClose);
         if (isText || isTextOpen || isTextClose) {
             // Is there a closing delimiter? If not, we don't replace it.
             const lastChar = text.at(-1);
@@ -174,7 +178,7 @@ export default class Token extends Node {
         }
 
         // Is this a name? Choose the most appropriate name.
-        if (this.isTokenType(Symbol.Name) && name) {
+        if (this.isSymbol(Symbol.Name) && name) {
             const parent = root.getParent(this);
             let def: Definition | undefined = undefined;
             if (parent) {

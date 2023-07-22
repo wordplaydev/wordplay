@@ -120,7 +120,7 @@ export default class NumberType extends NativeType {
 
             // If this is a specific number, then all other possible type must be the same specific number.
             if (
-                this.number.isTokenType(Symbol.Number) &&
+                this.number.isSymbol(Symbol.Number) &&
                 this.number.getText() !== possibleType.number.getText()
             )
                 return false;

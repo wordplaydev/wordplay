@@ -104,13 +104,13 @@ export default class Words extends Content {
     getFormat(): Format | undefined {
         return this.open === undefined
             ? undefined
-            : this.open.isTokenType(Symbol.Italic)
+            : this.open.isSymbol(Symbol.Italic)
             ? 'italic'
-            : this.open.isTokenType(Symbol.Underline)
+            : this.open.isSymbol(Symbol.Underline)
             ? 'underline'
-            : this.open.isTokenType(Symbol.Light)
+            : this.open.isSymbol(Symbol.Light)
             ? 'light'
-            : this.open.isTokenType(Symbol.Bold)
+            : this.open.isSymbol(Symbol.Bold)
             ? 'bold'
             : 'extra';
     }

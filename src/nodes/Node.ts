@@ -523,7 +523,7 @@ export default abstract class Node {
     }
 
     /** Always true, except in Token, which overrids. This helps us aovid importing Token here, creating an import cycle. */
-    isTokenType(type: Symbol) {
+    isSymbol(type: Symbol) {
         return false;
     }
 
@@ -745,7 +745,7 @@ export class IsA extends FieldKind {
             ? value instanceof this.kind
             : value !== undefined &&
                   !Array.isArray(value) &&
-                  value.isTokenType(this.kind);
+                  value.isSymbol(this.kind);
     }
 
     allowsKind(kind: Function) {
