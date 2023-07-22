@@ -18,6 +18,10 @@
     /* The ideal position for the menu, adjusted based on viewport below. */
     export let position: { left: number; top: number };
 
+    // We pull out the organization here to avoid rerendering with the menu changes but the organization doesn't.
+    // This not only helps with efficiency, but also prevent screen readers from resetting the menu item focus.
+    $: revisions = menu.getRevisionList();
+
     /**
      * Constrain the menu position to the viewport.
      * left + width < window.innerWidth
@@ -84,7 +88,7 @@
             event.stopPropagation();
             event.preventDefault();
             return;
-        } else {
+        } else if (event.key.length === 1) {
             // Find the first visible revision that has a token that starts with the letter.
             const match = menu.getRevisionList().findIndex((revision) =>
                 revision instanceof Revision
@@ -139,7 +143,7 @@
                     handleItemClick(undefined)}>←</div
             >
         {/if}
-        {#each menu.getRevisionList() as entry, itemIndex}
+        {#each revisions as entry, itemIndex}
             <div
                 role="menuitem"
                 tabindex="-1"
