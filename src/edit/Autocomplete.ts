@@ -218,8 +218,7 @@ export function getEditsAt(project: Project, caret: Caret): Revision[] {
     return edits.filter(
         (edit1, index1) =>
             !edits.some(
-                (edit2, index2) =>
-                    index2 > index1 && edit1 !== edit2 && edit1.equals(edit2)
+                (edit2, index2) => index2 > index1 && edit1.equals(edit2)
             )
     );
 }

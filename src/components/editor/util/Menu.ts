@@ -76,10 +76,9 @@ export default class Menu {
 
             organization = [
                 ...completions,
-                ...Array.from(kinds.entries()).map(([purpose, revisions]) =>
-                    revisions.length === 1
-                        ? revisions[0]
-                        : new RevisionSet(purpose, revisions)
+                ...Array.from(kinds.entries()).map(
+                    ([purpose, revisions]) =>
+                        new RevisionSet(purpose, revisions)
                 ),
                 ...removals,
             ];

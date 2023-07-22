@@ -92,7 +92,7 @@
                     <MarkupHTMLView
                         markup={concretize(
                             $creator.getLocale(),
-                            $creator.getLocale().term[entry.purpose]
+                            `/${$creator.getLocale().term[entry.purpose]}…/`
                         )}
                     />
                 {/if}

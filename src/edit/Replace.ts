@@ -137,16 +137,16 @@ export default class Replace<NodeType extends Node> extends Revision {
         );
     }
 
-    equals(transform: Revision) {
+    equals(revision: Revision) {
         return (
-            transform instanceof Replace &&
-            this.node === transform.node &&
+            revision instanceof Replace &&
+            this.node === revision.node &&
             ((this.replacement instanceof Node &&
-                transform.replacement instanceof Node &&
-                this.replacement.isEqualTo(transform.replacement)) ||
+                revision.replacement instanceof Node &&
+                this.replacement.isEqualTo(revision.replacement)) ||
                 (this.replacement instanceof Refer &&
-                    transform.replacement instanceof Refer &&
-                    this.replacement.equals(transform.replacement)))
+                    revision.replacement instanceof Refer &&
+                    this.replacement.equals(revision.replacement)))
         );
     }
 
