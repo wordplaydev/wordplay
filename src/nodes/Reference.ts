@@ -111,7 +111,14 @@ export default class Reference extends AtomicExpression {
                             );
                         }
                         // Structure definition? Make an Evaluate.
-                        else if (definition instanceof StructureDefinition) {
+                        else if (
+                            definition instanceof StructureDefinition &&
+                            (type === undefined ||
+                                type.accepts(
+                                    definition.getType(context),
+                                    context
+                                ))
+                        ) {
                             return new Refer(
                                 (name) => definition.getEvaluateTemplate(name),
                                 definition
