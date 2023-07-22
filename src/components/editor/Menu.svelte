@@ -14,10 +14,18 @@
     import UnaryEvaluate from '../../nodes/UnaryEvaluate';
 
     export let menu: Menu;
+    /* The ideal position for the menu, adjusted based on viewport below. */
     export let position: { left: number; top: number };
 
-    let width: number;
-    let height: number;
+    /**
+     * Constrain the menu position to the viewport.
+     * left + width < window.innerWidth
+     * top + height < window.innerHeight
+     */
+    let menuWidth: number;
+    let menuHeight: number;
+    $: menuLeft = Math.min(position.left, window.innerWidth - menuWidth);
+    $: menuTop = Math.min(position.top, window.innerHeight - menuHeight);
 
     function handleItemClick(item: Revision) {
         menu.doEdit($creator.getLanguages(), item);
@@ -56,12 +64,10 @@
 
 <div
     class="menu"
-    bind:clientWidth={width}
-    bind:clientHeight={height}
-    style:left="{position.left -
-        Math.max(0, position.left + (width ?? 0) - window.innerWidth)}px"
-    style:top="{position.top -
-        Math.max(0, position.top + (height ?? 0) - window.innerHeight)}px"
+    bind:offsetWidth={menuWidth}
+    bind:offsetHeight={menuHeight}
+    style:left="{menuLeft}px"
+    style:top="{menuTop}px"
 >
     <div class="revisions">
         {#each menu.revisions as revision, itemIndex}
@@ -111,15 +117,24 @@
 
 <style>
     .menu {
-        position: absolute;
         background-color: var(--wordplay-background);
         border: var(--wordplay-border-width) solid var(--wordplay-border-color);
         border-radius: var(--wordplay-border-radius);
         font-size: var(--wordplay-font-size);
         box-shadow: var(--wordplay-border-radius) var(--wordplay-border-radius)
             var(--wordplay-border-radius) 0px var(--wordplay-lightgrey);
+
+        /* Position the menu as floating, but bounded to the viewport */
+        position: absolute;
+
+        /* Default size */
         width: 30em;
-        max-height: 20em;
+        height: auto;
+
+        /* Max size */
+        max-width: 100vw;
+        max-height: 30vh;
+
         border-spacing: 0;
 
         display: flex;
