@@ -68,7 +68,7 @@
         overflow: hidden;
         white-space: nowrap;
         font-size: small;
-        width: 25%;
+        min-width: 3em;
     }
 
     input[type='range'] {

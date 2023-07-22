@@ -38,11 +38,24 @@
     const Bands = [1, 0.9, 0.8, 0.7, 0.6, 0.5, 0.4, 0.3, 0.2, 0.1, 0].map(
         (val) => percentToChroma(val)
     );
+
+    const Primary: [number, number, number][] = [
+        [0, 0, 0],
+        [33, 0, 0],
+        [66, 0, 0],
+        [100, 0, 0],
+        [50, 109, 42], // red
+        [50, 127, 174], // green
+        [50, 117, 282], // blue
+        [85, 75, 88], // yellow
+        [85, 122, 49], // orange
+    ];
 </script>
 
 <script lang="ts">
     import { creator } from '../../db/Creator';
     import { getFirstName } from '../../locale/Locale';
+    import Button from './Button.svelte';
 
     /** a degree (any number remainder 360) */
     export let hue: number;
@@ -75,6 +88,7 @@
 </script>
 
 <div class="component">
+    <div class="preview" style:background-color={color.display()} />
     <div
         class="bands"
         on:pointerdown={handleMouseMove}
@@ -98,6 +112,19 @@
             style:left="{hueToPercent(hue) * hueWidth}px"
             style:top="{(1 - chromaToPercent(chroma)) * hueHeight}px"
         />
+    </div>
+    <div class="primary">
+        {#each Primary as color}<Button
+                tip="color"
+                action={() => ([lightness, chroma, hue] = color)}
+                ><div
+                    class="color"
+                    style:background={new ColorJS(
+                        ColorJS.spaces.lch,
+                        color
+                    ).display()}
+                /></Button
+            >{/each}
     </div>
     <div class="slider">
         <Slider
@@ -139,7 +166,6 @@
             }}
         />
     </div>
-    <div class="color" style:background-color={color.display()} />
 </div>
 
 <style>
@@ -152,16 +178,18 @@
     }
 
     .bands {
-        flex-grow: 1;
+        width: 3.5rem;
         height: 3.5rem;
         border: var(--wordplay-border-width) solid var(--wordplay-border-color);
         display: flex;
         flex-direction: column;
         position: relative;
+        flex-grow: 1;
     }
 
     .slider {
-        width: 50%;
+        flex-grow: 1;
+        min-width: 30%;
     }
 
     .band {
@@ -180,7 +208,22 @@
         touch-action: none;
     }
 
+    .primary {
+        width: 3em;
+        height: 3em;
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 0;
+    }
+
     .color {
+        width: 1em;
+        height: 1em;
+        border: var(--wordplay-border-width) solid var(--wordplay-border-color);
+    }
+
+    .preview {
         width: auto;
         min-width: 3.5rem;
         height: 3.5rem;
