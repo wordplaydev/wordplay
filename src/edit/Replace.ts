@@ -8,12 +8,12 @@ import type Context from '@nodes/Context';
 import type Locale from '@locale/Locale';
 import concretize from '../locale/concretize';
 import Markup from '../nodes/Markup';
+import Reference from '../nodes/Reference';
 
 export default class Replace<NodeType extends Node> extends Revision {
     readonly parent: Node;
     readonly node: Node;
     readonly replacement: NodeType | Refer | undefined;
-    readonly completes: boolean;
     readonly description: ((translation: Locale) => string) | undefined;
 
     constructor(
@@ -22,7 +22,6 @@ export default class Replace<NodeType extends Node> extends Revision {
         node: Node,
         replacement: NodeType | Refer | undefined,
         /** True if this replacement completes an existing node */
-        completes: boolean,
         description: ((translation: Locale) => string) | undefined = undefined
     ) {
         super(context);
@@ -30,7 +29,6 @@ export default class Replace<NodeType extends Node> extends Revision {
         this.parent = parent;
         this.node = node;
         this.replacement = replacement;
-        this.completes = completes;
         this.description = description;
     }
 
@@ -42,8 +40,26 @@ export default class Replace<NodeType extends Node> extends Revision {
         return this.replacement === undefined;
     }
 
+    /** True if the replacement node has a reference prefixed by a reference in the original node */
     isCompletion(): boolean {
-        return this.completes;
+        if (this.replacement === undefined) return false;
+        const original = this.node
+            .nodes()
+            .filter((node): node is Reference => node instanceof Reference);
+        const replacement = (
+            this.replacement instanceof Node
+                ? this.replacement
+                : this.replacement.getNode([])
+        )
+            .nodes()
+            .filter((node): node is Reference => node instanceof Reference);
+        return original.some((ref1) =>
+            replacement.some(
+                (ref2) =>
+                    ref1.getName() !== ref2.getName() &&
+                    ref2.getName().startsWith(ref2.getName())
+            )
+        );
     }
 
     getEdit(lang: LanguageCode[]): Edit | undefined {

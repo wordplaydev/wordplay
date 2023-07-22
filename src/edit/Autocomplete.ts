@@ -104,8 +104,7 @@ export function getEditsAt(project: Project, caret: Caret): Revision[] {
                                         context,
                                         parent,
                                         selection,
-                                        replacement,
-                                        false
+                                        replacement
                                     )
                             )
                         )
@@ -286,8 +285,7 @@ function getRelativeFieldEdits(
                         true,
                         context
                     )
-                        // Here, we operationalize "completion" of a node as
-                        //
+                        // If not on an empty line, only include recommendations that "complete" the selection
                         .filter(
                             (replacement) =>
                                 empty ||
@@ -302,13 +300,7 @@ function getRelativeFieldEdits(
                         // Convert the matching nodes to replacements.
                         .map(
                             (replacement) =>
-                                new Replace(
-                                    context,
-                                    parent,
-                                    node,
-                                    replacement,
-                                    true
-                                )
+                                new Replace(context, parent, node, replacement)
                         )
                 )
                 .flat(),
@@ -436,12 +428,12 @@ function completes(original: Node, replacement: Node): boolean {
         originalNodes.some((n2) => {
             const n1isToken = n1 instanceof Token;
             const n2isToken = n2 instanceof Token;
+            const n1isName = n1isToken && n1.isName();
+            const n2isName = n2isToken && n2.isName();
             return (
                 (n1isToken &&
-                    n1.isName() &&
-                    n2isToken &&
-                    n2.isName() &&
-                    n1.getText() !== n2.getText() &&
+                    n1isName &&
+                    n2isName &&
                     n1.getText().startsWith(n2.getText())) ||
                 (!n1isToken && !n2isToken && n1.isEqualTo(n2))
             );
