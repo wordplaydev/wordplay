@@ -76,7 +76,7 @@
 
 <div class="component">
     <div
-        class="hue"
+        class="bands"
         on:pointerdown={handleMouseMove}
         on:pointermove={handleMouseMove}
         bind:clientWidth={hueWidth}
@@ -139,7 +139,7 @@
             }}
         />
     </div>
-    <div class="color" style:background-color={color.to('srgb').toString()} />
+    <div class="color" style:background-color={color.display()} />
 </div>
 
 <style>
@@ -151,7 +151,7 @@
         gap: var(--wordplay-spacing);
     }
 
-    .hue {
+    .bands {
         flex-grow: 1;
         height: 3.5rem;
         border: var(--wordplay-border-width) solid var(--wordplay-border-color);
