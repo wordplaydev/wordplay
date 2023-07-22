@@ -347,5 +347,14 @@ export function getOutputConcepts(
                 context
             )
         ),
+        ...Object.values(context.project.shares.sequences).map((def) =>
+            getStructureOrFunctionConcept(
+                def,
+                Purpose.Output,
+                undefined,
+                languages,
+                context
+            )
+        ),
     ];
 }

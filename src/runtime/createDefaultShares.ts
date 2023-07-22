@@ -15,14 +15,7 @@ import { createPointerDefinition as createPointerType } from '../input/Pointer';
 import { createButtonDefinition as createButtonType } from '../input/Button';
 import { createRandomDefinition as createRandomType } from '../input/Random';
 import { createArrangementType } from '../output/Arrangement';
-import {
-    createBounce,
-    createFadeIn,
-    createPopup,
-    createShake,
-    createSpin,
-    createSway,
-} from '../output/DefaultSequences';
+import { getDefaultSequences } from '../output/DefaultSequences';
 import { createChoiceDefinition as createChoiceType } from '../input/Choice';
 import { createGridType } from '../output/Grid';
 import { createRectangleType, createShapeType } from '../output/Shapes';
@@ -65,14 +58,7 @@ export default function createDefaultShares(locales: Locale[]) {
         camera: createCameraType(locales, ColorType),
     };
 
-    const Sequences = {
-        sway: createSway(locales),
-        bounce: createBounce(locales),
-        spin: createSpin(locales),
-        fadein: createFadeIn(locales),
-        popup: createPopup(locales),
-        shake: createShake(locales),
-    };
+    const Sequences = getDefaultSequences(locales);
 
     return {
         all: [

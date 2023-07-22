@@ -131,3 +131,14 @@ export function createShake(locales: Locale[]) {
         )
     );
 }
+
+export function getDefaultSequences(locales: Locale[]) {
+    return {
+        sway: createSway(locales),
+        bounce: createBounce(locales),
+        spin: createSpin(locales),
+        fadein: createFadeIn(locales),
+        popup: createPopup(locales),
+        shake: createShake(locales),
+    };
+}
