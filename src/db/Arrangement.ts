@@ -1,7 +1,7 @@
 enum Arrangement {
-    vertical = 'vertical',
-    horizontal = 'horizontal',
-    free = 'free',
+    Vertical = 'vertical',
+    Horizontal = 'horizontal',
+    Free = 'free',
 }
 
 export default Arrangement;

@@ -53,20 +53,20 @@
             </div>
         {/if}
         <Button
-            tip={arrangement === Arrangement.free
+            tip={arrangement === Arrangement.Free
                 ? $creator.getLocale().ui.tooltip.vertical
-                : arrangement === Arrangement.vertical
+                : arrangement === Arrangement.Vertical
                 ? $creator.getLocale().ui.tooltip.horizontal
                 : $creator.getLocale().ui.tooltip.freeform}
             action={() =>
                 $creator.setArrangement(
-                    arrangement === Arrangement.vertical
-                        ? Arrangement.horizontal
-                        : arrangement === Arrangement.horizontal
-                        ? Arrangement.free
-                        : Arrangement.vertical
+                    arrangement === Arrangement.Vertical
+                        ? Arrangement.Horizontal
+                        : arrangement === Arrangement.Horizontal
+                        ? Arrangement.Free
+                        : Arrangement.Vertical
                 )}
-            >{#if arrangement === Arrangement.vertical}↕{:else if arrangement === Arrangement.horizontal}↔️{:else if arrangement === Arrangement.free}⏹️{/if}</Button
+            >{#if arrangement === Arrangement.Vertical}↕{:else if arrangement === Arrangement.Horizontal}↔️{:else if arrangement === Arrangement.Free}⏹️{/if}</Button
         >
         <Button
             tip={$creator.getLocale().ui.tooltip.animate}

@@ -69,6 +69,10 @@ export default class Layout {
         return this.fullscreenID !== undefined;
     }
 
+    getTilesInReadingOrder() {
+        return this.tiles.sort((a, b) => a.getOrder() - b.getOrder());
+    }
+
     getTileWithID(id: string) {
         return this.tiles.find((tile) => tile.id === id);
     }
@@ -164,9 +168,9 @@ export default class Layout {
     }
 
     resized(arrangement: Arrangement, width: number, height: number) {
-        return arrangement === Arrangement.vertical
+        return arrangement === Arrangement.Vertical
             ? this.vertical(width, height)
-            : arrangement === Arrangement.horizontal
+            : arrangement === Arrangement.Horizontal
             ? this.horizontal(width, height)
             : this.positioned();
     }

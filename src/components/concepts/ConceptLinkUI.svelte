@@ -87,7 +87,7 @@
 
 {#if concept}<span
         role="button"
-        class="interactive"
+        class="conceptlink interactive"
         tabindex="0"
         on:pointerdown={navigate}
         on:keydown={(event) =>
@@ -120,7 +120,9 @@
 
     span:focus {
         outline: none;
-        background: var(--wordplay-highlight);
-        text-decoration: underline;
+    }
+
+    span:focus .long {
+        text-decoration-thickness: var(--wordplay-focus-width);
     }
 </style>

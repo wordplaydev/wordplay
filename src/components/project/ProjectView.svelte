@@ -313,9 +313,7 @@
     }
 
     function initializedLayout() {
-        const layouts = $creator.getLayout();
-        const layout = layouts ? layouts[project.id] : null;
-        const persistedLayout = layout ? Layout.fromObject(layout) : null;
+        const persistedLayout = $creator.getProjectLayout(project.id);
         return persistedLayout === null
             ? null
             : persistedLayout.withTiles(syncTiles(persistedLayout.tiles));
@@ -329,12 +327,29 @@
             new Layout(
                 layout
                     ? syncTiles(layout.tiles)
-                    : [
+                    : // Create a layout in reading order.
+                      [
+                          new Tile(
+                              PaletteID,
+                              PALETTE_SYMBOL,
+                              Content.Palette,
+                              Mode.Collapsed,
+                              undefined,
+                              Tile.randomPosition(1024, 768)
+                          ),
                           new Tile(
                               OutputID,
                               STAGE_SYMBOL,
                               Content.Output,
                               Mode.Expanded,
+                              undefined,
+                              Tile.randomPosition(1024, 768)
+                          ),
+                          new Tile(
+                              DocsID,
+                              DOCUMENTATION_SYMBOL,
+                              Content.Documentation,
+                              Mode.Collapsed,
                               undefined,
                               Tile.randomPosition(1024, 768)
                           ),
@@ -346,22 +361,6 @@
                                       ? Mode.Expanded
                                       : Mode.Collapsed
                               )
-                          ),
-                          new Tile(
-                              PaletteID,
-                              PALETTE_SYMBOL,
-                              Content.Palette,
-                              Mode.Collapsed,
-                              undefined,
-                              Tile.randomPosition(1024, 768)
-                          ),
-                          new Tile(
-                              DocsID,
-                              DOCUMENTATION_SYMBOL,
-                              Content.Documentation,
-                              Mode.Collapsed,
-                              undefined,
-                              Tile.randomPosition(1024, 768)
                           ),
                       ],
                 layout ? layout.fullscreenID : undefined
@@ -412,11 +411,7 @@
     }
 
     /** Persist the layout when it changes */
-    $: {
-        const layouts = $creator.getLayout() ?? {};
-        layouts[project.id] = layout.toObject();
-        $creator.setLayout(layouts);
-    }
+    $: $creator.setProjectLayout(project.id, layout);
 
     /** The tile being dragged */
     let draggedTile:
@@ -739,7 +734,7 @@
     }
 
     function handlePointerDown(event: PointerEvent) {
-        if ($creator.getArrangement() === Arrangement.free) {
+        if ($creator.getArrangement() === Arrangement.Free) {
             const tileView = document
                 .elementFromPoint(event.clientX, event.clientY)
                 ?.closest('.tile');
@@ -1014,7 +1009,7 @@
         bind:this={canvas}
     >
         <!-- This little guy enables the scroll bars to appear at the furthest extent a window has moved. -->
-        {#if $creator.getArrangement() === Arrangement.free}
+        {#if $creator.getArrangement() === Arrangement.Free}
             <div
                 class="boundary"
                 style:left="{maxRight}px"
@@ -1028,8 +1023,8 @@
             {#if layout.tiles.every((tile) => tile.isCollapsed())}
                 <div class="empty">⬇️</div>
             {:else}
-                <!-- Lay out each of the tiles according to its specification. -->
-                {#each layout.tiles as tile (tile.id)}
+                <!-- Lay out each of the tiles according to its specification, in order if in free layout, but in layout order if not. -->
+                {#each $creator.getArrangement() === Arrangement.Free ? layout.tiles : layout.getTilesInReadingOrder() as tile (tile.id)}
                     {#if tile.isExpanded() && (layout.fullscreenID === undefined || layout.fullscreenID === tile.id)}
                         <TileView
                             {tile}

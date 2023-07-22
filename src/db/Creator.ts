@@ -26,6 +26,7 @@ import Arrangement from './Arrangement';
 import type { Tutorial } from '../tutorial/Tutorial';
 import { bootstrap, Native } from '../native/Native';
 import en from '../locale/en.json';
+import Layout from '../components/project/Layout';
 
 const PROJECTS_KEY = 'projects';
 const LAYOUTS_KEY = 'layouts';
@@ -102,7 +103,7 @@ export class Creator {
     /** The current creator configuration */
     private config: CreatorConfig = {
         layouts: {},
-        arrangement: Arrangement.vertical,
+        arrangement: Arrangement.Vertical,
         animationFactor: 1,
         languages: ['en'],
         writingLayout: 'horizontal-tb',
@@ -188,8 +189,18 @@ export class Creator {
         } catch (_) {}
     }
 
-    getLayout() {
-        return this.config.layouts;
+    getProjectLayout(id: string) {
+        const layouts = this.config.layouts;
+        const layout = layouts ? layouts[id] : null;
+        return layout ? Layout.fromObject(layout) : null;
+    }
+
+    setProjectLayout(id: string, layout: Layout) {
+        const newLayout = Object.fromEntries(
+            Object.entries(this.config.layouts)
+        );
+        newLayout[id] = layout.toObject();
+        this.setLayout(newLayout);
     }
 
     setLayout(layouts: Record<string, LayoutObject>) {
@@ -589,7 +600,7 @@ export class Creator {
 
         this.config.arrangement =
             (getLocalValue<string>(ARRANGEMENT_KEY) as Arrangement) ??
-            Arrangement.vertical;
+            Arrangement.Vertical;
 
         this.config.layouts =
             getLocalValue<Record<string, LayoutObject>>(LAYOUTS_KEY) ?? {};

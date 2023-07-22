@@ -54,6 +54,16 @@ export default class Tile {
         return this.kind === Content.Source;
     }
 
+    getOrder() {
+        return this.kind === Content.Palette
+            ? 0
+            : this.kind === Content.Output
+            ? 1
+            : this.kind === Content.Documentation
+            ? 2
+            : 3;
+    }
+
     withName(name: string) {
         return new Tile(
             this.id,

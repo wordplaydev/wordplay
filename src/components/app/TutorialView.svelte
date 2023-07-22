@@ -187,7 +187,7 @@
 
 <section
     class="tutorial"
-    class:vertical={$creator.getArrangement() === Arrangement.vertical}
+    class:vertical={$creator.getArrangement() === Arrangement.Vertical}
 >
     <!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
     <!-- svelte-ignore a11y-no-noninteractive-tabindex -->
@@ -264,7 +264,7 @@
             </select>
             <Note
                 >{#if act !== undefined}{act.name}{/if}
-                {#if act !== undefined && scene !== undefined}{#if $creator.getArrangement() !== Arrangement.vertical}<br
+                {#if act !== undefined && scene !== undefined}{#if $creator.getArrangement() !== Arrangement.Vertical}<br
                         />{/if}{scene.concept ?? scene.name}{/if}
                 {#if act !== undefined && scene !== undefined && progress.pause > 0}
                     <span class="progress"
