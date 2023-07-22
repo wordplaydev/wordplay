@@ -1337,46 +1337,48 @@
                             link={typeConcept}
                             label={caretExpressionType.toWordplay()}
                         />{:else}{caretExpressionType.toWordplay()}{/if}{/if}
-                <PlaceholderView node={$caret.position} />{/if}<div
-                class="screen-reader-description"
-                aria-live="polite"
-                aria-atomic="true"
-                aria-relevant="all"
-                >{$caret.position instanceof Node
-                    ? $caret.position.getLabel($creator.getLocale()) +
-                      ', ' +
-                      $caret.position
-                          .getDescription(
-                              concretize,
-                              $creator.getLocale(),
-                              project.getNodeContext($caret.position)
-                          )
-                          .toText() +
-                      (caretExpressionType
-                          ? `, ${caretExpressionType.toWordplay()}`
-                          : '')
-                    : $caret.tokenExcludingSpace
-                    ? concretize(
-                          $creator.getLocale(),
-                          $creator.getLocale().ui.edit.before,
-                          source.code.at($caret.position) ?? ''
-                      ).toText()
-                    : $caret.tokenIncludingSpace
-                    ? concretize(
-                          $creator.getLocale(),
-                          $creator.getLocale().ui.edit.before,
-                          $caret.tokenIncludingSpace
+                <PlaceholderView
+                    node={$caret.position}
+                />{/if}{#if document.activeElement?.contains(editor)}<div
+                    class="screen-reader-description"
+                    aria-live="polite"
+                    aria-atomic="true"
+                    aria-relevant="all"
+                    >{$caret.position instanceof Node
+                        ? $caret.position.getLabel($creator.getLocale()) +
+                          ', ' +
+                          $caret.position
                               .getDescription(
                                   concretize,
                                   $creator.getLocale(),
-                                  project.getNodeContext(
-                                      $caret.tokenIncludingSpace
-                                  )
+                                  project.getNodeContext($caret.position)
                               )
-                              .toText()
-                      ).toText()
-                    : ''}</div
-            ></div
+                              .toText() +
+                          (caretExpressionType
+                              ? `, ${caretExpressionType.toWordplay()}`
+                              : '')
+                        : $caret.tokenExcludingSpace
+                        ? concretize(
+                              $creator.getLocale(),
+                              $creator.getLocale().ui.edit.before,
+                              source.code.at($caret.position) ?? ''
+                          ).toText()
+                        : $caret.tokenIncludingSpace
+                        ? concretize(
+                              $creator.getLocale(),
+                              $creator.getLocale().ui.edit.before,
+                              $caret.tokenIncludingSpace
+                                  .getDescription(
+                                      concretize,
+                                      $creator.getLocale(),
+                                      project.getNodeContext(
+                                          $caret.tokenIncludingSpace
+                                      )
+                                  )
+                                  .toText()
+                          ).toText()
+                        : ''}</div
+                >{/if}</div
         >
     {/key}
 </div>
