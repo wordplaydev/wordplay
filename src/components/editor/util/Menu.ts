@@ -22,8 +22,15 @@ export default class Menu {
     /** The currently selected revision or revision set */
     private readonly selection: MenuSelection;
 
-    /** The function to call to perform the edit. Can take an edit to perform, a revision set to select, and returns true if it should hide the menu. */
-    private readonly edit: (edit: Edit | RevisionSet | undefined) => boolean;
+    /** The function to call to perform the edit. Can take"
+     * 1) an edit to perform,
+     * 2) a revision set to select, entering a submenu,
+     * 3)
+     * Should return true if it should hide the menu after the edit.
+     * */
+    private readonly action: (
+        selection: Edit | RevisionSet | undefined
+    ) => boolean;
 
     /**
      * The derived organization of the menu from the flat list of revisions given
@@ -37,13 +44,13 @@ export default class Menu {
         organization: MenuOrganization | undefined,
         concepts: ConceptIndex,
         selection: [number, number | undefined],
-        edit: (edit: Edit | RevisionSet | undefined) => boolean
+        action: (selection: Edit | RevisionSet | undefined) => boolean
     ) {
         this.caret = caret;
         this.revisions = revisions;
         this.concepts = concepts;
         this.selection = selection;
-        this.edit = edit;
+        this.action = action;
 
         if (organization === undefined) {
             // The organization is divided into the following groups and order:
@@ -102,7 +109,7 @@ export default class Menu {
                     ? Math.max(0, Math.min(subindex, submenu.size()))
                     : undefined,
             ],
-            this.edit
+            this.action
         );
     }
 
@@ -126,6 +133,14 @@ export default class Menu {
     /** Whether there is a selection */
     hasSelection(): boolean {
         return this.getSelection() !== undefined;
+    }
+
+    inSubmenu() {
+        return this.selection[1] !== undefined;
+    }
+
+    onBack() {
+        return this.selection[1] === -1;
     }
 
     /** The current selection, if there is one. */
@@ -173,19 +188,19 @@ export default class Menu {
                       this.organization,
                       this.concepts,
                       [newIndex, undefined],
-                      this.edit
+                      this.action
                   )
                 : this;
         } else if (submenu instanceof RevisionSet) {
             const newSubindex = subindex + direction;
-            return newSubindex >= 0 && newSubindex < submenu.size()
+            return newSubindex >= -1 && newSubindex < submenu.size()
                 ? new Menu(
                       this.caret,
                       this.revisions,
                       this.organization,
                       this.concepts,
                       [index, newSubindex],
-                      this.edit
+                      this.action
                   )
                 : this;
         } else return this;
@@ -200,7 +215,7 @@ export default class Menu {
                   this.organization,
                   this.concepts,
                   [this.selection[0], undefined],
-                  this.edit
+                  this.action
               )
             : this;
     }
@@ -215,15 +230,31 @@ export default class Menu {
                   this.organization,
                   this.concepts,
                   [this.selection[0], 0],
-                  this.edit
+                  this.action
               )
             : this;
     }
 
-    doEdit(languages: LanguageCode[], revision?: Revision | RevisionSet) {
-        if (revision === undefined) revision = this.getSelection();
+    back() {
+        return this.selection[1] !== undefined
+            ? new Menu(
+                  this.caret,
+                  this.revisions,
+                  this.organization,
+                  this.concepts,
+                  [this.selection[0], undefined],
+                  this.action
+              )
+            : this;
+    }
+
+    doEdit(
+        languages: LanguageCode[],
+        revision: Revision | RevisionSet | undefined
+    ) {
+        if (revision === undefined) return this.action(undefined);
         return revision
-            ? this.edit(
+            ? this.action(
                   revision instanceof Revision
                       ? revision.getEdit(languages)
                       : revision

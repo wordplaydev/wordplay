@@ -976,14 +976,18 @@
             );
     }
 
-    function handleMenuItem(edit: Edit | RevisionSet | undefined): boolean {
+    function handleMenuItem(
+        selection: Edit | RevisionSet | undefined
+    ): boolean {
         if (menu) {
-            if (edit instanceof RevisionSet) {
-                const newIndex = menu.getOrganization().indexOf(edit);
+            if (selection === undefined) {
+                menu = menu.back();
+            } else if (selection instanceof RevisionSet) {
+                const newIndex = menu.getOrganization().indexOf(selection);
                 menu = menu.withSelection([newIndex, 0]);
                 return false;
             } else {
-                handleEdit(edit);
+                handleEdit(selection);
                 return true;
             }
         }
@@ -1019,8 +1023,9 @@
                 hideMenu();
                 event.stopPropagation();
                 return;
-            } else if (event.key === 'Enter' && menu.hasSelection()) {
-                if (menu.doEdit($creator.getLanguages())) hideMenu();
+            } else if (event.key === 'Enter') {
+                if (menu.doEdit($creator.getLanguages(), menu.getSelection()))
+                    hideMenu();
                 event.stopPropagation();
                 return;
             }

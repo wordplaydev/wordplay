@@ -25,7 +25,7 @@
     $: menuLeft = Math.min(position.left, window.innerWidth - menuWidth);
     $: menuTop = Math.min(position.top, window.innerHeight - menuHeight);
 
-    function handleItemClick(item: Revision | RevisionSet) {
+    function handleItemClick(item: Revision | RevisionSet | undefined) {
         menu.doEdit($creator.getLanguages(), item);
     }
 
@@ -57,8 +57,15 @@
     style:top="{menuTop}px"
 >
     <div class="revisions">
+        {#if menu.inSubmenu()}
+            <div
+                class="revision"
+                class:selected={menu.onBack()}
+                on:pointerdown|preventDefault|stopPropagation={() =>
+                    handleItemClick(undefined)}>←</div
+            >
+        {/if}
         {#each menu.getRevisionList() as entry, itemIndex}
-            <!-- Prevent default is to ensure focus isn't lost on editor -->
             <div
                 class={`revision ${
                     itemIndex === menu.getSelectionID() ? 'selected' : ''
