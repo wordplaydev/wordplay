@@ -420,17 +420,6 @@ export default class Caret {
             )
                 return this;
 
-            // At a placeholder? Select the placeholder.
-            const placeholder = this.getPlaceholderAtPosition(
-                this.position - (direction < 0 ? 1 : 0)
-            );
-            if (placeholder)
-                return this.withPosition(
-                    placeholder,
-                    this.source.getColumn(this.position),
-                    entry
-                );
-
             // At a token start and going next? Select the token.
             const token = this.source.getTokenAt(this.position, false);
             const tokenBefore = this.source.getTokenAt(
@@ -495,11 +484,15 @@ export default class Caret {
     }
 
     getPlaceholderAtPosition(position: number): Node | undefined {
+        // Get the token at the position.
         const tokenAtPosition = this.source.getTokenAt(position, false);
         if (tokenAtPosition === undefined) return undefined;
-        return this.source.root
-            .getAncestors(tokenAtPosition)
-            .find((a) => a.isPlaceholder());
+        // If the token is a placeholder token, get the placeholder ancestor it's in.
+        if (tokenAtPosition.isTokenType(Symbol.Placeholder))
+            return this.source.root
+                .getAncestors(tokenAtPosition)
+                .find((a) => a.isPlaceholder());
+        else return undefined;
     }
 
     moveNodeHorizontal(direction: -1 | 1) {
@@ -761,7 +754,10 @@ export default class Caret {
     }
 
     isPlaceholder() {
-        return this.position instanceof Node && this.position.isPlaceholder();
+        return (
+            this.position instanceof Token &&
+            this.position.isTokenType(Symbol.Placeholder)
+        );
     }
 
     /** If the caret is a node, set the position to its first index */
