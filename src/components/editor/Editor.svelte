@@ -1007,7 +1007,7 @@
                 event.stopPropagation();
                 return;
             }
-            if (event.key === 'ArrowLeft') {
+            if (event.key === 'ArrowLeft' || event.key === 'Backspace') {
                 menu = menu.out();
                 event.stopPropagation();
                 return;

@@ -62,7 +62,7 @@
             <div
                 class={`revision ${
                     itemIndex === menu.getSelectionID() ? 'selected' : ''
-                }`}
+                } ${entry instanceof RevisionSet ? 'submenu' : ''}`}
                 bind:this={revisionViews[itemIndex]}
                 on:pointerdown|preventDefault|stopPropagation={() =>
                     handleItemClick(entry)}
@@ -175,6 +175,7 @@
     .revision {
         padding: var(--wordplay-spacing);
         border-radius: var(--wordplay-border-radius);
+        cursor: pointer;
     }
 
     .revision.selected {
