@@ -64,6 +64,9 @@ export default class Reference extends AtomicExpression {
         selected: boolean,
         context: Context
     ): Refer[] {
+        const match = (def: Definition, prefix: string, name: string) =>
+            def.getNames().find((n) => n.startsWith(prefix)) ?? name;
+
         // If the node prior is a reference, find potential matching definitions in scope.
         if (selected) {
             const prefix = node instanceof Reference ? node.getName() : '';
@@ -74,7 +77,10 @@ export default class Reference extends AtomicExpression {
                     // Only accept ones that have names starting with the prefix
                     // and that have a matching type, if provided.
                     .filter((def) =>
-                        def.getNames().some((name) => name.startsWith(prefix))
+                        def.getNames().some((name) =>
+                            // Hello
+                            name.startsWith(prefix)
+                        )
                     )
                     // Translate the definitions into references to the definitions.
                     .map((definition) => {
@@ -88,7 +94,10 @@ export default class Reference extends AtomicExpression {
                                 ))
                         )
                             return new Refer(
-                                (name) => Reference.make(name),
+                                (name) =>
+                                    Reference.make(
+                                        match(definition, prefix, name)
+                                    ),
                                 definition
                             );
                         // Function definition of an acceptable type? Make an (Binary/Unary)Evaluate.
@@ -103,7 +112,7 @@ export default class Reference extends AtomicExpression {
                             return new Refer(
                                 (name) =>
                                     definition.getEvaluateTemplate(
-                                        name,
+                                        match(definition, prefix, name),
                                         context,
                                         undefined
                                     ),
@@ -120,7 +129,10 @@ export default class Reference extends AtomicExpression {
                                 ))
                         ) {
                             return new Refer(
-                                (name) => definition.getEvaluateTemplate(name),
+                                (name) =>
+                                    definition.getEvaluateTemplate(
+                                        match(definition, prefix, name)
+                                    ),
                                 definition
                             );
                         } else return undefined;

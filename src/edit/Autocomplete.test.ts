@@ -30,6 +30,13 @@ test.each([
         '💬(_•""|[""])',
     ],
     [
+        'complete phrase on empty program',
+        'Ph**',
+        undefined,
+        Replace,
+        'Phrase(_•""|[""])',
+    ],
+    [
         'suggest matching evaluates',
         'Group(Row() [**])',
         undefined,
