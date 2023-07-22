@@ -82,7 +82,6 @@
     });
 
     function cancelAnimations() {
-        console.log('Cancel');
         if (animationLeft) animationLeft.cancel();
         if (animationRight) animationRight.cancel();
     }
