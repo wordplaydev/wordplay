@@ -552,19 +552,6 @@
         event.preventDefault();
     }
 
-    function handleDoubleclick(event: MouseEvent) {
-        if (selectedOutputPaths && selectedPhrase && !fullscreen) {
-            if (evaluator.isPlaying()) {
-                evaluator.pause();
-                selectPointerOutput(event);
-            } else {
-                setSelectedOutput(selectedOutputPaths, project, []);
-                selectedPhrase.set(null);
-                evaluator.play();
-            }
-        }
-    }
-
     function handleKeyUp(event: KeyboardEvent) {
         // Never handle tab; that's for keyboard navigation.
         if (event.key === 'Tab') return;
@@ -815,7 +802,6 @@
             interactive ? handlePointerDown(event) : null}
         on:pointerup={interactive ? handleMouseUp : null}
         on:pointermove={interactive ? handlePointerMove : null}
-        on:dblclick={interactive && !fullscreen ? handleDoubleclick : null}
         on:keydown={interactive ? handleKeyDown : null}
         on:keyup={interactive ? handleKeyUp : null}
         on:wheel={interactive ? handleWheel : null}
