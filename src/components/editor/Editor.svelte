@@ -986,6 +986,7 @@
                 return;
             } else if (event.key === 'Escape') {
                 hideMenu();
+                event.stopPropagation();
                 return;
             } else if (
                 event.key === 'Enter' &&
