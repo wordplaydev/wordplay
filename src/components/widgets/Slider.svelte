@@ -1,4 +1,6 @@
 <script lang="ts">
+    import { tick } from 'svelte';
+
     export let value: number | undefined;
     export let min: number;
     export let max: number;
@@ -9,8 +11,12 @@
 
     $: percent = unit === '%';
 
-    function handleChange() {
+    let view: HTMLInputElement | undefined = undefined;
+
+    async function handleChange() {
         if (value !== undefined) change(value * (percent ? 100 : 1));
+        await tick();
+        view?.focus();
     }
 </script>
 
@@ -29,6 +35,7 @@
         {max}
         step={increment}
         bind:value
+        bind:this={view}
         on:input={handleChange}
     />
     <div class="text">
