@@ -9,12 +9,10 @@
     export let change: (value: number) => void;
     export let precision: number = 0;
 
-    $: percent = unit === '%';
-
     let view: HTMLInputElement | undefined = undefined;
 
     async function handleChange() {
-        if (value !== undefined) change(value * (percent ? 100 : 1));
+        if (value !== undefined) change(value);
         await tick();
         view?.focus();
     }
@@ -42,9 +40,7 @@
         {#if value === undefined}
             ø
         {:else}
-            {(percent ? value * 100 : value).toFixed(
-                Math.max(0, percent ? precision - 2 : precision)
-            ) + unit}
+            {value.toFixed(Math.max(0, precision)) + unit}
         {/if}
     </div>
 </div>
