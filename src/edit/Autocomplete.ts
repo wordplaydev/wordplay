@@ -62,6 +62,7 @@ import Paragraph from '../nodes/Paragraph';
 import WebLink from '../nodes/WebLink';
 import Remove from './Remove';
 import UnknownType from '../nodes/UnknownType';
+import Program from '../nodes/Program';
 
 /** Given a project and a caret, generate a set of transforms that can be applied at the location. */
 export function getEditsAt(project: Project, caret: Caret): Revision[] {
@@ -261,6 +262,8 @@ function getRelativeFieldEdits(
     let edits: Revision[] = [];
 
     const parent = node.getParent(context);
+    // Don't replace the program block.
+    if (parent instanceof Program) return [];
     const field = parent?.getFieldOfChild(node);
     if (parent === undefined || field === undefined) return [];
 
