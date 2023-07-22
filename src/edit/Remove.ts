@@ -33,10 +33,15 @@ export default class Remove extends Revision {
         const newParent = this.getNewNode();
 
         // Replace the child in the parent, pretty printing it, then clone the program with the new parent, and create a new source from it.
-        const newSource = this.context.source.withProgram(
+        let newSource = this.context.source.withProgram(
             this.context.source.expression.replace(this.parent, newParent),
             // Preserve the space before the removed node.
             this.context.source.spaces.withReplacement(this.nodes[0], undefined)
+        );
+
+        // Ensure new parent has preferred space
+        newSource = newSource.withSpaces(
+            newSource.spaces.withPreferredSpaceForNode(newSource, newParent)
         );
 
         // Return the new source and place the caret after the replacement.

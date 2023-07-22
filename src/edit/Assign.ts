@@ -66,9 +66,15 @@ export default class Assign<NodeType extends Node> extends Revision {
                       newNode
                   );
 
-        const newSource = this.context.source
+        let newSource = this.context.source
             .replace(this.parent, newParent)
             .withSpaces(newSpaces);
+
+        // Ensure new child has preferred space.
+        if (newNode)
+            newSource = newSource.withSpaces(
+                newSource.spaces.withPreferredSpaceForNode(newSource, newNode)
+            );
 
         // Place the caret at first placeholder or the end of the node in the source.
         let newCaretPosition =

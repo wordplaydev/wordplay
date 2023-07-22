@@ -51,9 +51,11 @@ export default class Append<NodeType extends Node> extends Revision {
         );
 
         // Clone the source with the new parent.
-        const newSource = this.context.source.withProgram(
-            newProgram,
-            newSpaces
+        let newSource = this.context.source.withProgram(newProgram, newSpaces);
+
+        // Ensure insertion has preferred space.
+        newSource = newSource.withSpaces(
+            newSource.spaces.withPreferredSpaceForNode(newSource, newChild)
         );
 
         // Find it's last token index.
