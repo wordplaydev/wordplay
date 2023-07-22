@@ -5,15 +5,17 @@
     import type OutputProperty from '@edit/OutputProperty';
     import { getProject } from '../project/Contexts';
     import { creator } from '../../db/Creator';
+    import { tick } from 'svelte';
 
     export let property: OutputProperty;
     export let values: OutputPropertyValues;
     export let validator: (text: string) => boolean;
 
     let project = getProject();
+    let view: HTMLInputElement | undefined = undefined;
 
     // Whenever the text changes, update in the project.
-    function handleChange(newValue: string) {
+    async function handleChange(newValue: string) {
         if ($project === undefined) return;
         $creator.reviseProjectNodes(
             $project,
@@ -23,6 +25,9 @@
                 TextLiteral.make(newValue)
             )
         );
+
+        await tick();
+        view?.focus();
     }
 </script>
 
@@ -33,4 +38,5 @@
         : values.values[0].bind.names.getLocaleText($creator.getLanguages())}
     {validator}
     changed={handleChange}
+    bind:input={view}
 />
