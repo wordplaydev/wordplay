@@ -268,7 +268,7 @@ function getRelativeFieldEdits(
     // Generate possible nodes that could replace the token prior
     // (e.g., autocomplete References, create binary operations)
     // We only do this if this is before, and we're immediately after
-    // a node, and only for suggestions of the same node kind.
+    // a node, and for replacements that "complete" the existing parent.
     if (before && adjacent) {
         const type =
             node instanceof Expression ? node.getType(context) : undefined;
@@ -284,10 +284,25 @@ function getRelativeFieldEdits(
                         node,
                         true,
                         context
-                    ).map(
-                        (replacement) =>
-                            new Replace(context, parent, node, replacement)
                     )
+                        // Here, we operationalize "completion" of a node as
+                        //
+                        .filter(
+                            (replacement) =>
+                                empty ||
+                                (replacement !== undefined &&
+                                    completes(
+                                        node,
+                                        replacement instanceof Node
+                                            ? replacement
+                                            : replacement.getNode([])
+                                    ))
+                        )
+                        // Convert the matching nodes to replacements.
+                        .map(
+                            (replacement) =>
+                                new Replace(context, parent, node, replacement)
+                        )
                 )
                 .flat(),
         ];
@@ -401,6 +416,29 @@ function getRelativeFieldEdits(
 
     // Return the edits, removing any duplicates
     return edits;
+}
+
+/**
+ * Given two nodes, determines if some part of the original node appears in the replacement node.
+ * "Appears" in this case means that one of the replacement's name tokens starts with one of the original's name tokens,
+ * or that one of the non-token nodes in the replacement is equal to one of the non-token nodes in the original.
+ */
+function completes(original: Node, replacement: Node): boolean {
+    const originalNodes = original.nodes();
+    return replacement.nodes().some((n1) =>
+        originalNodes.some((n2) => {
+            const n1isToken = n1 instanceof Token;
+            const n2isToken = n2 instanceof Token;
+            return (
+                (n1isToken &&
+                    n1.isName() &&
+                    n2isToken &&
+                    n2.isName() &&
+                    n1.getText().startsWith(n2.getText())) ||
+                (!n1isToken && !n2isToken && n1.isEqualTo(n2))
+            );
+        })
+    );
 }
 
 /** A list of node types from which we can generate replacements. */
