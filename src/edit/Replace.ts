@@ -79,11 +79,11 @@ export default class Replace<NodeType extends Node> extends Revision {
         ];
     }
 
-    getEditedNode(lang: LanguageCode[]): [Node | undefined, Node] {
+    getEditedNode(lang: LanguageCode[]): [Node, Node] {
         // Get or create the replacement with the original node's space.
         const replacement = this.getNewNode(lang);
         const newParent = this.parent.replace(this.node, replacement);
-        return [replacement, newParent];
+        return [replacement ?? newParent, newParent];
     }
 
     getNewNode(languages: LanguageCode[]) {

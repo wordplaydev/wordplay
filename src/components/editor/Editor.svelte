@@ -1012,7 +1012,7 @@
             } else if (
                 event.key === 'Enter' &&
                 menu.selection !== undefined &&
-                menu.transforms.length > 0
+                menu.revisions.length > 0
             ) {
                 menu.doEdit($creator.getLanguages());
                 hideMenu();

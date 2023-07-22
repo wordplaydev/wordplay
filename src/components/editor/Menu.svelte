@@ -3,11 +3,15 @@
     import RootView from '../project/RootView.svelte';
     import Block from '@nodes/Block';
     import type Menu from './util/Menu';
-    import Node from '@nodes/Node';
     import { getConceptIndex } from '../project/Contexts';
     import Speech from '../lore/Speech.svelte';
     import { creator } from '../../db/Creator';
     import MarkupHTMLView from '../concepts/MarkupHTMLView.svelte';
+    import Glyphs from '../../lore/Glyphs';
+    import Reference from '../../nodes/Reference';
+    import Evaluate from '../../nodes/Evaluate';
+    import BinaryEvaluate from '../../nodes/BinaryEvaluate';
+    import UnaryEvaluate from '../../nodes/UnaryEvaluate';
 
     export let menu: Menu;
     export let position: { left: number; top: number };
@@ -15,26 +19,35 @@
     let width: number;
     let height: number;
 
-    const WINDOW = 2;
-
     function handleItemClick(item: Revision) {
         menu.doEdit($creator.getLanguages(), item);
     }
 
     let index = getConceptIndex();
-    $: node =
-        menu.caret.position instanceof Node ? menu.caret.position : undefined;
-    $: concept = node ? $index?.getNodeConcept(node) : undefined;
 
-    // Compute the visible window of items based on the selection.
-    let minItem = menu.selection;
-    let maxItem = menu.selection;
+    $: selectedRevision = menu.revisions[menu.selection];
+    $: selectedNewNode = selectedRevision.getNewNode($creator.getLanguages());
+    $: selectedDefinition =
+        selectedNewNode instanceof Reference
+            ? selectedNewNode.resolve(selectedRevision.context)
+            : selectedNewNode instanceof Evaluate ||
+              selectedNewNode instanceof BinaryEvaluate ||
+              selectedNewNode instanceof UnaryEvaluate
+            ? selectedNewNode.getFunction(selectedRevision.context)
+            : undefined;
+    $: selectedDocs = selectedConcept?.getDocs($creator.getLocale());
+    $: selectedConcept = $index
+        ? selectedDefinition
+            ? $index.getStructureConcept(selectedDefinition)
+            : selectedNewNode
+            ? $index.getNodeConcept(selectedNewNode)
+            : undefined
+        : undefined;
+
+    let revisionViews: HTMLElement[] = [];
     $: {
-        minItem =
-            (menu.selection < WINDOW ? 0 : menu.selection - WINDOW) -
-            Math.max(0, menu.selection + WINDOW - (menu.transforms.length - 1));
-        maxItem =
-            menu.selection + WINDOW + Math.max(0, WINDOW - menu.selection);
+        const view = revisionViews[menu.selection];
+        if (view) view.scrollIntoView();
     }
 </script>
 
@@ -47,58 +60,46 @@
     style:top="{position.top -
         Math.max(0, position.top + (height ?? 0) - window.innerHeight)}px"
 >
-    <table>
-        {#if node && concept}
-            <td colspan="2"
-                ><Speech glyph={concept}
-                    >{$creator.getLocale().ui.header.editing}</Speech
-                ></td
+    <div class="revisions">
+        {#each menu.revisions as revision, itemIndex}
+            {@const [newNode] = revision.getEditedNode($creator.getLanguages())}
+            <!-- Prevent default is to ensure focus isn't lost on editor -->
+            <div
+                class={`revision ${
+                    itemIndex === menu.selection ? 'selected' : ''
+                }`}
+                bind:this={revisionViews[itemIndex]}
+                on:pointerdown|preventDefault|stopPropagation={() =>
+                    handleItemClick(revision)}
             >
-        {/if}
-        {#each menu.transforms as transform, index}
-            {@const [newNode] = transform.getEditedNode(
-                $creator.getLanguages()
-            )}
-            {#if index >= minItem && index <= maxItem}
-                <!-- Prevent default is to ensure focus isn't lost on editor -->
-                <tr
-                    class={`item option ${
-                        index === menu.selection ? 'selected' : ''
-                    }`}
-                    on:pointerdown|preventDefault|stopPropagation={() =>
-                        handleItemClick(transform)}
-                >
-                    <td class="col">
-                        {#if newNode !== undefined}
-                            <!-- If the new parent is a block with more than one statement, show the new node only instead -->
-                            <RootView
-                                node={newNode instanceof Block &&
-                                newNode.statements.length > 1
-                                    ? newNode
-                                    : newNode}
-                                localized
-                            />
-                        {:else}
-                            <em>Remove</em>
-                        {/if}
-                    </td><td class="col"
-                        ><em
-                            ><MarkupHTMLView
-                                markup={transform.getDescription(
-                                    $creator.getLocale()
-                                )}
-                            /></em
-                        ></td
-                    >
-                </tr>
-            {:else if (index === minItem - 1 && minItem > 0) || (index === maxItem + 1 && maxItem < menu.transforms.length - 1)}
-                <tr class="item"><td colspan="2">…</td></tr>
-            {/if}
+                {#if newNode !== undefined}
+                    <RootView
+                        node={newNode instanceof Block &&
+                        newNode.statements.length > 1
+                            ? newNode
+                            : newNode}
+                        localized
+                    />
+                    <!-- If the new parent is a block with more than one statement, show the new node only instead -->
+                {:else}
+                    <em>Remove</em>
+                {/if}
+            </div>
         {:else}
             <!-- Feedback if there are no items.-->
-            <tr><td colspan="2"><center>&mdash;</center></td></tr>
+            &mdash;
         {/each}
-    </table>
+    </div>
+    <div class="details">
+        <Speech glyph={selectedConcept ?? Glyphs.Program} below>
+            <MarkupHTMLView
+                markup={selectedRevision.getDescription($creator.getLocale())}
+            />
+            {#if selectedDocs}
+                <MarkupHTMLView markup={selectedDocs.asFirstParagraph()} />
+            {/if}
+        </Speech>
+    </div>
 </div>
 
 <style>
@@ -110,46 +111,41 @@
         font-size: var(--wordplay-font-size);
         box-shadow: var(--wordplay-border-radius) var(--wordplay-border-radius)
             var(--wordplay-border-radius) 0px var(--wordplay-lightgrey);
-        max-width: 30em;
-        overflow-x: hidden;
+        width: 30em;
+        max-height: 20em;
         border-spacing: 0;
-    }
 
-    table {
-        border-collapse: collapse;
-    }
-
-    td {
-        text-align: left;
-        width: 50%;
-    }
-
-    td {
+        display: flex;
+        flex-direction: row;
+        gap: var(--wordplay-spacing);
         padding: var(--wordplay-spacing);
-        white-space: nowrap;
     }
 
-    .item.header {
-        background-color: var(--wordplay-chrome);
+    .revisions {
+        display: flex;
+        flex-direction: column;
+        gap: var(--wordplay-spacing);
+        overflow-y: scroll;
+        overflow-x: hidden;
+        flex-grow: 1;
     }
 
-    .item.option:hover,
-    .selected {
-        cursor: pointer;
-        background-color: var(--wordplay-highlight);
+    .revision {
+        padding: var(--wordplay-spacing);
+        border-radius: var(--wordplay-border-radius);
     }
 
-    .item.option:hover :global(.token-view),
-    .selected :global(.token-view) {
+    .revision.selected {
+        background: var(--wordplay-highlight);
+    }
+
+    .revision.selected :global(.token-view) {
         color: var(--wordplay-background);
     }
 
-    .item.option:hover td,
-    .selected td {
-        color: var(--wordplay-background);
-    }
-
-    .col:first-child {
-        margin-right: calc(2 * var(--wordplay-spacing));
+    .details {
+        margin-inline-end: auto;
+        width: 15em;
+        overflow-y: scroll;
     }
 </style>

@@ -726,7 +726,7 @@
             "name": "list",
             "description": "$1 item list",
             "emotion": "eager",
-            "doc": "See @List.",
+            "doc": "I'm a @List!",
             "start": "let's evaluate the items first",
             "finish": "I made a me! $1",
             "item": "item"
@@ -735,7 +735,7 @@
             "name": "map",
             "description": "$1 pairing map",
             "emotion": "kind",
-            "doc": "See @Map.",
+            "doc": "I'm a @Map.",
             "start": "let's evaluate the keys and values first",
             "finish": "I connected everyone, $1",
             "conflict": {
@@ -749,7 +749,7 @@
             "name": "number",
             "description": "$1 $2",
             "emotion": "excited",
-            "doc": "See @Number.",
+            "doc": "I'm a @Number.",
             "start": "$1!",
             "conflict": {
                 "NotANumber": "I thought I knew all the numbers, but I don't know this one"
@@ -764,7 +764,7 @@
         "NoneLiteral": {
             "name": "none",
             "emotion": "neutral",
-            "doc": "See @None.",
+            "doc": "I'm @None.",
             "start": "… ø"
         },
         "Previous": {
@@ -899,7 +899,7 @@
             "name": "set",
             "description": "$1 items",
             "emotion": "eager",
-            "doc": "See @Set.",
+            "doc": "I'm a @Set.",
             "start": "let's evaluate the values first!",
             "finish": "I made a set $1!"
         },
@@ -2988,10 +2988,10 @@
         "edit": {
             "before": "before $1",
             "inside": "inside $1",
-            "assign": "$2[add $2|remove $1]",
-            "append": "insert $1",
-            "remove": "remove $1",
-            "replace": "replace with $1[$1|nothing]",
+            "assign": "/$2[Eager to join|Considers leaving]…/",
+            "append": "/Eager to insert…/",
+            "remove": "/Considers leaving…/",
+            "replace": "/Wants to step in…/",
             "wrap": "parentheize",
             "unwrap": "unwrap",
             "bind": "name this expression"

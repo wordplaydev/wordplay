@@ -9,7 +9,7 @@ export default class Menu {
     readonly caret: Caret;
 
     /** The transforms generated from the caret */
-    readonly transforms: Revision[];
+    readonly revisions: Revision[];
 
     /** The currently selected transform */
     readonly selection: number;
@@ -24,7 +24,7 @@ export default class Menu {
         edit: (edit: Edit | undefined) => void
     ) {
         this.caret = caret;
-        this.transforms = transforms;
+        this.revisions = transforms;
         this.selection = selection;
         this.edit = edit;
     }
@@ -32,19 +32,19 @@ export default class Menu {
     withSelection(index: number) {
         return new Menu(
             this.caret,
-            this.transforms,
-            Math.max(0, Math.min(index, this.transforms.length - 1)),
+            this.revisions,
+            Math.max(0, Math.min(index, this.revisions.length - 1)),
             this.edit
         );
     }
 
     down() {
         return this.selection === undefined
-            ? new Menu(this.caret, this.transforms, 0, this.edit)
-            : this.selection < this.transforms.length - 1
+            ? new Menu(this.caret, this.revisions, 0, this.edit)
+            : this.selection < this.revisions.length - 1
             ? new Menu(
                   this.caret,
-                  this.transforms,
+                  this.revisions,
                   this.selection + 1,
                   this.edit
               )
@@ -55,7 +55,7 @@ export default class Menu {
         return this.selection !== undefined && this.selection > 0
             ? new Menu(
                   this.caret,
-                  this.transforms,
+                  this.revisions,
                   this.selection - 1,
                   this.edit
               )
@@ -66,7 +66,7 @@ export default class Menu {
         return this.edit(
             this.selection === undefined
                 ? undefined
-                : (transform ?? this.transforms[this.selection]).getEdit(
+                : (transform ?? this.revisions[this.selection]).getEdit(
                       languages
                   )
         );

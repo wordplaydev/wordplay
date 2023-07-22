@@ -27,6 +27,8 @@
     export let scroll: boolean = true;
     /** Optional emotion */
     export let emotion: Emotion | undefined = undefined;
+    /** Optionally turn off animation */
+    export let emote: boolean = true;
 
     $: renderedEmotion =
         emotion ??
@@ -55,7 +57,9 @@
             <div
                 class="glyphs {symbols.length >= 3
                     ? 'small'
-                    : ''} {renderedEmotion ? `emotion-${renderedEmotion}` : ''}"
+                    : ''} {renderedEmotion && emote
+                    ? `emotion-${renderedEmotion}`
+                    : ''}"
             >
                 {#if glyph instanceof Concept}
                     <ConceptLinkUI link={glyph} label={symbols} />

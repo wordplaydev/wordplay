@@ -107,6 +107,10 @@ export default class Markup extends Content {
               ];
     }
 
+    asFirstParagraph() {
+        return new Markup(this.paragraphs.slice(0, 1), this.spaces);
+    }
+
     toText() {
         return this.paragraphs.map((p) => p.toText()).join('\n\n');
     }

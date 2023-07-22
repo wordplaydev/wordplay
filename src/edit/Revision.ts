@@ -21,7 +21,7 @@ export default abstract class Revision {
     abstract getNewNode(lang: LanguageCode[]): Node | undefined;
 
     /** Gets the added or removed node, and the revised node, which incorporates the new node. May be the same node. Used for the actual edit, but also for previews. */
-    abstract getEditedNode(lang: LanguageCode[]): [Node | undefined, Node];
+    abstract getEditedNode(lang: LanguageCode[]): [Node, Node];
 
     abstract equals(transform: Revision): boolean;
 

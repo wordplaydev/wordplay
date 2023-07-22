@@ -173,6 +173,9 @@ const templates: Node[] = [
     FunctionType.make(undefined, [], TypePlaceholder.make()),
 
     // Values
+    BooleanLiteral.make(true),
+    NumberLiteral.make(0),
+    TextLiteral.make(''),
     Template.make(),
     ListAccess.make(
         ExpressionPlaceholder.make(ListType.make()),

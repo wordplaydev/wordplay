@@ -7,7 +7,6 @@ import Caret from './Caret';
 import type Context from '@nodes/Context';
 import type Locale from '@locale/Locale';
 import concretize from '../locale/concretize';
-import NodeRef from '../locale/NodeRef';
 
 /** Set a field on a child */
 export default class Assign<NodeType extends Node> extends Revision {
@@ -39,9 +38,10 @@ export default class Assign<NodeType extends Node> extends Revision {
             : this.child.getNode(languages);
     }
 
-    getEditedNode(lang: LanguageCode[]): [Node | undefined, Node] {
+    getEditedNode(lang: LanguageCode[]): [Node, Node] {
         const newNode = this.getNewNode(lang);
-        return [newNode, this.parent.replace(this.field, newNode)];
+        const newParent = this.parent.replace(this.field, newNode);
+        return [newNode ?? newParent, newParent];
     }
 
     getEdit(languages: LanguageCode[]): Edit | undefined {
@@ -107,9 +107,7 @@ export default class Assign<NodeType extends Node> extends Revision {
             locale,
             locale.ui.edit.assign,
             this.field,
-            node === undefined
-                ? undefined
-                : new NodeRef(node, locale, this.context)
+            node?.getLabel(locale)
         );
     }
 
