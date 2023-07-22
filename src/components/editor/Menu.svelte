@@ -25,16 +25,19 @@
 
     let index = getConceptIndex();
 
-    $: selectedRevision = menu.revisions[menu.selection];
-    $: selectedNewNode = selectedRevision.getNewNode($creator.getLanguages());
-    $: selectedDefinition =
-        selectedNewNode instanceof Reference
+    $: selectedRevision = menu.revisions[menu.selection] as
+        | Revision
+        | undefined;
+    $: selectedNewNode = selectedRevision?.getNewNode($creator.getLanguages());
+    $: selectedDefinition = selectedRevision
+        ? selectedNewNode instanceof Reference
             ? selectedNewNode.resolve(selectedRevision.context)
             : selectedNewNode instanceof Evaluate ||
               selectedNewNode instanceof BinaryEvaluate ||
               selectedNewNode instanceof UnaryEvaluate
             ? selectedNewNode.getFunction(selectedRevision.context)
-            : undefined;
+            : undefined
+        : undefined;
     $: selectedDocs = selectedConcept?.getDocs($creator.getLocale());
     $: selectedConcept = $index
         ? selectedDefinition
@@ -90,16 +93,20 @@
             &mdash;
         {/each}
     </div>
-    <div class="details">
-        <Speech glyph={selectedConcept ?? Glyphs.Program} below>
-            <MarkupHTMLView
-                markup={selectedRevision.getDescription($creator.getLocale())}
-            />
-            {#if selectedDocs}
-                <MarkupHTMLView markup={selectedDocs.asFirstParagraph()} />
-            {/if}
-        </Speech>
-    </div>
+    {#if selectedRevision}
+        <div class="details">
+            <Speech glyph={selectedConcept ?? Glyphs.Program} below>
+                <MarkupHTMLView
+                    markup={selectedRevision.getDescription(
+                        $creator.getLocale()
+                    )}
+                />
+                {#if selectedDocs}
+                    <MarkupHTMLView markup={selectedDocs.asFirstParagraph()} />
+                {/if}
+            </Speech>
+        </div>
+    {/if}
 </div>
 
 <style>
