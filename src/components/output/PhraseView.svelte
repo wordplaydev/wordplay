@@ -63,7 +63,11 @@
     function restore() {
         if ($editable) {
             if (entered) {
-                if (input && $selectedPhrase && $selectedPhrase.index) {
+                if (
+                    input &&
+                    $selectedPhrase &&
+                    $selectedPhrase.index !== null
+                ) {
                     input.setSelectionRange(
                         $selectedPhrase.index,
                         $selectedPhrase.index
@@ -79,6 +83,7 @@
     async function enter(event: MouseEvent) {
         select(input?.selectionStart ?? 0);
         event.stopPropagation();
+        // Wait for the render and then focus the input.
         await tick();
         input?.focus();
     }
@@ -187,7 +192,10 @@
                 on:input={handleInput}
                 on:keydown|stopPropagation
                 on:pointerdown|stopPropagation
-                style:width="{phrase.getMetrics(context, false).width}px"
+                style:width="{Math.max(
+                    10,
+                    phrase.getMetrics(context, false).width
+                )}px"
             />
         {:else}
             {@html parseRichText(text).toHTML()}
@@ -204,6 +212,8 @@
         white-space: nowrap;
         width: auto;
         right: auto;
+        min-width: 1em;
+        min-height: 1em;
     }
 
     .phrase[data-selectable='true'] {
@@ -240,6 +250,7 @@
             var(--wordplay-focus-width);
         outline: none;
         min-width: 1em;
+        min-height: 1em;
     }
 
     input:focus {
