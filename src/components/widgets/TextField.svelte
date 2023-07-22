@@ -5,7 +5,7 @@
     export let changed: undefined | ((text: string) => void) = undefined;
     export let done: undefined | (() => void) = undefined;
     export let fill: boolean = false;
-    export let input: HTMLInputElement | undefined = undefined;
+    export let view: HTMLInputElement | undefined = undefined;
     export let border: boolean = true;
     export let right: boolean = false;
     export let defaultFocus: boolean = false;
@@ -28,7 +28,7 @@
         class:error={validator ? validator(text) === false : null}
         {placeholder}
         style:width={fill ? null : `${width + 5}px`}
-        bind:this={input}
+        bind:this={view}
         bind:value={text}
         on:input={handleInput}
         on:keydown|stopPropagation

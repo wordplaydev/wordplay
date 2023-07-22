@@ -38,5 +38,5 @@
         : values.values[0].bind.names.getLocaleText($creator.getLanguages())}
     {validator}
     changed={handleChange}
-    bind:input={view}
+    bind:view
 />
