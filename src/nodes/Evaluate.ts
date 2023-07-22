@@ -54,6 +54,7 @@ import { NotAType } from './NotAType';
 import concretize from '../locale/concretize';
 import Symbol from './Symbol';
 import Refer from '../edit/Refer';
+import NativeType from './NativeType';
 
 type Mapping = {
     expected: Bind;
@@ -106,9 +107,25 @@ export default class Evaluate extends Expression {
         selected: boolean,
         context: Context
     ) {
-        // If a node is selected, find the definitions in its scope and create evaluates that provide matching types.
-        return node
-            .getDefinitionsInScope(context)
+        // Given the node the caret has selected or is after, find out
+        // if there's an evaluate on it that we should complete.
+        const scopingType =
+            node instanceof Expression ? node.getType(context) : node;
+        const structure =
+            scopingType instanceof NativeType ||
+            scopingType instanceof StructureDefinitionType;
+        // Get the definitions in the structure type we found,
+        // or in the surrounding scope if there isn't one.
+        const definitions =
+            scopingType instanceof NativeType
+                ? scopingType.getDefinitions(node, context)
+                : scopingType instanceof StructureDefinitionType
+                ? scopingType.structure.getDefinitions(node)
+                : node.getDefinitionsInScope(context);
+        if (structure) type = undefined;
+
+        // Convert the definitions to evaluate suggestions.
+        return definitions
             .filter(
                 (def): def is FunctionDefinition | StructureDefinition =>
                     (def instanceof FunctionDefinition &&
@@ -126,7 +143,13 @@ export default class Evaluate extends Expression {
                 (def) =>
                     new Refer(
                         (name) =>
-                            def.getEvaluateTemplate(name, context, undefined),
+                            def.getEvaluateTemplate(
+                                name,
+                                context,
+                                structure && node instanceof Expression
+                                    ? node
+                                    : undefined
+                            ),
                         def
                     )
             );

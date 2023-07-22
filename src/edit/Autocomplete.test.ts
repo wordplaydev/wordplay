@@ -64,6 +64,7 @@ test.each([
         Replace,
         '"hi" = _•\'\'',
     ],
+    ['suggest binary evalute', `1**`, undefined, Replace, '1 + _•#'],
     [
         'suggest property reference',
         `•Cat(hat•"")\nboomy: Cat("none")\nboomy.**`,
