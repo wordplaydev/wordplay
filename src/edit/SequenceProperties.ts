@@ -3,28 +3,24 @@ import MapLiteral from '../nodes/MapLiteral';
 import NumberLiteral from '../nodes/NumberLiteral';
 import Unit from '../nodes/Unit';
 import { createPoseLiteral } from '../output/Pose';
-import type { Locale, NameText } from '../locale/Locale';
-import type OutputProperty from './OutputProperty';
+import type { Locale } from '../locale/Locale';
+import OutputProperty from './OutputProperty';
 import OutputPropertyRange from './OutputPropertyRange';
 import { getDurationProperty, getStyleProperty } from './TypeOutputProperties';
 import type Project from '../models/Project';
-
-function getLocale(name: NameText) {
-    return typeof name === 'string' ? name : name[0];
-}
 
 export default function getSequenceProperties(
     project: Project,
     locale: Locale
 ): OutputProperty[] {
     return [
-        {
-            name: getLocale(locale.output.Sequence.poses.names),
-            type: 'poses',
-            required: true,
-            inherited: false,
-            editable: (expr) => expr instanceof MapLiteral,
-            create: (languages) =>
+        new OutputProperty(
+            locale.output.Sequence.poses,
+            'poses',
+            true,
+            false,
+            (expr) => expr instanceof MapLiteral,
+            (languages) =>
                 MapLiteral.make([
                     KeyValue.make(
                         NumberLiteral.make('0%'),
@@ -34,17 +30,17 @@ export default function getSequenceProperties(
                         NumberLiteral.make('100%'),
                         createPoseLiteral(project, languages)
                     ),
-                ]),
-        },
+                ])
+        ),
         getDurationProperty(locale),
         getStyleProperty(locale),
-        {
-            name: getLocale(locale.output.Sequence.count.names),
-            type: new OutputPropertyRange(1, 5, 1, 'x', 0),
-            required: false,
-            inherited: false,
-            editable: (expr) => expr instanceof NumberLiteral,
-            create: () => NumberLiteral.make(1, Unit.make(['x'])),
-        },
+        new OutputProperty(
+            locale.output.Sequence.count,
+            new OutputPropertyRange(1, 5, 1, 'x', 0),
+            false,
+            false,
+            (expr) => expr instanceof NumberLiteral,
+            () => NumberLiteral.make(1, Unit.make(['x']))
+        ),
     ];
 }

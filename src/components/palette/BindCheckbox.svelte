@@ -18,7 +18,7 @@
             $project,
             $project.getBindReplacements(
                 values.getExpressions(),
-                property.name,
+                property.getName(),
                 newValue !== undefined
                     ? BooleanLiteral.make(newValue)
                     : undefined

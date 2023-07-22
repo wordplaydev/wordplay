@@ -4,7 +4,7 @@
     // Create a list of hues in the LCH color space from 0 to 360
     function getColors(lightness: number, chroma: number) {
         const values = [];
-        for (let i = 0; i < 360; i += 5) values.push(i);
+        for (let i = 0; i < 360; i += 10) values.push(i);
         return values.map((i) =>
             new ColorJS(ColorJS.spaces.lch, [lightness, chroma, i], 1)
                 .to('srgb')
@@ -39,6 +39,9 @@
 </script>
 
 <script lang="ts">
+    import { creator } from '../../db/Creator';
+    import { getFirstName } from '../../locale/Locale';
+
     /** a degree (any number remainder 360) */
     export let hue: number;
     /** any positive value to infinity */
@@ -48,10 +51,7 @@
     /** A handler */
     export let change: (l: number, c: number, h: number) => void;
 
-    let color: ColorJS;
-    $: {
-        color = new ColorJS(ColorJS.spaces.lch, [lightness, chroma, hue], 1);
-    }
+    $: color = new ColorJS(ColorJS.spaces.lch, [lightness, chroma, hue], 1);
 
     let hueWidth: number | undefined = undefined;
     let hueHeight: number | undefined = undefined;
@@ -103,9 +103,36 @@
             min={0}
             max={100}
             increment={1}
+            tip={getFirstName(
+                $creator.getLocale().output.Color.lightness.names
+            )}
             unit={'%'}
             change={(value) => {
                 lightness = Math.round(value);
+                broadcast();
+            }}
+        />
+        <Slider
+            value={chroma}
+            min={0}
+            max={100}
+            increment={1}
+            unit=""
+            tip={getFirstName($creator.getLocale().output.Color.chroma.names)}
+            change={(value) => {
+                chroma = Math.round(value);
+                broadcast();
+            }}
+        />
+        <Slider
+            value={hue}
+            min={0}
+            max={360}
+            increment={1}
+            unit={'°'}
+            tip={getFirstName($creator.getLocale().output.Color.hue.names)}
+            change={(value) => {
+                hue = Math.round(value);
                 broadcast();
             }}
         />
@@ -124,7 +151,7 @@
 
     .hue {
         flex-grow: 1;
-        height: 2rem;
+        height: 3.5rem;
         border: var(--wordplay-border-width) solid var(--wordplay-border-color);
         display: flex;
         flex-direction: column;
@@ -132,7 +159,7 @@
     }
 
     .slider {
-        width: 40%;
+        width: 50%;
     }
 
     .band {
@@ -153,8 +180,8 @@
 
     .color {
         width: auto;
-        min-width: 2rem;
-        height: 2rem;
+        min-width: 3.5rem;
+        height: 3.5rem;
         border: var(--wordplay-border-width) solid var(--wordplay-border-color);
     }
 </style>

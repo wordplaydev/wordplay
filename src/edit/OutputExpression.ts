@@ -71,6 +71,7 @@ export default class OutputExpression {
 
         // What type of output is this?
         const type = this.getType();
+        const locale = this.project.native.locales[0];
 
         // We handle pose types differently, so we return an empty list here.
         return type === this.project.shares.output.pose
@@ -79,11 +80,11 @@ export default class OutputExpression {
               [
                   // Add output type specific properties first
                   ...(type === this.project.shares.output.phrase
-                      ? getPhraseProperties(this.project.native.locales[0])
+                      ? getPhraseProperties(locale)
                       : type === this.project.shares.output.group
-                      ? getGroupProperties(this.project)
+                      ? getGroupProperties(this.project, locale)
                       : type === this.project.shares.output.stage
-                      ? getStageProperties(this.project)
+                      ? getStageProperties(this.project, locale)
                       : []),
                   ...getTypeOutputProperties(
                       this.project,

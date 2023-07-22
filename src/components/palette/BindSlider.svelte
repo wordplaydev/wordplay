@@ -6,6 +6,7 @@
     import type OutputProperty from '@edit/OutputProperty';
     import { getProject } from '../project/Contexts';
     import { creator } from '../../db/Creator';
+    import { getFirstName } from '../../locale/Locale';
 
     export let property: OutputProperty;
     export let values: OutputPropertyValues;
@@ -21,7 +22,7 @@
             $project,
             $project.getBindReplacements(
                 values.getExpressions(),
-                property.name,
+                getFirstName(property.name.names),
                 parseNumber(toTokens(newValue + range.unit))
             )
         );
@@ -34,6 +35,7 @@
     max={range.max}
     unit={range.unit}
     increment={range.step}
+    tip={getFirstName(property.name.names)}
     change={handleChange}
     precision={range.precision}
 />

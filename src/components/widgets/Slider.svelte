@@ -6,6 +6,7 @@
     export let max: number;
     export let unit: string;
     export let increment: number;
+    export let tip: string;
     export let change: (value: number) => void;
     export let precision: number = 0;
 
@@ -29,6 +30,8 @@
     <input
         class="slider"
         type="range"
+        aria-label={tip}
+        title={tip}
         {min}
         {max}
         step={increment}

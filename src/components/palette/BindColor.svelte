@@ -44,7 +44,7 @@
             $project,
             $project.getBindReplacements(
                 values.getExpressions(),
-                property.name,
+                property.getName(),
                 replacement
             )
         );

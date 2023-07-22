@@ -1,20 +1,22 @@
 import type { NameAndDoc, Template, NameText } from './Locale';
 
+export type TypeTexts = {
+    size: NameAndDoc;
+    family: NameAndDoc;
+    place: NameAndDoc;
+    rotation: NameAndDoc;
+    name: NameAndDoc;
+    selectable: NameAndDoc;
+    enter: NameAndDoc;
+    rest: NameAndDoc;
+    move: NameAndDoc;
+    exit: NameAndDoc;
+    duration: NameAndDoc;
+    style: NameAndDoc;
+};
+
 type OutputTexts = {
-    Type: NameAndDoc & {
-        size: NameAndDoc;
-        family: NameAndDoc;
-        place: NameAndDoc;
-        rotation: NameAndDoc;
-        name: NameAndDoc;
-        selectable: NameAndDoc;
-        enter: NameAndDoc;
-        rest: NameAndDoc;
-        move: NameAndDoc;
-        exit: NameAndDoc;
-        duration: NameAndDoc;
-        style: NameAndDoc;
-    };
+    Type: NameAndDoc & TypeTexts;
     Group: NameAndDoc & {
         content: NameAndDoc;
         layout: NameAndDoc;

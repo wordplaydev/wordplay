@@ -4,14 +4,25 @@ import type OutputPropertyText from './OutputPropertyText';
 import type Expression from '@nodes/Expression';
 import type Context from '@nodes/Context';
 import type LanguageCode from '@locale/LanguageCode';
+import { getFirstName, type NameAndDoc } from '../locale/Locale';
+
+type OutputPropertyType =
+    | OutputPropertyRange
+    | OutputPropertyOptions
+    | OutputPropertyText
+    | 'color'
+    | 'bool'
+    | 'pose'
+    | 'poses'
+    | 'content'
+    | 'place';
 
 /** Represents an editable property on the output expression, with some optional information about valid property values */
-
-type OutputProperty = {
+class OutputProperty {
     /** The internal name of the property, corresponding to bind input names of TypeOutput. */
-    name: string;
+    readonly name: NameAndDoc;
     /** The type of input, roughly corresponding to widgets. */
-    type:
+    readonly type:
         | OutputPropertyRange
         | OutputPropertyOptions
         | OutputPropertyText
@@ -22,13 +33,33 @@ type OutputProperty = {
         | 'content'
         | 'place';
     /** True if the property is required */
-    required: boolean;
+    readonly required: boolean;
     /** True if the property uses the nearest parent's property if unset */
-    inherited: boolean;
+    readonly inherited: boolean;
     /** A function that determines whether an Expression set on the property can be edited using the output editing controls. */
-    editable: (expr: Expression, context: Context) => boolean;
+    readonly editable: (expr: Expression, context: Context) => boolean;
     /** A function that produces an initial value for an unset property */
-    create: (languages: LanguageCode[]) => Expression;
-};
+    readonly create: (languages: LanguageCode[]) => Expression;
+
+    constructor(
+        name: NameAndDoc,
+        type: OutputPropertyType,
+        required: boolean,
+        inherited: boolean,
+        editable: (expr: Expression, context: Context) => boolean,
+        create: (languages: LanguageCode[]) => Expression
+    ) {
+        this.name = name;
+        this.type = type;
+        this.required = required;
+        this.inherited = inherited;
+        this.editable = editable;
+        this.create = create;
+    }
+
+    getName() {
+        return getFirstName(this.name.names);
+    }
+}
 
 export default OutputProperty;

@@ -21,7 +21,7 @@
             $project,
             $project.getBindReplacements(
                 values.getExpressions(),
-                property.name,
+                property.getName(),
                 TextLiteral.make(newValue)
             )
         );

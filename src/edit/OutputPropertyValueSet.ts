@@ -29,7 +29,7 @@ export default class OutputPropertyValueSet {
         this.outputs = outputs;
         this.values = [];
         for (const out of outputs) {
-            const value = out.getPropertyValue(property.name);
+            const value = out.getPropertyValue(property.getName());
             if (value) this.values.push(value);
         }
     }
@@ -162,7 +162,7 @@ export default class OutputPropertyValueSet {
                 this.values
                     .filter((value) => value.given)
                     .map((value) => value.evaluate),
-                this.property.name,
+                this.property.getName(),
                 this.property.required
                     ? this.property.create(languages)
                     : undefined
@@ -178,7 +178,7 @@ export default class OutputPropertyValueSet {
                 this.values
                     .filter((value) => !value.given)
                     .map((value) => value.evaluate),
-                this.property.name,
+                this.property.getName(),
                 this.property.create(languages)
             )
         );

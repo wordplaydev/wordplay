@@ -6,43 +6,43 @@ import TextLiteral from '@nodes/TextLiteral';
 import Unit from '@nodes/Unit';
 import { createPoseLiteral } from '@output/Pose';
 import { DefaultStyle } from '@output/TypeOutput';
-import { getFirstName, type Locale, type NameText } from '@locale/Locale';
-import type OutputProperty from './OutputProperty';
+import OutputProperty from './OutputProperty';
 import OutputPropertyText from './OutputPropertyText';
 import OutputPropertyOptions from './OutputPropertyOptions';
 import OutputPropertyRange from './OutputPropertyRange';
 import Reference from '../nodes/Reference';
 import type Project from '../models/Project';
+import type { Locale, NameAndDoc, NameText } from '../locale/Locale';
 
-function getPoseProperty(project: Project, name: string): OutputProperty {
-    return {
-        name: getFirstName(name),
-        type: 'pose',
-        required: false,
-        inherited: false,
-        editable: (expr, context) =>
+function getPoseProperty(project: Project, name: NameAndDoc): OutputProperty {
+    return new OutputProperty(
+        name,
+        'pose',
+        false,
+        false,
+        (expr, context) =>
             expr instanceof Evaluate &&
             (expr.is(project.shares.output.pose, context) ||
                 expr.is(project.shares.output.sequence, context)),
-        create: (languages) => createPoseLiteral(project, languages),
-    };
+        (languages) => createPoseLiteral(project, languages)
+    );
 }
 
 export function getDurationProperty(locale: Locale): OutputProperty {
-    return {
-        name: getFirstName(locale.output.Type.duration.names),
-        type: new OutputPropertyRange(0, 2, 0.25, 's', 2),
-        required: false,
-        inherited: false,
-        editable: (expr) => expr instanceof NumberLiteral,
-        create: () => NumberLiteral.make(0.25, Unit.make(['s'])),
-    };
+    return new OutputProperty(
+        locale.output.Type.duration,
+        new OutputPropertyRange(0, 2, 0.25, 's', 2),
+        false,
+        false,
+        (expr) => expr instanceof NumberLiteral,
+        () => NumberLiteral.make(0.25, Unit.make(['s']))
+    );
 }
 
 export function getStyleProperty(locale: Locale): OutputProperty {
-    return {
-        name: getFirstName(locale.output.Type.style.names),
-        type: new OutputPropertyOptions(
+    return new OutputProperty(
+        locale.output.Type.style,
+        new OutputPropertyOptions(
             Object.values(locale.output.Easing).reduce(
                 (all: string[], next: NameText) => [
                     ...all,
@@ -57,11 +57,11 @@ export function getStyleProperty(locale: Locale): OutputProperty {
                     ? expression.getValue().text
                     : undefined
         ),
-        required: false,
-        inherited: false,
-        editable: (expr) => expr instanceof TextLiteral,
-        create: () => TextLiteral.make(DefaultStyle),
-    };
+        false,
+        false,
+        (expr) => expr instanceof TextLiteral,
+        () => TextLiteral.make(DefaultStyle)
+    );
 }
 
 // All output has these properties.
@@ -70,17 +70,17 @@ export default function getTypeOutputProperties(
     locale: Locale
 ): OutputProperty[] {
     return [
-        {
-            name: getFirstName(locale.output.Type.size.names),
-            type: new OutputPropertyRange(0.25, 32, 0.25, 'm'),
-            required: false,
-            inherited: true,
-            editable: (expr) => expr instanceof NumberLiteral,
-            create: () => NumberLiteral.make(1, Unit.make(['m'])),
-        },
-        {
-            name: getFirstName(locale.output.Type.family.names),
-            type: new OutputPropertyOptions(
+        new OutputProperty(
+            locale.output.Type.size,
+            new OutputPropertyRange(0.25, 32, 0.25, 'm'),
+            false,
+            true,
+            (expr) => expr instanceof NumberLiteral,
+            () => NumberLiteral.make(1, Unit.make(['m']))
+        ),
+        new OutputProperty(
+            locale.output.Type.family,
+            new OutputPropertyOptions(
                 [...SupportedFonts.map((font) => font.name)],
                 true,
                 (text: string) => TextLiteral.make(text),
@@ -89,20 +89,20 @@ export default function getTypeOutputProperties(
                         ? expression.getValue().text
                         : undefined
             ),
-            required: false,
-            inherited: true,
-            editable: (expr) => expr instanceof TextLiteral,
-            create: () => TextLiteral.make('Noto Sans'),
-        },
-        {
-            name: getFirstName(locale.output.Type.place.names),
-            type: 'place',
-            required: false,
-            inherited: false,
-            editable: (expr, context) =>
+            false,
+            true,
+            (expr) => expr instanceof TextLiteral,
+            () => TextLiteral.make('Noto Sans')
+        ),
+        new OutputProperty(
+            locale.output.Type.place,
+            'place',
+            false,
+            false,
+            (expr, context) =>
                 expr instanceof Evaluate &&
                 expr.is(project.shares.output.place, context),
-            create: (languages) =>
+            (languages) =>
                 Evaluate.make(
                     Reference.make(
                         project.shares.output.place.names.getLocaleText(
@@ -111,29 +111,29 @@ export default function getTypeOutputProperties(
                         project.shares.output.place
                     ),
                     []
-                ),
-        },
-        {
-            name: getFirstName(locale.output.Type.rotation.names),
-            type: new OutputPropertyRange(0, 360, 1, '°'),
-            required: false,
-            inherited: false,
-            editable: (expr) => expr instanceof NumberLiteral,
-            create: () => NumberLiteral.make(0, Unit.make(['°'])),
-        },
+                )
+        ),
+        new OutputProperty(
+            locale.output.Type.rotation,
+            new OutputPropertyRange(0, 360, 1, '°'),
+            false,
+            false,
+            (expr) => expr instanceof NumberLiteral,
+            () => NumberLiteral.make(0, Unit.make(['°']))
+        ),
         getDurationProperty(locale),
         getStyleProperty(locale),
-        {
-            name: getFirstName(locale.output.Type.name.names),
-            type: new OutputPropertyText(() => true),
-            required: false,
-            inherited: false,
-            editable: (expr) => expr instanceof TextLiteral,
-            create: () => TextLiteral.make(''),
-        },
-        getPoseProperty(project, getFirstName(locale.output.Type.enter.names)),
-        getPoseProperty(project, getFirstName(locale.output.Type.rest.names)),
-        getPoseProperty(project, getFirstName(locale.output.Type.move.names)),
-        getPoseProperty(project, getFirstName(locale.output.Type.exit.names)),
+        new OutputProperty(
+            locale.output.Type.name,
+            new OutputPropertyText(() => true),
+            false,
+            false,
+            (expr) => expr instanceof TextLiteral,
+            () => TextLiteral.make('')
+        ),
+        getPoseProperty(project, locale.output.Type.enter),
+        getPoseProperty(project, locale.output.Type.rest),
+        getPoseProperty(project, locale.output.Type.move),
+        getPoseProperty(project, locale.output.Type.exit),
     ];
 }

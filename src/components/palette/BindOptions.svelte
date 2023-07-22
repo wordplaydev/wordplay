@@ -19,7 +19,7 @@
             $project,
             $project.getBindReplacements(
                 values.getExpressions(),
-                property.name,
+                property.getName(),
                 newValue ? options.fromText(newValue) : undefined
             )
         );

@@ -1,16 +1,20 @@
+import type Locale from '../locale/Locale';
 import type Project from '../models/Project';
 import Evaluate from '../nodes/Evaluate';
 import type Expression from '../nodes/Expression';
 import ListLiteral from '../nodes/ListLiteral';
 import Reference from '../nodes/Reference';
-import type OutputProperty from './OutputProperty';
+import OutputProperty from './OutputProperty';
 import OutputPropertyOptions from './OutputPropertyOptions';
 
-export default function getGroupProperties(project: Project): OutputProperty[] {
+export default function getGroupProperties(
+    project: Project,
+    locale: Locale
+): OutputProperty[] {
     return [
-        {
-            name: 'layout',
-            type: new OutputPropertyOptions(
+        new OutputProperty(
+            locale.output.Group.layout,
+            new OutputPropertyOptions(
                 [project.shares.output.row, project.shares.output.stack].map(
                     (type) => `${type.names.getNames()[0]}`
                 ),
@@ -21,10 +25,10 @@ export default function getGroupProperties(project: Project): OutputProperty[] {
                         ? expression.fun.toWordplay()
                         : undefined
             ),
-            required: true,
-            inherited: false,
-            editable: () => true,
-            create: (languages) =>
+            true,
+            false,
+            () => true,
+            (languages) =>
                 Evaluate.make(
                     Reference.make(
                         project.shares.output.stack.names.getLocaleText(
@@ -33,15 +37,15 @@ export default function getGroupProperties(project: Project): OutputProperty[] {
                         project.shares.output.stack
                     ),
                     []
-                ),
-        },
-        {
-            name: 'content',
-            type: 'content',
-            required: true,
-            inherited: false,
-            editable: (expr) => expr instanceof ListLiteral,
-            create: () => ListLiteral.make([]),
-        },
+                )
+        ),
+        new OutputProperty(
+            locale.output.Group.content,
+            'content',
+            true,
+            false,
+            (expr) => expr instanceof ListLiteral,
+            () => ListLiteral.make([])
+        ),
     ];
 }
