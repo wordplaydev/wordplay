@@ -56,7 +56,7 @@
             >
         {/if}
         {#each menu.transforms as transform, index}
-            {@const [newNode, newParent] = transform.getEditedNode(
+            {@const [newNode] = transform.getEditedNode(
                 $creator.getLanguages()
             )}
             {#if index >= minItem && index <= maxItem}
@@ -72,10 +72,10 @@
                         {#if newNode !== undefined}
                             <!-- If the new parent is a block with more than one statement, show the new node only instead -->
                             <RootView
-                                node={newParent instanceof Block &&
-                                newParent.statements.length > 1
+                                node={newNode instanceof Block &&
+                                newNode.statements.length > 1
                                     ? newNode
-                                    : newParent}
+                                    : newNode}
                                 localized
                             />
                         {:else}
