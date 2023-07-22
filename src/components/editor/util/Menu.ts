@@ -6,25 +6,25 @@ import type { Edit } from './Commands';
 /** An immutable container for menu state. */
 export default class Menu {
     /** The caret at which the menu was generated. */
-    readonly caret: Caret;
+    private readonly caret: Caret;
 
     /** The transforms generated from the caret */
-    readonly revisions: Revision[];
+    private readonly revisions: Revision[];
 
     /** The currently selected transform */
-    readonly selection: number;
+    private readonly selection: number;
 
     /** The function to call to perform the edit */
-    readonly edit: (edit: Edit | undefined) => void;
+    private readonly edit: (edit: Edit | undefined) => void;
 
     constructor(
         caret: Caret,
-        transforms: Revision[],
+        revisions: Revision[],
         selection: number,
         edit: (edit: Edit | undefined) => void
     ) {
         this.caret = caret;
-        this.revisions = transforms;
+        this.revisions = revisions;
         this.selection = selection;
         this.edit = edit;
     }
@@ -36,6 +36,34 @@ export default class Menu {
             Math.max(0, Math.min(index, this.revisions.length - 1)),
             this.edit
         );
+    }
+
+    getCaret(): Caret {
+        return this.caret;
+    }
+
+    getRevisions(): Revision[] {
+        return this.revisions;
+    }
+
+    /** Whether there is a selection */
+    hasSelection(): boolean {
+        return this.getSelection() !== undefined;
+    }
+
+    /** The current selection, if there is one. */
+    getSelection(): Revision | undefined {
+        return this.revisions[this.selection];
+    }
+
+    /** Get a unique identifier for the selection, for use by a UI */
+    getSelectionID() {
+        return this.selection;
+    }
+
+    /** The number of revisions in the menu. */
+    size() {
+        return this.revisions.length;
     }
 
     down() {

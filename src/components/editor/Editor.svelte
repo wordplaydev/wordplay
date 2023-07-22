@@ -988,11 +988,7 @@
                 hideMenu();
                 event.stopPropagation();
                 return;
-            } else if (
-                event.key === 'Enter' &&
-                menu.selection !== undefined &&
-                menu.revisions.length > 0
-            ) {
+            } else if (event.key === 'Enter' && menu.hasSelection()) {
                 menu.doEdit($creator.getLanguages());
                 hideMenu();
                 return;

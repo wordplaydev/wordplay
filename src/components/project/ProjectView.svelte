@@ -616,7 +616,7 @@
     $: {
         if (menu) {
             // Find the tile corresponding to the menu's source file.
-            const index = project.getSources().indexOf(menu.caret.source);
+            const index = project.getSources().indexOf(menu.getCaret().source);
             const tile = layout.tiles.find(
                 (tile) => tile.id === Layout.getSourceID(index)
             );
@@ -625,7 +625,7 @@
     }
 
     /** When the menu changes, compute a menu position. */
-    $: menuPosition = menu ? getMenuPosition(menu.caret) : undefined;
+    $: menuPosition = menu ? getMenuPosition(menu.getCaret()) : undefined;
 
     /** Before each update, note which tile has focus */
     let focusedTileID: string | undefined = undefined;

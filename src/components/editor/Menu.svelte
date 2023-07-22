@@ -33,9 +33,7 @@
 
     let index = getConceptIndex();
 
-    $: selectedRevision = menu.revisions[menu.selection] as
-        | Revision
-        | undefined;
+    $: selectedRevision = menu.getSelection();
     $: selectedNewNode = selectedRevision?.getNewNode($creator.getLanguages());
     $: selectedDefinition = selectedRevision
         ? selectedNewNode instanceof Reference
@@ -57,7 +55,7 @@
 
     let revisionViews: HTMLElement[] = [];
     $: {
-        const view = revisionViews[menu.selection];
+        const view = revisionViews[menu.getSelectionID()];
         if (view) view.scrollIntoView();
     }
 </script>
@@ -70,12 +68,12 @@
     style:top="{menuTop}px"
 >
     <div class="revisions">
-        {#each menu.revisions as revision, itemIndex}
+        {#each menu.getRevisions() as revision, itemIndex}
             {@const [newNode] = revision.getEditedNode($creator.getLanguages())}
             <!-- Prevent default is to ensure focus isn't lost on editor -->
             <div
                 class={`revision ${
-                    itemIndex === menu.selection ? 'selected' : ''
+                    itemIndex === menu.getSelectionID() ? 'selected' : ''
                 }`}
                 bind:this={revisionViews[itemIndex]}
                 on:pointerdown|preventDefault|stopPropagation={() =>
