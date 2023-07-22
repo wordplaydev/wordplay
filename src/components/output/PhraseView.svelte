@@ -9,7 +9,7 @@
     import Pose from '@output/Pose';
     import Evaluate from '@nodes/Evaluate';
     import TextLiteral from '@nodes/TextLiteral';
-    import { getContext, onMount } from 'svelte';
+    import { getContext, onMount, tick } from 'svelte';
     import type { Writable } from 'svelte/store';
     import moveOutput from '../palette/editOutput';
     import {
@@ -76,9 +76,11 @@
         }
     }
 
-    function enter(event: MouseEvent) {
+    async function enter(event: MouseEvent) {
         select(input?.selectionStart ?? 0);
         event.stopPropagation();
+        await tick();
+        input?.focus();
     }
 
     function select(index: number | null) {
@@ -178,7 +180,6 @@
         )}
     >
         {#if entered}
-            <!-- svelte-ignore a11y-autofocus -->
             <input
                 type="text"
                 bind:value={text}
@@ -187,7 +188,6 @@
                 on:keydown|stopPropagation
                 on:pointerdown|stopPropagation
                 style:width="{phrase.getMetrics(context, false).width}px"
-                autofocus
             />
         {:else}
             {@html parseRichText(text).toHTML()}
@@ -222,11 +222,6 @@
         outline: var(--wordplay-border-width) dotted var(--wordplay-highlight);
     }
 
-    :not(.selected):focus {
-        outline: none;
-        color: var(--wordplay-highlight);
-    }
-
     :global(.verse.editing.interactive) :not(.selected) {
         outline: var(--wordplay-border-width) dotted
             var(--wordplay-inactive-color);
@@ -245,5 +240,9 @@
             var(--wordplay-focus-width);
         outline: none;
         min-width: 1em;
+    }
+
+    input:focus {
+        color: inherit;
     }
 </style>
