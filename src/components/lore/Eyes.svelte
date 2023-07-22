@@ -26,6 +26,8 @@
 </script>
 
 <script lang="ts">
+    import { onDestroy } from 'svelte';
+
     import { creator } from '../../db/Creator';
     import type Emotion from '../../lore/Emotion';
 
@@ -34,6 +36,9 @@
 
     let left: HTMLElement | null;
     let right: HTMLElement | null;
+
+    let animationLeft: Animation | undefined = undefined;
+    let animationRight: Animation | undefined = undefined;
 
     function animateEye(eye: HTMLElement, delay: number) {
         if ($creator.getAnimationFactor() > 0)
@@ -59,10 +64,27 @@
             offset = Math.round(Math.random() * 4 - 2);
             gaze = Math.round(Math.random() * 50);
             const delay = getRandomDelay();
-            const animation = animateEye(left, delay);
-            animateEye(right, delay);
-            if (animation) animation.onfinish = () => animateEyes();
+
+            // Existing animation? Cancel it.
+            cancelAnimations();
+
+            // Create a new one.
+            animationLeft = animateEye(left, delay);
+            animationRight = animateEye(right, delay);
+
+            // Recursively start a new animation when the left eye is done.
+            if (animationLeft) animationLeft.onfinish = () => animateEyes();
         }
+    }
+
+    onDestroy(() => {
+        cancelAnimations();
+    });
+
+    function cancelAnimations() {
+        console.log('Cancel');
+        if (animationLeft) animationLeft.cancel();
+        if (animationRight) animationRight.cancel();
     }
 
     let offset = 0;
