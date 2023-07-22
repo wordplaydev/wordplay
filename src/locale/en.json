@@ -2930,7 +2930,9 @@
             "expandCode": "expand this collapsed code",
             "increment": "increase value by 1",
             "decrement": "decrease value by 1",
-            "addInput": "add this input"
+            "addInput": "add this input",
+            "menu": "autocomplete menu; choose an edit or submenu of edits",
+            "menuBack": "leave submenu"
         },
         "prompt": { "deleteSource": "delete", "deleteProject": "delete" },
         "labels": {

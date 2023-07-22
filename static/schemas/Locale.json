@@ -5188,6 +5188,14 @@
                   "description": "The up arrow that appears next to numbers, text, and booleans",
                   "type": "string"
                 },
+                "menu": {
+                  "description": "How to describe the autocomplete menu",
+                  "type": "string"
+                },
+                "menuBack": {
+                  "description": "How to describe the autocomplete back button for leaving the submenu",
+                  "type": "string"
+                },
                 "moveContentDown": {
                   "type": "string"
                 },
@@ -5335,7 +5343,9 @@
                 "expandCode",
                 "increment",
                 "decrement",
-                "addInput"
+                "addInput",
+                "menu",
+                "menuBack"
               ],
               "type": "object"
             }

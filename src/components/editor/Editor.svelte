@@ -84,6 +84,9 @@
     // Managed here but displayed by the project to allow it to escape the editor view.
     export let menu: Menu | undefined = undefined;
 
+    // When the menu changes to undefined, focus back on this source.
+    $: if (menu === undefined) focusHiddenTextField();
+
     const selectedOutput = getSelectedOutput();
     const selectedOutputPaths = getSelectedOutputPaths();
     const evaluation = getEvaluation();
@@ -1001,36 +1004,6 @@
         // Assume we'll handle it.
         lastKeyDownIgnored = false;
 
-        if (menu !== undefined) {
-            if (event.key === 'ArrowDown') {
-                menu = menu.down();
-                event.stopPropagation();
-                return;
-            } else if (event.key === 'ArrowUp') {
-                menu = menu.up();
-                event.stopPropagation();
-                return;
-            }
-            if (event.key === 'ArrowLeft' || event.key === 'Backspace') {
-                menu = menu.out();
-                event.stopPropagation();
-                return;
-            } else if (event.key === 'ArrowRight') {
-                menu = menu.in();
-                event.stopPropagation();
-                return;
-            } else if (event.key === 'Escape') {
-                hideMenu();
-                event.stopPropagation();
-                return;
-            } else if (event.key === 'Enter') {
-                if (menu.doEdit($creator.getLanguages(), menu.getSelection()))
-                    hideMenu();
-                event.stopPropagation();
-                return;
-            }
-        }
-
         if (
             event.key === ' ' &&
             ($caret.isNode() || ($caret.isIndex() && event.shiftKey))
@@ -1387,7 +1360,7 @@
                           $creator.getLocale(),
                           $creator.getLocale().ui.edit.before,
                           source.code.at($caret.position) ?? ''
-                      )
+                      ).toText()
                     : $caret.tokenIncludingSpace
                     ? concretize(
                           $creator.getLocale(),
@@ -1401,7 +1374,7 @@
                                   )
                               )
                               .toText()
-                      )
+                      ).toText()
                     : ''}</div
             ></div
         >

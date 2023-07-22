@@ -156,6 +156,10 @@ export default class Menu {
             : undefined;
     }
 
+    getSelectionIndex() {
+        return this.selection;
+    }
+
     /** Get a unique identifier for the selection, for use by a UI */
     getSelectionID() {
         const [index, subindex] = this.selection;

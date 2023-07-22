@@ -620,8 +620,13 @@
             const tile = layout.tiles.find(
                 (tile) => tile.id === Layout.getSourceID(index)
             );
-            if (tile && tile.isCollapsed()) menu = undefined;
+            if (tile && tile.isCollapsed()) hideMenu();
         }
+    }
+
+    function hideMenu() {
+        // Hide the menu
+        menu = undefined;
     }
 
     /** When the menu changes, compute a menu position. */
@@ -1206,7 +1211,7 @@
 
         <!-- Render the menu on top of the annotations -->
         {#if menu && menuPosition}
-            <Menu {menu} position={menuPosition} />
+            <Menu bind:menu hide={hideMenu} position={menuPosition} />
         {/if}
 
         <!-- Render the dragged node over the whole project -->

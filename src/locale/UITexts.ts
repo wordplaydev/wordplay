@@ -80,6 +80,10 @@ type UITexts = {
         decrement: string;
         /** The next input shown in evaluate expressions that, when clicked, add a placeholder */
         addInput: string;
+        /** How to describe the autocomplete menu */
+        menu: string;
+        /** How to describe the autocomplete back button for leaving the submenu */
+        menuBack: string;
     };
     prompt: {
         deleteSource: string;

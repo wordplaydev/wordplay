@@ -1593,7 +1593,9 @@
             "expandCode": "$?",
             "increment": "$?",
             "decrement": "$?",
-            "addInput": "$?"
+            "addInput": "$?",
+            "menu": "$?",
+            "menuBack": "$?"
         },
         "prompt": { "deleteSource": "$?", "deleteProject": "$?" },
         "labels": {

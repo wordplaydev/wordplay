@@ -10,8 +10,11 @@
     import Glyphs from '../../lore/Glyphs';
     import { RevisionSet } from './util/Menu';
     import concretize from '../../locale/concretize';
+    import Token from '../../nodes/Token';
 
     export let menu: Menu;
+    /* What to run when hiding the menu */
+    export let hide: () => void;
     /* The ideal position for the menu, adjusted based on viewport below. */
     export let position: { left: number; top: number };
 
@@ -42,10 +45,66 @@
             ? $index.getRelevantConcept(selectedNewNode)
             : undefined;
 
+    /* When the selection changes, scroll it's corresponding view and focus it. */
     let revisionViews: HTMLElement[] = [];
     $: {
         const view = revisionViews[menu.getSelectionID()];
-        if (view) view.scrollIntoView();
+        if (view) {
+            view.scrollIntoView();
+            if (view !== document.activeElement) view.focus();
+        }
+    }
+
+    function handleKey(event: KeyboardEvent) {
+        if (event.key === 'ArrowDown') {
+            menu = menu.down();
+            event.stopPropagation();
+            return;
+        } else if (event.key === 'ArrowUp') {
+            menu = menu.up();
+            event.stopPropagation();
+            return;
+        }
+        if (event.key === 'ArrowLeft' || event.key === 'Backspace') {
+            menu = menu.out();
+            event.stopPropagation();
+            return;
+        } else if (event.key === 'ArrowRight') {
+            menu = menu.in();
+            event.stopPropagation();
+            return;
+        } else if (event.key === 'Escape') {
+            if (menu.inSubmenu()) menu = menu.out();
+            else hide();
+            event.stopPropagation();
+            return;
+        } else if (event.key === 'Enter' || event.key === ' ') {
+            if (menu.doEdit($creator.getLanguages(), menu.getSelection()))
+                hide();
+            event.stopPropagation();
+            event.preventDefault();
+            return;
+        } else {
+            // Find the first visible revision that has a token that starts with the letter.
+            const match = menu.getRevisionList().findIndex((revision) =>
+                revision instanceof Revision
+                    ? revision
+                          .getEditedNode($creator.getLanguages())[0]
+                          .nodes()
+                          .some(
+                              (node) =>
+                                  node instanceof Token &&
+                                  node.getText().startsWith(event.key)
+                          )
+                    : $creator
+                          .getLocale()
+                          .term[revision.purpose].startsWith(event.key)
+            );
+            if (match)
+                menu = menu.inSubmenu()
+                    ? menu.withSelection([menu.getSelectionIndex()[0], match])
+                    : menu.withSelection([match, undefined]);
+        }
     }
 </script>
 
@@ -56,17 +115,45 @@
     style:left="{menuLeft}px"
     style:top="{menuTop}px"
 >
-    <div class="revisions">
+    <div
+        class="revisions"
+        role="menu"
+        tabindex="-1"
+        aria-orientation="vertical"
+        aria-label={$creator.getLocale().ui.tooltip.menu}
+        aria-activedescendant="menuitem-{menu.inSubmenu()
+            ? menu.getSelectionIndex()[1]
+            : menu.getSelectionIndex()[0]}"
+        on:keydown={handleKey}
+    >
         {#if menu.inSubmenu()}
             <div
+                role="menuitem"
                 class="revision"
+                tabindex="-1"
+                id="menuitem--1"
+                aria-label={$creator.getLocale().ui.tooltip.menuBack}
                 class:selected={menu.onBack()}
+                bind:this={revisionViews[-1]}
                 on:pointerdown|preventDefault|stopPropagation={() =>
                     handleItemClick(undefined)}>←</div
             >
         {/if}
         {#each menu.getRevisionList() as entry, itemIndex}
             <div
+                role="menuitem"
+                tabindex="-1"
+                id="menuitem-{itemIndex}"
+                aria-label={entry instanceof Revision
+                    ? entry
+                          .getEditedNode($creator.getLanguages())[0]
+                          .getDescription(
+                              concretize,
+                              $creator.getLocale(),
+                              entry.context
+                          )
+                          .toText()
+                    : $creator.getLocale().term[entry.purpose]}
                 class={`revision ${
                     itemIndex === menu.getSelectionID() ? 'selected' : ''
                 } ${entry instanceof RevisionSet ? 'submenu' : ''}`}
@@ -168,6 +255,10 @@
         flex-direction: row;
         gap: var(--wordplay-spacing);
         padding: var(--wordplay-spacing);
+    }
+
+    .menu:focus-within {
+        outline: var(--wordplay-highlight) solid var(--wordplay-focus-width);
     }
 
     .revisions {
