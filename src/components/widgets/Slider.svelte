@@ -29,7 +29,6 @@
         {max}
         step={increment}
         bind:value
-        on:pointerdown|stopPropagation
         on:input={handleChange}
     />
     <div class="text">
@@ -50,7 +49,7 @@
         flex-direction: row;
         gap: var(--wordplay-spacing);
         align-items: center;
-        height: 2em;
+        height: 1em;
         width: 100%;
     }
 
@@ -66,7 +65,9 @@
     }
 
     input[type='range'] {
-        height: auto;
+        height: 1em;
+        border: var(--wordplay-border-color) solid var(--wordplay-border-width);
+        border-radius: var(--wordplay-border-radius);
         margin: 0 0;
         /* width: 5em; */
         background: none;
@@ -81,12 +82,12 @@
     }
 
     input[type='range']::-webkit-slider-runnable-track {
-        background: var(--wordplay-border-color);
+        background: none;
         height: var(--wordplay-border-width);
     }
 
     input[type='range']::-moz-range-track {
-        background: var(--wordplay-border-color);
+        background: none;
         height: var(--wordplay-border-width);
     }
 
@@ -94,7 +95,7 @@
         -webkit-appearance: none;
         height: 1em;
         width: 1em;
-        margin-top: -0.4em;
+        margin-top: -0.45em;
         background: var(--wordplay-foreground);
         border-radius: 50%;
     }
@@ -106,7 +107,7 @@
     input[type='range']::-moz-range-thumb {
         height: 1em;
         width: 1em;
-        margin-top: -0.4em;
+        margin-top: -0.45em;
         background: var(--wordplay-foreground);
         border-radius: 50%;
     }
