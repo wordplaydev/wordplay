@@ -5232,6 +5232,9 @@
                 "insertConvertSymbol": {
                   "type": "string"
                 },
+                "insertDegreeSymbol": {
+                  "type": "string"
+                },
                 "insertFalseSymbol": {
                   "type": "string"
                 },
@@ -5247,6 +5250,9 @@
                 "insertLineBreak": {
                   "type": "string"
                 },
+                "insertNoneSymbol": {
+                  "type": "string"
+                },
                 "insertNotEqualSymbol": {
                   "type": "string"
                 },
@@ -5258,6 +5264,9 @@
                 },
                 "insertStreamSymbol": {
                   "type": "string"
+                },
+                "insertSymbol": {
+                  "$ref": "#/definitions/Template"
                 },
                 "insertTrueSymbol": {
                   "type": "string"
@@ -5448,16 +5457,19 @@
                 "selectAll",
                 "incrementLiteral",
                 "decrementLiteral",
-                "insertStreamSymbol",
-                "insertConvertSymbol",
+                "insertSymbol",
                 "insertTrueSymbol",
                 "insertFalseSymbol",
+                "insertNoneSymbol",
                 "insertNotEqualSymbol",
                 "insertProductSymbol",
                 "insertQuotientSymbol",
+                "insertDegreeSymbol",
                 "insertFunctionSymbol",
                 "insertLessThanOrEqualSymbol",
                 "insertGreaterThanOrEqualSymbol",
+                "insertStreamSymbol",
+                "insertConvertSymbol",
                 "insertLineBreak",
                 "backspace",
                 "copy",

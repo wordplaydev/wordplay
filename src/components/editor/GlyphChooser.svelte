@@ -1,47 +1,28 @@
 <script lang="ts">
-    import type Source from '../../nodes/Source';
-    import {
-        CHANGE_SYMBOL,
-        CONVERT_SYMBOL,
-        DEGREE_SYMBOL,
-        ETC_SYMBOL,
-        EXAMPLE_CLOSE_SYMBOL,
-        EXAMPLE_OPEN_SYMBOL,
-        FALSE_SYMBOL,
-        FUNCTION_SYMBOL,
-        NONE_SYMBOL,
-        PRODUCT_SYMBOL,
-        QUOTIENT_SYMBOL,
-        TRUE_SYMBOL,
-        TYPE_SYMBOL,
-    } from '../../parser/Symbols';
     import { tokenize } from '../../parser/Tokenizer';
     import { getUnicodeNamed as getUnicodeWithNameText } from '../../unicode/Unicode';
-    import { getInsertions } from '../project/Contexts';
+    import { IdleKind, getEditors } from '../project/Contexts';
     import Button from '../widgets/Button.svelte';
     import TextField from '../widgets/TextField.svelte';
     import TokenView from './TokenView.svelte';
     import { creator } from '../../db/Creator';
+    import Commands, { Category } from './util/Commands';
+    import CommandButton from '../widgets/CommandButton.svelte';
+    import concretize from '../../locale/concretize';
 
-    export let source: Source;
+    export let sourceID: string;
 
-    const Defaults = [
-        FUNCTION_SYMBOL,
-        TYPE_SYMBOL,
-        TRUE_SYMBOL,
-        FALSE_SYMBOL,
-        NONE_SYMBOL,
-        PRODUCT_SYMBOL,
-        QUOTIENT_SYMBOL,
-        CONVERT_SYMBOL,
-        ETC_SYMBOL,
-        CHANGE_SYMBOL,
-        DEGREE_SYMBOL,
-        EXAMPLE_OPEN_SYMBOL,
-        EXAMPLE_CLOSE_SYMBOL,
-    ];
+    const Defaults = Commands.filter(
+        (command) => command.category === Category.Insert
+    );
+    // [
+    //     CHANGE_SYMBOL,
+    //     DEGREE_SYMBOL,
+    //     EXAMPLE_OPEN_SYMBOL,
+    //     EXAMPLE_CLOSE_SYMBOL,
+    // ];
 
-    const insertions = getInsertions();
+    const editors = getEditors();
 
     let expanded = false;
     let query = '';
@@ -53,11 +34,9 @@
               );
 
     function insert(glyph: string) {
-        const map = $insertions;
-        if (map && insertions) {
-            const newMap = new Map(map);
-            newMap.set(source, glyph);
-            insertions.set(newMap);
+        const editor = $editors?.get(sourceID);
+        if (editor) {
+            editor.edit(editor.caret.insert(glyph), IdleKind.Typing);
         }
     }
 </script>
@@ -65,18 +44,22 @@
 <section class:expanded class="directory" data-uiid="directory">
     <TextField placeholder="🔍" bind:text={query} />
     <div class="matches">
-        {#each query === '' ? Defaults : results as glyph}<span
-                class="glyph"
-                role="button"
-                tabindex="0"
-                on:keydown={(event) =>
-                    event.key === ' ' || event.key === 'Enter'
-                        ? insert(glyph)
-                        : undefined}
-                on:pointerdown|preventDefault|stopPropagation={(event) =>
-                    insert(glyph)}
-                ><TokenView node={tokenize(glyph).getTokens()[0]} /></span
-            >{:else}&mdash;{/each}
+        {#if query === ''}
+            {#each Defaults as command}<CommandButton
+                    {sourceID}
+                    {command}
+                />{/each}
+        {:else}
+            {#each results as glyph}<Button
+                    tip={concretize(
+                        $creator.getLocale(),
+                        $creator.getLocale().ui.tooltip.insertSymbol,
+                        glyph
+                    ).toText()}
+                    action={() => insert(glyph)}
+                    ><TokenView node={tokenize(glyph).getTokens()[0]} /></Button
+                >{:else}&mdash;{/each}
+        {/if}
     </div>
     <Button
         tip={$creator.getLocale().ui.tooltip.chooserExpand}
@@ -115,11 +98,5 @@
         overflow-y: scroll;
         flex-wrap: wrap;
         height: 100%;
-    }
-
-    .glyph {
-        display: inline-block;
-        cursor: pointer;
-        height: 1.5em;
     }
 </style>

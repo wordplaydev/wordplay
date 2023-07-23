@@ -27,10 +27,10 @@
         type EvaluationContext,
         EvaluationSymbol,
         KeyboardEditIdleSymbol,
-        InsertionsSymbol,
-        type InsertionsContext,
         getConceptPath,
         IdleKind,
+        type EditorsContext,
+        EditorsSymbol,
     } from './Contexts';
     import type Project from '@models/Project';
     import Documentation from '@components/concepts/Documentation.svelte';
@@ -248,9 +248,9 @@
     setContext<AnimatingNodesContext>(AnimatingNodesSymbol, animatingNodes);
     setContext<ConflictsContext>(ConflictsSymbol, conflicts);
 
-    /** A store for tracking insertions from non-Editor components in the project */
-    const insertions = writable(new Map<Source, string>());
-    setContext<InsertionsContext>(InsertionsSymbol, insertions);
+    /** A store for tracking editor state for all Sources */
+    const editors = writable(new Map());
+    setContext<EditorsContext>(EditorsSymbol, editors);
 
     // Clear the selected output upon playing.
     evaluation.subscribe((val) => {
@@ -1117,6 +1117,7 @@
                                             {project}
                                             evaluator={$evaluator}
                                             {source}
+                                            id={tile.id}
                                             selected={source === selectedSource}
                                             autofocus={autofocus &&
                                                 tile.isExpanded() &&
@@ -1147,7 +1148,7 @@
                                 {/if}</svelte:fragment
                             ><svelte:fragment slot="footer"
                                 >{#if tile.kind === Content.Source}<GlyphChooser
-                                        source={getSourceByID(tile.id)}
+                                        sourceID={tile.id}
                                     />{:else if tile.kind === Content.Output && layout.fullscreenID !== tile.id && editable}
                                     <Timeline
                                         evaluator={$evaluator}

@@ -1,4 +1,5 @@
 import type EditTexts from './EditTexts';
+import type { Template } from './Locale';
 
 type UITexts = {
     phrases: {
@@ -96,16 +97,19 @@ type UITexts = {
         selectAll: string;
         incrementLiteral: string;
         decrementLiteral: string;
-        insertStreamSymbol: string;
-        insertConvertSymbol: string;
+        insertSymbol: Template;
         insertTrueSymbol: string;
         insertFalseSymbol: string;
+        insertNoneSymbol: string;
         insertNotEqualSymbol: string;
         insertProductSymbol: string;
         insertQuotientSymbol: string;
+        insertDegreeSymbol: string;
         insertFunctionSymbol: string;
         insertLessThanOrEqualSymbol: string;
         insertGreaterThanOrEqualSymbol: string;
+        insertStreamSymbol: string;
+        insertConvertSymbol: string;
         insertLineBreak: string;
         backspace: string;
         copy: string;

@@ -92,12 +92,27 @@ export function getCaret() {
     return getContext<CaretContext>(CaretSymbol);
 }
 
-export type EditHandlerContext = Writable<
-    (edit: Edit | undefined, idle: IdleKind) => void
+type EditHandler = (edit: Edit | undefined, idle: IdleKind) => void;
+
+/** Various components outside the editor use this to apply edits */
+export const EditorsSymbol = Symbol('editors');
+export type EditorsContext = Writable<
+    Map<
+        string,
+        {
+            caret: Caret;
+            edit: EditHandler;
+        }
+    >
 >;
-export const EditHandlerSymbol = Symbol('editor');
+export function getEditors() {
+    return getContext<EditorsContext>(EditorsSymbol);
+}
+
+export type EditorContext = Writable<EditHandler>;
+export const EditorSymbol = Symbol('editor');
 export function getEditor() {
-    return getContext<EditHandlerContext>(EditHandlerSymbol);
+    return getContext<EditorContext>(EditorSymbol);
 }
 
 export const ConflictsSymbol = Symbol('conflicts');
@@ -168,12 +183,6 @@ export const MenuNodeSymbol = Symbol('menu');
 export type MenuNodeContext = Writable<Node | undefined>;
 export function getMenuNode() {
     return getContext<MenuNodeContext | undefined>(MenuNodeSymbol);
-}
-
-export const InsertionsSymbol = Symbol('insertions');
-export type InsertionsContext = Writable<Map<Source, string>>;
-export function getInsertions() {
-    return getContext<InsertionsContext | undefined>(InsertionsSymbol);
 }
 
 // Output related contexts

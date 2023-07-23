@@ -30,10 +30,10 @@
         getEvaluation,
         MenuNodeSymbol,
         getKeyboardEditIdle,
-        getInsertions,
         IdleKind,
-        EditHandlerSymbol,
+        EditorSymbol,
         getConceptIndex,
+        getEditors,
     } from '../project/Contexts';
     import {
         type Highlights,
@@ -75,14 +75,22 @@
     import BooleanLiteral from '../../nodes/BooleanLiteral';
     import Adjust from './Adjust.svelte';
 
+    const SHOW_OUTPUT_IN_PALETTE = false;
+
     export let evaluator: Evaluator;
     export let project: Project;
     export let source: Source;
     /** True if this editor's output is selected by the container. */
     export let selected: boolean;
+    /** The ID corresponding to which source this is in the project */
+    export let id: string;
     export let autofocus: boolean = true;
 
-    const SHOW_OUTPUT_IN_PALETTE = false;
+    // A per-editor store that contains the current editor's cursor. We expose it as context to children.
+    const caret = writable<Caret>(
+        new Caret(source, 0, undefined, undefined, undefined)
+    );
+    setContext(CaretSymbol, caret);
 
     // A menu of potential transformations based on the caret position.
     // Managed here but displayed by the project to allow it to escape the editor view.
@@ -97,7 +105,7 @@
     const animatingNodes = getAnimatingNodes();
     const nodeConflicts = getConflicts();
     const keyboardEditIdle = getKeyboardEditIdle();
-    const insertions = getInsertions();
+    const editors = getEditors();
     const concepts = getConceptIndex();
 
     const dispatch = createEventDispatcher();
@@ -108,12 +116,6 @@
 
     /** True if something in the editor is focused. */
     let focused: boolean;
-
-    // A per-editor store that contains the current editor's cursor. We expose it as context to children.
-    const caret = writable<Caret>(
-        new Caret(source, 0, undefined, undefined, undefined)
-    );
-    setContext(CaretSymbol, caret);
 
     // Whenever the project or source changes, set the caret to the project's caret for the source.
     $: caret.set(
@@ -148,7 +150,7 @@
 
     // A store of the handle edit function
     const editHandler = writable<typeof handleEdit>(handleEdit);
-    setContext(EditHandlerSymbol, editHandler);
+    setContext(EditorSymbol, editHandler);
 
     // When the menu node changes, show the menu.
     const unsubscribe = menuNode.subscribe((node) => {
@@ -181,17 +183,6 @@
         }
     }
 
-    // When insertions change, see if one was inserted for this editor.
-    $: {
-        if ($insertions) {
-            const insertion = $insertions.get(source);
-            if (insertion) {
-                $insertions.delete(source);
-                handleEdit($caret.insert(insertion));
-            }
-        }
-    }
-
     // Focus the hidden text field on mount.
     onMount(() => {
         if (autofocus) focusHiddenTextField();
@@ -216,6 +207,12 @@
 
             if (element !== null) ensureElementIsVisible(element);
         }
+    }
+
+    // Keep the project-level editors store in sync with this editor's state.
+    $: if (editors) {
+        $editors.set(id, { caret: $caret, edit: handleEdit });
+        editors.set($editors);
     }
 
     // True if the last keyboard input was not handled by a command.
@@ -1061,6 +1058,8 @@
     function handleKeyDown(event: KeyboardEvent) {
         if (evaluator === undefined) return;
         if (editor === null) return;
+
+        console.log(event.key);
 
         // Assume we'll handle it.
         lastKeyDownIgnored = false;

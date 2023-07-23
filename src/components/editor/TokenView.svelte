@@ -71,6 +71,7 @@
     .token-view {
         display: inline-block;
         position: relative;
+        font-family: var(--wordplay-code-font);
     }
 
     .token-view.added {
