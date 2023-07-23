@@ -143,10 +143,18 @@ export default class Unit extends Type {
 
     clone(replace?: Replacement) {
         return new Unit(
-            this.exponents === undefined ? undefined : new Map(this.exponents),
-            this.replaceChild('numerator', this.numerator, replace),
+            new Map(this.exponents),
+            this.replaceChild(
+                'numerator',
+                this.numerator.map((dim) => dim.clone(replace)),
+                replace
+            ),
             this.replaceChild('slash', this.slash, replace),
-            this.replaceChild('denominator', this.denominator, replace)
+            this.replaceChild(
+                'denominator',
+                this.denominator.map((dim) => dim.clone(replace)),
+                replace
+            )
         ) as this;
     }
 
@@ -166,7 +174,7 @@ export default class Unit extends Type {
     }
 
     static make(numerator: string[], denominator: string[] = []) {
-        return Unit.get(Unit.map(numerator, denominator)).clone();
+        return Unit.get(Unit.map(numerator, denominator));
     }
 
     /** A unit pool, since they recur so frequently. We map the exponents to a unique string */
