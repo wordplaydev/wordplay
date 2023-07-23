@@ -100,6 +100,7 @@ export type EditorState = {
     caret: Caret;
     edit: EditHandler;
     focused: boolean;
+    toggleMenu: () => void;
 };
 export type EditorsContext = Writable<Map<string, EditorState>>;
 export function getEditors() {

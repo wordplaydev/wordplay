@@ -41,6 +41,7 @@
                     caret: editor.caret,
                     evaluator: $evaluator,
                     creator: $creator,
+                    toggleMenu: editor.toggleMenu,
                 },
                 ''
             );

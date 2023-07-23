@@ -57,6 +57,13 @@ export type Command = {
         | void;
 };
 
+export type CommandContext = {
+    caret: Caret;
+    evaluator: Evaluator;
+    creator: Creator;
+    toggleMenu?: () => void;
+};
+
 export type Edit = Caret | Revision;
 export type Revision = [Source, Caret];
 export enum Visibility {
@@ -81,12 +88,6 @@ export function toShortcut(command: Command) {
         command.keySymbol ?? command.key ?? '-'
     }`;
 }
-
-export type CommandContext = {
-    caret: Caret;
-    evaluator: Evaluator;
-    creator: Creator;
-};
 
 export function handleKeyCommand(
     event: KeyboardEvent,
@@ -311,7 +312,7 @@ export const Play: Command = {
 };
 
 export const Pause: Command = {
-    symbol: '⏸️',
+    symbol: '⏸',
     description: (l) => l.ui.tooltip.pause,
     visible: Visibility.Visible,
     category: Category.Evaluate,
@@ -321,6 +322,20 @@ export const Pause: Command = {
     key: 'Enter',
     active: (context) => context.evaluator.isPlaying(),
     execute: (context) => context.evaluator.pause(),
+};
+
+export const Menu: Command = {
+    symbol: '▾',
+    description: (l) => l.ui.tooltip.menu,
+    visible: Visibility.Visible,
+    category: Category.Modify,
+    shift: true,
+    alt: false,
+    control: false,
+    key: ' ',
+    keySymbol: 'space',
+    execute: (context) =>
+        context.toggleMenu ? context.toggleMenu() : undefined,
 };
 
 const Commands: Command[] = [
@@ -629,6 +644,9 @@ const Commands: Command[] = [
     StepOut,
     Play,
     Pause,
+
+    // MODIFY
+    Menu,
     {
         symbol: '⟲',
         description: (l) => l.ui.tooltip.undo,

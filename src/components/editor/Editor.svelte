@@ -212,6 +212,7 @@
             caret: $caret,
             edit: handleEdit,
             focused: editor?.contains(document.activeElement) === true,
+            toggleMenu,
         });
         editors.set($editors);
     }
@@ -1025,6 +1026,14 @@
             );
     }
 
+    function hideMenu() {
+        menu = undefined;
+    }
+
+    function toggleMenu() {
+        return menu === undefined ? showMenu() : hideMenu();
+    }
+
     function handleMenuItem(
         selection: Edit | RevisionSet | undefined
     ): boolean {
@@ -1050,25 +1059,11 @@
         // Assume we'll handle it.
         lastKeyDownIgnored = false;
 
-        if (event.key === ' ' && event.shiftKey) {
-            // Don't allow the keystroke to travel to the text input.
-            event.preventDefault();
-            // If there's no menu showing, show one, then return.
-            if (menu === undefined) {
-                showMenu();
-                return;
-            }
-            // Rid of the menu.
-            else {
-                hideMenu();
-                return;
-            }
-        }
-
         const result = handleKeyCommand(event, {
             caret: $caret,
             evaluator,
             creator: $creator,
+            toggleMenu,
         });
 
         // If it produced a new caret and optionally a new project, update the stores.
@@ -1219,10 +1214,6 @@
         // Did we make an update?
         if (edit) handleEdit(edit, IdleKind.Typing);
         else lastKeyDownIgnored = true;
-    }
-
-    function hideMenu() {
-        menu = undefined;
     }
 
     function getInputID() {
