@@ -1176,23 +1176,10 @@
     }
 
     async function focusNodeCaret() {
-        editor?.focus();
-
         // We used to focus node views themselves, thinking that this was necessary
         // for screen reading. But it turns out that because of ARIA role restrictions,
         // that's not a good idea.
-        // await tick();
-        // if ($caret.position instanceof Node) {
-        //     let current: Node | undefined = $caret.position;
-        //     do {
-        //         const view = getNodeView(current);
-        //         if (view) {
-        //             view.focus();
-        //             break;
-        //         }
-        //         current = source.root.getParent(current);
-        //     } while (current !== undefined);
-        // }
+        editor?.focus();
     }
 
     let lastKeyboardInputValue: undefined | UnicodeString = undefined;
