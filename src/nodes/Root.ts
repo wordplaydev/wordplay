@@ -88,7 +88,7 @@ export default class Root {
         ) as Expression | undefined;
     }
 
-    getContainingParentList(node: Node, before?: boolean): string | undefined {
+    getContainingParentList(node: Node, after?: boolean): string | undefined {
         const parent = this.getParent(node);
         if (parent === undefined) return;
         // Loop through each of the fields and see if it contains this node or is delimited by this node.
@@ -100,7 +100,7 @@ export default class Root {
             // If this field is an array and the field includes this node, we found it!
             if (Array.isArray(field) && field.includes(node)) return name;
             // If this field is this node and the next field is an array, we found it!
-            if (before === true && field === node && previousWasList)
+            if (after === true && field === node && previousWasList)
                 return previousField;
 
             // Remember the last

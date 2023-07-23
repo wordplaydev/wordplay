@@ -216,7 +216,7 @@ export function dropNodeOnSource(
 export function getInsertionPoint(
     source: Source,
     node: Node,
-    before: boolean,
+    after: boolean,
     token: Token,
     line: number
 ) {
@@ -239,7 +239,7 @@ export function getInsertionPoint(
     }
 
     // Find the list this node is either in or delimits.
-    let field = source.root.getContainingParentList(node, before);
+    let field = source.root.getContainingParentList(node, after);
     if (field === undefined) return;
     const list = parent.getField(field);
     if (!Array.isArray(list)) return undefined;
@@ -253,7 +253,7 @@ export function getInsertionPoint(
         token,
         line,
         // Account for empty lists
-        index + (before ? 0 : 1)
+        index + (after ? 0 : 1)
     );
 }
 

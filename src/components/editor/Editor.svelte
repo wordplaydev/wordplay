@@ -915,10 +915,10 @@
             return (
                 [
                     ...before.map((tree) =>
-                        getInsertionPoint(source, tree, true, token, line)
+                        getInsertionPoint(source, tree, false, token, line)
                     ),
                     ...after.map((tree) =>
-                        getInsertionPoint(source, tree, false, token, line)
+                        getInsertionPoint(source, tree, true, token, line)
                     ),
                 ]
                     // Filter out duplicates and undefineds
@@ -983,16 +983,11 @@
             // This only works if the types list contains a single item that is a list of types.
             const insertionPoint = getInsertionPointsAt(event).filter(
                 (insertion) => {
-                    const types = insertion.node.getFieldKind(insertion.field);
+                    const kind = insertion.node.getFieldKind(insertion.field);
                     return (
+                        kind &&
                         $dragged &&
-                        Array.isArray(types) &&
-                        Array.isArray(types[0]) &&
-                        types[0].some(
-                            (kind) =>
-                                kind instanceof Function &&
-                                $dragged instanceof kind
-                        )
+                        (kind.allows($dragged) || kind.allows([$dragged]))
                     );
                 }
             )[0];
