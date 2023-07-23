@@ -1,6 +1,8 @@
 <svelte:options immutable={true} />
 
 <script lang="ts">
+    import { tick } from 'svelte';
+
     export let tip: string;
     export let action: () => void;
     export let enabled: boolean = true;
@@ -10,6 +12,12 @@
     export let classes: string | undefined = undefined;
     export let scale: boolean = true;
     export let view: HTMLButtonElement | undefined = undefined;
+
+    async function doAction() {
+        action();
+        await tick();
+        view?.focus();
+    }
 </script>
 
 <!-- Note that we don't make the button inactive using "disabled" because that makes
@@ -25,9 +33,9 @@
     tabindex={enabled ? 0 : null}
     bind:this={view}
     on:dblclick|stopPropagation
-    on:pointerdown|stopPropagation={() => (enabled ? action() : undefined)}
+    on:pointerdown|stopPropagation={() => (enabled ? doAction() : undefined)}
     on:keydown={(event) =>
-        event.key === 'Enter' || event.key === ' ' ? action() : undefined}
+        event.key === 'Enter' || event.key === ' ' ? doAction() : undefined}
     aria-disabled={!enabled}
 >
     <slot />
@@ -35,7 +43,7 @@
 
 <style>
     button {
-        display: inline-block;
+        display: inline-flex;
         background-color: var(--wordplay-chrome);
         font-family: var(--wordplay-app-font);
         font-size: inherit;

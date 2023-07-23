@@ -1004,10 +1004,7 @@
         // Assume we'll handle it.
         lastKeyDownIgnored = false;
 
-        if (
-            event.key === ' ' &&
-            ($caret.isNode() || ($caret.isIndex() && event.shiftKey))
-        ) {
+        if (event.key === ' ' && event.shiftKey) {
             // Don't allow the keystroke to travel to the text input.
             event.preventDefault();
             // If there's no menu showing, show one, then return.

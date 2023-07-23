@@ -14,21 +14,29 @@
     }
 </script>
 
-<div>
+<div class="adjust">
     <Button
         tip={$creator.getLocale().ui.tooltip.increment}
-        action={() => adjust(1)}>⏶</Button
+        action={() => adjust(1)}><span class="arrow">⏶</span></Button
     >
     <Button
         tip={$creator.getLocale().ui.tooltip.decrement}
-        action={() => adjust(-1)}>⏷</Button
+        action={() => adjust(-1)}><span class="arrow">⏷</span></Button
     >
 </div>
 
 <style>
-    div {
+    .adjust {
         display: inline-flex;
-        flex-direction: row;
-        gap: calc(var(--wordplay-spacing) / 2);
+        flex-direction: column;
+        gap: var(--wordplay-spacing);
+        margin-inline-start: calc(var(--wordplay-spacing) / 2);
+        vertical-align: middle;
+    }
+
+    .arrow {
+        display: inline-block;
+        line-height: 0%;
+        height: 0.25em;
     }
 </style>
