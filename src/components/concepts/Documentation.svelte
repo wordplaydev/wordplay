@@ -219,7 +219,7 @@
                 <Button tip={$creator.getLocale().ui.tooltip.home} action={home}
                     >⇤</Button
                 >{/if}
-            <Button tip={$creator.getLocale().ui.tooltip.back} action={back}
+            <Button tip={$creator.getLocale().ui.tooltip.docBack} action={back}
                 >←</Button
             >
             {#each $path as concept, index}{#if index > 0}…{/if}<ConceptLinkUI

@@ -10,7 +10,7 @@
         setContext,
     } from 'svelte';
     import UnicodeString from '@models/UnicodeString';
-    import commands, { type Edit } from './util/Commands';
+    import { handleKeyCommand, type Edit } from './util/Commands';
     import type Source from '@nodes/Source';
     import { writable } from 'svelte/store';
     import type Program from '@nodes/Program';
@@ -211,7 +211,11 @@
 
     // Keep the project-level editors store in sync with this editor's state.
     $: if (editors) {
-        $editors.set(sourceID, { caret: $caret, edit: handleEdit });
+        $editors.set(sourceID, {
+            caret: $caret,
+            edit: handleEdit,
+            focused: editor?.contains(document.activeElement) === true,
+        });
         editors.set($editors);
     }
 
@@ -1077,56 +1081,28 @@
             }
         }
 
-        // Map meta key to control on Mac OS/iOS.
-        const control = event.metaKey || event.ctrlKey;
+        const result = handleKeyCommand(event, {
+            caret: $caret,
+            evaluator,
+            creator: $creator,
+        });
 
-        // Loop through the commands and see if there's a match to this event.
-        for (let i = 0; i < commands.length; i++) {
-            const command = commands[i];
-            // Does this command match the event?
-            if (
-                (command.control === undefined ||
-                    command.control === control) &&
-                (command.shift === undefined ||
-                    command.shift === event.shiftKey) &&
-                (command.alt === undefined || command.alt === event.altKey) &&
-                (command.key === undefined ||
-                    command.key === event.code ||
-                    command.key === event.key)
-            ) {
-                // If so, execute it.
-                const result = command.execute(
-                    $caret,
-                    event.key,
-                    evaluator,
-                    $creator
-                );
+        // If it produced a new caret and optionally a new project, update the stores.
+        const idle =
+            event.key.length === 1 ? IdleKind.Typing : IdleKind.Navigating;
 
-                // If it produced a new caret and optionally a new project, update the stores.
-                if (result !== undefined) {
-                    const idle =
-                        event.key.length === 1
-                            ? IdleKind.Typing
-                            : IdleKind.Navigating;
+        if (result !== false) {
+            if (result instanceof Promise)
+                result.then((edit) => handleEdit(edit, idle));
+            else if (result !== undefined && result !== true)
+                handleEdit(result, idle);
 
-                    if (typeof result === 'boolean') {
-                        if (result === false) lastKeyDownIgnored = true;
-                    } else if (result instanceof Promise)
-                        result.then((edit) => handleEdit(edit, idle));
-                    else handleEdit(result, idle);
-
-                    // Prevent default keyboard commands from being otherwise handled.
-                    event.preventDefault();
-                    event.stopPropagation();
-
-                    // Stop looking for commands, we found one and tried it!
-                    return;
-                }
-            }
+            // Prevent default keyboard commands from being otherwise handled.
+            event.preventDefault();
+            event.stopPropagation();
         }
-
         // Give feedback that we didn't execute a command.
-        if (!/^(Shift|Control|Alt|Meta)$/.test(event.key))
+        else if (!/^(Shift|Control|Alt|Meta|Tab)$/.test(event.key))
             lastKeyDownIgnored = true;
     }
 

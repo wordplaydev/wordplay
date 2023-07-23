@@ -5116,10 +5116,13 @@
                 "animate": {
                   "type": "string"
                 },
-                "back": {
+                "backInput": {
                   "type": "string"
                 },
-                "backInput": {
+                "backNode": {
+                  "type": "string"
+                },
+                "backStep": {
                   "type": "string"
                 },
                 "backspace": {
@@ -5178,6 +5181,9 @@
                 "deleteSource": {
                   "type": "string"
                 },
+                "docBack": {
+                  "type": "string"
+                },
                 "editContent": {
                   "type": "string"
                 },
@@ -5197,10 +5203,13 @@
                 "fit": {
                   "type": "string"
                 },
-                "forward": {
+                "forwardInput": {
                   "type": "string"
                 },
-                "forwardInput": {
+                "forwardNode": {
+                  "type": "string"
+                },
+                "forwardStep": {
                   "type": "string"
                 },
                 "freeform": {
@@ -5382,15 +5391,18 @@
                 "no",
                 "play",
                 "pause",
-                "back",
+                "backStep",
+                "backNode",
                 "backInput",
                 "out",
                 "start",
-                "forward",
+                "forwardStep",
+                "forwardNode",
                 "forwardInput",
                 "present",
                 "reset",
                 "home",
+                "docBack",
                 "revert",
                 "set",
                 "fullscreen",

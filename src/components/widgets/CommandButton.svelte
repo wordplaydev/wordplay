@@ -7,7 +7,8 @@
     import TokenView from '../editor/TokenView.svelte';
     import { tick } from 'svelte';
 
-    export let sourceID: string;
+    /** If source ID isn't provided, then the one with focus is used. */
+    export let sourceID: string | undefined = undefined;
     export let command: Command;
     export let token: boolean = false;
 
@@ -15,25 +16,40 @@
     const editors = getEditors();
 
     let view: HTMLButtonElement | undefined = undefined;
+
+    $: editor = sourceID
+        ? $editors?.get(sourceID)
+        : Array.from($editors.values()).find((editor) => editor.focused);
 </script>
 
 <Button
     tip={command.description($creator.getLocale()) +
         ` (${toShortcut(command)})`}
     bind:view
+    enabled={command.active === undefined
+        ? true
+        : editor
+        ? command.active(
+              { caret: editor.caret, evaluator: $evaluator, creator: $creator },
+              ''
+          )
+        : false}
     action={async () => {
-        const editor = $editors?.get(sourceID);
         if (editor) {
             const result = command.execute(
-                editor.caret,
-                '',
-                $evaluator,
-                $creator
+                {
+                    caret: editor.caret,
+                    evaluator: $evaluator,
+                    creator: $creator,
+                },
+                ''
             );
             if (typeof result === 'boolean') {
             } else if (result instanceof Promise)
-                result.then((edit) => editor.edit(edit, IdleKind.Typing));
-            else editor.edit(result, IdleKind.Typing);
+                result.then((edit) =>
+                    editor ? editor.edit(edit, IdleKind.Typing) : undefined
+                );
+            else if (result !== undefined) editor.edit(result, IdleKind.Typing);
 
             // Restore focus on button after update.
             await tick();
@@ -44,3 +60,9 @@
             node={tokenize(command.symbol).getTokens()[0]}
         />{:else}{command.symbol}{/if}</Button
 >
+
+<style>
+    :global(button:focus .token-view) {
+        color: var(--wordplay-highlight);
+    }
+</style>

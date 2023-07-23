@@ -1,67 +1,45 @@
 <script lang="ts">
-    import Button from '../widgets/Button.svelte';
     import Switch from '../widgets/Switch.svelte';
-    import type Project from '@models/Project';
     import { getEvaluation } from '../project/Contexts';
     import type Evaluator from '@runtime/Evaluator';
     import { creator } from '../../db/Creator';
+    import CommandButton from '../widgets/CommandButton.svelte';
+    import {
+        Pause,
+        Play,
+        Restart,
+        StepBack,
+        StepBackInput,
+        StepBackNode,
+        StepForward,
+        StepForwardInput,
+        StepForwardNode,
+        StepOut,
+        StepToPresent,
+        StepToStart,
+    } from '../editor/util/Commands';
 
-    export let project: Project;
     export let evaluator: Evaluator;
 
     const evaluation = getEvaluation();
-
-    function reset() {
-        $creator.reviseProject(project, project.clone());
-    }
 </script>
 
-<Button tip={$creator.getLocale().ui.tooltip.reset} action={reset}>↻</Button>
+<CommandButton command={Restart} />
 <Switch
     on={$evaluation?.playing === true}
     toggle={(play) => (play ? evaluator.play() : evaluator.pause())}
-    offTip={$creator.getLocale().ui.tooltip.pause}
-    onTip={$creator.getLocale().ui.tooltip.play}
-    offLabel="⏸️"
-    onLabel="▶️"
+    offTip={Pause.description($creator.getLocale())}
+    onTip={Play.description($creator.getLocale())}
+    offLabel={Pause.symbol}
+    onLabel={Play.symbol}
     uiid="playToggle"
 />
-<Button
-    tip={$creator.getLocale().ui.tooltip.start}
-    action={() => evaluator.stepTo(0)}
-    enabled={!evaluator.isAtBeginning()}>⇤</Button
->
-<Button
-    tip={$creator.getLocale().ui.tooltip.backInput}
-    action={() => evaluator.stepBackToInput()}
-    enabled={!evaluator.isAtBeginning()}>⇠</Button
->
-<Button
-    tip={$creator.getLocale().ui.tooltip.back}
-    action={() => evaluator.stepBackWithinProgram()}
-    enabled={!evaluator.isAtBeginning()}>←</Button
->
-<Button
-    tip={$creator.getLocale().ui.tooltip.out}
-    action={() => evaluator.stepOut()}
-    enabled={$evaluation?.playing === false &&
-        $evaluation?.step !== undefined &&
-        evaluator.getCurrentEvaluation() !== undefined}>↑</Button
->
-<Button
-    tip={$creator.getLocale().ui.tooltip.forward}
-    action={() => evaluator.stepWithinProgram()}
-    enabled={evaluator.isInPast() &&
-        $evaluation?.stepIndex !== undefined &&
-        $evaluation.stepIndex < evaluator.getStepCount()}>→</Button
->
-<Button
-    tip={$creator.getLocale().ui.tooltip.forwardInput}
-    action={() => evaluator.stepToInput()}
-    enabled={!evaluator.isInPast()}>⇢</Button
->
-<Button
-    tip={$creator.getLocale().ui.tooltip.present}
-    action={() => evaluator.stepToEnd()}
-    enabled={!evaluator.isInPast()}>⇥</Button
->
+<CommandButton command={StepToStart} />
+<CommandButton command={StepBackInput} />
+<CommandButton command={StepBackNode} />
+<CommandButton command={StepBack} />
+<CommandButton command={StepOut} />
+<CommandButton command={StepForward} />
+<CommandButton command={StepForwardNode} />
+<CommandButton command={StepForwardInput} />
+<CommandButton command={StepToPresent} />

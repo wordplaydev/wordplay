@@ -189,8 +189,21 @@ export default class Evaluator {
         // Create a global random number stream for APIs to use.
         this.random = new Random(this, undefined, undefined, undefined);
 
-        // Set up start state.
-        this.resetAll();
+        // Mark as not started.
+        this.#started = false;
+
+        // Reset per-evaluation state.
+        this.resetForEvaluation(false);
+
+        // Reset the latest source values. (We keep them around for display after each reaction).
+        this.sourceValues = new Map();
+        this.sourceValueSize = 0;
+
+        // Clear the stream mapping
+        this.nativeStreams = new Map();
+
+        // Tell everyone.
+        this.broadcast();
 
         // Mirror the given prior, if there is one.
         if (prior) this.mirror(prior);
@@ -473,24 +486,6 @@ export default class Evaluator {
 
         // Notify listeners.
         if (broadcast) this.broadcast();
-    }
-
-    /** Reset all of the state, preparing for evaluation from the start of time. */
-    resetAll() {
-        // Mark as not started.
-        this.#started = false;
-
-        // Reset per-evaluation state.
-        this.resetForEvaluation(false);
-
-        // Reset the latest source values. (We keep them around for display after each reaction).
-        this.sourceValues = new Map();
-        this.sourceValueSize = 0;
-
-        // Clear the stream mapping
-        this.nativeStreams = new Map();
-
-        this.broadcast();
     }
 
     getInitialValue() {
@@ -809,8 +804,6 @@ export default class Evaluator {
 
         // Notify listeners that we finished stepping to the next within program node.
         this.broadcast();
-
-        return true;
     }
 
     stepToInput() {
@@ -831,8 +824,6 @@ export default class Evaluator {
 
         // Notify listeners that we reached the step.
         this.broadcast();
-
-        return true;
     }
 
     stepBackToInput() {

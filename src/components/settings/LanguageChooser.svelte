@@ -105,7 +105,7 @@
     </div>
     <div class="close">
         <Button
-            tip={$creator.getLocale().ui.tooltip.back}
+            tip={$creator.getLocale().ui.tooltip.close}
             action={() => dialog.close()}>❌</Button
         >
     </div>

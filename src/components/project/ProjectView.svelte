@@ -31,6 +31,7 @@
         IdleKind,
         type EditorsContext,
         EditorsSymbol,
+        type EditorState,
     } from './Contexts';
     import type Project from '@models/Project';
     import Documentation from '@components/concepts/Documentation.svelte';
@@ -77,6 +78,7 @@
         STAGE_SYMBOL,
     } from '../../parser/Symbols';
     import type Value from '../../runtime/Value';
+    import { handleKeyCommand } from '../editor/util/Commands';
 
     export let project: Project;
     export let original: Project | undefined = undefined;
@@ -249,7 +251,7 @@
     setContext<ConflictsContext>(ConflictsSymbol, conflicts);
 
     /** A store for tracking editor state for all Sources */
-    const editors = writable(new Map());
+    const editors = writable(new Map<string, EditorState>());
     setContext<EditorsContext>(EditorsSymbol, editors);
 
     // Clear the selected output upon playing.
@@ -867,45 +869,31 @@
             layout = layout.withoutFullscreen();
             event.stopImmediatePropagation();
             return;
-        } else if (key === 'Enter' && command) {
-            // Shift also? Reset
-            if (event.shiftKey)
-                $creator.reviseProject(project, project.clone());
+        } else if (key === 'Enter' && command && !event.shiftKey) {
             // Alt also? Full screen.
-            else if (event.altKey) {
+            if (event.altKey) {
                 layout = layout.isFullscreen()
                     ? layout.withoutFullscreen()
                     : layout.withFullscreen(OutputID);
                 view?.focus();
+
+                event.preventDefault();
+                return;
             }
-            // No shift or alt, and not full screen? Toggle between playing and pausing.
-            else if ($evaluator.isPlaying() && !layout.isFullscreen())
-                $evaluator.pause();
-            else $evaluator.play();
-            event.preventDefault();
-            return;
         }
 
-        // When in stepping mode, or when command is pressed
-        if (command) {
-            if (key === 'ArrowLeft') {
-                // To start
-                if (event.ctrlKey && event.shiftKey) $evaluator.stepTo(0);
-                // To previous input
-                else if (event.shiftKey) $evaluator.stepBackToInput();
-                // To previous step
-                else $evaluator.stepBackWithinProgram();
-                event.preventDefault();
-            } else if (key === 'ArrowRight') {
-                // To start
-                if (event.ctrlKey && event.shiftKey) $evaluator.stepToEnd();
-                // To next input
-                else if (event.shiftKey) $evaluator.stepToInput();
-                // To next step
-                else $evaluator.stepWithinProgram();
-                event.preventDefault();
-            }
-            return;
+        const editorStates = Array.from($editors.values());
+        const result = handleKeyCommand(event, {
+            caret:
+                editorStates.find((editor) => editor.focused)?.caret ??
+                editorStates[0].caret,
+            evaluator: $evaluator,
+            creator: $creator,
+        });
+
+        if (result !== false) {
+            event.stopPropagation();
+            event.preventDefault();
         }
     }
 

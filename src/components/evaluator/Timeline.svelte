@@ -165,7 +165,7 @@
     aria-label={$creator.getLocale().ui.section.timeline}
     class:stepping={$evaluation?.playing === false}
 >
-    <Controls project={evaluator.project} {evaluator} />
+    <Controls {evaluator} />
     <header
         transition:slide|local={{ duration: $creator.getAnimationDuration() }}
         class="timeline"

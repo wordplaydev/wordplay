@@ -105,7 +105,7 @@
         ><div class="gear" class:expanded>⚙</div></Button
     >
     {#if $page.route.id !== '/'}<Button
-            tip={$creator.getLocale().ui.tooltip.back}
+            tip={$creator.getLocale().ui.tooltip.close}
             enabled={$page.route.id !== null && $page.route.id !== "/'"}
             action={() => goto(getBackPath($page.route.id ?? '/'))}>❌</Button
         >{/if}

@@ -68,7 +68,9 @@
     }
 
     button:focus {
-        outline-offset: calc(-1 * var(--wordplay-focus-width));
+        outline: none;
+        color: var(--wordplay-highlight);
+        fill: var(--wordplay-highlight);
     }
 
     button.scale:focus[aria-disabled='false'],

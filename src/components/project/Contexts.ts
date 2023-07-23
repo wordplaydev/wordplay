@@ -96,15 +96,12 @@ type EditHandler = (edit: Edit | undefined, idle: IdleKind) => void;
 
 /** Various components outside the editor use this to apply edits */
 export const EditorsSymbol = Symbol('editors');
-export type EditorsContext = Writable<
-    Map<
-        string,
-        {
-            caret: Caret;
-            edit: EditHandler;
-        }
-    >
->;
+export type EditorState = {
+    caret: Caret;
+    edit: EditHandler;
+    focused: boolean;
+};
+export type EditorsContext = Writable<Map<string, EditorState>>;
 export function getEditors() {
     return getContext<EditorsContext>(EditorsSymbol);
 }

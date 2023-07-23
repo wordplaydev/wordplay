@@ -22,6 +22,41 @@ import Names from '@nodes/Names';
 import type { Creator } from '../../../db/Creator';
 import type { Locale } from '../../../locale/Locale';
 
+export type Command = {
+    /** The iconographic text symbol to use */
+    symbol: string;
+    /** Gets the locale string from a locale for use in title and aria-label of UI  */
+    description: (locale: Locale) => string;
+    /** True if it should be a control in the toolbar */
+    visible: Visibility;
+    /** The category of command, used to decide where to display controls if visible */
+    category: Category;
+    /** The key that triggers the command, or if not provided, all keys trigger it */
+    key?: string;
+    /** The optional symbol representing the key, for rendering shortcuts */
+    keySymbol?: string;
+    /** If true, shift is required, if false, it's disqualifying, if undefined, it can be either */
+    shift: boolean | undefined;
+    /** If true, alt is required, if false, it's disqualifying, if undefined, it can be either */
+    alt: boolean | undefined;
+    /** If true, control or meta is required, if false, it's disqualifying, if undefined, it can be either */
+    control: boolean | undefined;
+    active?: (context: CommandContext, key: string) => boolean;
+    /** Generates an edit or other editor command */
+    execute: (
+        context: CommandContext,
+        key: string
+    ) => // Process this edit
+    | Edit
+        // Wait and process this edit
+        | Promise<Edit | undefined>
+        // Handled
+        | boolean
+        // Not handled
+        | undefined
+        | void;
+};
+
 export type Edit = Caret | Revision;
 export type Revision = [Source, Caret];
 export enum Visibility {
@@ -47,6 +82,39 @@ export function toShortcut(command: Command) {
     }`;
 }
 
+export type CommandContext = {
+    caret: Caret;
+    evaluator: Evaluator;
+    creator: Creator;
+};
+
+export function handleKeyCommand(
+    event: KeyboardEvent,
+    context: CommandContext
+) {
+    // Map meta key to control on Mac OS/iOS.
+    const control = event.metaKey || event.ctrlKey;
+
+    // Loop through the commands and see if there's a match to this event.
+    for (const command of commands) {
+        // Does this command match the event?
+        if (
+            (command.active === undefined ||
+                command.active(context, event.key)) &&
+            (command.control === undefined || command.control === control) &&
+            (command.shift === undefined || command.shift === event.shiftKey) &&
+            (command.alt === undefined || command.alt === event.altKey) &&
+            (command.key === undefined ||
+                command.key === event.code ||
+                command.key === event.key)
+        ) {
+            // If so, execute it.
+            return command.execute(context, event.key);
+        }
+    }
+    return false;
+}
+
 export const IncrementLiteral: Command = {
     symbol: '+',
     description: (l) => l.ui.tooltip.incrementLiteral,
@@ -57,8 +125,9 @@ export const IncrementLiteral: Command = {
     shift: false,
     key: 'ArrowUp',
     keySymbol: '↑',
-    execute: (caret: Caret) => caret.adjustLiteral(undefined, 1),
+    execute: (context) => context.caret.adjustLiteral(undefined, 1),
 };
+
 export const DecrementLiteral: Command = {
     symbol: '–',
     description: (l) => l.ui.tooltip.decrementLiteral,
@@ -69,42 +138,187 @@ export const DecrementLiteral: Command = {
     alt: true,
     key: 'ArrowDown',
     keySymbol: '↓',
-    execute: (caret: Caret) => caret.adjustLiteral(undefined, -1),
+    execute: (context) => context.caret.adjustLiteral(undefined, -1),
 };
 
-export type Command = {
-    /** The iconographic text symbol to use */
-    symbol: string;
-    /** Gets the locale string from a locale for use in title and aria-label of UI  */
-    description: (locale: Locale) => string;
-    /** True if it should be a control in the toolbar */
-    visible: Visibility;
-    /** The category of command, used to decide where to display controls if visible */
-    category: Category;
-    /** The key that triggers the command, or if not provided, all keys trigger it */
-    key?: string;
-    /** The optional symbol representing the key, for rendering shortcuts */
-    keySymbol?: string;
-    /** If true, shift is required, if false, it's disqualifying, if undefined, it can be either */
-    shift: boolean | undefined;
-    /** If true, alt is required, if false, it's disqualifying, if undefined, it can be either */
-    alt: boolean | undefined;
-    /** If true, control or meta is required, if false, it's disqualifying, if undefined, it can be either */
-    control: boolean | undefined;
-    /** Generates an edit or other editor command */
-    execute: (
-        caret: Caret,
-        key: string,
-        evaluator: Evaluator,
-        creator: Creator
-    ) => // Process this edit
-    | Edit
-        // Wait and process this edit
-        | Promise<Edit | undefined>
-        // Handled
-        | boolean
-        // Not handled
-        | undefined;
+export const StepBack: Command = {
+    symbol: '←',
+    description: (l) => l.ui.tooltip.backStep,
+    visible: Visibility.Visible,
+    category: Category.Evaluate,
+    shift: false,
+    alt: false,
+    control: true,
+    key: 'ArrowLeft',
+    keySymbol: '←',
+    active: (context) => !context.evaluator.isAtBeginning(),
+    execute: (context) => context.evaluator.stepBackWithinProgram(),
+};
+
+export const StepForward: Command = {
+    symbol: '→',
+    description: (l) => l.ui.tooltip.forwardStep,
+    visible: Visibility.Visible,
+    category: Category.Evaluate,
+    shift: false,
+    alt: false,
+    control: true,
+    key: 'ArrowRight',
+    keySymbol: '→',
+    active: (context) =>
+        context.evaluator.isInPast() &&
+        context.evaluator.getStepIndex() !== undefined &&
+        context.evaluator.getStepIndex() < context.evaluator.getStepCount(),
+    execute: (context) => context.evaluator.stepWithinProgram(),
+};
+
+export const StepBackInput: Command = {
+    symbol: '⇠',
+    description: (l) => l.ui.tooltip.backInput,
+    visible: Visibility.Visible,
+    category: Category.Evaluate,
+    shift: true,
+    alt: false,
+    control: true,
+    key: 'ArrowLeft',
+    keySymbol: '←',
+    active: (context) => !context.evaluator.isAtBeginning(),
+    execute: (context) => context.evaluator.stepBackToInput(),
+};
+
+export const StepForwardInput: Command = {
+    symbol: '⇢',
+    description: (l) => l.ui.tooltip.forwardInput,
+    visible: Visibility.Visible,
+    category: Category.Evaluate,
+    shift: true,
+    alt: false,
+    control: true,
+    key: 'ArrowRight',
+    keySymbol: '⇢',
+    active: (context) => context.evaluator.isInPast(),
+    execute: (context) => context.evaluator.stepToInput(),
+};
+
+export const StepBackNode: Command = {
+    symbol: '⏴',
+    description: (l) => l.ui.tooltip.backNode,
+    visible: Visibility.Visible,
+    category: Category.Evaluate,
+    shift: false,
+    alt: false,
+    control: true,
+    key: 'ArrowLeft',
+    keySymbol: '←',
+    active: (context) => context.caret.isNode(),
+    execute: (context) =>
+        context.caret.position instanceof Node
+            ? context.evaluator.stepBackToNode(context.caret.position)
+            : undefined,
+};
+
+export const StepForwardNode: Command = {
+    symbol: '⏵',
+    description: (l) => l.ui.tooltip.forwardNode,
+    visible: Visibility.Visible,
+    category: Category.Evaluate,
+    key: 'ArrowRight',
+    keySymbol: '→',
+    shift: false,
+    alt: false,
+    control: true,
+    active: (context) => context.caret.isNode(),
+    execute: (context) =>
+        context.caret.position instanceof Node
+            ? context.evaluator.stepToNode(context.caret.position)
+            : undefined,
+};
+
+export const Restart: Command = {
+    symbol: '↻',
+    description: (l) => l.ui.tooltip.reset,
+    visible: Visibility.Visible,
+    category: Category.Evaluate,
+    key: 'Enter',
+    shift: true,
+    alt: false,
+    control: true,
+    execute: (context) =>
+        context.creator.reviseProject(
+            context.evaluator.project,
+            context.evaluator.project.clone()
+        ),
+};
+
+export const StepToStart: Command = {
+    symbol: '⇤',
+    description: (l) => l.ui.tooltip.start,
+    visible: Visibility.Visible,
+    category: Category.Evaluate,
+    shift: true,
+    alt: true,
+    control: true,
+    key: 'ArrowLeft',
+    keySymbol: '←',
+    active: (context) => !context.evaluator.isAtBeginning(),
+    execute: (context) => context.evaluator.stepTo(0),
+};
+
+export const StepToPresent: Command = {
+    symbol: '⇥',
+    description: (l) => l.ui.tooltip.forwardInput,
+    visible: Visibility.Visible,
+    category: Category.Evaluate,
+    shift: true,
+    alt: true,
+    control: true,
+    key: 'ArrowRight',
+    keySymbol: '⇢',
+    active: (context) => context.evaluator.isInPast(),
+    execute: (context) => context.evaluator.stepToEnd(),
+};
+
+export const StepOut: Command = {
+    symbol: '↑',
+    description: (l) => l.ui.tooltip.out,
+    visible: Visibility.Visible,
+    category: Category.Evaluate,
+    shift: false,
+    alt: false,
+    control: true,
+    key: 'ArrowUp',
+    keySymbol: '↑',
+    active: (context) =>
+        context.evaluator.isPlaying() &&
+        context.evaluator.getCurrentStep() !== undefined &&
+        context.evaluator.getCurrentEvaluation() !== undefined,
+    execute: (context) => context.evaluator.stepOut(),
+};
+
+export const Play: Command = {
+    symbol: '▶️',
+    description: (l) => l.ui.tooltip.play,
+    visible: Visibility.Visible,
+    category: Category.Evaluate,
+    shift: false,
+    alt: false,
+    control: true,
+    key: 'Enter',
+    active: (context) => !context.evaluator.isPlaying(),
+    execute: (context) => context.evaluator.play(),
+};
+
+export const Pause: Command = {
+    symbol: '⏸️',
+    description: (l) => l.ui.tooltip.pause,
+    visible: Visibility.Visible,
+    category: Category.Evaluate,
+    shift: false,
+    alt: false,
+    control: true,
+    key: 'Enter',
+    active: (context) => context.evaluator.isPlaying(),
+    execute: (context) => context.evaluator.pause(),
 };
 
 const commands: Command[] = [
@@ -118,7 +332,7 @@ const commands: Command[] = [
         shift: false,
         key: 'ArrowUp',
         keySymbol: '↑',
-        execute: (caret: Caret) => caret.moveVertical(-1),
+        execute: (context) => context.caret.moveVertical(-1),
     },
     {
         symbol: '↓',
@@ -130,7 +344,7 @@ const commands: Command[] = [
         shift: false,
         key: 'ArrowDown',
         keySymbol: '↓',
-        execute: (caret: Caret) => caret.moveVertical(1),
+        execute: (context) => context.caret.moveVertical(1),
     },
     {
         symbol: '←',
@@ -142,10 +356,10 @@ const commands: Command[] = [
         shift: false,
         key: 'ArrowLeft',
         keySymbol: '←',
-        execute: (caret, key, evaluator, creator) =>
-            caret.moveInline(
+        execute: (context) =>
+            context.caret.moveInline(
                 false,
-                creator.getWritingDirection() === 'ltr' ? -1 : 1
+                context.creator.getWritingDirection() === 'ltr' ? -1 : 1
             ),
     },
     {
@@ -158,10 +372,10 @@ const commands: Command[] = [
         shift: false,
         key: 'ArrowRight',
         keySymbol: '→',
-        execute: (caret, key, evaluator, creator) =>
-            caret.moveInline(
+        execute: (context) =>
+            context.caret.moveInline(
                 false,
-                creator.getWritingDirection() === 'ltr' ? 1 : -1
+                context.creator.getWritingDirection() === 'ltr' ? 1 : -1
             ),
     },
     {
@@ -174,7 +388,7 @@ const commands: Command[] = [
         control: false,
         key: 'ArrowLeft',
         keySymbol: '←',
-        execute: (caret: Caret) => caret.left(true),
+        execute: (context) => context.caret.left(true),
     },
     {
         symbol: '↗',
@@ -186,7 +400,7 @@ const commands: Command[] = [
         shift: true,
         keySymbol: '→',
         key: 'ArrowRight',
-        execute: (caret: Caret) => caret.right(true),
+        execute: (context) => context.caret.right(true),
     },
     {
         symbol: '▣',
@@ -198,7 +412,8 @@ const commands: Command[] = [
         alt: undefined,
         control: false,
         shift: undefined,
-        execute: (caret: Caret) => {
+        execute: (context) => {
+            const caret = context.caret;
             const position = caret.position;
             if (position instanceof Node) {
                 let parent = caret.source.root.getParent(position);
@@ -230,7 +445,8 @@ const commands: Command[] = [
         control: true,
         key: 'KeyA',
         keySymbol: 'a',
-        execute: (caret: Caret) => caret.withPosition(caret.getProgram()),
+        execute: (context) =>
+            context.caret.withPosition(context.caret.getProgram()),
     },
     IncrementLiteral,
     DecrementLiteral,
@@ -244,7 +460,7 @@ const commands: Command[] = [
         control: false,
         key: 'Digit1',
         keySymbol: '1',
-        execute: (caret: Caret) => caret.insert(TRUE_SYMBOL),
+        execute: (context) => context.caret.insert(TRUE_SYMBOL),
     },
     {
         symbol: FALSE_SYMBOL,
@@ -256,7 +472,7 @@ const commands: Command[] = [
         control: false,
         key: 'Digit0',
         keySymbol: '0',
-        execute: (caret: Caret) => caret.insert(FALSE_SYMBOL),
+        execute: (context) => context.caret.insert(FALSE_SYMBOL),
     },
     {
         symbol: NONE_SYMBOL,
@@ -268,7 +484,7 @@ const commands: Command[] = [
         control: false,
         key: 'KeyO',
         keySymbol: 'o',
-        execute: (caret: Caret) => caret.insert(NONE_SYMBOL),
+        execute: (context) => context.caret.insert(NONE_SYMBOL),
     },
     {
         symbol: FUNCTION_SYMBOL,
@@ -280,8 +496,8 @@ const commands: Command[] = [
         keySymbol: 'f',
         shift: false,
         control: false,
-        execute: (caret: Caret) =>
-            caret.insertNode(
+        execute: (context) =>
+            context.caret.insertNode(
                 FunctionDefinition.make(
                     undefined,
                     Names.make([]),
@@ -302,7 +518,7 @@ const commands: Command[] = [
         control: false,
         key: 'Digit8',
         keySymbol: '8',
-        execute: (caret: Caret) => caret.insert(TYPE_SYMBOL),
+        execute: (context) => context.caret.insert(TYPE_SYMBOL),
     },
     {
         symbol: '≠',
@@ -314,7 +530,7 @@ const commands: Command[] = [
         control: false,
         key: 'Equal',
         keySymbol: '=',
-        execute: (caret: Caret) => caret.insert('≠'),
+        execute: (context) => context.caret.insert('≠'),
     },
     {
         symbol: PRODUCT_SYMBOL,
@@ -326,7 +542,7 @@ const commands: Command[] = [
         control: false,
         key: 'KeyX',
         keySymbol: 'x',
-        execute: (caret: Caret) => caret.insert(PRODUCT_SYMBOL),
+        execute: (context) => context.caret.insert(PRODUCT_SYMBOL),
     },
     {
         symbol: QUOTIENT_SYMBOL,
@@ -338,7 +554,7 @@ const commands: Command[] = [
         control: false,
         key: 'Slash',
         keySymbol: '/',
-        execute: (caret: Caret) => caret.insert(QUOTIENT_SYMBOL),
+        execute: (context) => context.caret.insert(QUOTIENT_SYMBOL),
     },
     {
         symbol: DEGREE_SYMBOL,
@@ -350,7 +566,7 @@ const commands: Command[] = [
         control: false,
         key: 'Digit8',
         keySymbol: '8',
-        execute: (caret: Caret) => caret.insert(DEGREE_SYMBOL),
+        execute: (context) => context.caret.insert(DEGREE_SYMBOL),
     },
     {
         symbol: '≤',
@@ -362,7 +578,7 @@ const commands: Command[] = [
         alt: true,
         key: 'Comma',
         keySymbol: ',',
-        execute: (caret: Caret) => caret.insert('≤'),
+        execute: (context) => context.caret.insert('≤'),
     },
     {
         symbol: '≥',
@@ -374,7 +590,7 @@ const commands: Command[] = [
         control: false,
         alt: true,
         key: 'Period',
-        execute: (caret: Caret) => caret.insert('≥'),
+        execute: (context) => context.caret.insert('≥'),
     },
     {
         symbol: CONVERT_SYMBOL,
@@ -386,7 +602,7 @@ const commands: Command[] = [
         control: false,
         key: 'ArrowRight',
         keySymbol: '→',
-        execute: (caret: Caret) => caret.insert(CONVERT_SYMBOL),
+        execute: (context) => context.caret.insert(CONVERT_SYMBOL),
     },
     {
         symbol: STREAM_SYMBOL,
@@ -398,54 +614,35 @@ const commands: Command[] = [
         control: false,
         key: 'Semicolon',
         keySymbol: ';',
-        execute: (caret: Caret) => caret.insert(STREAM_SYMBOL),
+        execute: (context) => context.caret.insert(STREAM_SYMBOL),
     },
     {
         symbol: '⏎',
         description: (l) => l.ui.tooltip.insertLineBreak,
         visible: Visibility.Touch,
-        category: Category.Insert,
+        category: Category.Modify,
         key: 'Enter',
         shift: false,
         alt: false,
         control: false,
-        execute: (caret: Caret) =>
-            caret.isNode() ? caret.enter() : caret.insert('\n'),
+        execute: (context) =>
+            context.caret.isNode()
+                ? context.caret.enter()
+                : context.caret.insert('\n'),
     },
-    {
-        symbol: '→',
-        description: (l) => l.ui.tooltip.forward,
-        visible: Visibility.Visible,
-        category: Category.Evaluate,
-        key: 'ArrowRight',
-        keySymbol: '→',
-        shift: false,
-        alt: false,
-        control: true,
-        execute: (caret: Caret, _, evaluator) => {
-            if (caret.position instanceof Node) {
-                evaluator.stepToNode(caret.position);
-                return caret;
-            }
-        },
-    },
-    {
-        symbol: '←',
-        description: (l) => l.ui.tooltip.back,
-        visible: Visibility.Visible,
-        category: Category.Evaluate,
-        shift: false,
-        alt: false,
-        control: true,
-        key: 'ArrowLeft',
-        keySymbol: '←',
-        execute: (caret: Caret, _, evaluator) => {
-            if (caret.position instanceof Node) {
-                evaluator.stepBackToNode(caret.position);
-                return caret;
-            }
-        },
-    },
+    // This is before back because it handles node selections.
+    StepBackNode,
+    StepBack,
+    StepBackInput,
+    StepForwardNode,
+    StepForward,
+    StepForwardInput,
+    Restart,
+    StepToStart,
+    StepToPresent,
+    StepOut,
+    Play,
+    Pause,
     {
         symbol: '⌫',
         description: (l) => l.ui.tooltip.backspace,
@@ -456,7 +653,7 @@ const commands: Command[] = [
         shift: false,
         control: false,
         alt: false,
-        execute: (caret: Caret) => caret.backspace(),
+        execute: (context) => context.caret.backspace(),
     },
     {
         symbol: '📋',
@@ -468,9 +665,12 @@ const commands: Command[] = [
         alt: false,
         key: 'KeyC',
         keySymbol: 'c',
-        execute: (caret: Caret) => {
-            if (!(caret.position instanceof Node)) return undefined;
-            return toClipboard(caret.position, caret.source.spaces);
+        execute: (context) => {
+            if (!(context.caret.position instanceof Node)) return undefined;
+            return toClipboard(
+                context.caret.position,
+                context.caret.source.spaces
+            );
         },
     },
     {
@@ -483,10 +683,10 @@ const commands: Command[] = [
         alt: false,
         key: 'KeyX',
         keySymbol: 'x',
-        execute: (caret: Caret) => {
-            if (!(caret.position instanceof Node)) return undefined;
-            toClipboard(caret.position, caret.source.spaces);
-            return caret.backspace();
+        execute: (context) => {
+            if (!(context.caret.position instanceof Node)) return undefined;
+            toClipboard(context.caret.position, context.caret.source.spaces);
+            return context.caret.backspace();
         },
     },
     {
@@ -499,7 +699,7 @@ const commands: Command[] = [
         alt: false,
         key: 'KeyV',
         keySymbol: 'v',
-        execute: async (caret: Caret) => {
+        execute: async (context) => {
             // See if there's something on the clipboard.
             if (navigator.clipboard === undefined) return undefined;
 
@@ -509,7 +709,7 @@ const commands: Command[] = [
                     if (type === 'text/plain') {
                         const blob = await item.getType(type);
                         const text = await blob.text();
-                        return caret.insert(text);
+                        return context.caret.insert(text);
                     }
                 }
             }
@@ -525,7 +725,8 @@ const commands: Command[] = [
         shift: undefined,
         alt: undefined,
         key: '(',
-        execute: (caret: Caret) => caret.wrap('('),
+        active: (context) => context.caret.isNode(),
+        execute: (context) => context.caret.wrap('('),
     },
     {
         symbol: '[]',
@@ -536,7 +737,7 @@ const commands: Command[] = [
         shift: undefined,
         alt: undefined,
         key: '[',
-        execute: (caret: Caret) => caret.wrap('['),
+        execute: (context) => context.caret.wrap('['),
     },
     {
         symbol: 'a',
@@ -546,8 +747,8 @@ const commands: Command[] = [
         control: false,
         shift: undefined,
         alt: undefined,
-        execute: (caret, key) =>
-            key.length === 1 ? caret.insert(key) : undefined,
+        execute: (context, key) =>
+            key.length === 1 ? context.caret.insert(key) : undefined,
     },
     {
         symbol: '↩',
@@ -559,8 +760,8 @@ const commands: Command[] = [
         alt: false,
         key: 'KeyZ',
         keySymbol: 'z',
-        execute: (caret, key, evaluator, creator) =>
-            creator.undoProject(evaluator.project.id) === true,
+        execute: (context) =>
+            context.creator.undoProject(context.evaluator.project.id) === true,
     },
     {
         symbol: '↪',
@@ -572,8 +773,8 @@ const commands: Command[] = [
         alt: false,
         key: 'KeyZ',
         keySymbol: 'z',
-        execute: (caret, key, evaluator, creator) =>
-            creator.redoProject(evaluator.project.id) === true,
+        execute: (context) =>
+            context.creator.redoProject(context.evaluator.project.id) === true,
     },
 ];
 
