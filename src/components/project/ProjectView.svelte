@@ -865,34 +865,26 @@
         return project.getSources()[getSourceIndexByID(id)];
     }
 
-    function handleKey(event: KeyboardEvent) {
-        const key = event.key;
-        const command = event.ctrlKey || event.metaKey;
-
-        if (key === 'Escape' && layout.isFullscreen()) {
+    function fullscreen(on: boolean) {
+        if (on) {
+            layout = layout.isFullscreen()
+                ? layout.withoutFullscreen()
+                : layout.withFullscreen(OutputID);
+            view?.focus();
+        } else {
             layout = layout.withoutFullscreen();
-            event.stopImmediatePropagation();
-            return;
-        } else if (key === 'Enter' && command && !event.shiftKey) {
-            // Alt also? Full screen.
-            if (event.altKey) {
-                layout = layout.isFullscreen()
-                    ? layout.withoutFullscreen()
-                    : layout.withFullscreen(OutputID);
-                view?.focus();
-
-                event.preventDefault();
-                return;
-            }
         }
+    }
 
-        const editorStates = Array.from($editors.values());
+    function handleKey(event: KeyboardEvent) {
+        // Pick the focused caret.
         const result = handleKeyCommand(event, {
-            caret:
-                editorStates.find((editor) => editor.focused)?.caret ??
-                editorStates[0].caret,
+            caret: Array.from($editors.values()).find(
+                (editor) => editor.focused
+            )?.caret,
             evaluator: $evaluator,
             creator: $creator,
+            fullscreen,
         });
 
         if (result !== false) {

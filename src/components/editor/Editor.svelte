@@ -211,7 +211,7 @@
         $editors.set(sourceID, {
             caret: $caret,
             edit: handleEdit,
-            focused: editor?.contains(document.activeElement) === true,
+            focused,
             toggleMenu,
         });
         editors.set($editors);

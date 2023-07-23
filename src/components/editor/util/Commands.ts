@@ -58,10 +58,11 @@ export type Command = {
 };
 
 export type CommandContext = {
-    caret: Caret;
+    caret: Caret | undefined;
     evaluator: Evaluator;
     creator: Creator;
     toggleMenu?: () => void;
+    fullscreen?: (on: boolean) => void;
 };
 
 export type Edit = Caret | Revision;
@@ -110,7 +111,8 @@ export function handleKeyCommand(
                 command.key === event.key)
         ) {
             // If so, execute it.
-            return command.execute(context, event.key);
+            const result = command.execute(context, event.key);
+            if (result !== false) return result;
         }
     }
     return false;
@@ -126,8 +128,8 @@ export const IncrementLiteral: Command = {
     shift: false,
     key: 'ArrowUp',
     keySymbol: '↑',
-    active: ({ caret }) => caret.getAdjustableLiteral() !== undefined,
-    execute: ({ caret }) => caret.adjustLiteral(undefined, 1),
+    active: ({ caret }) => caret?.getAdjustableLiteral() !== undefined ?? false,
+    execute: ({ caret }) => caret?.adjustLiteral(undefined, 1) ?? false,
 };
 
 export const DecrementLiteral: Command = {
@@ -140,8 +142,8 @@ export const DecrementLiteral: Command = {
     alt: true,
     key: 'ArrowDown',
     keySymbol: '↓',
-    active: ({ caret }) => caret.getAdjustableLiteral() !== undefined,
-    execute: (context) => context.caret.adjustLiteral(undefined, -1),
+    active: ({ caret }) => caret?.getAdjustableLiteral() !== undefined ?? false,
+    execute: ({ caret }) => caret?.adjustLiteral(undefined, -1) ?? false,
 };
 
 export const StepBack: Command = {
@@ -213,9 +215,9 @@ export const StepBackNode: Command = {
     control: true,
     key: 'ArrowLeft',
     keySymbol: '←',
-    active: (context) => context.caret.isNode(),
+    active: ({ caret }) => caret?.isNode() ?? false,
     execute: (context) =>
-        context.caret.position instanceof Node
+        context.caret?.position instanceof Node
             ? context.evaluator.stepBackToNode(context.caret.position)
             : undefined,
 };
@@ -230,9 +232,9 @@ export const StepForwardNode: Command = {
     shift: false,
     alt: false,
     control: true,
-    active: (context) => context.caret.isNode(),
+    active: (context) => context.caret?.isNode() ?? false,
     execute: (context) =>
-        context.caret.position instanceof Node
+        context.caret?.position instanceof Node
             ? context.evaluator.stepToNode(context.caret.position)
             : undefined,
 };
@@ -338,6 +340,32 @@ export const Menu: Command = {
         context.toggleMenu ? context.toggleMenu() : undefined,
 };
 
+export const EnterFullscreen: Command = {
+    symbol: '▶️',
+    description: (l) => l.ui.tooltip.fullscreen,
+    visible: Visibility.Invisible,
+    category: Category.Evaluate,
+    shift: false,
+    alt: true,
+    control: true,
+    key: 'Enter',
+    execute: (context) =>
+        context.fullscreen ? context.fullscreen(true) : false,
+};
+
+export const ExitFullscreen: Command = {
+    symbol: '✎',
+    description: (l) => l.ui.tooltip.fullscreen,
+    visible: Visibility.Invisible,
+    category: Category.Evaluate,
+    shift: false,
+    alt: false,
+    control: false,
+    key: 'Escape',
+    execute: (context) =>
+        context.fullscreen ? context.fullscreen(false) : false,
+};
+
 const Commands: Command[] = [
     {
         symbol: '↑',
@@ -349,7 +377,7 @@ const Commands: Command[] = [
         shift: false,
         key: 'ArrowUp',
         keySymbol: '↑',
-        execute: (context) => context.caret.moveVertical(-1),
+        execute: ({ caret }) => caret?.moveVertical(-1) ?? false,
     },
     {
         symbol: '↓',
@@ -361,7 +389,7 @@ const Commands: Command[] = [
         shift: false,
         key: 'ArrowDown',
         keySymbol: '↓',
-        execute: (context) => context.caret.moveVertical(1),
+        execute: ({ caret }) => caret?.moveVertical(1),
     },
     {
         symbol: '←',
@@ -373,11 +401,11 @@ const Commands: Command[] = [
         shift: false,
         key: 'ArrowLeft',
         keySymbol: '←',
-        execute: (context) =>
-            context.caret.moveInline(
+        execute: ({ caret, creator }) =>
+            caret?.moveInline(
                 false,
-                context.creator.getWritingDirection() === 'ltr' ? -1 : 1
-            ),
+                creator.getWritingDirection() === 'ltr' ? -1 : 1
+            ) ?? false,
     },
     {
         symbol: '→',
@@ -389,11 +417,11 @@ const Commands: Command[] = [
         shift: false,
         key: 'ArrowRight',
         keySymbol: '→',
-        execute: (context) =>
-            context.caret.moveInline(
+        execute: ({ caret, creator }) =>
+            caret?.moveInline(
                 false,
-                context.creator.getWritingDirection() === 'ltr' ? 1 : -1
-            ),
+                creator.getWritingDirection() === 'ltr' ? 1 : -1
+            ) ?? false,
     },
     {
         symbol: '↖',
@@ -405,7 +433,7 @@ const Commands: Command[] = [
         control: false,
         key: 'ArrowLeft',
         keySymbol: '←',
-        execute: (context) => context.caret.left(true),
+        execute: ({ caret }) => caret?.left(true) ?? false,
     },
     {
         symbol: '↗',
@@ -417,7 +445,7 @@ const Commands: Command[] = [
         shift: true,
         keySymbol: '→',
         key: 'ArrowRight',
-        execute: (context) => context.caret.right(true),
+        execute: ({ caret }) => caret?.right(true) ?? false,
     },
     {
         symbol: '▣',
@@ -429,8 +457,8 @@ const Commands: Command[] = [
         alt: undefined,
         control: false,
         shift: undefined,
-        execute: (context) => {
-            const caret = context.caret;
+        execute: ({ caret }) => {
+            if (caret === undefined) return false;
             const position = caret.position;
             if (position instanceof Node) {
                 let parent = caret.source.root.getParent(position);
@@ -450,6 +478,7 @@ const Commands: Command[] = [
                     );
                 }
             }
+            return false;
         },
     },
     {
@@ -462,8 +491,8 @@ const Commands: Command[] = [
         control: true,
         key: 'KeyA',
         keySymbol: 'a',
-        execute: (context) =>
-            context.caret.withPosition(context.caret.getProgram()),
+        execute: ({ caret }) =>
+            caret?.withPosition(caret.getProgram()) ?? false,
     },
     {
         symbol: TRUE_SYMBOL,
@@ -475,7 +504,7 @@ const Commands: Command[] = [
         control: false,
         key: 'Digit1',
         keySymbol: '1',
-        execute: (context) => context.caret.insert(TRUE_SYMBOL),
+        execute: ({ caret }) => caret?.insert(TRUE_SYMBOL) ?? false,
     },
     {
         symbol: FALSE_SYMBOL,
@@ -487,7 +516,7 @@ const Commands: Command[] = [
         control: false,
         key: 'Digit0',
         keySymbol: '0',
-        execute: (context) => context.caret.insert(FALSE_SYMBOL),
+        execute: ({ caret }) => caret?.insert(FALSE_SYMBOL) ?? false,
     },
     {
         symbol: NONE_SYMBOL,
@@ -499,7 +528,7 @@ const Commands: Command[] = [
         control: false,
         key: 'KeyO',
         keySymbol: 'o',
-        execute: (context) => context.caret.insert(NONE_SYMBOL),
+        execute: ({ caret }) => caret?.insert(NONE_SYMBOL) ?? false,
     },
     {
         symbol: FUNCTION_SYMBOL,
@@ -511,8 +540,8 @@ const Commands: Command[] = [
         keySymbol: 'f',
         shift: false,
         control: false,
-        execute: (context) =>
-            context.caret.insertNode(
+        execute: ({ caret }) =>
+            caret?.insertNode(
                 FunctionDefinition.make(
                     undefined,
                     Names.make([]),
@@ -521,7 +550,7 @@ const Commands: Command[] = [
                     ExpressionPlaceholder.make()
                 ),
                 2
-            ),
+            ) ?? false,
     },
     {
         symbol: TYPE_SYMBOL,
@@ -533,7 +562,7 @@ const Commands: Command[] = [
         control: false,
         key: 'Digit8',
         keySymbol: '8',
-        execute: (context) => context.caret.insert(TYPE_SYMBOL),
+        execute: ({ caret }) => caret?.insert(TYPE_SYMBOL) ?? false,
     },
     {
         symbol: '≠',
@@ -545,7 +574,7 @@ const Commands: Command[] = [
         control: false,
         key: 'Equal',
         keySymbol: '=',
-        execute: (context) => context.caret.insert('≠'),
+        execute: ({ caret }) => caret?.insert('≠') ?? false,
     },
     {
         symbol: PRODUCT_SYMBOL,
@@ -557,7 +586,7 @@ const Commands: Command[] = [
         control: false,
         key: 'KeyX',
         keySymbol: 'x',
-        execute: (context) => context.caret.insert(PRODUCT_SYMBOL),
+        execute: ({ caret }) => caret?.insert(PRODUCT_SYMBOL) ?? false,
     },
     {
         symbol: QUOTIENT_SYMBOL,
@@ -569,7 +598,7 @@ const Commands: Command[] = [
         control: false,
         key: 'Slash',
         keySymbol: '/',
-        execute: (context) => context.caret.insert(QUOTIENT_SYMBOL),
+        execute: ({ caret }) => caret?.insert(QUOTIENT_SYMBOL) ?? false,
     },
     {
         symbol: DEGREE_SYMBOL,
@@ -581,7 +610,7 @@ const Commands: Command[] = [
         control: false,
         key: 'Digit8',
         keySymbol: '8',
-        execute: (context) => context.caret.insert(DEGREE_SYMBOL),
+        execute: ({ caret }) => caret?.insert(DEGREE_SYMBOL) ?? false,
     },
     {
         symbol: '≤',
@@ -593,7 +622,7 @@ const Commands: Command[] = [
         alt: true,
         key: 'Comma',
         keySymbol: ',',
-        execute: (context) => context.caret.insert('≤'),
+        execute: ({ caret }) => caret?.insert('≤') ?? false,
     },
     {
         symbol: '≥',
@@ -605,7 +634,7 @@ const Commands: Command[] = [
         control: false,
         alt: true,
         key: 'Period',
-        execute: (context) => context.caret.insert('≥'),
+        execute: ({ caret }) => caret?.insert('≥') ?? false,
     },
     {
         symbol: CONVERT_SYMBOL,
@@ -617,7 +646,7 @@ const Commands: Command[] = [
         control: false,
         key: 'ArrowRight',
         keySymbol: '→',
-        execute: (context) => context.caret.insert(CONVERT_SYMBOL),
+        execute: ({ caret }) => caret?.insert(CONVERT_SYMBOL) ?? false,
     },
     {
         symbol: STREAM_SYMBOL,
@@ -629,9 +658,10 @@ const Commands: Command[] = [
         control: false,
         key: 'Semicolon',
         keySymbol: ';',
-        execute: (context) => context.caret.insert(STREAM_SYMBOL),
+        execute: ({ caret }) => caret?.insert(STREAM_SYMBOL) ?? false,
     },
-    // This is before back because it handles node selections.
+
+    // EVALUATE
     StepBackNode,
     StepBack,
     StepBackInput,
@@ -644,6 +674,8 @@ const Commands: Command[] = [
     StepOut,
     Play,
     Pause,
+    EnterFullscreen,
+    ExitFullscreen,
 
     // MODIFY
     Menu,
@@ -686,10 +718,12 @@ const Commands: Command[] = [
         alt: false,
         control: false,
         key: 'Enter',
-        execute: (context) =>
-            context.caret.isNode()
-                ? context.caret.enter()
-                : context.caret.insert('\n'),
+        execute: ({ caret }) =>
+            caret === undefined
+                ? false
+                : caret.isNode()
+                ? caret.enter()
+                : caret.insert('\n'),
     },
     {
         symbol: '⌫',
@@ -701,7 +735,7 @@ const Commands: Command[] = [
         shift: false,
         control: false,
         alt: false,
-        execute: (context) => context.caret.backspace(),
+        execute: ({ caret }) => caret?.backspace() ?? false,
     },
     {
         symbol: '✂️',
@@ -714,7 +748,7 @@ const Commands: Command[] = [
         key: 'KeyX',
         keySymbol: 'x',
         execute: (context) => {
-            if (!(context.caret.position instanceof Node)) return undefined;
+            if (!(context.caret?.position instanceof Node)) return false;
             toClipboard(context.caret.position, context.caret.source.spaces);
             return context.caret.backspace();
         },
@@ -730,7 +764,7 @@ const Commands: Command[] = [
         key: 'KeyC',
         keySymbol: 'c',
         execute: (context) => {
-            if (!(context.caret.position instanceof Node)) return undefined;
+            if (!(context.caret?.position instanceof Node)) return false;
             return toClipboard(
                 context.caret.position,
                 context.caret.source.spaces
@@ -747,9 +781,10 @@ const Commands: Command[] = [
         alt: false,
         key: 'KeyV',
         keySymbol: 'v',
-        execute: async (context) => {
+        execute: async ({ caret }) => {
             // See if there's something on the clipboard.
-            if (navigator.clipboard === undefined) return undefined;
+            if (navigator.clipboard === undefined || caret === undefined)
+                return undefined;
 
             const items = await navigator.clipboard.read();
             for (const item of items) {
@@ -757,7 +792,7 @@ const Commands: Command[] = [
                     if (type === 'text/plain') {
                         const blob = await item.getType(type);
                         const text = await blob.text();
-                        return context.caret.insert(text);
+                        return caret.insert(text);
                     }
                 }
             }
@@ -773,8 +808,8 @@ const Commands: Command[] = [
         shift: undefined,
         alt: undefined,
         key: '(',
-        active: (context) => context.caret.isNode(),
-        execute: (context) => context.caret.wrap('('),
+        active: ({ caret }) => caret?.isNode() ?? false,
+        execute: ({ caret }) => caret?.wrap('('),
     },
     {
         symbol: '[ _ ]',
@@ -785,8 +820,8 @@ const Commands: Command[] = [
         shift: undefined,
         alt: undefined,
         key: '[',
-        active: (context) => context.caret.isNode(),
-        execute: (context) => context.caret.wrap('['),
+        active: ({ caret }) => caret?.isNode() ?? false,
+        execute: ({ caret }) => caret?.wrap('['),
     },
     IncrementLiteral,
     DecrementLiteral,
@@ -798,8 +833,8 @@ const Commands: Command[] = [
         control: false,
         shift: undefined,
         alt: undefined,
-        execute: (context, key) =>
-            key.length === 1 ? context.caret.insert(key) : undefined,
+        execute: ({ caret }, key) =>
+            caret && key.length === 1 ? caret.insert(key) : undefined,
     },
 ];
 
