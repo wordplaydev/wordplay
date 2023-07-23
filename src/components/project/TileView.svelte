@@ -204,6 +204,7 @@
                 {:else}
                     {tile.name}
                 {/if}
+                <slot name="name" />
             </div>
             <slot name="extra" />
             <Button
@@ -373,6 +374,9 @@
 
     .name {
         margin-inline-end: auto;
+        display: flex;
+        flex-direction: row;
+        gap: var(--wordplay-spacing);
     }
 
     .name.source {

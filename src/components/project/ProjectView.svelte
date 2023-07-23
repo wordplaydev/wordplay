@@ -1039,6 +1039,22 @@
                             on:fullscreen={(event) =>
                                 setFullscreen(tile, event.detail.fullscreen)}
                         >
+                            <svelte:fragment slot="name">
+                                {#if tile.isSource()}
+                                    {@const source = getSourceByID(tile.id)}
+                                    <!-- Can't delete main. -->
+                                    {#if source !== project.main}
+                                        <ConfirmButton
+                                            tip={$creator.getLocale().ui.tooltip
+                                                .deleteSource}
+                                            action={() => removeSource(source)}
+                                            prompt={$creator.getLocale().ui
+                                                .prompt.deleteSource}
+                                            >⨉</ConfirmButton
+                                        >
+                                    {/if}
+                                {/if}
+                            </svelte:fragment>
                             <svelte:fragment slot="extra">
                                 {#if tile.kind === Content.Output}
                                     {#if !editable}<Button
@@ -1061,18 +1077,6 @@
                                         >{#if fit}🔒{:else}🔓{/if}</Button
                                     >
                                 {:else if tile.isSource()}
-                                    {@const source = getSourceByID(tile.id)}
-                                    <!-- Can't delete main. -->
-                                    {#if source !== project.main}
-                                        <ConfirmButton
-                                            tip={$creator.getLocale().ui.tooltip
-                                                .deleteSource}
-                                            action={() => removeSource(source)}
-                                            prompt={$creator.getLocale().ui
-                                                .prompt.deleteSource}
-                                            >⨉</ConfirmButton
-                                        >
-                                    {/if}
                                     <!-- Make a Button for every modify command -->
                                     {#each VisibleModifyCommands as command}<CommandButton
                                             {command}
