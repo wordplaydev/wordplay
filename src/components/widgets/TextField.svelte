@@ -85,7 +85,8 @@
     }
 
     input:focus {
-        border-bottom-color: var(--wordplay-highlight);
+        border-bottom: var(--wordplay-highlight) solid
+            var(--wordplay-border-width);
     }
 
     input.error {
