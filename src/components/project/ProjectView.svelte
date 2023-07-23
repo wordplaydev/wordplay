@@ -116,7 +116,7 @@
     /** The current canvas */
     let canvas: HTMLElement;
 
-    /** Whether to show help */
+    /** Whether to show the keyboard help dialog */
     let help: boolean;
 
     /** The current canvas dimensions */

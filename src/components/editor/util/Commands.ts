@@ -840,6 +840,7 @@ const Commands: Command[] = [
     },
     IncrementLiteral,
     DecrementLiteral,
+    /** The command to rule them all... inserts things */
     {
         symbol: 'a',
         description: (l) => l.ui.tooltip.type,
@@ -849,7 +850,7 @@ const Commands: Command[] = [
         shift: undefined,
         alt: undefined,
         execute: ({ caret }, key) =>
-            caret && key.length === 1 ? caret.insert(key) : undefined,
+            caret && key.length === 1 ? caret.insert(key) : false,
     },
     ShowKeyboardHelp,
 ];
