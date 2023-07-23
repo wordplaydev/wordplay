@@ -16,6 +16,7 @@
     --wordplay-border-color: var(--color-light-grey);
     --wordplay-evaluation-color: var(--color-pink);
     --wordplay-highlight: var(--color-yellow);
+    --wordplay-hover: #feebc3;
     --wordplay-error: var(--color-orange);
     --wordplay-warning: var(--color-yellow);
     --wordplay-inactive-color: var(--color-light-grey);
@@ -62,6 +63,7 @@
     --wordplay-border-color: var(--color-dark-grey);
     --wordplay-evaluation-color: var(--color-pink);
     --wordplay-highlight: var(--color-yellow);
+    --wordplay-hover: #463000;
     --wordplay-error: var(--color-orange);
     --wordplay-warning: var(--color-yellow);
     --wordplay-inactive-color: var(--color-light-grey);

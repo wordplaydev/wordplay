@@ -218,7 +218,11 @@
                     $creator.getLanguages()
                 )}
                 {#if newNode !== undefined}
-                    <div class="revision">
+                    <div
+                        class="revision"
+                        on:pointerdown|preventDefault|stopPropagation={() =>
+                            handleItemClick(revision)}
+                    >
                         <RootView
                             node={newNode instanceof Block &&
                             newNode.statements.length > 1
@@ -268,7 +272,6 @@
     .revisions {
         display: flex;
         flex-direction: column;
-        gap: var(--wordplay-spacing);
         overflow-y: scroll;
         overflow-x: hidden;
         flex-grow: 1;
@@ -280,9 +283,22 @@
         cursor: pointer;
     }
 
-    .revision.selected {
+    .revision:focus {
+        outline: none;
+    }
+
+    .revision:focus:hover {
+        outline: var(--wordplay-highlight) solid var(--wordplay-focus-width);
+        outline-offset: calc(-1 * var(--wordplay-focus-width));
+    }
+
+    .revision.selected:not(:hover) {
         background: var(--wordplay-highlight);
         color: var(--wordplay-background);
+    }
+
+    .revision:hover {
+        background: var(--wordplay-hover);
     }
 
     .revision.selected :global(.token-view) {

@@ -73,9 +73,8 @@
 
     /* Selections do stroke and background of different colors to give the node a sense of shape */
     .hovered:not(.selected).outline path {
-        stroke: var(--wordplay-highlight);
-        fill: var(--wordplay-highlight);
-        opacity: 0.2;
+        stroke: var(--wordplay-hover);
+        fill: var(--wordplay-hover);
     }
 
     .outline.selected path {
@@ -84,8 +83,8 @@
     }
 
     .outline.dragged path {
-        fill: var(--wordplay-highlight);
-        stroke: var(--wordplay-highlight);
+        fill: var(--wordplay-hover);
+        stroke: var(--wordplay-hover);
         opacity: 0.2;
     }
 
