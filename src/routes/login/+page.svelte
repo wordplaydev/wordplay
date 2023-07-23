@@ -140,7 +140,7 @@
                         bind:text={email}
                     /><Button
                         tip={$creator.getLocale().ui.login.submit}
-                        enabled={/^.+@.+$/.test(email)}
+                        active={/^.+@.+$/.test(email)}
                         action={() => undefined}>&gt;</Button
                     >
                 </form>

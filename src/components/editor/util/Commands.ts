@@ -96,7 +96,7 @@ export function handleKeyCommand(
     const control = event.metaKey || event.ctrlKey;
 
     // Loop through the commands and see if there's a match to this event.
-    for (const command of commands) {
+    for (const command of Commands) {
         // Does this command match the event?
         if (
             (command.active === undefined ||
@@ -125,11 +125,12 @@ export const IncrementLiteral: Command = {
     shift: false,
     key: 'ArrowUp',
     keySymbol: '↑',
-    execute: (context) => context.caret.adjustLiteral(undefined, 1),
+    active: ({ caret }) => caret.getAdjustableLiteral() !== undefined,
+    execute: ({ caret }) => caret.adjustLiteral(undefined, 1),
 };
 
 export const DecrementLiteral: Command = {
-    symbol: '–',
+    symbol: '−',
     description: (l) => l.ui.tooltip.decrementLiteral,
     visible: Visibility.Touch,
     category: Category.Modify,
@@ -138,6 +139,7 @@ export const DecrementLiteral: Command = {
     alt: true,
     key: 'ArrowDown',
     keySymbol: '↓',
+    active: ({ caret }) => caret.getAdjustableLiteral() !== undefined,
     execute: (context) => context.caret.adjustLiteral(undefined, -1),
 };
 
@@ -321,7 +323,7 @@ export const Pause: Command = {
     execute: (context) => context.evaluator.pause(),
 };
 
-const commands: Command[] = [
+const Commands: Command[] = [
     {
         symbol: '↑',
         description: (l) => l.ui.tooltip.cursorLineBefore,
@@ -448,8 +450,6 @@ const commands: Command[] = [
         execute: (context) =>
             context.caret.withPosition(context.caret.getProgram()),
     },
-    IncrementLiteral,
-    DecrementLiteral,
     {
         symbol: TRUE_SYMBOL,
         description: (l) => l.ui.tooltip.insertTrueSymbol,
@@ -616,20 +616,6 @@ const commands: Command[] = [
         keySymbol: ';',
         execute: (context) => context.caret.insert(STREAM_SYMBOL),
     },
-    {
-        symbol: '⏎',
-        description: (l) => l.ui.tooltip.insertLineBreak,
-        visible: Visibility.Touch,
-        category: Category.Modify,
-        key: 'Enter',
-        shift: false,
-        alt: false,
-        control: false,
-        execute: (context) =>
-            context.caret.isNode()
-                ? context.caret.enter()
-                : context.caret.insert('\n'),
-    },
     // This is before back because it handles node selections.
     StepBackNode,
     StepBack,
@@ -644,6 +630,50 @@ const commands: Command[] = [
     Play,
     Pause,
     {
+        symbol: '⟲',
+        description: (l) => l.ui.tooltip.undo,
+        visible: Visibility.Visible,
+        category: Category.Modify,
+        shift: false,
+        control: true,
+        alt: false,
+        key: 'KeyZ',
+        keySymbol: 'z',
+        active: (context) =>
+            context.creator.projectIsUndoable(context.evaluator.project.id),
+        execute: (context) =>
+            context.creator.undoProject(context.evaluator.project.id) === true,
+    },
+    {
+        symbol: '⟳',
+        description: (l) => l.ui.tooltip.redo,
+        visible: Visibility.Visible,
+        category: Category.Modify,
+        shift: true,
+        control: true,
+        alt: false,
+        key: 'KeyZ',
+        keySymbol: 'z',
+        active: (context) =>
+            context.creator.projectIsRedoable(context.evaluator.project.id),
+        execute: (context) =>
+            context.creator.redoProject(context.evaluator.project.id) === true,
+    },
+    {
+        symbol: '↲',
+        description: (l) => l.ui.tooltip.insertLineBreak,
+        visible: Visibility.Touch,
+        category: Category.Modify,
+        shift: false,
+        alt: false,
+        control: false,
+        key: 'Enter',
+        execute: (context) =>
+            context.caret.isNode()
+                ? context.caret.enter()
+                : context.caret.insert('\n'),
+    },
+    {
         symbol: '⌫',
         description: (l) => l.ui.tooltip.backspace,
         visible: Visibility.Touch,
@@ -654,24 +684,6 @@ const commands: Command[] = [
         control: false,
         alt: false,
         execute: (context) => context.caret.backspace(),
-    },
-    {
-        symbol: '📋',
-        description: (l) => l.ui.tooltip.copy,
-        visible: Visibility.Visible,
-        category: Category.Modify,
-        control: true,
-        shift: false,
-        alt: false,
-        key: 'KeyC',
-        keySymbol: 'c',
-        execute: (context) => {
-            if (!(context.caret.position instanceof Node)) return undefined;
-            return toClipboard(
-                context.caret.position,
-                context.caret.source.spaces
-            );
-        },
     },
     {
         symbol: '✂️',
@@ -691,6 +703,24 @@ const commands: Command[] = [
     },
     {
         symbol: '📚',
+        description: (l) => l.ui.tooltip.copy,
+        visible: Visibility.Visible,
+        category: Category.Modify,
+        control: true,
+        shift: false,
+        alt: false,
+        key: 'KeyC',
+        keySymbol: 'c',
+        execute: (context) => {
+            if (!(context.caret.position instanceof Node)) return undefined;
+            return toClipboard(
+                context.caret.position,
+                context.caret.source.spaces
+            );
+        },
+    },
+    {
+        symbol: '📋',
         description: (l) => l.ui.tooltip.paste,
         visible: Visibility.Visible,
         category: Category.Modify,
@@ -717,7 +747,7 @@ const commands: Command[] = [
         },
     },
     {
-        symbol: '()',
+        symbol: '( _ )',
         description: (l) => l.ui.tooltip.parenthesize,
         visible: Visibility.Visible,
         category: Category.Modify,
@@ -729,7 +759,7 @@ const commands: Command[] = [
         execute: (context) => context.caret.wrap('('),
     },
     {
-        symbol: '[]',
+        symbol: '[ _ ]',
         description: (l) => l.ui.tooltip.enumerate,
         visible: Visibility.Visible,
         category: Category.Modify,
@@ -737,8 +767,11 @@ const commands: Command[] = [
         shift: undefined,
         alt: undefined,
         key: '[',
+        active: (context) => context.caret.isNode(),
         execute: (context) => context.caret.wrap('['),
     },
+    IncrementLiteral,
+    DecrementLiteral,
     {
         symbol: 'a',
         description: (l) => l.ui.tooltip.type,
@@ -750,32 +783,12 @@ const commands: Command[] = [
         execute: (context, key) =>
             key.length === 1 ? context.caret.insert(key) : undefined,
     },
-    {
-        symbol: '↩',
-        description: (l) => l.ui.tooltip.undo,
-        visible: Visibility.Visible,
-        category: Category.Modify,
-        shift: false,
-        control: true,
-        alt: false,
-        key: 'KeyZ',
-        keySymbol: 'z',
-        execute: (context) =>
-            context.creator.undoProject(context.evaluator.project.id) === true,
-    },
-    {
-        symbol: '↪',
-        description: (l) => l.ui.tooltip.redo,
-        visible: Visibility.Visible,
-        category: Category.Modify,
-        shift: true,
-        control: true,
-        alt: false,
-        key: 'KeyZ',
-        keySymbol: 'z',
-        execute: (context) =>
-            context.creator.redoProject(context.evaluator.project.id) === true,
-    },
 ];
 
-export default commands;
+export const VisibleModifyCommands = Commands.filter(
+    (c) =>
+        c.category === Category.Modify &&
+        (c.visible === Visibility.Visible || c.visible === Visibility.Touch)
+);
+
+export default Commands;

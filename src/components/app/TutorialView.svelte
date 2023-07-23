@@ -242,7 +242,7 @@
             <Button
                 tip={$creator.getLocale().ui.tooltip.previousLessonStep}
                 action={() => navigate(progress.previousPause() ?? progress)}
-                enabled={progress.previousPause() !== undefined}>⇦</Button
+                active={progress.previousPause() !== undefined}>⇦</Button
             >
 
             <!-- A hierarchical select of tutorial units and lessons  -->
@@ -283,7 +283,7 @@
             <Button
                 tip={$creator.getLocale().ui.tooltip.nextLessonStep}
                 action={() => navigate(progress.nextPause() ?? progress)}
-                enabled={progress.nextPause() !== undefined}>⇨</Button
+                active={progress.nextPause() !== undefined}>⇨</Button
             >
         </nav>
     </div>

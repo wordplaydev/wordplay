@@ -78,7 +78,11 @@
         STAGE_SYMBOL,
     } from '../../parser/Symbols';
     import type Value from '../../runtime/Value';
-    import { handleKeyCommand } from '../editor/util/Commands';
+    import {
+        VisibleModifyCommands,
+        handleKeyCommand,
+    } from '../editor/util/Commands';
+    import CommandButton from '../widgets/CommandButton.svelte';
 
     export let project: Project;
     export let original: Project | undefined = undefined;
@@ -1066,6 +1070,7 @@
                                     >
                                 {:else if tile.isSource()}
                                     {@const source = getSourceByID(tile.id)}
+                                    <!-- Can't delete main. -->
                                     {#if source !== project.main}
                                         <ConfirmButton
                                             tip={$creator.getLocale().ui.tooltip
@@ -1076,6 +1081,11 @@
                                             >⨉</ConfirmButton
                                         >
                                     {/if}
+                                    <!-- Make a Button for every modify command -->
+                                    {#each VisibleModifyCommands as command}<CommandButton
+                                            {command}
+                                            sourceID={tile.id}
+                                        />{/each}
                                 {/if}
                             </svelte:fragment>
                             <svelte:fragment slot="content">
@@ -1154,7 +1164,7 @@
             {#if original}<Button
                     uiid="revertProject"
                     tip={$creator.getLocale().ui.tooltip.revertProject}
-                    enabled={!project.equals(original)}
+                    active={!project.equals(original)}
                     action={() => revert()}>↺</Button
                 >{/if}
             <TextField

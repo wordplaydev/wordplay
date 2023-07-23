@@ -26,7 +26,7 @@
     tip={command.description($creator.getLocale()) +
         ` (${toShortcut(command)})`}
     bind:view
-    enabled={command.active === undefined
+    active={command.active === undefined
         ? true
         : editor
         ? command.active(

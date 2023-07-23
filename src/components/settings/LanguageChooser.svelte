@@ -60,7 +60,7 @@
             <span role="button" class="language supported">
                 <Button
                     action={() => select(lang)}
-                    enabled={languages.length > 1}
+                    active={languages.length > 1}
                     tip={$creator.getLocale().ui.tooltip.removeLanguage}
                     >{getLanguageName(lang)}<sub>{lang}</sub>
                     {#if languages.length > 1}

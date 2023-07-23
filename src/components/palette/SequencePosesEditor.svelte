@@ -131,18 +131,18 @@
                         <Button
                             tip={$creator.getLocale().ui.tooltip.removePose}
                             action={() => removePose(index)}
-                            enabled={map !== undefined && map.values.length > 1}
+                            active={map !== undefined && map.values.length > 1}
                             >⨉</Button
                         >
                         <Button
                             tip={$creator.getLocale().ui.tooltip.movePoseUp}
                             action={() => movePose(index, -1)}
-                            enabled={index > 0}>↑</Button
+                            active={index > 0}>↑</Button
                         >
                         <Button
                             tip={$creator.getLocale().ui.tooltip.movePoseDown}
                             action={() => movePose(index, 1)}
-                            enabled={index < map.values.length - 1}>↓</Button
+                            active={index < map.values.length - 1}>↓</Button
                         >
                     </div>
                     <div class="pose"

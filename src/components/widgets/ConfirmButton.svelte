@@ -11,7 +11,7 @@
 </script>
 
 <div class="prompt" class:confirming>
-    <Button {tip} action={() => (confirming = !confirming)} {enabled}
+    <Button {tip} action={() => (confirming = !confirming)} active={enabled}
         ><slot /></Button
     >
     {#if confirming}

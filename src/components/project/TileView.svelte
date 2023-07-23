@@ -209,7 +209,7 @@
             <Button
                 tip={$creator.getLocale().ui.tooltip.collapse}
                 action={() => dispatch('mode', { mode: Mode.Collapsed })}
-                enabled={!layout.isFullscreen()}>&ndash;</Button
+                active={!layout.isFullscreen()}>×</Button
             >
             <Button
                 tip={$creator.getLocale().ui.tooltip.fullscreen}
@@ -326,9 +326,11 @@
         padding-right: var(--wordplay-spacing);
         padding-bottom: 0;
 
-        color: var(--wordplay-inactive-color);
-        fill: var(--wordplay-inactive-color);
         gap: var(--wordplay-spacing);
+    }
+
+    .controls :global(button) {
+        opacity: 0.5;
     }
 
     .footer {

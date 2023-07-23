@@ -3,7 +3,7 @@
 <script lang="ts">
     export let tip: string;
     export let action: () => void;
-    export let enabled: boolean = true;
+    export let active: boolean = true;
     export let stretch: boolean = false;
     export let submit: boolean = false;
     export let uiid: string | undefined = undefined;
@@ -12,7 +12,7 @@
     export let view: HTMLButtonElement | undefined = undefined;
 
     async function doAction() {
-        action();
+        if (active) action();
     }
 </script>
 
@@ -26,13 +26,12 @@
     type={submit ? 'submit' : null}
     title={tip}
     aria-label={tip}
-    tabindex={enabled ? 0 : null}
+    aria-disabled={!active}
     bind:this={view}
     on:dblclick|stopPropagation
-    on:pointerdown|stopPropagation={() => (enabled ? doAction() : undefined)}
+    on:pointerdown|stopPropagation={() => (active ? doAction() : undefined)}
     on:keydown={(event) =>
         event.key === 'Enter' || event.key === ' ' ? doAction() : undefined}
-    aria-disabled={!enabled}
 >
     <slot />
 </button>
@@ -75,6 +74,6 @@
 
     button.scale:focus[aria-disabled='false'],
     button.scale:hover[aria-disabled='false'] {
-        transform: scale(1.1);
+        transform: scale(1.25);
     }
 </style>

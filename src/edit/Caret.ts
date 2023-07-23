@@ -21,6 +21,10 @@ import UnicodeString from '../models/UnicodeString';
 import ListLiteral from '@nodes/ListLiteral';
 import SetLiteral from '../nodes/SetLiteral';
 import MapLiteral from '../nodes/MapLiteral';
+import TextLiteral from '../nodes/TextLiteral';
+import NumberLiteral from '../nodes/NumberLiteral';
+import BooleanLiteral from '../nodes/BooleanLiteral';
+import type Literal from '../nodes/Literal';
 
 export type InsertionContext = { before: Node[]; after: Node[] };
 export type CaretPosition = number | Node;
@@ -100,6 +104,30 @@ export default class Caret {
             this.tokenPrior &&
             this.source.getTokenLastPosition(this.tokenPrior) === this.position
         );
+    }
+
+    getAdjustableLiteral(): Literal | undefined {
+        const node =
+            this.position instanceof Node
+                ? this.position
+                : this.tokenExcludingSpace;
+        if (node) {
+            return this.source.root
+                .getSelfAndAncestors(node)
+                .find(
+                    (
+                        literal
+                    ): literal is
+                        | TextLiteral
+                        | NumberLiteral
+                        | BooleanLiteral =>
+                        (literal instanceof TextLiteral &&
+                            literal.getValue().text.length === 1) ||
+                        literal instanceof NumberLiteral ||
+                        literal instanceof BooleanLiteral
+                );
+        }
+        return undefined;
     }
 
     betweenDelimiters() {

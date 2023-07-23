@@ -454,8 +454,18 @@ export class Creator {
         this.requestProjectsSave();
     }
 
+    projectIsUndoable(id: string) {
+        const info = this.projects.get(id);
+        return info !== undefined && info.index > 0;
+    }
+
     undoProject(id: string) {
         return this.undoRedoProject(id, -1);
+    }
+
+    projectIsRedoable(id: string) {
+        const info = this.projects.get(id);
+        return info !== undefined && info.index < info.history.length - 1;
     }
 
     redoProject(id: string) {

@@ -70,9 +70,6 @@
     import Button from '../widgets/Button.svelte';
     import OutputView from '../output/OutputView.svelte';
     import ConceptLinkUI from '../concepts/ConceptLinkUI.svelte';
-    import TextLiteral from '../../nodes/TextLiteral';
-    import NumberLiteral from '../../nodes/NumberLiteral';
-    import BooleanLiteral from '../../nodes/BooleanLiteral';
     import Adjust from './Adjust.svelte';
 
     const SHOW_OUTPUT_IN_PALETTE = false;
@@ -290,20 +287,7 @@
                     ? $caret.position
                     : $caret.tokenExcludingSpace;
             if (node) {
-                adjustable = source.root
-                    .getSelfAndAncestors(node)
-                    .find(
-                        (
-                            literal
-                        ): literal is
-                            | TextLiteral
-                            | NumberLiteral
-                            | BooleanLiteral =>
-                            (literal instanceof TextLiteral &&
-                                literal.getValue().text.length === 1) ||
-                            literal instanceof NumberLiteral ||
-                            literal instanceof BooleanLiteral
-                    );
+                adjustable = $caret.getAdjustableLiteral();
 
                 // When adjustable disappears, focus text field
                 if (adjustable === undefined) {
@@ -1409,7 +1393,7 @@
     <div class="output-preview-container">
         <Button
             tip={$creator.getLocale().ui.tooltip.showOutput}
-            enabled={!selected}
+            active={!selected}
             action={() => dispatch('preview')}
             scale={false}
         >

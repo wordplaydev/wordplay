@@ -52,7 +52,7 @@
                         list
                             ? removeContent($creator, project, list, index)
                             : undefined}
-                    enabled={list.values.length > 0}>⨉</Button
+                    active={list.values.length > 0}>⨉</Button
                 >
                 <Button
                     tip={$creator.getLocale().ui.tooltip.moveContentUp}
@@ -60,7 +60,7 @@
                         list
                             ? moveContent($creator, project, list, index, -1)
                             : undefined}
-                    enabled={index > 0}>↑</Button
+                    active={index > 0}>↑</Button
                 >
                 <Button
                     tip={$creator.getLocale().ui.tooltip.moveContentDown}
@@ -68,7 +68,7 @@
                         list
                             ? moveContent($creator, project, list, index, 1)
                             : undefined}
-                    enabled={index < list.values.length - 1}>↓</Button
+                    active={index < list.values.length - 1}>↓</Button
                 >
                 <Button
                     tip={$creator.getLocale().ui.tooltip.editContent}
