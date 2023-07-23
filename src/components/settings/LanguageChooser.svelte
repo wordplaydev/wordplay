@@ -13,8 +13,8 @@
     import SupportedLanguages from '@locale/SupportedLanguages';
     import ExternalLink from '../app/ExternalLink.svelte';
     import concretize from '../../locale/concretize';
+    import Dialog from '../widgets/Dialog.svelte';
 
-    let collapsed = true;
     let dialog: HTMLDialogElement;
 
     $: languages = $creator.getLanguages();
@@ -41,14 +41,13 @@
     }
 
     async function toggle() {
-        collapsed = !collapsed;
         dialog.showModal();
         await tick();
         dialog?.focus();
     }
 </script>
 
-<dialog bind:this={dialog}>
+<Dialog bind:dialog>
     <h1
         >{concretize(
             $creator.getLocale(),
@@ -103,13 +102,7 @@
             >
         {/each}
     </div>
-    <div class="close">
-        <Button
-            tip={$creator.getLocale().ui.tooltip.close}
-            action={() => dialog.close()}>❌</Button
-        >
-    </div>
-</dialog>
+</Dialog>
 <Button tip={$creator.getLocale().ui.tooltip.changeLanguage} action={toggle}>
     <span class="chosen">
         {#each languages as lang, index}{#if index > 0}+{/if}<span
@@ -119,18 +112,6 @@
 </Button>
 
 <style>
-    dialog {
-        position: relative;
-        border-radius: var(--wordplay-border-radius);
-        padding: calc(2 * var(--wordplay-spacing));
-    }
-
-    .close {
-        position: absolute;
-        top: calc(2 * var(--wordplay-spacing));
-        right: calc(2 * var(--wordplay-spacing));
-    }
-
     .chosen {
         display: flex;
         flex-direction: row;
