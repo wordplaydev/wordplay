@@ -1059,8 +1059,6 @@
         if (evaluator === undefined) return;
         if (editor === null) return;
 
-        console.log(event.key);
-
         // Assume we'll handle it.
         lastKeyDownIgnored = false;
 
