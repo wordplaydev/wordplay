@@ -15,7 +15,7 @@
     import { writable } from 'svelte/store';
     import type Program from '@nodes/Program';
     import Token from '@nodes/Token';
-    import CaretView from './CaretView.svelte';
+    import CaretView, { type CaretBounds } from './CaretView.svelte';
     import {
         CaretSymbol,
         HoveredSymbol,
@@ -70,6 +70,10 @@
     import Button from '../widgets/Button.svelte';
     import OutputView from '../output/OutputView.svelte';
     import ConceptLinkUI from '../concepts/ConceptLinkUI.svelte';
+    import TextLiteral from '../../nodes/TextLiteral';
+    import NumberLiteral from '../../nodes/NumberLiteral';
+    import BooleanLiteral from '../../nodes/BooleanLiteral';
+    import Adjust from './Adjust.svelte';
 
     export let evaluator: Evaluator;
     export let project: Project;
@@ -218,9 +222,7 @@
     let lastKeyDownIgnored = false;
 
     // Caret location comes from the caret
-    let caretLocation:
-        | { top: string; left: string; height: string; bottom: number }
-        | undefined = undefined;
+    let caretLocation: CaretBounds | undefined = undefined;
 
     // The store the contains the current node being dragged.
     let dragged = getDragged();
@@ -245,22 +247,86 @@
 
     // When the caret changes, if it's a node, focus on the node, and if it's an index, focus on the hidden text field.
     $: {
-        // Hide the menu, if there is one.
-        hideMenu();
+        if ($caret) {
+            // Hide the menu, if there is one.
+            hideMenu();
 
-        // If this editor contains the focus, choose an appropriate focus for the new caret.
-        if (
-            editor &&
-            typeof document !== 'undefined' &&
-            editor.contains(document.activeElement)
-        ) {
-            if ($caret.position instanceof Node && !$caret.isPlaceholder()) {
-                // Clear the last input value
-                lastKeyboardInputValue = undefined;
-                // Focus the node that's selected.
-                focusNodeCaret();
-            } else {
-                focusHiddenTextField();
+            tick().then(() => {
+                // If this editor contains the focus, choose an appropriate focus for the new caret.
+                const adjust = document.querySelector('.adjust');
+                if (
+                    editor &&
+                    typeof document !== 'undefined' &&
+                    editor.contains(document.activeElement) &&
+                    (adjust === null ||
+                        !adjust.contains(document.activeElement))
+                ) {
+                    if (
+                        $caret.position instanceof Node &&
+                        !$caret.isPlaceholder()
+                    ) {
+                        // Clear the last input value
+                        lastKeyboardInputValue = undefined;
+                        // Focus the node that's selected.
+                        focusNodeCaret();
+                    } else {
+                        focusHiddenTextField();
+                    }
+                }
+            });
+        }
+    }
+
+    // If the caret is in or on a literal that can be modified, shown an adjust
+    let adjustable: Node | undefined;
+    let adjustableLocation: { left: number; top: number } | undefined;
+    $: {
+        adjustable = undefined;
+        adjustableLocation = undefined;
+        if ($caret) {
+            const node =
+                $caret.position instanceof Node
+                    ? $caret.position
+                    : $caret.tokenExcludingSpace;
+            if (node) {
+                adjustable = source.root
+                    .getSelfAndAncestors(node)
+                    .find(
+                        (
+                            literal
+                        ): literal is
+                            | TextLiteral
+                            | NumberLiteral
+                            | BooleanLiteral =>
+                            (literal instanceof TextLiteral &&
+                                literal.getValue().text.length === 1) ||
+                            literal instanceof NumberLiteral ||
+                            literal instanceof BooleanLiteral
+                    );
+
+                // When adjustable disappears, focus text field
+                if (adjustable === undefined) {
+                    focusHiddenTextField();
+                } else {
+                    tick().then(() => {
+                        if (adjustable) {
+                            const adjustableBounds =
+                                getNodeView(
+                                    adjustable
+                                )?.getBoundingClientRect();
+                            const editorBounds =
+                                editor?.getBoundingClientRect();
+                            if (adjustableBounds && editorBounds)
+                                adjustableLocation = {
+                                    left:
+                                        adjustableBounds.right -
+                                        editorBounds.left,
+                                    top:
+                                        adjustableBounds.top - editorBounds.top,
+                                };
+                        }
+                    });
+                }
             }
         }
     }
@@ -1084,6 +1150,9 @@
         const newCaret = unmodified ? edit : edit[1];
         const newSource = unmodified ? undefined : edit[0];
 
+        // Remember whether the text field was focused.
+        const focused = document.activeElement === input;
+
         // Set the keyboard edit idle to false.
         keyboardEditIdle.set(idle);
 
@@ -1103,7 +1172,7 @@
 
         // After every edit and everything is updated, focus back on on text input
         await tick();
-        if (caretLocation && !unmodified && $caret.isIndex())
+        if (caretLocation && !unmodified && $caret.isIndex() && focused)
             focusHiddenTextField();
     }
 
@@ -1304,6 +1373,11 @@
         bind:this={input}
         on:input={handleTextInput}
     />
+    <!-- Render an adjust view by the caret if eligible. This should be after the input so that it's tababble. -->
+    {#if adjustable}<Adjust
+            node={adjustable}
+            bounds={adjustableLocation}
+        />{/if}
     <!-- 
         This is a localized description of the current caret position, a live region for screen readers,
         and a visual label for sighted folks.

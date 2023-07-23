@@ -1,8 +1,6 @@
 <svelte:options immutable={true} />
 
 <script lang="ts">
-    import { tick } from 'svelte';
-
     export let tip: string;
     export let action: () => void;
     export let enabled: boolean = true;
@@ -15,8 +13,6 @@
 
     async function doAction() {
         action();
-        await tick();
-        view?.focus();
     }
 </script>
 

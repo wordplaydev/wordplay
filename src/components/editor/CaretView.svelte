@@ -3,6 +3,13 @@
 <script context="module" lang="ts">
     let spaceWidth: number | null = null;
     let tabWidth: number | null = null;
+
+    export type CaretBounds = {
+        top: string;
+        left: string;
+        height: string;
+        bottom: number;
+    };
 </script>
 
 <script lang="ts">
@@ -15,19 +22,12 @@
     import { getLanguageDirection } from '../../locale/LanguageCode';
     import { creator } from '../../db/Creator';
 
-    type CaretPosition = {
-        top: string;
-        left: string;
-        height: string;
-        bottom: number;
-    };
-
     export let source: Source;
     export let blink: boolean;
     export let ignored: boolean;
 
     // The current location of the caret.
-    export let location: CaretPosition | undefined = undefined;
+    export let location: CaretBounds | undefined = undefined;
 
     // The caret of the editor that contains this view.
     let caret = getCaret();
