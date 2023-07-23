@@ -209,7 +209,7 @@
             <Button
                 tip={$creator.getLocale().ui.tooltip.collapse}
                 action={() => dispatch('mode', { mode: Mode.Collapsed })}
-                active={!layout.isFullscreen()}>×</Button
+                active={!layout.isFullscreen()}>⎵</Button
             >
             <Button
                 tip={$creator.getLocale().ui.tooltip.fullscreen}
