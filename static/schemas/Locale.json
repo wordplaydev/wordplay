@@ -5169,10 +5169,6 @@
                 "dark": {
                   "type": "string"
                 },
-                "decrement": {
-                  "description": "The down arrow that appears next to numbers, text, and booleans",
-                  "type": "string"
-                },
                 "decrementLiteral": {
                   "type": "string"
                 },
@@ -5220,10 +5216,6 @@
                   "type": "string"
                 },
                 "horizontal": {
-                  "type": "string"
-                },
-                "increment": {
-                  "description": "The up arrow that appears next to numbers, text, and booleans",
                   "type": "string"
                 },
                 "incrementLiteral": {
@@ -5442,8 +5434,6 @@
                 "revertProject",
                 "showOutput",
                 "expandCode",
-                "increment",
-                "decrement",
                 "addInput",
                 "menu",
                 "menuBack",

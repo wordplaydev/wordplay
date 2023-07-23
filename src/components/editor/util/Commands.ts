@@ -47,6 +47,31 @@ export function toShortcut(command: Command) {
     }`;
 }
 
+export const IncrementLiteral: Command = {
+    symbol: '+',
+    description: (l) => l.ui.tooltip.incrementLiteral,
+    visible: Visibility.Touch,
+    category: Category.Modify,
+    control: false,
+    alt: true,
+    shift: false,
+    key: 'ArrowUp',
+    keySymbol: '↑',
+    execute: (caret: Caret) => caret.adjustLiteral(undefined, 1),
+};
+export const DecrementLiteral: Command = {
+    symbol: '–',
+    description: (l) => l.ui.tooltip.decrementLiteral,
+    visible: Visibility.Touch,
+    category: Category.Modify,
+    shift: false,
+    control: false,
+    alt: true,
+    key: 'ArrowDown',
+    keySymbol: '↓',
+    execute: (caret: Caret) => caret.adjustLiteral(undefined, -1),
+};
+
 export type Command = {
     /** The iconographic text symbol to use */
     symbol: string;
@@ -207,30 +232,8 @@ const commands: Command[] = [
         keySymbol: 'a',
         execute: (caret: Caret) => caret.withPosition(caret.getProgram()),
     },
-    {
-        symbol: '+',
-        description: (l) => l.ui.tooltip.incrementLiteral,
-        visible: Visibility.Touch,
-        category: Category.Modify,
-        control: false,
-        alt: true,
-        shift: false,
-        key: 'ArrowUp',
-        keySymbol: '↑',
-        execute: (caret: Caret) => caret.adjustLiteral(undefined, 1),
-    },
-    {
-        symbol: '-',
-        description: (l) => l.ui.tooltip.decrementLiteral,
-        visible: Visibility.Touch,
-        category: Category.Modify,
-        shift: false,
-        control: false,
-        alt: true,
-        key: 'ArrowDown',
-        keySymbol: '↓',
-        execute: (caret: Caret) => caret.adjustLiteral(undefined, -1),
-    },
+    IncrementLiteral,
+    DecrementLiteral,
     {
         symbol: TRUE_SYMBOL,
         description: (l) => l.ui.tooltip.insertTrueSymbol,

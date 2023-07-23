@@ -5,18 +5,23 @@
     import { IdleKind, getEditors, getEvaluator } from '../project/Contexts';
     import { tokenize } from '../../parser/Tokenizer';
     import TokenView from '../editor/TokenView.svelte';
+    import { tick } from 'svelte';
 
     export let sourceID: string;
     export let command: Command;
+    export let token: boolean = false;
 
     const evaluator = getEvaluator();
     const editors = getEditors();
+
+    let view: HTMLButtonElement | undefined = undefined;
 </script>
 
 <Button
     tip={command.description($creator.getLocale()) +
         ` (${toShortcut(command)})`}
-    action={() => {
+    bind:view
+    action={async () => {
         const editor = $editors?.get(sourceID);
         if (editor) {
             const result = command.execute(
@@ -29,6 +34,13 @@
             } else if (result instanceof Promise)
                 result.then((edit) => editor.edit(edit, IdleKind.Typing));
             else editor.edit(result, IdleKind.Typing);
+
+            // Restore focus on button after update.
+            await tick();
+            view?.focus();
         } else return undefined;
-    }}><TokenView node={tokenize(command.symbol).getTokens()[0]} /></Button
+    }}
+    >{#if token}<TokenView
+            node={tokenize(command.symbol).getTokens()[0]}
+        />{:else}{command.symbol}{/if}</Button
 >

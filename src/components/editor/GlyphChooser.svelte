@@ -48,6 +48,7 @@
             {#each Defaults as command}<CommandButton
                     {sourceID}
                     {command}
+                    token
                 />{/each}
         {:else}
             {#each results as glyph}<Button

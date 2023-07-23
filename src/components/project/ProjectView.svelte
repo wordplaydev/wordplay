@@ -1117,7 +1117,7 @@
                                             {project}
                                             evaluator={$evaluator}
                                             {source}
-                                            id={tile.id}
+                                            sourceID={tile.id}
                                             selected={source === selectedSource}
                                             autofocus={autofocus &&
                                                 tile.isExpanded() &&

@@ -2928,8 +2928,6 @@
             "revertProject": "revert to original code",
             "showOutput": "show this output on stage",
             "expandCode": "expand this collapsed code",
-            "increment": "increase value by 1",
-            "decrement": "decrease value by 1",
             "addInput": "add this input",
             "menu": "autocomplete menu; choose an edit or submenu of edits",
             "menuBack": "leave submenu",

@@ -1591,8 +1591,6 @@
             "revertProject": "$?",
             "showOutput": "$?",
             "expandCode": "$?",
-            "increment": "$?",
-            "decrement": "$?",
             "addInput": "$?",
             "menu": "$?",
             "menuBack": "$?",

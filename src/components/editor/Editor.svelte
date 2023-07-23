@@ -80,10 +80,10 @@
     export let evaluator: Evaluator;
     export let project: Project;
     export let source: Source;
+    /** The ID corresponding to which source this is in the project */
+    export let sourceID: string;
     /** True if this editor's output is selected by the container. */
     export let selected: boolean;
-    /** The ID corresponding to which source this is in the project */
-    export let id: string;
     export let autofocus: boolean = true;
 
     // A per-editor store that contains the current editor's cursor. We expose it as context to children.
@@ -211,7 +211,7 @@
 
     // Keep the project-level editors store in sync with this editor's state.
     $: if (editors) {
-        $editors.set(id, { caret: $caret, edit: handleEdit });
+        $editors.set(sourceID, { caret: $caret, edit: handleEdit });
         editors.set($editors);
     }
 
@@ -1355,10 +1355,7 @@
         on:input={handleTextInput}
     />
     <!-- Render an adjust view by the caret if eligible. This should be after the input so that it's tababble. -->
-    {#if adjustable}<Adjust
-            node={adjustable}
-            bounds={adjustableLocation}
-        />{/if}
+    {#if adjustable}<Adjust {sourceID} bounds={adjustableLocation} />{/if}
     <!-- 
         This is a localized description of the current caret position, a live region for screen readers,
         and a visual label for sighted folks.
