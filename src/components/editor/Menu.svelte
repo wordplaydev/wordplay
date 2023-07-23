@@ -54,7 +54,7 @@
     $: {
         const view = revisionViews[menu.getSelectionID()];
         if (view) {
-            view.scrollIntoView();
+            // view.scrollIntoView({ block: 'center' });
             if (view !== document.activeElement) view.focus();
         }
     }
