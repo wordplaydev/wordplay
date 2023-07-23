@@ -29,7 +29,11 @@
     }
 
     function handleKey(event: KeyboardEvent) {
-        if (event.key === 'Escape' && $page.route.id !== null)
+        if (
+            (event.ctrlKey || event.metaKey) &&
+            event.key === 'Escape' &&
+            $page.route.id !== null
+        )
             goto(getBackPath($page.route.id));
     }
 </script>
