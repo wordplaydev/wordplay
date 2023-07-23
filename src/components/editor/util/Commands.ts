@@ -7,13 +7,9 @@ import {
     STREAM_SYMBOL,
     TRUE_SYMBOL,
     TYPE_SYMBOL,
-    PREVIOUS_SYMBOL,
-    TYPE_OPEN_SYMBOL,
-    TYPE_CLOSE_SYMBOL,
-    ETC_SYMBOL,
+    PRODUCT_SYMBOL,
+    QUOTIENT_SYMBOL,
 } from '@parser/Symbols';
-
-import { AND_SYMBOL, OR_SYMBOL, NOT_SYMBOL } from '@parser/Symbols';
 
 import type Source from '@nodes/Source';
 import { toClipboard } from './Clipboard';
@@ -22,16 +18,40 @@ import FunctionDefinition from '@nodes/FunctionDefinition';
 import ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
 import Names from '@nodes/Names';
 import type { Creator } from '../../../db/Creator';
+import type { Locale } from '../../../locale/Locale';
 
 export type Edit = Caret | Revision;
 export type Revision = [Source, Caret];
+export enum Visibility {
+    Visible = 'visible',
+    Touch = 'touch',
+    Invisible = 'invisible ',
+}
+export enum Category {
+    Cursor = 'cursor',
+    Insert = 'insert',
+    Modify = 'modify',
+    Evaluate = 'evaluate',
+}
 
 export type Command = {
-    description: string;
+    /** The iconographic text symbol to use */
+    symbol: string;
+    /** Gets the locale string from a locale for use in title and aria-label of UI  */
+    description: (locale: Locale) => string;
+    /** True if it should be a control in the toolbar */
+    visible: Visibility;
+    /** The category of command, used to decide where to display controls if visible */
+    category: Category;
+    /** The key that triggers the command, or if not provided, all keys trigger it */
     key?: string;
+    /** If true, shift is required, if false, it's disqualifying, if undefined, it can be either */
     shift: boolean | undefined;
+    /** If true, alt is required, if false, it's disqualifying, if undefined, it can be either */
     alt: boolean | undefined;
+    /** If true, control or meta is required, if false, it's disqualifying, if undefined, it can be either */
     control: boolean | undefined;
+    /** Generates an edit or other editor command */
     execute: (
         caret: Caret,
         key: string,
@@ -49,8 +69,10 @@ export type Command = {
 
 const commands: Command[] = [
     {
-        description:
-            'Move caret up a line to the closest horizontal position visually',
+        symbol: '↑',
+        description: (l) => l.ui.tooltip.cursorLineBefore,
+        visible: Visibility.Touch,
+        category: Category.Cursor,
         alt: false,
         control: false,
         shift: false,
@@ -58,8 +80,10 @@ const commands: Command[] = [
         execute: (caret: Caret) => caret.moveVertical(-1),
     },
     {
-        description:
-            'Move caret down a line to the closest horizontal position visually',
+        symbol: '↓',
+        description: (l) => l.ui.tooltip.cursorLineAfter,
+        visible: Visibility.Touch,
+        category: Category.Cursor,
         alt: false,
         control: false,
         shift: false,
@@ -67,7 +91,10 @@ const commands: Command[] = [
         execute: (caret: Caret) => caret.moveVertical(1),
     },
     {
-        description: 'Move the caret one position left',
+        symbol: '←',
+        description: (l) => l.ui.tooltip.cursorInlineBefore,
+        visible: Visibility.Touch,
+        category: Category.Cursor,
         alt: false,
         control: false,
         shift: false,
@@ -80,7 +107,10 @@ const commands: Command[] = [
             ),
     },
     {
-        description: 'Move the caret one position right',
+        symbol: '→',
+        description: (l) => l.ui.tooltip.cursorInlineAfter,
+        visible: Visibility.Touch,
+        category: Category.Cursor,
         alt: false,
         control: false,
         shift: false,
@@ -93,7 +123,10 @@ const commands: Command[] = [
             ),
     },
     {
-        description: 'Move the caret one sibling left',
+        symbol: '↖',
+        description: (l) => l.ui.tooltip.cursorNeighborBefore,
+        visible: Visibility.Visible,
+        category: Category.Cursor,
         alt: false,
         shift: true,
         control: false,
@@ -102,7 +135,10 @@ const commands: Command[] = [
         execute: (caret: Caret) => caret.left(true),
     },
     {
-        description: 'Move the caret one sibling right',
+        symbol: '↗',
+        description: (l) => l.ui.tooltip.cursorNeighborAfter,
+        visible: Visibility.Visible,
+        category: Category.Cursor,
         alt: false,
         control: false,
         shift: true,
@@ -111,25 +147,10 @@ const commands: Command[] = [
         execute: (caret: Caret) => caret.right(true),
     },
     {
-        description: 'Move the caret one position left',
-        alt: false,
-        shift: false,
-        control: false,
-        key: 'ArrowLeft',
-
-        execute: (caret: Caret) => caret.moveNodeHorizontal(-1),
-    },
-    {
-        description: 'Move the caret one position right',
-        alt: false,
-        shift: false,
-        control: false,
-        key: 'ArrowRight',
-
-        execute: (caret: Caret) => caret.moveNodeHorizontal(1),
-    },
-    {
-        description: 'Select the parent of the current caret position',
+        symbol: '▣',
+        description: (l) => l.ui.tooltip.cursorContainer,
+        visible: Visibility.Visible,
+        category: Category.Cursor,
         key: 'Escape',
         alt: undefined,
         control: false,
@@ -137,22 +158,7 @@ const commands: Command[] = [
         execute: (caret: Caret) => {
             const position = caret.position;
             if (position instanceof Node) {
-                // Select the parent node
-                let parent: Node | undefined | null =
-                    caret.source.root.getParent(position);
-                // // What tokens are selected currently?
-                // const selectedTokens = position.nodes(n => n instanceof Token) as Token[];
-                // let parentTokens = parent?.nodes(n => n instanceof Token) as Token[];
-                // // While the parent's nodes are equivalent to the previous selection, keep going up the hierarchy.
-                // while(parent && parentTokens.length === selectedTokens.length && !(parent instanceof ExpressionPlaceholder) && parentTokens.every((t, i) => t === selectedTokens[i])) {
-                //     const newParent = parent.getParent();
-                //     if(newParent) {
-                //         parent = newParent;
-                //         parentTokens = parent.nodes(n => n instanceof Token) as Token[];
-                //     }
-                //     else break;
-                // }
-                // If we still have a parent,
+                let parent = caret.source.root.getParent(position);
                 if (parent) return caret.withPosition(parent);
             }
             // Find the node corresponding to the position.
@@ -172,7 +178,10 @@ const commands: Command[] = [
         },
     },
     {
-        description: 'Select the entire program',
+        symbol: '▮',
+        description: (l) => l.ui.tooltip.selectAll,
+        visible: Visibility.Visible,
+        category: Category.Cursor,
         alt: false,
         shift: false,
         control: true,
@@ -180,31 +189,10 @@ const commands: Command[] = [
         execute: (caret: Caret) => caret.withPosition(caret.getProgram()),
     },
     {
-        description: `Insert reaction symbol (${STREAM_SYMBOL})`,
-        alt: true,
-        shift: false,
-        control: false,
-        key: 'KeyD',
-        execute: (caret: Caret) => caret.insert(STREAM_SYMBOL),
-    },
-    {
-        description: `Insert previous symbol (${PREVIOUS_SYMBOL})`,
-        alt: true,
-        shift: false,
-        control: false,
-        key: 'ArrowLeft',
-        execute: (caret: Caret) => caret.insert(PREVIOUS_SYMBOL),
-    },
-    {
-        description: `Insert convert symbol (${CONVERT_SYMBOL})`,
-        alt: true,
-        shift: false,
-        control: false,
-        key: 'ArrowRight',
-        execute: (caret: Caret) => caret.insert(CONVERT_SYMBOL),
-    },
-    {
-        description: `Increment`,
+        symbol: '+',
+        description: (l) => l.ui.tooltip.incrementLiteral,
+        visible: Visibility.Touch,
+        category: Category.Modify,
         control: false,
         alt: true,
         shift: false,
@@ -212,7 +200,10 @@ const commands: Command[] = [
         execute: (caret: Caret) => caret.adjustLiteral(undefined, 1),
     },
     {
-        description: `Decrement`,
+        symbol: '-',
+        description: (l) => l.ui.tooltip.decrementLiteral,
+        visible: Visibility.Touch,
+        category: Category.Modify,
         shift: false,
         control: false,
         alt: true,
@@ -220,55 +211,54 @@ const commands: Command[] = [
         execute: (caret: Caret) => caret.adjustLiteral(undefined, -1),
     },
     {
-        description: `Insert type open symbol (${TYPE_OPEN_SYMBOL})`,
-        shift: true,
-        control: true,
-        alt: false,
-        key: 'Digit9',
-        execute: (caret: Caret) => caret.insert(TYPE_OPEN_SYMBOL),
+        symbol: STREAM_SYMBOL,
+        description: (l) => l.ui.tooltip.insertStreamSymbol,
+        visible: Visibility.Visible,
+        category: Category.Insert,
+        alt: true,
+        shift: false,
+        control: false,
+        key: 'Semicolon',
+        execute: (caret: Caret) => caret.insert(STREAM_SYMBOL),
     },
     {
-        description: `Insert type close symbol (${TYPE_CLOSE_SYMBOL})`,
-        shift: true,
-        control: true,
-        alt: false,
+        symbol: CONVERT_SYMBOL,
+        description: (l) => l.ui.tooltip.insertConvertSymbol,
+        visible: Visibility.Visible,
+        category: Category.Insert,
+        alt: true,
+        shift: false,
+        control: false,
+        key: 'ArrowRight',
+        execute: (caret: Caret) => caret.insert(CONVERT_SYMBOL),
+    },
+    {
+        symbol: TRUE_SYMBOL,
+        description: (l) => l.ui.tooltip.insertTrueSymbol,
+        visible: Visibility.Visible,
+        category: Category.Insert,
+        alt: true,
+        shift: false,
+        control: false,
+        key: 'Digit1',
+        execute: (caret: Caret) => caret.insert(TRUE_SYMBOL),
+    },
+    {
+        symbol: FALSE_SYMBOL,
+        description: (l) => l.ui.tooltip.insertFalseSymbol,
+        visible: Visibility.Visible,
+        category: Category.Insert,
+        alt: true,
+        shift: false,
+        control: false,
         key: 'Digit0',
-        execute: (caret: Caret) => caret.insert(TYPE_CLOSE_SYMBOL),
+        execute: (caret: Caret) => caret.insert(FALSE_SYMBOL),
     },
     {
-        description: `Insert infinity symbol (∞)`,
-        alt: true,
-        shift: false,
-        control: false,
-        key: 'Digit5',
-        execute: (caret: Caret) => caret.insert('∞'),
-    },
-    {
-        description: 'Insert pi symbol (π)',
-        alt: true,
-        shift: false,
-        control: false,
-        key: 'KeyP',
-        execute: (caret: Caret) => caret.insert('π'),
-    },
-    {
-        description: `Insert Boolean AND symbol (${AND_SYMBOL})`,
-        alt: true,
-        shift: false,
-        control: false,
-        key: 'Digit6',
-        execute: (caret: Caret) => caret.insert(AND_SYMBOL),
-    },
-    {
-        description: `Insert Boolean OR symbol (${OR_SYMBOL})`,
-        alt: true,
-        shift: false,
-        control: false,
-        key: 'Digit7',
-        execute: (caret: Caret) => caret.insert(OR_SYMBOL),
-    },
-    {
-        description: `Insert type symbol (${TYPE_SYMBOL})`,
+        symbol: TYPE_SYMBOL,
+        description: (l) => l.ui.tooltip.insertFalseSymbol,
+        visible: Visibility.Visible,
+        category: Category.Insert,
         alt: true,
         shift: false,
         control: false,
@@ -277,23 +267,10 @@ const commands: Command[] = [
         execute: (caret: Caret) => caret.insert(TYPE_SYMBOL),
     },
     {
-        description: `Insert true symbol (${TRUE_SYMBOL})`,
-        alt: true,
-        shift: false,
-        control: false,
-        key: 'Digit9',
-        execute: (caret: Caret) => caret.insert(TRUE_SYMBOL),
-    },
-    {
-        description: `Insert false symbol (${FALSE_SYMBOL})`,
-        shift: false,
-        control: false,
-        alt: true,
-        key: 'Digit0',
-        execute: (caret: Caret) => caret.insert(FALSE_SYMBOL),
-    },
-    {
-        description: 'Insert not equal symbol (≠)',
+        symbol: '≠',
+        description: (l) => l.ui.tooltip.insertNotEqualSymbol,
+        visible: Visibility.Visible,
+        category: Category.Insert,
         alt: true,
         shift: false,
         control: false,
@@ -301,15 +278,32 @@ const commands: Command[] = [
         execute: (caret: Caret) => caret.insert('≠'),
     },
     {
-        description: 'Insert product symbol (·)',
+        symbol: PRODUCT_SYMBOL,
+        description: (l) => l.ui.tooltip.insertProductSymbol,
+        visible: Visibility.Visible,
+        category: Category.Insert,
         alt: true,
         shift: false,
         control: false,
         key: 'x',
-        execute: (caret: Caret) => caret.insert('·'),
+        execute: (caret: Caret) => caret.insert(PRODUCT_SYMBOL),
     },
     {
-        description: `Insert function symbol (${FUNCTION_SYMBOL})`,
+        symbol: QUOTIENT_SYMBOL,
+        description: (l) => l.ui.tooltip.insertQuotientSymbol,
+        visible: Visibility.Visible,
+        category: Category.Insert,
+        alt: true,
+        shift: false,
+        control: false,
+        key: 'Slash',
+        execute: (caret: Caret) => caret.insert(QUOTIENT_SYMBOL),
+    },
+    {
+        symbol: FUNCTION_SYMBOL,
+        description: (l) => l.ui.tooltip.insertFunctionSymbol,
+        visible: Visibility.Visible,
+        category: Category.Insert,
         alt: true,
         key: 'KeyF',
         shift: false,
@@ -327,15 +321,10 @@ const commands: Command[] = [
             ),
     },
     {
-        description: `Insert Boolean NOT symbol (${NOT_SYMBOL})`,
-        alt: true,
-        shift: false,
-        control: false,
-        key: 'Digit1',
-        execute: (caret: Caret) => caret.insert(NOT_SYMBOL),
-    },
-    {
-        description: 'Insert less than or equal to symbol (≤)',
+        symbol: '≤',
+        description: (l) => l.ui.tooltip.insertLessThanOrEqualSymbol,
+        visible: Visibility.Visible,
+        category: Category.Insert,
         shift: false,
         control: false,
         alt: true,
@@ -343,7 +332,10 @@ const commands: Command[] = [
         execute: (caret: Caret) => caret.insert('≤'),
     },
     {
-        description: 'Insert greater than or equal to symbol (≥)',
+        symbol: '≥',
+        description: (l) => l.ui.tooltip.insertGreaterThanOrEqualSymbol,
+        visible: Visibility.Visible,
+        category: Category.Insert,
         shift: false,
         control: false,
         alt: true,
@@ -351,32 +343,10 @@ const commands: Command[] = [
         execute: (caret: Caret) => caret.insert('≥'),
     },
     {
-        description: `Insert etc symbol (${ETC_SYMBOL})`,
-        shift: false,
-        control: false,
-        alt: true,
-        key: 'Semicolon',
-        execute: (caret: Caret) => caret.insert(ETC_SYMBOL),
-    },
-    {
-        description: 'Insert multiply symbol (·)',
-        alt: true,
-        shift: false,
-        control: false,
-        key: 'KeyX',
-
-        execute: (caret: Caret) => caret.insert('·'),
-    },
-    {
-        description: 'Insert divide symbol (÷)',
-        alt: true,
-        shift: false,
-        control: false,
-        key: 'Slash',
-        execute: (caret: Caret) => caret.insert('÷'),
-    },
-    {
-        description: 'Insert new line',
+        symbol: '⏎',
+        description: (l) => l.ui.tooltip.insertLineBreak,
+        visible: Visibility.Visible,
+        category: Category.Insert,
         key: 'Enter',
         shift: false,
         alt: false,
@@ -385,12 +355,14 @@ const commands: Command[] = [
             caret.isNode() ? caret.enter() : caret.insert('\n'),
     },
     {
-        description: 'Step to next evaluation of node',
+        symbol: '→',
+        description: (l) => l.ui.tooltip.forward,
+        visible: Visibility.Visible,
+        category: Category.Evaluate,
         key: 'ArrowRight',
         shift: false,
         alt: false,
         control: true,
-
         execute: (caret: Caret, _, evaluator) => {
             if (caret.position instanceof Node) {
                 evaluator.stepToNode(caret.position);
@@ -399,12 +371,14 @@ const commands: Command[] = [
         },
     },
     {
-        description: 'Step to previous evaluation of node',
+        symbol: '←',
+        description: (l) => l.ui.tooltip.back,
+        visible: Visibility.Visible,
+        category: Category.Evaluate,
         key: 'ArrowLeft',
         shift: false,
         alt: false,
         control: true,
-
         execute: (caret: Caret, _, evaluator) => {
             if (caret.position instanceof Node) {
                 evaluator.stepBackToNode(caret.position);
@@ -413,25 +387,10 @@ const commands: Command[] = [
         },
     },
     {
-        description: 'Move to next',
-        key: 'Tab',
-        shift: false,
-        control: false,
-        alt: false,
-        execute: (caret: Caret) =>
-            caret.isNode() ? caret.moveInline(false, 1) : undefined,
-    },
-    {
-        description: 'Move to previous',
-        key: 'Tab',
-        shift: true,
-        control: false,
-        alt: false,
-        execute: (caret: Caret) =>
-            caret.isNode() ? caret.moveInline(false, -1) : undefined,
-    },
-    {
-        description: 'Delete previous character',
+        symbol: '⌫',
+        description: (l) => l.ui.tooltip.backspace,
+        visible: Visibility.Touch,
+        category: Category.Modify,
         key: 'Backspace',
         shift: false,
         control: false,
@@ -439,7 +398,10 @@ const commands: Command[] = [
         execute: (caret: Caret) => caret.backspace(),
     },
     {
-        description: 'Copy',
+        symbol: '📋',
+        description: (l) => l.ui.tooltip.copy,
+        visible: Visibility.Visible,
+        category: Category.Modify,
         control: true,
         shift: false,
         alt: false,
@@ -450,7 +412,10 @@ const commands: Command[] = [
         },
     },
     {
-        description: 'Cut',
+        symbol: '✂️',
+        description: (l) => l.ui.tooltip.cut,
+        visible: Visibility.Visible,
+        category: Category.Modify,
         control: true,
         shift: false,
         alt: false,
@@ -462,7 +427,10 @@ const commands: Command[] = [
         },
     },
     {
-        description: 'Paste',
+        symbol: '📚',
+        description: (l) => l.ui.tooltip.paste,
+        visible: Visibility.Visible,
+        category: Category.Modify,
         control: true,
         shift: false,
         alt: false,
@@ -485,7 +453,10 @@ const commands: Command[] = [
         },
     },
     {
-        description: 'Parenthesize',
+        symbol: '()',
+        description: (l) => l.ui.tooltip.parenthesize,
+        visible: Visibility.Visible,
+        category: Category.Modify,
         key: '(',
         control: false,
         shift: undefined,
@@ -493,7 +464,10 @@ const commands: Command[] = [
         execute: (caret: Caret) => caret.wrap('('),
     },
     {
-        description: 'Listify',
+        symbol: '[]',
+        description: (l) => l.ui.tooltip.enumerate,
+        visible: Visibility.Visible,
+        category: Category.Modify,
         control: undefined,
         shift: undefined,
         alt: undefined,
@@ -501,7 +475,10 @@ const commands: Command[] = [
         execute: (caret: Caret) => caret.wrap('['),
     },
     {
-        description: 'Type',
+        symbol: 'a',
+        description: (l) => l.ui.tooltip.type,
+        visible: Visibility.Invisible,
+        category: Category.Modify,
         control: false,
         shift: undefined,
         alt: undefined,
@@ -509,7 +486,10 @@ const commands: Command[] = [
             key.length === 1 ? caret.insert(key) : undefined,
     },
     {
-        description: 'undo',
+        symbol: '↩',
+        description: (l) => l.ui.tooltip.undo,
+        visible: Visibility.Visible,
+        category: Category.Modify,
         shift: false,
         control: true,
         alt: false,
@@ -519,7 +499,10 @@ const commands: Command[] = [
             creator.undoProject(evaluator.project.id) === true,
     },
     {
-        description: 'redo',
+        symbol: '↪',
+        description: (l) => l.ui.tooltip.redo,
+        visible: Visibility.Visible,
+        category: Category.Modify,
         shift: true,
         control: true,
         alt: false,

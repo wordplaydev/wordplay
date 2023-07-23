@@ -190,8 +190,7 @@ function verifyLocale(locale: Locale) {
                 .leaves()
                 .filter(
                     (node) =>
-                        node instanceof Token &&
-                        node.isTokenType(Symbol.Unknown)
+                        node instanceof Token && node.isSymbol(Symbol.Unknown)
                 );
 
             if (unknownTokens.length > 0)

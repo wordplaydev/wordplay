@@ -84,6 +84,38 @@ type UITexts = {
         menu: string;
         /** How to describe the autocomplete back button for leaving the submenu */
         menuBack: string;
+        /** Move caret to the line before */
+        cursorLineBefore: string;
+        /** Move caret to the line after */
+        cursorLineAfter: string;
+        cursorInlineBefore: string;
+        cursorInlineAfter: string;
+        cursorNeighborBefore: string;
+        cursorNeighborAfter: string;
+        cursorContainer: string;
+        selectAll: string;
+        incrementLiteral: string;
+        decrementLiteral: string;
+        insertStreamSymbol: string;
+        insertConvertSymbol: string;
+        insertTrueSymbol: string;
+        insertFalseSymbol: string;
+        insertNotEqualSymbol: string;
+        insertProductSymbol: string;
+        insertQuotientSymbol: string;
+        insertFunctionSymbol: string;
+        insertLessThanOrEqualSymbol: string;
+        insertGreaterThanOrEqualSymbol: string;
+        insertLineBreak: string;
+        backspace: string;
+        copy: string;
+        cut: string;
+        paste: string;
+        parenthesize: string;
+        enumerate: string;
+        type: string;
+        undo: string;
+        redo: string;
     };
     prompt: {
         deleteSource: string;

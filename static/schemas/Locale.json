@@ -5122,6 +5122,9 @@
                 "backInput": {
                   "type": "string"
                 },
+                "backspace": {
+                  "type": "string"
+                },
                 "changeLanguage": {
                   "type": "string"
                 },
@@ -5134,11 +5137,43 @@
                 "collapse": {
                   "type": "string"
                 },
+                "copy": {
+                  "type": "string"
+                },
+                "cursorContainer": {
+                  "type": "string"
+                },
+                "cursorInlineAfter": {
+                  "type": "string"
+                },
+                "cursorInlineBefore": {
+                  "type": "string"
+                },
+                "cursorLineAfter": {
+                  "description": "Move caret to the line after",
+                  "type": "string"
+                },
+                "cursorLineBefore": {
+                  "description": "Move caret to the line before",
+                  "type": "string"
+                },
+                "cursorNeighborAfter": {
+                  "type": "string"
+                },
+                "cursorNeighborBefore": {
+                  "type": "string"
+                },
+                "cut": {
+                  "type": "string"
+                },
                 "dark": {
                   "type": "string"
                 },
                 "decrement": {
                   "description": "The down arrow that appears next to numbers, text, and booleans",
+                  "type": "string"
+                },
+                "decrementLiteral": {
                   "type": "string"
                 },
                 "deleteProject": {
@@ -5151,6 +5186,9 @@
                   "type": "string"
                 },
                 "editProject": {
+                  "type": "string"
+                },
+                "enumerate": {
                   "type": "string"
                 },
                 "expand": {
@@ -5186,6 +5224,42 @@
                 },
                 "increment": {
                   "description": "The up arrow that appears next to numbers, text, and booleans",
+                  "type": "string"
+                },
+                "incrementLiteral": {
+                  "type": "string"
+                },
+                "insertConvertSymbol": {
+                  "type": "string"
+                },
+                "insertFalseSymbol": {
+                  "type": "string"
+                },
+                "insertFunctionSymbol": {
+                  "type": "string"
+                },
+                "insertGreaterThanOrEqualSymbol": {
+                  "type": "string"
+                },
+                "insertLessThanOrEqualSymbol": {
+                  "type": "string"
+                },
+                "insertLineBreak": {
+                  "type": "string"
+                },
+                "insertNotEqualSymbol": {
+                  "type": "string"
+                },
+                "insertProductSymbol": {
+                  "type": "string"
+                },
+                "insertQuotientSymbol": {
+                  "type": "string"
+                },
+                "insertStreamSymbol": {
+                  "type": "string"
+                },
+                "insertTrueSymbol": {
                   "type": "string"
                 },
                 "menu": {
@@ -5226,6 +5300,12 @@
                 "paint": {
                   "type": "string"
                 },
+                "parenthesize": {
+                  "type": "string"
+                },
+                "paste": {
+                  "type": "string"
+                },
                 "pause": {
                   "type": "string"
                 },
@@ -5242,6 +5322,9 @@
                   "type": "string"
                 },
                 "previousLessonStep": {
+                  "type": "string"
+                },
+                "redo": {
                   "type": "string"
                 },
                 "removeContent": {
@@ -5262,6 +5345,9 @@
                 "revertProject": {
                   "type": "string"
                 },
+                "selectAll": {
+                  "type": "string"
+                },
                 "sequence": {
                   "type": "string"
                 },
@@ -5275,6 +5361,12 @@
                   "type": "string"
                 },
                 "start": {
+                  "type": "string"
+                },
+                "type": {
+                  "type": "string"
+                },
+                "undo": {
                   "type": "string"
                 },
                 "vertical": {
@@ -5345,7 +5437,37 @@
                 "decrement",
                 "addInput",
                 "menu",
-                "menuBack"
+                "menuBack",
+                "cursorLineBefore",
+                "cursorLineAfter",
+                "cursorInlineBefore",
+                "cursorInlineAfter",
+                "cursorNeighborBefore",
+                "cursorNeighborAfter",
+                "cursorContainer",
+                "selectAll",
+                "incrementLiteral",
+                "decrementLiteral",
+                "insertStreamSymbol",
+                "insertConvertSymbol",
+                "insertTrueSymbol",
+                "insertFalseSymbol",
+                "insertNotEqualSymbol",
+                "insertProductSymbol",
+                "insertQuotientSymbol",
+                "insertFunctionSymbol",
+                "insertLessThanOrEqualSymbol",
+                "insertGreaterThanOrEqualSymbol",
+                "insertLineBreak",
+                "backspace",
+                "copy",
+                "cut",
+                "paste",
+                "parenthesize",
+                "enumerate",
+                "type",
+                "undo",
+                "redo"
               ],
               "type": "object"
             }
