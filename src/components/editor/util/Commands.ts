@@ -63,6 +63,7 @@ export type CommandContext = {
     creator: Creator;
     toggleMenu?: () => void;
     fullscreen?: (on: boolean) => void;
+    help?: () => void;
 };
 
 export type Edit = Caret | Revision;
@@ -77,6 +78,7 @@ export enum Category {
     Insert = 'insert',
     Modify = 'modify',
     Evaluate = 'evaluate',
+    Help = 'help',
 }
 
 export function toShortcut(command: Command) {
@@ -85,7 +87,7 @@ export function toShortcut(command: Command) {
         navigator.userAgent.indexOf('Mac') !== -1;
     return `${command.control ? (mac ? '⌘ ' : 'Ctrl + ') : ''}${
         command.alt ? (mac ? '⎇ ' : 'Alt + ') : ''
-    }${command.shift ? (mac ? '⇧' : 'Shift + ') : ''}${
+    }${command.shift ? (mac ? '⇧ ' : 'Shift + ') : ''}${
         command.keySymbol ?? command.key ?? '-'
     }`;
 }
@@ -117,6 +119,19 @@ export function handleKeyCommand(
     }
     return false;
 }
+
+export const ShowKeyboardHelp: Command = {
+    symbol: '⌨️',
+    description: (l) => l.ui.tooltip.help,
+    visible: Visibility.Invisible,
+    category: Category.Help,
+    shift: false,
+    alt: false,
+    control: true,
+    key: 'Slash',
+    keySymbol: '?',
+    execute: (context) => (context.help ? context.help() : false),
+};
 
 export const IncrementLiteral: Command = {
     symbol: '+',
@@ -335,7 +350,7 @@ export const Menu: Command = {
     alt: false,
     control: false,
     key: ' ',
-    keySymbol: 'space',
+    keySymbol: 'Space',
     execute: (context) =>
         context.toggleMenu ? context.toggleMenu() : undefined,
 };
@@ -490,7 +505,7 @@ const Commands: Command[] = [
         shift: false,
         control: true,
         key: 'KeyA',
-        keySymbol: 'a',
+        keySymbol: 'A',
         execute: ({ caret }) =>
             caret?.withPosition(caret.getProgram()) ?? false,
     },
@@ -527,7 +542,7 @@ const Commands: Command[] = [
         shift: false,
         control: false,
         key: 'KeyO',
-        keySymbol: 'o',
+        keySymbol: 'O',
         execute: ({ caret }) => caret?.insert(NONE_SYMBOL) ?? false,
     },
     {
@@ -537,7 +552,7 @@ const Commands: Command[] = [
         category: Category.Insert,
         alt: true,
         key: 'KeyF',
-        keySymbol: 'f',
+        keySymbol: 'F',
         shift: false,
         control: false,
         execute: ({ caret }) =>
@@ -585,7 +600,7 @@ const Commands: Command[] = [
         shift: false,
         control: false,
         key: 'KeyX',
-        keySymbol: 'x',
+        keySymbol: 'X',
         execute: ({ caret }) => caret?.insert(PRODUCT_SYMBOL) ?? false,
     },
     {
@@ -688,7 +703,7 @@ const Commands: Command[] = [
         control: true,
         alt: false,
         key: 'KeyZ',
-        keySymbol: 'z',
+        keySymbol: 'Z',
         active: (context) =>
             context.creator.projectIsUndoable(context.evaluator.project.id),
         execute: (context) =>
@@ -703,7 +718,7 @@ const Commands: Command[] = [
         control: true,
         alt: false,
         key: 'KeyZ',
-        keySymbol: 'z',
+        keySymbol: 'Z',
         active: (context) =>
             context.creator.projectIsRedoable(context.evaluator.project.id),
         execute: (context) =>
@@ -746,7 +761,7 @@ const Commands: Command[] = [
         shift: false,
         alt: false,
         key: 'KeyX',
-        keySymbol: 'x',
+        keySymbol: 'X',
         execute: (context) => {
             if (!(context.caret?.position instanceof Node)) return false;
             toClipboard(context.caret.position, context.caret.source.spaces);
@@ -762,7 +777,7 @@ const Commands: Command[] = [
         shift: false,
         alt: false,
         key: 'KeyC',
-        keySymbol: 'c',
+        keySymbol: 'C',
         execute: (context) => {
             if (!(context.caret?.position instanceof Node)) return false;
             return toClipboard(
@@ -780,7 +795,7 @@ const Commands: Command[] = [
         shift: false,
         alt: false,
         key: 'KeyV',
-        keySymbol: 'v',
+        keySymbol: 'V',
         execute: async ({ caret }) => {
             // See if there's something on the clipboard.
             if (navigator.clipboard === undefined || caret === undefined)
@@ -836,6 +851,7 @@ const Commands: Command[] = [
         execute: ({ caret }, key) =>
             caret && key.length === 1 ? caret.insert(key) : undefined,
     },
+    ShowKeyboardHelp,
 ];
 
 export const VisibleModifyCommands = Commands.filter(

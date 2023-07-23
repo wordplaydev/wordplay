@@ -8,14 +8,13 @@
         Languages,
         PossibleLanguages,
     } from '@locale/LanguageCode';
-    import { tick } from 'svelte';
     import { creator } from '../../db/Creator';
     import SupportedLanguages from '@locale/SupportedLanguages';
     import ExternalLink from '../app/ExternalLink.svelte';
     import concretize from '../../locale/concretize';
     import Dialog from '../widgets/Dialog.svelte';
 
-    let dialog: HTMLDialogElement;
+    let show: boolean;
 
     $: languages = $creator.getLanguages();
 
@@ -39,15 +38,9 @@
             $creator.setLanguages(languages);
         }
     }
-
-    async function toggle() {
-        dialog.showModal();
-        await tick();
-        dialog?.focus();
-    }
 </script>
 
-<Dialog bind:dialog>
+<Dialog bind:show>
     <h1
         >{concretize(
             $creator.getLocale(),
@@ -103,7 +96,10 @@
         {/each}
     </div>
 </Dialog>
-<Button tip={$creator.getLocale().ui.tooltip.changeLanguage} action={toggle}>
+<Button
+    tip={$creator.getLocale().ui.tooltip.changeLanguage}
+    action={() => (show = true)}
+>
     <span class="chosen">
         {#each languages as lang, index}{#if index > 0}+{/if}<span
                 class="language supported">{getLanguageName(lang)}</span

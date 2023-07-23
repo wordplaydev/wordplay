@@ -5221,6 +5221,9 @@
                 "grid": {
                   "type": "string"
                 },
+                "help": {
+                  "type": "string"
+                },
                 "home": {
                   "type": "string"
                 },
@@ -5481,7 +5484,8 @@
                 "enumerate",
                 "type",
                 "undo",
-                "redo"
+                "redo",
+                "help"
               ],
               "type": "object"
             }

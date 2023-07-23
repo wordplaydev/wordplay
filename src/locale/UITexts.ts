@@ -119,6 +119,7 @@ type UITexts = {
         type: string;
         undo: string;
         redo: string;
+        help: string;
     };
     prompt: {
         deleteSource: string;

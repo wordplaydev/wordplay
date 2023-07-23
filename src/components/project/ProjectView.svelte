@@ -79,10 +79,12 @@
     } from '../../parser/Symbols';
     import type Value from '../../runtime/Value';
     import {
+        ShowKeyboardHelp,
         VisibleModifyCommands,
         handleKeyCommand,
     } from '../editor/util/Commands';
     import CommandButton from '../widgets/CommandButton.svelte';
+    import Help from './Help.svelte';
 
     export let project: Project;
     export let original: Project | undefined = undefined;
@@ -113,6 +115,9 @@
 
     /** The current canvas */
     let canvas: HTMLElement;
+
+    /** Whether to show help */
+    let help: boolean;
 
     /** The current canvas dimensions */
     let canvasWidth: number = 1024;
@@ -877,6 +882,11 @@
     }
 
     function handleKey(event: KeyboardEvent) {
+        if (event.key === '?' && (event.metaKey || event.ctrlKey)) {
+            event.stopPropagation();
+            event.preventDefault();
+        }
+
         // Pick the focused caret.
         const result = handleKeyCommand(event, {
             caret: Array.from($editors.values()).find(
@@ -885,6 +895,7 @@
             evaluator: $evaluator,
             creator: $creator,
             fullscreen,
+            help: () => (help = true),
         });
 
         if (result !== false) {
@@ -979,6 +990,7 @@
 
 <svelte:window on:keydown={handleKey} />
 
+<Help bind:show={help} />
 <!-- Render the app header and the current project, if there is one. -->
 <main class="project" bind:this={view}>
     <div
@@ -1197,6 +1209,13 @@
                 tip={$creator.getLocale().ui.tooltip.addSource}
                 action={addSource}>+</Button
             >
+            <span class="help"
+                ><Button
+                    tip={ShowKeyboardHelp.description($creator.getLocale())}
+                    action={() => (help = true)}
+                    >{ShowKeyboardHelp.symbol}</Button
+                ></span
+            >
         </nav>
 
         <!-- Render the menu on top of the annotations -->
@@ -1307,5 +1326,9 @@
         flex-direction: column;
         width: 100%;
         height: 100%;
+    }
+
+    .help {
+        margin-left: auto;
     }
 </style>
