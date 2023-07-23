@@ -62,7 +62,8 @@ export default class ListLiteral extends Expression {
                     translation.node.ListLiteral.item,
                 // Only allow types to be inserted that are of the list's type, if provided.
                 getType: (context) =>
-                    this.getItemType(context) ?? new AnyType(),
+                    this.getItemType(context)?.generalize(context) ??
+                    new AnyType(),
                 space: true,
                 indent: true,
             },

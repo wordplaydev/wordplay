@@ -108,20 +108,24 @@ export default class Evaluate extends Expression {
         selected: boolean,
         context: Context
     ) {
+        const selectedNode = selected ? node : undefined;
+
         // Given the node the caret has selected or is after, find out
         // if there's an evaluate on it that we should complete.
         const scopingType =
-            node instanceof Expression ? node.getType(context) : node;
+            selectedNode instanceof Expression
+                ? selectedNode.getType(context)
+                : undefined;
         const structure =
             scopingType instanceof NativeType ||
             scopingType instanceof StructureDefinitionType;
         // Get the definitions in the structure type we found,
         // or in the surrounding scope if there isn't one.
         const definitions =
-            scopingType instanceof NativeType
-                ? scopingType.getDefinitions(node, context)
-                : scopingType instanceof StructureDefinitionType
-                ? scopingType.structure.getDefinitions(node)
+            selectedNode && scopingType instanceof NativeType
+                ? scopingType.getDefinitions(selectedNode, context)
+                : selectedNode && scopingType instanceof StructureDefinitionType
+                ? scopingType.structure.getDefinitions(selectedNode)
                 : node.getDefinitionsInScope(context);
         if (structure) type = undefined;
 
@@ -155,8 +159,10 @@ export default class Evaluate extends Expression {
                             def.getEvaluateTemplate(
                                 name,
                                 context,
-                                structure && node instanceof Expression
-                                    ? node
+                                selected &&
+                                    structure &&
+                                    selectedNode instanceof Expression
+                                    ? selectedNode
                                     : undefined
                             ),
                         def
