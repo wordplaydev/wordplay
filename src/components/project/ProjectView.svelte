@@ -117,7 +117,7 @@
     let canvas: HTMLElement;
 
     /** Whether to show the keyboard help dialog */
-    let help: boolean;
+    let help: boolean = false;
 
     /** The current canvas dimensions */
     let canvasWidth: number = 1024;

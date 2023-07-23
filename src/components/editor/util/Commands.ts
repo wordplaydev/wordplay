@@ -857,7 +857,7 @@ const Commands: Command[] = [
 
 export const VisibleModifyCommands = Commands.filter(
     (c) =>
-        c.category === Category.Modify &&
+        (c.category === Category.Cursor || c.category === Category.Modify) &&
         (c.visible === Visibility.Visible || c.visible === Visibility.Touch)
 );
 
