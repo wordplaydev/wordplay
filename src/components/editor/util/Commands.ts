@@ -215,7 +215,7 @@ export const StepForwardInput: Command = {
     alt: false,
     control: true,
     key: 'ArrowRight',
-    keySymbol: '⇢',
+    keySymbol: '→',
     active: (context) => context.evaluator.isInPast(),
     execute: (context) => context.evaluator.stepToInput(),
 };

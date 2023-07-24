@@ -165,6 +165,10 @@ type UITexts = {
         supportedLocales: string;
         /** How to request help with localization */
         helpLocalize: string;
+        moveCursor: string;
+        editCode: string;
+        insertCode: string;
+        debug: string;
     };
     section: {
         project: string;

@@ -4813,6 +4813,12 @@
                   "description": "Documentation header in structure before conversions",
                   "type": "string"
                 },
+                "debug": {
+                  "type": "string"
+                },
+                "editCode": {
+                  "type": "string"
+                },
                 "editing": {
                   "type": "string"
                 },
@@ -4831,11 +4837,17 @@
                   "description": "Documentation header in structure and functions before inputs",
                   "type": "string"
                 },
+                "insertCode": {
+                  "type": "string"
+                },
                 "interfaces": {
                   "description": "Documentation header in structure view before interfaces",
                   "type": "string"
                 },
                 "learn": {
+                  "type": "string"
+                },
+                "moveCursor": {
                   "type": "string"
                 },
                 "projects": {
@@ -4870,7 +4882,11 @@
                 "conversions",
                 "selectedLocales",
                 "supportedLocales",
-                "helpLocalize"
+                "helpLocalize",
+                "moveCursor",
+                "editCode",
+                "insertCode",
+                "debug"
               ],
               "type": "object"
             },

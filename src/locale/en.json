@@ -2994,7 +2994,11 @@
             "conversions": "Conversions",
             "selectedLocales": "Selected languages …",
             "supportedLocales": "Available languages …",
-            "helpLocalize": "Help us translate …"
+            "helpLocalize": "Help us translate …",
+            "moveCursor": "Move",
+            "editCode": "Edit",
+            "insertCode": "Insert",
+            "debug": "Debug"
         },
         "section": {
             "project": "performance",

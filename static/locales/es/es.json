@@ -1657,7 +1657,11 @@
             "conversions": "$?",
             "selectedLocales": "$?",
             "supportedLocales": "$?",
-            "helpLocalize": "$?"
+            "helpLocalize": "$?",
+            "moveCursor": "$?",
+            "editCode": "$?",
+            "insertCode": "$?",
+            "debug": "$?"
         },
         "section": {
             "project": "función",

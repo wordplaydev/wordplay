@@ -318,8 +318,8 @@
         position: relative;
         align-self: start;
         display: flex;
-        width: 100%;
         flex-direction: row;
+        flex-wrap: wrap;
         justify-content: right;
         align-items: center;
         padding-top: var(--wordplay-spacing);
@@ -328,6 +328,8 @@
         padding-bottom: 0;
 
         gap: var(--wordplay-spacing);
+
+        overflow-x: scroll;
     }
 
     .controls :global(button) {

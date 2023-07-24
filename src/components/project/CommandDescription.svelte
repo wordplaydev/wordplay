@@ -5,18 +5,20 @@
     export let command: Command;
 </script>
 
-<div class="command"
-    >{command.description($creator.getLocale())}
-    <span class="shortcut">{toShortcut(command)}</span>
-</div>
+<tr class="command">
+    <td class="symbol">{command.symbol}</td>
+    <td class="shortcut"><em>{toShortcut(command)}</em></td>
+    <td class="description">{command.description($creator.getLocale())}</td>
+</tr>
 
 <style>
-    .command {
-        display: flex;
-        flex-direction: row;
+    td {
+        padding: var(--wordplay-spacing);
+
+        vertical-align: top;
     }
 
-    .shortcut {
-        margin-left: auto;
+    tr:nth-child(odd) {
+        background: var(--wordplay-alternating-color);
     }
 </style>

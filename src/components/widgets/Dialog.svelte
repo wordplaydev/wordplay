@@ -6,8 +6,6 @@
     export let dialog: HTMLDialogElement | undefined = undefined;
     export let show: boolean;
 
-    let content: HTMLElement | undefined = undefined;
-
     $: {
         if (dialog) {
             if (show) {
@@ -20,7 +18,7 @@
     }
 
     function outclick(event: PointerEvent) {
-        if (dialog && event.target !== content) show = false;
+        if (dialog && event.target === dialog) show = false;
     }
 
     onMount(() => {
@@ -36,7 +34,7 @@
     on:keydown={(event) =>
         event.key === 'Escape' ? (show = false) : undefined}
 >
-    <div class="content" bind:this={content}>
+    <div class="content">
         <slot />
         <div class="close">
             <Button

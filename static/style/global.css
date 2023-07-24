@@ -7,6 +7,7 @@
     --color-white: #ffffff;
     --color-black: #000000;
     --color-light-grey: #cecece;
+    --color-very-light-grey: #f0f0f0;
     --color-dark-grey: #999999;
 
     /* Colors */
@@ -20,6 +21,7 @@
     --wordplay-error: var(--color-orange);
     --wordplay-warning: var(--color-yellow);
     --wordplay-inactive-color: var(--color-light-grey);
+    --wordplay-alternating-color: var(--color-very-light-grey);
     --wordplay-doc-color: var(--color-purple);
     --wordplay-relation-color: var(--color-orange);
     --wordplay-operator-color: var(--color-orange);
@@ -55,6 +57,7 @@
     --color-white: #ffffff;
     --color-black: #000000;
     --color-light-grey: #cccccc;
+    --color-very-light-grey: #eeeeee;
     --color-dark-grey: #888888;
 
     --wordplay-foreground: var(--color-white);
