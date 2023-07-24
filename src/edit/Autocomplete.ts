@@ -65,7 +65,7 @@ import UnknownType from '../nodes/UnknownType';
 import Program from '../nodes/Program';
 import Dimension from '../nodes/Dimension';
 import UnparsableExpression from '../nodes/UnparsableExpression';
-import Symbol from '../nodes/Symbol';
+import { WildcardSymbols } from '../nodes/Symbol';
 
 /** Given a project and a caret, generate a set of transforms that can be applied at the location. */
 export function getEditsAt(project: Project, caret: Caret): Revision[] {
@@ -524,11 +524,10 @@ function getPossibleNodes(
     // Symbol? That's just a token. We use the symbol's string as the text. Don't recommend it if it's already that.
     if (!(kind instanceof Function)) {
         const newToken = new Token(kind.toString(), kind);
-        // Don't generate tokens on uncompletable fields, tokens that are equal to the existing token, numbers, or text.
+        // Don't generate tokens on uncompletable fields, tokens that are equal to the existing token, or tokens that are numbers, text, or names.
         return field.uncompletable ||
             newToken.isEqualTo(anchor) ||
-            kind === Symbol.Number ||
-            kind === Symbol.Text
+            WildcardSymbols.has(kind)
             ? []
             : [newToken];
     }

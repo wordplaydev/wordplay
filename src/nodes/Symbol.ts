@@ -60,15 +60,15 @@ enum Symbol {
     // These are the only operators eligible for unary, binary, or teriary notation.
     // We’ve included them for consistency with math notation and readability.
     Operator = 'binary',
-    Conditional = 'conditional',
+    Conditional = '?',
 
     // Also supports escapes with \to encode various characters
     // The trailing text at the end encodes the format.
     // Text literals can also come in multiple formats, to encode multilingual apps in place.
     Text = 'text',
-    TemplateOpen = 'textopen',
-    TemplateBetween = 'textbetween',
-    TemplateClose = 'textclose',
+    TemplateOpen = '"\\',
+    TemplateBetween = '\\\\',
+    TemplateClose = '\\"',
     // The optional negative sign allows for negative number literals.
     // The optional dash allows for a random number range.
     // The trailing text at the end encodes the unit.
@@ -81,6 +81,21 @@ enum Symbol {
     Unknown = 'unknown',
     End = '',
 }
+
+/** Tokens that can be many different possible sequences of characters. We use this list to know when a token is static and can only be one symbol. */
+export const WildcardSymbols = new Set([
+    Symbol.Number,
+    Symbol.Number,
+    Symbol.Decimal,
+    Symbol.Name,
+    Symbol.Boolean,
+    Symbol.Text,
+    Symbol.TemplateOpen,
+    Symbol.TemplateOpen,
+    Symbol.TemplateBetween,
+    Symbol.Words,
+    Symbol.Concept,
+]);
 
 export function isTokenType(text: string): text is Symbol {
     return Object.values(Symbol).includes(text as unknown as Symbol);
