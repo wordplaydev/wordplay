@@ -72,6 +72,9 @@
         display: inline-block;
         position: relative;
         font-family: var(--wordplay-code-font);
+
+        /** This allows us to style things up the the tree. */
+        text-decoration: inherit;
     }
 
     .token-view.added {

@@ -171,14 +171,13 @@
                         $creator.getLanguages()
                     )}
                     {#if newNode !== undefined}
-                        <RootView
-                            node={newNode instanceof Block &&
-                            newNode.statements.length > 1
-                                ? newNode
-                                : newNode}
-                            localized
-                        />
-                        <!-- If the new parent is a block with more than one statement, show the new node only instead -->
+                        {#if revision.isRemoval()}
+                            <strike
+                                ><RootView node={newNode} localized /></strike
+                            >
+                        {:else}
+                            <RootView node={newNode} localized />
+                        {/if}
                     {:else}
                         <MarkupHTMLView
                             markup={revision.getDescription(

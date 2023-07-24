@@ -146,6 +146,9 @@
         display: block;
         font-family: var(--wordplay-code-font);
         font-weight: 400;
+
+        /** This allows us to style things up the the tree. */
+        text-decoration: inherit;
     }
 
     .inline {

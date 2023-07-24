@@ -101,6 +101,9 @@
         position: relative;
         border-top-left-radius: var(--wordplay-editor-radius);
         border-bottom-right-radius: var(--wordplay-editor-radius);
+
+        /** This allows us to style things up the the tree. */
+        text-decoration: inherit;
     }
 
     .node-view.hovered {
