@@ -53,10 +53,7 @@
     let revisionViews: HTMLElement[] = [];
     $: {
         const view = revisionViews[menu.getSelectionID()];
-        if (view) {
-            // view.scrollIntoView({ block: 'center' });
-            if (view !== document.activeElement) view.focus();
-        }
+        if (view && view !== document.activeElement) view.focus();
     }
 
     function handleKey(event: KeyboardEvent) {
@@ -116,7 +113,6 @@
     class="menu"
     bind:offsetWidth={menuWidth}
     bind:offsetHeight={menuHeight}
-    on:pointermove={() => console.log('Menu move')}
     style:left="{menuLeft}px"
     style:top="{menuTop}px"
 >
@@ -163,7 +159,8 @@
                     itemIndex === menu.getSelectionID() ? 'selected' : ''
                 } ${entry instanceof RevisionSet ? 'submenu' : ''}`}
                 bind:this={revisionViews[itemIndex]}
-                on:pointerdown|stopPropagation={() => handleItemClick(entry)}
+                on:pointerdown|stopPropagation|preventDefault={() =>
+                    handleItemClick(entry)}
             >
                 {#if entry instanceof Revision}
                     {@const revision = entry}
@@ -219,7 +216,7 @@
                 {#if newNode !== undefined}
                     <div
                         class="revision"
-                        on:pointerdown|stopPropagation={() =>
+                        on:pointerdown|stopPropagation|preventDefault={() =>
                             handleItemClick(revision)}
                     >
                         <RootView

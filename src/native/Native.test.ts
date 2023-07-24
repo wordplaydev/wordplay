@@ -32,7 +32,7 @@ function checkNativeNodes(nodes: Node[]) {
     if (unparsables.length > 0)
         for (const unparsable of unparsables) {
             const def = nodes.find((node) => node.contains(unparsable));
-            console.log(
+            console.error(
                 `Syntax error: ${unparsable.toWordplay()}n\n\n in ${def?.toWordplay()}`
             );
         }

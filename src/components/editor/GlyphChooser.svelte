@@ -49,7 +49,7 @@
                     {sourceID}
                     {command}
                     token
-                    focus
+                    focusAfter
                 />{/each}
         {:else}
             {#each results as glyph}<Button

@@ -1057,7 +1057,7 @@
          * For all actions that come from the editor, it should.
          * But there are other things that edit, and they may not want the editor grabbing focus.
          **/
-        focus: boolean
+        focusAfter: boolean
     ) {
         if (edit === undefined) return;
 
@@ -1084,13 +1084,12 @@
             caret.set(newCaret.withoutAddition());
         }
 
-        // After every edit and everything is updated, focus back on input
+        // After everything is updated, if we were asked to focus the editor, focus it.
         await tick();
-        if (focus) grabFocus();
+        if (focusAfter) grabFocus();
     }
 
     function grabFocus() {
-        console.trace();
         input?.focus();
     }
 
@@ -1189,38 +1188,26 @@
     All NodeViews are set to role="presentation"
     We use the live region above 
 -->
+<!-- on:dblclick|stopPropagation={(event) => {
+    let node = getNodeAt(event, false);
+    if (node) caret.set($caret.withPosition(node));
+}} -->
 <div
     class="editor {$evaluation !== undefined && $evaluation.playing
         ? 'playing'
         : 'stepping'}"
-    role="textbox"
     data-uiid="editor"
-    tabindex="-1"
-    aria-autocomplete="none"
-    aria-live="off"
-    aria-multiline="true"
-    aria-readonly="false"
     aria-label={`${$creator.getLocale().ui.section.editor} ${source.getLocale(
         $creator.getLanguages()
     )}`}
-    aria-activedescendant={$caret.position instanceof Node
-        ? `node-${$caret.position.id}`
-        : getInputID()}
     style:direction={$creator.getWritingDirection()}
     style:writing-mode={$creator.getWritingLayout()}
     data-id={source.id}
     bind:this={editor}
-    on:pointerdown={handlePointerDown}
-    on:dblclick={(event) => {
-        let node = getNodeAt(event, false);
-        if (node) caret.set($caret.withPosition(node));
-    }}
+    on:pointerdown|stopPropagation|preventDefault={handlePointerDown}
     on:pointerup={handleRelease}
     on:pointermove={handlePointerMove}
     on:pointerleave={handlePointerLeave}
-    on:keydown={handleKeyDown}
-    on:focusin={() => (focused = true)}
-    on:focusout={() => (focused = false)}
 >
     <!-- Render highlights below the code -->
     {#each outlines as outline}
@@ -1241,6 +1228,7 @@
     <input
         type="text"
         id={getInputID()}
+        data-defaultfocus
         data-focusdefault
         aria-autocomplete="none"
         autocomplete="off"
@@ -1250,6 +1238,9 @@
         };`}
         bind:this={input}
         on:input={handleTextInput}
+        on:keydown={handleKeyDown}
+        on:focusin={() => (focused = true)}
+        on:focusout={() => (focused = false)}
     />
     <!-- Render the program -->
     <RootView node={program} spaces={source.spaces} localized />

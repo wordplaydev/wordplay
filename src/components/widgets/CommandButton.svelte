@@ -11,7 +11,7 @@
     export let sourceID: string | undefined = undefined;
     export let command: Command;
     export let token: boolean = false;
-    export let focus: boolean = false;
+    export let focusAfter: boolean = false;
 
     const evaluator = getEvaluator();
     const editors = getEditors();
@@ -36,6 +36,8 @@
           )
         : false}
     action={async () => {
+        const hadFocus = view !== undefined && document.activeElement === view;
+
         if (editor) {
             const result = command.execute(
                 {
@@ -50,16 +52,17 @@
             } else if (result instanceof Promise)
                 result.then((edit) =>
                     editor
-                        ? editor.edit(edit, IdleKind.Typing, focus)
+                        ? editor.edit(edit, IdleKind.Typing, focusAfter)
                         : undefined
                 );
             else if (result !== undefined)
-                editor.edit(result, IdleKind.Typing, focus);
+                editor.edit(result, IdleKind.Typing, focusAfter);
 
             // If we didn't ask the editor to focus, restore focus on button after update.
-            if (!focus) {
+            if (!focusAfter && hadFocus) {
                 await tick();
                 view?.focus();
+                console.log('Button grabbed focus');
             }
         } else return undefined;
     }}

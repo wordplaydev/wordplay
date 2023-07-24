@@ -140,7 +140,7 @@ test.each([
                     transform.getNewNode(['en'])?.toWordplay() === edit
             );
             if (match === undefined) {
-                console.log(
+                console.error(
                     transforms
                         .map(
                             (t) =>
