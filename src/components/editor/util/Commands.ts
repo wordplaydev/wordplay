@@ -347,8 +347,8 @@ export const Menu: Command = {
     visible: Visibility.Visible,
     category: Category.Modify,
     shift: false,
-    alt: true,
-    control: false,
+    alt: false,
+    control: true,
     key: 'ArrowDown',
     keySymbol: '↓',
     execute: (context) =>
