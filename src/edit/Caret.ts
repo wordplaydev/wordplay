@@ -630,139 +630,129 @@ export default class Caret {
         // Normalize the mystery string, ensuring it follows Unicode normalization form.
         text = text.normalize();
 
-        if (typeof this.position === 'number') {
-            // If the inserted string matches a single matched delimiter, complete it, unless:
-            // 1) we’re immediately before an matched closing delimiter, in which case we insert nothing, but move the caret forward
-            // 2) the character being inserted closes an unmatched delimiter, in which case we just insert the character.
-            // const closed = text in DELIMITERS;
-            // if(closed) {
+        let newSource: Source | undefined;
+        let newPosition: number;
+        let originalPosition: number;
 
-            let closed = false;
-
-            let newSource: Source | undefined = this.source;
-            let newPosition: number = this.position;
-            const originalPosition = this.position;
-
-            // If the character we're inserting is already immediately after the caret and is a matched closing deimiter, don't insert, just move the caret forward.
-            // We handle two cases: discrete matched tokens ([], {}, ()) text tokens that have internal matched delimiters.
-            if (
-                this.tokenIncludingSpace &&
-                // Is what's being typed a closing delimiter?
-                text in REVERSE_DELIMITERS &&
-                // Is the text being typed what's already there?
-                text === this.source.code.at(this.position) &&
-                // Is what's being typed a closing delimiter of a text literal?
-                ((this.tokenIncludingSpace.isSymbol(Symbol.Text) &&
-                    REVERSE_TEXT_DELIMITERS[
-                        this.tokenIncludingSpace.getText().charAt(0)
-                    ] === text) ||
-                    // Is what's being typed a closing delimiter of an open delimiter?
-                    (this.tokenIncludingSpace.getText() in REVERSE_DELIMITERS &&
-                        this.source.getMatchedDelimiter(
-                            this.tokenIncludingSpace
-                        ) !== undefined))
-            )
-                return [
-                    this.source,
-                    new Caret(
-                        this.source,
-                        this.position + 1,
-                        undefined,
-                        undefined,
-                        undefined
-                    ),
-                ];
-            // Otherwise, if the text to insert is an opening delimiter and this isn't an unclosed text delimiter, automatically insert its closing counterpart.
-            else if (
-                text in DELIMITERS &&
-                !this.isInsideText() &&
-                (this.tokenPrior === undefined ||
-                    !(
-                        // The token prior is text or unknown
-                        (
-                            (this.tokenPrior.isSymbol(Symbol.Text) ||
-                                this.tokenPrior.isSymbol(Symbol.Unknown)) &&
-                            // The text typed closes a matching delimiter
-                            text ===
-                                DELIMITERS[this.tokenPrior.getText().charAt(0)]
-                        )
-                    ))
-            ) {
-                closed = true;
-                text += DELIMITERS[text];
-            }
-            // If the two preceding characters are dots and this is a dot, delete the last two dots then insert the stream symbol.
-            else if (
-                text === '.' &&
-                newSource.getGraphemeAt(newPosition - 1) === '.' &&
-                newSource.getGraphemeAt(newPosition - 2) === '.'
-            ) {
-                text = STREAM_SYMBOL;
-                newSource = newSource
-                    .withoutGraphemeAt(this.position - 2)
-                    ?.withoutGraphemeAt(this.position - 2);
-                newPosition = newPosition - 2;
-            }
-            // If the preceding character is an arrow dash, delete the dash and insert the arrow
-            else if (
-                text === '>' &&
-                newSource.getGraphemeAt(newPosition - 1) === '-'
-            ) {
-                text = CONVERT_SYMBOL;
-                newSource = newSource.withoutGraphemeAt(this.position - 1);
-                newPosition = newPosition - 1;
-            }
-
-            // Did we somehow get no source?
-            if (newSource === undefined) return undefined;
-
-            newSource = newSource.withGraphemesAt(text, newPosition);
-
-            // Did we somehow get no source?
-            if (newSource === undefined) return undefined;
-
-            // What's the new token we added?
-            const newToken = newSource.getTokenAt(originalPosition, false);
-
-            newPosition =
-                newPosition +
-                (closed ? 1 : new UnicodeString(text).getLength());
-
-            return [
-                newSource,
-                new Caret(
-                    newSource,
-                    newPosition,
-                    undefined,
-                    undefined,
-                    newToken
-                ),
-            ];
-        } else {
+        // Before doing insertion, see if a node is selected, and if so, remove it.
+        if (this.position instanceof Node) {
             // Try wrapping the node
             const wrap = this.wrap(text);
             if (wrap !== undefined) return wrap;
 
-            // If that didn't do anything, try deleting the node and replacing it with the inserted text.
+            // If that didn't do anything, try deleting the node.
             const edit = this.deleteNode(this.position);
             if (edit === undefined) return;
             const [source, caret] = edit;
             if (caret.position instanceof Node) return;
-            const newSource = source.withGraphemesAt(text, caret.position);
-            const newPosition = caret.position + text.length;
-            return newSource === undefined
-                ? undefined
-                : [
-                      newSource,
-                      new Caret(
-                          newSource,
-                          newPosition,
-                          undefined,
-                          undefined,
-                          newSource.getTokenAt(newPosition - text.length)
-                      ),
-                  ];
+
+            // Great, we have a new position.
+            newSource = source;
+            newPosition = caret.position;
+            originalPosition = caret.position;
+        } else {
+            newSource = this.source;
+            newPosition = this.position;
+            originalPosition = this.position;
         }
+
+        // Now, let's insert some text at the new position.
+
+        // If the inserted string matches a single matched delimiter, complete it, unless:
+        // 1) we’re immediately before an matched closing delimiter, in which case we insert nothing, but move the caret forward
+        // 2) the character being inserted closes an unmatched delimiter, in which case we just insert the character.
+        // const closed = text in DELIMITERS;
+        // if(closed) {
+
+        let closed = false;
+
+        // If the character we're inserting is already immediately after the caret and is a matched closing deimiter, don't insert, just move the caret forward.
+        // We handle two cases: discrete matched tokens ([], {}, ()) text tokens that have internal matched delimiters.
+        if (
+            this.tokenIncludingSpace &&
+            // Is what's being typed a closing delimiter?
+            text in REVERSE_DELIMITERS &&
+            // Is the text being typed what's already there?
+            text === this.source.code.at(newPosition) &&
+            // Is what's being typed a closing delimiter of a text literal?
+            ((this.tokenIncludingSpace.isSymbol(Symbol.Text) &&
+                REVERSE_TEXT_DELIMITERS[
+                    this.tokenIncludingSpace.getText().charAt(0)
+                ] === text) ||
+                // Is what's being typed a closing delimiter of an open delimiter?
+                (this.tokenIncludingSpace.getText() in REVERSE_DELIMITERS &&
+                    this.source.getMatchedDelimiter(
+                        this.tokenIncludingSpace
+                    ) !== undefined))
+        )
+            return [
+                this.source,
+                new Caret(
+                    this.source,
+                    newPosition + 1,
+                    undefined,
+                    undefined,
+                    undefined
+                ),
+            ];
+        // Otherwise, if the text to insert is an opening delimiter and this isn't an unclosed text delimiter, automatically insert its closing counterpart.
+        else if (
+            text in DELIMITERS &&
+            !this.isInsideText() &&
+            (this.tokenPrior === undefined ||
+                !(
+                    // The token prior is text or unknown
+                    (
+                        (this.tokenPrior.isSymbol(Symbol.Text) ||
+                            this.tokenPrior.isSymbol(Symbol.Unknown)) &&
+                        // The text typed closes a matching delimiter
+                        text === DELIMITERS[this.tokenPrior.getText().charAt(0)]
+                    )
+                ))
+        ) {
+            closed = true;
+            text += DELIMITERS[text];
+        }
+        // If the two preceding characters are dots and this is a dot, delete the last two dots then insert the stream symbol.
+        else if (
+            text === '.' &&
+            newSource.getGraphemeAt(newPosition - 1) === '.' &&
+            newSource.getGraphemeAt(newPosition - 2) === '.'
+        ) {
+            text = STREAM_SYMBOL;
+            newSource = newSource
+                .withoutGraphemeAt(newPosition - 2)
+                ?.withoutGraphemeAt(newPosition - 2);
+            newPosition = newPosition - 2;
+        }
+        // If the preceding character is an arrow dash, delete the dash and insert the arrow
+        else if (
+            text === '>' &&
+            newSource.getGraphemeAt(newPosition - 1) === '-'
+        ) {
+            text = CONVERT_SYMBOL;
+            newSource = newSource.withoutGraphemeAt(newPosition - 1);
+            newPosition = newPosition - 1;
+        }
+
+        // Did we somehow get no source?
+        if (newSource === undefined) return undefined;
+
+        newSource = newSource.withGraphemesAt(text, newPosition);
+
+        // Did we somehow get no source?
+        if (newSource === undefined) return undefined;
+
+        // What's the new token we added?
+        const newToken = newSource.getTokenAt(originalPosition, false);
+
+        newPosition =
+            newPosition + (closed ? 1 : new UnicodeString(text).getLength());
+
+        return [
+            newSource,
+            new Caret(newSource, newPosition, undefined, undefined, newToken),
+        ];
     }
 
     isInsideText() {
