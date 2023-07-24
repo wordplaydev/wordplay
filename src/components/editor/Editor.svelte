@@ -1230,7 +1230,6 @@
         type="text"
         id={getInputID()}
         data-defaultfocus
-        data-focusdefault
         aria-autocomplete="none"
         autocomplete="off"
         class="keyboard-input"
