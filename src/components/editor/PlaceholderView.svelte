@@ -1,23 +1,28 @@
 <script lang="ts">
     import type Node from '@nodes/Node';
-    import { getMenuNode } from '../project/Contexts';
+    import { getCaret, getMenuNode } from '../project/Contexts';
 
     export let node: Node;
 
+    const caret = getCaret();
     const menuNode = getMenuNode();
 
     function show() {
-        menuNode?.set(node);
+        if (menuNode && placeholder) menuNode?.set(placeholder);
     }
+
+    const placeholder = $caret?.source.root
+        .getAncestors(node)
+        .find((n) => n.isPlaceholder());
 </script>
 
-{#if menuNode}
+{#if menuNode && placeholder && $caret?.isIn(placeholder, false)}
     <span
         class="trigger"
         role="button"
         tabindex="0"
         on:pointerdown|stopPropagation={show}
-        on:keydown={(event) =>
+        on:keydown|stopPropagation={(event) =>
             event.key === 'Enter' || event.key === ' ' ? show() : undefined}
         >▾</span
     >

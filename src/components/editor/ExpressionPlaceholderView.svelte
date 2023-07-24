@@ -20,12 +20,9 @@
         ><NodeView node={node.placeholder} /><NodeView node={node.dot} /></span
     >{#if node.type}<NodeView
             node={node.type}
-        />{:else if inferredType && !(inferredType instanceof UnknownType)}<RootView
-            inline
-            inert
-            localized
-            node={inferredType}
-        />{/if}</span
+        />{:else if inferredType && !(inferredType instanceof UnknownType)}<span
+            class="token-view">•</span
+        ><RootView inline inert localized node={inferredType} />{/if}</span
 >
 
 <style>
