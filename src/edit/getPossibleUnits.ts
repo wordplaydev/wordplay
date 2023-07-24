@@ -57,24 +57,27 @@ export function getPossibleDimensions(project: Project) {
     const dimensionsInConversions = getUnitsInConversions(project).reduce(
         (dimensions: string[], unit) => [
             ...dimensions,
-            ...unit.numerator.map((dim) => dim.getName()),
-            ...unit.denominator.map((dim) => dim.getName()),
+            ...unit.numerator
+                .map((dim) => dim.getName())
+                .filter((dim): dim is string => dim !== undefined),
+            ...unit.denominator
+                .map((dim) => dim.getName())
+                .filter((dim): dim is string => dim !== undefined),
         ],
         []
     );
 
     // Get all dimensions referred to in programs.
-    const dimensionsInPrograms = project
-        .getSources()
-        .reduce(
-            (dimensions: string[], source) => [
-                ...dimensions,
-                ...source.expression
-                    .getDimensionsUsed()
-                    .map((dim) => dim.getName()),
-            ],
-            []
-        );
+    const dimensionsInPrograms = project.getSources().reduce(
+        (dimensions: string[], source) => [
+            ...dimensions,
+            ...source.expression
+                .getDimensionsUsed()
+                .map((dim) => dim.getName())
+                .filter((dim): dim is string => dim !== undefined),
+        ],
+        []
+    );
 
     // Return unique dimensions
     return Array.from(

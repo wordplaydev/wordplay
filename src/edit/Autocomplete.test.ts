@@ -97,6 +97,8 @@ test.each([
         'a',
     ],
     ['suggest unit', '1**', undefined, Assign, 'ms'],
+    ['suggest additional denominator', '1m**', undefined, Replace, 'm·min'],
+    ['suggest denominator', '1m**', undefined, Replace, 'm/s'],
 ])(
     '%s: %s',
     (

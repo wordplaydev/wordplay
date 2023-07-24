@@ -63,6 +63,7 @@ import WebLink from '../nodes/WebLink';
 import Remove from './Remove';
 import UnknownType from '../nodes/UnknownType';
 import Program from '../nodes/Program';
+import Dimension from '../nodes/Dimension';
 
 /** Given a project and a caret, generate a set of transforms that can be applied at the location. */
 export function getEditsAt(project: Project, caret: Caret): Revision[] {
@@ -318,7 +319,8 @@ function getRelativeFieldEdits(
           grammar.slice(0, fieldIndex + 1).reverse();
 
     for (const relativeField of relativeFields) {
-        const fieldIsEmpty = parent.getField(relativeField.name) === undefined;
+        const fieldValue = parent.getField(relativeField.name);
+        const fieldIsEmpty = fieldValue === undefined;
 
         // If the field is a list, and it's not a block, or we're on an empty line in a block, get possible insertions for all allowable node kinds.
         if (
@@ -374,7 +376,7 @@ function getRelativeFieldEdits(
             const expectedType = relativeField.getType
                 ? relativeField.getType(context, undefined)
                 : undefined;
-            const fieldValue = parent.getField(relativeField.name);
+
             // We don't do this for list fields and we only do it if the field isn't set.
             if (!(relativeField.kind instanceof ListOf))
                 edits = [
@@ -390,15 +392,8 @@ function getRelativeFieldEdits(
                                 false,
                                 context
                             )
-                                // Filter out any equivalent value already set
-                                .filter((node) =>
-                                    node === undefined
-                                        ? fieldValue !== undefined
-                                        : Array.isArray(fieldValue) ||
-                                          fieldValue === undefined ||
-                                          node instanceof Refer ||
-                                          !fieldValue.isEqualTo(node)
-                                )
+                                // Filter out any undefined values, since the field is already undefined.
+                                .filter((node) => node !== undefined)
                                 .map(
                                     (addition) =>
                                         new Assign(
@@ -426,7 +421,7 @@ function getRelativeFieldEdits(
  */
 function completes(original: Node, replacement: Node): boolean {
     const originalNodes = original.nodes();
-    return replacement.nodes().some((n1) =>
+    const completes = replacement.nodes().some((n1) =>
         originalNodes.some((n2) => {
             const n1isToken = n1 instanceof Token;
             const n2isToken = n2 instanceof Token;
@@ -441,10 +436,15 @@ function completes(original: Node, replacement: Node): boolean {
             );
         })
     );
+    // if (!completes)
+    //     console.log(
+    //         `${replacement.toWordplay()} does not complete ${original.toWordplay()}`
+    //     );
+    return completes;
 }
 
 /** A list of node types from which we can generate replacements. */
-const Nodes = [
+const PossibleNodes = [
     // Literals
     NumberLiteral,
     BooleanLiteral,
@@ -496,6 +496,7 @@ const Nodes = [
     TypePlaceholder,
     UnionType,
     Unit,
+    Dimension,
     BooleanType,
     ListType,
     MapType,
@@ -525,8 +526,8 @@ function getPossibleNodes(
     // Otherwise, it's a non-terminal. Let's find all the nodes that we can make that satisify the node kind,
     // creating nodes or node references that are compatible with the requested kind.
     return (
-        // Filter nodes my the kind provided.
-        Nodes.filter(
+        // Filter nodes by the kind provided.
+        PossibleNodes.filter(
             (possibleKind) =>
                 possibleKind.prototype instanceof kind || kind === possibleKind
         )
@@ -537,13 +538,13 @@ function getPossibleNodes(
             )
             // Flatten the list of possible nodes.
             .flat()
-            // Filter out nodes that don't match the given type, if provided.
-            // Filter out nodes that are equivalent to the selection node
             .filter(
                 (node) =>
+                    // Filter out nodes that don't match the given type, if provided.
                     (type === undefined ||
                         !(node instanceof Expression) ||
                         type.accepts(node.getType(context), context)) &&
+                    // Filter out nodes that are equivalent to the selection node
                     (anchor === undefined ||
                         (node instanceof Refer &&
                             (!(anchor instanceof Reference) ||

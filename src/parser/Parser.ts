@@ -250,9 +250,9 @@ export class Tokens {
                         .join('')} *** ${this.#unread
                         .slice(0, 10)
                         .map((t) => t.toWordplay())
-                        .join(
-                            ''
-                        )}; expected ${expectedType}, received ${next.toString()}`
+                        .join('')}; expected ${expectedType}, received ${
+                        next.types
+                    }`
                 );
             }
             this.#read.push(next);
@@ -793,7 +793,9 @@ function parseDimension(tokens: Tokens): Dimension {
     const product = tokens.nextIs(Symbol.Operator, PRODUCT_SYMBOL)
         ? tokens.read(Symbol.Operator)
         : undefined;
-    const name = tokens.read(Symbol.Name);
+    const name = tokens.nextIs(Symbol.Name)
+        ? tokens.read(Symbol.Name)
+        : undefined;
     let caret = undefined;
     let exponent = undefined;
     if (

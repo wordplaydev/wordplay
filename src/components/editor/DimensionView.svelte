@@ -7,6 +7,6 @@
     export let node: Dimension;
 </script>
 
-<NodeView node={node.name} /><NodeView node={node.caret} /><NodeView
-    node={node.exponent}
-/>
+<NodeView node={node.product} /><NodeView node={node.name} /><NodeView
+    node={node.caret}
+/><NodeView node={node.exponent} />

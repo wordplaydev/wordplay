@@ -16,16 +16,17 @@ import Glyphs from '../lore/Glyphs';
 import Purpose from '../concepts/Purpose';
 import type Context from './Context';
 import Markup from './Markup';
+import type Type from './Type';
 
 export default class Dimension extends Node {
     readonly product: Token | undefined;
-    readonly name: Token;
+    readonly name: Token | undefined;
     readonly caret: Token | undefined;
     readonly exponent: Token | undefined;
 
     constructor(
         product: Token | undefined,
-        name: Token,
+        name: Token | undefined,
         caret: Token | undefined,
         exponent: Token | undefined
     ) {
@@ -53,6 +54,25 @@ export default class Dimension extends Node {
         );
     }
 
+    static getPossibleNodes(
+        type: Type | undefined,
+        anchor: Node,
+        selected: boolean,
+        context: Context
+    ): Dimension[] {
+        // If we've selected this anchor for replacement, offer to replace it with...
+        if (anchor && selected && anchor instanceof Dimension) {
+            return [
+                // An empty exponent, if it doesn't have one
+                ...(anchor.caret === undefined ? [anchor.asPower()] : []),
+                // A power of two
+                ...(anchor.exponent === undefined ? [anchor.withPower(2)] : []),
+            ];
+        }
+
+        return [];
+    }
+
     getGrammar(): Grammar {
         return [
             { name: 'product', kind: any(node(Symbol.Operator), none()) },
@@ -77,12 +97,49 @@ export default class Dimension extends Node {
         ) as this;
     }
 
+    asProduct() {
+        return this.product !== undefined
+            ? this
+            : new Dimension(
+                  new Token(PRODUCT_SYMBOL, Symbol.Operator),
+                  this.name?.clone(),
+                  this.caret,
+                  this.exponent
+              );
+    }
+
+    asPower() {
+        return this.caret !== undefined
+            ? this
+            : new Dimension(
+                  this.product,
+                  this.name,
+                  new Token(EXPONENT_SYMBOL, Symbol.Operator),
+                  this.exponent
+              );
+    }
+
+    withPower(power: number) {
+        return this.caret !== undefined
+            ? this
+            : new Dimension(
+                  this.product,
+                  this.name,
+                  new Token(EXPONENT_SYMBOL, Symbol.Operator),
+                  new Token(power.toString(), [Symbol.Number, Symbol.Decimal])
+              );
+    }
+
+    hasDimension(name: string) {
+        return this.name?.getText() === name;
+    }
+
     getPurpose() {
-        return Purpose.Bind;
+        return Purpose.Type;
     }
 
     getName() {
-        return this.name.getText();
+        return this.name?.getText();
     }
 
     computeConflicts() {}
@@ -93,36 +150,39 @@ export default class Dimension extends Node {
 
     getDescription(_: Concretizer, locale: Locale, __: Context) {
         const dim = this.getName();
+
         return Markup.words(
-            {
-                pm: 'picometers',
-                nm: 'nanometers',
-                µm: 'micrometers',
-                mm: 'millimeters',
-                m: 'meters',
-                cm: 'centimeters',
-                dm: 'decimeters',
-                km: 'kilometers',
-                Mm: 'megameters',
-                Gm: 'gigameters',
-                Tm: 'terameters',
-                mi: 'miles',
-                in: 'inches',
-                ft: 'feet',
-                ms: 'milliseconds',
-                s: 'seconds',
-                min: 'minutes',
-                hr: 'hours',
-                day: 'days',
-                wk: 'weeks',
-                yr: 'years',
-                g: 'grams',
-                mg: 'milligrams',
-                kg: 'kilograms',
-                oz: 'ounces',
-                lb: 'pounds',
-                pt: 'font size',
-            }[dim] ?? locale.node.Dimension.description
+            dim === undefined
+                ? ''
+                : {
+                      pm: 'picometers',
+                      nm: 'nanometers',
+                      µm: 'micrometers',
+                      mm: 'millimeters',
+                      m: 'meters',
+                      cm: 'centimeters',
+                      dm: 'decimeters',
+                      km: 'kilometers',
+                      Mm: 'megameters',
+                      Gm: 'gigameters',
+                      Tm: 'terameters',
+                      mi: 'miles',
+                      in: 'inches',
+                      ft: 'feet',
+                      ms: 'milliseconds',
+                      s: 'seconds',
+                      min: 'minutes',
+                      hr: 'hours',
+                      day: 'days',
+                      wk: 'weeks',
+                      yr: 'years',
+                      g: 'grams',
+                      mg: 'milligrams',
+                      kg: 'kilograms',
+                      oz: 'ounces',
+                      lb: 'pounds',
+                      pt: 'font size',
+                  }[dim] ?? locale.node.Dimension.description
         );
     }
 
