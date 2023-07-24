@@ -93,6 +93,7 @@
     /** True if the output should be fit to content */
     export let fit: boolean = true;
     export let autofocus: boolean = true;
+    export let showHelp: boolean = true;
 
     // The HTMLElement that represents this element
     let view: HTMLElement | undefined = undefined;
@@ -1135,6 +1136,7 @@
                                                 tile.isExpanded() &&
                                                 getSourceByID(tile.id) ===
                                                     project.main}
+                                            {showHelp}
                                             bind:menu
                                             on:conflicts={(event) =>
                                                 (conflictsOfInterest =

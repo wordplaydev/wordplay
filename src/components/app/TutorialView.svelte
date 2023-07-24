@@ -296,6 +296,7 @@
                         {editable}
                         {fit}
                         autofocus={document.activeElement !== view}
+                        showHelp={false}
                     /></div
                 >{:else}<PlayView {project} />{/if}
         {/if}

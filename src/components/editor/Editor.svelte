@@ -83,6 +83,7 @@
     /** True if this editor's output is selected by the container. */
     export let selected: boolean;
     export let autofocus: boolean = true;
+    export let showHelp: boolean = true;
 
     // A per-editor store that contains the current editor's cursor. We expose it as context to children.
     const caret = writable<Caret>(
@@ -1402,7 +1403,7 @@
         </Button>
     </div>
 {/if}
-{#if source.isEmpty()}
+{#if source.isEmpty() && showHelp}
     <EditorHelp />
 {/if}
 
