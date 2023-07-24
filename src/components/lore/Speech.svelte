@@ -188,6 +188,10 @@
         top: 50%;
     }
 
+    .message.reading.rtl:after {
+        border-width: var(--tail-width) 0 var(--tail-width) var(--tail-width);
+    }
+
     .baseline .message.reading:after {
         top: calc(2 * var(--wordplay-spacing));
     }
@@ -209,6 +213,12 @@
             -1 * (var(--tail-width) + 1 * var(--wordplay-border-width))
         );
         top: 50%;
+    }
+
+    .message.reading.rtl:before {
+        border-width: calc(var(--tail-width) + var(--wordplay-border-width)) 0
+            calc(var(--tail-width) + var(--wordplay-border-width))
+            calc(var(--tail-width) + var(--wordplay-border-width));
     }
 
     .baseline .message.reading:before {

@@ -1271,6 +1271,24 @@
                 lastKeyDownIgnored}
         />
     {/each}
+    <!-- 
+        If the caret is a position, render the invisible text field that allows us to capture inputs 
+        We put it here, before rendering the code, so anything focusable in the code comes after this.
+        That way, all controls are just a tab away.
+    -->
+    <input
+        type="text"
+        id={getInputID()}
+        data-focusdefault
+        aria-autocomplete="none"
+        autocomplete="off"
+        class="keyboard-input"
+        style={`left: ${caretLocation?.left ?? 0}; top: ${
+            caretLocation?.top ?? 0
+        };`}
+        bind:this={input}
+        on:input={handleTextInput}
+    />
     <!-- Render the program -->
     <RootView node={program} spaces={source.spaces} localized />
     <!-- Render highlights above the code -->
@@ -1286,20 +1304,6 @@
             $evaluation.playing === true &&
             lastKeyDownIgnored}
         bind:location={caretLocation}
-    />
-    <!-- If the caret is a position, render the invisible text field that allows us to capture inputs -->
-    <input
-        type="text"
-        id={getInputID()}
-        data-focusdefault
-        aria-autocomplete="none"
-        autocomplete="off"
-        class="keyboard-input"
-        style={`left: ${caretLocation?.left ?? 0}; top: ${
-            caretLocation?.top ?? 0
-        };`}
-        bind:this={input}
-        on:input={handleTextInput}
     />
     <!-- Render an adjust view by the caret if eligible. This should be after the input so that it's tababble. -->
     {#if adjustable}<Adjust {sourceID} bounds={adjustableLocation} />{/if}
