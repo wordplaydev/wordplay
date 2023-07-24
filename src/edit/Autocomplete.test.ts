@@ -96,6 +96,7 @@ test.each([
         Append,
         'a',
     ],
+    ['suggest unit', '1**', undefined, Assign, 'ms'],
 ])(
     '%s: %s',
     (
