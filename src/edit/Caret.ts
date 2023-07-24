@@ -781,7 +781,11 @@ export default class Caret {
         return (isText && !this.betweenDelimiters()) || isAfterText;
     }
 
-    isPlaceholder() {
+    isPlaceholderNode() {
+        return this.position instanceof Node && this.position.isPlaceholder();
+    }
+
+    isPlaceholderToken() {
         return (
             this.position instanceof Token &&
             this.position.isSymbol(Symbol.Placeholder)

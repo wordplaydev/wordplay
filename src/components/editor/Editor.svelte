@@ -262,7 +262,7 @@
                 ) {
                     if (
                         $caret.position instanceof Node &&
-                        !$caret.isPlaceholder()
+                        !$caret.isPlaceholderToken()
                     ) {
                         // Clear the last input value
                         lastKeyboardInputValue = undefined;

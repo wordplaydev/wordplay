@@ -82,7 +82,7 @@ export function getHighlights(
         addHighlight(source, newHighlights, latestValue.step.node, 'exception');
 
     // Is the caret selecting a node? Highlight it.
-    if (caret.position instanceof Node && !caret.isPlaceholder())
+    if (caret.position instanceof Node && !caret.isPlaceholderNode())
         addHighlight(source, newHighlights, caret.position, 'selected');
 
     // Is a node being dragged?
