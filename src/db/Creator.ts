@@ -196,6 +196,11 @@ export class Creator {
     }
 
     setProjectLayout(id: string, layout: Layout) {
+        // Has the layout changed?
+        const currentLayoutObject = this.config.layouts[id] ?? null;
+        const currentLayout = Layout.fromObject(currentLayoutObject);
+        if (currentLayout !== null && currentLayout.isEqualTo(layout)) return;
+
         const newLayout = Object.fromEntries(
             Object.entries(this.config.layouts)
         );

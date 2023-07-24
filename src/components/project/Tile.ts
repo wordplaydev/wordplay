@@ -117,4 +117,17 @@ export default class Tile {
             height: size,
         };
     }
+
+    isEqualTo(tile: Tile) {
+        return (
+            this.id === tile.id &&
+            this.name === tile.name &&
+            this.kind === tile.kind &&
+            this.mode === tile.mode &&
+            this.position.left === tile.position.left &&
+            this.position.top === tile.position.top &&
+            this.position.width === tile.position.width &&
+            this.position.height === tile.position.height
+        );
+    }
 }

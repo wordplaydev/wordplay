@@ -345,4 +345,12 @@ export default class Layout {
         }
         return positions;
     }
+
+    isEqualTo(layout: Layout) {
+        return (
+            layout.fullscreenID === this.fullscreenID &&
+            this.tiles.length === layout.tiles.length &&
+            this.tiles.every((t, index) => t.isEqualTo(layout.tiles[index]))
+        );
+    }
 }

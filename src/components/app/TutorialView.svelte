@@ -137,21 +137,17 @@
 
     // Any time the project database changes for the current ID, update the project.
     // This is what allows us to persist any edits to the project.
-    $: {
-        if ($creator) {
-            const proj = $projects.getProject(progress.getProjectID());
-            if (proj) project = proj;
-        }
+    $: if ($creator) {
+        const proj = $projects.getProject(progress.getProjectID());
+        if (proj) project = proj;
     }
 
     // Any time the project changes, add/update it in projects.
     // This persists the project state for later.
-    $: {
-        if (project) {
-            const existing = $projects.getProject(project.id);
-            if (existing !== undefined && !existing.equals(project))
-                $creator.addProject(project);
-        }
+    $: if (project) {
+        const existing = $projects.getProject(project.id);
+        if (existing !== undefined && !existing.equals(project))
+            $creator.addProject(project);
     }
 
     let selection: Progress | undefined = undefined;
