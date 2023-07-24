@@ -1,5 +1,5 @@
 import type EditTexts from './EditTexts';
-import type { Template } from './Locale';
+import type { DocText, Template } from './Locale';
 
 type UITexts = {
     phrases: {
@@ -124,6 +124,8 @@ type UITexts = {
     prompt: {
         deleteSource: string;
         deleteProject: string;
+        /** Takes one input, the shortcut key for showing the menu. */
+        emptyProgram: DocText;
     };
     labels: {
         learn: string;

@@ -341,7 +341,7 @@ export const Pause: Command = {
     execute: (context) => context.evaluator.pause(),
 };
 
-export const Menu: Command = {
+export const ShowMenu: Command = {
     symbol: '▾',
     description: (l) => l.ui.tooltip.menu,
     visible: Visibility.Visible,
@@ -693,7 +693,7 @@ const Commands: Command[] = [
     ExitFullscreen,
 
     // MODIFY
-    Menu,
+    ShowMenu,
     {
         symbol: '⟲',
         description: (l) => l.ui.tooltip.undo,

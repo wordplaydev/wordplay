@@ -1488,7 +1488,7 @@ function parseWebLink(tokens: Tokens): WebLink {
     const open = tokens.read(Symbol.TagOpen);
     const description = tokens.readIf(Symbol.Words);
     const at = tokens.readIf(Symbol.Link);
-    const url = tokens.readIf(Symbol.URL);
+    const url = tokens.read();
     const close = tokens.readIf(Symbol.TagClose);
 
     return new WebLink(open, description, at, url, close);

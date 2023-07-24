@@ -1632,7 +1632,11 @@
             "redo": "$?",
             "help": "$?"
         },
-        "prompt": { "deleteSource": "$?", "deleteProject": "$?" },
+        "prompt": {
+            "deleteSource": "$?",
+            "deleteProject": "$?",
+            "emptyProgram": "$?"
+        },
         "labels": {
             "learn": "$?",
             "nodoc": "$?",

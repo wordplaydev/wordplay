@@ -138,6 +138,25 @@ export default class Words extends Content {
             : new Words(this.open, concrete as Segment[], this.close);
     }
 
+    isBulleted() {
+        return (
+            this.segments[0] instanceof Token &&
+            this.segments[0].getText().startsWith('•')
+        );
+    }
+
+    withoutBullet() {
+        return new Words(
+            this.open,
+            this.segments.map((s) =>
+                s instanceof Token && s.getText().startsWith('•')
+                    ? s.withText(s.getText().replace('•', '').trim())
+                    : s
+            ),
+            this.close
+        );
+    }
+
     toText(): string {
         return unescaped(
             this.segments.map((segment) => segment.toText()).join('')

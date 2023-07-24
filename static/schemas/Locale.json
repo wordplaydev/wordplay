@@ -5063,11 +5063,16 @@
                 },
                 "deleteSource": {
                   "type": "string"
+                },
+                "emptyProgram": {
+                  "$ref": "#/definitions/DocText",
+                  "description": "Takes one input, the shortcut key for showing the menu."
                 }
               },
               "required": [
                 "deleteSource",
-                "deleteProject"
+                "deleteProject",
+                "emptyProgram"
               ],
               "type": "object"
             },

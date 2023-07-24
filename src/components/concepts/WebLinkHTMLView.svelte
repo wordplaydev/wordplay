@@ -4,11 +4,17 @@
 
     export let link: WebLink;
     export let spaces: Spaces;
+
+    let url = link.url
+        ? link.url.getText().startsWith('://')
+            ? link.url.getText().replace('://', '/')
+            : link.url.getText()
+        : '';
 </script>
 
 {#if link.url && link.description}
     {#if spaces.getSpace(link.open).length > 0}&nbsp;{/if}<a
-        href={link.url.getText()}
+        href={url}
         target="_blank"
         rel="noreferrer">{link.description.getText()}</a
     >

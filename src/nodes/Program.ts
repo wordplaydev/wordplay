@@ -80,6 +80,10 @@ export default class Program extends Expression {
         ) as this;
     }
 
+    isEmpty() {
+        return this.leaves().length === 1;
+    }
+
     isEvaluationInvolved() {
         return true;
     }

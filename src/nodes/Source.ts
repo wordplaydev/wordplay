@@ -781,6 +781,11 @@ export default class Source extends Expression {
             : tokensAfter.slice(indexOfCurrentToken + 1);
     }
 
+    /** True if the program is a mere end token */
+    isEmpty(): boolean {
+        return this.expression.isEmpty();
+    }
+
     isEmptyLine(position: number) {
         // Only offer suggestions on empty newlines.
         // An empty line is one for which every character before and after until the next new line is only a space or tab

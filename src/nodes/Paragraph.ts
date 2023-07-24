@@ -89,6 +89,27 @@ export default class Paragraph extends Content {
             : new Paragraph(concreteSegments as Segment[]);
     }
 
+    isBulleted() {
+        return (
+            (this.segments[0] instanceof Words &&
+                this.segments[0].isBulleted()) ||
+            (this.segments[0] instanceof Token &&
+                this.segments[0].getText().startsWith('•'))
+        );
+    }
+
+    withoutBullet() {
+        return new Paragraph(
+            this.segments.map((s) =>
+                s instanceof Words
+                    ? s.withoutBullet()
+                    : s instanceof Token && s.getText().startsWith('•')
+                    ? s.withText(s.getText().replace('•', '').trim())
+                    : s
+            )
+        );
+    }
+
     toText() {
         return this.segments.map((s) => s.toText()).join('');
     }

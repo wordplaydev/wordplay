@@ -71,6 +71,7 @@
     import OutputView from '../output/OutputView.svelte';
     import ConceptLinkUI from '../concepts/ConceptLinkUI.svelte';
     import Adjust from './Adjust.svelte';
+    import EditorHelp from './EditorHelp.svelte';
 
     const SHOW_OUTPUT_IN_PALETTE = false;
 
@@ -1400,6 +1401,9 @@
             </div>
         </Button>
     </div>
+{/if}
+{#if source.isEmpty()}
+    <EditorHelp />
 {/if}
 
 <style>

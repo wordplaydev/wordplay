@@ -2969,7 +2969,18 @@
             "redo": "redo undone edit",
             "help": "show keyboard shortcuts"
         },
-        "prompt": { "deleteSource": "delete", "deleteProject": "delete" },
+        "prompt": {
+            "deleteSource": "delete",
+            "deleteProject": "delete",
+            "emptyProgram": [
+                "Let's get started! You can …",
+                "• Open 📕 and drag 🖱️ us to this program.",
+                "• Type $1 and choose us from the menu.",
+                "• If you know us well, start typing.",
+                "• Browse the gallery for inspiration.",
+                "If you're stuck, <learn more@://learn>."
+            ]
+        },
         "labels": {
             "learn": "learn more …",
             "nodoc": "Who am I? What am I? What is my purpose?",

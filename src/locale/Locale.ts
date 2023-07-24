@@ -6,6 +6,8 @@ import type OutputTexts from './OutputTexts';
 import type UITexts from './UITexts';
 import type InputTexts from './InputTexts';
 import type TermTexts from './TermTexts';
+import { parseDoc, toTokens } from '../parser/Parser';
+import type Markup from '../nodes/Markup';
 
 /**
  * Represents a complete translation for Wordplay,
@@ -47,6 +49,13 @@ export type DocText = string | string[];
 
 export function toDocString(doc: DocText) {
     return Array.isArray(doc) ? doc.join('\n\n') : doc;
+}
+
+export function docToMarkup(doc: DocText): Markup {
+    const tokens = toTokens(
+        '`' + (typeof doc === 'string' ? doc : doc.join('\n\n')) + '`'
+    );
+    return parseDoc(tokens).markup;
 }
 
 export function getFirstName(name: NameText) {
