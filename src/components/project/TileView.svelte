@@ -327,6 +327,7 @@
         padding-right: var(--wordplay-spacing);
         padding-bottom: 0;
         min-width: 100%;
+        min-height: 2em;
         gap: var(--wordplay-spacing);
 
         overflow-x: scroll;
