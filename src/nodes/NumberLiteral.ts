@@ -9,7 +9,7 @@ import type Bind from './Bind';
 import type Context from './Context';
 import type TypeSet from './TypeSet';
 import Symbol from './Symbol';
-import { node, type Grammar, type Replacement } from './Node';
+import { node, type Grammar, type Replacement, optional } from './Node';
 import type Locale from '@locale/Locale';
 import NodeRef from '@locale/NodeRef';
 import Literal from './Literal';
@@ -20,15 +20,15 @@ import concretize, { type TemplateInput } from '../locale/concretize';
 
 export default class NumberLiteral extends Literal {
     readonly number: Token;
-    readonly unit: Unit;
+    readonly unit: Unit | undefined;
 
     #cache: Decimal | undefined;
 
-    constructor(number: Token, unit: Unit) {
+    constructor(number: Token, unit?: Unit) {
         super();
 
         this.number = number;
-        this.unit = unit;
+        this.unit = unit?.isUnitless() ? undefined : unit;
 
         this.computeChildren();
     }
@@ -62,7 +62,7 @@ export default class NumberLiteral extends Literal {
     getGrammar(): Grammar {
         return [
             { name: 'number', kind: node(Symbol.Number), uncompletable: true },
-            { name: 'unit', kind: node(Unit) },
+            { name: 'unit', kind: optional(node(Unit)) },
         ];
     }
 
@@ -134,8 +134,11 @@ export default class NumberLiteral extends Literal {
         return Glyphs.Number;
     }
 
-    getDescriptionInputs(_: Locale, __: Context): TemplateInput[] {
-        return [this.number.getText(), this.unit.toWordplay()];
+    getDescriptionInputs(locale: Locale, context: Context): TemplateInput[] {
+        return [
+            this.number.getText(),
+            this.unit ? new NodeRef(this.unit, locale, context) : undefined,
+        ];
     }
 
     adjust(direction: -1 | 1): this | undefined {

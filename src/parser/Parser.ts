@@ -741,7 +741,7 @@ export function parseNumber(tokens: Tokens): NumberLiteral {
 }
 
 /** UNIT :: DIMENSION (·DIMENSION)* (/ DIMENSION (·DIMENSION*))? */
-function parseUnit(tokens: Tokens): Unit {
+function parseUnit(tokens: Tokens): Unit | undefined {
     // Parse a wildcard unit.
     if (tokens.nextIs(Symbol.Conditional)) {
         return new Unit(
@@ -781,7 +781,11 @@ function parseUnit(tokens: Tokens): Unit {
             denominator.push(parseDimension(tokens));
     }
 
-    return new Unit(undefined, numerator, slash, denominator);
+    return numerator.length === 0 &&
+        denominator.length === 0 &&
+        slash === undefined
+        ? undefined
+        : new Unit(undefined, numerator, slash, denominator);
 }
 
 /** DIMENSION :: NAME (^NUMBER)? */
