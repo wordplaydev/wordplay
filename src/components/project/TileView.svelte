@@ -326,7 +326,7 @@
         padding-left: calc(2 * var(--wordplay-spacing));
         padding-right: var(--wordplay-spacing);
         padding-bottom: 0;
-
+        min-width: 100%;
         gap: var(--wordplay-spacing);
 
         overflow-x: scroll;
