@@ -116,6 +116,7 @@
     class="menu"
     bind:offsetWidth={menuWidth}
     bind:offsetHeight={menuHeight}
+    on:pointermove={() => console.log('Menu move')}
     style:left="{menuLeft}px"
     style:top="{menuTop}px"
 >
@@ -139,7 +140,7 @@
                 aria-label={$creator.getLocale().ui.tooltip.menuBack}
                 class:selected={menu.onBack()}
                 bind:this={revisionViews[-1]}
-                on:pointerdown|preventDefault|stopPropagation={() =>
+                on:pointerdown|stopPropagation={() =>
                     handleItemClick(undefined)}>←</div
             >
         {/if}
@@ -162,8 +163,7 @@
                     itemIndex === menu.getSelectionID() ? 'selected' : ''
                 } ${entry instanceof RevisionSet ? 'submenu' : ''}`}
                 bind:this={revisionViews[itemIndex]}
-                on:pointerdown|preventDefault|stopPropagation={() =>
-                    handleItemClick(entry)}
+                on:pointerdown|stopPropagation={() => handleItemClick(entry)}
             >
                 {#if entry instanceof Revision}
                     {@const revision = entry}
@@ -219,7 +219,7 @@
                 {#if newNode !== undefined}
                     <div
                         class="revision"
-                        on:pointerdown|preventDefault|stopPropagation={() =>
+                        on:pointerdown|stopPropagation={() =>
                             handleItemClick(revision)}
                     >
                         <RootView

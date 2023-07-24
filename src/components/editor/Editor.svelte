@@ -556,10 +556,6 @@
     }
 
     function handlePointerDown(event: PointerEvent) {
-        // Prevent the OS from giving the document body focus.
-        event.stopPropagation();
-        event.preventDefault();
-
         placeCaretAt(event);
 
         // After we handle the click, focus on keyboard input, in case it's not focused.
@@ -1250,7 +1246,7 @@
     style:writing-mode={$creator.getWritingLayout()}
     data-id={source.id}
     bind:this={editor}
-    on:pointerdown={(event) => handlePointerDown(event)}
+    on:pointerdown={handlePointerDown}
     on:dblclick={(event) => {
         let node = getNodeAt(event, false);
         if (node) caret.set($caret.withPosition(node));

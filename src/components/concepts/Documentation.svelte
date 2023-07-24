@@ -126,40 +126,6 @@
                       concept.concept.getText().substring('@UI/'.length)
                   );
 
-    function handlePointerDown(event: PointerEvent) {
-        if (event.buttons !== 1) return;
-
-        // Find code views
-        const code = document
-            .elementFromPoint(event.clientX, event.clientY)
-            ?.closest('.draggable');
-
-        // Find non-inert roots inside
-        const roots = code?.querySelectorAll('.root:not(.inert) .node-view');
-
-        if (roots) {
-            for (const root of roots) {
-                if (root instanceof HTMLElement) {
-                    let node: Node | undefined = $index?.getNode(
-                        parseInt(root.dataset.id ?? '')
-                    );
-                    if (node !== undefined) {
-                        // Set the dragged node to a deep clone of the (it may contain nodes from declarations that we don't want leaking into the program);
-                        dragged.set(node.clone());
-
-                        // Release implicit pointer capture so editor can receive move events.
-                        if (
-                            event.target instanceof Element &&
-                            event.target.hasPointerCapture(event.pointerId)
-                        )
-                            event.target.releasePointerCapture(event.pointerId);
-                        break;
-                    }
-                }
-            }
-        }
-    }
-
     // When a creator drops on the palette, remove the dragged node from the source it was dragged from.
     function handleDrop() {
         const node: Node | undefined = $dragged;
@@ -233,7 +199,6 @@
 <section
     class="palette"
     aria-label={$creator.getLocale().ui.section.palette}
-    on:pointerdown={handlePointerDown}
     on:pointerup={handleDrop}
     bind:this={view}
 >

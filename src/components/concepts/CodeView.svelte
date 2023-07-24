@@ -1,7 +1,11 @@
 <script lang="ts">
     import type Concept from '@concepts/Concept';
     import RootView from '../project/RootView.svelte';
-    import { getConceptIndex, getConceptPath } from '../project/Contexts';
+    import {
+        getConceptIndex,
+        getConceptPath,
+        getDragged,
+    } from '../project/Contexts';
     import type Node from '@nodes/Node';
     import TypeView from './TypeView.svelte';
     import { toClipboard } from '../editor/util/Clipboard';
@@ -21,6 +25,7 @@
     export let showOwner: boolean = false;
 
     let index = getConceptIndex();
+    let dragged = getDragged();
 
     function select(event: MouseEvent | KeyboardEvent) {
         if (concept && selectable && selection) {
@@ -34,6 +39,11 @@
             // Don't let the palette handle it.
             event.stopPropagation();
         }
+    }
+
+    function handlePointerDown() {
+        // Set the dragged node to a deep clone of the (it may contain nodes from declarations that we don't want leaking into the program);
+        dragged.set(node.clone());
     }
 
     function copy() {
@@ -56,6 +66,7 @@
             class="draggable node"
             class:outline
             tabindex="0"
+            on:pointerdown|stopPropagation={handlePointerDown}
             on:keydown={(event) =>
                 event.key === 'c' && (event.ctrlKey || event.metaKey)
                     ? copy()

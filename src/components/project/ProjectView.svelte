@@ -745,6 +745,9 @@
     }
 
     function handlePointerDown(event: PointerEvent) {
+        if (event.buttons !== 1) return;
+
+        // Is the arrangement free? Start dragging the tile if so.
         if ($creator.getArrangement() === Arrangement.Free) {
             const tileView = document
                 .elementFromPoint(event.clientX, event.clientY)
@@ -987,7 +990,11 @@
 
 <svelte:head><title>Wordplay - {project.name}</title></svelte:head>
 
-<svelte:window on:keydown={handleKey} />
+<svelte:window
+    on:keydown={handleKey}
+    on:pointermove={handlePointerMove}
+    on:pointerup={handlePointerUp}
+/>
 
 <Help bind:show={help} />
 <!-- Render the app header and the current project, if there is one. -->

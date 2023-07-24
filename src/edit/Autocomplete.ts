@@ -426,7 +426,7 @@ function getRelativeFieldEdits(
  */
 function completes(original: Node, replacement: Node): boolean {
     const originalNodes = original.nodes();
-    const completes = replacement.nodes().some((n1) =>
+    return replacement.nodes().some((n1) =>
         originalNodes.some((n2) => {
             const n1isToken = n1 instanceof Token;
             const n2isToken = n2 instanceof Token;
@@ -441,11 +441,6 @@ function completes(original: Node, replacement: Node): boolean {
             );
         })
     );
-    // if (!completes)
-    //     console.log(
-    //         `${replacement.toWordplay()} does not complete ${original.toWordplay()}`
-    //     );
-    return completes;
 }
 
 /** A list of node types from which we can generate replacements. */
