@@ -882,6 +882,9 @@
     }
 
     function handleKey(event: KeyboardEvent) {
+        if ($dragged !== undefined && event.key === 'Escape')
+            dragged.set(undefined);
+
         // See if there's a command that matches...
         const result = handleKeyCommand(event, {
             caret: Array.from($editors.values()).find(
