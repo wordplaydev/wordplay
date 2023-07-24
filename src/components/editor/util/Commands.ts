@@ -21,6 +21,7 @@ import ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
 import Names from '@nodes/Names';
 import type { Creator } from '../../../db/Creator';
 import type { Locale } from '../../../locale/Locale';
+import Program from '../../../nodes/Program';
 
 export type Command = {
     /** The iconographic text symbol to use */
@@ -476,6 +477,8 @@ const Commands: Command[] = [
             if (caret === undefined) return false;
             const position = caret.position;
             if (position instanceof Node) {
+                // Don't select program's parent.
+                if (position instanceof Program) return undefined;
                 let parent = caret.source.root.getParent(position);
                 if (parent) return caret.withPosition(parent);
             }
