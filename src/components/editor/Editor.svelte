@@ -1188,10 +1188,7 @@
     All NodeViews are set to role="presentation"
     We use the live region above 
 -->
-<!-- on:dblclick|stopPropagation={(event) => {
-    let node = getNodeAt(event, false);
-    if (node) caret.set($caret.withPosition(node));
-}} -->
+<!-- svelte-ignore a11y-no-static-element-interactions -->
 <div
     class="editor {$evaluation !== undefined && $evaluation.playing
         ? 'playing'
@@ -1208,6 +1205,10 @@
     on:pointerup={handleRelease}
     on:pointermove={handlePointerMove}
     on:pointerleave={handlePointerLeave}
+    on:dblclick|stopPropagation={(event) => {
+        let node = getNodeAt(event, false);
+        if (node) caret.set($caret.withPosition(node));
+    }}
 >
     <!-- Render highlights below the code -->
     {#each outlines as outline}
