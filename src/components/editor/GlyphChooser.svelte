@@ -36,7 +36,7 @@
     function insert(glyph: string) {
         const editor = $editors?.get(sourceID);
         if (editor) {
-            editor.edit(editor.caret.insert(glyph), IdleKind.Typing);
+            editor.edit(editor.caret.insert(glyph), IdleKind.Typing, true);
         }
     }
 </script>
@@ -49,6 +49,7 @@
                     {sourceID}
                     {command}
                     token
+                    focus
                 />{/each}
         {:else}
             {#each results as glyph}<Button

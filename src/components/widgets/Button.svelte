@@ -30,7 +30,7 @@
     bind:this={view}
     on:dblclick|stopPropagation
     on:pointerdown|stopPropagation={() => (active ? doAction() : undefined)}
-    on:keydown={(event) =>
+    on:keydown|stopPropagation={(event) =>
         event.key === 'Enter' || event.key === ' ' ? doAction() : undefined}
 >
     <slot />

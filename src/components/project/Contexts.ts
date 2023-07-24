@@ -92,7 +92,11 @@ export function getCaret() {
     return getContext<CaretContext>(CaretSymbol);
 }
 
-type EditHandler = (edit: Edit | undefined, idle: IdleKind) => void;
+type EditHandler = (
+    edit: Edit | undefined,
+    idle: IdleKind,
+    focus: boolean
+) => void;
 
 /** Various components outside the editor use this to apply edits */
 export const EditorsSymbol = Symbol('editors');

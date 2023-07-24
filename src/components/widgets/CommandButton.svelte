@@ -11,6 +11,7 @@
     export let sourceID: string | undefined = undefined;
     export let command: Command;
     export let token: boolean = false;
+    export let focus: boolean = false;
 
     const evaluator = getEvaluator();
     const editors = getEditors();
@@ -48,13 +49,18 @@
             if (typeof result === 'boolean') {
             } else if (result instanceof Promise)
                 result.then((edit) =>
-                    editor ? editor.edit(edit, IdleKind.Typing) : undefined
+                    editor
+                        ? editor.edit(edit, IdleKind.Typing, focus)
+                        : undefined
                 );
-            else if (result !== undefined) editor.edit(result, IdleKind.Typing);
+            else if (result !== undefined)
+                editor.edit(result, IdleKind.Typing, focus);
 
-            // Restore focus on button after update.
-            await tick();
-            view?.focus();
+            // If we didn't ask the editor to focus, restore focus on button after update.
+            if (!focus) {
+                await tick();
+                view?.focus();
+            }
         } else return undefined;
     }}
     >{#if token}<TokenView

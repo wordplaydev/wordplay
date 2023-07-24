@@ -96,7 +96,7 @@
     export let menu: Menu | undefined = undefined;
 
     // When the menu changes to undefined, focus back on this source.
-    $: if (menu === undefined) focusHiddenTextField();
+    $: if (menu === undefined) grabFocus();
 
     const selectedOutput = getSelectedOutput();
     const selectedOutputPaths = getSelectedOutputPaths();
@@ -160,6 +160,9 @@
     });
     onDestroy(unsubscribe);
 
+    // Focus the editor on mount, if autofocus is on.
+    onMount(() => (autofocus ? grabFocus() : undefined));
+
     // A shorthand for the current program.
     $: program = source.expression;
 
@@ -181,11 +184,6 @@
             }
         }
     }
-
-    // Focus the hidden text field on mount.
-    onMount(() => {
-        if (autofocus) focusHiddenTextField();
-    });
 
     async function evalUpdate() {
         if (evaluator === undefined || evaluator.isPlaying()) return;
@@ -246,39 +244,10 @@
                   .generalize(context)
             : undefined;
 
-    // When the caret changes, if it's a node, focus on the node, and if it's an index, focus on the hidden text field.
-    $: {
-        if ($caret) {
-            // Hide the menu, if there is one.
-            hideMenu();
+    // Hide the menu when the caret changes.
+    $: if ($caret) hideMenu();
 
-            tick().then(() => {
-                // If this editor contains the focus, choose an appropriate focus for the new caret.
-                const adjust = document.querySelector('.adjust');
-                if (
-                    editor &&
-                    typeof document !== 'undefined' &&
-                    editor.contains(document.activeElement) &&
-                    (adjust === null ||
-                        !adjust.contains(document.activeElement))
-                ) {
-                    if (
-                        $caret.position instanceof Node &&
-                        !$caret.isPlaceholderToken()
-                    ) {
-                        // Clear the last input value
-                        lastKeyboardInputValue = undefined;
-                        // Focus the node that's selected.
-                        focusNodeCaret();
-                    } else {
-                        focusHiddenTextField();
-                    }
-                }
-            });
-        }
-    }
-
-    // If the caret is in or on a literal that can be modified, shown an adjust
+    // When the caret changes, see if there's an adjustable at it, and if so, measure it and then show it.
     let adjustable: Node | undefined;
     let adjustableLocation: { left: number; top: number } | undefined;
     $: {
@@ -293,9 +262,7 @@
                 adjustable = $caret.getAdjustableLiteral();
 
                 // When adjustable disappears, focus text field
-                if (adjustable === undefined) {
-                    focusHiddenTextField();
-                } else {
+                if (adjustable !== undefined) {
                     tick().then(() => {
                         if (adjustable) {
                             const adjustableBounds =
@@ -554,14 +521,14 @@
         );
 
         // Focus the node caret selected.
-        focusNodeCaret();
+        grabFocus();
     }
 
     function handlePointerDown(event: PointerEvent) {
         placeCaretAt(event);
 
         // After we handle the click, focus on keyboard input, in case it's not focused.
-        focusHiddenTextField();
+        grabFocus();
     }
 
     function placeCaretAt(event: PointerEvent) {
@@ -1043,7 +1010,7 @@
                 menu = menu.withSelection([newIndex, 0]);
                 return false;
             } else {
-                handleEdit(selection);
+                handleEdit(selection, IdleKind.Typing, true);
                 return true;
             }
         }
@@ -1070,9 +1037,9 @@
 
         if (result !== false) {
             if (result instanceof Promise)
-                result.then((edit) => handleEdit(edit, idle));
+                result.then((edit) => handleEdit(edit, idle, true));
             else if (result !== undefined && result !== true)
-                handleEdit(result, idle);
+                handleEdit(result, idle, true);
 
             // Prevent default keyboard commands from being otherwise handled.
             event.preventDefault();
@@ -1085,18 +1052,20 @@
 
     async function handleEdit(
         edit: Edit | undefined,
-        idle: IdleKind = IdleKind.Typing
+        idle: IdleKind = IdleKind.Typing,
+        /** True if the editor should claim focus after performing this edit.
+         * For all actions that come from the editor, it should.
+         * But there are other things that edit, and they may not want the editor grabbing focus.
+         **/
+        focus: boolean
     ) {
         if (edit === undefined) return;
 
-        const unmodified = edit instanceof Caret;
+        const navigation = edit instanceof Caret;
 
         // Get the new caret and source to display.
-        const newCaret = unmodified ? edit : edit[1];
-        const newSource = unmodified ? undefined : edit[0];
-
-        // Remember whether the text field was focused.
-        const focused = document.activeElement === input;
+        const newCaret = navigation ? edit : edit[1];
+        const newSource = navigation ? undefined : edit[0];
 
         // Set the keyboard edit idle to false.
         keyboardEditIdle.set(idle);
@@ -1115,21 +1084,14 @@
             caret.set(newCaret.withoutAddition());
         }
 
-        // After every edit and everything is updated, focus back on on text input
+        // After every edit and everything is updated, focus back on input
         await tick();
-        if (caretLocation && !unmodified && $caret.isIndex() && focused)
-            focusHiddenTextField();
+        if (focus) grabFocus();
     }
 
-    function focusHiddenTextField() {
+    function grabFocus() {
+        console.trace();
         input?.focus();
-    }
-
-    async function focusNodeCaret() {
-        // We used to focus node views themselves, thinking that this was necessary
-        // for screen reading. But it turns out that because of ARIA role restrictions,
-        // that's not a good idea.
-        editor?.focus();
     }
 
     let lastKeyboardInputValue: undefined | UnicodeString = undefined;
@@ -1210,7 +1172,7 @@
         }
 
         // Did we make an update?
-        if (edit) handleEdit(edit, IdleKind.Typing);
+        if (edit) handleEdit(edit, IdleKind.Typing, true);
         else lastKeyDownIgnored = true;
     }
 
@@ -1233,7 +1195,7 @@
         : 'stepping'}"
     role="textbox"
     data-uiid="editor"
-    tabindex="0"
+    tabindex="-1"
     aria-autocomplete="none"
     aria-live="off"
     aria-multiline="true"

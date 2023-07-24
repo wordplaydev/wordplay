@@ -67,7 +67,8 @@
                         .withSource(newSource)
                         .withAddition(placeholder),
                 ],
-                IdleKind.Typing
+                IdleKind.Typing,
+                true
             );
         }
     }
