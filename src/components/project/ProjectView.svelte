@@ -1150,18 +1150,17 @@
                                                         tile.id
                                                     ))}
                                         />
-                                        <Annotations
-                                            {project}
-                                            evaluator={$evaluator}
-                                            {source}
-                                            conflicts={visibleConflicts}
-                                            stepping={$evaluation.playing ===
-                                                false}
-                                        />
                                     </div>
                                 {/if}</svelte:fragment
                             ><svelte:fragment slot="footer"
-                                >{#if tile.kind === Content.Source}<GlyphChooser
+                                >{#if tile.kind === Content.Source}
+                                    <Annotations
+                                        {project}
+                                        evaluator={$evaluator}
+                                        source={getSourceByID(tile.id)}
+                                        conflicts={visibleConflicts}
+                                        stepping={$evaluation.playing === false}
+                                    /><GlyphChooser
                                         sourceID={tile.id}
                                     />{:else if tile.kind === Content.Output && layout.fullscreenID !== tile.id && editable}
                                     <Timeline
