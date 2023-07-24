@@ -1,5 +1,7 @@
 import Expression from './Expression';
 import type Node from './Node';
+import en from '../locale/en.json';
+import type Locale from '../locale/Locale';
 
 export type Path = { type: string; index: number }[];
 
@@ -144,8 +146,10 @@ export default class Root {
 
     /**
      * Recursively constructs a path to this node from it's parents. A path is just a sequence of node constructor and child index pairs.
-     * The node constructor name is for printing and error checking and the number is just the index of the child from getChildren().
+     * The node name is taken from the English locale's name because it's stable; constructor names change during build.
+     * The number is just the index of the child from getChildren().
      * This is useful for finding corresponding nodes during tree manipulation, where a lot of cloning and reformatting happens.
+     * It's also used for caret persistence, to serialize node selections.
      */
     getPath(node: Node): Path {
         let parent = this.getParent(node);
@@ -153,7 +157,7 @@ export default class Root {
             return [
                 ...this.getPath(parent),
                 {
-                    type: parent.constructor.name,
+                    type: parent.getNodeLocale(en as Locale).name,
                     index: parent.getChildren().indexOf(node),
                 },
             ];
@@ -171,7 +175,8 @@ export default class Root {
             node && index !== undefined ? node.getChildren()[index] : undefined;
 
         // If the type of node doesn't match, this path doesn't resolve.
-        return node.constructor.name !== type || child === undefined
+        return node.getNodeLocale(en as Locale).name !== type ||
+            child === undefined
             ? undefined
             : // Otherwise, ask the corresponding child to continue resolving the path, unless there isn't one,
               // in which case the path doesn't resolve.
