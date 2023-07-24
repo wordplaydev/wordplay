@@ -900,7 +900,11 @@ export default class Caret {
             const parent = this.source.root.getParent(node);
 
             // Is the parent a wrapper? Unwrap it.
-            if (parent instanceof Block && parent.statements.length === 1) {
+            if (
+                parent instanceof Block &&
+                !parent.isRoot() &&
+                parent.statements.length === 1
+            ) {
                 return [
                     this.source.replace(parent, parent.statements[0]),
                     this.withPosition(parent.statements[0]),
