@@ -295,7 +295,7 @@
                         bind:index={concepts}
                         {editable}
                         {fit}
-                        autofocus={document.activeElement !== view}
+                        autofocus={false}
                         showHelp={false}
                     /></div
                 >{:else}<PlayView {project} />{/if}

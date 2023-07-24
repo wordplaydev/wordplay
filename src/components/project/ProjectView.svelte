@@ -1339,4 +1339,9 @@
     .help {
         margin-left: auto;
     }
+
+    .footer {
+        border-bottom: var(--wordplay-border-color) solid
+            var(--wordplay-border-width);
+    }
 </style>
