@@ -346,11 +346,11 @@ export const Menu: Command = {
     description: (l) => l.ui.tooltip.menu,
     visible: Visibility.Visible,
     category: Category.Modify,
-    shift: true,
-    alt: false,
+    shift: false,
+    alt: true,
     control: false,
-    key: ' ',
-    keySymbol: 'Space',
+    key: 'ArrowDown',
+    keySymbol: '↓',
     execute: (context) =>
         context.toggleMenu ? context.toggleMenu() : undefined,
 };
