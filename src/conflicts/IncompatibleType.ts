@@ -5,15 +5,23 @@ import NodeRef from '@locale/NodeRef';
 import type Locale from '@locale/Locale';
 import Conflict from './Conflict';
 import concretize from '../locale/concretize';
+import type Node from '../nodes/Node';
 
 export default class IncompatibleType extends Conflict {
+    readonly receiver: Node;
     readonly expectedType: Type;
     readonly value: Expression;
     readonly givenType: Type;
 
-    constructor(expectedType: Type, value: Expression, givenType: Type) {
+    constructor(
+        receiver: Node,
+        expectedType: Type,
+        value: Expression,
+        givenType: Type
+    ) {
         super(false);
 
+        this.receiver = receiver;
         this.expectedType = expectedType;
         this.value = value;
         this.givenType = givenType;
@@ -22,7 +30,7 @@ export default class IncompatibleType extends Conflict {
     getConflictingNodes() {
         return {
             primary: {
-                node: this.value,
+                node: this.receiver,
                 explanation: (locale: Locale, context: Context) =>
                     concretize(
                         locale,
@@ -32,7 +40,7 @@ export default class IncompatibleType extends Conflict {
                     ),
             },
             secondary: {
-                node: this.expectedType,
+                node: this.value,
                 explanation: (locale: Locale, context: Context) =>
                     concretize(
                         locale,

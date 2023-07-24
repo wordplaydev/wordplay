@@ -270,7 +270,12 @@ export default class Bind extends Expression {
             const valueType = this.value.getType(context);
             if (!this.type.accepts(valueType, context))
                 conflicts.push(
-                    new IncompatibleType(this.type, this.value, valueType)
+                    new IncompatibleType(
+                        this.names,
+                        this.type,
+                        this.value,
+                        valueType
+                    )
                 );
         }
 

@@ -318,7 +318,12 @@ export default class FunctionDefinition extends Expression {
             const type = this.expression.getType(context);
             if (!this.output.accepts(type, context)) {
                 conflicts.push(
-                    new IncompatibleType(this.output, this.expression, type)
+                    new IncompatibleType(
+                        this.names,
+                        this.output,
+                        this.expression,
+                        type
+                    )
                 );
             }
         }

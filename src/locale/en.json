@@ -401,7 +401,7 @@
                 },
                 "IncompatibleType": {
                     "primary": "I'm supposed to be $2, but I'm $1",
-                    "secondary": "hey, I got a $2 instead of a $1"
+                    "secondary": "Oh… sorry, a $1, really?"
                 },
                 "MisplacedShare": "I can only share things at the @Program level, not inside anything!",
                 "MissingShareLanguages": "if you want to share this, you have to say what language this is in, so others know if they can read it!",
