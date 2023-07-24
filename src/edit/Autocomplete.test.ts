@@ -16,6 +16,7 @@ const native = await getDefaultNative();
 test.each([
     ['blank program suggestions', '**', undefined, Append, '0'],
     ['set unset bind value', 'a:**', undefined, Assign, '0'],
+    ['suggest binary evaluate completions', '1 + **', undefined, Assign, '0'],
     [
         'suggest conditional on boolean value',
         'b: ⊥\nb',

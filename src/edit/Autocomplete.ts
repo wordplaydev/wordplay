@@ -64,6 +64,7 @@ import Remove from './Remove';
 import UnknownType from '../nodes/UnknownType';
 import Program from '../nodes/Program';
 import Dimension from '../nodes/Dimension';
+import UnparsableExpression from '../nodes/UnparsableExpression';
 
 /** Given a project and a caret, generate a set of transforms that can be applied at the location. */
 export function getEditsAt(project: Project, caret: Caret): Revision[] {
@@ -320,7 +321,10 @@ function getRelativeFieldEdits(
 
     for (const relativeField of relativeFields) {
         const fieldValue = parent.getField(relativeField.name);
-        const fieldIsEmpty = fieldValue === undefined;
+        const fieldIsEmpty =
+            fieldValue === undefined ||
+            (fieldValue instanceof UnparsableExpression &&
+                fieldValue.isEmpty());
 
         // If the field is a list, and it's not a block, or we're on an empty line in a block, get possible insertions for all allowable node kinds.
         if (

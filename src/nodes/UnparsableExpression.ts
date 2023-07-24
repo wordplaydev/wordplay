@@ -91,4 +91,8 @@ export default class UnparsableExpression extends AtomicExpression {
     getGlyphs() {
         return Glyphs.Unparsable;
     }
+
+    isEmpty() {
+        return this.unparsables.length === 0;
+    }
 }

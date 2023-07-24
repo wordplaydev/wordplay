@@ -122,11 +122,18 @@ export default class Evaluate extends Expression {
         // Get the definitions in the structure type we found,
         // or in the surrounding scope if there isn't one.
         const definitions =
-            selectedNode && scopingType instanceof NativeType
-                ? scopingType.getDefinitions(selectedNode, context)
-                : selectedNode && scopingType instanceof StructureDefinitionType
-                ? scopingType.structure.getDefinitions(selectedNode)
-                : node.getDefinitionsInScope(context);
+            // If the anchor is selected for replacement...
+            selectedNode
+                ? // If the scope is native, get definitions in native scope
+                  scopingType instanceof NativeType
+                    ? scopingType.getDefinitions(selectedNode, context)
+                    : // If the scope is a structure, get definitions in its scope
+                    scopingType instanceof StructureDefinitionType
+                    ? scopingType.structure.getDefinitions(selectedNode)
+                    : // Otherwise, get definitions in the default scope
+                      context.source.expression.getDefinitionsInScope(context)
+                : // If the node is not selected, get definitions in the default scope
+                  context.source.expression.getDefinitionsInScope(context);
         if (structure) type = undefined;
 
         // Convert the definitions to evaluate suggestions.
