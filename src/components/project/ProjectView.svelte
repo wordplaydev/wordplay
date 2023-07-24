@@ -882,12 +882,7 @@
     }
 
     function handleKey(event: KeyboardEvent) {
-        if (event.key === '?' && (event.metaKey || event.ctrlKey)) {
-            event.stopPropagation();
-            event.preventDefault();
-        }
-
-        // Pick the focused caret.
+        // See if there's a command that matches...
         const result = handleKeyCommand(event, {
             caret: Array.from($editors.values()).find(
                 (editor) => editor.focused
@@ -895,9 +890,10 @@
             evaluator: $evaluator,
             creator: $creator,
             fullscreen,
-            help: () => (help = true),
+            help: () => (help = !help),
         });
 
+        // If something handled it, consume the event.
         if (result !== false) {
             event.stopPropagation();
             event.preventDefault();
