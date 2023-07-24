@@ -133,7 +133,7 @@ export default class Unit extends Type {
         // If the anchor is a unit and the unit is selected, offer revisions to the unit for replacement.
         if (anchor && selected && anchor instanceof Unit) {
             // What dimensions are possible?
-            const dimensions = getPossibleDimensions(context.project);
+            const dimensions = getPossibleDimensions(context);
 
             return [
                 // Suggest adding a dimension to the numerator, except any existing numerators
@@ -147,7 +147,7 @@ export default class Unit extends Type {
             ];
         }
 
-        return getPossibleUnits(context.project);
+        return getPossibleUnits(context);
     }
 
     static Empty = new Unit();

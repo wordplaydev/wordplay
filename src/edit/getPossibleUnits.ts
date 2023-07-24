@@ -1,8 +1,11 @@
 import type Project from '../models/Project';
 import NumberType from '@nodes/NumberType';
 import Unit from '@nodes/Unit';
+import Dimension from '../nodes/Dimension';
+import type Context from '../nodes/Context';
 
-export function getPossibleUnits(project: Project) {
+export function getPossibleUnits(context: Context) {
+    const project = context.project;
     const unitsInConversions = getUnitsInConversions(project);
 
     const unitsInProject = project
@@ -15,8 +18,12 @@ export function getPossibleUnits(project: Project) {
             []
         );
 
+    const unitsInShares = context.native.shares.all
+        .map((def) => def.nodes().filter((d): d is Unit => d instanceof Unit))
+        .flat();
+
     // Return unique units
-    return [...unitsInConversions, ...unitsInProject].filter(
+    return [...unitsInConversions, ...unitsInProject, ...unitsInShares].filter(
         (unit, i1, units) =>
             units.find(
                 (unit2, i2) =>
@@ -53,7 +60,8 @@ function getUnitsInConversions(project: Project) {
     );
 }
 
-export function getPossibleDimensions(project: Project) {
+export function getPossibleDimensions(context: Context) {
+    const project = context.project;
     const dimensionsInConversions = getUnitsInConversions(project).reduce(
         (dimensions: string[], unit) => [
             ...dimensions,
@@ -79,8 +87,25 @@ export function getPossibleDimensions(project: Project) {
         []
     );
 
+    // Get all dimensions in default shares
+    const dimensionsInShares = project.shares.all.reduce(
+        (dims: string[], def) => [
+            ...dims,
+            ...def
+                .nodes()
+                .filter((d): d is Dimension => d instanceof Dimension)
+                .map((d) => d.getName())
+                .filter((d): d is string => d !== undefined),
+        ],
+        []
+    );
+
     // Return unique dimensions
     return Array.from(
-        new Set([...dimensionsInConversions, ...dimensionsInPrograms])
+        new Set([
+            ...dimensionsInConversions,
+            ...dimensionsInPrograms,
+            ...dimensionsInShares,
+        ])
     );
 }
