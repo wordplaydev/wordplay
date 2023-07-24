@@ -253,6 +253,9 @@ export function updateOutlines(
             (a.underline.maxx - a.underline.minx)
     );
 
+    const UnderlineHeight = 4;
+    const MaxOffset = 12;
+
     // 2) Iterate through outlines, searching for any previous outlines in the list and offseting the y position accordingly.
     for (let index = 0; index < outlines.length; index++) {
         const outline = outlines[index];
@@ -278,7 +281,8 @@ export function updateOutlines(
                             )
                     ) > 0
                 ) {
-                    offset += 4;
+                    // Limit to 3 levels deep.
+                    offset = Math.min(offset + UnderlineHeight, MaxOffset);
                 }
             }
         }
