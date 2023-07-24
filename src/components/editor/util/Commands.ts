@@ -439,7 +439,7 @@ const Commands: Command[] = [
             ) ?? false,
     },
     {
-        symbol: '↖',
+        symbol: '⬉',
         description: (l) => l.ui.tooltip.cursorNeighborBefore,
         visible: Visibility.Visible,
         category: Category.Cursor,
@@ -451,7 +451,7 @@ const Commands: Command[] = [
         execute: ({ caret }) => caret?.left(true) ?? false,
     },
     {
-        symbol: '↗',
+        symbol: '⬈',
         description: (l) => l.ui.tooltip.cursorNeighborAfter,
         visible: Visibility.Visible,
         category: Category.Cursor,
@@ -497,7 +497,7 @@ const Commands: Command[] = [
         },
     },
     {
-        symbol: '▮',
+        symbol: '📄',
         description: (l) => l.ui.tooltip.selectAll,
         visible: Visibility.Visible,
         category: Category.Cursor,
