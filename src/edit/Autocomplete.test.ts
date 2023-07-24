@@ -14,6 +14,7 @@ import Reference from '../nodes/Reference';
 const native = await getDefaultNative();
 
 test.each([
+    ['blank program suggestions', '**', undefined, Append, '0'],
     ['set unset bind value', 'a:**', undefined, Assign, '0'],
     [
         'suggest conditional on boolean value',
