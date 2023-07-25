@@ -1348,6 +1348,9 @@
         flex: 1;
         cursor: text;
         margin-bottom: auto;
+
+        /* Don't let iOS grab pointer move events, so we can do drag and drop. */
+        touch-action: none;
     }
 
     .editor:focus {

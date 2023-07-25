@@ -253,6 +253,9 @@
         display: flex;
         flex-direction: column;
         align-items: flex-start;
+
+        /* Don't let iOS grab pointer move events, so we can do drag and drop. */
+        touch-action: none;
     }
 
     .tile.free {

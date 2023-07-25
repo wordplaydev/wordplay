@@ -1046,8 +1046,6 @@ export default class Caret {
             this.column
         );
 
-        // console.log(`position = ${newPosition}`);
-
         return newPosition !== undefined
             ? this.withPosition(newPosition, this.column)
             : undefined;

@@ -41,7 +41,11 @@
         }
     }
 
-    function handlePointerDown() {
+    function handlePointerDown(event: PointerEvent) {
+        // Release the implicit pointer capture so events can travel to other components.
+        if (event.target instanceof Element)
+            event.target.releasePointerCapture(event.pointerId);
+
         // Set the dragged node to a deep clone of the (it may contain nodes from declarations that we don't want leaking into the program);
         dragged.set(node.clone());
     }
@@ -108,6 +112,9 @@
         user-select: none;
         display: inline-block;
         vertical-align: middle;
+
+        /* Don't let iOS grab pointer move events, so we can do drag and drop. */
+        touch-action: none;
     }
 
     .node.outline {

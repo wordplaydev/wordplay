@@ -259,6 +259,9 @@
         flex-direction: row;
         gap: var(--wordplay-spacing);
         padding: var(--wordplay-spacing);
+
+        /* Don't let iOS grab pointer move events, so we can do drag and drop. */
+        touch-action: none;
     }
 
     .menu:focus-within {

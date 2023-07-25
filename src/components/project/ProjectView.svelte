@@ -1249,6 +1249,10 @@
 </main>
 
 <style>
+    :global(body) {
+        touch-action: none;
+    }
+
     .project {
         flex-grow: 1;
         justify-self: center;
@@ -1258,6 +1262,9 @@
         overflow: hidden;
         width: 100%;
         height: 100%;
+
+        /* Don't let iOS grab pointer move events, so we can do drag and drop. */
+        touch-action: none;
     }
 
     .project:focus:after {
