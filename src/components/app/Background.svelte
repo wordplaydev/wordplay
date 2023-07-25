@@ -104,10 +104,9 @@
 
 <svelte:window bind:innerWidth={windowWidth} bind:innerHeight={windowHeight} />
 
-<div class="background" role="presentation">
+<div class="background" aria-hidden="true">
     {#each state as glyph}
         <div
-            role="presentation"
             class="glyph"
             data-id={glyph.index}
             style:font-size="{glyph.size}pt"
