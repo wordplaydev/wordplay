@@ -1089,7 +1089,9 @@ export default class Caret {
             return concretize(
                 locale,
                 locale.ui.edit.before,
-                this.source.code.at(this.position) ?? ''
+                this.tokenExcludingSpace
+                    .getDescription(concretize, locale, context)
+                    .toText()
             ).toText();
         } else if (this.tokenIncludingSpace)
             return concretize(

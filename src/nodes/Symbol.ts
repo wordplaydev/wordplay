@@ -79,7 +79,7 @@ enum Symbol {
     Boolean = 'boolean',
     Name = 'name',
     Unknown = 'unknown',
-    End = '',
+    End = 'end',
 }
 
 /** Tokens that can be many different possible sequences of characters. We use this list to know when a token is static and can only be one symbol. */
@@ -95,6 +95,7 @@ export const WildcardSymbols = new Set([
     Symbol.TemplateBetween,
     Symbol.Words,
     Symbol.Concept,
+    Symbol.End,
 ]);
 
 export function isTokenType(text: string): text is Symbol {
