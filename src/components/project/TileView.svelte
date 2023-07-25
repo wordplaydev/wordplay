@@ -340,7 +340,7 @@
         min-height: 2em;
         gap: var(--wordplay-spacing);
 
-        overflow-x: scroll;
+        overflow: scroll;
     }
 
     .controls :global(button) {
