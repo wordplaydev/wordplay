@@ -109,8 +109,12 @@
                         if (!selectedLocale && !caretIn)
                             newHidden.add(nameOrDoc);
                         // Is the selected language and inert? Hide the language tag.
-                        else if (selectedLocale && nameOrDoc.lang && !caretIn)
-                            newHidden.add(nameOrDoc.lang);
+                        else if (
+                            selectedLocale &&
+                            nameOrDoc.language &&
+                            !caretIn
+                        )
+                            newHidden.add(nameOrDoc.language);
                         // Not first? Hide the separator.
                         if (!first) {
                             first = true;

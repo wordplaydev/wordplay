@@ -28,6 +28,8 @@ import type Literal from '../nodes/Literal';
 import concretize from '../locale/concretize';
 import type Context from '../nodes/Context';
 import type Type from '../nodes/Type';
+import type LanguageCode from '../locale/LanguageCode';
+import Doc from '../nodes/Doc';
 
 export type InsertionContext = { before: Node[]; after: Node[] };
 export type CaretPosition = number | Node;
@@ -1085,22 +1087,33 @@ export default class Caret {
                 .getDescription(concretize, locale, context)
                 .toText();
             return `${type ? type.toWordplay() : label}, ${description}`;
-        } else if (this.tokenExcludingSpace) {
-            return concretize(
-                locale,
-                locale.ui.edit.before,
-                this.tokenExcludingSpace
-                    .getDescription(concretize, locale, context)
-                    .toText()
-            ).toText();
-        } else if (this.tokenIncludingSpace)
-            return concretize(
-                locale,
-                locale.ui.edit.before,
-                this.tokenIncludingSpace
-                    .getDescription(concretize, locale, context)
-                    .toText()
-            ).toText();
-        else return '';
+        }
+
+        const token =
+            this.tokenExcludingSpace ?? this.tokenIncludingSpace ?? undefined;
+
+        if (token === undefined) return '';
+
+        return concretize(
+            locale,
+            locale.ui.edit.before,
+            token.getDescription(concretize, locale, context).toText()
+        ).toText();
+    }
+
+    /** Gets the language code of the current content, if a language tagged token, or inside one */
+    getLanguage(): LanguageCode | undefined {
+        if (this.position instanceof Node) return undefined;
+        const token =
+            this.tokenExcludingSpace ?? this.tokenIncludingSpace ?? undefined;
+        if (token === undefined) return undefined;
+        const ancestors = this.source.root.getAncestors(token);
+        const text = ancestors.find(
+            (a) => a instanceof TextLiteral || a instanceof Doc
+        );
+        if (text instanceof TextLiteral)
+            return text.language?.getLanguageCode();
+        else if (text instanceof Doc) return text.language?.getLanguageCode();
+        return undefined;
     }
 }

@@ -15,7 +15,7 @@ export default class Doc extends Node {
     readonly open: Token;
     readonly markup: Markup;
     readonly close: Token | undefined;
-    readonly lang?: Language;
+    readonly language?: Language;
 
     constructor(
         open: Token,
@@ -28,7 +28,7 @@ export default class Doc extends Node {
         this.open = open;
         this.markup = markup;
         this.close = close;
-        this.lang = lang;
+        this.language = lang;
 
         this.computeChildren();
     }
@@ -51,7 +51,7 @@ export default class Doc extends Node {
             { name: 'open', kind: node(Symbol.Doc) },
             { name: 'markup', kind: node(Markup) },
             { name: 'close', kind: node(Symbol.Doc) },
-            { name: 'lang', kind: any(node(Language), none()) },
+            { name: 'language', kind: any(node(Language), none()) },
         ];
     }
 
@@ -60,7 +60,7 @@ export default class Doc extends Node {
             this.replaceChild('open', this.open, replace),
             this.replaceChild('markup', this.markup, replace),
             this.replaceChild('close', this.close, replace),
-            this.replaceChild('lang', this.lang, replace)
+            this.replaceChild('language', this.language, replace)
         ) as this;
     }
 
@@ -82,7 +82,9 @@ export default class Doc extends Node {
     }
 
     getLanguage() {
-        return this.lang === undefined ? undefined : this.lang.getLanguage();
+        return this.language === undefined
+            ? undefined
+            : this.language.getLanguage();
     }
 
     computeConflicts() {}

@@ -8,4 +8,4 @@
 </script>
 
 <NodeView node={node.separator} /><strong><NodeView node={node.name} /></strong
-><NodeView node={node.lang} />
+><NodeView node={node.language} />

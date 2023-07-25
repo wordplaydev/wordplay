@@ -10,7 +10,7 @@
 <span class="doc"
     ><NodeView node={node.open} /><NodeView node={node.markup} /><NodeView
         node={node.close}
-    /><NodeView node={node.lang} /></span
+    /><NodeView node={node.language} /></span
 >
 
 <style>

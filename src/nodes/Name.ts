@@ -18,7 +18,7 @@ import Node, { node, optional } from './Node';
 export default class Name extends Node {
     readonly separator: Token | undefined;
     readonly name: Token | undefined;
-    readonly lang?: Language;
+    readonly language?: Language;
 
     constructor(
         separator: Token | undefined,
@@ -29,7 +29,7 @@ export default class Name extends Node {
 
         this.separator = separator;
         this.name = name;
-        this.lang = lang;
+        this.language = lang;
 
         this.computeChildren();
     }
@@ -42,7 +42,7 @@ export default class Name extends Node {
         return [
             { name: 'separator', kind: optional(node(Symbol.Separator)) },
             { name: 'name', kind: optional(node(Symbol.Name)) },
-            { name: 'lang', kind: optional(node(Language)) },
+            { name: 'language', kind: optional(node(Language)) },
         ];
     }
 
@@ -50,7 +50,7 @@ export default class Name extends Node {
         return new Name(
             this.replaceChild('separator', this.separator, replace),
             this.replaceChild('name', this.name, replace),
-            this.replaceChild('lang', this.lang, replace)
+            this.replaceChild('language', this.language, replace)
         ) as this;
     }
 
@@ -81,7 +81,7 @@ export default class Name extends Node {
     }
 
     hasLanguage() {
-        return this.lang !== undefined && this.lang.slash !== undefined;
+        return this.language !== undefined && this.language.slash !== undefined;
     }
 
     withSeparator(): Name {
@@ -90,7 +90,7 @@ export default class Name extends Node {
             : new Name(
                   new Token(COMMA_SYMBOL, Symbol.Separator),
                   this.name,
-                  this.lang
+                  this.language
               );
     }
 
@@ -121,19 +121,21 @@ export default class Name extends Node {
             ? undefined
             : this.name
                   .getText()
-                  .toLocaleLowerCase(this.lang?.getLanguageCode());
+                  .toLocaleLowerCase(this.language?.getLanguageCode());
     }
     getLanguage() {
-        return this.lang === undefined ? undefined : this.lang.getLanguage();
+        return this.language === undefined
+            ? undefined
+            : this.language.getLanguage();
     }
     isLanguage(lang: LanguageCode) {
         return this.getLanguage() === (lang as LanguageCode);
     }
 
     isEqualTo(alias: Node) {
-        const thisLang = this.lang;
+        const thisLang = this.language;
         if (!(alias instanceof Name)) return false;
-        const thatLang = alias.lang;
+        const thatLang = alias.language;
 
         return (
             this.getName() === alias.getName() &&

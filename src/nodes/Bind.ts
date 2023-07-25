@@ -334,7 +334,7 @@ export default class Bind extends Expression {
                 conflicts.push(new MisplacedShare(this, this.share));
 
             // Bindings must have language tags on all names to clarify what langauge they're written in.
-            if (!this.names.names.every((n) => n.lang !== undefined))
+            if (!this.names.names.every((n) => n.language !== undefined))
                 conflicts.push(new MissingShareLanguages(this));
 
             // Other shares in this project can't have the same name

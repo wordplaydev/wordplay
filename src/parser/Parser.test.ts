@@ -107,14 +107,14 @@ test('Parse binds', () => {
     expect((validName as Bind).names.names).toHaveLength(1);
     expect((validName as Bind).names.names[0]).toBeInstanceOf(Name);
     expect((validName as Bind).names.names[0].getName()).toBe('a');
-    expect((validName as Bind).names.names[0].lang).toBe(undefined);
+    expect((validName as Bind).names.names[0].language).toBe(undefined);
 
     const valuedName = parseBind(toTokens('a: 1'));
     expect(valuedName).toBeInstanceOf(Bind);
     expect((valuedName as Bind).names.names).toHaveLength(1);
     expect((valuedName as Bind).names.names[0]).toBeInstanceOf(Name);
     expect((valuedName as Bind).names.names[0].getName()).toBe('a');
-    expect((valuedName as Bind).names.names[0].lang).toBe(undefined);
+    expect((valuedName as Bind).names.names[0].language).toBe(undefined);
     expect((valuedName as Bind).value).toBeInstanceOf(NumberLiteral);
 
     const typedValuedName = parseBind(toTokens('a•#: 1'));

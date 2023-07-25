@@ -1298,6 +1298,7 @@
                     aria-live="polite"
                     aria-atomic="true"
                     aria-relevant="all"
+                    lang={$caret.getLanguage() ?? null}
                     >{$caret.getDescription(caretExpressionType, context)}</div
                 >{/if}</div
         >
