@@ -1157,9 +1157,6 @@
                     "greaterThan": {
                       "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1142-1212-1127088073-0-1827%5D%3E"
                     },
-                    "integer": {
-                      "$ref": "#/definitions/FunctionText%3C%5B%5D%3E"
-                    },
                     "lessOrEqual": {
                       "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1142-1212-1127088073-0-1827%5D%3E"
                     },
@@ -1187,6 +1184,12 @@
                     "round": {
                       "$ref": "#/definitions/FunctionText%3C%5B%5D%3E"
                     },
+                    "roundDown": {
+                      "$ref": "#/definitions/FunctionText%3C%5B%5D%3E"
+                    },
+                    "roundUp": {
+                      "$ref": "#/definitions/FunctionText%3C%5B%5D%3E"
+                    },
                     "sin": {
                       "$ref": "#/definitions/FunctionText%3C%5B%5D%3E"
                     },
@@ -1200,9 +1203,10 @@
                     "multiply",
                     "divide",
                     "remainder",
-                    "integer",
                     "positive",
                     "round",
+                    "roundDown",
+                    "roundUp",
                     "power",
                     "root",
                     "lessThan",

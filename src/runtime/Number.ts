@@ -173,8 +173,12 @@ export default class Number extends Primitive {
             : new Number(requestor, this.num.modulo(divisor.num), this.unit);
     }
 
-    floor(requestor: Expression): Number | None {
+    roundDown(requestor: Expression): Number | None {
         return new Number(requestor, this.num.floor(), this.unit);
+    }
+
+    roundUp(requestor: Expression): Number | None {
+        return new Number(requestor, this.num.ceil(), this.unit);
     }
 
     isEqualTo(operand: Value): boolean {

@@ -245,10 +245,18 @@ export default function bootstrapNumber(locales: Locale[]) {
                 createUnaryOp(
                     getFunctionLocales(
                         locales,
-                        (t) => t.native.Number.function.integer
+                        (t) => t.native.Number.function.roundDown
                     ),
                     NumberType.wildcard(),
-                    (requestor, left) => left.floor(requestor)
+                    (requestor, left) => left.roundDown(requestor)
+                ),
+                createUnaryOp(
+                    getFunctionLocales(
+                        locales,
+                        (t) => t.native.Number.function.roundUp
+                    ),
+                    NumberType.wildcard(),
+                    (requestor, left) => left.roundUp(requestor)
                 ),
                 createUnaryOp(
                     getFunctionLocales(

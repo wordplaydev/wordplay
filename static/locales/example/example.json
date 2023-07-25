@@ -1010,11 +1010,6 @@
                     "names": "$?",
                     "inputs": [{ "doc": "$?", "names": "$?" }]
                 },
-                "integer": {
-                    "doc": "$?",
-                    "names": ["$?integer"],
-                    "inputs": []
-                },
                 "positive": {
                     "doc": "$?",
                     "names": ["$?positive"],
@@ -1023,6 +1018,16 @@
                 "round": {
                     "doc": "$?",
                     "names": ["$?round"],
+                    "inputs": []
+                },
+                "roundDown": {
+                    "doc": "$?",
+                    "names": ["$?down"],
+                    "inputs": []
+                },
+                "roundUp": {
+                    "doc": "$?",
+                    "names": ["$?up"],
                     "inputs": []
                 },
                 "power": {

@@ -1567,14 +1567,6 @@
                         }
                     ]
                 },
-                "integer": {
-                    "doc": [
-                        "I create a new @Number that removes my fractional part, turning me into an integer.",
-                        "⧼10.522391.integer()⧽"
-                    ],
-                    "names": ["integer"],
-                    "inputs": []
-                },
                 "positive": {
                     "doc": [
                         "I create a new @Number that makes me positive, if negative.",
@@ -1591,6 +1583,26 @@
                         "⧼9.6.round()⧽"
                     ],
                     "names": ["round"],
+                    "inputs": []
+                },
+                "roundDown": {
+                    "doc": [
+                        "I create a new @Number that rounds to smallest integer less than me.",
+                        "⧼10.5.roundDown()⧽",
+                        "⧼10.1.roundDown()⧽",
+                        "⧼10.01.roundDown()⧽"
+                    ],
+                    "names": ["roundDown"],
+                    "inputs": []
+                },
+                "roundUp": {
+                    "doc": [
+                        "I create a new @Number that rounds to the smalelst integer greater than me.",
+                        "⧼10.5.roundUp()⧽",
+                        "⧼10.9.roundUp()⧽",
+                        "⧼10.99.roundUp()⧽"
+                    ],
+                    "names": ["roundUp"],
                     "inputs": []
                 },
                 "power": {
