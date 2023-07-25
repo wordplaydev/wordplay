@@ -9,6 +9,7 @@ import Content from './Content';
 import { node, type Replacement, type Grammar } from './Node';
 import Token from './Token';
 import Symbol from './Symbol';
+import type Node from './Node';
 
 /**
  * To refer to an input, use a $, followed by the number of the input desired,
@@ -61,28 +62,39 @@ export default class Mention extends Content {
 
     concretize(
         locale: Locale,
-        inputs: TemplateInput[]
+        inputs: TemplateInput[],
+        replacements: [Node, Node][]
     ): Token | ValueRef | NodeRef | undefined {
         const name = this.name.getText().slice(1);
 
         // Terminology reference
         // Is it a number? Resolve to an input.
         const numberMatch = name.match(/^[0-9]+/);
-        if (name === '?')
-            return new Token(locale.ui.error.unwritten, Symbol.Words);
-        else if (numberMatch !== null) {
+        if (name === '?') {
+            const replacement = new Token(
+                locale.ui.error.unwritten,
+                Symbol.Words
+            );
+            replacements.push([this, replacement]);
+            return replacement;
+        } else if (numberMatch !== null) {
             // Find the corresponding input
             const number = parseInt(numberMatch[0]);
             const input = inputs[number - 1];
 
             // Return the matching input, or a placeholder if there wasn't one.
-            return input instanceof ValueRef
-                ? input
-                : input instanceof NodeRef
-                ? input
-                : input === undefined
-                ? undefined
-                : new Token(input.toString(), Symbol.Words);
+            const replacement =
+                input instanceof ValueRef
+                    ? input
+                    : input instanceof NodeRef
+                    ? input
+                    : input === undefined
+                    ? undefined
+                    : new Token(input.toString(), Symbol.Words);
+
+            if (replacement instanceof Token)
+                replacements.push([this, replacement]);
+            return replacement;
         }
         // Try to resolve terminology.
         else {
@@ -91,7 +103,13 @@ export default class Mention extends Content {
                 ? locale.term[id]
                 : undefined;
 
-            return phrase ? new Token(phrase, Symbol.Words) : undefined;
+            const replacement = phrase
+                ? new Token(phrase, Symbol.Words)
+                : undefined;
+
+            if (replacement instanceof Token)
+                replacements.push([this, replacement]);
+            return replacement;
         }
     }
 

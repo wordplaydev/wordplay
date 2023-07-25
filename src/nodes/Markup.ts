@@ -9,6 +9,7 @@ import type Spaces from '../parser/Spaces';
 import { toMarkup } from '../parser/Parser';
 import Token from './Token';
 import Symbol from './Symbol';
+import type Node from './Node';
 
 /**
  * To refer to an input, use a $, followed by the number of the input desired,
@@ -75,12 +76,20 @@ export default class Markup extends Content {
     }
 
     concretize(locale: Locale, inputs: TemplateInput[]): Markup | undefined {
+        // Create an empty list of replacements which we'll recursively fill and then update space with.
+        const replacements: [Node, Node][] = [];
         const concrete = this.paragraphs.map((p) =>
-            p.concretize(locale, inputs)
+            p.concretize(locale, inputs, replacements)
         );
+
+        let newSpaces = this.spaces;
+        for (const [original, replacement] of replacements)
+            newSpaces = newSpaces?.withReplacement(original, replacement);
+
+        // Remap the first token of all replaced nodes with the first token of the replacement.
         return concrete.some((p) => p === undefined)
             ? undefined
-            : new Markup(concrete as Paragraph[], this.spaces);
+            : new Markup(concrete as Paragraph[], newSpaces);
     }
 
     getMatchingText(

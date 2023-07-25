@@ -91,7 +91,7 @@ export default class WebLink extends Content {
         return [this.url?.getText()];
     }
 
-    concretize(_: Locale, __: TemplateInput[]): WebLink {
+    concretize(): WebLink {
         return this;
     }
 

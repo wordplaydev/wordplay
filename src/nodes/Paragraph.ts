@@ -76,14 +76,25 @@ export default class Paragraph extends Content {
         return Glyphs.Paragraph;
     }
 
-    concretize(locale: Locale, inputs: TemplateInput[]): Paragraph | undefined {
-        const concreteSegments = this.segments.map((content) =>
-            content instanceof ValueRef || content instanceof NodeRef
-                ? content
-                : content instanceof Token // Replace all repeated special characters with single special characters.
-                ? content.withText(unescapeDocSymbols(content.getText()))
-                : content.concretize(locale, inputs)
-        );
+    concretize(
+        locale: Locale,
+        inputs: TemplateInput[],
+        replacements: [Node, Node][]
+    ): Paragraph | undefined {
+        const concreteSegments = this.segments.map((content) => {
+            if (content instanceof ValueRef || content instanceof NodeRef)
+                return content;
+            // Replace all repeated special characters with single special characters.
+            else if (content instanceof Token) {
+                const replacement = content.withText(
+                    unescapeDocSymbols(content.getText())
+                );
+                if (replacement.getText() !== content.getText()) {
+                    replacements.push([content, replacement]);
+                    return replacement;
+                } else return content;
+            } else return content.concretize(locale, inputs, replacements);
+        });
         return concreteSegments.some((s) => s === undefined)
             ? undefined
             : new Paragraph(concreteSegments as Segment[]);
@@ -95,18 +106,6 @@ export default class Paragraph extends Content {
                 this.segments[0].isBulleted()) ||
             (this.segments[0] instanceof Token &&
                 this.segments[0].getText().startsWith('•'))
-        );
-    }
-
-    withoutBullet() {
-        return new Paragraph(
-            this.segments.map((s) =>
-                s instanceof Words
-                    ? s.withoutBullet()
-                    : s instanceof Token && s.getText().startsWith('•')
-                    ? s.withText(s.getText().replace('•', '').trim())
-                    : s
-            )
         );
     }
 

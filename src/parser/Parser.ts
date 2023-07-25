@@ -1415,7 +1415,6 @@ function parseDocs(tokens: Tokens): Docs | undefined {
 export function parseDoc(tokens: Tokens): Doc {
     const open = tokens.read(Symbol.Doc);
     const content = parseMarkup(tokens);
-
     const close = tokens.readIf(Symbol.Doc);
     const lang = tokens.nextIs(Symbol.Language)
         ? parseLanguage(tokens)

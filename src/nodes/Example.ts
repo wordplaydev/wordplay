@@ -8,7 +8,6 @@ import Purpose from '../concepts/Purpose';
 import Symbol from './Symbol';
 import { EXAMPLE_CLOSE_SYMBOL, EXAMPLE_OPEN_SYMBOL } from '../parser/Symbols';
 import Content from './Content';
-import type { TemplateInput } from '../locale/concretize';
 
 export default class Example extends Content {
     readonly open: Token;
@@ -67,7 +66,7 @@ export default class Example extends Content {
         return Glyphs.Example;
     }
 
-    concretize(_: Locale, __: TemplateInput[]): Example {
+    concretize(): Example {
         return this;
     }
 

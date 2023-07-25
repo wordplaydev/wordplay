@@ -7,7 +7,6 @@ import { LINK_SYMBOL } from '../parser/Symbols';
 import Symbol from './Symbol';
 import Purpose from '../concepts/Purpose';
 import Content from './Content';
-import type { TemplateInput } from '../locale/concretize';
 
 export default class ConceptLink extends Content {
     readonly concept: Token;
@@ -77,7 +76,7 @@ export default class ConceptLink extends Content {
         return Glyphs.Link;
     }
 
-    concretize(_: Locale, __: TemplateInput[]): ConceptLink {
+    concretize(): ConceptLink {
         return this;
     }
 

@@ -9,6 +9,7 @@ import { node, type Replacement, type Grammar, list } from './Node';
 import Token from './Token';
 import Symbol from './Symbol';
 import Words from './Words';
+import type Node from './Node';
 
 /**
  * To conditionally select a string, use ??, followed by an input that is either a boolean or possibly undefined value,
@@ -80,12 +81,20 @@ export default class Branch extends Content {
         return Glyphs.Branch;
     }
 
-    concretize(locale: Locale, inputs: TemplateInput[]): Words | undefined {
-        const value = this.mention.concretize(locale, inputs);
-        return value === undefined ||
+    concretize(
+        locale: Locale,
+        inputs: TemplateInput[],
+        replacements: [Node, Node][]
+    ): Words | undefined {
+        const value = this.mention.concretize(locale, inputs, replacements);
+        const replacement =
+            value === undefined ||
             (value instanceof Token && value.getText() === 'false')
-            ? this.no.concretize(locale, inputs)
-            : this.yes.concretize(locale, inputs);
+                ? this.no.concretize(locale, inputs, replacements)
+                : this.yes.concretize(locale, inputs, replacements);
+
+        if (replacement) replacements.push([this, replacement]);
+        return replacement;
     }
 
     getDescriptionInputs() {

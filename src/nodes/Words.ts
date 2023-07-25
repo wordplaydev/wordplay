@@ -15,6 +15,7 @@ import type { NodeSegment, Segment } from './Paragraph';
 import NodeRef from '../locale/NodeRef';
 import ValueRef from '../locale/ValueRef';
 import { unescapeDocSymbols } from '../parser/Tokenizer';
+import type Node from './Node';
 
 export type Format = 'italic' | 'underline' | 'light' | 'bold' | 'extra';
 
@@ -125,14 +126,25 @@ export default class Words extends Content {
         return Glyphs.Words;
     }
 
-    concretize(locale: Locale, inputs: TemplateInput[]): Words | undefined {
-        const concrete = this.segments.map((content) =>
-            content instanceof ValueRef || content instanceof NodeRef
-                ? content
-                : content instanceof Token // Replace all repeated special characters with single special characters.
-                ? content.withText(unescapeDocSymbols(content.getText()))
-                : content.concretize(locale, inputs)
-        );
+    concretize(
+        locale: Locale,
+        inputs: TemplateInput[],
+        replacements: [Node, Node][]
+    ): Words | undefined {
+        const concrete = this.segments.map((content) => {
+            if (content instanceof ValueRef || content instanceof NodeRef)
+                return content;
+            // Replace all repeated special characters with single special characters.
+            else if (content instanceof Token) {
+                const replacement = content.withText(
+                    unescapeDocSymbols(content.getText())
+                );
+                if (replacement.getText() !== content.getText()) {
+                    replacements.push([content, replacement]);
+                    return replacement;
+                } else return content;
+            } else return content.concretize(locale, inputs, replacements);
+        });
         return concrete.some((s) => s === undefined)
             ? undefined
             : new Words(this.open, concrete as Segment[], this.close);
@@ -142,18 +154,6 @@ export default class Words extends Content {
         return (
             this.segments[0] instanceof Token &&
             this.segments[0].getText().startsWith('•')
-        );
-    }
-
-    withoutBullet() {
-        return new Words(
-            this.open,
-            this.segments.map((s) =>
-                s instanceof Token && s.getText().startsWith('•')
-                    ? s.withText(s.getText().replace('•', '').trim())
-                    : s
-            ),
-            this.close
         );
     }
 

@@ -46,6 +46,6 @@
     />{:else if segment instanceof Token}{#if /^[ ]+$/.test(spaces.getSpace(segment))}&nbsp;{/if}{(segment.startsWith(
         '•'
     )
-        ? segment.getText().substring(1).trim()
+        ? segment.getText().substring(1).trimStart()
         : segment.getText()
     ).replaceAll('--', '—')}{/if}
