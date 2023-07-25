@@ -1183,8 +1183,9 @@
                     action={() => revert()}>↺</Button
                 >{/if}
             <TextField
-                placeholder={$creator.getLocale().ui.placeholders.project}
                 text={project.name}
+                description={$creator.getLocale().ui.tooltip.editProjectName}
+                placeholder={$creator.getLocale().ui.placeholders.project}
                 border={false}
                 changed={(name) =>
                     $creator.reviseProject(project, project.withName(name))}

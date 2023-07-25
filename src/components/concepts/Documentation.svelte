@@ -178,7 +178,12 @@
 <svelte:window on:blur={() => dragged.set(undefined)} />
 
 <div class="header">
-    <TextField placeholder={'🔍'} bind:text={query} fill />
+    <TextField
+        placeholder={'🔍'}
+        description={$creator.getLocale().ui.tooltip.documentationSearch}
+        bind:text={query}
+        fill
+    />
     {#if currentConcept}
         <span class="path">
             {#if $path.length > 1}

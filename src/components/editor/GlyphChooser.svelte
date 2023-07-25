@@ -42,7 +42,11 @@
 </script>
 
 <section class:expanded class="directory" data-uiid="directory">
-    <TextField placeholder="🔍" bind:text={query} />
+    <TextField
+        placeholder="🔍"
+        description={$creator.getLocale().ui.tooltip.characterSearch}
+        bind:text={query}
+    />
     <div class="matches">
         {#if query === ''}
             {#each Defaults as command}<CommandButton

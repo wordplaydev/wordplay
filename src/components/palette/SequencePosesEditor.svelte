@@ -95,6 +95,8 @@
                     <div class="percent"
                         ><TextField
                             text={pair.key.toWordplay()}
+                            description={$creator.getLocale().ui.tooltip
+                                .editSequencePercent}
                             placeholder={$creator.getLocale().ui.placeholders
                                 .percent}
                             validator={(value) => {

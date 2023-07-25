@@ -5152,6 +5152,9 @@
                 "changeLanguage": {
                   "type": "string"
                 },
+                "characterSearch": {
+                  "type": "string"
+                },
                 "chooserExpand": {
                   "type": "string"
                 },
@@ -5205,10 +5208,28 @@
                 "docBack": {
                   "type": "string"
                 },
+                "documentationSearch": {
+                  "type": "string"
+                },
                 "editContent": {
                   "type": "string"
                 },
+                "editCoordinate": {
+                  "type": "string"
+                },
                 "editProject": {
+                  "type": "string"
+                },
+                "editProjectName": {
+                  "type": "string"
+                },
+                "editSequencePercent": {
+                  "type": "string"
+                },
+                "editSourceName": {
+                  "type": "string"
+                },
+                "editTextOutput": {
                   "type": "string"
                 },
                 "enumerate": {
@@ -5294,6 +5315,9 @@
                   "$ref": "#/definitions/Template"
                 },
                 "insertTrueSymbol": {
+                  "type": "string"
+                },
+                "loginEmail": {
                   "type": "string"
                 },
                 "menu": {
@@ -5506,7 +5530,15 @@
                 "type",
                 "undo",
                 "redo",
-                "help"
+                "help",
+                "documentationSearch",
+                "characterSearch",
+                "editTextOutput",
+                "editCoordinate",
+                "editSequencePercent",
+                "editProjectName",
+                "editSourceName",
+                "loginEmail"
               ],
               "type": "object"
             }

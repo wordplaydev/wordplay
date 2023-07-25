@@ -2968,7 +2968,15 @@
             "type": "type characters",
             "undo": "undo previous edit",
             "redo": "redo undone edit",
-            "help": "show keyboard shortcuts"
+            "help": "show keyboard shortcuts",
+            "documentationSearch": "search for concepts with words",
+            "characterSearch": "search for special characters to insert",
+            "editTextOutput": "edit text of phrase",
+            "editCoordinate": "edit coordinate",
+            "editSequencePercent": "edit sequence percentage",
+            "editProjectName": "edit project name",
+            "editSourceName": "edit source name",
+            "loginEmail": "login email"
         },
         "prompt": {
             "deleteSource": "delete",

@@ -196,6 +196,8 @@
                     {Glyphs.Program.symbols}
                     <TextField
                         text={tile.name}
+                        description={$creator.getLocale().ui.tooltip
+                            .editSourceName}
                         placeholder={$creator.getLocale().ui.placeholders.name}
                         validator={(text) => isName(text)}
                         changed={handleChange}

@@ -120,6 +120,14 @@ type UITexts = {
         undo: string;
         redo: string;
         help: string;
+        documentationSearch: string;
+        characterSearch: string;
+        editTextOutput: string;
+        editCoordinate: string;
+        editSequencePercent: string;
+        editProjectName: string;
+        editSourceName: string;
+        loginEmail: string;
     };
     prompt: {
         deleteSource: string;

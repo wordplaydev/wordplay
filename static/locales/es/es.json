@@ -1631,7 +1631,15 @@
             "type": "$?",
             "undo": "$?",
             "redo": "$?",
-            "help": "$?"
+            "help": "$?",
+            "documentationSearch": "$?",
+            "characterSearch": "$?",
+            "editTextOutput": "$?",
+            "editCoordinate": "$?",
+            "editSequencePercent": "$?",
+            "editProjectName": "$?",
+            "editSourceName": "$?",
+            "loginEmail": "$?"
         },
         "prompt": {
             "deleteSource": "$?",

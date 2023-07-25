@@ -1,6 +1,7 @@
 <script lang="ts">
     export let text: string = '';
     export let placeholder: string;
+    export let description: string;
     export let validator: undefined | ((text: string) => boolean) = undefined;
     export let changed: undefined | ((text: string) => void) = undefined;
     export let done: undefined | (() => void) = undefined;
@@ -26,6 +27,8 @@
         class:right
         data-defaultfocus={defaultFocus ? '' : null}
         class:error={validator ? validator(text) === false : null}
+        aria-label={description}
+        aria-placeholder={placeholder}
         {placeholder}
         style:width={fill ? null : `${width + 5}px`}
         bind:this={view}

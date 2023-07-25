@@ -52,6 +52,7 @@
                     text={`${value}`}
                     validator={valid}
                     placeholder={getFirstName(dimension)}
+                    description={$creator.getLocale().ui.tooltip.editCoordinate}
                     changed={(value) => handleChange(dimension, value)}
                 />
                 <Note>m</Note>
