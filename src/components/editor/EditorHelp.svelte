@@ -5,7 +5,7 @@
     import { fade } from 'svelte/transition';
     import { config } from '@db/Creator';
     import { docToMarkup } from '@locale/Locale';
-    import MarkupHtmlView from '@components/concepts/MarkupHTMLView.svelte';
+    import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
 
     $: markup = docToMarkup(
         $config.getLocale().ui.prompt.emptyProgram
@@ -15,7 +15,7 @@
 {#if markup}
     <div transition:fade={{ duration: 100 }}>
         <Speech glyph={Glyphs.Function} scroll={false}>
-            <MarkupHtmlView {markup} />
+            <MarkupHTMLView {markup} />
         </Speech>
     </div>
 {/if}

@@ -18,12 +18,11 @@
     const paragraphsAndLists: ParagraphOrList[] = markup.paragraphs.reduce(
         (stuff: ParagraphOrList[], next: Paragraph) => {
             if (next.isBulleted()) {
-                const withoutBullet = next.withoutBullet();
                 const previous = stuff.at(-1);
                 if (previous instanceof Paragraph)
-                    return [...stuff, { items: [withoutBullet] }];
+                    return [...stuff, { items: [next] }];
                 else if (previous !== undefined) {
-                    previous.items.push(withoutBullet);
+                    previous.items.push(next);
                     return stuff;
                 } else return [{ items: [next] }];
             } else return [...stuff, next];

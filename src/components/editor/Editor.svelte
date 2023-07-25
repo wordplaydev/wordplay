@@ -1195,6 +1195,7 @@
         ? 'playing'
         : 'stepping'}"
     data-uiid="editor"
+    role="application"
     aria-label={`${$config.getLocale().ui.section.editor} ${source.getLocale(
         $config.getLanguages()
     )}`}
