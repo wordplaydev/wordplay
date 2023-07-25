@@ -255,6 +255,10 @@
         align-items: flex-start;
     }
 
+    .tile.free {
+        z-index: 1;
+    }
+
     .tile.animated {
         transition: left ease-out, top ease-out, width ease-out, height ease-out;
         transition-duration: calc(var(--animation-factor) * 200ms);
