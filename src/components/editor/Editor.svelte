@@ -1300,7 +1300,11 @@
                     aria-atomic="true"
                     aria-relevant="all"
                     lang={$caret.getLanguage() ?? null}
-                    >{$caret.getDescription(caretExpressionType, context)}</div
+                    >{$caret.getDescription(
+                        caretExpressionType,
+                        conflictsOfInterest,
+                        context
+                    )}</div
                 >{/if}</div
         >
     {/key}

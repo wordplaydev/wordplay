@@ -5172,6 +5172,10 @@
                   "description": "Shown in menus to offer to name an expression with a bind",
                   "type": "string"
                 },
+                "conflicts": {
+                  "$ref": "#/definitions/Template",
+                  "description": "A description of how many conflicts are at this position"
+                },
                 "inside": {
                   "$ref": "#/definitions/Template",
                   "description": "A way to say \"inside [description]\""
@@ -5207,6 +5211,7 @@
                 "inside",
                 "between",
                 "line",
+                "conflicts",
                 "assign",
                 "append",
                 "remove",

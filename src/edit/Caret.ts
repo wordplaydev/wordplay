@@ -31,6 +31,7 @@ import type Type from '../nodes/Type';
 import type LanguageCode from '../locale/LanguageCode';
 import Doc from '../nodes/Doc';
 import NodeRef from '../locale/NodeRef';
+import type Conflict from '../conflicts/Conflict';
 
 export type InsertionContext = { before: Node[]; after: Node[] };
 export type CaretPosition = number | Node;
@@ -1097,7 +1098,29 @@ export default class Caret {
         }
     }
 
-    getDescription(type: Type | undefined, context: Context): string {
+    getDescription(
+        type: Type | undefined,
+        conflicts: Conflict[],
+        context: Context
+    ): string {
+        const locale = context.native.locales[0];
+
+        /** Get description of conflicts */
+        const conflictDescription =
+            conflicts.length > 0
+                ? concretize(
+                      locale,
+                      locale.ui.edit.conflicts,
+                      conflicts.length
+                  ).toText()
+                : undefined;
+
+        return `${this.getPositionDescription(type, context)}${
+            conflictDescription ? `, ${conflictDescription}` : ''
+        }`;
+    }
+
+    getPositionDescription(type: Type | undefined, context: Context) {
         const locale = context.native.locales[0];
 
         /** If the caret is a node, describe the node. */
@@ -1150,8 +1173,6 @@ export default class Caret {
                         : undefined
                 ).toText();
         }
-
-        return '';
     }
 
     /** Gets the language code of the current content, if a language tagged token, or inside one */

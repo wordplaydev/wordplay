@@ -23,6 +23,8 @@ import FunctionDefinition from './FunctionDefinition';
 import Names from './Names';
 import ExpressionPlaceholder from './ExpressionPlaceholder';
 import TypePlaceholder from './TypePlaceholder';
+import type { TemplateInput } from '../locale/concretize';
+import NodeRef from '../locale/NodeRef';
 
 export default class FunctionType extends Type {
     readonly fun: Token;
@@ -176,6 +178,10 @@ export default class FunctionType extends Type {
     computeConflicts() {
         // Make sure the inputs are valid.
         return getEvaluationInputConflicts(this.inputs);
+    }
+
+    getDescriptionInputs(locale: Locale, context: Context): TemplateInput[] {
+        return [this.inputs.length, new NodeRef(this.output, locale, context)];
     }
 
     getNodeLocale(translation: Locale) {

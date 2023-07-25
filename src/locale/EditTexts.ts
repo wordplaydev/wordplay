@@ -11,6 +11,8 @@ type EditTexts = {
     between: Template;
     /** A way to say "empty line between [node1] and [node2]" */
     line: Template;
+    /** A description of how many conflicts are at this position */
+    conflicts: Template;
     /** $1: node description */
     assign: Template;
     /** $1: node description */

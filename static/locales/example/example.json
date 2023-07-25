@@ -1707,6 +1707,7 @@
             "inside": "$?",
             "between": "$?",
             "line": "$?",
+            "conflicts": "$?",
             "assign": "$?",
             "append": "$?",
             "remove": "$?",

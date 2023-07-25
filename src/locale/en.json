@@ -1101,7 +1101,7 @@
         },
         "FunctionType": {
             "name": "function type",
-            "description": "function $1",
+            "description": "function with $1 inputs, $2 output",
             "emotion": "curious",
             "doc": [
                 "I represent a @FunctionDefinition. I'm really helpful if you want to say what kind of function a @Bind holds! Like this:",
@@ -3054,6 +3054,7 @@
             "inside": "inside $1",
             "between": "between $1 and $2",
             "line": "empty line between $1[$1|start] and $2[$2|end]",
+            "conflicts": "$1 conflicts",
             "assign": "/$2[Eager to join|Considers leaving]…/",
             "append": "/Eager to insert…/",
             "remove": "/Considers leaving…/",

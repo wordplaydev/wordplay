@@ -1710,6 +1710,7 @@
             "inside": "dentro de $1",
             "between": "$?",
             "line": "$?",
+            "conflicts": "$?",
             "assign": "$?",
             "append": "$?",
             "remove": "$?",
