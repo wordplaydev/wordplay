@@ -46,7 +46,7 @@
     use:clickOutside
     on:outclick={() => (expanded = false)}
 >
-    <div class="controls">
+    <div class="controls" aria-hidden={!expanded}>
         {#if PUBLIC_CONTEXT !== 'prod'}
             <div class="account" class:anonymous>
                 <a href="/login">
