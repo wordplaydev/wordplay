@@ -123,7 +123,7 @@ export function handleKeyCommand(
 
 export const ShowKeyboardHelp: Command = {
     symbol: '⌨️',
-    description: (l) => l.ui.tooltip.help,
+    description: (l) => l.ui.description.help,
     visible: Visibility.Invisible,
     category: Category.Help,
     shift: false,
@@ -136,7 +136,7 @@ export const ShowKeyboardHelp: Command = {
 
 export const IncrementLiteral: Command = {
     symbol: '+',
-    description: (l) => l.ui.tooltip.incrementLiteral,
+    description: (l) => l.ui.description.incrementLiteral,
     visible: Visibility.Touch,
     category: Category.Modify,
     control: false,
@@ -150,7 +150,7 @@ export const IncrementLiteral: Command = {
 
 export const DecrementLiteral: Command = {
     symbol: '−',
-    description: (l) => l.ui.tooltip.decrementLiteral,
+    description: (l) => l.ui.description.decrementLiteral,
     visible: Visibility.Touch,
     category: Category.Modify,
     shift: false,
@@ -164,7 +164,7 @@ export const DecrementLiteral: Command = {
 
 export const StepBack: Command = {
     symbol: '←',
-    description: (l) => l.ui.tooltip.backStep,
+    description: (l) => l.ui.description.backStep,
     visible: Visibility.Visible,
     category: Category.Evaluate,
     shift: false,
@@ -178,7 +178,7 @@ export const StepBack: Command = {
 
 export const StepForward: Command = {
     symbol: '→',
-    description: (l) => l.ui.tooltip.forwardStep,
+    description: (l) => l.ui.description.forwardStep,
     visible: Visibility.Visible,
     category: Category.Evaluate,
     shift: false,
@@ -195,7 +195,7 @@ export const StepForward: Command = {
 
 export const StepBackInput: Command = {
     symbol: '⇠',
-    description: (l) => l.ui.tooltip.backInput,
+    description: (l) => l.ui.description.backInput,
     visible: Visibility.Visible,
     category: Category.Evaluate,
     shift: true,
@@ -209,7 +209,7 @@ export const StepBackInput: Command = {
 
 export const StepForwardInput: Command = {
     symbol: '⇢',
-    description: (l) => l.ui.tooltip.forwardInput,
+    description: (l) => l.ui.description.forwardInput,
     visible: Visibility.Visible,
     category: Category.Evaluate,
     shift: true,
@@ -223,7 +223,7 @@ export const StepForwardInput: Command = {
 
 export const StepBackNode: Command = {
     symbol: '⏴',
-    description: (l) => l.ui.tooltip.backNode,
+    description: (l) => l.ui.description.backNode,
     visible: Visibility.Visible,
     category: Category.Evaluate,
     shift: false,
@@ -240,7 +240,7 @@ export const StepBackNode: Command = {
 
 export const StepForwardNode: Command = {
     symbol: '⏵',
-    description: (l) => l.ui.tooltip.forwardNode,
+    description: (l) => l.ui.description.forwardNode,
     visible: Visibility.Visible,
     category: Category.Evaluate,
     key: 'ArrowRight',
@@ -257,7 +257,7 @@ export const StepForwardNode: Command = {
 
 export const Restart: Command = {
     symbol: '↻',
-    description: (l) => l.ui.tooltip.reset,
+    description: (l) => l.ui.description.reset,
     visible: Visibility.Visible,
     category: Category.Evaluate,
     key: 'Enter',
@@ -273,7 +273,7 @@ export const Restart: Command = {
 
 export const StepToStart: Command = {
     symbol: '⇤',
-    description: (l) => l.ui.tooltip.start,
+    description: (l) => l.ui.description.start,
     visible: Visibility.Visible,
     category: Category.Evaluate,
     shift: true,
@@ -287,7 +287,7 @@ export const StepToStart: Command = {
 
 export const StepToPresent: Command = {
     symbol: '⇥',
-    description: (l) => l.ui.tooltip.forwardInput,
+    description: (l) => l.ui.description.forwardInput,
     visible: Visibility.Visible,
     category: Category.Evaluate,
     shift: true,
@@ -301,7 +301,7 @@ export const StepToPresent: Command = {
 
 export const StepOut: Command = {
     symbol: '↑',
-    description: (l) => l.ui.tooltip.out,
+    description: (l) => l.ui.description.out,
     visible: Visibility.Visible,
     category: Category.Evaluate,
     shift: false,
@@ -318,7 +318,7 @@ export const StepOut: Command = {
 
 export const Play: Command = {
     symbol: '▶️',
-    description: (l) => l.ui.tooltip.play,
+    description: (l) => l.ui.description.play,
     visible: Visibility.Visible,
     category: Category.Evaluate,
     shift: false,
@@ -331,7 +331,7 @@ export const Play: Command = {
 
 export const Pause: Command = {
     symbol: '⏸',
-    description: (l) => l.ui.tooltip.pause,
+    description: (l) => l.ui.description.pause,
     visible: Visibility.Visible,
     category: Category.Evaluate,
     shift: false,
@@ -344,7 +344,7 @@ export const Pause: Command = {
 
 export const ShowMenu: Command = {
     symbol: '▾',
-    description: (l) => l.ui.tooltip.menu,
+    description: (l) => l.ui.description.menu,
     visible: Visibility.Visible,
     category: Category.Modify,
     shift: false,
@@ -358,7 +358,7 @@ export const ShowMenu: Command = {
 
 export const EnterFullscreen: Command = {
     symbol: '▶️',
-    description: (l) => l.ui.tooltip.fullscreen,
+    description: (l) => l.ui.description.fullscreen,
     visible: Visibility.Invisible,
     category: Category.Evaluate,
     shift: false,
@@ -371,7 +371,7 @@ export const EnterFullscreen: Command = {
 
 export const ExitFullscreen: Command = {
     symbol: '✎',
-    description: (l) => l.ui.tooltip.fullscreen,
+    description: (l) => l.ui.description.fullscreen,
     visible: Visibility.Invisible,
     category: Category.Evaluate,
     shift: false,
@@ -385,7 +385,7 @@ export const ExitFullscreen: Command = {
 const Commands: Command[] = [
     {
         symbol: '↑',
-        description: (l) => l.ui.tooltip.cursorLineBefore,
+        description: (l) => l.ui.description.cursorLineBefore,
         visible: Visibility.Touch,
         category: Category.Cursor,
         alt: false,
@@ -397,7 +397,7 @@ const Commands: Command[] = [
     },
     {
         symbol: '↓',
-        description: (l) => l.ui.tooltip.cursorLineAfter,
+        description: (l) => l.ui.description.cursorLineAfter,
         visible: Visibility.Touch,
         category: Category.Cursor,
         alt: false,
@@ -409,7 +409,7 @@ const Commands: Command[] = [
     },
     {
         symbol: '←',
-        description: (l) => l.ui.tooltip.cursorInlineBefore,
+        description: (l) => l.ui.description.cursorInlineBefore,
         visible: Visibility.Touch,
         category: Category.Cursor,
         alt: false,
@@ -425,7 +425,7 @@ const Commands: Command[] = [
     },
     {
         symbol: '→',
-        description: (l) => l.ui.tooltip.cursorInlineAfter,
+        description: (l) => l.ui.description.cursorInlineAfter,
         visible: Visibility.Touch,
         category: Category.Cursor,
         alt: false,
@@ -441,7 +441,7 @@ const Commands: Command[] = [
     },
     {
         symbol: '⬉',
-        description: (l) => l.ui.tooltip.cursorNeighborBefore,
+        description: (l) => l.ui.description.cursorNeighborBefore,
         visible: Visibility.Visible,
         category: Category.Cursor,
         alt: false,
@@ -453,7 +453,7 @@ const Commands: Command[] = [
     },
     {
         symbol: '⬈',
-        description: (l) => l.ui.tooltip.cursorNeighborAfter,
+        description: (l) => l.ui.description.cursorNeighborAfter,
         visible: Visibility.Visible,
         category: Category.Cursor,
         alt: false,
@@ -465,7 +465,7 @@ const Commands: Command[] = [
     },
     {
         symbol: '▣',
-        description: (l) => l.ui.tooltip.cursorContainer,
+        description: (l) => l.ui.description.cursorContainer,
         visible: Visibility.Visible,
         category: Category.Cursor,
         key: 'Escape',
@@ -501,7 +501,7 @@ const Commands: Command[] = [
     },
     {
         symbol: '📄',
-        description: (l) => l.ui.tooltip.selectAll,
+        description: (l) => l.ui.description.selectAll,
         visible: Visibility.Visible,
         category: Category.Cursor,
         alt: false,
@@ -514,7 +514,7 @@ const Commands: Command[] = [
     },
     {
         symbol: TRUE_SYMBOL,
-        description: (l) => l.ui.tooltip.insertTrueSymbol,
+        description: (l) => l.ui.description.insertTrueSymbol,
         visible: Visibility.Visible,
         category: Category.Insert,
         alt: true,
@@ -526,7 +526,7 @@ const Commands: Command[] = [
     },
     {
         symbol: FALSE_SYMBOL,
-        description: (l) => l.ui.tooltip.insertFalseSymbol,
+        description: (l) => l.ui.description.insertFalseSymbol,
         visible: Visibility.Visible,
         category: Category.Insert,
         alt: true,
@@ -538,7 +538,7 @@ const Commands: Command[] = [
     },
     {
         symbol: NONE_SYMBOL,
-        description: (l) => l.ui.tooltip.insertNoneSymbol,
+        description: (l) => l.ui.description.insertNoneSymbol,
         visible: Visibility.Visible,
         category: Category.Insert,
         alt: true,
@@ -550,7 +550,7 @@ const Commands: Command[] = [
     },
     {
         symbol: FUNCTION_SYMBOL,
-        description: (l) => l.ui.tooltip.insertFunctionSymbol,
+        description: (l) => l.ui.description.insertFunctionSymbol,
         visible: Visibility.Visible,
         category: Category.Insert,
         alt: true,
@@ -572,7 +572,7 @@ const Commands: Command[] = [
     },
     {
         symbol: TYPE_SYMBOL,
-        description: (l) => l.ui.tooltip.insertFalseSymbol,
+        description: (l) => l.ui.description.insertFalseSymbol,
         visible: Visibility.Visible,
         category: Category.Insert,
         alt: true,
@@ -584,7 +584,7 @@ const Commands: Command[] = [
     },
     {
         symbol: '≠',
-        description: (l) => l.ui.tooltip.insertNotEqualSymbol,
+        description: (l) => l.ui.description.insertNotEqualSymbol,
         visible: Visibility.Visible,
         category: Category.Insert,
         alt: true,
@@ -596,7 +596,7 @@ const Commands: Command[] = [
     },
     {
         symbol: PRODUCT_SYMBOL,
-        description: (l) => l.ui.tooltip.insertProductSymbol,
+        description: (l) => l.ui.description.insertProductSymbol,
         visible: Visibility.Visible,
         category: Category.Insert,
         alt: true,
@@ -608,7 +608,7 @@ const Commands: Command[] = [
     },
     {
         symbol: QUOTIENT_SYMBOL,
-        description: (l) => l.ui.tooltip.insertQuotientSymbol,
+        description: (l) => l.ui.description.insertQuotientSymbol,
         visible: Visibility.Visible,
         category: Category.Insert,
         alt: true,
@@ -620,7 +620,7 @@ const Commands: Command[] = [
     },
     {
         symbol: DEGREE_SYMBOL,
-        description: (l) => l.ui.tooltip.insertDegreeSymbol,
+        description: (l) => l.ui.description.insertDegreeSymbol,
         visible: Visibility.Visible,
         category: Category.Insert,
         alt: true,
@@ -632,7 +632,7 @@ const Commands: Command[] = [
     },
     {
         symbol: '≤',
-        description: (l) => l.ui.tooltip.insertLessThanOrEqualSymbol,
+        description: (l) => l.ui.description.insertLessThanOrEqualSymbol,
         visible: Visibility.Visible,
         category: Category.Insert,
         shift: false,
@@ -645,7 +645,7 @@ const Commands: Command[] = [
     {
         symbol: '≥',
         keySymbol: '.',
-        description: (l) => l.ui.tooltip.insertGreaterThanOrEqualSymbol,
+        description: (l) => l.ui.description.insertGreaterThanOrEqualSymbol,
         visible: Visibility.Visible,
         category: Category.Insert,
         shift: false,
@@ -656,7 +656,7 @@ const Commands: Command[] = [
     },
     {
         symbol: CONVERT_SYMBOL,
-        description: (l) => l.ui.tooltip.insertConvertSymbol,
+        description: (l) => l.ui.description.insertConvertSymbol,
         visible: Visibility.Visible,
         category: Category.Insert,
         alt: true,
@@ -668,7 +668,7 @@ const Commands: Command[] = [
     },
     {
         symbol: STREAM_SYMBOL,
-        description: (l) => l.ui.tooltip.insertStreamSymbol,
+        description: (l) => l.ui.description.insertStreamSymbol,
         visible: Visibility.Visible,
         category: Category.Insert,
         alt: true,
@@ -699,7 +699,7 @@ const Commands: Command[] = [
     ShowMenu,
     {
         symbol: '⟲',
-        description: (l) => l.ui.tooltip.undo,
+        description: (l) => l.ui.description.undo,
         visible: Visibility.Visible,
         category: Category.Modify,
         shift: false,
@@ -714,7 +714,7 @@ const Commands: Command[] = [
     },
     {
         symbol: '⟳',
-        description: (l) => l.ui.tooltip.redo,
+        description: (l) => l.ui.description.redo,
         visible: Visibility.Visible,
         category: Category.Modify,
         shift: true,
@@ -729,7 +729,7 @@ const Commands: Command[] = [
     },
     {
         symbol: '↲',
-        description: (l) => l.ui.tooltip.insertLineBreak,
+        description: (l) => l.ui.description.insertLineBreak,
         visible: Visibility.Touch,
         category: Category.Modify,
         shift: false,
@@ -745,7 +745,7 @@ const Commands: Command[] = [
     },
     {
         symbol: '⌫',
-        description: (l) => l.ui.tooltip.backspace,
+        description: (l) => l.ui.description.backspace,
         visible: Visibility.Touch,
         category: Category.Modify,
         key: 'Backspace',
@@ -757,7 +757,7 @@ const Commands: Command[] = [
     },
     {
         symbol: '✂️',
-        description: (l) => l.ui.tooltip.cut,
+        description: (l) => l.ui.description.cut,
         visible: Visibility.Visible,
         category: Category.Modify,
         control: true,
@@ -773,7 +773,7 @@ const Commands: Command[] = [
     },
     {
         symbol: '📚',
-        description: (l) => l.ui.tooltip.copy,
+        description: (l) => l.ui.description.copy,
         visible: Visibility.Visible,
         category: Category.Modify,
         control: true,
@@ -791,7 +791,7 @@ const Commands: Command[] = [
     },
     {
         symbol: '📋',
-        description: (l) => l.ui.tooltip.paste,
+        description: (l) => l.ui.description.paste,
         visible: Visibility.Visible,
         category: Category.Modify,
         control: true,
@@ -819,7 +819,7 @@ const Commands: Command[] = [
     },
     {
         symbol: '( _ )',
-        description: (l) => l.ui.tooltip.parenthesize,
+        description: (l) => l.ui.description.parenthesize,
         visible: Visibility.Visible,
         category: Category.Modify,
         control: false,
@@ -831,7 +831,7 @@ const Commands: Command[] = [
     },
     {
         symbol: '[ _ ]',
-        description: (l) => l.ui.tooltip.enumerate,
+        description: (l) => l.ui.description.enumerate,
         visible: Visibility.Visible,
         category: Category.Modify,
         control: undefined,
@@ -846,7 +846,7 @@ const Commands: Command[] = [
     /** The command to rule them all... inserts things */
     {
         symbol: 'a',
-        description: (l) => l.ui.tooltip.type,
+        description: (l) => l.ui.description.type,
         visible: Visibility.Invisible,
         category: Category.Modify,
         control: false,

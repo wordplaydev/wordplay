@@ -1306,7 +1306,7 @@
 {#if project.supplements.length > 0}
     <div class="output-preview-container">
         <Button
-            tip={$creator.getLocale().ui.tooltip.showOutput}
+            tip={$creator.getLocale().ui.description.showOutput}
             active={!selected}
             action={() => dispatch('preview')}
             scale={false}

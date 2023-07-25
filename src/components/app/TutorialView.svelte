@@ -236,7 +236,7 @@
                 enabled={progress.previousLesson() !== undefined}>≪</Button
             > -->
             <Button
-                tip={$creator.getLocale().ui.tooltip.previousLessonStep}
+                tip={$creator.getLocale().ui.description.previousLessonStep}
                 action={() => navigate(progress.previousPause() ?? progress)}
                 active={progress.previousPause() !== undefined}>⇦</Button
             >
@@ -277,7 +277,7 @@
                 enabled={progress.nextLesson() !== undefined}>≫</Button
             > -->
             <Button
-                tip={$creator.getLocale().ui.tooltip.nextLessonStep}
+                tip={$creator.getLocale().ui.description.nextLessonStep}
                 action={() => navigate(progress.nextPause() ?? progress)}
                 active={progress.nextPause() !== undefined}>⇨</Button
             >

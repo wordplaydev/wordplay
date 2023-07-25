@@ -80,7 +80,7 @@
         node={input}
     />{/each}{#if nextBind}<span class="hint"
         >&nbsp;<Button
-            tip={$creator.getLocale().ui.tooltip.addInput}
+            tip={$creator.getLocale().ui.description.addInput}
             action={() => insert()}
             ><RootView node={nextBind} inline localized inert /></Button
         ></span

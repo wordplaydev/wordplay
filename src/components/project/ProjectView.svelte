@@ -1064,8 +1064,8 @@
                                     <!-- Can't delete main. -->
                                     {#if source !== project.main}
                                         <ConfirmButton
-                                            tip={$creator.getLocale().ui.tooltip
-                                                .deleteSource}
+                                            tip={$creator.getLocale().ui
+                                                .description.deleteSource}
                                             action={() => removeSource(source)}
                                             prompt={$creator.getLocale().ui
                                                 .prompt.deleteSource}
@@ -1078,19 +1078,19 @@
                                 {#if tile.kind === Content.Output}
                                     {#if !editable}<Button
                                             uiid="editProject"
-                                            tip={$creator.getLocale().ui.tooltip
-                                                .editProject}
+                                            tip={$creator.getLocale().ui
+                                                .description.editProject}
                                             action={() => becomeEditable()}
                                             >✏️</Button
                                         >{/if}
                                     {#if !$evaluation.evaluator.isPlaying()}<Painting
                                             bind:painting
                                         />{/if}<Button
-                                        tip={$creator.getLocale().ui.tooltip
+                                        tip={$creator.getLocale().ui.description
                                             .grid}
                                         action={() => (grid = !grid)}>▦</Button
                                     ><Button
-                                        tip={$creator.getLocale().ui.tooltip
+                                        tip={$creator.getLocale().ui.description
                                             .fit}
                                         action={() => (fit = !fit)}
                                         >{#if fit}🔒{:else}🔓{/if}</Button
@@ -1178,13 +1178,14 @@
         <nav class="footer">
             {#if original}<Button
                     uiid="revertProject"
-                    tip={$creator.getLocale().ui.tooltip.revertProject}
+                    tip={$creator.getLocale().ui.description.revertProject}
                     active={!project.equals(original)}
                     action={() => revert()}>↺</Button
                 >{/if}
             <TextField
                 text={project.name}
-                description={$creator.getLocale().ui.tooltip.editProjectName}
+                description={$creator.getLocale().ui.description
+                    .editProjectName}
                 placeholder={$creator.getLocale().ui.placeholders.project}
                 border={false}
                 changed={(name) =>
@@ -1214,7 +1215,7 @@
             {/each}
             <Button
                 uiid="addSource"
-                tip={$creator.getLocale().ui.tooltip.addSource}
+                tip={$creator.getLocale().ui.description.addSource}
                 action={addSource}>+</Button
             >
             <span class="help"

@@ -1535,7 +1535,7 @@
             "project": "untitled",
             "email": "email"
         },
-        "tooltip": {
+        "description": {
             "yes": "$?",
             "no": "$?",
             "play": "$?",

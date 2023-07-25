@@ -64,7 +64,9 @@
         <PaletteProperty {project} {property} {values} />
     {/each}
     {#if !sequence}
-        <Button tip={$creator.getLocale().ui.tooltip.sequence} action={convert}
+        <Button
+            tip={$creator.getLocale().ui.description.sequence}
+            action={convert}
             >{project.shares.output.sequence.getNames()[0]}</Button
         >
     {/if}

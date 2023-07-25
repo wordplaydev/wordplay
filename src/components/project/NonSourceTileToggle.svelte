@@ -12,7 +12,7 @@
 <Button
     classes={tile.id}
     uiid="{tile.id}Expand"
-    tip={`${$creator.getLocale().ui.tooltip.expand} ${tile.name}`}
+    tip={`${$creator.getLocale().ui.description.expand} ${tile.name}`}
     action={() => dispatch('toggle')}
     ><span class="name" class:collapsed={tile.isCollapsed()}>{tile.name}</span
     ></Button

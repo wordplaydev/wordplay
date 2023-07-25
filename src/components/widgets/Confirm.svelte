@@ -11,11 +11,11 @@
     <div class="decisions"
         ><Button
             stretch
-            tip={$creator.getLocale().ui.tooltip.no}
+            tip={$creator.getLocale().ui.description.no}
             action={() => decide(false)}>👎</Button
         ><Button
             stretch
-            tip={$creator.getLocale().ui.tooltip.yes}
+            tip={$creator.getLocale().ui.description.yes}
             action={() => decide(true)}>👍</Button
         ></div
     >

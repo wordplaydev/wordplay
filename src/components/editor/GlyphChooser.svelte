@@ -44,7 +44,7 @@
 <section class:expanded class="directory" data-uiid="directory">
     <TextField
         placeholder="🔍"
-        description={$creator.getLocale().ui.tooltip.characterSearch}
+        description={$creator.getLocale().ui.description.characterSearch}
         bind:text={query}
     />
     <div class="matches">
@@ -59,7 +59,7 @@
             {#each results as glyph}<Button
                     tip={concretize(
                         $creator.getLocale(),
-                        $creator.getLocale().ui.tooltip.insertSymbol,
+                        $creator.getLocale().ui.description.insertSymbol,
                         glyph
                     ).toText()}
                     action={() => insert(glyph)}
@@ -68,7 +68,7 @@
         {/if}
     </div>
     <Button
-        tip={$creator.getLocale().ui.tooltip.chooserExpand}
+        tip={$creator.getLocale().ui.description.chooserExpand}
         action={() => (expanded = !expanded)}>{expanded ? '–' : '+'}</Button
     >
 </section>

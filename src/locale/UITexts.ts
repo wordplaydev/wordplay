@@ -17,7 +17,7 @@ type UITexts = {
         project: string;
         email: string;
     };
-    tooltip: {
+    description: {
         yes: string;
         no: string;
         play: string;

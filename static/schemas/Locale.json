@@ -4719,400 +4719,7 @@
         "ui": {
           "additionalProperties": false,
           "properties": {
-            "edit": {
-              "additionalProperties": false,
-              "properties": {
-                "append": {
-                  "$ref": "#/definitions/Template",
-                  "description": "$1: node description"
-                },
-                "assign": {
-                  "$ref": "#/definitions/Template",
-                  "description": "$1: node description"
-                },
-                "before": {
-                  "$ref": "#/definitions/Template",
-                  "description": "A way to say \"before [description]\""
-                },
-                "bind": {
-                  "description": "Shown in menus to offer to name an expression with a bind",
-                  "type": "string"
-                },
-                "inside": {
-                  "$ref": "#/definitions/Template",
-                  "description": "A way to say \"inside [description]\""
-                },
-                "remove": {
-                  "$ref": "#/definitions/Template",
-                  "description": "$1: node description"
-                },
-                "replace": {
-                  "$ref": "#/definitions/Template",
-                  "description": "$1: node description or undefined"
-                },
-                "unwrap": {
-                  "description": "Shown in menus to offer to unwrap an expression in parentheses",
-                  "type": "string"
-                },
-                "wrap": {
-                  "description": "Shown in menus to offer to wrap an expression in parentheses",
-                  "type": "string"
-                }
-              },
-              "required": [
-                "before",
-                "inside",
-                "assign",
-                "append",
-                "remove",
-                "replace",
-                "wrap",
-                "unwrap",
-                "bind"
-              ],
-              "type": "object"
-            },
-            "error": {
-              "additionalProperties": false,
-              "properties": {
-                "template": {
-                  "description": "The placeholder string indicating that a template string could not be parsed",
-                  "type": "string"
-                },
-                "tutorial": {
-                  "type": "string"
-                },
-                "unwritten": {
-                  "description": "The placeholder string indicating that a locale string is not yet written",
-                  "type": "string"
-                }
-              },
-              "required": [
-                "tutorial",
-                "unwritten",
-                "template"
-              ],
-              "type": "object"
-            },
-            "feedback": {
-              "additionalProperties": false,
-              "properties": {
-                "unknownProject": {
-                  "type": "string"
-                }
-              },
-              "required": [
-                "unknownProject"
-              ],
-              "type": "object"
-            },
-            "header": {
-              "additionalProperties": false,
-              "properties": {
-                "conversions": {
-                  "description": "Documentation header in structure before conversions",
-                  "type": "string"
-                },
-                "debug": {
-                  "type": "string"
-                },
-                "editCode": {
-                  "type": "string"
-                },
-                "editing": {
-                  "type": "string"
-                },
-                "examples": {
-                  "type": "string"
-                },
-                "functions": {
-                  "description": "Documentation header in structure before functions",
-                  "type": "string"
-                },
-                "helpLocalize": {
-                  "description": "How to request help with localization",
-                  "type": "string"
-                },
-                "inputs": {
-                  "description": "Documentation header in structure and functions before inputs",
-                  "type": "string"
-                },
-                "insertCode": {
-                  "type": "string"
-                },
-                "interfaces": {
-                  "description": "Documentation header in structure view before interfaces",
-                  "type": "string"
-                },
-                "learn": {
-                  "type": "string"
-                },
-                "moveCursor": {
-                  "type": "string"
-                },
-                "projects": {
-                  "type": "string"
-                },
-                "properties": {
-                  "description": "Documentation header in structure before properties",
-                  "type": "string"
-                },
-                "select": {
-                  "type": "string"
-                },
-                "selectedLocales": {
-                  "description": "How to label the locales that have been selected",
-                  "type": "string"
-                },
-                "supportedLocales": {
-                  "description": "How to label the supported locales that have not been selected",
-                  "type": "string"
-                }
-              },
-              "required": [
-                "learn",
-                "editing",
-                "select",
-                "projects",
-                "examples",
-                "inputs",
-                "interfaces",
-                "properties",
-                "functions",
-                "conversions",
-                "selectedLocales",
-                "supportedLocales",
-                "helpLocalize",
-                "moveCursor",
-                "editCode",
-                "insertCode",
-                "debug"
-              ],
-              "type": "object"
-            },
-            "labels": {
-              "additionalProperties": false,
-              "properties": {
-                "anonymous": {
-                  "description": "Shown when using an anonymous account",
-                  "type": "string"
-                },
-                "computed": {
-                  "description": "Shown in the output palette when the output(s) selected have expressions that are not editable using the editor.",
-                  "type": "string"
-                },
-                "default": {
-                  "description": "Shown in the output palette when the output(s) selected have no value set, but have a default",
-                  "type": "string"
-                },
-                "inherited": {
-                  "description": "Shown in the output palette when a value is unset but is inherited",
-                  "type": "string"
-                },
-                "learn": {
-                  "type": "string"
-                },
-                "mixed": {
-                  "description": "Shown in the output palette when multiple outputs are selected but they have unequal values.",
-                  "type": "string"
-                },
-                "nodoc": {
-                  "type": "string"
-                },
-                "notContent": {
-                  "description": "Shown in the output palette when a list of content is isn't valid",
-                  "type": "string"
-                },
-                "notSequence": {
-                  "description": "Shown in the output palette when a sequence isn't valid",
-                  "type": "string"
-                }
-              },
-              "required": [
-                "learn",
-                "nodoc",
-                "mixed",
-                "computed",
-                "default",
-                "inherited",
-                "notSequence",
-                "notContent",
-                "anonymous"
-              ],
-              "type": "object"
-            },
-            "login": {
-              "additionalProperties": false,
-              "properties": {
-                "anonymousPrompt": {
-                  "type": "string"
-                },
-                "emailFailure": {
-                  "type": "string"
-                },
-                "enterEmail": {
-                  "type": "string"
-                },
-                "expiredFailure": {
-                  "type": "string"
-                },
-                "failure": {
-                  "type": "string"
-                },
-                "header": {
-                  "type": "string"
-                },
-                "invalidFailure": {
-                  "type": "string"
-                },
-                "logout": {
-                  "type": "string"
-                },
-                "offline": {
-                  "type": "string"
-                },
-                "prompt": {
-                  "type": "string"
-                },
-                "sent": {
-                  "type": "string"
-                },
-                "submit": {
-                  "type": "string"
-                },
-                "success": {
-                  "type": "string"
-                }
-              },
-              "required": [
-                "header",
-                "prompt",
-                "anonymousPrompt",
-                "enterEmail",
-                "submit",
-                "sent",
-                "success",
-                "failure",
-                "expiredFailure",
-                "invalidFailure",
-                "emailFailure",
-                "logout",
-                "offline"
-              ],
-              "type": "object"
-            },
-            "phrases": {
-              "additionalProperties": false,
-              "properties": {
-                "motto": {
-                  "description": "The motto for Wordplay on the landing page.",
-                  "type": "string"
-                },
-                "welcome": {
-                  "description": "Used to address someone or say hi, on the login screen.",
-                  "type": "string"
-                }
-              },
-              "required": [
-                "welcome",
-                "motto"
-              ],
-              "type": "object"
-            },
-            "placeholders": {
-              "additionalProperties": false,
-              "properties": {
-                "code": {
-                  "type": "string"
-                },
-                "email": {
-                  "type": "string"
-                },
-                "expression": {
-                  "type": "string"
-                },
-                "name": {
-                  "type": "string"
-                },
-                "percent": {
-                  "type": "string"
-                },
-                "project": {
-                  "type": "string"
-                },
-                "type": {
-                  "type": "string"
-                }
-              },
-              "required": [
-                "code",
-                "expression",
-                "type",
-                "percent",
-                "name",
-                "project",
-                "email"
-              ],
-              "type": "object"
-            },
-            "prompt": {
-              "additionalProperties": false,
-              "properties": {
-                "deleteProject": {
-                  "type": "string"
-                },
-                "deleteSource": {
-                  "type": "string"
-                },
-                "emptyProgram": {
-                  "$ref": "#/definitions/DocText",
-                  "description": "Takes one input, the shortcut key for showing the menu."
-                }
-              },
-              "required": [
-                "deleteSource",
-                "deleteProject",
-                "emptyProgram"
-              ],
-              "type": "object"
-            },
-            "section": {
-              "additionalProperties": false,
-              "properties": {
-                "conflicts": {
-                  "type": "string"
-                },
-                "editor": {
-                  "type": "string"
-                },
-                "output": {
-                  "type": "string"
-                },
-                "palette": {
-                  "type": "string"
-                },
-                "project": {
-                  "type": "string"
-                },
-                "timeline": {
-                  "type": "string"
-                },
-                "toolbar": {
-                  "type": "string"
-                }
-              },
-              "required": [
-                "project",
-                "conflicts",
-                "timeline",
-                "toolbar",
-                "output",
-                "palette",
-                "editor"
-              ],
-              "type": "object"
-            },
-            "tooltip": {
+            "description": {
               "additionalProperties": false,
               "properties": {
                 "addGroup": {
@@ -5541,12 +5148,405 @@
                 "loginEmail"
               ],
               "type": "object"
+            },
+            "edit": {
+              "additionalProperties": false,
+              "properties": {
+                "append": {
+                  "$ref": "#/definitions/Template",
+                  "description": "$1: node description"
+                },
+                "assign": {
+                  "$ref": "#/definitions/Template",
+                  "description": "$1: node description"
+                },
+                "before": {
+                  "$ref": "#/definitions/Template",
+                  "description": "A way to say \"before [description]\""
+                },
+                "bind": {
+                  "description": "Shown in menus to offer to name an expression with a bind",
+                  "type": "string"
+                },
+                "inside": {
+                  "$ref": "#/definitions/Template",
+                  "description": "A way to say \"inside [description]\""
+                },
+                "remove": {
+                  "$ref": "#/definitions/Template",
+                  "description": "$1: node description"
+                },
+                "replace": {
+                  "$ref": "#/definitions/Template",
+                  "description": "$1: node description or undefined"
+                },
+                "unwrap": {
+                  "description": "Shown in menus to offer to unwrap an expression in parentheses",
+                  "type": "string"
+                },
+                "wrap": {
+                  "description": "Shown in menus to offer to wrap an expression in parentheses",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "before",
+                "inside",
+                "assign",
+                "append",
+                "remove",
+                "replace",
+                "wrap",
+                "unwrap",
+                "bind"
+              ],
+              "type": "object"
+            },
+            "error": {
+              "additionalProperties": false,
+              "properties": {
+                "template": {
+                  "description": "The placeholder string indicating that a template string could not be parsed",
+                  "type": "string"
+                },
+                "tutorial": {
+                  "type": "string"
+                },
+                "unwritten": {
+                  "description": "The placeholder string indicating that a locale string is not yet written",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "tutorial",
+                "unwritten",
+                "template"
+              ],
+              "type": "object"
+            },
+            "feedback": {
+              "additionalProperties": false,
+              "properties": {
+                "unknownProject": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "unknownProject"
+              ],
+              "type": "object"
+            },
+            "header": {
+              "additionalProperties": false,
+              "properties": {
+                "conversions": {
+                  "description": "Documentation header in structure before conversions",
+                  "type": "string"
+                },
+                "debug": {
+                  "type": "string"
+                },
+                "editCode": {
+                  "type": "string"
+                },
+                "editing": {
+                  "type": "string"
+                },
+                "examples": {
+                  "type": "string"
+                },
+                "functions": {
+                  "description": "Documentation header in structure before functions",
+                  "type": "string"
+                },
+                "helpLocalize": {
+                  "description": "How to request help with localization",
+                  "type": "string"
+                },
+                "inputs": {
+                  "description": "Documentation header in structure and functions before inputs",
+                  "type": "string"
+                },
+                "insertCode": {
+                  "type": "string"
+                },
+                "interfaces": {
+                  "description": "Documentation header in structure view before interfaces",
+                  "type": "string"
+                },
+                "learn": {
+                  "type": "string"
+                },
+                "moveCursor": {
+                  "type": "string"
+                },
+                "projects": {
+                  "type": "string"
+                },
+                "properties": {
+                  "description": "Documentation header in structure before properties",
+                  "type": "string"
+                },
+                "select": {
+                  "type": "string"
+                },
+                "selectedLocales": {
+                  "description": "How to label the locales that have been selected",
+                  "type": "string"
+                },
+                "supportedLocales": {
+                  "description": "How to label the supported locales that have not been selected",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "learn",
+                "editing",
+                "select",
+                "projects",
+                "examples",
+                "inputs",
+                "interfaces",
+                "properties",
+                "functions",
+                "conversions",
+                "selectedLocales",
+                "supportedLocales",
+                "helpLocalize",
+                "moveCursor",
+                "editCode",
+                "insertCode",
+                "debug"
+              ],
+              "type": "object"
+            },
+            "labels": {
+              "additionalProperties": false,
+              "properties": {
+                "anonymous": {
+                  "description": "Shown when using an anonymous account",
+                  "type": "string"
+                },
+                "computed": {
+                  "description": "Shown in the output palette when the output(s) selected have expressions that are not editable using the editor.",
+                  "type": "string"
+                },
+                "default": {
+                  "description": "Shown in the output palette when the output(s) selected have no value set, but have a default",
+                  "type": "string"
+                },
+                "inherited": {
+                  "description": "Shown in the output palette when a value is unset but is inherited",
+                  "type": "string"
+                },
+                "learn": {
+                  "type": "string"
+                },
+                "mixed": {
+                  "description": "Shown in the output palette when multiple outputs are selected but they have unequal values.",
+                  "type": "string"
+                },
+                "nodoc": {
+                  "type": "string"
+                },
+                "notContent": {
+                  "description": "Shown in the output palette when a list of content is isn't valid",
+                  "type": "string"
+                },
+                "notSequence": {
+                  "description": "Shown in the output palette when a sequence isn't valid",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "learn",
+                "nodoc",
+                "mixed",
+                "computed",
+                "default",
+                "inherited",
+                "notSequence",
+                "notContent",
+                "anonymous"
+              ],
+              "type": "object"
+            },
+            "login": {
+              "additionalProperties": false,
+              "properties": {
+                "anonymousPrompt": {
+                  "type": "string"
+                },
+                "emailFailure": {
+                  "type": "string"
+                },
+                "enterEmail": {
+                  "type": "string"
+                },
+                "expiredFailure": {
+                  "type": "string"
+                },
+                "failure": {
+                  "type": "string"
+                },
+                "header": {
+                  "type": "string"
+                },
+                "invalidFailure": {
+                  "type": "string"
+                },
+                "logout": {
+                  "type": "string"
+                },
+                "offline": {
+                  "type": "string"
+                },
+                "prompt": {
+                  "type": "string"
+                },
+                "sent": {
+                  "type": "string"
+                },
+                "submit": {
+                  "type": "string"
+                },
+                "success": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "header",
+                "prompt",
+                "anonymousPrompt",
+                "enterEmail",
+                "submit",
+                "sent",
+                "success",
+                "failure",
+                "expiredFailure",
+                "invalidFailure",
+                "emailFailure",
+                "logout",
+                "offline"
+              ],
+              "type": "object"
+            },
+            "phrases": {
+              "additionalProperties": false,
+              "properties": {
+                "motto": {
+                  "description": "The motto for Wordplay on the landing page.",
+                  "type": "string"
+                },
+                "welcome": {
+                  "description": "Used to address someone or say hi, on the login screen.",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "welcome",
+                "motto"
+              ],
+              "type": "object"
+            },
+            "placeholders": {
+              "additionalProperties": false,
+              "properties": {
+                "code": {
+                  "type": "string"
+                },
+                "email": {
+                  "type": "string"
+                },
+                "expression": {
+                  "type": "string"
+                },
+                "name": {
+                  "type": "string"
+                },
+                "percent": {
+                  "type": "string"
+                },
+                "project": {
+                  "type": "string"
+                },
+                "type": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "code",
+                "expression",
+                "type",
+                "percent",
+                "name",
+                "project",
+                "email"
+              ],
+              "type": "object"
+            },
+            "prompt": {
+              "additionalProperties": false,
+              "properties": {
+                "deleteProject": {
+                  "type": "string"
+                },
+                "deleteSource": {
+                  "type": "string"
+                },
+                "emptyProgram": {
+                  "$ref": "#/definitions/DocText",
+                  "description": "Takes one input, the shortcut key for showing the menu."
+                }
+              },
+              "required": [
+                "deleteSource",
+                "deleteProject",
+                "emptyProgram"
+              ],
+              "type": "object"
+            },
+            "section": {
+              "additionalProperties": false,
+              "properties": {
+                "conflicts": {
+                  "type": "string"
+                },
+                "editor": {
+                  "type": "string"
+                },
+                "output": {
+                  "type": "string"
+                },
+                "palette": {
+                  "type": "string"
+                },
+                "project": {
+                  "type": "string"
+                },
+                "timeline": {
+                  "type": "string"
+                },
+                "toolbar": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "project",
+                "conflicts",
+                "timeline",
+                "toolbar",
+                "output",
+                "palette",
+                "editor"
+              ],
+              "type": "object"
             }
           },
           "required": [
             "phrases",
             "placeholders",
-            "tooltip",
+            "description",
             "prompt",
             "labels",
             "header",

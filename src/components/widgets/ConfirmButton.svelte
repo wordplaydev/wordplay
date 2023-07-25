@@ -17,7 +17,7 @@
     {#if confirming}
         <Button
             stretch
-            tip={$creator.getLocale().ui.tooltip.yes}
+            tip={$creator.getLocale().ui.description.yes}
             action={() => action()}>{prompt}</Button
         >
     {/if}

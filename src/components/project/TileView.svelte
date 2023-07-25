@@ -196,7 +196,7 @@
                     {Glyphs.Program.symbols}
                     <TextField
                         text={tile.name}
-                        description={$creator.getLocale().ui.tooltip
+                        description={$creator.getLocale().ui.description
                             .editSourceName}
                         placeholder={$creator.getLocale().ui.placeholders.name}
                         validator={(text) => isName(text)}
@@ -210,12 +210,12 @@
             </div>
             <slot name="extra" />
             <Button
-                tip={$creator.getLocale().ui.tooltip.collapse}
+                tip={$creator.getLocale().ui.description.collapse}
                 action={() => dispatch('mode', { mode: Mode.Collapsed })}
                 active={!layout.isFullscreen()}>⎵</Button
             >
             <Button
-                tip={$creator.getLocale().ui.tooltip.fullscreen}
+                tip={$creator.getLocale().ui.description.fullscreen}
                 action={() =>
                     dispatch('fullscreen', {
                         fullscreen: !fullscreen,

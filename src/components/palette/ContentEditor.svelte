@@ -47,7 +47,7 @@
         {#each list.values as content, index}
             <div class="content">
                 <Button
-                    tip={$creator.getLocale().ui.tooltip.removeContent}
+                    tip={$creator.getLocale().ui.description.removeContent}
                     action={() =>
                         list
                             ? removeContent($creator, project, list, index)
@@ -55,7 +55,7 @@
                     active={list.values.length > 0}>⨉</Button
                 >
                 <Button
-                    tip={$creator.getLocale().ui.tooltip.moveContentUp}
+                    tip={$creator.getLocale().ui.description.moveContentUp}
                     action={() =>
                         list
                             ? moveContent($creator, project, list, index, -1)
@@ -63,7 +63,7 @@
                     active={index > 0}>↑</Button
                 >
                 <Button
-                    tip={$creator.getLocale().ui.tooltip.moveContentDown}
+                    tip={$creator.getLocale().ui.description.moveContentDown}
                     action={() =>
                         list
                             ? moveContent($creator, project, list, index, 1)
@@ -71,7 +71,7 @@
                     active={index < list.values.length - 1}>↓</Button
                 >
                 <Button
-                    tip={$creator.getLocale().ui.tooltip.editContent}
+                    tip={$creator.getLocale().ui.description.editContent}
                     action={() => editContent(index)}>✎</Button
                 >
                 <RootView node={content} localized />
@@ -79,7 +79,7 @@
         {/each}
         <div class="add">
             <Button
-                tip={$creator.getLocale().ui.tooltip.addPhrase}
+                tip={$creator.getLocale().ui.description.addPhrase}
                 action={() =>
                     list
                         ? addContent(
@@ -93,7 +93,7 @@
                 >+{project.shares.output.phrase.getNames()[0]}</Button
             >
             <Button
-                tip={$creator.getLocale().ui.tooltip.addGroup}
+                tip={$creator.getLocale().ui.description.addGroup}
                 action={() =>
                     list
                         ? addContent(

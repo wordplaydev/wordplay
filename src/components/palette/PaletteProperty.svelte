@@ -52,8 +52,8 @@
     >
     <Button
         tip={valuesAreSet
-            ? $creator.getLocale().ui.tooltip.revert
-            : $creator.getLocale().ui.tooltip.set}
+            ? $creator.getLocale().ui.description.revert
+            : $creator.getLocale().ui.description.set}
         bind:view={toggleView}
         action={() => toggleValues(!valuesAreSet)}
         >{valuesAreSet ? '⨉' : '✎'}</Button

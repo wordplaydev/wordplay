@@ -58,10 +58,10 @@
         {/if}
         <Button
             tip={arrangement === Arrangement.Free
-                ? $creator.getLocale().ui.tooltip.vertical
+                ? $creator.getLocale().ui.description.vertical
                 : arrangement === Arrangement.Vertical
-                ? $creator.getLocale().ui.tooltip.horizontal
-                : $creator.getLocale().ui.tooltip.freeform}
+                ? $creator.getLocale().ui.description.horizontal
+                : $creator.getLocale().ui.description.freeform}
             action={() =>
                 $creator.setArrangement(
                     arrangement === Arrangement.Vertical
@@ -73,7 +73,7 @@
             >{#if arrangement === Arrangement.Vertical}↕{:else if arrangement === Arrangement.Horizontal}↔️{:else if arrangement === Arrangement.Free}⏹️{/if}</Button
         >
         <Button
-            tip={$creator.getLocale().ui.tooltip.animate}
+            tip={$creator.getLocale().ui.description.animate}
             action={() =>
                 $creator.setAnimationFactor(
                     $creator.getAnimationFactor() < 4
@@ -84,7 +84,7 @@
         <LayoutChooser />
         <LanguageChooser />
         <Button
-            tip={$creator.getLocale().ui.tooltip.dark}
+            tip={$creator.getLocale().ui.description.dark}
             action={() =>
                 dark.set(
                     $dark === undefined
@@ -100,12 +100,12 @@
     </div>
     <Status />
     <Button
-        tip={$creator.getLocale().ui.tooltip.settings}
+        tip={$creator.getLocale().ui.description.settings}
         action={() => (expanded = !expanded)}
         ><div class="gear" class:expanded>⚙</div></Button
     >
     {#if $page.route.id !== '/'}<Button
-            tip={$creator.getLocale().ui.tooltip.close}
+            tip={$creator.getLocale().ui.description.close}
             active={$page.route.id !== null && $page.route.id !== "/'"}
             action={() => goto(getBackPath($page.route.id ?? '/'))}>❌</Button
         >{/if}

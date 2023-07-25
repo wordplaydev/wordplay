@@ -33,7 +33,7 @@
 
 <TextField
     text={values.getText()}
-    description={$creator.getLocale().ui.tooltip.editTextOutput}
+    description={$creator.getLocale().ui.description.editTextOutput}
     placeholder={values.isEmpty()
         ? ''
         : values.values[0].bind.names.getLocaleText($creator.getLanguages())}

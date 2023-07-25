@@ -77,13 +77,13 @@
 
 {#if hiddenBefore > 0}
     <Button
-        tip={$creator.getLocale().ui.tooltip.expandCode}
+        tip={$creator.getLocale().ui.description.expandCode}
         action={() => (elide = false)}
         ><span class="count">… {hiddenBefore}</span></Button
     >{/if}{#each visible as node (node.id)}<NodeView
         {node}
     />{/each}{#if hiddenAfter > 0}<Button
-        tip={$creator.getLocale().ui.tooltip.expandCode}
+        tip={$creator.getLocale().ui.description.expandCode}
         action={() => (elide = false)}
         ><span class="count">… {hiddenAfter}</span></Button
     >{/if}

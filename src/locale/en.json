@@ -2872,7 +2872,7 @@
             "project": "untitled",
             "email": "email"
         },
-        "tooltip": {
+        "description": {
             "yes": "confirm",
             "no": "cancel",
             "play": "evaluate the program fully",

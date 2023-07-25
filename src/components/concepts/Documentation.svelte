@@ -180,18 +180,20 @@
 <div class="header">
     <TextField
         placeholder={'🔍'}
-        description={$creator.getLocale().ui.tooltip.documentationSearch}
+        description={$creator.getLocale().ui.description.documentationSearch}
         bind:text={query}
         fill
     />
     {#if currentConcept}
         <span class="path">
             {#if $path.length > 1}
-                <Button tip={$creator.getLocale().ui.tooltip.home} action={home}
-                    >⇤</Button
+                <Button
+                    tip={$creator.getLocale().ui.description.home}
+                    action={home}>⇤</Button
                 >{/if}
-            <Button tip={$creator.getLocale().ui.tooltip.docBack} action={back}
-                >←</Button
+            <Button
+                tip={$creator.getLocale().ui.description.docBack}
+                action={back}>←</Button
             >
             {#each $path as concept, index}{#if index > 0}…{/if}<ConceptLinkUI
                     link={concept}

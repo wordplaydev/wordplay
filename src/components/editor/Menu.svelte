@@ -121,7 +121,7 @@
         role="menu"
         tabindex="-1"
         aria-orientation="vertical"
-        aria-label={$creator.getLocale().ui.tooltip.menu}
+        aria-label={$creator.getLocale().ui.description.menu}
         aria-activedescendant="menuitem-{menu.inSubmenu()
             ? menu.getSelectionIndex()[1]
             : menu.getSelectionIndex()[0]}"
@@ -133,7 +133,7 @@
                 class="revision"
                 tabindex="-1"
                 id="menuitem--1"
-                aria-label={$creator.getLocale().ui.tooltip.menuBack}
+                aria-label={$creator.getLocale().ui.description.menuBack}
                 class:selected={menu.onBack()}
                 bind:this={revisionViews[-1]}
                 on:pointerdown|stopPropagation={() =>

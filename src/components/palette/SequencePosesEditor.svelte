@@ -95,7 +95,7 @@
                     <div class="percent"
                         ><TextField
                             text={pair.key.toWordplay()}
-                            description={$creator.getLocale().ui.tooltip
+                            description={$creator.getLocale().ui.description
                                 .editSequencePercent}
                             placeholder={$creator.getLocale().ui.placeholders
                                 .percent}
@@ -127,22 +127,23 @@
                             changed={(value) => revisePercent(pair, value)}
                         />
                         <Button
-                            tip={$creator.getLocale().ui.tooltip.addPose}
+                            tip={$creator.getLocale().ui.description.addPose}
                             action={() => addPose(index)}>+</Button
                         >
                         <Button
-                            tip={$creator.getLocale().ui.tooltip.removePose}
+                            tip={$creator.getLocale().ui.description.removePose}
                             action={() => removePose(index)}
                             active={map !== undefined && map.values.length > 1}
                             >⨉</Button
                         >
                         <Button
-                            tip={$creator.getLocale().ui.tooltip.movePoseUp}
+                            tip={$creator.getLocale().ui.description.movePoseUp}
                             action={() => movePose(index, -1)}
                             active={index > 0}>↑</Button
                         >
                         <Button
-                            tip={$creator.getLocale().ui.tooltip.movePoseDown}
+                            tip={$creator.getLocale().ui.description
+                                .movePoseDown}
                             action={() => movePose(index, 1)}
                             active={index < map.values.length - 1}>↓</Button
                         >

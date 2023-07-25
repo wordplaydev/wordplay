@@ -136,7 +136,8 @@
                 </p>
                 <form class="form" on:submit={login}>
                     <TextField
-                        description={$creator.getLocale().ui.tooltip.loginEmail}
+                        description={$creator.getLocale().ui.description
+                            .loginEmail}
                         placeholder={$creator.getLocale().ui.placeholders.email}
                         bind:text={email}
                     /><Button

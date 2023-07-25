@@ -38,7 +38,7 @@
         <slot />
         <div class="close">
             <Button
-                tip={$creator.getLocale().ui.tooltip.close}
+                tip={$creator.getLocale().ui.description.close}
                 action={() => (show = false)}>❌</Button
             >
         </div>

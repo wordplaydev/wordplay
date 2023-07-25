@@ -53,7 +53,7 @@
                 <Button
                     action={() => select(lang)}
                     active={languages.length > 1}
-                    tip={$creator.getLocale().ui.tooltip.removeLanguage}
+                    tip={$creator.getLocale().ui.description.removeLanguage}
                     >{getLanguageName(lang)}<sub>{lang}</sub>
                     {#if languages.length > 1}
                         -{/if}</Button
@@ -72,7 +72,7 @@
             <span class="language supported">
                 <Button
                     action={() => select(lang)}
-                    tip={$creator.getLocale().ui.tooltip.addLanguage}
+                    tip={$creator.getLocale().ui.description.addLanguage}
                     >{getLanguageName(lang)}<sub>{lang}</sub> +</Button
                 ></span
             >
@@ -97,7 +97,7 @@
     </div>
 </Dialog>
 <Button
-    tip={$creator.getLocale().ui.tooltip.changeLanguage}
+    tip={$creator.getLocale().ui.description.changeLanguage}
     action={() => (show = true)}
 >
     <span class="chosen">

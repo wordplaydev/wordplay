@@ -56,11 +56,11 @@
         <ProjectPreview {project} action={() => changeProject(project, true)}
             ><div class="controls"
                 ><Button
-                    tip={$creator.getLocale().ui.tooltip.editProject}
+                    tip={$creator.getLocale().ui.description.editProject}
                     action={() => changeProject(project)}>✎</Button
                 ><ConfirmButton
                     prompt={$creator.getLocale().ui.prompt.deleteProject}
-                    tip={$creator.getLocale().ui.tooltip.deleteProject}
+                    tip={$creator.getLocale().ui.description.deleteProject}
                     action={() => $creator.deleteProject(project.id)}
                     >⨉</ConfirmButton
                 ></div
@@ -68,7 +68,9 @@
         >
     {/each}
     <div class="break" />
-    <Button tip={$creator.getLocale().ui.tooltip.newProject} action={newProject}
+    <Button
+        tip={$creator.getLocale().ui.description.newProject}
+        action={newProject}
         ><span style:font-size="xxx-large">+</span>
     </Button>
 </div>
