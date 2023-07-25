@@ -5227,12 +5227,16 @@
             "feedback": {
               "additionalProperties": false,
               "properties": {
+                "loading": {
+                  "type": "string"
+                },
                 "unknownProject": {
                   "type": "string"
                 }
               },
               "required": [
-                "unknownProject"
+                "unknownProject",
+                "loading"
               ],
               "type": "object"
             },

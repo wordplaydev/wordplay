@@ -1686,7 +1686,8 @@
             "editor": "editora"
         },
         "feedback": {
-            "unknownProject": "No hay ningún proyecto con este ID."
+            "unknownProject": "No hay ningún proyecto con este ID.",
+            "loading": "$?"
         },
         "login": {
             "header": "$?",

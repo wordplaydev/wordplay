@@ -1685,7 +1685,7 @@
             "palette": "$?",
             "editor": "$?"
         },
-        "feedback": { "unknownProject": "$?" },
+        "feedback": { "unknownProject": "$?", "loading": "$?" },
         "login": {
             "header": "$?",
             "prompt": "$?",

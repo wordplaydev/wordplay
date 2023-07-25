@@ -1,4 +1,11 @@
+<script lang="ts">
+    import { config } from '../../db/Creator';
+</script>
+
 <div>|</div>
+<div aria-live="assertive" aria-atomic="true" aria-relevant="all"
+    >{$config.getLocale().ui.feedback.loading}</div
+>
 
 <style>
     div {

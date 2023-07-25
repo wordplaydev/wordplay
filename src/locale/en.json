@@ -3030,7 +3030,8 @@
             "editor": "code editor"
         },
         "feedback": {
-            "unknownProject": "There's no performance with this ID."
+            "unknownProject": "There's no performance with this ID.",
+            "loading": "Loading, thank you for waiting!"
         },
         "login": {
             "header": "Login",
