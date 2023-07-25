@@ -303,6 +303,7 @@
         border-bottom: var(--wordplay-border-color) solid 1px;
     }
 
+    .tile.horizontal.docs,
     .tile.vertical.docs,
     .tile.vertical.palette {
         border-right: var(--wordplay-border-color) solid 1px;
