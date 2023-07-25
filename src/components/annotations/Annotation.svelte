@@ -29,7 +29,9 @@
                 flip={annotation.kind === 'secondary'}
             >
                 {#each annotation.messages as markup}
-                    <MarkupHTMLView {markup} />
+                    <aside aria-label={markup.toText()}>
+                        <MarkupHTMLView {markup} />
+                    </aside>
                 {/each}
             </Speech>
         </div>

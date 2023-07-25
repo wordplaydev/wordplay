@@ -21,14 +21,14 @@
     export let small: boolean = false;
 
     const evaluation = getEvaluation();
-    const translations = getLocales();
+    const locales = getLocales();
 
     $: description =
-        node && $evaluation && translations && translations.length > 0
+        node && $evaluation && locales && locales.length > 0
             ? node
                   .getDescription(
                       concretize,
-                      translations[0],
+                      locales[0],
                       $evaluation.evaluator.project.getNodeContext(node)
                   )
                   .toText()
@@ -81,7 +81,6 @@
         class:small
         data-id={node.id}
         id={`node-${node.id}`}
-        role="presentation"
         aria-hidden={hide ? 'true' : null}
         aria-label={description?.toString()}
         >{#if value}<ValueView

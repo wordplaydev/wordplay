@@ -143,19 +143,18 @@
     }
 </script>
 
-<span class="root" class:inert class:inline><NodeView {node} /></span>
+{#if inline}
+    <span class="root" class:inert><NodeView {node} /></span>
+{:else}
+    <code class="root" class:inert><NodeView {node} /></code>
+{/if}
 
 <style>
     .root {
-        display: block;
         font-family: var(--wordplay-code-font);
         font-weight: 400;
 
         /** This allows us to style things up the the tree. */
         text-decoration: inherit;
-    }
-
-    .inline {
-        display: inline;
     }
 </style>

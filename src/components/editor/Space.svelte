@@ -43,13 +43,13 @@
     to work around a Svelte defect that doesn't correctly update changes in text nodes.
 -->
 {#key space}
-    <span class="space" data-id={token.id}
-        ><span class="before"
+    <span class="space" role="none" data-id={token.id}
+        ><span role="none" class="before"
             >{#each beforeSpaces as s, index}{#if index > 0}<span
                         ><br class="break" /></span
                     >{/if}{#if s === ''}&ZeroWidthSpace;{:else}{s}{/if}{:else}&ZeroWidthSpace;{/each}{#if insertion}<InsertionPointView
                 />{/if}</span
-        ><span class="after"
+        ><span role="none" class="after"
             >{#each afterSpaces as s, index}{#if index > 0}<span
                         ><br class="break" /></span
                     >{/if}{s}{/each}{#each additionalSpaces as s, index}{#if index > 0}<span
