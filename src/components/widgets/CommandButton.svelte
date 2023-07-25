@@ -61,7 +61,6 @@
             if (!focusAfter && hadFocus) {
                 await tick();
                 view?.focus();
-                console.log('Button grabbed focus');
             }
         } else return undefined;
     }}

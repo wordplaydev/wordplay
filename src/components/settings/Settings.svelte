@@ -10,6 +10,7 @@
     import { clickOutside } from '../app/clickOutside';
     import Arrangement from '../../db/Arrangement';
     import Status from '../app/Status.svelte';
+    import { slide } from 'svelte/transition';
 
     let expanded = false;
 
@@ -46,58 +47,60 @@
     use:clickOutside
     on:outclick={() => (expanded = false)}
 >
-    <div class="controls" aria-hidden={!expanded}>
-        {#if PUBLIC_CONTEXT !== 'prod'}
-            <div class="account" class:anonymous>
-                <a href="/login">
-                    {$user
-                        ? $user.email
-                        : $config.getLocale().ui.labels.anonymous}
-                </a>
-            </div>
-        {/if}
-        <Button
-            tip={arrangement === Arrangement.Free
-                ? $config.getLocale().ui.description.vertical
-                : arrangement === Arrangement.Vertical
-                ? $config.getLocale().ui.description.horizontal
-                : $config.getLocale().ui.description.freeform}
-            action={() =>
-                $config.setArrangement(
-                    arrangement === Arrangement.Vertical
-                        ? Arrangement.Horizontal
-                        : arrangement === Arrangement.Horizontal
-                        ? Arrangement.Free
-                        : Arrangement.Vertical
-                )}
-            >{#if arrangement === Arrangement.Vertical}↕{:else if arrangement === Arrangement.Horizontal}↔️{:else if arrangement === Arrangement.Free}⏹️{/if}</Button
-        >
-        <Button
-            tip={$config.getLocale().ui.description.animate}
-            action={() =>
-                $config.setAnimationFactor(
-                    $config.getAnimationFactor() < 4
-                        ? $config.getAnimationFactor() + 1
-                        : 0
-                )}>{animationSymbol}</Button
-        >
-        <LayoutChooser />
-        <LanguageChooser />
-        <Button
-            tip={$config.getLocale().ui.description.dark}
-            action={() =>
-                dark.set(
-                    $dark === undefined
-                        ? true
-                        : $dark === true
-                        ? false
-                        : undefined
-                )}
-            ><div class="dark-mode"
-                >{$dark === true ? '☽' : $dark === false ? '☼' : '☼/☽'}</div
-            ></Button
-        >
-    </div>
+    {#if expanded}
+        <div class="controls" transition:slide>
+            {#if PUBLIC_CONTEXT !== 'prod'}
+                <div class="account" class:anonymous>
+                    <a href="/login">
+                        {$user
+                            ? $user.email
+                            : $config.getLocale().ui.labels.anonymous}
+                    </a>
+                </div>
+            {/if}
+            <Button
+                tip={arrangement === Arrangement.Free
+                    ? $config.getLocale().ui.description.vertical
+                    : arrangement === Arrangement.Vertical
+                    ? $config.getLocale().ui.description.horizontal
+                    : $config.getLocale().ui.description.freeform}
+                action={() =>
+                    $config.setArrangement(
+                        arrangement === Arrangement.Vertical
+                            ? Arrangement.Horizontal
+                            : arrangement === Arrangement.Horizontal
+                            ? Arrangement.Free
+                            : Arrangement.Vertical
+                    )}
+                >{#if arrangement === Arrangement.Vertical}↕{:else if arrangement === Arrangement.Horizontal}↔️{:else if arrangement === Arrangement.Free}⏹️{/if}</Button
+            >
+            <Button
+                tip={$config.getLocale().ui.description.animate}
+                action={() =>
+                    $config.setAnimationFactor(
+                        $config.getAnimationFactor() < 4
+                            ? $config.getAnimationFactor() + 1
+                            : 0
+                    )}>{animationSymbol}</Button
+            >
+            <LayoutChooser />
+            <LanguageChooser />
+            <Button
+                tip={$config.getLocale().ui.description.dark}
+                action={() =>
+                    dark.set(
+                        $dark === undefined
+                            ? true
+                            : $dark === true
+                            ? false
+                            : undefined
+                    )}
+                ><div class="dark-mode"
+                    >{$dark === true ? '☽' : $dark === false ? '☼' : '☼/☽'}</div
+                ></Button
+            >
+        </div>
+    {/if}
     <Status />
     <Button
         tip={$config.getLocale().ui.description.settings}
