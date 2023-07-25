@@ -4,7 +4,7 @@
     import { onMount } from 'svelte';
     import Eyes from '../lore/Eyes.svelte';
     import UnicodeString from '../../models/UnicodeString';
-    import { creator } from '../../db/Creator';
+    import { config } from '../../db/Creator';
     import Emotion from '../../lore/Emotion';
 
     type Glyph = {
@@ -35,8 +35,8 @@
         if (previousTime === undefined) previousTime = time;
 
         const elapsed =
-            $creator.getAnimationFactor() > 0
-                ? (time - previousTime) / $creator.getAnimationFactor()
+            $config.getAnimationFactor() > 0
+                ? (time - previousTime) / $config.getAnimationFactor()
                 : 0;
         if (previousTime) {
             for (const glyph of state) {
@@ -65,7 +65,7 @@
         }
 
         previousTime = time;
-        if (mounted && $creator.getAnimationFactor() > 0)
+        if (mounted && $config.getAnimationFactor() > 0)
             window.requestAnimationFrame(step);
     }
 
@@ -99,8 +99,7 @@
         return () => (mounted = false);
     });
 
-    $: if ($creator.getAnimationFactor() > 0)
-        window.requestAnimationFrame(step);
+    $: if ($config.getAnimationFactor() > 0) window.requestAnimationFrame(step);
 </script>
 
 <svelte:window bind:innerWidth={windowWidth} bind:innerHeight={windowHeight} />

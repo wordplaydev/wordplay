@@ -4,7 +4,7 @@
     import BooleanLiteral from '@nodes/BooleanLiteral';
     import type OutputProperty from '@edit/OutputProperty';
     import { getProject } from '../project/Contexts';
-    import { creator } from '../../db/Creator';
+    import { config } from '../../db/Creator';
 
     export let property: OutputProperty;
     export let values: OutputPropertyValues;
@@ -14,7 +14,7 @@
     // Whenever the text changes, update in the project.
     function handleChange(newValue: boolean | undefined) {
         if ($project === undefined) return;
-        $creator.reviseProjectNodes(
+        $config.reviseProjectNodes(
             $project,
             $project.getBindReplacements(
                 values.getExpressions(),

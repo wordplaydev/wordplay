@@ -2,9 +2,9 @@
 
 <script lang="ts">
     import type Exception from '../../runtime/Exception';
-    import { creator } from '../../db/Creator';
+    import { config } from '../../db/Creator';
 
     export let value: Exception;
 </script>
 
-! {value.getDescription($creator.getLocale()).toText()}
+! {value.getDescription($config.getLocale()).toText()}

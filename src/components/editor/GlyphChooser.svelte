@@ -5,7 +5,7 @@
     import Button from '../widgets/Button.svelte';
     import TextField from '../widgets/TextField.svelte';
     import TokenView from './TokenView.svelte';
-    import { creator } from '../../db/Creator';
+    import { config } from '../../db/Creator';
     import Commands, { Category } from './util/Commands';
     import CommandButton from '../widgets/CommandButton.svelte';
     import concretize from '../../locale/concretize';
@@ -44,7 +44,7 @@
 <section class:expanded class="directory" data-uiid="directory">
     <TextField
         placeholder="🔍"
-        description={$creator.getLocale().ui.description.characterSearch}
+        description={$config.getLocale().ui.description.characterSearch}
         bind:text={query}
     />
     <div class="matches">
@@ -58,8 +58,8 @@
         {:else}
             {#each results as glyph}<Button
                     tip={concretize(
-                        $creator.getLocale(),
-                        $creator.getLocale().ui.description.insertSymbol,
+                        $config.getLocale(),
+                        $config.getLocale().ui.description.insertSymbol,
                         glyph
                     ).toText()}
                     action={() => insert(glyph)}
@@ -68,7 +68,7 @@
         {/if}
     </div>
     <Button
-        tip={$creator.getLocale().ui.description.chooserExpand}
+        tip={$config.getLocale().ui.description.chooserExpand}
         action={() => (expanded = !expanded)}>{expanded ? '–' : '+'}</Button
     >
 </section>

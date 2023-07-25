@@ -9,7 +9,7 @@
     import Exception from '@runtime/Exception';
     import { getEvaluation } from '../project/Contexts';
     import Controls from './Controls.svelte';
-    import { creator } from '../../db/Creator';
+    import { config } from '../../db/Creator';
 
     export let evaluator: Evaluator;
 
@@ -162,12 +162,12 @@
 
 <section
     class="evaluation"
-    aria-label={$creator.getLocale().ui.section.timeline}
+    aria-label={$config.getLocale().ui.section.timeline}
     class:stepping={$evaluation?.playing === false}
 >
     <Controls {evaluator} />
     <header
-        transition:slide|local={{ duration: $creator.getAnimationDuration() }}
+        transition:slide|local={{ duration: $config.getAnimationDuration() }}
         class="timeline"
         data-uiid="timeline"
         class:stepping={$evaluation?.playing === false}

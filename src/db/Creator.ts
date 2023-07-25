@@ -97,6 +97,9 @@ export class Creator {
     /** A Svelte store for that contains this. Updated when projects change. */
     private projectsStore: Writable<Creator>;
 
+    /** The status of persisting the projects. */
+    private statusStore: Writable<SaveStatus> = writable(SaveStatus.Saved);
+
     /** The current user ID */
     private uid: string | null = null;
 
@@ -135,9 +138,6 @@ export class Creator {
         }
     >;
 
-    /** The status of persisting the projects. */
-    private status: Writable<SaveStatus> = writable(SaveStatus.Saved);
-
     /** Debounce timer, used to clear pending requests. */
     private timer: NodeJS.Timer | undefined = undefined;
 
@@ -148,6 +148,7 @@ export class Creator {
     constructor(defaultLocale: Locale) {
         this.defaultLocale = defaultLocale;
         this.projects = new Map();
+
         this.configStore = writable(this);
         this.projectsStore = writable(this);
 
@@ -323,7 +324,7 @@ export class Creator {
     }
 
     getSaveStatusStore() {
-        return this.status;
+        return this.statusStore;
     }
 
     getConfigStore() {
@@ -527,7 +528,7 @@ export class Creator {
 
     /** Update the saving status and broadcast via the store. */
     setStatus(status: SaveStatus) {
-        this.status.set(status);
+        this.statusStore.set(status);
     }
 
     /** Convert to an object suitable for JSON serialization */
@@ -726,7 +727,7 @@ export class Creator {
 }
 
 const db = new Creator(en as Locale);
-export const creator = db.getConfigStore();
+export const config = db.getConfigStore();
 export const projects = db.getProjectsStore();
 export const status = db.getSaveStatusStore();
 

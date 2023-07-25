@@ -65,7 +65,7 @@
     import PlaceholderView from './PlaceholderView.svelte';
     import Expression from '../../nodes/Expression';
     import { DOCUMENTATION_SYMBOL, TYPE_SYMBOL } from '../../parser/Symbols';
-    import { creator } from '../../db/Creator';
+    import { config } from '../../db/Creator';
     import Button from '../widgets/Button.svelte';
     import OutputView from '../output/OutputView.svelte';
     import ConceptLinkUI from '../concepts/ConceptLinkUI.svelte';
@@ -515,7 +515,7 @@
         );
 
         // Update the project with the new source files
-        $creator.reviseProject(
+        $config.reviseProject(
             project,
             newProject.withCaret(newSource, newCaretPosition)
         );
@@ -809,7 +809,7 @@
             const positionOffset = Math.round(
                 Math.abs(
                     event.clientX -
-                        ($creator.getWritingDirection() === 'ltr'
+                        ($config.getWritingDirection() === 'ltr'
                             ? spaceBounds.left
                             : spaceBounds.right)
                 ) / spaceWidth
@@ -1027,7 +1027,7 @@
         const result = handleKeyCommand(event, {
             caret: $caret,
             evaluator,
-            creator: $creator,
+            creator: $config,
             toggleMenu,
         });
 
@@ -1072,7 +1072,7 @@
 
         // Update the caret and project.
         if (newSource) {
-            $creator.reviseProject(
+            $config.reviseProject(
                 project,
                 project
                     .withSource(source, newSource)
@@ -1195,11 +1195,11 @@
         ? 'playing'
         : 'stepping'}"
     data-uiid="editor"
-    aria-label={`${$creator.getLocale().ui.section.editor} ${source.getLocale(
-        $creator.getLanguages()
+    aria-label={`${$config.getLocale().ui.section.editor} ${source.getLocale(
+        $config.getLanguages()
     )}`}
-    style:direction={$creator.getWritingDirection()}
-    style:writing-mode={$creator.getWritingLayout()}
+    style:direction={$config.getWritingDirection()}
+    style:writing-mode={$config.getWritingLayout()}
     data-id={source.id}
     bind:this={editor}
     on:pointerdown|stopPropagation|preventDefault={handlePointerDown}
@@ -1286,7 +1286,7 @@
                     />{/if}
                 <!-- Show the node's label and type, if an expression -->
                 {$caret.position.getLabel(
-                    $creator.getLocale()
+                    $config.getLocale()
                 )}{#if caretExpressionType}&nbsp;{TYPE_SYMBOL}&nbsp;{#if typeConcept}<ConceptLinkUI
                             link={typeConcept}
                             label={caretExpressionType.toWordplay()}
@@ -1306,7 +1306,7 @@
 {#if project.supplements.length > 0}
     <div class="output-preview-container">
         <Button
-            tip={$creator.getLocale().ui.description.showOutput}
+            tip={$config.getLocale().ui.description.showOutput}
             active={!selected}
             action={() => dispatch('preview')}
             scale={false}

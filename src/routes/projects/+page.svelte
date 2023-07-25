@@ -1,11 +1,11 @@
 <script>
     import ProjectChooser from '@components/app/ProjectChooser.svelte';
     import Page from '@components/app/Page.svelte';
-    import { creator } from '@db/Creator';
+    import { config } from '@db/Creator';
 </script>
 
 <svelte:head>
-    <title>{$creator.getLocale().ui.header.projects}</title>
+    <title>{$config.getLocale().ui.header.projects}</title>
 </svelte:head>
 
 <Page>

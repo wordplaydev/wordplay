@@ -3,7 +3,7 @@
     import type Concept from '@concepts/Concept';
     import CodeView from './CodeView.svelte';
     import Note from '../widgets/Note.svelte';
-    import { creator } from '../../db/Creator';
+    import { config } from '../../db/Creator';
 
     export let concepts: Concept[];
     export let selectable: boolean;
@@ -20,7 +20,7 @@
         {#if expanded || index < 3}
             <span
                 transition:slide|local={{
-                    duration: $creator.getAnimationDuration(),
+                    duration: $config.getAnimationDuration(),
                 }}
             >
                 <CodeView

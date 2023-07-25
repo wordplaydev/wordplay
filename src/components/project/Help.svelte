@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { creator } from '../../db/Creator';
+    import { config } from '../../db/Creator';
     import Commands, { Category, Visibility } from '../editor/util/Commands';
     import Dialog from '../widgets/Dialog.svelte';
     import CommandDescription from './CommandDescription.svelte';
@@ -9,21 +9,19 @@
 
 <Dialog bind:show>
     <table>
-        <td colspan="3"><h1>{$creator.getLocale().ui.header.moveCursor}</h1></td
-        >
+        <td colspan="3"><h1>{$config.getLocale().ui.header.moveCursor}</h1></td>
         {#each Commands.filter((c) => c.visible !== Visibility.Invisible && c.category === Category.Cursor) as command}
             <CommandDescription {command} />
         {/each}
-        <td colspan="3"><h1>{$creator.getLocale().ui.header.editCode}</h1></td>
+        <td colspan="3"><h1>{$config.getLocale().ui.header.editCode}</h1></td>
         {#each Commands.filter((c) => c.visible !== Visibility.Invisible && c.category === Category.Modify) as command}
             <CommandDescription {command} />
         {/each}
-        <td colspan="3"><h1>{$creator.getLocale().ui.header.insertCode}</h1></td
-        >
+        <td colspan="3"><h1>{$config.getLocale().ui.header.insertCode}</h1></td>
         {#each Commands.filter((c) => c.visible !== Visibility.Invisible && c.category === Category.Insert) as command}
             <CommandDescription {command} />
         {/each}
-        <td colspan="3"><h1>{$creator.getLocale().ui.header.debug}</h1></td>
+        <td colspan="3"><h1>{$config.getLocale().ui.header.debug}</h1></td>
         {#each Commands.filter((c) => c.visible !== Visibility.Invisible && c.category === Category.Evaluate) as command}
             <CommandDescription {command} />
         {/each}

@@ -13,7 +13,7 @@
     import { auth } from '@db/firebase';
     import { goto } from '$app/navigation';
     import { onMount } from 'svelte';
-    import { creator } from '../../db/Creator';
+    import { config } from '../../db/Creator';
     import Feedback from '../../components/app/Feedback.svelte';
 
     let user = getUser();
@@ -36,17 +36,17 @@
             error =
                 {
                     'auth/id-token-expired':
-                        $creator.getLocale().ui.login.expiredFailure,
+                        $config.getLocale().ui.login.expiredFailure,
                     'auth/id-token-revoked':
-                        $creator.getLocale().ui.login.invalidFailure,
+                        $config.getLocale().ui.login.invalidFailure,
                     'auth/invalid-argument':
-                        $creator.getLocale().ui.login.invalidFailure,
+                        $config.getLocale().ui.login.invalidFailure,
                     'auth/invalid-email':
-                        $creator.getLocale().ui.login.emailFailure,
-                }[err.code] ?? $creator.getLocale().ui.login.failure;
+                        $config.getLocale().ui.login.emailFailure,
+                }[err.code] ?? $config.getLocale().ui.login.failure;
         } else {
             console.error(err);
-            error = $creator.getLocale().ui.login.failure;
+            error = $config.getLocale().ui.login.failure;
         }
         success = false;
     }
@@ -115,42 +115,42 @@
         {#if auth}
             {#if $user && !$user.isAnonymous}
                 <Lead
-                    >{$creator.getLocale().ui.phrases.welcome}
+                    >{$config.getLocale().ui.phrases.welcome}
                     {$user.email}</Lead
                 >
                 <Button
-                    tip={$creator.getLocale().ui.login.logout}
+                    tip={$config.getLocale().ui.login.logout}
                     action={logout}
-                    >{$creator.getLocale().ui.login.logout}</Button
+                    >{$config.getLocale().ui.login.logout}</Button
                 >
             {:else}
-                <Lead>{$creator.getLocale().ui.login.header}</Lead>
+                <Lead>{$config.getLocale().ui.login.header}</Lead>
                 <p>
                     {#if missingEmail}
-                        {$creator.getLocale().ui.login.enterEmail}
+                        {$config.getLocale().ui.login.enterEmail}
                     {:else if $user === null}
-                        {$creator.getLocale().ui.login.anonymousPrompt}
+                        {$config.getLocale().ui.login.anonymousPrompt}
                     {:else}
-                        {$creator.getLocale().ui.login.prompt}
+                        {$config.getLocale().ui.login.prompt}
                     {/if}
                 </p>
                 <form class="form" on:submit={login}>
                     <TextField
-                        description={$creator.getLocale().ui.description
+                        description={$config.getLocale().ui.description
                             .loginEmail}
-                        placeholder={$creator.getLocale().ui.placeholders.email}
+                        placeholder={$config.getLocale().ui.placeholders.email}
                         bind:text={email}
                     /><Button
-                        tip={$creator.getLocale().ui.login.submit}
+                        tip={$config.getLocale().ui.login.submit}
                         active={/^.+@.+$/.test(email)}
                         action={() => undefined}>&gt;</Button
                     >
                 </form>
                 <p>
                     {#if sent === true}
-                        {$creator.getLocale().ui.login.sent}
+                        {$config.getLocale().ui.login.sent}
                     {:else if success === true}
-                        {$creator.getLocale().ui.login.success}
+                        {$config.getLocale().ui.login.success}
                     {:else if success === false}
                         {error}
                     {/if}

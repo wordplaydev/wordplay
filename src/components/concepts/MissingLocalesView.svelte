@@ -1,9 +1,9 @@
 <script lang="ts">
     import { getLanguageName } from '@locale/LanguageCode';
-    import { creator } from '../../db/Creator';
+    import { config } from '../../db/Creator';
 </script>
 
-{#each $creator.getMissingLanguages() as missing}
+{#each $config.getMissingLanguages() as missing}
     <p>
         <em>Wordplay no habla <strike>{getLanguageName(missing)}</strike></em>
     </p>

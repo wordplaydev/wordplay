@@ -1,11 +1,11 @@
 <script lang="ts">
-    import { creator } from '../../db/Creator';
+    import { config } from '../../db/Creator';
 
     function toggleLayout() {
-        $creator.setWritingLayout(
-            $creator.getWritingLayout() === 'horizontal-tb'
+        $config.setWritingLayout(
+            $config.getWritingLayout() === 'horizontal-tb'
                 ? 'vertical-rl'
-                : $creator.getWritingLayout() === 'vertical-rl'
+                : $config.getWritingLayout() === 'vertical-rl'
                 ? 'vertical-lr'
                 : 'horizontal-tb'
         );
@@ -16,7 +16,7 @@
     <div
         role="button"
         class="layout"
-        style:writing-mode={$creator.getWritingLayout()}
+        style:writing-mode={$config.getWritingLayout()}
         tabindex="0"
         on:pointerdown|stopPropagation={toggleLayout}
         on:keydown={(event) =>

@@ -9,7 +9,7 @@
     import Evaluator from '@runtime/Evaluator';
     import type Value from '../../runtime/Value';
     import CodeView from './CodeView.svelte';
-    import { creator } from '../../db/Creator';
+    import { config } from '../../db/Creator';
 
     export let example: Example;
     export let spaces: Spaces;
@@ -22,7 +22,7 @@
         'example',
         new Source('example', [example.program, spaces]),
         [],
-        $creator.getNative()
+        $config.getNative()
     );
     let value: Value | undefined = undefined;
     let evaluator: Evaluator | undefined;

@@ -2,7 +2,7 @@
     import Switch from '../widgets/Switch.svelte';
     import { getEvaluation } from '../project/Contexts';
     import type Evaluator from '@runtime/Evaluator';
-    import { creator } from '../../db/Creator';
+    import { config } from '../../db/Creator';
     import CommandButton from '../widgets/CommandButton.svelte';
     import {
         Pause,
@@ -28,8 +28,8 @@
 <Switch
     on={$evaluation?.playing === true}
     toggle={(play) => (play ? evaluator.play() : evaluator.pause())}
-    offTip={Pause.description($creator.getLocale())}
-    onTip={Play.description($creator.getLocale())}
+    offTip={Pause.description($config.getLocale())}
+    onTip={Play.description($config.getLocale())}
     offLabel={Pause.symbol}
     onLabel={Play.symbol}
     uiid="playToggle"

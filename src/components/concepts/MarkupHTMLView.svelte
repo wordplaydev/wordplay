@@ -5,7 +5,7 @@
 </script>
 
 <script lang="ts">
-    import { creator } from '../../db/Creator';
+    import { config } from '../../db/Creator';
     import type Markup from '../../nodes/Markup';
     import Paragraph from '../../nodes/Paragraph';
     import SegmentHTMLView from './SegmentHTMLView.svelte';
@@ -34,8 +34,8 @@
 
 {#if spaces}{#each paragraphsAndLists as paragraphOrList, index}<p
             class="paragraph"
-            class:animated={$creator.getAnimationFactor() > 0}
-            style="--delay:{$creator.getAnimationDuration() * index * 0.1}ms"
+            class:animated={$config.getAnimationFactor() > 0}
+            style="--delay:{$config.getAnimationDuration() * index * 0.1}ms"
             >{#if paragraphOrList instanceof Paragraph}
                 {#each paragraphOrList.segments as segment}<SegmentHTMLView
                         {segment}

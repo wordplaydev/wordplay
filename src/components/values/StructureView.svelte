@@ -13,18 +13,18 @@
     import ValueView from './ValueView.svelte';
     import { toColor } from '../../output/Color';
     import Expandable from './Expandable.svelte';
-    import { creator } from '../../db/Creator';
+    import { config } from '../../db/Creator';
 
     export let value: Structure;
 </script>
 
 <SymbolView
-    symbol={value.type.names.getLocaleText($creator.getLanguages())}
+    symbol={value.type.names.getLocaleText($config.getLanguages())}
     type={Symbol.Name}
 /><SymbolView symbol={EVAL_OPEN_SYMBOL} type={Symbol.EvalOpen} /><Expandable
     ><svelte:fragment slot="expanded">
         {#each value.type.inputs as input, index}<SymbolView
-                symbol={input.names.getLocaleText($creator.getLanguages())}
+                symbol={input.names.getLocaleText($config.getLanguages())}
                 type={Symbol.Name}
             /><SymbolView symbol={BIND_SYMBOL} type={Symbol.Bind} /><ValueView
                 value={value.resolve(input.getNames()[0]) ??

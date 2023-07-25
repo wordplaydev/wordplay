@@ -12,7 +12,7 @@ import Decimal from 'decimal.js';
 import TextLiteral from '../../nodes/TextLiteral';
 import ListLiteral from '../../nodes/ListLiteral';
 import { toExpression } from '../../parser/Parser';
-import { creator } from '../../db/Creator';
+import { config } from '../../db/Creator';
 import { get } from 'svelte/store';
 
 export function getNumber(given: Expression): number | undefined {
@@ -122,12 +122,12 @@ export function addContent(
     const PhraseType = project.shares.output.phrase;
     const GroupType = project.shares.output.group;
     const RowType = project.shares.output.row;
-    const languages = get(creator).getLanguages();
+    const languages = get(config).getLanguages();
     const newPhrase = Evaluate.make(
         Reference.make(
-            PhraseType.names.getLocaleText(get(creator).getLanguages())
+            PhraseType.names.getLocaleText(get(config).getLanguages())
         ),
-        [TextLiteral.make(get(creator).getLocale().ui.phrases.welcome)]
+        [TextLiteral.make(get(config).getLocale().ui.phrases.welcome)]
     );
     reviseContent(projects, project, list, [
         ...list.values.slice(0, index + 1),

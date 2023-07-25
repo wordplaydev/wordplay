@@ -5,7 +5,7 @@
     import type OutputPropertyRange from '@edit/OutputPropertyRange';
     import type OutputProperty from '@edit/OutputProperty';
     import { getProject } from '../project/Contexts';
-    import { creator } from '../../db/Creator';
+    import { config } from '../../db/Creator';
     import { getFirstName } from '../../locale/Locale';
 
     export let property: OutputProperty;
@@ -18,7 +18,7 @@
     function handleChange(newValue: number) {
         if ($project === undefined) return;
 
-        $creator.reviseProjectNodes(
+        $config.reviseProjectNodes(
             $project,
             $project.getBindReplacements(
                 values.getExpressions(),

@@ -6,7 +6,7 @@
     import { getConflicts, getEvaluation } from './Contexts';
     import type Evaluator from '@runtime/Evaluator';
     import type Project from '../../models/Project';
-    import { creator } from '../../db/Creator';
+    import { config } from '../../db/Creator';
     import Glyphs from '../../lore/Glyphs';
 
     export let project: Project;
@@ -68,7 +68,7 @@
             >{/if}
         {#if primaryCount === 0 && secondaryCount === 0}{Glyphs.Program
                 .symbols}{/if}
-        {source.names.getLocaleText($creator.getLanguages())}
+        {source.names.getLocaleText($config.getLanguages())}
     </span>
     <!-- Disabling for now. It doesn't help much because it's so tiny. We may restore it later. -->
     {#if output && false}

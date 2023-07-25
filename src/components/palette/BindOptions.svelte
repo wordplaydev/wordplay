@@ -4,7 +4,7 @@
     import type OutputProperty from '@edit/OutputProperty';
     import type OutputPropertyOptions from '@edit/OutputPropertyOptions';
     import { getProject } from '../project/Contexts';
-    import { creator } from '../../db/Creator';
+    import { config } from '../../db/Creator';
 
     export let property: OutputProperty;
     export let values: OutputPropertyValues;
@@ -15,7 +15,7 @@
     // Whenever the drop down value changes, revise the Evaluates to match the new value.
     function handleChange(newValue: string | undefined) {
         if ($project === undefined) return;
-        $creator.reviseProjectNodes(
+        $config.reviseProjectNodes(
             $project,
             $project.getBindReplacements(
                 values.getExpressions(),

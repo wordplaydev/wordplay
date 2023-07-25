@@ -10,14 +10,14 @@
     import MapLiteral from '@nodes/MapLiteral';
     import KeyValue from '@nodes/KeyValue';
     import NumberLiteral from '@nodes/NumberLiteral';
-    import { creator } from '../../db/Creator';
+    import { config } from '../../db/Creator';
     import getPoseProperties from '@edit/PoseProperties';
 
     export let project: Project;
     export let outputs: OutputExpression[];
     export let sequence: boolean;
 
-    $: PoseProperties = getPoseProperties(project, $creator.getLocale());
+    $: PoseProperties = getPoseProperties(project, $config.getLocale());
 
     // Create a mapping from pose properties to values
     let propertyValues: Map<OutputProperty, OutputPropertyValueSet>;
@@ -34,14 +34,14 @@
     }
 
     function convert() {
-        $creator.reviseProjectNodes(
+        $config.reviseProjectNodes(
             project,
             outputs.map((output) => [
                 output.node,
                 Evaluate.make(
                     Reference.make(
                         project.shares.output.sequence.names.getLocaleText(
-                            $creator.getLanguages()
+                            $config.getLanguages()
                         ),
                         project.shares.output.sequence
                     ),
@@ -65,7 +65,7 @@
     {/each}
     {#if !sequence}
         <Button
-            tip={$creator.getLocale().ui.description.sequence}
+            tip={$config.getLocale().ui.description.sequence}
             action={convert}
             >{project.shares.output.sequence.getNames()[0]}</Button
         >

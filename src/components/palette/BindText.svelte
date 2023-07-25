@@ -4,7 +4,7 @@
     import TextField from '../widgets/TextField.svelte';
     import type OutputProperty from '@edit/OutputProperty';
     import { getProject } from '../project/Contexts';
-    import { creator } from '../../db/Creator';
+    import { config } from '../../db/Creator';
     import { tick } from 'svelte';
 
     export let property: OutputProperty;
@@ -17,7 +17,7 @@
     // Whenever the text changes, update in the project.
     async function handleChange(newValue: string) {
         if ($project === undefined) return;
-        $creator.reviseProjectNodes(
+        $config.reviseProjectNodes(
             $project,
             $project.getBindReplacements(
                 values.getExpressions(),
@@ -33,10 +33,10 @@
 
 <TextField
     text={values.getText()}
-    description={$creator.getLocale().ui.description.editTextOutput}
+    description={$config.getLocale().ui.description.editTextOutput}
     placeholder={values.isEmpty()
         ? ''
-        : values.values[0].bind.names.getLocaleText($creator.getLanguages())}
+        : values.values[0].bind.names.getLocaleText($config.getLanguages())}
     {validator}
     changed={handleChange}
     bind:view

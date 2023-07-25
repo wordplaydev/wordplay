@@ -16,7 +16,7 @@
     import PlayView from './PlayView.svelte';
     import Button from '../widgets/Button.svelte';
     import Source from '../../nodes/Source';
-    import { creator, projects } from '../../db/Creator';
+    import { config, projects } from '../../db/Creator';
     import type Spaces from '../../parser/Spaces';
     import { toMarkup } from '../../parser/Parser';
     import MarkupHTMLView from '../concepts/MarkupHTMLView.svelte';
@@ -118,10 +118,10 @@
     // Figure out the default project to show.
     $: defaultProject = new Project(
         progress.getProjectID(),
-        scene ? scene.name : act ? act.name : $creator.getLocale().wordplay,
-        new Source($creator.getLocale().term.start, source),
+        scene ? scene.name : act ? act.name : $config.getLocale().wordplay,
+        new Source($config.getLocale().term.start, source),
         [],
-        $creator.getNative(),
+        $config.getNative(),
         undefined,
         $user ? [$user.uid] : [],
         false
@@ -137,7 +137,7 @@
 
     // Any time the project database changes for the current ID, update the project.
     // This is what allows us to persist any edits to the project.
-    $: if ($creator) {
+    $: if ($config) {
         const proj = $projects.getProject(progress.getProjectID());
         if (proj) project = proj;
     }
@@ -147,7 +147,7 @@
     $: if (project) {
         const existing = $projects.getProject(project.id);
         if (existing !== undefined && !existing.equals(project))
-            $creator.addProject(project);
+            $config.addProject(project);
     }
 
     let selection: Progress | undefined = undefined;
@@ -183,7 +183,7 @@
 
 <section
     class="tutorial"
-    class:vertical={$creator.getArrangement() === Arrangement.Vertical}
+    class:vertical={$config.getArrangement() === Arrangement.Vertical}
 >
     <!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
     <!-- svelte-ignore a11y-no-noninteractive-tabindex -->
@@ -196,15 +196,15 @@
     >
         <div class="turns">
             {#if act === undefined}
-                <div class="title play">{$creator.getLocale().wordplay}</div>
+                <div class="title play">{$config.getLocale().wordplay}</div>
             {:else if scene === undefined}
                 <div class="title act"
-                    >{$creator.getLocale().term.act}
+                    >{$config.getLocale().term.act}
                     {progress.act}<p><em>{act.name}</em></p></div
                 >
             {:else if dialog === undefined}
                 <div class="title scene"
-                    >{$creator.getLocale().term.scene}
+                    >{$config.getLocale().term.scene}
                     {progress.scene}<p><em>{scene.name}</em></p
                     >{#if scene.concept}<em>{scene.concept}</em>{/if}</div
                 >
@@ -215,7 +215,7 @@
                         <Speech
                             glyph={$conceptsStore
                                 ?.getConceptByName(turn.dialog[0])
-                                ?.getGlyphs($creator.getLanguages()) ?? {
+                                ?.getGlyphs($config.getLanguages()) ?? {
                                 symbols: turn.dialog[0],
                             }}
                             flip={turn.dialog[0] !== 'FunctionDefinition'}
@@ -236,7 +236,7 @@
                 enabled={progress.previousLesson() !== undefined}>≪</Button
             > -->
             <Button
-                tip={$creator.getLocale().ui.description.previousLessonStep}
+                tip={$config.getLocale().ui.description.previousLessonStep}
                 action={() => navigate(progress.previousPause() ?? progress)}
                 active={progress.previousPause() !== undefined}>⇦</Button
             >
@@ -260,7 +260,7 @@
             </select>
             <Note
                 >{#if act !== undefined}{act.name}{/if}
-                {#if act !== undefined && scene !== undefined}{#if $creator.getArrangement() !== Arrangement.Vertical}<br
+                {#if act !== undefined && scene !== undefined}{#if $config.getArrangement() !== Arrangement.Vertical}<br
                         />{/if}{scene.concept ?? scene.name}{/if}
                 {#if act !== undefined && scene !== undefined && progress.pause > 0}
                     <span class="progress"
@@ -277,7 +277,7 @@
                 enabled={progress.nextLesson() !== undefined}>≫</Button
             > -->
             <Button
-                tip={$creator.getLocale().ui.description.nextLessonStep}
+                tip={$config.getLocale().ui.description.nextLessonStep}
                 action={() => navigate(progress.nextPause() ?? progress)}
                 active={progress.nextPause() !== undefined}>⇨</Button
             >

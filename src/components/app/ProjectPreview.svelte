@@ -3,7 +3,7 @@
     import OutputView from '@components/output/OutputView.svelte';
     import Evaluator from '@runtime/Evaluator';
     import type Value from '@runtime/Value';
-    import { creator } from '../../db/Creator';
+    import { config } from '../../db/Creator';
 
     export let project: Project;
     export let action: (() => void) | undefined = undefined;
@@ -45,7 +45,7 @@
     </div>
     <div class="name"
         >{#if project.name.length === 0}<em class="untitled"
-                >{$creator.getLocale().ui.placeholders.project}</em
+                >{$config.getLocale().ui.placeholders.project}</em
             >{:else}
             {project.name}{/if}<slot /></div
     >

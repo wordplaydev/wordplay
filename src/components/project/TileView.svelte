@@ -19,7 +19,7 @@
     import type Layout from './Layout';
     import TextField from '../widgets/TextField.svelte';
     import { isName } from '../../parser/Tokenizer';
-    import { creator } from '../../db/Creator';
+    import { config } from '../../db/Creator';
     import { onMount } from 'svelte';
     import type Arrangement from '../../db/Arrangement';
     import Glyphs from '../../lore/Glyphs';
@@ -196,9 +196,9 @@
                     {Glyphs.Program.symbols}
                     <TextField
                         text={tile.name}
-                        description={$creator.getLocale().ui.description
+                        description={$config.getLocale().ui.description
                             .editSourceName}
-                        placeholder={$creator.getLocale().ui.placeholders.name}
+                        placeholder={$config.getLocale().ui.placeholders.name}
                         validator={(text) => isName(text)}
                         changed={handleChange}
                         border={false}
@@ -210,12 +210,12 @@
             </div>
             <slot name="extra" />
             <Button
-                tip={$creator.getLocale().ui.description.collapse}
+                tip={$config.getLocale().ui.description.collapse}
                 action={() => dispatch('mode', { mode: Mode.Collapsed })}
                 active={!layout.isFullscreen()}>⎵</Button
             >
             <Button
-                tip={$creator.getLocale().ui.description.fullscreen}
+                tip={$config.getLocale().ui.description.fullscreen}
                 action={() =>
                     dispatch('fullscreen', {
                         fullscreen: !fullscreen,

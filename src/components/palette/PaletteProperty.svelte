@@ -21,7 +21,7 @@
     import PlaceEditor from './PlaceEditor.svelte';
     import ConceptLinkUI from '../concepts/ConceptLinkUI.svelte';
     import { getConceptIndex } from '../project/Contexts';
-    import { creator } from '../../db/Creator';
+    import { config } from '../../db/Creator';
     import { tick } from 'svelte';
 
     export let project: Project;
@@ -36,8 +36,8 @@
     let toggleView: HTMLButtonElement | undefined;
 
     async function toggleValues(set: boolean) {
-        if (set) values.set($creator, project, $creator.getLanguages());
-        else values.unset($creator, project, $creator.getLanguages());
+        if (set) values.set($config, project, $config.getLanguages());
+        else values.unset($config, project, $config.getLanguages());
         // Preserve focus on toggle button after setting.
         await tick();
         toggleView?.focus();
@@ -52,8 +52,8 @@
     >
     <Button
         tip={valuesAreSet
-            ? $creator.getLocale().ui.description.revert
-            : $creator.getLocale().ui.description.set}
+            ? $config.getLocale().ui.description.revert
+            : $config.getLocale().ui.description.set}
         bind:view={toggleView}
         action={() => toggleValues(!valuesAreSet)}
         >{valuesAreSet ? '⨉' : '✎'}</Button
@@ -61,7 +61,7 @@
     <div class="control">
         {#if values.areMixed()}
             <Note
-                >{$creator
+                >{$config
                     .getLocales()
                     .map((t) => t.ui.labels.mixed)
                     .join('/')}</Note
@@ -70,7 +70,7 @@
             {@const expression = values.getExpression()}
             <!-- If the values arent set, show as inherited if inherited, and otherwise show the default -->
             <Note
-                >{#if property.inherited}{$creator
+                >{#if property.inherited}{$config
                         .getLocales()
                         .map((t) => t.ui.labels.inherited)
                         .join(
@@ -78,14 +78,13 @@
                         )}{:else if values.areDefault() && expression !== undefined}<NodeView
                         node={expression}
                     />
-                    {$creator
+                    {$config
                         .getLocales()
                         .map((t) => t.ui.labels.default)
                         .join('/')}{:else}&mdash;{/if}</Note
             >
         {:else if !values.areEditable(project)}
-            <Note>{$creator.getLocales().map((t) => t.ui.labels.computed)}</Note
-            >
+            <Note>{$config.getLocales().map((t) => t.ui.labels.computed)}</Note>
         {:else if property.type instanceof OutputPropertyRange}
             <BindSlider {property} {values} range={property.type} />
         {:else if property.type instanceof OutputPropertyOptions}

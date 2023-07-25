@@ -12,7 +12,7 @@
     import { getSelectedOutput } from '../project/Contexts';
     import type { Shape } from '../../output/Shapes';
     import type Stage from '../../output/Stage';
-    import { creator } from '../../db/Creator';
+    import { config } from '../../db/Creator';
 
     export let group: Group | Stage;
     export let place: Place;
@@ -51,10 +51,10 @@
 
 <div
     role={!group.selectable ? 'presentation' : 'group'}
-    aria-label={group.getDescription($creator.getLocales())}
+    aria-label={group.getDescription($config.getLocales())}
     aria-roledescription={group instanceof Group
-        ? $creator.getLocale().term.group
-        : $creator.getLocale().term.verse}
+        ? $config.getLocale().term.group
+        : $config.getLocale().term.verse}
     aria-hidden={empty ? 'true' : null}
     class="output group {group.constructor.name}"
     class:selected={selected && !root}

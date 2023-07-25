@@ -28,7 +28,7 @@
 <script lang="ts">
     import { onDestroy } from 'svelte';
 
-    import { creator } from '../../db/Creator';
+    import { config } from '../../db/Creator';
     import type Emotion from '../../lore/Emotion';
 
     export let invert: boolean;
@@ -41,7 +41,7 @@
     let animationRight: Animation | undefined = undefined;
 
     function animateEye(eye: HTMLElement, delay: number) {
-        if ($creator.getAnimationFactor() > 0)
+        if ($config.getAnimationFactor() > 0)
             return eye.animate(
                 [
                     { transform: 'scaleY(1)' },
@@ -60,7 +60,7 @@
     }
 
     function animateEyes() {
-        if (left && right && $creator.getAnimationFactor() > 0) {
+        if (left && right && $config.getAnimationFactor() > 0) {
             offset = Math.round(Math.random() * 4 - 2);
             gaze = Math.round(Math.random() * 50);
             const delay = getRandomDelay();
@@ -89,7 +89,7 @@
     let offset = 0;
     let gaze = 25;
     $: {
-        if (left && right && $creator.getAnimationFactor() > 0) {
+        if (left && right && $config.getAnimationFactor() > 0) {
             animateEyes();
         }
     }

@@ -3,7 +3,7 @@
     import Progress from '../../tutorial/Progress';
     import { goto } from '$app/navigation';
     import { page } from '$app/stores';
-    import { creator } from '../../db/Creator';
+    import { config } from '../../db/Creator';
     import { onMount } from 'svelte';
     import Loading from '@components/app/Loading.svelte';
     import type Tutorial from '../../tutorial/Tutorial';
@@ -11,7 +11,7 @@
 
     let tutorial: Tutorial | undefined | null = undefined;
 
-    $: language = $creator.getLocale().language;
+    $: language = $config.getLocale().language;
 
     async function loadTutorial() {
         try {
@@ -52,7 +52,7 @@
             pause !== null &&
             isFinite(parseInt(pause))
         )
-            $creator.setTutorialProgress(
+            $config.setTutorialProgress(
                 new Progress(
                     tutorial,
                     parseInt(act),
@@ -63,7 +63,7 @@
     }
 
     function navigate(newProgress: Progress) {
-        $creator.setTutorialProgress(newProgress);
+        $config.setTutorialProgress(newProgress);
         // Set the URL to mirror the progress, if not at it.
         goto(
             `/learn?act=${newProgress.act}&scene=${newProgress.scene}&pause=${newProgress.pause}`
@@ -75,10 +75,10 @@
     {#if tutorial === undefined}
         <Loading />
     {:else if tutorial === null}
-        {$creator.getLocale().ui.error.tutorial}
+        {$config.getLocale().ui.error.tutorial}
     {:else}
         <TutorialView
-            progress={$creator.getTutorialProgress(tutorial)}
+            progress={$config.getTutorialProgress(tutorial)}
             {navigate}
         />
     {/if}

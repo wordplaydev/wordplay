@@ -6,7 +6,7 @@
     import OutputExpression from '@edit/OutputExpression';
     import Speech from '../lore/Speech.svelte';
     import { getConceptIndex, getSelectedOutput } from '../project/Contexts';
-    import { creator } from '../../db/Creator';
+    import { config } from '../../db/Creator';
 
     export let project: Project;
 
@@ -49,7 +49,7 @@
     }
 </script>
 
-<section class="palette" aria-label={$creator.getLocale().ui.section.palette}>
+<section class="palette" aria-label={$config.getLocale().ui.section.palette}>
     <Speech
         glyph={(outputs.length > 1 || definition === undefined
             ? undefined
@@ -62,7 +62,7 @@
                           .join(', '),
         }}
     >
-        {$creator
+        {$config
             .getLocales()
             .map((t) =>
                 propertyValues.size === 0

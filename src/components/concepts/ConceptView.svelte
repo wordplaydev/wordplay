@@ -5,7 +5,7 @@
     import MissingLocalesView from './MissingLocalesView.svelte';
     import MarkupHTMLView from './MarkupHTMLView.svelte';
     import Speech from '../lore/Speech.svelte';
-    import { creator } from '../../db/Creator';
+    import { config } from '../../db/Creator';
     import type Type from '../../nodes/Type';
     import concretize from '../../locale/concretize';
 
@@ -14,18 +14,18 @@
     export let header: boolean = true;
 
     $: node = concept.getRepresentation();
-    $: locale = $creator.getLocale();
+    $: locale = $config.getLocale();
 </script>
 
 <div
     class="concept"
-    transition:slide|local={{ duration: $creator.getAnimationDuration() }}
+    transition:slide|local={{ duration: $config.getAnimationDuration() }}
 >
     {#if header}
         <CodeView {concept} {type} {node} describe={false} />
     {/if}
 
-    <Speech glyph={concept.getGlyphs($creator.getLanguages())} below={header}>
+    <Speech glyph={concept.getGlyphs($config.getLanguages())} below={header}>
         <MissingLocalesView />
         {@const markup = concept.getDocs(locale)}
         {#if markup}

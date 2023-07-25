@@ -7,7 +7,7 @@
     import type Glyph from '../../lore/Glyph';
     import ConceptLinkUI from '../concepts/ConceptLinkUI.svelte';
     import Eyes from './Eyes.svelte';
-    import { creator } from '../../db/Creator';
+    import { config } from '../../db/Creator';
     import Emotion from '../../lore/Emotion';
     import RootView from '../project/RootView.svelte';
     import type Bind from '../../nodes/Bind';
@@ -33,12 +33,12 @@
     $: renderedEmotion =
         emotion ??
         (glyph instanceof Concept
-            ? glyph?.getEmotion($creator.getLocale())
+            ? glyph?.getEmotion($config.getLocale())
             : undefined);
 
     $: glyphs =
         glyph instanceof Concept
-            ? glyph.getGlyphs($creator.getLanguages()).symbols
+            ? glyph.getGlyphs($config.getLanguages()).symbols
             : glyph.symbols;
 
     $: symbols =

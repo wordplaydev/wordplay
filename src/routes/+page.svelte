@@ -4,7 +4,7 @@
     import Page from '@components/app/Page.svelte';
     import BigLink from '../components/app/BigLink.svelte';
     import Background from '../components/app/Background.svelte';
-    import { creator } from '../db/Creator';
+    import { config } from '../db/Creator';
 </script>
 
 <svelte:head>
@@ -15,17 +15,17 @@
 
 <Background />
 <Page>
-    <Lead>{$creator.getLocale().wordplay}</Lead>
-    <p>{$creator.getLocale().ui.phrases.motto}</p>
+    <Lead>{$config.getLocale().wordplay}</Lead>
+    <p>{$config.getLocale().ui.phrases.motto}</p>
     {#if PUBLIC_CONTEXT === 'prod'}
         <p
             >Coming Fall 2023. Write <a href="https://amyjko.com">Amy</a> for details.</p
         >
     {:else}
-        <BigLink to="/learn">{$creator.getLocale().ui.header.learn}</BigLink>
+        <BigLink to="/learn">{$config.getLocale().ui.header.learn}</BigLink>
         <BigLink to="/projects"
-            >{$creator.getLocale().ui.header.projects}</BigLink
+            >{$config.getLocale().ui.header.projects}</BigLink
         >
-        <BigLink to="/login">{$creator.getLocale().ui.login.header}</BigLink>
+        <BigLink to="/login">{$config.getLocale().ui.login.header}</BigLink>
     {/if}
 </Page>

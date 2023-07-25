@@ -17,7 +17,7 @@
         getSelectedOutput,
         getSelectedPhrase,
     } from '../project/Contexts';
-    import { creator } from '../../db/Creator';
+    import { config } from '../../db/Creator';
 
     export let phrase: Phrase;
     export let place: Place;
@@ -38,7 +38,7 @@
     $: visible = place.z > focus.z;
 
     // Get the phrase's text in the preferred language
-    $: text = phrase.getDescription($creator.getLocales());
+    $: text = phrase.getDescription($config.getLocales());
     $: empty = phrase.isEmpty();
     $: selectable = phrase.selectable && !empty;
 
@@ -116,10 +116,10 @@
             select(null);
 
             moveOutput(
-                $creator,
+                $config,
                 $project,
                 [phrase.value.creator],
-                $creator.getLanguages(),
+                $config.getLanguages(),
                 horizontal,
                 vertical,
                 true
@@ -140,7 +140,7 @@
         if (event.currentTarget.selectionStart !== null)
             select(event.currentTarget.selectionStart);
 
-        $creator.reviseProjectNodes($project, [
+        $config.reviseProjectNodes($project, [
             [
                 phrase.value.creator,
                 phrase.value.creator.replace(
@@ -157,7 +157,7 @@
         role="button"
         aria-hidden={empty ? 'true' : null}
         aria-disabled={!selectable}
-        aria-roledescription={$creator.getLocale().term.phrase}
+        aria-roledescription={$config.getLocale().term.phrase}
         class="output phrase"
         class:selected
         tabIndex={interactive && ((!empty && selectable) || editing) ? 0 : null}

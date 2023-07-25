@@ -28,7 +28,7 @@
     import { tick } from 'svelte';
     import TextField from '../widgets/TextField.svelte';
     import type Project from '../../models/Project';
-    import { creator } from '../../db/Creator';
+    import { config } from '../../db/Creator';
     import getScrollParent from '../util/getScrollParent';
     import Note from '../widgets/Note.svelte';
     import ConceptLinkUI from './ConceptLinkUI.svelte';
@@ -89,7 +89,7 @@
     // If the query changes to non-empty, compute results
     $: {
         if (query !== '') {
-            results = $index?.getQuery($creator.getLocales(), query);
+            results = $index?.getQuery($config.getLocales(), query);
             // If there are results, sort them by priority
             if (results) {
                 results = results.sort((a, b) => {
@@ -115,7 +115,7 @@
         currentConcept === undefined
             ? undefined
             : currentConcept
-                  .getDocs($creator.getLocale())
+                  .getDocs($config.getLocale())
                   ?.nodes()
                   .filter(
                       (n): n is ConceptLink =>
@@ -156,7 +156,7 @@
         );
 
         // Update the project with the new source files
-        $creator.reviseProject(
+        $config.reviseProject(
             project,
             project
                 .withSource(source, newSource)
@@ -180,7 +180,7 @@
 <div class="header">
     <TextField
         placeholder={'🔍'}
-        description={$creator.getLocale().ui.description.documentationSearch}
+        description={$config.getLocale().ui.description.documentationSearch}
         bind:text={query}
         fill
     />
@@ -188,11 +188,11 @@
         <span class="path">
             {#if $path.length > 1}
                 <Button
-                    tip={$creator.getLocale().ui.description.home}
+                    tip={$config.getLocale().ui.description.home}
                     action={home}>⇤</Button
                 >{/if}
             <Button
-                tip={$creator.getLocale().ui.description.docBack}
+                tip={$config.getLocale().ui.description.docBack}
                 action={back}>←</Button
             >
             {#each $path as concept, index}{#if index > 0}…{/if}<ConceptLinkUI
@@ -205,7 +205,7 @@
 </div>
 <section
     class="palette"
-    aria-label={$creator.getLocale().ui.section.palette}
+    aria-label={$config.getLocale().ui.section.palette}
     on:pointerup={handleDrop}
     bind:this={view}
 >
@@ -221,7 +221,7 @@
                         showOwner
                     />
                     <!-- Show the matching text -->
-                    {#if text.length > 1 || concept.getName($creator.getLocale(), false) !== text[0][0]}
+                    {#if text.length > 1 || concept.getName($config.getLocale(), false) !== text[0][0]}
                         <div class="matches">
                             {#each text as [match, index]}
                                 <Note
@@ -282,42 +282,42 @@
             <!-- Home page is default. -->
         {:else if $index}
             <ConceptsView
-                category={$creator.getLocale().term.project}
+                category={$config.getLocale().term.project}
                 concepts={$index.getPrimaryConceptsWithPurpose(Purpose.Project)}
             />
             <ConceptsView
-                category={$creator.getLocale().term.value}
+                category={$config.getLocale().term.value}
                 concepts={$index.getPrimaryConceptsWithPurpose(Purpose.Value)}
             />
             <ConceptsView
-                category={$creator.getLocale().term.evaluate}
+                category={$config.getLocale().term.evaluate}
                 concepts={$index.getPrimaryConceptsWithPurpose(
                     Purpose.Evaluate
                 )}
                 selectable={true}
             />
             <ConceptsView
-                category={$creator.getLocale().term.bind}
+                category={$config.getLocale().term.bind}
                 concepts={$index.getPrimaryConceptsWithPurpose(Purpose.Bind)}
             />
             <ConceptsView
-                category={$creator.getLocale().term.decide}
+                category={$config.getLocale().term.decide}
                 concepts={$index.getPrimaryConceptsWithPurpose(Purpose.Decide)}
             />
             <ConceptsView
-                category={$creator.getLocale().term.input}
+                category={$config.getLocale().term.input}
                 concepts={$index.getPrimaryConceptsWithPurpose(Purpose.Input)}
             />
             <ConceptsView
-                category={$creator.getLocale().term.output}
+                category={$config.getLocale().term.output}
                 concepts={$index.getPrimaryConceptsWithPurpose(Purpose.Output)}
             />
             <ConceptsView
-                category={$creator.getLocale().term.type}
+                category={$config.getLocale().term.type}
                 concepts={$index.getPrimaryConceptsWithPurpose(Purpose.Type)}
             />
             <ConceptsView
-                category={$creator.getLocale().term.document}
+                category={$config.getLocale().term.document}
                 concepts={$index.getPrimaryConceptsWithPurpose(
                     Purpose.Document
                 )}

@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { creator } from '../../db/Creator';
+    import { config } from '../../db/Creator';
     import { toShortcut, type Command } from '../editor/util/Commands';
 
     export let command: Command;
@@ -8,7 +8,7 @@
 <tr class="command">
     <td class="symbol">{command.symbol}</td>
     <td class="shortcut"><em>{toShortcut(command)}</em></td>
-    <td class="description">{command.description($creator.getLocale())}</td>
+    <td class="description">{command.description($config.getLocale())}</td>
 </tr>
 
 <style>

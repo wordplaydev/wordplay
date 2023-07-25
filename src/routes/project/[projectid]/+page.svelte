@@ -12,7 +12,7 @@
     import Loading from '@components/app/Loading.svelte';
     import { setContext } from 'svelte';
     import { browser } from '$app/environment';
-    import { creator, projects } from '@db/Creator';
+    import { config, projects } from '@db/Creator';
     import Page from '@components/app/Page.svelte';
 
     /** True if we're async loading the project, as opposed to getting it from the browser cache. */
@@ -68,5 +68,5 @@
 {:else if loading}
     <Loading />
 {:else if $page.params.projectid || error}
-    <Feedback>{$creator.getLocale().ui.feedback.unknownProject}</Feedback>
+    <Feedback>{$config.getLocale().ui.feedback.unknownProject}</Feedback>
 {/if}

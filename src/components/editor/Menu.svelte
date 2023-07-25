@@ -5,7 +5,7 @@
     import type Menu from './util/Menu';
     import { getConceptIndex } from '../project/Contexts';
     import Speech from '../lore/Speech.svelte';
-    import { creator } from '../../db/Creator';
+    import { config } from '../../db/Creator';
     import MarkupHTMLView from '../concepts/MarkupHTMLView.svelte';
     import Glyphs from '../../lore/Glyphs';
     import { RevisionSet } from './util/Menu';
@@ -33,7 +33,7 @@
     $: menuTop = Math.min(position.top, window.innerHeight - menuHeight);
 
     function handleItemClick(item: Revision | RevisionSet | undefined) {
-        menu.doEdit($creator.getLanguages(), item);
+        menu.doEdit($config.getLanguages(), item);
     }
 
     let index = getConceptIndex();
@@ -41,9 +41,9 @@
     $: selectedRevision = menu.getSelection();
     $: selectedNewNode =
         selectedRevision instanceof Revision
-            ? selectedRevision.getNewNode($creator.getLanguages())
+            ? selectedRevision.getNewNode($config.getLanguages())
             : undefined;
-    $: selectedDocs = selectedConcept?.getDocs($creator.getLocale());
+    $: selectedDocs = selectedConcept?.getDocs($config.getLocale());
     $: selectedConcept =
         $index && selectedNewNode
             ? $index.getRelevantConcept(selectedNewNode)
@@ -80,7 +80,7 @@
             event.stopPropagation();
             return;
         } else if (event.key === 'Enter' || event.key === ' ') {
-            if (menu.doEdit($creator.getLanguages(), menu.getSelection()))
+            if (menu.doEdit($config.getLanguages(), menu.getSelection()))
                 hide();
             event.stopPropagation();
             event.preventDefault();
@@ -90,14 +90,14 @@
             const match = menu.getRevisionList().findIndex((revision) =>
                 revision instanceof Revision
                     ? revision
-                          .getEditedNode($creator.getLanguages())[0]
+                          .getEditedNode($config.getLanguages())[0]
                           .nodes()
                           .some(
                               (node) =>
                                   node instanceof Token &&
                                   node.getText().startsWith(event.key)
                           )
-                    : $creator
+                    : $config
                           .getLocale()
                           .term[revision.purpose].startsWith(event.key)
             );
@@ -121,7 +121,7 @@
         role="menu"
         tabindex="-1"
         aria-orientation="vertical"
-        aria-label={$creator.getLocale().ui.description.menu}
+        aria-label={$config.getLocale().ui.description.menu}
         aria-activedescendant="menuitem-{menu.inSubmenu()
             ? menu.getSelectionIndex()[1]
             : menu.getSelectionIndex()[0]}"
@@ -133,7 +133,7 @@
                 class="revision"
                 tabindex="-1"
                 id="menuitem--1"
-                aria-label={$creator.getLocale().ui.description.menuBack}
+                aria-label={$config.getLocale().ui.description.menuBack}
                 class:selected={menu.onBack()}
                 bind:this={revisionViews[-1]}
                 on:pointerdown|stopPropagation={() =>
@@ -147,14 +147,14 @@
                 id="menuitem-{itemIndex}"
                 aria-label={entry instanceof Revision
                     ? entry
-                          .getEditedNode($creator.getLanguages())[0]
+                          .getEditedNode($config.getLanguages())[0]
                           .getDescription(
                               concretize,
-                              $creator.getLocale(),
+                              $config.getLocale(),
                               entry.context
                           )
                           .toText()
-                    : $creator.getLocale().term[entry.purpose]}
+                    : $config.getLocale().term[entry.purpose]}
                 class={`revision ${
                     itemIndex === menu.getSelectionID() ? 'selected' : ''
                 } ${entry instanceof RevisionSet ? 'submenu' : ''}`}
@@ -165,7 +165,7 @@
                 {#if entry instanceof Revision}
                     {@const revision = entry}
                     {@const [newNode] = entry.getEditedNode(
-                        $creator.getLanguages()
+                        $config.getLanguages()
                     )}
                     {#if newNode !== undefined}
                         {#if revision.isRemoval()}
@@ -178,15 +178,15 @@
                     {:else}
                         <MarkupHTMLView
                             markup={revision.getDescription(
-                                $creator.getLocale()
+                                $config.getLocale()
                             )}
                         />
                     {/if}
                 {:else if entry instanceof RevisionSet}
                     <MarkupHTMLView
                         markup={concretize(
-                            $creator.getLocale(),
-                            `/${$creator.getLocale().term[entry.purpose]}…/`
+                            $config.getLocale(),
+                            `/${$config.getLocale().term[entry.purpose]}…/`
                         )}
                     />
                 {/if}
@@ -201,7 +201,7 @@
             <Speech glyph={selectedConcept ?? Glyphs.Program} below>
                 <MarkupHTMLView
                     markup={selectedRevision.getDescription(
-                        $creator.getLocale()
+                        $config.getLocale()
                     )}
                 />
                 {#if selectedDocs}
@@ -211,7 +211,7 @@
         {:else if selectedRevision instanceof RevisionSet}
             {#each selectedRevision.revisions as revision}
                 {@const [newNode] = revision.getEditedNode(
-                    $creator.getLanguages()
+                    $config.getLanguages()
                 )}
                 {#if newNode !== undefined}
                     <div

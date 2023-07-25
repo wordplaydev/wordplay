@@ -13,7 +13,7 @@
     import Button from '../widgets/Button.svelte';
     import RootView from '../project/RootView.svelte';
     import ExpressionPlaceholder from '../../nodes/ExpressionPlaceholder';
-    import { creator } from '../../db/Creator';
+    import { config } from '../../db/Creator';
     import FunctionType from '../../nodes/FunctionType';
 
     export let node: Evaluate;
@@ -80,7 +80,7 @@
         node={input}
     />{/each}{#if nextBind}<span class="hint"
         >&nbsp;<Button
-            tip={$creator.getLocale().ui.description.addInput}
+            tip={$config.getLocale().ui.description.addInput}
             action={() => insert()}
             ><RootView node={nextBind} inline localized inert /></Button
         ></span

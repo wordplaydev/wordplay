@@ -17,7 +17,7 @@
     import type Evaluator from '@runtime/Evaluator';
     import type Project from '../../models/Project';
     import { getEvaluation } from '../project/Contexts';
-    import { creator } from '../../db/Creator';
+    import { config } from '../../db/Creator';
     import type Markup from '../../nodes/Markup';
     import concretize from '../../locale/concretize';
     import type Source from '../../nodes/Source';
@@ -53,7 +53,7 @@
                         node: node,
                         element: view,
                         messages: $evaluation?.step
-                            ? $creator
+                            ? $config
                                   .getLocales()
                                   .map((locale) =>
                                       (
@@ -61,7 +61,7 @@
                                       ).getExplanations(locale, evaluator)
                                   )
                             : evaluator.steppedToNode() && evaluator.isDone()
-                            ? $creator
+                            ? $config
                                   .getLocales()
                                   .map((locale) =>
                                       concretize(
@@ -69,7 +69,7 @@
                                           locale.node.Program.unevaluated
                                       )
                                   )
-                            : $creator
+                            : $config
                                   .getLocales()
                                   .map((locale) =>
                                       concretize(
@@ -98,7 +98,7 @@
                                   {
                                       node: primary.node,
                                       element: getNodeView(primary.node),
-                                      messages: $creator
+                                      messages: $config
                                           .getLocales()
                                           .map((locale) =>
                                               primary.explanation(
@@ -123,7 +123,7 @@
                                   {
                                       node: secondary.node,
                                       element: getNodeView(secondary.node),
-                                      messages: $creator
+                                      messages: $config
                                           .getLocales()
                                           .map((locale) =>
                                               secondary.explanation(
@@ -197,7 +197,7 @@
 </script>
 
 <!-- Render annotations by node -->
-<section aria-label={$creator.getLocale().ui.section.conflicts}>
+<section aria-label={$config.getLocale().ui.section.conflicts}>
     {#each Array.from(annotationsByNode.values()) as annotations, index}
         <Annotation id={index} {annotations} />
     {/each}

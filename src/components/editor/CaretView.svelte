@@ -20,7 +20,7 @@
     import Node from '@nodes/Node';
     import Token from '../../nodes/Token';
     import { getLanguageDirection } from '../../locale/LanguageCode';
-    import { creator } from '../../db/Creator';
+    import { config } from '../../db/Creator';
 
     export let source: Source;
     export let blink: boolean;
@@ -39,7 +39,7 @@
     $: token = $caret?.getToken();
 
     $: leftToRight =
-        getLanguageDirection($creator.getLocale().language) === 'ltr';
+        getLanguageDirection($config.getLocale().language) === 'ltr';
 
     // The index we should render
     let caretIndex: number | undefined = undefined;

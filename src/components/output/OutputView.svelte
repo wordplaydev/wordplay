@@ -16,7 +16,7 @@
     } from '../project/Contexts';
     import type Evaluator from '@runtime/Evaluator';
     import type PaintingConfiguration from './PaintingConfiguration';
-    import { creator } from '../../db/Creator';
+    import { config } from '../../db/Creator';
     import concretize from '../../locale/concretize';
 
     export let project: Project;
@@ -42,16 +42,16 @@
             : verse?.background.toCSS() ?? null;
 
     /** When creator's preferred animation factor changes, update evaluator */
-    $: evaluator.updateTimeMultiplier($creator.getAnimationFactor());
+    $: evaluator.updateTimeMultiplier($config.getAnimationFactor());
 </script>
 
 <section
     class="output"
     data-uuid="stage"
     class:mini
-    aria-label={$creator.getLocale().ui.section.output}
-    style:direction={$creator.getWritingDirection()}
-    style:writing-mode={$creator.getWritingLayout()}
+    aria-label={$config.getLocale().ui.section.output}
+    style:direction={$config.getWritingDirection()}
+    style:writing-mode={$config.getWritingLayout()}
 >
     <!-- If it's because the keyboard isn't idle, show feedback instead of the value.-->
     {#if !mini && $evaluation?.playing === true && $keyboardEditIdle === IdleKind.Typing}
@@ -63,7 +63,7 @@
                     glyph={$index?.getNodeConcept(value.creator) ??
                         value.creator.getGlyphs()}
                     invert
-                    >{#each $creator.getLocales() as locale}
+                    >{#each $config.getLocales() as locale}
                         <!-- This is some strange Svelte error were a non-exception value is sneaking through. -->
                         {#if value instanceof Exception}
                             <MarkupHTMLView
@@ -83,7 +83,7 @@
                 <ValueView {value} interactive={false} />
             {:else}
                 <h2
-                    >{$creator
+                    >{$config
                         .getLocales()
                         .map((translation) =>
                             value === undefined

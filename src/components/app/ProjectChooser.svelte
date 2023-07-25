@@ -8,7 +8,7 @@
     import ProjectPreview from './ProjectPreview.svelte';
     import Button from '../widgets/Button.svelte';
     import { PROJECT_PARAM_PLAY } from '../project/ProjectView.svelte';
-    import { creator, projects } from '../../db/Creator';
+    import { config, projects } from '../../db/Creator';
 
     const user = getUser();
 
@@ -21,8 +21,8 @@
     }
 
     function newProject() {
-        const newProjectID = $creator.createProject(
-            $creator.getLocale(),
+        const newProjectID = $config.createProject(
+            $config.getLocale(),
             $user ? $user.uid : undefined,
             "Phrase('🐈' rest: Sequence(sway() 1s))"
         );
@@ -32,23 +32,23 @@
     function copyProject(project: Project) {
         let newProject = project.copy();
         if ($user) newProject = newProject.withUser($user.uid);
-        $creator.addProject(newProject);
+        $config.addProject(newProject);
         changeProject(newProject);
     }
 
     function sortProjects(projects: Project[]): Project[] {
         return projects.sort((a, b) =>
-            a.getName().localeCompare(b.getName(), $creator.getLanguages())
+            a.getName().localeCompare(b.getName(), $config.getLanguages())
         );
     }
 
     /** Create some example projects */
     const exampleProjects = examples.map((example) =>
-        makeProject(example, $creator.getNative())
+        makeProject(example, $config.getNative())
     );
 </script>
 
-<Lead>{$creator.getLocale().ui.header.projects}</Lead>
+<Lead>{$config.getLocale().ui.header.projects}</Lead>
 <div class="projects">
     {#each sortProjects($projects
             .getCurrentProjects()
@@ -56,12 +56,12 @@
         <ProjectPreview {project} action={() => changeProject(project, true)}
             ><div class="controls"
                 ><Button
-                    tip={$creator.getLocale().ui.description.editProject}
+                    tip={$config.getLocale().ui.description.editProject}
                     action={() => changeProject(project)}>✎</Button
                 ><ConfirmButton
-                    prompt={$creator.getLocale().ui.prompt.deleteProject}
-                    tip={$creator.getLocale().ui.description.deleteProject}
-                    action={() => $creator.deleteProject(project.id)}
+                    prompt={$config.getLocale().ui.prompt.deleteProject}
+                    tip={$config.getLocale().ui.description.deleteProject}
+                    action={() => $config.deleteProject(project.id)}
                     >⨉</ConfirmButton
                 ></div
             ></ProjectPreview
@@ -69,12 +69,12 @@
     {/each}
     <div class="break" />
     <Button
-        tip={$creator.getLocale().ui.description.newProject}
+        tip={$config.getLocale().ui.description.newProject}
         action={newProject}
         ><span style:font-size="xxx-large">+</span>
     </Button>
 </div>
-<Lead>{$creator.getLocale().ui.header.examples}</Lead>
+<Lead>{$config.getLocale().ui.header.examples}</Lead>
 <div class="projects">
     {#each sortProjects(exampleProjects) as project (project.id)}
         <ProjectPreview {project} action={() => copyProject(project)} />

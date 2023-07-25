@@ -9,7 +9,7 @@
     import Note from '../widgets/Note.svelte';
     import { getNumber } from './editOutput';
     import Expression from '../../nodes/Expression';
-    import { creator } from '../../db/Creator';
+    import { config } from '../../db/Creator';
 
     export let project: Project;
     export let place: Evaluate | undefined;
@@ -22,7 +22,7 @@
         if (place === undefined) return;
         if (value.length > 0 && !valid(value)) return;
 
-        $creator.reviseProjectNodes(project, [
+        $config.reviseProjectNodes(project, [
             [
                 place,
                 place.withBindAs(
@@ -38,7 +38,7 @@
 </script>
 
 <div class="place">
-    {#each [getFirstName($creator.getLocale().output.Place.x.names), getFirstName($creator.getLocale().output.Place.y.names), getFirstName($creator.getLocale().output.Place.z.names)] as dimension}
+    {#each [getFirstName($config.getLocale().output.Place.x.names), getFirstName($config.getLocale().output.Place.y.names), getFirstName($config.getLocale().output.Place.z.names)] as dimension}
         {@const given = place?.getMappingFor(
             dimension,
             project.getNodeContext(place)
@@ -52,14 +52,14 @@
                     text={`${value}`}
                     validator={valid}
                     placeholder={getFirstName(dimension)}
-                    description={$creator.getLocale().ui.description
+                    description={$config.getLocale().ui.description
                         .editCoordinate}
                     changed={(value) => handleChange(dimension, value)}
                 />
                 <Note>m</Note>
             {:else}
                 <Note
-                    >{$creator
+                    >{$config
                         .getLocales()
                         .map((t) => t.ui.labels.computed)}</Note
                 >

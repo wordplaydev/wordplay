@@ -8,7 +8,7 @@
     import ColorChooser from '../widgets/ColorChooser.svelte';
     import type OutputProperty from '../../edit/OutputProperty';
     import { getProject, getSelectedOutput } from '../project/Contexts';
-    import { creator } from '../../db/Creator';
+    import { config } from '../../db/Creator';
 
     export let property: OutputProperty;
     export let values: OutputPropertyValueSet;
@@ -40,7 +40,7 @@
             ]
         );
 
-        $creator.reviseProjectNodes(
+        $config.reviseProjectNodes(
             $project,
             $project.getBindReplacements(
                 values.getExpressions(),

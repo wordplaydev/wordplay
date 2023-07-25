@@ -3,13 +3,13 @@
     import Glyphs from '../../lore/Glyphs';
     import { ShowMenu, toShortcut } from './util/Commands';
     import { fade } from 'svelte/transition';
-    import { creator } from '@db/Creator';
+    import { config } from '@db/Creator';
     import { docToMarkup } from '@locale/Locale';
     import MarkupHtmlView from '@components/concepts/MarkupHTMLView.svelte';
 
     $: markup = docToMarkup(
-        $creator.getLocale().ui.prompt.emptyProgram
-    ).concretize($creator.getLocale(), [toShortcut(ShowMenu)]);
+        $config.getLocale().ui.prompt.emptyProgram
+    ).concretize($config.getLocale(), [toShortcut(ShowMenu)]);
 </script>
 
 {#if markup}

@@ -42,7 +42,7 @@
     import { getPlace } from '../../output/getPlace';
     import type PaintingConfiguration from './PaintingConfiguration';
     import { toExpression } from '../../parser/Parser';
-    import { creator } from '../../db/Creator';
+    import { config } from '../../db/Creator';
 
     export let project: Project;
     export let evaluator: Evaluator;
@@ -90,7 +90,7 @@
                   .filter(
                       (output): output is Phrase => output instanceof Phrase
                   )
-                  .map((output) => output.getDescription($creator.getLocales()))
+                  .map((output) => output.getDescription($config.getLocales()))
                   .join(', ')
             : '';
 
@@ -106,10 +106,10 @@
                         : previouslyPresent.get(name);
                 if (!entered.has(name)) {
                     const previousText = previous
-                        ?.getDescription($creator.getLocales())
+                        ?.getDescription($config.getLocales())
                         .toString();
                     const currentText = output
-                        .getDescription($creator.getLocales())
+                        .getDescription($config.getLocales())
                         .toString();
                     if (
                         previousText !== currentText &&
@@ -242,9 +242,9 @@
     $: context = new RenderContext(
         verse.font ?? DefaultFont,
         verse.size ?? DefaultSize,
-        $creator.getLocales(),
+        $config.getLocales(),
         $loadedFonts,
-        $creator.getAnimationFactor()
+        $config.getAnimationFactor()
     );
     $: contentBounds = verse.getLayout(context);
 
@@ -389,7 +389,7 @@
                     : // If there's selected output, it's the first output selected
                     $selectedOutput && $selectedOutput.length > 0
                     ? getPlace(
-                          $creator.getNative(),
+                          $config.getNative(),
                           $selectedOutput[0],
                           evaluator.project.getNodeContext($selectedOutput[0])
                       )
@@ -503,11 +503,11 @@
 
                     // Add the stroke to the project's verse
                     if (strokeNodeID === undefined) {
-                        addStageContent($creator, project, group);
+                        addStageContent($config, project, group);
                     } else {
                         const node = project.getNodeByID(strokeNodeID);
                         if (node)
-                            $creator.reviseProjectNodes(project, [
+                            $config.reviseProjectNodes(project, [
                                 [node, group],
                             ]);
                     }
@@ -527,10 +527,10 @@
                     )
                 ) {
                     moveOutput(
-                        $creator,
+                        $config,
                         project,
                         $selectedOutput,
-                        $creator.getLanguages(),
+                        $config.getLanguages(),
                         newX,
                         newY,
                         false
@@ -780,7 +780,7 @@
         }
         // Remove the node that created this phrase.
         else if (event.key === 'Backspace' && (event.metaKey || event.ctrlKey))
-            $creator.reviseProjectNodes(project, [[evaluate, undefined]]);
+            $config.reviseProjectNodes(project, [[evaluate, undefined]]);
 
         // // meta-a: select all phrases
         // if (editable && event.key === 'a' && (event.metaKey || event.ctrlKey))
@@ -931,13 +931,13 @@
                     >
                         {#if enteredDescription.length > 0}
                             <p
-                                >{$creator.getLocale().term.entered}
+                                >{$config.getLocale().term.entered}
                                 {enteredDescription}</p
                             >
                         {/if}
                         {#if changedDescription.length > 0}
                             <p
-                                >{$creator.getLocale().term.changed}
+                                >{$config.getLocale().term.changed}
                                 {changedDescription}</p
                             >
                         {/if}

@@ -9,7 +9,7 @@
     } from '../components/project/Contexts';
     import { writable } from 'svelte/store';
     import Fonts from '../native/Fonts';
-    import { creator } from '../db/Creator';
+    import { config } from '../db/Creator';
     import { browser } from '$app/environment';
     import { goto } from '$app/navigation';
     import { PUBLIC_CONTEXT } from '$env/static/public';
@@ -17,7 +17,7 @@
     import { getLanguageDirection } from '../locale/LanguageCode';
 
     /** Expose the translations as context, updating them as necessary */
-    $: setContext(LocalesSymbol, $creator.getLocales());
+    $: setContext(LocalesSymbol, $config.getLocales());
 
     let loaded = false;
 
@@ -27,7 +27,7 @@
 
     // Keep the page's language and direction up to date.
     $: {
-        const language = $creator.getLocale().language;
+        const language = $config.getLocale().language;
         document.documentElement.setAttribute('lang', language);
         document.documentElement.setAttribute(
             'dir',
@@ -45,17 +45,17 @@
         document.fonts.ready.then(() => (loaded = true));
 
         // Login the user
-        $creator.login((newUser) => user.set(newUser));
+        $config.login((newUser) => user.set(newUser));
 
         // Update dark mode, now that we're mounted.
         dark.set(isDarkSet());
 
         /** Load whatever is stored in local storage */
-        $creator.loadLocal();
+        $config.loadLocal();
 
         // Have the Creator cleanup database connections.
         return () => {
-            $creator.clean();
+            $config.clean();
         };
     });
 
@@ -107,8 +107,8 @@
 {#if PUBLIC_CONTEXT !== 'prod' || $page.route.id === '/'}
     <div
         class:dark={$dark}
-        style="--animation-factor: {$creator.getAnimationFactor()}"
-        lang={$creator.getLanguages()[0]}
+        style="--animation-factor: {$config.getAnimationFactor()}"
+        lang={$config.getLanguages()[0]}
     >
         {#if loaded}
             <slot />

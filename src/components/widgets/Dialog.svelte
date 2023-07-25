@@ -1,6 +1,6 @@
 <script lang="ts">
     import { onMount, tick } from 'svelte';
-    import { creator } from '../../db/Creator';
+    import { config } from '../../db/Creator';
     import Button from './Button.svelte';
 
     export let dialog: HTMLDialogElement | undefined = undefined;
@@ -38,7 +38,7 @@
         <slot />
         <div class="close">
             <Button
-                tip={$creator.getLocale().ui.description.close}
+                tip={$config.getLocale().ui.description.close}
                 action={() => (show = false)}>❌</Button
             >
         </div>

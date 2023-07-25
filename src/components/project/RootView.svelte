@@ -19,7 +19,7 @@
     import Source from '@nodes/Source';
     import Name from '@nodes/Name';
     import Program from '@nodes/Program';
-    import { creator } from '../../db/Creator';
+    import { config } from '../../db/Creator';
 
     export let node: Node;
     /** Optional space; if not provided, all nodes are rendered with preferred space. */
@@ -93,7 +93,7 @@
                 const nameOrDocs = tag instanceof Docs ? tag.docs : tag.names;
                 // If at least one is visible, hide all those not in a preferred language.
                 if (
-                    $creator
+                    $config
                         .getLanguages()
                         .some((lang) =>
                             nameOrDocs.some((l) => l.getLanguage() === lang)
@@ -102,7 +102,7 @@
                     let first = false;
                     for (const nameOrDoc of nameOrDocs) {
                         const caretIn = $caret?.isIn(nameOrDoc, true);
-                        const selectedLocale = $creator
+                        const selectedLocale = $config
                             .getLanguages()
                             .some((t) => t === nameOrDoc.getLanguage());
                         // Not a selected language and not in the node? Hide it.

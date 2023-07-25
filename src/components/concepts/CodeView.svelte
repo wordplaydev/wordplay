@@ -9,7 +9,7 @@
     import type Node from '@nodes/Node';
     import TypeView from './TypeView.svelte';
     import { toClipboard } from '../editor/util/Clipboard';
-    import { creator } from '../../db/Creator';
+    import { config } from '../../db/Creator';
     import type Type from '../../nodes/Type';
     import type Spaces from '../../parser/Spaces';
 
@@ -54,8 +54,8 @@
     $: owner = concept ? $index?.getConceptOwner(concept) : undefined;
     $: description = concept
         ? (owner && showOwner
-              ? owner.getName($creator.getLocale(), false) + '.'
-              : '') + concept.getName($creator.getLocale(), false)
+              ? owner.getName($config.getLocale(), false) + '.'
+              : '') + concept.getName($config.getLocale(), false)
         : undefined;
 </script>
 

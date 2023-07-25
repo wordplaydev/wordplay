@@ -1,6 +1,6 @@
 <script lang="ts">
     import Button from './Button.svelte';
-    import { creator } from '../../db/Creator';
+    import { config } from '../../db/Creator';
 
     export let tip: string;
     export let action: () => void;
@@ -17,7 +17,7 @@
     {#if confirming}
         <Button
             stretch
-            tip={$creator.getLocale().ui.description.yes}
+            tip={$config.getLocale().ui.description.yes}
             action={() => action()}>{prompt}</Button
         >
     {/if}

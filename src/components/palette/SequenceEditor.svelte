@@ -4,16 +4,13 @@
     import PaletteProperty from './PaletteProperty.svelte';
     import type Project from '@models/Project';
     import type OutputExpression from '@edit/OutputExpression';
-    import { creator } from '../../db/Creator';
+    import { config } from '../../db/Creator';
     import getSequenceProperties from '../../edit/SequenceProperties';
 
     export let project: Project;
     export let outputs: OutputExpression[];
 
-    $: SequenceProperties = getSequenceProperties(
-        project,
-        $creator.getLocale()
-    );
+    $: SequenceProperties = getSequenceProperties(project, $config.getLocale());
 
     // Create a mapping from pose properties to values
     let propertyValues: Map<OutputProperty, OutputPropertyValueSet>;

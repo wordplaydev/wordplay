@@ -70,7 +70,7 @@
     import Timeline from '../evaluator/Timeline.svelte';
     import Painting from '../output/Painting.svelte';
     import type PaintingConfiguration from '../output/PaintingConfiguration';
-    import { creator } from '../../db/Creator';
+    import { config } from '../../db/Creator';
     import Arrangement from '../../db/Arrangement';
     import {
         DOCUMENTATION_SYMBOL,
@@ -286,7 +286,7 @@
                         tile
                             .withName(
                                 source.names.getLocaleText(
-                                    $creator.getLanguages()
+                                    $config.getLanguages()
                                 )
                             )
                             // If not editable, keep the source files collapsed
@@ -316,7 +316,7 @@
 
         return new Tile(
             Layout.getSourceID(index),
-            source.names.getLocaleText($creator.getLanguages()),
+            source.names.getLocaleText($config.getLanguages()),
             Content.Source,
             index === 0 || expandNewTile ? Mode.Expanded : Mode.Collapsed,
             undefined,
@@ -325,7 +325,7 @@
     }
 
     function initializedLayout() {
-        const persistedLayout = $creator.getProjectLayout(project.id);
+        const persistedLayout = $config.getProjectLayout(project.id);
         return persistedLayout === null
             ? null
             : persistedLayout.withTiles(syncTiles(persistedLayout.tiles));
@@ -400,10 +400,10 @@
         // Set the URL to reflect the latest concept selected.
         if ($path.length > 0) {
             const concept = $path[$path.length - 1];
-            const name = concept.getName($creator.getLocale(), false);
+            const name = concept.getName($config.getLocale(), false);
             const ownerName = $index
                 ?.getConceptOwner(concept)
-                ?.getName($creator.getLocale(), false);
+                ?.getName($config.getLocale(), false);
 
             searchParams.set(
                 PROJECT_PARAM_CONCEPT,
@@ -423,7 +423,7 @@
     }
 
     /** Persist the layout when it changes */
-    $: $creator.setProjectLayout(project.id, layout);
+    $: $config.setProjectLayout(project.id, layout);
 
     /** The tile being dragged */
     let draggedTile:
@@ -456,7 +456,7 @@
 
     /** Set up project wide concept index and path context */
     export let index: ConceptIndexContext = writable(
-        ConceptIndex.make(project, $creator.getLocales())
+        ConceptIndex.make(project, $config.getLocales())
     );
     setContext(ConceptIndexSymbol, index);
 
@@ -496,7 +496,7 @@
                 project && $index
                     ? ConceptIndex.make(
                           project,
-                          $creator.getLocales()
+                          $config.getLocales()
                       ).withExamples($index.examples)
                     : undefined;
 
@@ -589,7 +589,7 @@
     /** When the canvas size changes, resize the layout */
     $: if (canvasWidth && canvasHeight) {
         layout = layout.resized(
-            $creator.getArrangement(),
+            $config.getArrangement(),
             canvasWidth,
             canvasHeight
         );
@@ -608,7 +608,7 @@
     /** When the program steps language changes, get the latest value of the program's evaluation. */
     $: {
         $evaluation;
-        $creator.getLanguages();
+        $config.getLanguages();
         latestValue = $evaluator.getLatestSourceValue(selectedSource);
     }
 
@@ -728,7 +728,7 @@
 
         layout = layout
             .withTileLast(tile.withMode(mode))
-            .resized($creator.getArrangement(), canvasWidth, canvasHeight);
+            .resized($config.getArrangement(), canvasWidth, canvasHeight);
     }
 
     function setFullscreen(tile: Tile, fullscreen: boolean) {
@@ -749,7 +749,7 @@
         if (event.buttons !== 1) return;
 
         // Is the arrangement free? Start dragging the tile if so.
-        if ($creator.getArrangement() === Arrangement.Free) {
+        if ($config.getArrangement() === Arrangement.Free) {
             const tileView = document
                 .elementFromPoint(event.clientX, event.clientY)
                 ?.closest('.tile');
@@ -895,7 +895,7 @@
                 (editor) => editor.focused
             )?.caret,
             evaluator: $evaluator,
-            creator: $creator,
+            creator: $config,
             fullscreen,
             help: () => (help = !help),
         });
@@ -948,7 +948,7 @@
 
     function addSource() {
         const newProject = project.withNewSource(
-            `${$creator.getLocale().term.source}${
+            `${$config.getLocale().term.source}${
                 project.supplements.length + 1
             }`
         );
@@ -957,21 +957,21 @@
         newSource = newProject.supplements.at(-1);
 
         // This will propogate back to a new project here, updating the UI.
-        $creator.reviseProject(project, newProject);
+        $config.reviseProject(project, newProject);
     }
 
     function removeSource(source: Source) {
-        $creator.reviseProject(project, project.withoutSource(source));
+        $config.reviseProject(project, project.withoutSource(source));
     }
 
     function renameSource(id: string, name: string) {
         if (!isName(name)) return;
         const source = getSourceByID(id);
-        $creator.reviseProject(
+        $config.reviseProject(
             project,
             project.withSource(
                 source,
-                source.withName(name, $creator.getLanguages()[0])
+                source.withName(name, $config.getLanguages()[0])
             )
         );
     }
@@ -985,7 +985,7 @@
     }
 
     function revert() {
-        if (original) $creator.reviseProject(project, original);
+        if (original) $config.reviseProject(project, original);
     }
 </script>
 
@@ -1012,7 +1012,7 @@
         bind:this={canvas}
     >
         <!-- This little guy enables the scroll bars to appear at the furthest extent a window has moved. -->
-        {#if $creator.getArrangement() === Arrangement.Free}
+        {#if $config.getArrangement() === Arrangement.Free}
             <div
                 class="boundary"
                 style:left="{maxRight}px"
@@ -1027,12 +1027,12 @@
                 <div class="empty">⬇️</div>
             {:else}
                 <!-- Lay out each of the tiles according to its specification, in order if in free layout, but in layout order if not. -->
-                {#each $creator.getArrangement() === Arrangement.Free ? layout.tiles : layout.getTilesInReadingOrder() as tile (tile.id)}
+                {#each $config.getArrangement() === Arrangement.Free ? layout.tiles : layout.getTilesInReadingOrder() as tile (tile.id)}
                     {#if tile.isExpanded() && (layout.fullscreenID === undefined || layout.fullscreenID === tile.id)}
                         <TileView
                             {tile}
                             {layout}
-                            arrangement={$creator.getArrangement()}
+                            arrangement={$config.getArrangement()}
                             background={tile.kind === Content.Output
                                 ? outputBackground
                                 : null}
@@ -1064,10 +1064,10 @@
                                     <!-- Can't delete main. -->
                                     {#if source !== project.main}
                                         <ConfirmButton
-                                            tip={$creator.getLocale().ui
+                                            tip={$config.getLocale().ui
                                                 .description.deleteSource}
                                             action={() => removeSource(source)}
-                                            prompt={$creator.getLocale().ui
+                                            prompt={$config.getLocale().ui
                                                 .prompt.deleteSource}
                                             >⨉</ConfirmButton
                                         >
@@ -1078,7 +1078,7 @@
                                 {#if tile.kind === Content.Output}
                                     {#if !editable}<Button
                                             uiid="editProject"
-                                            tip={$creator.getLocale().ui
+                                            tip={$config.getLocale().ui
                                                 .description.editProject}
                                             action={() => becomeEditable()}
                                             >✏️</Button
@@ -1086,11 +1086,11 @@
                                     {#if !$evaluation.evaluator.isPlaying()}<Painting
                                             bind:painting
                                         />{/if}<Button
-                                        tip={$creator.getLocale().ui.description
+                                        tip={$config.getLocale().ui.description
                                             .grid}
                                         action={() => (grid = !grid)}>▦</Button
                                     ><Button
-                                        tip={$creator.getLocale().ui.description
+                                        tip={$config.getLocale().ui.description
                                             .fit}
                                         action={() => (fit = !fit)}
                                         >{#if fit}🔒{:else}🔓{/if}</Button
@@ -1178,18 +1178,17 @@
         <nav class="footer">
             {#if original}<Button
                     uiid="revertProject"
-                    tip={$creator.getLocale().ui.description.revertProject}
+                    tip={$config.getLocale().ui.description.revertProject}
                     active={!project.equals(original)}
                     action={() => revert()}>↺</Button
                 >{/if}
             <TextField
                 text={project.name}
-                description={$creator.getLocale().ui.description
-                    .editProjectName}
-                placeholder={$creator.getLocale().ui.placeholders.project}
+                description={$config.getLocale().ui.description.editProjectName}
+                placeholder={$config.getLocale().ui.placeholders.project}
                 border={false}
                 changed={(name) =>
-                    $creator.reviseProject(project, project.withName(name))}
+                    $config.reviseProject(project, project.withName(name))}
             />
             {#each layout.getNonSources() as tile}
                 <NonSourceTileToggle
@@ -1215,12 +1214,12 @@
             {/each}
             <Button
                 uiid="addSource"
-                tip={$creator.getLocale().ui.description.addSource}
+                tip={$config.getLocale().ui.description.addSource}
                 action={addSource}>+</Button
             >
             <span class="help"
                 ><Button
-                    tip={ShowKeyboardHelp.description($creator.getLocale())}
+                    tip={ShowKeyboardHelp.description($config.getLocale())}
                     action={() => (help = true)}
                     >{ShowKeyboardHelp.symbol}</Button
                 ></span

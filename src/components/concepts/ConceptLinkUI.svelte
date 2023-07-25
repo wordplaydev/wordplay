@@ -2,7 +2,7 @@
     import { getConceptIndex, getConceptPath } from '../project/Contexts';
     import ConceptLink from '@nodes/ConceptLink';
     import Concept from '@concepts/Concept';
-    import { creator } from '../../db/Creator';
+    import { config } from '../../db/Creator';
     import TutorialHighlight from '../app/TutorialHighlight.svelte';
     import type ConceptRef from '../../locale/ConceptRef';
 
@@ -39,9 +39,7 @@
                 if (concept && names.length > 1) {
                     const subConcept = Array.from(
                         concept.getSubConcepts()
-                    ).find((sub) =>
-                        sub.hasName(names[1], $creator.getLocale())
-                    );
+                    ).find((sub) => sub.hasName(names[1], $config.getLocale()));
                     if (subConcept !== undefined) concept = subConcept;
                     else if (concept.affiliation !== undefined) {
                         const structure = $index.getStructureConcept(
@@ -51,7 +49,7 @@
                             const subConcept = Array.from(
                                 structure.getSubConcepts()
                             ).find((sub) =>
-                                sub.hasName(names[1], $creator.getLocale())
+                                sub.hasName(names[1], $config.getLocale())
                             );
                             if (subConcept) {
                                 container = concept;
@@ -68,8 +66,8 @@
     let symbolicName: string;
     $: {
         if (concept) {
-            symbolicName = concept.getName($creator.getLocale(), true);
-            longName = concept.getName($creator.getLocale(), false);
+            symbolicName = concept.getName($config.getLocale(), true);
+            longName = concept.getName($config.getLocale(), false);
         }
     }
 
@@ -98,7 +96,7 @@
     >{:else if ui}<TutorialHighlight
     />{:else if link instanceof ConceptLink}<span
         >{#if container}{container.getName(
-                $creator.getLocale(),
+                $config.getLocale(),
                 false
             )}{/if}{link.concept.getText()}</span
     >{/if}

@@ -8,7 +8,7 @@
         Languages,
         PossibleLanguages,
     } from '@locale/LanguageCode';
-    import { creator } from '../../db/Creator';
+    import { config } from '../../db/Creator';
     import SupportedLanguages from '@locale/SupportedLanguages';
     import ExternalLink from '../app/ExternalLink.svelte';
     import concretize from '../../locale/concretize';
@@ -16,7 +16,7 @@
 
     let show: boolean;
 
-    $: languages = $creator.getLanguages();
+    $: languages = $config.getLanguages();
 
     function select(language: LanguageCode) {
         languages = languages.includes(language)
@@ -31,11 +31,11 @@
 
         // Set the layout and direction based on the preferred language.
         if (languages.length > 0) {
-            $creator.setWritingLayout(
+            $config.setWritingLayout(
                 Languages[languages[0]].layout ?? 'horizontal-tb'
             );
             // Save it.
-            $creator.setLanguages(languages);
+            $config.setLanguages(languages);
         }
     }
 </script>
@@ -43,8 +43,8 @@
 <Dialog bind:show>
     <h1
         >{concretize(
-            $creator.getLocale(),
-            $creator.getLocale().ui.header.selectedLocales
+            $config.getLocale(),
+            $config.getLocale().ui.header.selectedLocales
         ).toText()}</h1
     >
     <div class="languages">
@@ -53,7 +53,7 @@
                 <Button
                     action={() => select(lang)}
                     active={languages.length > 1}
-                    tip={$creator.getLocale().ui.description.removeLanguage}
+                    tip={$config.getLocale().ui.description.removeLanguage}
                     >{getLanguageName(lang)}<sub>{lang}</sub>
                     {#if languages.length > 1}
                         -{/if}</Button
@@ -63,8 +63,8 @@
     </div>
     <h1
         >{concretize(
-            $creator.getLocale(),
-            $creator.getLocale().ui.header.supportedLocales
+            $config.getLocale(),
+            $config.getLocale().ui.header.supportedLocales
         ).toText()}</h1
     >
     <div class="languages">
@@ -72,7 +72,7 @@
             <span class="language supported">
                 <Button
                     action={() => select(lang)}
-                    tip={$creator.getLocale().ui.description.addLanguage}
+                    tip={$config.getLocale().ui.description.addLanguage}
                     >{getLanguageName(lang)}<sub>{lang}</sub> +</Button
                 ></span
             >
@@ -83,8 +83,8 @@
         ><ExternalLink
             to="https://github.com/amyjko/wordplay/blob/main/CONTRIBUTING.md#localization"
             >{concretize(
-                $creator.getLocale(),
-                $creator.getLocale().ui.header.helpLocalize
+                $config.getLocale(),
+                $config.getLocale().ui.header.helpLocalize
             ).toText()}</ExternalLink
         ></h1
     >
@@ -97,7 +97,7 @@
     </div>
 </Dialog>
 <Button
-    tip={$creator.getLocale().ui.description.changeLanguage}
+    tip={$config.getLocale().ui.description.changeLanguage}
     action={() => (show = true)}
 >
     <span class="chosen">

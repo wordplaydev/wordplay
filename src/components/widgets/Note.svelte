@@ -1,10 +1,10 @@
 <script lang="ts">
-    import { creator } from '../../db/Creator';
+    import { config } from '../../db/Creator';
 
     export let center: boolean = false;
 </script>
 
-<div class="note" class:center style:direction={$creator.getWritingDirection()}
+<div class="note" class:center style:direction={$config.getWritingDirection()}
     ><slot /></div
 >
 

@@ -9,7 +9,7 @@
     import { getCaret } from '../project/Contexts';
     import NodeView from './NodeView.svelte';
     import Button from '../widgets/Button.svelte';
-    import { creator } from '../../db/Creator';
+    import { config } from '../../db/Creator';
 
     export let nodes: Node[];
     export let elide: boolean = false;
@@ -77,13 +77,13 @@
 
 {#if hiddenBefore > 0}
     <Button
-        tip={$creator.getLocale().ui.description.expandCode}
+        tip={$config.getLocale().ui.description.expandCode}
         action={() => (elide = false)}
         ><span class="count">… {hiddenBefore}</span></Button
     >{/if}{#each visible as node (node.id)}<NodeView
         {node}
     />{/each}{#if hiddenAfter > 0}<Button
-        tip={$creator.getLocale().ui.description.expandCode}
+        tip={$config.getLocale().ui.description.expandCode}
         action={() => (elide = false)}
         ><span class="count">… {hiddenAfter}</span></Button
     >{/if}
