@@ -74,7 +74,7 @@ export default class BindConcept extends Concept {
         return new Set();
     }
 
-    equals(concept: Concept) {
+    isEqualTo(concept: Concept) {
         return concept instanceof BindConcept && concept.bind === this.bind;
     }
 }

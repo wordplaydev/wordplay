@@ -91,7 +91,7 @@ export default class StreamConcept extends Concept {
         return new Set(this.inputs);
     }
 
-    equals(concept: Concept) {
+    isEqualTo(concept: Concept) {
         return (
             concept instanceof StreamConcept &&
             concept.definition.names

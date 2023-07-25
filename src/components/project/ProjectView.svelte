@@ -366,7 +366,7 @@
                               Tile.randomPosition(1024, 768)
                           ),
                           ...project.getSources().map((source, index) =>
-                              // If not editable, collapse the source.
+                              // If not editable, collapse the source initially.
                               createSourceTile(source, index).withMode(
                                   editable &&
                                       (index === 0 || source === newSource)
@@ -487,37 +487,34 @@
     let latestProject: Project | undefined;
 
     // When the project changes, languages change, and the keyboard is idle, recompute the concept index.
-    $: {
-        if ($keyboardEditIdle && latestProject !== project) {
-            latestProject = project;
+    $: if ($keyboardEditIdle && latestProject !== project) {
+        latestProject = project;
 
-            // Make a new concept index with the new project and translations, but the old examples.
-            const newIndex =
-                project && $index
-                    ? ConceptIndex.make(
-                          project,
-                          $config.getLocales()
-                      ).withExamples($index.examples)
-                    : undefined;
+        // Make a new concept index with the new project and translations, but the old examples.
+        const newIndex =
+            project && $index
+                ? ConceptIndex.make(project, $config.getLocales()).withExamples(
+                      $index.examples
+                  )
+                : undefined;
 
-            // Set the index
-            index.set(newIndex);
+        // Set the index
+        index.set(newIndex);
 
-            // Map the old path to the new one using concept equality.
-            path.set(
-                $index
-                    ? $path
-                          .map((concept) => $index?.getEquivalent(concept))
-                          .filter((c): c is Concept => c !== undefined)
-                    : []
-            );
+        // Map the old path to the new one using concept equality.
+        path.set(
+            $index
+                ? $path
+                      .map((concept) => $index?.getEquivalent(concept))
+                      .filter((c): c is Concept => c !== undefined)
+                : []
+        );
 
-            // Ensure the selected source index is in bounds.
-            selectedSourceIndex = Math.min(
-                selectedSourceIndex,
-                project.supplements.length
-            );
-        }
+        // Ensure the selected source index is in bounds.
+        selectedSourceIndex = Math.min(
+            selectedSourceIndex,
+            project.supplements.length
+        );
     }
 
     // When the path changes, show the docs and mirror the concept in the URL.
@@ -525,7 +522,9 @@
     $: {
         if (
             $path.length !== latestPath.length ||
-            !$path.every((concept, index) => concept === latestPath[index])
+            !$path.every((concept, index) =>
+                concept.isEqualTo(latestPath[index])
+            )
         ) {
             const docs = layout.getDocs();
             if (docs) setMode(docs, Mode.Expanded);
@@ -563,15 +562,13 @@
     }
 
     /** When stepping and the current step changes, change the active source. */
-    $: {
-        if ($evaluation.playing === false && $evaluation.step) {
-            const source = project.getSourceOf($evaluation.step.node);
-            const tile = source
-                ? layout.getSource(project.getIndexOfSource(source))
-                : undefined;
-            if (tile && tile.mode === Mode.Collapsed) {
-                setMode(tile, Mode.Expanded);
-            }
+    $: if ($evaluation.playing === false && $evaluation.step) {
+        const source = project.getSourceOf($evaluation.step.node);
+        const tile = source
+            ? layout.getSource(project.getIndexOfSource(source))
+            : undefined;
+        if (tile && tile.mode === Mode.Collapsed) {
+            setMode(tile, Mode.Expanded);
         }
     }
 
@@ -620,15 +617,13 @@
     $: tileIDSequence = layout.tiles.map((tile) => tile.id).join(',');
 
     /** If the source file corresponding to the menu closes, hide the menu. */
-    $: {
-        if (menu) {
-            // Find the tile corresponding to the menu's source file.
-            const index = project.getSources().indexOf(menu.getCaret().source);
-            const tile = layout.tiles.find(
-                (tile) => tile.id === Layout.getSourceID(index)
-            );
-            if (tile && tile.isCollapsed()) hideMenu();
-        }
+    $: if (menu) {
+        // Find the tile corresponding to the menu's source file.
+        const index = project.getSources().indexOf(menu.getCaret().source);
+        const tile = layout.tiles.find(
+            (tile) => tile.id === Layout.getSourceID(index)
+        );
+        if (tile && tile.isCollapsed()) hideMenu();
     }
 
     function hideMenu() {

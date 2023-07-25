@@ -136,5 +136,5 @@ export default abstract class Concept {
         return concepts;
     }
 
-    abstract equals(concept: Concept): boolean;
+    abstract isEqualTo(concept: Concept): boolean;
 }

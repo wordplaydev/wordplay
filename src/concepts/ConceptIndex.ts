@@ -229,7 +229,7 @@ export default class ConceptIndex {
     }
 
     getEquivalent(concept: Concept): Concept | undefined {
-        return this.concepts.find((c) => c.equals(concept));
+        return this.concepts.find((c) => c.isEqualTo(concept));
     }
 
     /** Returns all concepts that are not subconcepts and that have the given purpose. */

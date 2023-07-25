@@ -155,7 +155,7 @@ export default class StructureConcept extends Concept {
         ]);
     }
 
-    equals(concept: Concept) {
+    isEqualTo(concept: Concept) {
         return (
             concept instanceof StructureConcept &&
             concept.definition === this.definition
