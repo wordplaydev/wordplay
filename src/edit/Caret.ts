@@ -30,6 +30,7 @@ import type Context from '../nodes/Context';
 import type Type from '../nodes/Type';
 import type LanguageCode from '../locale/LanguageCode';
 import Doc from '../nodes/Doc';
+import NodeRef from '../locale/NodeRef';
 
 export type InsertionContext = { before: Node[]; after: Node[] };
 export type CaretPosition = number | Node;
@@ -101,6 +102,24 @@ export default class Caret {
             this.tokenIncludingSpace &&
             this.source.getTokenTextPosition(this.tokenIncludingSpace) ===
                 this.position
+        );
+    }
+
+    insideToken() {
+        if (
+            this.tokenExcludingSpace === undefined ||
+            this.position instanceof Node
+        )
+            return false;
+        const start = this.source.getTokenTextPosition(
+            this.tokenExcludingSpace
+        );
+        const end = this.source.getTokenLastPosition(this.tokenExcludingSpace);
+        return (
+            start !== undefined &&
+            end !== undefined &&
+            this.position > start &&
+            this.position < end
         );
     }
 
@@ -1081,24 +1100,58 @@ export default class Caret {
     getDescription(type: Type | undefined, context: Context): string {
         const locale = context.native.locales[0];
 
+        /** If the caret is a node, describe the node. */
         if (this.position instanceof Node) {
-            const label = this.position.getLabel(locale);
-            const description = this.position
-                .getDescription(concretize, locale, context)
-                .toText();
-            return `${type ? type.toWordplay() : label}, ${description}`;
+            return concretize(
+                locale,
+                locale.ui.edit.node,
+                new NodeRef(this.position, locale, context),
+                type ? new NodeRef(type, locale, context) : undefined
+            ).toText();
         }
 
-        const token =
-            this.tokenExcludingSpace ?? this.tokenIncludingSpace ?? undefined;
+        const { before, after } = this.getNodesBetween();
+        const beforeNode = before[0];
+        const afterNode = after[0];
 
-        if (token === undefined) return '';
+        if (this.tokenExcludingSpace && this.isInsideText()) {
+            return concretize(
+                locale,
+                locale.ui.edit.inside,
+                new NodeRef(this.tokenExcludingSpace, locale, context)
+            ).toText();
+        } else if (this.isEmptyLine()) {
+            return concretize(
+                locale,
+                locale.ui.edit.line,
+                beforeNode
+                    ? new NodeRef(beforeNode, locale, context)
+                    : undefined,
+                afterNode ? new NodeRef(afterNode, locale, context) : undefined
+            ).toText();
+        } else if (this.tokenIncludingSpace) {
+            if (this.tokenPrior && this.tokenPrior !== this.tokenIncludingSpace)
+                return concretize(
+                    locale,
+                    locale.ui.edit.between,
+                    beforeNode
+                        ? new NodeRef(beforeNode, locale, context)
+                        : undefined,
+                    afterNode
+                        ? new NodeRef(afterNode, locale, context)
+                        : undefined
+                ).toText();
+            else
+                return concretize(
+                    locale,
+                    locale.ui.edit.before,
+                    afterNode
+                        ? new NodeRef(afterNode, locale, context)
+                        : undefined
+                ).toText();
+        }
 
-        return concretize(
-            locale,
-            locale.ui.edit.before,
-            token.getDescription(concretize, locale, context).toText()
-        ).toText();
+        return '';
     }
 
     /** Gets the language code of the current content, if a language tagged token, or inside one */

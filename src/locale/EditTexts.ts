@@ -1,10 +1,16 @@
 import type { Template } from './Locale';
 
 type EditTexts = {
-    /** A way to say "before [description]" */
+    /** A way to say "on node of type [type]" */
+    node: Template;
+    /** A way to say "before [token], at the beginning of the program" */
     before: Template;
     /** A way to say "inside [description]" */
     inside: Template;
+    /** A way to say "between [token1] and [token2]" */
+    between: Template;
+    /** A way to say "empty line between [node1] and [node2]" */
+    line: Template;
     /** $1: node description */
     assign: Template;
     /** $1: node description */

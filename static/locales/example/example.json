@@ -1702,8 +1702,11 @@
             "offline": "$?"
         },
         "edit": {
+            "node": "$?",
             "before": "$?",
             "inside": "$?",
+            "between": "$?",
+            "line": "$?",
             "assign": "$?",
             "append": "$?",
             "remove": "$?",

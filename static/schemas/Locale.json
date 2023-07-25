@@ -5162,7 +5162,11 @@
                 },
                 "before": {
                   "$ref": "#/definitions/Template",
-                  "description": "A way to say \"before [description]\""
+                  "description": "A way to say \"before [token], at the beginning of the program\""
+                },
+                "between": {
+                  "$ref": "#/definitions/Template",
+                  "description": "A way to say \"between [token1] and [token2]\""
                 },
                 "bind": {
                   "description": "Shown in menus to offer to name an expression with a bind",
@@ -5171,6 +5175,14 @@
                 "inside": {
                   "$ref": "#/definitions/Template",
                   "description": "A way to say \"inside [description]\""
+                },
+                "line": {
+                  "$ref": "#/definitions/Template",
+                  "description": "A way to say \"empty line between [node1] and [node2]\""
+                },
+                "node": {
+                  "$ref": "#/definitions/Template",
+                  "description": "A way to say \"on node of type [type]\""
                 },
                 "remove": {
                   "$ref": "#/definitions/Template",
@@ -5190,8 +5202,11 @@
                 }
               },
               "required": [
+                "node",
                 "before",
                 "inside",
+                "between",
+                "line",
                 "assign",
                 "append",
                 "remove",
