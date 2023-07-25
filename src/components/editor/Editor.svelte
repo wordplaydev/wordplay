@@ -66,7 +66,6 @@
     import Expression from '../../nodes/Expression';
     import { DOCUMENTATION_SYMBOL, TYPE_SYMBOL } from '../../parser/Symbols';
     import { creator } from '../../db/Creator';
-    import concretize from '../../locale/concretize';
     import Button from '../widgets/Button.svelte';
     import OutputView from '../output/OutputView.svelte';
     import ConceptLinkUI from '../concepts/ConceptLinkUI.svelte';
@@ -126,6 +125,14 @@
             undefined
         )
     );
+
+    $: caretExpressionType =
+        $caret.position instanceof Expression
+            ? $caret.position
+                  .getType(context)
+                  .simplify(context)
+                  .generalize(context)
+            : undefined;
 
     // A store of highlighted nodes, used by node views to highlight themselves.
     // We store centrally since the logic that determines what's highlighted is in the Editor.
@@ -236,13 +243,6 @@
     $: caret.set($caret.withSource(source));
 
     $: context = project.getContext(source);
-    $: caretExpressionType =
-        $caret.position instanceof Expression
-            ? $caret.position
-                  .getType(context)
-                  .simplify(context)
-                  .generalize(context)
-            : undefined;
 
     // Hide the menu when the caret changes.
     $: if ($caret) hideMenu();
@@ -1100,75 +1100,76 @@
 
         let edit: Edit | undefined = undefined;
 
+        // Somehow no reference to the input? Bail.
+        if (input === null) return;
+
         // Get the character that was typed into the text box.
-        if (input) {
-            // Wrap the string in a unicode wrapper so we can account for graphemes.
-            const value = new UnicodeString(input.value);
+        // Wrap the string in a unicode wrapper so we can account for graphemes.
+        const value = new UnicodeString(input.value);
 
-            // Get the last grapheme entered.
-            const lastChar = value.substring(
-                value.getLength() - 1,
-                value.getLength()
-            );
+        // Get the last grapheme entered.
+        const lastChar = value.substring(
+            value.getLength() - 1,
+            value.getLength()
+        );
 
-            let newCaret = $caret;
-            let newSource: Source | undefined = source;
+        let newCaret = $caret;
+        let newSource: Source | undefined = source;
 
-            if (newCaret.position instanceof Node) {
-                const edit = newCaret.deleteNode(newCaret.position);
-                if (edit) {
-                    newSource = edit[0];
-                    newCaret = edit[1];
-                } else return;
-            }
-
-            if (typeof newCaret.position === 'number') {
-                // If the last keyboard value length is equal to the new one, then it was a diacritic.
-                // Replace the last grapheme entered with this grapheme, then reset the input text field.
-                if (
-                    lastKeyboardInputValue !== undefined &&
-                    lastKeyboardInputValue.getLength() === value.getLength()
-                ) {
-                    const char = lastChar.toString();
-                    newSource = source.withPreviousGraphemeReplaced(
-                        char,
-                        newCaret.position
-                    );
-                    if (newSource) {
-                        // Reset the hidden field.
-                        input.value = '';
-                        edit = [
-                            newSource,
-                            new Caret(
-                                newSource,
-                                newCaret.position,
-                                undefined,
-                                undefined,
-                                newSource.getTokenAt(newCaret.position)
-                            ),
-                        ];
-                    }
-                }
-                // Otherwise, just insert the grapheme and limit the input field to the last character.
-                else {
-                    const char = lastChar.toString();
-
-                    // If it was a placeholder, first remove the
-                    edit = newCaret.insert(char);
-                    if (edit) {
-                        if (value.getLength() > 1)
-                            input.value = lastChar.toString();
-                    }
-                    // Rest the field to the last character.
-                }
-            }
-
-            // Remember the last value of the input field for comparison on the next keystroke.
-            lastKeyboardInputValue = new UnicodeString(input.value);
-
-            // Prevent the OS from doing anything with this input.
-            event.preventDefault();
+        if (newCaret.position instanceof Node) {
+            const edit = newCaret.deleteNode(newCaret.position);
+            if (edit) {
+                newSource = edit[0];
+                newCaret = edit[1];
+            } else return;
         }
+
+        if (typeof newCaret.position === 'number') {
+            // If the last keyboard value length is equal to the new one, then it was a diacritic.
+            // Replace the last grapheme entered with this grapheme, then reset the input text field.
+            if (
+                lastKeyboardInputValue !== undefined &&
+                lastKeyboardInputValue.getLength() === value.getLength()
+            ) {
+                const char = lastChar.toString();
+                newSource = source.withPreviousGraphemeReplaced(
+                    char,
+                    newCaret.position
+                );
+                if (newSource) {
+                    // Reset the hidden field.
+                    input.value = '';
+                    edit = [
+                        newSource,
+                        new Caret(
+                            newSource,
+                            newCaret.position,
+                            undefined,
+                            undefined,
+                            newSource.getTokenAt(newCaret.position)
+                        ),
+                    ];
+                }
+            }
+            // Otherwise, just insert the grapheme and limit the input field to the last character.
+            else {
+                const char = lastChar.toString();
+
+                // If it was a placeholder, first remove the
+                edit = newCaret.insert(char);
+                if (edit) {
+                    if (value.getLength() > 1)
+                        input.value = lastChar.toString();
+                }
+                // Rest the field to the last character.
+            }
+        }
+
+        // Remember the last value of the input field for comparison on the next keystroke.
+        lastKeyboardInputValue = new UnicodeString(input.value);
+
+        // Prevent the OS from doing anything with this input.
+        event.preventDefault();
 
         // Did we make an update?
         if (edit) handleEdit(edit, IdleKind.Typing, true);
@@ -1292,45 +1293,12 @@
                         />{:else}{caretExpressionType.toWordplay()}{/if}{/if}
                 <PlaceholderView
                     node={$caret.position}
-                />{/if}{#if document.activeElement?.contains(editor)}<div
+                />{/if}{#if document.activeElement === input}<div
                     class="screen-reader-description"
                     aria-live="polite"
                     aria-atomic="true"
                     aria-relevant="all"
-                    >{$caret.position instanceof Node
-                        ? $caret.position.getLabel($creator.getLocale()) +
-                          ', ' +
-                          $caret.position
-                              .getDescription(
-                                  concretize,
-                                  $creator.getLocale(),
-                                  project.getNodeContext($caret.position)
-                              )
-                              .toText() +
-                          (caretExpressionType
-                              ? `, ${caretExpressionType.toWordplay()}`
-                              : '')
-                        : $caret.tokenExcludingSpace
-                        ? concretize(
-                              $creator.getLocale(),
-                              $creator.getLocale().ui.edit.before,
-                              source.code.at($caret.position) ?? ''
-                          ).toText()
-                        : $caret.tokenIncludingSpace
-                        ? concretize(
-                              $creator.getLocale(),
-                              $creator.getLocale().ui.edit.before,
-                              $caret.tokenIncludingSpace
-                                  .getDescription(
-                                      concretize,
-                                      $creator.getLocale(),
-                                      project.getNodeContext(
-                                          $caret.tokenIncludingSpace
-                                      )
-                                  )
-                                  .toText()
-                          ).toText()
-                        : ''}</div
+                    >{$caret.getDescription(caretExpressionType, context)}</div
                 >{/if}</div
         >
     {/key}

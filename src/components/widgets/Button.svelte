@@ -76,4 +76,8 @@
     button.scale:hover[aria-disabled='false'] {
         transform: scale(1.25);
     }
+
+    :global(button:focus .token-view) {
+        color: var(--wordplay-highlight);
+    }
 </style>

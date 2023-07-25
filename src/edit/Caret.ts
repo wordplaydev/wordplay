@@ -25,6 +25,9 @@ import TextLiteral from '../nodes/TextLiteral';
 import NumberLiteral from '../nodes/NumberLiteral';
 import BooleanLiteral from '../nodes/BooleanLiteral';
 import type Literal from '../nodes/Literal';
+import concretize from '../locale/concretize';
+import type Context from '../nodes/Context';
+import type Type from '../nodes/Type';
 
 export type InsertionContext = { before: Node[]; after: Node[] };
 export type CaretPosition = number | Node;
@@ -1071,5 +1074,31 @@ export default class Caret {
                 ];
             }
         }
+    }
+
+    getDescription(type: Type | undefined, context: Context): string {
+        const locale = context.native.locales[0];
+
+        if (this.position instanceof Node) {
+            const label = this.position.getLabel(locale);
+            const description = this.position
+                .getDescription(concretize, locale, context)
+                .toText();
+            return `${type ? type.toWordplay() : label}, ${description}`;
+        } else if (this.tokenExcludingSpace) {
+            return concretize(
+                locale,
+                locale.ui.edit.before,
+                this.source.code.at(this.position) ?? ''
+            ).toText();
+        } else if (this.tokenIncludingSpace)
+            return concretize(
+                locale,
+                locale.ui.edit.before,
+                this.tokenIncludingSpace
+                    .getDescription(concretize, locale, context)
+                    .toText()
+            ).toText();
+        else return '';
     }
 }

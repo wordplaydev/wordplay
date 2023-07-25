@@ -70,9 +70,3 @@
             node={tokenize(command.symbol).getTokens()[0]}
         />{:else}{command.symbol}{/if}</Button
 >
-
-<style>
-    :global(button:focus .token-view) {
-        color: var(--wordplay-highlight);
-    }
-</style>

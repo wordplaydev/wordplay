@@ -335,7 +335,7 @@
             ]
         },
         "BinaryEvaluate": {
-            "name": "binary operation",
+            "name": "binary evaluate",
             "description": "$1 operation",
             "emotion": "insecure",
             "doc": [
@@ -748,7 +748,7 @@
         },
         "NumberLiteral": {
             "name": "number",
-            "description": "$1 $2",
+            "description": "$1 $2[$2|]",
             "emotion": "excited",
             "doc": "I'm a @Number.",
             "start": "$1!",
@@ -1009,7 +1009,7 @@
             }
         },
         "UnaryEvaluate": {
-            "name": "unary operation",
+            "name": "unary evaluate",
             "description": "$1",
             "emotion": "kind",
             "doc": [
@@ -1101,6 +1101,7 @@
         },
         "FunctionType": {
             "name": "function type",
+            "description": "function $1",
             "emotion": "curious",
             "doc": [
                 "I represent a @FunctionDefinition. I'm really helpful if you want to say what kind of function a @Bind holds! Like this:",

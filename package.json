@@ -14,8 +14,8 @@
         "preview": "vite preview",
         "stage": "firebase use dev && firebase deploy",
         "release": "firebase use prod && firebase deploy",
-        "tutorial-schema": "npx ts-json-schema-generator --tsconfig tsconfig.json --path 'src/tutorial/Tutorial.ts' --type 'Tutorial' --out static/schemas/Tutorial.json",
-        "locale-schema": "npx ts-json-schema-generator --tsconfig tsconfig.json --path 'src/locale/Locale.ts' --type 'Locale' --out static/schemas/Locale.json",
+        "tutorial-schema": "npx ts-json-schema-generator --no-type-check --tsconfig tsconfig.json --path 'src/tutorial/Tutorial.ts' --type 'Tutorial' --out static/schemas/Tutorial.json",
+        "locale-schema": "npx ts-json-schema-generator --no-type-check --tsconfig tsconfig.json --path 'src/locale/Locale.ts' --type 'Locale' --out static/schemas/Locale.json",
         "schemas": "npm run tutorial-schema && npm run locale-schema",
         "verify-locales": "npx tsx verify-locales.ts",
         "locales": "npm-watch verify-locales"

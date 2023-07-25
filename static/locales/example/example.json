@@ -747,6 +747,7 @@
         },
         "FunctionType": {
             "name": "$?",
+            "description": "$?",
             "emotion": "$?",
             "doc": "$?"
         },

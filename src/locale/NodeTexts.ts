@@ -577,7 +577,7 @@ type NodeTexts = {
     ConversionType: NodeText;
     ExceptionType: NodeText;
     FunctionDefinitionType: NodeText;
-    FunctionType: NodeText;
+    FunctionType: DescriptiveNodeText;
     /**
      * Description
      * $1: Type or undefined

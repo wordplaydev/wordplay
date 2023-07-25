@@ -729,6 +729,7 @@
         },
         "FunctionType": {
             "name": "tipo de función",
+            "description": "$?",
             "emotion": "neutral",
             "doc": "$?"
         },
