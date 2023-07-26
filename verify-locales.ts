@@ -330,10 +330,12 @@ function verifyTutorial(locale: Locale, tutorial: Tutorial) {
 
     for (let { kind, list } of programs) {
         let code: string | undefined = undefined;
+        let conflictsIntentional = false;
         // If it's a Performance import, get it's code. Otherwise, join lines.
         if (kind === 'use') {
-            const name = list[0];
-            const inputs = list.slice(1);
+            conflictsIntentional = list[0] === 'conflict';
+            const name = list[1];
+            const inputs = list.slice(2);
             const fun = Performances[name];
             if (fun === undefined)
                 bad(
@@ -367,7 +369,10 @@ function verifyTutorial(locale: Locale, tutorial: Tutorial) {
             //         )
             //     );
             // }
-            if (project.getPrimaryConflicts().size > 0) {
+            if (
+                !conflictsIntentional &&
+                project.getPrimaryConflicts().size > 0
+            ) {
                 bad(2, `Uh oh, there's a conflict in...\n\n${code}`);
             }
         }
