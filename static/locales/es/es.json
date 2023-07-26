@@ -968,14 +968,24 @@
                     "names": ["segmentar"],
                     "inputs": [{ "doc": "$?", "names": "delimitador" }]
                 },
-                "combine": {
-                    "doc": "$?",
-                    "names": "combinar",
-                    "inputs": [{ "doc": "$?", "names": "texto" }]
-                },
                 "has": {
                     "doc": "$?",
                     "names": ["tiene"],
+                    "inputs": [{ "doc": "$?", "names": "texto" }]
+                },
+                "starts": {
+                    "doc": "$?",
+                    "names": ["$? starts"],
+                    "inputs": [{ "doc": "$?", "names": "texto" }]
+                },
+                "ends": {
+                    "doc": "$?",
+                    "names": ["$? ends"],
+                    "inputs": [{ "doc": "$?", "names": "texto" }]
+                },
+                "combine": {
+                    "doc": "$?",
+                    "names": "combinar",
                     "inputs": [{ "doc": "$?", "names": "texto" }]
                 }
             },

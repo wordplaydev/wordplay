@@ -977,6 +977,16 @@
                     "doc": "$?",
                     "names": ["tiene"],
                     "inputs": [{ "doc": "$?", "names": "$?" }]
+                },
+                "starts": {
+                    "doc": "$?",
+                    "names": ["$? starts"],
+                    "inputs": [{ "doc": "$?", "names": "texto" }]
+                },
+                "ends": {
+                    "doc": "$?",
+                    "names": ["$? ends"],
+                    "inputs": [{ "doc": "$?", "names": "texto" }]
                 }
             },
             "conversion": { "list": "$?", "number": "$?" }

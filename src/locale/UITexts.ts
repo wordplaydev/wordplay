@@ -211,7 +211,7 @@ type UITexts = {
     edit: EditTexts;
     error: {
         tutorial: string;
-        /** The placeholder string indicating that a locale string is not yet written */
+        /** The placeholder indicating that a locale string is not yet written */
         unwritten: string;
         /** The placeholder string indicating that a template string could not be parsed */
         template: string;

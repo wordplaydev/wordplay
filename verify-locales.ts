@@ -264,6 +264,14 @@ function verifyLocale(locale: Locale) {
             2,
             `Locale has ${unwritten.length} unwritten strings ("$?"). Keep writing!`
         );
+
+    let outofdate = pairs.filter(([, , value]) => value.startsWith('$!'));
+
+    if (outofdate.length > 0)
+        bad(
+            2,
+            `Locale has ${outofdate.length} potentially out of date strings ("$1"). Compare them against the English translation.`
+        );
 }
 
 function check(line: Line): boolean {

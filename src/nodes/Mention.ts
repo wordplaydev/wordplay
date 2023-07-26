@@ -77,6 +77,11 @@ export default class Mention extends Content {
             );
             replacements.push([this, replacement]);
             return replacement;
+        } else if (name === '!') {
+            // Just return an empty token.
+            const invisible = new Token('', Symbol.Words);
+            replacements.push([this, invisible]);
+            return invisible;
         } else if (numberMatch !== null) {
             // Find the corresponding input
             const number = parseInt(numberMatch[0]);
