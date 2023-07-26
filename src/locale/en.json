@@ -3081,7 +3081,7 @@
             "enterEmail": "It looks like you're logging in on a different device. Can you enter your email again?",
             "sent": "Check your email for a link.",
             "success": "Account created!",
-            "failure": "Couldn't reach the database",
+            "failure": "Couldn't reach the internet...",
             "expiredFailure": "This link expired.",
             "invalidFailure": "This link isn't valid.",
             "emailFailure": "This email wasn't valid.",
