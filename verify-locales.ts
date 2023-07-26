@@ -13,6 +13,7 @@ import Source from './src/nodes/Source';
 import { Native } from './src/native/Native';
 import Node from './src/nodes/Node';
 import Ajv from 'ajv';
+import { Performances } from './src/tutorial/Performances';
 
 // Read in and compile the two schema
 const localeSchema = JSON.parse(
@@ -277,7 +278,7 @@ function verifyLocale(locale: Locale) {
 function check(line: Line): boolean {
     return (
         line !== null &&
-        ['fit', 'fix', 'edit'].includes((line as Performance)[0])
+        ['fit', 'fix', 'edit', 'use'].includes((line as Performance)[0])
     );
 }
 
@@ -287,12 +288,22 @@ function verifyTutorial(locale: Locale, tutorial: Tutorial) {
             const programs = [
                 // Verify act programs
                 ...(check(act.performance)
-                    ? [act.performance.slice(1).join('\n')]
+                    ? [
+                          {
+                              kind: act.performance[0],
+                              list: act.performance.slice(1),
+                          },
+                      ]
                     : []),
                 // Verify scene programs
                 ...act.scenes
                     .filter((scene) => check(scene.performance))
-                    .map((scene) => scene.performance.slice(1).join('\n'))
+                    .map((scene) => {
+                        return {
+                            kind: scene.performance[0],
+                            list: scene.performance.slice(1),
+                        };
+                    })
                     .flat(),
                 // Verify all programs in the scenes
                 ...act.scenes
@@ -303,7 +314,12 @@ function verifyTutorial(locale: Locale, tutorial: Tutorial) {
                     // Filter out anything that's not code, that has an intentional conflict, or is an performance import
                     .filter((line): line is Performance => check(line))
                     // Map the code onto their start source code
-                    .map((performance) => performance.slice(1).join('\n'))
+                    .map((performance) => {
+                        return {
+                            kind: performance[0],
+                            list: performance.slice(1),
+                        };
+                    })
                     .flat(),
             ];
             return programs;
@@ -312,30 +328,50 @@ function verifyTutorial(locale: Locale, tutorial: Tutorial) {
 
     const native = new Native([locale]);
 
-    for (const code of programs) {
-        const project = new Project(
-            null,
-            'test',
-            new Source('start', code),
-            [],
-            native
-        );
-        project.analyze();
-        project.getAnalysis();
-        // const context = project.getContext(project.main);
-        // for (const conflict of Array.from(
-        //     project.getPrimaryConflicts().values()
-        // ).flat()) {
-        //     const conflictingNodes = conflict.getConflictingNodes();
-        //     console.error(
-        //         conflictingNodes.primary.explanation(
-        //             SupportedLocales[0],
-        //             context
-        //         )
-        //     );
-        // }
-        if (project.getPrimaryConflicts().size > 0)
-            bad(2, `Uh oh, there's a conflict in ${code}`);
+    for (let { kind, list } of programs) {
+        let code: string | undefined = undefined;
+        // If it's a Performance import, get it's code. Otherwise, join lines.
+        if (kind === 'use') {
+            const name = list[0];
+            const inputs = list.slice(1);
+            const fun = Performances[name];
+            if (fun === undefined)
+                bad(
+                    2,
+                    `use ${name} doesn't exist in Performances. Is it misspelled or missing?`
+                );
+            else {
+                code = fun.apply(null, inputs);
+            }
+        } else code = list.join('\n');
+
+        if (code) {
+            const project = new Project(
+                null,
+                'test',
+                new Source('start', code),
+                [],
+                native
+            );
+            project.analyze();
+            project.getAnalysis();
+            // const context = project.getContext(project.main);
+            // for (const conflict of Array.from(
+            //     project.getPrimaryConflicts().values()
+            // ).flat()) {
+            //     const conflictingNodes = conflict.getConflictingNodes();
+            //     console.error(
+            //         conflictingNodes.primary.explanation(
+            //             SupportedLocales[0],
+            //             context
+            //         )
+            //     );
+            // }
+            if (project.getPrimaryConflicts().size > 0) {
+                bad(2, `Uh oh, there's a conflict in...`);
+                bad(2, code);
+            }
+        }
     }
 
     // Build a list of all concept links

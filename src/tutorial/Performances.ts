@@ -128,8 +128,9 @@ Stage([] background: Color(0% 0 0°))`,
     EvaluateDance3: () => `•Character(glyph•"" place•Place rotation•#°)
 Stage([]  background:Color(0% 0 0°))`,
     EvaluateDance4: () => `•Character(glyph•"" place•Place rotation•#°)
-Stage([]  background:Color(0% 0 0°))
-symbols: [ "()" "⊤" "⊥" "''" "#" "[]" "{}" "{:}" "?" "→" "//" ":" "ƒ" "•"]`,
+symbols: [ "()" "⊤" "⊥" "''" "#" "[]" "{}" "{:}" "?" "→" "//" ":" "ƒ" "•"]
+Stage([] background:Color(0% 0 0°))
+`,
     EvaluateDance5: () => `•Character(glyph•"" place•Place rotation•#°)
 initial•[Character]: [ "()" "⊤" "⊥" "''" "#" "[]" "{}" "{:}" "?" "→" "//" ":" "ƒ" "•"].translate(ƒ(glyph•"") Character(glyph Place() 0°))
 Stage([]  background:Color(0% 0 0°))`,
