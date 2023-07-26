@@ -1018,6 +1018,8 @@
     }
 
     function handleKeyDown(event: KeyboardEvent) {
+        console.log('Keydown ' + event.key);
+
         if (evaluator === undefined) return;
         if (editor === null) return;
 
@@ -1099,6 +1101,8 @@
         lastKeyDownIgnored = false;
 
         let edit: Edit | undefined = undefined;
+
+        console.log('Input: ' + input?.value);
 
         // Somehow no reference to the input? Bail.
         if (input === null) return;
@@ -1234,6 +1238,8 @@
         data-defaultfocus
         aria-autocomplete="none"
         autocomplete="off"
+        autocorrect="off"
+        autocapitalize="none"
         class="keyboard-input"
         style={`left: ${caretLocation?.left ?? 0}; top: ${
             caretLocation?.top ?? 0
@@ -1367,9 +1373,9 @@
         touch-action: none;
 
         /* Helpful for debugging */
-        /* outline: 1px solid red;
+        outline: 1px solid red;
         opacity: 1;
-        width: 10px; */
+        width: 10px;
     }
 
     .caret-description {
