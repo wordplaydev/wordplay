@@ -85,6 +85,7 @@
     } from '../editor/util/Commands';
     import CommandButton from '../widgets/CommandButton.svelte';
     import Help from './Help.svelte';
+    import type Color from '../../output/Color';
 
     export let project: Project;
     export let original: Project | undefined = undefined;
@@ -125,7 +126,7 @@
     let canvasHeight: number = 768;
 
     /** The background color of the output, so we can make the tile match. */
-    let outputBackground: string | null;
+    let outputBackground: Color | string | null;
 
     /** True if the layout has been initialized. Used to remember to only initalize once. */
     let layoutInitialized = false;

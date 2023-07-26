@@ -1,4 +1,4 @@
-import type Decimal from 'decimal.js';
+import Decimal from 'decimal.js';
 import toStructure from '../native/toStructure';
 import type Value from '@runtime/Value';
 import Output from './Output';
@@ -35,6 +35,15 @@ export default class Color extends Output {
         this.lightness = l;
         this.chroma = c;
         this.hue = h;
+    }
+
+    complement() {
+        return new Color(
+            this.value,
+            new Decimal(1).sub(this.lightness),
+            this.chroma,
+            new Decimal(360).sub(this.hue)
+        );
     }
 
     toCSS() {

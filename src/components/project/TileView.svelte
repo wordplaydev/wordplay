@@ -23,13 +23,14 @@
     import { onMount } from 'svelte';
     import type Arrangement from '../../db/Arrangement';
     import Glyphs from '../../lore/Glyphs';
+    import Color from '../../output/Color';
 
     export let tile: Tile;
     export let layout: Layout;
     export let arrangement: Arrangement;
     export let dragging: boolean;
     export let fullscreenID: string | undefined;
-    export let background: string | null = null;
+    export let background: Color | string | null = null;
 
     $: fullscreen = tile.id === fullscreenID;
 
@@ -37,6 +38,9 @@
     let resizeDirection: ResizeDirection | null = null;
     let mounted = false;
     onMount(() => (mounted = true));
+
+    $: foreground =
+        background instanceof Color ? background.complement().toCSS() : null;
 
     const dispatch = createEventDispatcher();
 
@@ -182,7 +186,9 @@
         class:dragging
         class:animated={mounted}
         data-id={tile.id}
-        style:background
+        style:background={background instanceof Color
+            ? background.toCSS()
+            : background}
         style:left={fullscreen ? null : `${tile.bounds?.left ?? 0}px`}
         style:top={fullscreen ? null : `${tile.bounds?.top ?? 0}px`}
         style:width={fullscreen ? null : `${tile.bounds?.width ?? 0}px`}
@@ -190,7 +196,7 @@
         bind:this={view}
     >
         <!-- Render the toolbar -->
-        <div class="header">
+        <div class="header" style:color={foreground} style:fill={foreground}>
             <div class="name" class:source={tile.isSource()}>
                 {#if tile.isSource()}
                     {Glyphs.Program.symbols}
@@ -344,7 +350,8 @@
         overflow-x: auto;
     }
 
-    .header :global(button) {
+    /** Dim the header a bit so that they don't demand so much attention */
+    .header {
         opacity: 0.5;
     }
 

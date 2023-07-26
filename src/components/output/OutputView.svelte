@@ -18,6 +18,7 @@
     import type PaintingConfiguration from './PaintingConfiguration';
     import { config } from '../../db/Creator';
     import concretize from '../../locale/concretize';
+    import type Color from '../../output/Color';
 
     export let project: Project;
     export let evaluator: Evaluator;
@@ -29,7 +30,7 @@
     export let painting: boolean = false;
     export let paintingConfig: PaintingConfiguration | undefined = undefined;
     export let mini: boolean = false;
-    export let background: string | null = null;
+    export let background: Color | string | null = null;
 
     let index = getConceptIndex();
     let evaluation = getEvaluation();
@@ -39,7 +40,7 @@
     $: background =
         $keyboardEditIdle !== IdleKind.Typing && value instanceof Exception
             ? 'var(--wordplay-error)'
-            : verse?.background.toCSS() ?? null;
+            : verse?.background ?? null;
 
     /** When creator's preferred animation factor changes, update evaluator */
     $: evaluator.updateTimeMultiplier($config.getAnimationFactor());
