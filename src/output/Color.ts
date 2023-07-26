@@ -47,7 +47,7 @@ export default class Color extends Output {
     }
 
     toCSS() {
-        return new ColorJS(
+        const color = new ColorJS(
             ColorJS.spaces.lch,
             [
                 this.lightness.toNumber() * 100,
@@ -55,7 +55,10 @@ export default class Color extends Output {
                 this.hue.toNumber(),
             ],
             1
-        ).display();
+        );
+        return color.to('srgb').toString();
+        // We should be able to return a direct LCH value, but Safari doesn't handle CSS opacity on LCH colors of symbols well.
+        // return opaque === true ? color.to('srgb').toString() : color.display();
     }
 
     equals(color: Color) {

@@ -79,7 +79,7 @@ export default function outputToCSS(
             viewport
         ),
         // This disables translation around the center; we want to translate around the focus.
-        'transform-origin': '0 0',
+        'transform-origin': '0 0 ',
         color: pose?.color?.toCSS(),
         opacity: pose?.opacity?.toString(),
         'font-family': family,
