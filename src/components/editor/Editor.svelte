@@ -1017,41 +1017,6 @@
         return false;
     }
 
-    function handleKeyDown(event: KeyboardEvent) {
-        console.log('Keydown ' + event.key);
-
-        if (evaluator === undefined) return;
-        if (editor === null) return;
-
-        // Assume we'll handle it.
-        lastKeyDownIgnored = false;
-
-        const result = handleKeyCommand(event, {
-            caret: $caret,
-            evaluator,
-            creator: $config,
-            toggleMenu,
-        });
-
-        // If it produced a new caret and optionally a new project, update the stores.
-        const idle =
-            event.key.length === 1 ? IdleKind.Typing : IdleKind.Navigating;
-
-        if (result !== false) {
-            if (result instanceof Promise)
-                result.then((edit) => handleEdit(edit, idle, true));
-            else if (result !== undefined && result !== true)
-                handleEdit(result, idle, true);
-
-            // Prevent default keyboard commands from being otherwise handled.
-            event.preventDefault();
-            event.stopPropagation();
-        }
-        // Give feedback that we didn't execute a command.
-        else if (!/^(Shift|Control|Alt|Meta|Tab)$/.test(event.key))
-            lastKeyDownIgnored = true;
-    }
-
     async function handleEdit(
         edit: Edit | undefined,
         idle: IdleKind = IdleKind.Typing,
@@ -1095,14 +1060,14 @@
         input?.focus();
     }
 
-    let lastKeyboardInputValue: undefined | UnicodeString = undefined;
+    /** True if the last symbol was a dead key*/
+    let keyWasDead: boolean = false;
+    let replacePreviousWithNext: boolean = false;
 
     function handleTextInput(event: Event) {
         lastKeyDownIgnored = false;
 
         let edit: Edit | undefined = undefined;
-
-        console.log('Input: ' + input?.value);
 
         // Somehow no reference to the input? Bail.
         if (input === null) return;
@@ -1120,6 +1085,7 @@
         let newCaret = $caret;
         let newSource: Source | undefined = source;
 
+        // First, delete any selected node.
         if (newCaret.position instanceof Node) {
             const edit = newCaret.deleteNode(newCaret.position);
             if (edit) {
@@ -1128,15 +1094,14 @@
             } else return;
         }
 
+        // If the last key pressed was a deadkey, capture it from the input.
         if (typeof newCaret.position === 'number') {
-            // If the last keyboard value length is equal to the new one, then it was a diacritic.
-            // Replace the last grapheme entered with this grapheme, then reset the input text field.
-            if (
-                lastKeyboardInputValue !== undefined &&
-                lastKeyboardInputValue.getLength() === value.getLength()
-            ) {
+            // Did we decide to replace the previous character typed with the next one? Do that.
+            if (replacePreviousWithNext) {
+                replacePreviousWithNext = false;
+
                 const char = lastChar.toString();
-                newSource = source.withPreviousGraphemeReplaced(
+                newSource = newSource.withPreviousGraphemeReplaced(
                     char,
                     newCaret.position
                 );
@@ -1159,18 +1124,19 @@
             else {
                 const char = lastChar.toString();
 
-                // If it was a placeholder, first remove the
-                edit = newCaret.insert(char);
+                // Insert the character tht was added last.
+                edit = newCaret.insert(char, !keyWasDead);
                 if (edit) {
+                    // Rset the value to the last character.
                     if (value.getLength() > 1)
                         input.value = lastChar.toString();
                 }
-                // Rest the field to the last character.
+
+                // If the key was a dead key, the next time a key is pressed, replace the diacritic that was
+                // inserted with the replacement symbol typed.
+                if (keyWasDead) replacePreviousWithNext = true;
             }
         }
-
-        // Remember the last value of the input field for comparison on the next keystroke.
-        lastKeyboardInputValue = new UnicodeString(input.value);
 
         // Prevent the OS from doing anything with this input.
         event.preventDefault();
@@ -1178,6 +1144,50 @@
         // Did we make an update?
         if (edit) handleEdit(edit, IdleKind.Typing, true);
         else lastKeyDownIgnored = true;
+    }
+
+    function handleKeyDown(event: KeyboardEvent) {
+        if (evaluator === undefined) return;
+        if (editor === null) return;
+
+        // Assume we'll handle it.
+        lastKeyDownIgnored = false;
+
+        // If it was a dead key, don't handle it as a command, just remember that it was
+        // a dead key, then let the input event above insert it.
+        keyWasDead = event.key === 'Dead';
+        if (keyWasDead) {
+            return;
+        }
+
+        // Are we to replace the prior symbol with the next? Don't handle it as a command,
+        // just let the character with diacritic remark be typed, and handle it in the input handler above.
+        if (replacePreviousWithNext) return;
+
+        const result = handleKeyCommand(event, {
+            caret: $caret,
+            evaluator,
+            creator: $config,
+            toggleMenu,
+        });
+
+        // If it produced a new caret and optionally a new project, update the stores.
+        const idle =
+            event.key.length === 1 ? IdleKind.Typing : IdleKind.Navigating;
+
+        if (result !== false) {
+            if (result instanceof Promise)
+                result.then((edit) => handleEdit(edit, idle, true));
+            else if (result !== undefined && result !== true)
+                handleEdit(result, idle, true);
+
+            // Prevent default keyboard commands from being otherwise handled.
+            event.preventDefault();
+            event.stopPropagation();
+        }
+        // Give feedback that we didn't execute a command.
+        else if (!/^(Shift|Control|Alt|Meta|Tab)$/.test(event.key))
+            lastKeyDownIgnored = true;
     }
 
     function getInputID() {

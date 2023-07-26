@@ -851,7 +851,7 @@ const Commands: Command[] = [
         category: Category.Modify,
         control: false,
         shift: undefined,
-        alt: undefined,
+        alt: false,
         execute: ({ caret }, key) =>
             caret && key.length === 1 ? caret.insert(key) : false,
     },
