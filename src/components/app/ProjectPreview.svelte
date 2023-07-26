@@ -4,9 +4,11 @@
     import Evaluator from '@runtime/Evaluator';
     import type Value from '@runtime/Value';
     import { config } from '../../db/Creator';
+    import { onMount } from 'svelte';
 
     export let project: Project;
     export let action: (() => void) | undefined = undefined;
+    export let delay: number;
 
     // Clone the project and get its initial value, then stop the project's evaluator.
     let evaluator: Evaluator;
@@ -19,6 +21,9 @@
         evaluator.stop();
         return [evaluator, value];
     }
+
+    let visible = false;
+    onMount(() => setTimeout(() => (visible = true), delay));
 </script>
 
 <div class="project">
@@ -32,16 +37,18 @@
                 ? action()
                 : undefined}
     >
-        <OutputView
-            {project}
-            {evaluator}
-            source={project.main}
-            {value}
-            fullscreen={false}
-            fit={true}
-            grid={false}
-            mini
-        />
+        {#if visible}
+            <OutputView
+                {project}
+                {evaluator}
+                source={project.main}
+                {value}
+                fullscreen={false}
+                fit={true}
+                grid={false}
+                mini
+            />
+        {/if}
     </div>
     <div class="name"
         >{#if project.name.length === 0}<em class="untitled"
