@@ -14,15 +14,14 @@
 
 <script lang="ts">
     import { afterUpdate, tick } from 'svelte';
+    import { getCaret } from '../project/Contexts';
     import Spaces, { SPACE_HTML, TAB_HTML } from '@parser/Spaces';
     import type Source from '@nodes/Source';
     import Node from '@nodes/Node';
     import Token from '../../nodes/Token';
     import { getLanguageDirection } from '../../locale/LanguageCode';
     import { config } from '../../db/Creator';
-    import type Caret from '../../edit/Caret';
 
-    export let caret: Caret;
     export let source: Source;
     export let blink: boolean;
     export let ignored: boolean;
@@ -30,11 +29,14 @@
     // The current location of the caret.
     export let location: CaretBounds | undefined = undefined;
 
+    // The caret of the editor that contains this view.
+    let caret = getCaret();
+
     // The HTMLElement rendering this view.
     let element: HTMLElement;
 
     // The current token we're on.
-    $: token = caret?.getToken();
+    $: token = $caret?.getToken();
 
     $: leftToRight =
         getLanguageDirection($config.getLocale().language) === 'ltr';
@@ -44,11 +46,11 @@
 
     // Whenever the caret changes, update the index we should render and scroll to it.
     $: {
-        if (token !== undefined && caret !== undefined) {
+        if (token !== undefined && $caret !== undefined) {
             // Get some of the token's metadata
-            let spaceIndex = caret.source.getTokenSpacePosition(token);
-            let lastIndex = caret.source.getTokenLastPosition(token);
-            let textIndex = caret.source.getTokenTextPosition(token);
+            let spaceIndex = $caret.source.getTokenSpacePosition(token);
+            let lastIndex = $caret.source.getTokenLastPosition(token);
+            let textIndex = $caret.source.getTokenTextPosition(token);
 
             // Compute where the caret should be placed. Place it if...
             caretIndex =
@@ -57,22 +59,22 @@
                 lastIndex !== undefined &&
                 textIndex !== undefined &&
                 // Only show the caret if it's pointing to a number
-                typeof caret.position === 'number' &&
+                typeof $caret.position === 'number' &&
                 // The position can be anywhere after after the first glyph of the token, up to and including after the token's last character,
                 // or the end token of the program.
-                (caret.isEnd() ||
+                ($caret.isEnd() ||
                     // It must be after the start OR at the start and not whitespace
-                    ((caret.position >= spaceIndex ||
-                        (caret.position === spaceIndex &&
+                    (($caret.position >= spaceIndex ||
+                        ($caret.position === spaceIndex &&
                             (spaceIndex === 0 ||
-                                !caret.isSpace(
-                                    caret.source.getCode().at(spaceIndex) ?? ''
+                                !$caret.isSpace(
+                                    $caret.source.getCode().at(spaceIndex) ?? ''
                                 )))) &&
                         // ... and it must be before the end OR at the end and either the very end or at whitespace.
-                        caret.position <= lastIndex))
+                        $caret.position <= lastIndex))
                     ? // The offset at which to render the token is the caret in it's text.
                       // If the caret position is on a newline or tab, then it will be negative.
-                      caret.position - textIndex
+                      $caret.position - textIndex
                     : undefined;
         }
         // Update the caret's location.
@@ -101,7 +103,7 @@
     }
 
     function computeLocation() {
-        if (caret === undefined) return;
+        if ($caret === undefined) return;
 
         // Start assuming no position.
         location = undefined;
@@ -122,9 +124,9 @@
         const viewportYOffset = -viewportRect.top + viewport.scrollTop;
 
         // If the caret is a node, find the bottom left token view.
-        if (caret.position instanceof Node) {
+        if ($caret.position instanceof Node) {
             const nodeView = editorView.querySelector(
-                `.node-view[data-id="${caret.position.id}"]`
+                `.node-view[data-id="${$caret.position.id}"]`
             );
             if (nodeView === null) return;
 
@@ -144,7 +146,7 @@
             const nodeViewRect = tokenBounds[0].bounds;
 
             // ... and it's a placeholder, then position a caret in it's center
-            if (caret.isPlaceholderNode()) {
+            if ($caret.isPlaceholderNode()) {
                 const placeholderView = nodeView.querySelector(
                     '.token-view > .placeholder'
                 );
@@ -307,7 +309,7 @@
             }
 
             // Find the right side of token just prior to the current one that has this space.
-            const priorToken = caret.source.getNextToken(token, -1);
+            const priorToken = $caret.source.getNextToken(token, -1);
             const priorTokenView =
                 priorToken === undefined
                     ? null
@@ -375,11 +377,11 @@
 
                 // If there's preferred space after the explicit space, and we're on the last line of explicit space, include it.
                 if (explicitSpace.length - spaceIndex === 0) {
-                    spaceOnLastLine += caret.source.spaces.getAdditionalSpace(
+                    spaceOnLastLine += $caret.source.spaces.getAdditionalSpace(
                         token,
                         Spaces.getPreferredPrecedingSpace(
-                            caret.source.root,
-                            caret.source.spaces.getSpace(token),
+                            $caret.source.root,
+                            $caret.source.spaces.getSpace(token),
                             token
                         ) ?? ''
                     );
@@ -410,7 +412,7 @@
 
 <span
     class="caret {blink ? 'blink' : ''} {ignored ? 'ignored' : ''}"
-    class:node={caret && caret.isNode() && !caret.isPlaceholderNode()}
+    class:node={$caret && $caret.isNode() && !$caret.isPlaceholderNode()}
     style={location === undefined
         ? 'display:none'
         : `left: ${location.left}; top: ${location.top}; height: ${location.height};`}

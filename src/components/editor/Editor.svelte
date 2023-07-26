@@ -122,8 +122,7 @@
             project.getCaretPosition(source) ?? 0,
             undefined,
             undefined,
-            // Keep the added node so that it playfully bounces.
-            $caret.addition
+            undefined
         )
     );
 
@@ -1157,7 +1156,9 @@
         // If it was a dead key, don't handle it as a command, just remember that it was
         // a dead key, then let the input event above insert it.
         keyWasDead = event.key === 'Dead';
-        if (keyWasDead) return;
+        if (keyWasDead) {
+            return;
+        }
 
         // Are we to replace the prior symbol with the next? Don't handle it as a command,
         // just let the character with diacritic remark be typed, and handle it in the input handler above.
@@ -1268,7 +1269,6 @@
 
     <!-- Render the caret on top of the program -->
     <CaretView
-        caret={$caret}
         {source}
         blink={$keyboardEditIdle === IdleKind.Idle && focused}
         ignored={$evaluation !== undefined &&
