@@ -1271,6 +1271,7 @@
 
     <!-- Render the caret on top of the program -->
     <CaretView
+        caret={$caret}
         {source}
         blink={$keyboardEditIdle === IdleKind.Idle && focused}
         ignored={$evaluation !== undefined &&
