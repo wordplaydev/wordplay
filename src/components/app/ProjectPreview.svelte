@@ -83,7 +83,7 @@
         transition-duration: calc(var(--animation-factor) * 200ms);
     }
 
-    .project:hover,
+    .project .preview:hover,
     .project:focus .preview {
         transform: scale(1.05);
     }
