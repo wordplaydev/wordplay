@@ -6,6 +6,6 @@ export default class ConceptRef {
     }
 
     getDescription() {
-        return this.concept.toString();
+        return this.concept;
     }
 }

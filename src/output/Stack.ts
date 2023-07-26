@@ -109,7 +109,7 @@ export class Stack extends Arrangement {
             output.length,
             output.filter((o) => o instanceof Phrase).length,
             output.filter((o) => o instanceof Group).length
-        ).toString();
+        ).toText();
     }
 }
 

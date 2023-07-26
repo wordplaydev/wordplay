@@ -82,7 +82,7 @@
         data-id={node.id}
         id={`node-${node.id}`}
         aria-hidden={hide ? 'true' : null}
-        aria-label={description?.toString()}
+        aria-label={description}
         >{#if value}<ValueView
                 {value}
                 {node}

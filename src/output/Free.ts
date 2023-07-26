@@ -67,7 +67,7 @@ export class Free extends Arrangement {
             locales[0],
             locales[0].output.Free.description,
             output.length
-        ).toString();
+        ).toText();
     }
 }
 

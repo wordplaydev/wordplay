@@ -157,7 +157,7 @@ export class Grid extends Arrangement {
             locales[0].output.Grid.description,
             this.rows,
             this.columns
-        ).toString();
+        ).toText();
     }
 }
 

@@ -141,7 +141,7 @@ export default class Stage extends TypeOutput {
             this.content.length,
             this.content.filter((o) => o instanceof Phrase).length,
             this.content.filter((o) => o instanceof Group).length
-        ).toString();
+        ).toText();
     }
 
     isEmpty() {
