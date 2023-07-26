@@ -33,10 +33,12 @@ type NativeTexts = {
             length: FunctionText<[]>;
             equals: FunctionText<[NameAndDoc]>;
             notequals: FunctionText<[NameAndDoc]>;
+            has: FunctionText<[NameAndDoc]>;
+            starts: FunctionText<[NameAndDoc]>;
+            ends: FunctionText<[NameAndDoc]>;
             repeat: FunctionText<[NameAndDoc]>;
             segment: FunctionText<[NameAndDoc]>;
             combine: FunctionText<[NameAndDoc]>;
-            has: FunctionText<[NameAndDoc]>;
         };
         conversion: {
             list: DocText;

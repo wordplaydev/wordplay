@@ -1394,6 +1394,9 @@
                     "combine": {
                       "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1142-1212-1127088073-0-1827%5D%3E"
                     },
+                    "ends": {
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1142-1212-1127088073-0-1827%5D%3E"
+                    },
                     "equals": {
                       "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1142-1212-1127088073-0-1827%5D%3E"
                     },
@@ -1411,16 +1414,21 @@
                     },
                     "segment": {
                       "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1142-1212-1127088073-0-1827%5D%3E"
+                    },
+                    "starts": {
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1142-1212-1127088073-0-1827%5D%3E"
                     }
                   },
                   "required": [
                     "length",
                     "equals",
                     "notequals",
+                    "has",
+                    "starts",
+                    "ends",
                     "repeat",
                     "segment",
-                    "combine",
-                    "has"
+                    "combine"
                   ],
                   "type": "object"
                 },

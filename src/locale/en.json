@@ -1407,6 +1407,47 @@
                         { "doc": "The @Text to compare", "names": "value" }
                     ]
                 },
+                "has": {
+                    "doc": [
+                        "⧼⊤⧽ if the given @Text appears in me.",
+                        "⧼'did you find what you were looking for?'.has('you')⧽"
+                    ],
+                    "names": ["⊆", "has"],
+                    "inputs": [
+                        {
+                            "doc": "The @Text to search for in me.",
+                            "names": "text"
+                        }
+                    ]
+                },
+                "starts": {
+                    "doc": [
+                        "⧼⊤⧽ if I start with the given @Text.",
+                        "⧼'hello verse!'.starts('hello')⧽",
+                        "⧼'hello verse!'.starts('verse')⧽"
+                    ],
+                    "names": ["starts"],
+                    "inputs": [
+                        {
+                            "doc": "The @Text to check for at the start of me.",
+                            "names": "text"
+                        }
+                    ]
+                },
+                "ends": {
+                    "doc": [
+                        "⧼⊤⧽ if I end with the given @Text.",
+                        "⧼'am I a question?'.ends('?')⧽",
+                        "⧼'I am not a question.'.ends('?')⧽"
+                    ],
+                    "names": ["ends"],
+                    "inputs": [
+                        {
+                            "doc": "The @Text to check for at the end of me.",
+                            "names": "text"
+                        }
+                    ]
+                },
                 "repeat": {
                     "doc": [
                         "I make a new @Text that's me, repeated the number of times of ⧼count⧽:",
@@ -1447,19 +1488,6 @@
                     "names": ["+", "combine"],
                     "inputs": [
                         { "doc": "The @Text to append.", "names": "text" }
-                    ]
-                },
-                "has": {
-                    "doc": [
-                        "⧼⊤⧽ if the given @Text appears in me.",
-                        "⧼'did you find what you were looking for?'.has('you')⧽"
-                    ],
-                    "names": ["⊆", "has"],
-                    "inputs": [
-                        {
-                            "doc": "The @Text to search for in me.",
-                            "names": "text"
-                        }
                     ]
                 }
             },

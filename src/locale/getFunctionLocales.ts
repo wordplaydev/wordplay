@@ -6,11 +6,12 @@ import type Locale from './Locale';
 
 export function getFunctionLocales(
     locales: Locale[],
-    select: (translation: Locale) => FunctionText<any>
+    select: FunctionText<any> | ((translation: Locale) => FunctionText<any>)
 ) {
+    const text = select instanceof Function ? select(locales[0]) : select;
     return {
-        docs: getDocLocales(locales, (t) => select(t).doc),
-        names: getNameLocales(locales, (t) => select(t).names),
-        inputs: getInputLocales(locales, (t) => select(t).inputs),
+        docs: getDocLocales(locales, (t) => text.doc),
+        names: getNameLocales(locales, (t) => text.names),
+        inputs: getInputLocales(locales, (t) => text.inputs),
     };
 }

@@ -60,6 +60,14 @@ export default class Text extends Primitive {
         return new Bool(requestor, this.text.includes(text.text));
     }
 
+    starts(requestor: Expression, text: Text) {
+        return new Bool(requestor, this.text.startsWith(text.text));
+    }
+
+    ends(requestor: Expression, text: Text) {
+        return new Bool(requestor, this.text.endsWith(text.text));
+    }
+
     toWordplay(): string {
         return `"${this.text}"${this.format ? `/${this.format}` : ''}`;
     }
