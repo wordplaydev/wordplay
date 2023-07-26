@@ -115,16 +115,18 @@
     /** True if something in the editor is focused. */
     let focused: boolean;
 
-    // Whenever the project or source changes, set the caret to the project's caret for the source.
-    $: caret.set(
-        new Caret(
-            source,
-            project.getCaretPosition(source) ?? 0,
-            undefined,
-            undefined,
-            undefined
-        )
-    );
+    // On mount, initialize the cWhenever the project or source changes, set the caret to the project's caret for the source.
+    onMount(() => {
+        caret.set(
+            new Caret(
+                source,
+                project.getCaretPosition(source) ?? 0,
+                undefined,
+                undefined,
+                undefined
+            )
+        );
+    });
 
     $: caretExpressionType =
         $caret.position instanceof Expression
