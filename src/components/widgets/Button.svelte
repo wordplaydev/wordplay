@@ -29,7 +29,8 @@
     aria-disabled={!active}
     bind:this={view}
     on:dblclick|stopPropagation
-    on:pointerdown|stopPropagation={() => (active ? doAction() : undefined)}
+    on:pointerdown|stopPropagation={(event) =>
+        event.button === 0 && active ? doAction() : undefined}
     on:keydown|stopPropagation={(event) =>
         event.key === 'Enter' || event.key === ' ' ? doAction() : undefined}
 >
