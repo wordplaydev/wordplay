@@ -75,16 +75,16 @@ export function createTimeDefinition(locale: Locale[]) {
     const TimeType = NumberType.make(Unit.make(['ms']));
 
     const FrequencyBind = Bind.make(
-        getDocLocales(locale, (t) => t.input.Time.frequency.doc),
-        getNameLocales(locale, (t) => t.input.Time.frequency.names),
+        getDocLocales(locale, (locale) => locale.input.Time.frequency.doc),
+        getNameLocales(locale, (locale) => locale.input.Time.frequency.names),
         UnionType.make(NumberType.make(Unit.make(['ms'])), NoneType.make()),
         // Default to nothing
         NoneLiteral.make()
     );
 
     return StreamDefinition.make(
-        getDocLocales(locale, (t) => t.input.Time.doc),
-        getNameLocales(locale, (t) => t.input.Time.names),
+        getDocLocales(locale, (locale) => locale.input.Time.doc),
+        getNameLocales(locale, (locale) => locale.input.Time.names),
         [FrequencyBind],
         createStreamEvaluator(
             TimeType.clone(),

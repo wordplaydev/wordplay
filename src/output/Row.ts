@@ -15,8 +15,8 @@ import type Project from '../models/Project';
 
 export function createRowType(locales: Locale[]) {
     return toStructure(`
-    ${getBind(locales, (t) => t.output.Row, '•')} Arrangement(
-        ${getBind(locales, (t) => t.output.Row.padding)}•#m: 1m
+    ${getBind(locales, (locale) => locale.output.Row, '•')} Arrangement(
+        ${getBind(locales, (locale) => locale.output.Row.padding)}•#m: 1m
     )
 `);
 }

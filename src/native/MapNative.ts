@@ -25,12 +25,12 @@ import type Locale from '../locale/Locale';
 export default function bootstrapMap(locales: Locale[]) {
     const KeyTypeVariableNames = getNameLocales(
         locales,
-        (t) => t.native.Map.key
+        (locale) => locale.native.Map.key
     );
     const KeyTypeVariable = new TypeVariable(KeyTypeVariableNames);
     const ValueTypeVariableNames = getNameLocales(
         locales,
-        (t) => t.native.Map.value
+        (locale) => locale.native.Map.value
     );
     const ValueTypeVariable = new TypeVariable(ValueTypeVariableNames);
 
@@ -40,22 +40,22 @@ export default function bootstrapMap(locales: Locale[]) {
             Bind.make(
                 getDocLocales(
                     locales,
-                    (t) => t.native.Map.function.filter.key.doc
+                    (locale) => locale.native.Map.function.filter.key.doc
                 ),
                 getNameLocales(
                     locales,
-                    (t) => t.native.Map.function.filter.key.names
+                    (locale) => locale.native.Map.function.filter.key.names
                 ),
                 KeyTypeVariable.getReference()
             ),
             Bind.make(
                 getDocLocales(
                     locales,
-                    (t) => t.native.Map.function.filter.value.doc
+                    (locale) => locale.native.Map.function.filter.value.doc
                 ),
                 getNameLocales(
                     locales,
-                    (t) => t.native.Map.function.filter.value.names
+                    (locale) => locale.native.Map.function.filter.value.names
                 ),
                 ValueTypeVariable.getReference()
             ),
@@ -64,7 +64,7 @@ export default function bootstrapMap(locales: Locale[]) {
     );
 
     const translateTypeVariable = new TypeVariable(
-        getNameLocales(locales, (t) => t.native.Map.result)
+        getNameLocales(locales, (locale) => locale.native.Map.result)
     );
 
     const mapTranslateHOFType = FunctionType.make(
@@ -73,22 +73,22 @@ export default function bootstrapMap(locales: Locale[]) {
             Bind.make(
                 getDocLocales(
                     locales,
-                    (t) => t.native.Map.function.translate.key.doc
+                    (locale) => locale.native.Map.function.translate.key.doc
                 ),
                 getNameLocales(
                     locales,
-                    (t) => t.native.Map.function.translate.key.names
+                    (locale) => locale.native.Map.function.translate.key.names
                 ),
                 KeyTypeVariable.getReference()
             ),
             Bind.make(
                 getDocLocales(
                     locales,
-                    (t) => t.native.Map.function.translate.value.doc
+                    (locale) => locale.native.Map.function.translate.value.doc
                 ),
                 getNameLocales(
                     locales,
-                    (t) => t.native.Map.function.translate.value.names
+                    (locale) => locale.native.Map.function.translate.value.names
                 ),
                 ValueTypeVariable.getReference()
             ),
@@ -98,36 +98,36 @@ export default function bootstrapMap(locales: Locale[]) {
 
     const equalsFunctionValueNames = getNameLocales(
         locales,
-        (t) => t.native.Map.function.equals.inputs[0].names
+        (locale) => locale.native.Map.function.equals.inputs[0].names
     );
     const notEqualsFunctionValueNames = getNameLocales(
         locales,
-        (t) => t.native.Map.function.notequals.inputs[0].names
+        (locale) => locale.native.Map.function.notequals.inputs[0].names
     );
 
     const setFunctionKeyNames = getNameLocales(
         locales,
-        (t) => t.native.Map.function.set.inputs[0].names
+        (locale) => locale.native.Map.function.set.inputs[0].names
     );
 
     const setFunctionValueNames = getNameLocales(
         locales,
-        (t) => t.native.Map.function.set.inputs[1].names
+        (locale) => locale.native.Map.function.set.inputs[1].names
     );
 
     const unsetFunctionKeyNames = getNameLocales(
         locales,
-        (t) => t.native.Map.function.unset.inputs[0].names
+        (locale) => locale.native.Map.function.unset.inputs[0].names
     );
 
     const removeFunctionValueNames = getNameLocales(
         locales,
-        (t) => t.native.Map.function.remove.inputs[0].names
+        (locale) => locale.native.Map.function.remove.inputs[0].names
     );
 
     return StructureDefinition.make(
-        getDocLocales(locales, (t) => t.native.Map.doc),
-        getNameLocales(locales, (t) => t.native.Map.name),
+        getDocLocales(locales, (locale) => locale.native.Map.doc),
+        getNameLocales(locales, (locale) => locale.native.Map.name),
         // No interfaces
         [],
         // One type variable
@@ -140,11 +140,11 @@ export default function bootstrapMap(locales: Locale[]) {
                 createNativeFunction(
                     getDocLocales(
                         locales,
-                        (t) => t.native.Map.function.equals.doc
+                        (locale) => locale.native.Map.function.equals.doc
                     ),
                     getNameLocales(
                         locales,
-                        (t) => t.native.Map.function.equals.names
+                        (locale) => locale.native.Map.function.equals.names
                     ),
                     undefined,
                     [
@@ -176,11 +176,11 @@ export default function bootstrapMap(locales: Locale[]) {
                 createNativeFunction(
                     getDocLocales(
                         locales,
-                        (t) => t.native.Map.function.notequals.doc
+                        (locale) => locale.native.Map.function.notequals.doc
                     ),
                     getNameLocales(
                         locales,
-                        (t) => t.native.Map.function.notequals.names
+                        (locale) => locale.native.Map.function.notequals.names
                     ),
                     undefined,
                     [
@@ -213,18 +213,19 @@ export default function bootstrapMap(locales: Locale[]) {
                 createNativeFunction(
                     getDocLocales(
                         locales,
-                        (t) => t.native.Map.function.set.doc
+                        (locale) => locale.native.Map.function.set.doc
                     ),
                     getNameLocales(
                         locales,
-                        (t) => t.native.Map.function.set.names
+                        (locale) => locale.native.Map.function.set.names
                     ),
                     undefined,
                     [
                         Bind.make(
                             getDocLocales(
                                 locales,
-                                (t) => t.native.Map.function.set.inputs[0].doc
+                                (locale) =>
+                                    locale.native.Map.function.set.inputs[0].doc
                             ),
                             setFunctionKeyNames,
                             KeyTypeVariable.getReference()
@@ -232,7 +233,8 @@ export default function bootstrapMap(locales: Locale[]) {
                         Bind.make(
                             getDocLocales(
                                 locales,
-                                (t) => t.native.Map.function.set.inputs[1].doc
+                                (locale) =>
+                                    locale.native.Map.function.set.inputs[1].doc
                             ),
                             setFunctionValueNames,
                             ValueTypeVariable.getReference()
@@ -261,18 +263,20 @@ export default function bootstrapMap(locales: Locale[]) {
                 createNativeFunction(
                     getDocLocales(
                         locales,
-                        (t) => t.native.Map.function.unset.doc
+                        (locale) => locale.native.Map.function.unset.doc
                     ),
                     getNameLocales(
                         locales,
-                        (t) => t.native.Map.function.unset.names
+                        (locale) => locale.native.Map.function.unset.names
                     ),
                     undefined,
                     [
                         Bind.make(
                             getDocLocales(
                                 locales,
-                                (t) => t.native.Map.function.unset.inputs[0].doc
+                                (locale) =>
+                                    locale.native.Map.function.unset.inputs[0]
+                                        .doc
                             ),
                             unsetFunctionKeyNames,
                             KeyTypeVariable.getReference()
@@ -295,11 +299,11 @@ export default function bootstrapMap(locales: Locale[]) {
                 createNativeFunction(
                     getDocLocales(
                         locales,
-                        (t) => t.native.Map.function.remove.doc
+                        (locale) => locale.native.Map.function.remove.doc
                     ),
                     getNameLocales(
                         locales,
-                        (t) => t.native.Map.function.remove.names
+                        (locale) => locale.native.Map.function.remove.names
                     ),
                     undefined,
                     [
@@ -332,11 +336,11 @@ export default function bootstrapMap(locales: Locale[]) {
                 FunctionDefinition.make(
                     getDocLocales(
                         locales,
-                        (t) => t.native.Map.function.filter.doc
+                        (locale) => locale.native.Map.function.filter.doc
                     ),
                     getNameLocales(
                         locales,
-                        (t) => t.native.Map.function.filter.names
+                        (locale) => locale.native.Map.function.filter.names
                     ),
                     undefined,
                     [
@@ -363,11 +367,11 @@ export default function bootstrapMap(locales: Locale[]) {
                 FunctionDefinition.make(
                     getDocLocales(
                         locales,
-                        (t) => t.native.Map.function.translate.doc
+                        (locale) => locale.native.Map.function.translate.doc
                     ),
                     getNameLocales(
                         locales,
-                        (t) => t.native.Map.function.translate.names
+                        (locale) => locale.native.Map.function.translate.names
                     ),
                     TypeVariables.make([translateTypeVariable]),
                     [
@@ -394,21 +398,30 @@ export default function bootstrapMap(locales: Locale[]) {
                     )
                 ),
                 createNativeConversion(
-                    getDocLocales(locales, (t) => t.native.Map.conversion.text),
+                    getDocLocales(
+                        locales,
+                        (locale) => locale.native.Map.conversion.text
+                    ),
                     '{:}',
                     "''",
                     (requestor: Expression, val: Map) =>
                         new Text(requestor, val.toString())
                 ),
                 createNativeConversion(
-                    getDocLocales(locales, (t) => t.native.Map.conversion.set),
+                    getDocLocales(
+                        locales,
+                        (locale) => locale.native.Map.conversion.set
+                    ),
                     '{:}',
                     '{}',
                     (requestor: Expression, val: Map) =>
                         new Set(requestor, val.getKeys())
                 ),
                 createNativeConversion(
-                    getDocLocales(locales, (t) => t.native.Map.conversion.list),
+                    getDocLocales(
+                        locales,
+                        (locale) => locale.native.Map.conversion.list
+                    ),
                     '{:}',
                     '[]',
                     (requestor: Expression, val: Map) =>

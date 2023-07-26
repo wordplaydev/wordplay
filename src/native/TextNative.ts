@@ -25,12 +25,12 @@ import ListType from '../nodes/ListType';
 export default function bootstrapText(locales: Locale[]) {
     const countNames = getNameLocales(
         locales,
-        (t) => t.native.Text.function.repeat.inputs[0].names
+        (locale) => locale.native.Text.function.repeat.inputs[0].names
     );
 
     const combineNames = getNameLocales(
         locales,
-        (t) => t.native.Text.function.combine.inputs[0].names
+        (locale) => locale.native.Text.function.combine.inputs[0].names
     );
 
     function createTextFunction(
@@ -104,8 +104,8 @@ export default function bootstrapText(locales: Locale[]) {
     }
 
     return StructureDefinition.make(
-        getDocLocales(locales, (t) => t.native.Text.doc),
-        getNameLocales(locales, (t) => t.native.Text.name),
+        getDocLocales(locales, (locale) => locale.native.Text.doc),
+        getNameLocales(locales, (locale) => locale.native.Text.name),
         [],
         undefined,
         [],
@@ -114,7 +114,7 @@ export default function bootstrapText(locales: Locale[]) {
                 createTextFunction(
                     getFunctionLocales(
                         locales,
-                        (t) => t.native.Text.function.length
+                        (locale) => locale.native.Text.function.length
                     ),
                     [],
                     NumberType.make(),
@@ -123,7 +123,7 @@ export default function bootstrapText(locales: Locale[]) {
                 createTextFunction(
                     getFunctionLocales(
                         locales,
-                        (t) => t.native.Text.function.repeat
+                        (locale) => locale.native.Text.function.repeat
                     ),
                     [
                         Bind.make(
@@ -152,41 +152,41 @@ export default function bootstrapText(locales: Locale[]) {
                     }
                 ),
                 createBinaryTextFunction(
-                    (t) => t.native.Text.function.equals,
+                    (locale) => locale.native.Text.function.equals,
                     (requestor, text, input) =>
                         new Bool(requestor, text.isEqualTo(input)),
                     BooleanType.make()
                 ),
                 createBinaryTextFunction(
-                    (t) => t.native.Text.function.notequals,
+                    (locale) => locale.native.Text.function.notequals,
                     (requestor, text, input) =>
                         new Bool(requestor, !text.isEqualTo(input)),
                     BooleanType.make()
                 ),
                 createBinaryTextFunction(
-                    (t) => t.native.Text.function.segment,
+                    (locale) => locale.native.Text.function.segment,
                     (requestor, text, input) => text.segment(requestor, input),
                     ListType.make(TextType.make())
                 ),
                 createBinaryTextFunction<Bool>(
-                    (t) => t.native.Text.function.has,
+                    (locale) => locale.native.Text.function.has,
                     (requestor, text, input) => text.has(requestor, input),
                     BooleanType.make()
                 ),
                 createBinaryTextFunction<Bool>(
-                    (t) => t.native.Text.function.starts,
+                    (locale) => locale.native.Text.function.starts,
                     (requestor, text, input) => text.starts(requestor, input),
                     BooleanType.make()
                 ),
                 createBinaryTextFunction<Bool>(
-                    (t) => t.native.Text.function.ends,
+                    (locale) => locale.native.Text.function.ends,
                     (requestor, text, input) => text.ends(requestor, input),
                     BooleanType.make()
                 ),
                 createTextFunction(
                     getFunctionLocales(
                         locales,
-                        (t) => t.native.Text.function.combine
+                        (locale) => locale.native.Text.function.combine
                     ),
                     [
                         Bind.make(
@@ -214,7 +214,7 @@ export default function bootstrapText(locales: Locale[]) {
                 createNativeConversion(
                     getDocLocales(
                         locales,
-                        (t) => t.native.Text.conversion.list
+                        (locale) => locale.native.Text.conversion.list
                     ),
                     '""',
                     '[""]',
@@ -229,7 +229,7 @@ export default function bootstrapText(locales: Locale[]) {
                 createNativeConversion(
                     getDocLocales(
                         locales,
-                        (t) => t.native.Text.conversion.number
+                        (locale) => locale.native.Text.conversion.number
                     ),
                     '""',
                     '#',

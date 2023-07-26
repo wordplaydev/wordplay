@@ -17,9 +17,9 @@ import type Project from '../models/Project';
 
 export function createGroupType(locales: Locale[]) {
     return toStructure(`
-    ${getBind(locales, (t) => t.output.Group, TYPE_SYMBOL)} Type(
-        ${getBind(locales, (t) => t.output.Group.layout)}•Arrangement
-        ${getBind(locales, (t) => t.output.Group.content)}•[Type|ø]
+    ${getBind(locales, (locale) => locale.output.Group, TYPE_SYMBOL)} Type(
+        ${getBind(locales, (locale) => locale.output.Group.layout)}•Arrangement
+        ${getBind(locales, (locale) => locale.output.Group.content)}•[Type|ø]
         ${createTypeOutputInputs(locales)}
     )`);
 }

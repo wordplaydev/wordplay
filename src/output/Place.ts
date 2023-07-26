@@ -13,10 +13,10 @@ import type Locale from '../locale/Locale';
 
 export function createPlaceType(locales: Locale[]) {
     return toStructure(`
-    ${getBind(locales, (t) => t.output.Place, '•')}(
-        ${getBind(locales, (t) => t.output.Place.x)}•#m: 0m
-        ${getBind(locales, (t) => t.output.Place.y)}•#m: 0m
-        ${getBind(locales, (t) => t.output.Place.z)}•#m: 0m
+    ${getBind(locales, (locale) => locale.output.Place, '•')}(
+        ${getBind(locales, (locale) => locale.output.Place.x)}•#m: 0m
+        ${getBind(locales, (locale) => locale.output.Place.y)}•#m: 0m
+        ${getBind(locales, (locale) => locale.output.Place.z)}•#m: 0m
     )
 `);
 }

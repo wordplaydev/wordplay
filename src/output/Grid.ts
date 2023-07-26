@@ -14,12 +14,12 @@ import type Project from '../models/Project';
 
 export function createGridType(locales: Locale[]) {
     return toStructure(`
-    ${getBind(locales, (t) => t.output.Grid, '•')} Arrangement(
-        ${getBind(locales, (t) => t.output.Grid.rows)}•#
-        ${getBind(locales, (t) => t.output.Grid.columns)}•#
-        ${getBind(locales, (t) => t.output.Grid.padding)}•#m: 1m
-        ${getBind(locales, (t) => t.output.Grid.cellWidth)}•#m|ø: ø
-        ${getBind(locales, (t) => t.output.Grid.cellHeight)}•#m|ø: ø
+    ${getBind(locales, (locale) => locale.output.Grid, '•')} Arrangement(
+        ${getBind(locales, (locale) => locale.output.Grid.rows)}•#
+        ${getBind(locales, (locale) => locale.output.Grid.columns)}•#
+        ${getBind(locales, (locale) => locale.output.Grid.padding)}•#m: 1m
+        ${getBind(locales, (locale) => locale.output.Grid.cellWidth)}•#m|ø: ø
+        ${getBind(locales, (locale) => locale.output.Grid.cellHeight)}•#m|ø: ø
     )
 `);
 }

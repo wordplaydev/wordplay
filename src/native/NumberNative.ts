@@ -29,7 +29,7 @@ import type Locale from '../locale/Locale';
 export default function bootstrapNumber(locales: Locale[]) {
     const subtractNames = getNameLocales(
         locales,
-        (t) => t.native.Number.function.subtract.inputs[0].names
+        (locale) => locale.native.Number.function.subtract.inputs[0].names
     );
 
     function createBinaryOp(
@@ -131,8 +131,8 @@ export default function bootstrapNumber(locales: Locale[]) {
     }
 
     return StructureDefinition.make(
-        getDocLocales(locales, (t) => t.native.Number.doc),
-        getNameLocales(locales, (t) => t.native.Number.name),
+        getDocLocales(locales, (locale) => locale.native.Number.doc),
+        getNameLocales(locales, (locale) => locale.native.Number.name),
         [],
         undefined,
         [],
@@ -141,7 +141,7 @@ export default function bootstrapNumber(locales: Locale[]) {
                 createBinaryOp(
                     getFunctionLocales(
                         locales,
-                        (t) => t.native.Number.function.add
+                        (locale) => locale.native.Number.function.add
                     ),
                     NumberType.make((left) => left),
                     // The output's type should be the left's type
@@ -151,11 +151,11 @@ export default function bootstrapNumber(locales: Locale[]) {
                 FunctionDefinition.make(
                     getDocLocales(
                         locales,
-                        (t) => t.native.Number.function.subtract.doc
+                        (locale) => locale.native.Number.function.subtract.doc
                     ),
                     getNameLocales(
                         locales,
-                        (t) => t.native.Number.function.subtract.names
+                        (locale) => locale.native.Number.function.subtract.names
                     ),
                     undefined,
                     [
@@ -208,7 +208,7 @@ export default function bootstrapNumber(locales: Locale[]) {
                 createBinaryOp(
                     getFunctionLocales(
                         locales,
-                        (t) => t.native.Number.function.multiply
+                        (locale) => locale.native.Number.function.multiply
                     ),
                     // The operand's type can be any unitless measurement
                     NumberType.wildcard(),
@@ -222,7 +222,7 @@ export default function bootstrapNumber(locales: Locale[]) {
                 createBinaryOp(
                     getFunctionLocales(
                         locales,
-                        (t) => t.native.Number.function.divide
+                        (locale) => locale.native.Number.function.divide
                     ),
                     NumberType.wildcard(),
                     NumberType.make((left, right) =>
@@ -234,7 +234,7 @@ export default function bootstrapNumber(locales: Locale[]) {
                 createBinaryOp(
                     getFunctionLocales(
                         locales,
-                        (t) => t.native.Number.function.remainder
+                        (locale) => locale.native.Number.function.remainder
                     ),
                     NumberType.wildcard(),
                     NumberType.make((left) => left),
@@ -245,7 +245,7 @@ export default function bootstrapNumber(locales: Locale[]) {
                 createUnaryOp(
                     getFunctionLocales(
                         locales,
-                        (t) => t.native.Number.function.roundDown
+                        (locale) => locale.native.Number.function.roundDown
                     ),
                     NumberType.wildcard(),
                     (requestor, left) => left.roundDown(requestor)
@@ -253,7 +253,7 @@ export default function bootstrapNumber(locales: Locale[]) {
                 createUnaryOp(
                     getFunctionLocales(
                         locales,
-                        (t) => t.native.Number.function.roundUp
+                        (locale) => locale.native.Number.function.roundUp
                     ),
                     NumberType.wildcard(),
                     (requestor, left) => left.roundUp(requestor)
@@ -261,7 +261,7 @@ export default function bootstrapNumber(locales: Locale[]) {
                 createUnaryOp(
                     getFunctionLocales(
                         locales,
-                        (t) => t.native.Number.function.positive
+                        (locale) => locale.native.Number.function.positive
                     ),
                     NumberType.wildcard(),
                     (requestor, left) => left.absolute(requestor)
@@ -269,7 +269,7 @@ export default function bootstrapNumber(locales: Locale[]) {
                 createUnaryOp(
                     getFunctionLocales(
                         locales,
-                        (t) => t.native.Number.function.round
+                        (locale) => locale.native.Number.function.round
                     ),
                     NumberType.wildcard(),
                     (requestor, left) => left.round(requestor)
@@ -277,7 +277,7 @@ export default function bootstrapNumber(locales: Locale[]) {
                 createBinaryOp(
                     getFunctionLocales(
                         locales,
-                        (t) => t.native.Number.function.power
+                        (locale) => locale.native.Number.function.power
                     ),
                     NumberType.wildcard(),
                     NumberType.make((left, right, constant) => {
@@ -292,7 +292,7 @@ export default function bootstrapNumber(locales: Locale[]) {
                 createBinaryOp(
                     getFunctionLocales(
                         locales,
-                        (t) => t.native.Number.function.root
+                        (locale) => locale.native.Number.function.root
                     ),
                     NumberType.wildcard(),
                     NumberType.make((left, right, constant) => {
@@ -307,7 +307,7 @@ export default function bootstrapNumber(locales: Locale[]) {
                 createBinaryOp(
                     getFunctionLocales(
                         locales,
-                        (t) => t.native.Number.function.lessThan
+                        (locale) => locale.native.Number.function.lessThan
                     ),
                     NumberType.make((unit) => unit),
                     BooleanType.make(),
@@ -316,7 +316,7 @@ export default function bootstrapNumber(locales: Locale[]) {
                 createBinaryOp(
                     getFunctionLocales(
                         locales,
-                        (t) => t.native.Number.function.greaterThan
+                        (locale) => locale.native.Number.function.greaterThan
                     ),
                     NumberType.make((unit) => unit),
                     BooleanType.make(),
@@ -326,7 +326,7 @@ export default function bootstrapNumber(locales: Locale[]) {
                 createBinaryOp(
                     getFunctionLocales(
                         locales,
-                        (t) => t.native.Number.function.lessOrEqual
+                        (locale) => locale.native.Number.function.lessOrEqual
                     ),
                     NumberType.make((unit) => unit),
                     BooleanType.make(),
@@ -340,7 +340,7 @@ export default function bootstrapNumber(locales: Locale[]) {
                 createBinaryOp(
                     getFunctionLocales(
                         locales,
-                        (t) => t.native.Number.function.greaterOrEqual
+                        (locale) => locale.native.Number.function.greaterOrEqual
                     ),
                     NumberType.make((unit) => unit),
                     BooleanType.make(),
@@ -354,7 +354,7 @@ export default function bootstrapNumber(locales: Locale[]) {
                 createBinaryOp(
                     getFunctionLocales(
                         locales,
-                        (t) => t.native.Number.function.equal
+                        (locale) => locale.native.Number.function.equal
                     ),
                     NumberType.make((unit) => unit),
                     BooleanType.make(),
@@ -364,7 +364,7 @@ export default function bootstrapNumber(locales: Locale[]) {
                 createBinaryOp(
                     getFunctionLocales(
                         locales,
-                        (t) => t.native.Number.function.notequal
+                        (locale) => locale.native.Number.function.notequal
                     ),
                     NumberType.make((unit) => unit),
                     BooleanType.make(),
@@ -376,7 +376,7 @@ export default function bootstrapNumber(locales: Locale[]) {
                 createUnaryOp(
                     getFunctionLocales(
                         locales,
-                        (t) => t.native.Number.function.cos
+                        (locale) => locale.native.Number.function.cos
                     ),
                     NumberType.make((unit) => unit),
                     (requestor, left) => left.cos(requestor)
@@ -384,7 +384,7 @@ export default function bootstrapNumber(locales: Locale[]) {
                 createUnaryOp(
                     getFunctionLocales(
                         locales,
-                        (t) => t.native.Number.function.sin
+                        (locale) => locale.native.Number.function.sin
                     ),
                     NumberType.make((unit) => unit),
                     (requestor, left) => left.sin(requestor)
@@ -393,7 +393,7 @@ export default function bootstrapNumber(locales: Locale[]) {
                 createNativeConversion(
                     getDocLocales(
                         locales,
-                        (t) => t.native.Number.conversion.text
+                        (locale) => locale.native.Number.conversion.text
                     ),
                     '#?',
                     "''",
@@ -403,7 +403,7 @@ export default function bootstrapNumber(locales: Locale[]) {
                 createNativeConversion(
                     getDocLocales(
                         locales,
-                        (t) => t.native.Number.conversion.list
+                        (locale) => locale.native.Number.conversion.list
                     ),
                     '#',
                     '[#]',
@@ -421,7 +421,7 @@ export default function bootstrapNumber(locales: Locale[]) {
                 createNativeConversion(
                     getDocLocales(
                         locales,
-                        (t) => t.native.Number.conversion.s2m
+                        (locale) => locale.native.Number.conversion.s2m
                     ),
                     '#s',
                     '#min',
@@ -434,7 +434,7 @@ export default function bootstrapNumber(locales: Locale[]) {
                 createNativeConversion(
                     getDocLocales(
                         locales,
-                        (t) => t.native.Number.conversion.s2h
+                        (locale) => locale.native.Number.conversion.s2h
                     ),
                     '#s',
                     '#h',
@@ -447,7 +447,7 @@ export default function bootstrapNumber(locales: Locale[]) {
                 createNativeConversion(
                     getDocLocales(
                         locales,
-                        (t) => t.native.Number.conversion.s2day
+                        (locale) => locale.native.Number.conversion.s2day
                     ),
                     '#s',
                     '#day',
@@ -464,7 +464,7 @@ export default function bootstrapNumber(locales: Locale[]) {
                 createNativeConversion(
                     getDocLocales(
                         locales,
-                        (t) => t.native.Number.conversion.s2wk
+                        (locale) => locale.native.Number.conversion.s2wk
                     ),
                     '#s',
                     '#wk',
@@ -481,7 +481,7 @@ export default function bootstrapNumber(locales: Locale[]) {
                 createNativeConversion(
                     getDocLocales(
                         locales,
-                        (t) => t.native.Number.conversion.s2year
+                        (locale) => locale.native.Number.conversion.s2year
                     ),
                     '#s',
                     '#yr',
@@ -498,7 +498,7 @@ export default function bootstrapNumber(locales: Locale[]) {
                 createNativeConversion(
                     getDocLocales(
                         locales,
-                        (t) => t.native.Number.conversion.s2ms
+                        (locale) => locale.native.Number.conversion.s2ms
                     ),
                     '#s',
                     '#ms',
@@ -515,7 +515,7 @@ export default function bootstrapNumber(locales: Locale[]) {
                 createNativeConversion(
                     getDocLocales(
                         locales,
-                        (t) => t.native.Number.conversion.ms2s
+                        (locale) => locale.native.Number.conversion.ms2s
                     ),
                     '#ms',
                     '#s',
@@ -532,7 +532,7 @@ export default function bootstrapNumber(locales: Locale[]) {
                 createNativeConversion(
                     getDocLocales(
                         locales,
-                        (t) => t.native.Number.conversion.min2s
+                        (locale) => locale.native.Number.conversion.min2s
                     ),
                     '#min',
                     '#s',
@@ -545,7 +545,7 @@ export default function bootstrapNumber(locales: Locale[]) {
                 createNativeConversion(
                     getDocLocales(
                         locales,
-                        (t) => t.native.Number.conversion.h2s
+                        (locale) => locale.native.Number.conversion.h2s
                     ),
                     '#h',
                     '#s',
@@ -558,7 +558,7 @@ export default function bootstrapNumber(locales: Locale[]) {
                 createNativeConversion(
                     getDocLocales(
                         locales,
-                        (t) => t.native.Number.conversion.day2s
+                        (locale) => locale.native.Number.conversion.day2s
                     ),
                     '#day',
                     '#s',
@@ -575,7 +575,7 @@ export default function bootstrapNumber(locales: Locale[]) {
                 createNativeConversion(
                     getDocLocales(
                         locales,
-                        (t) => t.native.Number.conversion.wk2s
+                        (locale) => locale.native.Number.conversion.wk2s
                     ),
                     '#wk',
                     '#s',
@@ -592,7 +592,7 @@ export default function bootstrapNumber(locales: Locale[]) {
                 createNativeConversion(
                     getDocLocales(
                         locales,
-                        (t) => t.native.Number.conversion.yr2s
+                        (locale) => locale.native.Number.conversion.yr2s
                     ),
                     '#yr',
                     '#s',
@@ -611,7 +611,7 @@ export default function bootstrapNumber(locales: Locale[]) {
                 createNativeConversion(
                     getDocLocales(
                         locales,
-                        (t) => t.native.Number.conversion.m2pm
+                        (locale) => locale.native.Number.conversion.m2pm
                     ),
                     '#m',
                     '#pm',
@@ -628,7 +628,7 @@ export default function bootstrapNumber(locales: Locale[]) {
                 createNativeConversion(
                     getDocLocales(
                         locales,
-                        (t) => t.native.Number.conversion.m2nm
+                        (locale) => locale.native.Number.conversion.m2nm
                     ),
                     '#m',
                     '#nm',
@@ -645,7 +645,7 @@ export default function bootstrapNumber(locales: Locale[]) {
                 createNativeConversion(
                     getDocLocales(
                         locales,
-                        (t) => t.native.Number.conversion.m2micro
+                        (locale) => locale.native.Number.conversion.m2micro
                     ),
                     '#m',
                     '#µm',
@@ -662,7 +662,7 @@ export default function bootstrapNumber(locales: Locale[]) {
                 createNativeConversion(
                     getDocLocales(
                         locales,
-                        (t) => t.native.Number.conversion.m2mm
+                        (locale) => locale.native.Number.conversion.m2mm
                     ),
                     '#m',
                     '#mm',
@@ -679,7 +679,7 @@ export default function bootstrapNumber(locales: Locale[]) {
                 createNativeConversion(
                     getDocLocales(
                         locales,
-                        (t) => t.native.Number.conversion.m2cm
+                        (locale) => locale.native.Number.conversion.m2cm
                     ),
 
                     '#m',
@@ -693,7 +693,7 @@ export default function bootstrapNumber(locales: Locale[]) {
                 createNativeConversion(
                     getDocLocales(
                         locales,
-                        (t) => t.native.Number.conversion.m2dm
+                        (locale) => locale.native.Number.conversion.m2dm
                     ),
                     '#m',
                     '#dm',
@@ -706,7 +706,7 @@ export default function bootstrapNumber(locales: Locale[]) {
                 createNativeConversion(
                     getDocLocales(
                         locales,
-                        (t) => t.native.Number.conversion.m2km
+                        (locale) => locale.native.Number.conversion.m2km
                     ),
                     '#m',
                     '#km',
@@ -723,7 +723,7 @@ export default function bootstrapNumber(locales: Locale[]) {
                 createNativeConversion(
                     getDocLocales(
                         locales,
-                        (t) => t.native.Number.conversion.m2Mm
+                        (locale) => locale.native.Number.conversion.m2Mm
                     ),
                     '#m',
                     '#Mm',
@@ -740,7 +740,7 @@ export default function bootstrapNumber(locales: Locale[]) {
                 createNativeConversion(
                     getDocLocales(
                         locales,
-                        (t) => t.native.Number.conversion.m2Gm
+                        (locale) => locale.native.Number.conversion.m2Gm
                     ),
                     '#m',
                     '#Gm',
@@ -757,7 +757,7 @@ export default function bootstrapNumber(locales: Locale[]) {
                 createNativeConversion(
                     getDocLocales(
                         locales,
-                        (t) => t.native.Number.conversion.m2Tm
+                        (locale) => locale.native.Number.conversion.m2Tm
                     ),
                     '#m',
                     '#Tm',
@@ -774,7 +774,7 @@ export default function bootstrapNumber(locales: Locale[]) {
                 createNativeConversion(
                     getDocLocales(
                         locales,
-                        (t) => t.native.Number.conversion.pm2m
+                        (locale) => locale.native.Number.conversion.pm2m
                     ),
                     '#pm',
                     '#m',
@@ -791,7 +791,7 @@ export default function bootstrapNumber(locales: Locale[]) {
                 createNativeConversion(
                     getDocLocales(
                         locales,
-                        (t) => t.native.Number.conversion.nm2m
+                        (locale) => locale.native.Number.conversion.nm2m
                     ),
                     '#nm',
                     '#m',
@@ -808,7 +808,7 @@ export default function bootstrapNumber(locales: Locale[]) {
                 createNativeConversion(
                     getDocLocales(
                         locales,
-                        (t) => t.native.Number.conversion.micro2m
+                        (locale) => locale.native.Number.conversion.micro2m
                     ),
                     '#µm',
                     '#m',
@@ -825,7 +825,7 @@ export default function bootstrapNumber(locales: Locale[]) {
                 createNativeConversion(
                     getDocLocales(
                         locales,
-                        (t) => t.native.Number.conversion.mm2m
+                        (locale) => locale.native.Number.conversion.mm2m
                     ),
                     '#mm',
                     '#m',
@@ -842,7 +842,7 @@ export default function bootstrapNumber(locales: Locale[]) {
                 createNativeConversion(
                     getDocLocales(
                         locales,
-                        (t) => t.native.Number.conversion.cm2m
+                        (locale) => locale.native.Number.conversion.cm2m
                     ),
                     '#cm',
                     '#m',
@@ -855,7 +855,7 @@ export default function bootstrapNumber(locales: Locale[]) {
                 createNativeConversion(
                     getDocLocales(
                         locales,
-                        (t) => t.native.Number.conversion.dm2m
+                        (locale) => locale.native.Number.conversion.dm2m
                     ),
                     '#dm',
                     '#m',
@@ -868,7 +868,7 @@ export default function bootstrapNumber(locales: Locale[]) {
                 createNativeConversion(
                     getDocLocales(
                         locales,
-                        (t) => t.native.Number.conversion.km2m
+                        (locale) => locale.native.Number.conversion.km2m
                     ),
                     '#km',
                     '#m',
@@ -885,7 +885,7 @@ export default function bootstrapNumber(locales: Locale[]) {
                 createNativeConversion(
                     getDocLocales(
                         locales,
-                        (t) => t.native.Number.conversion.Mm2m
+                        (locale) => locale.native.Number.conversion.Mm2m
                     ),
                     '#Mm',
                     '#m',
@@ -902,7 +902,7 @@ export default function bootstrapNumber(locales: Locale[]) {
                 createNativeConversion(
                     getDocLocales(
                         locales,
-                        (t) => t.native.Number.conversion.Gm2m
+                        (locale) => locale.native.Number.conversion.Gm2m
                     ),
                     '#Gm',
                     '#m',
@@ -919,7 +919,7 @@ export default function bootstrapNumber(locales: Locale[]) {
                 createNativeConversion(
                     getDocLocales(
                         locales,
-                        (t) => t.native.Number.conversion.Tm2m
+                        (locale) => locale.native.Number.conversion.Tm2m
                     ),
                     '#Tm',
                     '#m',
@@ -938,7 +938,7 @@ export default function bootstrapNumber(locales: Locale[]) {
                 createNativeConversion(
                     getDocLocales(
                         locales,
-                        (t) => t.native.Number.conversion.km2mi
+                        (locale) => locale.native.Number.conversion.km2mi
                     ),
                     '#km',
                     '#mi',
@@ -955,7 +955,7 @@ export default function bootstrapNumber(locales: Locale[]) {
                 createNativeConversion(
                     getDocLocales(
                         locales,
-                        (t) => t.native.Number.conversion.mi2km
+                        (locale) => locale.native.Number.conversion.mi2km
                     ),
                     '#mi',
                     '#km',
@@ -972,7 +972,7 @@ export default function bootstrapNumber(locales: Locale[]) {
                 createNativeConversion(
                     getDocLocales(
                         locales,
-                        (t) => t.native.Number.conversion.cm2in
+                        (locale) => locale.native.Number.conversion.cm2in
                     ),
                     '#cm',
                     '#in',
@@ -989,7 +989,7 @@ export default function bootstrapNumber(locales: Locale[]) {
                 createNativeConversion(
                     getDocLocales(
                         locales,
-                        (t) => t.native.Number.conversion.in2cm
+                        (locale) => locale.native.Number.conversion.in2cm
                     ),
                     '#in',
                     '#cm',
@@ -1006,7 +1006,7 @@ export default function bootstrapNumber(locales: Locale[]) {
                 createNativeConversion(
                     getDocLocales(
                         locales,
-                        (t) => t.native.Number.conversion.m2ft
+                        (locale) => locale.native.Number.conversion.m2ft
                     ),
                     '#m',
                     '#ft',
@@ -1023,7 +1023,7 @@ export default function bootstrapNumber(locales: Locale[]) {
                 createNativeConversion(
                     getDocLocales(
                         locales,
-                        (t) => t.native.Number.conversion.ft2m
+                        (locale) => locale.native.Number.conversion.ft2m
                     ),
                     '#ft',
                     '#m',
@@ -1042,7 +1042,7 @@ export default function bootstrapNumber(locales: Locale[]) {
                 createNativeConversion(
                     getDocLocales(
                         locales,
-                        (t) => t.native.Number.conversion.g2mg
+                        (locale) => locale.native.Number.conversion.g2mg
                     ),
                     '#g',
                     '#mg',
@@ -1059,7 +1059,7 @@ export default function bootstrapNumber(locales: Locale[]) {
                 createNativeConversion(
                     getDocLocales(
                         locales,
-                        (t) => t.native.Number.conversion.mg2g
+                        (locale) => locale.native.Number.conversion.mg2g
                     ),
                     '#mg',
                     '#g',
@@ -1076,7 +1076,7 @@ export default function bootstrapNumber(locales: Locale[]) {
                 createNativeConversion(
                     getDocLocales(
                         locales,
-                        (t) => t.native.Number.conversion.g2kg
+                        (locale) => locale.native.Number.conversion.g2kg
                     ),
                     '#g',
                     '#kg',
@@ -1093,7 +1093,7 @@ export default function bootstrapNumber(locales: Locale[]) {
                 createNativeConversion(
                     getDocLocales(
                         locales,
-                        (t) => t.native.Number.conversion.kg2g
+                        (locale) => locale.native.Number.conversion.kg2g
                     ),
                     '#kg',
                     '#g',
@@ -1110,7 +1110,7 @@ export default function bootstrapNumber(locales: Locale[]) {
                 createNativeConversion(
                     getDocLocales(
                         locales,
-                        (t) => t.native.Number.conversion.g2oz
+                        (locale) => locale.native.Number.conversion.g2oz
                     ),
                     '#g',
                     '#oz',
@@ -1127,7 +1127,7 @@ export default function bootstrapNumber(locales: Locale[]) {
                 createNativeConversion(
                     getDocLocales(
                         locales,
-                        (t) => t.native.Number.conversion.oz2g
+                        (locale) => locale.native.Number.conversion.oz2g
                     ),
                     '#oz',
                     '#g',
@@ -1144,7 +1144,7 @@ export default function bootstrapNumber(locales: Locale[]) {
                 createNativeConversion(
                     getDocLocales(
                         locales,
-                        (t) => t.native.Number.conversion.oz2lb
+                        (locale) => locale.native.Number.conversion.oz2lb
                     ),
                     '#oz',
                     '#lb',
@@ -1161,7 +1161,7 @@ export default function bootstrapNumber(locales: Locale[]) {
                 createNativeConversion(
                     getDocLocales(
                         locales,
-                        (t) => t.native.Number.conversion.lb2oz
+                        (locale) => locale.native.Number.conversion.lb2oz
                     ),
                     '#lb',
                     '#oz',

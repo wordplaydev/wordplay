@@ -14,7 +14,7 @@ import type Locale from '../locale/Locale';
 
 export function createTypeType(locales: Locale[]) {
     return toStructure(`
-    ${getBind(locales, (t) => t.output.Type, TYPE_SYMBOL)}()
+    ${getBind(locales, (locale) => locale.output.Type, TYPE_SYMBOL)}()
 `);
 }
 
@@ -22,21 +22,21 @@ export const DefaultStyle = 'zippy';
 
 export function createTypeOutputInputs(locales: Locale[]) {
     return `
-${getBind(locales, (t) => t.output.Type.size)}•#m|ø: ø
+${getBind(locales, (locale) => locale.output.Type.size)}•#m|ø: ø
 ${getBind(
     locales,
-    (t) => t.output.Type.family
+    (locale) => locale.output.Type.family
 )}•${SupportedFontsFamiliesType}|ø: ø
-${getBind(locales, (t) => t.output.Type.place)}•ø|Place: ø
-${getBind(locales, (t) => t.output.Type.rotation)}•#°|ø: ø
-${getBind(locales, (t) => t.output.Type.name)}•""|ø: ø
-${getBind(locales, (t) => t.output.Type.selectable)}•?: ⊥
-${getBind(locales, (t) => t.output.Type.enter)}•ø|Pose|Sequence: ø
-${getBind(locales, (t) => t.output.Type.rest)}•ø|Pose|Sequence: Pose()
-${getBind(locales, (t) => t.output.Type.move)}•ø|Pose|Sequence: ø
-${getBind(locales, (t) => t.output.Type.exit)}•ø|Pose|Sequence: ø
-${getBind(locales, (t) => t.output.Type.duration)}•#s: 0s
-${getBind(locales, (t) => t.output.Type.style)}•${locales
+${getBind(locales, (locale) => locale.output.Type.place)}•ø|Place: ø
+${getBind(locales, (locale) => locale.output.Type.rotation)}•#°|ø: ø
+${getBind(locales, (locale) => locale.output.Type.name)}•""|ø: ø
+${getBind(locales, (locale) => locale.output.Type.selectable)}•?: ⊥
+${getBind(locales, (locale) => locale.output.Type.enter)}•ø|Pose|Sequence: ø
+${getBind(locales, (locale) => locale.output.Type.rest)}•ø|Pose|Sequence: Pose()
+${getBind(locales, (locale) => locale.output.Type.move)}•ø|Pose|Sequence: ø
+${getBind(locales, (locale) => locale.output.Type.exit)}•ø|Pose|Sequence: ø
+${getBind(locales, (locale) => locale.output.Type.duration)}•#s: 0s
+${getBind(locales, (locale) => locale.output.Type.style)}•${locales
         .map((locale) =>
             Object.values(locale.output.Easing).map((id) => `"${id}"`)
         )

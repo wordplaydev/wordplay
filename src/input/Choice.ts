@@ -46,8 +46,8 @@ export default class Choice extends Stream<Text> {
 
 export function createChoiceDefinition(locales: Locale[]) {
     return StreamDefinition.make(
-        getDocLocales(locales, (t) => t.input.Choice.doc),
-        getNameLocales(locales, (t) => t.input.Choice.names),
+        getDocLocales(locales, (locale) => locale.input.Choice.doc),
+        getNameLocales(locales, (locale) => locale.input.Choice.names),
         [],
         createStreamEvaluator(
             TextType.make(),

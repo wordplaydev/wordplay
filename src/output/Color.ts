@@ -16,10 +16,10 @@ import type Project from '../models/Project';
 
 export function createColorType(locales: Locale[]) {
     return toStructure(`
-    ${getBind(locales, (t) => t.output.Color, TYPE_SYMBOL)}(
-        ${getBind(locales, (t) => t.output.Color.lightness)}•%
-        ${getBind(locales, (t) => t.output.Color.chroma)}•#
-        ${getBind(locales, (t) => t.output.Color.hue)}•#°
+    ${getBind(locales, (locale) => locale.output.Color, TYPE_SYMBOL)}(
+        ${getBind(locales, (locale) => locale.output.Color.lightness)}•%
+        ${getBind(locales, (locale) => locale.output.Color.chroma)}•#
+        ${getBind(locales, (locale) => locale.output.Color.hue)}•#°
     )
 `);
 }

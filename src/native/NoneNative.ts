@@ -68,8 +68,8 @@ export default function bootstrapNone(locales: Locale[]) {
     }
 
     return StructureDefinition.make(
-        getDocLocales(locales, (t) => t.native.None.doc),
-        getNameLocales(locales, (t) => t.native.None.name),
+        getDocLocales(locales, (locale) => locale.native.None.doc),
+        getNameLocales(locales, (locale) => locale.native.None.name),
         [],
         undefined,
         [],
@@ -78,7 +78,7 @@ export default function bootstrapNone(locales: Locale[]) {
                 createNativeConversion(
                     getDocLocales(
                         locales,
-                        (t) => t.native.None.conversion.text
+                        (locale) => locale.native.None.conversion.text
                     ),
                     NONE_SYMBOL,
                     "''",
@@ -88,7 +88,7 @@ export default function bootstrapNone(locales: Locale[]) {
                 createNativeNoneFunction(
                     getFunctionLocales(
                         locales,
-                        (t) => t.native.None.function.equals
+                        (locale) => locale.native.None.function.equals
                     ),
                     (requestor: Expression, left: None, right: None) =>
                         new Bool(requestor, left.isEqualTo(right))
@@ -96,7 +96,7 @@ export default function bootstrapNone(locales: Locale[]) {
                 createNativeNoneFunction(
                     getFunctionLocales(
                         locales,
-                        (t) => t.native.None.function.notequals
+                        (locale) => locale.native.None.function.notequals
                     ),
                     (requestor: Expression, left: None, right: None) =>
                         new Bool(requestor, !left.isEqualTo(right))

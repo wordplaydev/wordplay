@@ -16,14 +16,14 @@ import type Project from '../models/Project';
 
 export function createPoseType(locales: Locale[]) {
     return toStructure(`
-    ${getBind(locales, (t) => t.output.Pose, '•')}(
-        ${getBind(locales, (t) => t.output.Pose.color)}•Color|ø: ø
-        ${getBind(locales, (t) => t.output.Pose.opacity)}•%|ø: ø
-        ${getBind(locales, (t) => t.output.Pose.offset)}•Place|ø: ø
-        ${getBind(locales, (t) => t.output.Pose.tilt)}•#°|ø: ø
-        ${getBind(locales, (t) => t.output.Pose.scale)}•#|ø: ø
-        ${getBind(locales, (t) => t.output.Pose.flipx)}•?|ø: ø
-        ${getBind(locales, (t) => t.output.Pose.flipy)}•?|ø: ø
+    ${getBind(locales, (locale) => locale.output.Pose, '•')}(
+        ${getBind(locales, (locale) => locale.output.Pose.color)}•Color|ø: ø
+        ${getBind(locales, (locale) => locale.output.Pose.opacity)}•%|ø: ø
+        ${getBind(locales, (locale) => locale.output.Pose.offset)}•Place|ø: ø
+        ${getBind(locales, (locale) => locale.output.Pose.tilt)}•#°|ø: ø
+        ${getBind(locales, (locale) => locale.output.Pose.scale)}•#|ø: ø
+        ${getBind(locales, (locale) => locale.output.Pose.flipx)}•?|ø: ø
+        ${getBind(locales, (locale) => locale.output.Pose.flipy)}•?|ø: ø
     )
 `);
 }

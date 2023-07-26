@@ -10,15 +10,18 @@ import type Locale from '../locale/Locale';
 
 export function createSway(locales: Locale[]) {
     return FunctionDefinition.make(
-        getDocLocales(locales, (t) => t.output.sequence.sway.doc),
-        getNameLocales(locales, (t) => t.output.sequence.sway.names),
+        getDocLocales(locales, (locale) => locale.output.sequence.sway.doc),
+        getNameLocales(locales, (locale) => locale.output.sequence.sway.names),
         undefined,
         [
             Bind.make(
-                getDocLocales(locales, (t) => t.output.sequence.sway.angle.doc),
+                getDocLocales(
+                    locales,
+                    (locale) => locale.output.sequence.sway.angle.doc
+                ),
                 getNameLocales(
                     locales,
-                    (t) => t.output.sequence.sway.angle.names
+                    (locale) => locale.output.sequence.sway.angle.names
                 ),
                 NumberType.make(Unit.make(['°'])),
                 NumberLiteral.make(2, Unit.make(['°']))
@@ -36,18 +39,21 @@ export function createSway(locales: Locale[]) {
 
 export function createBounce(locales: Locale[]) {
     return FunctionDefinition.make(
-        getDocLocales(locales, (t) => t.output.sequence.bounce.doc),
-        getNameLocales(locales, (t) => t.output.sequence.bounce.names),
+        getDocLocales(locales, (locale) => locale.output.sequence.bounce.doc),
+        getNameLocales(
+            locales,
+            (locale) => locale.output.sequence.bounce.names
+        ),
         undefined,
         [
             Bind.make(
                 getDocLocales(
                     locales,
-                    (t) => t.output.sequence.bounce.height.doc
+                    (locale) => locale.output.sequence.bounce.height.doc
                 ),
                 getNameLocales(
                     locales,
-                    (t) => t.output.sequence.bounce.height.names
+                    (locale) => locale.output.sequence.bounce.height.names
                 ),
                 NumberType.make(Unit.make(['m'])),
                 NumberLiteral.make(2, Unit.make(['m']))
@@ -69,8 +75,8 @@ export function createBounce(locales: Locale[]) {
 
 export function createSpin(locales: Locale[]) {
     return FunctionDefinition.make(
-        getDocLocales(locales, (t) => t.output.sequence.spin.doc),
-        getNameLocales(locales, (t) => t.output.sequence.spin.names),
+        getDocLocales(locales, (locale) => locale.output.sequence.spin.doc),
+        getNameLocales(locales, (locale) => locale.output.sequence.spin.names),
         undefined,
         [],
         parseExpression(
@@ -84,8 +90,11 @@ export function createSpin(locales: Locale[]) {
 
 export function createFadeIn(locales: Locale[]) {
     return FunctionDefinition.make(
-        getDocLocales(locales, (t) => t.output.sequence.fadein.doc),
-        getNameLocales(locales, (t) => t.output.sequence.fadein.names),
+        getDocLocales(locales, (locale) => locale.output.sequence.fadein.doc),
+        getNameLocales(
+            locales,
+            (locale) => locale.output.sequence.fadein.names
+        ),
         undefined,
         [],
         parseExpression(
@@ -99,8 +108,8 @@ export function createFadeIn(locales: Locale[]) {
 
 export function createPopup(locales: Locale[]) {
     return FunctionDefinition.make(
-        getDocLocales(locales, (t) => t.output.sequence.popup.doc),
-        getNameLocales(locales, (t) => t.output.sequence.popup.names),
+        getDocLocales(locales, (locale) => locale.output.sequence.popup.doc),
+        getNameLocales(locales, (locale) => locale.output.sequence.popup.names),
         undefined,
         [],
         parseExpression(
@@ -116,8 +125,8 @@ export function createPopup(locales: Locale[]) {
 
 export function createShake(locales: Locale[]) {
     return FunctionDefinition.make(
-        getDocLocales(locales, (t) => t.output.sequence.shake.doc),
-        getNameLocales(locales, (t) => t.output.sequence.shake.names),
+        getDocLocales(locales, (locale) => locale.output.sequence.shake.doc),
+        getNameLocales(locales, (locale) => locale.output.sequence.shake.names),
         undefined,
         [],
         parseExpression(

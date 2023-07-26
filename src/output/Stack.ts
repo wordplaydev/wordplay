@@ -15,8 +15,8 @@ import type Project from '../models/Project';
 
 export function createStackType(locales: Locale[]) {
     return toStructure(`
-    ${getBind(locales, (t) => t.output.Stack, '•')} Arrangement(
-        ${getBind(locales, (t) => t.output.Stack.padding)}•#m: 1m
+    ${getBind(locales, (locale) => locale.output.Stack, '•')} Arrangement(
+        ${getBind(locales, (locale) => locale.output.Stack.padding)}•#m: 1m
     )
 `);
 }

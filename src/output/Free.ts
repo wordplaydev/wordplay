@@ -12,7 +12,7 @@ import type Locale from '../locale/Locale';
 
 export function createFreeType(locales: Locale[]) {
     return toStructure(`
-    ${getBind(locales, (t) => t.output.Free, '•')} Arrangement()
+    ${getBind(locales, (locale) => locale.output.Free, '•')} Arrangement()
 `);
 }
 
