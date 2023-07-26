@@ -2127,7 +2127,7 @@
                 {
                     "name": "Freedom of speech",
                     "concept": "Templates",
-                    "performance": ["use", "FlyIn", "\\"],
+                    "performance": ["use", "FlyIn", "\\\\"],
                     "lines": [
                         ["use", "DarkVoid"],
                         [
