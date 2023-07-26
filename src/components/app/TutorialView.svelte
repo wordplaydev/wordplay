@@ -298,7 +298,7 @@
                         autofocus={false}
                         showHelp={false}
                     /></div
-                >{:else}<PlayView {project} />{/if}
+                >{:else}<PlayView {project} {fit} />{/if}
         {/if}
     {/key}
 </section>
