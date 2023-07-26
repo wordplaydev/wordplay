@@ -368,8 +368,7 @@ function verifyTutorial(locale: Locale, tutorial: Tutorial) {
             //     );
             // }
             if (project.getPrimaryConflicts().size > 0) {
-                bad(2, `Uh oh, there's a conflict in...`);
-                bad(2, code);
+                bad(2, `Uh oh, there's a conflict in...\n\n${code}`);
             }
         }
     }
