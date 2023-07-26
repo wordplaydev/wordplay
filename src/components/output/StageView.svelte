@@ -825,6 +825,7 @@
             style={toCSS({
                 'font-family': `"${verse.font}", ${DefaultFont}`,
                 background: verse.background.toCSS(),
+                '--grid-color': verse.background.complement().toCSS(),
                 color:
                     (verse.rest instanceof Pose
                         ? verse.rest.color?.toCSS()
@@ -959,6 +960,8 @@
         width: 100%;
         height: 100%;
         position: relative;
+
+        --grid-color: currentColor;
     }
 
     .verse[data-selectable='true'] {
@@ -999,9 +1002,9 @@
     .gridline {
         position: absolute;
         border-style: solid;
-        border-color: var(--wordplay-inactive-color);
         border: none;
-        background: var(--wordplay-inactive-color);
+        opacity: 0.2;
+        background-color: var(--grid-color);
     }
 
     .horizontal {
@@ -1015,8 +1018,8 @@
     }
 
     .axis {
-        border-color: currentColor;
-        background: currentColor;
+        background-color: var(--grid-color);
+        opacity: 0.4;
     }
 
     .output-changes {
