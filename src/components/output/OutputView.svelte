@@ -276,12 +276,14 @@
             }
         }
 
-        if (editable && valueView) {
+        if (editable) {
             if (painting) {
                 if (selectedOutputPaths)
                     setSelectedOutput(selectedOutputPaths, project, []);
             } else if (!selectPointerOutput(event)) ignore();
+        }
 
+        if (valueView) {
             // Start dragging.
             const rect = valueView.getBoundingClientRect();
             const dx = event.clientX - rect.left;
@@ -604,8 +606,8 @@
     class="output"
     data-uuid="stage"
     role="application"
-    class:mini
     aria-label={$config.getLocale().ui.section.output}
+    class:mini
     style:direction={$config.getWritingDirection()}
     style:writing-mode={$config.getWritingLayout()}
 >
