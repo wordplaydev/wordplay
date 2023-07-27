@@ -280,7 +280,7 @@
             } else if (!selectPointerOutput(event)) ignore();
         }
 
-        if (valueView) {
+        if (valueView && renderedFocus) {
             // Start dragging.
             const rect = valueView.getBoundingClientRect();
             const dx = event.clientX - rect.left;
