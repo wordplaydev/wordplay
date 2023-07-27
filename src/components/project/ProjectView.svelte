@@ -85,6 +85,7 @@
     } from '../editor/util/Commands';
     import CommandButton from '../widgets/CommandButton.svelte';
     import Help from './Help.svelte';
+    import type Color from '../../output/Color';
 
     export let project: Project;
     export let original: Project | undefined = undefined;
@@ -125,7 +126,7 @@
     let canvasHeight: number = 768;
 
     /** The background color of the output, so we can make the tile match. */
-    let outputBackground: string | null;
+    let outputBackground: Color | string | null;
 
     /** True if the layout has been initialized. Used to remember to only initalize once. */
     let layoutInitialized = false;
@@ -657,7 +658,7 @@
             };
 
         /** Restore focus if on body */
-        if (document.activeElement === document.body && focusedTileID)
+        if (document.activeElement === document.body)
             tick().then(() => focusTile(focusedTileID));
     });
 
@@ -674,15 +675,6 @@
             ? view.querySelector(`.tile[data-id="${firstTileID}"]`)
             : undefined;
         const tileView = focusedTileView ?? firstTileView;
-
-        // The output view handles its own focus management, so if we're focusing on it,
-        // and it's still in view, don't mess with it.
-        if (
-            focusedTileID === OutputID &&
-            focusedTileView !== null &&
-            focusedTileView.contains(document.activeElement)
-        )
-            return;
 
         let viewToFocus: HTMLElement | undefined = undefined;
         if (tileView) {
@@ -726,7 +718,7 @@
             .resized($config.getArrangement(), canvasWidth, canvasHeight);
     }
 
-    function setFullscreen(tile: Tile, fullscreen: boolean) {
+    async function setFullscreen(tile: Tile, fullscreen: boolean) {
         layout = fullscreen
             ? layout.withFullscreen(tile.id)
             : layout.withoutFullscreen();
@@ -769,7 +761,11 @@
         const el = document.elementFromPoint(event.clientX, event.clientY);
         if (el) {
             const tile = el.closest('.tile');
-            if (tile instanceof HTMLElement) focusTile(tile.dataset.id);
+            if (tile instanceof HTMLElement) {
+                focusTile(tile.dataset.id);
+                // Don't let body get focus.
+                event.stopPropagation();
+            }
         }
     }
 
@@ -886,9 +882,12 @@
 
         // See if there's a command that matches...
         const result = handleKeyCommand(event, {
-            caret: Array.from($editors.values()).find(
-                (editor) => editor.focused
-            )?.caret,
+            caret:
+                layout.isFullscreen() && !layout.isSourceExpanded()
+                    ? undefined
+                    : Array.from($editors.values()).find(
+                          (editor) => editor.focused
+                      )?.caret,
             evaluator: $evaluator,
             creator: $config,
             fullscreen,

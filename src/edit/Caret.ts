@@ -651,7 +651,8 @@ export default class Caret {
         }
     }
 
-    insert(text: string): Edit | undefined {
+    /** If complete is true, will automatically close a delimited symbol. */
+    insert(text: string, complete: boolean = true): Edit | undefined {
         // Normalize the mystery string, ensuring it follows Unicode normalization form.
         text = text.normalize();
 
@@ -722,6 +723,7 @@ export default class Caret {
             ];
         // Otherwise, if the text to insert is an opening delimiter and this isn't an unclosed text delimiter, automatically insert its closing counterpart.
         else if (
+            complete &&
             text in DELIMITERS &&
             !this.isInsideText() &&
             (this.tokenPrior === undefined ||

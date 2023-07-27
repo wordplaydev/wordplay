@@ -28,7 +28,7 @@ Group(
     100%:Pose(tilt:360° color:Color(10% 0 0°))} duration:20s))
   ] background: Color(0% 0 0°)
 )`,
-    TakeTheMic: () => `Phrase("🎤" size: Mic()·1m)`,
+    TakeTheMic: () => `Phrase("🎤" size: Mic()· 1m)`,
     RainingEmoji: () => `count: 50
 size: 30
 
@@ -128,8 +128,9 @@ Stage([] background: Color(0% 0 0°))`,
     EvaluateDance3: () => `•Character(glyph•"" place•Place rotation•#°)
 Stage([]  background:Color(0% 0 0°))`,
     EvaluateDance4: () => `•Character(glyph•"" place•Place rotation•#°)
-Stage([]  background:Color(0% 0 0°))
-symbols: [ "()" "⊤" "⊥" "''" "#" "[]" "{}" "{:}" "?" "→" "//" ":" "ƒ" "•"]`,
+symbols: [ "()" "⊤" "⊥" "''" "#" "[]" "{}" "{:}" "?" "→" "//" ":" "ƒ" "•"]
+Stage([] background:Color(0% 0 0°))
+`,
     EvaluateDance5: () => `•Character(glyph•"" place•Place rotation•#°)
 initial•[Character]: [ "()" "⊤" "⊥" "''" "#" "[]" "{}" "{:}" "?" "→" "//" ":" "ƒ" "•"].translate(ƒ(glyph•"") Character(glyph Place() 0°))
 Stage([]  background:Color(0% 0 0°))`,
@@ -172,7 +173,7 @@ initial•[Character]:
   translate(ƒ(glyph•"") 
     Character(
       glyph 
-      Place(Random() · 10m Random() · 10m Random(-3 3) ·1m) 
+      Place(Random() · 10m Random() · 10m Random(-3 3) · 1m) 
       0°)
     )
 Stage([
@@ -197,7 +198,7 @@ initial•[Character]:
       translate(ƒ(glyph•"") 
       Character(
           glyph 
-          Place(Random() · 10m Random() · 10m Random(-3 3) ·1m) 
+          Place(Random() · 10m Random() · 10m Random(-3 3) · 1m) 
           0°)
       )
 
@@ -231,7 +232,7 @@ initial•[Character]:
   translate(ƒ(glyph•"") 
     Character(
       glyph 
-      Place(Random() · 10m Random() · 10m Random(-3 3) ·1m) 
+      Place(Random() · 10m Random() · 10m Random(-3 3) · 1m) 
       0°)
     )
 
@@ -256,7 +257,7 @@ background:Color(0% 0 0°))`,
 ƒ move()
   Character(
    glyph
-   Place(place.x + (Random(-1 1) · 1m) place.y + (Random(-1 1) · 1m) Random(-3 3) ·1m)
+   Place(place.x + (Random(-1 1) · 1m) place.y + (Random(-1 1) · 1m) Random(-3 3) · 1m)
    Random(-45 45) · 1°
   )
 )
@@ -266,7 +267,7 @@ initial•[Character]:
   translate(ƒ(glyph•"") 
     Character(
       glyph 
-      Place(Random() · 10m Random() · 10m Random(-3 3) ·1m) 
+      Place(Random() · 10m Random() · 10m Random(-3 3) · 1m) 
       0°)
     )
 
@@ -291,7 +292,7 @@ background:Color(0% 0 0°))`,
 ƒ move()
   Character(
    glyph
-   Place(place.x + (Random(-1 1) · 1m) place.y + (Random(-1 1) · 1m) Random(-3 3) ·1m)
+   Place(place.x + (Random(-1 1) · 1m) place.y + (Random(-1 1) · 1m) Random(-3 3) · 1m)
    Random(-45 45) · 1°
   )
 )
@@ -301,7 +302,7 @@ initial•[Character]:
   translate(ƒ(glyph•"") 
     Character(
       glyph 
-      Place(Random() · 10m Random() · 10m Random(-3 3) ·1m) 
+      Place(Random() · 10m Random() · 10m Random(-3 3) · 1m) 
       0°)
     )
 
@@ -326,7 +327,7 @@ background:Color(0% 0 0°))`,
 ƒ move()
   Character(
    glyph
-   Place(place.x + (Random(-1 1) · 1m) place.y + (Random(-1 1) · 1m) Random(-3 3) ·1m)
+   Place(place.x + (Random(-1 1) · 1m) place.y + (Random(-1 1) · 1m) Random(-3 3) · 1m)
    Random(-45 45) · 1°
   )
 )
@@ -336,7 +337,7 @@ initial•[Character]:
   translate(ƒ(glyph•"") 
     Character(
       glyph 
-      Place(Random() · 10m Random() · 10m Random(-3 3) ·1m) 
+      Place(Random() · 10m Random() · 10m Random(-3 3) · 1m) 
       0°)
     )
 
@@ -364,7 +365,7 @@ background:Color(0% 0 0°)
 ƒ move()
   Character(
    glyph
-   Place(place.x + (Random(-1 1) · 1m) place.y + (Random(-1 1) · 1m) Random(-3 3) ·1m)
+   Place(place.x + (Random(-1 1) · 1m) place.y + (Random(-1 1) · 1m) Random(-3 3) · 1m)
    Random(-45 45) · 1°
   )
 )
@@ -374,7 +375,7 @@ initial•[Character]:
   translate(ƒ(glyph•"") 
     Character(
       glyph 
-      Place(Random() · 10m Random() · 10m Random(-3 3) ·1m) 
+      Place(Random() · 10m Random() · 10m Random(-3 3) · 1m) 
       0°)
     )
 
@@ -389,7 +390,7 @@ Group(
       size: 3m
       rotation: char.rotation
       place: char.place
-      rest: Pose(color:Color(Mic()·1% Mic() 0°))
+      rest: Pose(color:Color(Mic() · 1% Mic() 0°))
       move: Pose()
       duration: 0.5s
     )

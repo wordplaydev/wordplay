@@ -61,7 +61,7 @@
                 <Note
                     >{$config
                         .getLocales()
-                        .map((t) => t.ui.labels.computed)}</Note
+                        .map((locale) => locale.ui.labels.computed)}</Note
                 >
             {/if}
         </div>

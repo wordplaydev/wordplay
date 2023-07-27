@@ -3,12 +3,12 @@
     "acts": [
         {
             "name": "The Verse",
-            "performance": ["use", "DarkVoid"],
+            "performance": ["use", "fit", "DarkVoid"],
             "scenes": [
                 {
                     "name": "Silence",
                     "concept": null,
-                    "performance": ["use", "DarkVoid"],
+                    "performance": ["use", "fit", "DarkVoid"],
                     "lines": [
                         ["FunctionDefinition", "bored", "… Oh, hi."],
                         null,
@@ -131,7 +131,7 @@
                 {
                     "name": "Would you like a program?",
                     "concept": "Program",
-                    "performance": ["use", "Symbol", "📄"],
+                    "performance": ["use", "fit", "Symbol", "📄"],
                     "lines": [
                         ["fit", "Phrase('📄' rest: Pose(tilt: 10°))"],
                         [
@@ -206,7 +206,7 @@
                             "See? I just showed your new word, not ⧼'hello'⧽. You know you broke my rule because I underlined ⧼'hello'⧽ and told you that I'd be ignoring it."
                         ],
                         null,
-                        ["use", "Symbol", "🎭"],
+                        ["use", "fit", "Symbol", "🎭"],
                         [
                             "FunctionDefinition",
                             "excited",
@@ -239,7 +239,7 @@
                 {
                     "name": "Holding space",
                     "concept": "Placeholder",
-                    "performance": ["use", "DarkVoid"],
+                    "performance": ["use", "fit", "DarkVoid"],
                     "lines": [
                         [
                             "FunctionDefinition",
@@ -319,7 +319,7 @@
                             "But if you click on @ExpressionPlaceholder, or move the text caret over it, you'll see a world of possibilities of other characters. You can also just type over @ExpressionPlaceholder and write your own. For example, try typing your name in quotes."
                         ],
                         null,
-                        ["use", "Symbol", "-"],
+                        ["use", "fit", "Symbol", "-"],
                         [
                             "FunctionDefinition",
                             "serious",
@@ -338,7 +338,7 @@
                             "It was nice to meet you!"
                         ],
                         null,
-                        ["use", "DarkVoid"],
+                        ["use", "fit", "DarkVoid"],
                         [
                             "FunctionDefinition",
                             "cheerful",
@@ -349,7 +349,7 @@
                 {
                     "name": "Say again?",
                     "concept": "Unparsable",
-                    "performance": ["use", "Symbol", "ahkeolfewvk"],
+                    "performance": ["use", "fit", "Symbol", "ahkeolfewvk"],
                     "lines": [
                         [
                             "FunctionDefinition",
@@ -362,7 +362,7 @@
                             "/dwjkdlserkuvisdke!/"
                         ],
                         null,
-                        ["use", "Symbol", "c iise we dvk"],
+                        ["use", "fit", "Symbol", "c iise we dvk"],
                         [
                             "FunctionDefinition",
                             "excited",
@@ -379,7 +379,7 @@
                             "(It sounds like they spent a lot of time on the beach. They made some new friends, and practiced doing nothing.)"
                         ],
                         null,
-                        ["use", "Symbol", "ivioas we wjjdks"],
+                        ["use", "fit", "Symbol", "ivioas we wjjdks"],
                         [
                             "FunctionDefinition",
                             "excited",
@@ -396,7 +396,7 @@
                             "(They just said how awesome it is to meet you, and they think you'll be a great director.)"
                         ],
                         null,
-                        ["use", "Symbol", "v s d we iweiwei"],
+                        ["use", "fit", "Symbol", "v s d we iweiwei"],
                         [
                             "FunctionDefinition",
                             "neutral",
@@ -707,12 +707,12 @@
         },
         {
             "name": "It's the little things",
-            "performance": ["use", "PrimitiveJiggle"],
+            "performance": ["use", "fit", "PrimitiveJiggle"],
             "scenes": [
                 {
                     "name": "Values",
                     "concept": null,
-                    "performance": ["use", "Symbol", "💡"],
+                    "performance": ["use", "fit", "Symbol", "💡"],
                     "lines": [
                         [
                             "fit",
@@ -753,7 +753,7 @@
                             "*Expressions* are how we create values. All expressions are evaluations of functions that I make. The result of evaluating an expression is a value of some type."
                         ],
                         null,
-                        ["use", "Symbol", "🤔"],
+                        ["use", "fit", "Symbol", "🤔"],
                         [
                             "FunctionDefinition",
                             "serious",
@@ -876,7 +876,7 @@
                         "                    ])"
                     ],
                     "lines": [
-                        ["use", "Symbol", "🥰"],
+                        ["use", "fit", "Symbol", "🥰"],
                         [
                             "FunctionDefinition",
                             "happy",
@@ -1150,7 +1150,7 @@
                         ")"
                     ],
                     "lines": [
-                        ["use", "Symbol", "😞"],
+                        ["use", "fit", "Symbol", "😞"],
                         [
                             "FunctionDefinition",
                             "confused",
@@ -1322,7 +1322,7 @@
                 {
                     "name": "Opening (re)marks",
                     "concept": "Prefix",
-                    "performance": ["use", "Symbol", "~"],
+                    "performance": ["use", "fit", "Symbol", "~"],
                     "lines": [
                         [
                             "FunctionDefinition",
@@ -1485,7 +1485,7 @@
                             "kind",
                             "Do you want to meet them? Let's start with @List first… they're the first collection I met, and probably the most visible in our community, since they're so useful in organizing other values for performances."
                         ],
-                        ["use", "Symbol", "[]"]
+                        ["use", "fit", "Symbol", "[]"]
                     ]
                 },
                 {
@@ -1659,7 +1659,7 @@
                         "                    Group(Row() [Phrase('{' rest: clockwise) Phrase('}' rest: counter) ])"
                     ],
                     "lines": [
-                        ["use", "DarkVoid"],
+                        ["use", "fit", "DarkVoid"],
                         [
                             "FunctionDefinition",
                             "neutral",
@@ -1745,7 +1745,7 @@
                             "There's lots more I can do thanks to @FunctionDefinition here. Come find me anytime you want to learn more!"
                         ],
                         null,
-                        ["use", "DarkVoid"],
+                        ["use", "fit", "DarkVoid"],
                         [
                             "Set",
                             "curious",
@@ -1776,7 +1776,7 @@
                         "                    Group(Row(0m) [Phrase('{' rest: clockwise) Phrase(':') Phrase('}' rest: counter) ])"
                     ],
                     "lines": [
-                        ["use", "DarkVoid"],
+                        ["use", "fit", "DarkVoid"],
                         [
                             "FunctionDefinition",
                             "neutral",
@@ -1902,7 +1902,7 @@
                             "{ 'ben': 2points 'joe': 5points 'kate': 12points }{'ben'}"
                         ],
                         null,
-                        ["use", "DarkVoid"],
+                        ["use", "fit", "DarkVoid"],
                         [
                             "Map",
                             "neutral",
@@ -1943,7 +1943,7 @@
                 {
                     "name": "Detour",
                     "concept": null,
-                    "performance": ["use", "DarkVoid"],
+                    "performance": ["use", "fit", "DarkVoid"],
                     "lines": [
                         [
                             "FunctionDefinition",
@@ -1969,9 +1969,9 @@
                 {
                     "name": "We can be anything",
                     "concept": "Convert",
-                    "performance": ["use", "FlyIn", "→"],
+                    "performance": ["use", "fix", "FlyIn", "→"],
                     "lines": [
-                        ["use", "DarkVoid"],
+                        ["use", "fit", "DarkVoid"],
                         [
                             "FunctionDefinition",
                             "neutral",
@@ -2070,7 +2070,7 @@
                         ],
                         ["edit", "10s → {}"],
                         null,
-                        ["use", "Symbol", "📕"],
+                        ["use", "fit", "Symbol", "📕"],
                         [
                             "FunctionDefinition",
                             "serious",
@@ -2082,7 +2082,7 @@
                             "Yeahhh… you can always check a type of value and see what types of conversions they support."
                         ],
                         null,
-                        ["use", "Symbol", "🧐"],
+                        ["use", "fit", "Symbol", "🧐"],
                         [
                             "FunctionDefinition",
                             "curious",
@@ -2099,7 +2099,7 @@
                         ["Convert", "surprised", "🤯"],
                         ["edit", "Phrase('🤯')"],
                         null,
-                        ["use", "Symbol", "🤯"],
+                        ["use", "fit", "Symbol", "🤯"],
                         [
                             "FunctionDefinition",
                             "kind",
@@ -2127,9 +2127,9 @@
                 {
                     "name": "Freedom of speech",
                     "concept": "Templates",
-                    "performance": ["use", "FlyIn", "\\"],
+                    "performance": ["use", "fix", "FlyIn", "\\\\"],
                     "lines": [
-                        ["use", "DarkVoid"],
+                        ["use", "fit", "DarkVoid"],
                         [
                             "FunctionDefinition",
                             "neutral",
@@ -2212,7 +2212,7 @@
                             "\"I'm just \\\\regular\\\\ text, not a template.\""
                         ],
                         null,
-                        ["use", "DarkVoid"],
+                        ["use", "fit", "DarkVoid"],
                         [
                             "FunctionDefinition",
                             "excited",
@@ -2239,9 +2239,9 @@
                 {
                     "name": "How to choose?",
                     "concept": "Decisions",
-                    "performance": ["use", "FlyIn", "?"],
+                    "performance": ["use", "fix", "FlyIn", "?"],
                     "lines": [
-                        ["use", "DarkVoid"],
+                        ["use", "fit", "DarkVoid"],
                         [
                             "FunctionDefinition",
                             "neutral",
@@ -2254,7 +2254,7 @@
                             "To be clear, not all decisions: I have my own life, and they have theirs. But in a performance, when we're trying to decide what to do next on stage, it's all up to them to follow your guidance as director and decide what to do. So they're a key partner creating exciting performances."
                         ],
                         null,
-                        ["use", "SpinningInTheDark", "?"],
+                        ["use", "fit", "SpinningInTheDark", "?"],
                         [
                             "FunctionDefinition",
                             "curious",
@@ -2334,7 +2334,7 @@
                         ],
                         ["conflict", "1 ? 'beautiful' 'ugly'"],
                         null,
-                        ["use", "SpinningInTheDark", "?"],
+                        ["use", "fit", "SpinningInTheDark", "?"],
                         [
                             "FunctionDefinition",
                             "sad",
@@ -2364,17 +2364,17 @@
         },
         {
             "name": "Scene change",
-            "performance": ["use", "TakeTheMic"],
+            "performance": ["use", "fit", "TakeTheMic"],
             "scenes": [
                 {
                     "name": "Input",
                     "concept": null,
-                    "performance": ["use", "DarkVoid"],
+                    "performance": ["use", "fit", "DarkVoid"],
                     "lines": [
                         [
                             "fix",
                             "amp: (Mic() ÷ 10)",
-                            "                        Phrase('.'.repeat(amp.integer()) rest: Pose(scale: amp))"
+                            "Phrase('.'.repeat(amp.roundDown()) rest: Pose(scale: amp))"
                         ],
                         [
                             "FunctionDefinition",
@@ -2401,7 +2401,7 @@
                 {
                     "name": "Tick, tick, tick...",
                     "concept": "Time",
-                    "performance": ["use", "Symbol", "🕦"],
+                    "performance": ["use", "fit", "Symbol", "🕦"],
                     "lines": [
                         [
                             "FunctionDefinition",
@@ -2459,7 +2459,7 @@
                 {
                     "name": "Clickity clack",
                     "concept": "Key",
-                    "performance": ["use", "Symbol", "⌨️"],
+                    "performance": ["use", "fit", "Symbol", "⌨️"],
                     "lines": [
                         [
                             "fit",
@@ -2477,7 +2477,7 @@
                             "Here's a simple example. Click the stage or focus it with the keyboard and then press any keyboard key. You'll see the key you've typed appear by name. That's because each time the key stream changes, @Program evaluates the key stream as its latest value, and then shows it on stage."
                         ],
                         ["Key", "neutral", "clickety clickety clickety"],
-                        ["edit", "Phrase(Key())"],
+                        ["edit", "Key()"],
                         null,
                         [
                             "FunctionDefinition",
@@ -2485,7 +2485,7 @@
                             "This stream will change any time any key is pressed. But you can tell a key stream to just change when a particular key is pressed. See how the stream changes to ⧼a⧽ the first time, but then doesn't change after? That's because this stream only changes when ⧼a⧽ is pressed, so it's always showing ⧼a⧽. But you'll always see the new key value appear in the timeline."
                         ],
                         ["Key", "neutral", "clickety 'a'…"],
-                        ["edit", "Phrase(Key('a'))"],
+                        ["edit", "Key('a')"],
                         null,
                         [
                             "FunctionDefinition",
@@ -2493,7 +2493,7 @@
                             "Sometimes it's helpful to know when a key is released, instead of pressed. Just pass ⧼⊥⧽ to tell the @Key stream that you to know when a key is released instead of pressed. Now, press and hold the 'a' key and then when you release, you'll see the 'a' appear on stage. Didn't catch it? Press the ↻ button to reset the performance and try it again."
                         ],
                         ["Key", "neutral", "clickety 'a'…"],
-                        ["edit", "Phrase(Key('a' ⊥))"],
+                        ["edit", "Key('a' ⊥)"],
                         null,
                         [
                             "FunctionDefinition",
@@ -2501,13 +2501,13 @@
                             "@Key streams are really helpful when you want a performance to react to keys that the audience presses. For example, you could check if a key has the word 'Arrow' in it to decide if an arrow key was pressed. Press an arrow key and you'll see ⧼'move'⧽, press something else and you'll see ⧼'stay'⧽"
                         ],
                         ["Key", "neutral", "clickety 'Arrow'…"],
-                        ["edit", "Phrase(Key().has('Arrow') ? 'move' 'stay')"]
+                        ["edit", "Key().has('Arrow') ? 'move' 'stay'"]
                     ]
                 },
                 {
                     "name": "Hummmmmmm…",
                     "concept": "Pointer",
-                    "performance": ["use", "Symbol", "👆🏻"],
+                    "performance": ["use", "fit", "Symbol", "👆🏻"],
                     "lines": [
                         [
                             "fix",
@@ -2539,7 +2539,7 @@
                 {
                     "name": "And... now!",
                     "concept": "Button",
-                    "performance": ["use", "Symbol", "🖱️"],
+                    "performance": ["use", "fit", "Symbol", "🖱️"],
                     "lines": [
                         [
                             "FunctionDefinition",
@@ -2568,7 +2568,7 @@
                 {
                     "name": "Is anyone listening?",
                     "concept": "Mic",
-                    "performance": ["use", "Symbol", "🎤"],
+                    "performance": ["use", "fit", "Symbol", "🎤"],
                     "lines": [
                         [
                             "FunctionDefinition",
@@ -2633,7 +2633,7 @@
                         ")"
                     ],
                     "lines": [
-                        ["use", "DarkVoid"],
+                        ["use", "fit", "DarkVoid"],
                         [
                             "FunctionDefinition",
                             "excited",
@@ -2709,7 +2709,7 @@
                 {
                     "name": "On cue",
                     "concept": "Reaction",
-                    "performance": ["use", "Symbol", "…"],
+                    "performance": ["use", "fit", "Symbol", "…"],
                     "lines": [
                         ["fit", "Phrase('…' rest: Pose(tilt: 120°))"],
                         [
@@ -2842,42 +2842,42 @@
         },
         {
             "name": "Take the stage",
-            "performance": ["use", "RainingEmoji"],
+            "performance": ["use", "fix", "RainingEmoji"],
             "scenes": [
                 {
                     "name": "Output",
                     "concept": null,
-                    "performance": ["use", "StaticRainingEmoji"],
+                    "performance": ["use", "fix", "StaticRainingEmoji"],
                     "lines": [
-                        ["use", "Symbol", "😀"],
+                        ["use", "fit", "Symbol", "😀"],
                         [
                             "FunctionDefinition",
                             "happy",
                             "So what do you think so far? I think the Verse is pretty neat, mostly because the characters in it are so neat. Everyone is just so special!"
                         ],
                         null,
-                        ["use", "Symbol", "🥱"],
+                        ["use", "fit", "Symbol", "🥱"],
                         [
                             "FunctionDefinition",
                             "curious",
                             "You're bored? Oh my. I thought all of this would be so interesting! What were you hoping for?"
                         ],
                         null,
-                        ["use", "Symbol", "😴"],
+                        ["use", "fit", "Symbol", "😴"],
                         [
                             "FunctionDefinition",
                             "serious",
                             "I see. Text and numbers and lists and streams are boring. I guess I really haven't shown you all the things we can make with all of this. Maybe it's time we start talking about output."
                         ],
                         null,
-                        ["use", "Symbol", "🤗"],
+                        ["use", "fit", "Symbol", "🤗"],
                         [
                             "FunctionDefinition",
                             "neutral",
                             "You've seen a lot of output already. Every time @Program evaluates, it results in a value, and @Program shows that value on stage. But so far you've only seen things like numbers, text, lists. I get it, you just want to see full performances, just like we do!"
                         ],
                         null,
-                        ["use", "Symbol", "💬"],
+                        ["use", "fit", "Symbol", "💬"],
                         [
                             "FunctionDefinition",
                             "eager",
@@ -2888,7 +2888,7 @@
                 {
                     "name": "Say what?",
                     "concept": "Phrase",
-                    "performance": ["use", "Symbol", "💬"],
+                    "performance": ["use", "fit", "Symbol", "💬"],
                     "lines": [
                         [
                             "FunctionDefinition",
@@ -2989,6 +2989,7 @@
                         ],
                         [
                             "use",
+                            "fix",
                             "Symbol",
                             "hi' Time(100ms) · 0.001m/ms 'Poor Story"
                         ],
@@ -3179,9 +3180,9 @@
                 {
                     "name": "1, 2, 3, 4, 1, 2, 3, 4",
                     "concept": "Sequence",
-                    "performance": ["use", "DancingEmoji", "💃"],
+                    "performance": ["use", "fix", "DancingEmoji", "💃"],
                     "lines": [
-                        ["use", "DarkVoid"],
+                        ["use", "fit", "DarkVoid"],
                         [
                             "FunctionDefinition",
                             "kind",
@@ -3319,7 +3320,7 @@
                             ")"
                         ],
                         null,
-                        ["use", "DarkVoid"],
+                        ["use", "fit", "DarkVoid"],
                         [
                             "FunctionDefinition",
                             "kind",
@@ -3337,9 +3338,9 @@
                             "serious",
                             "Yeah, hmm, oooh, up, eee, eee, eee, eee, bam, boo, yeah, hmm, oooh, up, eee, eee, eee, eee, bam, boo, yeah, hmm, oooh, up, eee, eee, eee, eee, bam, boo, …"
                         ],
-                        ["use", "DonutDance"],
+                        ["use", "fit", "DonutDance"],
                         null,
-                        ["use", "DonutDance"],
+                        ["use", "fit", "DonutDance"],
                         [
                             "FunctionDefinition",
                             "happy",
@@ -3360,7 +3361,7 @@
                         "Group(Grid(2 2) [Phrase('1' rest: Sequence(spin() 1s)) Phrase('2' rest: Sequence(spin() 2s)) Phrase('3' rest: Sequence(spin() 3s)) Phrase('4' rest: Sequence(spin() 4s))])"
                     ],
                     "lines": [
-                        ["use", "Symbol", "☹️"],
+                        ["use", "fit", "Symbol", "☹️"],
                         [
                             "FunctionDefinition",
                             "neutral",
@@ -3368,7 +3369,7 @@
                             "…"
                         ],
                         null,
-                        ["use", "Symbol", "😕"],
+                        ["use", "fit", "Symbol", "😕"],
                         [
                             "FunctionDefinition",
                             "serious",
@@ -3377,7 +3378,7 @@
                             "I think what will help is introducing you to the rest of us, and then putting on a show, and then I think @Evaluate and I can sort things out."
                         ],
                         null,
-                        ["use", "Symbol", "🙂"],
+                        ["use", "fit", "Symbol", "🙂"],
                         [
                             "FunctionDefinition",
                             "eager",
@@ -3572,7 +3573,7 @@
                             ")"
                         ],
                         null,
-                        ["use", "DarkVoid"],
+                        ["use", "fit", "DarkVoid"],
                         [
                             "Group",
                             "curious",
@@ -3770,23 +3771,23 @@
         },
         {
             "name": "Callbacks",
-            "performance": ["use", "DarkVoid"],
+            "performance": ["use", "fit", "DarkVoid"],
             "scenes": [
                 {
                     "name": "Memories",
                     "concept": null,
-                    "performance": ["use", "Symbol", "💭"],
+                    "performance": ["use", "fit", "Symbol", "💭"],
                     "lines": [
                         ["FunctionDefinition", "curious", "…"],
                         null,
-                        ["use", "Symbol", "🤯"],
+                        ["use", "fit", "Symbol", "🤯"],
                         [
                             "FunctionDefinition",
                             "neutral",
                             "Sometimes I just need to pause and reflect on how incredible my little community is. We are all so different, and none of us could perform alone. But together, we can do such amazing things!"
                         ],
                         null,
-                        ["use", "Symbol", "🧠"],
+                        ["use", "fit", "Symbol", "🧠"],
                         [
                             "FunctionDefinition",
                             "kind",
@@ -3797,7 +3798,7 @@
                 {
                     "name": "Naming",
                     "concept": "Bind",
-                    "performance": ["use", "Symbol", ":"],
+                    "performance": ["use", "fit", "Symbol", ":"],
                     "lines": [
                         ["fit", "Phrase(':' rotation: 90°)"],
                         [
@@ -3843,7 +3844,7 @@
                             "I haven't told our inspiration here about names at all, aside from the names of all of the characters we've met. Do you want to explain how names work here?"
                         ],
                         null,
-                        ["use", "Symbol", ":"],
+                        ["use", "fit", "Symbol", ":"],
                         [
                             "Bind",
                             "excited",
@@ -4007,7 +4008,7 @@
                         ],
                         ["conflict", "fruit/en,fruta/es,水果/zh: 5"],
                         null,
-                        ["use", "Symbol", ":"],
+                        ["use", "fit", "Symbol", ":"],
                         [
                             "FunctionDefinition",
                             "curious",
@@ -4023,7 +4024,7 @@
                 {
                     "name": "Off stage",
                     "concept": "Block",
-                    "performance": ["use", "Symbol", "()"],
+                    "performance": ["use", "fit", "Symbol", "()"],
                     "lines": [
                         ["fix", "Phrase('()' 1m)"],
                         [
@@ -4143,23 +4144,23 @@
                 {
                     "name": "Stage directions",
                     "concept": "Functions",
-                    "performance": ["use", "Symbol", "ƒ"],
+                    "performance": ["use", "fit", "Symbol", "ƒ"],
                     "lines": [
-                        ["use", "Symbol", "☺️"],
+                        ["use", "fit", "Symbol", "☺️"],
                         [
                             "FunctionDefinition",
                             "happy",
                             "I'm so happy we've found everyone, and that you've been able to meet all of them. Everyone is so different, aren't they? But also so interesting? I feel like we're a family, where everyone is unique in their own way, but that our differences together is what makes us strong. What do you think of everyone?"
                         ],
                         null,
-                        ["use", "Symbol", "🙈"],
+                        ["use", "fit", "Symbol", "🙈"],
                         [
                             "FunctionDefinition",
                             "curious",
                             "Me? Well, I'm nothing special. I just like being behind the scenes, helping out, showing everyone how they're special. I guess I hadn't even thought about talking about myself. I guess we can talk a bit about me."
                         ],
                         null,
-                        ["use", "Symbol", "ƒ"],
+                        ["use", "fit", "Symbol", "ƒ"],
                         [
                             "FunctionDefinition",
                             "serious",
@@ -4232,7 +4233,7 @@
                             "Group(Grid(3 2) [Phrase('translate') Phrase('filter') Phrase('combine') Phrase('find') Phrase('sort') Phrase('until')])"
                         ],
                         null,
-                        ["use", "DarkVoid"],
+                        ["use", "fit", "DarkVoid"],
                         [
                             "FunctionDefinition",
                             "sad",
@@ -4243,9 +4244,9 @@
                 {
                     "name": "Set design",
                     "concept": "Structures",
-                    "performance": ["use", "Symbol", "•"],
+                    "performance": ["use", "fit", "Symbol", "•"],
                     "lines": [
-                        ["use", "DarkVoid"],
+                        ["use", "fit", "DarkVoid"],
                         [
                             "FunctionDefinition",
                             "sad",
@@ -4562,14 +4563,14 @@
                 {
                     "name": "Director's notes",
                     "concept": "Doc",
-                    "performance": ["use", "Symbol", "`"],
+                    "performance": ["use", "fit", "Symbol", "`"],
                     "lines": [
                         [
                             "FunctionDefinition",
                             "eager",
                             "Wow, we've come a long way, haven't we? We have one more character to go. They're an interesting one, because in essence, they're all about explaining things, which feels like what I've been doing with you for a while now. Their name is @Doc. What's up @Doc?"
                         ],
-                        ["use", "Symbol", "``"],
+                        ["use", "fit", "Symbol", "``"],
                         [
                             "Doc",
                             "surprised",
@@ -4586,14 +4587,14 @@
                             "kind",
                             "It's so nice to meet you! I hope @FunctionDefinition has been a good teacher?"
                         ],
-                        ["use", "Symbol", "``/"],
+                        ["use", "fit", "Symbol", "``/"],
                         null,
                         [
                             "FunctionDefinition",
                             "eager",
                             "I've tried… you know, you're our last stop? You're so essential, but also, there's so much to explain before we even get to explaining our performances. So I wanted you to get the last word. Do you want to share what you do?"
                         ],
-                        ["use", "Symbol", "``/en"],
+                        ["use", "fit", "Symbol", "``/en"],
                         null,
                         [
                             "Doc",
@@ -4606,7 +4607,7 @@
                             "happy",
                             "I'm a way you can remind yourself what everyone is doing, but also a way to explain to others, if you're directing with a friend, or want to share your performance with someone. So you don't /have/ to work with me, but I find that every performance is a bit easier to do and change if you've spent some time explaining how it works."
                         ],
-                        ["use", "Symbol", "`About me...`/en"],
+                        ["use", "fit", "Symbol", "`About me...`/en"],
                         null,
                         [
                             "FunctionDefinition",
@@ -4692,7 +4693,7 @@
                             "Phrase(“✈️”)"
                         ],
                         null,
-                        ["use", "Symbol", "✈️🫦"],
+                        ["use", "fit", "Symbol", "✈️🫦"],
                         [
                             "FunctionDefinition",
                             "excited",
@@ -4873,7 +4874,7 @@
                             "I love you @Evaluate. But I need you to love you. I'm excited about our world coming back to life, and what it's going to mean to be together again, but I need you to find yourself, your needs, and your own purpose. I can't be your purpose."
                         ],
                         null,
-                        ["use", "DarkVoid"],
+                        ["use", "fit", "DarkVoid"],
                         [
                             "FunctionDefinition",
                             "sad",
@@ -4983,7 +4984,7 @@
                             "Okay, @Stage, can you make it dark?"
                         ],
                         ["Stage", "kind", "DARK!"],
-                        ["use", "EvaluateDance1"],
+                        ["use", "edit", "EvaluateDance1"],
                         null,
                         [
                             "Evaluate",
@@ -4991,7 +4992,7 @@
                             "@StructureDefinition, I think we need a way to remember our places. Can you make a structure for us?"
                         ],
                         ["StructureDefinition", "curious", "Like this?"],
-                        ["use", "EvaluateDance2"],
+                        ["use", "edit", "EvaluateDance2"],
                         null,
                         [
                             "Evaluate",
@@ -4999,7 +5000,7 @@
                             "Yes… I also want us to rotate on the beat. Can you remember a rotation too?"
                         ],
                         ["StructureDefinition", "curious", "How about this?"],
-                        ["use", "EvaluateDance3"],
+                        ["use", "edit", "EvaluateDance3"],
                         null,
                         [
                             "Evaluate",
@@ -5011,7 +5012,7 @@
                             "excited",
                             "My pleasure, my dear. Will this do?"
                         ],
-                        ["use", "EvaluateDance4"],
+                        ["use", "conflict", "EvaluateDance4"],
                         null,
                         [
                             "Evaluate",
@@ -5019,7 +5020,7 @@
                             "Yes, that's great! We just need to make them into characters now. @List, can we translate them? @FunctionDefinition, will you help?"
                         ],
                         ["List", "happy", "Translation, 1, 2, 3! Like this?"],
-                        ["use", "EvaluateDance5"],
+                        ["use", "conflict", "EvaluateDance5"],
                         null,
                         [
                             "Evaluate",
@@ -5029,21 +5030,21 @@
                         ["List", "kind", "One more time!"],
                         ["Phrase", "kind", "All the attention!"],
                         ["Group", "kind", "Come on everyone, places please…"],
-                        ["use", "EvaluateDance6"],
+                        ["use", "edit", "EvaluateDance6"],
                         null,
                         [
                             "Evaluate",
                             "confused",
                             "Oh… where are we? Oh! We need color. @Pose, can we be white?"
                         ],
-                        ["use", "EvaluateDance7"],
+                        ["use", "edit", "EvaluateDance7"],
                         null,
                         [
                             "Evaluate",
                             "surprised",
                             "Oops, we're all on top of each other! We need starting places. Let's tap into @Random?"
                         ],
-                        ["use", "EvaluateDance8"],
+                        ["use", "edit", "EvaluateDance8"],
                         null,
                         [
                             "Evaluate",
@@ -5055,7 +5056,7 @@
                             "kind",
                             "I can change it! We need a @Time stream, but we also need to change the characters. But what should the next value be?"
                         ],
-                        ["use", "EvaluateDance9"],
+                        ["use", "edit", "EvaluateDance9"],
                         null,
                         [
                             "Evaluate",
@@ -5087,14 +5088,14 @@
                             "eager",
                             "Of course. A ⧼move⧽ function, coming right up. I'll start it, you finish it…"
                         ],
-                        ["use", "EvaluateDance10"],
+                        ["use", "edit", "EvaluateDance10"],
                         null,
                         [
                             "Evaluate",
                             "confused",
                             "Thank you @FunctionDefinition. They're not moving… Oh right, ⧼move⧽ didn't change anything! Let's take the current position and move us in a random direction horizontally and vertically. And maybe a random depth, so we all get a chance up front. And some random rotation?"
                         ],
-                        ["use", "EvaluateDance11"],
+                        ["use", "edit", "EvaluateDance11"],
                         null,
                         [
                             "Evaluate",
@@ -5102,14 +5103,14 @@
                             "Hmm… still not moving. Oh! We didn't evaluate ⧼move⧽ in @Reaction. @List, can you translate each ⧼Character⧽ into a _moved_ ⧼Character⧽?"
                         ],
                         ["List", "excited", "Translating with your help!"],
-                        ["use", "EvaluateDance12"],
+                        ["use", "edit", "EvaluateDance12"],
                         null,
                         [
                             "Evaluate",
                             "confused",
                             "We're so choppy. Oh, @Phrase, we forgot to set a move @Pose and duration. Can you choose something smaller than the @Time tick, so we move and then rest a bit?"
                         ],
-                        ["use", "EvaluateDance13"],
+                        ["use", "edit", "EvaluateDance13"],
                         null,
                         [
                             "Evaluate",
@@ -5134,9 +5135,9 @@
                             "Oh yes, of course! How about we let them make the music? @Phrase, can you listen to @Mic, and hook it up to @Color/lightness and @Color/chroma in your color? That way, we're turn turn white hot when our director makes noise!"
                         ],
                         ["Phrase", "kind", "Excellent idea!"],
-                        ["use", "EvaluateDance14"],
+                        ["use", "edit", "EvaluateDance14"],
                         null,
-                        ["use", "EvaluateDance14"],
+                        ["use", "fix", "EvaluateDance14"],
                         ["List", "excited", "1, 2, 3, 1, 2, 3"],
                         ["Boolean", "excited", "Move!"],
                         ["Text", "excited", "Elation!"],
@@ -5174,7 +5175,7 @@
                             "We did… but we couldn't have done it without our new director friend. They broke our silence, they reminded us why we're expressions, together."
                         ],
                         null,
-                        ["use", "Symbol", "?"],
+                        ["use", "fit", "Symbol", "?"],
                         [
                             "FunctionDefinition",
                             "excited",

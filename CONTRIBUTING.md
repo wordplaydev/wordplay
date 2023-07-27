@@ -109,7 +109,8 @@ You'll see different sections of this file:
 
 All strings in the locale file support a **template** syntax, which allows for a few kinds of dynamic behavior.
 
--   **Unwritten**. To indicate that the string has not yet been written, write an `""` or `"$?"` at the beginning of it. This will help you keep track of what's not yet written.
+-   **Unwritten**. To indicate that the string has not yet been written, write an `"$?"` at the beginning of it. This will help you keep track of what's not yet written.
+-   **Out of date**. To indicate that the string might be out of date with respect to the primary English translation, write an `"$!"` at the beginning of it. Any time someone makes a change to the English translation, they should add these to every other translation so that others know to check them.
 -   **Inputs**. Some strings take inputs, as noted in their documentation. To refer to an input value, use a $, followed by the number of the input desired, starting from 1. For example, if a string took one input, and that input happened to be `Amy` you could say `"Hello, my name is $1"` and that would generate the text `"Hello, my name is Amy"` at runtime.
 -   **Terminology** Remember the `term` field above? To refer to a term, `$` followed by any number of word characters (in regex, `/\$\w/`). `"To create a new $program, click here."`
 -   **Conditions** To conditionally select a string, use `??`, followed by an input that is either a boolean or possibly undefined value, and true and false cases:
@@ -133,7 +134,7 @@ There are five kinds of performance commands, each of which are a list of string
 -   **Output (fixed)** `["fix", "code", ... ]` Program output is shown, but not fit to the window. Code is hidden.
 -   **Edit** `["edit", "code", ... ]` Both program output and code are shown. Output is fit.
 -   **Conflict** `["conflict", "code", ... ]` Both program output and code are shown, and any conflicts in the code are intentional. This is important to note, since as you'll see below, we check tutorial programs for unintentional conflicts.
--   **Use** `["use", "name", "input1" ... "inputn" ]` This special performance refers to predefined performances in [Performances.ts](https://github.com/amyjko/wordplay/blob/main/src/tutorial/Performances.ts). You might find that you want to reuse programs written in other translations, rather than copying them into a translation. In that case, you can move them to `Performances.ts` and then everyone can reuse it. The programs in `Performances.ts` can all optionally take inputs, allowing them to be customized to a language, so when using one, be sure to check what inputs it requires.
+-   **Use** `["use", "fit|fix|edit|edit|conflict", "name", "input1" ... "input-n" ]` This special performance refers to predefined performances in [Performances.ts](https://github.com/amyjko/wordplay/blob/main/src/tutorial/Performances.ts). You might find that you want to reuse programs written in other translations, rather than copying them into a translation. In that case, you can move them to `Performances.ts` and then everyone can reuse it. The programs in `Performances.ts` can all optionally take inputs, allowing them to be customized to a language, so when using one, be sure to check what inputs it requires.
 
 Finally, a scenes `lines`: this is a list of one of three kinds of things:
 

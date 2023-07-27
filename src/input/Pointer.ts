@@ -73,8 +73,8 @@ export function createPointerDefinition(
     PlaceType: StructureDefinition
 ) {
     return StreamDefinition.make(
-        getDocLocales(locales, (t) => t.input.Pointer.doc),
-        getNameLocales(locales, (t) => t.input.Pointer.names),
+        getDocLocales(locales, (locale) => locale.input.Pointer.doc),
+        getNameLocales(locales, (locale) => locale.input.Pointer.names),
         [],
         createStreamEvaluator(
             new StructureDefinitionType(PlaceType),

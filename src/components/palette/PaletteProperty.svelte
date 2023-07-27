@@ -63,7 +63,7 @@
             <Note
                 >{$config
                     .getLocales()
-                    .map((t) => t.ui.labels.mixed)
+                    .map((locale) => locale.ui.labels.mixed)
                     .join('/')}</Note
             >
         {:else if !values.areSet()}
@@ -72,7 +72,7 @@
             <Note
                 >{#if property.inherited}{$config
                         .getLocales()
-                        .map((t) => t.ui.labels.inherited)
+                        .map((locale) => locale.ui.labels.inherited)
                         .join(
                             '/'
                         )}{:else if values.areDefault() && expression !== undefined}<NodeView
@@ -80,11 +80,15 @@
                     />
                     {$config
                         .getLocales()
-                        .map((t) => t.ui.labels.default)
+                        .map((locale) => locale.ui.labels.default)
                         .join('/')}{:else}&mdash;{/if}</Note
             >
         {:else if !values.areEditable(project)}
-            <Note>{$config.getLocales().map((t) => t.ui.labels.computed)}</Note>
+            <Note
+                >{$config
+                    .getLocales()
+                    .map((locale) => locale.ui.labels.computed)}</Note
+            >
         {:else if property.type instanceof OutputPropertyRange}
             <BindSlider {property} {values} range={property.type} />
         {:else if property.type instanceof OutputPropertyOptions}

@@ -1407,6 +1407,47 @@
                         { "doc": "The @Text to compare", "names": "value" }
                     ]
                 },
+                "has": {
+                    "doc": [
+                        "⧼⊤⧽ if the given @Text appears in me.",
+                        "⧼'did you find what you were looking for?'.has('you')⧽"
+                    ],
+                    "names": ["⊆", "has"],
+                    "inputs": [
+                        {
+                            "doc": "The @Text to search for in me.",
+                            "names": "text"
+                        }
+                    ]
+                },
+                "starts": {
+                    "doc": [
+                        "⧼⊤⧽ if I start with the given @Text.",
+                        "⧼'hello verse!'.starts('hello')⧽",
+                        "⧼'hello verse!'.starts('verse')⧽"
+                    ],
+                    "names": ["starts"],
+                    "inputs": [
+                        {
+                            "doc": "The @Text to check for at the start of me.",
+                            "names": "text"
+                        }
+                    ]
+                },
+                "ends": {
+                    "doc": [
+                        "⧼⊤⧽ if I end with the given @Text.",
+                        "⧼'am I a question?'.ends('?')⧽",
+                        "⧼'I am not a question.'.ends('?')⧽"
+                    ],
+                    "names": ["ends"],
+                    "inputs": [
+                        {
+                            "doc": "The @Text to check for at the end of me.",
+                            "names": "text"
+                        }
+                    ]
+                },
                 "repeat": {
                     "doc": [
                         "I make a new @Text that's me, repeated the number of times of ⧼count⧽:",
@@ -1447,19 +1488,6 @@
                     "names": ["+", "combine"],
                     "inputs": [
                         { "doc": "The @Text to append.", "names": "text" }
-                    ]
-                },
-                "has": {
-                    "doc": [
-                        "⧼⊤⧽ if the given @Text appears in me.",
-                        "⧼'did you find what you were looking for?'.has('you')⧽"
-                    ],
-                    "names": ["⊆", "has"],
-                    "inputs": [
-                        {
-                            "doc": "The @Text to search for in me.",
-                            "names": "text"
-                        }
                     ]
                 }
             },
@@ -2680,7 +2708,10 @@
             }
         },
         "Free": {
-            "doc": "I'm like, whatever. Sit wherever you want. Just sit somewhere! Make sure all the @Type you give me have a @Place.",
+            "doc": [
+                "I'm like, whatever. Sit wherever you want. Just sit somewhere! Make sure all the @Type you give me have a @Place, otherwise they won't know where to go.",
+                "Oh, and remember that the @Place you give each @Type is relative to the @Group's @Place! So if you're wondering why things aren't appearing where you expect, try giving the @Group a place too."
+            ],
             "names": ["Free"],
             "description": "free-form $1 outputs"
         },
@@ -3053,7 +3084,7 @@
             "enterEmail": "It looks like you're logging in on a different device. Can you enter your email again?",
             "sent": "Check your email for a link.",
             "success": "Account created!",
-            "failure": "Couldn't reach the database",
+            "failure": "Couldn't reach the internet...",
             "expiredFailure": "This link expired.",
             "invalidFailure": "This link isn't valid.",
             "emailFailure": "This email wasn't valid.",

@@ -69,6 +69,10 @@ export default class Layout {
         return this.fullscreenID !== undefined;
     }
 
+    isSourceExpanded() {
+        return this.tiles.some((tile) => tile.isSource() && tile.isExpanded());
+    }
+
     getTilesInReadingOrder() {
         return this.tiles.sort((a, b) => a.getOrder() - b.getOrder());
     }

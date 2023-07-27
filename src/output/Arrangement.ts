@@ -10,7 +10,7 @@ import type Locale from '../locale/Locale';
 
 export function createArrangementType(locales: Locale[]) {
     return toStructure(`
-    ${getBind(locales, (t) => t.output.Arrangement, TYPE_SYMBOL)}()
+    ${getBind(locales, (locale) => locale.output.Arrangement, TYPE_SYMBOL)}()
 `);
 }
 

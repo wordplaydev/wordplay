@@ -102,24 +102,24 @@ export default class Random extends Stream<Number> {
 
 export function createRandomDefinition(locales: Locale[]) {
     const MinBind = Bind.make(
-        getDocLocales(locales, (t) => t.input.Random.min.doc),
-        getNameLocales(locales, (t) => t.input.Random.min.names),
+        getDocLocales(locales, (locale) => locale.input.Random.min.doc),
+        getNameLocales(locales, (locale) => locale.input.Random.min.names),
         UnionType.make(NumberType.make(Unit.Wildcard), NoneType.make()),
         // Default to nothing
         NoneLiteral.make()
     );
 
     const MaxBind = Bind.make(
-        getDocLocales(locales, (t) => t.input.Random.max.doc),
-        getNameLocales(locales, (t) => t.input.Random.max.names),
+        getDocLocales(locales, (locale) => locale.input.Random.max.doc),
+        getNameLocales(locales, (locale) => locale.input.Random.max.names),
         UnionType.make(NumberType.make(Unit.Wildcard), NoneType.make()),
         // Default to nothing
         NoneLiteral.make()
     );
 
     return StreamDefinition.make(
-        getDocLocales(locales, (t) => t.input.Random.doc),
-        getNameLocales(locales, (t) => t.input.Random.names),
+        getDocLocales(locales, (locale) => locale.input.Random.doc),
+        getNameLocales(locales, (locale) => locale.input.Random.names),
         [MinBind, MaxBind],
         createStreamEvaluator(
             NumberType.make(),

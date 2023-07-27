@@ -123,4 +123,8 @@ export default class Markup extends Content {
     toText() {
         return this.paragraphs.map((p) => p.toText()).join('\n\n');
     }
+
+    toString() {
+        return '';
+    }
 }

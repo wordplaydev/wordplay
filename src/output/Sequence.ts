@@ -18,16 +18,22 @@ import type Project from '../models/Project';
 
 export function createSequenceType(locales: Locale[]) {
     return toStructure(`
-    ${getBind(locales, (t) => t.output.Sequence, TYPE_SYMBOL)}(
-        ${getBind(locales, (t) => t.output.Sequence.poses)}•{ % : Pose }
-        ${getBind(locales, (t) => t.output.Type.duration)}•#s: 0.25s
-        ${getBind(locales, (t) => t.output.Type.style)}•${locales
+    ${getBind(locales, (locale) => locale.output.Sequence, TYPE_SYMBOL)}(
+        ${getBind(
+            locales,
+            (locale) => locale.output.Sequence.poses
+        )}•{ % : Pose }
+        ${getBind(locales, (locale) => locale.output.Type.duration)}•#s: 0.25s
+        ${getBind(locales, (locale) => locale.output.Type.style)}•${locales
         .map((locale) =>
             Object.values(locale.output.Easing).map((id) => `"${id}"`)
         )
         .flat()
         .join('|')}: "zippy"
-        ${getBind(locales, (t) => t.output.Sequence.count)}•1x|2x|3x|4x|5x: 1x
+        ${getBind(
+            locales,
+            (locale) => locale.output.Sequence.count
+        )}•1x|2x|3x|4x|5x: 1x
     )
 `);
 }

@@ -181,57 +181,60 @@ export function createMotionDefinition(
     PhraseType: StructureDefinition
 ) {
     const TypeBind = Bind.make(
-        getDocLocales(locales, (t) => t.input.Motion.type.doc),
-        getNameLocales(locales, (t) => t.input.Motion.type.names),
+        getDocLocales(locales, (locale) => locale.input.Motion.type.doc),
+        getNameLocales(locales, (locale) => locale.input.Motion.type.names),
         new StructureDefinitionType(TypeType)
     );
 
     const VXBind = Bind.make(
-        getDocLocales(locales, (t) => t.input.Motion.vx.doc),
-        getNameLocales(locales, (t) => t.input.Motion.vx.names),
+        getDocLocales(locales, (locale) => locale.input.Motion.vx.doc),
+        getNameLocales(locales, (locale) => locale.input.Motion.vx.names),
         UnionType.orNone(SpeedType.clone()),
         NoneLiteral.make()
     );
 
     const VYBind = Bind.make(
-        getDocLocales(locales, (t) => t.input.Motion.vy.doc),
-        getNameLocales(locales, (t) => t.input.Motion.vy.names),
+        getDocLocales(locales, (locale) => locale.input.Motion.vy.doc),
+        getNameLocales(locales, (locale) => locale.input.Motion.vy.names),
         UnionType.orNone(SpeedType.clone()),
         NoneLiteral.make()
     );
 
     const VZBind = Bind.make(
-        getDocLocales(locales, (t) => t.input.Motion.vz.doc),
-        getNameLocales(locales, (t) => t.input.Motion.vz.names),
+        getDocLocales(locales, (locale) => locale.input.Motion.vz.doc),
+        getNameLocales(locales, (locale) => locale.input.Motion.vz.names),
         UnionType.orNone(SpeedType.clone()),
         NoneLiteral.make()
     );
 
     const VAngleBind = Bind.make(
-        getDocLocales(locales, (t) => t.input.Motion.vangle.doc),
-        getNameLocales(locales, (t) => t.input.Motion.vangle.names),
+        getDocLocales(locales, (locale) => locale.input.Motion.vangle.doc),
+        getNameLocales(locales, (locale) => locale.input.Motion.vangle.names),
         UnionType.orNone(AngleSpeedType.clone()),
         NoneLiteral.make()
     );
 
     const MassBind = Bind.make(
-        getDocLocales(locales, (t) => t.input.Motion.mass.doc),
-        getNameLocales(locales, (t) => t.input.Motion.mass.names),
+        getDocLocales(locales, (locale) => locale.input.Motion.mass.doc),
+        getNameLocales(locales, (locale) => locale.input.Motion.mass.names),
         UnionType.orNone(NumberType.make(Unit.make(['kg']))),
         // Default to 1kg.
         NumberLiteral.make(1, Unit.make(['kg']))
     );
 
     const BouncinessBind = Bind.make(
-        getDocLocales(locales, (t) => t.input.Motion.bounciness.doc),
-        getNameLocales(locales, (t) => t.input.Motion.bounciness.names),
+        getDocLocales(locales, (locale) => locale.input.Motion.bounciness.doc),
+        getNameLocales(
+            locales,
+            (locale) => locale.input.Motion.bounciness.names
+        ),
         UnionType.orNone(NumberType.make()),
         NumberLiteral.make(0.75)
     );
 
     const GravityBind = Bind.make(
-        getDocLocales(locales, (t) => t.input.Motion.gravity.doc),
-        getNameLocales(locales, (t) => t.input.Motion.gravity.names),
+        getDocLocales(locales, (locale) => locale.input.Motion.gravity.doc),
+        getNameLocales(locales, (locale) => locale.input.Motion.gravity.names),
         UnionType.orNone(NumberType.make(Unit.make(['m'], ['s', 's']))),
         NumberLiteral.make(15, Unit.make(['m'], ['s', 's']))
     );
@@ -239,8 +242,8 @@ export function createMotionDefinition(
     const type = new StructureDefinitionType(PhraseType);
 
     return StreamDefinition.make(
-        getDocLocales(locales, (t) => t.input.Motion.doc),
-        getNameLocales(locales, (t) => t.input.Motion.names),
+        getDocLocales(locales, (locale) => locale.input.Motion.doc),
+        getNameLocales(locales, (locale) => locale.input.Motion.names),
         [
             TypeBind,
             VXBind,

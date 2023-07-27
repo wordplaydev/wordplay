@@ -18,37 +18,19 @@ import { getFunctionLocales } from '@locale/getFunctionLocales';
 import { getDocLocales } from '@locale/getDocLocales';
 import { getNameLocales } from '@locale/getNameLocales';
 import type Expression from '@nodes/Expression';
-import ListType from '../nodes/ListType';
 import type Locale from '../locale/Locale';
+import type { FunctionText } from '../locale/Locale';
+import ListType from '../nodes/ListType';
 
 export default function bootstrapText(locales: Locale[]) {
-    const equalsNames = getNameLocales(
-        locales,
-        (t) => t.native.Text.function.equals.inputs[0].names
-    );
-    const notEqualsNames = getNameLocales(
-        locales,
-        (t) => t.native.Text.function.notequals.inputs[0].names
-    );
-
     const countNames = getNameLocales(
         locales,
-        (t) => t.native.Text.function.repeat.inputs[0].names
-    );
-
-    const segmentDelimiterNames = getNameLocales(
-        locales,
-        (t) => t.native.Text.function.segment.inputs[0].names
+        (locale) => locale.native.Text.function.repeat.inputs[0].names
     );
 
     const combineNames = getNameLocales(
         locales,
-        (t) => t.native.Text.function.combine.inputs[0].names
-    );
-
-    const hasNames = getNameLocales(
-        locales,
-        (t) => t.native.Text.function.has.inputs[0].names
+        (locale) => locale.native.Text.function.combine.inputs[0].names
     );
 
     function createTextFunction(
@@ -85,9 +67,45 @@ export default function bootstrapText(locales: Locale[]) {
         );
     }
 
+    function createBinaryTextFunction<OutputType extends Value>(
+        functionText: (locale: Locale) => FunctionText<any>,
+        fun: (requestor: Expression, text: Text, input: Text) => OutputType,
+        outputType: Type
+    ) {
+        const names = getNameLocales(
+            locales,
+            (locale) => functionText(locale).inputs[0].names
+        );
+
+        return createTextFunction(
+            getFunctionLocales(locales, functionText),
+            [
+                Bind.make(
+                    getDocLocales(
+                        locales,
+                        (locale) => functionText(locale).inputs[0].doc
+                    ),
+                    names,
+                    TextType.make()
+                ),
+            ],
+            outputType,
+            (requestor, text, evaluation) => {
+                const input = evaluation.resolve(names);
+                if (input === undefined || !(input instanceof Text))
+                    return evaluation.getValueOrTypeException(
+                        requestor,
+                        TextType.make(),
+                        input
+                    );
+                return fun(requestor, text, input);
+            }
+        );
+    }
+
     return StructureDefinition.make(
-        getDocLocales(locales, (t) => t.native.Text.doc),
-        getNameLocales(locales, (t) => t.native.Text.name),
+        getDocLocales(locales, (locale) => locale.native.Text.doc),
+        getNameLocales(locales, (locale) => locale.native.Text.name),
         [],
         undefined,
         [],
@@ -96,7 +114,7 @@ export default function bootstrapText(locales: Locale[]) {
                 createTextFunction(
                     getFunctionLocales(
                         locales,
-                        (t) => t.native.Text.function.length
+                        (locale) => locale.native.Text.function.length
                     ),
                     [],
                     NumberType.make(),
@@ -105,7 +123,7 @@ export default function bootstrapText(locales: Locale[]) {
                 createTextFunction(
                     getFunctionLocales(
                         locales,
-                        (t) => t.native.Text.function.repeat
+                        (locale) => locale.native.Text.function.repeat
                     ),
                     [
                         Bind.make(
@@ -133,103 +151,42 @@ export default function bootstrapText(locales: Locale[]) {
                         );
                     }
                 ),
-                createTextFunction(
-                    getFunctionLocales(
-                        locales,
-                        (t) => t.native.Text.function.equals
-                    ),
-                    [
-                        Bind.make(
-                            getDocLocales(
-                                locales,
-                                (t) =>
-                                    t.native.Text.function.equals.inputs[0].doc
-                            ),
-                            equalsNames,
-                            TextType.make()
-                        ),
-                    ],
-                    BooleanType.make(),
-                    (requestor, text, evaluation) => {
-                        const val: Value | undefined =
-                            evaluation.resolve(equalsNames);
-                        if (val instanceof Text)
-                            return new Bool(requestor, text.isEqualTo(val));
-                        else
-                            return evaluation.getValueOrTypeException(
-                                requestor,
-                                TextType.make(),
-                                val
-                            );
-                    }
+                createBinaryTextFunction(
+                    (locale) => locale.native.Text.function.equals,
+                    (requestor, text, input) =>
+                        new Bool(requestor, text.isEqualTo(input)),
+                    BooleanType.make()
+                ),
+                createBinaryTextFunction(
+                    (locale) => locale.native.Text.function.notequals,
+                    (requestor, text, input) =>
+                        new Bool(requestor, !text.isEqualTo(input)),
+                    BooleanType.make()
+                ),
+                createBinaryTextFunction(
+                    (locale) => locale.native.Text.function.segment,
+                    (requestor, text, input) => text.segment(requestor, input),
+                    ListType.make(TextType.make())
+                ),
+                createBinaryTextFunction<Bool>(
+                    (locale) => locale.native.Text.function.has,
+                    (requestor, text, input) => text.has(requestor, input),
+                    BooleanType.make()
+                ),
+                createBinaryTextFunction<Bool>(
+                    (locale) => locale.native.Text.function.starts,
+                    (requestor, text, input) => text.starts(requestor, input),
+                    BooleanType.make()
+                ),
+                createBinaryTextFunction<Bool>(
+                    (locale) => locale.native.Text.function.ends,
+                    (requestor, text, input) => text.ends(requestor, input),
+                    BooleanType.make()
                 ),
                 createTextFunction(
                     getFunctionLocales(
                         locales,
-                        (t) => t.native.Text.function.notequals
-                    ),
-                    [
-                        Bind.make(
-                            getDocLocales(
-                                locales,
-                                (t) =>
-                                    t.native.Text.function.notequals.inputs[0]
-                                        .doc
-                            ),
-                            notEqualsNames,
-                            TextType.make()
-                        ),
-                    ],
-                    BooleanType.make(),
-                    (requestor, text, evaluation) => {
-                        const val = evaluation.resolve(notEqualsNames);
-                        if (val instanceof Text)
-                            return new Bool(requestor, !text.isEqualTo(val));
-                        else
-                            return evaluation.getValueOrTypeException(
-                                requestor,
-                                TextType.make(),
-                                val
-                            );
-                    }
-                ),
-                createTextFunction(
-                    getFunctionLocales(
-                        locales,
-                        (t) => t.native.Text.function.segment
-                    ),
-                    [
-                        Bind.make(
-                            getDocLocales(
-                                locales,
-                                (t) =>
-                                    t.native.Text.function.segment.inputs[0].doc
-                            ),
-                            segmentDelimiterNames,
-                            TextType.make()
-                        ),
-                    ],
-                    ListType.make(TextType.make()),
-                    (requestor, text, evaluation) => {
-                        const delimiter = evaluation.resolve(
-                            segmentDelimiterNames
-                        );
-                        if (
-                            delimiter === undefined ||
-                            !(delimiter instanceof Text)
-                        )
-                            return evaluation.getValueOrTypeException(
-                                requestor,
-                                TextType.make(),
-                                delimiter
-                            );
-                        return text.segment(requestor, delimiter);
-                    }
-                ),
-                createTextFunction(
-                    getFunctionLocales(
-                        locales,
-                        (t) => t.native.Text.function.combine
+                        (locale) => locale.native.Text.function.combine
                     ),
                     [
                         Bind.make(
@@ -254,37 +211,10 @@ export default function bootstrapText(locales: Locale[]) {
                         return text.combine(requestor, other);
                     }
                 ),
-                createTextFunction(
-                    getFunctionLocales(
-                        locales,
-                        (t) => t.native.Text.function.has
-                    ),
-                    [
-                        Bind.make(
-                            getDocLocales(
-                                locales,
-                                (t) => t.native.Text.function.has.inputs[0].doc
-                            ),
-                            hasNames,
-                            TextType.make()
-                        ),
-                    ],
-                    BooleanType.make(),
-                    (requestor, text, evaluation) => {
-                        const other = evaluation.resolve(hasNames);
-                        if (other === undefined || !(other instanceof Text))
-                            return evaluation.getValueOrTypeException(
-                                requestor,
-                                TextType.make(),
-                                other
-                            );
-                        return text.has(requestor, other);
-                    }
-                ),
                 createNativeConversion(
                     getDocLocales(
                         locales,
-                        (t) => t.native.Text.conversion.list
+                        (locale) => locale.native.Text.conversion.list
                     ),
                     '""',
                     '[""]',
@@ -299,7 +229,7 @@ export default function bootstrapText(locales: Locale[]) {
                 createNativeConversion(
                     getDocLocales(
                         locales,
-                        (t) => t.native.Text.conversion.number
+                        (locale) => locale.native.Text.conversion.number
                     ),
                     '""',
                     '#',

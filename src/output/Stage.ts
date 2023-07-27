@@ -27,13 +27,13 @@ export const DefaultSize = 1;
 
 export function createStageType(locales: Locale[]) {
     return toStructure(`
-    ${getBind(locales, (t) => t.output.Stage, '•')} Type(
-        ${getBind(locales, (t) => t.output.Stage.content)}•[Type]
+    ${getBind(locales, (locale) => locale.output.Stage, '•')} Type(
+        ${getBind(locales, (locale) => locale.output.Stage.content)}•[Type]
         ${getBind(
             locales,
-            (t) => t.output.Stage.background
+            (locale) => locale.output.Stage.background
         )}•Color: Color(100 0 0°)
-        ${getBind(locales, (t) => t.output.Stage.frame)}•Shape|ø: ø
+        ${getBind(locales, (locale) => locale.output.Stage.frame)}•Shape|ø: ø
         ${createTypeOutputInputs(locales)}
     )
 `);
@@ -141,7 +141,7 @@ export default class Stage extends TypeOutput {
             this.content.length,
             this.content.filter((o) => o instanceof Phrase).length,
             this.content.filter((o) => o instanceof Group).length
-        ).toString();
+        ).toText();
     }
 
     isEmpty() {

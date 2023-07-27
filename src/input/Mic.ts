@@ -116,16 +116,16 @@ export default class Mic extends TemporalStream<Number> {
 
 export function createMicDefinition(locales: Locale[]) {
     const FrequencyBind = Bind.make(
-        getDocLocales(locales, (t) => t.input.Mic.frequency.doc),
-        getNameLocales(locales, (t) => t.input.Mic.frequency.names),
+        getDocLocales(locales, (locale) => locale.input.Mic.frequency.doc),
+        getNameLocales(locales, (locale) => locale.input.Mic.frequency.names),
         UnionType.make(NumberType.make(Unit.make(['ms'])), NoneType.make()),
         // Default to nothing
         NumberLiteral.make(33, Unit.make(['ms']))
     );
 
     return StreamDefinition.make(
-        getDocLocales(locales, (t) => t.input.Mic.doc),
-        getNameLocales(locales, (t) => t.input.Mic.names),
+        getDocLocales(locales, (locale) => locale.input.Mic.doc),
+        getNameLocales(locales, (locale) => locale.input.Mic.names),
         [FrequencyBind],
         createStreamEvaluator(
             NumberType.make(),

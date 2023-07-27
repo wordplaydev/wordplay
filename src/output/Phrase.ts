@@ -21,8 +21,8 @@ import type Project from '../models/Project';
 
 export function createPhraseType(locales: Locale[]) {
     return toStructure(`
-    ${getBind(locales, (t) => t.output.Phrase, '•')} Type(
-        ${getBind(locales, (t) => t.output.Phrase.text)}•""|[""]
+    ${getBind(locales, (locale) => locale.output.Phrase, '•')} Type(
+        ${getBind(locales, (locale) => locale.output.Phrase.text)}•""|[""]
         ${createTypeOutputInputs(locales)}
     )`);
 }

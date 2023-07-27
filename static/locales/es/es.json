@@ -1,13 +1,13 @@
 {
     "$schema": "../../schemas/Locale.json",
     "language": "es",
-    "wordplay": "PalabraJugar",
+    "wordplay": "Juego de Palabras",
     "term": {
-        "evaluate": "código",
-        "bind": "datos",
+        "evaluate": "evaluar",
+        "bind": "unir",
         "decide": "decidir",
-        "document": "$?",
-        "project": "función",
+        "document": "documento",
+        "project": "proyecto",
         "source": "fuente",
         "input": "input",
         "output": "producción",
@@ -17,15 +17,15 @@
         "phrase": "frase",
         "group": "grupo",
         "verse": "verso",
-        "type": "género",
+        "type": "tipo",
         "start": "comenzar",
         "entered": "ingresó",
         "changed": "cambiada",
         "name": "nombre",
-        "value": "avaluar",
+        "value": "valor",
         "text": "texto",
         "boolean": "booleano",
-        "map": "par",
+        "map": "mapa",
         "number": "número",
         "function": "función",
         "exception": "excepción",
@@ -34,10 +34,10 @@
         "list": "lista",
         "stream": "arroyo",
         "structure": "estructura",
-        "streamdefinition": "arroyo definición",
+        "streamdefinition": "definición de arroyo",
         "index": "índice",
-        "query": "interrogante",
-        "row": "hilera",
+        "query": "pregunta",
+        "row": "fila",
         "set": "set",
         "key": "clave"
     },
@@ -968,14 +968,24 @@
                     "names": ["segmentar"],
                     "inputs": [{ "doc": "$?", "names": "delimitador" }]
                 },
-                "combine": {
-                    "doc": "$?",
-                    "names": "combinar",
-                    "inputs": [{ "doc": "$?", "names": "texto" }]
-                },
                 "has": {
                     "doc": "$?",
                     "names": ["tiene"],
+                    "inputs": [{ "doc": "$?", "names": "texto" }]
+                },
+                "starts": {
+                    "doc": "$?",
+                    "names": ["$? starts"],
+                    "inputs": [{ "doc": "$?", "names": "texto" }]
+                },
+                "ends": {
+                    "doc": "$?",
+                    "names": ["$? ends"],
+                    "inputs": [{ "doc": "$?", "names": "texto" }]
+                },
+                "combine": {
+                    "doc": "$?",
+                    "names": "combinar",
                     "inputs": [{ "doc": "$?", "names": "texto" }]
                 }
             },

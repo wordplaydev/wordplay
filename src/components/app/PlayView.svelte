@@ -7,6 +7,7 @@
     import { onMount } from 'svelte';
 
     export let project: Project;
+    export let fit: boolean = true;
 
     function update() {
         latest = evaluator.getLatestSourceValue(project.main);
@@ -31,6 +32,6 @@
     source={project.main}
     value={latest}
     fullscreen={false}
-    fit={true}
+    {fit}
     grid={false}
 />

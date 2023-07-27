@@ -102,18 +102,18 @@
         }
     }
 
-    $: performanceType = performance[0];
+    $: isUse = performance[0] === 'use';
+    $: performanceType = isUse ? performance[1] : performance[0];
     $: editable = performanceType === 'edit' || performanceType === 'conflict';
     $: fit = performanceType === 'fit' || performanceType === 'use';
     // A "use" performance? Find it in Performances.
     // Anything else? Take all the lines of source and join them together.
-    $: source =
-        performanceType === 'use'
-            ? Performances[performance[1] as keyof typeof Performances].apply(
-                  undefined,
-                  performance.slice(2) as any
-              )
-            : performance.slice(1).join('\n');
+    $: source = isUse
+        ? Performances[performance[2] as keyof typeof Performances].apply(
+              undefined,
+              performance.slice(3) as any
+          )
+        : performance.slice(1).join('\n');
 
     // Figure out the default project to show.
     $: defaultProject = new Project(
@@ -298,7 +298,7 @@
                         autofocus={false}
                         showHelp={false}
                     /></div
-                >{:else}<PlayView {project} />{/if}
+                >{:else}<PlayView {project} {fit} />{/if}
         {/if}
     {/key}
 </section>

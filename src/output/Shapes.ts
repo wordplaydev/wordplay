@@ -10,17 +10,17 @@ import type Project from '../models/Project';
 
 export function createShapeType(locales: Locale[]) {
     return toStructure(`
-    ${getBind(locales, (t) => t.output.Shape, TYPE_SYMBOL)}()
+    ${getBind(locales, (locale) => locale.output.Shape, TYPE_SYMBOL)}()
 `);
 }
 
 export function createRectangleType(locales: Locale[]) {
     return toStructure(`
-    ${getBind(locales, (t) => t.output.Rectangle, '•')} Shape(
-        ${getBind(locales, (t) => t.output.Rectangle.left)}•#m
-        ${getBind(locales, (t) => t.output.Rectangle.top)}•#m
-        ${getBind(locales, (t) => t.output.Rectangle.right)}•#m
-        ${getBind(locales, (t) => t.output.Rectangle.bottom)}•#m
+    ${getBind(locales, (locale) => locale.output.Rectangle, '•')} Shape(
+        ${getBind(locales, (locale) => locale.output.Rectangle.left)}•#m
+        ${getBind(locales, (locale) => locale.output.Rectangle.top)}•#m
+        ${getBind(locales, (locale) => locale.output.Rectangle.right)}•#m
+        ${getBind(locales, (locale) => locale.output.Rectangle.bottom)}•#m
     )
 `);
 }

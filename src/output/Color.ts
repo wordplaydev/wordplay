@@ -1,4 +1,4 @@
-import type Decimal from 'decimal.js';
+import Decimal from 'decimal.js';
 import toStructure from '../native/toStructure';
 import type Value from '@runtime/Value';
 import Output from './Output';
@@ -16,10 +16,10 @@ import type Project from '../models/Project';
 
 export function createColorType(locales: Locale[]) {
     return toStructure(`
-    ${getBind(locales, (t) => t.output.Color, TYPE_SYMBOL)}(
-        ${getBind(locales, (t) => t.output.Color.lightness)}•%
-        ${getBind(locales, (t) => t.output.Color.chroma)}•#
-        ${getBind(locales, (t) => t.output.Color.hue)}•#°
+    ${getBind(locales, (locale) => locale.output.Color, TYPE_SYMBOL)}(
+        ${getBind(locales, (locale) => locale.output.Color.lightness)}•%
+        ${getBind(locales, (locale) => locale.output.Color.chroma)}•#
+        ${getBind(locales, (locale) => locale.output.Color.hue)}•#°
     )
 `);
 }
@@ -37,8 +37,17 @@ export default class Color extends Output {
         this.hue = h;
     }
 
+    complement() {
+        return new Color(
+            this.value,
+            new Decimal(1).sub(this.lightness),
+            this.chroma,
+            new Decimal(360).sub(this.hue)
+        );
+    }
+
     toCSS() {
-        return new ColorJS(
+        const color = new ColorJS(
             ColorJS.spaces.lch,
             [
                 this.lightness.toNumber() * 100,
@@ -46,7 +55,10 @@ export default class Color extends Output {
                 this.hue.toNumber(),
             ],
             1
-        ).display();
+        );
+        return color.to('srgb').toString();
+        // We should be able to return a direct LCH value, but Safari doesn't handle CSS opacity on LCH colors of symbols well.
+        // return opaque === true ? color.to('srgb').toString() : color.display();
     }
 
     equals(color: Color) {
