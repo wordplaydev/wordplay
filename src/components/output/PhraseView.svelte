@@ -34,8 +34,8 @@
     // Compute a local context based on size and font.
     $: context = phrase.getRenderContext(context);
 
-    // Visible if z is ahead of focus.
-    $: visible = place.z > focus.z;
+    // Visible if z is ahead of focus and font size is greater than 0.
+    $: visible = place.z > focus.z && (phrase.size ?? context.size > 0);
 
     // Get the phrase's text in the preferred language
     $: text = phrase.getDescription($config.getLocales());
@@ -170,6 +170,7 @@
         on:dblclick={$editable && interactive ? enter : null}
         on:keydown={$editable && interactive ? move : null}
         bind:this={view}
+        style:width="{metrics.width}px"
         style:height="{metrics.actualAscent}px"
         style:line-height="{metrics.actualAscent}px"
         style={outputToCSS(

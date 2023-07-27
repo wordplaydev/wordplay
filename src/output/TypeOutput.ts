@@ -77,7 +77,7 @@ export default abstract class TypeOutput extends Output {
     ) {
         super(value);
 
-        this.size = size;
+        this.size = size ? Math.max(0, size) : size;
         this.font = font;
         this.place = place;
         this.rotation = rotation;
