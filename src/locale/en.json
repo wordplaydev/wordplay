@@ -2708,7 +2708,10 @@
             }
         },
         "Free": {
-            "doc": "I'm like, whatever. Sit wherever you want. Just sit somewhere! Make sure all the @Type you give me have a @Place.",
+            "doc": [
+                "I'm like, whatever. Sit wherever you want. Just sit somewhere! Make sure all the @Type you give me have a @Place, otherwise they won't know where to go.",
+                "Oh, and remember that the @Place you give each @Type is relative to the @Group's @Place! So if you're wondering why things aren't appearing where you expect, try giving the @Group a place too."
+            ],
             "names": ["Free"],
             "description": "free-form $1 outputs"
         },
