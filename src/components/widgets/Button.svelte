@@ -11,8 +11,11 @@
     export let scale: boolean = true;
     export let view: HTMLButtonElement | undefined = undefined;
 
-    async function doAction() {
-        if (active) action();
+    async function doAction(event: Event) {
+        if (active) {
+            action();
+            event?.stopPropagation();
+        }
     }
 </script>
 
@@ -29,10 +32,12 @@
     aria-disabled={!active}
     bind:this={view}
     on:dblclick|stopPropagation
-    on:pointerdown|stopPropagation={(event) =>
-        event.button === 0 && active ? doAction() : undefined}
-    on:keydown|stopPropagation={(event) =>
-        event.key === 'Enter' || event.key === ' ' ? doAction() : undefined}
+    on:pointerdown={(event) =>
+        event.button === 0 && active ? doAction(event) : undefined}
+    on:keydown={(event) =>
+        event.key === 'Enter' || event.key === ' '
+            ? doAction(event)
+            : undefined}
 >
     <slot />
 </button>
