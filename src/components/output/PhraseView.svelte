@@ -58,6 +58,8 @@
         $selectedPhrase &&
         $selectedPhrase.index !== null;
 
+    $: metrics = phrase.getMetrics(context);
+
     onMount(restore);
 
     function restore() {
@@ -168,7 +170,10 @@
         on:dblclick={$editable && interactive ? enter : null}
         on:keydown={$editable && interactive ? move : null}
         bind:this={view}
+        style:height="{metrics.actualAscent}px"
+        style:line-height="{metrics.actualAscent}px"
         style={outputToCSS(
+            true,
             context.font,
             context.size,
             phrase.rotation,
@@ -181,7 +186,7 @@
             undefined,
             focus,
             parentAscent,
-            phrase.getMetrics(context)
+            metrics
         )}
     >
         {#if entered}
@@ -210,10 +215,13 @@
         left: 0;
         top: 0;
         white-space: nowrap;
-        width: auto;
-        right: auto;
-        min-width: 1em;
-        min-height: 1em;
+        width: fit-content;
+        height: fit-content;
+    }
+
+    :global(.editing) .phrase {
+        min-width: 8px;
+        min-height: 8px;
     }
 
     .phrase[data-selectable='true'] {

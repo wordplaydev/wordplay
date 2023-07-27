@@ -33,7 +33,8 @@ export default class Phrase extends TypeOutput {
     _metrics:
         | {
               width: number;
-              ascent: number;
+              fontAscent: number;
+              actualAscent: number;
           }
         | undefined = undefined;
 
@@ -106,7 +107,8 @@ export default class Phrase extends TypeOutput {
 
         // Figure out a width.
         let width = 0;
-        let ascent: undefined | number = undefined;
+        let fontAscent: undefined | number = undefined;
+        let actualAscent: undefined | number = undefined;
 
         // Get the list of text nodes and the formats applied to each
         for (const [text, format] of formats) {
@@ -122,16 +124,22 @@ export default class Phrase extends TypeOutput {
 
             if (metrics) {
                 width += metrics.width;
-                ascent = metrics.fontBoundingBoxAscent;
+                fontAscent = metrics.fontBoundingBoxAscent;
+                actualAscent = metrics.actualBoundingBoxAscent;
             }
         }
 
         const dimensions = {
             width: width,
-            ascent: ascent ?? 0,
+            fontAscent: fontAscent ?? 0,
+            actualAscent: actualAscent ?? 0,
         };
         // If the font is loaded, these metrics can be trusted, so we cache them.
-        if (ascent !== undefined && Fonts.isLoaded(renderedFont))
+        if (
+            actualAscent !== undefined &&
+            fontAscent !== undefined &&
+            Fonts.isLoaded(renderedFont)
+        )
             this._metrics = dimensions;
 
         // Return the current dimensions.
@@ -151,7 +159,8 @@ export default class Phrase extends TypeOutput {
             top: 0,
             bottom: 0,
             width: metrics.width / PX_PER_METER,
-            height: metrics.ascent / PX_PER_METER,
+            height: metrics.fontAscent / PX_PER_METER,
+            actualHeight: metrics.actualAscent / PX_PER_METER,
             places: [],
         };
     }

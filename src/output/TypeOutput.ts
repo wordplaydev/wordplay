@@ -101,6 +101,7 @@ export default abstract class TypeOutput extends Output {
         bottom: number;
         width: number;
         height: number;
+        actualHeight: number;
         places: [TypeOutput, Place][];
     };
 

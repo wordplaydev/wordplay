@@ -469,6 +469,7 @@ export default class OutputAnimation {
                 const layout = this.output.getLayout(this.context);
 
                 keyframe.transform = toOutputTransform(
+                    this.output instanceof Phrase,
                     transition.pose,
                     localPlace,
                     transition.rotation,
@@ -481,7 +482,8 @@ export default class OutputAnimation {
                         : parents[0].getLayout(this.context).height,
                     {
                         width: layout.width * PX_PER_METER,
-                        ascent: layout.height * PX_PER_METER,
+                        fontAscent: layout.height * PX_PER_METER,
+                        actualAscent: layout.actualHeight * PX_PER_METER,
                     }
                 );
             }

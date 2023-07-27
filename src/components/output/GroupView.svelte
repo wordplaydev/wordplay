@@ -65,6 +65,7 @@
     data-name={group.getName()}
     data-selectable={group.selectable}
     style={outputToCSS(
+        false,
         context.font,
         context.size,
         group.rotation,
@@ -79,7 +80,8 @@
         parentAscent,
         {
             width: layout.width * PX_PER_METER,
-            ascent: layout.height * PX_PER_METER,
+            fontAscent: layout.height * PX_PER_METER,
+            actualAscent: layout.height * PX_PER_METER,
         },
         viewport
     )}
