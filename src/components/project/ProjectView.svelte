@@ -882,9 +882,12 @@
 
         // See if there's a command that matches...
         const result = handleKeyCommand(event, {
-            caret: Array.from($editors.values()).find(
-                (editor) => editor.focused
-            )?.caret,
+            caret:
+                layout.isFullscreen() && !layout.isSourceExpanded()
+                    ? undefined
+                    : Array.from($editors.values()).find(
+                          (editor) => editor.focused
+                      )?.caret,
             evaluator: $evaluator,
             creator: $config,
             fullscreen,
@@ -987,6 +990,8 @@
     on:pointermove={handlePointerMove}
     on:pointerup={handlePointerUp}
 />
+
+<svelte:body on:focusin={() => focusTile(undefined)} />
 
 <Help bind:show={help} />
 <!-- Render the app header and the current project, if there is one. -->
