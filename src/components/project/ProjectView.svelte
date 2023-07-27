@@ -676,15 +676,6 @@
             : undefined;
         const tileView = focusedTileView ?? firstTileView;
 
-        // The output view handles its own focus management, so if we're focusing on it,
-        // and it's still in view, don't mess with it.
-        if (
-            focusedTileID === OutputID &&
-            focusedTileView !== null &&
-            focusedTileView.contains(document.activeElement)
-        )
-            return;
-
         let viewToFocus: HTMLElement | undefined = undefined;
         if (tileView) {
             const defaultFocus = tileView.querySelectorAll(
@@ -770,7 +761,11 @@
         const el = document.elementFromPoint(event.clientX, event.clientY);
         if (el) {
             const tile = el.closest('.tile');
-            if (tile instanceof HTMLElement) focusTile(tile.dataset.id);
+            if (tile instanceof HTMLElement) {
+                focusTile(tile.dataset.id);
+                // Don't let body get focus.
+                event.stopPropagation();
+            }
         }
     }
 

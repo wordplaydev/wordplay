@@ -2477,7 +2477,7 @@
                             "Here's a simple example. Click the stage or focus it with the keyboard and then press any keyboard key. You'll see the key you've typed appear by name. That's because each time the key stream changes, @Program evaluates the key stream as its latest value, and then shows it on stage."
                         ],
                         ["Key", "neutral", "clickety clickety clickety"],
-                        ["edit", "Phrase(Key())"],
+                        ["edit", "Key()"],
                         null,
                         [
                             "FunctionDefinition",
@@ -2485,7 +2485,7 @@
                             "This stream will change any time any key is pressed. But you can tell a key stream to just change when a particular key is pressed. See how the stream changes to ⧼a⧽ the first time, but then doesn't change after? That's because this stream only changes when ⧼a⧽ is pressed, so it's always showing ⧼a⧽. But you'll always see the new key value appear in the timeline."
                         ],
                         ["Key", "neutral", "clickety 'a'…"],
-                        ["edit", "Phrase(Key('a'))"],
+                        ["edit", "Key('a')"],
                         null,
                         [
                             "FunctionDefinition",
@@ -2493,7 +2493,7 @@
                             "Sometimes it's helpful to know when a key is released, instead of pressed. Just pass ⧼⊥⧽ to tell the @Key stream that you to know when a key is released instead of pressed. Now, press and hold the 'a' key and then when you release, you'll see the 'a' appear on stage. Didn't catch it? Press the ↻ button to reset the performance and try it again."
                         ],
                         ["Key", "neutral", "clickety 'a'…"],
-                        ["edit", "Phrase(Key('a' ⊥))"],
+                        ["edit", "Key('a' ⊥)"],
                         null,
                         [
                             "FunctionDefinition",
@@ -2501,7 +2501,7 @@
                             "@Key streams are really helpful when you want a performance to react to keys that the audience presses. For example, you could check if a key has the word 'Arrow' in it to decide if an arrow key was pressed. Press an arrow key and you'll see ⧼'move'⧽, press something else and you'll see ⧼'stay'⧽"
                         ],
                         ["Key", "neutral", "clickety 'Arrow'…"],
-                        ["edit", "Phrase(Key().has('Arrow') ? 'move' 'stay')"]
+                        ["edit", "Key().has('Arrow') ? 'move' 'stay'"]
                     ]
                 },
                 {
