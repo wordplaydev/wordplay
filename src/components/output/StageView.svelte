@@ -1,5 +1,9 @@
 <svelte:options immutable={true} />
 
+<script context="module" lang="ts">
+    const HalfGridlineThickness = 0.1;
+</script>
+
 <script lang="ts">
     import { onDestroy, onMount } from 'svelte';
     import type Project from '@models/Project';
@@ -281,8 +285,6 @@
         // Stop fitting
         fit = false;
     };
-
-    const halfGridlineThickness = 0.1;
 </script>
 
 {#if mounted}
@@ -338,9 +340,9 @@
                     <div
                         class="gridline vertical"
                         style:left="{number * PX_PER_METER -
-                            halfGridlineThickness}px"
+                            HalfGridlineThickness}px"
                         style:top="{-top * PX_PER_METER -
-                            halfGridlineThickness}px"
+                            HalfGridlineThickness}px"
                         style:height="{Math.abs(top - bottom) * PX_PER_METER}px"
                     />
                 {/each}
@@ -348,22 +350,22 @@
                     <div
                         class="gridline horizontal"
                         style:top="{-number * PX_PER_METER -
-                            halfGridlineThickness}px"
+                            HalfGridlineThickness}px"
                         style:left="{left * PX_PER_METER -
-                            halfGridlineThickness}px"
+                            HalfGridlineThickness}px"
                         style:width="{Math.abs(left - right) * PX_PER_METER}px"
                     />
                 {/each}
                 <div
                     class="gridline horizontal axis"
                     style:top="0px"
-                    style:left="{left * PX_PER_METER - halfGridlineThickness}px"
+                    style:left="{left * PX_PER_METER - HalfGridlineThickness}px"
                     style:width="{Math.abs(left - right) * PX_PER_METER}px"
                 />
                 <div
                     class="gridline vertical axis"
                     style:left="0px"
-                    style:top="{-top * PX_PER_METER - halfGridlineThickness}px"
+                    style:top="{-top * PX_PER_METER - HalfGridlineThickness}px"
                     style:height="{Math.abs(top - bottom) * PX_PER_METER}px"
                 />
             {/if}
