@@ -34,7 +34,7 @@
     import moveOutput, { addStageContent } from '../palette/editOutput';
     import { toExpression } from '../../parser/Parser';
     import { getPlace } from '../../output/getPlace';
-    import { afterUpdate, beforeUpdate } from 'svelte';
+    import { SvelteComponent, afterUpdate, beforeUpdate } from 'svelte';
 
     export let project: Project;
     export let evaluator: Evaluator;
@@ -71,10 +71,7 @@
     let strokeNodeID: number | undefined;
 
     /* We get these functions from the stage view, if there is one. */
-    let setFocus: ((x: number, y: number, z: number) => void) | undefined =
-        undefined;
-    let adjustFocus: ((x: number, y: number, z: number) => void) | undefined =
-        undefined;
+    let stage: SvelteComponent;
 
     let renderedFocus: Place;
 
@@ -109,26 +106,26 @@
         if (event.key === 'Tab') return;
 
         // Adjust verse focus
-        if (event.shiftKey && adjustFocus) {
+        if (event.shiftKey && stage) {
             const increment = 1;
             if (event.key === 'ArrowLeft') {
                 event.stopPropagation();
-                return adjustFocus(-1 * increment, 0, 0);
+                return stage.adjustFocus(-1 * increment, 0, 0);
             } else if (event.key === 'ArrowRight') {
                 event.stopPropagation();
-                return adjustFocus(increment, 0, 0);
+                return stage.adjustFocus(increment, 0, 0);
             } else if (event.key === 'ArrowUp') {
                 event.stopPropagation();
-                return adjustFocus(0, 1 * increment, 0);
+                return stage.adjustFocus(0, 1 * increment, 0);
             } else if (event.key === 'ArrowDown') {
                 event.stopPropagation();
-                return adjustFocus(0, -1 * increment, 0);
+                return stage.adjustFocus(0, -1 * increment, 0);
             } else if (event.key === '+') {
                 event.stopPropagation();
-                return adjustFocus(0, 0, 1);
+                return stage.adjustFocus(0, 0, 1);
             } else if (event.key === '_') {
                 event.stopPropagation();
-                return adjustFocus(0, 0, -1);
+                return stage.adjustFocus(0, 0, -1);
             }
         }
 
@@ -241,8 +238,8 @@
     }
 
     function handleWheel(event: WheelEvent) {
-        if (adjustFocus) {
-            adjustFocus(0, 0, event.deltaY / Math.pow(PX_PER_METER, 2));
+        if (stage) {
+            stage.adjustFocus(0, 0, event.deltaY / Math.pow(PX_PER_METER, 2));
             event.preventDefault();
         }
     }
@@ -398,8 +395,8 @@
                     strokeNodeID = group.id;
                 }
             } else {
-                if (event.shiftKey && setFocus) {
-                    setFocus(newX, newY, drag.startPlace.z);
+                if (event.shiftKey && stage) {
+                    stage.setFocus(newX, newY, drag.startPlace.z);
                     event.stopPropagation();
                 } else if (
                     selectedOutput &&
@@ -692,8 +689,7 @@
                 bind:fit
                 bind:grid
                 bind:painting
-                bind:setFocus
-                bind:adjustFocus
+                bind:this={stage}
                 bind:renderedFocus
                 interactive={!mini}
                 {editable}
