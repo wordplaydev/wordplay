@@ -379,7 +379,7 @@
         flex-grow: 1;
     }
 
-    .tile:not(.fullscreen):focus-within:after {
+    .tile:focus-within:after {
         width: 100%;
         height: 100%;
         content: '';
@@ -389,6 +389,11 @@
         top: 0;
         left: 0;
         pointer-events: none;
+    }
+
+    .tile.fullscreen:focus-within:after {
+        outline-width: calc(var(--wordplay-focus-width) / 2);
+        outline-offset: calc(-1 * var(--wordplay-focus-width) / 2);
     }
 
     .fullscreen {

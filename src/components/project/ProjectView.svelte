@@ -658,7 +658,7 @@
             };
 
         /** Restore focus if on body */
-        if (document.activeElement === document.body && focusedTileID)
+        if (document.activeElement === document.body)
             tick().then(() => focusTile(focusedTileID));
     });
 
@@ -718,7 +718,7 @@
             .resized($config.getArrangement(), canvasWidth, canvasHeight);
     }
 
-    function setFullscreen(tile: Tile, fullscreen: boolean) {
+    async function setFullscreen(tile: Tile, fullscreen: boolean) {
         layout = fullscreen
             ? layout.withFullscreen(tile.id)
             : layout.withoutFullscreen();
@@ -990,8 +990,6 @@
     on:pointermove={handlePointerMove}
     on:pointerup={handlePointerUp}
 />
-
-<svelte:body on:focusin={() => focusTile(undefined)} />
 
 <Help bind:show={help} />
 <!-- Render the app header and the current project, if there is one. -->
