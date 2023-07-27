@@ -5,6 +5,7 @@
     import type Value from '@runtime/Value';
     import { config } from '../../db/Creator';
     import { onMount } from 'svelte';
+    import { fade } from 'svelte/transition';
 
     export let project: Project;
     export let action: (() => void) | undefined = undefined;
@@ -38,16 +39,18 @@
                 : undefined}
     >
         {#if visible}
-            <OutputView
-                {project}
-                {evaluator}
-                source={project.main}
-                {value}
-                fullscreen={false}
-                fit={true}
-                grid={false}
-                mini
-            />
+            <div class="output" in:fade role="presentation">
+                <OutputView
+                    {project}
+                    {evaluator}
+                    source={project.main}
+                    {value}
+                    fullscreen={false}
+                    fit={true}
+                    grid={false}
+                    mini
+                />
+            </div>
         {/if}
     </div>
     <div class="name"
@@ -67,6 +70,11 @@
         flex-direction: row;
         align-items: center;
         gap: var(--wordplay-spacing);
+    }
+
+    .output {
+        width: 100%;
+        height: 100%;
     }
 
     .name {
