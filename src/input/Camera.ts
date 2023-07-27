@@ -19,6 +19,8 @@ import ColorJS from 'colorjs.io';
 import Structure, { createStructure } from '../runtime/Structure';
 import type Locale from '../locale/Locale';
 import type StructureDefinition from '../nodes/StructureDefinition';
+import type Names from '../nodes/Names';
+import type Value from '../runtime/Value';
 
 type CameraConfig = {
     stream: MediaStream;
@@ -114,7 +116,7 @@ export default class Camera extends TemporalStream<List> {
                     // Get an LCH color from it.
                     const lch = srgb.to('lch');
                     // Create bindings from it.
-                    const bindings = new Map();
+                    const bindings = new Map<Names, Value>();
 
                     // PERF: We convert to integers to prevent
                     // Decimal from parsing as a string.
@@ -124,7 +126,7 @@ export default class Camera extends TemporalStream<List> {
 
                     // Lightness
                     bindings.set(
-                        ColorType.inputs[0],
+                        ColorType.inputs[0].names,
                         new Number(
                             this.creator,
                             Math.round(lch.coords[0]) / 100
@@ -132,12 +134,12 @@ export default class Camera extends TemporalStream<List> {
                     );
                     // Chroma
                     bindings.set(
-                        ColorType.inputs[1],
+                        ColorType.inputs[1].names,
                         new Number(this.creator, Math.round(lch.coords[1]))
                     );
                     // Hue
                     bindings.set(
-                        ColorType.inputs[2],
+                        ColorType.inputs[2].names,
                         new Number(this.creator, Math.round(lch.coords[2]))
                     );
 
