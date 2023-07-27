@@ -56,45 +56,61 @@ export class Grid extends Arrangement {
 
         // This layout algorithm arranges children from the left to right,
         // starting at the top row, and working towards the bottom.
-        // null ouputs take up a cell in the grid, allowing for empty slots.
+        // null outputs take up a cell in the grid, allowing for empty slots.
         // The width of each column is the maximum width of output in the column.
         // The width of each row is the sum of the widths of each column, plus padding.
         // The total height of the grid is the sum of row heights, plus padding.
         // Output is centered within its position its cell.
 
+        // First, build a matrix of the requested size.
+        const grid = [];
+        const unplaced = layouts.slice();
+        for (let rowIndex = 0; rowIndex < this.rows; rowIndex++) {
+            const row = [];
+            for (
+                let columnIndex = 0;
+                columnIndex < this.columns;
+                columnIndex++
+            ) {
+                row.push({
+                    output: unplaced.shift() ?? null,
+                    place: undefined,
+                });
+            }
+            grid.push(row);
+        }
+
         // First, compute the max height of each row and max width of each column.
         // This prepares us to position each output within the grid.
         const rowHeights: number[] = [];
         for (let row = 0; row < this.rows; row++) {
-            if (this.cellHeight) {
-                rowHeights[row] = this.cellHeight;
-            } else {
-                // Find the outputs in this row.
-                const rowOutputs = layouts.slice(
-                    row * this.columns,
-                    (row + 1) * this.columns
-                );
-                rowHeights[row] = Math.max.apply(
-                    Math,
-                    rowOutputs.map((out) => (out ? out.height : 0))
-                );
-            }
+            // The row height is the explicit cell height or the max height in the row.
+            rowHeights[row] =
+                this.cellHeight !== undefined
+                    ? this.cellHeight
+                    : grid[row].reduce(
+                          (max, cell) =>
+                              cell.output && cell.output.height > max
+                                  ? cell.output.height
+                                  : max,
+                          0
+                      );
         }
 
         const columnWidths: number[] = [];
         for (let column = 0; column < this.columns; column++) {
-            if (this.cellWidth) {
-                columnWidths[column] = this.cellWidth;
-            } else {
-                // Find the outputs in this column.
-                const columnOutputs = layouts.filter(
-                    (_, index) => index % this.rows === column
-                );
-                columnWidths[column] = Math.max.apply(
-                    Math,
-                    columnOutputs.map((out) => (out ? out.width : 0))
-                );
-            }
+            columnWidths[column] =
+                this.cellWidth !== undefined
+                    ? this.cellWidth
+                    : grid
+                          .map((row) => row[column])
+                          .reduce(
+                              (max, cell) =>
+                                  cell.output && cell.output.width > max
+                                      ? cell.output.width
+                                      : max,
+                              0
+                          );
         }
 
         const width =
@@ -110,8 +126,8 @@ export class Grid extends Arrangement {
         for (let row = 0; row < this.rows; row++) {
             for (let col = 0; col < this.columns; col++) {
                 // Get the output in this cell.
-                const output = layouts[row * this.columns + col];
-                if (output) {
+                const cell = grid[row][col];
+                if (cell.output) {
                     const cellLeft =
                         columnWidths
                             .slice(0, col)
@@ -127,11 +143,11 @@ export class Grid extends Arrangement {
                     const rowHeight = rowHeights[row];
                     const place = new Place(
                         this.value,
-                        cellLeft + (columnWidth - output.width) / 2,
-                        cellTop + (rowHeight - output.height) / 2,
+                        cellLeft + (columnWidth - cell.output.width) / 2,
+                        cellTop + (rowHeight - cell.output.height) / 2,
                         0
                     );
-                    places.push([output.output, place]);
+                    places.push([cell.output.output, place]);
                 }
             }
         }
