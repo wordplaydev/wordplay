@@ -202,6 +202,10 @@ export default class Project {
         return this.shares;
     }
 
+    getLocales() {
+        return this.native.locales;
+    }
+
     getContext(source: Source) {
         let context = this.sourceContext.get(source);
         if (context === undefined) {

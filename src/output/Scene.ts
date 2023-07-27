@@ -1,4 +1,3 @@
-import type LanguageCode from '../locale/LanguageCode';
 import type TypeOutput from './TypeOutput';
 import Place from './Place';
 import { createPlace } from './Place';
@@ -39,9 +38,6 @@ export default class Scene {
 
     /** True if the stage is animated and interactive */
     live: boolean = true;
-
-    /** The current languages being displayed */
-    languages: LanguageCode[] = [];
 
     /** The current fonts that are loaded */
     fontsLoaded: Set<string> = new Set();

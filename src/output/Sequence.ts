@@ -29,7 +29,7 @@ export function createSequenceType(locales: Locale[]) {
             Object.values(locale.output.Easing).map((id) => `"${id}"`)
         )
         .flat()
-        .join('|')}: "zippy"
+        .join('|')}: "${Object.values(locales[0].output.Easing)[0]}"
         ${getBind(
             locales,
             (locale) => locale.output.Sequence.count
