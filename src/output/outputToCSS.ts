@@ -132,10 +132,9 @@ export function toOutputTransform(
     // where parents affect their children.
     const perspectiveScale = root ? rootScale(z, focus.z) : incrementalScale(z);
 
-    // When computing the center, account for scale
-    // Negate ascent to account for flipped y axis.
-    let centerXOffset = metrics.width / 2;
-    let centerYOffset = metrics.actualAscent / 2;
+    // Find the center of the stage, around which we will rotate and scale.
+    let centerXOffset = root ? 0 : metrics.width / 2;
+    let centerYOffset = root ? 0 : metrics.actualAscent / 2;
 
     // Translate the place to screen coordinates.
     let placeX = place.x * PX_PER_METER;
