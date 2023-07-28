@@ -4,7 +4,6 @@
     import type Place from '@output/Place';
     import outputToCSS, { PX_PER_METER } from '@output/outputToCSS';
     import type RenderContext from '@output/RenderContext';
-    import Pose from '@output/Pose';
     import Phrase from '@output/Phrase';
     import PhraseView from './PhraseView.svelte';
     import Group from '@output/Group';
@@ -65,14 +64,10 @@
     data-name={group.getName()}
     data-selectable={group.selectable}
     style={outputToCSS(
-        false,
         context.font,
         context.size,
-        group.rotation,
         // No first pose because of an empty sequence? Give a default.
-        group.rest instanceof Pose
-            ? group.rest
-            : group.rest.getFirstPose() ?? new Pose(group.value),
+        group.getFirstRestPose(),
         place,
         layout.width,
         layout.height,

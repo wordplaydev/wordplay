@@ -4,9 +4,15 @@ export type TypeTexts = {
     size: NameAndDoc;
     family: NameAndDoc;
     place: NameAndDoc;
-    rotation: NameAndDoc;
     name: NameAndDoc;
     selectable: NameAndDoc;
+    color: NameAndDoc;
+    opacity: NameAndDoc;
+    offset: NameAndDoc;
+    rotation: NameAndDoc;
+    scale: NameAndDoc;
+    flipx: NameAndDoc;
+    flipy: NameAndDoc;
     enter: NameAndDoc;
     rest: NameAndDoc;
     move: NameAndDoc;
@@ -51,7 +57,7 @@ type OutputTexts = {
         color: NameAndDoc;
         opacity: NameAndDoc;
         offset: NameAndDoc;
-        tilt: NameAndDoc;
+        rotation: NameAndDoc;
         scale: NameAndDoc;
         flipx: NameAndDoc;
         flipy: NameAndDoc;

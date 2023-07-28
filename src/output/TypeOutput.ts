@@ -8,9 +8,13 @@ import { TYPE_SYMBOL } from '@parser/Symbols';
 import Sequence from './Sequence';
 import TextLang from './TextLang';
 import type Pose from './Pose';
+import { DefinitePose } from './Pose';
 import type RenderContext from './RenderContext';
 import Fonts, { SupportedFontsFamiliesType } from '../native/Fonts';
 import type Locale from '../locale/Locale';
+import { toBoolean, toDecimal } from './Stage';
+import { toColor } from './Color';
+import { toPlace } from './Place';
 
 export function createTypeType(locales: Locale[]) {
     return toStructure(`
@@ -28,11 +32,17 @@ ${getBind(
     (locale) => locale.output.Type.family
 )}•${SupportedFontsFamiliesType}|ø: ø
 ${getBind(locales, (locale) => locale.output.Type.place)}•ø|Place: ø
-${getBind(locales, (locale) => locale.output.Type.rotation)}•#°|ø: ø
 ${getBind(locales, (locale) => locale.output.Type.name)}•""|ø: ø
 ${getBind(locales, (locale) => locale.output.Type.selectable)}•?: ⊥
+${getBind(locales, (locale) => locale.output.Pose.color)}•Color|ø: ø
+${getBind(locales, (locale) => locale.output.Pose.opacity)}•%: 100%
+${getBind(locales, (locale) => locale.output.Pose.offset)}•Place: Place()
+${getBind(locales, (locale) => locale.output.Type.rotation)}•#°: 0°
+${getBind(locales, (locale) => locale.output.Pose.scale)}•#: 1
+${getBind(locales, (locale) => locale.output.Pose.flipx)}•?: ⊥
+${getBind(locales, (locale) => locale.output.Pose.flipy)}•?: ⊥
 ${getBind(locales, (locale) => locale.output.Type.enter)}•ø|Pose|Sequence: ø
-${getBind(locales, (locale) => locale.output.Type.rest)}•ø|Pose|Sequence: Pose()
+${getBind(locales, (locale) => locale.output.Type.rest)}•ø|Pose|Sequence: ø
 ${getBind(locales, (locale) => locale.output.Type.move)}•ø|Pose|Sequence: ø
 ${getBind(locales, (locale) => locale.output.Type.exit)}•ø|Pose|Sequence: ø
 ${getBind(locales, (locale) => locale.output.Type.duration)}•#s: 0s
@@ -50,11 +60,11 @@ export default abstract class TypeOutput extends Output {
     readonly size: number | undefined;
     readonly font: string | undefined;
     readonly place: Place | undefined;
-    readonly rotation: number | undefined;
     readonly name: TextLang;
     readonly selectable: boolean;
+    readonly pose: DefinitePose;
     readonly enter: Pose | Sequence | undefined;
-    readonly rest: Pose | Sequence;
+    readonly rest: Pose | Sequence | undefined;
     readonly move: Pose | Sequence | undefined;
     readonly exit: Pose | Sequence | undefined;
     readonly duration: number;
@@ -65,11 +75,11 @@ export default abstract class TypeOutput extends Output {
         size: number | undefined = undefined,
         font: string | undefined = undefined,
         place: Place | undefined = undefined,
-        rotation: number | undefined = undefined,
         name: TextLang | string,
         selectable: boolean,
+        pose: DefinitePose,
         entry: Pose | Sequence | undefined = undefined,
-        resting: Pose | Sequence,
+        rest: Pose | Sequence | undefined = undefined,
         move: Pose | Sequence | undefined = undefined,
         exit: Pose | Sequence | undefined = undefined,
         duration: number,
@@ -80,11 +90,11 @@ export default abstract class TypeOutput extends Output {
         this.size = size ? Math.max(0, size) : size;
         this.font = font;
         this.place = place;
-        this.rotation = rotation;
         this.name = name instanceof TextLang ? name : new TextLang(value, name);
         this.selectable = selectable;
+        this.pose = pose;
         this.enter = entry;
-        this.rest = resting;
+        this.rest = rest;
         this.move = move;
         this.exit = exit;
         this.duration = duration;
@@ -108,6 +118,20 @@ export default abstract class TypeOutput extends Output {
     abstract getOutput(): (TypeOutput | null)[];
     abstract getBackground(): Color | undefined;
     abstract getDescription(locales: Locale[]): string;
+
+    getRestOrDefaultPose(): Pose | Sequence {
+        return this.rest ?? this.pose;
+    }
+
+    getFirstRestPose(): Pose {
+        return this.rest instanceof Sequence
+            ? this.rest.getFirstPose() ?? this.pose
+            : this.rest ?? this.pose;
+    }
+
+    getDefaultPose(): DefinitePose {
+        return this.pose;
+    }
 
     getRenderContext(context: RenderContext) {
         return context.withFontAndSize(this.font, this.size);
@@ -135,4 +159,31 @@ export default abstract class TypeOutput extends Output {
             this.duration > 0
         );
     }
+}
+
+export function getDefinitePose(value: Value): DefinitePose | undefined {
+    const color = toColor(value.resolve('color'));
+    const opacity = toDecimal(value.resolve('opacity'))?.toNumber();
+    const offset = toPlace(value.resolve('offset'));
+    const rotation = toDecimal(value.resolve('rotation'))?.toNumber();
+    const scale = toDecimal(value.resolve('scale'))?.toNumber();
+    const flipx = toBoolean(value.resolve('flipx'));
+    const flipy = toBoolean(value.resolve('flipy'));
+    return opacity !== undefined &&
+        offset &&
+        rotation !== undefined &&
+        scale !== undefined &&
+        flipx !== undefined &&
+        flipy !== undefined
+        ? new DefinitePose(
+              value,
+              color,
+              opacity,
+              offset,
+              rotation,
+              scale,
+              flipx,
+              flipy
+          )
+        : undefined;
 }

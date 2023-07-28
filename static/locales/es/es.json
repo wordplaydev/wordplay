@@ -1414,9 +1414,36 @@
             "size": { "doc": "$?", "names": "tamaño" },
             "family": { "doc": "$?", "names": "fuente" },
             "place": { "doc": "$?", "names": "place" },
-            "rotation": { "doc": "$?", "names": "rotación" },
             "name": { "doc": "$?", "names": "nombre" },
             "selectable": { "doc": "$?", "names": "seleccionable" },
+            "color": {
+                "doc": "$?",
+                "names": "$? color"
+            },
+            "opacity": {
+                "doc": "$?",
+                "names": "$? opacity"
+            },
+            "offset": {
+                "doc": "$?",
+                "names": "$? offset"
+            },
+            "rotation": {
+                "doc": "$?",
+                "names": "$? rotation"
+            },
+            "scale": {
+                "doc": "$?",
+                "names": "$? scale"
+            },
+            "flipx": {
+                "doc": "$?",
+                "names": "$? flipx"
+            },
+            "flipy": {
+                "doc": "$?",
+                "names": "$? flipy"
+            },
             "enter": { "doc": "$?", "names": "ingresar" },
             "rest": { "doc": "$?", "names": "descansar" },
             "move": { "doc": "$?", "names": "mover" },
@@ -1488,7 +1515,7 @@
             "color": { "doc": "$?", "names": "color" },
             "opacity": { "doc": "$?", "names": "opacidad" },
             "offset": { "doc": "$?", "names": "offset" },
-            "tilt": { "doc": "$?", "names": "inclinación" },
+            "rotation": { "doc": "$?", "names": "inclinación" },
             "scale": { "doc": "$?", "names": "escala" },
             "flipx": { "doc": "$?", "names": "voltearx" },
             "flipy": { "doc": "$?", "names": "volteary" }

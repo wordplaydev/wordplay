@@ -6,7 +6,6 @@
     import parseRichText from '@output/parseRichText';
     import outputToCSS from '@output/outputToCSS';
     import type RenderContext from '@output/RenderContext';
-    import Pose from '@output/Pose';
     import Evaluate from '@nodes/Evaluate';
     import TextLiteral from '@nodes/TextLiteral';
     import { getContext, onMount, tick } from 'svelte';
@@ -174,14 +173,10 @@
         style:height="{metrics.actualAscent}px"
         style:line-height="{metrics.actualAscent}px"
         style={outputToCSS(
-            true,
             context.font,
             context.size,
-            phrase.rotation,
             // No first pose because of an empty sequence? Give a default.
-            phrase.rest instanceof Pose
-                ? phrase.rest
-                : phrase.rest.getFirstPose() ?? new Pose(phrase.value),
+            phrase.getFirstRestPose(),
             place,
             undefined,
             undefined,

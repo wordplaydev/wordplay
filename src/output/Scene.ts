@@ -125,7 +125,7 @@ export default class Scene {
             output: verse,
             global: center,
             local: center,
-            rotation: verse.rotation,
+            rotation: verse.pose.rotation,
             parents: [],
             context,
         });
@@ -157,7 +157,7 @@ export default class Scene {
                     },
                     present: {
                         place: info.local,
-                        rotation: info.output.rotation,
+                        rotation: info.output.pose.rotation,
                     },
                 });
             }

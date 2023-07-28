@@ -105,41 +105,39 @@ export default class OutputAnimation {
     /** Change to the still state and start a transition to it. */
     rest(prior?: TypeOutput) {
         this.state = State.Rest;
+        const priorPose = prior?.getRestOrDefaultPose();
+        const currentPose = this.output.getRestOrDefaultPose();
         // If the rest pose changed to a new pose, or the size changed, animate to it.
         if (
             prior &&
-            prior.rest instanceof Pose &&
-            this.output.rest instanceof Pose &&
-            (!prior.rest.equals(this.output.rest) ||
-                prior.size !== this.output.size)
+            priorPose instanceof Pose &&
+            currentPose instanceof Pose &&
+            (!priorPose.equals(currentPose) || prior.size !== this.output.size)
         ) {
             // If there's a prior that's different from the present, transition to the present.
             this.start(State.Rest, [
                 // Start at the previous position, no transition
                 new Transition(
                     undefined,
-                    prior.rotation,
                     prior.size,
-                    prior.rest,
+                    priorPose,
                     0,
                     this.output.style
                 ),
                 // Tansition to the new position with resting pose as a baseline, and move on top
                 new Transition(
                     undefined,
-                    this.output.rotation,
                     this.output.size,
-                    this.output.rest,
+                    currentPose,
                     this.output.duration,
                     this.output.style
                 ),
             ]);
         }
         // If the new rest is a sequence, start the sequence.
-        else if (this.output.rest instanceof Sequence) {
-            const sequence = this.output.rest.compile(
+        else if (currentPose instanceof Sequence) {
+            const sequence = currentPose.compile(
                 undefined,
-                this.output.rotation,
                 undefined,
                 this.output.size
             );
@@ -147,9 +145,9 @@ export default class OutputAnimation {
             if (sequence) {
                 if (prior) {
                     const priorRestPose =
-                        prior.rest instanceof Pose
-                            ? prior.rest
-                            : prior.rest.getFirstPose();
+                        priorPose instanceof Sequence
+                            ? priorPose.getFirstPose()
+                            : priorPose;
                     if (priorRestPose) {
                         // Update the first keyframe's duration, so there's a transition from the first rest pose.
                         sequence[0] = sequence[0].withDuration(
@@ -159,7 +157,6 @@ export default class OutputAnimation {
                         sequence.unshift(
                             new Transition(
                                 undefined,
-                                prior.rotation,
                                 prior.size,
                                 priorRestPose,
                                 0,
@@ -181,10 +178,7 @@ export default class OutputAnimation {
         // Otherwise, transition to from entry to rest
         else {
             // Get the first pose of still so we can animate to it.
-            const firstStillPose =
-                this.output.rest instanceof Pose
-                    ? this.output.rest
-                    : this.output.rest.getFirstPose();
+            const firstStillPose = this.output.getFirstRestPose();
             const entrySequence =
                 enter instanceof Pose ? enter : enter.compile();
 
@@ -201,7 +195,6 @@ export default class OutputAnimation {
                     ? ([
                           new Transition(
                               outputInfo.local,
-                              this.output.rotation,
                               this.output.size,
                               entrySequence,
                               0,
@@ -209,7 +202,6 @@ export default class OutputAnimation {
                           ),
                           new Transition(
                               outputInfo.local,
-                              this.output.rotation,
                               this.output.size,
                               // No first pose? I guess we animate to the entry pose.
                               firstStillPose ?? entrySequence,
@@ -226,7 +218,6 @@ export default class OutputAnimation {
                               ? [
                                     new Transition(
                                         outputInfo.local,
-                                        this.output.rotation,
                                         this.output.size,
                                         firstStillPose,
                                         this.output.duration,
@@ -244,10 +235,7 @@ export default class OutputAnimation {
 
     move(prior: Orientation, present: Orientation) {
         const move = this.output.move;
-        const rest =
-            this.output.rest instanceof Pose
-                ? this.output.rest
-                : this.output.rest.getFirstPose();
+        const rest = this.output.getFirstRestPose();
 
         this.log(`Moving from ${prior.toString()} to ${present.toString()}`);
 
@@ -258,7 +246,6 @@ export default class OutputAnimation {
                 // Start at the previous position, no transition
                 new Transition(
                     prior.place,
-                    prior.rotation,
                     this.output.size,
                     rest ? rest.with(move) : move,
                     0,
@@ -267,7 +254,6 @@ export default class OutputAnimation {
                 // Tansition to the new position with resting pose as a baseline, and move on top
                 new Transition(
                     present.place,
-                    this.output.rotation,
                     this.output.size,
                     rest ? rest.with(move) : move,
                     this.output.duration / 2,
@@ -276,7 +262,6 @@ export default class OutputAnimation {
                 // Transition from the move pose to the rest pose.
                 new Transition(
                     present.place,
-                    this.output.rotation,
                     this.output.size,
                     rest ?? move,
                     this.output.duration / 2,
@@ -285,7 +270,7 @@ export default class OutputAnimation {
             ]);
         // If move is a sequence, run it, but account for the resting pose.
         else if (move instanceof Sequence) {
-            let transitions = move.compile(undefined, undefined, rest);
+            let transitions = move.compile(undefined, rest);
 
             if (transitions === undefined) return;
 
@@ -305,13 +290,11 @@ export default class OutputAnimation {
                     prior.place.y + (present.place.y - prior.place.y) * percent,
                     prior.place.z + (present.place.z - prior.place.z) * percent
                 );
-                return transition
-                    .withPlace(interpolatedPlace)
-                    .withRotation(
-                        (prior.rotation ?? 0) +
-                            ((present.rotation ?? 0) - (prior.rotation ?? 0)) *
-                                percent
-                    );
+                return transition.withPlace(interpolatedPlace);
+                // .withRotation(
+                //     (prior.rotation ?? 0) +
+                //         (present.rotation ?? 0) * percent
+                // );
             }) as TransitionSequence;
 
             // Start the sequence
@@ -323,17 +306,13 @@ export default class OutputAnimation {
         // If there's an exit pose, animate from rest to exit.
         if (this.output.exit instanceof Pose) {
             // Get the first rest pose.
-            const rest =
-                this.output.rest instanceof Pose
-                    ? this.output.rest
-                    : this.output.rest.getFirstPose();
+            const rest = this.output.getFirstRestPose();
 
             // If the exit is a pose, transition from rest to pose.
             this.start(State.Exiting, [
                 // Start at the previous rest position, or if there isn't one, the exit.
                 new Transition(
                     undefined,
-                    this.output.rotation,
                     this.output.size,
                     rest ?? this.output.exit,
                     0,
@@ -342,7 +321,6 @@ export default class OutputAnimation {
                 // Tansition to the new position with resting pose as a baseline, and move on top
                 new Transition(
                     undefined,
-                    this.output.rotation,
                     this.output.size,
                     this.output.exit,
                     this.output.duration,
@@ -470,10 +448,8 @@ export default class OutputAnimation {
                 const layout = this.output.getLayout(this.context);
 
                 keyframe.transform = toOutputTransform(
-                    this.output instanceof Phrase,
                     transition.pose,
                     localPlace,
-                    transition.rotation,
                     offsetFocus,
                     // Anything rooted in the verse has no height.
                     // Otherwise, pass the height of the parent, just like

@@ -2511,7 +2511,7 @@
                 "@FunctionDefinition here, I can explain @Camera!",
                 "So @Camera provides a @List of @Color from your world. That list essentially represents an image, but it's up to you to decide what to do with it.",
                 "You could try to represent the image with a bunch of @Phrase, which could look pretty cool! Try copying this...",
-                "⧼colors: Camera(32px 24px 33ms)\n\nStage(\ncolors.combine(\n[] \nƒ(phrases•[Phrase] row•[Color] y•#) \nphrases.append(\nrow.translate(\nƒ(color•Color x•#)\nPhrase('o' place: Place((x - 1) · 0.5m y · -0.5m) rest: Pose(color: color) duration: 0s\n)\n)\n)\n)\n)⧽",
+                "⧼colors: Camera(32px 24px 33ms)\n\nStage(\ncolors.combine(\n[] \nƒ(phrases•[Phrase] row•[Color] y•#) \nphrases.append(\nrow.translate(\nƒ(color•Color x•#)\nPhrase('o' place: Place((x - 1) · 0.5m y · -0.5m) color: color duration: 0s\n)\n)\n)\n)\n)⧽",
                 "But you could also analyze the colors to decide if a light was on or off, or if a particular color was common, letting the audience influence a performance with the colors they show."
             ],
             "names": ["🎥", "Camera"],
@@ -2592,10 +2592,6 @@
                 "doc": "The place on stage where this output should be.",
                 "names": "place"
             },
-            "rotation": {
-                "doc": "The amount in degrees that this output should be rotated around its center.",
-                "names": "rotation"
-            },
             "name": {
                 "doc": "The name of this output, useful for @Choice, and for enabling output with a shared name to be treated as the same output in animations.",
                 "names": "name"
@@ -2604,16 +2600,44 @@
                 "doc": "If ⧼⊤⧽, indicates that the output can be selected via a pointer or keyboard.",
                 "names": "selectable"
             },
+            "color": {
+                "doc": "The @Color I should be by default, unless overriden by a different @Pose.",
+                "names": "color"
+            },
+            "opacity": {
+                "doc": "How transparent I should be by default, between ⧼0⧽ and ⧼1⧽, unless overriden by a different @Pose. Helpful for fading in and out.",
+                "names": "opacity"
+            },
+            "offset": {
+                "doc": "A @Place indicating how offset from my @Place it should be, unless overriden by a different @Pose. Helpful for wiggling in place.",
+                "names": "offset"
+            },
+            "rotation": {
+                "doc": "The amount in degrees I should should be rotated around its center, unless overriden by a different @Pose.",
+                "names": "rotation"
+            },
+            "scale": {
+                "doc": "How magnified I should be relative to its original size, unless overriden by a different @Pose.",
+                "names": "scale"
+            },
+            "flipx": {
+                "doc": "Whether I should be mirrored on the x-axis, unless overriden by a different @Pose.",
+                "names": "flipx"
+            },
+            "flipy": {
+                "doc": "Whether I should be mirrored on the y-axis, unless overriden by a different @Pose.",
+                "names": "flipy"
+            },
             "enter": {
                 "doc": "The @Pose or @Sequence to use upon entering the stage.",
                 "names": "enter"
             },
             "rest": {
-                "doc": "The @Pose or @Sequence to use when not entering, moving places, or exiting.",
+                "doc": "The @Pose or @Sequence to use after I've entered stage, before I exit, and while my @Place isn't changing. If you don't give me one, I'll just use my defaults.",
                 "names": "rest"
             },
             "move": {
-                "doc": "The @Pose or @Sequence to use when moving places.",
+                "doc": "The @Pose or @Sequence to use when moving places, instead of my defaults.",
                 "names": "move"
             },
             "exit": {
@@ -2754,31 +2778,31 @@
                 "names": "style"
             },
             "color": {
-                "doc": "The @Color a @Type should be in this pose.",
+                "doc": "The @Color a @Type should be in this pose, instead of it's default.",
                 "names": "color"
             },
             "opacity": {
-                "doc": "How transparent a @Type should be, between ⧼0⧽ and ⧼1⧽. Helpful for fading in and out.",
+                "doc": "How transparent a @Type should be, between ⧼0⧽ and ⧼1⧽, instead of it's default. Helpful for fading in and out.",
                 "names": "opacity"
             },
             "offset": {
-                "doc": "A @Place indicating how offset from a @Type's place it should be. Helpful for wiggling in place.",
+                "doc": "A @Place indicating how offset from a @Type's place it should be, instead of it's default. Helpful for wiggling in place.",
                 "names": "offset"
             },
-            "tilt": {
-                "doc": "How much extra rotation a @Type should have from its original rotation.",
-                "names": "tilt"
+            "rotation": {
+                "doc": "How rotated a @Type should be, instead of it's default.",
+                "names": "rotation"
             },
             "scale": {
-                "doc": "How magnified a @Type should be relative to its original size.",
+                "doc": "How magnified a @Type should be relative to its original size, instead of it's default.",
                 "names": "scale"
             },
             "flipx": {
-                "doc": "Whether a @Type should be mirrored on the x-axis.",
+                "doc": "Whether a @Type should be mirrored on the x-axis, instead of its default.",
                 "names": "flipx"
             },
             "flipy": {
-                "doc": "Whether a @Type should be mirrored on the y-axis.",
+                "doc": "Whether a @Type should be mirrored on the y-axis, instead of it's default.",
                 "names": "flipy"
             }
         },
@@ -2818,7 +2842,7 @@
                 "Oh. My. Gosh. Director, you look amazing today! Do you want to dance with me? It's easy.",
                 "You just need to give me a @Map, where each key represents what percent along we are in the dance, and each value of those keys is a @Pose to be.",
                 "There are /so/ many different ways you can animate with this! For example, here's a simple one:",
-                "⧼Phrase('hi' rest: Sequence({0%: Pose(tilt: 360°) 100%: Pose(tilt: 0°)})⧽",
+                "⧼Phrase('hi' rest: Sequence({0%: Pose(rotation: 360°) 100%: Pose(rotation: 0°)})⧽",
                 "This says, /at the beginning (0%), start at tilt 360, and end at tilt 0/. That'll spin us around in circles forever, since I'm set as the @Phrase's rest pose!",
                 "Try your own creative dances by playing with other inputs."
             ],

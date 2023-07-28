@@ -29,9 +29,9 @@ export function createSway(locales: Locale[]) {
         ],
         parseExpression(
             toTokens(`{ 
-            0%: Pose(tilt: -1 · angle)
-            50%: Pose(tilt: angle) 
-            100%: Pose(tilt: -1 · angle)
+            0%: Pose(rotation: -1 · angle)
+            50%: Pose(rotation: angle) 
+            100%: Pose(rotation: -1 · angle)
     }`)
         )
     );
@@ -81,8 +81,8 @@ export function createSpin(locales: Locale[]) {
         [],
         parseExpression(
             toTokens(`{ 
-				  	0%: Pose(tilt: 360°)
-				  	100%: Pose(tilt: 0°)
+				  	0%: Pose(rotation: 360°)
+				  	100%: Pose(rotation: 0°)
 			}`)
         )
     );

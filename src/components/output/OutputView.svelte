@@ -684,7 +684,7 @@
             <StageView
                 {project}
                 {evaluator}
-                {verse}
+                stage={verse}
                 {fullscreen}
                 bind:fit
                 bind:grid

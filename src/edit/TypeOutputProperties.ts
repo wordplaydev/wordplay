@@ -13,6 +13,8 @@ import OutputPropertyRange from './OutputPropertyRange';
 import Reference from '../nodes/Reference';
 import type Project from '../models/Project';
 import type { Locale, NameAndDoc, NameText } from '../locale/Locale';
+import getPoseProperties from './PoseProperties';
+import BooleanLiteral from '../nodes/BooleanLiteral';
 
 function getPoseProperty(project: Project, name: NameAndDoc): OutputProperty {
     return new OutputProperty(
@@ -114,16 +116,6 @@ export default function getTypeOutputProperties(
                 )
         ),
         new OutputProperty(
-            locale.output.Type.rotation,
-            new OutputPropertyRange(0, 360, 1, '°'),
-            false,
-            false,
-            (expr) => expr instanceof NumberLiteral,
-            () => NumberLiteral.make(0, Unit.make(['°']))
-        ),
-        getDurationProperty(locale),
-        getStyleProperty(locale),
-        new OutputProperty(
             locale.output.Type.name,
             new OutputPropertyText(() => true),
             false,
@@ -131,9 +123,20 @@ export default function getTypeOutputProperties(
             (expr) => expr instanceof TextLiteral,
             () => TextLiteral.make('')
         ),
+        new OutputProperty(
+            locale.output.Type.selectable,
+            'bool',
+            false,
+            false,
+            (expr) => expr instanceof BooleanLiteral,
+            () => BooleanLiteral.make(false)
+        ),
+        ...getPoseProperties(project, locale),
         getPoseProperty(project, locale.output.Type.enter),
         getPoseProperty(project, locale.output.Type.rest),
         getPoseProperty(project, locale.output.Type.move),
         getPoseProperty(project, locale.output.Type.exit),
+        getDurationProperty(locale),
+        getStyleProperty(locale),
     ];
 }

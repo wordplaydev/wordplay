@@ -20,7 +20,7 @@ export function createPoseType(locales: Locale[]) {
         ${getBind(locales, (locale) => locale.output.Pose.color)}•Color|ø: ø
         ${getBind(locales, (locale) => locale.output.Pose.opacity)}•%|ø: ø
         ${getBind(locales, (locale) => locale.output.Pose.offset)}•Place|ø: ø
-        ${getBind(locales, (locale) => locale.output.Pose.tilt)}•#°|ø: ø
+        ${getBind(locales, (locale) => locale.output.Pose.rotation)}•#°|ø: ø
         ${getBind(locales, (locale) => locale.output.Pose.scale)}•#|ø: ø
         ${getBind(locales, (locale) => locale.output.Pose.flipx)}•?|ø: ø
         ${getBind(locales, (locale) => locale.output.Pose.flipy)}•?|ø: ø
@@ -32,7 +32,7 @@ export default class Pose extends Output {
     readonly color?: Color;
     readonly opacity?: number;
     readonly offset?: Place;
-    readonly tilt?: number;
+    readonly rotation?: number;
     readonly scale?: number;
     readonly flipx?: boolean;
     readonly flipy?: boolean;
@@ -52,7 +52,7 @@ export default class Pose extends Output {
         this.color = color;
         this.opacity = opacity;
         this.offset = offset;
-        this.tilt = tilt;
+        this.rotation = tilt;
         this.scale = scale;
         this.flipx = flipx;
         this.flipy = flipy;
@@ -65,7 +65,7 @@ export default class Pose extends Output {
             pose.color ?? this.color,
             pose.opacity ?? this.opacity,
             pose.offset ?? this.offset,
-            pose.tilt ?? this.tilt,
+            pose.rotation ?? this.rotation,
             pose.scale ?? this.scale,
             pose.flipx ?? this.flipx,
             pose.flipy ?? this.flipy
@@ -84,11 +84,26 @@ export default class Pose extends Output {
                 (this.offset !== undefined &&
                     pose.offset !== undefined &&
                     this.offset.equals(pose.offset))) &&
-            this.tilt === pose.tilt &&
+            this.rotation === pose.rotation &&
             this.scale === pose.scale &&
             this.flipx === pose.flipx &&
             this.flipy === pose.flipy
         );
+    }
+}
+
+export class DefinitePose extends Pose {
+    constructor(
+        value: Value,
+        color: Color | undefined,
+        opacity: number,
+        offset: Place,
+        rotation: number,
+        scale: number,
+        flipx: boolean,
+        flipy: boolean
+    ) {
+        super(value, color, opacity, offset, rotation, scale, flipx, flipy);
     }
 }
 
@@ -107,7 +122,7 @@ export function toPose(
     const color = toColor(value.resolve('color'));
     const opacity = toDecimal(value.resolve('opacity'))?.toNumber();
     const offset = toPlace(value.resolve('offset'));
-    const tilt = toDecimal(value.resolve('tilt'))?.toNumber();
+    const tilt = toDecimal(value.resolve('rotation'))?.toNumber();
     const scale = toDecimal(value.resolve('scale'))?.toNumber();
     const flipx = toBoolean(value.resolve('flipx'));
     const flipy = toBoolean(value.resolve('flipy'));

@@ -3,7 +3,10 @@ import type Value from '@runtime/Value';
 import type Color from './Color';
 import Fonts from '../native/Fonts';
 import Text from '@runtime/Text';
-import TypeOutput, { createTypeOutputInputs } from './TypeOutput';
+import TypeOutput, {
+    createTypeOutputInputs,
+    getDefinitePose,
+} from './TypeOutput';
 import type RenderContext from './RenderContext';
 import type Place from './Place';
 import List from '@runtime/List';
@@ -18,6 +21,7 @@ import { getStyle } from './toTypeOutput';
 import type { NameGenerator } from './Stage';
 import type Locale from '../locale/Locale';
 import type Project from '../models/Project';
+import type { DefinitePose } from './Pose';
 
 export function createPhraseType(locales: Locale[]) {
     return toStructure(`
@@ -44,11 +48,11 @@ export default class Phrase extends TypeOutput {
         size: number | undefined = undefined,
         font: string | undefined = undefined,
         place: Place | undefined = undefined,
-        rotation: number | undefined = undefined,
         name: TextLang | string,
         selectable: boolean,
+        pose: DefinitePose,
         entry: Pose | Sequence | undefined = undefined,
-        resting: Pose | Sequence,
+        rest: Pose | Sequence | undefined = undefined,
         move: Pose | Sequence | undefined = undefined,
         exit: Pose | Sequence | undefined = undefined,
         duration: number,
@@ -59,11 +63,11 @@ export default class Phrase extends TypeOutput {
             size,
             font,
             place,
-            rotation,
             name,
             selectable,
+            pose,
             entry,
-            resting,
+            rest,
             move,
             exit,
             duration,
@@ -207,11 +211,12 @@ export function toPhrase(
 
     let texts = toTextLang(value.resolve('text'));
 
+    let pose = getDefinitePose(value);
+
     const {
         size,
         font,
         place,
-        rotation,
         name,
         selectable,
         rest,
@@ -225,16 +230,16 @@ export function toPhrase(
     return texts !== undefined &&
         duration !== undefined &&
         style !== undefined &&
-        rest !== undefined
+        pose
         ? new Phrase(
               value,
               texts,
               size,
               font,
               place,
-              rotation,
               namer?.getName(name?.text, value) ?? `${value.creator.id}`,
               selectable,
+              pose,
               enter,
               rest,
               move,

@@ -1,6 +1,9 @@
 import Structure from '@runtime/Structure';
 import type Value from '@runtime/Value';
-import TypeOutput, { createTypeOutputInputs } from './TypeOutput';
+import TypeOutput, {
+    createTypeOutputInputs,
+    getDefinitePose,
+} from './TypeOutput';
 import type RenderContext from './RenderContext';
 import Phrase from './Phrase';
 import Color from './Color';
@@ -12,9 +15,13 @@ import { toColor } from './Color';
 import List from '@runtime/List';
 import { getBind } from '@locale/getBind';
 import Bool from '../runtime/Bool';
-import { getStyle, toTypeOutput, toTypeOutputList } from './toTypeOutput';
+import {
+    getStyle as getTypeValues,
+    toTypeOutput,
+    toTypeOutputList,
+} from './toTypeOutput';
 import type TextLang from './TextLang';
-import Pose from './Pose';
+import Pose, { DefinitePose } from './Pose';
 import type Sequence from './Sequence';
 import Group from './Group';
 import { toShape, type Shape } from './Shapes';
@@ -52,11 +59,11 @@ export default class Stage extends TypeOutput {
         size: number,
         font: string,
         place: Place | undefined = undefined,
-        rotation: number | undefined = undefined,
         name: TextLang | string,
         selectable: boolean,
-        entry: Pose | Sequence | undefined = undefined,
-        rest: Pose | Sequence,
+        pose: DefinitePose,
+        enter: Pose | Sequence | undefined = undefined,
+        rest: Pose | Sequence | undefined = undefined,
         move: Pose | Sequence | undefined = undefined,
         exit: Pose | Sequence | undefined = undefined,
         duration: number = 0,
@@ -67,10 +74,10 @@ export default class Stage extends TypeOutput {
             size,
             font,
             place,
-            rotation,
             name,
             selectable,
-            entry,
+            pose,
+            enter,
             rest,
             move,
             exit,
@@ -193,11 +200,12 @@ export function toStage(project: Project, value: Value): Stage | undefined {
         const background = toColor(value.resolve('background'));
         const frame = toShape(project, value.resolve('frame'));
 
+        const pose = getDefinitePose(value);
+
         const {
             size,
             font,
             place,
-            rotation,
             name,
             selectable,
             rest,
@@ -206,12 +214,13 @@ export function toStage(project: Project, value: Value): Stage | undefined {
             exit,
             duration,
             style,
-        } = getStyle(project, value);
+        } = getTypeValues(project, value);
 
         return content !== undefined &&
             background !== undefined &&
             duration !== undefined &&
-            style !== undefined
+            style !== undefined &&
+            pose
             ? new Stage(
                   value,
                   Array.isArray(content) ? content : [content],
@@ -220,11 +229,11 @@ export function toStage(project: Project, value: Value): Stage | undefined {
                   size ?? DefaultSize,
                   font ?? DefaultFont,
                   place,
-                  rotation,
                   namer.getName(name?.text, value),
                   selectable,
+                  pose,
                   enter,
-                  rest ?? new Pose(value),
+                  rest,
                   move,
                   exit,
                   duration,
@@ -232,9 +241,11 @@ export function toStage(project: Project, value: Value): Stage | undefined {
               )
             : undefined;
     }
-    // Try converting it to a group and wrapping it in a Stage.
+    // Try converting it to a group and wrapping it in a Stage with some
+    // default stage values.
     else {
         const type = toTypeOutput(project, value, namer);
+
         return type === undefined
             ? undefined
             : new Stage(
@@ -250,11 +261,25 @@ export function toStage(project: Project, value: Value): Stage | undefined {
                   DefaultSize,
                   DefaultFont,
                   undefined,
-                  0,
                   namer.getName(undefined, value),
                   type.selectable,
+                  new DefinitePose(
+                      value,
+                      new Color(
+                          value,
+                          new Decimal(0),
+                          new Decimal(0),
+                          new Decimal(0)
+                      ),
+                      1,
+                      new Place(value, 0, 0, 0),
+                      0,
+                      1,
+                      false,
+                      false
+                  ),
                   undefined,
-                  new Pose(value),
+                  undefined,
                   undefined,
                   undefined,
                   0,

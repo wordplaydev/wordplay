@@ -15,7 +15,6 @@
     import { DefaultFont, DefaultSize } from '@output/Stage';
     import { createPlace } from '@output/Place';
     import Scene, { type OutputInfoSet } from '@output/Scene';
-    import Pose from '@output/Pose';
     import GroupView from './GroupView.svelte';
     import { tick } from 'svelte';
     import Phrase from '@output/Phrase';
@@ -38,7 +37,7 @@
 
     export let project: Project;
     export let evaluator: Evaluator;
-    export let verse: Stage;
+    export let stage: Stage;
     export let fullscreen: boolean;
     export let interactive: boolean;
     export let editable: boolean;
@@ -164,7 +163,7 @@
     /** Whenever the verse, languages, fonts, or rendered focus changes, update the rendered scene accordingly. */
     $: {
         const results = scene.update(
-            verse,
+            stage,
             interactive,
             renderedFocus,
             viewportWidth,
@@ -184,13 +183,13 @@
     /** Decide what focus to render. Explicitly set verse focus takes priority, then the fit focus if fitting content to viewport,
      * then the adjusted focus if providedWhenever the verse focus, fit setting, or adjusted focus change, updated the rendered focus */
     export let renderedFocus: Place;
-    $: renderedFocus = verse.place
-        ? verse.place
+    $: renderedFocus = stage.place
+        ? stage.place
         : fit && fitFocus && $evaluation?.playing === true
         ? fitFocus
         : adjustedFocus;
 
-    $: center = new Place(verse.value, 0, 0, 0);
+    $: center = new Place(stage.value, 0, 0, 0);
 
     $: offsetFocus = renderedFocus.offset(center);
 
@@ -221,13 +220,13 @@
     }
 
     $: context = new RenderContext(
-        verse.font ?? DefaultFont,
-        verse.size ?? DefaultSize,
+        stage.font ?? DefaultFont,
+        stage.size ?? DefaultSize,
         $config.getLocales(),
         $loadedFonts,
         $config.getAnimationFactor()
     );
-    $: contentBounds = verse.getLayout(context);
+    $: contentBounds = stage.getLayout(context);
 
     /** When verse or viewport changes, update the autofit focus. */
     $: {
@@ -294,31 +293,30 @@
             : 'inert'} {project.main.names.getNames()[0]}"
         class:interactive
         class:changed
-        class:selected={verse.value.creator instanceof Evaluate &&
+        class:selected={stage.value.creator instanceof Evaluate &&
             $selectedOutput &&
-            $selectedOutput.includes(verse.value.creator)}
+            $selectedOutput.includes(stage.value.creator)}
         class:editing={$evaluation?.playing === false && !painting}
-        data-id={verse.getHTMLID()}
-        data-node-id={verse.value.creator.id}
-        data-selectable={verse.selectable}
+        data-id={stage.getHTMLID()}
+        data-node-id={stage.value.creator.id}
+        data-selectable={stage.selectable}
         style={toCSS({
-            'font-family': `"${verse.font}", ${DefaultFont}`,
-            background: verse.background.toCSS(),
-            '--grid-color': verse.background.complement().toCSS(),
+            'font-family': `"${stage.font}", ${DefaultFont}`,
+            background: stage.background.toCSS(),
+            '--grid-color': stage.background.complement().toCSS(),
             color:
-                (verse.rest instanceof Pose
-                    ? verse.rest.color?.toCSS()
-                    : undefined) ?? 'var(--wordplay-foreground)',
+                stage.getFirstRestPose()?.color?.toCSS() ??
+                'var(--wordplay-foreground)',
         })}
         bind:this={view}
     >
         <!-- Render the verse -->
         <GroupView
-            group={verse}
+            group={stage}
             place={center}
             focus={renderedFocus}
             viewport={{ width: viewportWidth, height: viewportHeight }}
-            clip={verse.frame}
+            clip={stage.frame}
             parentAscent={0}
             {context}
             {interactive}

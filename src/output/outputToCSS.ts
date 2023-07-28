@@ -52,10 +52,8 @@ export function centerTransform(viewportWidth: number, viewportHeight: number) {
 }
 
 export default function outputToCSS(
-    phrase: boolean,
     family: string | undefined,
     size: number | undefined,
-    rotation: number | undefined,
     pose: Pose,
     place: Place,
     width: number | undefined,
@@ -69,10 +67,8 @@ export default function outputToCSS(
         width: width ? sizeToPx(width) : undefined,
         height: height ? sizeToPx(height) : undefined,
         transform: toOutputTransform(
-            phrase,
             pose,
             place,
-            rotation,
             focus,
             parentAscent,
             metrics,
@@ -89,10 +85,8 @@ export default function outputToCSS(
 }
 
 export function toOutputTransform(
-    phrase: boolean,
     pose: Pose,
     place: Place,
-    rotation: number | undefined,
     focus: Place,
     parentAscent: number,
     metrics: { width: number; fontAscent: number; actualAscent: number },
@@ -106,7 +100,7 @@ export function toOutputTransform(
     let xOffset = 0;
     let yOffset = 0;
     let zOffset = 0;
-    let rotationOffset = 0;
+    let rotation = 0;
     if (pose) {
         if (pose.scale !== undefined) {
             xScale = pose.scale;
@@ -119,7 +113,7 @@ export function toOutputTransform(
             yOffset = pose.offset.y * PX_PER_METER;
             zOffset = pose.offset.z;
         }
-        rotationOffset = pose.tilt ?? 0;
+        rotation = pose.rotation ?? 0;
     }
 
     // Compute the final z position of the output based on it's place and it's offset.
@@ -176,7 +170,7 @@ export function toOutputTransform(
         translateXY(xOffset, -yOffset),
         // 2. Rotate around it's center
         // translateXY(0, phrase ? metrics.actualAscent : 0),
-        rotateDeg((rotation ?? 0) + rotationOffset),
+        rotateDeg(rotation),
         // translateXY(0, -(phrase ? metrics.actualAscent : 0)),
         // 1. Translate to the center of the output.
         translateXY(-centerXOffset, -centerYOffset),

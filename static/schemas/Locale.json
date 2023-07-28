@@ -3970,13 +3970,13 @@
                 "opacity": {
                   "$ref": "#/definitions/NameAndDoc"
                 },
+                "rotation": {
+                  "$ref": "#/definitions/NameAndDoc"
+                },
                 "scale": {
                   "$ref": "#/definitions/NameAndDoc"
                 },
                 "style": {
-                  "$ref": "#/definitions/NameAndDoc"
-                },
-                "tilt": {
                   "$ref": "#/definitions/NameAndDoc"
                 }
               },
@@ -3989,9 +3989,9 @@
                 "names",
                 "offset",
                 "opacity",
+                "rotation",
                 "scale",
-                "style",
-                "tilt"
+                "style"
               ],
               "type": "object"
             },
@@ -4139,6 +4139,9 @@
             "Type": {
               "additionalProperties": false,
               "properties": {
+                "color": {
+                  "$ref": "#/definitions/NameAndDoc"
+                },
                 "doc": {
                   "$ref": "#/definitions/DocText"
                 },
@@ -4154,6 +4157,12 @@
                 "family": {
                   "$ref": "#/definitions/NameAndDoc"
                 },
+                "flipx": {
+                  "$ref": "#/definitions/NameAndDoc"
+                },
+                "flipy": {
+                  "$ref": "#/definitions/NameAndDoc"
+                },
                 "move": {
                   "$ref": "#/definitions/NameAndDoc"
                 },
@@ -4163,6 +4172,12 @@
                 "names": {
                   "$ref": "#/definitions/NameText"
                 },
+                "offset": {
+                  "$ref": "#/definitions/NameAndDoc"
+                },
+                "opacity": {
+                  "$ref": "#/definitions/NameAndDoc"
+                },
                 "place": {
                   "$ref": "#/definitions/NameAndDoc"
                 },
@@ -4170,6 +4185,9 @@
                   "$ref": "#/definitions/NameAndDoc"
                 },
                 "rotation": {
+                  "$ref": "#/definitions/NameAndDoc"
+                },
+                "scale": {
                   "$ref": "#/definitions/NameAndDoc"
                 },
                 "selectable": {
@@ -4183,17 +4201,23 @@
                 }
               },
               "required": [
+                "color",
                 "doc",
                 "duration",
                 "enter",
                 "exit",
                 "family",
+                "flipx",
+                "flipy",
                 "move",
                 "name",
                 "names",
+                "offset",
+                "opacity",
                 "place",
                 "rest",
                 "rotation",
+                "scale",
                 "selectable",
                 "size",
                 "style"
@@ -5245,7 +5269,7 @@
                   "type": "string"
                 },
                 "unwritten": {
-                  "description": "The placeholder string indicating that a locale string is not yet written",
+                  "description": "The placeholder indicating that a locale string is not yet written",
                   "type": "string"
                 }
               },

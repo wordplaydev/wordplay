@@ -1414,9 +1414,36 @@
             "size": { "doc": "$?", "names": "$?" },
             "family": { "doc": "$?", "names": "$?" },
             "place": { "doc": "$?", "names": "$?" },
-            "rotation": { "doc": "$?", "names": "$?" },
             "name": { "doc": "$?", "names": "$?" },
             "selectable": { "doc": "$?", "names": "$?" },
+            "color": {
+                "doc": "$?",
+                "names": "$? color"
+            },
+            "opacity": {
+                "doc": "$?",
+                "names": "$? opacity"
+            },
+            "offset": {
+                "doc": "$?",
+                "names": "$? offset"
+            },
+            "rotation": {
+                "doc": "$?",
+                "names": "$? rotation"
+            },
+            "scale": {
+                "doc": "$?",
+                "names": "$? scale"
+            },
+            "flipx": {
+                "doc": "$?",
+                "names": "$? flipx"
+            },
+            "flipy": {
+                "doc": "$?",
+                "names": "$? flipy"
+            },
             "enter": { "doc": "$?", "names": "$?" },
             "rest": { "doc": "$?", "names": "$?" },
             "move": { "doc": "$?", "names": "$?" },
@@ -1488,7 +1515,7 @@
             "color": { "doc": "$?", "names": "$?" },
             "opacity": { "doc": "$?", "names": "$?" },
             "offset": { "doc": "$?", "names": "$?" },
-            "tilt": { "doc": "$?", "names": "$?" },
+            "rotation": { "doc": "$?", "names": "$?" },
             "scale": { "doc": "$?", "names": "$?" },
             "flipx": { "doc": "$?", "names": "$?" },
             "flipy": { "doc": "$?", "names": "$?" }

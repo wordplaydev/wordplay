@@ -23,7 +23,11 @@
             $project.getBindReplacements(
                 values.getExpressions(),
                 getFirstName(property.name.names),
-                parseNumber(toTokens(newValue + range.unit))
+                parseNumber(
+                    toTokens(
+                        (range.unit === '%' ? 100 : 1) * newValue + range.unit
+                    )
+                )
             )
         );
     }

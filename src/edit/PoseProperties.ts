@@ -26,7 +26,7 @@ export default function getPoseProperties(
         ),
         new OutputProperty(
             locale.output.Pose.opacity,
-            new OutputPropertyRange(0, 1, 0.05, '%', 2),
+            new OutputPropertyRange(0, 1, 0.01, '%', 0),
             false,
             false,
             (expr) => expr instanceof NumberLiteral,
@@ -41,7 +41,7 @@ export default function getPoseProperties(
             () => NumberLiteral.make(1)
         ),
         new OutputProperty(
-            locale.output.Pose.tilt,
+            locale.output.Pose.rotation,
             new OutputPropertyRange(0, 360, 1, '°'),
             false,
             false,

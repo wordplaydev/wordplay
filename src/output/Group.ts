@@ -8,12 +8,16 @@ import type Pose from './Pose';
 import type RenderContext from './RenderContext';
 import type Sequence from './Sequence';
 import type TextLang from './TextLang';
-import TypeOutput, { createTypeOutputInputs } from './TypeOutput';
+import TypeOutput, {
+    createTypeOutputInputs,
+    getDefinitePose,
+} from './TypeOutput';
 import { getStyle, toArrangement, toTypeOutputList } from './toTypeOutput';
 import { TYPE_SYMBOL } from '../parser/Symbols';
 import type { NameGenerator } from './Stage';
 import type Locale from '../locale/Locale';
 import type Project from '../models/Project';
+import type { DefinitePose } from './Pose';
 
 export function createGroupType(locales: Locale[]) {
     return toStructure(`
@@ -35,11 +39,11 @@ export default class Group extends TypeOutput {
         size: number | undefined = undefined,
         font: string | undefined = undefined,
         place: Place | undefined = undefined,
-        rotation: number | undefined = undefined,
         name: TextLang | string,
         selectable: boolean,
+        pose: DefinitePose,
         enter: Pose | Sequence | undefined = undefined,
-        rest: Pose | Sequence,
+        rest: Pose | Sequence | undefined = undefined,
         move: Pose | Sequence | undefined = undefined,
         exit: Pose | Sequence | undefined = undefined,
         duration: number,
@@ -50,9 +54,9 @@ export default class Group extends TypeOutput {
             size,
             font,
             place,
-            rotation,
             name,
             selectable,
+            pose,
             enter,
             rest,
             move,
@@ -107,11 +111,12 @@ export function toGroup(
     const layout = toArrangement(project, value.resolve('layout'));
     const content = toTypeOutputList(project, value.resolve('content'), namer);
 
+    let pose = getDefinitePose(value);
+
     const {
         size,
         font,
         place,
-        rotation,
         name,
         selectable,
         rest,
@@ -126,7 +131,7 @@ export function toGroup(
         content &&
         duration !== undefined &&
         style !== undefined &&
-        rest
+        pose
         ? new Group(
               value,
               layout,
@@ -134,9 +139,9 @@ export function toGroup(
               size,
               font,
               place,
-              rotation,
               namer?.getName(name?.text, value) ?? `${value.creator.id}`,
               selectable,
+              pose,
               enter,
               rest,
               move,

@@ -61,7 +61,7 @@ export default class Motion extends TemporalStream<Value> {
         this.x = type.place?.x ?? 0;
         this.y = type.place?.y ?? 0;
         this.z = type.place?.z ?? 0;
-        this.angle = type.rotation ?? 0;
+        this.angle = type.pose.rotation ?? 0;
 
         this.vx = vx ?? 0;
         this.vy = vy ?? 0;
@@ -91,7 +91,7 @@ export default class Motion extends TemporalStream<Value> {
             this.x = type.place?.x ?? this.x;
             this.y = type.place?.y ?? this.y;
             this.z = type.place?.z ?? this.z;
-            this.angle = type.rotation ?? this.angle;
+            this.angle = type.pose.rotation ?? this.angle;
         }
 
         this.vx = vx ?? this.vx;

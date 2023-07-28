@@ -133,7 +133,7 @@
                     "concept": "Program",
                     "performance": ["use", "fit", "Symbol", "📄"],
                     "lines": [
-                        ["fit", "Phrase('📄' rest: Pose(tilt: 10°))"],
+                        ["fit", "Phrase('📄' rest: Pose(rotation: 10°))"],
                         [
                             "FunctionDefinition",
                             "excited",
@@ -152,7 +152,7 @@
                             "Hm… you really are a person. And you want to direct?"
                         ],
                         null,
-                        ["fit", "Phrase('📄' rest: Pose(tilt: 010°))"],
+                        ["fit", "Phrase('📄' rest: Pose(rotation: 010°))"],
                         [
                             "Program",
                             "excited",
@@ -952,7 +952,7 @@
                     "concept": "Truth",
                     "performance": [
                         "fit",
-                        "Group(Row() [Phrase('⊤') Phrase('⊥')] rest: Sequence({ 0%: Pose(tilt: 0°) 50%: Pose(tilt: 180°) 100%: Pose(tilt: 360°)} duration: 2s))"
+                        "Group(Row() [Phrase('⊤') Phrase('⊥')] rest: Sequence({ 0%: Pose(rotation: 0°) 50%: Pose(rotation: 180°) 100%: Pose(rotation: 360°)} duration: 2s))"
                     ],
                     "lines": [
                         ["fit", "Stage([])"],
@@ -967,7 +967,7 @@
                         [
                             "fit",
                             "multiple: 10",
-                            "Stage([Group(Grid(multiple multiple) ('⊤⊥'.repeat(multiple ^ 2) ÷ '').translate(ƒ(glyph•'') Phrase(glyph rest: Pose(color: Color(75% 0 0°)))))])"
+                            "Stage([Group(Grid(multiple multiple) ('⊤⊥'.repeat(multiple ^ 2) ÷ '').translate(ƒ(glyph•'') Phrase(glyph color: Color(75% 0 0°))))])"
                         ],
                         null,
                         [
@@ -1071,7 +1071,7 @@
                         [
                             "fit",
                             "multiple:10",
-                            "                        Stage([Group(Grid(multiple multiple) ('⊤⊥'.repeat(multiple ^ 2) ÷ '').translate(ƒ(glyph•'') Phrase(glyph rest: Pose(color: Color(75% 0 0°)))))])"
+                            "                        Stage([Group(Grid(multiple multiple) ('⊤⊥'.repeat(multiple ^ 2) ÷ '').translate(ƒ(glyph•'') Phrase(glyph color: Color(75% 0 0°))))])"
                         ],
                         [
                             "FunctionDefinition",
@@ -1090,7 +1090,7 @@
                         [
                             "fit",
                             "multiple:10",
-                            "                        Stage([Group(Grid(multiple multiple) ('⊤⊥'.repeat(multiple ^ 2) ÷ '').translate(ƒ(glyph•'') Phrase(glyph rest: Pose(color: Color(75% 0 0°) tilt: 90°))))])"
+                            "                        Stage([Group(Grid(multiple multiple) ('⊤⊥'.repeat(multiple ^ 2) ÷ '').translate(ƒ(glyph•'') Phrase(glyph color: Color(75% 0 0°) rotation: 90°)))])"
                         ],
                         [
                             "FunctionDefinition",
@@ -1111,7 +1111,7 @@
                             "                        ƒ(glyph•'') ",
                             "                        Phrase(glyph rest: Pose(",
                             "                            color: Color(75% 0 0°) ",
-                            "                            tilt: 90° ",
+                            "                            rotation: 90° ",
                             "                            offset:Place(0m (Time() ^ 2) · -0.000025m/ms^2))",
                             "                        )))])"
                         ],
@@ -1493,8 +1493,8 @@
                     "concept": "Lists",
                     "performance": [
                         "fit",
-                        "clockwise: Sequence({0%: Pose(tilt: 0°) 50%: Pose(tilt: 180°) 100%: Pose(tilt: 360°)} duration: 2s)",
-                        "                    counter: Sequence({0%: Pose(tilt: 0°) 50%: Pose(tilt: -180°) 100%: Pose(tilt: -360°)} duration: 2s)",
+                        "clockwise: Sequence({0%: Pose(rotation: 0°) 50%: Pose(rotation: 180°) 100%: Pose(rotation: 360°)} duration: 2s)",
+                        "                    counter: Sequence({0%: Pose(rotation: 0°) 50%: Pose(rotation: -180°) 100%: Pose(rotation: -360°)} duration: 2s)",
                         "                    Group(Row() [Phrase('[' rest: clockwise) Phrase(']' rest: counter) ])"
                     ],
                     "lines": [
@@ -1654,8 +1654,8 @@
                     "concept": "Sets",
                     "performance": [
                         "fit",
-                        "clockwise: Sequence({0%: Pose(tilt: 0°) 50%: Pose(tilt: 180°) 100%: Pose(tilt: 360°)} duration: 2s)",
-                        "                    counter: Sequence({0%: Pose(tilt: 0°) 50%: Pose(tilt: -180°) 100%: Pose(tilt: -360°)} duration: 2s)",
+                        "clockwise: Sequence({0%: Pose(rotation: 0°) 50%: Pose(rotation: 180°) 100%: Pose(rotation: 360°)} duration: 2s)",
+                        "                    counter: Sequence({0%: Pose(rotation: 0°) 50%: Pose(rotation: -180°) 100%: Pose(rotation: -360°)} duration: 2s)",
                         "                    Group(Row() [Phrase('{' rest: clockwise) Phrase('}' rest: counter) ])"
                     ],
                     "lines": [
@@ -1771,8 +1771,8 @@
                     "concept": "Mappings",
                     "performance": [
                         "fit",
-                        "clockwise: Sequence({0%: Pose(tilt: 0°) 50%: Pose(tilt: 180°) 100%: Pose(tilt: 360°)} duration: 2s)",
-                        "                    counter: Sequence({0%: Pose(tilt: 0°) 50%: Pose(tilt: -180°) 100%: Pose(tilt: -360°)} duration: 2s)",
+                        "clockwise: Sequence({0%: Pose(rotation: 0°) 50%: Pose(rotation: 180°) 100%: Pose(rotation: 360°)} duration: 2s)",
+                        "                    counter: Sequence({0%: Pose(rotation: 0°) 50%: Pose(rotation: -180°) 100%: Pose(rotation: -360°)} duration: 2s)",
                         "                    Group(Row(0m) [Phrase('{' rest: clockwise) Phrase(':') Phrase('}' rest: counter) ])"
                     ],
                     "lines": [
@@ -2463,7 +2463,7 @@
                     "lines": [
                         [
                             "fit",
-                            "Phrase('⌨️' rest: Sequence({0%: Pose(tilt: -5°) 25%: Pose(tilt: 0°) 50%: Pose(tilt: 5°) 75%: Pose(tilt: 0°) 100%: Pose(tilt: -5°)} 1s 'straight'))"
+                            "Phrase('⌨️' rest: Sequence({0%: Pose(rotation: -5°) 25%: Pose(rotation: 0°) 50%: Pose(rotation: 5°) 75%: Pose(rotation: 0°) 100%: Pose(rotation: -5°)} 1s 'straight'))"
                         ],
                         [
                             "FunctionDefinition",
@@ -2711,7 +2711,7 @@
                     "concept": "Reaction",
                     "performance": ["use", "fit", "Symbol", "…"],
                     "lines": [
-                        ["fit", "Phrase('…' rest: Pose(tilt: 120°))"],
+                        ["fit", "Phrase('…' rest: Pose(rotation: 120°))"],
                         [
                             "FunctionDefinition",
                             "neutral",
@@ -2723,7 +2723,7 @@
                             "Yeah yeah yeah! It's @FunctionDefinition! How are you doing? Everything has been so… constant, lately. Have you noticed that?"
                         ],
                         null,
-                        ["fit", "Phrase('…' rest: Pose(tilt: 240°))"],
+                        ["fit", "Phrase('…' rest: Pose(rotation: 240°))"],
                         [
                             "FunctionDefinition",
                             "curious",
@@ -2735,7 +2735,7 @@
                             "Super strange, super strange. My whole life has been about change, always listening and watching for new inputs from people, helping transform them into values. But there hasn't been anything. Until just a moment ago… Wait … is that a person?"
                         ],
                         null,
-                        ["fit", "Phrase('…' rest: Pose(tilt: 360°))"],
+                        ["fit", "Phrase('…' rest: Pose(rotation: 360°))"],
                         [
                             "FunctionDefinition",
                             "excited",
@@ -3073,7 +3073,7 @@
                         ],
                         [
                             "fit",
-                            "Phrase('hi' size: 5m place: Place(Time(1000ms) · 0.001m/ms 0m) move: Pose(tilt: 5°) duration: 0.5s)"
+                            "Phrase('hi' size: 5m place: Place(Time(1000ms) · 0.001m/ms 0m) move: Pose(rotation: 5°) duration: 0.5s)"
                         ],
                         null,
                         [
@@ -3083,7 +3083,7 @@
                         ],
                         [
                             "fit",
-                            "Phrase('hi' size: 5m place: Place(Time(1000ms) · 0.001m/ms 0m) move: Pose(tilt: 5°) duration: 0.5s style: “straight”)"
+                            "Phrase('hi' size: 5m place: Place(Time(1000ms) · 0.001m/ms 0m) move: Pose(rotation: 5°) duration: 0.5s style: “straight”)"
                         ],
                         null,
                         [
@@ -3094,7 +3094,7 @@
                         [
                             "fit",
                             "Time(1000ms) < 3000ms ? ",
-                            "Phrase('hi' size: 5m place: Place(Time(1000ms) · 0.001m/ms 0m) move: Pose(tilt: 5°) duration: 0.5s) ",
+                            "Phrase('hi' size: 5m place: Place(Time(1000ms) · 0.001m/ms 0m) move: Pose(rotation: 5°) duration: 0.5s) ",
                             "Phrase('')"
                         ],
                         null,
@@ -3105,7 +3105,7 @@
                         ],
                         [
                             "fit",
-                            "Time(1000ms) < 3000ms ? Phrase('hi' size: 5m place: Place(Time(1000ms) · 0.001m/ms 0m) move: Pose(tilt: 5°) exit: Pose(scale: 10 tilt: 180° opacity: 0) duration: 0.5s) Phrase('')"
+                            "Time(1000ms) < 3000ms ? Phrase('hi' size: 5m place: Place(Time(1000ms) · 0.001m/ms 0m) move: Pose(rotation: 5°) exit: Pose(scale: 10 rotation: 180° opacity: 0) duration: 0.5s) Phrase('')"
                         ],
                         null,
                         [
@@ -3120,8 +3120,8 @@
                             "        'hi'",
                             "        size: 5m",
                             "        place: Place(Time(1000ms) · 0.001m/ms 0m)",
-                            "        move: Pose(tilt: 5°)",
-                            "        exit: Pose(scale: 10 tilt: 180° opacity: 0)",
+                            "        move: Pose(rotation: 5°)",
+                            "        exit: Pose(scale: 10 rotation: 180° opacity: 0)",
                             "        duration: 0.5s",
                             "    )",
                             "    Phrase(“”)"
@@ -3151,10 +3151,7 @@
                             "Then, a @Color/chroma between 0 and 100, which you can think of has how much color there is, from no color gray to full color.",
                             "And finally, a @Color/chroma, which you can think of like a color wheel, from red to green to blue, in degrees. So you want me to be bright red? Set my rest pose color to ⧼Color(50% 300 30°)⧽."
                         ],
-                        [
-                            "edit",
-                            "Phrase('red' rest: Pose(color: 🌈(50% 300 30°)))"
-                        ],
+                        ["edit", "Phrase('red' color: 🌈(50% 300 30°))"],
                         null,
                         [
                             "FunctionDefinition",
@@ -3163,7 +3160,7 @@
                         ],
                         [
                             "edit",
-                            "Phrase('red' size: 5m rest: Pose(color: 🌈(50% 300 (Time() % 360) · 1°/ms)))"
+                            "Phrase('red' size: 5m color: 🌈(50% 300 (Time() % 360) · 1°/ms))"
                         ],
                         [
                             "FunctionDefinition",
@@ -3234,7 +3231,7 @@
                         ],
                         [
                             "fit",
-                            "Phrase('😀' rest: Sequence({0%: Pose() 25%: Pose(offset: Place(0m 1m) scale: 2) 50%: Pose(offset: Place(0m 0m) flipy: ⊤) 75%: Pose(tilt: 45°) 100%: Pose()} 2s))"
+                            "Phrase('😀' rest: Sequence({0%: Pose() 25%: Pose(offset: Place(0m 1m) scale: 2) 50%: Pose(offset: Place(0m 0m) flipy: ⊤) 75%: Pose(rotation: 45°) 100%: Pose()} 2s))"
                         ],
                         null,
                         [
@@ -3248,10 +3245,10 @@
                             "    'dance'",
                             "    enter: Sequence(",
                             "        {",
-                            "            0%: Pose(tilt: 0°)",
+                            "            0%: Pose(rotation: 0°)",
                             "            33%:Pose(tilt:-5°)",
-                            "            66%: Pose(tilt: 5°)",
-                            "            100%: Pose(tilt: 0°)",
+                            "            66%: Pose(rotation: 5°)",
+                            "            100%: Pose(rotation: 0°)",
                             "        }",
                             "    )",
                             ")"
@@ -3268,10 +3265,10 @@
                             "    'dance'",
                             "    enter: Sequence(",
                             "        {",
-                            "            0%: Pose(tilt: 0°)",
+                            "            0%: Pose(rotation: 0°)",
                             "            33%:Pose(tilt:-5°)",
-                            "            66%: Pose(tilt: 5°)",
-                            "            100%: Pose(tilt: 0°)",
+                            "            66%: Pose(rotation: 5°)",
+                            "            100%: Pose(rotation: 0°)",
                             "        } ",
                             "        duration: 0.05s",
                             "    )",
@@ -3289,10 +3286,10 @@
                             "    'dance'",
                             "    enter: Sequence(",
                             "        {",
-                            "            0%: Pose(tilt: 0°)",
+                            "            0%: Pose(rotation: 0°)",
                             "            33%:Pose(tilt:-5°)",
-                            "            66%: Pose(tilt: 5°)",
-                            "            100%: Pose(tilt: 0°)",
+                            "            66%: Pose(rotation: 5°)",
+                            "            100%: Pose(rotation: 0°)",
                             "        } ",
                             "        duration: 0.1s ",
                             "        count: 4x)",
@@ -3310,10 +3307,10 @@
                             "    'dance'",
                             "    rest: Sequence(",
                             "        {",
-                            "        0%: Pose(tilt: 0°)",
+                            "        0%: Pose(rotation: 0°)",
                             "        33%:Pose(tilt:-5°)",
-                            "        66%: Pose(tilt: 5°)",
-                            "        100%: Pose(tilt: 0°)",
+                            "        66%: Pose(rotation: 5°)",
+                            "        100%: Pose(rotation: 0°)",
                             "        } ",
                             "        duration: 0.05s",
                             "    )",
@@ -3566,9 +3563,9 @@
                             "Group(",
                             "    Grid(2 2) [",
                             "    Group(Stack() [Phrase('one') Phrase(“two”)])",
-                            "    Group(Stack() [Phrase('three') Phrase(“four”)] rest: Pose(tilt: 45°))",
+                            "    Group(Stack() [Phrase('three') Phrase(“four”)] rest: Pose(rotation: 45°))",
                             "    Group(Stack() [Phrase('five') Phrase(“six”)])",
-                            "    Group(Stack() [Phrase('seven') Phrase(“eight”)] rest: Pose(tilt: 45°))",
+                            "    Group(Stack() [Phrase('seven') Phrase(“eight”)] rest: Pose(rotation: 45°))",
                             "    ]",
                             ")"
                         ],
@@ -3627,7 +3624,7 @@
                         null,
                         [
                             "fix",
-                            "Stage([Phrase('🎭' 5m rest: Pose(tilt: 25° scale: 5))] background: Color(0% 0 0°))"
+                            "Stage([Phrase('🎭' 5m rest: Pose(rotation: 25° scale: 5))] background: Color(0% 0 0°))"
                         ],
                         [
                             "FunctionDefinition",
@@ -3642,7 +3639,7 @@
                         null,
                         [
                             "fix",
-                            "Stage([Phrase('🎭' 5m rest: Pose(tilt: -150° scale: 10))] background: Color(0% 0 0°))"
+                            "Stage([Phrase('🎭' 5m rest: Pose(rotation: -150° scale: 10))] background: Color(0% 0 0°))"
                         ],
                         [
                             "FunctionDefinition",
@@ -3706,7 +3703,7 @@
                             "    [Phrase(“🐈” place:Place(-2.5m))]",
                             "    background: Color(0 0 0°)",
                             "    frame: Rectangle(-2m -2m 2m 2m)",
-                            "    rest:Pose(tilt: 30°)",
+                            "    rest:Pose(rotation: 30°)",
                             ")"
                         ],
                         null,
@@ -3937,7 +3934,7 @@
                             "Phrase(",
                             "    [ 'a' 'e' 'i' 'o' 'u' 'z'].has(Key())→''",
                             "    [ 'a' 'e' 'i' 'o' 'u' 'z'].has(Key()) ? 2m 1m",
-                            "    rest: Pose(color: Color(50% 100 [ 'a' 'e' 'i' 'o' 'u' 'z'].has(Key()) ? 180° 0°))",
+                            "    color: Color(50% 100 [ 'a' 'e' 'i' 'o' 'u' 'z'].has(Key()) ? 180° 0°)",
                             ")"
                         ],
                         null,
@@ -3952,7 +3949,7 @@
                             "Phrase(",
                             "    magic→''",
                             "    magic ? 2m 1m",
-                            "    rest: Pose(color: Color(50% 100 magic ? 180° 0°))",
+                            "    color: Color(50% 100 magic ? 180° 0°)",
                             ")"
                         ],
                         null,
@@ -4296,7 +4293,7 @@
                         ],
                         [
                             "fit",
-                            "Phrase('•' rest: Sequence({0%: Pose(tilt: 0°) 80%: Pose(tilt: 15°) 100%: Pose(tilt: 0°)} 3s))"
+                            "Phrase('•' rest: Sequence({0%: Pose(rotation: 0°) 80%: Pose(rotation: 15°) 100%: Pose(rotation: 0°)} 3s))"
                         ],
                         null,
                         [
@@ -4765,7 +4762,7 @@
                         null,
                         [
                             "fit",
-                            "Stage([Phrase('Quiet backstage!' rest: Pose(color: Color(100% 0 0°)))] background: Color(0% 0 0°))"
+                            "Stage([Phrase('Quiet backstage!' color: Color(100% 0 0°))] background: Color(0% 0 0°))"
                         ],
                         [
                             "FunctionDefinition",

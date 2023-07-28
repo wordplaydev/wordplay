@@ -85,7 +85,6 @@ export function getStyle(
     name: TextLang | undefined;
     selectable: boolean;
     place: Place | undefined;
-    rotation: number | undefined;
     rest: Pose | Sequence | undefined;
     enter: Pose | Sequence | undefined;
     move: Pose | Sequence | undefined;
@@ -96,7 +95,6 @@ export function getStyle(
     const size = toDecimal(value.resolve('size'))?.toNumber();
     const font = toFont(value.resolve('font'));
     const place = toPlace(value.resolve('place'));
-    const rotation = toDecimal(value.resolve('rotation'))?.toNumber();
     const name = toText(value.resolve('name'));
     const selectable = toBoolean(value.resolve('selectable')) ?? false;
     const rest =
@@ -120,7 +118,6 @@ export function getStyle(
         name,
         selectable,
         place,
-        rotation,
         rest,
         enter,
         move,
