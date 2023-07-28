@@ -155,7 +155,7 @@
 
 {#if visible}
     <div
-        role="button"
+        role={selectable ? 'button' : 'presentation'}
         aria-hidden={empty ? 'true' : null}
         aria-disabled={!selectable}
         aria-roledescription={$config.getLocale().term.phrase}
