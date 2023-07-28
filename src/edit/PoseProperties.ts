@@ -64,7 +64,11 @@ export default function getPoseProperties(
                         ),
                         project.shares.output.place
                     ),
-                    []
+                    [
+                        NumberLiteral.make(0, Unit.make(['m'])),
+                        NumberLiteral.make(0, Unit.make(['m'])),
+                        NumberLiteral.make(0, Unit.make(['m'])),
+                    ]
                 )
         ),
         new OutputProperty(

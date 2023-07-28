@@ -112,7 +112,11 @@ export default function getTypeOutputProperties(
                         ),
                         project.shares.output.place
                     ),
-                    []
+                    [
+                        NumberLiteral.make(0, Unit.make(['m'])),
+                        NumberLiteral.make(0, Unit.make(['m'])),
+                        NumberLiteral.make(0, Unit.make(['m'])),
+                    ]
                 )
         ),
         new OutputProperty(
