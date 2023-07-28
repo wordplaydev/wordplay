@@ -8,7 +8,7 @@ import Token from './Token';
 import Symbol from './Symbol';
 import type TypeSet from './TypeSet';
 import Emotion from '../lore/Emotion';
-import { TEXT_DELIMITERS } from '../parser/Tokenizer';
+import { TextCloseByTextOpen } from '../parser/Tokenizer';
 import UnionType from './UnionType';
 import type Context from './Context';
 import type Type from './Type';
@@ -89,8 +89,8 @@ export default class TextType extends NativeType {
         let text = this.text.getText();
         if (text.length === 0) return '';
         const first = text.charAt(0);
-        if (first in TEXT_DELIMITERS) {
-            const close = TEXT_DELIMITERS[first];
+        if (first in TextCloseByTextOpen) {
+            const close = TextCloseByTextOpen[first];
             text = text.substring(1);
             if (text.charAt(text.length - 1) === close)
                 text = text.substring(0, text.length - 1);

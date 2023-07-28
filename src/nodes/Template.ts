@@ -124,7 +124,7 @@ export default class Template extends Expression {
             const p = this.expressions[i];
             let next: string;
             if (p instanceof Token) {
-                next = undelimited(unescaped(p.getText()));
+                next = unescaped(undelimited(p.getText()));
             } else if (evaluator.peekValue() instanceof Text) {
                 next = (evaluator.popValue(this) as Text).text;
             } else {

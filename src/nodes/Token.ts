@@ -7,7 +7,7 @@ import Emotion from '../lore/Emotion';
 import Purpose from '../concepts/Purpose';
 import type { Template } from '../locale/Locale';
 import type Root from './Root';
-import { REVERSE_TEXT_DELIMITERS, TEXT_DELIMITERS } from '../parser/Tokenizer';
+import { TextOpenByTextClose, TextCloseByTextOpen } from '../parser/Tokenizer';
 import { Languages } from '../locale/LanguageCode';
 import type Definition from './Definition';
 import type Context from './Context';
@@ -162,10 +162,10 @@ export default class Token extends Node {
             const last =
                 text.length > 1 &&
                 lastChar !== undefined &&
-                lastChar in REVERSE_TEXT_DELIMITERS;
+                lastChar in TextOpenByTextClose;
             const preferredQuote = Languages[translations[0].language].quote;
             if (preferredQuote) {
-                const preferredClosing = TEXT_DELIMITERS[preferredQuote];
+                const preferredClosing = TextCloseByTextOpen[preferredQuote];
                 text = isText
                     ? preferredQuote +
                       text.substring(1, text.length - (last ? 1 : 0)) +

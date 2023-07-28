@@ -308,7 +308,7 @@ const patterns = [
     },
 ];
 
-export const TEXT_DELIMITERS: Record<string, string> = {
+export const TextCloseByTextOpen: Record<string, string> = {
     '"': '"',
     '“': '”',
     '„': '“',
@@ -320,9 +320,14 @@ export const TEXT_DELIMITERS: Record<string, string> = {
     '『': '』',
 };
 
-export const REVERSE_TEXT_DELIMITERS: Record<string, string> = {};
-for (const [open, close] of Object.entries(TEXT_DELIMITERS))
-    REVERSE_TEXT_DELIMITERS[close] = open;
+export const TextOpenByTextClose: Record<string, string> = {};
+for (const [open, close] of Object.entries(TextCloseByTextOpen))
+    TextOpenByTextClose[close] = open;
+
+export const TextDelimiters = new Set<string>([
+    ...Object.keys(TextOpenByTextClose),
+    ...Object.keys(TextCloseByTextOpen),
+]);
 
 export const DELIMITERS: Record<string, string> = {};
 
@@ -336,7 +341,7 @@ DELIMITERS[EXAMPLE_OPEN_SYMBOL] = EXAMPLE_CLOSE_SYMBOL;
 DELIMITERS[DOCS_SYMBOL] = DOCS_SYMBOL;
 
 // Add the text delimiters.
-for (const [open, close] of Object.entries(TEXT_DELIMITERS))
+for (const [open, close] of Object.entries(TextCloseByTextOpen))
     DELIMITERS[open] = close;
 
 // Construct the reverse delimiters.
@@ -476,7 +481,9 @@ function getNextToken(
                 (!pattern.types.includes(Symbol.TemplateClose) ||
                     openTemplates.length === 0 ||
                     match[0].endsWith(
-                        TEXT_DELIMITERS[openTemplates[0].getText().charAt(0)]
+                        TextCloseByTextOpen[
+                            openTemplates[0].getText().charAt(0)
+                        ]
                     ))
             )
                 return new Token(match[0], pattern.types);

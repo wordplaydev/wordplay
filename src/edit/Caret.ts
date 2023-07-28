@@ -6,7 +6,7 @@ import Symbol from '@nodes/Symbol';
 import {
     DELIMITERS,
     REVERSE_DELIMITERS,
-    REVERSE_TEXT_DELIMITERS,
+    TextOpenByTextClose,
 } from '@parser/Tokenizer';
 import {
     CONVERT_SYMBOL,
@@ -702,7 +702,7 @@ export default class Caret {
             text === this.source.code.at(newPosition) &&
             // Is what's being typed a closing delimiter of a text literal?
             ((this.tokenIncludingSpace.isSymbol(Symbol.Text) &&
-                REVERSE_TEXT_DELIMITERS[
+                TextOpenByTextClose[
                     this.tokenIncludingSpace.getText().charAt(0)
                 ] === text) ||
                 // Is what's being typed a closing delimiter of an open delimiter?

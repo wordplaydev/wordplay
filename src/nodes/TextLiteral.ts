@@ -12,8 +12,7 @@ import type Locale from '@locale/Locale';
 import Literal from './Literal';
 import Emotion from '../lore/Emotion';
 import type { NativeTypeName } from '../native/NativeConstants';
-import { TEXT_DELIMITERS } from '../parser/Tokenizer';
-import { TEMPLATE_SYMBOL } from '../parser/Symbols';
+import { TextDelimiters } from '../parser/Tokenizer';
 import concretize from '../locale/concretize';
 
 export const ESCAPE_REGEX = /\\(.)/g;
@@ -145,10 +144,6 @@ export function unescaped(text: string) {
 export function undelimited(text: string) {
     return text.substring(
         1,
-        text.length -
-            (TEXT_DELIMITERS[text.charAt(0)] === text.charAt(text.length - 1) ||
-            text.charAt(text.length - 1) === TEMPLATE_SYMBOL
-                ? 1
-                : 0)
+        text.length - (TextDelimiters.has(text.charAt(text.length - 1)) ? 1 : 0)
     );
 }
