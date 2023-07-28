@@ -1,4 +1,5 @@
 import type Value from '@runtime/Value';
+import type Structure from '../runtime/Structure';
 
 /**
  * A base class that represents some part of Stage output.
@@ -15,4 +16,20 @@ export default class Output {
     constructor(value: Value) {
         this.value = value;
     }
+}
+
+export function getOutputInputs(
+    value: Structure,
+    start: number = 0
+): (Value | undefined)[] {
+    return value.type.inputs
+        .slice(start)
+        .map((input) => value.resolve(input.names));
+}
+
+export function getOutputInput(
+    value: Structure,
+    index: number
+): Value | undefined {
+    return value.resolve(value.type.inputs[index].names);
 }

@@ -8,16 +8,15 @@ import type Pose from './Pose';
 import type RenderContext from './RenderContext';
 import type Sequence from './Sequence';
 import type TextLang from './TextLang';
-import TypeOutput, {
-    createTypeOutputInputs,
-    getDefinitePose,
-} from './TypeOutput';
+import TypeOutput, { createTypeOutputInputs } from './TypeOutput';
 import { getStyle, toArrangement, toTypeOutputList } from './toTypeOutput';
 import { TYPE_SYMBOL } from '../parser/Symbols';
 import type { NameGenerator } from './Stage';
 import type Locale from '../locale/Locale';
 import type Project from '../models/Project';
 import type { DefinitePose } from './Pose';
+import Structure from '../runtime/Structure';
+import { getOutputInput } from './Output';
 
 export function createGroupType(locales: Locale[]) {
     return toStructure(`
@@ -106,12 +105,10 @@ export function toGroup(
     value: Value | undefined,
     namer?: NameGenerator
 ): Group | undefined {
-    if (value === undefined) return undefined;
+    if (!(value instanceof Structure)) return undefined;
 
-    const layout = toArrangement(project, value.resolve('layout'));
-    const content = toTypeOutputList(project, value.resolve('content'), namer);
-
-    let pose = getDefinitePose(value);
+    const layout = toArrangement(project, getOutputInput(value, 0));
+    const content = toTypeOutputList(project, getOutputInput(value, 1), namer);
 
     const {
         size,
@@ -119,19 +116,21 @@ export function toGroup(
         place,
         name,
         selectable,
+        pose,
         rest,
         enter,
         move,
         exit,
         duration,
         style,
-    } = getStyle(project, value);
+    } = getStyle(project, value, 2);
 
     return layout &&
         content &&
         duration !== undefined &&
         style !== undefined &&
-        pose
+        pose &&
+        selectable !== undefined
         ? new Group(
               value,
               layout,

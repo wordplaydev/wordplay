@@ -3,10 +3,7 @@ import type Value from '@runtime/Value';
 import type Color from './Color';
 import Fonts from '../native/Fonts';
 import Text from '@runtime/Text';
-import TypeOutput, {
-    createTypeOutputInputs,
-    getDefinitePose,
-} from './TypeOutput';
+import TypeOutput, { createTypeOutputInputs } from './TypeOutput';
 import type RenderContext from './RenderContext';
 import type Place from './Place';
 import List from '@runtime/List';
@@ -17,11 +14,13 @@ import parseRichText, { RichNode, TextNode } from './parseRichText';
 import type Sequence from './Sequence';
 import { PX_PER_METER, sizeToPx } from './outputToCSS';
 import { getBind } from '@locale/getBind';
-import { getStyle } from './toTypeOutput';
 import type { NameGenerator } from './Stage';
 import type Locale from '../locale/Locale';
 import type Project from '../models/Project';
 import type { DefinitePose } from './Pose';
+import Structure from '../runtime/Structure';
+import { getOutputInput } from './Output';
+import { getStyle } from './toTypeOutput';
 
 export function createPhraseType(locales: Locale[]) {
     return toStructure(`
@@ -43,7 +42,7 @@ export default class Phrase extends TypeOutput {
         | undefined = undefined;
 
     constructor(
-        value: Value,
+        value: Structure,
         text: TextLang[],
         size: number | undefined = undefined,
         font: string | undefined = undefined,
@@ -79,6 +78,12 @@ export default class Phrase extends TypeOutput {
         // Make sure this font is loaded. This is a little late -- we could do some static analysis
         // and try to determine this in advance -- but anything can compute a font name. Maybe an optimization later.
         if (this.font) Fonts.loadFamily(this.font);
+    }
+
+    getText() {
+        return (this.value as Structure).resolve(
+            (this.value as Structure).type.inputs[0].names
+        );
     }
 
     getMetrics(context: RenderContext, parsed: boolean = true) {
@@ -207,11 +212,9 @@ export function toPhrase(
     value: Value | undefined,
     namer: NameGenerator | undefined
 ): Phrase | undefined {
-    if (value === undefined) return undefined;
+    if (!(value instanceof Structure)) return undefined;
 
-    let texts = toTextLang(value.resolve('text'));
-
-    let pose = getDefinitePose(value);
+    let texts = toTextLang(getOutputInput(value, 0));
 
     const {
         size,
@@ -219,18 +222,20 @@ export function toPhrase(
         place,
         name,
         selectable,
+        pose,
         rest,
         enter,
         move,
         exit,
         duration,
         style,
-    } = getStyle(project, value);
+    } = getStyle(project, value, 1);
 
     return texts !== undefined &&
         duration !== undefined &&
         style !== undefined &&
-        pose
+        pose &&
+        selectable !== undefined
         ? new Phrase(
               value,
               texts,

@@ -2,10 +2,10 @@ import toStructure from '@native/toStructure';
 import Structure from '@runtime/Structure';
 import type Value from '@runtime/Value';
 import type Color from './Color';
-import Output from './Output';
+import Output, { getOutputInputs } from './Output';
 import type Place from './Place';
 import { toPlace } from './Place';
-import { toBoolean, toDecimal } from './Stage';
+import { toBoolean, toNumber } from './Stage';
 import { toColor } from './Color';
 import { getBind } from '@locale/getBind';
 import type LanguageCode from '@locale/LanguageCode';
@@ -119,15 +119,19 @@ export function toPose(
     )
         return undefined;
 
-    const color = toColor(value.resolve('color'));
-    const opacity = toDecimal(value.resolve('opacity'))?.toNumber();
-    const offset = toPlace(value.resolve('offset'));
-    const tilt = toDecimal(value.resolve('rotation'))?.toNumber();
-    const scale = toDecimal(value.resolve('scale'))?.toNumber();
-    const flipx = toBoolean(value.resolve('flipx'));
-    const flipy = toBoolean(value.resolve('flipy'));
+    const [color, opacity, offset, tilt, scale, flipx, flipy] =
+        getOutputInputs(value);
 
-    return new Pose(value, color, opacity, offset, tilt, scale, flipx, flipy);
+    return new Pose(
+        value,
+        toColor(color),
+        toNumber(opacity),
+        toPlace(offset),
+        toNumber(tilt),
+        toNumber(scale),
+        toBoolean(flipx),
+        toBoolean(flipy)
+    );
 }
 
 export function createPoseLiteral(project: Project, languages: LanguageCode[]) {

@@ -1,8 +1,8 @@
 import toStructure from '../native/toStructure';
 import type Value from '@runtime/Value';
 import { getBind } from '@locale/getBind';
-import Output from './Output';
-import { toDecimal } from './Stage';
+import Output, { getOutputInputs } from './Output';
+import { toNumber } from './Stage';
 import type Evaluator from '../runtime/Evaluator';
 import type Names from '../nodes/Names';
 import Number from '../runtime/Number';
@@ -63,11 +63,12 @@ export default class Place extends Output {
 }
 
 export function toPlace(value: Value | undefined): Place | undefined {
-    if (value === undefined) return undefined;
+    if (!(value instanceof Structure)) return undefined;
 
-    const x = toDecimal(value.resolve('x'))?.toNumber();
-    const y = toDecimal(value.resolve('y'))?.toNumber();
-    const z = toDecimal(value.resolve('z'))?.toNumber();
+    const [xVal, yVal, zVal] = getOutputInputs(value);
+    const x = toNumber(xVal);
+    const y = toNumber(yVal);
+    const z = toNumber(zVal);
     return x !== undefined && y !== undefined && z !== undefined
         ? new Place(value, x, y, z)
         : undefined;

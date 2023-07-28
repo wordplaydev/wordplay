@@ -1,9 +1,6 @@
 import Structure from '@runtime/Structure';
 import type Value from '@runtime/Value';
-import TypeOutput, {
-    createTypeOutputInputs,
-    getDefinitePose,
-} from './TypeOutput';
+import TypeOutput, { createTypeOutputInputs } from './TypeOutput';
 import type RenderContext from './RenderContext';
 import Phrase from './Phrase';
 import Color from './Color';
@@ -15,11 +12,7 @@ import { toColor } from './Color';
 import List from '@runtime/List';
 import { getBind } from '@locale/getBind';
 import Bool from '../runtime/Bool';
-import {
-    getStyle as getTypeValues,
-    toTypeOutput,
-    toTypeOutputList,
-} from './toTypeOutput';
+import { getStyle, toTypeOutput, toTypeOutputList } from './toTypeOutput';
 import type TextLang from './TextLang';
 import Pose, { DefinitePose } from './Pose';
 import type Sequence from './Sequence';
@@ -28,6 +21,7 @@ import { toShape, type Shape } from './Shapes';
 import concretize from '../locale/concretize';
 import type Locale from '../locale/Locale';
 import type Project from '../models/Project';
+import { getOutputInput } from './Output';
 
 export const DefaultFont = `'Noto Sans', 'Noto Color Emoji'`;
 export const DefaultSize = 1;
@@ -192,15 +186,13 @@ export function toStage(project: Project, value: Value): Stage | undefined {
     const namer = new NameGenerator();
 
     if (value.type === project.shares.output.stage) {
-        const possibleGroups = value.resolve('content');
+        const possibleGroups = getOutputInput(value, 0);
         const content =
             possibleGroups instanceof List
                 ? toTypeOutputList(project, possibleGroups, namer)
                 : toTypeOutput(project, possibleGroups, namer);
-        const background = toColor(value.resolve('background'));
-        const frame = toShape(project, value.resolve('frame'));
-
-        const pose = getDefinitePose(value);
+        const background = toColor(getOutputInput(value, 1));
+        const frame = toShape(getOutputInput(value, 2));
 
         const {
             size,
@@ -208,19 +200,21 @@ export function toStage(project: Project, value: Value): Stage | undefined {
             place,
             name,
             selectable,
+            pose,
             rest,
             enter,
             move,
             exit,
             duration,
             style,
-        } = getTypeValues(project, value);
+        } = getStyle(project, value, 3);
 
         return content !== undefined &&
             background !== undefined &&
             duration !== undefined &&
             style !== undefined &&
-            pose
+            pose &&
+            selectable !== undefined
             ? new Stage(
                   value,
                   Array.isArray(content) ? content : [content],
@@ -290,6 +284,10 @@ export function toStage(project: Project, value: Value): Stage | undefined {
 
 export function toDecimal(value: Value | undefined): Decimal | undefined {
     return value instanceof Number ? value.num : undefined;
+}
+
+export function toNumber(value: Value | undefined): number | undefined {
+    return toDecimal(value)?.toNumber();
 }
 
 export function toBoolean(value: Value | undefined): boolean | undefined {

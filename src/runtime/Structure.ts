@@ -67,12 +67,15 @@ export default class Structure extends Value {
         return 'structure';
     }
 
-    resolve(name: string, evaluator?: Evaluator): Value | undefined {
+    resolve(name: string | Names, evaluator?: Evaluator): Value | undefined {
         const value = this.context.resolve(name);
         if (value !== undefined) return value;
-        const nativeFun = evaluator
-            ?.getNative()
-            .getFunction(this.getNativeTypeName(), name);
+        const nativeFun =
+            evaluator && typeof name === 'string'
+                ? evaluator
+                      .getNative()
+                      .getFunction(this.getNativeTypeName(), name)
+                : undefined;
         return nativeFun === undefined
             ? undefined
             : new FunctionValue(nativeFun, this);

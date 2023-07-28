@@ -3,10 +3,10 @@ import { TYPE_SYMBOL } from '../parser/Symbols';
 import Structure from '../runtime/Structure';
 import type Value from '../runtime/Value';
 import { getBind } from '../locale/getBind';
-import { toDecimal } from './Stage';
+import { toNumber } from './Stage';
 import { PX_PER_METER } from './outputToCSS';
 import type Locale from '../locale/Locale';
-import type Project from '../models/Project';
+import { getOutputInputs } from './Output';
 
 export function createShapeType(locales: Locale[]) {
     return toStructure(`
@@ -93,20 +93,19 @@ export class Rectangle extends Shape {
     }
 }
 
-export function toShape(project: Project, value: Value | undefined) {
+export function toShape(value: Value | undefined) {
     if (!(value instanceof Structure)) return undefined;
-    if (value.is(project.shares.output.rectangle)) {
-        const left = toDecimal(value.resolve('left'))?.toNumber();
-        const top = toDecimal(value.resolve('top'))?.toNumber();
-        const right = toDecimal(value.resolve('right'))?.toNumber();
-        const bottom = toDecimal(value.resolve('bottom'))?.toNumber();
-        if (
-            left !== undefined &&
-            top !== undefined &&
-            right !== undefined &&
-            bottom !== undefined
-        )
-            return new Rectangle(left, top, right, bottom);
-    }
-    return undefined;
+
+    const [leftVal, topVal, rightVal, bottomVal] = getOutputInputs(value);
+
+    const left = toNumber(leftVal);
+    const top = toNumber(topVal);
+    const right = toNumber(rightVal);
+    const bottom = toNumber(bottomVal);
+    return left !== undefined &&
+        top !== undefined &&
+        right !== undefined &&
+        bottom !== undefined
+        ? new Rectangle(left, top, right, bottom)
+        : undefined;
 }

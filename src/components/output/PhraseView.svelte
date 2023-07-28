@@ -132,7 +132,7 @@
         if ($project === undefined || selectedOutput === undefined) return;
         if (event.currentTarget === null) return;
         const newText = event.currentTarget.value;
-        const originalTextValue = phrase.value.resolve('text');
+        const originalTextValue = phrase.getText();
         if (originalTextValue === undefined) return;
 
         // Reset the cache for proper layout.

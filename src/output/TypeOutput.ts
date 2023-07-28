@@ -8,13 +8,10 @@ import { TYPE_SYMBOL } from '@parser/Symbols';
 import Sequence from './Sequence';
 import TextLang from './TextLang';
 import type Pose from './Pose';
-import { DefinitePose } from './Pose';
+import type { DefinitePose } from './Pose';
 import type RenderContext from './RenderContext';
 import Fonts, { SupportedFontsFamiliesType } from '../native/Fonts';
 import type Locale from '../locale/Locale';
-import { toBoolean, toDecimal } from './Stage';
-import { toColor } from './Color';
-import { toPlace } from './Place';
 
 export function createTypeType(locales: Locale[]) {
     return toStructure(`
@@ -159,31 +156,4 @@ export default abstract class TypeOutput extends Output {
             this.duration > 0
         );
     }
-}
-
-export function getDefinitePose(value: Value): DefinitePose | undefined {
-    const color = toColor(value.resolve('color'));
-    const opacity = toDecimal(value.resolve('opacity'))?.toNumber();
-    const offset = toPlace(value.resolve('offset'));
-    const rotation = toDecimal(value.resolve('rotation'))?.toNumber();
-    const scale = toDecimal(value.resolve('scale'))?.toNumber();
-    const flipx = toBoolean(value.resolve('flipx'));
-    const flipy = toBoolean(value.resolve('flipy'));
-    return opacity !== undefined &&
-        offset &&
-        rotation !== undefined &&
-        scale !== undefined &&
-        flipx !== undefined &&
-        flipy !== undefined
-        ? new DefinitePose(
-              value,
-              color,
-              opacity,
-              offset,
-              rotation,
-              scale,
-              flipx,
-              flipy
-          )
-        : undefined;
 }

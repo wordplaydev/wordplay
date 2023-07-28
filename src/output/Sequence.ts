@@ -3,7 +3,7 @@ import { TYPE_SYMBOL } from '@parser/Symbols';
 import Structure from '@runtime/Structure';
 import type Value from '@runtime/Value';
 import { getBind } from '@locale/getBind';
-import Output from './Output';
+import Output, { getOutputInputs } from './Output';
 import type Pose from './Pose';
 import { toPose } from './Pose';
 import { toDecimal } from './Stage';
@@ -137,11 +137,11 @@ export function toSequence(project: Project, value: Value | undefined) {
     )
         return undefined;
 
-    const count = toDecimal(value.resolve('count'));
-    const duration = toDecimal(value.resolve('duration'));
-    const style = value.resolve('style');
+    const [poses, durationVal, style, countVal] = getOutputInputs(value);
 
-    const poses = value.resolve('poses');
+    const count = toDecimal(countVal);
+    const duration = toDecimal(durationVal);
+
     if (!(poses instanceof Map)) return undefined;
 
     // Convert the map to a sorted list of steps
