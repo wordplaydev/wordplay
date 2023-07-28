@@ -134,6 +134,8 @@ type UITexts = {
         deleteProject: string;
         /** Takes one input, the shortcut key for showing the menu. */
         emptyProgram: DocText;
+        /** How to describe the text input field in the output when there's a key stream active */
+        keyStreamInput: string;
     };
     labels: {
         learn: string;

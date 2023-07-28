@@ -3055,7 +3055,8 @@
                 "• If you know us well, start typing.",
                 "• Browse the gallery for inspiration.",
                 "If you're stuck, <learn more@://learn>."
-            ]
+            ],
+            "keyStreamInput": "key stream listening, type to create input"
         },
         "labels": {
             "learn": "learn more …",

@@ -257,9 +257,11 @@
 
     function handlePointerDown(event: PointerEvent) {
         // Focus the keyboard input.
-        keyboardInputView?.focus();
-        event.stopPropagation();
-        event.preventDefault();
+        if (keyboardInputView) {
+            keyboardInputView.focus();
+            event.stopPropagation();
+            event.preventDefault();
+        }
 
         if (evaluator.isPlaying()) {
             evaluator
@@ -621,15 +623,18 @@
         on:pointerup={interactive ? handlePointerUp : null}
         on:pointermove={interactive ? handlePointerMove : null}
     >
-        <input
-            class="keyboard-input"
-            type="text"
-            data-defaultfocus
-            aria-autocomplete="none"
-            autocomplete="off"
-            autocorrect="off"
-            bind:this={keyboardInputView}
-        />
+        {#if evaluator.getNativeStreamsOfType(Key).length > 0}
+            <input
+                class="keyboard-input"
+                type="text"
+                data-defaultfocus
+                aria-autocomplete="none"
+                aria-label={project.native.locales[0].ui.prompt.keyStreamInput}
+                autocomplete="off"
+                autocorrect="off"
+                bind:this={keyboardInputView}
+            />
+        {/if}
 
         <!-- If it's because the keyboard isn't idle, show feedback instead of the value.-->
         {#if !mini && $evaluation?.playing === true && $keyboardEditIdle === IdleKind.Typing}
@@ -786,14 +791,15 @@
     .keyboard-input {
         position: absolute;
         left: 0;
-        top: 0;
+        right: 0;
+        bottom: 0;
         border: none;
         outline: none;
         opacity: 0;
-        width: 1px;
         pointer-events: none;
         touch-action: none;
     }
+
     .keyboard-input:focus {
         outline: none;
     }
