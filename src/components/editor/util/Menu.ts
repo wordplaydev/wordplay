@@ -9,6 +9,21 @@ import Literal from '../../../nodes/Literal';
 export type MenuSelection = [number, number | undefined];
 export type MenuOrganization = (Revision | RevisionSet)[];
 
+// A relevance ordering of purposes.
+
+const PurposeRelevance: Record<Purpose, number> = {
+    project: 0,
+    value: 1,
+    evaluate: 2,
+    input: 3,
+    output: 4,
+    decide: 5,
+    convert: 6,
+    bind: 7,
+    type: 8,
+    document: 9,
+};
+
 /** An immutable container for menu state. */
 export default class Menu {
     /** The caret at which the menu was generated. */
@@ -86,10 +101,15 @@ export default class Menu {
 
             organization = [
                 ...priority,
-                ...Array.from(kinds.entries()).map(
-                    ([purpose, revisions]) =>
-                        new RevisionSet(purpose, revisions)
-                ),
+                ...Array.from(kinds.entries())
+                    .sort(
+                        (a, b) =>
+                            PurposeRelevance[a[0]] - PurposeRelevance[b[0]]
+                    )
+                    .map(
+                        ([purpose, revisions]) =>
+                            new RevisionSet(purpose, revisions)
+                    ),
                 ...removals,
             ];
         }
