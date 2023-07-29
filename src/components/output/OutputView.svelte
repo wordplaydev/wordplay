@@ -75,6 +75,7 @@
 
     let renderedFocus: Place;
 
+    $: exception = value instanceof Exception ? value : undefined;
     $: verse = value === undefined ? undefined : toStage(project, value);
     $: background =
         $keyboardEditIdle !== IdleKind.Typing && value instanceof Exception
@@ -640,19 +641,16 @@
         {#if !mini && $evaluation?.playing === true && $keyboardEditIdle === IdleKind.Typing}
             <div class="message editing">⌨️</div>
             <!-- If there's an exception, show that. -->
-        {:else if value instanceof Exception}
+        {:else if exception !== undefined}
             <div class="message exception" data-uiid="exception"
                 >{#if mini}!{:else}<Speech
-                        glyph={$index?.getNodeConcept(value.creator) ??
-                            value.creator.getGlyphs()}
+                        glyph={$index?.getNodeConcept(exception.creator) ??
+                            exception.creator.getGlyphs()}
                         invert
                         >{#each $config.getLocales() as locale}
-                            <!-- This is some strange Svelte error were a non-exception value is sneaking through. -->
-                            {#if value instanceof Exception}
-                                <MarkupHTMLView
-                                    markup={value.getExplanation(locale)}
-                                />
-                            {/if}
+                            <MarkupHTMLView
+                                markup={exception.getExplanation(locale)}
+                            />
                         {/each}</Speech
                     >{/if}
             </div>
