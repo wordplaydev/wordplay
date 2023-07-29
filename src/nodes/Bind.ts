@@ -107,10 +107,14 @@ export default class Bind extends Expression {
     static getPossibleNodes(
         expectedType: Type | undefined,
         anchor: Node,
-        isBeingReplaced: boolean
+        isBeingReplaced: boolean,
+        context: Context
     ) {
         if (anchor instanceof Expression && isBeingReplaced) {
-            if (expectedType === undefined)
+            if (
+                expectedType === undefined ||
+                anchor.getParent(context) instanceof Block
+            )
                 return [
                     Bind.make(undefined, Names.make(['_']), undefined, anchor),
                 ];
