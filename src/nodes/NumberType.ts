@@ -135,6 +135,17 @@ export default class NumberType extends NativeType {
         return true;
     }
 
+    isLiteral() {
+        return this.number.isSymbol(Symbol.Number);
+    }
+
+    getLiteral() {
+        return new NumberLiteral(
+            this.number.clone(),
+            this.unit instanceof Unit ? this.unit.clone() : undefined
+        );
+    }
+
     concreteUnit(context: Context): Unit {
         // If it's a concrete unit or a wildcard, just return it.
         if (this.unit instanceof Unit) return this.unit;
@@ -163,7 +174,7 @@ export default class NumberType extends NativeType {
                 ? this.op.inputs[0].getType(context)
                 : undefined;
 
-        // If either type isn't a measurement type — which shouldn't be possible for binary operations or evaluates — then we just return a blank unit.
+        // If either type isn't a number type — which shouldn't be possible for binary operations or evaluates — then we just return a blank unit.
         if (!(leftType instanceof NumberType)) return Unit.Empty;
         if (
             !(this.op instanceof UnaryEvaluate) &&

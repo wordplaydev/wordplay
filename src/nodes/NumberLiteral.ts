@@ -9,7 +9,7 @@ import type Bind from './Bind';
 import type Context from './Context';
 import type TypeSet from './TypeSet';
 import Symbol from './Symbol';
-import { node, type Grammar, type Replacement, optional } from './Node';
+import Node, { node, type Grammar, type Replacement, optional } from './Node';
 import type Locale from '@locale/Locale';
 import NodeRef from '@locale/NodeRef';
 import Literal from './Literal';
@@ -47,23 +47,33 @@ export default class NumberLiteral extends Literal {
         );
     }
 
-    static getPossibleNodes(type: Type | undefined) {
+    static getPossibleNodes(
+        type: Type | undefined,
+        _: Node,
+        __: boolean,
+        context: Context
+    ) {
+        const possibleNumberTypes = type
+            ?.getPossibleTypes(context)
+            .filter(
+                (possibleType): possibleType is NumberType =>
+                    possibleType instanceof NumberType
+            );
+
         // If a type is provided, and it has a unit, suggest numbers with corresponding units.
-        if (type instanceof NumberType && type.unit instanceof Unit) {
-            return [
-                NumberLiteral.make(
-                    0,
-                    type.unit.clone(),
-                    Symbol.Number,
-                    Symbol.Decimal
-                ),
-                NumberLiteral.make(
-                    1,
-                    type.unit.clone(),
-                    Symbol.Number,
-                    Symbol.Decimal
-                ),
-            ];
+        if (possibleNumberTypes) {
+            return possibleNumberTypes.map((numberType) =>
+                numberType.isLiteral()
+                    ? numberType.getLiteral()
+                    : NumberLiteral.make(
+                          1,
+                          numberType.unit instanceof Unit
+                              ? numberType.unit.clone()
+                              : undefined,
+                          Symbol.Number,
+                          Symbol.Decimal
+                      )
+            );
         } else {
             return [
                 NumberLiteral.make(0, undefined, Symbol.Number, Symbol.Decimal),
