@@ -746,8 +746,6 @@
         max-height: 100%;
         width: 100%;
         padding: var(--wordplay-spacing);
-        text-align: center;
-        line-height: 100%;
         font-size: 48pt;
         transform-origin: center;
         justify-content: center;
