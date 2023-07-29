@@ -641,6 +641,9 @@
                     "sansLast": {
                       "$ref": "#/definitions/FunctionText%3C%5B%5D%3E"
                     },
+                    "subsequence": {
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1142-1212-1127088073-0-1827%2Cdef-alias-1127088073-1142-1212-1127088073-0-1827%5D%3E"
+                    },
                     "translate": {
                       "additionalProperties": false,
                       "properties": {
@@ -714,6 +717,7 @@
                     "last",
                     "has",
                     "join",
+                    "subsequence",
                     "sansFirst",
                     "sansLast",
                     "sans",

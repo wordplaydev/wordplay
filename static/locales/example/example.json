@@ -1183,6 +1183,20 @@
                     "names": "$?",
                     "inputs": [{ "doc": "$?", "names": "$?" }]
                 },
+                "subsequence": {
+                    "doc": "$?",
+                    "names": "$? subsequence",
+                    "inputs": [
+                        {
+                            "doc": "$?",
+                            "names": "$?"
+                        },
+                        {
+                            "doc": "$?",
+                            "names": "$?"
+                        }
+                    ]
+                },
                 "sansFirst": {
                     "doc": "$?",
                     "names": "$?",

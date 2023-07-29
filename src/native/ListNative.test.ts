@@ -23,6 +23,11 @@ test.each([
     ['[1 3 5 7 9].find(ƒ(v) v > 6)', '7'],
     ['[1 2 3 4 5 6 7 8 9].combine(0 ƒ(sum v) sum + v) ', '45'],
     ["[1 2 3].join(', ')", '"1, 2, 3"'],
+    ['[1 2 3 4 5].subsequence(1)', '[1 2 3 4 5]'],
+    ['[1 2 3 4 5].subsequence(1 3)', '[1 2 3]'],
+    ['[1 2 3 4 5].subsequence(3 5)', '[3 4 5]'],
+    ['[1 2 3 4 5].subsequence(5 2)', '[5 4 3 2]'],
+    ['[1 2 3 4 5].subsequence(-3 1)', '[1]'],
 ])('Expect %s to be %s', (code, value) => {
     expect(Evaluator.evaluateCode(native, code)?.toString()).toBe(value);
 });

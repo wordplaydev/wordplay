@@ -1183,6 +1183,20 @@
                     "names": "unirse",
                     "inputs": [{ "doc": "$?", "names": "separator" }]
                 },
+                "subsequence": {
+                    "doc": "$?",
+                    "names": "$? subsequence",
+                    "inputs": [
+                        {
+                            "doc": "$?",
+                            "names": "$?"
+                        },
+                        {
+                            "doc": "$?",
+                            "names": "$?"
+                        }
+                    ]
+                },
                 "sansFirst": {
                     "doc": "$?",
                     "names": "sinPrimero",

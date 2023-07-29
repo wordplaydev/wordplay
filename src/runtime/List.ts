@@ -86,6 +86,26 @@ export default class List extends Primitive {
             : this.values[this.values.length - 1];
     }
 
+    subsequence(
+        requestor: Expression,
+        start: Number,
+        end: Number | None
+    ): List {
+        const actualStart = Math.max(1, start.toNumber());
+        const actualEnd = Math.min(
+            this.values.length,
+            end instanceof None ? this.values.length : end.toNumber()
+        );
+        const newList = new List(
+            requestor,
+            this.values.slice(
+                Math.min(actualStart, actualEnd) - 1,
+                Math.max(actualStart, actualEnd)
+            )
+        );
+        return actualStart > actualEnd ? newList.reverse(requestor) : newList;
+    }
+
     sansFirst(requestor: Expression) {
         return new List(requestor, this.values.slice(1));
     }

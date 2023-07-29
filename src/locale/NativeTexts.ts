@@ -136,6 +136,7 @@ type NativeTexts = {
             last: FunctionText<[]>;
             has: FunctionText<[NameAndDoc]>;
             join: FunctionText<[NameAndDoc]>;
+            subsequence: FunctionText<[NameAndDoc, NameAndDoc]>;
             sansFirst: FunctionText<[]>;
             sansLast: FunctionText<[]>;
             sans: FunctionText<[NameAndDoc]>;

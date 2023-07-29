@@ -31,6 +31,8 @@ import { getNameLocales } from '@locale/getNameLocales';
 import TypeVariable from '@nodes/TypeVariable';
 import type Expression from '../nodes/Expression';
 import type Locale from '../locale/Locale';
+import NoneLiteral from '../nodes/NoneLiteral';
+import None from '../runtime/None';
 
 export default function bootstrapList(locales: Locale[]) {
     const ListTypeVarNames = getNameLocales(
@@ -249,6 +251,15 @@ export default function bootstrapList(locales: Locale[]) {
     const replaceValueNames = getNameLocales(
         locales,
         (locale) => locale.native.List.function.replace.inputs[1].names
+    );
+
+    const subsequenceStartNames = getNameLocales(
+        locales,
+        (locale) => locale.native.List.function.subsequence.inputs[0].names
+    );
+    const subsequenceEndNames = getNameLocales(
+        locales,
+        (locale) => locale.native.List.function.subsequence.inputs[1].names
     );
 
     return StructureDefinition.make(
@@ -541,6 +552,70 @@ export default function bootstrapList(locales: Locale[]) {
                                 ListType.make(),
                                 list
                             );
+                    }
+                ),
+                createNativeFunction(
+                    getDocLocales(
+                        locales,
+                        (locale) => locale.native.List.function.subsequence.doc
+                    ),
+                    getNameLocales(
+                        locales,
+                        (locale) =>
+                            locale.native.List.function.subsequence.names
+                    ),
+                    undefined,
+                    [
+                        Bind.make(
+                            getDocLocales(
+                                locales,
+                                (t) =>
+                                    t.native.List.function.subsequence.inputs[0]
+                                        .doc
+                            ),
+                            subsequenceStartNames,
+                            NumberType.make()
+                        ),
+                        Bind.make(
+                            getDocLocales(
+                                locales,
+                                (t) =>
+                                    t.native.List.function.subsequence.inputs[1]
+                                        .doc
+                            ),
+                            subsequenceEndNames,
+                            UnionType.make(NumberType.make(), NoneType.make()),
+                            NoneLiteral.make()
+                        ),
+                    ],
+                    getListTypeVariableReference(),
+                    (requestor, evaluation) => {
+                        requestor;
+                        const list = evaluation.getClosure();
+                        const start = evaluation.resolve(subsequenceStartNames);
+                        const end = evaluation.resolve(subsequenceEndNames);
+                        if (!(list instanceof List))
+                            return evaluation.getValueOrTypeException(
+                                requestor,
+                                ListType.make(),
+                                list
+                            );
+                        if (!(start instanceof Number))
+                            return evaluation.getValueOrTypeException(
+                                requestor,
+                                NumberType.make(),
+                                list
+                            );
+                        if (!(end instanceof Number || end instanceof None))
+                            return evaluation.getValueOrTypeException(
+                                requestor,
+                                UnionType.make(
+                                    NumberType.make(),
+                                    NoneType.make()
+                                ),
+                                list
+                            );
+                        return list.subsequence(requestor, start, end);
                     }
                 ),
                 createNativeFunction(

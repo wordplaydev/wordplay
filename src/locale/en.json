@@ -1924,6 +1924,30 @@
                         }
                     ]
                 },
+                "subsequence": {
+                    "doc": [
+                        "I get a list within this list, starting at the index you provide, and ending with the last item, or if you provide one, a particular item.",
+                        "⧼['apple' 'banana' 'mango'].subsequence(2)⧽",
+                        "⧼['apple' 'banana' 'mango'].subsequence(1 2)⧽",
+                        "And look! If you provide numbers out of order, I give you the reverse",
+                        "⧼['apple' 'banana' 'mango'].subsequence(3 1)⧽",
+                        "If you give me something smaller than 1 for an index, I'll assume you mean 1.",
+                        "⧼['apple' 'banana' 'mango'].subsequence(-1003243 2)⧽",
+                        "And if you give me something larger than the largest index, I'll assume you mean the end.",
+                        "⧼['apple' 'banana' 'mango'].subsequence(3 2304032432)⧽"
+                    ],
+                    "names": "subsequence",
+                    "inputs": [
+                        {
+                            "doc": "The index of the first item of the subsequence you want.",
+                            "names": "start"
+                        },
+                        {
+                            "doc": "The optional index of the last item of the subsequence you want. If you don't give one, your list will end with the last item in the list.",
+                            "names": "end"
+                        }
+                    ]
+                },
                 "sansFirst": {
                     "doc": [
                         "I create a list without my first item.",
