@@ -173,8 +173,8 @@ export class Creator {
                 languages.map(async (lang) => {
                     // If we don't already have it, load it.
                     if (
-                        refresh ||
-                        (!Object.hasOwn(this.locales, lang) && lang !== 'en')
+                        lang !== 'en' &&
+                        (refresh || !Object.hasOwn(this.locales, lang))
                     ) {
                         const raw = await fetch(
                             `/locales/${lang}/${lang}.json`
