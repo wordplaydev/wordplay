@@ -6,6 +6,7 @@
     import { getProject } from '../project/Contexts';
     import RootView from '../project/RootView.svelte';
     import UnknownType from '../../nodes/UnknownType';
+    import PlaceholderView from './PlaceholderView.svelte';
 
     export let node: ExpressionPlaceholder;
 
@@ -29,7 +30,7 @@
                 inert
                 localized
                 node={inferredType}
-            />{/if}</span
+            />{/if}<PlaceholderView position={node} /></span
     ></span
 >
 

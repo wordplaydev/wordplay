@@ -47,6 +47,8 @@ import FunctionType from './FunctionType';
 import concretize from '../locale/concretize';
 import getConcreteExpectedType from './Generics';
 import type Node from './Node';
+import ExpressionPlaceholder from './ExpressionPlaceholder';
+import Refer from '../edit/Refer';
 
 export default class Bind extends Expression {
     readonly docs?: Docs;
@@ -120,7 +122,49 @@ export default class Bind extends Expression {
                 ];
             else {
             }
-        } else return [];
+        }
+        // If offer insertions under various conditions
+        else {
+            const parent = anchor.getParent(context);
+            // Block? Offer to insert a blank one.
+            if (parent instanceof Block) {
+                return [
+                    Bind.make(
+                        undefined,
+                        Names.make(['_']),
+                        undefined,
+                        ExpressionPlaceholder.make()
+                    ),
+                ];
+            }
+            // Evaluate, and the anchor is the open or an input? Offer binds to unset properties.
+            else if (
+                parent instanceof Evaluate &&
+                (anchor === parent.open ||
+                    (anchor instanceof Expression &&
+                        parent.inputs.includes(anchor)))
+            ) {
+                const fun = parent.getFunction(context);
+                if (fun) {
+                    const mapping = parent.getInputMapping(fun);
+                    return mapping.inputs
+                        .filter((input) => input.given === undefined)
+                        .map(
+                            (input) =>
+                                new Refer(
+                                    (name) =>
+                                        Bind.make(
+                                            undefined,
+                                            Names.make([name]),
+                                            undefined,
+                                            ExpressionPlaceholder.make()
+                                        ),
+                                    input.expected
+                                )
+                        );
+                }
+            } else return [];
+        }
     }
 
     getGrammar(): Grammar {
@@ -154,6 +198,12 @@ export default class Bind extends Expression {
                 // If there's a type, the value must match it, otherwise anything
                 getType: (context: Context) =>
                     this.getType(context) ?? new AnyType(),
+                label: (locale: Locale, child: Node, context: Context) =>
+                    (child === this.value
+                        ? this.getCorrespondingBindDefinition(
+                              context
+                          )?.names.getLocaleText(locale.language)
+                        : undefined) ?? '_',
             },
         ];
     }
@@ -365,6 +415,19 @@ export default class Bind extends Expression {
         return conflicts;
     }
 
+    /** If in an evaluate, find the function input bind to which this corresponds. */
+    getCorrespondingBindDefinition(context: Context) {
+        const parent = this.getParent(context);
+        if (parent instanceof Evaluate) {
+            const fun = parent.getFunction(context);
+            if (fun)
+                return parent
+                    .getInputMapping(fun)
+                    .inputs.find((input) => input.given === this)?.expected;
+        }
+        return undefined;
+    }
+
     isEvaluationInput(context: Context) {
         const parent = this.getParent(context);
         return !(
@@ -400,15 +463,26 @@ export default class Bind extends Expression {
             if (nameType instanceof StructureDefinitionType) return nameType;
         }
 
+        const parent = this.getParent(context);
+
+        // If the parent is an evaluate, see what input it corresponds to.
+        if (parent instanceof Evaluate) {
+            const fun = parent.getFunction(context);
+            if (fun) {
+                const mapping = parent.getInputMapping(fun);
+                const input = mapping.inputs.find((i) => i.given === this);
+                if (input) return input.expected.getType(context);
+            }
+        }
+
         // If the bind is in a function definition that is part of a function evaluation that takes a function input,
         // get the type from the function input.
         if (type === undefined) {
-            const func = this.getParent(context);
-            if (func instanceof FunctionDefinition) {
-                const bindIndex = func.inputs.indexOf(this);
-                const evaluate = func.getParent(context);
+            if (parent instanceof FunctionDefinition) {
+                const bindIndex = parent.inputs.indexOf(this);
+                const evaluate = parent.getParent(context);
                 if (evaluate instanceof Evaluate) {
-                    const funcIndex = evaluate.inputs.indexOf(func);
+                    const funcIndex = evaluate.inputs.indexOf(parent);
                     const evalFunc = evaluate.getFunction(context);
                     if (
                         evalFunc instanceof FunctionDefinition &&

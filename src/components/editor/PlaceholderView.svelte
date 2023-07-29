@@ -18,7 +18,7 @@
     tabindex="0"
     on:pointerdown|stopPropagation={show}
     on:keydown|stopPropagation={(event) =>
-        event.key === 'Enter' || event.key === ' ' ? show() : undefined}>▾</span
+        event.key === 'Enter' || event.key === ' ' ? show() : undefined}>▼</span
 >
 
 <style>

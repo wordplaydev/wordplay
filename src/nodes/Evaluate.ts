@@ -227,12 +227,12 @@ export default class Evaluate extends Expression {
                 ): Type => {
                     const fun = this.getFunction(context);
                     if (fun === undefined) return new NeverType();
-                    // Undefined list index means empty, so we get the type of the first input.
-                    return index !== undefined &&
-                        index >= 0 &&
-                        index < fun.inputs.length
-                        ? fun.inputs[index ?? 0].getType(context)
-                        : new NeverType();
+                    // Determine the type of the next input
+                    const insertionIndex = Math.min(
+                        Math.max(0, index ?? 0),
+                        fun.inputs.length - 1
+                    );
+                    return fun.inputs[insertionIndex].getType(context);
                 },
             },
             { name: 'close', kind: node(Symbol.EvalClose) },

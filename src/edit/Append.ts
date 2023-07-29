@@ -7,6 +7,7 @@ import Caret from './Caret';
 import type Context from '@nodes/Context';
 import type Locale from '@locale/Locale';
 import concretize from '../locale/concretize';
+import Bind from '../nodes/Bind';
 
 export default class Append<NodeType extends Node> extends Revision {
     readonly parent: Node;
@@ -44,7 +45,8 @@ export default class Append<NodeType extends Node> extends Revision {
     isCompletion(): boolean {
         return (
             this.insertion instanceof Refer &&
-            this.context.project.contains(this.insertion.definition)
+            (this.context.project.contains(this.insertion.definition) ||
+                this.insertion.definition instanceof Bind)
         );
     }
 

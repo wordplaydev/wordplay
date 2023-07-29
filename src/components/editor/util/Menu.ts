@@ -2,9 +2,9 @@ import Revision from '../../../edit/Revision';
 import type LanguageCode from '@locale/LanguageCode';
 import type Caret from '../../../edit/Caret';
 import type { Edit } from './Commands';
-import type Purpose from '../../../concepts/Purpose';
-import type ConceptIndex from '../../../concepts/ConceptIndex';
-import Literal from '../../../nodes/Literal';
+import type Purpose from '@concepts/Purpose';
+import type ConceptIndex from '@concepts/ConceptIndex';
+import Literal from '@nodes/Literal';
 
 export type MenuSelection = [number, number | undefined];
 export type MenuOrganization = (Revision | RevisionSet)[];
@@ -83,7 +83,8 @@ export default class Menu {
                 revision.isRemoval()
             );
             const others = this.revisions.filter(
-                (revision) => !revision.isCompletion() && !revision.isRemoval()
+                (revision) =>
+                    !priority.includes(revision) && !revision.isRemoval()
             );
             const kinds: Map<Purpose, Revision[]> = new Map();
             for (const other of others) {

@@ -2,7 +2,6 @@
     import type Token from '@nodes/Token';
     import { getProject, getCaret, getRoot } from '../project/Contexts';
     import TokenCategories from './TokenCategories';
-    import PlaceholderView from './PlaceholderView.svelte';
     import { config } from '../../db/Creator';
 
     export let node: Token;
@@ -57,11 +56,9 @@
     class:added
     data-id={node.id}
     role="presentation"
-    >{#if typeof placeholder === 'string'}<span class="placeholder"
+    >{#if placeholder !== undefined}<span class="placeholder"
             >{placeholder}</span
-        ><PlaceholderView
-            position={node}
-        />{:else if text.length === 0}&ZeroWidthSpace;{:else}{text.replaceAll(
+        >{:else if text.length === 0}&ZeroWidthSpace;{:else}{text.replaceAll(
             ' ',
             '\xa0'
         )}{/if}</span
