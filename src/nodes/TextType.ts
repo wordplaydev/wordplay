@@ -12,6 +12,7 @@ import { TextCloseByTextOpen } from '../parser/Tokenizer';
 import UnionType from './UnionType';
 import type Context from './Context';
 import type Type from './Type';
+import TextLiteral from './TextLiteral';
 
 /** Any string or a specific string, depending on whether the given token is an empty text literal. */
 export default class TextType extends NativeType {
@@ -82,6 +83,10 @@ export default class TextType extends NativeType {
 
     isLiteral() {
         return this.getUnquotedText().length > 0;
+    }
+
+    getLiteral() {
+        return TextLiteral.make(this.getUnquotedText());
     }
 
     /** Strip the delimiters from the token to get the text literal that defines this type. */

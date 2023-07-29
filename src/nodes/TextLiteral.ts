@@ -14,6 +14,7 @@ import Emotion from '../lore/Emotion';
 import type { NativeTypeName } from '../native/NativeConstants';
 import { TextDelimiters } from '../parser/Tokenizer';
 import concretize from '../locale/concretize';
+import type Node from './Node';
 
 export const ESCAPE_REGEX = /\\(.)/g;
 
@@ -40,8 +41,21 @@ export default class TextLiteral extends Literal {
         );
     }
 
-    static getPossibleNodes() {
-        return [TextLiteral.make()];
+    static getPossibleNodes(
+        type: Type | undefined,
+        before: Node,
+        selected: boolean,
+        context: Context
+    ) {
+        // Is the type one or more literal text types? Suggest those. Otherwise just suggest an empty text literal.
+        const types = type
+            ? type
+                  .getPossibleTypes(context)
+                  .filter((type): type is TextType => type instanceof TextType)
+            : undefined;
+        return types
+            ? types.map((type) => type.getLiteral())
+            : [TextLiteral.make()];
     }
 
     getGrammar(): Grammar {
