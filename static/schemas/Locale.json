@@ -3924,7 +3924,8 @@
                   "$ref": "#/definitions/NameAndDoc"
                 },
                 "description": {
-                  "$ref": "#/definitions/Template"
+                  "$ref": "#/definitions/Template",
+                  "description": "$1 = Layout description, $2 = pose description"
                 },
                 "doc": {
                   "$ref": "#/definitions/DocText"
@@ -3950,7 +3951,7 @@
               "properties": {
                 "description": {
                   "$ref": "#/definitions/Template",
-                  "description": "non-optional text, optional size, optional font, then non-optional pose"
+                  "description": "non-optional text, optional name, optional size, optional font, then non-optional pose"
                 },
                 "doc": {
                   "$ref": "#/definitions/DocText"
@@ -4174,7 +4175,8 @@
                   "$ref": "#/definitions/NameAndDoc"
                 },
                 "description": {
-                  "$ref": "#/definitions/Template"
+                  "$ref": "#/definitions/Template",
+                  "description": "$1: total outputs, $2: total phrases, $3: total groups, $4: pose"
                 },
                 "doc": {
                   "$ref": "#/definitions/DocText"
@@ -4462,6 +4464,9 @@
             "source": {
               "type": "string"
             },
+            "stage": {
+              "type": "string"
+            },
             "start": {
               "description": "What to call the main source in a project.",
               "type": "string"
@@ -4486,9 +4491,6 @@
             },
             "value": {
               "type": "string"
-            },
-            "verse": {
-              "type": "string"
             }
           },
           "required": [
@@ -4505,7 +4507,7 @@
             "scene",
             "phrase",
             "group",
-            "verse",
+            "stage",
             "type",
             "start",
             "entered",

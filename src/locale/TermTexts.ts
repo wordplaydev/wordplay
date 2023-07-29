@@ -12,7 +12,7 @@ type TermTexts = {
     scene: string;
     phrase: string;
     group: string;
-    verse: string;
+    stage: string;
     type: string;
     /** What to call the main source in a project. */
     start: string;

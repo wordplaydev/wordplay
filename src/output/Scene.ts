@@ -34,7 +34,7 @@ export default class Scene {
     readonly evaluator: Evaluator;
 
     /** The current verse being displayed */
-    verse: Stage | undefined = undefined;
+    stage: Stage | undefined = undefined;
 
     /** True if the stage is animated and interactive */
     live: boolean = true;
@@ -93,7 +93,7 @@ export default class Scene {
         height: number,
         context: RenderContext
     ) {
-        this.verse = verse;
+        this.stage = verse;
         this.live = live;
         this.focus = focus;
         this.viewportWidth = width;
@@ -114,7 +114,7 @@ export default class Scene {
 
         // Add the verse to the scene. This is necessary so that animations can get its context.
         const newScene = this.layout(
-            this.verse,
+            this.stage,
             [],
             new Map<OutputName, OutputInfo>(),
             context
@@ -184,7 +184,7 @@ export default class Scene {
                             local: place,
                             rotation: info.rotation,
                             context: info.context,
-                            parents: [this.verse],
+                            parents: [this.stage],
                         };
                         // Add to the exiting list for the verse to render.
                         exiting.set(name, newInfo);

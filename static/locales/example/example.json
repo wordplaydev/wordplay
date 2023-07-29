@@ -16,7 +16,7 @@
         "scene": "$?",
         "phrase": "$?",
         "group": "$?",
-        "verse": "$?",
+        "stage": "$?",
         "type": "$?",
         "start": "$?",
         "entered": "$?",
@@ -1487,12 +1487,14 @@
             "names": "$?",
             "doc": "$?",
             "content": { "doc": "$?", "names": "$?" },
-            "layout": { "doc": "$?", "names": "$?" }
+            "layout": { "doc": "$?", "names": "$?" },
+            "description": "$?"
         },
         "Phrase": {
             "names": ["💬", "Frase"],
             "doc": "$?",
-            "text": { "doc": "$?", "names": "$?" }
+            "text": { "doc": "$?", "names": "$?" },
+            "description": "$?"
         },
         "Arrangement": { "names": ["Arrangement"], "doc": "$?" },
         "Row": {
@@ -1542,7 +1544,8 @@
             "rotation": { "doc": "$?", "names": "$?" },
             "scale": { "doc": "$?", "names": "$?" },
             "flipx": { "doc": "$?", "names": "$?" },
-            "flipy": { "doc": "$?", "names": "$?" }
+            "flipy": { "doc": "$?", "names": "$?" },
+            "description": "$?"
         },
         "Color": {
             "names": "$?",

@@ -53,7 +53,7 @@
     aria-label={group.getDescription($config.getLocales())}
     aria-roledescription={group instanceof Group
         ? $config.getLocale().term.group
-        : $config.getLocale().term.verse}
+        : $config.getLocale().term.stage}
     aria-hidden={empty ? 'true' : null}
     class="output group {group.constructor.name}"
     class:selected={selected && !root}
@@ -148,12 +148,12 @@
         height: 100%;
     }
 
-    :global(.verse.editing.interactive) .group:not(.selected):not(.root) {
+    :global(.stage.editing.interactive) .group:not(.selected):not(.root) {
         outline: var(--wordplay-border-width) dotted
             var(--wordplay-inactive-color);
     }
 
-    :global(.verse.editing.interactive) .group.selected {
+    :global(.stage.editing.interactive) .group.selected {
         outline: var(--wordplay-border-width) dotted var(--wordplay-highlight);
     }
 

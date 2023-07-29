@@ -345,7 +345,7 @@ export default class OutputAnimation {
         if (this.state === State.Done) return;
 
         // Don't start any animations if there's no verse.
-        if (this.scene.verse === undefined) return;
+        if (this.scene.stage === undefined) return;
 
         // Cancel any current animation.
         if (this.animation) {
@@ -381,9 +381,9 @@ export default class OutputAnimation {
 
         // Use the sequence to create an animation with the Web Animation API.
 
-        // Find the element corresponding to the phrase in the given verse.
+        // Find the element corresponding to the phrase in the given stage.
         const element = document.querySelector(
-            `.verse.live [data-id="${this.scene.verse.getHTMLID()}"] [data-id="${this.output.getHTMLID()}"]`
+            `.stage.live [data-id="${this.scene.stage.getHTMLID()}"] [data-id="${this.output.getHTMLID()}"]`
         );
 
         // If there's DOM element and this isn't exiting, start an animation.

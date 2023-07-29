@@ -288,7 +288,7 @@
 
 {#if mounted}
     <section
-        class="output verse {interactive && !editing
+        class="output stage {interactive && !editing
             ? 'live'
             : 'inert'} {project.main.names.getNames()[0]}"
         class:interactive
@@ -425,7 +425,7 @@
         height: 100%;
     }
 
-    .verse {
+    .stage {
         user-select: none;
         width: 100%;
         height: 100%;
@@ -434,25 +434,25 @@
         --grid-color: currentColor;
     }
 
-    .verse[data-selectable='true'] {
+    .stage[data-selectable='true'] {
         cursor: pointer;
     }
 
-    .verse:focus {
+    .stage:focus {
         outline: none;
     }
 
-    .verse.editing.interactive.selected {
+    .stage.editing.interactive.selected {
         outline: var(--wordplay-focus-width) dotted var(--wordplay-highlight);
         outline-offset: calc(-3 * var(--wordplay-focus-width));
     }
 
-    .verse {
+    .stage {
         transition: transform ease-out;
         transition-duration: calc(var(--animation-factor) * 200ms);
     }
 
-    .verse.changed {
+    .stage.changed {
         transition: none;
     }
 

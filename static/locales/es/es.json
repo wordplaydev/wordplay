@@ -16,7 +16,7 @@
         "scene": "escena",
         "phrase": "frase",
         "group": "grupo",
-        "verse": "verso",
+        "stage": "$!verso",
         "type": "tipo",
         "start": "comenzar",
         "entered": "ingresó",
