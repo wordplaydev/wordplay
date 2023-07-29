@@ -105,13 +105,18 @@ export default class Bind extends Expression {
     }
 
     static getPossibleNodes(
-        type: Type | undefined,
+        expectedType: Type | undefined,
         anchor: Node,
-        selected: boolean
+        isBeingReplaced: boolean
     ) {
-        return anchor instanceof Expression && selected
-            ? [Bind.make(undefined, Names.make(['_']), undefined, anchor)]
-            : [];
+        if (anchor instanceof Expression && isBeingReplaced) {
+            if (expectedType === undefined)
+                return [
+                    Bind.make(undefined, Names.make(['_']), undefined, anchor),
+                ];
+            else {
+            }
+        } else return [];
     }
 
     getGrammar(): Grammar {
