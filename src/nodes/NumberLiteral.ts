@@ -47,12 +47,35 @@ export default class NumberLiteral extends Literal {
         );
     }
 
-    static getPossibleNodes() {
-        return [
-            NumberLiteral.make(0, undefined, Symbol.Number, Symbol.Decimal),
-            NumberLiteral.make('π', undefined, Symbol.Number, Symbol.Pi),
-            NumberLiteral.make('∞', undefined, Symbol.Number, Symbol.Infinity),
-        ];
+    static getPossibleNodes(type: Type | undefined) {
+        // If a type is provided, and it has a unit, suggest numbers with corresponding units.
+        if (type instanceof NumberType && type.unit instanceof Unit) {
+            return [
+                NumberLiteral.make(
+                    0,
+                    type.unit.clone(),
+                    Symbol.Number,
+                    Symbol.Decimal
+                ),
+                NumberLiteral.make(
+                    1,
+                    type.unit.clone(),
+                    Symbol.Number,
+                    Symbol.Decimal
+                ),
+            ];
+        } else {
+            return [
+                NumberLiteral.make(0, undefined, Symbol.Number, Symbol.Decimal),
+                NumberLiteral.make('π', undefined, Symbol.Number, Symbol.Pi),
+                NumberLiteral.make(
+                    '∞',
+                    undefined,
+                    Symbol.Number,
+                    Symbol.Infinity
+                ),
+            ];
+        }
     }
 
     isPercent() {
