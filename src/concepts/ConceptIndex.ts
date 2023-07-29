@@ -90,7 +90,7 @@ export default class ConceptIndex {
                     .map(
                         (def) =>
                             new FunctionConcept(
-                                Purpose.Project,
+                                Purpose.Evaluate,
                                 undefined,
                                 def,
                                 undefined,
@@ -108,7 +108,7 @@ export default class ConceptIndex {
                     .map(
                         (def) =>
                             new BindConcept(
-                                Purpose.Project,
+                                Purpose.Bind,
                                 def,
                                 languages,
                                 project.getContext(source)

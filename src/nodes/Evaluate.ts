@@ -103,18 +103,18 @@ export default class Evaluate extends Expression {
     }
 
     static getPossibleNodes(
-        type: Type | undefined,
-        node: Node,
-        selected: boolean,
+        expectedType: Type | undefined,
+        anchor: Node,
+        isBeingReplaced: boolean,
         context: Context
     ) {
-        const selectedNode = selected ? node : undefined;
+        const nodeBeingReplaced = isBeingReplaced ? anchor : undefined;
 
         // Given the node the caret has selected or is after, find out
         // if there's an evaluate on it that we should complete.
         const scopingType =
-            selectedNode instanceof Expression
-                ? selectedNode.getType(context)
+            nodeBeingReplaced instanceof Expression
+                ? nodeBeingReplaced.getType(context)
                 : undefined;
         const structure =
             scopingType instanceof NativeType ||
@@ -123,18 +123,18 @@ export default class Evaluate extends Expression {
         // or in the surrounding scope if there isn't one.
         const definitions =
             // If the anchor is selected for replacement...
-            selectedNode
+            nodeBeingReplaced
                 ? // If the scope is native, get definitions in native scope
                   scopingType instanceof NativeType
-                    ? scopingType.getDefinitions(selectedNode, context)
+                    ? scopingType.getDefinitions(nodeBeingReplaced, context)
                     : // If the scope is a structure, get definitions in its scope
                     scopingType instanceof StructureDefinitionType
-                    ? scopingType.structure.getDefinitions(selectedNode)
-                    : // Otherwise, get definitions in the default scope
-                      context.source.expression.getDefinitionsInScope(context)
-                : // If the node is not selected, get definitions in the default scope
-                  context.source.expression.getDefinitionsInScope(context);
-        if (structure) type = undefined;
+                    ? scopingType.structure.getDefinitions(nodeBeingReplaced)
+                    : // Otherwise, get definitions in scope of the anchor
+                      anchor.getDefinitionsInScope(context)
+                : // If the node is not selected, get definitions in the anchor's scope
+                  anchor.getDefinitionsInScope(context);
+        if (structure) expectedType = undefined;
 
         // Convert the definitions to evaluate suggestions.
         return definitions
@@ -146,18 +146,24 @@ export default class Evaluate extends Expression {
                     | StructureDefinition
                     | StreamDefinition =>
                     (def instanceof FunctionDefinition &&
-                        (type === undefined ||
-                            type.accepts(
+                        (expectedType === undefined ||
+                            expectedType.accepts(
                                 def.getOutputType(context),
                                 context
                             ))) ||
                     (def instanceof StructureDefinition &&
                         !def.isInterface() &&
-                        (type === undefined ||
-                            type.accepts(def.getType(context), context))) ||
+                        (expectedType === undefined ||
+                            expectedType.accepts(
+                                def.getType(context),
+                                context
+                            ))) ||
                     (def instanceof StreamDefinition &&
-                        (type === undefined ||
-                            type.accepts(def.getType(context), context)))
+                        (expectedType === undefined ||
+                            expectedType.accepts(
+                                def.getType(context),
+                                context
+                            )))
             )
             .map(
                 (def) =>
@@ -166,10 +172,10 @@ export default class Evaluate extends Expression {
                             def.getEvaluateTemplate(
                                 name,
                                 context,
-                                selected &&
+                                isBeingReplaced &&
                                     structure &&
-                                    selectedNode instanceof Expression
-                                    ? selectedNode
+                                    nodeBeingReplaced instanceof Expression
+                                    ? nodeBeingReplaced
                                     : undefined
                             ),
                         def
