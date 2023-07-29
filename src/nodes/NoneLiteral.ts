@@ -7,7 +7,7 @@ import type Context from './Context';
 import type TypeSet from './TypeSet';
 import { NONE_SYMBOL } from '@parser/Symbols';
 import Symbol from './Symbol';
-import { node, type Grammar, type Replacement } from './Node';
+import Node, { node, type Grammar, type Replacement } from './Node';
 import type Locale from '@locale/Locale';
 import Literal from './Literal';
 import Glyphs from '../lore/Glyphs';
@@ -39,8 +39,16 @@ export default class NoneLiteral extends Literal {
         return new NoneLiteral(new Token(NONE_SYMBOL, Symbol.None));
     }
 
-    static getPossibleNodes() {
-        return [NoneLiteral.make()];
+    static getPossibleNodes(
+        type: Type | undefined,
+        _: Node,
+        __: boolean,
+        context: Context
+    ) {
+        return type === undefined ||
+            type.getPossibleTypes(context).some((t) => t instanceof NoneType)
+            ? [NoneLiteral.make()]
+            : [];
     }
 
     clone(replace?: Replacement) {
