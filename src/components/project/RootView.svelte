@@ -26,6 +26,8 @@
     export let spaces: Spaces | undefined = undefined;
     export let inert: boolean = false;
     export let inline: boolean = false;
+    /** If inline, and true, this will be a maximum width */
+    export let elide: boolean = false;
     /** If true, hides names and docs not in a selected locale */
     export let localized: boolean = false;
 
@@ -144,7 +146,7 @@
 </script>
 
 {#if inline}
-    <span class="root" class:inert><NodeView {node} /></span>
+    <span class="root" class:inert class:elide><NodeView {node} /></span>
 {:else}
     <code class="root" class:inert><NodeView {node} /></code>
 {/if}
@@ -156,5 +158,14 @@
 
         /** This allows us to style things up the the tree. */
         text-decoration: inherit;
+    }
+
+    .elide {
+        display: inline-block;
+        max-width: 8em;
+        text-overflow: ellipsis;
+        overflow: clip;
+        white-space: nowrap;
+        vertical-align: text-top;
     }
 </style>

@@ -54,6 +54,7 @@
         >&nbsp;…<RootView
             node={nextBind}
             inline
+            elide
             localized
             inert
         />{#if menuPosition}<PlaceholderView

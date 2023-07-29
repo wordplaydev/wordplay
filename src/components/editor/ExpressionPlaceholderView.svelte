@@ -18,17 +18,30 @@
 <span class="placeholder"
     ><span class={node.dot && node.type ? 'hidden' : ''}
         ><NodeView node={node.placeholder} /><NodeView node={node.dot} /></span
-    >{#if node.type}<NodeView
-            node={node.type}
-        />{:else if inferredType && !(inferredType instanceof UnknownType)}<span
-            class="token-view">•</span
-        ><RootView inline inert localized node={inferredType} />{/if}</span
+    ><span class="type"
+        >{#if node.type}<NodeView
+                node={node.type}
+            />{:else if inferredType && !(inferredType instanceof UnknownType)}<span
+                >•</span
+            ><RootView
+                inline
+                elide
+                inert
+                localized
+                node={inferredType}
+            />{/if}</span
+    ></span
 >
 
 <style>
+    .placeholder,
     .placeholder :global(.token-view) {
         color: var(--wordplay-inactive-color);
         font-style: italic;
+    }
+
+    .type :global(.token-view) {
+        font-size: smaller;
     }
 
     /* Decided not to hide type. */
