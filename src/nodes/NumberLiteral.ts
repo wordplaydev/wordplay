@@ -61,7 +61,7 @@ export default class NumberLiteral extends Literal {
             );
 
         // If a type is provided, and it has a unit, suggest numbers with corresponding units.
-        if (possibleNumberTypes) {
+        if (possibleNumberTypes && possibleNumberTypes.length > 0) {
             return possibleNumberTypes.map((numberType) =>
                 numberType.isLiteral()
                     ? numberType.getLiteral()
