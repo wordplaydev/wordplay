@@ -57,7 +57,7 @@ export default abstract class TypeOutput extends Output {
     readonly size: number | undefined;
     readonly font: string | undefined;
     readonly place: Place | undefined;
-    readonly name: TextLang;
+    readonly name: TextLang | string;
     readonly selectable: boolean;
     readonly pose: DefinitePose;
     readonly enter: Pose | Sequence | undefined;
@@ -87,7 +87,7 @@ export default abstract class TypeOutput extends Output {
         this.size = size ? Math.max(0, size) : size;
         this.font = font;
         this.place = place;
-        this.name = name instanceof TextLang ? name : new TextLang(value, name);
+        this.name = name;
         this.selectable = selectable;
         this.pose = pose;
         this.enter = entry;
@@ -144,7 +144,7 @@ export default abstract class TypeOutput extends Output {
      * By default, a group's name for the purpose of animations is the ID of the node that created it.
      * */
     getName(): string {
-        return this.name.text;
+        return this.name instanceof TextLang ? this.name.text : this.name;
     }
 
     isAnimated() {

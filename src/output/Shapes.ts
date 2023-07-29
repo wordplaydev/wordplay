@@ -7,6 +7,7 @@ import { toNumber } from './Stage';
 import { PX_PER_METER } from './outputToCSS';
 import type Locale from '../locale/Locale';
 import { getOutputInputs } from './Output';
+import { getFirstName } from '../locale/Locale';
 
 export function createShapeType(locales: Locale[]) {
     return toStructure(`
@@ -35,6 +36,7 @@ export abstract class Shape {
     abstract getTop(): number;
     abstract getWidth(): number;
     abstract getHeight(): number;
+    abstract getDescription(locale: Locale): string;
 }
 
 export class Rectangle extends Shape {
@@ -90,6 +92,10 @@ export class Rectangle extends Shape {
     getHeight() {
         const { top, bottom } = this.getPoints();
         return Math.abs(bottom - top);
+    }
+
+    getDescription(locale: Locale): string {
+        return getFirstName(locale.output.Rectangle.names);
     }
 }
 

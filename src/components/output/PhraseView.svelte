@@ -158,7 +158,10 @@
         role={selectable ? 'button' : 'presentation'}
         aria-hidden={empty ? 'true' : null}
         aria-disabled={!selectable}
-        aria-roledescription={$config.getLocale().term.phrase}
+        aria-label={phrase.getDescription($config.getLocales())}
+        aria-roledescription={!selectable
+            ? $config.getLocale().term.phrase
+            : null}
         class="output phrase"
         class:selected
         tabIndex={interactive && ((!empty && selectable) || editing) ? 0 : null}

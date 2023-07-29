@@ -17,6 +17,7 @@ import type Project from '../models/Project';
 import type { DefinitePose } from './Pose';
 import Structure from '../runtime/Structure';
 import { getOutputInput } from './Output';
+import concretize from '../locale/concretize';
 
 export function createGroupType(locales: Locale[]) {
     return toStructure(`
@@ -92,7 +93,12 @@ export default class Group extends TypeOutput {
     }
 
     getDescription(locales: Locale[]) {
-        return this.layout.getDescription(this.content, locales);
+        return concretize(
+            locales[0],
+            locales[0].output.Group.description,
+            this.layout.getDescription(this.content, locales),
+            this.pose.getDescription(locales)
+        ).toText();
     }
 
     isEmpty() {

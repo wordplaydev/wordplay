@@ -1573,8 +1573,12 @@ function parseMention(tokens: Tokens): Mention | Branch {
 function parseBranch(mention: Mention, tokens: Tokens): Branch {
     const open = tokens.read(Symbol.ListOpen);
     const yes = parseWords(tokens);
-    const bar = tokens.read(Symbol.Union);
+    const bar = tokens.nextIs(Symbol.Union)
+        ? tokens.read(Symbol.Union)
+        : undefined;
     const no = parseWords(tokens);
-    const close = tokens.read(Symbol.ListClose);
+    const close = tokens.nextIs(Symbol.ListClose)
+        ? tokens.read(Symbol.ListClose)
+        : undefined;
     return new Branch(mention, open, yes, bar, no, close);
 }

@@ -2,7 +2,6 @@ import Structure from '@runtime/Structure';
 import type Value from '@runtime/Value';
 import TypeOutput, { createTypeOutputInputs } from './TypeOutput';
 import type RenderContext from './RenderContext';
-import Phrase from './Phrase';
 import Color from './Color';
 import Place from './Place';
 import toStructure from '../native/toStructure';
@@ -16,7 +15,6 @@ import { getStyle, toTypeOutput, toTypeOutputList } from './toTypeOutput';
 import type TextLang from './TextLang';
 import Pose, { DefinitePose } from './Pose';
 import type Sequence from './Sequence';
-import Group from './Group';
 import { toShape, type Shape } from './Shapes';
 import concretize from '../locale/concretize';
 import type Locale from '../locale/Locale';
@@ -141,8 +139,8 @@ export default class Stage extends TypeOutput {
             locales[0],
             locales[0].output.Stage.description,
             this.content.length,
-            this.content.filter((o) => o instanceof Phrase).length,
-            this.content.filter((o) => o instanceof Group).length
+            this.frame?.getDescription(locales[0]),
+            this.pose.getDescription(locales)
         ).toText();
     }
 

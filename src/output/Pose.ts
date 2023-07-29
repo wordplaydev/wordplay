@@ -13,6 +13,7 @@ import Evaluate from '@nodes/Evaluate';
 import Reference from '@nodes/Reference';
 import type Locale from '../locale/Locale';
 import type Project from '../models/Project';
+import concretize from '../locale/concretize';
 
 export function createPoseType(locales: Locale[]) {
     return toStructure(`
@@ -70,6 +71,20 @@ export default class Pose extends Output {
             pose.flipx ?? this.flipx,
             pose.flipy ?? this.flipy
         );
+    }
+
+    getDescription(locales: Locale[]) {
+        return concretize(
+            locales[0],
+            locales[0].output.Pose.description,
+            this.opacity !== 1 ? this.opacity : undefined,
+            this.rotation !== undefined && this.rotation % 360
+                ? this.rotation
+                : undefined,
+            this.scale !== 1 ? this.scale : undefined,
+            this.flipx,
+            this.flipy
+        ).toText();
     }
 
     /** True if this pose's values equal the given pose's. */

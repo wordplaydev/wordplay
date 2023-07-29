@@ -2708,7 +2708,8 @@
             "content": {
                 "doc": "The list of @Type to arrange.",
                 "names": "content"
-            }
+            },
+            "description": "$1 $2"
         },
         "Phrase": {
             "doc": [
@@ -2720,7 +2721,8 @@
             "text": {
                 "doc": "The characters to show on @Stage.",
                 "names": "text"
-            }
+            },
+            "description": "$3[$3 meter |]phrase $1 $2[named $2|] $4[$4|] $5"
         },
         "Arrangement": {
             "doc": "I am an inspiration to the many other kinds of arrangment in the Verse, including @Row, @Stack, @Grid, and @Free. I work closely with @Group to ",
@@ -2842,7 +2844,8 @@
             "flipy": {
                 "doc": "Whether a @Type should be mirrored on the y-axis, instead of it's default.",
                 "names": "flipy"
-            }
+            },
+            "description": "$1[transparent $1|] $2[rotated $2 degrees|] $3[scaled $3|] $4[flipped horizontally|] $5[flipped vertically|]"
         },
         "Color": {
             "doc": [
@@ -2911,7 +2914,6 @@
                 "⧼Stage([Phrase('stufffffff')] Color(0% 0 0°) Rectangle(-2m -2m 2m 2m))⧽"
             ],
             "names": ["🎭", "Stage"],
-            "description": "stage of $1 phrases and groups",
             "content": {
                 "doc": "The list of @Type to show on stage.",
                 "names": "content"
@@ -2923,7 +2925,8 @@
             "frame": {
                 "doc": "The shape and size of frame to place around the stage, hiding everything outside it.",
                 "names": "frame"
-            }
+            },
+            "description": "stage of $1 phrases $2[$2 frame|] $3"
         },
         "Easing": {
             "straight": "straight",

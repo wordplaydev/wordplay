@@ -22,6 +22,7 @@ import { getOutputInput } from './Output';
 import { getStyle } from './toTypeOutput';
 import DocsValue from '../runtime/DocsValue';
 import type LanguageCode from '../locale/LanguageCode';
+import concretize from '../locale/concretize';
 
 export function createPhraseType(locales: Locale[]) {
     return toStructure(`
@@ -199,8 +200,23 @@ export default class Phrase extends TypeOutput {
     }
 
     getDescription(locales: Locale[]) {
-        const text = this.getLocalizedTextOrDoc(locales.map((l) => l.language));
-        return text instanceof TextLang ? text.text : text.markup.toText();
+        const textOrDoc = this.getLocalizedTextOrDoc(
+            locales.map((l) => l.language)
+        );
+        const text =
+            textOrDoc instanceof TextLang
+                ? textOrDoc.text
+                : textOrDoc.markup.toText();
+
+        return concretize(
+            locales[0],
+            locales[0].output.Phrase.description,
+            text,
+            this.name instanceof TextLang ? this.name.text : undefined,
+            this.size,
+            this.font,
+            this.pose.getDescription(locales)
+        ).toText();
     }
 
     isEmpty() {

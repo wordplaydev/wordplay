@@ -245,6 +245,12 @@ function verifyLocale(locale: Locale) {
                 value,
                 'test',
                 'test',
+                'test',
+                'test',
+                'test',
+                'test',
+                'test',
+                'test',
                 'test'
             );
             if (description === undefined)

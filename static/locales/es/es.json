@@ -1487,12 +1487,14 @@
             "names": "Group",
             "doc": "$?",
             "content": { "doc": "$?", "names": "content" },
-            "layout": { "doc": "$?", "names": "layout" }
+            "layout": { "doc": "$?", "names": "layout" },
+            "description": "$?"
         },
         "Phrase": {
             "names": ["💬", "Frase"],
             "doc": "$?",
-            "text": { "doc": "$?", "names": "texto" }
+            "text": { "doc": "$?", "names": "texto" },
+            "description": "$?"
         },
         "Arrangement": { "names": ["Arrangement"], "doc": "$?" },
         "Row": {
@@ -1542,7 +1544,8 @@
             "rotation": { "doc": "$?", "names": "inclinación" },
             "scale": { "doc": "$?", "names": "escala" },
             "flipx": { "doc": "$?", "names": "voltearx" },
-            "flipy": { "doc": "$?", "names": "volteary" }
+            "flipy": { "doc": "$?", "names": "volteary" },
+            "description": "$?"
         },
         "Color": {
             "names": "Color",

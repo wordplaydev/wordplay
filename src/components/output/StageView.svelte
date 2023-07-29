@@ -297,6 +297,7 @@
             $selectedOutput &&
             $selectedOutput.includes(stage.value.creator)}
         class:editing={$evaluation?.playing === false && !painting}
+        aria-label={stage.getDescription($config.getLocales())}
         data-id={stage.getHTMLID()}
         data-node-id={stage.value.creator.id}
         data-selectable={stage.selectable}
