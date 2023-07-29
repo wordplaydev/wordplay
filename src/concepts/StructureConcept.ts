@@ -10,7 +10,7 @@ import ConversionConcept from './ConversionConcept';
 import StructureDefinitionType from '@nodes/StructureDefinitionType';
 import type LanguageCode from '@locale/LanguageCode';
 import type Locale from '@locale/Locale';
-import type Purpose from './Purpose';
+import Purpose from './Purpose';
 import Emotion from '../lore/Emotion';
 import type Markup from '../nodes/Markup';
 
@@ -67,7 +67,7 @@ export default class StructureConcept extends Concept {
             .map(
                 (def) =>
                     new FunctionConcept(
-                        purpose,
+                        Purpose.Evaluate,
                         definition,
                         def,
                         this,
