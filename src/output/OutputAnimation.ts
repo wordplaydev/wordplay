@@ -73,7 +73,7 @@ export default class OutputAnimation {
             console.log(
                 `${Math.round(Date.now() / 1000)}s (${this.output.getName()}) ${
                     this.output instanceof Phrase
-                        ? this.output.text[0].text
+                        ? this.output.text.toString()
                         : this.output.value.creator.toWordplay()
                 }: ${message}`
             );

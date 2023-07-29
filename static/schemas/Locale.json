@@ -428,6 +428,22 @@
               ],
               "type": "object"
             },
+            "Docs": {
+              "additionalProperties": false,
+              "properties": {
+                "doc": {
+                  "$ref": "#/definitions/DocText"
+                },
+                "name": {
+                  "$ref": "#/definitions/NameText"
+                }
+              },
+              "required": [
+                "doc",
+                "name"
+              ],
+              "type": "object"
+            },
             "List": {
               "additionalProperties": false,
               "properties": {
@@ -1452,7 +1468,8 @@
             "Number",
             "List",
             "Set",
-            "Map"
+            "Map",
+            "Docs"
           ],
           "type": "object"
         },
@@ -1985,6 +2002,30 @@
               "$ref": "#/definitions/NodeText"
             },
             "Docs": {
+              "additionalProperties": false,
+              "properties": {
+                "doc": {
+                  "$ref": "#/definitions/DocText"
+                },
+                "emotion": {
+                  "type": "string"
+                },
+                "name": {
+                  "type": "string"
+                },
+                "start": {
+                  "$ref": "#/definitions/Template"
+                }
+              },
+              "required": [
+                "doc",
+                "emotion",
+                "name",
+                "start"
+              ],
+              "type": "object"
+            },
+            "DocsType": {
               "$ref": "#/definitions/NodeText"
             },
             "DocumentedExpression": {
@@ -3720,6 +3761,7 @@
             "AnyType",
             "BooleanType",
             "ConversionType",
+            "DocsType",
             "ExceptionType",
             "FunctionDefinitionType",
             "FunctionType",

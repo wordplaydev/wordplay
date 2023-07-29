@@ -25,13 +25,16 @@ import Root from '../nodes/Root';
 import type Locale from '../locale/Locale';
 import createDefaultShares from '../runtime/createDefaultShares';
 import locale from '../locale/en.json';
+import type LanguageCode from '../locale/LanguageCode';
 
 export class Native {
     readonly locales: Locale[];
+    readonly languages: LanguageCode[];
     readonly shares: ReturnType<typeof createDefaultShares>;
 
     constructor(locales: Locale[]) {
         this.locales = locales;
+        this.languages = locales.map((locale) => locale.language);
 
         this.addStructure('none', bootstrapNone(locales));
         this.addStructure('boolean', bootstrapBool(locales));

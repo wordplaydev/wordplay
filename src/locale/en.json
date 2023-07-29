@@ -129,9 +129,9 @@
             "name": "explanation",
             "emotion": "serious",
             "doc": [
-                "I describe the purpose of code.",
-                "I can go before any expression:",
-                "⧼1 - `Is this really supposed to be 7?`7⧽",
+                "I richly format things with @Markup, like explanations of some of of your @Program, or even the words you put on stage with @Phrase.",
+                "For example, I can go before any expression:",
+                "⧼`Is this really supposed to be 7?`\n7⧽",
                 "For example, you can place me before @Bind:",
                 "⧼`I measure how tall someone is`\nheight: 5m⧽",
                 "Or before a @FunctionDefinition:",
@@ -152,7 +152,8 @@
                 "I'm a list of @Doc, useful when you have multiple translations of @Doc in different languages.",
                 "You don't have to do anything special to make a list. Just put a bunch of @Doc next to each other, like this:",
                 "⧼`Hello`/en\n`Hola`/es\ngreeting: '…'⧽"
-            ]
+            ],
+            "start": "Making the docs value!"
         },
         "KeyValue": {
             "name": "mapping",
@@ -1084,6 +1085,15 @@
             "doc": [
                 "I work with @Bind to indicate that a name is a @ConversionDefinition. You probably don't need to use me, because not a lot of people pass me around as a value, but if you did, I would look like this:",
                 "⧼magic•?→'': → ? '' . ? 'yep' 'nope'⧽"
+            ]
+        },
+        "DocsType": {
+            "name": "docs",
+            "emotion": "serious",
+            "doc": [
+                "I work with @Bind to note that a name is a @Docs value. Like this:",
+                "⧼hungry•``: `I am an explanation.`⧽",
+                "Want to make sure something is a @Docs value? This is how you make sure."
             ]
         },
         "ExceptionType": {
@@ -2379,6 +2389,10 @@
                 "set": "The keys of the @Map",
                 "list": "A list of the values in the @Map"
             }
+        },
+        "Docs": {
+            "doc": "I represent some rich text that you've written and used as a value. See @Docs for details.",
+            "name": "Docs"
         }
     },
     "input": {

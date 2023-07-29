@@ -221,6 +221,10 @@ type NativeTexts = {
             list: DocText;
         };
     };
+    Docs: {
+        doc: DocText;
+        name: NameText;
+    };
 };
 
 export default NativeTexts;

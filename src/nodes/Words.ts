@@ -16,6 +16,7 @@ import NodeRef from '../locale/NodeRef';
 import ValueRef from '../locale/ValueRef';
 import { unescapeDocSymbols } from '../parser/Tokenizer';
 import type Node from './Node';
+import type { FontWeight } from '../native/Fonts';
 
 export type Format = 'italic' | 'underline' | 'light' | 'bold' | 'extra';
 
@@ -114,6 +115,18 @@ export default class Words extends Content {
             : this.open.isSymbol(Symbol.Bold)
             ? 'bold'
             : 'extra';
+    }
+
+    getWeight(): FontWeight | undefined {
+        return this.open
+            ? this.open.isSymbol(Symbol.Light)
+                ? 300
+                : this.open.isSymbol(Symbol.Bold)
+                ? 700
+                : this.open.isSymbol(Symbol.Extra)
+                ? 900
+                : 400
+            : undefined;
     }
 
     containsText(text: string): boolean {

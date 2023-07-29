@@ -6,6 +6,7 @@ import { toDocString, type NameAndDoc } from './Locale';
 import type Locale from './Locale';
 import { getInputNames } from './getInputLocales';
 import { parseLocaleDoc } from '@parser/Parser';
+import type Doc from '../nodes/Doc';
 
 export function getBind(
     locales: Locale[],
@@ -21,7 +22,7 @@ export function getBind(
                 parseLocaleDoc(toDocString(input.doc)).withLanguage(
                     localeToLanguage(locale)
                 )
-            )
+            ) as [Doc, ...Doc[]]
         ).toWordplay() +
         separator +
         new Names(

@@ -1420,10 +1420,7 @@
                         ],
                         ["edit", "ø = ø"],
                         null,
-                        [
-                            "edit",
-                            "Phrase('hi' size: ø font: ø place: ø rotation: ø)"
-                        ],
+                        ["edit", "Phrase('hi' font: ø)"],
                         [
                             "FunctionDefinition",
                             "excited",
@@ -2939,16 +2936,16 @@
                         [
                             "Phrase",
                             "kind",
-                            "That, my darling, is the simplest way to get a word on stage. But there's so much more! For example, did you know that you can style the text you give me by just putting special symbols in @Text? Behold: bold!"
+                            "That, my darling, is the simplest way to get a word on stage. But there's so much more! For example, did you know that you can style the text you give me by working with @Doc? You haven't met them yet, but all you have to do is put special symbols around your text? Behold: bold!"
                         ],
-                        ["edit", "Phrase('*hi*')"],
+                        ["edit", "Phrase(`*hi*`)"],
                         null,
                         [
                             "Phrase",
                             "kind",
                             "Not enough sass for you? How about underline, italics, light text, and extra bold text, *all at once*?"
                         ],
-                        ["edit", "Phrase('/I/ _am_ ^the^ /fabulous/ 💬!')"],
+                        ["edit", "Phrase(`/I/ _am_ ^the^ /fabulous/ 💬!`)"],
                         null,
                         [
                             "Phrase",
@@ -2956,7 +2953,7 @@
                             "Still not impressed?",
                             "Mix them all together!"
                         ],
-                        ["edit", "Phrase('/_*I am the fabulous*_/ 💬!')"],
+                        ["edit", "Phrase(`/_*I am the fabulous*_/ 💬!`)"],
                         null,
                         [
                             "Phrase",
@@ -2965,7 +2962,7 @@
                         ],
                         [
                             "edit",
-                            "Phrase('Format with /italic/ (//), _underline_ (__), |light| (||), /bold/ (**), ^extra bold^ (^^) ')"
+                            "Phrase(`Format with /italic/ (//), _underline_ (__), |light| (||), /bold/ (**), ^extra bold^ (^^) `)"
                         ],
                         null,
                         [
@@ -3007,11 +3004,11 @@
                         [
                             "Phrase",
                             "curious",
-                            "Do you ever feel a little off axis? Maybe you give the world a little @Pose/tilt with rotation. Try changing the rotation value to twist me around!"
+                            "Do you ever feel a little off axis? Maybe you give the world a little @Pose/rotation with rotation. Try changing the rotation value to twist me around!"
                         ],
                         [
                             "fit",
-                            "Phrase('hi' Time(100ms) · 0.001m/ms 'Poor Story' Place(2m 2m) 20°)"
+                            "Phrase('hi' Time(100ms) · 0.001m/ms 'Poor Story' Place(2m 2m) rotation: 20°)"
                         ],
                         null,
                         [
@@ -3069,7 +3066,7 @@
                         [
                             "Phrase",
                             "neutral",
-                            "Now, say I was moving. We'll set my place to time, so I move to the right a bit every second. But if we set a @Type/move @Pose, and have the @Pose/tilt ⧼5°⧽ and maybe a little color, every time my place changes, I'll glide across the stage with the cutest little tilt."
+                            "Now, say I was moving. We'll set my place to time, so I move to the right a bit every second. But if we set a @Type/move @Pose, and have the @Pose/rotation ⧼5°⧽ and maybe a little color, every time my place changes, I'll glide across the stage with the cutest little tilt."
                         ],
                         [
                             "fit",
@@ -3246,7 +3243,7 @@
                             "    enter: Sequence(",
                             "        {",
                             "            0%: Pose(rotation: 0°)",
-                            "            33%:Pose(tilt:-5°)",
+                            "            33%:Pose(rotation: -5°)",
                             "            66%: Pose(rotation: 5°)",
                             "            100%: Pose(rotation: 0°)",
                             "        }",
@@ -3266,7 +3263,7 @@
                             "    enter: Sequence(",
                             "        {",
                             "            0%: Pose(rotation: 0°)",
-                            "            33%:Pose(tilt:-5°)",
+                            "            33%:Pose(rotation: -5°)",
                             "            66%: Pose(rotation: 5°)",
                             "            100%: Pose(rotation: 0°)",
                             "        } ",
@@ -3287,7 +3284,7 @@
                             "    enter: Sequence(",
                             "        {",
                             "            0%: Pose(rotation: 0°)",
-                            "            33%:Pose(tilt:-5°)",
+                            "            33%: Pose(rotation: -5°)",
                             "            66%: Pose(rotation: 5°)",
                             "            100%: Pose(rotation: 0°)",
                             "        } ",
@@ -3308,7 +3305,7 @@
                             "    rest: Sequence(",
                             "        {",
                             "        0%: Pose(rotation: 0°)",
-                            "        33%:Pose(tilt:-5°)",
+                            "        33%:Pose(rotation: -5°)",
                             "        66%: Pose(rotation: 5°)",
                             "        100%: Pose(rotation: 0°)",
                             "        } ",

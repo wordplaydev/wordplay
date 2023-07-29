@@ -126,7 +126,8 @@
         "Docs": {
             "name": "lista de documentación",
             "emotion": "neutral",
-            "doc": "$?"
+            "doc": "$?",
+            "start": "$?"
         },
         "KeyValue": {
             "name": "par clave/valor",
@@ -715,6 +716,11 @@
         "ConversionType": {
             "name": "tipo de conversión",
             "emotion": "neutral",
+            "doc": "$?"
+        },
+        "DocsType": {
+            "name": "$?",
+            "emotion": "$?",
             "doc": "$?"
         },
         "ExceptionType": {
@@ -1355,6 +1361,10 @@
                 }
             },
             "conversion": { "text": "$?", "set": "$?", "list": "$?" }
+        },
+        "Docs": {
+            "doc": "$?",
+            "name": "$?"
         }
     },
     "input": {
@@ -1686,7 +1696,8 @@
         "prompt": {
             "deleteSource": "$?",
             "deleteProject": "$?",
-            "emptyProgram": "$?"
+            "emptyProgram": "$?",
+            "keyStreamInput": "$?"
         },
         "labels": {
             "learn": "$?",

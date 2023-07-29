@@ -21,4 +21,5 @@ export type NativeTypeName =
     | 'function'
     | 'union'
     | 'variable'
-    | 'name';
+    | 'name'
+    | 'docs';

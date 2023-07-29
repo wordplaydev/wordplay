@@ -13,6 +13,7 @@ import MapLiteral from '../nodes/MapLiteral';
 import ListLiteral from '../nodes/ListLiteral';
 import type Bind from '../nodes/Bind';
 import type { Creator } from '../db/Creator';
+import DocsValue from '../runtime/DocsValue';
 
 /**
  * Represents one or more equivalent inputs to an output expression.
@@ -101,7 +102,11 @@ export default class OutputPropertyValueSet {
 
     getText() {
         const value = this.getValue();
-        return value instanceof Text ? value.text : undefined;
+        return value instanceof Text
+            ? value.text
+            : value instanceof DocsValue
+            ? value.toWordplay()
+            : undefined;
     }
 
     getBool() {

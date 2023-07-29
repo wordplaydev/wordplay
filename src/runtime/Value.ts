@@ -35,7 +35,7 @@ export default abstract class Value {
 
     abstract isEqualTo(value: Value): boolean;
 
-    abstract getDescription(translation: Locale): Markup;
+    abstract getDescription(locale: Locale): Markup;
 
     /**
      * Should returns a rough estimate of how much memory this value uses.

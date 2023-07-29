@@ -38,7 +38,7 @@ export function getInputLocales(
     // Convert each inputs doc and mame list into Docs and Names, removing duplicate names.
     return binds.map((bind) => {
         return {
-            docs: new Docs(bind.docs),
+            docs: new Docs([bind.docs[0], ...bind.docs.slice(1)]),
             names: new Names(
                 bind.names.filter(
                     (name) =>

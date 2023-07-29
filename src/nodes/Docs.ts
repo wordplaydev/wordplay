@@ -5,14 +5,22 @@ import type Locale from '@locale/Locale';
 import Glyphs from '../lore/Glyphs';
 import Purpose from '../concepts/Purpose';
 import Node, { list, node } from './Node';
+import Literal from './Literal';
+import type Value from '../runtime/Value';
+import type Bind from './Bind';
+import type Type from './Type';
+import type TypeSet from './TypeSet';
+import concretize from '../locale/concretize';
+import DocsValue from '../runtime/DocsValue';
+import DocsType from './DocsType';
 
-export default class Docs extends Node {
-    readonly docs: Doc[];
+export default class Docs extends Literal {
+    readonly docs: [Doc, ...Doc[]];
 
-    constructor(docs?: Doc[]) {
+    constructor(docs: [Doc, ...Doc[]]) {
         super();
 
-        this.docs = docs === undefined ? [] : docs;
+        this.docs = docs;
 
         this.computeChildren();
     }
@@ -27,7 +35,7 @@ export default class Docs extends Node {
 
     clone(replace?: Replacement) {
         return new Docs(
-            this.replaceChild<Doc[]>('docs', this.docs, replace)
+            this.replaceChild<[Doc, ...Doc[]]>('docs', this.docs, replace)
         ) as this;
     }
 
@@ -39,7 +47,7 @@ export default class Docs extends Node {
         return [];
     }
 
-    getLocale(lang: LanguageCode | LanguageCode[]): Doc | undefined {
+    getLocale(lang: LanguageCode | LanguageCode[]): Doc {
         lang = Array.isArray(lang) ? lang : [lang];
         // Find the doc with the most preferred language, and if there are none, an emdash.
         return (
@@ -52,11 +60,35 @@ export default class Docs extends Node {
         );
     }
 
-    getNodeLocale(translation: Locale) {
-        return translation.node.Docs;
+    getNodeLocale(locale: Locale) {
+        return locale.node.Docs;
     }
 
     getGlyphs() {
         return Glyphs.Doc;
+    }
+
+    getValue(): Value {
+        return new DocsValue(this);
+    }
+
+    computeType(): Type {
+        return DocsType.make();
+    }
+
+    evaluateTypeSet(_: Bind, __: TypeSet, current: TypeSet): TypeSet {
+        return current;
+    }
+
+    getStart(): Node {
+        return this.docs[0];
+    }
+
+    getFinish(): Node {
+        throw this.docs[this.docs.length - 1];
+    }
+
+    getStartExplanations(locale: Locale) {
+        return concretize(locale, locale.node.Docs.start);
     }
 }

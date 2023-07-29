@@ -126,7 +126,8 @@
         "Docs": {
             "name": "$?",
             "emotion": "$?",
-            "doc": "$?"
+            "doc": "$?",
+            "start": "$?"
         },
         "KeyValue": {
             "name": "$?",
@@ -731,6 +732,11 @@
             "doc": "$?"
         },
         "ConversionType": {
+            "name": "$?",
+            "emotion": "$?",
+            "doc": "$?"
+        },
+        "DocsType": {
             "name": "$?",
             "emotion": "$?",
             "doc": "$?"
@@ -1355,6 +1361,10 @@
                 }
             },
             "conversion": { "text": "$?", "set": "$?", "list": "$?" }
+        },
+        "Docs": {
+            "doc": "$?",
+            "name": "$?"
         }
     },
     "input": {
@@ -1686,7 +1696,8 @@
         "prompt": {
             "deleteSource": "$?",
             "deleteProject": "$?",
-            "emptyProgram": "$?"
+            "emptyProgram": "$?",
+            "keyStreamInput": "$?"
         },
         "labels": {
             "learn": "$?",

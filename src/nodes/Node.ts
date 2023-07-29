@@ -112,6 +112,14 @@ export default abstract class Node {
         return sequence;
     }
 
+    traverseTopDownWithEnterAndExit(sequence: Node[] = []): Node[] {
+        sequence.push(this);
+        for (const child of this.getChildren())
+            child.traverseTopDownWithEnterAndExit(sequence);
+        if (!this.isLeaf()) sequence.push(this);
+        return sequence;
+    }
+
     leaves(): Node[] {
         if (this._leaves === undefined) {
             this._leaves = [];
@@ -139,7 +147,7 @@ export default abstract class Node {
                   .join(' ')}•`;
     }
 
-    /** Returns all this and all decedants in depth first order. Optionally uses the given function to decide whether to include a node. */
+    /** Returns all this and all descendants in depth first order. Optionally uses the given function to decide whether to include a node. */
     nodes(include?: (node: Node) => boolean): Node[] {
         const nodes: Node[] = [];
         this.traverse((node) => {

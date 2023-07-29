@@ -10,6 +10,9 @@ import { toMarkup } from '../parser/Parser';
 import Token from './Token';
 import Symbol from './Symbol';
 import type Node from './Node';
+import Words from './Words';
+import type { FormattedText } from '../output/Phrase';
+import type { FontWeight } from '../native/Fonts';
 
 /**
  * To refer to an input, use a $, followed by the number of the input desired,
@@ -122,6 +125,39 @@ export default class Markup extends Content {
 
     toText() {
         return this.paragraphs.map((p) => p.toText()).join('\n\n');
+    }
+
+    /** Returns a sequence of text with formats applied, and null representing paragraph breaks. */
+    getFormats() {
+        // Enumerate all of the word tokens and identify the Words formats that contain them, generating a list of formatted text.
+        const formats: FormattedText[] = [];
+        const words: Words[] = [];
+        for (const node of this.traverseTopDownWithEnterAndExit()) {
+            if (node instanceof Words) {
+                if (words[0] === node) words.shift();
+                else words.unshift(node);
+            } else if (node instanceof Token && node.isSymbol(Symbol.Words)) {
+                formats.push({
+                    text: node.getText(),
+                    italic: words.some((word) => word.getFormat() === 'italic'),
+                    weight:
+                        words
+                            .map((word) => word.getWeight())
+                            .filter(
+                                (word): word is FontWeight => word !== undefined
+                            )
+                            .at(-1) ?? 400,
+                });
+            }
+        }
+        return formats;
+    }
+
+    asLine() {
+        return new Markup(
+            [new Paragraph(this.paragraphs.map((p) => p.segments).flat())],
+            this.spaces
+        );
     }
 
     toString() {

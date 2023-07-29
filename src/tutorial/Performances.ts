@@ -22,10 +22,10 @@ Group(
     SpinningInTheDark: (symbol: string) =>
         `Stage([
     Phrase("${symbol}"
-    size:5m 
+    size: 5m 
     rest: Sequence({
-    0%:Pose(rotation: 0° color:Color(10% 0 0°)) 
-    100%:Pose(tilt:360° color:Color(10% 0 0°))} duration:20s))
+    0%: Pose(rotation: 0° color:Color(10% 0 0°)) 
+    100%: Pose(rotation: 360° color:Color(10% 0 0°))} duration:20s))
   ] background: Color(0% 0 0°)
 )`,
     TakeTheMic: () => `Phrase("🎤" size: Mic()· 1m)`,

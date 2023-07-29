@@ -93,6 +93,7 @@
         "AnyType",
         "BooleanType",
         "ConversionType",
+        "DocsType",
         "ExceptionType",
         "FunctionDefinitionType",
         "FunctionType",

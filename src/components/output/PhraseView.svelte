@@ -3,7 +3,6 @@
 <script lang="ts">
     import type Phrase from '@output/Phrase';
     import type Place from '@output/Place';
-    import parseRichText from '@output/parseRichText';
     import outputToCSS from '@output/outputToCSS';
     import type RenderContext from '@output/RenderContext';
     import Evaluate from '@nodes/Evaluate';
@@ -17,6 +16,8 @@
         getSelectedPhrase,
     } from '../project/Contexts';
     import { config } from '../../db/Creator';
+    import TextLang from '../../output/TextLang';
+    import MarkupHtmlView from '../concepts/MarkupHTMLView.svelte';
 
     export let phrase: Phrase;
     export let place: Place;
@@ -35,9 +36,8 @@
 
     // Visible if z is ahead of focus and font size is greater than 0.
     $: visible = place.z > focus.z && (phrase.size ?? context.size > 0);
-
     // Get the phrase's text in the preferred language
-    $: text = phrase.getDescription($config.getLocales());
+    $: text = phrase.getLocalizedTextOrDoc($config.getLanguages());
     $: empty = phrase.isEmpty();
     $: selectable = phrase.selectable && !empty;
 
@@ -198,9 +198,9 @@
                     phrase.getMetrics(context, false).width
                 )}px"
             />
-        {:else}
-            {@html parseRichText(text).toHTML()}
-        {/if}
+        {:else if text instanceof TextLang}{text.text}{:else}<MarkupHtmlView
+                markup={text.markup.asLine()}
+            />{/if}
     </div>
 {/if}
 
