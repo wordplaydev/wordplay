@@ -71,6 +71,8 @@ export { SupportedFontFamilies as SupportedFonts };
 export class FontManager {
     // Default fonts to load.
     readonly fonts: Font[] = [
+        { name: 'Noto Sans', weight: 300, italic: false },
+        { name: 'Noto Sans', weight: 300, italic: true },
         { name: 'Noto Sans', weight: 400, italic: false },
         { name: 'Noto Sans', weight: 700, italic: false },
         { name: 'Noto Sans', weight: 400, italic: true },

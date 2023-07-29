@@ -2962,7 +2962,7 @@
                         ],
                         [
                             "edit",
-                            "Phrase(`Format with /italic/ (//), _underline_ (__), |light| (||), /bold/ (**), ^extra bold^ (^^) `)"
+                            "Phrase(`Format with /italic/ (//), _underline_ (__), ~light~ (~~), /bold/ (**), ^extra bold^ (^^) `)"
                         ],
                         null,
                         [

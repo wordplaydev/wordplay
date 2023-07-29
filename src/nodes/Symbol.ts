@@ -19,7 +19,7 @@ enum Symbol {
     Link = '@',
     Italic = '/',
     Underline = '_',
-    Light = '|',
+    Light = '~',
     Bold = '*',
     Extra = '^',
     Concept = '@concept',

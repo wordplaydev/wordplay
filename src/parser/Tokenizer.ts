@@ -49,6 +49,7 @@ import {
     CONVERT_SYMBOL2,
     CONVERT_SYMBOL3,
     STREAM_SYMBOL2,
+    LIGHT_SYMBOL,
 } from './Symbols';
 import TokenList from './TokenList';
 import ConceptRegEx from './ConceptRegEx';
@@ -74,6 +75,7 @@ export const DOC_SPECIAL_CHARACTERS = [
     BOLD_SYMBOL,
     EXTRA_SYMBOL,
     DOCS_SYMBOL,
+    LIGHT_SYMBOL,
     MENTION_SYMBOL,
     LIST_OPEN_SYMBOL,
     OR_SYMBOL,
@@ -150,7 +152,7 @@ const patterns = [
     { pattern: TYPE_SYMBOL, types: [Symbol.Type, Symbol.TypeOperator] },
     {
         pattern: OR_SYMBOL,
-        types: [Symbol.Operator, Symbol.Union, Symbol.Light],
+        types: [Symbol.Operator, Symbol.Union],
     },
     { pattern: TYPE_OPEN_SYMBOL, types: [Symbol.TypeOpen] },
     { pattern: TYPE_CLOSE_SYMBOL, types: [Symbol.TypeClose] },
@@ -274,7 +276,10 @@ const patterns = [
     },
     { pattern: '¿', types: [Symbol.BooleanType, Symbol.Conditional] },
     // Tokenize formatting symbols before binary ops
-    // Light is tokenized with the | operator above
+    {
+        pattern: LIGHT_SYMBOL,
+        types: [Symbol.Light, Symbol.Operator],
+    },
     {
         pattern: UNDERSCORE_SYMBOL,
         types: [Symbol.Underline, Symbol.Operator],

@@ -1443,6 +1443,7 @@ function nextIsContent(tokens: Tokens) {
         Symbol.ExampleOpen,
         Symbol.Mention,
         Symbol.Italic,
+        Symbol.Light,
         Symbol.Bold,
         Symbol.Underline,
         Symbol.Extra
@@ -1511,7 +1512,13 @@ function parseConceptLink(tokens: Tokens): ConceptLink {
     return new ConceptLink(concept);
 }
 
-const FORMATS = [Symbol.Italic, Symbol.Underline, Symbol.Bold, Symbol.Extra];
+const FORMATS = [
+    Symbol.Italic,
+    Symbol.Underline,
+    Symbol.Light,
+    Symbol.Bold,
+    Symbol.Extra,
+];
 
 function parseWords(tokens: Tokens): Words {
     // Read an optional format

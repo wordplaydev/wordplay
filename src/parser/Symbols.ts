@@ -62,6 +62,7 @@ export const DEGREE_SYMBOL = '°';
 export const LINK_SYMBOL = '@';
 export const UNDERSCORE_SYMBOL = '_';
 export const ITALIC_SYMBOL = '/';
+export const LIGHT_SYMBOL = '~';
 export const BOLD_SYMBOL = '*';
 export const EXTRA_SYMBOL = '^';
 export const MENTION_SYMBOL = '$';
