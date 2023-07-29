@@ -60,7 +60,7 @@
     >{#if typeof placeholder === 'string'}<span class="placeholder"
             >{placeholder}</span
         ><PlaceholderView
-            {node}
+            position={node}
         />{:else if text.length === 0}&ZeroWidthSpace;{:else}{text.replaceAll(
             ' ',
             '\xa0'

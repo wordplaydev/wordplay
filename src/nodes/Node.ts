@@ -90,6 +90,11 @@ export default abstract class Node {
         return undefined;
     }
 
+    getLastLeaf(): Node | undefined {
+        const leaves = this.leaves();
+        return leaves[leaves.length - 1];
+    }
+
     getFirstPlaceholder(): Node | undefined {
         if (this.isPlaceholder()) return this;
         for (const child of this.getChildren()) {

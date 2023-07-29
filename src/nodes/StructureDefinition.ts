@@ -202,7 +202,7 @@ export default class StructureDefinition extends AtomicExpression {
             ),
             this.inputs
                 .filter((input) => !input.hasDefault())
-                .map((input) => ExpressionPlaceholder.make(input.type?.clone()))
+                .map((input) => ExpressionPlaceholder.make())
         );
     }
 

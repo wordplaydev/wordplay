@@ -324,6 +324,10 @@ export default class Evaluate extends Expression {
         return mappings;
     }
 
+    getLastInput(): Expression | undefined {
+        return this.inputs[this.inputs.length - 1];
+    }
+
     /**
      *  Given a name and an expression, create a new evaluate that binds this name to this value instead of its current binding,
      * and if there is no current binding, create one.

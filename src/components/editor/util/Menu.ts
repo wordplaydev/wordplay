@@ -4,6 +4,7 @@ import type Caret from '../../../edit/Caret';
 import type { Edit } from './Commands';
 import type Purpose from '../../../concepts/Purpose';
 import type ConceptIndex from '../../../concepts/ConceptIndex';
+import Literal from '../../../nodes/Literal';
 
 export type MenuSelection = [number, number | undefined];
 export type MenuOrganization = (Revision | RevisionSet)[];
@@ -58,8 +59,10 @@ export default class Menu {
             // 2. RevisionSets organized by node kind, or the single Revision if there's only one, sorted by Purpose.
             // 3. Any removals, which are likely the least relevant.
             // RevisionSets are organized alphabetically by locale.
-            const completions = this.revisions.filter((revision) =>
-                revision.isCompletion()
+            const priority = this.revisions.filter(
+                (revision) =>
+                    revision.isCompletion() ||
+                    revision.getNewNode([]) instanceof Literal
             );
             const removals = this.revisions.filter((revision) =>
                 revision.isRemoval()
@@ -82,7 +85,7 @@ export default class Menu {
             }
 
             organization = [
-                ...completions,
+                ...priority,
                 ...Array.from(kinds.entries()).map(
                     ([purpose, revisions]) =>
                         new RevisionSet(purpose, revisions)

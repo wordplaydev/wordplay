@@ -2,7 +2,7 @@
 
 <script lang="ts">
     import Node from '@nodes/Node';
-    import Caret from '../../edit/Caret';
+    import Caret, { type CaretPosition } from '../../edit/Caret';
     import {
         createEventDispatcher,
         onDestroy,
@@ -153,7 +153,7 @@
     setContext(InsertionPointsSymbol, insertion);
 
     // A store of the currently requested node for which to show a menu.
-    const menuNode = writable<Node | undefined>(undefined);
+    const menuNode = writable<CaretPosition | undefined>(undefined);
     setContext(MenuNodeSymbol, menuNode);
 
     // A store of the handle edit function
@@ -161,11 +161,11 @@
     setContext(EditorSymbol, editHandler);
 
     // When the menu node changes, show the menu.
-    const unsubscribe = menuNode.subscribe((node) => {
-        if (node !== undefined) {
-            showMenu(node);
-            caret.set($caret.withPosition(node));
-        }
+    const unsubscribe = menuNode.subscribe((position) => {
+        if (position !== undefined) {
+            showMenu(position);
+            caret.set($caret.withPosition(position));
+        } else hideMenu();
     });
     onDestroy(unsubscribe);
 
@@ -971,7 +971,7 @@
         insertion.set(undefined);
     }
 
-    async function showMenu(node: Node | undefined = undefined) {
+    async function showMenu(node: CaretPosition | undefined = undefined) {
         // Wait for everything to be updated so we have a fresh context
         await tick();
 
@@ -1315,7 +1315,7 @@
                             label={caretExpressionType.toWordplay()}
                         />{:else}{caretExpressionType.toWordplay()}{/if}{/if}
                 <PlaceholderView
-                    node={$caret.position}
+                    position={$caret.position}
                 />{/if}{#if document.activeElement === input}<div
                     class="screen-reader-description"
                     aria-live="polite"

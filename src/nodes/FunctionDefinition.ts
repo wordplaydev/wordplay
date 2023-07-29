@@ -157,7 +157,7 @@ export default class FunctionDefinition extends Expression {
                       ? structureType
                       : ExpressionPlaceholder.make(structureType),
                   Reference.make(this.getOperatorName() ?? '_'),
-                  ExpressionPlaceholder.make(this.inputs[0]?.type?.clone())
+                  ExpressionPlaceholder.make()
               )
             : Evaluate.make(
                   structure
@@ -173,10 +173,7 @@ export default class FunctionDefinition extends Expression {
                       .map((input) => {
                           if (input.type instanceof FunctionType)
                               return input.type.getTemplate(context);
-                          else
-                              return ExpressionPlaceholder.make(
-                                  input.type?.clone()
-                              );
+                          else return ExpressionPlaceholder.make();
                       })
               );
     }

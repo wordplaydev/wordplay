@@ -58,8 +58,9 @@ export default class ExpressionPlaceholder extends AtomicExpression {
         );
     }
 
-    static getPossibleNodes(type: Type | undefined) {
-        return [ExpressionPlaceholder.make(type)];
+    static getPossibleNodes() {
+        // Don't pass the type, since we don't want it to be actual text in the program.
+        return [ExpressionPlaceholder.make(undefined)];
     }
 
     getGrammar(): Grammar {

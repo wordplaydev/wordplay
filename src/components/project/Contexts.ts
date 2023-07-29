@@ -19,6 +19,7 @@ import type Evaluator from '@runtime/Evaluator';
 import type Locale from '@locale/Locale';
 import type Root from '@nodes/Root';
 import type { Edit } from '../editor/util/Commands';
+import type { CaretPosition } from '../../edit/Caret';
 
 // App related contexts
 
@@ -182,7 +183,7 @@ export function getRoot() {
 }
 
 export const MenuNodeSymbol = Symbol('menu');
-export type MenuNodeContext = Writable<Node | undefined>;
+export type MenuNodeContext = Writable<CaretPosition | undefined>;
 export function getMenuNode() {
     return getContext<MenuNodeContext | undefined>(MenuNodeSymbol);
 }
