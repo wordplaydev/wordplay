@@ -347,13 +347,14 @@ function getRelativeFieldEdits(
                 const index =
                     list.length === 0
                         ? 0
-                        : Math.max(list.length - 1, list.indexOf(anchorNode));
+                        : Math.max(list.length - 1, list.indexOf(anchorNode)) +
+                          1;
                 if (index >= 0) {
                     // Find the expected type of the position in the list.
                     // Some lists don't care, other lists do (e.g., Evaluate has very specific type expectations based on it's function definnition).
                     // If this field is before, then we do the index after. If the field we're analyzing is after, we keep the current index as the insertion point.
                     const expectedType = relativeField.getType
-                        ? relativeField.getType(context, index + 1)
+                        ? relativeField.getType(context, index)
                         : undefined;
                     edits = [
                         ...edits,
