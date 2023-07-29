@@ -23,6 +23,7 @@ import FunctionType from '../nodes/FunctionType';
 import BinaryEvaluate from '../nodes/BinaryEvaluate';
 import UnaryEvaluate from '../nodes/UnaryEvaluate';
 import Evaluate from '../nodes/Evaluate';
+import Reference from '../nodes/Reference';
 
 export default class ConceptIndex {
     readonly project: Project;
@@ -172,24 +173,26 @@ export default class ConceptIndex {
     /** Given a node, get the most relevant concept to represent. Generally prefers functions, structures, binds, and streams over nodes. */
     getRelevantConcept(node: Node): Concept | undefined {
         const context = this.project.getNodeContext(node);
-        if (
+        const definition =
             node instanceof Evaluate ||
             node instanceof BinaryEvaluate ||
             node instanceof UnaryEvaluate
-        ) {
-            const fun = node.getFunction(context);
-            if (fun instanceof FunctionDefinition) {
-                const concept = this.getFunctionConcept(fun);
-                if (concept) return concept;
-            } else if (fun instanceof StructureDefinition) {
-                const concept = this.getStructureConcept(fun);
-                if (concept) return concept;
-            } else if (fun instanceof StreamDefinition) {
-                const concept = this.getStreamConcept(fun);
-                if (concept) return concept;
-            }
-        }
-        return this.getNodeConcept(node);
+                ? node.getFunction(context)
+                : node instanceof Reference
+                ? node.resolve(context)
+                : undefined;
+        const definitionConcept =
+            definition instanceof FunctionDefinition
+                ? this.getFunctionConcept(definition)
+                : definition instanceof StructureDefinition
+                ? this.getStructureConcept(definition)
+                : definition instanceof StreamDefinition
+                ? this.getStreamConcept(definition)
+                : definition instanceof Bind
+                ? this.getBindConcept(definition)
+                : undefined;
+
+        return definitionConcept ?? this.getNodeConcept(node);
     }
 
     getBindConcept(bind: Bind) {

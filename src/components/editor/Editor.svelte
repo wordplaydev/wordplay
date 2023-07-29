@@ -1294,17 +1294,20 @@
                 ? `calc(${caretLocation.left} - ${OutlinePadding}px)`
                 : undefined}
             style:top={caretLocation ? `${caretLocation.bottom}px` : undefined}
-            >{#if $caret.position instanceof Node}{@const concept =
-                    $concepts?.getNodeConcept(
-                        $caret.position
-                    )}{@const typeConcept =
+            >{#if $caret.position instanceof Node}
+                {@const relevantConcept = $concepts?.getRelevantConcept(
+                    $caret.position
+                )}
+                {@const typeConcept =
                     $concepts && caretExpressionType
                         ? $concepts.getConceptOfType(caretExpressionType)
-                        : undefined}<!-- Make a link to the node's documentation -->{#if concept}<ConceptLinkUI
-                        link={concept}
+                        : undefined}
+                <!-- Make a link to the node's documentation -->
+                {#if relevantConcept}<ConceptLinkUI
+                        link={relevantConcept}
                         label={DOCUMENTATION_SYMBOL}
                     />{/if}
-                <!-- Show the node's label and type, if an expression -->
+                <!-- Show the node's label and type -->
                 {$caret.position.getLabel(
                     $config.getLocale()
                 )}{#if caretExpressionType}&nbsp;{TYPE_SYMBOL}&nbsp;{#if typeConcept}<ConceptLinkUI
