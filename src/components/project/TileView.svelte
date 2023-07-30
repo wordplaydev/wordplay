@@ -168,7 +168,6 @@
     }
 </script>
 
-<!-- svelte-ignore a11y-no-redundant-roles -->
 <div
     role="presentation"
     on:pointermove={handlePointerMove}
