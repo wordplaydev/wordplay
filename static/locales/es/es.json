@@ -1491,7 +1491,7 @@
             "description": "$?"
         },
         "Phrase": {
-            "names": ["💬", "Frase"],
+            "names": "Frase",
             "doc": "$?",
             "text": { "doc": "$?", "names": "texto" },
             "description": "$?"
