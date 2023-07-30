@@ -26,7 +26,7 @@
                 kv.key instanceof NumberLiteral &&
                 kv.value instanceof Evaluate &&
                 kv.value.is(
-                    project.shares.output.pose,
+                    project.shares.output.Pose,
                     project.getNodeContext(kv.value)
                 )
         );

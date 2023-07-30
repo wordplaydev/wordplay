@@ -54,7 +54,7 @@ export default class Motion extends TemporalStream<Value> {
         bounciness: number | undefined,
         gravity: number | undefined
     ) {
-        super(evaluator, evaluator.project.shares.input.motion, type.value);
+        super(evaluator, evaluator.project.shares.input.Motion, type.value);
 
         this.type = type;
 

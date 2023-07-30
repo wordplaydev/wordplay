@@ -24,8 +24,8 @@ function getPoseProperty(project: Project, name: NameAndDoc): OutputProperty {
         false,
         (expr, context) =>
             expr instanceof Evaluate &&
-            (expr.is(project.shares.output.pose, context) ||
-                expr.is(project.shares.output.sequence, context)),
+            (expr.is(project.shares.output.Pose, context) ||
+                expr.is(project.shares.output.Sequence, context)),
         (languages) => createPoseLiteral(project, languages)
     );
 }
@@ -103,14 +103,14 @@ export default function getTypeOutputProperties(
             false,
             (expr, context) =>
                 expr instanceof Evaluate &&
-                expr.is(project.shares.output.place, context),
+                expr.is(project.shares.output.Place, context),
             (languages) =>
                 Evaluate.make(
                     Reference.make(
-                        project.shares.output.place.names.getLocaleText(
+                        project.shares.output.Place.names.getLocaleText(
                             languages
                         ),
-                        project.shares.output.place
+                        project.shares.output.Place
                     ),
                     [
                         NumberLiteral.make(0, Unit.make(['m'])),

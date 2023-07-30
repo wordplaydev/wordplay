@@ -32,7 +32,7 @@ export default class Mic extends TemporalStream<Number> {
     constructor(evaluator: Evaluator, frequency: number | undefined) {
         super(
             evaluator,
-            evaluator.project.shares.input.mic,
+            evaluator.project.shares.input.Mic,
             new Number(evaluator.getMain(), 100)
         );
         this.frequency = frequency ?? DEFAULT_FREQUENCY;

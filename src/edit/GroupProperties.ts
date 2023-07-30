@@ -15,7 +15,7 @@ export default function getGroupProperties(
         new OutputProperty(
             locale.output.Group.layout,
             new OutputPropertyOptions(
-                [project.shares.output.row, project.shares.output.stack].map(
+                [project.shares.output.Row, project.shares.output.Stack].map(
                     (type) => `${type.names.getNames()[0]}`
                 ),
                 false,
@@ -31,10 +31,10 @@ export default function getGroupProperties(
             (languages) =>
                 Evaluate.make(
                     Reference.make(
-                        project.shares.output.stack.names.getLocaleText(
+                        project.shares.output.Stack.names.getLocaleText(
                             languages
                         ),
-                        project.shares.output.stack
+                        project.shares.output.Stack
                     ),
                     []
                 )

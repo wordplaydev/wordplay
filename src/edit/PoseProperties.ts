@@ -21,7 +21,7 @@ export default function getPoseProperties(
             true,
             (expr, context) =>
                 expr instanceof Evaluate &&
-                expr.is(project.shares.output.color, context),
+                expr.is(project.shares.output.Color, context),
             (languages) => createColorLiteral(project, languages, 0.5, 100, 180)
         ),
         new OutputProperty(
@@ -55,14 +55,14 @@ export default function getPoseProperties(
             false,
             (expr, context) =>
                 expr instanceof Evaluate &&
-                expr.is(project.shares.output.place, context),
+                expr.is(project.shares.output.Place, context),
             (languages) =>
                 Evaluate.make(
                     Reference.make(
-                        project.shares.output.place.names.getLocaleText(
+                        project.shares.output.Place.names.getLocaleText(
                             languages
                         ),
-                        project.shares.output.place
+                        project.shares.output.Place
                     ),
                     [
                         NumberLiteral.make(0, Unit.make(['m'])),

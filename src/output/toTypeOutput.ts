@@ -31,11 +31,11 @@ export function toTypeOutput(
 ): TypeOutput | undefined {
     if (!(value instanceof Structure)) return undefined;
     switch (value.type) {
-        case project.shares.output.phrase:
+        case project.shares.output.Phrase:
             return toPhrase(project, value, namer);
-        case project.shares.output.group:
+        case project.shares.output.Group:
             return toGroup(project, value, namer);
-        case project.shares.output.stage:
+        case project.shares.output.Stage:
             return toStage(project, value);
     }
     return undefined;
@@ -66,13 +66,13 @@ export function toArrangement(
 ): Arrangement | undefined {
     if (!(value instanceof Structure)) return undefined;
     switch (value.type) {
-        case project.shares.output.row:
+        case project.shares.output.Row:
             return toRow(value);
-        case project.shares.output.stack:
+        case project.shares.output.Stack:
             return toStack(value);
-        case project.shares.output.grid:
+        case project.shares.output.Grid:
             return toGrid(value);
-        case project.shares.output.free:
+        case project.shares.output.Free:
             return toFree(value);
     }
     return undefined;

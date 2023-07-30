@@ -92,7 +92,7 @@ export function createPlaceStructure(
     const creator = evaluator.getMain();
 
     const place = new Map<Names, Value>();
-    const PlaceType = evaluator.project.shares.output.place;
+    const PlaceType = evaluator.project.shares.output.Place;
     place.set(
         PlaceType.inputs[0].names,
         new Number(creator, x, Unit.make(['m']))

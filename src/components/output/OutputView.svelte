@@ -406,7 +406,7 @@
                     $selectedOutput &&
                     $selectedOutput.length > 0 &&
                     !$selectedOutput[0].is(
-                        project.shares.output.stage,
+                        project.shares.output.Stage,
                         project.getNodeContext($selectedOutput[0])
                     )
                 ) {

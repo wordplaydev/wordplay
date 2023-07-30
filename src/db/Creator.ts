@@ -100,7 +100,7 @@ export class Creator {
     /** The status of persisting the projects. */
     private statusStore: Writable<SaveStatus> = writable(SaveStatus.Saved);
 
-    /** The current user ID */
+    /** The current Firebase user ID */
     private uid: string | null = null;
 
     /** The current creator configuration */

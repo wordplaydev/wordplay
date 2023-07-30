@@ -297,9 +297,9 @@
             $caret.position instanceof Evaluate &&
             $caret.position.isOneOf(
                 project.getNodeContext($caret.position),
-                project.shares.output.phrase,
-                project.shares.output.group,
-                project.shares.output.stage
+                project.shares.output.Phrase,
+                project.shares.output.Group,
+                project.shares.output.Stage
             )
         )
             setSelectedOutput(selectedOutputPaths, project, [$caret.position]);

@@ -41,7 +41,7 @@ export default function moveOutput(
     vertical: number,
     relative: boolean
 ) {
-    const PlaceType = project.shares.output.place;
+    const PlaceType = project.shares.output.Place;
 
     projects.reviseProjectNodes(
         project,
@@ -119,9 +119,9 @@ export function addContent(
     index: number,
     phrase: boolean
 ) {
-    const PhraseType = project.shares.output.phrase;
-    const GroupType = project.shares.output.group;
-    const RowType = project.shares.output.row;
+    const PhraseType = project.shares.output.Phrase;
+    const GroupType = project.shares.output.Group;
+    const RowType = project.shares.output.Row;
     const languages = get(config).getLanguages();
     const newPhrase = Evaluate.make(
         Reference.make(
@@ -200,7 +200,7 @@ export function addStageContent(
     project: Project,
     content: Expression
 ) {
-    const StageType = project.shares.output.stage;
+    const StageType = project.shares.output.Stage;
 
     // Find the verse in the project.
     let verse: Evaluate | undefined = getStage(project);
@@ -224,7 +224,7 @@ export function addStageContent(
 }
 
 export function getStage(project: Project): Evaluate | undefined {
-    const StageType = project.shares.output.stage;
+    const StageType = project.shares.output.Stage;
 
     for (const source of project.getSources()) {
         const context = project.getContext(source);

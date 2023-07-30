@@ -183,7 +183,7 @@ export function toStage(project: Project, value: Value): Stage | undefined {
     // Create a name generator to guarantee unique default names for all TypeOutput.
     const namer = new NameGenerator();
 
-    if (value.type === project.shares.output.stage) {
+    if (value.type === project.shares.output.Stage) {
         const possibleGroups = getOutputInput(value, 0);
         const content =
             possibleGroups instanceof List

@@ -127,7 +127,7 @@ export default class OutputPropertyValueSet {
     getPlace(project: Project) {
         const expr = this.getExpression();
         return expr instanceof Evaluate &&
-            expr.is(project.shares.output.place, project.getNodeContext(expr))
+            expr.is(project.shares.output.Place, project.getNodeContext(expr))
             ? expr
             : undefined;
     }

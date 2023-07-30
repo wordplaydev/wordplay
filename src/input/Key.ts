@@ -25,7 +25,7 @@ export default class Key extends Stream<Text> {
     constructor(evaluator: Evaluator, key: string | undefined, down: boolean) {
         super(
             evaluator,
-            evaluator.project.shares.input.key,
+            evaluator.project.shares.input.Key,
             new Text(evaluator.getMain(), '')
         );
 

@@ -674,19 +674,19 @@ export default class Project {
         return [
             ...evaluates.filter((evaluate) =>
                 evaluate.is(
-                    this.shares.output.stage,
+                    this.shares.output.Stage,
                     this.getNodeContext(evaluate)
                 )
             ),
             ...evaluates.filter((evaluate) =>
                 evaluate.is(
-                    this.shares.output.group,
+                    this.shares.output.Group,
                     this.getNodeContext(evaluate)
                 )
             ),
             ...evaluates.filter((evaluate) =>
                 evaluate.is(
-                    this.shares.output.phrase,
+                    this.shares.output.Phrase,
                     this.getNodeContext(evaluate)
                 )
             ),

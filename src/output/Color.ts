@@ -78,7 +78,7 @@ export function createColorLiteral(
     chroma: number,
     hue: number
 ) {
-    const ColorType = project.shares.output.color;
+    const ColorType = project.shares.output.Color;
     return Evaluate.make(
         Reference.make(ColorType.names.getLocaleText(languages), ColorType),
         [

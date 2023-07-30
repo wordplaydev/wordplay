@@ -132,7 +132,7 @@ export function toSequence(project: Project, value: Value | undefined) {
     if (
         !(
             value instanceof Structure &&
-            value.type === project.shares.output.sequence
+            value.type === project.shares.output.Sequence
         )
     )
         return undefined;

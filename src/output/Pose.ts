@@ -129,7 +129,7 @@ export function toPose(
     if (
         !(
             value instanceof Structure &&
-            value.type === project.shares.output.pose
+            value.type === project.shares.output.Pose
         )
     )
         return undefined;
@@ -150,7 +150,7 @@ export function toPose(
 }
 
 export function createPoseLiteral(project: Project, languages: LanguageCode[]) {
-    const PoseType = project.shares.output.pose;
+    const PoseType = project.shares.output.Pose;
     return Evaluate.make(
         Reference.make(PoseType.names.getLocaleText(languages), PoseType),
         []

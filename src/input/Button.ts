@@ -20,7 +20,7 @@ export default class Button extends Stream<Bool> {
     constructor(evaluator: Evaluator, down: boolean | undefined) {
         super(
             evaluator,
-            evaluator.project.shares.input.button,
+            evaluator.project.shares.input.Button,
             new Bool(evaluator.getMain(), false)
         );
 
