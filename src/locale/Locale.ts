@@ -62,4 +62,8 @@ export function getFirstName(name: NameText) {
     return typeof name === 'string' ? name : name[0];
 }
 
+export function nameWithoutMentions(name: string) {
+    return name.replaceAll('$?', '').replaceAll('$!', '').trim();
+}
+
 export default Locale;

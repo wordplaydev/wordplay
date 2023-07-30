@@ -1,11 +1,9 @@
 import Evaluator from '@runtime/Evaluator';
 import { test, expect } from 'vitest';
-import { getDefaultBasis } from './Basis';
-
-const basis = getDefaultBasis();
+import { DefaultLocale } from '../db/Creator';
 
 test('Test text functions', () => {
-    expect(Evaluator.evaluateCode(basis, '"hello".length()')?.toString()).toBe(
-        '5'
-    );
+    expect(
+        Evaluator.evaluateCode(DefaultLocale, '"hello".length()')?.toString()
+    ).toBe('5');
 });

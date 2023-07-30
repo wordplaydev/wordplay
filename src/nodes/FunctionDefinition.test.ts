@@ -8,10 +8,8 @@ import TypeVariables from './TypeVariables';
 import Evaluator from '@runtime/Evaluator';
 import NoExpression from '@conflicts/NoExpression';
 import EvaluationLimitException from '@runtime/EvaluationLimitException';
-import { getDefaultBasis } from '../basis/Basis';
 import IncompatibleType from '../conflicts/IncompatibleType';
-
-const basis = getDefaultBasis();
+import { DefaultLocale } from '../db/Creator';
 
 test.each([
     ['ƒ(a b) 1', 'ƒ(a a) 1', FunctionDefinition, DuplicateName],
@@ -28,7 +26,7 @@ test.each([
 );
 
 test('Test text functions', () => {
-    expect(Evaluator.evaluateCode(basis, 'ƒ a() a() a()')).toBeInstanceOf(
-        EvaluationLimitException
-    );
+    expect(
+        Evaluator.evaluateCode(DefaultLocale, 'ƒ a() a() a()')
+    ).toBeInstanceOf(EvaluationLimitException);
 });

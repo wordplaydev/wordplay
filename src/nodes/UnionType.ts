@@ -107,20 +107,24 @@ export default class UnionType extends Type {
         input: Type,
         output: Type
     ): ConversionDefinition | undefined {
-        const left = context.basis.getConversion(
-            this.left.getBasisTypeName(),
-            context,
-            input,
-            output
-        );
+        const left = context
+            .getBasis()
+            .getConversion(
+                this.left.getBasisTypeName(),
+                context,
+                input,
+                output
+            );
         if (left !== undefined) return left;
         return this.right instanceof Type
-            ? context.basis.getConversion(
-                  this.right.getBasisTypeName(),
-                  context,
-                  input,
-                  output
-              )
+            ? context
+                  .getBasis()
+                  .getConversion(
+                      this.right.getBasisTypeName(),
+                      context,
+                      input,
+                      output
+                  )
             : undefined;
     }
 
@@ -128,13 +132,14 @@ export default class UnionType extends Type {
         context: Context,
         name: string
     ): FunctionDefinition | undefined {
-        const left = context.basis.getFunction(
-            this.left.getBasisTypeName(),
-            name
-        );
+        const left = context
+            .getBasis()
+            .getFunction(this.left.getBasisTypeName(), name);
         if (left !== undefined) return left;
         return this.right instanceof Type
-            ? context.basis.getFunction(this.right.getBasisTypeName(), name)
+            ? context
+                  .getBasis()
+                  .getFunction(this.right.getBasisTypeName(), name)
             : undefined;
     }
 

@@ -4,9 +4,7 @@ import Expression from '@nodes/Expression';
 import Context from '@nodes/Context';
 import Source from '@nodes/Source';
 import Project from '../models/Project';
-import { getDefaultBasis } from '../basis/Basis';
-
-const basis = getDefaultBasis();
+import { DefaultLocale } from '../db/Creator';
 
 export function testConflict(
     goodCode: string,
@@ -16,7 +14,13 @@ export function testConflict(
     nodeIndex: number = 0
 ) {
     const goodSource = new Source('test', goodCode);
-    const goodProject = new Project(null, 'good', goodSource, [], basis);
+    const goodProject = new Project(
+        null,
+        'good',
+        goodSource,
+        [],
+        DefaultLocale
+    );
     const goodProgram = goodSource.expression;
     const goodOp = goodProgram.nodes().filter((n) => n instanceof nodeType)[
         nodeIndex
@@ -29,7 +33,7 @@ export function testConflict(
     ).toBeUndefined();
 
     const badSource = new Source('test', badCode);
-    const badProject = new Project(null, 'bad', badSource, [], basis);
+    const badProject = new Project(null, 'bad', badSource, [], DefaultLocale);
     const badProgram = badSource.expression;
     const badOp = badProgram.nodes().filter((n) => n instanceof nodeType)[
         nodeIndex
@@ -44,7 +48,7 @@ export function testConflict(
 /** Given some code, verify that the type of the last expression in the program's block is of the expected type. */
 export function testTypes(code: string, typeExpected: Function) {
     const source = new Source('test', code);
-    const project = new Project(null, 'test', source, [], basis);
+    const project = new Project(null, 'test', source, [], DefaultLocale);
     const last =
         source.expression.expression instanceof Block
             ? source.expression.expression.getLast()

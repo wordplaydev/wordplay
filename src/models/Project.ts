@@ -19,9 +19,10 @@ import { parseNames, toTokens } from '../parser/Parser';
 import Root from '../nodes/Root';
 import type { Path } from '../nodes/Root';
 import type { CaretPosition } from '../edit/Caret';
-import type { Basis } from '../basis/Basis';
+import { Basis } from '../basis/Basis';
 import type createDefaultShares from '../runtime/createDefaultShares';
 import FunctionType from '../nodes/FunctionType';
+import type Locale from '../locale/Locale';
 
 export type SerializedSource = {
     names: string;
@@ -32,6 +33,7 @@ export type SerializedProject = {
     id: string;
     name: string;
     sources: SerializedSource[];
+    languages: [LanguageCode, ...LanguageCode[]];
     uids: string[];
     listed: boolean;
 };
@@ -91,6 +93,9 @@ export default class Project {
     /** Default shares */
     readonly shares: ReturnType<typeof createDefaultShares>;
 
+    /** The locales on which this project relies */
+    readonly locales: Locale[];
+
     /** The localized basis bindings */
     readonly basis: Basis;
 
@@ -109,7 +114,7 @@ export default class Project {
         name: string,
         main: Source,
         supplements: Source[],
-        basis: Basis,
+        locales: Locale | Locale[],
         carets: SerializedCarets | undefined = undefined,
         uids: string[] = [],
         listed: boolean = true
@@ -123,10 +128,14 @@ export default class Project {
         this.main = main;
         this.supplements = supplements.slice();
 
-        this.basis = basis;
+        // Remember the locale dependencies
+        this.locales = Array.isArray(locales) ? locales : [locales];
+
+        // Get a Basis for the requested locales.
+        this.basis = Basis.getLocalizedBasis(this.locales);
 
         // Initialize default shares
-        this.shares = basis.shares;
+        this.shares = this.basis.shares;
 
         // Remember the carets
         this.carets =
@@ -139,7 +148,7 @@ export default class Project {
         // Initialize roots for all definitions that can be referenced.
         this.roots = [
             ...this.getSources().map((source) => source.root),
-            ...basis.roots,
+            ...this.basis.roots,
             ...this.shares.all.map((share) => new Root(share)),
         ];
     }
@@ -150,7 +159,7 @@ export default class Project {
             this.name,
             this.main,
             this.supplements,
-            this.basis,
+            this.locales,
             this.carets,
             this.uids,
             this.listed
@@ -469,7 +478,7 @@ export default class Project {
             this.name,
             this.main,
             this.supplements,
-            this.basis,
+            this.locales,
             this.carets,
             this.uids,
             this.listed
@@ -482,7 +491,7 @@ export default class Project {
             name,
             this.main,
             this.supplements,
-            this.basis,
+            this.locales,
             this.carets,
             this.uids,
             this.listed
@@ -493,13 +502,27 @@ export default class Project {
         return this.withSources([[oldSource, newSource]]);
     }
 
+    /** Copies this project, but with the new locale added if it's not already included. */
+    withLocales(locales: Locale[]) {
+        return new Project(
+            this.id,
+            this.name,
+            this.main,
+            this.supplements,
+            Array.from(new Set([...this.locales, ...locales])),
+            this.carets,
+            this.uids,
+            this.listed
+        );
+    }
+
     withCaret(source: Source, caret: CaretPosition) {
         return new Project(
             this.id,
             this.name,
             this.main,
             this.supplements,
-            this.basis,
+            this.locales,
             this.carets.map((c) =>
                 c.source === source
                     ? {
@@ -522,7 +545,7 @@ export default class Project {
             this.name,
             this.main,
             this.supplements.filter((s) => s !== source),
-            this.basis,
+            this.locales,
             this.carets.filter((c) => c.source !== source),
             this.uids,
             this.listed
@@ -547,7 +570,7 @@ export default class Project {
             this.name,
             newMain,
             newSupplements,
-            this.basis,
+            this.locales,
             this.carets.map((caret) => {
                 // See if the caret's source was replaced.
                 const replacement = replacements.find(
@@ -618,7 +641,7 @@ export default class Project {
             this.name,
             this.main,
             [...this.supplements, newSource],
-            this.basis,
+            this.locales,
             [...this.carets, { source: newSource, caret: 0 }],
             this.uids
         );
@@ -632,7 +655,7 @@ export default class Project {
                   this.name,
                   this.main,
                   this.supplements,
-                  this.basis,
+                  this.locales,
                   this.carets,
                   [...this.uids, uid],
                   this.listed
@@ -709,25 +732,6 @@ export default class Project {
         return new Source(parseNames(toTokens(source.names)), source.code);
     }
 
-    static fromObject(project: SerializedProject, basis: Basis) {
-        const sources = project.sources.map((source) =>
-            Project.sourceToSource(source)
-        );
-
-        return new Project(
-            project.id,
-            project.name,
-            sources[0],
-            sources.slice(1),
-            basis,
-            project.sources.map((s, index) => {
-                return { source: sources[index], caret: s.caret };
-            }),
-            project.uids,
-            project.listed
-        );
-    }
-
     toObject(): SerializedProject {
         return {
             id: this.id,
@@ -741,6 +745,10 @@ export default class Project {
                         0,
                 };
             }),
+            languages: this.locales.map((l) => l.language) as [
+                LanguageCode,
+                ...LanguageCode[]
+            ],
             uids: this.uids,
             listed: this.listed,
         };

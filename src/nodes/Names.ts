@@ -81,6 +81,12 @@ export default class Names extends Node {
         return [];
     }
 
+    getLanguages() {
+        return this.names
+            .map((name) => name.getLanguage())
+            .filter((lang): lang is LanguageCode => lang !== undefined);
+    }
+
     hasLanguage() {
         return this.names.some((name) => name.hasLanguage());
     }

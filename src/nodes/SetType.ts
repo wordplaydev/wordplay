@@ -91,7 +91,7 @@ export default class SetType extends BasisType {
     }
 
     resolveTypeVariable(name: string, context: Context): Type | undefined {
-        const setDef = context.basis.getSimpleDefinition('set');
+        const setDef = context.getBasis().getSimpleDefinition('set');
         return setDef.types !== undefined &&
             setDef.types.hasVariableNamed(name) &&
             this.key instanceof Type

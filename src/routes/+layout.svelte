@@ -51,7 +51,7 @@
         dark.set(isDarkSet());
 
         /** Load whatever is stored in local storage */
-        $config.loadLocal();
+        $config.loadLocalData();
 
         // Have the Creator cleanup database connections.
         return () => {

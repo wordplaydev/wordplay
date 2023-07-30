@@ -10,7 +10,9 @@ export default abstract class BasisType extends Type {
 
     /** Override the base class: basis type scopes are their basis structure definitions. */
     getScope(context: Context): Node | undefined {
-        return context.basis.getStructureDefinition(this.getBasisTypeName());
+        return context
+            .getBasis()
+            .getStructureDefinition(this.getBasisTypeName());
     }
 
     /**
@@ -18,7 +20,8 @@ export default abstract class BasisType extends Type {
      */
     getDefinitions(_: Node, context: Context): Definition[] {
         return (
-            context.basis
+            context
+                .getBasis()
                 .getStructureDefinition(this.getBasisTypeName())
                 ?.getDefinitions(this) ?? []
         );

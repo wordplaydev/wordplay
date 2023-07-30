@@ -123,7 +123,7 @@ export default class MapType extends BasisType {
     }
 
     resolveTypeVariable(name: string, context: Context): Type | undefined {
-        const mapDef = context.basis.getSimpleDefinition('map');
+        const mapDef = context.getBasis().getSimpleDefinition('map');
         return mapDef.types !== undefined &&
             mapDef.types.variables[0].hasName(name) &&
             this.key instanceof Type

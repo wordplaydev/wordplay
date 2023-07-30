@@ -73,25 +73,22 @@ export default abstract class Type extends Node {
         input: Type,
         output: Type
     ): ConversionDefinition | undefined {
-        return context.basis.getConversion(
-            this.getBasisTypeName(),
-            context,
-            input,
-            output
-        );
+        return context
+            .getBasis()
+            .getConversion(this.getBasisTypeName(), context, input, output);
     }
 
     getAllConversions(context: Context) {
-        return context.basis === undefined
+        return context.getBasis() === undefined
             ? []
-            : context.basis.getAllConversions();
+            : context.getBasis().getAllConversions();
     }
 
     getFunction(
         context: Context,
         name: string
     ): FunctionDefinition | undefined {
-        return context.basis.getFunction(this.getBasisTypeName(), name);
+        return context.getBasis().getFunction(this.getBasisTypeName(), name);
     }
 
     resolveTypeVariable(_: string, __: Context): Type | undefined {

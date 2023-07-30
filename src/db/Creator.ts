@@ -24,7 +24,7 @@ import SupportedLanguages from '../locale/SupportedLanguages';
 import Progress from '../tutorial/Progress';
 import Arrangement from './Arrangement';
 import type { Tutorial } from '../tutorial/Tutorial';
-import { bootstrap, Basis } from '../basis/Basis';
+import { Basis } from '../basis/Basis';
 import en from '../locale/en.json';
 import Layout from '../components/project/Layout';
 
@@ -69,7 +69,7 @@ type CreatorConfig = {
     layouts: Record<string, LayoutObject>;
     arrangement: Arrangement;
     animationFactor: number;
-    languages: LanguageCode[];
+    languages: [LanguageCode, ...LanguageCode[]];
     writingLayout: WritingLayout;
     tutorial: TutorialProgress;
 };
@@ -113,11 +113,11 @@ export class Creator {
         tutorial: TutorialDefault,
     };
 
-    /** The locales loaded */
-    private locales: Record<LanguageCode, Locale> = {};
-
-    /** The basis bindings, localized with the currently selected locales */
-    private basis: Basis;
+    /** The locales loaded. Undefined if the language code doesn't exist. */
+    private locales: Record<
+        LanguageCode,
+        Locale | Promise<Locale | undefined> | undefined
+    > = {};
 
     /** The current list of projects. */
     private projects: Map<
@@ -155,42 +155,69 @@ export class Creator {
         // Store the default locale
         this.locales[defaultLocale.language] = defaultLocale;
 
-        // Generate a basis binding based on it
-        this.basis = bootstrap([defaultLocale]);
-
-        // Fetch any unloaded locales
-        this.loadLocales(this.getLanguages());
+        this.loadLocalData();
     }
 
     async refreshLocales() {
         this.loadLocales(SupportedLanguages, true);
     }
 
-    async loadLocales(languages: LanguageCode[], refresh: boolean = false) {
+    async loadLocales(
+        languages: LanguageCode[],
+        refresh: boolean = false
+    ): Promise<Locale[]> {
         // Asynchronously load all unloaded
-        try {
+        const locales = (
             await Promise.all(
-                languages.map(async (lang) => {
-                    // If we don't already have it, load it.
-                    if (
-                        lang !== 'en' &&
-                        (refresh || !Object.hasOwn(this.locales, lang))
-                    ) {
-                        const raw = await fetch(
-                            `/locales/${lang}/${lang}.json`
-                        );
-                        const json = await raw.json();
-                        this.locales[lang] = json as Locale;
-                    }
-                })
-            );
+                languages.map(async (lang) => this.loadLocale(lang, refresh))
+            )
+        ).filter((locale): locale is Locale => locale !== undefined);
 
-            // Update the basis bindings to include all locales
-            this.rebootstrap();
+        // Notify config listeners.
+        this.configStore.set(this);
+        return locales;
+    }
 
-            // Notify config listeners.
-            this.configStore.set(this);
-        } catch (_) {}
+    async loadLocale(
+        lang: LanguageCode,
+        refresh: boolean
+    ): Promise<Locale | undefined> {
+        if (lang === 'en') return en as Locale;
+
+        // Already checked and it doesn't exist? Just return undefined.
+        if (
+            !refresh &&
+            Object.hasOwn(this.locales, lang) &&
+            this.locales[lang] === undefined
+        )
+            return undefined;
+
+        const current = this.locales[lang];
+
+        // Are we in the middle of getting it? Return the promise we already made.
+        if (current instanceof Promise) {
+            return current;
+        }
+        // If we don't already have it, make a promise to load it.
+        else if (current === undefined || refresh) {
+            try {
+                const path = `/locales/${lang}/${lang}.json`;
+                const promise =
+                    // First, see if the locale exists
+                    fetch(path)
+                        .then(async (response) =>
+                            response.ok ? await response.json() : undefined
+                        )
+                        .catch(() => undefined);
+                this.locales[lang] = promise;
+                const locale = await promise;
+                this.locales[lang] = locale;
+                return locale;
+            } catch (_) {
+                this.locales[lang] = undefined;
+                return undefined;
+            }
+        } else return current;
     }
 
     getProjectLayout(id: string) {
@@ -242,7 +269,7 @@ export class Creator {
         return this.saveConfig(ANIMATION_FACTOR_KEY, factor);
     }
 
-    getLanguages() {
+    getLanguages(): [string, ...string[]] {
         return this.config.languages;
     }
 
@@ -257,7 +284,7 @@ export class Creator {
         const locales = this.getLanguages()
             .filter((lang) => SupportedLanguages.includes(lang))
             .map((lang) => this.locales[lang])
-            .filter((locale) => locale !== undefined);
+            .filter((locale): locale is Locale => locale !== undefined);
         return locales.length === 0 ? [this.defaultLocale] : locales;
     }
 
@@ -265,29 +292,28 @@ export class Creator {
         return this.getLocales()[0];
     }
 
-    getBasis(): Basis {
-        return this.basis;
+    getLocaleBasis(): Basis {
+        return Basis.getLocalizedBasis(this.getLocales());
     }
 
-    async setLanguages(languages: LanguageCode[]) {
-        // Try to load locales for the requested languages
-        await this.loadLocales(languages);
-
+    /** Set the languages, load all locales if they aren't loaded, revise all projects to include any new locales, and save the new configuration. */
+    async setLanguages(languages: [LanguageCode, ...LanguageCode[]]) {
         // Update the configuration with the new languages, regardless of whether we successfully loaded them.
         this.config.languages = languages;
         this.saveConfig(LANGUAGES_KEY, languages);
 
-        this.rebootstrap();
-    }
+        // Try to load locales for the requested languages
+        const locales = await this.loadLocales(languages);
 
-    rebootstrap() {
-        // Update the basis bindings
-        const bootstrapLocales = this.getLocales();
-        this.basis = bootstrap(
-            bootstrapLocales.includes(this.defaultLocale)
-                ? bootstrapLocales
-                : [en as Locale, ...bootstrapLocales]
-        );
+        // Revise all projects to have the new locale
+        for (const [, project] of this.projects) {
+            project.current = project.current.withLocales(locales);
+            project.history = project.history.map((proj) =>
+                proj.withLocales(locales)
+            ) as [Project, ...Project[]];
+        }
+
+        this.projectsStore.set(this);
     }
 
     getWritingDirection() {
@@ -356,11 +382,10 @@ export class Creator {
                     doc(firestore, 'projects', projectID)
                 );
                 if (projectDoc.exists()) {
-                    const project = Project.fromObject(
-                        projectDoc.data() as SerializedProject,
-                        this.basis
+                    const project = await this.deserializeProject(
+                        projectDoc.data() as SerializedProject
                     );
-                    this.addProject(project);
+                    if (project !== undefined) this.addProject(project);
                     return project;
                 }
             } catch (err) {
@@ -370,13 +395,18 @@ export class Creator {
     }
 
     /** Create a project and return it's ID */
-    createProject(locale: Locale, uid: string | undefined, code: string = '') {
+    createProject(
+        locales: Locale[],
+        uid: string | undefined,
+        code: string = ''
+    ) {
         const newProject = new Project(
             null,
             '',
-            new Source(locale.term.start, code),
+            new Source(locales[0].term.start, code),
             [],
-            this.basis,
+            // The project starts with all of the locales currently selected in the config.
+            locales,
             undefined,
             uid ? [uid] : []
         );
@@ -429,35 +459,38 @@ export class Creator {
         const id = project instanceof Project ? project.id : project;
 
         // Get the info for the project. Bail if we don't find it, since this should never happen.
-        const info = this.projects.get(id);
+        const serialized = this.projects.get(id);
 
         // Couldn't find it? Add it.
-        if (info === undefined) {
+        if (serialized === undefined) {
             this.addProject(revised);
             return;
         }
 
         // Is the undo pointer before the end? Trim the future, keeping the present intact.
-        info.history.splice(
-            info.index + 1,
-            info.history.length - info.index - 1
+        serialized.history.splice(
+            serialized.index + 1,
+            serialized.history.length - serialized.index - 1
         );
 
         // Is the length of the history great than the limit? Trim it.
-        if (info.history.length > PROJECT_HISTORY_LIMIT)
-            info.history.splice(0, PROJECT_HISTORY_LIMIT - info.history.length);
+        if (serialized.history.length > PROJECT_HISTORY_LIMIT)
+            serialized.history.splice(
+                0,
+                PROJECT_HISTORY_LIMIT - serialized.history.length
+            );
 
         // Add the revised project to the history.
-        info.history.push(revised);
+        serialized.history.push(revised);
 
         // Reset the pointer to the end of the history
-        info.index = info.history.length - 1;
+        serialized.index = serialized.history.length - 1;
 
         // Set the current project to the revised project.
-        info.current = revised;
+        serialized.current = revised;
 
         // Mark unsaved
-        info.saved = false;
+        serialized.saved = false;
 
         // Request a save to persist the current version.
         this.requestProjectsSave();
@@ -610,12 +643,9 @@ export class Creator {
     }
 
     /** Load from local browser storage */
-    loadLocal() {
-        const data = getLocalValue<SerializedProject[]>(PROJECTS_KEY);
-        if (data)
-            this.setProjects(
-                data.map((project) => Project.fromObject(project, this.basis))
-            );
+    loadLocalData() {
+        const projects = getLocalValue<SerializedProject[]>(PROJECTS_KEY);
+        if (projects) this.updateProjects(projects);
 
         this.config.arrangement =
             (getLocalValue<string>(ARRANGEMENT_KEY) as Arrangement) ??
@@ -632,9 +662,11 @@ export class Creator {
                 ? 1
                 : Math.min(4, Math.max(0, persisted));
 
-        this.config.languages = getLocalValue<string[]>(LANGUAGES_KEY) ?? [
-            'en',
-        ];
+        const languages = getLocalValue<string[]>(LANGUAGES_KEY);
+        this.config.languages =
+            languages === null || languages.length === 0
+                ? ['en']
+                : (languages as [LanguageCode, ...LanguageCode[]]);
 
         this.loadLocales(this.config.languages);
 
@@ -643,6 +675,50 @@ export class Creator {
 
         this.config.tutorial =
             getLocalValue<TutorialProgress>(TUTORIAL_KEY) ?? TutorialDefault;
+    }
+
+    async updateProjects(serializedProjects: SerializedProject[]) {
+        // Load all of the projects and their locale dependencies.
+        const projects = await Promise.all(
+            serializedProjects.map((project) =>
+                this.deserializeProject(project)
+            )
+        );
+
+        // Set the projects that were able to be loaded.
+        this.setProjects(
+            projects.filter(
+                (project): project is Project => project !== undefined
+            )
+        );
+    }
+
+    async deserializeProject(
+        project: SerializedProject
+    ): Promise<Project | undefined> {
+        const sources = project.sources.map((source) =>
+            Project.sourceToSource(source)
+        );
+
+        // Get all of the locales on which the project depends.
+        const dependentLocales = await this.loadLocales(project.languages);
+
+        const locales = Array.from(
+            new Set([...dependentLocales, ...this.getLocales()])
+        );
+
+        return new Project(
+            project.id,
+            project.name,
+            sources[0],
+            sources.slice(1),
+            locales,
+            project.sources.map((s, index) => {
+                return { source: sources[index], caret: s.caret };
+            }),
+            project.uids,
+            project.listed
+        );
     }
 
     /** Start listening tothe Firebase Auth user changes */
@@ -669,7 +745,7 @@ export class Creator {
         // Save whatever's in local storage.
         this.saveProjects();
 
-        // Any time the user projects changes, update projects.
+        // Any time the user projects changes in the database, update projects.
         this.projectsQueryUnsubscribe =
             uid === null
                 ? undefined
@@ -685,12 +761,7 @@ export class Creator {
                                   project.data() as SerializedProject
                               );
                           });
-                          this.setProjects(
-                              projects.map((project) =>
-                                  Project.fromObject(project, this.basis)
-                              ),
-                              false
-                          );
+                          this.updateProjects(projects);
                       },
                       (error) => {
                           if (error instanceof FirebaseError) {
@@ -730,6 +801,7 @@ export class Creator {
 }
 
 const db = new Creator(en as Locale);
+export const DefaultLocale = en as Locale;
 export const config = db.getConfigStore();
 export const projects = db.getProjectsStore();
 export const status = db.getSaveStatusStore();

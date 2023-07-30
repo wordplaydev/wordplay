@@ -13,7 +13,7 @@
 
     function newProject() {
         const newProjectID = $config.createProject(
-            $config.getLocale(),
+            $config.getLocales(),
             $user ? $user.uid : undefined,
             "Phrase('🐈' rest: Sequence(sway() 1s))"
         );
@@ -48,7 +48,12 @@
 </Button>
 
 <Lead>{$config.getLocale().ui.header.examples}</Lead>
-<ProjectSet
-    set={examples.map((example) => makeProject(example, $config.getBasis()))}
-    previewAction={(project) => copyProject(project)}
-/>
+{#await Promise.all(examples.map((example) => makeProject(example)))}
+    …
+{:then projects}<ProjectSet
+        set={projects}
+        previewAction={(project) => copyProject(project)}
+    />
+{:catch}
+    :(
+{/await}

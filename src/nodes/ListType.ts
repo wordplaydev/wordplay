@@ -94,7 +94,7 @@ export default class ListType extends BasisType {
     }
 
     resolveTypeVariable(name: string, context: Context): Type | undefined {
-        const listDef = context.basis.getSimpleDefinition('list');
+        const listDef = context.getBasis().getSimpleDefinition('list');
         return listDef.types !== undefined &&
             listDef.types.hasVariableNamed(name)
             ? this.type

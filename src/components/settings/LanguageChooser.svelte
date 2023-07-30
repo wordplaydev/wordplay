@@ -22,11 +22,11 @@
         languages = languages.includes(language)
             ? languages.length === 1
                 ? languages
-                : [
+                : ([
                       // Remove
                       ...languages.slice(0, languages.indexOf(language)),
                       ...languages.slice(languages.indexOf(language) + 1),
-                  ]
+                  ] as [LanguageCode, ...LanguageCode[]])
             : [...languages, language];
 
         // Set the layout and direction based on the preferred language.

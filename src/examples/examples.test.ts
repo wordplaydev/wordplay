@@ -5,8 +5,8 @@ import { getDefaultBasis } from '../basis/Basis';
 const basis = getDefaultBasis();
 const locale = basis.locales[0];
 
-test.each(examples)(`Ensure $name has no conflicts`, (example: Stuff) => {
-    const project = makeProject(example, basis);
+test.each(examples)(`Ensure $name has no conflicts`, async (example: Stuff) => {
+    const project = await makeProject(example);
     project.analyze();
     project.getAnalysis();
     const context = project.getContext(project.main);

@@ -76,9 +76,11 @@ export default class PropertyReference extends Expression {
                 selectionType instanceof StructureDefinitionType
                     ? selectionType.structure
                     : selectionType instanceof BasisType
-                    ? context.basis.getStructureDefinition(
-                          selectionType.getBasisTypeName()
-                      )
+                    ? context
+                          .getBasis()
+                          .getStructureDefinition(
+                              selectionType.getBasisTypeName()
+                          )
                     : undefined;
             // Is the type a structure? Suggest reference to it's properties.
             if (definition) {

@@ -24,13 +24,19 @@ import type Expression from '@nodes/Expression';
 import Root from '../nodes/Root';
 import type Locale from '../locale/Locale';
 import createDefaultShares from '../runtime/createDefaultShares';
-import locale from '../locale/en.json';
+import en from '../locale/en.json';
 import type LanguageCode from '../locale/LanguageCode';
 
 export class Basis {
     readonly locales: Locale[];
     readonly languages: LanguageCode[];
     readonly shares: ReturnType<typeof createDefaultShares>;
+
+    /**
+     * A global collection of Basis for every combination of language codes.
+     * The key in this case is the join of a sequence of LanguageCode.
+     */
+    static readonly Bases: Map<string, Basis> = new Map();
 
     constructor(locales: Locale[]) {
         this.locales = locales;
@@ -45,6 +51,15 @@ export class Basis {
         this.addStructure('map', bootstrapMap(locales));
 
         this.shares = createDefaultShares(locales);
+    }
+
+    static getLocalizedBasis(locales: Locale | Locale[]) {
+        locales = Array.isArray(locales) ? locales : [locales];
+        const languages = locales.map((locale) => locale.language);
+        const key = languages.join(',');
+        const basis = Basis.Bases.get(key) ?? new Basis(locales);
+        Basis.Bases.set(key, basis);
+        return basis;
     }
 
     readonly functionsByType: Record<
@@ -186,11 +201,7 @@ export function createBasisConversion<ValueType extends Value>(
     );
 }
 
-export function bootstrap(locales: Locale[]) {
-    return new Basis(locales);
-}
-
 /** Use for tests to get the default (English) locale. */
 export function getDefaultBasis() {
-    return bootstrap([locale as Locale]);
+    return Basis.getLocalizedBasis(en as Locale);
 }

@@ -33,7 +33,8 @@ export default class HOFListFind extends HOF {
 
     computeType(context: Context): Type {
         return ListType.make(
-            context.basis
+            context
+                .getBasis()
                 .getSimpleDefinition('list')
                 .getTypeVariableReference(0)
         );

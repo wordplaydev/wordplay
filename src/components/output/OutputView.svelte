@@ -310,7 +310,7 @@
                     : // If there's selected output, it's the first output selected
                     $selectedOutput && $selectedOutput.length > 0
                     ? getPlace(
-                          $config.getBasis(),
+                          $config.getLocale(),
                           $selectedOutput[0],
                           evaluator.project.getNodeContext($selectedOutput[0])
                       )

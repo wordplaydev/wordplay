@@ -4,14 +4,12 @@ import Project from '@models/Project';
 import Source from '@nodes/Source';
 import { getEditsAt } from './Autocomplete';
 import type Node from '@nodes/Node';
-import { getDefaultBasis } from '@basis/Basis';
 import Assign from './Assign';
 import Replace from './Replace';
 import NumberLiteral from '../nodes/NumberLiteral';
 import Append from './Append';
 import Reference from '../nodes/Reference';
-
-const basis = getDefaultBasis();
+import { DefaultLocale } from '../db/Creator';
 
 test.each([
     ['blank program suggestions', '**', undefined, Append, '0'],
@@ -106,7 +104,7 @@ test.each([
                 code.substring(insertionPoint + 2);
 
         const source = new Source('test', code);
-        const project = new Project(null, 'test', source, [], basis);
+        const project = new Project(null, 'test', source, [], DefaultLocale);
         let resolvedPosition =
             position === undefined
                 ? insertionPoint

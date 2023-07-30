@@ -18,8 +18,11 @@ export function getPossibleUnits(context: Context) {
             []
         );
 
-    const unitsInShares = context.basis.shares.all
-        .map((def) => def.nodes().filter((d): d is Unit => d instanceof Unit))
+    const unitsInShares = context
+        .getBasis()
+        .shares.all.map((def) =>
+            def.nodes().filter((d): d is Unit => d instanceof Unit)
+        )
         .flat();
 
     // Return unique units

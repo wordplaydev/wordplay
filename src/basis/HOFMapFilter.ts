@@ -34,10 +34,14 @@ export default class HOFMapFilter extends HOF {
 
     computeType(context: Context): Type {
         return MapType.make(
-            context.basis
+            context
+                .getBasis()
                 .getSimpleDefinition('map')
                 .getTypeVariableReference(0),
-            context.basis.getSimpleDefinition('map').getTypeVariableReference(1)
+            context
+                .getBasis()
+                .getSimpleDefinition('map')
+                .getTypeVariableReference(1)
         );
     }
 

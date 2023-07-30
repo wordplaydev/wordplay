@@ -7,12 +7,13 @@ import UnparsableType from '@nodes/UnparsableType';
 import UnparsableExpression from '@nodes/UnparsableExpression';
 import Project from '../models/Project';
 import Example from '../nodes/Example';
-import { getDefaultBasis } from './Basis';
+import { DefaultLocale } from '../db/Creator';
+import { Basis } from './Basis';
 
-const basis = getDefaultBasis();
+const basis = Basis.getLocalizedBasis(DefaultLocale);
 
 const source = new Source('basis', '');
-const project = new Project(null, 'test', source, [], basis);
+const project = new Project(null, 'test', source, [], DefaultLocale);
 const context = new Context(project, source);
 
 function checkBasisNodes(nodes: Node[]) {

@@ -31,6 +31,7 @@ import Random from '../input/Random';
 import TemporalStream from './TemporalStream';
 import StartFinish from './StartFinish';
 import type { Basis } from '../basis/Basis';
+import type Locale from '../locale/Locale';
 
 /** Anything that wants to listen to changes in the state of this evaluator */
 export type EvaluationObserver = () => void;
@@ -214,7 +215,7 @@ export default class Evaluator {
      * This is primarily used for testing.
      */
     static evaluateCode(
-        basis: Basis,
+        locale: Locale,
         main: string,
         supplements?: string[]
     ): Value | undefined {
@@ -226,7 +227,7 @@ export default class Evaluator {
             (supplements ?? []).map(
                 (code, index) => new Source(`sup${index + 1}`, code)
             ),
-            basis
+            locale
         );
         return new Evaluator(project).getInitialValue();
     }

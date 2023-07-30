@@ -5,9 +5,7 @@ import BinaryEvaluate from './BinaryEvaluate';
 import { FALSE_SYMBOL } from '@parser/Symbols';
 import { OR_SYMBOL } from '@parser/Symbols';
 import IncompatibleInput from '@conflicts/IncompatibleInput';
-import { getDefaultBasis } from '../basis/Basis';
-
-const basis = getDefaultBasis();
+import { DefaultLocale } from '../db/Creator';
 
 test.each([
     ['1 · 5', '1 · ""', BinaryEvaluate, IncompatibleInput],
@@ -42,5 +40,5 @@ test.each([
     ['⊤ & ~⊤', '⊥'],
     ['~(⊤ & ⊤)', '⊥'],
 ])('Expect %s to be %s', (code, value) => {
-    expect(Evaluator.evaluateCode(basis, code)?.toString()).toBe(value);
+    expect(Evaluator.evaluateCode(DefaultLocale, code)?.toString()).toBe(value);
 });

@@ -332,8 +332,6 @@ function verifyTutorial(locale: Locale, tutorial: Tutorial) {
         })
         .flat();
 
-    const basis = new Basis([locale]);
-
     for (let { kind, list } of programs) {
         let code: string | undefined = undefined;
         let conflictsIntentional = false;
@@ -359,22 +357,11 @@ function verifyTutorial(locale: Locale, tutorial: Tutorial) {
                 'test',
                 new Source('start', code),
                 [],
-                basis
+                locale
             );
             project.analyze();
             project.getAnalysis();
-            // const context = project.getContext(project.main);
-            // for (const conflict of Array.from(
-            //     project.getPrimaryConflicts().values()
-            // ).flat()) {
-            //     const conflictingNodes = conflict.getConflictingNodes();
-            //     console.error(
-            //         conflictingNodes.primary.explanation(
-            //             SupportedLocales[0],
-            //             context
-            //         )
-            //     );
-            // }
+
             if (
                 !conflictsIntentional &&
                 project.getPrimaryConflicts().size > 0

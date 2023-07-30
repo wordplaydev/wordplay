@@ -224,7 +224,7 @@ export function getNodeConcepts(context: Context): NodeConcept[] {
     return templates.map((node) => {
         const typeName = node.getAffiliatedType();
         const type = typeName
-            ? context.basis.getStructureDefinition(typeName)
+            ? context.getBasis().getStructureDefinition(typeName)
             : undefined;
         return new NodeConcept(node.getPurpose(), type, node, context);
     });

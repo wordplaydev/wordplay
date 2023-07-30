@@ -1,8 +1,6 @@
 import { test, expect } from 'vitest';
 import Evaluator from '@runtime/Evaluator';
-import { getDefaultBasis } from './Basis';
-
-const basis = getDefaultBasis();
+import { DefaultLocale } from '../db/Creator';
 
 test.each([
     ['[1 2 3].add(4)', '[1 2 3 4]'],
@@ -29,5 +27,5 @@ test.each([
     ['[1 2 3 4 5].subsequence(5 2)', '[5 4 3 2]'],
     ['[1 2 3 4 5].subsequence(-3 1)', '[1]'],
 ])('Expect %s to be %s', (code, value) => {
-    expect(Evaluator.evaluateCode(basis, code)?.toString()).toBe(value);
+    expect(Evaluator.evaluateCode(DefaultLocale, code)?.toString()).toBe(value);
 });
