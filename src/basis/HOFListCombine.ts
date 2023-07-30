@@ -33,8 +33,8 @@ export default class HOFListCombine extends HOF {
 
     computeType(context: Context): Type {
         return ListType.make(
-            context.native
-                .getPrimitiveDefinition('list')
+            context.basis
+                .getSimpleDefinition('list')
                 .getTypeVariableReference(0)
         );
     }

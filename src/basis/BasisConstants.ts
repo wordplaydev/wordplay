@@ -1,4 +1,4 @@
-export type NativeTypeName =
+export type BasisTypeName =
     | 'unparsable'
     | 'unknown'
     | 'any'

@@ -12,7 +12,7 @@ import Bind from '@nodes/Bind';
 import BindConcept from './BindConcept';
 import StreamConcept from './StreamConcept';
 import {
-    getNativeConcepts,
+    getBasisConcepts,
     getNodeConcepts,
     getOutputConcepts,
 } from './DefaultConcepts';
@@ -132,8 +132,8 @@ export default class ConceptIndex {
 
         const constructs = getNodeConcepts(project.getContext(project.main));
 
-        const native = getNativeConcepts(
-            project.native,
+        const basis = getBasisConcepts(
+            project.basis,
             languages,
             project.getContext(project.main)
         );
@@ -146,7 +146,7 @@ export default class ConceptIndex {
         return new ConceptIndex(
             project,
             [
-                ...native,
+                ...basis,
                 ...projectStructures,
                 ...projectFunctions,
                 ...projectBinds,

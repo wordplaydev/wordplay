@@ -1,11 +1,11 @@
-import type { NativeTypeName } from '../native/NativeConstants';
+import type { BasisTypeName } from '../basis/BasisConstants';
 import { MEASUREMENT_SYMBOL as NUMBER_SYMBOL } from '@parser/Symbols';
 import type Context from './Context';
 import Token from './Token';
 import Symbol from './Symbol';
 import Unit from './Unit';
 import BinaryEvaluate from './BinaryEvaluate';
-import NativeType from './NativeType';
+import BasisType from './BasisType';
 import UnaryEvaluate from './UnaryEvaluate';
 import NumberLiteral from './NumberLiteral';
 import Number from '@runtime/Number';
@@ -23,7 +23,7 @@ type UnitDeriver = (
     constant: number | undefined
 ) => Unit;
 
-export default class NumberType extends NativeType {
+export default class NumberType extends BasisType {
     readonly number: Token;
     readonly unit: Unit | UnitDeriver;
 
@@ -201,7 +201,7 @@ export default class NumberType extends NativeType {
 
     computeConflicts() {}
 
-    getNativeTypeName(): NativeTypeName {
+    getBasisTypeName(): BasisTypeName {
         return 'measurement';
     }
 

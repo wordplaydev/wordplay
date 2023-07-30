@@ -2,7 +2,7 @@ import type Context from '@nodes/Context';
 import type Type from '@nodes/Type';
 import type Evaluator from './Evaluator';
 import type LanguageCode from '@locale/LanguageCode';
-import type { NativeTypeName } from '../native/NativeConstants';
+import type { BasisTypeName } from '../basis/BasisConstants';
 import type Locale from '@locale/Locale';
 import type Expression from '../nodes/Expression';
 import type Markup from '../nodes/Markup';
@@ -28,7 +28,7 @@ export default abstract class Value {
     /** Returns the Structure defining this value's interface. */
     abstract getType(context: Context): Type;
 
-    abstract getNativeTypeName(): NativeTypeName;
+    abstract getBasisTypeName(): BasisTypeName;
 
     /** Returns the value with the given name in the structure. */
     abstract resolve(name: string, evaluator?: Evaluator): Value | undefined;

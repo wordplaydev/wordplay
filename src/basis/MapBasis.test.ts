@@ -1,8 +1,8 @@
 import { test, expect } from 'vitest';
 import Evaluator from '@runtime/Evaluator';
-import { getDefaultNative } from './Native';
+import { getDefaultBasis } from './Basis';
 
-const native = await getDefaultNative();
+const basis = getDefaultBasis();
 
 test.each([
     ['{1:"hi" 2:"bye"}.pair(3 "hello")', '{1:"hi" 2:"bye" 3:"hello"}'],
@@ -15,5 +15,5 @@ test.each([
         '{"cat":-1 "dog":-2 "mouse":-3}',
     ],
 ])('Expect %s to be %s map functions', (code, value) => {
-    expect(Evaluator.evaluateCode(native, code)?.toString()).toBe(value);
+    expect(Evaluator.evaluateCode(basis, code)?.toString()).toBe(value);
 });

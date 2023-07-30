@@ -3,7 +3,7 @@ import MapType from '@nodes/MapType';
 import UnionType from '@nodes/UnionType';
 import Number from './Number';
 import None from './None';
-import Primitive from './Primitive';
+import Simple from './Simple';
 import type Value from './Value';
 import type LanguageCode from '@locale/LanguageCode';
 import {
@@ -11,12 +11,12 @@ import {
     SET_CLOSE_SYMBOL,
     SET_OPEN_SYMBOL,
 } from '@parser/Symbols';
-import type { NativeTypeName } from '../native/NativeConstants';
+import type { BasisTypeName } from '../basis/BasisConstants';
 import type Locale from '@locale/Locale';
 import type Expression from '../nodes/Expression';
 import concretize from '../locale/concretize';
 
-export default class Map extends Primitive {
+export default class Map extends Simple {
     readonly values: [Value, Value][];
 
     constructor(creator: Expression, values: [Value, Value][]) {
@@ -108,7 +108,7 @@ export default class Map extends Primitive {
         );
     }
 
-    getNativeTypeName(): NativeTypeName {
+    getBasisTypeName(): BasisTypeName {
         return 'map';
     }
 

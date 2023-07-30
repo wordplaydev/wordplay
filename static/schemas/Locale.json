@@ -93,7 +93,7 @@
       ],
       "type": "object"
     },
-    "FunctionText<[def-alias-1127088073-1142-1212-1127088073-0-1827,def-alias-1127088073-1142-1212-1127088073-0-1827]>": {
+    "FunctionText<[def-alias-1127088073-1138-1208-1127088073-0-1823,def-alias-1127088073-1138-1208-1127088073-0-1823]>": {
       "additionalProperties": false,
       "properties": {
         "doc": {
@@ -118,7 +118,7 @@
       ],
       "type": "object"
     },
-    "FunctionText<[def-alias-1127088073-1142-1212-1127088073-0-1827]>": {
+    "FunctionText<[def-alias-1127088073-1138-1208-1127088073-0-1823]>": {
       "additionalProperties": false,
       "properties": {
         "doc": {
@@ -154,220 +154,7 @@
           "description": "A path to the generated JSON schema that mirrors this type, for validation and auto-complete",
           "type": "string"
         },
-        "input": {
-          "additionalProperties": false,
-          "properties": {
-            "Button": {
-              "additionalProperties": false,
-              "properties": {
-                "doc": {
-                  "$ref": "#/definitions/DocText"
-                },
-                "down": {
-                  "$ref": "#/definitions/NameAndDoc"
-                },
-                "names": {
-                  "$ref": "#/definitions/NameText"
-                }
-              },
-              "required": [
-                "doc",
-                "down",
-                "names"
-              ],
-              "type": "object"
-            },
-            "Camera": {
-              "additionalProperties": false,
-              "properties": {
-                "doc": {
-                  "$ref": "#/definitions/DocText"
-                },
-                "frequency": {
-                  "$ref": "#/definitions/NameAndDoc"
-                },
-                "height": {
-                  "$ref": "#/definitions/NameAndDoc"
-                },
-                "names": {
-                  "$ref": "#/definitions/NameText"
-                },
-                "width": {
-                  "$ref": "#/definitions/NameAndDoc"
-                }
-              },
-              "required": [
-                "doc",
-                "frequency",
-                "height",
-                "names",
-                "width"
-              ],
-              "type": "object"
-            },
-            "Choice": {
-              "$ref": "#/definitions/NameAndDoc"
-            },
-            "Key": {
-              "additionalProperties": false,
-              "properties": {
-                "doc": {
-                  "$ref": "#/definitions/DocText"
-                },
-                "down": {
-                  "$ref": "#/definitions/NameAndDoc"
-                },
-                "key": {
-                  "$ref": "#/definitions/NameAndDoc"
-                },
-                "names": {
-                  "$ref": "#/definitions/NameText"
-                }
-              },
-              "required": [
-                "doc",
-                "down",
-                "key",
-                "names"
-              ],
-              "type": "object"
-            },
-            "Mic": {
-              "additionalProperties": false,
-              "properties": {
-                "doc": {
-                  "$ref": "#/definitions/DocText"
-                },
-                "frequency": {
-                  "$ref": "#/definitions/NameAndDoc"
-                },
-                "names": {
-                  "$ref": "#/definitions/NameText"
-                }
-              },
-              "required": [
-                "doc",
-                "frequency",
-                "names"
-              ],
-              "type": "object"
-            },
-            "Motion": {
-              "additionalProperties": false,
-              "properties": {
-                "bounciness": {
-                  "$ref": "#/definitions/NameAndDoc"
-                },
-                "doc": {
-                  "$ref": "#/definitions/DocText"
-                },
-                "gravity": {
-                  "$ref": "#/definitions/NameAndDoc"
-                },
-                "mass": {
-                  "$ref": "#/definitions/NameAndDoc"
-                },
-                "names": {
-                  "$ref": "#/definitions/NameText"
-                },
-                "type": {
-                  "$ref": "#/definitions/NameAndDoc"
-                },
-                "vangle": {
-                  "$ref": "#/definitions/NameAndDoc"
-                },
-                "vx": {
-                  "$ref": "#/definitions/NameAndDoc"
-                },
-                "vy": {
-                  "$ref": "#/definitions/NameAndDoc"
-                },
-                "vz": {
-                  "$ref": "#/definitions/NameAndDoc"
-                }
-              },
-              "required": [
-                "bounciness",
-                "doc",
-                "gravity",
-                "mass",
-                "names",
-                "type",
-                "vangle",
-                "vx",
-                "vy",
-                "vz"
-              ],
-              "type": "object"
-            },
-            "Pointer": {
-              "$ref": "#/definitions/NameAndDoc"
-            },
-            "Random": {
-              "additionalProperties": false,
-              "properties": {
-                "doc": {
-                  "$ref": "#/definitions/DocText"
-                },
-                "max": {
-                  "$ref": "#/definitions/NameAndDoc"
-                },
-                "min": {
-                  "$ref": "#/definitions/NameAndDoc"
-                },
-                "names": {
-                  "$ref": "#/definitions/NameText"
-                }
-              },
-              "required": [
-                "doc",
-                "max",
-                "min",
-                "names"
-              ],
-              "type": "object"
-            },
-            "Time": {
-              "additionalProperties": false,
-              "properties": {
-                "doc": {
-                  "$ref": "#/definitions/DocText"
-                },
-                "frequency": {
-                  "$ref": "#/definitions/NameAndDoc"
-                },
-                "names": {
-                  "$ref": "#/definitions/NameText"
-                }
-              },
-              "required": [
-                "doc",
-                "frequency",
-                "names"
-              ],
-              "type": "object"
-            }
-          },
-          "required": [
-            "Random",
-            "Choice",
-            "Button",
-            "Pointer",
-            "Key",
-            "Time",
-            "Mic",
-            "Camera",
-            "Motion"
-          ],
-          "type": "object"
-        },
-        "language": {
-          "description": "An ISO 639-1 language code",
-          "type": [
-            "string"
-          ]
-        },
-        "native": {
+        "basis": {
           "additionalProperties": false,
           "properties": {
             "Boolean": {
@@ -392,19 +179,19 @@
                   "additionalProperties": false,
                   "properties": {
                     "and": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1142-1212-1127088073-0-1827%5D%3E"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1138-1208-1127088073-0-1823%5D%3E"
                     },
                     "equals": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1142-1212-1127088073-0-1827%5D%3E"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1138-1208-1127088073-0-1823%5D%3E"
                     },
                     "not": {
                       "$ref": "#/definitions/FunctionText%3C%5B%5D%3E"
                     },
                     "notequal": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1142-1212-1127088073-0-1827%5D%3E"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1138-1208-1127088073-0-1823%5D%3E"
                     },
                     "or": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1142-1212-1127088073-0-1827%5D%3E"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1138-1208-1127088073-0-1823%5D%3E"
                     }
                   },
                   "required": [
@@ -470,7 +257,7 @@
                   "additionalProperties": false,
                   "properties": {
                     "add": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1142-1212-1127088073-0-1827%5D%3E"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1138-1208-1127088073-0-1823%5D%3E"
                     },
                     "all": {
                       "additionalProperties": false,
@@ -502,7 +289,7 @@
                       "type": "object"
                     },
                     "append": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1142-1212-1127088073-0-1827%5D%3E"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1138-1208-1127088073-0-1823%5D%3E"
                     },
                     "combine": {
                       "additionalProperties": false,
@@ -542,7 +329,7 @@
                       "type": "object"
                     },
                     "equals": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1142-1212-1127088073-0-1827%5D%3E"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1138-1208-1127088073-0-1823%5D%3E"
                     },
                     "filter": {
                       "additionalProperties": false,
@@ -606,10 +393,10 @@
                       "$ref": "#/definitions/FunctionText%3C%5B%5D%3E"
                     },
                     "has": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1142-1212-1127088073-0-1827%5D%3E"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1138-1208-1127088073-0-1823%5D%3E"
                     },
                     "join": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1142-1212-1127088073-0-1827%5D%3E"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1138-1208-1127088073-0-1823%5D%3E"
                     },
                     "last": {
                       "$ref": "#/definitions/FunctionText%3C%5B%5D%3E"
@@ -618,22 +405,22 @@
                       "$ref": "#/definitions/FunctionText%3C%5B%5D%3E"
                     },
                     "notequals": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1142-1212-1127088073-0-1827%5D%3E"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1138-1208-1127088073-0-1823%5D%3E"
                     },
                     "random": {
                       "$ref": "#/definitions/FunctionText%3C%5B%5D%3E"
                     },
                     "replace": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1142-1212-1127088073-0-1827%2Cdef-alias-1127088073-1142-1212-1127088073-0-1827%5D%3E"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1138-1208-1127088073-0-1823%2Cdef-alias-1127088073-1138-1208-1127088073-0-1823%5D%3E"
                     },
                     "reverse": {
                       "$ref": "#/definitions/FunctionText%3C%5B%5D%3E"
                     },
                     "sans": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1142-1212-1127088073-0-1827%5D%3E"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1138-1208-1127088073-0-1823%5D%3E"
                     },
                     "sansAll": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1142-1212-1127088073-0-1827%5D%3E"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1138-1208-1127088073-0-1823%5D%3E"
                     },
                     "sansFirst": {
                       "$ref": "#/definitions/FunctionText%3C%5B%5D%3E"
@@ -642,7 +429,7 @@
                       "$ref": "#/definitions/FunctionText%3C%5B%5D%3E"
                     },
                     "subsequence": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1142-1212-1127088073-0-1827%2Cdef-alias-1127088073-1142-1212-1127088073-0-1827%5D%3E"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1138-1208-1127088073-0-1823%2Cdef-alias-1127088073-1138-1208-1127088073-0-1823%5D%3E"
                     },
                     "translate": {
                       "additionalProperties": false,
@@ -788,7 +575,7 @@
                   "additionalProperties": false,
                   "properties": {
                     "equals": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1142-1212-1127088073-0-1827%5D%3E"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1138-1208-1127088073-0-1823%5D%3E"
                     },
                     "filter": {
                       "additionalProperties": false,
@@ -824,13 +611,13 @@
                       "type": "object"
                     },
                     "notequals": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1142-1212-1127088073-0-1827%5D%3E"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1138-1208-1127088073-0-1823%5D%3E"
                     },
                     "remove": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1142-1212-1127088073-0-1827%5D%3E"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1138-1208-1127088073-0-1823%5D%3E"
                     },
                     "set": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1142-1212-1127088073-0-1827%2Cdef-alias-1127088073-1142-1212-1127088073-0-1827%5D%3E"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1138-1208-1127088073-0-1823%2Cdef-alias-1127088073-1138-1208-1127088073-0-1823%5D%3E"
                     },
                     "translate": {
                       "additionalProperties": false,
@@ -866,7 +653,7 @@
                       "type": "object"
                     },
                     "unset": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1142-1212-1127088073-0-1827%5D%3E"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1138-1208-1127088073-0-1823%5D%3E"
                     }
                   },
                   "required": [
@@ -926,10 +713,10 @@
                   "additionalProperties": false,
                   "properties": {
                     "equals": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1142-1212-1127088073-0-1827%5D%3E"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1138-1208-1127088073-0-1823%5D%3E"
                     },
                     "notequals": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1142-1212-1127088073-0-1827%5D%3E"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1138-1208-1127088073-0-1823%5D%3E"
                     }
                   },
                   "required": [
@@ -1160,46 +947,46 @@
                   "additionalProperties": false,
                   "properties": {
                     "add": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1142-1212-1127088073-0-1827%5D%3E"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1138-1208-1127088073-0-1823%5D%3E"
                     },
                     "cos": {
                       "$ref": "#/definitions/FunctionText%3C%5B%5D%3E"
                     },
                     "divide": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1142-1212-1127088073-0-1827%5D%3E"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1138-1208-1127088073-0-1823%5D%3E"
                     },
                     "equal": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1142-1212-1127088073-0-1827%5D%3E"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1138-1208-1127088073-0-1823%5D%3E"
                     },
                     "greaterOrEqual": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1142-1212-1127088073-0-1827%5D%3E"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1138-1208-1127088073-0-1823%5D%3E"
                     },
                     "greaterThan": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1142-1212-1127088073-0-1827%5D%3E"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1138-1208-1127088073-0-1823%5D%3E"
                     },
                     "lessOrEqual": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1142-1212-1127088073-0-1827%5D%3E"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1138-1208-1127088073-0-1823%5D%3E"
                     },
                     "lessThan": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1142-1212-1127088073-0-1827%5D%3E"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1138-1208-1127088073-0-1823%5D%3E"
                     },
                     "multiply": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1142-1212-1127088073-0-1827%5D%3E"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1138-1208-1127088073-0-1823%5D%3E"
                     },
                     "notequal": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1142-1212-1127088073-0-1827%5D%3E"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1138-1208-1127088073-0-1823%5D%3E"
                     },
                     "positive": {
                       "$ref": "#/definitions/FunctionText%3C%5B%5D%3E"
                     },
                     "power": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1142-1212-1127088073-0-1827%5D%3E"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1138-1208-1127088073-0-1823%5D%3E"
                     },
                     "remainder": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1142-1212-1127088073-0-1827%5D%3E"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1138-1208-1127088073-0-1823%5D%3E"
                     },
                     "root": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1142-1212-1127088073-0-1827%5D%3E"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1138-1208-1127088073-0-1823%5D%3E"
                     },
                     "round": {
                       "$ref": "#/definitions/FunctionText%3C%5B%5D%3E"
@@ -1214,7 +1001,7 @@
                       "$ref": "#/definitions/FunctionText%3C%5B%5D%3E"
                     },
                     "subtract": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1142-1212-1127088073-0-1827%5D%3E"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1138-1208-1127088073-0-1823%5D%3E"
                     }
                   },
                   "required": [
@@ -1278,13 +1065,13 @@
                   "additionalProperties": false,
                   "properties": {
                     "add": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1142-1212-1127088073-0-1827%5D%3E"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1138-1208-1127088073-0-1823%5D%3E"
                     },
                     "difference": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1142-1212-1127088073-0-1827%5D%3E"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1138-1208-1127088073-0-1823%5D%3E"
                     },
                     "equals": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1142-1212-1127088073-0-1827%5D%3E"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1138-1208-1127088073-0-1823%5D%3E"
                     },
                     "filter": {
                       "additionalProperties": false,
@@ -1316,13 +1103,13 @@
                       "type": "object"
                     },
                     "intersection": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1142-1212-1127088073-0-1827%5D%3E"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1138-1208-1127088073-0-1823%5D%3E"
                     },
                     "notequals": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1142-1212-1127088073-0-1827%5D%3E"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1138-1208-1127088073-0-1823%5D%3E"
                     },
                     "remove": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1142-1212-1127088073-0-1827%5D%3E"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1138-1208-1127088073-0-1823%5D%3E"
                     },
                     "translate": {
                       "additionalProperties": false,
@@ -1354,7 +1141,7 @@
                       "type": "object"
                     },
                     "union": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1142-1212-1127088073-0-1827%5D%3E"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1138-1208-1127088073-0-1823%5D%3E"
                     }
                   },
                   "required": [
@@ -1412,31 +1199,31 @@
                   "additionalProperties": false,
                   "properties": {
                     "combine": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1142-1212-1127088073-0-1827%5D%3E"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1138-1208-1127088073-0-1823%5D%3E"
                     },
                     "ends": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1142-1212-1127088073-0-1827%5D%3E"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1138-1208-1127088073-0-1823%5D%3E"
                     },
                     "equals": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1142-1212-1127088073-0-1827%5D%3E"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1138-1208-1127088073-0-1823%5D%3E"
                     },
                     "has": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1142-1212-1127088073-0-1827%5D%3E"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1138-1208-1127088073-0-1823%5D%3E"
                     },
                     "length": {
                       "$ref": "#/definitions/FunctionText%3C%5B%5D%3E"
                     },
                     "notequals": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1142-1212-1127088073-0-1827%5D%3E"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1138-1208-1127088073-0-1823%5D%3E"
                     },
                     "repeat": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1142-1212-1127088073-0-1827%5D%3E"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1138-1208-1127088073-0-1823%5D%3E"
                     },
                     "segment": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1142-1212-1127088073-0-1827%5D%3E"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1138-1208-1127088073-0-1823%5D%3E"
                     },
                     "starts": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1142-1212-1127088073-0-1827%5D%3E"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1138-1208-1127088073-0-1823%5D%3E"
                     }
                   },
                   "required": [
@@ -1477,11 +1264,248 @@
           ],
           "type": "object"
         },
+        "input": {
+          "additionalProperties": false,
+          "properties": {
+            "Button": {
+              "additionalProperties": false,
+              "properties": {
+                "doc": {
+                  "$ref": "#/definitions/DocText"
+                },
+                "down": {
+                  "$ref": "#/definitions/NameAndDoc"
+                },
+                "names": {
+                  "$ref": "#/definitions/NameText"
+                }
+              },
+              "required": [
+                "doc",
+                "down",
+                "names"
+              ],
+              "type": "object"
+            },
+            "Camera": {
+              "additionalProperties": false,
+              "properties": {
+                "doc": {
+                  "$ref": "#/definitions/DocText"
+                },
+                "frequency": {
+                  "$ref": "#/definitions/NameAndDoc"
+                },
+                "height": {
+                  "$ref": "#/definitions/NameAndDoc"
+                },
+                "names": {
+                  "$ref": "#/definitions/NameText"
+                },
+                "width": {
+                  "$ref": "#/definitions/NameAndDoc"
+                }
+              },
+              "required": [
+                "doc",
+                "frequency",
+                "height",
+                "names",
+                "width"
+              ],
+              "type": "object"
+            },
+            "Choice": {
+              "$ref": "#/definitions/NameAndDoc"
+            },
+            "Key": {
+              "additionalProperties": false,
+              "properties": {
+                "doc": {
+                  "$ref": "#/definitions/DocText"
+                },
+                "down": {
+                  "$ref": "#/definitions/NameAndDoc"
+                },
+                "key": {
+                  "$ref": "#/definitions/NameAndDoc"
+                },
+                "names": {
+                  "$ref": "#/definitions/NameText"
+                }
+              },
+              "required": [
+                "doc",
+                "down",
+                "key",
+                "names"
+              ],
+              "type": "object"
+            },
+            "Mic": {
+              "additionalProperties": false,
+              "properties": {
+                "doc": {
+                  "$ref": "#/definitions/DocText"
+                },
+                "frequency": {
+                  "$ref": "#/definitions/NameAndDoc"
+                },
+                "names": {
+                  "$ref": "#/definitions/NameText"
+                }
+              },
+              "required": [
+                "doc",
+                "frequency",
+                "names"
+              ],
+              "type": "object"
+            },
+            "Motion": {
+              "additionalProperties": false,
+              "properties": {
+                "bounciness": {
+                  "$ref": "#/definitions/NameAndDoc"
+                },
+                "doc": {
+                  "$ref": "#/definitions/DocText"
+                },
+                "gravity": {
+                  "$ref": "#/definitions/NameAndDoc"
+                },
+                "mass": {
+                  "$ref": "#/definitions/NameAndDoc"
+                },
+                "names": {
+                  "$ref": "#/definitions/NameText"
+                },
+                "type": {
+                  "$ref": "#/definitions/NameAndDoc"
+                },
+                "vangle": {
+                  "$ref": "#/definitions/NameAndDoc"
+                },
+                "vx": {
+                  "$ref": "#/definitions/NameAndDoc"
+                },
+                "vy": {
+                  "$ref": "#/definitions/NameAndDoc"
+                },
+                "vz": {
+                  "$ref": "#/definitions/NameAndDoc"
+                }
+              },
+              "required": [
+                "bounciness",
+                "doc",
+                "gravity",
+                "mass",
+                "names",
+                "type",
+                "vangle",
+                "vx",
+                "vy",
+                "vz"
+              ],
+              "type": "object"
+            },
+            "Pointer": {
+              "$ref": "#/definitions/NameAndDoc"
+            },
+            "Random": {
+              "additionalProperties": false,
+              "properties": {
+                "doc": {
+                  "$ref": "#/definitions/DocText"
+                },
+                "max": {
+                  "$ref": "#/definitions/NameAndDoc"
+                },
+                "min": {
+                  "$ref": "#/definitions/NameAndDoc"
+                },
+                "names": {
+                  "$ref": "#/definitions/NameText"
+                }
+              },
+              "required": [
+                "doc",
+                "max",
+                "min",
+                "names"
+              ],
+              "type": "object"
+            },
+            "Time": {
+              "additionalProperties": false,
+              "properties": {
+                "doc": {
+                  "$ref": "#/definitions/DocText"
+                },
+                "frequency": {
+                  "$ref": "#/definitions/NameAndDoc"
+                },
+                "names": {
+                  "$ref": "#/definitions/NameText"
+                }
+              },
+              "required": [
+                "doc",
+                "frequency",
+                "names"
+              ],
+              "type": "object"
+            }
+          },
+          "required": [
+            "Random",
+            "Choice",
+            "Button",
+            "Pointer",
+            "Key",
+            "Time",
+            "Mic",
+            "Camera",
+            "Motion"
+          ],
+          "type": "object"
+        },
+        "language": {
+          "description": "An ISO 639-1 language code",
+          "type": [
+            "string"
+          ]
+        },
         "node": {
           "additionalProperties": false,
           "properties": {
             "AnyType": {
               "$ref": "#/definitions/NodeText"
+            },
+            "BasisExpression": {
+              "additionalProperties": false,
+              "properties": {
+                "doc": {
+                  "$ref": "#/definitions/DocText"
+                },
+                "emotion": {
+                  "type": "string"
+                },
+                "name": {
+                  "type": "string"
+                },
+                "start": {
+                  "$ref": "#/definitions/Template"
+                }
+              },
+              "required": [
+                "doc",
+                "emotion",
+                "name",
+                "start"
+              ],
+              "type": "object"
             },
             "BinaryEvaluate": {
               "additionalProperties": false,
@@ -2627,30 +2651,6 @@
             "Names": {
               "$ref": "#/definitions/NodeText"
             },
-            "NativeExpression": {
-              "additionalProperties": false,
-              "properties": {
-                "doc": {
-                  "$ref": "#/definitions/DocText"
-                },
-                "emotion": {
-                  "type": "string"
-                },
-                "name": {
-                  "type": "string"
-                },
-                "start": {
-                  "$ref": "#/definitions/Template"
-                }
-              },
-              "required": [
-                "doc",
-                "emotion",
-                "name",
-                "start"
-              ],
-              "type": "object"
-            },
             "NeverType": {
               "$ref": "#/definitions/NodeText"
             },
@@ -3741,7 +3741,7 @@
             "ListLiteral",
             "MapLiteral",
             "NumberLiteral",
-            "NativeExpression",
+            "BasisExpression",
             "NoneLiteral",
             "Previous",
             "Program",
@@ -5697,7 +5697,7 @@
         "term",
         "token",
         "node",
-        "native",
+        "basis",
         "input",
         "output",
         "ui"

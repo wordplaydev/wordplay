@@ -24,7 +24,7 @@ import SupportedLanguages from '../locale/SupportedLanguages';
 import Progress from '../tutorial/Progress';
 import Arrangement from './Arrangement';
 import type { Tutorial } from '../tutorial/Tutorial';
-import { bootstrap, Native } from '../native/Native';
+import { bootstrap, Basis } from '../basis/Basis';
 import en from '../locale/en.json';
 import Layout from '../components/project/Layout';
 
@@ -116,8 +116,8 @@ export class Creator {
     /** The locales loaded */
     private locales: Record<LanguageCode, Locale> = {};
 
-    /** The native bindings, localized with the currently selected locales */
-    private native: Native;
+    /** The basis bindings, localized with the currently selected locales */
+    private basis: Basis;
 
     /** The current list of projects. */
     private projects: Map<
@@ -155,8 +155,8 @@ export class Creator {
         // Store the default locale
         this.locales[defaultLocale.language] = defaultLocale;
 
-        // Generate a native binding based on it
-        this.native = bootstrap([defaultLocale]);
+        // Generate a basis binding based on it
+        this.basis = bootstrap([defaultLocale]);
 
         // Fetch any unloaded locales
         this.loadLocales(this.getLanguages());
@@ -185,7 +185,7 @@ export class Creator {
                 })
             );
 
-            // Update the native bindings to include all locales
+            // Update the basis bindings to include all locales
             this.rebootstrap();
 
             // Notify config listeners.
@@ -265,8 +265,8 @@ export class Creator {
         return this.getLocales()[0];
     }
 
-    getNative(): Native {
-        return this.native;
+    getBasis(): Basis {
+        return this.basis;
     }
 
     async setLanguages(languages: LanguageCode[]) {
@@ -281,9 +281,9 @@ export class Creator {
     }
 
     rebootstrap() {
-        // Update the native bindings
+        // Update the basis bindings
         const bootstrapLocales = this.getLocales();
-        this.native = bootstrap(
+        this.basis = bootstrap(
             bootstrapLocales.includes(this.defaultLocale)
                 ? bootstrapLocales
                 : [en as Locale, ...bootstrapLocales]
@@ -358,7 +358,7 @@ export class Creator {
                 if (projectDoc.exists()) {
                     const project = Project.fromObject(
                         projectDoc.data() as SerializedProject,
-                        this.native
+                        this.basis
                     );
                     this.addProject(project);
                     return project;
@@ -376,7 +376,7 @@ export class Creator {
             '',
             new Source(locale.term.start, code),
             [],
-            this.native,
+            this.basis,
             undefined,
             uid ? [uid] : []
         );
@@ -614,7 +614,7 @@ export class Creator {
         const data = getLocalValue<SerializedProject[]>(PROJECTS_KEY);
         if (data)
             this.setProjects(
-                data.map((project) => Project.fromObject(project, this.native))
+                data.map((project) => Project.fromObject(project, this.basis))
             );
 
         this.config.arrangement =
@@ -687,7 +687,7 @@ export class Creator {
                           });
                           this.setProjects(
                               projects.map((project) =>
-                                  Project.fromObject(project, this.native)
+                                  Project.fromObject(project, this.basis)
                               ),
                               false
                           );

@@ -1,9 +1,9 @@
 import Language from '@nodes/Language';
 import TextType from '@nodes/TextType';
 import Number from './Number';
-import Primitive from './Primitive';
+import Simple from './Simple';
 import type Value from './Value';
-import type { NativeTypeName } from '../native/NativeConstants';
+import type { BasisTypeName } from '../basis/BasisConstants';
 import type Locale from '@locale/Locale';
 import type Expression from '../nodes/Expression';
 import List from './List';
@@ -11,7 +11,7 @@ import Bool from './Bool';
 import concretize from '../locale/concretize';
 import UnicodeString from '../models/UnicodeString';
 
-export default class Text extends Primitive {
+export default class Text extends Simple {
     readonly text: string;
     readonly format: string | undefined;
 
@@ -30,7 +30,7 @@ export default class Text extends Primitive {
         );
     }
 
-    getNativeTypeName(): NativeTypeName {
+    getBasisTypeName(): BasisTypeName {
         return 'text';
     }
 

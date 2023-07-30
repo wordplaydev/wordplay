@@ -1,4 +1,4 @@
-import toStructure from '../native/toStructure';
+import toStructure from '../basis/toStructure';
 import type Value from '../runtime/Value';
 import { getBind } from '../locale/getBind';
 import type Arrangement from './Arrangement';

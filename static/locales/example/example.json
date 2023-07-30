@@ -507,7 +507,7 @@
                 "NotANumber": "$?"
             }
         },
-        "NativeExpression": {
+        "BasisExpression": {
             "name": "$?",
             "emotion": "$?",
             "doc": "$?",
@@ -903,7 +903,7 @@
             "doc": "$?"
         }
     },
-    "native": {
+    "basis": {
         "Boolean": {
             "doc": "$?",
             "name": "$?",

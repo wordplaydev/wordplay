@@ -4,7 +4,7 @@ import type Context from './Context';
 import type StructureDefinition from './StructureDefinition';
 import NameType from './NameType';
 import type TypeSet from './TypeSet';
-import type { NativeTypeName } from '../native/NativeConstants';
+import type { BasisTypeName } from '../basis/BasisConstants';
 import type Definition from './Definition';
 import type Node from './Node';
 import type Locale from '@locale/Locale';
@@ -96,7 +96,7 @@ export default class StructureDefinitionType extends Type {
         return undefined;
     }
 
-    getNativeTypeName(): NativeTypeName {
+    getBasisTypeName(): BasisTypeName {
         return 'structure';
     }
 

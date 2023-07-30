@@ -11,7 +11,7 @@ import Node, { node, type Grammar, type Replacement } from './Node';
 import type Locale from '@locale/Locale';
 import Literal from './Literal';
 import Glyphs from '../lore/Glyphs';
-import type { NativeTypeName } from '../native/NativeConstants';
+import type { BasisTypeName } from '../basis/BasisConstants';
 import concretize from '../locale/concretize';
 
 export default class NoneLiteral extends Literal {
@@ -57,7 +57,7 @@ export default class NoneLiteral extends Literal {
         ) as this;
     }
 
-    getAffiliatedType(): NativeTypeName | undefined {
+    getAffiliatedType(): BasisTypeName | undefined {
         return 'none';
     }
 

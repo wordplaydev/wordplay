@@ -489,8 +489,8 @@
                 "NotANumber": "$?"
             }
         },
-        "NativeExpression": {
-            "name": "expresión incorporada",
+        "BasisExpression": {
+            "name": "$! expresión incorporada",
             "emotion": "neutral",
             "doc": "$?",
             "start": "$?"
@@ -903,7 +903,7 @@
             "doc": "$?"
         }
     },
-    "native": {
+    "basis": {
         "Boolean": {
             "doc": "$?",
             "name": "bool",

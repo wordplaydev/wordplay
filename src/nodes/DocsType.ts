@@ -1,8 +1,8 @@
 import type Locale from '../locale/Locale';
 import type { NodeText, DescriptiveNodeText } from '../locale/NodeTexts';
 import type Glyph from '../lore/Glyph';
-import type { NativeTypeName } from '../native/NativeConstants';
-import NativeType from './NativeType';
+import type { BasisTypeName } from '../basis/BasisConstants';
+import BasisType from './BasisType';
 import { node, type Grammar, type Replacement } from './Node';
 import type TypeSet from './TypeSet';
 import Symbol from './Symbol';
@@ -10,7 +10,7 @@ import Token from './Token';
 import Glyphs from '../lore/Glyphs';
 import { DOCS_SYMBOL } from '../parser/Symbols';
 
-export default class DocsType extends NativeType {
+export default class DocsType extends BasisType {
     readonly open: Token;
     readonly close: Token;
 
@@ -39,7 +39,7 @@ export default class DocsType extends NativeType {
         return types.list().every((type) => type instanceof DocsType);
     }
 
-    getNativeTypeName(): NativeTypeName {
+    getBasisTypeName(): BasisTypeName {
         return 'docs';
     }
 

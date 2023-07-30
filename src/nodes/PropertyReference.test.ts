@@ -5,9 +5,9 @@ import { test, expect } from 'vitest';
 import Source from './Source';
 import Project from '../models/Project';
 import Bind from './Bind';
-import { getDefaultNative } from '../native/Native';
+import { getDefaultBasis } from '../basis/Basis';
 
-const native = await getDefaultNative();
+const basis = getDefaultBasis();
 
 test('Test scoping', () => {
     const code = `
@@ -19,7 +19,7 @@ test('Test scoping', () => {
         `;
 
     const source = new Source('test', code);
-    const project = new Project(null, 'test', source, [], native);
+    const project = new Project(null, 'test', source, [], basis);
     const context = project.getContext(source);
 
     const prop = source
@@ -46,6 +46,6 @@ test('Test scoping', () => {
 
 test('Test access evaluate', () => {
     expect(
-        Evaluator.evaluateCode(native, "•Cat(name•'') ()\nCat('boomy').name")
+        Evaluator.evaluateCode(basis, "•Cat(name•'') ()\nCat('boomy').name")
     ).toBeInstanceOf(Text);
 });

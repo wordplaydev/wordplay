@@ -9,7 +9,7 @@ import Token from './Token';
 import Type from './Type';
 import Number from '@runtime/Number';
 import type TypeSet from './TypeSet';
-import type { NativeTypeName } from '../native/NativeConstants';
+import type { BasisTypeName } from '../basis/BasisConstants';
 import LanguageToken from './LanguageToken';
 import Symbol from './Symbol';
 import { node, type Grammar, type Replacement, list, optional } from './Node';
@@ -275,7 +275,7 @@ export default class Unit extends Type {
         );
     }
 
-    getNativeTypeName(): NativeTypeName {
+    getBasisTypeName(): BasisTypeName {
         return 'unit';
     }
 
@@ -381,7 +381,7 @@ export default class Unit extends Type {
     getDescriptionInputs(locale: Locale) {
         return [
             this.exponents.size === 0
-                ? locale.native.Number.name[0]
+                ? locale.basis.Number.name[0]
                 : this.toWordplay(),
         ];
     }

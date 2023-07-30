@@ -1,41 +1,46 @@
 import Bind from '@nodes/Bind';
 import BooleanType from '@nodes/BooleanType';
+import type Context from '@nodes/Context';
 import type FunctionType from '@nodes/FunctionType';
-import ListType from '@nodes/ListType';
 import NumberType from '@nodes/NumberType';
+import Names from '@nodes/Names';
+import NameType from '@nodes/NameType';
+import SetType from '@nodes/SetType';
 import type Type from '@nodes/Type';
+import type TypeVariable from '@nodes/TypeVariable';
 import Bool from '@runtime/Bool';
+import Check from '@runtime/Check';
 import Evaluation from '@runtime/Evaluation';
 import type Evaluator from '@runtime/Evaluator';
 import Finish from '@runtime/Finish';
 import FunctionValue from '@runtime/FunctionValue';
-import List from '@runtime/List';
+import Initialize from '@runtime/Initialize';
 import Number from '@runtime/Number';
-import None from '@runtime/None';
+import Next from '@runtime/Next';
+import Set from '@runtime/Set';
 import Start from '@runtime/Start';
 import type Step from '@runtime/Step';
 import type Value from '@runtime/Value';
+import ValueException from '@runtime/ValueException';
 import HOF from './HOF';
-import Names from '@nodes/Names';
-import Initialize from '@runtime/Initialize';
-import Next from '@runtime/Next';
-import Check from '@runtime/Check';
-import type Context from '@nodes/Context';
 
 const INDEX = Names.make(['index']);
+const SET = Names.make(['set']);
 
-export default class HOFListFind extends HOF {
+export default class HOFSetFilter extends HOF {
     readonly hofType: FunctionType;
+
     constructor(hofType: FunctionType) {
         super();
         this.hofType = hofType;
     }
 
     computeType(context: Context): Type {
-        return ListType.make(
-            context.native
-                .getPrimitiveDefinition('list')
-                .getTypeVariableReference(0)
+        // Get the type variable of set to make this, so we use whatever name it has.
+        const typeVar = context.basis.getSimpleDefinition('set').types
+            ?.variables[0] as TypeVariable;
+        return SetType.make(
+            new NameType(typeVar.getNames()[0], undefined, typeVar)
         );
     }
 
@@ -45,11 +50,12 @@ export default class HOFListFind extends HOF {
             // Initialize an iterator and an empty list in this scope.
             new Initialize(this, (evaluator) => {
                 evaluator.bind(INDEX, new Number(this, 1));
+                evaluator.bind(SET, new Set(this, []));
                 return undefined;
             }),
             new Next(this, (evaluator) => {
                 const index = evaluator.resolve(INDEX);
-                const list = evaluator.getCurrentEvaluation()?.getClosure();
+                const set = evaluator.getCurrentEvaluation()?.getClosure();
                 // If the index is past the last index of the list, jump to the end.
                 if (!(index instanceof Number))
                     return evaluator.getValueOrTypeException(
@@ -57,37 +63,37 @@ export default class HOFListFind extends HOF {
                         NumberType.make(),
                         index
                     );
-                else if (!(list instanceof List))
+                else if (!(set instanceof Set))
                     return evaluator.getValueOrTypeException(
                         this,
-                        ListType.make(),
-                        list
+                        SetType.make(),
+                        set
                     );
                 else {
-                    if (index.greaterThan(this, list.length(this)).bool)
+                    if (index.greaterThan(this, set.size(this)).bool)
                         evaluator.jump(1);
                     // Otherwise, apply the given translator function to the current list value.
                     else {
-                        const include = this.getInput(0, evaluator);
-                        const listValue = list.get(index);
+                        const checker = this.getInput(0, evaluator);
+                        const setValue = set.values[index.num.toNumber() - 1];
                         if (
-                            include instanceof FunctionValue &&
-                            include.definition.expression !== undefined &&
-                            include.definition.inputs[0] instanceof Bind
+                            checker instanceof FunctionValue &&
+                            checker.definition.expression !== undefined &&
+                            checker.definition.inputs[0] instanceof Bind
                         ) {
                             const bindings = new Map<Names, Value>();
                             // Bind the list value
                             bindings.set(
-                                include.definition.inputs[0].names,
-                                listValue
+                                checker.definition.inputs[0].names,
+                                setValue
                             );
                             // Apply the translator function to the value
                             evaluator.startEvaluation(
                                 new Evaluation(
                                     evaluator,
                                     this,
-                                    include.definition,
-                                    include.context,
+                                    checker.definition,
+                                    checker.context,
                                     bindings
                                 )
                             );
@@ -95,7 +101,7 @@ export default class HOFListFind extends HOF {
                             return evaluator.getValueOrTypeException(
                                 this,
                                 this.hofType,
-                                include
+                                checker
                             );
                     }
                 }
@@ -103,11 +109,8 @@ export default class HOFListFind extends HOF {
             // Save the translated value and then jump to the conditional.
             new Check(this, (evaluator) => {
                 // Get the boolean from the function evaluation.
-                const matched = evaluator.popValue(this, BooleanType.make());
-                if (!(matched instanceof Bool)) return matched;
-
-                // If this matches, skip the loop.
-                if (matched.bool) return undefined;
+                const include = evaluator.popValue(this, BooleanType.make());
+                if (!(include instanceof Bool)) return include;
 
                 // Get the current index.
                 const index = evaluator.resolve(INDEX);
@@ -118,8 +121,32 @@ export default class HOFListFind extends HOF {
                         index
                     );
 
-                // If it doesn't match, increment the counter and jump back to the conditional.
+                const set = evaluator.getCurrentEvaluation()?.getClosure();
+                if (!(set instanceof Set))
+                    return evaluator.getValueOrTypeException(
+                        this,
+                        SetType.make(),
+                        set
+                    );
+
+                // If the include decided yes, append the value.
+                const newSet = evaluator.resolve(SET);
+                if (newSet instanceof Set) {
+                    if (include.bool) {
+                        const setValue = set.values[index.num.toNumber() - 1];
+                        evaluator.bind(SET, newSet.add(this, setValue));
+                    }
+                } else
+                    return evaluator.getValueOrTypeException(
+                        this,
+                        SetType.make(),
+                        newSet
+                    );
+
+                // Increment the counter
                 evaluator.bind(INDEX, index.add(this, new Number(this, 1)));
+
+                // Jump to the conditional
                 evaluator.jump(-2);
 
                 return undefined;
@@ -131,27 +158,7 @@ export default class HOFListFind extends HOF {
     evaluate(evaluator: Evaluator, prior: Value | undefined): Value {
         if (prior) return prior;
 
-        // Get the current index.
-        const index = evaluator.resolve(INDEX);
-        if (!(index instanceof Number))
-            return evaluator.getValueOrTypeException(
-                this,
-                NumberType.make(),
-                index
-            );
-
-        // Get the list.
-        const list = evaluator.getCurrentEvaluation()?.getClosure();
-        if (!(list instanceof List))
-            return evaluator.getValueOrTypeException(
-                this,
-                ListType.make(),
-                list
-            );
-
-        // If we're past the end of the list, return nothing. Otherwise return the value at the index.
-        return index.greaterThan(this, list.length(this)).bool
-            ? new None(this)
-            : list.get(index);
+        // Evaluate to the filtered list.
+        return evaluator.resolve(SET) ?? new ValueException(evaluator, this);
     }
 }

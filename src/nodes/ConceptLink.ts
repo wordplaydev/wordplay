@@ -36,7 +36,7 @@ export default class ConceptLink extends Content {
             locale.node,
             locale.input,
             locale.output,
-            locale.native,
+            locale.basis,
         ].find((c) => c.hasOwnProperty(name)) as Record<string, any>;
 
         // Valid if we found it, and no property was specified, or it was, and the concept has it.
@@ -45,7 +45,7 @@ export default class ConceptLink extends Content {
             (section !== undefined &&
                 (prop === undefined ||
                     section[name].hasOwnProperty(prop) ||
-                    (section === locale.native &&
+                    (section === locale.basis &&
                         section[name].function.hasOwnProperty(prop))))
         );
     }

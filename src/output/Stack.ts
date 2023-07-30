@@ -1,4 +1,4 @@
-import toStructure from '../native/toStructure';
+import toStructure from '../basis/toStructure';
 import type Value from '@runtime/Value';
 import type Color from './Color';
 import type TypeOutput from './TypeOutput';

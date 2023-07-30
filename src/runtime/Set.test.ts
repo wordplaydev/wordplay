@@ -1,9 +1,9 @@
 import { test, expect } from 'vitest';
 import { FALSE_SYMBOL, TRUE_SYMBOL } from '@parser/Symbols';
 import Evaluator from './Evaluator';
-import { getDefaultNative } from '../native/Native';
+import { getDefaultBasis } from '../basis/Basis';
 
-const native = await getDefaultNative();
+const basis = getDefaultBasis();
 
 test.each([
     ['{} = {}', TRUE_SYMBOL],
@@ -12,5 +12,5 @@ test.each([
     ['{1 2} = {1}', FALSE_SYMBOL],
     ['{1 2} ≠ {1}', TRUE_SYMBOL],
 ])('Expect %s to be %s', (code, value) => {
-    expect(Evaluator.evaluateCode(native, code)?.toString()).toBe(value);
+    expect(Evaluator.evaluateCode(basis, code)?.toString()).toBe(value);
 });

@@ -757,7 +757,7 @@
                 "NotANumber": "I thought I knew all the numbers, but I don't know this one"
             }
         },
-        "NativeExpression": {
+        "BasisExpression": {
             "name": "internal expression",
             "emotion": "neutral",
             "doc": "How did you find me? I'm an expression that only the original creators use. To learn more about me, you'll need to talk to them.",
@@ -1295,7 +1295,7 @@
             "doc": "You know how sometimes @Reference and @PropertyReference don't know the name you're talking about? I'm around when that happens, to represent that we don't know who you're talking about."
         }
     },
-    "native": {
+    "basis": {
         "Boolean": {
             "doc": [
                 "We are ⧼⊤⧽ and ⧼⊥⧽. ⧼⊤⧽ is true. ⧼⊥⧽ is false. ⧼⊤⧽ is not ⧼⊥⧽; ⧼⊥⧽ is not ⧼⊤⧽. This is how it is.",

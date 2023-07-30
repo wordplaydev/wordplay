@@ -8,7 +8,7 @@
         UserSymbol,
     } from '../components/project/Contexts';
     import { writable } from 'svelte/store';
-    import Fonts from '../native/Fonts';
+    import Fonts from '../basis/Fonts';
     import { config } from '../db/Creator';
     import { browser } from '$app/environment';
     import { goto } from '$app/navigation';

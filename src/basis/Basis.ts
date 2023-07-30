@@ -1,5 +1,5 @@
 import FunctionDefinition from '@nodes/FunctionDefinition';
-import NativeExpression from './NativeExpression';
+import BasisExpression from './BasisExpression';
 import type Context from '@nodes/Context';
 import type Type from '@nodes/Type';
 import ConversionDefinition from '@nodes/ConversionDefinition';
@@ -8,15 +8,15 @@ import Value from '@runtime/Value';
 import type Evaluation from '@runtime/Evaluation';
 import type StructureDefinition from '@nodes/StructureDefinition';
 import { parseType, toTokens } from '@parser/Parser';
-import bootstrapNone from './NoneNative';
-import bootstrapBool from './BoolNative';
-import bootstrapText from './TextNative';
-import bootstrapList from './ListNative';
-import bootstrapNumber from './NumberNative';
-import bootstrapSet from './SetNative';
-import bootstrapMap from './MapNative';
+import bootstrapNone from './NoneBasis';
+import bootstrapBool from './BoolBasis';
+import bootstrapText from './TextBasis';
+import bootstrapList from './ListBasis';
+import bootstrapNumber from './NumberBasis';
+import bootstrapSet from './SetBasis';
+import bootstrapMap from './MapBasis';
 import Block from '@nodes/Block';
-import type { NativeTypeName } from './NativeConstants';
+import type { BasisTypeName } from './BasisConstants';
 import type TypeVariables from '@nodes/TypeVariables';
 import type Docs from '@nodes/Docs';
 import type Names from '@nodes/Names';
@@ -27,7 +27,7 @@ import createDefaultShares from '../runtime/createDefaultShares';
 import locale from '../locale/en.json';
 import type LanguageCode from '../locale/LanguageCode';
 
-export class Native {
+export class Basis {
     readonly locales: Locale[];
     readonly languages: LanguageCode[];
     readonly shares: ReturnType<typeof createDefaultShares>;
@@ -56,7 +56,7 @@ export class Native {
         {};
     readonly roots: Root[] = [];
 
-    addFunction(kind: NativeTypeName, fun: FunctionDefinition) {
+    addFunction(kind: BasisTypeName, fun: FunctionDefinition) {
         if (!(kind in this.functionsByType)) this.functionsByType[kind] = {};
 
         fun.names.names.forEach((a) => {
@@ -65,16 +65,16 @@ export class Native {
         });
     }
 
-    addConversion(kind: NativeTypeName, conversion: ConversionDefinition) {
+    addConversion(kind: BasisTypeName, conversion: ConversionDefinition) {
         if (!(kind in this.conversionsByType))
             this.conversionsByType[kind] = [];
 
         this.conversionsByType[kind].push(conversion);
     }
 
-    addStructure(kind: NativeTypeName, structure: StructureDefinition) {
+    addStructure(kind: BasisTypeName, structure: StructureDefinition) {
         // Cache the parents of the nodes, "crystalizing" it.
-        // This means there should be no future changes to the native structure definition.
+        // This means there should be no future changes to the basis structure definition.
         this.structureDefinitionsByName[kind] = structure;
 
         if (structure.expression instanceof Block) {
@@ -113,7 +113,7 @@ export class Native {
     }
 
     getFunction(
-        kind: NativeTypeName,
+        kind: BasisTypeName,
         name: string
     ): FunctionDefinition | undefined {
         if (!(kind in this.functionsByType)) return undefined;
@@ -121,7 +121,7 @@ export class Native {
     }
 
     getStructureDefinition(
-        kind: NativeTypeName
+        kind: BasisTypeName
     ): StructureDefinition | undefined {
         return this.structureDefinitionsByName[kind];
     }
@@ -130,12 +130,12 @@ export class Native {
         return Object.values(this.structureDefinitionsByName);
     }
 
-    getPrimitiveDefinition(name: NativeTypeName) {
+    getSimpleDefinition(name: BasisTypeName) {
         return this.structureDefinitionsByName[name];
     }
 }
 
-export function createNativeFunction(
+export function createBasisFunction(
     docs: Docs,
     names: Names,
     typeVars: TypeVariables | undefined,
@@ -148,12 +148,12 @@ export function createNativeFunction(
         names,
         typeVars,
         inputs,
-        new NativeExpression(output, evaluator),
+        new BasisExpression(output, evaluator),
         output
     );
 }
 
-export function createNativeConversion<ValueType extends Value>(
+export function createBasisConversion<ValueType extends Value>(
     docs: Docs,
     inputTypeString: string,
     outputTypeString: string,
@@ -166,7 +166,7 @@ export function createNativeConversion<ValueType extends Value>(
         docs,
         inputType,
         outputTypeString,
-        new NativeExpression(outputTypeString, (requestor, evaluation) => {
+        new BasisExpression(outputTypeString, (requestor, evaluation) => {
             const val = evaluation.getClosure();
             if (
                 val instanceof Value &&
@@ -187,12 +187,10 @@ export function createNativeConversion<ValueType extends Value>(
 }
 
 export function bootstrap(locales: Locale[]) {
-    const native = new Native(locales);
-
-    return native;
+    return new Basis(locales);
 }
 
 /** Use for tests to get the default (English) locale. */
-export async function getDefaultNative() {
+export function getDefaultBasis() {
     return bootstrap([locale as Locale]);
 }

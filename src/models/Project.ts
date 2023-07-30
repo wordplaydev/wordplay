@@ -6,7 +6,7 @@ import type Program from '@nodes/Program';
 import type StructureDefinition from '@nodes/StructureDefinition';
 import Source from '@nodes/Source';
 import Node from '@nodes/Node';
-import HOF from '../native/HOF';
+import HOF from '../basis/HOF';
 import Context from '@nodes/Context';
 import type { SharedDefinition } from '@nodes/Borrow';
 import PropertyReference from '@nodes/PropertyReference';
@@ -19,7 +19,7 @@ import { parseNames, toTokens } from '../parser/Parser';
 import Root from '../nodes/Root';
 import type { Path } from '../nodes/Root';
 import type { CaretPosition } from '../edit/Caret';
-import type { Native } from '../native/Native';
+import type { Basis } from '../basis/Basis';
 import type createDefaultShares from '../runtime/createDefaultShares';
 import FunctionType from '../nodes/FunctionType';
 
@@ -91,8 +91,8 @@ export default class Project {
     /** Default shares */
     readonly shares: ReturnType<typeof createDefaultShares>;
 
-    /** The localized native bindings */
-    readonly native: Native;
+    /** The localized basis bindings */
+    readonly basis: Basis;
 
     /** Conflicts. */
     analyzed: 'unanalyzed' | 'analyzing' | 'analyzed' = 'unanalyzed';
@@ -109,7 +109,7 @@ export default class Project {
         name: string,
         main: Source,
         supplements: Source[],
-        native: Native,
+        basis: Basis,
         carets: SerializedCarets | undefined = undefined,
         uids: string[] = [],
         listed: boolean = true
@@ -123,10 +123,10 @@ export default class Project {
         this.main = main;
         this.supplements = supplements.slice();
 
-        this.native = native;
+        this.basis = basis;
 
         // Initialize default shares
-        this.shares = native.shares;
+        this.shares = basis.shares;
 
         // Remember the carets
         this.carets =
@@ -139,7 +139,7 @@ export default class Project {
         // Initialize roots for all definitions that can be referenced.
         this.roots = [
             ...this.getSources().map((source) => source.root),
-            ...native.roots,
+            ...basis.roots,
             ...this.shares.all.map((share) => new Root(share)),
         ];
     }
@@ -150,7 +150,7 @@ export default class Project {
             this.name,
             this.main,
             this.supplements,
-            this.native,
+            this.basis,
             this.carets,
             this.uids,
             this.listed
@@ -203,7 +203,7 @@ export default class Project {
     }
 
     getLocales() {
-        return this.native.locales;
+        return this.basis.locales;
     }
 
     getContext(source: Source) {
@@ -235,8 +235,8 @@ export default class Project {
             (source) => source.expression === program
         );
     }
-    getNative() {
-        return this.native;
+    getBasis() {
+        return this.basis;
     }
 
     getAnalysis() {
@@ -469,7 +469,7 @@ export default class Project {
             this.name,
             this.main,
             this.supplements,
-            this.native,
+            this.basis,
             this.carets,
             this.uids,
             this.listed
@@ -482,7 +482,7 @@ export default class Project {
             name,
             this.main,
             this.supplements,
-            this.native,
+            this.basis,
             this.carets,
             this.uids,
             this.listed
@@ -499,7 +499,7 @@ export default class Project {
             this.name,
             this.main,
             this.supplements,
-            this.native,
+            this.basis,
             this.carets.map((c) =>
                 c.source === source
                     ? {
@@ -522,7 +522,7 @@ export default class Project {
             this.name,
             this.main,
             this.supplements.filter((s) => s !== source),
-            this.native,
+            this.basis,
             this.carets.filter((c) => c.source !== source),
             this.uids,
             this.listed
@@ -547,7 +547,7 @@ export default class Project {
             this.name,
             newMain,
             newSupplements,
-            this.native,
+            this.basis,
             this.carets.map((caret) => {
                 // See if the caret's source was replaced.
                 const replacement = replacements.find(
@@ -618,7 +618,7 @@ export default class Project {
             this.name,
             this.main,
             [...this.supplements, newSource],
-            this.native,
+            this.basis,
             [...this.carets, { source: newSource, caret: 0 }],
             this.uids
         );
@@ -632,7 +632,7 @@ export default class Project {
                   this.name,
                   this.main,
                   this.supplements,
-                  this.native,
+                  this.basis,
                   this.carets,
                   [...this.uids, uid],
                   this.listed
@@ -709,7 +709,7 @@ export default class Project {
         return new Source(parseNames(toTokens(source.names)), source.code);
     }
 
-    static fromObject(project: SerializedProject, native: Native) {
+    static fromObject(project: SerializedProject, basis: Basis) {
         const sources = project.sources.map((source) =>
             Project.sourceToSource(source)
         );
@@ -719,7 +719,7 @@ export default class Project {
             project.name,
             sources[0],
             sources.slice(1),
-            native,
+            basis,
             project.sources.map((s, index) => {
                 return { source: sources[index], caret: s.caret };
             }),

@@ -1,14 +1,14 @@
 import type Locale from '../locale/Locale';
 import concretize from '../locale/concretize';
-import type { NativeTypeName } from '../native/NativeConstants';
+import type { BasisTypeName } from '../basis/BasisConstants';
 import type Docs from '../nodes/Docs';
 import DocsType from '../nodes/DocsType';
 import type Markup from '../nodes/Markup';
 import type Type from '../nodes/Type';
-import Primitive from './Primitive';
+import Simple from './Simple';
 import type Value from './Value';
 
-export default class DocsValue extends Primitive {
+export default class DocsValue extends Simple {
     readonly docs: Docs;
 
     constructor(docs: Docs) {
@@ -20,7 +20,7 @@ export default class DocsValue extends Primitive {
         return DocsType.make();
     }
 
-    getNativeTypeName(): NativeTypeName {
+    getBasisTypeName(): BasisTypeName {
         return 'docs';
     }
 

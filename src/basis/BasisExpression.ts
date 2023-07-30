@@ -16,7 +16,7 @@ import Glyphs from '../lore/Glyphs';
 import concretize from '../locale/concretize';
 import Purpose from '../concepts/Purpose';
 
-export default class NativeExpression extends AtomicExpression {
+export default class BasisExpression extends AtomicExpression {
     readonly type: Type;
     readonly evaluator: (requestor: Expression, evaluator: Evaluation) => Value;
 
@@ -71,7 +71,7 @@ export default class NativeExpression extends AtomicExpression {
             : this.evaluator(this, evaluation);
     }
 
-    /** Can't clone native expressions, there's only one of them! We just erase their parent and let whatever wants them claim them. */
+    /** Can't clone basis expressions, there's only one of them! We just erase their parent and let whatever wants them claim them. */
     clone() {
         return this;
     }
@@ -97,14 +97,14 @@ export default class NativeExpression extends AtomicExpression {
     }
 
     getNodeLocale(translation: Locale) {
-        return translation.node.NativeExpression;
+        return translation.node.BasisExpression;
     }
 
     getStartExplanations(locale: Locale) {
-        return concretize(locale, locale.node.NativeExpression.start);
+        return concretize(locale, locale.node.BasisExpression.start);
     }
 
     getGlyphs() {
-        return Glyphs.Native;
+        return Glyphs.Basis;
     }
 }

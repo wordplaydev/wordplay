@@ -5,9 +5,9 @@ import Conditional from './Conditional';
 import BinaryEvaluate from './BinaryEvaluate';
 import { test, expect } from 'vitest';
 import IncompatibleInput from '../conflicts/IncompatibleInput';
-import { getDefaultNative } from '../native/Native';
+import { getDefaultBasis } from '../basis/Basis';
 
-const native = await getDefaultNative();
+const basis = getDefaultBasis();
 
 test.each([
     ['⊥ ? 2 3"', '1 ? 2 3', Conditional, ExpectedBooleanCondition],
@@ -90,14 +90,14 @@ test.each([
 
 test('Test conditional logic', () => {
     expect(
-        Evaluator.evaluateCode(native, "1 < 5 ? 'yes' 'no'")?.toString()
+        Evaluator.evaluateCode(basis, "1 < 5 ? 'yes' 'no'")?.toString()
     ).toBe('"yes"');
     expect(
-        Evaluator.evaluateCode(native, "1 > 5 ? 'yes' 'no'")?.toString()
+        Evaluator.evaluateCode(basis, "1 > 5 ? 'yes' 'no'")?.toString()
     ).toBe('"no"');
     expect(
         Evaluator.evaluateCode(
-            native,
+            basis,
             "1 > 5 ? 'yes' 1 > 0 ? 'maybe' 'no'"
         )?.toString()
     ).toBe('"maybe"');

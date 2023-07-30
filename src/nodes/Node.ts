@@ -9,7 +9,7 @@ import type { Template, DocText } from '@locale/Locale';
 import type { DescriptiveNodeText, NodeText } from '@locale/NodeTexts';
 import type Glyph from '../lore/Glyph';
 import type Purpose from '../concepts/Purpose';
-import type { NativeTypeName } from '../native/NativeConstants';
+import type { BasisTypeName } from '../basis/BasisConstants';
 import type Root from './Root';
 import type { TemplateInput } from '../locale/concretize';
 import type Markup from './Markup';
@@ -314,7 +314,7 @@ export default abstract class Node {
             scope = scope.getScope(context);
         }
 
-        // Finally, add project and native level definitions.
+        // Finally, add project and basis definitions.
         definitions = definitions.concat(
             context.project.getDefaultShares().all
         );
@@ -649,7 +649,7 @@ export default abstract class Node {
      */
     abstract getPurpose(): Purpose;
 
-    getAffiliatedType(): NativeTypeName | undefined {
+    getAffiliatedType(): BasisTypeName | undefined {
         return undefined;
     }
 

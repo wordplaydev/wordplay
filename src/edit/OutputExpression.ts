@@ -71,7 +71,7 @@ export default class OutputExpression {
 
         // What type of output is this?
         const type = this.getType();
-        const locale = this.project.native.locales[0];
+        const locale = this.project.basis.locales[0];
 
         // We handle pose types differently, so we return an empty list here.
         return type === this.project.shares.output.Pose
@@ -88,7 +88,7 @@ export default class OutputExpression {
                       : []),
                   ...getTypeOutputProperties(
                       this.project,
-                      this.project.native.locales[0]
+                      this.project.basis.locales[0]
                   ),
               ];
     }

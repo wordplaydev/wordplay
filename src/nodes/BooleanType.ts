@@ -1,14 +1,14 @@
 import Token from './Token';
 import Symbol from './Symbol';
 import { QUESTION_SYMBOL } from '@parser/Symbols';
-import NativeType from './NativeType';
+import BasisType from './BasisType';
 import type TypeSet from './TypeSet';
-import type { NativeTypeName } from '../native/NativeConstants';
+import type { BasisTypeName } from '../basis/BasisConstants';
 import { node, type Grammar, type Replacement } from './Node';
 import type Locale from '@locale/Locale';
 import Glyphs from '../lore/Glyphs';
 
-export default class BooleanType extends NativeType {
+export default class BooleanType extends BasisType {
     readonly type: Token;
 
     constructor(type: Token) {
@@ -43,7 +43,7 @@ export default class BooleanType extends NativeType {
         return types.list().every((type) => type instanceof BooleanType);
     }
 
-    getNativeTypeName(): NativeTypeName {
+    getBasisTypeName(): BasisTypeName {
         return 'boolean';
     }
 

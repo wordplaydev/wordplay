@@ -2,11 +2,11 @@ import type Evaluator from './Evaluator';
 import FunctionValue from './FunctionValue';
 import Value from './Value';
 
-export default abstract class Primitive extends Value {
+export default abstract class Simple extends Value {
     resolve(name: string, evaluator: Evaluator): Value | undefined {
         const fun = evaluator
-            ?.getNative()
-            .getFunction(this.getNativeTypeName(), name);
+            ?.getBasis()
+            .getFunction(this.getBasisTypeName(), name);
         if (fun !== undefined) return new FunctionValue(fun, this);
     }
 }

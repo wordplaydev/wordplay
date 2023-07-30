@@ -10,7 +10,7 @@ import { concretizeOrUndefined } from './src/locale/concretize';
 import Tutorial, { Performance, Line, Dialog } from './src/tutorial/Tutorial';
 import Project from './src/models/Project';
 import Source from './src/nodes/Source';
-import { Native } from './src/native/Native';
+import { Basis } from './src/basis/Basis';
 import Node from './src/nodes/Node';
 import Ajv from 'ajv';
 import { Performances } from './src/tutorial/Performances';
@@ -332,7 +332,7 @@ function verifyTutorial(locale: Locale, tutorial: Tutorial) {
         })
         .flat();
 
-    const native = new Native([locale]);
+    const basis = new Basis([locale]);
 
     for (let { kind, list } of programs) {
         let code: string | undefined = undefined;
@@ -359,7 +359,7 @@ function verifyTutorial(locale: Locale, tutorial: Tutorial) {
                 'test',
                 new Source('start', code),
                 [],
-                native
+                basis
             );
             project.analyze();
             project.getAnalysis();

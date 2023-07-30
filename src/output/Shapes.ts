@@ -1,4 +1,4 @@
-import toStructure from '../native/toStructure';
+import toStructure from '../basis/toStructure';
 import { TYPE_SYMBOL } from '../parser/Symbols';
 import Structure from '../runtime/Structure';
 import type Value from '../runtime/Value';

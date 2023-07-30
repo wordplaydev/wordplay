@@ -8,9 +8,9 @@ import { parseExpression, toTokens } from '@parser/Parser';
 import NumberLiteral from '@nodes/NumberLiteral';
 import ListLiteral from '@nodes/ListLiteral';
 import Token from '@nodes/Token';
-import { getDefaultNative } from '@native/Native';
+import { getDefaultBasis } from '@basis/Basis';
 
-const native = await getDefaultNative();
+const basis = getDefaultBasis();
 
 test.each([
     // Replace placeholder with rootless expression
@@ -108,7 +108,7 @@ test.each([
             'test',
             sources[0],
             sources.slice(1),
-            native
+            basis
         );
         const [newProject] = dropNodeOnSource(
             project,

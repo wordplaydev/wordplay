@@ -1103,7 +1103,7 @@ export default class Caret {
         conflicts: Conflict[],
         context: Context
     ): string {
-        const locale = context.native.locales[0];
+        const locale = context.basis.locales[0];
 
         /** Get description of conflicts */
         const conflictDescription =
@@ -1121,7 +1121,7 @@ export default class Caret {
     }
 
     getPositionDescription(type: Type | undefined, context: Context) {
-        const locale = context.native.locales[0];
+        const locale = context.basis.locales[0];
 
         /** If the caret is a node, describe the node. */
         if (this.position instanceof Node) {

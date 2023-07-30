@@ -11,7 +11,7 @@ import NameToken from './NameToken';
 import TypeInputs from './TypeInputs';
 import UnexpectedTypeInput from '@conflicts/UnexpectedTypeInput';
 import type TypeSet from './TypeSet';
-import type { NativeTypeName } from '../native/NativeConstants';
+import type { BasisTypeName } from '../basis/BasisConstants';
 import UnknownNameType from './UnknownNameType';
 import type Node from './Node';
 import { node, type Grammar, type Replacement, optional } from './Node';
@@ -143,7 +143,7 @@ export default class NameType extends Type {
         else return definition.getType(context);
     }
 
-    getNativeTypeName(): NativeTypeName {
+    getBasisTypeName(): BasisTypeName {
         return 'name';
     }
 

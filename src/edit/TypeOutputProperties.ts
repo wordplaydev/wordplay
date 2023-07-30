@@ -1,4 +1,4 @@
-import { SupportedFonts } from '@native/Fonts';
+import { SupportedFonts } from '@basis/Fonts';
 import Evaluate from '@nodes/Evaluate';
 import type Expression from '@nodes/Expression';
 import NumberLiteral from '@nodes/NumberLiteral';

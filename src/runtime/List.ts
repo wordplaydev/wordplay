@@ -3,18 +3,18 @@ import Bool from './Bool';
 import Text from './Text';
 import Number from './Number';
 import None from './None';
-import Primitive from './Primitive';
+import Simple from './Simple';
 import type Value from './Value';
 import UnionType from '@nodes/UnionType';
 import type Context from '@nodes/Context';
 import type LanguageCode from '@locale/LanguageCode';
 import { LIST_CLOSE_SYMBOL, LIST_OPEN_SYMBOL } from '@parser/Symbols';
-import type { NativeTypeName } from '../native/NativeConstants';
+import type { BasisTypeName } from '../basis/BasisConstants';
 import type Locale from '@locale/Locale';
 import type Expression from '../nodes/Expression';
 import concretize from '../locale/concretize';
 
-export default class List extends Primitive {
+export default class List extends Simple {
     readonly values: Value[] = [];
 
     constructor(creator: Expression, values: Value[]) {
@@ -138,7 +138,7 @@ export default class List extends Primitive {
         );
     }
 
-    getNativeTypeName(): NativeTypeName {
+    getBasisTypeName(): BasisTypeName {
         return 'list';
     }
 

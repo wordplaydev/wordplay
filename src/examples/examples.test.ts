@@ -1,12 +1,12 @@
 import { test, expect } from 'vitest';
 import { examples, makeProject, type Stuff } from './examples';
-import { getDefaultNative } from '../native/Native';
+import { getDefaultBasis } from '../basis/Basis';
 
-const native = await getDefaultNative();
-const locale = native.locales[0];
+const basis = getDefaultBasis();
+const locale = basis.locales[0];
 
 test.each(examples)(`Ensure $name has no conflicts`, (example: Stuff) => {
-    const project = makeProject(example, native);
+    const project = makeProject(example, basis);
     project.analyze();
     project.getAnalysis();
     const context = project.getContext(project.main);

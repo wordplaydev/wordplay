@@ -1,17 +1,17 @@
 import { test, expect } from 'vitest';
 import Evaluator from '@runtime/Evaluator';
-import { getDefaultNative } from '../native/Native';
+import { getDefaultBasis } from '../basis/Basis';
 
-const native = await getDefaultNative();
+const basis = getDefaultBasis();
 
 test('Test custom type conflicts', () => {
-    expect(Evaluator.evaluateCode(native, `"hello"`)?.toWordplay([])).toBe(
+    expect(Evaluator.evaluateCode(basis, `"hello"`)?.toWordplay([])).toBe(
         '"hello"'
     );
-    expect(Evaluator.evaluateCode(native, `"hello"/`)?.toWordplay([])).toBe(
+    expect(Evaluator.evaluateCode(basis, `"hello"/`)?.toWordplay([])).toBe(
         '"hello"'
     );
-    expect(Evaluator.evaluateCode(native, `"hello"/en`)?.toWordplay([])).toBe(
+    expect(Evaluator.evaluateCode(basis, `"hello"/en`)?.toWordplay([])).toBe(
         '"hello"/en'
     );
 });

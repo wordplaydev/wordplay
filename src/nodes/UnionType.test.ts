@@ -1,10 +1,10 @@
 import { test, expect } from 'vitest';
-import { getDefaultNative } from '../native/Native';
+import { getDefaultBasis } from '../basis/Basis';
 import Project from '../models/Project';
 import Source from './Source';
 import { parseType, toTokens } from '../parser/Parser';
 
-const native = await getDefaultNative();
+const basis = getDefaultBasis();
 
 test.each([
     ["'hi'|'hello'", "''"],
@@ -18,7 +18,7 @@ test.each([
     ['{1|2:2|3}', '{#:#}'],
 ])('expect %s', (given: string, expected) => {
     const source = new Source('untitled', '');
-    const project = new Project(null, 'untitled', source, [], native);
+    const project = new Project(null, 'untitled', source, [], basis);
     const context = project.getContext(source);
 
     const type = parseType(toTokens(given));

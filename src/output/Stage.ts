@@ -4,7 +4,7 @@ import TypeOutput, { createTypeOutputInputs } from './TypeOutput';
 import type RenderContext from './RenderContext';
 import Color from './Color';
 import Place from './Place';
-import toStructure from '../native/toStructure';
+import toStructure from '../basis/toStructure';
 import Number from '@runtime/Number';
 import Decimal from 'decimal.js';
 import { toColor } from './Color';

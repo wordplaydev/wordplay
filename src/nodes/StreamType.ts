@@ -1,4 +1,4 @@
-import type { NativeTypeName } from '../native/NativeConstants';
+import type { BasisTypeName } from '../basis/BasisConstants';
 import { STREAM_SYMBOL } from '@parser/Symbols';
 import type Locale from '@locale/Locale';
 import AnyType from './AnyType';
@@ -51,7 +51,7 @@ export default class StreamType extends Type {
             );
     }
 
-    getNativeTypeName(): NativeTypeName {
+    getBasisTypeName(): BasisTypeName {
         return 'stream';
     }
 

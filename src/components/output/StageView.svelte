@@ -8,7 +8,7 @@
     import { onDestroy, onMount } from 'svelte';
     import type Project from '@models/Project';
     import type Stage from '@output/Stage';
-    import { loadedFonts } from '@native/Fonts';
+    import { loadedFonts } from '@basis/Fonts';
     import { PX_PER_METER, toCSS } from '@output/outputToCSS';
     import Place from '@output/Place';
     import Evaluate from '@nodes/Evaluate';

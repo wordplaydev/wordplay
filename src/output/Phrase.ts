@@ -1,14 +1,14 @@
 import type Pose from './Pose';
 import type Value from '@runtime/Value';
 import type Color from './Color';
-import Fonts, { type FontWeight } from '../native/Fonts';
+import Fonts, { type FontWeight } from '../basis/Fonts';
 import Text from '@runtime/Text';
 import TypeOutput, { createTypeOutputInputs } from './TypeOutput';
 import type RenderContext from './RenderContext';
 import type Place from './Place';
 import List from '@runtime/List';
 import TextLang from './TextLang';
-import toStructure from '../native/toStructure';
+import toStructure from '../basis/toStructure';
 import getTextMetrics from './getTextMetrics';
 import type Sequence from './Sequence';
 import { PX_PER_METER, sizeToPx } from './outputToCSS';

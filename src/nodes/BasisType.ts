@@ -3,23 +3,23 @@ import Type from './Type';
 import type Node from './Node';
 import type Definition from './Definition';
 
-export default abstract class NativeType extends Type {
+export default abstract class BasisType extends Type {
     constructor() {
         super();
     }
 
-    /** Override the base class: native type scopes are their native structure definitions. */
+    /** Override the base class: basis type scopes are their basis structure definitions. */
     getScope(context: Context): Node | undefined {
-        return context.native.getStructureDefinition(this.getNativeTypeName());
+        return context.basis.getStructureDefinition(this.getBasisTypeName());
     }
 
     /**
-     * Get the in the native structure definitions.
+     * Get the in the basis structure definitions.
      */
     getDefinitions(_: Node, context: Context): Definition[] {
         return (
-            context.native
-                .getStructureDefinition(this.getNativeTypeName())
+            context.basis
+                .getStructureDefinition(this.getBasisTypeName())
                 ?.getDefinitions(this) ?? []
         );
     }

@@ -18,7 +18,7 @@ export function getPossibleUnits(context: Context) {
             []
         );
 
-    const unitsInShares = context.native.shares.all
+    const unitsInShares = context.basis.shares.all
         .map((def) => def.nodes().filter((d): d is Unit => d instanceof Unit))
         .flat();
 
@@ -37,7 +37,7 @@ export function getPossibleUnits(context: Context) {
 function getUnitsInConversions(project: Project) {
     // Get all dimensions referred to in conversions.
     const unitsInConversions = project
-        .getNative()
+        .getBasis()
         .getStructureDefinition('measurement')
         ?.getAllConversions()
         .map((conversion) =>

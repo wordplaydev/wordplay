@@ -1,4 +1,4 @@
-import type { NativeTypeName } from '../native/NativeConstants';
+import type { BasisTypeName } from '../basis/BasisConstants';
 import type Locale from '@locale/Locale';
 import Type from './Type';
 import type TypeSet from './TypeSet';
@@ -40,7 +40,7 @@ export default class VariableType extends Type {
             );
     }
 
-    getNativeTypeName(): NativeTypeName {
+    getBasisTypeName(): BasisTypeName {
         return 'variable';
     }
 

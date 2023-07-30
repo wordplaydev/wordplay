@@ -69,7 +69,7 @@
         "ListLiteral",
         "MapLiteral",
         "NumberLiteral",
-        "NativeExpression",
+        "BasisExpression",
         "NoneLiteral",
         "Previous",
         "Program",

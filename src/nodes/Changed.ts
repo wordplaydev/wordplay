@@ -23,7 +23,7 @@ import NodeRef from '@locale/NodeRef';
 import BooleanType from './BooleanType';
 import Glyphs from '../lore/Glyphs';
 import Purpose from '../concepts/Purpose';
-import type { NativeTypeName } from '../native/NativeConstants';
+import type { BasisTypeName } from '../basis/BasisConstants';
 import IncompatibleInput from '../conflicts/IncompatibleInput';
 import concretize from '../locale/concretize';
 
@@ -68,7 +68,7 @@ export default class Changed extends AtomicExpression {
         return Purpose.Decide;
     }
 
-    getAffiliatedType(): NativeTypeName | undefined {
+    getAffiliatedType(): BasisTypeName | undefined {
         return 'stream';
     }
 

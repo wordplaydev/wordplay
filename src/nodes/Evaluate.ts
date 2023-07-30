@@ -54,7 +54,7 @@ import { NotAType } from './NotAType';
 import concretize from '../locale/concretize';
 import Symbol from './Symbol';
 import Refer from '../edit/Refer';
-import NativeType from './NativeType';
+import BasisType from './BasisType';
 import Purpose from '../concepts/Purpose';
 
 type Mapping = {
@@ -117,15 +117,15 @@ export default class Evaluate extends Expression {
                 ? nodeBeingReplaced.getType(context)
                 : undefined;
         const structure =
-            scopingType instanceof NativeType ||
+            scopingType instanceof BasisType ||
             scopingType instanceof StructureDefinitionType;
         // Get the definitions in the structure type we found,
         // or in the surrounding scope if there isn't one.
         const definitions =
             // If the anchor is selected for replacement...
             nodeBeingReplaced
-                ? // If the scope is native, get definitions in native scope
-                  scopingType instanceof NativeType
+                ? // If the scope is basis, get definitions in basis scope
+                  scopingType instanceof BasisType
                     ? scopingType.getDefinitions(nodeBeingReplaced, context)
                     : // If the scope is a structure, get definitions in its scope
                     scopingType instanceof StructureDefinitionType

@@ -121,7 +121,7 @@
         scene ? scene.name : act ? act.name : $config.getLocale().wordplay,
         new Source($config.getLocale().term.start, source),
         [],
-        $config.getNative(),
+        $config.getBasis(),
         undefined,
         $user ? [$user.uid] : [],
         false

@@ -16,7 +16,7 @@ import NodeRef from '../locale/NodeRef';
 import ValueRef from '../locale/ValueRef';
 import { unescapeDocSymbols } from '../parser/Tokenizer';
 import type Node from './Node';
-import type { FontWeight } from '../native/Fonts';
+import type { FontWeight } from '../basis/Fonts';
 
 export type Format = 'italic' | 'underline' | 'light' | 'bold' | 'extra';
 

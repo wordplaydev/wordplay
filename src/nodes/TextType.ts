@@ -1,8 +1,8 @@
-import type { NativeTypeName } from '../native/NativeConstants';
+import type { BasisTypeName } from '../basis/BasisConstants';
 import { TEXT_SYMBOL } from '@parser/Symbols';
 import type Locale from '@locale/Locale';
 import Language from './Language';
-import NativeType from './NativeType';
+import BasisType from './BasisType';
 import { node, type Grammar, type Replacement, optional } from './Node';
 import Token from './Token';
 import Symbol from './Symbol';
@@ -15,7 +15,7 @@ import type Type from './Type';
 import TextLiteral from './TextLiteral';
 
 /** Any string or a specific string, depending on whether the given token is an empty text literal. */
-export default class TextType extends NativeType {
+export default class TextType extends BasisType {
     readonly text: Token;
     readonly language?: Language;
 
@@ -103,7 +103,7 @@ export default class TextType extends NativeType {
         return text;
     }
 
-    getNativeTypeName(): NativeTypeName {
+    getBasisTypeName(): BasisTypeName {
         return 'text';
     }
 

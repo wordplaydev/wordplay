@@ -1,6 +1,6 @@
-import type { NativeTypeName } from '../native/NativeConstants';
+import type { BasisTypeName } from '../basis/BasisConstants';
 import type Context from './Context';
-import NativeType from './NativeType';
+import BasisType from './BasisType';
 import type Token from './Token';
 import Type from './Type';
 import SetOpenToken from './SetOpenToken';
@@ -15,7 +15,7 @@ import NodeRef from '../locale/NodeRef';
 import Symbol from './Symbol';
 import type Node from './Node';
 
-export default class SetType extends NativeType {
+export default class SetType extends BasisType {
     readonly open: Token;
     readonly key?: Type;
     readonly close?: Token;
@@ -86,12 +86,12 @@ export default class SetType extends NativeType {
         return SetType.make(this.key?.generalize(context));
     }
 
-    getNativeTypeName(): NativeTypeName {
+    getBasisTypeName(): BasisTypeName {
         return 'set';
     }
 
     resolveTypeVariable(name: string, context: Context): Type | undefined {
-        const setDef = context.native.getPrimitiveDefinition('set');
+        const setDef = context.basis.getSimpleDefinition('set');
         return setDef.types !== undefined &&
             setDef.types.hasVariableNamed(name) &&
             this.key instanceof Type

@@ -11,7 +11,7 @@ import Value from './Value';
 import ValueException from './ValueException';
 import TypeException from './TypeException';
 import Structure from './Structure';
-import Primitive from './Primitive';
+import Simple from './Simple';
 import Number from './Number';
 import type Node from '@nodes/Node';
 import Names from '@nodes/Names';
@@ -20,7 +20,7 @@ import Finish from './Finish';
 import type UnaryEvaluate from '@nodes/UnaryEvaluate';
 import type BinaryEvaluate from '@nodes/BinaryEvaluate';
 import type Evaluate from '@nodes/Evaluate';
-import type HOF from '../native/HOF';
+import type HOF from '../basis/HOF';
 import type Source from '@nodes/Source';
 import type Convert from '@nodes/Convert';
 import type Borrow from '@nodes/Borrow';
@@ -54,7 +54,7 @@ export default class Evaluation {
     /** The evaluator running the program. Some evaluations are created without running a program (e.g. stream structures). */
     readonly #evaluator: Evaluator;
 
-    /** The source of the evaluation node. Undefined if native. */
+    /** The source of the evaluation node. Undefined if basis. */
     readonly #source: Source | undefined;
 
     /** The node that caused this evaluation to start. */
@@ -358,7 +358,7 @@ export default class Evaluation {
         if (context instanceof Structure) return context;
         else if (context instanceof Number)
             return context.unitless(this.#evaluationNode);
-        else if (context instanceof Primitive) return context;
+        else if (context instanceof Simple) return context;
         else if (context instanceof Evaluation)
             return context.getThis(requestor);
         else return undefined;

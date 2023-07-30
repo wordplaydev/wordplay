@@ -7,15 +7,15 @@ import UnparsableType from '@nodes/UnparsableType';
 import UnparsableExpression from '@nodes/UnparsableExpression';
 import Project from '../models/Project';
 import Example from '../nodes/Example';
-import { getDefaultNative } from './Native';
+import { getDefaultBasis } from './Basis';
 
-const native = await getDefaultNative();
+const basis = getDefaultBasis();
 
-const source = new Source('native', '');
-const project = new Project(null, 'test', source, [], native);
+const source = new Source('basis', '');
+const project = new Project(null, 'test', source, [], basis);
 const context = new Context(project, source);
 
-function checkNativeNodes(nodes: Node[]) {
+function checkBasisNodes(nodes: Node[]) {
     // Check for syntax errors
     const unparsables = nodes.reduce(
         (unparsables: (UnparsableExpression | UnparsableType)[], def) => [
@@ -65,7 +65,7 @@ function checkNativeNodes(nodes: Node[]) {
                             )}\nPrimary node: ${conflictingNodes.primary.node.toWordplay()}\n\t${
                             conflict.constructor.name
                         }\n${conflictingNodes.primary.explanation(
-                            native.locales[0],
+                            basis.locales[0],
                             context
                         )}`
                     );
@@ -77,18 +77,18 @@ function checkNativeNodes(nodes: Node[]) {
     }
 }
 
-test("Verify that native structures don't have parsing errors or conflicts.", () => {
-    // Check native structures
-    checkNativeNodes(Object.values(native.structureDefinitionsByName));
+test("Verify that basis structures don't have parsing errors or conflicts.", () => {
+    // Check basis structures
+    checkBasisNodes(Object.values(basis.structureDefinitionsByName));
 
-    // Check native functions
-    for (const funs of Object.values(native.functionsByType))
-        checkNativeNodes(Object.values(funs));
+    // Check basis functions
+    for (const funs of Object.values(basis.functionsByType))
+        checkBasisNodes(Object.values(funs));
 
-    // Check native conversions
-    for (const funs of Object.values(native.conversionsByType))
-        checkNativeNodes(Object.values(funs));
+    // Check basis conversions
+    for (const funs of Object.values(basis.conversionsByType))
+        checkBasisNodes(Object.values(funs));
 
     // Check default definition shares.
-    checkNativeNodes(project.shares.all);
+    checkBasisNodes(project.shares.all);
 });

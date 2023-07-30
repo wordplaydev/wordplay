@@ -1,6 +1,6 @@
 import type LanguageCode from './LanguageCode';
 import type Symbol from '../nodes/Symbol';
-import type NativeTexts from './NativeTexts';
+import type BasisTexts from './BasisTexts';
 import type NodeTexts from './NodeTexts';
 import type OutputTexts from './OutputTexts';
 import type UITexts from './UITexts';
@@ -24,7 +24,7 @@ export type Locale = {
     term: TermTexts;
     token: Record<keyof typeof Symbol, string>;
     node: NodeTexts;
-    native: NativeTexts;
+    basis: BasisTexts;
     input: InputTexts;
     output: OutputTexts;
     ui: UITexts;

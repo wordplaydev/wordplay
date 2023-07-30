@@ -563,7 +563,7 @@ export default class Bind extends Expression {
                       // affected by their past values.
                       if (this.value) {
                           let stream =
-                              evaluator.getNativeStreamFor(
+                              evaluator.getBasisStreamFor(
                                   this.value as EvaluatorNode,
                                   true
                               ) ??

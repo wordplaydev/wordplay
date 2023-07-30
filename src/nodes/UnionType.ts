@@ -8,7 +8,7 @@ import Type from './Type';
 import { OR_SYMBOL } from '@parser/Symbols';
 import type TypeSet from './TypeSet';
 import NeverType from './NeverType';
-import type { NativeTypeName } from '../native/NativeConstants';
+import type { BasisTypeName } from '../basis/BasisConstants';
 import { node, type Grammar, type Replacement } from './Node';
 import type Locale from '@locale/Locale';
 import NoneType from './NoneType';
@@ -101,22 +101,22 @@ export default class UnionType extends Type {
         );
     }
 
-    /** Override the native conversion search to check both types */
+    /** Override the basis conversion search to check both types */
     getConversion(
         context: Context,
         input: Type,
         output: Type
     ): ConversionDefinition | undefined {
-        const left = context.native.getConversion(
-            this.left.getNativeTypeName(),
+        const left = context.basis.getConversion(
+            this.left.getBasisTypeName(),
             context,
             input,
             output
         );
         if (left !== undefined) return left;
         return this.right instanceof Type
-            ? context.native.getConversion(
-                  this.right.getNativeTypeName(),
+            ? context.basis.getConversion(
+                  this.right.getBasisTypeName(),
                   context,
                   input,
                   output
@@ -128,23 +128,23 @@ export default class UnionType extends Type {
         context: Context,
         name: string
     ): FunctionDefinition | undefined {
-        const left = context.native.getFunction(
-            this.left.getNativeTypeName(),
+        const left = context.basis.getFunction(
+            this.left.getBasisTypeName(),
             name
         );
         if (left !== undefined) return left;
         return this.right instanceof Type
-            ? context.native.getFunction(this.right.getNativeTypeName(), name)
+            ? context.basis.getFunction(this.right.getBasisTypeName(), name)
             : undefined;
     }
 
-    getNativeTypeName(): NativeTypeName {
+    getBasisTypeName(): BasisTypeName {
         return 'union';
     }
 
     computeConflicts() {}
 
-    /** Override the base class: native type scopes are their native structure definitions. */
+    /** Override the base class: basis type scopes are their basis structure definitions. */
     getScope(context: Context): Node | undefined {
         // Get the scope of the left and right and only return it if it's the same.
         // Otherwise, there is no overlapping scope.

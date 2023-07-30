@@ -1,9 +1,9 @@
 import { test, expect } from 'vitest';
 import { NONE_SYMBOL, PROPERTY_SYMBOL } from '@parser/Symbols';
 import Evaluator from '@runtime/Evaluator';
-import { getDefaultNative } from '../native/Native';
+import { getDefaultBasis } from '../basis/Basis';
 
-const native = await getDefaultNative();
+const basis = getDefaultBasis();
 
 test.each([
     ["⊤→''", '"⊤"'],
@@ -20,5 +20,5 @@ test.each([
     ["{1:'cat' 2:'dog' 3:'rat'}→[]", '["cat" "dog" "rat"]'],
     [`→ #s #kitty ${PROPERTY_SYMBOL} · 1kitty + 1kitty\n5s→#kitty`, '6kitty'],
 ])('Expect %s to be %s', (code, value) => {
-    expect(Evaluator.evaluateCode(native, code)?.toString()).toBe(value);
+    expect(Evaluator.evaluateCode(basis, code)?.toString()).toBe(value);
 });

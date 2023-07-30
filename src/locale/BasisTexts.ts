@@ -1,6 +1,6 @@
 import type { DocText, NameText, FunctionText, NameAndDoc } from './Locale';
 
-type NativeTexts = {
+type BasisTexts = {
     Boolean: {
         doc: DocText;
         name: NameText;
@@ -228,4 +228,4 @@ type NativeTexts = {
     };
 };
 
-export default NativeTexts;
+export default BasisTexts;

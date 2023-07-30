@@ -12,7 +12,7 @@ import Symbol from './Symbol';
 import type Node from './Node';
 import Words from './Words';
 import type { FormattedText } from '../output/Phrase';
-import type { FontWeight } from '../native/Fonts';
+import type { FontWeight } from '../basis/Fonts';
 
 /**
  * To refer to an input, use a $, followed by the number of the input desired,

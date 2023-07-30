@@ -21,7 +21,7 @@ export default class StructureConcept extends Concept {
     /** The type of the structure definition, enabling the creation of examples with typed placeholders */
     readonly type: Type;
 
-    /** A list of examples for creating the structure. For native types, likely literals, but for custom types, other useful examples. */
+    /** A list of examples for creating the structure. For basis types, likely literals, but for custom types, other useful examples. */
     readonly examples: Node[];
 
     /** A derived list of interfaces */

@@ -22,7 +22,7 @@
         'example',
         new Source('example', [example.program, spaces]),
         [],
-        $config.getNative()
+        $config.getBasis()
     );
     let value: Value | undefined = undefined;
     let evaluator: Evaluator | undefined;

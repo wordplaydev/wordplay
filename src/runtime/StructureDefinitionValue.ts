@@ -1,15 +1,15 @@
 import type StructureDefinition from '@nodes/StructureDefinition';
 import StructureDefinitionType from '@nodes/StructureDefinitionType';
 import type Evaluation from './Evaluation';
-import Primitive from './Primitive';
+import Simple from './Simple';
 import type Value from './Value';
 import { TYPE_SYMBOL } from '@parser/Symbols';
 import type LanguageCode from '@locale/LanguageCode';
-import type { NativeTypeName } from '../native/NativeConstants';
+import type { BasisTypeName } from '../basis/BasisConstants';
 import type Locale from '@locale/Locale';
 import concretize from '../locale/concretize';
 
-export default class StructureDefinitionValue extends Primitive {
+export default class StructureDefinitionValue extends Simple {
     /** The definition from the AST. */
     readonly definition: StructureDefinition;
 
@@ -27,7 +27,7 @@ export default class StructureDefinitionValue extends Primitive {
         return new StructureDefinitionType(this.definition, []);
     }
 
-    getNativeTypeName(): NativeTypeName {
+    getBasisTypeName(): BasisTypeName {
         return 'structure';
     }
 

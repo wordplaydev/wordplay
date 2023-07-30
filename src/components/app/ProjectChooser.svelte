@@ -49,6 +49,6 @@
 
 <Lead>{$config.getLocale().ui.header.examples}</Lead>
 <ProjectSet
-    set={examples.map((example) => makeProject(example, $config.getNative()))}
+    set={examples.map((example) => makeProject(example, $config.getBasis()))}
     previewAction={(project) => copyProject(project)}
 />

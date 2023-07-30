@@ -11,9 +11,9 @@ import SetType from './SetType';
 import MapType from './MapType';
 import UnknownInput from '@conflicts/UnknownInput';
 import UnexpectedTypeInput from '@conflicts/UnexpectedTypeInput';
-import { getDefaultNative } from '../native/Native';
+import { getDefaultBasis } from '../basis/Basis';
 
-const native = await getDefaultNative();
+const basis = getDefaultBasis();
 
 test.each([
     [
@@ -133,7 +133,7 @@ test.each([
     ['x: ƒ(a•#:1 b…•#:1) [ a b ]\nx(1 5)', '[1 [5]]'],
     ['x: ƒ(a•#:1 b…•#:1) [ a b ]\nx(5 1)', '[5 [1]]'],
 ])('%s = %s', (code: string, value: string) => {
-    expect(Evaluator.evaluateCode(native, code)?.toString()).toBe(value);
+    expect(Evaluator.evaluateCode(basis, code)?.toString()).toBe(value);
 });
 
 test('Test generics', () => {

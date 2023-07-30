@@ -136,7 +136,7 @@ export default class Motion extends TemporalStream<Value> {
                     ? type.creator
                     : this.definition;
 
-            const en = this.evaluator.project.native.locales[0];
+            const en = this.evaluator.project.basis.locales[0];
             const PlaceName =
                 typeof en.output.Type.place.names === 'string'
                     ? en.output.Type.place.names

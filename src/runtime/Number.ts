@@ -4,10 +4,10 @@ import Unit from '@nodes/Unit';
 import Bool from './Bool';
 import None from './None';
 import Decimal from 'decimal.js';
-import Primitive from './Primitive';
+import Simple from './Simple';
 import NumberType from '@nodes/NumberType';
 import type Value from './Value';
-import type { NativeTypeName } from '../native/NativeConstants';
+import type { BasisTypeName } from '../basis/BasisConstants';
 import type Locale from '@locale/Locale';
 import type Expression from '../nodes/Expression';
 import concretize from '../locale/concretize';
@@ -16,7 +16,7 @@ import concretize from '../locale/concretize';
  * If all of it's parts are empty, it is not a number.
  * If it's numerator
  */
-export default class Number extends Primitive {
+export default class Number extends Simple {
     readonly num: Decimal;
     readonly unit: Unit;
 
@@ -224,7 +224,7 @@ export default class Number extends Primitive {
         return NumberType.make(this.unit);
     }
 
-    getNativeTypeName(): NativeTypeName {
+    getBasisTypeName(): BasisTypeName {
         return 'measurement';
     }
 

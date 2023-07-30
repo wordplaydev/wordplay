@@ -1,4 +1,4 @@
-import toStructure from '../native/toStructure';
+import toStructure from '../basis/toStructure';
 import type Value from '@runtime/Value';
 import type Color from './Color';
 import Output from './Output';
@@ -10,7 +10,7 @@ import TextLang from './TextLang';
 import type Pose from './Pose';
 import type { DefinitePose } from './Pose';
 import type RenderContext from './RenderContext';
-import Fonts, { SupportedFontsFamiliesType } from '../native/Fonts';
+import Fonts, { SupportedFontsFamiliesType } from '../basis/Fonts';
 import type Locale from '../locale/Locale';
 
 export function createTypeType(locales: Locale[]) {

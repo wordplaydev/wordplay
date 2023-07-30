@@ -1,5 +1,5 @@
 import Decimal from 'decimal.js';
-import toStructure from '../native/toStructure';
+import toStructure from '../basis/toStructure';
 import type Value from '@runtime/Value';
 import Output, { getOutputInputs } from './Output';
 import { toDecimal } from './Stage';

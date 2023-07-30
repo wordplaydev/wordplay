@@ -1,5 +1,5 @@
 type LanguageMetadata = {
-    /** The language name, in its native script */
+    /** The language name, in its basis script */
     name: string;
     /** The English name, in case we need it */
     en: string;

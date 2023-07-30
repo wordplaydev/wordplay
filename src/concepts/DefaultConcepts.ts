@@ -66,7 +66,7 @@ import UnionType from '../nodes/UnionType';
 import WebLink from '../nodes/WebLink';
 import UnparsableExpression from '../nodes/UnparsableExpression';
 import Unit from '../nodes/Unit';
-import type { Native } from '../native/Native';
+import type { Basis } from '../basis/Basis';
 import Docs from '../nodes/Docs';
 import Name from '../nodes/Name';
 import DocumentedExpression from '../nodes/DocumentedExpression';
@@ -224,22 +224,22 @@ export function getNodeConcepts(context: Context): NodeConcept[] {
     return templates.map((node) => {
         const typeName = node.getAffiliatedType();
         const type = typeName
-            ? context.native.getStructureDefinition(typeName)
+            ? context.basis.getStructureDefinition(typeName)
             : undefined;
         return new NodeConcept(node.getPurpose(), type, node, context);
     });
 }
 
-export function getNativeConcepts(
-    native: Native,
+export function getBasisConcepts(
+    basis: Basis,
     languages: LanguageCode[],
     context: Context
 ): StructureConcept[] {
     return [
         new StructureConcept(
             Purpose.Value,
-            native.getPrimitiveDefinition('text'),
-            native.getPrimitiveDefinition('text'),
+            basis.getSimpleDefinition('text'),
+            basis.getSimpleDefinition('text'),
             TextType.make(),
             [TextLiteral.make(''), Template.make()],
             languages,
@@ -247,8 +247,8 @@ export function getNativeConcepts(
         ),
         new StructureConcept(
             Purpose.Value,
-            native.getPrimitiveDefinition('measurement'),
-            native.getPrimitiveDefinition('measurement'),
+            basis.getSimpleDefinition('measurement'),
+            basis.getSimpleDefinition('measurement'),
             NumberType.make(),
             [
                 NumberLiteral.make(0),
@@ -260,8 +260,8 @@ export function getNativeConcepts(
         ),
         new StructureConcept(
             Purpose.Value,
-            native.getPrimitiveDefinition('boolean'),
-            native.getPrimitiveDefinition('boolean'),
+            basis.getSimpleDefinition('boolean'),
+            basis.getSimpleDefinition('boolean'),
             BooleanType.make(),
             [BooleanLiteral.make(true), BooleanLiteral.make(false)],
             languages,
@@ -269,8 +269,8 @@ export function getNativeConcepts(
         ),
         new StructureConcept(
             Purpose.Value,
-            native.getPrimitiveDefinition('list'),
-            native.getPrimitiveDefinition('list'),
+            basis.getSimpleDefinition('list'),
+            basis.getSimpleDefinition('list'),
             ListType.make(),
             [ListLiteral.make([])],
             languages,
@@ -278,8 +278,8 @@ export function getNativeConcepts(
         ),
         new StructureConcept(
             Purpose.Value,
-            native.getPrimitiveDefinition('set'),
-            native.getPrimitiveDefinition('set'),
+            basis.getSimpleDefinition('set'),
+            basis.getSimpleDefinition('set'),
             SetType.make(),
             [SetLiteral.make([])],
             languages,
@@ -287,8 +287,8 @@ export function getNativeConcepts(
         ),
         new StructureConcept(
             Purpose.Value,
-            native.getPrimitiveDefinition('map'),
-            native.getPrimitiveDefinition('map'),
+            basis.getSimpleDefinition('map'),
+            basis.getSimpleDefinition('map'),
             MapType.make(TypePlaceholder.make(), TypePlaceholder.make()),
             [MapLiteral.make([])],
             languages,
@@ -296,8 +296,8 @@ export function getNativeConcepts(
         ),
         new StructureConcept(
             Purpose.Value,
-            native.getPrimitiveDefinition('none'),
-            native.getPrimitiveDefinition('none'),
+            basis.getSimpleDefinition('none'),
+            basis.getSimpleDefinition('none'),
             NoneType.make(),
             [NoneLiteral.make()],
             languages,

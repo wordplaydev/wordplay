@@ -1,4 +1,4 @@
-import type { NativeTypeName } from '../native/NativeConstants';
+import type { BasisTypeName } from '../basis/BasisConstants';
 import type LanguageCode from '@locale/LanguageCode';
 import type TableLiteral from '@nodes/TableLiteral';
 import TableType from '@nodes/TableType';
@@ -27,7 +27,7 @@ export default class Table extends Value {
         return TableType.make([]);
     }
 
-    getNativeTypeName(): NativeTypeName {
+    getBasisTypeName(): BasisTypeName {
         return 'table';
     }
 

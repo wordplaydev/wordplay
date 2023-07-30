@@ -1,6 +1,6 @@
-/** Evaluates a native stream type, given some callbacks */
+/** Evaluates a basis stream type, given some callbacks */
 
-import NativeExpression from '../native/NativeExpression';
+import BasisExpression from '../basis/BasisExpression';
 import StreamType from '../nodes/StreamType';
 import type Type from '../nodes/Type';
 import type Evaluation from '../runtime/Evaluation';
@@ -14,15 +14,15 @@ export default function createStreamEvaluator<Kind extends Stream>(
     create: (evaluation: Evaluation) => Kind | Exception,
     update: (stream: Kind, evaluation: Evaluation) => void
 ) {
-    return new NativeExpression(StreamType.make(valueType), (_, evaluation) => {
+    return new BasisExpression(StreamType.make(valueType), (_, evaluation) => {
         const evaluator: Evaluator = evaluation.getEvaluator();
 
-        // Notify the evaluator that we're evaluating a native stream type so it can keep
+        // Notify the evaluator that we're evaluating a basis stream type so it can keep
         // track of the number of types the node has evaluated, identifying individual streams.
-        evaluator.incrementNativeStreamEvaluationCount(evaluation.getCreator());
+        evaluator.incrementBasisStreamEvaluationCount(evaluation.getCreator());
 
         // Get the stream corresponding to this node.
-        const stream = evaluator.getNativeStreamFor(evaluation.getCreator());
+        const stream = evaluator.getBasisStreamFor(evaluation.getCreator());
 
         // If we found one of the expected type, update it with the latest values.
         if (stream instanceof streamType) {
@@ -33,7 +33,7 @@ export default function createStreamEvaluator<Kind extends Stream>(
         else {
             const newStream = create(evaluation);
             if (newStream instanceof Exception) return newStream;
-            evaluator.addNativeStreamFor(evaluation.getCreator(), newStream);
+            evaluator.addBasisStreamFor(evaluation.getCreator(), newStream);
             return newStream;
         }
     });

@@ -1,6 +1,6 @@
-import type { NativeTypeName } from '../native/NativeConstants';
+import type { BasisTypeName } from '../basis/BasisConstants';
 import type Context from './Context';
-import NativeType from './NativeType';
+import BasisType from './BasisType';
 import type Token from './Token';
 import Type from './Type';
 import BindToken from './BindToken';
@@ -17,7 +17,7 @@ import Symbol from './Symbol';
 import TypePlaceholder from './TypePlaceholder';
 import type Node from './Node';
 
-export default class MapType extends NativeType {
+export default class MapType extends BasisType {
     readonly open: Token;
     readonly key?: Type;
     readonly bind: Token;
@@ -118,12 +118,12 @@ export default class MapType extends NativeType {
         );
     }
 
-    getNativeTypeName(): NativeTypeName {
+    getBasisTypeName(): BasisTypeName {
         return 'map';
     }
 
     resolveTypeVariable(name: string, context: Context): Type | undefined {
-        const mapDef = context.native.getPrimitiveDefinition('map');
+        const mapDef = context.basis.getSimpleDefinition('map');
         return mapDef.types !== undefined &&
             mapDef.types.variables[0].hasName(name) &&
             this.key instanceof Type

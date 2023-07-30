@@ -96,7 +96,7 @@
         // Record the key event on all keyboard streams if it wasn't handled above.
         if (evaluator.isPlaying()) {
             evaluator
-                .getNativeStreamsOfType(Key)
+                .getBasisStreamsOfType(Key)
                 .map((stream) => stream.record(event.key, false));
         }
         // else ignore();
@@ -233,7 +233,7 @@
 
         if (evaluator.isPlaying()) {
             evaluator
-                .getNativeStreamsOfType(Key)
+                .getBasisStreamsOfType(Key)
                 .map((stream) => stream.record(event.key, true));
         }
     }
@@ -252,7 +252,7 @@
 
         if (evaluator.isPlaying())
             evaluator
-                .getNativeStreamsOfType(Button)
+                .getBasisStreamsOfType(Button)
                 .map((stream) => stream.record(false));
     }
 
@@ -266,7 +266,7 @@
 
         if (evaluator.isPlaying()) {
             evaluator
-                .getNativeStreamsOfType(Button)
+                .getBasisStreamsOfType(Button)
                 .forEach((stream) => stream.record(true));
 
             // Was the target clicked on output with a name? Add it to choice streams.
@@ -310,7 +310,7 @@
                     : // If there's selected output, it's the first output selected
                     $selectedOutput && $selectedOutput.length > 0
                     ? getPlace(
-                          $config.getNative(),
+                          $config.getBasis(),
                           $selectedOutput[0],
                           evaluator.project.getNodeContext($selectedOutput[0])
                       )
@@ -426,7 +426,7 @@
 
         if (evaluator.isPlaying())
             evaluator
-                .getNativeStreamsOfType(Pointer)
+                .getBasisStreamsOfType(Pointer)
                 .map((stream) => stream.record(event.offsetX, event.offsetY));
         // Don't give feedback on this; it's not expected.
     }
@@ -510,7 +510,7 @@
                 : undefined;
         if (selection) {
             evaluator
-                .getNativeStreamsOfType(Choice)
+                .getBasisStreamsOfType(Choice)
                 .forEach((stream) => stream.record(selection));
             event.stopPropagation();
         }
@@ -624,13 +624,13 @@
         on:pointerup={interactive ? handlePointerUp : null}
         on:pointermove={interactive ? handlePointerMove : null}
     >
-        {#if evaluator.getNativeStreamsOfType(Key).length > 0}
+        {#if evaluator.getBasisStreamsOfType(Key).length > 0}
             <input
                 class="keyboard-input"
                 type="text"
                 data-defaultfocus
                 aria-autocomplete="none"
-                aria-label={project.native.locales[0].ui.prompt.keyStreamInput}
+                aria-label={project.basis.locales[0].ui.prompt.keyStreamInput}
                 autocomplete="off"
                 autocorrect="off"
                 bind:this={keyboardInputView}

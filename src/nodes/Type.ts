@@ -4,7 +4,7 @@ import Node from './Node';
 import type Context from './Context';
 import type Expression from './Expression';
 import TypeSet from './TypeSet';
-import type { NativeTypeName } from '../native/NativeConstants';
+import type { BasisTypeName } from '../basis/BasisConstants';
 import Purpose from '../concepts/Purpose';
 
 export default abstract class Type extends Node {
@@ -34,7 +34,7 @@ export default abstract class Type extends Node {
         expression?: Expression
     ): boolean;
 
-    abstract getNativeTypeName(): NativeTypeName;
+    abstract getBasisTypeName(): BasisTypeName;
 
     /** Subclasses override to abstract away from any literal types specified inside the type. */
     generalize(_: Context): Type {
@@ -46,8 +46,8 @@ export default abstract class Type extends Node {
         return this;
     }
 
-    getAffiliatedType(): NativeTypeName | undefined {
-        return this.getNativeTypeName();
+    getAffiliatedType(): BasisTypeName | undefined {
+        return this.getBasisTypeName();
     }
 
     /**
@@ -73,8 +73,8 @@ export default abstract class Type extends Node {
         input: Type,
         output: Type
     ): ConversionDefinition | undefined {
-        return context.native.getConversion(
-            this.getNativeTypeName(),
+        return context.basis.getConversion(
+            this.getBasisTypeName(),
             context,
             input,
             output
@@ -82,16 +82,16 @@ export default abstract class Type extends Node {
     }
 
     getAllConversions(context: Context) {
-        return context.native === undefined
+        return context.basis === undefined
             ? []
-            : context.native.getAllConversions();
+            : context.basis.getAllConversions();
     }
 
     getFunction(
         context: Context,
         name: string
     ): FunctionDefinition | undefined {
-        return context.native.getFunction(this.getNativeTypeName(), name);
+        return context.basis.getFunction(this.getBasisTypeName(), name);
     }
 
     resolveTypeVariable(_: string, __: Context): Type | undefined {

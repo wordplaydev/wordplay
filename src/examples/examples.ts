@@ -27,21 +27,21 @@ import Greeting from './Greeting.wp?raw';
 import Catch from './Catch.wp?raw';
 import { parseNames, toTokens } from '../parser/Parser';
 import type Names from '../nodes/Names';
-import type { Native } from '../native/Native';
+import type { Basis } from '../basis/Basis';
 
 export type Stuff = { name: string; sources: { names: Names; code: string }[] };
 
-export function projectFromText(project: string, native: Native): Project {
-    return makeProject(wpToStuff(project), native);
+export function projectFromText(project: string, basis: Basis): Project {
+    return makeProject(wpToStuff(project), basis);
 }
 
-export function makeProject(stuff: Stuff, native: Native) {
+export function makeProject(stuff: Stuff, basis: Basis) {
     return new Project(
         stuff.name,
         stuff.name,
         new Source(stuff.sources[0].names, stuff.sources[0].code),
         stuff.sources.slice(1).map((s) => new Source(s.names, s.code)),
-        native
+        basis
     );
 }
 

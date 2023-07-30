@@ -1,10 +1,10 @@
 import None from './None';
-import Primitive from './Primitive';
+import Simple from './Simple';
 import type Value from './Value';
 import type LanguageCode from '@locale/LanguageCode';
 import type Evaluator from './Evaluator';
 import type { StepNumber } from './Evaluator';
-import type { NativeTypeName } from '../native/NativeConstants';
+import type { BasisTypeName } from '../basis/BasisConstants';
 import type Locale from '@locale/Locale';
 import type StreamDefinition from '../nodes/StreamDefinition';
 import type Expression from '../nodes/Expression';
@@ -14,7 +14,7 @@ export const MAX_STREAM_LENGTH = 256;
 
 export default abstract class Stream<
     ValueType extends Value = Value
-> extends Primitive {
+> extends Simple {
     /** The evaluator that processes this stream */
     readonly evaluator: Evaluator;
 
@@ -71,7 +71,7 @@ export default abstract class Stream<
         if (!silent) this.notify();
     }
 
-    getNativeTypeName(): NativeTypeName {
+    getBasisTypeName(): BasisTypeName {
         return 'stream';
     }
 

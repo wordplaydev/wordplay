@@ -5,7 +5,7 @@ import BindToken from './BindToken';
 import type Locale from '@locale/Locale';
 import Glyphs from '../lore/Glyphs';
 import Purpose from '../concepts/Purpose';
-import type { NativeTypeName } from '../native/NativeConstants';
+import type { BasisTypeName } from '../basis/BasisConstants';
 import Node, { node } from './Node';
 import Symbol from './Symbol';
 import ExpressionPlaceholder from './ExpressionPlaceholder';
@@ -66,7 +66,7 @@ export default class KeyValue extends Node {
         return Purpose.Value;
     }
 
-    getAffiliatedType(): NativeTypeName | undefined {
+    getAffiliatedType(): BasisTypeName | undefined {
         return 'map';
     }
 

@@ -385,7 +385,7 @@ type NodeTexts = {
     NumberLiteral: DescriptiveNodeText &
         AtomicExpressionText &
         Conflicts<{ NotANumber: InternalConflictText }>;
-    NativeExpression: NodeText & AtomicExpressionText;
+    BasisExpression: NodeText & AtomicExpressionText;
     NoneLiteral: NodeText & AtomicExpressionText;
     /**
      * Start

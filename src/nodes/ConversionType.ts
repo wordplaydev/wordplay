@@ -1,4 +1,4 @@
-import type { NativeTypeName } from '../native/NativeConstants';
+import type { BasisTypeName } from '../basis/BasisConstants';
 import { CONVERT_SYMBOL } from '@parser/Symbols';
 import type Context from './Context';
 import Token from './Token';
@@ -63,7 +63,7 @@ export default class ConversionType extends Type {
             );
     }
 
-    getNativeTypeName(): NativeTypeName {
+    getBasisTypeName(): BasisTypeName {
         return 'conversion';
     }
 

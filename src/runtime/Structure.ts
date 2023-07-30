@@ -16,7 +16,7 @@ import {
     EVAL_CLOSE_SYMBOL,
     EVAL_OPEN_SYMBOL,
 } from '@parser/Symbols';
-import type { NativeTypeName } from '../native/NativeConstants';
+import type { BasisTypeName } from '../basis/BasisConstants';
 import type Locale from '@locale/Locale';
 import type Expression from '../nodes/Expression';
 import concretize from '../locale/concretize';
@@ -63,22 +63,22 @@ export default class Structure extends Value {
         return new StructureDefinitionType(this.type, []);
     }
 
-    getNativeTypeName(): NativeTypeName {
+    getBasisTypeName(): BasisTypeName {
         return 'structure';
     }
 
     resolve(name: string | Names, evaluator?: Evaluator): Value | undefined {
         const value = this.context.resolve(name);
         if (value !== undefined) return value;
-        const nativeFun =
+        const basisFun =
             evaluator && typeof name === 'string'
                 ? evaluator
-                      .getNative()
-                      .getFunction(this.getNativeTypeName(), name)
+                      .getBasis()
+                      .getFunction(this.getBasisTypeName(), name)
                 : undefined;
-        return nativeFun === undefined
+        return basisFun === undefined
             ? undefined
-            : new FunctionValue(nativeFun, this);
+            : new FunctionValue(basisFun, this);
     }
 
     getNumber(name: string): number | undefined {

@@ -11,7 +11,7 @@ import { node, type Grammar, type Replacement, optional } from './Node';
 import type Locale from '@locale/Locale';
 import Literal from './Literal';
 import Emotion from '../lore/Emotion';
-import type { NativeTypeName } from '../native/NativeConstants';
+import type { BasisTypeName } from '../basis/BasisConstants';
 import { TextDelimiters } from '../parser/Tokenizer';
 import concretize from '../locale/concretize';
 import type Node from './Node';
@@ -72,7 +72,7 @@ export default class TextLiteral extends Literal {
         ) as this;
     }
 
-    getAffiliatedType(): NativeTypeName {
+    getAffiliatedType(): BasisTypeName {
         return 'text';
     }
 
