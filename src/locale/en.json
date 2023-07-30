@@ -2,6 +2,7 @@
     "$schema": "../../static/schemas/Locale.json",
     "language": "en",
     "wordplay": "Wordplay",
+    "newProject": "Phrase('🐈' rest: Sequence(sway() 1s))",
     "term": {
         "bind": "bind",
         "evaluate": "evaluate",

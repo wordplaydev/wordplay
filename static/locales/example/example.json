@@ -2,6 +2,7 @@
     "$schema": "../../schemas/Locale.json",
     "language": "$?",
     "wordplay": "$?",
+    "newProject": "$?",
     "term": {
         "evaluate": "$?",
         "bind": "$?",

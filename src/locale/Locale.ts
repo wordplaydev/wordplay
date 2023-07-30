@@ -21,6 +21,8 @@ export type Locale = {
     language: LanguageCode;
     /** The name of the platform */
     wordplay: string;
+    /** The default Program for a new project */
+    newProject: string;
     term: TermTexts;
     token: Record<keyof typeof Symbol, string>;
     node: NodeTexts;

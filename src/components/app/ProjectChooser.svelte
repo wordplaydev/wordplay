@@ -15,7 +15,7 @@
         const newProjectID = $config.createProject(
             $config.getLocales(),
             $user ? $user.uid : undefined,
-            "Phrase('🐈' rest: Sequence(sway() 1s))"
+            $config.getLocale().newProject
         );
         goto(`/project/${newProjectID}`);
     }
