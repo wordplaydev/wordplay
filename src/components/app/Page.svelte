@@ -47,5 +47,6 @@
         border-top: var(--wordplay-border-color) solid
             var(--wordplay-border-width);
         background: var(--wordplay-background);
+        z-index: 1;
     }
 </style>
