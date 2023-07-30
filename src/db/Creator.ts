@@ -145,7 +145,7 @@ export class Creator {
     private authUnsubscribe: Unsubscribe | undefined = undefined;
     private projectsQueryUnsubscribe: Unsubscribe | undefined = undefined;
 
-    constructor(defaultLocale: Locale) {
+    constructor(languages: LanguageCode[], defaultLocale: Locale) {
         this.defaultLocale = defaultLocale;
         this.projects = new Map();
 
@@ -154,6 +154,13 @@ export class Creator {
 
         // Store the default locale
         this.locales[defaultLocale.language] = defaultLocale;
+
+        // Initialize default languages
+        if (languages.length > 0)
+            this.config.languages = languages as [
+                LanguageCode,
+                ...LanguageCode[]
+            ];
 
         this.loadLocalData();
     }
@@ -800,7 +807,13 @@ export class Creator {
     }
 }
 
-const db = new Creator(en as Locale);
+const browserLanguages =
+    typeof navigator !== 'undefined' ? navigator.languages : [];
+
+const db = new Creator(
+    browserLanguages.length > 0 ? browserLanguages.map((lang) => lang) : ['en'],
+    en as Locale
+);
 export const DefaultLocale = en as Locale;
 export const config = db.getConfigStore();
 export const projects = db.getProjectsStore();
