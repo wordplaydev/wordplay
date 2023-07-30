@@ -707,7 +707,7 @@
         },
         {
             "name": "It's the little things",
-            "performance": ["use", "fit", "PrimitiveJiggle"],
+            "performance": ["use", "fit", "SimpleJiggle"],
             "scenes": [
                 {
                     "name": "Values",

@@ -1,7 +1,7 @@
 export const Performances = {
     Symbol: (symbol: string) => `Phrase('${symbol}')`,
     DarkVoid: () => `Stage([] background: Color(0% 0 0°))`,
-    PrimitiveJiggle: () => `
+    SimpleJiggle: () => `
 letters: ['""' '?' '#' 'ø']
 
 Group(
