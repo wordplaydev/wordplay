@@ -21,7 +21,6 @@ import Structure from '../runtime/Structure';
 import { getOutputInput } from './Output';
 import { getStyle } from './toTypeOutput';
 import DocsValue from '../runtime/DocsValue';
-import type LanguageCode from '../locale/LanguageCode';
 import concretize from '../locale/concretize';
 
 export function createPhraseType(locales: Locale[]) {
@@ -106,9 +105,7 @@ export default class Phrase extends TypeOutput {
         const renderedSize = this.size ?? context.size;
 
         // Get the text that will be rendered.
-        const text = this.getLocalizedTextOrDoc(
-            context.locales.map((l) => l.language)
-        );
+        const text = this.getLocalizedTextOrDoc(context.locales);
 
         // Figure out a width.
         let width = 0;
@@ -181,28 +178,26 @@ export default class Phrase extends TypeOutput {
         return undefined;
     }
 
-    getLocalizedTextOrDoc(languages: LanguageCode[]) {
+    getLocalizedTextOrDoc(locales: Locale[]) {
         // Get the list of text lang and doc and find the one with the best matching language.
         if (Array.isArray(this.text)) {
             const options = this.text;
             // Convert the preferred languages into matching text, filtering unmatched languages, and choosing the
             // first match. If no match, default to the first text.
             return (
-                languages
-                    .map((languages) =>
-                        options.find((text) => languages === text.lang)
+                locales
+                    .map((locale) =>
+                        options.find((text) => locale.language === text.lang)
                     )
                     .filter(
                         (text): text is TextLang => text !== undefined
                     )[0] ?? this.text[0]
             );
-        } else return this.text.docs.getLocale(languages);
+        } else return this.text.docs.getPreferredLocale(locales);
     }
 
     getDescription(locales: Locale[]) {
-        const textOrDoc = this.getLocalizedTextOrDoc(
-            locales.map((l) => l.language)
-        );
+        const textOrDoc = this.getLocalizedTextOrDoc(locales);
         const text =
             textOrDoc instanceof TextLang
                 ? textOrDoc.text

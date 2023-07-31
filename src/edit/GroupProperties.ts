@@ -31,7 +31,7 @@ export default function getGroupProperties(
             (languages) =>
                 Evaluate.make(
                     Reference.make(
-                        project.shares.output.Stack.names.getLocaleText(
+                        project.shares.output.Stack.names.getPreferredNameString(
                             languages
                         ),
                         project.shares.output.Stack

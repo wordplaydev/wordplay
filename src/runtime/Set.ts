@@ -5,7 +5,6 @@ import Bool from './Bool';
 import Number from './Number';
 import Simple from './Simple';
 import type Value from './Value';
-import type LanguageCode from '@locale/LanguageCode';
 import { SET_CLOSE_SYMBOL, SET_OPEN_SYMBOL } from '@parser/Symbols';
 import type { BasisTypeName } from '../basis/BasisConstants';
 import type Locale from '@locale/Locale';
@@ -99,9 +98,9 @@ export default class Set extends Simple {
         return 'set';
     }
 
-    toWordplay(languages: LanguageCode[]): string {
+    toWordplay(locales: Locale[]): string {
         return `${SET_OPEN_SYMBOL}${Array.from(this.values)
-            .map((value) => value.toWordplay(languages))
+            .map((value) => value.toWordplay(locales))
             .join(' ')}${SET_CLOSE_SYMBOL}`;
     }
 

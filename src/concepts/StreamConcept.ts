@@ -1,5 +1,4 @@
 import type Context from '@nodes/Context';
-import type LanguageCode from '@locale/LanguageCode';
 import type Node from '@nodes/Node';
 import Reference from '@nodes/Reference';
 import Concept from './Concept';
@@ -24,17 +23,13 @@ export default class StreamConcept extends Concept {
     /** Bind concepts */
     readonly inputs: BindConcept[];
 
-    constructor(
-        stream: StreamDefinition,
-        languages: LanguageCode[],
-        context: Context
-    ) {
+    constructor(stream: StreamDefinition, locales: Locale[], context: Context) {
         super(Purpose.Input, undefined, context);
 
         this.definition = stream;
         this.reference = Evaluate.make(
             Reference.make(
-                stream.names.getLocaleText(languages),
+                stream.names.getPreferredNameString(locales),
                 this.definition
             ),
             this.definition.inputs
@@ -43,13 +38,16 @@ export default class StreamConcept extends Concept {
         );
 
         this.inputs = this.definition.inputs.map(
-            (bind) => new BindConcept(Purpose.Input, bind, languages, context)
+            (bind) => new BindConcept(Purpose.Input, bind, locales, context)
         );
     }
 
-    getGlyphs(languages: LanguageCode[]) {
+    getGlyphs(locales: Locale[]) {
         return {
-            symbols: this.definition.names.getLocaleText(languages, true),
+            symbols: this.definition.names.getPreferredNameString(
+                locales,
+                true
+            ),
         };
     }
 
@@ -62,12 +60,12 @@ export default class StreamConcept extends Concept {
     }
 
     getDocs(locale: Locale): Markup | undefined {
-        const doc = this.definition.docs?.getLocale(locale.language);
+        const doc = this.definition.docs?.getPreferredLocale(locale);
         return doc?.markup.concretize(locale, []);
     }
 
     getName(locale: Locale, symbolic: boolean) {
-        return this.definition.names.getLocaleText(locale.language, symbolic);
+        return this.definition.names.getPreferredNameString([locale], symbolic);
     }
 
     getTypeConcept(index: ConceptIndex): StructureConcept | undefined {

@@ -1,6 +1,7 @@
 {
     "$schema": "../../schemas/Locale.json",
     "language": "$?",
+    "region": "$?",
     "wordplay": "$?",
     "newProject": "$?",
     "term": {
@@ -78,6 +79,7 @@
         "TypeClose": "$?",
         "Separator": "$?",
         "Language": "$?",
+        "Region": "$?",
         "BooleanType": "$?",
         "NumberType": "$?",
         "JapaneseNumeral": "$?",

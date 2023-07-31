@@ -414,7 +414,7 @@
                         $config,
                         project,
                         $selectedOutput,
-                        $config.getLanguages(),
+                        $config.getLocales(),
                         newX,
                         newY,
                         false

@@ -1,6 +1,5 @@
 import Node from '@nodes/Node';
 import Revision from './Revision';
-import type LanguageCode from '@locale/LanguageCode';
 import type { Edit } from '../components/editor/util/Commands';
 import Refer from './Refer';
 import Caret from './Caret';
@@ -50,8 +49,8 @@ export default class Append<NodeType extends Node> extends Revision {
         );
     }
 
-    getEdit(lang: LanguageCode[]): Edit | undefined {
-        const [newChild, newParent] = this.getEditedNode(lang);
+    getEdit(locales: Locale[]): Edit | undefined {
+        const [newChild, newParent] = this.getEditedNode(locales);
 
         // Find the space before the insertion by finding the token that contains the index.
         // Insert the space we find before it.
@@ -96,9 +95,9 @@ export default class Append<NodeType extends Node> extends Revision {
         ];
     }
 
-    getEditedNode(lang: LanguageCode[]): [Node, Node] {
+    getEditedNode(locales: Locale[]): [Node, Node] {
         // Get the node to insert.
-        let newChild = this.getNewNode(lang);
+        let newChild = this.getNewNode(locales);
 
         // Clone the list.
         let newList = [...this.list];
@@ -117,14 +116,14 @@ export default class Append<NodeType extends Node> extends Revision {
     getDescription(locale: Locale) {
         let node =
             this.insertion instanceof Refer
-                ? this.insertion.getNode([locale.language])
-                : this.getNewNode([locale.language]);
+                ? this.insertion.getNode([locale])
+                : this.getNewNode([locale]);
         return concretize(locale, locale.ui.edit.append, node.getLabel(locale));
     }
 
-    getNewNode(languages: LanguageCode[]): Node {
+    getNewNode(locales: Locale[]): Node {
         if (this.insertion instanceof Node) return this.insertion;
-        else return this.insertion.getNode(languages);
+        else return this.insertion.getNode(locales);
     }
 
     equals(transform: Revision): boolean {

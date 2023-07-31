@@ -59,7 +59,7 @@ If you made it this far, you're all set up! Let's proceed to working on some loc
 
 ### Editing
 
-Wordplay localization files life in the folder `static/locales` -- with one exception, which is English. You'll find that in `src/locale/en.json`, because it's imported as a default locale, since it has several symbolic names for things.
+Wordplay localization files life in the folder `static/locales` -- with one exception, which is English. You'll find that in `src/locale/en-US.json`, because it's imported as a default locale, since it has several symbolic names for things.
 Inside the `static/locales` folder are folders that are named using [ISO 639-1 language codes](https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes).
 And inside each of those folders are two files: a `[language].json` file that has all of the text and templates for the Wordplay user interface, and then separately, a `[language]-tutorial.json` file, which has the tutorial in that language.
 

@@ -128,7 +128,7 @@ export default class Program extends Expression {
                     this.nodes(
                         (n) =>
                             n instanceof Language &&
-                            n.getLanguage() !== undefined
+                            n.getLanguageText() !== undefined
                     ) as Language[]
                 )
                     .map((n) => n.getLanguageCode())

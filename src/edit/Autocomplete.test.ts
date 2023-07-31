@@ -123,7 +123,7 @@ test.each([
             const match = transforms.find(
                 (transform) =>
                     transform instanceof kind &&
-                    transform.getNewNode(['en'])?.toWordplay() === edit
+                    transform.getNewNode([])?.toWordplay() === edit
             );
             if (match === undefined) {
                 console.error(
@@ -131,14 +131,14 @@ test.each([
                         .map(
                             (t) =>
                                 `${t.constructor.name}\t${t
-                                    .getNewNode(['en'])
+                                    .getNewNode([])
                                     ?.toWordplay()}`
                         )
                         .join('\n')
                 );
             }
 
-            expect(match?.getNewNode(['en'])?.toWordplay()).toBe(edit);
+            expect(match?.getNewNode([])?.toWordplay()).toBe(edit);
         }
     }
 );

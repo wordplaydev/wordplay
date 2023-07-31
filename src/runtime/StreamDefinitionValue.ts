@@ -1,7 +1,6 @@
 import Simple from './Simple';
 import type Value from './Value';
 import { STREAM_SYMBOL } from '@parser/Symbols';
-import type LanguageCode from '@locale/LanguageCode';
 import type { BasisTypeName } from '../basis/BasisConstants';
 import type Locale from '@locale/Locale';
 import type StreamDefinition from '../nodes/StreamDefinition';
@@ -26,9 +25,9 @@ export default class StreamDefinitionValue extends Simple {
         return 'streamdefinition';
     }
 
-    toWordplay(languages: LanguageCode[]) {
-        return `${STREAM_SYMBOL}${this.definition.names.getLocaleText(
-            languages
+    toWordplay(locales: Locale[]) {
+        return `${STREAM_SYMBOL}${this.definition.names.getPreferredNameString(
+            locales
         )}`;
     }
 

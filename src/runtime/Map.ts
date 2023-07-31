@@ -5,7 +5,6 @@ import Number from './Number';
 import None from './None';
 import Simple from './Simple';
 import type Value from './Value';
-import type LanguageCode from '@locale/LanguageCode';
 import {
     BIND_SYMBOL,
     SET_CLOSE_SYMBOL,
@@ -112,13 +111,13 @@ export default class Map extends Simple {
         return 'map';
     }
 
-    toWordplay(languages: LanguageCode[]): string {
+    toWordplay(locales: Locale[]): string {
         return `${SET_OPEN_SYMBOL}${this.values
             .map(
                 ([key, value]) =>
-                    `${key.toWordplay(
-                        languages
-                    )}${BIND_SYMBOL}${value.toWordplay(languages)}`
+                    `${key.toWordplay(locales)}${BIND_SYMBOL}${value.toWordplay(
+                        locales
+                    )}`
             )
             .join(' ')}${SET_CLOSE_SYMBOL}`;
     }

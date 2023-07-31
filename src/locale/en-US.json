@@ -1,6 +1,7 @@
 {
     "$schema": "../../static/schemas/Locale.json",
     "language": "en",
+    "region": "US",
     "wordplay": "Wordplay",
     "newProject": "Phrase('🐈' rest: Sequence(sway() 1s))",
     "term": {
@@ -78,6 +79,7 @@
         "TypeClose": "type input close",
         "Separator": "$name separator",
         "Language": "language tag",
+        "Region": "region dash",
         "BooleanType": "boolean type",
         "NumberType": "number type",
         "JapaneseNumeral": "japanese numeral",

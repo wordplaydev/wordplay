@@ -1,5 +1,4 @@
 import type { BasisTypeName } from '../basis/BasisConstants';
-import type LanguageCode from '@locale/LanguageCode';
 import type TableLiteral from '@nodes/TableLiteral';
 import TableType from '@nodes/TableType';
 import { TABLE_CLOSE_SYMBOL, TABLE_OPEN_SYMBOL } from '@parser/Symbols';
@@ -40,9 +39,9 @@ export default class Table extends Value {
         return false;
     }
 
-    toWordplay(languages: LanguageCode[]): string {
+    toWordplay(locales: Locale[]): string {
         return `${this.literal.type.columns
-            .map((c) => (c ? c.names.getLocaleText(languages) : ''))
+            .map((c) => (c ? c.names.getPreferredNameString(locales) : ''))
             .join(TABLE_OPEN_SYMBOL)}${TABLE_CLOSE_SYMBOL}`;
     }
 

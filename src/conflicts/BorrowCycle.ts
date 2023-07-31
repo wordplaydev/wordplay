@@ -31,7 +31,7 @@ export class BorrowCycle extends Conflict {
                             this.borrow,
                             locale,
                             context,
-                            this.cycle[0].names.getLocaleText(locale.language)
+                            this.cycle[0].names.getPreferredNameString([locale])
                         )
                     ),
             },

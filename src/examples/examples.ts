@@ -27,18 +27,20 @@ import Greeting from './Greeting.wp?raw';
 import Catch from './Catch.wp?raw';
 import { parseNames, toTokens } from '../parser/Parser';
 import type Names from '../nodes/Names';
-import type LanguageCode from '../locale/LanguageCode';
 import { config } from '../db/Creator';
 import { get } from 'svelte/store';
+import { getBestSupportedLocales } from '../locale/Locale';
 
 export type Stuff = {
     name: string;
     sources: { names: Names; code: string }[];
-    languages: [LanguageCode, ...LanguageCode[]];
+    locales: string[];
 };
 
 export async function makeProject(stuff: Stuff) {
-    const locales = await get(config).loadLocales(stuff.languages);
+    const locales = await get(config).loadLocales(
+        getBestSupportedLocales(stuff.locales)
+    );
 
     return new Project(
         stuff.name,
@@ -71,10 +73,7 @@ function wpToStuff(text: string): Stuff {
     return {
         name: sources[0].names.getNames()[0],
         sources: sources,
-        languages:
-            languages.length === 0
-                ? ['en']
-                : (languages as [LanguageCode, ...LanguageCode[]]),
+        locales: languages.length === 0 ? ['en-US'] : languages,
     };
 }
 

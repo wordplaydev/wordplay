@@ -32,7 +32,7 @@ export default class MissingCell extends Conflict {
                             this.column,
                             locale,
                             context,
-                            this.column.names.getLocaleText(locale.language)
+                            this.column.names.getPreferredNameString([locale])
                         )
                     ),
             },

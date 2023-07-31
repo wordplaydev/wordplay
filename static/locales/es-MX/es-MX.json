@@ -1,6 +1,7 @@
 {
     "$schema": "../../schemas/Locale.json",
     "language": "es",
+    "region": "MX",
     "wordplay": "Juego de Palabras",
     "newProject": "$?",
     "term": {
@@ -78,6 +79,7 @@
         "TypeClose": "escribir entrada cerrar",
         "Separator": "separadora de nombres",
         "Language": "etiqueta de idioma",
+        "Region": "$?",
         "BooleanType": "tipo booleano",
         "NumberType": "tipo de número",
         "JapaneseNumeral": "número japonés",

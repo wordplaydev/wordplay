@@ -4,7 +4,7 @@ import NumberLiteral from '../nodes/NumberLiteral';
 import Reference from '../nodes/Reference';
 import Unit from '../nodes/Unit';
 import { createColorLiteral } from '../output/Color';
-import type { Locale } from '../locale/Locale';
+import type Locale from '../locale/Locale';
 import OutputProperty from './OutputProperty';
 import OutputPropertyRange from './OutputPropertyRange';
 import type Project from '../models/Project';
@@ -22,7 +22,7 @@ export default function getPoseProperties(
             (expr, context) =>
                 expr instanceof Evaluate &&
                 expr.is(project.shares.output.Color, context),
-            (languages) => createColorLiteral(project, languages, 0.5, 100, 180)
+            (locales) => createColorLiteral(project, locales, 0.5, 100, 180)
         ),
         new OutputProperty(
             locale.output.Pose.opacity,
@@ -56,11 +56,11 @@ export default function getPoseProperties(
             (expr, context) =>
                 expr instanceof Evaluate &&
                 expr.is(project.shares.output.Place, context),
-            (languages) =>
+            (locales) =>
                 Evaluate.make(
                     Reference.make(
-                        project.shares.output.Place.names.getLocaleText(
-                            languages
+                        project.shares.output.Place.names.getPreferredNameString(
+                            locales
                         ),
                         project.shares.output.Place
                     ),

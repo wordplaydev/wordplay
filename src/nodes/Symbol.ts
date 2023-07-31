@@ -36,6 +36,7 @@ enum Symbol {
     TypeClose = '⸩',
     Separator = ',',
     Language = '/',
+    Region = '-',
     BooleanType = '?',
     NumberType = '#',
     JapaneseNumeral = '#jpn',

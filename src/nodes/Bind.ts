@@ -22,7 +22,6 @@ import type Definition from './Definition';
 import AnyType from './AnyType';
 import { ETC_SYMBOL, PLACEHOLDER_SYMBOL, SHARE_SYMBOL } from '@parser/Symbols';
 import FunctionDefinition from './FunctionDefinition';
-import type LanguageCode from '@locale/LanguageCode';
 import BindToken from './BindToken';
 import TypeToken from './TypeToken';
 import Docs from './Docs';
@@ -202,7 +201,7 @@ export default class Bind extends Expression {
                     (child === this.value
                         ? this.getCorrespondingBindDefinition(
                               context
-                          )?.names.getLocaleText(locale.language)
+                          )?.names.getPreferredNameString(locale)
                         : undefined) ?? '_',
             },
         ];
@@ -293,8 +292,8 @@ export default class Bind extends Expression {
         return this.names.getNames();
     }
 
-    getLocale(lang: LanguageCode[]) {
-        return this.names.getLocaleText(lang);
+    getPreferredName(locales: Locale[]) {
+        return this.names.getPreferredNameString(locales);
     }
 
     isVariableLength() {
@@ -617,25 +616,25 @@ export default class Bind extends Expression {
     }
 
     getFinishExplanations(
-        translation: Locale,
+        locale: Locale,
         context: Context,
         evaluator: Evaluator
     ) {
         return concretize(
-            translation,
-            translation.node.Bind.finish,
-            this.getValueIfDefined(translation, context, evaluator),
+            locale,
+            locale.node.Bind.finish,
+            this.getValueIfDefined(locale, context, evaluator),
             new NodeRef(
                 this.names,
-                translation,
+                locale,
                 context,
-                this.names.getLocaleText(translation.language)
+                this.names.getPreferredNameString(locale)
             )
         );
     }
 
     getDescriptionInputs(locale: Locale) {
-        return [this.names.getLocaleName(locale.language)?.getName()];
+        return [this.names.getPreferredName(locale)?.getName()];
     }
 
     getGlyphs() {

@@ -8,7 +8,6 @@ import { toPlace } from './Place';
 import { toBoolean, toNumber } from './Stage';
 import { toColor } from './Color';
 import { getBind } from '@locale/getBind';
-import type LanguageCode from '@locale/LanguageCode';
 import Evaluate from '@nodes/Evaluate';
 import Reference from '@nodes/Reference';
 import type Locale from '../locale/Locale';
@@ -149,10 +148,13 @@ export function toPose(
     );
 }
 
-export function createPoseLiteral(project: Project, languages: LanguageCode[]) {
+export function createPoseLiteral(project: Project, locales: Locale[]) {
     const PoseType = project.shares.output.Pose;
     return Evaluate.make(
-        Reference.make(PoseType.names.getLocaleText(languages), PoseType),
+        Reference.make(
+            PoseType.names.getPreferredNameString(locales),
+            PoseType
+        ),
         []
     );
 }

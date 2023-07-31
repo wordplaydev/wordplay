@@ -26,24 +26,24 @@ export class UnimplementedInterface extends Conflict {
         return {
             primary: {
                 node: this.structure,
-                explanation: (translation: Locale, context: Context) =>
+                explanation: (locale: Locale, context: Context) =>
                     concretize(
-                        translation,
-                        translation.node.StructureDefinition.conflict
+                        locale,
+                        locale.node.StructureDefinition.conflict
                             .UnimplementedInterface,
                         new NodeRef(
                             this.interfaceStructure,
-                            translation,
+                            locale,
                             context,
-                            this.interfaceStructure.names.getLocaleText(
-                                translation.language
+                            this.interfaceStructure.names.getPreferredNameString(
+                                [locale]
                             )
                         ),
                         new NodeRef(
                             this.fun,
-                            translation,
+                            locale,
                             context,
-                            this.fun.names.getLocaleText(translation.language)
+                            this.fun.names.getPreferredNameString([locale])
                         )
                     ),
             },

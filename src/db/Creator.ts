@@ -19,20 +19,27 @@ import { FirebaseError } from 'firebase/app';
 import type Locale from '../locale/Locale';
 import type { LayoutObject } from '../components/project/Layout';
 import type LanguageCode from '../locale/LanguageCode';
-import { Languages, type WritingLayout } from '../locale/LanguageCode';
-import SupportedLanguages from '../locale/SupportedLanguages';
+import {
+    getLanguageDirection,
+    type WritingLayout,
+} from '../locale/LanguageCode';
 import Progress from '../tutorial/Progress';
 import Arrangement from './Arrangement';
 import type { Tutorial } from '../tutorial/Tutorial';
 import { Basis } from '../basis/Basis';
-import en from '../locale/en.json';
+import en from '../locale/en-US.json';
 import Layout from '../components/project/Layout';
+import {
+    SupportedLocales,
+    type SupportedLocale,
+    getBestSupportedLocales,
+} from '../locale/Locale';
 
 const PROJECTS_KEY = 'projects';
 const LAYOUTS_KEY = 'layouts';
 const ARRANGEMENT_KEY = 'arrangement';
 const ANIMATION_FACTOR_KEY = 'animationFactor';
-const LANGUAGES_KEY = 'languages';
+const LOCALES_KEY = 'locales';
 const WRITING_LAYOUT_KEY = 'writingLayout';
 const TUTORIAL_KEY = 'tutorial';
 
@@ -41,7 +48,7 @@ const deviceSpecific: Record<keyof CreatorConfig, boolean> = {
     layouts: true,
     arrangement: true,
     animationFactor: false,
-    languages: false,
+    locales: false,
     writingLayout: false,
     tutorial: false,
 };
@@ -69,7 +76,7 @@ type CreatorConfig = {
     layouts: Record<string, LayoutObject>;
     arrangement: Arrangement;
     animationFactor: number;
-    languages: [LanguageCode, ...LanguageCode[]];
+    locales: SupportedLocale[];
     writingLayout: WritingLayout;
     tutorial: TutorialProgress;
 };
@@ -108,16 +115,19 @@ export class Creator {
         layouts: {},
         arrangement: Arrangement.Vertical,
         animationFactor: 1,
-        languages: ['en'],
+        locales: ['en-US'],
         writingLayout: 'horizontal-tb',
         tutorial: TutorialDefault,
     };
 
     /** The locales loaded. Undefined if the language code doesn't exist. */
     private locales: Record<
-        LanguageCode,
+        SupportedLocale,
         Locale | Promise<Locale | undefined> | undefined
-    > = {};
+    > = {} as Record<
+        SupportedLocale,
+        Locale | Promise<Locale | undefined> | undefined
+    >;
 
     /** The current list of projects. */
     private projects: Map<
@@ -145,7 +155,7 @@ export class Creator {
     private authUnsubscribe: Unsubscribe | undefined = undefined;
     private projectsQueryUnsubscribe: Unsubscribe | undefined = undefined;
 
-    constructor(languages: LanguageCode[], defaultLocale: Locale) {
+    constructor(locales: SupportedLocale[], defaultLocale: Locale) {
         this.defaultLocale = defaultLocale;
         this.projects = new Map();
 
@@ -153,30 +163,30 @@ export class Creator {
         this.projectsStore = writable(this);
 
         // Store the default locale
-        this.locales[defaultLocale.language] = defaultLocale;
+        this.locales[
+            `${defaultLocale.language}-${defaultLocale.region}` as SupportedLocale
+        ] = defaultLocale;
 
         // Initialize default languages
-        if (languages.length > 0)
-            this.config.languages = languages as [
-                LanguageCode,
-                ...LanguageCode[]
-            ];
+        if (locales.length > 0) this.config.locales = locales;
 
         this.loadLocalData();
     }
 
     async refreshLocales() {
-        this.loadLocales(SupportedLanguages, true);
+        this.loadLocales(SupportedLocales.slice(), true);
     }
 
     async loadLocales(
-        languages: LanguageCode[],
+        preferredLocales: SupportedLocale[],
         refresh: boolean = false
     ): Promise<Locale[]> {
         // Asynchronously load all unloaded
         const locales = (
             await Promise.all(
-                languages.map(async (lang) => this.loadLocale(lang, refresh))
+                preferredLocales.map(async (locale) =>
+                    this.loadLocale(locale, refresh)
+                )
             )
         ).filter((locale): locale is Locale => locale !== undefined);
 
@@ -186,10 +196,10 @@ export class Creator {
     }
 
     async loadLocale(
-        lang: LanguageCode,
+        lang: SupportedLocale,
         refresh: boolean
     ): Promise<Locale | undefined> {
-        if (lang === 'en') return en as Locale;
+        if (lang === 'en-US') return en as Locale;
 
         // Already checked and it doesn't exist? Just return undefined.
         if (
@@ -276,22 +286,22 @@ export class Creator {
         return this.saveConfig(ANIMATION_FACTOR_KEY, factor);
     }
 
-    getLanguages(): [string, ...string[]] {
-        return this.config.languages;
+    getLanguages(): LanguageCode[] {
+        return this.getLocales().map((locale) => locale.language);
     }
 
     getMissingLanguages() {
-        return this.getLanguages().filter(
-            (lang) => !SupportedLanguages.some((trans) => trans === lang)
-        );
+        return [];
     }
 
     getLocales(): Locale[] {
         // Map preferred languages into locales, filtering out missing locales.
-        const locales = this.getLanguages()
-            .filter((lang) => SupportedLanguages.includes(lang))
-            .map((lang) => this.locales[lang])
-            .filter((locale): locale is Locale => locale !== undefined);
+        const locales = this.config.locales
+            .map((locale) => this.locales[locale])
+            .filter(
+                (locale): locale is Locale =>
+                    locale !== undefined && !(locale instanceof Promise)
+            );
         return locales.length === 0 ? [this.defaultLocale] : locales;
     }
 
@@ -304,13 +314,13 @@ export class Creator {
     }
 
     /** Set the languages, load all locales if they aren't loaded, revise all projects to include any new locales, and save the new configuration. */
-    async setLanguages(languages: [LanguageCode, ...LanguageCode[]]) {
+    async setLocales(preferredLocales: SupportedLocale[]) {
         // Update the configuration with the new languages, regardless of whether we successfully loaded them.
-        this.config.languages = languages;
-        this.saveConfig(LANGUAGES_KEY, languages);
+        this.config.locales = preferredLocales;
+        this.saveConfig(LOCALES_KEY, preferredLocales);
 
         // Try to load locales for the requested languages
-        const locales = await this.loadLocales(languages);
+        const locales = await this.loadLocales(preferredLocales);
 
         // Revise all projects to have the new locale
         for (const [, project] of this.projects) {
@@ -324,7 +334,7 @@ export class Creator {
     }
 
     getWritingDirection() {
-        return Languages[this.getLanguages()[0]].direction ?? 'ltr';
+        return getLanguageDirection(this.getLanguages()[0]);
     }
 
     getWritingLayout() {
@@ -669,13 +679,13 @@ export class Creator {
                 ? 1
                 : Math.min(4, Math.max(0, persisted));
 
-        const languages = getLocalValue<string[]>(LANGUAGES_KEY);
-        this.config.languages =
-            languages === null || languages.length === 0
-                ? ['en']
-                : (languages as [LanguageCode, ...LanguageCode[]]);
+        const locales = getLocalValue<string[]>(LOCALES_KEY);
+        this.config.locales =
+            locales === null || locales.length === 0
+                ? [SupportedLocales[0]]
+                : (locales as SupportedLocale[]);
 
-        this.loadLocales(this.config.languages);
+        this.loadLocales(this.config.locales);
 
         this.config.writingLayout =
             getLocalValue<WritingLayout>(WRITING_LAYOUT_KEY) ?? 'horizontal-tb';
@@ -708,7 +718,9 @@ export class Creator {
         );
 
         // Get all of the locales on which the project depends.
-        const dependentLocales = await this.loadLocales(project.languages);
+        const dependentLocales = await this.loadLocales(
+            getBestSupportedLocales(project.locales)
+        );
 
         const locales = Array.from(
             new Set([...dependentLocales, ...this.getLocales()])
@@ -807,14 +819,16 @@ export class Creator {
     }
 }
 
+export const DefaultLocale = en as Locale;
+
 const browserLanguages =
     typeof navigator !== 'undefined' ? navigator.languages : [];
 
 const db = new Creator(
-    browserLanguages.length > 0 ? browserLanguages.map((lang) => lang) : ['en'],
-    en as Locale
+    getBestSupportedLocales(browserLanguages.slice()),
+    DefaultLocale
 );
-export const DefaultLocale = en as Locale;
+
 export const config = db.getConfigStore();
 export const projects = db.getProjectsStore();
 export const status = db.getSaveStatusStore();

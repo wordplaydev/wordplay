@@ -58,8 +58,6 @@ export default class ConceptIndex {
 
     // Make a concept index with a project and some preferreed languages.
     static make(project: Project, locales: Locale[]) {
-        const languages = locales.map((t) => t.language);
-
         const projectStructures = [project.main, ...project.supplements]
             .map((source) =>
                 (
@@ -74,7 +72,7 @@ export default class ConceptIndex {
                             def,
                             undefined,
                             [],
-                            languages,
+                            locales,
                             project.getContext(source)
                         )
                 )
@@ -95,7 +93,7 @@ export default class ConceptIndex {
                                 undefined,
                                 def,
                                 undefined,
-                                languages,
+                                locales,
                                 project.getContext(source)
                             )
                     )
@@ -111,7 +109,7 @@ export default class ConceptIndex {
                             new BindConcept(
                                 Purpose.Bind,
                                 def,
-                                languages,
+                                locales,
                                 project.getContext(source)
                             )
                     )
@@ -121,7 +119,7 @@ export default class ConceptIndex {
         function makeStreamConcept(stream: StreamDefinition) {
             return new StreamConcept(
                 stream,
-                languages,
+                locales,
                 project.getContext(project.main)
             );
         }
@@ -134,12 +132,12 @@ export default class ConceptIndex {
 
         const basis = getBasisConcepts(
             project.basis,
-            languages,
+            locales,
             project.getContext(project.main)
         );
 
         const output = getOutputConcepts(
-            languages,
+            locales,
             project.getContext(project.main)
         );
 

@@ -49,7 +49,7 @@
                         ? kv.key.number.getText().replace('%', '')
                         : 0
                 ),
-                createPoseLiteral(project, $config.getLanguages())
+                createPoseLiteral(project, $config.getLocales())
             ),
             ...map.values.slice(index + 1),
         ] as KeyValue[]);

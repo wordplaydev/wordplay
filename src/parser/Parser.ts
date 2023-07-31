@@ -514,7 +514,15 @@ export function parseLanguage(tokens: Tokens): Language {
         tokens.nextIs(Symbol.Name) && !tokens.nextHasPrecedingLineBreak()
             ? tokens.read(Symbol.Name)
             : undefined;
-    return new Language(slash, lang);
+    const dash =
+        tokens.nextIs(Symbol.Region) && tokens.nextLacksPrecedingSpace()
+            ? tokens.read(Symbol.Region)
+            : undefined;
+    const region =
+        dash && tokens.nextIs(Symbol.Name) && tokens.nextLacksPrecedingSpace()
+            ? tokens.read(Symbol.Name)
+            : undefined;
+    return new Language(slash, lang, dash, region);
 }
 
 /** EXPRESSION :: BINARY_OPERATION [ conditional EXPRESSION EXPRESSION ]? */

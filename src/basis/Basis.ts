@@ -24,7 +24,7 @@ import type Expression from '@nodes/Expression';
 import Root from '../nodes/Root';
 import type Locale from '../locale/Locale';
 import createDefaultShares from '../runtime/createDefaultShares';
-import en from '../locale/en.json';
+import en from '../locale/en-US.json';
 import type LanguageCode from '../locale/LanguageCode';
 
 export class Basis {

@@ -9,7 +9,6 @@ import { getBind } from '@locale/getBind';
 import Evaluate from '../nodes/Evaluate';
 import NumberLiteral from '../nodes/NumberLiteral';
 import Reference from '../nodes/Reference';
-import type LanguageCode from '../locale/LanguageCode';
 import Unit from '../nodes/Unit';
 import type Locale from '../locale/Locale';
 import type Project from '../models/Project';
@@ -73,14 +72,17 @@ export default class Color extends Output {
 
 export function createColorLiteral(
     project: Project,
-    languages: LanguageCode[],
+    locales: Locale[],
     lightness: number,
     chroma: number,
     hue: number
 ) {
     const ColorType = project.shares.output.Color;
     return Evaluate.make(
-        Reference.make(ColorType.names.getLocaleText(languages), ColorType),
+        Reference.make(
+            ColorType.names.getPreferredNameString(locales),
+            ColorType
+        ),
         [
             NumberLiteral.make(lightness),
             NumberLiteral.make(chroma),

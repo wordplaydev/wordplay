@@ -1,6 +1,6 @@
 <script lang="ts">
     import Button from '../widgets/Button.svelte';
-    import LanguageChooser from './LanguageChooser.svelte';
+    import LanguageChooser from './LocaleChooser.svelte';
     import { getUser, isDark } from '../project/Contexts';
     import { PUBLIC_CONTEXT } from '$env/static/public';
     import { config } from '../../db/Creator';

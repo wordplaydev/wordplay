@@ -10,7 +10,6 @@ import Number from './Number';
 import Text from './Text';
 import Bool from './Bool';
 import type Names from '@nodes/Names';
-import type LanguageCode from '@locale/LanguageCode';
 import {
     BIND_SYMBOL,
     EVAL_CLOSE_SYMBOL,
@@ -103,15 +102,15 @@ export default class Structure extends Value {
         return this.context.getConversion(input, output);
     }
 
-    toWordplay(languages: LanguageCode[]): string {
+    toWordplay(locales: Locale[]): string {
         const bindings = this.type.inputs.map(
             (bind) =>
-                `${bind.names.getLocaleText(
-                    languages
+                `${bind.names.getPreferredNameString(
+                    locales
                 )}${BIND_SYMBOL} ${this.resolve(bind.getNames()[0])}`
         );
-        return `${this.type.names.getLocaleText(
-            languages
+        return `${this.type.names.getPreferredNameString(
+            locales
         )}${EVAL_OPEN_SYMBOL}${bindings.join(' ')}${EVAL_CLOSE_SYMBOL}`;
     }
 

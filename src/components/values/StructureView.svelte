@@ -19,12 +19,14 @@
 </script>
 
 <SymbolView
-    symbol={value.type.names.getLocaleText($config.getLanguages())}
+    symbol={value.type.names.getPreferredNameString($config.getLocales())}
     type={Symbol.Name}
 /><SymbolView symbol={EVAL_OPEN_SYMBOL} type={Symbol.EvalOpen} /><Expandable
     ><svelte:fragment slot="expanded">
         {#each value.type.inputs as input, index}<SymbolView
-                symbol={input.names.getLocaleText($config.getLanguages())}
+                symbol={input.names.getPreferredNameString(
+                    $config.getLocales()
+                )}
                 type={Symbol.Name}
             /><SymbolView symbol={BIND_SYMBOL} type={Symbol.Bind} /><ValueView
                 value={value.resolve(input.getNames()[0]) ??

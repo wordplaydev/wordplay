@@ -36,8 +36,8 @@
     let toggleView: HTMLButtonElement | undefined;
 
     async function toggleValues(set: boolean) {
-        if (set) values.set($config, project, $config.getLanguages());
-        else values.unset($config, project, $config.getLanguages());
+        if (set) values.set($config, project, $config.getLocales());
+        else values.unset($config, project, $config.getLocales());
         // Preserve focus on toggle button after setting.
         await tick();
         toggleView?.focus();

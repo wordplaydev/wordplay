@@ -292,6 +292,7 @@ const patterns = [
         pattern: EXTRA_SYMBOL,
         types: [Symbol.Extra, Symbol.Operator],
     },
+    { pattern: '-', types: [Symbol.Operator, Symbol.Region] },
     // Prefix and infix operators are single Unicode glyphs that are surrounded by whitespace that are not one of the above
     // and one of the following:
     // - Mathematical operators: U+2200..U+22FF

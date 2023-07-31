@@ -1,10 +1,10 @@
 import Revision from '../../../edit/Revision';
-import type LanguageCode from '@locale/LanguageCode';
 import type Caret from '../../../edit/Caret';
 import type { Edit } from './Commands';
 import type Purpose from '@concepts/Purpose';
 import type ConceptIndex from '@concepts/ConceptIndex';
 import Literal from '@nodes/Literal';
+import type Locale from '../../../locale/Locale';
 
 export type MenuSelection = [number, number | undefined];
 export type MenuOrganization = (Revision | RevisionSet)[];
@@ -276,15 +276,12 @@ export default class Menu {
             : this;
     }
 
-    doEdit(
-        languages: LanguageCode[],
-        revision: Revision | RevisionSet | undefined
-    ) {
+    doEdit(locales: Locale[], revision: Revision | RevisionSet | undefined) {
         if (revision === undefined) return this.action(undefined);
         return revision
             ? this.action(
                   revision instanceof Revision
-                      ? revision.getEdit(languages)
+                      ? revision.getEdit(locales)
                       : revision
               )
             : false;

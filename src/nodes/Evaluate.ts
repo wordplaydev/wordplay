@@ -196,12 +196,12 @@ export default class Evaluate extends Expression {
             {
                 name: 'inputs',
                 kind: list(node(Expression)),
-                label: (translation: Locale, child: Node, context: Context) => {
+                label: (locale: Locale, child: Node, context: Context) => {
                     // Get the function called
                     const fun = this.getFunction(context);
                     // Didn't find it? Default label.
                     if (fun === undefined || !(child instanceof Expression))
-                        return translation.node.Evaluate.input;
+                        return locale.node.Evaluate.input;
                     // Get the mapping from inputs to binds
                     const mapping = this.getInputMapping(fun);
                     // Find the bind to which this child was mapped and get its translation of this language.
@@ -213,10 +213,8 @@ export default class Evaluate extends Expression {
                                     m.given.includes(child)))
                     );
                     return bind === undefined
-                        ? translation.node.Evaluate.input
-                        : bind.expected.names.getLocaleText(
-                              translation.language
-                          );
+                        ? locale.node.Evaluate.input
+                        : bind.expected.names.getPreferredNameString(locale);
                 },
                 space: true,
                 indent: true,
@@ -898,7 +896,7 @@ export default class Evaluate extends Expression {
 
     getDescriptionInputs(locale: Locale, context: Context) {
         return [
-            this.getFunction(context)?.names.getLocaleText(locale.language),
+            this.getFunction(context)?.names.getPreferredNameString(locale),
         ];
     }
 

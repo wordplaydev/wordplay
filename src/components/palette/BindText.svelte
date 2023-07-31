@@ -44,7 +44,9 @@
     description={$config.getLocale().ui.description.editTextOutput}
     placeholder={values.isEmpty()
         ? ''
-        : values.values[0].bind.names.getLocaleText($config.getLanguages())}
+        : values.values[0].bind.names.getPreferredNameString(
+              $config.getLocales()
+          )}
     {validator}
     changed={handleChange}
     bind:view

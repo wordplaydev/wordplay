@@ -4,7 +4,6 @@ import type Locale from '@locale/Locale';
 import type Purpose from './Purpose';
 import type StructureDefinition from '@nodes/StructureDefinition';
 import type Glyph from '../lore/Glyph';
-import type LanguageCode from '../locale/LanguageCode';
 import type Emotion from '../lore/Emotion';
 import type Markup from '../nodes/Markup';
 
@@ -40,10 +39,10 @@ export default abstract class Concept {
     /**
      * Returns the glyph that represents the concept.
      */
-    abstract getGlyphs(languages: LanguageCode[]): Glyph;
+    abstract getGlyphs(locales: Locale[]): Glyph;
 
     /** Returns the emotions for the glyphs */
-    abstract getEmotion(translation: Locale): Emotion;
+    abstract getEmotion(locale: Locale): Emotion;
 
     /**
      * Returns true if the concept has the given name or id.

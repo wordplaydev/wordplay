@@ -138,7 +138,7 @@ export default class Template extends Expression {
             this.open.text
                 .toString()
                 .substring(1, this.open.text.toString().length - 1) + text;
-        return new Text(this, text, this.language?.getLanguage());
+        return new Text(this, text, this.language?.getLanguageText());
     }
 
     evaluateTypeSet(

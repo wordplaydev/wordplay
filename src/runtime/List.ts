@@ -7,7 +7,6 @@ import Simple from './Simple';
 import type Value from './Value';
 import UnionType from '@nodes/UnionType';
 import type Context from '@nodes/Context';
-import type LanguageCode from '@locale/LanguageCode';
 import { LIST_CLOSE_SYMBOL, LIST_OPEN_SYMBOL } from '@parser/Symbols';
 import type { BasisTypeName } from '../basis/BasisConstants';
 import type Locale from '@locale/Locale';
@@ -142,9 +141,9 @@ export default class List extends Simple {
         return 'list';
     }
 
-    toWordplay(languages: LanguageCode[]): string {
+    toWordplay(locales: Locale[]): string {
         return `${LIST_OPEN_SYMBOL}${Array.from(this.values)
-            .map((value) => value.toWordplay(languages))
+            .map((value) => value.toWordplay(locales))
             .join(' ')}${LIST_CLOSE_SYMBOL}`;
     }
 

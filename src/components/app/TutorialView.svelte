@@ -215,7 +215,7 @@
                         <Speech
                             glyph={$conceptsStore
                                 ?.getConceptByName(turn.dialog[0])
-                                ?.getGlyphs($config.getLanguages()) ?? {
+                                ?.getGlyphs($config.getLocales()) ?? {
                                 symbols: turn.dialog[0],
                             }}
                             flip={turn.dialog[0] !== 'FunctionDefinition'}

@@ -19,9 +19,9 @@ import type Evaluator from '@runtime/Evaluator';
 import FunctionDefinition from '@nodes/FunctionDefinition';
 import ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
 import Names from '@nodes/Names';
-import type { Creator } from '../../../db/Creator';
-import type { Locale } from '../../../locale/Locale';
-import Program from '../../../nodes/Program';
+import type { Creator } from '@db/Creator';
+import type Locale from '@locale/Locale';
+import Program from '@nodes/Program';
 
 export type Command = {
     /** The iconographic text symbol to use */

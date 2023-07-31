@@ -9,7 +9,6 @@ import ConversionDefinition from '@nodes/ConversionDefinition';
 import Convert from '@nodes/Convert';
 import ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
 import FunctionDefinition from '@nodes/FunctionDefinition';
-import type LanguageCode from '@locale/LanguageCode';
 import ListLiteral from '@nodes/ListLiteral';
 import ListType from '@nodes/ListType';
 import MapLiteral from '@nodes/MapLiteral';
@@ -76,6 +75,7 @@ import SetCloseToken from '../nodes/SetCloseToken';
 import SetOrMapAccess from '../nodes/SetOrMapAccess';
 import Source from '../nodes/Source';
 import NameType from '../nodes/NameType';
+import type Locale from '../locale/Locale';
 
 /** These are ordered by appearance in the docs. */
 const templates: Node[] = [
@@ -232,7 +232,7 @@ export function getNodeConcepts(context: Context): NodeConcept[] {
 
 export function getBasisConcepts(
     basis: Basis,
-    languages: LanguageCode[],
+    locales: Locale[],
     context: Context
 ): StructureConcept[] {
     return [
@@ -242,7 +242,7 @@ export function getBasisConcepts(
             basis.getSimpleDefinition('text'),
             TextType.make(),
             [TextLiteral.make(''), Template.make()],
-            languages,
+            locales,
             context
         ),
         new StructureConcept(
@@ -255,7 +255,7 @@ export function getBasisConcepts(
                 NumberLiteral.make('π'),
                 NumberLiteral.make('∞'),
             ],
-            languages,
+            locales,
             context
         ),
         new StructureConcept(
@@ -264,7 +264,7 @@ export function getBasisConcepts(
             basis.getSimpleDefinition('boolean'),
             BooleanType.make(),
             [BooleanLiteral.make(true), BooleanLiteral.make(false)],
-            languages,
+            locales,
             context
         ),
         new StructureConcept(
@@ -273,7 +273,7 @@ export function getBasisConcepts(
             basis.getSimpleDefinition('list'),
             ListType.make(),
             [ListLiteral.make([])],
-            languages,
+            locales,
             context
         ),
         new StructureConcept(
@@ -282,7 +282,7 @@ export function getBasisConcepts(
             basis.getSimpleDefinition('set'),
             SetType.make(),
             [SetLiteral.make([])],
-            languages,
+            locales,
             context
         ),
         new StructureConcept(
@@ -291,7 +291,7 @@ export function getBasisConcepts(
             basis.getSimpleDefinition('map'),
             MapType.make(TypePlaceholder.make(), TypePlaceholder.make()),
             [MapLiteral.make([])],
-            languages,
+            locales,
             context
         ),
         new StructureConcept(
@@ -300,7 +300,7 @@ export function getBasisConcepts(
             basis.getSimpleDefinition('none'),
             NoneType.make(),
             [NoneLiteral.make()],
-            languages,
+            locales,
             context
         ),
     ];
@@ -310,7 +310,7 @@ export function getStructureOrFunctionConcept(
     def: StructureDefinition | FunctionDefinition,
     purpose: Purpose,
     affiliation: StructureDefinition | undefined,
-    languages: LanguageCode[],
+    locales: Locale[],
     context: Context
 ) {
     return def instanceof StructureDefinition
@@ -320,7 +320,7 @@ export function getStructureOrFunctionConcept(
               def,
               undefined,
               undefined,
-              languages,
+              locales,
               context
           )
         : new FunctionConcept(
@@ -328,13 +328,13 @@ export function getStructureOrFunctionConcept(
               affiliation,
               def,
               undefined,
-              languages,
+              locales,
               context
           );
 }
 
 export function getOutputConcepts(
-    languages: LanguageCode[],
+    locales: Locale[],
     context: Context
 ): Concept[] {
     return [
@@ -343,7 +343,7 @@ export function getOutputConcepts(
                 def,
                 Purpose.Output,
                 undefined,
-                languages,
+                locales,
                 context
             )
         ),
@@ -352,7 +352,7 @@ export function getOutputConcepts(
                 def,
                 Purpose.Output,
                 undefined,
-                languages,
+                locales,
                 context
             )
         ),

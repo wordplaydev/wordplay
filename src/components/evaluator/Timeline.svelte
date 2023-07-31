@@ -208,7 +208,7 @@
                         {#if change.stream === undefined}
                             ◆
                         {:else}
-                            {change.stream.getName(['😀'])}
+                            {change.stream.definition.names.getSymbolicName()}
                         {/if}
                     </span>
                 {:else}

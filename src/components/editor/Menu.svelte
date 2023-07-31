@@ -33,7 +33,7 @@
     $: menuTop = Math.min(position.top, window.innerHeight - menuHeight);
 
     function handleItemClick(item: Revision | RevisionSet | undefined) {
-        menu.doEdit($config.getLanguages(), item);
+        menu.doEdit($config.getLocales(), item);
     }
 
     let index = getConceptIndex();
@@ -41,7 +41,7 @@
     $: selectedRevision = menu.getSelection();
     $: selectedNewNode =
         selectedRevision instanceof Revision
-            ? selectedRevision.getNewNode($config.getLanguages())
+            ? selectedRevision.getNewNode($config.getLocales())
             : undefined;
     $: selectedDocs = selectedConcept?.getDocs($config.getLocale());
     $: selectedConcept =
@@ -80,8 +80,7 @@
             event.stopPropagation();
             return;
         } else if (event.key === 'Enter' || event.key === ' ') {
-            if (menu.doEdit($config.getLanguages(), menu.getSelection()))
-                hide();
+            if (menu.doEdit($config.getLocales(), menu.getSelection())) hide();
             event.stopPropagation();
             event.preventDefault();
             return;
@@ -90,7 +89,7 @@
             const match = menu.getRevisionList().findIndex((revision) =>
                 revision instanceof Revision
                     ? revision
-                          .getEditedNode($config.getLanguages())[0]
+                          .getEditedNode($config.getLocales())[0]
                           .nodes()
                           .some(
                               (node) =>
@@ -147,7 +146,7 @@
                 id="menuitem-{itemIndex}"
                 aria-label={entry instanceof Revision
                     ? entry
-                          .getEditedNode($config.getLanguages())[0]
+                          .getEditedNode($config.getLocales())[0]
                           .getDescription(
                               concretize,
                               $config.getLocale(),
@@ -165,7 +164,7 @@
                 {#if entry instanceof Revision}
                     {@const revision = entry}
                     {@const [newNode] = entry.getEditedNode(
-                        $config.getLanguages()
+                        $config.getLocales()
                     )}
                     {#if newNode !== undefined}
                         {#if revision.isRemoval()}
@@ -211,7 +210,7 @@
         {:else if selectedRevision instanceof RevisionSet}
             {#each selectedRevision.revisions as revision}
                 {@const [newNode] = revision.getEditedNode(
-                    $config.getLanguages()
+                    $config.getLocales()
                 )}
                 {#if newNode !== undefined}
                     <div

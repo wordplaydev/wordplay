@@ -44,7 +44,6 @@
 
 <style>
     button {
-        display: inline-flex;
         background-color: var(--wordplay-chrome);
         font-family: var(--wordplay-app-font);
         font-size: inherit;

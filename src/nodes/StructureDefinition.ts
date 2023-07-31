@@ -18,7 +18,6 @@ import type TypeSet from './TypeSet';
 import { UnimplementedInterface } from '@conflicts/UnimplementedInterface';
 import { IncompleteImplementation } from '@conflicts/IncompleteImplementation';
 import { DisallowedInputs } from '@conflicts/DisallowedInputs';
-import type LanguageCode from '@locale/LanguageCode';
 import TypeToken from './TypeToken';
 import EvalOpenToken from './EvalOpenToken';
 import EvalCloseToken from './EvalCloseToken';
@@ -184,20 +183,20 @@ export default class StructureDefinition extends AtomicExpression {
         return this.share !== undefined;
     }
 
-    getLocale(lang: LanguageCode[]): string {
-        return this.names.getLocaleText(lang);
+    getPreferredName(locales: Locale[]): string {
+        return this.names.getPreferredNameString(locales);
     }
 
     isEvaluationInvolved() {
         return true;
     }
 
-    getEvaluateTemplate(nameOrLanguages: LanguageCode[] | string) {
+    getEvaluateTemplate(nameOrLocales: Locale[] | string) {
         return Evaluate.make(
             Reference.make(
-                typeof nameOrLanguages === 'string'
-                    ? nameOrLanguages
-                    : this.names.getLocaleText(nameOrLanguages),
+                typeof nameOrLocales === 'string'
+                    ? nameOrLocales
+                    : this.names.getPreferredNameString(nameOrLocales),
                 this
             ),
             this.inputs
@@ -469,7 +468,7 @@ export default class StructureDefinition extends AtomicExpression {
     }
 
     getDescriptionInputs(locale: Locale) {
-        return [this.names.getLocaleText(locale.language)];
+        return [this.names.getPreferredNameString([locale])];
     }
 
     getGlyphs() {

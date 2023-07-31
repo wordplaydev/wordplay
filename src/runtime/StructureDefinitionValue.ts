@@ -4,7 +4,6 @@ import type Evaluation from './Evaluation';
 import Simple from './Simple';
 import type Value from './Value';
 import { TYPE_SYMBOL } from '@parser/Symbols';
-import type LanguageCode from '@locale/LanguageCode';
 import type { BasisTypeName } from '../basis/BasisConstants';
 import type Locale from '@locale/Locale';
 import concretize from '../locale/concretize';
@@ -31,9 +30,9 @@ export default class StructureDefinitionValue extends Simple {
         return 'structure';
     }
 
-    toWordplay(languages: LanguageCode[]) {
-        return `${TYPE_SYMBOL}${this.definition.names.getLocaleText(
-            languages
+    toWordplay(locales: Locale[]) {
+        return `${TYPE_SYMBOL}${this.definition.names.getPreferredNameString(
+            locales
         )}`;
     }
 

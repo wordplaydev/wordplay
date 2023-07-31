@@ -40,8 +40,8 @@
                 output.node,
                 Evaluate.make(
                     Reference.make(
-                        project.shares.output.Sequence.names.getLocaleText(
-                            $config.getLanguages()
+                        project.shares.output.Sequence.names.getPreferredNameString(
+                            $config.getLocales()
                         ),
                         project.shares.output.Sequence
                     ),

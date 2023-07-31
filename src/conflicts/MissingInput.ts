@@ -43,7 +43,7 @@ export default class MissingInput extends Conflict {
                             this.input,
                             locale,
                             context,
-                            this.input.names.getLocaleText(locale.language)
+                            this.input.names.getPreferredNameString([locale])
                         )
                     ),
             },

@@ -117,6 +117,6 @@ export default class StructureDefinitionType extends Type {
     }
 
     getDescriptionInputs(locale: Locale) {
-        return [this.structure.names.getLocaleText(locale.language)];
+        return [this.structure.names.getPreferredNameString(locale)];
     }
 }

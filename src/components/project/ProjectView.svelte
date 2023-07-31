@@ -287,8 +287,8 @@
                     newTiles.push(
                         tile
                             .withName(
-                                source.names.getLocaleText(
-                                    $config.getLanguages()
+                                source.names.getPreferredNameString(
+                                    $config.getLocales()
                                 )
                             )
                             // If not editable, keep the source files collapsed
@@ -318,7 +318,7 @@
 
         return new Tile(
             Layout.getSourceID(index),
-            source.names.getLocaleText($config.getLanguages()),
+            source.names.getPreferredNameString($config.getLocales()),
             Content.Source,
             index === 0 || expandNewTile ? Mode.Expanded : Mode.Collapsed,
             undefined,

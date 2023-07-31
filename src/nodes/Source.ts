@@ -817,8 +817,8 @@ export default class Source extends Expression {
         return super.toWordplay(spaces ?? this.spaces);
     }
 
-    getLocale(lang: LanguageCode[]) {
-        return this.names.getLocaleText(lang);
+    getPreferredName(locales: Locale | Locale[]) {
+        return this.names.getPreferredNameString(locales);
     }
 
     computeType(context: Context): Type {

@@ -97,7 +97,7 @@ export default class Name extends Node {
     /** Symbolic if it matches the binary op regex  */
     isSymbolic() {
         return (
-            this.name &&
+            this.name !== undefined &&
             (this.name.text.getLength() === 1 ||
                 this.name.text
                     .getText()
@@ -126,7 +126,7 @@ export default class Name extends Node {
     getLanguage() {
         return this.language === undefined
             ? undefined
-            : this.language.getLanguage();
+            : this.language.getLanguageText();
     }
     isLanguage(lang: LanguageCode) {
         return this.getLanguage() === (lang as LanguageCode);

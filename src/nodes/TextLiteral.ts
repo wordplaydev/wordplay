@@ -94,7 +94,7 @@ export default class TextLiteral extends Literal {
             undelimited(this.getText()),
             this.language === undefined
                 ? undefined
-                : this.language.getLanguage()
+                : this.language.getLanguageText()
         );
     }
 

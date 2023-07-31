@@ -9,5 +9,5 @@
 </script>
 
 <MarkupHtmlView
-    markup={value.docs.getLocale($config.getLocale().language).markup}
+    markup={value.docs.getPreferredLocale($config.getLocales()).markup}
 />

@@ -3,7 +3,7 @@ import type OutputPropertyOptions from './OutputPropertyOptions';
 import type OutputPropertyText from './OutputPropertyText';
 import type Expression from '@nodes/Expression';
 import type Context from '@nodes/Context';
-import type LanguageCode from '@locale/LanguageCode';
+import type Locale from '../locale/Locale';
 import { getFirstName, type NameAndDoc } from '../locale/Locale';
 
 type OutputPropertyType =
@@ -39,7 +39,7 @@ class OutputProperty {
     /** A function that determines whether an Expression set on the property can be edited using the output editing controls. */
     readonly editable: (expr: Expression, context: Context) => boolean;
     /** A function that produces an initial value for an unset property */
-    readonly create: (languages: LanguageCode[]) => Expression;
+    readonly create: (locales: Locale[]) => Expression;
 
     constructor(
         name: NameAndDoc,
@@ -47,7 +47,7 @@ class OutputProperty {
         required: boolean,
         inherited: boolean,
         editable: (expr: Expression, context: Context) => boolean,
-        create: (languages: LanguageCode[]) => Expression
+        create: (locales: Locale[]) => Expression
     ) {
         this.name = name;
         this.type = type;

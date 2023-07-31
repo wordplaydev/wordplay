@@ -8,7 +8,7 @@ import Purpose from '../concepts/Purpose';
 import type { Template } from '../locale/Locale';
 import type Root from './Root';
 import { TextOpenByTextClose, TextCloseByTextOpen } from '../parser/Tokenizer';
-import { Languages } from '../locale/LanguageCode';
+import { getLanguageQuote } from '../locale/LanguageCode';
 import type Definition from './Definition';
 import type Context from './Context';
 import type { TemplateInput } from '../locale/concretize';
@@ -143,12 +143,7 @@ export default class Token extends Node {
         return [getTokenLabel(this, locale), this.getText()];
     }
 
-    localized(
-        name: boolean,
-        translations: Locale[],
-        root: Root,
-        context: Context
-    ) {
+    localized(name: boolean, locales: Locale[], root: Root, context: Context) {
         // Get this token's text
         let text = this.getText();
 
@@ -163,7 +158,7 @@ export default class Token extends Node {
                 text.length > 1 &&
                 lastChar !== undefined &&
                 lastChar in TextOpenByTextClose;
-            const preferredQuote = Languages[translations[0].language].quote;
+            const preferredQuote = getLanguageQuote(locales[0].language);
             if (preferredQuote) {
                 const preferredClosing = TextCloseByTextOpen[preferredQuote];
                 text = isText
@@ -186,9 +181,7 @@ export default class Token extends Node {
                 if (def) {
                     text =
                         def.names.getSymbolicName() ??
-                        def.names.getLocaleText(
-                            translations.map((t) => t.language)
-                        );
+                        def.names.getPreferredNameString(locales);
                 }
             }
         }

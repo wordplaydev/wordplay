@@ -1,7 +1,6 @@
 import type Context from '@nodes/Context';
 import type Type from '@nodes/Type';
 import type Evaluator from './Evaluator';
-import type LanguageCode from '@locale/LanguageCode';
 import type { BasisTypeName } from '../basis/BasisConstants';
 import type Locale from '@locale/Locale';
 import type Expression from '../nodes/Expression';
@@ -20,10 +19,10 @@ export default abstract class Value {
 
     /** Returns a Wordplay sytnax representation of the value. */
     toString(): string {
-        return this.toWordplay(['en']);
+        return this.toWordplay([]);
     }
 
-    abstract toWordplay(languages: LanguageCode[]): string;
+    abstract toWordplay(locales: Locale[]): string;
 
     /** Returns the Structure defining this value's interface. */
     abstract getType(context: Context): Type;

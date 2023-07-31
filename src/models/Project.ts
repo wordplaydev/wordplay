@@ -23,6 +23,7 @@ import { Basis } from '../basis/Basis';
 import type createDefaultShares from '../runtime/createDefaultShares';
 import FunctionType from '../nodes/FunctionType';
 import type Locale from '../locale/Locale';
+import { toLocaleString } from '../locale/Locale';
 
 export type SerializedSource = {
     names: string;
@@ -33,7 +34,7 @@ export type SerializedProject = {
     id: string;
     name: string;
     sources: SerializedSource[];
-    languages: [LanguageCode, ...LanguageCode[]];
+    locales: string[];
     uids: string[];
     listed: boolean;
 };
@@ -734,7 +735,7 @@ export default class Project {
 
     getLanguagesUsed(): LanguageCode[] {
         const used = this.getSources().reduce(
-            (languages: string[], source) => [
+            (languages: LanguageCode[], source) => [
                 ...languages,
                 ...source.expression.getLanguagesUsed(),
             ],
@@ -759,10 +760,7 @@ export default class Project {
                         0,
                 };
             }),
-            languages: this.locales.map((l) => l.language) as [
-                LanguageCode,
-                ...LanguageCode[]
-            ],
+            locales: this.locales.map((l) => toLocaleString(l)),
             uids: this.uids,
             listed: this.listed,
         };

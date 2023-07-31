@@ -106,30 +106,51 @@ export default class Names extends Node {
         return this.names.find((name) => name.isSymbolic())?.getName();
     }
 
-    getLocaleText(
-        language: LanguageCode | LanguageCode[],
+    getPreferredNameString(
+        preferred: Locale | Locale[],
         symbolic: boolean = true
     ) {
-        return this.getLocaleName(language, symbolic)?.getName() ?? '-';
+        preferred = Array.isArray(preferred) ? preferred : [preferred];
+        return this.getPreferredName(preferred, symbolic)?.getName() ?? '-';
     }
 
-    getLocaleName(
-        language: LanguageCode | LanguageCode[],
+    getPreferredName(
+        preferred: Locale | Locale[],
         symbolic: boolean = true
-    ) {
-        // Find the name with the most preferred language code.
-        const languages = Array.isArray(language) ? language : [language];
-        const preferredName = this.names.find((name) => {
-            const lang = name.getLanguage();
-            return (
-                lang !== undefined &&
-                languages.includes(lang) &&
-                (symbolic || !name.isSymbolic())
-            );
-        });
-        return (
-            preferredName ?? (this.names.length > 0 ? this.names[0] : undefined)
+    ): Name | undefined {
+        const symbolicMatch = symbolic
+            ? this.names.find((name) => name.isSymbolic())
+            : undefined;
+        if (symbolicMatch) return symbolicMatch;
+
+        // Build the list of preferred languages
+        const locales = Array.isArray(preferred) ? preferred : [preferred];
+        // Find the first preferred locale with an exact match.
+        const exact = this.names.find(
+            (name) =>
+                name.language &&
+                locales.some(
+                    (locale) =>
+                        name.language !== undefined &&
+                        name.language.isLocale(locale)
+                )
         );
+        if (exact) return exact;
+
+        // See if there are any language matches.
+        const languageMatch = this.names.find(
+            (name) =>
+                name.language &&
+                locales.some(
+                    (locale) =>
+                        name.language !== undefined &&
+                        name.language.isLocaleLanguage(locale)
+                )
+        );
+        if (languageMatch) return languageMatch;
+
+        // Default to the first name, if there is one.
+        return this.names[0];
     }
 
     hasLocale(lang: LanguageCode) {

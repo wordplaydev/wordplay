@@ -12,7 +12,8 @@ import OutputPropertyOptions from './OutputPropertyOptions';
 import OutputPropertyRange from './OutputPropertyRange';
 import Reference from '../nodes/Reference';
 import type Project from '../models/Project';
-import type { Locale, NameAndDoc, NameText } from '../locale/Locale';
+import type Locale from '../locale/Locale';
+import type { NameAndDoc, NameText } from '../locale/Locale';
 import getPoseProperties from './PoseProperties';
 import BooleanLiteral from '../nodes/BooleanLiteral';
 
@@ -26,7 +27,7 @@ function getPoseProperty(project: Project, name: NameAndDoc): OutputProperty {
             expr instanceof Evaluate &&
             (expr.is(project.shares.output.Pose, context) ||
                 expr.is(project.shares.output.Sequence, context)),
-        (languages) => createPoseLiteral(project, languages)
+        (locales) => createPoseLiteral(project, locales)
     );
 }
 
@@ -104,11 +105,11 @@ export default function getTypeOutputProperties(
             (expr, context) =>
                 expr instanceof Evaluate &&
                 expr.is(project.shares.output.Place, context),
-            (languages) =>
+            (locale) =>
                 Evaluate.make(
                     Reference.make(
-                        project.shares.output.Place.names.getLocaleText(
-                            languages
+                        project.shares.output.Place.names.getPreferredNameString(
+                            locale
                         ),
                         project.shares.output.Place
                     ),
