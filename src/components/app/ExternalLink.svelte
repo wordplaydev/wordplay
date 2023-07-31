@@ -2,4 +2,4 @@
     export let to: string;
 </script>
 
-<a href={to}><slot /></a>
+<a href={to} target="_blank"><slot /></a>
