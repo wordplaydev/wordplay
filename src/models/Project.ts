@@ -732,6 +732,20 @@ export default class Project {
         return new Source(parseNames(toTokens(source.names)), source.code);
     }
 
+    getLanguagesUsed(): LanguageCode[] {
+        const used = this.getSources().reduce(
+            (languages: string[], source) => [
+                ...languages,
+                ...source.expression.getLanguagesUsed(),
+            ],
+            []
+        );
+
+        return Array.from(
+            new Set([...this.locales.map((l) => l.language), ...used])
+        );
+    }
+
     toObject(): SerializedProject {
         return {
             id: this.id,

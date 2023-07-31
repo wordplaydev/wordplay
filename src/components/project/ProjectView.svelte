@@ -86,6 +86,7 @@
     import CommandButton from '../widgets/CommandButton.svelte';
     import Help from './Help.svelte';
     import type Color from '../../output/Color';
+    import ProjectLanguages from './ProjectLanguages.svelte';
 
     export let project: Project;
     export let original: Project | undefined = undefined;
@@ -1211,8 +1212,9 @@
                 tip={$config.getLocale().ui.description.addSource}
                 action={addSource}>+</Button
             >
-            <span class="help"
-                ><Button
+            <span class="help">
+                <ProjectLanguages {project} />
+                <Button
                     tip={ShowKeyboardHelp.description($config.getLocale())}
                     action={() => (help = true)}
                     >{ShowKeyboardHelp.symbol}</Button
@@ -1339,6 +1341,10 @@
 
     .help {
         margin-left: auto;
+        display: flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        gap: var(--wordplay-spacing);
     }
 
     .footer {
