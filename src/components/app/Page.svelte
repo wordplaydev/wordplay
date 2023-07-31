@@ -1,5 +1,6 @@
 <script lang="ts">
     import Settings from '../settings/Settings.svelte';
+    import ExternalLink from './ExternalLink.svelte';
 </script>
 
 <div class="page">
@@ -7,6 +8,11 @@
         <slot />
     </main>
     <footer>
+        <div class="beta"
+            ><ExternalLink to="https://github.com/amyjko/wordplay/milestone/1"
+                >beta</ExternalLink
+            ></div
+        >
         <Settings />
     </footer>
 </div>
@@ -21,6 +27,10 @@
         bottom: 0;
         display: flex;
         flex-direction: column;
+    }
+
+    .beta {
+        font-style: italic;
     }
 
     main {
