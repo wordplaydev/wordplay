@@ -10,7 +10,6 @@ import { concretizeOrUndefined } from './src/locale/concretize';
 import Tutorial, { Performance, Line, Dialog } from './src/tutorial/Tutorial';
 import Project from './src/models/Project';
 import Source from './src/nodes/Source';
-import { Basis } from './src/basis/Basis';
 import Node from './src/nodes/Node';
 import Ajv from 'ajv';
 import { Performances } from './src/tutorial/Performances';
@@ -50,8 +49,8 @@ fs.readdirSync(path.join('static', 'locales'), { withFileTypes: true }).forEach(
             // Make sure there's a locale file.
 
             const stringsPath =
-                language === 'en'
-                    ? path.join('src', 'locale', 'en.json')
+                language === 'en-US'
+                    ? path.join('src', 'locale', 'en-US.json')
                     : path.join(
                           'static',
                           'locales',

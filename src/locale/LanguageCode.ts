@@ -17,7 +17,7 @@ export type WritingLayout = 'horizontal-tb' | 'vertical-rl' | 'vertical-lr';
 export type WritingDirection = 'ltr' | 'rtl';
 
 /** BCP 47 language tags and other metadata. */
-export const Languages = {
+export const Languages: Record<string, LanguageMetadata> = {
     '😀': { name: 'Emoji', en: 'Emoji' },
     af: { name: 'Afrikaans', en: 'Afrikaans' },
     am: { name: 'አማርኛ', en: 'Amharic' },

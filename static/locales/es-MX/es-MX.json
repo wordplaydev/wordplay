@@ -1711,7 +1711,12 @@
             "editSequencePercent": "$?",
             "editProjectName": "$?",
             "editSourceName": "$?",
-            "loginEmail": "$?"
+            "loginEmail": "$?",
+            "focusOutput": "$?",
+            "focusSource": "$?",
+            "focusDocs": "$?",
+            "focusPalette": "$?",
+            "focusCycle": "$?"
         },
         "prompt": {
             "deleteSource": "$?",

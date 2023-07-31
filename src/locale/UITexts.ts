@@ -128,6 +128,11 @@ type UITexts = {
         editProjectName: string;
         editSourceName: string;
         loginEmail: string;
+        focusOutput: string;
+        focusSource: string;
+        focusDocs: string;
+        focusPalette: string;
+        focusCycle: string;
     };
     prompt: {
         deleteSource: string;

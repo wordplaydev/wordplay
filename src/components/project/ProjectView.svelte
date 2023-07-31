@@ -663,6 +663,10 @@
             tick().then(() => focusTile(focusedTileID));
     });
 
+    function getTileView(tileID: string) {
+        return view?.querySelector(`.tile[data-id="${tileID}"]`) ?? null;
+    }
+
     function focusTile(focusedTileID: string | undefined) {
         if (view === undefined || view === null) return;
 
@@ -670,10 +674,10 @@
             (tile) => !tile.isCollapsed()
         )?.id;
         const focusedTileView = focusedTileID
-            ? view.querySelector(`.tile[data-id="${focusedTileID}"]`)
+            ? getTileView(focusedTileID)
             : null;
         const firstTileView = firstTileID
-            ? view.querySelector(`.tile[data-id="${firstTileID}"]`)
+            ? getTileView(firstTileID)
             : undefined;
         const tileView = focusedTileView ?? firstTileView;
 
@@ -684,14 +688,66 @@
             )[0];
             if (defaultFocus instanceof HTMLElement) viewToFocus = defaultFocus;
             else {
-                // // const focusable = tileView.querySelectorAll(
-                // //     'input, button, [tabindex="0"]'
-                // // )[0];
-                // if (focusable instanceof HTMLElement) viewToFocus = focusable;
+                const focusable = tileView.querySelectorAll(
+                    'input, button, [tabindex="0"]'
+                )[0];
+                if (focusable instanceof HTMLElement) viewToFocus = focusable;
             }
         }
         // No tiles visible? Just focus on the project view.
         (viewToFocus ?? view).focus();
+    }
+
+    async function focusOrCycleTile(content?: Content) {
+        const visible = layout.tiles.filter((tile) => !tile.isCollapsed());
+        const currentTileIndex = visible.findIndex((tile) => {
+            const view = getTileView(tile.id);
+            return (
+                view &&
+                (view === document.activeElement ||
+                    view.contains(document.activeElement))
+            );
+        });
+        const currentTile = visible[currentTileIndex];
+
+        // No kind specified? Cycle through visible tiles.
+        if (content === undefined) {
+            const next =
+                visible[
+                    currentTileIndex < 0 ||
+                    currentTileIndex + 1 >= visible.length
+                        ? 0
+                        : currentTileIndex + 1
+                ];
+            if (next) focusTile(next.id);
+        }
+        // Not source? Toggle the kind.
+        else if (content !== Content.Source) {
+            const tile = layout.tiles.find((tile) => tile.kind === content);
+            if (tile) {
+                toggleTile(tile);
+                await tick();
+                focusTile(tile.id);
+            }
+        }
+        // Source? Cycle through source, expanding as necessary.
+        else if (currentTileIndex) {
+            const sources = layout.getSources();
+            const index = sources.findIndex(
+                (source) => source.id === currentTile.id
+            );
+            const next =
+                sources[
+                    index < 0 ? 0 : index + 1 >= sources.length ? 0 : index + 1
+                ];
+            if (next) {
+                if (next.isCollapsed()) {
+                    toggleTile(next);
+                    await tick();
+                    focusTile(next.id);
+                } else focusTile(next.id);
+            }
+        }
     }
 
     function setMode(tile: Tile, mode: Mode) {
@@ -892,6 +948,7 @@
             evaluator: $evaluator,
             creator: $config,
             fullscreen,
+            focusOrCycleTile,
             help: () => (help = !help),
         });
 

@@ -3087,7 +3087,12 @@
             "editSequencePercent": "edit sequence percentage",
             "editProjectName": "edit project name",
             "editSourceName": "edit source name",
-            "loginEmail": "login email"
+            "loginEmail": "login email",
+            "focusOutput": "focus keyboard on the stage",
+            "focusSource": "focus on the next source",
+            "focusDocs": "focus on the documentation",
+            "focusPalette": "focus on the palette",
+            "focusCycle": "focus on the next tile"
         },
         "prompt": {
             "deleteSource": "delete",

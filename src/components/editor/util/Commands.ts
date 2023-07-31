@@ -11,6 +11,10 @@ import {
     QUOTIENT_SYMBOL,
     NONE_SYMBOL,
     DEGREE_SYMBOL,
+    DOCUMENTATION_SYMBOL,
+    SOURCE_SYMBOL,
+    STAGE_SYMBOL,
+    PALETTE_SYMBOL,
 } from '@parser/Symbols';
 
 import type Source from '@nodes/Source';
@@ -22,6 +26,7 @@ import Names from '@nodes/Names';
 import type { Creator } from '@db/Creator';
 import type Locale from '@locale/Locale';
 import Program from '@nodes/Program';
+import { Content } from '../../project/Tile';
 
 export type Command = {
     /** The iconographic text symbol to use */
@@ -64,6 +69,7 @@ export type CommandContext = {
     creator: Creator;
     toggleMenu?: () => void;
     fullscreen?: (on: boolean) => void;
+    focusOrCycleTile?: (content?: Content) => void;
     help?: () => void;
 };
 
@@ -380,6 +386,79 @@ export const ExitFullscreen: Command = {
     key: 'Escape',
     execute: (context) =>
         context.fullscreen ? context.fullscreen(false) : false,
+};
+
+export const FocusOutput: Command = {
+    symbol: STAGE_SYMBOL,
+    description: (l) => l.ui.description.focusOutput,
+    visible: Visibility.Invisible,
+    category: Category.Cursor,
+    shift: false,
+    alt: true,
+    control: true,
+    key: 'Digit1',
+    execute: (context) =>
+        context.focusOrCycleTile
+            ? context.focusOrCycleTile(Content.Output)
+            : false,
+};
+
+export const FocusSource: Command = {
+    symbol: SOURCE_SYMBOL,
+    description: (l) => l.ui.description.focusSource,
+    visible: Visibility.Invisible,
+    category: Category.Cursor,
+    shift: false,
+    alt: true,
+    control: true,
+    key: 'Digit2',
+    execute: (context) =>
+        context.focusOrCycleTile
+            ? context.focusOrCycleTile(Content.Source)
+            : false,
+};
+
+export const FocusDocs: Command = {
+    symbol: DOCUMENTATION_SYMBOL,
+    description: (l) => l.ui.description.focusDocs,
+    visible: Visibility.Invisible,
+    category: Category.Cursor,
+    shift: false,
+    alt: true,
+    control: true,
+    key: 'Digit3',
+    execute: (context) =>
+        context.focusOrCycleTile
+            ? context.focusOrCycleTile(Content.Documentation)
+            : false,
+};
+
+export const FocusPalette: Command = {
+    symbol: PALETTE_SYMBOL,
+    description: (l) => l.ui.description.focusPalette,
+    visible: Visibility.Invisible,
+    category: Category.Cursor,
+    shift: false,
+    alt: true,
+    control: true,
+    key: 'Digit4',
+    execute: (context) =>
+        context.focusOrCycleTile
+            ? context.focusOrCycleTile(Content.Palette)
+            : false,
+};
+
+export const FocusCycle: Command = {
+    symbol: '💬',
+    description: (l) => l.ui.description.focusCycle,
+    visible: Visibility.Invisible,
+    category: Category.Cursor,
+    shift: false,
+    alt: true,
+    control: true,
+    key: 'Digit0',
+    execute: (context) =>
+        context.focusOrCycleTile ? context.focusOrCycleTile() : false,
 };
 
 const Commands: Command[] = [
@@ -856,6 +935,11 @@ const Commands: Command[] = [
             caret && key.length === 1 ? caret.insert(key) : false,
     },
     ShowKeyboardHelp,
+    FocusOutput,
+    FocusSource,
+    FocusDocs,
+    FocusPalette,
+    FocusCycle,
 ];
 
 export const VisibleModifyCommands = Commands.filter(
