@@ -1,8 +1,10 @@
 <script lang="ts">
+    import Link from './Link.svelte';
+
     export let to: string;
 </script>
 
-<p><a href={to}><slot /></a></p>
+<p><Link {to}><slot /></Link></p>
 
 <style>
     p {

@@ -10,7 +10,7 @@
     } from '@locale/LanguageCode';
     import { config } from '../../db/Creator';
     import SupportedLanguages from '@locale/SupportedLanguages';
-    import ExternalLink from '../app/ExternalLink.svelte';
+    import Link from '../app/Link.svelte';
     import concretize from '../../locale/concretize';
     import Dialog from '../widgets/Dialog.svelte';
 
@@ -80,12 +80,13 @@
         {/each}
     </div>
     <h1
-        ><ExternalLink
+        ><Link
+            external
             to="https://github.com/amyjko/wordplay/blob/main/CONTRIBUTING.md#localization"
             >{concretize(
                 $config.getLocale(),
                 $config.getLocale().ui.header.helpLocalize
-            ).toText()}</ExternalLink
+            ).toText()}</Link
         ></h1
     >
     <div class="languages">

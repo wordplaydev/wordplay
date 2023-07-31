@@ -1,6 +1,7 @@
 <script lang="ts">
     import type WebLink from '../../nodes/WebLink';
     import type Spaces from '../../parser/Spaces';
+    import Link from '../app/Link.svelte';
 
     export let link: WebLink;
     export let spaces: Spaces;
@@ -13,10 +14,9 @@
 </script>
 
 {#if link.url && link.description}
-    {#if spaces.getSpace(link.open).length > 0}&nbsp;{/if}<a
-        href={url}
-        target="_blank"
-        rel="noreferrer">{link.description.getText()}</a
+    {#if spaces.getSpace(link.open).length > 0}&nbsp;{/if}<Link
+        external
+        to={url}>{link.description.getText()}</Link
     >
 {:else if link.description}
     {link.description.getText()}

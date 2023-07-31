@@ -1,6 +1,6 @@
 <script lang="ts">
     import Settings from '../settings/Settings.svelte';
-    import ExternalLink from './ExternalLink.svelte';
+    import Link from './Link.svelte';
 </script>
 
 <div class="page">
@@ -9,8 +9,8 @@
     </main>
     <footer>
         <div class="beta"
-            ><ExternalLink to="https://github.com/amyjko/wordplay/milestone/1"
-                >beta</ExternalLink
+            ><Link external to="https://github.com/amyjko/wordplay/milestone/1"
+                >beta</Link
             ></div
         >
         <Settings />

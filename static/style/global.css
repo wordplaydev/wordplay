@@ -16,8 +16,8 @@
     --wordplay-chrome: var(--color-light-grey);
     --wordplay-border-color: var(--color-light-grey);
     --wordplay-evaluation-color: var(--color-pink);
-    --wordplay-highlight-color: var(--color-orange);
-    --wordplay-focus-color: var(--color-yellow);
+    --wordplay-highlight-color: var(--color-yellow);
+    --wordplay-focus-color: var(--color-blue);
     --wordplay-hover: #feebc3;
     --wordplay-error: var(--color-orange);
     --wordplay-warning: var(--color-yellow);
@@ -263,18 +263,6 @@ p {
 
 p:not(:last-of-type) {
     margin-bottom: 0.8em;
-}
-
-a {
-    color: var(--wordplay-highlight-color);
-    text-decoration: none;
-    text-decoration-thickness: var(--wordplay-focus-width);
-}
-
-a:focus {
-    outline: none;
-    text-decoration: underline;
-    text-decoration-thickness: var(--wordplay-focus-width);
 }
 
 a:hover {
