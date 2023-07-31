@@ -1396,7 +1396,7 @@
 
     .caret-description {
         position: absolute;
-        background: var(--wordplay-highlight);
+        background: var(--wordplay-highlight-color);
         color: var(--wordplay-background);
         /* border:  var(--wordplay-border-width) solid var(--wordplay-border-color); */
         padding-left: calc(var(--wordplay-spacing) / 2);

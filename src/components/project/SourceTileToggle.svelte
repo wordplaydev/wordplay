@@ -102,7 +102,7 @@
 
     .name:focus {
         outline: none;
-        color: var(--wordplay-highlight);
+        color: var(--wordplay-highlight-color);
     }
 
     .expanded .name {

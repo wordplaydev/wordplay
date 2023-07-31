@@ -236,7 +236,8 @@
     }
 
     :global(.stage.editing.interactive) .selected {
-        outline: var(--wordplay-border-width) dotted var(--wordplay-highlight);
+        outline: var(--wordplay-border-width) dotted
+            var(--wordplay-highlight-color);
     }
 
     :global(.stage.editing.interactive) :not(.selected) {
@@ -253,7 +254,7 @@
         border: inherit;
         background: inherit;
         padding: 0;
-        border-bottom: var(--wordplay-highlight) solid
+        border-bottom: var(--wordplay-highlight-color) solid
             var(--wordplay-focus-width);
         outline: none;
         min-width: 1em;

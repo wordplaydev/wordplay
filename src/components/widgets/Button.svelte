@@ -74,8 +74,8 @@
 
     button:focus {
         outline: none;
-        color: var(--wordplay-highlight);
-        fill: var(--wordplay-highlight);
+        color: var(--wordplay-focus-color);
+        fill: var(--wordplay-focus-color);
     }
 
     button.scale:focus[aria-disabled='false'],
@@ -84,6 +84,6 @@
     }
 
     :global(button:focus .token-view) {
-        color: var(--wordplay-highlight);
+        color: var(--wordplay-focus-color);
     }
 </style>

@@ -68,10 +68,9 @@
             var(--wordplay-border-color);
     }
 
-    .button.inactive:focus,
     .button.inactive:hover {
         outline: none;
-        border-color: var(--wordplay-highlight);
+        border-color: var(--wordplay-highlight-color);
         transform: scale(1);
         transform-origin: center;
         z-index: 1;
@@ -79,7 +78,7 @@
 
     .button:focus {
         outline: none;
-        color: var(--wordplay-highlight);
+        color: var(--wordplay-focus-color);
     }
 
     .button.inactive {

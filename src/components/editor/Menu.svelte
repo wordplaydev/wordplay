@@ -265,7 +265,7 @@
     }
 
     .menu:focus-within {
-        outline: var(--wordplay-highlight) solid var(--wordplay-focus-width);
+        outline: var(--wordplay-focus-color) solid var(--wordplay-focus-width);
     }
 
     .revisions {
@@ -287,12 +287,13 @@
     }
 
     .revision:focus:hover {
-        outline: var(--wordplay-highlight) solid var(--wordplay-focus-width);
+        outline: var(--wordplay-highlight-color) solid
+            var(--wordplay-focus-width);
         outline-offset: calc(-1 * var(--wordplay-focus-width));
     }
 
     .revision.selected:not(:hover) {
-        background: var(--wordplay-highlight);
+        background: var(--wordplay-highlight-color);
         color: var(--wordplay-background);
     }
 

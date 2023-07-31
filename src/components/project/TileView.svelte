@@ -313,6 +313,10 @@
         border-right: var(--wordplay-border-color) solid 1px;
     }
 
+    .tile.vertical.docs {
+        border-top: var(--wordplay-border-color) solid 1px;
+    }
+
     .tile.vertical.palette {
         border-bottom: var(--wordplay-border-color) solid 1px;
     }
@@ -375,7 +379,7 @@
         width: 100%;
         height: 100%;
         content: '';
-        outline: var(--wordplay-highlight) solid var(--wordplay-focus-width);
+        outline: var(--wordplay-focus-color) solid var(--wordplay-focus-width);
         outline-offset: calc(-1 * var(--wordplay-focus-width));
         position: absolute;
         top: 0;

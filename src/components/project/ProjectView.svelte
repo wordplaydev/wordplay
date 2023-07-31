@@ -1272,7 +1272,7 @@
         width: 100%;
         height: 100%;
         content: '';
-        outline: var(--wordplay-highlight) solid var(--wordplay-focus-width);
+        outline: var(--wordplay-focus-color) solid var(--wordplay-focus-width);
         outline-offset: calc(-1 * var(--wordplay-focus-width));
         position: absolute;
         top: 0;

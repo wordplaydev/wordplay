@@ -16,7 +16,8 @@
     --wordplay-chrome: var(--color-light-grey);
     --wordplay-border-color: var(--color-light-grey);
     --wordplay-evaluation-color: var(--color-pink);
-    --wordplay-highlight: var(--color-yellow);
+    --wordplay-highlight-color: var(--color-orange);
+    --wordplay-focus-color: var(--color-yellow);
     --wordplay-hover: #feebc3;
     --wordplay-error: var(--color-orange);
     --wordplay-warning: var(--color-yellow);
@@ -64,16 +65,7 @@
     --wordplay-background: var(--color-black);
     --wordplay-chrome: var(--color-dark-grey);
     --wordplay-border-color: var(--color-dark-grey);
-    --wordplay-evaluation-color: var(--color-pink);
-    --wordplay-highlight: var(--color-yellow);
     --wordplay-hover: #463000;
-    --wordplay-error: var(--color-orange);
-    --wordplay-warning: var(--color-yellow);
-    --wordplay-inactive-color: var(--color-light-grey);
-    --wordplay-doc-color: var(--color-purple);
-    --wordplay-relation-color: var(--color-orange);
-    --wordplay-operator-color: var(--color-orange);
-    --wordplay-type-color: var(--color-orange);
 }
 
 @keyframes wobble {
@@ -274,7 +266,7 @@ p:not(:last-of-type) {
 }
 
 a {
-    color: var(--wordplay-highlight);
+    color: var(--wordplay-highlight-color);
     text-decoration: none;
     text-decoration-thickness: var(--wordplay-focus-width);
 }
@@ -290,7 +282,7 @@ a:hover {
 }
 
 *:focus {
-    outline: var(--wordplay-highlight) solid var(--wordplay-focus-width);
+    outline: var(--wordplay-focus-color) solid var(--wordplay-focus-width);
 }
 
 body:focus {

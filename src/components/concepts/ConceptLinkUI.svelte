@@ -108,7 +108,7 @@
 
     span.interactive .long {
         text-decoration: underline;
-        text-decoration-color: var(--wordplay-highlight);
+        text-decoration-color: var(--wordplay-highlight-color);
     }
 
     span.interactive:hover {
@@ -118,6 +118,7 @@
 
     span:focus {
         outline: none;
+        text-decoration-color: var(--wordplay-focus-color);
     }
 
     span:focus .long {

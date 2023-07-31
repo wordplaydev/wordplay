@@ -443,7 +443,8 @@
     }
 
     .stage.editing.interactive.selected {
-        outline: var(--wordplay-focus-width) dotted var(--wordplay-highlight);
+        outline: var(--wordplay-focus-width) dotted
+            var(--wordplay-highlight-color);
         outline-offset: calc(-3 * var(--wordplay-focus-width));
     }
 

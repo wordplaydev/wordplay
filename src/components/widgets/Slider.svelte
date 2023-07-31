@@ -110,7 +110,7 @@
     }
 
     input[type='range']:focus::-webkit-slider-thumb {
-        background: var(--wordplay-highlight);
+        background: var(--wordplay-focus-color);
     }
 
     input[type='range']::-moz-range-thumb {

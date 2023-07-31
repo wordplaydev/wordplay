@@ -154,11 +154,12 @@
     }
 
     :global(.stage.editing.interactive) .group.selected {
-        outline: var(--wordplay-border-width) dotted var(--wordplay-highlight);
+        outline: var(--wordplay-border-width) dotted
+            var(--wordplay-highlight-color);
     }
 
     .group:not(.selected):focus {
         outline: none;
-        background-color: var(--wordplay-highlight);
+        background-color: var(--wordplay-focus-color);
     }
 </style>

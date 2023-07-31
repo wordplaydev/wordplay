@@ -35,6 +35,6 @@
 
     .trigger:focus {
         outline: none;
-        color: var(--wordplay-highlight);
+        color: var(--wordplay-focus-color);
     }
 </style>
