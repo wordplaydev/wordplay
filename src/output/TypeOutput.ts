@@ -28,20 +28,20 @@ ${getBind(
     locales,
     (locale) => locale.output.Type.family
 )}•${SupportedFontsFamiliesType}|ø: ø
-${getBind(locales, (locale) => locale.output.Type.place)}•ø|Place: ø
+${getBind(locales, (locale) => locale.output.Type.place)}•ø|📍: ø
 ${getBind(locales, (locale) => locale.output.Type.name)}•""|ø: ø
 ${getBind(locales, (locale) => locale.output.Type.selectable)}•?: ⊥
-${getBind(locales, (locale) => locale.output.Pose.color)}•Color|ø: ø
+${getBind(locales, (locale) => locale.output.Pose.color)}•🌈|ø: ø
 ${getBind(locales, (locale) => locale.output.Pose.opacity)}•%: 100%
-${getBind(locales, (locale) => locale.output.Pose.offset)}•Place: Place()
+${getBind(locales, (locale) => locale.output.Pose.offset)}📍: 📍()
 ${getBind(locales, (locale) => locale.output.Type.rotation)}•#°: 0°
 ${getBind(locales, (locale) => locale.output.Pose.scale)}•#: 1
 ${getBind(locales, (locale) => locale.output.Pose.flipx)}•?: ⊥
 ${getBind(locales, (locale) => locale.output.Pose.flipy)}•?: ⊥
-${getBind(locales, (locale) => locale.output.Type.enter)}•ø|Pose|Sequence: ø
-${getBind(locales, (locale) => locale.output.Type.rest)}•ø|Pose|Sequence: ø
-${getBind(locales, (locale) => locale.output.Type.move)}•ø|Pose|Sequence: ø
-${getBind(locales, (locale) => locale.output.Type.exit)}•ø|Pose|Sequence: ø
+${getBind(locales, (locale) => locale.output.Type.enter)}•ø|🤪|💃: ø
+${getBind(locales, (locale) => locale.output.Type.rest)}•ø|🤪|💃: ø
+${getBind(locales, (locale) => locale.output.Type.move)}•ø|🤪|💃: ø
+${getBind(locales, (locale) => locale.output.Type.exit)}•ø|🤪|💃: ø
 ${getBind(locales, (locale) => locale.output.Type.duration)}•#s: 0s
 ${getBind(locales, (locale) => locale.output.Type.style)}•${locales
         .map((locale) =>
