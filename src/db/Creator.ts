@@ -199,8 +199,6 @@ export class Creator {
         lang: SupportedLocale,
         refresh: boolean
     ): Promise<Locale | undefined> {
-        if (lang === 'en-US') return en as Locale;
-
         // Already checked and it doesn't exist? Just return undefined.
         if (
             !refresh &&
