@@ -346,7 +346,7 @@ export class Creator {
     }
 
     setTutorialProgress(progress: Progress) {
-        const value = progress.toObject();
+        const value = progress.seralize();
         if (
             value.act === this.config.tutorial.act &&
             value.scene === this.config.tutorial.scene &&
@@ -585,7 +585,7 @@ export class Creator {
     /** Convert to an object suitable for JSON serialization */
     toProjectsObject(): SerializedProject[] {
         return Array.from(this.projects.values()).map((project) =>
-            project.current.toObject()
+            project.current.serialize()
         );
     }
 
@@ -639,7 +639,7 @@ export class Creator {
                             (this.uid
                                 ? project.current.withUser(this.uid)
                                 : project.current
-                            ).toObject()
+                            ).serialize()
                         );
                 });
 

@@ -108,7 +108,7 @@ export default class Progress {
         return `${this.act}-${this.scene}-${this.getPerformanceLine()}`;
     }
 
-    toObject(): TutorialProgress {
+    seralize(): TutorialProgress {
         return {
             act: this.act,
             scene: this.scene,

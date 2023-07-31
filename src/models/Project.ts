@@ -747,7 +747,7 @@ export default class Project {
         );
     }
 
-    toObject(): SerializedProject {
+    serialize(): SerializedProject {
         return {
             id: this.id,
             name: this.name,
