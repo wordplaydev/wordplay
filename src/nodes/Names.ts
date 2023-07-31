@@ -181,8 +181,8 @@ export default class Names extends Node {
         return this.names.find((name) => name.startsWith(prefix));
     }
 
-    getNodeLocale(translation: Locale) {
-        return translation.node.Names;
+    getNodeLocale(locale: Locale) {
+        return locale.node.Names;
     }
 
     withName(name: string, language: LanguageCode) {

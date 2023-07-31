@@ -9,7 +9,6 @@ import type Value from '@runtime/Value';
 import type Context from './Context';
 import Names from './Names';
 import type Borrow from './Borrow';
-import type LanguageCode from '@locale/LanguageCode';
 import Expression from './Expression';
 import Bind from './Bind';
 import type Type from './Type';
@@ -196,8 +195,8 @@ export default class Source extends Expression {
             );
     }
 
-    withName(name: string, language: LanguageCode) {
-        return new Source(this.names.withName(name, language), [
+    withName(name: string, locale: Locale) {
+        return new Source(this.names.withName(name, locale.language), [
             this.expression,
             this.spaces,
         ]);

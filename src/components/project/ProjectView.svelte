@@ -966,7 +966,7 @@
             project,
             project.withSource(
                 source,
-                source.withName(name, $config.getLanguages()[0])
+                source.withName(name, $config.getLocales()[0])
             )
         );
     }

@@ -156,7 +156,7 @@
         }
     }
 
-    function handleChange(name: string) {
+    function handleRename(name: string) {
         dispatch('rename', { id: tile.id, name });
     }
 </script>
@@ -198,7 +198,7 @@
                             .editSourceName}
                         placeholder={$config.getLocale().ui.placeholders.name}
                         validator={(text) => isName(text)}
-                        changed={handleChange}
+                        changed={handleRename}
                         border={false}
                     />
                 {:else}
