@@ -15,5 +15,6 @@
         outline: none;
         text-decoration: underline;
         text-decoration-thickness: var(--wordplay-focus-width);
+        text-decoration-color: var(--wordplay-focus-color);
     }
 </style>
