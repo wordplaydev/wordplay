@@ -1,12 +1,10 @@
 import { expect, test } from 'vitest';
-import { getDefaultNative } from '../native/Native';
 import Evaluator from '../runtime/Evaluator';
 import Number from '../runtime/Number';
 import Source from './Source';
 import Project from '../models/Project';
 import type Value from '../runtime/Value';
-
-const native = await getDefaultNative();
+import { DefaultLocale } from '../db/Creator';
 
 test.each([
     // A single source with 1 should evaluate to 1
@@ -19,7 +17,7 @@ test.each([
         'test',
         new Source('test', code[0]),
         code.slice(1).map((code, index) => new Source(`sup${index + 1}`, code)),
-        native
+        DefaultLocale
     );
     const value = new Evaluator(project).getInitialValue();
     expect(value).toBeDefined();

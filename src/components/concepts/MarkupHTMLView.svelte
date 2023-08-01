@@ -15,7 +15,7 @@
     $: spaces = markup.spaces;
 
     // Convert sequences of paragraphs that start with bullets into an HTML list.
-    const paragraphsAndLists: ParagraphOrList[] = markup.paragraphs.reduce(
+    $: paragraphsAndLists = markup.paragraphs.reduce(
         (stuff: ParagraphOrList[], next: Paragraph) => {
             if (next.isBulleted()) {
                 const previous = stuff.at(-1);

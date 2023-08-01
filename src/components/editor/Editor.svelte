@@ -2,7 +2,7 @@
 
 <script lang="ts">
     import Node from '@nodes/Node';
-    import Caret from '../../edit/Caret';
+    import Caret, { type CaretPosition } from '../../edit/Caret';
     import {
         createEventDispatcher,
         onDestroy,
@@ -153,7 +153,7 @@
     setContext(InsertionPointsSymbol, insertion);
 
     // A store of the currently requested node for which to show a menu.
-    const menuNode = writable<Node | undefined>(undefined);
+    const menuNode = writable<CaretPosition | undefined>(undefined);
     setContext(MenuNodeSymbol, menuNode);
 
     // A store of the handle edit function
@@ -161,11 +161,11 @@
     setContext(EditorSymbol, editHandler);
 
     // When the menu node changes, show the menu.
-    const unsubscribe = menuNode.subscribe((node) => {
-        if (node !== undefined) {
-            showMenu(node);
-            caret.set($caret.withPosition(node));
-        }
+    const unsubscribe = menuNode.subscribe((position) => {
+        if (position !== undefined) {
+            showMenu(position);
+            caret.set($caret.withPosition(position));
+        } else hideMenu();
     });
     onDestroy(unsubscribe);
 
@@ -261,7 +261,7 @@
                     ? $caret.position
                     : $caret.tokenExcludingSpace;
             if (node) {
-                adjustable = $caret.getAdjustableLiteral();
+                adjustable = $caret.getAdjustableLiteral($config.getLocales());
 
                 // When adjustable disappears, focus text field
                 if (adjustable !== undefined) {
@@ -297,9 +297,9 @@
             $caret.position instanceof Evaluate &&
             $caret.position.isOneOf(
                 project.getNodeContext($caret.position),
-                project.shares.output.phrase,
-                project.shares.output.group,
-                project.shares.output.stage
+                project.shares.output.Phrase,
+                project.shares.output.Group,
+                project.shares.output.Stage
             )
         )
             setSelectedOutput(selectedOutputPaths, project, [$caret.position]);
@@ -971,7 +971,7 @@
         insertion.set(undefined);
     }
 
-    async function showMenu(node: Node | undefined = undefined) {
+    async function showMenu(node: CaretPosition | undefined = undefined) {
         // Wait for everything to be updated so we have a fresh context
         await tick();
 
@@ -1212,9 +1212,9 @@
         : 'stepping'}"
     data-uiid="editor"
     role="application"
-    aria-label={`${$config.getLocale().ui.section.editor} ${source.getLocale(
-        $config.getLanguages()
-    )}`}
+    aria-label={`${
+        $config.getLocale().ui.section.editor
+    } ${source.getPreferredName($config.getLocales())}`}
     style:direction={$config.getWritingDirection()}
     style:writing-mode={$config.getWritingLayout()}
     data-id={source.id}
@@ -1294,17 +1294,20 @@
                 ? `calc(${caretLocation.left} - ${OutlinePadding}px)`
                 : undefined}
             style:top={caretLocation ? `${caretLocation.bottom}px` : undefined}
-            >{#if $caret.position instanceof Node}{@const concept =
-                    $concepts?.getNodeConcept(
-                        $caret.position
-                    )}{@const typeConcept =
+            >{#if $caret.position instanceof Node}
+                {@const relevantConcept = $concepts?.getRelevantConcept(
+                    $caret.position
+                )}
+                {@const typeConcept =
                     $concepts && caretExpressionType
                         ? $concepts.getConceptOfType(caretExpressionType)
-                        : undefined}<!-- Make a link to the node's documentation -->{#if concept}<ConceptLinkUI
-                        link={concept}
+                        : undefined}
+                <!-- Make a link to the node's documentation -->
+                {#if relevantConcept}<ConceptLinkUI
+                        link={relevantConcept}
                         label={DOCUMENTATION_SYMBOL}
                     />{/if}
-                <!-- Show the node's label and type, if an expression -->
+                <!-- Show the node's label and type -->
                 {$caret.position.getLabel(
                     $config.getLocale()
                 )}{#if caretExpressionType}&nbsp;{TYPE_SYMBOL}&nbsp;{#if typeConcept}<ConceptLinkUI
@@ -1312,7 +1315,7 @@
                             label={caretExpressionType.toWordplay()}
                         />{:else}{caretExpressionType.toWordplay()}{/if}{/if}
                 <PlaceholderView
-                    node={$caret.position}
+                    position={$caret.position}
                 />{/if}{#if document.activeElement === input}<div
                     class="screen-reader-description"
                     aria-live="polite"
@@ -1393,7 +1396,7 @@
 
     .caret-description {
         position: absolute;
-        background: var(--wordplay-highlight);
+        background: var(--wordplay-highlight-color);
         color: var(--wordplay-background);
         /* border:  var(--wordplay-border-width) solid var(--wordplay-border-color); */
         padding-left: calc(var(--wordplay-spacing) / 2);

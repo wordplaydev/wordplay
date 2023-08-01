@@ -1,7 +1,6 @@
-import type { NativeTypeName } from '../native/NativeConstants';
+import type { BasisTypeName } from '../basis/BasisConstants';
 import type Context from '@nodes/Context';
 import type FunctionDefinition from '@nodes/FunctionDefinition';
-import type LanguageCode from '@locale/LanguageCode';
 import { FUNCTION_SYMBOL } from '@parser/Symbols';
 import type Evaluation from './Evaluation';
 import Value from './Value';
@@ -32,7 +31,7 @@ export default class FunctionValue extends Value {
             : this.definition.getType(context);
     }
 
-    getNativeTypeName(): NativeTypeName {
+    getBasisTypeName(): BasisTypeName {
         return 'function';
     }
 
@@ -40,9 +39,9 @@ export default class FunctionValue extends Value {
         return undefined;
     }
 
-    toWordplay(languages: LanguageCode[]) {
-        return `${FUNCTION_SYMBOL} ${this.definition.names.getLocaleText(
-            languages
+    toWordplay(locales: Locale[]) {
+        return `${FUNCTION_SYMBOL} ${this.definition.names.getPreferredNameString(
+            locales
         )}()`;
     }
 

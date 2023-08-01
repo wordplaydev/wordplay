@@ -1,4 +1,4 @@
-import toStructure from '../native/toStructure';
+import toStructure from '../basis/toStructure';
 import type Value from '@runtime/Value';
 import type Color from './Color';
 import type TypeOutput from './TypeOutput';
@@ -11,7 +11,8 @@ import Phrase from './Phrase';
 import Group from './Group';
 import concretize from '../locale/concretize';
 import type Locale from '../locale/Locale';
-import type Project from '../models/Project';
+import { getOutputInput } from './Output';
+import Structure from '../runtime/Structure';
 
 export function createStackType(locales: Locale[]) {
     return toStructure(`
@@ -113,13 +114,8 @@ export class Stack extends Arrangement {
     }
 }
 
-export function toStack(
-    project: Project,
-    value: Value | undefined
-): Stack | undefined {
-    if (value === undefined) return undefined;
-    const padding = value.resolve(
-        project.shares.output.stack.inputs[0].names.getNames()[0]
-    );
+export function toStack(value: Value | undefined): Stack | undefined {
+    if (!(value instanceof Structure)) return undefined;
+    const padding = getOutputInput(value, 0);
     return padding instanceof Number ? new Stack(value, padding) : undefined;
 }

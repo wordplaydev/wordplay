@@ -4,12 +4,12 @@ import type Value from '@runtime/Value';
 
 export default class ValueRef {
     readonly value: Value;
-    readonly translation: Locale;
+    readonly locale: Locale;
     readonly context: Context;
 
-    constructor(value: Value, translation: Locale, context: Context) {
+    constructor(value: Value, locale: Locale, context: Context) {
         this.value = value;
-        this.translation = translation;
+        this.locale = locale;
         this.context = context;
     }
 

@@ -5,7 +5,7 @@ import Token from './Token';
 import Symbol from './Symbol';
 import { TABLE_CLOSE_SYMBOL, TABLE_OPEN_SYMBOL } from '@parser/Symbols';
 import type TypeSet from './TypeSet';
-import type { NativeTypeName } from '../native/NativeConstants';
+import type { BasisTypeName } from '../basis/BasisConstants';
 import AnyType from './AnyType';
 import type Conflict from '@conflicts/Conflict';
 import ExpectedColumnType from '@conflicts/ExpectedColumnType';
@@ -83,7 +83,7 @@ export default class TableType extends Type {
         });
     }
 
-    getNativeTypeName(): NativeTypeName {
+    getBasisTypeName(): BasisTypeName {
         return 'table';
     }
 

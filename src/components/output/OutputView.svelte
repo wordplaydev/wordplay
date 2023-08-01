@@ -75,6 +75,7 @@
 
     let renderedFocus: Place;
 
+    $: exception = value instanceof Exception ? value : undefined;
     $: verse = value === undefined ? undefined : toStage(project, value);
     $: background =
         $keyboardEditIdle !== IdleKind.Typing && value instanceof Exception
@@ -95,7 +96,7 @@
         // Record the key event on all keyboard streams if it wasn't handled above.
         if (evaluator.isPlaying()) {
             evaluator
-                .getNativeStreamsOfType(Key)
+                .getBasisStreamsOfType(Key)
                 .map((stream) => stream.record(event.key, false));
         }
         // else ignore();
@@ -232,7 +233,7 @@
 
         if (evaluator.isPlaying()) {
             evaluator
-                .getNativeStreamsOfType(Key)
+                .getBasisStreamsOfType(Key)
                 .map((stream) => stream.record(event.key, true));
         }
     }
@@ -251,19 +252,21 @@
 
         if (evaluator.isPlaying())
             evaluator
-                .getNativeStreamsOfType(Button)
+                .getBasisStreamsOfType(Button)
                 .map((stream) => stream.record(false));
     }
 
     function handlePointerDown(event: PointerEvent) {
         // Focus the keyboard input.
-        keyboardInputView?.focus();
-        event.stopPropagation();
-        event.preventDefault();
+        if (keyboardInputView) {
+            keyboardInputView.focus();
+            event.stopPropagation();
+            event.preventDefault();
+        }
 
         if (evaluator.isPlaying()) {
             evaluator
-                .getNativeStreamsOfType(Button)
+                .getBasisStreamsOfType(Button)
                 .forEach((stream) => stream.record(true));
 
             // Was the target clicked on output with a name? Add it to choice streams.
@@ -307,7 +310,7 @@
                     : // If there's selected output, it's the first output selected
                     $selectedOutput && $selectedOutput.length > 0
                     ? getPlace(
-                          $config.getNative(),
+                          $config.getLocale(),
                           $selectedOutput[0],
                           evaluator.project.getNodeContext($selectedOutput[0])
                       )
@@ -403,7 +406,7 @@
                     $selectedOutput &&
                     $selectedOutput.length > 0 &&
                     !$selectedOutput[0].is(
-                        project.shares.output.stage,
+                        project.shares.output.Stage,
                         project.getNodeContext($selectedOutput[0])
                     )
                 ) {
@@ -411,7 +414,7 @@
                         $config,
                         project,
                         $selectedOutput,
-                        $config.getLanguages(),
+                        $config.getLocales(),
                         newX,
                         newY,
                         false
@@ -423,7 +426,7 @@
 
         if (evaluator.isPlaying())
             evaluator
-                .getNativeStreamsOfType(Pointer)
+                .getBasisStreamsOfType(Pointer)
                 .map((stream) => stream.record(event.offsetX, event.offsetY));
         // Don't give feedback on this; it's not expected.
     }
@@ -507,7 +510,7 @@
                 : undefined;
         if (selection) {
             evaluator
-                .getNativeStreamsOfType(Choice)
+                .getBasisStreamsOfType(Choice)
                 .forEach((stream) => stream.record(selection));
             event.stopPropagation();
         }
@@ -621,33 +624,33 @@
         on:pointerup={interactive ? handlePointerUp : null}
         on:pointermove={interactive ? handlePointerMove : null}
     >
-        <input
-            class="keyboard-input"
-            type="text"
-            data-defaultfocus
-            aria-autocomplete="none"
-            autocomplete="off"
-            autocorrect="off"
-            bind:this={keyboardInputView}
-        />
+        {#if evaluator.getBasisStreamsOfType(Key).length > 0}
+            <input
+                class="keyboard-input"
+                type="text"
+                data-defaultfocus
+                aria-autocomplete="none"
+                aria-label={project.basis.locales[0].ui.prompt.keyStreamInput}
+                autocomplete="off"
+                autocorrect="off"
+                bind:this={keyboardInputView}
+            />
+        {/if}
 
         <!-- If it's because the keyboard isn't idle, show feedback instead of the value.-->
         {#if !mini && $evaluation?.playing === true && $keyboardEditIdle === IdleKind.Typing}
             <div class="message editing">⌨️</div>
             <!-- If there's an exception, show that. -->
-        {:else if value instanceof Exception}
+        {:else if exception !== undefined}
             <div class="message exception" data-uiid="exception"
                 >{#if mini}!{:else}<Speech
-                        glyph={$index?.getNodeConcept(value.creator) ??
-                            value.creator.getGlyphs()}
+                        glyph={$index?.getNodeConcept(exception.creator) ??
+                            exception.creator.getGlyphs()}
                         invert
                         >{#each $config.getLocales() as locale}
-                            <!-- This is some strange Svelte error were a non-exception value is sneaking through. -->
-                            {#if value instanceof Exception}
-                                <MarkupHTMLView
-                                    markup={value.getExplanation(locale)}
-                                />
-                            {/if}
+                            <MarkupHTMLView
+                                markup={exception.getExplanation(locale)}
+                            />
                         {/each}</Speech
                     >{/if}
             </div>
@@ -684,7 +687,7 @@
             <StageView
                 {project}
                 {evaluator}
-                {verse}
+                stage={verse}
                 {fullscreen}
                 bind:fit
                 bind:grid
@@ -743,8 +746,6 @@
         max-height: 100%;
         width: 100%;
         padding: var(--wordplay-spacing);
-        text-align: center;
-        line-height: 100%;
         font-size: 48pt;
         transform-origin: center;
         justify-content: center;
@@ -786,14 +787,15 @@
     .keyboard-input {
         position: absolute;
         left: 0;
-        top: 0;
+        right: 0;
+        bottom: 0;
         border: none;
         outline: none;
         opacity: 0;
-        width: 1px;
         pointer-events: none;
         touch-action: none;
     }
+
     .keyboard-input:focus {
         outline: none;
     }

@@ -1,4 +1,4 @@
-import toStructure from '../native/toStructure';
+import toStructure from '../basis/toStructure';
 import type Value from '@runtime/Value';
 import type Color from './Color';
 import type TypeOutput from './TypeOutput';
@@ -10,7 +10,8 @@ import Place from './Place';
 import None from '../runtime/None';
 import concretize from '../locale/concretize';
 import type Locale from '../locale/Locale';
-import type Project from '../models/Project';
+import { getOutputInputs } from './Output';
+import Structure from '../runtime/Structure';
 
 export function createGridType(locales: Locale[]) {
     return toStructure(`
@@ -177,18 +178,12 @@ export class Grid extends Arrangement {
     }
 }
 
-export function toGrid(
-    project: Project,
-    value: Value | undefined
-): Grid | undefined {
-    if (value === undefined) return undefined;
+export function toGrid(value: Value | undefined): Grid | undefined {
+    if (!(value instanceof Structure)) return undefined;
 
-    const GridType = project.shares.output.grid;
-    const rows = value.resolve(GridType.inputs[0].names.getNames()[0]);
-    const columns = value.resolve(GridType.inputs[1].names.getNames()[0]);
-    const padding = value.resolve(GridType.inputs[2].names.getNames()[0]);
-    const cellWidth = value.resolve(GridType.inputs[3].names.getNames()[0]);
-    const cellHeight = value.resolve(GridType.inputs[4].names.getNames()[0]);
+    const [rows, columns, padding, cellWidth, cellHeight] =
+        getOutputInputs(value);
+
     return rows instanceof Number &&
         columns instanceof Number &&
         padding instanceof Number &&

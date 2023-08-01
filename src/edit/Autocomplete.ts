@@ -254,8 +254,8 @@ function getFieldEdits(
 }
 
 function getRelativeFieldEdits(
-    before: boolean,
-    node: Node,
+    isAfterAnchor: boolean,
+    anchorNode: Node,
     position: number,
     adjacent: boolean,
     /** True if the line the caret is on is empty */
@@ -264,19 +264,21 @@ function getRelativeFieldEdits(
 ): Revision[] {
     let edits: Revision[] = [];
 
-    const parent = node.getParent(context);
+    const parent = anchorNode.getParent(context);
     // Don't replace the program block.
     if (parent instanceof Program) return [];
-    const field = parent?.getFieldOfChild(node);
+    const field = parent?.getFieldOfChild(anchorNode);
     if (parent === undefined || field === undefined) return [];
 
     // Generate possible nodes that could replace the token prior
     // (e.g., autocomplete References, create binary operations)
     // We only do this if this is before, and we're immediately after
     // a node, and for replacements that "complete" the existing parent.
-    if (before && adjacent) {
+    if (isAfterAnchor && adjacent) {
         const type =
-            node instanceof Expression ? node.getType(context) : undefined;
+            anchorNode instanceof Expression
+                ? anchorNode.getType(context)
+                : undefined;
         edits = [
             ...edits,
             ...field.kind
@@ -286,7 +288,7 @@ function getRelativeFieldEdits(
                         field,
                         kind,
                         type instanceof UnknownType ? undefined : type,
-                        node,
+                        anchorNode,
                         true,
                         context
                     )
@@ -296,7 +298,7 @@ function getRelativeFieldEdits(
                                 empty ||
                                 (replacement !== undefined &&
                                     completes(
-                                        node,
+                                        anchorNode,
                                         replacement instanceof Node
                                             ? replacement
                                             : replacement.getNode([])
@@ -305,7 +307,12 @@ function getRelativeFieldEdits(
                         // Convert the matching nodes to replacements.
                         .map(
                             (replacement) =>
-                                new Replace(context, parent, node, replacement)
+                                new Replace(
+                                    context,
+                                    parent,
+                                    anchorNode,
+                                    replacement
+                                )
                         )
                 )
                 .flat(),
@@ -315,7 +322,7 @@ function getRelativeFieldEdits(
     // Scan the parent's grammar for fields before or after to the current node the caret is it.
     const grammar = parent.getGrammar();
     const fieldIndex = grammar.findIndex((f) => f.name === field.name);
-    const relativeFields = before
+    const relativeFields = isAfterAnchor
         ? grammar.slice(fieldIndex)
         : // We reverse this so we can from most proximal to anchor to the beginning of the node.
           grammar.slice(0, fieldIndex + 1).reverse();
@@ -334,9 +341,18 @@ function getRelativeFieldEdits(
         ) {
             const list = parent.getField(relativeField.name);
             if (Array.isArray(list)) {
-                // Account for empty lists.
-                const index = Math.max(0, list.indexOf(node));
+                // Account for empty lists, as the node might not be in the list, as its an opening delimiter.
+                // If it's not in the list, it's either an empty list, in which we're inserting at the beginning,
+                // or it's not empty, and we're before the end.
+                const index =
+                    list.length === 0
+                        ? 0
+                        : Math.max(list.length - 1, list.indexOf(anchorNode)) +
+                          1;
                 if (index >= 0) {
+                    // Find the expected type of the position in the list.
+                    // Some lists don't care, other lists do (e.g., Evaluate has very specific type expectations based on it's function definnition).
+                    // If this field is before, then we do the index after. If the field we're analyzing is after, we keep the current index as the insertion point.
                     const expectedType = relativeField.getType
                         ? relativeField.getType(context, index)
                         : undefined;
@@ -349,10 +365,11 @@ function getRelativeFieldEdits(
                                     relativeField,
                                     kind,
                                     expectedType,
-                                    node,
+                                    anchorNode,
                                     false,
                                     context
                                 )
+                                    // Some nodes will suggest removals. We filter those here.
                                     .filter(
                                         (kind): kind is Node | Refer =>
                                             kind !== undefined
@@ -393,7 +410,7 @@ function getRelativeFieldEdits(
                                 relativeField,
                                 kind,
                                 expectedType,
-                                node,
+                                anchorNode,
                                 false,
                                 context
                             )

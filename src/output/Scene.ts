@@ -1,4 +1,3 @@
-import type LanguageCode from '../locale/LanguageCode';
 import type TypeOutput from './TypeOutput';
 import Place from './Place';
 import { createPlace } from './Place';
@@ -35,13 +34,10 @@ export default class Scene {
     readonly evaluator: Evaluator;
 
     /** The current verse being displayed */
-    verse: Stage | undefined = undefined;
+    stage: Stage | undefined = undefined;
 
     /** True if the stage is animated and interactive */
     live: boolean = true;
-
-    /** The current languages being displayed */
-    languages: LanguageCode[] = [];
 
     /** The current fonts that are loaded */
     fontsLoaded: Set<string> = new Set();
@@ -97,7 +93,7 @@ export default class Scene {
         height: number,
         context: RenderContext
     ) {
-        this.verse = verse;
+        this.stage = verse;
         this.live = live;
         this.focus = focus;
         this.viewportWidth = width;
@@ -118,7 +114,7 @@ export default class Scene {
 
         // Add the verse to the scene. This is necessary so that animations can get its context.
         const newScene = this.layout(
-            this.verse,
+            this.stage,
             [],
             new Map<OutputName, OutputInfo>(),
             context
@@ -129,7 +125,7 @@ export default class Scene {
             output: verse,
             global: center,
             local: center,
-            rotation: verse.rotation,
+            rotation: verse.pose.rotation,
             parents: [],
             context,
         });
@@ -161,7 +157,7 @@ export default class Scene {
                     },
                     present: {
                         place: info.local,
-                        rotation: info.output.rotation,
+                        rotation: info.output.pose.rotation,
                     },
                 });
             }
@@ -188,7 +184,7 @@ export default class Scene {
                             local: place,
                             rotation: info.rotation,
                             context: info.context,
-                            parents: [this.verse],
+                            parents: [this.stage],
                         };
                         // Add to the exiting list for the verse to render.
                         exiting.set(name, newInfo);

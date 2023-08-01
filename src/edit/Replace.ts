@@ -2,7 +2,6 @@ import type { Edit } from '../components/editor/util/Commands';
 import Revision from './Revision';
 import Node from '@nodes/Node';
 import Caret from './Caret';
-import type LanguageCode from '@locale/LanguageCode';
 import Refer from './Refer';
 import type Context from '@nodes/Context';
 import type Locale from '@locale/Locale';
@@ -62,8 +61,8 @@ export default class Replace<NodeType extends Node> extends Revision {
         );
     }
 
-    getEdit(lang: LanguageCode[]): Edit | undefined {
-        const [replacement, newParent] = this.getEditedNode(lang);
+    getEdit(locales: Locale[]): Edit | undefined {
+        const [replacement, newParent] = this.getEditedNode(locales);
 
         // Get the position of the node we're replacing.
         const position = this.context.source.getNodeFirstPosition(this.node);
@@ -111,25 +110,25 @@ export default class Replace<NodeType extends Node> extends Revision {
         ];
     }
 
-    getEditedNode(lang: LanguageCode[]): [Node, Node] {
+    getEditedNode(locales: Locale[]): [Node, Node] {
         // Get or create the replacement with the original node's space.
-        const replacement = this.getNewNode(lang);
+        const replacement = this.getNewNode(locales);
         const newParent = this.parent.replace(this.node, replacement);
         return [replacement ?? newParent, newParent];
     }
 
-    getNewNode(languages: LanguageCode[]) {
+    getNewNode(locales: Locale[]) {
         if (this.replacement instanceof Node) return this.replacement;
 
-        return this.replacement?.getNode(languages);
+        return this.replacement?.getNode(locales);
     }
 
     getDescription(locale: Locale) {
         if (this.description) return Markup.words(this.description(locale));
         let node =
             this.replacement instanceof Refer
-                ? this.replacement.getNode([locale.language])
-                : this.getNewNode([locale.language]);
+                ? this.replacement.getNode([locale])
+                : this.getNewNode([locale]);
         return concretize(
             locale,
             locale.ui.edit.replace,

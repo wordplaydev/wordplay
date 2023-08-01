@@ -34,7 +34,7 @@ const config = {
             '@parser': path.resolve('./src/parser'),
             '@input': path.resolve('./src/input'),
             '@output': path.resolve('./src/output'),
-            '@native': path.resolve('./src/native'),
+            '@basis': path.resolve('./src/basis'),
             '@edit': path.resolve('./src/edit'),
             '@models': path.resolve('./src/models'),
             '@db': path.resolve('./src/db'),

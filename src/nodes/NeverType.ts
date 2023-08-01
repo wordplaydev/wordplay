@@ -1,4 +1,4 @@
-import type { NativeTypeName } from '../native/NativeConstants';
+import type { BasisTypeName } from '../basis/BasisConstants';
 import type Locale from '@locale/Locale';
 import Type from './Type';
 import Glyphs from '../lore/Glyphs';
@@ -16,7 +16,7 @@ export default class NeverType extends Type {
     acceptsAll() {
         return false;
     }
-    getNativeTypeName(): NativeTypeName {
+    getBasisTypeName(): BasisTypeName {
         return 'never';
     }
     computeConflicts() {}

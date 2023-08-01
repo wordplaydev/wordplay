@@ -27,8 +27,8 @@
         // Make a Color evaluation corresponding to the new value
         const replacement = Evaluate.make(
             Reference.make(
-                $project.shares.output.color.names.getNames()[0],
-                $project.shares.output.color
+                $project.shares.output.Color.names.getNames()[0],
+                $project.shares.output.Color
             ),
             [
                 NumberLiteral.make(l + '%'),

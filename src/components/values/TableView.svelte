@@ -12,7 +12,9 @@
 
 {#each value.literal.type.columns as col}
     <SymbolView
-        symbol={col ? col.names.getLocaleText($config.getLanguages()) : ''}
+        symbol={col
+            ? col.names.getPreferredNameString($config.getLocales())
+            : ''}
         type={Symbol.Name}
     /><SymbolView symbol={TABLE_OPEN_SYMBOL} type={Symbol.TableOpen} />
 {/each}

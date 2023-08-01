@@ -49,6 +49,7 @@ import {
     CONVERT_SYMBOL2,
     CONVERT_SYMBOL3,
     STREAM_SYMBOL2,
+    LIGHT_SYMBOL,
 } from './Symbols';
 import TokenList from './TokenList';
 import ConceptRegEx from './ConceptRegEx';
@@ -74,6 +75,7 @@ export const DOC_SPECIAL_CHARACTERS = [
     BOLD_SYMBOL,
     EXTRA_SYMBOL,
     DOCS_SYMBOL,
+    LIGHT_SYMBOL,
     MENTION_SYMBOL,
     LIST_OPEN_SYMBOL,
     OR_SYMBOL,
@@ -150,7 +152,7 @@ const patterns = [
     { pattern: TYPE_SYMBOL, types: [Symbol.Type, Symbol.TypeOperator] },
     {
         pattern: OR_SYMBOL,
-        types: [Symbol.Operator, Symbol.Union, Symbol.Light],
+        types: [Symbol.Operator, Symbol.Union],
     },
     { pattern: TYPE_OPEN_SYMBOL, types: [Symbol.TypeOpen] },
     { pattern: TYPE_CLOSE_SYMBOL, types: [Symbol.TypeClose] },
@@ -274,7 +276,10 @@ const patterns = [
     },
     { pattern: '¿', types: [Symbol.BooleanType, Symbol.Conditional] },
     // Tokenize formatting symbols before binary ops
-    // Light is tokenized with the | operator above
+    {
+        pattern: LIGHT_SYMBOL,
+        types: [Symbol.Light, Symbol.Operator],
+    },
     {
         pattern: UNDERSCORE_SYMBOL,
         types: [Symbol.Underline, Symbol.Operator],
@@ -287,6 +292,7 @@ const patterns = [
         pattern: EXTRA_SYMBOL,
         types: [Symbol.Extra, Symbol.Operator],
     },
+    { pattern: '-', types: [Symbol.Operator, Symbol.Region] },
     // Prefix and infix operators are single Unicode glyphs that are surrounded by whitespace that are not one of the above
     // and one of the following:
     // - Mathematical operators: U+2200..U+22FF
@@ -308,7 +314,7 @@ const patterns = [
     },
 ];
 
-export const TEXT_DELIMITERS: Record<string, string> = {
+export const TextCloseByTextOpen: Record<string, string> = {
     '"': '"',
     '“': '”',
     '„': '“',
@@ -320,9 +326,14 @@ export const TEXT_DELIMITERS: Record<string, string> = {
     '『': '』',
 };
 
-export const REVERSE_TEXT_DELIMITERS: Record<string, string> = {};
-for (const [open, close] of Object.entries(TEXT_DELIMITERS))
-    REVERSE_TEXT_DELIMITERS[close] = open;
+export const TextOpenByTextClose: Record<string, string> = {};
+for (const [open, close] of Object.entries(TextCloseByTextOpen))
+    TextOpenByTextClose[close] = open;
+
+export const TextDelimiters = new Set<string>([
+    ...Object.keys(TextOpenByTextClose),
+    ...Object.keys(TextCloseByTextOpen),
+]);
 
 export const DELIMITERS: Record<string, string> = {};
 
@@ -336,7 +347,7 @@ DELIMITERS[EXAMPLE_OPEN_SYMBOL] = EXAMPLE_CLOSE_SYMBOL;
 DELIMITERS[DOCS_SYMBOL] = DOCS_SYMBOL;
 
 // Add the text delimiters.
-for (const [open, close] of Object.entries(TEXT_DELIMITERS))
+for (const [open, close] of Object.entries(TextCloseByTextOpen))
     DELIMITERS[open] = close;
 
 // Construct the reverse delimiters.
@@ -476,7 +487,9 @@ function getNextToken(
                 (!pattern.types.includes(Symbol.TemplateClose) ||
                     openTemplates.length === 0 ||
                     match[0].endsWith(
-                        TEXT_DELIMITERS[openTemplates[0].getText().charAt(0)]
+                        TextCloseByTextOpen[
+                            openTemplates[0].getText().charAt(0)
+                        ]
                     ))
             )
                 return new Token(match[0], pattern.types);

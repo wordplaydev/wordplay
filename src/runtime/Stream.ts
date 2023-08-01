@@ -1,10 +1,9 @@
 import None from './None';
-import Primitive from './Primitive';
+import Simple from './Simple';
 import type Value from './Value';
-import type LanguageCode from '@locale/LanguageCode';
 import type Evaluator from './Evaluator';
 import type { StepNumber } from './Evaluator';
-import type { NativeTypeName } from '../native/NativeConstants';
+import type { BasisTypeName } from '../basis/BasisConstants';
 import type Locale from '@locale/Locale';
 import type StreamDefinition from '../nodes/StreamDefinition';
 import type Expression from '../nodes/Expression';
@@ -14,7 +13,7 @@ export const MAX_STREAM_LENGTH = 256;
 
 export default abstract class Stream<
     ValueType extends Value = Value
-> extends Primitive {
+> extends Simple {
     /** The evaluator that processes this stream */
     readonly evaluator: Evaluator;
 
@@ -40,12 +39,12 @@ export default abstract class Stream<
         this.add(initalValue);
     }
 
-    getDescription(translation: Locale) {
+    getDescription(locale: Locale) {
         return concretize(
-            translation,
+            locale,
             this.definition.docs
-                ?.getLocale(translation.language)
-                ?.getFirstParagraph() ?? translation.term.stream
+                ?.getPreferredLocale(locale)
+                ?.getFirstParagraph() ?? locale.term.stream
         );
     }
 
@@ -71,7 +70,7 @@ export default abstract class Stream<
         if (!silent) this.notify();
     }
 
-    getNativeTypeName(): NativeTypeName {
+    getBasisTypeName(): BasisTypeName {
         return 'stream';
     }
 
@@ -123,12 +122,12 @@ export default abstract class Stream<
     }
 
     /** Should produce valid Wordplay code string representing the stream's name */
-    toWordplay(languages: LanguageCode[]): string {
-        return this.getName(languages);
+    toWordplay(locales: Locale[]): string {
+        return this.getPreferredName(locales);
     }
 
-    getName(languages: LanguageCode[]) {
-        return this.definition.names.getLocaleText(languages);
+    getPreferredName(locales: Locale[]) {
+        return this.definition.names.getPreferredNameString(locales);
     }
 
     /** Should return named values on the stream. */

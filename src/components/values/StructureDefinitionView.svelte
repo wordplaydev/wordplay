@@ -11,6 +11,6 @@
 </script>
 
 <SymbolView symbol={TYPE_SYMBOL} type={Symbol.Type} /><SymbolView
-    symbol={value.definition.names.getLocaleText($config.getLanguages())}
+    symbol={value.definition.names.getPreferredNameString($config.getLocales())}
     type={Symbol.Name}
 />

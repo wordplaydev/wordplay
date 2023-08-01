@@ -6,12 +6,10 @@ import type Value from '@runtime/Value';
 import Time from '../input/Time';
 import type Expression from './Expression';
 import Evaluator from '../runtime/Evaluator';
-import { getDefaultNative } from '../native/Native';
 import { testConflict } from '../conflicts/TestUtilities';
 import Reaction from './Reaction';
 import ExpectedStream from '../conflicts/ExpectedStream';
-
-const native = await getDefaultNative();
+import { DefaultLocale } from '../db/Creator';
 
 const makeOne = (creator: Expression) => Time.make(creator, 1);
 
@@ -43,7 +41,7 @@ test.each([
     ) => {
         // Make the project
         const source = new Source('test', code);
-        const project = new Project(null, 'test', source, [], native);
+        const project = new Project(null, 'test', source, [], DefaultLocale);
         const evaluator = new Evaluator(project);
 
         evaluator.start();
@@ -53,7 +51,7 @@ test.each([
         expect(actualInitial?.toString()).toBe(expectedInitial);
 
         // Add the given value to the stream
-        const stream = Array.from(evaluator.nativeStreams.values())[0][0];
+        const stream = Array.from(evaluator.basisStreams.values())[0][0];
         expect(stream).not.toBeUndefined();
         stream?.add(value(source));
 

@@ -3,20 +3,19 @@ import MapType from '@nodes/MapType';
 import UnionType from '@nodes/UnionType';
 import Number from './Number';
 import None from './None';
-import Primitive from './Primitive';
+import Simple from './Simple';
 import type Value from './Value';
-import type LanguageCode from '@locale/LanguageCode';
 import {
     BIND_SYMBOL,
     SET_CLOSE_SYMBOL,
     SET_OPEN_SYMBOL,
 } from '@parser/Symbols';
-import type { NativeTypeName } from '../native/NativeConstants';
+import type { BasisTypeName } from '../basis/BasisConstants';
 import type Locale from '@locale/Locale';
 import type Expression from '../nodes/Expression';
 import concretize from '../locale/concretize';
 
-export default class Map extends Primitive {
+export default class Map extends Simple {
     readonly values: [Value, Value][];
 
     constructor(creator: Expression, values: [Value, Value][]) {
@@ -108,17 +107,17 @@ export default class Map extends Primitive {
         );
     }
 
-    getNativeTypeName(): NativeTypeName {
+    getBasisTypeName(): BasisTypeName {
         return 'map';
     }
 
-    toWordplay(languages: LanguageCode[]): string {
+    toWordplay(locales: Locale[]): string {
         return `${SET_OPEN_SYMBOL}${this.values
             .map(
                 ([key, value]) =>
-                    `${key.toWordplay(
-                        languages
-                    )}${BIND_SYMBOL}${value.toWordplay(languages)}`
+                    `${key.toWordplay(locales)}${BIND_SYMBOL}${value.toWordplay(
+                        locales
+                    )}`
             )
             .join(' ')}${SET_CLOSE_SYMBOL}`;
     }

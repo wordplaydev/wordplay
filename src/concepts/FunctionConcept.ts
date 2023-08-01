@@ -1,6 +1,5 @@
 import type Context from '@nodes/Context';
 import type FunctionDefinition from '@nodes/FunctionDefinition';
-import type LanguageCode from '@locale/LanguageCode';
 import type Node from '@nodes/Node';
 import BindConcept from './BindConcept';
 import Concept from './Concept';
@@ -29,7 +28,7 @@ export default class FunctionConcept extends Concept {
         affiliation: StructureDefinition | undefined,
         definition: FunctionDefinition,
         structure: StructureConcept | undefined,
-        languages: LanguageCode[],
+        locales: Locale[],
         context: Context
     ) {
         super(purpose, affiliation, context);
@@ -38,19 +37,19 @@ export default class FunctionConcept extends Concept {
         this.structure = structure;
 
         this.example = this.definition.getEvaluateTemplate(
-            languages,
+            locales,
             context,
             this.structure?.type
         );
 
         this.inputs = this.definition.inputs.map(
-            (bind) => new BindConcept(purpose, bind, languages, context)
+            (bind) => new BindConcept(purpose, bind, locales, context)
         );
     }
 
-    getGlyphs(languages: LanguageCode[]) {
+    getGlyphs(locales: Locale[]) {
         return {
-            symbols: this.definition.names.getLocaleText(languages),
+            symbols: this.definition.names.getPreferredNameString(locales),
         };
     }
 
@@ -63,12 +62,12 @@ export default class FunctionConcept extends Concept {
     }
 
     getDocs(locale: Locale): Markup | undefined {
-        const doc = this.definition.docs?.getLocale(locale.language);
+        const doc = this.definition.docs?.getPreferredLocale(locale);
         return doc?.markup?.concretize(locale, []);
     }
 
-    getName(translation: Locale) {
-        return this.definition.names.getLocaleText(translation.language, false);
+    getName(locale: Locale) {
+        return this.definition.names.getPreferredNameString([locale], false);
     }
 
     getRepresentation() {

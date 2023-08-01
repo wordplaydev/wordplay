@@ -1,12 +1,28 @@
 import Revision from '../../../edit/Revision';
-import type LanguageCode from '@locale/LanguageCode';
 import type Caret from '../../../edit/Caret';
 import type { Edit } from './Commands';
-import type Purpose from '../../../concepts/Purpose';
-import type ConceptIndex from '../../../concepts/ConceptIndex';
+import type Purpose from '@concepts/Purpose';
+import type ConceptIndex from '@concepts/ConceptIndex';
+import Literal from '@nodes/Literal';
+import type Locale from '../../../locale/Locale';
 
 export type MenuSelection = [number, number | undefined];
 export type MenuOrganization = (Revision | RevisionSet)[];
+
+// A relevance ordering of purposes.
+
+const PurposeRelevance: Record<Purpose, number> = {
+    project: 0,
+    value: 1,
+    evaluate: 2,
+    input: 3,
+    output: 4,
+    decide: 5,
+    convert: 6,
+    bind: 7,
+    type: 8,
+    document: 9,
+};
 
 /** An immutable container for menu state. */
 export default class Menu {
@@ -58,14 +74,17 @@ export default class Menu {
             // 2. RevisionSets organized by node kind, or the single Revision if there's only one, sorted by Purpose.
             // 3. Any removals, which are likely the least relevant.
             // RevisionSets are organized alphabetically by locale.
-            const completions = this.revisions.filter((revision) =>
-                revision.isCompletion()
+            const priority = this.revisions.filter(
+                (revision) =>
+                    revision.isCompletion() ||
+                    revision.getNewNode([]) instanceof Literal
             );
             const removals = this.revisions.filter((revision) =>
                 revision.isRemoval()
             );
             const others = this.revisions.filter(
-                (revision) => !revision.isCompletion() && !revision.isRemoval()
+                (revision) =>
+                    !priority.includes(revision) && !revision.isRemoval()
             );
             const kinds: Map<Purpose, Revision[]> = new Map();
             for (const other of others) {
@@ -82,11 +101,16 @@ export default class Menu {
             }
 
             organization = [
-                ...completions,
-                ...Array.from(kinds.entries()).map(
-                    ([purpose, revisions]) =>
-                        new RevisionSet(purpose, revisions)
-                ),
+                ...priority,
+                ...Array.from(kinds.entries())
+                    .sort(
+                        (a, b) =>
+                            PurposeRelevance[a[0]] - PurposeRelevance[b[0]]
+                    )
+                    .map(
+                        ([purpose, revisions]) =>
+                            new RevisionSet(purpose, revisions)
+                    ),
                 ...removals,
             ];
         }
@@ -252,15 +276,12 @@ export default class Menu {
             : this;
     }
 
-    doEdit(
-        languages: LanguageCode[],
-        revision: Revision | RevisionSet | undefined
-    ) {
+    doEdit(locales: Locale[], revision: Revision | RevisionSet | undefined) {
         if (revision === undefined) return this.action(undefined);
         return revision
             ? this.action(
                   revision instanceof Revision
-                      ? revision.getEdit(languages)
+                      ? revision.getEdit(locales)
                       : revision
               )
             : false;

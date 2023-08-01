@@ -43,7 +43,9 @@
         {#if value === undefined}
             ø
         {:else}
-            {value.toFixed(Math.max(0, precision)) + unit}
+            {(value * (unit === '%' ? 100 : 1)).toFixed(
+                Math.max(0, precision)
+            ) + unit}
         {/if}
     </div>
 </div>
@@ -108,7 +110,7 @@
     }
 
     input[type='range']:focus::-webkit-slider-thumb {
-        background: var(--wordplay-highlight);
+        background: var(--wordplay-focus-color);
     }
 
     input[type='range']::-moz-range-thumb {

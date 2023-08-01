@@ -1,14 +1,14 @@
-import type { NativeTypeName } from '../native/NativeConstants';
+import type { BasisTypeName } from '../basis/BasisConstants';
 import { NONE_SYMBOL } from '@parser/Symbols';
 import type Locale from '@locale/Locale';
-import NativeType from './NativeType';
+import BasisType from './BasisType';
 import { node, type Grammar, type Replacement } from './Node';
 import Token from './Token';
 import Symbol from './Symbol';
 import type TypeSet from './TypeSet';
 import Glyphs from '../lore/Glyphs';
 
-export default class NoneType extends NativeType {
+export default class NoneType extends BasisType {
     readonly none: Token;
 
     constructor(none: Token) {
@@ -45,7 +45,7 @@ export default class NoneType extends NativeType {
         return types.list().every((type) => type instanceof NoneType);
     }
 
-    getNativeTypeName(): NativeTypeName {
+    getBasisTypeName(): BasisTypeName {
         return 'none';
     }
 

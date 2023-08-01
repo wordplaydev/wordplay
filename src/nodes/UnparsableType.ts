@@ -1,6 +1,6 @@
 import type Conflict from '@conflicts/Conflict';
 import { UnparsableConflict } from '@conflicts/UnparsableConflict';
-import type { NativeTypeName } from '../native/NativeConstants';
+import type { BasisTypeName } from '../basis/BasisConstants';
 import type Locale from '@locale/Locale';
 import Node, { list, type Grammar, type Replacement, node } from './Node';
 import Type from './Type';
@@ -19,7 +19,7 @@ export default class UnparsableType extends Type {
         return false;
     }
 
-    getNativeTypeName(): NativeTypeName {
+    getBasisTypeName(): BasisTypeName {
         return 'unparsable';
     }
 

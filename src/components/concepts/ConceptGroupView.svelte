@@ -69,12 +69,12 @@
 
     .expander:focus {
         transform: scale(1.1);
-        color: var(--wordplay-highlight);
+        color: var(--wordplay-focus-color);
         outline: none;
     }
 
     .expander:hover {
         transform: scale(1.1);
-        color: var(--wordplay-highlight);
+        color: var(--wordplay-highlight-color);
     }
 </style>

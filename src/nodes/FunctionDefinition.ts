@@ -18,7 +18,6 @@ import EvalCloseToken from './EvalCloseToken';
 import EvalOpenToken from './EvalOpenToken';
 import Docs from './Docs';
 import Names from './Names';
-import type LanguageCode from '@locale/LanguageCode';
 import type Value from '@runtime/Value';
 import StartFinish from '@runtime/StartFinish';
 import TypeVariables from './TypeVariables';
@@ -125,7 +124,7 @@ export default class FunctionDefinition extends Expression {
 
     /** Create an expression that evaluates this function with typed placeholders for its inputs. */
     getEvaluateTemplate(
-        nameOrLanguages: LanguageCode[] | string,
+        nameOrLocales: Locale[] | string,
         context: Context,
         structureType: Expression | Type | undefined
     ) {
@@ -137,9 +136,9 @@ export default class FunctionDefinition extends Expression {
                 ? possibleStructure
                 : undefined;
         const reference = Reference.make(
-            typeof nameOrLanguages === 'string'
-                ? nameOrLanguages
-                : this.names.getLocaleText(nameOrLanguages),
+            typeof nameOrLocales === 'string'
+                ? nameOrLocales
+                : this.names.getPreferredNameString(nameOrLocales),
             this
         );
         return this.isOperator() && this.inputs.length === 0
@@ -157,7 +156,7 @@ export default class FunctionDefinition extends Expression {
                       ? structureType
                       : ExpressionPlaceholder.make(structureType),
                   Reference.make(this.getOperatorName() ?? '_'),
-                  ExpressionPlaceholder.make(this.inputs[0]?.type?.clone())
+                  ExpressionPlaceholder.make()
               )
             : Evaluate.make(
                   structure
@@ -173,10 +172,7 @@ export default class FunctionDefinition extends Expression {
                       .map((input) => {
                           if (input.type instanceof FunctionType)
                               return input.type.getTemplate(context);
-                          else
-                              return ExpressionPlaceholder.make(
-                                  input.type?.clone()
-                              );
+                          else return ExpressionPlaceholder.make();
                       })
               );
     }
@@ -249,8 +245,8 @@ export default class FunctionDefinition extends Expression {
         return this.share !== undefined;
     }
 
-    getLocale(lang: LanguageCode[]) {
-        return this.names.getLocaleText(lang);
+    getPreferredName(locales: Locale[]) {
+        return this.names.getPreferredNameString(locales);
     }
 
     isOperator() {
@@ -431,7 +427,7 @@ export default class FunctionDefinition extends Expression {
     }
 
     getDescriptionInputs(locale: Locale, _: Context) {
-        return [this.names.getLocaleText(locale.language)];
+        return [this.names.getPreferredNameString([locale])];
     }
 
     getGlyphs() {

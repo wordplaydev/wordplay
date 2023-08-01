@@ -6,7 +6,7 @@ import type Program from '@nodes/Program';
 import type StructureDefinition from '@nodes/StructureDefinition';
 import Source from '@nodes/Source';
 import Node from '@nodes/Node';
-import HOF from '../native/HOF';
+import HOF from '../basis/HOF';
 import Context from '@nodes/Context';
 import type { SharedDefinition } from '@nodes/Borrow';
 import PropertyReference from '@nodes/PropertyReference';
@@ -19,9 +19,11 @@ import { parseNames, toTokens } from '../parser/Parser';
 import Root from '../nodes/Root';
 import type { Path } from '../nodes/Root';
 import type { CaretPosition } from '../edit/Caret';
-import type { Native } from '../native/Native';
+import { Basis } from '../basis/Basis';
 import type createDefaultShares from '../runtime/createDefaultShares';
 import FunctionType from '../nodes/FunctionType';
+import type Locale from '../locale/Locale';
+import { toLocaleString } from '../locale/Locale';
 
 export type SerializedSource = {
     names: string;
@@ -32,6 +34,7 @@ export type SerializedProject = {
     id: string;
     name: string;
     sources: SerializedSource[];
+    locales: string[];
     uids: string[];
     listed: boolean;
 };
@@ -91,8 +94,11 @@ export default class Project {
     /** Default shares */
     readonly shares: ReturnType<typeof createDefaultShares>;
 
-    /** The localized native bindings */
-    readonly native: Native;
+    /** The locales on which this project relies */
+    readonly locales: Locale[];
+
+    /** The localized basis bindings */
+    readonly basis: Basis;
 
     /** Conflicts. */
     analyzed: 'unanalyzed' | 'analyzing' | 'analyzed' = 'unanalyzed';
@@ -109,7 +115,7 @@ export default class Project {
         name: string,
         main: Source,
         supplements: Source[],
-        native: Native,
+        locales: Locale | Locale[],
         carets: SerializedCarets | undefined = undefined,
         uids: string[] = [],
         listed: boolean = true
@@ -123,10 +129,14 @@ export default class Project {
         this.main = main;
         this.supplements = supplements.slice();
 
-        this.native = native;
+        // Remember the locale dependencies
+        this.locales = Array.isArray(locales) ? locales : [locales];
+
+        // Get a Basis for the requested locales.
+        this.basis = Basis.getLocalizedBasis(this.locales);
 
         // Initialize default shares
-        this.shares = native.shares;
+        this.shares = this.basis.shares;
 
         // Remember the carets
         this.carets =
@@ -139,7 +149,7 @@ export default class Project {
         // Initialize roots for all definitions that can be referenced.
         this.roots = [
             ...this.getSources().map((source) => source.root),
-            ...native.roots,
+            ...this.basis.roots,
             ...this.shares.all.map((share) => new Root(share)),
         ];
     }
@@ -150,7 +160,7 @@ export default class Project {
             this.name,
             this.main,
             this.supplements,
-            this.native,
+            this.locales,
             this.carets,
             this.uids,
             this.listed
@@ -202,6 +212,10 @@ export default class Project {
         return this.shares;
     }
 
+    getLocales() {
+        return this.basis.locales;
+    }
+
     getContext(source: Source) {
         let context = this.sourceContext.get(source);
         if (context === undefined) {
@@ -231,8 +245,8 @@ export default class Project {
             (source) => source.expression === program
         );
     }
-    getNative() {
-        return this.native;
+    getBasis() {
+        return this.basis;
     }
 
     getAnalysis() {
@@ -465,7 +479,7 @@ export default class Project {
             this.name,
             this.main,
             this.supplements,
-            this.native,
+            this.locales,
             this.carets,
             this.uids,
             this.listed
@@ -478,7 +492,7 @@ export default class Project {
             name,
             this.main,
             this.supplements,
-            this.native,
+            this.locales,
             this.carets,
             this.uids,
             this.listed
@@ -489,13 +503,27 @@ export default class Project {
         return this.withSources([[oldSource, newSource]]);
     }
 
+    /** Copies this project, but with the new locale added if it's not already included. */
+    withLocales(locales: Locale[]) {
+        return new Project(
+            this.id,
+            this.name,
+            this.main,
+            this.supplements,
+            Array.from(new Set([...this.locales, ...locales])),
+            this.carets,
+            this.uids,
+            this.listed
+        );
+    }
+
     withCaret(source: Source, caret: CaretPosition) {
         return new Project(
             this.id,
             this.name,
             this.main,
             this.supplements,
-            this.native,
+            this.locales,
             this.carets.map((c) =>
                 c.source === source
                     ? {
@@ -518,7 +546,7 @@ export default class Project {
             this.name,
             this.main,
             this.supplements.filter((s) => s !== source),
-            this.native,
+            this.locales,
             this.carets.filter((c) => c.source !== source),
             this.uids,
             this.listed
@@ -543,7 +571,7 @@ export default class Project {
             this.name,
             newMain,
             newSupplements,
-            this.native,
+            this.locales,
             this.carets.map((caret) => {
                 // See if the caret's source was replaced.
                 const replacement = replacements.find(
@@ -614,7 +642,7 @@ export default class Project {
             this.name,
             this.main,
             [...this.supplements, newSource],
-            this.native,
+            this.locales,
             [...this.carets, { source: newSource, caret: 0 }],
             this.uids
         );
@@ -628,7 +656,7 @@ export default class Project {
                   this.name,
                   this.main,
                   this.supplements,
-                  this.native,
+                  this.locales,
                   this.carets,
                   [...this.uids, uid],
                   this.listed
@@ -670,19 +698,19 @@ export default class Project {
         return [
             ...evaluates.filter((evaluate) =>
                 evaluate.is(
-                    this.shares.output.stage,
+                    this.shares.output.Stage,
                     this.getNodeContext(evaluate)
                 )
             ),
             ...evaluates.filter((evaluate) =>
                 evaluate.is(
-                    this.shares.output.group,
+                    this.shares.output.Group,
                     this.getNodeContext(evaluate)
                 )
             ),
             ...evaluates.filter((evaluate) =>
                 evaluate.is(
-                    this.shares.output.phrase,
+                    this.shares.output.Phrase,
                     this.getNodeContext(evaluate)
                 )
             ),
@@ -705,26 +733,21 @@ export default class Project {
         return new Source(parseNames(toTokens(source.names)), source.code);
     }
 
-    static fromObject(project: SerializedProject, native: Native) {
-        const sources = project.sources.map((source) =>
-            Project.sourceToSource(source)
+    getLanguagesUsed(): LanguageCode[] {
+        const used = this.getSources().reduce(
+            (languages: LanguageCode[], source) => [
+                ...languages,
+                ...source.expression.getLanguagesUsed(),
+            ],
+            []
         );
 
-        return new Project(
-            project.id,
-            project.name,
-            sources[0],
-            sources.slice(1),
-            native,
-            project.sources.map((s, index) => {
-                return { source: sources[index], caret: s.caret };
-            }),
-            project.uids,
-            project.listed
+        return Array.from(
+            new Set([...this.locales.map((l) => l.language), ...used])
         );
     }
 
-    toObject(): SerializedProject {
+    serialize(): SerializedProject {
         return {
             id: this.id,
             name: this.name,
@@ -737,6 +760,7 @@ export default class Project {
                         0,
                 };
             }),
+            locales: this.locales.map((l) => toLocaleString(l)),
             uids: this.uids,
             listed: this.listed,
         };

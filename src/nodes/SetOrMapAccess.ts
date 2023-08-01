@@ -25,7 +25,7 @@ import { node, type Grammar, type Replacement } from './Node';
 import type Locale from '@locale/Locale';
 import NodeRef from '@locale/NodeRef';
 import Glyphs from '../lore/Glyphs';
-import type { NativeTypeName } from '../native/NativeConstants';
+import type { BasisTypeName } from '../basis/BasisConstants';
 import Purpose from '../concepts/Purpose';
 import IncompatibleInput from '../conflicts/IncompatibleInput';
 import { NotAType } from './NotAType';
@@ -95,7 +95,7 @@ export default class SetOrMapAccess extends Expression {
         return Purpose.Value;
     }
 
-    getAffiliatedType(): NativeTypeName | undefined {
+    getAffiliatedType(): BasisTypeName | undefined {
         return 'set';
     }
 

@@ -3,10 +3,8 @@
 <script lang="ts">
     import type Phrase from '@output/Phrase';
     import type Place from '@output/Place';
-    import parseRichText from '@output/parseRichText';
     import outputToCSS from '@output/outputToCSS';
     import type RenderContext from '@output/RenderContext';
-    import Pose from '@output/Pose';
     import Evaluate from '@nodes/Evaluate';
     import TextLiteral from '@nodes/TextLiteral';
     import { getContext, onMount, tick } from 'svelte';
@@ -18,6 +16,8 @@
         getSelectedPhrase,
     } from '../project/Contexts';
     import { config } from '../../db/Creator';
+    import TextLang from '../../output/TextLang';
+    import MarkupHtmlView from '../concepts/MarkupHTMLView.svelte';
 
     export let phrase: Phrase;
     export let place: Place;
@@ -34,11 +34,10 @@
     // Compute a local context based on size and font.
     $: context = phrase.getRenderContext(context);
 
-    // Visible if z is ahead of focus.
-    $: visible = place.z > focus.z;
-
+    // Visible if z is ahead of focus and font size is greater than 0.
+    $: visible = place.z > focus.z && (phrase.size ?? context.size > 0);
     // Get the phrase's text in the preferred language
-    $: text = phrase.getDescription($config.getLocales());
+    $: text = phrase.getLocalizedTextOrDoc($config.getLocales());
     $: empty = phrase.isEmpty();
     $: selectable = phrase.selectable && !empty;
 
@@ -57,6 +56,8 @@
         $editable &&
         $selectedPhrase &&
         $selectedPhrase.index !== null;
+
+    $: metrics = phrase.getMetrics(context);
 
     onMount(restore);
 
@@ -119,7 +120,7 @@
                 $config,
                 $project,
                 [phrase.value.creator],
-                $config.getLanguages(),
+                $config.getLocales(),
                 horizontal,
                 vertical,
                 true
@@ -131,7 +132,7 @@
         if ($project === undefined || selectedOutput === undefined) return;
         if (event.currentTarget === null) return;
         const newText = event.currentTarget.value;
-        const originalTextValue = phrase.value.resolve('text');
+        const originalTextValue = phrase.getText();
         if (originalTextValue === undefined) return;
 
         // Reset the cache for proper layout.
@@ -154,10 +155,13 @@
 
 {#if visible}
     <div
-        role="button"
+        role={selectable ? 'button' : 'presentation'}
         aria-hidden={empty ? 'true' : null}
         aria-disabled={!selectable}
-        aria-roledescription={$config.getLocale().term.phrase}
+        aria-label={phrase.getDescription($config.getLocales())}
+        aria-roledescription={!selectable
+            ? $config.getLocale().term.phrase
+            : null}
         class="output phrase"
         class:selected
         tabIndex={interactive && ((!empty && selectable) || editing) ? 0 : null}
@@ -168,20 +172,20 @@
         on:dblclick={$editable && interactive ? enter : null}
         on:keydown={$editable && interactive ? move : null}
         bind:this={view}
+        style:width="{metrics.width}px"
+        style:height="{metrics.actualAscent}px"
+        style:line-height="{metrics.actualAscent}px"
         style={outputToCSS(
             context.font,
             context.size,
-            phrase.rotation,
             // No first pose because of an empty sequence? Give a default.
-            phrase.rest instanceof Pose
-                ? phrase.rest
-                : phrase.rest.getFirstPose() ?? new Pose(phrase.value),
+            phrase.getFirstRestPose(),
             place,
             undefined,
             undefined,
             focus,
             parentAscent,
-            phrase.getMetrics(context)
+            metrics
         )}
     >
         {#if entered}
@@ -197,9 +201,9 @@
                     phrase.getMetrics(context, false).width
                 )}px"
             />
-        {:else}
-            {@html parseRichText(text).toHTML()}
-        {/if}
+        {:else if text instanceof TextLang}{text.text}{:else}<MarkupHtmlView
+                markup={text.markup.asLine()}
+            />{/if}
     </div>
 {/if}
 
@@ -210,10 +214,13 @@
         left: 0;
         top: 0;
         white-space: nowrap;
-        width: auto;
-        right: auto;
-        min-width: 1em;
-        min-height: 1em;
+        width: fit-content;
+        height: fit-content;
+    }
+
+    :global(.editing) .phrase {
+        min-width: 8px;
+        min-height: 8px;
     }
 
     .phrase[data-selectable='true'] {
@@ -228,11 +235,12 @@
         font-weight: 900;
     }
 
-    :global(.verse.editing.interactive) .selected {
-        outline: var(--wordplay-border-width) dotted var(--wordplay-highlight);
+    :global(.stage.editing.interactive) .selected {
+        outline: var(--wordplay-border-width) dotted
+            var(--wordplay-highlight-color);
     }
 
-    :global(.verse.editing.interactive) :not(.selected) {
+    :global(.stage.editing.interactive) :not(.selected) {
         outline: var(--wordplay-border-width) dotted
             var(--wordplay-inactive-color);
     }
@@ -246,7 +254,7 @@
         border: inherit;
         background: inherit;
         padding: 0;
-        border-bottom: var(--wordplay-highlight) solid
+        border-bottom: var(--wordplay-highlight-color) solid
             var(--wordplay-focus-width);
         outline: none;
         min-width: 1em;

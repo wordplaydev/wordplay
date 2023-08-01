@@ -12,7 +12,7 @@ import Bind from '@nodes/Bind';
 import BindConcept from './BindConcept';
 import StreamConcept from './StreamConcept';
 import {
-    getNativeConcepts,
+    getBasisConcepts,
     getNodeConcepts,
     getOutputConcepts,
 } from './DefaultConcepts';
@@ -23,6 +23,7 @@ import FunctionType from '../nodes/FunctionType';
 import BinaryEvaluate from '../nodes/BinaryEvaluate';
 import UnaryEvaluate from '../nodes/UnaryEvaluate';
 import Evaluate from '../nodes/Evaluate';
+import Reference from '../nodes/Reference';
 
 export default class ConceptIndex {
     readonly project: Project;
@@ -57,8 +58,6 @@ export default class ConceptIndex {
 
     // Make a concept index with a project and some preferreed languages.
     static make(project: Project, locales: Locale[]) {
-        const languages = locales.map((t) => t.language);
-
         const projectStructures = [project.main, ...project.supplements]
             .map((source) =>
                 (
@@ -73,7 +72,7 @@ export default class ConceptIndex {
                             def,
                             undefined,
                             [],
-                            languages,
+                            locales,
                             project.getContext(source)
                         )
                 )
@@ -90,11 +89,11 @@ export default class ConceptIndex {
                     .map(
                         (def) =>
                             new FunctionConcept(
-                                Purpose.Project,
+                                Purpose.Evaluate,
                                 undefined,
                                 def,
                                 undefined,
-                                languages,
+                                locales,
                                 project.getContext(source)
                             )
                     )
@@ -108,9 +107,9 @@ export default class ConceptIndex {
                     .map(
                         (def) =>
                             new BindConcept(
-                                Purpose.Project,
+                                Purpose.Bind,
                                 def,
-                                languages,
+                                locales,
                                 project.getContext(source)
                             )
                     )
@@ -120,7 +119,7 @@ export default class ConceptIndex {
         function makeStreamConcept(stream: StreamDefinition) {
             return new StreamConcept(
                 stream,
-                languages,
+                locales,
                 project.getContext(project.main)
             );
         }
@@ -131,21 +130,21 @@ export default class ConceptIndex {
 
         const constructs = getNodeConcepts(project.getContext(project.main));
 
-        const native = getNativeConcepts(
-            project.native,
-            languages,
+        const basis = getBasisConcepts(
+            project.basis,
+            locales,
             project.getContext(project.main)
         );
 
         const output = getOutputConcepts(
-            languages,
+            locales,
             project.getContext(project.main)
         );
 
         return new ConceptIndex(
             project,
             [
-                ...native,
+                ...basis,
                 ...projectStructures,
                 ...projectFunctions,
                 ...projectBinds,
@@ -172,24 +171,26 @@ export default class ConceptIndex {
     /** Given a node, get the most relevant concept to represent. Generally prefers functions, structures, binds, and streams over nodes. */
     getRelevantConcept(node: Node): Concept | undefined {
         const context = this.project.getNodeContext(node);
-        if (
+        const definition =
             node instanceof Evaluate ||
             node instanceof BinaryEvaluate ||
             node instanceof UnaryEvaluate
-        ) {
-            const fun = node.getFunction(context);
-            if (fun instanceof FunctionDefinition) {
-                const concept = this.getFunctionConcept(fun);
-                if (concept) return concept;
-            } else if (fun instanceof StructureDefinition) {
-                const concept = this.getStructureConcept(fun);
-                if (concept) return concept;
-            } else if (fun instanceof StreamDefinition) {
-                const concept = this.getStreamConcept(fun);
-                if (concept) return concept;
-            }
-        }
-        return this.getNodeConcept(node);
+                ? node.getFunction(context)
+                : node instanceof Reference
+                ? node.resolve(context)
+                : undefined;
+        const definitionConcept =
+            definition instanceof FunctionDefinition
+                ? this.getFunctionConcept(definition)
+                : definition instanceof StructureDefinition
+                ? this.getStructureConcept(definition)
+                : definition instanceof StreamDefinition
+                ? this.getStreamConcept(definition)
+                : definition instanceof Bind
+                ? this.getBindConcept(definition)
+                : undefined;
+
+        return definitionConcept ?? this.getNodeConcept(node);
     }
 
     getBindConcept(bind: Bind) {

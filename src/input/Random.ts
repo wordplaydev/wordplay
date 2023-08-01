@@ -29,7 +29,7 @@ export default class Random extends Stream<Number> {
     ) {
         super(
             evaluator,
-            evaluator.project.shares.input.random,
+            evaluator.project.shares.input.Random,
             Random.next(evaluator, min, max, unit)
         );
 

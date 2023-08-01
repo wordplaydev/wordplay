@@ -5,6 +5,7 @@ import type Value from '@runtime/Value';
 import AtomicExpression from './AtomicExpression';
 import type Expression from './Expression';
 import Purpose from '../concepts/Purpose';
+import type Locale from '../locale/Locale';
 
 export default abstract class Literal extends AtomicExpression {
     constructor() {
@@ -23,11 +24,11 @@ export default abstract class Literal extends AtomicExpression {
         return Purpose.Value;
     }
 
-    evaluate(_: Evaluator, prior: Value | undefined): Value {
+    evaluate(evaluator: Evaluator, prior: Value | undefined): Value {
         if (prior) return prior;
 
-        return this.getValue();
+        return this.getValue(evaluator.project.locales);
     }
 
-    abstract getValue(): Value;
+    abstract getValue(locales: Locale[]): Value;
 }

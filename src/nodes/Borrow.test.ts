@@ -1,8 +1,6 @@
 import Evaluator from '@runtime/Evaluator';
 import { test, expect } from 'vitest';
-import { getDefaultNative } from '../native/Native';
-
-const native = await getDefaultNative();
+import { DefaultLocale } from '../db/Creator';
 
 test.each([
     [
@@ -21,7 +19,7 @@ Time()
         '0',
     ],
 ])('Expect %s to be %s', (code, supplements, value) => {
-    expect(Evaluator.evaluateCode(native, code, supplements)?.toString()).toBe(
-        value
-    );
+    expect(
+        Evaluator.evaluateCode(DefaultLocale, code, supplements)?.toString()
+    ).toBe(value);
 });

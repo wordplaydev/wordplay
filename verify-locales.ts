@@ -10,7 +10,6 @@ import { concretizeOrUndefined } from './src/locale/concretize';
 import Tutorial, { Performance, Line, Dialog } from './src/tutorial/Tutorial';
 import Project from './src/models/Project';
 import Source from './src/nodes/Source';
-import { Native } from './src/native/Native';
 import Node from './src/nodes/Node';
 import Ajv from 'ajv';
 import { Performances } from './src/tutorial/Performances';
@@ -50,8 +49,8 @@ fs.readdirSync(path.join('static', 'locales'), { withFileTypes: true }).forEach(
             // Make sure there's a locale file.
 
             const stringsPath =
-                language === 'en'
-                    ? path.join('src', 'locale', 'en.json')
+                language === 'en-US'
+                    ? path.join('src', 'locale', 'en-US.json')
                     : path.join(
                           'static',
                           'locales',
@@ -245,6 +244,12 @@ function verifyLocale(locale: Locale) {
                 value,
                 'test',
                 'test',
+                'test',
+                'test',
+                'test',
+                'test',
+                'test',
+                'test',
                 'test'
             );
             if (description === undefined)
@@ -326,8 +331,6 @@ function verifyTutorial(locale: Locale, tutorial: Tutorial) {
         })
         .flat();
 
-    const native = new Native([locale]);
-
     for (let { kind, list } of programs) {
         let code: string | undefined = undefined;
         let conflictsIntentional = false;
@@ -353,22 +356,11 @@ function verifyTutorial(locale: Locale, tutorial: Tutorial) {
                 'test',
                 new Source('start', code),
                 [],
-                native
+                locale
             );
             project.analyze();
             project.getAnalysis();
-            // const context = project.getContext(project.main);
-            // for (const conflict of Array.from(
-            //     project.getPrimaryConflicts().values()
-            // ).flat()) {
-            //     const conflictingNodes = conflict.getConflictingNodes();
-            //     console.error(
-            //         conflictingNodes.primary.explanation(
-            //             SupportedLocales[0],
-            //             context
-            //         )
-            //     );
-            // }
+
             if (
                 !conflictsIntentional &&
                 project.getPrimaryConflicts().size > 0

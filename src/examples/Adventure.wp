@@ -24,6 +24,6 @@ Stage(
       )
   ] 
   background: Color(0 0 0%°) 
-  rest: Pose(color: Color(100% 0 0°)) 
+  color: Color(100% 0 0°)
   font: "Permanent Marker"
 )

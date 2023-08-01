@@ -53,11 +53,11 @@ export default class OutputExpression {
         const context = this.project.getNodeContext(this.node);
         const fun = this.node.getFunction(context);
         return fun instanceof StructureDefinition &&
-            (fun === this.project.shares.output.stage ||
-                fun === this.project.shares.output.group ||
-                fun === this.project.shares.output.phrase ||
-                fun === this.project.shares.output.pose ||
-                fun === this.project.shares.output.sequence)
+            (fun === this.project.shares.output.Stage ||
+                fun === this.project.shares.output.Group ||
+                fun === this.project.shares.output.Phrase ||
+                fun === this.project.shares.output.Pose ||
+                fun === this.project.shares.output.Sequence)
             ? fun
             : undefined;
     }
@@ -71,24 +71,24 @@ export default class OutputExpression {
 
         // What type of output is this?
         const type = this.getType();
-        const locale = this.project.native.locales[0];
+        const locale = this.project.basis.locales[0];
 
         // We handle pose types differently, so we return an empty list here.
-        return type === this.project.shares.output.pose
+        return type === this.project.shares.output.Pose
             ? []
             : // For all other types, we create a list of editable properties.
               [
                   // Add output type specific properties first
-                  ...(type === this.project.shares.output.phrase
+                  ...(type === this.project.shares.output.Phrase
                       ? getPhraseProperties(locale)
-                      : type === this.project.shares.output.group
+                      : type === this.project.shares.output.Group
                       ? getGroupProperties(this.project, locale)
-                      : type === this.project.shares.output.stage
+                      : type === this.project.shares.output.Stage
                       ? getStageProperties(this.project, locale)
                       : []),
                   ...getTypeOutputProperties(
                       this.project,
-                      this.project.native.locales[0]
+                      this.project.basis.locales[0]
                   ),
               ];
     }
@@ -130,7 +130,7 @@ export default class OutputExpression {
                 expression instanceof Expression ? expression : undefined,
             value:
                 expression instanceof Literal
-                    ? expression.getValue()
+                    ? expression.getValue(this.project.locales)
                     : undefined,
         };
     }
@@ -156,7 +156,7 @@ export default class OutputExpression {
             value.value instanceof Evaluate &&
             value.value.getFunction(
                 this.project.getNodeContext(value.value)
-            ) === this.project.shares.output.color
+            ) === this.project.shares.output.Color
             ? value.value
             : undefined;
     }

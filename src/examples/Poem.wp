@@ -4,7 +4,7 @@
 poem: [
     Line("The computer file" Pose(opacity: 0% offset: Place(y: -5m)))
     Line("of which"Pose(opacity: 0% offset: Place(y: -5m)))
-    Line("I have no recollection"Pose(tilt: 10°))
+    Line("I have no recollection"Pose(rotation: 10°))
     Line("I click it open"Sequence({0%:Pose(scale: 1) 50%: Pose(scale: 0.7) 100%: Pose(scale: 1)} 0.25s))
     Line("look" Pose(opacity: 0% offset: Place(y: -5m)))
     Line("scroll down further" Pose(opacity: 0% offset: Place(y: 5m)))
@@ -31,6 +31,6 @@ line•Line ?
     )
     Stage(
         [Group(Stack() [Phrase("ADVICE TO MYSELF") Phrase("Jane Hirshfield")] enter: 🤪(scale: 0.75))] 
-        background: Color(0 0 0°) 
-        rest: Pose(color: Color(100 100 100°))
+        background: Color(0% 0 0°) 
+        color: Color(100% 100 100°)
     )

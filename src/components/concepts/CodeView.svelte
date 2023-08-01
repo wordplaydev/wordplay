@@ -146,7 +146,7 @@
 
     .description:focus {
         outline: none;
-        border-bottom: var(--wordplay-highlight) solid
+        border-bottom: var(--wordplay-focus-color) solid
             var(--wordplay-focus-width);
     }
 
@@ -156,12 +156,12 @@
 
     .description.selectable {
         text-decoration: underline;
-        text-decoration-color: var(--wordplay-highlight);
+        text-decoration-color: var(--wordplay-highlight-color);
     }
 
     .description.selectable:hover {
         text-decoration: underline;
-        text-decoration-color: var(--wordplay-highlight);
+        text-decoration-color: var(--wordplay-highlight-color);
         text-decoration-thickness: var(--wordplay-focus-width);
     }
 

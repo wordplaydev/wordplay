@@ -36,8 +36,8 @@
     let toggleView: HTMLButtonElement | undefined;
 
     async function toggleValues(set: boolean) {
-        if (set) values.set($config, project, $config.getLanguages());
-        else values.unset($config, project, $config.getLanguages());
+        if (set) values.set($config, project, $config.getLocales());
+        else values.unset($config, project, $config.getLocales());
         // Preserve focus on toggle button after setting.
         await tick();
         toggleView?.focus();
@@ -101,13 +101,13 @@
             <BindCheckbox {property} {values} />
         {:else if property.type === 'pose'}
             {@const expression = values.getExpression()}
-            {#if expression instanceof Evaluate && expression.is(project.shares.output.pose, project.getNodeContext(expression))}
+            {#if expression instanceof Evaluate && expression.is(project.shares.output.Pose, project.getNodeContext(expression))}
                 <PoseEditor
                     {project}
                     outputs={values.getOutputExpressions(project)}
                     sequence={false}
                 />
-            {:else if expression instanceof Evaluate && expression.is(project.shares.output.sequence, project.getNodeContext(expression))}
+            {:else if expression instanceof Evaluate && expression.is(project.shares.output.Sequence, project.getNodeContext(expression))}
                 <SequenceEditor
                     {project}
                     outputs={values.getOutputExpressions(project)}

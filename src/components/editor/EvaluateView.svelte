@@ -4,27 +4,23 @@
     import type Evaluate from '@nodes/Evaluate';
     import NodeView from './NodeView.svelte';
     import type Bind from '../../nodes/Bind';
-    import {
-        IdleKind,
-        getCaret,
-        getEditor,
-        getProject,
-    } from '../project/Contexts';
-    import Button from '../widgets/Button.svelte';
+    import { getCaret, getProject } from '../project/Contexts';
     import RootView from '../project/RootView.svelte';
-    import ExpressionPlaceholder from '../../nodes/ExpressionPlaceholder';
-    import { config } from '../../db/Creator';
-    import FunctionType from '../../nodes/FunctionType';
+    import PlaceholderView from './PlaceholderView.svelte';
+    import Token from '../../nodes/Token';
 
     export let node: Evaluate;
 
     const project = getProject();
     const caret = getCaret();
-    const editor = getEditor();
 
+    // The next possible bind, or undefined if there are no more binds.
     let nextBind: Bind | undefined;
+    let menuPosition: number | undefined;
     $: {
-        if ($caret && $project && $caret?.isIn(node, true)) {
+        nextBind = undefined;
+        menuPosition = undefined;
+        if ($caret && $project && $caret.isIn(node, node.close === undefined)) {
             const fun = node.getFunction($project.getNodeContext(node));
             if (fun) {
                 const mapping = node.getInputMapping(fun);
@@ -33,43 +29,19 @@
                 // Loop through each of the expected types and see if the given types match.
                 for (const { expected, given } of mapping.inputs) {
                     // If it's required but not given, conflict
-                    if (expected.isRequired() && given === undefined) {
+                    if (given === undefined) {
                         nextBind = expected;
+                        const lastLeaf = (
+                            node.getLastInput() ?? node.open
+                        ).getLastLeaf();
+                        menuPosition =
+                            lastLeaf instanceof Token
+                                ? $caret.source.getTokenLastPosition(lastLeaf)
+                                : undefined;
                         break;
                     }
                 }
             }
-        }
-    }
-
-    function insert() {
-        if ($project && $caret && nextBind) {
-            const context = $project.getNodeContext(node);
-            const type = nextBind.getType(context);
-            const placeholder =
-                type instanceof FunctionType
-                    ? type.getTemplate(context)
-                    : ExpressionPlaceholder.make(nextBind.getType(context));
-            const newSource = $caret.source.replace(
-                node,
-                node.withBindAs(
-                    nextBind.getNames()[0],
-                    placeholder,
-                    context,
-                    false
-                )
-            );
-            $editor(
-                [
-                    newSource,
-                    $caret
-                        .withPosition(placeholder)
-                        .withSource(newSource)
-                        .withAddition(placeholder),
-                ],
-                IdleKind.Typing,
-                true
-            );
         }
     }
 </script>
@@ -79,14 +51,19 @@
 />{#each node.inputs as input}<NodeView
         node={input}
     />{/each}{#if nextBind}<span class="hint"
-        >&nbsp;<Button
-            tip={$config.getLocale().ui.description.addInput}
-            action={() => insert()}
-            ><RootView node={nextBind} inline localized inert /></Button
-        ></span
+        >&nbsp;…<RootView
+            node={nextBind}
+            inline
+            elide
+            localized
+            inert
+        />{#if menuPosition}<PlaceholderView
+                position={menuPosition}
+            />{/if}</span
     >{/if}<NodeView node={node.close} />
 
 <style>
+    .hint,
     .hint :global(.token-view) {
         color: var(--wordplay-inactive-color);
         font-style: italic;

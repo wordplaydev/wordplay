@@ -51,6 +51,6 @@
 
     .type:hover {
         border-bottom: var(--wordplay-focus-width) solid
-            var(--wordplay-highlight);
+            var(--wordplay-highlight-color);
     }
 </style>

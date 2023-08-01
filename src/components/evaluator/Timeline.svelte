@@ -10,6 +10,7 @@
     import { getEvaluation } from '../project/Contexts';
     import Controls from './Controls.svelte';
     import { config } from '../../db/Creator';
+    import Structure from '../../runtime/Structure';
 
     export let evaluator: Evaluator;
 
@@ -189,8 +190,11 @@
                 <!-- Show up to three of the streams that changed -->
                 {#each reaction.changes.slice(0, 3) as change}
                     {@const down =
-                        change.stream instanceof Key
-                            ? change.value?.resolve('down')
+                        change.stream instanceof Key &&
+                        change.value instanceof Structure
+                            ? change.value.resolve(
+                                  change.value.type.inputs[1].names
+                              )
                             : change.stream instanceof Button
                             ? change.value
                             : undefined}
@@ -204,7 +208,7 @@
                         {#if change.stream === undefined}
                             ◆
                         {:else}
-                            {change.stream.getName(['😀'])}
+                            {change.stream.definition.names.getSymbolicName()}
                         {/if}
                     </span>
                 {:else}

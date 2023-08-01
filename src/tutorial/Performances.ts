@@ -1,7 +1,7 @@
 export const Performances = {
     Symbol: (symbol: string) => `Phrase('${symbol}')`,
     DarkVoid: () => `Stage([] background: Color(0% 0 0°))`,
-    PrimitiveJiggle: () => `
+    SimpleJiggle: () => `
 letters: ['""' '?' '#' 'ø']
 
 Group(
@@ -22,10 +22,10 @@ Group(
     SpinningInTheDark: (symbol: string) =>
         `Stage([
     Phrase("${symbol}"
-    size:5m 
+    size: 5m 
     rest: Sequence({
-    0%:Pose(tilt: 0° color:Color(10% 0 0°)) 
-    100%:Pose(tilt:360° color:Color(10% 0 0°))} duration:20s))
+    0%: Pose(rotation: 0° color:Color(10% 0 0°)) 
+    100%: Pose(rotation: 360° color:Color(10% 0 0°))} duration:20s))
   ] background: Color(0% 0 0°)
 )`,
     TakeTheMic: () => `Phrase("🎤" size: Mic()· 1m)`,
@@ -105,7 +105,7 @@ Stage(
     place: Place(0m 0m -5m)
 )`,
     DancingEmoji: (emoji: string) =>
-        `Phrase('${emoji}' size: 5m rest: Sequence({0%: Pose(offset: Place(-1m 0m)) 25%: Pose(offset: Place(-0m 0m)) 50%: Pose(offset: Place(1m 0m)) 75%: Pose(offset: Place(0m 0m) flipx: ⊤ tilt: 5°) 100%: Pose(offset: Place(-1m 0m))} 2s))`,
+        `Phrase('${emoji}' size: 5m rest: Sequence({0%: Pose(offset: Place(-1m 0m)) 25%: Pose(offset: Place(-0m 0m)) 50%: Pose(offset: Place(1m 0m)) 75%: Pose(offset: Place(0m 0m) flipx: ⊤ rotation: 5°) 100%: Pose(offset: Place(-1m 0m))} 2s))`,
     DonutDance: () => `Phrase(
   "🍩"
   rest: Sequence({
@@ -113,10 +113,10 @@ Stage(
       10%:Pose(offset: Place(1m 0m))
       20%: Pose(offset: Place(0m -1m))
       30%: Pose(offset: Place(0m 1m))
-      40%: Pose(tilt: 90°)
-      50%: Pose(tilt: 180°)
-      60%: Pose(tilt: 270°)
-      70%: Pose(tilt: 360°)
+      40%: Pose(rotation: 90°)
+      50%: Pose(rotation: 180°)
+      60%: Pose(rotation: 270°)
+      70%: Pose(rotation: 360°)
       80%: Pose(scale: 2)
       90%: Pose(scale: 1.25)
       100%: Pose(offset: Place(-1m 0m))
@@ -161,7 +161,7 @@ Stage(
                   char.glyph
                   rotation: char.rotation
                   place: char.place
-                  rest: Pose(color:Color(100% 100 0°))
+                  color:Color(100% 100 0°)
               )
           )
       )
@@ -185,7 +185,7 @@ Group(
       size: 2m
       rotation: char.rotation
       place: char.place
-      rest: Pose(color:Color(100% 100 0°))
+      color: Color(100% 100 0°)
     )
   )
 )]
@@ -213,7 +213,7 @@ Group(
       size: 2m
       rotation: char.rotation
       place: char.place
-      rest: Pose(color:Color(100% 100 0°))
+      color: Color(100% 100 0°)
     )
   )
 )]
@@ -247,7 +247,7 @@ Group(
       size: 2m
       rotation: char.rotation
       place: char.place
-      rest: Pose(color:Color(100% 100 0°))
+      color: Color(100% 100 0°)
     )
   )
 )]
@@ -282,7 +282,7 @@ Group(
       size: 2m
       rotation: char.rotation
       place: char.place
-      rest: Pose(color:Color(100% 100 0°))
+      color: Color(100% 100 0°)
     )
   )
 )]
@@ -317,7 +317,7 @@ Group(
       size: 2m
       rotation: char.rotation
       place: char.place
-      rest: Pose(color:Color(100% 100 0°))
+      color: Color(100% 100 0°)
     )
   )
 )]
@@ -352,7 +352,7 @@ Group(
       size: 2m
       rotation: char.rotation
       place: char.place
-      rest: Pose(color:Color(100% 100 0°))
+      color: Color(100% 100 0°)
       move: Pose()
       duration: 0.5s
     )
@@ -390,7 +390,7 @@ Group(
       size: 3m
       rotation: char.rotation
       place: char.place
-      rest: Pose(color:Color(Mic() · 1% Mic() 0°))
+      color: Color(Mic() · 1% Mic() 0°)
       move: Pose()
       duration: 0.5s
     )

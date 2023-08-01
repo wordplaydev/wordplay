@@ -42,7 +42,7 @@ export interface ExceptionText {
 type NodeTexts = {
     Dimension: DescriptiveNodeText;
     Doc: NodeText;
-    Docs: NodeText;
+    Docs: NodeText & AtomicExpressionText;
     KeyValue: NodeText;
     Language: DescriptiveNodeText &
         Conflicts<{
@@ -385,7 +385,7 @@ type NodeTexts = {
     NumberLiteral: DescriptiveNodeText &
         AtomicExpressionText &
         Conflicts<{ NotANumber: InternalConflictText }>;
-    NativeExpression: NodeText & AtomicExpressionText;
+    BasisExpression: NodeText & AtomicExpressionText;
     NoneLiteral: NodeText & AtomicExpressionText;
     /**
      * Start
@@ -526,6 +526,11 @@ type NodeTexts = {
      */
     TextLiteral: DescriptiveNodeText & AtomicExpressionText;
     /**
+     * Description
+     * $1: the text
+     */
+    Translation: DescriptiveNodeText;
+    /**
      * Finish
      * $1: resulting value
      */
@@ -575,6 +580,7 @@ type NodeTexts = {
     AnyType: NodeText;
     BooleanType: NodeText;
     ConversionType: NodeText;
+    DocsType: NodeText;
     ExceptionType: NodeText;
     FunctionDefinitionType: NodeText;
     FunctionType: DescriptiveNodeText;

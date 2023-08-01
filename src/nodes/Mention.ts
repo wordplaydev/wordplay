@@ -99,6 +99,7 @@ export default class Mention extends Content {
 
             if (replacement instanceof Token)
                 replacements.push([this, replacement]);
+
             return replacement;
         }
         // Try to resolve terminology.

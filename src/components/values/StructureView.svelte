@@ -19,19 +19,21 @@
 </script>
 
 <SymbolView
-    symbol={value.type.names.getLocaleText($config.getLanguages())}
+    symbol={value.type.names.getPreferredNameString($config.getLocales())}
     type={Symbol.Name}
 /><SymbolView symbol={EVAL_OPEN_SYMBOL} type={Symbol.EvalOpen} /><Expandable
     ><svelte:fragment slot="expanded">
         {#each value.type.inputs as input, index}<SymbolView
-                symbol={input.names.getLocaleText($config.getLanguages())}
+                symbol={input.names.getPreferredNameString(
+                    $config.getLocales()
+                )}
                 type={Symbol.Name}
             /><SymbolView symbol={BIND_SYMBOL} type={Symbol.Bind} /><ValueView
                 value={value.resolve(input.getNames()[0]) ??
                     new None(value.type)}
             />{#if index < value.type.inputs.length - 1}{' '}{/if}{/each}</svelte:fragment
     ><svelte:fragment slot="collapsed"
-        >{#if value.is(value.context.getEvaluator().project.shares.output.color)}<span
+        >{#if value.is(value.context.getEvaluator().project.shares.output.Color)}<span
                 class="color"
                 style:background-color={toColor(value)?.toCSS()}
                 >&ZeroWidthSpace;</span

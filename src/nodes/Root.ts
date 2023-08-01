@@ -1,6 +1,6 @@
 import Expression from './Expression';
 import type Node from './Node';
-import en from '../locale/en.json';
+import en from '../locale/en-US.json';
 import type Locale from '../locale/Locale';
 
 export type Path = { type: string; index: number }[];

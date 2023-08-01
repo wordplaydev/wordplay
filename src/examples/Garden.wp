@@ -4,14 +4,14 @@ rock: Color(74% 0 200°)
 bamboo: 🌈(77% 88 109°)
 wall: Color(0% 0 0°)
 water: 🌈(50% 89 279°)
-bob: Sequence({0%:🤪(color: water tilt: 0°) 50%:🤪(tilt: 7°) 100%:🤪(tilt: 0°)} ⏳: 1.5s)
+bob: Sequence({0%:🤪(color: water rotation: 0°) 50%:🤪(rotation: 7°) 100%:🤪(rotation: 0°)} ⏳: 1.5s)
 
 Stage(
 	[
 		💬('█' size: 16m rest: 🤪(color: 🌈(100% 0 348°)) place: 📍(7.3125m -13.125m 0m) rotation: 90°)
 		💬('█' size: 16m rest: 🤪(color: 🌈(100% 0 348°)) place: 📍(-8.75m -13m 1m) rotation: 90°)
 		💬('█' size: 32m rest: 🤪(color: 🌈(73% 95 279°)) place: 📍(-5.6875m -44.0625m 0m) rotation: 89°)
-		💬('太阳' size: 4m place: 📍(-16.5m 15.75m 5m) rest: 💃({0%:🤪(color: 🌈(90% 93 85°) tilt: 0°) 100%:🤪(tilt: 360°)} ⏳: 30s style: 'straight'))
+		💬('太阳' size: 4m place: 📍(-16.5m 15.75m 5m) rest: 💃({0%:🤪(color: 🌈(90% 93 85°) rotation: 0°) 100%:🤪(rotation: 360°)} ⏳: 30s style: 'straight'))
 		💬('壁壁壁壁壁壁壁壁壁壁壁壁壁壁壁壁壁' rest: 🤪(color: wall) place: 📍(-13.9375m 3.5m 0m) size: 2m)
 		💬('草' place: 📍(-5.8125m -9.5625m 0m) rest: 🤪(color: grass)) 
 		💬('草' place: 📍(1.5m -6.9375m 0m) rest: 🤪(color: grass)) 

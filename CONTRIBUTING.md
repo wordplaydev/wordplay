@@ -59,7 +59,7 @@ If you made it this far, you're all set up! Let's proceed to working on some loc
 
 ### Editing
 
-Wordplay localization files life in the folder `static/locales` -- with one exception, which is English. You'll find that in `src/locale/en.json`, because it's imported as a default locale, since it has several symbolic names for things.
+Wordplay localization files life in the folder `static/locales` -- with one exception, which is English. You'll find that in `src/locale/en-US.json`, because it's imported as a default locale, since it has several symbolic names for things.
 Inside the `static/locales` folder are folders that are named using [ISO 639-1 language codes](https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes).
 And inside each of those folders are two files: a `[language].json` file that has all of the text and templates for the Wordplay user interface, and then separately, a `[language]-tutorial.json` file, which has the tutorial in that language.
 
@@ -101,7 +101,7 @@ You'll see different sections of this file:
     -   Some nodes have a set of `conflict` phrases. These are essentially error messages that appear when there is an inconsistency on that particular kind of program content. Each conflict's `primary` text is written in the voice of the node on which the conflict occurs. If there is a `secondary`` phrase, it should be written in a generic voice, and generally be the opposite of the primary statement. This allows for the portrayal of a conflict between the two nodes.
     -   Some nodes have a set of `exception` phrases. These are shown when the node halts a program unexpectedly, usually due to a conflict. They are shown inside of program output. They should be phrased consistently with conflicts that create them, and in the voice of the node.
 
--   `native` describes the basic data types in Wordplay, including `name` and `doc`, just as in the `node` section. They also include `name` and `doc` for any functions and conversions that they have.
+-   `basis` describes the basic data types in Wordplay, including `name` and `doc`, just as in the `node` section. They also include `name` and `doc` for any functions and conversions that they have.
 
 -   `input` and `output` describes input streams available in Wordplay, including their `name`, `doc`, and any `name` and `doc` for inputs that they take.
 
@@ -126,7 +126,7 @@ All strings in the locale file support a **template** syntax, which allows for a
 
 The `[language]-tutorial.json` file refers exclusively to the structure of the tutorial. There is no template for this, as tutorials will likely reflect the structure of the English tutorial, which is about 20,000 words of English. Therefore, it's best to copy and paste it or another translation and start from it. You could write an entirely different play, and for some languages and cultures, that might make sense! That said, the structure, content, and sequence of the play was carefully constructed to teach the Wordplay programming language, so it's best to think carefully about how to deviate from its structure.
 
-The tutorial is structured as a sequence of **Acts**, which are a sequence of **Scenes**, which are a sequence of **Lines**. Acts and scenes have a `name`, which appears on their introductory screens, as well as a `performance`, which is a Wordplay program to show on those introductory screens. Scenes also have an optional `concept`, which is one of the keys in the `node`, `input`, `output`, or `native` sections in the locale file.
+The tutorial is structured as a sequence of **Acts**, which are a sequence of **Scenes**, which are a sequence of **Lines**. Acts and scenes have a `name`, which appears on their introductory screens, as well as a `performance`, which is a Wordplay program to show on those introductory screens. Scenes also have an optional `concept`, which is one of the keys in the `node`, `input`, `output`, or `basis` sections in the locale file.
 
 There are five kinds of performance commands, each of which are a list of strings, the first of which is the mode in which to show the program, and the remaining of which are lines of the program to show.
 
@@ -140,7 +140,7 @@ Finally, a scenes `lines`: this is a list of one of three kinds of things:
 
 -   **Pause** `null`, which represents a "pause" in a scene, which breaks up dialog into a separate screen.
 -   **Dialog** (e.g., `["concept", "emotion", "dialog", ...]`).
-    -   The first item in the list is the name of a `node`, `input`, `output`, or `native` in the locale file.
+    -   The first item in the list is the name of a `node`, `input`, `output`, or `basis` in the locale file.
     -   The second item is an emotion. VS Code will autocomplete the allowed emotions (though let us know if you want to create a new one!).
     -   All remaining items are individual paragraphs that appear in a character's speech bubble. So if you want a new paragraph, add a separate string in the list. **Note**: all dialog is treated the same as `doc` fields in the locale, so you can format text in all the same ways, including rich text formatting, web links, concept links, and code examples.
 -   **Performance** Just like the performances in the `acts` and `scenes`. The key difference, however, is that these persist: whatever performance is included as a line will be shown until a new performance is reached in the play.

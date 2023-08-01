@@ -52,7 +52,7 @@ export default class Camera extends TemporalStream<List> {
     ) {
         super(
             evaluator,
-            evaluator.project.shares.input.camera,
+            evaluator.project.shares.input.Camera,
             Camera.createFrame(evaluator.getMain(), [])
         );
 
@@ -122,7 +122,7 @@ export default class Camera extends TemporalStream<List> {
                     // Decimal from parsing as a string.
 
                     const ColorType =
-                        this.evaluator.project.shares.output.color;
+                        this.evaluator.project.shares.output.Color;
 
                     // Lightness
                     bindings.set(

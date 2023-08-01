@@ -45,13 +45,6 @@
     const dispatch = createEventDispatcher();
 
     function handleKeyDown(event: KeyboardEvent) {
-        // Collapse on escape
-        // if (
-        //     (event.ctrlKey || event.metaKey) &&
-        //     event.key === 'Escape' &&
-        //     tile.mode === Mode.Expanded
-        // )
-        //     dispatch('mode', { mode: Mode.Collapsed });
         // Move or resize on command-arrow
         if ((event.metaKey || event.ctrlKey) && event.key.startsWith('Arrow')) {
             const increment = 50;
@@ -163,12 +156,11 @@
         }
     }
 
-    function handleChange(name: string) {
+    function handleRename(name: string) {
         dispatch('rename', { id: tile.id, name });
     }
 </script>
 
-<!-- svelte-ignore a11y-no-redundant-roles -->
 <div
     role="presentation"
     on:pointermove={handlePointerMove}
@@ -206,7 +198,7 @@
                             .editSourceName}
                         placeholder={$config.getLocale().ui.placeholders.name}
                         validator={(text) => isName(text)}
-                        changed={handleChange}
+                        changed={handleRename}
                         border={false}
                     />
                 {:else}
@@ -321,6 +313,10 @@
         border-right: var(--wordplay-border-color) solid 1px;
     }
 
+    .tile.vertical.docs {
+        border-top: var(--wordplay-border-color) solid 1px;
+    }
+
     .tile.vertical.palette {
         border-bottom: var(--wordplay-border-color) solid 1px;
     }
@@ -383,7 +379,7 @@
         width: 100%;
         height: 100%;
         content: '';
-        outline: var(--wordplay-highlight) solid var(--wordplay-focus-width);
+        outline: var(--wordplay-focus-color) solid var(--wordplay-focus-width);
         outline-offset: calc(-1 * var(--wordplay-focus-width));
         position: absolute;
         top: 0;

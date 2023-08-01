@@ -88,7 +88,7 @@
     }
 
     input:focus {
-        border-bottom: var(--wordplay-highlight) solid
+        border-bottom: var(--wordplay-focus-color) solid
             var(--wordplay-border-width);
     }
 

@@ -29,7 +29,7 @@ export default class DuplicateTypeVariable extends Conflict {
                             this.duplicate,
                             locale,
                             context,
-                            this.duplicate.getLocale(locale.language)
+                            this.duplicate.getPreferredName(locale)
                         )
                     ),
             },
@@ -44,7 +44,7 @@ export default class DuplicateTypeVariable extends Conflict {
                             this.typeVar,
                             locale,
                             context,
-                            this.typeVar.getLocale(locale.language)
+                            this.typeVar.getPreferredName(locale)
                         )
                     ),
             },

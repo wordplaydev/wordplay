@@ -75,7 +75,7 @@ const GlyphSet = {
     This: {
         symbols: PROPERTY_SYMBOL,
     },
-    Native: {
+    Basis: {
         symbols: NATIVE_SYMBOL,
     },
     Borrow: {

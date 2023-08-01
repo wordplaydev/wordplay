@@ -3,24 +3,26 @@ import Structure from '../runtime/Structure';
 import type Value from '../runtime/Value';
 import type Arrangement from './Arrangement';
 import { toGroup } from './Group';
-import { toFont, toPhrase, toText } from './Phrase';
+import { toPhrase } from './Phrase';
 import { toRow } from './Row';
 import { toStack } from './Stack';
 import type TypeOutput from './TypeOutput';
-import type TextLang from './TextLang';
-import type Place from './Place';
-import type Pose from './Pose';
-import type Sequence from './Sequence';
-import { NameGenerator, toBoolean, toDecimal, toStage } from './Stage';
-import { toPlace } from './Place';
-import { toPose } from './Pose';
-import { toSequence } from './Sequence';
-import Number from '../runtime/Number';
-import Text from '../runtime/Text';
+import { NameGenerator, toStage } from './Stage';
 import { toGrid } from './Grid';
 import None from '../runtime/None';
 import { toFree } from './Free';
 import type Project from '../models/Project';
+import { toBoolean, toNumber } from './Stage';
+import { toFont, toText } from './Phrase';
+import Place, { toPlace } from './Place';
+import { toColor } from './Color';
+import type TextLang from './TextLang';
+import { DefinitePose, toPose } from './Pose';
+import type Pose from './Pose';
+import type Sequence from './Sequence';
+import { getOutputInputs } from './Output';
+import { toSequence } from './Sequence';
+import Text from '../runtime/Text';
 
 export function toTypeOutput(
     project: Project,
@@ -29,11 +31,11 @@ export function toTypeOutput(
 ): TypeOutput | undefined {
     if (!(value instanceof Structure)) return undefined;
     switch (value.type) {
-        case project.shares.output.phrase:
+        case project.shares.output.Phrase:
             return toPhrase(project, value, namer);
-        case project.shares.output.group:
+        case project.shares.output.Group:
             return toGroup(project, value, namer);
-        case project.shares.output.stage:
+        case project.shares.output.Stage:
             return toStage(project, value);
     }
     return undefined;
@@ -64,13 +66,13 @@ export function toArrangement(
 ): Arrangement | undefined {
     if (!(value instanceof Structure)) return undefined;
     switch (value.type) {
-        case project.shares.output.row:
-            return toRow(project, value);
-        case project.shares.output.stack:
-            return toStack(project, value);
-        case project.shares.output.grid:
-            return toGrid(project, value);
-        case project.shares.output.free:
+        case project.shares.output.Row:
+            return toRow(value);
+        case project.shares.output.Stack:
+            return toStack(value);
+        case project.shares.output.Grid:
+            return toGrid(value);
+        case project.shares.output.Free:
             return toFree(value);
     }
     return undefined;
@@ -78,14 +80,15 @@ export function toArrangement(
 
 export function getStyle(
     project: Project,
-    value: Value
+    value: Structure,
+    index: number
 ): {
     size: number | undefined;
     font: string | undefined;
     name: TextLang | undefined;
-    selectable: boolean;
+    selectable: boolean | undefined;
     place: Place | undefined;
-    rotation: number | undefined;
+    pose: DefinitePose | undefined;
     rest: Pose | Sequence | undefined;
     enter: Pose | Sequence | undefined;
     move: Pose | Sequence | undefined;
@@ -93,39 +96,78 @@ export function getStyle(
     duration: number | undefined;
     style: string | undefined;
 } {
-    const size = toDecimal(value.resolve('size'))?.toNumber();
-    const font = toFont(value.resolve('font'));
-    const place = toPlace(value.resolve('place'));
-    const rotation = toDecimal(value.resolve('rotation'))?.toNumber();
-    const name = toText(value.resolve('name'));
-    const selectable = toBoolean(value.resolve('selectable')) ?? false;
-    const rest =
-        toPose(project, value.resolve('rest')) ??
-        toSequence(project, value.resolve('rest'));
-    const enter =
-        toPose(project, value.resolve('enter')) ??
-        toSequence(project, value.resolve('enter'));
-    const move =
-        toPose(project, value.resolve('move')) ??
-        toSequence(project, value.resolve('move'));
-    const exit =
-        toPose(project, value.resolve('exit')) ??
-        toSequence(project, value.resolve('exit'));
-    const duration = value.resolve('duration');
-    const style = value.resolve('style');
+    const [
+        sizeVal,
+        familyVal,
+        placeVal,
+        nameVal,
+        selectableVal,
+        colorVal,
+        opacityVal,
+        offsetVal,
+        rotationVal,
+        scaleVal,
+        flipxVal,
+        flipyVal,
+        enterVal,
+        restVal,
+        moveVal,
+        exitVal,
+        durationVal,
+        styleVal,
+    ] = getOutputInputs(value, index);
+
+    const size = toNumber(sizeVal);
+    const font = toFont(familyVal);
+    const place = toPlace(placeVal);
+    const name = toText(nameVal);
+    const selectable = toBoolean(selectableVal);
+
+    const color = toColor(colorVal);
+    const opacity = toNumber(opacityVal);
+    const offset = toPlace(offsetVal);
+    const rotation = toNumber(rotationVal);
+    const scale = toNumber(scaleVal);
+    const flipx = toBoolean(flipxVal);
+    const flipy = toBoolean(flipyVal);
+
+    const pose =
+        opacity !== undefined &&
+        offset &&
+        rotation !== undefined &&
+        scale !== undefined &&
+        flipx !== undefined &&
+        flipy !== undefined
+            ? new DefinitePose(
+                  value,
+                  color,
+                  opacity,
+                  offset,
+                  rotation,
+                  scale,
+                  flipx,
+                  flipy
+              )
+            : undefined;
+
+    const rest = toPose(project, restVal) ?? toSequence(project, restVal);
+    const enter = toPose(project, enterVal) ?? toSequence(project, enterVal);
+    const move = toPose(project, moveVal) ?? toSequence(project, moveVal);
+    const exit = toPose(project, exitVal) ?? toSequence(project, exitVal);
+    const duration = toNumber(durationVal);
 
     return {
         size,
         font,
+        place,
         name,
         selectable,
-        place,
-        rotation,
+        pose,
         rest,
         enter,
         move,
         exit,
-        duration: duration instanceof Number ? duration.toNumber() : undefined,
-        style: style instanceof Text ? style.text : undefined,
+        duration,
+        style: styleVal instanceof Text ? styleVal.text : undefined,
     };
 }

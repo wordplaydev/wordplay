@@ -18,7 +18,7 @@ import { node, type Grammar, type Replacement, list, optional } from './Node';
 import type Locale from '@locale/Locale';
 import Glyphs from '../lore/Glyphs';
 import Purpose from '../concepts/Purpose';
-import type { NativeTypeName } from '../native/NativeConstants';
+import type { BasisTypeName } from '../basis/BasisConstants';
 import { TEMPLATE_SYMBOL } from '../parser/Symbols';
 import { undelimited, unescaped } from './TextLiteral';
 import concretize from '../locale/concretize';
@@ -79,7 +79,7 @@ export default class Template extends Expression {
         return Purpose.Value;
     }
 
-    getAffiliatedType(): NativeTypeName | undefined {
+    getAffiliatedType(): BasisTypeName | undefined {
         return 'text';
     }
 
@@ -124,7 +124,7 @@ export default class Template extends Expression {
             const p = this.expressions[i];
             let next: string;
             if (p instanceof Token) {
-                next = undelimited(unescaped(p.getText()));
+                next = unescaped(undelimited(p.getText()));
             } else if (evaluator.peekValue() instanceof Text) {
                 next = (evaluator.popValue(this) as Text).text;
             } else {
@@ -138,7 +138,7 @@ export default class Template extends Expression {
             this.open.text
                 .toString()
                 .substring(1, this.open.text.toString().length - 1) + text;
-        return new Text(this, text, this.language?.getLanguage());
+        return new Text(this, text, this.language?.getLanguageText());
     }
 
     evaluateTypeSet(

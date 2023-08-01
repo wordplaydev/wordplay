@@ -1,14 +1,14 @@
 import type ConversionDefinition from '@nodes/ConversionDefinition';
 import type Context from '@nodes/Context';
 import type Evaluation from './Evaluation';
-import Primitive from './Primitive';
+import Simple from './Simple';
 import Value from './Value';
 import { CONVERT_SYMBOL } from '@parser/Symbols';
-import type { NativeTypeName } from '../native/NativeConstants';
+import type { BasisTypeName } from '../basis/BasisConstants';
 import type Locale from '@locale/Locale';
 import concretize from '../locale/concretize';
 
-export default class Conversion extends Primitive {
+export default class Conversion extends Simple {
     /** The definition from the AST. */
     readonly definition: ConversionDefinition;
 
@@ -28,7 +28,7 @@ export default class Conversion extends Primitive {
             : this.definition.getType(context);
     }
 
-    getNativeTypeName(): NativeTypeName {
+    getBasisTypeName(): BasisTypeName {
         return 'conversion';
     }
 

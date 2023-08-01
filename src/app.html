@@ -54,6 +54,27 @@
         %sveltekit.head%
     </head>
     <body>
+        <noscript>
+            <p
+                >Wordplay uses on JavaScript. Your browser doesn't support it,
+                or it is disabled.</p
+            >
+        </noscript>
         <div>%sveltekit.body%</div>
     </body>
 </html>
+
+<style>
+    noscript {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    noscript p {
+        margin-block-start: 20%;
+        margin-block-end: auto;
+        width: 50%;
+        text-align: center;
+    }
+</style>

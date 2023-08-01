@@ -26,7 +26,7 @@
                 kv.key instanceof NumberLiteral &&
                 kv.value instanceof Evaluate &&
                 kv.value.is(
-                    project.shares.output.pose,
+                    project.shares.output.Pose,
                     project.getNodeContext(kv.value)
                 )
         );
@@ -49,7 +49,7 @@
                         ? kv.key.number.getText().replace('%', '')
                         : 0
                 ),
-                createPoseLiteral(project, $config.getLanguages())
+                createPoseLiteral(project, $config.getLocales())
             ),
             ...map.values.slice(index + 1),
         ] as KeyValue[]);

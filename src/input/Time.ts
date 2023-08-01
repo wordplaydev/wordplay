@@ -25,7 +25,7 @@ export default class Time extends TemporalStream<Number> {
     constructor(evaluator: Evaluator, frequency: number = DEFAULT_FREQUENCY) {
         super(
             evaluator,
-            evaluator.project.shares.input.time,
+            evaluator.project.shares.input.Time,
             new Number(evaluator.getMain(), 0, Unit.make(['ms']))
         );
         this.frequency = frequency;

@@ -1,14 +1,13 @@
-import Primitive from './Primitive';
+import Simple from './Simple';
 import type Value from './Value';
 import { STREAM_SYMBOL } from '@parser/Symbols';
-import type LanguageCode from '@locale/LanguageCode';
-import type { NativeTypeName } from '../native/NativeConstants';
+import type { BasisTypeName } from '../basis/BasisConstants';
 import type Locale from '@locale/Locale';
 import type StreamDefinition from '../nodes/StreamDefinition';
 import StreamType from '../nodes/StreamType';
 import concretize from '../locale/concretize';
 
-export default class StreamDefinitionValue extends Primitive {
+export default class StreamDefinitionValue extends Simple {
     /** The definition from the AST. */
     readonly definition: StreamDefinition;
 
@@ -22,13 +21,13 @@ export default class StreamDefinitionValue extends Primitive {
         return StreamType.make(this.definition.output);
     }
 
-    getNativeTypeName(): NativeTypeName {
+    getBasisTypeName(): BasisTypeName {
         return 'streamdefinition';
     }
 
-    toWordplay(languages: LanguageCode[]) {
-        return `${STREAM_SYMBOL}${this.definition.names.getLocaleText(
-            languages
+    toWordplay(locales: Locale[]) {
+        return `${STREAM_SYMBOL}${this.definition.names.getPreferredNameString(
+            locales
         )}`;
     }
 

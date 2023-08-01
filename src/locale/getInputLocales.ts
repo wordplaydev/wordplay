@@ -3,7 +3,7 @@ import type Doc from '@nodes/Doc';
 import Names from '@nodes/Names';
 import Docs from '@nodes/Docs';
 import { localeToLanguage } from './localeToLanguage';
-import { toDocString, type NameAndDoc } from './Locale';
+import { toDocString, type NameAndDoc, nameWithoutMentions } from './Locale';
 import type Locale from './Locale';
 import { parseLocaleDoc } from '@parser/Parser';
 
@@ -38,7 +38,7 @@ export function getInputLocales(
     // Convert each inputs doc and mame list into Docs and Names, removing duplicate names.
     return binds.map((bind) => {
         return {
-            docs: new Docs(bind.docs),
+            docs: new Docs([bind.docs[0], ...bind.docs.slice(1)]),
             names: new Names(
                 bind.names.filter(
                     (name) =>
@@ -51,8 +51,10 @@ export function getInputLocales(
     });
 }
 
-export function getInputNames(nameAndDoc: NameAndDoc, translation: Locale) {
+export function getLocaleNames(nameAndDoc: NameAndDoc, locale: Locale) {
     return (
         Array.isArray(nameAndDoc.names) ? nameAndDoc.names : [nameAndDoc.names]
-    ).map((name) => Name.make(name, localeToLanguage(translation)));
+    ).map((name) =>
+        Name.make(nameWithoutMentions(name), localeToLanguage(locale))
+    );
 }

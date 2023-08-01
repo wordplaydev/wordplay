@@ -2,22 +2,27 @@
     import { config } from '../../db/Creator';
 </script>
 
-<div>|</div>
-<div aria-live="assertive" aria-atomic="true" aria-relevant="all"
-    >{$config.getLocale().ui.feedback.loading}</div
->
+<div class="container">
+    <div class="cursor">|</div>
+    <div aria-live="assertive" aria-atomic="true" aria-relevant="all"
+        >{$config.getLocale().ui.feedback.loading}</div
+    >
+</div>
 
 <style>
-    div {
-        font-family: 'Courier New', monospace;
-        font-size: 72pt;
+    .container {
+        width: 100vw;
         height: 100vh;
         display: flex;
+        flex-direction: column;
         justify-content: center;
         align-items: center;
+        gap: var(--wordplay-spacing);
+        font-size: medium;
     }
 
-    div {
+    .cursor {
+        font-size: xx-large;
         animation: wobble infinite linear;
         animation-duration: calc(var(--animation-factor) * 1s);
     }

@@ -1,6 +1,5 @@
 import type { Grammar, Replacement } from './Node';
 import Names from './Names';
-import type LanguageCode from '@locale/LanguageCode';
 import type Locale from '@locale/Locale';
 import NameType from './NameType';
 import Glyphs from '../lore/Glyphs';
@@ -48,10 +47,8 @@ export default class TypeVariable extends Node {
         return this.names.hasName(name);
     }
 
-    getLocale(languages: LanguageCode | LanguageCode[]) {
-        return this.names.getLocaleText(
-            Array.isArray(languages) ? languages : [languages]
-        );
+    getPreferredName(locales: Locale | Locale[]) {
+        return this.names.getPreferredNameString(locales);
     }
 
     computeConflicts() {}

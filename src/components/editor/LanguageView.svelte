@@ -12,5 +12,14 @@
     $: show = $caret === undefined || (parent && $caret.isIn(parent, true));
 </script>
 
-{#if show}<em><NodeView node={node.slash} /><NodeView node={node.lang} /></em
+{#if show}<em
+        ><NodeView node={node.slash} /><NodeView
+            node={node.language}
+        /><NodeView node={node.dash} /><NodeView node={node.region} /></em
     >{/if}
+
+<style>
+    em {
+        font-size: small;
+    }
+</style>

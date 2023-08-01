@@ -7,8 +7,8 @@ import Emotion from '../lore/Emotion';
 import Purpose from '../concepts/Purpose';
 import type { Template } from '../locale/Locale';
 import type Root from './Root';
-import { REVERSE_TEXT_DELIMITERS, TEXT_DELIMITERS } from '../parser/Tokenizer';
-import { Languages } from '../locale/LanguageCode';
+import { TextOpenByTextClose, TextCloseByTextOpen } from '../parser/Tokenizer';
+import { getLanguageQuote } from '../locale/LanguageCode';
 import type Definition from './Definition';
 import type Context from './Context';
 import type { TemplateInput } from '../locale/concretize';
@@ -55,7 +55,7 @@ export default class Token extends Node {
     }
 
     getPurpose() {
-        return Purpose.Project;
+        return Purpose.Value;
     }
 
     // TOKEN TYPES
@@ -143,12 +143,7 @@ export default class Token extends Node {
         return [getTokenLabel(this, locale), this.getText()];
     }
 
-    localized(
-        name: boolean,
-        translations: Locale[],
-        root: Root,
-        context: Context
-    ) {
+    localized(name: boolean, locales: Locale[], root: Root, context: Context) {
         // Get this token's text
         let text = this.getText();
 
@@ -162,10 +157,10 @@ export default class Token extends Node {
             const last =
                 text.length > 1 &&
                 lastChar !== undefined &&
-                lastChar in REVERSE_TEXT_DELIMITERS;
-            const preferredQuote = Languages[translations[0].language].quote;
+                lastChar in TextOpenByTextClose;
+            const preferredQuote = getLanguageQuote(locales[0].language);
             if (preferredQuote) {
-                const preferredClosing = TEXT_DELIMITERS[preferredQuote];
+                const preferredClosing = TextCloseByTextOpen[preferredQuote];
                 text = isText
                     ? preferredQuote +
                       text.substring(1, text.length - (last ? 1 : 0)) +
@@ -186,9 +181,7 @@ export default class Token extends Node {
                 if (def) {
                     text =
                         def.names.getSymbolicName() ??
-                        def.names.getLocaleText(
-                            translations.map((t) => t.language)
-                        );
+                        def.names.getPreferredNameString(locales);
                 }
             }
         }

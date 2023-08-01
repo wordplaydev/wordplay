@@ -8,9 +8,7 @@ import { parseExpression, toTokens } from '@parser/Parser';
 import NumberLiteral from '@nodes/NumberLiteral';
 import ListLiteral from '@nodes/ListLiteral';
 import Token from '@nodes/Token';
-import { getDefaultNative } from '@native/Native';
-
-const native = await getDefaultNative();
+import { DefaultLocale } from '../db/Creator';
 
 test.each([
     // Replace placeholder with rootless expression
@@ -108,7 +106,7 @@ test.each([
             'test',
             sources[0],
             sources.slice(1),
-            native
+            DefaultLocale
         );
         const [newProject] = dropNodeOnSource(
             project,

@@ -9,7 +9,7 @@ import type { Template, DocText } from '@locale/Locale';
 import type { DescriptiveNodeText, NodeText } from '@locale/NodeTexts';
 import type Glyph from '../lore/Glyph';
 import type Purpose from '../concepts/Purpose';
-import type { NativeTypeName } from '../native/NativeConstants';
+import type { BasisTypeName } from '../basis/BasisConstants';
 import type Root from './Root';
 import type { TemplateInput } from '../locale/concretize';
 import type Markup from './Markup';
@@ -90,6 +90,11 @@ export default abstract class Node {
         return undefined;
     }
 
+    getLastLeaf(): Node | undefined {
+        const leaves = this.leaves();
+        return leaves[leaves.length - 1];
+    }
+
     getFirstPlaceholder(): Node | undefined {
         if (this.isPlaceholder()) return this;
         for (const child of this.getChildren()) {
@@ -109,6 +114,14 @@ export default abstract class Node {
     traverseTopDown(sequence: Node[] = []): Node[] {
         sequence.push(this);
         for (const child of this.getChildren()) child.traverseTopDown(sequence);
+        return sequence;
+    }
+
+    traverseTopDownWithEnterAndExit(sequence: Node[] = []): Node[] {
+        sequence.push(this);
+        for (const child of this.getChildren())
+            child.traverseTopDownWithEnterAndExit(sequence);
+        if (!this.isLeaf()) sequence.push(this);
         return sequence;
     }
 
@@ -139,7 +152,7 @@ export default abstract class Node {
                   .join(' ')}•`;
     }
 
-    /** Returns all this and all decedants in depth first order. Optionally uses the given function to decide whether to include a node. */
+    /** Returns all this and all descendants in depth first order. Optionally uses the given function to decide whether to include a node. */
     nodes(include?: (node: Node) => boolean): Node[] {
         const nodes: Node[] = [];
         this.traverse((node) => {
@@ -301,7 +314,7 @@ export default abstract class Node {
             scope = scope.getScope(context);
         }
 
-        // Finally, add project and native level definitions.
+        // Finally, add project and basis definitions.
         definitions = definitions.concat(
             context.project.getDefaultShares().all
         );
@@ -532,7 +545,7 @@ export default abstract class Node {
     }
 
     /** Adjust this node in the requested direction, if that makes sense. By default, do nothing. */
-    adjust(direction: -1 | 1): this | undefined {
+    adjust(direction: -1 | 1, locale: Locale[]): this | undefined {
         return undefined;
     }
 
@@ -636,7 +649,7 @@ export default abstract class Node {
      */
     abstract getPurpose(): Purpose;
 
-    getAffiliatedType(): NativeTypeName | undefined {
+    getAffiliatedType(): BasisTypeName | undefined {
         return undefined;
     }
 

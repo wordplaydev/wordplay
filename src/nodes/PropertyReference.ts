@@ -35,7 +35,7 @@ import concretize from '../locale/concretize';
 import ExpressionPlaceholder from './ExpressionPlaceholder';
 import Refer from '../edit/Refer';
 import FunctionDefinition from './FunctionDefinition';
-import NativeType from './NativeType';
+import BasisType from './BasisType';
 
 export default class PropertyReference extends Expression {
     readonly structure: Expression;
@@ -75,10 +75,12 @@ export default class PropertyReference extends Expression {
             const definition =
                 selectionType instanceof StructureDefinitionType
                     ? selectionType.structure
-                    : selectionType instanceof NativeType
-                    ? context.native.getStructureDefinition(
-                          selectionType.getNativeTypeName()
-                      )
+                    : selectionType instanceof BasisType
+                    ? context
+                          .getBasis()
+                          .getStructureDefinition(
+                              selectionType.getBasisTypeName()
+                          )
                     : undefined;
             // Is the type a structure? Suggest reference to it's properties.
             if (definition) {

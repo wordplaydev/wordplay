@@ -3,16 +3,15 @@ import SetType from '@nodes/SetType';
 import UnionType from '@nodes/UnionType';
 import Bool from './Bool';
 import Number from './Number';
-import Primitive from './Primitive';
+import Simple from './Simple';
 import type Value from './Value';
-import type LanguageCode from '@locale/LanguageCode';
 import { SET_CLOSE_SYMBOL, SET_OPEN_SYMBOL } from '@parser/Symbols';
-import type { NativeTypeName } from '../native/NativeConstants';
+import type { BasisTypeName } from '../basis/BasisConstants';
 import type Locale from '@locale/Locale';
 import type Expression from '../nodes/Expression';
 import concretize from '../locale/concretize';
 
-export default class Set extends Primitive {
+export default class Set extends Simple {
     readonly values: Value[];
 
     constructor(creator: Expression, values: Value[]) {
@@ -95,13 +94,13 @@ export default class Set extends Primitive {
         );
     }
 
-    getNativeTypeName(): NativeTypeName {
+    getBasisTypeName(): BasisTypeName {
         return 'set';
     }
 
-    toWordplay(languages: LanguageCode[]): string {
+    toWordplay(locales: Locale[]): string {
         return `${SET_OPEN_SYMBOL}${Array.from(this.values)
-            .map((value) => value.toWordplay(languages))
+            .map((value) => value.toWordplay(locales))
             .join(' ')}${SET_CLOSE_SYMBOL}`;
     }
 
