@@ -315,18 +315,7 @@
         "Conditional": {
             "name": "$?",
             "emotion": "$?",
-            "doc": [
-                "¿Alguna vez pensaste en cómo decidimos?",
-                "Pienso mucho en eso.",
-                "Tantas decisiones en la vida pueden ser tan complicadas.",
-                "A veces siento mucha presión para decidir, ya que soy el único en este mundo que puede decidir.",
-                "Me siento abrumado, así que he tratado de simplificar las cosas.",
-                "Primero, solo considero dos opciones: ⧼⊤⧽ y ⧼⊥⧽.",
-                "Si es ⧼⊤⧽, entonces evalúo mi código *sí*. Si es ⧼⊥⧽, entonces evalúo mi código *no*.",
-                "Sé que las decisiones rara vez son tan simples, pero dividir el mundo en estos binarios me facilita las cosas.",
-                "Sí, no, si, si no, esto, aquello.",
-                "Es mi pequeña forma de mantener las cosas organizadas, incluso ante tanta complejidad."
-            ],
+            "doc": "$?",
             "start": "$?",
             "afterthen": "$?",
             "else": "$?",
