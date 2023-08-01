@@ -18,7 +18,8 @@
         "locale-schema": "npx ts-json-schema-generator --no-type-check --tsconfig tsconfig.json --path 'src/locale/Locale.ts' --type 'Locale' --out static/schemas/Locale.json",
         "schemas": "npm run tutorial-schema && npm run locale-schema",
         "verify-locales": "npx tsx verify-locales.ts",
-        "locales": "npm-watch verify-locales"
+        "locales": "npm-watch verify-locales",
+        "merge": "git checkout main && git merge dev && git push origin main && git checkout dev"
     },
     "watch": {
         "verify-locales": {
