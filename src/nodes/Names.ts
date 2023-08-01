@@ -10,6 +10,7 @@ import type Locale from '@locale/Locale';
 import Purpose from '../concepts/Purpose';
 import Emotion from '../lore/Emotion';
 import Node, { list, node } from './Node';
+import { getPreferred } from './LanguageTagged';
 
 export default class Names extends Node {
     readonly names: Name[];
@@ -81,6 +82,16 @@ export default class Names extends Node {
         return [];
     }
 
+    getTags(): Name[] {
+        return this.names;
+    }
+
+    getLanguages() {
+        return this.names
+            .map((name) => name.getLanguage())
+            .filter((lang): lang is LanguageCode => lang !== undefined);
+    }
+
     hasLanguage() {
         return this.names.some((name) => name.hasLanguage());
     }
@@ -100,30 +111,27 @@ export default class Names extends Node {
         return this.names.find((name) => name.isSymbolic())?.getName();
     }
 
-    getLocaleText(
-        language: LanguageCode | LanguageCode[],
+    getPreferredNameString(
+        preferred: Locale | Locale[],
         symbolic: boolean = true
     ) {
-        return this.getLocaleName(language, symbolic)?.getName() ?? '-';
+        preferred = Array.isArray(preferred) ? preferred : [preferred];
+        return this.getPreferredName(preferred, symbolic)?.getName() ?? '-';
     }
 
-    getLocaleName(
-        language: LanguageCode | LanguageCode[],
+    getPreferredName(
+        preferred: Locale | Locale[],
         symbolic: boolean = true
-    ) {
-        // Find the name with the most preferred language code.
-        const languages = Array.isArray(language) ? language : [language];
-        const preferredName = this.names.find((name) => {
-            const lang = name.getLanguage();
-            return (
-                lang !== undefined &&
-                languages.includes(lang) &&
-                (symbolic || !name.isSymbolic())
-            );
-        });
-        return (
-            preferredName ?? (this.names.length > 0 ? this.names[0] : undefined)
-        );
+    ): Name | undefined {
+        const symbolicMatch = symbolic
+            ? this.names.find((name) => name.isSymbolic())
+            : undefined;
+        if (symbolicMatch) return symbolicMatch;
+
+        // Build the list of preferred languages
+        const locales = Array.isArray(preferred) ? preferred : [preferred];
+        // Find the first preferred locale with an exact match.
+        return getPreferred(locales, this.names);
     }
 
     hasLocale(lang: LanguageCode) {
@@ -154,8 +162,8 @@ export default class Names extends Node {
         return this.names.find((name) => name.startsWith(prefix));
     }
 
-    getNodeLocale(translation: Locale) {
-        return translation.node.Names;
+    getNodeLocale(locale: Locale) {
+        return locale.node.Names;
     }
 
     withName(name: string, language: LanguageCode) {

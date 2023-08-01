@@ -78,8 +78,8 @@
     }
 
     .outline.selected path {
-        stroke: var(--wordplay-highlight);
-        fill: var(--wordplay-highlight);
+        stroke: var(--wordplay-highlight-color);
+        fill: var(--wordplay-highlight-color);
     }
 
     .outline.dragged path {
@@ -89,8 +89,8 @@
     }
 
     .outline.dragging path {
-        fill: var(--wordplay-highlight);
-        stroke: var(--wordplay-highlight);
+        fill: var(--wordplay-highlight-color);
+        stroke: var(--wordplay-highlight-color);
     }
 
     .outline.evaluating path {
@@ -120,7 +120,7 @@
 
     /* Drop targets animate stroke */
     .outline.target path {
-        stroke: var(--wordplay-highlight);
+        stroke: var(--wordplay-highlight-color);
         opacity: 1;
     }
 
@@ -130,7 +130,7 @@
     }
 
     .outline.match path {
-        stroke: var(--wordplay-highlight);
+        stroke: var(--wordplay-highlight-color);
     }
 
     .outline.target path {
@@ -176,7 +176,7 @@
     }
 
     .outline.output path {
-        stroke: var(--wordplay-highlight);
+        stroke: var(--wordplay-highlight-color);
         stroke-dasharray: 4px;
         stroke-width: var(--wordplay-focus-width);
     }

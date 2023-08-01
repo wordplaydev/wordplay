@@ -3,7 +3,7 @@ import MapLiteral from '../nodes/MapLiteral';
 import NumberLiteral from '../nodes/NumberLiteral';
 import Unit from '../nodes/Unit';
 import { createPoseLiteral } from '../output/Pose';
-import type { Locale } from '../locale/Locale';
+import type Locale from '../locale/Locale';
 import OutputProperty from './OutputProperty';
 import OutputPropertyRange from './OutputPropertyRange';
 import { getDurationProperty, getStyleProperty } from './TypeOutputProperties';

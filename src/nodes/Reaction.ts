@@ -24,7 +24,7 @@ import ValueException from '../runtime/ValueException';
 import TypeException from '../runtime/TypeException';
 import Glyphs from '../lore/Glyphs';
 import Purpose from '../concepts/Purpose';
-import type { NativeTypeName } from '../native/NativeConstants';
+import type { BasisTypeName } from '../basis/BasisConstants';
 import StreamToken from './StreamToken';
 import concretize from '../locale/concretize';
 import ExpectedStream from '../conflicts/ExpectedStream';
@@ -138,7 +138,7 @@ export default class Reaction extends Expression {
         return Purpose.Decide;
     }
 
-    getAffiliatedType(): NativeTypeName | undefined {
+    getAffiliatedType(): BasisTypeName | undefined {
         return 'stream';
     }
 

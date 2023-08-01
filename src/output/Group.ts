@@ -1,4 +1,4 @@
-import toStructure from '../native/toStructure';
+import toStructure from '../basis/toStructure';
 import type Value from '../runtime/Value';
 import { getBind } from '../locale/getBind';
 import type Arrangement from './Arrangement';
@@ -14,6 +14,10 @@ import { TYPE_SYMBOL } from '../parser/Symbols';
 import type { NameGenerator } from './Stage';
 import type Locale from '../locale/Locale';
 import type Project from '../models/Project';
+import type { DefinitePose } from './Pose';
+import Structure from '../runtime/Structure';
+import { getOutputInput } from './Output';
+import concretize from '../locale/concretize';
 
 export function createGroupType(locales: Locale[]) {
     return toStructure(`
@@ -35,11 +39,11 @@ export default class Group extends TypeOutput {
         size: number | undefined = undefined,
         font: string | undefined = undefined,
         place: Place | undefined = undefined,
-        rotation: number | undefined = undefined,
         name: TextLang | string,
         selectable: boolean,
+        pose: DefinitePose,
         enter: Pose | Sequence | undefined = undefined,
-        rest: Pose | Sequence,
+        rest: Pose | Sequence | undefined = undefined,
         move: Pose | Sequence | undefined = undefined,
         exit: Pose | Sequence | undefined = undefined,
         duration: number,
@@ -50,9 +54,9 @@ export default class Group extends TypeOutput {
             size,
             font,
             place,
-            rotation,
             name,
             selectable,
+            pose,
             enter,
             rest,
             move,
@@ -75,6 +79,7 @@ export default class Group extends TypeOutput {
             bottom: layout.bottom,
             width: layout.width,
             height: layout.height,
+            actualHeight: layout.height,
             places: layout.places,
         };
     }
@@ -88,7 +93,12 @@ export default class Group extends TypeOutput {
     }
 
     getDescription(locales: Locale[]) {
-        return this.layout.getDescription(this.content, locales);
+        return concretize(
+            locales[0],
+            locales[0].output.Group.description,
+            this.layout.getDescription(this.content, locales),
+            this.pose.getDescription(locales)
+        ).toText();
     }
 
     isEmpty() {
@@ -101,31 +111,32 @@ export function toGroup(
     value: Value | undefined,
     namer?: NameGenerator
 ): Group | undefined {
-    if (value === undefined) return undefined;
+    if (!(value instanceof Structure)) return undefined;
 
-    const layout = toArrangement(project, value.resolve('layout'));
-    const content = toTypeOutputList(project, value.resolve('content'), namer);
+    const layout = toArrangement(project, getOutputInput(value, 0));
+    const content = toTypeOutputList(project, getOutputInput(value, 1), namer);
 
     const {
         size,
         font,
         place,
-        rotation,
         name,
         selectable,
+        pose,
         rest,
         enter,
         move,
         exit,
         duration,
         style,
-    } = getStyle(project, value);
+    } = getStyle(project, value, 2);
 
     return layout &&
         content &&
         duration !== undefined &&
         style !== undefined &&
-        rest
+        pose &&
+        selectable !== undefined
         ? new Group(
               value,
               layout,
@@ -133,9 +144,9 @@ export function toGroup(
               size,
               font,
               place,
-              rotation,
               namer?.getName(name?.text, value) ?? `${value.creator.id}`,
               selectable,
+              pose,
               enter,
               rest,
               move,

@@ -7,7 +7,7 @@ import type Value from '@runtime/Value';
 import type Step from '@runtime/Step';
 import Placeholder from '@conflicts/Placeholder';
 import Halt from '@runtime/Halt';
-import type Bind from './Bind';
+import Bind from './Bind';
 import type Context from './Context';
 import type TypeSet from './TypeSet';
 import type Evaluator from '@runtime/Evaluator';
@@ -58,8 +58,9 @@ export default class ExpressionPlaceholder extends AtomicExpression {
         );
     }
 
-    static getPossibleNodes(type: Type | undefined) {
-        return [ExpressionPlaceholder.make(type)];
+    static getPossibleNodes() {
+        // Don't pass the type, since we don't want it to be actual text in the program.
+        return [ExpressionPlaceholder.make(undefined)];
     }
 
     getGrammar(): Grammar {
@@ -131,7 +132,7 @@ export default class ExpressionPlaceholder extends AtomicExpression {
                     return getConcreteExpectedType(fun, bind, parent, context);
                 }
             }
-        }
+        } else if (parent instanceof Bind) return parent.getType(context);
         // Expression of a function definition? Infer from the function's output type.
         else if (parent instanceof FunctionDefinition) {
             if (parent.output) return parent.output;

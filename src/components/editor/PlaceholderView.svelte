@@ -1,32 +1,25 @@
 <script lang="ts">
-    import type Node from '@nodes/Node';
-    import { getCaret, getMenuNode } from '../project/Contexts';
+    import { getMenuNode } from '../project/Contexts';
+    import type { CaretPosition } from '../../edit/Caret';
 
-    export let node: Node;
+    export let position: CaretPosition;
 
-    const caret = getCaret();
     const menuNode = getMenuNode();
 
     function show() {
-        if (menuNode && placeholder) menuNode?.set(placeholder);
+        if (menuNode)
+            menuNode.set($menuNode !== position ? position : undefined);
     }
-
-    const placeholder = $caret?.source.root
-        .getAncestors(node)
-        .find((n) => n.isPlaceholder());
 </script>
 
-{#if menuNode && placeholder && $caret?.isIn(placeholder, false)}
-    <span
-        class="trigger"
-        role="button"
-        tabindex="0"
-        on:pointerdown|stopPropagation={show}
-        on:keydown|stopPropagation={(event) =>
-            event.key === 'Enter' || event.key === ' ' ? show() : undefined}
-        >▾</span
-    >
-{/if}
+<span
+    class="trigger"
+    role="button"
+    tabindex="0"
+    on:pointerdown|stopPropagation={show}
+    on:keydown|stopPropagation={(event) =>
+        event.key === 'Enter' || event.key === ' ' ? show() : undefined}>▼</span
+>
 
 <style>
     .trigger {
@@ -42,6 +35,6 @@
 
     .trigger:focus {
         outline: none;
-        color: var(--wordplay-highlight);
+        color: var(--wordplay-focus-color);
     }
 </style>

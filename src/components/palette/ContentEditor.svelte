@@ -24,11 +24,11 @@
             (value) =>
                 value instanceof Evaluate &&
                 (value.is(
-                    project.shares.output.phrase,
+                    project.shares.output.Phrase,
                     project.getNodeContext(value)
                 ) ||
                     value.is(
-                        project.shares.output.group,
+                        project.shares.output.Group,
                         project.getNodeContext(value)
                     ))
         );
@@ -90,7 +90,7 @@
                               true
                           )
                         : undefined}
-                >+{project.shares.output.phrase.getNames()[0]}</Button
+                >+{project.shares.output.Phrase.getNames()[0]}</Button
             >
             <Button
                 tip={$config.getLocale().ui.description.addGroup}
@@ -104,7 +104,7 @@
                               false
                           )
                         : undefined}
-                >+{project.shares.output.group.getNames()[0]}</Button
+                >+{project.shares.output.Group.getNames()[0]}</Button
             ></div
         >
     {:else}

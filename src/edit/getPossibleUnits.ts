@@ -18,8 +18,11 @@ export function getPossibleUnits(context: Context) {
             []
         );
 
-    const unitsInShares = context.native.shares.all
-        .map((def) => def.nodes().filter((d): d is Unit => d instanceof Unit))
+    const unitsInShares = context
+        .getBasis()
+        .shares.all.map((def) =>
+            def.nodes().filter((d): d is Unit => d instanceof Unit)
+        )
         .flat();
 
     // Return unique units
@@ -37,7 +40,7 @@ export function getPossibleUnits(context: Context) {
 function getUnitsInConversions(project: Project) {
     // Get all dimensions referred to in conversions.
     const unitsInConversions = project
-        .getNative()
+        .getBasis()
         .getStructureDefinition('measurement')
         ?.getAllConversions()
         .map((conversion) =>

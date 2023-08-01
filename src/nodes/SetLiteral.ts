@@ -17,7 +17,7 @@ import Symbol from './Symbol';
 import { node, type Grammar, type Replacement, list } from './Node';
 import type Locale from '@locale/Locale';
 import Glyphs from '../lore/Glyphs';
-import type { NativeTypeName } from '../native/NativeConstants';
+import type { BasisTypeName } from '../basis/BasisConstants';
 import Purpose from '../concepts/Purpose';
 import UnclosedDelimiter from '../conflicts/UnclosedDelimiter';
 import SetCloseToken from './SetCloseToken';
@@ -80,7 +80,7 @@ export default class SetLiteral extends Expression {
         return Purpose.Value;
     }
 
-    getAffiliatedType(): NativeTypeName | undefined {
+    getAffiliatedType(): BasisTypeName | undefined {
         return 'set';
     }
 

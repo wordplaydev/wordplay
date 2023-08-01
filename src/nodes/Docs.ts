@@ -1,18 +1,26 @@
 import type { Grammar, Replacement } from './Node';
 import Doc from './Doc';
-import type LanguageCode from '@locale/LanguageCode';
 import type Locale from '@locale/Locale';
 import Glyphs from '../lore/Glyphs';
 import Purpose from '../concepts/Purpose';
 import Node, { list, node } from './Node';
+import Literal from './Literal';
+import type Value from '../runtime/Value';
+import type Bind from './Bind';
+import type Type from './Type';
+import type TypeSet from './TypeSet';
+import concretize from '../locale/concretize';
+import DocsValue from '../runtime/DocsValue';
+import DocsType from './DocsType';
+import { getPreferred } from './LanguageTagged';
 
-export default class Docs extends Node {
+export default class Docs extends Literal {
     readonly docs: Doc[];
 
-    constructor(docs?: Doc[]) {
+    constructor(docs: Doc[]) {
         super();
 
-        this.docs = docs === undefined ? [] : docs;
+        this.docs = docs;
 
         this.computeChildren();
     }
@@ -39,24 +47,46 @@ export default class Docs extends Node {
         return [];
     }
 
-    getLocale(lang: LanguageCode | LanguageCode[]): Doc | undefined {
-        lang = Array.isArray(lang) ? lang : [lang];
-        // Find the doc with the most preferred language, and if there are none, an emdash.
-        return (
-            lang
-                .map((lang) =>
-                    this.docs.find((doc) => doc.getLanguage() === lang)
-                )
-                .filter((doc): doc is Doc => doc !== undefined)[0] ??
-            this.docs[0]
-        );
+    getTags(): Doc[] {
+        return this.docs;
     }
 
-    getNodeLocale(translation: Locale) {
-        return translation.node.Docs;
+    getPreferredLocale(preferred: Locale | Locale[]): Doc {
+        // Build the list of preferred languages
+        const locales = Array.isArray(preferred) ? preferred : [preferred];
+
+        return getPreferred(locales, this.docs);
+    }
+
+    getNodeLocale(locale: Locale) {
+        return locale.node.Docs;
     }
 
     getGlyphs() {
         return Glyphs.Doc;
+    }
+
+    getValue(): Value {
+        return new DocsValue(this);
+    }
+
+    computeType(): Type {
+        return DocsType.make();
+    }
+
+    evaluateTypeSet(_: Bind, __: TypeSet, current: TypeSet): TypeSet {
+        return current;
+    }
+
+    getStart(): Node {
+        return this.docs[0];
+    }
+
+    getFinish(): Node {
+        throw this.docs[this.docs.length - 1];
+    }
+
+    getStartExplanations(locale: Locale) {
+        return concretize(locale, locale.node.Docs.start);
     }
 }

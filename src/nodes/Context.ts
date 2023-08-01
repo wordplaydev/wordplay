@@ -8,13 +8,11 @@ import type Reference from './Reference';
 import type PropertyReference from './PropertyReference';
 import type Definition from './Definition';
 import type StreamDefinition from './StreamDefinition';
-import type { Native } from '../native/Native';
 
 /** Passed around during type inference and conflict detection to facilitate program analysis and cycle-detection. */
 export default class Context {
     readonly project: Project;
     readonly source: Source;
-    readonly native: Native;
 
     readonly stack: Node[] = [];
     readonly types: Map<Node, Type> = new Map();
@@ -27,11 +25,14 @@ export default class Context {
     constructor(project: Project, source: Source) {
         this.project = project;
         this.source = source;
-        this.native = project.getNative();
     }
 
     getRoot(node: Node) {
         return this.project.getRoot(node);
+    }
+
+    getBasis() {
+        return this.project.basis;
     }
 
     /** Track cycles during conflict analysis. */

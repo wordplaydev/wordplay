@@ -1,17 +1,17 @@
-import type { NativeTypeName } from '../native/NativeConstants';
+import type { BasisTypeName } from '../basis/BasisConstants';
 import BooleanType from '@nodes/BooleanType';
 import type UnaryEvaluate from '@nodes/UnaryEvaluate';
 import { FALSE_SYMBOL, TRUE_SYMBOL } from '@parser/Symbols';
 import { NOT_SYMBOL } from '@parser/Symbols';
 import type Evaluator from './Evaluator';
 import FunctionException from './FunctionException';
-import Primitive from './Primitive';
+import Simple from './Simple';
 import type Value from './Value';
 import type Locale from '@locale/Locale';
 import type Expression from '../nodes/Expression';
 import concretize from '../locale/concretize';
 
-export default class Bool extends Primitive {
+export default class Bool extends Simple {
     readonly bool: boolean;
 
     constructor(creator: Expression, bool: boolean) {
@@ -28,7 +28,7 @@ export default class Bool extends Primitive {
         return BooleanType.make();
     }
 
-    getNativeTypeName(): NativeTypeName {
+    getBasisTypeName(): BasisTypeName {
         return 'boolean';
     }
 

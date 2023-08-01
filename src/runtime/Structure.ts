@@ -10,13 +10,12 @@ import Number from './Number';
 import Text from './Text';
 import Bool from './Bool';
 import type Names from '@nodes/Names';
-import type LanguageCode from '@locale/LanguageCode';
 import {
     BIND_SYMBOL,
     EVAL_CLOSE_SYMBOL,
     EVAL_OPEN_SYMBOL,
 } from '@parser/Symbols';
-import type { NativeTypeName } from '../native/NativeConstants';
+import type { BasisTypeName } from '../basis/BasisConstants';
 import type Locale from '@locale/Locale';
 import type Expression from '../nodes/Expression';
 import concretize from '../locale/concretize';
@@ -63,19 +62,22 @@ export default class Structure extends Value {
         return new StructureDefinitionType(this.type, []);
     }
 
-    getNativeTypeName(): NativeTypeName {
+    getBasisTypeName(): BasisTypeName {
         return 'structure';
     }
 
-    resolve(name: string, evaluator?: Evaluator): Value | undefined {
+    resolve(name: string | Names, evaluator?: Evaluator): Value | undefined {
         const value = this.context.resolve(name);
         if (value !== undefined) return value;
-        const nativeFun = evaluator
-            ?.getNative()
-            .getFunction(this.getNativeTypeName(), name);
-        return nativeFun === undefined
+        const basisFun =
+            evaluator && typeof name === 'string'
+                ? evaluator
+                      .getBasis()
+                      .getFunction(this.getBasisTypeName(), name)
+                : undefined;
+        return basisFun === undefined
             ? undefined
-            : new FunctionValue(nativeFun, this);
+            : new FunctionValue(basisFun, this);
     }
 
     getNumber(name: string): number | undefined {
@@ -100,15 +102,15 @@ export default class Structure extends Value {
         return this.context.getConversion(input, output);
     }
 
-    toWordplay(languages: LanguageCode[]): string {
+    toWordplay(locales: Locale[]): string {
         const bindings = this.type.inputs.map(
             (bind) =>
-                `${bind.names.getLocaleText(
-                    languages
+                `${bind.names.getPreferredNameString(
+                    locales
                 )}${BIND_SYMBOL} ${this.resolve(bind.getNames()[0])}`
         );
-        return `${this.type.names.getLocaleText(
-            languages
+        return `${this.type.names.getPreferredNameString(
+            locales
         )}${EVAL_OPEN_SYMBOL}${bindings.join(' ')}${EVAL_CLOSE_SYMBOL}`;
     }
 

@@ -387,7 +387,7 @@
         margin-left: var(--wordplay-spacing);
     }
     .match {
-        color: var(--wordplay-highlight);
+        color: var(--wordplay-highlight-color);
     }
 
     .empty {

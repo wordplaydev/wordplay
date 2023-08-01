@@ -21,7 +21,7 @@
 
     input:focus {
         outline: none;
-        border-color: var(--wordplay-highlight);
+        border-color: var(--wordplay-highlight-color);
     }
 
     [type='checkbox']:checked {

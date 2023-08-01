@@ -10,7 +10,7 @@
 
     // Choose what name to render based on the preferred languages.
     $: name = new NameToken(
-        node.structure.names.getLocaleText($config.getLanguages())
+        node.structure.names.getPreferredNameString($config.getLocales())
     );
 </script>
 

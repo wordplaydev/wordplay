@@ -86,6 +86,7 @@
     import CommandButton from '../widgets/CommandButton.svelte';
     import Help from './Help.svelte';
     import type Color from '../../output/Color';
+    import ProjectLanguages from './ProjectLanguages.svelte';
 
     export let project: Project;
     export let original: Project | undefined = undefined;
@@ -286,8 +287,8 @@
                     newTiles.push(
                         tile
                             .withName(
-                                source.names.getLocaleText(
-                                    $config.getLanguages()
+                                source.names.getPreferredNameString(
+                                    $config.getLocales()
                                 )
                             )
                             // If not editable, keep the source files collapsed
@@ -317,7 +318,7 @@
 
         return new Tile(
             Layout.getSourceID(index),
-            source.names.getLocaleText($config.getLanguages()),
+            source.names.getPreferredNameString($config.getLocales()),
             Content.Source,
             index === 0 || expandNewTile ? Mode.Expanded : Mode.Collapsed,
             undefined,
@@ -662,6 +663,10 @@
             tick().then(() => focusTile(focusedTileID));
     });
 
+    function getTileView(tileID: string) {
+        return view?.querySelector(`.tile[data-id="${tileID}"]`) ?? null;
+    }
+
     function focusTile(focusedTileID: string | undefined) {
         if (view === undefined || view === null) return;
 
@@ -669,10 +674,10 @@
             (tile) => !tile.isCollapsed()
         )?.id;
         const focusedTileView = focusedTileID
-            ? view.querySelector(`.tile[data-id="${focusedTileID}"]`)
+            ? getTileView(focusedTileID)
             : null;
         const firstTileView = firstTileID
-            ? view.querySelector(`.tile[data-id="${firstTileID}"]`)
+            ? getTileView(firstTileID)
             : undefined;
         const tileView = focusedTileView ?? firstTileView;
 
@@ -683,14 +688,66 @@
             )[0];
             if (defaultFocus instanceof HTMLElement) viewToFocus = defaultFocus;
             else {
-                // // const focusable = tileView.querySelectorAll(
-                // //     'input, button, [tabindex="0"]'
-                // // )[0];
-                // if (focusable instanceof HTMLElement) viewToFocus = focusable;
+                const focusable = tileView.querySelectorAll(
+                    'input, button, [tabindex="0"]'
+                )[0];
+                if (focusable instanceof HTMLElement) viewToFocus = focusable;
             }
         }
         // No tiles visible? Just focus on the project view.
         (viewToFocus ?? view).focus();
+    }
+
+    async function focusOrCycleTile(content?: Content) {
+        const visible = layout.tiles.filter((tile) => !tile.isCollapsed());
+        const currentTileIndex = visible.findIndex((tile) => {
+            const view = getTileView(tile.id);
+            return (
+                view &&
+                (view === document.activeElement ||
+                    view.contains(document.activeElement))
+            );
+        });
+        const currentTile = visible[currentTileIndex];
+
+        // No kind specified? Cycle through visible tiles.
+        if (content === undefined) {
+            const next =
+                visible[
+                    currentTileIndex < 0 ||
+                    currentTileIndex + 1 >= visible.length
+                        ? 0
+                        : currentTileIndex + 1
+                ];
+            if (next) focusTile(next.id);
+        }
+        // Not source? Toggle the kind.
+        else if (content !== Content.Source) {
+            const tile = layout.tiles.find((tile) => tile.kind === content);
+            if (tile) {
+                toggleTile(tile);
+                await tick();
+                focusTile(tile.id);
+            }
+        }
+        // Source? Cycle through source, expanding as necessary.
+        else if (currentTileIndex) {
+            const sources = layout.getSources();
+            const index = sources.findIndex(
+                (source) => source.id === currentTile.id
+            );
+            const next =
+                sources[
+                    index < 0 ? 0 : index + 1 >= sources.length ? 0 : index + 1
+                ];
+            if (next) {
+                if (next.isCollapsed()) {
+                    toggleTile(next);
+                    await tick();
+                    focusTile(next.id);
+                } else focusTile(next.id);
+            }
+        }
     }
 
     function setMode(tile: Tile, mode: Mode) {
@@ -891,6 +948,7 @@
             evaluator: $evaluator,
             creator: $config,
             fullscreen,
+            focusOrCycleTile,
             help: () => (help = !help),
         });
 
@@ -965,7 +1023,7 @@
             project,
             project.withSource(
                 source,
-                source.withName(name, $config.getLanguages()[0])
+                source.withName(name, $config.getLocales()[0])
             )
         );
     }
@@ -1211,8 +1269,9 @@
                 tip={$config.getLocale().ui.description.addSource}
                 action={addSource}>+</Button
             >
-            <span class="help"
-                ><Button
+            <span class="help">
+                <ProjectLanguages {project} />
+                <Button
                     tip={ShowKeyboardHelp.description($config.getLocale())}
                     action={() => (help = true)}
                     >{ShowKeyboardHelp.symbol}</Button
@@ -1270,7 +1329,7 @@
         width: 100%;
         height: 100%;
         content: '';
-        outline: var(--wordplay-highlight) solid var(--wordplay-focus-width);
+        outline: var(--wordplay-focus-color) solid var(--wordplay-focus-width);
         outline-offset: calc(-1 * var(--wordplay-focus-width));
         position: absolute;
         top: 0;
@@ -1339,6 +1398,10 @@
 
     .help {
         margin-left: auto;
+        display: flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        gap: var(--wordplay-spacing);
     }
 
     .footer {

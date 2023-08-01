@@ -18,7 +18,7 @@ export default class Choice extends Stream<Text> {
     constructor(evaluator: Evaluator) {
         super(
             evaluator,
-            evaluator.project.shares.input.choice,
+            evaluator.project.shares.input.Choice,
             new Text(evaluator.getMain(), '')
         );
 

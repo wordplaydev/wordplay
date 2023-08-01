@@ -1,5 +1,5 @@
 import Type from './Type';
-import type { NativeTypeName } from '../native/NativeConstants';
+import type { BasisTypeName } from '../basis/BasisConstants';
 import type TypeSet from './TypeSet';
 import type Locale from '@locale/Locale';
 import type StreamDefinition from './StreamDefinition';
@@ -32,7 +32,7 @@ export default class StreamDefinitionType extends Type {
         });
     }
 
-    getNativeTypeName(): NativeTypeName {
+    getBasisTypeName(): BasisTypeName {
         return 'function';
     }
 

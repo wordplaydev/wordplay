@@ -5,7 +5,6 @@ import Expression from '@nodes/Expression';
 import NumberLiteral from '@nodes/NumberLiteral';
 import Reference from '@nodes/Reference';
 import Unit from '@nodes/Unit';
-import type LanguageCode from '@locale/LanguageCode';
 import type { Creator } from '../../db/Creator';
 import UnaryEvaluate from '../../nodes/UnaryEvaluate';
 import Decimal from 'decimal.js';
@@ -14,6 +13,7 @@ import ListLiteral from '../../nodes/ListLiteral';
 import { toExpression } from '../../parser/Parser';
 import { config } from '../../db/Creator';
 import { get } from 'svelte/store';
+import type Locale from '../../locale/Locale';
 
 export function getNumber(given: Expression): number | undefined {
     const measurement =
@@ -36,12 +36,12 @@ export default function moveOutput(
     projects: Creator,
     project: Project,
     evaluates: Evaluate[],
-    languages: LanguageCode[],
+    locales: Locale[],
     horizontal: number,
     vertical: number,
     relative: boolean
 ) {
-    const PlaceType = project.shares.output.place;
+    const PlaceType = project.shares.output.Place;
 
     projects.reviseProjectNodes(
         project,
@@ -75,7 +75,7 @@ export default function moveOutput(
                     'place',
                     Evaluate.make(
                         Reference.make(
-                            PlaceType.names.getLocaleText(languages),
+                            PlaceType.names.getPreferredNameString(locales),
                             PlaceType
                         ),
                         [
@@ -119,14 +119,12 @@ export function addContent(
     index: number,
     phrase: boolean
 ) {
-    const PhraseType = project.shares.output.phrase;
-    const GroupType = project.shares.output.group;
-    const RowType = project.shares.output.row;
-    const languages = get(config).getLanguages();
+    const PhraseType = project.shares.output.Phrase;
+    const GroupType = project.shares.output.Group;
+    const RowType = project.shares.output.Row;
+    const locales = get(config).getLocales();
     const newPhrase = Evaluate.make(
-        Reference.make(
-            PhraseType.names.getLocaleText(get(config).getLanguages())
-        ),
+        Reference.make(PhraseType.names.getPreferredNameString(locales)),
         [TextLiteral.make(get(config).getLocale().ui.phrases.welcome)]
     );
     reviseContent(projects, project, list, [
@@ -135,11 +133,13 @@ export function addContent(
             ? newPhrase
             : // Create a group with a Row layout and a single phrase
               Evaluate.make(
-                  Reference.make(GroupType.names.getLocaleText(languages)),
+                  Reference.make(
+                      GroupType.names.getPreferredNameString(locales)
+                  ),
                   [
                       Evaluate.make(
                           Reference.make(
-                              RowType.names.getLocaleText(languages)
+                              RowType.names.getPreferredNameString(locales)
                           ),
                           []
                       ),
@@ -200,7 +200,7 @@ export function addStageContent(
     project: Project,
     content: Expression
 ) {
-    const StageType = project.shares.output.stage;
+    const StageType = project.shares.output.Stage;
 
     // Find the verse in the project.
     let verse: Evaluate | undefined = getStage(project);
@@ -224,7 +224,7 @@ export function addStageContent(
 }
 
 export function getStage(project: Project): Evaluate | undefined {
-    const StageType = project.shares.output.stage;
+    const StageType = project.shares.output.Stage;
 
     for (const source of project.getSources()) {
         const context = project.getContext(source);

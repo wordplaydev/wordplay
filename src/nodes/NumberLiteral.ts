@@ -9,12 +9,12 @@ import type Bind from './Bind';
 import type Context from './Context';
 import type TypeSet from './TypeSet';
 import Symbol from './Symbol';
-import { node, type Grammar, type Replacement, optional } from './Node';
+import Node, { node, type Grammar, type Replacement, optional } from './Node';
 import type Locale from '@locale/Locale';
 import NodeRef from '@locale/NodeRef';
 import Literal from './Literal';
 import Glyphs from '../lore/Glyphs';
-import type { NativeTypeName } from '../native/NativeConstants';
+import type { BasisTypeName } from '../basis/BasisConstants';
 import type Decimal from 'decimal.js';
 import concretize, { type TemplateInput } from '../locale/concretize';
 
@@ -47,12 +47,45 @@ export default class NumberLiteral extends Literal {
         );
     }
 
-    static getPossibleNodes() {
-        return [
-            NumberLiteral.make(0, undefined, Symbol.Number, Symbol.Decimal),
-            NumberLiteral.make('π', undefined, Symbol.Number, Symbol.Pi),
-            NumberLiteral.make('∞', undefined, Symbol.Number, Symbol.Infinity),
-        ];
+    static getPossibleNodes(
+        type: Type | undefined,
+        _: Node,
+        __: boolean,
+        context: Context
+    ) {
+        const possibleNumberTypes = type
+            ?.getPossibleTypes(context)
+            .filter(
+                (possibleType): possibleType is NumberType =>
+                    possibleType instanceof NumberType
+            );
+
+        // If a type is provided, and it has a unit, suggest numbers with corresponding units.
+        if (possibleNumberTypes && possibleNumberTypes.length > 0) {
+            return possibleNumberTypes.map((numberType) =>
+                numberType.isLiteral()
+                    ? numberType.getLiteral()
+                    : NumberLiteral.make(
+                          1,
+                          numberType.unit instanceof Unit
+                              ? numberType.unit.clone()
+                              : undefined,
+                          Symbol.Number,
+                          Symbol.Decimal
+                      )
+            );
+        } else {
+            return [
+                NumberLiteral.make(0, undefined, Symbol.Number, Symbol.Decimal),
+                NumberLiteral.make('π', undefined, Symbol.Number, Symbol.Pi),
+                NumberLiteral.make(
+                    '∞',
+                    undefined,
+                    Symbol.Number,
+                    Symbol.Infinity
+                ),
+            ];
+        }
     }
 
     isPercent() {
@@ -73,7 +106,7 @@ export default class NumberLiteral extends Literal {
         ) as this;
     }
 
-    getAffiliatedType(): NativeTypeName | undefined {
+    getAffiliatedType(): BasisTypeName | undefined {
         return 'measurement';
     }
 

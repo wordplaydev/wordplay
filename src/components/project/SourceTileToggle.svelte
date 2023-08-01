@@ -68,7 +68,7 @@
             >{/if}
         {#if primaryCount === 0 && secondaryCount === 0}{Glyphs.Program
                 .symbols}{/if}
-        {source.names.getLocaleText($config.getLanguages())}
+        {source.names.getPreferredNameString($config.getLocales())}
     </span>
     <!-- Disabling for now. It doesn't help much because it's so tiny. We may restore it later. -->
     {#if output && false}
@@ -102,7 +102,7 @@
 
     .name:focus {
         outline: none;
-        color: var(--wordplay-highlight);
+        color: var(--wordplay-highlight-color);
     }
 
     .expanded .name {

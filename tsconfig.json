@@ -21,7 +21,7 @@
             "@output/*": ["output/*"],
             "@concepts/*": ["concepts/*"],
             "@parser/*": ["parser/*"],
-            "@native/*": ["native/*"],
+            "@basis/*": ["basis/*"],
             "@edit/*": ["edit/*"],
             "@models/*": ["models/*"],
             "@db/*": ["db/*"]

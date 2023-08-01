@@ -2,7 +2,7 @@ import type InputTexts from '@locale/InputTexts';
 import type OutputTexts from '@locale/OutputTexts';
 import type NodeTexts from '@locale/NodeTexts';
 import type Emotion from '../lore/Emotion';
-import type NativeTexts from '../locale/NativeTexts';
+import type BasisTexts from '../locale/BasisTexts';
 
 export type Tutorial = {
     /** This is here so that when we generate a JSON schema for a tutorial, the VS Code schema property is allowed **/
@@ -31,7 +31,7 @@ export type Character =
     | keyof NodeTexts
     | keyof InputTexts
     | keyof OutputTexts
-    | keyof NativeTexts
+    | keyof BasisTexts
     | '⊤'
     | '⊥';
 

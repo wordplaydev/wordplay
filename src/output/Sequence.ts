@@ -1,9 +1,9 @@
-import toStructure from '../native/toStructure';
+import toStructure from '../basis/toStructure';
 import { TYPE_SYMBOL } from '@parser/Symbols';
 import Structure from '@runtime/Structure';
 import type Value from '@runtime/Value';
 import { getBind } from '@locale/getBind';
-import Output from './Output';
+import Output, { getOutputInputs } from './Output';
 import type Pose from './Pose';
 import { toPose } from './Pose';
 import { toDecimal } from './Stage';
@@ -29,7 +29,7 @@ export function createSequenceType(locales: Locale[]) {
             Object.values(locale.output.Easing).map((id) => `"${id}"`)
         )
         .flat()
-        .join('|')}: "zippy"
+        .join('|')}: "${Object.values(locales[0].output.Easing)[0]}"
         ${getBind(
             locales,
             (locale) => locale.output.Sequence.count
@@ -69,7 +69,6 @@ export default class Sequence extends Output {
      */
     compile(
         place?: Place,
-        rotation?: number | undefined,
         defaultPose?: Pose,
         size?: number
     ): TransitionSequence | undefined {
@@ -78,17 +77,9 @@ export default class Sequence extends Output {
         else if (this.poses.length === 1) {
             // Only one pose? Just animate the duration with the same pose.
             return [
+                new Transition(place, size, this.poses[0].pose, 0, this.style),
                 new Transition(
                     place,
-                    rotation,
-                    size,
-                    this.poses[0].pose,
-                    0,
-                    this.style
-                ),
-                new Transition(
-                    place,
-                    rotation,
                     size,
                     this.poses[0].pose,
                     this.duration,
@@ -108,7 +99,6 @@ export default class Sequence extends Output {
                 transitions.push(
                     new Transition(
                         place,
-                        rotation,
                         size,
                         defaultPose
                             ? defaultPose.with(current.pose)
@@ -142,16 +132,16 @@ export function toSequence(project: Project, value: Value | undefined) {
     if (
         !(
             value instanceof Structure &&
-            value.type === project.shares.output.sequence
+            value.type === project.shares.output.Sequence
         )
     )
         return undefined;
 
-    const count = toDecimal(value.resolve('count'));
-    const duration = toDecimal(value.resolve('duration'));
-    const style = value.resolve('style');
+    const [poses, durationVal, style, countVal] = getOutputInputs(value);
 
-    const poses = value.resolve('poses');
+    const count = toDecimal(countVal);
+    const duration = toDecimal(durationVal);
+
     if (!(poses instanceof Map)) return undefined;
 
     // Convert the map to a sorted list of steps

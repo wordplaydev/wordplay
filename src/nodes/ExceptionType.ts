@@ -1,4 +1,4 @@
-import type { NativeTypeName } from '../native/NativeConstants';
+import type { BasisTypeName } from '../basis/BasisConstants';
 import type Exception from '@runtime/Exception';
 import type Locale from '@locale/Locale';
 import Type from './Type';
@@ -35,7 +35,7 @@ export default class ExceptionType extends Type {
         return undefined;
     }
 
-    getNativeTypeName(): NativeTypeName {
+    getBasisTypeName(): BasisTypeName {
         return 'exception';
     }
 

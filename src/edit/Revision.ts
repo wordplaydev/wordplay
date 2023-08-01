@@ -1,6 +1,5 @@
 import type { Edit } from '../components/editor/util/Commands';
 import type Node from '@nodes/Node';
-import type LanguageCode from '@locale/LanguageCode';
 import type Context from '@nodes/Context';
 import type Source from '@nodes/Source';
 import type Spaces from '@parser/Spaces';
@@ -24,15 +23,15 @@ export default abstract class Revision {
     abstract isCompletion(): boolean;
 
     /** Create the edit to be processed by Editor. */
-    abstract getEdit(lang: LanguageCode[]): Edit | undefined;
+    abstract getEdit(locales: Locale[]): Edit | undefined;
 
-    abstract getDescription(translation: Locale): Markup;
+    abstract getDescription(locale: Locale): Markup;
 
     /** Gets the node to be added, removed, inserted, etc. */
-    abstract getNewNode(lang: LanguageCode[]): Node | undefined;
+    abstract getNewNode(locales: Locale[]): Node | undefined;
 
     /** Gets the added or removed node, and the revised node, which incorporates the new node. May be the same node. Used for the actual edit, but also for previews. */
-    abstract getEditedNode(lang: LanguageCode[]): [Node, Node];
+    abstract getEditedNode(locales: Locale[]): [Node, Node];
 
     abstract equals(transform: Revision): boolean;
 

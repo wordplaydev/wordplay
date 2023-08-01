@@ -40,10 +40,10 @@
                 output.node,
                 Evaluate.make(
                     Reference.make(
-                        project.shares.output.sequence.names.getLocaleText(
-                            $config.getLanguages()
+                        project.shares.output.Sequence.names.getPreferredNameString(
+                            $config.getLocales()
                         ),
-                        project.shares.output.sequence
+                        project.shares.output.Sequence
                     ),
                     [
                         MapLiteral.make([
@@ -67,7 +67,7 @@
         <Button
             tip={$config.getLocale().ui.description.sequence}
             action={convert}
-            >{project.shares.output.sequence.getNames()[0]}</Button
+            >{project.shares.output.Sequence.getNames()[0]}</Button
         >
     {/if}
 </div>

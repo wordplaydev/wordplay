@@ -27,21 +27,27 @@ import Greeting from './Greeting.wp?raw';
 import Catch from './Catch.wp?raw';
 import { parseNames, toTokens } from '../parser/Parser';
 import type Names from '../nodes/Names';
-import type { Native } from '../native/Native';
+import { config } from '../db/Creator';
+import { get } from 'svelte/store';
+import { getBestSupportedLocales } from '../locale/Locale';
 
-export type Stuff = { name: string; sources: { names: Names; code: string }[] };
+export type Stuff = {
+    name: string;
+    sources: { names: Names; code: string }[];
+    locales: string[];
+};
 
-export function projectFromText(project: string, native: Native): Project {
-    return makeProject(wpToStuff(project), native);
-}
+export async function makeProject(stuff: Stuff) {
+    const locales = await get(config).loadLocales(
+        getBestSupportedLocales(stuff.locales)
+    );
 
-export function makeProject(stuff: Stuff, native: Native) {
     return new Project(
         stuff.name,
         stuff.name,
         new Source(stuff.sources[0].names, stuff.sources[0].code),
         stuff.sources.slice(1).map((s) => new Source(s.names, s.code)),
-        native
+        locales
     );
 }
 
@@ -58,10 +64,16 @@ function wpToStuff(text: string): Stuff {
         return { names: parseNames(toTokens(name)), code: code };
     });
 
+    // Find all of the languages referenced
+    const languages = Array.from(
+        new Set(sources.map((source) => source.names.getLanguages()).flat())
+    );
+
     // Return stuff for display
     return {
         name: sources[0].names.getNames()[0],
         sources: sources,
+        locales: languages.length === 0 ? ['en-US'] : languages,
     };
 }
 

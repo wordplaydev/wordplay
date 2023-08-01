@@ -29,6 +29,8 @@ import StreamDefinitionValue from '../../runtime/StreamDefinitionValue';
 import StreamDefinitionView from './StreamDefinitionView.svelte';
 import ExceptionView from './ExceptionView.svelte';
 import Exception from '../../runtime/Exception';
+import DocsValueView from './DocsValueView.svelte';
+import DocsValue from '../../runtime/DocsValue';
 
 const mapping = new Map<Function, ConstructorOfATypedSvelteComponent>();
 
@@ -47,6 +49,7 @@ mapping.set(SetValue, SetView);
 mapping.set(Stream, StreamView);
 mapping.set(Text, TextView);
 mapping.set(Exception, ExceptionView);
+mapping.set(DocsValue, DocsValueView);
 
 export default function valueToView(type: Function) {
     let prototype = type;

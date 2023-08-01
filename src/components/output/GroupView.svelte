@@ -4,7 +4,6 @@
     import type Place from '@output/Place';
     import outputToCSS, { PX_PER_METER } from '@output/outputToCSS';
     import type RenderContext from '@output/RenderContext';
-    import Pose from '@output/Pose';
     import Phrase from '@output/Phrase';
     import PhraseView from './PhraseView.svelte';
     import Group from '@output/Group';
@@ -54,7 +53,7 @@
     aria-label={group.getDescription($config.getLocales())}
     aria-roledescription={group instanceof Group
         ? $config.getLocale().term.group
-        : $config.getLocale().term.verse}
+        : $config.getLocale().term.stage}
     aria-hidden={empty ? 'true' : null}
     class="output group {group.constructor.name}"
     class:selected={selected && !root}
@@ -67,11 +66,8 @@
     style={outputToCSS(
         context.font,
         context.size,
-        group.rotation,
         // No first pose because of an empty sequence? Give a default.
-        group.rest instanceof Pose
-            ? group.rest
-            : group.rest.getFirstPose() ?? new Pose(group.value),
+        group.getFirstRestPose(),
         place,
         layout.width,
         layout.height,
@@ -79,7 +75,8 @@
         parentAscent,
         {
             width: layout.width * PX_PER_METER,
-            ascent: layout.height * PX_PER_METER,
+            fontAscent: layout.height * PX_PER_METER,
+            actualAscent: layout.height * PX_PER_METER,
         },
         viewport
     )}
@@ -151,17 +148,18 @@
         height: 100%;
     }
 
-    :global(.verse.editing.interactive) .group:not(.selected):not(.root) {
+    :global(.stage.editing.interactive) .group:not(.selected):not(.root) {
         outline: var(--wordplay-border-width) dotted
             var(--wordplay-inactive-color);
     }
 
-    :global(.verse.editing.interactive) .group.selected {
-        outline: var(--wordplay-border-width) dotted var(--wordplay-highlight);
+    :global(.stage.editing.interactive) .group.selected {
+        outline: var(--wordplay-border-width) dotted
+            var(--wordplay-highlight-color);
     }
 
     .group:not(.selected):focus {
         outline: none;
-        background-color: var(--wordplay-highlight);
+        background-color: var(--wordplay-focus-color);
     }
 </style>

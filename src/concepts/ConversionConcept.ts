@@ -51,7 +51,7 @@ export default class ConversionConcept extends Concept {
     }
 
     getDocs(locale: Locale): Markup | undefined {
-        const doc = this.definition.docs?.getLocale(locale.language);
+        const doc = this.definition.docs?.getPreferredLocale(locale);
         return doc?.markup?.concretize(locale, []);
     }
 

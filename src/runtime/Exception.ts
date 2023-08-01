@@ -1,8 +1,8 @@
 import ExceptionType from '@nodes/ExceptionType';
-import Primitive from './Primitive';
+import Simple from './Simple';
 import type Step from './Step';
 import type Evaluator from './Evaluator';
-import type { NativeTypeName } from '../native/NativeConstants';
+import type { BasisTypeName } from '../basis/BasisConstants';
 import type Node from '@nodes/Node';
 import type Expression from '../nodes/Expression';
 import concretize from '../locale/concretize';
@@ -10,7 +10,7 @@ import type Locale from '../locale/Locale';
 import type { ExceptionText } from '../locale/NodeTexts';
 import type Markup from '../nodes/Markup';
 
-export default abstract class Exception extends Primitive {
+export default abstract class Exception extends Simple {
     readonly evaluator: Evaluator;
     readonly step?: Step;
 
@@ -41,7 +41,7 @@ export default abstract class Exception extends Primitive {
 
     abstract getExplanation(locale: Locale): Markup;
 
-    getNativeTypeName(): NativeTypeName {
+    getBasisTypeName(): BasisTypeName {
         return 'exception';
     }
 

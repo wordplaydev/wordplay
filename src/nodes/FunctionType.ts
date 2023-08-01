@@ -9,7 +9,7 @@ import EvalCloseToken from './EvalCloseToken';
 import EvalOpenToken from './EvalOpenToken';
 import TypeVariables from './TypeVariables';
 import type TypeSet from './TypeSet';
-import type { NativeTypeName } from '../native/NativeConstants';
+import type { BasisTypeName } from '../basis/BasisConstants';
 import {
     node,
     type Grammar,
@@ -171,7 +171,7 @@ export default class FunctionType extends Type {
         );
     }
 
-    getNativeTypeName(): NativeTypeName {
+    getBasisTypeName(): BasisTypeName {
         return 'function';
     }
 

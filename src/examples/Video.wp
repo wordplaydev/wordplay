@@ -8,7 +8,7 @@ Stage(
             phrases.append(
                 row.translate(
                     ƒ(color•Color x•#) 
-                        Phrase("a" place: Place((x - 1) · 0.5m y · -0.5m) rest: Pose(color: color) duration: 0s
+                        Phrase("a" place: Place((x - 1) · 0.5m y · -0.5m) color: color duration: 0s
                 )
             )
         )

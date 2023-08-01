@@ -6,6 +6,9 @@
     import { getProject } from '../project/Contexts';
     import { config } from '../../db/Creator';
     import { tick } from 'svelte';
+    import Language from '../../nodes/Language';
+    import { DOCS_SYMBOL } from '../../parser/Symbols';
+    import { parseDocs, toTokens } from '../../parser/Parser';
 
     export let property: OutputProperty;
     export let values: OutputPropertyValues;
@@ -22,7 +25,12 @@
             $project.getBindReplacements(
                 values.getExpressions(),
                 property.getName(),
-                TextLiteral.make(newValue)
+                newValue.startsWith(DOCS_SYMBOL)
+                    ? parseDocs(toTokens(newValue))
+                    : TextLiteral.make(
+                          newValue,
+                          Language.make($config.getLanguages()[0])
+                      )
             )
         );
 
@@ -36,7 +44,9 @@
     description={$config.getLocale().ui.description.editTextOutput}
     placeholder={values.isEmpty()
         ? ''
-        : values.values[0].bind.names.getLocaleText($config.getLanguages())}
+        : values.values[0].bind.names.getPreferredNameString(
+              $config.getLocales()
+          )}
     {validator}
     changed={handleChange}
     bind:view

@@ -63,6 +63,8 @@ import TypeInputs from '@nodes/TypeInputs';
 import Paragraph from '@nodes/Paragraph';
 import WebLink from '@nodes/WebLink';
 import Example from '../nodes/Example';
+import Docs from '../nodes/Docs';
+import DocsType from '../nodes/DocsType';
 
 test('Parse programs', () => {
     expect(toProgram('')).toBeInstanceOf(Program);
@@ -96,7 +98,7 @@ test('Parse block', () => {
     expect((good as Block).statements).toHaveLength(1);
     expect((good as Block).statements[0]).toBeInstanceOf(Reference);
 
-    const documented = parseBlock(toTokens('`Nothing` ( hi )'));
+    const documented = parseBlock(toTokens('`Nothing`\n(hi)'));
     expect(documented).toBeInstanceOf(Block);
     expect((documented as Block).docs?.docs).toHaveLength(1);
 });
@@ -193,7 +195,9 @@ test('Parse expressions', () => {
 
     const format = parseExpression(toTokens('«hola»/spa'));
     expect(format).toBeInstanceOf(TextLiteral);
-    expect((format as TextLiteral).language?.getLanguage()).toBe('spa');
+    expect((format as TextLiteral).texts[0].language?.getLanguageText()).toBe(
+        'spa'
+    );
 
     const list = parseExpression(toTokens('[1 2 3]'));
     expect(list).toBeInstanceOf(ListLiteral);
@@ -438,9 +442,12 @@ test('Parse expressions', () => {
     ).toBeInstanceOf(Reference);
 
     const documentedExpression = parseExpression(
-        toTokens("`let's see it`/en a")
+        toTokens("`let's see it`/en\na")
     );
     expect(documentedExpression).toBeInstanceOf(DocumentedExpression);
+
+    const docs = parseExpression(toTokens('`my /fancy/ words`'));
+    expect(docs).toBeInstanceOf(Docs);
 });
 
 test('Blocks and binds', () => {
@@ -530,6 +537,9 @@ test('Types', () => {
     expect(union).toBeInstanceOf(UnionType);
     expect((union as UnionType).left).toBeInstanceOf(NameType);
     expect((union as UnionType).right).toBeInstanceOf(NumberType);
+
+    const docs = parseType(toTokens('``'));
+    expect(docs).toBeInstanceOf(DocsType);
 
     const hmm = parseType(toTokens('/'));
     expect(hmm).toBeInstanceOf(UnparsableType);

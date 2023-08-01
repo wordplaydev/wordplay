@@ -6,7 +6,7 @@ import Symbol from '@nodes/Symbol';
 import {
     DELIMITERS,
     REVERSE_DELIMITERS,
-    REVERSE_TEXT_DELIMITERS,
+    TextOpenByTextClose,
 } from '@parser/Tokenizer';
 import {
     CONVERT_SYMBOL,
@@ -21,7 +21,7 @@ import UnicodeString from '../models/UnicodeString';
 import ListLiteral from '@nodes/ListLiteral';
 import SetLiteral from '../nodes/SetLiteral';
 import MapLiteral from '../nodes/MapLiteral';
-import TextLiteral from '../nodes/TextLiteral';
+import type TextLiteral from '../nodes/TextLiteral';
 import NumberLiteral from '../nodes/NumberLiteral';
 import BooleanLiteral from '../nodes/BooleanLiteral';
 import type Literal from '../nodes/Literal';
@@ -29,9 +29,11 @@ import concretize from '../locale/concretize';
 import type Context from '../nodes/Context';
 import type Type from '../nodes/Type';
 import type LanguageCode from '../locale/LanguageCode';
-import Doc from '../nodes/Doc';
 import NodeRef from '../locale/NodeRef';
 import type Conflict from '../conflicts/Conflict';
+import type Locale from '../locale/Locale';
+import Translation from '../nodes/Translation';
+import { LanguageTagged } from '../nodes/LanguageTagged';
 
 export type InsertionContext = { before: Node[]; after: Node[] };
 export type CaretPosition = number | Node;
@@ -131,7 +133,7 @@ export default class Caret {
         );
     }
 
-    getAdjustableLiteral(): Literal | undefined {
+    getAdjustableLiteral(locales: Locale[]): Literal | undefined {
         const node =
             this.position instanceof Node
                 ? this.position
@@ -146,8 +148,8 @@ export default class Caret {
                         | TextLiteral
                         | NumberLiteral
                         | BooleanLiteral =>
-                        (literal instanceof TextLiteral &&
-                            literal.getValue().text.length === 1) ||
+                        (literal instanceof Translation &&
+                            literal.getText().length === 1) ||
                         literal instanceof NumberLiteral ||
                         literal instanceof BooleanLiteral
                 );
@@ -702,7 +704,7 @@ export default class Caret {
             text === this.source.code.at(newPosition) &&
             // Is what's being typed a closing delimiter of a text literal?
             ((this.tokenIncludingSpace.isSymbol(Symbol.Text) &&
-                REVERSE_TEXT_DELIMITERS[
+                TextOpenByTextClose[
                     this.tokenIncludingSpace.getText().charAt(0)
                 ] === text) ||
                 // Is what's being typed a closing delimiter of an open delimiter?
@@ -1073,7 +1075,11 @@ export default class Caret {
         return [newSource, this.withSource(newSource).withAddition(wrapper)];
     }
 
-    adjustLiteral(node: Node | undefined, direction: -1 | 1): Edit | undefined {
+    adjustLiteral(
+        node: Node | undefined,
+        direction: -1 | 1,
+        locales: Locale[]
+    ): Edit | undefined {
         // Find the token we're at
         const token = node
             ? node
@@ -1085,7 +1091,7 @@ export default class Caret {
 
         const ancestors = [token, ...this.source.root.getAncestors(token)];
         for (const ancestor of ancestors) {
-            const revision = ancestor.adjust(direction);
+            const revision = ancestor.adjust(direction, locales);
             if (revision) {
                 const newSource = this.source.replace(ancestor, revision);
                 return [
@@ -1103,7 +1109,7 @@ export default class Caret {
         conflicts: Conflict[],
         context: Context
     ): string {
-        const locale = context.native.locales[0];
+        const locale = context.getBasis().locales[0];
 
         /** Get description of conflicts */
         const conflictDescription =
@@ -1121,7 +1127,7 @@ export default class Caret {
     }
 
     getPositionDescription(type: Type | undefined, context: Context) {
-        const locale = context.native.locales[0];
+        const locale = context.getBasis().locales[0];
 
         /** If the caret is a node, describe the node. */
         if (this.position instanceof Node) {
@@ -1183,11 +1189,8 @@ export default class Caret {
         if (token === undefined) return undefined;
         const ancestors = this.source.root.getAncestors(token);
         const text = ancestors.find(
-            (a) => a instanceof TextLiteral || a instanceof Doc
+            (a): a is LanguageTagged => a instanceof LanguageTagged
         );
-        if (text instanceof TextLiteral)
-            return text.language?.getLanguageCode();
-        else if (text instanceof Doc) return text.language?.getLanguageCode();
-        return undefined;
+        return text?.language?.getLanguageCode();
     }
 }

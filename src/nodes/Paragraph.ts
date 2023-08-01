@@ -1,7 +1,7 @@
 import type Conflict from '@conflicts/Conflict';
 import type Locale from '@locale/Locale';
 import ConceptLink from './ConceptLink';
-import type Example from './Example';
+import Example from './Example';
 import WebLink from './WebLink';
 import type { Grammar, Replacement } from './Node';
 import Words from './Words';
@@ -10,12 +10,13 @@ import Purpose from '../concepts/Purpose';
 import Content from './Content';
 import type { TemplateInput } from '../locale/concretize';
 import Token from './Token';
-import type Mention from './Mention';
+import Mention from './Mention';
 import NodeRef from '../locale/NodeRef';
 import ValueRef from '../locale/ValueRef';
-import type Branch from './Branch';
+import Branch from './Branch';
 import { unescapeDocSymbols } from '../parser/Tokenizer';
 import Node, { list, node } from '@nodes/Node';
+import Symbol from './Symbol';
 
 export type NodeSegment =
     | Token
@@ -45,7 +46,16 @@ export default class Paragraph extends Content {
         return [
             {
                 name: 'segments',
-                kind: list(node(Words), node(WebLink), node(ConceptLink)),
+                kind: list(
+                    node(Symbol.Words),
+                    node(Words),
+                    node(WebLink),
+                    node(ConceptLink),
+                    node(Example),
+                    node(Branch),
+                    node(Mention),
+                    node(Branch)
+                ),
             },
         ];
     }

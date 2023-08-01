@@ -33,7 +33,7 @@
     .highlight {
         vertical-align: middle;
         display: inline-block;
-        background-color: var(--wordplay-highlight);
+        background-color: var(--wordplay-highlight-color);
         border-radius: 50%;
         width: 0.75em;
         height: 0.75em;

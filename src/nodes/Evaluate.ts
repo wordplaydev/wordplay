@@ -54,7 +54,7 @@ import { NotAType } from './NotAType';
 import concretize from '../locale/concretize';
 import Symbol from './Symbol';
 import Refer from '../edit/Refer';
-import NativeType from './NativeType';
+import BasisType from './BasisType';
 import Purpose from '../concepts/Purpose';
 
 type Mapping = {
@@ -103,38 +103,38 @@ export default class Evaluate extends Expression {
     }
 
     static getPossibleNodes(
-        type: Type | undefined,
-        node: Node,
-        selected: boolean,
+        expectedType: Type | undefined,
+        anchor: Node,
+        isBeingReplaced: boolean,
         context: Context
     ) {
-        const selectedNode = selected ? node : undefined;
+        const nodeBeingReplaced = isBeingReplaced ? anchor : undefined;
 
         // Given the node the caret has selected or is after, find out
         // if there's an evaluate on it that we should complete.
         const scopingType =
-            selectedNode instanceof Expression
-                ? selectedNode.getType(context)
+            nodeBeingReplaced instanceof Expression
+                ? nodeBeingReplaced.getType(context)
                 : undefined;
         const structure =
-            scopingType instanceof NativeType ||
+            scopingType instanceof BasisType ||
             scopingType instanceof StructureDefinitionType;
         // Get the definitions in the structure type we found,
         // or in the surrounding scope if there isn't one.
         const definitions =
             // If the anchor is selected for replacement...
-            selectedNode
-                ? // If the scope is native, get definitions in native scope
-                  scopingType instanceof NativeType
-                    ? scopingType.getDefinitions(selectedNode, context)
+            nodeBeingReplaced
+                ? // If the scope is basis, get definitions in basis scope
+                  scopingType instanceof BasisType
+                    ? scopingType.getDefinitions(nodeBeingReplaced, context)
                     : // If the scope is a structure, get definitions in its scope
                     scopingType instanceof StructureDefinitionType
-                    ? scopingType.structure.getDefinitions(selectedNode)
-                    : // Otherwise, get definitions in the default scope
-                      context.source.expression.getDefinitionsInScope(context)
-                : // If the node is not selected, get definitions in the default scope
-                  context.source.expression.getDefinitionsInScope(context);
-        if (structure) type = undefined;
+                    ? scopingType.structure.getDefinitions(nodeBeingReplaced)
+                    : // Otherwise, get definitions in scope of the anchor
+                      anchor.getDefinitionsInScope(context)
+                : // If the node is not selected, get definitions in the anchor's scope
+                  anchor.getDefinitionsInScope(context);
+        if (structure) expectedType = undefined;
 
         // Convert the definitions to evaluate suggestions.
         return definitions
@@ -146,18 +146,24 @@ export default class Evaluate extends Expression {
                     | StructureDefinition
                     | StreamDefinition =>
                     (def instanceof FunctionDefinition &&
-                        (type === undefined ||
-                            type.accepts(
+                        (expectedType === undefined ||
+                            expectedType.accepts(
                                 def.getOutputType(context),
                                 context
                             ))) ||
                     (def instanceof StructureDefinition &&
                         !def.isInterface() &&
-                        (type === undefined ||
-                            type.accepts(def.getType(context), context))) ||
+                        (expectedType === undefined ||
+                            expectedType.accepts(
+                                def.getType(context),
+                                context
+                            ))) ||
                     (def instanceof StreamDefinition &&
-                        (type === undefined ||
-                            type.accepts(def.getType(context), context)))
+                        (expectedType === undefined ||
+                            expectedType.accepts(
+                                def.getType(context),
+                                context
+                            )))
             )
             .map(
                 (def) =>
@@ -166,10 +172,10 @@ export default class Evaluate extends Expression {
                             def.getEvaluateTemplate(
                                 name,
                                 context,
-                                selected &&
+                                isBeingReplaced &&
                                     structure &&
-                                    selectedNode instanceof Expression
-                                    ? selectedNode
+                                    nodeBeingReplaced instanceof Expression
+                                    ? nodeBeingReplaced
                                     : undefined
                             ),
                         def
@@ -190,12 +196,12 @@ export default class Evaluate extends Expression {
             {
                 name: 'inputs',
                 kind: list(node(Expression)),
-                label: (translation: Locale, child: Node, context: Context) => {
+                label: (locale: Locale, child: Node, context: Context) => {
                     // Get the function called
                     const fun = this.getFunction(context);
                     // Didn't find it? Default label.
                     if (fun === undefined || !(child instanceof Expression))
-                        return translation.node.Evaluate.input;
+                        return locale.node.Evaluate.input;
                     // Get the mapping from inputs to binds
                     const mapping = this.getInputMapping(fun);
                     // Find the bind to which this child was mapped and get its translation of this language.
@@ -207,10 +213,8 @@ export default class Evaluate extends Expression {
                                     m.given.includes(child)))
                     );
                     return bind === undefined
-                        ? translation.node.Evaluate.input
-                        : bind.expected.names.getLocaleText(
-                              translation.language
-                          );
+                        ? locale.node.Evaluate.input
+                        : bind.expected.names.getPreferredNameString(locale);
                 },
                 space: true,
                 indent: true,
@@ -221,12 +225,12 @@ export default class Evaluate extends Expression {
                 ): Type => {
                     const fun = this.getFunction(context);
                     if (fun === undefined) return new NeverType();
-                    // Undefined list index means empty, so we get the type of the first input.
-                    return index !== undefined &&
-                        index >= 0 &&
-                        index < fun.inputs.length
-                        ? fun.inputs[index ?? 0].getType(context)
-                        : new NeverType();
+                    // Determine the type of the next input
+                    const insertionIndex = Math.min(
+                        Math.max(0, index ?? 0),
+                        fun.inputs.length - 1
+                    );
+                    return fun.inputs[insertionIndex].getType(context);
                 },
             },
             { name: 'close', kind: node(Symbol.EvalClose) },
@@ -234,7 +238,7 @@ export default class Evaluate extends Expression {
     }
 
     getPurpose() {
-        return Purpose.Value;
+        return Purpose.Evaluate;
     }
 
     clone(replace?: Replacement) {
@@ -316,6 +320,10 @@ export default class Evaluate extends Expression {
 
         // Return the final mappings. Now we have a complete spec of which expressions were provided for each function input.
         return mappings;
+    }
+
+    getLastInput(): Expression | undefined {
+        return this.inputs[this.inputs.length - 1];
     }
 
     /**
@@ -888,7 +896,7 @@ export default class Evaluate extends Expression {
 
     getDescriptionInputs(locale: Locale, context: Context) {
         return [
-            this.getFunction(context)?.names.getLocaleText(locale.language),
+            this.getFunction(context)?.names.getPreferredNameString(locale),
         ];
     }
 

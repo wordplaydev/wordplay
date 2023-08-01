@@ -5,7 +5,6 @@ import Bool from '@runtime/Bool';
 import Number from '../runtime/Number';
 import Text from '@runtime/Text';
 import type Value from '@runtime/Value';
-import type LanguageCode from '@locale/LanguageCode';
 import OutputExpression from './OutputExpression';
 import type { OutputPropertyValue } from './OutputExpression';
 import type OutputProperty from './OutputProperty';
@@ -13,6 +12,8 @@ import MapLiteral from '../nodes/MapLiteral';
 import ListLiteral from '../nodes/ListLiteral';
 import type Bind from '../nodes/Bind';
 import type { Creator } from '../db/Creator';
+import DocsValue from '../runtime/DocsValue';
+import type Locale from '../locale/Locale';
 
 /**
  * Represents one or more equivalent inputs to an output expression.
@@ -38,8 +39,8 @@ export default class OutputPropertyValueSet {
         return this.values[0]?.bind;
     }
 
-    getLocale(languages: LanguageCode[]): string | undefined {
-        return this.getBind()?.getLocale(languages);
+    getPreferredName(locales: Locale[]): string | undefined {
+        return this.getBind()?.getPreferredName(locales);
     }
 
     /** If all the values are equivalent, returns the value, otherwise undefined */
@@ -101,7 +102,11 @@ export default class OutputPropertyValueSet {
 
     getText() {
         const value = this.getValue();
-        return value instanceof Text ? value.text : undefined;
+        return value instanceof Text
+            ? value.text
+            : value instanceof DocsValue
+            ? value.toWordplay()
+            : undefined;
     }
 
     getBool() {
@@ -122,7 +127,7 @@ export default class OutputPropertyValueSet {
     getPlace(project: Project) {
         const expr = this.getExpression();
         return expr instanceof Evaluate &&
-            expr.is(project.shares.output.place, project.getNodeContext(expr))
+            expr.is(project.shares.output.Place, project.getNodeContext(expr))
             ? expr
             : undefined;
     }
@@ -147,12 +152,12 @@ export default class OutputPropertyValueSet {
         return this.values.some((val) => val.given);
     }
 
-    getDocs(languages: LanguageCode[]) {
-        return this.values[0]?.bind.docs?.getLocale(languages);
+    getDocs(locales: Locale[]) {
+        return this.values[0]?.bind.docs?.getPreferredLocale(locales);
     }
 
     /** Given a project, unsets this property on expressions on which it is set. */
-    unset(projects: Creator, project: Project, languages: LanguageCode[]) {
+    unset(projects: Creator, project: Project, locales: Locale[]) {
         // Find all the values that are given, then map them to [ Evaluate, Evaluate ] pairs
         // that represent the original Evaluate and the replacement without the given value.
         // If the property is required, replace with a default value.
@@ -164,14 +169,14 @@ export default class OutputPropertyValueSet {
                     .map((value) => value.evaluate),
                 this.property.getName(),
                 this.property.required
-                    ? this.property.create(languages)
+                    ? this.property.create(locales)
                     : undefined
             )
         );
     }
 
     /** Given a project, set this property to a reasonable starting value */
-    set(projects: Creator, project: Project, languages: LanguageCode[]) {
+    set(projects: Creator, project: Project, locales: Locale[]) {
         projects.reviseProjectNodes(
             project,
             project.getBindReplacements(
@@ -179,7 +184,7 @@ export default class OutputPropertyValueSet {
                     .filter((value) => !value.given)
                     .map((value) => value.evaluate),
                 this.property.getName(),
-                this.property.create(languages)
+                this.property.create(locales)
             )
         );
     }

@@ -1,7 +1,7 @@
 import Decimal from 'decimal.js';
-import toStructure from '../native/toStructure';
+import toStructure from '../basis/toStructure';
 import type Value from '@runtime/Value';
-import Output from './Output';
+import Output, { getOutputInputs } from './Output';
 import { toDecimal } from './Stage';
 import ColorJS from 'colorjs.io';
 import { TYPE_SYMBOL } from '@parser/Symbols';
@@ -9,10 +9,10 @@ import { getBind } from '@locale/getBind';
 import Evaluate from '../nodes/Evaluate';
 import NumberLiteral from '../nodes/NumberLiteral';
 import Reference from '../nodes/Reference';
-import type LanguageCode from '../locale/LanguageCode';
 import Unit from '../nodes/Unit';
 import type Locale from '../locale/Locale';
 import type Project from '../models/Project';
+import Structure from '../runtime/Structure';
 
 export function createColorType(locales: Locale[]) {
     return toStructure(`
@@ -72,14 +72,17 @@ export default class Color extends Output {
 
 export function createColorLiteral(
     project: Project,
-    languages: LanguageCode[],
+    locales: Locale[],
     lightness: number,
     chroma: number,
     hue: number
 ) {
-    const ColorType = project.shares.output.color;
+    const ColorType = project.shares.output.Color;
     return Evaluate.make(
-        Reference.make(ColorType.names.getLocaleText(languages), ColorType),
+        Reference.make(
+            ColorType.names.getPreferredNameString(locales),
+            ColorType
+        ),
         [
             NumberLiteral.make(lightness),
             NumberLiteral.make(chroma),
@@ -89,11 +92,12 @@ export function createColorLiteral(
 }
 
 export function toColor(value: Value | undefined) {
-    if (value === undefined) return undefined;
+    if (!(value instanceof Structure)) return undefined;
 
-    const l = toDecimal(value.resolve('lightness'));
-    const c = toDecimal(value.resolve('chroma'));
-    const h = toDecimal(value.resolve('hue'));
+    const [lVal, cVal, hVal] = getOutputInputs(value);
+    const l = toDecimal(lVal);
+    const c = toDecimal(cVal);
+    const h = toDecimal(hVal);
 
     return l && c && h ? new Color(value, l, c, h) : undefined;
 }

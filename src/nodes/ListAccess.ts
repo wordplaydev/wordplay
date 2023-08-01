@@ -24,7 +24,7 @@ import type Locale from '@locale/Locale';
 import { NotAType } from './NotAType';
 import NodeRef from '@locale/NodeRef';
 import Glyphs from '../lore/Glyphs';
-import type { NativeTypeName } from '../native/NativeConstants';
+import type { BasisTypeName } from '../basis/BasisConstants';
 import Purpose from '../concepts/Purpose';
 import None from '../runtime/None';
 import IncompatibleInput from '../conflicts/IncompatibleInput';
@@ -106,7 +106,7 @@ export default class ListAccess extends Expression {
         return Purpose.Value;
     }
 
-    getAffiliatedType(): NativeTypeName | undefined {
+    getAffiliatedType(): BasisTypeName | undefined {
         return 'list';
     }
 

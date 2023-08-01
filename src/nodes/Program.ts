@@ -26,6 +26,7 @@ import Glyphs from '../lore/Glyphs';
 import BlankException from '../runtime/BlankException';
 import concretize from '../locale/concretize';
 import Purpose from '../concepts/Purpose';
+import DocsValue from '../runtime/DocsValue';
 
 export default class Program extends Expression {
     readonly docs?: Docs;
@@ -127,7 +128,7 @@ export default class Program extends Expression {
                     this.nodes(
                         (n) =>
                             n instanceof Language &&
-                            n.getLanguage() !== undefined
+                            n.getLanguageText() !== undefined
                     ) as Language[]
                 )
                     .map((n) => n.getLanguageCode())
@@ -169,9 +170,11 @@ export default class Program extends Expression {
         // If the block is empty, than rather than return an expected value expression,
         // return a more helpful "emtpy program" exception, then provides some guidance.
         // Otherwise, return whatever the block computed.
-        return this.expression.statements.length === 0
-            ? new BlankException(evaluator, this)
-            : value;
+        return this.expression.statements.length > 0
+            ? value
+            : this.docs
+            ? new DocsValue(this.docs)
+            : new BlankException(evaluator, this);
     }
 
     getStart() {

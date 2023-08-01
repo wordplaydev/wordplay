@@ -2,7 +2,6 @@
     import { slide } from 'svelte/transition';
     import type Concept from '@concepts/Concept';
     import CodeView from './CodeView.svelte';
-    import MissingLocalesView from './MissingLocalesView.svelte';
     import MarkupHTMLView from './MarkupHTMLView.svelte';
     import Speech from '../lore/Speech.svelte';
     import { config } from '../../db/Creator';
@@ -25,8 +24,7 @@
         <CodeView {concept} {type} {node} describe={false} />
     {/if}
 
-    <Speech glyph={concept.getGlyphs($config.getLanguages())} below={header}>
-        <MissingLocalesView />
+    <Speech glyph={concept.getGlyphs($config.getLocales())} below={header}>
         {@const markup = concept.getDocs(locale)}
         {#if markup}
             <MarkupHTMLView {markup} />

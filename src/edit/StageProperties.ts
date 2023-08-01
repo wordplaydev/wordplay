@@ -25,7 +25,7 @@ export default function getStageProperties(
             false,
             (expr, context) =>
                 expr instanceof Evaluate &&
-                expr.is(project.shares.output.color, context),
+                expr.is(project.shares.output.Color, context),
             (languages) => createColorLiteral(project, languages, 0.5, 100, 180)
         ),
     ];

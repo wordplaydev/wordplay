@@ -4,7 +4,7 @@ import NumberLiteral from '../nodes/NumberLiteral';
 import Reference from '../nodes/Reference';
 import Unit from '../nodes/Unit';
 import { createColorLiteral } from '../output/Color';
-import type { Locale } from '../locale/Locale';
+import type Locale from '../locale/Locale';
 import OutputProperty from './OutputProperty';
 import OutputPropertyRange from './OutputPropertyRange';
 import type Project from '../models/Project';
@@ -21,12 +21,12 @@ export default function getPoseProperties(
             true,
             (expr, context) =>
                 expr instanceof Evaluate &&
-                expr.is(project.shares.output.color, context),
-            (languages) => createColorLiteral(project, languages, 0.5, 100, 180)
+                expr.is(project.shares.output.Color, context),
+            (locales) => createColorLiteral(project, locales, 0.5, 100, 180)
         ),
         new OutputProperty(
             locale.output.Pose.opacity,
-            new OutputPropertyRange(0, 1, 0.05, '%', 2),
+            new OutputPropertyRange(0, 1, 0.01, '%', 0),
             false,
             false,
             (expr) => expr instanceof NumberLiteral,
@@ -41,7 +41,7 @@ export default function getPoseProperties(
             () => NumberLiteral.make(1)
         ),
         new OutputProperty(
-            locale.output.Pose.tilt,
+            locale.output.Pose.rotation,
             new OutputPropertyRange(0, 360, 1, '°'),
             false,
             false,
@@ -55,16 +55,20 @@ export default function getPoseProperties(
             false,
             (expr, context) =>
                 expr instanceof Evaluate &&
-                expr.is(project.shares.output.place, context),
-            (languages) =>
+                expr.is(project.shares.output.Place, context),
+            (locales) =>
                 Evaluate.make(
                     Reference.make(
-                        project.shares.output.place.names.getLocaleText(
-                            languages
+                        project.shares.output.Place.names.getPreferredNameString(
+                            locales
                         ),
-                        project.shares.output.place
+                        project.shares.output.Place
                     ),
-                    []
+                    [
+                        NumberLiteral.make(0, Unit.make(['m'])),
+                        NumberLiteral.make(0, Unit.make(['m'])),
+                        NumberLiteral.make(0, Unit.make(['m'])),
+                    ]
                 )
         ),
         new OutputProperty(

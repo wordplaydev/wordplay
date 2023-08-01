@@ -38,7 +38,7 @@
 
     $: glyphs =
         glyph instanceof Concept
-            ? glyph.getGlyphs($config.getLanguages()).symbols
+            ? glyph.getGlyphs($config.getLocales()).symbols
             : glyph.symbols;
 
     $: symbols =

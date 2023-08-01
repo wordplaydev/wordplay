@@ -16,7 +16,7 @@ import type Type from '../nodes/Type';
 import type StructureDefinition from '../nodes/StructureDefinition';
 
 function position(evaluator: Evaluator, x: number, y: number) {
-    const PlaceType = evaluator.project.shares.output.place;
+    const PlaceType = evaluator.project.shares.output.Place;
     const bindings = new Map<Names, Value>();
     bindings.set(
         PlaceType.inputs[0].names,
@@ -40,7 +40,7 @@ export default class Pointer extends Stream<Structure> {
     constructor(evaluator: Evaluator) {
         super(
             evaluator,
-            evaluator.project.shares.input.pointer,
+            evaluator.project.shares.input.Pointer,
             position(evaluator, 0, 0)
         );
 
@@ -61,7 +61,7 @@ export default class Pointer extends Stream<Structure> {
     getType(): Type {
         return StreamType.make(
             new StructureDefinitionType(
-                this.evaluator.project.shares.output.place,
+                this.evaluator.project.shares.output.Place,
                 []
             )
         );

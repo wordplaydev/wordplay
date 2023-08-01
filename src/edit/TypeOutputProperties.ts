@@ -1,4 +1,4 @@
-import { SupportedFonts } from '@native/Fonts';
+import { SupportedFonts } from '@basis/Fonts';
 import Evaluate from '@nodes/Evaluate';
 import type Expression from '@nodes/Expression';
 import NumberLiteral from '@nodes/NumberLiteral';
@@ -12,7 +12,10 @@ import OutputPropertyOptions from './OutputPropertyOptions';
 import OutputPropertyRange from './OutputPropertyRange';
 import Reference from '../nodes/Reference';
 import type Project from '../models/Project';
-import type { Locale, NameAndDoc, NameText } from '../locale/Locale';
+import type Locale from '../locale/Locale';
+import type { NameAndDoc, NameText } from '../locale/Locale';
+import getPoseProperties from './PoseProperties';
+import BooleanLiteral from '../nodes/BooleanLiteral';
 
 function getPoseProperty(project: Project, name: NameAndDoc): OutputProperty {
     return new OutputProperty(
@@ -22,9 +25,9 @@ function getPoseProperty(project: Project, name: NameAndDoc): OutputProperty {
         false,
         (expr, context) =>
             expr instanceof Evaluate &&
-            (expr.is(project.shares.output.pose, context) ||
-                expr.is(project.shares.output.sequence, context)),
-        (languages) => createPoseLiteral(project, languages)
+            (expr.is(project.shares.output.Pose, context) ||
+                expr.is(project.shares.output.Sequence, context)),
+        (locales) => createPoseLiteral(project, locales)
     );
 }
 
@@ -54,7 +57,7 @@ export function getStyleProperty(locale: Locale): OutputProperty {
             (text: string) => TextLiteral.make(text),
             (expression: Expression | undefined) =>
                 expression instanceof TextLiteral
-                    ? expression.getValue().text
+                    ? expression.getValue([locale]).text
                     : undefined
         ),
         false,
@@ -86,7 +89,7 @@ export default function getTypeOutputProperties(
                 (text: string) => TextLiteral.make(text),
                 (expression: Expression | undefined) =>
                     expression instanceof TextLiteral
-                        ? expression.getValue().text
+                        ? expression.getValue(project.locales).text
                         : undefined
             ),
             false,
@@ -101,28 +104,22 @@ export default function getTypeOutputProperties(
             false,
             (expr, context) =>
                 expr instanceof Evaluate &&
-                expr.is(project.shares.output.place, context),
-            (languages) =>
+                expr.is(project.shares.output.Place, context),
+            (locale) =>
                 Evaluate.make(
                     Reference.make(
-                        project.shares.output.place.names.getLocaleText(
-                            languages
+                        project.shares.output.Place.names.getPreferredNameString(
+                            locale
                         ),
-                        project.shares.output.place
+                        project.shares.output.Place
                     ),
-                    []
+                    [
+                        NumberLiteral.make(0, Unit.make(['m'])),
+                        NumberLiteral.make(0, Unit.make(['m'])),
+                        NumberLiteral.make(0, Unit.make(['m'])),
+                    ]
                 )
         ),
-        new OutputProperty(
-            locale.output.Type.rotation,
-            new OutputPropertyRange(0, 360, 1, '°'),
-            false,
-            false,
-            (expr) => expr instanceof NumberLiteral,
-            () => NumberLiteral.make(0, Unit.make(['°']))
-        ),
-        getDurationProperty(locale),
-        getStyleProperty(locale),
         new OutputProperty(
             locale.output.Type.name,
             new OutputPropertyText(() => true),
@@ -131,9 +128,20 @@ export default function getTypeOutputProperties(
             (expr) => expr instanceof TextLiteral,
             () => TextLiteral.make('')
         ),
+        new OutputProperty(
+            locale.output.Type.selectable,
+            'bool',
+            false,
+            false,
+            (expr) => expr instanceof BooleanLiteral,
+            () => BooleanLiteral.make(false)
+        ),
+        ...getPoseProperties(project, locale),
         getPoseProperty(project, locale.output.Type.enter),
         getPoseProperty(project, locale.output.Type.rest),
         getPoseProperty(project, locale.output.Type.move),
         getPoseProperty(project, locale.output.Type.exit),
+        getDurationProperty(locale),
+        getStyleProperty(locale),
     ];
 }

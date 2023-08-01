@@ -17,11 +17,10 @@ import Conditional from './Conditional';
 import UnionType from './UnionType';
 import type TypeSet from './TypeSet';
 import Is from './Is';
-import StructureDefinition from './StructureDefinition';
 import NameToken from './NameToken';
 import StartFinish from '@runtime/StartFinish';
 import UnknownNameType from './UnknownNameType';
-import { node, type Grammar, type Replacement } from './Node';
+import { node, type Grammar, type Replacement, ListOf } from './Node';
 import type Locale from '@locale/Locale';
 import AtomicExpression from './AtomicExpression';
 import NameException from '@runtime/NameException';
@@ -33,8 +32,9 @@ import concretize, { type TemplateInput } from '../locale/concretize';
 import Glyphs from '../lore/Glyphs';
 import type Node from './Node';
 import Refer from '../edit/Refer';
-import FunctionDefinition from './FunctionDefinition';
 import Purpose from '../concepts/Purpose';
+import StructureDefinition from './StructureDefinition';
+import FunctionDefinition from './FunctionDefinition';
 import StreamDefinition from './StreamDefinition';
 
 /**
@@ -61,19 +61,21 @@ export default class Reference extends AtomicExpression {
     }
 
     static getPossibleNodes(
-        type: Type | undefined,
-        node: Node,
-        selected: boolean,
+        expectedType: Type | undefined,
+        anchor: Node,
+        isBeingReplaced: boolean,
         context: Context
     ): Refer[] {
         const match = (def: Definition, prefix: string, name: string) =>
             def.getNames().find((n) => n.startsWith(prefix)) ?? name;
 
         // If the node prior is a reference, find potential matching definitions in scope.
-        const prefix = node instanceof Reference ? node.getName() : '';
+        const prefix = anchor instanceof Reference ? anchor.getName() : '';
 
+        // If the anchor is being replaced but isn't a reference, suggest nothing.
+        // Otherwise, suggest references in the anchor node's scope that complete the prefix.
         return (
-            node
+            anchor
                 // Find all the definitions in scope.
                 .getDefinitionsInScope(context)
                 // Only accept ones that have names starting with the prefix
@@ -84,13 +86,13 @@ export default class Reference extends AtomicExpression {
                         name.startsWith(prefix)
                     )
                 )
-                // Translate the definitions into references to the definitions.
+                // Translate the definitions into References, or  to the definitions.
                 .map((definition) => {
                     // Bind of acceptible type? Make a reference.
                     if (
                         definition instanceof Bind &&
-                        (type === undefined ||
-                            type.accepts(
+                        (expectedType === undefined ||
+                            expectedType.accepts(
                                 definition.getType(context).generalize(context),
                                 context
                             ))
@@ -100,39 +102,48 @@ export default class Reference extends AtomicExpression {
                                 Reference.make(match(definition, prefix, name)),
                             definition
                         );
-                    // Function definition of an acceptable type? Make an (Binary/Unary)Evaluate.
+                    // If the anchor is in list field, and the anchor is not being replaced, offer (Binary/Unary)Evaluate in scope.
                     else if (
-                        definition instanceof FunctionDefinition &&
-                        (type === undefined ||
-                            type.accepts(
-                                definition.getOutputType(context),
-                                context
-                            ))
+                        isBeingReplaced &&
+                        anchor.getParent(context)?.getFieldOfChild(anchor)
+                            ?.kind instanceof ListOf
                     ) {
-                        return new Refer(
-                            (name) =>
-                                definition.getEvaluateTemplate(
-                                    match(definition, prefix, name),
-                                    context,
-                                    undefined
-                                ),
-                            definition
-                        );
-                    }
-                    // Structure definition or stream definition? Make an Evaluate.
-                    else if (
-                        (definition instanceof StructureDefinition ||
-                            definition instanceof StreamDefinition) &&
-                        (type === undefined ||
-                            type.accepts(definition.getType(context), context))
-                    ) {
-                        return new Refer(
-                            (name) =>
-                                definition.getEvaluateTemplate(
-                                    match(definition, prefix, name)
-                                ),
-                            definition
-                        );
+                        if (
+                            definition instanceof FunctionDefinition &&
+                            (expectedType === undefined ||
+                                expectedType.accepts(
+                                    definition.getOutputType(context),
+                                    context
+                                ))
+                        ) {
+                            return new Refer(
+                                (name) =>
+                                    definition.getEvaluateTemplate(
+                                        match(definition, prefix, name),
+                                        context,
+                                        undefined
+                                    ),
+                                definition
+                            );
+                        }
+                        // Structure definition or stream definition? Make an Evaluate.
+                        else if (
+                            (definition instanceof StructureDefinition ||
+                                definition instanceof StreamDefinition) &&
+                            (expectedType === undefined ||
+                                expectedType.accepts(
+                                    definition.getType(context),
+                                    context
+                                ))
+                        ) {
+                            return new Refer(
+                                (name) =>
+                                    definition.getEvaluateTemplate(
+                                        match(definition, prefix, name)
+                                    ),
+                                definition
+                            );
+                        }
                     } else return undefined;
                 })
                 // Filter out undefined.

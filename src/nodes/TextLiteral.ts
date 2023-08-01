@@ -1,87 +1,99 @@
 import TextType from './TextType';
-import Token from './Token';
 import type Type from './Type';
 import Text from '@runtime/Text';
-import Language from './Language';
+import type Language from './Language';
 import type Bind from './Bind';
 import type Context from './Context';
 import type TypeSet from './TypeSet';
-import Symbol from './Symbol';
-import { node, type Grammar, type Replacement, optional } from './Node';
+import { node, type Grammar, type Replacement, list } from './Node';
 import type Locale from '@locale/Locale';
 import Literal from './Literal';
 import Emotion from '../lore/Emotion';
-import type { NativeTypeName } from '../native/NativeConstants';
-import { TEXT_DELIMITERS } from '../parser/Tokenizer';
-import { TEMPLATE_SYMBOL } from '../parser/Symbols';
+import type { BasisTypeName } from '../basis/BasisConstants';
+import { TextDelimiters } from '../parser/Tokenizer';
 import concretize from '../locale/concretize';
+import type Node from './Node';
+import Translation from './Translation';
+import UnionType from './UnionType';
+import { getPreferred } from './LanguageTagged';
 
 export const ESCAPE_REGEX = /\\(.)/g;
 
 export default class TextLiteral extends Literal {
     /** The raw token in the program */
-    readonly text: Token;
-    readonly language?: Language;
+    readonly texts: Translation[];
 
-    constructor(text: Token, format?: Language) {
+    constructor(text: Translation[]) {
         super();
 
-        this.text = text;
-        this.language = format;
-
-        /** Unescape the text string */
+        this.texts = text;
 
         this.computeChildren();
     }
 
     static make(text?: string, language?: Language) {
-        return new TextLiteral(
-            new Token(`'${text ?? ''}'`, Symbol.Text),
-            language
-        );
+        return new TextLiteral([Translation.make(text ?? '', language)]);
     }
 
-    static getPossibleNodes() {
-        return [TextLiteral.make()];
+    static getPossibleNodes(
+        type: Type | undefined,
+        before: Node,
+        selected: boolean,
+        context: Context
+    ) {
+        // Is the type one or more literal text types? Suggest those. Otherwise just suggest an empty text literal.
+        const types = type
+            ? type
+                  .getPossibleTypes(context)
+                  .filter((type): type is TextType => type instanceof TextType)
+            : undefined;
+        return types
+            ? types.map((type) => type.getLiteral())
+            : [TextLiteral.make()];
     }
 
     getGrammar(): Grammar {
-        return [
-            { name: 'text', kind: node(Symbol.Text) },
-            { name: 'language', kind: optional(node(Language)) },
-        ];
+        return [{ name: 'texts', kind: list(node(Translation)) }];
     }
 
-    clone(replace?: Replacement) {
+    clone(replace?: Replacement): this {
         return new TextLiteral(
-            this.replaceChild('text', this.text, replace),
-            this.replaceChild('language', this.language, replace)
+            this.replaceChild('texts', this.texts, replace)
         ) as this;
     }
 
-    getAffiliatedType(): NativeTypeName {
+    getAffiliatedType(): BasisTypeName {
         return 'text';
     }
 
     computeConflicts() {}
 
-    computeType(): Type {
-        return new TextType(this.text, this.language);
+    computeType(context: Context): Type {
+        return UnionType.getPossibleUnion(
+            context,
+            this.texts.map((text) => new TextType(text.text, text.language))
+        );
     }
 
     /** Get the text, with any escape characters processed. */
     getText(): string {
         // Replace any escapes with the character they're escaping
-        return unescaped(this.text.getText());
+        return unescaped(this.texts[0].getText());
     }
 
-    getValue(): Text {
+    getValue(locales: Locale[]): Text {
+        // Get the alternatives
+        const best =
+            this.texts.length === 1
+                ? this.texts[0]
+                : getPreferred(locales, this.texts);
+
         return new Text(
             this,
-            undelimited(this.getText()),
-            this.language === undefined
+            undelimited(best.getText()),
+            best.language === undefined
                 ? undefined
-                : this.language.getLanguage()
+                : best.language.getLanguageText()
         );
     }
 
@@ -97,12 +109,16 @@ export default class TextLiteral extends Literal {
         return current;
     }
 
+    getTags(): Translation[] {
+        return this.texts;
+    }
+
     getStart() {
-        return this.text;
+        return this.texts[0];
     }
 
     getFinish() {
-        return this.text;
+        return this.texts[0];
     }
 
     getNodeLocale(translation: Locale) {
@@ -115,26 +131,13 @@ export default class TextLiteral extends Literal {
 
     getGlyphs() {
         return {
-            symbols: this.text.getDelimiters(),
+            symbols: this.texts[0].text.getDelimiters(),
             emotion: Emotion.excited,
         };
     }
 
     getDescriptionInputs() {
         return [this.getText()];
-    }
-
-    adjust(direction: -1 | 1): this | undefined {
-        const text = this.getValue().text;
-        const last = text.codePointAt(text.length - 1);
-        if (last !== undefined) {
-            return TextLiteral.make(
-                text.substring(0, text.length - 1) +
-                    String.fromCodePoint(last + direction),
-                this.language
-            ) as this;
-        }
-        return undefined;
     }
 }
 
@@ -145,10 +148,6 @@ export function unescaped(text: string) {
 export function undelimited(text: string) {
     return text.substring(
         1,
-        text.length -
-            (TEXT_DELIMITERS[text.charAt(0)] === text.charAt(text.length - 1) ||
-            text.charAt(text.length - 1) === TEMPLATE_SYMBOL
-                ? 1
-                : 0)
+        text.length - (TextDelimiters.has(text.charAt(text.length - 1)) ? 1 : 0)
     );
 }

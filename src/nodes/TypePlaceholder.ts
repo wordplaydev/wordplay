@@ -3,7 +3,7 @@ import Placeholder from '@conflicts/Placeholder';
 import type Token from './Token';
 import Type from './Type';
 import PlaceholderToken from './PlaceholderToken';
-import type { NativeTypeName } from '../native/NativeConstants';
+import type { BasisTypeName } from '../basis/BasisConstants';
 import { node, type Grammar, type Replacement } from './Node';
 import type Locale from '@locale/Locale';
 import Glyphs from '../lore/Glyphs';
@@ -53,7 +53,7 @@ export default class TypePlaceholder extends Type {
         return false;
     }
 
-    getNativeTypeName(): NativeTypeName {
+    getBasisTypeName(): BasisTypeName {
         return 'unknown';
     }
 

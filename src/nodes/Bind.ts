@@ -22,7 +22,6 @@ import type Definition from './Definition';
 import AnyType from './AnyType';
 import { ETC_SYMBOL, PLACEHOLDER_SYMBOL, SHARE_SYMBOL } from '@parser/Symbols';
 import FunctionDefinition from './FunctionDefinition';
-import type LanguageCode from '@locale/LanguageCode';
 import BindToken from './BindToken';
 import TypeToken from './TypeToken';
 import Docs from './Docs';
@@ -47,6 +46,8 @@ import FunctionType from './FunctionType';
 import concretize from '../locale/concretize';
 import getConcreteExpectedType from './Generics';
 import type Node from './Node';
+import ExpressionPlaceholder from './ExpressionPlaceholder';
+import Refer from '../edit/Refer';
 
 export default class Bind extends Expression {
     readonly docs?: Docs;
@@ -105,13 +106,64 @@ export default class Bind extends Expression {
     }
 
     static getPossibleNodes(
-        type: Type | undefined,
+        expectedType: Type | undefined,
         anchor: Node,
-        selected: boolean
+        isBeingReplaced: boolean,
+        context: Context
     ) {
-        return anchor instanceof Expression && selected
-            ? [Bind.make(undefined, Names.make(['_']), undefined, anchor)]
-            : [];
+        if (anchor instanceof Expression && isBeingReplaced) {
+            if (
+                expectedType === undefined ||
+                anchor.getParent(context) instanceof Block
+            )
+                return [
+                    Bind.make(undefined, Names.make(['_']), undefined, anchor),
+                ];
+            else {
+            }
+        }
+        // If offer insertions under various conditions
+        else {
+            const parent = anchor.getParent(context);
+            // Block? Offer to insert a blank one.
+            if (parent instanceof Block) {
+                return [
+                    Bind.make(
+                        undefined,
+                        Names.make(['_']),
+                        undefined,
+                        ExpressionPlaceholder.make()
+                    ),
+                ];
+            }
+            // Evaluate, and the anchor is the open or an input? Offer binds to unset properties.
+            else if (
+                parent instanceof Evaluate &&
+                (anchor === parent.open ||
+                    (anchor instanceof Expression &&
+                        parent.inputs.includes(anchor)))
+            ) {
+                const fun = parent.getFunction(context);
+                if (fun) {
+                    const mapping = parent.getInputMapping(fun);
+                    return mapping.inputs
+                        .filter((input) => input.given === undefined)
+                        .map(
+                            (input) =>
+                                new Refer(
+                                    (name) =>
+                                        Bind.make(
+                                            undefined,
+                                            Names.make([name]),
+                                            undefined,
+                                            ExpressionPlaceholder.make()
+                                        ),
+                                    input.expected
+                                )
+                        );
+                }
+            } else return [];
+        }
     }
 
     getGrammar(): Grammar {
@@ -145,6 +197,12 @@ export default class Bind extends Expression {
                 // If there's a type, the value must match it, otherwise anything
                 getType: (context: Context) =>
                     this.getType(context) ?? new AnyType(),
+                label: (locale: Locale, child: Node, context: Context) =>
+                    (child === this.value
+                        ? this.getCorrespondingBindDefinition(
+                              context
+                          )?.names.getPreferredNameString(locale)
+                        : undefined) ?? '_',
             },
         ];
     }
@@ -234,8 +292,8 @@ export default class Bind extends Expression {
         return this.names.getNames();
     }
 
-    getLocale(lang: LanguageCode[]) {
-        return this.names.getLocaleText(lang);
+    getPreferredName(locales: Locale[]) {
+        return this.names.getPreferredNameString(locales);
     }
 
     isVariableLength() {
@@ -356,6 +414,19 @@ export default class Bind extends Expression {
         return conflicts;
     }
 
+    /** If in an evaluate, find the function input bind to which this corresponds. */
+    getCorrespondingBindDefinition(context: Context) {
+        const parent = this.getParent(context);
+        if (parent instanceof Evaluate) {
+            const fun = parent.getFunction(context);
+            if (fun)
+                return parent
+                    .getInputMapping(fun)
+                    .inputs.find((input) => input.given === this)?.expected;
+        }
+        return undefined;
+    }
+
     isEvaluationInput(context: Context) {
         const parent = this.getParent(context);
         return !(
@@ -391,15 +462,26 @@ export default class Bind extends Expression {
             if (nameType instanceof StructureDefinitionType) return nameType;
         }
 
+        const parent = this.getParent(context);
+
+        // If the parent is an evaluate, see what input it corresponds to.
+        if (parent instanceof Evaluate) {
+            const fun = parent.getFunction(context);
+            if (fun) {
+                const mapping = parent.getInputMapping(fun);
+                const input = mapping.inputs.find((i) => i.given === this);
+                if (input) return input.expected.getType(context);
+            }
+        }
+
         // If the bind is in a function definition that is part of a function evaluation that takes a function input,
         // get the type from the function input.
         if (type === undefined) {
-            const func = this.getParent(context);
-            if (func instanceof FunctionDefinition) {
-                const bindIndex = func.inputs.indexOf(this);
-                const evaluate = func.getParent(context);
+            if (parent instanceof FunctionDefinition) {
+                const bindIndex = parent.inputs.indexOf(this);
+                const evaluate = parent.getParent(context);
                 if (evaluate instanceof Evaluate) {
-                    const funcIndex = evaluate.inputs.indexOf(func);
+                    const funcIndex = evaluate.inputs.indexOf(parent);
                     const evalFunc = evaluate.getFunction(context);
                     if (
                         evalFunc instanceof FunctionDefinition &&
@@ -480,7 +562,7 @@ export default class Bind extends Expression {
                       // affected by their past values.
                       if (this.value) {
                           let stream =
-                              evaluator.getNativeStreamFor(
+                              evaluator.getBasisStreamFor(
                                   this.value as EvaluatorNode,
                                   true
                               ) ??
@@ -534,25 +616,25 @@ export default class Bind extends Expression {
     }
 
     getFinishExplanations(
-        translation: Locale,
+        locale: Locale,
         context: Context,
         evaluator: Evaluator
     ) {
         return concretize(
-            translation,
-            translation.node.Bind.finish,
-            this.getValueIfDefined(translation, context, evaluator),
+            locale,
+            locale.node.Bind.finish,
+            this.getValueIfDefined(locale, context, evaluator),
             new NodeRef(
                 this.names,
-                translation,
+                locale,
                 context,
-                this.names.getLocaleText(translation.language)
+                this.names.getPreferredNameString(locale)
             )
         );
     }
 
     getDescriptionInputs(locale: Locale) {
-        return [this.names.getLocaleName(locale.language)?.getName()];
+        return [this.names.getPreferredName(locale)?.getName()];
     }
 
     getGlyphs() {

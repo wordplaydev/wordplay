@@ -1,5 +1,5 @@
 type LanguageMetadata = {
-    /** The language name, in its native script */
+    /** The language name, in its basis script */
     name: string;
     /** The English name, in case we need it */
     en: string;
@@ -18,6 +18,7 @@ export type WritingDirection = 'ltr' | 'rtl';
 
 /** BCP 47 language tags and other metadata. */
 export const Languages: Record<string, LanguageMetadata> = {
+    '😀': { name: 'Emoji', en: 'Emoji' },
     af: { name: 'Afrikaans', en: 'Afrikaans' },
     am: { name: 'አማርኛ', en: 'Amharic' },
     ar: { name: 'العربية', en: 'Arabic', direction: 'rtl' },
@@ -167,21 +168,27 @@ export const Languages: Record<string, LanguageMetadata> = {
         layout: 'vertical-rl',
     },
     zu: { name: 'isiZulu', en: 'Zulu' },
-};
+} satisfies Record<string, LanguageMetadata>;
 
 type LanguageCode = keyof typeof Languages;
 export default LanguageCode;
 
-export const PossibleLanguages: LanguageCode[] = Object.keys(Languages);
+export const PossibleLanguages: LanguageCode[] = Object.keys(
+    Languages
+) as LanguageCode[];
 
 export function getLanguageName(code: LanguageCode): string | undefined {
     return Languages[code]?.name;
 }
 
 export function getLanguageQuote(code: LanguageCode): string | undefined {
-    return Languages[code]?.quote ?? "'";
+    return (Languages[code] as LanguageMetadata)?.quote ?? "'";
 }
 
 export function getLanguageDirection(code: LanguageCode): WritingDirection {
-    return Languages[code]?.direction ?? 'ltr';
+    return (Languages[code] as LanguageMetadata).direction ?? 'ltr';
+}
+
+export function getLanguageLayout(code: LanguageCode): WritingLayout {
+    return (Languages[code] as LanguageMetadata).layout ?? 'horizontal-tb';
 }

@@ -54,32 +54,28 @@ export function centerTransform(viewportWidth: number, viewportHeight: number) {
 export default function outputToCSS(
     family: string | undefined,
     size: number | undefined,
-    rotation: number | undefined,
     pose: Pose,
     place: Place,
     width: number | undefined,
     height: number | undefined,
     focus: Place,
     parentAscent: number,
-    metrics: { width: number; ascent: number },
+    metrics: { width: number; fontAscent: number; actualAscent: number },
     viewport: { width: number; height: number } | undefined = undefined
 ) {
     return toCSS({
-        // left: sizeToPx(place.x.toNumber()),
-        // top: sizeToPx(place.y.toNumber()),
         width: width ? sizeToPx(width) : undefined,
         height: height ? sizeToPx(height) : undefined,
         transform: toOutputTransform(
             pose,
             place,
-            rotation,
             focus,
             parentAscent,
             metrics,
             viewport
         ),
         // This disables translation around the center; we want to translate around the focus.
-        'transform-origin': '0 0 ',
+        'transform-origin': '0 0',
         color: pose?.color?.toCSS(),
         opacity: pose?.opacity?.toString(),
         'font-family': family,
@@ -91,10 +87,9 @@ export default function outputToCSS(
 export function toOutputTransform(
     pose: Pose,
     place: Place,
-    rotation: number | undefined,
     focus: Place,
     parentAscent: number,
-    metrics: { width: number; ascent: number },
+    metrics: { width: number; fontAscent: number; actualAscent: number },
     viewport: { width: number; height: number } | undefined = undefined
 ) {
     const root = viewport !== undefined;
@@ -105,7 +100,7 @@ export function toOutputTransform(
     let xOffset = 0;
     let yOffset = 0;
     let zOffset = 0;
-    let rotationOffset = 0;
+    let rotation = 0;
     if (pose) {
         if (pose.scale !== undefined) {
             xScale = pose.scale;
@@ -118,7 +113,7 @@ export function toOutputTransform(
             yOffset = pose.offset.y * PX_PER_METER;
             zOffset = pose.offset.z;
         }
-        rotationOffset = pose.tilt ?? 0;
+        rotation = pose.rotation ?? 0;
     }
 
     // Compute the final z position of the output based on it's place and it's offset.
@@ -131,10 +126,9 @@ export function toOutputTransform(
     // where parents affect their children.
     const perspectiveScale = root ? rootScale(z, focus.z) : incrementalScale(z);
 
-    // When computing the center, account for scale
-    // Negate ascent to account for flipped y axis.
-    let centerXOffset = metrics.width / 2;
-    let centerYOffset = metrics.ascent / 2;
+    // Find the center of the stage, around which we will rotate and scale.
+    let centerXOffset = root ? 0 : metrics.width / 2;
+    let centerYOffset = root ? 0 : metrics.actualAscent / 2;
 
     // Translate the place to screen coordinates.
     let placeX = place.x * PX_PER_METER;
@@ -142,7 +136,7 @@ export function toOutputTransform(
         // Negate y to account for flipped y axis.
         -place.y * PX_PER_METER -
         // If this isn't the root, subtract the height to render from the bottom
-        (root ? 0 : metrics.ascent) +
+        (root ? 0 : metrics.actualAscent) +
         // Add the height of the parent to compensate for HTML rendering local coordinates from the top.
         parentAscent * PX_PER_METER;
 
@@ -175,7 +169,9 @@ export function toOutputTransform(
         // 3. Offset around the center
         translateXY(xOffset, -yOffset),
         // 2. Rotate around it's center
-        rotateDeg((rotation ?? 0) + rotationOffset),
+        // translateXY(0, phrase ? metrics.actualAscent : 0),
+        rotateDeg(rotation),
+        // translateXY(0, -(phrase ? metrics.actualAscent : 0)),
         // 1. Translate to the center of the output.
         translateXY(-centerXOffset, -centerYOffset),
     ];

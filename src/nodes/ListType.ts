@@ -1,7 +1,7 @@
-import type { NativeTypeName } from '../native/NativeConstants';
+import type { BasisTypeName } from '../basis/BasisConstants';
 import { LIST_CLOSE_SYMBOL, LIST_OPEN_SYMBOL } from '@parser/Symbols';
 import type Context from './Context';
-import NativeType from './NativeType';
+import BasisType from './BasisType';
 import Token from './Token';
 import Symbol from './Symbol';
 import Type from './Type';
@@ -12,7 +12,7 @@ import Glyphs from '../lore/Glyphs';
 import NodeRef from '../locale/NodeRef';
 import type Node from './Node';
 
-export default class ListType extends NativeType {
+export default class ListType extends BasisType {
     readonly open: Token;
     readonly type: Type | undefined;
     readonly close: Token | undefined;
@@ -89,12 +89,12 @@ export default class ListType extends NativeType {
         return ListType.make(this.type?.generalize(context));
     }
 
-    getNativeTypeName(): NativeTypeName {
+    getBasisTypeName(): BasisTypeName {
         return 'list';
     }
 
     resolveTypeVariable(name: string, context: Context): Type | undefined {
-        const listDef = context.native.getPrimitiveDefinition('list');
+        const listDef = context.getBasis().getSimpleDefinition('list');
         return listDef.types !== undefined &&
             listDef.types.hasVariableNamed(name)
             ? this.type

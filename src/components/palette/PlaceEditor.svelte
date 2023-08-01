@@ -10,35 +10,49 @@
     import { getNumber } from './editOutput';
     import Expression from '../../nodes/Expression';
     import { config } from '../../db/Creator';
+    import { tick } from 'svelte';
 
     export let project: Project;
     export let place: Evaluate | undefined;
+
+    let views: HTMLInputElement[] = [];
 
     function valid(val: string) {
         return !Number.fromUnknown(val).isNaN();
     }
 
-    function handleChange(dimension: string, value: string) {
+    async function handleChange(dimension: string, value: string) {
         if (place === undefined) return;
         if (value.length > 0 && !valid(value)) return;
+
+        const focusIndex = views.findIndex(
+            (view) => document.activeElement === view
+        );
 
         $config.reviseProjectNodes(project, [
             [
                 place,
                 place.withBindAs(
                     dimension,
-                    value.length === 0
-                        ? undefined
-                        : NumberLiteral.make(value, Unit.make(['m'])),
+                    NumberLiteral.make(
+                        value.length === 0 ? 0 : value,
+                        Unit.make(['m'])
+                    ),
                     project.getNodeContext(place)
                 ),
             ],
         ]);
+
+        if (focusIndex >= 0) {
+            await tick();
+            const view = views[focusIndex];
+            view?.focus();
+        }
     }
 </script>
 
 <div class="place">
-    {#each [getFirstName($config.getLocale().output.Place.x.names), getFirstName($config.getLocale().output.Place.y.names), getFirstName($config.getLocale().output.Place.z.names)] as dimension}
+    {#each [getFirstName($config.getLocale().output.Place.x.names), getFirstName($config.getLocale().output.Place.y.names), getFirstName($config.getLocale().output.Place.z.names)] as dimension, index}
         {@const given = place?.getMappingFor(
             dimension,
             project.getNodeContext(place)
@@ -47,7 +61,7 @@
         {@const value =
             given instanceof Expression ? getNumber(given) : undefined}
         <div class="dimension">
-            {#if value}
+            {#if value !== undefined}
                 <TextField
                     text={`${value}`}
                     validator={valid}
@@ -55,6 +69,7 @@
                     description={$config.getLocale().ui.description
                         .editCoordinate}
                     changed={(value) => handleChange(dimension, value)}
+                    bind:view={views[index]}
                 />
                 <Note>m</Note>
             {:else}

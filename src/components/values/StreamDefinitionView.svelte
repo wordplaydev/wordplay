@@ -12,6 +12,6 @@
 
 <SymbolView symbol={STREAM_SYMBOL} type={Symbol.Stream} />
 <SymbolView
-    symbol={value.definition.names.getLocaleText($config.getLanguages())}
+    symbol={value.definition.names.getPreferredNameString($config.getLocales())}
     type={Symbol.Name}
 />

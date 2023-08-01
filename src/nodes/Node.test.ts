@@ -33,8 +33,6 @@ test.each([
     ['[ 1 2 3 ]', NumberLiteral, 0, '4', '[ 4 2 3 ]'],
     // Set field to node
     ['1 + 2', 'left', 0, '3', '3 + 2'],
-    // Set field to undefined
-    ['"Hi"/en', 'language', 0, undefined, '"Hi"'],
     // Replace Node with invalid Node
     ['a.b', Reference, 1, '1', 'a.b'],
     // Replace Node with invalid Node in list
@@ -58,6 +56,7 @@ test.each([
                 ? type
                 : expr.nodes((s) => s instanceof type)[number];
         const newExpr = expr.replace(oldNode, newNode);
+        console.log(newExpr.toWordplay());
         expect(newExpr.isEqualTo(expected)).toBeTruthy();
     }
 );

@@ -80,6 +80,8 @@ import Initial from '../nodes/Initial';
 import Markup from '../nodes/Markup';
 import Mention from '../nodes/Mention';
 import Branch from '../nodes/Branch';
+import DocsType from '../nodes/DocsType';
+import Translation from '../nodes/Translation';
 
 export enum SyntacticConflict {
     EXPECTED_BORRW_NAME,
@@ -309,7 +311,7 @@ export function toExpression(code: string): Expression {
 // PROGRAM :: BORROW* BLOCK
 export function parseProgram(tokens: Tokens, doc: boolean = false): Program {
     // If a borrow is next or there's no whitespace, parse a docs.
-    const docs = parseDocs(tokens);
+    const docs = tokens.nextIs(Symbol.Doc) ? parseDocs(tokens) : undefined;
 
     const borrows = [];
     while (tokens.hasNext() && tokens.nextIs(Symbol.Borrow))
@@ -352,7 +354,11 @@ export function parseBlock(
     const root = kind === BlockKind.Root;
 
     // Grab any documentation if this isn't a root.
-    let docs = root ? undefined : parseDocs(tokens);
+    let docs = root
+        ? undefined
+        : tokens.nextIs(Symbol.Doc)
+        ? parseDocs(tokens)
+        : undefined;
 
     const open = root
         ? undefined
@@ -392,7 +398,7 @@ function nextAreOptionalDocsThen(tokens: Tokens, types: Symbol[]): boolean {
     if (rollbackToken === undefined) return false;
 
     // We don't actually care what the docs are or if there are any.
-    parseDocs(tokens);
+    if (tokens.nextIs(Symbol.Doc)) parseDocs(tokens);
 
     // Is the next the type?
     let matches = true;
@@ -443,7 +449,7 @@ function nextIsBind(tokens: Tokens, expectValue: boolean): boolean {
 
 /** BIND :: NAMES TYPE? (: EXPRESSION)? */
 export function parseBind(tokens: Tokens): Bind {
-    let docs = parseDocs(tokens);
+    let docs = tokens.nextIs(Symbol.Doc) ? parseDocs(tokens) : undefined;
     const share = tokens.readIf(Symbol.Share);
     const names = parseNames(tokens);
     const etc = tokens.readIf(Symbol.Etc);
@@ -509,7 +515,15 @@ export function parseLanguage(tokens: Tokens): Language {
         tokens.nextIs(Symbol.Name) && !tokens.nextHasPrecedingLineBreak()
             ? tokens.read(Symbol.Name)
             : undefined;
-    return new Language(slash, lang);
+    const dash =
+        tokens.nextIs(Symbol.Region) && tokens.nextLacksPrecedingSpace()
+            ? tokens.read(Symbol.Region)
+            : undefined;
+    const region =
+        dash && tokens.nextIs(Symbol.Name) && tokens.nextLacksPrecedingSpace()
+            ? tokens.read(Symbol.Name)
+            : undefined;
+    return new Language(slash, lang, dash, region);
 }
 
 /** EXPRESSION :: BINARY_OPERATION [ conditional EXPRESSION EXPRESSION ]? */
@@ -719,8 +733,11 @@ function parseChanged(tokens: Tokens): Changed {
 
 function parseDocumentedExpression(tokens: Tokens): Expression {
     const docs = parseDocs(tokens);
-    const expression = parseExpression(tokens);
-    return docs ? new DocumentedExpression(docs, expression) : expression;
+    if (tokens.nextHasPrecedingLineBreak()) {
+        const expression = parseExpression(tokens);
+        return new DocumentedExpression(docs, expression);
+    }
+    return docs;
 }
 
 /** NONE :: ! ALIASES */
@@ -811,13 +828,18 @@ function parseDimension(tokens: Tokens): Dimension {
     return new Dimension(product, name, caret, exponent);
 }
 
-/** TEXT :: text name? */
+/** TEXT :: text name? TEXT? */
 function parseText(tokens: Tokens): TextLiteral {
-    const text = tokens.read(Symbol.Text);
-    const format = tokens.nextIs(Symbol.Language)
-        ? parseLanguage(tokens)
-        : undefined;
-    return new TextLiteral(text, format);
+    const texts: Translation[] = [];
+    do {
+        const text = tokens.read(Symbol.Text);
+        const format = tokens.nextIs(Symbol.Language)
+            ? parseLanguage(tokens)
+            : undefined;
+        texts.push(new Translation(text, format));
+    } while (tokens.nextIs(Symbol.Text) && tokens.nextLacksPrecedingSpace());
+
+    return new TextLiteral(texts);
 }
 
 /** TEMPLATE :: text_open ( EXPRESSION text_between )* EXPRESSION text_close name? */
@@ -1031,7 +1053,7 @@ function parseReaction(initial: Expression, tokens: Tokens): Reaction {
 
 /** FUNCTION :: DOCS? (ƒ | ALIASES) TYPE_VARIABLES? ( BIND* ) (•TYPE)? EXPRESSION */
 export function parseFunction(tokens: Tokens): FunctionDefinition {
-    const docs = parseDocs(tokens);
+    const docs = tokens.nextIs(Symbol.Doc) ? parseDocs(tokens) : undefined;
     const share = tokens.nextIs(Symbol.Share)
         ? tokens.read(Symbol.Share)
         : undefined;
@@ -1113,7 +1135,7 @@ function parseEvaluate(left: Expression, tokens: Tokens): Evaluate {
 
 /** CONVERSION :: DOCS? TYPE → TYPE EXPRESSION */
 function parseConversion(tokens: Tokens): ConversionDefinition {
-    const docs = parseDocs(tokens);
+    const docs = tokens.nextIs(Symbol.Doc) ? parseDocs(tokens) : undefined;
     const convert = tokens.read(Symbol.Convert);
     const input = parseType(tokens, true);
     const output = parseType(tokens, true);
@@ -1224,6 +1246,8 @@ export function parseType(tokens: Tokens, isExpression: boolean = false): Type {
         ? parseFunctionType(tokens)
         : tokens.nextIs(Symbol.Stream)
         ? parseStreamType(tokens)
+        : tokens.nextAre(Symbol.Doc, Symbol.Doc)
+        ? parseDocsType(tokens)
         : new UnparsableType(tokens.readLine());
 
     if (!isExpression && tokens.nextIs(Symbol.Convert))
@@ -1359,7 +1383,7 @@ function parseConversionType(left: Type, tokens: Tokens): ConversionType {
 
 /** CUSTOM_TYPE :: DOCS? •NAMES (•NAME)* TYPE_VARS ( BIND* ) BLOCK? */
 export function parseStructure(tokens: Tokens): StructureDefinition {
-    const docs = parseDocs(tokens);
+    const docs = tokens.nextIs(Symbol.Doc) ? parseDocs(tokens) : undefined;
     const share = tokens.nextIs(Symbol.Share)
         ? tokens.read(Symbol.Share)
         : undefined;
@@ -1400,16 +1424,19 @@ export function parseStructure(tokens: Tokens): StructureDefinition {
     );
 }
 
-function parseDocs(tokens: Tokens): Docs | undefined {
+function parseDocsType(tokens: Tokens): DocsType {
+    return new DocsType(tokens.read(Symbol.Doc), tokens.read(Symbol.Doc));
+}
+
+export function parseDocs(tokens: Tokens): Docs {
     const docs: Doc[] = [];
-    while (
-        tokens.nextIs(Symbol.Doc) &&
-        (docs.length === 0 ||
-            (tokens.peekSpace()?.split('\n').length ?? 0) - 1 <= 1)
-    ) {
+    do {
         docs.push(parseDoc(tokens));
-    }
-    return docs.length === 0 ? undefined : new Docs(docs);
+    } while (
+        tokens.nextIs(Symbol.Doc) &&
+        (tokens.peekSpace()?.split('\n').length ?? 0) - 1 <= 1
+    );
+    return new Docs([docs[0], ...docs.slice(1)]);
 }
 
 export function parseDoc(tokens: Tokens): Doc {
@@ -1430,6 +1457,7 @@ function nextIsContent(tokens: Tokens) {
         Symbol.ExampleOpen,
         Symbol.Mention,
         Symbol.Italic,
+        Symbol.Light,
         Symbol.Bold,
         Symbol.Underline,
         Symbol.Extra
@@ -1498,7 +1526,13 @@ function parseConceptLink(tokens: Tokens): ConceptLink {
     return new ConceptLink(concept);
 }
 
-const FORMATS = [Symbol.Italic, Symbol.Underline, Symbol.Bold, Symbol.Extra];
+const FORMATS = [
+    Symbol.Italic,
+    Symbol.Underline,
+    Symbol.Light,
+    Symbol.Bold,
+    Symbol.Extra,
+];
 
 function parseWords(tokens: Tokens): Words {
     // Read an optional format
@@ -1553,8 +1587,12 @@ function parseMention(tokens: Tokens): Mention | Branch {
 function parseBranch(mention: Mention, tokens: Tokens): Branch {
     const open = tokens.read(Symbol.ListOpen);
     const yes = parseWords(tokens);
-    const bar = tokens.read(Symbol.Union);
+    const bar = tokens.nextIs(Symbol.Union)
+        ? tokens.read(Symbol.Union)
+        : undefined;
     const no = parseWords(tokens);
-    const close = tokens.read(Symbol.ListClose);
+    const close = tokens.nextIs(Symbol.ListClose)
+        ? tokens.read(Symbol.ListClose)
+        : undefined;
     return new Branch(mention, open, yes, bar, no, close);
 }

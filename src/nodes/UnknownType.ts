@@ -1,4 +1,4 @@
-import type { NativeTypeName } from '../native/NativeConstants';
+import type { BasisTypeName } from '../basis/BasisConstants';
 import type Locale from '@locale/Locale';
 import type Context from './Context';
 import type Node from './Node';
@@ -31,7 +31,7 @@ export default abstract class UnknownType<
         return false;
     }
 
-    getNativeTypeName(): NativeTypeName {
+    getBasisTypeName(): BasisTypeName {
         return 'unknown';
     }
 

@@ -1,4 +1,4 @@
-import toStructure from '../native/toStructure';
+import toStructure from '../basis/toStructure';
 import type Value from '@runtime/Value';
 import type Color from './Color';
 import type TypeOutput from './TypeOutput';
@@ -11,7 +11,8 @@ import Group from './Group';
 import Phrase from './Phrase';
 import concretize from '../locale/concretize';
 import type Locale from '../locale/Locale';
-import type Project from '../models/Project';
+import { getOutputInput } from './Output';
+import Structure from '../runtime/Structure';
 
 export function createRowType(locales: Locale[]) {
     return toStructure(`
@@ -108,13 +109,8 @@ export class Row extends Arrangement {
     }
 }
 
-export function toRow(
-    project: Project,
-    value: Value | undefined
-): Row | undefined {
-    if (value === undefined) return undefined;
-    const padding = value.resolve(
-        project.shares.output.row.inputs[0].names.getNames()[0]
-    );
+export function toRow(value: Value | undefined): Row | undefined {
+    if (!(value instanceof Structure)) return undefined;
+    const padding = getOutputInput(value, 0);
     return padding instanceof Number ? new Row(value, padding) : undefined;
 }

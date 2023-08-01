@@ -41,7 +41,7 @@ export default class EvaluationLimitException extends Exception {
                 mostFrequent instanceof FunctionDefinition ||
                 mostFrequent instanceof StructureDefinition ||
                 mostFrequent instanceof StreamDefinition
-                    ? mostFrequent.names.getLocaleName(locale.language) ??
+                    ? mostFrequent.names.getPreferredName(locale) ??
                       mostFrequent
                     : mostFrequent,
                 locale,

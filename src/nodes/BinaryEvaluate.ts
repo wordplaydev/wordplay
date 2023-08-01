@@ -88,15 +88,14 @@ export default class BinaryEvaluate extends Expression {
                 kind: node(Expression),
                 // The name of the input from the function, or the translation default
                 label: (
-                    translation: Locale,
+                    locale: Locale,
                     _: Node,
                     context: Context
                 ): Template => {
                     const fun = this.getFunction(context);
                     return (
-                        fun?.inputs[0].names.getLocaleText(
-                            translation.language
-                        ) ?? translation.node.BinaryEvaluate.right
+                        fun?.inputs[0].names.getPreferredNameString([locale]) ??
+                        locale.node.BinaryEvaluate.right
                     );
                 },
                 space: true,

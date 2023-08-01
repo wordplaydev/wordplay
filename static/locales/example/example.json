@@ -1,7 +1,9 @@
 {
     "$schema": "../../schemas/Locale.json",
     "language": "$?",
+    "region": "$?",
     "wordplay": "$?",
+    "newProject": "$?",
     "term": {
         "evaluate": "$?",
         "bind": "$?",
@@ -16,7 +18,7 @@
         "scene": "$?",
         "phrase": "$?",
         "group": "$?",
-        "verse": "$?",
+        "stage": "$?",
         "type": "$?",
         "start": "$?",
         "entered": "$?",
@@ -77,6 +79,7 @@
         "TypeClose": "$?",
         "Separator": "$?",
         "Language": "$?",
+        "Region": "$?",
         "BooleanType": "$?",
         "NumberType": "$?",
         "JapaneseNumeral": "$?",
@@ -126,7 +129,8 @@
         "Docs": {
             "name": "$?",
             "emotion": "$?",
-            "doc": "$?"
+            "doc": "$?",
+            "start": "$?"
         },
         "KeyValue": {
             "name": "$?",
@@ -506,7 +510,7 @@
                 "NotANumber": "$?"
             }
         },
-        "NativeExpression": {
+        "BasisExpression": {
             "name": "$?",
             "emotion": "$?",
             "doc": "$?",
@@ -676,6 +680,12 @@
             "doc": "$?",
             "start": "$?"
         },
+        "Translation": {
+            "name": "$?",
+            "description": "$?",
+            "emotion": "$?",
+            "doc": "$?"
+        },
         "This": {
             "name": "$?",
             "emotion": "$?",
@@ -731,6 +741,11 @@
             "doc": "$?"
         },
         "ConversionType": {
+            "name": "$?",
+            "emotion": "$?",
+            "doc": "$?"
+        },
+        "DocsType": {
             "name": "$?",
             "emotion": "$?",
             "doc": "$?"
@@ -897,7 +912,7 @@
             "doc": "$?"
         }
     },
-    "native": {
+    "basis": {
         "Boolean": {
             "doc": "$?",
             "name": "$?",
@@ -1177,6 +1192,20 @@
                     "names": "$?",
                     "inputs": [{ "doc": "$?", "names": "$?" }]
                 },
+                "subsequence": {
+                    "doc": "$?",
+                    "names": "$? subsequence",
+                    "inputs": [
+                        {
+                            "doc": "$?",
+                            "names": "$?"
+                        },
+                        {
+                            "doc": "$?",
+                            "names": "$?"
+                        }
+                    ]
+                },
                 "sansFirst": {
                     "doc": "$?",
                     "names": "$?",
@@ -1355,6 +1384,10 @@
                 }
             },
             "conversion": { "text": "$?", "set": "$?", "list": "$?" }
+        },
+        "Docs": {
+            "doc": "$?",
+            "name": "$?"
         }
     },
     "input": {
@@ -1414,9 +1447,36 @@
             "size": { "doc": "$?", "names": "$?" },
             "family": { "doc": "$?", "names": "$?" },
             "place": { "doc": "$?", "names": "$?" },
-            "rotation": { "doc": "$?", "names": "$?" },
             "name": { "doc": "$?", "names": "$?" },
             "selectable": { "doc": "$?", "names": "$?" },
+            "color": {
+                "doc": "$?",
+                "names": "$? color"
+            },
+            "opacity": {
+                "doc": "$?",
+                "names": "$? opacity"
+            },
+            "offset": {
+                "doc": "$?",
+                "names": "$? offset"
+            },
+            "rotation": {
+                "doc": "$?",
+                "names": "$? rotation"
+            },
+            "scale": {
+                "doc": "$?",
+                "names": "$? scale"
+            },
+            "flipx": {
+                "doc": "$?",
+                "names": "$? flipx"
+            },
+            "flipy": {
+                "doc": "$?",
+                "names": "$? flipy"
+            },
             "enter": { "doc": "$?", "names": "$?" },
             "rest": { "doc": "$?", "names": "$?" },
             "move": { "doc": "$?", "names": "$?" },
@@ -1436,12 +1496,14 @@
             "names": "$?",
             "doc": "$?",
             "content": { "doc": "$?", "names": "$?" },
-            "layout": { "doc": "$?", "names": "$?" }
+            "layout": { "doc": "$?", "names": "$?" },
+            "description": "$?"
         },
         "Phrase": {
             "names": ["💬", "Frase"],
             "doc": "$?",
-            "text": { "doc": "$?", "names": "$?" }
+            "text": { "doc": "$?", "names": "$?" },
+            "description": "$?"
         },
         "Arrangement": { "names": ["Arrangement"], "doc": "$?" },
         "Row": {
@@ -1488,10 +1550,11 @@
             "color": { "doc": "$?", "names": "$?" },
             "opacity": { "doc": "$?", "names": "$?" },
             "offset": { "doc": "$?", "names": "$?" },
-            "tilt": { "doc": "$?", "names": "$?" },
+            "rotation": { "doc": "$?", "names": "$?" },
             "scale": { "doc": "$?", "names": "$?" },
             "flipx": { "doc": "$?", "names": "$?" },
-            "flipy": { "doc": "$?", "names": "$?" }
+            "flipy": { "doc": "$?", "names": "$?" },
+            "description": "$?"
         },
         "Color": {
             "names": "$?",
@@ -1654,12 +1717,18 @@
             "editSequencePercent": "$?",
             "editProjectName": "$?",
             "editSourceName": "$?",
-            "loginEmail": "$?"
+            "loginEmail": "$?",
+            "focusOutput": "$?",
+            "focusSource": "$?",
+            "focusDocs": "$?",
+            "focusPalette": "$?",
+            "focusCycle": "$?"
         },
         "prompt": {
             "deleteSource": "$?",
             "deleteProject": "$?",
-            "emptyProgram": "$?"
+            "emptyProgram": "$?",
+            "keyStreamInput": "$?"
         },
         "labels": {
             "learn": "$?",

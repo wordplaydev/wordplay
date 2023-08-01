@@ -38,7 +38,9 @@ export default class UnexpectedTypeInput extends Conflict {
                             this.definition.names,
                             locale,
                             context,
-                            this.definition.names.getLocaleText(locale.language)
+                            this.definition.names.getPreferredNameString([
+                                locale,
+                            ])
                         )
                     ),
             },

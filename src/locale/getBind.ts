@@ -1,35 +1,50 @@
-import type Name from '@nodes/Name';
 import Names from '@nodes/Names';
 import Docs from '@nodes/Docs';
 import { localeToLanguage } from './localeToLanguage';
 import { toDocString, type NameAndDoc } from './Locale';
 import type Locale from './Locale';
-import { getInputNames } from './getInputLocales';
+import { getLocaleNames } from './getInputLocales';
 import { parseLocaleDoc } from '@parser/Parser';
+import type Doc from '../nodes/Doc';
+import en from '../locale/en-US.json';
+import Name from '../nodes/Name';
+import Language from '../nodes/Language';
 
 export function getBind(
     locales: Locale[],
-    select: (translation: Locale) => NameAndDoc,
+    select: (locale: Locale) => NameAndDoc,
     separator: string = ' '
 ): string {
-    const inputs = locales.map(
-        (translation) => [translation, select(translation)] as const
-    );
+    // Get the symbolic names from English (US), which we always include.
+    const enNames = locales.some(
+        (locale) => locale.language === 'en' && locale.region === 'US'
+    )
+        ? undefined
+        : select(en as Locale).names;
+    const symbolic = enNames
+        ? Name.make(
+              (Array.isArray(enNames) ? enNames : [enNames])[0],
+              Language.make('😀')
+          )
+        : undefined;
+
+    const names = locales.map((locale) => [locale, select(locale)] as const);
     return (
         new Docs(
-            inputs.map(([locale, input]) =>
+            names.map(([locale, input]) =>
                 parseLocaleDoc(toDocString(input.doc)).withLanguage(
                     localeToLanguage(locale)
                 )
-            )
+            ) as [Doc, ...Doc[]]
         ).toWordplay() +
         separator +
-        new Names(
-            inputs.reduce(
-                (names: Name[], [translation, input]) =>
-                    names.concat(getInputNames(input, translation)),
-                []
-            )
-        ).toWordplay()
+        new Names([
+            ...(symbolic ? [symbolic] : []),
+            ...names
+                .map(([locale, nameAndDoc]) =>
+                    getLocaleNames(nameAndDoc, locale)
+                )
+                .flat(),
+        ]).toWordplay()
     );
 }

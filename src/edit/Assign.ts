@@ -1,7 +1,6 @@
 import type { Edit } from '../components/editor/util/Commands';
 import Revision from './Revision';
 import Node from '@nodes/Node';
-import type LanguageCode from '@locale/LanguageCode';
 import Refer from './Refer';
 import Caret from './Caret';
 import type Context from '@nodes/Context';
@@ -42,22 +41,22 @@ export default class Assign<NodeType extends Node> extends Revision {
         return false;
     }
 
-    getNewNode(languages: LanguageCode[]) {
+    getNewNode(locales: Locale[]) {
         return this.child === undefined
             ? undefined
             : this.child instanceof Node
             ? this.child
-            : this.child.getNode(languages);
+            : this.child.getNode(locales);
     }
 
-    getEditedNode(lang: LanguageCode[]): [Node, Node] {
-        const newNode = this.getNewNode(lang);
+    getEditedNode(locales: Locale[]): [Node, Node] {
+        const newNode = this.getNewNode(locales);
         const newParent = this.parent.replace(this.field, newNode);
         return [newNode ?? newParent, newParent];
     }
 
-    getEdit(languages: LanguageCode[]): Edit | undefined {
-        const [newNode, newParent] = this.getEditedNode(languages);
+    getEdit(locale: Locale[]): Edit | undefined {
+        const [newNode, newParent] = this.getEditedNode(locale);
 
         const existingChild = this.parent.getField(this.field);
         const originalPosition = existingChild
@@ -113,8 +112,8 @@ export default class Assign<NodeType extends Node> extends Revision {
     getDescription(locale: Locale) {
         let node =
             this.child instanceof Refer
-                ? this.child.getNode([locale.language])
-                : this.getNewNode([locale.language]);
+                ? this.child.getNode([locale])
+                : this.getNewNode([locale]);
         return concretize(
             locale,
             locale.ui.edit.assign,

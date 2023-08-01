@@ -19,7 +19,7 @@
                 ?.getParent(node);
             stream =
                 parent instanceof Evaluate
-                    ? $evaluation.evaluator.getNativeStreamFor(parent)
+                    ? $evaluation.evaluator.getBasisStreamFor(parent)
                     : undefined;
         }
     }

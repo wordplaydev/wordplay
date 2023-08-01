@@ -2,7 +2,6 @@ import type { Grammar, Replacement } from './Node';
 import Token from './Token';
 import type Conflict from '@conflicts/Conflict';
 import Language from './Language';
-import type LanguageCode from '@locale/LanguageCode';
 import NameToken from './NameToken';
 import type Locale from '@locale/Locale';
 import { COMMA_SYMBOL } from '@parser/Symbols';
@@ -14,22 +13,21 @@ import type Definition from './Definition';
 import Evaluate from './Evaluate';
 import ReservedSymbols from '../parser/ReservedSymbols';
 import Node, { node, optional } from './Node';
+import { LanguageTagged } from './LanguageTagged';
 
-export default class Name extends Node {
+export default class Name extends LanguageTagged {
     readonly separator: Token | undefined;
     readonly name: Token | undefined;
-    readonly language?: Language;
 
     constructor(
         separator: Token | undefined,
         name: Token | undefined,
-        lang?: Language
+        language?: Language
     ) {
-        super();
+        super(language);
 
         this.separator = separator;
         this.name = name;
-        this.language = lang;
 
         this.computeChildren();
     }
@@ -97,7 +95,7 @@ export default class Name extends Node {
     /** Symbolic if it matches the binary op regex  */
     isSymbolic() {
         return (
-            this.name &&
+            this.name !== undefined &&
             (this.name.text.getLength() === 1 ||
                 this.name.text
                     .getText()
@@ -122,14 +120,6 @@ export default class Name extends Node {
             : this.name
                   .getText()
                   .toLocaleLowerCase(this.language?.getLanguageCode());
-    }
-    getLanguage() {
-        return this.language === undefined
-            ? undefined
-            : this.language.getLanguage();
-    }
-    isLanguage(lang: LanguageCode) {
-        return this.getLanguage() === (lang as LanguageCode);
     }
 
     isEqualTo(alias: Node) {

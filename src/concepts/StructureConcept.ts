@@ -8,9 +8,8 @@ import NameType from '@nodes/NameType';
 import type Context from '@nodes/Context';
 import ConversionConcept from './ConversionConcept';
 import StructureDefinitionType from '@nodes/StructureDefinitionType';
-import type LanguageCode from '@locale/LanguageCode';
 import type Locale from '@locale/Locale';
-import type Purpose from './Purpose';
+import Purpose from './Purpose';
 import Emotion from '../lore/Emotion';
 import type Markup from '../nodes/Markup';
 
@@ -21,7 +20,7 @@ export default class StructureConcept extends Concept {
     /** The type of the structure definition, enabling the creation of examples with typed placeholders */
     readonly type: Type;
 
-    /** A list of examples for creating the structure. For native types, likely literals, but for custom types, other useful examples. */
+    /** A list of examples for creating the structure. For basis types, likely literals, but for custom types, other useful examples. */
     readonly examples: Node[];
 
     /** A derived list of interfaces */
@@ -45,7 +44,7 @@ export default class StructureConcept extends Concept {
         definition: StructureDefinition,
         type: Type | undefined,
         examples: Node[] | undefined,
-        languages: LanguageCode[],
+        locales: Locale[],
         context: Context
     ) {
         super(purpose, affiliation, context);
@@ -54,12 +53,12 @@ export default class StructureConcept extends Concept {
         this.type =
             type ??
             NameType.make(
-                this.definition.names.getLocaleText(languages),
+                this.definition.names.getPreferredNameString(locales),
                 this.definition
             );
         this.examples =
             examples === undefined || examples.length === 0
-                ? [this.definition.getEvaluateTemplate(languages)]
+                ? [this.definition.getEvaluateTemplate(locales)]
                 : examples;
 
         this.functions = this.definition
@@ -67,11 +66,11 @@ export default class StructureConcept extends Concept {
             .map(
                 (def) =>
                     new FunctionConcept(
-                        purpose,
+                        Purpose.Evaluate,
                         definition,
                         def,
                         this,
-                        languages,
+                        locales,
                         context
                     )
             );
@@ -80,13 +79,12 @@ export default class StructureConcept extends Concept {
             .map((def) => new ConversionConcept(def, context, this));
 
         this.inputs = this.definition.inputs.map(
-            (bind) => new BindConcept(this.purpose, bind, languages, context)
+            (bind) => new BindConcept(this.purpose, bind, locales, context)
         );
         this.properties = this.definition
             .getProperties()
             .map(
-                (bind) =>
-                    new BindConcept(this.purpose, bind, languages, context)
+                (bind) => new BindConcept(this.purpose, bind, locales, context)
             );
 
         this.inter = this.definition
@@ -98,19 +96,22 @@ export default class StructureConcept extends Concept {
                         this.definition,
                         inter,
                         NameType.make(
-                            inter.names.getLocaleText(languages),
+                            inter.names.getPreferredNameString(locales),
                             inter
                         ),
                         [],
-                        languages,
+                        locales,
                         context
                     )
             );
     }
 
-    getGlyphs(languages: LanguageCode[]) {
+    getGlyphs(locales: Locale[]) {
         return {
-            symbols: this.definition.names.getLocaleText(languages, true),
+            symbols: this.definition.names.getPreferredNameString(
+                locales,
+                true
+            ),
         };
     }
 
@@ -123,15 +124,12 @@ export default class StructureConcept extends Concept {
     }
 
     getDocs(locale: Locale): Markup | undefined {
-        const doc = this.definition.docs?.getLocale(locale.language);
+        const doc = this.definition.docs?.getPreferredLocale(locale);
         return doc?.markup.concretize(locale, []);
     }
 
-    getName(translation: Locale, symbolic: boolean) {
-        return this.definition.names.getLocaleText(
-            translation.language,
-            symbolic
-        );
+    getName(locale: Locale, symbolic: boolean) {
+        return this.definition.names.getPreferredNameString([locale], symbolic);
     }
 
     getRepresentation() {

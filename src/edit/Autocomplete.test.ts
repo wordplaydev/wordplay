@@ -4,19 +4,17 @@ import Project from '@models/Project';
 import Source from '@nodes/Source';
 import { getEditsAt } from './Autocomplete';
 import type Node from '@nodes/Node';
-import { getDefaultNative } from '@native/Native';
 import Assign from './Assign';
 import Replace from './Replace';
 import NumberLiteral from '../nodes/NumberLiteral';
 import Append from './Append';
 import Reference from '../nodes/Reference';
-
-const native = await getDefaultNative();
+import { DefaultLocale } from '../db/Creator';
 
 test.each([
     ['blank program suggestions', '**', undefined, Append, '0'],
     ['set unset bind value', 'a:**', undefined, Assign, '0'],
-    ['suggest binary evaluate completions', '1 + **', undefined, Assign, '0'],
+    ['suggest binary evaluate completions', '1 + **', undefined, Assign, '1'],
     [
         'suggest conditional on boolean value',
         'b: ⊥\nb',
@@ -24,33 +22,27 @@ test.each([
         Replace,
         'b ? _ _',
     ],
-    [
-        'suggest phrase on empty program',
-        '**',
-        undefined,
-        Append,
-        '💬(_•""|[""])',
-    ],
+    ['suggest phrase on empty program', '**', undefined, Append, '💬(_)'],
     [
         'complete phrase on empty program',
         'Ph**',
         undefined,
         Replace,
-        'Phrase(_•""|[""])',
+        'Phrase(_)',
     ],
     [
         'suggest matching evaluates',
         'Group(Row() [**])',
         undefined,
         Append,
-        '💬(_•""|[""])',
+        '💬(_)',
     ],
     [
         'suggest evaluate on function',
         `ƒ sum(a•? b•?) a & b\ns**`,
         undefined,
         Replace,
-        'sum(_•? _•?)',
+        'sum(_ _)',
     ],
     [
         'suggest evaluate wrap',
@@ -66,14 +58,8 @@ test.each([
         Replace,
         '"hi".📏()',
     ],
-    [
-        'suggest structure property',
-        `"hi".**`,
-        undefined,
-        Replace,
-        '"hi" = _•\'\'',
-    ],
-    ['suggest binary evalute', `1**`, undefined, Replace, '1 + _•#'],
+    ['suggest structure property', `"hi".**`, undefined, Replace, '"hi" = _'],
+    ['suggest binary evalute', `1**`, undefined, Replace, '1 + _'],
     [
         'suggest property reference',
         `•Cat(hat•"")\nboomy: Cat("none")\nboomy.**`,
@@ -118,7 +104,7 @@ test.each([
                 code.substring(insertionPoint + 2);
 
         const source = new Source('test', code);
-        const project = new Project(null, 'test', source, [], native);
+        const project = new Project(null, 'test', source, [], DefaultLocale);
         let resolvedPosition =
             position === undefined
                 ? insertionPoint
@@ -137,7 +123,7 @@ test.each([
             const match = transforms.find(
                 (transform) =>
                     transform instanceof kind &&
-                    transform.getNewNode(['en'])?.toWordplay() === edit
+                    transform.getNewNode([])?.toWordplay() === edit
             );
             if (match === undefined) {
                 console.error(
@@ -145,14 +131,14 @@ test.each([
                         .map(
                             (t) =>
                                 `${t.constructor.name}\t${t
-                                    .getNewNode(['en'])
+                                    .getNewNode([])
                                     ?.toWordplay()}`
                         )
                         .join('\n')
                 );
             }
 
-            expect(match?.getNewNode(['en'])?.toWordplay()).toBe(edit);
+            expect(match?.getNewNode([])?.toWordplay()).toBe(edit);
         }
     }
 );

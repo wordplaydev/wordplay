@@ -1,6 +1,6 @@
 import { test, expect } from 'vitest';
 import concretize, { type TemplateInput } from './concretize';
-import en from './en.json';
+import en from './en-US.json';
 import type Locale from './Locale';
 
 const locale = en as Locale;

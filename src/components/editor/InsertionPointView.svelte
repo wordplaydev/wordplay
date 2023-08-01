@@ -6,6 +6,6 @@
         vertical-align: middle;
         height: 3ex;
         width: 0;
-        outline: 3px solid var(--wordplay-highlight);
+        outline: 3px solid var(--wordplay-highlight-color);
     }
 </style>
