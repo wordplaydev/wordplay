@@ -8,16 +8,17 @@
     import Loading from '@components/app/Loading.svelte';
     import type Tutorial from '../../tutorial/Tutorial';
     import Page from '@components/app/Page.svelte';
+    import { toLocaleString } from '../../locale/Locale';
 
     let tutorial: Tutorial | undefined | null = undefined;
 
-    $: language = $config.getLocale().language;
+    $: locale = toLocaleString($config.getLocale());
 
     async function loadTutorial() {
         try {
             // Load the locale's tutorial
             const response = await fetch(
-                `/locales/${language}/${language}-tutorial.json`
+                `/locales/${locale}/${locale}-tutorial.json`
             );
             tutorial = await response.json();
         } catch (err) {

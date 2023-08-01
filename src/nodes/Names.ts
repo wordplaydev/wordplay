@@ -10,6 +10,7 @@ import type Locale from '@locale/Locale';
 import Purpose from '../concepts/Purpose';
 import Emotion from '../lore/Emotion';
 import Node, { list, node } from './Node';
+import { getPreferred } from './LanguageTagged';
 
 export default class Names extends Node {
     readonly names: Name[];
@@ -81,6 +82,10 @@ export default class Names extends Node {
         return [];
     }
 
+    getTags(): Name[] {
+        return this.names;
+    }
+
     getLanguages() {
         return this.names
             .map((name) => name.getLanguage())
@@ -126,31 +131,7 @@ export default class Names extends Node {
         // Build the list of preferred languages
         const locales = Array.isArray(preferred) ? preferred : [preferred];
         // Find the first preferred locale with an exact match.
-        const exact = this.names.find(
-            (name) =>
-                name.language &&
-                locales.some(
-                    (locale) =>
-                        name.language !== undefined &&
-                        name.language.isLocale(locale)
-                )
-        );
-        if (exact) return exact;
-
-        // See if there are any language matches.
-        const languageMatch = this.names.find(
-            (name) =>
-                name.language &&
-                locales.some(
-                    (locale) =>
-                        name.language !== undefined &&
-                        name.language.isLocaleLanguage(locale)
-                )
-        );
-        if (languageMatch) return languageMatch;
-
-        // Default to the first name, if there is one.
-        return this.names[0];
+        return getPreferred(locales, this.names);
     }
 
     hasLocale(lang: LanguageCode) {

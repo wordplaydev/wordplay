@@ -526,6 +526,11 @@ type NodeTexts = {
      */
     TextLiteral: DescriptiveNodeText & AtomicExpressionText;
     /**
+     * Description
+     * $1: the text
+     */
+    Translation: DescriptiveNodeText;
+    /**
      * Finish
      * $1: resulting value
      */

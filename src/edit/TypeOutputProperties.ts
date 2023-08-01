@@ -57,7 +57,7 @@ export function getStyleProperty(locale: Locale): OutputProperty {
             (text: string) => TextLiteral.make(text),
             (expression: Expression | undefined) =>
                 expression instanceof TextLiteral
-                    ? expression.getValue().text
+                    ? expression.getValue([locale]).text
                     : undefined
         ),
         false,
@@ -89,7 +89,7 @@ export default function getTypeOutputProperties(
                 (text: string) => TextLiteral.make(text),
                 (expression: Expression | undefined) =>
                     expression instanceof TextLiteral
-                        ? expression.getValue().text
+                        ? expression.getValue(project.locales).text
                         : undefined
             ),
             false,

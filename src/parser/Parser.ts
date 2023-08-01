@@ -81,6 +81,7 @@ import Markup from '../nodes/Markup';
 import Mention from '../nodes/Mention';
 import Branch from '../nodes/Branch';
 import DocsType from '../nodes/DocsType';
+import Translation from '../nodes/Translation';
 
 export enum SyntacticConflict {
     EXPECTED_BORRW_NAME,
@@ -827,13 +828,18 @@ function parseDimension(tokens: Tokens): Dimension {
     return new Dimension(product, name, caret, exponent);
 }
 
-/** TEXT :: text name? */
+/** TEXT :: text name? TEXT? */
 function parseText(tokens: Tokens): TextLiteral {
-    const text = tokens.read(Symbol.Text);
-    const format = tokens.nextIs(Symbol.Language)
-        ? parseLanguage(tokens)
-        : undefined;
-    return new TextLiteral(text, format);
+    const texts: Translation[] = [];
+    do {
+        const text = tokens.read(Symbol.Text);
+        const format = tokens.nextIs(Symbol.Language)
+            ? parseLanguage(tokens)
+            : undefined;
+        texts.push(new Translation(text, format));
+    } while (tokens.nextIs(Symbol.Text) && tokens.nextLacksPrecedingSpace());
+
+    return new TextLiteral(texts);
 }
 
 /** TEMPLATE :: text_open ( EXPRESSION text_between )* EXPRESSION text_close name? */

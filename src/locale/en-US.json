@@ -991,8 +991,14 @@
             "name": "text",
             "description": "text $1",
             "emotion": "serious",
-            "doc": "See @Text?",
-            "start": "let's make text"
+            "doc": "I represent many different @Translation of text. See @Text to learn more!",
+            "start": "let's make text in the current locale"
+        },
+        "Translation": {
+            "name": "text",
+            "description": "text $1",
+            "emotion": "serious",
+            "doc": "I represent some text, with a @Language tag. See @Text to learn more!"
         },
         "This": {
             "name": "this",
@@ -1393,6 +1399,8 @@
                 "⧼“There are only two ways to live your life. One is as though nothing is a miracle. The other is as though everything is a miracle.”⧽",
                 "⧼『一日三秋』⧽",
                 "Just remember to close me if you open me, and use the matching symbol. Otherwise I won't know that you're done with your words.",
+                "⧼'hello'/en'hola'/es-MX⧽",
+                "You can also tag me with languages, and even give multiple translations. I'll evaluate to whatever languages are currently selected, if there's a matching langauge.",
                 "Otherwise, there just so many glorious functions that @FunctionDefinition made for me to do all kinds of things with words!"
             ],
             "name": ["''", "Text"],

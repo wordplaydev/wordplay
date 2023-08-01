@@ -130,7 +130,7 @@ export default class OutputExpression {
                 expression instanceof Expression ? expression : undefined,
             value:
                 expression instanceof Literal
-                    ? expression.getValue()
+                    ? expression.getValue(this.project.locales)
                     : undefined,
         };
     }

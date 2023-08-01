@@ -3465,6 +3465,10 @@
               "$ref": "#/definitions/DescriptiveNodeText",
               "description": "Description $1: token label $2: token text"
             },
+            "Translation": {
+              "$ref": "#/definitions/DescriptiveNodeText",
+              "description": "Description $1: the text"
+            },
             "TypeInputs": {
               "$ref": "#/definitions/NodeText"
             },
@@ -3762,6 +3766,7 @@
             "TableLiteral",
             "Template",
             "TextLiteral",
+            "Translation",
             "This",
             "UnaryEvaluate",
             "UnparsableExpression",

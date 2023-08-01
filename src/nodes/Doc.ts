@@ -1,5 +1,5 @@
 import Language from './Language';
-import Node, { any, node, none } from './Node';
+import { any, node, none } from './Node';
 import type { Grammar, Replacement } from './Node';
 import Token from './Token';
 import type Locale from '@locale/Locale';
@@ -10,8 +10,9 @@ import Words from './Words';
 import Glyphs from '../lore/Glyphs';
 import Purpose from '../concepts/Purpose';
 import Markup from './Markup';
+import { LanguageTagged } from './LanguageTagged';
 
-export default class Doc extends Node {
+export default class Doc extends LanguageTagged {
     readonly open: Token;
     readonly markup: Markup;
     readonly close: Token | undefined;
@@ -79,12 +80,6 @@ export default class Doc extends Node {
             : (first.nodes((n) => n instanceof Words) as Words[])
                   .map((w) => w.toText())
                   .join();
-    }
-
-    getLanguage() {
-        return this.language === undefined
-            ? undefined
-            : this.language.getLanguageText();
     }
 
     computeConflicts() {}

@@ -76,6 +76,7 @@ import MarkupView from '../MarkupView.svelte';
 import SourceView from '../SourceView.svelte';
 import ConversionTypeView from '../ConversionTypeView.svelte';
 import DocsTypeView from '../DocsTypeView.svelte';
+import TranslationView from '../TranslationView.svelte';
 
 import type Node from '@nodes/Node';
 import Program from '@nodes/Program';
@@ -157,6 +158,7 @@ import VariableTypeView from '../VariableTypeView.svelte';
 import Source from '@nodes/Source';
 import Type from '@nodes/Type';
 import DocsType from '@nodes/DocsType';
+import Translation from '@nodes/Translation';
 
 const nodeToView = new Map<Function, ConstructorOfATypedSvelteComponent>();
 nodeToView.set(Source, SourceView);
@@ -193,6 +195,7 @@ nodeToView.set(TypeInputs, TypeInputsView);
 nodeToView.set(VariableType, VariableTypeView);
 
 nodeToView.set(TextLiteral, TextLiteralView);
+nodeToView.set(Translation, TranslationView);
 nodeToView.set(Template, TemplateView);
 nodeToView.set(TextType, TextTypeView);
 

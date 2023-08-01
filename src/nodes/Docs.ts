@@ -12,11 +12,12 @@ import type TypeSet from './TypeSet';
 import concretize from '../locale/concretize';
 import DocsValue from '../runtime/DocsValue';
 import DocsType from './DocsType';
+import { getPreferred } from './LanguageTagged';
 
 export default class Docs extends Literal {
-    readonly docs: [Doc, ...Doc[]];
+    readonly docs: Doc[];
 
-    constructor(docs: [Doc, ...Doc[]]) {
+    constructor(docs: Doc[]) {
         super();
 
         this.docs = docs;
@@ -34,7 +35,7 @@ export default class Docs extends Literal {
 
     clone(replace?: Replacement) {
         return new Docs(
-            this.replaceChild<[Doc, ...Doc[]]>('docs', this.docs, replace)
+            this.replaceChild<Doc[]>('docs', this.docs, replace)
         ) as this;
     }
 
@@ -46,35 +47,15 @@ export default class Docs extends Literal {
         return [];
     }
 
+    getTags(): Doc[] {
+        return this.docs;
+    }
+
     getPreferredLocale(preferred: Locale | Locale[]): Doc {
         // Build the list of preferred languages
         const locales = Array.isArray(preferred) ? preferred : [preferred];
 
-        // Find the first preferred locale with an exact match.
-        const exact = this.docs.find(
-            (name) =>
-                name.language &&
-                locales.some(
-                    (locale) =>
-                        name.language !== undefined &&
-                        name.language.isLocale(locale)
-                )
-        );
-        if (exact) return exact;
-
-        // See if there are any language matches.
-        const languageMatch = this.docs.find(
-            (name) =>
-                name.language &&
-                locales.some(
-                    (locale) =>
-                        name.language !== undefined &&
-                        name.language.isLocaleLanguage(locale)
-                )
-        );
-        if (languageMatch) return languageMatch;
-
-        return this.docs[0];
+        return getPreferred(locales, this.docs);
     }
 
     getNodeLocale(locale: Locale) {

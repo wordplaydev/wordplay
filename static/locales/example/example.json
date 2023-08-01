@@ -680,6 +680,12 @@
             "doc": "$?",
             "start": "$?"
         },
+        "Translation": {
+            "name": "$?",
+            "description": "$?",
+            "emotion": "$?",
+            "doc": "$?"
+        },
         "This": {
             "name": "$?",
             "emotion": "$?",

@@ -832,6 +832,22 @@
                         ],
                         ["conflict", "'Hi there 'friend'"],
                         null,
+                        ["edit", "'friends!'/en-US"],
+                        [
+                            "Text",
+                            "excited",
+                            "Oh, and did you know you can tell me what language I am in? You just do a little slash and then a special language code, or if you like, a language and region."
+                        ],
+                        null,
+                        ["edit", "'amigas'/es'friends!'/en-US"],
+                        [
+                            "Text",
+                            "excited",
+                            "You can even write multiple translations of me in different languages. I'll evaluate to the closest match for the current language, letting you put on multilingual performances.",
+                            "You might not be able to see it unless you put the cursor inside me. I hide my little languages unless you're editing them. Move the cursor before the English and you'll see a surprise translation...",
+                            "You can try adding another translation. Just don't put any space between them or they'll be two of me!"
+                        ],
+                        null,
                         [
                             "Text",
                             "curious",
