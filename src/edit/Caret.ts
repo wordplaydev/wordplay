@@ -5,7 +5,7 @@ import Token from '@nodes/Token';
 import Symbol from '@nodes/Symbol';
 import {
     DELIMITERS,
-    MarkupSymbols,
+    FormattingSymbols,
     REVERSE_DELIMITERS,
     TextOpenByTextClose,
 } from '@parser/Tokenizer';
@@ -721,7 +721,8 @@ export default class Caret {
         else if (
             complete &&
             text in DELIMITERS &&
-            (!this.isInsideText() || MarkupSymbols.includes(text)) &&
+            ((!this.isInsideText() && !FormattingSymbols.includes(text)) ||
+                (this.isInsideText() && FormattingSymbols.includes(text))) &&
             (this.tokenPrior === undefined ||
                 !(
                     // The token prior is text or unknown
