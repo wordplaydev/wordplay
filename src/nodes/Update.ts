@@ -1,5 +1,4 @@
 import type Node from './Node';
-import type Token from './Token';
 import Expression from './Expression';
 import Row from './Row';
 import type Conflict from '@conflicts/Conflict';
@@ -25,20 +24,17 @@ import NodeRef from '@locale/NodeRef';
 import Glyphs from '../lore/Glyphs';
 import IncompatibleInput from '../conflicts/IncompatibleInput';
 import concretize from '../locale/concretize';
-import Symbol from './Symbol';
 import Purpose from '../concepts/Purpose';
 
 export default class Update extends Expression {
     readonly table: Expression;
-    readonly update: Token;
     readonly row: Row;
     readonly query: Expression;
 
-    constructor(table: Expression, update: Token, row: Row, query: Expression) {
+    constructor(table: Expression, row: Row, query: Expression) {
         super();
 
         this.table = table;
-        this.update = update;
         this.row = row;
         this.query = query;
 
@@ -52,7 +48,6 @@ export default class Update extends Expression {
                 kind: node(Expression),
                 label: (translation: Locale) => translation.term.table,
             },
-            { name: 'update', kind: node(Symbol.Update) },
             {
                 name: 'row',
                 kind: node(Row),
@@ -69,7 +64,6 @@ export default class Update extends Expression {
     clone(replace?: Replacement) {
         return new Update(
             this.replaceChild('table', this.table, replace),
-            this.replaceChild('update', this.update, replace),
             this.replaceChild('row', this.row, replace),
             this.replaceChild('query', this.query, replace)
         ) as this;
@@ -191,8 +185,6 @@ export default class Update extends Expression {
     ) {
         if (this.table instanceof Expression)
             this.table.evaluateTypeSet(bind, original, current, context);
-        if (this.update instanceof Expression)
-            this.update.evaluateTypeSet(bind, original, current, context);
         if (this.row instanceof Expression)
             this.row.evaluateTypeSet(bind, original, current, context);
         if (this.query instanceof Expression)
@@ -201,10 +193,10 @@ export default class Update extends Expression {
     }
 
     getStart() {
-        return this.update;
+        return this.row.open;
     }
     getFinish() {
-        return this.update;
+        return this.row.close ?? this.row.open;
     }
 
     getNodeLocale(translation: Locale) {

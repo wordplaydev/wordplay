@@ -64,6 +64,7 @@ import TypeVariables from '../nodes/TypeVariables';
 import FormattedTranslation from '../nodes/FormattedTranslation';
 import IsLocale from '../nodes/IsLocale';
 import Language from '../nodes/Language';
+import Delete from '../nodes/Delete';
 
 test('Parse programs', () => {
     expect(toProgram('')).toBeInstanceOf(Program);
@@ -130,9 +131,10 @@ test.each([
         TableType,
         '⎡a•# b•# c•#⎦',
     ],
-    ['table ⎡? ⎡a b⎦ c > 3', Select, 'query', BinaryEvaluate, 'c > 3'],
-    ['table ⎡+ ⎡1 2 3⎦', Insert, 'row', Row],
-    ['table ⎡: ⎡a:1⎦ b > 5', Update, 'query', BinaryEvaluate, 'b > 5'],
+    ['table ⎡? a b ⎦ c > 3', Select, 'query', BinaryEvaluate, 'c > 3'],
+    ['table ⎡+ 1 2 3 ⎦', Insert, 'row', Row],
+    ['table ⎡- c > 3', Delete, 'query', BinaryEvaluate],
+    ['table ⎡: a: 1 ⎦ b > 5', Update, 'query', BinaryEvaluate, 'b > 5'],
     ['0 … Button() … a + 1', Reaction, 'next', BinaryEvaluate, 'a + 1'],
     ['← 1 stream', Previous, 'stream', Reference, 'stream'],
     ['←← 10 stream', Previous, 'range', Token, '←'],

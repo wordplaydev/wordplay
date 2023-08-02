@@ -1,5 +1,4 @@
 import type Node from './Node';
-import type Token from './Token';
 import Expression from './Expression';
 import Row from './Row';
 import type Conflict from '@conflicts/Conflict';
@@ -26,19 +25,16 @@ import NodeRef from '@locale/NodeRef';
 import Glyphs from '../lore/Glyphs';
 import IncompatibleInput from '../conflicts/IncompatibleInput';
 import concretize from '../locale/concretize';
-import Symbol from './Symbol';
 import Purpose from '../concepts/Purpose';
 
 export default class Insert extends Expression {
     readonly table: Expression;
-    readonly insert: Token;
     readonly row: Row;
 
-    constructor(table: Expression, insert: Token, row: Row) {
+    constructor(table: Expression, row: Row) {
         super();
 
         this.table = table;
-        this.insert = insert;
         this.row = row;
 
         this.computeChildren();
@@ -51,7 +47,6 @@ export default class Insert extends Expression {
                 kind: node(Expression),
                 label: (translation: Locale) => translation.term.table,
             },
-            { name: 'insert', kind: node(Symbol.Insert) },
             {
                 name: 'row',
                 kind: node(Row),
@@ -67,7 +62,6 @@ export default class Insert extends Expression {
     clone(replace?: Replacement) {
         return new Insert(
             this.replaceChild('table', this.table, replace),
-            this.replaceChild('insert', this.insert, replace),
             this.replaceChild('row', this.row, replace)
         ) as this;
     }
@@ -133,7 +127,7 @@ export default class Insert extends Expression {
                       ),
                   ]
                 : this.row.allExpressions()
-                ? // It's all expresssions, compile all of them in order.
+                ? // It's all expressions, compile all of them in order.
                   this.row.cells.reduce(
                       (steps: Step[], cell) => [
                           ...steps,
@@ -204,10 +198,10 @@ export default class Insert extends Expression {
     }
 
     getStart() {
-        return this.insert;
+        return this.row.open;
     }
     getFinish() {
-        return this.insert;
+        return this.row.close ?? this.row.open;
     }
 
     getNodeLocale(translation: Locale) {

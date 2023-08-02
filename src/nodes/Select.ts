@@ -1,4 +1,3 @@
-import type Token from './Token';
 import Expression from './Expression';
 import Row from './Row';
 import type Conflict from '@conflicts/Conflict';
@@ -27,20 +26,17 @@ import Glyphs from '../lore/Glyphs';
 import IncompatibleInput from '../conflicts/IncompatibleInput';
 import { NotAType } from './NotAType';
 import concretize from '../locale/concretize';
-import Symbol from './Symbol';
 import Purpose from '../concepts/Purpose';
 
 export default class Select extends Expression {
     readonly table: Expression;
-    readonly select: Token;
     readonly row: Row;
     readonly query: Expression;
 
-    constructor(table: Expression, select: Token, row: Row, query: Expression) {
+    constructor(table: Expression, row: Row, query: Expression) {
         super();
 
         this.table = table;
-        this.select = select;
         this.row = row;
         this.query = query;
 
@@ -54,7 +50,6 @@ export default class Select extends Expression {
                 kind: node(Expression),
                 label: (translation: Locale) => translation.term.table,
             },
-            { name: 'select', kind: node(Symbol.Select) },
             {
                 name: 'row',
                 kind: node(Row),
@@ -75,7 +70,6 @@ export default class Select extends Expression {
     clone(replace?: Replacement) {
         return new Select(
             this.replaceChild('table', this.table, replace),
-            this.replaceChild('select', this.select, replace),
             this.replaceChild('row', this.row, replace),
             this.replaceChild('query', this.query, replace)
         ) as this;
@@ -189,8 +183,6 @@ export default class Select extends Expression {
     ) {
         if (this.table instanceof Expression)
             this.table.evaluateTypeSet(bind, original, current, context);
-        if (this.select instanceof Expression)
-            this.select.evaluateTypeSet(bind, original, current, context);
         if (this.row instanceof Expression)
             this.row.evaluateTypeSet(bind, original, current, context);
         if (this.query instanceof Expression)
@@ -199,10 +191,10 @@ export default class Select extends Expression {
     }
 
     getStart() {
-        return this.select;
+        return this.row.open;
     }
     getFinish() {
-        return this.select;
+        return this.row.close ?? this.row.open;
     }
 
     getNodeLocale(translation: Locale) {
