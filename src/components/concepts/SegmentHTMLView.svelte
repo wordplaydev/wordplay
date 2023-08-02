@@ -15,6 +15,7 @@
     import type { Segment } from '../../nodes/Paragraph';
     import WordsHTMLView from './WordsHTMLView.svelte';
     import RootView from '../project/RootView.svelte';
+    import { unescapeMarkupSymbols } from '../../parser/Tokenizer';
 
     export let segment: Segment;
     export let spaces: Spaces;
@@ -41,11 +42,11 @@
         localized
     />{:else if segment instanceof ValueRef}<strong
         ><ValueView value={segment.value} /></strong
-    >{:else if segment instanceof ConceptRef}<ConceptLinkUI
-        link={segment}
-    />{:else if segment instanceof Token}{#if /^[ ]+$/.test(spaces.getSpace(segment))}&nbsp;{/if}{(segment.startsWith(
+    >{:else if segment instanceof ConceptRef}<ConceptLinkUI link={segment} />
+    <!-- Remove the bullet if the words start with one. -->
+{:else if segment instanceof Token}{#if /^[ ]+$/.test(spaces.getSpace(segment))}&nbsp;{/if}{(segment.startsWith(
         '•'
     )
         ? segment.getText().substring(1).trimStart()
-        : segment.getText()
+        : unescapeMarkupSymbols(segment.getText())
     ).replaceAll('--', '—')}{/if}

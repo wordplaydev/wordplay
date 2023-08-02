@@ -2,7 +2,7 @@ import type Conflict from '@conflicts/Conflict';
 import type Locale from '@locale/Locale';
 import Purpose from '../concepts/Purpose';
 import Glyphs from '../lore/Glyphs';
-import { node, type Grammar, type Replacement, any, none } from './Node';
+import { node, type Grammar, type Replacement, any, none, list } from './Node';
 import Token from './Token';
 import Symbol from './Symbol';
 import { unescaped } from './TextLiteral';
@@ -14,9 +14,11 @@ import type { TemplateInput } from '../locale/concretize';
 import type { NodeSegment, Segment } from './Paragraph';
 import NodeRef from '../locale/NodeRef';
 import ValueRef from '../locale/ValueRef';
-import { unescapeDocSymbols } from '../parser/Tokenizer';
-import type Node from './Node';
+import { unescapeMarkupSymbols } from '../parser/Tokenizer';
+import Node from './Node';
 import type { FontWeight } from '../basis/Fonts';
+import Mention from './Mention';
+import Branch from './Branch';
 
 export type Format = 'italic' | 'underline' | 'light' | 'bold' | 'extra';
 
@@ -56,11 +58,14 @@ export default class Words extends Content {
             },
             {
                 name: 'segments',
-                kind: any(
+                kind: list(
                     node(Words),
                     node(WebLink),
                     node(ConceptLink),
-                    node(Example)
+                    node(Example),
+                    node(Symbol.Words),
+                    node(Mention),
+                    node(Branch)
                 ),
             },
             {
@@ -90,9 +95,7 @@ export default class Words extends Content {
     }
 
     getNodeSegments() {
-        return this.segments.filter(
-            (s) => s instanceof Content || s instanceof Token
-        ) as NodeSegment[];
+        return this.segments.filter((s) => s instanceof Node) as NodeSegment[];
     }
 
     getPurpose() {
@@ -150,7 +153,7 @@ export default class Words extends Content {
             // Replace all repeated special characters with single special characters.
             else if (content instanceof Token) {
                 const replacement = content.withText(
-                    unescapeDocSymbols(content.getText())
+                    unescapeMarkupSymbols(content.getText())
                 );
                 if (replacement.getText() !== content.getText()) {
                     replacements.push([content, replacement]);

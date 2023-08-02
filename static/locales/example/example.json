@@ -59,6 +59,8 @@
         "Share": "$?",
         "Convert": "$?",
         "Doc": "$?",
+        "Formatted": "$?",
+        "FormattedType": "$?",
         "Words": "$?",
         "Link": "$?",
         "Italic": "$?",
@@ -664,6 +666,19 @@
             "emotion": "$?",
             "doc": "$?"
         },
+        "FormattedLiteral": {
+            "name": "$?",
+            "description": "$?",
+            "emotion": "$?",
+            "doc": "$?",
+            "start": "$?"
+        },
+        "FormattedTranslation": {
+            "name": "$?",
+            "description": "$?",
+            "emotion": "$?",
+            "doc": "$?"
+        },
         "This": {
             "name": "$?",
             "emotion": "$?",
@@ -723,7 +738,7 @@
             "emotion": "$?",
             "doc": "$?"
         },
-        "DocsType": {
+        "FormattedType": {
             "name": "$?",
             "emotion": "$?",
             "doc": "$?"

@@ -49,6 +49,8 @@ import {
     STREAM_SYMBOL2,
     LIGHT_SYMBOL,
     CODE_SYMBOL as CODE_SYMBOL,
+    FORMATTED_SYMBOL,
+    FORMATTED_TYPE_SYMBOL,
 } from './Symbols';
 import TokenList from './TokenList';
 import ConceptRegEx from './ConceptRegEx';
@@ -80,7 +82,7 @@ export const FormatCharacters = [
     LIST_CLOSE_SYMBOL,
 ];
 
-export function unescapeDocSymbols(text: string) {
+export function unescapeMarkupSymbols(text: string) {
     return FormatCharacters.reduce(
         (literal, special) => literal.replaceAll(special + special, special),
         text
@@ -266,7 +268,11 @@ const patterns = [
     // - Arrows: U+2190–U+21FF, U+27F0–U+27FF, U+2900–U+297F
     // - Basic latin operators: +-×·÷%^<≤=≠≥>&|
     { pattern: OperatorRegEx, types: [Symbol.Operator] },
+    { pattern: FORMATTED_TYPE_SYMBOL, types: [Symbol.FormattedType] },
+    { pattern: '`...`', types: [Symbol.FormattedType] },
     { pattern: DOCS_SYMBOL, types: [Symbol.Doc] },
+    // Must be after docs
+    { pattern: FORMATTED_SYMBOL, types: [Symbol.Formatted] },
     {
         pattern: new RegExp(`^${ConceptRegEx}`),
         types: [Symbol.Concept],
@@ -340,14 +346,17 @@ export function tokenize(source: string): TokenList {
         let space = '';
 
         const container = context.length > 0 && context[0];
-        const tokenizingDocs = container && container.isSymbol(Symbol.Doc);
+        const tokenizingMarkup =
+            container &&
+            (container.isSymbol(Symbol.Doc) ||
+                container.isSymbol(Symbol.Formatted));
 
         // If we're in text, don't read any whitespace.
         if (container && container.isSymbol(Symbol.Text)) {
             space = '';
         }
         // If we're in a doc, then read whitespace starting with newlines only.
-        else if (tokenizingDocs && !source.startsWith(CODE_SYMBOL)) {
+        else if (tokenizingMarkup && !source.startsWith(CODE_SYMBOL)) {
             const spaceMatch = source.match(/^\n[ \t\n]*/);
             space = spaceMatch === null ? '' : spaceMatch[0];
         }
@@ -386,6 +395,14 @@ export function tokenize(source: string): TokenList {
         else if (nextToken.isSymbol(Symbol.Doc)) {
             /// And there's a doc context open, close it
             if (context.length > 0 && context[0].isSymbol(Symbol.Doc))
+                context.shift();
+            // Otherwise open one
+            else context.unshift(nextToken);
+        }
+        // If the token we encountered a formatted...
+        else if (nextToken.isSymbol(Symbol.Formatted)) {
+            /// And there's a doc context open, close it
+            if (context.length > 0 && context[0].isSymbol(Symbol.Formatted))
                 context.shift();
             // Otherwise open one
             else context.unshift(nextToken);
@@ -457,7 +474,10 @@ function getNextToken(source: string, context: Token[]): Token {
                 );
         }
         // If we're in a doc, special case a few token types that only appear in docs (URL, WORDS)
-        else if (container.isSymbol(Symbol.Doc)) {
+        else if (
+            container.isSymbol(Symbol.Doc) ||
+            container.isSymbol(Symbol.Formatted)
+        ) {
             // Check URLs first, since the word regex will match URLs.
             const urlMatch = source.match(URLRegEx);
             if (urlMatch !== null) return new Token(urlMatch[0], Symbol.URL);

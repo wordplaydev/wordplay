@@ -62,9 +62,9 @@ import TypeInputs from '@nodes/TypeInputs';
 import Paragraph from '@nodes/Paragraph';
 import WebLink from '@nodes/WebLink';
 import Example from '../nodes/Example';
-import Docs from '../nodes/Docs';
-import DocsType from '../nodes/DocsType';
+import FormattedType from '../nodes/FormattedType';
 import Translation from '../nodes/Translation';
+import FormattedLiteral from '../nodes/FormattedLiteral';
 
 test('Parse programs', () => {
     expect(toProgram('')).toBeInstanceOf(Program);
@@ -98,7 +98,7 @@ test('Parse block', () => {
     expect((good as Block).statements).toHaveLength(1);
     expect((good as Block).statements[0]).toBeInstanceOf(Reference);
 
-    const documented = parseBlock(toTokens('`Nothing`\n(hi)'));
+    const documented = parseBlock(toTokens('``Nothing``\n(hi)'));
     expect(documented).toBeInstanceOf(Block);
     expect((documented as Block).docs?.docs).toHaveLength(1);
 });
@@ -139,7 +139,7 @@ test('Parse binds', () => {
     );
 
     const documentedName = parseBind(
-        toTokens('`Some letters`/en a/en, b/es: 1')
+        toTokens('``Some letters``/en a/en, b/es: 1')
     );
     expect(documentedName).toBeInstanceOf(Bind);
     expect((documentedName as Bind).docs?.docs).toHaveLength(1);
@@ -316,12 +316,14 @@ test('Parse expressions', () => {
         BinaryEvaluate
     );
 
-    const withDocs = parseExpression(toTokens('`Add things`/en ƒ(a b) a = b'));
+    const withDocs = parseExpression(
+        toTokens('``Add things``/en ƒ(a b) a = b')
+    );
     expect(withDocs).toBeInstanceOf(FunctionDefinition);
     expect((withDocs as FunctionDefinition).docs?.docs).toHaveLength(1);
 
     const withMultipleDocs = parseExpression(
-        toTokens('`Number one`/en `Numero uno`/es ƒ(a b) a = b')
+        toTokens('``Number one``/en ``Numero uno``/es ƒ(a b) a = b')
     );
     expect(withMultipleDocs).toBeInstanceOf(FunctionDefinition);
     expect((withMultipleDocs as FunctionDefinition).docs?.docs).toHaveLength(2);
@@ -368,7 +370,7 @@ test('Parse expressions', () => {
     expect(convert).toBeInstanceOf(Convert);
 
     const conversionWithDocs = parseExpression(
-        toTokens("`numtotext`/en → # '' meow()")
+        toTokens("``numtotext``/en → # '' meow()")
     );
     expect(conversionWithDocs).toBeInstanceOf(ConversionDefinition);
     expect(
@@ -445,12 +447,12 @@ test('Parse expressions', () => {
     ).toBeInstanceOf(Reference);
 
     const documentedExpression = parseExpression(
-        toTokens("`let's see it`/en\na")
+        toTokens("``let's see it``/en\na")
     );
     expect(documentedExpression).toBeInstanceOf(DocumentedExpression);
 
-    const docs = parseExpression(toTokens('`my /fancy/ words`'));
-    expect(docs).toBeInstanceOf(Docs);
+    const formatted = parseExpression(toTokens('`my /fancy/ words`'));
+    expect(formatted).toBeInstanceOf(FormattedLiteral);
 });
 
 test('Blocks and binds', () => {
@@ -541,15 +543,15 @@ test('Types', () => {
     expect((union as UnionType).left).toBeInstanceOf(NameType);
     expect((union as UnionType).right).toBeInstanceOf(NumberType);
 
-    const docs = parseType(toTokens('``'));
-    expect(docs).toBeInstanceOf(DocsType);
+    const formatted = parseType(toTokens('`…`'));
+    expect(formatted).toBeInstanceOf(FormattedType);
 
     const hmm = parseType(toTokens('/'));
     expect(hmm).toBeInstanceOf(UnparsableType);
 });
 
 test('plain docs', () => {
-    const doc = parseDoc(toTokens('`this is what I am.`'));
+    const doc = parseDoc(toTokens('``this is what I am.``'));
     expect(doc).toBeInstanceOf(Doc);
     expect(doc.markup.paragraphs[0]).toBeInstanceOf(Paragraph);
     expect(doc.markup.paragraphs[0].segments[0]).toBeInstanceOf(Token);
@@ -558,7 +560,7 @@ test('plain docs', () => {
 
 test('multi-paragraph docs', () => {
     const doc = parseDoc(
-        toTokens('`this is what I am.\n\nthis is another point.`')
+        toTokens('``this is what I am.\n\nthis is another point.``')
     );
     expect(doc).toBeInstanceOf(Doc);
     expect(doc.markup.paragraphs[0]).toBeInstanceOf(Paragraph);
@@ -568,7 +570,7 @@ test('multi-paragraph docs', () => {
 
 test('linked docs', () => {
     const doc = parseDoc(
-        toTokens('`go see more at <wikipedia@https://wikipedia.org>.`')
+        toTokens('``go see more at <wikipedia@https://wikipedia.org>.``')
     );
     expect(doc).toBeInstanceOf(Doc);
     expect(doc.markup.paragraphs[0]).toBeInstanceOf(Paragraph);
@@ -580,7 +582,7 @@ test('linked docs', () => {
 
 test('docs in docs', () => {
     const doc = parseDoc(
-        toTokens("`This is a doc: \\`my doc`\\. Don't you see it?`")
+        toTokens("``This is a doc: \\``my doc``\\. Don't you see it?``")
     );
     expect(doc).toBeInstanceOf(Doc);
     expect(doc.markup.paragraphs[0]).toBeInstanceOf(Paragraph);

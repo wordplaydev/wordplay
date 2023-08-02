@@ -74,8 +74,10 @@ import InitialView from '../InitialView.svelte';
 import MarkupView from '../MarkupView.svelte';
 import SourceView from '../SourceView.svelte';
 import ConversionTypeView from '../ConversionTypeView.svelte';
-import DocsTypeView from '../DocsTypeView.svelte';
+import FormattedTypeView from '../FormattedTypeView.svelte';
 import TranslationView from '../TranslationView.svelte';
+import FormattedLiteralView from '../FormattedLiteralView.svelte';
+import FormattedTranslationView from '../FormattedTranslationView.svelte';
 
 import type Node from '@nodes/Node';
 import Program from '@nodes/Program';
@@ -155,8 +157,10 @@ import VariableType from '@nodes/VariableType';
 import VariableTypeView from '../VariableTypeView.svelte';
 import Source from '@nodes/Source';
 import Type from '@nodes/Type';
-import DocsType from '@nodes/DocsType';
+import FormattedType from '@nodes/FormattedType';
 import Translation from '@nodes/Translation';
+import FormattedTranslation from '@nodes/FormattedTranslation';
+import FormattedLiteral from '@nodes/FormattedLiteral';
 
 const nodeToView = new Map<Function, ConstructorOfATypedSvelteComponent>();
 nodeToView.set(Source, SourceView);
@@ -171,6 +175,8 @@ nodeToView.set(Words, WordsView);
 nodeToView.set(DocumentedExpression, DocumentedExpressionView);
 nodeToView.set(Example, ExampleView);
 nodeToView.set(Markup, MarkupView);
+nodeToView.set(FormattedLiteral, FormattedLiteralView);
+nodeToView.set(FormattedTranslation, FormattedTranslationView);
 
 nodeToView.set(Borrow, BorrowView);
 
@@ -232,7 +238,7 @@ nodeToView.set(ListLiteral, ListLiteralView);
 nodeToView.set(ListAccess, ListAccessView);
 nodeToView.set(ListType, ListTypeView);
 
-nodeToView.set(DocsType, DocsTypeView);
+nodeToView.set(FormattedType, FormattedTypeView);
 
 nodeToView.set(TableLiteral, TableLiteralView);
 nodeToView.set(TableType, TableTypeView);

@@ -75,6 +75,8 @@ import SetOrMapAccess from '../nodes/SetOrMapAccess';
 import Source from '../nodes/Source';
 import NameType from '../nodes/NameType';
 import type Locale from '../locale/Locale';
+import FormattedLiteral from '../nodes/FormattedLiteral';
+import FormattedTranslation from '../nodes/FormattedTranslation';
 
 /** These are ordered by appearance in the docs. */
 const templates: Node[] = [
@@ -175,6 +177,8 @@ const templates: Node[] = [
     BooleanLiteral.make(true),
     NumberLiteral.make(0),
     TextLiteral.make(''),
+    FormattedTranslation.make([]),
+    new FormattedLiteral([FormattedTranslation.make([])]),
     ListAccess.make(
         ExpressionPlaceholder.make(ListType.make()),
         ExpressionPlaceholder.make()

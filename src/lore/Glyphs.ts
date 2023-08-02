@@ -40,6 +40,7 @@ import {
     TYPE_SYMBOL,
     UNKNOWN_SYMBOL,
     UNPARSABLE_SYMBOL,
+    FORMATTED_SYMBOL,
 } from '@parser/Symbols';
 import type Glyph from './Glyph';
 
@@ -134,6 +135,9 @@ const GlyphSet = {
     },
     Markup: {
         symbols: '¶',
+    },
+    Formatted: {
+        symbols: FORMATTED_SYMBOL,
     },
     Map: {
         symbols: SET_OPEN_SYMBOL + BIND_SYMBOL + SET_CLOSE_SYMBOL,

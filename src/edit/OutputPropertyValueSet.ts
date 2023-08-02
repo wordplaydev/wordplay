@@ -12,7 +12,7 @@ import MapLiteral from '../nodes/MapLiteral';
 import ListLiteral from '../nodes/ListLiteral';
 import type Bind from '../nodes/Bind';
 import type { Creator } from '../db/Creator';
-import DocsValue from '../runtime/DocsValue';
+import MarkupValue from '../runtime/MarkupValue';
 import type Locale from '../locale/Locale';
 
 /**
@@ -104,7 +104,7 @@ export default class OutputPropertyValueSet {
         const value = this.getValue();
         return value instanceof Text
             ? value.text
-            : value instanceof DocsValue
+            : value instanceof MarkupValue
             ? value.toWordplay()
             : undefined;
     }

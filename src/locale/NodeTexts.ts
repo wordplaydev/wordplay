@@ -530,6 +530,16 @@ type NodeTexts = {
      */
     Translation: DescriptiveNodeText;
     /**
+     * Description
+     * $1: the text
+     */
+    FormattedLiteral: DescriptiveNodeText & AtomicExpressionText;
+    /**
+     * Description
+     * $1: the text
+     */
+    FormattedTranslation: DescriptiveNodeText;
+    /**
      * Finish
      * $1: resulting value
      */
@@ -579,7 +589,7 @@ type NodeTexts = {
     AnyType: NodeText;
     BooleanType: NodeText;
     ConversionType: NodeText;
-    DocsType: NodeText;
+    FormattedType: NodeText;
     ExceptionType: NodeText;
     FunctionDefinitionType: NodeText;
     FunctionType: DescriptiveNodeText;

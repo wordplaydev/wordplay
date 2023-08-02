@@ -84,10 +84,10 @@ test('Tokenize numbers', () => {
 
 test('Tokenize punctuation', () => {
     expect(
-        tokens('()[]{}<>:.,ƒf↑↓``!•∆…')
+        tokens('()[]{}<>:.,ƒf↑↓!•∆…```')
             .map((t) => t.toWordplay())
             .join(' ')
-    ).toBe('( ) [ ] { } < > : . , ƒ f ↑ ↓ ` ` ! • ∆ … ');
+    ).toBe('( ) [ ] { } < > : . , ƒ f ↑ ↓ ! • ∆ … `` ` ');
     expect(
         tokens('⊥⊤?¿+-×*·÷/^√%boomy=≠<>≤≥⎡?⎡+⎡-⎡:⎦⎡&|~')
             .map((t) => t.toWordplay())
@@ -99,35 +99,35 @@ test('Tokenize punctuation', () => {
 
 test('Tokenize docs', () => {
     expect(
-        tokens('`hello`')
+        tokens('``hello``')
             .map((t) => t.toWordplay())
             .join('|')
-    ).toBe('`|hello|`|');
+    ).toBe('``|hello|``|');
     expect(
-        tokens('`hello \\1 + 1\\`')
+        tokens('``hello \\1 + 1\\``')
             .map((t) => t.toWordplay())
             .join('|')
-    ).toBe('`|hello |\\|1|+|1|\\|`|');
+    ).toBe('``|hello |\\|1|+|1|\\|``|');
     expect(
-        tokens('`hello @bind`')
+        tokens('``hello @bind``')
             .map((t) => t.toWordplay())
-            .join(' ')
-    ).toBe('` hello  @bind ` ');
+            .join('|')
+    ).toBe('``|hello |@bind|``|');
     expect(
-        tokens('`hello *hello* /hello/ _hello_`')
+        tokens('``hello *hello* /hello/ _hello_``')
             .map((t) => t.toWordplay())
-            .join(' ')
-    ).toBe('` hello  * hello *   / hello /   _ hello _ ` ');
+            .join('|')
+    ).toBe('``|hello |*|hello|*| |/|hello|/| |_|hello|_|``|');
     expect(
-        tokens('`hello <link@https://amyjko.com>`')
+        tokens('``hello <link@https://amyjko.com>``')
             .map((t) => t.toWordplay())
-            .join(' ')
-    ).toBe('` hello  < link @ https://amyjko.com > ` ');
+            .join('|')
+    ).toBe('``|hello |<|link|@|https://amyjko.com|>|``|');
     expect(
-        tokens('`this is $1 [hi|no]`')
+        tokens('``this is $1 [hi|no]``')
             .map((t) => t.toWordplay())
-            .join('/')
-    ).toBe('`/this is /$1/ /[/hi/|/no/]/`/');
+            .join('|')
+    ).toBe('``|this is |$1| |[|hi|||no|]|``|');
 });
 
 test('Tokenize text', () => {

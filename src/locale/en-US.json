@@ -59,6 +59,8 @@
         "Share": "share",
         "Convert": "convert",
         "Doc": "explanation",
+        "Formatted": "formatted",
+        "FormattedType": "formatted type",
         "Words": "words",
         "Link": "web link",
         "Italic": "italic",
@@ -130,17 +132,17 @@
             "doc": [
                 "I richly format things with @Markup, like explanations of some of of your @Program, or even the words you put on stage with @Phrase.",
                 "For example, I can go before any expression:",
-                "\\`Is this really supposed to be 7?`\n7\\",
+                "\\``Is this really supposed to be 7?``\n7\\",
                 "For example, you can place me before @Bind:",
-                "\\`I measure how tall someone is`\nheight: 5m\\",
+                "\\``I measure how tall someone is``\nheight: 5m\\",
                 "Or before a @FunctionDefinition:",
-                "\\`I add two numbers`\nƒ sum(a•# b•#) a + b\\",
+                "\\``I add two numbers``\nƒ sum(a•# b•#) a + b\\",
                 "Or before a @StructureDefinition:",
-                "\\`I remember people's name and favorite fruit`\n•Person(name•'' fruit•'')\\",
+                "\\``I remember people's name and favorite fruit``\n•Person(name•'' fruit•'')\\",
                 "You can also place me at the very beginning of @Program to say what the whole performance is about",
-                "\\`This program says hello`\n\n'hello!'\\",
+                "\\``This program says hello``\n\n'hello!'\\",
                 "You can give me a @Language to help others know what language I'm written in:",
-                "\\`I'm an English doc`/en\nduration: 5s\\",
+                "\\``I'm an English doc``/en\nduration: 5s\\",
                 "Did you know you can make a list of me? Go talk to @Docs."
             ]
         },
@@ -150,7 +152,7 @@
             "doc": [
                 "I'm a list of @Doc, useful when you have multiple translations of @Doc in different languages.",
                 "You don't have to do anything special to make a list. Just put a bunch of @Doc next to each other, like this:",
-                "\\`Hello`/en\n`Hola`/es\ngreeting: '…'\\"
+                "\\``Hello``/en\n``Hola``/es\ngreeting: '…'\\"
             ],
             "start": "Making the docs value!"
         },
@@ -178,7 +180,7 @@
                 "Or, suppose you wanted to do this for a @Name.",
                 "\\sound/en: 'meow'\\",
                 "Or even @Doc!",
-                "\\`Onomatopoeia`/en\nsound/en: \"meow\"\\",
+                "\\``Onomatopoeia``/en\nsound/en: \"meow\"\\",
                 "There are many <2-letter language codes@https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes> that I understand. If you don't use one of those, I'll let you know."
             ],
             "conflict": {
@@ -270,9 +272,9 @@
             "doc": [
                 "I'm a series of @Words, @ConceptLink, @WebLink, and @Example, separated by a blank line, and inside @Doc.",
                 "All you need to do to write me is write a bunch of words in a @Doc:",
-                "\\`I am a paragraph in a doc.`'one paragraph'\\",
+                "\\``I am a paragraph in a doc.``'one paragraph'\\",
                 "If you want multiple paragraphs, just put in blank lines.",
-                "\\`Paragraph 1.\n\nParagraph 2.\n\nParagraph 3.`'three paragraphs'\\"
+                "\\``Paragraph 1.\n\nParagraph 2.\n\nParagraph 3.``'three paragraphs'\\"
             ]
         },
         "WebLink": {
@@ -281,7 +283,7 @@
             "emotion": "serious",
             "doc": [
                 "I am a link to something on the internet. I just need a description and a URL:",
-                "\\`I am a <link@https://wordplay.dev> in a doc`\n'link example'\\",
+                "\\``I am a <link@https://wordplay.dev> in a doc``\n'link example'\\",
                 "If anyone selects me, I'll open a new window to the URL."
             ]
         },
@@ -292,7 +294,7 @@
             "doc": [
                 "I'm a link to Verse character. I'm helpful when you want to write a @Doc and refer to one of us.",
                 "For example, say you wanted to talk about @Evaluate, and how awesome they are. You could write:",
-                "\\`You know, @Evaluate is pretty awesome.`\n'look, a concept link!'\\",
+                "\\``You know, @Evaluate is pretty awesome.``\n'look, a concept link!'\\",
                 "When the @Doc you wrote appears here, it'll show a link to the concept."
             ]
         },
@@ -301,9 +303,9 @@
             "emotion": "serious",
             "doc": [
                 "I'm any words you like in a @Doc. For example:",
-                "\\`May the Force be with you.`\n'just some words!'\\",
+                "\\``May the Force be with you.``\n'just some words!'\\",
                 "Sometimes though, you might want to use the special characters that @Doc uses /as/ words. For example:",
-                "\\`My friends use @@, //, **, ||, and other symbols.`\n'using special characters!'\\",
+                "\\``My friends use @@, //, **, ||, and other symbols.``\n'using special characters!'\\",
                 "If you just repeat those special characters, you'll get the character instead of their special meaning."
             ]
         },
@@ -312,9 +314,9 @@
             "emotion": "serious",
             "doc": [
                 "I'm an example performance, helpful for writing @Doc that explains how to use something!",
-                "\\`Here's an example of adding: \\1 + 1\\`'example code'\\",
+                "\\``Here's an example of adding: \\1 + 1\\``'example code'\\",
                 "If you put me in a paragraph all alone, I'll show up in a fancy box and show the result of evaluating me.",
-                "\\`Here's an example of adding:\n\n\\1 + 1\\`\\"
+                "\\``Here's an example of adding:\n\n\\1 + 1\\``\\"
             ]
         },
         "Mention": {
@@ -554,7 +556,7 @@
             "doc": [
                 "I'm any expression, but with a @Doc!",
                 "To make me, just put a @Doc before an expression, and you'll get me:",
-                "\\doubleplus: 1\n(2 · doubleplus) + \n`Let's make it just a little bit bigger`\n1\\",
+                "\\doubleplus: 1\n(2 · doubleplus) + \n``Let's make it just a little bit bigger``\n1\\",
                 "I'm useful for making a comment on some part of a program."
             ],
             "start": "let's evaluate the expression"
@@ -983,6 +985,29 @@
             "emotion": "serious",
             "doc": "I represent some text, with a @Language tag. See @Text to learn more!"
         },
+        "FormattedLiteral": {
+            "name": "formatted text",
+            "description": "text $1",
+            "emotion": "serious",
+            "doc": "I represent many different @FormattedTranslation of formatted text. When I evaluate, I'll pick the best match based on the audience's selected languages.",
+            "start": "let's make text in the current locale"
+        },
+        "FormattedTranslation": {
+            "name": "formatted text",
+            "description": "text $1",
+            "emotion": "serious",
+            "doc": [
+                "I represent some formatted text, with a @Language tag.",
+                "I can be:",
+                "\\`/italic/`\\",
+                "\\`*bold*`\\",
+                "\\`^extra bold^`\\",
+                "\\`_underlined_`\\",
+                "\\`<linked@https://wordplay.dev>`\\",
+                "\\`\\'code'\\`\\",
+                "I work really well with @Phrase to put beautiful text on @Stage."
+            ]
+        },
         "This": {
             "name": "this",
             "emotion": "serious",
@@ -1079,13 +1104,13 @@
                 "\\magic•?→'': → ? '' . ? 'yep' 'nope'\\"
             ]
         },
-        "DocsType": {
-            "name": "docs",
+        "FormattedType": {
+            "name": "formatted",
             "emotion": "serious",
             "doc": [
-                "I work with @Bind to note that a name is a @Docs value. Like this:",
-                "\\hungry•``: `I am an explanation.`\\",
-                "Want to make sure something is a @Docs value? This is how you make sure."
+                "I work with @Bind to note that a name is a @FormattedLiteral value. Like this:",
+                "\\hungry•`…`: `I am so /fancy/!`\\",
+                "Want to make sure something is a @FormattedLiteral value? This is how you make sure."
             ]
         },
         "ExceptionType": {

@@ -14,7 +14,9 @@ enum Symbol {
     Share = '↑',
     Convert = '→',
 
-    Doc = '`',
+    Doc = '``',
+    Formatted = '`',
+    FormattedType = '`…`',
     Words = 'words',
     Link = '@',
     Italic = '/',

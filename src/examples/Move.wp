@@ -20,7 +20,7 @@ cat•Cat:  Cat(5m 1) … ∆ key …
 ball: Motion(
     Phrase(
       "o"
-      `Initial position is to the left of the cat, and controlled by motion otherwise`
+      ``Initial position is to the left of the cat, and controlled by motion otherwise``
        place: ◆ ? Place(-5m 0m) ø
      ) 
      vx: ◆ ? 0m/s
@@ -41,5 +41,5 @@ Stage([
     	size: 2m
     	place: Place(cat.position 0m)
     	rest: Pose(flipx: cat.direction < 0)
-    	move: Sequence(sway(5°)0.25s "zippy")
+    	move: Sequence(sway(5°) 0.25s "zippy")
 ) ball] place: Place(0m 0m -5m))

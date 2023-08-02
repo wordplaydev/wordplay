@@ -886,7 +886,10 @@
                         [
                             "Text",
                             "curious",
-                            "And so you might be wondering, 'What if I want to use @Text in some text?' Well, maybe you weren't wondering that, but I'm going to tell you anyway. In any @Text, just give me two in a row! I'll interpret that as just one @Text instead of an empty expression, which wouldn't have any meaning anyway. Try removing the \\\\\\ and you'll see that the slash regains its meaning, restoring the text as me, a @Text."
+                            "And so you might be wondering, /What if I want to use @Text in some text?/ ",
+                            "Well, maybe you weren't wondering that, but I'm going to tell you anyway!",
+                            "In any @Text, just give me two in a row! I'll interpret that as just one @Text instead of an empty expression, which wouldn't have any meaning anyway.",
+                            "Try removing the \\\\ and you'll see that the slash regains its meaning."
                         ],
                         [
                             "edit",
@@ -938,10 +941,10 @@
                     "performance": [
                         "fit",
                         "Group(Row() [",
-                        "                        Phrase('1' rest: Sequence({0%: Pose(offset: Place(0m 1m)) 50%: Pose(offset: Place(0m -1m)) 100%: Pose(offset: Place(0m 1m))} duration: 2s)) ",
-                        "                        Phrase('+' rest: Sequence({0%: Pose(offset: Place(0m -1m)) 50%: Pose(offset: Place(0m 1m)) 100%: Pose(offset: Place(0m -1m))} duration: 2s)) ",
-                        "                        Phrase('1' rest: Sequence({0%: Pose(offset: Place(0m 1m)) 50%: Pose(offset: Place(0m -1m)) 100%: Pose(offset: Place(0m 1m))} duration: 2s)) ",
-                        "                    ])"
+                        "   Phrase('1' rest: Sequence({0%: Pose(offset: Place(0m 1m)) 50%: Pose(offset: Place(0m -1m)) 100%: Pose(offset: Place(0m 1m))} duration: 2s)) ",
+                        "   Phrase('+' rest: Sequence({0%: Pose(offset: Place(0m -1m)) 50%: Pose(offset: Place(0m 1m)) 100%: Pose(offset: Place(0m -1m))} duration: 2s)) ",
+                        "   Phrase('1' rest: Sequence({0%: Pose(offset: Place(0m 1m)) 50%: Pose(offset: Place(0m -1m)) 100%: Pose(offset: Place(0m 1m))} duration: 2s)) ",
+                        "])"
                     ],
                     "lines": [
                         ["use", "fit", "Symbol", "🥰"],
@@ -2892,7 +2895,7 @@
                         [
                             "Phrase",
                             "kind",
-                            "That, my darling, is the simplest way to get a word on stage. But there's so much more! For example, did you know that you can style the text you give me by working with @Doc? You haven't met them yet, but all you have to do is put special symbols around your text? Behold: bold!"
+                            "That, my darling, is the simplest way to get a word on stage. But there's so much more! For example, did you know that you can style the text you give me by working with @FormattedTranslation? You haven't met them yet, but all you have to do is put special symbols around your text? Behold: bold!"
                         ],
                         ["edit", "Phrase(`*hi*`)"],
                         null,
@@ -4513,7 +4516,7 @@
                 {
                     "name": "Director's notes",
                     "concept": "Doc",
-                    "performance": ["use", "fit", "Symbol", "`"],
+                    "performance": ["use", "fit", "Symbol", "``"],
                     "lines": [
                         [
                             "FunctionDefinition",
@@ -4557,7 +4560,7 @@
                             "happy",
                             "I'm a way you can remind yourself what everyone is doing, but also a way to explain to others, if you're directing with a friend, or want to share your performance with someone. So you don't /have/ to work with me, but I find that every performance is a bit easier to do and change if you've spent some time explaining how it works."
                         ],
-                        ["use", "fit", "Symbol", "`About me...`/en"],
+                        ["use", "fit", "Symbol", "``About me...``/en"],
                         null,
                         [
                             "FunctionDefinition",
@@ -4571,8 +4574,8 @@
                         ],
                         [
                             "conflict",
-                            "`The price at the beginning of the game, ",
-                            "used to initialize the game.`",
+                            "``The price at the beginning of the game, ",
+                            "used to initialize the game.``",
                             "startingPrice: 5dollar"
                         ],
                         null,
@@ -4583,8 +4586,8 @@
                         ],
                         [
                             "edit",
-                            "`Gets the tax for a given price, ",
-                            "which is 1% if less than 100, and 5% otherwise`",
+                            "``Gets the tax for a given price, ",
+                            "which is 1% if less than 100, and 5% otherwise``",
                             "ƒ tax(price•#dollar) ",
                             "    price · (price < 100dollar ? 0.01 0.05)"
                         ],
@@ -4596,8 +4599,8 @@
                         ],
                         [
                             "edit",
-                            "`Represents a product and its price. ",
-                            "Eventually will support functions to get other details about the product.`",
+                            "``Represents a product and its price. ",
+                            "Eventually will support functions to get other details about the product.``",
                             "•Product(name•'' price•#dollar)"
                         ],
                         null,
@@ -4609,7 +4612,7 @@
                         [
                             "edit",
                             "ƒ quadratic(a•# b•# c•# x•#)",
-                            "`The quadratic equation`",
+                            "``The quadratic equation``",
                             "(a · (x ^ 2)) + (b · x) + c"
                         ],
                         null,
@@ -4621,8 +4624,8 @@
                         [
                             "edit",
                             "ƒ quadratic(a•# b•# c•# x•#)",
-                            "`The quadratic equation`/en",
-                            "`La ecuación cuadrática`/es",
+                            "``The quadratic equation``/en",
+                            "``La ecuación cuadrática``/es",
                             "(a · (x ^ 2)) + (b · x) + c"
                         ],
                         null,
@@ -4633,13 +4636,13 @@
                         ],
                         [
                             "conflict",
-                            "`Have you ever wanted to know what it's like ",
+                            "``Have you ever wanted to know what it's like ",
                             "to fly a ✈️ with your mouth?",
-                            "Maybe this stores the plane's height?`",
+                            "Maybe this stores the plane's height?``",
                             "•Plane()",
-                            "`We need some kind of reaction to listen to the microphone…`",
+                            "``We need some kind of reaction to listen to the microphone…``",
                             "sound: _",
-                            "`We know there's a plane, but what else?`",
+                            "``We know there's a plane, but what else?``",
                             "Phrase(“✈️”)"
                         ],
                         null,
@@ -4668,11 +4671,11 @@
                         ],
                         [
                             "edit",
-                            "`Docs can be ",
+                            "``Docs can be ",
                             "/italic/, ",
                             "_underlined_, ",
                             "*bold*, or ",
-                            "^extra bold^.`",
+                            "^extra bold^.``",
                             "'fancy!'"
                         ],
                         null,
@@ -4683,12 +4686,12 @@
                         ],
                         [
                             "edit",
-                            "`",
+                            "``",
                             "Docs can be ",
                             "  /italic/ (//), ",
                             "  _underlined_ (__), ",
                             "  *bold* (**), or ",
-                            "  ^extra bold^ (^^).`",
+                            "  ^extra bold^ (^^).``",
                             "'fancy'"
                         ],
                         null,
@@ -4699,7 +4702,7 @@
                         ],
                         [
                             "edit",
-                            "`I'm an example inside a doc: \\1 + 1\\.`",
+                            "``I'm an example inside a doc: \\1 + 1\\.``",
                             "1 + 1"
                         ],
                         null,
@@ -4710,7 +4713,7 @@
                         ],
                         [
                             "edit",
-                            "`Learn more at <Wordplay@https://wordplay.dev>.` 'a link!'"
+                            "``Learn more at <Wordplay@https://wordplay.dev>.`` 'a link!'"
                         ],
                         null,
                         [

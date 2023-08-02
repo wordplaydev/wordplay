@@ -79,8 +79,10 @@ import Initial from '../nodes/Initial';
 import Markup from '../nodes/Markup';
 import Mention from '../nodes/Mention';
 import Branch from '../nodes/Branch';
-import DocsType from '../nodes/DocsType';
+import FormattedType from '../nodes/FormattedType';
 import Translation, { type TranslationSegment } from '../nodes/Translation';
+import FormattedTranslation from '../nodes/FormattedTranslation';
+import FormattedLiteral from '../nodes/FormattedLiteral';
 
 export enum SyntacticConflict {
     EXPECTED_BORRW_NAME,
@@ -660,6 +662,8 @@ function parseAtomicExpression(tokens: Tokens): Expression {
             : // A conversion function.
             nextAreOptionalDocsThen(tokens, [Symbol.Convert])
             ? parseConversion(tokens)
+            : tokens.nextIs(Symbol.Formatted)
+            ? parseFormattedLiteral(tokens)
             : // A documented expression
             tokens.nextIs(Symbol.Doc)
             ? parseDocumentedExpression(tokens)
@@ -729,11 +733,8 @@ function parseChanged(tokens: Tokens): Changed {
 
 function parseDocumentedExpression(tokens: Tokens): Expression {
     const docs = parseDocs(tokens);
-    if (tokens.nextHasPrecedingLineBreak()) {
-        const expression = parseExpression(tokens);
-        return new DocumentedExpression(docs, expression);
-    }
-    return docs;
+    const expression = parseExpression(tokens);
+    return new DocumentedExpression(docs, expression);
 }
 
 /** NONE :: ! ALIASES */
@@ -1230,8 +1231,9 @@ export function parseType(tokens: Tokens, isExpression: boolean = false): Type {
         ? parseFunctionType(tokens)
         : tokens.nextIs(Symbol.Stream)
         ? parseStreamType(tokens)
-        : tokens.nextAre(Symbol.Doc, Symbol.Doc)
-        ? parseDocsType(tokens)
+        : // We use the doc symbol because it looks like an empty formatted
+        tokens.nextIs(Symbol.FormattedType)
+        ? parseFormattedType(tokens)
         : new UnparsableType(tokens.readLine());
 
     if (!isExpression && tokens.nextIs(Symbol.Convert))
@@ -1414,8 +1416,31 @@ export function parseStructure(tokens: Tokens): StructureDefinition {
     );
 }
 
-function parseDocsType(tokens: Tokens): DocsType {
-    return new DocsType(tokens.read(Symbol.Doc), tokens.read(Symbol.Doc));
+function parseFormattedType(tokens: Tokens): FormattedType {
+    return new FormattedType(tokens.read(Symbol.FormattedType));
+}
+
+export function parseFormattedLiteral(tokens: Tokens): FormattedLiteral {
+    const translations: FormattedTranslation[] = [];
+    do {
+        translations.push(parseFormattedTranslation(tokens));
+    } while (
+        tokens.nextIs(Symbol.Formatted) &&
+        !tokens.nextHasMoreThanOneLineBreak()
+    );
+    return new FormattedLiteral(translations);
+}
+
+export function parseFormattedTranslation(
+    tokens: Tokens
+): FormattedTranslation {
+    const open = tokens.read(Symbol.Formatted);
+    const content = parseMarkup(tokens);
+    const close = tokens.readIf(Symbol.Formatted);
+    const lang = tokens.nextIs(Symbol.Language)
+        ? parseLanguage(tokens)
+        : undefined;
+    return new FormattedTranslation(open, content, close, lang);
 }
 
 export function parseDocs(tokens: Tokens): Docs {

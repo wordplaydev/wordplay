@@ -59,6 +59,8 @@
         "Share": "compartir",
         "Convert": "convertir",
         "Doc": "documentación",
+        "Formatted": "$?",
+        "FormattedType": "$?",
         "Words": "palabras",
         "Link": "enlace web",
         "Italic": "itálica",
@@ -657,6 +659,19 @@
             "emotion": "$?",
             "doc": "$?"
         },
+        "FormattedLiteral": {
+            "name": "$?",
+            "description": "$?",
+            "emotion": "$?",
+            "doc": "$?",
+            "start": "$?"
+        },
+        "FormattedTranslation": {
+            "name": "$?",
+            "description": "$?",
+            "emotion": "$?",
+            "doc": "$?"
+        },
         "This": {
             "name": "esta",
             "emotion": "neutral",
@@ -716,7 +731,7 @@
             "emotion": "neutral",
             "doc": "$?"
         },
-        "DocsType": {
+        "FormattedType": {
             "name": "$?",
             "emotion": "$?",
             "doc": "$?"
