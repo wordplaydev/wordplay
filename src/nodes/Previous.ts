@@ -25,7 +25,6 @@ import type Locale from '@locale/Locale';
 import NodeRef from '@locale/NodeRef';
 import Glyphs from '../lore/Glyphs';
 import IncompatibleInput from '../conflicts/IncompatibleInput';
-import { NotAType } from './NotAType';
 import concretize from '../locale/concretize';
 import ExpressionPlaceholder from './ExpressionPlaceholder';
 import Purpose from '../concepts/Purpose';
@@ -139,12 +138,10 @@ export default class Previous extends Expression {
 
     computeType(context: Context): Type {
         // The type is the stream's type.
-        const streamType = this.stream.getType(context);
-        const valueType =
-            streamType instanceof StreamType
-                ? UnionType.make(streamType.type, NoneType.None)
-                : new NotAType(this, streamType, StreamType.make());
-        return this.range == undefined ? valueType : ListType.make(valueType);
+        const valueType = this.stream.getType(context);
+        return this.range == undefined
+            ? UnionType.make(valueType, NoneType.None)
+            : ListType.make(valueType);
     }
 
     getDependencies(): Expression[] {
