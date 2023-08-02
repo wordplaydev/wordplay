@@ -65,6 +65,7 @@ import Program from '../nodes/Program';
 import Dimension from '../nodes/Dimension';
 import UnparsableExpression from '../nodes/UnparsableExpression';
 import { WildcardSymbols } from '../nodes/Symbol';
+import IsLocale from '../nodes/IsLocale';
 
 /** Given a project and a caret, generate a set of transforms that can be applied at the location. */
 export function getEditsAt(project: Project, caret: Caret): Revision[] {
@@ -487,6 +488,7 @@ const PossibleNodes = [
     // Conditions
     Conditional,
     Is,
+    IsLocale,
     // Define
     FunctionDefinition,
     StructureDefinition,
