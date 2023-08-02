@@ -7,26 +7,26 @@ import IncompatibleInput from '../conflicts/IncompatibleInput';
 
 test.each([
     [
-        'table: ⎡one•#⎦\ntable ⎡? ⎡one⎦ 1 < 2',
-        'table: 1\ntable ⎡? ⎡one⎦ 1 < 2',
+        'table: ⎡one•#⎦\ntable ⎡? one⎦ 1 < 2',
+        'table: 1\ntable ⎡? one⎦ 1 < 2',
         Select,
         IncompatibleInput,
     ],
     [
-        'table: ⎡one•#⎦\ntable ⎡? ⎡one⎦ 1 < 2',
-        'table: 1\ntable ⎡? ⎡one⎦ 1 + 2',
+        'table: ⎡one•#⎦\ntable ⎡? one⎦ 1 < 2',
+        'table: 1\ntable ⎡? one⎦ 1 + 2',
         Select,
         IncompatibleInput,
     ],
     [
-        'table: ⎡one•#⎦\ntable ⎡? ⎡one⎦ 1 < 2',
-        'table: ⎡one•#⎦\ntable ⎡? ⎡two⎦ 1 < 2',
+        'table: ⎡one•#⎦\ntable ⎡? one⎦ 1 < 2',
+        'table: ⎡one•#⎦\ntable ⎡? two⎦ 1 < 2',
         Select,
         UnknownColumn,
     ],
     [
-        'table: ⎡one•#⎦\ntable ⎡? ⎡one⎦ one < 1',
-        'table: ⎡one•#⎦\ntable ⎡? ⎡1⎦ one < 1',
+        'table: ⎡one•#⎦\ntable ⎡? one⎦ one < 1',
+        'table: ⎡one•#⎦\ntable ⎡? 1⎦ one < 1',
         Select,
         ExpectedSelectName,
     ],
