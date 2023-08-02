@@ -5070,6 +5070,9 @@
                 "insertNotEqualSymbol": {
                   "type": "string"
                 },
+                "insertPreviousSymbol": {
+                  "type": "string"
+                },
                 "insertProductSymbol": {
                   "type": "string"
                 },
@@ -5287,6 +5290,7 @@
                 "insertLessThanOrEqualSymbol",
                 "insertGreaterThanOrEqualSymbol",
                 "insertStreamSymbol",
+                "insertPreviousSymbol",
                 "insertConvertSymbol",
                 "insertLineBreak",
                 "backspace",

@@ -20,7 +20,7 @@ import { PREVIOUS_SYMBOL } from '@parser/Symbols';
 import Start from '@runtime/Start';
 import UnionType from './UnionType';
 import NoneType from './NoneType';
-import { node, type Grammar, type Replacement } from './Node';
+import { node, type Grammar, type Replacement, optional } from './Node';
 import type Locale from '@locale/Locale';
 import NodeRef from '@locale/NodeRef';
 import Glyphs from '../lore/Glyphs';
@@ -29,27 +29,37 @@ import { NotAType } from './NotAType';
 import concretize from '../locale/concretize';
 import ExpressionPlaceholder from './ExpressionPlaceholder';
 import Purpose from '../concepts/Purpose';
+import ListType from './ListType';
+import Unit from './Unit';
 
 export default class Previous extends Expression {
-    readonly stream: Expression;
     readonly previous: Token;
-    readonly index: Expression;
+    readonly range: Token | undefined;
+    readonly number: Expression;
+    readonly stream: Expression;
 
-    constructor(stream: Expression, previous: Token, index: Expression) {
+    constructor(
+        previous: Token,
+        range: Token | undefined,
+        index: Expression,
+        stream: Expression
+    ) {
         super();
 
-        this.stream = stream;
         this.previous = previous;
-        this.index = index;
+        this.range = range;
+        this.number = index;
+        this.stream = stream;
 
         this.computeChildren();
     }
 
     static make(stream: Expression, index: Expression) {
         return new Previous(
-            stream,
             new Token(PREVIOUS_SYMBOL, Symbol.Previous),
-            index
+            undefined,
+            index,
+            stream
         );
     }
 
@@ -64,20 +74,26 @@ export default class Previous extends Expression {
 
     getGrammar(): Grammar {
         return [
+            { name: 'previous', kind: node(Symbol.Previous) },
+            {
+                name: 'range',
+                kind: optional(node(Symbol.Previous)),
+            },
+            {
+                name: 'number',
+                kind: node(Expression),
+                label: (translation: Locale) => translation.term.index,
+                // Must be a number
+                getType: () => NumberType.make(),
+                space: true,
+            },
             {
                 name: 'stream',
                 kind: node(Expression),
                 label: (translation: Locale) => translation.term.stream,
                 // Must be a stream
                 getType: () => StreamType.make(new AnyType()),
-            },
-            { name: 'previous', kind: node(Symbol.Previous) },
-            {
-                name: 'index',
-                kind: node(Expression),
-                label: (translation: Locale) => translation.term.index,
-                // Must be a number
-                getType: () => NumberType.make(),
+                space: true,
             },
         ];
     }
@@ -88,9 +104,10 @@ export default class Previous extends Expression {
 
     clone(replace?: Replacement) {
         return new Previous(
-            this.replaceChild('stream', this.stream, replace),
             this.replaceChild('previous', this.previous, replace),
-            this.replaceChild('index', this.index, replace)
+            this.replaceChild('range', this.range, replace),
+            this.replaceChild('number', this.number, replace),
+            this.replaceChild('stream', this.stream, replace)
         ) as this;
     }
 
@@ -101,10 +118,20 @@ export default class Previous extends Expression {
         if (streamType === undefined)
             return [new IncompatibleInput(this, valueType, StreamType.make())];
 
-        const indexType = this.index.getType(context);
-        if (!(indexType instanceof NumberType) || indexType.unit !== undefined)
+        const indexType = this.number.getType(context);
+        if (
+            !(
+                indexType instanceof NumberType &&
+                indexType.unit instanceof Unit &&
+                indexType.unit.isUnitless()
+            )
+        )
             return [
-                new IncompatibleInput(this.index, indexType, NumberType.make()),
+                new IncompatibleInput(
+                    this.number,
+                    indexType,
+                    NumberType.make()
+                ),
             ];
 
         return [];
@@ -113,20 +140,22 @@ export default class Previous extends Expression {
     computeType(context: Context): Type {
         // The type is the stream's type.
         const streamType = this.stream.getType(context);
-        return streamType instanceof StreamType
-            ? UnionType.make(streamType.type, NoneType.None)
-            : new NotAType(this, streamType, StreamType.make());
+        const valueType =
+            streamType instanceof StreamType
+                ? UnionType.make(streamType.type, NoneType.None)
+                : new NotAType(this, streamType, StreamType.make());
+        return this.range == undefined ? valueType : ListType.make(valueType);
     }
 
     getDependencies(): Expression[] {
-        return [this.stream, this.index];
+        return [this.stream, this.number];
     }
 
     compile(context: Context): Step[] {
         return [
             new Start(this),
             ...this.stream.compile(context),
-            ...this.index.compile(context),
+            ...this.number.compile(context),
             new Finish(this),
         ];
     }
@@ -134,8 +163,11 @@ export default class Previous extends Expression {
     evaluate(evaluator: Evaluator, prior: Value | undefined): Value {
         if (prior) return prior;
 
-        const index = evaluator.popValue(this, NumberType.make());
-        if (!(index instanceof Number) || !index.num.isInteger()) return index;
+        const number = evaluator.popValue(this, NumberType.make());
+        if (!(number instanceof Number) || !number.num.isInteger())
+            return number;
+
+        const num = number.toNumber();
 
         // Get the stream value.
         const value = evaluator.popValue(this);
@@ -151,7 +183,9 @@ export default class Previous extends Expression {
                 value
             );
 
-        return stream.at(this, index.toNumber());
+        return this.range === undefined
+            ? stream.at(this, num)
+            : stream.range(this, num);
     }
 
     evaluateTypeSet(
@@ -162,8 +196,8 @@ export default class Previous extends Expression {
     ) {
         if (this.stream instanceof Expression)
             this.stream.evaluateTypeSet(bind, original, current, context);
-        if (this.index instanceof Expression)
-            this.index.evaluateTypeSet(bind, original, current, context);
+        if (this.number instanceof Expression)
+            this.number.evaluateTypeSet(bind, original, current, context);
         return current;
     }
 

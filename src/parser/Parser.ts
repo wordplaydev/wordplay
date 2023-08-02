@@ -663,6 +663,8 @@ function parseAtomicExpression(tokens: Tokens): Expression {
             : // A conversion function.
             nextAreOptionalDocsThen(tokens, [Symbol.Convert])
             ? parseConversion(tokens)
+            : tokens.nextIs(Symbol.Previous)
+            ? parsePrevious(tokens)
             : tokens.nextIs(Symbol.Formatted)
             ? parseFormattedLiteral(tokens)
             : tokens.nextIs(Symbol.Locale)
@@ -687,8 +689,6 @@ function parseAtomicExpression(tokens: Tokens): Expression {
             tokens.nextLacksPrecedingSpace()
         )
             left = parseSetOrMapAccess(left, tokens);
-        else if (tokens.nextIs(Symbol.Previous))
-            left = parsePrevious(left, tokens);
         else if (nextIsEvaluate(tokens)) left = parseEvaluate(left, tokens);
         else if (tokens.nextIs(Symbol.Convert))
             left = parseConvert(left, tokens);
@@ -961,13 +961,18 @@ function parseSetOrMapAccess(left: Expression, tokens: Tokens): Expression {
     return left;
 }
 
-/** PREVIOUS :: EXPRESSION @ EXPRESSION */
-function parsePrevious(stream: Expression, tokens: Tokens): Previous {
+/** PREVIOUS :: ← EXPRESSION →? EXPRESSION  */
+function parsePrevious(tokens: Tokens): Previous {
     const previous = tokens.read(Symbol.Previous);
+    const range = tokens.nextIs(Symbol.Previous)
+        ? tokens.read(Symbol.Previous)
+        : undefined;
     const index = parseExpression(tokens);
+    const stream = parseExpression(tokens);
 
-    return new Previous(stream, previous, index);
+    return new Previous(previous, range, index, stream);
 }
+
 /** TABLE :: ⎡ BIND* ⎦ ROWS* */
 function parseTable(tokens: Tokens): TableLiteral {
     const type = parseTableType(tokens);

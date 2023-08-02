@@ -15,6 +15,7 @@ import {
     SOURCE_SYMBOL,
     STAGE_SYMBOL,
     PALETTE_SYMBOL,
+    PREVIOUS_SYMBOL,
 } from '@parser/Symbols';
 
 import Source from '@nodes/Source';
@@ -730,6 +731,18 @@ const Commands: Command[] = [
         alt: true,
         key: 'Period',
         execute: ({ caret }) => caret?.insert('≥') ?? false,
+    },
+    {
+        symbol: PREVIOUS_SYMBOL,
+        description: (l) => l.ui.description.insertPreviousSymbol,
+        visible: Visibility.Visible,
+        category: Category.Insert,
+        alt: true,
+        shift: false,
+        control: false,
+        key: 'ArrowLeft',
+        keySymbol: '←',
+        execute: ({ caret }) => caret?.insert(PREVIOUS_SYMBOL) ?? false,
     },
     {
         symbol: CONVERT_SYMBOL,

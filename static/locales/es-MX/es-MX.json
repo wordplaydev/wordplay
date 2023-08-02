@@ -1711,6 +1711,7 @@
             "insertGreaterThanOrEqualSymbol": "$?",
             "insertStreamSymbol": "$?",
             "insertConvertSymbol": "$?",
+            "insertPreviousSymbol": "$?",
             "insertLineBreak": "$?",
             "backspace": "$?",
             "cut": "$?",

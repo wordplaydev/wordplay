@@ -108,6 +108,7 @@ type UITexts = {
         insertLessThanOrEqualSymbol: string;
         insertGreaterThanOrEqualSymbol: string;
         insertStreamSymbol: string;
+        insertPreviousSymbol: string;
         insertConvertSymbol: string;
         insertLineBreak: string;
         backspace: string;
