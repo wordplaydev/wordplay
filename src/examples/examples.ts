@@ -25,6 +25,7 @@ import Letters from './Letters.wp?raw';
 import RotatingBinary from './RotatingBinary.wp?raw';
 import Greeting from './Greeting.wp?raw';
 import Catch from './Catch.wp?raw';
+import Amplitude from './Amplitude.wp?raw';
 import { parseNames, toTokens } from '../parser/Parser';
 import type Names from '../nodes/Names';
 import { config } from '../db/Creator';
@@ -103,4 +104,5 @@ export const examples: Stuff[] = [
     RotatingBinary,
     Catch,
     Greeting,
+    Amplitude,
 ].map((source) => wpToStuff(source));

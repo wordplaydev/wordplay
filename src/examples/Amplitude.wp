@@ -1,0 +1,4 @@
+===Amplitude
+amplitudes•[#]: ←← 10 Mic()
+vis: amplitudes.translate(ƒ (amp•#) Phrase("⚫️" opacity: amp ÷ 100 size: 10m))
+Stage([Group( Row() vis )] place: Place(0m 0m -50m))
