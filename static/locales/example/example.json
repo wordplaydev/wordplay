@@ -110,6 +110,7 @@
         "Boolean": "$?",
         "Name": "$?",
         "Unknown": "$?",
+        "Locale": "$?",
         "End": "$?"
     },
     "node": {
@@ -459,6 +460,13 @@
                     "explanation": "$?"
                 }
             }
+        },
+        "IsLocale": {
+            "name": "$?",
+            "description": "$?",
+            "emotion": "$?",
+            "doc": "$?",
+            "start": "$?"
         },
         "ListAccess": {
             "name": "$?",

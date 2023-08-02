@@ -56,7 +56,8 @@ enum Symbol {
     Previous = '…-',
     Placeholder = '_',
     Etc = '…',
-    This = 'this',
+    This = '.',
+    Locale = '🌏',
 
     // These are the only operators eligible for unary, binary, or teriary notation.
     // We’ve included them for consistency with math notation and readability.

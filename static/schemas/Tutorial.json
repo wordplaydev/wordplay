@@ -65,6 +65,7 @@
         "Insert",
         "Initial",
         "Is",
+        "IsLocale",
         "ListAccess",
         "ListLiteral",
         "MapLiteral",

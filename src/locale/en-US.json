@@ -109,6 +109,7 @@
         "Base": "base numeral",
         "Boolean": "boolean",
         "Name": "name",
+        "Locale": "locale",
         "Unknown": "unknown",
         "End": "end"
     },
@@ -714,6 +715,18 @@
                     "explanation": "I expected a $1 but received $2"
                 }
             }
+        },
+        "IsLocale": {
+            "name": "is locale",
+            "description": "is locale",
+            "emotion": "kind",
+            "doc": [
+                "I'll help you check if the audience has selected a particular language or region:",
+                "\\🌍/en\\",
+                "\\🌍/es-MX\\",
+                "This is helpful if you want to change your performance based on the language chosen."
+            ],
+            "start": "is the language $1?"
         },
         "ListAccess": {
             "name": "list access",

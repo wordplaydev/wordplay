@@ -78,6 +78,7 @@ import FormattedTypeView from '../FormattedTypeView.svelte';
 import TranslationView from '../TranslationView.svelte';
 import FormattedLiteralView from '../FormattedLiteralView.svelte';
 import FormattedTranslationView from '../FormattedTranslationView.svelte';
+import IsLocaleView from '../IsLocaleView.svelte';
 
 import type Node from '@nodes/Node';
 import Program from '@nodes/Program';
@@ -161,6 +162,7 @@ import FormattedType from '@nodes/FormattedType';
 import Translation from '@nodes/Translation';
 import FormattedTranslation from '@nodes/FormattedTranslation';
 import FormattedLiteral from '@nodes/FormattedLiteral';
+import IsLocale from '@nodes/IsLocale';
 
 const nodeToView = new Map<Function, ConstructorOfATypedSvelteComponent>();
 nodeToView.set(Source, SourceView);
@@ -259,6 +261,7 @@ nodeToView.set(UnparsableExpression, UnparsableExpressionView);
 nodeToView.set(UnionType, UnionTypeView);
 nodeToView.set(TypePlaceholder, TypePlaceholderView);
 nodeToView.set(Is, IsView);
+nodeToView.set(IsLocale, IsLocaleView);
 
 nodeToView.set(This, ThisView);
 

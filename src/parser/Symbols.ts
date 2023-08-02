@@ -69,3 +69,7 @@ export const MENTION_SYMBOL = '$';
 export const STAGE_SYMBOL = '🎭';
 export const PALETTE_SYMBOL = '🎨';
 export const DOCUMENTATION_SYMBOL = '📕';
+
+export const GLOBE1_SYMBOL = '🌎';
+export const GLOBE2_SYMBOL = '🌍';
+export const GLOBE3_SYMBOL = '🌏';

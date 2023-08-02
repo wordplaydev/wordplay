@@ -51,6 +51,9 @@ import {
     CODE_SYMBOL as CODE_SYMBOL,
     FORMATTED_SYMBOL,
     FORMATTED_TYPE_SYMBOL,
+    GLOBE1_SYMBOL,
+    GLOBE2_SYMBOL,
+    GLOBE3_SYMBOL,
 } from './Symbols';
 import TokenList from './TokenList';
 import ConceptRegEx from './ConceptRegEx';
@@ -269,6 +272,9 @@ const patterns = [
         types: [Symbol.Extra, Symbol.Operator],
     },
     { pattern: '-', types: [Symbol.Operator, Symbol.Region] },
+    { pattern: GLOBE1_SYMBOL, types: [Symbol.Locale] },
+    { pattern: GLOBE2_SYMBOL, types: [Symbol.Locale] },
+    { pattern: GLOBE3_SYMBOL, types: [Symbol.Locale] },
     // Prefix and infix operators are single Unicode glyphs that are surrounded by whitespace that are not one of the above
     // and one of the following:
     // - Mathematical operators: U+2200..U+22FF

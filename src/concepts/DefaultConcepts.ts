@@ -77,6 +77,7 @@ import NameType from '../nodes/NameType';
 import type Locale from '../locale/Locale';
 import FormattedLiteral from '../nodes/FormattedLiteral';
 import FormattedTranslation from '../nodes/FormattedTranslation';
+import IsLocale from '../nodes/IsLocale';
 
 /** These are ordered by appearance in the docs. */
 const templates: Node[] = [
@@ -124,6 +125,7 @@ const templates: Node[] = [
     Is.make(ExpressionPlaceholder.make(), TypePlaceholder.make()),
     Initial.make(),
     Changed.make(ExpressionPlaceholder.make(StreamType.make())),
+    IsLocale.make(Language.make(undefined)),
 
     // Bind
     Bind.make(

@@ -41,6 +41,7 @@ import {
     UNKNOWN_SYMBOL,
     UNPARSABLE_SYMBOL,
     FORMATTED_SYMBOL,
+    GLOBE1_SYMBOL,
 } from '@parser/Symbols';
 import type Glyph from './Glyph';
 
@@ -153,6 +154,9 @@ const GlyphSet = {
     },
     ListAccess: {
         symbols: PLACEHOLDER_SYMBOL + LIST_OPEN_SYMBOL + LIST_CLOSE_SYMBOL,
+    },
+    Locale: {
+        symbols: GLOBE1_SYMBOL,
     },
     Set: {
         symbols: SET_OPEN_SYMBOL + SET_CLOSE_SYMBOL,

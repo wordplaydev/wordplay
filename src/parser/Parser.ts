@@ -83,6 +83,7 @@ import FormattedType from '../nodes/FormattedType';
 import Translation, { type TranslationSegment } from '../nodes/Translation';
 import FormattedTranslation from '../nodes/FormattedTranslation';
 import FormattedLiteral from '../nodes/FormattedLiteral';
+import IsLocale from '../nodes/IsLocale';
 
 export enum SyntacticConflict {
     EXPECTED_BORRW_NAME,
@@ -664,6 +665,8 @@ function parseAtomicExpression(tokens: Tokens): Expression {
             ? parseConversion(tokens)
             : tokens.nextIs(Symbol.Formatted)
             ? parseFormattedLiteral(tokens)
+            : tokens.nextIs(Symbol.Locale)
+            ? parseIsLocale(tokens)
             : // A documented expression
             tokens.nextIs(Symbol.Doc)
             ? parseDocumentedExpression(tokens)
@@ -729,6 +732,14 @@ function parseChanged(tokens: Tokens): Changed {
     const stream = parseAtomicExpression(tokens);
 
     return new Changed(change, stream);
+}
+
+function parseIsLocale(tokens: Tokens): IsLocale {
+    const locale = tokens.read(Symbol.Locale);
+    const language = tokens.nextIs(Symbol.Language)
+        ? parseLanguage(tokens)
+        : undefined;
+    return new IsLocale(locale, language);
 }
 
 function parseDocumentedExpression(tokens: Tokens): Expression {

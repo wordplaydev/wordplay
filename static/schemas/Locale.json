@@ -2469,6 +2469,34 @@
               ],
               "type": "object"
             },
+            "IsLocale": {
+              "additionalProperties": false,
+              "properties": {
+                "description": {
+                  "$ref": "#/definitions/Template"
+                },
+                "doc": {
+                  "$ref": "#/definitions/DocText"
+                },
+                "emotion": {
+                  "type": "string"
+                },
+                "name": {
+                  "type": "string"
+                },
+                "start": {
+                  "$ref": "#/definitions/Template"
+                }
+              },
+              "required": [
+                "description",
+                "doc",
+                "emotion",
+                "name",
+                "start"
+              ],
+              "type": "object"
+            },
             "KeyValue": {
               "$ref": "#/definitions/NodeText"
             },
@@ -3750,6 +3778,7 @@
             "Insert",
             "Initial",
             "Is",
+            "IsLocale",
             "ListAccess",
             "ListLiteral",
             "MapLiteral",
@@ -4658,6 +4687,9 @@
             "ListOpen": {
               "type": "string"
             },
+            "Locale": {
+              "type": "string"
+            },
             "Mention": {
               "type": "string"
             },
@@ -4815,6 +4847,7 @@
             "Placeholder",
             "Etc",
             "This",
+            "Locale",
             "Operator",
             "Conditional",
             "Text",

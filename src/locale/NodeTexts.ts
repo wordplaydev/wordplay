@@ -353,6 +353,7 @@ type NodeTexts = {
              */
             TypeException: ExceptionText;
         }>;
+    IsLocale: DescriptiveNodeText & AtomicExpressionText;
     /**
      * Start
      * $1: list
