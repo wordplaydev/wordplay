@@ -157,7 +157,7 @@ export default class Motion extends TemporalStream<Value> {
                 ?.withValue(
                     creator,
                     RotationName,
-                    new Number(this.definition, this.angle, Unit.make(['°']))
+                    new Number(this.definition, this.angle, Unit.reuse(['°']))
                 );
 
             // Finally, add the new place to the stream.
@@ -166,13 +166,13 @@ export default class Motion extends TemporalStream<Value> {
     }
 
     getType() {
-        return StreamType.make(NumberType.make(Unit.make(['ms'])));
+        return StreamType.make(NumberType.make(Unit.reuse(['ms'])));
     }
 }
 
-const SpeedUnit = Unit.make(['m'], ['s']);
+const SpeedUnit = Unit.reuse(['m'], ['s']);
 const SpeedType = NumberType.make(SpeedUnit);
-const AngleSpeedUnit = Unit.make(['°'], ['s']);
+const AngleSpeedUnit = Unit.reuse(['°'], ['s']);
 const AngleSpeedType = NumberType.make(AngleSpeedUnit);
 
 export function createMotionDefinition(
@@ -217,9 +217,9 @@ export function createMotionDefinition(
     const MassBind = Bind.make(
         getDocLocales(locales, (locale) => locale.input.Motion.mass.doc),
         getNameLocales(locales, (locale) => locale.input.Motion.mass.names),
-        UnionType.orNone(NumberType.make(Unit.make(['kg']))),
+        UnionType.orNone(NumberType.make(Unit.reuse(['kg']))),
         // Default to 1kg.
-        NumberLiteral.make(1, Unit.make(['kg']))
+        NumberLiteral.make(1, Unit.reuse(['kg']))
     );
 
     const BouncinessBind = Bind.make(
@@ -235,8 +235,8 @@ export function createMotionDefinition(
     const GravityBind = Bind.make(
         getDocLocales(locales, (locale) => locale.input.Motion.gravity.doc),
         getNameLocales(locales, (locale) => locale.input.Motion.gravity.names),
-        UnionType.orNone(NumberType.make(Unit.make(['m'], ['s', 's']))),
-        NumberLiteral.make(15, Unit.make(['m'], ['s', 's']))
+        UnionType.orNone(NumberType.make(Unit.reuse(['m'], ['s', 's']))),
+        NumberLiteral.make(15, Unit.reuse(['m'], ['s', 's']))
     );
 
     const type = new StructureDefinitionType(PhraseType);

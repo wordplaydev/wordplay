@@ -33,7 +33,7 @@
 
     function revisePercent(kv: KeyValue | Expression, percent: string) {
         let text = percent.replace('%', '');
-        const number = NumberLiteral.make(text, Unit.make(['%']));
+        const number = NumberLiteral.make(text, Unit.create(['%']));
         if (kv instanceof KeyValue && number.isInteger())
             $config.reviseProjectNodes(project, [[kv.key, number]]);
     }

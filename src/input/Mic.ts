@@ -118,9 +118,9 @@ export function createMicDefinition(locales: Locale[]) {
     const FrequencyBind = Bind.make(
         getDocLocales(locales, (locale) => locale.input.Mic.frequency.doc),
         getNameLocales(locales, (locale) => locale.input.Mic.frequency.names),
-        UnionType.make(NumberType.make(Unit.make(['ms'])), NoneType.make()),
+        UnionType.make(NumberType.make(Unit.reuse(['ms'])), NoneType.make()),
         // Default to nothing
-        NumberLiteral.make(33, Unit.make(['ms']))
+        NumberLiteral.make(33, Unit.reuse(['ms']))
     );
 
     return StreamDefinition.make(

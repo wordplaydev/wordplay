@@ -36,7 +36,7 @@
                     dimension,
                     NumberLiteral.make(
                         value.length === 0 ? 0 : value,
-                        Unit.make(['m'])
+                        Unit.create(['m'])
                     ),
                     project.getNodeContext(place)
                 ),

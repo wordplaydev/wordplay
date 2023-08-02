@@ -20,15 +20,15 @@ function position(evaluator: Evaluator, x: number, y: number) {
     const bindings = new Map<Names, Value>();
     bindings.set(
         PlaceType.inputs[0].names,
-        new Number(evaluator.getMain(), x, Unit.make(['m']))
+        new Number(evaluator.getMain(), x, Unit.reuse(['m']))
     );
     bindings.set(
         PlaceType.inputs[1].names,
-        new Number(evaluator.getMain(), y, Unit.make(['m']))
+        new Number(evaluator.getMain(), y, Unit.reuse(['m']))
     );
     bindings.set(
         PlaceType.inputs[2].names,
-        new Number(evaluator.getMain(), 0, Unit.make(['m']))
+        new Number(evaluator.getMain(), 0, Unit.reuse(['m']))
     );
     return createStructure(evaluator, PlaceType, bindings);
 }

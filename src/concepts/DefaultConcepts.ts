@@ -159,7 +159,7 @@ const templates: Node[] = [
     BooleanType.make(),
     TextType.make(),
     NumberType.make(),
-    Unit.make(['unit']),
+    Unit.reuse(['unit']),
     ListType.make(),
     SetType.make(),
     NoneType.make(),

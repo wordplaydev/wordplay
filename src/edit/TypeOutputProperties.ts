@@ -38,7 +38,7 @@ export function getDurationProperty(locale: Locale): OutputProperty {
         false,
         false,
         (expr) => expr instanceof NumberLiteral,
-        () => NumberLiteral.make(0.25, Unit.make(['s']))
+        () => NumberLiteral.make(0.25, Unit.create(['s']))
     );
 }
 
@@ -79,7 +79,7 @@ export default function getTypeOutputProperties(
             false,
             true,
             (expr) => expr instanceof NumberLiteral,
-            () => NumberLiteral.make(1, Unit.make(['m']))
+            () => NumberLiteral.make(1, Unit.create(['m']))
         ),
         new OutputProperty(
             locale.output.Type.family,
@@ -114,9 +114,9 @@ export default function getTypeOutputProperties(
                         project.shares.output.Place
                     ),
                     [
-                        NumberLiteral.make(0, Unit.make(['m'])),
-                        NumberLiteral.make(0, Unit.make(['m'])),
-                        NumberLiteral.make(0, Unit.make(['m'])),
+                        NumberLiteral.make(0, Unit.create(['m'])),
+                        NumberLiteral.make(0, Unit.create(['m'])),
+                        NumberLiteral.make(0, Unit.create(['m'])),
                     ]
                 )
         ),

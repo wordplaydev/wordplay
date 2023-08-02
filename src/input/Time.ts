@@ -26,7 +26,7 @@ export default class Time extends TemporalStream<Number> {
         super(
             evaluator,
             evaluator.project.shares.input.Time,
-            new Number(evaluator.getMain(), 0, Unit.make(['ms']))
+            new Number(evaluator.getMain(), 0, Unit.reuse(['ms']))
         );
         this.frequency = frequency;
     }
@@ -63,21 +63,21 @@ export default class Time extends TemporalStream<Number> {
     }
 
     static make(creator: Expression, time: number) {
-        return new Number(creator, time, Unit.make(['ms']));
+        return new Number(creator, time, Unit.reuse(['ms']));
     }
 
     getType() {
-        return StreamType.make(NumberType.make(Unit.make(['ms'])));
+        return StreamType.make(NumberType.make(Unit.reuse(['ms'])));
     }
 }
 
 export function createTimeDefinition(locale: Locale[]) {
-    const TimeType = NumberType.make(Unit.make(['ms']));
+    const TimeType = NumberType.make(Unit.reuse(['ms']));
 
     const FrequencyBind = Bind.make(
         getDocLocales(locale, (locale) => locale.input.Time.frequency.doc),
         getNameLocales(locale, (locale) => locale.input.Time.frequency.names),
-        UnionType.make(NumberType.make(Unit.make(['ms'])), NoneType.make()),
+        UnionType.make(NumberType.make(Unit.reuse(['ms'])), NoneType.make()),
         // Default to nothing
         NoneLiteral.make()
     );

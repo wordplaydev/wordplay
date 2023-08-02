@@ -95,15 +95,15 @@ export function createPlaceStructure(
     const PlaceType = evaluator.project.shares.output.Place;
     place.set(
         PlaceType.inputs[0].names,
-        new Number(creator, x, Unit.make(['m']))
+        new Number(creator, x, Unit.reuse(['m']))
     );
     place.set(
         PlaceType.inputs[1].names,
-        new Number(creator, y, Unit.make(['m']))
+        new Number(creator, y, Unit.reuse(['m']))
     );
     place.set(
         PlaceType.inputs[2].names,
-        new Number(creator, z, Unit.make(['m']))
+        new Number(creator, z, Unit.reuse(['m']))
     );
 
     const evaluation = new Evaluation(
