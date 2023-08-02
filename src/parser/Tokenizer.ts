@@ -321,26 +321,27 @@ export const TextDelimiters = new Set<string>([
     ...Object.keys(TextCloseByTextOpen),
 ]);
 
-export const DELIMITERS: Record<string, string> = {};
+export const Delimiters: Record<string, string> = {};
 
-DELIMITERS[EVAL_OPEN_SYMBOL] = EVAL_CLOSE_SYMBOL;
-DELIMITERS[LIST_OPEN_SYMBOL] = LIST_CLOSE_SYMBOL;
-DELIMITERS[SET_OPEN_SYMBOL] = SET_CLOSE_SYMBOL;
-DELIMITERS[TYPE_OPEN_SYMBOL] = TYPE_CLOSE_SYMBOL;
-DELIMITERS[TABLE_OPEN_SYMBOL] = TABLE_CLOSE_SYMBOL;
-DELIMITERS[CODE_SYMBOL] = CODE_SYMBOL;
-DELIMITERS[DOCS_SYMBOL] = DOCS_SYMBOL;
+Delimiters[EVAL_OPEN_SYMBOL] = EVAL_CLOSE_SYMBOL;
+Delimiters[LIST_OPEN_SYMBOL] = LIST_CLOSE_SYMBOL;
+Delimiters[SET_OPEN_SYMBOL] = SET_CLOSE_SYMBOL;
+Delimiters[TYPE_OPEN_SYMBOL] = TYPE_CLOSE_SYMBOL;
+Delimiters[TABLE_OPEN_SYMBOL] = TABLE_CLOSE_SYMBOL;
+Delimiters[CODE_SYMBOL] = CODE_SYMBOL;
+Delimiters[DOCS_SYMBOL] = DOCS_SYMBOL;
+Delimiters[TABLE_OPEN_SYMBOL] = TABLE_CLOSE_SYMBOL;
 
-for (const symbol of FormattingSymbols) DELIMITERS[symbol] = symbol;
+for (const symbol of FormattingSymbols) Delimiters[symbol] = symbol;
 
 // Add the text delimiters.
 for (const [open, close] of Object.entries(TextCloseByTextOpen))
-    DELIMITERS[open] = close;
+    Delimiters[open] = close;
 
 // Construct the reverse delimiters.
 export const REVERSE_DELIMITERS: Record<string, string> = {};
 
-for (const [open, close] of Object.entries(DELIMITERS))
+for (const [open, close] of Object.entries(Delimiters))
     REVERSE_DELIMITERS[close] = open;
 
 export function tokens(source: string): Token[] {

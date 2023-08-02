@@ -54,11 +54,13 @@ export default class Select extends Expression {
                 name: 'row',
                 kind: node(Row),
                 label: (translation: Locale) => translation.term.row,
+                space: true,
             },
             {
                 name: 'query',
                 kind: node(Expression),
                 label: (translation: Locale) => translation.term.query,
+                space: true,
             },
         ];
     }

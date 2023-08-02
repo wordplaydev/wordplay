@@ -215,22 +215,6 @@
               ],
               "type": "object"
             },
-            "Docs": {
-              "additionalProperties": false,
-              "properties": {
-                "doc": {
-                  "$ref": "#/definitions/DocText"
-                },
-                "name": {
-                  "$ref": "#/definitions/NameText"
-                }
-              },
-              "required": [
-                "doc",
-                "name"
-              ],
-              "type": "object"
-            },
             "List": {
               "additionalProperties": false,
               "properties": {
@@ -1173,6 +1157,52 @@
               ],
               "type": "object"
             },
+            "Table": {
+              "additionalProperties": false,
+              "properties": {
+                "conversion": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "text": {
+                      "$ref": "#/definitions/DocText"
+                    }
+                  },
+                  "required": [
+                    "text"
+                  ],
+                  "type": "object"
+                },
+                "doc": {
+                  "$ref": "#/definitions/DocText"
+                },
+                "function": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "equals": {
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1671-1741-1127088073-0-4253%5D%3E"
+                    },
+                    "notequal": {
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1671-1741-1127088073-0-4253%5D%3E"
+                    }
+                  },
+                  "required": [
+                    "equals",
+                    "notequal"
+                  ],
+                  "type": "object"
+                },
+                "name": {
+                  "$ref": "#/definitions/NameText"
+                }
+              },
+              "required": [
+                "doc",
+                "name",
+                "function",
+                "conversion"
+              ],
+              "type": "object"
+            },
             "Text": {
               "additionalProperties": false,
               "properties": {
@@ -1260,7 +1290,7 @@
             "List",
             "Set",
             "Map",
-            "Docs"
+            "Table"
           ],
           "type": "object"
         },
@@ -5085,6 +5115,9 @@
                 "insertSymbol": {
                   "$ref": "#/definitions/Template"
                 },
+                "insertTableSymbol": {
+                  "type": "string"
+                },
                 "insertTrueSymbol": {
                   "type": "string"
                 },
@@ -5292,6 +5325,7 @@
                 "insertStreamSymbol",
                 "insertPreviousSymbol",
                 "insertConvertSymbol",
+                "insertTableSymbol",
                 "insertLineBreak",
                 "backspace",
                 "copy",

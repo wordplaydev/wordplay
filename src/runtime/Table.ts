@@ -3,11 +3,12 @@ import type TableLiteral from '@nodes/TableLiteral';
 import TableType from '@nodes/TableType';
 import { TABLE_CLOSE_SYMBOL, TABLE_OPEN_SYMBOL } from '@parser/Symbols';
 import type Exception from './Exception';
-import Value from './Value';
+import type Value from './Value';
 import type Locale from '@locale/Locale';
 import concretize from '../locale/concretize';
+import Simple from './Simple';
 
-export default class Table extends Value {
+export default class Table extends Simple {
     readonly literal: TableLiteral;
     readonly rows: Value[][];
 
@@ -30,13 +31,18 @@ export default class Table extends Value {
         return 'table';
     }
 
-    resolve() {
-        return undefined;
-    }
-
-    isEqualTo(structure: Value): boolean {
-        structure;
-        return false;
+    isEqualTo(table: Value): boolean {
+        return (
+            table instanceof Table &&
+            this.rows.length === table.rows.length &&
+            this.rows.every(
+                (row, rowIndex) =>
+                    row.length === table.rows[rowIndex].length &&
+                    row.every((cell, columnIndex) =>
+                        cell.isEqualTo(table.rows[rowIndex][columnIndex])
+                    )
+            )
+        );
     }
 
     toWordplay(locales: Locale[]): string {

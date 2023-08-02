@@ -3,7 +3,7 @@ import Token from './Token';
 import Program from './Program';
 import type Conflict from '@conflicts/Conflict';
 import { parseProgram, Tokens } from '@parser/Parser';
-import { DELIMITERS, REVERSE_DELIMITERS, tokenize } from '@parser/Tokenizer';
+import { Delimiters, REVERSE_DELIMITERS, tokenize } from '@parser/Tokenizer';
 import UnicodeString from '../models/UnicodeString';
 import type Value from '@runtime/Value';
 import type Context from './Context';
@@ -180,8 +180,8 @@ export default class Source extends Expression {
     getMatchedDelimiter(delimiter: Token): Token | undefined {
         const text = delimiter.getText();
         const match =
-            text in DELIMITERS
-                ? DELIMITERS[text]
+            text in Delimiters
+                ? Delimiters[text]
                 : text in REVERSE_DELIMITERS
                 ? REVERSE_DELIMITERS[text]
                 : undefined;

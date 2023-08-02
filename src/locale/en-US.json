@@ -2453,9 +2453,28 @@
                 "list": "A list of the values in the @Map"
             }
         },
-        "Docs": {
-            "doc": "I represent some rich text that you've written and used as a value. See @Docs for details.",
-            "name": "Docs"
+        "Table": {
+            "doc": "$?",
+            "name": "$?",
+            "function": {
+                "equals": {
+                    "doc": "$?",
+                    "names": ["=", "equals"],
+                    "inputs": [
+                        { "doc": "The other value to check.", "names": "value" }
+                    ]
+                },
+                "notequal": {
+                    "doc": "$?",
+                    "names": ["≠", "notEquals"],
+                    "inputs": [
+                        { "doc": "The other value to check.", "names": "value" }
+                    ]
+                }
+            },
+            "conversion": {
+                "text": "$?"
+            }
         }
     },
     "input": {
@@ -3106,6 +3125,7 @@
             "insertStreamSymbol": "insert stream symbol",
             "insertConvertSymbol": "insert convert symbol",
             "insertPreviousSymbol": "insert previous symbol",
+            "insertTableSymbol": "insert table symbol",
             "insertLineBreak": "insert line break",
             "backspace": "delete selection or prior character",
             "cut": "cut selection",

@@ -53,6 +53,7 @@ export default class Delete extends Expression {
                 label: (translation: Locale) => translation.term.query,
                 // Must be a boolean
                 getType: () => BooleanType.make(),
+                space: true,
             },
         ];
     }

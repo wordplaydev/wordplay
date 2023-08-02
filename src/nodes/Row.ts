@@ -10,14 +10,10 @@ import Symbol from './Symbol';
 
 export default class Row extends Node {
     readonly open: Token;
-    readonly cells: (Bind | Expression)[];
+    readonly cells: Expression[];
     readonly close: Token | undefined;
 
-    constructor(
-        open: Token,
-        cells: (Bind | Expression)[],
-        close: Token | undefined
-    ) {
+    constructor(open: Token, cells: Expression[], close: Token | undefined) {
         super();
 
         this.open = open;
@@ -30,8 +26,8 @@ export default class Row extends Node {
     getGrammar(): Grammar {
         return [
             { name: 'open', kind: node(Symbol.TableOpen) },
-            { name: 'cells', kind: list(node(Bind), node(Expression)) },
-            { name: 'close', kind: node(Symbol.TableClose) },
+            { name: 'cells', kind: list(node(Expression)), space: true },
+            { name: 'close', kind: node(Symbol.TableClose), space: true },
         ];
     }
 

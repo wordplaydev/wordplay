@@ -51,6 +51,7 @@ export default class Insert extends Expression {
                 name: 'row',
                 kind: node(Row),
                 label: (translation: Locale) => translation.term.row,
+                space: true,
             },
         ];
     }

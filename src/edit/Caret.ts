@@ -4,7 +4,7 @@ import Node, { ListOf } from '@nodes/Node';
 import Token from '@nodes/Token';
 import Symbol from '@nodes/Symbol';
 import {
-    DELIMITERS,
+    Delimiters,
     FormattingSymbols,
     REVERSE_DELIMITERS,
     TextOpenByTextClose,
@@ -720,7 +720,7 @@ export default class Caret {
         // Otherwise, if the text to insert is an opening delimiter and this isn't an unclosed text delimiter, automatically insert its closing counterpart.
         else if (
             complete &&
-            text in DELIMITERS &&
+            text in Delimiters &&
             ((!this.isInsideText() && !FormattingSymbols.includes(text)) ||
                 (this.isInsideText() && FormattingSymbols.includes(text))) &&
             (this.tokenPrior === undefined ||
@@ -730,12 +730,12 @@ export default class Caret {
                         (this.tokenPrior.isSymbol(Symbol.Text) ||
                             this.tokenPrior.isSymbol(Symbol.Unknown)) &&
                         // The text typed closes a matching delimiter
-                        text === DELIMITERS[this.tokenPrior.getText().charAt(0)]
+                        text === Delimiters[this.tokenPrior.getText().charAt(0)]
                     )
                 ))
         ) {
             closed = true;
-            text += DELIMITERS[text];
+            text += Delimiters[text];
         }
         // If the two preceding characters are dots and this is a dot, delete the last two dots then insert the stream symbol.
         else if (
@@ -875,7 +875,7 @@ export default class Caret {
             );
             if (placeholder) return this.deleteNode(placeholder);
 
-            if (before && after && DELIMITERS[before] === after) {
+            if (before && after && Delimiters[before] === after) {
                 // If there's an adjacent pair of delimiters, delete them both.
                 let newSource = this.source.withoutGraphemeAt(this.position);
                 if (newSource)

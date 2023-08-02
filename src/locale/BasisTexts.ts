@@ -222,9 +222,16 @@ type BasisTexts = {
             list: DocText;
         };
     };
-    Docs: {
+    Table: {
         doc: DocText;
         name: NameText;
+        function: {
+            equals: FunctionText<[NameAndDoc]>;
+            notequal: FunctionText<[NameAndDoc]>;
+        };
+        conversion: {
+            text: DocText;
+        };
     };
 };
 

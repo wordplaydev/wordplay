@@ -25,6 +25,7 @@ import Root from '../nodes/Root';
 import type Locale from '../locale/Locale';
 import createDefaultShares from '../runtime/createDefaultShares';
 import type LanguageCode from '../locale/LanguageCode';
+import bootstrapTable from './TableBasis';
 
 export class Basis {
     readonly locales: Locale[];
@@ -48,6 +49,7 @@ export class Basis {
         this.addStructure('measurement', bootstrapNumber(locales));
         this.addStructure('set', bootstrapSet(locales));
         this.addStructure('map', bootstrapMap(locales));
+        this.addStructure('table', bootstrapTable(locales));
 
         this.shares = createDefaultShares(locales);
     }

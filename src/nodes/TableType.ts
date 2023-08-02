@@ -1,4 +1,3 @@
-import Type from './Type';
 import Bind from '@nodes/Bind';
 import type Context from './Context';
 import Token from './Token';
@@ -12,8 +11,9 @@ import ExpectedColumnType from '@conflicts/ExpectedColumnType';
 import { node, type Grammar, type Replacement, list } from './Node';
 import type Locale from '@locale/Locale';
 import Glyphs from '../lore/Glyphs';
+import BasisType from './BasisType';
 
-export default class TableType extends Type {
+export default class TableType extends BasisType {
     readonly open: Token;
     readonly columns: Bind[];
     readonly close: Token | undefined;
@@ -28,7 +28,7 @@ export default class TableType extends Type {
         this.computeChildren();
     }
 
-    static make(columns: Bind[]) {
+    static make(columns: Bind[] = []) {
         return new TableType(
             new Token(TABLE_OPEN_SYMBOL, [Symbol.TableOpen]),
             columns,
@@ -40,7 +40,7 @@ export default class TableType extends Type {
         return [
             { name: 'open', kind: node(Symbol.TableOpen) },
             { name: 'columns', kind: list(node(Bind)), space: true },
-            { name: 'close', kind: node(Symbol.TableClose) },
+            { name: 'close', kind: node(Symbol.TableClose), space: true },
         ];
     }
 
@@ -71,6 +71,7 @@ export default class TableType extends Type {
     acceptsAll(types: TypeSet, context: Context) {
         return types.list().every((type) => {
             if (!(type instanceof TableType)) return false;
+            if (this.columns.length === 0) return true;
             if (this.columns.length !== type.columns.length) return false;
             for (let i = 0; i < this.columns.length; i++)
                 if (

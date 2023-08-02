@@ -1397,9 +1397,24 @@
             },
             "conversion": { "text": "$?", "set": "$?", "list": "$?" }
         },
-        "Docs": {
+        "Table": {
             "doc": "$?",
-            "name": "$?"
+            "name": "$?",
+            "function": {
+                "equals": {
+                    "doc": "$?",
+                    "names": "$? equals",
+                    "inputs": [{ "doc": "$?", "names": "$? value" }]
+                },
+                "notequal": {
+                    "doc": "$?",
+                    "names": "$?",
+                    "inputs": [{ "doc": "$?", "names": "$? value" }]
+                }
+            },
+            "conversion": {
+                "text": "$?"
+            }
         }
     },
     "input": {
@@ -1712,6 +1727,7 @@
             "insertStreamSymbol": "$?",
             "insertConvertSymbol": "$?",
             "insertPreviousSymbol": "$?",
+            "insertTableSymbol": "$?",
             "insertLineBreak": "$?",
             "backspace": "$?",
             "cut": "$?",
