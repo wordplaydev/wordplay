@@ -65,7 +65,7 @@ export const URLRegEx = new RegExp(
     'u'
 );
 
-export const FormatCharacters = [
+export const MarkupSymbols = [
     CODE_SYMBOL,
     LINK_SYMBOL,
     TAG_OPEN_SYMBOL,
@@ -83,7 +83,7 @@ export const FormatCharacters = [
 ];
 
 export function unescapeMarkupSymbols(text: string) {
-    return FormatCharacters.reduce(
+    return MarkupSymbols.reduce(
         (literal, special) => literal.replaceAll(special + special, special),
         text
     );
@@ -92,7 +92,7 @@ export function unescapeMarkupSymbols(text: string) {
 /** Words are any sequence of characters that aren't formatting characters, unless those special characters are repeated, indicating an escape. */
 export const WordsRegEx = new RegExp(
     // Escape regex special characters
-    `^(${FormatCharacters.map((c) => {
+    `^(${MarkupSymbols.map((c) => {
         const escape =
             c === '\\' ||
             c === '/' ||
@@ -106,7 +106,7 @@ export const WordsRegEx = new RegExp(
                 ? '\\'
                 : '';
         return `${escape}${c}${escape}${c}|`;
-    }).join('')}[^\n${FormatCharacters.map(
+    }).join('')}[^\n${MarkupSymbols.map(
         // Escape character class special characters
         (c) =>
             `${
@@ -309,7 +309,6 @@ export const TextDelimiters = new Set<string>([
 
 export const DELIMITERS: Record<string, string> = {};
 
-// Add the data structure delimiters
 DELIMITERS[EVAL_OPEN_SYMBOL] = EVAL_CLOSE_SYMBOL;
 DELIMITERS[LIST_OPEN_SYMBOL] = LIST_CLOSE_SYMBOL;
 DELIMITERS[SET_OPEN_SYMBOL] = SET_CLOSE_SYMBOL;
@@ -317,6 +316,8 @@ DELIMITERS[TYPE_OPEN_SYMBOL] = TYPE_CLOSE_SYMBOL;
 DELIMITERS[TABLE_OPEN_SYMBOL] = TABLE_CLOSE_SYMBOL;
 DELIMITERS[CODE_SYMBOL] = CODE_SYMBOL;
 DELIMITERS[DOCS_SYMBOL] = DOCS_SYMBOL;
+
+for (const symbol of MarkupSymbols) DELIMITERS[symbol] = symbol;
 
 // Add the text delimiters.
 for (const [open, close] of Object.entries(TextCloseByTextOpen))

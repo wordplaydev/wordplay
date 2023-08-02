@@ -5,11 +5,11 @@ import Token from '@nodes/Token';
 import Symbol from '@nodes/Symbol';
 import {
     DELIMITERS,
+    MarkupSymbols,
     REVERSE_DELIMITERS,
     TextOpenByTextClose,
 } from '@parser/Tokenizer';
 import {
-    CODE_SYMBOL,
     CONVERT_SYMBOL,
     PROPERTY_SYMBOL,
     STREAM_SYMBOL,
@@ -721,7 +721,7 @@ export default class Caret {
         else if (
             complete &&
             text in DELIMITERS &&
-            (!this.isInsideText() || text === CODE_SYMBOL) &&
+            (!this.isInsideText() || MarkupSymbols.includes(text)) &&
             (this.tokenPrior === undefined ||
                 !(
                     // The token prior is text or unknown
