@@ -28,7 +28,7 @@
             !node
                 .nodes()
                 .filter((child) => child instanceof Evaluate && child !== node)
-                .some((evaluate) => $caret?.isIn(evaluate, true))
+                .some((evaluate) => $caret?.isIn(evaluate, false))
         ) {
             const fun = node.getFunction($project.getNodeContext(node));
             if (fun) {
