@@ -976,6 +976,7 @@ function parseRow(tokens: Tokens): Row {
     // Read the cells.
     while (
         tokens.hasNext() &&
+        tokens.nextIsnt(Symbol.Code) &&
         !tokens.nextIs(Symbol.TableClose) &&
         !tokens.nextHasMoreThanOneLineBreak()
     )
@@ -1055,7 +1056,12 @@ export function parseFunction(tokens: Tokens): FunctionDefinition {
         : undefined;
 
     const inputs: Bind[] = [];
-    while (tokens.nextIsnt(Symbol.EvalClose) && nextIsBind(tokens, false))
+    while (
+        tokens.hasNext() &&
+        tokens.nextIsnt(Symbol.Code) &&
+        tokens.nextIsnt(Symbol.EvalClose) &&
+        nextIsBind(tokens, false)
+    )
         inputs.push(parseBind(tokens));
 
     const close = tokens.nextIs(Symbol.EvalClose)
@@ -1336,7 +1342,11 @@ function parseTableType(tokens: Tokens): TableType {
     const open = tokens.read(Symbol.TableOpen);
 
     const columns: Bind[] = [];
-    while (tokens.hasNext() && !tokens.nextIs(Symbol.TableClose)) {
+    while (
+        tokens.hasNext() &&
+        tokens.nextIsnt(Symbol.Code) &&
+        !tokens.nextIs(Symbol.TableClose)
+    ) {
         const bind = nextIsBind(tokens, false) ? parseBind(tokens) : undefined;
         if (bind === undefined) break;
         else columns.push(bind);
