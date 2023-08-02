@@ -48,7 +48,7 @@ screen/en,cine/es,إظهار/ar:
         	enter: Pose(opacity: 0%)
         	rest: Sequence(sway() 1s)
       )
-      	💬("press *space* to begin"/en"presiona espacio para comenzar"/es"اضغط على * مسافة * للبدء"/ar)
+      	💬(`press *space* to begin`/en`presiona espacio para comenzar`/es`اضغط على * مسافة * للبدء`/ar)
     ]
     	exit: fade
   )
