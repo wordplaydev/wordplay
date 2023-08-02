@@ -62,6 +62,8 @@ import Names from '../nodes/Names';
 import Docs from '../nodes/Docs';
 import TypeVariables from '../nodes/TypeVariables';
 import FormattedTranslation from '../nodes/FormattedTranslation';
+import IsLocale from '../nodes/IsLocale';
+import Language from '../nodes/Language';
 
 test('Parse programs', () => {
     expect(toProgram('')).toBeInstanceOf(Program);
@@ -134,7 +136,11 @@ test.each([
     ['0 … Button() … a + 1', Reaction, 'next', BinaryEvaluate, 'a + 1'],
     ['a ← 1', Previous, 'stream', Reference, 'a'],
     ['1 + 2 + 3 + 4', BinaryEvaluate, 'right', NumberLiteral],
+    ['123•#', Is, 'type', NumberType],
     ['123 • #', Is, 'type', NumberType],
+    ['🌍/', IsLocale, 'locale', Language],
+    ['🌏/en', IsLocale, 'locale', Language],
+    ['🌎/en-US', IsLocale, 'locale', Language],
     ['a ? b c ? d e', Conditional, 'condition', Reference, 'a'],
     ['a ? b c ? d e', Conditional, 'no', Conditional, 'c ? d e'],
     ['ƒ(a b) _', FunctionDefinition, 'inputs', Array, 2],
