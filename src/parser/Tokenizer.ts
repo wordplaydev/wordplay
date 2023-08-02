@@ -82,6 +82,14 @@ export const MarkupSymbols = [
     LIST_CLOSE_SYMBOL,
 ];
 
+export const FormattingSymbols = [
+    ITALIC_SYMBOL,
+    UNDERSCORE_SYMBOL,
+    BOLD_SYMBOL,
+    EXTRA_SYMBOL,
+    LIGHT_SYMBOL,
+];
+
 export function unescapeMarkupSymbols(text: string) {
     return MarkupSymbols.reduce(
         (literal, special) => literal.replaceAll(special + special, special),
@@ -317,7 +325,7 @@ DELIMITERS[TABLE_OPEN_SYMBOL] = TABLE_CLOSE_SYMBOL;
 DELIMITERS[CODE_SYMBOL] = CODE_SYMBOL;
 DELIMITERS[DOCS_SYMBOL] = DOCS_SYMBOL;
 
-for (const symbol of MarkupSymbols) DELIMITERS[symbol] = symbol;
+for (const symbol of FormattingSymbols) DELIMITERS[symbol] = symbol;
 
 // Add the text delimiters.
 for (const [open, close] of Object.entries(TextCloseByTextOpen))
