@@ -17,7 +17,7 @@ import {
     PALETTE_SYMBOL,
 } from '@parser/Symbols';
 
-import type Source from '@nodes/Source';
+import Source from '@nodes/Source';
 import { toClipboard } from './Clipboard';
 import type Evaluator from '@runtime/Evaluator';
 import FunctionDefinition from '@nodes/FunctionDefinition';
@@ -25,7 +25,6 @@ import ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
 import Names from '@nodes/Names';
 import type { Creator } from '@db/Creator';
 import type Locale from '@locale/Locale';
-import Program from '@nodes/Program';
 import { Content } from '../../project/Tile';
 
 export type Command = {
@@ -556,10 +555,9 @@ const Commands: Command[] = [
             if (caret === undefined) return false;
             const position = caret.position;
             if (position instanceof Node) {
-                // Don't select program's parent.
-                if (position instanceof Program) return undefined;
                 let parent = caret.source.root.getParent(position);
-                if (parent) return caret.withPosition(parent);
+                if (parent && !(parent instanceof Source))
+                    return caret.withPosition(parent);
             }
             // Find the node corresponding to the position.
             // And if it's parent only has the one child, select it.
