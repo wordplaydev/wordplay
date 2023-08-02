@@ -11,7 +11,7 @@ import { DefaultLocale } from '../db/Creator';
 
 test.each([
     ['⎡a•# b•#⎦', '⎡a•# b⎦', TableType, ExpectedColumnType],
-    ['⎡a•# b•#⎦\n⎡1 2⎦', '⎡a•# b•#⎦\n⎡1⎦', TableLiteral, MissingCell],
+    ['⎡a•# b•#⎦⎡1 2⎦', '⎡a•# b•#⎦⎡1⎦', TableLiteral, MissingCell],
     [
         '⎡a•# b•#⎦\n⎡1 2⎦',
         '⎡a•# b•#⎦\n⎡"hi" "there"⎦',
