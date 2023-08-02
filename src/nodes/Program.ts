@@ -26,7 +26,6 @@ import Glyphs from '../lore/Glyphs';
 import BlankException from '../runtime/BlankException';
 import concretize from '../locale/concretize';
 import Purpose from '../concepts/Purpose';
-import DocsValue from '../runtime/DocsValue';
 
 export default class Program extends Expression {
     readonly docs?: Docs;
@@ -172,8 +171,6 @@ export default class Program extends Expression {
         // Otherwise, return whatever the block computed.
         return this.expression.statements.length > 0
             ? value
-            : this.docs
-            ? new DocsValue(this.docs)
             : new BlankException(evaluator, this);
     }
 

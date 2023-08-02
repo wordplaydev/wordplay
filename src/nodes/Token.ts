@@ -149,9 +149,7 @@ export default class Token extends Node {
 
         // Is this text? Localize delimiters.
         const isText = this.isSymbol(Symbol.Text);
-        const isTextOpen = this.isSymbol(Symbol.TemplateOpen);
-        const isTextClose = this.isSymbol(Symbol.TemplateClose);
-        if (isText || isTextOpen || isTextClose) {
+        if (isText) {
             // Is there a closing delimiter? If not, we don't replace it.
             const lastChar = text.at(-1);
             const last =
@@ -165,10 +163,7 @@ export default class Token extends Node {
                     ? preferredQuote +
                       text.substring(1, text.length - (last ? 1 : 0)) +
                       (last ? preferredClosing : '')
-                    : isTextOpen
-                    ? preferredQuote + text.substring(1)
-                    : text.substring(0, text.length - (last ? 1 : 0)) +
-                      (last ? preferredClosing : '');
+                    : text;
             }
         }
 

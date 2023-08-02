@@ -1,8 +1,8 @@
 === WhatWord/en,QuePalabra/es,ايكلمة/ar
 ↓ words
-`a list of guesses and a secret word`/en
-`El estado del juego es una lista de conjeturas y una palabra secreta.`/es
-`قائمة التخمينات وكلمة سرية`/ar
+``a list of guesses and a secret word``/en
+``El estado del juego es una lista de conjeturas y una palabra secreta.``/es
+``قائمة التخمينات وكلمة سرية``/ar
 •Game/en,Juego/es,لعبة/ar(guesses/en,suposiciones/es,التخمينات/ar•[""] secret/en,secreta/es,سر/ar•"") (
   	guessesRemaining/en,conjeturasRestantes/es,التخميناتالمتبقية/ar: (secret.📏() · 2) - guesses.📏()
   	status/en,estado/es,حالة/ar: 
@@ -16,9 +16,9 @@ start/en,primero/es,أولي/ar: Game([] "")
 
 key/en,tecla/es,مفتاح/ar: ⌨️()
 
-`When the keyboard state changes, the game state changes.`/en
-`Cuando cambia el estado del teclado, cambia el estado del juego.`/es
-`عندما تتغير حالة لوحة المفاتيح ، تتغير حالة اللعبة.`/ar
+``When the keyboard state changes, the game state changes.``/en
+``Cuando cambia el estado del teclado, cambia el estado del juego.``/es
+``عندما تتغير حالة لوحة المفاتيح ، تتغير حالة اللعبة.``/ar
 state/en,estado/es,حالة/ar•Game: start … ∆ key …
     key = "Escape" ? start
     	(state.status ≠ "playing") & (key = " ") ? Game([] words.random())
@@ -26,9 +26,9 @@ state/en,estado/es,حالة/ar•Game: start … ∆ key …
       		Game(state.guesses.add(key) state.secret)
       		state
 
-`The board is a translation of the secret, accounting for guesses`/en
-`El tablero es una traducción del secreto, teniendo en cuenta las conjeturas.`/es
-`اللوحة عبارة عن ترجمة للسرية ، مع مراعاة التخمينات`/ar
+``The board is a translation of the secret, accounting for guesses``/en
+``El tablero es una traducción del secreto, teniendo en cuenta las conjeturas.``/es
+``اللوحة عبارة عن ترجمة للسرية ، مع مراعاة التخمينات``/ar
 board/en,tabelro/es,طاولة/ar: 💬(
   	state.secret → [""].translate(ƒ(letter•"") ((state.status = "lost") | state.guesses.has(letter)) ? letter ".").join(' ')
   	2m
@@ -36,31 +36,26 @@ board/en,tabelro/es,طاولة/ar: 💬(
 
 fade/en,descolorar/es,يختفي/ar: Pose(opacity: 0)
 
-`Construct the game scene`/en
-`Construye la escena del juego`/es
-`قم ببناء مشهد اللعبة`/ar
+``Construct the game scene``/en
+``Construye la escena del juego``/es
+``قم ببناء مشهد اللعبة``/ar
 screen/en,cine/es,إظهار/ar: 
   state.status = "start" ? 
     Group(⬇() [
-      	💬(["What*Word*"/en "Que*Palabra*"/es "اي كلمة"/ar] 
+      	💬(`What*Word*`/en`Que*Palabra*`/es`اي كلمة`/ar
         	3m 
         	place: 📍(z: -1m) 
         	enter: Pose(opacity: 0%)
         	rest: Sequence(sway() 1s)
       )
-      	💬(["press *space* to begin"/en "presiona espacio para comenzar"/es "اضغط على * مسافة * للبدء"/ar])
+      	💬(`press *space* to begin`/en`presiona espacio para comenzar`/es`اضغط على * مسافة * للبدء`/ar)
     ]
     	exit: fade
   )
   	state.status = "lost" ? 
     	Group(⬇() [
       		board 
-      		💬(
-        		[
-          		"You lost. Press *space* to play again."/en 
-          		"Perdiste. Presiona *espacio* para volver a jugar"/es
-          		"لقد خسرت. اضغط على * مسافة * للعب مرة أخرى."/ar
-        ] 
+      		💬(	`You lost. Press *space* to play again.`/en`Perdiste. Presiona *espacio* para volver a jugar`/es`لقد خسرت. اضغط على * مسافة * للعب مرة أخرى.`/ar
         		enter: Pose(rotation: 0°) 
         		rest: Pose(rotation: -5°)
       )
@@ -68,33 +63,30 @@ screen/en,cine/es,إظهار/ar:
   		state.status = "won" ?
     		Group(⬇() [
         		board.rest:Sequence(bounce(3m) 1s) 
-        		💬([
-          			"You won, nice job! Press space to play again."/en 
-          			"¡Ganaste, buen trabajo! Presiona la barra espaciadora para volver a jugar"/es
-          			"لقد فزت ، عمل جيد! اضغط على الفضاء للعب مرة أخرى."/ar
-          ])
+        		💬("You won, nice job! Press space to play again."/en"¡Ganaste, buen trabajo! Presiona la barra espaciadora para volver a jugar"/es"لقد فزت ، عمل جيد! اضغط على الفضاء للعب مرة أخرى."/ar
+          )
     ] exit: fade)
     		Group(⬇() [
       			board 
       			💬(state.guesses.length() = 0 ? 
-        				["Type a letter to guess"/en "Escribe una carta a"/es "اكتب حرفًا للتخمين"/ar "اكتب حرفًا للتخمين"/ar] 
-        				["Guesses: \state.guesses.join(' ')\"/en "Suposiciones: \state.guesses.join(' ')\"/es "التخمينات \state.guesses.join(' ')\"/ar])
-      			💬(
-        			["\state.guessesRemaining → ''\ remaining"/en "\state.guessesRemaining → ''\ restante"/es "متبقي \state.guessesRemaining → ''\"/ar]
-        			rest: Sequence(sway(2°) (state.guessesRemaining ÷ 5) · 1s)
+        				"Type a letter to guess"/en"Escribe una carta a"/es"اكتب حرفًا للتخمين"/ar "اكتب حرفًا للتخمين"/ar"Guesses: \state.guesses.join(' ')\"/en"Suposiciones: \state.guesses.join(' ')\"/es"التخمينات \state.guesses.join(' ')\"/ar
+				)
+      			💬("\state.guessesRemaining\ remaining"/en"\state.guessesRemaining\ restante"/es"متبقي \state.guessesRemaining\"/ar
+        			rest: Sequence(sway(2°) (state.guessesRemaining ÷ 5) · 1s
+				)
       )
     ])
 
-`Create a world with the screen in it`/en
-`Crea un mundo con la pantalla en él`/es
-`اصنع عالمًا مع الشاشة بداخله`/ar
+``Create a world with the screen in it``/en
+``Crea un mundo con la pantalla en él``/es
+``اصنع عالمًا مع الشاشة بداخله``/ar
 Stage([screen] font: "Poor Story" background: 🌈(0% 0 0°) color: 🌈(100% 0 0°))
 
 
 === words/en,palabras/es,كلمات/ar
-`These are the secret words. Don't tell anyone!`/en
-`Estas son las palabras secretas. ¡No se lo digas a nadie!`/es
-`هذه هي الكلمات السرية. لا تخبر أحدا!`/ar
+``These are the secret words. Don't tell anyone!``/en
+``Estas son las palabras secretas. ¡No se lo digas a nadie!``/es
+``هذه هي الكلمات السرية. لا تخبر أحدا!``/ar
 [
   'kitty'
   'house'

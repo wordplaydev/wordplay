@@ -8,6 +8,7 @@ import type Locale from '@locale/Locale';
 import type StreamDefinition from '../nodes/StreamDefinition';
 import type Expression from '../nodes/Expression';
 import concretize from '../locale/concretize';
+import List from './List';
 
 export const MAX_STREAM_LENGTH = 256;
 
@@ -106,6 +107,15 @@ export default abstract class Stream<
         return position >= 0 && position < this.values.length
             ? this.values[position].value
             : new None(requestor);
+    }
+
+    range(requestor: Expression, count: number): Value {
+        return new List(
+            requestor,
+            this.values
+                .slice(this.values.length - count, this.values.length)
+                .map((val) => val.value)
+        );
     }
 
     listen(listener: (stream: Stream) => void) {

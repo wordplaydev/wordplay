@@ -428,7 +428,11 @@ export default function bootstrapNumber(locales: Locale[]) {
                     (requestor: Expression, val: Number) =>
                         val.divide(
                             requestor,
-                            new Number(requestor, 60, Unit.make(['s'], ['min']))
+                            new Number(
+                                requestor,
+                                60,
+                                Unit.reuse(['s'], ['min'])
+                            )
                         )
                 ),
                 createBasisConversion(
@@ -441,7 +445,11 @@ export default function bootstrapNumber(locales: Locale[]) {
                     (requestor: Expression, val: Number) =>
                         val.divide(
                             requestor,
-                            new Number(requestor, 3600, Unit.make(['s'], ['h']))
+                            new Number(
+                                requestor,
+                                3600,
+                                Unit.reuse(['s'], ['h'])
+                            )
                         )
                 ),
                 createBasisConversion(
@@ -457,7 +465,7 @@ export default function bootstrapNumber(locales: Locale[]) {
                             new Number(
                                 requestor,
                                 86400,
-                                Unit.make(['s'], ['day'])
+                                Unit.reuse(['s'], ['day'])
                             )
                         )
                 ),
@@ -474,7 +482,7 @@ export default function bootstrapNumber(locales: Locale[]) {
                             new Number(
                                 requestor,
                                 604800,
-                                Unit.make(['s'], ['wk'])
+                                Unit.reuse(['s'], ['wk'])
                             )
                         )
                 ),
@@ -491,7 +499,7 @@ export default function bootstrapNumber(locales: Locale[]) {
                             new Number(
                                 requestor,
                                 31449600,
-                                Unit.make(['s'], ['yr'])
+                                Unit.reuse(['s'], ['yr'])
                             )
                         )
                 ),
@@ -508,7 +516,7 @@ export default function bootstrapNumber(locales: Locale[]) {
                             new Number(
                                 requestor,
                                 1000,
-                                Unit.make(['s'], ['ms'])
+                                Unit.reuse(['s'], ['ms'])
                             )
                         )
                 ),
@@ -525,7 +533,7 @@ export default function bootstrapNumber(locales: Locale[]) {
                             new Number(
                                 requestor,
                                 1000,
-                                Unit.make(['ms'], ['s'])
+                                Unit.reuse(['ms'], ['s'])
                             )
                         )
                 ),
@@ -539,7 +547,11 @@ export default function bootstrapNumber(locales: Locale[]) {
                     (requestor: Expression, val: Number) =>
                         val.multiply(
                             requestor,
-                            new Number(requestor, 60, Unit.make(['s'], ['min']))
+                            new Number(
+                                requestor,
+                                60,
+                                Unit.reuse(['s'], ['min'])
+                            )
                         )
                 ),
                 createBasisConversion(
@@ -552,7 +564,11 @@ export default function bootstrapNumber(locales: Locale[]) {
                     (requestor: Expression, val: Number) =>
                         val.multiply(
                             requestor,
-                            new Number(requestor, 3600, Unit.make(['s'], ['h']))
+                            new Number(
+                                requestor,
+                                3600,
+                                Unit.reuse(['s'], ['h'])
+                            )
                         )
                 ),
                 createBasisConversion(
@@ -568,7 +584,7 @@ export default function bootstrapNumber(locales: Locale[]) {
                             new Number(
                                 requestor,
                                 86400,
-                                Unit.make(['s'], ['day'])
+                                Unit.reuse(['s'], ['day'])
                             )
                         )
                 ),
@@ -585,7 +601,7 @@ export default function bootstrapNumber(locales: Locale[]) {
                             new Number(
                                 requestor,
                                 604800,
-                                Unit.make(['s'], ['wk'])
+                                Unit.reuse(['s'], ['wk'])
                             )
                         )
                 ),
@@ -602,7 +618,7 @@ export default function bootstrapNumber(locales: Locale[]) {
                             new Number(
                                 requestor,
                                 31449600,
-                                Unit.make(['s'], ['yr'])
+                                Unit.reuse(['s'], ['yr'])
                             )
                         )
                 ),
@@ -621,7 +637,7 @@ export default function bootstrapNumber(locales: Locale[]) {
                             new Number(
                                 requestor,
                                 1000000000000,
-                                Unit.make(['pm'], ['m'])
+                                Unit.reuse(['pm'], ['m'])
                             )
                         )
                 ),
@@ -638,7 +654,7 @@ export default function bootstrapNumber(locales: Locale[]) {
                             new Number(
                                 requestor,
                                 1000000000,
-                                Unit.make(['nm'], ['m'])
+                                Unit.reuse(['nm'], ['m'])
                             )
                         )
                 ),
@@ -655,7 +671,7 @@ export default function bootstrapNumber(locales: Locale[]) {
                             new Number(
                                 requestor,
                                 1000000,
-                                Unit.make(['µm'], ['m'])
+                                Unit.reuse(['µm'], ['m'])
                             )
                         )
                 ),
@@ -672,7 +688,7 @@ export default function bootstrapNumber(locales: Locale[]) {
                             new Number(
                                 requestor,
                                 1000,
-                                Unit.make(['mm'], ['m'])
+                                Unit.reuse(['mm'], ['m'])
                             )
                         )
                 ),
@@ -687,7 +703,11 @@ export default function bootstrapNumber(locales: Locale[]) {
                     (requestor: Expression, val: Number) =>
                         val.multiply(
                             requestor,
-                            new Number(requestor, 100, Unit.make(['cm'], ['m']))
+                            new Number(
+                                requestor,
+                                100,
+                                Unit.reuse(['cm'], ['m'])
+                            )
                         )
                 ),
                 createBasisConversion(
@@ -700,7 +720,7 @@ export default function bootstrapNumber(locales: Locale[]) {
                     (requestor: Expression, val: Number) =>
                         val.multiply(
                             requestor,
-                            new Number(requestor, 10, Unit.make(['dm'], ['m']))
+                            new Number(requestor, 10, Unit.reuse(['dm'], ['m']))
                         )
                 ),
                 createBasisConversion(
@@ -716,7 +736,7 @@ export default function bootstrapNumber(locales: Locale[]) {
                             new Number(
                                 requestor,
                                 1000,
-                                Unit.make(['m'], ['km'])
+                                Unit.reuse(['m'], ['km'])
                             )
                         )
                 ),
@@ -733,7 +753,7 @@ export default function bootstrapNumber(locales: Locale[]) {
                             new Number(
                                 requestor,
                                 1000000,
-                                Unit.make(['m'], ['Mm'])
+                                Unit.reuse(['m'], ['Mm'])
                             )
                         )
                 ),
@@ -750,7 +770,7 @@ export default function bootstrapNumber(locales: Locale[]) {
                             new Number(
                                 requestor,
                                 1000000000,
-                                Unit.make(['m'], ['Gm'])
+                                Unit.reuse(['m'], ['Gm'])
                             )
                         )
                 ),
@@ -767,7 +787,7 @@ export default function bootstrapNumber(locales: Locale[]) {
                             new Number(
                                 requestor,
                                 1000000000000,
-                                Unit.make(['m'], ['Tm'])
+                                Unit.reuse(['m'], ['Tm'])
                             )
                         )
                 ),
@@ -784,7 +804,7 @@ export default function bootstrapNumber(locales: Locale[]) {
                             new Number(
                                 requestor,
                                 1000000000000,
-                                Unit.make(['pm'], ['m'])
+                                Unit.reuse(['pm'], ['m'])
                             )
                         )
                 ),
@@ -801,7 +821,7 @@ export default function bootstrapNumber(locales: Locale[]) {
                             new Number(
                                 requestor,
                                 1000000000,
-                                Unit.make(['nm'], ['m'])
+                                Unit.reuse(['nm'], ['m'])
                             )
                         )
                 ),
@@ -818,7 +838,7 @@ export default function bootstrapNumber(locales: Locale[]) {
                             new Number(
                                 requestor,
                                 1000000,
-                                Unit.make(['µm'], ['m'])
+                                Unit.reuse(['µm'], ['m'])
                             )
                         )
                 ),
@@ -835,7 +855,7 @@ export default function bootstrapNumber(locales: Locale[]) {
                             new Number(
                                 requestor,
                                 1000,
-                                Unit.make(['mm'], ['m'])
+                                Unit.reuse(['mm'], ['m'])
                             )
                         )
                 ),
@@ -849,7 +869,11 @@ export default function bootstrapNumber(locales: Locale[]) {
                     (requestor: Expression, val: Number) =>
                         val.divide(
                             requestor,
-                            new Number(requestor, 100, Unit.make(['cm'], ['m']))
+                            new Number(
+                                requestor,
+                                100,
+                                Unit.reuse(['cm'], ['m'])
+                            )
                         )
                 ),
                 createBasisConversion(
@@ -862,7 +886,7 @@ export default function bootstrapNumber(locales: Locale[]) {
                     (requestor: Expression, val: Number) =>
                         val.divide(
                             requestor,
-                            new Number(requestor, 10, Unit.make(['dm'], ['m']))
+                            new Number(requestor, 10, Unit.reuse(['dm'], ['m']))
                         )
                 ),
                 createBasisConversion(
@@ -878,7 +902,7 @@ export default function bootstrapNumber(locales: Locale[]) {
                             new Number(
                                 requestor,
                                 1000,
-                                Unit.make(['m'], ['km'])
+                                Unit.reuse(['m'], ['km'])
                             )
                         )
                 ),
@@ -895,7 +919,7 @@ export default function bootstrapNumber(locales: Locale[]) {
                             new Number(
                                 requestor,
                                 1000000,
-                                Unit.make(['m'], ['Mm'])
+                                Unit.reuse(['m'], ['Mm'])
                             )
                         )
                 ),
@@ -912,7 +936,7 @@ export default function bootstrapNumber(locales: Locale[]) {
                             new Number(
                                 requestor,
                                 1000000000,
-                                Unit.make(['m'], ['Gm'])
+                                Unit.reuse(['m'], ['Gm'])
                             )
                         )
                 ),
@@ -929,7 +953,7 @@ export default function bootstrapNumber(locales: Locale[]) {
                             new Number(
                                 requestor,
                                 1000000000000,
-                                Unit.make(['m'], ['Tm'])
+                                Unit.reuse(['m'], ['Tm'])
                             )
                         )
                 ),
@@ -948,7 +972,7 @@ export default function bootstrapNumber(locales: Locale[]) {
                             new Number(
                                 requestor,
                                 0.621371,
-                                Unit.make(['mi'], ['km'])
+                                Unit.reuse(['mi'], ['km'])
                             )
                         )
                 ),
@@ -965,7 +989,7 @@ export default function bootstrapNumber(locales: Locale[]) {
                             new Number(
                                 requestor,
                                 0.621371,
-                                Unit.make(['mi'], ['km'])
+                                Unit.reuse(['mi'], ['km'])
                             )
                         )
                 ),
@@ -982,7 +1006,7 @@ export default function bootstrapNumber(locales: Locale[]) {
                             new Number(
                                 requestor,
                                 0.393701,
-                                Unit.make(['in'], ['cm'])
+                                Unit.reuse(['in'], ['cm'])
                             )
                         )
                 ),
@@ -999,7 +1023,7 @@ export default function bootstrapNumber(locales: Locale[]) {
                             new Number(
                                 requestor,
                                 0.393701,
-                                Unit.make(['in'], ['cm'])
+                                Unit.reuse(['in'], ['cm'])
                             )
                         )
                 ),
@@ -1016,7 +1040,7 @@ export default function bootstrapNumber(locales: Locale[]) {
                             new Number(
                                 requestor,
                                 0.3048,
-                                Unit.make(['ft'], ['km'])
+                                Unit.reuse(['ft'], ['km'])
                             )
                         )
                 ),
@@ -1033,7 +1057,7 @@ export default function bootstrapNumber(locales: Locale[]) {
                             new Number(
                                 requestor,
                                 0.3048,
-                                Unit.make(['ft'], ['km'])
+                                Unit.reuse(['ft'], ['km'])
                             )
                         )
                 ),
@@ -1052,7 +1076,7 @@ export default function bootstrapNumber(locales: Locale[]) {
                             new Number(
                                 requestor,
                                 1000,
-                                Unit.make(['mg'], ['g'])
+                                Unit.reuse(['mg'], ['g'])
                             )
                         )
                 ),
@@ -1069,7 +1093,7 @@ export default function bootstrapNumber(locales: Locale[]) {
                             new Number(
                                 requestor,
                                 1000,
-                                Unit.make(['mg'], ['g'])
+                                Unit.reuse(['mg'], ['g'])
                             )
                         )
                 ),
@@ -1086,7 +1110,7 @@ export default function bootstrapNumber(locales: Locale[]) {
                             new Number(
                                 requestor,
                                 1000,
-                                Unit.make(['g'], ['kg'])
+                                Unit.reuse(['g'], ['kg'])
                             )
                         )
                 ),
@@ -1103,7 +1127,7 @@ export default function bootstrapNumber(locales: Locale[]) {
                             new Number(
                                 requestor,
                                 1000,
-                                Unit.make(['g'], ['kg'])
+                                Unit.reuse(['g'], ['kg'])
                             )
                         )
                 ),
@@ -1120,7 +1144,7 @@ export default function bootstrapNumber(locales: Locale[]) {
                             new Number(
                                 requestor,
                                 0.035274,
-                                Unit.make(['oz'], ['g'])
+                                Unit.reuse(['oz'], ['g'])
                             )
                         )
                 ),
@@ -1137,7 +1161,7 @@ export default function bootstrapNumber(locales: Locale[]) {
                             new Number(
                                 requestor,
                                 0.035274,
-                                Unit.make(['oz'], ['g'])
+                                Unit.reuse(['oz'], ['g'])
                             )
                         )
                 ),
@@ -1154,7 +1178,7 @@ export default function bootstrapNumber(locales: Locale[]) {
                             new Number(
                                 requestor,
                                 0.0625,
-                                Unit.make(['lb'], ['oz'])
+                                Unit.reuse(['lb'], ['oz'])
                             )
                         )
                 ),
@@ -1171,7 +1195,7 @@ export default function bootstrapNumber(locales: Locale[]) {
                             new Number(
                                 requestor,
                                 0.0625,
-                                Unit.make(['lb'], ['oz'])
+                                Unit.reuse(['lb'], ['oz'])
                             )
                         )
                 ),

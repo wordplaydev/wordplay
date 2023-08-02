@@ -46,7 +46,7 @@ export default function getPoseProperties(
             false,
             false,
             (expr) => expr instanceof NumberLiteral,
-            () => NumberLiteral.make(0, Unit.make(['°']))
+            () => NumberLiteral.make(0, Unit.create(['°']))
         ),
         new OutputProperty(
             locale.output.Pose.offset,
@@ -65,9 +65,9 @@ export default function getPoseProperties(
                         project.shares.output.Place
                     ),
                     [
-                        NumberLiteral.make(0, Unit.make(['m'])),
-                        NumberLiteral.make(0, Unit.make(['m'])),
-                        NumberLiteral.make(0, Unit.make(['m'])),
+                        NumberLiteral.make(0, Unit.create(['m'])),
+                        NumberLiteral.make(0, Unit.create(['m'])),
+                        NumberLiteral.make(0, Unit.create(['m'])),
                     ]
                 )
         ),

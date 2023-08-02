@@ -15,6 +15,7 @@
 <style>
     .symbol {
         color: currentColor;
+        white-space: pre;
     }
 
     .category-name {

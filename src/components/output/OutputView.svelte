@@ -638,7 +638,7 @@
         {/if}
 
         <!-- If it's because the keyboard isn't idle, show feedback instead of the value.-->
-        {#if !mini && $evaluation?.playing === true && $keyboardEditIdle === IdleKind.Typing}
+        {#if !mini && $evaluation?.playing === true && $keyboardEditIdle === IdleKind.Typing && exception !== undefined}
             <div class="message editing">⌨️</div>
             <!-- If there's an exception, show that. -->
         {:else if exception !== undefined}

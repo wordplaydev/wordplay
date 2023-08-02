@@ -14,7 +14,9 @@ enum Symbol {
     Share = '↑',
     Convert = '→',
 
-    Doc = '`',
+    Doc = '``',
+    Formatted = '`',
+    FormattedType = '`…`',
     Words = 'words',
     Link = '@',
     Italic = '/',
@@ -24,8 +26,6 @@ enum Symbol {
     Extra = '^',
     Concept = '@concept',
     URL = 'http...',
-    ExampleOpen = '⧼',
-    ExampleClose = '⧽',
     Mention = '$',
     Branch = '??',
 
@@ -56,7 +56,8 @@ enum Symbol {
     Previous = '…-',
     Placeholder = '_',
     Etc = '…',
-    This = 'this',
+    This = '.',
+    Locale = '🌏',
 
     // These are the only operators eligible for unary, binary, or teriary notation.
     // We’ve included them for consistency with math notation and readability.
@@ -67,9 +68,7 @@ enum Symbol {
     // The trailing text at the end encodes the format.
     // Text literals can also come in multiple formats, to encode multilingual apps in place.
     Text = 'text',
-    TemplateOpen = '"\\',
-    TemplateBetween = '\\\\',
-    TemplateClose = '\\"',
+    Code = '\\',
     // The optional negative sign allows for negative number literals.
     // The optional dash allows for a random number range.
     // The trailing text at the end encodes the unit.
@@ -91,9 +90,6 @@ export const WildcardSymbols = new Set([
     Symbol.Name,
     Symbol.Boolean,
     Symbol.Text,
-    Symbol.TemplateOpen,
-    Symbol.TemplateOpen,
-    Symbol.TemplateBetween,
     Symbol.Words,
     Symbol.Concept,
     Symbol.End,

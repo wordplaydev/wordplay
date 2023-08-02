@@ -202,7 +202,7 @@
                 )}px"
             />
         {:else if text instanceof TextLang}{text.text}{:else}<MarkupHtmlView
-                markup={text.markup.asLine()}
+                markup={text.asLine()}
             />{/if}
     </div>
 {/if}

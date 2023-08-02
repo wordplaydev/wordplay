@@ -40,7 +40,7 @@ export default function getSequenceProperties(
             false,
             false,
             (expr) => expr instanceof NumberLiteral,
-            () => NumberLiteral.make(1, Unit.make(['x']))
+            () => NumberLiteral.make(1, Unit.create(['x']))
         ),
     ];
 }

@@ -8,7 +8,6 @@ import Token from './Token';
 import Symbol from './Symbol';
 import type TypeSet from './TypeSet';
 import Emotion from '../lore/Emotion';
-import { TextCloseByTextOpen } from '../parser/Tokenizer';
 import UnionType from './UnionType';
 import type Context from './Context';
 import type Type from './Type';
@@ -16,21 +15,32 @@ import TextLiteral from './TextLiteral';
 
 /** Any string or a specific string, depending on whether the given token is an empty text literal. */
 export default class TextType extends BasisType {
-    readonly text: Token;
+    readonly open: Token;
+    readonly text: Token | undefined;
+    readonly close: Token | undefined;
     readonly language?: Language;
 
-    constructor(text: Token, language?: Language) {
+    constructor(
+        open: Token,
+        text: Token | undefined,
+        close: Token | undefined,
+        language?: Language
+    ) {
         super();
 
+        this.open = open;
         this.text = text;
+        this.close = close;
         this.language = language;
 
         this.computeChildren();
     }
 
-    static make(format?: Language) {
+    static make(text?: string, format?: Language) {
         return new TextType(
-            new Token(TEXT_SYMBOL + TEXT_SYMBOL, Symbol.Text),
+            new Token(TEXT_SYMBOL, Symbol.Text),
+            text ? new Token(text, Symbol.Words) : undefined,
+            new Token(TEXT_SYMBOL, Symbol.Text),
             format
         );
     }
@@ -41,14 +51,18 @@ export default class TextType extends BasisType {
 
     getGrammar(): Grammar {
         return [
-            { name: 'text', kind: node(Symbol.Text) },
+            { name: 'open', kind: node(Symbol.Text) },
+            { name: 'text', kind: node(Symbol.Words) },
+            { name: 'close', kind: node(Symbol.Text) },
             { name: 'language', kind: optional(node(Language)) },
         ];
     }
 
     clone(replace?: Replacement) {
         return new TextType(
+            this.replaceChild('open', this.open, replace),
             this.replaceChild('text', this.text, replace),
+            this.replaceChild('close', this.close, replace),
             this.replaceChild('language', this.language, replace)
         ) as this;
     }
@@ -68,8 +82,9 @@ export default class TextType extends BasisType {
             // 2) this has no required format, or they have matching formats
             else
                 return (
-                    (this.getUnquotedText() === '' ||
-                        this.getUnquotedText() === type.getUnquotedText()) &&
+                    (this.text === undefined ||
+                        (type.text !== undefined &&
+                            this.text.getText() === type.text.getText())) &&
                     (this.language === undefined ||
                         (type.language !== undefined &&
                             this.language.isEqualTo(type.language)))
@@ -78,29 +93,15 @@ export default class TextType extends BasisType {
     }
 
     generalize(): Type {
-        return TextType.make(this.language);
+        return TextType.make(undefined, this.language);
     }
 
     isLiteral() {
-        return this.getUnquotedText().length > 0;
+        return this.text !== undefined;
     }
 
     getLiteral() {
-        return TextLiteral.make(this.getUnquotedText());
-    }
-
-    /** Strip the delimiters from the token to get the text literal that defines this type. */
-    getUnquotedText() {
-        let text = this.text.getText();
-        if (text.length === 0) return '';
-        const first = text.charAt(0);
-        if (first in TextCloseByTextOpen) {
-            const close = TextCloseByTextOpen[first];
-            text = text.substring(1);
-            if (text.charAt(text.length - 1) === close)
-                text = text.substring(0, text.length - 1);
-        }
-        return text;
+        return TextLiteral.make(this.text?.getText());
     }
 
     getBasisTypeName(): BasisTypeName {
@@ -113,11 +114,11 @@ export default class TextType extends BasisType {
 
     getGlyphs() {
         return {
-            symbols: this.text.getDelimiters(),
+            symbols: this.open.getDelimiters(),
             emotion: Emotion.excited,
         };
     }
     getDescriptionInputs() {
-        return [this.isLiteral() ? this.text.getText() : undefined];
+        return [this.isLiteral() ? this.open.getText() : undefined];
     }
 }

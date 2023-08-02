@@ -353,6 +353,7 @@ type NodeTexts = {
              */
             TypeException: ExceptionText;
         }>;
+    IsLocale: DescriptiveNodeText & AtomicExpressionText;
     /**
      * Start
      * $1: list
@@ -519,7 +520,6 @@ type NodeTexts = {
         ExpressionText & {
             item: Template;
         };
-    Template: NodeText & ExpressionText;
     /**
      * Description
      * $1: the text
@@ -530,6 +530,16 @@ type NodeTexts = {
      * $1: the text
      */
     Translation: DescriptiveNodeText;
+    /**
+     * Description
+     * $1: the text
+     */
+    FormattedLiteral: DescriptiveNodeText & AtomicExpressionText;
+    /**
+     * Description
+     * $1: the text
+     */
+    FormattedTranslation: DescriptiveNodeText;
     /**
      * Finish
      * $1: resulting value
@@ -580,7 +590,7 @@ type NodeTexts = {
     AnyType: NodeText;
     BooleanType: NodeText;
     ConversionType: NodeText;
-    DocsType: NodeText;
+    FormattedType: NodeText;
     ExceptionType: NodeText;
     FunctionDefinitionType: NodeText;
     FunctionType: DescriptiveNodeText;

@@ -88,7 +88,7 @@ export default function moveOutput(
                                                 .add(horizontal)
                                                 .toNumber()
                                           : horizontal,
-                                      Unit.make(['m'])
+                                      Unit.create(['m'])
                                   ),
                             y instanceof Expression && yValue === undefined
                                 ? y
@@ -98,11 +98,11 @@ export default function moveOutput(
                                                 .add(vertical)
                                                 .toNumber()
                                           : vertical,
-                                      Unit.make(['m'])
+                                      Unit.create(['m'])
                                   ),
                             z instanceof Expression && zValue !== undefined
                                 ? z
-                                : NumberLiteral.make(0, Unit.make(['m'])),
+                                : NumberLiteral.make(0, Unit.create(['m'])),
                         ]
                     ),
                     ctx

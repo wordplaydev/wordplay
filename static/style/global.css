@@ -258,7 +258,6 @@ h3 {
 
 p {
     margin: 0;
-    font-family: var(--wordplay-app-font);
 }
 
 p:not(:last-of-type) {

@@ -6,9 +6,9 @@
     import { getProject } from '../project/Contexts';
     import { config } from '../../db/Creator';
     import { tick } from 'svelte';
-    import Language from '../../nodes/Language';
-    import { DOCS_SYMBOL } from '../../parser/Symbols';
-    import { parseDocs, toTokens } from '../../parser/Parser';
+    import Language from '@nodes/Language';
+    import { FORMATTED_SYMBOL } from '../../parser/Symbols';
+    import { parseFormattedLiteral, toTokens } from '../../parser/Parser';
 
     export let property: OutputProperty;
     export let values: OutputPropertyValues;
@@ -25,8 +25,8 @@
             $project.getBindReplacements(
                 values.getExpressions(),
                 property.getName(),
-                newValue.startsWith(DOCS_SYMBOL)
-                    ? parseDocs(toTokens(newValue))
+                newValue.startsWith(FORMATTED_SYMBOL)
+                    ? parseFormattedLiteral(toTokens(newValue))
                     : TextLiteral.make(
                           newValue,
                           Language.make($config.getLanguages()[0])

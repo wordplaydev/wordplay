@@ -7,6 +7,6 @@
     export let node: Previous;
 </script>
 
-<NodeView node={node.stream} /><NodeView node={node.previous} /><NodeView
-    node={node.index}
-/>
+<NodeView node={node.previous} /><NodeView node={node.range} /><NodeView
+    node={node.number}
+/><NodeView node={node.stream} />

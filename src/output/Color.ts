@@ -86,7 +86,7 @@ export function createColorLiteral(
         [
             NumberLiteral.make(lightness),
             NumberLiteral.make(chroma),
-            NumberLiteral.make(hue, Unit.make(['°'])),
+            NumberLiteral.make(hue, Unit.reuse(['°'])),
         ]
     );
 }

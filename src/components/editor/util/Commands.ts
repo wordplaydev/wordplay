@@ -15,9 +15,10 @@ import {
     SOURCE_SYMBOL,
     STAGE_SYMBOL,
     PALETTE_SYMBOL,
+    PREVIOUS_SYMBOL,
 } from '@parser/Symbols';
 
-import type Source from '@nodes/Source';
+import Source from '@nodes/Source';
 import { toClipboard } from './Clipboard';
 import type Evaluator from '@runtime/Evaluator';
 import FunctionDefinition from '@nodes/FunctionDefinition';
@@ -25,7 +26,6 @@ import ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
 import Names from '@nodes/Names';
 import type { Creator } from '@db/Creator';
 import type Locale from '@locale/Locale';
-import Program from '@nodes/Program';
 import { Content } from '../../project/Tile';
 
 export type Command = {
@@ -150,11 +150,8 @@ export const IncrementLiteral: Command = {
     shift: false,
     key: 'ArrowUp',
     keySymbol: '↑',
-    active: ({ evaluator, caret }) =>
-        caret?.getAdjustableLiteral(evaluator.project.locales) !== undefined ??
-        false,
-    execute: ({ evaluator, caret }) =>
-        caret?.adjustLiteral(undefined, 1, evaluator.project.locales) ?? false,
+    active: ({ caret }) => caret?.getAdjustableLiteral() !== undefined ?? false,
+    execute: ({ caret }) => caret?.adjustLiteral(undefined, 1) ?? false,
 };
 
 export const DecrementLiteral: Command = {
@@ -167,11 +164,8 @@ export const DecrementLiteral: Command = {
     alt: true,
     key: 'ArrowDown',
     keySymbol: '↓',
-    active: ({ evaluator, caret }) =>
-        caret?.getAdjustableLiteral(evaluator.project.locales) !== undefined ??
-        false,
-    execute: ({ evaluator, caret }) =>
-        caret?.adjustLiteral(undefined, -1, evaluator.project.locales) ?? false,
+    active: ({ caret }) => caret?.getAdjustableLiteral() !== undefined ?? false,
+    execute: ({ caret }) => caret?.adjustLiteral(undefined, -1) ?? false,
 };
 
 export const StepBack: Command = {
@@ -562,10 +556,9 @@ const Commands: Command[] = [
             if (caret === undefined) return false;
             const position = caret.position;
             if (position instanceof Node) {
-                // Don't select program's parent.
-                if (position instanceof Program) return undefined;
                 let parent = caret.source.root.getParent(position);
-                if (parent) return caret.withPosition(parent);
+                if (parent && !(parent instanceof Source))
+                    return caret.withPosition(parent);
             }
             // Find the node corresponding to the position.
             // And if it's parent only has the one child, select it.
@@ -738,6 +731,18 @@ const Commands: Command[] = [
         alt: true,
         key: 'Period',
         execute: ({ caret }) => caret?.insert('≥') ?? false,
+    },
+    {
+        symbol: PREVIOUS_SYMBOL,
+        description: (l) => l.ui.description.insertPreviousSymbol,
+        visible: Visibility.Visible,
+        category: Category.Insert,
+        alt: true,
+        shift: false,
+        control: false,
+        key: 'ArrowLeft',
+        keySymbol: '←',
+        execute: ({ caret }) => caret?.insert(PREVIOUS_SYMBOL) ?? false,
     },
     {
         symbol: CONVERT_SYMBOL,

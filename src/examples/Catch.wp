@@ -1,8 +1,8 @@
 ===Catch/en
-`If the selected phrase is mouse, toggle whether the mouse is caught.`
+``If the selected phrase is mouse, toggle whether the mouse is caught.``
 name: Choice()
 caught: ⊥ … ∆ (name) … (name = 'mouse') & ~caught
-`Every second, move the mouse`
+``Every second, move the mouse``
 place:  Place(0m 0m 0m) … ∆ Time(1000ms) … caught ? Place(0m 0m) Place(Random(-2 2) · 1m Random(-2 2) · 1m)
 
 Stage([

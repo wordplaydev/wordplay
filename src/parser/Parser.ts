@@ -15,7 +15,6 @@ import UnaryEvaluate from '@nodes/UnaryEvaluate';
 import BinaryEvaluate from '@nodes/BinaryEvaluate';
 import PropertyReference from '@nodes/PropertyReference';
 import FunctionDefinition from '@nodes/FunctionDefinition';
-import Template from '@nodes/Template';
 import UnionType from '@nodes/UnionType';
 import NoneLiteral from '@nodes/NoneLiteral';
 import NumberLiteral from '@nodes/NumberLiteral';
@@ -80,8 +79,11 @@ import Initial from '../nodes/Initial';
 import Markup from '../nodes/Markup';
 import Mention from '../nodes/Mention';
 import Branch from '../nodes/Branch';
-import DocsType from '../nodes/DocsType';
-import Translation from '../nodes/Translation';
+import FormattedType from '../nodes/FormattedType';
+import Translation, { type TranslationSegment } from '../nodes/Translation';
+import FormattedTranslation from '../nodes/FormattedTranslation';
+import FormattedLiteral from '../nodes/FormattedLiteral';
+import IsLocale from '../nodes/IsLocale';
 
 export enum SyntacticConflict {
     EXPECTED_BORRW_NAME,
@@ -276,7 +278,7 @@ export class Tokens {
         } while (
             this.hasNext() &&
             this.nextHasPrecedingLineBreak() === false &&
-            this.nextIsnt(Symbol.ExampleClose)
+            this.nextIsnt(Symbol.Code)
         );
         return nodes;
     }
@@ -376,7 +378,7 @@ export function parseBlock(
         tokens.hasNext() &&
         ((root && !doc) ||
             (!root && !doc && tokens.nextIsnt(Symbol.EvalClose)) ||
-            (doc && tokens.nextIsnt(Symbol.ExampleClose)))
+            (doc && tokens.nextIsnt(Symbol.Code)))
     )
         statements.push(
             nextIsBind(tokens, true)
@@ -638,9 +640,6 @@ function parseAtomicExpression(tokens: Tokens): Expression {
             : // Text with optional formats
             tokens.nextIs(Symbol.Text)
             ? parseText(tokens)
-            : // A string template
-            tokens.nextIs(Symbol.TemplateOpen)
-            ? parseTemplate(tokens)
             : // A list
             tokens.nextIs(Symbol.ListOpen)
             ? parseList(tokens)
@@ -664,6 +663,12 @@ function parseAtomicExpression(tokens: Tokens): Expression {
             : // A conversion function.
             nextAreOptionalDocsThen(tokens, [Symbol.Convert])
             ? parseConversion(tokens)
+            : tokens.nextIs(Symbol.Previous)
+            ? parsePrevious(tokens)
+            : tokens.nextIs(Symbol.Formatted)
+            ? parseFormattedLiteral(tokens)
+            : tokens.nextIs(Symbol.Locale)
+            ? parseIsLocale(tokens)
             : // A documented expression
             tokens.nextIs(Symbol.Doc)
             ? parseDocumentedExpression(tokens)
@@ -684,8 +689,6 @@ function parseAtomicExpression(tokens: Tokens): Expression {
             tokens.nextLacksPrecedingSpace()
         )
             left = parseSetOrMapAccess(left, tokens);
-        else if (tokens.nextIs(Symbol.Previous))
-            left = parsePrevious(left, tokens);
         else if (nextIsEvaluate(tokens)) left = parseEvaluate(left, tokens);
         else if (tokens.nextIs(Symbol.Convert))
             left = parseConvert(left, tokens);
@@ -731,13 +734,18 @@ function parseChanged(tokens: Tokens): Changed {
     return new Changed(change, stream);
 }
 
+function parseIsLocale(tokens: Tokens): IsLocale {
+    const locale = tokens.read(Symbol.Locale);
+    const language = tokens.nextIs(Symbol.Language)
+        ? parseLanguage(tokens)
+        : undefined;
+    return new IsLocale(locale, language);
+}
+
 function parseDocumentedExpression(tokens: Tokens): Expression {
     const docs = parseDocs(tokens);
-    if (tokens.nextHasPrecedingLineBreak()) {
-        const expression = parseExpression(tokens);
-        return new DocumentedExpression(docs, expression);
-    }
-    return docs;
+    const expression = parseExpression(tokens);
+    return new DocumentedExpression(docs, expression);
 }
 
 /** NONE :: ! ALIASES */
@@ -831,43 +839,31 @@ function parseDimension(tokens: Tokens): Dimension {
 /** TEXT :: text name? TEXT? */
 function parseText(tokens: Tokens): TextLiteral {
     const texts: Translation[] = [];
+
+    // Read a series of Translations lacking separating space.
     do {
-        const text = tokens.read(Symbol.Text);
-        const format = tokens.nextIs(Symbol.Language)
-            ? parseLanguage(tokens)
-            : undefined;
-        texts.push(new Translation(text, format));
+        texts.push(parseTranslation(tokens));
     } while (tokens.nextIs(Symbol.Text) && tokens.nextLacksPrecedingSpace());
 
     return new TextLiteral(texts);
 }
 
-/** TEMPLATE :: text_open ( EXPRESSION text_between )* EXPRESSION text_close name? */
-function parseTemplate(tokens: Tokens): Template {
-    const open = tokens.read(Symbol.TemplateOpen);
-    const expressions: (Expression | Token)[] = [];
-
-    do {
-        expressions.push(parseExpression(tokens));
-        const close = tokens.nextIs(Symbol.TemplateBetween)
-            ? tokens.read(Symbol.TemplateBetween)
-            : tokens.nextIs(Symbol.TemplateClose)
-            ? tokens.read(Symbol.TemplateClose)
-            : undefined;
-        if (close !== undefined) expressions.push(close);
-        if (close === undefined || close.isSymbol(Symbol.TemplateClose)) break;
-    } while (
-        tokens.hasNext() &&
-        !tokens.nextHasMoreThanOneLineBreak() &&
-        tokens.nextIsnt(Symbol.ExampleClose)
-    );
-
-    // Read an optional format.
-    const format = tokens.nextIs(Symbol.Language)
+function parseTranslation(tokens: Tokens): Translation {
+    const text = tokens.read(Symbol.Text);
+    const segments: TranslationSegment[] = [];
+    while (tokens.nextIs(Symbol.Words) || tokens.nextIs(Symbol.Code)) {
+        if (tokens.nextIs(Symbol.Words))
+            segments.push(tokens.read(Symbol.Words));
+        else if (tokens.nextIs(Symbol.Code))
+            segments.push(parseExample(tokens));
+    }
+    const close = tokens.nextIs(Symbol.Text)
+        ? tokens.read(Symbol.Text)
+        : undefined;
+    const language = tokens.nextIs(Symbol.Language)
         ? parseLanguage(tokens)
         : undefined;
-
-    return new Template(open, expressions, format);
+    return new Translation(text, segments, close, language);
 }
 
 /** LIST :: [ EXPRESSION* ] */
@@ -879,7 +875,7 @@ function parseList(tokens: Tokens): ListLiteral {
     while (
         tokens.hasNext() &&
         tokens.nextIsnt(Symbol.ListClose) &&
-        tokens.nextIsnt(Symbol.ExampleClose) &&
+        tokens.nextIsnt(Symbol.Code) &&
         !tokens.nextHasMoreThanOneLineBreak()
     )
         values.push(parseExpression(tokens));
@@ -921,7 +917,7 @@ function parseSetOrMap(tokens: Tokens): MapLiteral | SetLiteral {
     while (
         tokens.hasNext() &&
         tokens.nextIsnt(Symbol.SetClose) &&
-        tokens.nextIsnt(Symbol.ExampleClose) &&
+        tokens.nextIsnt(Symbol.Code) &&
         !tokens.nextHasMoreThanOneLineBreak()
     ) {
         const key = parseExpression(tokens);
@@ -965,13 +961,18 @@ function parseSetOrMapAccess(left: Expression, tokens: Tokens): Expression {
     return left;
 }
 
-/** PREVIOUS :: EXPRESSION @ EXPRESSION */
-function parsePrevious(stream: Expression, tokens: Tokens): Previous {
+/** PREVIOUS :: ← EXPRESSION →? EXPRESSION  */
+function parsePrevious(tokens: Tokens): Previous {
     const previous = tokens.read(Symbol.Previous);
+    const range = tokens.nextIs(Symbol.Previous)
+        ? tokens.read(Symbol.Previous)
+        : undefined;
     const index = parseExpression(tokens);
+    const stream = parseExpression(tokens);
 
-    return new Previous(stream, previous, index);
+    return new Previous(previous, range, index, stream);
 }
+
 /** TABLE :: ⎡ BIND* ⎦ ROWS* */
 function parseTable(tokens: Tokens): TableLiteral {
     const type = parseTableType(tokens);
@@ -991,6 +992,7 @@ function parseRow(tokens: Tokens): Row {
     // Read the cells.
     while (
         tokens.hasNext() &&
+        tokens.nextIsnt(Symbol.Code) &&
         !tokens.nextIs(Symbol.TableClose) &&
         !tokens.nextHasMoreThanOneLineBreak()
     )
@@ -1070,7 +1072,12 @@ export function parseFunction(tokens: Tokens): FunctionDefinition {
         : undefined;
 
     const inputs: Bind[] = [];
-    while (tokens.nextIsnt(Symbol.EvalClose) && nextIsBind(tokens, false))
+    while (
+        tokens.hasNext() &&
+        tokens.nextIsnt(Symbol.Code) &&
+        tokens.nextIsnt(Symbol.EvalClose) &&
+        nextIsBind(tokens, false)
+    )
         inputs.push(parseBind(tokens));
 
     const close = tokens.nextIs(Symbol.EvalClose)
@@ -1118,7 +1125,7 @@ function parseEvaluate(left: Expression, tokens: Tokens): Evaluate {
     // This little peek at space just prevents runaway parsing. It uses space to make an assumption that everything below isn't part of the evaluate.
     while (
         tokens.hasNext() &&
-        tokens.nextIsnt(Symbol.ExampleClose) &&
+        tokens.nextIsnt(Symbol.Code) &&
         tokens.nextIsnt(Symbol.EvalClose) &&
         !tokens.nextHasMoreThanOneLineBreak()
     )
@@ -1246,8 +1253,9 @@ export function parseType(tokens: Tokens, isExpression: boolean = false): Type {
         ? parseFunctionType(tokens)
         : tokens.nextIs(Symbol.Stream)
         ? parseStreamType(tokens)
-        : tokens.nextAre(Symbol.Doc, Symbol.Doc)
-        ? parseDocsType(tokens)
+        : // We use the doc symbol because it looks like an empty formatted
+        tokens.nextIs(Symbol.FormattedType)
+        ? parseFormattedType(tokens)
         : new UnparsableType(tokens.readLine());
 
     if (!isExpression && tokens.nextIs(Symbol.Convert))
@@ -1271,11 +1279,17 @@ function parseNameType(tokens: Tokens): NameType {
 
 /** TEXT_TYPE :: TEXT LANGUAGE? */
 function parseTextType(tokens: Tokens): TextType {
-    const quote = tokens.read(Symbol.Text);
+    const open = tokens.read(Symbol.Text);
+    const words = tokens.nextIs(Symbol.Words)
+        ? tokens.read(Symbol.Words)
+        : undefined;
+    const close = tokens.nextIs(Symbol.Text)
+        ? tokens.read(Symbol.Text)
+        : undefined;
     const format = tokens.nextIs(Symbol.Language)
         ? parseLanguage(tokens)
         : undefined;
-    return new TextType(quote, format);
+    return new TextType(open, words, close, format);
 }
 
 /** NUMBER_TYPE :: #NAME? */
@@ -1344,7 +1358,11 @@ function parseTableType(tokens: Tokens): TableType {
     const open = tokens.read(Symbol.TableOpen);
 
     const columns: Bind[] = [];
-    while (tokens.hasNext() && !tokens.nextIs(Symbol.TableClose)) {
+    while (
+        tokens.hasNext() &&
+        tokens.nextIsnt(Symbol.Code) &&
+        !tokens.nextIs(Symbol.TableClose)
+    ) {
         const bind = nextIsBind(tokens, false) ? parseBind(tokens) : undefined;
         if (bind === undefined) break;
         else columns.push(bind);
@@ -1424,8 +1442,31 @@ export function parseStructure(tokens: Tokens): StructureDefinition {
     );
 }
 
-function parseDocsType(tokens: Tokens): DocsType {
-    return new DocsType(tokens.read(Symbol.Doc), tokens.read(Symbol.Doc));
+function parseFormattedType(tokens: Tokens): FormattedType {
+    return new FormattedType(tokens.read(Symbol.FormattedType));
+}
+
+export function parseFormattedLiteral(tokens: Tokens): FormattedLiteral {
+    const translations: FormattedTranslation[] = [];
+    do {
+        translations.push(parseFormattedTranslation(tokens));
+    } while (
+        tokens.nextIs(Symbol.Formatted) &&
+        !tokens.nextHasMoreThanOneLineBreak()
+    );
+    return new FormattedLiteral(translations);
+}
+
+export function parseFormattedTranslation(
+    tokens: Tokens
+): FormattedTranslation {
+    const open = tokens.read(Symbol.Formatted);
+    const content = parseMarkup(tokens);
+    const close = tokens.readIf(Symbol.Formatted);
+    const lang = tokens.nextIs(Symbol.Language)
+        ? parseLanguage(tokens)
+        : undefined;
+    return new FormattedTranslation(open, content, close, lang);
 }
 
 export function parseDocs(tokens: Tokens): Docs {
@@ -1454,7 +1495,7 @@ function nextIsContent(tokens: Tokens) {
         Symbol.Words,
         Symbol.TagOpen,
         Symbol.Concept,
-        Symbol.ExampleOpen,
+        Symbol.Code,
         Symbol.Mention,
         Symbol.Italic,
         Symbol.Light,
@@ -1469,7 +1510,6 @@ export function parseMarkup(tokens: Tokens): Markup {
     while (
         tokens.hasNext() &&
         tokens.nextIsnt(Symbol.Doc) &&
-        tokens.nextIsnt(Symbol.ExampleClose) &&
         nextIsContent(tokens)
     )
         content.push(parseParagraph(tokens));
@@ -1504,7 +1544,7 @@ function parseSegment(tokens: Tokens) {
         ? parseWebLink(tokens)
         : tokens.nextIs(Symbol.Concept)
         ? parseConceptLink(tokens)
-        : tokens.nextIs(Symbol.ExampleOpen)
+        : tokens.nextIs(Symbol.Code)
         ? parseExample(tokens)
         : tokens.nextIs(Symbol.Mention)
         ? parseMention(tokens)
@@ -1526,7 +1566,7 @@ function parseConceptLink(tokens: Tokens): ConceptLink {
     return new ConceptLink(concept);
 }
 
-const FORMATS = [
+const Formats = [
     Symbol.Italic,
     Symbol.Underline,
     Symbol.Light,
@@ -1536,12 +1576,12 @@ const FORMATS = [
 
 function parseWords(tokens: Tokens): Words {
     // Read an optional format
-    const open = tokens.nextIsOneOf(...FORMATS) ? tokens.read() : undefined;
+    const open = tokens.nextIsOneOf(...Formats) ? tokens.read() : undefined;
 
     // Figure out what token type it is.
     let format: Symbol | undefined = undefined;
     if (open !== undefined) {
-        const types = new Set(FORMATS);
+        const types = new Set(Formats);
         const intersection = open.types.filter((type) => types.has(type));
         if (intersection.length > 0) format = intersection[0];
     }
@@ -1569,9 +1609,9 @@ function parseWords(tokens: Tokens): Words {
 }
 
 function parseExample(tokens: Tokens): Example {
-    const open = tokens.read(Symbol.ExampleOpen);
+    const open = tokens.read(Symbol.Code);
     const program = parseProgram(tokens, true);
-    const close = tokens.readIf(Symbol.ExampleClose);
+    const close = tokens.readIf(Symbol.Code);
 
     return new Example(open, program, close);
 }

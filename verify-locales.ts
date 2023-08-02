@@ -1,8 +1,8 @@
 import chalk from 'chalk';
 import fs from 'fs';
 import path from 'path';
-import Locale from './src/locale/Locale';
-import { parseDoc, toTokens } from './src/parser/Parser';
+import Locale, { toDocString } from './src/locale/Locale';
+import { parseDoc, parseLocaleDoc, toTokens } from './src/parser/Parser';
 import Token from './src/nodes/Token';
 import Symbol from './src/nodes/Symbol';
 import ConceptLink from './src/nodes/ConceptLink';
@@ -13,6 +13,7 @@ import Source from './src/nodes/Source';
 import Node from './src/nodes/Node';
 import Ajv from 'ajv';
 import { Performances } from './src/tutorial/Performances';
+import { DOCS_SYMBOL } from './src/parser/Symbols';
 
 // Read in and compile the two schema
 const localeSchema = JSON.parse(
@@ -185,7 +186,7 @@ function verifyLocale(locale: Locale) {
         // If the key suggests that it's documentation, try to parse it as a doc and
         // see if it has any tokens of unknown type or unparsable expressions or types.
         if (key === 'doc') {
-            const doc = parseDoc(toTokens('`' + value + '`'));
+            const doc = parseLocaleDoc(toDocString(value));
             const unknownTokens = doc
                 .leaves()
                 .filter(
@@ -383,7 +384,13 @@ function verifyTutorial(locale: Locale, tutorial: Tutorial) {
                 .filter((line): line is Dialog => line !== null)
                 // Map each line of dialog to a flat list of concepts in the dialog
                 .map((line) =>
-                    parseDoc(toTokens('`' + line.slice(2).join('\n\n') + '`'))
+                    parseDoc(
+                        toTokens(
+                            DOCS_SYMBOL +
+                                line.slice(2).join('\n\n') +
+                                DOCS_SYMBOL
+                        )
+                    )
                         .nodes()
                         .filter(
                             (node: Node): node is ConceptLink =>

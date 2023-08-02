@@ -59,6 +59,8 @@
         "Share": "compartir",
         "Convert": "convertir",
         "Doc": "documentación",
+        "Formatted": "$?",
+        "FormattedType": "$?",
         "Words": "palabras",
         "Link": "enlace web",
         "Italic": "itálica",
@@ -68,8 +70,7 @@
         "Extra": "extra",
         "Concept": "enlace de concepto",
         "URL": "URL",
-        "ExampleOpen": "ejemplo abierta",
-        "ExampleClose": "ejemplo cerrar",
+        "Code": "$?",
         "Mention": "mencionar",
         "Branch": "elegir",
         "None": "nada",
@@ -103,15 +104,13 @@
         "Operator": "operador",
         "Conditional": "condicional",
         "Text": "texto",
-        "TemplateOpen": "texto abierta",
-        "TemplateBetween": "texto entre",
-        "TemplateClose": "texto cerrada",
         "Number": "número",
         "Decimal": "número decimal",
         "Base": "numeral base",
         "Boolean": "booleano",
         "Name": "nombre",
         "Unknown": "desconocida",
+        "Locale": "$?",
         "End": "final"
     },
     "node": {
@@ -303,8 +302,8 @@
                 "Tantas decisiones en la vida pueden ser tan complicadas.",
                 "A veces siento mucha presión para decidir, ya que soy el único en este mundo que puede decidir.",
                 "Me siento abrumado, así que he tratado de simplificar las cosas.",
-                "Primero, solo considero dos opciones: ⧼⊤⧽ y ⧼⊥⧽.",
-                "Si es ⧼⊤⧽, entonces evalúo mi código *sí*. Si es ⧼⊥⧽, entonces evalúo mi código *no*.",
+                "Primero, solo considero dos opciones: \\⊤\\ y \\⊥\\.",
+                "Si es \\⊤\\, entonces evalúo mi código *sí*. Si es \\⊥\\, entonces evalúo mi código *no*.",
                 "Sé que las decisiones rara vez son tan simples, pero dividir el mundo en estos binarios me facilita las cosas.",
                 "Sí, no, si, si no, esto, aquello.",
                 "Es mi pequeña forma de mantener las cosas organizadas, incluso ante tanta complejidad."
@@ -454,6 +453,13 @@
                     "explanation": "$?"
                 }
             }
+        },
+        "IsLocale": {
+            "name": "$?",
+            "description": "$?",
+            "emotion": "$?",
+            "doc": "$?",
+            "start": "$?"
         },
         "ListAccess": {
             "name": "acceso a la lista",
@@ -648,13 +654,6 @@
             "start": "first evaluate the rows",
             "finish": "$?"
         },
-        "Template": {
-            "name": "plantilla de texto",
-            "emotion": "neutral",
-            "doc": "$?",
-            "start": "$?",
-            "finish": "$?"
-        },
         "TextLiteral": {
             "name": "texto",
             "description": "$?",
@@ -663,6 +662,19 @@
             "start": "$?"
         },
         "Translation": {
+            "name": "$?",
+            "description": "$?",
+            "emotion": "$?",
+            "doc": "$?"
+        },
+        "FormattedLiteral": {
+            "name": "$?",
+            "description": "$?",
+            "emotion": "$?",
+            "doc": "$?",
+            "start": "$?"
+        },
+        "FormattedTranslation": {
             "name": "$?",
             "description": "$?",
             "emotion": "$?",
@@ -727,7 +739,7 @@
             "emotion": "neutral",
             "doc": "$?"
         },
-        "DocsType": {
+        "FormattedType": {
             "name": "$?",
             "emotion": "$?",
             "doc": "$?"
@@ -1699,6 +1711,7 @@
             "insertGreaterThanOrEqualSymbol": "$?",
             "insertStreamSymbol": "$?",
             "insertConvertSymbol": "$?",
+            "insertPreviousSymbol": "$?",
             "insertLineBreak": "$?",
             "backspace": "$?",
             "cut": "$?",

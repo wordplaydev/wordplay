@@ -23,8 +23,8 @@ export function createSway(locales: Locale[]) {
                     locales,
                     (locale) => locale.output.sequence.sway.angle.names
                 ),
-                NumberType.make(Unit.make(['°'])),
-                NumberLiteral.make(2, Unit.make(['°']))
+                NumberType.make(Unit.reuse(['°'])),
+                NumberLiteral.make(2, Unit.reuse(['°']))
             ),
         ],
         parseExpression(
@@ -55,8 +55,8 @@ export function createBounce(locales: Locale[]) {
                     locales,
                     (locale) => locale.output.sequence.bounce.height.names
                 ),
-                NumberType.make(Unit.make(['m'])),
-                NumberLiteral.make(2, Unit.make(['m']))
+                NumberType.make(Unit.reuse(['m'])),
+                NumberLiteral.make(2, Unit.reuse(['m']))
             ),
         ],
         parseExpression(

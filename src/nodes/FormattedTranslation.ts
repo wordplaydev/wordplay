@@ -3,7 +3,7 @@ import { node, optional } from './Node';
 import type { Grammar, Replacement } from './Node';
 import Token from './Token';
 import type Locale from '@locale/Locale';
-import { DOCS_SYMBOL } from '@parser/Symbols';
+import { FORMATTED_SYMBOL } from '@parser/Symbols';
 import Symbol from './Symbol';
 import type Paragraph from './Paragraph';
 import Words from './Words';
@@ -11,8 +11,9 @@ import Glyphs from '../lore/Glyphs';
 import Purpose from '../concepts/Purpose';
 import Markup from './Markup';
 import { LanguageTagged } from './LanguageTagged';
+import Example from './Example';
 
-export default class Doc extends LanguageTagged {
+export default class FormattedTranslation extends LanguageTagged {
     readonly open: Token;
     readonly markup: Markup;
     readonly close: Token | undefined;
@@ -35,29 +36,37 @@ export default class Doc extends LanguageTagged {
     }
 
     static make(content?: Paragraph[]) {
-        return new Doc(
-            new Token(DOCS_SYMBOL, Symbol.Doc),
+        return new FormattedTranslation(
+            new Token(FORMATTED_SYMBOL, Symbol.Formatted),
             new Markup(content ?? []),
-            new Token(DOCS_SYMBOL, Symbol.Doc),
+            new Token(FORMATTED_SYMBOL, Symbol.Formatted),
             undefined
         );
     }
 
     static getPossibleNodes() {
-        return [Doc.make()];
+        return [FormattedTranslation.make()];
+    }
+
+    getExamples() {
+        return this.markup
+            .nodes()
+            .filter(
+                (example): example is Example => example instanceof Example
+            );
     }
 
     getGrammar(): Grammar {
         return [
-            { name: 'open', kind: node(Symbol.Doc) },
+            { name: 'open', kind: node(Symbol.Formatted) },
             { name: 'markup', kind: node(Markup) },
-            { name: 'close', kind: node(Symbol.Doc) },
+            { name: 'close', kind: node(Symbol.Formatted) },
             { name: 'language', kind: optional(node(Language)) },
         ];
     }
 
     clone(replace?: Replacement) {
-        return new Doc(
+        return new FormattedTranslation(
             this.replaceChild('open', this.open, replace),
             this.replaceChild('markup', this.markup, replace),
             this.replaceChild('close', this.close, replace),
@@ -66,11 +75,16 @@ export default class Doc extends LanguageTagged {
     }
 
     getPurpose() {
-        return Purpose.Document;
+        return Purpose.Value;
     }
 
     withLanguage(language: Language) {
-        return new Doc(this.open, this.markup, this.close, language);
+        return new FormattedTranslation(
+            this.open,
+            this.markup,
+            this.close,
+            language
+        );
     }
 
     getFirstParagraph(): string {
@@ -85,10 +99,10 @@ export default class Doc extends LanguageTagged {
     computeConflicts() {}
 
     getNodeLocale(translation: Locale) {
-        return translation.node.Doc;
+        return translation.node.FormattedTranslation;
     }
 
     getGlyphs() {
-        return Glyphs.Doc;
+        return Glyphs.Formatted;
     }
 }

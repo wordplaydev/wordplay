@@ -189,8 +189,12 @@ export default class Unit extends Type {
         return exponents;
     }
 
-    static make(numerator: string[], denominator: string[] = []) {
+    static reuse(numerator: string[], denominator: string[] = []) {
         return Unit.get(Unit.map(numerator, denominator));
+    }
+
+    static create(numerator: string[], denominator: string[] = []) {
+        return new Unit(Unit.map(numerator, denominator));
     }
 
     /** A unit pool, since they recur so frequently. We map the exponents to a unique string */

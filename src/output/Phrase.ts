@@ -20,19 +20,19 @@ import type { DefinitePose } from './Pose';
 import Structure from '../runtime/Structure';
 import { getOutputInput } from './Output';
 import { getStyle } from './toTypeOutput';
-import DocsValue from '../runtime/DocsValue';
+import MarkupValue from '../runtime/MarkupValue';
 import concretize from '../locale/concretize';
 
 export function createPhraseType(locales: Locale[]) {
     return toStructure(`
     ${getBind(locales, (locale) => locale.output.Phrase, '•')} Type(
-        ${getBind(locales, (locale) => locale.output.Phrase.text)}•""|[""]|\`\`
+        ${getBind(locales, (locale) => locale.output.Phrase.text)}•""|[""]|\`…\`
         ${createTypeOutputInputs(locales)}
     )`);
 }
 
 export default class Phrase extends TypeOutput {
-    readonly text: TextLang[] | DocsValue;
+    readonly text: TextLang[] | MarkupValue;
 
     _metrics:
         | {
@@ -44,7 +44,7 @@ export default class Phrase extends TypeOutput {
 
     constructor(
         value: Structure,
-        text: TextLang[] | DocsValue,
+        text: TextLang[] | MarkupValue,
         size: number | undefined = undefined,
         font: string | undefined = undefined,
         place: Place | undefined = undefined,
@@ -115,7 +115,7 @@ export default class Phrase extends TypeOutput {
         let formats: FormattedText[] =
             text instanceof TextLang
                 ? [{ text: text.text, italic: false, weight: undefined }]
-                : text.markup.getFormats();
+                : text.getFormats();
 
         // Get the list of text nodes and the formats applied to each
         for (const formatted of formats) {
@@ -193,15 +193,13 @@ export default class Phrase extends TypeOutput {
                         (text): text is TextLang => text !== undefined
                     )[0] ?? this.text[0]
             );
-        } else return this.text.docs.getPreferredLocale(locales);
+        } else return this.text.markup;
     }
 
     getDescription(locales: Locale[]) {
         const textOrDoc = this.getLocalizedTextOrDoc(locales);
         const text =
-            textOrDoc instanceof TextLang
-                ? textOrDoc.text
-                : textOrDoc.markup.toText();
+            textOrDoc instanceof TextLang ? textOrDoc.text : textOrDoc.toText();
 
         return concretize(
             locales[0],
@@ -221,7 +219,7 @@ export default class Phrase extends TypeOutput {
     toString() {
         return Array.isArray(this.text)
             ? this.text.map((text) => text.text).join(', ')
-            : this.text.docs.docs.map((doc) => doc.markup.toText()).join(', ');
+            : this.text.markup.toText();
     }
 }
 
@@ -292,7 +290,7 @@ export function toTextLang(value: Value | undefined) {
             ? (value.values as Text[]).map(
                   (val) => new TextLang(val, val.text, val.format)
               )
-            : value instanceof DocsValue
+            : value instanceof MarkupValue
             ? value
             : undefined;
 

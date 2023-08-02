@@ -545,7 +545,7 @@ export default abstract class Node {
     }
 
     /** Adjust this node in the requested direction, if that makes sense. By default, do nothing. */
-    adjust(direction: -1 | 1, locale: Locale[]): this | undefined {
+    adjust(direction: -1 | 1): this | undefined {
         return undefined;
     }
 

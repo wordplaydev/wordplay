@@ -23,7 +23,6 @@ import SetLiteral from '@nodes/SetLiteral';
 import SetType from '@nodes/SetType';
 import StreamType from '@nodes/StreamType';
 import StructureDefinition from '@nodes/StructureDefinition';
-import Template from '@nodes/Template';
 import TextLiteral from '@nodes/TextLiteral';
 import TextType from '@nodes/TextType';
 import TypePlaceholder from '@nodes/TypePlaceholder';
@@ -76,6 +75,9 @@ import SetOrMapAccess from '../nodes/SetOrMapAccess';
 import Source from '../nodes/Source';
 import NameType from '../nodes/NameType';
 import type Locale from '../locale/Locale';
+import FormattedLiteral from '../nodes/FormattedLiteral';
+import FormattedTranslation from '../nodes/FormattedTranslation';
+import IsLocale from '../nodes/IsLocale';
 
 /** These are ordered by appearance in the docs. */
 const templates: Node[] = [
@@ -123,6 +125,7 @@ const templates: Node[] = [
     Is.make(ExpressionPlaceholder.make(), TypePlaceholder.make()),
     Initial.make(),
     Changed.make(ExpressionPlaceholder.make(StreamType.make())),
+    IsLocale.make(Language.make(undefined)),
 
     // Bind
     Bind.make(
@@ -158,7 +161,7 @@ const templates: Node[] = [
     BooleanType.make(),
     TextType.make(),
     NumberType.make(),
-    Unit.make(['unit']),
+    Unit.reuse(['unit']),
     ListType.make(),
     SetType.make(),
     NoneType.make(),
@@ -176,7 +179,8 @@ const templates: Node[] = [
     BooleanLiteral.make(true),
     NumberLiteral.make(0),
     TextLiteral.make(''),
-    Template.make(),
+    FormattedTranslation.make([]),
+    new FormattedLiteral([FormattedTranslation.make([])]),
     ListAccess.make(
         ExpressionPlaceholder.make(ListType.make()),
         ExpressionPlaceholder.make()
@@ -241,7 +245,7 @@ export function getBasisConcepts(
             basis.getSimpleDefinition('text'),
             basis.getSimpleDefinition('text'),
             TextType.make(),
-            [TextLiteral.make(''), Template.make()],
+            [TextLiteral.make('')],
             locales,
             context
         ),

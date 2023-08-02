@@ -34,8 +34,8 @@ size: 30
 
 •Kitty(x•# y•# z•# angle•# speed•#) ()
 
-\`Initially, make a list of 20 kitties, each placed somewhere random.
-When the the clock ticks, move them all down a bit.\`
+\`\`Initially, make a list of 20 kitties, each placed somewhere random.
+When the the clock ticks, move them all down a bit.\`\`
 kitties•[Kitty]: 
     count → [].translate(
         ƒ(_) Kitty(
@@ -52,7 +52,7 @@ kitties•[Kitty]:
                 .angle: kitty.angle + kitty.speed
             )
 
-\`Convert the kitties into phrases\`
+\`\`Convert the kitties into phrases\`\`
 Stage(
     kitties.translate(
         ƒ(kitty•Kitty) 
@@ -74,8 +74,8 @@ size: 30
 
 •Kitty(x•# y•# z•# angle•#) ()
 
-\`Initially, make a list of 20 kitties, each placed somewhere random.
-When the the clock ticks, move them all down a bit.\`
+\`\`Initially, make a list of 20 kitties, each placed somewhere random.
+When the the clock ticks, move them all down a bit.\`\`
 kitties•[Kitty]:  
     count → [].translate(
         ƒ(_) Kitty(
@@ -87,7 +87,7 @@ kitties•[Kitty]:
       )
     			
 
-\`Convert the kitties into phrases\`
+\`\`Convert the kitties into phrases\`\`
 Stage(
     kitties.translate(
         ƒ(kitty•Kitty) 

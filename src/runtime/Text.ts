@@ -26,6 +26,7 @@ export default class Text extends Simple {
 
     getType() {
         return TextType.make(
+            undefined,
             this.format === undefined ? undefined : Language.make(this.format)
         );
     }

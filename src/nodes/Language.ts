@@ -31,8 +31,11 @@ export default class Language extends Node {
         this.computeChildren();
     }
 
-    static make(lang: string) {
-        return new Language(new LanguageToken(), new NameToken(lang));
+    static make(lang: string | undefined) {
+        return new Language(
+            new LanguageToken(),
+            lang ? new NameToken(lang) : undefined
+        );
     }
 
     static getPossibleNodes(type: Type | undefined, node: Node | undefined) {
