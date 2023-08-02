@@ -32,18 +32,23 @@ import StreamDefinitionValue from './StreamDefinitionValue';
 import type PropertyBind from '../nodes/PropertyBind';
 import type Context from '../nodes/Context';
 import StartFinish from './StartFinish';
+import type TableLiteral from '../nodes/TableLiteral';
+import type Insert from '../nodes/Insert';
 
-export type EvaluatorNode =
+export type EvaluationNode =
     | UnaryEvaluate
     | BinaryEvaluate
     | Evaluate
     | PropertyBind
     | Convert
+    | TableLiteral
+    | Insert
     | HOF
     | Borrow
     | Source
     | StreamDefinition;
-export type EvaluationNode =
+
+export type DefinitionNode =
     | FunctionDefinition
     | StructureDefinition
     | StreamDefinition
@@ -58,7 +63,7 @@ export default class Evaluation {
     readonly #source: Source | undefined;
 
     /** The node that caused this evaluation to start. */
-    readonly #evaluatorNode: EvaluatorNode;
+    readonly #evaluation: EvaluationNode;
 
     /** The context, for passing around to getType, etc. */
     readonly #context: Context;
@@ -67,7 +72,7 @@ export default class Evaluation {
     readonly #stepNumber: StepNumber;
 
     /** The node that defined this expression being evaluated. */
-    readonly #evaluationNode: EvaluationNode;
+    readonly #definition: DefinitionNode;
 
     /** A cache of the node's steps */
     readonly #steps: Step[];
@@ -89,27 +94,27 @@ export default class Evaluation {
 
     constructor(
         evaluator: Evaluator,
-        evaluatorNode: EvaluatorNode,
-        evaluationNode: EvaluationNode,
+        evaluation: EvaluationNode,
+        definition: DefinitionNode,
         closure?: Evaluation | Value,
         bindings?: Map<Names | string, Value>
     ) {
         this.#evaluator = evaluator;
-        this.#evaluatorNode = evaluatorNode;
-        this.#evaluationNode = evaluationNode;
+        this.#evaluation = evaluation;
+        this.#definition = definition;
         this.#closure = closure;
 
         // Remember what step this was.
         this.#stepNumber = evaluator.getStepIndex();
 
         // Derive some state
-        this.#source = evaluator.project.getSourceOf(evaluationNode);
+        this.#source = evaluator.project.getSourceOf(definition);
         this.#context = evaluator.project.getContext(
             this.#source ?? evaluator.project.main
         );
 
         // Ask the evaluator to compile (and optionally cache) steps for this definition.
-        this.#steps = this.#evaluator.getSteps(evaluationNode);
+        this.#steps = this.#evaluator.getSteps(definition);
 
         // Add any bindings given.
         if (bindings) {
@@ -121,7 +126,7 @@ export default class Evaluation {
         return this.#source;
     }
     getCreator() {
-        return this.#evaluatorNode;
+        return this.#evaluation;
     }
     getCurrentNode() {
         return this.currentStep()?.node ?? this.getCreator();
@@ -130,7 +135,7 @@ export default class Evaluation {
         return this.#evaluator;
     }
     getDefinition() {
-        return this.#evaluationNode;
+        return this.#definition;
     }
     getClosure() {
         return this.#closure;
@@ -200,8 +205,8 @@ export default class Evaluation {
     end(): Value | undefined {
         // If this block is creating a structure, take the context and bindings we just created
         // and convert it into a structure.
-        if (this.#evaluationNode instanceof StructureDefinition)
-            return new Structure(this.#evaluatorNode, this);
+        if (this.#definition instanceof StructureDefinition)
+            return new Structure(this.#evaluation, this);
         // Otherwise, return the value on the top of the stack.
         else return this.peekValue();
     }
@@ -357,7 +362,7 @@ export default class Evaluation {
         const context = this.#closure;
         if (context instanceof Structure) return context;
         else if (context instanceof Number)
-            return context.unitless(this.#evaluationNode);
+            return context.unitless(this.#definition);
         else if (context instanceof Simple) return context;
         else if (context instanceof Evaluation)
             return context.getThis(requestor);
@@ -365,7 +370,7 @@ export default class Evaluation {
     }
 
     withValue(
-        creator: EvaluatorNode,
+        creator: EvaluationNode,
         property: string,
         value: Value
     ): Evaluation | undefined {
@@ -376,7 +381,7 @@ export default class Evaluation {
         const newEvaluation = new Evaluation(
             this.#evaluator,
             creator,
-            this.#evaluationNode,
+            this.#definition,
             this.#closure,
             this.#bindings[0]
         );

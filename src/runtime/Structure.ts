@@ -2,7 +2,7 @@ import type StructureDefinition from '@nodes/StructureDefinition';
 import StructureDefinitionType from '@nodes/StructureDefinitionType';
 import type Type from '@nodes/Type';
 import type Conversion from './Conversion';
-import Evaluation, { type EvaluatorNode } from './Evaluation';
+import Evaluation, { type EvaluationNode } from './Evaluation';
 import type Evaluator from './Evaluator';
 import FunctionValue from './FunctionValue';
 import Value from './Value';
@@ -35,17 +35,21 @@ export default class Structure extends Value {
      * A structure is equal to another structure if all of its bindings are equal and they have the same definition.
      */
     isEqualTo(structure: Value): boolean {
-        if (!(structure instanceof Structure) || this.type !== structure.type)
+        if (
+            !(structure instanceof Structure) ||
+            !this.type.isEqualTo(structure.type)
+        )
             return false;
 
         const thisBindings = this.context.getBindings();
-        const thatBindings = this.context.getBindings();
+        const thatBindings = structure.context.getBindings();
 
         if (thisBindings[0].size !== thatBindings[0].size) return false;
 
-        return Array.from(thisBindings[0].keys()).every((key) => {
-            const thisValue = thisBindings[0].get(key);
-            const thatValue = thatBindings[0].get(key);
+        return Array.from(thisBindings[0].keys()).every((key, index) => {
+            const thisKey = typeof key === 'string' ? key : key.getNames()[0];
+            const thisValue = thisBindings[0].get(thisKey);
+            const thatValue = thatBindings[0].get(thisKey);
             return (
                 thisValue !== undefined &&
                 thatValue !== undefined &&
@@ -123,7 +127,7 @@ export default class Structure extends Value {
      * If the property doesn't exist, then return undefined.
      */
     withValue(
-        creator: EvaluatorNode,
+        creator: EvaluationNode,
         property: string,
         value: Value
     ): Structure | undefined {

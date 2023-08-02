@@ -19,6 +19,8 @@ import type Locale from '@locale/Locale';
 import Glyphs from '../lore/Glyphs';
 import Purpose from '../concepts/Purpose';
 import concretize from '../locale/concretize';
+import Structure from '../runtime/Structure';
+import Evaluation from '../runtime/Evaluation';
 
 export default class TableLiteral extends Expression {
     readonly type: TableType;
@@ -97,15 +99,22 @@ export default class TableLiteral extends Expression {
     evaluate(evaluator: Evaluator, prior: Value | undefined): Value {
         if (prior) return prior;
 
-        const rows: Value[][] = [];
+        const rows: Structure[] = [];
         for (let r = 0; r < this.rows.length; r++) {
-            const row: Value[] = [];
-            for (let c = 0; c < this.type.columns.length; c++) {
+            const evaluation = new Evaluation(
+                evaluator,
+                this,
+                this.type.definition,
+                evaluator.getCurrentEvaluation()
+            );
+            // Assign values in reverse order
+            for (let c = this.type.columns.length - 1; c >= 0; c--) {
+                const column = this.type.columns[c];
                 const cell = evaluator.popValue(this);
                 if (cell instanceof Exception) return cell;
-                else row.unshift(cell);
+                evaluation.bind(column.names, cell);
             }
-            rows.unshift(row);
+            rows.unshift(new Structure(this, evaluation));
         }
         return new Table(this, rows);
     }

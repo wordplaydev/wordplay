@@ -26,6 +26,9 @@ import Glyphs from '../lore/Glyphs';
 import IncompatibleInput from '../conflicts/IncompatibleInput';
 import concretize from '../locale/concretize';
 import Purpose from '../concepts/Purpose';
+import Evaluation from '../runtime/Evaluation';
+import Structure from '../runtime/Structure';
+import ValueException from '../runtime/ValueException';
 
 export default class Insert extends Expression {
     readonly table: Expression;
@@ -180,9 +183,25 @@ export default class Insert extends Expression {
 
         const table = evaluator.popValue(this, TableType.make([]));
         if (!(table instanceof Table)) return table;
+        const type = table.literal.type;
 
-        // Return a new table with the values.
-        return table.insert(values);
+        const evaluation = new Evaluation(
+            evaluator,
+            this,
+            table.literal.type.definition,
+            evaluator.getCurrentEvaluation()
+        );
+
+        for (let c = 0; c < type.columns.length; c++) {
+            const column = type.columns[c];
+            const cell = values.shift();
+            if (cell instanceof Exception) return cell;
+            if (cell === undefined) throw new ValueException(evaluator, this);
+            evaluation.bind(column.names, cell);
+        }
+
+        // Return a new table with the new row.
+        return table.insert(new Structure(this, evaluation));
     }
 
     evaluateTypeSet(

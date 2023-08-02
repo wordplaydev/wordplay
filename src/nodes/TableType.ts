@@ -12,11 +12,16 @@ import { node, type Grammar, type Replacement, list } from './Node';
 import type Locale from '@locale/Locale';
 import Glyphs from '../lore/Glyphs';
 import BasisType from './BasisType';
+import StructureDefinition from './StructureDefinition';
+import Names from './Names';
 
 export default class TableType extends BasisType {
     readonly open: Token;
     readonly columns: Bind[];
     readonly close: Token | undefined;
+
+    /** The structure definition that defines each row's data, derived from the table type. */
+    readonly definition: StructureDefinition;
 
     constructor(open: Token, columns: Bind[], close: Token | undefined) {
         super();
@@ -24,6 +29,8 @@ export default class TableType extends BasisType {
         this.open = open;
         this.columns = columns;
         this.close = close;
+
+        this.definition = this.getStructureDefinition();
 
         this.computeChildren();
     }
@@ -62,6 +69,17 @@ export default class TableType extends BasisType {
         });
 
         return conflicts;
+    }
+
+    getStructureDefinition() {
+        return StructureDefinition.make(
+            undefined,
+            Names.make([]),
+            [],
+            undefined,
+            this.columns,
+            undefined
+        );
     }
 
     getColumnNamed(name: string): Bind | undefined {
