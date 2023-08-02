@@ -61,7 +61,7 @@
         node={input}
     />{/each}{#if nextBind}<span class="hint"
         >&nbsp;…<RootView
-            node={nextBind}
+            node={nextBind.withoutValue()}
             inline
             elide
             localized

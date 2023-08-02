@@ -238,6 +238,19 @@ export default class Bind extends Expression {
         );
     }
 
+    withoutValue() {
+        return new Bind(
+            undefined,
+            this.share,
+            this.names,
+            this.etc,
+            this.dot,
+            this.type,
+            undefined,
+            undefined
+        );
+    }
+
     withoutType() {
         return new Bind(
             undefined,

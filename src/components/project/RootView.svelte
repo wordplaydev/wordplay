@@ -146,6 +146,17 @@
             }
         }
 
+        // If elided, hide all the tokens after the first five that aren't already hidden by parents
+        if (elide)
+            for (const token of node
+                .leaves()
+                .filter(
+                    (token) =>
+                        !Array.from(newHidden).some((n) => n.contains(token))
+                )
+                .slice(5))
+                newHidden.add(token);
+
         // Update hidden nodes.
         hidden.set(newHidden);
     }
@@ -168,9 +179,6 @@
 
     .elide {
         display: inline-block;
-        max-width: 8em;
-        text-overflow: ellipsis;
-        overflow: clip;
         white-space: nowrap;
         vertical-align: text-top;
     }
