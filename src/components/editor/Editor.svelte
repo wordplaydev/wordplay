@@ -261,7 +261,7 @@
                     ? $caret.position
                     : $caret.tokenExcludingSpace;
             if (node) {
-                adjustable = $caret.getAdjustableLiteral($config.getLocales());
+                adjustable = $caret.getAdjustableLiteral();
 
                 // When adjustable disappears, focus text field
                 if (adjustable !== undefined) {

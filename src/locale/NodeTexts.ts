@@ -519,7 +519,6 @@ type NodeTexts = {
         ExpressionText & {
             item: Template;
         };
-    Template: NodeText & ExpressionText;
     /**
      * Description
      * $1: the text

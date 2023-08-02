@@ -8,8 +8,6 @@ import {
     ETC_SYMBOL,
     EVAL_CLOSE_SYMBOL,
     EVAL_OPEN_SYMBOL,
-    EXAMPLE_CLOSE_SYMBOL,
-    EXAMPLE_OPEN_SYMBOL,
     EXCEPTION_SYMBOL,
     FALSE_SYMBOL,
     FUNCTION_SYMBOL,
@@ -35,7 +33,7 @@ import {
     SUM_SYMBOL,
     TABLE_CLOSE_SYMBOL,
     TABLE_OPEN_SYMBOL,
-    TEMPLATE_SYMBOL,
+    CODE_SYMBOL,
     TRUE_SYMBOL,
     TYPE_CLOSE_SYMBOL,
     TYPE_OPEN_SYMBOL,
@@ -132,7 +130,7 @@ const GlyphSet = {
         symbols: FUNCTION_SYMBOL,
     },
     Template: {
-        symbols: TEMPLATE_SYMBOL,
+        symbols: CODE_SYMBOL,
     },
     Markup: {
         symbols: '¶',
@@ -183,7 +181,7 @@ const GlyphSet = {
         symbols: TYPE_OPEN_SYMBOL + TYPE_CLOSE_SYMBOL,
     },
     Example: {
-        symbols: EXAMPLE_OPEN_SYMBOL + EXAMPLE_CLOSE_SYMBOL,
+        symbols: CODE_SYMBOL + CODE_SYMBOL,
     },
     Exception: {
         symbols: EXCEPTION_SYMBOL,

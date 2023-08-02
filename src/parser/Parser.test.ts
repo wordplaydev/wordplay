@@ -29,7 +29,6 @@ import Symbol from '@nodes/Symbol';
 import UnionType from '@nodes/UnionType';
 import TextLiteral from '@nodes/TextLiteral';
 import NoneLiteral from '@nodes/NoneLiteral';
-import Template from '@nodes/Template';
 import BinaryEvaluate from '@nodes/BinaryEvaluate';
 import ListLiteral from '@nodes/ListLiteral';
 import ListAccess from '@nodes/ListAccess';
@@ -65,6 +64,7 @@ import WebLink from '@nodes/WebLink';
 import Example from '../nodes/Example';
 import Docs from '../nodes/Docs';
 import DocsType from '../nodes/DocsType';
+import Translation from '../nodes/Translation';
 
 test('Parse programs', () => {
     expect(toProgram('')).toBeInstanceOf(Program);
@@ -186,12 +186,15 @@ test('Parse expressions', () => {
     const template = parseExpression(
         toTokens('"My cat\'s name is \\name + name\\, what\'s yours?"')
     );
-    expect(template).toBeInstanceOf(Template);
-    expect((template as Template).expressions).toHaveLength(2);
-    expect((template as Template).expressions[0]).toBeInstanceOf(
-        BinaryEvaluate
+    expect(template).toBeInstanceOf(TextLiteral);
+    expect((template as TextLiteral).texts).toHaveLength(1);
+    expect((template as TextLiteral).texts[0]).toBeInstanceOf(Translation);
+    expect((template as TextLiteral).texts[0].segments[0]).toBeInstanceOf(
+        Token
     );
-    expect((template as Template).expressions[1]).toBeInstanceOf(Token);
+    expect((template as TextLiteral).texts[0].segments[1]).toBeInstanceOf(
+        Example
+    );
 
     const format = parseExpression(toTokens('«hola»/spa'));
     expect(format).toBeInstanceOf(TextLiteral);
@@ -577,7 +580,7 @@ test('linked docs', () => {
 
 test('docs in docs', () => {
     const doc = parseDoc(
-        toTokens("`This is a doc: ⧼`my doc`⧽. Don't you see it?`")
+        toTokens("`This is a doc: \\`my doc`\\. Don't you see it?`")
     );
     expect(doc).toBeInstanceOf(Doc);
     expect(doc.markup.paragraphs[0]).toBeInstanceOf(Paragraph);

@@ -101,13 +101,13 @@ test('Tokenize docs', () => {
     expect(
         tokens('`hello`')
             .map((t) => t.toWordplay())
-            .join(' ')
-    ).toBe('` hello ` ');
+            .join('|')
+    ).toBe('`|hello|`|');
     expect(
-        tokens('`hello ⧼1 + 1⧽`')
+        tokens('`hello \\1 + 1\\`')
             .map((t) => t.toWordplay())
-            .join(' ')
-    ).toBe('` hello  ⧼ 1 + 1 ⧽ ` ');
+            .join('|')
+    ).toBe('`|hello |\\|1|+|1|\\|`|');
     expect(
         tokens('`hello @bind`')
             .map((t) => t.toWordplay())
@@ -134,88 +134,88 @@ test('Tokenize text', () => {
     expect(
         tokens('\'hi\'"hi"‘hi’«hi»‹hi›„hi“「hi」')
             .map((t) => t.toWordplay())
-            .join(' ')
-    ).toBe('\'hi\' "hi" ‘hi’ «hi» ‹hi› „hi“ 「hi」 ');
+            .join('|')
+    ).toBe('\'|hi|\'|"|hi|"|‘|hi|’|«|hi|»|‹|hi|›|„|hi|“|「|hi|」|');
     // Check newline terminated text
     expect(
         tokens('\'hi\n"hi\n‘hi\n«hi\n‹hi\n„hi\n「hi\n')
             .map((t) => t.toWordplay())
-            .join(' ')
-    ).toBe('\'hi "hi ‘hi «hi ‹hi „hi 「hi ');
+            .join('|')
+    ).toBe('\'|hi|"|hi|‘|hi|«|hi|‹|hi|„|hi|「|hi|');
     expect(
         tokens("'hello \\1 + 2\\ number 3'")
             .map((t) => t.toWordplay())
-            .join(' ')
-    ).toBe("'hello \\ 1 + 2 \\ number 3' ");
+            .join('|')
+    ).toBe("'|hello |\\|1|+|2|\\| number 3|'|");
     expect(
-        tokens("'hello'eng 'hola'spa")
+        tokens("'hello'/eng 'hola'/spa")
             .map((t) => t.toWordplay())
-            .join(' ')
-    ).toBe("'hello' eng 'hola' spa ");
+            .join('|')
+    ).toBe("'|hello|'|/|eng|'|hola|'|/|spa|");
 });
 
 test('Escapes', () => {
     expect(
         tokens('"Hello \\name\\, how are you?"')
             .map((t) => t.toWordplay())
-            .join(' ')
-    ).toBe('"Hello \\ name \\, how are you?" ');
+            .join('|')
+    ).toBe('"|Hello |\\|name|\\|, how are you?|"|');
     expect(
         tokens("'Hello \\name\\, how are you?'")
             .map((t) => t.toWordplay())
-            .join(' ')
-    ).toBe("'Hello \\ name \\, how are you?' ");
+            .join('|')
+    ).toBe("'|Hello |\\|name|\\|, how are you?|'|");
     expect(
         tokens('“Hello \\name\\, how are you?”')
             .map((t) => t.toWordplay())
-            .join(' ')
-    ).toBe('“Hello \\ name \\, how are you?” ');
+            .join('|')
+    ).toBe('“|Hello |\\|name|\\|, how are you?|”|');
     expect(
         tokens('‘Hello \\name\\, how are you?’')
             .map((t) => t.toWordplay())
-            .join(' ')
-    ).toBe('‘Hello \\ name \\, how are you?’ ');
+            .join('|')
+    ).toBe('‘|Hello |\\|name|\\|, how are you?|’|');
     expect(
         tokens('«Hello \\name\\, how are you?»')
             .map((t) => t.toWordplay())
-            .join(' ')
-    ).toBe('«Hello \\ name \\, how are you?» ');
+            .join('|')
+    ).toBe('«|Hello |\\|name|\\|, how are you?|»|');
     expect(
         tokens('‹Hello \\name\\, how are you?›')
             .map((t) => t.toWordplay())
-            .join(' ')
-    ).toBe('‹Hello \\ name \\, how are you?› ');
+            .join('|')
+    ).toBe('‹|Hello |\\|name|\\|, how are you?|›|');
     expect(
         tokens('「Hello \\name\\, how are you?」')
             .map((t) => t.toWordplay())
-            .join(' ')
-    ).toBe('「Hello \\ name \\, how are you?」 ');
+            .join('|')
+    ).toBe('「|Hello |\\|name|\\|, how are you?|」|');
     expect(
         tokens('『Hello \\name\\, how are you?』')
             .map((t) => t.toWordplay())
-            .join(' ')
-    ).toBe('『Hello \\ name \\, how are you?』 ');
+            .join('|')
+    ).toBe('『|Hello |\\|name|\\|, how are you?|』|');
 });
 
 test('Tokenize betweens', () => {
     expect(
         tokens("'I am \\between\\ us'")
             .map((t) => t.toWordplay())
-            .join(' ')
-    ).toBe("'I am \\ between \\ us' ");
+            .join('|')
+    ).toBe("'|I am |\\|between|\\| us|'|");
     expect(
         tokens("\"hi \\'hello'\\ and \\'hey'\\\"")
             .map((t) => t.toWordplay())
-            .join(' ')
-    ).toBe("\"hi \\ 'hello' \\ and \\ 'hey' \\\" ");
+            .join('|')
+    ).toBe("\"|hi |\\|'|hello|'|\\| and |\\|'|hey|'|\\|\"|");
     expect(
         tokens('[\'\\hi\\\' "hello"]')
             .map((t) => t.toWordplay())
-            .join(' ')
-    ).toBe('[ \'\\ hi \\\' "hello" ] ');
+            .join('|')
+    ).toBe('[|\'|\\|hi|\\|\'|"|hello|"|]|');
     expect(
         tokens("«hello \\name\\, I 'am' Amy»")
             .map((t) => t.toWordplay())
-            .join(' ')
-    ).toBe("«hello \\ name \\, I 'am' Amy» ");
+            .join('|')
+    ).toBe("«|hello |\\|name|\\|, I 'am' Amy|»|");
 });

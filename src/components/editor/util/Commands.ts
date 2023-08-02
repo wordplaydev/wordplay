@@ -150,11 +150,8 @@ export const IncrementLiteral: Command = {
     shift: false,
     key: 'ArrowUp',
     keySymbol: '↑',
-    active: ({ evaluator, caret }) =>
-        caret?.getAdjustableLiteral(evaluator.project.locales) !== undefined ??
-        false,
-    execute: ({ evaluator, caret }) =>
-        caret?.adjustLiteral(undefined, 1, evaluator.project.locales) ?? false,
+    active: ({ caret }) => caret?.getAdjustableLiteral() !== undefined ?? false,
+    execute: ({ caret }) => caret?.adjustLiteral(undefined, 1) ?? false,
 };
 
 export const DecrementLiteral: Command = {
@@ -167,11 +164,8 @@ export const DecrementLiteral: Command = {
     alt: true,
     key: 'ArrowDown',
     keySymbol: '↓',
-    active: ({ evaluator, caret }) =>
-        caret?.getAdjustableLiteral(evaluator.project.locales) !== undefined ??
-        false,
-    execute: ({ evaluator, caret }) =>
-        caret?.adjustLiteral(undefined, -1, evaluator.project.locales) ?? false,
+    active: ({ caret }) => caret?.getAdjustableLiteral() !== undefined ?? false,
+    execute: ({ caret }) => caret?.adjustLiteral(undefined, -1) ?? false,
 };
 
 export const StepBack: Command = {

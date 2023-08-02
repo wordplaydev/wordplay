@@ -15,7 +15,6 @@ import UnaryEvaluate from '@nodes/UnaryEvaluate';
 import BinaryEvaluate from '@nodes/BinaryEvaluate';
 import PropertyReference from '@nodes/PropertyReference';
 import FunctionDefinition from '@nodes/FunctionDefinition';
-import Template from '@nodes/Template';
 import UnionType from '@nodes/UnionType';
 import NoneLiteral from '@nodes/NoneLiteral';
 import NumberLiteral from '@nodes/NumberLiteral';
@@ -81,7 +80,7 @@ import Markup from '../nodes/Markup';
 import Mention from '../nodes/Mention';
 import Branch from '../nodes/Branch';
 import DocsType from '../nodes/DocsType';
-import Translation from '../nodes/Translation';
+import Translation, { type TranslationSegment } from '../nodes/Translation';
 
 export enum SyntacticConflict {
     EXPECTED_BORRW_NAME,
@@ -276,7 +275,7 @@ export class Tokens {
         } while (
             this.hasNext() &&
             this.nextHasPrecedingLineBreak() === false &&
-            this.nextIsnt(Symbol.ExampleClose)
+            this.nextIsnt(Symbol.Code)
         );
         return nodes;
     }
@@ -376,7 +375,7 @@ export function parseBlock(
         tokens.hasNext() &&
         ((root && !doc) ||
             (!root && !doc && tokens.nextIsnt(Symbol.EvalClose)) ||
-            (doc && tokens.nextIsnt(Symbol.ExampleClose)))
+            (doc && tokens.nextIsnt(Symbol.Code)))
     )
         statements.push(
             nextIsBind(tokens, true)
@@ -638,9 +637,6 @@ function parseAtomicExpression(tokens: Tokens): Expression {
             : // Text with optional formats
             tokens.nextIs(Symbol.Text)
             ? parseText(tokens)
-            : // A string template
-            tokens.nextIs(Symbol.TemplateOpen)
-            ? parseTemplate(tokens)
             : // A list
             tokens.nextIs(Symbol.ListOpen)
             ? parseList(tokens)
@@ -831,43 +827,31 @@ function parseDimension(tokens: Tokens): Dimension {
 /** TEXT :: text name? TEXT? */
 function parseText(tokens: Tokens): TextLiteral {
     const texts: Translation[] = [];
+
+    // Read a series of Translations lacking separating space.
     do {
-        const text = tokens.read(Symbol.Text);
-        const format = tokens.nextIs(Symbol.Language)
-            ? parseLanguage(tokens)
-            : undefined;
-        texts.push(new Translation(text, format));
+        texts.push(parseTranslation(tokens));
     } while (tokens.nextIs(Symbol.Text) && tokens.nextLacksPrecedingSpace());
 
     return new TextLiteral(texts);
 }
 
-/** TEMPLATE :: text_open ( EXPRESSION text_between )* EXPRESSION text_close name? */
-function parseTemplate(tokens: Tokens): Template {
-    const open = tokens.read(Symbol.TemplateOpen);
-    const expressions: (Expression | Token)[] = [];
-
-    do {
-        expressions.push(parseExpression(tokens));
-        const close = tokens.nextIs(Symbol.TemplateBetween)
-            ? tokens.read(Symbol.TemplateBetween)
-            : tokens.nextIs(Symbol.TemplateClose)
-            ? tokens.read(Symbol.TemplateClose)
-            : undefined;
-        if (close !== undefined) expressions.push(close);
-        if (close === undefined || close.isSymbol(Symbol.TemplateClose)) break;
-    } while (
-        tokens.hasNext() &&
-        !tokens.nextHasMoreThanOneLineBreak() &&
-        tokens.nextIsnt(Symbol.ExampleClose)
-    );
-
-    // Read an optional format.
-    const format = tokens.nextIs(Symbol.Language)
+function parseTranslation(tokens: Tokens): Translation {
+    const text = tokens.read(Symbol.Text);
+    const segments: TranslationSegment[] = [];
+    while (tokens.nextIs(Symbol.Words) || tokens.nextIs(Symbol.Code)) {
+        if (tokens.nextIs(Symbol.Words))
+            segments.push(tokens.read(Symbol.Words));
+        else if (tokens.nextIs(Symbol.Code))
+            segments.push(parseExample(tokens));
+    }
+    const close = tokens.nextIs(Symbol.Text)
+        ? tokens.read(Symbol.Text)
+        : undefined;
+    const language = tokens.nextIs(Symbol.Language)
         ? parseLanguage(tokens)
         : undefined;
-
-    return new Template(open, expressions, format);
+    return new Translation(text, segments, close, language);
 }
 
 /** LIST :: [ EXPRESSION* ] */
@@ -879,7 +863,7 @@ function parseList(tokens: Tokens): ListLiteral {
     while (
         tokens.hasNext() &&
         tokens.nextIsnt(Symbol.ListClose) &&
-        tokens.nextIsnt(Symbol.ExampleClose) &&
+        tokens.nextIsnt(Symbol.Code) &&
         !tokens.nextHasMoreThanOneLineBreak()
     )
         values.push(parseExpression(tokens));
@@ -921,7 +905,7 @@ function parseSetOrMap(tokens: Tokens): MapLiteral | SetLiteral {
     while (
         tokens.hasNext() &&
         tokens.nextIsnt(Symbol.SetClose) &&
-        tokens.nextIsnt(Symbol.ExampleClose) &&
+        tokens.nextIsnt(Symbol.Code) &&
         !tokens.nextHasMoreThanOneLineBreak()
     ) {
         const key = parseExpression(tokens);
@@ -1118,7 +1102,7 @@ function parseEvaluate(left: Expression, tokens: Tokens): Evaluate {
     // This little peek at space just prevents runaway parsing. It uses space to make an assumption that everything below isn't part of the evaluate.
     while (
         tokens.hasNext() &&
-        tokens.nextIsnt(Symbol.ExampleClose) &&
+        tokens.nextIsnt(Symbol.Code) &&
         tokens.nextIsnt(Symbol.EvalClose) &&
         !tokens.nextHasMoreThanOneLineBreak()
     )
@@ -1271,11 +1255,17 @@ function parseNameType(tokens: Tokens): NameType {
 
 /** TEXT_TYPE :: TEXT LANGUAGE? */
 function parseTextType(tokens: Tokens): TextType {
-    const quote = tokens.read(Symbol.Text);
+    const open = tokens.read(Symbol.Text);
+    const words = tokens.nextIs(Symbol.Words)
+        ? tokens.read(Symbol.Words)
+        : undefined;
+    const close = tokens.nextIs(Symbol.Text)
+        ? tokens.read(Symbol.Text)
+        : undefined;
     const format = tokens.nextIs(Symbol.Language)
         ? parseLanguage(tokens)
         : undefined;
-    return new TextType(quote, format);
+    return new TextType(open, words, close, format);
 }
 
 /** NUMBER_TYPE :: #NAME? */
@@ -1454,7 +1444,7 @@ function nextIsContent(tokens: Tokens) {
         Symbol.Words,
         Symbol.TagOpen,
         Symbol.Concept,
-        Symbol.ExampleOpen,
+        Symbol.Code,
         Symbol.Mention,
         Symbol.Italic,
         Symbol.Light,
@@ -1469,7 +1459,6 @@ export function parseMarkup(tokens: Tokens): Markup {
     while (
         tokens.hasNext() &&
         tokens.nextIsnt(Symbol.Doc) &&
-        tokens.nextIsnt(Symbol.ExampleClose) &&
         nextIsContent(tokens)
     )
         content.push(parseParagraph(tokens));
@@ -1504,7 +1493,7 @@ function parseSegment(tokens: Tokens) {
         ? parseWebLink(tokens)
         : tokens.nextIs(Symbol.Concept)
         ? parseConceptLink(tokens)
-        : tokens.nextIs(Symbol.ExampleOpen)
+        : tokens.nextIs(Symbol.Code)
         ? parseExample(tokens)
         : tokens.nextIs(Symbol.Mention)
         ? parseMention(tokens)
@@ -1526,7 +1515,7 @@ function parseConceptLink(tokens: Tokens): ConceptLink {
     return new ConceptLink(concept);
 }
 
-const FORMATS = [
+const Formats = [
     Symbol.Italic,
     Symbol.Underline,
     Symbol.Light,
@@ -1536,12 +1525,12 @@ const FORMATS = [
 
 function parseWords(tokens: Tokens): Words {
     // Read an optional format
-    const open = tokens.nextIsOneOf(...FORMATS) ? tokens.read() : undefined;
+    const open = tokens.nextIsOneOf(...Formats) ? tokens.read() : undefined;
 
     // Figure out what token type it is.
     let format: Symbol | undefined = undefined;
     if (open !== undefined) {
-        const types = new Set(FORMATS);
+        const types = new Set(Formats);
         const intersection = open.types.filter((type) => types.has(type));
         if (intersection.length > 0) format = intersection[0];
     }
@@ -1569,9 +1558,9 @@ function parseWords(tokens: Tokens): Words {
 }
 
 function parseExample(tokens: Tokens): Example {
-    const open = tokens.read(Symbol.ExampleOpen);
+    const open = tokens.read(Symbol.Code);
     const program = parseProgram(tokens, true);
-    const close = tokens.readIf(Symbol.ExampleClose);
+    const close = tokens.readIf(Symbol.Code);
 
     return new Example(open, program, close);
 }

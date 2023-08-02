@@ -23,7 +23,6 @@ import SetLiteral from '@nodes/SetLiteral';
 import SetType from '@nodes/SetType';
 import StreamType from '@nodes/StreamType';
 import StructureDefinition from '@nodes/StructureDefinition';
-import Template from '@nodes/Template';
 import TextLiteral from '@nodes/TextLiteral';
 import TextType from '@nodes/TextType';
 import TypePlaceholder from '@nodes/TypePlaceholder';
@@ -176,7 +175,6 @@ const templates: Node[] = [
     BooleanLiteral.make(true),
     NumberLiteral.make(0),
     TextLiteral.make(''),
-    Template.make(),
     ListAccess.make(
         ExpressionPlaceholder.make(ListType.make()),
         ExpressionPlaceholder.make()
@@ -241,7 +239,7 @@ export function getBasisConcepts(
             basis.getSimpleDefinition('text'),
             basis.getSimpleDefinition('text'),
             TextType.make(),
-            [TextLiteral.make(''), Template.make()],
+            [TextLiteral.make('')],
             locales,
             context
         ),

@@ -30,7 +30,6 @@ import Previous from '../nodes/Previous';
 import PropertyBind from '../nodes/PropertyBind';
 import PropertyReference from '../nodes/PropertyReference';
 import Reaction from '../nodes/Reaction';
-import Template from '../nodes/Template';
 import TextLiteral from '../nodes/TextLiteral';
 import ExpressionPlaceholder from '../nodes/ExpressionPlaceholder';
 import StructureDefinition from '../nodes/StructureDefinition';
@@ -466,7 +465,6 @@ const PossibleNodes = [
     NumberLiteral,
     BooleanLiteral,
     TextLiteral,
-    Template,
     NoneLiteral,
     ListLiteral,
     ListAccess,

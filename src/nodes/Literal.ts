@@ -6,6 +6,7 @@ import AtomicExpression from './AtomicExpression';
 import type Expression from './Expression';
 import Purpose from '../concepts/Purpose';
 import type Locale from '../locale/Locale';
+import type Context from './Context';
 
 export default abstract class Literal extends AtomicExpression {
     constructor() {
@@ -16,7 +17,7 @@ export default abstract class Literal extends AtomicExpression {
         return [];
     }
 
-    compile(): Step[] {
+    compile(context: Context): Step[] {
         return [new StartFinish(this)];
     }
 

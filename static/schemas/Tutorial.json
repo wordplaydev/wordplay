@@ -84,7 +84,6 @@
         "StreamDefinition",
         "StructureDefinition",
         "TableLiteral",
-        "Template",
         "TextLiteral",
         "Translation",
         "This",

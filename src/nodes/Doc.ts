@@ -1,5 +1,5 @@
 import Language from './Language';
-import { any, node, none } from './Node';
+import { node, optional } from './Node';
 import type { Grammar, Replacement } from './Node';
 import Token from './Token';
 import type Locale from '@locale/Locale';
@@ -52,7 +52,7 @@ export default class Doc extends LanguageTagged {
             { name: 'open', kind: node(Symbol.Doc) },
             { name: 'markup', kind: node(Markup) },
             { name: 'close', kind: node(Symbol.Doc) },
-            { name: 'language', kind: any(node(Language), none()) },
+            { name: 'language', kind: optional(node(Language)) },
         ];
     }
 

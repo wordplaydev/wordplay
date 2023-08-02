@@ -158,7 +158,7 @@ All `doc` fields in the locale (and all dialog) can use the following formatting
 | Concept link   | `I am a concept link to @Text`                       |
 | Web link       | `I am a web link to <wordplay@https://wordplay.dev>` |
 | New paragraph  | `\n\n`                                               |
-| Wordplay code  | `⧼1 + 1⧽`                                            |
+| Wordplay code  | `\1 + 1\`                                            |
 
 In the locale and tutorial files, you can also separate paragraphs by using an array of strings, where, each string is a paragraph: `["Paragraph one", "Paragraph two"]`.
 

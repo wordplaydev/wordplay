@@ -3362,34 +3362,6 @@
               ],
               "type": "object"
             },
-            "Template": {
-              "additionalProperties": false,
-              "properties": {
-                "doc": {
-                  "$ref": "#/definitions/DocText"
-                },
-                "emotion": {
-                  "type": "string"
-                },
-                "finish": {
-                  "$ref": "#/definitions/Template"
-                },
-                "name": {
-                  "type": "string"
-                },
-                "start": {
-                  "$ref": "#/definitions/Template"
-                }
-              },
-              "required": [
-                "doc",
-                "emotion",
-                "finish",
-                "name",
-                "start"
-              ],
-              "type": "object"
-            },
             "TextLiteral": {
               "additionalProperties": false,
               "description": "Description $1: the text",
@@ -3764,7 +3736,6 @@
             "StreamDefinition",
             "StructureDefinition",
             "TableLiteral",
-            "Template",
             "TextLiteral",
             "Translation",
             "This",
@@ -4577,6 +4548,9 @@
             "Change": {
               "type": "string"
             },
+            "Code": {
+              "type": "string"
+            },
             "Concept": {
               "type": "string"
             },
@@ -4605,12 +4579,6 @@
               "type": "string"
             },
             "EvalOpen": {
-              "type": "string"
-            },
-            "ExampleClose": {
-              "type": "string"
-            },
-            "ExampleOpen": {
               "type": "string"
             },
             "Extra": {
@@ -4712,15 +4680,6 @@
             "TagOpen": {
               "type": "string"
             },
-            "TemplateBetween": {
-              "type": "string"
-            },
-            "TemplateClose": {
-              "type": "string"
-            },
-            "TemplateOpen": {
-              "type": "string"
-            },
             "Text": {
               "type": "string"
             },
@@ -4783,8 +4742,6 @@
             "Extra",
             "Concept",
             "URL",
-            "ExampleOpen",
-            "ExampleClose",
             "Mention",
             "Branch",
             "None",
@@ -4818,9 +4775,7 @@
             "Operator",
             "Conditional",
             "Text",
-            "TemplateOpen",
-            "TemplateBetween",
-            "TemplateClose",
+            "Code",
             "Number",
             "Decimal",
             "Base",

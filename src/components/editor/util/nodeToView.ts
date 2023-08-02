@@ -18,7 +18,6 @@ import ReferenceView from '../ReferenceView.svelte';
 import BinaryEvaluateView from '../BinaryEvaluateView.svelte';
 import NumberLiteralView from '../NumberLiteralView.svelte';
 import UnitView from '../UnitView.svelte';
-import TemplateView from '../TemplateView.svelte';
 import ConvertView from '../ConvertView.svelte';
 import PropertyReferenceView from '../PropertyReferenceView.svelte';
 import FunctionDefinitionView from '../FunctionDefinitionView.svelte';
@@ -94,7 +93,6 @@ import NameType from '@nodes/NameType';
 import TypeVariables from '@nodes/TypeVariables';
 import TypeInputs from '@nodes/TypeInputs';
 import TextLiteral from '@nodes/TextLiteral';
-import Template from '@nodes/Template';
 import TextType from '@nodes/TextType';
 import FunctionDefinition from '@nodes/FunctionDefinition';
 import FunctionType from '@nodes/FunctionType';
@@ -196,7 +194,6 @@ nodeToView.set(VariableType, VariableTypeView);
 
 nodeToView.set(TextLiteral, TextLiteralView);
 nodeToView.set(Translation, TranslationView);
-nodeToView.set(Template, TemplateView);
 nodeToView.set(TextType, TextTypeView);
 
 nodeToView.set(FunctionDefinition, FunctionDefinitionView);

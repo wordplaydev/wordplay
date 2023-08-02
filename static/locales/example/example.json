@@ -68,8 +68,7 @@
         "Extra": "$?",
         "Concept": "$?",
         "URL": "$?",
-        "ExampleOpen": "$?",
-        "ExampleClose": "$?",
+        "Code": "$?",
         "Mention": "$?",
         "Branch": "$?",
         "None": "$?",
@@ -103,9 +102,6 @@
         "Operator": "$?",
         "Conditional": "$?",
         "Text": "$?",
-        "TemplateOpen": "$?",
-        "TemplateBetween": "$?",
-        "TemplateClose": "$?",
         "Number": "$?",
         "Decimal": "$?",
         "Base": "$?",
@@ -652,13 +648,6 @@
             "emotion": "$?",
             "doc": "$?",
             "item": "$?",
-            "start": "$?",
-            "finish": "$?"
-        },
-        "Template": {
-            "name": "$?",
-            "emotion": "$?",
-            "doc": "$?",
             "start": "$?",
             "finish": "$?"
         },

@@ -21,7 +21,6 @@ import UnicodeString from '../models/UnicodeString';
 import ListLiteral from '@nodes/ListLiteral';
 import SetLiteral from '../nodes/SetLiteral';
 import MapLiteral from '../nodes/MapLiteral';
-import type TextLiteral from '../nodes/TextLiteral';
 import NumberLiteral from '../nodes/NumberLiteral';
 import BooleanLiteral from '../nodes/BooleanLiteral';
 import type Literal from '../nodes/Literal';
@@ -31,7 +30,6 @@ import type Type from '../nodes/Type';
 import type LanguageCode from '../locale/LanguageCode';
 import NodeRef from '../locale/NodeRef';
 import type Conflict from '../conflicts/Conflict';
-import type Locale from '../locale/Locale';
 import Translation from '../nodes/Translation';
 import { LanguageTagged } from '../nodes/LanguageTagged';
 
@@ -133,7 +131,7 @@ export default class Caret {
         );
     }
 
-    getAdjustableLiteral(locales: Locale[]): Literal | undefined {
+    getAdjustableLiteral(): Literal | undefined {
         const node =
             this.position instanceof Node
                 ? this.position
@@ -142,12 +140,7 @@ export default class Caret {
             return this.source.root
                 .getSelfAndAncestors(node)
                 .find(
-                    (
-                        literal
-                    ): literal is
-                        | TextLiteral
-                        | NumberLiteral
-                        | BooleanLiteral =>
+                    (literal): literal is NumberLiteral | BooleanLiteral =>
                         (literal instanceof Translation &&
                             literal.getText().length === 1) ||
                         literal instanceof NumberLiteral ||
@@ -787,16 +780,9 @@ export default class Caret {
     isInsideText() {
         const isText =
             this.tokenExcludingSpace !== undefined &&
-            (this.tokenExcludingSpace.isSymbol(Symbol.Text) ||
-                this.tokenExcludingSpace.isSymbol(Symbol.TemplateBetween) ||
-                this.tokenExcludingSpace.isSymbol(Symbol.TemplateOpen) ||
-                this.tokenExcludingSpace.isSymbol(Symbol.TemplateClose));
+            this.tokenExcludingSpace.isSymbol(Symbol.Words);
         const isAfterText =
-            this.tokenPrior &&
-            (this.tokenPrior.isSymbol(Symbol.Text) ||
-                this.tokenPrior.isSymbol(Symbol.TemplateBetween) ||
-                this.tokenPrior.isSymbol(Symbol.TemplateOpen) ||
-                this.tokenPrior.isSymbol(Symbol.TemplateClose));
+            this.tokenPrior && this.tokenPrior.isSymbol(Symbol.Words);
         return (isText && !this.betweenDelimiters()) || isAfterText;
     }
 
@@ -1075,11 +1061,7 @@ export default class Caret {
         return [newSource, this.withSource(newSource).withAddition(wrapper)];
     }
 
-    adjustLiteral(
-        node: Node | undefined,
-        direction: -1 | 1,
-        locales: Locale[]
-    ): Edit | undefined {
+    adjustLiteral(node: Node | undefined, direction: -1 | 1): Edit | undefined {
         // Find the token we're at
         const token = node
             ? node
@@ -1091,7 +1073,7 @@ export default class Caret {
 
         const ancestors = [token, ...this.source.root.getAncestors(token)];
         for (const ancestor of ancestors) {
-            const revision = ancestor.adjust(direction, locales);
+            const revision = ancestor.adjust(direction);
             if (revision) {
                 const newSource = this.source.replace(ancestor, revision);
                 return [

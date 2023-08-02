@@ -11,9 +11,9 @@ Group(
 		ƒ (letter•"" index•#) 
 			Phrase(
 				letter 
-				name: "\letter → ''\-\index → '' 
+				name: "\letter → ''\-\index → ''\"
 				enter: Pose(opacity: 0 scale: 2)
-                rest:Sequence(sway() duration:0.25s)
+                rest: Sequence(sway() duration:0.25s)
 				duration: 0.5s
 			)
 	)
