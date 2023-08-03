@@ -21,6 +21,7 @@ import Purpose from '../concepts/Purpose';
 import concretize from '../locale/concretize';
 import Structure from '../runtime/Structure';
 import Evaluation from '../runtime/Evaluation';
+import ValueException from '../runtime/ValueException';
 
 export default class TableLiteral extends Expression {
     readonly type: TableType;
@@ -107,11 +108,19 @@ export default class TableLiteral extends Expression {
                 this.type.definition,
                 evaluator.getCurrentEvaluation()
             );
-            // Assign values in reverse order
-            for (let c = this.type.columns.length - 1; c >= 0; c--) {
+
+            // Get the values, building the list in order of appearance.
+            const values: Value[] = [];
+            for (let c = 0; c < this.rows[r].cells.length; c++)
+                values.unshift(evaluator.popValue(this));
+
+            // Assign the values
+            for (let c = 0; c < this.type.columns.length; c++) {
                 const column = this.type.columns[c];
-                const cell = evaluator.popValue(this);
+                const cell = values.shift();
                 if (cell instanceof Exception) return cell;
+                if (cell === undefined)
+                    throw new ValueException(evaluator, this);
                 evaluation.bind(column.names, cell);
             }
             rows.unshift(new Structure(this, evaluation));
