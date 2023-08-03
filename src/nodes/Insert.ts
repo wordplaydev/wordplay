@@ -1,6 +1,6 @@
 import type Node from './Node';
 import Expression from './Expression';
-import Row from './Row';
+import Row, { getRowFromValues } from './Row';
 import type Conflict from '@conflicts/Conflict';
 import TableType from './TableType';
 import Bind from '@nodes/Bind';
@@ -26,9 +26,7 @@ import Glyphs from '../lore/Glyphs';
 import IncompatibleInput from '../conflicts/IncompatibleInput';
 import concretize from '../locale/concretize';
 import Purpose from '../concepts/Purpose';
-import Evaluation from '../runtime/Evaluation';
 import Structure from '../runtime/Structure';
-import ValueException from '../runtime/ValueException';
 
 export default class Insert extends Expression {
     readonly table: Expression;
@@ -185,23 +183,9 @@ export default class Insert extends Expression {
         if (!(table instanceof Table)) return table;
         const type = table.literal.type;
 
-        const evaluation = new Evaluation(
-            evaluator,
-            this,
-            table.literal.type.definition,
-            evaluator.getCurrentEvaluation()
-        );
-
-        for (let c = 0; c < type.columns.length; c++) {
-            const column = type.columns[c];
-            const cell = values.shift();
-            if (cell instanceof Exception) return cell;
-            if (cell === undefined) throw new ValueException(evaluator, this);
-            evaluation.bind(column.names, cell);
-        }
-
         // Return a new table with the new row.
-        return table.insert(new Structure(this, evaluation));
+        const row = getRowFromValues(evaluator, this, type, values);
+        return row instanceof Structure ? table.insert(row) : row;
     }
 
     evaluateTypeSet(

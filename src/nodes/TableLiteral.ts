@@ -1,4 +1,4 @@
-import Row from './Row';
+import Row, { getRowFromValues } from './Row';
 import type Conflict from '@conflicts/Conflict';
 import Expression from './Expression';
 import TableType from './TableType';
@@ -13,15 +13,12 @@ import Start from '@runtime/Start';
 import type Context from './Context';
 import type TypeSet from './TypeSet';
 import { analyzeRow } from './util';
-import Exception from '@runtime/Exception';
 import { node, type Grammar, type Replacement, list } from './Node';
 import type Locale from '@locale/Locale';
 import Glyphs from '../lore/Glyphs';
 import Purpose from '../concepts/Purpose';
 import concretize from '../locale/concretize';
 import Structure from '../runtime/Structure';
-import Evaluation from '../runtime/Evaluation';
-import ValueException from '../runtime/ValueException';
 
 export default class TableLiteral extends Expression {
     readonly type: TableType;
@@ -102,28 +99,14 @@ export default class TableLiteral extends Expression {
 
         const rows: Structure[] = [];
         for (let r = 0; r < this.rows.length; r++) {
-            const evaluation = new Evaluation(
-                evaluator,
-                this,
-                this.type.definition,
-                evaluator.getCurrentEvaluation()
-            );
-
             // Get the values, building the list in order of appearance.
             const values: Value[] = [];
             for (let c = 0; c < this.rows[r].cells.length; c++)
                 values.unshift(evaluator.popValue(this));
 
-            // Assign the values
-            for (let c = 0; c < this.type.columns.length; c++) {
-                const column = this.type.columns[c];
-                const cell = values.shift();
-                if (cell instanceof Exception) return cell;
-                if (cell === undefined)
-                    throw new ValueException(evaluator, this);
-                evaluation.bind(column.names, cell);
-            }
-            rows.unshift(new Structure(this, evaluation));
+            const row = getRowFromValues(evaluator, this, this.type, values);
+            if (row instanceof Structure) rows.unshift(row);
+            else return row;
         }
         return new Table(this, rows);
     }
