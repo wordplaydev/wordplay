@@ -150,6 +150,7 @@ export default class Delete extends Expression {
             ...this.table.compile(context),
             // Initialize a keep list and a counter as we iterate through the rows.
             new Initialize(this, (evaluator) => {
+                evaluator.getCurrentEvaluation()?.scope();
                 evaluator.bind(INDEX, new Number(this, 0));
                 evaluator.bind(LIST, new List(this, []));
                 return undefined;
@@ -257,6 +258,8 @@ export default class Delete extends Expression {
                 ListType.make(),
                 kept
             );
+
+        evaluator.getCurrentEvaluation()?.unscope();
 
         // Create a new table based on the kept rows
         return new Table(table.literal, kept.values as Structure[]);
