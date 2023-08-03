@@ -108,7 +108,7 @@ export default class TableLiteral extends Expression {
             if (row instanceof Structure) rows.unshift(row);
             else return row;
         }
-        return new Table(this, rows);
+        return new Table(this, this.type, rows);
     }
 
     clone(replace?: Replacement) {

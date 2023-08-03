@@ -14,6 +14,7 @@ import Glyphs from '../lore/Glyphs';
 import BasisType from './BasisType';
 import StructureDefinition from './StructureDefinition';
 import Names from './Names';
+import type Reference from './Reference';
 
 export default class TableType extends BasisType {
     readonly open: Token;
@@ -79,6 +80,16 @@ export default class TableType extends BasisType {
             undefined,
             this.columns,
             undefined
+        );
+    }
+
+    withColumns(references: Reference[]) {
+        return TableType.make(
+            references
+                .map((ref) =>
+                    this.columns.find((bind) => bind.hasName(ref.getName()))
+                )
+                .filter((bind): bind is Bind => bind !== undefined)
         );
     }
 

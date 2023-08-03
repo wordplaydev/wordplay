@@ -185,10 +185,11 @@ export default class Delete extends Expression {
 
     evaluate(evaluator: Evaluator): Value {
         const { table, list } = getIterationResult<DeleteState>(evaluator);
+        // Pop the table.
         evaluator.popValue(this);
 
         // Create a new table based on the kept rows
-        return new Table(table.literal, list);
+        return new Table(this, table.type, list);
     }
 
     evaluateTypeSet(

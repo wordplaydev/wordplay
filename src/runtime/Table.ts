@@ -1,5 +1,4 @@
 import type { BasisTypeName } from '../basis/BasisConstants';
-import type TableLiteral from '@nodes/TableLiteral';
 import TableType from '@nodes/TableType';
 import { TABLE_CLOSE_SYMBOL, TABLE_OPEN_SYMBOL } from '@parser/Symbols';
 import type Exception from './Exception';
@@ -8,20 +7,21 @@ import type Locale from '@locale/Locale';
 import concretize from '../locale/concretize';
 import Simple from './Simple';
 import type Structure from './Structure';
+import type Expression from '../nodes/Expression';
 
 export default class Table extends Simple {
-    readonly literal: TableLiteral;
+    readonly type: TableType;
     readonly rows: Structure[];
 
-    constructor(creator: TableLiteral, rows: Structure[]) {
+    constructor(creator: Expression, type: TableType, rows: Structure[]) {
         super(creator);
 
-        this.literal = creator;
+        this.type = type;
         this.rows = rows;
     }
 
-    insert(row: Structure): Table | Exception {
-        return new Table(this.literal, [...this.rows, row]);
+    insert(requestor: Expression, row: Structure): Table | Exception {
+        return new Table(requestor, this.type, [...this.rows, row]);
     }
 
     getType() {
@@ -43,7 +43,7 @@ export default class Table extends Simple {
     }
 
     toWordplay(locales: Locale[]): string {
-        const columns = this.literal.type.columns;
+        const columns = this.type.columns;
         let text = '';
         for (const row of this.rows) {
             text += TABLE_OPEN_SYMBOL;

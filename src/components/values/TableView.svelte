@@ -14,7 +14,7 @@
 <SymbolView
     symbol={TABLE_OPEN_SYMBOL}
     type={Symbol.TableOpen}
-/>{#each value.literal.type.columns as col}
+/>{#each value.type.columns as col}
     <SymbolView
         symbol={col
             ? col.names.getPreferredNameString($config.getLocales())
@@ -27,7 +27,7 @@
     <SymbolView
         symbol={TABLE_OPEN_SYMBOL}
         type={Symbol.TableOpen}
-    />{#each value.literal.type.columns as col}
+    />{#each value.type.columns as col}
         {@const cell = row.resolve(col.names)}
         {#if cell}<ValueView value={cell} />{:else}-{/if}
     {/each}<SymbolView symbol={TABLE_CLOSE_SYMBOL} type={Symbol.TableClose} />

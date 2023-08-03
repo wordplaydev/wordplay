@@ -16,7 +16,6 @@ import Start from '@runtime/Start';
 import type Context from './Context';
 import type Definition from './Definition';
 import type TypeSet from './TypeSet';
-import UnimplementedException from '@runtime/UnimplementedException';
 import type Evaluator from '@runtime/Evaluator';
 import UnknownNameType from './UnknownNameType';
 import { node, type Grammar, type Replacement } from './Node';
@@ -27,11 +26,23 @@ import IncompatibleInput from '../conflicts/IncompatibleInput';
 import { NotAType } from './NotAType';
 import concretize from '../locale/concretize';
 import Purpose from '../concepts/Purpose';
+import type Structure from '../runtime/Structure';
+import { getIteration, getIterationResult } from '../basis/Iteration';
+import Table from '../runtime/Table';
+import FunctionDefinition from './FunctionDefinition';
+import Names from './Names';
+import Evaluation from '../runtime/Evaluation';
+import Bool from '../runtime/Bool';
+
+type SelectState = { table: Table; index: number; selected: Structure[] };
 
 export default class Select extends Expression {
     readonly table: Expression;
     readonly row: Row;
     readonly query: Expression;
+
+    /** A derived function based on the query, used to evaluate each row of the table. */
+    readonly fun: FunctionDefinition;
 
     constructor(table: Expression, row: Row, query: Expression) {
         super();
@@ -39,6 +50,15 @@ export default class Select extends Expression {
         this.table = table;
         this.row = row;
         this.query = query;
+
+        this.fun = FunctionDefinition.make(
+            undefined,
+            Names.make([]),
+            undefined,
+            [],
+            this.query,
+            BooleanType.make()
+        );
 
         this.computeChildren();
     }
@@ -169,12 +189,72 @@ export default class Select extends Expression {
         return [
             new Start(this),
             ...this.table.compile(context),
+            ...getIteration<SelectState, this>(
+                this,
+                // Track the table, index through the rows, and a list of selected rows
+                (evaluator) => {
+                    const table = evaluator.peekValue();
+                    return table instanceof Table
+                        ? { table, index: 0, selected: [] }
+                        : evaluator.getValueOrTypeException(
+                              this,
+                              TableType.make(),
+                              table
+                          );
+                },
+                (evaluator, info) => {
+                    // If we reached the end, stop.
+                    if (info.index > info.table.rows.length - 1) return false;
+                    // Otherwise, evaluate
+                    else {
+                        // Start a new evaluation of the query with the row as scope.
+                        evaluator.startEvaluation(
+                            new Evaluation(
+                                evaluator,
+                                this,
+                                this.fun,
+                                info.table.rows[info.index]
+                            )
+                        );
+                        return true;
+                    }
+                },
+                (evaluator, info) => {
+                    const select = evaluator.popValue(this, BooleanType.make());
+                    if (!(select instanceof Bool)) return select;
+                    // Query was false? Keep instead of deleting.
+                    if (select.bool)
+                        info.selected.push(info.table.rows[info.index]);
+                    // Increment the counter to the next row.
+                    info.index = info.index + 1;
+                }
+            ),
             new Finish(this),
         ];
     }
 
     evaluate(evaluator: Evaluator): Value {
-        return new UnimplementedException(evaluator, this);
+        const { table, selected } = getIterationResult<SelectState>(evaluator);
+
+        // Pop the table.
+        evaluator.popValue(this);
+
+        // Find the valid column references, if any
+        const columns = this.row.cells.filter(
+            (cell): cell is Reference => cell instanceof Reference
+        );
+
+        // Create a new table type that only has the binds selected, in the order they were selected.
+        const newType =
+            columns.length === 0
+                ? table.type
+                : table.type.withColumns(
+                      this.row.cells.filter(
+                          (cell): cell is Reference => cell instanceof Reference
+                      )
+                  );
+
+        return new Table(this, newType, selected);
     }
 
     evaluateTypeSet(

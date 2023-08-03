@@ -181,11 +181,10 @@ export default class Insert extends Expression {
 
         const table = evaluator.popValue(this, TableType.make([]));
         if (!(table instanceof Table)) return table;
-        const type = table.literal.type;
 
         // Return a new table with the new row.
-        const row = getRowFromValues(evaluator, this, type, values);
-        return row instanceof Structure ? table.insert(row) : row;
+        const row = getRowFromValues(evaluator, this, table.type, values);
+        return row instanceof Structure ? table.insert(this, row) : row;
     }
 
     evaluateTypeSet(
