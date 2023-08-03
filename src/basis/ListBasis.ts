@@ -127,17 +127,17 @@ export default function bootstrapList(locales: Locale[]) {
         ListTypeVariable.getReference()
     );
 
-    const combineTypeVariable = new TypeVariable(
+    const CombineTypeVariable = new TypeVariable(
         getNameLocales(locales, (locale) => locale.basis.List.out)
     );
 
-    const listCombineHOFType = FunctionType.make(
+    const ListCombineHOFType = FunctionType.make(
         undefined,
         [
             createBind(
                 locales,
                 (locale) => locale.basis.List.function.combine.combination,
-                combineTypeVariable.getReference()
+                CombineTypeVariable.getReference()
             ),
             createBind(
                 locales,
@@ -150,7 +150,7 @@ export default function bootstrapList(locales: Locale[]) {
                 NumberType.make()
             ),
         ],
-        combineTypeVariable.getReference()
+        CombineTypeVariable.getReference()
     );
 
     const addInputNames = getNameLocales(
@@ -1143,7 +1143,7 @@ export default function bootstrapList(locales: Locale[]) {
                         locales,
                         (locale) => locale.basis.List.function.combine.names
                     ),
-                    TypeVariables.make([combineTypeVariable]),
+                    TypeVariables.make([CombineTypeVariable]),
                     [
                         createBind(
                             locales,
@@ -1152,7 +1152,7 @@ export default function bootstrapList(locales: Locale[]) {
                         createBind(
                             locales,
                             (t) => t.basis.List.function.combine.inputs[1],
-                            listCombineHOFType
+                            ListCombineHOFType
                         ),
                     ],
                     new Iteration<{
@@ -1160,7 +1160,7 @@ export default function bootstrapList(locales: Locale[]) {
                         list: List;
                         combo: Value;
                     }>(
-                        ListTypeVariable.getReference(),
+                        CombineTypeVariable.getReference(),
                         // Start with an index of one and the list we're searching.
                         (evaluator, expression) => {
                             const initial = expression.getInput(0, evaluator);
@@ -1200,7 +1200,7 @@ export default function bootstrapList(locales: Locale[]) {
                         (evaluator, info, expression) => info.combo
                     ),
                     // new HOFListCombine(listCombineHOFType),
-                    combineTypeVariable.getReference()
+                    CombineTypeVariable.getReference()
                 ),
                 createBasisConversion(
                     getDocLocales(
