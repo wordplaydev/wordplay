@@ -13,7 +13,6 @@ import Start from '@runtime/Start';
 import type Context from './Context';
 import type Definition from './Definition';
 import type TypeSet from './TypeSet';
-import UnimplementedException from '@runtime/UnimplementedException';
 import type Evaluator from '@runtime/Evaluator';
 import { node, type Grammar, type Replacement } from './Node';
 import type Locale from '@locale/Locale';
@@ -23,11 +22,30 @@ import IncompatibleInput from '../conflicts/IncompatibleInput';
 import concretize from '../locale/concretize';
 import Symbol from './Symbol';
 import Purpose from '../concepts/Purpose';
+import FunctionDefinition from './FunctionDefinition';
+import Names from './Names';
+import Table from '../runtime/Table';
+import type Structure from '../runtime/Structure';
+import Evaluation from '../runtime/Evaluation';
+import Initialize from '../runtime/Initialize';
+import List from '../runtime/List';
+import Number from '../runtime/Number';
+import Next from '../runtime/Next';
+import NumberType from './NumberType';
+import Check from '../runtime/Check';
+import Bool from '../runtime/Bool';
+import ListType from './ListType';
+
+const INDEX = 'index';
+const LIST = 'list';
 
 export default class Delete extends Expression {
     readonly table: Expression;
     readonly del: Token;
     readonly query: Expression;
+
+    /** A derived function based on the query, used to evaluate each row of the table. */
+    readonly fun: FunctionDefinition;
 
     constructor(table: Expression, del: Token, query: Expression) {
         super();
@@ -35,6 +53,15 @@ export default class Delete extends Expression {
         this.table = table;
         this.del = del;
         this.query = query;
+
+        this.fun = FunctionDefinition.make(
+            undefined,
+            Names.make([]),
+            undefined,
+            [],
+            this.query,
+            BooleanType.make()
+        );
 
         this.computeChildren();
     }
@@ -121,12 +148,118 @@ export default class Delete extends Expression {
         return [
             new Start(this),
             ...this.table.compile(context),
+            // Initialize a keep list and a counter as we iterate through the rows.
+            new Initialize(this, (evaluator) => {
+                evaluator.bind(INDEX, new Number(this, 0));
+                evaluator.bind(LIST, new List(this, []));
+                return undefined;
+            }),
+            new Next(this, (evaluator) => {
+                const index = evaluator.resolve(INDEX);
+                const table = evaluator.peekValue();
+                // If the index is past the last index of the list, jump to the end.
+                if (!(index instanceof Number))
+                    return evaluator.getValueOrTypeException(
+                        this,
+                        NumberType.make(),
+                        index
+                    );
+                else if (!(table instanceof Table))
+                    return evaluator.getValueOrTypeException(
+                        this,
+                        TableType.make(),
+                        table
+                    );
+                else {
+                    if (
+                        index.greaterThan(
+                            this,
+                            new Number(this, table.rows.length - 1)
+                        ).bool
+                    )
+                        // Jump past this evaluation step to the finish
+                        evaluator.jump(1);
+                    else {
+                        const row = table.rows[index.toNumber()];
+
+                        // Start a new evaluation of the query with the row as scope.
+                        evaluator.startEvaluation(
+                            new Evaluation(evaluator, this, this.fun, row)
+                        );
+                    }
+                }
+            }),
+            // Save the translated value and then jump to the conditional.
+            new Check(this, (evaluator) => {
+                // Get the boolean from the function evaluation.
+                const remove = evaluator.popValue(this, BooleanType.make());
+                if (!(remove instanceof Bool)) return remove;
+
+                // Get the current index.
+                const index = evaluator.resolve(INDEX);
+                if (!(index instanceof Number))
+                    return evaluator.getValueOrTypeException(
+                        this,
+                        NumberType.make(),
+                        index
+                    );
+
+                const table = evaluator.peekValue();
+                if (!(table instanceof Table))
+                    return evaluator.getValueOrTypeException(
+                        this,
+                        TableType.make(),
+                        table
+                    );
+
+                // If the include decided yes, append the value.
+                const newList = evaluator.resolve(LIST);
+                if (!(newList instanceof List))
+                    return evaluator.getValueOrTypeException(
+                        this,
+                        ListType.make(),
+                        newList
+                    );
+                else if (!(remove instanceof Bool))
+                    return evaluator.getValueOrTypeException(
+                        this,
+                        BooleanType.make(),
+                        remove
+                    );
+                else {
+                    const row = table.rows[index.toNumber()];
+                    if (!remove.bool) {
+                        evaluator.bind(LIST, newList.add(this, row));
+                    }
+                }
+
+                // Increment the counter
+                evaluator.bind(INDEX, index.add(this, new Number(this, 1)));
+
+                // Jump back to the
+                evaluator.jump(-2);
+
+                return undefined;
+            }),
             new Finish(this),
         ];
     }
 
     evaluate(evaluator: Evaluator): Value {
-        return new UnimplementedException(evaluator, this);
+        const table = evaluator.popValue(this);
+
+        if (!(table instanceof Table)) return table;
+
+        const kept = evaluator.resolve(LIST);
+        if (!(kept instanceof List))
+            return evaluator.getValueOrTypeException(
+                this,
+                ListType.make(),
+                kept
+            );
+
+        // Create a new table based on the kept rows
+        return new Table(table.literal, kept.values as Structure[]);
     }
 
     evaluateTypeSet(

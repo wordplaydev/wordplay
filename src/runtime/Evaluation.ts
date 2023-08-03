@@ -34,6 +34,7 @@ import type Context from '../nodes/Context';
 import StartFinish from './StartFinish';
 import type TableLiteral from '../nodes/TableLiteral';
 import type Insert from '../nodes/Insert';
+import type Delete from '../nodes/Delete';
 
 export type EvaluationNode =
     | UnaryEvaluate
@@ -43,6 +44,7 @@ export type EvaluationNode =
     | Convert
     | TableLiteral
     | Insert
+    | Delete
     | HOF
     | Borrow
     | Source

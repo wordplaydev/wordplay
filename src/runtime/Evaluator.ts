@@ -1220,7 +1220,7 @@ export default class Evaluator {
     }
 
     /** Bind the given value to the given name in the context of the current evaluation. */
-    bind(names: Names, value: Value) {
+    bind(names: string | Names, value: Value) {
         if (this.evaluations.length > 0) this.evaluations[0].bind(names, value);
     }
 
