@@ -10,6 +10,10 @@ import type TermTexts from './TermTexts';
 import { parseLocaleDoc } from '../parser/Parser';
 import type Markup from '../nodes/Markup';
 import { Regions, type RegionCode } from './Regions';
+import type Type from '../nodes/Type';
+import { getDocLocales } from './getDocLocales';
+import { getNameLocales } from './getNameLocales';
+import Bind from '../nodes/Bind';
 
 /** A list of locales officially supported by Wordplay. */
 export const SupportedLocales = ['en-US', 'es-MX'] as const;
@@ -127,4 +131,16 @@ export function getBestSupportedLocales(locales: string[]) {
     return matches.length > 0
         ? Array.from(new Set(matches))
         : [SupportedLocales[0]];
+}
+
+export function createBind(
+    locales: Locale[],
+    nameAndDoc: (locale: Locale) => NameAndDoc,
+    type?: Type
+) {
+    return Bind.make(
+        getDocLocales(locales, (l) => nameAndDoc(l).doc),
+        getNameLocales(locales, (l) => nameAndDoc(l).names),
+        type
+    );
 }

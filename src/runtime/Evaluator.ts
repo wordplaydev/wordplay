@@ -268,6 +268,11 @@ export default class Evaluator {
     getLastEvaluation() {
         return this.#lastEvaluation;
     }
+
+    getCurrentClosure() {
+        return this.getCurrentEvaluation()?.getClosure();
+    }
+
     getCurrentContext() {
         return (
             this.getCurrentEvaluation()?.getContext() ??

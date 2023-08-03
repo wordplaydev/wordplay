@@ -26,8 +26,8 @@ export default class List extends Simple {
         return this.values;
     }
 
-    get(index: Number) {
-        const num = index.toNumber();
+    get(index: Number | number) {
+        const num = index instanceof Number ? index.toNumber() : index;
         const value =
             num === 0 ? undefined : this.values.at(num > 0 ? num - 1 : num);
         return value === undefined ? new None(this.creator) : value;
@@ -87,13 +87,20 @@ export default class List extends Simple {
 
     subsequence(
         requestor: Expression,
-        start: Number,
-        end: Number | None
+        start: Number | number,
+        end: Number | number | None
     ): List {
-        const actualStart = Math.max(1, start.toNumber());
+        const actualStart = Math.max(
+            1,
+            start instanceof Number ? start.toNumber() : start
+        );
         const actualEnd = Math.min(
             this.values.length,
-            end instanceof None ? this.values.length : end.toNumber()
+            end instanceof None
+                ? this.values.length
+                : end instanceof Number
+                ? end.toNumber()
+                : end
         );
         const newList = new List(
             requestor,

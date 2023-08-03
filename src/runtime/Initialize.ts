@@ -21,6 +21,6 @@ export default class Initialize extends Step {
     }
 
     getExplanations(locale: Locale) {
-        return concretize(locale, locale.node.HOF.initialize);
+        return concretize(locale, locale.node.Iteration.initialize);
     }
 }

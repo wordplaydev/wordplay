@@ -27,17 +27,10 @@ import Names from './Names';
 import Table from '../runtime/Table';
 import type Structure from '../runtime/Structure';
 import Evaluation from '../runtime/Evaluation';
-import Initialize from '../runtime/Initialize';
-import List from '../runtime/List';
-import Number from '../runtime/Number';
-import Next from '../runtime/Next';
-import NumberType from './NumberType';
-import Check from '../runtime/Check';
 import Bool from '../runtime/Bool';
-import ListType from './ListType';
+import { getIteration, getIterationResult } from '../basis/Iteration';
 
-const INDEX = 'index';
-const LIST = 'list';
+type DeleteState = { index: number; list: Structure[]; table: Table };
 
 export default class Delete extends Expression {
     readonly table: Expression;
@@ -148,121 +141,54 @@ export default class Delete extends Expression {
         return [
             new Start(this),
             ...this.table.compile(context),
-            // Initialize a keep list and a counter as we iterate through the rows.
-            new Initialize(this, (evaluator) => {
-                evaluator.getCurrentEvaluation()?.scope();
-                evaluator.bind(INDEX, new Number(this, 0));
-                evaluator.bind(LIST, new List(this, []));
-                return undefined;
-            }),
-            new Next(this, (evaluator) => {
-                const index = evaluator.resolve(INDEX);
-                const table = evaluator.peekValue();
-                // If the index is past the last index of the list, jump to the end.
-                if (!(index instanceof Number))
-                    return evaluator.getValueOrTypeException(
-                        this,
-                        NumberType.make(),
-                        index
-                    );
-                else if (!(table instanceof Table))
-                    return evaluator.getValueOrTypeException(
-                        this,
-                        TableType.make(),
-                        table
-                    );
-                else {
-                    if (
-                        index.greaterThan(
-                            this,
-                            new Number(this, table.rows.length - 1)
-                        ).bool
-                    )
-                        // Jump past this evaluation step to the finish
-                        evaluator.jump(1);
+            ...getIteration<DeleteState, this>(
+                this,
+                // Initialize a keep list and a counter as we iterate through the rows.
+                (evaluator) => {
+                    const table = evaluator.peekValue();
+                    return table instanceof Table
+                        ? { index: 0, list: [], table }
+                        : evaluator.getValueOrTypeException(
+                              this,
+                              TableType.make(),
+                              table
+                          );
+                },
+                (evaluator, info) => {
+                    if (info.index > info.table.rows.length - 1) return false;
                     else {
-                        const row = table.rows[index.toNumber()];
-
                         // Start a new evaluation of the query with the row as scope.
                         evaluator.startEvaluation(
-                            new Evaluation(evaluator, this, this.fun, row)
+                            new Evaluation(
+                                evaluator,
+                                this,
+                                this.fun,
+                                info.table.rows[info.index]
+                            )
                         );
+                        return true;
                     }
+                },
+                (evaluator, info) => {
+                    const remove = evaluator.popValue(this, BooleanType.make());
+                    if (!(remove instanceof Bool)) return remove;
+                    // Query was false? Keep instead of deleting.
+                    if (remove.bool === false)
+                        info.list.push(info.table.rows[info.index]);
+                    // Increment the counter.
+                    info.index = info.index + 1;
                 }
-            }),
-            // Save the translated value and then jump to the conditional.
-            new Check(this, (evaluator) => {
-                // Get the boolean from the function evaluation.
-                const remove = evaluator.popValue(this, BooleanType.make());
-                if (!(remove instanceof Bool)) return remove;
-
-                // Get the current index.
-                const index = evaluator.resolve(INDEX);
-                if (!(index instanceof Number))
-                    return evaluator.getValueOrTypeException(
-                        this,
-                        NumberType.make(),
-                        index
-                    );
-
-                const table = evaluator.peekValue();
-                if (!(table instanceof Table))
-                    return evaluator.getValueOrTypeException(
-                        this,
-                        TableType.make(),
-                        table
-                    );
-
-                // If the include decided yes, append the value.
-                const newList = evaluator.resolve(LIST);
-                if (!(newList instanceof List))
-                    return evaluator.getValueOrTypeException(
-                        this,
-                        ListType.make(),
-                        newList
-                    );
-                else if (!(remove instanceof Bool))
-                    return evaluator.getValueOrTypeException(
-                        this,
-                        BooleanType.make(),
-                        remove
-                    );
-                else {
-                    const row = table.rows[index.toNumber()];
-                    if (!remove.bool) {
-                        evaluator.bind(LIST, newList.add(this, row));
-                    }
-                }
-
-                // Increment the counter
-                evaluator.bind(INDEX, index.add(this, new Number(this, 1)));
-
-                // Jump back to the
-                evaluator.jump(-2);
-
-                return undefined;
-            }),
+            ),
             new Finish(this),
         ];
     }
 
     evaluate(evaluator: Evaluator): Value {
-        const table = evaluator.popValue(this);
-
-        if (!(table instanceof Table)) return table;
-
-        const kept = evaluator.resolve(LIST);
-        if (!(kept instanceof List))
-            return evaluator.getValueOrTypeException(
-                this,
-                ListType.make(),
-                kept
-            );
-
-        evaluator.getCurrentEvaluation()?.unscope();
+        const { table, list } = getIterationResult<DeleteState>(evaluator);
+        evaluator.popValue(this);
 
         // Create a new table based on the kept rows
-        return new Table(table.literal, kept.values as Structure[]);
+        return new Table(table.literal, list);
     }
 
     evaluateTypeSet(

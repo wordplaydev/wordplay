@@ -415,7 +415,7 @@
                 "NoExpression": "$?"
             }
         },
-        "HOF": {
+        "Iteration": {
             "name": "función de orden superior",
             "emotion": "neutral",
             "doc": "$?",
@@ -1227,54 +1227,58 @@
                 "sans": {
                     "doc": "$?",
                     "names": "sans",
-                    "inputs": [{ "doc": "$?", "names": "value" }]
+                    "inputs": [{ "doc": "$?", "names": "$? value" }]
                 },
                 "sansAll": {
                     "doc": "$?",
                     "names": "sinTodo",
-                    "inputs": [{ "doc": "$?", "names": "value" }]
+                    "inputs": [{ "doc": "$?", "names": "$? value" }]
                 },
                 "reverse": { "doc": "$?", "names": "inversa", "inputs": [] },
                 "equals": {
                     "doc": "$?",
                     "names": ["=", "equals"],
-                    "inputs": [{ "doc": "$?", "names": "list" }]
+                    "inputs": [{ "doc": "$?", "names": "$? list" }]
                 },
                 "notequals": {
                     "doc": "$?",
                     "names": "≠",
-                    "inputs": [{ "doc": "$?", "names": "list" }]
+                    "inputs": [{ "doc": "$?", "names": "$? list" }]
                 },
                 "translate": {
                     "doc": "$?",
                     "names": "traducir",
-                    "inputs": [{ "doc": "$?", "names": "translator" }],
-                    "value": { "doc": "$?", "names": "item" },
-                    "index": { "doc": "$?", "names": "index" }
+                    "inputs": [{ "doc": "$?", "names": "$? translator" }],
+                    "value": { "doc": "$?", "names": "$? item" },
+                    "index": { "doc": "$?", "names": "$? index" }
                 },
                 "filter": {
                     "doc": "$?",
                     "names": "filtrar",
-                    "inputs": [{ "doc": "$?", "names": "checker" }],
-                    "value": { "doc": "$?", "names": "item" }
+                    "inputs": [{ "doc": "$?", "names": "$? checker" }],
+                    "value": { "doc": "$?", "names": "item" },
+                    "index": { "doc": "$?", "names": "$? index" }
                 },
                 "all": {
                     "doc": "$?",
                     "names": "todos",
                     "inputs": [{ "doc": "$?", "names": "checker" }],
-                    "value": { "doc": "$?", "names": "item" }
+                    "value": { "doc": "$?", "names": "item" },
+                    "index": { "doc": "$?", "names": "$? index" }
                 },
                 "until": {
                     "doc": "$?",
                     "names": "hasta",
                     "inputs": [{ "doc": "$?", "names": "checker" }],
-                    "value": { "doc": "$?", "names": "item" }
+                    "value": { "doc": "$?", "names": "item" },
+                    "index": { "doc": "$?", "names": "$? index" }
                 },
                 "find": {
                     "doc": "$?",
                     "names": "encontrar",
                     "inputs": [{ "doc": "$?", "names": "checker" }],
-                    "value": { "doc": "$?", "names": "item" }
+                    "value": { "doc": "$?", "names": "item" },
+                    "index": { "doc": "$?", "names": "$? index" }
                 },
                 "combine": {
                     "doc": "$?",

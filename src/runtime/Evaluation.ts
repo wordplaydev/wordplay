@@ -20,7 +20,6 @@ import Finish from './Finish';
 import type UnaryEvaluate from '@nodes/UnaryEvaluate';
 import type BinaryEvaluate from '@nodes/BinaryEvaluate';
 import type Evaluate from '@nodes/Evaluate';
-import type HOF from '../basis/HOF';
 import type Source from '@nodes/Source';
 import type Convert from '@nodes/Convert';
 import type Borrow from '@nodes/Borrow';
@@ -35,6 +34,7 @@ import StartFinish from './StartFinish';
 import type TableLiteral from '../nodes/TableLiteral';
 import type Insert from '../nodes/Insert';
 import type Delete from '../nodes/Delete';
+import type { Iteration } from '../basis/Iteration';
 
 export type EvaluationNode =
     | UnaryEvaluate
@@ -45,7 +45,7 @@ export type EvaluationNode =
     | TableLiteral
     | Insert
     | Delete
-    | HOF
+    | Iteration<any>
     | Borrow
     | Source
     | StreamDefinition;

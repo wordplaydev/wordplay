@@ -320,7 +320,7 @@ type NodeTexts = {
      * Finish
      * $1: resulting value
      */
-    HOF: NodeText &
+    Iteration: NodeText &
         ExpressionText & {
             initialize: Template;
             next: Template;

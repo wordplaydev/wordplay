@@ -150,15 +150,19 @@ type BasisTexts = {
             };
             filter: FunctionText<[NameAndDoc]> & {
                 value: NameAndDoc;
+                index: NameAndDoc;
             };
             all: FunctionText<[NameAndDoc]> & {
                 value: NameAndDoc;
+                index: NameAndDoc;
             };
             until: FunctionText<[NameAndDoc]> & {
                 value: NameAndDoc;
+                index: NameAndDoc;
             };
             find: FunctionText<[NameAndDoc]> & {
                 value: NameAndDoc;
+                index: NameAndDoc;
             };
             combine: FunctionText<[NameAndDoc, NameAndDoc]> & {
                 combination: NameAndDoc;

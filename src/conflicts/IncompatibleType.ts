@@ -10,20 +10,20 @@ import type Node from '../nodes/Node';
 export default class IncompatibleType extends Conflict {
     readonly receiver: Node;
     readonly expectedType: Type;
-    readonly value: Expression;
+    readonly expression: Expression;
     readonly givenType: Type;
 
     constructor(
         receiver: Node,
         expectedType: Type,
-        value: Expression,
+        expression: Expression,
         givenType: Type
     ) {
         super(false);
 
         this.receiver = receiver;
         this.expectedType = expectedType;
-        this.value = value;
+        this.expression = expression;
         this.givenType = givenType;
     }
 
@@ -40,7 +40,7 @@ export default class IncompatibleType extends Conflict {
                     ),
             },
             secondary: {
-                node: this.value,
+                node: this.expression,
                 explanation: (locale: Locale, context: Context) =>
                     concretize(
                         locale,
