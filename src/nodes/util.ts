@@ -114,6 +114,8 @@ export function analyzeRow(
             if (!matchedColumns.includes(column) && !column.hasDefault())
                 conflicts.push(new MissingCell(row, tableType, column));
         }
+
+        // Ensure there are no extra expressions.
     } else if (row.allExpressions()) {
         const cells = row.cells.slice();
         for (const column of tableType.columns) {

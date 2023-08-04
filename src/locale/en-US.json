@@ -224,7 +224,7 @@
                 "InvalidRow": "I'm missing one or more columns",
                 "MissingCell": {
                     "primary": "I'm missing column $1",
-                    "secondary": "I'm required, but $2 didn't provide it"
+                    "secondary": "I'm required, but $1 didn't provide it"
                 },
                 "UnknownColumn": "I don't know a column by this name"
             }
