@@ -236,7 +236,7 @@ test.each([
     ['a•[#]', Bind, 'type', ListType, '[#]'],
     ['a•{#}', Bind, 'type', SetType, '{#}'],
     ['a•{#:""}', Bind, 'type', MapType, '{#:""}'],
-    ['a•⎡a•# b•"" c•Cat⎦', Bind, 'type', TableType, '⎡a•# b•"" c•Cat ⎦'],
+    ['a•⎡a•# b•"" c•Cat⎦', Bind, 'type', TableType, '⎡a•# b•"" c•Cat⎦'],
     ['a•ƒ(a•# b•#) #', Bind, 'type', FunctionType],
     ['a•…#', Bind, 'type', StreamType],
     ['a•Cat|#', Bind, 'type', UnionType],

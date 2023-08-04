@@ -47,7 +47,7 @@ export default class TableType extends BasisType {
     getGrammar(): Grammar {
         return [
             { name: 'open', kind: node(Symbol.TableOpen) },
-            { name: 'columns', kind: list(node(Bind)) },
+            { name: 'columns', kind: list(node(Bind)), space: true },
             { name: 'close', kind: node(Symbol.TableClose) },
         ];
     }
