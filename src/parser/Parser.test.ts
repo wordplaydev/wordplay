@@ -129,7 +129,7 @@ test.each([
         TableLiteral,
         'type',
         TableType,
-        '⎡a•# b•# c•# ⎦',
+        '⎡a•# b•# c•#⎦',
     ],
     ['table ⎡? a b ⎦ c > 3', Select, 'query', BinaryEvaluate, 'c > 3'],
     ['table ⎡+ 1 2 3 ⎦', Insert, 'row', Row],
