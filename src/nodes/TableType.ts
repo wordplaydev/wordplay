@@ -15,6 +15,7 @@ import BasisType from './BasisType';
 import StructureDefinition from './StructureDefinition';
 import Names from './Names';
 import type Reference from './Reference';
+import type Definition from './Definition';
 
 export default class TableType extends BasisType {
     readonly open: Token;
@@ -70,6 +71,10 @@ export default class TableType extends BasisType {
         });
 
         return conflicts;
+    }
+
+    getDefinitions(): Definition[] {
+        return this.columns;
     }
 
     getStructureDefinition() {
