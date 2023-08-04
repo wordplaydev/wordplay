@@ -42,8 +42,8 @@ export default class Row extends Node {
                     node(Symbol.Update)
                 ),
             },
-            { name: 'cells', kind: list(node(Expression)), space: true },
-            { name: 'close', kind: node(Symbol.TableClose), space: true },
+            { name: 'cells', kind: list(node(Expression)) },
+            { name: 'close', kind: node(Symbol.TableClose) },
         ];
     }
 
