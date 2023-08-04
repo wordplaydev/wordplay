@@ -1179,11 +1179,15 @@
                 "conversion": {
                   "additionalProperties": false,
                   "properties": {
+                    "list": {
+                      "$ref": "#/definitions/DocText"
+                    },
                     "text": {
                       "$ref": "#/definitions/DocText"
                     }
                   },
                   "required": [
+                    "list",
                     "text"
                   ],
                   "type": "object"

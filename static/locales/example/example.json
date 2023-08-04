@@ -164,7 +164,15 @@
             "conflict": {
                 "InvalidRow": "$?",
                 "MissingCell": { "primary": "$?", "secondary": "$?" },
-                "UnknownColumn": "$?"
+                "UnknownColumn": "$?",
+                "ExtraCell": {
+                    "primary": "$?",
+                    "secondary": "$?"
+                },
+                "UnexpectedColumnBind": {
+                    "primary": "$?",
+                    "secondary": "$?"
+                }
             }
         },
         "Token": {
@@ -727,7 +735,7 @@
             "start": "$?",
             "finish": "$?",
             "conflict": {
-                "ExpectedUpdateBind": "$?",
+                "ExpectedColumnBind": "$?",
                 "IncompatibleCellType": { "primary": "$?", "secondary": "$?" }
             }
         },
@@ -1245,25 +1253,29 @@
                     "doc": "$?",
                     "names": "$?",
                     "inputs": [{ "doc": "$?", "names": "$?" }],
-                    "value": { "doc": "$?", "names": "$?" }
+                    "value": { "doc": "$?", "names": "$?value" },
+                    "index": { "doc": "$?", "names": "$?index" }
                 },
                 "all": {
                     "doc": "$?",
                     "names": "$?",
                     "inputs": [{ "doc": "$?", "names": "$?" }],
-                    "value": { "doc": "$?", "names": "$?" }
+                    "value": { "doc": "$?", "names": "$?value" },
+                    "index": { "doc": "$?", "names": "$?index" }
                 },
                 "until": {
                     "doc": "$?",
                     "names": "$?",
                     "inputs": [{ "doc": "$?", "names": "$?" }],
-                    "value": { "doc": "$?", "names": "$?" }
+                    "value": { "doc": "$?", "names": "$?value" },
+                    "index": { "doc": "$?", "names": "$?index" }
                 },
                 "find": {
                     "doc": "$?",
                     "names": "$?",
                     "inputs": [{ "doc": "$?", "names": "$?" }],
-                    "value": { "doc": "$?", "names": "$?" }
+                    "value": { "doc": "$?", "names": "$?value" },
+                    "index": { "doc": "$?", "names": "$?index" }
                 },
                 "combine": {
                     "doc": "$?",
@@ -1402,6 +1414,7 @@
                 }
             },
             "conversion": {
+                "list": "$?",
                 "text": "$?"
             }
         }

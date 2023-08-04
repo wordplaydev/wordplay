@@ -1,7 +1,7 @@
 import FunctionDefinition from '@nodes/FunctionDefinition';
 import InternalExpression from './InternalExpression';
 import type Context from '@nodes/Context';
-import type Type from '@nodes/Type';
+import Type from '@nodes/Type';
 import ConversionDefinition from '@nodes/ConversionDefinition';
 import type Bind from '@nodes/Bind';
 import Value from '@runtime/Value';
@@ -171,37 +171,36 @@ export function createBasisFunction(
 
 export function createBasisConversion<ValueType extends Value>(
     docs: Docs,
-    inputTypeString: string,
-    outputTypeString: string,
+    input: Type | string,
+    output: Type | string,
     convert: (requestor: Expression, value: ValueType) => Value
 ) {
     // Parse the expected type.
-    const inputType = parseType(toTokens(inputTypeString));
+    const inputType =
+        input instanceof Type ? input : parseType(toTokens(input));
+    const outputType =
+        output instanceof Type ? output : parseType(toTokens(output));
 
     return ConversionDefinition.make(
         docs,
         inputType,
-        outputTypeString,
-        new InternalExpression(
-            outputTypeString,
-            [],
-            (requestor, evaluation) => {
-                const val = evaluation.getClosure();
-                if (
-                    val instanceof Value &&
-                    inputType.accepts(
-                        val.getType(evaluation.getContext()),
-                        evaluation.getContext()
-                    )
+        output,
+        new InternalExpression(outputType, [], (requestor, evaluation) => {
+            const val = evaluation.getClosure();
+            if (
+                val instanceof Value &&
+                inputType.accepts(
+                    val.getType(evaluation.getContext()),
+                    evaluation.getContext()
                 )
-                    return convert(requestor, val as ValueType);
-                else
-                    return evaluation.getValueOrTypeException(
-                        requestor,
-                        inputType,
-                        val
-                    );
-            }
-        )
+            )
+                return convert(requestor, val as ValueType);
+            else
+                return evaluation.getValueOrTypeException(
+                    requestor,
+                    inputType,
+                    val
+                );
+        })
     );
 }

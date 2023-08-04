@@ -164,7 +164,15 @@
             "conflict": {
                 "InvalidRow": "$?",
                 "MissingCell": { "primary": "$?", "secondary": "$?" },
-                "UnknownColumn": "$?"
+                "UnknownColumn": "$?",
+                "ExtraCell": {
+                    "primary": "$?",
+                    "secondary": "$?"
+                },
+                "UnexpectedColumnBind": {
+                    "primary": "$?",
+                    "secondary": "$?"
+                }
             }
         },
         "Token": {
@@ -720,7 +728,7 @@
             "start": "$?",
             "finish": "$?",
             "conflict": {
-                "ExpectedUpdateBind": "$?",
+                "ExpectedColumnBind": "$?",
                 "IncompatibleCellType": { "primary": "$?", "secondary": "$?" }
             }
         },
@@ -1417,6 +1425,7 @@
                 }
             },
             "conversion": {
+                "list": "$?",
                 "text": "$?"
             }
         }

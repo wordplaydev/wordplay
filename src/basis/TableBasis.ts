@@ -17,6 +17,11 @@ import Table from '../runtime/Table';
 import Evaluation from '../runtime/Evaluation';
 import type Expression from '../nodes/Expression';
 import type Value from '../runtime/Value';
+import { createBasisConversion } from './Basis';
+import List from '../runtime/List';
+import ListType from '../nodes/ListType';
+import TextType from '../nodes/TextType';
+import Text from '../runtime/Text';
 
 export default function bootstrapTable(locales: Locale[]) {
     function createTableFunction(
@@ -97,6 +102,26 @@ export default function bootstrapTable(locales: Locale[]) {
                                     new Bool(requestor, !left.isEqualTo(right))
                             )
                     )
+                ),
+                createBasisConversion(
+                    getDocLocales(
+                        locales,
+                        (locale) => locale.basis.Table.conversion.list
+                    ),
+                    TableType.make(),
+                    ListType.make(),
+                    (requestor: Expression, table: Table) =>
+                        new List(requestor, table.rows)
+                ),
+                createBasisConversion(
+                    getDocLocales(
+                        locales,
+                        (locale) => locale.basis.Table.conversion.text
+                    ),
+                    TableType.make(),
+                    TextType.make(),
+                    (requestor: Expression, table: Table) =>
+                        new Text(requestor, table.toWordplay([]))
                 ),
             ],
             BlockKind.Structure
