@@ -33,6 +33,9 @@ import FunctionDefinition from './FunctionDefinition';
 import Names from './Names';
 import Evaluation from '../runtime/Evaluation';
 import Bool from '../runtime/Bool';
+import { SELECT_SYMBOL, TABLE_CLOSE_SYMBOL } from '../parser/Symbols';
+import Symbol from './Symbol';
+import Token from './Token';
 
 type SelectState = { table: Table; index: number; selected: Structure[] };
 
@@ -49,6 +52,18 @@ export default class Select extends Expression {
         this.query = query;
 
         this.computeChildren();
+    }
+
+    static make(table: Expression, query: Expression) {
+        return new Select(
+            table,
+            new Row(
+                new Token(SELECT_SYMBOL, Symbol.Select),
+                [],
+                new Token(TABLE_CLOSE_SYMBOL, Symbol.TableClose)
+            ),
+            query
+        );
     }
 
     getGrammar(): Grammar {
@@ -74,7 +89,7 @@ export default class Select extends Expression {
     }
 
     getPurpose() {
-        return Purpose.Value;
+        return Purpose.Evaluate;
     }
 
     clone(replace?: Replacement) {

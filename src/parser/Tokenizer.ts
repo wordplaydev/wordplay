@@ -54,6 +54,10 @@ import {
     GLOBE1_SYMBOL,
     GLOBE2_SYMBOL,
     GLOBE3_SYMBOL,
+    SELECT_SYMBOL,
+    INSERT_SYMBOL,
+    DELETE_SYMBOL,
+    UPDATE_SYMBOL,
 } from './Symbols';
 import TokenList from './TokenList';
 import ConceptRegEx from './ConceptRegEx';
@@ -150,10 +154,10 @@ const patterns = [
         types: [Symbol.Separator],
     },
     { pattern: LANGUAGE_SYMBOL, types: [Symbol.Language, Symbol.Italic] },
-    { pattern: `${TABLE_OPEN_SYMBOL}?`, types: [Symbol.Select] },
-    { pattern: `${TABLE_OPEN_SYMBOL}+`, types: [Symbol.Insert] },
-    { pattern: `${TABLE_OPEN_SYMBOL}-`, types: [Symbol.Delete] },
-    { pattern: `${TABLE_OPEN_SYMBOL}:`, types: [Symbol.Update] },
+    { pattern: SELECT_SYMBOL, types: [Symbol.Select] },
+    { pattern: INSERT_SYMBOL, types: [Symbol.Insert] },
+    { pattern: DELETE_SYMBOL, types: [Symbol.Delete] },
+    { pattern: UPDATE_SYMBOL, types: [Symbol.Update] },
     { pattern: TABLE_OPEN_SYMBOL, types: [Symbol.TableOpen] },
     { pattern: TABLE_CLOSE_SYMBOL, types: [Symbol.TableClose] },
     { pattern: BIND_SYMBOL, types: [Symbol.Bind] },

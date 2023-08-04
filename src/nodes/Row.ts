@@ -1,5 +1,5 @@
 import type { Grammar, Replacement } from './Node';
-import type Token from './Token';
+import Token from './Token';
 import Bind from './Bind';
 import Expression from './Expression';
 import type Locale from '@locale/Locale';
@@ -14,6 +14,7 @@ import type TableType from './TableType';
 import Exception from '../runtime/Exception';
 import ValueException from '../runtime/ValueException';
 import Structure from '../runtime/Structure';
+import { TABLE_CLOSE_SYMBOL, TABLE_OPEN_SYMBOL } from '../parser/Symbols';
 
 export default class Row extends Node {
     readonly open: Token;
@@ -28,6 +29,14 @@ export default class Row extends Node {
         this.close = close;
 
         this.computeChildren();
+    }
+
+    static make() {
+        return new Row(
+            new Token(TABLE_OPEN_SYMBOL, Symbol.TableOpen),
+            [],
+            new Token(TABLE_CLOSE_SYMBOL, Symbol.TableClose)
+        );
     }
 
     getGrammar(): Grammar {

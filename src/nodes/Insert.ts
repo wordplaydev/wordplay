@@ -30,6 +30,9 @@ import MissingCell from '../conflicts/MissingCell';
 import IncompatibleCellType from '../conflicts/IncompatibleCellType';
 import UnknownColumn from '../conflicts/UnknownColumn';
 import InvalidRow from '../conflicts/InvalidRow';
+import Token from './Token';
+import { INSERT_SYMBOL, TABLE_CLOSE_SYMBOL } from '../parser/Symbols';
+import Symbol from './Symbol';
 
 export default class Insert extends Expression {
     readonly table: Expression;
@@ -42,6 +45,17 @@ export default class Insert extends Expression {
         this.row = row;
 
         this.computeChildren();
+    }
+
+    static make(table: Expression) {
+        return new Insert(
+            table,
+            new Row(
+                new Token(INSERT_SYMBOL, Symbol.Insert),
+                [],
+                new Token(TABLE_CLOSE_SYMBOL, Symbol.TableClose)
+            )
+        );
     }
 
     getGrammar(): Grammar {
@@ -61,7 +75,7 @@ export default class Insert extends Expression {
     }
 
     getPurpose() {
-        return Purpose.Value;
+        return Purpose.Evaluate;
     }
 
     clone(replace?: Replacement) {

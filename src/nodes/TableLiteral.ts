@@ -36,6 +36,10 @@ export default class TableLiteral extends Expression {
         this.computeChildren();
     }
 
+    static make() {
+        return new TableLiteral(TableType.make(), [Row.make()]);
+    }
+
     getGrammar(): Grammar {
         return [
             {
@@ -48,7 +52,7 @@ export default class TableLiteral extends Expression {
     }
 
     getPurpose() {
-        return Purpose.Bind;
+        return Purpose.Value;
     }
 
     computeConflicts(context: Context): Conflict[] {

@@ -1,5 +1,5 @@
 import type Node from './Node';
-import type Token from './Token';
+import Token from './Token';
 import Expression from './Expression';
 import type Conflict from '@conflicts/Conflict';
 import type Type from './Type';
@@ -29,6 +29,7 @@ import type Structure from '../runtime/Structure';
 import Evaluation from '../runtime/Evaluation';
 import Bool from '../runtime/Bool';
 import { getIteration, getIterationResult } from '../basis/Iteration';
+import { DELETE_SYMBOL } from '../parser/Symbols';
 
 type DeleteState = { index: number; list: Structure[]; table: Table };
 
@@ -45,6 +46,14 @@ export default class Delete extends Expression {
         this.query = query;
 
         this.computeChildren();
+    }
+
+    static make(table: Expression, query: Expression) {
+        return new Delete(
+            table,
+            new Token(DELETE_SYMBOL, Symbol.Delete),
+            query
+        );
     }
 
     getGrammar(): Grammar {
@@ -67,7 +76,7 @@ export default class Delete extends Expression {
     }
 
     getPurpose() {
-        return Purpose.Value;
+        return Purpose.Evaluate;
     }
 
     clone(replace?: Replacement) {
@@ -79,7 +88,9 @@ export default class Delete extends Expression {
     }
 
     getScopeOfChild(child: Node, context: Context): Node | undefined {
-        return child === this.query ? this.table : this.getParent(context);
+        return child === this.query
+            ? this.table.getType(context)
+            : this.getParent(context);
     }
 
     computeConflicts(context: Context): Conflict[] {

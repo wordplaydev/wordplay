@@ -35,6 +35,9 @@ import Bool from '../runtime/Bool';
 import Exception from '../runtime/Exception';
 import ValueException from '../runtime/ValueException';
 import type Value from '../runtime/Value';
+import Token from './Token';
+import { TABLE_CLOSE_SYMBOL, UPDATE_SYMBOL } from '../parser/Symbols';
+import Symbol from './Symbol';
 
 type UpdateState = { table: Table; index: number; rows: Structure[] };
 
@@ -51,6 +54,18 @@ export default class Update extends Expression {
         this.query = query;
 
         this.computeChildren();
+    }
+
+    static make(table: Expression, query: Expression) {
+        return new Update(
+            table,
+            new Row(
+                new Token(UPDATE_SYMBOL, Symbol.Select),
+                [],
+                new Token(TABLE_CLOSE_SYMBOL, Symbol.TableClose)
+            ),
+            query
+        );
     }
 
     getGrammar(): Grammar {
@@ -84,7 +99,7 @@ export default class Update extends Expression {
     }
 
     getPurpose() {
-        return Purpose.Value;
+        return Purpose.Evaluate;
     }
 
     getScopeOfChild(child: Node, context: Context): Node | undefined {

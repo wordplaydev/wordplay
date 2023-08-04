@@ -78,6 +78,12 @@ import type Locale from '../locale/Locale';
 import FormattedLiteral from '../nodes/FormattedLiteral';
 import FormattedTranslation from '../nodes/FormattedTranslation';
 import IsLocale from '../nodes/IsLocale';
+import TableType from '../nodes/TableType';
+import TableLiteral from '../nodes/TableLiteral';
+import Insert from '../nodes/Insert';
+import Select from '../nodes/Select';
+import Update from '../nodes/Update';
+import Delete from '../nodes/Delete';
 
 /** These are ordered by appearance in the docs. */
 const templates: Node[] = [
@@ -106,6 +112,19 @@ const templates: Node[] = [
     ),
     ExpressionPlaceholder.make(),
     Convert.make(ExpressionPlaceholder.make(), TypePlaceholder.make()),
+    Insert.make(ExpressionPlaceholder.make(TableType.make())),
+    Select.make(
+        ExpressionPlaceholder.make(TableType.make()),
+        ExpressionPlaceholder.make(BooleanType.make())
+    ),
+    Update.make(
+        ExpressionPlaceholder.make(TableType.make()),
+        ExpressionPlaceholder.make(BooleanType.make())
+    ),
+    Delete.make(
+        ExpressionPlaceholder.make(TableType.make()),
+        ExpressionPlaceholder.make(BooleanType.make())
+    ),
 
     // Project
     Program.make([ExpressionPlaceholder.make()]),
@@ -117,15 +136,19 @@ const templates: Node[] = [
         ExpressionPlaceholder.make(),
         ExpressionPlaceholder.make()
     ),
+    Is.make(ExpressionPlaceholder.make(), TypePlaceholder.make()),
+    IsLocale.make(Language.make(undefined)),
+    Initial.make(),
+    Changed.make(ExpressionPlaceholder.make(StreamType.make())),
     Reaction.make(
         ExpressionPlaceholder.make(),
         ExpressionPlaceholder.make(BooleanType.make()),
         ExpressionPlaceholder.make()
     ),
-    Is.make(ExpressionPlaceholder.make(), TypePlaceholder.make()),
-    Initial.make(),
-    Changed.make(ExpressionPlaceholder.make(StreamType.make())),
-    IsLocale.make(Language.make(undefined)),
+    Previous.make(
+        ExpressionPlaceholder.make(StreamType.make()),
+        ExpressionPlaceholder.make(NumberType.make())
+    ),
 
     // Bind
     Bind.make(
@@ -174,6 +197,8 @@ const templates: Node[] = [
     Dimension.make(false, PLACEHOLDER_SYMBOL, 1),
     new AnyType(),
     FunctionType.make(undefined, [], TypePlaceholder.make()),
+    StreamType.make(),
+    TableType.make(),
 
     // Values
     BooleanLiteral.make(true),
@@ -190,15 +215,9 @@ const templates: Node[] = [
         ExpressionPlaceholder.make(SetType.make()),
         ExpressionPlaceholder.make()
     ),
+    TableLiteral.make(),
 
     This.make(),
-
-    // Streams
-    StreamType.make(),
-    Previous.make(
-        ExpressionPlaceholder.make(StreamType.make()),
-        ExpressionPlaceholder.make(NumberType.make())
-    ),
 
     // Documentation
     Doc.make([new Paragraph([Words.make()])]),
@@ -304,6 +323,15 @@ export function getBasisConcepts(
             basis.getSimpleDefinition('none'),
             NoneType.make(),
             [NoneLiteral.make()],
+            locales,
+            context
+        ),
+        new StructureConcept(
+            Purpose.Value,
+            basis.getSimpleDefinition('table'),
+            basis.getSimpleDefinition('table'),
+            TableType.make(),
+            [new TableLiteral(TableType.make(), [])],
             locales,
             context
         ),

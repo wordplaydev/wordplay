@@ -218,8 +218,8 @@
         },
         "Row": {
             "name": "row",
-            "emotion": "angry",
-            "doc": "$? Row",
+            "emotion": "shy",
+            "doc": "I represent a row in a @Table. It's probably best to go talk to @Table, they know everything about me. I just sit around and keep values in line :(",
             "conflict": {
                 "InvalidRow": "Rows either have to be all values or all @Bind.",
                 "MissingCell": {
@@ -555,9 +555,14 @@
         "Delete": {
             "name": "delete",
             "emotion": "angry",
-            "doc": "$? Delete",
-            "start": "evaluate $1 first",
-            "finish": "evaluated to table without row $1"
+            "doc": [
+                "Sometimes you have a table and it JUST HAS TOO MUCH IN IT!",
+                "Like if you had some players in a game and one left and you just wanted to say GO AWAY PLAYER, GET OUT OF MY TABLE!",
+                "\\players: ⎡name•'' team•'' points•#⎦\n⎡'jen' 'red' 8⎦\n⎡'joan' 'blue' 11⎦\n⎡'jeff' 'red' 9⎦\n⎡'janet' 'blue' 7⎦\nplayers ⎡- name = 'jeff'\\",
+                "Phew, Jeff is gone. BYE JEFF. Just remember that I don't change the original table, I make a new one, without JEFF. You decide where it goes."
+            ],
+            "start": "let's get the table first",
+            "finish": "I made a new table without the matching rows!"
         },
         "DocumentedExpression": {
             "name": "explained expression",
@@ -694,10 +699,15 @@
         },
         "Insert": {
             "name": "insert",
-            "emotion": "angry",
-            "doc": "$? Insert",
-            "start": "evaluate $1 first",
-            "finish": "evaluated to table new rows, $1"
+            "emotion": "kind",
+            "doc": [
+                "You know when you have a @Table, and it just feels like it's missing something? I can add it!",
+                "Imagine you had a table of players in a game and you wanted to add a new one:",
+                "\\players: ⎡name•'' team•'' points•#⎦\n⎡'jen' 'red' 1⎦\n⎡'joan' 'blue' 0⎦\n⎡'jeff' 'red' 3⎦\n⎡'janet' 'blue' 2⎦\nplayers ⎡+ 'jason' 'red' 0⎦\\",
+                "Just remember, like everything in the Verse, I don't change a table, I revise it. So you need to figure out where you want to put the revised table you make. Most likely you'll want to revise a table in a @Reaction to some input, and store it in a @Bind."
+            ],
+            "start": "let's find the table to update",
+            "finish": "I made a new table with revised rows!"
         },
         "Is": {
             "name": "is",
@@ -914,10 +924,15 @@
         },
         "Select": {
             "name": "select",
-            "emotion": "angry",
-            "doc": "$? Select",
-            "start": "evaluate $1 first",
-            "finish": "evaluated to a new table with the selected rows, $1",
+            "emotion": "excited",
+            "doc": [
+                "Sometimes you have a table and you just want part of it. I can get it for you!",
+                "Like what if you had a table of players in a game and you wanted to find the ones with 10 or more points to see who won:",
+                "\\players: ⎡name•'' team•'' points•#⎦\n⎡'jen' 'red' 8⎦\n⎡'joan' 'blue' 11⎦\n⎡'jeff' 'red' 9⎦\n⎡'janet' 'blue' 7⎦\nplayers ⎡? name ⎦ points ≥ 10\\",
+                "Just like that, I got a list of rows of winners! Just remember that I don't change the table, I make a new one. You'll have to decide where to keep it."
+            ],
+            "start": "let's get the table first",
+            "finish": "I made a new table with just the selected rows and columns!",
             "conflict": {
                 "ExpectedSelectName": "I need at least one column name."
             }
@@ -991,7 +1006,7 @@
             "name": "table",
             "description": "$1 row table",
             "emotion": "angry",
-            "doc": "See Table.",
+            "doc": "See @Table.",
             "item": "row",
             "start": "first evaluate the rows",
             "finish": "evaluated to new table $1"
@@ -1093,11 +1108,16 @@
             }
         },
         "Update": {
-            "name": "update rows",
-            "emotion": "angry",
-            "doc": "$? Update",
-            "start": "evaluate $1 first",
-            "finish": "evaluated to a new table with revised rows, $1",
+            "name": "update",
+            "emotion": "kind",
+            "doc": [
+                "I help revise a @Table, finding the rows that match a condition, and then creating revised rows with new values.",
+                "So like, if you had a table of characters and points, and you wanted to give every character on a team a point, you might do this:",
+                "\\players: ⎡name•'' team•'' points•#⎦\n⎡'jen' 'red' 1⎦\n⎡'joan' 'blue' 0⎦\n⎡'jeff' 'red' 3⎦\n⎡'janet' 'blue' 2⎦\nplayers ⎡: points: points + 1 ⎦ team = 'blue'\\",
+                "You can use a @Bind to say which columns to change, and you can use any of the column names or other names in scope in the condition."
+            ],
+            "start": "let's get the table first",
+            "finish": "evaluated to a new table with revised rows!",
             "conflict": {
                 "ExpectedColumnBind": "I need a value for every column",
                 "IncompatibleCellType": {
@@ -2478,27 +2498,41 @@
             }
         },
         "Table": {
-            "doc": "$?",
-            "name": "$?",
+            "doc": [
+                "I'm a set of table rows! I can help you help track of large collections of values that have the same structure.",
+                "For example, imagine you wanted to keep track of a bunch of rocks:",
+                "\\⎡name•'' color•''⎦\n⎡'obsidian' 'black'⎦\n⎡'pumice' 'grey'⎦\n⎡'citrine' 'yellow'⎦\\",
+                "@Bind can help you name it! And then you can do things like make a revised table with an new row @Insert:",
+                "\\rocks: ⎡name•'' color•''⎦\n⎡'obsidian' 'black'⎦\n⎡'pumice' 'grey'⎦\n⎡'citrine' 'yellow'⎦\nrocks ⎡+ 'quartz' 'white'⎦\\",
+                "Or if you want to find rows that match, you can @Select rows that match a condition:",
+                "\\rocks: ⎡name•'' color•''⎦\n⎡'obsidian' 'black'⎦\n⎡'pumice' 'grey'⎦\n⎡'citrine' 'yellow'⎦\nrocks ⎡?⎦ color = 'grey'\\",
+                "Or maybe you want to make a revised table that has different values for rows that match a condition:",
+                "\\rocks: ⎡name•'' color•''⎦\n⎡'obsidian' 'black'⎦\n⎡'pumice' 'grey'⎦\n⎡'citrine' 'yellow'⎦\nrocks ⎡: color: 'black' ⎦ name = 'pumice'\\",
+                "Or maybe you want to delete a rows match a condition:",
+                "\\rocks: ⎡name•'' color•''⎦\n⎡'obsidian' 'black'⎦\n⎡'pumice' 'grey'⎦\n⎡'citrine' 'yellow'⎦\nrocks ⎡- name.has('i')\\",
+                "And if you ever want to get specific values from me, you can convert any table to a list and access individual rows with @PropertyReference",
+                "\\rocks: ⎡name•'' color•''⎦\n⎡'obsidian' 'black'⎦\n⎡'pumice' 'grey'⎦\n⎡'citrine' 'yellow'⎦\n(rocks → [])[1].name\\"
+            ],
+            "name": ["⎡⎦", "Table"],
             "function": {
                 "equals": {
-                    "doc": "$?",
+                    "doc": "I check if I have the exact same cells in the exact same order as another @Table.",
                     "names": ["=", "equals"],
                     "inputs": [
-                        { "doc": "The other value to check.", "names": "value" }
+                        { "doc": "The other table to check.", "names": "value" }
                     ]
                 },
                 "notequal": {
-                    "doc": "$?",
+                    "doc": "I check if any of my cells are different or in a different order from another @Table.",
                     "names": ["≠", "notEquals"],
                     "inputs": [
-                        { "doc": "The other value to check.", "names": "value" }
+                        { "doc": "The other table to check.", "names": "value" }
                     ]
                 }
             },
             "conversion": {
-                "list": "$?",
-                "text": "$?"
+                "list": "I convert a @Table into a list of rows, where each row is a @Structure with its column names as properties.",
+                "text": "I just convert a @Table to text."
             }
         }
     },
