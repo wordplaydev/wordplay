@@ -1,7 +1,7 @@
 import Exception from './Exception';
 import type Evaluator from './Evaluator';
 import type Locale from '@locale/Locale';
-import type { EvaluationNode } from './Evaluation';
+import type { DefinitionNode } from './Evaluation';
 import NodeRef from '@locale/NodeRef';
 import FunctionDefinition from '@nodes/FunctionDefinition';
 import StructureDefinition from '@nodes/StructureDefinition';
@@ -11,11 +11,11 @@ import StreamDefinition from '../nodes/StreamDefinition';
 
 export default class EvaluationLimitException extends Exception {
     readonly program: Program;
-    readonly functions: EvaluationNode[];
+    readonly functions: DefinitionNode[];
     constructor(
         evaluator: Evaluator,
         node: Program,
-        functions: EvaluationNode[]
+        functions: DefinitionNode[]
     ) {
         super(node, evaluator);
         this.program = node;
@@ -27,7 +27,7 @@ export default class EvaluationLimitException extends Exception {
     }
 
     getExplanation(locale: Locale) {
-        const counts = new Map<EvaluationNode, number>();
+        const counts = new Map<DefinitionNode, number>();
         for (const fun of this.functions)
             counts.set(fun, (counts.get(fun) ?? 0) + 1);
 

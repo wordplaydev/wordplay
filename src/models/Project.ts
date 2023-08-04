@@ -6,7 +6,6 @@ import type Program from '@nodes/Program';
 import type StructureDefinition from '@nodes/StructureDefinition';
 import Source from '@nodes/Source';
 import Node from '@nodes/Node';
-import HOF from '../basis/HOF';
 import Context from '@nodes/Context';
 import type { SharedDefinition } from '@nodes/Borrow';
 import PropertyReference from '@nodes/PropertyReference';
@@ -314,10 +313,7 @@ export default class Project {
 
                         // Is it a higher order function? Get the function input
                         // and add the Evaluate as a caller of the function input.
-                        if (
-                            fun instanceof FunctionDefinition &&
-                            fun.expression instanceof HOF
-                        ) {
+                        if (fun instanceof FunctionDefinition) {
                             for (const input of node.inputs) {
                                 const type = input.getType(context);
                                 if (

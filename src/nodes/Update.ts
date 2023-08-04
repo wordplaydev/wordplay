@@ -1,23 +1,20 @@
 import type Node from './Node';
-import type Token from './Token';
 import Expression from './Expression';
 import Row from './Row';
 import type Conflict from '@conflicts/Conflict';
 import UnknownColumn from '@conflicts/UnknownColumn';
 import IncompatibleCellType from '@conflicts/IncompatibleCellType';
-import ExpectedUpdateBind from '@conflicts/ExpectedUpdateBind';
+import ExpectedColumnBind from '@conflicts/ExpectedColumnBind';
 import type Type from './Type';
 import Bind from '@nodes/Bind';
 import TableType from './TableType';
 import BooleanType from './BooleanType';
-import type Value from '@runtime/Value';
 import type Step from '@runtime/Step';
 import Finish from '@runtime/Finish';
 import Start from '@runtime/Start';
 import type Context from './Context';
 import type Definition from './Definition';
 import type TypeSet from './TypeSet';
-import UnimplementedException from '@runtime/UnimplementedException';
 import type Evaluator from '@runtime/Evaluator';
 import { node, type Grammar, type Replacement } from './Node';
 import type Locale from '@locale/Locale';
@@ -25,24 +22,51 @@ import NodeRef from '@locale/NodeRef';
 import Glyphs from '../lore/Glyphs';
 import IncompatibleInput from '../conflicts/IncompatibleInput';
 import concretize from '../locale/concretize';
-import Symbol from './Symbol';
 import Purpose from '../concepts/Purpose';
+import FunctionDefinition from './FunctionDefinition';
+import Names from './Names';
+import { getIteration, getIterationResult } from '../basis/Iteration';
+import Table from '../runtime/Table';
+import Evaluation from '../runtime/Evaluation';
+import Structure from '../runtime/Structure';
+import InternalExpression from '../basis/InternalExpression';
+import AnyType from './AnyType';
+import Bool from '../runtime/Bool';
+import Exception from '../runtime/Exception';
+import ValueException from '../runtime/ValueException';
+import type Value from '../runtime/Value';
+import Token from './Token';
+import { TABLE_CLOSE_SYMBOL, UPDATE_SYMBOL } from '../parser/Symbols';
+import Symbol from './Symbol';
+import ExpressionPlaceholder from './ExpressionPlaceholder';
+
+type UpdateState = { table: Table; index: number; rows: Structure[] };
 
 export default class Update extends Expression {
     readonly table: Expression;
-    readonly update: Token;
     readonly row: Row;
     readonly query: Expression;
 
-    constructor(table: Expression, update: Token, row: Row, query: Expression) {
+    constructor(table: Expression, row: Row, query: Expression) {
         super();
 
         this.table = table;
-        this.update = update;
         this.row = row;
         this.query = query;
 
         this.computeChildren();
+    }
+
+    static make(table: Expression, query: Expression) {
+        return new Update(
+            table,
+            new Row(
+                new Token(UPDATE_SYMBOL, Symbol.Select),
+                [],
+                new Token(TABLE_CLOSE_SYMBOL, Symbol.TableClose)
+            ),
+            query
+        );
     }
 
     getGrammar(): Grammar {
@@ -52,31 +76,51 @@ export default class Update extends Expression {
                 kind: node(Expression),
                 label: (translation: Locale) => translation.term.table,
             },
-            { name: 'update', kind: node(Symbol.Update) },
             {
                 name: 'row',
                 kind: node(Row),
                 label: (translation: Locale) => translation.term.row,
+                space: true,
             },
             {
                 name: 'query',
                 kind: node(Expression),
                 label: (translation: Locale) => translation.term.query,
+                space: true,
             },
         ];
+    }
+
+    static getPossibleNodes(
+        type: Type | undefined,
+        anchor: Node,
+        selected: boolean,
+        context: Context
+    ) {
+        const anchorType =
+            anchor instanceof Expression ? anchor.getType(context) : undefined;
+        const tableType =
+            anchorType instanceof TableType ? anchorType : undefined;
+        return anchor instanceof Expression && tableType && selected
+            ? [
+                  Update.make(
+                      anchor,
+                      ExpressionPlaceholder.make(BooleanType.make())
+                  ),
+              ]
+            : [];
     }
 
     clone(replace?: Replacement) {
         return new Update(
             this.replaceChild('table', this.table, replace),
-            this.replaceChild('update', this.update, replace),
             this.replaceChild('row', this.row, replace),
             this.replaceChild('query', this.query, replace)
         ) as this;
     }
 
     getPurpose() {
-        return Purpose.Value;
+        return Purpose.Evaluate;
     }
 
     getScopeOfChild(child: Node, context: Context): Node | undefined {
@@ -107,7 +151,7 @@ export default class Update extends Expression {
                     cell.names.names.length === 1
                 )
             )
-                conflicts.push(new ExpectedUpdateBind(this, cell));
+                conflicts.push(new ExpectedColumnBind(this, cell));
             else if (tableType instanceof TableType) {
                 const alias =
                     cell instanceof Bind && cell.names.names.length > 0
@@ -171,16 +215,143 @@ export default class Update extends Expression {
     }
 
     compile(context: Context): Step[] {
+        // Find the type of table and get a structure type for it's row.
+        const type = this.table.getType(context);
+        const structureType =
+            type instanceof TableType
+                ? type.definition.computeType()
+                : new AnyType();
+
+        // Get the binds
+        const binds = this.row.cells;
+
+        // Get the update steps
+        const updates = binds
+            .map((bind) =>
+                bind instanceof Bind && bind.value
+                    ? bind.value.compile(context)
+                    : []
+            )
+            .flat();
+
+        /** A derived function based on the query, used to evaluate each row of the table. */
+        const revise = FunctionDefinition.make(
+            undefined,
+            Names.make([]),
+            undefined,
+            [],
+            new InternalExpression(
+                structureType,
+                [
+                    // 1) evaluate the query
+                    ...this.query.compile(context),
+                    // 2) evaluate the bind expression
+                    ...updates,
+                ],
+                (requestor: Expression, evaluation: Evaluation) => {
+                    // Get the row
+                    let row = evaluation.getClosure();
+                    // Not a row? Exception.
+                    if (!(row instanceof Structure))
+                        return new ValueException(
+                            evaluation.getEvaluator(),
+                            this
+                        );
+                    // Get the values computed
+                    const values: Value[] = [];
+                    for (const bind of binds) {
+                        if (bind instanceof Bind && bind.value) {
+                            const value = evaluation.popValue(this, undefined);
+                            if (value instanceof Exception) return value;
+                            values.unshift(value);
+                        }
+                    }
+                    // Get the query result
+                    const match = evaluation.popValue(
+                        requestor,
+                        BooleanType.make()
+                    );
+                    if (!(match instanceof Bool)) return match;
+                    // Not a query match? Don't modify the row.
+                    if (match.bool === false) return row;
+                    // Otherwise, refine the row with the updtes
+                    else {
+                        let newRow: Structure = row;
+                        for (const bind of binds) {
+                            if (bind instanceof Bind && bind.value) {
+                                const value = values.shift();
+                                const revised: Structure | undefined = value
+                                    ? newRow.withValue(
+                                          this,
+                                          bind.names.getNames()[0],
+                                          value
+                                      )
+                                    : undefined;
+                                if (revised === undefined)
+                                    return new ValueException(
+                                        evaluation.getEvaluator(),
+                                        this
+                                    );
+                                newRow = revised;
+                            }
+                        }
+                        return newRow;
+                    }
+                }
+            ),
+            structureType
+        );
+
+        // Evaluate the table expression then this.
         return [
             new Start(this),
             ...this.table.compile(context),
+            ...getIteration<UpdateState, this>(
+                this,
+                // Track the table, index, and the revised rows.
+                (evaluator) => {
+                    const table = evaluator.popValue(this);
+                    return table instanceof Table
+                        ? { table, index: 0, rows: [] }
+                        : evaluator.getValueOrTypeException(
+                              this,
+                              TableType.make(),
+                              table
+                          );
+                },
+                (evaluator, info) => {
+                    // If we reached the end, stop.
+                    if (info.index > info.table.rows.length - 1) return false;
+                    // Otherwise, revise a row.
+                    else {
+                        // Start a new evaluation of the query with the row as scope.
+                        evaluator.startEvaluation(
+                            new Evaluation(
+                                evaluator,
+                                this,
+                                revise,
+                                info.table.rows[info.index]
+                            )
+                        );
+                        return true;
+                    }
+                },
+                (evaluator, info) => {
+                    const row = evaluator.popValue(this);
+                    if (!(row instanceof Structure)) return row;
+                    // Add the revised structure.
+                    info.rows.push(row);
+                    // Increment the counter to the next row.
+                    info.index = info.index + 1;
+                }
+            ),
             new Finish(this),
         ];
     }
 
     evaluate(evaluator: Evaluator, prior: Value | undefined): Value {
-        if (prior) return prior;
-        return new UnimplementedException(evaluator, this);
+        const { table, rows } = getIterationResult<UpdateState>(evaluator);
+        return new Table(this, table.type, rows);
     }
 
     evaluateTypeSet(
@@ -191,8 +362,6 @@ export default class Update extends Expression {
     ) {
         if (this.table instanceof Expression)
             this.table.evaluateTypeSet(bind, original, current, context);
-        if (this.update instanceof Expression)
-            this.update.evaluateTypeSet(bind, original, current, context);
         if (this.row instanceof Expression)
             this.row.evaluateTypeSet(bind, original, current, context);
         if (this.query instanceof Expression)
@@ -201,10 +370,10 @@ export default class Update extends Expression {
     }
 
     getStart() {
-        return this.update;
+        return this.row.open;
     }
     getFinish() {
-        return this.update;
+        return this.row.close ?? this.row.open;
     }
 
     getNodeLocale(translation: Locale) {

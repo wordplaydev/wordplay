@@ -110,6 +110,7 @@ type UITexts = {
         insertStreamSymbol: string;
         insertPreviousSymbol: string;
         insertConvertSymbol: string;
+        insertTableSymbol: string;
         insertLineBreak: string;
         backspace: string;
         copy: string;

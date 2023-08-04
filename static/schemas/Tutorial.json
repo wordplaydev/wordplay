@@ -61,7 +61,7 @@
         "Evaluate",
         "ExpressionPlaceholder",
         "FunctionDefinition",
-        "HOF",
+        "Iteration",
         "Insert",
         "Initial",
         "Is",
@@ -157,6 +157,7 @@
         "List",
         "Set",
         "Map",
+        "Table",
         "⊤",
         "⊥"
       ],

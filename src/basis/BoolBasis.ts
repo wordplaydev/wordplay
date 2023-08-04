@@ -6,7 +6,7 @@ import StructureDefinition from '@nodes/StructureDefinition';
 import Bool from '@runtime/Bool';
 import Text from '@runtime/Text';
 import { createBasisConversion } from './Basis';
-import BasisExpression from './BasisExpression';
+import InternalExpression from './InternalExpression';
 import type Value from '@runtime/Value';
 import type Docs from '@nodes/Docs';
 import type Names from '@nodes/Names';
@@ -31,26 +31,30 @@ export default function bootstrapBool(locales: Locale[]) {
             inputs.map(({ docs, names }) =>
                 Bind.make(docs, names, BooleanType.make())
             ),
-            new BasisExpression(BooleanType.make(), (requestor, evaluation) => {
-                const left = evaluation.getClosure();
-                const right: Value | undefined = evaluation.resolve(
-                    inputs[0].names
-                );
-                // This should be impossible, but the type system doesn't know it.
-                if (!(left instanceof Bool))
-                    return evaluation.getValueOrTypeException(
-                        requestor,
-                        BooleanType.make(),
-                        left instanceof Evaluation ? undefined : left
+            new InternalExpression(
+                BooleanType.make(),
+                [],
+                (requestor, evaluation) => {
+                    const left = evaluation.getClosure();
+                    const right: Value | undefined = evaluation.resolve(
+                        inputs[0].names
                     );
-                if (!(right instanceof Bool))
-                    return evaluation.getValueOrTypeException(
-                        requestor,
-                        BooleanType.make(),
-                        right
-                    );
-                return expression(requestor, left, right);
-            }),
+                    // This should be impossible, but the type system doesn't know it.
+                    if (!(left instanceof Bool))
+                        return evaluation.getValueOrTypeException(
+                            requestor,
+                            BooleanType.make(),
+                            left instanceof Evaluation ? undefined : left
+                        );
+                    if (!(right instanceof Bool))
+                        return evaluation.getValueOrTypeException(
+                            requestor,
+                            BooleanType.make(),
+                            right
+                        );
+                    return expression(requestor, left, right);
+                }
+            ),
             BooleanType.make()
         );
     }
@@ -104,8 +108,9 @@ export default function bootstrapBool(locales: Locale[]) {
                     ),
                     undefined,
                     [],
-                    new BasisExpression(
+                    new InternalExpression(
                         BooleanType.make(),
+                        [],
                         (requestor, evaluation) => {
                             const left = evaluation.getClosure();
                             // This should be impossible, but the type system doesn't know it.

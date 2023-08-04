@@ -1,7 +1,6 @@
 import type Node from './Node';
-import type Token from './Token';
 import Expression from './Expression';
-import Row from './Row';
+import Row, { getRowFromValues } from './Row';
 import type Conflict from '@conflicts/Conflict';
 import TableType from './TableType';
 import Bind from '@nodes/Bind';
@@ -15,7 +14,6 @@ import Start from '@runtime/Start';
 import type Context from './Context';
 import type Definition from './Definition';
 import type TypeSet from './TypeSet';
-import { analyzeRow } from './util';
 import Halt from '@runtime/Halt';
 import Exception from '@runtime/Exception';
 import TypeException from '@runtime/TypeException';
@@ -26,22 +24,39 @@ import NodeRef from '@locale/NodeRef';
 import Glyphs from '../lore/Glyphs';
 import IncompatibleInput from '../conflicts/IncompatibleInput';
 import concretize from '../locale/concretize';
-import Symbol from './Symbol';
 import Purpose from '../concepts/Purpose';
+import Structure from '../runtime/Structure';
+import MissingCell from '../conflicts/MissingCell';
+import IncompatibleCellType from '../conflicts/IncompatibleCellType';
+import UnknownColumn from '../conflicts/UnknownColumn';
+import InvalidRow from '../conflicts/InvalidRow';
+import Token from './Token';
+import { INSERT_SYMBOL, TABLE_CLOSE_SYMBOL } from '../parser/Symbols';
+import Symbol from './Symbol';
+import ExpressionPlaceholder from './ExpressionPlaceholder';
 
 export default class Insert extends Expression {
     readonly table: Expression;
-    readonly insert: Token;
     readonly row: Row;
 
-    constructor(table: Expression, insert: Token, row: Row) {
+    constructor(table: Expression, row: Row) {
         super();
 
         this.table = table;
-        this.insert = insert;
         this.row = row;
 
         this.computeChildren();
+    }
+
+    static make(table: Expression, cells: Expression[] = []) {
+        return new Insert(
+            table,
+            new Row(
+                new Token(INSERT_SYMBOL, Symbol.Insert),
+                cells,
+                new Token(TABLE_CLOSE_SYMBOL, Symbol.TableClose)
+            )
+        );
     }
 
     getGrammar(): Grammar {
@@ -51,23 +66,44 @@ export default class Insert extends Expression {
                 kind: node(Expression),
                 label: (translation: Locale) => translation.term.table,
             },
-            { name: 'insert', kind: node(Symbol.Insert) },
             {
                 name: 'row',
                 kind: node(Row),
                 label: (translation: Locale) => translation.term.row,
+                space: true,
             },
         ];
     }
 
+    static getPossibleNodes(
+        type: Type | undefined,
+        anchor: Node,
+        selected: boolean,
+        context: Context
+    ) {
+        const anchorType =
+            anchor instanceof Expression ? anchor.getType(context) : undefined;
+        const tableType =
+            anchorType instanceof TableType ? anchorType : undefined;
+        return anchor instanceof Expression && tableType && selected
+            ? [
+                  Insert.make(
+                      anchor,
+                      tableType.columns.map((c) =>
+                          ExpressionPlaceholder.make(c.getType(context))
+                      )
+                  ),
+              ]
+            : [];
+    }
+
     getPurpose() {
-        return Purpose.Value;
+        return Purpose.Evaluate;
     }
 
     clone(replace?: Replacement) {
         return new Insert(
             this.replaceChild('table', this.table, replace),
-            this.replaceChild('insert', this.insert, replace),
             this.replaceChild('row', this.row, replace)
         ) as this;
     }
@@ -88,8 +124,66 @@ export default class Insert extends Expression {
         if (!(tableType instanceof TableType))
             return [new IncompatibleInput(this, tableType, TableType.make([]))];
 
-        // Check the row for conflicts.
-        conflicts = conflicts.concat(analyzeRow(tableType, this.row, context));
+        // The row must "match" the columns, where match means that all columns without a default get a value.
+        // Rows can either be all unnamed and provide values for every column or they can be selectively named,
+        // but must provide a value for all non-default columns. No other format is allowed.
+        // Additionally, all values must match their column's types.
+        if (this.row.allBinds()) {
+            // Ensure every bind is a valid column.
+            const matchedColumns = [];
+            for (const cell of this.row.cells) {
+                if (cell instanceof Bind) {
+                    const column = tableType.getColumnNamed(cell.getNames()[0]);
+                    if (column === undefined)
+                        conflicts.push(new UnknownColumn(tableType, cell));
+                    else {
+                        matchedColumns.push(column);
+                        const expected = column.getType(context);
+                        const given = cell.getType(context);
+                        if (!expected.accepts(given, context))
+                            conflicts.push(
+                                new IncompatibleCellType(
+                                    tableType,
+                                    cell,
+                                    expected,
+                                    given
+                                )
+                            );
+                    }
+                }
+            }
+            // Ensure all non-default columns were specified.
+            for (const column of tableType.columns) {
+                if (!matchedColumns.includes(column) && !column.hasDefault())
+                    conflicts.push(
+                        new MissingCell(this.row, tableType, column)
+                    );
+            }
+
+            // Ensure there are no extra expressions.
+        } else if (this.row.allExpressions()) {
+            const cells = this.row.cells.slice();
+            for (const column of tableType.columns) {
+                const cell = cells.shift();
+                if (cell === undefined)
+                    conflicts.push(
+                        new MissingCell(this.row, tableType, column)
+                    );
+                else {
+                    const expected = column.getType(context);
+                    const given = cell.getType(context);
+                    if (!expected.accepts(given, context))
+                        conflicts.push(
+                            new IncompatibleCellType(
+                                tableType,
+                                cell,
+                                expected,
+                                given
+                            )
+                        );
+                }
+            }
+        } else conflicts.push(new InvalidRow(this.row));
 
         return conflicts;
     }
@@ -133,7 +227,7 @@ export default class Insert extends Expression {
                       ),
                   ]
                 : this.row.allExpressions()
-                ? // It's all expresssions, compile all of them in order.
+                ? // It's all expressions, compile all of them in order.
                   this.row.cells.reduce(
                       (steps: Step[], cell) => [
                           ...steps,
@@ -186,8 +280,9 @@ export default class Insert extends Expression {
         const table = evaluator.popValue(this, TableType.make([]));
         if (!(table instanceof Table)) return table;
 
-        // Return a new table with the values.
-        return table.insert(values);
+        // Return a new table with the new row.
+        const row = getRowFromValues(evaluator, this, table.type, values);
+        return row instanceof Structure ? table.insert(this, row) : row;
     }
 
     evaluateTypeSet(
@@ -204,10 +299,10 @@ export default class Insert extends Expression {
     }
 
     getStart() {
-        return this.insert;
+        return this.row.open;
     }
     getFinish() {
-        return this.insert;
+        return this.row.close ?? this.row.open;
     }
 
     getNodeLocale(translation: Locale) {

@@ -7,6 +7,6 @@
     export let node: Update;
 </script>
 
-<NodeView node={node.table} /><NodeView node={node.update} /><NodeView
-    node={node.row}
-/><NodeView node={node.query} />
+<NodeView node={node.table} /><NodeView node={node.row} /><NodeView
+    node={node.query}
+/>

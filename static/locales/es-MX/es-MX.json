@@ -164,7 +164,15 @@
             "conflict": {
                 "InvalidRow": "$?",
                 "MissingCell": { "primary": "$?", "secondary": "$?" },
-                "UnknownColumn": "$?"
+                "UnknownColumn": "$?",
+                "ExtraCell": {
+                    "primary": "$?",
+                    "secondary": "$?"
+                },
+                "UnexpectedColumnBind": {
+                    "primary": "$?",
+                    "secondary": "$?"
+                }
             }
         },
         "Token": {
@@ -415,7 +423,7 @@
                 "NoExpression": "$?"
             }
         },
-        "HOF": {
+        "Iteration": {
             "name": "función de orden superior",
             "emotion": "neutral",
             "doc": "$?",
@@ -720,7 +728,7 @@
             "start": "$?",
             "finish": "$?",
             "conflict": {
-                "ExpectedUpdateBind": "$?",
+                "ExpectedColumnBind": "$?",
                 "IncompatibleCellType": { "primary": "$?", "secondary": "$?" }
             }
         },
@@ -1227,54 +1235,58 @@
                 "sans": {
                     "doc": "$?",
                     "names": "sans",
-                    "inputs": [{ "doc": "$?", "names": "value" }]
+                    "inputs": [{ "doc": "$?", "names": "$? value" }]
                 },
                 "sansAll": {
                     "doc": "$?",
                     "names": "sinTodo",
-                    "inputs": [{ "doc": "$?", "names": "value" }]
+                    "inputs": [{ "doc": "$?", "names": "$? value" }]
                 },
                 "reverse": { "doc": "$?", "names": "inversa", "inputs": [] },
                 "equals": {
                     "doc": "$?",
                     "names": ["=", "equals"],
-                    "inputs": [{ "doc": "$?", "names": "list" }]
+                    "inputs": [{ "doc": "$?", "names": "$? list" }]
                 },
                 "notequals": {
                     "doc": "$?",
                     "names": "≠",
-                    "inputs": [{ "doc": "$?", "names": "list" }]
+                    "inputs": [{ "doc": "$?", "names": "$? list" }]
                 },
                 "translate": {
                     "doc": "$?",
                     "names": "traducir",
-                    "inputs": [{ "doc": "$?", "names": "translator" }],
-                    "value": { "doc": "$?", "names": "item" },
-                    "index": { "doc": "$?", "names": "index" }
+                    "inputs": [{ "doc": "$?", "names": "$? translator" }],
+                    "value": { "doc": "$?", "names": "$? item" },
+                    "index": { "doc": "$?", "names": "$? index" }
                 },
                 "filter": {
                     "doc": "$?",
                     "names": "filtrar",
-                    "inputs": [{ "doc": "$?", "names": "checker" }],
-                    "value": { "doc": "$?", "names": "item" }
+                    "inputs": [{ "doc": "$?", "names": "$? checker" }],
+                    "value": { "doc": "$?", "names": "item" },
+                    "index": { "doc": "$?", "names": "$? index" }
                 },
                 "all": {
                     "doc": "$?",
                     "names": "todos",
                     "inputs": [{ "doc": "$?", "names": "checker" }],
-                    "value": { "doc": "$?", "names": "item" }
+                    "value": { "doc": "$?", "names": "item" },
+                    "index": { "doc": "$?", "names": "$? index" }
                 },
                 "until": {
                     "doc": "$?",
                     "names": "hasta",
                     "inputs": [{ "doc": "$?", "names": "checker" }],
-                    "value": { "doc": "$?", "names": "item" }
+                    "value": { "doc": "$?", "names": "item" },
+                    "index": { "doc": "$?", "names": "$? index" }
                 },
                 "find": {
                     "doc": "$?",
                     "names": "encontrar",
                     "inputs": [{ "doc": "$?", "names": "checker" }],
-                    "value": { "doc": "$?", "names": "item" }
+                    "value": { "doc": "$?", "names": "item" },
+                    "index": { "doc": "$?", "names": "$? index" }
                 },
                 "combine": {
                     "doc": "$?",
@@ -1397,9 +1409,25 @@
             },
             "conversion": { "text": "$?", "set": "$?", "list": "$?" }
         },
-        "Docs": {
+        "Table": {
             "doc": "$?",
-            "name": "$?"
+            "name": "$?",
+            "function": {
+                "equals": {
+                    "doc": "$?",
+                    "names": "$? equals",
+                    "inputs": [{ "doc": "$?", "names": "$? value" }]
+                },
+                "notequal": {
+                    "doc": "$?",
+                    "names": "$?",
+                    "inputs": [{ "doc": "$?", "names": "$? value" }]
+                }
+            },
+            "conversion": {
+                "list": "$?",
+                "text": "$?"
+            }
         }
     },
     "input": {
@@ -1712,6 +1740,7 @@
             "insertStreamSymbol": "$?",
             "insertConvertSymbol": "$?",
             "insertPreviousSymbol": "$?",
+            "insertTableSymbol": "$?",
             "insertLineBreak": "$?",
             "backspace": "$?",
             "cut": "$?",

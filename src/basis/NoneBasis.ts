@@ -5,7 +5,7 @@ import Bool from '@runtime/Bool';
 import None from '@runtime/None';
 import Block, { BlockKind } from '@nodes/Block';
 import Bind from '@nodes/Bind';
-import BasisExpression from './BasisExpression';
+import InternalExpression from './InternalExpression';
 import BooleanType from '@nodes/BooleanType';
 import NoneType from '@nodes/NoneType';
 import type Value from '@runtime/Value';
@@ -39,25 +39,31 @@ export default function bootstrapNone(locales: Locale[]) {
                     NoneType.make()
                 ),
             ],
-            new BasisExpression(BooleanType.make(), (requestor, evaluation) => {
-                const left = evaluation.getClosure();
-                const right = evaluation.resolve(translations.inputs[0].names);
-                // This should be impossible, but the type system doesn't know it.
-                if (!(left instanceof None))
-                    return evaluation.getValueOrTypeException(
-                        requestor,
-                        NoneType.None,
-                        left
+            new InternalExpression(
+                BooleanType.make(),
+                [],
+                (requestor, evaluation) => {
+                    const left = evaluation.getClosure();
+                    const right = evaluation.resolve(
+                        translations.inputs[0].names
                     );
+                    // This should be impossible, but the type system doesn't know it.
+                    if (!(left instanceof None))
+                        return evaluation.getValueOrTypeException(
+                            requestor,
+                            NoneType.None,
+                            left
+                        );
 
-                if (!(right instanceof None))
-                    return evaluation.getValueOrTypeException(
-                        requestor,
-                        NoneType.None,
-                        right
-                    );
-                return expression(requestor, left, right);
-            }),
+                    if (!(right instanceof None))
+                        return evaluation.getValueOrTypeException(
+                            requestor,
+                            NoneType.None,
+                            right
+                        );
+                    return expression(requestor, left, right);
+                }
+            ),
             BooleanType.make()
         );
     }

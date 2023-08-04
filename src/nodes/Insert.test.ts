@@ -1,33 +1,35 @@
-import { test } from 'vitest';
+import { test, expect } from 'vitest';
 import { testConflict } from '@conflicts/TestUtilities';
 import IncompatibleCellType from '@conflicts/IncompatibleCellType';
 import Insert from './Insert';
 import MissingCell from '@conflicts/MissingCell';
 import InvalidRow from '@conflicts/InvalidRow';
 import IncompatibleInput from '../conflicts/IncompatibleInput';
+import { DefaultLocale } from '../db/Creator';
+import Evaluator from '../runtime/Evaluator';
 
 test.each([
     [
-        'table: ⎡one•#⎦\ntable⎡+ ⎡1⎦',
-        'table: 1\ntable⎡+ ⎡1⎦',
+        'table: ⎡one•#⎦\ntable ⎡+ 1⎦',
+        'table: 1\ntable ⎡+ 1⎦',
         Insert,
         IncompatibleInput,
     ],
     [
-        'table: ⎡one•#⎦\ntable⎡+ ⎡1⎦',
-        'table: ⎡one•#⎦\ntable⎡+ ⎡⎦',
+        'table: ⎡one•#⎦\ntable ⎡+ 1⎦',
+        'table: ⎡one•#⎦\ntable ⎡+⎦',
         Insert,
         MissingCell,
     ],
     [
-        'table: ⎡one•#⎦\ntable⎡+ ⎡1⎦',
-        'table: ⎡one•#⎦\ntable⎡+ ⎡"hi"⎦',
+        'table: ⎡one•#⎦\ntable⎡+ 1⎦',
+        'table: ⎡one•#⎦\ntable⎡+ "hi"⎦',
         Insert,
         IncompatibleCellType,
     ],
     [
-        'table: ⎡one•#⎦\ntable⎡+ ⎡1 1⎦',
-        'table: ⎡one•#⎦\ntable⎡+ ⎡1 one:1⎦',
+        'table: ⎡one•#⎦\ntable⎡+ 1 1⎦',
+        'table: ⎡one•#⎦\ntable⎡+ 1 one:1⎦',
         Insert,
         InvalidRow,
     ],
@@ -37,3 +39,12 @@ test.each([
         testConflict(good, bad, node, conflict);
     }
 );
+
+test.each([
+    ['⎡a•# b•#⎦⎡1 2⎦ ⎡+ 2 3⎦', '⎡ 1 2 ⎦\n⎡ 2 3 ⎦'],
+    ['⎡a•# b•#⎦⎡1 2⎦ ⎡+ 2 3⎦ ⎡+ 3 4⎦', '⎡ 1 2 ⎦\n⎡ 2 3 ⎦\n⎡ 3 4 ⎦'],
+])('%s = %s', (code: string, value: string) => {
+    expect(Evaluator.evaluateCode(DefaultLocale, code)?.toWordplay([])).toBe(
+        value
+    );
+});

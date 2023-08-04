@@ -150,15 +150,19 @@ type BasisTexts = {
             };
             filter: FunctionText<[NameAndDoc]> & {
                 value: NameAndDoc;
+                index: NameAndDoc;
             };
             all: FunctionText<[NameAndDoc]> & {
                 value: NameAndDoc;
+                index: NameAndDoc;
             };
             until: FunctionText<[NameAndDoc]> & {
                 value: NameAndDoc;
+                index: NameAndDoc;
             };
             find: FunctionText<[NameAndDoc]> & {
                 value: NameAndDoc;
+                index: NameAndDoc;
             };
             combine: FunctionText<[NameAndDoc, NameAndDoc]> & {
                 combination: NameAndDoc;
@@ -222,9 +226,17 @@ type BasisTexts = {
             list: DocText;
         };
     };
-    Docs: {
+    Table: {
         doc: DocText;
         name: NameText;
+        function: {
+            equals: FunctionText<[NameAndDoc]>;
+            notequal: FunctionText<[NameAndDoc]>;
+        };
+        conversion: {
+            list: DocText;
+            text: DocText;
+        };
     };
 };
 

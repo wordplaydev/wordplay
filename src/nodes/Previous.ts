@@ -53,10 +53,10 @@ export default class Previous extends Expression {
         this.computeChildren();
     }
 
-    static make(stream: Expression, index: Expression) {
+    static make(stream: Expression, index: Expression, range: boolean = false) {
         return new Previous(
             new Token(PREVIOUS_SYMBOL, Symbol.Previous),
-            undefined,
+            range ? new Token(PREVIOUS_SYMBOL, Symbol.Previous) : undefined,
             index,
             stream
         );
@@ -67,6 +67,11 @@ export default class Previous extends Expression {
             Previous.make(
                 ExpressionPlaceholder.make(StreamType.make()),
                 ExpressionPlaceholder.make(NumberType.make())
+            ),
+            Previous.make(
+                ExpressionPlaceholder.make(StreamType.make()),
+                ExpressionPlaceholder.make(NumberType.make()),
+                true
             ),
         ];
     }

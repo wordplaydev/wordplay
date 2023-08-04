@@ -985,8 +985,8 @@ function parseTable(tokens: Tokens): TableLiteral {
 }
 
 /** ROW :: ⎡ (BIND|EXPRESSION)* ⎦ */
-function parseRow(tokens: Tokens): Row {
-    const open = tokens.read(Symbol.TableOpen);
+function parseRow(tokens: Tokens, expected: Symbol = Symbol.TableOpen): Row {
+    const open = tokens.read(expected);
 
     const cells: (Bind | Expression)[] = [];
     // Read the cells.
@@ -994,7 +994,7 @@ function parseRow(tokens: Tokens): Row {
         tokens.hasNext() &&
         tokens.nextIsnt(Symbol.Code) &&
         !tokens.nextIs(Symbol.TableClose) &&
-        !tokens.nextHasMoreThanOneLineBreak()
+        !tokens.nextHasPrecedingLineBreak()
     )
         cells.push(
             nextIsBind(tokens, true)
@@ -1010,28 +1010,25 @@ function parseRow(tokens: Tokens): Row {
 
 /** SELECT :: EXPRESSION |? ROW EXPRESSION */
 function parseSelect(table: Expression, tokens: Tokens): Select {
-    const select = tokens.read(Symbol.Select);
-    const row = parseRow(tokens);
+    const row = parseRow(tokens, Symbol.Select);
     const query = parseExpression(tokens);
 
-    return new Select(table, select, row, query);
+    return new Select(table, row, query);
 }
 
 /** INSERT :: EXPRESSION |+ ROW */
 function parseInsert(table: Expression, tokens: Tokens): Insert {
-    const insert = tokens.read(Symbol.Insert);
-    const row = parseRow(tokens);
+    const row = parseRow(tokens, Symbol.Insert);
 
-    return new Insert(table, insert, row);
+    return new Insert(table, row);
 }
 
 /** UPDATE :: EXPRESSION |: ROW EXPRESSION */
 function parseUpdate(table: Expression, tokens: Tokens): Update {
-    const update = tokens.read(Symbol.Update);
-    const row = parseRow(tokens);
+    const row = parseRow(tokens, Symbol.Update);
     const query = parseExpression(tokens);
 
-    return new Update(table, update, row, query);
+    return new Update(table, row, query);
 }
 
 /** DELETE :: EXPRESSION |- EXPRESSION */

@@ -15,7 +15,7 @@ import Text from '@runtime/Text';
 import TypeException from '@runtime/TypeException';
 import type Value from '@runtime/Value';
 import { createBasisConversion } from './Basis';
-import BasisExpression from './BasisExpression';
+import InternalExpression from './InternalExpression';
 import type Evaluation from '@runtime/Evaluation';
 import List from '@runtime/List';
 import type Docs from '@nodes/Docs';
@@ -54,7 +54,7 @@ export default function bootstrapNumber(locales: Locale[]) {
             translations.inputs.map((i) =>
                 Bind.make(i.docs, i.names, inputType)
             ),
-            new BasisExpression(outputType, (requestor, evaluation) => {
+            new InternalExpression(outputType, [], (requestor, evaluation) => {
                 const left: Value | Evaluation | undefined =
                     evaluation.getClosure();
                 const right = evaluation.resolve(translations.inputs[0].names);
@@ -107,25 +107,29 @@ export default function bootstrapNumber(locales: Locale[]) {
             translations.names,
             undefined,
             [],
-            new BasisExpression(NumberType.make(), (requestor, evaluation) => {
-                const left: Value | Evaluation | undefined =
-                    evaluation.getClosure();
-                // It should be impossible for the left to be a Number, but the type system doesn't know it.
-                if (!(left instanceof Number))
-                    return evaluation.getValueOrTypeException(
-                        requestor,
-                        NumberType.make(),
-                        left
+            new InternalExpression(
+                NumberType.make(),
+                [],
+                (requestor, evaluation) => {
+                    const left: Value | Evaluation | undefined =
+                        evaluation.getClosure();
+                    // It should be impossible for the left to be a Number, but the type system doesn't know it.
+                    if (!(left instanceof Number))
+                        return evaluation.getValueOrTypeException(
+                            requestor,
+                            NumberType.make(),
+                            left
+                        );
+                    return (
+                        expression(requestor, left) ??
+                        evaluation.getValueOrTypeException(
+                            requestor,
+                            NumberType.make(),
+                            undefined
+                        )
                     );
-                return (
-                    expression(requestor, left) ??
-                    evaluation.getValueOrTypeException(
-                        requestor,
-                        NumberType.make(),
-                        undefined
-                    )
-                );
-            }),
+                }
+            ),
             outputType
         );
     }
@@ -175,8 +179,9 @@ export default function bootstrapNumber(locales: Locale[]) {
                             NoneLiteral.make()
                         ),
                     ],
-                    new BasisExpression(
+                    new InternalExpression(
                         NumberType.make(),
+                        [],
                         (requestor, evaluation) => {
                             const left = evaluation.getClosure();
                             const right = evaluation.resolve(subtractNames);

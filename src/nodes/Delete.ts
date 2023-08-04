@@ -1,5 +1,5 @@
 import type Node from './Node';
-import type Token from './Token';
+import Token from './Token';
 import Expression from './Expression';
 import type Conflict from '@conflicts/Conflict';
 import type Type from './Type';
@@ -13,7 +13,6 @@ import Start from '@runtime/Start';
 import type Context from './Context';
 import type Definition from './Definition';
 import type TypeSet from './TypeSet';
-import UnimplementedException from '@runtime/UnimplementedException';
 import type Evaluator from '@runtime/Evaluator';
 import { node, type Grammar, type Replacement } from './Node';
 import type Locale from '@locale/Locale';
@@ -23,6 +22,17 @@ import IncompatibleInput from '../conflicts/IncompatibleInput';
 import concretize from '../locale/concretize';
 import Symbol from './Symbol';
 import Purpose from '../concepts/Purpose';
+import FunctionDefinition from './FunctionDefinition';
+import Names from './Names';
+import Table from '../runtime/Table';
+import type Structure from '../runtime/Structure';
+import Evaluation from '../runtime/Evaluation';
+import Bool from '../runtime/Bool';
+import { getIteration, getIterationResult } from '../basis/Iteration';
+import { DELETE_SYMBOL } from '../parser/Symbols';
+import ExpressionPlaceholder from './ExpressionPlaceholder';
+
+type DeleteState = { index: number; list: Structure[]; table: Table };
 
 export default class Delete extends Expression {
     readonly table: Expression;
@@ -39,6 +49,14 @@ export default class Delete extends Expression {
         this.computeChildren();
     }
 
+    static make(table: Expression, query: Expression) {
+        return new Delete(
+            table,
+            new Token(DELETE_SYMBOL, Symbol.Delete),
+            query
+        );
+    }
+
     getGrammar(): Grammar {
         return [
             {
@@ -46,19 +64,40 @@ export default class Delete extends Expression {
                 kind: node(Expression),
                 label: (translation: Locale) => translation.term.table,
             },
-            { name: 'del', kind: node(Symbol.Delete) },
+            { name: 'del', kind: node(Symbol.Delete), space: true },
             {
                 name: 'query',
                 kind: node(Expression),
                 label: (translation: Locale) => translation.term.query,
                 // Must be a boolean
                 getType: () => BooleanType.make(),
+                space: true,
             },
         ];
     }
 
+    static getPossibleNodes(
+        type: Type | undefined,
+        anchor: Node,
+        selected: boolean,
+        context: Context
+    ) {
+        const anchorType =
+            anchor instanceof Expression ? anchor.getType(context) : undefined;
+        const tableType =
+            anchorType instanceof TableType ? anchorType : undefined;
+        return anchor instanceof Expression && tableType && selected
+            ? [
+                  Delete.make(
+                      anchor,
+                      ExpressionPlaceholder.make(BooleanType.make())
+                  ),
+              ]
+            : [];
+    }
+
     getPurpose() {
-        return Purpose.Value;
+        return Purpose.Evaluate;
     }
 
     clone(replace?: Replacement) {
@@ -70,7 +109,9 @@ export default class Delete extends Expression {
     }
 
     getScopeOfChild(child: Node, context: Context): Node | undefined {
-        return child === this.query ? this.table : this.getParent(context);
+        return child === this.query
+            ? this.table.getType(context)
+            : this.getParent(context);
     }
 
     computeConflicts(context: Context): Conflict[] {
@@ -117,15 +158,68 @@ export default class Delete extends Expression {
     }
 
     compile(context: Context): Step[] {
+        /** A derived function based on the query, used to evaluate each row of the table. */
+        const query = FunctionDefinition.make(
+            undefined,
+            Names.make([]),
+            undefined,
+            [],
+            this.query,
+            BooleanType.make()
+        );
+
         return [
             new Start(this),
             ...this.table.compile(context),
+            ...getIteration<DeleteState, this>(
+                this,
+                // Initialize a keep list and a counter as we iterate through the rows.
+                (evaluator) => {
+                    const table = evaluator.peekValue();
+                    return table instanceof Table
+                        ? { index: 0, list: [], table }
+                        : evaluator.getValueOrTypeException(
+                              this,
+                              TableType.make(),
+                              table
+                          );
+                },
+                (evaluator, info) => {
+                    if (info.index > info.table.rows.length - 1) return false;
+                    else {
+                        // Start a new evaluation of the query with the row as scope.
+                        evaluator.startEvaluation(
+                            new Evaluation(
+                                evaluator,
+                                this,
+                                query,
+                                info.table.rows[info.index]
+                            )
+                        );
+                        return true;
+                    }
+                },
+                (evaluator, info) => {
+                    const remove = evaluator.popValue(this, BooleanType.make());
+                    if (!(remove instanceof Bool)) return remove;
+                    // Query was false? Keep instead of deleting.
+                    if (remove.bool === false)
+                        info.list.push(info.table.rows[info.index]);
+                    // Increment the counter.
+                    info.index = info.index + 1;
+                }
+            ),
             new Finish(this),
         ];
     }
 
     evaluate(evaluator: Evaluator): Value {
-        return new UnimplementedException(evaluator, this);
+        const { table, list } = getIterationResult<DeleteState>(evaluator);
+        // Pop the table.
+        evaluator.popValue(this);
+
+        // Create a new table based on the kept rows
+        return new Table(this, table.type, list);
     }
 
     evaluateTypeSet(

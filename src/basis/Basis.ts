@@ -1,7 +1,7 @@
 import FunctionDefinition from '@nodes/FunctionDefinition';
-import BasisExpression from './BasisExpression';
+import InternalExpression from './InternalExpression';
 import type Context from '@nodes/Context';
-import type Type from '@nodes/Type';
+import Type from '@nodes/Type';
 import ConversionDefinition from '@nodes/ConversionDefinition';
 import type Bind from '@nodes/Bind';
 import Value from '@runtime/Value';
@@ -25,6 +25,7 @@ import Root from '../nodes/Root';
 import type Locale from '../locale/Locale';
 import createDefaultShares from '../runtime/createDefaultShares';
 import type LanguageCode from '../locale/LanguageCode';
+import bootstrapTable from './TableBasis';
 
 export class Basis {
     readonly locales: Locale[];
@@ -48,6 +49,7 @@ export class Basis {
         this.addStructure('measurement', bootstrapNumber(locales));
         this.addStructure('set', bootstrapSet(locales));
         this.addStructure('map', bootstrapMap(locales));
+        this.addStructure('table', bootstrapTable(locales));
 
         this.shares = createDefaultShares(locales);
     }
@@ -162,25 +164,28 @@ export function createBasisFunction(
         names,
         typeVars,
         inputs,
-        new BasisExpression(output, evaluator),
+        new InternalExpression(output, [], evaluator),
         output
     );
 }
 
 export function createBasisConversion<ValueType extends Value>(
     docs: Docs,
-    inputTypeString: string,
-    outputTypeString: string,
+    input: Type | string,
+    output: Type | string,
     convert: (requestor: Expression, value: ValueType) => Value
 ) {
     // Parse the expected type.
-    const inputType = parseType(toTokens(inputTypeString));
+    const inputType =
+        input instanceof Type ? input : parseType(toTokens(input));
+    const outputType =
+        output instanceof Type ? output : parseType(toTokens(output));
 
     return ConversionDefinition.make(
         docs,
         inputType,
-        outputTypeString,
-        new BasisExpression(outputTypeString, (requestor, evaluation) => {
+        output,
+        new InternalExpression(outputType, [], (requestor, evaluation) => {
             const val = evaluation.getClosure();
             if (
                 val instanceof Value &&

@@ -1,23 +1,27 @@
 import type { Grammar, Replacement } from './Node';
-import type Token from './Token';
+import Token from './Token';
 import Bind from './Bind';
 import Expression from './Expression';
 import type Locale from '@locale/Locale';
 import Glyphs from '../lore/Glyphs';
 import Purpose from '../concepts/Purpose';
-import Node, { list, node } from './Node';
+import Node, { any, list, node } from './Node';
 import Symbol from './Symbol';
+import Evaluation, { type EvaluationNode } from '../runtime/Evaluation';
+import type Evaluator from '../runtime/Evaluator';
+import type Value from '../runtime/Value';
+import type TableType from './TableType';
+import Exception from '../runtime/Exception';
+import ValueException from '../runtime/ValueException';
+import Structure from '../runtime/Structure';
+import { TABLE_CLOSE_SYMBOL, TABLE_OPEN_SYMBOL } from '../parser/Symbols';
 
 export default class Row extends Node {
     readonly open: Token;
-    readonly cells: (Bind | Expression)[];
+    readonly cells: Expression[];
     readonly close: Token | undefined;
 
-    constructor(
-        open: Token,
-        cells: (Bind | Expression)[],
-        close: Token | undefined
-    ) {
+    constructor(open: Token, cells: Expression[], close: Token | undefined) {
         super();
 
         this.open = open;
@@ -27,10 +31,27 @@ export default class Row extends Node {
         this.computeChildren();
     }
 
+    static make() {
+        return new Row(
+            new Token(TABLE_OPEN_SYMBOL, Symbol.TableOpen),
+            [],
+            new Token(TABLE_CLOSE_SYMBOL, Symbol.TableClose)
+        );
+    }
+
     getGrammar(): Grammar {
         return [
-            { name: 'open', kind: node(Symbol.TableOpen) },
-            { name: 'cells', kind: list(node(Bind), node(Expression)) },
+            {
+                name: 'open',
+                kind: any(
+                    node(Symbol.TableOpen),
+                    node(Symbol.Select),
+                    node(Symbol.Insert),
+                    node(Symbol.Delete),
+                    node(Symbol.Update)
+                ),
+            },
+            { name: 'cells', kind: list(node(Expression)), space: true },
             { name: 'close', kind: node(Symbol.TableClose) },
         ];
     }
@@ -64,4 +85,30 @@ export default class Row extends Node {
     getGlyphs() {
         return Glyphs.Table;
     }
+}
+
+/** A helper function for converting rows into evaluations  */
+export function getRowFromValues(
+    evaluator: Evaluator,
+    creator: EvaluationNode,
+    table: TableType,
+    values: Value[]
+) {
+    const evaluation = new Evaluation(
+        evaluator,
+        creator,
+        table.definition,
+        evaluator.getCurrentEvaluation()
+    );
+
+    for (let c = 0; c < table.columns.length; c++) {
+        const column = table.columns[c];
+        const cell = values.shift();
+        if (cell instanceof Exception) return cell;
+        if (cell === undefined) return new ValueException(evaluator, creator);
+        evaluation.bind(column.names, cell);
+    }
+
+    // Return a new table with the new row.
+    return new Structure(creator, evaluation);
 }

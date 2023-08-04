@@ -15,13 +15,17 @@ import InternalException from '@runtime/InternalException';
 import Glyphs from '../lore/Glyphs';
 import concretize from '../locale/concretize';
 import Purpose from '../concepts/Purpose';
+import Start from '../runtime/Start';
+import Finish from '../runtime/Finish';
 
-export default class BasisExpression extends AtomicExpression {
+export default class InternalExpression extends AtomicExpression {
     readonly type: Type;
     readonly evaluator: (requestor: Expression, evaluator: Evaluation) => Value;
+    readonly steps: Step[];
 
     constructor(
         type: Type | string,
+        steps: Step[],
         evaluator: (requestor: Expression, evaluator: Evaluation) => Value
     ) {
         super();
@@ -31,6 +35,7 @@ export default class BasisExpression extends AtomicExpression {
             this.type = possibleType;
         } else this.type = type;
 
+        this.steps = steps;
         this.evaluator = evaluator;
     }
 
@@ -57,7 +62,9 @@ export default class BasisExpression extends AtomicExpression {
     }
 
     compile(): Step[] {
-        return [new StartFinish(this)];
+        return this.steps.length === 0
+            ? [new StartFinish(this)]
+            : [new Start(this), ...this.steps, new Finish(this)];
     }
 
     evaluate(evaluator: Evaluator): Value {

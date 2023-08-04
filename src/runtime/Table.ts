@@ -1,25 +1,27 @@
 import type { BasisTypeName } from '../basis/BasisConstants';
-import type TableLiteral from '@nodes/TableLiteral';
 import TableType from '@nodes/TableType';
 import { TABLE_CLOSE_SYMBOL, TABLE_OPEN_SYMBOL } from '@parser/Symbols';
 import type Exception from './Exception';
-import Value from './Value';
+import type Value from './Value';
 import type Locale from '@locale/Locale';
 import concretize from '../locale/concretize';
+import Simple from './Simple';
+import type Structure from './Structure';
+import type Expression from '../nodes/Expression';
 
-export default class Table extends Value {
-    readonly literal: TableLiteral;
-    readonly rows: Value[][];
+export default class Table extends Simple {
+    readonly type: TableType;
+    readonly rows: Structure[];
 
-    constructor(creator: TableLiteral, rows: Value[][]) {
+    constructor(creator: Expression, type: TableType, rows: Structure[]) {
         super(creator);
 
-        this.literal = creator;
+        this.type = type;
         this.rows = rows;
     }
 
-    insert(row: Value[]): Table | Exception {
-        return new Table(this.literal, [...this.rows, row]);
+    insert(requestor: Expression, row: Structure): Table | Exception {
+        return new Table(requestor, this.type, [...this.rows, row]);
     }
 
     getType() {
@@ -30,19 +32,26 @@ export default class Table extends Value {
         return 'table';
     }
 
-    resolve() {
-        return undefined;
-    }
-
-    isEqualTo(structure: Value): boolean {
-        structure;
-        return false;
+    isEqualTo(table: Value): boolean {
+        return (
+            table instanceof Table &&
+            this.rows.length === table.rows.length &&
+            this.rows.every((row, rowIndex) =>
+                row.isEqualTo(table.rows[rowIndex])
+            )
+        );
     }
 
     toWordplay(locales: Locale[]): string {
-        return `${this.literal.type.columns
-            .map((c) => (c ? c.names.getPreferredNameString(locales) : ''))
-            .join(TABLE_OPEN_SYMBOL)}${TABLE_CLOSE_SYMBOL}`;
+        const columns = this.type.columns;
+        let text = '';
+        for (const row of this.rows) {
+            text += TABLE_OPEN_SYMBOL;
+            for (const col of columns)
+                text += ` ${row.resolve(col.names)?.toWordplay(locales)}`;
+            text += ` ${TABLE_CLOSE_SYMBOL}\n`;
+        }
+        return text.trim();
     }
 
     getDescription(translation: Locale) {
@@ -51,8 +60,7 @@ export default class Table extends Value {
 
     getSize() {
         let sum = 0;
-        for (const row of this.rows)
-            for (const cell of row) sum += cell.getSize();
+        for (const row of this.rows) sum += row.getSize();
         return sum;
     }
 }

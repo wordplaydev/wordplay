@@ -63,7 +63,10 @@ type NodeTexts = {
              * $2: Row
              * */
             MissingCell: ConflictText;
+            /** $1: Cell */
+            ExtraCell: ConflictText;
             UnknownColumn: InternalConflictText;
+            UnexpectedColumnBind: ConflictText;
         }>;
     /**
      * Description
@@ -320,7 +323,7 @@ type NodeTexts = {
      * Finish
      * $1: resulting value
      */
-    HOF: NodeText &
+    Iteration: NodeText &
         ExpressionText & {
             initialize: Template;
             next: Template;
@@ -580,7 +583,7 @@ type NodeTexts = {
     Update: NodeText &
         ExpressionText &
         Conflicts<{
-            ExpectedUpdateBind: InternalConflictText;
+            ExpectedColumnBind: InternalConflictText;
             /**
              * $1: Expected
              * $2: Given

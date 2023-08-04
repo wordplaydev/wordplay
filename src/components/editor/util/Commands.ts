@@ -16,6 +16,7 @@ import {
     STAGE_SYMBOL,
     PALETTE_SYMBOL,
     PREVIOUS_SYMBOL,
+    TABLE_OPEN_SYMBOL,
 } from '@parser/Symbols';
 
 import Source from '@nodes/Source';
@@ -733,6 +734,18 @@ const Commands: Command[] = [
         execute: ({ caret }) => caret?.insert('≥') ?? false,
     },
     {
+        symbol: STREAM_SYMBOL,
+        description: (l) => l.ui.description.insertStreamSymbol,
+        visible: Visibility.Visible,
+        category: Category.Insert,
+        alt: true,
+        shift: false,
+        control: false,
+        key: 'Semicolon',
+        keySymbol: ';',
+        execute: ({ caret }) => caret?.insert(STREAM_SYMBOL) ?? false,
+    },
+    {
         symbol: PREVIOUS_SYMBOL,
         description: (l) => l.ui.description.insertPreviousSymbol,
         visible: Visibility.Visible,
@@ -753,20 +766,20 @@ const Commands: Command[] = [
         shift: false,
         control: false,
         key: 'ArrowRight',
-        keySymbol: '→',
+        keySymbol: CONVERT_SYMBOL,
         execute: ({ caret }) => caret?.insert(CONVERT_SYMBOL) ?? false,
     },
     {
-        symbol: STREAM_SYMBOL,
-        description: (l) => l.ui.description.insertStreamSymbol,
+        symbol: TABLE_OPEN_SYMBOL,
+        description: (l) => l.ui.description.insertTableSymbol,
         visible: Visibility.Visible,
         category: Category.Insert,
         alt: true,
         shift: false,
         control: false,
-        key: 'Semicolon',
-        keySymbol: ';',
-        execute: ({ caret }) => caret?.insert(STREAM_SYMBOL) ?? false,
+        key: 'KeyT',
+        keySymbol: 't',
+        execute: ({ caret }) => caret?.insert(TABLE_OPEN_SYMBOL) ?? false,
     },
 
     // EVALUATE

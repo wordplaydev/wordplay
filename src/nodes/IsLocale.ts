@@ -20,6 +20,7 @@ import StartFinish from '../runtime/StartFinish';
 import type Bind from './Bind';
 import type Expression from './Expression';
 import type TypeSet from './TypeSet';
+import type Node from './Node';
 
 export default class IsLocale extends AtomicExpression {
     readonly globe: Token;
@@ -34,8 +35,18 @@ export default class IsLocale extends AtomicExpression {
         this.computeChildren();
     }
 
-    static make(language: Language) {
+    static make(language?: Language) {
         return new IsLocale(new Token(GLOBE1_SYMBOL, Symbol.Change), language);
+    }
+
+    static getPossibleNodes(
+        type: Type | undefined,
+        node: Node,
+        selected: boolean
+    ) {
+        return selected === false
+            ? [IsLocale.make(Language.make(undefined))]
+            : [];
     }
 
     getGrammar(): Grammar {

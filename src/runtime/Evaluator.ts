@@ -1,8 +1,8 @@
 import type Node from '@nodes/Node';
 import type Reaction from '@nodes/Reaction';
 import Evaluation, {
+    type DefinitionNode,
     type EvaluationNode,
-    type EvaluatorNode,
 } from './Evaluation';
 import ReactionStream from './ReactionStream';
 import type Stream from './Stream';
@@ -109,8 +109,8 @@ export default class Evaluator {
      * They are uniquely identified by the index of their creation.
      * We keep an index of counts in order to do this mapping.
      * */
-    basisStreams: Map<EvaluatorNode, Stream[]> = new Map();
-    basisStreamEvaluationCount: Map<EvaluatorNode, number> = new Map();
+    basisStreams: Map<EvaluationNode, Stream[]> = new Map();
+    basisStreamEvaluationCount: Map<EvaluationNode, number> = new Map();
 
     /** A derived cache of temporal streams, to avoid having to look them up. */
     basisTemporalStreams: TemporalStream<any>[] = [];
@@ -136,7 +136,7 @@ export default class Evaluator {
     /**
      * A cache of steps by node, to avoid recompilation.
      */
-    steps: Map<EvaluationNode, Step[]> = new Map();
+    steps: Map<DefinitionNode, Step[]> = new Map();
 
     /**
      * A global random stream for APIs to use.
@@ -268,6 +268,11 @@ export default class Evaluator {
     getLastEvaluation() {
         return this.#lastEvaluation;
     }
+
+    getCurrentClosure() {
+        return this.getCurrentEvaluation()?.getClosure();
+    }
+
     getCurrentContext() {
         return (
             this.getCurrentEvaluation()?.getContext() ??
@@ -298,7 +303,7 @@ export default class Evaluator {
     getEarliestStepIndexAvailable() {
         return this.reactions[0]?.stepIndex ?? 0;
     }
-    getSteps(evaluation: EvaluationNode): Step[] {
+    getSteps(evaluation: DefinitionNode): Step[] {
         // No expression? No steps.
         let steps = this.steps.get(evaluation);
         if (steps === undefined) {
@@ -955,7 +960,7 @@ export default class Evaluator {
     }
 
     /** Called by stream definitions to identify previously created streams to which an evaluation should correspond. */
-    incrementBasisStreamEvaluationCount(evaluate: EvaluatorNode) {
+    incrementBasisStreamEvaluationCount(evaluate: EvaluationNode) {
         // Set or increment the evaluation count.
         const count = this.basisStreamEvaluationCount.get(evaluate) ?? 0;
         this.basisStreamEvaluationCount.set(evaluate, count + 1);
@@ -963,7 +968,7 @@ export default class Evaluator {
 
     /** Set before to true if this request is happening just before a stream is evaluated */
     getBasisStreamFor(
-        evaluate: EvaluatorNode,
+        evaluate: EvaluationNode,
         before: boolean = false
     ): Stream | undefined {
         const streams = this.basisStreams.get(evaluate);
@@ -976,7 +981,7 @@ export default class Evaluator {
             : streams[count - 1];
     }
 
-    addBasisStreamFor(evaluate: EvaluatorNode, stream: Stream): void {
+    addBasisStreamFor(evaluate: EvaluationNode, stream: Stream): void {
         const streams = this.basisStreams.get(evaluate) ?? [];
 
         // Remember the mapping
@@ -1220,7 +1225,7 @@ export default class Evaluator {
     }
 
     /** Bind the given value to the given name in the context of the current evaluation. */
-    bind(names: Names, value: Value) {
+    bind(names: string | Names, value: Value) {
         if (this.evaluations.length > 0) this.evaluations[0].bind(names, value);
     }
 
@@ -1231,7 +1236,7 @@ export default class Evaluator {
 
     /** A convenience function for evaluating a given function and inputs. */
     evaluateFunction(
-        catalyst: EvaluatorNode,
+        catalyst: EvaluationNode,
         fun: FunctionDefinition,
         values: Value[]
     ): Value | undefined {

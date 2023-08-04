@@ -6,7 +6,7 @@ import Conflict from './Conflict';
 import concretize from '../locale/concretize';
 import type Update from '../nodes/Update';
 
-export default class ExpectedUpdateBind extends Conflict {
+export default class ExpectedColumnBind extends Conflict {
     readonly update: Update;
     readonly cell: Expression;
 
@@ -23,7 +23,7 @@ export default class ExpectedUpdateBind extends Conflict {
                 explanation: (locale: Locale, context: Context) =>
                     concretize(
                         locale,
-                        locale.node.Update.conflict.ExpectedUpdateBind,
+                        locale.node.Update.conflict.ExpectedColumnBind,
                         new NodeRef(this.cell, locale, context)
                     ),
             },

@@ -56,7 +56,6 @@ test.each([
                 ? type
                 : expr.nodes((s) => s instanceof type)[number];
         const newExpr = expr.replace(oldNode, newNode);
-        console.log(newExpr.toWordplay());
         expect(newExpr.isEqualTo(expected)).toBeTruthy();
     }
 );

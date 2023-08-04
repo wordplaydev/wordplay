@@ -39,7 +39,7 @@ import type Locale from '@locale/Locale';
 import NodeRef from '@locale/NodeRef';
 import Glyphs from '../lore/Glyphs';
 import Purpose from '../concepts/Purpose';
-import type { EvaluatorNode } from '../runtime/Evaluation';
+import type { EvaluationNode } from '../runtime/Evaluation';
 import type Reaction from './Reaction';
 import Evaluate from './Evaluate';
 import FunctionType from './FunctionType';
@@ -235,6 +235,19 @@ export default class Bind extends Expression {
             this.type,
             this.colon,
             this.value
+        );
+    }
+
+    withoutValue() {
+        return new Bind(
+            undefined,
+            this.share,
+            this.names,
+            this.etc,
+            this.dot,
+            this.type,
+            undefined,
+            undefined
         );
     }
 
@@ -563,7 +576,7 @@ export default class Bind extends Expression {
                       if (this.value) {
                           let stream =
                               evaluator.getBasisStreamFor(
-                                  this.value as EvaluatorNode,
+                                  this.value as EvaluationNode,
                                   true
                               ) ??
                               evaluator.reactionStreams.get(

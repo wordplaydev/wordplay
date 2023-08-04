@@ -4,7 +4,6 @@ import FunctionDefinition from '@nodes/FunctionDefinition';
 import FunctionType from '@nodes/FunctionType';
 import ListType from '@nodes/ListType';
 import NumberType from '@nodes/NumberType';
-import NameType from '@nodes/NameType';
 import NoneType from '@nodes/NoneType';
 import TextType from '@nodes/TextType';
 import UnionType from '@nodes/UnionType';
@@ -13,13 +12,7 @@ import Bool from '@runtime/Bool';
 import List from '@runtime/List';
 import Text from '@runtime/Text';
 import { createBasisConversion, createBasisFunction } from './Basis';
-import BasisExpression from './BasisExpression';
-import HOFListAll from './HOFListAll';
-import HOFListCombine from './HOFListCombine';
-import HOFListFilter from './HOFListFilter';
-import HOFListFind from './HOFListFind';
-import HOFListTranslate from './HOFListTranslate';
-import OFListUntil from './HOFListUntil';
+import InternalExpression from './InternalExpression';
 import Set from '@runtime/Set';
 import StructureDefinition from '@nodes/StructureDefinition';
 import Block, { BlockKind } from '@nodes/Block';
@@ -33,6 +26,9 @@ import type Expression from '../nodes/Expression';
 import type Locale from '../locale/Locale';
 import NoneLiteral from '../nodes/NoneLiteral';
 import None from '../runtime/None';
+import { Iteration } from './Iteration';
+import { createBind } from '../locale/Locale';
+import ValueException from '../runtime/ValueException';
 
 export default function bootstrapList(locales: Locale[]) {
     const ListTypeVarNames = getNameLocales(
@@ -40,68 +36,41 @@ export default function bootstrapList(locales: Locale[]) {
         (locale) => locale.basis.List.kind
     );
     const ListTypeVariable = new TypeVariable(ListTypeVarNames);
-    const DefaultListTypeVarName =
-        ListTypeVarNames.names[0].getName() as string;
 
-    function getListTypeVariableReference() {
-        return new NameType(
-            DefaultListTypeVarName,
-            undefined,
-            ListTypeVariable
-        );
-    }
-
-    const translateTypeVariable = new TypeVariable(
+    const TranslateTypeVariable = new TypeVariable(
         getNameLocales(locales, (locale) => locale.basis.List.out)
     );
 
-    const listTranslateHOFType = FunctionType.make(
+    const ListTranslateHOFType = FunctionType.make(
         undefined,
         [
-            Bind.make(
-                getDocLocales(
-                    locales,
-                    (locale) => locale.basis.List.function.translate.value.doc
-                ),
-                getNameLocales(
-                    locales,
-                    (locale) => locale.basis.List.function.translate.value.names
-                ),
+            createBind(
+                locales,
+                (t) => t.basis.List.function.translate.value,
                 // The type is a type variable, so we refer to it.
-                new NameType(
-                    DefaultListTypeVarName,
-                    undefined,
-                    ListTypeVariable
-                )
+                ListTypeVariable.getReference()
             ),
-            Bind.make(
-                getDocLocales(
-                    locales,
-                    (locale) => locale.basis.List.function.translate.index.doc
-                ),
-                getNameLocales(
-                    locales,
-                    (locale) => locale.basis.List.function.translate.index.names
-                ),
+            createBind(
+                locales,
+                (t) => t.basis.List.function.translate.index,
                 NumberType.make()
             ),
         ],
-        translateTypeVariable.getReference()
+        TranslateTypeVariable.getReference()
     );
 
     const listFilterHOFType = FunctionType.make(
         undefined,
         [
-            Bind.make(
-                getDocLocales(
-                    locales,
-                    (locale) => locale.basis.List.function.filter.value.doc
-                ),
-                getNameLocales(
-                    locales,
-                    (locale) => locale.basis.List.function.filter.value.names
-                ),
-                getListTypeVariableReference()
+            createBind(
+                locales,
+                (locale) => locale.basis.List.function.filter.value,
+                ListTypeVariable.getReference()
+            ),
+            createBind(
+                locales,
+                (locale) => locale.basis.List.function.filter.index,
+                NumberType.make()
             ),
         ],
         BooleanType.make()
@@ -110,16 +79,15 @@ export default function bootstrapList(locales: Locale[]) {
     const listAllHOFType = FunctionType.make(
         undefined,
         [
-            Bind.make(
-                getDocLocales(
-                    locales,
-                    (locale) => locale.basis.List.function.all.value.doc
-                ),
-                getNameLocales(
-                    locales,
-                    (locale) => locale.basis.List.function.all.value.names
-                ),
-                getListTypeVariableReference()
+            createBind(
+                locales,
+                (locale) => locale.basis.List.function.all.value,
+                ListTypeVariable.getReference()
+            ),
+            createBind(
+                locales,
+                (locale) => locale.basis.List.function.all.index,
+                NumberType.make()
             ),
         ],
         BooleanType.make()
@@ -128,83 +96,61 @@ export default function bootstrapList(locales: Locale[]) {
     const listUntilHOFType = FunctionType.make(
         undefined,
         [
-            Bind.make(
-                getDocLocales(
-                    locales,
-                    (locale) => locale.basis.List.function.until.value.doc
-                ),
-                getNameLocales(
-                    locales,
-                    (locale) => locale.basis.List.function.until.value.names
-                ),
-                BooleanType.make()
+            createBind(
+                locales,
+                (locale) => locale.basis.List.function.until.value,
+                ListTypeVariable.getReference()
+            ),
+            createBind(
+                locales,
+                (locale) => locale.basis.List.function.until.index,
+                NumberType.make()
             ),
         ],
-        getListTypeVariableReference()
+        ListType.make(ListTypeVariable.getReference())
     );
 
     const listFindHOFType = FunctionType.make(
         undefined,
         [
-            Bind.make(
-                getDocLocales(
-                    locales,
-                    (locale) => locale.basis.List.function.find.value.doc
-                ),
-                getNameLocales(
-                    locales,
-                    (locale) => locale.basis.List.function.find.value.names
-                ),
-                BooleanType.make()
+            createBind(
+                locales,
+                (locale) => locale.basis.List.function.find.value,
+                ListTypeVariable.getReference()
             ),
-        ],
-        getListTypeVariableReference()
-    );
-
-    const combineTypeVariable = new TypeVariable(
-        getNameLocales(locales, (locale) => locale.basis.List.out)
-    );
-
-    const listCombineHOFType = FunctionType.make(
-        undefined,
-        [
-            Bind.make(
-                getDocLocales(
-                    locales,
-                    (locale) =>
-                        locale.basis.List.function.combine.combination.doc
-                ),
-                getNameLocales(
-                    locales,
-                    (locale) =>
-                        locale.basis.List.function.combine.combination.names
-                ),
-                combineTypeVariable.getReference()
-            ),
-            Bind.make(
-                getDocLocales(
-                    locales,
-                    (locale) => locale.basis.List.function.combine.next.doc
-                ),
-                getNameLocales(
-                    locales,
-                    (locale) => locale.basis.List.function.combine.next.names
-                ),
-                getListTypeVariableReference()
-            ),
-            Bind.make(
-                getDocLocales(
-                    locales,
-                    (locale) => locale.basis.List.function.combine.index.doc
-                ),
-                getNameLocales(
-                    locales,
-                    (locale) => locale.basis.List.function.combine.index.names
-                ),
+            createBind(
+                locales,
+                (locale) => locale.basis.List.function.find.index,
                 NumberType.make()
             ),
         ],
-        combineTypeVariable.getReference()
+        ListTypeVariable.getReference()
+    );
+
+    const CombineTypeVariable = new TypeVariable(
+        getNameLocales(locales, (locale) => locale.basis.List.out)
+    );
+
+    const ListCombineHOFType = FunctionType.make(
+        undefined,
+        [
+            createBind(
+                locales,
+                (locale) => locale.basis.List.function.combine.combination,
+                CombineTypeVariable.getReference()
+            ),
+            createBind(
+                locales,
+                (locale) => locale.basis.List.function.combine.next,
+                ListTypeVariable.getReference()
+            ),
+            createBind(
+                locales,
+                (locale) => locale.basis.List.function.combine.index,
+                NumberType.make()
+            ),
+        ],
+        CombineTypeVariable.getReference()
     );
 
     const addInputNames = getNameLocales(
@@ -287,10 +233,10 @@ export default function bootstrapList(locales: Locale[]) {
                                     locale.basis.List.function.add.inputs[0].doc
                             ),
                             addInputNames,
-                            getListTypeVariableReference()
+                            ListTypeVariable.getReference()
                         ),
                     ],
-                    ListType.make(getListTypeVariableReference()),
+                    ListType.make(ListTypeVariable.getReference()),
                     (requestor, evaluation) => {
                         const list = evaluation.getClosure();
                         const value = evaluation.resolve(addInputNames);
@@ -331,10 +277,10 @@ export default function bootstrapList(locales: Locale[]) {
                                     t.basis.List.function.replace.inputs[1].doc
                             ),
                             replaceValueNames,
-                            getListTypeVariableReference()
+                            ListTypeVariable.getReference()
                         ),
                     ],
-                    ListType.make(getListTypeVariableReference()),
+                    ListType.make(ListTypeVariable.getReference()),
                     (requestor, evaluation) => {
                         const list = evaluation.getClosure();
                         const index = evaluation.resolve(replaceIndexNames);
@@ -371,10 +317,10 @@ export default function bootstrapList(locales: Locale[]) {
                                     t.basis.List.function.append.inputs[0].doc
                             ),
                             addInputNames,
-                            ListType.make(getListTypeVariableReference())
+                            ListType.make(ListTypeVariable.getReference())
                         ),
                     ],
-                    ListType.make(getListTypeVariableReference()),
+                    ListType.make(ListTypeVariable.getReference()),
                     (requestor, evaluation) => {
                         const list = evaluation.getClosure();
                         const value = evaluation.resolve(addInputNames);
@@ -428,7 +374,7 @@ export default function bootstrapList(locales: Locale[]) {
                     ),
                     undefined,
                     [],
-                    getListTypeVariableReference(),
+                    ListTypeVariable.getReference(),
                     (requestor, evaluation) => {
                         const list = evaluation.getClosure();
                         if (list instanceof List) {
@@ -463,7 +409,7 @@ export default function bootstrapList(locales: Locale[]) {
                     undefined,
                     [],
                     UnionType.make(
-                        getListTypeVariableReference(),
+                        ListTypeVariable.getReference(),
                         NoneType.None
                     ),
                     (requestor, evaluation) => {
@@ -496,7 +442,7 @@ export default function bootstrapList(locales: Locale[]) {
                                     locale.basis.List.function.has.inputs[0].doc
                             ),
                             hasInputNames,
-                            getListTypeVariableReference()
+                            ListTypeVariable.getReference()
                         ),
                     ],
                     BooleanType.make(),
@@ -583,7 +529,7 @@ export default function bootstrapList(locales: Locale[]) {
                             NoneLiteral.make()
                         ),
                     ],
-                    getListTypeVariableReference(),
+                    ListTypeVariable.getReference(),
                     (requestor, evaluation) => {
                         requestor;
                         const list = evaluation.getClosure();
@@ -624,7 +570,7 @@ export default function bootstrapList(locales: Locale[]) {
                     ),
                     undefined,
                     [],
-                    getListTypeVariableReference(),
+                    ListTypeVariable.getReference(),
                     (requestor, evaluation) => {
                         requestor;
                         const list = evaluation.getClosure();
@@ -648,7 +594,7 @@ export default function bootstrapList(locales: Locale[]) {
                     ),
                     undefined,
                     [],
-                    ListType.make(getListTypeVariableReference()),
+                    ListType.make(ListTypeVariable.getReference()),
                     (requestor, evaluation) => {
                         const list: Value | Evaluation | undefined =
                             evaluation.getClosure();
@@ -673,7 +619,7 @@ export default function bootstrapList(locales: Locale[]) {
                     ),
                     undefined,
                     [],
-                    ListType.make(getListTypeVariableReference()),
+                    ListType.make(ListTypeVariable.getReference()),
                     (requestor, evaluation) => {
                         const list = evaluation.getClosure();
                         if (list instanceof List)
@@ -705,10 +651,10 @@ export default function bootstrapList(locales: Locale[]) {
                                         .doc
                             ),
                             sansInputNames,
-                            getListTypeVariableReference()
+                            ListTypeVariable.getReference()
                         ),
                     ],
-                    ListType.make(getListTypeVariableReference()),
+                    ListType.make(ListTypeVariable.getReference()),
                     (requestor, evaluation) => {
                         const list = evaluation.getClosure();
                         const value = evaluation.resolve(sansInputNames);
@@ -740,10 +686,10 @@ export default function bootstrapList(locales: Locale[]) {
                                     t.basis.List.function.sansAll.inputs[0].doc
                             ),
                             sansAllInputNames,
-                            getListTypeVariableReference()
+                            ListTypeVariable.getReference()
                         ),
                     ],
-                    ListType.make(getListTypeVariableReference()),
+                    ListType.make(ListTypeVariable.getReference()),
                     (requestor, evaluation) => {
                         const list = evaluation.getClosure();
                         const value = evaluation.resolve(sansAllInputNames);
@@ -768,7 +714,7 @@ export default function bootstrapList(locales: Locale[]) {
                     ),
                     undefined,
                     [],
-                    ListType.make(getListTypeVariableReference()),
+                    ListType.make(ListTypeVariable.getReference()),
                     (requestor, evaluation) => {
                         const list = evaluation.getClosure();
                         if (list instanceof List)
@@ -802,8 +748,9 @@ export default function bootstrapList(locales: Locale[]) {
                             ListType.make()
                         ),
                     ],
-                    new BasisExpression(
+                    new InternalExpression(
                         BooleanType.make(),
+                        [],
                         (requestor, evaluation) => {
                             const list = evaluation.getClosure();
                             const value = evaluation.resolve(equalsInputNames);
@@ -846,8 +793,9 @@ export default function bootstrapList(locales: Locale[]) {
                             ListType.make()
                         ),
                     ],
-                    new BasisExpression(
+                    new InternalExpression(
                         BooleanType.make(),
+                        [],
                         (requestor, evaluation) => {
                             const list = evaluation.getClosure();
                             const value =
@@ -878,26 +826,55 @@ export default function bootstrapList(locales: Locale[]) {
                         locales,
                         (locale) => locale.basis.List.function.translate.names
                     ),
-                    TypeVariables.make([translateTypeVariable]),
+                    TypeVariables.make([TranslateTypeVariable]),
                     [
-                        Bind.make(
-                            getDocLocales(
-                                locales,
-                                (t) =>
-                                    t.basis.List.function.translate.inputs[0]
-                                        .doc
-                            ),
-                            getNameLocales(
-                                locales,
-                                (t) =>
-                                    t.basis.List.function.translate.inputs[0]
-                                        .names
-                            ),
-                            listTranslateHOFType
+                        createBind(
+                            locales,
+                            (t) => t.basis.List.function.translate.inputs[0],
+                            ListTranslateHOFType
                         ),
                     ],
-                    new HOFListTranslate(listTranslateHOFType),
-                    ListType.make(translateTypeVariable.getReference())
+                    new Iteration<{
+                        index: number;
+                        list: List;
+                        translated: Value[];
+                    }>(
+                        ListTranslateHOFType,
+                        // Start with an index of one, the list we're translating, and an empty translated list.
+                        (evaluator) => {
+                            return {
+                                index: 1,
+                                list: evaluator.getCurrentClosure() as List,
+                                translated: [],
+                            };
+                        },
+                        // If we're past the end, stop. Otherwise, evaluate the translator function on the next value.
+                        (evaluator, info, expr) =>
+                            info.index > info.list.values.length
+                                ? false
+                                : expr.evaluateFunctionInput(
+                                      evaluator,
+                                      0,
+                                      ListTranslateHOFType,
+                                      [
+                                          info.list.get(info.index),
+                                          new Number(expr, info.index),
+                                      ]
+                                  ),
+                        // Save the translated value and increment the index.
+                        (evaluator, info, expression) => {
+                            // Get the translated value.
+                            info.translated.push(
+                                evaluator.popValue(expression)
+                            );
+                            info.index = info.index + 1;
+                            return undefined;
+                        },
+                        // Create the translated list.
+                        (evaluator, info, expression) =>
+                            new List(expression, info.translated)
+                    ),
+                    ListType.make(TranslateTypeVariable.getReference())
                 ),
                 FunctionDefinition.make(
                     getDocLocales(
@@ -910,22 +887,58 @@ export default function bootstrapList(locales: Locale[]) {
                     ),
                     undefined,
                     [
-                        Bind.make(
-                            getDocLocales(
-                                locales,
-                                (t) =>
-                                    t.basis.List.function.filter.inputs[0].doc
-                            ),
-                            getNameLocales(
-                                locales,
-                                (t) =>
-                                    t.basis.List.function.filter.inputs[0].names
-                            ),
+                        createBind(
+                            locales,
+                            (t) => t.basis.List.function.filter.inputs[0],
                             listFilterHOFType
                         ),
                     ],
-                    new HOFListFilter(listFilterHOFType),
-                    ListType.make(getListTypeVariableReference())
+                    new Iteration<{
+                        index: number;
+                        list: List;
+                        filtered: Value[];
+                    }>(
+                        ListTranslateHOFType,
+                        // Start with an index of one, the list we're translating, and an empty translated list.
+                        (evaluator) => {
+                            return {
+                                index: 1,
+                                list: evaluator.getCurrentClosure() as List,
+                                filtered: [],
+                            };
+                        },
+                        // If we're past the end, stop. Otherwise, evaluate the translator function on the next value.
+                        (evaluator, info, expr) =>
+                            info.index > info.list.values.length
+                                ? false
+                                : expr.evaluateFunctionInput(
+                                      evaluator,
+                                      0,
+                                      ListTranslateHOFType,
+                                      [
+                                          info.list.get(info.index),
+                                          new Number(expr, info.index),
+                                      ]
+                                  ),
+                        // Save the translated value and increment the index.
+                        (evaluator, info, expression) => {
+                            const include = evaluator.popValue(expression);
+                            if (!(include instanceof Bool))
+                                return evaluator.getValueOrTypeException(
+                                    expression,
+                                    BooleanType.make(),
+                                    include
+                                );
+                            if (include.bool)
+                                info.filtered.push(info.list.get(info.index));
+                            info.index = info.index + 1;
+                            return undefined;
+                        },
+                        // Create the translated list.
+                        (evaluator, info, expression) =>
+                            new List(expression, info.filtered)
+                    ),
+                    ListType.make(ListTypeVariable.getReference())
                 ),
                 FunctionDefinition.make(
                     getDocLocales(
@@ -938,20 +951,60 @@ export default function bootstrapList(locales: Locale[]) {
                     ),
                     undefined,
                     [
-                        Bind.make(
-                            getDocLocales(
-                                locales,
-                                (locale) =>
-                                    locale.basis.List.function.all.inputs[0].doc
-                            ),
-                            getNameLocales(
-                                locales,
-                                (t) => t.basis.List.function.all.inputs[0].names
-                            ),
+                        createBind(
+                            locales,
+                            (t) => t.basis.List.function.all.inputs[0],
                             listAllHOFType
                         ),
                     ],
-                    new HOFListAll(listAllHOFType),
+                    new Iteration<{
+                        index: number;
+                        list: List;
+                        matches: boolean;
+                    }>(
+                        BooleanType.make(),
+                        // Start with an index of one, the list we're checking.
+                        (evaluator) => {
+                            return {
+                                index: 1,
+                                list: evaluator.getCurrentClosure() as List,
+                                matches: true,
+                            };
+                        },
+                        // If we're past the end, stop. Otherwise, check the next value.
+                        (evaluator, info, expr) =>
+                            info.index > info.list.values.length
+                                ? false
+                                : expr.evaluateFunctionInput(
+                                      evaluator,
+                                      0,
+                                      listAllHOFType,
+                                      [
+                                          info.list.get(info.index),
+                                          new Number(expr, info.index),
+                                      ]
+                                  ),
+                        // If the value doesn't match, return false. Otherwise, loop back.
+                        (evaluator, info, expression) => {
+                            const matches = evaluator.popValue(expression);
+                            if (!(matches instanceof Bool))
+                                return evaluator.getValueOrTypeException(
+                                    expression,
+                                    BooleanType.make(),
+                                    matches
+                                );
+                            if (!matches.bool) {
+                                info.matches = false;
+                                return false;
+                            } else {
+                                info.index = info.index + 1;
+                                return undefined;
+                            }
+                        },
+                        // Create the translated list.
+                        (evaluator, info, expression) =>
+                            new Bool(expression, info.matches)
+                    ),
                     BooleanType.make()
                 ),
                 FunctionDefinition.make(
@@ -965,21 +1018,57 @@ export default function bootstrapList(locales: Locale[]) {
                     ),
                     undefined,
                     [
-                        Bind.make(
-                            getDocLocales(
-                                locales,
-                                (t) => t.basis.List.function.until.inputs[0].doc
-                            ),
-                            getNameLocales(
-                                locales,
-                                (t) =>
-                                    t.basis.List.function.until.inputs[0].names
-                            ),
+                        createBind(
+                            locales,
+                            (t) => t.basis.List.function.until.inputs[0],
                             listUntilHOFType
                         ),
                     ],
-                    new OFListUntil(listUntilHOFType),
-                    ListType.make(getListTypeVariableReference())
+                    new Iteration<{
+                        index: number;
+                        list: List;
+                    }>(
+                        ListType.make(ListTypeVariable.getReference()),
+                        // Start with an index of one and the list we're truncating.
+                        (evaluator) => {
+                            return {
+                                index: 1,
+                                list: evaluator.getCurrentClosure() as List,
+                            };
+                        },
+                        // If we're past the end, stop. Otherwise, evaluate the translator function on the next value.
+                        (evaluator, info, expr) =>
+                            info.index > info.list.values.length
+                                ? false
+                                : expr.evaluateFunctionInput(
+                                      evaluator,
+                                      0,
+                                      listUntilHOFType,
+                                      [
+                                          info.list.get(info.index),
+                                          new Number(expr, info.index),
+                                      ]
+                                  ),
+                        // Save the translated value and increment the index.
+                        (evaluator, info, expression) => {
+                            const matches = evaluator.popValue(expression);
+                            if (!(matches instanceof Bool))
+                                return evaluator.getValueOrTypeException(
+                                    expression,
+                                    BooleanType.make(),
+                                    matches
+                                );
+                            if (!matches.bool) return false;
+                            else {
+                                info.index = info.index + 1;
+                                return undefined;
+                            }
+                        },
+                        // Create the translated list.
+                        (evaluator, info, expression) =>
+                            info.list.subsequence(expression, 1, info.index + 1)
+                    ),
+                    ListType.make(ListTypeVariable.getReference())
                 ),
                 FunctionDefinition.make(
                     getDocLocales(
@@ -992,24 +1081,58 @@ export default function bootstrapList(locales: Locale[]) {
                     ),
                     undefined,
                     [
-                        Bind.make(
-                            getDocLocales(
-                                locales,
-                                (locale) =>
-                                    locale.basis.List.function.find.inputs[0]
-                                        .doc
-                            ),
-                            getNameLocales(
-                                locales,
-                                (t) =>
-                                    t.basis.List.function.find.inputs[0].names
-                            ),
+                        createBind(
+                            locales,
+                            (t) => t.basis.List.function.find.inputs[0],
                             listFindHOFType
                         ),
                     ],
-                    new HOFListFind(listFindHOFType),
+                    new Iteration<{
+                        index: number;
+                        list: List;
+                    }>(
+                        ListTypeVariable.getReference(),
+                        // Start with an index of one and the list we're searching.
+                        (evaluator) => {
+                            return {
+                                index: 1,
+                                list: evaluator.getCurrentClosure() as List,
+                            };
+                        },
+                        // If we're past the end, stop. Otherwise, evaluate the translator function on the next value.
+                        (evaluator, info, expr) =>
+                            info.index > info.list.values.length
+                                ? false
+                                : expr.evaluateFunctionInput(
+                                      evaluator,
+                                      0,
+                                      listUntilHOFType,
+                                      [
+                                          info.list.get(info.index),
+                                          new Number(expr, info.index),
+                                      ]
+                                  ),
+                        // Save the translated value and increment the index.
+                        (evaluator, info, expression) => {
+                            const matches = evaluator.popValue(expression);
+                            if (!(matches instanceof Bool))
+                                return evaluator.getValueOrTypeException(
+                                    expression,
+                                    BooleanType.make(),
+                                    matches
+                                );
+                            if (matches.bool) return false;
+                            else {
+                                info.index = info.index + 1;
+                                return undefined;
+                            }
+                        },
+                        // Create the translated list.
+                        (evaluator, info, expression) =>
+                            info.list.get(info.index)
+                    ),
                     UnionType.make(
-                        getListTypeVariableReference(),
+                        ListTypeVariable.getReference(),
                         NoneType.None
                     )
                 ),
@@ -1022,38 +1145,64 @@ export default function bootstrapList(locales: Locale[]) {
                         locales,
                         (locale) => locale.basis.List.function.combine.names
                     ),
-                    TypeVariables.make([combineTypeVariable]),
+                    TypeVariables.make([CombineTypeVariable]),
                     [
-                        Bind.make(
-                            getDocLocales(
-                                locales,
-                                (t) =>
-                                    t.basis.List.function.combine.inputs[0].doc
-                            ),
-                            getNameLocales(
-                                locales,
-                                (t) =>
-                                    t.basis.List.function.combine.inputs[0]
-                                        .names
-                            )
+                        createBind(
+                            locales,
+                            (t) => t.basis.List.function.combine.inputs[0]
                         ),
-                        Bind.make(
-                            getDocLocales(
-                                locales,
-                                (t) =>
-                                    t.basis.List.function.combine.inputs[1].doc
-                            ),
-                            getNameLocales(
-                                locales,
-                                (t) =>
-                                    t.basis.List.function.combine.inputs[1]
-                                        .names
-                            ),
-                            listCombineHOFType
+                        createBind(
+                            locales,
+                            (t) => t.basis.List.function.combine.inputs[1],
+                            ListCombineHOFType
                         ),
                     ],
-                    new HOFListCombine(listCombineHOFType),
-                    combineTypeVariable.getReference()
+                    new Iteration<{
+                        index: number;
+                        list: List;
+                        combo: Value;
+                    }>(
+                        CombineTypeVariable.getReference(),
+                        // Start with an index of one and the list we're searching.
+                        (evaluator, expression) => {
+                            const initial = expression.getInput(0, evaluator);
+                            if (initial === undefined)
+                                return new ValueException(
+                                    evaluator,
+                                    expression
+                                );
+                            return {
+                                index: 1,
+                                list: evaluator.getCurrentClosure() as List,
+                                combo: initial,
+                            };
+                        },
+                        // If we're past the end, stop. Otherwise, create the new combo with the combiner.
+                        (evaluator, info, expr) =>
+                            info.index > info.list.values.length
+                                ? false
+                                : expr.evaluateFunctionInput(
+                                      evaluator,
+                                      1,
+                                      listUntilHOFType,
+                                      [
+                                          info.combo,
+                                          info.list.get(info.index),
+                                          new Number(expr, info.index),
+                                      ]
+                                  ),
+                        // Save the translated value and increment the index.
+                        (evaluator, info, expression) => {
+                            const combo = evaluator.popValue(expression);
+                            info.combo = combo;
+                            info.index = info.index + 1;
+                            return undefined;
+                        },
+                        // Create the translated list.
+                        (evaluator, info, expression) => info.combo
+                    ),
+                    // new HOFListCombine(listCombineHOFType),
+                    CombineTypeVariable.getReference()
                 ),
                 createBasisConversion(
                     getDocLocales(

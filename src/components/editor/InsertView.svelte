@@ -7,6 +7,4 @@
     export let node: Insert;
 </script>
 
-<NodeView node={node.table} /><NodeView node={node.insert} /><NodeView
-    node={node.row}
-/>
+<NodeView node={node.table} /><NodeView node={node.row} />
