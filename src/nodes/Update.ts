@@ -4,7 +4,7 @@ import Row from './Row';
 import type Conflict from '@conflicts/Conflict';
 import UnknownColumn from '@conflicts/UnknownColumn';
 import IncompatibleCellType from '@conflicts/IncompatibleCellType';
-import ExpectedUpdateBind from '@conflicts/ExpectedUpdateBind';
+import ExpectedColumnBind from '@conflicts/ExpectedColumnBind';
 import type Type from './Type';
 import Bind from '@nodes/Bind';
 import TableType from './TableType';
@@ -115,7 +115,7 @@ export default class Update extends Expression {
                     cell.names.names.length === 1
                 )
             )
-                conflicts.push(new ExpectedUpdateBind(this, cell));
+                conflicts.push(new ExpectedColumnBind(this, cell));
             else if (tableType instanceof TableType) {
                 const alias =
                     cell instanceof Bind && cell.names.names.length > 0

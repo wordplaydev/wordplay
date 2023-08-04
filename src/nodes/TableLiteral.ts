@@ -2,7 +2,7 @@ import Row, { getRowFromValues } from './Row';
 import type Conflict from '@conflicts/Conflict';
 import Expression from './Expression';
 import TableType from './TableType';
-import type Bind from './Bind';
+import Bind from './Bind';
 import type Node from './Node';
 import type Evaluator from '@runtime/Evaluator';
 import type Value from '@runtime/Value';
@@ -12,13 +12,16 @@ import Finish from '@runtime/Finish';
 import Start from '@runtime/Start';
 import type Context from './Context';
 import type TypeSet from './TypeSet';
-import { analyzeRow } from './util';
 import { node, type Grammar, type Replacement, list } from './Node';
 import type Locale from '@locale/Locale';
 import Glyphs from '../lore/Glyphs';
 import Purpose from '../concepts/Purpose';
 import concretize from '../locale/concretize';
 import Structure from '../runtime/Structure';
+import MissingCell from '../conflicts/MissingCell';
+import IncompatibleCellType from '../conflicts/IncompatibleCellType';
+import ExtraCell from '../conflicts/ExtraCell';
+import UnexpectedColumnBind from '../conflicts/UnexpectedColumnBind';
 
 export default class TableLiteral extends Expression {
     readonly type: TableType;
@@ -54,8 +57,36 @@ export default class TableLiteral extends Expression {
         // Validate each row.
         const type = this.getType(context);
         if (type instanceof TableType) {
-            for (const row of this.rows)
-                conflicts = conflicts.concat(analyzeRow(type, row, context));
+            for (const row of this.rows) {
+                // Copy the cells
+                const cells = row.cells.slice();
+                for (const column of type.columns) {
+                    const cell = cells.shift();
+                    // No cell?
+                    if (cell === undefined)
+                        conflicts.push(new MissingCell(row, type, column));
+                    // Unexpected bind?
+                    else if (cell instanceof Bind)
+                        conflicts.push(new UnexpectedColumnBind(this, cell));
+                    // Incompatible cell?
+                    else {
+                        const expected = column.getType(context);
+                        const given = cell.getType(context);
+                        if (!expected.accepts(given, context))
+                            conflicts.push(
+                                new IncompatibleCellType(
+                                    type,
+                                    cell,
+                                    expected,
+                                    given
+                                )
+                            );
+                    }
+                }
+                // Extra cells?
+                for (const extra of cells)
+                    conflicts.push(new ExtraCell(extra, type));
+            }
         }
 
         return conflicts;

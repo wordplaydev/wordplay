@@ -2,7 +2,7 @@ import { test, expect } from 'vitest';
 import { testConflict } from '@conflicts/TestUtilities';
 import UnknownColumn from '@conflicts/UnknownColumn';
 import IncompatibleCellType from '@conflicts/IncompatibleCellType';
-import ExpectedUpdateBind from '@conflicts/ExpectedUpdateBind';
+import ExpectedColumnBind from '@conflicts/ExpectedColumnBind';
 import Update from './Update';
 import IncompatibleInput from '../conflicts/IncompatibleInput';
 import Evaluator from '../runtime/Evaluator';
@@ -19,13 +19,13 @@ test.each([
         'table: ⎡one•#⎦\ntable ⎡: one: 1 ⎦ one < 1',
         'table: ⎡one•#⎦\ntable ⎡: one ⎦ one < 1',
         Update,
-        ExpectedUpdateBind,
+        ExpectedColumnBind,
     ],
     [
         'table: ⎡one•#⎦\ntable ⎡: one: 1 ⎦ one < 1',
         'table: ⎡one•#⎦\ntable ⎡: one ⎦ one < 1',
         Update,
-        ExpectedUpdateBind,
+        ExpectedColumnBind,
     ],
     [
         'table: ⎡one•#⎦\ntable ⎡: one:1 ⎦ one < 1',

@@ -3147,12 +3147,19 @@
                 "conflict": {
                   "additionalProperties": false,
                   "properties": {
+                    "ExtraCell": {
+                      "$ref": "#/definitions/ConflictText",
+                      "description": "$1: Cell"
+                    },
                     "InvalidRow": {
                       "$ref": "#/definitions/InternalConflictText"
                     },
                     "MissingCell": {
                       "$ref": "#/definitions/ConflictText",
                       "description": "$1: Column $2: Row"
+                    },
+                    "UnexpectedColumnBind": {
+                      "$ref": "#/definitions/ConflictText"
                     },
                     "UnknownColumn": {
                       "$ref": "#/definitions/InternalConflictText"
@@ -3161,7 +3168,9 @@
                   "required": [
                     "InvalidRow",
                     "MissingCell",
-                    "UnknownColumn"
+                    "ExtraCell",
+                    "UnknownColumn",
+                    "UnexpectedColumnBind"
                   ],
                   "type": "object"
                 },
@@ -3734,7 +3743,7 @@
                 "conflict": {
                   "additionalProperties": false,
                   "properties": {
-                    "ExpectedUpdateBind": {
+                    "ExpectedColumnBind": {
                       "$ref": "#/definitions/InternalConflictText"
                     },
                     "IncompatibleCellType": {
@@ -3743,7 +3752,7 @@
                     }
                   },
                   "required": [
-                    "ExpectedUpdateBind",
+                    "ExpectedColumnBind",
                     "IncompatibleCellType"
                   ],
                   "type": "object"

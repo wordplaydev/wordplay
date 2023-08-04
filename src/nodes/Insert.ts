@@ -14,7 +14,6 @@ import Start from '@runtime/Start';
 import type Context from './Context';
 import type Definition from './Definition';
 import type TypeSet from './TypeSet';
-import { analyzeRow } from './util';
 import Halt from '@runtime/Halt';
 import Exception from '@runtime/Exception';
 import TypeException from '@runtime/TypeException';
@@ -27,6 +26,10 @@ import IncompatibleInput from '../conflicts/IncompatibleInput';
 import concretize from '../locale/concretize';
 import Purpose from '../concepts/Purpose';
 import Structure from '../runtime/Structure';
+import MissingCell from '../conflicts/MissingCell';
+import IncompatibleCellType from '../conflicts/IncompatibleCellType';
+import UnknownColumn from '../conflicts/UnknownColumn';
+import InvalidRow from '../conflicts/InvalidRow';
 
 export default class Insert extends Expression {
     readonly table: Expression;
@@ -84,8 +87,66 @@ export default class Insert extends Expression {
         if (!(tableType instanceof TableType))
             return [new IncompatibleInput(this, tableType, TableType.make([]))];
 
-        // Check the row for conflicts.
-        conflicts = conflicts.concat(analyzeRow(tableType, this.row, context));
+        // The row must "match" the columns, where match means that all columns without a default get a value.
+        // Rows can either be all unnamed and provide values for every column or they can be selectively named,
+        // but must provide a value for all non-default columns. No other format is allowed.
+        // Additionally, all values must match their column's types.
+        if (this.row.allBinds()) {
+            // Ensure every bind is a valid column.
+            const matchedColumns = [];
+            for (const cell of this.row.cells) {
+                if (cell instanceof Bind) {
+                    const column = tableType.getColumnNamed(cell.getNames()[0]);
+                    if (column === undefined)
+                        conflicts.push(new UnknownColumn(tableType, cell));
+                    else {
+                        matchedColumns.push(column);
+                        const expected = column.getType(context);
+                        const given = cell.getType(context);
+                        if (!expected.accepts(given, context))
+                            conflicts.push(
+                                new IncompatibleCellType(
+                                    tableType,
+                                    cell,
+                                    expected,
+                                    given
+                                )
+                            );
+                    }
+                }
+            }
+            // Ensure all non-default columns were specified.
+            for (const column of tableType.columns) {
+                if (!matchedColumns.includes(column) && !column.hasDefault())
+                    conflicts.push(
+                        new MissingCell(this.row, tableType, column)
+                    );
+            }
+
+            // Ensure there are no extra expressions.
+        } else if (this.row.allExpressions()) {
+            const cells = this.row.cells.slice();
+            for (const column of tableType.columns) {
+                const cell = cells.shift();
+                if (cell === undefined)
+                    conflicts.push(
+                        new MissingCell(this.row, tableType, column)
+                    );
+                else {
+                    const expected = column.getType(context);
+                    const given = cell.getType(context);
+                    if (!expected.accepts(given, context))
+                        conflicts.push(
+                            new IncompatibleCellType(
+                                tableType,
+                                cell,
+                                expected,
+                                given
+                            )
+                        );
+                }
+            }
+        } else conflicts.push(new InvalidRow(this.row));
 
         return conflicts;
     }

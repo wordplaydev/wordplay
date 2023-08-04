@@ -221,12 +221,20 @@
             "emotion": "angry",
             "doc": "$? Row",
             "conflict": {
-                "InvalidRow": "I'm missing one or more columns",
+                "InvalidRow": "Rows either have to be all values or all @Bind.",
                 "MissingCell": {
                     "primary": "I'm missing column $1",
                     "secondary": "I'm required, but $1 didn't provide it"
                 },
-                "UnknownColumn": "I don't know a column by this name"
+                "ExtraCell": {
+                    "primary": "Am I supposed to be here?",
+                    "secondary": "Hey $1, you're not part of this @Table!"
+                },
+                "UnknownColumn": "I don't know a column by this name",
+                "UnexpectedColumnBind": {
+                    "primary": "Am I supposed to be a @Bind?",
+                    "secondary": "Hey, I'm a @Table, I need values, not @Bind."
+                }
             }
         },
         "Token": {
@@ -1091,7 +1099,7 @@
             "start": "evaluate $1 first",
             "finish": "evaluated to a new table with revised rows, $1",
             "conflict": {
-                "ExpectedUpdateBind": "I need a value for every column",
+                "ExpectedColumnBind": "I need a value for every column",
                 "IncompatibleCellType": {
                     "primary": "I needed a $1, but got a $2",
                     "secondary": "I got a $2"
