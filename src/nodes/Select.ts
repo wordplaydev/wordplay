@@ -36,6 +36,7 @@ import Bool from '../runtime/Bool';
 import { SELECT_SYMBOL, TABLE_CLOSE_SYMBOL } from '../parser/Symbols';
 import Symbol from './Symbol';
 import Token from './Token';
+import ExpressionPlaceholder from './ExpressionPlaceholder';
 
 type SelectState = { table: Table; index: number; selected: Structure[] };
 
@@ -86,6 +87,26 @@ export default class Select extends Expression {
                 space: true,
             },
         ];
+    }
+
+    static getPossibleNodes(
+        type: Type | undefined,
+        anchor: Node,
+        selected: boolean,
+        context: Context
+    ) {
+        const anchorType =
+            anchor instanceof Expression ? anchor.getType(context) : undefined;
+        const tableType =
+            anchorType instanceof TableType ? anchorType : undefined;
+        return anchor instanceof Expression && tableType && selected
+            ? [
+                  Select.make(
+                      anchor,
+                      ExpressionPlaceholder.make(BooleanType.make())
+                  ),
+              ]
+            : [];
     }
 
     getPurpose() {
@@ -160,13 +181,18 @@ export default class Select extends Expression {
 
         // For each cell in the select row, find the corresponding column type in the table type.
         // If we can't find one, return unknown.
-        const columnTypes = this.row.cells.map((cell) => {
-            const column =
-                cell instanceof Reference
-                    ? tableType.getColumnNamed(cell.name.text.toString())
-                    : undefined;
-            return column === undefined ? undefined : column;
-        });
+        const columnTypes =
+            this.row.cells.length === 0
+                ? tableType.columns
+                : this.row.cells.map((cell) => {
+                      const column =
+                          cell instanceof Reference
+                              ? tableType.getColumnNamed(
+                                    cell.name.text.toString()
+                                )
+                              : undefined;
+                      return column === undefined ? undefined : column;
+                  });
         if (columnTypes.find((t) => t === undefined))
             return new UnknownNameType(this, undefined, undefined);
 

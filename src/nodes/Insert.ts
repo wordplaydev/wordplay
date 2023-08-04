@@ -33,6 +33,7 @@ import InvalidRow from '../conflicts/InvalidRow';
 import Token from './Token';
 import { INSERT_SYMBOL, TABLE_CLOSE_SYMBOL } from '../parser/Symbols';
 import Symbol from './Symbol';
+import ExpressionPlaceholder from './ExpressionPlaceholder';
 
 export default class Insert extends Expression {
     readonly table: Expression;
@@ -47,12 +48,12 @@ export default class Insert extends Expression {
         this.computeChildren();
     }
 
-    static make(table: Expression) {
+    static make(table: Expression, cells: Expression[] = []) {
         return new Insert(
             table,
             new Row(
                 new Token(INSERT_SYMBOL, Symbol.Insert),
-                [],
+                cells,
                 new Token(TABLE_CLOSE_SYMBOL, Symbol.TableClose)
             )
         );
@@ -72,6 +73,28 @@ export default class Insert extends Expression {
                 space: true,
             },
         ];
+    }
+
+    static getPossibleNodes(
+        type: Type | undefined,
+        anchor: Node,
+        selected: boolean,
+        context: Context
+    ) {
+        const anchorType =
+            anchor instanceof Expression ? anchor.getType(context) : undefined;
+        const tableType =
+            anchorType instanceof TableType ? anchorType : undefined;
+        return anchor instanceof Expression && tableType && selected
+            ? [
+                  Insert.make(
+                      anchor,
+                      tableType.columns.map((c) =>
+                          ExpressionPlaceholder.make(c.getType(context))
+                      )
+                  ),
+              ]
+            : [];
     }
 
     getPurpose() {

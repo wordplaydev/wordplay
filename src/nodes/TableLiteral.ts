@@ -22,6 +22,7 @@ import MissingCell from '../conflicts/MissingCell';
 import IncompatibleCellType from '../conflicts/IncompatibleCellType';
 import ExtraCell from '../conflicts/ExtraCell';
 import UnexpectedColumnBind from '../conflicts/UnexpectedColumnBind';
+import type Type from './Type';
 
 export default class TableLiteral extends Expression {
     readonly type: TableType;
@@ -49,6 +50,15 @@ export default class TableLiteral extends Expression {
             },
             { name: 'rows', kind: list(node(Row)) },
         ];
+    }
+
+    static getPossibleNodes(
+        type: Type | undefined,
+        anchor: Node,
+        selected: boolean,
+        context: Context
+    ) {
+        return type === undefined && !selected ? [TableLiteral.make()] : [];
     }
 
     getPurpose() {

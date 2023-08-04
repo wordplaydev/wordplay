@@ -66,6 +66,11 @@ import Dimension from '../nodes/Dimension';
 import UnparsableExpression from '../nodes/UnparsableExpression';
 import { WildcardSymbols } from '../nodes/Symbol';
 import IsLocale from '../nodes/IsLocale';
+import TableLiteral from '../nodes/TableLiteral';
+import Insert from '../nodes/Insert';
+import Select from '../nodes/Select';
+import Delete from '../nodes/Delete';
+import Update from '../nodes/Update';
 
 /** Given a project and a caret, generate a set of transforms that can be applied at the location. */
 export function getEditsAt(project: Project, caret: Caret): Revision[] {
@@ -469,9 +474,10 @@ const PossibleNodes = [
     NoneLiteral,
     ListLiteral,
     ListAccess,
-    MapLiteral,
     KeyValue,
     SetLiteral,
+    MapLiteral,
+    TableLiteral,
     ExpressionPlaceholder,
     // Binds and blocks
     Bind,
@@ -485,6 +491,10 @@ const PossibleNodes = [
     UnaryEvaluate,
     Evaluate,
     Convert,
+    Insert,
+    Select,
+    Delete,
+    Update,
     // Conditions
     Conditional,
     Is,

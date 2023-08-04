@@ -30,6 +30,7 @@ import Evaluation from '../runtime/Evaluation';
 import Bool from '../runtime/Bool';
 import { getIteration, getIterationResult } from '../basis/Iteration';
 import { DELETE_SYMBOL } from '../parser/Symbols';
+import ExpressionPlaceholder from './ExpressionPlaceholder';
 
 type DeleteState = { index: number; list: Structure[]; table: Table };
 
@@ -63,7 +64,7 @@ export default class Delete extends Expression {
                 kind: node(Expression),
                 label: (translation: Locale) => translation.term.table,
             },
-            { name: 'del', kind: node(Symbol.Delete) },
+            { name: 'del', kind: node(Symbol.Delete), space: true },
             {
                 name: 'query',
                 kind: node(Expression),
@@ -73,6 +74,26 @@ export default class Delete extends Expression {
                 space: true,
             },
         ];
+    }
+
+    static getPossibleNodes(
+        type: Type | undefined,
+        anchor: Node,
+        selected: boolean,
+        context: Context
+    ) {
+        const anchorType =
+            anchor instanceof Expression ? anchor.getType(context) : undefined;
+        const tableType =
+            anchorType instanceof TableType ? anchorType : undefined;
+        return anchor instanceof Expression && tableType && selected
+            ? [
+                  Delete.make(
+                      anchor,
+                      ExpressionPlaceholder.make(BooleanType.make())
+                  ),
+              ]
+            : [];
     }
 
     getPurpose() {

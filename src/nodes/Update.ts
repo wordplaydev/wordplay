@@ -38,6 +38,7 @@ import type Value from '../runtime/Value';
 import Token from './Token';
 import { TABLE_CLOSE_SYMBOL, UPDATE_SYMBOL } from '../parser/Symbols';
 import Symbol from './Symbol';
+import ExpressionPlaceholder from './ExpressionPlaceholder';
 
 type UpdateState = { table: Table; index: number; rows: Structure[] };
 
@@ -88,6 +89,26 @@ export default class Update extends Expression {
                 space: true,
             },
         ];
+    }
+
+    static getPossibleNodes(
+        type: Type | undefined,
+        anchor: Node,
+        selected: boolean,
+        context: Context
+    ) {
+        const anchorType =
+            anchor instanceof Expression ? anchor.getType(context) : undefined;
+        const tableType =
+            anchorType instanceof TableType ? anchorType : undefined;
+        return anchor instanceof Expression && tableType && selected
+            ? [
+                  Update.make(
+                      anchor,
+                      ExpressionPlaceholder.make(BooleanType.make())
+                  ),
+              ]
+            : [];
     }
 
     clone(replace?: Replacement) {
