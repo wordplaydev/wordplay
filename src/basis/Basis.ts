@@ -1,5 +1,5 @@
 import FunctionDefinition from '@nodes/FunctionDefinition';
-import BasisExpression from './BasisExpression';
+import InternalExpression from './InternalExpression';
 import type Context from '@nodes/Context';
 import type Type from '@nodes/Type';
 import ConversionDefinition from '@nodes/ConversionDefinition';
@@ -164,7 +164,7 @@ export function createBasisFunction(
         names,
         typeVars,
         inputs,
-        new BasisExpression(output, evaluator),
+        new InternalExpression(output, [], evaluator),
         output
     );
 }
@@ -182,22 +182,26 @@ export function createBasisConversion<ValueType extends Value>(
         docs,
         inputType,
         outputTypeString,
-        new BasisExpression(outputTypeString, (requestor, evaluation) => {
-            const val = evaluation.getClosure();
-            if (
-                val instanceof Value &&
-                inputType.accepts(
-                    val.getType(evaluation.getContext()),
-                    evaluation.getContext()
+        new InternalExpression(
+            outputTypeString,
+            [],
+            (requestor, evaluation) => {
+                const val = evaluation.getClosure();
+                if (
+                    val instanceof Value &&
+                    inputType.accepts(
+                        val.getType(evaluation.getContext()),
+                        evaluation.getContext()
+                    )
                 )
-            )
-                return convert(requestor, val as ValueType);
-            else
-                return evaluation.getValueOrTypeException(
-                    requestor,
-                    inputType,
-                    val
-                );
-        })
+                    return convert(requestor, val as ValueType);
+                else
+                    return evaluation.getValueOrTypeException(
+                        requestor,
+                        inputType,
+                        val
+                    );
+            }
+        )
     );
 }

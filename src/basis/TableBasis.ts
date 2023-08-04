@@ -4,7 +4,7 @@ import BooleanType from '@nodes/BooleanType';
 import FunctionDefinition from '@nodes/FunctionDefinition';
 import StructureDefinition from '@nodes/StructureDefinition';
 import Bool from '@runtime/Bool';
-import BasisExpression from './BasisExpression';
+import InternalExpression from './InternalExpression';
 import type Docs from '@nodes/Docs';
 import type Names from '@nodes/Names';
 import { getInputLocales as getInputLocales } from '@locale/getInputLocales';
@@ -24,7 +24,7 @@ export default function bootstrapTable(locales: Locale[]) {
         names: Names,
         inputs: { docs: Docs; names: Names }[],
         types: Type[],
-        expression: BasisExpression
+        expression: InternalExpression
     ) {
         return FunctionDefinition.make(
             docs,
@@ -60,8 +60,9 @@ export default function bootstrapTable(locales: Locale[]) {
                         (locale) => locale.basis.Table.function.equals.inputs
                     ),
                     [TableType.make()],
-                    new BasisExpression(
+                    new InternalExpression(
                         BooleanType.make(),
+                        [],
                         (requestor, evaluation) =>
                             binaryOp(
                                 requestor,
@@ -85,8 +86,9 @@ export default function bootstrapTable(locales: Locale[]) {
                         (locale) => locale.basis.Table.function.notequal.inputs
                     ),
                     [TableType.make()],
-                    new BasisExpression(
+                    new InternalExpression(
                         BooleanType.make(),
+                        [],
                         (requestor, evaluation) =>
                             binaryOp(
                                 requestor,

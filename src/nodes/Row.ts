@@ -5,7 +5,7 @@ import Expression from './Expression';
 import type Locale from '@locale/Locale';
 import Glyphs from '../lore/Glyphs';
 import Purpose from '../concepts/Purpose';
-import Node, { list, node } from './Node';
+import Node, { any, list, node } from './Node';
 import Symbol from './Symbol';
 import Evaluation, { type EvaluationNode } from '../runtime/Evaluation';
 import type Evaluator from '../runtime/Evaluator';
@@ -32,7 +32,16 @@ export default class Row extends Node {
 
     getGrammar(): Grammar {
         return [
-            { name: 'open', kind: node(Symbol.TableOpen) },
+            {
+                name: 'open',
+                kind: any(
+                    node(Symbol.TableOpen),
+                    node(Symbol.Select),
+                    node(Symbol.Insert),
+                    node(Symbol.Delete),
+                    node(Symbol.Update)
+                ),
+            },
             { name: 'cells', kind: list(node(Expression)), space: true },
             { name: 'close', kind: node(Symbol.TableClose), space: true },
         ];

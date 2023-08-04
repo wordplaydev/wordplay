@@ -41,24 +41,12 @@ export default class Select extends Expression {
     readonly row: Row;
     readonly query: Expression;
 
-    /** A derived function based on the query, used to evaluate each row of the table. */
-    readonly fun: FunctionDefinition;
-
     constructor(table: Expression, row: Row, query: Expression) {
         super();
 
         this.table = table;
         this.row = row;
         this.query = query;
-
-        this.fun = FunctionDefinition.make(
-            undefined,
-            Names.make([]),
-            undefined,
-            [],
-            this.query,
-            BooleanType.make()
-        );
 
         this.computeChildren();
     }
@@ -185,6 +173,16 @@ export default class Select extends Expression {
     }
 
     compile(context: Context): Step[] {
+        /** A derived function based on the query, used to evaluate each row of the table. */
+        const query = FunctionDefinition.make(
+            undefined,
+            Names.make([]),
+            undefined,
+            [],
+            this.query,
+            BooleanType.make()
+        );
+
         // Evaluate the table expression then this.
         return [
             new Start(this),
@@ -212,7 +210,7 @@ export default class Select extends Expression {
                             new Evaluation(
                                 evaluator,
                                 this,
-                                this.fun,
+                                query,
                                 info.table.rows[info.index]
                             )
                         );

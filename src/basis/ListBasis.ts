@@ -12,7 +12,7 @@ import Bool from '@runtime/Bool';
 import List from '@runtime/List';
 import Text from '@runtime/Text';
 import { createBasisConversion, createBasisFunction } from './Basis';
-import BasisExpression from './BasisExpression';
+import InternalExpression from './InternalExpression';
 import Set from '@runtime/Set';
 import StructureDefinition from '@nodes/StructureDefinition';
 import Block, { BlockKind } from '@nodes/Block';
@@ -748,8 +748,9 @@ export default function bootstrapList(locales: Locale[]) {
                             ListType.make()
                         ),
                     ],
-                    new BasisExpression(
+                    new InternalExpression(
                         BooleanType.make(),
+                        [],
                         (requestor, evaluation) => {
                             const list = evaluation.getClosure();
                             const value = evaluation.resolve(equalsInputNames);
@@ -792,8 +793,9 @@ export default function bootstrapList(locales: Locale[]) {
                             ListType.make()
                         ),
                     ],
-                    new BasisExpression(
+                    new InternalExpression(
                         BooleanType.make(),
+                        [],
                         (requestor, evaluation) => {
                             const list = evaluation.getClosure();
                             const value =

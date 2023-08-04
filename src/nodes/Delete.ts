@@ -37,24 +37,12 @@ export default class Delete extends Expression {
     readonly del: Token;
     readonly query: Expression;
 
-    /** A derived function based on the query, used to evaluate each row of the table. */
-    readonly fun: FunctionDefinition;
-
     constructor(table: Expression, del: Token, query: Expression) {
         super();
 
         this.table = table;
         this.del = del;
         this.query = query;
-
-        this.fun = FunctionDefinition.make(
-            undefined,
-            Names.make([]),
-            undefined,
-            [],
-            this.query,
-            BooleanType.make()
-        );
 
         this.computeChildren();
     }
@@ -138,6 +126,16 @@ export default class Delete extends Expression {
     }
 
     compile(context: Context): Step[] {
+        /** A derived function based on the query, used to evaluate each row of the table. */
+        const query = FunctionDefinition.make(
+            undefined,
+            Names.make([]),
+            undefined,
+            [],
+            this.query,
+            BooleanType.make()
+        );
+
         return [
             new Start(this),
             ...this.table.compile(context),
@@ -162,7 +160,7 @@ export default class Delete extends Expression {
                             new Evaluation(
                                 evaluator,
                                 this,
-                                this.fun,
+                                query,
                                 info.table.rows[info.index]
                             )
                         );
