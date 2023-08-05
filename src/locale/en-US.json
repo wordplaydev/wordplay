@@ -2268,11 +2268,11 @@
                         }
                     ]
                 },
-                "sort": {
+                "sorted": {
                     "doc": "$?",
                     "names": "sorted",
                     "inputs": [{ "doc": "$?", "names": "sequencer" }],
-                    "value": { "doc": "$?", "names": "value" }
+                    "sequencer": [{ "doc": "$?", "names": "value" }]
                 }
             },
             "conversion": {

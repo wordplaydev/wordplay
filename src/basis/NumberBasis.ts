@@ -14,17 +14,15 @@ import Number from '@runtime/Number';
 import Text from '@runtime/Text';
 import TypeException from '@runtime/TypeException';
 import type Value from '@runtime/Value';
-import { createBasisConversion } from './Basis';
+import { createBasisConversion, createBasisFunction } from './Basis';
 import InternalExpression from './InternalExpression';
 import type Evaluation from '@runtime/Evaluation';
 import List from '@runtime/List';
-import type Docs from '@nodes/Docs';
-import type Names from '@nodes/Names';
-import { getFunctionLocales as getFunctionLocales } from '@locale/getFunctionLocales';
 import { getDocLocales } from '@locale/getDocLocales';
 import { getNameLocales } from '@locale/getNameLocales';
 import type Expression from '../nodes/Expression';
 import type Locale from '../locale/Locale';
+import type { FunctionText } from '../locale/Locale';
 
 export default function bootstrapNumber(locales: Locale[]) {
     const subtractNames = getNameLocales(
@@ -33,11 +31,7 @@ export default function bootstrapNumber(locales: Locale[]) {
     );
 
     function createBinaryOp(
-        translations: {
-            docs: Docs;
-            names: Names;
-            inputs: { docs: Docs; names: Names }[];
-        },
+        text: (locale: Locale) => FunctionText<any>,
         inputType: Type,
         outputType: Type,
         expression: (
@@ -47,17 +41,16 @@ export default function bootstrapNumber(locales: Locale[]) {
         ) => Value | undefined,
         requireEqualUnits: boolean = true
     ) {
-        return FunctionDefinition.make(
-            translations.docs,
-            translations.names,
+        return createBasisFunction(
+            locales,
+            text,
             undefined,
-            translations.inputs.map((i) =>
-                Bind.make(i.docs, i.names, inputType)
-            ),
-            new InternalExpression(outputType, [], (requestor, evaluation) => {
+            [inputType],
+            outputType,
+            (requestor, evaluation) => {
                 const left: Value | Evaluation | undefined =
                     evaluation.getClosure();
-                const right = evaluation.resolve(translations.inputs[0].names);
+                const right = evaluation.getInput(0);
                 // It should be impossible for the left to be a Number, but the type system doesn't know it.
                 if (!(left instanceof Number))
                     return evaluation.getValueOrTypeException(
@@ -88,49 +81,40 @@ export default function bootstrapNumber(locales: Locale[]) {
                         right
                     )
                 );
-            }),
-            outputType
+            }
         );
     }
 
     function createUnaryOp(
-        translations: {
-            docs: Docs;
-            names: Names;
-            inputs: { docs: Docs; names: Names }[];
-        },
+        text: (locale: Locale) => FunctionText<any>,
         outputType: Type,
         expression: (requestor: Expression, left: Number) => Value | undefined
     ) {
-        return FunctionDefinition.make(
-            translations.docs,
-            translations.names,
+        return createBasisFunction(
+            locales,
+            text,
             undefined,
             [],
-            new InternalExpression(
-                NumberType.make(),
-                [],
-                (requestor, evaluation) => {
-                    const left: Value | Evaluation | undefined =
-                        evaluation.getClosure();
-                    // It should be impossible for the left to be a Number, but the type system doesn't know it.
-                    if (!(left instanceof Number))
-                        return evaluation.getValueOrTypeException(
-                            requestor,
-                            NumberType.make(),
-                            left
-                        );
-                    return (
-                        expression(requestor, left) ??
-                        evaluation.getValueOrTypeException(
-                            requestor,
-                            NumberType.make(),
-                            undefined
-                        )
+            outputType,
+            (requestor, evaluation) => {
+                const left: Value | Evaluation | undefined =
+                    evaluation.getClosure();
+                // It should be impossible for the left to be a Number, but the type system doesn't know it.
+                if (!(left instanceof Number))
+                    return evaluation.getValueOrTypeException(
+                        requestor,
+                        NumberType.make(),
+                        left
                     );
-                }
-            ),
-            outputType
+                return (
+                    expression(requestor, left) ??
+                    evaluation.getValueOrTypeException(
+                        requestor,
+                        NumberType.make(),
+                        undefined
+                    )
+                );
+            }
         );
     }
 
@@ -143,10 +127,7 @@ export default function bootstrapNumber(locales: Locale[]) {
         new Block(
             [
                 createBinaryOp(
-                    getFunctionLocales(
-                        locales,
-                        (locale) => locale.basis.Number.function.add
-                    ),
+                    (locale) => locale.basis.Number.function.add,
                     NumberType.make((left) => left),
                     // The output's type should be the left's type
                     NumberType.make((left) => left),
@@ -211,10 +192,7 @@ export default function bootstrapNumber(locales: Locale[]) {
                     NumberType.make((left) => left)
                 ),
                 createBinaryOp(
-                    getFunctionLocales(
-                        locales,
-                        (locale) => locale.basis.Number.function.multiply
-                    ),
+                    (locale) => locale.basis.Number.function.multiply,
                     // The operand's type can be any unitless measurement
                     NumberType.wildcard(),
                     // The output's type is is the unit's product
@@ -225,10 +203,7 @@ export default function bootstrapNumber(locales: Locale[]) {
                     false
                 ),
                 createBinaryOp(
-                    getFunctionLocales(
-                        locales,
-                        (locale) => locale.basis.Number.function.divide
-                    ),
+                    (locale) => locale.basis.Number.function.divide,
                     NumberType.wildcard(),
                     NumberType.make((left, right) =>
                         right ? left.quotient(right) : left
@@ -237,10 +212,7 @@ export default function bootstrapNumber(locales: Locale[]) {
                     false
                 ),
                 createBinaryOp(
-                    getFunctionLocales(
-                        locales,
-                        (locale) => locale.basis.Number.function.remainder
-                    ),
+                    (locale) => locale.basis.Number.function.remainder,
                     NumberType.wildcard(),
                     NumberType.make((left) => left),
                     (requestor, left, right) =>
@@ -248,42 +220,27 @@ export default function bootstrapNumber(locales: Locale[]) {
                     false
                 ),
                 createUnaryOp(
-                    getFunctionLocales(
-                        locales,
-                        (locale) => locale.basis.Number.function.roundDown
-                    ),
+                    (locale) => locale.basis.Number.function.roundDown,
                     NumberType.wildcard(),
                     (requestor, left) => left.roundDown(requestor)
                 ),
                 createUnaryOp(
-                    getFunctionLocales(
-                        locales,
-                        (locale) => locale.basis.Number.function.roundUp
-                    ),
+                    (locale) => locale.basis.Number.function.roundUp,
                     NumberType.wildcard(),
                     (requestor, left) => left.roundUp(requestor)
                 ),
                 createUnaryOp(
-                    getFunctionLocales(
-                        locales,
-                        (locale) => locale.basis.Number.function.positive
-                    ),
+                    (locale) => locale.basis.Number.function.positive,
                     NumberType.wildcard(),
                     (requestor, left) => left.absolute(requestor)
                 ),
                 createUnaryOp(
-                    getFunctionLocales(
-                        locales,
-                        (locale) => locale.basis.Number.function.round
-                    ),
+                    (locale) => locale.basis.Number.function.round,
                     NumberType.wildcard(),
                     (requestor, left) => left.round(requestor)
                 ),
                 createBinaryOp(
-                    getFunctionLocales(
-                        locales,
-                        (locale) => locale.basis.Number.function.power
-                    ),
+                    (locale) => locale.basis.Number.function.power,
                     NumberType.wildcard(),
                     NumberType.make((left, right, constant) => {
                         right;
@@ -295,10 +252,7 @@ export default function bootstrapNumber(locales: Locale[]) {
                     false
                 ),
                 createBinaryOp(
-                    getFunctionLocales(
-                        locales,
-                        (locale) => locale.basis.Number.function.root
-                    ),
+                    (locale) => locale.basis.Number.function.root,
                     NumberType.wildcard(),
                     NumberType.make((left, right, constant) => {
                         right;
@@ -310,29 +264,20 @@ export default function bootstrapNumber(locales: Locale[]) {
                     false
                 ),
                 createBinaryOp(
-                    getFunctionLocales(
-                        locales,
-                        (locale) => locale.basis.Number.function.lessThan
-                    ),
+                    (locale) => locale.basis.Number.function.lessThan,
                     NumberType.make((unit) => unit),
                     BooleanType.make(),
                     (requestor, left, right) => left.lessThan(requestor, right)
                 ),
                 createBinaryOp(
-                    getFunctionLocales(
-                        locales,
-                        (locale) => locale.basis.Number.function.greaterThan
-                    ),
+                    (locale) => locale.basis.Number.function.greaterThan,
                     NumberType.make((unit) => unit),
                     BooleanType.make(),
                     (requestor, left, right) =>
                         left.greaterThan(requestor, right)
                 ),
                 createBinaryOp(
-                    getFunctionLocales(
-                        locales,
-                        (locale) => locale.basis.Number.function.lessOrEqual
-                    ),
+                    (locale) => locale.basis.Number.function.lessOrEqual,
                     NumberType.make((unit) => unit),
                     BooleanType.make(),
                     (requestor, left, right) =>
@@ -343,10 +288,7 @@ export default function bootstrapNumber(locales: Locale[]) {
                         )
                 ),
                 createBinaryOp(
-                    getFunctionLocales(
-                        locales,
-                        (locale) => locale.basis.Number.function.greaterOrEqual
-                    ),
+                    (locale) => locale.basis.Number.function.greaterOrEqual,
                     NumberType.make((unit) => unit),
                     BooleanType.make(),
                     (requestor, left, right) =>
@@ -357,20 +299,14 @@ export default function bootstrapNumber(locales: Locale[]) {
                         )
                 ),
                 createBinaryOp(
-                    getFunctionLocales(
-                        locales,
-                        (locale) => locale.basis.Number.function.equal
-                    ),
+                    (locale) => locale.basis.Number.function.equal,
                     NumberType.make((unit) => unit),
                     BooleanType.make(),
                     (requestor, left, right) =>
                         new Bool(requestor, left.isEqualTo(right))
                 ),
                 createBinaryOp(
-                    getFunctionLocales(
-                        locales,
-                        (locale) => locale.basis.Number.function.notequal
-                    ),
+                    (locale) => locale.basis.Number.function.notequal,
                     NumberType.make((unit) => unit),
                     BooleanType.make(),
                     (requestor, left, right) =>
@@ -379,18 +315,12 @@ export default function bootstrapNumber(locales: Locale[]) {
 
                 // Trigonometry
                 createUnaryOp(
-                    getFunctionLocales(
-                        locales,
-                        (locale) => locale.basis.Number.function.cos
-                    ),
+                    (locale) => locale.basis.Number.function.cos,
                     NumberType.make((unit) => unit),
                     (requestor, left) => left.cos(requestor)
                 ),
                 createUnaryOp(
-                    getFunctionLocales(
-                        locales,
-                        (locale) => locale.basis.Number.function.sin
-                    ),
+                    (locale) => locale.basis.Number.function.sin,
                     NumberType.make((unit) => unit),
                     (requestor, left) => left.sin(requestor)
                 ),

@@ -162,8 +162,8 @@ type BasisTexts = {
             combine: FunctionText<[NameAndDoc, NameAndDoc]> & {
                 combiner: [NameAndDoc, NameAndDoc, NameAndDoc, NameAndDoc];
             };
-            sort: FunctionText<[NameAndDoc]> & {
-                value: NameAndDoc;
+            sorted: FunctionText<[NameAndDoc]> & {
+                sequencer: [NameAndDoc];
             };
         };
         conversion: {

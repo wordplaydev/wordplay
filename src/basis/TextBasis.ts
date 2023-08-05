@@ -1,10 +1,8 @@
-import Bind from '@nodes/Bind';
 import BooleanType from '@nodes/BooleanType';
 import NumberType from '@nodes/NumberType';
 import TextType from '@nodes/TextType';
 import type Type from '@nodes/Type';
 import Bool from '@runtime/Bool';
-import type Evaluation from '@runtime/Evaluation';
 import type Value from '@runtime/Value';
 import { createBasisConversion, createBasisFunction } from './Basis';
 import Text from '@runtime/Text';
@@ -12,9 +10,6 @@ import StructureDefinition from '@nodes/StructureDefinition';
 import Number from '@runtime/Number';
 import List from '@runtime/List';
 import Block, { BlockKind } from '@nodes/Block';
-import type Docs from '@nodes/Docs';
-import type Names from '@nodes/Names';
-import { getFunctionLocales } from '@locale/getFunctionLocales';
 import { getDocLocales } from '@locale/getDocLocales';
 import { getNameLocales } from '@locale/getNameLocales';
 import type Expression from '@nodes/Expression';
@@ -23,75 +18,20 @@ import type { FunctionText } from '../locale/Locale';
 import ListType from '../nodes/ListType';
 
 export default function bootstrapText(locales: Locale[]) {
-    const countNames = getNameLocales(
-        locales,
-        (locale) => locale.basis.Text.function.repeat.inputs[0].names
-    );
-
-    const combineNames = getNameLocales(
-        locales,
-        (locale) => locale.basis.Text.function.combine.inputs[0].names
-    );
-
-    function createTextFunction(
-        translations: {
-            docs: Docs;
-            names: Names;
-            inputs: { docs: Docs; names: Names }[];
-        },
-        inputs: Bind[],
-        output: Type,
-        expression: (
-            requestor: Expression,
-            text: Text,
-            evaluation: Evaluation
-        ) => Value
-    ) {
-        return createBasisFunction(
-            translations.docs,
-            translations.names,
-            undefined,
-            inputs,
-            output,
-            (requestor, evaluation) => {
-                const text = evaluation.getClosure();
-                if (text instanceof Text)
-                    return expression(requestor, text, evaluation);
-                else
-                    return evaluation.getValueOrTypeException(
-                        requestor,
-                        TextType.make(),
-                        text
-                    );
-            }
-        );
-    }
-
     function createBinaryTextFunction<OutputType extends Value>(
         functionText: (locale: Locale) => FunctionText<any>,
         fun: (requestor: Expression, text: Text, input: Text) => OutputType,
         outputType: Type
     ) {
-        const names = getNameLocales(
+        return createBasisFunction(
             locales,
-            (locale) => functionText(locale).inputs[0].names
-        );
-
-        return createTextFunction(
-            getFunctionLocales(locales, functionText),
-            [
-                Bind.make(
-                    getDocLocales(
-                        locales,
-                        (locale) => functionText(locale).inputs[0].doc
-                    ),
-                    names,
-                    TextType.make()
-                ),
-            ],
+            functionText,
+            undefined,
+            [TextType.make()],
             outputType,
-            (requestor, text, evaluation) => {
-                const input = evaluation.resolve(names);
+            (requestor, evaluation) => {
+                const text = evaluation.getClosure() as Text;
+                const input = evaluation.getInput(0);
                 if (input === undefined || !(input instanceof Text))
                     return evaluation.getValueOrTypeException(
                         requestor,
@@ -111,34 +51,30 @@ export default function bootstrapText(locales: Locale[]) {
         [],
         new Block(
             [
-                createTextFunction(
-                    getFunctionLocales(
-                        locales,
-                        (locale) => locale.basis.Text.function.length
-                    ),
+                createBasisFunction(
+                    locales,
+                    (locale) => locale.basis.Text.function.length,
+                    undefined,
                     [],
                     NumberType.make(),
-                    (requestor, text) => text.length(requestor)
+                    (requestor, evaluator) =>
+                        (evaluator.getClosure() as Text).length(requestor)
                 ),
-                createTextFunction(
-                    getFunctionLocales(
-                        locales,
-                        (locale) => locale.basis.Text.function.repeat
-                    ),
-                    [
-                        Bind.make(
-                            getDocLocales(
-                                locales,
-                                (t) =>
-                                    t.basis.Text.function.repeat.inputs[0].doc
-                            ),
-                            countNames,
-                            NumberType.make()
-                        ),
-                    ],
+                createBasisFunction(
+                    locales,
+                    (locale) => locale.basis.Text.function.repeat,
+                    undefined,
+                    [NumberType.make()],
                     TextType.make(),
-                    (requestor, text, evaluation) => {
-                        const count = evaluation.resolve(countNames);
+                    (requestor, evaluation) => {
+                        const text = evaluation.getClosure();
+                        const count = evaluation.getInput(0);
+                        if (!(text instanceof Text))
+                            return evaluation.getValueOrTypeException(
+                                requestor,
+                                TextType.make(),
+                                text
+                            );
                         if (count === undefined || !(count instanceof Number))
                             return evaluation.getValueOrTypeException(
                                 requestor,
@@ -183,25 +119,15 @@ export default function bootstrapText(locales: Locale[]) {
                     (requestor, text, input) => text.ends(requestor, input),
                     BooleanType.make()
                 ),
-                createTextFunction(
-                    getFunctionLocales(
-                        locales,
-                        (locale) => locale.basis.Text.function.combine
-                    ),
-                    [
-                        Bind.make(
-                            getDocLocales(
-                                locales,
-                                (t) =>
-                                    t.basis.Text.function.combine.inputs[0].doc
-                            ),
-                            combineNames,
-                            TextType.make()
-                        ),
-                    ],
+                createBasisFunction(
+                    locales,
+                    (locale) => locale.basis.Text.function.combine,
+                    undefined,
+                    [TextType.make()],
                     TextType.make(),
-                    (requestor, text, evaluation) => {
-                        const other = evaluation.resolve(combineNames);
+                    (requestor, evaluation) => {
+                        const text = evaluation.getClosure() as Text;
+                        const other = evaluation.getInput(0);
                         if (other === undefined || !(other instanceof Text))
                             return evaluation.getValueOrTypeException(
                                 requestor,

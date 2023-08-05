@@ -139,22 +139,29 @@ export function getBestSupportedLocales(locales: string[]) {
 export function createBind(
     locales: Locale[],
     nameAndDoc: (locale: Locale) => NameAndDoc,
-    type?: Type
+    type?: Type,
+    value?: Expression
 ) {
     return Bind.make(
         getDocLocales(locales, (l) => nameAndDoc(l).doc),
         getNameLocales(locales, (l) => nameAndDoc(l).names),
-        type
+        type,
+        value
     );
 }
 
 export function createInputs(
     locales: Locale[],
     fun: (locale: Locale) => NameAndDoc[],
-    types: Type[]
+    types: (Type | [Type, Expression])[]
 ) {
     return types.map((type, index) =>
-        createBind(locales, (l) => fun(l)[index], type)
+        createBind(
+            locales,
+            (l) => fun(l)[index],
+            Array.isArray(type) ? type[0] : type,
+            Array.isArray(type) ? type[1] : undefined
+        )
     );
 }
 

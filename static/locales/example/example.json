@@ -1324,12 +1324,11 @@
                         }
                     ]
                 },
-                "sort": {
+                "sorted": {
                     "doc": "$?",
-                    "names": "sorted",
+                    "names": "$?",
                     "inputs": [{ "doc": "$", "names": "$?sequencer" }],
-
-                    "value": { "doc": "$?", "names": "$?value" }
+                    "sequencer": [{ "doc": "$?", "names": "$?value" }]
                 }
             },
             "conversion": { "text": "$?", "set": "$?" }
