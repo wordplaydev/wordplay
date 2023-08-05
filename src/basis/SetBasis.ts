@@ -36,6 +36,11 @@ export default function bootstrapSet(locales: Locale[]) {
                 (locale) => locale.basis.Set.function.filter.value,
                 SetTypeVariable.getReference()
             ),
+            createBind(
+                locales,
+                (locale) => locale.basis.Set.function.filter.set,
+                SetType.make(SetTypeVariable.getReference())
+            ),
         ],
         BooleanType.make()
     );
@@ -52,6 +57,11 @@ export default function bootstrapSet(locales: Locale[]) {
                 (t) => t.basis.Set.function.translate.value,
                 // The type is a type variable, so we refer to it.
                 SetTypeVariable.getReference()
+            ),
+            createBind(
+                locales,
+                (locale) => locale.basis.Set.function.translate.set,
+                SetType.make(SetTypeVariable.getReference())
             ),
         ],
         SetTranslateTypeVariable.getReference()
@@ -391,7 +401,7 @@ export default function bootstrapSet(locales: Locale[]) {
                                       evaluator,
                                       0,
                                       setFilterHOFType,
-                                      [info.set.values[info.index]]
+                                      [info.set.values[info.index], info.set]
                                   ),
                         // See if we're keeping it.
                         (evaluator, info, expression) => {
@@ -432,7 +442,8 @@ export default function bootstrapSet(locales: Locale[]) {
                     ],
                     new Iteration<{
                         index: number;
-                        set: Value[];
+                        set: Set;
+                        values: Value[];
                         translated: Value[];
                     }>(
                         SetTranslateHOFType,
@@ -440,20 +451,21 @@ export default function bootstrapSet(locales: Locale[]) {
                         (evaluator) => {
                             return {
                                 index: 0,
-                                set: (evaluator.getCurrentClosure() as Set)
+                                set: evaluator.getCurrentClosure() as Set,
+                                values: (evaluator.getCurrentClosure() as Set)
                                     .values,
                                 translated: [],
                             };
                         },
                         // If we're past the end, stop. Otherwise, evaluate the translator function on the next value.
                         (evaluator, info, expr) =>
-                            info.index >= info.set.length
+                            info.index >= info.values.length
                                 ? false
                                 : expr.evaluateFunctionInput(
                                       evaluator,
                                       0,
                                       SetTranslateHOFType,
-                                      [info.set[info.index]]
+                                      [info.values[info.index], info.set]
                                   ),
                         // Save the translated value and increment the index.
                         (evaluator, info, expression) => {

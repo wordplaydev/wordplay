@@ -260,6 +260,9 @@
                           "minItems": 1,
                           "type": "array"
                         },
+                        "list": {
+                          "$ref": "#/definitions/NameAndDoc"
+                        },
                         "names": {
                           "$ref": "#/definitions/NameText"
                         },
@@ -271,6 +274,7 @@
                         "doc",
                         "index",
                         "inputs",
+                        "list",
                         "names",
                         "value"
                       ],
@@ -299,6 +303,9 @@
                           "minItems": 2,
                           "type": "array"
                         },
+                        "list": {
+                          "$ref": "#/definitions/NameAndDoc"
+                        },
                         "names": {
                           "$ref": "#/definitions/NameText"
                         },
@@ -311,6 +318,7 @@
                         "doc",
                         "index",
                         "inputs",
+                        "list",
                         "names",
                         "next"
                       ],
@@ -336,6 +344,9 @@
                           "minItems": 1,
                           "type": "array"
                         },
+                        "list": {
+                          "$ref": "#/definitions/NameAndDoc"
+                        },
                         "names": {
                           "$ref": "#/definitions/NameText"
                         },
@@ -347,6 +358,7 @@
                         "doc",
                         "index",
                         "inputs",
+                        "list",
                         "names",
                         "value"
                       ],
@@ -369,6 +381,9 @@
                           "minItems": 1,
                           "type": "array"
                         },
+                        "list": {
+                          "$ref": "#/definitions/NameAndDoc"
+                        },
                         "names": {
                           "$ref": "#/definitions/NameText"
                         },
@@ -380,6 +395,7 @@
                         "doc",
                         "index",
                         "inputs",
+                        "list",
                         "names",
                         "value"
                       ],
@@ -444,6 +460,9 @@
                           "minItems": 1,
                           "type": "array"
                         },
+                        "list": {
+                          "$ref": "#/definitions/NameAndDoc"
+                        },
                         "names": {
                           "$ref": "#/definitions/NameText"
                         },
@@ -455,6 +474,7 @@
                         "doc",
                         "index",
                         "inputs",
+                        "list",
                         "names",
                         "value"
                       ],
@@ -477,6 +497,9 @@
                           "minItems": 1,
                           "type": "array"
                         },
+                        "list": {
+                          "$ref": "#/definitions/NameAndDoc"
+                        },
                         "names": {
                           "$ref": "#/definitions/NameText"
                         },
@@ -488,6 +511,7 @@
                         "doc",
                         "index",
                         "inputs",
+                        "list",
                         "names",
                         "value"
                       ],
@@ -594,6 +618,9 @@
                         "key": {
                           "$ref": "#/definitions/NameAndDoc"
                         },
+                        "map": {
+                          "$ref": "#/definitions/NameAndDoc"
+                        },
                         "names": {
                           "$ref": "#/definitions/NameText"
                         },
@@ -605,6 +632,7 @@
                         "doc",
                         "inputs",
                         "key",
+                        "map",
                         "names",
                         "value"
                       ],
@@ -636,6 +664,9 @@
                         "key": {
                           "$ref": "#/definitions/NameAndDoc"
                         },
+                        "map": {
+                          "$ref": "#/definitions/NameAndDoc"
+                        },
                         "names": {
                           "$ref": "#/definitions/NameText"
                         },
@@ -647,6 +678,7 @@
                         "doc",
                         "inputs",
                         "key",
+                        "map",
                         "names",
                         "value"
                       ],
@@ -1090,6 +1122,9 @@
                         "names": {
                           "$ref": "#/definitions/NameText"
                         },
+                        "set": {
+                          "$ref": "#/definitions/NameAndDoc"
+                        },
                         "value": {
                           "$ref": "#/definitions/NameAndDoc"
                         }
@@ -1098,6 +1133,7 @@
                         "doc",
                         "inputs",
                         "names",
+                        "set",
                         "value"
                       ],
                       "type": "object"
@@ -1128,6 +1164,9 @@
                         "names": {
                           "$ref": "#/definitions/NameText"
                         },
+                        "set": {
+                          "$ref": "#/definitions/NameAndDoc"
+                        },
                         "value": {
                           "$ref": "#/definitions/NameAndDoc"
                         }
@@ -1136,6 +1175,7 @@
                         "doc",
                         "inputs",
                         "names",
+                        "set",
                         "value"
                       ],
                       "type": "object"

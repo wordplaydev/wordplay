@@ -1247,35 +1247,55 @@
                     "names": "$?",
                     "inputs": [{ "doc": "$?", "names": "$?" }],
                     "value": { "doc": "$?", "names": "$?" },
-                    "index": { "doc": "$?", "names": "$?" }
+                    "index": { "doc": "$?", "names": "$?" },
+                    "list": {
+                        "doc": "$?",
+                        "names": "$?"
+                    }
                 },
                 "filter": {
                     "doc": "$?",
                     "names": "$?",
                     "inputs": [{ "doc": "$?", "names": "$?" }],
                     "value": { "doc": "$?", "names": "$?value" },
-                    "index": { "doc": "$?", "names": "$?index" }
+                    "index": { "doc": "$?", "names": "$?index" },
+                    "list": {
+                        "doc": "$?",
+                        "names": "$?"
+                    }
                 },
                 "all": {
                     "doc": "$?",
                     "names": "$?",
                     "inputs": [{ "doc": "$?", "names": "$?" }],
                     "value": { "doc": "$?", "names": "$?value" },
-                    "index": { "doc": "$?", "names": "$?index" }
+                    "index": { "doc": "$?", "names": "$?index" },
+                    "list": {
+                        "doc": "$?",
+                        "names": "$?"
+                    }
                 },
                 "until": {
                     "doc": "$?",
                     "names": "$?",
                     "inputs": [{ "doc": "$?", "names": "$?" }],
                     "value": { "doc": "$?", "names": "$?value" },
-                    "index": { "doc": "$?", "names": "$?index" }
+                    "index": { "doc": "$?", "names": "$?index" },
+                    "list": {
+                        "doc": "$?",
+                        "names": "$?"
+                    }
                 },
                 "find": {
                     "doc": "$?",
                     "names": "$?",
                     "inputs": [{ "doc": "$?", "names": "$?" }],
                     "value": { "doc": "$?", "names": "$?value" },
-                    "index": { "doc": "$?", "names": "$?index" }
+                    "index": { "doc": "$?", "names": "$?index" },
+                    "list": {
+                        "doc": "$?",
+                        "names": "$?"
+                    }
                 },
                 "combine": {
                     "doc": "$?",
@@ -1286,7 +1306,11 @@
                     ],
                     "combination": { "doc": "$?", "names": "$?" },
                     "next": { "doc": "$?", "names": "$?" },
-                    "index": { "doc": "$?", "names": "$?" }
+                    "index": { "doc": "$?", "names": "$?" },
+                    "list": {
+                        "doc": "$?",
+                        "names": "$?"
+                    }
                 }
             },
             "conversion": { "text": "$?", "set": "$?" }
@@ -1336,13 +1360,21 @@
                     "doc": "$?",
                     "names": "$?",
                     "inputs": [{ "doc": "$?", "names": "$?" }],
-                    "value": { "doc": "$?", "names": "$?" }
+                    "value": { "doc": "$?", "names": "$?" },
+                    "set": {
+                        "doc": "$?",
+                        "names": "$?set"
+                    }
                 },
                 "translate": {
                     "doc": "$?",
                     "names": "$?",
                     "inputs": [{ "doc": "$?", "names": "$?" }],
-                    "value": { "doc": "$?", "names": "$?" }
+                    "value": { "doc": "$?", "names": "$?" },
+                    "set": {
+                        "doc": "$?",
+                        "names": "$?set"
+                    }
                 }
             },
             "conversion": { "text": "$?", "list": "$?" }
@@ -1387,14 +1419,16 @@
                     "names": "$?",
                     "inputs": [{ "doc": "$?", "names": "$?" }],
                     "key": { "doc": "$?", "names": "$?" },
-                    "value": { "doc": "$?", "names": "$?" }
+                    "value": { "doc": "$?", "names": "$?" },
+                    "map": { "doc": "$?", "names": "$?" }
                 },
                 "translate": {
                     "doc": "$?",
                     "names": "$?",
                     "inputs": [{ "doc": "$?", "names": "$?" }],
                     "key": { "doc": "$?", "names": "$?" },
-                    "value": { "doc": "$?", "names": "$?" }
+                    "value": { "doc": "$?", "names": "$?" },
+                    "map": { "doc": "$?", "names": "$?" }
                 }
             },
             "conversion": { "text": "$?", "set": "$?", "list": "$?" }

@@ -147,27 +147,33 @@ type BasisTexts = {
             translate: FunctionText<[NameAndDoc]> & {
                 value: NameAndDoc;
                 index: NameAndDoc;
+                list: NameAndDoc;
             };
             filter: FunctionText<[NameAndDoc]> & {
                 value: NameAndDoc;
                 index: NameAndDoc;
+                list: NameAndDoc;
             };
             all: FunctionText<[NameAndDoc]> & {
                 value: NameAndDoc;
                 index: NameAndDoc;
+                list: NameAndDoc;
             };
             until: FunctionText<[NameAndDoc]> & {
                 value: NameAndDoc;
                 index: NameAndDoc;
+                list: NameAndDoc;
             };
             find: FunctionText<[NameAndDoc]> & {
                 value: NameAndDoc;
                 index: NameAndDoc;
+                list: NameAndDoc;
             };
             combine: FunctionText<[NameAndDoc, NameAndDoc]> & {
                 combination: NameAndDoc;
                 next: NameAndDoc;
                 index: NameAndDoc;
+                list: NameAndDoc;
             };
         };
         conversion: {
@@ -190,9 +196,11 @@ type BasisTexts = {
             difference: FunctionText<[NameAndDoc]>;
             filter: FunctionText<[NameAndDoc]> & {
                 value: NameAndDoc;
+                set: NameAndDoc;
             };
             translate: FunctionText<[NameAndDoc]> & {
                 value: NameAndDoc;
+                set: NameAndDoc;
             };
         };
         conversion: {
@@ -215,10 +223,12 @@ type BasisTexts = {
             filter: FunctionText<[NameAndDoc]> & {
                 key: NameAndDoc;
                 value: NameAndDoc;
+                map: NameAndDoc;
             };
             translate: FunctionText<[NameAndDoc]> & {
                 key: NameAndDoc;
                 value: NameAndDoc;
+                map: NameAndDoc;
             };
         };
         conversion: {

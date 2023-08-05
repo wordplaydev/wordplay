@@ -47,6 +47,14 @@ export default function bootstrapMap(locales: Locale[]) {
                 (locale) => locale.basis.Map.function.filter.value,
                 ValueTypeVariable.getReference()
             ),
+            createBind(
+                locales,
+                (locale) => locale.basis.Map.function.filter.map,
+                MapType.make(
+                    KeyTypeVariable.getReference(),
+                    ValueTypeVariable.getReference()
+                )
+            ),
         ],
         BooleanType.make()
     );
@@ -67,6 +75,14 @@ export default function bootstrapMap(locales: Locale[]) {
                 locales,
                 (locale) => locale.basis.Map.function.translate.value,
                 ValueTypeVariable.getReference()
+            ),
+            createBind(
+                locales,
+                (locale) => locale.basis.Map.function.translate.map,
+                MapType.make(
+                    KeyTypeVariable.getReference(),
+                    ValueTypeVariable.getReference()
+                )
             ),
         ],
         TranslateTypeVariable.getReference()
@@ -351,6 +367,7 @@ export default function bootstrapMap(locales: Locale[]) {
                                       [
                                           info.map.values[info.index][0],
                                           info.map.values[info.index][1],
+                                          info.map,
                                       ]
                                   ),
                         // Save the translated value and increment the index.
@@ -430,6 +447,7 @@ export default function bootstrapMap(locales: Locale[]) {
                                       [
                                           info.map.values[info.index][0],
                                           info.map.values[info.index][1],
+                                          info.map,
                                       ]
                                   ),
                         // Save the translated value and increment the index.

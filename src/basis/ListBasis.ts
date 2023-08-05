@@ -55,6 +55,11 @@ export default function bootstrapList(locales: Locale[]) {
                 (t) => t.basis.List.function.translate.index,
                 NumberType.make()
             ),
+            createBind(
+                locales,
+                (t) => t.basis.List.function.translate.list,
+                ListType.make(ListTypeVariable.getReference())
+            ),
         ],
         TranslateTypeVariable.getReference()
     );
@@ -71,6 +76,11 @@ export default function bootstrapList(locales: Locale[]) {
                 locales,
                 (locale) => locale.basis.List.function.filter.index,
                 NumberType.make()
+            ),
+            createBind(
+                locales,
+                (t) => t.basis.List.function.filter.list,
+                ListType.make(ListTypeVariable.getReference())
             ),
         ],
         BooleanType.make()
@@ -89,6 +99,11 @@ export default function bootstrapList(locales: Locale[]) {
                 (locale) => locale.basis.List.function.all.index,
                 NumberType.make()
             ),
+            createBind(
+                locales,
+                (t) => t.basis.List.function.all.list,
+                ListType.make(ListTypeVariable.getReference())
+            ),
         ],
         BooleanType.make()
     );
@@ -106,6 +121,11 @@ export default function bootstrapList(locales: Locale[]) {
                 (locale) => locale.basis.List.function.until.index,
                 NumberType.make()
             ),
+            createBind(
+                locales,
+                (t) => t.basis.List.function.until.list,
+                ListType.make(ListTypeVariable.getReference())
+            ),
         ],
         ListType.make(ListTypeVariable.getReference())
     );
@@ -122,6 +142,11 @@ export default function bootstrapList(locales: Locale[]) {
                 locales,
                 (locale) => locale.basis.List.function.find.index,
                 NumberType.make()
+            ),
+            createBind(
+                locales,
+                (t) => t.basis.List.function.find.list,
+                ListType.make(ListTypeVariable.getReference())
             ),
         ],
         ListTypeVariable.getReference()
@@ -148,6 +173,11 @@ export default function bootstrapList(locales: Locale[]) {
                 locales,
                 (locale) => locale.basis.List.function.combine.index,
                 NumberType.make()
+            ),
+            createBind(
+                locales,
+                (t) => t.basis.List.function.combine.list,
+                ListType.make(ListTypeVariable.getReference())
             ),
         ],
         CombineTypeVariable.getReference()
@@ -859,6 +889,7 @@ export default function bootstrapList(locales: Locale[]) {
                                       [
                                           info.list.get(info.index),
                                           new Number(expr, info.index),
+                                          info.list,
                                       ]
                                   ),
                         // Save the translated value and increment the index.
@@ -918,6 +949,7 @@ export default function bootstrapList(locales: Locale[]) {
                                       [
                                           info.list.get(info.index),
                                           new Number(expr, info.index),
+                                          info.list,
                                       ]
                                   ),
                         // Save the translated value and increment the index.
@@ -982,6 +1014,7 @@ export default function bootstrapList(locales: Locale[]) {
                                       [
                                           info.list.get(info.index),
                                           new Number(expr, info.index),
+                                          info.list,
                                       ]
                                   ),
                         // If the value doesn't match, return false. Otherwise, loop back.
@@ -1047,6 +1080,7 @@ export default function bootstrapList(locales: Locale[]) {
                                       [
                                           info.list.get(info.index),
                                           new Number(expr, info.index),
+                                          info.list,
                                       ]
                                   ),
                         // Save the translated value and increment the index.
@@ -1110,6 +1144,7 @@ export default function bootstrapList(locales: Locale[]) {
                                       [
                                           info.list.get(info.index),
                                           new Number(expr, info.index),
+                                          info.list,
                                       ]
                                   ),
                         // Save the translated value and increment the index.
@@ -1189,6 +1224,7 @@ export default function bootstrapList(locales: Locale[]) {
                                           info.combo,
                                           info.list.get(info.index),
                                           new Number(expr, info.index),
+                                          info.list,
                                       ]
                                   ),
                         // Save the translated value and increment the index.

@@ -2111,6 +2111,10 @@
                     "index": {
                         "doc": "The index of the item being translated.",
                         "names": "index"
+                    },
+                    "list": {
+                        "doc": "The list being translated.",
+                        "names": "list"
                     }
                 },
                 "filter": {
@@ -2133,6 +2137,10 @@
                     "index": {
                         "doc": "The index of the item being checked.",
                         "names": "index"
+                    },
+                    "list": {
+                        "doc": "The list being filtered.",
+                        "names": "list"
                     }
                 },
                 "all": {
@@ -2155,6 +2163,10 @@
                     "index": {
                         "doc": "The index of the item being checked.",
                         "names": "index"
+                    },
+                    "list": {
+                        "doc": "The list being checked.",
+                        "names": "list"
                     }
                 },
                 "until": {
@@ -2177,6 +2189,10 @@
                     "index": {
                         "doc": "The index of the item being checked.",
                         "names": "index"
+                    },
+                    "list": {
+                        "doc": "The list being subsequenced.",
+                        "names": "list"
                     }
                 },
                 "find": {
@@ -2199,6 +2215,10 @@
                     "index": {
                         "doc": "The index of the item being checked.",
                         "names": "index"
+                    },
+                    "list": {
+                        "doc": "The list being searched.",
+                        "names": "list"
                     }
                 },
                 "combine": {
@@ -2229,6 +2249,10 @@
                     "index": {
                         "doc": "The index of the next item",
                         "names": "index"
+                    },
+                    "list": {
+                        "doc": "The list being combined.",
+                        "names": "list"
                     }
                 }
             },
@@ -2344,6 +2368,10 @@
                     "value": {
                         "doc": "The item being checked.",
                         "names": "value"
+                    },
+                    "set": {
+                        "doc": "The set being filtered",
+                        "names": "set"
                     }
                 },
                 "translate": {
@@ -2362,6 +2390,10 @@
                     "value": {
                         "doc": "The item being translated.",
                         "names": "value"
+                    },
+                    "set": {
+                        "doc": "The set being translated",
+                        "names": "set"
                     }
                 }
             },
@@ -2467,6 +2499,10 @@
                     "value": {
                         "doc": "The value being checked.",
                         "names": "value"
+                    },
+                    "map": {
+                        "doc": "The map being filtered.",
+                        "names": "map"
                     }
                 },
                 "translate": {
@@ -2489,6 +2525,10 @@
                     "value": {
                         "doc": "The value being translated.",
                         "names": "value"
+                    },
+                    "map": {
+                        "doc": "The map being translated.",
+                        "names": "map"
                     }
                 }
             },
