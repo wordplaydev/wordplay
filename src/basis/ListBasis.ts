@@ -26,6 +26,13 @@ import None from '../runtime/None';
 import { Iteration } from './Iteration';
 import { createFunction, createInputs as createInputs } from '../locale/Locale';
 import ValueException from '../runtime/ValueException';
+import FunctionDefinition from '../nodes/FunctionDefinition';
+import Names from '../nodes/Names';
+import Bind from '../nodes/Bind';
+import AnyType from '../nodes/AnyType';
+import InternalExpression from './InternalExpression';
+import ConversionException from '../runtime/ConversionException';
+import Exception from '../runtime/Exception';
 
 export default function bootstrapList(locales: Locale[]) {
     const ListTypeVarNames = getNameLocales(
@@ -40,6 +47,43 @@ export default function bootstrapList(locales: Locale[]) {
 
     const CombineTypeVariable = new TypeVariable(
         getNameLocales(locales, (locale) => locale.basis.List.out)
+    );
+
+    /**
+     * This function is the fallback when a sequencer isn't provided to List.sorted.
+     * It passes through numbers, since they're already numbers, and computes a key
+     * for text using unicode code points.
+     */
+    const DefaultSortSequencer = FunctionDefinition.make(
+        undefined,
+        Names.make(),
+        undefined,
+        [Bind.make(undefined, Names.make(), new AnyType())],
+        new InternalExpression(
+            NumberType.make(),
+            [],
+            (requestor: Expression, evaluation: Evaluation) => {
+                const input = evaluation.getInput(0);
+                if (input === undefined)
+                    return evaluation.getValueOrTypeException(
+                        requestor,
+                        new AnyType(),
+                        input
+                    );
+                else if (input instanceof Number) return input;
+                else if (input instanceof Text)
+                    return input.sequenced(requestor);
+                else if (input instanceof None) return new Number(requestor, 0);
+                else
+                    return new ConversionException(
+                        evaluation.getEvaluator(),
+                        requestor,
+                        input,
+                        NumberType.make()
+                    );
+            }
+        ),
+        NumberType.make()
     );
 
     return StructureDefinition.make(
@@ -847,62 +891,85 @@ export default function bootstrapList(locales: Locale[]) {
                         locales,
                         (l) => l.basis.List.function.sorted.inputs,
                         [
-                            UnionType.make(
-                                NoneType.make(),
-                                FunctionType.make(
-                                    undefined,
-                                    createInputs(
-                                        locales,
-                                        (l) =>
-                                            l.basis.List.function.sorted
-                                                .sequencer,
-                                        [ListTypeVariable.getReference()]
-                                    ),
-                                    NumberType.make()
-                                )
-                            ),
+                            [
+                                UnionType.make(
+                                    NoneType.make(),
+                                    FunctionType.make(
+                                        undefined,
+                                        createInputs(
+                                            locales,
+                                            (l) =>
+                                                l.basis.List.function.sorted
+                                                    .sequencer,
+                                            [ListTypeVariable.getReference()]
+                                        ),
+                                        NumberType.make()
+                                    )
+                                ),
+                                NoneLiteral.make(),
+                            ],
                         ]
                     ),
                     ListType.make(ListTypeVariable.getReference()),
                     new Iteration<{
+                        // The current index we're on in the keying iteration
                         index: number;
+                        // The list we're sorting
                         list: List;
-                        combo: Value;
+                        // The keyed, sorted list, which will eventually be mapped back to the original values.
+                        // The number is used for sorting, but we keep a pointer to the value to undecorate at the end.
+                        keyed: [Number, Value][];
                     }>(
+                        // Produces a list of the same type as was given.
                         ListType.make(ListTypeVariable.getReference()),
-                        // Start with an index at the beginning of the list
+                        // Start with an index at the beginning of the list, a reference to the list for convenience,
+                        // and an empty list of keyed values.
                         (evaluator, expression) => {
-                            const initial = expression.getInput(0, evaluator);
-                            if (initial === undefined)
-                                return new ValueException(
-                                    evaluator,
-                                    expression
-                                );
                             return {
-                                index: 1,
+                                index: 1, // 1-indexed, since we index the list, not a Javascript array
                                 list: evaluator.getCurrentClosure() as List,
-                                combo: initial,
+                                keyed: [],
                             };
                         },
-                        // If we're past the end, stop. Otherwise, create the new combo with the combiner.
+                        // If we're past the end, stop. Otherwise, key the next value.
                         (evaluator, info, expr) =>
                             info.index > info.list.values.length
                                 ? false
-                                : expr.evaluateFunctionInput(evaluator, 1, [
-                                      info.combo,
-                                      info.list.get(info.index),
-                                      new Number(expr, info.index),
-                                      info.list,
-                                  ]),
-                        // Save the translated value and increment the index.
+                                : expr.evaluateFunctionInput(
+                                      evaluator,
+                                      0,
+                                      [info.list.get(info.index)],
+                                      DefaultSortSequencer
+                                  ),
+                        // Save the keyed value and increment the index.
                         (evaluator, info, expression) => {
-                            const combo = evaluator.popValue(expression);
-                            info.combo = combo;
+                            const key = evaluator.popValue(expression);
+                            // We expect the key to be a number. Bail if it's not.
+                            if (!(key instanceof Number))
+                                return key instanceof Exception
+                                    ? key
+                                    : evaluator.getValueOrTypeException(
+                                          expression,
+                                          NumberType.make(),
+                                          key
+                                      );
+                            // Remember a mapping from the keyed value to the original value, so we can map it back later.
+                            info.keyed.push([key, info.list.get(info.index)]);
+                            // Advance to the next item.
                             info.index = info.index + 1;
                             return undefined;
                         },
-                        // Create the translated list.
-                        (evaluator, info, expression) => info.combo
+                        // Take the list of keyed values and sort by the keys using JavaScript's Array.sort(), then map to the original value.
+                        (evaluator, info, expression) =>
+                            new List(
+                                expression,
+                                info.keyed
+                                    .sort(
+                                        (a, b) =>
+                                            a[0].toNumber() - b[0].toNumber()
+                                    )
+                                    .map((pair) => pair[1])
+                            )
                     )
                 ),
                 createBasisConversion(

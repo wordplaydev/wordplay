@@ -1,4 +1,3 @@
-import type Convert from '@nodes/Convert';
 import NodeRef from '@locale/NodeRef';
 import type Locale from '@locale/Locale';
 import type Evaluator from './Evaluator';
@@ -7,12 +6,13 @@ import concretize from '../locale/concretize';
 import type Type from '../nodes/Type';
 import ValueRef from '../locale/ValueRef';
 import type Value from './Value';
+import type Expression from '../nodes/Expression';
 
 export default class ConversionException extends Exception {
     readonly from: Value;
     readonly to: Type;
 
-    constructor(evaluator: Evaluator, node: Convert, from: Value, to: Type) {
+    constructor(evaluator: Evaluator, node: Expression, from: Value, to: Type) {
         super(node, evaluator);
 
         this.from = from;

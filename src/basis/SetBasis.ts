@@ -18,6 +18,8 @@ import type Expression from '../nodes/Expression';
 import type Locale from '../locale/Locale';
 import { createBind, createFunction, createInputs } from '../locale/Locale';
 import { Iteration } from './Iteration';
+import NumberType from '../nodes/NumberType';
+import Number from '../runtime/Number';
 
 export default function bootstrapSet(locales: Locale[]) {
     const SetTypeVariableNames = getNameLocales(
@@ -42,6 +44,23 @@ export default function bootstrapSet(locales: Locale[]) {
         // Include all of the functions defined above.
         new Block(
             [
+                createBasisFunction(
+                    locales,
+                    (locale) => locale.basis.Set.function.size,
+                    undefined,
+                    [],
+                    NumberType.make(),
+                    (requestor, evaluation) => {
+                        const set = evaluation?.getClosure();
+                        return !(set instanceof Set)
+                            ? evaluation.getValueOrTypeException(
+                                  requestor,
+                                  SetType.make(),
+                                  set
+                              )
+                            : new Number(requestor, set.size(requestor).num);
+                    }
+                ),
                 createBasisFunction(
                     locales,
                     (locale) => locale.basis.Set.function.equals,

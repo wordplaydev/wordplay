@@ -28,36 +28,21 @@ export default class Names extends Node {
         this.computeChildren();
     }
 
-    static make(names: string[]) {
+    static make(names: string[] = []) {
         const list: Name[] = [];
-        if (Array.isArray(names)) {
-            let first = true;
-            for (const name of names) {
-                list.push(
-                    new Name(
-                        first
-                            ? undefined
-                            : new Token(COMMA_SYMBOL, Symbol.Separator),
-                        new NameToken(name)
-                    )
-                );
-                first = false;
-            }
-            return new Names(list);
-        } else {
-            return new Names(
-                Object.keys(names).map(
-                    (lang, index) =>
-                        new Name(
-                            index === 0
-                                ? undefined
-                                : new Token(COMMA_SYMBOL, Symbol.Separator),
-                            new Token(names[lang as LanguageCode], Symbol.Name),
-                            Language.make(lang)
-                        )
+        let first = true;
+        for (const name of names) {
+            list.push(
+                new Name(
+                    first
+                        ? undefined
+                        : new Token(COMMA_SYMBOL, Symbol.Separator),
+                    new NameToken(name)
                 )
             );
+            first = false;
         }
+        return new Names(list);
     }
 
     getGrammar(): Grammar {

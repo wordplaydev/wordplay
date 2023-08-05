@@ -19,6 +19,8 @@ import type Expression from '../nodes/Expression';
 import type Locale from '../locale/Locale';
 import { createFunction, createInputs } from '../locale/Locale';
 import { Iteration } from './Iteration';
+import NumberType from '../nodes/NumberType';
+import Number from '../runtime/Number';
 
 export default function bootstrapMap(locales: Locale[]) {
     const KeyTypeVariableNames = getNameLocales(
@@ -48,6 +50,23 @@ export default function bootstrapMap(locales: Locale[]) {
         // Include all of the functions defined above.
         new Block(
             [
+                createBasisFunction(
+                    locales,
+                    (locale) => locale.basis.Map.function.size,
+                    undefined,
+                    [],
+                    NumberType.make(),
+                    (requestor, evaluation) => {
+                        const map = evaluation?.getClosure();
+                        return !(map instanceof Map)
+                            ? evaluation.getValueOrTypeException(
+                                  requestor,
+                                  MapType.make(),
+                                  map
+                              )
+                            : new Number(requestor, map.size(requestor).num);
+                    }
+                ),
                 createBasisFunction(
                     locales,
                     (locale) => locale.basis.Map.function.equals,

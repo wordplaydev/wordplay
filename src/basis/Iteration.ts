@@ -140,9 +140,14 @@ export class Iteration<State> extends Expression {
     evaluateFunctionInput(
         evaluator: Evaluator,
         input: number,
-        values: Value[]
+        values: Value[],
+        fallback?: FunctionDefinition
     ) {
-        const [funVal, fun] = this.getFunctionInput(input, evaluator);
+        let [funVal, fun] = this.getFunctionInput(input, evaluator);
+        if (fun === undefined) {
+            fun = fallback;
+            funVal = undefined;
+        }
         if (fun === undefined || fun.expression === undefined) {
             const currentFunction = evaluator
                 .getCurrentEvaluation()
@@ -162,7 +167,7 @@ export class Iteration<State> extends Expression {
                 evaluator,
                 this,
                 fun,
-                funVal.context,
+                funVal?.context,
                 this.createBinds(
                     fun.inputs.map((input, index) => {
                         return [input.names, values[index]];

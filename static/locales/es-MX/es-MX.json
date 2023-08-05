@@ -1350,6 +1350,11 @@
             "kind": "Kind",
             "out": "$?",
             "function": {
+                "size": {
+                    "doc": "$?",
+                    "names": "$?size",
+                    "inputs": []
+                },
                 "equals": {
                     "doc": "$?",
                     "names": ["=", "equals"],
@@ -1419,6 +1424,11 @@
             "value": "Value",
             "result": "Result",
             "function": {
+                "size": {
+                    "doc": "$?",
+                    "names": "$?size",
+                    "inputs": []
+                },
                 "equals": {
                     "doc": "$?",
                     "names": ["=", "equals"],

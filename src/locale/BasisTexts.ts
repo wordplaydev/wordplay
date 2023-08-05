@@ -177,6 +177,7 @@ type BasisTexts = {
         kind: NameText;
         out: NameText;
         function: {
+            size: FunctionText<[]>;
             equals: FunctionText<[NameAndDoc]>;
             notequals: FunctionText<[NameAndDoc]>;
             add: FunctionText<[NameAndDoc]>;
@@ -203,6 +204,7 @@ type BasisTexts = {
         value: NameText;
         result: NameText;
         function: {
+            size: FunctionText<[]>;
             equals: FunctionText<[NameAndDoc]>;
             notequals: FunctionText<[NameAndDoc]>;
             set: FunctionText<[NameAndDoc, NameAndDoc]>;

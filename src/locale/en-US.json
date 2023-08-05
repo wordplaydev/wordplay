@@ -850,7 +850,7 @@
                 },
                 "ValueException": {
                     "description": "missing value",
-                    "explanation": "oh no, someone excepted a value but didn't get one…"
+                    "explanation": "oh no, someone expected a value but didn't get one…"
                 }
             }
         },
@@ -2296,6 +2296,11 @@
             "kind": "Kind",
             "out": "Result",
             "function": {
+                "size": {
+                    "doc": "I'll tell you how many values are in me.",
+                    "names": "size",
+                    "inputs": []
+                },
                 "equals": {
                     "doc": [
                         "I'm \\⊤\\ if the given @Set and I have the exact same values:",
@@ -2444,6 +2449,11 @@
             "value": "Value",
             "result": "Result",
             "function": {
+                "size": {
+                    "doc": "I'll tell you how many values are in me.",
+                    "names": "size",
+                    "inputs": []
+                },
                 "equals": {
                     "doc": [
                         "\\{⊤}\\ if my pairings are the exact same as the given @Map's.",
