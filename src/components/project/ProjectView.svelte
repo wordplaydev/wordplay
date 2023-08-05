@@ -636,15 +636,18 @@
     /** When the menu changes, compute a menu position. */
     $: menuPosition = menu ? getMenuPosition(menu.getCaret()) : undefined;
 
-    /** Before each update, note which tile has focus */
+    /**
+     * Before each update, note which tile has focus
+     * This is a way of preserving focus even though it's temporarily lost when tiles disappear.
+     */
     let focusedTileID: string | undefined = undefined;
     beforeUpdate(() => {
-        focusedTileID = undefined;
         const focus = document.activeElement;
         if (focus && view && view.contains(focus)) {
             const tile = focus.closest('.tile');
-            if (tile instanceof HTMLElement && tile.dataset.id)
+            if (tile instanceof HTMLElement && tile.dataset.id) {
                 focusedTileID = tile.dataset.id;
+            }
         }
     });
 
@@ -658,7 +661,7 @@
                 underline: getUnderlineOf(nodeView),
             };
 
-        /** Restore focus if on body */
+        /** Restore focus to the last know focused tile on body */
         if (document.activeElement === document.body)
             tick().then(() => focusTile(focusedTileID));
     });
