@@ -2269,10 +2269,27 @@
                     ]
                 },
                 "sorted": {
-                    "doc": "$?",
+                    "doc": [
+                        "I can take a list, and make a new list with it's values sorted. Like this:",
+                        "\\[1 5 8 0 2].sorted()\\",
+                        "I can also do it for @Text values",
+                        "\\['orange' 'kiwi' 'banana' 'apple'].sorted()\\",
+                        "And if you have a list of values that aren't @Number or @Text, you can give me a @FunctionDefinition that turns each item into a @Number so I can sort it. For example, here we have a list of lists of different lengths; if you give me a function that turns each list into it's length, I can sort by their length.",
+                        "\\[[1] [2 3] [4 8 12] [8]].sorted(ƒ(list) list.length())\\"
+                    ],
                     "names": "sorted",
-                    "inputs": [{ "doc": "$?", "names": "sequencer" }],
-                    "sequencer": [{ "doc": "$?", "names": "value" }]
+                    "inputs": [
+                        {
+                            "doc": "The optional @FunctionDefinition to use to sort a list value. It should turn the value into a @Number that can be used for sorting the list.",
+                            "names": "sequencer"
+                        }
+                    ],
+                    "sequencer": [
+                        {
+                            "doc": "The value to turn into a @Number.",
+                            "names": "value"
+                        }
+                    ]
                 }
             },
             "conversion": {
