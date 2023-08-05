@@ -2251,6 +2251,7 @@
             ],
             "name": ["{}", "Set"],
             "kind": "Kind",
+            "out": "Result",
             "function": {
                 "equals": {
                     "doc": [

@@ -1162,12 +1162,16 @@
                 },
                 "name": {
                   "$ref": "#/definitions/NameText"
+                },
+                "out": {
+                  "$ref": "#/definitions/NameText"
                 }
               },
               "required": [
                 "doc",
                 "name",
                 "kind",
+                "out",
                 "function",
                 "conversion"
               ],

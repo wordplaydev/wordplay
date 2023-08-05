@@ -179,6 +179,7 @@ type BasisTexts = {
         doc: DocText;
         name: NameText;
         kind: NameText;
+        out: NameText;
         function: {
             equals: FunctionText<[NameAndDoc]>;
             notequals: FunctionText<[NameAndDoc]>;

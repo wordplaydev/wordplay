@@ -1295,6 +1295,7 @@
             "doc": "$?",
             "name": "$?",
             "kind": "$?",
+            "out": "$?",
             "function": {
                 "equals": {
                     "doc": "$?",

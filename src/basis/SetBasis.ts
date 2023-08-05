@@ -40,6 +40,23 @@ export default function bootstrapSet(locales: Locale[]) {
         BooleanType.make()
     );
 
+    const SetTranslateTypeVariable = new TypeVariable(
+        getNameLocales(locales, (locale) => locale.basis.Set.out)
+    );
+
+    const SetTranslateHOFType = FunctionType.make(
+        undefined,
+        [
+            createBind(
+                locales,
+                (t) => t.basis.Set.function.translate.value,
+                // The type is a type variable, so we refer to it.
+                SetTypeVariable.getReference()
+            ),
+        ],
+        SetTranslateTypeVariable.getReference()
+    );
+
     const equalsFunctionNames = getNameLocales(
         locales,
         (locale) => locale.basis.Set.function.equals.inputs[0].names
@@ -366,7 +383,7 @@ export default function bootstrapSet(locales: Locale[]) {
                                 filtered: [],
                             };
                         },
-                        // If we're past the end, stop. Otherwise, evaluate the translator function on the next value.
+                        // If we're past the end, stop. Otherwise, evaluate the filter function on the next value.
                         (evaluator, info, expr) =>
                             info.index >= info.set.values.length
                                 ? false
@@ -376,7 +393,7 @@ export default function bootstrapSet(locales: Locale[]) {
                                       setFilterHOFType,
                                       [info.set.values[info.index]]
                                   ),
-                        // Save the translated value and increment the index.
+                        // See if we're keeping it.
                         (evaluator, info, expression) => {
                             const include = evaluator.popValue(expression);
                             if (!(include instanceof Bool))
@@ -390,13 +407,69 @@ export default function bootstrapSet(locales: Locale[]) {
                             info.index = info.index + 1;
                             return undefined;
                         },
-                        // Create the translated list.
+                        // Create the filtered set.
                         (evaluator, info, expression) =>
                             new Set(expression, info.filtered)
                     ),
                     SetType.make(SetTypeVariable.getReference())
                 ),
-
+                FunctionDefinition.make(
+                    getDocLocales(
+                        locales,
+                        (locale) => locale.basis.Set.function.translate.doc
+                    ),
+                    getNameLocales(
+                        locales,
+                        (locale) => locale.basis.Set.function.translate.names
+                    ),
+                    TypeVariables.make([SetTypeVariable]),
+                    [
+                        createBind(
+                            locales,
+                            (t) => t.basis.Set.function.translate.inputs[0],
+                            SetTranslateHOFType
+                        ),
+                    ],
+                    new Iteration<{
+                        index: number;
+                        set: Value[];
+                        translated: Value[];
+                    }>(
+                        SetTranslateHOFType,
+                        // Start with an index of one, the list we're translating, and an empty translated list.
+                        (evaluator) => {
+                            return {
+                                index: 0,
+                                set: (evaluator.getCurrentClosure() as Set)
+                                    .values,
+                                translated: [],
+                            };
+                        },
+                        // If we're past the end, stop. Otherwise, evaluate the translator function on the next value.
+                        (evaluator, info, expr) =>
+                            info.index >= info.set.length
+                                ? false
+                                : expr.evaluateFunctionInput(
+                                      evaluator,
+                                      0,
+                                      SetTranslateHOFType,
+                                      [info.set[info.index]]
+                                  ),
+                        // Save the translated value and increment the index.
+                        (evaluator, info, expression) => {
+                            // Get the translated value.
+                            info.translated.push(
+                                evaluator.popValue(expression)
+                            );
+                            info.index = info.index + 1;
+                            return undefined;
+                        },
+                        // Create the translated list.
+                        (evaluator, info, expression) =>
+                            new Set(expression, info.translated)
+                    ),
+                    SetType.make(SetTranslateTypeVariable.getReference())
+                ),
                 createBasisConversion(
                     getDocLocales(
                         locales,
