@@ -2104,18 +2104,21 @@
                             "names": "translator"
                         }
                     ],
-                    "value": {
-                        "doc": "The item being translated.",
-                        "names": "item"
-                    },
-                    "index": {
-                        "doc": "The index of the item being translated.",
-                        "names": "index"
-                    },
-                    "list": {
-                        "doc": "The list being translated.",
-                        "names": "list"
-                    }
+
+                    "translator": [
+                        {
+                            "doc": "The item being translated.",
+                            "names": "item"
+                        },
+                        {
+                            "doc": "The index of the item being translated.",
+                            "names": "index"
+                        },
+                        {
+                            "doc": "The list being translated.",
+                            "names": "list"
+                        }
+                    ]
                 },
                 "filter": {
                     "doc": [
@@ -2130,18 +2133,20 @@
                             "names": "checker"
                         }
                     ],
-                    "value": {
-                        "doc": "The item being checked.",
-                        "names": "item"
-                    },
-                    "index": {
-                        "doc": "The index of the item being checked.",
-                        "names": "index"
-                    },
-                    "list": {
-                        "doc": "The list being filtered.",
-                        "names": "list"
-                    }
+                    "checker": [
+                        {
+                            "doc": "The item being checked.",
+                            "names": "item"
+                        },
+                        {
+                            "doc": "The index of the item being checked.",
+                            "names": "index"
+                        },
+                        {
+                            "doc": "The list being filtered.",
+                            "names": "list"
+                        }
+                    ]
                 },
                 "all": {
                     "doc": [
@@ -2156,18 +2161,20 @@
                             "names": "checker"
                         }
                     ],
-                    "value": {
-                        "doc": "The item being checked.",
-                        "names": "item"
-                    },
-                    "index": {
-                        "doc": "The index of the item being checked.",
-                        "names": "index"
-                    },
-                    "list": {
-                        "doc": "The list being checked.",
-                        "names": "list"
-                    }
+                    "checker": [
+                        {
+                            "doc": "The item being checked.",
+                            "names": "item"
+                        },
+                        {
+                            "doc": "The index of the item being checked.",
+                            "names": "index"
+                        },
+                        {
+                            "doc": "The list being checked.",
+                            "names": "list"
+                        }
+                    ]
                 },
                 "until": {
                     "doc": [
@@ -2182,18 +2189,20 @@
                             "names": "checker"
                         }
                     ],
-                    "value": {
-                        "doc": "The item being checked.",
-                        "names": "item"
-                    },
-                    "index": {
-                        "doc": "The index of the item being checked.",
-                        "names": "index"
-                    },
-                    "list": {
-                        "doc": "The list being subsequenced.",
-                        "names": "list"
-                    }
+                    "checker": [
+                        {
+                            "doc": "The item being checked.",
+                            "names": "item"
+                        },
+                        {
+                            "doc": "The index of the item being checked.",
+                            "names": "index"
+                        },
+                        {
+                            "doc": "The list being subsequenced.",
+                            "names": "list"
+                        }
+                    ]
                 },
                 "find": {
                     "doc": [
@@ -2208,18 +2217,20 @@
                             "names": "checker"
                         }
                     ],
-                    "value": {
-                        "doc": "The item being checked.",
-                        "names": "item"
-                    },
-                    "index": {
-                        "doc": "The index of the item being checked.",
-                        "names": "index"
-                    },
-                    "list": {
-                        "doc": "The list being searched.",
-                        "names": "list"
-                    }
+                    "checker": [
+                        {
+                            "doc": "The item being checked.",
+                            "names": "item"
+                        },
+                        {
+                            "doc": "The index of the item being checked.",
+                            "names": "index"
+                        },
+                        {
+                            "doc": "The list being searched.",
+                            "names": "list"
+                        }
+                    ]
                 },
                 "combine": {
                     "doc": [
@@ -2238,22 +2249,30 @@
                             "names": "combiner"
                         }
                     ],
-                    "combination": {
-                        "doc": "The current combination",
-                        "names": "combination"
-                    },
-                    "next": {
-                        "doc": "The next item to combine.",
-                        "names": "next"
-                    },
-                    "index": {
-                        "doc": "The index of the next item",
-                        "names": "index"
-                    },
-                    "list": {
-                        "doc": "The list being combined.",
-                        "names": "list"
-                    }
+                    "combiner": [
+                        {
+                            "doc": "The current combination",
+                            "names": "combination"
+                        },
+                        {
+                            "doc": "The next item to combine.",
+                            "names": "next"
+                        },
+                        {
+                            "doc": "The index of the next item",
+                            "names": "index"
+                        },
+                        {
+                            "doc": "The list being combined.",
+                            "names": "list"
+                        }
+                    ]
+                },
+                "sort": {
+                    "doc": "$?",
+                    "names": "sorted",
+                    "inputs": [{ "doc": "$?", "names": "sequencer" }],
+                    "value": { "doc": "$?", "names": "value" }
                 }
             },
             "conversion": {
@@ -2365,14 +2384,16 @@
                             "names": "checker"
                         }
                     ],
-                    "value": {
-                        "doc": "The item being checked.",
-                        "names": "value"
-                    },
-                    "set": {
-                        "doc": "The set being filtered",
-                        "names": "set"
-                    }
+                    "checker": [
+                        {
+                            "doc": "The item being checked.",
+                            "names": "value"
+                        },
+                        {
+                            "doc": "The set being filtered",
+                            "names": "set"
+                        }
+                    ]
                 },
                 "translate": {
                     "doc": [
@@ -2387,14 +2408,16 @@
                             "names": "set"
                         }
                     ],
-                    "value": {
-                        "doc": "The item being translated.",
-                        "names": "value"
-                    },
-                    "set": {
-                        "doc": "The set being translated",
-                        "names": "set"
-                    }
+                    "translator": [
+                        {
+                            "doc": "The item being translated.",
+                            "names": "value"
+                        },
+                        {
+                            "doc": "The set being translated",
+                            "names": "set"
+                        }
+                    ]
                 }
             },
             "conversion": {
@@ -2495,15 +2518,17 @@
                             "names": "checker"
                         }
                     ],
-                    "key": { "doc": "The key being checked.", "names": "key" },
-                    "value": {
-                        "doc": "The value being checked.",
-                        "names": "value"
-                    },
-                    "map": {
-                        "doc": "The map being filtered.",
-                        "names": "map"
-                    }
+                    "checker": [
+                        { "doc": "The key being checked.", "names": "key" },
+                        {
+                            "doc": "The value being checked.",
+                            "names": "value"
+                        },
+                        {
+                            "doc": "The map being filtered.",
+                            "names": "map"
+                        }
+                    ]
                 },
                 "translate": {
                     "doc": [
@@ -2518,18 +2543,20 @@
                             "names": "translator"
                         }
                     ],
-                    "key": {
-                        "doc": "The key of the value being translated.",
-                        "names": "key"
-                    },
-                    "value": {
-                        "doc": "The value being translated.",
-                        "names": "value"
-                    },
-                    "map": {
-                        "doc": "The map being translated.",
-                        "names": "map"
-                    }
+                    "translator": [
+                        {
+                            "doc": "The key of the value being translated.",
+                            "names": "key"
+                        },
+                        {
+                            "doc": "The value being translated.",
+                            "names": "value"
+                        },
+                        {
+                            "doc": "The map being translated.",
+                            "names": "map"
+                        }
+                    ]
                 }
             },
             "conversion": {

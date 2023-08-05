@@ -1,6 +1,5 @@
 import Bind from '@nodes/Bind';
 import BooleanType from '@nodes/BooleanType';
-import FunctionDefinition from '@nodes/FunctionDefinition';
 import FunctionType from '@nodes/FunctionType';
 import ListType from '@nodes/ListType';
 import NumberType from '@nodes/NumberType';
@@ -27,7 +26,11 @@ import type Locale from '../locale/Locale';
 import NoneLiteral from '../nodes/NoneLiteral';
 import None from '../runtime/None';
 import { Iteration } from './Iteration';
-import { createBind } from '../locale/Locale';
+import {
+    createBind,
+    createFunction,
+    createInputs as createInputs,
+} from '../locale/Locale';
 import ValueException from '../runtime/ValueException';
 
 export default function bootstrapList(locales: Locale[]) {
@@ -619,15 +622,9 @@ export default function bootstrapList(locales: Locale[]) {
                             );
                     }
                 ),
-                FunctionDefinition.make(
-                    getDocLocales(
-                        locales,
-                        (locale) => locale.basis.List.function.equals.doc
-                    ),
-                    getNameLocales(
-                        locales,
-                        (locale) => locale.basis.List.function.equals.names
-                    ),
+                createFunction(
+                    locales,
+                    (locale) => locale.basis.List.function.equals,
                     undefined,
                     [
                         Bind.make(
@@ -640,6 +637,7 @@ export default function bootstrapList(locales: Locale[]) {
                             ListType.make()
                         ),
                     ],
+                    BooleanType.make(),
                     new InternalExpression(
                         BooleanType.make(),
                         [],
@@ -660,18 +658,11 @@ export default function bootstrapList(locales: Locale[]) {
                                 );
                             return new Bool(requestor, list.isEqualTo(value));
                         }
-                    ),
-                    BooleanType.make()
+                    )
                 ),
-                FunctionDefinition.make(
-                    getDocLocales(
-                        locales,
-                        (locale) => locale.basis.List.function.notequals.doc
-                    ),
-                    getNameLocales(
-                        locales,
-                        (locale) => locale.basis.List.function.notequals.names
-                    ),
+                createFunction(
+                    locales,
+                    (locale) => locale.basis.List.function.notequals,
                     undefined,
                     [
                         Bind.make(
@@ -685,6 +676,7 @@ export default function bootstrapList(locales: Locale[]) {
                             ListType.make()
                         ),
                     ],
+                    BooleanType.make(),
                     new InternalExpression(
                         BooleanType.make(),
                         [],
@@ -706,18 +698,11 @@ export default function bootstrapList(locales: Locale[]) {
                                 );
                             return new Bool(requestor, !list.isEqualTo(value));
                         }
-                    ),
-                    BooleanType.make()
+                    )
                 ),
-                FunctionDefinition.make(
-                    getDocLocales(
-                        locales,
-                        (locale) => locale.basis.List.function.translate.doc
-                    ),
-                    getNameLocales(
-                        locales,
-                        (locale) => locale.basis.List.function.translate.names
-                    ),
+                createFunction(
+                    locales,
+                    (locale) => locale.basis.List.function.translate,
                     TypeVariables.make([TranslateTypeVariable]),
                     [
                         createBind(
@@ -725,36 +710,24 @@ export default function bootstrapList(locales: Locale[]) {
                             (t) => t.basis.List.function.translate.inputs[0],
                             FunctionType.make(
                                 undefined,
-                                [
-                                    createBind(
-                                        locales,
-                                        (t) =>
-                                            t.basis.List.function.translate
-                                                .value,
-                                        // The type is a type variable, so we refer to it.
-                                        ListTypeVariable.getReference()
-                                    ),
-                                    createBind(
-                                        locales,
-                                        (t) =>
-                                            t.basis.List.function.translate
-                                                .index,
-                                        NumberType.make()
-                                    ),
-                                    createBind(
-                                        locales,
-                                        (t) =>
-                                            t.basis.List.function.translate
-                                                .list,
+                                createInputs(
+                                    locales,
+                                    (t) =>
+                                        t.basis.List.function.translate
+                                            .translator,
+                                    [
+                                        ListTypeVariable.getReference(),
+                                        NumberType.make(),
                                         ListType.make(
                                             ListTypeVariable.getReference()
-                                        )
-                                    ),
-                                ],
+                                        ),
+                                    ]
+                                ),
                                 TranslateTypeVariable.getReference()
                             )
                         ),
                     ],
+                    ListType.make(TranslateTypeVariable.getReference()),
                     new Iteration<{
                         index: number;
                         list: List;
@@ -790,18 +763,11 @@ export default function bootstrapList(locales: Locale[]) {
                         // Create the translated list.
                         (evaluator, info, expression) =>
                             new List(expression, info.translated)
-                    ),
-                    ListType.make(TranslateTypeVariable.getReference())
+                    )
                 ),
-                FunctionDefinition.make(
-                    getDocLocales(
-                        locales,
-                        (locale) => locale.basis.List.function.filter.doc
-                    ),
-                    getNameLocales(
-                        locales,
-                        (locale) => locale.basis.List.function.filter.names
-                    ),
+                createFunction(
+                    locales,
+                    (locale) => locale.basis.List.function.filter,
                     undefined,
                     [
                         createBind(
@@ -809,34 +775,24 @@ export default function bootstrapList(locales: Locale[]) {
                             (t) => t.basis.List.function.filter.inputs[0],
                             FunctionType.make(
                                 undefined,
-                                [
-                                    createBind(
-                                        locales,
-                                        (locale) =>
-                                            locale.basis.List.function.filter
-                                                .value,
-                                        ListTypeVariable.getReference()
-                                    ),
-                                    createBind(
-                                        locales,
-                                        (locale) =>
-                                            locale.basis.List.function.filter
-                                                .index,
-                                        NumberType.make()
-                                    ),
-                                    createBind(
-                                        locales,
-                                        (t) =>
-                                            t.basis.List.function.filter.list,
+                                createInputs(
+                                    locales,
+                                    (locale) =>
+                                        locale.basis.List.function.filter
+                                            .checker,
+                                    [
+                                        ListTypeVariable.getReference(),
+                                        NumberType.make(),
                                         ListType.make(
                                             ListTypeVariable.getReference()
-                                        )
-                                    ),
-                                ],
+                                        ),
+                                    ]
+                                ),
                                 BooleanType.make()
                             )
                         ),
                     ],
+                    ListType.make(ListTypeVariable.getReference()),
                     new Iteration<{
                         index: number;
                         list: List;
@@ -877,18 +833,11 @@ export default function bootstrapList(locales: Locale[]) {
                         // Create the translated list.
                         (evaluator, info, expression) =>
                             new List(expression, info.filtered)
-                    ),
-                    ListType.make(ListTypeVariable.getReference())
+                    )
                 ),
-                FunctionDefinition.make(
-                    getDocLocales(
-                        locales,
-                        (locale) => locale.basis.List.function.all.doc
-                    ),
-                    getNameLocales(
-                        locales,
-                        (locale) => locale.basis.List.function.all.names
-                    ),
+                createFunction(
+                    locales,
+                    (locale) => locale.basis.List.function.all,
                     undefined,
                     [
                         createBind(
@@ -896,33 +845,21 @@ export default function bootstrapList(locales: Locale[]) {
                             (t) => t.basis.List.function.all.inputs[0],
                             FunctionType.make(
                                 undefined,
-                                [
-                                    createBind(
-                                        locales,
-                                        (locale) =>
-                                            locale.basis.List.function.all
-                                                .value,
-                                        ListTypeVariable.getReference()
-                                    ),
-                                    createBind(
-                                        locales,
-                                        (locale) =>
-                                            locale.basis.List.function.all
-                                                .index,
-                                        NumberType.make()
-                                    ),
-                                    createBind(
-                                        locales,
-                                        (t) => t.basis.List.function.all.list,
-                                        ListType.make(
-                                            ListTypeVariable.getReference()
-                                        )
-                                    ),
-                                ],
+                                createInputs(
+                                    locales,
+                                    (locale) =>
+                                        locale.basis.List.function.all.checker,
+                                    [
+                                        ListTypeVariable.getReference(),
+                                        NumberType.make(),
+                                        ListTypeVariable.getReference(),
+                                    ]
+                                ),
                                 BooleanType.make()
                             )
                         ),
                     ],
+                    BooleanType.make(),
                     new Iteration<{
                         index: number;
                         list: List;
@@ -966,18 +903,11 @@ export default function bootstrapList(locales: Locale[]) {
                         // Create the translated list.
                         (evaluator, info, expression) =>
                             new Bool(expression, info.matches)
-                    ),
-                    BooleanType.make()
+                    )
                 ),
-                FunctionDefinition.make(
-                    getDocLocales(
-                        locales,
-                        (locale) => locale.basis.List.function.until.doc
-                    ),
-                    getNameLocales(
-                        locales,
-                        (locale) => locale.basis.List.function.until.names
-                    ),
+                createFunction(
+                    locales,
+                    (locale) => locale.basis.List.function.until,
                     undefined,
                     [
                         createBind(
@@ -985,33 +915,24 @@ export default function bootstrapList(locales: Locale[]) {
                             (t) => t.basis.List.function.until.inputs[0],
                             FunctionType.make(
                                 undefined,
-                                [
-                                    createBind(
-                                        locales,
-                                        (locale) =>
-                                            locale.basis.List.function.until
-                                                .value,
-                                        ListTypeVariable.getReference()
-                                    ),
-                                    createBind(
-                                        locales,
-                                        (locale) =>
-                                            locale.basis.List.function.until
-                                                .index,
-                                        NumberType.make()
-                                    ),
-                                    createBind(
-                                        locales,
-                                        (t) => t.basis.List.function.until.list,
+                                createInputs(
+                                    locales,
+                                    (locale) =>
+                                        locale.basis.List.function.until
+                                            .checker,
+                                    [
+                                        ListTypeVariable.getReference(),
+                                        NumberType.make(),
                                         ListType.make(
                                             ListTypeVariable.getReference()
-                                        )
-                                    ),
-                                ],
+                                        ),
+                                    ]
+                                ),
                                 ListType.make(ListTypeVariable.getReference())
                             )
                         ),
                     ],
+                    ListType.make(ListTypeVariable.getReference()),
                     new Iteration<{
                         index: number;
                         list: List;
@@ -1051,18 +972,11 @@ export default function bootstrapList(locales: Locale[]) {
                         // Create the translated list.
                         (evaluator, info, expression) =>
                             info.list.subsequence(expression, 1, info.index + 1)
-                    ),
-                    ListType.make(ListTypeVariable.getReference())
+                    )
                 ),
-                FunctionDefinition.make(
-                    getDocLocales(
-                        locales,
-                        (locale) => locale.basis.List.function.find.doc
-                    ),
-                    getNameLocales(
-                        locales,
-                        (locale) => locale.basis.List.function.find.names
-                    ),
+                createFunction(
+                    locales,
+                    (locale) => locale.basis.List.function.find,
                     undefined,
                     [
                         createBind(
@@ -1070,33 +984,26 @@ export default function bootstrapList(locales: Locale[]) {
                             (t) => t.basis.List.function.find.inputs[0],
                             FunctionType.make(
                                 undefined,
-                                [
-                                    createBind(
-                                        locales,
-                                        (locale) =>
-                                            locale.basis.List.function.find
-                                                .value,
-                                        ListTypeVariable.getReference()
-                                    ),
-                                    createBind(
-                                        locales,
-                                        (locale) =>
-                                            locale.basis.List.function.find
-                                                .index,
-                                        NumberType.make()
-                                    ),
-                                    createBind(
-                                        locales,
-                                        (t) => t.basis.List.function.find.list,
+                                createInputs(
+                                    locales,
+                                    (locale) =>
+                                        locale.basis.List.function.find.checker,
+                                    [
+                                        ListTypeVariable.getReference(),
+                                        NumberType.make(),
                                         ListType.make(
                                             ListTypeVariable.getReference()
-                                        )
-                                    ),
-                                ],
+                                        ),
+                                    ]
+                                ),
                                 ListTypeVariable.getReference()
                             )
                         ),
                     ],
+                    UnionType.make(
+                        ListTypeVariable.getReference(),
+                        NoneType.None
+                    ),
                     new Iteration<{
                         index: number;
                         list: List;
@@ -1136,67 +1043,37 @@ export default function bootstrapList(locales: Locale[]) {
                         // Create the translated list.
                         (evaluator, info, expression) =>
                             info.list.get(info.index)
-                    ),
-                    UnionType.make(
-                        ListTypeVariable.getReference(),
-                        NoneType.None
                     )
                 ),
-                FunctionDefinition.make(
-                    getDocLocales(
-                        locales,
-                        (locale) => locale.basis.List.function.combine.doc
-                    ),
-                    getNameLocales(
-                        locales,
-                        (locale) => locale.basis.List.function.combine.names
-                    ),
+                createFunction(
+                    locales,
+                    (locale) => locale.basis.List.function.combine,
                     TypeVariables.make([CombineTypeVariable]),
-                    [
-                        createBind(
-                            locales,
-                            (t) => t.basis.List.function.combine.inputs[0]
-                        ),
-                        createBind(
-                            locales,
-                            (t) => t.basis.List.function.combine.inputs[1],
+                    createInputs(
+                        locales,
+                        (t) => t.basis.List.function.combine.inputs,
+                        [
+                            CombineTypeVariable.getReference(),
                             FunctionType.make(
                                 undefined,
-                                [
-                                    createBind(
-                                        locales,
-                                        (locale) =>
-                                            locale.basis.List.function.combine
-                                                .combination,
-                                        CombineTypeVariable.getReference()
-                                    ),
-                                    createBind(
-                                        locales,
-                                        (locale) =>
-                                            locale.basis.List.function.combine
-                                                .next,
-                                        ListTypeVariable.getReference()
-                                    ),
-                                    createBind(
-                                        locales,
-                                        (locale) =>
-                                            locale.basis.List.function.combine
-                                                .index,
-                                        NumberType.make()
-                                    ),
-                                    createBind(
-                                        locales,
-                                        (t) =>
-                                            t.basis.List.function.combine.list,
-                                        ListType.make(
-                                            ListTypeVariable.getReference()
-                                        )
-                                    ),
-                                ],
+                                createInputs(
+                                    locales,
+                                    (locale) =>
+                                        locale.basis.List.function.combine
+                                            .combiner,
+                                    [
+                                        CombineTypeVariable.getReference(),
+                                        ListTypeVariable.getReference(),
+                                        NumberType.make(),
+                                        ListTypeVariable.getReference(),
+                                    ]
+                                ),
+
                                 CombineTypeVariable.getReference()
-                            )
-                        ),
-                    ],
+                            ),
+                        ]
+                    ),
+                    CombineTypeVariable.getReference(),
                     new Iteration<{
                         index: number;
                         list: List;
@@ -1236,9 +1113,77 @@ export default function bootstrapList(locales: Locale[]) {
                         },
                         // Create the translated list.
                         (evaluator, info, expression) => info.combo
+                    )
+                ),
+                createFunction(
+                    locales,
+                    (locale) => locale.basis.List.function.sort,
+                    TypeVariables.make([CombineTypeVariable]),
+                    createInputs(
+                        locales,
+                        (l) => l.basis.List.function.combine.inputs,
+                        [
+                            CombineTypeVariable.getReference(),
+                            FunctionType.make(
+                                undefined,
+                                createInputs(
+                                    locales,
+                                    (l) =>
+                                        l.basis.List.function.combine.combiner,
+                                    [
+                                        CombineTypeVariable.getReference(),
+                                        ListTypeVariable.getReference(),
+                                        NumberType.make(),
+                                        ListType.make(
+                                            ListTypeVariable.getReference()
+                                        ),
+                                    ]
+                                ),
+                                CombineTypeVariable.getReference()
+                            ),
+                        ]
                     ),
-                    // new HOFListCombine(listCombineHOFType),
-                    CombineTypeVariable.getReference()
+                    CombineTypeVariable.getReference(),
+                    new Iteration<{
+                        index: number;
+                        list: List;
+                        combo: Value;
+                    }>(
+                        CombineTypeVariable.getReference(),
+                        // Start with an index of one and the list we're searching.
+                        (evaluator, expression) => {
+                            const initial = expression.getInput(0, evaluator);
+                            if (initial === undefined)
+                                return new ValueException(
+                                    evaluator,
+                                    expression
+                                );
+                            return {
+                                index: 1,
+                                list: evaluator.getCurrentClosure() as List,
+                                combo: initial,
+                            };
+                        },
+                        // If we're past the end, stop. Otherwise, create the new combo with the combiner.
+                        (evaluator, info, expr) =>
+                            info.index > info.list.values.length
+                                ? false
+                                : expr.evaluateFunctionInput(evaluator, 1, [
+                                      info.combo,
+                                      info.list.get(info.index),
+                                      new Number(expr, info.index),
+                                      info.list,
+                                  ]),
+                        // Save the translated value and increment the index.
+                        (evaluator, info, expression) => {
+                            const combo = evaluator.popValue(expression);
+                            info.combo = combo;
+                            info.index = info.index + 1;
+                            return undefined;
+                        },
+                        // Create the translated list.
+                        (evaluator, info, expression) => info.combo
+                    )
                 ),
                 createBasisConversion(
                     getDocLocales(

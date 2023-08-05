@@ -93,7 +93,7 @@
       ],
       "type": "object"
     },
-    "FunctionText<[def-alias-1127088073-1844-1914-1127088073-0-4709,def-alias-1127088073-1844-1914-1127088073-0-4709]>": {
+    "FunctionText<[def-alias-1127088073-2014-2084-1127088073-0-5555,def-alias-1127088073-2014-2084-1127088073-0-5555]>": {
       "additionalProperties": false,
       "properties": {
         "doc": {
@@ -118,7 +118,7 @@
       ],
       "type": "object"
     },
-    "FunctionText<[def-alias-1127088073-1844-1914-1127088073-0-4709]>": {
+    "FunctionText<[def-alias-1127088073-2014-2084-1127088073-0-5555]>": {
       "additionalProperties": false,
       "properties": {
         "doc": {
@@ -179,19 +179,19 @@
                   "additionalProperties": false,
                   "properties": {
                     "and": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1844-1914-1127088073-0-4709%5D%3E"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-2014-2084-1127088073-0-5555%5D%3E"
                     },
                     "equals": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1844-1914-1127088073-0-4709%5D%3E"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-2014-2084-1127088073-0-5555%5D%3E"
                     },
                     "not": {
                       "$ref": "#/definitions/FunctionText%3C%5B%5D%3E"
                     },
                     "notequal": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1844-1914-1127088073-0-4709%5D%3E"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-2014-2084-1127088073-0-5555%5D%3E"
                     },
                     "or": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1844-1914-1127088073-0-4709%5D%3E"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-2014-2084-1127088073-0-5555%5D%3E"
                     }
                   },
                   "required": [
@@ -241,16 +241,21 @@
                   "additionalProperties": false,
                   "properties": {
                     "add": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1844-1914-1127088073-0-4709%5D%3E"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-2014-2084-1127088073-0-5555%5D%3E"
                     },
                     "all": {
                       "additionalProperties": false,
                       "properties": {
+                        "checker": {
+                          "items": {
+                            "$ref": "#/definitions/NameAndDoc"
+                          },
+                          "maxItems": 3,
+                          "minItems": 3,
+                          "type": "array"
+                        },
                         "doc": {
                           "$ref": "#/definitions/DocText"
-                        },
-                        "index": {
-                          "$ref": "#/definitions/NameAndDoc"
                         },
                         "inputs": {
                           "items": {
@@ -260,40 +265,34 @@
                           "minItems": 1,
                           "type": "array"
                         },
-                        "list": {
-                          "$ref": "#/definitions/NameAndDoc"
-                        },
                         "names": {
                           "$ref": "#/definitions/NameText"
-                        },
-                        "value": {
-                          "$ref": "#/definitions/NameAndDoc"
                         }
                       },
                       "required": [
+                        "checker",
                         "doc",
-                        "index",
                         "inputs",
-                        "list",
-                        "names",
-                        "value"
+                        "names"
                       ],
                       "type": "object"
                     },
                     "append": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1844-1914-1127088073-0-4709%5D%3E"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-2014-2084-1127088073-0-5555%5D%3E"
                     },
                     "combine": {
                       "additionalProperties": false,
                       "properties": {
-                        "combination": {
-                          "$ref": "#/definitions/NameAndDoc"
+                        "combiner": {
+                          "items": {
+                            "$ref": "#/definitions/NameAndDoc"
+                          },
+                          "maxItems": 4,
+                          "minItems": 4,
+                          "type": "array"
                         },
                         "doc": {
                           "$ref": "#/definitions/DocText"
-                        },
-                        "index": {
-                          "$ref": "#/definitions/NameAndDoc"
                         },
                         "inputs": {
                           "items": {
@@ -303,38 +302,34 @@
                           "minItems": 2,
                           "type": "array"
                         },
-                        "list": {
-                          "$ref": "#/definitions/NameAndDoc"
-                        },
                         "names": {
                           "$ref": "#/definitions/NameText"
-                        },
-                        "next": {
-                          "$ref": "#/definitions/NameAndDoc"
                         }
                       },
                       "required": [
-                        "combination",
+                        "combiner",
                         "doc",
-                        "index",
                         "inputs",
-                        "list",
-                        "names",
-                        "next"
+                        "names"
                       ],
                       "type": "object"
                     },
                     "equals": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1844-1914-1127088073-0-4709%5D%3E"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-2014-2084-1127088073-0-5555%5D%3E"
                     },
                     "filter": {
                       "additionalProperties": false,
                       "properties": {
+                        "checker": {
+                          "items": {
+                            "$ref": "#/definitions/NameAndDoc"
+                          },
+                          "maxItems": 3,
+                          "minItems": 3,
+                          "type": "array"
+                        },
                         "doc": {
                           "$ref": "#/definitions/DocText"
-                        },
-                        "index": {
-                          "$ref": "#/definitions/NameAndDoc"
                         },
                         "inputs": {
                           "items": {
@@ -344,34 +339,31 @@
                           "minItems": 1,
                           "type": "array"
                         },
-                        "list": {
-                          "$ref": "#/definitions/NameAndDoc"
-                        },
                         "names": {
                           "$ref": "#/definitions/NameText"
-                        },
-                        "value": {
-                          "$ref": "#/definitions/NameAndDoc"
                         }
                       },
                       "required": [
+                        "checker",
                         "doc",
-                        "index",
                         "inputs",
-                        "list",
-                        "names",
-                        "value"
+                        "names"
                       ],
                       "type": "object"
                     },
                     "find": {
                       "additionalProperties": false,
                       "properties": {
+                        "checker": {
+                          "items": {
+                            "$ref": "#/definitions/NameAndDoc"
+                          },
+                          "maxItems": 3,
+                          "minItems": 3,
+                          "type": "array"
+                        },
                         "doc": {
                           "$ref": "#/definitions/DocText"
-                        },
-                        "index": {
-                          "$ref": "#/definitions/NameAndDoc"
                         },
                         "inputs": {
                           "items": {
@@ -381,23 +373,15 @@
                           "minItems": 1,
                           "type": "array"
                         },
-                        "list": {
-                          "$ref": "#/definitions/NameAndDoc"
-                        },
                         "names": {
                           "$ref": "#/definitions/NameText"
-                        },
-                        "value": {
-                          "$ref": "#/definitions/NameAndDoc"
                         }
                       },
                       "required": [
+                        "checker",
                         "doc",
-                        "index",
                         "inputs",
-                        "list",
-                        "names",
-                        "value"
+                        "names"
                       ],
                       "type": "object"
                     },
@@ -405,10 +389,10 @@
                       "$ref": "#/definitions/FunctionText%3C%5B%5D%3E"
                     },
                     "has": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1844-1914-1127088073-0-4709%5D%3E"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-2014-2084-1127088073-0-5555%5D%3E"
                     },
                     "join": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1844-1914-1127088073-0-4709%5D%3E"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-2014-2084-1127088073-0-5555%5D%3E"
                     },
                     "last": {
                       "$ref": "#/definitions/FunctionText%3C%5B%5D%3E"
@@ -417,22 +401,22 @@
                       "$ref": "#/definitions/FunctionText%3C%5B%5D%3E"
                     },
                     "notequals": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1844-1914-1127088073-0-4709%5D%3E"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-2014-2084-1127088073-0-5555%5D%3E"
                     },
                     "random": {
                       "$ref": "#/definitions/FunctionText%3C%5B%5D%3E"
                     },
                     "replace": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1844-1914-1127088073-0-4709%2Cdef-alias-1127088073-1844-1914-1127088073-0-4709%5D%3E"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-2014-2084-1127088073-0-5555%2Cdef-alias-1127088073-2014-2084-1127088073-0-5555%5D%3E"
                     },
                     "reverse": {
                       "$ref": "#/definitions/FunctionText%3C%5B%5D%3E"
                     },
                     "sans": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1844-1914-1127088073-0-4709%5D%3E"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-2014-2084-1127088073-0-5555%5D%3E"
                     },
                     "sansAll": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1844-1914-1127088073-0-4709%5D%3E"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-2014-2084-1127088073-0-5555%5D%3E"
                     },
                     "sansFirst": {
                       "$ref": "#/definitions/FunctionText%3C%5B%5D%3E"
@@ -440,8 +424,37 @@
                     "sansLast": {
                       "$ref": "#/definitions/FunctionText%3C%5B%5D%3E"
                     },
+                    "sort": {
+                      "additionalProperties": false,
+                      "properties": {
+                        "doc": {
+                          "$ref": "#/definitions/DocText"
+                        },
+                        "inputs": {
+                          "items": {
+                            "$ref": "#/definitions/NameAndDoc"
+                          },
+                          "maxItems": 1,
+                          "minItems": 1,
+                          "type": "array"
+                        },
+                        "names": {
+                          "$ref": "#/definitions/NameText"
+                        },
+                        "value": {
+                          "$ref": "#/definitions/NameAndDoc"
+                        }
+                      },
+                      "required": [
+                        "doc",
+                        "inputs",
+                        "names",
+                        "value"
+                      ],
+                      "type": "object"
+                    },
                     "subsequence": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1844-1914-1127088073-0-4709%2Cdef-alias-1127088073-1844-1914-1127088073-0-4709%5D%3E"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-2014-2084-1127088073-0-5555%2Cdef-alias-1127088073-2014-2084-1127088073-0-5555%5D%3E"
                     },
                     "translate": {
                       "additionalProperties": false,
@@ -449,9 +462,6 @@
                         "doc": {
                           "$ref": "#/definitions/DocText"
                         },
-                        "index": {
-                          "$ref": "#/definitions/NameAndDoc"
-                        },
                         "inputs": {
                           "items": {
                             "$ref": "#/definitions/NameAndDoc"
@@ -460,34 +470,39 @@
                           "minItems": 1,
                           "type": "array"
                         },
-                        "list": {
-                          "$ref": "#/definitions/NameAndDoc"
-                        },
                         "names": {
                           "$ref": "#/definitions/NameText"
                         },
-                        "value": {
-                          "$ref": "#/definitions/NameAndDoc"
+                        "translator": {
+                          "items": {
+                            "$ref": "#/definitions/NameAndDoc"
+                          },
+                          "maxItems": 3,
+                          "minItems": 3,
+                          "type": "array"
                         }
                       },
                       "required": [
                         "doc",
-                        "index",
                         "inputs",
-                        "list",
                         "names",
-                        "value"
+                        "translator"
                       ],
                       "type": "object"
                     },
                     "until": {
                       "additionalProperties": false,
                       "properties": {
+                        "checker": {
+                          "items": {
+                            "$ref": "#/definitions/NameAndDoc"
+                          },
+                          "maxItems": 3,
+                          "minItems": 3,
+                          "type": "array"
+                        },
                         "doc": {
                           "$ref": "#/definitions/DocText"
-                        },
-                        "index": {
-                          "$ref": "#/definitions/NameAndDoc"
                         },
                         "inputs": {
                           "items": {
@@ -497,23 +512,15 @@
                           "minItems": 1,
                           "type": "array"
                         },
-                        "list": {
-                          "$ref": "#/definitions/NameAndDoc"
-                        },
                         "names": {
                           "$ref": "#/definitions/NameText"
-                        },
-                        "value": {
-                          "$ref": "#/definitions/NameAndDoc"
                         }
                       },
                       "required": [
+                        "checker",
                         "doc",
-                        "index",
                         "inputs",
-                        "list",
-                        "names",
-                        "value"
+                        "names"
                       ],
                       "type": "object"
                     }
@@ -541,7 +548,8 @@
                     "all",
                     "until",
                     "find",
-                    "combine"
+                    "combine",
+                    "sort"
                   ],
                   "type": "object"
                 },
@@ -599,11 +607,19 @@
                   "additionalProperties": false,
                   "properties": {
                     "equals": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1844-1914-1127088073-0-4709%5D%3E"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-2014-2084-1127088073-0-5555%5D%3E"
                     },
                     "filter": {
                       "additionalProperties": false,
                       "properties": {
+                        "checker": {
+                          "items": {
+                            "$ref": "#/definitions/NameAndDoc"
+                          },
+                          "maxItems": 3,
+                          "minItems": 3,
+                          "type": "array"
+                        },
                         "doc": {
                           "$ref": "#/definitions/DocText"
                         },
@@ -615,37 +631,26 @@
                           "minItems": 1,
                           "type": "array"
                         },
-                        "key": {
-                          "$ref": "#/definitions/NameAndDoc"
-                        },
-                        "map": {
-                          "$ref": "#/definitions/NameAndDoc"
-                        },
                         "names": {
                           "$ref": "#/definitions/NameText"
-                        },
-                        "value": {
-                          "$ref": "#/definitions/NameAndDoc"
                         }
                       },
                       "required": [
+                        "checker",
                         "doc",
                         "inputs",
-                        "key",
-                        "map",
-                        "names",
-                        "value"
+                        "names"
                       ],
                       "type": "object"
                     },
                     "notequals": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1844-1914-1127088073-0-4709%5D%3E"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-2014-2084-1127088073-0-5555%5D%3E"
                     },
                     "remove": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1844-1914-1127088073-0-4709%5D%3E"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-2014-2084-1127088073-0-5555%5D%3E"
                     },
                     "set": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1844-1914-1127088073-0-4709%2Cdef-alias-1127088073-1844-1914-1127088073-0-4709%5D%3E"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-2014-2084-1127088073-0-5555%2Cdef-alias-1127088073-2014-2084-1127088073-0-5555%5D%3E"
                     },
                     "translate": {
                       "additionalProperties": false,
@@ -661,31 +666,28 @@
                           "minItems": 1,
                           "type": "array"
                         },
-                        "key": {
-                          "$ref": "#/definitions/NameAndDoc"
-                        },
-                        "map": {
-                          "$ref": "#/definitions/NameAndDoc"
-                        },
                         "names": {
                           "$ref": "#/definitions/NameText"
                         },
-                        "value": {
-                          "$ref": "#/definitions/NameAndDoc"
+                        "translator": {
+                          "items": {
+                            "$ref": "#/definitions/NameAndDoc"
+                          },
+                          "maxItems": 3,
+                          "minItems": 3,
+                          "type": "array"
                         }
                       },
                       "required": [
                         "doc",
                         "inputs",
-                        "key",
-                        "map",
                         "names",
-                        "value"
+                        "translator"
                       ],
                       "type": "object"
                     },
                     "unset": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1844-1914-1127088073-0-4709%5D%3E"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-2014-2084-1127088073-0-5555%5D%3E"
                     }
                   },
                   "required": [
@@ -745,10 +747,10 @@
                   "additionalProperties": false,
                   "properties": {
                     "equals": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1844-1914-1127088073-0-4709%5D%3E"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-2014-2084-1127088073-0-5555%5D%3E"
                     },
                     "notequals": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1844-1914-1127088073-0-4709%5D%3E"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-2014-2084-1127088073-0-5555%5D%3E"
                     }
                   },
                   "required": [
@@ -979,46 +981,46 @@
                   "additionalProperties": false,
                   "properties": {
                     "add": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1844-1914-1127088073-0-4709%5D%3E"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-2014-2084-1127088073-0-5555%5D%3E"
                     },
                     "cos": {
                       "$ref": "#/definitions/FunctionText%3C%5B%5D%3E"
                     },
                     "divide": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1844-1914-1127088073-0-4709%5D%3E"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-2014-2084-1127088073-0-5555%5D%3E"
                     },
                     "equal": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1844-1914-1127088073-0-4709%5D%3E"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-2014-2084-1127088073-0-5555%5D%3E"
                     },
                     "greaterOrEqual": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1844-1914-1127088073-0-4709%5D%3E"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-2014-2084-1127088073-0-5555%5D%3E"
                     },
                     "greaterThan": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1844-1914-1127088073-0-4709%5D%3E"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-2014-2084-1127088073-0-5555%5D%3E"
                     },
                     "lessOrEqual": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1844-1914-1127088073-0-4709%5D%3E"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-2014-2084-1127088073-0-5555%5D%3E"
                     },
                     "lessThan": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1844-1914-1127088073-0-4709%5D%3E"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-2014-2084-1127088073-0-5555%5D%3E"
                     },
                     "multiply": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1844-1914-1127088073-0-4709%5D%3E"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-2014-2084-1127088073-0-5555%5D%3E"
                     },
                     "notequal": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1844-1914-1127088073-0-4709%5D%3E"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-2014-2084-1127088073-0-5555%5D%3E"
                     },
                     "positive": {
                       "$ref": "#/definitions/FunctionText%3C%5B%5D%3E"
                     },
                     "power": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1844-1914-1127088073-0-4709%5D%3E"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-2014-2084-1127088073-0-5555%5D%3E"
                     },
                     "remainder": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1844-1914-1127088073-0-4709%5D%3E"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-2014-2084-1127088073-0-5555%5D%3E"
                     },
                     "root": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1844-1914-1127088073-0-4709%5D%3E"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-2014-2084-1127088073-0-5555%5D%3E"
                     },
                     "round": {
                       "$ref": "#/definitions/FunctionText%3C%5B%5D%3E"
@@ -1033,7 +1035,7 @@
                       "$ref": "#/definitions/FunctionText%3C%5B%5D%3E"
                     },
                     "subtract": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1844-1914-1127088073-0-4709%5D%3E"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-2014-2084-1127088073-0-5555%5D%3E"
                     }
                   },
                   "required": [
@@ -1097,17 +1099,25 @@
                   "additionalProperties": false,
                   "properties": {
                     "add": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1844-1914-1127088073-0-4709%5D%3E"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-2014-2084-1127088073-0-5555%5D%3E"
                     },
                     "difference": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1844-1914-1127088073-0-4709%5D%3E"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-2014-2084-1127088073-0-5555%5D%3E"
                     },
                     "equals": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1844-1914-1127088073-0-4709%5D%3E"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-2014-2084-1127088073-0-5555%5D%3E"
                     },
                     "filter": {
                       "additionalProperties": false,
                       "properties": {
+                        "checker": {
+                          "items": {
+                            "$ref": "#/definitions/NameAndDoc"
+                          },
+                          "maxItems": 2,
+                          "minItems": 2,
+                          "type": "array"
+                        },
                         "doc": {
                           "$ref": "#/definitions/DocText"
                         },
@@ -1121,31 +1131,24 @@
                         },
                         "names": {
                           "$ref": "#/definitions/NameText"
-                        },
-                        "set": {
-                          "$ref": "#/definitions/NameAndDoc"
-                        },
-                        "value": {
-                          "$ref": "#/definitions/NameAndDoc"
                         }
                       },
                       "required": [
+                        "checker",
                         "doc",
                         "inputs",
-                        "names",
-                        "set",
-                        "value"
+                        "names"
                       ],
                       "type": "object"
                     },
                     "intersection": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1844-1914-1127088073-0-4709%5D%3E"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-2014-2084-1127088073-0-5555%5D%3E"
                     },
                     "notequals": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1844-1914-1127088073-0-4709%5D%3E"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-2014-2084-1127088073-0-5555%5D%3E"
                     },
                     "remove": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1844-1914-1127088073-0-4709%5D%3E"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-2014-2084-1127088073-0-5555%5D%3E"
                     },
                     "translate": {
                       "additionalProperties": false,
@@ -1164,24 +1167,25 @@
                         "names": {
                           "$ref": "#/definitions/NameText"
                         },
-                        "set": {
-                          "$ref": "#/definitions/NameAndDoc"
-                        },
-                        "value": {
-                          "$ref": "#/definitions/NameAndDoc"
+                        "translator": {
+                          "items": {
+                            "$ref": "#/definitions/NameAndDoc"
+                          },
+                          "maxItems": 2,
+                          "minItems": 2,
+                          "type": "array"
                         }
                       },
                       "required": [
                         "doc",
                         "inputs",
                         "names",
-                        "set",
-                        "value"
+                        "translator"
                       ],
                       "type": "object"
                     },
                     "union": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1844-1914-1127088073-0-4709%5D%3E"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-2014-2084-1127088073-0-5555%5D%3E"
                     }
                   },
                   "required": [
@@ -1243,10 +1247,10 @@
                   "additionalProperties": false,
                   "properties": {
                     "equals": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1844-1914-1127088073-0-4709%5D%3E"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-2014-2084-1127088073-0-5555%5D%3E"
                     },
                     "notequal": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1844-1914-1127088073-0-4709%5D%3E"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-2014-2084-1127088073-0-5555%5D%3E"
                     }
                   },
                   "required": [
@@ -1293,31 +1297,31 @@
                   "additionalProperties": false,
                   "properties": {
                     "combine": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1844-1914-1127088073-0-4709%5D%3E"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-2014-2084-1127088073-0-5555%5D%3E"
                     },
                     "ends": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1844-1914-1127088073-0-4709%5D%3E"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-2014-2084-1127088073-0-5555%5D%3E"
                     },
                     "equals": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1844-1914-1127088073-0-4709%5D%3E"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-2014-2084-1127088073-0-5555%5D%3E"
                     },
                     "has": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1844-1914-1127088073-0-4709%5D%3E"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-2014-2084-1127088073-0-5555%5D%3E"
                     },
                     "length": {
                       "$ref": "#/definitions/FunctionText%3C%5B%5D%3E"
                     },
                     "notequals": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1844-1914-1127088073-0-4709%5D%3E"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-2014-2084-1127088073-0-5555%5D%3E"
                     },
                     "repeat": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1844-1914-1127088073-0-4709%5D%3E"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-2014-2084-1127088073-0-5555%5D%3E"
                     },
                     "segment": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1844-1914-1127088073-0-4709%5D%3E"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-2014-2084-1127088073-0-5555%5D%3E"
                     },
                     "starts": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1844-1914-1127088073-0-4709%5D%3E"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-2014-2084-1127088073-0-5555%5D%3E"
                     }
                   },
                   "required": [

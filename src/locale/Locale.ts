@@ -14,6 +14,9 @@ import type Type from '../nodes/Type';
 import { getDocLocales } from './getDocLocales';
 import { getNameLocales } from './getNameLocales';
 import Bind from '../nodes/Bind';
+import type TypeVariables from '../nodes/TypeVariables';
+import type Expression from '../nodes/Expression';
+import FunctionDefinition from '../nodes/FunctionDefinition';
 
 /** A list of locales officially supported by Wordplay. */
 export const SupportedLocales = ['en-US', 'es-MX'] as const;
@@ -142,5 +145,33 @@ export function createBind(
         getDocLocales(locales, (l) => nameAndDoc(l).doc),
         getNameLocales(locales, (l) => nameAndDoc(l).names),
         type
+    );
+}
+
+export function createInputs(
+    locales: Locale[],
+    fun: (locale: Locale) => NameAndDoc[],
+    types: Type[]
+) {
+    return types.map((type, index) =>
+        createBind(locales, (l) => fun(l)[index], type)
+    );
+}
+
+export function createFunction(
+    locales: Locale[],
+    nameAndDoc: (locale: Locale) => NameAndDoc,
+    typeVars: TypeVariables | undefined,
+    inputs: Bind[],
+    output: Type,
+    expression: Expression
+) {
+    return FunctionDefinition.make(
+        getDocLocales(locales, (l) => nameAndDoc(l).doc),
+        getNameLocales(locales, (l) => nameAndDoc(l).names),
+        typeVars,
+        inputs,
+        expression,
+        output
     );
 }

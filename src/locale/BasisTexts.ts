@@ -145,35 +145,25 @@ type BasisTexts = {
             equals: FunctionText<[NameAndDoc]>;
             notequals: FunctionText<[NameAndDoc]>;
             translate: FunctionText<[NameAndDoc]> & {
-                value: NameAndDoc;
-                index: NameAndDoc;
-                list: NameAndDoc;
+                translator: [NameAndDoc, NameAndDoc, NameAndDoc];
             };
             filter: FunctionText<[NameAndDoc]> & {
-                value: NameAndDoc;
-                index: NameAndDoc;
-                list: NameAndDoc;
+                checker: [NameAndDoc, NameAndDoc, NameAndDoc];
             };
             all: FunctionText<[NameAndDoc]> & {
-                value: NameAndDoc;
-                index: NameAndDoc;
-                list: NameAndDoc;
+                checker: [NameAndDoc, NameAndDoc, NameAndDoc];
             };
             until: FunctionText<[NameAndDoc]> & {
-                value: NameAndDoc;
-                index: NameAndDoc;
-                list: NameAndDoc;
+                checker: [NameAndDoc, NameAndDoc, NameAndDoc];
             };
             find: FunctionText<[NameAndDoc]> & {
-                value: NameAndDoc;
-                index: NameAndDoc;
-                list: NameAndDoc;
+                checker: [NameAndDoc, NameAndDoc, NameAndDoc];
             };
             combine: FunctionText<[NameAndDoc, NameAndDoc]> & {
-                combination: NameAndDoc;
-                next: NameAndDoc;
-                index: NameAndDoc;
-                list: NameAndDoc;
+                combiner: [NameAndDoc, NameAndDoc, NameAndDoc, NameAndDoc];
+            };
+            sort: FunctionText<[NameAndDoc]> & {
+                value: NameAndDoc;
             };
         };
         conversion: {
@@ -195,12 +185,10 @@ type BasisTexts = {
             intersection: FunctionText<[NameAndDoc]>;
             difference: FunctionText<[NameAndDoc]>;
             filter: FunctionText<[NameAndDoc]> & {
-                value: NameAndDoc;
-                set: NameAndDoc;
+                checker: [NameAndDoc, NameAndDoc];
             };
             translate: FunctionText<[NameAndDoc]> & {
-                value: NameAndDoc;
-                set: NameAndDoc;
+                translator: [NameAndDoc, NameAndDoc];
             };
         };
         conversion: {
@@ -221,14 +209,10 @@ type BasisTexts = {
             unset: FunctionText<[NameAndDoc]>;
             remove: FunctionText<[NameAndDoc]>;
             filter: FunctionText<[NameAndDoc]> & {
-                key: NameAndDoc;
-                value: NameAndDoc;
-                map: NameAndDoc;
+                checker: [NameAndDoc, NameAndDoc, NameAndDoc];
             };
             translate: FunctionText<[NameAndDoc]> & {
-                key: NameAndDoc;
-                value: NameAndDoc;
-                map: NameAndDoc;
+                translator: [NameAndDoc, NameAndDoc, NameAndDoc];
             };
         };
         conversion: {

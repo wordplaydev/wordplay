@@ -1,7 +1,6 @@
 import Bind from '@nodes/Bind';
 import Block, { BlockKind } from '@nodes/Block';
 import BooleanType from '@nodes/BooleanType';
-import FunctionDefinition from '@nodes/FunctionDefinition';
 import FunctionType from '@nodes/FunctionType';
 import MapType from '@nodes/MapType';
 import StructureDefinition from '@nodes/StructureDefinition';
@@ -19,7 +18,7 @@ import type Evaluation from '@runtime/Evaluation';
 import type Value from '@runtime/Value';
 import type Expression from '../nodes/Expression';
 import type Locale from '../locale/Locale';
-import { createBind } from '../locale/Locale';
+import { createFunction, createInputs } from '../locale/Locale';
 import { Iteration } from './Iteration';
 
 export default function bootstrapMap(locales: Locale[]) {
@@ -272,52 +271,38 @@ export default function bootstrapMap(locales: Locale[]) {
                             );
                     }
                 ),
-                FunctionDefinition.make(
-                    getDocLocales(
-                        locales,
-                        (locale) => locale.basis.Map.function.filter.doc
-                    ),
-                    getNameLocales(
-                        locales,
-                        (locale) => locale.basis.Map.function.filter.names
-                    ),
+                createFunction(
+                    locales,
+                    (locale) => locale.basis.Map.function.filter,
                     undefined,
-                    [
-                        createBind(
-                            locales,
-                            (t) => t.basis.Map.function.filter.inputs[0],
+                    createInputs(
+                        locales,
+                        (l) => l.basis.Map.function.filter.inputs,
+                        [
                             FunctionType.make(
                                 undefined,
-                                [
-                                    createBind(
-                                        locales,
-                                        (locale) =>
-                                            locale.basis.Map.function.filter
-                                                .key,
-                                        KeyTypeVariable.getReference()
-                                    ),
-                                    createBind(
-                                        locales,
-                                        (locale) =>
-                                            locale.basis.Map.function.filter
-                                                .value,
-                                        ValueTypeVariable.getReference()
-                                    ),
-                                    createBind(
-                                        locales,
-                                        (locale) =>
-                                            locale.basis.Map.function.filter
-                                                .map,
+                                createInputs(
+                                    locales,
+                                    (locale) =>
+                                        locale.basis.Map.function.filter
+                                            .checker,
+                                    [
+                                        KeyTypeVariable.getReference(),
+                                        ValueTypeVariable.getReference(),
                                         MapType.make(
                                             KeyTypeVariable.getReference(),
                                             ValueTypeVariable.getReference()
-                                        )
-                                    ),
-                                ],
+                                        ),
+                                    ]
+                                ),
                                 BooleanType.make()
-                            )
-                        ),
-                    ],
+                            ),
+                        ]
+                    ),
+                    MapType.make(
+                        KeyTypeVariable.getReference(),
+                        ValueTypeVariable.getReference()
+                    ),
                     new Iteration<{
                         index: number;
                         map: Map;
@@ -361,67 +346,41 @@ export default function bootstrapMap(locales: Locale[]) {
                         // Create the translated list.
                         (evaluator, info, expression) =>
                             new Map(expression, info.filtered)
-                    ),
-                    MapType.make(
-                        KeyTypeVariable.getReference(),
-                        ValueTypeVariable.getReference()
                     )
                 ),
-                FunctionDefinition.make(
-                    getDocLocales(
-                        locales,
-                        (locale) => locale.basis.Map.function.translate.doc
-                    ),
-                    getNameLocales(
-                        locales,
-                        (locale) => locale.basis.Map.function.translate.names
-                    ),
+                createFunction(
+                    locales,
+                    (locale) => locale.basis.Map.function.translate,
                     TypeVariables.make([TranslateTypeVariable]),
-                    [
-                        Bind.make(
-                            getDocLocales(
-                                locales,
-                                (t) =>
-                                    t.basis.Map.function.translate.inputs[0].doc
-                            ),
-                            getNameLocales(
-                                locales,
-                                (t) =>
-                                    t.basis.Map.function.translate.inputs[0]
-                                        .names
-                            ),
+                    createInputs(
+                        locales,
+                        (t) => t.basis.Map.function.translate.inputs,
+                        [
                             FunctionType.make(
                                 undefined,
-                                [
-                                    createBind(
-                                        locales,
-                                        (locale) =>
-                                            locale.basis.Map.function.translate
-                                                .key,
-                                        KeyTypeVariable.getReference()
-                                    ),
-                                    createBind(
-                                        locales,
-                                        (locale) =>
-                                            locale.basis.Map.function.translate
-                                                .value,
-                                        ValueTypeVariable.getReference()
-                                    ),
-                                    createBind(
-                                        locales,
-                                        (locale) =>
-                                            locale.basis.Map.function.translate
-                                                .map,
+                                createInputs(
+                                    locales,
+                                    (locale) =>
+                                        locale.basis.Map.function.translate
+                                            .translator,
+                                    [
+                                        KeyTypeVariable.getReference(),
+                                        ValueTypeVariable.getReference(),
+
                                         MapType.make(
                                             KeyTypeVariable.getReference(),
                                             ValueTypeVariable.getReference()
-                                        )
-                                    ),
-                                ],
+                                        ),
+                                    ]
+                                ),
                                 TranslateTypeVariable.getReference()
-                            )
-                        ),
-                    ],
+                            ),
+                        ]
+                    ),
+                    MapType.make(
+                        KeyTypeVariable.getReference(),
+                        TranslateTypeVariable.getReference()
+                    ),
                     new Iteration<{
                         index: number;
                         map: Map;
@@ -461,10 +420,6 @@ export default function bootstrapMap(locales: Locale[]) {
                         // Create the translated list.
                         (evaluator, info, expression) =>
                             new Map(expression, info.translated)
-                    ),
-                    MapType.make(
-                        KeyTypeVariable.getReference(),
-                        TranslateTypeVariable.getReference()
                     )
                 ),
                 createBasisConversion(

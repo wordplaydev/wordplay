@@ -1,7 +1,6 @@
 import Bind from '@nodes/Bind';
 import Block, { BlockKind } from '@nodes/Block';
 import BooleanType from '@nodes/BooleanType';
-import FunctionDefinition from '@nodes/FunctionDefinition';
 import FunctionType from '@nodes/FunctionType';
 import SetType from '@nodes/SetType';
 import StructureDefinition from '@nodes/StructureDefinition';
@@ -18,7 +17,7 @@ import { getNameLocales } from '@locale/getNameLocales';
 import TypeVariable from '@nodes/TypeVariable';
 import type Expression from '../nodes/Expression';
 import type Locale from '../locale/Locale';
-import { createBind } from '../locale/Locale';
+import { createBind, createFunction, createInputs } from '../locale/Locale';
 import { Iteration } from './Iteration';
 
 export default function bootstrapSet(locales: Locale[]) {
@@ -327,15 +326,9 @@ export default function bootstrapSet(locales: Locale[]) {
                             );
                     }
                 ),
-                FunctionDefinition.make(
-                    getDocLocales(
-                        locales,
-                        (locale) => locale.basis.Set.function.filter.doc
-                    ),
-                    getNameLocales(
-                        locales,
-                        (locale) => locale.basis.Set.function.filter.names
-                    ),
+                createFunction(
+                    locales,
+                    (locale) => locale.basis.Set.function.filter,
                     undefined,
                     [
                         createBind(
@@ -343,28 +336,23 @@ export default function bootstrapSet(locales: Locale[]) {
                             (t) => t.basis.Set.function.filter.inputs[0],
                             FunctionType.make(
                                 undefined,
-                                [
-                                    createBind(
-                                        locales,
-                                        (locale) =>
-                                            locale.basis.Set.function.filter
-                                                .value,
-                                        SetTypeVariable.getReference()
-                                    ),
-                                    createBind(
-                                        locales,
-                                        (locale) =>
-                                            locale.basis.Set.function.filter
-                                                .set,
+                                createInputs(
+                                    locales,
+                                    (locale) =>
+                                        locale.basis.Set.function.filter
+                                            .checker,
+                                    [
+                                        SetTypeVariable.getReference(),
                                         SetType.make(
                                             SetTypeVariable.getReference()
-                                        )
-                                    ),
-                                ],
+                                        ),
+                                    ]
+                                ),
                                 BooleanType.make()
                             )
                         ),
                     ],
+                    SetType.make(SetTypeVariable.getReference()),
                     new Iteration<{
                         index: number;
                         set: Set;
@@ -404,18 +392,11 @@ export default function bootstrapSet(locales: Locale[]) {
                         // Create the filtered set.
                         (evaluator, info, expression) =>
                             new Set(expression, info.filtered)
-                    ),
-                    SetType.make(SetTypeVariable.getReference())
+                    )
                 ),
-                FunctionDefinition.make(
-                    getDocLocales(
-                        locales,
-                        (locale) => locale.basis.Set.function.translate.doc
-                    ),
-                    getNameLocales(
-                        locales,
-                        (locale) => locale.basis.Set.function.translate.names
-                    ),
+                createFunction(
+                    locales,
+                    (locale) => locale.basis.Set.function.translate,
                     TypeVariables.make([SetTypeVariable]),
                     [
                         createBind(
@@ -423,29 +404,24 @@ export default function bootstrapSet(locales: Locale[]) {
                             (t) => t.basis.Set.function.translate.inputs[0],
                             FunctionType.make(
                                 undefined,
-                                [
-                                    createBind(
-                                        locales,
-                                        (t) =>
-                                            t.basis.Set.function.translate
-                                                .value,
+                                createInputs(
+                                    locales,
+                                    (l) =>
+                                        l.basis.Set.function.translate
+                                            .translator,
+                                    [
                                         // The type is a type variable, so we refer to it.
-                                        SetTypeVariable.getReference()
-                                    ),
-                                    createBind(
-                                        locales,
-                                        (locale) =>
-                                            locale.basis.Set.function.translate
-                                                .set,
+                                        SetTypeVariable.getReference(),
                                         SetType.make(
                                             SetTypeVariable.getReference()
-                                        )
-                                    ),
-                                ],
+                                        ),
+                                    ]
+                                ),
                                 SetTranslateTypeVariable.getReference()
                             )
                         ),
                     ],
+                    SetType.make(SetTranslateTypeVariable.getReference()),
                     new Iteration<{
                         index: number;
                         set: Set;
@@ -483,8 +459,7 @@ export default function bootstrapSet(locales: Locale[]) {
                         // Create the translated list.
                         (evaluator, info, expression) =>
                             new Set(expression, info.translated)
-                    ),
-                    SetType.make(SetTranslateTypeVariable.getReference())
+                    )
                 ),
                 createBasisConversion(
                     getDocLocales(
