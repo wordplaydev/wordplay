@@ -124,8 +124,8 @@ export default class ExpressionPlaceholder extends AtomicExpression {
                 const bind =
                     parent instanceof Evaluate
                         ? parent
-                              .getInputMapping(fun)
-                              .inputs.find((map) => map.given === this)
+                              .getInputMapping(context)
+                              ?.inputs.find((map) => map.given === this)
                               ?.expected
                         : fun.inputs[0];
                 if (bind) {

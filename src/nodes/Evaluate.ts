@@ -56,6 +56,9 @@ import Symbol from './Symbol';
 import Refer from '../edit/Refer';
 import BasisType from './BasisType';
 import Purpose from '../concepts/Purpose';
+import TypeException from '../runtime/TypeException';
+import TypeVariable from './TypeVariable';
+import NameType from './NameType';
 
 type Mapping = {
     expected: Bind;
@@ -203,9 +206,9 @@ export default class Evaluate extends Expression {
                     if (fun === undefined || !(child instanceof Expression))
                         return locale.node.Evaluate.input;
                     // Get the mapping from inputs to binds
-                    const mapping = this.getInputMapping(fun);
+                    const mapping = this.getInputMapping(context);
                     // Find the bind to which this child was mapped and get its translation of this language.
-                    const bind = mapping.inputs.find(
+                    const bind = mapping?.inputs.find(
                         (m) =>
                             m.given !== undefined &&
                             (m.given === child ||
@@ -255,9 +258,10 @@ export default class Evaluate extends Expression {
      * Using the given and expected inputs, generates a mapping from expected to given inputs that can be reused during
      * conflict detection, compilation, and autocomplete.
      * */
-    getInputMapping(
-        fun: FunctionDefinition | StructureDefinition | StreamDefinition
-    ): InputMapping {
+    getInputMapping(context: Context): InputMapping | undefined {
+        const fun = this.getFunction(context);
+        if (fun === undefined) return undefined;
+
         // Get the expected inputs, unless there are parsing errors..
         const expectedInputs = fun.inputs;
 
@@ -389,15 +393,11 @@ export default class Evaluate extends Expression {
     }
 
     getMappingFor(name: string, context: Context) {
-        // Find the function being called.
-        const fun = this.getFunction(context);
-        if (fun === undefined) return undefined;
-
         // Figure out what the current mapping is.
-        const mappings = this.getInputMapping(fun);
+        const mappings = this.getInputMapping(context);
 
         // Find the bind.
-        return mappings.inputs.find((input) =>
+        return mappings?.inputs.find((input) =>
             input.expected.names.hasName(name)
         );
     }
@@ -454,106 +454,116 @@ export default class Evaluate extends Expression {
         // To verify that this evaluation's given inputs match the target inputs,
         // we get the mapping from expected to given, then look for various conflicts in the mapping,
         // one expected input at a time.
-        const mapping = this.getInputMapping(fun);
+        const mapping = this.getInputMapping(context);
 
-        // Loop through each of the expected types and see if the given types match.
-        for (const { expected, given } of mapping.inputs) {
-            // If it's required but not given, conflict
-            if (expected.isRequired() && given === undefined)
-                return [
-                    new MissingInput(
+        if (mapping) {
+            // Loop through each of the expected types and see if the given types match.
+            for (const { expected, given } of mapping.inputs) {
+                // If it's required but not given, conflict
+                if (expected.isRequired() && given === undefined)
+                    return [
+                        new MissingInput(
+                            fun,
+                            this,
+                            this.close ??
+                                this.inputs[this.inputs.length - 1] ??
+                                this.open,
+                            expected
+                        ),
+                    ];
+
+                // Given a bind with an incompatible name? Conflict.
+                if (given instanceof Bind && !expected.sharesName(given))
+                    return [new MisplacedInput(fun, this, expected, given)];
+
+                // Figure out what type this expected input is. Resolve any type variables to concrete values.
+                if (given instanceof Expression) {
+                    const expectedType = getConcreteExpectedType(
                         fun,
+                        expected,
                         this,
-                        this.close ??
-                            this.inputs[this.inputs.length - 1] ??
-                            this.open,
-                        expected
-                    ),
-                ];
-
-            // Given a bind with an incompatible name? Conflict.
-            if (given instanceof Bind && !expected.sharesName(given))
-                return [new MisplacedInput(fun, this, expected, given)];
-
-            // Figure out what type this expected input is. Resolve any type variables to concrete values.
-            if (given instanceof Expression) {
-                const expectedType = getConcreteExpectedType(
-                    fun,
-                    expected,
-                    this,
-                    context
-                );
-                const givenType = given.getType(context);
-                if (!expectedType.accepts(givenType, context, given))
-                    conflicts.push(
-                        new IncompatibleInput(given, givenType, expectedType)
+                        context
                     );
-            }
-
-            // If it's variable length verify that all inputs are an acceptable type.
-            if (expected.isVariableLength() && Array.isArray(given)) {
-                let isVariableListInput = false;
-                // It's okay to provide a compatible list as the input, instead of a sequence of inputs to the evaluate.
-                if (given.length === 1) {
-                    const lastType = given[0].getType(context);
-                    if (
-                        lastType instanceof ListType &&
-                        expected instanceof ListType &&
-                        (lastType.type === undefined ||
-                            expected.type?.accepts(lastType.type, context))
-                    )
-                        isVariableListInput = true;
+                    const givenType = given.getType(context);
+                    if (!expectedType.accepts(givenType, context, given))
+                        conflicts.push(
+                            new IncompatibleInput(
+                                given,
+                                givenType,
+                                expectedType
+                            )
+                        );
                 }
 
-                // If it's not a list input for a variable length input, check every input to make sure it's valid.
-                if (!isVariableListInput) {
-                    for (const item of given) {
-                        const givenType = item.getType(context);
+                // If it's variable length verify that all inputs are an acceptable type.
+                if (expected.isVariableLength() && Array.isArray(given)) {
+                    let isVariableListInput = false;
+                    // It's okay to provide a compatible list as the input, instead of a sequence of inputs to the evaluate.
+                    if (given.length === 1) {
+                        const lastType = given[0].getType(context);
                         if (
-                            expected.type instanceof Type &&
-                            !expected.type.accepts(givenType, context)
+                            lastType instanceof ListType &&
+                            expected instanceof ListType &&
+                            (lastType.type === undefined ||
+                                expected.type?.accepts(lastType.type, context))
                         )
-                            conflicts.push(
-                                new IncompatibleInput(
-                                    item,
-                                    givenType,
-                                    expected.type
-                                )
-                            );
+                            isVariableListInput = true;
+                    }
+
+                    // If it's not a list input for a variable length input, check every input to make sure it's valid.
+                    if (!isVariableListInput) {
+                        for (const item of given) {
+                            const givenType = item.getType(context);
+                            if (
+                                expected.type instanceof Type &&
+                                !expected.type.accepts(givenType, context)
+                            )
+                                conflicts.push(
+                                    new IncompatibleInput(
+                                        item,
+                                        givenType,
+                                        expected.type
+                                    )
+                                );
+                        }
                     }
                 }
             }
-        }
 
-        // See if any of the remaining given inputs are bound to unknown names.
-        for (const given of mapping.extra) {
-            if (
-                given instanceof Bind &&
-                !fun.inputs.some((expected) => expected.sharesName(given))
-            )
-                conflicts.push(new UnknownInput(fun, this, given));
-        }
+            // See if any of the remaining given inputs are bound to unknown names.
+            for (const given of mapping.extra) {
+                if (
+                    given instanceof Bind &&
+                    !fun.inputs.some((expected) => expected.sharesName(given))
+                )
+                    conflicts.push(new UnknownInput(fun, this, given));
+            }
 
-        // If there are remaining given inputs that didn't match anything, something's wrong.
-        if (mapping.extra.length > 0)
-            for (const extra of mapping.extra)
-                conflicts.push(new UnexpectedInput(fun, this, extra));
+            // If there are remaining given inputs that didn't match anything, something's wrong.
+            if (mapping.extra.length > 0)
+                for (const extra of mapping.extra)
+                    conflicts.push(new UnexpectedInput(fun, this, extra));
 
-        // Check type
-        if (!(fun instanceof StreamDefinition)) {
-            const expected = fun.types;
-            // If there are type inputs provided, verify that they exist on the function.
-            if (this.types && this.types.types.length > 0) {
-                for (let index = 0; index < this.types.types.length; index++) {
-                    if (index >= (expected?.variables.length ?? 0)) {
-                        conflicts.push(
-                            new UnexpectedTypeInput(
-                                this,
-                                this.types.types[index],
-                                fun
-                            )
-                        );
-                        break;
+            // Check type
+            if (!(fun instanceof StreamDefinition)) {
+                const expected = fun.types;
+                // If there are type inputs provided, verify that they exist on the function.
+                if (this.types && this.types.types.length > 0) {
+                    for (
+                        let index = 0;
+                        index < this.types.types.length;
+                        index++
+                    ) {
+                        if (index >= (expected?.variables.length ?? 0)) {
+                            conflicts.push(
+                                new UnexpectedTypeInput(
+                                    this,
+                                    this.types.types[index],
+                                    fun
+                                )
+                            );
+                            break;
+                        }
                     }
                 }
             }
@@ -647,8 +657,11 @@ export default class Evaluate extends Expression {
         // and finding an expression to compile for each input.
         const fun = this.getFunction(context);
 
+        // Get the mapping from expected to given.
+        const mapping = this.getInputMapping(context);
+
         // Halt if we couldn't find the function.
-        if (fun === undefined)
+        if (fun === undefined || mapping === undefined)
             return [
                 new Halt(
                     (evaluator) =>
@@ -662,9 +675,6 @@ export default class Evaluate extends Expression {
                 ),
             ];
 
-        // Get the mapping from expected to given.
-        const mapping = this.getInputMapping(fun);
-
         // Iterate through the inputs, compiling given or default expressions.
         const inputSteps = mapping.inputs.map((input) => {
             const { expected, given } = input;
@@ -675,7 +685,7 @@ export default class Evaluate extends Expression {
                 return expected.value !== undefined
                     ? // Compile that.
                       expected.value.compile(context)
-                    : // Otherwise, halt on an expected value.
+                    : // Otherwise, halt, since a value was expected but not given.
                       [
                           new Halt(
                               (evaluator) =>
@@ -706,8 +716,38 @@ export default class Evaluate extends Expression {
                             ),
                         ];
                 }
-                // Otherise, just compile it
-                else return given.compile(context);
+                // Otherise, check its type, and either halt or evaluate.
+                else {
+                    const expectedType = expected.getType(context);
+                    const acceptable =
+                        expectedType
+                            .nodes()
+                            .some(
+                                (node) =>
+                                    node instanceof NameType &&
+                                    node.resolve(context) instanceof
+                                        TypeVariable
+                            ) ||
+                        expectedType.accepts(given.getType(context), context);
+                    return [
+                        ...given.compile(context),
+                        // Evaluate, but if the type was not acceptable, halt
+                        ...(acceptable
+                            ? []
+                            : [
+                                  new Halt(
+                                      (evaluator) =>
+                                          new TypeException(
+                                              this,
+                                              evaluator,
+                                              expectedType,
+                                              evaluator.popValue(this)
+                                          ),
+                                      this
+                                  ),
+                              ]),
+                    ];
+                }
             }
         });
 

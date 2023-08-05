@@ -143,25 +143,22 @@ export default class Bind extends Expression {
                     (anchor instanceof Expression &&
                         parent.inputs.includes(anchor)))
             ) {
-                const fun = parent.getFunction(context);
-                if (fun) {
-                    const mapping = parent.getInputMapping(fun);
-                    return mapping.inputs
-                        .filter((input) => input.given === undefined)
-                        .map(
-                            (input) =>
-                                new Refer(
-                                    (name) =>
-                                        Bind.make(
-                                            undefined,
-                                            Names.make([name]),
-                                            undefined,
-                                            ExpressionPlaceholder.make()
-                                        ),
-                                    input.expected
-                                )
-                        );
-                }
+                const mapping = parent.getInputMapping(context);
+                return mapping?.inputs
+                    .filter((input) => input.given === undefined)
+                    .map(
+                        (input) =>
+                            new Refer(
+                                (name) =>
+                                    Bind.make(
+                                        undefined,
+                                        Names.make([name]),
+                                        undefined,
+                                        ExpressionPlaceholder.make()
+                                    ),
+                                input.expected
+                            )
+                    );
             } else return [];
         }
     }
@@ -431,11 +428,9 @@ export default class Bind extends Expression {
     getCorrespondingBindDefinition(context: Context) {
         const parent = this.getParent(context);
         if (parent instanceof Evaluate) {
-            const fun = parent.getFunction(context);
-            if (fun)
-                return parent
-                    .getInputMapping(fun)
-                    .inputs.find((input) => input.given === this)?.expected;
+            return parent
+                .getInputMapping(context)
+                ?.inputs.find((input) => input.given === this)?.expected;
         }
         return undefined;
     }
@@ -479,12 +474,9 @@ export default class Bind extends Expression {
 
         // If the parent is an evaluate, see what input it corresponds to.
         if (parent instanceof Evaluate) {
-            const fun = parent.getFunction(context);
-            if (fun) {
-                const mapping = parent.getInputMapping(fun);
-                const input = mapping.inputs.find((i) => i.given === this);
-                if (input) return input.expected.getType(context);
-            }
+            const mapping = parent.getInputMapping(context);
+            const input = mapping?.inputs.find((i) => i.given === this);
+            if (input) return input.expected.getType(context);
         }
 
         // If the bind is in a function definition that is part of a function evaluation that takes a function input,

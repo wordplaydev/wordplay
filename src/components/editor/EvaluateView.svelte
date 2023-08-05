@@ -30,9 +30,8 @@
                 .filter((child) => child instanceof Evaluate && child !== node)
                 .some((evaluate) => $caret?.isIn(evaluate, false))
         ) {
-            const fun = node.getFunction($project.getNodeContext(node));
-            if (fun) {
-                const mapping = node.getInputMapping(fun);
+            const mapping = node.getInputMapping($project.getNodeContext(node));
+            if (mapping) {
                 // Reset the bind.
                 nextBind = undefined;
                 // Loop through each of the expected types and see if the given types match.

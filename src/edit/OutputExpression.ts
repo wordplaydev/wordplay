@@ -104,8 +104,8 @@ export default class OutputExpression {
 
         // What binding does this name refer to?
         const binding = this.node
-            .getInputMapping(type)
-            .inputs.find((mapping) => mapping.expected.names.hasName(name));
+            .getInputMapping(this.project.getNodeContext(this.node))
+            ?.inputs.find((mapping) => mapping.expected.names.hasName(name));
 
         // Doesn't exist? Bail.
         if (binding === undefined) return undefined;
