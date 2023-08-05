@@ -11,7 +11,7 @@ import type Expression from './Expression';
 import Token from './Token';
 import StructureDefinition from './StructureDefinition';
 import { MisplacedThis } from '@conflicts/MisplacedThis';
-import StructureDefinitionType from './StructureDefinitionType';
+import StructureType from './StructureType';
 import NameException from '@runtime/NameException';
 import ConversionDefinition from './ConversionDefinition';
 import NumberType from './NumberType';
@@ -103,7 +103,7 @@ export default class This extends AtomicExpression {
             ? new UnenclosedType(this)
             : // Structure definition's have the structure type
             structure instanceof StructureDefinition
-            ? new StructureDefinitionType(structure, [])
+            ? new StructureType(structure, [])
             : // Conversion definitions have the input type
             structure instanceof ConversionDefinition
             ? // We strip the unit from this in order to provide a scalar for conversion.

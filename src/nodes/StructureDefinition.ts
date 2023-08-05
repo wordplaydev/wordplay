@@ -12,7 +12,7 @@ import type Step from '@runtime/Step';
 import StructureDefinitionValue from '@runtime/StructureDefinitionValue';
 import type Context from './Context';
 import type Definition from './Definition';
-import StructureDefinitionType from './StructureDefinitionType';
+import StructureType from './StructureType';
 import Token from './Token';
 import type TypeSet from './TypeSet';
 import { UnimplementedInterface } from '@conflicts/UnimplementedInterface';
@@ -411,7 +411,7 @@ export default class StructureDefinition extends AtomicExpression {
     }
 
     computeType(): Type {
-        return new StructureDefinitionType(this, []);
+        return new StructureType(this, []);
     }
 
     getDependencies(): Expression[] {

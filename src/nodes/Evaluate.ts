@@ -5,7 +5,7 @@ import MissingInput from '@conflicts/MissingInput';
 import UnexpectedInput from '@conflicts/UnexpectedInput';
 import IncompatibleInput from '@conflicts/IncompatibleInput';
 import NotInstantiable from '@conflicts/NotInstantiable';
-import StructureDefinitionType from './StructureDefinitionType';
+import StructureType from './StructureType';
 import Expression from './Expression';
 import type Token from './Token';
 import Type from './Type';
@@ -121,7 +121,7 @@ export default class Evaluate extends Expression {
                 : undefined;
         const structure =
             scopingType instanceof BasisType ||
-            scopingType instanceof StructureDefinitionType;
+            scopingType instanceof StructureType;
         // Get the definitions in the structure type we found,
         // or in the surrounding scope if there isn't one.
         const definitions =
@@ -131,7 +131,7 @@ export default class Evaluate extends Expression {
                   scopingType instanceof BasisType
                     ? scopingType.getDefinitions(nodeBeingReplaced, context)
                     : // If the scope is a structure, get definitions in its scope
-                    scopingType instanceof StructureDefinitionType
+                    scopingType instanceof StructureType
                     ? scopingType.structure.getDefinitions(nodeBeingReplaced)
                     : // Otherwise, get definitions in scope of the anchor
                       anchor.getDefinitionsInScope(context)
@@ -584,7 +584,7 @@ export default class Evaluate extends Expression {
 
         return type instanceof FunctionType && type.definition
             ? type.definition
-            : type instanceof StructureDefinitionType
+            : type instanceof StructureType
             ? type.structure
             : type instanceof StreamDefinitionType
             ? type.definition
@@ -609,7 +609,7 @@ export default class Evaluate extends Expression {
         // If it's a structure, then this is an instantiation of the structure, so this evaluate resolves
         // to a value of the structure's type.
         else if (fun instanceof StructureDefinition)
-            return new StructureDefinitionType(fun, [
+            return new StructureType(fun, [
                 ...(this.types ? this.types.types : []),
             ]);
         else if (fun instanceof StreamDefinition) {

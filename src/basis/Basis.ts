@@ -27,6 +27,7 @@ import bootstrapTable from './TableBasis';
 import { createInputs, type FunctionText } from '../locale/Locale';
 import { getDocLocales } from '../locale/getDocLocales';
 import { getNameLocales } from '../locale/getNameLocales';
+import bootstrapStructure from './StructureBasis';
 
 export class Basis {
     readonly locales: Locale[];
@@ -51,6 +52,7 @@ export class Basis {
         this.addStructure('set', bootstrapSet(locales));
         this.addStructure('map', bootstrapMap(locales));
         this.addStructure('table', bootstrapTable(locales));
+        this.addStructure('structure', bootstrapStructure(locales));
 
         this.shares = createDefaultShares(locales);
     }

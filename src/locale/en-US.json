@@ -1253,8 +1253,8 @@
                 "\\time•…#ms: Time()\\"
             ]
         },
-        "StructureDefinitionType": {
-            "name": "structure definition type",
+        "StructureType": {
+            "name": "structure type",
             "description": "$1",
             "emotion": "kind",
             "doc": "I am an internal type to represent the type of default value types."
@@ -2628,6 +2628,32 @@
             "conversion": {
                 "list": "I convert a @Table into a list of rows, where each row is a @Structure with its column names as properties.",
                 "text": "I just convert a @Table to text."
+            }
+        },
+        "Structure": {
+            "doc": "$?",
+            "name": ["Structure"],
+            "function": {
+                "equals": {
+                    "doc": "I check if my properties are the same name and values as another structure's properties.",
+                    "names": ["=", "equals"],
+                    "inputs": [
+                        {
+                            "doc": "The other structure to check.",
+                            "names": "value"
+                        }
+                    ]
+                },
+                "notequal": {
+                    "doc": "I check if my properties are different in any way from the name and values as another structure's.",
+                    "names": ["≠", "notEquals"],
+                    "inputs": [
+                        {
+                            "doc": "The other structure to check.",
+                            "names": "value"
+                        }
+                    ]
+                }
             }
         }
     },

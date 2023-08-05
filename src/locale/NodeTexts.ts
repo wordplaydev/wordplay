@@ -642,7 +642,7 @@ type NodeTexts = {
      * Description
      * $1: Name of structure
      */
-    StructureDefinitionType: DescriptiveNodeText;
+    StructureType: DescriptiveNodeText;
     TableType: NodeText &
         Conflicts<{
             /** $: The missing column */

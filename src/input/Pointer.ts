@@ -8,7 +8,7 @@ import type Evaluator from '@runtime/Evaluator';
 import StreamDefinition from '@nodes/StreamDefinition';
 import { getDocLocales } from '@locale/getDocLocales';
 import { getNameLocales } from '@locale/getNameLocales';
-import StructureDefinitionType from '@nodes/StructureDefinitionType';
+import StructureType from '@nodes/StructureType';
 import StreamType from '@nodes/StreamType';
 import createStreamEvaluator from './createStreamEvaluator';
 import type Locale from '../locale/Locale';
@@ -60,10 +60,7 @@ export default class Pointer extends Stream<Structure> {
 
     getType(): Type {
         return StreamType.make(
-            new StructureDefinitionType(
-                this.evaluator.project.shares.output.Place,
-                []
-            )
+            new StructureType(this.evaluator.project.shares.output.Place, [])
         );
     }
 }
@@ -77,11 +74,11 @@ export function createPointerDefinition(
         getNameLocales(locales, (locale) => locale.input.Pointer.names),
         [],
         createStreamEvaluator(
-            new StructureDefinitionType(PlaceType),
+            new StructureType(PlaceType),
             Pointer,
             (evaluation) => new Pointer(evaluation.getEvaluator()),
             () => {}
         ),
-        new StructureDefinitionType(PlaceType)
+        new StructureType(PlaceType)
     );
 }

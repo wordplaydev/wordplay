@@ -7,7 +7,7 @@ import UnusedBind from '@conflicts/UnusedBind';
 import IncompatibleType from '@conflicts/IncompatibleType';
 import UnexpectedEtc from '@conflicts/UnexpectedEtc';
 import NameType from './NameType';
-import StructureDefinitionType from './StructureDefinitionType';
+import StructureType from './StructureType';
 import StructureDefinition from './StructureDefinition';
 import type Evaluator from '@runtime/Evaluator';
 import type Step from '@runtime/Step';
@@ -467,7 +467,7 @@ export default class Bind extends Expression {
         // Leave any other names (namely those that refer to type variables) to be concretized by others.
         if (type instanceof NameType) {
             const nameType = type.getType(context);
-            if (nameType instanceof StructureDefinitionType) return nameType;
+            if (nameType instanceof StructureType) return nameType;
         }
 
         const parent = this.getParent(context);

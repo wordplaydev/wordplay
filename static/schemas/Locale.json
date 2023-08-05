@@ -1234,6 +1234,39 @@
               ],
               "type": "object"
             },
+            "Structure": {
+              "additionalProperties": false,
+              "properties": {
+                "doc": {
+                  "$ref": "#/definitions/DocText"
+                },
+                "function": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "equals": {
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-2014-2084-1127088073-0-5743%5D%3E"
+                    },
+                    "notequal": {
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-2014-2084-1127088073-0-5743%5D%3E"
+                    }
+                  },
+                  "required": [
+                    "equals",
+                    "notequal"
+                  ],
+                  "type": "object"
+                },
+                "name": {
+                  "$ref": "#/definitions/NameText"
+                }
+              },
+              "required": [
+                "doc",
+                "name",
+                "function"
+              ],
+              "type": "object"
+            },
             "Table": {
               "additionalProperties": false,
               "properties": {
@@ -1371,7 +1404,8 @@
             "List",
             "Set",
             "Map",
-            "Table"
+            "Table",
+            "Structure"
           ],
           "type": "object"
         },
@@ -3468,7 +3502,7 @@
               ],
               "type": "object"
             },
-            "StructureDefinitionType": {
+            "StructureType": {
               "$ref": "#/definitions/DescriptiveNodeText",
               "description": "Description $1: Name of structure"
             },
@@ -3943,7 +3977,7 @@
             "SetType",
             "StreamDefinitionType",
             "StreamType",
-            "StructureDefinitionType",
+            "StructureType",
             "TableType",
             "TextType",
             "TypePlaceholder",

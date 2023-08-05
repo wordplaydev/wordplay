@@ -63,7 +63,7 @@ import TypeView from '../TypeView.svelte';
 import DocumentedExpressionView from '../DocumentedExpressionView.svelte';
 import TypeInputsView from '../TypeInputsView.svelte';
 import ChangedView from '../ChangedView.svelte';
-import StructureDefinitionTypeView from '../StructureDefinitionTypeView.svelte';
+import StructureTypeView from '../StructureTypeView.svelte';
 import ParagraphView from '../ParagraphView.svelte';
 import LinkView from '../WebLinkView.svelte';
 import ConceptLinkView from '../ConceptLinkView.svelte';
@@ -145,7 +145,7 @@ import UnparsableType from '@nodes/UnparsableType';
 import UnparsableExpression from '@nodes/UnparsableExpression';
 import DocumentedExpression from '@nodes/DocumentedExpression';
 import TypeVariable from '@nodes/TypeVariable';
-import StructureDefinitionType from '@nodes/StructureDefinitionType';
+import StructureType from '@nodes/StructureType';
 import Paragraph from '@nodes/Paragraph';
 import WebLink from '@nodes/WebLink';
 import ConceptLink from '@nodes/ConceptLink';
@@ -267,7 +267,7 @@ nodeToView.set(This, ThisView);
 
 nodeToView.set(Type, TypeView);
 
-nodeToView.set(StructureDefinitionType, StructureDefinitionTypeView);
+nodeToView.set(StructureType, StructureTypeView);
 
 export default function getNodeView(node: Node) {
     // Climp the class hierarchy until finding a satisfactory view of the node.

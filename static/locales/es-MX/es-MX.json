@@ -821,7 +821,7 @@
             "emotion": "neutral",
             "doc": "$?"
         },
-        "StructureDefinitionType": {
+        "StructureType": {
             "name": "tipo de estructura",
             "description": "$1",
             "emotion": "neutral",
@@ -1498,6 +1498,32 @@
             "conversion": {
                 "list": "$?",
                 "text": "$?"
+            }
+        },
+        "Structure": {
+            "doc": "$?",
+            "name": "$?",
+            "function": {
+                "equals": {
+                    "doc": "$?",
+                    "names": "$? =",
+                    "inputs": [
+                        {
+                            "doc": "$?",
+                            "names": "$? value"
+                        }
+                    ]
+                },
+                "notequal": {
+                    "doc": "$?",
+                    "names": "$? ≠",
+                    "inputs": [
+                        {
+                            "doc": "$?",
+                            "names": "$? value"
+                        }
+                    ]
+                }
             }
         }
     },

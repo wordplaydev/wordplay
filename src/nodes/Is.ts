@@ -11,7 +11,7 @@ import Type from './Type';
 import type Bind from './Bind';
 import Reference from './Reference';
 import PropertyReference from './PropertyReference';
-import StructureDefinitionType from './StructureDefinitionType';
+import StructureType from './StructureType';
 import { ImpossibleType } from '@conflicts/ImpossibleType';
 import UnionType from './UnionType';
 import TypeSet from './TypeSet';
@@ -144,7 +144,7 @@ export default class Is extends Expression {
             this.expression.name
         ) {
             const subject = this.expression.getSubjectType(context);
-            if (subject instanceof StructureDefinitionType) {
+            if (subject instanceof StructureType) {
                 if (
                     bind ===
                         subject.getDefinition(this.expression.name.getName()) &&

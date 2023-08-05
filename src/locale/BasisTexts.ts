@@ -235,6 +235,14 @@ type BasisTexts = {
             text: DocText;
         };
     };
+    Structure: {
+        doc: DocText;
+        name: NameText;
+        function: {
+            equals: FunctionText<[NameAndDoc]>;
+            notequal: FunctionText<[NameAndDoc]>;
+        };
+    };
 };
 
 export default BasisTexts;

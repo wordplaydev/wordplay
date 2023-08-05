@@ -7,7 +7,7 @@ import FunctionConcept from './FunctionConcept';
 import NameType from '@nodes/NameType';
 import type Context from '@nodes/Context';
 import ConversionConcept from './ConversionConcept';
-import StructureDefinitionType from '@nodes/StructureDefinitionType';
+import StructureType from '@nodes/StructureType';
 import type Locale from '@locale/Locale';
 import Purpose from './Purpose';
 import Emotion from '../lore/Emotion';
@@ -165,7 +165,7 @@ export default class StructureConcept extends Concept {
      */
     representsType(type: Type) {
         return (
-            (type instanceof StructureDefinitionType &&
+            (type instanceof StructureType &&
                 this.definition === type.structure) ||
             (type instanceof NameType &&
                 type.definition &&

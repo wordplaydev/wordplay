@@ -280,6 +280,15 @@ export default abstract class Node {
         return this.getParent(context)?.getScopeOfChild(this, context);
     }
 
+    /**
+     * Get any additional basis scope that should be included in definition searches
+     * that can't be included because this node already has a scope it returns.
+     * This really only applies to StructureType.
+     */
+    getAdditionalBasisScope(context: Context): Node | undefined {
+        return undefined;
+    }
+
     /** By default, the scope of a child is it's parent's parent. */
     getScopeOfChild(_: Node, context: Context): Node | undefined {
         return this.getParent(context);
@@ -303,15 +312,25 @@ export default abstract class Node {
         if (cache) return cache;
 
         let definitions: Definition[] = [];
+
         // Start with this node and see if it exposes any definitions to itself.
         let scope: Node | undefined = this.getScope(context);
-        while (scope !== undefined) {
+        // See if this node has any additional basis functions to include.
+        let additional = this.getAdditionalBasisScope(context);
+        while (scope !== undefined || additional) {
             // Order matters here: defintions close in the tree have precedent, so they should go first.
-            definitions = definitions.concat(
-                scope.getDefinitions(this, context)
-            );
+            if (additional)
+                definitions = definitions.concat(
+                    additional.getDefinitions(this, context)
+                );
+            if (scope)
+                definitions = definitions.concat(
+                    scope.getDefinitions(this, context)
+                );
+            // Before changing the scope, see if it has any additional basis scope to add.
+            additional = scope?.getAdditionalBasisScope(context);
             // After getting definitions from the scope, get the scope's scope.
-            scope = scope.getScope(context);
+            scope = scope?.getScope(context);
         }
 
         // Finally, add project and basis definitions.
