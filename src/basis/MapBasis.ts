@@ -34,58 +34,8 @@ export default function bootstrapMap(locales: Locale[]) {
     );
     const ValueTypeVariable = new TypeVariable(ValueTypeVariableNames);
 
-    const MapFilterHOFType = FunctionType.make(
-        undefined,
-        [
-            createBind(
-                locales,
-                (locale) => locale.basis.Map.function.filter.key,
-                KeyTypeVariable.getReference()
-            ),
-            createBind(
-                locales,
-                (locale) => locale.basis.Map.function.filter.value,
-                ValueTypeVariable.getReference()
-            ),
-            createBind(
-                locales,
-                (locale) => locale.basis.Map.function.filter.map,
-                MapType.make(
-                    KeyTypeVariable.getReference(),
-                    ValueTypeVariable.getReference()
-                )
-            ),
-        ],
-        BooleanType.make()
-    );
-
     const TranslateTypeVariable = new TypeVariable(
         getNameLocales(locales, (locale) => locale.basis.Map.result)
-    );
-
-    const MapTranslateHOFType = FunctionType.make(
-        undefined,
-        [
-            createBind(
-                locales,
-                (locale) => locale.basis.Map.function.translate.key,
-                KeyTypeVariable.getReference()
-            ),
-            createBind(
-                locales,
-                (locale) => locale.basis.Map.function.translate.value,
-                ValueTypeVariable.getReference()
-            ),
-            createBind(
-                locales,
-                (locale) => locale.basis.Map.function.translate.map,
-                MapType.make(
-                    KeyTypeVariable.getReference(),
-                    ValueTypeVariable.getReference()
-                )
-            ),
-        ],
-        TranslateTypeVariable.getReference()
     );
 
     const equalsFunctionValueNames = getNameLocales(
@@ -336,7 +286,36 @@ export default function bootstrapMap(locales: Locale[]) {
                         createBind(
                             locales,
                             (t) => t.basis.Map.function.filter.inputs[0],
-                            MapFilterHOFType
+                            FunctionType.make(
+                                undefined,
+                                [
+                                    createBind(
+                                        locales,
+                                        (locale) =>
+                                            locale.basis.Map.function.filter
+                                                .key,
+                                        KeyTypeVariable.getReference()
+                                    ),
+                                    createBind(
+                                        locales,
+                                        (locale) =>
+                                            locale.basis.Map.function.filter
+                                                .value,
+                                        ValueTypeVariable.getReference()
+                                    ),
+                                    createBind(
+                                        locales,
+                                        (locale) =>
+                                            locale.basis.Map.function.filter
+                                                .map,
+                                        MapType.make(
+                                            KeyTypeVariable.getReference(),
+                                            ValueTypeVariable.getReference()
+                                        )
+                                    ),
+                                ],
+                                BooleanType.make()
+                            )
                         ),
                     ],
                     new Iteration<{
@@ -360,16 +339,11 @@ export default function bootstrapMap(locales: Locale[]) {
                         (evaluator, info, expr) =>
                             info.index >= info.map.values.length
                                 ? false
-                                : expr.evaluateFunctionInput(
-                                      evaluator,
-                                      0,
-                                      MapFilterHOFType,
-                                      [
-                                          info.map.values[info.index][0],
-                                          info.map.values[info.index][1],
-                                          info.map,
-                                      ]
-                                  ),
+                                : expr.evaluateFunctionInput(evaluator, 0, [
+                                      info.map.values[info.index][0],
+                                      info.map.values[info.index][1],
+                                      info.map,
+                                  ]),
                         // Save the translated value and increment the index.
                         (evaluator, info, expression) => {
                             const include = evaluator.popValue(expression);
@@ -416,7 +390,36 @@ export default function bootstrapMap(locales: Locale[]) {
                                     t.basis.Map.function.translate.inputs[0]
                                         .names
                             ),
-                            MapTranslateHOFType
+                            FunctionType.make(
+                                undefined,
+                                [
+                                    createBind(
+                                        locales,
+                                        (locale) =>
+                                            locale.basis.Map.function.translate
+                                                .key,
+                                        KeyTypeVariable.getReference()
+                                    ),
+                                    createBind(
+                                        locales,
+                                        (locale) =>
+                                            locale.basis.Map.function.translate
+                                                .value,
+                                        ValueTypeVariable.getReference()
+                                    ),
+                                    createBind(
+                                        locales,
+                                        (locale) =>
+                                            locale.basis.Map.function.translate
+                                                .map,
+                                        MapType.make(
+                                            KeyTypeVariable.getReference(),
+                                            ValueTypeVariable.getReference()
+                                        )
+                                    ),
+                                ],
+                                TranslateTypeVariable.getReference()
+                            )
                         ),
                     ],
                     new Iteration<{
@@ -440,16 +443,11 @@ export default function bootstrapMap(locales: Locale[]) {
                         (evaluator, info, expr) =>
                             info.index >= info.map.values.length
                                 ? false
-                                : expr.evaluateFunctionInput(
-                                      evaluator,
-                                      0,
-                                      MapTranslateHOFType,
-                                      [
-                                          info.map.values[info.index][0],
-                                          info.map.values[info.index][1],
-                                          info.map,
-                                      ]
-                                  ),
+                                : expr.evaluateFunctionInput(evaluator, 0, [
+                                      info.map.values[info.index][0],
+                                      info.map.values[info.index][1],
+                                      info.map,
+                                  ]),
                         // Save the translated value and increment the index.
                         (evaluator, info, expression) => {
                             const newValue = evaluator.popValue(expression);

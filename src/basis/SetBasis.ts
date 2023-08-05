@@ -28,43 +28,8 @@ export default function bootstrapSet(locales: Locale[]) {
     );
     const SetTypeVariable = new TypeVariable(SetTypeVariableNames);
 
-    const setFilterHOFType = FunctionType.make(
-        undefined,
-        [
-            createBind(
-                locales,
-                (locale) => locale.basis.Set.function.filter.value,
-                SetTypeVariable.getReference()
-            ),
-            createBind(
-                locales,
-                (locale) => locale.basis.Set.function.filter.set,
-                SetType.make(SetTypeVariable.getReference())
-            ),
-        ],
-        BooleanType.make()
-    );
-
     const SetTranslateTypeVariable = new TypeVariable(
         getNameLocales(locales, (locale) => locale.basis.Set.out)
-    );
-
-    const SetTranslateHOFType = FunctionType.make(
-        undefined,
-        [
-            createBind(
-                locales,
-                (t) => t.basis.Set.function.translate.value,
-                // The type is a type variable, so we refer to it.
-                SetTypeVariable.getReference()
-            ),
-            createBind(
-                locales,
-                (locale) => locale.basis.Set.function.translate.set,
-                SetType.make(SetTypeVariable.getReference())
-            ),
-        ],
-        SetTranslateTypeVariable.getReference()
     );
 
     const equalsFunctionNames = getNameLocales(
@@ -376,7 +341,28 @@ export default function bootstrapSet(locales: Locale[]) {
                         createBind(
                             locales,
                             (t) => t.basis.Set.function.filter.inputs[0],
-                            setFilterHOFType
+                            FunctionType.make(
+                                undefined,
+                                [
+                                    createBind(
+                                        locales,
+                                        (locale) =>
+                                            locale.basis.Set.function.filter
+                                                .value,
+                                        SetTypeVariable.getReference()
+                                    ),
+                                    createBind(
+                                        locales,
+                                        (locale) =>
+                                            locale.basis.Set.function.filter
+                                                .set,
+                                        SetType.make(
+                                            SetTypeVariable.getReference()
+                                        )
+                                    ),
+                                ],
+                                BooleanType.make()
+                            )
                         ),
                     ],
                     new Iteration<{
@@ -397,12 +383,10 @@ export default function bootstrapSet(locales: Locale[]) {
                         (evaluator, info, expr) =>
                             info.index >= info.set.values.length
                                 ? false
-                                : expr.evaluateFunctionInput(
-                                      evaluator,
-                                      0,
-                                      setFilterHOFType,
-                                      [info.set.values[info.index], info.set]
-                                  ),
+                                : expr.evaluateFunctionInput(evaluator, 0, [
+                                      info.set.values[info.index],
+                                      info.set,
+                                  ]),
                         // See if we're keeping it.
                         (evaluator, info, expression) => {
                             const include = evaluator.popValue(expression);
@@ -437,7 +421,29 @@ export default function bootstrapSet(locales: Locale[]) {
                         createBind(
                             locales,
                             (t) => t.basis.Set.function.translate.inputs[0],
-                            SetTranslateHOFType
+                            FunctionType.make(
+                                undefined,
+                                [
+                                    createBind(
+                                        locales,
+                                        (t) =>
+                                            t.basis.Set.function.translate
+                                                .value,
+                                        // The type is a type variable, so we refer to it.
+                                        SetTypeVariable.getReference()
+                                    ),
+                                    createBind(
+                                        locales,
+                                        (locale) =>
+                                            locale.basis.Set.function.translate
+                                                .set,
+                                        SetType.make(
+                                            SetTypeVariable.getReference()
+                                        )
+                                    ),
+                                ],
+                                SetTranslateTypeVariable.getReference()
+                            )
                         ),
                     ],
                     new Iteration<{
@@ -446,7 +452,7 @@ export default function bootstrapSet(locales: Locale[]) {
                         values: Value[];
                         translated: Value[];
                     }>(
-                        SetTranslateHOFType,
+                        SetType.make(SetTranslateTypeVariable.getReference()),
                         // Start with an index of one, the list we're translating, and an empty translated list.
                         (evaluator) => {
                             return {
@@ -461,12 +467,10 @@ export default function bootstrapSet(locales: Locale[]) {
                         (evaluator, info, expr) =>
                             info.index >= info.values.length
                                 ? false
-                                : expr.evaluateFunctionInput(
-                                      evaluator,
-                                      0,
-                                      SetTranslateHOFType,
-                                      [info.values[info.index], info.set]
-                                  ),
+                                : expr.evaluateFunctionInput(evaluator, 0, [
+                                      info.values[info.index],
+                                      info.set,
+                                  ]),
                         // Save the translated value and increment the index.
                         (evaluator, info, expression) => {
                             // Get the translated value.
