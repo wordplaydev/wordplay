@@ -1256,10 +1256,10 @@
                 "translate": {
                     "doc": "$?",
                     "names": "traducir",
-                    "inputs": [{ "doc": "$?", "names": "$?translator" }],
+                    "inputs": [{ "doc": "$?", "names": " ranslator" }],
                     "translator": [
-                        { "doc": "$?", "names": "$?item" },
-                        { "doc": "$?", "names": "$?index" },
+                        { "doc": "$?", "names": "$? item" },
+                        { "doc": "$?", "names": "$? index" },
                         {
                             "doc": "$?",
                             "names": "$?"
@@ -1269,10 +1269,10 @@
                 "filter": {
                     "doc": "$?",
                     "names": "filtrar",
-                    "inputs": [{ "doc": "$?", "names": "$?checker" }],
+                    "inputs": [{ "doc": "$?", "names": "$? checker" }],
                     "checker": [
-                        { "doc": "$?", "names": "$?item" },
-                        { "doc": "$?", "names": "$?index" },
+                        { "doc": "$?", "names": "$? item" },
+                        { "doc": "$?", "names": "$? index" },
                         {
                             "doc": "$?",
                             "names": "$?"
@@ -1410,7 +1410,7 @@
                         { "doc": "$?", "names": "$? value" },
                         {
                             "doc": "$?",
-                            "names": "$?set"
+                            "names": "$? set"
                         }
                     ]
                 }
@@ -1460,20 +1460,20 @@
                 "filter": {
                     "doc": "$?",
                     "names": "filter",
-                    "inputs": [{ "doc": "$?", "names": "$?checker" }],
+                    "inputs": [{ "doc": "$?", "names": "$? checker" }],
                     "checker": [
-                        { "doc": "$?", "names": "$?key" },
-                        { "doc": "$?", "names": "$?value" },
+                        { "doc": "$?", "names": "$? key" },
+                        { "doc": "$?", "names": "$? value" },
                         { "doc": "$?", "names": "$?" }
                     ]
                 },
                 "translate": {
                     "doc": "$?",
                     "names": "translate",
-                    "inputs": [{ "doc": "$?", "names": "$?translator" }],
+                    "inputs": [{ "doc": "$?", "names": "$? translator" }],
                     "translator": [
-                        { "doc": "$?", "names": "$?key" },
-                        { "doc": "$?", "names": "$?value" },
+                        { "doc": "$?", "names": "$? key" },
+                        { "doc": "$?", "names": "$? value" },
                         { "doc": "$?", "names": "$?" }
                     ]
                 }
