@@ -242,6 +242,9 @@ type BasisTexts = {
             equals: FunctionText<[NameAndDoc]>;
             notequal: FunctionText<[NameAndDoc]>;
         };
+        conversion: {
+            text: DocText;
+        };
     };
 };
 

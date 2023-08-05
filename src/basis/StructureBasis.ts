@@ -3,13 +3,16 @@ import Block, { BlockKind } from '@nodes/Block';
 import { getDocLocales } from '@locale/getDocLocales';
 import { getNameLocales } from '@locale/getNameLocales';
 import type Locale from '../locale/Locale';
-import { createBasisFunction } from './Basis';
+import { createBasisConversion, createBasisFunction } from './Basis';
 import Bool from '../runtime/Bool';
 import BooleanType from '../nodes/BooleanType';
 import type Evaluation from '../runtime/Evaluation';
 import type Expression from '../nodes/Expression';
 import AnyType from '../nodes/AnyType';
 import Value from '../runtime/Value';
+import type Structure from '../runtime/Structure';
+import TextType from '../nodes/TextType';
+import Text from '../runtime/Text';
 
 export default function bootstrapStructure(locales: Locale[]) {
     return StructureDefinition.make(
@@ -73,6 +76,16 @@ export default function bootstrapStructure(locales: Locale[]) {
                                 !structure.isEqualTo(other)
                             );
                     }
+                ),
+                createBasisConversion(
+                    getDocLocales(
+                        locales,
+                        (l) => l.basis.Structure.conversion.text
+                    ),
+                    new AnyType(),
+                    TextType.make(),
+                    (requestor: Expression, value: Structure) =>
+                        new Text(requestor, value.toWordplay(locales))
                 ),
             ],
             BlockKind.Structure

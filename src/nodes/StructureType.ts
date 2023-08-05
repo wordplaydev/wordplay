@@ -80,8 +80,14 @@ export default class StructureType extends BasisType {
         return this.structure.getConversion(context, input, output);
     }
 
-    getAllConversions() {
-        return this.structure.getAllConversions();
+    getAllConversions(context: Context) {
+        return [
+            ...this.structure.getAllConversions(),
+            ...(context
+                .getBasis()
+                .getStructureDefinition('structure')
+                ?.getAllConversions() ?? []),
+        ];
     }
 
     resolveTypeVariable(name: string): Type | undefined {

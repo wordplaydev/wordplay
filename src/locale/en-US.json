@@ -2654,6 +2654,9 @@
                         }
                     ]
                 }
+            },
+            "conversion": {
+                "text": "I convert myself to @Text."
             }
         }
     },

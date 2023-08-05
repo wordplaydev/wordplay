@@ -1237,6 +1237,18 @@
             "Structure": {
               "additionalProperties": false,
               "properties": {
+                "conversion": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "text": {
+                      "$ref": "#/definitions/DocText"
+                    }
+                  },
+                  "required": [
+                    "text"
+                  ],
+                  "type": "object"
+                },
                 "doc": {
                   "$ref": "#/definitions/DocText"
                 },
@@ -1263,7 +1275,8 @@
               "required": [
                 "doc",
                 "name",
-                "function"
+                "function",
+                "conversion"
               ],
               "type": "object"
             },
