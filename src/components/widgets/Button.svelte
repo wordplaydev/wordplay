@@ -72,9 +72,10 @@
     }
 
     button:focus {
-        outline: none;
-        color: var(--wordplay-focus-color);
-        fill: var(--wordplay-focus-color);
+        background: var(--wordplay-focus-color);
+        border-radius: var(--wordplay-border-radius);
+        color: var(--wordplay-background);
+        fill: var(--wordplay-background);
     }
 
     button.scale:focus[aria-disabled='false'],
@@ -83,6 +84,7 @@
     }
 
     :global(button:focus .token-view) {
-        color: var(--wordplay-focus-color);
+        border-radius: var(--wordplay-border-radius);
+        color: var(--wordplay-background);
     }
 </style>

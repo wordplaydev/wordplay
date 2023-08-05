@@ -98,11 +98,13 @@
 
     .name {
         cursor: pointer;
+        padding: var(--wordplay-spacing);
     }
 
     .name:focus {
-        outline: none;
-        color: var(--wordplay-highlight-color);
+        background: var(--wordplay-focus-color);
+        color: var(--wordplay-background-color);
+        border-radius: var(--wordplay-border-radius);
     }
 
     .expanded .name {

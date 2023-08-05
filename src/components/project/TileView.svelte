@@ -31,6 +31,7 @@
     export let dragging: boolean;
     export let fullscreenID: string | undefined;
     export let background: Color | string | null = null;
+    export let focuscontent: boolean = false;
 
     $: fullscreen = tile.id === fullscreenID;
 
@@ -176,6 +177,7 @@
             : ''}"
         class:fullscreen
         class:dragging
+        class:focuscontent
         class:animated={mounted}
         data-id={tile.id}
         style:background={background instanceof Color
@@ -342,13 +344,13 @@
         padding-bottom: 0;
         gap: var(--wordplay-spacing);
         width: 100%;
-        min-height: 2em;
+        min-height: 2.75em;
         overflow-x: auto;
     }
 
     /** Dim the header a bit so that they don't demand so much attention */
     .header {
-        opacity: 0.5;
+        opacity: 0.8;
     }
 
     .toolbar {
@@ -375,19 +377,12 @@
         flex-grow: 1;
     }
 
-    .tile:focus-within:after {
-        width: 100%;
-        height: 100%;
-        content: '';
+    .focuscontent .content:focus-within {
         outline: var(--wordplay-focus-color) solid var(--wordplay-focus-width);
         outline-offset: calc(-1 * var(--wordplay-focus-width));
-        position: absolute;
-        top: 0;
-        left: 0;
-        pointer-events: none;
     }
 
-    .tile.fullscreen:focus-within:after {
+    .focuscontent.fullscreen .content:focus-within:after {
         outline-width: calc(var(--wordplay-focus-width) / 2);
         outline-offset: calc(-1 * var(--wordplay-focus-width) / 2);
     }

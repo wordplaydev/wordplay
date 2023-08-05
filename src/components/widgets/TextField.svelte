@@ -76,7 +76,7 @@
 
     input.border {
         border-bottom: var(--wordplay-inactive-color) solid
-            var(--wordplay-border-width);
+            var(--wordplay-focus-width);
     }
 
     input.right {
@@ -89,7 +89,7 @@
 
     input:focus {
         border-bottom: var(--wordplay-focus-color) solid
-            var(--wordplay-border-width);
+            var(--wordplay-focus-width);
     }
 
     input.error {
