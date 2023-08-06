@@ -324,7 +324,9 @@ export default class Caret {
                     nodeLineNumber === lineNumber ||
                     (parent instanceof Block && emptyLine)
                 ) {
-                    const nodesTokens = node.nodes((t) => t instanceof Token);
+                    const nodesTokens = node.nodes(
+                        (t): t is Token => t instanceof Token
+                    );
                     if (
                         parent &&
                         nodesTokens.length > 0 &&
@@ -548,19 +550,6 @@ export default class Caret {
                 .getAncestors(tokenAtPosition)
                 .find((a) => a.isPlaceholder());
         else return undefined;
-    }
-
-    moveNodeHorizontal(direction: -1 | 1) {
-        if (this.position instanceof Node) {
-            const nodes = this.source.nodes((node) => node instanceof Token);
-            let index = nodes.indexOf(this.position);
-            let next = nodes[index + direction];
-            // while(next !== undefined && next instanceof Token) {
-            //     index += direction;
-            //     next = nodes[index + direction];
-            // }
-            return next === undefined ? this : this.withPosition(next);
-        } else return this;
     }
 
     withPosition(
@@ -835,7 +824,7 @@ export default class Caret {
     }
 
     getRange(node: Node): [number, number] | undefined {
-        const tokens = node.nodes((t) => t instanceof Token) as Token[];
+        const tokens = node.nodes((t): t is Token => t instanceof Token);
         const first = tokens[0];
         const last = tokens[tokens.length - 1];
         const firstIndex = this.source.getTokenTextPosition(first);

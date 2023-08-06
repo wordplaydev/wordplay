@@ -271,17 +271,17 @@ export default class Reference extends AtomicExpression {
             const guards = context.source.root
                 .getAncestors(this)
                 ?.filter(
-                    (a) =>
+                    (a): a is Conditional =>
                         a instanceof Conditional &&
                         a.condition.nodes(
-                            (n) =>
+                            (n): n is Reference =>
                                 context.source.root.getParent(n) instanceof
                                     Is &&
                                 n instanceof Reference &&
                                 definition === n.resolve(context)
-                        )
+                        ).length > 0
                 )
-                .reverse() as Conditional[];
+                .reverse();
 
             // Grab the furthest ancestor and evaluate possible types from there.
             const root = guards[0];

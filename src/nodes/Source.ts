@@ -85,8 +85,8 @@ export default class Source extends Expression {
         // Create an index of the token positions and space roots.
         let index = 0;
         for (const token of this.expression.nodes(
-            (n) => n instanceof Token
-        ) as Token[]) {
+            (n): n is Token => n instanceof Token
+        )) {
             // Increment by the amount of space
             index += this.spaces.getSpace(token).length;
             // Remember the position.
@@ -702,8 +702,8 @@ export default class Source extends Expression {
 
     getTokensBefore(token: Token) {
         const tokens = this.expression.nodes(
-            (n) => n instanceof Token
-        ) as Token[];
+            (n): n is Token => n instanceof Token
+        );
         const index = tokens.indexOf(token);
         if (index < 0) return undefined;
         else return tokens.slice(0, index);
@@ -711,8 +711,8 @@ export default class Source extends Expression {
 
     getNextToken(token: Token, direction: -1 | 1): Token | undefined {
         const tokens = this.expression.nodes(
-            (n) => n instanceof Token
-        ) as Token[];
+            (n): n is Token => n instanceof Token
+        );
         const index = tokens.indexOf(token);
 
         if (direction < 0 && index <= 0) return undefined;

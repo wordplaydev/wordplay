@@ -60,22 +60,23 @@ export default class ConceptIndex {
     static make(project: Project, locales: Locale[]) {
         const projectStructures = [project.main, ...project.supplements]
             .map((source) =>
-                (
-                    source.expression.nodes(
-                        (n) => n instanceof StructureDefinition
-                    ) as StructureDefinition[]
-                ).map(
-                    (def) =>
-                        new StructureConcept(
-                            Purpose.Project,
-                            undefined,
-                            def,
-                            undefined,
-                            [],
-                            locales,
-                            project.getContext(source)
-                        )
-                )
+                source.expression
+                    .nodes(
+                        (n): n is StructureDefinition =>
+                            n instanceof StructureDefinition
+                    )
+                    .map(
+                        (def) =>
+                            new StructureConcept(
+                                Purpose.Project,
+                                undefined,
+                                def,
+                                undefined,
+                                [],
+                                locales,
+                                project.getContext(source)
+                            )
+                    )
             )
             .flat();
 

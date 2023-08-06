@@ -258,12 +258,12 @@ export default class PropertyReference extends Expression {
                     .getRoot(this)
                     ?.getAncestors(this)
                     ?.filter(
-                        (a) =>
+                        (a): a is Conditional =>
                             // Guards must be conditionals
                             a instanceof Conditional &&
                             // Guards must have references to this same property in a type check
                             a.condition.nodes(
-                                (n) =>
+                                (n): n is PropertyReference =>
                                     this.name !== undefined &&
                                     context.source.root.getParent(n) instanceof
                                         Is &&
@@ -278,7 +278,7 @@ export default class PropertyReference extends Expression {
                                         ).getDefinition(this.name.getName())
                             ).length > 0
                     )
-                    .reverse() as Conditional[];
+                    .reverse();
 
                 // Grab the furthest ancestor and evaluate possible types from there.
                 const root =

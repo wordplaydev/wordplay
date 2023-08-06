@@ -72,11 +72,11 @@ export default function getConcreteExpectedType(
     // We do this in a loop since each time we clone the type, the abstract types that have yet to be concretized
     // are cloned too, so we can't just get a list and loop through it.
     do {
-        const abstractTypes = type.nodes(
-            (n) =>
+        const abstractTypes: (NameType | NumberType)[] = type.nodes(
+            (n): n is NameType | NumberType =>
                 (n instanceof NameType && n.isTypeVariable(context)) ||
                 (n instanceof NumberType && n.hasDerivedUnit())
-        ) as (NameType | NumberType)[];
+        );
         const nextAbstractType = abstractTypes[0];
         // If there's another abstract type, resolve it.
         if (nextAbstractType) {

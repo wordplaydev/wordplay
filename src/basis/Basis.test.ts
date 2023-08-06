@@ -21,11 +21,11 @@ function checkBasisNodes(nodes: Node[]) {
     const unparsables = nodes.reduce(
         (unparsables: (UnparsableExpression | UnparsableType)[], def) => [
             ...unparsables,
-            ...(def.nodes(
-                (n) =>
+            ...def.nodes(
+                (n): n is UnparsableExpression | UnparsableType =>
                     n instanceof UnparsableExpression ||
                     n instanceof UnparsableType
-            ) as (UnparsableExpression | UnparsableType)[]),
+            ),
         ],
         []
     );

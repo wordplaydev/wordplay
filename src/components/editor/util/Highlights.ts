@@ -106,7 +106,8 @@ export function getHighlights(
             // unless they are dragged or contained in the dragged node
             if (dragged instanceof Expression)
                 for (const placeholder of source.expression.nodes(
-                    (n) => n instanceof ExpressionPlaceholder
+                    (n): n is ExpressionPlaceholder =>
+                        n instanceof ExpressionPlaceholder
                 ))
                     if (
                         !dragged.contains(placeholder) &&
@@ -126,8 +127,8 @@ export function getHighlights(
 
             // Find all of the type placeholders and highlight them sa drop target
             if (dragged instanceof Type)
-                for (const placeholder of source.expression.nodes(
-                    (n) => n instanceof TypePlaceholder
+                for (const placeholder of source.expression.nodes<TypePlaceholder>(
+                    (n): n is TypePlaceholder => n instanceof TypePlaceholder
                 ))
                     if (
                         !dragged.contains(placeholder) &&

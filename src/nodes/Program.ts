@@ -125,7 +125,7 @@ export default class Program extends Expression {
             new Set(
                 (
                     this.nodes(
-                        (n) =>
+                        (n): n is Language =>
                             n instanceof Language &&
                             n.getLanguageText() !== undefined
                     ) as Language[]
@@ -137,10 +137,10 @@ export default class Program extends Expression {
     }
 
     getUnitsUsed(): Unit[] {
-        return this.nodes((n) => n instanceof Unit) as Unit[];
+        return this.nodes((n): n is Unit => n instanceof Unit);
     }
     getDimensionsUsed(): Dimension[] {
-        return this.nodes((n) => n instanceof Dimension) as Dimension[];
+        return this.nodes((n): n is Dimension => n instanceof Dimension);
     }
 
     getDependencies(): Expression[] {

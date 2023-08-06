@@ -17,7 +17,8 @@ test.each([
         () => parseExpression(toTokens('1')),
         (sources: Source[]) =>
             sources[0].nodes(
-                (node) => node instanceof ExpressionPlaceholder
+                (node): node is ExpressionPlaceholder =>
+                    node instanceof ExpressionPlaceholder
             )[0],
         '1 + 1',
     ],
@@ -34,7 +35,8 @@ test.each([
         (sources: Source[]) => sources[1].find<Node>(NumberLiteral),
         (sources: Source[]) =>
             sources[0].nodes(
-                (node) => node instanceof ExpressionPlaceholder
+                (node): node is ExpressionPlaceholder =>
+                    node instanceof ExpressionPlaceholder
             )[0],
         '1 + 2',
         '',

@@ -6,6 +6,7 @@ import Language from './Language';
 import NumberLiteral from './NumberLiteral';
 import Reference from './Reference';
 import Token from './Token';
+import type Node from './Node';
 
 test.each([
     '1',
@@ -54,7 +55,7 @@ test.each([
         const oldNode =
             typeof type === 'string'
                 ? type
-                : expr.nodes((s) => s instanceof type)[number];
+                : expr.nodes((s): s is Node => s instanceof type)[number];
         const newExpr = expr.replace(oldNode, newNode);
         expect(newExpr.isEqualTo(expected)).toBeTruthy();
     }

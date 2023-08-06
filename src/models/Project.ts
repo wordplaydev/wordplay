@@ -461,7 +461,8 @@ export default class Project {
         for (const source of this.getSources()) {
             const context = this.getContext(source);
             for (const ref of source.nodes(
-                (n) => n instanceof Reference || n instanceof PropertyReference
+                (n): n is Reference | PropertyReference =>
+                    n instanceof Reference || n instanceof PropertyReference
             ) as (Reference | PropertyReference)[]) {
                 if (ref.resolve(context) === bind) refs.push(ref);
             }

@@ -67,11 +67,11 @@ export function getEvaluationInputConflicts(inputs: Bind[]) {
 }
 
 export function endsWithName(node: Node) {
-    const tokens = node.nodes((t) => t instanceof Token) as Token[];
+    const tokens = node.nodes((t): t is Token => t instanceof Token);
     return tokens.length > 0 && tokens[tokens.length - 1].isSymbol(Symbol.Name);
 }
 
 export function startsWithName(node: Node) {
-    const tokens = node.nodes((t) => t instanceof Token) as Token[];
+    const tokens = node.nodes((t): t is Token => t instanceof Token);
     return tokens.length > 0 && tokens[0].isSymbol(Symbol.Name);
 }
