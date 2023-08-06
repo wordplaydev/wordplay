@@ -57,6 +57,9 @@
     {/if}
 
     <!-- A block table is an actual HTML table with value views in each. -->
+{:else if value.type.columns.length === 0}
+    <SymbolView symbol={TABLE_OPEN_SYMBOL} type={Symbol.TableOpen} />
+    <SymbolView symbol={TABLE_CLOSE_SYMBOL} type={Symbol.TableOpen} />
 {:else}
     <table>
         <tr>
