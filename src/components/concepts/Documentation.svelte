@@ -214,11 +214,7 @@
         {#if results}
             {#each results as [concept, text]}
                 <p class="result">
-                    <CodeView
-                        {concept}
-                        node={concept.getRepresentation()}
-                        showOwner
-                    />
+                    <CodeView {concept} node={concept.getRepresentation()} />
                     <!-- Show the matching text -->
                     {#if text.length > 1 || concept.getName($config.getLocale(), false) !== text[0][0]}
                         <div class="matches">

@@ -1,7 +1,7 @@
 <script lang="ts">
     import type Concept from '@concepts/Concept';
     import RootView from '../project/RootView.svelte';
-    import { getConceptIndex, getDragged } from '../project/Contexts';
+    import { getDragged } from '../project/Contexts';
     import type Node from '@nodes/Node';
     import TypeView from './TypeView.svelte';
     import { toClipboard } from '../editor/util/Clipboard';
@@ -16,10 +16,7 @@
     export let describe: boolean = true;
     export let inline: boolean = false;
     export let outline: boolean = true;
-    /** If true, shows the owner of the concept. */
-    export let showOwner: boolean = false;
 
-    let index = getConceptIndex();
     let dragged = getDragged();
 
     function handlePointerDown(event: PointerEvent) {
@@ -34,11 +31,6 @@
     function copy() {
         toClipboard(node);
     }
-
-    $: conceptToShow =
-        showOwner && concept
-            ? $index?.getConceptOwner(concept) ?? concept
-            : concept;
 </script>
 
 <div class="view">
@@ -60,9 +52,9 @@
             />
         {/if}
     </div>
-    {#if describe && conceptToShow}
+    {#if describe && concept}
         <div class="link">
-            <ConceptLinkUI link={conceptToShow} symbolic={false} />
+            <ConceptLinkUI link={concept} symbolic={false} />
         </div>
     {/if}
 </div>
