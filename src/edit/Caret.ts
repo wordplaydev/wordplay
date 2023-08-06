@@ -95,6 +95,12 @@ export default class Caret {
         return this.tokenPrior;
     }
 
+    getTokensPrior() {
+        return this.tokenIncludingSpace
+            ? this.source.getTokensBefore(this.tokenIncludingSpace)
+            : undefined;
+    }
+
     atBeginningOfTokenSpace() {
         return this.tokenSpaceIndex === this.position;
     }

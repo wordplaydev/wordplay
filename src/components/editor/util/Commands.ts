@@ -17,6 +17,7 @@ import {
     PALETTE_SYMBOL,
     PREVIOUS_SYMBOL,
     TABLE_OPEN_SYMBOL,
+    TABLE_CLOSE_SYMBOL,
 } from '@parser/Symbols';
 
 import Source from '@nodes/Source';
@@ -28,6 +29,7 @@ import Names from '@nodes/Names';
 import type { Creator } from '@db/Creator';
 import type Locale from '@locale/Locale';
 import { Content } from '../../project/Tile';
+import Symbol from '../../../nodes/Symbol';
 
 export type Command = {
     /** The iconographic text symbol to use */
@@ -779,7 +781,21 @@ const Commands: Command[] = [
         control: false,
         key: 'KeyT',
         keySymbol: 't',
-        execute: ({ caret }) => caret?.insert(TABLE_OPEN_SYMBOL) ?? false,
+        execute: ({ caret }) => {
+            if (caret === undefined) return false;
+
+            // Before inserting (and potentially autocompleting)
+            // see if there's an unclosed table open prior to the cursor, and if so, insert a close symbol.
+            const tokensPrior = caret?.getTokensPrior();
+            if (tokensPrior)
+                for (let i = tokensPrior.length - 1; i >= 0; i--) {
+                    if (tokensPrior[i].isSymbol(Symbol.TableClose)) break;
+                    else if (tokensPrior[i].isSymbol(Symbol.TableOpen))
+                        return caret.insert(TABLE_CLOSE_SYMBOL);
+                }
+
+            return caret.insert(TABLE_OPEN_SYMBOL) ?? false;
+        },
     },
 
     // EVALUATE

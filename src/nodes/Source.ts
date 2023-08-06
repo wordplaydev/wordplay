@@ -700,6 +700,15 @@ export default class Source extends Expression {
         return this.getNextToken(token, 1);
     }
 
+    getTokensBefore(token: Token) {
+        const tokens = this.expression.nodes(
+            (n) => n instanceof Token
+        ) as Token[];
+        const index = tokens.indexOf(token);
+        if (index < 0) return undefined;
+        else return tokens.slice(0, index);
+    }
+
     getNextToken(token: Token, direction: -1 | 1): Token | undefined {
         const tokens = this.expression.nodes(
             (n) => n instanceof Token
