@@ -50,16 +50,26 @@
 
     <!-- Block structures are HTML tables -->
 {:else}
+    {@const color = value.is(
+        value.context.getEvaluator().project.shares.output.Color
+    )}
     <table>
         <tr
-            ><th colspan="3"
+            ><th colspan={color ? 1 : 2}
                 ><SymbolView
                     symbol={value.type.names.getPreferredNameString(
                         $config.getLocales()
                     )}
                     type={Symbol.Name}
                 /></th
-            ></tr
+            >{#if color}
+                <th
+                    ><span
+                        class="color"
+                        style:background-color={toColor(value)?.toCSS()}
+                        >&ZeroWidthSpace;</span
+                    ></th
+                >{/if}</tr
         >
         {#each value.type.inputs as input}<tr
                 ><td
@@ -69,7 +79,7 @@
                         )}
                         type={Symbol.Name}
                     /></td
-                ><td /><td
+                ><td
                     ><ValueView
                         value={value.resolve(input.getNames()[0]) ??
                             new NoneValue(value.type)}
