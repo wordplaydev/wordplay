@@ -16,7 +16,6 @@ import StreamType from '@nodes/StreamType';
 import TableType from '@nodes/TableType';
 import TextType from '@nodes/TextType';
 import Token from '@nodes/Token';
-import Symbol from '@nodes/Symbol';
 import UnionType from '@nodes/UnionType';
 import TextLiteral from '@nodes/TextLiteral';
 import NoneLiteral from '@nodes/NoneLiteral';

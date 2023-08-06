@@ -1865,7 +1865,8 @@
             "focusSource": "$?",
             "focusDocs": "$?",
             "focusPalette": "$?",
-            "focusCycle": "$?"
+            "focusCycle": "$?",
+            "conceptLink": "$?"
         },
         "prompt": {
             "deleteSource": "$?",

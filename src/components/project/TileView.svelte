@@ -201,7 +201,6 @@
                         placeholder={$config.getLocale().ui.placeholders.name}
                         validator={(text) => isName(text)}
                         changed={handleRename}
-                        border={false}
                     />
                 {:else}
                     {tile.name}

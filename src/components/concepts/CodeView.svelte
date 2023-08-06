@@ -137,6 +137,7 @@
     .node:hover {
         animation: wobble ease-out infinite;
         animation-duration: calc(var(--animation-factor) * 200ms);
+        border-radius: var(--wordplay-border-radius);
     }
 
     .description {

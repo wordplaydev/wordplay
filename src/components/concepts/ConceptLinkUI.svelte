@@ -5,6 +5,8 @@
     import { config } from '../../db/Creator';
     import TutorialHighlight from '../app/TutorialHighlight.svelte';
     import type ConceptRef from '../../locale/ConceptRef';
+    import Button from '../widgets/Button.svelte';
+    import concretize from '../../locale/concretize';
 
     export let link: ConceptRef | ConceptLink | Concept;
     export let label: string | undefined = undefined;
@@ -83,16 +85,19 @@
     }
 </script>
 
-{#if concept}<span
-        role="button"
-        class="conceptlink interactive"
-        tabindex="0"
-        on:pointerdown={navigate}
-        on:keydown={(event) =>
-            event.key == ' ' || event.key === 'Enter' ? navigate() : undefined}
-        >{#if label}{label}{:else}<span class="long">{longName}</span
-            >{#if symbolicName !== longName && symbolic}<sub>{symbolicName}</sub
-                >{/if}{/if}</span
+{#if concept}<Button
+        action={navigate}
+        tip={concretize(
+            $config.getLocale(),
+            $config.getLocale().ui.description.conceptLink,
+            longName
+        ).toText()}
+        ><span class="conceptlink interactive"
+            >{#if label}{label}{:else}<span class="long">{longName}</span
+                >{#if symbolicName !== longName && symbolic}<sub
+                        >{symbolicName}</sub
+                    >{/if}{/if}</span
+        ></Button
     >{:else if ui}<TutorialHighlight
     />{:else if link instanceof ConceptLink}<span
         >{#if container}{container.getName(
@@ -112,12 +117,13 @@
         text-decoration-thickness: var(--wordplay-border-width);
     }
 
+    :global(button):focus .conceptlink,
     .conceptlink.interactive:hover {
         cursor: pointer;
         text-decoration-thickness: var(--wordplay-focus-width);
     }
 
-    span:focus {
+    :global(button):focus .conceptlink {
         background: var(--wordplay-focus-color);
         color: var(--wordplay-background);
         border-radius: var(--wordplay-border-radius);

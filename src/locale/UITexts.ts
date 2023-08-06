@@ -135,6 +135,7 @@ type UITexts = {
         focusDocs: string;
         focusPalette: string;
         focusCycle: string;
+        conceptLink: Template;
     };
     prompt: {
         deleteSource: string;

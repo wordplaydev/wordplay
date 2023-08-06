@@ -5088,6 +5088,9 @@
                 "collapse": {
                   "type": "string"
                 },
+                "conceptLink": {
+                  "$ref": "#/definitions/Template"
+                },
                 "copy": {
                   "type": "string"
                 },
@@ -5490,7 +5493,8 @@
                 "focusSource",
                 "focusDocs",
                 "focusPalette",
-                "focusCycle"
+                "focusCycle",
+                "conceptLink"
               ],
               "type": "object"
             },
