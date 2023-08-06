@@ -37,32 +37,30 @@
     action={async () => {
         const hadFocus = view !== undefined && document.activeElement === view;
 
-        if (editor) {
-            const result = command.execute(
-                {
-                    caret: editor.caret,
-                    evaluator: $evaluator,
-                    database: $config,
-                    toggleMenu: editor.toggleMenu,
-                },
-                ''
+        const result = command.execute(
+            {
+                caret: editor?.caret,
+                evaluator: $evaluator,
+                database: $config,
+                toggleMenu: editor?.toggleMenu,
+            },
+            ''
+        );
+        if (typeof result === 'boolean') {
+        } else if (result instanceof Promise)
+            result.then((edit) =>
+                editor
+                    ? editor.edit(edit, IdleKind.Typing, focusAfter)
+                    : undefined
             );
-            if (typeof result === 'boolean') {
-            } else if (result instanceof Promise)
-                result.then((edit) =>
-                    editor
-                        ? editor.edit(edit, IdleKind.Typing, focusAfter)
-                        : undefined
-                );
-            else if (result !== undefined)
-                editor.edit(result, IdleKind.Typing, focusAfter);
+        else if (result !== undefined)
+            editor?.edit(result, IdleKind.Typing, focusAfter);
 
-            // If we didn't ask the editor to focus, restore focus on button after update.
-            if (!focusAfter && hadFocus) {
-                await tick();
-                view?.focus();
-            }
-        } else return undefined;
+        // If we didn't ask the editor to focus, restore focus on button after update.
+        if (!focusAfter && hadFocus) {
+            await tick();
+            view?.focus();
+        }
     }}
     >{#if token}<TokenView
             node={tokenize(command.symbol).getTokens()[0]}
