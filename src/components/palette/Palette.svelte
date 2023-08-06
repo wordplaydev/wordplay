@@ -62,14 +62,16 @@
                           .join(', '),
         }}
     >
-        {$config
-            .getLocales()
-            .map((t) =>
-                propertyValues.size === 0
-                    ? t.ui.header.select
-                    : t.ui.header.editing
-            )
-            .join(' ')}
+        <svelte:fragment slot="content">
+            {$config
+                .getLocales()
+                .map((t) =>
+                    propertyValues.size === 0
+                        ? t.ui.header.select
+                        : t.ui.header.editing
+                )
+                .join(' ')}</svelte:fragment
+        >
     </Speech>
 
     {#each Array.from(propertyValues.entries()) as [property, values]}

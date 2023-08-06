@@ -15,7 +15,9 @@
 {#if markup}
     <div transition:fade={{ duration: 100 }}>
         <Speech glyph={Glyphs.Function} scroll={false}>
-            <MarkupHTMLView {markup} />
+            <svelte:fragment slot="content">
+                <MarkupHTMLView {markup} />
+            </svelte:fragment>
         </Speech>
     </div>
 {/if}

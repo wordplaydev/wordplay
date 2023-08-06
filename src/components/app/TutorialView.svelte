@@ -223,7 +223,9 @@
                             scroll={false}
                             emotion={Emotion[turn.dialog[1]]}
                         >
-                            <MarkupHTMLView markup={turn.speech} />
+                            <svelte:fragment slot="content">
+                                <MarkupHTMLView markup={turn.speech} />
+                            </svelte:fragment>
                         </Speech>
                     {/each}
                 {/key}

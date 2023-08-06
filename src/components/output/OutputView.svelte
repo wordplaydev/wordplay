@@ -647,11 +647,14 @@
                         glyph={$index?.getNodeConcept(exception.creator) ??
                             exception.creator.getGlyphs()}
                         invert
-                        >{#each $config.getLocales() as locale}
-                            <MarkupHTMLView
-                                markup={exception.getExplanation(locale)}
-                            />
-                        {/each}</Speech
+                    >
+                        <svelte:fragment slot="content">
+                            {#each $config.getLocales() as locale}
+                                <MarkupHTMLView
+                                    markup={exception.getExplanation(locale)}
+                                />
+                            {/each}</svelte:fragment
+                        ></Speech
                     >{/if}
             </div>
             <!-- If there's no verse -->

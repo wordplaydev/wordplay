@@ -9,12 +9,8 @@
     import Eyes from './Eyes.svelte';
     import { config } from '../../db/Creator';
     import Emotion from '../../lore/Emotion';
-    import RootView from '../project/RootView.svelte';
-    import type Bind from '../../nodes/Bind';
 
     export let glyph: Glyph | Concept;
-    /** An optional type to display next to the glyph,*/
-    export let bind: Bind | undefined = undefined;
     /** If true, speech is placed below glyph. If false, speech is placed to the right or left of glyph. */
     export let below: boolean = false;
     /** If true and speech is not below, reading order is flipped. */
@@ -67,22 +63,16 @@
             {/if}
             <Eyes {invert} emotion={emotion ?? Emotion.neutral} />
         </div>
-        {#if bind && bind.type}
-            • <RootView node={bind.type} inline />{#if bind.value}: <RootView
-                    node={bind.value}
-                    inline
-                    localized
-                />{/if}
-        {/if}
+        <slot name="aside" />
     </div>
     <div
         class="message {below ? 'below' : flip ? 'flip' : 'reading'} {document
             .documentElement.dir}"
     >
         {#if scroll}
-            <div class="scroller"><slot /></div>
+            <div class="scroller"><slot name="content" /></div>
         {:else}
-            <slot />
+            <slot name="content" />
         {/if}
     </div>
 </div>

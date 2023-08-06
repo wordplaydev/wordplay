@@ -28,11 +28,13 @@
                     annotation.node.getGlyphs()}
                 flip={annotation.kind === 'secondary'}
             >
-                {#each annotation.messages as markup}
-                    <aside aria-label={markup.toText()}>
-                        <MarkupHTMLView {markup} />
-                    </aside>
-                {/each}
+                <svelte:fragment slot="content">
+                    {#each annotation.messages as markup}
+                        <aside aria-label={markup.toText()}>
+                            <MarkupHTMLView {markup} />
+                        </aside>
+                    {/each}
+                </svelte:fragment>
             </Speech>
         </div>
     {/each}

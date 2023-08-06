@@ -198,14 +198,16 @@
     <div class="details">
         {#if selectedRevision instanceof Revision}
             <Speech glyph={selectedConcept ?? Glyphs.Program} below>
-                <MarkupHTMLView
-                    markup={selectedRevision.getDescription(
-                        $config.getLocale()
-                    )}
-                />
-                {#if selectedDocs}
-                    <MarkupHTMLView markup={selectedDocs} />
-                {/if}
+                <svelte:fragment slot="content">
+                    <MarkupHTMLView
+                        markup={selectedRevision.getDescription(
+                            $config.getLocale()
+                        )}
+                    />
+                    {#if selectedDocs}
+                        <MarkupHTMLView markup={selectedDocs} />
+                    {/if}
+                </svelte:fragment>
             </Speech>
         {:else if selectedRevision instanceof RevisionSet}
             {#each selectedRevision.revisions as revision}
