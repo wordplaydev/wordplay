@@ -75,14 +75,12 @@ test('Parse borrows', () => {
     const good = toProgram('↓ mouse');
     expect(good.borrows).toHaveLength(1);
     expect(good.borrows[0]).toBeInstanceOf(Borrow);
-    expect((good.borrows[0] as Borrow).source?.isSymbol(Symbol.Name)).toBe(
-        true
-    );
+    expect((good.borrows[0] as Borrow).source).toBeInstanceOf(Reference);
 
     const prop = toProgram('↓ time.clock');
     expect(prop.borrows).toHaveLength(1);
     expect(prop.borrows[0]).toBeInstanceOf(Borrow);
-    expect((prop.borrows[0] as Borrow).name?.isSymbol(Symbol.Name)).toBe(true);
+    expect((prop.borrows[0] as Borrow).name).toBeInstanceOf(Reference);
 });
 
 test('Parse shares', () => {
