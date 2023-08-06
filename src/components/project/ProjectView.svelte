@@ -4,7 +4,7 @@
 </script>
 
 <script lang="ts">
-    import { beforeUpdate, onDestroy, setContext, tick } from 'svelte';
+    import { onDestroy, setContext, tick } from 'svelte';
     import { derived, writable, type Writable } from 'svelte/store';
     import {
         type DraggedContext,
@@ -636,18 +636,6 @@
     /** When the menu changes, compute a menu position. */
     $: menuPosition = menu ? getMenuPosition(menu.getCaret()) : undefined;
 
-    /** Before each update, note which tile has focus */
-    let focusedTileID: string | undefined = undefined;
-    beforeUpdate(() => {
-        focusedTileID = undefined;
-        const focus = document.activeElement;
-        if (focus && view && view.contains(focus)) {
-            const tile = focus.closest('.tile');
-            if (tile instanceof HTMLElement && tile.dataset.id)
-                focusedTileID = tile.dataset.id;
-        }
-    });
-
     afterUpdate(() => {
         /** After each update, measure an outline of the node view in the drag container. */
         const nodeView = dragContainer?.querySelector('.node-view');
@@ -657,10 +645,6 @@
                 outline: getOutlineOf(nodeView),
                 underline: getUnderlineOf(nodeView),
             };
-
-        /** Restore focus if on body */
-        if (document.activeElement === document.body)
-            tick().then(() => focusTile(focusedTileID));
     });
 
     function getTileView(tileID: string) {
@@ -683,6 +667,9 @@
 
         let viewToFocus: HTMLElement | undefined = undefined;
         if (tileView) {
+            // If the tile already has a child with focus, don't change it.
+            if (tileView.contains(document.activeElement)) return;
+
             const defaultFocus = tileView.querySelectorAll(
                 '[data-defaultfocus]'
             )[0];
@@ -694,6 +681,7 @@
                 if (focusable instanceof HTMLElement) viewToFocus = focusable;
             }
         }
+
         // No tiles visible? Just focus on the project view.
         (viewToFocus ?? view).focus();
     }
@@ -1090,6 +1078,8 @@
                                 : null}
                             dragging={draggedTile?.id === tile.id}
                             fullscreenID={layout.fullscreenID}
+                            focuscontent={tile.kind === Content.Source ||
+                                tile.kind === Content.Output}
                             on:mode={(event) =>
                                 setMode(tile, event.detail.mode)}
                             on:position={(event) =>
@@ -1238,7 +1228,6 @@
                 text={project.name}
                 description={$config.getLocale().ui.description.editProjectName}
                 placeholder={$config.getLocale().ui.placeholders.project}
-                border={false}
                 changed={(name) =>
                     $config.reviseProject(project, project.withName(name))}
             />

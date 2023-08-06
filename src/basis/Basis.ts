@@ -3,7 +3,6 @@ import InternalExpression from './InternalExpression';
 import type Context from '@nodes/Context';
 import Type from '@nodes/Type';
 import ConversionDefinition from '@nodes/ConversionDefinition';
-import type Bind from '@nodes/Bind';
 import Value from '@runtime/Value';
 import type Evaluation from '@runtime/Evaluation';
 import type StructureDefinition from '@nodes/StructureDefinition';
@@ -19,13 +18,16 @@ import Block from '@nodes/Block';
 import type { BasisTypeName } from './BasisConstants';
 import type TypeVariables from '@nodes/TypeVariables';
 import type Docs from '@nodes/Docs';
-import type Names from '@nodes/Names';
 import type Expression from '@nodes/Expression';
 import Root from '../nodes/Root';
 import type Locale from '../locale/Locale';
 import createDefaultShares from '../runtime/createDefaultShares';
 import type LanguageCode from '../locale/LanguageCode';
 import bootstrapTable from './TableBasis';
+import { createInputs, type FunctionText } from '../locale/Locale';
+import { getDocLocales } from '../locale/getDocLocales';
+import { getNameLocales } from '../locale/getNameLocales';
+import bootstrapStructure from './StructureBasis';
 
 export class Basis {
     readonly locales: Locale[];
@@ -50,6 +52,7 @@ export class Basis {
         this.addStructure('set', bootstrapSet(locales));
         this.addStructure('map', bootstrapMap(locales));
         this.addStructure('table', bootstrapTable(locales));
+        this.addStructure('structure', bootstrapStructure(locales));
 
         this.shares = createDefaultShares(locales);
     }
@@ -152,18 +155,18 @@ export class Basis {
 }
 
 export function createBasisFunction(
-    docs: Docs,
-    names: Names,
+    locales: Locale[],
+    text: (locale: Locale) => FunctionText<any>,
     typeVars: TypeVariables | undefined,
-    inputs: Bind[],
+    types: (Type | [Type, Expression])[],
     output: Type,
     evaluator: (requestor: Expression, evaluator: Evaluation) => Value
 ) {
     return FunctionDefinition.make(
-        docs,
-        names,
+        getDocLocales(locales, (l) => text(l).doc),
+        getNameLocales(locales, (l) => text(l).names),
         typeVars,
-        inputs,
+        createInputs(locales, (l) => text(l).inputs, types),
         new InternalExpression(output, [], evaluator),
         output
     );

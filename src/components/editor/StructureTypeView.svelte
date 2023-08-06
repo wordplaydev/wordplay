@@ -3,10 +3,10 @@
 <script lang="ts">
     import NodeView from './NodeView.svelte';
     import NameToken from '@nodes/NameToken';
-    import type StructureDefinitionType from '@nodes/StructureDefinitionType';
+    import type StructureType from '@nodes/StructureType';
     import { config } from '../../db/Creator';
 
-    export let node: StructureDefinitionType;
+    export let node: StructureType;
 
     // Choose what name to render based on the preferred languages.
     $: name = new NameToken(

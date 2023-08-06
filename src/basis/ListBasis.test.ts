@@ -27,6 +27,16 @@ test.each([
     ['[1 2 3 4 5].subsequence(3 5)', '[3 4 5]'],
     ['[1 2 3 4 5].subsequence(5 2)', '[5 4 3 2]'],
     ['[1 2 3 4 5].subsequence(-3 1)', '[1]'],
+    ['[5 4 3 2 1].sorted()', '[1 2 3 4 5]'],
+    ['[5 2 3 4 1].sorted()', '[1 2 3 4 5]'],
+    ['["e" "d" "c" "b" "a"].sorted()', '["a" "b" "c" "d" "e"]'],
+    ['["e" "b" "a" "c" "d"].sorted()', '["a" "b" "c" "d" "e"]'],
+    ['[ø ø ø].sorted()', '[ø ø ø]'],
+    ['[ø "hi" ø].sorted()', '[ø ø "hi"]'],
+    ['[{3 2 1} {} {1 2}].sorted()', '!ConversionException'],
+    ['[{} {1 2} {3 2 1}].sorted(ƒ(set•{#}) set.size())', '[{} {1 2} {3 2 1}]'],
+    ['[1 2 3 4 5].sorted(ƒ(v) -v)', '[5 4 3 2 1]'],
+    ['["い" "あ" "う" "お" "え"].sorted()', '["あ" "い" "う" "え" "お"]'],
 ])('Expect %s to be %s', (code, value) => {
     expect(Evaluator.evaluateCode(DefaultLocale, code)?.toString()).toBe(value);
 });

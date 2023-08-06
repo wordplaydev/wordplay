@@ -850,7 +850,7 @@
                 },
                 "ValueException": {
                     "description": "missing value",
-                    "explanation": "oh no, someone excepted a value but didn't get one…"
+                    "explanation": "oh no, someone expected a value but didn't get one…"
                 }
             }
         },
@@ -1253,8 +1253,8 @@
                 "\\time•…#ms: Time()\\"
             ]
         },
-        "StructureDefinitionType": {
-            "name": "structure definition type",
+        "StructureType": {
+            "name": "structure type",
             "description": "$1",
             "emotion": "kind",
             "doc": "I am an internal type to represent the type of default value types."
@@ -2104,14 +2104,21 @@
                             "names": "translator"
                         }
                     ],
-                    "value": {
-                        "doc": "The item being translated.",
-                        "names": "item"
-                    },
-                    "index": {
-                        "doc": "The index of the item being translated.",
-                        "names": "index"
-                    }
+
+                    "translator": [
+                        {
+                            "doc": "The item being translated.",
+                            "names": "item"
+                        },
+                        {
+                            "doc": "The index of the item being translated.",
+                            "names": "index"
+                        },
+                        {
+                            "doc": "The list being translated.",
+                            "names": "list"
+                        }
+                    ]
                 },
                 "filter": {
                     "doc": [
@@ -2126,14 +2133,20 @@
                             "names": "checker"
                         }
                     ],
-                    "value": {
-                        "doc": "The item being checked.",
-                        "names": "item"
-                    },
-                    "index": {
-                        "doc": "The index of the item being checked.",
-                        "names": "index"
-                    }
+                    "checker": [
+                        {
+                            "doc": "The item being checked.",
+                            "names": "item"
+                        },
+                        {
+                            "doc": "The index of the item being checked.",
+                            "names": "index"
+                        },
+                        {
+                            "doc": "The list being filtered.",
+                            "names": "list"
+                        }
+                    ]
                 },
                 "all": {
                     "doc": [
@@ -2148,14 +2161,20 @@
                             "names": "checker"
                         }
                     ],
-                    "value": {
-                        "doc": "The item being checked.",
-                        "names": "item"
-                    },
-                    "index": {
-                        "doc": "The index of the item being checked.",
-                        "names": "index"
-                    }
+                    "checker": [
+                        {
+                            "doc": "The item being checked.",
+                            "names": "item"
+                        },
+                        {
+                            "doc": "The index of the item being checked.",
+                            "names": "index"
+                        },
+                        {
+                            "doc": "The list being checked.",
+                            "names": "list"
+                        }
+                    ]
                 },
                 "until": {
                     "doc": [
@@ -2170,14 +2189,20 @@
                             "names": "checker"
                         }
                     ],
-                    "value": {
-                        "doc": "The item being checked.",
-                        "names": "item"
-                    },
-                    "index": {
-                        "doc": "The index of the item being checked.",
-                        "names": "index"
-                    }
+                    "checker": [
+                        {
+                            "doc": "The item being checked.",
+                            "names": "item"
+                        },
+                        {
+                            "doc": "The index of the item being checked.",
+                            "names": "index"
+                        },
+                        {
+                            "doc": "The list being subsequenced.",
+                            "names": "list"
+                        }
+                    ]
                 },
                 "find": {
                     "doc": [
@@ -2192,14 +2217,20 @@
                             "names": "checker"
                         }
                     ],
-                    "value": {
-                        "doc": "The item being checked.",
-                        "names": "item"
-                    },
-                    "index": {
-                        "doc": "The index of the item being checked.",
-                        "names": "index"
-                    }
+                    "checker": [
+                        {
+                            "doc": "The item being checked.",
+                            "names": "item"
+                        },
+                        {
+                            "doc": "The index of the item being checked.",
+                            "names": "index"
+                        },
+                        {
+                            "doc": "The list being searched.",
+                            "names": "list"
+                        }
+                    ]
                 },
                 "combine": {
                     "doc": [
@@ -2218,18 +2249,47 @@
                             "names": "combiner"
                         }
                     ],
-                    "combination": {
-                        "doc": "The current combination",
-                        "names": "combination"
-                    },
-                    "next": {
-                        "doc": "The next item to combine.",
-                        "names": "next"
-                    },
-                    "index": {
-                        "doc": "The index of the next item",
-                        "names": "index"
-                    }
+                    "combiner": [
+                        {
+                            "doc": "The current combination",
+                            "names": "combination"
+                        },
+                        {
+                            "doc": "The next item to combine.",
+                            "names": "next"
+                        },
+                        {
+                            "doc": "The index of the next item",
+                            "names": "index"
+                        },
+                        {
+                            "doc": "The list being combined.",
+                            "names": "list"
+                        }
+                    ]
+                },
+                "sorted": {
+                    "doc": [
+                        "I can take a list, and make a new list with it's values sorted. Like this:",
+                        "\\[1 5 8 0 2].sorted()\\",
+                        "I can also do it for @Text values",
+                        "\\['orange' 'kiwi' 'banana' 'apple'].sorted()\\",
+                        "And if you have a list of values that aren't @Number or @Text, you can give me a @FunctionDefinition that turns each item into a @Number so I can sort it. For example, here we have a list of lists of different lengths; if you give me a function that turns each list into it's length, I can sort by their length.",
+                        "\\[[1] [2 3] [4 8 12] [8]].sorted(ƒ(list) list.length())\\"
+                    ],
+                    "names": "sorted",
+                    "inputs": [
+                        {
+                            "doc": "The optional @FunctionDefinition to use to sort a list value. It should turn the value into a @Number that can be used for sorting the list.",
+                            "names": "sequencer"
+                        }
+                    ],
+                    "sequencer": [
+                        {
+                            "doc": "The value to turn into a @Number.",
+                            "names": "value"
+                        }
+                    ]
                 }
             },
             "conversion": {
@@ -2251,7 +2311,13 @@
             ],
             "name": ["{}", "Set"],
             "kind": "Kind",
+            "out": "Result",
             "function": {
+                "size": {
+                    "doc": "I'll tell you how many values are in me.",
+                    "names": "size",
+                    "inputs": []
+                },
                 "equals": {
                     "doc": [
                         "I'm \\⊤\\ if the given @Set and I have the exact same values:",
@@ -2340,10 +2406,16 @@
                             "names": "checker"
                         }
                     ],
-                    "value": {
-                        "doc": "The item being checked.",
-                        "names": "value"
-                    }
+                    "checker": [
+                        {
+                            "doc": "The item being checked.",
+                            "names": "value"
+                        },
+                        {
+                            "doc": "The set being filtered",
+                            "names": "set"
+                        }
+                    ]
                 },
                 "translate": {
                     "doc": [
@@ -2358,10 +2430,16 @@
                             "names": "set"
                         }
                     ],
-                    "value": {
-                        "doc": "The item being translated.",
-                        "names": "value"
-                    }
+                    "translator": [
+                        {
+                            "doc": "The item being translated.",
+                            "names": "value"
+                        },
+                        {
+                            "doc": "The set being translated",
+                            "names": "set"
+                        }
+                    ]
                 }
             },
             "conversion": {
@@ -2388,6 +2466,11 @@
             "value": "Value",
             "result": "Result",
             "function": {
+                "size": {
+                    "doc": "I'll tell you how many values are in me.",
+                    "names": "size",
+                    "inputs": []
+                },
                 "equals": {
                     "doc": [
                         "\\{⊤}\\ if my pairings are the exact same as the given @Map's.",
@@ -2462,11 +2545,17 @@
                             "names": "checker"
                         }
                     ],
-                    "key": { "doc": "The key being checked.", "names": "key" },
-                    "value": {
-                        "doc": "The value being checked.",
-                        "names": "value"
-                    }
+                    "checker": [
+                        { "doc": "The key being checked.", "names": "key" },
+                        {
+                            "doc": "The value being checked.",
+                            "names": "value"
+                        },
+                        {
+                            "doc": "The map being filtered.",
+                            "names": "map"
+                        }
+                    ]
                 },
                 "translate": {
                     "doc": [
@@ -2481,14 +2570,20 @@
                             "names": "translator"
                         }
                     ],
-                    "key": {
-                        "doc": "The key of the value being translated.",
-                        "names": "key"
-                    },
-                    "value": {
-                        "doc": "The value being translated.",
-                        "names": "value"
-                    }
+                    "translator": [
+                        {
+                            "doc": "The key of the value being translated.",
+                            "names": "key"
+                        },
+                        {
+                            "doc": "The value being translated.",
+                            "names": "value"
+                        },
+                        {
+                            "doc": "The map being translated.",
+                            "names": "map"
+                        }
+                    ]
                 }
             },
             "conversion": {
@@ -2514,6 +2609,7 @@
                 "\\rocks: ⎡name•'' color•''⎦\n⎡'obsidian' 'black'⎦\n⎡'pumice' 'grey'⎦\n⎡'citrine' 'yellow'⎦\n(rocks → [])[1].name\\"
             ],
             "name": ["⎡⎦", "Table"],
+            "row": "Row",
             "function": {
                 "equals": {
                     "doc": "I check if I have the exact same cells in the exact same order as another @Table.",
@@ -2533,6 +2629,35 @@
             "conversion": {
                 "list": "I convert a @Table into a list of rows, where each row is a @Structure with its column names as properties.",
                 "text": "I just convert a @Table to text."
+            }
+        },
+        "Structure": {
+            "doc": "See @StructureDefinition.",
+            "name": ["Structure"],
+            "function": {
+                "equals": {
+                    "doc": "I check if my properties are the same name and values as another structure's properties.",
+                    "names": ["=", "equals"],
+                    "inputs": [
+                        {
+                            "doc": "The other structure to check.",
+                            "names": "value"
+                        }
+                    ]
+                },
+                "notequal": {
+                    "doc": "I check if my properties are different in any way from the name and values as another structure's.",
+                    "names": ["≠", "notEquals"],
+                    "inputs": [
+                        {
+                            "doc": "The other structure to check.",
+                            "names": "value"
+                        }
+                    ]
+                }
+            },
+            "conversion": {
+                "text": "I convert myself to @Text."
             }
         }
     },

@@ -1,61 +1,48 @@
-import Bind from '@nodes/Bind';
 import Block, { BlockKind } from '@nodes/Block';
 import BooleanType from '@nodes/BooleanType';
-import FunctionDefinition from '@nodes/FunctionDefinition';
 import StructureDefinition from '@nodes/StructureDefinition';
 import Bool from '@runtime/Bool';
 import Text from '@runtime/Text';
-import { createBasisConversion } from './Basis';
-import InternalExpression from './InternalExpression';
+import { createBasisConversion, createBasisFunction } from './Basis';
 import type Value from '@runtime/Value';
-import type Docs from '@nodes/Docs';
-import type Names from '@nodes/Names';
-import { getInputLocales as getInputLocales } from '@locale/getInputLocales';
 import { getDocLocales } from '@locale/getDocLocales';
 import { getNameLocales } from '@locale/getNameLocales';
 import Evaluation from '@runtime/Evaluation';
 import type Expression from '../nodes/Expression';
 import type Locale from '../locale/Locale';
+import type { FunctionText } from '../locale/Locale';
+import type Type from '../nodes/Type';
 
 export default function bootstrapBool(locales: Locale[]) {
     function createBooleanFunction(
-        docs: Docs,
-        names: Names,
-        inputs: { docs: Docs; names: Names }[],
+        text: (locale: Locale) => FunctionText<any>,
+        inputs: Type[],
         expression: (requestor: Expression, left: Bool, right: Bool) => Bool
     ) {
-        return FunctionDefinition.make(
-            docs,
-            names,
+        return createBasisFunction(
+            locales,
+            text,
             undefined,
-            inputs.map(({ docs, names }) =>
-                Bind.make(docs, names, BooleanType.make())
-            ),
-            new InternalExpression(
-                BooleanType.make(),
-                [],
-                (requestor, evaluation) => {
-                    const left = evaluation.getClosure();
-                    const right: Value | undefined = evaluation.resolve(
-                        inputs[0].names
+            inputs,
+            BooleanType.make(),
+            (requestor, evaluation) => {
+                const left = evaluation.getClosure();
+                const right: Value | undefined = evaluation.getInput(0);
+                // This should be impossible, but the type system doesn't know it.
+                if (!(left instanceof Bool))
+                    return evaluation.getValueOrTypeException(
+                        requestor,
+                        BooleanType.make(),
+                        left instanceof Evaluation ? undefined : left
                     );
-                    // This should be impossible, but the type system doesn't know it.
-                    if (!(left instanceof Bool))
-                        return evaluation.getValueOrTypeException(
-                            requestor,
-                            BooleanType.make(),
-                            left instanceof Evaluation ? undefined : left
-                        );
-                    if (!(right instanceof Bool))
-                        return evaluation.getValueOrTypeException(
-                            requestor,
-                            BooleanType.make(),
-                            right
-                        );
-                    return expression(requestor, left, right);
-                }
-            ),
-            BooleanType.make()
+                if (!(right instanceof Bool))
+                    return evaluation.getValueOrTypeException(
+                        requestor,
+                        BooleanType.make(),
+                        right
+                    );
+                return expression(requestor, left, right);
+            }
         );
     }
 
@@ -68,93 +55,42 @@ export default function bootstrapBool(locales: Locale[]) {
         new Block(
             [
                 createBooleanFunction(
-                    getDocLocales(
-                        locales,
-                        (locale) => locale.basis.Boolean.function.and.doc
-                    ),
-                    getNameLocales(
-                        locales,
-                        (locale) => locale.basis.Boolean.function.and.names
-                    ),
-                    getInputLocales(
-                        locales,
-                        (locale) => locale.basis.Boolean.function.and.inputs
-                    ),
+                    (locale) => locale.basis.Boolean.function.and,
+                    [BooleanType.make()],
                     (requestor, left, right) => left.and(requestor, right)
                 ),
                 createBooleanFunction(
-                    getDocLocales(
-                        locales,
-                        (locale) => locale.basis.Boolean.function.or.doc
-                    ),
-                    getNameLocales(
-                        locales,
-                        (locale) => locale.basis.Boolean.function.or.names
-                    ),
-                    getInputLocales(
-                        locales,
-                        (locale) => locale.basis.Boolean.function.or.inputs
-                    ),
+                    (locale) => locale.basis.Boolean.function.or,
+                    [BooleanType.make()],
                     (requestor, left, right) => left.or(requestor, right)
                 ),
-                FunctionDefinition.make(
-                    getDocLocales(
-                        locales,
-                        (locale) => locale.basis.Boolean.function.not.doc
-                    ),
-                    getNameLocales(
-                        locales,
-                        (locale) => locale.basis.Boolean.function.not.names
-                    ),
+                createBasisFunction(
+                    locales,
+                    (locale) => locale.basis.Boolean.function.not,
                     undefined,
                     [],
-                    new InternalExpression(
-                        BooleanType.make(),
-                        [],
-                        (requestor, evaluation) => {
-                            const left = evaluation.getClosure();
-                            // This should be impossible, but the type system doesn't know it.
-                            if (!(left instanceof Bool))
-                                return evaluation.getValueOrTypeException(
-                                    requestor,
-                                    BooleanType.make(),
-                                    left
-                                );
-                            return left.not(requestor);
-                        }
-                    ),
-                    BooleanType.make()
+                    BooleanType.make(),
+                    (requestor, evaluation) => {
+                        const left = evaluation.getClosure();
+                        // This should be impossible, but the type system doesn't know it.
+                        if (!(left instanceof Bool))
+                            return evaluation.getValueOrTypeException(
+                                requestor,
+                                BooleanType.make(),
+                                left
+                            );
+                        return left.not(requestor);
+                    }
                 ),
                 createBooleanFunction(
-                    getDocLocales(
-                        locales,
-                        (locale) => locale.basis.Boolean.function.equals.doc
-                    ),
-                    getNameLocales(
-                        locales,
-                        (locale) => locale.basis.Boolean.function.equals.names
-                    ),
-                    getInputLocales(
-                        locales,
-                        (locale) => locale.basis.Boolean.function.equals.inputs
-                    ),
+                    (locale) => locale.basis.Boolean.function.equals,
+                    [BooleanType.make()],
                     (requestor, left, right) =>
                         new Bool(requestor, left.isEqualTo(right))
                 ),
                 createBooleanFunction(
-                    getDocLocales(
-                        locales,
-                        (locale) => locale.basis.Boolean.function.notequal.doc
-                    ),
-                    getNameLocales(
-                        locales,
-                        (locale) => locale.basis.Boolean.function.notequal.names
-                    ),
-                    getInputLocales(
-                        locales,
-                        (locale) =>
-                            locale.basis.Boolean.function.notequal.inputs
-                    ),
+                    (locale) => locale.basis.Boolean.function.notequal,
+                    [BooleanType.make()],
                     (requestor, left, right) =>
                         new Bool(requestor, !left.isEqualTo(right))
                 ),

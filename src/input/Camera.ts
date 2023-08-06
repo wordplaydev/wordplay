@@ -11,7 +11,7 @@ import NoneType from '../nodes/NoneType';
 import NumberLiteral from '../nodes/NumberLiteral';
 import Number from '../runtime/Number';
 import createStreamEvaluator from './createStreamEvaluator';
-import StructureDefinitionType from '../nodes/StructureDefinitionType';
+import StructureType from '../nodes/StructureType';
 import List from '../runtime/List';
 import ListType from '../nodes/ListType';
 import type Expression from '../nodes/Expression';
@@ -286,7 +286,7 @@ export function createCameraDefinition(
     ColorType: StructureDefinition
 ) {
     const frameType = ListType.make(
-        ListType.make(new StructureDefinitionType(ColorType))
+        ListType.make(new StructureType(ColorType))
     );
 
     const WidthBind = Bind.make(

@@ -12,10 +12,7 @@ import type Locale from '@locale/Locale';
 import type Expression from '../nodes/Expression';
 import concretize from '../locale/concretize';
 
-/** A decimal number with a unit.
- * If all of it's parts are empty, it is not a number.
- * If it's numerator
- */
+/** A decimal number with a unit. */
 export default class Number extends Simple {
     readonly num: Decimal;
     readonly unit: Unit;

@@ -2,11 +2,12 @@ import Purpose from '../concepts/Purpose';
 import type Locale from '../locale/Locale';
 import concretize from '../locale/concretize';
 import Glyphs from '../lore/Glyphs';
+import AnyType from '../nodes/AnyType';
 import type Bind from '../nodes/Bind';
 import type Context from '../nodes/Context';
 import Expression from '../nodes/Expression';
 import FunctionDefinition from '../nodes/FunctionDefinition';
-import type FunctionType from '../nodes/FunctionType';
+import FunctionType from '../nodes/FunctionType';
 import type Names from '../nodes/Names';
 import type { Grammar } from '../nodes/Node';
 import type Type from '../nodes/Type';
@@ -139,23 +140,34 @@ export class Iteration<State> extends Expression {
     evaluateFunctionInput(
         evaluator: Evaluator,
         input: number,
-        expectedType: FunctionType,
-        values: Value[]
+        values: Value[],
+        fallback?: FunctionDefinition
     ) {
-        const [funVal, fun] = this.getFunctionInput(input, evaluator);
-        if (fun === undefined || fun.expression === undefined)
+        let [funVal, fun] = this.getFunctionInput(input, evaluator);
+        if (fun === undefined) {
+            fun = fallback;
+            funVal = undefined;
+        }
+        if (fun === undefined || fun.expression === undefined) {
+            const currentFunction = evaluator
+                .getCurrentEvaluation()
+                ?.getDefinition();
             return evaluator.getValueOrTypeException(
                 this,
-                expectedType,
+                (currentFunction instanceof FunctionDefinition
+                    ? currentFunction.inputs[input].type
+                    : undefined) ??
+                    FunctionType.make(undefined, [], new AnyType()),
                 funVal
             );
+        }
         // Apply the translator function to the value
         evaluator.startEvaluation(
             new Evaluation(
                 evaluator,
                 this,
                 fun,
-                funVal.context,
+                funVal?.context,
                 this.createBinds(
                     fun.inputs.map((input, index) => {
                         return [input.names, values[index]];

@@ -169,6 +169,10 @@ function getKeyTemplatePairs(
             !Array.isArray(value)
         )
             getKeyTemplatePairs([...path, key], value, pairs);
+        else if (Array.isArray(value)) {
+            for (const record of value)
+                getKeyTemplatePairs([...path, key], record, pairs);
+        }
     }
 }
 

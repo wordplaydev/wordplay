@@ -8,7 +8,7 @@ import Start from '@runtime/Start';
 import Finish from '@runtime/Finish';
 import type Context from './Context';
 import type Node from './Node';
-import StructureDefinitionType from './StructureDefinitionType';
+import StructureType from './StructureType';
 import Bind from './Bind';
 import UnionType from './UnionType';
 import type TypeSet from './TypeSet';
@@ -73,7 +73,7 @@ export default class PropertyReference extends Expression {
         else if (node instanceof PropertyReference) {
             const selectionType = node.structure.getType(context);
             const definition =
-                selectionType instanceof StructureDefinitionType
+                selectionType instanceof StructureType
                     ? selectionType.structure
                     : selectionType instanceof BasisType
                     ? context
@@ -190,7 +190,7 @@ export default class PropertyReference extends Expression {
     getDefinitions(node: Node, context: Context): Definition[] {
         const subjectType = this.getSubjectType(context);
 
-        if (subjectType instanceof StructureDefinitionType)
+        if (subjectType instanceof StructureType)
             return subjectType.structure.getDefinitions(node);
         else return subjectType.getDefinitions(node, context);
     }
@@ -200,7 +200,7 @@ export default class PropertyReference extends Expression {
 
         const subjectType = this.getSubjectType(context);
 
-        if (subjectType instanceof StructureDefinitionType)
+        if (subjectType instanceof StructureType)
             return subjectType.getDefinition(this.name.getName());
         else
             return subjectType.getDefinitionOfNameInScope(
@@ -236,7 +236,7 @@ export default class PropertyReference extends Expression {
                 const bindType = type.resolve(context);
                 if (
                     bindType instanceof TypeVariable &&
-                    subjectType instanceof StructureDefinitionType
+                    subjectType instanceof StructureType
                 ) {
                     const typeInput = subjectType.resolveTypeVariable(
                         bindType.getNames()[0]
@@ -269,12 +269,12 @@ export default class PropertyReference extends Expression {
                                         Is &&
                                     n instanceof PropertyReference &&
                                     n.getSubjectType(context) instanceof
-                                        StructureDefinitionType &&
+                                        StructureType &&
                                     def ===
                                         (
                                             n.getSubjectType(
                                                 context
-                                            ) as StructureDefinitionType
+                                            ) as StructureType
                                         ).getDefinition(this.name.getName())
                             ).length > 0
                     )

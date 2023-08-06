@@ -48,8 +48,7 @@ export default class FunctionValue extends Value {
     isEqualTo(value: Value): boolean {
         return (
             value instanceof FunctionValue &&
-            this.definition === value.definition &&
-            this.context === value.context
+            this.definition === value.definition
         );
     }
 

@@ -6,7 +6,7 @@ import NumberLiteral from '@nodes/NumberLiteral';
 import NumberType from '@nodes/NumberType';
 import StreamDefinition from '@nodes/StreamDefinition';
 import StreamType from '@nodes/StreamType';
-import StructureDefinitionType from '@nodes/StructureDefinitionType';
+import StructureType from '@nodes/StructureType';
 import Unit from '@nodes/Unit';
 import Number from '@runtime/Number';
 import Structure from '@runtime/Structure';
@@ -183,7 +183,7 @@ export function createMotionDefinition(
     const TypeBind = Bind.make(
         getDocLocales(locales, (locale) => locale.input.Motion.type.doc),
         getNameLocales(locales, (locale) => locale.input.Motion.type.names),
-        new StructureDefinitionType(TypeType)
+        new StructureType(TypeType)
     );
 
     const VXBind = Bind.make(
@@ -239,7 +239,7 @@ export function createMotionDefinition(
         NumberLiteral.make(15, Unit.reuse(['m'], ['s', 's']))
     );
 
-    const type = new StructureDefinitionType(PhraseType);
+    const type = new StructureType(PhraseType);
 
     return StreamDefinition.make(
         getDocLocales(locales, (locale) => locale.input.Motion.doc),

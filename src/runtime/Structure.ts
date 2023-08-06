@@ -1,5 +1,5 @@
 import type StructureDefinition from '@nodes/StructureDefinition';
-import StructureDefinitionType from '@nodes/StructureDefinitionType';
+import StructureType from '@nodes/StructureType';
 import type Type from '@nodes/Type';
 import type Conversion from './Conversion';
 import Evaluation, { type EvaluationNode } from './Evaluation';
@@ -63,7 +63,7 @@ export default class Structure extends Value {
     }
 
     getType() {
-        return new StructureDefinitionType(this.type, []);
+        return new StructureType(this.type, []);
     }
 
     getBasisTypeName(): BasisTypeName {

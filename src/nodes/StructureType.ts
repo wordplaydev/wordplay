@@ -1,4 +1,4 @@
-import Type from './Type';
+import type Type from './Type';
 import type ConversionDefinition from './ConversionDefinition';
 import type Context from './Context';
 import type StructureDefinition from './StructureDefinition';
@@ -10,10 +10,11 @@ import type Node from './Node';
 import type Locale from '@locale/Locale';
 import Glyphs from '../lore/Glyphs';
 import type { Grammar } from './Node';
+import BasisType from './BasisType';
 
 export const STRUCTURE_NATIVE_TYPE_NAME = 'structure';
 
-export default class StructureDefinitionType extends Type {
+export default class StructureType extends BasisType {
     /** The structure definition that defines this type. */
     readonly structure: StructureDefinition;
 
@@ -36,10 +37,14 @@ export default class StructureDefinitionType extends Type {
     }
 
     /**
-     * Types are a scope in and of themselves.
+     * The scope of a structure type is its block of definitions.
      */
     getScope() {
         return this.structure.expression;
+    }
+
+    getAdditionalBasisScope(context: Context): Node | undefined {
+        return super.getScope(context);
     }
 
     getDefinition(name: string) {
@@ -47,7 +52,7 @@ export default class StructureDefinitionType extends Type {
     }
 
     getDefinitions(node: Node): Definition[] {
-        return this.structure.getDefinitions(node);
+        return [...this.structure.getDefinitions(node)];
     }
 
     /** Compatible if it's the same structure definition, or the given type is a refinement of the given structure.*/
@@ -56,7 +61,7 @@ export default class StructureDefinitionType extends Type {
             // If the given type is a name type, is does it refer to this type's structure definition?
             if (type instanceof NameType) type = type.getType(context);
 
-            if (!(type instanceof StructureDefinitionType)) return false;
+            if (!(type instanceof StructureType)) return false;
             if (this.structure === type.structure) return true;
             // Are any of the given type's interfaces compatible with this?
             return (
@@ -75,8 +80,14 @@ export default class StructureDefinitionType extends Type {
         return this.structure.getConversion(context, input, output);
     }
 
-    getAllConversions() {
-        return this.structure.getAllConversions();
+    getAllConversions(context: Context) {
+        return [
+            ...this.structure.getAllConversions(),
+            ...(context
+                .getBasis()
+                .getStructureDefinition('structure')
+                ?.getAllConversions() ?? []),
+        ];
     }
 
     resolveTypeVariable(name: string): Type | undefined {
@@ -105,11 +116,13 @@ export default class StructureDefinitionType extends Type {
     }
 
     toWordplay() {
-        return this.structure.getNames()[0];
+        return `•${this.structure.getNames()[0] ?? ''}(${this.structure.inputs
+            .map((input) => input.toWordplay())
+            .join(' ')})`;
     }
 
     getNodeLocale(translation: Locale) {
-        return translation.node.StructureDefinitionType;
+        return translation.node.StructureType;
     }
 
     getGlyphs() {

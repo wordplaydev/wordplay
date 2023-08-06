@@ -1,7 +1,5 @@
-import Bind from '@nodes/Bind';
 import Block, { BlockKind } from '@nodes/Block';
 import BooleanType from '@nodes/BooleanType';
-import FunctionDefinition from '@nodes/FunctionDefinition';
 import FunctionType from '@nodes/FunctionType';
 import SetType from '@nodes/SetType';
 import StructureDefinition from '@nodes/StructureDefinition';
@@ -18,8 +16,12 @@ import { getNameLocales } from '@locale/getNameLocales';
 import TypeVariable from '@nodes/TypeVariable';
 import type Expression from '../nodes/Expression';
 import type Locale from '../locale/Locale';
-import { createBind } from '../locale/Locale';
+import { createBind, createFunction, createInputs } from '../locale/Locale';
 import { Iteration } from './Iteration';
+import NumberType from '../nodes/NumberType';
+import Number from '../runtime/Number';
+import ListType from '../nodes/ListType';
+import TextType from '../nodes/TextType';
 
 export default function bootstrapSet(locales: Locale[]) {
     const SetTypeVariableNames = getNameLocales(
@@ -28,51 +30,8 @@ export default function bootstrapSet(locales: Locale[]) {
     );
     const SetTypeVariable = new TypeVariable(SetTypeVariableNames);
 
-    const setFilterHOFType = FunctionType.make(
-        undefined,
-        [
-            createBind(
-                locales,
-                (locale) => locale.basis.Set.function.filter.value,
-                SetTypeVariable.getReference()
-            ),
-        ],
-        BooleanType.make()
-    );
-
-    const equalsFunctionNames = getNameLocales(
-        locales,
-        (locale) => locale.basis.Set.function.equals.inputs[0].names
-    );
-
-    const notEqualFunctionNames = getNameLocales(
-        locales,
-        (locale) => locale.basis.Set.function.notequals.inputs[0].names
-    );
-
-    const addFunctionNames = getNameLocales(
-        locales,
-        (locale) => locale.basis.Set.function.add.inputs[0].names
-    );
-
-    const removeFunctionNames = getNameLocales(
-        locales,
-        (locale) => locale.basis.Set.function.remove.inputs[0].names
-    );
-
-    const unionFunctionNames = getNameLocales(
-        locales,
-        (locale) => locale.basis.Set.function.union.inputs[0].names
-    );
-
-    const intersectionFunctionNames = getNameLocales(
-        locales,
-        (locale) => locale.basis.Set.function.intersection.inputs[0].names
-    );
-
-    const differenceFunctionNames = getNameLocales(
-        locales,
-        (locale) => locale.basis.Set.function.difference.inputs[0].names
+    const SetTranslateTypeVariable = new TypeVariable(
+        getNameLocales(locales, (locale) => locale.basis.Set.out)
     );
 
     return StructureDefinition.make(
@@ -88,29 +47,31 @@ export default function bootstrapSet(locales: Locale[]) {
         new Block(
             [
                 createBasisFunction(
-                    getDocLocales(
-                        locales,
-                        (locale) => locale.basis.Set.function.equals.doc
-                    ),
-                    getNameLocales(
-                        locales,
-                        (locale) => locale.basis.Set.function.equals.names
-                    ),
+                    locales,
+                    (locale) => locale.basis.Set.function.size,
                     undefined,
-                    [
-                        Bind.make(
-                            getDocLocales(
-                                locales,
-                                (t) => t.basis.Set.function.equals.inputs[0].doc
-                            ),
-                            equalsFunctionNames,
-                            SetType.make()
-                        ),
-                    ],
+                    [],
+                    NumberType.make(),
+                    (requestor, evaluation) => {
+                        const set = evaluation?.getClosure();
+                        return !(set instanceof Set)
+                            ? evaluation.getValueOrTypeException(
+                                  requestor,
+                                  SetType.make(),
+                                  set
+                              )
+                            : new Number(requestor, set.size(requestor).num);
+                    }
+                ),
+                createBasisFunction(
+                    locales,
+                    (locale) => locale.basis.Set.function.equals,
+                    undefined,
+                    [SetType.make()],
                     BooleanType.make(),
                     (requestor, evaluation) => {
                         const set = evaluation?.getClosure();
-                        const other = evaluation.resolve(equalsFunctionNames);
+                        const other = evaluation.getInput(0);
                         return !(set instanceof Set && other instanceof Set)
                             ? evaluation.getValueOrTypeException(
                                   requestor,
@@ -121,30 +82,14 @@ export default function bootstrapSet(locales: Locale[]) {
                     }
                 ),
                 createBasisFunction(
-                    getDocLocales(
-                        locales,
-                        (locale) => locale.basis.Set.function.notequals.doc
-                    ),
-                    getNameLocales(
-                        locales,
-                        (locale) => locale.basis.Set.function.notequals.names
-                    ),
+                    locales,
+                    (locale) => locale.basis.Set.function.notequals,
                     undefined,
-                    [
-                        Bind.make(
-                            getDocLocales(
-                                locales,
-                                (t) =>
-                                    t.basis.Set.function.notequals.inputs[0].doc
-                            ),
-                            notEqualFunctionNames,
-                            SetType.make()
-                        ),
-                    ],
+                    [SetType.make()],
                     BooleanType.make(),
                     (requestor, evaluation) => {
                         const set = evaluation?.getClosure();
-                        const other = evaluation.resolve(notEqualFunctionNames);
+                        const other = evaluation.getInput(0);
                         return !(set instanceof Set && other instanceof Set)
                             ? evaluation.getValueOrTypeException(
                                   requestor,
@@ -155,30 +100,14 @@ export default function bootstrapSet(locales: Locale[]) {
                     }
                 ),
                 createBasisFunction(
-                    getDocLocales(
-                        locales,
-                        (locale) => locale.basis.Set.function.add.doc
-                    ),
-                    getNameLocales(
-                        locales,
-                        (locale) => locale.basis.Set.function.add.names
-                    ),
+                    locales,
+                    (locale) => locale.basis.Set.function.add,
                     undefined,
-                    [
-                        Bind.make(
-                            getDocLocales(
-                                locales,
-                                (locale) =>
-                                    locale.basis.Set.function.add.inputs[0].doc
-                            ),
-                            addFunctionNames,
-                            SetTypeVariable.getReference()
-                        ),
-                    ],
+                    [SetTypeVariable.getReference()],
                     SetType.make(SetTypeVariable.getReference()),
                     (requestor, evaluation) => {
                         const set = evaluation?.getClosure();
-                        const element = evaluation.resolve(addFunctionNames);
+                        const element = evaluation.getInput(0);
                         if (set instanceof Set && element !== undefined)
                             return set.add(requestor, element);
                         else
@@ -190,30 +119,15 @@ export default function bootstrapSet(locales: Locale[]) {
                     }
                 ),
                 createBasisFunction(
-                    getDocLocales(
-                        locales,
-                        (locale) => locale.basis.Set.function.remove.doc
-                    ),
-                    getNameLocales(
-                        locales,
-                        (locale) => locale.basis.Set.function.remove.names
-                    ),
+                    locales,
+                    (locale) => locale.basis.Set.function.remove,
                     undefined,
-                    [
-                        Bind.make(
-                            getDocLocales(
-                                locales,
-                                (t) => t.basis.Set.function.remove.inputs[0].doc
-                            ),
-                            removeFunctionNames,
-                            SetTypeVariable.getReference()
-                        ),
-                    ],
+                    [SetTypeVariable.getReference()],
                     SetType.make(SetTypeVariable.getReference()),
                     (requestor, evaluation) => {
                         const set: Evaluation | Value | undefined =
                             evaluation.getClosure();
-                        const element = evaluation.resolve(removeFunctionNames);
+                        const element = evaluation.getInput(0);
                         if (set instanceof Set && element !== undefined)
                             return set.remove(requestor, element);
                         else
@@ -225,32 +139,15 @@ export default function bootstrapSet(locales: Locale[]) {
                     }
                 ),
                 createBasisFunction(
-                    getDocLocales(
-                        locales,
-                        (locale) => locale.basis.Set.function.union.doc
-                    ),
-                    getNameLocales(
-                        locales,
-                        (locale) => locale.basis.Set.function.union.names
-                    ),
+                    locales,
+                    (locale) => locale.basis.Set.function.union,
                     undefined,
-                    [
-                        Bind.make(
-                            getDocLocales(
-                                locales,
-                                (locale) =>
-                                    locale.basis.Set.function.union.inputs[0]
-                                        .doc
-                            ),
-                            unionFunctionNames,
-                            SetType.make(SetTypeVariable.getReference())
-                        ),
-                    ],
+                    [SetType.make(SetTypeVariable.getReference())],
                     SetType.make(SetTypeVariable.getReference()),
                     (requestor, evaluation) => {
                         const set: Evaluation | Value | undefined =
                             evaluation.getClosure();
-                        const newSet = evaluation.resolve(unionFunctionNames);
+                        const newSet = evaluation.getInput(0);
                         if (set instanceof Set && newSet instanceof Set)
                             return set.union(requestor, newSet);
                         else
@@ -262,32 +159,14 @@ export default function bootstrapSet(locales: Locale[]) {
                     }
                 ),
                 createBasisFunction(
-                    getDocLocales(
-                        locales,
-                        (locale) => locale.basis.Set.function.intersection.doc
-                    ),
-                    getNameLocales(
-                        locales,
-                        (locale) => locale.basis.Set.function.intersection.names
-                    ),
+                    locales,
+                    (locale) => locale.basis.Set.function.intersection,
                     undefined,
-                    [
-                        Bind.make(
-                            getDocLocales(
-                                locales,
-                                (t) =>
-                                    t.basis.Set.function.intersection.inputs[0]
-                                        .doc
-                            ),
-                            intersectionFunctionNames
-                        ),
-                    ],
+                    [SetType.make(SetTypeVariable.getReference())],
                     SetType.make(SetTypeVariable.getReference()),
                     (requestor, evaluation) => {
                         const set = evaluation.getClosure();
-                        const newSet = evaluation.resolve(
-                            intersectionFunctionNames
-                        );
+                        const newSet = evaluation.getInput(0);
                         if (set instanceof Set && newSet instanceof Set)
                             return set.intersection(requestor, newSet);
                         else
@@ -299,32 +178,14 @@ export default function bootstrapSet(locales: Locale[]) {
                     }
                 ),
                 createBasisFunction(
-                    getDocLocales(
-                        locales,
-                        (locale) => locale.basis.Set.function.difference.doc
-                    ),
-                    getNameLocales(
-                        locales,
-                        (locale) => locale.basis.Set.function.difference.names
-                    ),
+                    locales,
+                    (locale) => locale.basis.Set.function.difference,
                     undefined,
-                    [
-                        Bind.make(
-                            getDocLocales(
-                                locales,
-                                (t) =>
-                                    t.basis.Set.function.difference.inputs[0]
-                                        .doc
-                            ),
-                            differenceFunctionNames
-                        ),
-                    ],
+                    [SetType.make(SetTypeVariable.getReference())],
                     SetType.make(SetTypeVariable.getReference()),
                     (requestor, evaluation) => {
                         const set = evaluation.getClosure();
-                        const newSet = evaluation.resolve(
-                            differenceFunctionNames
-                        );
+                        const newSet = evaluation.getInput(0);
                         if (set instanceof Set && newSet instanceof Set)
                             return set.difference(requestor, newSet);
                         else
@@ -335,23 +196,33 @@ export default function bootstrapSet(locales: Locale[]) {
                             );
                     }
                 ),
-                FunctionDefinition.make(
-                    getDocLocales(
-                        locales,
-                        (locale) => locale.basis.Set.function.filter.doc
-                    ),
-                    getNameLocales(
-                        locales,
-                        (locale) => locale.basis.Set.function.filter.names
-                    ),
+                createFunction(
+                    locales,
+                    (locale) => locale.basis.Set.function.filter,
                     undefined,
                     [
                         createBind(
                             locales,
                             (t) => t.basis.Set.function.filter.inputs[0],
-                            setFilterHOFType
+                            FunctionType.make(
+                                undefined,
+                                createInputs(
+                                    locales,
+                                    (locale) =>
+                                        locale.basis.Set.function.filter
+                                            .checker,
+                                    [
+                                        SetTypeVariable.getReference(),
+                                        SetType.make(
+                                            SetTypeVariable.getReference()
+                                        ),
+                                    ]
+                                ),
+                                BooleanType.make()
+                            )
                         ),
                     ],
+                    SetType.make(SetTypeVariable.getReference()),
                     new Iteration<{
                         index: number;
                         set: Set;
@@ -366,17 +237,15 @@ export default function bootstrapSet(locales: Locale[]) {
                                 filtered: [],
                             };
                         },
-                        // If we're past the end, stop. Otherwise, evaluate the translator function on the next value.
+                        // If we're past the end, stop. Otherwise, evaluate the filter function on the next value.
                         (evaluator, info, expr) =>
                             info.index >= info.set.values.length
                                 ? false
-                                : expr.evaluateFunctionInput(
-                                      evaluator,
-                                      0,
-                                      setFilterHOFType,
-                                      [info.set.values[info.index]]
-                                  ),
-                        // Save the translated value and increment the index.
+                                : expr.evaluateFunctionInput(evaluator, 0, [
+                                      info.set.values[info.index],
+                                      info.set,
+                                  ]),
+                        // See if we're keeping it.
                         (evaluator, info, expression) => {
                             const include = evaluator.popValue(expression);
                             if (!(include instanceof Bool))
@@ -390,20 +259,85 @@ export default function bootstrapSet(locales: Locale[]) {
                             info.index = info.index + 1;
                             return undefined;
                         },
-                        // Create the translated list.
+                        // Create the filtered set.
                         (evaluator, info, expression) =>
                             new Set(expression, info.filtered)
-                    ),
-                    SetType.make(SetTypeVariable.getReference())
+                    )
                 ),
-
+                createFunction(
+                    locales,
+                    (locale) => locale.basis.Set.function.translate,
+                    TypeVariables.make([SetTypeVariable]),
+                    [
+                        createBind(
+                            locales,
+                            (t) => t.basis.Set.function.translate.inputs[0],
+                            FunctionType.make(
+                                undefined,
+                                createInputs(
+                                    locales,
+                                    (l) =>
+                                        l.basis.Set.function.translate
+                                            .translator,
+                                    [
+                                        // The type is a type variable, so we refer to it.
+                                        SetTypeVariable.getReference(),
+                                        SetType.make(
+                                            SetTypeVariable.getReference()
+                                        ),
+                                    ]
+                                ),
+                                SetTranslateTypeVariable.getReference()
+                            )
+                        ),
+                    ],
+                    SetType.make(SetTranslateTypeVariable.getReference()),
+                    new Iteration<{
+                        index: number;
+                        set: Set;
+                        values: Value[];
+                        translated: Value[];
+                    }>(
+                        SetType.make(SetTranslateTypeVariable.getReference()),
+                        // Start with an index of one, the list we're translating, and an empty translated list.
+                        (evaluator) => {
+                            return {
+                                index: 0,
+                                set: evaluator.getCurrentClosure() as Set,
+                                values: (evaluator.getCurrentClosure() as Set)
+                                    .values,
+                                translated: [],
+                            };
+                        },
+                        // If we're past the end, stop. Otherwise, evaluate the translator function on the next value.
+                        (evaluator, info, expr) =>
+                            info.index >= info.values.length
+                                ? false
+                                : expr.evaluateFunctionInput(evaluator, 0, [
+                                      info.values[info.index],
+                                      info.set,
+                                  ]),
+                        // Save the translated value and increment the index.
+                        (evaluator, info, expression) => {
+                            // Get the translated value.
+                            info.translated.push(
+                                evaluator.popValue(expression)
+                            );
+                            info.index = info.index + 1;
+                            return undefined;
+                        },
+                        // Create the translated list.
+                        (evaluator, info, expression) =>
+                            new Set(expression, info.translated)
+                    )
+                ),
                 createBasisConversion(
                     getDocLocales(
                         locales,
                         (locale) => locale.basis.Set.conversion.text
                     ),
-                    '{}',
-                    "''",
+                    SetType.make(SetTypeVariable.getReference()),
+                    TextType.make(),
                     (requestor: Expression, val: Set) =>
                         new Text(requestor, val.toString())
                 ),
@@ -412,8 +346,8 @@ export default function bootstrapSet(locales: Locale[]) {
                         locales,
                         (locale) => locale.basis.Set.conversion.list
                     ),
-                    '{}',
-                    '[]',
+                    SetType.make(SetTypeVariable.getReference()),
+                    ListType.make(SetTypeVariable.getReference()),
                     (requestor: Expression, val: Set) =>
                         new List(requestor, val.values)
                 ),

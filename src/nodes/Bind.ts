@@ -7,7 +7,7 @@ import UnusedBind from '@conflicts/UnusedBind';
 import IncompatibleType from '@conflicts/IncompatibleType';
 import UnexpectedEtc from '@conflicts/UnexpectedEtc';
 import NameType from './NameType';
-import StructureDefinitionType from './StructureDefinitionType';
+import StructureType from './StructureType';
 import StructureDefinition from './StructureDefinition';
 import type Evaluator from '@runtime/Evaluator';
 import type Step from '@runtime/Step';
@@ -143,25 +143,22 @@ export default class Bind extends Expression {
                     (anchor instanceof Expression &&
                         parent.inputs.includes(anchor)))
             ) {
-                const fun = parent.getFunction(context);
-                if (fun) {
-                    const mapping = parent.getInputMapping(fun);
-                    return mapping.inputs
-                        .filter((input) => input.given === undefined)
-                        .map(
-                            (input) =>
-                                new Refer(
-                                    (name) =>
-                                        Bind.make(
-                                            undefined,
-                                            Names.make([name]),
-                                            undefined,
-                                            ExpressionPlaceholder.make()
-                                        ),
-                                    input.expected
-                                )
-                        );
-                }
+                const mapping = parent.getInputMapping(context);
+                return mapping?.inputs
+                    .filter((input) => input.given === undefined)
+                    .map(
+                        (input) =>
+                            new Refer(
+                                (name) =>
+                                    Bind.make(
+                                        undefined,
+                                        Names.make([name]),
+                                        undefined,
+                                        ExpressionPlaceholder.make()
+                                    ),
+                                input.expected
+                            )
+                    );
             } else return [];
         }
     }
@@ -431,11 +428,9 @@ export default class Bind extends Expression {
     getCorrespondingBindDefinition(context: Context) {
         const parent = this.getParent(context);
         if (parent instanceof Evaluate) {
-            const fun = parent.getFunction(context);
-            if (fun)
-                return parent
-                    .getInputMapping(fun)
-                    .inputs.find((input) => input.given === this)?.expected;
+            return parent
+                .getInputMapping(context)
+                ?.inputs.find((input) => input.given === this)?.expected;
         }
         return undefined;
     }
@@ -472,19 +467,16 @@ export default class Bind extends Expression {
         // Leave any other names (namely those that refer to type variables) to be concretized by others.
         if (type instanceof NameType) {
             const nameType = type.getType(context);
-            if (nameType instanceof StructureDefinitionType) return nameType;
+            if (nameType instanceof StructureType) return nameType;
         }
 
         const parent = this.getParent(context);
 
         // If the parent is an evaluate, see what input it corresponds to.
         if (parent instanceof Evaluate) {
-            const fun = parent.getFunction(context);
-            if (fun) {
-                const mapping = parent.getInputMapping(fun);
-                const input = mapping.inputs.find((i) => i.given === this);
-                if (input) return input.expected.getType(context);
-            }
+            const mapping = parent.getInputMapping(context);
+            const input = mapping?.inputs.find((i) => i.given === this);
+            if (input) return input.expected.getType(context);
         }
 
         // If the bind is in a function definition that is part of a function evaluation that takes a function input,
@@ -501,9 +493,15 @@ export default class Bind extends Expression {
                         funcIndex < evalFunc.inputs.length
                     ) {
                         const bind = evalFunc.inputs[funcIndex];
-                        const bindType = bind.getType(context);
-                        if (bindType instanceof FunctionType) {
-                            const funcBind = bindType.inputs[bindIndex];
+                        const functionType = bind
+                            .getType(context)
+                            .getPossibleTypes(context)
+                            .find(
+                                (type): type is FunctionType =>
+                                    type instanceof FunctionType
+                            );
+                        if (functionType) {
+                            const funcBind = functionType.inputs[bindIndex];
                             if (funcBind) type = funcBind.getType(context);
 
                             const concreteFunctionType =
@@ -512,8 +510,13 @@ export default class Bind extends Expression {
                                     bind,
                                     evaluate,
                                     context
-                                );
-                            if (concreteFunctionType instanceof FunctionType) {
+                                )
+                                    .getPossibleTypes(context)
+                                    .find(
+                                        (type): type is FunctionType =>
+                                            type instanceof FunctionType
+                                    );
+                            if (concreteFunctionType) {
                                 type =
                                     concreteFunctionType.inputs[
                                         bindIndex

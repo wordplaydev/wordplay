@@ -19,8 +19,7 @@ export default class Set extends Simple {
 
         this.values = [];
         values.forEach((v) => {
-            if (this.values.find((v2) => v.isEqualTo(v2)) === undefined)
-                this.values.push(v);
+            if (!this.values.some((v2) => v.isEqualTo(v2))) this.values.push(v);
         });
     }
 

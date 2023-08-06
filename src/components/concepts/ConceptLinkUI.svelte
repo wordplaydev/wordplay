@@ -117,11 +117,8 @@
     }
 
     span:focus {
-        outline: none;
-        text-decoration-color: var(--wordplay-focus-color);
-    }
-
-    span:focus .long {
-        text-decoration-thickness: var(--wordplay-focus-width);
+        background: var(--wordplay-focus-color);
+        color: var(--wordplay-background);
+        border-radius: var(--wordplay-border-radius);
     }
 </style>

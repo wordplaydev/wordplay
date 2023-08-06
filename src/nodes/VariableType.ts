@@ -31,13 +31,14 @@ export default class VariableType extends Type {
     }
 
     acceptsAll(types: TypeSet) {
-        return types
-            .list()
-            .every(
-                (type) =>
-                    type instanceof VariableType &&
-                    type.definition == this.definition
-            );
+        return true;
+        // return types
+        //     .list()
+        //     .every(
+        //         (type) =>
+        //             type instanceof VariableType &&
+        //             type.definition == this.definition
+        //     );
     }
 
     getBasisTypeName(): BasisTypeName {

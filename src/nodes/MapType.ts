@@ -100,13 +100,13 @@ export default class MapType extends BasisType {
                 // If they have one, then they must be compable, and if there is a value type, they must be compatible.
                 // If the key type isn't specified, any will do.
                 (this.key === undefined ||
-                    (this.key instanceof Type &&
-                        type.key instanceof Type &&
+                    type.key === undefined ||
+                    (type.key instanceof Type &&
                         this.key.accepts(type.key, context))) &&
                 // If the value type isn't specified, any will do.
                 (this.value === undefined ||
-                    (this.value instanceof Type &&
-                        type.value instanceof Type &&
+                    type.key === undefined ||
+                    (type.value instanceof Type &&
                         this.value.accepts(type.value, context)))
         );
     }
