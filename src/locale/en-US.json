@@ -3362,7 +3362,7 @@
         },
         "header": {
             "learn": "Learn",
-            "select": "select a 💬, 🔳, or 🎭 to edit!",
+            "select": "if you ⏸️ the stage, you can select a 💬, 🔳, or 🎭 to edit!",
             "editing": "edit me!",
             "projects": "Performances",
             "examples": "Examples",
