@@ -1368,7 +1368,7 @@
             "function": {
                 "and": {
                     "doc": [
-                        "Evaluates to \\⊤\\ *only* when both values are \\⊤\\. Helpful for determining if many things are all true. There are only four possible outcomes",
+                        "I evaluate to \\⊤\\ *only* when both values are \\⊤\\. Helpful for determining if many things are all true. There are only four possible outcomes",
                         "\\⊤ & ⊤\\",
                         "\\⊤ & ⊥\\",
                         "\\⊥ & ⊤\\",
@@ -1384,7 +1384,7 @@
                 },
                 "or": {
                     "doc": [
-                        "Evaluates to \\⊤\\ when *either* value are \\⊤\\. Helpful for determining if one of many things are true. There are only four possible outcomes",
+                        "I evaluate to \\⊤\\ when *either* value are \\⊤\\. Helpful for determining if one of many things are true. There are only four possible outcomes",
                         "\\⊤ | ⊤\\",
                         "\\⊤ | ⊥\\",
                         "\\⊥ | ⊤\\",
@@ -1399,19 +1399,19 @@
                     ]
                 },
                 "not": {
-                    "doc": "Gets the opposite of itself: if \\⊤\\, it gives \\⊥\\, if \\⊥\\, it gives \\⊤\\.",
+                    "doc": "I get the opposite of myself: if \\⊤\\, it gives \\⊥\\, if \\⊥\\, it gives \\⊤\\.",
                     "names": ["~", "not"],
                     "inputs": []
                 },
                 "equals": {
-                    "doc": "True if both are \\⊤\\ or both are \\⊥\\.",
+                    "doc": "\\⊤\\ if both are \\⊤\\ or both are \\⊥\\.",
                     "names": ["=", "equals"],
                     "inputs": [
                         { "doc": "The other value to check.", "names": "value" }
                     ]
                 },
                 "notequal": {
-                    "doc": "True if both are opposites.",
+                    "doc": "\\⊤\\ if both are opposites.",
                     "names": ["≠", "notequal"],
                     "inputs": [
                         { "doc": "The other value to check.", "names": "value" }
@@ -1463,7 +1463,7 @@
             "function": {
                 "length": {
                     "doc": [
-                        "Evaluates to number of legible characters in the text; one letter is one character, one emoji is one character, etc. For example:",
+                        "I evaluate to the number of legible characters in the text; one letter is one character, one emoji is one character, etc. For example:",
                         "\\'hello'.length()\\",
                         "\\'🐈📚'.length()\\"
                     ],
