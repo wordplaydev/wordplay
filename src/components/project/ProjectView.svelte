@@ -77,7 +77,7 @@
         PALETTE_SYMBOL,
         STAGE_SYMBOL,
     } from '../../parser/Symbols';
-    import type Value from '../../runtime/Value';
+    import type Value from '../../values/Value';
     import {
         ShowKeyboardHelp,
         VisibleModifyCommands,

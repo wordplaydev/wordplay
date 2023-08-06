@@ -19,7 +19,7 @@ import Root from '../nodes/Root';
 import type { Path } from '../nodes/Root';
 import type { CaretPosition } from '../edit/Caret';
 import { Basis } from '../basis/Basis';
-import type createDefaultShares from '../runtime/createDefaultShares';
+import type createDefaultShares from '@runtime/createDefaultShares';
 import FunctionType from '../nodes/FunctionType';
 import type Locale from '../locale/Locale';
 import { toLocaleString } from '../locale/Locale';

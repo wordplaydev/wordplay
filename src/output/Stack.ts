@@ -1,18 +1,18 @@
 import toStructure from '../basis/toStructure';
-import type Value from '@runtime/Value';
+import type Value from '@values/Value';
 import type Color from './Color';
 import type TypeOutput from './TypeOutput';
 import type RenderContext from './RenderContext';
 import Place from './Place';
 import { getBind } from '@locale/getBind';
 import Arrangement from './Arrangement';
-import Number from '../runtime/Number';
+import NumberValue from '@values/NumberValue';
 import Phrase from './Phrase';
 import Group from './Group';
 import concretize from '../locale/concretize';
 import type Locale from '../locale/Locale';
 import { getOutputInput } from './Output';
-import Structure from '../runtime/Structure';
+import StructureValue from '../values/StructureValue';
 
 export function createStackType(locales: Locale[]) {
     return toStructure(`
@@ -25,7 +25,7 @@ export function createStackType(locales: Locale[]) {
 export class Stack extends Arrangement {
     readonly padding: number;
 
-    constructor(value: Value, padding: Number) {
+    constructor(value: Value, padding: NumberValue) {
         super(value);
         this.padding = padding.toNumber();
     }
@@ -115,7 +115,9 @@ export class Stack extends Arrangement {
 }
 
 export function toStack(value: Value | undefined): Stack | undefined {
-    if (!(value instanceof Structure)) return undefined;
+    if (!(value instanceof StructureValue)) return undefined;
     const padding = getOutputInput(value, 0);
-    return padding instanceof Number ? new Stack(value, padding) : undefined;
+    return padding instanceof NumberValue
+        ? new Stack(value, padding)
+        : undefined;
 }

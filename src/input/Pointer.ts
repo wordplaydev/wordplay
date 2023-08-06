@@ -1,9 +1,9 @@
 import type Names from '@nodes/Names';
 import Unit from '@nodes/Unit';
-import Number from '@runtime/Number';
-import Stream from '@runtime/Stream';
-import Structure, { createStructure } from '@runtime/Structure';
-import type Value from '@runtime/Value';
+import NumberValue from '@values/NumberValue';
+import StreamValue from '@values/StreamValue';
+import StructureValue, { createStructure } from '@values/StructureValue';
+import type Value from '@values/Value';
 import type Evaluator from '@runtime/Evaluator';
 import StreamDefinition from '@nodes/StreamDefinition';
 import { getDocLocales } from '@locale/getDocLocales';
@@ -20,20 +20,20 @@ function position(evaluator: Evaluator, x: number, y: number) {
     const bindings = new Map<Names, Value>();
     bindings.set(
         PlaceType.inputs[0].names,
-        new Number(evaluator.getMain(), x, Unit.reuse(['m']))
+        new NumberValue(evaluator.getMain(), x, Unit.reuse(['m']))
     );
     bindings.set(
         PlaceType.inputs[1].names,
-        new Number(evaluator.getMain(), y, Unit.reuse(['m']))
+        new NumberValue(evaluator.getMain(), y, Unit.reuse(['m']))
     );
     bindings.set(
         PlaceType.inputs[2].names,
-        new Number(evaluator.getMain(), 0, Unit.reuse(['m']))
+        new NumberValue(evaluator.getMain(), 0, Unit.reuse(['m']))
     );
     return createStructure(evaluator, PlaceType, bindings);
 }
 
-export default class Pointer extends Stream<Structure> {
+export default class Pointer extends StreamValue<StructureValue> {
     readonly evaluator: Evaluator;
     on: boolean = false;
 

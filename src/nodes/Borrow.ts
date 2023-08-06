@@ -4,7 +4,7 @@ import type Context from './Context';
 import Token from './Token';
 import type Evaluator from '@runtime/Evaluator';
 import type Step from '@runtime/Step';
-import Number from '@runtime/Number';
+import NumberValue from '@values/NumberValue';
 import Unit from './Unit';
 import Symbol from './Symbol';
 import { BORROW_SYMBOL } from '@parser/Symbols';
@@ -12,15 +12,15 @@ import Expression from './Expression';
 import Bind from './Bind';
 import type Type from './Type';
 import type TypeSet from './TypeSet';
-import type Value from '@runtime/Value';
+import type Value from '@values/Value';
 import Source from './Source';
 import Evaluation from '@runtime/Evaluation';
-import NameException from '@runtime/NameException';
+import NameException from '@values/NameException';
 import FunctionDefinition from './FunctionDefinition';
 import StructureDefinition from './StructureDefinition';
-import CycleException from '@runtime/CycleException';
-import FunctionValue from '@runtime/FunctionValue';
-import StructureDefinitionValue from '@runtime/StructureDefinitionValue';
+import CycleException from '@values/CycleException';
+import FunctionValue from '@values/FunctionValue';
+import StructureDefinitionValue from '@values/StructureDefinitionValue';
 import Start from '@runtime/Start';
 import Finish from '@runtime/Finish';
 import UnknownNameType from './UnknownNameType';
@@ -34,10 +34,10 @@ import {
 } from './Node';
 import type Locale from '@locale/Locale';
 import AtomicExpression from './AtomicExpression';
-import UnimplementedException from '@runtime/UnimplementedException';
+import UnimplementedException from '@values/UnimplementedException';
 import NodeRef from '@locale/NodeRef';
 import StreamDefinition from './StreamDefinition';
-import StreamDefinitionValue from '../runtime/StreamDefinitionValue';
+import StreamDefinitionValue from '../values/StreamDefinitionValue';
 import Glyphs from '../lore/Glyphs';
 import concretize from '../locale/concretize';
 import Purpose from '../concepts/Purpose';
@@ -254,7 +254,7 @@ export default class Borrow extends AtomicExpression {
     getVersion() {
         return this.version === undefined
             ? undefined
-            : new Number(this, this.version, Unit.Empty).toNumber();
+            : new NumberValue(this, this.version, Unit.Empty).toNumber();
     }
 
     getStart() {

@@ -16,7 +16,7 @@ import { QUESTION_SYMBOL } from '@parser/Symbols';
 import Symbol from './Symbol';
 import Finish from '@runtime/Finish';
 import type Evaluator from '@runtime/Evaluator';
-import type Value from '@runtime/Value';
+import type Value from '@values/Value';
 import { node, type Grammar, type Replacement } from './Node';
 import type Locale from '@locale/Locale';
 import NodeRef from '@locale/NodeRef';

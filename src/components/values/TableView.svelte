@@ -1,14 +1,14 @@
 <svelte:options immutable={true} />
 
 <script lang="ts">
-    import type Table from '@runtime/Table';
+    import type TableValue from '@values/TableValue';
     import { TABLE_CLOSE_SYMBOL, TABLE_OPEN_SYMBOL } from '@parser/Symbols';
     import SymbolView from './SymbolView.svelte';
     import Symbol from '@nodes/Symbol';
     import { config } from '../../db/Creator';
     import ValueView from './ValueView.svelte';
 
-    export let value: Table;
+    export let value: TableValue;
 </script>
 
 <SymbolView

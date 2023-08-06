@@ -1,7 +1,7 @@
 <svelte:options immutable={true} />
 
 <script lang="ts">
-    import type StructureDefinitionValue from '@runtime/StructureDefinitionValue';
+    import type StructureDefinitionValue from '@values/StructureDefinitionValue';
     import SymbolView from './SymbolView.svelte';
     import { TYPE_SYMBOL } from '@parser/Symbols';
     import Symbol from '@nodes/Symbol';

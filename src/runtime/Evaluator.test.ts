@@ -1,9 +1,9 @@
 import { expect, test } from 'vitest';
 import Project from '../models/Project';
 import Source from '@nodes/Source';
-import EvaluationLimitException from './EvaluationLimitException';
-import StepLimitException from './StepLimitException';
-import Evaluator from './Evaluator';
+import EvaluationLimitException from '../values/EvaluationLimitException';
+import StepLimitException from '../values/StepLimitException';
+import Evaluator from '@runtime/Evaluator';
 import { DefaultLocale } from '../db/Creator';
 
 test.each([0, 1, 10, 15])('Step back %i', (steps: number) => {

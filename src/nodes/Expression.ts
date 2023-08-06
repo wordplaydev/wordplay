@@ -1,7 +1,7 @@
 import Node from './Node';
 import type Context from './Context';
 import type Evaluator from '@runtime/Evaluator';
-import type Value from '@runtime/Value';
+import type Value from '@values/Value';
 import type Type from './Type';
 import type Step from '@runtime/Step';
 import type Bind from './Bind';

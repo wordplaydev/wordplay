@@ -9,7 +9,7 @@ import TableType from './TableType';
 import BooleanType from './BooleanType';
 import Bind from '@nodes/Bind';
 import type Node from './Node';
-import type Value from '@runtime/Value';
+import type Value from '@values/Value';
 import type Step from '@runtime/Step';
 import Finish from '@runtime/Finish';
 import Start from '@runtime/Start';
@@ -26,19 +26,23 @@ import IncompatibleInput from '../conflicts/IncompatibleInput';
 import { NotAType } from './NotAType';
 import concretize from '../locale/concretize';
 import Purpose from '../concepts/Purpose';
-import type Structure from '../runtime/Structure';
+import type StructureValue from '../values/StructureValue';
 import { getIteration, getIterationResult } from '../basis/Iteration';
-import Table from '../runtime/Table';
+import TableValue from '../values/TableValue';
 import FunctionDefinition from './FunctionDefinition';
 import Names from './Names';
-import Evaluation from '../runtime/Evaluation';
-import Bool from '../runtime/Bool';
+import Evaluation from '@runtime/Evaluation';
+import BoolValue from '@values/BoolValue';
 import { SELECT_SYMBOL, TABLE_CLOSE_SYMBOL } from '../parser/Symbols';
 import Symbol from './Symbol';
 import Token from './Token';
 import ExpressionPlaceholder from './ExpressionPlaceholder';
 
-type SelectState = { table: Table; index: number; selected: Structure[] };
+type SelectState = {
+    table: TableValue;
+    index: number;
+    selected: StructureValue[];
+};
 
 export default class Select extends Expression {
     readonly table: Expression;
@@ -233,7 +237,7 @@ export default class Select extends Expression {
                 // Track the table, index through the rows, and a list of selected rows
                 (evaluator) => {
                     const table = evaluator.peekValue();
-                    return table instanceof Table
+                    return table instanceof TableValue
                         ? { table, index: 0, selected: [] }
                         : evaluator.getValueOrTypeException(
                               this,
@@ -260,7 +264,7 @@ export default class Select extends Expression {
                 },
                 (evaluator, info) => {
                     const select = evaluator.popValue(this, BooleanType.make());
-                    if (!(select instanceof Bool)) return select;
+                    if (!(select instanceof BoolValue)) return select;
                     // Query was false? Keep instead of deleting.
                     if (select.bool)
                         info.selected.push(info.table.rows[info.index]);
@@ -293,7 +297,7 @@ export default class Select extends Expression {
                       )
                   );
 
-        return new Table(this, newType, selected);
+        return new TableValue(this, newType, selected);
     }
 
     evaluateTypeSet(

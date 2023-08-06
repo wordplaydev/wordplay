@@ -1,7 +1,7 @@
 <svelte:options immutable={true} />
 
 <script lang="ts">
-    import type Map from '@runtime/Map';
+    import type MapValue from '@values/MapValue';
     import SymbolView from './SymbolView.svelte';
     import {
         BIND_SYMBOL,
@@ -12,7 +12,7 @@
     import ValueView from './ValueView.svelte';
     import Expandable from './Expandable.svelte';
 
-    export let value: Map;
+    export let value: MapValue;
 </script>
 
 <SymbolView symbol={SET_OPEN_SYMBOL} type={Symbol.SetOpen} /><Expandable

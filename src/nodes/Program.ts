@@ -17,13 +17,13 @@ import Expression from './Expression';
 import type Bind from './Bind';
 import type Type from './Type';
 import type TypeSet from './TypeSet';
-import type Value from '@runtime/Value';
+import type Value from '@values/Value';
 import { node, type Grammar, type Replacement, optional, list } from './Node';
 import type Locale from '@locale/Locale';
 import type LanguageCode from '@locale/LanguageCode';
 import Symbol from './Symbol';
 import Glyphs from '../lore/Glyphs';
-import BlankException from '../runtime/BlankException';
+import BlankException from '@values/BlankException';
 import concretize from '../locale/concretize';
 import Purpose from '../concepts/Purpose';
 

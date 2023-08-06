@@ -1,10 +1,10 @@
 import type Project from '../models/Project';
 import Evaluate from '@nodes/Evaluate';
 import type Expression from '@nodes/Expression';
-import Bool from '@runtime/Bool';
-import Number from '../runtime/Number';
-import Text from '@runtime/Text';
-import type Value from '@runtime/Value';
+import BoolValue from '@values/BoolValue';
+import NumberValue from '@values/NumberValue';
+import TextValue from '@values/TextValue';
+import type Value from '@values/Value';
 import OutputExpression from './OutputExpression';
 import type { OutputPropertyValue } from './OutputExpression';
 import type OutputProperty from './OutputProperty';
@@ -12,7 +12,7 @@ import MapLiteral from '../nodes/MapLiteral';
 import ListLiteral from '../nodes/ListLiteral';
 import type Bind from '../nodes/Bind';
 import type { Creator } from '../db/Creator';
-import MarkupValue from '../runtime/MarkupValue';
+import MarkupValue from '@values/MarkupValue';
 import type Locale from '../locale/Locale';
 
 /**
@@ -97,12 +97,12 @@ export default class OutputPropertyValueSet {
 
     getNumber() {
         const value = this.getValue();
-        return value instanceof Number ? value.toNumber() : undefined;
+        return value instanceof NumberValue ? value.toNumber() : undefined;
     }
 
     getText() {
         const value = this.getValue();
-        return value instanceof Text
+        return value instanceof TextValue
             ? value.text
             : value instanceof MarkupValue
             ? value.toWordplay()
@@ -111,7 +111,7 @@ export default class OutputPropertyValueSet {
 
     getBool() {
         const value = this.getValue();
-        return value instanceof Bool ? value.bool : undefined;
+        return value instanceof BoolValue ? value.bool : undefined;
     }
 
     getMap() {

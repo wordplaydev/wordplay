@@ -1,6 +1,6 @@
 import type Evaluator from '@runtime/Evaluator';
 import { createPlaceStructure } from '@output/Place';
-import TemporalStream from '@runtime/TemporalStream';
+import TemporalStreamValue from '@values/TemporalStreamValue';
 import Bind from '@nodes/Bind';
 import NumberLiteral from '@nodes/NumberLiteral';
 import NumberType from '@nodes/NumberType';
@@ -8,22 +8,22 @@ import StreamDefinition from '@nodes/StreamDefinition';
 import StreamType from '@nodes/StreamType';
 import StructureType from '@nodes/StructureType';
 import Unit from '@nodes/Unit';
-import Number from '@runtime/Number';
-import Structure from '@runtime/Structure';
+import NumberValue from '@values/NumberValue';
+import StructureValue from '@values/StructureValue';
 import { getDocLocales } from '@locale/getDocLocales';
 import { getNameLocales } from '@locale/getNameLocales';
 import createStreamEvaluator from './createStreamEvaluator';
 import type TypeOutput from '../output/TypeOutput';
-import type Value from '../runtime/Value';
+import type Value from '../values/Value';
 import { toTypeOutput } from '../output/toTypeOutput';
 import Evaluate from '../nodes/Evaluate';
-import ValueException from '../runtime/ValueException';
+import ValueException from '../values/ValueException';
 import UnionType from '../nodes/UnionType';
 import NoneLiteral from '../nodes/NoneLiteral';
 import type Locale from '../locale/Locale';
 import type StructureDefinition from '../nodes/StructureDefinition';
 
-export default class Motion extends TemporalStream<Value> {
+export default class Motion extends TemporalStreamValue<Value> {
     type: TypeOutput;
 
     /** The current location and angle of the object. */
@@ -130,7 +130,7 @@ export default class Motion extends TemporalStream<Value> {
 
         // Get the type so we can clone and modify it.
         const type = this.type.value;
-        if (type instanceof Structure) {
+        if (type instanceof StructureValue) {
             const creator =
                 type.creator instanceof Evaluate
                     ? type.creator
@@ -157,7 +157,11 @@ export default class Motion extends TemporalStream<Value> {
                 ?.withValue(
                     creator,
                     RotationName,
-                    new Number(this.definition, this.angle, Unit.reuse(['°']))
+                    new NumberValue(
+                        this.definition,
+                        this.angle,
+                        Unit.reuse(['°'])
+                    )
                 );
 
             // Finally, add the new place to the stream.
@@ -260,21 +264,27 @@ export function createMotionDefinition(
             (evaluation) => {
                 const type = toTypeOutput(
                     evaluation.getEvaluator().project,
-                    evaluation.get(TypeBind.names, Structure)
+                    evaluation.get(TypeBind.names, StructureValue)
                 );
                 return type
                     ? new Motion(
                           evaluation.getEvaluator(),
                           type,
-                          evaluation.get(VXBind.names, Number)?.toNumber(),
-                          evaluation.get(VYBind.names, Number)?.toNumber(),
-                          evaluation.get(VZBind.names, Number)?.toNumber(),
-                          evaluation.get(VAngleBind.names, Number)?.toNumber(),
-                          evaluation.get(MassBind.names, Number)?.toNumber(),
+                          evaluation.get(VXBind.names, NumberValue)?.toNumber(),
+                          evaluation.get(VYBind.names, NumberValue)?.toNumber(),
+                          evaluation.get(VZBind.names, NumberValue)?.toNumber(),
                           evaluation
-                              .get(BouncinessBind.names, Number)
+                              .get(VAngleBind.names, NumberValue)
                               ?.toNumber(),
-                          evaluation.get(GravityBind.names, Number)?.toNumber()
+                          evaluation
+                              .get(MassBind.names, NumberValue)
+                              ?.toNumber(),
+                          evaluation
+                              .get(BouncinessBind.names, NumberValue)
+                              ?.toNumber(),
+                          evaluation
+                              .get(GravityBind.names, NumberValue)
+                              ?.toNumber()
                       )
                     : new ValueException(
                           evaluation.getEvaluator(),
@@ -286,15 +296,17 @@ export function createMotionDefinition(
                     // Not valid type output? Revert to the current value.
                     toTypeOutput(
                         evaluation.getEvaluator().project,
-                        evaluation.get(TypeBind.names, Structure)
+                        evaluation.get(TypeBind.names, StructureValue)
                     ),
-                    evaluation.get(VXBind.names, Number)?.toNumber(),
-                    evaluation.get(VYBind.names, Number)?.toNumber(),
-                    evaluation.get(VZBind.names, Number)?.toNumber(),
-                    evaluation.get(VAngleBind.names, Number)?.toNumber(),
-                    evaluation.get(MassBind.names, Number)?.toNumber(),
-                    evaluation.get(BouncinessBind.names, Number)?.toNumber(),
-                    evaluation.get(GravityBind.names, Number)?.toNumber()
+                    evaluation.get(VXBind.names, NumberValue)?.toNumber(),
+                    evaluation.get(VYBind.names, NumberValue)?.toNumber(),
+                    evaluation.get(VZBind.names, NumberValue)?.toNumber(),
+                    evaluation.get(VAngleBind.names, NumberValue)?.toNumber(),
+                    evaluation.get(MassBind.names, NumberValue)?.toNumber(),
+                    evaluation
+                        .get(BouncinessBind.names, NumberValue)
+                        ?.toNumber(),
+                    evaluation.get(GravityBind.names, NumberValue)?.toNumber()
                 );
             }
         ),

@@ -1,4 +1,4 @@
-import Stream from '@runtime/Stream';
+import StreamValue from '@values/StreamValue';
 import type Evaluator from '@runtime/Evaluator';
 import StreamDefinition from '../nodes/StreamDefinition';
 import { getDocLocales } from '../locale/getDocLocales';
@@ -9,13 +9,13 @@ import NoneType from '../nodes/NoneType';
 import NoneLiteral from '../nodes/NoneLiteral';
 import TextType from '../nodes/TextType';
 import BooleanType from '../nodes/BooleanType';
-import Text from '../runtime/Text';
-import Bool from '../runtime/Bool';
+import TextValue from '../values/TextValue';
+import BoolValue from '@values/BoolValue';
 import StreamType from '../nodes/StreamType';
 import createStreamEvaluator from './createStreamEvaluator';
 import type Locale from '../locale/Locale';
 
-export default class Key extends Stream<Text> {
+export default class Key extends StreamValue<TextValue> {
     readonly evaluator: Evaluator;
     on: boolean = false;
 
@@ -26,7 +26,7 @@ export default class Key extends Stream<Text> {
         super(
             evaluator,
             evaluator.project.shares.input.Key,
-            new Text(evaluator.getMain(), '')
+            new TextValue(evaluator.getMain(), '')
         );
 
         this.evaluator = evaluator;
@@ -46,7 +46,7 @@ export default class Key extends Stream<Text> {
             (this.key === undefined || this.key === key) &&
             (this.down === undefined || this.down === down)
         )
-            this.add(new Text(this.evaluator.getMain(), key));
+            this.add(new TextValue(this.evaluator.getMain(), key));
     }
 
     start() {
@@ -88,13 +88,13 @@ export function createKeyDefinition(locales: Locale[]) {
             (evaluation) =>
                 new Key(
                     evaluation.getEvaluator(),
-                    evaluation.get(keyBind.names, Text)?.text,
-                    evaluation.get(downBind.names, Bool)?.bool ?? true
+                    evaluation.get(keyBind.names, TextValue)?.text,
+                    evaluation.get(downBind.names, BoolValue)?.bool ?? true
                 ),
             (stream, evaluation) =>
                 stream.configure(
-                    evaluation.get(keyBind.names, Text)?.text,
-                    evaluation.get(downBind.names, Bool)?.bool ?? true
+                    evaluation.get(keyBind.names, TextValue)?.text,
+                    evaluation.get(downBind.names, BoolValue)?.bool ?? true
                 )
         ),
         TextType.make()

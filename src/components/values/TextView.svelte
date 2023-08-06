@@ -2,12 +2,12 @@
 
 <script lang="ts">
     import Symbol from '@nodes/Symbol';
-    import type Text from '@runtime/Text';
+    import type TextValue from '@values/TextValue';
     import UnicodeString from '../../models/UnicodeString';
     import Expandable from './Expandable.svelte';
     import SymbolView from './SymbolView.svelte';
 
-    export let value: Text;
+    export let value: TextValue;
     $: text = value.toWordplay();
 
     const limit = 32;

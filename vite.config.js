@@ -28,6 +28,7 @@ const config = {
             '@components': path.resolve('./src/components'),
             '@nodes': path.resolve('./src/nodes'),
             '@runtime': path.resolve('./src/runtime'),
+            '@values': path.resolve('./src/values'),
             '@conflicts': path.resolve('./src/conflicts'),
             '@locale': path.resolve('./src/locale'),
             '@concepts': path.resolve('./src/concepts'),

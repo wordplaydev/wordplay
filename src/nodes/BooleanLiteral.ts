@@ -1,7 +1,7 @@
 import BooleanType from './BooleanType';
 import Token from './Token';
 import type Type from './Type';
-import Bool from '@runtime/Bool';
+import BoolValue from '@values/BoolValue';
 import { FALSE_SYMBOL, TRUE_SYMBOL } from '@parser/Symbols';
 import type Bind from './Bind';
 import type Context from './Context';
@@ -66,7 +66,7 @@ export default class BooleanLiteral extends Literal {
     }
 
     getValue() {
-        return new Bool(this, this.bool());
+        return new BoolValue(this, this.bool());
     }
 
     bool(): boolean {

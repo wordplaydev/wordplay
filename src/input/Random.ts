@@ -1,5 +1,5 @@
 import type Evaluator from '@runtime/Evaluator';
-import Stream from '@runtime/Stream';
+import StreamValue from '@values/StreamValue';
 import StreamDefinition from '@nodes/StreamDefinition';
 import { getDocLocales } from '@locale/getDocLocales';
 import { getNameLocales } from '@locale/getNameLocales';
@@ -9,14 +9,14 @@ import UnionType from '@nodes/UnionType';
 import NoneType from '@nodes/NoneType';
 import NoneLiteral from '@nodes/NoneLiteral';
 import StreamType from '@nodes/StreamType';
-import Number from '@runtime/Number';
+import NumberValue from '@values/NumberValue';
 import Unit from '@nodes/Unit';
 import createStreamEvaluator from './createStreamEvaluator';
 import type Locale from '../locale/Locale';
 
 export const FREQUENCY = 33;
 
-export default class Random extends Stream<Number> {
+export default class Random extends StreamValue<NumberValue> {
     min: number | undefined;
     max: number | undefined;
     unit: Unit | undefined;
@@ -54,7 +54,7 @@ export default class Random extends Stream<Number> {
         max: number | undefined,
         unit: Unit | undefined
     ) {
-        return new Number(
+        return new NumberValue(
             evaluator.getMain(),
             min === undefined
                 ? max === undefined
@@ -127,15 +127,15 @@ export function createRandomDefinition(locales: Locale[]) {
             (evaluation) =>
                 new Random(
                     evaluation.getEvaluator(),
-                    evaluation.get(MinBind.names, Number)?.toNumber(),
-                    evaluation.get(MaxBind.names, Number)?.toNumber(),
-                    evaluation.get(MinBind.names, Number)?.unit
+                    evaluation.get(MinBind.names, NumberValue)?.toNumber(),
+                    evaluation.get(MaxBind.names, NumberValue)?.toNumber(),
+                    evaluation.get(MinBind.names, NumberValue)?.unit
                 ),
             (stream, evaluation) =>
                 stream.setRange(
-                    evaluation.get(MinBind.names, Number)?.toNumber(),
-                    evaluation.get(MaxBind.names, Number)?.toNumber(),
-                    evaluation.get(MinBind.names, Number)?.unit
+                    evaluation.get(MinBind.names, NumberValue)?.toNumber(),
+                    evaluation.get(MaxBind.names, NumberValue)?.toNumber(),
+                    evaluation.get(MinBind.names, NumberValue)?.unit
                 )
         ),
         NumberType.make()

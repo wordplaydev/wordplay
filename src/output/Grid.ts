@@ -1,17 +1,17 @@
 import toStructure from '../basis/toStructure';
-import type Value from '@runtime/Value';
+import type Value from '@values/Value';
 import type Color from './Color';
 import type TypeOutput from './TypeOutput';
 import type RenderContext from './RenderContext';
 import { getBind } from '@locale/getBind';
 import Arrangement from './Arrangement';
-import Number from '../runtime/Number';
+import NumberValue from '@values/NumberValue';
 import Place from './Place';
-import None from '../runtime/None';
+import NoneValue from '@values/NoneValue';
 import concretize from '../locale/concretize';
 import type Locale from '../locale/Locale';
 import { getOutputInputs } from './Output';
-import Structure from '../runtime/Structure';
+import StructureValue from '../values/StructureValue';
 
 export function createGridType(locales: Locale[]) {
     return toStructure(`
@@ -34,20 +34,22 @@ export class Grid extends Arrangement {
 
     constructor(
         value: Value,
-        rows: Number,
-        columns: Number,
-        padding: Number,
-        cellWidth: Number | None,
-        cellHeight: Number | None
+        rows: NumberValue,
+        columns: NumberValue,
+        padding: NumberValue,
+        cellWidth: NumberValue | NoneValue,
+        cellHeight: NumberValue | NoneValue
     ) {
         super(value);
         this.rows = Math.max(1, rows.toNumber());
         this.columns = Math.max(1, columns.toNumber());
         this.padding = padding.toNumber();
         this.cellWidth =
-            cellWidth instanceof Number ? cellWidth.toNumber() : undefined;
+            cellWidth instanceof NumberValue ? cellWidth.toNumber() : undefined;
         this.cellHeight =
-            cellHeight instanceof Number ? cellHeight.toNumber() : undefined;
+            cellHeight instanceof NumberValue
+                ? cellHeight.toNumber()
+                : undefined;
     }
 
     getLayout(outputs: (TypeOutput | null)[], context: RenderContext) {
@@ -179,16 +181,16 @@ export class Grid extends Arrangement {
 }
 
 export function toGrid(value: Value | undefined): Grid | undefined {
-    if (!(value instanceof Structure)) return undefined;
+    if (!(value instanceof StructureValue)) return undefined;
 
     const [rows, columns, padding, cellWidth, cellHeight] =
         getOutputInputs(value);
 
-    return rows instanceof Number &&
-        columns instanceof Number &&
-        padding instanceof Number &&
-        (cellWidth instanceof Number || cellWidth instanceof None) &&
-        (cellHeight instanceof Number || cellHeight instanceof None)
+    return rows instanceof NumberValue &&
+        columns instanceof NumberValue &&
+        padding instanceof NumberValue &&
+        (cellWidth instanceof NumberValue || cellWidth instanceof NoneValue) &&
+        (cellHeight instanceof NumberValue || cellHeight instanceof NoneValue)
         ? new Grid(value, rows, columns, padding, cellWidth, cellHeight)
         : undefined;
 }

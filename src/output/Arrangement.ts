@@ -1,6 +1,6 @@
 import toStructure from '../basis/toStructure';
 import { TYPE_SYMBOL } from '@parser/Symbols';
-import type Value from '@runtime/Value';
+import type Value from '@values/Value';
 import { getBind } from '@locale/getBind';
 import Output from './Output';
 import type RenderContext from './RenderContext';

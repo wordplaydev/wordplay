@@ -1,18 +1,18 @@
 import toStructure from '../basis/toStructure';
-import type Value from '@runtime/Value';
+import type Value from '@values/Value';
 import type Color from './Color';
 import type TypeOutput from './TypeOutput';
 import type RenderContext from './RenderContext';
 import Place from './Place';
 import { getBind } from '@locale/getBind';
-import Number from '../runtime/Number';
+import NumberValue from '@values/NumberValue';
 import Arrangement from './Arrangement';
 import Group from './Group';
 import Phrase from './Phrase';
 import concretize from '../locale/concretize';
 import type Locale from '../locale/Locale';
 import { getOutputInput } from './Output';
-import Structure from '../runtime/Structure';
+import StructureValue from '../values/StructureValue';
 
 export function createRowType(locales: Locale[]) {
     return toStructure(`
@@ -25,7 +25,7 @@ export function createRowType(locales: Locale[]) {
 export class Row extends Arrangement {
     readonly padding: number;
 
-    constructor(value: Value, padding: Number) {
+    constructor(value: Value, padding: NumberValue) {
         super(value);
 
         this.padding = padding.toNumber();
@@ -110,7 +110,7 @@ export class Row extends Arrangement {
 }
 
 export function toRow(value: Value | undefined): Row | undefined {
-    if (!(value instanceof Structure)) return undefined;
+    if (!(value instanceof StructureValue)) return undefined;
     const padding = getOutputInput(value, 0);
-    return padding instanceof Number ? new Row(value, padding) : undefined;
+    return padding instanceof NumberValue ? new Row(value, padding) : undefined;
 }

@@ -1,12 +1,12 @@
 import type Pose from './Pose';
-import type Value from '@runtime/Value';
+import type Value from '@values/Value';
 import type Color from './Color';
 import Fonts, { type FontWeight } from '../basis/Fonts';
-import Text from '@runtime/Text';
+import TextValue from '@values/TextValue';
 import TypeOutput, { createTypeOutputInputs } from './TypeOutput';
 import type RenderContext from './RenderContext';
 import type Place from './Place';
-import List from '@runtime/List';
+import ListValue from '@values/ListValue';
 import TextLang from './TextLang';
 import toStructure from '../basis/toStructure';
 import getTextMetrics from './getTextMetrics';
@@ -17,10 +17,10 @@ import type { NameGenerator } from './Stage';
 import type Locale from '../locale/Locale';
 import type Project from '../models/Project';
 import type { DefinitePose } from './Pose';
-import Structure from '../runtime/Structure';
+import StructureValue from '../values/StructureValue';
 import { getOutputInput } from './Output';
 import { getStyle } from './toTypeOutput';
-import MarkupValue from '../runtime/MarkupValue';
+import MarkupValue from '@values/MarkupValue';
 import concretize from '../locale/concretize';
 import type Markup from '../nodes/Markup';
 
@@ -44,7 +44,7 @@ export default class Phrase extends TypeOutput {
         | undefined = undefined;
 
     constructor(
-        value: Structure,
+        value: StructureValue,
         text: TextLang[] | MarkupValue,
         size: number | undefined = undefined,
         font: string | undefined = undefined,
@@ -83,8 +83,8 @@ export default class Phrase extends TypeOutput {
     }
 
     getText() {
-        return (this.value as Structure).resolve(
-            (this.value as Structure).type.inputs[0].names
+        return (this.value as StructureValue).resolve(
+            (this.value as StructureValue).type.inputs[0].names
         );
     }
 
@@ -229,7 +229,7 @@ export default class Phrase extends TypeOutput {
 }
 
 export function toFont(value: Value | undefined): string | undefined {
-    return value instanceof Text ? value.text : undefined;
+    return value instanceof TextValue ? value.text : undefined;
 }
 
 export function toPhrase(
@@ -237,7 +237,7 @@ export function toPhrase(
     value: Value | undefined,
     namer: NameGenerator | undefined
 ): Phrase | undefined {
-    if (!(value instanceof Structure)) return undefined;
+    if (!(value instanceof StructureValue)) return undefined;
 
     let texts = toTextLang(getOutputInput(value, 0));
 
@@ -281,18 +281,18 @@ export function toPhrase(
 }
 
 export function toText(value: Value | undefined) {
-    return value instanceof Text
+    return value instanceof TextValue
         ? new TextLang(value, value.text, value.format)
         : undefined;
 }
 
 export function toTextLang(value: Value | undefined) {
     let texts =
-        value instanceof Text
+        value instanceof TextValue
             ? [new TextLang(value, value.text, value.format)]
-            : value instanceof List &&
-              value.values.every((t) => t instanceof Text)
-            ? (value.values as Text[]).map(
+            : value instanceof ListValue &&
+              value.values.every((t) => t instanceof TextValue)
+            ? (value.values as TextValue[]).map(
                   (val) => new TextLang(val, val.text, val.format)
               )
             : value instanceof MarkupValue

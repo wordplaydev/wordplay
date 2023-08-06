@@ -6,8 +6,8 @@ import TableType from './TableType';
 import Bind from '@nodes/Bind';
 import type Type from './Type';
 import type Evaluator from '@runtime/Evaluator';
-import type Value from '@runtime/Value';
-import Table from '@runtime/Table';
+import type Value from '@values/Value';
+import TableValue from '@values/TableValue';
 import type Step from '@runtime/Step';
 import Finish from '@runtime/Finish';
 import Start from '@runtime/Start';
@@ -15,17 +15,17 @@ import type Context from './Context';
 import type Definition from './Definition';
 import type TypeSet from './TypeSet';
 import Halt from '@runtime/Halt';
-import Exception from '@runtime/Exception';
-import TypeException from '@runtime/TypeException';
+import ExceptionValue from '@values/ExceptionValue';
+import TypeException from '@values/TypeException';
 import { node, type Grammar, type Replacement } from './Node';
 import type Locale from '@locale/Locale';
-import UnimplementedException from '@runtime/UnimplementedException';
+import UnimplementedException from '@values/UnimplementedException';
 import NodeRef from '@locale/NodeRef';
 import Glyphs from '../lore/Glyphs';
 import IncompatibleInput from '../conflicts/IncompatibleInput';
 import concretize from '../locale/concretize';
 import Purpose from '../concepts/Purpose';
-import Structure from '../runtime/Structure';
+import StructureValue from '../values/StructureValue';
 import MissingCell from '../conflicts/MissingCell';
 import IncompatibleCellType from '../conflicts/IncompatibleCellType';
 import UnknownColumn from '../conflicts/UnknownColumn';
@@ -273,16 +273,16 @@ export default class Insert extends Expression {
         const values: Value[] = [];
         for (let i = 0; i < this.row.cells.length; i++) {
             const value = evaluator.popValue(this);
-            if (value instanceof Exception) return value;
+            if (value instanceof ExceptionValue) return value;
             else values.unshift(value);
         }
 
         const table = evaluator.popValue(this, TableType.make([]));
-        if (!(table instanceof Table)) return table;
+        if (!(table instanceof TableValue)) return table;
 
         // Return a new table with the new row.
         const row = getRowFromValues(evaluator, this, table.type, values);
-        return row instanceof Structure ? table.insert(this, row) : row;
+        return row instanceof StructureValue ? table.insert(this, row) : row;
     }
 
     evaluateTypeSet(

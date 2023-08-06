@@ -3,7 +3,7 @@
 <script lang="ts">
     import SymbolView from './SymbolView.svelte';
     import Symbol from '@nodes/Symbol';
-    import type StreamDefinitionValue from '../../runtime/StreamDefinitionValue';
+    import type StreamDefinitionValue from '../../values/StreamDefinitionValue';
     import { STREAM_SYMBOL } from '../../parser/Symbols';
     import { config } from '../../db/Creator';
 

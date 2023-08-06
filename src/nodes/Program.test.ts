@@ -1,16 +1,16 @@
 import { expect, test } from 'vitest';
-import Evaluator from '../runtime/Evaluator';
-import Number from '../runtime/Number';
+import Evaluator from '@runtime/Evaluator';
+import NumberValue from '@values/NumberValue';
 import Source from './Source';
 import Project from '../models/Project';
-import type Value from '../runtime/Value';
+import type Value from '../values/Value';
 import { DefaultLocale } from '../db/Creator';
 
 test.each([
     // A single source with 1 should evaluate to 1
-    [[`1`], Number],
+    [[`1`], NumberValue],
     // Two sources, one supplement blank, should evaluate to 1
-    [[`1`, ``], Number],
+    [[`1`, ``], NumberValue],
 ])('Expect program value', (code: string[], valueType: Function) => {
     const project = new Project(
         null,

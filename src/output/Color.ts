@@ -1,6 +1,6 @@
 import Decimal from 'decimal.js';
 import toStructure from '../basis/toStructure';
-import type Value from '@runtime/Value';
+import type Value from '@values/Value';
 import Output, { getOutputInputs } from './Output';
 import { toDecimal } from './Stage';
 import ColorJS from 'colorjs.io';
@@ -12,7 +12,7 @@ import Reference from '../nodes/Reference';
 import Unit from '../nodes/Unit';
 import type Locale from '../locale/Locale';
 import type Project from '../models/Project';
-import Structure from '../runtime/Structure';
+import StructureValue from '../values/StructureValue';
 
 export function createColorType(locales: Locale[]) {
     return toStructure(`
@@ -92,7 +92,7 @@ export function createColorLiteral(
 }
 
 export function toColor(value: Value | undefined) {
-    if (!(value instanceof Structure)) return undefined;
+    if (!(value instanceof StructureValue)) return undefined;
 
     const [lVal, cVal, hVal] = getOutputInputs(value);
     const l = toDecimal(lVal);

@@ -1,7 +1,7 @@
 <svelte:options immutable={true} />
 
 <script lang="ts">
-    import type FunctionValue from '@runtime/FunctionValue';
+    import type FunctionValue from '@values/FunctionValue';
     import SymbolView from './SymbolView.svelte';
     import { FUNCTION_SYMBOL } from '@parser/Symbols';
     import Symbol from '@nodes/Symbol';

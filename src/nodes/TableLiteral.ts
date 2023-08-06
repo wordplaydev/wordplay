@@ -5,8 +5,8 @@ import TableType from './TableType';
 import Bind from './Bind';
 import type Node from './Node';
 import type Evaluator from '@runtime/Evaluator';
-import type Value from '@runtime/Value';
-import Table from '@runtime/Table';
+import type Value from '@values/Value';
+import TableValue from '@values/TableValue';
 import type Step from '@runtime/Step';
 import Finish from '@runtime/Finish';
 import Start from '@runtime/Start';
@@ -17,7 +17,7 @@ import type Locale from '@locale/Locale';
 import Glyphs from '../lore/Glyphs';
 import Purpose from '../concepts/Purpose';
 import concretize from '../locale/concretize';
-import Structure from '../runtime/Structure';
+import StructureValue from '../values/StructureValue';
 import MissingCell from '../conflicts/MissingCell';
 import IncompatibleCellType from '../conflicts/IncompatibleCellType';
 import ExtraCell from '../conflicts/ExtraCell';
@@ -142,7 +142,7 @@ export default class TableLiteral extends Expression {
     evaluate(evaluator: Evaluator, prior: Value | undefined): Value {
         if (prior) return prior;
 
-        const rows: Structure[] = [];
+        const rows: StructureValue[] = [];
         for (let r = 0; r < this.rows.length; r++) {
             // Get the values, building the list in order of appearance.
             const values: Value[] = [];
@@ -150,10 +150,10 @@ export default class TableLiteral extends Expression {
                 values.unshift(evaluator.popValue(this));
 
             const row = getRowFromValues(evaluator, this, this.type, values);
-            if (row instanceof Structure) rows.unshift(row);
+            if (row instanceof StructureValue) rows.unshift(row);
             else return row;
         }
-        return new Table(this, this.type, rows);
+        return new TableValue(this, this.type, rows);
     }
 
     clone(replace?: Replacement) {

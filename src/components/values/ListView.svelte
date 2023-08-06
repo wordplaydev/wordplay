@@ -1,14 +1,14 @@
 <svelte:options immutable={true} />
 
 <script lang="ts">
-    import type List from '@runtime/List';
+    import type ListValue from '@values/ListValue';
     import { LIST_CLOSE_SYMBOL, LIST_OPEN_SYMBOL } from '@parser/Symbols';
     import SymbolView from './SymbolView.svelte';
     import ValueView from './ValueView.svelte';
     import Symbol from '@nodes/Symbol';
     import Expandable from './Expandable.svelte';
 
-    export let value: List;
+    export let value: ListValue;
 
     const limit = 3;
 </script>

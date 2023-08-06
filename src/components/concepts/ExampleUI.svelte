@@ -7,7 +7,7 @@
     import type Spaces from '@parser/Spaces';
     import ValueView from '../values/ValueView.svelte';
     import Evaluator from '@runtime/Evaluator';
-    import type Value from '../../runtime/Value';
+    import type Value from '../../values/Value';
     import CodeView from './CodeView.svelte';
     import { config } from '../../db/Creator';
 

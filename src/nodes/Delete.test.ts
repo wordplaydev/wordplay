@@ -2,7 +2,7 @@ import { test, expect } from 'vitest';
 import { testConflict } from '@conflicts/TestUtilities';
 import Delete from './Delete';
 import IncompatibleInput from '../conflicts/IncompatibleInput';
-import Evaluator from '../runtime/Evaluator';
+import Evaluator from '@runtime/Evaluator';
 import { DefaultLocale } from '../db/Creator';
 
 test.each([

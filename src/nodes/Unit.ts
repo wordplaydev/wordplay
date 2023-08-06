@@ -7,7 +7,7 @@ import { PRODUCT_SYMBOL } from '@parser/Symbols';
 import Dimension from './Dimension';
 import Token from './Token';
 import Type from './Type';
-import Number from '@runtime/Number';
+import NumberValue from '@values/NumberValue';
 import type TypeSet from './TypeSet';
 import type { BasisTypeName } from '../basis/BasisConstants';
 import LanguageToken from './LanguageToken';
@@ -58,7 +58,7 @@ export default class Unit extends Type {
                     const exp =
                         dim.exponent === undefined
                             ? 1
-                            : Number.fromToken(dim.exponent).toNumber();
+                            : NumberValue.fromToken(dim.exponent).toNumber();
                     const current = this.exponents.get(name);
                     this.exponents.set(name, (current ?? 0) + exp);
                 }
@@ -69,7 +69,7 @@ export default class Unit extends Type {
                     const exp =
                         dim.exponent === undefined
                             ? -1
-                            : -Number.fromToken(dim.exponent).toNumber();
+                            : -NumberValue.fromToken(dim.exponent).toNumber();
                     const current = this.exponents.get(name);
                     this.exponents.set(name, (current ?? 0) + exp);
                 }

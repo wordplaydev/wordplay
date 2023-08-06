@@ -26,21 +26,21 @@ import Purpose from '../concepts/Purpose';
 import FunctionDefinition from './FunctionDefinition';
 import Names from './Names';
 import { getIteration, getIterationResult } from '../basis/Iteration';
-import Table from '../runtime/Table';
-import Evaluation from '../runtime/Evaluation';
-import Structure from '../runtime/Structure';
+import TableValue from '../values/TableValue';
+import Evaluation from '@runtime/Evaluation';
+import StructureValue from '../values/StructureValue';
 import InternalExpression from '../basis/InternalExpression';
 import AnyType from './AnyType';
-import Bool from '../runtime/Bool';
-import Exception from '../runtime/Exception';
-import ValueException from '../runtime/ValueException';
-import type Value from '../runtime/Value';
+import BoolValue from '@values/BoolValue';
+import ExceptionValue from '@values/ExceptionValue';
+import ValueException from '../values/ValueException';
+import type Value from '../values/Value';
 import Token from './Token';
 import { TABLE_CLOSE_SYMBOL, UPDATE_SYMBOL } from '../parser/Symbols';
 import Symbol from './Symbol';
 import ExpressionPlaceholder from './ExpressionPlaceholder';
 
-type UpdateState = { table: Table; index: number; rows: Structure[] };
+type UpdateState = { table: TableValue; index: number; rows: StructureValue[] };
 
 export default class Update extends Expression {
     readonly table: Expression;
@@ -252,7 +252,7 @@ export default class Update extends Expression {
                     // Get the row
                     let row = evaluation.getClosure();
                     // Not a row? Exception.
-                    if (!(row instanceof Structure))
+                    if (!(row instanceof StructureValue))
                         return new ValueException(
                             evaluation.getEvaluator(),
                             this
@@ -262,7 +262,7 @@ export default class Update extends Expression {
                     for (const bind of binds) {
                         if (bind instanceof Bind && bind.value) {
                             const value = evaluation.popValue(this, undefined);
-                            if (value instanceof Exception) return value;
+                            if (value instanceof ExceptionValue) return value;
                             values.unshift(value);
                         }
                     }
@@ -271,22 +271,23 @@ export default class Update extends Expression {
                         requestor,
                         BooleanType.make()
                     );
-                    if (!(match instanceof Bool)) return match;
+                    if (!(match instanceof BoolValue)) return match;
                     // Not a query match? Don't modify the row.
                     if (match.bool === false) return row;
                     // Otherwise, refine the row with the updtes
                     else {
-                        let newRow: Structure = row;
+                        let newRow: StructureValue = row;
                         for (const bind of binds) {
                             if (bind instanceof Bind && bind.value) {
                                 const value = values.shift();
-                                const revised: Structure | undefined = value
-                                    ? newRow.withValue(
-                                          this,
-                                          bind.names.getNames()[0],
-                                          value
-                                      )
-                                    : undefined;
+                                const revised: StructureValue | undefined =
+                                    value
+                                        ? newRow.withValue(
+                                              this,
+                                              bind.names.getNames()[0],
+                                              value
+                                          )
+                                        : undefined;
                                 if (revised === undefined)
                                     return new ValueException(
                                         evaluation.getEvaluator(),
@@ -311,7 +312,7 @@ export default class Update extends Expression {
                 // Track the table, index, and the revised rows.
                 (evaluator) => {
                     const table = evaluator.popValue(this);
-                    return table instanceof Table
+                    return table instanceof TableValue
                         ? { table, index: 0, rows: [] }
                         : evaluator.getValueOrTypeException(
                               this,
@@ -338,7 +339,7 @@ export default class Update extends Expression {
                 },
                 (evaluator, info) => {
                     const row = evaluator.popValue(this);
-                    if (!(row instanceof Structure)) return row;
+                    if (!(row instanceof StructureValue)) return row;
                     // Add the revised structure.
                     info.rows.push(row);
                     // Increment the counter to the next row.
@@ -351,7 +352,7 @@ export default class Update extends Expression {
 
     evaluate(evaluator: Evaluator, prior: Value | undefined): Value {
         const { table, rows } = getIterationResult<UpdateState>(evaluator);
-        return new Table(this, table.type, rows);
+        return new TableValue(this, table.type, rows);
     }
 
     evaluateTypeSet(

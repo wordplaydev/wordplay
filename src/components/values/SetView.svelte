@@ -1,14 +1,14 @@
 <svelte:options immutable={true} />
 
 <script lang="ts">
-    import type Set from '@runtime/Set';
+    import type SetValue from '@values/SetValue';
     import SymbolView from './SymbolView.svelte';
     import Symbol from '@nodes/Symbol';
     import ValueView from './ValueView.svelte';
     import { SET_CLOSE_SYMBOL, SET_OPEN_SYMBOL } from '@parser/Symbols';
     import Expandable from './Expandable.svelte';
 
-    export let value: Set;
+    export let value: SetValue;
 
     const limit = 3;
 </script>

@@ -5,7 +5,7 @@ import type Conflict from '@conflicts/Conflict';
 import { parseProgram, Tokens } from '@parser/Parser';
 import { Delimiters, REVERSE_DELIMITERS, tokenize } from '@parser/Tokenizer';
 import UnicodeString from '../models/UnicodeString';
-import type Value from '@runtime/Value';
+import type Value from '@values/Value';
 import type Context from './Context';
 import Names from './Names';
 import type Borrow from './Borrow';
@@ -18,7 +18,7 @@ import type { SharedDefinition } from './Borrow';
 import FunctionDefinition from './FunctionDefinition';
 import StructureDefinition from './StructureDefinition';
 import type Spaces from '@parser/Spaces';
-import None from '@runtime/None';
+import NoneValue from '@values/NoneValue';
 import type SetOpenToken from './SetOpenToken';
 import type Locale from '@locale/Locale';
 import Glyphs from '../lore/Glyphs';
@@ -848,7 +848,7 @@ export default class Source extends Expression {
     }
 
     evaluate(): Value {
-        return new None(this);
+        return new NoneValue(this);
     }
 
     getStart() {

@@ -1,10 +1,10 @@
 import Block, { BlockKind } from '@nodes/Block';
 import BooleanType from '@nodes/BooleanType';
 import StructureDefinition from '@nodes/StructureDefinition';
-import Bool from '@runtime/Bool';
-import Text from '@runtime/Text';
+import BoolValue from '@values/BoolValue';
+import TextValue from '@values/TextValue';
 import { createBasisConversion, createBasisFunction } from './Basis';
-import type Value from '@runtime/Value';
+import type Value from '@values/Value';
 import { getDocLocales } from '@locale/getDocLocales';
 import { getNameLocales } from '@locale/getNameLocales';
 import Evaluation from '@runtime/Evaluation';
@@ -17,7 +17,11 @@ export default function bootstrapBool(locales: Locale[]) {
     function createBooleanFunction(
         text: (locale: Locale) => FunctionText<any>,
         inputs: Type[],
-        expression: (requestor: Expression, left: Bool, right: Bool) => Bool
+        expression: (
+            requestor: Expression,
+            left: BoolValue,
+            right: BoolValue
+        ) => BoolValue
     ) {
         return createBasisFunction(
             locales,
@@ -29,13 +33,13 @@ export default function bootstrapBool(locales: Locale[]) {
                 const left = evaluation.getClosure();
                 const right: Value | undefined = evaluation.getInput(0);
                 // This should be impossible, but the type system doesn't know it.
-                if (!(left instanceof Bool))
+                if (!(left instanceof BoolValue))
                     return evaluation.getValueOrTypeException(
                         requestor,
                         BooleanType.make(),
                         left instanceof Evaluation ? undefined : left
                     );
-                if (!(right instanceof Bool))
+                if (!(right instanceof BoolValue))
                     return evaluation.getValueOrTypeException(
                         requestor,
                         BooleanType.make(),
@@ -73,7 +77,7 @@ export default function bootstrapBool(locales: Locale[]) {
                     (requestor, evaluation) => {
                         const left = evaluation.getClosure();
                         // This should be impossible, but the type system doesn't know it.
-                        if (!(left instanceof Bool))
+                        if (!(left instanceof BoolValue))
                             return evaluation.getValueOrTypeException(
                                 requestor,
                                 BooleanType.make(),
@@ -86,13 +90,13 @@ export default function bootstrapBool(locales: Locale[]) {
                     (locale) => locale.basis.Boolean.function.equals,
                     [BooleanType.make()],
                     (requestor, left, right) =>
-                        new Bool(requestor, left.isEqualTo(right))
+                        new BoolValue(requestor, left.isEqualTo(right))
                 ),
                 createBooleanFunction(
                     (locale) => locale.basis.Boolean.function.notequal,
                     [BooleanType.make()],
                     (requestor, left, right) =>
-                        new Bool(requestor, !left.isEqualTo(right))
+                        new BoolValue(requestor, !left.isEqualTo(right))
                 ),
                 createBasisConversion(
                     getDocLocales(
@@ -102,7 +106,7 @@ export default function bootstrapBool(locales: Locale[]) {
                     '?',
                     "''",
                     (requestor, val: Value) =>
-                        new Text(requestor, val.toString())
+                        new TextValue(requestor, val.toString())
                 ),
             ],
             BlockKind.Structure

@@ -1,5 +1,5 @@
 import toStructure from '../basis/toStructure';
-import type Value from '@runtime/Value';
+import type Value from '@values/Value';
 import type Color from './Color';
 import Output from './Output';
 import type Place from './Place';

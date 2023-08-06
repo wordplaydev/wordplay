@@ -2,15 +2,15 @@
     import { afterUpdate } from 'svelte';
     import type Evaluator from '@runtime/Evaluator';
     import Key from '../../input/Key';
-    import Bool from '@runtime/Bool';
+    import BoolValue from '@values/BoolValue';
     import Button from '../../input/Button';
     import { slide } from 'svelte/transition';
     import { tick } from 'svelte';
-    import Exception from '@runtime/Exception';
+    import ExceptionValue from '@values/ExceptionValue';
     import { getEvaluation } from '../project/Contexts';
     import Controls from './Controls.svelte';
     import { config } from '../../db/Creator';
-    import Structure from '../../runtime/Structure';
+    import StructureValue from '@values/StructureValue';
 
     export let evaluator: Evaluator;
 
@@ -191,7 +191,7 @@
                 {#each reaction.changes.slice(0, 3) as change}
                     {@const down =
                         change.stream instanceof Key &&
-                        change.value instanceof Structure
+                        change.value instanceof StructureValue
                             ? change.value.resolve(
                                   change.value.type.inputs[1].names
                               )
@@ -202,7 +202,9 @@
                     <span
                         class={`event stream-input ${
                             currentReaction === reaction ? 'current' : ''
-                        } ${down instanceof Bool && down.bool ? 'down' : ''}`}
+                        } ${
+                            down instanceof BoolValue && down.bool ? 'down' : ''
+                        }`}
                         data-inputindex={reaction.stepIndex}
                     >
                         {#if change.stream === undefined}
@@ -233,7 +235,7 @@
                     >&ZeroWidthSpace;</span
                 >
                 <!-- If the value was an exception, show that it ended that way -->
-                {#if evaluator.getSourceValueBefore(evaluator.getMain(), reaction.stepIndex + stepCount) instanceof Exception}<span
+                {#if evaluator.getSourceValueBefore(evaluator.getMain(), reaction.stepIndex + stepCount) instanceof ExceptionValue}<span
                         data-exceptionindex={reaction.stepIndex + stepCount}
                         class="event exception">!</span
                     >{/if}

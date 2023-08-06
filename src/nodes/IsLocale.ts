@@ -2,12 +2,12 @@ import type Conflict from '@conflicts/Conflict';
 import Token from './Token';
 import type Type from './Type';
 import type Evaluator from '@runtime/Evaluator';
-import type Value from '@runtime/Value';
+import type Value from '@values/Value';
 import type Step from '@runtime/Step';
 import type Context from './Context';
 import Symbol from './Symbol';
 import { GLOBE1_SYMBOL } from '@parser/Symbols';
-import Bool from '@runtime/Bool';
+import BoolValue from '@values/BoolValue';
 import { node, type Grammar, type Replacement, optional } from './Node';
 import type Locale from '@locale/Locale';
 import AtomicExpression from './AtomicExpression';
@@ -16,7 +16,7 @@ import Glyphs from '../lore/Glyphs';
 import Purpose from '../concepts/Purpose';
 import concretize from '../locale/concretize';
 import Language from './Language';
-import StartFinish from '../runtime/StartFinish';
+import StartFinish from '@runtime/StartFinish';
 import type Bind from './Bind';
 import type Expression from './Expression';
 import type TypeSet from './TypeSet';
@@ -86,7 +86,7 @@ export default class IsLocale extends AtomicExpression {
     evaluate(evaluator: Evaluator, prior: Value | undefined): Value {
         if (prior) return prior;
 
-        return new Bool(
+        return new BoolValue(
             this,
             this.locale === undefined
                 ? false

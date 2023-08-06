@@ -2,11 +2,11 @@
 
 <script lang="ts">
     import Symbol from '@nodes/Symbol';
-    import type Stream from '@runtime/Stream';
+    import type StreamValue from '@values/StreamValue';
     import { config } from '../../db/Creator';
     import SymbolView from './SymbolView.svelte';
 
-    export let value: Stream;
+    export let value: StreamValue;
 </script>
 
 <SymbolView

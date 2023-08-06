@@ -3,10 +3,10 @@
 <script lang="ts">
     import Symbol from '@nodes/Symbol';
     import { CONVERT_SYMBOL } from '@parser/Symbols';
-    import type Conversion from '@runtime/Conversion';
+    import type ConversionDefinitionValue from '@values/ConversionDefinitionValue';
     import SymbolView from './SymbolView.svelte';
 
-    export let value: Conversion;
+    export let value: ConversionDefinitionValue;
 </script>
 
 <SymbolView

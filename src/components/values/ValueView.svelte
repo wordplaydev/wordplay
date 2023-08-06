@@ -1,7 +1,7 @@
 <svelte:options immutable={true} />
 
 <script lang="ts">
-    import type Value from '@runtime/Value';
+    import type Value from '@values/Value';
     import renderValue from './valueToView';
     import { setContext } from 'svelte';
     import type Node from '../../nodes/Node';

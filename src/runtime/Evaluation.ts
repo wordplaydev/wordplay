@@ -2,17 +2,17 @@ import type ConversionDefinition from '@nodes/ConversionDefinition';
 import FunctionDefinition from '@nodes/FunctionDefinition';
 import StructureDefinition from '@nodes/StructureDefinition';
 import type Type from '@nodes/Type';
-import type Conversion from './Conversion';
-import type Evaluator from './Evaluator';
-import Exception from './Exception';
+import type ConversionDefinitionValue from '@values/ConversionDefinitionValue';
+import type Evaluator from '@runtime/Evaluator';
+import ExceptionValue from '@values/ExceptionValue';
 import type Step from './Step';
-import Stream from './Stream';
-import Value from './Value';
-import ValueException from './ValueException';
-import TypeException from './TypeException';
-import Structure from './Structure';
-import Simple from './Simple';
-import Number from './Number';
+import StreamValue from '../values/StreamValue';
+import Value from '../values/Value';
+import ValueException from '../values/ValueException';
+import TypeException from '../values/TypeException';
+import StructureValue from '../values/StructureValue';
+import SimpleValue from '../values/SimpleValue';
+import NumberValue from '@values/NumberValue';
 import type Node from '@nodes/Node';
 import Names from '@nodes/Names';
 import type Expression from '@nodes/Expression';
@@ -23,11 +23,11 @@ import type Evaluate from '@nodes/Evaluate';
 import type Source from '@nodes/Source';
 import type Convert from '@nodes/Convert';
 import type Borrow from '@nodes/Borrow';
-import StructureDefinitionValue from './StructureDefinitionValue';
-import type { StepNumber } from './Evaluator';
-import FunctionValue from './FunctionValue';
+import StructureDefinitionValue from '../values/StructureDefinitionValue';
+import type { StepNumber } from '@runtime/Evaluator';
+import FunctionValue from '../values/FunctionValue';
 import StreamDefinition from '../nodes/StreamDefinition';
-import StreamDefinitionValue from './StreamDefinitionValue';
+import StreamDefinitionValue from '../values/StreamDefinitionValue';
 import type PropertyBind from '../nodes/PropertyBind';
 import type Context from '../nodes/Context';
 import StartFinish from './StartFinish';
@@ -89,7 +89,7 @@ export default class Evaluation {
     readonly #values: Value[] = [];
 
     /** A list of conversions in this context. */
-    readonly #conversions: Conversion[] = [];
+    readonly #conversions: ConversionDefinitionValue[] = [];
 
     /** The step to execute next */
     #stepIndex: number = 0;
@@ -177,11 +177,11 @@ export default class Evaluation {
         const result = this.#steps[this.#stepIndex].evaluate(evaluator);
 
         // If it's an exception, return it to the evaluator to halt the program.
-        if (result instanceof Exception) return result;
+        if (result instanceof ExceptionValue) return result;
         // If it's a stream, resolve it to its latest value,
         // but remember where it came from so other expressions that need the stream
         // can get it back.
-        else if (result instanceof Stream) {
+        else if (result instanceof StreamValue) {
             const value = result.latest();
             this.#values.unshift(value);
             evaluator.setStreamResolved(value, result);
@@ -208,7 +208,7 @@ export default class Evaluation {
         // If this block is creating a structure, take the context and bindings we just created
         // and convert it into a structure.
         if (this.#definition instanceof StructureDefinition)
-            return new Structure(this.#evaluation, this);
+            return new StructureValue(this.#evaluation, this);
         // Otherwise, return the value on the top of the stack.
         else return this.peekValue();
     }
@@ -347,7 +347,7 @@ export default class Evaluation {
     }
 
     /** Remember the given conversion for later. */
-    addConversion(conversion: Conversion) {
+    addConversion(conversion: ConversionDefinitionValue) {
         this.#conversions.push(conversion);
     }
 
@@ -362,10 +362,10 @@ export default class Evaluation {
     /** Finds the enclosuring structure that "*" refers to. */
     getThis(requestor: Node): Value | undefined {
         const context = this.#closure;
-        if (context instanceof Structure) return context;
-        else if (context instanceof Number)
+        if (context instanceof StructureValue) return context;
+        else if (context instanceof NumberValue)
             return context.unitless(this.#definition);
-        else if (context instanceof Simple) return context;
+        else if (context instanceof SimpleValue) return context;
         else if (context instanceof Evaluation)
             return context.getThis(requestor);
         else return undefined;

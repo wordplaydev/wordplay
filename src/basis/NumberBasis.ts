@@ -9,15 +9,15 @@ import StructureDefinition from '@nodes/StructureDefinition';
 import type Type from '@nodes/Type';
 import UnionType from '@nodes/UnionType';
 import Unit from '@nodes/Unit';
-import Bool from '@runtime/Bool';
-import Number from '@runtime/Number';
-import Text from '@runtime/Text';
-import TypeException from '@runtime/TypeException';
-import type Value from '@runtime/Value';
+import BoolValue from '@values/BoolValue';
+import NumberValue from '@values/NumberValue';
+import TextValue from '@values/TextValue';
+import TypeException from '@values/TypeException';
+import type Value from '@values/Value';
 import { createBasisConversion, createBasisFunction } from './Basis';
 import InternalExpression from './InternalExpression';
 import type Evaluation from '@runtime/Evaluation';
-import List from '@runtime/List';
+import ListValue from '@values/ListValue';
 import { getDocLocales } from '@locale/getDocLocales';
 import { getNameLocales } from '@locale/getNameLocales';
 import type Expression from '../nodes/Expression';
@@ -36,8 +36,8 @@ export default function bootstrapNumber(locales: Locale[]) {
         outputType: Type,
         expression: (
             requestor: Expression,
-            left: Number,
-            right: Number
+            left: NumberValue,
+            right: NumberValue
         ) => Value | undefined,
         requireEqualUnits: boolean = true
     ) {
@@ -52,14 +52,14 @@ export default function bootstrapNumber(locales: Locale[]) {
                     evaluation.getClosure();
                 const right = evaluation.getInput(0);
                 // It should be impossible for the left to be a Number, but the type system doesn't know it.
-                if (!(left instanceof Number))
+                if (!(left instanceof NumberValue))
                     return evaluation.getValueOrTypeException(
                         evaluation.getDefinition(),
                         NumberType.make(),
                         left
                     );
 
-                if (!(right instanceof Number))
+                if (!(right instanceof NumberValue))
                     return evaluation.getValueOrTypeException(
                         evaluation.getDefinition(),
                         NumberType.make(),
@@ -88,7 +88,10 @@ export default function bootstrapNumber(locales: Locale[]) {
     function createUnaryOp(
         text: (locale: Locale) => FunctionText<any>,
         outputType: Type,
-        expression: (requestor: Expression, left: Number) => Value | undefined
+        expression: (
+            requestor: Expression,
+            left: NumberValue
+        ) => Value | undefined
     ) {
         return createBasisFunction(
             locales,
@@ -100,7 +103,7 @@ export default function bootstrapNumber(locales: Locale[]) {
                 const left: Value | Evaluation | undefined =
                     evaluation.getClosure();
                 // It should be impossible for the left to be a Number, but the type system doesn't know it.
-                if (!(left instanceof Number))
+                if (!(left instanceof NumberValue))
                     return evaluation.getValueOrTypeException(
                         requestor,
                         NumberType.make(),
@@ -167,7 +170,7 @@ export default function bootstrapNumber(locales: Locale[]) {
                             const left = evaluation.getClosure();
                             const right = evaluation.resolve(subtractNames);
                             // It should be impossible for the left to be a Number, but the type system doesn't know it.
-                            if (!(left instanceof Number))
+                            if (!(left instanceof NumberValue))
                                 return evaluation.getValueOrTypeException(
                                     requestor,
                                     NumberType.make(),
@@ -175,7 +178,7 @@ export default function bootstrapNumber(locales: Locale[]) {
                                 );
                             if (
                                 right !== undefined &&
-                                (!(right instanceof Number) ||
+                                (!(right instanceof NumberValue) ||
                                     !left.unit.accepts(right.unit))
                             )
                                 return new TypeException(
@@ -281,7 +284,7 @@ export default function bootstrapNumber(locales: Locale[]) {
                     NumberType.make((unit) => unit),
                     BooleanType.make(),
                     (requestor, left, right) =>
-                        new Bool(
+                        new BoolValue(
                             requestor,
                             left.lessThan(requestor, right).bool ||
                                 left.isEqualTo(right)
@@ -292,7 +295,7 @@ export default function bootstrapNumber(locales: Locale[]) {
                     NumberType.make((unit) => unit),
                     BooleanType.make(),
                     (requestor, left, right) =>
-                        new Bool(
+                        new BoolValue(
                             requestor,
                             left.greaterThan(requestor, right).bool ||
                                 left.isEqualTo(right)
@@ -303,14 +306,14 @@ export default function bootstrapNumber(locales: Locale[]) {
                     NumberType.make((unit) => unit),
                     BooleanType.make(),
                     (requestor, left, right) =>
-                        new Bool(requestor, left.isEqualTo(right))
+                        new BoolValue(requestor, left.isEqualTo(right))
                 ),
                 createBinaryOp(
                     (locale) => locale.basis.Number.function.notequal,
                     NumberType.make((unit) => unit),
                     BooleanType.make(),
                     (requestor, left, right) =>
-                        new Bool(requestor, !left.isEqualTo(right))
+                        new BoolValue(requestor, !left.isEqualTo(right))
                 ),
 
                 // Trigonometry
@@ -332,8 +335,8 @@ export default function bootstrapNumber(locales: Locale[]) {
                     ),
                     '#?',
                     "''",
-                    (requestor: Expression, val: Number) =>
-                        new Text(requestor, val.toString())
+                    (requestor: Expression, val: NumberValue) =>
+                        new TextValue(requestor, val.toString())
                 ),
                 createBasisConversion(
                     getDocLocales(
@@ -342,13 +345,13 @@ export default function bootstrapNumber(locales: Locale[]) {
                     ),
                     '#',
                     '[#]',
-                    (requestor: Expression, val: Number) => {
+                    (requestor: Expression, val: NumberValue) => {
                         const list = [];
                         const max = val.toNumber();
-                        if (max < 0) return new List(requestor, []);
+                        if (max < 0) return new ListValue(requestor, []);
                         for (let i = 1; i <= val.toNumber(); i++)
-                            list.push(new Number(requestor, i));
-                        return new List(requestor, list);
+                            list.push(new NumberValue(requestor, i));
+                        return new ListValue(requestor, list);
                     }
                 ),
 
@@ -360,10 +363,10 @@ export default function bootstrapNumber(locales: Locale[]) {
                     ),
                     '#s',
                     '#min',
-                    (requestor: Expression, val: Number) =>
+                    (requestor: Expression, val: NumberValue) =>
                         val.divide(
                             requestor,
-                            new Number(
+                            new NumberValue(
                                 requestor,
                                 60,
                                 Unit.reuse(['s'], ['min'])
@@ -377,10 +380,10 @@ export default function bootstrapNumber(locales: Locale[]) {
                     ),
                     '#s',
                     '#h',
-                    (requestor: Expression, val: Number) =>
+                    (requestor: Expression, val: NumberValue) =>
                         val.divide(
                             requestor,
-                            new Number(
+                            new NumberValue(
                                 requestor,
                                 3600,
                                 Unit.reuse(['s'], ['h'])
@@ -394,10 +397,10 @@ export default function bootstrapNumber(locales: Locale[]) {
                     ),
                     '#s',
                     '#day',
-                    (requestor: Expression, val: Number) =>
+                    (requestor: Expression, val: NumberValue) =>
                         val.divide(
                             requestor,
-                            new Number(
+                            new NumberValue(
                                 requestor,
                                 86400,
                                 Unit.reuse(['s'], ['day'])
@@ -411,10 +414,10 @@ export default function bootstrapNumber(locales: Locale[]) {
                     ),
                     '#s',
                     '#wk',
-                    (requestor: Expression, val: Number) =>
+                    (requestor: Expression, val: NumberValue) =>
                         val.divide(
                             requestor,
-                            new Number(
+                            new NumberValue(
                                 requestor,
                                 604800,
                                 Unit.reuse(['s'], ['wk'])
@@ -428,10 +431,10 @@ export default function bootstrapNumber(locales: Locale[]) {
                     ),
                     '#s',
                     '#yr',
-                    (requestor: Expression, val: Number) =>
+                    (requestor: Expression, val: NumberValue) =>
                         val.divide(
                             requestor,
-                            new Number(
+                            new NumberValue(
                                 requestor,
                                 31449600,
                                 Unit.reuse(['s'], ['yr'])
@@ -445,10 +448,10 @@ export default function bootstrapNumber(locales: Locale[]) {
                     ),
                     '#s',
                     '#ms',
-                    (requestor: Expression, val: Number) =>
+                    (requestor: Expression, val: NumberValue) =>
                         val.multiply(
                             requestor,
-                            new Number(
+                            new NumberValue(
                                 requestor,
                                 1000,
                                 Unit.reuse(['s'], ['ms'])
@@ -462,10 +465,10 @@ export default function bootstrapNumber(locales: Locale[]) {
                     ),
                     '#ms',
                     '#s',
-                    (requestor: Expression, val: Number) =>
+                    (requestor: Expression, val: NumberValue) =>
                         val.divide(
                             requestor,
-                            new Number(
+                            new NumberValue(
                                 requestor,
                                 1000,
                                 Unit.reuse(['ms'], ['s'])
@@ -479,10 +482,10 @@ export default function bootstrapNumber(locales: Locale[]) {
                     ),
                     '#min',
                     '#s',
-                    (requestor: Expression, val: Number) =>
+                    (requestor: Expression, val: NumberValue) =>
                         val.multiply(
                             requestor,
-                            new Number(
+                            new NumberValue(
                                 requestor,
                                 60,
                                 Unit.reuse(['s'], ['min'])
@@ -496,10 +499,10 @@ export default function bootstrapNumber(locales: Locale[]) {
                     ),
                     '#h',
                     '#s',
-                    (requestor: Expression, val: Number) =>
+                    (requestor: Expression, val: NumberValue) =>
                         val.multiply(
                             requestor,
-                            new Number(
+                            new NumberValue(
                                 requestor,
                                 3600,
                                 Unit.reuse(['s'], ['h'])
@@ -513,10 +516,10 @@ export default function bootstrapNumber(locales: Locale[]) {
                     ),
                     '#day',
                     '#s',
-                    (requestor: Expression, val: Number) =>
+                    (requestor: Expression, val: NumberValue) =>
                         val.multiply(
                             requestor,
-                            new Number(
+                            new NumberValue(
                                 requestor,
                                 86400,
                                 Unit.reuse(['s'], ['day'])
@@ -530,10 +533,10 @@ export default function bootstrapNumber(locales: Locale[]) {
                     ),
                     '#wk',
                     '#s',
-                    (requestor: Expression, val: Number) =>
+                    (requestor: Expression, val: NumberValue) =>
                         val.multiply(
                             requestor,
-                            new Number(
+                            new NumberValue(
                                 requestor,
                                 604800,
                                 Unit.reuse(['s'], ['wk'])
@@ -547,10 +550,10 @@ export default function bootstrapNumber(locales: Locale[]) {
                     ),
                     '#yr',
                     '#s',
-                    (requestor: Expression, val: Number) =>
+                    (requestor: Expression, val: NumberValue) =>
                         val.multiply(
                             requestor,
-                            new Number(
+                            new NumberValue(
                                 requestor,
                                 31449600,
                                 Unit.reuse(['s'], ['yr'])
@@ -566,10 +569,10 @@ export default function bootstrapNumber(locales: Locale[]) {
                     ),
                     '#m',
                     '#pm',
-                    (requestor: Expression, val: Number) =>
+                    (requestor: Expression, val: NumberValue) =>
                         val.multiply(
                             requestor,
-                            new Number(
+                            new NumberValue(
                                 requestor,
                                 1000000000000,
                                 Unit.reuse(['pm'], ['m'])
@@ -583,10 +586,10 @@ export default function bootstrapNumber(locales: Locale[]) {
                     ),
                     '#m',
                     '#nm',
-                    (requestor: Expression, val: Number) =>
+                    (requestor: Expression, val: NumberValue) =>
                         val.multiply(
                             requestor,
-                            new Number(
+                            new NumberValue(
                                 requestor,
                                 1000000000,
                                 Unit.reuse(['nm'], ['m'])
@@ -600,10 +603,10 @@ export default function bootstrapNumber(locales: Locale[]) {
                     ),
                     '#m',
                     '#µm',
-                    (requestor: Expression, val: Number) =>
+                    (requestor: Expression, val: NumberValue) =>
                         val.multiply(
                             requestor,
-                            new Number(
+                            new NumberValue(
                                 requestor,
                                 1000000,
                                 Unit.reuse(['µm'], ['m'])
@@ -617,10 +620,10 @@ export default function bootstrapNumber(locales: Locale[]) {
                     ),
                     '#m',
                     '#mm',
-                    (requestor: Expression, val: Number) =>
+                    (requestor: Expression, val: NumberValue) =>
                         val.multiply(
                             requestor,
-                            new Number(
+                            new NumberValue(
                                 requestor,
                                 1000,
                                 Unit.reuse(['mm'], ['m'])
@@ -635,10 +638,10 @@ export default function bootstrapNumber(locales: Locale[]) {
 
                     '#m',
                     '#cm',
-                    (requestor: Expression, val: Number) =>
+                    (requestor: Expression, val: NumberValue) =>
                         val.multiply(
                             requestor,
-                            new Number(
+                            new NumberValue(
                                 requestor,
                                 100,
                                 Unit.reuse(['cm'], ['m'])
@@ -652,10 +655,14 @@ export default function bootstrapNumber(locales: Locale[]) {
                     ),
                     '#m',
                     '#dm',
-                    (requestor: Expression, val: Number) =>
+                    (requestor: Expression, val: NumberValue) =>
                         val.multiply(
                             requestor,
-                            new Number(requestor, 10, Unit.reuse(['dm'], ['m']))
+                            new NumberValue(
+                                requestor,
+                                10,
+                                Unit.reuse(['dm'], ['m'])
+                            )
                         )
                 ),
                 createBasisConversion(
@@ -665,10 +672,10 @@ export default function bootstrapNumber(locales: Locale[]) {
                     ),
                     '#m',
                     '#km',
-                    (requestor: Expression, val: Number) =>
+                    (requestor: Expression, val: NumberValue) =>
                         val.divide(
                             requestor,
-                            new Number(
+                            new NumberValue(
                                 requestor,
                                 1000,
                                 Unit.reuse(['m'], ['km'])
@@ -682,10 +689,10 @@ export default function bootstrapNumber(locales: Locale[]) {
                     ),
                     '#m',
                     '#Mm',
-                    (requestor: Expression, val: Number) =>
+                    (requestor: Expression, val: NumberValue) =>
                         val.divide(
                             requestor,
-                            new Number(
+                            new NumberValue(
                                 requestor,
                                 1000000,
                                 Unit.reuse(['m'], ['Mm'])
@@ -699,10 +706,10 @@ export default function bootstrapNumber(locales: Locale[]) {
                     ),
                     '#m',
                     '#Gm',
-                    (requestor: Expression, val: Number) =>
+                    (requestor: Expression, val: NumberValue) =>
                         val.divide(
                             requestor,
-                            new Number(
+                            new NumberValue(
                                 requestor,
                                 1000000000,
                                 Unit.reuse(['m'], ['Gm'])
@@ -716,10 +723,10 @@ export default function bootstrapNumber(locales: Locale[]) {
                     ),
                     '#m',
                     '#Tm',
-                    (requestor: Expression, val: Number) =>
+                    (requestor: Expression, val: NumberValue) =>
                         val.divide(
                             requestor,
-                            new Number(
+                            new NumberValue(
                                 requestor,
                                 1000000000000,
                                 Unit.reuse(['m'], ['Tm'])
@@ -733,10 +740,10 @@ export default function bootstrapNumber(locales: Locale[]) {
                     ),
                     '#pm',
                     '#m',
-                    (requestor: Expression, val: Number) =>
+                    (requestor: Expression, val: NumberValue) =>
                         val.divide(
                             requestor,
-                            new Number(
+                            new NumberValue(
                                 requestor,
                                 1000000000000,
                                 Unit.reuse(['pm'], ['m'])
@@ -750,10 +757,10 @@ export default function bootstrapNumber(locales: Locale[]) {
                     ),
                     '#nm',
                     '#m',
-                    (requestor: Expression, val: Number) =>
+                    (requestor: Expression, val: NumberValue) =>
                         val.divide(
                             requestor,
-                            new Number(
+                            new NumberValue(
                                 requestor,
                                 1000000000,
                                 Unit.reuse(['nm'], ['m'])
@@ -767,10 +774,10 @@ export default function bootstrapNumber(locales: Locale[]) {
                     ),
                     '#µm',
                     '#m',
-                    (requestor: Expression, val: Number) =>
+                    (requestor: Expression, val: NumberValue) =>
                         val.divide(
                             requestor,
-                            new Number(
+                            new NumberValue(
                                 requestor,
                                 1000000,
                                 Unit.reuse(['µm'], ['m'])
@@ -784,10 +791,10 @@ export default function bootstrapNumber(locales: Locale[]) {
                     ),
                     '#mm',
                     '#m',
-                    (requestor: Expression, val: Number) =>
+                    (requestor: Expression, val: NumberValue) =>
                         val.divide(
                             requestor,
-                            new Number(
+                            new NumberValue(
                                 requestor,
                                 1000,
                                 Unit.reuse(['mm'], ['m'])
@@ -801,10 +808,10 @@ export default function bootstrapNumber(locales: Locale[]) {
                     ),
                     '#cm',
                     '#m',
-                    (requestor: Expression, val: Number) =>
+                    (requestor: Expression, val: NumberValue) =>
                         val.divide(
                             requestor,
-                            new Number(
+                            new NumberValue(
                                 requestor,
                                 100,
                                 Unit.reuse(['cm'], ['m'])
@@ -818,10 +825,14 @@ export default function bootstrapNumber(locales: Locale[]) {
                     ),
                     '#dm',
                     '#m',
-                    (requestor: Expression, val: Number) =>
+                    (requestor: Expression, val: NumberValue) =>
                         val.divide(
                             requestor,
-                            new Number(requestor, 10, Unit.reuse(['dm'], ['m']))
+                            new NumberValue(
+                                requestor,
+                                10,
+                                Unit.reuse(['dm'], ['m'])
+                            )
                         )
                 ),
                 createBasisConversion(
@@ -831,10 +842,10 @@ export default function bootstrapNumber(locales: Locale[]) {
                     ),
                     '#km',
                     '#m',
-                    (requestor: Expression, val: Number) =>
+                    (requestor: Expression, val: NumberValue) =>
                         val.multiply(
                             requestor,
-                            new Number(
+                            new NumberValue(
                                 requestor,
                                 1000,
                                 Unit.reuse(['m'], ['km'])
@@ -848,10 +859,10 @@ export default function bootstrapNumber(locales: Locale[]) {
                     ),
                     '#Mm',
                     '#m',
-                    (requestor: Expression, val: Number) =>
+                    (requestor: Expression, val: NumberValue) =>
                         val.multiply(
                             requestor,
-                            new Number(
+                            new NumberValue(
                                 requestor,
                                 1000000,
                                 Unit.reuse(['m'], ['Mm'])
@@ -865,10 +876,10 @@ export default function bootstrapNumber(locales: Locale[]) {
                     ),
                     '#Gm',
                     '#m',
-                    (requestor: Expression, val: Number) =>
+                    (requestor: Expression, val: NumberValue) =>
                         val.multiply(
                             requestor,
-                            new Number(
+                            new NumberValue(
                                 requestor,
                                 1000000000,
                                 Unit.reuse(['m'], ['Gm'])
@@ -882,10 +893,10 @@ export default function bootstrapNumber(locales: Locale[]) {
                     ),
                     '#Tm',
                     '#m',
-                    (requestor: Expression, val: Number) =>
+                    (requestor: Expression, val: NumberValue) =>
                         val.divide(
                             requestor,
-                            new Number(
+                            new NumberValue(
                                 requestor,
                                 1000000000000,
                                 Unit.reuse(['m'], ['Tm'])
@@ -901,10 +912,10 @@ export default function bootstrapNumber(locales: Locale[]) {
                     ),
                     '#km',
                     '#mi',
-                    (requestor: Expression, val: Number) =>
+                    (requestor: Expression, val: NumberValue) =>
                         val.multiply(
                             requestor,
-                            new Number(
+                            new NumberValue(
                                 requestor,
                                 0.621371,
                                 Unit.reuse(['mi'], ['km'])
@@ -918,10 +929,10 @@ export default function bootstrapNumber(locales: Locale[]) {
                     ),
                     '#mi',
                     '#km',
-                    (requestor: Expression, val: Number) =>
+                    (requestor: Expression, val: NumberValue) =>
                         val.divide(
                             requestor,
-                            new Number(
+                            new NumberValue(
                                 requestor,
                                 0.621371,
                                 Unit.reuse(['mi'], ['km'])
@@ -935,10 +946,10 @@ export default function bootstrapNumber(locales: Locale[]) {
                     ),
                     '#cm',
                     '#in',
-                    (requestor: Expression, val: Number) =>
+                    (requestor: Expression, val: NumberValue) =>
                         val.multiply(
                             requestor,
-                            new Number(
+                            new NumberValue(
                                 requestor,
                                 0.393701,
                                 Unit.reuse(['in'], ['cm'])
@@ -952,10 +963,10 @@ export default function bootstrapNumber(locales: Locale[]) {
                     ),
                     '#in',
                     '#cm',
-                    (requestor: Expression, val: Number) =>
+                    (requestor: Expression, val: NumberValue) =>
                         val.divide(
                             requestor,
-                            new Number(
+                            new NumberValue(
                                 requestor,
                                 0.393701,
                                 Unit.reuse(['in'], ['cm'])
@@ -969,10 +980,10 @@ export default function bootstrapNumber(locales: Locale[]) {
                     ),
                     '#m',
                     '#ft',
-                    (requestor: Expression, val: Number) =>
+                    (requestor: Expression, val: NumberValue) =>
                         val.multiply(
                             requestor,
-                            new Number(
+                            new NumberValue(
                                 requestor,
                                 0.3048,
                                 Unit.reuse(['ft'], ['km'])
@@ -986,10 +997,10 @@ export default function bootstrapNumber(locales: Locale[]) {
                     ),
                     '#ft',
                     '#m',
-                    (requestor: Expression, val: Number) =>
+                    (requestor: Expression, val: NumberValue) =>
                         val.divide(
                             requestor,
-                            new Number(
+                            new NumberValue(
                                 requestor,
                                 0.3048,
                                 Unit.reuse(['ft'], ['km'])
@@ -1005,10 +1016,10 @@ export default function bootstrapNumber(locales: Locale[]) {
                     ),
                     '#g',
                     '#mg',
-                    (requestor: Expression, val: Number) =>
+                    (requestor: Expression, val: NumberValue) =>
                         val.multiply(
                             requestor,
-                            new Number(
+                            new NumberValue(
                                 requestor,
                                 1000,
                                 Unit.reuse(['mg'], ['g'])
@@ -1022,10 +1033,10 @@ export default function bootstrapNumber(locales: Locale[]) {
                     ),
                     '#mg',
                     '#g',
-                    (requestor: Expression, val: Number) =>
+                    (requestor: Expression, val: NumberValue) =>
                         val.divide(
                             requestor,
-                            new Number(
+                            new NumberValue(
                                 requestor,
                                 1000,
                                 Unit.reuse(['mg'], ['g'])
@@ -1039,10 +1050,10 @@ export default function bootstrapNumber(locales: Locale[]) {
                     ),
                     '#g',
                     '#kg',
-                    (requestor: Expression, val: Number) =>
+                    (requestor: Expression, val: NumberValue) =>
                         val.divide(
                             requestor,
-                            new Number(
+                            new NumberValue(
                                 requestor,
                                 1000,
                                 Unit.reuse(['g'], ['kg'])
@@ -1056,10 +1067,10 @@ export default function bootstrapNumber(locales: Locale[]) {
                     ),
                     '#kg',
                     '#g',
-                    (requestor: Expression, val: Number) =>
+                    (requestor: Expression, val: NumberValue) =>
                         val.multiply(
                             requestor,
-                            new Number(
+                            new NumberValue(
                                 requestor,
                                 1000,
                                 Unit.reuse(['g'], ['kg'])
@@ -1073,10 +1084,10 @@ export default function bootstrapNumber(locales: Locale[]) {
                     ),
                     '#g',
                     '#oz',
-                    (requestor: Expression, val: Number) =>
+                    (requestor: Expression, val: NumberValue) =>
                         val.multiply(
                             requestor,
-                            new Number(
+                            new NumberValue(
                                 requestor,
                                 0.035274,
                                 Unit.reuse(['oz'], ['g'])
@@ -1090,10 +1101,10 @@ export default function bootstrapNumber(locales: Locale[]) {
                     ),
                     '#oz',
                     '#g',
-                    (requestor: Expression, val: Number) =>
+                    (requestor: Expression, val: NumberValue) =>
                         val.divide(
                             requestor,
-                            new Number(
+                            new NumberValue(
                                 requestor,
                                 0.035274,
                                 Unit.reuse(['oz'], ['g'])
@@ -1107,10 +1118,10 @@ export default function bootstrapNumber(locales: Locale[]) {
                     ),
                     '#oz',
                     '#lb',
-                    (requestor: Expression, val: Number) =>
+                    (requestor: Expression, val: NumberValue) =>
                         val.multiply(
                             requestor,
-                            new Number(
+                            new NumberValue(
                                 requestor,
                                 0.0625,
                                 Unit.reuse(['lb'], ['oz'])
@@ -1124,10 +1135,10 @@ export default function bootstrapNumber(locales: Locale[]) {
                     ),
                     '#lb',
                     '#oz',
-                    (requestor: Expression, val: Number) =>
+                    (requestor: Expression, val: NumberValue) =>
                         val.divide(
                             requestor,
-                            new Number(
+                            new NumberValue(
                                 requestor,
                                 0.0625,
                                 Unit.reuse(['lb'], ['oz'])

@@ -2,10 +2,10 @@
 
 <script lang="ts">
     import Symbol from '@nodes/Symbol';
-    import type Number from '@runtime/Number';
+    import type NumberValue from '@values/NumberValue';
     import SymbolView from './SymbolView.svelte';
 
-    export let value: Number;
+    export let value: NumberValue;
 </script>
 
 <SymbolView symbol={value.toWordplay()} type={Symbol.Number} />

@@ -1,8 +1,8 @@
-import Bool from '@runtime/Bool';
+import BoolValue from '@values/BoolValue';
 import type Evaluator from '@runtime/Evaluator';
 import Finish from '@runtime/Finish';
 import type Step from '@runtime/Step';
-import type Value from '@runtime/Value';
+import type Value from '@values/Value';
 import BooleanType from './BooleanType';
 import Expression from './Expression';
 import type Context from './Context';
@@ -112,7 +112,7 @@ export default class Is extends Expression {
 
         const value = evaluator.popValue(this);
 
-        return new Bool(
+        return new BoolValue(
             this,
             this.type.accepts(
                 value.getType(evaluator.getCurrentContext()),
@@ -185,7 +185,7 @@ export default class Is extends Expression {
         return concretize(
             locale,
             locale.node.Is.finish,
-            result instanceof Bool && result.bool,
+            result instanceof BoolValue && result.bool,
             new NodeRef(this.type, locale, context)
         );
     }

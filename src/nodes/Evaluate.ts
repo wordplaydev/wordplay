@@ -10,25 +10,25 @@ import Expression from './Expression';
 import type Token from './Token';
 import Type from './Type';
 import type Evaluator from '@runtime/Evaluator';
-import type Value from '@runtime/Value';
+import type Value from '@values/Value';
 import Evaluation from '@runtime/Evaluation';
-import FunctionValue from '@runtime/FunctionValue';
+import FunctionValue from '@values/FunctionValue';
 import type Step from '@runtime/Step';
 import Finish from '@runtime/Finish';
 import Start from '@runtime/Start';
-import StructureDefinitionValue from '@runtime/StructureDefinitionValue';
+import StructureDefinitionValue from '@values/StructureDefinitionValue';
 import type Context from './Context';
 import Halt from '@runtime/Halt';
-import List from '@runtime/List';
+import ListValue from '@values/ListValue';
 import StructureDefinition from './StructureDefinition';
 import FunctionDefinition from './FunctionDefinition';
 import TypeInputs from './TypeInputs';
 import { getEvaluationInputConflicts } from './util';
 import ListType from './ListType';
 import type TypeSet from './TypeSet';
-import FunctionException from '@runtime/FunctionException';
-import ValueException from '@runtime/ValueException';
-import Exception from '@runtime/Exception';
+import FunctionException from '@values/FunctionException';
+import ValueException from '@values/ValueException';
+import ExceptionValue from '@values/ExceptionValue';
 import UnknownInput from '@conflicts/UnknownInput';
 import getConcreteExpectedType from './Generics';
 import Names from './Names';
@@ -42,11 +42,11 @@ import { node, type Grammar, type Replacement, any, none, list } from './Node';
 import type Locale from '@locale/Locale';
 import type Node from './Node';
 import StartEvaluation from '@runtime/StartEvaluation';
-import UnimplementedException from '@runtime/UnimplementedException';
+import UnimplementedException from '@values/UnimplementedException';
 import Reference from './Reference';
 import StreamDefinition from './StreamDefinition';
 import StreamDefinitionType from './StreamDefinitionType';
-import StreamDefinitionValue from '../runtime/StreamDefinitionValue';
+import StreamDefinitionValue from '../values/StreamDefinitionValue';
 import Glyphs from '../lore/Glyphs';
 import FunctionType from './FunctionType';
 import AnyType from './AnyType';
@@ -56,7 +56,7 @@ import Symbol from './Symbol';
 import Refer from '../edit/Refer';
 import BasisType from './BasisType';
 import Purpose from '../concepts/Purpose';
-import TypeException from '../runtime/TypeException';
+import TypeException from '../values/TypeException';
 import TypeVariable from './TypeVariable';
 import NameType from './NameType';
 
@@ -789,7 +789,7 @@ export default class Evaluate extends Expression {
         const values = [];
         for (let i = 0; i < count; i++) {
             const value = evaluator.popValue(this);
-            if (value instanceof Exception) return value;
+            if (value instanceof ExceptionValue) return value;
             else values.unshift(value);
         }
 
@@ -801,7 +801,7 @@ export default class Evaluate extends Expression {
             definition.inputs,
             values
         );
-        if (bindings instanceof Exception) return bindings;
+        if (bindings instanceof ExceptionValue) return bindings;
 
         // For functions, get the expression, build the bindings, and start an evaluation.
         if (definitionValue instanceof FunctionValue) {
@@ -863,7 +863,7 @@ export default class Evaluate extends Expression {
         evaluator: Evaluator,
         inputs: Bind[],
         values: Value[]
-    ): Map<Names, Value> | Exception {
+    ): Map<Names, Value> | ExceptionValue {
         // Build the bindings, backwards because they are in reverse on the stack.
         const bindings = new Map<Names, Value>();
         for (let i = 0; i < inputs.length; i++) {
@@ -875,9 +875,9 @@ export default class Evaluate extends Expression {
                 // If there's only one more value and it's already a list, just set it to the list.
                 bindings.set(
                     bind.names,
-                    values[i] instanceof List
+                    values[i] instanceof ListValue
                         ? values[i]
-                        : new List(this, values.slice(i))
+                        : new ListValue(this, values.slice(i))
                 );
                 break;
             }

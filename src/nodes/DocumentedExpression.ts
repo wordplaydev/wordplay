@@ -1,6 +1,6 @@
 import Expression from './Expression';
 import type Type from './Type';
-import type Value from '@runtime/Value';
+import type Value from '@values/Value';
 import type Step from '@runtime/Step';
 import type Bind from './Bind';
 import type Context from './Context';

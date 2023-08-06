@@ -1,5 +1,5 @@
 import type Evaluator from '@runtime/Evaluator';
-import TemporalStream from '../runtime/TemporalStream';
+import TemporalStreamValue from '../values/TemporalStreamValue';
 import StreamDefinition from '../nodes/StreamDefinition';
 import { getDocLocales } from '../locale/getDocLocales';
 import { getNameLocales } from '../locale/getNameLocales';
@@ -9,7 +9,7 @@ import UnionType from '../nodes/UnionType';
 import Unit from '../nodes/Unit';
 import NoneType from '../nodes/NoneType';
 import NumberLiteral from '../nodes/NumberLiteral';
-import Number from '../runtime/Number';
+import NumberValue from '@values/NumberValue';
 import createStreamEvaluator from './createStreamEvaluator';
 import type Locale from '../locale/Locale';
 
@@ -18,7 +18,7 @@ const DEFAULT_FREQUENCY = 33;
 
 // A helpful article on getting raw data streams:
 // https://stackoverflow.com/questions/69237143/how-do-i-get-the-audio-frequency-from-my-mic-using-javascript
-export default class Mic extends TemporalStream<Number> {
+export default class Mic extends TemporalStreamValue<NumberValue> {
     stream: MediaStream | undefined;
     source: MediaStreamAudioSourceNode | undefined;
     context: AudioContext | undefined;
@@ -33,14 +33,14 @@ export default class Mic extends TemporalStream<Number> {
         super(
             evaluator,
             evaluator.project.shares.input.Mic,
-            new Number(evaluator.getMain(), 100)
+            new NumberValue(evaluator.getMain(), 100)
         );
         this.frequency = frequency ?? DEFAULT_FREQUENCY;
     }
 
     // Compute the maximum frequency in the same and convert it to a percentage.
     percent(frequencies: number[]) {
-        return new Number(
+        return new NumberValue(
             this.creator,
             Math.floor((100 * Math.max.apply(undefined, frequencies)) / 256)
         );
@@ -133,11 +133,11 @@ export function createMicDefinition(locales: Locale[]) {
             (evaluation) =>
                 new Mic(
                     evaluation.getEvaluator(),
-                    evaluation.get(FrequencyBind.names, Number)?.toNumber()
+                    evaluation.get(FrequencyBind.names, NumberValue)?.toNumber()
                 ),
             (stream, evaluation) =>
                 stream.setFrequency(
-                    evaluation.get(FrequencyBind.names, Number)?.toNumber()
+                    evaluation.get(FrequencyBind.names, NumberValue)?.toNumber()
                 )
         ),
         NumberType.make()

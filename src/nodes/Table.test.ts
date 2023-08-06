@@ -1,6 +1,6 @@
 import { test, expect } from 'vitest';
 import { FALSE_SYMBOL, TRUE_SYMBOL } from '../parser/Symbols';
-import Evaluator from '../runtime/Evaluator';
+import Evaluator from '@runtime/Evaluator';
 import { DefaultLocale } from '../db/Creator';
 
 test.each([

@@ -15,6 +15,7 @@
             "@components/*": ["components/*"],
             "@nodes/*": ["nodes/*"],
             "@runtime/*": ["runtime/*"],
+            "@values/*": ["values/*"],
             "@conflicts/*": ["conflicts/*"],
             "@locale/*": ["locale/*"],
             "@input/*": ["input/*"],

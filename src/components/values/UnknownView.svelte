@@ -1,7 +1,7 @@
 <svelte:options immutable={true} />
 
 <script lang="ts">
-    import type Value from '@runtime/Value';
+    import type Value from '@values/Value';
 
     export let value: Value;
 </script>

@@ -1,7 +1,7 @@
 <script lang="ts">
     import { createEventDispatcher } from 'svelte';
     import type Source from '@nodes/Source';
-    import type Value from '@runtime/Value';
+    import type Value from '@values/Value';
     import OutputView from '../output/OutputView.svelte';
     import { getConflicts, getEvaluation } from './Contexts';
     import type Evaluator from '@runtime/Evaluator';

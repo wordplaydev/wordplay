@@ -8,7 +8,7 @@ import BinaryEvaluate from './BinaryEvaluate';
 import BasisType from './BasisType';
 import UnaryEvaluate from './UnaryEvaluate';
 import NumberLiteral from './NumberLiteral';
-import Number from '@runtime/Number';
+import NumberValue from '@values/NumberValue';
 import Evaluate from './Evaluate';
 import PropertyReference from './PropertyReference';
 import type TypeSet from './TypeSet';
@@ -186,7 +186,10 @@ export default class NumberType extends BasisType {
         const constant =
             this.op instanceof BinaryEvaluate &&
             this.op.right instanceof NumberLiteral
-                ? new Number(this.op.right, this.op.right.number).toNumber()
+                ? new NumberValue(
+                      this.op.right,
+                      this.op.right.number
+                  ).toNumber()
                 : undefined;
 
         // Recursively concretize the left and right units and pass them to the derive the concrete unit.

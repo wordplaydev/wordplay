@@ -3,24 +3,24 @@ import BooleanType from '@nodes/BooleanType';
 import FunctionType from '@nodes/FunctionType';
 import MapType from '@nodes/MapType';
 import StructureDefinition from '@nodes/StructureDefinition';
-import List from '@runtime/List';
-import Text from '@runtime/Text';
-import Map from '@runtime/Map';
-import Set from '@runtime/Set';
+import ListValue from '@values/ListValue';
+import TextValue from '@values/TextValue';
+import MapValue from '@values/MapValue';
+import SetValue from '@values/SetValue';
 import { createBasisConversion, createBasisFunction } from './Basis';
-import Bool from '@runtime/Bool';
+import BoolValue from '@values/BoolValue';
 import TypeVariables from '@nodes/TypeVariables';
 import { getDocLocales } from '@locale/getDocLocales';
 import { getNameLocales } from '@locale/getNameLocales';
 import TypeVariable from '@nodes/TypeVariable';
 import type Evaluation from '@runtime/Evaluation';
-import type Value from '@runtime/Value';
+import type Value from '@values/Value';
 import type Expression from '../nodes/Expression';
 import type Locale from '../locale/Locale';
 import { createFunction, createInputs } from '../locale/Locale';
 import { Iteration } from './Iteration';
 import NumberType from '../nodes/NumberType';
-import Number from '../runtime/Number';
+import NumberValue from '@values/NumberValue';
 import TextType from '../nodes/TextType';
 import SetType from '../nodes/SetType';
 import ListType from '../nodes/ListType';
@@ -61,13 +61,16 @@ export default function bootstrapMap(locales: Locale[]) {
                     NumberType.make(),
                     (requestor, evaluation) => {
                         const map = evaluation?.getClosure();
-                        return !(map instanceof Map)
+                        return !(map instanceof MapValue)
                             ? evaluation.getValueOrTypeException(
                                   requestor,
                                   MapType.make(),
                                   map
                               )
-                            : new Number(requestor, map.size(requestor).num);
+                            : new NumberValue(
+                                  requestor,
+                                  map.size(requestor).num
+                              );
                     }
                 ),
                 createBasisFunction(
@@ -79,13 +82,15 @@ export default function bootstrapMap(locales: Locale[]) {
                     (requestor, evaluation) => {
                         const map = evaluation?.getClosure();
                         const other = evaluation.getInput(0);
-                        return !(map instanceof Map && other instanceof Map)
+                        return !(
+                            map instanceof MapValue && other instanceof MapValue
+                        )
                             ? evaluation.getValueOrTypeException(
                                   requestor,
                                   MapType.make(),
                                   other
                               )
-                            : new Bool(requestor, map.isEqualTo(other));
+                            : new BoolValue(requestor, map.isEqualTo(other));
                     }
                 ),
                 createBasisFunction(
@@ -97,13 +102,15 @@ export default function bootstrapMap(locales: Locale[]) {
                     (requestor, evaluation) => {
                         const map = evaluation?.getClosure();
                         const other = evaluation.getInput(0);
-                        return !(map instanceof Map && other instanceof Map)
+                        return !(
+                            map instanceof MapValue && other instanceof MapValue
+                        )
                             ? evaluation.getValueOrTypeException(
                                   requestor,
                                   MapType.make(),
                                   other
                               )
-                            : new Bool(requestor, !map.isEqualTo(other));
+                            : new BoolValue(requestor, !map.isEqualTo(other));
                     }
                 ),
                 createBasisFunction(
@@ -121,7 +128,7 @@ export default function bootstrapMap(locales: Locale[]) {
                         const key = evaluation.getInput(0);
                         const value = evaluation.getInput(1);
                         if (
-                            map instanceof Map &&
+                            map instanceof MapValue &&
                             key !== undefined &&
                             value !== undefined
                         )
@@ -143,7 +150,7 @@ export default function bootstrapMap(locales: Locale[]) {
                     (requestor, evaluation) => {
                         const map = evaluation.getClosure();
                         const key = evaluation.getInput(0);
-                        if (map instanceof Map && key !== undefined)
+                        if (map instanceof MapValue && key !== undefined)
                             return map.unset(requestor, key);
                         else
                             return evaluation.getValueOrTypeException(
@@ -162,7 +169,7 @@ export default function bootstrapMap(locales: Locale[]) {
                     (requestor, evaluation) => {
                         const map = evaluation.getClosure();
                         const value = evaluation.getInput(0);
-                        if (map instanceof Map && value !== undefined)
+                        if (map instanceof MapValue && value !== undefined)
                             return map.remove(requestor, value);
                         else
                             return evaluation.getValueOrTypeException(
@@ -206,7 +213,7 @@ export default function bootstrapMap(locales: Locale[]) {
                     ),
                     new Iteration<{
                         index: number;
-                        map: Map;
+                        map: MapValue;
                         filtered: [Value, Value][];
                     }>(
                         MapType.make(
@@ -217,7 +224,7 @@ export default function bootstrapMap(locales: Locale[]) {
                         (evaluator) => {
                             return {
                                 index: 0,
-                                map: evaluator.getCurrentClosure() as Map,
+                                map: evaluator.getCurrentClosure() as MapValue,
                                 filtered: [],
                             };
                         },
@@ -233,7 +240,7 @@ export default function bootstrapMap(locales: Locale[]) {
                         // Save the translated value and increment the index.
                         (evaluator, info, expression) => {
                             const include = evaluator.popValue(expression);
-                            if (!(include instanceof Bool))
+                            if (!(include instanceof BoolValue))
                                 return evaluator.getValueOrTypeException(
                                     expression,
                                     BooleanType.make(),
@@ -246,7 +253,7 @@ export default function bootstrapMap(locales: Locale[]) {
                         },
                         // Create the translated list.
                         (evaluator, info, expression) =>
-                            new Map(expression, info.filtered)
+                            new MapValue(expression, info.filtered)
                     )
                 ),
                 createFunction(
@@ -284,7 +291,7 @@ export default function bootstrapMap(locales: Locale[]) {
                     ),
                     new Iteration<{
                         index: number;
-                        map: Map;
+                        map: MapValue;
                         translated: [Value, Value][];
                     }>(
                         MapType.make(
@@ -295,7 +302,7 @@ export default function bootstrapMap(locales: Locale[]) {
                         (evaluator) => {
                             return {
                                 index: 0,
-                                map: evaluator.getCurrentClosure() as Map,
+                                map: evaluator.getCurrentClosure() as MapValue,
                                 translated: [],
                             };
                         },
@@ -320,7 +327,7 @@ export default function bootstrapMap(locales: Locale[]) {
                         },
                         // Create the translated list.
                         (evaluator, info, expression) =>
-                            new Map(expression, info.translated)
+                            new MapValue(expression, info.translated)
                     )
                 ),
                 createBasisConversion(
@@ -333,8 +340,8 @@ export default function bootstrapMap(locales: Locale[]) {
                         ValueTypeVariable.getReference()
                     ),
                     TextType.make(),
-                    (requestor: Expression, val: Map) =>
-                        new Text(requestor, val.toString())
+                    (requestor: Expression, val: MapValue) =>
+                        new TextValue(requestor, val.toString())
                 ),
                 createBasisConversion(
                     getDocLocales(
@@ -346,8 +353,8 @@ export default function bootstrapMap(locales: Locale[]) {
                         ValueTypeVariable.getReference()
                     ),
                     SetType.make(KeyTypeVariable.getReference()),
-                    (requestor: Expression, val: Map) =>
-                        new Set(requestor, val.getKeys())
+                    (requestor: Expression, val: MapValue) =>
+                        new SetValue(requestor, val.getKeys())
                 ),
                 createBasisConversion(
                     getDocLocales(
@@ -359,8 +366,8 @@ export default function bootstrapMap(locales: Locale[]) {
                         ValueTypeVariable.getReference()
                     ),
                     ListType.make(ValueTypeVariable.getReference()),
-                    (requestor: Expression, val: Map) =>
-                        new List(requestor, val.getValues())
+                    (requestor: Expression, val: MapValue) =>
+                        new ListValue(requestor, val.getValues())
                 ),
             ],
             BlockKind.Structure

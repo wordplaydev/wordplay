@@ -3,7 +3,7 @@
     import type Project from '@models/Project';
     import OutputView from '@components/output/OutputView.svelte';
     import Evaluator from '@runtime/Evaluator';
-    import type Value from '@runtime/Value';
+    import type Value from '@values/Value';
     import { onMount } from 'svelte';
 
     export let project: Project;

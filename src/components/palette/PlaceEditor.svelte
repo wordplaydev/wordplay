@@ -3,7 +3,7 @@
     import TextField from '../widgets/TextField.svelte';
     import type Evaluate from '../../nodes/Evaluate';
     import type Project from '@models/Project';
-    import Number from '@runtime/Number';
+    import NumberValue from '@values/NumberValue';
     import NumberLiteral from '@nodes/NumberLiteral';
     import Unit from '@nodes/Unit';
     import Note from '../widgets/Note.svelte';
@@ -18,7 +18,7 @@
     let views: HTMLInputElement[] = [];
 
     function valid(val: string) {
-        return !Number.fromUnknown(val).isNaN();
+        return !NumberValue.fromUnknown(val).isNaN();
     }
 
     async function handleChange(dimension: string, value: string) {

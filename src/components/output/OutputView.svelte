@@ -1,7 +1,7 @@
 <script lang="ts">
     import { toStage } from '../../output/Stage';
-    import Exception from '@runtime/Exception';
-    import type Value from '@runtime/Value';
+    import ExceptionValue from '@values/ExceptionValue';
+    import type Value from '@values/Value';
     import type Project from '@models/Project';
     import ValueView from '../values/ValueView.svelte';
     import type Source from '@nodes/Source';
@@ -75,10 +75,10 @@
 
     let renderedFocus: Place;
 
-    $: exception = value instanceof Exception ? value : undefined;
+    $: exception = value instanceof ExceptionValue ? value : undefined;
     $: verse = value === undefined ? undefined : toStage(project, value);
     $: background =
-        $keyboardEditIdle !== IdleKind.Typing && value instanceof Exception
+        $keyboardEditIdle !== IdleKind.Typing && value instanceof ExceptionValue
             ? 'var(--wordplay-error)'
             : verse?.background ?? null;
 

@@ -2,10 +2,10 @@
 
 <script lang="ts">
     import Symbol from '@nodes/Symbol';
-    import type None from '@runtime/None';
+    import type NoneValue from '@values/NoneValue';
     import SymbolView from './SymbolView.svelte';
 
-    export let value: None;
+    export let value: NoneValue;
 </script>
 
 <SymbolView symbol={value.toWordplay()} type={Symbol.None} />
