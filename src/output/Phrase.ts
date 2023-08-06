@@ -22,6 +22,7 @@ import { getOutputInput } from './Output';
 import { getStyle } from './toTypeOutput';
 import MarkupValue from '../runtime/MarkupValue';
 import concretize from '../locale/concretize';
+import type Markup from '../nodes/Markup';
 
 export function createPhraseType(locales: Locale[]) {
     return toStructure(`
@@ -112,29 +113,31 @@ export default class Phrase extends TypeOutput {
         let fontAscent: undefined | number = 0;
         let actualAscent: undefined | number = 0;
 
-        let formats: FormattedText[] =
+        let formats: FormattedText[] | undefined =
             text instanceof TextLang
                 ? [{ text: text.text, italic: false, weight: undefined }]
-                : text.getFormats();
+                : text?.getFormats();
 
         // Get the list of text nodes and the formats applied to each
-        for (const formatted of formats) {
-            const metrics = getTextMetrics(
-                // Choose the description with the preferred language.
-                formatted.text,
-                // Convert the size to pixels and choose a font name.
-                `${formatted.weight ?? ''} ${
-                    formatted.italic ? 'italic' : ''
-                } ${sizeToPx(renderedSize)} ${renderedFont}`
-            );
-
-            if (metrics) {
-                width += metrics.width;
-                fontAscent = metrics.fontBoundingBoxAscent;
-                actualAscent = Math.max(
-                    metrics.actualBoundingBoxAscent,
-                    actualAscent
+        if (formats) {
+            for (const formatted of formats) {
+                const metrics = getTextMetrics(
+                    // Choose the description with the preferred language.
+                    formatted.text,
+                    // Convert the size to pixels and choose a font name.
+                    `${formatted.weight ?? ''} ${
+                        formatted.italic ? 'italic' : ''
+                    } ${sizeToPx(renderedSize)} ${renderedFont}`
                 );
+
+                if (metrics) {
+                    width += metrics.width;
+                    fontAscent = metrics.fontBoundingBoxAscent;
+                    actualAscent = Math.max(
+                        metrics.actualBoundingBoxAscent,
+                        actualAscent
+                    );
+                }
             }
         }
 
@@ -178,7 +181,7 @@ export default class Phrase extends TypeOutput {
         return undefined;
     }
 
-    getLocalizedTextOrDoc(locales: Locale[]) {
+    getLocalizedTextOrDoc(locales: Locale[]): TextLang | Markup | undefined {
         // Get the list of text lang and doc and find the one with the best matching language.
         if (Array.isArray(this.text)) {
             const options = this.text;
@@ -199,7 +202,9 @@ export default class Phrase extends TypeOutput {
     getDescription(locales: Locale[]) {
         const textOrDoc = this.getLocalizedTextOrDoc(locales);
         const text =
-            textOrDoc instanceof TextLang ? textOrDoc.text : textOrDoc.toText();
+            textOrDoc instanceof TextLang
+                ? textOrDoc.text
+                : textOrDoc?.toText() ?? '';
 
         return concretize(
             locales[0],

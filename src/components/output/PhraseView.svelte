@@ -18,6 +18,7 @@
     import { config } from '../../db/Creator';
     import TextLang from '../../output/TextLang';
     import MarkupHtmlView from '../concepts/MarkupHTMLView.svelte';
+    import Markup from '../../nodes/Markup';
 
     export let phrase: Phrase;
     export let place: Place;
@@ -201,7 +202,7 @@
                     phrase.getMetrics(context, false).width
                 )}px"
             />
-        {:else if text instanceof TextLang}{text.text}{:else}<MarkupHtmlView
+        {:else if text instanceof TextLang}{text.text}{:else if text instanceof Markup}<MarkupHtmlView
                 markup={text.asLine()}
             />{/if}
     </div>
