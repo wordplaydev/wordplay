@@ -5369,6 +5369,10 @@
                 "start": {
                   "type": "string"
                 },
+                "timeline": {
+                  "description": "The description of the timeline slider",
+                  "type": "string"
+                },
                 "type": {
                   "type": "string"
                 },
@@ -5494,7 +5498,8 @@
                 "focusDocs",
                 "focusPalette",
                 "focusCycle",
-                "conceptLink"
+                "conceptLink",
+                "timeline"
               ],
               "type": "object"
             },

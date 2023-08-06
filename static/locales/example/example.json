@@ -1855,7 +1855,8 @@
             "focusDocs": "$?",
             "focusPalette": "$?",
             "focusCycle": "$?",
-            "conceptLink": "$?"
+            "conceptLink": "$?",
+            "timeline": "$?"
         },
         "prompt": {
             "deleteSource": "$?",

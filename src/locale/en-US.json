@@ -831,7 +831,7 @@
                 "And if your performance depends on a *stream*, I'll reevaluate every time that stream changes."
             ],
             "unevaluated": "the node you chose didn't evaluate",
-            "start": "$1[a stream changed!|it's my first evaluation]",
+            "start": "$1[$1 stream changed to $2!|it's my first evaluation]",
             "halt": "encountered exception, stopping",
             "finish": "all done, I evaluated to $1",
             "done": "there's nothing evaluating",
@@ -3336,7 +3336,8 @@
             "focusDocs": "focus on the documentation",
             "focusPalette": "focus on the palette",
             "focusCycle": "focus on the next tile",
-            "conceptLink": "navigate to concept $1"
+            "conceptLink": "navigate to concept $1",
+            "timeline": "time slider"
         },
         "prompt": {
             "deleteSource": "delete",

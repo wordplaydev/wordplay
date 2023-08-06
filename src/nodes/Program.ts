@@ -26,6 +26,7 @@ import Glyphs from '../lore/Glyphs';
 import BlankException from '@values/BlankException';
 import concretize from '../locale/concretize';
 import Purpose from '../concepts/Purpose';
+import ValueRef from '../locale/ValueRef';
 
 export default class Program extends Expression {
     readonly docs?: Docs;
@@ -192,11 +193,17 @@ export default class Program extends Expression {
         evaluator: Evaluator
     ) {
         const reaction = evaluator.getReactionPriorTo(evaluator.getStepIndex());
+        const change = reaction && reaction.changes.length > 0;
 
         return concretize(
             locale,
             locale.node.Program.start,
-            reaction && reaction.changes.length > 0
+            change
+                ? new ValueRef(reaction.changes[0].stream, locale, context)
+                : undefined,
+            change
+                ? new ValueRef(reaction.changes[0].value, locale, context)
+                : undefined
         );
     }
 

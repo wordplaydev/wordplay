@@ -136,6 +136,8 @@ type UITexts = {
         focusPalette: string;
         focusCycle: string;
         conceptLink: Template;
+        /** The description of the timeline slider */
+        timeline: string;
     };
     prompt: {
         deleteSource: string;

@@ -44,7 +44,7 @@
     }
 
     /** When the step index changes, update the time slider position */
-    $: if ($evaluation?.stepIndex !== undefined)
+    $: if ($evaluation.stepIndex !== undefined)
         updateTimePosition($evaluation.stepIndex);
 
     function updateScrollPosition() {
@@ -112,7 +112,7 @@
     }
 
     function stepToMouse(event: MouseEvent) {
-        if ($evaluation?.streams === undefined) return;
+        if ($evaluation.streams === undefined) return;
 
         // Map the mouse position onto a change.
         const view = document
@@ -159,6 +159,17 @@
                 timeline.scrollLeft = timeline.scrollLeft + 10;
         }
     }
+
+    function handleKey(event: KeyboardEvent) {
+        if (event.key === 'ArrowLeft' || event.key === 'ArrowDown')
+            evaluator.stepBackWithinProgram();
+        else if (event.key === 'ArrowRight' || event.key === 'ArrowUp')
+            evaluator.stepWithinProgram();
+        else if (event.key === 'Home') evaluator.stepTo(0);
+        else if (event.key === 'End') evaluator.stepToEnd();
+        else if (event.key === 'PageUp') evaluator.stepToInput();
+        else if (event.key === 'PageDown') evaluator.stepBackToInput();
+    }
 </script>
 
 <section
@@ -167,20 +178,33 @@
     class:stepping={$evaluation?.playing === false}
 >
     <Controls {evaluator} />
-    <header
+    <div
+        role="slider"
         transition:slide|local={{ duration: $config.getAnimationDuration() }}
         class="timeline"
+        tabindex={0}
         data-uiid="timeline"
-        class:stepping={$evaluation?.playing === false}
+        aria-label={$config.getLocale().ui.description.timeline}
+        aria-valuemin={0}
+        aria-valuemax={$evaluation.evaluator.getStepCount()}
+        aria-valuenow={$evaluation.stepIndex}
+        aria-valuetext={$evaluation.step
+            ? $evaluation.step
+                  .getExplanations($config.getLocale(), evaluator)
+                  .toText()
+            : $evaluation.stepIndex + ''}
+        aria-orientation="horizontal"
+        class:stepping={$evaluation.playing === false}
         on:pointerdown={(event) => stepToMouse(event)}
         on:pointermove={(event) =>
             (event.buttons & 1) === 1 ? stepToMouse(event) : undefined}
         on:pointerleave={() => (dragging = false)}
         on:pointerup={() => (dragging = false)}
+        on:keydown={handleKey}
         bind:this={timeline}
     >
         {#if historyTrimmed}<span class="stream-input">…</span>{/if}
-        {#if $evaluation?.streams !== undefined}
+        {#if $evaluation.streams !== undefined}
             {#each $evaluation.streams as reaction, index}
                 <!-- Compute the number of steps that occurred between this and the next input, or if there isn't one, the latest step. -->
                 {@const stepCount =
@@ -243,9 +267,9 @@
         {/if}
         <!-- Render the time slider -->
         <div class="time" style:left="{timePosition}px"
-            ><span class="index">{$evaluation?.stepIndex}</span></div
+            ><span class="index">{$evaluation.stepIndex}</span></div
         >
-    </header>
+    </div>
 </section>
 
 <style>
