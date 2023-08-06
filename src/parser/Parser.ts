@@ -333,12 +333,12 @@ export function parseProgram(tokens: Tokens, doc: boolean = false): Program {
 // BORROW :: ↓ name number?
 export function parseBorrow(tokens: Tokens): Borrow {
     const borrow = tokens.read(Symbol.Borrow);
-    const source = tokens.readIf(Symbol.Name);
+    const source = tokens.nextIs(Symbol.Name)
+        ? parseReference(tokens)
+        : undefined;
     const dot = tokens.readIf(Symbol.Access);
     const name =
-        dot && tokens.nextIs(Symbol.Name)
-            ? tokens.read(Symbol.Name)
-            : undefined;
+        dot && tokens.nextIs(Symbol.Name) ? parseReference(tokens) : undefined;
     const version =
         tokens.nextIs(Symbol.Number) && !tokens.nextHasPrecedingLineBreak()
             ? tokens.read(Symbol.Number)

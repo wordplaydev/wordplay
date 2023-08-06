@@ -26,7 +26,7 @@ export default class CycleException extends Exception {
                 this.borrow,
                 locale,
                 this.evaluator.project.getNodeContext(this.borrow),
-                this.borrow.source?.getText()
+                this.borrow.source?.getName()
             )
         );
     }

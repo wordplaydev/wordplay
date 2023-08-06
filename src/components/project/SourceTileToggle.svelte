@@ -103,7 +103,7 @@
 
     .name:focus {
         background: var(--wordplay-focus-color);
-        color: var(--wordplay-background-color);
+        color: var(--wordplay-background);
         border-radius: var(--wordplay-border-radius);
     }
 
