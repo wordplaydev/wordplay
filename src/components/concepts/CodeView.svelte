@@ -43,6 +43,7 @@
     <div class="code">
         <div
             role="textbox"
+            aria-readonly="true"
             class="draggable node"
             class:outline
             tabindex="0"
