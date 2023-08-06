@@ -8,11 +8,15 @@
     import { config } from '../../db/Creator';
 
     export let value: StreamDefinitionValue;
-    export const inline: boolean = true;
+    export let inline: boolean = true;
 </script>
 
-<SymbolView symbol={STREAM_SYMBOL} type={Symbol.Stream} />
-<SymbolView
-    symbol={value.definition.names.getPreferredNameString($config.getLocales())}
-    type={Symbol.Name}
-/>
+{#if inline || !inline}<SymbolView
+        symbol={STREAM_SYMBOL}
+        type={Symbol.Stream}
+    /><SymbolView
+        symbol={value.definition.names.getPreferredNameString(
+            $config.getLocales()
+        )}
+        type={Symbol.Name}
+    />{/if}

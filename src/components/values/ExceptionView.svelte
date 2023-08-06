@@ -5,7 +5,9 @@
     import { config } from '../../db/Creator';
 
     export let value: ExceptionValue;
-    export const inline: boolean = true;
+    export let inline: boolean = true;
 </script>
 
-! {value.getDescription($config.getLocale()).toText()}
+{#if inline || !inline}
+    ! {value.getDescription($config.getLocale()).toText()}
+{/if}

@@ -4,10 +4,10 @@
     import type Value from '@values/Value';
 
     export let value: Value;
-    export const inline: boolean = true;
+    export let inline: boolean = true;
 </script>
 
-<span>{value.constructor.name}</span>
+{#if inline || !inline}<span>{value.constructor.name}</span>{/if}
 
 <style>
     span {

@@ -7,13 +7,15 @@
     import SymbolView from './SymbolView.svelte';
 
     export let value: ConversionDefinitionValue;
-    export const inline: boolean = true;
+    export let inline: boolean = true;
 </script>
 
-<SymbolView
-    symbol={value.definition.input.toWordplay()}
-    type={Symbol.Type}
-/><SymbolView symbol={CONVERT_SYMBOL} type={Symbol.Convert} /><SymbolView
-    symbol={value.definition.output.toWordplay()}
-    type={Symbol.Type}
-/>
+{#if inline || !inline}
+    <SymbolView
+        symbol={value.definition.input.toWordplay()}
+        type={Symbol.Type}
+    /><SymbolView symbol={CONVERT_SYMBOL} type={Symbol.Convert} /><SymbolView
+        symbol={value.definition.output.toWordplay()}
+        type={Symbol.Type}
+    />
+{/if}

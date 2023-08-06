@@ -8,11 +8,15 @@
     import { config } from '../../db/Creator';
 
     export let value: FunctionValue;
-    export const inline: boolean = true;
+    export let inline: boolean = true;
 </script>
 
-<SymbolView symbol={FUNCTION_SYMBOL} type={Symbol.Function} />
-<SymbolView
-    symbol={value.definition.names.getPreferredNameString($config.getLocales())}
-    type={Symbol.Name}
-/>
+{#if inline || !inline}
+    <SymbolView symbol={FUNCTION_SYMBOL} type={Symbol.Function} />
+    <SymbolView
+        symbol={value.definition.names.getPreferredNameString(
+            $config.getLocales()
+        )}
+        type={Symbol.Name}
+    />
+{/if}

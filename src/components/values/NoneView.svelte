@@ -6,7 +6,10 @@
     import SymbolView from './SymbolView.svelte';
 
     export let value: NoneValue;
-    export const inline: boolean = true;
+    export let inline: boolean = true;
 </script>
 
-<SymbolView symbol={value.toWordplay()} type={Symbol.None} />
+{#if inline || !inline}<SymbolView
+        symbol={value.toWordplay()}
+        type={Symbol.None}
+    />{/if}

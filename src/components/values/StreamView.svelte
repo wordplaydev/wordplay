@@ -7,10 +7,10 @@
     import SymbolView from './SymbolView.svelte';
 
     export let value: StreamValue;
-    export const inline: boolean = true;
+    export let inline: boolean = true;
 </script>
 
-<SymbolView
-    symbol={value.getPreferredName($config.getLocales())}
-    type={Symbol.Name}
-/>
+{#if inline || !inline}<SymbolView
+        symbol={value.getPreferredName($config.getLocales())}
+        type={Symbol.Name}
+    />{/if}
