@@ -92,7 +92,6 @@
                 <OutputView
                     {project}
                     {evaluator}
-                    source={project.main}
                     {value}
                     fullscreen={false}
                     mini

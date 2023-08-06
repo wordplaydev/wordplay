@@ -1154,7 +1154,6 @@
                                     <OutputView
                                         {project}
                                         evaluator={$evaluator}
-                                        source={selectedSource}
                                         value={latestValue}
                                         fullscreen={layout.fullscreenID ===
                                             tile.id}

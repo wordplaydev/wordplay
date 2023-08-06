@@ -29,7 +29,6 @@
 <OutputView
     {project}
     {evaluator}
-    source={project.main}
     value={latest}
     fullscreen={false}
     {fit}

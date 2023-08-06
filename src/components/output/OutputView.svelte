@@ -4,7 +4,6 @@
     import type Value from '@values/Value';
     import type Project from '@models/Project';
     import ValueView from '../values/ValueView.svelte';
-    import type Source from '@nodes/Source';
     import StageView from './StageView.svelte';
     import MarkupHTMLView from '../concepts/MarkupHTMLView.svelte';
     import Speech from '../lore/Speech.svelte';
@@ -21,7 +20,6 @@
     import type Evaluator from '@runtime/Evaluator';
     import type PaintingConfiguration from './PaintingConfiguration';
     import { config } from '../../db/Creator';
-    import concretize from '../../locale/concretize';
     import type Color from '../../output/Color';
     import Key from '../../input/Key';
     import { PX_PER_METER, rootScale } from '../../output/outputToCSS';
@@ -38,7 +36,6 @@
 
     export let project: Project;
     export let evaluator: Evaluator;
-    export let source: Source;
     export let value: Value | undefined;
     export let fullscreen: boolean;
     export let fit: boolean = true;
@@ -669,17 +666,10 @@
                     <h2
                         >{$config
                             .getLocales()
-                            .map((translation) =>
+                            .map((locale) =>
                                 value === undefined
                                     ? undefined
-                                    : value
-                                          .getType(project.getContext(source))
-                                          .getDescription(
-                                              concretize,
-                                              translation,
-                                              project.getContext(source)
-                                          )
-                                          .toText()
+                                    : value.getDescription(locale).toText()
                             )}</h2
                     >
                     <ValueView {value} inline={false} />

@@ -1346,7 +1346,6 @@
                     <OutputView
                         {project}
                         {evaluator}
-                        {source}
                         value={evaluator.getLatestSourceValue(source)}
                         fullscreen={false}
                         mini
