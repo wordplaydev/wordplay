@@ -1241,7 +1241,6 @@
                 {#if tile}
                     <!-- Mini source view output is visible when collapsed, or if its main, when output is collapsed. -->
                     <SourceTileToggle
-                        evaluator={$evaluator}
                         {source}
                         expanded={tile.mode === Mode.Expanded}
                         on:toggle={() => toggleTile(tile)}

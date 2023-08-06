@@ -1,26 +1,16 @@
 <script lang="ts">
     import { createEventDispatcher } from 'svelte';
     import type Source from '@nodes/Source';
-    import type Value from '@values/Value';
-    import { getConflicts, getEvaluation } from './Contexts';
-    import type Evaluator from '@runtime/Evaluator';
+    import { getConflicts } from './Contexts';
     import { config } from '../../db/Creator';
     import Glyphs from '../../lore/Glyphs';
 
-    export let evaluator: Evaluator;
     export let source: Source;
     export let expanded: boolean;
 
-    let evaluation = getEvaluation();
     let conflicts = getConflicts();
 
     const dispatch = createEventDispatcher();
-
-    let latest: Value | undefined;
-    $: {
-        $evaluation;
-        latest = evaluator.getLatestSourceValue(source);
-    }
 
     // The number of conflicts is the number of nodes in the source involved in conflicts
     let primaryCount = 0;
