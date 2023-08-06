@@ -452,10 +452,10 @@
             }
         },
         "BooleanLiteral": {
-            "name": "boolean",
+            "name": "specific boolean",
             "description": "$1[true|false]",
             "emotion": "precise",
-            "doc": "See @Boolean.",
+            "doc": "I am either \\⊤\\ or \\⊥\\. See @Boolean to learn more about our beautiful logic.",
             "start": "$1!"
         },
         "Borrow": {
@@ -757,10 +757,10 @@
             "finish": "the item is $2!"
         },
         "ListLiteral": {
-            "name": "list",
+            "name": "specific list",
             "description": "$1 item list",
             "emotion": "eager",
-            "doc": "I'm a @List!",
+            "doc": "I'm a specific @List of values! See @List to learn more about what you can do with me.",
             "start": "let's evaluate the items first",
             "finish": "I made a me! $1",
             "item": "item"
@@ -769,7 +769,7 @@
             "name": "map",
             "description": "$1 pairing map",
             "emotion": "kind",
-            "doc": "I'm a @Map.",
+            "doc": "I'm a specific @Map between keys and values. See @Map to learn more about how I'm helpful.",
             "start": "let's evaluate the keys and values first",
             "finish": "I connected everyone, $1",
             "conflict": {
@@ -780,10 +780,10 @@
             }
         },
         "NumberLiteral": {
-            "name": "number",
+            "name": "specific number",
             "description": "$1 $2[$2|]",
             "emotion": "excited",
-            "doc": "I'm a @Number.",
+            "doc": "I'm a specific @Number. You can write me with any kinds of digits from any kind of language. See @Number for everything I can do.",
             "start": "$1!",
             "conflict": {
                 "NotANumber": "I thought I knew all the numbers, but I don't know this one"
@@ -796,9 +796,9 @@
             "start": "secret expression"
         },
         "NoneLiteral": {
-            "name": "none",
+            "name": "just none",
             "emotion": "neutral",
-            "doc": "I'm @None.",
+            "doc": "/@FunctionDefinition here. This is just @None. They are one of a kind! See @None to learn more about them.",
             "start": "… ø"
         },
         "Previous": {
@@ -938,10 +938,10 @@
             }
         },
         "SetLiteral": {
-            "name": "set",
+            "name": "specific set",
             "description": "$1 items",
             "emotion": "eager",
-            "doc": "I'm a @Set.",
+            "doc": "I'm a specifc @Set of specific values. See @Set to learn more about how to work with me.",
             "start": "let's evaluate the values first!",
             "finish": "I made a set $1!"
         },
@@ -1003,24 +1003,24 @@
             }
         },
         "TableLiteral": {
-            "name": "table",
+            "name": "specific table",
             "description": "$1 row table",
             "emotion": "angry",
-            "doc": "See @Table.",
+            "doc": "I am a specific table with specific rows. See @Table about how I can help.",
             "item": "row",
             "start": "first evaluate the rows",
             "finish": "evaluated to new table $1"
         },
         "TextLiteral": {
-            "name": "text",
+            "name": "specific text",
             "description": "text $1",
             "emotion": "serious",
-            "doc": "I represent many different @Translation of text. See @Text to learn more!",
+            "doc": "I represent one or more specific @Translation of text. See @Text to learn more about what I can do!",
             "start": "let's make text in the current locale"
         },
         "Translation": {
-            "name": "text",
-            "description": "text $1",
+            "name": "translation",
+            "description": "translation $1",
             "emotion": "serious",
             "doc": "I represent some text, with a @Language tag. See @Text to learn more!"
         },

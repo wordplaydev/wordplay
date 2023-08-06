@@ -205,6 +205,7 @@ const templates: Node[] = [
     BooleanLiteral.make(true),
     NumberLiteral.make(0),
     TextLiteral.make(''),
+    NoneLiteral.make(),
     Translation.make(),
     FormattedTranslation.make([]),
     new FormattedLiteral([FormattedTranslation.make([])]),

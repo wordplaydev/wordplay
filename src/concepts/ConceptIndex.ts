@@ -320,6 +320,7 @@ export default class ConceptIndex {
             const list = map.get(concept);
             map.set(concept, list === undefined ? [match] : [...list, match]);
         }
+
         return Array.from(map.entries());
     }
 }
