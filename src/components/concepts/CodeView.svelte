@@ -95,6 +95,9 @@
     .node:focus,
     .node:hover {
         transform: scale(1.1);
+    }
+
+    .node:not(.outline) {
         border-radius: var(--wordplay-border-radius);
     }
 
