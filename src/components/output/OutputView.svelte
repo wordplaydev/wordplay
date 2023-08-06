@@ -682,6 +682,7 @@
                 {evaluator}
                 stage={stageValue}
                 {fullscreen}
+                background={mini}
                 bind:fit
                 bind:grid
                 bind:painting

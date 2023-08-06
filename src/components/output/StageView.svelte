@@ -44,6 +44,7 @@
     export let fit: boolean;
     export let grid: boolean;
     export let painting: boolean;
+    export let background: boolean;
 
     const selectedOutput = getSelectedOutput();
     const evaluation = getEvaluation();
@@ -303,7 +304,7 @@
         data-selectable={stage.selectable}
         style={toCSS({
             'font-family': `"${stage.font}", ${DefaultFont}`,
-            background: stage.background.toCSS(),
+            background: background ? stage.background.toCSS() : undefined,
             '--grid-color': stage.background.complement().toCSS(),
             color:
                 stage.getFirstRestPose()?.color?.toCSS() ??
