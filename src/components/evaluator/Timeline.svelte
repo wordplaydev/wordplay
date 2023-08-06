@@ -307,7 +307,7 @@
     }
 
     .timeline:focus {
-        outline-offset: calc(-1 * var(--wordplay-focus-width));
+        border-radius: var(--wordplay-border-radius);
     }
 
     .stream-input {
