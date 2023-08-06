@@ -217,7 +217,6 @@
                     <CodeView
                         {concept}
                         node={concept.getRepresentation()}
-                        selectable
                         showOwner
                     />
                     <!-- Show the matching text -->
@@ -294,7 +293,6 @@
                 concepts={$index.getPrimaryConceptsWithPurpose(
                     Purpose.Evaluate
                 )}
-                selectable={true}
             />
             <ConceptsView
                 category={$config.getLocale().term.bind}

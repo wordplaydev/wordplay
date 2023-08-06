@@ -1,24 +1,19 @@
 <script lang="ts">
     import type Concept from '@concepts/Concept';
     import RootView from '../project/RootView.svelte';
-    import {
-        getConceptIndex,
-        getConceptPath,
-        getDragged,
-    } from '../project/Contexts';
+    import { getConceptIndex, getDragged } from '../project/Contexts';
     import type Node from '@nodes/Node';
     import TypeView from './TypeView.svelte';
     import { toClipboard } from '../editor/util/Clipboard';
-    import { config } from '../../db/Creator';
     import type Type from '../../nodes/Type';
     import type Spaces from '../../parser/Spaces';
+    import ConceptLinkUI from './ConceptLinkUI.svelte';
 
     export let node: Node;
     export let concept: Concept | undefined = undefined;
     export let spaces: Spaces | undefined = undefined;
     export let type: Type | undefined = undefined;
     export let describe: boolean = true;
-    export let selectable: boolean = false;
     export let inline: boolean = false;
     export let outline: boolean = true;
     /** If true, shows the owner of the concept. */
@@ -26,20 +21,6 @@
 
     let index = getConceptIndex();
     let dragged = getDragged();
-
-    function select(event: MouseEvent | KeyboardEvent) {
-        if (concept && selectable && selection) {
-            // If the concept is already in the selection, pop back to it.
-            if ($selection.includes(concept)) {
-                while ($selection.at(-1) !== concept) $selection.pop();
-                selection.set([...$selection]);
-            } else {
-                selection.set([...$selection, concept]);
-            }
-            // Don't let the palette handle it.
-            event.stopPropagation();
-        }
-    }
 
     function handlePointerDown(event: PointerEvent) {
         // Release the implicit pointer capture so events can travel to other components.
@@ -54,13 +35,8 @@
         toClipboard(node);
     }
 
-    $: selection = getConceptPath();
-    $: owner = concept ? $index?.getConceptOwner(concept) : undefined;
-    $: description = concept
-        ? (owner && showOwner
-              ? owner.getName($config.getLocale(), false) + '.'
-              : '') + concept.getName($config.getLocale(), false)
-        : undefined;
+    $: conceptToShow =
+        showOwner && concept ? $index?.getConceptOwner(concept) : concept;
 </script>
 
 <div class="view">
@@ -81,21 +57,9 @@
             />
         {/if}
     </div>
-    {#if describe}
-        <div
-            role="textbox"
-            class="description"
-            class:selectable
-            tabindex={selectable ? 0 : null}
-            on:pointerdown={select}
-            on:keydown={(event) =>
-                event.key === 'Enter' || event.key === ' '
-                    ? select(event)
-                    : undefined}
-        >
-            {#if description}
-                {description}
-            {/if}
+    {#if describe && conceptToShow}
+        <div class="link">
+            <ConceptLinkUI link={conceptToShow} symbolic={false} />
         </div>
     {/if}
 </div>
@@ -135,46 +99,12 @@
 
     .node:focus,
     .node:hover {
-        animation: wobble ease-out infinite;
-        animation-duration: calc(var(--animation-factor) * 200ms);
+        transform: scale(1.1);
         border-radius: var(--wordplay-border-radius);
     }
 
-    .description {
+    .link {
         margin-left: var(--wordplay-spacing);
         margin-top: calc(var(--wordplay-spacing) / 2);
-    }
-
-    .description:focus {
-        outline: none;
-        border-bottom: var(--wordplay-focus-color) solid
-            var(--wordplay-focus-width);
-    }
-
-    .description.selectable {
-        cursor: pointer;
-    }
-
-    .description.selectable {
-        text-decoration: underline;
-        text-decoration-color: var(--wordplay-highlight-color);
-    }
-
-    .description.selectable:hover {
-        text-decoration: underline;
-        text-decoration-color: var(--wordplay-highlight-color);
-        text-decoration-thickness: var(--wordplay-focus-width);
-    }
-
-    @keyframes wobble {
-        0% {
-            transform: rotate(1deg);
-        }
-        50% {
-            transform: rotate(-1deg);
-        }
-        100% {
-            transform: rotate(1deg);
-        }
     }
 </style>

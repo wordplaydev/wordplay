@@ -6,7 +6,6 @@
     import { config } from '../../db/Creator';
 
     export let concepts: Concept[];
-    export let selectable: boolean;
 
     let expanded: boolean = false;
 
@@ -23,11 +22,7 @@
                     duration: $config.getAnimationDuration(),
                 }}
             >
-                <CodeView
-                    {concept}
-                    node={concept.getRepresentation()}
-                    {selectable}
-                />
+                <CodeView {concept} node={concept.getRepresentation()} />
             </span>
         {/if}
     {:else}

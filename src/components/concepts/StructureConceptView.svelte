@@ -35,11 +35,7 @@
     {#if concept.inter.length > 0}
         <h2>{$config.getLocale().ui.header.interfaces}</h2>
         {#each concept.inter as inter}
-            <CodeView
-                concept={inter}
-                node={inter.getRepresentation()}
-                selectable
-            />
+            <CodeView concept={inter} node={inter.getRepresentation()} />
         {/each}
     {/if}
 
@@ -64,7 +60,7 @@
     {#if concept.functions.length > 0}
         <h2>{$config.getLocale().ui.header.functions}</h2>
         {#each concept.functions as fun}
-            <CodeView node={fun.getRepresentation()} concept={fun} selectable />
+            <CodeView node={fun.getRepresentation()} concept={fun} />
         {/each}
     {/if}
 
@@ -74,7 +70,6 @@
             <CodeView
                 node={conversion.getRepresentation()}
                 concept={conversion}
-                selectable
             />
         {/each}
     {/if}
