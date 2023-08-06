@@ -50,6 +50,7 @@ export default class Row extends Node {
                     node(Symbol.Delete),
                     node(Symbol.Update)
                 ),
+                newline: true,
             },
             { name: 'cells', kind: list(node(Expression)), space: true },
             { name: 'close', kind: node(Symbol.TableClose) },
