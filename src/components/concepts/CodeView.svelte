@@ -36,7 +36,9 @@
     }
 
     $: conceptToShow =
-        showOwner && concept ? $index?.getConceptOwner(concept) : concept;
+        showOwner && concept
+            ? $index?.getConceptOwner(concept) ?? concept
+            : concept;
 </script>
 
 <div class="view">
