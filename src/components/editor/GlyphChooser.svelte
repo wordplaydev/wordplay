@@ -75,12 +75,13 @@
 
 <style>
     section {
-        padding: var(--wordplay-spacing);
         display: flex;
         flex-direction: row;
         gap: var(--wordplay-spacing);
+        padding-left: var(--wordplay-spacing);
+        padding-right: var(--wordplay-spacing);
         background-color: var(--wordplay-background);
-        align-items: baseline;
+        align-items: center;
         border-top: var(--wordplay-border-color) solid 1px;
         border-bottom: var(--wordplay-border-color) solid 1px;
     }
@@ -92,7 +93,8 @@
         flex-wrap: nowrap;
         gap: var(--wordplay-spacing);
         overflow-x: scroll;
-        align-content: baseline;
+        padding: var(--wordplay-spacing);
+        min-height: 3em;
     }
 
     section.expanded {
