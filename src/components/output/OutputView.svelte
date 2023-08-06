@@ -751,8 +751,10 @@
         padding: var(--wordplay-spacing);
         font-size: 48pt;
         transform-origin: center;
-        justify-content: center;
         align-items: center;
+        margin: auto;
+        margin-top: 1em;
+        overflow: scroll;
     }
 
     .editing {
