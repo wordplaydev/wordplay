@@ -7,7 +7,7 @@
         getHidden,
     } from '../project/Contexts';
     import TokenCategories from './TokenCategories';
-    import { config } from '../../db/Creator';
+    import { config } from '../../db/Database';
 
     export let node: Token;
 

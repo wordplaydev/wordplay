@@ -2,7 +2,7 @@
     import { getConceptIndex, getConceptPath } from '../project/Contexts';
     import ConceptLink from '@nodes/ConceptLink';
     import Concept from '@concepts/Concept';
-    import { config } from '../../db/Creator';
+    import { config } from '../../db/Database';
     import TutorialHighlight from '../app/TutorialHighlight.svelte';
     import type ConceptRef from '../../locale/ConceptRef';
     import Button from '../widgets/Button.svelte';

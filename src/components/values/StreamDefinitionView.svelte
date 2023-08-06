@@ -5,7 +5,7 @@
     import Symbol from '@nodes/Symbol';
     import type StreamDefinitionValue from '../../values/StreamDefinitionValue';
     import { STREAM_SYMBOL } from '../../parser/Symbols';
-    import { config } from '../../db/Creator';
+    import { config } from '../../db/Database';
 
     export let value: StreamDefinitionValue;
     export let inline: boolean = true;

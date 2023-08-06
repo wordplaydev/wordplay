@@ -4,7 +4,7 @@
     import PaletteProperty from './PaletteProperty.svelte';
     import type Project from '@models/Project';
     import type OutputExpression from '@edit/OutputExpression';
-    import { config } from '../../db/Creator';
+    import { config } from '../../db/Database';
     import getSequenceProperties from '../../edit/SequenceProperties';
 
     export let project: Project;

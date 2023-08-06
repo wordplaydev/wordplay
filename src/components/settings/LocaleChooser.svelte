@@ -3,7 +3,7 @@
 <script lang="ts">
     import Button from '../widgets/Button.svelte';
     import { getLanguageLayout, PossibleLanguages } from '@locale/LanguageCode';
-    import { config } from '../../db/Creator';
+    import { config } from '../../db/Database';
     import {
         SupportedLocales,
         getLocaleLanguage,

@@ -5,7 +5,7 @@
     import Button from '../widgets/Button.svelte';
     import TextField from '../widgets/TextField.svelte';
     import TokenView from './TokenView.svelte';
-    import { config } from '../../db/Creator';
+    import { config } from '../../db/Database';
     import Commands, { Category } from './util/Commands';
     import CommandButton from '../widgets/CommandButton.svelte';
     import concretize from '../../locale/concretize';

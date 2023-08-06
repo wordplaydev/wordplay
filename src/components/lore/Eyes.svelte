@@ -28,7 +28,7 @@
 <script lang="ts">
     import { onDestroy } from 'svelte';
 
-    import { config } from '../../db/Creator';
+    import { config } from '../../db/Database';
     import type Emotion from '../../lore/Emotion';
 
     export let invert: boolean;

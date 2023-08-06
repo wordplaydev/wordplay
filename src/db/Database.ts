@@ -44,7 +44,7 @@ const WRITING_LAYOUT_KEY = 'writingLayout';
 const TUTORIAL_KEY = 'tutorial';
 
 /** If true, we only persist on the device, and not in the database. */
-const deviceSpecific: Record<keyof CreatorConfig, boolean> = {
+const deviceSpecific: Record<keyof Config, boolean> = {
     layouts: true,
     arrangement: true,
     animationFactor: false,
@@ -72,7 +72,7 @@ export type TutorialProgress = {
 
 const TutorialDefault = { act: 1, scene: 1, line: 1 };
 
-type CreatorConfig = {
+type Config = {
     layouts: Record<string, LayoutObject>;
     arrangement: Arrangement;
     animationFactor: number;
@@ -94,15 +94,15 @@ function getLocalValue<Type>(key: string): Type | null {
     return value === null ? null : (JSON.parse(value) as Type);
 }
 
-export class Creator {
+export class Database {
     /** The default locale */
     private readonly defaultLocale: Locale;
 
     /** A Svelte store for that contains this. Updated when config changes. */
-    private configStore: Writable<Creator>;
+    private configStore: Writable<Database>;
 
     /** A Svelte store for that contains this. Updated when projects change. */
-    private projectsStore: Writable<Creator>;
+    private projectsStore: Writable<Database>;
 
     /** The status of persisting the projects. */
     private statusStore: Writable<SaveStatus> = writable(SaveStatus.Saved);
@@ -111,7 +111,7 @@ export class Creator {
     private uid: string | null = null;
 
     /** The current creator configuration */
-    private config: CreatorConfig = {
+    private config: Config = {
         layouts: {},
         arrangement: Arrangement.Vertical,
         animationFactor: 1,
@@ -589,7 +589,7 @@ export class Creator {
         );
     }
 
-    saveConfig(key: keyof CreatorConfig, value: any) {
+    saveConfig(key: keyof Config, value: any) {
         // Persist in local storage.
         this.setStatus(SaveStatus.Saving);
         try {
@@ -600,8 +600,8 @@ export class Creator {
                 // Get the config, but delete all device-specific configs.
                 const config = { ...this.config };
                 for (const key in deviceSpecific) {
-                    if (deviceSpecific[key as keyof CreatorConfig] === true)
-                        delete config[key as keyof CreatorConfig];
+                    if (deviceSpecific[key as keyof Config] === true)
+                        delete config[key as keyof Config];
                 }
 
                 setDoc(doc(firestore, 'users', this.uid), config);
@@ -822,7 +822,7 @@ export const DefaultLocale = en as Locale;
 const browserLanguages =
     typeof navigator !== 'undefined' ? navigator.languages : [];
 
-const db = new Creator(
+const db = new Database(
     getBestSupportedLocales(browserLanguages.slice()),
     DefaultLocale
 );

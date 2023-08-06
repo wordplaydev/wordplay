@@ -11,7 +11,7 @@
     import { getSelectedOutput } from '../project/Contexts';
     import type { Shape } from '../../output/Shapes';
     import type Stage from '../../output/Stage';
-    import { config } from '../../db/Creator';
+    import { config } from '../../db/Database';
 
     export let group: Group | Stage;
     export let place: Place;

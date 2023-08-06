@@ -19,7 +19,7 @@
     import Node from '@nodes/Node';
     import Token from '../../nodes/Token';
     import { getLanguageDirection } from '../../locale/LanguageCode';
-    import { config } from '../../db/Creator';
+    import { config } from '../../db/Database';
     import type Caret from '../../edit/Caret';
 
     export let caret: Caret;

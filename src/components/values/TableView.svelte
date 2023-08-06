@@ -5,7 +5,7 @@
     import { TABLE_CLOSE_SYMBOL, TABLE_OPEN_SYMBOL } from '@parser/Symbols';
     import SymbolView from './SymbolView.svelte';
     import Symbol from '@nodes/Symbol';
-    import { config } from '../../db/Creator';
+    import { config } from '../../db/Database';
     import ValueView from './ValueView.svelte';
     import Expandable from './Expandable.svelte';
     import RowView from './RowView.svelte';

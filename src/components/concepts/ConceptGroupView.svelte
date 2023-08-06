@@ -3,7 +3,7 @@
     import type Concept from '@concepts/Concept';
     import CodeView from './CodeView.svelte';
     import Note from '../widgets/Note.svelte';
-    import { config } from '../../db/Creator';
+    import { config } from '../../db/Database';
 
     export let concepts: Concept[];
 

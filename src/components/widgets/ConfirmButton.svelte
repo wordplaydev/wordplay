@@ -1,6 +1,6 @@
 <script lang="ts">
     import Button from './Button.svelte';
-    import { config } from '../../db/Creator';
+    import { config } from '../../db/Database';
 
     export let tip: string;
     export let action: () => void;

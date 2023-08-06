@@ -2,7 +2,7 @@
 
 <script lang="ts">
     import type ExceptionValue from '@values/ExceptionValue';
-    import { config } from '../../db/Creator';
+    import { config } from '../../db/Database';
 
     export let value: ExceptionValue;
     export let inline: boolean = true;

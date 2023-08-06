@@ -3,7 +3,7 @@ import { testConflict } from '@conflicts/TestUtilities';
 import Delete from './Delete';
 import IncompatibleInput from '../conflicts/IncompatibleInput';
 import Evaluator from '@runtime/Evaluator';
-import { DefaultLocale } from '../db/Creator';
+import { DefaultLocale } from '../db/Database';
 
 test.each([
     [

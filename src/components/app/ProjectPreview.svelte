@@ -3,7 +3,7 @@
     import OutputView from '@components/output/OutputView.svelte';
     import Evaluator from '@runtime/Evaluator';
     import type Value from '@values/Value';
-    import { config } from '../../db/Creator';
+    import { config } from '../../db/Database';
     import { onMount } from 'svelte';
     import { fade } from 'svelte/transition';
 

@@ -5,13 +5,13 @@ import Expression from '@nodes/Expression';
 import NumberLiteral from '@nodes/NumberLiteral';
 import Reference from '@nodes/Reference';
 import Unit from '@nodes/Unit';
-import type { Creator } from '../../db/Creator';
+import type { Database } from '../../db/Database';
 import UnaryEvaluate from '../../nodes/UnaryEvaluate';
 import Decimal from 'decimal.js';
 import TextLiteral from '../../nodes/TextLiteral';
 import ListLiteral from '../../nodes/ListLiteral';
 import { toExpression } from '../../parser/Parser';
-import { config } from '../../db/Creator';
+import { config } from '../../db/Database';
 import { get } from 'svelte/store';
 import type Locale from '../../locale/Locale';
 
@@ -33,7 +33,7 @@ export function getNumber(given: Expression): number | undefined {
 }
 
 export default function moveOutput(
-    projects: Creator,
+    projects: Database,
     project: Project,
     evaluates: Evaluate[],
     locales: Locale[],
@@ -113,7 +113,7 @@ export default function moveOutput(
 }
 
 export function addContent(
-    projects: Creator,
+    projects: Database,
     project: Project,
     list: ListLiteral,
     index: number,
@@ -151,7 +151,7 @@ export function addContent(
 }
 
 export function reviseContent(
-    projects: Creator,
+    projects: Database,
     project: Project,
     list: ListLiteral,
     newValues: Expression[]
@@ -160,7 +160,7 @@ export function reviseContent(
 }
 
 export function removeContent(
-    projects: Creator,
+    projects: Database,
     project: Project,
     list: ListLiteral,
     index: number
@@ -173,7 +173,7 @@ export function removeContent(
 }
 
 export function moveContent(
-    projects: Creator,
+    projects: Database,
     project: Project,
     list: ListLiteral,
     index: number,
@@ -196,7 +196,7 @@ export function moveContent(
 }
 
 export function addStageContent(
-    projects: Creator,
+    projects: Database,
     project: Project,
     content: Expression
 ) {

@@ -1,7 +1,7 @@
 <script lang="ts">
     import { toShortcut, type Command } from '../editor/util/Commands';
     import Button from './Button.svelte';
-    import { config } from '../../db/Creator';
+    import { config } from '../../db/Database';
     import { IdleKind, getEditors, getEvaluator } from '../project/Contexts';
     import { tokenize } from '../../parser/Tokenizer';
     import TokenView from '../editor/TokenView.svelte';
@@ -30,7 +30,7 @@
         ? true
         : editor
         ? command.active(
-              { caret: editor.caret, evaluator: $evaluator, creator: $config },
+              { caret: editor.caret, evaluator: $evaluator, database: $config },
               ''
           )
         : false}
@@ -42,7 +42,7 @@
                 {
                     caret: editor.caret,
                     evaluator: $evaluator,
-                    creator: $config,
+                    database: $config,
                     toggleMenu: editor.toggleMenu,
                 },
                 ''

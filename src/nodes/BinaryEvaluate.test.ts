@@ -5,7 +5,7 @@ import BinaryEvaluate from './BinaryEvaluate';
 import { FALSE_SYMBOL } from '@parser/Symbols';
 import { OR_SYMBOL } from '@parser/Symbols';
 import IncompatibleInput from '@conflicts/IncompatibleInput';
-import { DefaultLocale } from '../db/Creator';
+import { DefaultLocale } from '../db/Database';
 
 test.each([
     ['1 · 5', '1 · ""', BinaryEvaluate, IncompatibleInput],

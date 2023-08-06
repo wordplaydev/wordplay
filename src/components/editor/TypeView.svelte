@@ -5,7 +5,7 @@
     import type AnyType from '@nodes/AnyType';
     import concretize from '../../locale/concretize';
     import { getProject, getRoot } from '../project/Contexts';
-    import { config } from '../../db/Creator';
+    import { config } from '../../db/Database';
     import MarkupHtmlView from '../concepts/MarkupHTMLView.svelte';
 
     export let node: AnyType;

@@ -7,7 +7,7 @@
     import type Glyph from '../../lore/Glyph';
     import ConceptLinkUI from '../concepts/ConceptLinkUI.svelte';
     import Eyes from './Eyes.svelte';
-    import { config } from '../../db/Creator';
+    import { config } from '../../db/Database';
     import Emotion from '../../lore/Emotion';
 
     export let glyph: Glyph | Concept;

@@ -13,7 +13,7 @@
     import ValueView from './ValueView.svelte';
     import { toColor } from '../../output/Color';
     import Expandable from './Expandable.svelte';
-    import { config } from '../../db/Creator';
+    import { config } from '../../db/Database';
 
     export let value: StructureValue;
     export let inline: boolean = true;

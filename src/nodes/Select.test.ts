@@ -4,7 +4,7 @@ import UnknownColumn from '@conflicts/UnknownColumn';
 import ExpectedSelectName from '@conflicts/ExpectedSelectName';
 import Select from './Select';
 import IncompatibleInput from '../conflicts/IncompatibleInput';
-import { DefaultLocale } from '../db/Creator';
+import { DefaultLocale } from '../db/Database';
 import Evaluator from '@runtime/Evaluator';
 
 test.each([

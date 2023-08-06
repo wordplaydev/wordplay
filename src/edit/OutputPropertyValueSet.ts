@@ -11,7 +11,7 @@ import type OutputProperty from './OutputProperty';
 import MapLiteral from '../nodes/MapLiteral';
 import ListLiteral from '../nodes/ListLiteral';
 import type Bind from '../nodes/Bind';
-import type { Creator } from '../db/Creator';
+import type { Database } from '../db/Database';
 import MarkupValue from '@values/MarkupValue';
 import type Locale from '../locale/Locale';
 
@@ -157,7 +157,7 @@ export default class OutputPropertyValueSet {
     }
 
     /** Given a project, unsets this property on expressions on which it is set. */
-    unset(projects: Creator, project: Project, locales: Locale[]) {
+    unset(projects: Database, project: Project, locales: Locale[]) {
         // Find all the values that are given, then map them to [ Evaluate, Evaluate ] pairs
         // that represent the original Evaluate and the replacement without the given value.
         // If the property is required, replace with a default value.
@@ -176,7 +176,7 @@ export default class OutputPropertyValueSet {
     }
 
     /** Given a project, set this property to a reasonable starting value */
-    set(projects: Creator, project: Project, locales: Locale[]) {
+    set(projects: Database, project: Project, locales: Locale[]) {
         projects.reviseProjectNodes(
             project,
             project.getBindReplacements(

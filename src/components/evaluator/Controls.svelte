@@ -2,7 +2,7 @@
     import Switch from '../widgets/Switch.svelte';
     import { getEvaluation } from '../project/Contexts';
     import type Evaluator from '@runtime/Evaluator';
-    import { config } from '../../db/Creator';
+    import { config } from '../../db/Database';
     import CommandButton from '../widgets/CommandButton.svelte';
     import {
         Pause,

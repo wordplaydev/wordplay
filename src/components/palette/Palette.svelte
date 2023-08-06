@@ -6,7 +6,7 @@
     import OutputExpression from '@edit/OutputExpression';
     import Speech from '../lore/Speech.svelte';
     import { getConceptIndex, getSelectedOutput } from '../project/Contexts';
-    import { config } from '../../db/Creator';
+    import { config } from '../../db/Database';
 
     export let project: Project;
 

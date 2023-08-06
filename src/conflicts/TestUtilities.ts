@@ -4,7 +4,7 @@ import Expression from '@nodes/Expression';
 import Context from '@nodes/Context';
 import Source from '@nodes/Source';
 import Project from '../models/Project';
-import { DefaultLocale } from '../db/Creator';
+import { DefaultLocale } from '../db/Database';
 
 export function testConflict(
     goodCode: string,

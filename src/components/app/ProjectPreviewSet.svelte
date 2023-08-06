@@ -1,7 +1,7 @@
 <script lang="ts">
     import type Project from '../../models/Project';
     import ProjectPreview from './ProjectPreview.svelte';
-    import { config } from '../../db/Creator';
+    import { config } from '../../db/Database';
     import Button from '../widgets/Button.svelte';
     import ConfirmButton from '../widgets/ConfirmButton.svelte';
 

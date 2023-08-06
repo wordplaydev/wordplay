@@ -1,6 +1,6 @@
 <script lang="ts">
-    import { SaveStatus } from '../../db/Creator';
-    import { status } from '../../db/Creator';
+    import { SaveStatus } from '../../db/Database';
+    import { status } from '../../db/Database';
 </script>
 
 <div class="status {$status}">

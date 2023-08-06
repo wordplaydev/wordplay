@@ -70,7 +70,7 @@
     import Timeline from '../evaluator/Timeline.svelte';
     import Painting from '../output/Painting.svelte';
     import type PaintingConfiguration from '../output/PaintingConfiguration';
-    import { config } from '../../db/Creator';
+    import { config } from '../../db/Database';
     import Arrangement from '../../db/Arrangement';
     import {
         DOCUMENTATION_SYMBOL,
@@ -934,7 +934,7 @@
                           (editor) => editor.focused
                       )?.caret,
             evaluator: $evaluator,
-            creator: $config,
+            database: $config,
             fullscreen,
             focusOrCycleTile,
             help: () => (help = !help),

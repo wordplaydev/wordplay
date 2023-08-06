@@ -5,7 +5,7 @@ import Insert from './Insert';
 import MissingCell from '@conflicts/MissingCell';
 import InvalidRow from '@conflicts/InvalidRow';
 import IncompatibleInput from '../conflicts/IncompatibleInput';
-import { DefaultLocale } from '../db/Creator';
+import { DefaultLocale } from '../db/Database';
 import Evaluator from '@runtime/Evaluator';
 
 test.each([

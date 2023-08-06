@@ -4,7 +4,7 @@
     import CodeView from './CodeView.svelte';
     import MarkupHTMLView from './MarkupHTMLView.svelte';
     import Speech from '../lore/Speech.svelte';
-    import { config } from '../../db/Creator';
+    import { config } from '../../db/Database';
     import type Type from '../../nodes/Type';
     import concretize from '../../locale/concretize';
     import type TypeVariables from '../../nodes/TypeVariables';

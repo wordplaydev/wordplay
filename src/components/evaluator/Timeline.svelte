@@ -9,7 +9,7 @@
     import ExceptionValue from '@values/ExceptionValue';
     import { getEvaluation } from '../project/Contexts';
     import Controls from './Controls.svelte';
-    import { config } from '../../db/Creator';
+    import { config } from '../../db/Database';
     import StructureValue from '@values/StructureValue';
 
     export let evaluator: Evaluator;

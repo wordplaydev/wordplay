@@ -1,7 +1,7 @@
 <script lang="ts">
     import type BindConcept from '@concepts/BindConcept';
     import Speech from '../lore/Speech.svelte';
-    import { config } from '../../db/Creator';
+    import { config } from '../../db/Database';
     import MarkupHTMLView from './MarkupHTMLView.svelte';
     import RootView from '../project/RootView.svelte';
 

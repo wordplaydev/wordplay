@@ -4,7 +4,7 @@ import { IncompatibleKey } from '@conflicts/IncompatibleKey';
 import Evaluator from '@runtime/Evaluator';
 import SetOrMapAccess from './SetOrMapAccess';
 import IncompatibleInput from '../conflicts/IncompatibleInput';
-import { DefaultLocale } from '../db/Creator';
+import { DefaultLocale } from '../db/Database';
 
 test.each([
     [

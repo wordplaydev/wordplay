@@ -9,7 +9,7 @@
     import Note from '../widgets/Note.svelte';
     import { getNumber } from './editOutput';
     import Expression from '../../nodes/Expression';
-    import { config } from '../../db/Creator';
+    import { config } from '../../db/Database';
     import { tick } from 'svelte';
 
     export let project: Project;

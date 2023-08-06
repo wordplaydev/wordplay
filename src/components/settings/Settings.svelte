@@ -3,7 +3,7 @@
     import LanguageChooser from './LocaleChooser.svelte';
     import { getUser, isDark } from '../project/Contexts';
     import { PUBLIC_CONTEXT } from '$env/static/public';
-    import { config } from '../../db/Creator';
+    import { config } from '../../db/Database';
     import LayoutChooser from './LayoutChooser.svelte';
     import { page } from '$app/stores';
     import { goto } from '$app/navigation';

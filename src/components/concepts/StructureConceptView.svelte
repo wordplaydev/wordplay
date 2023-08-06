@@ -5,7 +5,7 @@
     import ConceptView from './ConceptView.svelte';
     import type BindConcept from '@concepts/BindConcept';
     import { onMount } from 'svelte';
-    import { config } from '@db/Creator';
+    import { config } from '@db/Database';
 
     export let concept: StructureConcept;
     export let subconcept: BindConcept | undefined = undefined;

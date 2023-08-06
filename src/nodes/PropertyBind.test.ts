@@ -1,6 +1,6 @@
 import Evaluator from '@runtime/Evaluator';
 import { test, expect } from 'vitest';
-import { DefaultLocale } from '../db/Creator';
+import { DefaultLocale } from '../db/Database';
 
 test.each([
     ['•Test(n•#)\nb: Test(1).n: 2\nb.n', '2'],

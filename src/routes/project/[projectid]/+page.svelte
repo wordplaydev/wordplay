@@ -12,7 +12,7 @@
     import Loading from '@components/app/Loading.svelte';
     import { setContext } from 'svelte';
     import { browser } from '$app/environment';
-    import { config, projects } from '@db/Creator';
+    import { config, projects } from '@db/Database';
     import Page from '@components/app/Page.svelte';
 
     /** True if we're async loading the project, as opposed to getting it from the browser cache. */

@@ -10,7 +10,7 @@
     } from '../project/Contexts';
     import { addContent, moveContent, removeContent } from './editOutput';
     import type ListLiteral from '../../nodes/ListLiteral';
-    import { config } from '../../db/Creator';
+    import { config } from '../../db/Database';
 
     export let project: Project;
     export let list: ListLiteral | undefined;

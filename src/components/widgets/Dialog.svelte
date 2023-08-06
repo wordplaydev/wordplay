@@ -1,6 +1,6 @@
 <script lang="ts">
     import { onMount, tick } from 'svelte';
-    import { config } from '../../db/Creator';
+    import { config } from '../../db/Database';
     import Button from './Button.svelte';
 
     export let dialog: HTMLDialogElement | undefined = undefined;

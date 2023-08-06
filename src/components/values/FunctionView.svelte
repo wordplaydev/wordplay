@@ -5,7 +5,7 @@
     import SymbolView from './SymbolView.svelte';
     import { FUNCTION_SYMBOL } from '@parser/Symbols';
     import Symbol from '@nodes/Symbol';
-    import { config } from '../../db/Creator';
+    import { config } from '../../db/Database';
 
     export let value: FunctionValue;
     export let inline: boolean = true;

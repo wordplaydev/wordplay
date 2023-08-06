@@ -9,7 +9,7 @@
     import Evaluator from '@runtime/Evaluator';
     import type Value from '../../values/Value';
     import CodeView from './CodeView.svelte';
-    import { config } from '../../db/Creator';
+    import { config } from '../../db/Database';
     import Stage, { toStage } from '../../output/Stage';
     import OutputView from '../output/OutputView.svelte';
 

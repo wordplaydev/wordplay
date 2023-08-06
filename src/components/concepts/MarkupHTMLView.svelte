@@ -5,7 +5,7 @@
 </script>
 
 <script lang="ts">
-    import { config } from '../../db/Creator';
+    import { config } from '../../db/Database';
     import type Markup from '@nodes/Markup';
     import Paragraph from '@nodes/Paragraph';
     import SegmentHTMLView from './SegmentHTMLView.svelte';

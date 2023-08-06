@@ -33,7 +33,7 @@
     import type TypeOutput from '../../output/TypeOutput';
     import Sequence from '../../output/Sequence';
     import Reference from '../../nodes/Reference';
-    import { config } from '../../db/Creator';
+    import { config } from '../../db/Database';
 
     export let project: Project;
     export let evaluator: Evaluator;

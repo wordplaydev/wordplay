@@ -3,7 +3,7 @@
     import Progress from '../../tutorial/Progress';
     import { goto } from '$app/navigation';
     import { page } from '$app/stores';
-    import { config } from '../../db/Creator';
+    import { config } from '../../db/Database';
     import { onMount } from 'svelte';
     import Loading from '@components/app/Loading.svelte';
     import type Tutorial from '../../tutorial/Tutorial';

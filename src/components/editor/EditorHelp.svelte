@@ -3,7 +3,7 @@
     import Glyphs from '../../lore/Glyphs';
     import { ShowMenu, toShortcut } from './util/Commands';
     import { fade } from 'svelte/transition';
-    import { config } from '@db/Creator';
+    import { config } from '@db/Database';
     import { docToMarkup } from '@locale/Locale';
     import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
 

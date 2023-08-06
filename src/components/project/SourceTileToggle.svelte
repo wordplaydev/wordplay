@@ -2,7 +2,7 @@
     import { createEventDispatcher } from 'svelte';
     import type Source from '@nodes/Source';
     import { getConflicts } from './Contexts';
-    import { config } from '../../db/Creator';
+    import { config } from '../../db/Database';
     import Glyphs from '../../lore/Glyphs';
 
     export let source: Source;

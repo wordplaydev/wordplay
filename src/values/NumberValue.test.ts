@@ -3,7 +3,7 @@ import { parseNumber, toTokens } from '@parser/Parser';
 import { FALSE_SYMBOL, TRUE_SYMBOL } from '@parser/Symbols';
 import Evaluator from '@runtime/Evaluator';
 import NumberValue from '@values/NumberValue';
-import { DefaultLocale } from '../db/Creator';
+import { DefaultLocale } from '../db/Database';
 
 test.each([
     // Test JavaScript number translation.

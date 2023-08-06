@@ -8,7 +8,7 @@
     import ColorChooser from '../widgets/ColorChooser.svelte';
     import type OutputProperty from '../../edit/OutputProperty';
     import { getProject, getSelectedOutput } from '../project/Contexts';
-    import { config } from '../../db/Creator';
+    import { config } from '../../db/Database';
 
     export let property: OutputProperty;
     export let values: OutputPropertyValueSet;

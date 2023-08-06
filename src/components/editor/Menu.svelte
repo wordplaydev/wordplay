@@ -5,7 +5,7 @@
     import type Menu from './util/Menu';
     import { getConceptIndex } from '../project/Contexts';
     import Speech from '../lore/Speech.svelte';
-    import { config } from '../../db/Creator';
+    import { config } from '../../db/Database';
     import MarkupHTMLView from '../concepts/MarkupHTMLView.svelte';
     import Glyphs from '../../lore/Glyphs';
     import { RevisionSet } from './util/Menu';

@@ -8,7 +8,7 @@ import { parseExpression, toTokens } from '@parser/Parser';
 import NumberLiteral from '@nodes/NumberLiteral';
 import ListLiteral from '@nodes/ListLiteral';
 import Token from '@nodes/Token';
-import { DefaultLocale } from '../db/Creator';
+import { DefaultLocale } from '../db/Database';
 
 test.each([
     // Replace placeholder with rootless expression

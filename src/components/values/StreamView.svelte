@@ -3,7 +3,7 @@
 <script lang="ts">
     import Symbol from '@nodes/Symbol';
     import type StreamValue from '@values/StreamValue';
-    import { config } from '../../db/Creator';
+    import { config } from '../../db/Database';
     import SymbolView from './SymbolView.svelte';
 
     export let value: StreamValue;
