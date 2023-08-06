@@ -2956,6 +2956,8 @@
         "Phrase": {
             "doc": [
                 "Hello, hello! Remember me? How could anyone forget /me/. That's right, I am the manificent @Phrase, ready to represent the loveliest of @Text on @Stage.",
+                "Just make me like this, and I'll appear on @Stage:",
+                "\\Phrase('magnificient!')\\",
                 "I need some @Text, obviously, but otherwise, I can do everything a @Type can do, including changing my size, font, rotation, and do all of my incredible dances with @Pose and @Sequence.",
                 "You can also select me on @Stage and edit me on the palette next door."
             ],
@@ -3151,9 +3153,9 @@
                 "HI. STAGE HERE. TELL ME WHAT TO SHOW AND I WILL SHOW IT.",
                 "\\Stage([Phrase('stufffffff')])\\",
                 "IF YOU WANT, GIVE ME A BACKGROUND @Color AND I WILL LIGHT THE STAGE ACCORDINGLY.",
-                "\\Stage([Phrase('stufffffff')] Color(0% 0 0°))\\",
-                "YOU MAY ALSO GIVE ME A FRAME BORDER.",
-                "\\Stage([Phrase('stufffffff')] Color(0% 0 0°) Rectangle(-2m -2m 2m 2m))\\"
+                "\\Stage([Phrase('stufffffff')] Color(0% 0 0°) color: Color(100% 0 0°))\\",
+                "YOU MAY ALSO GIVE ME A FRAME BORDER AND I WILL CROP.",
+                "\\Stage([Phrase('stufffffff')] Color(0% 0 0°) Rectangle(-1m -1m 1m 1m) color: Color(100% 0 0°))\\"
             ],
             "names": ["🎭", "Stage"],
             "content": {

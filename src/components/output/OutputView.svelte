@@ -76,11 +76,11 @@
     let renderedFocus: Place;
 
     $: exception = value instanceof ExceptionValue ? value : undefined;
-    $: verse = value === undefined ? undefined : toStage(project, value);
+    $: stageValue = value === undefined ? undefined : toStage(project, value);
     $: background =
         $keyboardEditIdle !== IdleKind.Typing && value instanceof ExceptionValue
             ? 'var(--wordplay-error)'
-            : verse?.background ?? null;
+            : stageValue?.background ?? null;
 
     let keyboardInputView: HTMLInputElement | undefined = undefined;
 
@@ -496,7 +496,7 @@
         return getOutputNodeIDFromElement(element.closest('.output'));
     }
     function recordSelection(event: Event) {
-        if (verse === undefined) return;
+        if (stageValue === undefined) return;
 
         const target = event?.target as HTMLElement;
         // Was the target clicked on output with a name? Add it to choice streams.
@@ -505,8 +505,8 @@
         const selection =
             selectable && name
                 ? name
-                : verse.selectable
-                ? verse.getName()
+                : stageValue.selectable
+                ? stageValue.getName()
                 : undefined;
         if (selection) {
             evaluator
@@ -661,7 +661,7 @@
         {:else if value === undefined}
             <div class="message evaluating">◆</div>
             <!-- If there's a value, but it's not a verse, show that -->
-        {:else if verse === undefined}
+        {:else if stageValue === undefined}
             <div class="message">
                 {#if mini}
                     <ValueView {value} interactive={false} />
@@ -690,7 +690,7 @@
             <StageView
                 {project}
                 {evaluator}
-                stage={verse}
+                stage={stageValue}
                 {fullscreen}
                 bind:fit
                 bind:grid

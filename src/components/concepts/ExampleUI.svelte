@@ -10,6 +10,8 @@
     import type Value from '../../values/Value';
     import CodeView from './CodeView.svelte';
     import { config } from '../../db/Creator';
+    import Stage, { toStage } from '../../output/Stage';
+    import OutputView from '../output/OutputView.svelte';
 
     export let example: Example;
     export let spaces: Spaces;
@@ -25,6 +27,7 @@
         $config.getLocales()
     );
     let value: Value | undefined = undefined;
+    let stage: Stage | undefined = undefined;
     let evaluator: Evaluator | undefined;
     $: {
         if (evaluator) evaluator.ignore(update);
@@ -39,7 +42,10 @@
     }
 
     function update() {
-        if (evaluator) value = evaluator.getLatestSourceValue(project.main);
+        if (evaluator) {
+            value = evaluator.getLatestSourceValue(project.main);
+            stage = value ? toStage(project, value) : undefined;
+        }
     }
 
     onMount(() => {
@@ -80,7 +86,20 @@
         describe={false}
     /></div
 >{#if evaluated && value}
-    <div class="value"><ValueView {value} inline={false} /></div>
+    <div class="value"
+        >{#if stage && evaluator}
+            <div class="stage">
+                <OutputView
+                    {project}
+                    {evaluator}
+                    source={project.main}
+                    {value}
+                    fullscreen={false}
+                    mini
+                />
+            </div>
+        {:else}<ValueView {value} inline={false} />{/if}</div
+    >
 {/if}
 
 <style>
@@ -91,6 +110,13 @@
 
     .example.inline {
         display: inline;
+    }
+
+    .stage {
+        width: 100%;
+        aspect-ratio: 4/3;
+        border-radius: var(--wordplay-border-radius);
+        border: var(--wordplay-border-width) solid var(--wordplay-border-color);
     }
 
     .example.evaluated {
