@@ -6,7 +6,7 @@
     import SymbolView from './SymbolView.svelte';
 
     export let value: BoolValue;
-    export let inline: boolean = true;
+    export const inline: boolean = true;
 </script>
 
 <SymbolView symbol={value.toWordplay()} type={Symbol.Boolean} />
