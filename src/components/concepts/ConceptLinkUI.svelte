@@ -102,18 +102,19 @@
     >{/if}
 
 <style>
-    span {
+    .conceptlink {
         display: inline-block;
     }
 
-    span.interactive .long {
+    .conceptlink.interactive {
         text-decoration: underline;
         text-decoration-color: var(--wordplay-highlight-color);
+        text-decoration-thickness: var(--wordplay-border-width);
     }
 
-    span.interactive:hover {
-        transform: scale(1.2);
+    .conceptlink.interactive:hover {
         cursor: pointer;
+        text-decoration-thickness: var(--wordplay-focus-width);
     }
 
     span:focus {

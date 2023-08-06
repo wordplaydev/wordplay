@@ -84,6 +84,7 @@ import Insert from '../nodes/Insert';
 import Select from '../nodes/Select';
 import Update from '../nodes/Update';
 import Delete from '../nodes/Delete';
+import Translation from '../nodes/Translation';
 
 /** These are ordered by appearance in the docs. */
 const templates: Node[] = [
@@ -204,6 +205,7 @@ const templates: Node[] = [
     BooleanLiteral.make(true),
     NumberLiteral.make(0),
     TextLiteral.make(''),
+    Translation.make(),
     FormattedTranslation.make([]),
     new FormattedLiteral([FormattedTranslation.make([])]),
     ListAccess.make(
