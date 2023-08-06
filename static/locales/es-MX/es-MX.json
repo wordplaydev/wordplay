@@ -1483,6 +1483,7 @@
         "Table": {
             "doc": "$?",
             "name": "$?",
+            "row": "$?",
             "function": {
                 "equals": {
                     "doc": "$?",

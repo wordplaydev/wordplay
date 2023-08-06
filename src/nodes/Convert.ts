@@ -33,6 +33,8 @@ import ExpressionPlaceholder from './ExpressionPlaceholder';
 import TypePlaceholder from './TypePlaceholder';
 import type Node from './Node';
 import Purpose from '../concepts/Purpose';
+import NameType from './NameType';
+import { getConcreteConversionTypeVariable } from './Generics';
 
 export default class Convert extends Expression {
     readonly expression: Expression;
@@ -153,7 +155,29 @@ export default class Convert extends Expression {
                 ConversionType.make(this.expression.getType(context), this.type)
             );
         const lastConversion = conversions[conversions.length - 1];
-        return lastConversion.output;
+
+        // Now that we have an output type, concretize it, in case it has generic types.
+        let output = lastConversion.output;
+
+        // Find any variable types in the output and resolve them to concrete types,
+        // constructing a new output type.
+        do {
+            const variable = output
+                .nodes()
+                .find((node): node is NameType => node instanceof NameType);
+            if (variable === undefined) break;
+            const concrete = getConcreteConversionTypeVariable(
+                variable,
+                lastConversion,
+                this,
+                context
+            );
+            if (concrete === variable) break;
+
+            output = output.replace(variable, concrete);
+        } while (true);
+
+        return output;
     }
 
     getDependencies(): Expression[] {

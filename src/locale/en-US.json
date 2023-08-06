@@ -2609,6 +2609,7 @@
                 "\\rocks: ⎡name•'' color•''⎦\n⎡'obsidian' 'black'⎦\n⎡'pumice' 'grey'⎦\n⎡'citrine' 'yellow'⎦\n(rocks → [])[1].name\\"
             ],
             "name": ["⎡⎦", "Table"],
+            "row": "Row",
             "function": {
                 "equals": {
                     "doc": "I check if I have the exact same cells in the exact same order as another @Table.",
@@ -2631,7 +2632,7 @@
             }
         },
         "Structure": {
-            "doc": "$?",
+            "doc": "See @StructureDefinition.",
             "name": ["Structure"],
             "function": {
                 "equals": {

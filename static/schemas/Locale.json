@@ -1320,11 +1320,15 @@
                 },
                 "name": {
                   "$ref": "#/definitions/NameText"
+                },
+                "row": {
+                  "$ref": "#/definitions/NameText"
                 }
               },
               "required": [
                 "doc",
                 "name",
+                "row",
                 "function",
                 "conversion"
               ],

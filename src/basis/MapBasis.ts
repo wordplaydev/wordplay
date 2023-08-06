@@ -21,6 +21,9 @@ import { createFunction, createInputs } from '../locale/Locale';
 import { Iteration } from './Iteration';
 import NumberType from '../nodes/NumberType';
 import Number from '../runtime/Number';
+import TextType from '../nodes/TextType';
+import SetType from '../nodes/SetType';
+import ListType from '../nodes/ListType';
 
 export default function bootstrapMap(locales: Locale[]) {
     const KeyTypeVariableNames = getNameLocales(
@@ -325,8 +328,11 @@ export default function bootstrapMap(locales: Locale[]) {
                         locales,
                         (locale) => locale.basis.Map.conversion.text
                     ),
-                    '{:}',
-                    "''",
+                    MapType.make(
+                        KeyTypeVariable.getReference(),
+                        ValueTypeVariable.getReference()
+                    ),
+                    TextType.make(),
                     (requestor: Expression, val: Map) =>
                         new Text(requestor, val.toString())
                 ),
@@ -335,8 +341,11 @@ export default function bootstrapMap(locales: Locale[]) {
                         locales,
                         (locale) => locale.basis.Map.conversion.set
                     ),
-                    '{:}',
-                    '{}',
+                    MapType.make(
+                        KeyTypeVariable.getReference(),
+                        ValueTypeVariable.getReference()
+                    ),
+                    SetType.make(KeyTypeVariable.getReference()),
                     (requestor: Expression, val: Map) =>
                         new Set(requestor, val.getKeys())
                 ),
@@ -345,8 +354,11 @@ export default function bootstrapMap(locales: Locale[]) {
                         locales,
                         (locale) => locale.basis.Map.conversion.list
                     ),
-                    '{:}',
-                    '[]',
+                    MapType.make(
+                        KeyTypeVariable.getReference(),
+                        ValueTypeVariable.getReference()
+                    ),
+                    ListType.make(ValueTypeVariable.getReference()),
                     (requestor: Expression, val: Map) =>
                         new List(requestor, val.getValues())
                 ),

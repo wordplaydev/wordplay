@@ -226,6 +226,7 @@ type BasisTexts = {
     Table: {
         doc: DocText;
         name: NameText;
+        row: NameText;
         function: {
             equals: FunctionText<[NameAndDoc]>;
             notequal: FunctionText<[NameAndDoc]>;

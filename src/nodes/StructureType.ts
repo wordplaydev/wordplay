@@ -116,7 +116,9 @@ export default class StructureType extends BasisType {
     }
 
     toWordplay() {
-        return this.structure.getNames()[0];
+        return `•${this.structure.getNames()[0] ?? ''}(${this.structure.inputs
+            .map((input) => input.toWordplay())
+            .join(' ')})`;
     }
 
     getNodeLocale(translation: Locale) {

@@ -18,9 +18,9 @@ amps: Mic()
 tick: Time()
 
 ``Initialize as a list of random letters in random positions``
-letters•[Letter]: count → [].translate(
+letters•[Letter]: count → [#].translate(
         ƒ(_) Letter(
-           "abcdefghijklmnopqrstuvwxyz" → [].random() 
+           "abcdefghijklmnopqrstuvwxyz" → [''].random() 
             Random(-size size) · 1m
             Random(0 size + 2m) · 1m
             Random(360)

@@ -16,6 +16,8 @@ import StructureDefinition from './StructureDefinition';
 import Names from './Names';
 import type Reference from './Reference';
 import type Definition from './Definition';
+import type Type from './Type';
+import StructureType from './StructureType';
 
 export default class TableType extends BasisType {
     readonly open: Token;
@@ -116,6 +118,14 @@ export default class TableType extends BasisType {
                     return false;
             return true;
         });
+    }
+
+    resolveTypeVariable(name: string, context: Context): Type | undefined {
+        const listDef = context.getBasis().getSimpleDefinition('table');
+        return listDef.types !== undefined &&
+            listDef.types.hasVariableNamed(name)
+            ? new StructureType(this.definition)
+            : undefined;
     }
 
     getBasisTypeName(): BasisTypeName {

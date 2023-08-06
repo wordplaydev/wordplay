@@ -20,6 +20,8 @@ import { createBind, createFunction, createInputs } from '../locale/Locale';
 import { Iteration } from './Iteration';
 import NumberType from '../nodes/NumberType';
 import Number from '../runtime/Number';
+import ListType from '../nodes/ListType';
+import TextType from '../nodes/TextType';
 
 export default function bootstrapSet(locales: Locale[]) {
     const SetTypeVariableNames = getNameLocales(
@@ -334,8 +336,8 @@ export default function bootstrapSet(locales: Locale[]) {
                         locales,
                         (locale) => locale.basis.Set.conversion.text
                     ),
-                    '{}',
-                    "''",
+                    SetType.make(SetTypeVariable.getReference()),
+                    TextType.make(),
                     (requestor: Expression, val: Set) =>
                         new Text(requestor, val.toString())
                 ),
@@ -344,8 +346,8 @@ export default function bootstrapSet(locales: Locale[]) {
                         locales,
                         (locale) => locale.basis.Set.conversion.list
                     ),
-                    '{}',
-                    '[]',
+                    SetType.make(SetTypeVariable.getReference()),
+                    ListType.make(SetTypeVariable.getReference()),
                     (requestor: Expression, val: Set) =>
                         new List(requestor, val.values)
                 ),

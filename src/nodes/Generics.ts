@@ -14,6 +14,8 @@ import type Type from './Type';
 import TypeVariable from './TypeVariable';
 import type UnaryEvaluate from './UnaryEvaluate';
 import { UnknownVariableType } from './UnknownVariableType';
+import type ConversionDefinition from './ConversionDefinition';
+import type Convert from './Convert';
 
 export type EvaluationType = Evaluate | BinaryEvaluate | UnaryEvaluate;
 
@@ -266,4 +268,21 @@ function getConcreteTypeVariable(
 
     // We failed to find the type! Who knows what this type variable refers to.
     return new UnknownVariableType(evaluation);
+}
+
+export function getConcreteConversionTypeVariable(
+    type: NameType,
+    definition: ConversionDefinition,
+    convert: Convert,
+    context: Context
+): Type {
+    // Get the type of the input on the convert.
+    const inputType = convert.expression.getType(context);
+
+    // Resolve the type variable.
+    const concreteTypeCorrespondingToTypeVariable =
+        inputType.resolveTypeVariable(type.getName(), context);
+
+    // Not a type variable? Return the type unchanged.
+    return concreteTypeCorrespondingToTypeVariable ?? type;
 }

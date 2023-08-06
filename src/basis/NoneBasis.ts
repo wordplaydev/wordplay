@@ -7,12 +7,12 @@ import BooleanType from '@nodes/BooleanType';
 import NoneType from '@nodes/NoneType';
 import type Value from '@runtime/Value';
 import { createBasisConversion, createBasisFunction } from './Basis';
-import { NONE_SYMBOL } from '@parser/Symbols';
 import { getDocLocales } from '@locale/getDocLocales';
 import { getNameLocales } from '@locale/getNameLocales';
 import type Expression from '../nodes/Expression';
 import type Locale from '../locale/Locale';
 import type { FunctionText } from '../locale/Locale';
+import TextType from '../nodes/TextType';
 
 export default function bootstrapNone(locales: Locale[]) {
     function createNoneFunction(
@@ -61,8 +61,8 @@ export default function bootstrapNone(locales: Locale[]) {
                         locales,
                         (locale) => locale.basis.None.conversion.text
                     ),
-                    NONE_SYMBOL,
-                    "''",
+                    NoneType.make(),
+                    TextType.make(),
                     (requestor, val: None) =>
                         new Text(requestor, val.toString())
                 ),

@@ -22,8 +22,15 @@ import List from '../runtime/List';
 import ListType from '../nodes/ListType';
 import TextType from '../nodes/TextType';
 import Text from '../runtime/Text';
+import TypeVariables from '../nodes/TypeVariables';
+import TypeVariable from '../nodes/TypeVariable';
 
 export default function bootstrapTable(locales: Locale[]) {
+    /** This type variable represents the StructureDefinition of a row. */
+    const RowTypeVariable = new TypeVariable(
+        getNameLocales(locales, (locale) => locale.basis.Table.row)
+    );
+
     function createTableFunction(
         docs: Docs,
         names: Names,
@@ -47,7 +54,7 @@ export default function bootstrapTable(locales: Locale[]) {
         getDocLocales(locales, (locale) => locale.basis.Table.doc),
         getNameLocales(locales, (locale) => locale.basis.Table.name),
         [],
-        undefined,
+        TypeVariables.make([RowTypeVariable]),
         [],
         new Block(
             [
@@ -109,7 +116,7 @@ export default function bootstrapTable(locales: Locale[]) {
                         (locale) => locale.basis.Table.conversion.list
                     ),
                     TableType.make(),
-                    ListType.make(),
+                    ListType.make(RowTypeVariable.getReference()),
                     (requestor: Expression, table: Table) =>
                         new List(requestor, table.rows)
                 ),

@@ -33,6 +33,7 @@ import AnyType from '../nodes/AnyType';
 import InternalExpression from './InternalExpression';
 import ConversionException from '../runtime/ConversionException';
 import Exception from '../runtime/Exception';
+import SetType from '../nodes/SetType';
 
 export default function bootstrapList(locales: Locale[]) {
     const ListTypeVarNames = getNameLocales(
@@ -977,8 +978,8 @@ export default function bootstrapList(locales: Locale[]) {
                         locales,
                         (locale) => locale.basis.List.conversion.text
                     ),
-                    '[]',
-                    "''",
+                    ListType.make(ListTypeVariable.getReference()),
+                    TextType.make(),
                     (requestor: Expression, val: List) =>
                         new Text(requestor, val.toString())
                 ),
@@ -987,8 +988,8 @@ export default function bootstrapList(locales: Locale[]) {
                         locales,
                         (locale) => locale.basis.List.conversion.set
                     ),
-                    `[]`,
-                    '{}',
+                    ListType.make(ListTypeVariable.getReference()),
+                    SetType.make(ListTypeVariable.getReference()),
                     (requestor: Expression, val: List) =>
                         new Set(requestor, val.getValues())
                 ),
