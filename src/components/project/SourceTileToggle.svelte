@@ -2,17 +2,13 @@
     import { createEventDispatcher } from 'svelte';
     import type Source from '@nodes/Source';
     import type Value from '@values/Value';
-    import OutputView from '../output/OutputView.svelte';
     import { getConflicts, getEvaluation } from './Contexts';
     import type Evaluator from '@runtime/Evaluator';
-    import type Project from '../../models/Project';
     import { config } from '../../db/Creator';
     import Glyphs from '../../lore/Glyphs';
 
-    export let project: Project;
     export let evaluator: Evaluator;
     export let source: Source;
-    export let output: boolean;
     export let expanded: boolean;
 
     let evaluation = getEvaluation();
@@ -70,19 +66,6 @@
                 .symbols}{/if}
         {source.names.getPreferredNameString($config.getLocales())}
     </span>
-    <!-- Disabling for now. It doesn't help much because it's so tiny. We may restore it later. -->
-    {#if output && false}
-        <div class="output">
-            <OutputView
-                {project}
-                {evaluator}
-                {source}
-                value={latest}
-                fullscreen={false}
-                mini
-            />
-        </div>
-    {/if}
 </div>
 
 <style>
@@ -131,15 +114,5 @@
 
     .secondary {
         background-color: var(--wordplay-warning);
-    }
-
-    .output {
-        width: 2ex;
-        height: 2ex;
-        border: var(--wordplay-border-color) solid var(--wordplay-border-width);
-    }
-
-    .expanded .output {
-        display: hidden;
     }
 </style>
