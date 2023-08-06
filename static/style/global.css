@@ -276,6 +276,20 @@ body:focus {
     outline: none;
 }
 
+table {
+    border-collapse: collapse;
+    border: var(--wordplay-border-color) solid var(--wordplay-border-width);
+}
+
+td {
+    padding: var(--wordplay-spacing);
+    text-align: start;
+}
+
+tr:nth-child(odd) {
+    background: var(--wordplay-alternating-color);
+}
+
 .firebase-emulator-warning {
     top: 0 !important;
     right: 1% !important;

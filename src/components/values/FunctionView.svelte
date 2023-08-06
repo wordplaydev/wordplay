@@ -8,6 +8,7 @@
     import { config } from '../../db/Creator';
 
     export let value: FunctionValue;
+    export const inline: boolean = true;
 </script>
 
 <SymbolView symbol={FUNCTION_SYMBOL} type={Symbol.Function} />

@@ -16,30 +16,69 @@
     import { config } from '../../db/Creator';
 
     export let value: StructureValue;
+    export let inline: boolean = true;
 </script>
 
-<SymbolView
-    symbol={value.type.names.getPreferredNameString($config.getLocales())}
-    type={Symbol.Name}
-/><SymbolView symbol={EVAL_OPEN_SYMBOL} type={Symbol.EvalOpen} /><Expandable
-    ><svelte:fragment slot="expanded">
-        {#each value.type.inputs as input, index}<SymbolView
-                symbol={input.names.getPreferredNameString(
-                    $config.getLocales()
-                )}
-                type={Symbol.Name}
-            /><SymbolView symbol={BIND_SYMBOL} type={Symbol.Bind} /><ValueView
-                value={value.resolve(input.getNames()[0]) ??
-                    new NoneValue(value.type)}
-            />{#if index < value.type.inputs.length - 1}{' '}{/if}{/each}</svelte:fragment
-    ><svelte:fragment slot="collapsed"
-        >{#if value.is(value.context.getEvaluator().project.shares.output.Color)}<span
-                class="color"
-                style:background-color={toColor(value)?.toCSS()}
-                >&ZeroWidthSpace;</span
-            >{:else}…{/if}</svelte:fragment
-    ></Expandable
-><SymbolView symbol={EVAL_CLOSE_SYMBOL} type={Symbol.EvalClose} />
+<!-- Inline structures show the name and binds -->
+{#if inline}
+    <SymbolView
+        symbol={value.type.names.getPreferredNameString($config.getLocales())}
+        type={Symbol.Name}
+    /><SymbolView symbol={EVAL_OPEN_SYMBOL} type={Symbol.EvalOpen} /><Expandable
+        ><svelte:fragment slot="expanded">
+            {#each value.type.inputs as input, index}<SymbolView
+                    symbol={input.names.getPreferredNameString(
+                        $config.getLocales()
+                    )}
+                    type={Symbol.Name}
+                /><SymbolView
+                    symbol={BIND_SYMBOL}
+                    type={Symbol.Bind}
+                /><ValueView
+                    value={value.resolve(input.getNames()[0]) ??
+                        new NoneValue(value.type)}
+                    {inline}
+                />{#if index < value.type.inputs.length - 1}{' '}{/if}{/each}</svelte:fragment
+        ><svelte:fragment slot="collapsed"
+            >{#if value.is(value.context.getEvaluator().project.shares.output.Color)}<span
+                    class="color"
+                    style:background-color={toColor(value)?.toCSS()}
+                    >&ZeroWidthSpace;</span
+                >{:else}…{/if}</svelte:fragment
+        ></Expandable
+    ><SymbolView symbol={EVAL_CLOSE_SYMBOL} type={Symbol.EvalClose} />
+
+    <!-- Block structures are HTML tables -->
+{:else}
+    <table>
+        <tr
+            ><th colspan="3"
+                ><SymbolView
+                    symbol={value.type.names.getPreferredNameString(
+                        $config.getLocales()
+                    )}
+                    type={Symbol.Name}
+                /></th
+            ></tr
+        >
+        {#each value.type.inputs as input}<tr
+                ><td
+                    ><SymbolView
+                        symbol={input.names.getPreferredNameString(
+                            $config.getLocales()
+                        )}
+                        type={Symbol.Name}
+                    /></td
+                ><td /><td
+                    ><ValueView
+                        value={value.resolve(input.getNames()[0]) ??
+                            new NoneValue(value.type)}
+                        {inline}
+                    /></td
+                ></tr
+            >{/each}
+    </table>
+{/if}
 
 <style>
     .color {

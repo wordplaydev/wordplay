@@ -7,6 +7,7 @@
     import SymbolView from './SymbolView.svelte';
 
     export let value: StreamValue;
+    export const inline: boolean = true;
 </script>
 
 <SymbolView

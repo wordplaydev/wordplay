@@ -682,7 +682,7 @@
                                           .toText()
                             )}</h2
                     >
-                    <p><ValueView {value} /></p>
+                    <ValueView {value} inline={false} />
                 {/if}
             </div>
             <!-- Otherwise, show the Stage -->
@@ -732,6 +732,8 @@
         overflow: hidden;
         transition: ease-in, width ease-in, height ease-in;
         transition-duration: calc(var(--animation-factor) * 200ms);
+
+        word-break: break-all;
     }
 
     .mini {

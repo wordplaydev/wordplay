@@ -8,6 +8,7 @@
     import { config } from '../../db/Creator';
 
     export let value: StreamDefinitionValue;
+    export const inline: boolean = true;
 </script>
 
 <SymbolView symbol={STREAM_SYMBOL} type={Symbol.Stream} />

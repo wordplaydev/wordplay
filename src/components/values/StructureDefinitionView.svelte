@@ -8,6 +8,7 @@
     import { config } from '../../db/Creator';
 
     export let value: StructureDefinitionValue;
+    export const inline: boolean = true;
 </script>
 
 <SymbolView symbol={TYPE_SYMBOL} type={Symbol.Type} /><SymbolView

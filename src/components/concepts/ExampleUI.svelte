@@ -80,7 +80,7 @@
         describe={false}
     /></div
 >{#if evaluated && value}
-    <div class="value"><ValueView {value} /></div>
+    <div class="value"><ValueView {value} inline={false} /></div>
 {/if}
 
 <style>
