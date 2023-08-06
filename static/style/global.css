@@ -281,7 +281,8 @@ table {
     border: var(--wordplay-border-color) solid var(--wordplay-border-width);
 }
 
-td {
+td,
+th {
     padding: var(--wordplay-spacing);
     text-align: start;
 }
