@@ -113,7 +113,7 @@ export default class Evaluator {
      * can have multiple streams associated with it.
      */
     #inputs: (null | {
-        path: Path | undefined;
+        path: Path;
         number: number;
         stepIndex: number;
         raw: any;
@@ -126,7 +126,6 @@ export default class Evaluator {
      */
     replaying: boolean = false;
     invalidInputs: boolean = false;
-    randoms: number[] = [];
 
     /**
      * All of the basis streams created while evaluating the program.
@@ -288,10 +287,6 @@ export default class Evaluator {
                     const input = evaluator.#inputs[i];
                     // Is it a flush? Flush.
                     if (input === null) this.flush();
-                    // Is it the global random? Remember it so that random can get to it the next time it's requested.
-                    else if (input.path === undefined) {
-                        // Do nothing. We handle these below, so it shouldn't be poss
-                    }
                     // See if we can find the corresponding stream.
                     else {
                         // Resolve the node from the path.
@@ -331,29 +326,6 @@ export default class Evaluator {
                             //     "Couldn't resolve stream number " + input.number
                             // );
                             break;
-                        }
-
-                        // Seed any random values that were requested next before reacting to this input.
-                        while (i < evaluator.#inputs.length) {
-                            const nextInput = evaluator.#inputs[i + 1];
-                            if (nextInput === null || nextInput === undefined)
-                                break;
-                            const node =
-                                nextInput.path === undefined
-                                    ? null
-                                    : this.resolvePath(nextInput.path);
-                            if (node === undefined) break;
-                            if (
-                                node === null ||
-                                (node instanceof Evaluate &&
-                                    node.getFunction(
-                                        this.project.getNodeContext(node)
-                                    ) ===
-                                        this.project.basis.shares.input.Random)
-                            ) {
-                                i++;
-                                this.randoms.push(evaluator.#inputs[i]?.raw);
-                            } else break;
                         }
 
                         // React to the input.
