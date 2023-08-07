@@ -5,13 +5,37 @@
     import type OutputProperty from '@edit/OutputProperty';
     import OutputExpression from '@edit/OutputExpression';
     import Speech from '../lore/Speech.svelte';
-    import { getConceptIndex, getSelectedOutput } from '../project/Contexts';
+    import {
+        getConceptIndex,
+        getEvaluation,
+        getSelectedOutput,
+    } from '../project/Contexts';
     import { config } from '../../db/Database';
+    import concretize from '../../locale/concretize';
+    import {
+        addGroup,
+        addSoloPhrase,
+        addStage,
+        getSoloGroup,
+        getSoloPhrase,
+        getStage,
+        hasOutput,
+    } from './editOutput';
+    import MarkupHtmlView from '../concepts/MarkupHTMLView.svelte';
+    import {
+        GROUP_SYMBOL,
+        PALETTE_SYMBOL,
+        PHRASE_SYMBOL,
+        STAGE_SYMBOL,
+    } from '../../parser/Symbols';
+    import EditOffer from './EditOffer.svelte';
 
     export let project: Project;
 
+    let evaluation = getEvaluation();
     let index = getConceptIndex();
     let selectedOutput = getSelectedOutput();
+    $: locale = $config.getLocale();
 
     /** Transform the selected Evaluate nodes into Output wrappers, filtering out anything that's not valid output. */
     $: outputs = $selectedOutput
@@ -22,6 +46,10 @@
     $: definition = outputs[0]?.node.getFunction(
         project.getNodeContext(outputs[0].node)
     );
+
+    $: phrase = getSoloPhrase(project);
+    $: group = getSoloGroup(project);
+    $: stage = getStage(project);
 
     /**
      * From the list of OutputExpressions, generate a value set for each property to allow for editing
@@ -50,35 +78,72 @@
 </script>
 
 <section class="palette" aria-label={$config.getLocale().ui.section.palette}>
-    <Speech
-        glyph={(outputs.length > 1 || definition === undefined
-            ? undefined
-            : $index?.getStructureConcept(definition)) ?? {
-            symbols:
-                outputs.length === 0
-                    ? '🎨'
-                    : outputs
-                          .map((output) => output.node.fun.toWordplay())
-                          .join(', '),
-        }}
-    >
-        <svelte:fragment slot="content">
-            {$config
-                .getLocales()
-                .map((t) =>
-                    propertyValues.size === 0
-                        ? t.ui.header.select
-                        : t.ui.header.editing
-                )
-                .join(' ')}</svelte:fragment
+    {#if propertyValues.size > 0}
+        <Speech
+            glyph={(outputs.length > 1 || definition === undefined
+                ? undefined
+                : $index?.getStructureConcept(definition)) ?? {
+                symbols:
+                    outputs.length === 0
+                        ? '🎨'
+                        : outputs
+                              .map((output) => output.node.fun.toWordplay())
+                              .join(', '),
+            }}
         >
-    </Speech>
+            <svelte:fragment slot="content">
+                <MarkupHtmlView
+                    markup={concretize(locale, locale.ui.palette.editing)}
+                />
+            </svelte:fragment>
+        </Speech>
 
-    {#each Array.from(propertyValues.entries()) as [property, values]}
-        <PaletteProperty {project} {property} {values} />
+        <!-- Something selected? Show the property values. -->
+        {#each Array.from(propertyValues.entries()) as [property, values]}
+            <PaletteProperty {project} {property} {values} />
+        {/each}
     {:else}
-        <div class="large" role="presentation">🖌️</div>
-    {/each}
+        {#if $evaluation.playing && hasOutput(project)}
+            <EditOffer
+                symbols={PALETTE_SYMBOL}
+                {locale}
+                message={locale.ui.palette.pauseToEdit}
+                tip={locale.ui.description.pause}
+                action={() => $evaluation.evaluator.pause()}
+                command="⏸️"
+            />
+        {/if}
+        {#if phrase === undefined}
+            <EditOffer
+                symbols={PHRASE_SYMBOL}
+                {locale}
+                message={locale.ui.palette.offerPhrase}
+                tip={locale.ui.description.createPhrase}
+                action={() => addSoloPhrase($config, project)}
+                command={`+${PHRASE_SYMBOL}`}
+            />
+        {/if}
+        {#if phrase !== undefined && stage === undefined}
+            <EditOffer
+                symbols={GROUP_SYMBOL}
+                {locale}
+                message={locale.ui.palette.offerGroup}
+                tip={locale.ui.description.createGroup}
+                action={() => addGroup($config, project)}
+                command={`+${GROUP_SYMBOL}`}
+            />
+        {/if}
+        {#if stage === undefined}
+            <EditOffer
+                symbols={STAGE_SYMBOL}
+                {locale}
+                message={locale.ui.palette.offerStage}
+                tip={locale.ui.description.createStage}
+                action={() => addStage($config, project, group ?? phrase)}
+                command={`+${STAGE_SYMBOL}`}
+            />
+        {/if}
+    {/if}
 </section>
 
 <style>
@@ -98,14 +163,5 @@
 
     .palette:focus {
         outline: none;
-    }
-
-    .large {
-        display: flex;
-        align-items: center;
-        flex-direction: row;
-        font-size: 160pt;
-        justify-content: center;
-        color: var(--wordplay-inactive-color);
     }
 </style>

@@ -1869,7 +1869,10 @@
             "focusPalette": "$?",
             "focusCycle": "$?",
             "conceptLink": "$?",
-            "timeline": "$?"
+            "timeline": "$?",
+            "createPhrase": "$?",
+            "createGroup": "$?",
+            "createStage": "$?"
         },
         "prompt": {
             "deleteSource": "$?",
@@ -1890,8 +1893,6 @@
         },
         "header": {
             "learn": "$?",
-            "editing": "¡edítame!",
-            "select": "$?",
             "projects": "Funcións",
             "examples": "ejemplos",
             "inputs": "$?",
@@ -1915,6 +1916,13 @@
             "output": "producción",
             "palette": "paleta",
             "editor": "editora"
+        },
+        "palette": {
+            "offerPhrase": "$?",
+            "offerGroup": "$?",
+            "offerStage": "$?",
+            "pauseToEdit": "$?",
+            "editing": "¡edítame!"
         },
         "feedback": {
             "unknownProject": "No hay ningún proyecto con este ID.",

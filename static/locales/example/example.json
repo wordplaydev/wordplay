@@ -1858,7 +1858,10 @@
             "focusPalette": "$?",
             "focusCycle": "$?",
             "conceptLink": "$?",
-            "timeline": "$?"
+            "timeline": "$?",
+            "createPhrase": "$?",
+            "createGroup": "$?",
+            "createStage": "$?"
         },
         "prompt": {
             "deleteSource": "$?",
@@ -1879,8 +1882,6 @@
         },
         "header": {
             "learn": "$?",
-            "editing": "$?",
-            "select": "$?",
             "projects": "$?",
             "examples": "$?",
             "inputs": "$?",
@@ -1904,6 +1905,13 @@
             "output": "$?",
             "palette": "$?",
             "editor": "$?"
+        },
+        "palette": {
+            "offerPhrase": "$?",
+            "offerGroup": "$?",
+            "offerStage": "$?",
+            "pauseToEdit": "$?",
+            "editing": "$?"
         },
         "feedback": { "unknownProject": "$?", "loading": "$?" },
         "login": {

@@ -10,6 +10,7 @@
     export let classes: string | undefined = undefined;
     export let scale: boolean = true;
     export let view: HTMLButtonElement | undefined = undefined;
+    export let large: boolean = false;
 
     async function doAction(event: Event) {
         if (active) {
@@ -26,6 +27,7 @@
     data-uiid={uiid}
     class={classes}
     class:scale
+    class:large
     type={submit ? 'submit' : null}
     title={tip}
     aria-label={tip}
@@ -92,5 +94,9 @@
     :global(button:focus .token-view) {
         border-radius: var(--wordplay-border-radius);
         color: var(--wordplay-background);
+    }
+
+    .large {
+        font-size: 24pt;
     }
 </style>

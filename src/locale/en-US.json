@@ -3339,7 +3339,10 @@
             "focusPalette": "focus on the palette",
             "focusCycle": "focus on the next tile",
             "conceptLink": "navigate to concept $1",
-            "timeline": "time slider"
+            "timeline": "time slider",
+            "createPhrase": "create a Phrase, showing the existing value as text",
+            "createGroup": "create a Group, wrapping any existing Phrase",
+            "createStage": "create a Stage, wrapping any existing Group or Phrase"
         },
         "prompt": {
             "deleteSource": "delete",
@@ -3367,8 +3370,6 @@
         },
         "header": {
             "learn": "Learn",
-            "select": "if you ⏸️ the stage, you can select a 💬, 🔳, or 🎭 to edit!",
-            "editing": "edit me!",
             "projects": "Performances",
             "examples": "Examples",
             "inputs": "Inputs",
@@ -3392,6 +3393,13 @@
             "output": "output",
             "palette": "palette",
             "editor": "program editor"
+        },
+        "palette": {
+            "offerPhrase": "What a gorgeous value you made! Shall I show it on @Stage?",
+            "offerGroup": "What a wonderful @Phrase you made. Do you want to bring them together into a @Group, to get them arranged?",
+            "offerStage": "VERY GOOD @Program. ADD ME TO CONTROL LIGHTING. COLORS. FRAMES.",
+            "pauseToEdit": "If you ⏸️ the stage, you can select a 💬, 🔳, or 🎭 to edit!",
+            "editing": "Edit me!"
         },
         "feedback": {
             "unknownProject": "There's no performance with this ID.",
