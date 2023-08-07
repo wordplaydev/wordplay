@@ -23,7 +23,7 @@ export const DefaultStyle = 'zippy';
 
 export function createTypeOutputInputs(locales: Locale[]) {
     return `
-${getBind(locales, (locale) => locale.output.Type.size)}•#m|ø: ø
+${getBind(locales, (locale) => locale.output.Type.size)}•#m: 1m
 ${getBind(
     locales,
     (locale) => locale.output.Type.family
@@ -32,12 +32,12 @@ ${getBind(locales, (locale) => locale.output.Type.place)}•ø|📍: ø
 ${getBind(locales, (locale) => locale.output.Type.name)}•""|ø: ø
 ${getBind(locales, (locale) => locale.output.Type.selectable)}•?: ⊥
 ${getBind(locales, (locale) => locale.output.Pose.color)}•🌈|ø: ø
-${getBind(locales, (locale) => locale.output.Pose.opacity)}•%: 100%
-${getBind(locales, (locale) => locale.output.Pose.offset)}•📍: 📍()
-${getBind(locales, (locale) => locale.output.Type.rotation)}•#°: 0°
-${getBind(locales, (locale) => locale.output.Pose.scale)}•#: 1
-${getBind(locales, (locale) => locale.output.Pose.flipx)}•?: ⊥
-${getBind(locales, (locale) => locale.output.Pose.flipy)}•?: ⊥
+${getBind(locales, (locale) => locale.output.Pose.opacity)}•%|ø: ø
+${getBind(locales, (locale) => locale.output.Pose.offset)}•📍|ø: ø
+${getBind(locales, (locale) => locale.output.Type.rotation)}•#°|ø: ø
+${getBind(locales, (locale) => locale.output.Pose.scale)}•#|ø: ø
+${getBind(locales, (locale) => locale.output.Pose.flipx)}•?|ø: ø
+${getBind(locales, (locale) => locale.output.Pose.flipy)}•?|ø: ø
 ${getBind(locales, (locale) => locale.output.Type.enter)}•ø|🤪|💃: ø
 ${getBind(locales, (locale) => locale.output.Type.rest)}•ø|🤪|💃: ø
 ${getBind(locales, (locale) => locale.output.Type.move)}•ø|🤪|💃: ø

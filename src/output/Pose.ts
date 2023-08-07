@@ -42,7 +42,7 @@ export default class Pose extends Output {
         color?: Color,
         opacity?: number,
         offset?: Place,
-        tilt?: number,
+        rotation?: number,
         scale?: number,
         flipx?: boolean,
         flipy?: boolean
@@ -52,7 +52,7 @@ export default class Pose extends Output {
         this.color = color;
         this.opacity = opacity;
         this.offset = offset;
-        this.rotation = tilt;
+        this.rotation = rotation;
         this.scale = scale;
         this.flipx = flipx;
         this.flipy = flipy;
@@ -110,12 +110,12 @@ export class DefinitePose extends Pose {
     constructor(
         value: Value,
         color: Color | undefined,
-        opacity: number,
-        offset: Place,
-        rotation: number,
-        scale: number,
-        flipx: boolean,
-        flipy: boolean
+        opacity: number | undefined,
+        offset: Place | undefined,
+        rotation: number | undefined,
+        scale: number | undefined,
+        flipx: boolean | undefined,
+        flipy: boolean | undefined
     ) {
         super(value, color, opacity, offset, rotation, scale, flipx, flipy);
     }

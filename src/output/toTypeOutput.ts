@@ -131,24 +131,16 @@ export function getStyle(
     const flipx = toBoolean(flipxVal);
     const flipy = toBoolean(flipyVal);
 
-    const pose =
-        opacity !== undefined &&
-        offset &&
-        rotation !== undefined &&
-        scale !== undefined &&
-        flipx !== undefined &&
-        flipy !== undefined
-            ? new DefinitePose(
-                  value,
-                  color,
-                  opacity,
-                  offset,
-                  rotation,
-                  scale,
-                  flipx,
-                  flipy
-              )
-            : undefined;
+    const pose = new DefinitePose(
+        value,
+        color,
+        opacity,
+        offset,
+        rotation,
+        scale,
+        flipx,
+        flipy
+    );
 
     const rest = toPose(project, restVal) ?? toSequence(project, restVal);
     const enter = toPose(project, enterVal) ?? toSequence(project, enterVal);

@@ -98,30 +98,14 @@ export function toOutputTransform(
     const root = viewport !== undefined;
 
     // Compute rendered scale based on scale and and flip
-    let xScale = 1;
-    let yScale = 1;
-    let xOffset = 0;
-    let yOffset = 0;
-    let zOffset = 0;
-    let rotation = 0;
-    if (primaryPose) {
-        const scale = primaryPose.scale ?? secondaryPose.scale;
-        if (scale !== undefined) {
-            xScale = scale;
-            yScale = scale;
-        }
-        if (primaryPose.flipx ?? secondaryPose.flipx === true)
-            xScale = xScale * -1;
-        if (primaryPose.flipy ?? secondaryPose.flipy === true)
-            yScale = yScale * -1;
-        const offset = primaryPose.offset ?? secondaryPose.offset;
-        if (offset !== undefined) {
-            xOffset = offset.x * PX_PER_METER;
-            yOffset = offset.y * PX_PER_METER;
-            zOffset = offset.z;
-        }
-        rotation = primaryPose.rotation ?? secondaryPose.rotation ?? 0;
-    }
+    const scale = primaryPose.scale ?? secondaryPose.scale ?? 1;
+    const xScale = scale * (primaryPose.flipx ?? secondaryPose.flipx ? -1 : 1);
+    const yScale = scale * (primaryPose.flipy ?? secondaryPose.flipy ? -1 : 1);
+    const offset = primaryPose.offset ?? secondaryPose.offset;
+    const xOffset = offset ? offset.x * PX_PER_METER : 0;
+    const yOffset = offset ? offset.y * PX_PER_METER : 0;
+    const zOffset = offset ? offset.z : 0;
+    const rotation = primaryPose.rotation ?? secondaryPose.rotation ?? 0;
 
     // Compute the final z position of the output based on it's place and it's offset.
     const z = place.z + zOffset;
