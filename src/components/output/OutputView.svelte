@@ -725,8 +725,6 @@
         overflow: hidden;
         transition: ease-in, width ease-in, height ease-in;
         transition-duration: calc(var(--animation-factor) * 200ms);
-
-        word-break: break-all;
     }
 
     .mini {

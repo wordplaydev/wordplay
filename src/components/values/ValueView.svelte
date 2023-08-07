@@ -26,5 +26,7 @@
     .value {
         color: var(--wordplay-evaluation-color);
         max-width: 100%;
+
+        word-break: break-all;
     }
 </style>
