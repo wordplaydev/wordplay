@@ -1330,6 +1330,9 @@
                 >{/if}</div
         >
     {/key}
+    {#if source.isEmpty() && showHelp}
+        <EditorHelp />
+    {/if}
 </div>
 {#if project.supplements.length > 0}
     <div class="output-preview-container">
@@ -1354,9 +1357,6 @@
             </div>
         </Button>
     </div>
-{/if}
-{#if source.isEmpty() && showHelp}
-    <EditorHelp />
 {/if}
 
 <style>
