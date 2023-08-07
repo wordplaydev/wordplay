@@ -2666,8 +2666,8 @@
             "doc": [
                 "17!",
                 "/@FunctionDefinition here, I'll explain this one./",
-                "So @Random is a curious stream that creates an infinite sequence of random numbers. It's curious because its the only stream that doesn't change on its own, and so @Program won't reevaluate wheni it's used.",
-                "Instead, every time it's used, it evaluates to a different value, creating the wonderful chaos that comes with unpredictability.",
+                "So @Random is a curious function that creates random numbers. It's curious because every time you evaluate it, it creates something different.",
+                "This creates a wonderful chaos that comes with unpredictability.",
                 "By default, it gives @Number values between \\0\\ and \\1\\:",
                 "\\Random()\\",
                 "But you can give it a value, and it will generate values between \\0\\ and the value:",
@@ -2678,14 +2678,16 @@
                 "\\Random(-10m 10m)\\"
             ],
             "names": ["🎲", "Random"],
-            "min": {
-                "names": "min",
-                "doc": "The minimum value that will be created, or if it's larger than 0, the maximum value. If @None is provided, then the miniumum is \\0\\."
-            },
-            "max": {
-                "names": "max",
-                "doc": "The maximum value that will created, or if its smaller than the minimum provided, the minimum. If @None is provided, than the maximum is \\1\\."
-            }
+            "inputs": [
+                {
+                    "names": "min",
+                    "doc": "The minimum value that will be created, or if it's larger than 0, the maximum value. If @None is provided, then the miniumum is \\0\\."
+                },
+                {
+                    "names": "max",
+                    "doc": "The maximum value that will created, or if its smaller than the minimum provided, the minimum. If @None is provided, than the maximum is \\1\\."
+                }
+            ]
         },
         "Choice": {
             "doc": [

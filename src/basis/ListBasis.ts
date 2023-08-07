@@ -192,16 +192,13 @@ export default function bootstrapList(locales: Locale[]) {
                     (requestor, evaluation) => {
                         const list = evaluation.getClosure();
                         if (list instanceof ListValue) {
-                            const random =
-                                evaluation.getEvaluator().random.latest() ??
-                                evaluation.getEvaluator().random.values[0]
-                                    .value;
+                            const random = evaluation
+                                .getEvaluator()
+                                .getRandom();
                             return list.get(
                                 new NumberValue(
                                     evaluation.getEvaluator().getMain(),
-                                    Math.floor(
-                                        random.toNumber() * list.values.length
-                                    ) + 1
+                                    Math.floor(random * list.values.length) + 1
                                 )
                             );
                         } else

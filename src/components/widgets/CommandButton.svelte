@@ -26,6 +26,7 @@
 <Button
     tip={command.description($config.getLocale()) + ` (${toShortcut(command)})`}
     bind:view
+    uiid={command.uiid}
     active={command.active === undefined
         ? true
         : editor

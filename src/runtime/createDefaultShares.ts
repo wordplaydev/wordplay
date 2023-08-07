@@ -13,7 +13,7 @@ import { createMicDefinition as createMicType } from '../input/Mic';
 import { createMotionDefinition as createMotionType } from '../input/Motion';
 import { createPointerDefinition as createPointerType } from '../input/Pointer';
 import { createButtonDefinition as createButtonType } from '../input/Button';
-import { createRandomDefinition as createRandomType } from '../input/Random';
+import { createRandomFunction } from '../input/Random';
 import { createArrangementType } from '../output/Arrangement';
 import { getDefaultSequences } from '../output/DefaultSequences';
 import { createChoiceDefinition as createChoiceType } from '../input/Choice';
@@ -48,7 +48,7 @@ export default function createDefaultShares(locales: Locale[]) {
 
     const InputTypes = {
         Time: createTimeType(locales),
-        Random: createRandomType(locales),
+        Random: createRandomFunction(locales),
         Choice: createChoiceType(locales),
         Motion: createMotionType(locales, OutputTypes.Type, OutputTypes.Phrase),
         Key: createKeyType(locales),

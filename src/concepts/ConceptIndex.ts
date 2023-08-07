@@ -126,7 +126,16 @@ export default class ConceptIndex {
         }
 
         const streams = Object.values(project.shares.input).map((def) =>
-            makeStreamConcept(def)
+            def instanceof StreamDefinition
+                ? makeStreamConcept(def)
+                : new FunctionConcept(
+                      Purpose.Input,
+                      undefined,
+                      def,
+                      undefined,
+                      locales,
+                      project.getContext(project.main)
+                  )
         );
 
         const constructs = getNodeConcepts(project.getContext(project.main));

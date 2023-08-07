@@ -50,6 +50,9 @@ export type Command = {
     alt: boolean | undefined;
     /** If true, control or meta is required, if false, it's disqualifying, if undefined, it can be either */
     control: boolean | undefined;
+    /** An UI to place on buttons corresponding to this command for tutorial highlighting */
+    uiid?: string;
+    /** A function that should indicate whether the command is active */
     active?: (context: CommandContext, key: string) => boolean;
     /** Generates an edit or other editor command */
     execute: (
@@ -267,6 +270,7 @@ export const StepForwardNode: Command = {
 export const Restart: Command = {
     symbol: '↻',
     description: (l) => l.ui.description.reset,
+    uiid: 'resetEvaluator',
     visible: Visibility.Visible,
     category: Category.Evaluate,
     key: 'Enter',

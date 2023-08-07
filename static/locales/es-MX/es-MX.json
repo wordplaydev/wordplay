@@ -1535,8 +1535,10 @@
         "Random": {
             "doc": "$?",
             "names": ["Azar"],
-            "min": { "names": "mínima", "doc": "$?" },
-            "max": { "names": "maximo", "doc": "$?" }
+            "inputs": [
+                { "names": "mínima", "doc": "$?" },
+                { "names": "maximo", "doc": "$?" }
+            ]
         },
         "Choice": { "doc": "$?", "names": ["Selección", "Elección"] },
         "Button": {

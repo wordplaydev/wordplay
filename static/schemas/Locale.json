@@ -1581,11 +1581,13 @@
                 "doc": {
                   "$ref": "#/definitions/DocText"
                 },
-                "max": {
-                  "$ref": "#/definitions/NameAndDoc"
-                },
-                "min": {
-                  "$ref": "#/definitions/NameAndDoc"
+                "inputs": {
+                  "items": {
+                    "$ref": "#/definitions/NameAndDoc"
+                  },
+                  "maxItems": 2,
+                  "minItems": 2,
+                  "type": "array"
                 },
                 "names": {
                   "$ref": "#/definitions/NameText"
@@ -1593,8 +1595,7 @@
               },
               "required": [
                 "doc",
-                "max",
-                "min",
+                "inputs",
                 "names"
               ],
               "type": "object"
