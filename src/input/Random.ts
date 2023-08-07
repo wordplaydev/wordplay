@@ -7,6 +7,7 @@ import type Locale from '../locale/Locale';
 import { createBasisFunction } from '../basis/Basis';
 import type Evaluation from '../runtime/Evaluation';
 import type Expression from '../nodes/Expression';
+import Unit from '../nodes/Unit';
 
 function getRandomInRange(
     random: number,
@@ -39,11 +40,11 @@ export function createRandomFunction(locales: Locale[]) {
         undefined,
         [
             [
-                UnionType.make(NumberType.make(), NoneType.make()),
+                UnionType.make(NumberType.make(Unit.Wildcard), NoneType.make()),
                 NoneLiteral.make(),
             ],
             [
-                UnionType.make(NumberType.make(), NoneType.make()),
+                UnionType.make(NumberType.make(Unit.Wildcard), NoneType.make()),
                 NoneLiteral.make(),
             ],
         ],
