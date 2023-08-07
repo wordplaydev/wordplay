@@ -32,6 +32,7 @@
         type EditorsContext,
         EditorsSymbol,
         type EditorState,
+        ProjectCommandContextSymbol,
     } from './Contexts';
     import type Project from '@models/Project';
     import Documentation from '@components/concepts/Documentation.svelte';
@@ -938,25 +939,29 @@
         }
     }
 
+    $: commandContext = {
+        caret:
+            layout.isFullscreen() && !layout.isSourceExpanded()
+                ? undefined
+                : Array.from($editors.values()).find((editor) => editor.focused)
+                      ?.caret,
+        evaluator: $evaluator,
+        database: $config,
+        fullscreen,
+        focusOrCycleTile,
+        resetInputs,
+        help: () => (help = !help),
+    };
+    const commandContextStore = writable(commandContext);
+    $: commandContextStore.set(commandContext);
+    setContext(ProjectCommandContextSymbol, commandContextStore);
+
     function handleKey(event: KeyboardEvent) {
         if ($dragged !== undefined && event.key === 'Escape')
             dragged.set(undefined);
 
         // See if there's a command that matches...
-        const result = handleKeyCommand(event, {
-            caret:
-                layout.isFullscreen() && !layout.isSourceExpanded()
-                    ? undefined
-                    : Array.from($editors.values()).find(
-                          (editor) => editor.focused
-                      )?.caret,
-            evaluator: $evaluator,
-            database: $config,
-            fullscreen,
-            focusOrCycleTile,
-            resetInputs,
-            help: () => (help = !help),
-        });
+        const result = handleKeyCommand(event, commandContext);
 
         // If something handled it, consume the event.
         if (result !== false) {
