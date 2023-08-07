@@ -16,7 +16,7 @@ import type Locale from '../locale/Locale';
 
 export const FREQUENCY = 33;
 
-export default class Random extends StreamValue<NumberValue> {
+export default class Random extends StreamValue<NumberValue, number> {
     min: number | undefined;
     max: number | undefined;
     unit: Unit | undefined;
@@ -27,10 +27,12 @@ export default class Random extends StreamValue<NumberValue> {
         max: number | undefined,
         unit: Unit | undefined
     ) {
+        const initial = Random.next(min, max);
         super(
             evaluator,
             evaluator.project.shares.input.Random,
-            Random.next(evaluator, min, max, unit)
+            new NumberValue(evaluator.project.main, initial, unit),
+            initial
         );
 
         this.min = min;
@@ -48,27 +50,18 @@ export default class Random extends StreamValue<NumberValue> {
         this.unit = unit;
     }
 
-    static next(
-        evaluator: Evaluator,
-        min: number | undefined,
-        max: number | undefined,
-        unit: Unit | undefined
-    ) {
-        return new NumberValue(
-            evaluator.getMain(),
-            min === undefined
-                ? max === undefined
-                    ? // No range provided, [0, 1)
-                      Math.random()
-                    : // Just a max, [0, max)
-                      Math.random() * max
-                : max === undefined
-                ? // Just a min, (-min, 0]
-                  Math.random() * min
-                : // Both [min, max]
-                  Random.getRandomIntInclusive(min, max),
-            unit
-        );
+    static next(min: number | undefined, max: number | undefined) {
+        return min === undefined
+            ? max === undefined
+                ? // No range provided, [0, 1)
+                  Math.random()
+                : // Just a max, [0, max)
+                  Math.random() * max
+            : max === undefined
+            ? // Just a min, (-min, 0]
+              Math.random() * min
+            : // Both [min, max]
+              Random.getRandomIntInclusive(min, max);
     }
 
     static getRandomIntInclusive(min: number, max: number) {
@@ -77,16 +70,22 @@ export default class Random extends StreamValue<NumberValue> {
         return Math.floor(Math.random() * (max - min + 1) + min);
     }
 
+    react(next: number) {
+        this.add(new NumberValue(this.creator, next, this.unit), next, true);
+    }
+
     /**
      * Override latest behavior: if in the present, silently add a new value to return. (If in the past, do as normal).
      */
     latest() {
         // If in the present, add a value without causing a reaction.
-        if (!this.evaluator.isInPast())
-            this.add(
-                Random.next(this.evaluator, this.min, this.max, this.unit),
-                true
-            );
+        if (!this.evaluator.isInPast()) {
+            // If there are any randoms we have from a history, use those first.
+            const number =
+                this.evaluator.randoms.shift() ??
+                Random.next(this.min, this.max);
+            this.react(number);
+        }
 
         // Return the latest value (present or past).
         return super.latest();

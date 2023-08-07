@@ -10,7 +10,7 @@ import createStreamEvaluator from './createStreamEvaluator';
 import type Locale from '../locale/Locale';
 
 /** A series of selected output, chosen by mouse or keyboard, allowing for programs that work for both mouse and keyboard. */
-export default class Choice extends StreamValue<TextValue> {
+export default class Choice extends StreamValue<TextValue, string> {
     readonly evaluator: Evaluator;
 
     on: boolean = true;
@@ -19,7 +19,8 @@ export default class Choice extends StreamValue<TextValue> {
         super(
             evaluator,
             evaluator.project.shares.input.Choice,
-            new TextValue(evaluator.getMain(), '')
+            new TextValue(evaluator.getMain(), ''),
+            ''
         );
 
         this.evaluator = evaluator;
@@ -27,9 +28,10 @@ export default class Choice extends StreamValue<TextValue> {
 
     configure() {}
 
-    record(name: string) {
+    react(name: string) {
         // Only add the event if it mateches the requirements.
-        if (this.on) this.add(new TextValue(this.evaluator.getMain(), name));
+        if (this.on)
+            this.add(new TextValue(this.evaluator.getMain(), name), name);
     }
 
     start() {

@@ -33,7 +33,10 @@ function position(evaluator: Evaluator, x: number, y: number) {
     return createStructure(evaluator, PlaceType, bindings);
 }
 
-export default class Pointer extends StreamValue<StructureValue> {
+export default class Pointer extends StreamValue<
+    StructureValue,
+    { x: number; y: number }
+> {
     readonly evaluator: Evaluator;
     on: boolean = false;
 
@@ -41,14 +44,19 @@ export default class Pointer extends StreamValue<StructureValue> {
         super(
             evaluator,
             evaluator.project.shares.input.Pointer,
-            position(evaluator, 0, 0)
+            position(evaluator, 0, 0),
+            { x: 0, y: 0 }
         );
 
         this.evaluator = evaluator;
     }
 
-    record(x: number, y: number) {
-        if (this.on) this.add(position(this.evaluator, x, y));
+    react(coordinate: { x: number; y: number }) {
+        if (this.on)
+            this.add(
+                position(this.evaluator, coordinate.x, coordinate.y),
+                coordinate
+            );
     }
 
     start() {

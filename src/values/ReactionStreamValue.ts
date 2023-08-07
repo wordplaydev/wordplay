@@ -10,17 +10,18 @@ import StreamValue from '@values/StreamValue';
 import type Value from '@values/Value';
 import { STREAM_SYMBOL } from '../parser/Symbols';
 
-export default class ReactionStream extends StreamValue {
+export default class ReactionStream extends StreamValue<Value, null> {
     readonly reaction: Reaction;
 
     constructor(evaluator: Evaluator, reaction: Reaction, initialValue: Value) {
-        super(evaluator, ReactionDefinition, initialValue);
+        super(evaluator, ReactionDefinition, initialValue, null);
 
         this.reaction = reaction;
     }
 
     start(): void {}
     stop() {}
+    react() {}
     getType(context: Context) {
         return this.reaction.getType(context);
     }

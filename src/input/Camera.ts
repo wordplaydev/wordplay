@@ -35,7 +35,9 @@ type CameraConfig = {
     sourceHeight: number;
 };
 
-export default class Camera extends TemporalStreamValue<ListValue> {
+type RawFrame = { l: number; c: number; h: number }[][];
+
+export default class Camera extends TemporalStreamValue<ListValue, RawFrame> {
     config: CameraConfig | undefined | null;
     lastTime: DOMHighResTimeStamp | undefined = undefined;
     frequency: number;
@@ -53,12 +55,47 @@ export default class Camera extends TemporalStreamValue<ListValue> {
         super(
             evaluator,
             evaluator.project.shares.input.Camera,
-            Camera.createFrame(evaluator.getMain(), [])
+            Camera.createFrame(evaluator.getMain(), []),
+            []
         );
 
         this.width = width;
         this.height = height;
         this.frequency = frequency;
+    }
+
+    /** Take a raw frame and add a frame to the stream */
+    react(raw: RawFrame) {
+        const ColorType = this.evaluator.project.shares.output.Color;
+
+        // Convert the raw frame into a value.
+        const rows: StructureValue[][] = raw.map((row) =>
+            row.map((color) => {
+                // Create bindings from it.
+                const bindings = new Map<Names, Value>();
+
+                // Lightness
+                bindings.set(
+                    ColorType.inputs[0].names,
+                    new NumberValue(this.creator, color.l)
+                );
+                // Chroma
+                bindings.set(
+                    ColorType.inputs[1].names,
+                    new NumberValue(this.creator, color.c)
+                );
+                // Hue
+                bindings.set(
+                    ColorType.inputs[2].names,
+                    new NumberValue(this.creator, color.h)
+                );
+                // Convert it to a Color value.
+                return createStructure(this.evaluator, ColorType, bindings);
+            })
+        );
+
+        // Add the frame to the stream
+        this.add(Camera.createFrame(this.creator, rows), raw);
     }
 
     tick(time: DOMHighResTimeStamp) {
@@ -100,12 +137,14 @@ export default class Camera extends TemporalStreamValue<ListValue> {
                 );
 
                 // Translate the rows into a 2D array of colors
-                const rows: StructureValue[][] = [];
+                const raw: { l: number; c: number; h: number }[][] = [];
                 for (let i = 0; i < image.data.length; i += 4) {
                     const index = i / 4;
                     const row = Math.floor(index / image.width);
                     const column = index % image.width;
-                    if (rows[row] === undefined) rows[row] = [];
+                    if (raw[row] === undefined) {
+                        raw[row] = [];
+                    }
 
                     // Create a ColorJS wrapper from the sRGB values.
                     const srgb = new ColorJS('srgb', [
@@ -115,47 +154,19 @@ export default class Camera extends TemporalStreamValue<ListValue> {
                     ]);
                     // Get an LCH color from it.
                     const lch = srgb.to('lch');
-                    // Create bindings from it.
-                    const bindings = new Map<Names, Value>();
 
                     // PERF: We convert to integers to prevent
                     // Decimal from parsing as a string.
 
-                    const ColorType =
-                        this.evaluator.project.shares.output.Color;
-
-                    // Lightness
-                    bindings.set(
-                        ColorType.inputs[0].names,
-                        new NumberValue(
-                            this.creator,
-                            Math.round(lch.coords[0]) / 100
-                        )
-                    );
-                    // Chroma
-                    bindings.set(
-                        ColorType.inputs[1].names,
-                        new NumberValue(this.creator, Math.round(lch.coords[1]))
-                    );
-                    // Hue
-                    bindings.set(
-                        ColorType.inputs[2].names,
-                        new NumberValue(this.creator, Math.round(lch.coords[2]))
-                    );
-
-                    // Convert it to a Color value.
-                    const value = createStructure(
-                        this.evaluator,
-                        ColorType,
-                        bindings
-                    );
-
-                    // SaveConvert the color to an LCH Color and store at the appropriate place in the matrix.
-                    rows[row][column] = value;
+                    // Save the color to an LCH Color and store at the appropriate place in the matrix.
+                    raw[row][column] = {
+                        l: Math.round(lch.coords[0]) / 100,
+                        c: Math.round(lch.coords[1]),
+                        h: Math.round(lch.coords[2]),
+                    };
                 }
 
-                // Add the frame to the stream
-                this.add(Camera.createFrame(this.creator, rows));
+                this.react(raw);
             }
         }
     }

@@ -94,7 +94,7 @@
         if (evaluator.isPlaying()) {
             evaluator
                 .getBasisStreamsOfType(Key)
-                .map((stream) => stream.record(event.key, false));
+                .map((stream) => stream.react({ key: event.key, down: false }));
         }
         // else ignore();
     }
@@ -231,7 +231,7 @@
         if (evaluator.isPlaying()) {
             evaluator
                 .getBasisStreamsOfType(Key)
-                .map((stream) => stream.record(event.key, true));
+                .map((stream) => stream.react({ key: event.key, down: true }));
         }
     }
 
@@ -250,7 +250,7 @@
         if (evaluator.isPlaying())
             evaluator
                 .getBasisStreamsOfType(Button)
-                .map((stream) => stream.record(false));
+                .map((stream) => stream.react(false));
     }
 
     function handlePointerDown(event: PointerEvent) {
@@ -264,7 +264,7 @@
         if (evaluator.isPlaying()) {
             evaluator
                 .getBasisStreamsOfType(Button)
-                .forEach((stream) => stream.record(true));
+                .forEach((stream) => stream.react(true));
 
             // Was the target clicked on output with a name? Add it to choice streams.
             if (event.target instanceof HTMLElement) {
@@ -424,7 +424,9 @@
         if (evaluator.isPlaying())
             evaluator
                 .getBasisStreamsOfType(Pointer)
-                .map((stream) => stream.record(event.offsetX, event.offsetY));
+                .map((stream) =>
+                    stream.react({ x: event.offsetX, y: event.offsetY })
+                );
         // Don't give feedback on this; it's not expected.
     }
 
@@ -508,7 +510,7 @@
         if (selection) {
             evaluator
                 .getBasisStreamsOfType(Choice)
-                .forEach((stream) => stream.record(selection));
+                .forEach((stream) => stream.react(selection));
             event.stopPropagation();
         }
     }

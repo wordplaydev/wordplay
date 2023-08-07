@@ -188,7 +188,7 @@
                     if (name === undefined) return undefined;
                     const newSource = proj.getSourceWithName(name);
                     if (newSource === undefined) return undefined;
-                    return newSource.root.resolvePath(newSource, path);
+                    return newSource.root.resolvePath(path);
                 })
                 .filter(
                     (output): output is Evaluate => output instanceof Evaluate

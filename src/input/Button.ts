@@ -13,7 +13,7 @@ import createStreamEvaluator from './createStreamEvaluator';
 import type Locale from '../locale/Locale';
 import NoneLiteral from '../nodes/NoneLiteral';
 
-export default class Button extends StreamValue<BoolValue> {
+export default class Button extends StreamValue<BoolValue, boolean> {
     on: boolean = false;
     down: boolean | undefined;
 
@@ -21,7 +21,8 @@ export default class Button extends StreamValue<BoolValue> {
         super(
             evaluator,
             evaluator.project.shares.input.Button,
-            new BoolValue(evaluator.getMain(), false)
+            new BoolValue(evaluator.getMain(), false),
+            false
         );
 
         this.down = down;
@@ -31,9 +32,9 @@ export default class Button extends StreamValue<BoolValue> {
         this.down = down;
     }
 
-    record(down: boolean) {
+    react(down: boolean) {
         if (this.on && (this.down === undefined || this.down === down))
-            this.add(new BoolValue(this.creator, down));
+            this.add(new BoolValue(this.creator, down), down);
     }
 
     start() {

@@ -722,7 +722,7 @@ export default class Project {
         return position !== undefined
             ? typeof position === 'number'
                 ? position
-                : source.root.resolvePath(source, position)
+                : source.root.resolvePath(position)
             : undefined;
     }
 

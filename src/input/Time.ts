@@ -17,7 +17,7 @@ import type Locale from '../locale/Locale';
 
 const DEFAULT_FREQUENCY = 33;
 
-export default class Time extends TemporalStreamValue<NumberValue> {
+export default class Time extends TemporalStreamValue<NumberValue, number> {
     firstTime: number | undefined = undefined;
     frequency: number = 33;
     lastTime: DOMHighResTimeStamp | undefined = undefined;
@@ -26,7 +26,8 @@ export default class Time extends TemporalStreamValue<NumberValue> {
         super(
             evaluator,
             evaluator.project.shares.input.Time,
-            new NumberValue(evaluator.getMain(), 0, Unit.reuse(['ms']))
+            new NumberValue(evaluator.getMain(), 0, Unit.reuse(['ms'])),
+            0
         );
         this.frequency = frequency;
     }
@@ -37,6 +38,10 @@ export default class Time extends TemporalStreamValue<NumberValue> {
 
     setFrequency(frequency: number | undefined) {
         this.frequency = frequency ?? DEFAULT_FREQUENCY;
+    }
+
+    react(time: number) {
+        this.add(Time.make(this.creator, time), time);
     }
 
     tick(time: DOMHighResTimeStamp, _: number, multiplier: number) {
@@ -51,14 +56,11 @@ export default class Time extends TemporalStreamValue<NumberValue> {
                 time - this.lastTime >= this.frequency * factor)
         ) {
             this.lastTime = time;
-            this.add(
-                Time.make(
-                    this.creator,
-                    this.firstTime === undefined
-                        ? 0
-                        : Math.round(time - this.firstTime) / factor
-                )
-            );
+            const newTime =
+                this.firstTime === undefined
+                    ? 0
+                    : Math.round(time - this.firstTime) / factor;
+            this.react(newTime);
         }
     }
 

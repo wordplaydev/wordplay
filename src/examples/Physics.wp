@@ -3,10 +3,13 @@ count: 32
 
 gravity•#m/s^2:  15m/s^2 … ∆ Button(⊤) … -gravity
 
+hiragana: "ぁあぃいぅうぇえぉおかがきぎくぐけげこごさざしじすずせぜそぞただちぢっつづてでとどなにぬねのはばぱひびぴふぶぷへべぺほぼぽまみむめもゃやゅゆょよらりるれろゎわゐゑをんゔゕゖ"→['']
+
+
 Stage(count → [].translate(
-    ƒ(_) Motion(
+    ƒ(number) Motion(
         Phrase(
-            "ぁあぃいぅうぇえぉおかがきぎくぐけげこごさざしじすずせぜそぞただちぢっつづてでとどなにぬねのはばぱひびぴふぶぷへべぺほぼぽまみむめもゃやゅゆょよらりるれろゎわゐゑをんゔゕゖ"→[''].random() 
+            hiragana[number]
             place: ◆ ? Place(y: 10m) ø
         ) 
         vx: ◆ ? Random(-5 5) · 1m/s ø 

@@ -53,7 +53,7 @@ test.each([
         // Add the given value to the stream
         const stream = Array.from(evaluator.basisStreams.values())[0][0];
         expect(stream).not.toBeUndefined();
-        stream?.add(value(source));
+        stream?.add(value(source), null);
 
         // Manually flush reactions, since time is pooled.
         evaluator.flush();

@@ -18,7 +18,7 @@ const DEFAULT_FREQUENCY = 33;
 
 // A helpful article on getting raw data streams:
 // https://stackoverflow.com/questions/69237143/how-do-i-get-the-audio-frequency-from-my-mic-using-javascript
-export default class Mic extends TemporalStreamValue<NumberValue> {
+export default class Mic extends TemporalStreamValue<NumberValue, number> {
     stream: MediaStream | undefined;
     source: MediaStreamAudioSourceNode | undefined;
     context: AudioContext | undefined;
@@ -33,17 +33,15 @@ export default class Mic extends TemporalStreamValue<NumberValue> {
         super(
             evaluator,
             evaluator.project.shares.input.Mic,
-            new NumberValue(evaluator.getMain(), 100)
+            new NumberValue(evaluator.getMain(), 100),
+            100
         );
         this.frequency = frequency ?? DEFAULT_FREQUENCY;
     }
 
-    // Compute the maximum frequency in the same and convert it to a percentage.
-    percent(frequencies: number[]) {
-        return new NumberValue(
-            this.creator,
-            Math.floor((100 * Math.max.apply(undefined, frequencies)) / 256)
-        );
+    react(percent: number) {
+        // Add the stream value.
+        this.add(new NumberValue(this.creator, percent), percent);
     }
 
     tick(time: DOMHighResTimeStamp) {
@@ -60,8 +58,11 @@ export default class Mic extends TemporalStreamValue<NumberValue> {
             this.analyzer.getByteFrequencyData(this.frequencies);
             // Get a copy of the frequencies.
             const frequencies = Array.from(this.frequencies);
-            // Add the stream value.
-            this.add(this.percent(frequencies));
+
+            // Compute a percent
+            this.react(
+                Math.floor((100 * Math.max.apply(undefined, frequencies)) / 256)
+            );
         }
     }
 

@@ -15,7 +15,10 @@ import StreamType from '../nodes/StreamType';
 import createStreamEvaluator from './createStreamEvaluator';
 import type Locale from '../locale/Locale';
 
-export default class Key extends StreamValue<TextValue> {
+export default class Key extends StreamValue<
+    TextValue,
+    { key: string; down: boolean }
+> {
     readonly evaluator: Evaluator;
     on: boolean = false;
 
@@ -26,7 +29,8 @@ export default class Key extends StreamValue<TextValue> {
         super(
             evaluator,
             evaluator.project.shares.input.Key,
-            new TextValue(evaluator.getMain(), '')
+            new TextValue(evaluator.getMain(), ''),
+            { key: '', down: false }
         );
 
         this.evaluator = evaluator;
@@ -39,14 +43,14 @@ export default class Key extends StreamValue<TextValue> {
         this.down = down;
     }
 
-    record(key: string, down: boolean) {
+    react(event: { key: string; down: boolean }) {
         // Only add the event if it mateches the requirements.
         if (
             this.on &&
-            (this.key === undefined || this.key === key) &&
-            (this.down === undefined || this.down === down)
+            (this.key === undefined || this.key === event.key) &&
+            (this.down === undefined || this.down === event.down)
         )
-            this.add(new TextValue(this.evaluator.getMain(), key));
+            this.add(new TextValue(this.evaluator.getMain(), event.key), event);
     }
 
     start() {

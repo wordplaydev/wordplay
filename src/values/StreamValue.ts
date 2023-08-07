@@ -13,7 +13,8 @@ import ListValue from '@values/ListValue';
 export const MAX_STREAM_LENGTH = 256;
 
 export default abstract class StreamValue<
-    ValueType extends Value = Value
+    ValueType extends Value = Value,
+    Raw = any
 > extends SimpleValue {
     /** The evaluator that processes this stream */
     readonly evaluator: Evaluator;
@@ -25,19 +26,20 @@ export default abstract class StreamValue<
     values: { value: ValueType; stepIndex: StepNumber }[] = [];
 
     /** Listeners watching this stream */
-    reactors: ((stream: StreamValue) => void)[] = [];
+    reactors: ((stream: StreamValue, raw: Raw, silent: boolean) => void)[] = [];
 
     constructor(
         evaluator: Evaluator,
         definition: StreamDefinition,
-        initalValue: ValueType
+        initalValue: ValueType,
+        initialRaw: Raw
     ) {
         super(evaluator.getMain());
 
         this.evaluator = evaluator;
         this.definition = definition;
 
-        this.add(initalValue);
+        this.add(initalValue, initialRaw);
     }
 
     getDescription(locale: Locale) {
@@ -53,9 +55,11 @@ export default abstract class StreamValue<
         return value === this;
     }
 
-    add(value: ValueType, silent: boolean = false) {
+    abstract react(raw: Raw): void;
+
+    add(value: ValueType, raw: Raw, silent: boolean = false) {
         // Ignore values during stepping.
-        if (this.evaluator.isStepping()) return;
+        if (!this.evaluator.replaying && this.evaluator.isStepping()) return;
 
         // Update the time.
         this.values.push({
@@ -67,8 +71,11 @@ export default abstract class StreamValue<
         const oldest = Math.max(0, this.values.length - MAX_STREAM_LENGTH);
         this.values = this.values.slice(oldest, oldest + MAX_STREAM_LENGTH);
 
-        // Notify subscribers of the state change.
-        if (!silent) this.notify();
+        // Notify subscribers (almost certainly an Evaluator) of the state change.
+        // Some streams are silent, like Random, and only generate values on demand.
+        // We still notify, but rely on Evaluator to not react. It still needs
+        // to know that it happened though, for replay.
+        this.notify(raw, silent);
     }
 
     getBasisTypeName(): BasisTypeName {
@@ -79,15 +86,16 @@ export default abstract class StreamValue<
         return this.values[0].stepIndex;
     }
 
-    latest(): ValueType {
+    latest(): ValueType | undefined {
+        const latest = this.latestEntry();
+
         // Find the last value prior to the current evaluator index.
         // Note that streams always have a starting value, so it should never be possible that the filter is empty.
-        return this.latestEntry()?.value as ValueType;
+        return latest?.value;
     }
 
     latestEntry(): { value: ValueType; stepIndex: StepNumber } | undefined {
         // Find the last value prior to the current evaluator index.
-        // Note that streams always have a starting value, so it should never be possible that the filter is empty.
         return this.values
             .filter((val) => val.stepIndex <= this.evaluator.getStepIndex())
             .at(-1);
@@ -118,17 +126,17 @@ export default abstract class StreamValue<
         );
     }
 
-    listen(listener: (stream: StreamValue) => void) {
+    listen(listener: (stream: StreamValue, raw: Raw, silent: boolean) => void) {
         this.reactors.push(listener);
     }
 
-    ignore(listener: (stream: StreamValue) => void) {
+    ignore(listener: (stream: StreamValue, raw: Raw, silent: boolean) => void) {
         this.reactors = this.reactors.filter((l) => l !== listener);
     }
 
-    notify() {
+    notify(raw: Raw, silent: boolean) {
         // Tell each reactor that this stream changed.
-        this.reactors.forEach((reactor) => reactor(this));
+        this.reactors.forEach((reactor) => reactor(this, raw, silent));
     }
 
     /** Should produce valid Wordplay code string representing the stream's name */

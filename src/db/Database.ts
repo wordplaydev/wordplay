@@ -469,9 +469,9 @@ export class Database {
     }
 
     /** Replaces the project with the given project, adding the current version to the history, and erasing the future, if there is any. */
-    reviseProject(project: string | Project, revised: Project) {
+    reviseProject(projectID: string | Project, revised: Project) {
         // Find the ID we're revising.
-        const id = project instanceof Project ? project.id : project;
+        const id = projectID instanceof Project ? projectID.id : projectID;
 
         // Get the info for the project. Bail if we don't find it, since this should never happen.
         const serialized = this.projects.get(id);

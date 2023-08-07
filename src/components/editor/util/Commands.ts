@@ -273,11 +273,15 @@ export const Restart: Command = {
     shift: true,
     alt: false,
     control: true,
-    execute: (context) =>
+    execute: (context) => {
+        // Mark the inputs invalid so we don't inherit them
+        context.evaluator.invalidateInputs();
         context.database.reviseProject(
             context.evaluator.project,
             context.evaluator.project.clone()
-        ),
+        );
+        return undefined;
+    },
 };
 
 export const StepToStart: Command = {
