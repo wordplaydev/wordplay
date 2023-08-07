@@ -2,8 +2,7 @@ import type { NameAndDoc } from './Locale';
 
 type InputTexts = {
     Random: NameAndDoc & {
-        min: NameAndDoc;
-        max: NameAndDoc;
+        inputs: [NameAndDoc, NameAndDoc];
     };
     Choice: NameAndDoc;
     Button: NameAndDoc & { down: NameAndDoc };

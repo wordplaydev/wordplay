@@ -2,7 +2,7 @@
     import { createEventDispatcher } from 'svelte';
     import Button from '../widgets/Button.svelte';
     import type Tile from './Tile';
-    import { config } from '../../db/Creator';
+    import { config } from '../../db/Database';
 
     export let tile: Tile;
 

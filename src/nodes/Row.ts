@@ -7,13 +7,13 @@ import Glyphs from '../lore/Glyphs';
 import Purpose from '../concepts/Purpose';
 import Node, { any, list, node } from './Node';
 import Symbol from './Symbol';
-import Evaluation, { type EvaluationNode } from '../runtime/Evaluation';
-import type Evaluator from '../runtime/Evaluator';
-import type Value from '../runtime/Value';
+import Evaluation, { type EvaluationNode } from '@runtime/Evaluation';
+import type Evaluator from '@runtime/Evaluator';
+import type Value from '../values/Value';
 import type TableType from './TableType';
-import Exception from '../runtime/Exception';
-import ValueException from '../runtime/ValueException';
-import Structure from '../runtime/Structure';
+import ExceptionValue from '@values/ExceptionValue';
+import ValueException from '../values/ValueException';
+import StructureValue from '../values/StructureValue';
 import { TABLE_CLOSE_SYMBOL, TABLE_OPEN_SYMBOL } from '../parser/Symbols';
 
 export default class Row extends Node {
@@ -50,6 +50,7 @@ export default class Row extends Node {
                     node(Symbol.Delete),
                     node(Symbol.Update)
                 ),
+                newline: true,
             },
             { name: 'cells', kind: list(node(Expression)), space: true },
             { name: 'close', kind: node(Symbol.TableClose) },
@@ -104,11 +105,11 @@ export function getRowFromValues(
     for (let c = 0; c < table.columns.length; c++) {
         const column = table.columns[c];
         const cell = values.shift();
-        if (cell instanceof Exception) return cell;
+        if (cell instanceof ExceptionValue) return cell;
         if (cell === undefined) return new ValueException(evaluator, creator);
         evaluation.bind(column.names, cell);
     }
 
     // Return a new table with the new row.
-    return new Structure(creator, evaluation);
+    return new StructureValue(creator, evaluation);
 }

@@ -6,7 +6,7 @@ import Block from './Block';
 import { test, expect } from 'vitest';
 import Evaluate from './Evaluate';
 import IncompatibleInput from '../conflicts/IncompatibleInput';
-import { DefaultLocale } from '../db/Creator';
+import { DefaultLocale } from '../db/Database';
 
 test.each([
     ['(1)', '()', Block, ExpectedEndingExpression],

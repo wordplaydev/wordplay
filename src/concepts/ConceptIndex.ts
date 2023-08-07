@@ -60,22 +60,23 @@ export default class ConceptIndex {
     static make(project: Project, locales: Locale[]) {
         const projectStructures = [project.main, ...project.supplements]
             .map((source) =>
-                (
-                    source.expression.nodes(
-                        (n) => n instanceof StructureDefinition
-                    ) as StructureDefinition[]
-                ).map(
-                    (def) =>
-                        new StructureConcept(
-                            Purpose.Project,
-                            undefined,
-                            def,
-                            undefined,
-                            [],
-                            locales,
-                            project.getContext(source)
-                        )
-                )
+                source.expression
+                    .nodes(
+                        (n): n is StructureDefinition =>
+                            n instanceof StructureDefinition
+                    )
+                    .map(
+                        (def) =>
+                            new StructureConcept(
+                                Purpose.Project,
+                                undefined,
+                                def,
+                                undefined,
+                                [],
+                                locales,
+                                project.getContext(source)
+                            )
+                    )
             )
             .flat();
 
@@ -125,7 +126,16 @@ export default class ConceptIndex {
         }
 
         const streams = Object.values(project.shares.input).map((def) =>
-            makeStreamConcept(def)
+            def instanceof StreamDefinition
+                ? makeStreamConcept(def)
+                : new FunctionConcept(
+                      Purpose.Input,
+                      undefined,
+                      def,
+                      undefined,
+                      locales,
+                      project.getContext(project.main)
+                  )
         );
 
         const constructs = getNodeConcepts(project.getContext(project.main));
@@ -320,6 +330,7 @@ export default class ConceptIndex {
             const list = map.get(concept);
             map.set(concept, list === undefined ? [match] : [...list, match]);
         }
+
         return Array.from(map.entries());
     }
 }

@@ -1,5 +1,5 @@
 import type Evaluator from '@runtime/Evaluator';
-import TemporalStream from '../runtime/TemporalStream';
+import TemporalStreamValue from '../values/TemporalStreamValue';
 import type Expression from '../nodes/Expression';
 import Bind from '../nodes/Bind';
 import NumberType from '../nodes/NumberType';
@@ -9,7 +9,7 @@ import StreamDefinition from '../nodes/StreamDefinition';
 import StreamType from '../nodes/StreamType';
 import UnionType from '../nodes/UnionType';
 import Unit from '../nodes/Unit';
-import Number from '../runtime/Number';
+import NumberValue from '@values/NumberValue';
 import { getDocLocales } from '../locale/getDocLocales';
 import { getNameLocales } from '../locale/getNameLocales';
 import createStreamEvaluator from './createStreamEvaluator';
@@ -17,7 +17,7 @@ import type Locale from '../locale/Locale';
 
 const DEFAULT_FREQUENCY = 33;
 
-export default class Time extends TemporalStream<Number> {
+export default class Time extends TemporalStreamValue<NumberValue, number> {
     firstTime: number | undefined = undefined;
     frequency: number = 33;
     lastTime: DOMHighResTimeStamp | undefined = undefined;
@@ -26,7 +26,8 @@ export default class Time extends TemporalStream<Number> {
         super(
             evaluator,
             evaluator.project.shares.input.Time,
-            new Number(evaluator.getMain(), 0, Unit.reuse(['ms']))
+            new NumberValue(evaluator.getMain(), 0, Unit.reuse(['ms'])),
+            0
         );
         this.frequency = frequency;
     }
@@ -37,6 +38,10 @@ export default class Time extends TemporalStream<Number> {
 
     setFrequency(frequency: number | undefined) {
         this.frequency = frequency ?? DEFAULT_FREQUENCY;
+    }
+
+    react(time: number) {
+        this.add(Time.make(this.creator, time), time);
     }
 
     tick(time: DOMHighResTimeStamp, _: number, multiplier: number) {
@@ -51,19 +56,16 @@ export default class Time extends TemporalStream<Number> {
                 time - this.lastTime >= this.frequency * factor)
         ) {
             this.lastTime = time;
-            this.add(
-                Time.make(
-                    this.creator,
-                    this.firstTime === undefined
-                        ? 0
-                        : Math.round(time - this.firstTime) / factor
-                )
-            );
+            const newTime =
+                this.firstTime === undefined
+                    ? 0
+                    : Math.round(time - this.firstTime) / factor;
+            this.react(newTime);
         }
     }
 
     static make(creator: Expression, time: number) {
-        return new Number(creator, time, Unit.reuse(['ms']));
+        return new NumberValue(creator, time, Unit.reuse(['ms']));
     }
 
     getType() {
@@ -92,11 +94,11 @@ export function createTimeDefinition(locale: Locale[]) {
             (evaluation) =>
                 new Time(
                     evaluation.getEvaluator(),
-                    evaluation.get(FrequencyBind.names, Number)?.toNumber()
+                    evaluation.get(FrequencyBind.names, NumberValue)?.toNumber()
                 ),
             (stream, evaluation) => {
                 stream.setFrequency(
-                    evaluation.get(FrequencyBind.names, Number)?.toNumber()
+                    evaluation.get(FrequencyBind.names, NumberValue)?.toNumber()
                 );
             }
         ),

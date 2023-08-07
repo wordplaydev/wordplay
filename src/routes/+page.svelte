@@ -4,7 +4,7 @@
     import Page from '@components/app/Page.svelte';
     import BigLink from '../components/app/BigLink.svelte';
     import Background from '../components/app/Background.svelte';
-    import { config } from '../db/Creator';
+    import { config } from '../db/Database';
 </script>
 
 <svelte:head>

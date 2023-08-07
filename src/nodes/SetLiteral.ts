@@ -2,8 +2,8 @@ import Expression from './Expression';
 import Token from './Token';
 import type Type from './Type';
 import type Evaluator from '@runtime/Evaluator';
-import type Value from '@runtime/Value';
-import Set from '@runtime/Set';
+import type Value from '@values/Value';
+import SetValue from '@values/SetValue';
 import type Step from '@runtime/Step';
 import Finish from '@runtime/Finish';
 import Start from '@runtime/Start';
@@ -131,7 +131,7 @@ export default class SetLiteral extends Expression {
         const values = [];
         for (let i = 0; i < this.values.length; i++)
             values.unshift(evaluator.popValue(this));
-        return new Set(this, values);
+        return new SetValue(this, values);
     }
 
     evaluateTypeSet(

@@ -1,10 +1,9 @@
 <script lang="ts">
     import { toStage } from '../../output/Stage';
-    import Exception from '@runtime/Exception';
-    import type Value from '@runtime/Value';
+    import ExceptionValue from '@values/ExceptionValue';
+    import type Value from '@values/Value';
     import type Project from '@models/Project';
     import ValueView from '../values/ValueView.svelte';
-    import type Source from '@nodes/Source';
     import StageView from './StageView.svelte';
     import MarkupHTMLView from '../concepts/MarkupHTMLView.svelte';
     import Speech from '../lore/Speech.svelte';
@@ -20,8 +19,7 @@
     } from '../project/Contexts';
     import type Evaluator from '@runtime/Evaluator';
     import type PaintingConfiguration from './PaintingConfiguration';
-    import { config } from '../../db/Creator';
-    import concretize from '../../locale/concretize';
+    import { config } from '../../db/Database';
     import type Color from '../../output/Color';
     import Key from '../../input/Key';
     import { PX_PER_METER, rootScale } from '../../output/outputToCSS';
@@ -38,7 +36,6 @@
 
     export let project: Project;
     export let evaluator: Evaluator;
-    export let source: Source;
     export let value: Value | undefined;
     export let fullscreen: boolean;
     export let fit: boolean = true;
@@ -75,12 +72,12 @@
 
     let renderedFocus: Place;
 
-    $: exception = value instanceof Exception ? value : undefined;
-    $: verse = value === undefined ? undefined : toStage(project, value);
+    $: exception = value instanceof ExceptionValue ? value : undefined;
+    $: stageValue = value === undefined ? undefined : toStage(project, value);
     $: background =
-        $keyboardEditIdle !== IdleKind.Typing && value instanceof Exception
+        $keyboardEditIdle !== IdleKind.Typing && value instanceof ExceptionValue
             ? 'var(--wordplay-error)'
-            : verse?.background ?? null;
+            : stageValue?.background ?? null;
 
     let keyboardInputView: HTMLInputElement | undefined = undefined;
 
@@ -97,7 +94,7 @@
         if (evaluator.isPlaying()) {
             evaluator
                 .getBasisStreamsOfType(Key)
-                .map((stream) => stream.record(event.key, false));
+                .map((stream) => stream.react({ key: event.key, down: false }));
         }
         // else ignore();
     }
@@ -234,7 +231,7 @@
         if (evaluator.isPlaying()) {
             evaluator
                 .getBasisStreamsOfType(Key)
-                .map((stream) => stream.record(event.key, true));
+                .map((stream) => stream.react({ key: event.key, down: true }));
         }
     }
 
@@ -253,7 +250,7 @@
         if (evaluator.isPlaying())
             evaluator
                 .getBasisStreamsOfType(Button)
-                .map((stream) => stream.record(false));
+                .map((stream) => stream.react(false));
     }
 
     function handlePointerDown(event: PointerEvent) {
@@ -267,7 +264,7 @@
         if (evaluator.isPlaying()) {
             evaluator
                 .getBasisStreamsOfType(Button)
-                .forEach((stream) => stream.record(true));
+                .forEach((stream) => stream.react(true));
 
             // Was the target clicked on output with a name? Add it to choice streams.
             if (event.target instanceof HTMLElement) {
@@ -427,7 +424,9 @@
         if (evaluator.isPlaying())
             evaluator
                 .getBasisStreamsOfType(Pointer)
-                .map((stream) => stream.record(event.offsetX, event.offsetY));
+                .map((stream) =>
+                    stream.react({ x: event.offsetX, y: event.offsetY })
+                );
         // Don't give feedback on this; it's not expected.
     }
 
@@ -496,7 +495,7 @@
         return getOutputNodeIDFromElement(element.closest('.output'));
     }
     function recordSelection(event: Event) {
-        if (verse === undefined) return;
+        if (stageValue === undefined) return;
 
         const target = event?.target as HTMLElement;
         // Was the target clicked on output with a name? Add it to choice streams.
@@ -505,13 +504,13 @@
         const selection =
             selectable && name
                 ? name
-                : verse.selectable
-                ? verse.getName()
+                : stageValue.selectable
+                ? stageValue.getName()
                 : undefined;
         if (selection) {
             evaluator
                 .getBasisStreamsOfType(Choice)
-                .forEach((stream) => stream.record(selection));
+                .forEach((stream) => stream.react(selection));
             event.stopPropagation();
         }
     }
@@ -647,18 +646,21 @@
                         glyph={$index?.getNodeConcept(exception.creator) ??
                             exception.creator.getGlyphs()}
                         invert
-                        >{#each $config.getLocales() as locale}
-                            <MarkupHTMLView
-                                markup={exception.getExplanation(locale)}
-                            />
-                        {/each}</Speech
+                    >
+                        <svelte:fragment slot="content">
+                            {#each $config.getLocales() as locale}
+                                <MarkupHTMLView
+                                    markup={exception.getExplanation(locale)}
+                                />
+                            {/each}</svelte:fragment
+                        ></Speech
                     >{/if}
             </div>
             <!-- If there's no verse -->
         {:else if value === undefined}
             <div class="message evaluating">◆</div>
             <!-- If there's a value, but it's not a verse, show that -->
-        {:else if verse === undefined}
+        {:else if stageValue === undefined}
             <div class="message">
                 {#if mini}
                     <ValueView {value} interactive={false} />
@@ -666,20 +668,13 @@
                     <h2
                         >{$config
                             .getLocales()
-                            .map((translation) =>
+                            .map((locale) =>
                                 value === undefined
                                     ? undefined
-                                    : value
-                                          .getType(project.getContext(source))
-                                          .getDescription(
-                                              concretize,
-                                              translation,
-                                              project.getContext(source)
-                                          )
-                                          .toText()
+                                    : value.getDescription(locale).toText()
                             )}</h2
                     >
-                    <p><ValueView {value} /></p>
+                    <ValueView {value} inline={false} />
                 {/if}
             </div>
             <!-- Otherwise, show the Stage -->
@@ -687,8 +682,9 @@
             <StageView
                 {project}
                 {evaluator}
-                stage={verse}
+                stage={stageValue}
                 {fullscreen}
+                background={mini}
                 bind:fit
                 bind:grid
                 bind:painting
@@ -748,8 +744,10 @@
         padding: var(--wordplay-spacing);
         font-size: 48pt;
         transform-origin: center;
-        justify-content: center;
         align-items: center;
+        margin: auto;
+        margin-top: 1em;
+        overflow: scroll;
     }
 
     .editing {

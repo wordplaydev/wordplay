@@ -3,7 +3,7 @@
     import Glyphs from '../../lore/Glyphs';
     import { ShowMenu, toShortcut } from './util/Commands';
     import { fade } from 'svelte/transition';
-    import { config } from '@db/Creator';
+    import { config } from '@db/Database';
     import { docToMarkup } from '@locale/Locale';
     import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
 
@@ -15,7 +15,9 @@
 {#if markup}
     <div transition:fade={{ duration: 100 }}>
         <Speech glyph={Glyphs.Function} scroll={false}>
-            <MarkupHTMLView {markup} />
+            <svelte:fragment slot="content">
+                <MarkupHTMLView {markup} />
+            </svelte:fragment>
         </Speech>
     </div>
 {/if}

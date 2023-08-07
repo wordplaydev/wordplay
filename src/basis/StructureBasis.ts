@@ -4,15 +4,15 @@ import { getDocLocales } from '@locale/getDocLocales';
 import { getNameLocales } from '@locale/getNameLocales';
 import type Locale from '../locale/Locale';
 import { createBasisConversion, createBasisFunction } from './Basis';
-import Bool from '../runtime/Bool';
+import BoolValue from '@values/BoolValue';
 import BooleanType from '../nodes/BooleanType';
-import type Evaluation from '../runtime/Evaluation';
+import type Evaluation from '@runtime/Evaluation';
 import type Expression from '../nodes/Expression';
 import AnyType from '../nodes/AnyType';
-import Value from '../runtime/Value';
-import type Structure from '../runtime/Structure';
+import Value from '../values/Value';
+import type StructureValue from '../values/StructureValue';
 import TextType from '../nodes/TextType';
-import Text from '../runtime/Text';
+import TextValue from '../values/TextValue';
 
 export default function bootstrapStructure(locales: Locale[]) {
     return StructureDefinition.make(
@@ -44,7 +44,7 @@ export default function bootstrapStructure(locales: Locale[]) {
                                 other
                             );
                         else
-                            return new Bool(
+                            return new BoolValue(
                                 requestor,
                                 structure.isEqualTo(other)
                             );
@@ -71,7 +71,7 @@ export default function bootstrapStructure(locales: Locale[]) {
                                 other
                             );
                         else
-                            return new Bool(
+                            return new BoolValue(
                                 requestor,
                                 !structure.isEqualTo(other)
                             );
@@ -84,8 +84,8 @@ export default function bootstrapStructure(locales: Locale[]) {
                     ),
                     new AnyType(),
                     TextType.make(),
-                    (requestor: Expression, value: Structure) =>
-                        new Text(requestor, value.toWordplay(locales))
+                    (requestor: Expression, value: StructureValue) =>
+                        new TextValue(requestor, value.toWordplay(locales))
                 ),
             ],
             BlockKind.Structure

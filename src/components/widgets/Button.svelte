@@ -48,6 +48,7 @@
         font-family: var(--wordplay-app-font);
         font-size: inherit;
         font-weight: var(--wordplay-font-weight);
+        font-style: inherit;
         transform-origin: center;
         user-select: none;
         border: none;
@@ -80,7 +81,7 @@
 
     button.scale:focus[aria-disabled='false'],
     button.scale:hover[aria-disabled='false'] {
-        transform: scale(1.25);
+        transform: scale(1.1);
     }
 
     :global(button:focus .token-view) {

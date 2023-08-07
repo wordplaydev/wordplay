@@ -6,7 +6,7 @@ import OutputAnimation from './OutputAnimation';
 import type Transition from './Transition';
 import type Node from '@nodes/Node';
 import type RenderContext from './RenderContext';
-import type Evaluator from '../runtime/Evaluator';
+import type Evaluator from '@runtime/Evaluator';
 
 export type OutputName = string;
 

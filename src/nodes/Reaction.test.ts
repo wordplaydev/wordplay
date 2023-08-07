@@ -2,14 +2,14 @@ import { test, expect } from 'vitest';
 import Project from '../models/Project';
 import Source from './Source';
 import { FALSE_SYMBOL, TRUE_SYMBOL } from '@parser/Symbols';
-import type Value from '@runtime/Value';
+import type Value from '@values/Value';
 import Time from '../input/Time';
 import type Expression from './Expression';
-import Evaluator from '../runtime/Evaluator';
+import Evaluator from '@runtime/Evaluator';
 import { testConflict } from '../conflicts/TestUtilities';
 import Reaction from './Reaction';
 import ExpectedStream from '../conflicts/ExpectedStream';
-import { DefaultLocale } from '../db/Creator';
+import { DefaultLocale } from '../db/Database';
 
 const makeOne = (creator: Expression) => Time.make(creator, 1);
 
@@ -53,7 +53,7 @@ test.each([
         // Add the given value to the stream
         const stream = Array.from(evaluator.basisStreams.values())[0][0];
         expect(stream).not.toBeUndefined();
-        stream?.add(value(source));
+        stream?.add(value(source), null);
 
         // Manually flush reactions, since time is pooled.
         evaluator.flush();

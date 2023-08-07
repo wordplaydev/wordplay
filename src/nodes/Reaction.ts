@@ -4,7 +4,7 @@ import CycleType from './CycleType';
 import type Token from './Token';
 import type Type from './Type';
 import type Evaluator from '@runtime/Evaluator';
-import type Value from '@runtime/Value';
+import type Value from '@values/Value';
 import type Step from '@runtime/Step';
 import Jump from '@runtime/Jump';
 import Finish from '@runtime/Finish';
@@ -13,15 +13,15 @@ import type Bind from './Bind';
 import type Context from './Context';
 import UnionType from './UnionType';
 import type TypeSet from './TypeSet';
-import Exception from '@runtime/Exception';
+import ExceptionValue from '@values/ExceptionValue';
 import { node, type Grammar, type Replacement } from './Node';
 import type Locale from '@locale/Locale';
 import BooleanType from './BooleanType';
 import ExpectedBooleanCondition from '../conflicts/ExpectedBooleanCondition';
-import Check from '../runtime/Check';
-import Bool from '../runtime/Bool';
-import ValueException from '../runtime/ValueException';
-import TypeException from '../runtime/TypeException';
+import Check from '@runtime/Check';
+import BoolValue from '@values/BoolValue';
+import ValueException from '../values/ValueException';
+import TypeException from '../values/TypeException';
 import Glyphs from '../lore/Glyphs';
 import Purpose from '../concepts/Purpose';
 import type { BasisTypeName } from '../basis/BasisConstants';
@@ -208,7 +208,7 @@ export default class Reaction extends Expression {
                 const value = evaluator.popValue(this);
                 if (value === undefined)
                     return new ValueException(evaluator, this);
-                else if (!(value instanceof Bool))
+                else if (!(value instanceof BoolValue))
                     return new TypeException(
                         this,
                         evaluator,
@@ -263,7 +263,7 @@ export default class Reaction extends Expression {
 
         // At this point in the compiled steps above, we should have a value on the stack
         // that is either the initial value for this reaction's stream or a new value.
-        if (streamValue instanceof Exception) return streamValue;
+        if (streamValue instanceof ExceptionValue) return streamValue;
 
         // If the stream's value is different from the latest value, add it.
         const latest = evaluator.getReactionStreamLatest(this);

@@ -2,15 +2,15 @@
     import { afterUpdate } from 'svelte';
     import type Evaluator from '@runtime/Evaluator';
     import Key from '../../input/Key';
-    import Bool from '@runtime/Bool';
+    import BoolValue from '@values/BoolValue';
     import Button from '../../input/Button';
     import { slide } from 'svelte/transition';
     import { tick } from 'svelte';
-    import Exception from '@runtime/Exception';
+    import ExceptionValue from '@values/ExceptionValue';
     import { getEvaluation } from '../project/Contexts';
     import Controls from './Controls.svelte';
-    import { config } from '../../db/Creator';
-    import Structure from '../../runtime/Structure';
+    import { config } from '../../db/Database';
+    import StructureValue from '@values/StructureValue';
 
     export let evaluator: Evaluator;
 
@@ -44,7 +44,7 @@
     }
 
     /** When the step index changes, update the time slider position */
-    $: if ($evaluation?.stepIndex !== undefined)
+    $: if ($evaluation.stepIndex !== undefined)
         updateTimePosition($evaluation.stepIndex);
 
     function updateScrollPosition() {
@@ -112,7 +112,7 @@
     }
 
     function stepToMouse(event: MouseEvent) {
-        if ($evaluation?.streams === undefined) return;
+        if ($evaluation.streams === undefined) return;
 
         // Map the mouse position onto a change.
         const view = document
@@ -159,6 +159,17 @@
                 timeline.scrollLeft = timeline.scrollLeft + 10;
         }
     }
+
+    function handleKey(event: KeyboardEvent) {
+        if (event.key === 'ArrowLeft' || event.key === 'ArrowDown')
+            evaluator.stepBackWithinProgram();
+        else if (event.key === 'ArrowRight' || event.key === 'ArrowUp')
+            evaluator.stepWithinProgram();
+        else if (event.key === 'Home') evaluator.stepTo(0);
+        else if (event.key === 'End') evaluator.stepToEnd();
+        else if (event.key === 'PageUp') evaluator.stepToInput();
+        else if (event.key === 'PageDown') evaluator.stepBackToInput();
+    }
 </script>
 
 <section
@@ -167,20 +178,33 @@
     class:stepping={$evaluation?.playing === false}
 >
     <Controls {evaluator} />
-    <header
+    <div
+        role="slider"
         transition:slide|local={{ duration: $config.getAnimationDuration() }}
         class="timeline"
+        tabindex={0}
         data-uiid="timeline"
-        class:stepping={$evaluation?.playing === false}
+        aria-label={$config.getLocale().ui.description.timeline}
+        aria-valuemin={0}
+        aria-valuemax={$evaluation.evaluator.getStepCount()}
+        aria-valuenow={$evaluation.stepIndex}
+        aria-valuetext={$evaluation.step
+            ? $evaluation.step
+                  .getExplanations($config.getLocale(), evaluator)
+                  .toText()
+            : $evaluation.stepIndex + ''}
+        aria-orientation="horizontal"
+        class:stepping={$evaluation.playing === false}
         on:pointerdown={(event) => stepToMouse(event)}
         on:pointermove={(event) =>
             (event.buttons & 1) === 1 ? stepToMouse(event) : undefined}
         on:pointerleave={() => (dragging = false)}
         on:pointerup={() => (dragging = false)}
+        on:keydown={handleKey}
         bind:this={timeline}
     >
         {#if historyTrimmed}<span class="stream-input">…</span>{/if}
-        {#if $evaluation?.streams !== undefined}
+        {#if $evaluation.streams !== undefined}
             {#each $evaluation.streams as reaction, index}
                 <!-- Compute the number of steps that occurred between this and the next input, or if there isn't one, the latest step. -->
                 {@const stepCount =
@@ -191,7 +215,7 @@
                 {#each reaction.changes.slice(0, 3) as change}
                     {@const down =
                         change.stream instanceof Key &&
-                        change.value instanceof Structure
+                        change.value instanceof StructureValue
                             ? change.value.resolve(
                                   change.value.type.inputs[1].names
                               )
@@ -202,7 +226,9 @@
                     <span
                         class={`event stream-input ${
                             currentReaction === reaction ? 'current' : ''
-                        } ${down instanceof Bool && down.bool ? 'down' : ''}`}
+                        } ${
+                            down instanceof BoolValue && down.bool ? 'down' : ''
+                        }`}
                         data-inputindex={reaction.stepIndex}
                     >
                         {#if change.stream === undefined}
@@ -233,7 +259,7 @@
                     >&ZeroWidthSpace;</span
                 >
                 <!-- If the value was an exception, show that it ended that way -->
-                {#if evaluator.getSourceValueBefore(evaluator.getMain(), reaction.stepIndex + stepCount) instanceof Exception}<span
+                {#if evaluator.getSourceValueBefore(evaluator.getMain(), reaction.stepIndex + stepCount) instanceof ExceptionValue}<span
                         data-exceptionindex={reaction.stepIndex + stepCount}
                         class="event exception">!</span
                     >{/if}
@@ -241,9 +267,9 @@
         {/if}
         <!-- Render the time slider -->
         <div class="time" style:left="{timePosition}px"
-            ><span class="index">{$evaluation?.stepIndex}</span></div
+            ><span class="index">{$evaluation.stepIndex}</span></div
         >
-    </header>
+    </div>
 </section>
 
 <style>
@@ -281,7 +307,7 @@
     }
 
     .timeline:focus {
-        outline-offset: calc(-1 * var(--wordplay-focus-width));
+        border-radius: var(--wordplay-border-radius);
     }
 
     .stream-input {

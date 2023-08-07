@@ -1,5 +1,5 @@
 import type Evaluator from '@runtime/Evaluator';
-import TemporalStream from '../runtime/TemporalStream';
+import TemporalStreamValue from '../values/TemporalStreamValue';
 import StreamDefinition from '../nodes/StreamDefinition';
 import { getDocLocales } from '../locale/getDocLocales';
 import { getNameLocales } from '../locale/getNameLocales';
@@ -9,18 +9,18 @@ import UnionType from '../nodes/UnionType';
 import Unit from '../nodes/Unit';
 import NoneType from '../nodes/NoneType';
 import NumberLiteral from '../nodes/NumberLiteral';
-import Number from '../runtime/Number';
+import NumberValue from '@values/NumberValue';
 import createStreamEvaluator from './createStreamEvaluator';
 import StructureType from '../nodes/StructureType';
-import List from '../runtime/List';
+import ListValue from '@values/ListValue';
 import ListType from '../nodes/ListType';
 import type Expression from '../nodes/Expression';
 import ColorJS from 'colorjs.io';
-import Structure, { createStructure } from '../runtime/Structure';
+import StructureValue, { createStructure } from '../values/StructureValue';
 import type Locale from '../locale/Locale';
 import type StructureDefinition from '../nodes/StructureDefinition';
 import type Names from '../nodes/Names';
-import type Value from '../runtime/Value';
+import type Value from '../values/Value';
 
 type CameraConfig = {
     stream: MediaStream;
@@ -35,7 +35,9 @@ type CameraConfig = {
     sourceHeight: number;
 };
 
-export default class Camera extends TemporalStream<List> {
+type RawFrame = { l: number; c: number; h: number }[][];
+
+export default class Camera extends TemporalStreamValue<ListValue, RawFrame> {
     config: CameraConfig | undefined | null;
     lastTime: DOMHighResTimeStamp | undefined = undefined;
     frequency: number;
@@ -53,12 +55,47 @@ export default class Camera extends TemporalStream<List> {
         super(
             evaluator,
             evaluator.project.shares.input.Camera,
-            Camera.createFrame(evaluator.getMain(), [])
+            Camera.createFrame(evaluator.getMain(), []),
+            []
         );
 
         this.width = width;
         this.height = height;
         this.frequency = frequency;
+    }
+
+    /** Take a raw frame and add a frame to the stream */
+    react(raw: RawFrame) {
+        const ColorType = this.evaluator.project.shares.output.Color;
+
+        // Convert the raw frame into a value.
+        const rows: StructureValue[][] = raw.map((row) =>
+            row.map((color) => {
+                // Create bindings from it.
+                const bindings = new Map<Names, Value>();
+
+                // Lightness
+                bindings.set(
+                    ColorType.inputs[0].names,
+                    new NumberValue(this.creator, color.l)
+                );
+                // Chroma
+                bindings.set(
+                    ColorType.inputs[1].names,
+                    new NumberValue(this.creator, color.c)
+                );
+                // Hue
+                bindings.set(
+                    ColorType.inputs[2].names,
+                    new NumberValue(this.creator, color.h)
+                );
+                // Convert it to a Color value.
+                return createStructure(this.evaluator, ColorType, bindings);
+            })
+        );
+
+        // Add the frame to the stream
+        this.add(Camera.createFrame(this.creator, rows), raw);
     }
 
     tick(time: DOMHighResTimeStamp) {
@@ -100,12 +137,14 @@ export default class Camera extends TemporalStream<List> {
                 );
 
                 // Translate the rows into a 2D array of colors
-                const rows: Structure[][] = [];
+                const raw: { l: number; c: number; h: number }[][] = [];
                 for (let i = 0; i < image.data.length; i += 4) {
                     const index = i / 4;
                     const row = Math.floor(index / image.width);
                     const column = index % image.width;
-                    if (rows[row] === undefined) rows[row] = [];
+                    if (raw[row] === undefined) {
+                        raw[row] = [];
+                    }
 
                     // Create a ColorJS wrapper from the sRGB values.
                     const srgb = new ColorJS('srgb', [
@@ -115,55 +154,30 @@ export default class Camera extends TemporalStream<List> {
                     ]);
                     // Get an LCH color from it.
                     const lch = srgb.to('lch');
-                    // Create bindings from it.
-                    const bindings = new Map<Names, Value>();
 
                     // PERF: We convert to integers to prevent
                     // Decimal from parsing as a string.
 
-                    const ColorType =
-                        this.evaluator.project.shares.output.Color;
-
-                    // Lightness
-                    bindings.set(
-                        ColorType.inputs[0].names,
-                        new Number(
-                            this.creator,
-                            Math.round(lch.coords[0]) / 100
-                        )
-                    );
-                    // Chroma
-                    bindings.set(
-                        ColorType.inputs[1].names,
-                        new Number(this.creator, Math.round(lch.coords[1]))
-                    );
-                    // Hue
-                    bindings.set(
-                        ColorType.inputs[2].names,
-                        new Number(this.creator, Math.round(lch.coords[2]))
-                    );
-
-                    // Convert it to a Color value.
-                    const value = createStructure(
-                        this.evaluator,
-                        ColorType,
-                        bindings
-                    );
-
-                    // SaveConvert the color to an LCH Color and store at the appropriate place in the matrix.
-                    rows[row][column] = value;
+                    // Save the color to an LCH Color and store at the appropriate place in the matrix.
+                    raw[row][column] = {
+                        l: Math.round(lch.coords[0]) / 100,
+                        c: Math.round(lch.coords[1]),
+                        h: Math.round(lch.coords[2]),
+                    };
                 }
 
-                // Add the frame to the stream
-                this.add(Camera.createFrame(this.creator, rows));
+                this.react(raw);
             }
         }
     }
 
-    static createFrame(creator: Expression, colors: Structure[][]): List {
-        return new List(
+    static createFrame(
+        creator: Expression,
+        colors: StructureValue[][]
+    ): ListValue {
+        return new ListValue(
             creator,
-            colors.map((row) => new List(creator, row))
+            colors.map((row) => new ListValue(creator, row))
         );
     }
 
@@ -323,23 +337,25 @@ export function createCameraDefinition(
             (evaluation) =>
                 new Camera(
                     evaluation.getEvaluator(),
-                    evaluation.get(WidthBind.names, Number)?.toNumber() ??
+                    evaluation.get(WidthBind.names, NumberValue)?.toNumber() ??
                         DEFAULT_FREQUENCY,
-                    evaluation.get(HeightBind.names, Number)?.toNumber() ??
+                    evaluation.get(HeightBind.names, NumberValue)?.toNumber() ??
                         DEFAULT_WIDTH,
-                    evaluation.get(FrequencyBind.names, Number)?.toNumber() ??
-                        DEFAULT_HEIGHT
+                    evaluation
+                        .get(FrequencyBind.names, NumberValue)
+                        ?.toNumber() ?? DEFAULT_HEIGHT
                 ),
             (stream, evaluation) => {
                 stream.frequency =
-                    evaluation.get(WidthBind.names, Number)?.toNumber() ??
+                    evaluation.get(WidthBind.names, NumberValue)?.toNumber() ??
                     DEFAULT_WIDTH;
                 stream.frequency =
-                    evaluation.get(HeightBind.names, Number)?.toNumber() ??
+                    evaluation.get(HeightBind.names, NumberValue)?.toNumber() ??
                     DEFAULT_HEIGHT;
                 stream.frequency =
-                    evaluation.get(FrequencyBind.names, Number)?.toNumber() ??
-                    DEFAULT_FREQUENCY;
+                    evaluation
+                        .get(FrequencyBind.names, NumberValue)
+                        ?.toNumber() ?? DEFAULT_FREQUENCY;
             }
         ),
         frameType.clone()

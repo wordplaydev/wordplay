@@ -15,10 +15,10 @@ import type Definition from './Definition';
 import StructureDefinition from './StructureDefinition';
 import FunctionDefinition from './FunctionDefinition';
 import type TypeSet from './TypeSet';
-import None from '@runtime/None';
+import NoneValue from '@values/NoneValue';
 import ConversionDefinition from './ConversionDefinition';
 import Docs from './Docs';
-import type Value from '@runtime/Value';
+import type Value from '@values/Value';
 import EvalCloseToken from './EvalCloseToken';
 import EvalOpenToken from './EvalOpenToken';
 import UnclosedDelimiter from '@conflicts/UnclosedDelimiter';
@@ -305,7 +305,7 @@ export default class Block extends Expression {
             values.push(evaluator.popValue(this));
 
         // Root blocks are allowed to have no value, but all others must have one.
-        return this.isStructure() ? new None(this) : values[0];
+        return this.isStructure() ? new NoneValue(this) : values[0];
     }
 
     /**

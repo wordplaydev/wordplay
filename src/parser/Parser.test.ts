@@ -16,7 +16,6 @@ import StreamType from '@nodes/StreamType';
 import TableType from '@nodes/TableType';
 import TextType from '@nodes/TextType';
 import Token from '@nodes/Token';
-import Symbol from '@nodes/Symbol';
 import UnionType from '@nodes/UnionType';
 import TextLiteral from '@nodes/TextLiteral';
 import NoneLiteral from '@nodes/NoneLiteral';
@@ -75,14 +74,12 @@ test('Parse borrows', () => {
     const good = toProgram('↓ mouse');
     expect(good.borrows).toHaveLength(1);
     expect(good.borrows[0]).toBeInstanceOf(Borrow);
-    expect((good.borrows[0] as Borrow).source?.isSymbol(Symbol.Name)).toBe(
-        true
-    );
+    expect((good.borrows[0] as Borrow).source).toBeInstanceOf(Reference);
 
     const prop = toProgram('↓ time.clock');
     expect(prop.borrows).toHaveLength(1);
     expect(prop.borrows[0]).toBeInstanceOf(Borrow);
-    expect((prop.borrows[0] as Borrow).name?.isSymbol(Symbol.Name)).toBe(true);
+    expect((prop.borrows[0] as Borrow).name).toBeInstanceOf(Reference);
 });
 
 test('Parse shares', () => {

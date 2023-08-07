@@ -10,7 +10,7 @@ import type Locale from '@locale/Locale';
 import Purpose from '../concepts/Purpose';
 import Emotion from '../lore/Emotion';
 import Node, { list, node } from './Node';
-import { getPreferred } from './LanguageTagged';
+import { getPreferred as getPreferredName } from './LanguageTagged';
 
 export default class Names extends Node {
     readonly names: Name[];
@@ -108,15 +108,20 @@ export default class Names extends Node {
         preferred: Locale | Locale[],
         symbolic: boolean = true
     ): Name | undefined {
-        const symbolicMatch = symbolic
-            ? this.names.find((name) => name.isSymbolic())
-            : undefined;
-        if (symbolicMatch) return symbolicMatch;
+        if (symbolic) {
+            const symbolicMatch = symbolic
+                ? this.names.find((name) => name.isSymbolic())
+                : undefined;
+            if (symbolicMatch) return symbolicMatch;
+        }
 
         // Build the list of preferred languages
         const locales = Array.isArray(preferred) ? preferred : [preferred];
         // Find the first preferred locale with an exact match.
-        return getPreferred(locales, this.names);
+        return getPreferredName(
+            locales,
+            this.names.filter((name) => !name.isSymbolic())
+        );
     }
 
     hasLocale(lang: LanguageCode) {

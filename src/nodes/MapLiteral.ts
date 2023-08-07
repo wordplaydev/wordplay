@@ -1,11 +1,11 @@
 import Expression from './Expression';
-import KeyValue from './KeyValue';
+import KeyValue from '@nodes/KeyValue';
 import type Token from './Token';
 import type Type from './Type';
 import type Conflict from '@conflicts/Conflict';
 import type Evaluator from '@runtime/Evaluator';
-import type Value from '@runtime/Value';
-import Map from '@runtime/Map';
+import type Value from '@values/Value';
+import MapValue from '@values/MapValue';
 import type Step from '@runtime/Step';
 import Finish from '@runtime/Finish';
 import Start from '@runtime/Start';
@@ -26,7 +26,7 @@ import Glyphs from '../lore/Glyphs';
 import Purpose from '../concepts/Purpose';
 import type { BasisTypeName } from '../basis/BasisConstants';
 import concretize from '../locale/concretize';
-import ValueException from '../runtime/ValueException';
+import ValueException from '../values/ValueException';
 import Symbol from './Symbol';
 
 export default class MapLiteral extends Expression {
@@ -176,7 +176,7 @@ export default class MapLiteral extends Expression {
             if (key instanceof ValueException) return value;
             values.unshift([key, value]);
         }
-        return new Map(this, values);
+        return new MapValue(this, values);
     }
 
     evaluateTypeSet(

@@ -1,6 +1,6 @@
 import { test, expect } from 'vitest';
 import Evaluator from '@runtime/Evaluator';
-import { DefaultLocale } from '../db/Creator';
+import { DefaultLocale } from '../db/Database';
 
 test.each([
     ['{1:"hi" 2:"bye"}.pair(3 "hello")', '{1:"hi" 2:"bye" 3:"hello"}'],

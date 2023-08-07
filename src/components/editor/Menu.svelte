@@ -5,7 +5,7 @@
     import type Menu from './util/Menu';
     import { getConceptIndex } from '../project/Contexts';
     import Speech from '../lore/Speech.svelte';
-    import { config } from '../../db/Creator';
+    import { config } from '../../db/Database';
     import MarkupHTMLView from '../concepts/MarkupHTMLView.svelte';
     import Glyphs from '../../lore/Glyphs';
     import { RevisionSet } from './util/Menu';
@@ -198,14 +198,16 @@
     <div class="details">
         {#if selectedRevision instanceof Revision}
             <Speech glyph={selectedConcept ?? Glyphs.Program} below>
-                <MarkupHTMLView
-                    markup={selectedRevision.getDescription(
-                        $config.getLocale()
-                    )}
-                />
-                {#if selectedDocs}
-                    <MarkupHTMLView markup={selectedDocs} />
-                {/if}
+                <svelte:fragment slot="content">
+                    <MarkupHTMLView
+                        markup={selectedRevision.getDescription(
+                            $config.getLocale()
+                        )}
+                    />
+                    {#if selectedDocs}
+                        <MarkupHTMLView markup={selectedDocs} />
+                    {/if}
+                </svelte:fragment>
             </Speech>
         {:else if selectedRevision instanceof RevisionSet}
             {#each selectedRevision.revisions as revision}

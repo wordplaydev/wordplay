@@ -1,11 +1,11 @@
 import type { BasisTypeName } from '../basis/BasisConstants';
-import Simple from './Simple';
-import type Value from './Value';
+import SimpleValue from '../values/SimpleValue';
+import type Value from '../values/Value';
 import type Expression from '../nodes/Expression';
 import Markup from '../nodes/Markup';
 import AnyType from '../nodes/AnyType';
 
-export default class Internal<Kind> extends Simple {
+export default class Internal<Kind> extends SimpleValue {
     readonly value: Kind;
 
     constructor(creator: Expression, initial: Kind) {

@@ -4,7 +4,7 @@
     import type OutputProperty from '@edit/OutputProperty';
     import type OutputPropertyOptions from '@edit/OutputPropertyOptions';
     import { getProject } from '../project/Contexts';
-    import { config } from '../../db/Creator';
+    import { config } from '../../db/Database';
 
     export let property: OutputProperty;
     export let values: OutputPropertyValues;

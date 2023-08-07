@@ -1,5 +1,5 @@
 import type Evaluator from '@runtime/Evaluator';
-import type Value from '@runtime/Value';
+import type Value from '@values/Value';
 import type Type from '@nodes/Type';
 import type Step from '@runtime/Step';
 import type Expression from '@nodes/Expression';
@@ -11,12 +11,12 @@ import type TypeSet from '@nodes/TypeSet';
 import StartFinish from '@runtime/StartFinish';
 import AtomicExpression from '@nodes/AtomicExpression';
 import type Locale from '@locale/Locale';
-import InternalException from '@runtime/InternalException';
+import InternalException from '@values/InternalException';
 import Glyphs from '../lore/Glyphs';
 import concretize from '../locale/concretize';
 import Purpose from '../concepts/Purpose';
-import Start from '../runtime/Start';
-import Finish from '../runtime/Finish';
+import Start from '@runtime/Start';
+import Finish from '@runtime/Finish';
 
 export default class InternalExpression extends AtomicExpression {
     readonly type: Type;

@@ -1,6 +1,6 @@
 import toStructure from '@basis/toStructure';
-import Structure from '@runtime/Structure';
-import type Value from '@runtime/Value';
+import StructureValue from '@values/StructureValue';
+import type Value from '@values/Value';
 import type Color from './Color';
 import Output, { getOutputInputs } from './Output';
 import type Place from './Place';
@@ -127,7 +127,7 @@ export function toPose(
 ): Pose | undefined {
     if (
         !(
-            value instanceof Structure &&
+            value instanceof StructureValue &&
             value.type === project.shares.output.Pose
         )
     )

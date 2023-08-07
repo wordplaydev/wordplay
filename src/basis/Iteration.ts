@@ -12,17 +12,17 @@ import type Names from '../nodes/Names';
 import type { Grammar } from '../nodes/Node';
 import type Type from '../nodes/Type';
 import type TypeSet from '../nodes/TypeSet';
-import Check from '../runtime/Check';
-import Evaluation from '../runtime/Evaluation';
-import type Evaluator from '../runtime/Evaluator';
-import Finish from '../runtime/Finish';
-import FunctionValue from '../runtime/FunctionValue';
-import Initialize from '../runtime/Initialize';
-import Internal from '../runtime/Internal';
-import Next from '../runtime/Next';
-import Start from '../runtime/Start';
-import type Step from '../runtime/Step';
-import Value from '../runtime/Value';
+import Check from '@runtime/Check';
+import Evaluation from '@runtime/Evaluation';
+import type Evaluator from '@runtime/Evaluator';
+import Finish from '@runtime/Finish';
+import FunctionValue from '../values/FunctionValue';
+import Initialize from '@runtime/Initialize';
+import Internal from '@runtime/Internal';
+import Next from '@runtime/Next';
+import Start from '@runtime/Start';
+import type Step from '@runtime/Step';
+import Value from '../values/Value';
 
 const IterationState = 'state';
 

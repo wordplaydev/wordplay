@@ -152,19 +152,23 @@ export default abstract class Node {
                   .join(' ')}•`;
     }
 
+    //filter<S extends T>(predicate: (value: T, index: number, array: T[]) => value is S, thisArg?: any): S[];
+
     /** Returns all this and all descendants in depth first order. Optionally uses the given function to decide whether to include a node. */
-    nodes(include?: (node: Node) => boolean): Node[] {
+    nodes<Kind extends Node>(include?: (node: Node) => node is Kind): Kind[] {
         const nodes: Node[] = [];
         this.traverse((node) => {
-            if (include === undefined || include.call(undefined, node) === true)
+            if (include === undefined || include(node) === true)
                 nodes.push(node);
             return true;
         });
-        return nodes;
+        return nodes as Kind[];
     }
 
     find<NodeType extends Node>(type: Function, nth: number = 0) {
-        return this.nodes((node) => node instanceof type)[nth] as NodeType;
+        return this.nodes((node): node is NodeType => node instanceof type)[
+            nth
+        ] as NodeType;
     }
 
     /** Finds the descendant of this node (or this node) that has the given ID. */

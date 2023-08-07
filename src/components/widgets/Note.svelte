@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { config } from '../../db/Creator';
+    import { config } from '../../db/Database';
 
     export let center: boolean = false;
 </script>

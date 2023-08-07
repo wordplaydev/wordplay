@@ -15,7 +15,7 @@ import EvalCloseToken from './EvalCloseToken';
 import EvalOpenToken from './EvalOpenToken';
 import Docs from './Docs';
 import Names from './Names';
-import type Value from '@runtime/Value';
+import type Value from '@values/Value';
 import StartFinish from '@runtime/StartFinish';
 import TypeToken from './TypeToken';
 import {
@@ -28,7 +28,7 @@ import {
     none,
 } from './Node';
 import type Locale from '@locale/Locale';
-import StreamDefinitionValue from '../runtime/StreamDefinitionValue';
+import StreamDefinitionValue from '../values/StreamDefinitionValue';
 import type TypeSet from './TypeSet';
 import StreamDefinitionType from './StreamDefinitionType';
 import Glyphs from '../lore/Glyphs';

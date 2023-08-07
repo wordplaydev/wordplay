@@ -16,7 +16,7 @@
     import PlayView from './PlayView.svelte';
     import Button from '../widgets/Button.svelte';
     import Source from '../../nodes/Source';
-    import { config, projects } from '../../db/Creator';
+    import { config, projects } from '../../db/Database';
     import type Spaces from '../../parser/Spaces';
     import { toMarkup } from '../../parser/Parser';
     import MarkupHTMLView from '../concepts/MarkupHTMLView.svelte';
@@ -223,18 +223,15 @@
                             scroll={false}
                             emotion={Emotion[turn.dialog[1]]}
                         >
-                            <MarkupHTMLView markup={turn.speech} />
+                            <svelte:fragment slot="content">
+                                <MarkupHTMLView markup={turn.speech} />
+                            </svelte:fragment>
                         </Speech>
                     {/each}
                 {/key}
             {/if}
         </div>
         <nav>
-            <!-- <Button
-                tip={$creator.getLocale().ui.tooltip.previousLesson}
-                action={() => navigate(progress.previousLesson() ?? progress)}
-                enabled={progress.previousLesson() !== undefined}>≪</Button
-            > -->
             <Button
                 tip={$config.getLocale().ui.description.previousLessonStep}
                 action={() => navigate(progress.previousPause() ?? progress)}
@@ -271,11 +268,6 @@
                             : '?'}</span
                     >{/if}</Note
             >
-            <!-- <Button
-                tip={$creator.getLocale().ui.tooltip.nextLesson}
-                action={() => navigate(progress.nextLesson() ?? progress)}
-                enabled={progress.nextLesson() !== undefined}>≫</Button
-            > -->
             <Button
                 tip={$config.getLocale().ui.description.nextLessonStep}
                 action={() => navigate(progress.nextPause() ?? progress)}

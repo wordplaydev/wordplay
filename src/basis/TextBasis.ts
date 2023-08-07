@@ -2,13 +2,13 @@ import BooleanType from '@nodes/BooleanType';
 import NumberType from '@nodes/NumberType';
 import TextType from '@nodes/TextType';
 import type Type from '@nodes/Type';
-import Bool from '@runtime/Bool';
-import type Value from '@runtime/Value';
+import BoolValue from '@values/BoolValue';
+import type Value from '@values/Value';
 import { createBasisConversion, createBasisFunction } from './Basis';
-import Text from '@runtime/Text';
+import TextValue from '@values/TextValue';
 import StructureDefinition from '@nodes/StructureDefinition';
-import Number from '@runtime/Number';
-import List from '@runtime/List';
+import NumberValue from '@values/NumberValue';
+import ListValue from '@values/ListValue';
 import Block, { BlockKind } from '@nodes/Block';
 import { getDocLocales } from '@locale/getDocLocales';
 import { getNameLocales } from '@locale/getNameLocales';
@@ -20,7 +20,11 @@ import ListType from '../nodes/ListType';
 export default function bootstrapText(locales: Locale[]) {
     function createBinaryTextFunction<OutputType extends Value>(
         functionText: (locale: Locale) => FunctionText<any>,
-        fun: (requestor: Expression, text: Text, input: Text) => OutputType,
+        fun: (
+            requestor: Expression,
+            text: TextValue,
+            input: TextValue
+        ) => OutputType,
         outputType: Type
     ) {
         return createBasisFunction(
@@ -30,9 +34,9 @@ export default function bootstrapText(locales: Locale[]) {
             [TextType.make()],
             outputType,
             (requestor, evaluation) => {
-                const text = evaluation.getClosure() as Text;
+                const text = evaluation.getClosure() as TextValue;
                 const input = evaluation.getInput(0);
-                if (input === undefined || !(input instanceof Text))
+                if (input === undefined || !(input instanceof TextValue))
                     return evaluation.getValueOrTypeException(
                         requestor,
                         TextType.make(),
@@ -58,7 +62,7 @@ export default function bootstrapText(locales: Locale[]) {
                     [],
                     NumberType.make(),
                     (requestor, evaluator) =>
-                        (evaluator.getClosure() as Text).length(requestor)
+                        (evaluator.getClosure() as TextValue).length(requestor)
                 ),
                 createBasisFunction(
                     locales,
@@ -69,13 +73,16 @@ export default function bootstrapText(locales: Locale[]) {
                     (requestor, evaluation) => {
                         const text = evaluation.getClosure();
                         const count = evaluation.getInput(0);
-                        if (!(text instanceof Text))
+                        if (!(text instanceof TextValue))
                             return evaluation.getValueOrTypeException(
                                 requestor,
                                 TextType.make(),
                                 text
                             );
-                        if (count === undefined || !(count instanceof Number))
+                        if (
+                            count === undefined ||
+                            !(count instanceof NumberValue)
+                        )
                             return evaluation.getValueOrTypeException(
                                 requestor,
                                 NumberType.make(),
@@ -90,13 +97,13 @@ export default function bootstrapText(locales: Locale[]) {
                 createBinaryTextFunction(
                     (locale) => locale.basis.Text.function.equals,
                     (requestor, text, input) =>
-                        new Bool(requestor, text.isEqualTo(input)),
+                        new BoolValue(requestor, text.isEqualTo(input)),
                     BooleanType.make()
                 ),
                 createBinaryTextFunction(
                     (locale) => locale.basis.Text.function.notequals,
                     (requestor, text, input) =>
-                        new Bool(requestor, !text.isEqualTo(input)),
+                        new BoolValue(requestor, !text.isEqualTo(input)),
                     BooleanType.make()
                 ),
                 createBinaryTextFunction(
@@ -104,17 +111,17 @@ export default function bootstrapText(locales: Locale[]) {
                     (requestor, text, input) => text.segment(requestor, input),
                     ListType.make(TextType.make())
                 ),
-                createBinaryTextFunction<Bool>(
+                createBinaryTextFunction<BoolValue>(
                     (locale) => locale.basis.Text.function.has,
                     (requestor, text, input) => text.has(requestor, input),
                     BooleanType.make()
                 ),
-                createBinaryTextFunction<Bool>(
+                createBinaryTextFunction<BoolValue>(
                     (locale) => locale.basis.Text.function.starts,
                     (requestor, text, input) => text.starts(requestor, input),
                     BooleanType.make()
                 ),
-                createBinaryTextFunction<Bool>(
+                createBinaryTextFunction<BoolValue>(
                     (locale) => locale.basis.Text.function.ends,
                     (requestor, text, input) => text.ends(requestor, input),
                     BooleanType.make()
@@ -126,9 +133,12 @@ export default function bootstrapText(locales: Locale[]) {
                     [TextType.make()],
                     TextType.make(),
                     (requestor, evaluation) => {
-                        const text = evaluation.getClosure() as Text;
+                        const text = evaluation.getClosure() as TextValue;
                         const other = evaluation.getInput(0);
-                        if (other === undefined || !(other instanceof Text))
+                        if (
+                            other === undefined ||
+                            !(other instanceof TextValue)
+                        )
                             return evaluation.getValueOrTypeException(
                                 requestor,
                                 TextType.make(),
@@ -144,12 +154,12 @@ export default function bootstrapText(locales: Locale[]) {
                     ),
                     '""',
                     '[""]',
-                    (requestor: Expression, val: Text) =>
-                        new List(
+                    (requestor: Expression, val: TextValue) =>
+                        new ListValue(
                             requestor,
                             val.text
                                 .split('')
-                                .map((c) => new Text(requestor, c))
+                                .map((c) => new TextValue(requestor, c))
                         )
                 ),
                 createBasisConversion(
@@ -159,8 +169,8 @@ export default function bootstrapText(locales: Locale[]) {
                     ),
                     '""',
                     '#',
-                    (requestor: Expression, val: Text) =>
-                        new Number(requestor, val.text)
+                    (requestor: Expression, val: TextValue) =>
+                        new NumberValue(requestor, val.text)
                 ),
             ],
             BlockKind.Structure

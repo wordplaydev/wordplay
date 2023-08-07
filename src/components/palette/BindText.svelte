@@ -4,7 +4,7 @@
     import TextField from '../widgets/TextField.svelte';
     import type OutputProperty from '@edit/OutputProperty';
     import { getProject } from '../project/Contexts';
-    import { config } from '../../db/Creator';
+    import { config } from '../../db/Database';
     import { tick } from 'svelte';
     import Language from '@nodes/Language';
     import { FORMATTED_SYMBOL } from '../../parser/Symbols';

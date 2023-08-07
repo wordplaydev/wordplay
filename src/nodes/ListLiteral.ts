@@ -2,9 +2,9 @@ import Expression from './Expression';
 import ListType from './ListType';
 import type Token from './Token';
 import type Type from './Type';
-import List from '@runtime/List';
+import ListValue from '@values/ListValue';
 import type Evaluator from '@runtime/Evaluator';
-import type Value from '@runtime/Value';
+import type Value from '@values/Value';
 import type Step from '@runtime/Step';
 import Finish from '@runtime/Finish';
 import Start from '@runtime/Start';
@@ -140,7 +140,7 @@ export default class ListLiteral extends Expression {
             values.unshift(evaluator.popValue(this));
 
         // Construct the new list.
-        return new List(this, values);
+        return new ListValue(this, values);
     }
 
     evaluateTypeSet(

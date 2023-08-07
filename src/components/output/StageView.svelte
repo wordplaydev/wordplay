@@ -33,7 +33,7 @@
     import type TypeOutput from '../../output/TypeOutput';
     import Sequence from '../../output/Sequence';
     import Reference from '../../nodes/Reference';
-    import { config } from '../../db/Creator';
+    import { config } from '../../db/Database';
 
     export let project: Project;
     export let evaluator: Evaluator;
@@ -44,6 +44,7 @@
     export let fit: boolean;
     export let grid: boolean;
     export let painting: boolean;
+    export let background: boolean;
 
     const selectedOutput = getSelectedOutput();
     const evaluation = getEvaluation();
@@ -303,11 +304,12 @@
         data-selectable={stage.selectable}
         style={toCSS({
             'font-family': `"${stage.font}", ${DefaultFont}`,
-            background: stage.background.toCSS(),
+            background: background ? stage.background.toCSS() : undefined,
             '--grid-color': stage.background.complement().toCSS(),
             color:
-                stage.getFirstRestPose()?.color?.toCSS() ??
-                'var(--wordplay-foreground)',
+                (
+                    stage.getFirstRestPose()?.color ?? stage.pose.color
+                )?.toCSS() ?? 'var(--wordplay-foreground)',
         })}
         bind:this={view}
     >

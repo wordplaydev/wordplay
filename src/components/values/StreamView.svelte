@@ -2,14 +2,15 @@
 
 <script lang="ts">
     import Symbol from '@nodes/Symbol';
-    import type Stream from '@runtime/Stream';
-    import { config } from '../../db/Creator';
+    import type StreamValue from '@values/StreamValue';
+    import { config } from '../../db/Database';
     import SymbolView from './SymbolView.svelte';
 
-    export let value: Stream;
+    export let value: StreamValue;
+    export let inline: boolean = true;
 </script>
 
-<SymbolView
-    symbol={value.getPreferredName($config.getLocales())}
-    type={Symbol.Name}
-/>
+{#if inline || !inline}<SymbolView
+        symbol={value.getPreferredName($config.getLocales())}
+        type={Symbol.Name}
+    />{/if}

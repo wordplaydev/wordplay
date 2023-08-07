@@ -10,7 +10,7 @@ import Evaluation from '@runtime/Evaluation';
 import type Context from './Context';
 import type Bind from './Bind';
 import type TypeSet from './TypeSet';
-import Exception from '@runtime/Exception';
+import ExceptionValue from '@values/ExceptionValue';
 import ConversionDefinition from './ConversionDefinition';
 import Halt from '@runtime/Halt';
 import Block from './Block';
@@ -18,7 +18,7 @@ import { CONVERT_SYMBOL, PROPERTY_SYMBOL } from '@parser/Symbols';
 import Symbol from './Symbol';
 import Names from './Names';
 import type Evaluator from '@runtime/Evaluator';
-import type Value from '@runtime/Value';
+import type Value from '@values/Value';
 import { node, type Grammar, type Replacement } from './Node';
 import type Locale from '@locale/Locale';
 import StartConversion from '@runtime/StartConversion';
@@ -28,7 +28,7 @@ import { NotAType } from './NotAType';
 import ConversionType from './ConversionType';
 import NeverType from './NeverType';
 import concretize from '../locale/concretize';
-import ConversionException from '../runtime/ConversionException';
+import ConversionException from '@values/ConversionException';
 import ExpressionPlaceholder from './ExpressionPlaceholder';
 import TypePlaceholder from './TypePlaceholder';
 import type Node from './Node';
@@ -220,7 +220,7 @@ export default class Convert extends Expression {
     startEvaluation(evaluator: Evaluator, conversion: ConversionDefinition) {
         // Get the value to convert
         const value = evaluator.popValue(this);
-        if (value instanceof Exception) return value;
+        if (value instanceof ExceptionValue) return value;
 
         // Execute the conversion.
         evaluator.startEvaluation(

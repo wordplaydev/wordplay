@@ -4,7 +4,7 @@
     import NodeView from './NodeView.svelte';
     import NameToken from '@nodes/NameToken';
     import type StructureType from '@nodes/StructureType';
-    import { config } from '../../db/Creator';
+    import { config } from '../../db/Database';
 
     export let node: StructureType;
 

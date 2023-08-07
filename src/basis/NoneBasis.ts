@@ -1,11 +1,11 @@
 import StructureDefinition from '@nodes/StructureDefinition';
-import Text from '@runtime/Text';
-import Bool from '@runtime/Bool';
-import None from '@runtime/None';
+import TextValue from '@values/TextValue';
+import BoolValue from '@values/BoolValue';
+import NoneValue from '@values/NoneValue';
 import Block, { BlockKind } from '@nodes/Block';
 import BooleanType from '@nodes/BooleanType';
 import NoneType from '@nodes/NoneType';
-import type Value from '@runtime/Value';
+import type Value from '@values/Value';
 import { createBasisConversion, createBasisFunction } from './Basis';
 import { getDocLocales } from '@locale/getDocLocales';
 import { getNameLocales } from '@locale/getNameLocales';
@@ -18,7 +18,11 @@ export default function bootstrapNone(locales: Locale[]) {
     function createNoneFunction(
         locales: Locale[],
         text: (locale: Locale) => FunctionText<any>,
-        expression: (requestor: Expression, left: None, right: None) => Value
+        expression: (
+            requestor: Expression,
+            left: NoneValue,
+            right: NoneValue
+        ) => Value
     ) {
         return createBasisFunction(
             locales,
@@ -30,14 +34,14 @@ export default function bootstrapNone(locales: Locale[]) {
                 const left = evaluation.getClosure();
                 const right = evaluation.getInput(0);
                 // This should be impossible, but the type system doesn't know it.
-                if (!(left instanceof None))
+                if (!(left instanceof NoneValue))
                     return evaluation.getValueOrTypeException(
                         requestor,
                         NoneType.None,
                         left
                     );
 
-                if (!(right instanceof None))
+                if (!(right instanceof NoneValue))
                     return evaluation.getValueOrTypeException(
                         requestor,
                         NoneType.None,
@@ -63,20 +67,26 @@ export default function bootstrapNone(locales: Locale[]) {
                     ),
                     NoneType.make(),
                     TextType.make(),
-                    (requestor, val: None) =>
-                        new Text(requestor, val.toString())
+                    (requestor, val: NoneValue) =>
+                        new TextValue(requestor, val.toString())
                 ),
                 createNoneFunction(
                     locales,
                     (locale) => locale.basis.None.function.equals,
-                    (requestor: Expression, left: None, right: None) =>
-                        new Bool(requestor, left.isEqualTo(right))
+                    (
+                        requestor: Expression,
+                        left: NoneValue,
+                        right: NoneValue
+                    ) => new BoolValue(requestor, left.isEqualTo(right))
                 ),
                 createNoneFunction(
                     locales,
                     (locale) => locale.basis.None.function.notequals,
-                    (requestor: Expression, left: None, right: None) =>
-                        new Bool(requestor, !left.isEqualTo(right))
+                    (
+                        requestor: Expression,
+                        left: NoneValue,
+                        right: NoneValue
+                    ) => new BoolValue(requestor, !left.isEqualTo(right))
                 ),
             ],
             BlockKind.Structure

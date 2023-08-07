@@ -1,6 +1,6 @@
 <script lang="ts">
     import Button from './Button.svelte';
-    import { config } from '../../db/Creator';
+    import { config } from '../../db/Database';
 
     export let prompt: string;
     export let decide: (yes: boolean) => void;

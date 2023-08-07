@@ -7,7 +7,7 @@ import ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
 import Token from '@nodes/Token';
 import Type from '@nodes/Type';
 import TypePlaceholder from '@nodes/TypePlaceholder';
-import Exception from '@runtime/Exception';
+import ExceptionValue from '@values/ExceptionValue';
 import { isValidDropTarget, type InsertionPoint } from '../../../edit/Drag';
 import type Caret from '../../../edit/Caret';
 import { getUnderlineOf, type Outline } from './outline';
@@ -75,7 +75,7 @@ export function getHighlights(
 
     // Is there an exception on the last step? Highlight the node that created it!
     if (
-        latestValue instanceof Exception &&
+        latestValue instanceof ExceptionValue &&
         latestValue.step !== undefined &&
         latestValue.step.node instanceof Node
     )
@@ -106,7 +106,8 @@ export function getHighlights(
             // unless they are dragged or contained in the dragged node
             if (dragged instanceof Expression)
                 for (const placeholder of source.expression.nodes(
-                    (n) => n instanceof ExpressionPlaceholder
+                    (n): n is ExpressionPlaceholder =>
+                        n instanceof ExpressionPlaceholder
                 ))
                     if (
                         !dragged.contains(placeholder) &&
@@ -126,8 +127,8 @@ export function getHighlights(
 
             // Find all of the type placeholders and highlight them sa drop target
             if (dragged instanceof Type)
-                for (const placeholder of source.expression.nodes(
-                    (n) => n instanceof TypePlaceholder
+                for (const placeholder of source.expression.nodes<TypePlaceholder>(
+                    (n): n is TypePlaceholder => n instanceof TypePlaceholder
                 ))
                     if (
                         !dragged.contains(placeholder) &&

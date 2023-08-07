@@ -12,7 +12,7 @@
     import type Expression from '@nodes/Expression';
     import Button from '../widgets/Button.svelte';
     import Note from '../widgets/Note.svelte';
-    import { config } from '../../db/Creator';
+    import { config } from '../../db/Database';
 
     export let project: Project;
     export let map: MapLiteral | undefined;

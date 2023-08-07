@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { config } from '../../db/Creator';
+    import { config } from '../../db/Database';
 </script>
 
 <div class="container">

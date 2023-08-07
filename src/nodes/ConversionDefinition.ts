@@ -9,7 +9,7 @@ import ConversionType from './ConversionType';
 import Type from './Type';
 import type Evaluator from '@runtime/Evaluator';
 import type Step from '@runtime/Step';
-import Conversion from '@runtime/Conversion';
+import ConversionDefinitionValue from '@values/ConversionDefinitionValue';
 import type Context from './Context';
 import { parseType, toTokens } from '@parser/Parser';
 import { CONVERT_SYMBOL } from '@parser/Symbols';
@@ -20,11 +20,11 @@ import StartFinish from '@runtime/StartFinish';
 import { node, none, type Grammar, type Replacement, any } from './Node';
 import type Locale from '@locale/Locale';
 import AtomicExpression from './AtomicExpression';
-import InternalException from '@runtime/InternalException';
+import InternalException from '@values/InternalException';
 import Glyphs from '../lore/Glyphs';
 import Purpose from '../concepts/Purpose';
 import concretize from '../locale/concretize';
-import type Value from '../runtime/Value';
+import type Value from '../values/Value';
 import NodeRef from '../locale/NodeRef';
 import TypePlaceholder from './TypePlaceholder';
 import ExpressionPlaceholder from './ExpressionPlaceholder';
@@ -164,7 +164,7 @@ export default class ConversionDefinition extends AtomicExpression {
                 'there is no evaluation, which should be impossible'
             );
 
-        const value = new Conversion(this, context);
+        const value = new ConversionDefinitionValue(this, context);
 
         context.addConversion(value);
 

@@ -6,7 +6,7 @@ import Evaluator from '@runtime/Evaluator';
 import Bind from './Bind';
 import { MisplacedShare } from '@conflicts/MisplacedShare';
 import { MissingShareLanguages } from '@conflicts/MissingShareLanguages';
-import { DefaultLocale } from '../db/Creator';
+import { DefaultLocale } from '../db/Database';
 
 test.each([
     ['a•#: 1\na', 'a•"": 1\na', Bind, IncompatibleType],

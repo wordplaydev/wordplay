@@ -1,9 +1,9 @@
 import BooleanType from '@nodes/BooleanType';
 import type Locale from '@locale/Locale';
-import Bool from './Bool';
-import type Evaluator from './Evaluator';
+import BoolValue from '@values/BoolValue';
+import type Evaluator from '@runtime/Evaluator';
 import Step from './Step';
-import type Value from './Value';
+import type Value from '../values/Value';
 import concretize from '../locale/concretize';
 import type Expression from '../nodes/Expression';
 
@@ -29,7 +29,7 @@ export default class JumpIf extends Step {
         const value = this.peek
             ? evaluator.peekValue()
             : evaluator.popValue(this.node, BooleanType.make());
-        if (!(value instanceof Bool)) return value;
+        if (!(value instanceof BoolValue)) return value;
         if (value.bool === this.yes) evaluator.jump(this.count);
         return undefined;
     }
@@ -39,7 +39,7 @@ export default class JumpIf extends Step {
         return concretize(
             locale,
             locale.node.Conditional.else,
-            val instanceof Bool && val.bool === this.yes
+            val instanceof BoolValue && val.bool === this.yes
         );
     }
 }

@@ -1,7 +1,7 @@
 import Token from './Token';
 import NoneType from './NoneType';
 import type Type from './Type';
-import None from '@runtime/None';
+import NoneValue from '@values/NoneValue';
 import type Bind from './Bind';
 import type Context from './Context';
 import type TypeSet from './TypeSet';
@@ -68,7 +68,7 @@ export default class NoneLiteral extends Literal {
     }
 
     getValue() {
-        return new None(this);
+        return new NoneValue(this);
     }
 
     getStart() {

@@ -1,4 +1,4 @@
-import Number from '@runtime/Number';
+import NumberValue from '@values/NumberValue';
 import type Conflict from '@conflicts/Conflict';
 import NumberType from './NumberType';
 import Token from './Token';
@@ -124,9 +124,9 @@ export default class NumberLiteral extends Literal {
     }
 
     getValue() {
-        if (this.#cache) return new Number(this, this.#cache, this.unit);
+        if (this.#cache) return new NumberValue(this, this.#cache, this.unit);
         else {
-            const value = new Number(this, this.number, this.unit);
+            const value = new NumberValue(this, this.number, this.unit);
             this.#cache = value.num;
             return value;
         }

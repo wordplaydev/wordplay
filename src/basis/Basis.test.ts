@@ -7,7 +7,7 @@ import UnparsableType from '@nodes/UnparsableType';
 import UnparsableExpression from '@nodes/UnparsableExpression';
 import Project from '../models/Project';
 import Example from '../nodes/Example';
-import { DefaultLocale } from '../db/Creator';
+import { DefaultLocale } from '../db/Database';
 import { Basis } from './Basis';
 
 const basis = Basis.getLocalizedBasis(DefaultLocale);
@@ -21,11 +21,11 @@ function checkBasisNodes(nodes: Node[]) {
     const unparsables = nodes.reduce(
         (unparsables: (UnparsableExpression | UnparsableType)[], def) => [
             ...unparsables,
-            ...(def.nodes(
-                (n) =>
+            ...def.nodes(
+                (n): n is UnparsableExpression | UnparsableType =>
                     n instanceof UnparsableExpression ||
                     n instanceof UnparsableType
-            ) as (UnparsableExpression | UnparsableType)[]),
+            ),
         ],
         []
     );

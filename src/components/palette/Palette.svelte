@@ -6,7 +6,7 @@
     import OutputExpression from '@edit/OutputExpression';
     import Speech from '../lore/Speech.svelte';
     import { getConceptIndex, getSelectedOutput } from '../project/Contexts';
-    import { config } from '../../db/Creator';
+    import { config } from '../../db/Database';
 
     export let project: Project;
 
@@ -62,14 +62,16 @@
                           .join(', '),
         }}
     >
-        {$config
-            .getLocales()
-            .map((t) =>
-                propertyValues.size === 0
-                    ? t.ui.header.select
-                    : t.ui.header.editing
-            )
-            .join(' ')}
+        <svelte:fragment slot="content">
+            {$config
+                .getLocales()
+                .map((t) =>
+                    propertyValues.size === 0
+                        ? t.ui.header.select
+                        : t.ui.header.editing
+                )
+                .join(' ')}</svelte:fragment
+        >
     </Speech>
 
     {#each Array.from(propertyValues.entries()) as [property, values]}

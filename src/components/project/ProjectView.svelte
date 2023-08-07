@@ -70,14 +70,14 @@
     import Timeline from '../evaluator/Timeline.svelte';
     import Painting from '../output/Painting.svelte';
     import type PaintingConfiguration from '../output/PaintingConfiguration';
-    import { config } from '../../db/Creator';
+    import { config } from '../../db/Database';
     import Arrangement from '../../db/Arrangement';
     import {
         DOCUMENTATION_SYMBOL,
         PALETTE_SYMBOL,
         STAGE_SYMBOL,
     } from '../../parser/Symbols';
-    import type Value from '../../runtime/Value';
+    import type Value from '../../values/Value';
     import {
         ShowKeyboardHelp,
         VisibleModifyCommands,
@@ -188,7 +188,7 @@
                     if (name === undefined) return undefined;
                     const newSource = proj.getSourceWithName(name);
                     if (newSource === undefined) return undefined;
-                    return newSource.root.resolvePath(newSource, path);
+                    return newSource.root.resolvePath(path);
                 })
                 .filter(
                     (output): output is Evaluate => output instanceof Evaluate
@@ -934,7 +934,7 @@
                           (editor) => editor.focused
                       )?.caret,
             evaluator: $evaluator,
-            creator: $config,
+            database: $config,
             fullscreen,
             focusOrCycleTile,
             help: () => (help = !help),
@@ -1154,7 +1154,6 @@
                                     <OutputView
                                         {project}
                                         evaluator={$evaluator}
-                                        source={selectedSource}
                                         value={latestValue}
                                         fullscreen={layout.fullscreenID ===
                                             tile.id}
@@ -1242,12 +1241,7 @@
                 {#if tile}
                     <!-- Mini source view output is visible when collapsed, or if its main, when output is collapsed. -->
                     <SourceTileToggle
-                        {project}
-                        evaluator={$evaluator}
                         {source}
-                        output={source === project.main
-                            ? layout.getOutput()?.mode === Mode.Collapsed
-                            : tile.mode === Mode.Collapsed}
                         expanded={tile.mode === Mode.Expanded}
                         on:toggle={() => toggleTile(tile)}
                     />

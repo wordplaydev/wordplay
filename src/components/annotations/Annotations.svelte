@@ -17,7 +17,7 @@
     import type Evaluator from '@runtime/Evaluator';
     import type Project from '../../models/Project';
     import { getEvaluation } from '../project/Contexts';
-    import { config } from '../../db/Creator';
+    import { config } from '../../db/Database';
     import type Markup from '../../nodes/Markup';
     import concretize from '../../locale/concretize';
     import type Source from '../../nodes/Source';

@@ -5,7 +5,7 @@ import Conditional from './Conditional';
 import BinaryEvaluate from './BinaryEvaluate';
 import { test, expect } from 'vitest';
 import IncompatibleInput from '../conflicts/IncompatibleInput';
-import { DefaultLocale } from '../db/Creator';
+import { DefaultLocale } from '../db/Database';
 
 test.each([
     ['⊥ ? 2 3"', '1 ? 2 3', Conditional, ExpectedBooleanCondition],

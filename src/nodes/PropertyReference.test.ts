@@ -1,11 +1,11 @@
 import Evaluator from '@runtime/Evaluator';
 import PropertyReference from './PropertyReference';
-import Text from '@runtime/Text';
+import TextValue from '@values/TextValue';
 import { test, expect } from 'vitest';
 import Source from './Source';
 import Project from '../models/Project';
 import Bind from './Bind';
-import { DefaultLocale } from '../db/Creator';
+import { DefaultLocale } from '../db/Database';
 
 test('Test scoping', () => {
     const code = `
@@ -48,5 +48,5 @@ test('Test access evaluate', () => {
             DefaultLocale,
             "•Cat(name•'') ()\nCat('boomy').name"
         )
-    ).toBeInstanceOf(Text);
+    ).toBeInstanceOf(TextValue);
 });

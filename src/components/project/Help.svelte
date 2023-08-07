@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { config } from '../../db/Creator';
+    import { config } from '../../db/Database';
     import Commands, { Category } from '../editor/util/Commands';
     import Dialog from '../widgets/Dialog.svelte';
     import CommandDescription from './CommandDescription.svelte';

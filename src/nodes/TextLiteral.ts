@@ -1,6 +1,6 @@
 import TextType from './TextType';
 import type Type from './Type';
-import Text from '@runtime/Text';
+import TextValue from '@values/TextValue';
 import type Language from './Language';
 import type Bind from './Bind';
 import type Context from './Context';
@@ -18,11 +18,11 @@ import { getPreferred } from './LanguageTagged';
 import Token from './Token';
 import Symbol from './Symbol';
 import type Expression from './Expression';
-import type Step from '../runtime/Step';
-import Start from '../runtime/Start';
-import Finish from '../runtime/Finish';
-import type Evaluator from '../runtime/Evaluator';
-import type Value from '../runtime/Value';
+import type Step from '@runtime/Step';
+import Start from '@runtime/Start';
+import Finish from '@runtime/Finish';
+import type Evaluator from '@runtime/Evaluator';
+import type Value from '../values/Value';
 
 export default class TextLiteral extends Literal {
     /** The raw token in the program */
@@ -106,8 +106,8 @@ export default class TextLiteral extends Literal {
             let next: string;
             if (p instanceof Token) {
                 next = unescaped(p.getText());
-            } else if (evaluator.peekValue() instanceof Text) {
-                next = (evaluator.popValue(this) as Text).text;
+            } else if (evaluator.peekValue() instanceof TextValue) {
+                next = (evaluator.popValue(this) as TextValue).text;
             } else {
                 next = evaluator.popValue(this).toString();
             }
@@ -115,7 +115,11 @@ export default class TextLiteral extends Literal {
             text = next + text;
         }
         // Construct the text value.
-        return new Text(this, text, translation.language?.getLanguageText());
+        return new TextValue(
+            this,
+            text,
+            translation.language?.getLanguageText()
+        );
     }
 
     computeConflicts() {}
@@ -151,10 +155,10 @@ export default class TextLiteral extends Literal {
             : getPreferred(locales, this.texts);
     }
 
-    getValue(locales: Locale[]): Text {
+    getValue(locales: Locale[]): TextValue {
         // Get the alternatives
         const best = this.getLocaleText(locales);
-        return new Text(
+        return new TextValue(
             this,
             best.getText(),
             best.language === undefined

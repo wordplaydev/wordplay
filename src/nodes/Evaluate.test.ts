@@ -11,7 +11,7 @@ import SetType from './SetType';
 import MapType from './MapType';
 import UnknownInput from '@conflicts/UnknownInput';
 import UnexpectedTypeInput from '@conflicts/UnexpectedTypeInput';
-import { DefaultLocale } from '../db/Creator';
+import { DefaultLocale } from '../db/Database';
 
 test.each([
     [

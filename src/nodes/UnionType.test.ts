@@ -2,7 +2,7 @@ import { test, expect } from 'vitest';
 import Project from '../models/Project';
 import Source from './Source';
 import { parseType, toTokens } from '../parser/Parser';
-import { DefaultLocale } from '../db/Creator';
+import { DefaultLocale } from '../db/Database';
 
 test.each([
     ["'hi'|'hello'", "''"],

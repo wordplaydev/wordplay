@@ -5,7 +5,7 @@
     import ConceptView from './ConceptView.svelte';
     import type BindConcept from '@concepts/BindConcept';
     import { onMount } from 'svelte';
-    import { config } from '@db/Creator';
+    import { config } from '@db/Database';
 
     export let concept: StructureConcept;
     export let subconcept: BindConcept | undefined = undefined;
@@ -26,7 +26,7 @@
     });
 </script>
 
-<ConceptView {concept}>
+<ConceptView {concept} variables={concept.definition.types}>
     <!-- {#if concept.definition.types}
         <h2>typevariables</h2>
         {#each concept.definition.types.variables as type}{/each}
@@ -35,11 +35,7 @@
     {#if concept.inter.length > 0}
         <h2>{$config.getLocale().ui.header.interfaces}</h2>
         {#each concept.inter as inter}
-            <CodeView
-                concept={inter}
-                node={inter.getRepresentation()}
-                selectable
-            />
+            <CodeView concept={inter} node={inter.getRepresentation()} />
         {/each}
     {/if}
 
@@ -64,7 +60,7 @@
     {#if concept.functions.length > 0}
         <h2>{$config.getLocale().ui.header.functions}</h2>
         {#each concept.functions as fun}
-            <CodeView node={fun.getRepresentation()} concept={fun} selectable />
+            <CodeView node={fun.getRepresentation()} concept={fun} />
         {/each}
     {/if}
 
@@ -74,7 +70,6 @@
             <CodeView
                 node={conversion.getRepresentation()}
                 concept={conversion}
-                selectable
             />
         {/each}
     {/if}

@@ -10,7 +10,7 @@
     import MapLiteral from '@nodes/MapLiteral';
     import KeyValue from '@nodes/KeyValue';
     import NumberLiteral from '@nodes/NumberLiteral';
-    import { config } from '../../db/Creator';
+    import { config } from '../../db/Database';
     import getPoseProperties from '@edit/PoseProperties';
 
     export let project: Project;

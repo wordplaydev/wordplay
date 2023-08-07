@@ -9,7 +9,7 @@
     import { getCaret } from '../project/Contexts';
     import NodeView from './NodeView.svelte';
     import Button from '../widgets/Button.svelte';
-    import { config } from '../../db/Creator';
+    import { config } from '../../db/Database';
 
     export let nodes: Node[];
     export let elide: boolean = false;

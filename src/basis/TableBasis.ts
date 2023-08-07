@@ -3,7 +3,7 @@ import Block, { BlockKind } from '@nodes/Block';
 import BooleanType from '@nodes/BooleanType';
 import FunctionDefinition from '@nodes/FunctionDefinition';
 import StructureDefinition from '@nodes/StructureDefinition';
-import Bool from '@runtime/Bool';
+import BoolValue from '@values/BoolValue';
 import InternalExpression from './InternalExpression';
 import type Docs from '@nodes/Docs';
 import type Names from '@nodes/Names';
@@ -13,15 +13,15 @@ import { getNameLocales } from '@locale/getNameLocales';
 import type Locale from '../locale/Locale';
 import type Type from '../nodes/Type';
 import TableType from '../nodes/TableType';
-import Table from '../runtime/Table';
-import Evaluation from '../runtime/Evaluation';
+import TableValue from '../values/TableValue';
+import Evaluation from '@runtime/Evaluation';
 import type Expression from '../nodes/Expression';
-import type Value from '../runtime/Value';
+import type Value from '../values/Value';
 import { createBasisConversion } from './Basis';
-import List from '../runtime/List';
+import ListValue from '@values/ListValue';
 import ListType from '../nodes/ListType';
 import TextType from '../nodes/TextType';
-import Text from '../runtime/Text';
+import TextValue from '../values/TextValue';
 import TypeVariables from '../nodes/TypeVariables';
 import TypeVariable from '../nodes/TypeVariable';
 
@@ -80,7 +80,10 @@ export default function bootstrapTable(locales: Locale[]) {
                                 requestor,
                                 evaluation,
                                 (requestor, left, right) =>
-                                    new Bool(requestor, left.isEqualTo(right))
+                                    new BoolValue(
+                                        requestor,
+                                        left.isEqualTo(right)
+                                    )
                             )
                     )
                 ),
@@ -106,7 +109,10 @@ export default function bootstrapTable(locales: Locale[]) {
                                 requestor,
                                 evaluation,
                                 (requestor, left, right) =>
-                                    new Bool(requestor, !left.isEqualTo(right))
+                                    new BoolValue(
+                                        requestor,
+                                        !left.isEqualTo(right)
+                                    )
                             )
                     )
                 ),
@@ -117,8 +123,8 @@ export default function bootstrapTable(locales: Locale[]) {
                     ),
                     TableType.make(),
                     ListType.make(RowTypeVariable.getReference()),
-                    (requestor: Expression, table: Table) =>
-                        new List(requestor, table.rows)
+                    (requestor: Expression, table: TableValue) =>
+                        new ListValue(requestor, table.rows)
                 ),
                 createBasisConversion(
                     getDocLocales(
@@ -127,8 +133,8 @@ export default function bootstrapTable(locales: Locale[]) {
                     ),
                     TableType.make(),
                     TextType.make(),
-                    (requestor: Expression, table: Table) =>
-                        new Text(requestor, table.toWordplay([]))
+                    (requestor: Expression, table: TableValue) =>
+                        new TextValue(requestor, table.toWordplay([]))
                 ),
             ],
             BlockKind.Structure
@@ -139,20 +145,24 @@ export default function bootstrapTable(locales: Locale[]) {
 function binaryOp(
     requestor: Expression,
     evaluation: Evaluation,
-    evaluate: (requestor: Expression, left: Table, right: Table) => Value
+    evaluate: (
+        requestor: Expression,
+        left: TableValue,
+        right: TableValue
+    ) => Value
 ): Value {
     const left = evaluation.getClosure();
     const right = evaluation.resolve(
         (evaluation.getDefinition() as FunctionDefinition).inputs[0].names
     );
     // This should be impossible, but the type system doesn't know it.
-    if (!(left instanceof Table))
+    if (!(left instanceof TableValue))
         return evaluation.getValueOrTypeException(
             requestor,
             TableType.make(),
             left instanceof Evaluation ? undefined : left
         );
-    if (!(right instanceof Table))
+    if (!(right instanceof TableValue))
         return evaluation.getValueOrTypeException(
             requestor,
             TableType.make(),

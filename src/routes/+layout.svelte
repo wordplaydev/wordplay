@@ -9,7 +9,7 @@
     } from '../components/project/Contexts';
     import { writable } from 'svelte/store';
     import Fonts from '../basis/Fonts';
-    import { config } from '../db/Creator';
+    import { config } from '../db/Database';
     import { browser } from '$app/environment';
     import { goto } from '$app/navigation';
     import { PUBLIC_CONTEXT } from '$env/static/public';
@@ -53,7 +53,7 @@
         /** Load whatever is stored in local storage */
         $config.loadLocalData();
 
-        // Have the Creator cleanup database connections.
+        // Have the Database cleanup database connections.
         return () => {
             $config.clean();
         };

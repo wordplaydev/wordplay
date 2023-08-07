@@ -17,9 +17,9 @@ import Is from './Is';
 import { PROPERTY_SYMBOL } from '@parser/Symbols';
 import Symbol from './Symbol';
 import TypeVariable from './TypeVariable';
-import NameException from '@runtime/NameException';
+import NameException from '@values/NameException';
 import type Definition from './Definition';
-import type Value from '@runtime/Value';
+import type Value from '@values/Value';
 import StreamType from './StreamType';
 import Reference from './Reference';
 import NameType from './NameType';
@@ -28,7 +28,7 @@ import { node, type Grammar, type Replacement } from './Node';
 import type Locale from '@locale/Locale';
 import NodeRef from '@locale/NodeRef';
 import Glyphs from '../lore/Glyphs';
-import UnimplementedException from '../runtime/UnimplementedException';
+import UnimplementedException from '../values/UnimplementedException';
 import Purpose from '../concepts/Purpose';
 import { UnknownName } from '../conflicts/UnknownName';
 import concretize from '../locale/concretize';
@@ -258,12 +258,12 @@ export default class PropertyReference extends Expression {
                     .getRoot(this)
                     ?.getAncestors(this)
                     ?.filter(
-                        (a) =>
+                        (a): a is Conditional =>
                             // Guards must be conditionals
                             a instanceof Conditional &&
                             // Guards must have references to this same property in a type check
                             a.condition.nodes(
-                                (n) =>
+                                (n): n is PropertyReference =>
                                     this.name !== undefined &&
                                     context.source.root.getParent(n) instanceof
                                         Is &&
@@ -278,7 +278,7 @@ export default class PropertyReference extends Expression {
                                         ).getDefinition(this.name.getName())
                             ).length > 0
                     )
-                    .reverse() as Conditional[];
+                    .reverse();
 
                 // Grab the furthest ancestor and evaluate possible types from there.
                 const root =

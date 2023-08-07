@@ -1,13 +1,13 @@
 import toStructure from '../basis/toStructure';
-import type Value from '@runtime/Value';
+import type Value from '@values/Value';
 import { getBind } from '@locale/getBind';
 import Output, { getOutputInputs } from './Output';
 import { toNumber } from './Stage';
-import type Evaluator from '../runtime/Evaluator';
+import type Evaluator from '@runtime/Evaluator';
 import type Names from '../nodes/Names';
-import Number from '../runtime/Number';
-import Evaluation from '../runtime/Evaluation';
-import Structure from '../runtime/Structure';
+import NumberValue from '@values/NumberValue';
+import Evaluation from '@runtime/Evaluation';
+import StructureValue from '../values/StructureValue';
 import Unit from '../nodes/Unit';
 import type Locale from '../locale/Locale';
 
@@ -63,7 +63,7 @@ export default class Place extends Output {
 }
 
 export function toPlace(value: Value | undefined): Place | undefined {
-    if (!(value instanceof Structure)) return undefined;
+    if (!(value instanceof StructureValue)) return undefined;
 
     const [xVal, yVal, zVal] = getOutputInputs(value);
     const x = toNumber(xVal);
@@ -88,22 +88,22 @@ export function createPlaceStructure(
     x: number,
     y: number,
     z: number
-): Structure {
+): StructureValue {
     const creator = evaluator.getMain();
 
     const place = new Map<Names, Value>();
     const PlaceType = evaluator.project.shares.output.Place;
     place.set(
         PlaceType.inputs[0].names,
-        new Number(creator, x, Unit.reuse(['m']))
+        new NumberValue(creator, x, Unit.reuse(['m']))
     );
     place.set(
         PlaceType.inputs[1].names,
-        new Number(creator, y, Unit.reuse(['m']))
+        new NumberValue(creator, y, Unit.reuse(['m']))
     );
     place.set(
         PlaceType.inputs[2].names,
-        new Number(creator, z, Unit.reuse(['m']))
+        new NumberValue(creator, z, Unit.reuse(['m']))
     );
 
     const evaluation = new Evaluation(
@@ -114,7 +114,7 @@ export function createPlaceStructure(
         place
     );
 
-    const structure = new Structure(creator, evaluation);
+    const structure = new StructureValue(creator, evaluation);
 
     return structure;
 }

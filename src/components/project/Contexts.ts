@@ -75,7 +75,7 @@ export type EvaluationContext = {
     streams: StreamChange[];
 };
 export const EvaluationSymbol = Symbol('evaluation');
-export function getEvaluation(): Writable<EvaluationContext> | undefined {
+export function getEvaluation(): Writable<EvaluationContext> {
     return getContext(EvaluationSymbol);
 }
 

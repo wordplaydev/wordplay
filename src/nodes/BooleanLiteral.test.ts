@@ -1,8 +1,8 @@
 import { FALSE_SYMBOL, TRUE_SYMBOL } from '@parser/Symbols';
 import Evaluator from '@runtime/Evaluator';
-import Exception from '@runtime/Exception';
+import ExceptionValue from '@values/ExceptionValue';
 import { test, expect } from 'vitest';
-import { DefaultLocale } from '../db/Creator';
+import { DefaultLocale } from '../db/Database';
 
 test('Test equality', () => {
     expect(
@@ -25,5 +25,5 @@ test('Test equality', () => {
     ).toBe(TRUE_SYMBOL);
     expect(
         Evaluator.evaluateCode(DefaultLocale, `${TRUE_SYMBOL} = 1`)
-    ).toBeInstanceOf(Exception);
+    ).toBeInstanceOf(ExceptionValue);
 });

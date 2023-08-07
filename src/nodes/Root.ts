@@ -167,7 +167,8 @@ export default class Root {
     /**
      * Attempts to recursively resolve a path by traversing children.
      */
-    resolvePath(node: Node, path: Path): Node | undefined {
+    resolvePath(path: Path, node?: Node): Node | undefined {
+        node = node ?? this.root;
         if (path.length === 0) return node;
 
         const { type, index } = path[0];
@@ -180,19 +181,6 @@ export default class Root {
             ? undefined
             : // Otherwise, ask the corresponding child to continue resolving the path, unless there isn't one,
               // in which case the path doesn't resolve.
-              this.resolvePath(child, path.slice(1));
+              this.resolvePath(path.slice(1), child);
     }
-
-    // resolvePath(path: Path): Node | undefined {
-    //     if (path.length === 0) return this.node;
-
-    //     const [type, index] = path[0];
-
-    //     // If the type of node doesn't match, this path doesn't resolve.
-    //     return this.node.constructor.name !== type
-    //         ? undefined
-    //         : // Otherwise, ask the corresponding child to continue resolving the path, unless there isn't one,
-    //           // in which case the path doesn't resolve.
-    //           this.getChildren()[index]?.resolvePath(path.slice(1));
-    // }
 }

@@ -17,6 +17,7 @@ import {
     PALETTE_SYMBOL,
     PREVIOUS_SYMBOL,
     TABLE_OPEN_SYMBOL,
+    TABLE_CLOSE_SYMBOL,
 } from '@parser/Symbols';
 
 import Source from '@nodes/Source';
@@ -25,9 +26,10 @@ import type Evaluator from '@runtime/Evaluator';
 import FunctionDefinition from '@nodes/FunctionDefinition';
 import ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
 import Names from '@nodes/Names';
-import type { Creator } from '@db/Creator';
+import type { Database } from '@db/Database';
 import type Locale from '@locale/Locale';
 import { Content } from '../../project/Tile';
+import Symbol from '../../../nodes/Symbol';
 
 export type Command = {
     /** The iconographic text symbol to use */
@@ -48,6 +50,9 @@ export type Command = {
     alt: boolean | undefined;
     /** If true, control or meta is required, if false, it's disqualifying, if undefined, it can be either */
     control: boolean | undefined;
+    /** An UI to place on buttons corresponding to this command for tutorial highlighting */
+    uiid?: string;
+    /** A function that should indicate whether the command is active */
     active?: (context: CommandContext, key: string) => boolean;
     /** Generates an edit or other editor command */
     execute: (
@@ -67,7 +72,7 @@ export type Command = {
 export type CommandContext = {
     caret: Caret | undefined;
     evaluator: Evaluator;
-    creator: Creator;
+    database: Database;
     toggleMenu?: () => void;
     fullscreen?: (on: boolean) => void;
     focusOrCycleTile?: (content?: Content) => void;
@@ -265,17 +270,22 @@ export const StepForwardNode: Command = {
 export const Restart: Command = {
     symbol: '↻',
     description: (l) => l.ui.description.reset,
+    uiid: 'resetEvaluator',
     visible: Visibility.Visible,
     category: Category.Evaluate,
     key: 'Enter',
     shift: true,
     alt: false,
     control: true,
-    execute: (context) =>
-        context.creator.reviseProject(
+    execute: (context) => {
+        // Mark the inputs invalid so we don't inherit them
+        context.evaluator.invalidateInputs();
+        context.database.reviseProject(
             context.evaluator.project,
             context.evaluator.project.clone()
-        ),
+        );
+        return undefined;
+    },
 };
 
 export const StepToStart: Command = {
@@ -497,10 +507,10 @@ const Commands: Command[] = [
         shift: false,
         key: 'ArrowLeft',
         keySymbol: '←',
-        execute: ({ caret, creator }) =>
+        execute: ({ caret, database }) =>
             caret?.moveInline(
                 false,
-                creator.getWritingDirection() === 'ltr' ? -1 : 1
+                database.getWritingDirection() === 'ltr' ? -1 : 1
             ) ?? false,
     },
     {
@@ -513,10 +523,10 @@ const Commands: Command[] = [
         shift: false,
         key: 'ArrowRight',
         keySymbol: '→',
-        execute: ({ caret, creator }) =>
+        execute: ({ caret, database }) =>
             caret?.moveInline(
                 false,
-                creator.getWritingDirection() === 'ltr' ? 1 : -1
+                database.getWritingDirection() === 'ltr' ? 1 : -1
             ) ?? false,
     },
     {
@@ -779,7 +789,21 @@ const Commands: Command[] = [
         control: false,
         key: 'KeyT',
         keySymbol: 't',
-        execute: ({ caret }) => caret?.insert(TABLE_OPEN_SYMBOL) ?? false,
+        execute: ({ caret }) => {
+            if (caret === undefined) return false;
+
+            // Before inserting (and potentially autocompleting)
+            // see if there's an unclosed table open prior to the cursor, and if so, insert a close symbol.
+            const tokensPrior = caret?.getTokensPrior();
+            if (tokensPrior)
+                for (let i = tokensPrior.length - 1; i >= 0; i--) {
+                    if (tokensPrior[i].isSymbol(Symbol.TableClose)) break;
+                    else if (tokensPrior[i].isSymbol(Symbol.TableOpen))
+                        return caret.insert(TABLE_CLOSE_SYMBOL);
+                }
+
+            return caret.insert(TABLE_OPEN_SYMBOL) ?? false;
+        },
     },
 
     // EVALUATE
@@ -811,9 +835,9 @@ const Commands: Command[] = [
         key: 'KeyZ',
         keySymbol: 'Z',
         active: (context) =>
-            context.creator.projectIsUndoable(context.evaluator.project.id),
+            context.database.projectIsUndoable(context.evaluator.project.id),
         execute: (context) =>
-            context.creator.undoProject(context.evaluator.project.id) === true,
+            context.database.undoProject(context.evaluator.project.id) === true,
     },
     {
         symbol: '⟳',
@@ -826,9 +850,9 @@ const Commands: Command[] = [
         key: 'KeyZ',
         keySymbol: 'Z',
         active: (context) =>
-            context.creator.projectIsRedoable(context.evaluator.project.id),
+            context.database.projectIsRedoable(context.evaluator.project.id),
         execute: (context) =>
-            context.creator.redoProject(context.evaluator.project.id) === true,
+            context.database.redoProject(context.evaluator.project.id) === true,
     },
     {
         symbol: '↲',

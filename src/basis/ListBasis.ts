@@ -5,15 +5,15 @@ import NumberType from '@nodes/NumberType';
 import NoneType from '@nodes/NoneType';
 import TextType from '@nodes/TextType';
 import UnionType from '@nodes/UnionType';
-import Value from '@runtime/Value';
-import Bool from '@runtime/Bool';
-import List from '@runtime/List';
-import Text from '@runtime/Text';
+import Value from '@values/Value';
+import BoolValue from '@values/BoolValue';
+import ListValue from '@values/ListValue';
+import TextValue from '@values/TextValue';
 import { createBasisConversion, createBasisFunction } from './Basis';
-import Set from '@runtime/Set';
+import SetValue from '@values/SetValue';
 import StructureDefinition from '@nodes/StructureDefinition';
 import Block, { BlockKind } from '@nodes/Block';
-import Number from '@runtime/Number';
+import NumberValue from '@values/NumberValue';
 import type Evaluation from '@runtime/Evaluation';
 import TypeVariables from '@nodes/TypeVariables';
 import { getDocLocales } from '@locale/getDocLocales';
@@ -22,17 +22,17 @@ import TypeVariable from '@nodes/TypeVariable';
 import type Expression from '../nodes/Expression';
 import type Locale from '../locale/Locale';
 import NoneLiteral from '../nodes/NoneLiteral';
-import None from '../runtime/None';
+import NoneValue from '@values/NoneValue';
 import { Iteration } from './Iteration';
 import { createFunction, createInputs as createInputs } from '../locale/Locale';
-import ValueException from '../runtime/ValueException';
+import ValueException from '../values/ValueException';
 import FunctionDefinition from '../nodes/FunctionDefinition';
 import Names from '../nodes/Names';
 import Bind from '../nodes/Bind';
 import AnyType from '../nodes/AnyType';
 import InternalExpression from './InternalExpression';
-import ConversionException from '../runtime/ConversionException';
-import Exception from '../runtime/Exception';
+import ConversionException from '@values/ConversionException';
+import ExceptionValue from '@values/ExceptionValue';
 import SetType from '../nodes/SetType';
 
 export default function bootstrapList(locales: Locale[]) {
@@ -71,10 +71,11 @@ export default function bootstrapList(locales: Locale[]) {
                         new AnyType(),
                         input
                     );
-                else if (input instanceof Number) return input;
-                else if (input instanceof Text)
+                else if (input instanceof NumberValue) return input;
+                else if (input instanceof TextValue)
                     return input.sequenced(requestor);
-                else if (input instanceof None) return new Number(requestor, 0);
+                else if (input instanceof NoneValue)
+                    return new NumberValue(requestor, 0);
                 else
                     return new ConversionException(
                         evaluation.getEvaluator(),
@@ -105,7 +106,7 @@ export default function bootstrapList(locales: Locale[]) {
                     (requestor, evaluation) => {
                         const list = evaluation.getClosure();
                         const value = evaluation.getInput(0);
-                        if (list instanceof List && value !== undefined)
+                        if (list instanceof ListValue && value !== undefined)
                             return list.add(requestor, value);
                         else
                             return evaluation.getValueOrTypeException(
@@ -126,8 +127,8 @@ export default function bootstrapList(locales: Locale[]) {
                         const index = evaluation.getInput(0);
                         const value = evaluation.getInput(1);
                         if (
-                            list instanceof List &&
-                            index instanceof Number &&
+                            list instanceof ListValue &&
+                            index instanceof NumberValue &&
                             value !== undefined
                         )
                             return list.replace(requestor, index, value);
@@ -148,13 +149,13 @@ export default function bootstrapList(locales: Locale[]) {
                     (requestor, evaluation) => {
                         const list = evaluation.getClosure();
                         const value = evaluation.getInput(0);
-                        if (!(list instanceof List))
+                        if (!(list instanceof ListValue))
                             return evaluation.getValueOrTypeException(
                                 requestor,
                                 ListType.make(),
                                 list
                             );
-                        else if (!(value instanceof List))
+                        else if (!(value instanceof ListValue))
                             return evaluation.getValueOrTypeException(
                                 requestor,
                                 ListType.make(),
@@ -172,7 +173,8 @@ export default function bootstrapList(locales: Locale[]) {
                     (requestor, evaluation) => {
                         const list: Value | Evaluation | undefined =
                             evaluation.getClosure();
-                        if (list instanceof List) return list.length(requestor);
+                        if (list instanceof ListValue)
+                            return list.length(requestor);
                         else
                             return evaluation.getValueOrTypeException(
                                 requestor,
@@ -189,16 +191,14 @@ export default function bootstrapList(locales: Locale[]) {
                     ListTypeVariable.getReference(),
                     (requestor, evaluation) => {
                         const list = evaluation.getClosure();
-                        if (list instanceof List) {
+                        if (list instanceof ListValue) {
                             const random = evaluation
                                 .getEvaluator()
-                                .random.latest();
+                                .getRandom();
                             return list.get(
-                                new Number(
+                                new NumberValue(
                                     evaluation.getEvaluator().getMain(),
-                                    Math.floor(
-                                        random.toNumber() * list.values.length
-                                    ) + 1
+                                    Math.floor(random * list.values.length) + 1
                                 )
                             );
                         } else
@@ -221,7 +221,7 @@ export default function bootstrapList(locales: Locale[]) {
                     (requestor, evaluation) => {
                         requestor;
                         const list = evaluation.getClosure();
-                        if (list instanceof List) return list.first();
+                        if (list instanceof ListValue) return list.first();
                         else
                             return evaluation.getValueOrTypeException(
                                 requestor,
@@ -240,7 +240,7 @@ export default function bootstrapList(locales: Locale[]) {
                         const list: Value | Evaluation | undefined =
                             evaluation.getClosure();
                         const value = evaluation.getInput(0);
-                        if (list instanceof List && value !== undefined)
+                        if (list instanceof ListValue && value !== undefined)
                             return list.has(requestor, value);
                         else
                             return evaluation.getValueOrTypeException(
@@ -259,7 +259,10 @@ export default function bootstrapList(locales: Locale[]) {
                     (requestor, evaluation) => {
                         const list = evaluation.getClosure();
                         const separator = evaluation.getInput(0);
-                        if (list instanceof List && separator instanceof Text)
+                        if (
+                            list instanceof ListValue &&
+                            separator instanceof TextValue
+                        )
                             return list.join(requestor, separator);
                         else
                             return evaluation.getValueOrTypeException(
@@ -286,19 +289,24 @@ export default function bootstrapList(locales: Locale[]) {
                         const list = evaluation.getClosure();
                         const start = evaluation.getInput(0);
                         const end = evaluation.getInput(1);
-                        if (!(list instanceof List))
+                        if (!(list instanceof ListValue))
                             return evaluation.getValueOrTypeException(
                                 requestor,
                                 ListType.make(),
                                 list
                             );
-                        if (!(start instanceof Number))
+                        if (!(start instanceof NumberValue))
                             return evaluation.getValueOrTypeException(
                                 requestor,
                                 NumberType.make(),
                                 list
                             );
-                        if (!(end instanceof Number || end instanceof None))
+                        if (
+                            !(
+                                end instanceof NumberValue ||
+                                end instanceof NoneValue
+                            )
+                        )
                             return evaluation.getValueOrTypeException(
                                 requestor,
                                 UnionType.make(
@@ -319,7 +327,7 @@ export default function bootstrapList(locales: Locale[]) {
                     (requestor, evaluation) => {
                         requestor;
                         const list = evaluation.getClosure();
-                        if (list instanceof List) return list.last();
+                        if (list instanceof ListValue) return list.last();
                         else
                             return evaluation.getValueOrTypeException(
                                 requestor,
@@ -337,7 +345,7 @@ export default function bootstrapList(locales: Locale[]) {
                     (requestor, evaluation) => {
                         const list: Value | Evaluation | undefined =
                             evaluation.getClosure();
-                        if (list instanceof List)
+                        if (list instanceof ListValue)
                             return list.sansFirst(requestor);
                         else
                             return evaluation.getValueOrTypeException(
@@ -355,7 +363,7 @@ export default function bootstrapList(locales: Locale[]) {
                     ListType.make(ListTypeVariable.getReference()),
                     (requestor, evaluation) => {
                         const list = evaluation.getClosure();
-                        if (list instanceof List)
+                        if (list instanceof ListValue)
                             return list.sansLast(requestor);
                         else
                             return evaluation.getValueOrTypeException(
@@ -374,7 +382,7 @@ export default function bootstrapList(locales: Locale[]) {
                     (requestor, evaluation) => {
                         const list = evaluation.getClosure();
                         const value = evaluation.getInput(0);
-                        if (list instanceof List && value !== undefined)
+                        if (list instanceof ListValue && value !== undefined)
                             return list.sansAll(requestor, value);
                         else
                             return evaluation.getValueOrTypeException(
@@ -393,7 +401,7 @@ export default function bootstrapList(locales: Locale[]) {
                     (requestor, evaluation) => {
                         const list = evaluation.getClosure();
                         const value = evaluation.getInput(0);
-                        if (list instanceof List && value !== undefined)
+                        if (list instanceof ListValue && value !== undefined)
                             return list.sansAll(requestor, value);
                         else
                             return evaluation.getValueOrTypeException(
@@ -411,7 +419,7 @@ export default function bootstrapList(locales: Locale[]) {
                     ListType.make(ListTypeVariable.getReference()),
                     (requestor, evaluation) => {
                         const list = evaluation.getClosure();
-                        if (list instanceof List)
+                        if (list instanceof ListValue)
                             return list.reverse(requestor);
                         else
                             return evaluation.getValueOrTypeException(
@@ -430,7 +438,7 @@ export default function bootstrapList(locales: Locale[]) {
                     (requestor, evaluation) => {
                         const list = evaluation.getClosure();
                         const value = evaluation.getInput(0);
-                        if (!(list instanceof List))
+                        if (!(list instanceof ListValue))
                             return evaluation.getValueOrTypeException(
                                 requestor,
                                 ListType.make(),
@@ -442,7 +450,7 @@ export default function bootstrapList(locales: Locale[]) {
                                 ListType.make(),
                                 value
                             );
-                        return new Bool(requestor, list.isEqualTo(value));
+                        return new BoolValue(requestor, list.isEqualTo(value));
                     }
                 ),
                 createBasisFunction(
@@ -454,7 +462,7 @@ export default function bootstrapList(locales: Locale[]) {
                     (requestor, evaluation) => {
                         const list = evaluation.getClosure();
                         const value = evaluation.getInput(0);
-                        if (!(list instanceof List))
+                        if (!(list instanceof ListValue))
                             return evaluation.getValueOrTypeException(
                                 requestor,
                                 ListType.make(),
@@ -466,7 +474,7 @@ export default function bootstrapList(locales: Locale[]) {
                                 ListType.make(),
                                 value
                             );
-                        return new Bool(requestor, !list.isEqualTo(value));
+                        return new BoolValue(requestor, !list.isEqualTo(value));
                     }
                 ),
                 createFunction(
@@ -499,7 +507,7 @@ export default function bootstrapList(locales: Locale[]) {
                     ListType.make(TranslateTypeVariable.getReference()),
                     new Iteration<{
                         index: number;
-                        list: List;
+                        list: ListValue;
                         translated: Value[];
                     }>(
                         ListType.make(TranslateTypeVariable.getReference()),
@@ -507,7 +515,7 @@ export default function bootstrapList(locales: Locale[]) {
                         (evaluator) => {
                             return {
                                 index: 1,
-                                list: evaluator.getCurrentClosure() as List,
+                                list: evaluator.getCurrentClosure() as ListValue,
                                 translated: [],
                             };
                         },
@@ -517,7 +525,7 @@ export default function bootstrapList(locales: Locale[]) {
                                 ? false
                                 : expr.evaluateFunctionInput(evaluator, 0, [
                                       info.list.get(info.index),
-                                      new Number(expr, info.index),
+                                      new NumberValue(expr, info.index),
                                       info.list,
                                   ]),
                         // Save the translated value and increment the index.
@@ -531,7 +539,7 @@ export default function bootstrapList(locales: Locale[]) {
                         },
                         // Create the translated list.
                         (evaluator, info, expression) =>
-                            new List(expression, info.translated)
+                            new ListValue(expression, info.translated)
                     )
                 ),
                 createFunction(
@@ -564,7 +572,7 @@ export default function bootstrapList(locales: Locale[]) {
                     ListType.make(ListTypeVariable.getReference()),
                     new Iteration<{
                         index: number;
-                        list: List;
+                        list: ListValue;
                         filtered: Value[];
                     }>(
                         ListType.make(ListTypeVariable.getReference()),
@@ -572,7 +580,7 @@ export default function bootstrapList(locales: Locale[]) {
                         (evaluator) => {
                             return {
                                 index: 1,
-                                list: evaluator.getCurrentClosure() as List,
+                                list: evaluator.getCurrentClosure() as ListValue,
                                 filtered: [],
                             };
                         },
@@ -582,13 +590,13 @@ export default function bootstrapList(locales: Locale[]) {
                                 ? false
                                 : expr.evaluateFunctionInput(evaluator, 0, [
                                       info.list.get(info.index),
-                                      new Number(expr, info.index),
+                                      new NumberValue(expr, info.index),
                                       info.list,
                                   ]),
                         // Save the translated value and increment the index.
                         (evaluator, info, expression) => {
                             const include = evaluator.popValue(expression);
-                            if (!(include instanceof Bool))
+                            if (!(include instanceof BoolValue))
                                 return evaluator.getValueOrTypeException(
                                     expression,
                                     BooleanType.make(),
@@ -601,7 +609,7 @@ export default function bootstrapList(locales: Locale[]) {
                         },
                         // Create the translated list.
                         (evaluator, info, expression) =>
-                            new List(expression, info.filtered)
+                            new ListValue(expression, info.filtered)
                     )
                 ),
                 createFunction(
@@ -631,7 +639,7 @@ export default function bootstrapList(locales: Locale[]) {
                     BooleanType.make(),
                     new Iteration<{
                         index: number;
-                        list: List;
+                        list: ListValue;
                         matches: boolean;
                     }>(
                         BooleanType.make(),
@@ -639,7 +647,7 @@ export default function bootstrapList(locales: Locale[]) {
                         (evaluator) => {
                             return {
                                 index: 1,
-                                list: evaluator.getCurrentClosure() as List,
+                                list: evaluator.getCurrentClosure() as ListValue,
                                 matches: true,
                             };
                         },
@@ -649,13 +657,13 @@ export default function bootstrapList(locales: Locale[]) {
                                 ? false
                                 : expr.evaluateFunctionInput(evaluator, 0, [
                                       info.list.get(info.index),
-                                      new Number(expr, info.index),
+                                      new NumberValue(expr, info.index),
                                       info.list,
                                   ]),
                         // If the value doesn't match, return false. Otherwise, loop back.
                         (evaluator, info, expression) => {
                             const matches = evaluator.popValue(expression);
-                            if (!(matches instanceof Bool))
+                            if (!(matches instanceof BoolValue))
                                 return evaluator.getValueOrTypeException(
                                     expression,
                                     BooleanType.make(),
@@ -671,7 +679,7 @@ export default function bootstrapList(locales: Locale[]) {
                         },
                         // Create the translated list.
                         (evaluator, info, expression) =>
-                            new Bool(expression, info.matches)
+                            new BoolValue(expression, info.matches)
                     )
                 ),
                 createFunction(
@@ -704,14 +712,14 @@ export default function bootstrapList(locales: Locale[]) {
                     ListType.make(ListTypeVariable.getReference()),
                     new Iteration<{
                         index: number;
-                        list: List;
+                        list: ListValue;
                     }>(
                         ListType.make(ListTypeVariable.getReference()),
                         // Start with an index of one and the list we're truncating.
                         (evaluator) => {
                             return {
                                 index: 1,
-                                list: evaluator.getCurrentClosure() as List,
+                                list: evaluator.getCurrentClosure() as ListValue,
                             };
                         },
                         // If we're past the end, stop. Otherwise, evaluate the translator function on the next value.
@@ -720,13 +728,13 @@ export default function bootstrapList(locales: Locale[]) {
                                 ? false
                                 : expr.evaluateFunctionInput(evaluator, 0, [
                                       info.list.get(info.index),
-                                      new Number(expr, info.index),
+                                      new NumberValue(expr, info.index),
                                       info.list,
                                   ]),
                         // Save the translated value and increment the index.
                         (evaluator, info, expression) => {
                             const matches = evaluator.popValue(expression);
-                            if (!(matches instanceof Bool))
+                            if (!(matches instanceof BoolValue))
                                 return evaluator.getValueOrTypeException(
                                     expression,
                                     BooleanType.make(),
@@ -775,14 +783,14 @@ export default function bootstrapList(locales: Locale[]) {
                     ),
                     new Iteration<{
                         index: number;
-                        list: List;
+                        list: ListValue;
                     }>(
                         ListTypeVariable.getReference(),
                         // Start with an index of one and the list we're searching.
                         (evaluator) => {
                             return {
                                 index: 1,
-                                list: evaluator.getCurrentClosure() as List,
+                                list: evaluator.getCurrentClosure() as ListValue,
                             };
                         },
                         // If we're past the end, stop. Otherwise, evaluate the translator function on the next value.
@@ -791,13 +799,13 @@ export default function bootstrapList(locales: Locale[]) {
                                 ? false
                                 : expr.evaluateFunctionInput(evaluator, 0, [
                                       info.list.get(info.index),
-                                      new Number(expr, info.index),
+                                      new NumberValue(expr, info.index),
                                       info.list,
                                   ]),
                         // Save the translated value and increment the index.
                         (evaluator, info, expression) => {
                             const matches = evaluator.popValue(expression);
-                            if (!(matches instanceof Bool))
+                            if (!(matches instanceof BoolValue))
                                 return evaluator.getValueOrTypeException(
                                     expression,
                                     BooleanType.make(),
@@ -845,7 +853,7 @@ export default function bootstrapList(locales: Locale[]) {
                     CombineTypeVariable.getReference(),
                     new Iteration<{
                         index: number;
-                        list: List;
+                        list: ListValue;
                         combo: Value;
                     }>(
                         CombineTypeVariable.getReference(),
@@ -859,7 +867,7 @@ export default function bootstrapList(locales: Locale[]) {
                                 );
                             return {
                                 index: 1,
-                                list: evaluator.getCurrentClosure() as List,
+                                list: evaluator.getCurrentClosure() as ListValue,
                                 combo: initial,
                             };
                         },
@@ -870,7 +878,7 @@ export default function bootstrapList(locales: Locale[]) {
                                 : expr.evaluateFunctionInput(evaluator, 1, [
                                       info.combo,
                                       info.list.get(info.index),
-                                      new Number(expr, info.index),
+                                      new NumberValue(expr, info.index),
                                       info.list,
                                   ]),
                         // Save the translated value and increment the index.
@@ -916,10 +924,10 @@ export default function bootstrapList(locales: Locale[]) {
                         // The current index we're on in the keying iteration
                         index: number;
                         // The list we're sorting
-                        list: List;
+                        list: ListValue;
                         // The keyed, sorted list, which will eventually be mapped back to the original values.
                         // The number is used for sorting, but we keep a pointer to the value to undecorate at the end.
-                        keyed: [Number, Value][];
+                        keyed: [NumberValue, Value][];
                     }>(
                         // Produces a list of the same type as was given.
                         ListType.make(ListTypeVariable.getReference()),
@@ -928,7 +936,7 @@ export default function bootstrapList(locales: Locale[]) {
                         (evaluator, expression) => {
                             return {
                                 index: 1, // 1-indexed, since we index the list, not a Javascript array
-                                list: evaluator.getCurrentClosure() as List,
+                                list: evaluator.getCurrentClosure() as ListValue,
                                 keyed: [],
                             };
                         },
@@ -946,8 +954,8 @@ export default function bootstrapList(locales: Locale[]) {
                         (evaluator, info, expression) => {
                             const key = evaluator.popValue(expression);
                             // We expect the key to be a number. Bail if it's not.
-                            if (!(key instanceof Number))
-                                return key instanceof Exception
+                            if (!(key instanceof NumberValue))
+                                return key instanceof ExceptionValue
                                     ? key
                                     : evaluator.getValueOrTypeException(
                                           expression,
@@ -962,7 +970,7 @@ export default function bootstrapList(locales: Locale[]) {
                         },
                         // Take the list of keyed values and sort by the keys using JavaScript's Array.sort(), then map to the original value.
                         (evaluator, info, expression) =>
-                            new List(
+                            new ListValue(
                                 expression,
                                 info.keyed
                                     .sort(
@@ -980,8 +988,8 @@ export default function bootstrapList(locales: Locale[]) {
                     ),
                     ListType.make(ListTypeVariable.getReference()),
                     TextType.make(),
-                    (requestor: Expression, val: List) =>
-                        new Text(requestor, val.toString())
+                    (requestor: Expression, val: ListValue) =>
+                        new TextValue(requestor, val.toString())
                 ),
                 createBasisConversion(
                     getDocLocales(
@@ -990,8 +998,8 @@ export default function bootstrapList(locales: Locale[]) {
                     ),
                     ListType.make(ListTypeVariable.getReference()),
                     SetType.make(ListTypeVariable.getReference()),
-                    (requestor: Expression, val: List) =>
-                        new Set(requestor, val.getValues())
+                    (requestor: Expression, val: ListValue) =>
+                        new SetValue(requestor, val.getValues())
                 ),
             ],
             BlockKind.Structure

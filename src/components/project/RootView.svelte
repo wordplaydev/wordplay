@@ -19,7 +19,7 @@
     import Source from '@nodes/Source';
     import Name from '@nodes/Name';
     import Program from '@nodes/Program';
-    import { config } from '../../db/Creator';
+    import { config } from '../../db/Database';
     import TextLiteral from '../../nodes/TextLiteral';
 
     export let node: Node;

@@ -6,7 +6,7 @@ import type Token from './Token';
 import Type from './Type';
 import TypeVariable from './TypeVariable';
 import type Evaluator from '@runtime/Evaluator';
-import type Value from '@runtime/Value';
+import type Value from '@values/Value';
 import type Step from '@runtime/Step';
 import type Context from './Context';
 import type Definition from './Definition';
@@ -23,7 +23,7 @@ import UnknownNameType from './UnknownNameType';
 import { node, type Grammar, type Replacement, ListOf } from './Node';
 import type Locale from '@locale/Locale';
 import AtomicExpression from './AtomicExpression';
-import NameException from '@runtime/NameException';
+import NameException from '@values/NameException';
 import NodeRef from '@locale/NodeRef';
 import Evaluate from './Evaluate';
 import StreamDefinitionType from './StreamDefinitionType';
@@ -271,17 +271,17 @@ export default class Reference extends AtomicExpression {
             const guards = context.source.root
                 .getAncestors(this)
                 ?.filter(
-                    (a) =>
+                    (a): a is Conditional =>
                         a instanceof Conditional &&
                         a.condition.nodes(
-                            (n) =>
+                            (n): n is Reference =>
                                 context.source.root.getParent(n) instanceof
                                     Is &&
                                 n instanceof Reference &&
                                 definition === n.resolve(context)
-                        )
+                        ).length > 0
                 )
-                .reverse() as Conditional[];
+                .reverse();
 
             // Grab the furthest ancestor and evaluate possible types from there.
             const root = guards[0];

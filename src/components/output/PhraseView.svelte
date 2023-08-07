@@ -15,9 +15,10 @@
         getSelectedOutput,
         getSelectedPhrase,
     } from '../project/Contexts';
-    import { config } from '../../db/Creator';
+    import { config } from '../../db/Database';
     import TextLang from '../../output/TextLang';
     import MarkupHtmlView from '../concepts/MarkupHTMLView.svelte';
+    import Markup from '../../nodes/Markup';
 
     export let phrase: Phrase;
     export let place: Place;
@@ -180,6 +181,7 @@
             context.size,
             // No first pose because of an empty sequence? Give a default.
             phrase.getFirstRestPose(),
+            phrase.pose,
             place,
             undefined,
             undefined,
@@ -201,8 +203,9 @@
                     phrase.getMetrics(context, false).width
                 )}px"
             />
-        {:else if text instanceof TextLang}{text.text}{:else}<MarkupHtmlView
+        {:else if text instanceof TextLang}{text.text}{:else if text instanceof Markup}<MarkupHtmlView
                 markup={text.asLine()}
+                inline
             />{/if}
     </div>
 {/if}

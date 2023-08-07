@@ -1,6 +1,6 @@
 import Evaluator from '@runtime/Evaluator';
 import { test, expect } from 'vitest';
-import { DefaultLocale } from '../db/Creator';
+import { DefaultLocale } from '../db/Database';
 
 test('Test text functions', () => {
     expect(

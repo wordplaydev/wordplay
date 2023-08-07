@@ -1,6 +1,6 @@
-import List from '../runtime/List';
-import Structure from '../runtime/Structure';
-import type Value from '../runtime/Value';
+import ListValue from '@values/ListValue';
+import StructureValue from '../values/StructureValue';
+import type Value from '../values/Value';
 import type Arrangement from './Arrangement';
 import { toGroup } from './Group';
 import { toPhrase } from './Phrase';
@@ -9,7 +9,7 @@ import { toStack } from './Stack';
 import type TypeOutput from './TypeOutput';
 import { NameGenerator, toStage } from './Stage';
 import { toGrid } from './Grid';
-import None from '../runtime/None';
+import NoneValue from '@values/NoneValue';
 import { toFree } from './Free';
 import type Project from '../models/Project';
 import { toBoolean, toNumber } from './Stage';
@@ -22,14 +22,14 @@ import type Pose from './Pose';
 import type Sequence from './Sequence';
 import { getOutputInputs } from './Output';
 import { toSequence } from './Sequence';
-import Text from '../runtime/Text';
+import TextValue from '../values/TextValue';
 
 export function toTypeOutput(
     project: Project,
     value: Value | undefined,
     namer?: NameGenerator
 ): TypeOutput | undefined {
-    if (!(value instanceof Structure)) return undefined;
+    if (!(value instanceof StructureValue)) return undefined;
     switch (value.type) {
         case project.shares.output.Phrase:
             return toPhrase(project, value, namer);
@@ -46,14 +46,14 @@ export function toTypeOutputList(
     value: Value | undefined,
     namer?: NameGenerator
 ): (TypeOutput | null)[] | undefined {
-    if (value === undefined || !(value instanceof List)) return undefined;
+    if (value === undefined || !(value instanceof ListValue)) return undefined;
 
     const phrases: (TypeOutput | null)[] = [];
     for (const val of value.values) {
-        if (!(val instanceof Structure || val instanceof None))
+        if (!(val instanceof StructureValue || val instanceof NoneValue))
             return undefined;
         const phrase =
-            val instanceof None ? null : toTypeOutput(project, val, namer);
+            val instanceof NoneValue ? null : toTypeOutput(project, val, namer);
         if (phrase === undefined) return undefined;
         phrases.push(phrase);
     }
@@ -64,7 +64,7 @@ export function toArrangement(
     project: Project,
     value: Value | undefined
 ): Arrangement | undefined {
-    if (!(value instanceof Structure)) return undefined;
+    if (!(value instanceof StructureValue)) return undefined;
     switch (value.type) {
         case project.shares.output.Row:
             return toRow(value);
@@ -80,7 +80,7 @@ export function toArrangement(
 
 export function getStyle(
     project: Project,
-    value: Structure,
+    value: StructureValue,
     index: number
 ): {
     size: number | undefined;
@@ -168,6 +168,6 @@ export function getStyle(
         move,
         exit,
         duration,
-        style: styleVal instanceof Text ? styleVal.text : undefined,
+        style: styleVal instanceof TextValue ? styleVal.text : undefined,
     };
 }

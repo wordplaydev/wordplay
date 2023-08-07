@@ -7,9 +7,9 @@ import DuplicateName from '@conflicts/DuplicateName';
 import TypeVariables from './TypeVariables';
 import Evaluator from '@runtime/Evaluator';
 import NoExpression from '@conflicts/NoExpression';
-import EvaluationLimitException from '@runtime/EvaluationLimitException';
+import EvaluationLimitException from '@values/EvaluationLimitException';
 import IncompatibleType from '../conflicts/IncompatibleType';
-import { DefaultLocale } from '../db/Creator';
+import { DefaultLocale } from '../db/Database';
 
 test.each([
     ['ƒ(a b) 1', 'ƒ(a a) 1', FunctionDefinition, DuplicateName],

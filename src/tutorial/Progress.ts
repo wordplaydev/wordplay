@@ -1,4 +1,4 @@
-import type { TutorialProgress } from '../db/Creator';
+import type { TutorialProgress } from '../db/Database';
 import {
     PerformanceMode,
     type Act,

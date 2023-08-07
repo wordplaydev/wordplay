@@ -13,7 +13,7 @@
     import { auth } from '@db/firebase';
     import { goto } from '$app/navigation';
     import { onMount } from 'svelte';
-    import { config } from '../../db/Creator';
+    import { config } from '../../db/Database';
     import Feedback from '../../components/app/Feedback.svelte';
 
     let user = getUser();

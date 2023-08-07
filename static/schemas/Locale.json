@@ -1581,11 +1581,13 @@
                 "doc": {
                   "$ref": "#/definitions/DocText"
                 },
-                "max": {
-                  "$ref": "#/definitions/NameAndDoc"
-                },
-                "min": {
-                  "$ref": "#/definitions/NameAndDoc"
+                "inputs": {
+                  "items": {
+                    "$ref": "#/definitions/NameAndDoc"
+                  },
+                  "maxItems": 2,
+                  "minItems": 2,
+                  "type": "array"
                 },
                 "names": {
                   "$ref": "#/definitions/NameText"
@@ -1593,8 +1595,7 @@
               },
               "required": [
                 "doc",
-                "max",
-                "min",
+                "inputs",
                 "names"
               ],
               "type": "object"
@@ -5088,6 +5089,9 @@
                 "collapse": {
                   "type": "string"
                 },
+                "conceptLink": {
+                  "$ref": "#/definitions/Template"
+                },
                 "copy": {
                   "type": "string"
                 },
@@ -5366,6 +5370,10 @@
                 "start": {
                   "type": "string"
                 },
+                "timeline": {
+                  "description": "The description of the timeline slider",
+                  "type": "string"
+                },
                 "type": {
                   "type": "string"
                 },
@@ -5490,7 +5498,9 @@
                 "focusSource",
                 "focusDocs",
                 "focusPalette",
-                "focusCycle"
+                "focusCycle",
+                "conceptLink",
+                "timeline"
               ],
               "type": "object"
             },

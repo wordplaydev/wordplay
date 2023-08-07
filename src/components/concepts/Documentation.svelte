@@ -28,7 +28,7 @@
     import { tick } from 'svelte';
     import TextField from '../widgets/TextField.svelte';
     import type Project from '../../models/Project';
-    import { config } from '../../db/Creator';
+    import { config } from '../../db/Database';
     import getScrollParent from '../util/getScrollParent';
     import Note from '../widgets/Note.svelte';
     import ConceptLinkUI from './ConceptLinkUI.svelte';
@@ -214,12 +214,7 @@
         {#if results}
             {#each results as [concept, text]}
                 <p class="result">
-                    <CodeView
-                        {concept}
-                        node={concept.getRepresentation()}
-                        selectable
-                        showOwner
-                    />
+                    <CodeView {concept} node={concept.getRepresentation()} />
                     <!-- Show the matching text -->
                     {#if text.length > 1 || concept.getName($config.getLocale(), false) !== text[0][0]}
                         <div class="matches">
@@ -294,7 +289,6 @@
                 concepts={$index.getPrimaryConceptsWithPurpose(
                     Purpose.Evaluate
                 )}
-                selectable={true}
             />
             <ConceptsView
                 category={$config.getLocale().term.bind}

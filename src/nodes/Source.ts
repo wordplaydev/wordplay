@@ -5,7 +5,7 @@ import type Conflict from '@conflicts/Conflict';
 import { parseProgram, Tokens } from '@parser/Parser';
 import { Delimiters, REVERSE_DELIMITERS, tokenize } from '@parser/Tokenizer';
 import UnicodeString from '../models/UnicodeString';
-import type Value from '@runtime/Value';
+import type Value from '@values/Value';
 import type Context from './Context';
 import Names from './Names';
 import type Borrow from './Borrow';
@@ -18,7 +18,7 @@ import type { SharedDefinition } from './Borrow';
 import FunctionDefinition from './FunctionDefinition';
 import StructureDefinition from './StructureDefinition';
 import type Spaces from '@parser/Spaces';
-import None from '@runtime/None';
+import NoneValue from '@values/NoneValue';
 import type SetOpenToken from './SetOpenToken';
 import type Locale from '@locale/Locale';
 import Glyphs from '../lore/Glyphs';
@@ -85,8 +85,8 @@ export default class Source extends Expression {
         // Create an index of the token positions and space roots.
         let index = 0;
         for (const token of this.expression.nodes(
-            (n) => n instanceof Token
-        ) as Token[]) {
+            (n): n is Token => n instanceof Token
+        )) {
             // Increment by the amount of space
             index += this.spaces.getSpace(token).length;
             // Remember the position.
@@ -700,10 +700,19 @@ export default class Source extends Expression {
         return this.getNextToken(token, 1);
     }
 
+    getTokensBefore(token: Token) {
+        const tokens = this.expression.nodes(
+            (n): n is Token => n instanceof Token
+        );
+        const index = tokens.indexOf(token);
+        if (index < 0) return undefined;
+        else return tokens.slice(0, index);
+    }
+
     getNextToken(token: Token, direction: -1 | 1): Token | undefined {
         const tokens = this.expression.nodes(
-            (n) => n instanceof Token
-        ) as Token[];
+            (n): n is Token => n instanceof Token
+        );
         const index = tokens.indexOf(token);
 
         if (direction < 0 && index <= 0) return undefined;
@@ -839,7 +848,7 @@ export default class Source extends Expression {
     }
 
     evaluate(): Value {
-        return new None(this);
+        return new NoneValue(this);
     }
 
     getStart() {

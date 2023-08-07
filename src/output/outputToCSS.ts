@@ -54,7 +54,8 @@ export function centerTransform(viewportWidth: number, viewportHeight: number) {
 export default function outputToCSS(
     family: string | undefined,
     size: number | undefined,
-    pose: Pose,
+    primaryPose: Pose,
+    secondaryPose: Pose,
     place: Place,
     width: number | undefined,
     height: number | undefined,
@@ -67,7 +68,8 @@ export default function outputToCSS(
         width: width ? sizeToPx(width) : undefined,
         height: height ? sizeToPx(height) : undefined,
         transform: toOutputTransform(
-            pose,
+            primaryPose,
+            secondaryPose,
             place,
             focus,
             parentAscent,
@@ -76,8 +78,8 @@ export default function outputToCSS(
         ),
         // This disables translation around the center; we want to translate around the focus.
         'transform-origin': '0 0',
-        color: pose?.color?.toCSS(),
-        opacity: pose?.opacity?.toString(),
+        color: (primaryPose.color ?? secondaryPose.color)?.toCSS(),
+        opacity: (primaryPose.opacity ?? primaryPose.opacity)?.toString(),
         'font-family': family,
         // The font size is whatever it's normal size is, but adjusted for perspective, then translated into pixels.
         'font-size': size ? sizeToPx(size) : undefined,
@@ -85,7 +87,8 @@ export default function outputToCSS(
 }
 
 export function toOutputTransform(
-    pose: Pose,
+    primaryPose: Pose,
+    secondaryPose: Pose,
     place: Place,
     focus: Place,
     parentAscent: number,
@@ -101,19 +104,23 @@ export function toOutputTransform(
     let yOffset = 0;
     let zOffset = 0;
     let rotation = 0;
-    if (pose) {
-        if (pose.scale !== undefined) {
-            xScale = pose.scale;
-            yScale = pose.scale;
+    if (primaryPose) {
+        const scale = primaryPose.scale ?? secondaryPose.scale;
+        if (scale !== undefined) {
+            xScale = scale;
+            yScale = scale;
         }
-        if (pose.flipx === true) xScale = xScale * -1;
-        if (pose.flipy === true) yScale = yScale * -1;
-        if (pose.offset !== undefined) {
-            xOffset = pose.offset.x * PX_PER_METER;
-            yOffset = pose.offset.y * PX_PER_METER;
-            zOffset = pose.offset.z;
+        if (primaryPose.flipx ?? secondaryPose.flipx === true)
+            xScale = xScale * -1;
+        if (primaryPose.flipy ?? secondaryPose.flipy === true)
+            yScale = yScale * -1;
+        const offset = primaryPose.offset ?? secondaryPose.offset;
+        if (offset !== undefined) {
+            xOffset = offset.x * PX_PER_METER;
+            yOffset = offset.y * PX_PER_METER;
+            zOffset = offset.z;
         }
-        rotation = pose.rotation ?? 0;
+        rotation = primaryPose.rotation ?? secondaryPose.rotation ?? 0;
     }
 
     // Compute the final z position of the output based on it's place and it's offset.

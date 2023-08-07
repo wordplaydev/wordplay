@@ -1,7 +1,7 @@
 <script>
     import ProjectChooser from '@components/app/ProjectChooser.svelte';
     import Page from '@components/app/Page.svelte';
-    import { config } from '@db/Creator';
+    import { config } from '@db/Database';
 </script>
 
 <svelte:head>

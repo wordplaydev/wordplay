@@ -77,7 +77,8 @@ export default class Doc extends LanguageTagged {
         const first: Paragraph | undefined = this.markup.paragraphs[0];
         return first === undefined
             ? ''
-            : (first.nodes((n) => n instanceof Words) as Words[])
+            : first
+                  .nodes((n): n is Words => n instanceof Words)
                   .map((w) => w.toText())
                   .join();
     }

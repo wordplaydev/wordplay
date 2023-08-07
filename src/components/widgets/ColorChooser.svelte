@@ -53,7 +53,7 @@
 </script>
 
 <script lang="ts">
-    import { config } from '../../db/Creator';
+    import { config } from '../../db/Database';
     import { getFirstName } from '../../locale/Locale';
     import Button from './Button.svelte';
 

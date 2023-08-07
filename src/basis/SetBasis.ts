@@ -3,12 +3,12 @@ import BooleanType from '@nodes/BooleanType';
 import FunctionType from '@nodes/FunctionType';
 import SetType from '@nodes/SetType';
 import StructureDefinition from '@nodes/StructureDefinition';
-import List from '@runtime/List';
-import Text from '@runtime/Text';
-import Set from '@runtime/Set';
+import ListValue from '@values/ListValue';
+import TextValue from '@values/TextValue';
+import SetValue from '@values/SetValue';
 import { createBasisConversion, createBasisFunction } from './Basis';
-import Bool from '@runtime/Bool';
-import type Value from '@runtime/Value';
+import BoolValue from '@values/BoolValue';
+import type Value from '@values/Value';
 import type Evaluation from '@runtime/Evaluation';
 import TypeVariables from '@nodes/TypeVariables';
 import { getDocLocales } from '@locale/getDocLocales';
@@ -19,7 +19,7 @@ import type Locale from '../locale/Locale';
 import { createBind, createFunction, createInputs } from '../locale/Locale';
 import { Iteration } from './Iteration';
 import NumberType from '../nodes/NumberType';
-import Number from '../runtime/Number';
+import NumberValue from '@values/NumberValue';
 import ListType from '../nodes/ListType';
 import TextType from '../nodes/TextType';
 
@@ -54,13 +54,16 @@ export default function bootstrapSet(locales: Locale[]) {
                     NumberType.make(),
                     (requestor, evaluation) => {
                         const set = evaluation?.getClosure();
-                        return !(set instanceof Set)
+                        return !(set instanceof SetValue)
                             ? evaluation.getValueOrTypeException(
                                   requestor,
                                   SetType.make(),
                                   set
                               )
-                            : new Number(requestor, set.size(requestor).num);
+                            : new NumberValue(
+                                  requestor,
+                                  set.size(requestor).num
+                              );
                     }
                 ),
                 createBasisFunction(
@@ -72,13 +75,15 @@ export default function bootstrapSet(locales: Locale[]) {
                     (requestor, evaluation) => {
                         const set = evaluation?.getClosure();
                         const other = evaluation.getInput(0);
-                        return !(set instanceof Set && other instanceof Set)
+                        return !(
+                            set instanceof SetValue && other instanceof SetValue
+                        )
                             ? evaluation.getValueOrTypeException(
                                   requestor,
                                   SetType.make(),
                                   other
                               )
-                            : new Bool(requestor, set.isEqualTo(other));
+                            : new BoolValue(requestor, set.isEqualTo(other));
                     }
                 ),
                 createBasisFunction(
@@ -90,13 +95,15 @@ export default function bootstrapSet(locales: Locale[]) {
                     (requestor, evaluation) => {
                         const set = evaluation?.getClosure();
                         const other = evaluation.getInput(0);
-                        return !(set instanceof Set && other instanceof Set)
+                        return !(
+                            set instanceof SetValue && other instanceof SetValue
+                        )
                             ? evaluation.getValueOrTypeException(
                                   requestor,
                                   SetType.make(),
                                   other
                               )
-                            : new Bool(requestor, !set.isEqualTo(other));
+                            : new BoolValue(requestor, !set.isEqualTo(other));
                     }
                 ),
                 createBasisFunction(
@@ -108,7 +115,7 @@ export default function bootstrapSet(locales: Locale[]) {
                     (requestor, evaluation) => {
                         const set = evaluation?.getClosure();
                         const element = evaluation.getInput(0);
-                        if (set instanceof Set && element !== undefined)
+                        if (set instanceof SetValue && element !== undefined)
                             return set.add(requestor, element);
                         else
                             return evaluation.getValueOrTypeException(
@@ -128,7 +135,7 @@ export default function bootstrapSet(locales: Locale[]) {
                         const set: Evaluation | Value | undefined =
                             evaluation.getClosure();
                         const element = evaluation.getInput(0);
-                        if (set instanceof Set && element !== undefined)
+                        if (set instanceof SetValue && element !== undefined)
                             return set.remove(requestor, element);
                         else
                             return evaluation.getValueOrTypeException(
@@ -148,7 +155,10 @@ export default function bootstrapSet(locales: Locale[]) {
                         const set: Evaluation | Value | undefined =
                             evaluation.getClosure();
                         const newSet = evaluation.getInput(0);
-                        if (set instanceof Set && newSet instanceof Set)
+                        if (
+                            set instanceof SetValue &&
+                            newSet instanceof SetValue
+                        )
                             return set.union(requestor, newSet);
                         else
                             return evaluation.getValueOrTypeException(
@@ -167,7 +177,10 @@ export default function bootstrapSet(locales: Locale[]) {
                     (requestor, evaluation) => {
                         const set = evaluation.getClosure();
                         const newSet = evaluation.getInput(0);
-                        if (set instanceof Set && newSet instanceof Set)
+                        if (
+                            set instanceof SetValue &&
+                            newSet instanceof SetValue
+                        )
                             return set.intersection(requestor, newSet);
                         else
                             return evaluation.getValueOrTypeException(
@@ -186,7 +199,10 @@ export default function bootstrapSet(locales: Locale[]) {
                     (requestor, evaluation) => {
                         const set = evaluation.getClosure();
                         const newSet = evaluation.getInput(0);
-                        if (set instanceof Set && newSet instanceof Set)
+                        if (
+                            set instanceof SetValue &&
+                            newSet instanceof SetValue
+                        )
                             return set.difference(requestor, newSet);
                         else
                             return evaluation.getValueOrTypeException(
@@ -225,7 +241,7 @@ export default function bootstrapSet(locales: Locale[]) {
                     SetType.make(SetTypeVariable.getReference()),
                     new Iteration<{
                         index: number;
-                        set: Set;
+                        set: SetValue;
                         filtered: Value[];
                     }>(
                         SetType.make(SetTypeVariable.getReference()),
@@ -233,7 +249,7 @@ export default function bootstrapSet(locales: Locale[]) {
                         (evaluator) => {
                             return {
                                 index: 0,
-                                set: evaluator.getCurrentClosure() as Set,
+                                set: evaluator.getCurrentClosure() as SetValue,
                                 filtered: [],
                             };
                         },
@@ -248,7 +264,7 @@ export default function bootstrapSet(locales: Locale[]) {
                         // See if we're keeping it.
                         (evaluator, info, expression) => {
                             const include = evaluator.popValue(expression);
-                            if (!(include instanceof Bool))
+                            if (!(include instanceof BoolValue))
                                 return evaluator.getValueOrTypeException(
                                     expression,
                                     BooleanType.make(),
@@ -261,7 +277,7 @@ export default function bootstrapSet(locales: Locale[]) {
                         },
                         // Create the filtered set.
                         (evaluator, info, expression) =>
-                            new Set(expression, info.filtered)
+                            new SetValue(expression, info.filtered)
                     )
                 ),
                 createFunction(
@@ -294,7 +310,7 @@ export default function bootstrapSet(locales: Locale[]) {
                     SetType.make(SetTranslateTypeVariable.getReference()),
                     new Iteration<{
                         index: number;
-                        set: Set;
+                        set: SetValue;
                         values: Value[];
                         translated: Value[];
                     }>(
@@ -303,9 +319,10 @@ export default function bootstrapSet(locales: Locale[]) {
                         (evaluator) => {
                             return {
                                 index: 0,
-                                set: evaluator.getCurrentClosure() as Set,
-                                values: (evaluator.getCurrentClosure() as Set)
-                                    .values,
+                                set: evaluator.getCurrentClosure() as SetValue,
+                                values: (
+                                    evaluator.getCurrentClosure() as SetValue
+                                ).values,
                                 translated: [],
                             };
                         },
@@ -328,7 +345,7 @@ export default function bootstrapSet(locales: Locale[]) {
                         },
                         // Create the translated list.
                         (evaluator, info, expression) =>
-                            new Set(expression, info.translated)
+                            new SetValue(expression, info.translated)
                     )
                 ),
                 createBasisConversion(
@@ -338,8 +355,8 @@ export default function bootstrapSet(locales: Locale[]) {
                     ),
                     SetType.make(SetTypeVariable.getReference()),
                     TextType.make(),
-                    (requestor: Expression, val: Set) =>
-                        new Text(requestor, val.toString())
+                    (requestor: Expression, val: SetValue) =>
+                        new TextValue(requestor, val.toString())
                 ),
                 createBasisConversion(
                     getDocLocales(
@@ -348,8 +365,8 @@ export default function bootstrapSet(locales: Locale[]) {
                     ),
                     SetType.make(SetTypeVariable.getReference()),
                     ListType.make(SetTypeVariable.getReference()),
-                    (requestor: Expression, val: Set) =>
-                        new List(requestor, val.values)
+                    (requestor: Expression, val: SetValue) =>
+                        new ListValue(requestor, val.values)
                 ),
             ],
             BlockKind.Structure

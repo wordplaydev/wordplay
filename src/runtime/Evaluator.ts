@@ -1,14 +1,14 @@
 import type Node from '@nodes/Node';
-import type Reaction from '@nodes/Reaction';
+import Reaction from '@nodes/Reaction';
 import Evaluation, {
     type DefinitionNode,
     type EvaluationNode,
 } from './Evaluation';
-import ReactionStream from './ReactionStream';
-import type Stream from './Stream';
-import Value from './Value';
-import Exception from './Exception';
-import ValueException from './ValueException';
+import ReactionStream from '../values/ReactionStreamValue';
+import type StreamValue from '../values/StreamValue';
+import Value from '../values/Value';
+import ExceptionValue from '../values/ExceptionValue';
+import ValueException from '../values/ValueException';
 import type Type from '@nodes/Type';
 import Source from '@nodes/Source';
 import type Names from '@nodes/Names';
@@ -21,23 +21,27 @@ import ConversionDefinition from '@nodes/ConversionDefinition';
 import Context from '@nodes/Context';
 
 // Import this last, after everything else, to avoid cycles.
-import { MAX_STREAM_LENGTH } from './Stream';
+import { MAX_STREAM_LENGTH } from '../values/StreamValue';
 import Start from './Start';
 import Finish from './Finish';
-import EvaluationLimitException from './EvaluationLimitException';
-import StepLimitException from './StepLimitException';
-import TypeException from './TypeException';
-import Random from '../input/Random';
-import TemporalStream from './TemporalStream';
+import EvaluationLimitException from '../values/EvaluationLimitException';
+import StepLimitException from '../values/StepLimitException';
+import TypeException from '../values/TypeException';
+import TemporalStreamValue from '../values/TemporalStreamValue';
 import StartFinish from './StartFinish';
 import type { Basis } from '../basis/Basis';
 import type Locale from '../locale/Locale';
+import type { Path } from '../nodes/Root';
+import Evaluate from '../nodes/Evaluate';
+
+import NumberGenerator from 'recoverable-random';
 
 /** Anything that wants to listen to changes in the state of this evaluator */
 export type EvaluationObserver = () => void;
 export type StepNumber = number;
+export type StreamValueChange = { stream: StreamValue; value: Value };
 export type StreamChange = {
-    changes: { stream: Stream; value: Value }[];
+    changes: StreamValueChange[];
     stepIndex: number;
 };
 export type IndexedValue = { value: Value | undefined; stepNumber: StepNumber };
@@ -77,7 +81,7 @@ export default class Evaluator {
     #stopped = false;
 
     /** The exception encountered */
-    exception: Exception | undefined;
+    exception: ExceptionValue | undefined;
 
     /**
      * The global step counter, one for each step evaluated. Only ever goes up,
@@ -103,20 +107,42 @@ export default class Evaluator {
     reactions: StreamChange[] = [];
 
     /**
+     * The raw inputs that streams received during evaluation, in the order they were received
+     * so that we can replay them. We keep the path to the node that the input corresponded to
+     * so we can find the corresponding node in the new program. We keep the number as each node
+     * can have multiple streams associated with it.
+     */
+    #inputs: (null | {
+        path: Path;
+        number: number;
+        stepIndex: number;
+        raw: any;
+        silent: boolean;
+    })[] = [];
+
+    /**
+     * True if we're in the middle of replaying prior inputs to restore a previous Evaluator's state.
+     * Only true during Evaluator.mirror();
+     */
+    replaying: boolean = false;
+    invalidInputs: boolean = false;
+
+    /**
      * All of the basis streams created while evaluating the program.
      * Each node gets a list of streams because multiple evaluations of the
      * node in a single evaluation generates a distinct stream for each evaluation.
      * They are uniquely identified by the index of their creation.
-     * We keep an index of counts in order to do this mapping.
+     * We keep an index of counts during evaluation in order to do this mapping.
      * */
-    basisStreams: Map<EvaluationNode, Stream[]> = new Map();
+    basisStreams: Map<EvaluationNode, StreamValue[]> = new Map();
     basisStreamEvaluationCount: Map<EvaluationNode, number> = new Map();
+    evaluateByStream: Map<StreamValue, EvaluationNode> = new Map();
 
     /** A derived cache of temporal streams, to avoid having to look them up. */
-    basisTemporalStreams: TemporalStream<any>[] = [];
+    basisTemporalStreams: TemporalStreamValue<any, any>[] = [];
 
     /** A mapping from Reaction nodes in the program to the streams they are listening to. */
-    reactionStreams: Map<Reaction, Stream> = new Map();
+    reactionStreams: Map<Reaction, StreamValue> = new Map();
 
     /** A set of possible execution modes, defaulting to play. */
     mode: Mode = Mode.Play;
@@ -141,7 +167,8 @@ export default class Evaluator {
     /**
      * A global random stream for APIs to use.
      */
-    random: Random;
+    seed: number;
+    random: NumberGenerator;
 
     /**
      * The last time we received from requestAnimationFrame.
@@ -154,7 +181,7 @@ export default class Evaluator {
      * rather than evaluating each at once. Reset in Evaluator.tick(), filled by Stream.add() broadcasting
      * to this Evaluator.
      */
-    temporalReactions: Stream[] = [];
+    temporalReactions: StreamValue[] = [];
 
     /** The animation multiplier to apply to all time-based streams. Can come from anywhere, but typically a user configuration.
      */
@@ -164,12 +191,12 @@ export default class Evaluator {
      * Remember streams that were converted to values so we can convert them back to streams
      * when needed in stream operations.
      */
-    readonly streamsResolved: Map<Value, Stream> = new Map();
+    readonly streamsResolved: Map<Value, StreamValue> = new Map();
 
     /** Remember streams accessed during reactions conditions so we can decide whether to reevaluate */
     readonly reactionDependencies: {
         reaction: Reaction;
-        streams: Set<Stream>;
+        streams: Set<StreamValue>;
     }[] = [];
 
     /**
@@ -187,9 +214,6 @@ export default class Evaluator {
 
         this.reactive = reactive;
 
-        // Create a global random number stream for APIs to use.
-        this.random = new Random(this, undefined, undefined, undefined);
-
         // Mark as not started.
         this.#started = false;
 
@@ -205,6 +229,10 @@ export default class Evaluator {
 
         // Tell everyone.
         this.broadcast();
+
+        // Initialize a default random number generator.
+        this.seed = Math.random();
+        this.random = new NumberGenerator(this.seed);
 
         // Mirror the given prior, if there is one.
         if (prior) this.mirror(prior);
@@ -232,17 +260,108 @@ export default class Evaluator {
         return new Evaluator(project).getInitialValue();
     }
 
+    /** Invalidates these inputs, indicating that it shouldn't be used */
+    invalidateInputs() {
+        this.invalidInputs = true;
+    }
+
     /** Mirror the given evaluator's stream history and state, but with the new source. */
     mirror(evaluator: Evaluator) {
-        const isPlaying = evaluator.getMode() === Mode.Play;
-        if (isPlaying) {
-            // Set the evaluator's playing state to the current playing state.
-            this.setMode(Mode.Play);
-        } else {
-            // Play to the same place the old project's evaluator was at.
-            this.start();
-            this.setMode(Mode.Step);
+        if (!evaluator.invalidInputs) {
+            this.seed = evaluator.seed;
+            this.random = new NumberGenerator(this.seed);
+
+            // If the previous evaluator has any raw inputs, replay them on this evaluator.
+            if (evaluator.#inputs.length > 0) {
+                // 1) run the initial evaluation, creating any iniital streams
+                this.setMode(Mode.Play);
+                this.start();
+                this.finish();
+                this.pause();
+
+                // Note that we're replaying so that the streams accept values even though we're paused.
+                this.replaying = true;
+
+                // Iterate through all input and see if we can map them to a new node and it's corresponding stream.
+                for (let i = 0; i < evaluator.#inputs.length; i++) {
+                    const input = evaluator.#inputs[i];
+                    // Is it a flush? Flush.
+                    if (input === null) this.flush();
+                    // See if we can find the corresponding stream.
+                    else {
+                        // Resolve the node from the path.
+                        let evaluate = this.resolvePath(input.path);
+
+                        // Couldn't find the node, or it's not an evaluate? Stop here.
+                        if (evaluate === undefined) {
+                            // console.error(
+                            //     "Couldn't resolve " + JSON.stringify(input.path)
+                            // );
+                            break;
+                        }
+
+                        if (!(evaluate instanceof Evaluate)) {
+                            // console.error(
+                            //     "Found a node, but it's not an evaluate:" +
+                            //         JSON.stringify(input.path)
+                            // );
+                            break;
+                        }
+                        const streams = this.basisStreams.get(evaluate);
+
+                        // Couldn't find a corresponding list of streams associated with this node? Stop here.
+                        if (streams === undefined) {
+                            // console.error(
+                            //     "Couldn't resolve streams for " +
+                            //         evaluate.toWordplay()
+                            // );
+                            break;
+                        }
+
+                        const stream = streams[input.number];
+
+                        // Couldn't find a corresponding stream? Stop here.
+                        if (stream === undefined) {
+                            // console.error(
+                            //     "Couldn't resolve stream number " + input.number
+                            // );
+                            break;
+                        }
+
+                        // React to the input.
+                        stream.react(input.raw);
+                    }
+                }
+
+                // Finally, step back to where the evaluator was.
+                if (evaluator.getStepIndex() < this.#stepCount)
+                    this.stepTo(evaluator.getStepIndex());
+
+                this.replaying = false;
+
+                if (evaluator.getMode() === Mode.Play) this.setMode(Mode.Play);
+            } else {
+                const isPlaying = evaluator.getMode() === Mode.Play;
+                if (isPlaying) {
+                    // Set the evaluator's playing state to the current playing state.
+                    this.setMode(Mode.Play);
+                } else {
+                    // Play to the same place the old project's evaluator was at.
+                    this.start();
+                    this.setMode(Mode.Step);
+                }
+            }
         }
+    }
+
+    resolvePath(path: Path) {
+        // Resolve the node from the path.
+        let evaluate: Node | undefined = undefined;
+        for (const root of this.project.roots) {
+            evaluate = root.resolvePath(path);
+            if (evaluate !== undefined) break;
+        }
+        return evaluate;
     }
 
     // GETTERS
@@ -502,7 +621,7 @@ export default class Evaluator {
     }
 
     /** Evaluate until we're done */
-    start(changedStreams?: Stream[]): void {
+    start(changedStreams?: StreamValue[]): void {
         // Reset all state.
         this.resetForEvaluation(true);
 
@@ -515,9 +634,15 @@ export default class Evaluator {
         // If we're in the present, remember the stream change. (If we're in the past, we use the history.)
         if (!this.isInPast()) {
             this.reactions.push({
-                changes: (changedStreams ?? []).map((stream) => {
-                    return { stream, value: stream.latest() };
-                }),
+                changes: (changedStreams ?? [])
+                    .map((stream) => {
+                        const latest = stream.latest();
+                        return latest ? { stream, value: latest } : undefined;
+                    })
+                    .filter(
+                        (change): change is StreamValueChange =>
+                            change !== undefined
+                    ),
                 stepIndex: this.getStepCount(),
             });
             // Keep trimmed to a reasonable size to prevent memory leaks and remember the earliest step available.
@@ -546,7 +671,7 @@ export default class Evaluator {
         this.broadcast();
 
         // If in play mode, we finish (and notify listeners again).
-        if (this.isPlaying()) this.finish();
+        if (this.replaying || this.isPlaying()) this.finish();
     }
 
     play() {
@@ -647,7 +772,7 @@ export default class Evaluator {
         this.broadcast();
     }
 
-    end(exception?: Exception) {
+    end(exception?: ExceptionValue) {
         // If there's an exception, end all sources with the exception.
         while (this.evaluations.length > 0) this.endEvaluation(exception);
 
@@ -702,7 +827,7 @@ export default class Evaluator {
 
         // If it's an exception on main, halt execution by returning the exception value.
         if (
-            value instanceof Exception &&
+            value instanceof ExceptionValue &&
             this.evaluations[0].getSource() === this.project.main
         )
             this.end(value);
@@ -872,7 +997,7 @@ export default class Evaluator {
     }
 
     broadcast() {
-        this.observers.forEach((observer) => observer());
+        if (!this.replaying) this.observers.forEach((observer) => observer());
     }
 
     // STREAM AND REACTION MANAGMEENT
@@ -889,7 +1014,7 @@ export default class Evaluator {
         return this.reactions.length === 1;
     }
 
-    didStreamCauseReaction(stream: Stream) {
+    didStreamCauseReaction(stream: StreamValue) {
         // Find the latest stream change after the current step index,
         // and return the stream that triggered evaluation, if any.
         let latest;
@@ -924,7 +1049,7 @@ export default class Evaluator {
         // Otherwise, add the value or create the stream if it doesn't yet exist.
         if (!this.isInPast()) {
             const stream = this.reactionStreams.get(reaction);
-            if (stream) stream.add(value);
+            if (stream) stream.add(value, null);
             else {
                 const newStream = new ReactionStream(this, reaction, value);
                 this.reactionStreams.set(reaction, newStream);
@@ -932,7 +1057,7 @@ export default class Evaluator {
         }
     }
 
-    getStreamResolved(value: Value): Stream | undefined {
+    getStreamResolved(value: Value): StreamValue | undefined {
         const stream = this.streamsResolved.get(value);
 
         // If we're tracking a reaction's dependencies, remember this was obtained.
@@ -942,7 +1067,7 @@ export default class Evaluator {
         return stream;
     }
 
-    setStreamResolved(value: Value, stream: Stream) {
+    setStreamResolved(value: Value, stream: StreamValue) {
         this.streamsResolved.set(value, stream);
 
         // If we're tracking a reaction's dependencies, remember this was converted into a value.
@@ -950,7 +1075,7 @@ export default class Evaluator {
             this.reactionDependencies[0].streams.add(stream);
     }
 
-    getBasisStreamsOfType<Kind extends Stream>(
+    getBasisStreamsOfType<Kind extends StreamValue>(
         type: new (...params: any[]) => Kind
     ) {
         // Make a big list of all the streams and filter by the ones of the given type.
@@ -970,7 +1095,7 @@ export default class Evaluator {
     getBasisStreamFor(
         evaluate: EvaluationNode,
         before: boolean = false
-    ): Stream | undefined {
+    ): StreamValue | undefined {
         const streams = this.basisStreams.get(evaluate);
         const count =
             (this.basisStreamEvaluationCount.get(evaluate) ?? 0) +
@@ -981,21 +1106,22 @@ export default class Evaluator {
             : streams[count - 1];
     }
 
-    addBasisStreamFor(evaluate: EvaluationNode, stream: Stream): void {
+    addBasisStreamFor(evaluate: EvaluationNode, stream: StreamValue): void {
         const streams = this.basisStreams.get(evaluate) ?? [];
 
-        // Remember the mapping
+        // Remember the mapping bidirectionally
         this.basisStreams.set(evaluate, [...streams, stream]);
+        this.evaluateByStream.set(stream, evaluate);
 
         // Start the stream if this is reactive. Otherwise, we just take it's initial value.
         if (this.reactive) stream.start();
 
         // Listen to it so we can react to changes.
-        stream.listen((stream) => this.react(stream));
+        stream.listen((stream, raw, silent) => this.react(stream, raw, silent));
 
         // If it's a temporal stream and we haven't already started a loop, start one.
         // Ensure we only start one by having an animation flag.
-        if (stream instanceof TemporalStream) {
+        if (stream instanceof TemporalStreamValue) {
             this.basisTemporalStreams.push(stream);
             // If we haven't yet started a loop, start one.
             if (
@@ -1007,6 +1133,10 @@ export default class Evaluator {
                 window.requestAnimationFrame(this.tick.bind(this));
             }
         }
+    }
+
+    getRandom() {
+        return this.random.random(0, 1, true);
     }
 
     updateTimeMultiplier(multiplier: number) {
@@ -1027,12 +1157,15 @@ export default class Evaluator {
                 console.error(
                     "Hmmm, something is modifying temporal streams outside of the Evaluator's control. Tsk tsk!"
                 );
-            // Tick each one, indireclty filling this.temporalReactions.
+            // Tick each one, indirectly filling this.temporalReactions.
             for (const stream of this.basisTemporalStreams)
                 stream.tick(time, delta, this.timeMultiplier);
 
-            // If they changed, react.
+            // Now reevaluate with all of the temporal stream updates.
             this.flush();
+
+            // Remember that we did in the history, so we can replay evaluation.
+            this.#inputs.push(null);
         }
 
         // Tick again in a bit if we're not stopped.
@@ -1049,15 +1182,48 @@ export default class Evaluator {
         }
     }
 
-    react(stream: Stream) {
-        // If this is a temporal stream, pool it, letting tick() do a single project reaction.
-        if (stream instanceof TemporalStream)
-            this.temporalReactions.push(stream);
-        // Otherwise, react immediately.
-        else this.evaluate([stream]);
+    react(stream: StreamValue, raw: any, silent: boolean) {
+        if (!(stream instanceof Reaction)) {
+            // Find the evaluate to which it corresponds.
+            const evaluate = this.evaluateByStream.get(stream);
+            if (evaluate === undefined)
+                console.error(
+                    "Warning: received a stream change that doesn't correspond to an evaluate. There must be a defect somewhere."
+                );
+            else {
+                const number = this.basisStreams.get(evaluate)?.indexOf(stream);
+                const root = this.project.getRoot(evaluate);
+                if (root === undefined)
+                    console.error(
+                        "Warning: evaluate associated with a stream isn't in the project."
+                    );
+                else if (number === undefined || number < 0)
+                    console.error(
+                        "Warning: Couldn't find the stream associated with an evaluate."
+                    );
+                else {
+                    this.#inputs.push({
+                        path: root.getPath(evaluate),
+                        number,
+                        stepIndex: this.#stepIndex,
+                        raw,
+                        silent,
+                    });
+                }
+            }
+        }
+
+        // Ignore silent inputs.
+        if (!silent) {
+            // If this is a temporal stream, pool it, letting tick() do a single project reaction.
+            if (stream instanceof TemporalStreamValue)
+                this.temporalReactions.push(stream);
+            // Otherwise, react immediately.
+            else this.evaluate([stream]);
+        }
     }
 
-    evaluate(changed: Stream[]) {
+    evaluate(changed: StreamValue[]) {
         // A stream changed!
         // STEP 1: Find the zero or more nodes that depend on this stream.
         let affectedExpressions: Set<Expression> = new Set();

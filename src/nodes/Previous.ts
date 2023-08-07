@@ -4,16 +4,16 @@ import NumberType from './NumberType';
 import Token from './Token';
 import type Type from './Type';
 import type Evaluator from '@runtime/Evaluator';
-import type Value from '@runtime/Value';
-import Number from '@runtime/Number';
+import type Value from '@values/Value';
+import NumberValue from '@values/NumberValue';
 import type Step from '@runtime/Step';
 import Finish from '@runtime/Finish';
 import type Context from './Context';
 import StreamType from './StreamType';
-import Stream from '@runtime/Stream';
+import StreamValue from '@values/StreamValue';
 import type Bind from './Bind';
 import type TypeSet from './TypeSet';
-import TypeException from '@runtime/TypeException';
+import TypeException from '@values/TypeException';
 import AnyType from './AnyType';
 import Symbol from './Symbol';
 import { PREVIOUS_SYMBOL } from '@parser/Symbols';
@@ -166,7 +166,7 @@ export default class Previous extends Expression {
         if (prior) return prior;
 
         const number = evaluator.popValue(this, NumberType.make());
-        if (!(number instanceof Number) || !number.num.isInteger())
+        if (!(number instanceof NumberValue) || !number.num.isInteger())
             return number;
 
         const num = number.toNumber();
@@ -177,7 +177,7 @@ export default class Previous extends Expression {
         // Get the stream the value came from.
         const stream = evaluator.getStreamResolved(value);
 
-        if (!(stream instanceof Stream))
+        if (!(stream instanceof StreamValue))
             return new TypeException(
                 this,
                 evaluator,

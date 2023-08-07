@@ -3,7 +3,7 @@ import path from 'path';
 
 /**
  * Make a little plugin that checks for locale file changes and fires an event.
- * The event is handled in Creator.ts, where it updates.
+ * The event is handled in Database.ts, where locales are cached.
  */
 function LocaleHotReload() {
     return {
@@ -28,6 +28,7 @@ const config = {
             '@components': path.resolve('./src/components'),
             '@nodes': path.resolve('./src/nodes'),
             '@runtime': path.resolve('./src/runtime'),
+            '@values': path.resolve('./src/values'),
             '@conflicts': path.resolve('./src/conflicts'),
             '@locale': path.resolve('./src/locale'),
             '@concepts': path.resolve('./src/concepts'),

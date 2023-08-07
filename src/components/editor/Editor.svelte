@@ -65,7 +65,7 @@
     import PlaceholderView from './PlaceholderView.svelte';
     import Expression from '../../nodes/Expression';
     import { DOCUMENTATION_SYMBOL, TYPE_SYMBOL } from '../../parser/Symbols';
-    import { config } from '../../db/Creator';
+    import { config } from '../../db/Database';
     import Button from '../widgets/Button.svelte';
     import OutputView from '../output/OutputView.svelte';
     import ConceptLinkUI from '../concepts/ConceptLinkUI.svelte';
@@ -1169,7 +1169,7 @@
         const result = handleKeyCommand(event, {
             caret: $caret,
             evaluator,
-            creator: $config,
+            database: $config,
             toggleMenu,
         });
 
@@ -1346,7 +1346,6 @@
                     <OutputView
                         {project}
                         {evaluator}
-                        {source}
                         value={evaluator.getLatestSourceValue(source)}
                         fullscreen={false}
                         mini

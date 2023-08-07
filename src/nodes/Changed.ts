@@ -3,19 +3,19 @@ import Expression from './Expression';
 import Token from './Token';
 import type Type from './Type';
 import type Evaluator from '@runtime/Evaluator';
-import type Value from '@runtime/Value';
+import type Value from '@values/Value';
 import type Step from '@runtime/Step';
 import Finish from '@runtime/Finish';
 import type Context from './Context';
 import StreamType from './StreamType';
 import type Bind from './Bind';
 import type TypeSet from './TypeSet';
-import TypeException from '@runtime/TypeException';
+import TypeException from '@values/TypeException';
 import AnyType from './AnyType';
 import Symbol from './Symbol';
 import { CHANGE_SYMBOL } from '@parser/Symbols';
 import Start from '@runtime/Start';
-import Bool from '@runtime/Bool';
+import BoolValue from '@values/BoolValue';
 import { node, type Grammar, type Replacement } from './Node';
 import type Locale from '@locale/Locale';
 import AtomicExpression from './AtomicExpression';
@@ -117,7 +117,7 @@ export default class Changed extends AtomicExpression {
                 value
             );
 
-        return new Bool(this, evaluator.didStreamCauseReaction(stream));
+        return new BoolValue(this, evaluator.didStreamCauseReaction(stream));
     }
 
     evaluateTypeSet(

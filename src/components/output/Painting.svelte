@@ -1,6 +1,6 @@
 <script lang="ts">
     import Switch from '@components/widgets/Switch.svelte';
-    import { config } from '../../db/Creator';
+    import { config } from '../../db/Database';
 
     export let painting: boolean;
 </script>

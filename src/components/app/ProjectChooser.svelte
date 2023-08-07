@@ -1,6 +1,6 @@
 <script lang="ts">
     import Lead from './Lead.svelte';
-    import { config, projects } from '../../db/Creator';
+    import { config, projects } from '../../db/Database';
     import ProjectSet from './ProjectPreviewSet.svelte';
     import { examples, makeProject } from '../../examples/examples';
     import type Project from '../../models/Project';

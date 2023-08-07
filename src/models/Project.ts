@@ -19,7 +19,7 @@ import Root from '../nodes/Root';
 import type { Path } from '../nodes/Root';
 import type { CaretPosition } from '../edit/Caret';
 import { Basis } from '../basis/Basis';
-import type createDefaultShares from '../runtime/createDefaultShares';
+import type createDefaultShares from '@runtime/createDefaultShares';
 import FunctionType from '../nodes/FunctionType';
 import type Locale from '../locale/Locale';
 import { toLocaleString } from '../locale/Locale';
@@ -461,7 +461,8 @@ export default class Project {
         for (const source of this.getSources()) {
             const context = this.getContext(source);
             for (const ref of source.nodes(
-                (n) => n instanceof Reference || n instanceof PropertyReference
+                (n): n is Reference | PropertyReference =>
+                    n instanceof Reference || n instanceof PropertyReference
             ) as (Reference | PropertyReference)[]) {
                 if (ref.resolve(context) === bind) refs.push(ref);
             }
@@ -721,7 +722,7 @@ export default class Project {
         return position !== undefined
             ? typeof position === 'number'
                 ? position
-                : source.root.resolvePath(source, position)
+                : source.root.resolvePath(position)
             : undefined;
     }
 

@@ -71,6 +71,7 @@
         "colorjs.io": "^0",
         "decimal.js": "^10",
         "firebase": "^9",
+        "recoverable-random": "^1.0.3",
         "uuid": "^9"
     }
 }

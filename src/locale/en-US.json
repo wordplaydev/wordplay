@@ -452,10 +452,10 @@
             }
         },
         "BooleanLiteral": {
-            "name": "boolean",
+            "name": "specific boolean",
             "description": "$1[true|false]",
             "emotion": "precise",
-            "doc": "See @Boolean.",
+            "doc": "I am either \\⊤\\ or \\⊥\\. See @Boolean to learn more about our beautiful logic.",
             "start": "$1!"
         },
         "Borrow": {
@@ -757,10 +757,10 @@
             "finish": "the item is $2!"
         },
         "ListLiteral": {
-            "name": "list",
+            "name": "specific list",
             "description": "$1 item list",
             "emotion": "eager",
-            "doc": "I'm a @List!",
+            "doc": "I'm a specific @List of values! See @List to learn more about what you can do with me.",
             "start": "let's evaluate the items first",
             "finish": "I made a me! $1",
             "item": "item"
@@ -769,7 +769,7 @@
             "name": "map",
             "description": "$1 pairing map",
             "emotion": "kind",
-            "doc": "I'm a @Map.",
+            "doc": "I'm a specific @Map between keys and values. See @Map to learn more about how I'm helpful.",
             "start": "let's evaluate the keys and values first",
             "finish": "I connected everyone, $1",
             "conflict": {
@@ -780,10 +780,10 @@
             }
         },
         "NumberLiteral": {
-            "name": "number",
+            "name": "specific number",
             "description": "$1 $2[$2|]",
             "emotion": "excited",
-            "doc": "I'm a @Number.",
+            "doc": "I'm a specific @Number. You can write me with any kinds of digits from any kind of language. See @Number for everything I can do.",
             "start": "$1!",
             "conflict": {
                 "NotANumber": "I thought I knew all the numbers, but I don't know this one"
@@ -796,9 +796,9 @@
             "start": "secret expression"
         },
         "NoneLiteral": {
-            "name": "none",
+            "name": "just none",
             "emotion": "neutral",
-            "doc": "I'm @None.",
+            "doc": "/@FunctionDefinition here. This is just @None. They are one of a kind! See @None to learn more about them.",
             "start": "… ø"
         },
         "Previous": {
@@ -831,7 +831,7 @@
                 "And if your performance depends on a *stream*, I'll reevaluate every time that stream changes."
             ],
             "unevaluated": "the node you chose didn't evaluate",
-            "start": "$1[a stream changed!|it's my first evaluation]",
+            "start": "$1[$1 stream changed to $2!|it's my first evaluation]",
             "halt": "encountered exception, stopping",
             "finish": "all done, I evaluated to $1",
             "done": "there's nothing evaluating",
@@ -938,10 +938,10 @@
             }
         },
         "SetLiteral": {
-            "name": "set",
+            "name": "specific set",
             "description": "$1 items",
             "emotion": "eager",
-            "doc": "I'm a @Set.",
+            "doc": "I'm a specifc @Set of specific values. See @Set to learn more about how to work with me.",
             "start": "let's evaluate the values first!",
             "finish": "I made a set $1!"
         },
@@ -1003,24 +1003,24 @@
             }
         },
         "TableLiteral": {
-            "name": "table",
+            "name": "specific table",
             "description": "$1 row table",
             "emotion": "angry",
-            "doc": "See @Table.",
+            "doc": "I am a specific table with specific rows. See @Table about how I can help.",
             "item": "row",
             "start": "first evaluate the rows",
             "finish": "evaluated to new table $1"
         },
         "TextLiteral": {
-            "name": "text",
+            "name": "specific text",
             "description": "text $1",
             "emotion": "serious",
-            "doc": "I represent many different @Translation of text. See @Text to learn more!",
+            "doc": "I represent one or more specific @Translation of text. See @Text to learn more about what I can do!",
             "start": "let's make text in the current locale"
         },
         "Translation": {
-            "name": "text",
-            "description": "text $1",
+            "name": "translation",
+            "description": "translation $1",
             "emotion": "serious",
             "doc": "I represent some text, with a @Language tag. See @Text to learn more!"
         },
@@ -1368,7 +1368,7 @@
             "function": {
                 "and": {
                     "doc": [
-                        "Evaluates to \\⊤\\ *only* when both values are \\⊤\\. Helpful for determining if many things are all true. There are only four possible outcomes",
+                        "I evaluate to \\⊤\\ *only* when both values are \\⊤\\. Helpful for determining if many things are all true. There are only four possible outcomes",
                         "\\⊤ & ⊤\\",
                         "\\⊤ & ⊥\\",
                         "\\⊥ & ⊤\\",
@@ -1384,7 +1384,7 @@
                 },
                 "or": {
                     "doc": [
-                        "Evaluates to \\⊤\\ when *either* value are \\⊤\\. Helpful for determining if one of many things are true. There are only four possible outcomes",
+                        "I evaluate to \\⊤\\ when *either* value are \\⊤\\. Helpful for determining if one of many things are true. There are only four possible outcomes",
                         "\\⊤ | ⊤\\",
                         "\\⊤ | ⊥\\",
                         "\\⊥ | ⊤\\",
@@ -1399,19 +1399,19 @@
                     ]
                 },
                 "not": {
-                    "doc": "Gets the opposite of itself: if \\⊤\\, it gives \\⊥\\, if \\⊥\\, it gives \\⊤\\.",
+                    "doc": "I get the opposite of myself: if \\⊤\\, it gives \\⊥\\, if \\⊥\\, it gives \\⊤\\.",
                     "names": ["~", "not"],
                     "inputs": []
                 },
                 "equals": {
-                    "doc": "True if both are \\⊤\\ or both are \\⊥\\.",
+                    "doc": "\\⊤\\ if both are \\⊤\\ or both are \\⊥\\.",
                     "names": ["=", "equals"],
                     "inputs": [
                         { "doc": "The other value to check.", "names": "value" }
                     ]
                 },
                 "notequal": {
-                    "doc": "True if both are opposites.",
+                    "doc": "\\⊤\\ if both are opposites.",
                     "names": ["≠", "notequal"],
                     "inputs": [
                         { "doc": "The other value to check.", "names": "value" }
@@ -1463,7 +1463,7 @@
             "function": {
                 "length": {
                     "doc": [
-                        "Evaluates to number of legible characters in the text; one letter is one character, one emoji is one character, etc. For example:",
+                        "I evaluate to the number of legible characters in the text; one letter is one character, one emoji is one character, etc. For example:",
                         "\\'hello'.length()\\",
                         "\\'🐈📚'.length()\\"
                     ],
@@ -2666,8 +2666,8 @@
             "doc": [
                 "17!",
                 "/@FunctionDefinition here, I'll explain this one./",
-                "So @Random is a curious stream that creates an infinite sequence of random numbers. It's curious because its the only stream that doesn't change on its own, and so @Program won't reevaluate wheni it's used.",
-                "Instead, every time it's used, it evaluates to a different value, creating the wonderful chaos that comes with unpredictability.",
+                "So @Random is a curious function that creates random numbers. It's curious because every time you evaluate it, it creates something different.",
+                "This creates a wonderful chaos that comes with unpredictability.",
                 "By default, it gives @Number values between \\0\\ and \\1\\:",
                 "\\Random()\\",
                 "But you can give it a value, and it will generate values between \\0\\ and the value:",
@@ -2678,14 +2678,16 @@
                 "\\Random(-10m 10m)\\"
             ],
             "names": ["🎲", "Random"],
-            "min": {
-                "names": "min",
-                "doc": "The minimum value that will be created, or if it's larger than 0, the maximum value. If @None is provided, then the miniumum is \\0\\."
-            },
-            "max": {
-                "names": "max",
-                "doc": "The maximum value that will created, or if its smaller than the minimum provided, the minimum. If @None is provided, than the maximum is \\1\\."
-            }
+            "inputs": [
+                {
+                    "names": "min",
+                    "doc": "The minimum value that will be created, or if it's larger than 0, the maximum value. If @None is provided, then the miniumum is \\0\\."
+                },
+                {
+                    "names": "max",
+                    "doc": "The maximum value that will created, or if its smaller than the minimum provided, the minimum. If @None is provided, than the maximum is \\1\\."
+                }
+            ]
         },
         "Choice": {
             "doc": [
@@ -2956,6 +2958,8 @@
         "Phrase": {
             "doc": [
                 "Hello, hello! Remember me? How could anyone forget /me/. That's right, I am the manificent @Phrase, ready to represent the loveliest of @Text on @Stage.",
+                "Just make me like this, and I'll appear on @Stage:",
+                "\\Phrase('magnificient!')\\",
                 "I need some @Text, obviously, but otherwise, I can do everything a @Type can do, including changing my size, font, rotation, and do all of my incredible dances with @Pose and @Sequence.",
                 "You can also select me on @Stage and edit me on the palette next door."
             ],
@@ -3151,9 +3155,9 @@
                 "HI. STAGE HERE. TELL ME WHAT TO SHOW AND I WILL SHOW IT.",
                 "\\Stage([Phrase('stufffffff')])\\",
                 "IF YOU WANT, GIVE ME A BACKGROUND @Color AND I WILL LIGHT THE STAGE ACCORDINGLY.",
-                "\\Stage([Phrase('stufffffff')] Color(0% 0 0°))\\",
-                "YOU MAY ALSO GIVE ME A FRAME BORDER.",
-                "\\Stage([Phrase('stufffffff')] Color(0% 0 0°) Rectangle(-2m -2m 2m 2m))\\"
+                "\\Stage([Phrase('stufffffff')] Color(0% 0 0°) color: Color(100% 0 0°))\\",
+                "YOU MAY ALSO GIVE ME A FRAME BORDER AND I WILL CROP.",
+                "\\Stage([Phrase('stufffffff')] Color(0% 0 0°) Rectangle(-1m -1m 1m 1m) color: Color(100% 0 0°))\\"
             ],
             "names": ["🎭", "Stage"],
             "content": {
@@ -3333,7 +3337,9 @@
             "focusSource": "focus on the next source",
             "focusDocs": "focus on the documentation",
             "focusPalette": "focus on the palette",
-            "focusCycle": "focus on the next tile"
+            "focusCycle": "focus on the next tile",
+            "conceptLink": "navigate to concept $1",
+            "timeline": "time slider"
         },
         "prompt": {
             "deleteSource": "delete",
@@ -3361,7 +3367,7 @@
         },
         "header": {
             "learn": "Learn",
-            "select": "select a 💬, 🔳, or 🎭 to edit!",
+            "select": "if you ⏸️ the stage, you can select a 💬, 🔳, or 🎭 to edit!",
             "editing": "edit me!",
             "projects": "Performances",
             "examples": "Examples",

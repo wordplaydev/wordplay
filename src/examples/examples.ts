@@ -28,7 +28,7 @@ import Catch from './Catch.wp?raw';
 import Amplitude from './Amplitude.wp?raw';
 import { parseNames, toTokens } from '../parser/Parser';
 import type Names from '../nodes/Names';
-import { config } from '../db/Creator';
+import { config } from '../db/Database';
 import { get } from 'svelte/store';
 import { getBestSupportedLocales } from '../locale/Locale';
 

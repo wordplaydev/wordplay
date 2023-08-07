@@ -4,7 +4,7 @@
     import { onMount } from 'svelte';
     import Eyes from '../lore/Eyes.svelte';
     import UnicodeString from '../../models/UnicodeString';
-    import { config } from '../../db/Creator';
+    import { config } from '../../db/Database';
     import Emotion from '../../lore/Emotion';
 
     type Glyph = {

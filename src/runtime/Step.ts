@@ -1,6 +1,6 @@
 import Node from '@nodes/Node';
-import type Evaluator from './Evaluator';
-import type Value from './Value';
+import type Evaluator from '@runtime/Evaluator';
+import type Value from '../values/Value';
 import type Expression from '@nodes/Expression';
 import type Locale from '@locale/Locale';
 import type Markup from '../nodes/Markup';

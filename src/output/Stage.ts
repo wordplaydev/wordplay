@@ -1,16 +1,16 @@
-import Structure from '@runtime/Structure';
-import type Value from '@runtime/Value';
+import StructureValue from '@values/StructureValue';
+import type Value from '@values/Value';
 import TypeOutput, { createTypeOutputInputs } from './TypeOutput';
 import type RenderContext from './RenderContext';
 import Color from './Color';
 import Place from './Place';
 import toStructure from '../basis/toStructure';
-import Number from '@runtime/Number';
+import NumberValue from '@values/NumberValue';
 import Decimal from 'decimal.js';
 import { toColor } from './Color';
-import List from '@runtime/List';
+import ListValue from '@values/ListValue';
 import { getBind } from '@locale/getBind';
-import Bool from '../runtime/Bool';
+import BoolValue from '@values/BoolValue';
 import { getStyle, toTypeOutput, toTypeOutputList } from './toTypeOutput';
 import type TextLang from './TextLang';
 import Pose, { DefinitePose } from './Pose';
@@ -178,7 +178,7 @@ export class NameGenerator {
 }
 
 export function toStage(project: Project, value: Value): Stage | undefined {
-    if (!(value instanceof Structure)) return undefined;
+    if (!(value instanceof StructureValue)) return undefined;
 
     // Create a name generator to guarantee unique default names for all TypeOutput.
     const namer = new NameGenerator();
@@ -186,7 +186,7 @@ export function toStage(project: Project, value: Value): Stage | undefined {
     if (value.type === project.shares.output.Stage) {
         const possibleGroups = getOutputInput(value, 0);
         const content =
-            possibleGroups instanceof List
+            possibleGroups instanceof ListValue
                 ? toTypeOutputList(project, possibleGroups, namer)
                 : toTypeOutput(project, possibleGroups, namer);
         const background = toColor(getOutputInput(value, 1));
@@ -281,7 +281,7 @@ export function toStage(project: Project, value: Value): Stage | undefined {
 }
 
 export function toDecimal(value: Value | undefined): Decimal | undefined {
-    return value instanceof Number ? value.num : undefined;
+    return value instanceof NumberValue ? value.num : undefined;
 }
 
 export function toNumber(value: Value | undefined): number | undefined {
@@ -289,5 +289,5 @@ export function toNumber(value: Value | undefined): number | undefined {
 }
 
 export function toBoolean(value: Value | undefined): boolean | undefined {
-    return value instanceof Bool ? value.bool : undefined;
+    return value instanceof BoolValue ? value.bool : undefined;
 }

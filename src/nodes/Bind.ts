@@ -16,8 +16,8 @@ import Halt from '@runtime/Halt';
 import Finish from '@runtime/Finish';
 import Block from './Block';
 import ListType from './ListType';
-import ValueException from '@runtime/ValueException';
-import Exception from '@runtime/Exception';
+import ValueException from '@values/ValueException';
+import ExceptionValue from '@values/ExceptionValue';
 import type Definition from './Definition';
 import AnyType from './AnyType';
 import { ETC_SYMBOL, PLACEHOLDER_SYMBOL, SHARE_SYMBOL } from '@parser/Symbols';
@@ -30,7 +30,7 @@ import { MissingShareLanguages } from '@conflicts/MissingShareLanguages';
 import { MisplacedShare } from '@conflicts/MisplacedShare';
 import { DuplicateShare } from '@conflicts/DuplicateShare';
 import type TypeSet from './TypeSet';
-import type Value from '@runtime/Value';
+import type Value from '@values/Value';
 import Symbol from './Symbol';
 import type Name from './Name';
 import DuplicateName from '@conflicts/DuplicateName';
@@ -39,7 +39,7 @@ import type Locale from '@locale/Locale';
 import NodeRef from '@locale/NodeRef';
 import Glyphs from '../lore/Glyphs';
 import Purpose from '../concepts/Purpose';
-import type { EvaluationNode } from '../runtime/Evaluation';
+import type { EvaluationNode } from '@runtime/Evaluation';
 import type Reaction from './Reaction';
 import Evaluate from './Evaluate';
 import FunctionType from './FunctionType';
@@ -608,7 +608,7 @@ export default class Bind extends Expression {
         const value = prior ?? evaluator.popValue(this);
 
         // If it's an exception, return it instead of binding.
-        if (value instanceof Exception) return value;
+        if (value instanceof ExceptionValue) return value;
 
         // Bind the value on the stack to the names.
         evaluator.bind(this.names, value);

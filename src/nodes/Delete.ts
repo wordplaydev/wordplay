@@ -6,7 +6,7 @@ import type Type from './Type';
 import BooleanType from './BooleanType';
 import TableType from './TableType';
 import Bind from '@nodes/Bind';
-import type Value from '@runtime/Value';
+import type Value from '@values/Value';
 import Finish from '@runtime/Finish';
 import type Step from '@runtime/Step';
 import Start from '@runtime/Start';
@@ -24,15 +24,15 @@ import Symbol from './Symbol';
 import Purpose from '../concepts/Purpose';
 import FunctionDefinition from './FunctionDefinition';
 import Names from './Names';
-import Table from '../runtime/Table';
-import type Structure from '../runtime/Structure';
-import Evaluation from '../runtime/Evaluation';
-import Bool from '../runtime/Bool';
+import TableValue from '../values/TableValue';
+import type StructureValue from '../values/StructureValue';
+import Evaluation from '@runtime/Evaluation';
+import BoolValue from '@values/BoolValue';
 import { getIteration, getIterationResult } from '../basis/Iteration';
 import { DELETE_SYMBOL } from '../parser/Symbols';
 import ExpressionPlaceholder from './ExpressionPlaceholder';
 
-type DeleteState = { index: number; list: Structure[]; table: Table };
+type DeleteState = { index: number; list: StructureValue[]; table: TableValue };
 
 export default class Delete extends Expression {
     readonly table: Expression;
@@ -176,7 +176,7 @@ export default class Delete extends Expression {
                 // Initialize a keep list and a counter as we iterate through the rows.
                 (evaluator) => {
                     const table = evaluator.peekValue();
-                    return table instanceof Table
+                    return table instanceof TableValue
                         ? { index: 0, list: [], table }
                         : evaluator.getValueOrTypeException(
                               this,
@@ -201,7 +201,7 @@ export default class Delete extends Expression {
                 },
                 (evaluator, info) => {
                     const remove = evaluator.popValue(this, BooleanType.make());
-                    if (!(remove instanceof Bool)) return remove;
+                    if (!(remove instanceof BoolValue)) return remove;
                     // Query was false? Keep instead of deleting.
                     if (remove.bool === false)
                         info.list.push(info.table.rows[info.index]);
@@ -219,7 +219,7 @@ export default class Delete extends Expression {
         evaluator.popValue(this);
 
         // Create a new table based on the kept rows
-        return new Table(this, table.type, list);
+        return new TableValue(this, table.type, list);
     }
 
     evaluateTypeSet(

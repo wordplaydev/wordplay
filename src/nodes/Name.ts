@@ -114,6 +114,10 @@ export default class Name extends LanguageTagged {
         return this.name && this.name.startsWith(prefix);
     }
 
+    withoutLanguage() {
+        return new Name(this.separator, this.name, undefined);
+    }
+
     getLowerCaseName(): string | undefined {
         return this.name === undefined
             ? undefined
