@@ -68,6 +68,7 @@
         context.size,
         // No first pose because of an empty sequence? Give a default.
         group.getFirstRestPose(),
+        group.pose,
         place,
         layout.width,
         layout.height,

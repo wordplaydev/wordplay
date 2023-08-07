@@ -181,6 +181,7 @@
             context.size,
             // No first pose because of an empty sequence? Give a default.
             phrase.getFirstRestPose(),
+            phrase.pose,
             place,
             undefined,
             undefined,

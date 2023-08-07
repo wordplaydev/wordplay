@@ -449,6 +449,7 @@ export default class OutputAnimation {
 
                 keyframe.transform = toOutputTransform(
                     transition.pose,
+                    this.output.pose,
                     localPlace,
                     offsetFocus,
                     // Anything rooted in the verse has no height.

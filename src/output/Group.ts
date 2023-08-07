@@ -15,7 +15,7 @@ import type { NameGenerator } from './Stage';
 import type Locale from '../locale/Locale';
 import type Project from '../models/Project';
 import type { DefinitePose } from './Pose';
-import StructureValue from '../values/StructureValue';
+import StructureValue from '@values/StructureValue';
 import { getOutputInput } from './Output';
 import concretize from '../locale/concretize';
 

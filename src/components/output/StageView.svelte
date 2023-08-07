@@ -307,8 +307,9 @@
             background: background ? stage.background.toCSS() : undefined,
             '--grid-color': stage.background.complement().toCSS(),
             color:
-                stage.getFirstRestPose()?.color?.toCSS() ??
-                'var(--wordplay-foreground)',
+                (
+                    stage.getFirstRestPose()?.color ?? stage.pose.color
+                )?.toCSS() ?? 'var(--wordplay-foreground)',
         })}
         bind:this={view}
     >
