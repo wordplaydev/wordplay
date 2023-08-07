@@ -205,6 +205,16 @@
     setContext<SelectedPhraseContext>(SelectedPhraseSymbol, selectedPhrase);
 
     /**
+     * Invalidates these inputs, indicating that it shouldn't be used.
+     * This is a bit of a hack: we primarily use it as a way for the UI to communicate
+     * to itself that when creating a new Evaluator, it shouldn't mirror the prior Evaluator's inputs.
+     */
+    let replayInputs = true;
+    function resetInputs() {
+        replayInputs = false;
+    }
+
+    /**
      * Create a store for an evaluator for the project.
      * Make it available to children.
      * When the project changes,
@@ -219,8 +229,15 @@
         // Stop the old evaluator.
         $evaluator?.stop();
 
-        // Make the new evaluator
-        const newEvaluator = new Evaluator(newProject, $evaluator);
+        // Make the new evaluator, replaying the previous evaluator's inputs, unless we marked the last evaluator is out of date.
+        const newEvaluator = new Evaluator(
+            newProject,
+            true,
+            replayInputs ? $evaluator : undefined
+        );
+
+        // Switch back to replay after the next input.
+        replayInputs = true;
 
         // Listen to the evaluator changes to update evaluator-related stores.
         newEvaluator.observe(updateEvaluatorStores);
@@ -937,6 +954,7 @@
             database: $config,
             fullscreen,
             focusOrCycleTile,
+            resetInputs,
             help: () => (help = !help),
         });
 

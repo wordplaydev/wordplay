@@ -59,7 +59,8 @@ export default abstract class StreamValue<
 
     add(value: ValueType, raw: Raw, silent: boolean = false) {
         // Ignore values during stepping.
-        if (!this.evaluator.replaying && this.evaluator.isStepping()) return;
+        if (!this.evaluator.isReplayingInputs() && this.evaluator.isStepping())
+            return;
 
         // Update the time.
         this.values.push({

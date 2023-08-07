@@ -190,6 +190,17 @@ export default class Project {
         return this.roots.find((root) => root.has(node));
     }
 
+    /** Given a path, try to resolve a corresponding node in one of the sources. */
+    resolvePath(path: Path) {
+        // Resolve the node from the path.
+        let evaluate: Node | undefined = undefined;
+        for (const root of this.roots) {
+            evaluate = root.resolvePath(path);
+            if (evaluate !== undefined) break;
+        }
+        return evaluate;
+    }
+
     /** True if one of the project's contains the given node. */
     contains(node: Node) {
         return this.getSources().some((source) => source.root.has(node));
