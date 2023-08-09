@@ -71,6 +71,7 @@
     import ConceptLinkUI from '../concepts/ConceptLinkUI.svelte';
     import Adjust from './Adjust.svelte';
     import EditorHelp from './EditorHelp.svelte';
+    import concretize from '../../locale/concretize';
 
     const SHOW_OUTPUT_IN_PALETTE = false;
 
@@ -135,6 +136,13 @@
                   .simplify(context)
                   .generalize(context)
             : undefined;
+    $: caretTypeDescription = caretExpressionType
+        ?.getDescription(
+            concretize,
+            $config.getLocale(),
+            project.getContext(source)
+        )
+        .toText();
 
     // A store of highlighted nodes, used by node views to highlight themselves.
     // We store centrally since the logic that determines what's highlighted is in the Editor.
@@ -1312,8 +1320,8 @@
                     $config.getLocale()
                 )}{#if caretExpressionType}&nbsp;{TYPE_SYMBOL}&nbsp;{#if typeConcept}<ConceptLinkUI
                             link={typeConcept}
-                            label={caretExpressionType.toWordplay()}
-                        />{:else}{caretExpressionType.toWordplay()}{/if}{/if}
+                            label={caretTypeDescription}
+                        />{:else}{caretTypeDescription}{/if}{/if}
                 <PlaceholderView
                     position={$caret.position}
                 />{/if}{#if document.activeElement === input}<div
