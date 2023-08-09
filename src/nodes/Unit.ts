@@ -58,7 +58,7 @@ export default class Unit extends Type {
                     const exp =
                         dim.exponent === undefined
                             ? 1
-                            : NumberValue.fromToken(dim.exponent).toNumber();
+                            : NumberValue.fromToken(dim.exponent)[0].toNumber();
                     const current = this.exponents.get(name);
                     this.exponents.set(name, (current ?? 0) + exp);
                 }
@@ -69,7 +69,9 @@ export default class Unit extends Type {
                     const exp =
                         dim.exponent === undefined
                             ? -1
-                            : -NumberValue.fromToken(dim.exponent).toNumber();
+                            : -NumberValue.fromToken(
+                                  dim.exponent
+                              )[0].toNumber();
                     const current = this.exponents.get(name);
                     this.exponents.set(name, (current ?? 0) + exp);
                 }

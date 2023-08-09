@@ -8,29 +8,61 @@ import { createBasisFunction } from '../basis/Basis';
 import type Evaluation from '../runtime/Evaluation';
 import type Expression from '../nodes/Expression';
 import Unit from '../nodes/Unit';
+import NoneValue from '../values/NoneValue';
 
 function getRandomInRange(
     random: number,
-    min: number | undefined,
-    max: number | undefined
+    min: NumberValue | undefined,
+    max: NumberValue | undefined
 ) {
-    return min === undefined
-        ? max === undefined
-            ? // No range provided, [0, 1)
-              random
-            : // Just a max, [0, max)
-              random * max
-        : max === undefined
-        ? // Just a min, (-min, 0]
-          random * min
-        : // Both [min, max]
-          getRandomIntInclusive(random, min, max);
+    // Swap if they're out of order.
+    if (
+        min !== undefined &&
+        max !== undefined &&
+        min.num.toNumber() > max.num.toNumber()
+    ) {
+        const temp = min;
+        min = max;
+        max = temp;
+    }
+
+    // Get the max precision, if available.
+    const minPrecision = min?.precision;
+    const maxPrecision = max?.precision;
+    const precision =
+        minPrecision === undefined
+            ? maxPrecision === undefined
+                ? undefined
+                : maxPrecision
+            : maxPrecision === undefined
+            ? minPrecision
+            : Math.max(minPrecision, maxPrecision);
+
+    // Get the raw numbers
+    const minNumber = min?.toNumber();
+    const maxNumber = max?.toNumber();
+
+    // Decide the range.
+    if (minNumber === undefined) {
+        if (maxNumber === undefined)
+            return toPrecisionRange(0, 1, random, precision);
+        else return toPrecisionRange(0, maxNumber, random, precision);
+    } else {
+        if (maxNumber === undefined)
+            return toPrecisionRange(0, minNumber, random, precision);
+        else return toPrecisionRange(minNumber, maxNumber, random, precision);
+    }
 }
 
-function getRandomIntInclusive(random: number, min: number, max: number) {
-    min = Math.ceil(min);
-    max = Math.floor(max);
-    return Math.floor(random * (max - min + 1) + min);
+function toPrecisionRange(
+    min: number,
+    max: number,
+    random: number,
+    precision: number | undefined
+) {
+    const scaled = random * (max - min + 1) + min;
+    const pow = precision !== undefined ? Math.pow(10, precision) : undefined;
+    return pow ? Math.floor(scaled * pow) / pow : scaled;
 }
 
 export function createRandomFunction(locales: Locale[]) {
@@ -52,13 +84,30 @@ export function createRandomFunction(locales: Locale[]) {
         (requestor: Expression, evaluation: Evaluation) => {
             const min = evaluation.getInput(0);
             const max = evaluation.getInput(1);
+            if (!(min instanceof NumberValue || min instanceof NoneValue))
+                return evaluation.getValueOrTypeException(
+                    evaluation.getCreator(),
+                    NumberType.make(),
+                    min
+                );
+            if (!(max instanceof NumberValue || max instanceof NoneValue))
+                return evaluation.getValueOrTypeException(
+                    evaluation.getCreator(),
+                    NumberType.make(),
+                    max
+                );
             return new NumberValue(
                 requestor,
                 getRandomInRange(
                     evaluation.getEvaluator().getRandom(),
-                    min instanceof NumberValue ? min.toNumber() : undefined,
-                    max instanceof NumberValue ? max.toNumber() : undefined
-                )
+                    min instanceof NoneValue ? undefined : min,
+                    max instanceof NoneValue ? undefined : max
+                ),
+                min instanceof NumberValue
+                    ? min.unit
+                    : max instanceof NumberValue
+                    ? max.unit
+                    : undefined
             );
         }
     );

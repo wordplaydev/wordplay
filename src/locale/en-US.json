@@ -2675,7 +2675,9 @@
                 "And if you give it two values, it will generate values between and including the two values:",
                 "\\Random(-10 10)\\",
                 "If your ranges have units, they will be preserved (and if they don't match, the minimum's unit will be used):",
-                "\\Random(-10m 10m)\\"
+                "\\Random(-10m 10m)\\",
+                "And if you give numbers with particular numbers of significant digits after the decimal point, that precision will be preserved.",
+                "\\Random(1.00 10.00)\\"
             ],
             "names": ["🎲", "Random"],
             "inputs": [
