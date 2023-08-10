@@ -1377,6 +1377,8 @@
         flex: 1;
         cursor: text;
         margin-bottom: auto;
+        width: fit-content;
+        height: fit-content;
 
         /* Don't let iOS grab pointer move events, so we can do drag and drop. */
         touch-action: none;
