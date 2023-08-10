@@ -116,6 +116,14 @@ export default abstract class TypeOutput extends Output {
     abstract getBackground(): Color | undefined;
     abstract getDescription(locales: Locale[]): string;
 
+    /* 
+    Given a predict function that takes a type input, recursively scans
+    outputs for a match.
+    */
+    abstract find(
+        check: (output: TypeOutput) => boolean
+    ): TypeOutput | undefined;
+
     getRestOrDefaultPose(): Pose | Sequence {
         return this.rest ?? this.pose;
     }

@@ -2855,6 +2855,41 @@
                 "doc": "The gravity to apply to @Motion/vy.",
                 "names": "gravity"
             }
+        },
+        "Placement": {
+            "doc": [
+                "/Hey, @FunctionDefinition here. Let's talk about how to get us moving!/",
+                "So there are many ways to place us on @Stage. You can give us an explicit @Place. You could use @Motion, and let gravity do it's work. You could also put us in a @Group and let them arrange us in a particular way.",
+                "But sometimes you want to give the /audience/ control over where we are on @Stage. That's what @Placement is for.",
+                "Here's how it works: you just make a @Placement and give it to our @Place:",
+                "\\Phrase('hi' place: Placement())\\",
+                "Then, any time the audience uses an arrow key or clicks or taps on stage, the @Placement will make a new @Place that moves in the desired direction.",
+                "Try copying this to your program and moving us arrowed with the pointer or keyboard.",
+                "You can customize the @Placement, enabling and disabling movement on certain dimensions, changing how far a @Place moves, and the initial @Place the stream starts with."
+            ],
+            "names": ["✥", "Placement"],
+            "inputs": [
+                {
+                    "doc": "The initial place to start with.",
+                    "names": "start"
+                },
+                {
+                    "doc": "How many meters the place should move when the audience requests a move.",
+                    "names": "distance"
+                },
+                {
+                    "doc": "If true, allows movement on the horizontal axis. On by default.",
+                    "names": "horizontal"
+                },
+                {
+                    "doc": "If true, allows movement on the vertical axis. On by default.",
+                    "names": "vertical"
+                },
+                {
+                    "doc": "If true, allows movement on the z-axis, with the + and - keys.",
+                    "names": "depth"
+                }
+            ]
         }
     },
     "output": {

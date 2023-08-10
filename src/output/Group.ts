@@ -88,6 +88,15 @@ export default class Group extends TypeOutput {
         return this.content;
     }
 
+    find(check: (output: TypeOutput) => boolean): TypeOutput | undefined {
+        for (const output of this.content) {
+            if (output !== null) {
+                if (check(output)) return output;
+            }
+        }
+        return undefined;
+    }
+
     getBackground(): Color | undefined {
         throw new Error('Method not implemented.');
     }

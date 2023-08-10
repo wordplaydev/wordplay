@@ -30,6 +30,9 @@ type InputTexts = {
         gravity: NameAndDoc;
         bounciness: NameAndDoc;
     };
+    Placement: NameAndDoc & {
+        inputs: [NameAndDoc, NameAndDoc, NameAndDoc, NameAndDoc, NameAndDoc];
+    };
 };
 
 export default InputTexts;

@@ -1572,6 +1572,31 @@
               ],
               "type": "object"
             },
+            "Placement": {
+              "additionalProperties": false,
+              "properties": {
+                "doc": {
+                  "$ref": "#/definitions/DocText"
+                },
+                "inputs": {
+                  "items": {
+                    "$ref": "#/definitions/NameAndDoc"
+                  },
+                  "maxItems": 5,
+                  "minItems": 5,
+                  "type": "array"
+                },
+                "names": {
+                  "$ref": "#/definitions/NameText"
+                }
+              },
+              "required": [
+                "doc",
+                "inputs",
+                "names"
+              ],
+              "type": "object"
+            },
             "Pointer": {
               "$ref": "#/definitions/NameAndDoc"
             },
@@ -1630,7 +1655,8 @@
             "Time",
             "Mic",
             "Camera",
-            "Motion"
+            "Motion",
+            "Placement"
           ],
           "type": "object"
         },

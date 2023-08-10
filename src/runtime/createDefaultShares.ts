@@ -23,6 +23,7 @@ import { createFreeType } from '../output/Free';
 import type Locale from '../locale/Locale';
 import { createCameraDefinition as createCameraType } from '../input/Camera';
 import { createSequenceType } from '../output/Sequence';
+import { createPlacementDefinition } from '../input/Placement';
 
 export default function createDefaultShares(locales: Locale[]) {
     const PlaceType = createPlaceType(locales);
@@ -51,6 +52,7 @@ export default function createDefaultShares(locales: Locale[]) {
         Random: createRandomFunction(locales),
         Choice: createChoiceType(locales),
         Motion: createMotionType(locales, OutputTypes.Type, OutputTypes.Phrase),
+        Placement: createPlacementDefinition(locales),
         Key: createKeyType(locales),
         Button: createButtonType(locales),
         Pointer: createPointerType(locales, PlaceType),

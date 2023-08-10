@@ -14,7 +14,6 @@ import { getDocLocales } from '@locale/getDocLocales';
 import { getNameLocales } from '@locale/getNameLocales';
 import createStreamEvaluator from './createStreamEvaluator';
 import type TypeOutput from '../output/TypeOutput';
-import type Value from '../values/Value';
 import { toTypeOutput } from '../output/toTypeOutput';
 import Evaluate from '../nodes/Evaluate';
 import ValueException from '../values/ValueException';
@@ -22,6 +21,7 @@ import UnionType from '../nodes/UnionType';
 import NoneLiteral from '../nodes/NoneLiteral';
 import type Locale from '../locale/Locale';
 import type StructureDefinition from '../nodes/StructureDefinition';
+import type Value from '../values/Value';
 
 export default class Motion extends TemporalStreamValue<Value, number> {
     type: TypeOutput;

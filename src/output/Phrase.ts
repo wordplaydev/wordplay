@@ -82,6 +82,10 @@ export default class Phrase extends TypeOutput {
         if (this.font) Fonts.loadFamily(this.font);
     }
 
+    find(check: (output: TypeOutput) => boolean): TypeOutput | undefined {
+        return check(this) ? this : undefined;
+    }
+
     getText() {
         return (this.value as StructureValue).resolve(
             (this.value as StructureValue).type.inputs[0].names

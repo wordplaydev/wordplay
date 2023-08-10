@@ -1581,6 +1581,32 @@
             "mass": { "doc": "$?", "names": "masa" },
             "bounciness": { "doc": "$?", "names": "rebote" },
             "gravity": { "doc": "$?", "names": "gravedad" }
+        },
+        "Placement": {
+            "doc": ["$?"],
+            "names": "$? Placement",
+            "inputs": [
+                {
+                    "doc": "$?",
+                    "names": "$? start"
+                },
+                {
+                    "doc": "$?",
+                    "names": "$? distance"
+                },
+                {
+                    "doc": "$?",
+                    "names": "$? horizontal"
+                },
+                {
+                    "doc": "$?",
+                    "names": "$? vertical"
+                },
+                {
+                    "doc": "$?",
+                    "names": "$? depth"
+                }
+            ]
         }
     },
     "output": {

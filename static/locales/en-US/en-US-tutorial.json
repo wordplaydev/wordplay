@@ -2580,6 +2580,49 @@
                     ]
                 },
                 {
+                    "name": "Move me",
+                    "concept": "Placement",
+                    "performance": [
+                        "fix",
+                        "Phrase('click, tap, or arrow to move me' place: Placement() move: Pose() duration: 0.25s)"
+                    ],
+                    "lines": [
+                        [
+                            "edit",
+                            "Phrase('🌭' place: Placement() move: Pose() duration: 0.25s)"
+                        ],
+                        [
+                            "FunctionDefinition",
+                            "kind",
+                            "Sometimes its nice to engage the audience in our place on @Stage.",
+                            "@Placement is a great way to do that! It's a stream of @Place, that responds to keyboard arrow keys, clicks, and taps.",
+                            "Try using those to move the hot dog around."
+                        ],
+                        null,
+                        [
+                            "edit",
+                            "Phrase('🌭' place: Placement(distance: 0.5m) move: Pose() duration: 0.25s)"
+                        ],
+                        [
+                            "FunctionDefinition",
+                            "kind",
+                            "There are lots of ways you can customize it. For example, if you wanted to change how it moves, you can give it a distance.",
+                            "See how we gave it \\0.5\\ for the for the first input? Now it moves a little less. Try changing it to a different number!"
+                        ],
+                        null,
+                        [
+                            "edit",
+                            "Phrase('🌭' place: Placement(depth: ⊤) move: Pose() duration: 0.25s)"
+                        ],
+                        [
+                            "FunctionDefinition",
+                            "kind",
+                            "You can also turn on and off movement on different axes. For example, give depth \\⊤\\ to allow movement on the z-axis.",
+                            "Press the + and - keys to move it closer or further away from the focus."
+                        ]
+                    ]
+                },
+                {
                     "name": "Keeping moving",
                     "concept": "Motion",
                     "performance": [

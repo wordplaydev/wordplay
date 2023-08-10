@@ -86,6 +86,15 @@ export default class Stage extends TypeOutput {
         return this.content;
     }
 
+    find(check: (output: TypeOutput) => boolean): TypeOutput | undefined {
+        for (const output of this.content) {
+            if (output !== null) {
+                if (check(output)) return output;
+            }
+        }
+        return undefined;
+    }
+
     getLayout(context: RenderContext) {
         const places: [TypeOutput, Place][] = [];
         let left = 0,
