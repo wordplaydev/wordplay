@@ -39,12 +39,12 @@ function rotateDeg(deg: number) {
 export function rootScale(z: number, focusZ: number) {
     // Compute the delta between this phrase and the focus.
     const dz = z - focusZ;
-    // Compute a scale proportional to the focal length and inversely proporitional to the difference.
+    // Compute a scale proportional to the focal length and inversely proportional to the difference.
     return dz < 0 ? 0 : dz === 0 ? 1 : FOCAL_LENGTH / dz;
 }
 
-export function incrementalScale(z: number) {
-    return Math.max(0, 1 + INCREMENTAL_SCALING_FACTOR - z / FOCAL_LENGTH);
+export function incrementalScale(z: number, focusZ: number) {
+    return FOCAL_LENGTH / (focusZ - z) / (FOCAL_LENGTH / focusZ);
 }
 
 export function centerTransform(viewportWidth: number, viewportHeight: number) {
@@ -115,7 +115,9 @@ export function toOutputTransform(
     // If it's not the root, then we add to that some scaling factor proportional to the
     // additional z of the output. This accounts for the cumulative nature of CSS transforms,
     // where parents affect their children.
-    const perspectiveScale = root ? rootScale(z, focus.z) : incrementalScale(z);
+    const perspectiveScale = root
+        ? rootScale(z, focus.z)
+        : incrementalScale(z, focus.z);
 
     // Find the center of the stage, around which we will rotate and scale.
     let centerXOffset = root ? 0 : metrics.width / 2;

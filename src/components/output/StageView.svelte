@@ -313,7 +313,7 @@
         })}
         bind:this={view}
     >
-        <!-- Render the verse -->
+        <!-- Render the stage -->
         <GroupView
             group={stage}
             place={center}

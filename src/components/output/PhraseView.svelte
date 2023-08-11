@@ -37,6 +37,7 @@
 
     // Visible if z is ahead of focus and font size is greater than 0.
     $: visible = place.z > focus.z && (phrase.size ?? context.size > 0);
+
     // Get the phrase's text in the preferred language
     $: text = phrase.getLocalizedTextOrDoc($config.getLocales());
     $: empty = phrase.isEmpty();
