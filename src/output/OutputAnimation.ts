@@ -234,7 +234,7 @@ export default class OutputAnimation {
     }
 
     move(prior: Orientation, present: Orientation) {
-        const move = this.output.moving;
+        const move = this.output.moving ?? this.output.pose;
         const rest = this.output.getFirstRestPose();
 
         this.log(`Moving from ${prior.toString()} to ${present.toString()}`);
