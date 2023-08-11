@@ -60,9 +60,9 @@ function toPrecisionRange(
     random: number,
     precision: number | undefined
 ) {
-    const scaled = random * (max - min + 1) + min;
+    const scaled = random * (max - min) + min;
     const pow = precision !== undefined ? Math.pow(10, precision) : undefined;
-    return pow ? Math.floor(scaled * pow) / pow : scaled;
+    return pow ? Math.round(scaled * pow) / pow : scaled;
 }
 
 export function createRandomFunction(locales: Locale[]) {
