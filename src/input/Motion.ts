@@ -28,7 +28,7 @@ const Bounciness = 0.5;
 const Gravity = 9.8;
 
 export default class Motion extends TemporalStreamValue<Value, number> {
-    type: TypeOutput;
+    output: TypeOutput;
 
     /** The current location and angle of the object. */
     x: Decimal;
@@ -60,7 +60,7 @@ export default class Motion extends TemporalStreamValue<Value, number> {
     ) {
         super(evaluator, evaluator.project.shares.input.Motion, type.value, 0);
 
-        this.type = type;
+        this.output = type;
 
         this.x = new Decimal(type.place?.x ?? 0);
         this.y = new Decimal(type.place?.y ?? 0);
@@ -82,7 +82,7 @@ export default class Motion extends TemporalStreamValue<Value, number> {
     stop() {}
 
     update(
-        type: TypeOutput | undefined,
+        output: TypeOutput | undefined,
         vx: number | undefined,
         vy: number | undefined,
         vz: number | undefined,
@@ -91,11 +91,12 @@ export default class Motion extends TemporalStreamValue<Value, number> {
         bounciness: number | undefined,
         gravity: number | undefined
     ) {
-        if (type) {
-            this.x = new Decimal(type.place?.x ?? this.x);
-            this.y = new Decimal(type.place?.y ?? this.y);
-            this.z = new Decimal(type.place?.z ?? this.z);
-            this.angle = new Decimal(type.pose.rotation ?? this.angle);
+        if (output) {
+            this.output = output;
+            this.x = new Decimal(output.place?.x ?? this.x);
+            this.y = new Decimal(output.place?.y ?? this.y);
+            this.z = new Decimal(output.place?.z ?? this.z);
+            this.angle = new Decimal(output.pose.rotation ?? this.angle);
         }
 
         this.vx = new Decimal(vx ?? this.vx);
@@ -119,7 +120,7 @@ export default class Motion extends TemporalStreamValue<Value, number> {
         this.angle = this.angle.plus(this.va.times(delta));
 
         // If we collide with 0, negate y velocity.
-        if (this.y.lessThan(0)) {
+        if (this.y.lessThanOrEqualTo(0)) {
             this.y = new Decimal(0);
             this.vy = this.vy.neg().times(this.bounciness);
             this.vx = this.vx.times(this.bounciness);
@@ -127,11 +128,11 @@ export default class Motion extends TemporalStreamValue<Value, number> {
         }
 
         // Get the type so we can clone and modify it.
-        const type = this.type.value;
-        if (type instanceof StructureValue) {
+        const output = this.output.value;
+        if (output instanceof StructureValue) {
             const creator =
-                type.creator instanceof Evaluate
-                    ? type.creator
+                output.creator instanceof Evaluate
+                    ? output.creator
                     : this.definition;
 
             const en = this.evaluator.project.basis.locales[0];
@@ -146,7 +147,7 @@ export default class Motion extends TemporalStreamValue<Value, number> {
                     : en.output.Type.rotation.names[0];
 
             // Create a new type output with an updated place.
-            const revised = type
+            const revised = output
                 .withValue(
                     creator,
                     PlaceName,
