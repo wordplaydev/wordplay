@@ -22,21 +22,25 @@ import NoneLiteral from '../nodes/NoneLiteral';
 import type Locale from '../locale/Locale';
 import type StructureDefinition from '../nodes/StructureDefinition';
 import type Value from '../values/Value';
+import Decimal from 'decimal.js';
+
+const Bounciness = 0.5;
+const Gravity = 9.8;
 
 export default class Motion extends TemporalStreamValue<Value, number> {
     type: TypeOutput;
 
     /** The current location and angle of the object. */
-    x: number;
-    y: number;
-    z: number;
-    angle: number;
+    x: Decimal;
+    y: Decimal;
+    z: Decimal;
+    angle: Decimal;
 
     /** The current velocity the object.  */
-    vx: number;
-    vy: number;
-    vz: number;
-    va: number;
+    vx: Decimal;
+    vy: Decimal;
+    vz: Decimal;
+    va: Decimal;
 
     /* Collision and gravity properties.. */
     mass: number;
@@ -58,19 +62,19 @@ export default class Motion extends TemporalStreamValue<Value, number> {
 
         this.type = type;
 
-        this.x = type.place?.x ?? 0;
-        this.y = type.place?.y ?? 0;
-        this.z = type.place?.z ?? 0;
-        this.angle = type.pose.rotation ?? 0;
+        this.x = new Decimal(type.place?.x ?? 0);
+        this.y = new Decimal(type.place?.y ?? 0);
+        this.z = new Decimal(type.place?.z ?? 0);
+        this.angle = new Decimal(type.pose.rotation ?? 0);
 
-        this.vx = vx ?? 0;
-        this.vy = vy ?? 0;
-        this.vz = vz ?? 0;
-        this.va = vangle ?? 0;
+        this.vx = new Decimal(vx ?? 0);
+        this.vy = new Decimal(vy ?? 0);
+        this.vz = new Decimal(vz ?? 0);
+        this.va = new Decimal(vangle ?? 0);
 
         this.mass = mass ?? 1;
-        this.bounciness = bounciness ?? 0.75;
-        this.gravity = gravity ?? 9.8;
+        this.bounciness = bounciness ?? Bounciness;
+        this.gravity = gravity ?? Gravity;
     }
 
     // No setup or teardown, the Evaluator handles the requestAnimationFrame loop.
@@ -88,16 +92,16 @@ export default class Motion extends TemporalStreamValue<Value, number> {
         gravity: number | undefined
     ) {
         if (type) {
-            this.x = type.place?.x ?? this.x;
-            this.y = type.place?.y ?? this.y;
-            this.z = type.place?.z ?? this.z;
-            this.angle = type.pose.rotation ?? this.angle;
+            this.x = new Decimal(type.place?.x ?? this.x);
+            this.y = new Decimal(type.place?.y ?? this.y);
+            this.z = new Decimal(type.place?.z ?? this.z);
+            this.angle = new Decimal(type.pose.rotation ?? this.angle);
         }
 
-        this.vx = vx ?? this.vx;
-        this.vy = vy ?? this.vy;
-        this.vz = vz ?? this.vz;
-        this.va = vangle ?? this.va;
+        this.vx = new Decimal(vx ?? this.vx);
+        this.vy = new Decimal(vy ?? this.vy);
+        this.vz = new Decimal(vz ?? this.vz);
+        this.va = new Decimal(vangle ?? this.va);
 
         if (mass !== undefined) this.mass = mass;
         if (bounciness !== undefined) this.bounciness = bounciness;
@@ -106,20 +110,20 @@ export default class Motion extends TemporalStreamValue<Value, number> {
 
     react(delta: number) {
         // First, apply gravity to the y velocity proporitional to elapsed time.
-        this.vy -= this.gravity * delta;
+        this.vy = this.vy.sub(this.gravity * delta);
 
         // Then, apply velocity to place.
-        this.x += this.vx * delta;
-        this.y += this.vy * delta;
-        this.z += this.vz * delta;
-        this.angle += this.va * delta;
+        this.x = this.x.plus(this.vx.times(delta));
+        this.y = this.y.plus(this.vy.times(delta));
+        this.z = this.z.plus(this.vz.times(delta));
+        this.angle = this.angle.plus(this.va.times(delta));
 
         // If we collide with 0, negate y velocity.
-        if (this.y < 0) {
-            this.y = 0;
-            this.vy = -this.vy * this.bounciness;
-            this.vx = this.vx * this.bounciness;
-            this.va = this.va * this.bounciness;
+        if (this.y.lessThan(0)) {
+            this.y = new Decimal(0);
+            this.vy = this.vy.neg().times(this.bounciness);
+            this.vx = this.vx.times(this.bounciness);
+            this.va = this.va.times(this.bounciness);
         }
 
         // Get the type so we can clone and modify it.
@@ -146,7 +150,12 @@ export default class Motion extends TemporalStreamValue<Value, number> {
                 .withValue(
                     creator,
                     PlaceName,
-                    createPlaceStructure(this.evaluator, this.x, this.y, this.z)
+                    createPlaceStructure(
+                        this.evaluator,
+                        this.x.toNumber(),
+                        this.y.toNumber(),
+                        this.z.toNumber()
+                    )
                 )
                 ?.withValue(
                     creator,
@@ -235,14 +244,14 @@ export function createMotionDefinition(
             (locale) => locale.input.Motion.bounciness.names
         ),
         UnionType.orNone(NumberType.make()),
-        NumberLiteral.make(0.75)
+        NumberLiteral.make(Bounciness)
     );
 
     const GravityBind = Bind.make(
         getDocLocales(locales, (locale) => locale.input.Motion.gravity.doc),
         getNameLocales(locales, (locale) => locale.input.Motion.gravity.names),
         UnionType.orNone(NumberType.make(Unit.reuse(['m'], ['s', 's']))),
-        NumberLiteral.make(15, Unit.reuse(['m'], ['s', 's']))
+        NumberLiteral.make(9.8, Unit.reuse(['m'], ['s', 's']))
     );
 
     const type = new StructureType(PhraseType);

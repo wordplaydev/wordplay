@@ -1132,28 +1132,30 @@ export default class Evaluator {
     }
 
     tick(time: DOMHighResTimeStamp) {
-        // First time? Just record it.
-        if (this.previousTime === undefined) this.previousTime = time;
+        // First time? Just record it and bail.
+        if (this.previousTime === undefined) {
+            this.previousTime = time;
+        } else {
+            // Compute the delta and remember the previous time.
+            const delta = time - this.previousTime;
+            this.previousTime = time;
 
-        // Compute the delta and remember the previous time.
-        const delta = time - this.previousTime;
-        this.previousTime = time;
+            // If we're in play mode, tick all the temporal streams.
+            if (!this.isStepping()) {
+                if (this.temporalReactions.length > 0)
+                    console.error(
+                        "Hmmm, something is modifying temporal streams outside of the Evaluator's control. Tsk tsk!"
+                    );
+                // Tick each one, indirectly filling this.temporalReactions.
+                for (const stream of this.basisTemporalStreams)
+                    stream.tick(time, delta, this.timeMultiplier);
 
-        // If we're in play mode, tick all the temporal streams.
-        if (!this.isStepping()) {
-            if (this.temporalReactions.length > 0)
-                console.error(
-                    "Hmmm, something is modifying temporal streams outside of the Evaluator's control. Tsk tsk!"
-                );
-            // Tick each one, indirectly filling this.temporalReactions.
-            for (const stream of this.basisTemporalStreams)
-                stream.tick(time, delta, this.timeMultiplier);
+                // Now reevaluate with all of the temporal stream updates.
+                this.flush();
 
-            // Now reevaluate with all of the temporal stream updates.
-            this.flush();
-
-            // Remember that we did in the history, so we can replay evaluation.
-            this.#inputs.push(null);
+                // Remember that we did in the history, so we can replay evaluation.
+                this.#inputs.push(null);
+            }
         }
 
         // Tick again in a bit if we're not stopped.
