@@ -38,10 +38,10 @@ ${getBind(locales, (locale) => locale.output.Type.rotation)}•#°|ø: ø
 ${getBind(locales, (locale) => locale.output.Pose.scale)}•#|ø: ø
 ${getBind(locales, (locale) => locale.output.Pose.flipx)}•?|ø: ø
 ${getBind(locales, (locale) => locale.output.Pose.flipy)}•?|ø: ø
-${getBind(locales, (locale) => locale.output.Type.enter)}•ø|🤪|💃: ø
-${getBind(locales, (locale) => locale.output.Type.rest)}•ø|🤪|💃: ø
-${getBind(locales, (locale) => locale.output.Type.move)}•ø|🤪|💃: ø
-${getBind(locales, (locale) => locale.output.Type.exit)}•ø|🤪|💃: ø
+${getBind(locales, (locale) => locale.output.Type.entering)}•ø|🤪|💃: ø
+${getBind(locales, (locale) => locale.output.Type.resting)}•ø|🤪|💃: ø
+${getBind(locales, (locale) => locale.output.Type.moving)}•ø|🤪|💃: ø
+${getBind(locales, (locale) => locale.output.Type.exiting)}•ø|🤪|💃: ø
 ${getBind(locales, (locale) => locale.output.Type.duration)}•#s: 0s
 ${getBind(locales, (locale) => locale.output.Type.style)}•${locales
         .map((locale) =>
@@ -60,10 +60,10 @@ export default abstract class TypeOutput extends Output {
     readonly name: TextLang | string;
     readonly selectable: boolean;
     readonly pose: DefinitePose;
-    readonly enter: Pose | Sequence | undefined;
-    readonly rest: Pose | Sequence | undefined;
-    readonly move: Pose | Sequence | undefined;
-    readonly exit: Pose | Sequence | undefined;
+    readonly entering: Pose | Sequence | undefined;
+    readonly resting: Pose | Sequence | undefined;
+    readonly moving: Pose | Sequence | undefined;
+    readonly exiting: Pose | Sequence | undefined;
     readonly duration: number;
     readonly style: string;
 
@@ -76,9 +76,9 @@ export default abstract class TypeOutput extends Output {
         selectable: boolean,
         pose: DefinitePose,
         entry: Pose | Sequence | undefined = undefined,
-        rest: Pose | Sequence | undefined = undefined,
-        move: Pose | Sequence | undefined = undefined,
-        exit: Pose | Sequence | undefined = undefined,
+        resting: Pose | Sequence | undefined = undefined,
+        moving: Pose | Sequence | undefined = undefined,
+        exiting: Pose | Sequence | undefined = undefined,
         duration: number,
         style: string
     ) {
@@ -90,10 +90,10 @@ export default abstract class TypeOutput extends Output {
         this.name = name;
         this.selectable = selectable;
         this.pose = pose;
-        this.enter = entry;
-        this.rest = rest;
-        this.move = move;
-        this.exit = exit;
+        this.entering = entry;
+        this.resting = resting;
+        this.moving = moving;
+        this.exiting = exiting;
         this.duration = duration;
         this.style = style;
 
@@ -125,13 +125,13 @@ export default abstract class TypeOutput extends Output {
     ): TypeOutput | undefined;
 
     getRestOrDefaultPose(): Pose | Sequence {
-        return this.rest ?? this.pose;
+        return this.resting ?? this.pose;
     }
 
     getFirstRestPose(): Pose {
-        return this.rest instanceof Sequence
-            ? this.rest.getFirstPose() ?? this.pose
-            : this.rest ?? this.pose;
+        return this.resting instanceof Sequence
+            ? this.resting.getFirstPose() ?? this.pose
+            : this.resting ?? this.pose;
     }
 
     getDefaultPose(): DefinitePose {
@@ -157,10 +157,10 @@ export default abstract class TypeOutput extends Output {
 
     isAnimated() {
         return (
-            this.enter !== undefined ||
-            this.rest instanceof Sequence ||
-            this.move !== undefined ||
-            this.exit !== undefined ||
+            this.entering !== undefined ||
+            this.resting instanceof Sequence ||
+            this.moving !== undefined ||
+            this.exiting !== undefined ||
             this.duration > 0
         );
     }

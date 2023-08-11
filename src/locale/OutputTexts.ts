@@ -13,10 +13,10 @@ export type TypeTexts = {
     scale: NameAndDoc;
     flipx: NameAndDoc;
     flipy: NameAndDoc;
-    enter: NameAndDoc;
-    rest: NameAndDoc;
-    move: NameAndDoc;
-    exit: NameAndDoc;
+    entering: NameAndDoc;
+    resting: NameAndDoc;
+    moving: NameAndDoc;
+    exiting: NameAndDoc;
     duration: NameAndDoc;
     style: NameAndDoc;
 };

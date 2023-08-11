@@ -100,8 +100,8 @@
                         typeof currentText === 'string'
                     ) {
                         const sequence =
-                            output.rest instanceof Sequence
-                                ? output.rest
+                            output.resting instanceof Sequence
+                                ? output.resting
                                 : undefined;
                         const sequenceDescription = sequence
                             ? sequence.value.creator instanceof Evaluate &&

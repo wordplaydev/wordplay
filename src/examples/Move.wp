@@ -18,10 +18,7 @@ cat•Cat:  Cat(5m 1) … ∆ key …
     )
 
 ball: Motion(
-    Phrase(
-      "o"
-      ``Initial position is to the left of the cat, and controlled by motion otherwise``
-     ) 
+    Phrase("o") 
      startplace: Place(0m 0m)
      vx: ◆ ? 0m/s
          close(ball.place cat.position) ? (Random(1 5) · -1m/s · cat.direction) 
@@ -40,6 +37,6 @@ Stage([
     	name: "kitty"
     	size: 2m
     	place: Place(cat.position 0m)
-    	rest: Pose(flipx: cat.direction < 0)
-    	move: Sequence(sway(5°) 0.25s "zippy")
+    	resting: Pose(flipx: cat.direction < 0)
+    	moving: Sequence(sway(5°) 0.25s "zippy")
 ) ball] place: Place(0m 0m -5m))

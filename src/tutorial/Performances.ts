@@ -10,8 +10,8 @@ Group(
         ƒ (letter•'""'|'?'|'#'|'ø')
             Phrase(
                 letter 
-                enter: Pose(opacity: 0 scale: 2)
-                rest: Sequence(sway() duration: 0.25s)
+                entering: Pose(opacity: 0 scale: 2)
+                resting: Sequence(sway() duration: 0.25s)
                 duration: 0.5s
             )
     )
@@ -23,7 +23,7 @@ Group(
         `Stage([
     Phrase("${symbol}"
     size: 5m 
-    rest: Sequence({
+    resting:Sequence({
     0%: Pose(rotation: 0° color:Color(10% 0 0°)) 
     100%: Pose(rotation: 360° color:Color(10% 0 0°))} duration:20s))
   ] background: Color(0% 0 0°)
@@ -105,10 +105,10 @@ Stage(
     place: Place(0m 0m -5m)
 )`,
     DancingEmoji: (emoji: string) =>
-        `Phrase('${emoji}' size: 5m rest: Sequence({0%: Pose(offset: Place(-1m 0m)) 25%: Pose(offset: Place(-0m 0m)) 50%: Pose(offset: Place(1m 0m)) 75%: Pose(offset: Place(0m 0m) flipx: ⊤ rotation: 5°) 100%: Pose(offset: Place(-1m 0m))} 2s))`,
+        `Phrase('${emoji}' size: 5m resting:Sequence({0%: Pose(offset: Place(-1m 0m)) 25%: Pose(offset: Place(-0m 0m)) 50%: Pose(offset: Place(1m 0m)) 75%: Pose(offset: Place(0m 0m) flipx: ⊤ rotation: 5°) 100%: Pose(offset: Place(-1m 0m))} 2s))`,
     DonutDance: () => `Phrase(
   "🍩"
-  rest: Sequence({
+  resting:Sequence({
       0%: Pose(offset: Place(-1m 0m))
       10%:Pose(offset: Place(1m 0m))
       20%: Pose(offset: Place(0m -1m))
@@ -353,7 +353,7 @@ Group(
       rotation: char.rotation
       place: char.place
       color: Color(100% 100 0°)
-      move: Pose()
+      moving:Pose()
       duration: 0.5s
     )
   )
@@ -391,7 +391,7 @@ Group(
       rotation: char.rotation
       place: char.place
       color: Color(Mic() · 1% Mic() 0°)
-      move: Pose()
+      moving:Pose()
       duration: 0.5s
     )
   )

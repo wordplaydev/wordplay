@@ -11,7 +11,7 @@ Stage(
         questions.translate(ƒ(q•Question index•#) (
           initialize: pressed & (index = questions.length())
           Motion(
-            Phrase('Q' name: q.id rest: Pose(opacity: initialize ? 0% 100%))
+            Phrase('Q' name: q.id resting:Pose(opacity: initialize ? 0% 100%))
             startplace: Place(0m 0m 0m)
             startvx: q.vx
             startvy: q.vy

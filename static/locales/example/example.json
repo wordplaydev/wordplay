@@ -1640,10 +1640,10 @@
                 "doc": "$?",
                 "names": "$? flipy"
             },
-            "enter": { "doc": "$?", "names": "$?" },
-            "rest": { "doc": "$?", "names": "$?" },
-            "move": { "doc": "$?", "names": "$?" },
-            "exit": { "doc": "$?", "names": "$?" },
+            "entering": { "doc": "$?", "names": "$?" },
+            "resting": { "doc": "$?", "names": "$?" },
+            "moving": { "doc": "$?", "names": "$?" },
+            "exiting": { "doc": "$?", "names": "$?" },
             "duration": { "doc": "$?", "names": ["duración"] },
             "style": { "doc": "$?", "names": "$?" }
         },

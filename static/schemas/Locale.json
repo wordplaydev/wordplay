@@ -4472,10 +4472,10 @@
                 "duration": {
                   "$ref": "#/definitions/NameAndDoc"
                 },
-                "enter": {
+                "entering": {
                   "$ref": "#/definitions/NameAndDoc"
                 },
-                "exit": {
+                "exiting": {
                   "$ref": "#/definitions/NameAndDoc"
                 },
                 "family": {
@@ -4487,7 +4487,7 @@
                 "flipy": {
                   "$ref": "#/definitions/NameAndDoc"
                 },
-                "move": {
+                "moving": {
                   "$ref": "#/definitions/NameAndDoc"
                 },
                 "name": {
@@ -4505,7 +4505,7 @@
                 "place": {
                   "$ref": "#/definitions/NameAndDoc"
                 },
-                "rest": {
+                "resting": {
                   "$ref": "#/definitions/NameAndDoc"
                 },
                 "rotation": {
@@ -4528,18 +4528,18 @@
                 "color",
                 "doc",
                 "duration",
-                "enter",
-                "exit",
+                "entering",
+                "exiting",
                 "family",
                 "flipx",
                 "flipy",
-                "move",
+                "moving",
                 "name",
                 "names",
                 "offset",
                 "opacity",
                 "place",
-                "rest",
+                "resting",
                 "rotation",
                 "scale",
                 "selectable",

@@ -89,10 +89,10 @@ export function getStyle(
     selectable: boolean | undefined;
     place: Place | undefined;
     pose: DefinitePose | undefined;
-    rest: Pose | Sequence | undefined;
-    enter: Pose | Sequence | undefined;
-    move: Pose | Sequence | undefined;
-    exit: Pose | Sequence | undefined;
+    resting: Pose | Sequence | undefined;
+    entering: Pose | Sequence | undefined;
+    moving: Pose | Sequence | undefined;
+    exiting: Pose | Sequence | undefined;
     duration: number | undefined;
     style: string | undefined;
 } {
@@ -155,10 +155,10 @@ export function getStyle(
         name,
         selectable,
         pose,
-        rest,
-        enter,
-        move,
-        exit,
+        resting: rest,
+        entering: enter,
+        moving: move,
+        exiting: exit,
         duration,
         style: styleVal instanceof TextValue ? styleVal.text : undefined,
     };

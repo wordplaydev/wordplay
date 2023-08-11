@@ -1651,11 +1651,11 @@
                 "doc": "$?",
                 "names": "$? flipy"
             },
-            "enter": { "doc": "$?", "names": "ingresar" },
-            "rest": { "doc": "$?", "names": "descansar" },
-            "move": { "doc": "$?", "names": "mover" },
-            "exit": { "doc": "$?", "names": "salida" },
-            "duration": { "doc": "$?", "names": ["duración"] },
+            "entering": { "doc": "$?", "names": "$! ingresar" },
+            "resting": { "doc": "$?", "names": "$! descansar" },
+            "moving": { "doc": "$?", "names": "$! mover" },
+            "exiting": { "doc": "$?", "names": "$! salida" },
+            "duration": { "doc": "$?", "names": "duración" },
             "style": { "doc": "$?", "names": "estilo" }
         },
         "Stage": {
