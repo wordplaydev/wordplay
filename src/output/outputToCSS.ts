@@ -44,6 +44,8 @@ export function rootScale(z: number, focusZ: number) {
 }
 
 export function incrementalScale(z: number, focusZ: number) {
+    // Perspective scaling should be proportional to the delta between the z and focus, just like the root.
+    // However, we need to divide by the scaling applied by the root, since CSS transforms are cumulative.
     return FOCAL_LENGTH / (focusZ - z) / (FOCAL_LENGTH / focusZ);
 }
 
