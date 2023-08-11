@@ -194,7 +194,7 @@ export function getHighlights(
     }
 
     // Get the caret's parent and give it a hover highlight
-    let caretParent;
+    let caretParent: Node | undefined;
     if (caret.position instanceof Node)
         caretParent = source.root.getParent(caret.position);
     else {
@@ -203,6 +203,11 @@ export function getHighlights(
     }
     if (
         caretParent &&
+        !caret.isNode() &&
+        (animatingNodes === undefined ||
+            !Array.from(animatingNodes).some((node) =>
+                node.contains(caretParent as Node)
+            )) &&
         !(caretParent instanceof Program) &&
         !(caretParent instanceof Block && caretParent.isRoot())
     )
