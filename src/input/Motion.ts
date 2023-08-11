@@ -23,6 +23,8 @@ import type Locale from '../locale/Locale';
 import type StructureDefinition from '../nodes/StructureDefinition';
 import type Value from '../values/Value';
 import Decimal from 'decimal.js';
+import { getFirstName } from '../locale/Locale';
+import NameType from '../nodes/NameType';
 
 const Bounciness = 0.5;
 const Gravity = 9.8;
@@ -50,10 +52,11 @@ export default class Motion extends TemporalStreamValue<Value, number> {
     constructor(
         evaluator: Evaluator,
         type: TypeOutput,
-        vx: number | undefined,
-        vy: number | undefined,
-        vz: number | undefined,
-        vangle: number | undefined,
+        startplace: Value | undefined,
+        startvx: number | undefined,
+        startvy: number | undefined,
+        startvz: number | undefined,
+        startvangle: number | undefined,
         mass: number | undefined,
         bounciness: number | undefined,
         gravity: number | undefined
@@ -62,15 +65,36 @@ export default class Motion extends TemporalStreamValue<Value, number> {
 
         this.output = type;
 
-        this.x = new Decimal(type.place?.x ?? 0);
-        this.y = new Decimal(type.place?.y ?? 0);
-        this.z = new Decimal(type.place?.z ?? 0);
+        const place =
+            startplace instanceof StructureValue &&
+            startplace.is(evaluator.project.shares.output.Place)
+                ? startplace
+                : undefined;
+        const startX = place?.getInput(0);
+        const startY = place?.getInput(1);
+        const startZ = place?.getInput(2);
+
+        this.x = new Decimal(
+            (startX instanceof NumberValue ? startX.toNumber() : undefined) ??
+                type.place?.x ??
+                0
+        );
+        this.y = new Decimal(
+            (startY instanceof NumberValue ? startY.toNumber() : undefined) ??
+                type.place?.y ??
+                0
+        );
+        this.z = new Decimal(
+            (startZ instanceof NumberValue ? startZ.toNumber() : undefined) ??
+                type.place?.z ??
+                0
+        );
         this.angle = new Decimal(type.pose.rotation ?? 0);
 
-        this.vx = new Decimal(vx ?? 0);
-        this.vy = new Decimal(vy ?? 0);
-        this.vz = new Decimal(vz ?? 0);
-        this.va = new Decimal(vangle ?? 0);
+        this.vx = new Decimal(startvx ?? 0);
+        this.vy = new Decimal(startvy ?? 0);
+        this.vz = new Decimal(startvz ?? 0);
+        this.va = new Decimal(startvangle ?? 0);
 
         this.mass = mass ?? 1;
         this.bounciness = bounciness ?? Bounciness;
@@ -196,34 +220,77 @@ export function createMotionDefinition(
     TypeType: StructureDefinition,
     PhraseType: StructureDefinition
 ) {
+    const PlaceName = getFirstName(locales[0].output.Place.names);
+
     const TypeBind = Bind.make(
         getDocLocales(locales, (locale) => locale.input.Motion.type.doc),
         getNameLocales(locales, (locale) => locale.input.Motion.type.names),
         new StructureType(TypeType)
     );
 
-    const VXBind = Bind.make(
+    const StartPlace = Bind.make(
+        getDocLocales(locales, (locale) => locale.input.Motion.startplace.doc),
+        getNameLocales(
+            locales,
+            (locale) => locale.input.Motion.startplace.names
+        ),
+        UnionType.orNone(NameType.make(PlaceName)),
+        NoneLiteral.make()
+    );
+
+    const StartVX = Bind.make(
+        getDocLocales(locales, (locale) => locale.input.Motion.startvx.doc),
+        getNameLocales(locales, (locale) => locale.input.Motion.startvx.names),
+        UnionType.orNone(SpeedType.clone()),
+        NoneLiteral.make()
+    );
+
+    const StartVY = Bind.make(
+        getDocLocales(locales, (locale) => locale.input.Motion.startvy.doc),
+        getNameLocales(locales, (locale) => locale.input.Motion.startvy.names),
+        UnionType.orNone(SpeedType.clone()),
+        NoneLiteral.make()
+    );
+
+    const StartVZ = Bind.make(
+        getDocLocales(locales, (locale) => locale.input.Motion.startvz.doc),
+        getNameLocales(locales, (locale) => locale.input.Motion.startvz.names),
+        UnionType.orNone(SpeedType.clone()),
+        NoneLiteral.make()
+    );
+
+    const StartVAngle = Bind.make(
+        getDocLocales(locales, (locale) => locale.input.Motion.startvangle.doc),
+        getNameLocales(
+            locales,
+            (locale) => locale.input.Motion.startvangle.names
+        ),
+        UnionType.orNone(AngleSpeedType.clone()),
+        NoneLiteral.make()
+    );
+
+    const VX = Bind.make(
         getDocLocales(locales, (locale) => locale.input.Motion.vx.doc),
         getNameLocales(locales, (locale) => locale.input.Motion.vx.names),
         UnionType.orNone(SpeedType.clone()),
         NoneLiteral.make()
     );
 
-    const VYBind = Bind.make(
+    const VY = Bind.make(
         getDocLocales(locales, (locale) => locale.input.Motion.vy.doc),
         getNameLocales(locales, (locale) => locale.input.Motion.vy.names),
         UnionType.orNone(SpeedType.clone()),
         NoneLiteral.make()
     );
 
-    const VZBind = Bind.make(
+    const VZ = Bind.make(
         getDocLocales(locales, (locale) => locale.input.Motion.vz.doc),
         getNameLocales(locales, (locale) => locale.input.Motion.vz.names),
         UnionType.orNone(SpeedType.clone()),
         NoneLiteral.make()
     );
 
-    const VAngleBind = Bind.make(
+    const VAngle = Bind.make(
         getDocLocales(locales, (locale) => locale.input.Motion.vangle.doc),
         getNameLocales(locales, (locale) => locale.input.Motion.vangle.names),
         UnionType.orNone(AngleSpeedType.clone()),
@@ -262,10 +329,15 @@ export function createMotionDefinition(
         getNameLocales(locales, (locale) => locale.input.Motion.names),
         [
             TypeBind,
-            VXBind,
-            VYBind,
-            VZBind,
-            VAngleBind,
+            StartPlace,
+            StartVX,
+            StartVY,
+            StartVZ,
+            StartVAngle,
+            VX,
+            VY,
+            VZ,
+            VAngle,
             MassBind,
             BouncinessBind,
             GravityBind,
@@ -282,11 +354,18 @@ export function createMotionDefinition(
                     ? new Motion(
                           evaluation.getEvaluator(),
                           type,
-                          evaluation.get(VXBind.names, NumberValue)?.toNumber(),
-                          evaluation.get(VYBind.names, NumberValue)?.toNumber(),
-                          evaluation.get(VZBind.names, NumberValue)?.toNumber(),
+                          evaluation.get(StartPlace.names, StructureValue),
                           evaluation
-                              .get(VAngleBind.names, NumberValue)
+                              .get(StartVX.names, NumberValue)
+                              ?.toNumber(),
+                          evaluation
+                              .get(StartVY.names, NumberValue)
+                              ?.toNumber(),
+                          evaluation
+                              .get(StartVZ.names, NumberValue)
+                              ?.toNumber(),
+                          evaluation
+                              .get(StartVAngle.names, NumberValue)
                               ?.toNumber(),
                           evaluation
                               .get(MassBind.names, NumberValue)
@@ -310,10 +389,10 @@ export function createMotionDefinition(
                         evaluation.getEvaluator().project,
                         evaluation.get(TypeBind.names, StructureValue)
                     ),
-                    evaluation.get(VXBind.names, NumberValue)?.toNumber(),
-                    evaluation.get(VYBind.names, NumberValue)?.toNumber(),
-                    evaluation.get(VZBind.names, NumberValue)?.toNumber(),
-                    evaluation.get(VAngleBind.names, NumberValue)?.toNumber(),
+                    evaluation.get(VX.names, NumberValue)?.toNumber(),
+                    evaluation.get(VY.names, NumberValue)?.toNumber(),
+                    evaluation.get(VZ.names, NumberValue)?.toNumber(),
+                    evaluation.get(VAngle.names, NumberValue)?.toNumber(),
                     evaluation.get(MassBind.names, NumberValue)?.toNumber(),
                     evaluation
                         .get(BouncinessBind.names, NumberValue)

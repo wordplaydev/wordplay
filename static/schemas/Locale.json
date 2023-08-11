@@ -1542,6 +1542,21 @@
                 "names": {
                   "$ref": "#/definitions/NameText"
                 },
+                "startplace": {
+                  "$ref": "#/definitions/NameAndDoc"
+                },
+                "startvangle": {
+                  "$ref": "#/definitions/NameAndDoc"
+                },
+                "startvx": {
+                  "$ref": "#/definitions/NameAndDoc"
+                },
+                "startvy": {
+                  "$ref": "#/definitions/NameAndDoc"
+                },
+                "startvz": {
+                  "$ref": "#/definitions/NameAndDoc"
+                },
                 "type": {
                   "$ref": "#/definitions/NameAndDoc"
                 },
@@ -1564,6 +1579,11 @@
                 "gravity",
                 "mass",
                 "names",
+                "startplace",
+                "startvangle",
+                "startvx",
+                "startvy",
+                "startvz",
                 "type",
                 "vangle",
                 "vx",

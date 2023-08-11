@@ -22,6 +22,11 @@ type InputTexts = {
     };
     Motion: NameAndDoc & {
         type: NameAndDoc;
+        startplace: NameAndDoc;
+        startvx: NameAndDoc;
+        startvy: NameAndDoc;
+        startvz: NameAndDoc;
+        startvangle: NameAndDoc;
         vx: NameAndDoc;
         vy: NameAndDoc;
         vz: NameAndDoc;

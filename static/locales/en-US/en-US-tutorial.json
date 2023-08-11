@@ -1439,7 +1439,7 @@
                     "concept": "Nothing",
                     "performance": [
                         "fix",
-                        "Motion(Phrase('ø' size: 5m) vy: ◆ ? 5m/s ø)"
+                        "Motion(Phrase('ø' size: 5m) startvy: 5m/s)"
                     ],
                     "lines": [
                         [
@@ -2636,10 +2636,11 @@
                     "performance": [
                         "fix",
                         "Motion(",
-                        "    Phrase('🏀' 3m place: ◆ ? Place(0m 5m) ø) ",
-                        "    vx: ◆ ? 0m/s ø",
-                        "    vy: ◆ ? 0m/s ø",
-                        "    vangle: ◆ ? 0°/s ø",
+                        "    Phrase('🏀' 3m)",
+                        "    startplace: Place(0m 5m)",
+                        "    startvx: 0m/s",
+                        "    startvy: 0m/s",
+                        "    startvangle: 0°/s",
                         ")"
                     ],
                     "lines": [
@@ -2654,30 +2655,31 @@
                         [
                             "fix",
                             "Motion(",
-                            "                            Phrase('🏀' 3m place: ◆ ? Place(0m 5m) ø) ",
-                            "                        )"
+                            "  Phrase('🏀' 3m) startplace: Place(0m 5m)",
+                            ")"
                         ],
                         [
                             "FunctionDefinition",
                             "excited",
-                            "Here's the simplest way to use it. This creates a @Motion stream that starts with this @Phrase, but then has a place that is a @Conditional. Do you see the little @Initial? That means 'True if the performance has just started', so the @Conditional here means 'If the performance has just started, start the ball at the place \\Place(0m 5m)\\'. Otherwise, it's @NoneLiteral, which tells the @Motion stream to keep moving the ball based on *gravity*. The ground is at \\0m\\ on the y-axes"
+                            "Here's the simplest way to use it. This creates a @Motion stream that starts with this @Phrase. It'll keep moving the ball based on *gravity*. The ground is at \\0m\\ on the y-axes."
                         ],
                         ["Motion", "excited", "Woosh…"],
                         null,
                         [
                             "fix",
                             "Motion(",
-                            "    Phrase('🏀' 3m place: ◆ ? Place(0m 5m) ø) ",
-                            "    vx: ◆ ? -5m/s ø",
-                            "    vy: ◆ ? 5m/s ø",
-                            "    vangle: ◆ ? 30°/s ø",
+                            "    Phrase('🏀' 3m) ",
+                            "    startplace: Place(0m 5m)",
+                            "    startvx: -5m/s",
+                            "    startvy: 5m/s",
+                            "    startvangle: 30°/s",
                             ")"
                         ],
                         [
                             "FunctionDefinition",
                             "excited",
                             "But @Motion has many other tricks.",
-                            "For example, it can have initial velocities, @Motion/vx, @Motion/vy, @Motion/vz, and @Motion/vangle.",
+                            "For example, it can have initial velocities, @Motion/startvx, @Motion/startvy, @Motion/startvz, and @Motion/startvangle.",
                             "This example makes the ball move left and up, spinning a bit initially."
                         ],
                         ["Motion", "excited", "Woooosh…"],
@@ -2685,10 +2687,11 @@
                         [
                             "fix",
                             "Motion(",
-                            "    Phrase('🏀' 3m place: ◆ ? Place(0m 5m) ø) ",
-                            "    vx: ◆ ? -5m/s ø",
-                            "    vy: ◆ ? 5m/s ø",
-                            "    vangle: ◆ ? 30°/s ø",
+                            "    Phrase('🏀' 3m) ",
+                            "    startplace: Place(0m 5m)",
+                            "    startvx: -5m/s",
+                            "    startvy: 5m/s",
+                            "    startvangle: 30°/s",
                             "    gravity: 200m/s^2",
                             ")"
                         ],
@@ -2704,8 +2707,9 @@
                         [
                             "fix",
                             "Motion(",
-                            "    Phrase('🏀' 3m place: ◆ ? Place(0m 5m) ø) ",
-                            "    vy: ◆ ? 50m/s ø",
+                            "    Phrase('🏀' 3m)",
+                            "    Place(0m 5m)",
+                            "    startvy: 50m/s",
                             ")"
                         ],
                         [

@@ -21,8 +21,8 @@ ball: Motion(
     Phrase(
       "o"
       ``Initial position is to the left of the cat, and controlled by motion otherwise``
-       place: ◆ ? Place(-5m 0m) ø
      ) 
+     startplace: Place(0m 0m)
      vx: ◆ ? 0m/s
          close(ball.place cat.position) ? (Random(1 5) · -1m/s · cat.direction) 
           ø

@@ -2818,7 +2818,7 @@
                 "/Hi! @FunctionDefinition here. How about I explain @Motion?",
                 "Basically, @Motion is a stream of @Phrase. You give it a starting @Phrase, and then it refines it with a new place and rotation based on gravity.",
                 "This let's you do really simple things like creating bouncing emoji:",
-                "\\Motion(Phrase('o' place: ◆ ? Place(0m 10m) ø))\\",
+                "\\Motion(Phrase('o') startplace: Place(0m 10m))\\",
                 "See how the o bounces? On the first evaluation, we give it a place up high on @Stage, but then after, it gets @None, which allows @Motion to change it to whatever position gravity would place it.",
                 "Check out the many other ways to configure it below."
             ],
@@ -2827,20 +2827,40 @@
                 "doc": "The @Phrase to refine with new @Type/rest places and rotations.",
                 "names": "type"
             },
+            "startplace": {
+                "doc": "The initial place for the @Phrase.",
+                "names": "startplace"
+            },
+            "startvx": {
+                "doc": "The initial velocity on the x-axis at which the @Phrase should move.",
+                "names": "startvx"
+            },
+            "startvy": {
+                "doc": "The initial velocity on the y-axis at which the @Phrase should move. If it, it overrides gravity.",
+                "names": "startvy"
+            },
+            "startvz": {
+                "doc": "The initial velocity on the z-axis at which the @Phrase should move.",
+                "names": "startvz"
+            },
+            "startvangle": {
+                "doc": "The initial rotational velocity at which the @Phrase should rotate.",
+                "names": "startvangle"
+            },
             "vx": {
-                "doc": "The velocity on the x-axis at which the @Phrase should move.",
+                "doc": "The velocity on the x-axis at which the @Phrase should move, independent of physics.",
                 "names": "vx"
             },
             "vy": {
-                "doc": "The velocity on the y-axis at which the @Phrase should move. If it, it overrides gravity.",
+                "doc": "The velocity on the y-axis at which the @Phrase should move, independent of physics.",
                 "names": "vy"
             },
             "vz": {
-                "doc": "The velocity on the z-axis at which the @Phrase should move.",
+                "doc": "The velocity on the z-axis at which the @Phrase should move, independent of physics.",
                 "names": "vz"
             },
             "vangle": {
-                "doc": "The rotational velocity at which the @Phrase should rotate.",
+                "doc": "The rotational velocity at which the @Phrase should rotate, independent of physics.",
                 "names": "vangle"
             },
             "mass": {

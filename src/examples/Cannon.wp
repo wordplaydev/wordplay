@@ -1,7 +1,7 @@
 === Cannon/en
 •Question(id•"" vx•# vy•# va•#)
 
-magnitude: 5
+magnitude: 2
 pressed: ∆ Key()
 count•#: 0 … ∆ Key() … count + 1
 questions•[Question]:  [] … ∆ Key() … questions.add(Question(count→"" Random(magnitude magnitude · 2) Random(magnitude · 2 magnitude · 4) Random(0 360)))
@@ -11,11 +11,12 @@ Stage(
         questions.translate(ƒ(q•Question index•#) (
           initialize: pressed & (index = questions.length())
           Motion(
-            Phrase('Q' name: q.id place: initialize ? 📍(0m 0m 0m) ø rest: Pose(opacity: initialize ? 0% 100%))
-            vx: initialize ? q.vx · 1m/s ø
-            vy: initialize ? q.vy · 1m/s ø
-            vangle: initialize ? q.va · 1°/s ø
-            )
+            Phrase('Q' name: q.id rest: Pose(opacity: initialize ? 0% 100%))
+            startplace: Place(0m 0m 0m)
+            startvx: q.vx
+            startvy: q.vy
+            startvangle: q.va
+        )
         ))
     )
 )
