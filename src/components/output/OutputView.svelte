@@ -374,7 +374,7 @@
             const rect = valueView.getBoundingClientRect();
             const dx = event.clientX - rect.left;
             const dy = event.clientY - rect.top;
-            const { x: mx, y: my } = mouseToMeters(
+            const { x: mx, y: my } = pixelsToMeters(
                 dx - rect.width / 2,
                 -(dy - rect.height / 2),
                 0,
@@ -417,12 +417,15 @@
         }
     }
     function handlePointerMove(event: PointerEvent) {
+        const valueRect = valueView?.getBoundingClientRect();
+
+        if (valueRect === undefined) return;
+
         // Handle focus or output moves..
-        if (event.buttons === 1 && drag && valueView) {
-            const rect = valueView.getBoundingClientRect();
-            const { x: renderedDeltaX, y: renderedDeltaY } = mouseToMeters(
-                event.clientX - rect.left - drag.left,
-                event.clientY - rect.top - drag.top,
+        if (event.buttons === 1 && drag && valueRect && renderedFocus) {
+            const { x: renderedDeltaX, y: renderedDeltaY } = pixelsToMeters(
+                event.clientX - valueRect.left - drag.left,
+                event.clientY - valueRect.top - drag.top,
                 drag.startPlace.z,
                 renderedFocus.z
             );
@@ -510,13 +513,30 @@
             }
         }
 
-        if (evaluator.isPlaying())
-            evaluator
-                .getBasisStreamsOfType(Pointer)
-                .map((stream) =>
-                    stream.react({ x: event.offsetX, y: event.offsetY })
-                );
-        // Don't give feedback on this; it's not expected.
+        const pointerStreams = evaluator.getBasisStreamsOfType(Pointer);
+        if (evaluator.isPlaying() && pointerStreams.length > 0) {
+            // First, get the position of the pointer relative to the tile bounds.
+            const tileX = event.clientX - valueRect.left - valueRect.width / 2;
+            const tileY = -(
+                event.clientY -
+                valueRect.top -
+                valueRect.height / 2
+            );
+
+            // Now translate the position into stage coordinates.
+            const position = pixelsToMeters(
+                tileX,
+                tileY,
+                0,
+                renderedFocus?.z ?? 0
+            );
+
+            // Now translate the position relative to the stage focus.
+            position.x -= renderedFocus?.x ?? 0;
+            position.y -= renderedFocus?.y ?? 0;
+
+            pointerStreams.forEach((stream) => stream.react(position));
+        }
     }
 
     /**
@@ -566,7 +586,7 @@
         return true;
     }
 
-    function mouseToMeters(mx: number, my: number, z: number, focusZ: number) {
+    function pixelsToMeters(mx: number, my: number, z: number, focusZ: number) {
         const scale = rootScale(z, focusZ);
         return { x: mx / PX_PER_METER / scale, y: my / PX_PER_METER / scale };
     }

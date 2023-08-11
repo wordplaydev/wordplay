@@ -2480,15 +2480,23 @@
                             "curious",
                             "Move your pointer around the stage and you'll see the stream of @Place change on stage."
                         ],
-                        ["edit", "Pointer()"],
+                        ["fix", "Pointer()"],
                         ["Pointer", "neutral", "wzzzzzzzzz…"],
                         null,
                         [
                             "FunctionDefinition",
                             "excited",
-                            "@Pointer can be fun if you want to link the place of a phrase to where the pointer is."
+                            "Now let's see it on stage!"
                         ],
-                        ["fit", "Phrase('hi' place: Pointer())"],
+                        ["Pointer", "neutral", "wzzzzzzzzz…"],
+                        ["fix", "Phrase(Pointer()→'' place: Pointer())"],
+                        null,
+                        [
+                            "FunctionDefinition",
+                            "excited",
+                            "@Pointer can be fun if you want to link the @Phrase/place of a @Phrase to where the pointer is."
+                        ],
+                        ["fix", "Phrase('🐪' size: 4m place: Pointer())"],
                         ["Pointer", "neutral", "wzzzzzzzz…"]
                     ]
                 },
