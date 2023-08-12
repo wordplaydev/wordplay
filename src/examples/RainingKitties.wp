@@ -36,6 +36,7 @@ Stage(
                     kitty.z · 1m
                 )
                 rotation: kitty.angle · 1°
+                duration: 0s
             )
     )
     place: Place(0m 0m -5m)
