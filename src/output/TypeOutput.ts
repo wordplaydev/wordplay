@@ -26,7 +26,7 @@ export function createTypeOutputInputs(locales: Locale[]) {
 ${getBind(locales, (locale) => locale.output.Type.size)}•#m: 1m
 ${getBind(
     locales,
-    (locale) => locale.output.Type.family
+    (locale) => locale.output.Type.face
 )}•${SupportedFontsFamiliesType}|ø: ø
 ${getBind(locales, (locale) => locale.output.Type.place)}•ø|📍: ø
 ${getBind(locales, (locale) => locale.output.Type.name)}•""|ø: ø
@@ -55,7 +55,7 @@ ${getBind(locales, (locale) => locale.output.Type.style)}•${locales
 /** Every group has the same style information. */
 export default abstract class TypeOutput extends Output {
     readonly size: number | undefined;
-    readonly font: string | undefined;
+    readonly face: string | undefined;
     readonly place: Place | undefined;
     readonly name: TextLang | string;
     readonly selectable: boolean;
@@ -85,7 +85,7 @@ export default abstract class TypeOutput extends Output {
         super(value);
 
         this.size = size ? Math.max(0, size) : size;
-        this.font = font;
+        this.face = font;
         this.place = place;
         this.name = name;
         this.selectable = selectable;
@@ -97,7 +97,7 @@ export default abstract class TypeOutput extends Output {
         this.duration = duration;
         this.style = style;
 
-        if (this.font) Fonts.loadFamily(this.font);
+        if (this.face) Fonts.loadFace(this.face);
     }
 
     abstract getLayout(context: RenderContext): {
@@ -108,7 +108,7 @@ export default abstract class TypeOutput extends Output {
         bottom: number;
         width: number;
         height: number;
-        actualHeight: number;
+        ascent: number;
         places: [TypeOutput, Place][];
     };
 
@@ -139,7 +139,7 @@ export default abstract class TypeOutput extends Output {
     }
 
     getRenderContext(context: RenderContext) {
-        return context.withFontAndSize(this.font, this.size);
+        return context.withFontAndSize(this.face, this.size);
     }
 
     getHTMLID(): string {

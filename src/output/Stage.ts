@@ -21,7 +21,8 @@ import type Locale from '../locale/Locale';
 import type Project from '../models/Project';
 import { getOutputInput } from './Output';
 
-export const DefaultFont = `'Noto Sans', 'Noto Color Emoji'`;
+export const DefaultFace = 'Noto Sans';
+export const CSSFallbackFaces = `"Noto Color Emoji"`;
 export const DefaultSize = 1;
 
 export function createStageType(locales: Locale[]) {
@@ -112,7 +113,7 @@ export default class Stage extends TypeOutput {
                           -layout.width / 2,
                           // We would normally not negate the y because its in math coordinates, but we want to move it
                           // down the y-axis by half, so we subtract.
-                          -layout.height / 2,
+                          -layout.ascent / 2,
                           0
                       );
                 places.push([child, place]);
@@ -121,8 +122,8 @@ export default class Stage extends TypeOutput {
                 if (place.x + layout.width > right)
                     right = place.x + layout.width;
                 if (place.y < bottom) bottom = place.y;
-                if (place.y + layout.height > top)
-                    top = place.y + layout.height;
+                if (place.y + layout.ascent > top)
+                    top = place.y + layout.ascent;
             }
         }
 
@@ -134,7 +135,7 @@ export default class Stage extends TypeOutput {
             bottom,
             width: right - left,
             height: top - bottom,
-            actualHeight: top - bottom,
+            ascent: top - bottom,
             places,
         };
     }
@@ -203,7 +204,7 @@ export function toStage(project: Project, value: Value): Stage | undefined {
 
         const {
             size,
-            font,
+            face: font,
             place,
             name,
             selectable,
@@ -228,7 +229,7 @@ export function toStage(project: Project, value: Value): Stage | undefined {
                   background,
                   frame,
                   size ?? DefaultSize,
-                  font ?? DefaultFont,
+                  font ?? DefaultFace,
                   place,
                   namer.getName(name?.text, value),
                   selectable,
@@ -260,7 +261,7 @@ export function toStage(project: Project, value: Value): Stage | undefined {
                   ),
                   undefined,
                   DefaultSize,
-                  DefaultFont,
+                  DefaultFace,
                   undefined,
                   namer.getName(undefined, value),
                   type.selectable,

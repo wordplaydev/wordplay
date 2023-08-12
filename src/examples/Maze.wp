@@ -62,7 +62,7 @@ Stage(
 	  )
 	]
   	place: Place(0m 0m -3m)
-	font: 'Noto Emoji'
+	face: 'Noto Emoji'
   	background: Color(0 0 0°)
 	resting:Pose(Color(100 100 0°))
 )

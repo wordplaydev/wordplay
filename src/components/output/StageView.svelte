@@ -12,7 +12,7 @@
     import { PX_PER_METER, toCSS } from '@output/outputToCSS';
     import Place from '@output/Place';
     import Evaluate from '@nodes/Evaluate';
-    import { DefaultFont, DefaultSize } from '@output/Stage';
+    import { DefaultFace, DefaultSize } from '@output/Stage';
     import { createPlace } from '@output/Place';
     import Scene, { type OutputInfoSet } from '@output/Scene';
     import GroupView from './GroupView.svelte';
@@ -221,7 +221,7 @@
     }
 
     $: context = new RenderContext(
-        stage.font ?? DefaultFont,
+        stage.face ?? DefaultFace,
         stage.size ?? DefaultSize,
         $config.getLocales(),
         $loadedFonts,
@@ -303,7 +303,7 @@
         data-node-id={stage.value.creator.id}
         data-selectable={stage.selectable}
         style={toCSS({
-            'font-family': `"${stage.font}", ${DefaultFont}`,
+            'font-family': `"${stage.face}", ${DefaultFace}`,
             background: background ? stage.background.toCSS() : undefined,
             '--grid-color': stage.background.complement().toCSS(),
             color:

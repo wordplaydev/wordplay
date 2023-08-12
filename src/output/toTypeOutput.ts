@@ -84,7 +84,7 @@ export function getStyle(
     index: number
 ): {
     size: number | undefined;
-    font: string | undefined;
+    face: string | undefined;
     name: TextLang | undefined;
     selectable: boolean | undefined;
     place: Place | undefined;
@@ -98,7 +98,7 @@ export function getStyle(
 } {
     const [
         sizeVal,
-        familyVal,
+        faceVal,
         placeVal,
         nameVal,
         selectableVal,
@@ -118,7 +118,7 @@ export function getStyle(
     ] = getOutputInputs(value, index);
 
     const size = toNumber(sizeVal);
-    const font = toFont(familyVal);
+    const font = toFont(faceVal);
     const place = toPlace(placeVal);
     const name = toText(nameVal);
     const selectable = toBoolean(selectableVal);
@@ -150,7 +150,7 @@ export function getStyle(
 
     return {
         size,
-        font,
+        face: font,
         place,
         name,
         selectable,

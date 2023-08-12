@@ -64,7 +64,7 @@
     data-name={group.getName()}
     data-selectable={group.selectable}
     style={outputToCSS(
-        context.font,
+        context.face,
         context.size,
         // No first pose because of an empty sequence? Give a default.
         group.getFirstRestPose(),
@@ -76,8 +76,8 @@
         parentAscent,
         {
             width: layout.width * PX_PER_METER,
-            fontAscent: layout.height * PX_PER_METER,
-            actualAscent: layout.height * PX_PER_METER,
+            height: layout.height * PX_PER_METER,
+            ascent: layout.height * PX_PER_METER,
         },
         viewport
     )}

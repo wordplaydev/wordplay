@@ -1,5 +1,3 @@
-<svelte:options immutable={true} />
-
 <script lang="ts">
     import type Phrase from '@output/Phrase';
     import type Place from '@output/Place';
@@ -174,11 +172,9 @@
         on:dblclick={$editable && interactive ? enter : null}
         on:keydown={$editable && interactive ? move : null}
         bind:this={view}
-        style:width="{metrics.width}px"
-        style:height="{metrics.actualAscent}px"
-        style:line-height="{metrics.actualAscent}px"
+        style:line-height="{metrics.ascent}px"
         style={outputToCSS(
-            context.font,
+            context.face,
             context.size,
             // No first pose because of an empty sequence? Give a default.
             phrase.getFirstRestPose(),

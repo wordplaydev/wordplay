@@ -1491,7 +1491,7 @@
                         ],
                         ["edit", "ø = ø"],
                         null,
-                        ["edit", "Phrase('hi' font: ø)"],
+                        ["edit", "Phrase('hi' face: ø)"],
                         [
                             "FunctionDefinition",
                             "excited",
@@ -1517,7 +1517,7 @@
             "name": "Ensembles",
             "performance": [
                 "fit",
-                "Group(Row((Time() ÷ 500).sin() · 1m) [Phrase('[]') Phrase('{}') Phrase('{:}')])"
+                "Group(Row(0 (Time() ÷ 500).sin() · 1m) [Phrase('[]') Phrase('{}') Phrase('{:}')])"
             ],
             "scenes": [
                 {
@@ -1841,7 +1841,7 @@
                         "fit",
                         "clockwise: Sequence({0%: Pose(rotation: 0°) 50%: Pose(rotation: 180°) 100%: Pose(rotation: 360°)} duration: 2s)",
                         "                    counter: Sequence({0%: Pose(rotation: 0°) 50%: Pose(rotation: -180°) 100%: Pose(rotation: -360°)} duration: 2s)",
-                        "                    Group(Row(0m) [Phrase('{' resting:clockwise) Phrase(':') Phrase('}' resting:counter) ])"
+                        "                    Group(Row() [Phrase('{' resting:clockwise) Phrase(':') Phrase('}' resting:counter) ])"
                     ],
                     "lines": [
                         ["use", "fit", "DarkVoid"],
@@ -2999,7 +2999,7 @@
                         [
                             "Phrase",
                             "excited",
-                            "Do you like costumes? I loooooove costumes. My @Type/family is a costume. Pick any of the supported fonts to spice up the word you've chosen."
+                            "Do you like costumes? I loooooove costumes. My @Type/face is a costume. Pick any of the supported faces to spice up the word you've chosen."
                         ],
                         [
                             "use",
@@ -3473,7 +3473,7 @@
                         [
                             "edit",
                             "Group(",
-                            "    Stack(2m) ",
+                            "    Stack(0 2m) ",
                             "    [",
                             "        Phrase('one')",
                             "        Phrase('two')",
@@ -3490,7 +3490,7 @@
                         [
                             "edit",
                             "Group(",
-                            "    Stack(Time(100ms) · 0.001m/ms) ",
+                            "    Stack(0 Time(100ms) · 0.001m/ms) ",
                             "    [",
                             "        Phrase('one')",
                             "        Phrase('two')",
@@ -3507,7 +3507,7 @@
                         [
                             "edit",
                             "Group(",
-                            "    Row(Time(100ms) · 0.001m/ms) [",
+                            "    Row(0 Time(100ms) · 0.001m/ms) [",
                             "        Phrase('one')",
                             "        Phrase('two')",
                             "        Phrase('three')",
@@ -4424,7 +4424,7 @@
                             "",
                             "index•#: 1 … ∆ Time(2000ms) … index = messages.length() ? 1 index + 1",
                             "",
-                            "Group(Stack(0m) [",
+                            "Group(Stack(0 0m) [",
                             "  Phrase(messages[index])",
                             "  Phrase(messages[index] resting:Pose(flipy: ⊤ opacity: 25%))",
                             "])"
@@ -4451,7 +4451,7 @@
                             "  'Lap cat'",
                             "]) … ∆ Time(2000ms) … marquee.next()",
                             "",
-                            "Group(Stack(0.5m) [",
+                            "Group(Stack(0 0.5m) [",
                             "  Phrase(marquee.now())",
                             "  Phrase(marquee.now() resting:Pose(flipy: ⊤ opacity: 25%))",
                             "])"
@@ -4485,7 +4485,7 @@
                             "  'Lap cat'",
                             "]) … ∆ Time(2000ms) … marquee.next()",
                             "",
-                            "Group(Stack(0.5m) [",
+                            "Group(Stack(0 0.5m) [",
                             "  Phrase(marquee.now())",
                             "  Phrase(marquee.now() resting:Pose(flipy: ⊤ opacity: 25%))",
                             "])"

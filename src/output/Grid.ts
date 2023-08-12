@@ -107,8 +107,8 @@ export class Grid extends Arrangement {
                     ? this.cellHeight
                     : grid[row].reduce(
                           (max, cell) =>
-                              cell.output && cell.output.height > max
-                                  ? cell.output.height
+                              cell.output && cell.output.ascent > max
+                                  ? cell.output.ascent
                                   : max,
                           0
                       );
@@ -161,7 +161,7 @@ export class Grid extends Arrangement {
                     const place = new Place(
                         this.value,
                         cellLeft + (columnWidth - cell.output.width) / 2,
-                        cellTop + (rowHeight - cell.output.height) / 2,
+                        cellTop + (rowHeight - cell.output.ascent) / 2,
                         0
                     );
                     places.push([cell.output.output, place]);

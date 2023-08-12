@@ -54,6 +54,6 @@
         set={projects}
         previewAction={(project) => copyProject(project)}
     />
-{:catch}
-    :(
+{:catch error}
+    :( {error}
 {/await}

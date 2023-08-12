@@ -5,7 +5,7 @@ export type FontWeight = 100 | 200 | 300 | 400 | 500 | 600 | 700 | 800 | 900;
 export type FontWeightRange = { min: FontWeight; max: FontWeight };
 
 /** Each font has data necessary for loading it from Google Fonts. */
-export type FontFamily = {
+export type Face = {
     name: string; // The name of the font
     weights: FontWeight[] | FontWeightRange; // Weights supported on the font
     italic: boolean; // True if italics is supported on the weights above,
@@ -23,7 +23,7 @@ export const loadedFonts = writable<Set<string>>(new Set());
 /**
  * A data structure that represents fonts that creators can use to style phrases.
  */
-const SupportedFontFamilies: FontFamily[] = [
+const SupportedFaces: Face[] = [
     {
         name: 'Roboto',
         weights: [100, 300, 400, 500, 700, 900],
@@ -62,7 +62,7 @@ const SupportedFontFamilies: FontFamily[] = [
         italic: false,
     },
 ];
-export { SupportedFontFamilies as SupportedFonts };
+export { SupportedFaces as SupportedFonts };
 
 /**
  * This data structure managers the fonts that have been loaded,
@@ -82,7 +82,7 @@ export class FontManager {
         { name: 'Noto Mono', weight: 400, italic: false },
     ];
 
-    loaded = new Map<string, 'requested' | 'loaded'>();
+    facesLoaded = new Map<string, 'requested' | 'loaded'>();
 
     constructor() {
         this.fonts.forEach((font) => this.load(font));
@@ -90,7 +90,7 @@ export class FontManager {
 
     /** Returns true if the given font spec appears in SupportedFonts */
     getSupportedFont(font: Font) {
-        return SupportedFontFamilies.find(
+        return SupportedFaces.find(
             (candidate) =>
                 // The name matches
                 candidate.name === font.name &&
@@ -104,31 +104,32 @@ export class FontManager {
         );
     }
 
-    isRequested(family: string) {
-        return this.loaded.has(family);
-    }
-    isLoaded(family: string) {
-        return this.loaded.get(family) === 'loaded';
+    isRequested(face: string) {
+        return this.facesLoaded.has(face);
     }
 
-    loadFamily(name: string) {
-        if (this.loaded.get(name) === 'loaded') return;
+    isLoaded(face: string) {
+        return this.facesLoaded.get(face) === 'loaded';
+    }
 
-        // Mark the family requested.
-        this.loaded.set(name, 'requested');
+    loadFace(name: string) {
+        if (this.facesLoaded.get(name) === 'loaded') return;
 
-        const family = SupportedFontFamilies.find((font) => font.name === name);
-        if (family) {
-            // Load all fonts in the family
-            if (Array.isArray(family.weights)) {
-                for (const weight of family.weights)
+        // Mark the face requested.
+        this.facesLoaded.set(name, 'requested');
+
+        const face = SupportedFaces.find((font) => font.name === name);
+        if (face) {
+            // Load all fonts in the face
+            if (Array.isArray(face.weights)) {
+                for (const weight of face.weights)
                     this.load({
                         name: name,
                         weight: weight,
                         italic: false,
                     });
-                if (family.italic)
-                    for (const weight of family.weights)
+                if (face.italic)
+                    for (const weight of face.weights)
                         this.load({
                             name: name,
                             weight: weight,
@@ -179,8 +180,8 @@ export class FontManager {
 
         // Load the font, and when it's done, mark it as loaded and notify any listeners.
         fontFace.load().then(() => {
-            this.loaded.set(font.name, 'loaded');
-            loadedFonts.set(new Set(this.loaded.keys()));
+            this.facesLoaded.set(font.name, 'loaded');
+            loadedFonts.set(new Set(this.facesLoaded.keys()));
         });
     }
 }
@@ -188,6 +189,6 @@ export class FontManager {
 const Fonts = new FontManager();
 export default Fonts;
 
-export const SupportedFontsFamiliesType = SupportedFontFamilies.map(
+export const SupportedFontsFamiliesType = SupportedFaces.map(
     (font) => `"${font.name}"`
 ).join(OR_SYMBOL);

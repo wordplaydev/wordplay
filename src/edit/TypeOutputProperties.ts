@@ -82,7 +82,7 @@ export default function getTypeOutputProperties(
             () => NumberLiteral.make(1, Unit.create(['m']))
         ),
         new OutputProperty(
-            locale.output.Type.family,
+            locale.output.Type.face,
             new OutputPropertyOptions(
                 [...SupportedFonts.map((font) => font.name)],
                 true,

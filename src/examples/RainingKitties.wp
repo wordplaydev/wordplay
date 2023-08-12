@@ -29,6 +29,7 @@ Stage(
         ƒ(kitty•Kitty) 
             Phrase(
                 "🐈" 
+                face: "Noto Color Emoji"
                 size: 5m 
                 place: Place(
                     kitty.x · 1m

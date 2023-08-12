@@ -2,7 +2,7 @@ import type { NameAndDoc, Template, NameText } from './Locale';
 
 export type TypeTexts = {
     size: NameAndDoc;
-    family: NameAndDoc;
+    face: NameAndDoc;
     place: NameAndDoc;
     name: NameAndDoc;
     selectable: NameAndDoc;

@@ -39,7 +39,7 @@
         if (PUBLIC_CONTEXT === 'prod') goto('/');
 
         // Force Noto Sans to load
-        Fonts.loadFamily('Noto Sans');
+        Fonts.loadFace('Noto Sans');
 
         // Show only after fonts are loaded, to prevent font jiggle.
         document.fonts.ready.then(() => (loaded = true));

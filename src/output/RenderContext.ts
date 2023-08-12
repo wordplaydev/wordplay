@@ -1,20 +1,21 @@
 import type Locale from '../locale/Locale';
 
 export default class RenderContext {
-    readonly font: string;
+    /** A single typeface name (e.g., Times, Roboto, Noto Sans), with no text delimiters */
+    readonly face: string;
     readonly size: number;
     readonly locales: Locale[];
     readonly fonts: Set<string>;
     readonly animationFactor: number;
 
     constructor(
-        font: string,
+        face: string,
         size: number,
         locales: Locale[],
         fonts: Set<string>,
         animationFactor: number
     ) {
-        this.font = font;
+        this.face = face;
         this.size = size;
         this.locales = locales;
         this.fonts = fonts;
@@ -23,7 +24,7 @@ export default class RenderContext {
 
     withFontAndSize(font: string | undefined, size: number | undefined) {
         return new RenderContext(
-            font ?? this.font,
+            font ?? this.face,
             size ?? this.size,
             this.locales,
             this.fonts,

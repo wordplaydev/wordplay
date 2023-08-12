@@ -80,7 +80,7 @@ screen/en,cine/es,إظهار/ar:
 ``Create a world with the screen in it``/en
 ``Crea un mundo con la pantalla en él``/es
 ``اصنع عالمًا مع الشاشة بداخله``/ar
-Stage([screen] font: "Poor Story" background: 🌈(0% 0 0°) color: 🌈(100% 0 0°))
+Stage([screen] face: "Poor Story" background: 🌈(0% 0 0°) color: 🌈(100% 0 0°))
 
 
 === words/en,palabras/es,كلمات/ar

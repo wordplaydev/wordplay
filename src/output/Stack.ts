@@ -50,7 +50,7 @@ export class Stack extends Arrangement {
         // The height is the sum of all of the child heights plus padding between them
         const height =
             layouts.reduce(
-                (height, layout) => height + (layout ? layout.height : 0),
+                (height, layout) => height + (layout ? layout.ascent : 0),
                 0
             ) +
             this.padding * (layouts.length - 1);
@@ -66,7 +66,7 @@ export class Stack extends Arrangement {
         for (const child of layouts) {
             if (child) {
                 // Subtract the child's height to y to get it to its baseline.
-                y = y - child.height;
+                y = y - child.ascent;
                 const place = new Place(
                     this.value,
                     // Place the x in the center of the stack, or if it has a place, use that
@@ -93,7 +93,7 @@ export class Stack extends Arrangement {
                 if (place.y < bottom) bottom = place.y;
                 if (place.x + child.width > right)
                     right = place.x + child.width;
-                if (place.y + child.height > top) top = place.y + child.height;
+                if (place.y + child.ascent > top) top = place.y + child.ascent;
             }
         }
 

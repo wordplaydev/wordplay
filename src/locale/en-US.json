@@ -2923,9 +2923,9 @@
                 "doc": "The font size, in meters, of this output.",
                 "names": "size"
             },
-            "family": {
-                "doc": "The name of the font family that this output should be dressed in.",
-                "names": "font"
+            "face": {
+                "doc": "The name of the font face that this output should be dressed in.",
+                "names": "face"
             },
             "place": {
                 "doc": "The place on stage where this output should be.",

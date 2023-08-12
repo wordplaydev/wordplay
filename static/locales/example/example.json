@@ -1608,7 +1608,7 @@
             "names": "$?",
             "doc": "$?",
             "size": { "doc": "$?", "names": "$?" },
-            "family": { "doc": "$?", "names": "$?" },
+            "face": { "doc": "$?", "names": "$?" },
             "place": { "doc": "$?", "names": "$?" },
             "name": { "doc": "$?", "names": "$?" },
             "selectable": { "doc": "$?", "names": "$?" },
@@ -1675,7 +1675,7 @@
             "description": "$?",
             "alignment": {
                 "doc": "$?",
-                "names": "$?"
+                "names": "$? alignment"
             },
             "padding": { "doc": "$?", "names": "$?" }
         },
@@ -1686,7 +1686,7 @@
             "padding": { "doc": "$?", "names": "$?" },
             "alignment": {
                 "doc": "$?",
-                "names": "$?"
+                "names": "$? alignment"
             }
         },
         "Grid": {

@@ -1,5 +1,7 @@
+import type { Metrics } from './Phrase';
 import type Place from './Place';
 import type Pose from './Pose';
+import { CSSFallbackFaces } from './Stage';
 
 export const PX_PER_METER = 16;
 /** This is a scaling factor: for every 1m of z distance, we scale this much. */
@@ -54,7 +56,7 @@ export function centerTransform(viewportWidth: number, viewportHeight: number) {
 }
 
 export default function outputToCSS(
-    family: string | undefined,
+    face: string | undefined,
     size: number | undefined,
     primaryPose: Pose,
     secondaryPose: Pose,
@@ -63,7 +65,7 @@ export default function outputToCSS(
     height: number | undefined,
     focus: Place,
     parentAscent: number,
-    metrics: { width: number; fontAscent: number; actualAscent: number },
+    metrics: Metrics,
     viewport: { width: number; height: number } | undefined = undefined
 ) {
     return toCSS({
@@ -82,7 +84,7 @@ export default function outputToCSS(
         'transform-origin': '0 0',
         color: (primaryPose.color ?? secondaryPose.color)?.toCSS(),
         opacity: (primaryPose.opacity ?? primaryPose.opacity)?.toString(),
-        'font-family': family,
+        'font-family': `"${face}", ${CSSFallbackFaces}`,
         // The font size is whatever it's normal size is, but adjusted for perspective, then translated into pixels.
         'font-size': size ? sizeToPx(size) : undefined,
     });
@@ -94,7 +96,7 @@ export function toOutputTransform(
     place: Place,
     focus: Place,
     parentAscent: number,
-    metrics: { width: number; fontAscent: number; actualAscent: number },
+    metrics: Metrics,
     viewport: { width: number; height: number } | undefined = undefined
 ) {
     const root = viewport !== undefined;
@@ -124,7 +126,7 @@ export function toOutputTransform(
 
     // Find the center of the stage, around which we will rotate and scale.
     let centerXOffset = root ? 0 : metrics.width / 2;
-    let centerYOffset = root ? 0 : metrics.actualAscent / 2;
+    let centerYOffset = root ? 0 : metrics.height / 2;
 
     // Translate the place to screen coordinates.
     let placeX = place.x * PX_PER_METER;
@@ -132,7 +134,7 @@ export function toOutputTransform(
         // Negate y to account for flipped y axis.
         -place.y * PX_PER_METER -
         // If this isn't the root, subtract the height to render from the bottom
-        (root ? 0 : metrics.actualAscent) +
+        (root ? 0 : metrics.height) +
         // Add the height of the parent to compensate for HTML rendering local coordinates from the top.
         parentAscent * PX_PER_METER;
 
