@@ -74,12 +74,11 @@ export class FontManager {
         { name: 'Noto Sans', weight: 300, italic: false },
         { name: 'Noto Sans', weight: 300, italic: true },
         { name: 'Noto Sans', weight: 400, italic: false },
-        { name: 'Noto Sans', weight: 700, italic: false },
         { name: 'Noto Sans', weight: 400, italic: true },
+        { name: 'Noto Sans', weight: 700, italic: false },
         { name: 'Noto Sans', weight: 700, italic: true },
-        { name: 'Noto Emoji', weight: 400, italic: false },
-        { name: 'Noto Color Emoji', weight: 400, italic: false },
         { name: 'Noto Mono', weight: 400, italic: false },
+        { name: 'Noto Color Emoji', weight: 400, italic: false },
     ];
 
     facesLoaded = new Map<string, 'requested' | 'loaded' | 'failed'>();
