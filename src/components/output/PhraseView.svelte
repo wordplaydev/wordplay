@@ -172,7 +172,7 @@
         on:dblclick={$editable && interactive ? enter : null}
         on:keydown={$editable && interactive ? move : null}
         bind:this={view}
-        style:line-height="{metrics.ascent}px"
+        style:line-height="{metrics.height}px"
         style={outputToCSS(
             context.face,
             context.size,
