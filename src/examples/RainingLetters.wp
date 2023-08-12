@@ -55,6 +55,7 @@ Stage(
                   opacity: letter.visible ? 1 0 
                   color: 🌈(100% 0 0°)
                 )
+                duration: 0s
             )
     ))
     place: Place(0m -2 · size -5m) background: 🌈(63% 93 248°)
