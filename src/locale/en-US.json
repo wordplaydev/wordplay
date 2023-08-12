@@ -850,7 +850,7 @@
                 },
                 "ValueException": {
                     "description": "missing value",
-                    "explanation": "oh no, someone expected a value but didn't get one…"
+                    "explanation": "I expected a value but didn't get one!"
                 }
             }
         },
