@@ -12,8 +12,8 @@ Group(
 			Phrase(
 				letter 
 				name: "\letter → ''\-\index → ''\"
-				enter: Pose(opacity: 0 scale: 2)
-                rest: Sequence(sway() duration:0.25s)
+				entering: Pose(opacity: 0 scale: 2)
+                resting: Sequence(sway() duration:0.25s)
 				duration: 0.5s
 			)
 	)

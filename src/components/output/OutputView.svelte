@@ -33,6 +33,7 @@
     import { toExpression } from '../../parser/Parser';
     import { getPlace } from '../../output/getPlace';
     import { SvelteComponent, afterUpdate, beforeUpdate } from 'svelte';
+    import Placement from '../../input/Placement';
 
     export let project: Project;
     export let evaluator: Evaluator;
@@ -72,6 +73,8 @@
 
     let renderedFocus: Place;
 
+    const keysDown: Map<string, boolean> = new Map();
+
     $: exception = value instanceof ExceptionValue ? value : undefined;
     $: stageValue = value === undefined ? undefined : toStage(project, value);
     $: background =
@@ -85,13 +88,16 @@
     $: evaluator.updateTimeMultiplier($config.getAnimationFactor());
 
     function handleKeyUp(event: KeyboardEvent) {
+        keysDown.set(event.key, false);
+
         if (event.key === 'Tab') return;
 
         // Reset the value
         if (keyboardInputView) keyboardInputView.value = '';
 
-        // Record the key event on all keyboard streams if it wasn't handled above.
+        // Is the program evaluating?
         if (evaluator.isPlaying()) {
+            // Record the key event on all keyboard streams if it wasn't handled above.
             evaluator
                 .getBasisStreamsOfType(Key)
                 .map((stream) => stream.react({ key: event.key, down: false }));
@@ -100,6 +106,8 @@
     }
 
     function handleKeyDown(event: KeyboardEvent) {
+        keysDown.set(event.key, true);
+
         // Never handle tab; that's for keyboard navigation.
         if (event.key === 'Tab') return;
 
@@ -221,17 +229,44 @@
             if (
                 (event.key === 'Enter' || event.key === ' ') &&
                 event.target instanceof HTMLElement
-            )
+            ) {
                 recordSelection(event);
+                event.stopPropagation();
+            }
         }
 
         // If dragging the focus, stop
         if (drag) drag = undefined;
 
+        // Finally, if the event was ignored by all of the above, pass it to streams.
         if (evaluator.isPlaying()) {
             evaluator
                 .getBasisStreamsOfType(Key)
                 .map((stream) => stream.react({ key: event.key, down: true }));
+
+            // Map keys onto axes of change for any Placement streams.
+            if (
+                event.key.startsWith('Arrow') ||
+                event.key === '-' ||
+                event.key === '='
+            ) {
+                evaluator.getBasisStreamsOfType(Placement).map((stream) =>
+                    stream.react({
+                        x: keysDown.get('ArrowLeft')
+                            ? -1
+                            : keysDown.get('ArrowRight')
+                            ? 1
+                            : 0,
+                        y: keysDown.get('ArrowUp')
+                            ? 1
+                            : keysDown.get('ArrowDown')
+                            ? -1
+                            : 0,
+                        z: keysDown.get('-') ? 1 : keysDown.get('=') ? -1 : 0,
+                    })
+                );
+                event.stopPropagation();
+            }
         }
     }
 
@@ -254,13 +289,14 @@
     }
 
     function handlePointerDown(event: PointerEvent) {
-        // Focus the keyboard input.
+        // Focus the keyboard input if it exists.
         if (keyboardInputView) {
             keyboardInputView.focus();
             event.stopPropagation();
             event.preventDefault();
         }
 
+        // If the evaluator is playing, record button events.
         if (evaluator.isPlaying()) {
             evaluator
                 .getBasisStreamsOfType(Button)
@@ -273,6 +309,7 @@
             }
         }
 
+        // If we're editing, select output.
         if (editable) {
             if (painting) {
                 if (selectedOutputPaths)
@@ -280,12 +317,64 @@
             } else if (!selectPointerOutput(event)) ignore();
         }
 
+        // If there's a Placement, send it some navigation events based on position.
+        const placements = evaluator.getBasisStreamsOfType(Placement);
+        if (placements.length > 0 && valueView && stageValue) {
+            for (const placement of placements) {
+                // First, find the output on stage that this placement is placing,
+                // so we can find the position of the pointer relative to the output.
+                const output = stageValue.find(
+                    (output) => output.place?.value === placement.latest()
+                );
+                // Couldn't find the output? Move to the next one.
+                if (output === undefined) continue;
+
+                // Now find the view of the output.
+                const outputView = document.querySelector(
+                    `[data-id="${output.getHTMLID()}"]`
+                );
+                // Couldn't find the view? Move on to the next one.
+                if (outputView === null) continue;
+
+                const outputRect = outputView.getBoundingClientRect();
+                const outputX = outputRect.left + outputRect.width / 2;
+                const outputY = outputRect.top + outputRect.height / 2;
+                const relativePointerX = event.clientX - outputX;
+                const relativePointerY = event.clientY - outputY;
+                const atan2 =
+                    (Math.atan2(relativePointerY, relativePointerX) * 180) /
+                    Math.PI;
+                const angle =
+                    relativePointerY < 0 ? Math.abs(atan2) : 360 - atan2;
+
+                const threshold = 20;
+                // Divide the 360 degrees into 45 degree segments
+                // Send the navigation directions to all all of the placements.
+                placement.react({
+                    x:
+                        angle < 90 - threshold || angle > 270 + threshold
+                            ? 1
+                            : angle > 90 + threshold && angle < 270 - threshold
+                            ? -1
+                            : 0,
+                    y:
+                        angle > threshold && angle < 180 - threshold
+                            ? 1
+                            : angle > 180 + threshold && angle < 360 - threshold
+                            ? -1
+                            : 0,
+                    z: 0,
+                });
+            }
+        }
+
+        // If there's a focus, start dragging.
         if (valueView && renderedFocus) {
             // Start dragging.
             const rect = valueView.getBoundingClientRect();
             const dx = event.clientX - rect.left;
             const dy = event.clientY - rect.top;
-            const { x: mx, y: my } = mouseToMeters(
+            const { x: mx, y: my } = pixelsToMeters(
                 dx - rect.width / 2,
                 -(dy - rect.height / 2),
                 0,
@@ -329,105 +418,128 @@
     }
     function handlePointerMove(event: PointerEvent) {
         // Handle focus or output moves..
-        if (event.buttons === 1 && drag && valueView) {
-            const rect = valueView.getBoundingClientRect();
-            const { x: renderedDeltaX, y: renderedDeltaY } = mouseToMeters(
-                event.clientX - rect.left - drag.left,
-                event.clientY - rect.top - drag.top,
-                drag.startPlace.z,
-                renderedFocus.z
-            );
+        if (event.buttons === 1 && drag && renderedFocus) {
+            const valueRect = valueView?.getBoundingClientRect();
+            if (valueRect !== undefined) {
+                const { x: renderedDeltaX, y: renderedDeltaY } = pixelsToMeters(
+                    event.clientX - valueRect.left - drag.left,
+                    event.clientY - valueRect.top - drag.top,
+                    drag.startPlace.z,
+                    renderedFocus.z
+                );
 
-            const newX = twoDigits(drag.startPlace.x + renderedDeltaX);
-            const newY = twoDigits(drag.startPlace.y - renderedDeltaY);
+                const newX = twoDigits(drag.startPlace.x + renderedDeltaX);
+                const newY = twoDigits(drag.startPlace.y - renderedDeltaY);
 
-            // If painting, gather points
-            if (painting && paintingConfig) {
-                // Is the new position a certain Euclidian distance from the most recent position? Add a point to the stroke.
-                const prior = paintingPlaces.at(-1);
-                if (
-                    prior === undefined ||
-                    Math.sqrt(
-                        Math.pow(prior.x - newX, 2) +
-                            Math.pow(prior.y - newY, 2)
-                    ) > 0.5
-                ) {
-                    // Add the point
-                    paintingPlaces.push({ x: newX, y: newY });
+                // If painting, gather points
+                if (painting && paintingConfig) {
+                    // Is the new position a certain Euclidian distance from the most recent position? Add a point to the stroke.
+                    const prior = paintingPlaces.at(-1);
+                    if (
+                        prior === undefined ||
+                        Math.sqrt(
+                            Math.pow(prior.x - newX, 2) +
+                                Math.pow(prior.y - newY, 2)
+                        ) > 0.5
+                    ) {
+                        // Add the point
+                        paintingPlaces.push({ x: newX, y: newY });
 
-                    const minX = twoDigits(
-                        Math.min.apply(
-                            null,
-                            paintingPlaces.map((p) => p.x)
-                        )
-                    );
-                    const minY = twoDigits(
-                        Math.min.apply(
-                            null,
-                            paintingPlaces.map((p) => p.y)
-                        )
-                    );
-
-                    // Create a stroke. represented as freeform group of phrases with explicit positions.
-                    const group = toExpression(
-                        `Group(Free() [${paintingPlaces
-                            .map(
-                                (p) =>
-                                    `Place(${twoDigits(
-                                        p.x - minX
-                                    )}m ${twoDigits(p.y - minY)}m)`
+                        const minX = twoDigits(
+                            Math.min.apply(
+                                null,
+                                paintingPlaces.map((p) => p.x)
                             )
-                            .join(
-                                ' '
-                            )}].translate(ƒ(place•Place) Phrase('a' place: place)) place: Place(${minX}m ${minY}m))`
-                    );
+                        );
+                        const minY = twoDigits(
+                            Math.min.apply(
+                                null,
+                                paintingPlaces.map((p) => p.y)
+                            )
+                        );
 
-                    // Add the stroke to the project's verse
-                    if (strokeNodeID === undefined) {
-                        addStageContent($config, project, group);
-                    } else {
-                        const node = project.getNodeByID(strokeNodeID);
-                        if (node)
-                            $config.reviseProjectNodes(project, [
-                                [node, group],
-                            ]);
+                        // Create a stroke. represented as freeform group of phrases with explicit positions.
+                        const group = toExpression(
+                            `Group(Free() [${paintingPlaces
+                                .map(
+                                    (p) =>
+                                        `Place(${twoDigits(
+                                            p.x - minX
+                                        )}m ${twoDigits(p.y - minY)}m)`
+                                )
+                                .join(
+                                    ' '
+                                )}].translate(ƒ(place•Place) Phrase('a' place: place)) place: Place(${minX}m ${minY}m))`
+                        );
+
+                        // Add the stroke to the project's verse
+                        if (strokeNodeID === undefined) {
+                            addStageContent($config, project, group);
+                        } else {
+                            const node = project.getNodeByID(strokeNodeID);
+                            if (node)
+                                $config.reviseProjectNodes(project, [
+                                    [node, group],
+                                ]);
+                        }
+                        strokeNodeID = group.id;
                     }
-                    strokeNodeID = group.id;
-                }
-            } else {
-                if (event.shiftKey && stage) {
-                    stage.setFocus(newX, newY, drag.startPlace.z);
-                    event.stopPropagation();
-                } else if (
-                    selectedOutput &&
-                    $selectedOutput &&
-                    $selectedOutput.length > 0 &&
-                    !$selectedOutput[0].is(
-                        project.shares.output.Stage,
-                        project.getNodeContext($selectedOutput[0])
-                    )
-                ) {
-                    moveOutput(
-                        $config,
-                        project,
-                        $selectedOutput,
-                        $config.getLocales(),
-                        newX,
-                        newY,
-                        false
-                    );
-                    event.stopPropagation();
+                } else {
+                    if (event.shiftKey && stage) {
+                        stage.setFocus(newX, newY, drag.startPlace.z);
+                        event.stopPropagation();
+                    } else if (
+                        selectedOutput &&
+                        $selectedOutput &&
+                        $selectedOutput.length > 0 &&
+                        !$selectedOutput[0].is(
+                            project.shares.output.Stage,
+                            project.getNodeContext($selectedOutput[0])
+                        )
+                    ) {
+                        moveOutput(
+                            $config,
+                            project,
+                            $selectedOutput,
+                            $config.getLocales(),
+                            newX,
+                            newY,
+                            false
+                        );
+                        event.stopPropagation();
+                    }
                 }
             }
         }
 
-        if (evaluator.isPlaying())
-            evaluator
-                .getBasisStreamsOfType(Pointer)
-                .map((stream) =>
-                    stream.react({ x: event.offsetX, y: event.offsetY })
+        const pointerStreams = evaluator.getBasisStreamsOfType(Pointer);
+        if (valueView && evaluator.isPlaying() && pointerStreams.length > 0) {
+            const valueRect = valueView.getBoundingClientRect();
+            if (valueRect !== undefined) {
+                // First, get the position of the pointer relative to the tile bounds.
+                const tileX =
+                    event.clientX - valueRect.left - valueRect.width / 2;
+                const tileY = -(
+                    event.clientY -
+                    valueRect.top -
+                    valueRect.height / 2
                 );
-        // Don't give feedback on this; it's not expected.
+
+                // Now translate the position into stage coordinates.
+                const position = pixelsToMeters(
+                    tileX,
+                    tileY,
+                    0,
+                    renderedFocus?.z ?? 0
+                );
+
+                // Now translate the position relative to the stage focus.
+                position.x -= renderedFocus?.x ?? 0;
+                position.y -= renderedFocus?.y ?? 0;
+
+                pointerStreams.forEach((stream) => stream.react(position));
+            }
+        }
     }
 
     /**
@@ -477,7 +589,7 @@
         return true;
     }
 
-    function mouseToMeters(mx: number, my: number, z: number, focusZ: number) {
+    function pixelsToMeters(mx: number, my: number, z: number, focusZ: number) {
         const scale = rootScale(z, focusZ);
         return { x: mx / PX_PER_METER / scale, y: my / PX_PER_METER / scale };
     }
@@ -623,7 +735,7 @@
         on:pointerup={interactive ? handlePointerUp : null}
         on:pointermove={interactive ? handlePointerMove : null}
     >
-        {#if evaluator.getBasisStreamsOfType(Key).length > 0}
+        {#if $evaluation?.evaluator.getBasisStreamsOfType(Key).length > 0 || $evaluation?.evaluator.getBasisStreamsOfType(Placement).length > 0}
             <input
                 class="keyboard-input"
                 type="text"

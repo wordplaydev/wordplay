@@ -122,10 +122,10 @@ export default class Evaluator {
 
     /**
      * True if we're in the middle of replaying prior inputs to restore a previous Evaluator's state.
-     * Only true during Evaluator.mirror();
+     * Only true during Evaluator.mirror(). We use it to avoid broadcasting evaluation changes
+     * and to steer evaluation during input replay.
      */
-    replaying: boolean = false;
-    invalidInputs: boolean = false;
+    #replayingInputs: boolean = false;
 
     /**
      * All of the basis streams created while evaluating the program.
@@ -202,13 +202,13 @@ export default class Evaluator {
     /**
      * Create a new evalutor, given some project.
      * @param project The project to evaluate.
-     * @param prior Inherits the settings and streams of the given Evaluator, if provided.
      * @param reactive Reacts to stream input if true. False is useful for just getting a program's initial value without starting streams.
+     * @param prior Inherits the settings and streams of the given Evaluator, if provided.
      * */
     constructor(
         project: Project,
-        prior: Evaluator | undefined = undefined,
-        reactive: boolean = true
+        reactive: boolean = true,
+        prior: Evaluator | undefined = undefined
     ) {
         this.project = project;
 
@@ -260,108 +260,91 @@ export default class Evaluator {
         return new Evaluator(project).getInitialValue();
     }
 
-    /** Invalidates these inputs, indicating that it shouldn't be used */
-    invalidateInputs() {
-        this.invalidInputs = true;
-    }
-
     /** Mirror the given evaluator's stream history and state, but with the new source. */
     mirror(evaluator: Evaluator) {
-        if (!evaluator.invalidInputs) {
-            this.seed = evaluator.seed;
-            this.random = new NumberGenerator(this.seed);
+        this.seed = evaluator.seed;
+        this.random = new NumberGenerator(this.seed);
 
-            // If the previous evaluator has any raw inputs, replay them on this evaluator.
-            if (evaluator.#inputs.length > 0) {
-                // 1) run the initial evaluation, creating any iniital streams
-                this.setMode(Mode.Play);
-                this.start();
-                this.finish();
-                this.pause();
+        // If the previous evaluator has any raw inputs, replay them on this evaluator.
+        if (evaluator.#inputs.length > 0) {
+            // 1) run the initial evaluation, creating any iniital streams
+            this.setMode(Mode.Play);
+            this.start();
+            this.finish();
+            this.pause();
 
-                // Note that we're replaying so that the streams accept values even though we're paused.
-                this.replaying = true;
+            // Note that we're replaying so that the streams accept values even though we're paused.
+            this.#replayingInputs = true;
 
-                // Iterate through all input and see if we can map them to a new node and it's corresponding stream.
-                for (let i = 0; i < evaluator.#inputs.length; i++) {
-                    const input = evaluator.#inputs[i];
-                    // Is it a flush? Flush.
-                    if (input === null) this.flush();
-                    // See if we can find the corresponding stream.
-                    else {
-                        // Resolve the node from the path.
-                        let evaluate = this.resolvePath(input.path);
+            // Iterate through all input and see if we can map them to a new node and it's corresponding stream.
+            for (let i = 0; i < evaluator.#inputs.length; i++) {
+                const input = evaluator.#inputs[i];
+                // Is it a flush? Flush.
+                if (input === null) this.flush();
+                // See if we can find the corresponding stream.
+                else {
+                    // Resolve the node from the path.
+                    let evaluate = this.project.resolvePath(input.path);
 
-                        // Couldn't find the node, or it's not an evaluate? Stop here.
-                        if (evaluate === undefined) {
-                            // console.error(
-                            //     "Couldn't resolve " + JSON.stringify(input.path)
-                            // );
-                            break;
-                        }
-
-                        if (!(evaluate instanceof Evaluate)) {
-                            // console.error(
-                            //     "Found a node, but it's not an evaluate:" +
-                            //         JSON.stringify(input.path)
-                            // );
-                            break;
-                        }
-                        const streams = this.basisStreams.get(evaluate);
-
-                        // Couldn't find a corresponding list of streams associated with this node? Stop here.
-                        if (streams === undefined) {
-                            // console.error(
-                            //     "Couldn't resolve streams for " +
-                            //         evaluate.toWordplay()
-                            // );
-                            break;
-                        }
-
-                        const stream = streams[input.number];
-
-                        // Couldn't find a corresponding stream? Stop here.
-                        if (stream === undefined) {
-                            // console.error(
-                            //     "Couldn't resolve stream number " + input.number
-                            // );
-                            break;
-                        }
-
-                        // React to the input.
-                        stream.react(input.raw);
+                    // Couldn't find the node, or it's not an evaluate? Stop here.
+                    if (evaluate === undefined) {
+                        // console.error(
+                        //     "Couldn't resolve " + JSON.stringify(input.path)
+                        // );
+                        break;
                     }
-                }
 
-                // Finally, step back to where the evaluator was.
-                if (evaluator.getStepIndex() < this.#stepCount)
-                    this.stepTo(evaluator.getStepIndex());
+                    if (!(evaluate instanceof Evaluate)) {
+                        // console.error(
+                        //     "Found a node, but it's not an evaluate:" +
+                        //         JSON.stringify(input.path)
+                        // );
+                        break;
+                    }
+                    const streams = this.basisStreams.get(evaluate);
 
-                this.replaying = false;
+                    // Couldn't find a corresponding list of streams associated with this node? Stop here.
+                    if (streams === undefined) {
+                        // console.error(
+                        //     "Couldn't resolve streams for " +
+                        //         evaluate.toWordplay()
+                        // );
+                        break;
+                    }
 
-                if (evaluator.getMode() === Mode.Play) this.setMode(Mode.Play);
-            } else {
-                const isPlaying = evaluator.getMode() === Mode.Play;
-                if (isPlaying) {
-                    // Set the evaluator's playing state to the current playing state.
-                    this.setMode(Mode.Play);
-                } else {
-                    // Play to the same place the old project's evaluator was at.
-                    this.start();
-                    this.setMode(Mode.Step);
+                    const stream = streams[input.number];
+
+                    // Couldn't find a corresponding stream? Stop here.
+                    if (stream === undefined) {
+                        // console.error(
+                        //     "Couldn't resolve stream number " + input.number
+                        // );
+                        break;
+                    }
+
+                    // React to the input.
+                    stream.react(input.raw);
                 }
             }
-        }
-    }
 
-    resolvePath(path: Path) {
-        // Resolve the node from the path.
-        let evaluate: Node | undefined = undefined;
-        for (const root of this.project.roots) {
-            evaluate = root.resolvePath(path);
-            if (evaluate !== undefined) break;
+            // Finally, step back to where the evaluator was.
+            if (evaluator.getStepIndex() < this.#stepCount)
+                this.stepTo(evaluator.getStepIndex());
+
+            this.#replayingInputs = false;
+
+            if (evaluator.getMode() === Mode.Play) this.setMode(Mode.Play);
+        } else {
+            const isPlaying = evaluator.getMode() === Mode.Play;
+            if (isPlaying) {
+                // Set the evaluator's playing state to the current playing state.
+                this.setMode(Mode.Play);
+            } else {
+                // Play to the same place the old project's evaluator was at.
+                this.start();
+                this.setMode(Mode.Step);
+            }
         }
-        return evaluate;
     }
 
     // GETTERS
@@ -529,6 +512,10 @@ export default class Evaluator {
         return this.mode === Mode.Step;
     }
 
+    isReplayingInputs() {
+        return this.#replayingInputs;
+    }
+
     isDone() {
         return this.evaluations.length === 0;
     }
@@ -671,7 +658,7 @@ export default class Evaluator {
         this.broadcast();
 
         // If in play mode, we finish (and notify listeners again).
-        if (this.replaying || this.isPlaying()) this.finish();
+        if (this.#replayingInputs || this.isPlaying()) this.finish();
     }
 
     play() {
@@ -997,7 +984,8 @@ export default class Evaluator {
     }
 
     broadcast() {
-        if (!this.replaying) this.observers.forEach((observer) => observer());
+        if (!this.#replayingInputs)
+            this.observers.forEach((observer) => observer());
     }
 
     // STREAM AND REACTION MANAGMEENT
@@ -1144,28 +1132,30 @@ export default class Evaluator {
     }
 
     tick(time: DOMHighResTimeStamp) {
-        // First time? Just record it.
-        if (this.previousTime === undefined) this.previousTime = time;
+        // First time? Just record it and bail.
+        if (this.previousTime === undefined) {
+            this.previousTime = time;
+        } else {
+            // Compute the delta and remember the previous time.
+            const delta = time - this.previousTime;
+            this.previousTime = time;
 
-        // Compute the delta and remember the previous time.
-        const delta = time - this.previousTime;
-        this.previousTime = time;
+            // If we're in play mode, tick all the temporal streams.
+            if (!this.isStepping()) {
+                if (this.temporalReactions.length > 0)
+                    console.error(
+                        "Hmmm, something is modifying temporal streams outside of the Evaluator's control. Tsk tsk!"
+                    );
+                // Tick each one, indirectly filling this.temporalReactions.
+                for (const stream of this.basisTemporalStreams)
+                    stream.tick(time, delta, this.timeMultiplier);
 
-        // If we're in play mode, tick all the temporal streams.
-        if (!this.isStepping()) {
-            if (this.temporalReactions.length > 0)
-                console.error(
-                    "Hmmm, something is modifying temporal streams outside of the Evaluator's control. Tsk tsk!"
-                );
-            // Tick each one, indirectly filling this.temporalReactions.
-            for (const stream of this.basisTemporalStreams)
-                stream.tick(time, delta, this.timeMultiplier);
+                // Now reevaluate with all of the temporal stream updates.
+                this.flush();
 
-            // Now reevaluate with all of the temporal stream updates.
-            this.flush();
-
-            // Remember that we did in the history, so we can replay evaluation.
-            this.#inputs.push(null);
+                // Remember that we did in the history, so we can replay evaluation.
+                this.#inputs.push(null);
+            }
         }
 
         // Tick again in a bit if we're not stopped.

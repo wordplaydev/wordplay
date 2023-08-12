@@ -1542,6 +1542,21 @@
                 "names": {
                   "$ref": "#/definitions/NameText"
                 },
+                "startplace": {
+                  "$ref": "#/definitions/NameAndDoc"
+                },
+                "startvangle": {
+                  "$ref": "#/definitions/NameAndDoc"
+                },
+                "startvx": {
+                  "$ref": "#/definitions/NameAndDoc"
+                },
+                "startvy": {
+                  "$ref": "#/definitions/NameAndDoc"
+                },
+                "startvz": {
+                  "$ref": "#/definitions/NameAndDoc"
+                },
                 "type": {
                   "$ref": "#/definitions/NameAndDoc"
                 },
@@ -1564,11 +1579,41 @@
                 "gravity",
                 "mass",
                 "names",
+                "startplace",
+                "startvangle",
+                "startvx",
+                "startvy",
+                "startvz",
                 "type",
                 "vangle",
                 "vx",
                 "vy",
                 "vz"
+              ],
+              "type": "object"
+            },
+            "Placement": {
+              "additionalProperties": false,
+              "properties": {
+                "doc": {
+                  "$ref": "#/definitions/DocText"
+                },
+                "inputs": {
+                  "items": {
+                    "$ref": "#/definitions/NameAndDoc"
+                  },
+                  "maxItems": 5,
+                  "minItems": 5,
+                  "type": "array"
+                },
+                "names": {
+                  "$ref": "#/definitions/NameText"
+                }
+              },
+              "required": [
+                "doc",
+                "inputs",
+                "names"
               ],
               "type": "object"
             },
@@ -1630,7 +1675,8 @@
             "Time",
             "Mic",
             "Camera",
-            "Motion"
+            "Motion",
+            "Placement"
           ],
           "type": "object"
         },
@@ -4426,10 +4472,10 @@
                 "duration": {
                   "$ref": "#/definitions/NameAndDoc"
                 },
-                "enter": {
+                "entering": {
                   "$ref": "#/definitions/NameAndDoc"
                 },
-                "exit": {
+                "exiting": {
                   "$ref": "#/definitions/NameAndDoc"
                 },
                 "family": {
@@ -4441,7 +4487,7 @@
                 "flipy": {
                   "$ref": "#/definitions/NameAndDoc"
                 },
-                "move": {
+                "moving": {
                   "$ref": "#/definitions/NameAndDoc"
                 },
                 "name": {
@@ -4459,7 +4505,7 @@
                 "place": {
                   "$ref": "#/definitions/NameAndDoc"
                 },
-                "rest": {
+                "resting": {
                   "$ref": "#/definitions/NameAndDoc"
                 },
                 "rotation": {
@@ -4482,18 +4528,18 @@
                 "color",
                 "doc",
                 "duration",
-                "enter",
-                "exit",
+                "entering",
+                "exiting",
                 "family",
                 "flipx",
                 "flipy",
-                "move",
+                "moving",
                 "name",
                 "names",
                 "offset",
                 "opacity",
                 "place",
-                "rest",
+                "resting",
                 "rotation",
                 "scale",
                 "selectable",
@@ -5095,6 +5141,18 @@
                 "copy": {
                   "type": "string"
                 },
+                "createGroup": {
+                  "description": "The button that creates a group when there is none",
+                  "type": "string"
+                },
+                "createPhrase": {
+                  "description": "The button that creates a phrase when there is none",
+                  "type": "string"
+                },
+                "createStage": {
+                  "description": "The button that creates a stage when there is none",
+                  "type": "string"
+                },
                 "cursorContainer": {
                   "type": "string"
                 },
@@ -5500,7 +5558,10 @@
                 "focusPalette",
                 "focusCycle",
                 "conceptLink",
-                "timeline"
+                "timeline",
+                "createPhrase",
+                "createGroup",
+                "createStage"
               ],
               "type": "object"
             },
@@ -5628,9 +5689,6 @@
                 "editCode": {
                   "type": "string"
                 },
-                "editing": {
-                  "type": "string"
-                },
                 "examples": {
                   "type": "string"
                 },
@@ -5666,9 +5724,6 @@
                   "description": "Documentation header in structure before properties",
                   "type": "string"
                 },
-                "select": {
-                  "type": "string"
-                },
                 "selectedLocales": {
                   "description": "How to label the locales that have been selected",
                   "type": "string"
@@ -5680,8 +5735,6 @@
               },
               "required": [
                 "learn",
-                "editing",
-                "select",
                 "projects",
                 "examples",
                 "inputs",
@@ -5810,6 +5863,34 @@
               ],
               "type": "object"
             },
+            "palette": {
+              "additionalProperties": false,
+              "properties": {
+                "editing": {
+                  "$ref": "#/definitions/Template"
+                },
+                "offerGroup": {
+                  "$ref": "#/definitions/Template"
+                },
+                "offerPhrase": {
+                  "$ref": "#/definitions/Template"
+                },
+                "offerStage": {
+                  "$ref": "#/definitions/Template"
+                },
+                "pauseToEdit": {
+                  "$ref": "#/definitions/Template"
+                }
+              },
+              "required": [
+                "offerPhrase",
+                "offerGroup",
+                "offerStage",
+                "pauseToEdit",
+                "editing"
+              ],
+              "type": "object"
+            },
             "phrases": {
               "additionalProperties": false,
               "properties": {
@@ -5935,6 +6016,7 @@
             "labels",
             "header",
             "section",
+            "palette",
             "feedback",
             "login",
             "edit",

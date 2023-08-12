@@ -59,7 +59,8 @@ export default abstract class StreamValue<
 
     add(value: ValueType, raw: Raw, silent: boolean = false) {
         // Ignore values during stepping.
-        if (!this.evaluator.replaying && this.evaluator.isStepping()) return;
+        if (!this.evaluator.isReplayingInputs() && this.evaluator.isStepping())
+            return;
 
         // Update the time.
         this.values.push({
@@ -160,8 +161,7 @@ export default abstract class StreamValue<
     abstract stop(): void;
 
     getSize() {
-        let sum = 0;
-        for (const value of this.values) sum += value.value.getSize();
-        return sum;
+        // Estimate based on most recent value.
+        return this.values.length * (this.values.at(-1)?.value.getSize() ?? 0);
     }
 }

@@ -37,6 +37,7 @@
 
     // Visible if z is ahead of focus and font size is greater than 0.
     $: visible = place.z > focus.z && (phrase.size ?? context.size > 0);
+
     // Get the phrase's text in the preferred language
     $: text = phrase.getLocalizedTextOrDoc($config.getLocales());
     $: empty = phrase.isEmpty();
@@ -219,6 +220,10 @@
         white-space: nowrap;
         width: fit-content;
         height: fit-content;
+
+        /** Put the group in a layer to offload rendering to the GPU */
+        will-change: transform, opacity, width, height, font-size, font-family,
+            color, transform-origin;
     }
 
     :global(.editing) .phrase {

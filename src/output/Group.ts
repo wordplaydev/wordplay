@@ -42,10 +42,10 @@ export default class Group extends TypeOutput {
         name: TextLang | string,
         selectable: boolean,
         pose: DefinitePose,
-        enter: Pose | Sequence | undefined = undefined,
-        rest: Pose | Sequence | undefined = undefined,
-        move: Pose | Sequence | undefined = undefined,
-        exit: Pose | Sequence | undefined = undefined,
+        entering: Pose | Sequence | undefined = undefined,
+        resting: Pose | Sequence | undefined = undefined,
+        moving: Pose | Sequence | undefined = undefined,
+        exiting: Pose | Sequence | undefined = undefined,
         duration: number,
         style: string
     ) {
@@ -57,10 +57,10 @@ export default class Group extends TypeOutput {
             name,
             selectable,
             pose,
-            enter,
-            rest,
-            move,
-            exit,
+            entering,
+            resting,
+            moving,
+            exiting,
             duration,
             style
         );
@@ -86,6 +86,15 @@ export default class Group extends TypeOutput {
 
     getOutput() {
         return this.content;
+    }
+
+    find(check: (output: TypeOutput) => boolean): TypeOutput | undefined {
+        for (const output of this.content) {
+            if (output !== null) {
+                if (check(output)) return output;
+            }
+        }
+        return undefined;
     }
 
     getBackground(): Color | undefined {
@@ -123,10 +132,10 @@ export function toGroup(
         name,
         selectable,
         pose,
-        rest,
-        enter,
-        move,
-        exit,
+        resting: rest,
+        entering: enter,
+        moving: move,
+        exiting: exit,
         duration,
         style,
     } = getStyle(project, value, 2);

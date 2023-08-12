@@ -126,6 +126,10 @@
         position: absolute;
         left: 0;
         top: 0;
+
+        /** Put the group in a layer to offload rendering to the GPU */
+        will-change: transform, opacity, width, height, clip-path, font-size,
+            font-family, color, transform-origin;
     }
 
     .frame {

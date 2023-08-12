@@ -172,7 +172,7 @@ export default class OutputAnimation {
 
     /** Change to the entering state.  */
     enter() {
-        const enter = this.output.enter;
+        const enter = this.output.entering;
         // No entry pose or animation? Start still.
         if (enter === undefined) this.rest();
         // Otherwise, transition to from entry to rest
@@ -234,7 +234,7 @@ export default class OutputAnimation {
     }
 
     move(prior: Orientation, present: Orientation) {
-        const move = this.output.move;
+        const move = this.output.moving ?? this.output.pose;
         const rest = this.output.getFirstRestPose();
 
         this.log(`Moving from ${prior.toString()} to ${present.toString()}`);
@@ -304,7 +304,7 @@ export default class OutputAnimation {
 
     exit() {
         // If there's an exit pose, animate from rest to exit.
-        if (this.output.exit instanceof Pose) {
+        if (this.output.exiting instanceof Pose) {
             // Get the first rest pose.
             const rest = this.output.getFirstRestPose();
 
@@ -314,7 +314,7 @@ export default class OutputAnimation {
                 new Transition(
                     undefined,
                     this.output.size,
-                    rest ?? this.output.exit,
+                    rest ?? this.output.exiting,
                     0,
                     this.output.style
                 ),
@@ -322,13 +322,13 @@ export default class OutputAnimation {
                 new Transition(
                     undefined,
                     this.output.size,
-                    this.output.exit,
+                    this.output.exiting,
                     this.output.duration,
                     this.output.style
                 ),
             ]);
-        } else if (this.output.exit instanceof Sequence) {
-            const sequence = this.output.exit.compile();
+        } else if (this.output.exiting instanceof Sequence) {
+            const sequence = this.output.exiting.compile();
             if (sequence) this.start(State.Exiting, sequence);
             else this.exited();
         }

@@ -76,6 +76,7 @@ export type CommandContext = {
     toggleMenu?: () => void;
     fullscreen?: (on: boolean) => void;
     focusOrCycleTile?: (content?: Content) => void;
+    resetInputs?: () => void;
     help?: () => void;
 };
 
@@ -278,8 +279,10 @@ export const Restart: Command = {
     alt: false,
     control: true,
     execute: (context) => {
+        // Don't handle this if we don't have access to the reset function.
+        if (context.resetInputs === undefined) return false;
         // Mark the inputs invalid so we don't inherit them
-        context.evaluator.invalidateInputs();
+        context.resetInputs();
         context.database.reviseProject(
             context.evaluator.project,
             context.evaluator.project.clone()

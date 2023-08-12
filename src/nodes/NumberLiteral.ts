@@ -22,7 +22,8 @@ export default class NumberLiteral extends Literal {
     readonly number: Token;
     readonly unit: Unit | undefined;
 
-    #cache: Decimal | undefined;
+    #numberCache: Decimal | undefined;
+    #precisionCache: number | undefined;
 
     constructor(number: Token, unit?: Unit) {
         super();
@@ -124,10 +125,17 @@ export default class NumberLiteral extends Literal {
     }
 
     getValue() {
-        if (this.#cache) return new NumberValue(this, this.#cache, this.unit);
+        if (this.#numberCache)
+            return new NumberValue(
+                this,
+                this.#numberCache,
+                this.unit,
+                this.#precisionCache
+            );
         else {
             const value = new NumberValue(this, this.number, this.unit);
-            this.#cache = value.num;
+            this.#numberCache = value.num;
+            this.#precisionCache = value.precision;
             return value;
         }
     }

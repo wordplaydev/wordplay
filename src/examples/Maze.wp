@@ -51,18 +51,18 @@ Stage(
 		Group(
 			Grid(3 3 0.25m)
 			[
-				ø Phrase('↑' name: 'up' selectable: up rest: Pose(opacity: up ? 1 0.2)) ø
-				Phrase('←' name: 'left' selectable: left rest: Pose(opacity: left ? 1 0.2))
-				Phrase(current rest: won ? 
+				ø Phrase('↑' name: 'up' selectable: up resting:Pose(opacity: up ? 1 0.2)) ø
+				Phrase('←' name: 'left' selectable: left resting:Pose(opacity: left ? 1 0.2))
+				Phrase(current resting:won ? 
 									Sequence(spin() ⏳: 1s style: 'straight') 
 									Pose())
-				Phrase('→' name: 'right' selectable: right rest: Pose(opacity: right ? 1 0.2))
-				ø Phrase('↓' name: 'down' selectable: down rest: Pose(opacity: down ? 1 0.2)) ø
+				Phrase('→' name: 'right' selectable: right resting:Pose(opacity: right ? 1 0.2))
+				ø Phrase('↓' name: 'down' selectable: down resting:Pose(opacity: down ? 1 0.2)) ø
 			]
 	  )
 	]
   	place: Place(0m 0m -3m)
 	font: 'Noto Emoji'
   	background: Color(0 0 0°)
-	rest: Pose(Color(100 100 0°))
+	resting:Pose(Color(100 100 0°))
 )

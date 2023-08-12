@@ -14,7 +14,6 @@ import { getDocLocales } from '@locale/getDocLocales';
 import { getNameLocales } from '@locale/getNameLocales';
 import createStreamEvaluator from './createStreamEvaluator';
 import type TypeOutput from '../output/TypeOutput';
-import type Value from '../values/Value';
 import { toTypeOutput } from '../output/toTypeOutput';
 import Evaluate from '../nodes/Evaluate';
 import ValueException from '../values/ValueException';
@@ -22,21 +21,28 @@ import UnionType from '../nodes/UnionType';
 import NoneLiteral from '../nodes/NoneLiteral';
 import type Locale from '../locale/Locale';
 import type StructureDefinition from '../nodes/StructureDefinition';
+import type Value from '../values/Value';
+import Decimal from 'decimal.js';
+import { getFirstName } from '../locale/Locale';
+import NameType from '../nodes/NameType';
+
+const Bounciness = 0.5;
+const Gravity = 9.8;
 
 export default class Motion extends TemporalStreamValue<Value, number> {
-    type: TypeOutput;
+    output: TypeOutput;
 
     /** The current location and angle of the object. */
-    x: number;
-    y: number;
-    z: number;
-    angle: number;
+    x: Decimal;
+    y: Decimal;
+    z: Decimal;
+    angle: Decimal;
 
     /** The current velocity the object.  */
-    vx: number;
-    vy: number;
-    vz: number;
-    va: number;
+    vx: Decimal;
+    vy: Decimal;
+    vz: Decimal;
+    va: Decimal;
 
     /* Collision and gravity properties.. */
     mass: number;
@@ -46,31 +52,53 @@ export default class Motion extends TemporalStreamValue<Value, number> {
     constructor(
         evaluator: Evaluator,
         type: TypeOutput,
-        vx: number | undefined,
-        vy: number | undefined,
-        vz: number | undefined,
-        vangle: number | undefined,
+        startplace: Value | undefined,
+        startvx: number | undefined,
+        startvy: number | undefined,
+        startvz: number | undefined,
+        startvangle: number | undefined,
         mass: number | undefined,
         bounciness: number | undefined,
         gravity: number | undefined
     ) {
         super(evaluator, evaluator.project.shares.input.Motion, type.value, 0);
 
-        this.type = type;
+        this.output = type;
 
-        this.x = type.place?.x ?? 0;
-        this.y = type.place?.y ?? 0;
-        this.z = type.place?.z ?? 0;
-        this.angle = type.pose.rotation ?? 0;
+        const place =
+            startplace instanceof StructureValue &&
+            startplace.is(evaluator.project.shares.output.Place)
+                ? startplace
+                : undefined;
+        const startX = place?.getInput(0);
+        const startY = place?.getInput(1);
+        const startZ = place?.getInput(2);
 
-        this.vx = vx ?? 0;
-        this.vy = vy ?? 0;
-        this.vz = vz ?? 0;
-        this.va = vangle ?? 0;
+        this.x = new Decimal(
+            (startX instanceof NumberValue ? startX.toNumber() : undefined) ??
+                type.place?.x ??
+                0
+        );
+        this.y = new Decimal(
+            (startY instanceof NumberValue ? startY.toNumber() : undefined) ??
+                type.place?.y ??
+                0
+        );
+        this.z = new Decimal(
+            (startZ instanceof NumberValue ? startZ.toNumber() : undefined) ??
+                type.place?.z ??
+                0
+        );
+        this.angle = new Decimal(type.pose.rotation ?? 0);
+
+        this.vx = new Decimal(startvx ?? 0);
+        this.vy = new Decimal(startvy ?? 0);
+        this.vz = new Decimal(startvz ?? 0);
+        this.va = new Decimal(startvangle ?? 0);
 
         this.mass = mass ?? 1;
-        this.bounciness = bounciness ?? 0.75;
-        this.gravity = gravity ?? 9.8;
+        this.bounciness = bounciness ?? Bounciness;
+        this.gravity = gravity ?? Gravity;
     }
 
     // No setup or teardown, the Evaluator handles the requestAnimationFrame loop.
@@ -78,7 +106,7 @@ export default class Motion extends TemporalStreamValue<Value, number> {
     stop() {}
 
     update(
-        type: TypeOutput | undefined,
+        output: TypeOutput | undefined,
         vx: number | undefined,
         vy: number | undefined,
         vz: number | undefined,
@@ -87,17 +115,18 @@ export default class Motion extends TemporalStreamValue<Value, number> {
         bounciness: number | undefined,
         gravity: number | undefined
     ) {
-        if (type) {
-            this.x = type.place?.x ?? this.x;
-            this.y = type.place?.y ?? this.y;
-            this.z = type.place?.z ?? this.z;
-            this.angle = type.pose.rotation ?? this.angle;
+        if (output) {
+            this.output = output;
+            this.x = new Decimal(output.place?.x ?? this.x);
+            this.y = new Decimal(output.place?.y ?? this.y);
+            this.z = new Decimal(output.place?.z ?? this.z);
+            this.angle = new Decimal(output.pose.rotation ?? this.angle);
         }
 
-        this.vx = vx ?? this.vx;
-        this.vy = vy ?? this.vy;
-        this.vz = vz ?? this.vz;
-        this.va = vangle ?? this.va;
+        this.vx = new Decimal(vx ?? this.vx);
+        this.vy = new Decimal(vy ?? this.vy);
+        this.vz = new Decimal(vz ?? this.vz);
+        this.va = new Decimal(vangle ?? this.va);
 
         if (mass !== undefined) this.mass = mass;
         if (bounciness !== undefined) this.bounciness = bounciness;
@@ -106,28 +135,28 @@ export default class Motion extends TemporalStreamValue<Value, number> {
 
     react(delta: number) {
         // First, apply gravity to the y velocity proporitional to elapsed time.
-        this.vy -= this.gravity * delta;
+        this.vy = this.vy.sub(this.gravity * delta);
 
         // Then, apply velocity to place.
-        this.x += this.vx * delta;
-        this.y += this.vy * delta;
-        this.z += this.vz * delta;
-        this.angle += this.va * delta;
+        this.x = this.x.plus(this.vx.times(delta));
+        this.y = this.y.plus(this.vy.times(delta));
+        this.z = this.z.plus(this.vz.times(delta));
+        this.angle = this.angle.plus(this.va.times(delta));
 
         // If we collide with 0, negate y velocity.
-        if (this.y < 0) {
-            this.y = 0;
-            this.vy = -this.vy * this.bounciness;
-            this.vx = this.vx * this.bounciness;
-            this.va = this.va * this.bounciness;
+        if (this.y.lessThanOrEqualTo(0)) {
+            this.y = new Decimal(0);
+            this.vy = this.vy.neg().times(this.bounciness);
+            this.vx = this.vx.times(this.bounciness);
+            this.va = this.va.times(this.bounciness);
         }
 
         // Get the type so we can clone and modify it.
-        const type = this.type.value;
-        if (type instanceof StructureValue) {
+        const output = this.output.value;
+        if (output instanceof StructureValue) {
             const creator =
-                type.creator instanceof Evaluate
-                    ? type.creator
+                output.creator instanceof Evaluate
+                    ? output.creator
                     : this.definition;
 
             const en = this.evaluator.project.basis.locales[0];
@@ -142,11 +171,16 @@ export default class Motion extends TemporalStreamValue<Value, number> {
                     : en.output.Type.rotation.names[0];
 
             // Create a new type output with an updated place.
-            const revised = type
+            const revised = output
                 .withValue(
                     creator,
                     PlaceName,
-                    createPlaceStructure(this.evaluator, this.x, this.y, this.z)
+                    createPlaceStructure(
+                        this.evaluator,
+                        this.x.toNumber(),
+                        this.y.toNumber(),
+                        this.z.toNumber()
+                    )
                 )
                 ?.withValue(
                     creator,
@@ -186,34 +220,77 @@ export function createMotionDefinition(
     TypeType: StructureDefinition,
     PhraseType: StructureDefinition
 ) {
+    const PlaceName = getFirstName(locales[0].output.Place.names);
+
     const TypeBind = Bind.make(
         getDocLocales(locales, (locale) => locale.input.Motion.type.doc),
         getNameLocales(locales, (locale) => locale.input.Motion.type.names),
         new StructureType(TypeType)
     );
 
-    const VXBind = Bind.make(
+    const StartPlace = Bind.make(
+        getDocLocales(locales, (locale) => locale.input.Motion.startplace.doc),
+        getNameLocales(
+            locales,
+            (locale) => locale.input.Motion.startplace.names
+        ),
+        UnionType.orNone(NameType.make(PlaceName)),
+        NoneLiteral.make()
+    );
+
+    const StartVX = Bind.make(
+        getDocLocales(locales, (locale) => locale.input.Motion.startvx.doc),
+        getNameLocales(locales, (locale) => locale.input.Motion.startvx.names),
+        UnionType.orNone(SpeedType.clone()),
+        NoneLiteral.make()
+    );
+
+    const StartVY = Bind.make(
+        getDocLocales(locales, (locale) => locale.input.Motion.startvy.doc),
+        getNameLocales(locales, (locale) => locale.input.Motion.startvy.names),
+        UnionType.orNone(SpeedType.clone()),
+        NoneLiteral.make()
+    );
+
+    const StartVZ = Bind.make(
+        getDocLocales(locales, (locale) => locale.input.Motion.startvz.doc),
+        getNameLocales(locales, (locale) => locale.input.Motion.startvz.names),
+        UnionType.orNone(SpeedType.clone()),
+        NoneLiteral.make()
+    );
+
+    const StartVAngle = Bind.make(
+        getDocLocales(locales, (locale) => locale.input.Motion.startvangle.doc),
+        getNameLocales(
+            locales,
+            (locale) => locale.input.Motion.startvangle.names
+        ),
+        UnionType.orNone(AngleSpeedType.clone()),
+        NoneLiteral.make()
+    );
+
+    const VX = Bind.make(
         getDocLocales(locales, (locale) => locale.input.Motion.vx.doc),
         getNameLocales(locales, (locale) => locale.input.Motion.vx.names),
         UnionType.orNone(SpeedType.clone()),
         NoneLiteral.make()
     );
 
-    const VYBind = Bind.make(
+    const VY = Bind.make(
         getDocLocales(locales, (locale) => locale.input.Motion.vy.doc),
         getNameLocales(locales, (locale) => locale.input.Motion.vy.names),
         UnionType.orNone(SpeedType.clone()),
         NoneLiteral.make()
     );
 
-    const VZBind = Bind.make(
+    const VZ = Bind.make(
         getDocLocales(locales, (locale) => locale.input.Motion.vz.doc),
         getNameLocales(locales, (locale) => locale.input.Motion.vz.names),
         UnionType.orNone(SpeedType.clone()),
         NoneLiteral.make()
     );
 
-    const VAngleBind = Bind.make(
+    const VAngle = Bind.make(
         getDocLocales(locales, (locale) => locale.input.Motion.vangle.doc),
         getNameLocales(locales, (locale) => locale.input.Motion.vangle.names),
         UnionType.orNone(AngleSpeedType.clone()),
@@ -235,14 +312,14 @@ export function createMotionDefinition(
             (locale) => locale.input.Motion.bounciness.names
         ),
         UnionType.orNone(NumberType.make()),
-        NumberLiteral.make(0.75)
+        NumberLiteral.make(Bounciness)
     );
 
     const GravityBind = Bind.make(
         getDocLocales(locales, (locale) => locale.input.Motion.gravity.doc),
         getNameLocales(locales, (locale) => locale.input.Motion.gravity.names),
         UnionType.orNone(NumberType.make(Unit.reuse(['m'], ['s', 's']))),
-        NumberLiteral.make(15, Unit.reuse(['m'], ['s', 's']))
+        NumberLiteral.make(9.8, Unit.reuse(['m'], ['s', 's']))
     );
 
     const type = new StructureType(PhraseType);
@@ -252,10 +329,15 @@ export function createMotionDefinition(
         getNameLocales(locales, (locale) => locale.input.Motion.names),
         [
             TypeBind,
-            VXBind,
-            VYBind,
-            VZBind,
-            VAngleBind,
+            StartPlace,
+            StartVX,
+            StartVY,
+            StartVZ,
+            StartVAngle,
+            VX,
+            VY,
+            VZ,
+            VAngle,
             MassBind,
             BouncinessBind,
             GravityBind,
@@ -272,11 +354,18 @@ export function createMotionDefinition(
                     ? new Motion(
                           evaluation.getEvaluator(),
                           type,
-                          evaluation.get(VXBind.names, NumberValue)?.toNumber(),
-                          evaluation.get(VYBind.names, NumberValue)?.toNumber(),
-                          evaluation.get(VZBind.names, NumberValue)?.toNumber(),
+                          evaluation.get(StartPlace.names, StructureValue),
                           evaluation
-                              .get(VAngleBind.names, NumberValue)
+                              .get(StartVX.names, NumberValue)
+                              ?.toNumber(),
+                          evaluation
+                              .get(StartVY.names, NumberValue)
+                              ?.toNumber(),
+                          evaluation
+                              .get(StartVZ.names, NumberValue)
+                              ?.toNumber(),
+                          evaluation
+                              .get(StartVAngle.names, NumberValue)
                               ?.toNumber(),
                           evaluation
                               .get(MassBind.names, NumberValue)
@@ -300,10 +389,10 @@ export function createMotionDefinition(
                         evaluation.getEvaluator().project,
                         evaluation.get(TypeBind.names, StructureValue)
                     ),
-                    evaluation.get(VXBind.names, NumberValue)?.toNumber(),
-                    evaluation.get(VYBind.names, NumberValue)?.toNumber(),
-                    evaluation.get(VZBind.names, NumberValue)?.toNumber(),
-                    evaluation.get(VAngleBind.names, NumberValue)?.toNumber(),
+                    evaluation.get(VX.names, NumberValue)?.toNumber(),
+                    evaluation.get(VY.names, NumberValue)?.toNumber(),
+                    evaluation.get(VZ.names, NumberValue)?.toNumber(),
+                    evaluation.get(VAngle.names, NumberValue)?.toNumber(),
                     evaluation.get(MassBind.names, NumberValue)?.toNumber(),
                     evaluation
                         .get(BouncinessBind.names, NumberValue)

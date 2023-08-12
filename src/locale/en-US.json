@@ -3,7 +3,7 @@
     "language": "en",
     "region": "US",
     "wordplay": "Wordplay",
-    "newProject": "Phrase('🐈' rest: Sequence(sway() 1s))",
+    "newProject": "Phrase('🐈' resting:Sequence(sway() 1s))",
     "term": {
         "bind": "bind",
         "evaluate": "evaluate",
@@ -2675,7 +2675,9 @@
                 "And if you give it two values, it will generate values between and including the two values:",
                 "\\Random(-10 10)\\",
                 "If your ranges have units, they will be preserved (and if they don't match, the minimum's unit will be used):",
-                "\\Random(-10m 10m)\\"
+                "\\Random(-10m 10m)\\",
+                "And if you give numbers with particular numbers of significant digits after the decimal point, that precision will be preserved.",
+                "\\Random(1.00 10.00)\\"
             ],
             "names": ["🎲", "Random"],
             "inputs": [
@@ -2816,29 +2818,49 @@
                 "/Hi! @FunctionDefinition here. How about I explain @Motion?",
                 "Basically, @Motion is a stream of @Phrase. You give it a starting @Phrase, and then it refines it with a new place and rotation based on gravity.",
                 "This let's you do really simple things like creating bouncing emoji:",
-                "\\Motion(Phrase('o' place: ◆ ? Place(0m 10m) ø))\\",
+                "\\Motion(Phrase('o') startplace: Place(0m 10m))\\",
                 "See how the o bounces? On the first evaluation, we give it a place up high on @Stage, but then after, it gets @None, which allows @Motion to change it to whatever position gravity would place it.",
                 "Check out the many other ways to configure it below."
             ],
             "names": ["⚽️", "Motion"],
             "type": {
-                "doc": "The @Phrase to refine with new @Type/rest places and rotations.",
+                "doc": "The @Phrase to refine with new @Type/resting places and rotations.",
                 "names": "type"
             },
+            "startplace": {
+                "doc": "The initial place for the @Phrase.",
+                "names": "startplace"
+            },
+            "startvx": {
+                "doc": "The initial velocity on the x-axis at which the @Phrase should move.",
+                "names": "startvx"
+            },
+            "startvy": {
+                "doc": "The initial velocity on the y-axis at which the @Phrase should move. If it, it overrides gravity.",
+                "names": "startvy"
+            },
+            "startvz": {
+                "doc": "The initial velocity on the z-axis at which the @Phrase should move.",
+                "names": "startvz"
+            },
+            "startvangle": {
+                "doc": "The initial rotational velocity at which the @Phrase should rotate.",
+                "names": "startvangle"
+            },
             "vx": {
-                "doc": "The velocity on the x-axis at which the @Phrase should move.",
+                "doc": "The velocity on the x-axis at which the @Phrase should move, independent of physics.",
                 "names": "vx"
             },
             "vy": {
-                "doc": "The velocity on the y-axis at which the @Phrase should move. If it, it overrides gravity.",
+                "doc": "The velocity on the y-axis at which the @Phrase should move, independent of physics.",
                 "names": "vy"
             },
             "vz": {
-                "doc": "The velocity on the z-axis at which the @Phrase should move.",
+                "doc": "The velocity on the z-axis at which the @Phrase should move, independent of physics.",
                 "names": "vz"
             },
             "vangle": {
-                "doc": "The rotational velocity at which the @Phrase should rotate.",
+                "doc": "The rotational velocity at which the @Phrase should rotate, independent of physics.",
                 "names": "vangle"
             },
             "mass": {
@@ -2853,6 +2875,41 @@
                 "doc": "The gravity to apply to @Motion/vy.",
                 "names": "gravity"
             }
+        },
+        "Placement": {
+            "doc": [
+                "/Hey, @FunctionDefinition here. Let's talk about how to get us moving!/",
+                "So there are many ways to place us on @Stage. You can give us an explicit @Place. You could use @Motion, and let gravity do it's work. You could also put us in a @Group and let them arrange us in a particular way.",
+                "But sometimes you want to give the /audience/ control over where we are on @Stage. That's what @Placement is for.",
+                "Here's how it works: you just make a @Placement and give it to our @Place:",
+                "\\Phrase('hi' place: Placement())\\",
+                "Then, any time the audience uses an arrow key or clicks or taps on stage, the @Placement will make a new @Place that moves in the desired direction.",
+                "Try copying this to your program and moving us arrowed with the pointer or keyboard.",
+                "You can customize the @Placement, enabling and disabling movement on certain dimensions, changing how far a @Place moves, and the initial @Place the stream starts with."
+            ],
+            "names": ["✥", "Placement"],
+            "inputs": [
+                {
+                    "doc": "The initial place to start with.",
+                    "names": "start"
+                },
+                {
+                    "doc": "How many meters the place should move when the audience requests a move.",
+                    "names": "distance"
+                },
+                {
+                    "doc": "If true, allows movement on the horizontal axis. On by default.",
+                    "names": "horizontal"
+                },
+                {
+                    "doc": "If true, allows movement on the vertical axis. On by default.",
+                    "names": "vertical"
+                },
+                {
+                    "doc": "If true, allows movement on the z-axis, with the + and - keys.",
+                    "names": "depth"
+                }
+            ]
         }
     },
     "output": {
@@ -2910,21 +2967,21 @@
                 "doc": "Whether I should be mirrored on the y-axis, unless overriden by a different @Pose.",
                 "names": "flipy"
             },
-            "enter": {
+            "entering": {
                 "doc": "The @Pose or @Sequence to use upon entering the stage.",
-                "names": "enter"
+                "names": "entering"
             },
-            "rest": {
+            "resting": {
                 "doc": "The @Pose or @Sequence to use after I've entered stage, before I exit, and while my @Place isn't changing. If you don't give me one, I'll just use my defaults.",
-                "names": "rest"
+                "names": "resting"
             },
-            "move": {
+            "moving": {
                 "doc": "The @Pose or @Sequence to use when moving places, instead of my defaults.",
-                "names": "move"
+                "names": "moving"
             },
-            "exit": {
+            "exiting": {
                 "doc": "The @Pose or @Sequence to use when exiting stage.",
-                "names": "exit"
+                "names": "exiting"
             },
             "duration": {
                 "doc": "The duration to apply when moving to a different place on stage.",
@@ -3129,7 +3186,7 @@
                 "Oh. My. Gosh. Director, you look amazing today! Do you want to dance with me? It's easy.",
                 "You just need to give me a @Map, where each key represents what percent along we are in the dance, and each value of those keys is a @Pose to be.",
                 "There are /so/ many different ways you can animate with this! For example, here's a simple one:",
-                "\\Phrase('hi' rest: Sequence({0%: Pose(rotation: 360°) 100%: Pose(rotation: 0°)})\\",
+                "\\Phrase('hi' resting:Sequence({0%: Pose(rotation: 360°) 100%: Pose(rotation: 0°)})\\",
                 "This says, /at the beginning (0%), start at tilt 360, and end at tilt 0/. That'll spin us around in circles forever, since I'm set as the @Phrase's rest pose!",
                 "Try your own creative dances by playing with other inputs."
             ],
@@ -3339,7 +3396,10 @@
             "focusPalette": "focus on the palette",
             "focusCycle": "focus on the next tile",
             "conceptLink": "navigate to concept $1",
-            "timeline": "time slider"
+            "timeline": "time slider",
+            "createPhrase": "create a Phrase, showing the existing value as text",
+            "createGroup": "create a Group, wrapping any existing Phrase",
+            "createStage": "create a Stage, wrapping any existing Group or Phrase"
         },
         "prompt": {
             "deleteSource": "delete",
@@ -3367,8 +3427,6 @@
         },
         "header": {
             "learn": "Learn",
-            "select": "if you ⏸️ the stage, you can select a 💬, 🔳, or 🎭 to edit!",
-            "editing": "edit me!",
             "projects": "Performances",
             "examples": "Examples",
             "inputs": "Inputs",
@@ -3392,6 +3450,13 @@
             "output": "output",
             "palette": "palette",
             "editor": "program editor"
+        },
+        "palette": {
+            "offerPhrase": "What a gorgeous value you made! Shall I show it on @Stage?",
+            "offerGroup": "What a wonderful @Phrase you made. Do you want to bring them together into a @Group, to get them arranged?",
+            "offerStage": "VERY GOOD @Program. ADD ME TO CONTROL LIGHTING. COLORS. FRAMES.",
+            "pauseToEdit": "If you ⏸️ the stage, you can select a 💬, 🔳, or 🎭 to edit!",
+            "editing": "Edit me!"
         },
         "feedback": {
             "unknownProject": "There's no performance with this ID.",

@@ -70,6 +70,11 @@ export default class StructureValue extends Value {
         return 'structure';
     }
 
+    getInput(number: number): Value | undefined {
+        const names = this.type.inputs[number].names;
+        return names ? this.resolve(names) : undefined;
+    }
+
     resolve(name: string | Names, evaluator?: Evaluator): Value | undefined {
         const value = this.context.resolve(name);
         if (value !== undefined) return value;
@@ -84,20 +89,23 @@ export default class StructureValue extends Value {
             : new FunctionValue(basisFun, this);
     }
 
-    getNumber(name: string): number | undefined {
-        const measurement = this.resolve(name);
+    getNumber(name: string | number): number | undefined {
+        const measurement =
+            typeof name === 'number' ? this.getInput(name) : this.resolve(name);
         if (measurement instanceof NumberValue) return measurement.toNumber();
         return undefined;
     }
 
-    getBool(name: string): boolean | undefined {
-        const bool = this.resolve(name);
+    getBool(name: string | number): boolean | undefined {
+        const bool =
+            typeof name === 'number' ? this.getInput(name) : this.resolve(name);
         if (bool instanceof BoolValue) return bool.bool;
         return undefined;
     }
 
     getText(name: string): string | undefined {
-        const text = this.resolve(name);
+        const text =
+            typeof name === 'number' ? this.getInput(name) : this.resolve(name);
         if (text instanceof TextValue) return text.text.toString();
         return undefined;
     }

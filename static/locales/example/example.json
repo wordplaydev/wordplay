@@ -1563,6 +1563,11 @@
             "names": "$?",
             "doc": "$?",
             "type": { "doc": "$?", "names": "$?" },
+            "startplace": { "doc": "$?", "names": "$? startplace" },
+            "startvx": { "doc": "$?", "names": "$? startvx" },
+            "startvy": { "doc": "$?", "names": "$? startvy" },
+            "startvz": { "doc": "$?", "names": "$? startvz" },
+            "startvangle": { "doc": "$?", "names": "$? startvangle" },
             "vx": { "doc": "$?", "names": "$?" },
             "vy": { "doc": "$?", "names": "$?" },
             "vz": { "doc": "$?", "names": "$?" },
@@ -1570,6 +1575,32 @@
             "mass": { "doc": "$?", "names": "$?" },
             "bounciness": { "doc": "$?", "names": "$?" },
             "gravity": { "doc": "$?", "names": "$?" }
+        },
+        "Placement": {
+            "doc": ["$?"],
+            "names": "$? Placement",
+            "inputs": [
+                {
+                    "doc": "$?",
+                    "names": "$? start"
+                },
+                {
+                    "doc": "$?",
+                    "names": "$? distance"
+                },
+                {
+                    "doc": "$?",
+                    "names": "$? horizontal"
+                },
+                {
+                    "doc": "$?",
+                    "names": "$? vertical"
+                },
+                {
+                    "doc": "$?",
+                    "names": "$? depth"
+                }
+            ]
         }
     },
     "output": {
@@ -1609,10 +1640,10 @@
                 "doc": "$?",
                 "names": "$? flipy"
             },
-            "enter": { "doc": "$?", "names": "$?" },
-            "rest": { "doc": "$?", "names": "$?" },
-            "move": { "doc": "$?", "names": "$?" },
-            "exit": { "doc": "$?", "names": "$?" },
+            "entering": { "doc": "$?", "names": "$?" },
+            "resting": { "doc": "$?", "names": "$?" },
+            "moving": { "doc": "$?", "names": "$?" },
+            "exiting": { "doc": "$?", "names": "$?" },
             "duration": { "doc": "$?", "names": ["duración"] },
             "style": { "doc": "$?", "names": "$?" }
         },
@@ -1858,7 +1889,10 @@
             "focusPalette": "$?",
             "focusCycle": "$?",
             "conceptLink": "$?",
-            "timeline": "$?"
+            "timeline": "$?",
+            "createPhrase": "$?",
+            "createGroup": "$?",
+            "createStage": "$?"
         },
         "prompt": {
             "deleteSource": "$?",
@@ -1879,8 +1913,6 @@
         },
         "header": {
             "learn": "$?",
-            "editing": "$?",
-            "select": "$?",
             "projects": "$?",
             "examples": "$?",
             "inputs": "$?",
@@ -1904,6 +1936,13 @@
             "output": "$?",
             "palette": "$?",
             "editor": "$?"
+        },
+        "palette": {
+            "offerPhrase": "$?",
+            "offerGroup": "$?",
+            "offerStage": "$?",
+            "pauseToEdit": "$?",
+            "editing": "$?"
         },
         "feedback": { "unknownProject": "$?", "loading": "$?" },
         "login": {

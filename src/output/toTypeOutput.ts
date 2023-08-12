@@ -89,10 +89,10 @@ export function getStyle(
     selectable: boolean | undefined;
     place: Place | undefined;
     pose: DefinitePose | undefined;
-    rest: Pose | Sequence | undefined;
-    enter: Pose | Sequence | undefined;
-    move: Pose | Sequence | undefined;
-    exit: Pose | Sequence | undefined;
+    resting: Pose | Sequence | undefined;
+    entering: Pose | Sequence | undefined;
+    moving: Pose | Sequence | undefined;
+    exiting: Pose | Sequence | undefined;
     duration: number | undefined;
     style: string | undefined;
 } {
@@ -131,24 +131,16 @@ export function getStyle(
     const flipx = toBoolean(flipxVal);
     const flipy = toBoolean(flipyVal);
 
-    const pose =
-        opacity !== undefined &&
-        offset &&
-        rotation !== undefined &&
-        scale !== undefined &&
-        flipx !== undefined &&
-        flipy !== undefined
-            ? new DefinitePose(
-                  value,
-                  color,
-                  opacity,
-                  offset,
-                  rotation,
-                  scale,
-                  flipx,
-                  flipy
-              )
-            : undefined;
+    const pose = new DefinitePose(
+        value,
+        color,
+        opacity,
+        offset,
+        rotation,
+        scale,
+        flipx,
+        flipy
+    );
 
     const rest = toPose(project, restVal) ?? toSequence(project, restVal);
     const enter = toPose(project, enterVal) ?? toSequence(project, enterVal);
@@ -163,10 +155,10 @@ export function getStyle(
         name,
         selectable,
         pose,
-        rest,
-        enter,
-        move,
-        exit,
+        resting: rest,
+        entering: enter,
+        moving: move,
+        exiting: exit,
         duration,
         style: styleVal instanceof TextValue ? styleVal.text : undefined,
     };

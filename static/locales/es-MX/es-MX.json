@@ -1574,6 +1574,11 @@
             "names": "movimiento",
             "doc": "$?",
             "type": { "doc": "$?", "names": "tipo" },
+            "startplace": { "doc": "$?", "names": "$? startplace" },
+            "startvx": { "doc": "$?", "names": "$? startvx" },
+            "startvy": { "doc": "$?", "names": "$? startvy" },
+            "startvz": { "doc": "$?", "names": "$? startvz" },
+            "startvangle": { "doc": "$?", "names": "$? startvangle" },
             "vx": { "doc": "$?", "names": "vx" },
             "vy": { "doc": "$?", "names": "vy" },
             "vz": { "doc": "$?", "names": "vz" },
@@ -1581,6 +1586,32 @@
             "mass": { "doc": "$?", "names": "masa" },
             "bounciness": { "doc": "$?", "names": "rebote" },
             "gravity": { "doc": "$?", "names": "gravedad" }
+        },
+        "Placement": {
+            "doc": ["$?"],
+            "names": "$? Placement",
+            "inputs": [
+                {
+                    "doc": "$?",
+                    "names": "$? start"
+                },
+                {
+                    "doc": "$?",
+                    "names": "$? distance"
+                },
+                {
+                    "doc": "$?",
+                    "names": "$? horizontal"
+                },
+                {
+                    "doc": "$?",
+                    "names": "$? vertical"
+                },
+                {
+                    "doc": "$?",
+                    "names": "$? depth"
+                }
+            ]
         }
     },
     "output": {
@@ -1620,11 +1651,11 @@
                 "doc": "$?",
                 "names": "$? flipy"
             },
-            "enter": { "doc": "$?", "names": "ingresar" },
-            "rest": { "doc": "$?", "names": "descansar" },
-            "move": { "doc": "$?", "names": "mover" },
-            "exit": { "doc": "$?", "names": "salida" },
-            "duration": { "doc": "$?", "names": ["duración"] },
+            "entering": { "doc": "$?", "names": "$! ingresar" },
+            "resting": { "doc": "$?", "names": "$! descansar" },
+            "moving": { "doc": "$?", "names": "$! mover" },
+            "exiting": { "doc": "$?", "names": "$! salida" },
+            "duration": { "doc": "$?", "names": "duración" },
             "style": { "doc": "$?", "names": "estilo" }
         },
         "Stage": {
@@ -1869,7 +1900,10 @@
             "focusPalette": "$?",
             "focusCycle": "$?",
             "conceptLink": "$?",
-            "timeline": "$?"
+            "timeline": "$?",
+            "createPhrase": "$?",
+            "createGroup": "$?",
+            "createStage": "$?"
         },
         "prompt": {
             "deleteSource": "$?",
@@ -1890,8 +1924,6 @@
         },
         "header": {
             "learn": "$?",
-            "editing": "¡edítame!",
-            "select": "$?",
             "projects": "Funcións",
             "examples": "ejemplos",
             "inputs": "$?",
@@ -1915,6 +1947,13 @@
             "output": "producción",
             "palette": "paleta",
             "editor": "editora"
+        },
+        "palette": {
+            "offerPhrase": "$?",
+            "offerGroup": "$?",
+            "offerStage": "$?",
+            "pauseToEdit": "$?",
+            "editing": "¡edítame!"
         },
         "feedback": {
             "unknownProject": "No hay ningún proyecto con este ID.",

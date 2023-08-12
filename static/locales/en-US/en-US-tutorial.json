@@ -119,7 +119,7 @@
                         null,
                         [
                             "fit",
-                            "Stage([Phrase('☀️' rest: Sequence(spin() 4s 'straight'))] background: 🌈(80% 99 270°))"
+                            "Stage([Phrase('☀️' resting:Sequence(spin() 4s 'straight'))] background: 🌈(80% 99 270°))"
                         ],
                         [
                             "FunctionDefinition",
@@ -133,7 +133,7 @@
                     "concept": "Program",
                     "performance": ["use", "fit", "Symbol", "📄"],
                     "lines": [
-                        ["fit", "Phrase('📄' rest: Pose(rotation: 10°))"],
+                        ["fit", "Phrase('📄' resting:Pose(rotation: 10°))"],
                         [
                             "FunctionDefinition",
                             "excited",
@@ -145,14 +145,14 @@
                             "Really!? Are you sure you're really a person? Say something a person would say."
                         ],
                         null,
-                        ["fit", "Phrase('📄' enter: Sequence(spin() 1s))"],
+                        ["fit", "Phrase('📄' entering: Sequence(spin() 1s))"],
                         [
                             "Program",
                             "serious",
                             "Hm… you really are a person. And you want to direct?"
                         ],
                         null,
-                        ["fit", "Phrase('📄' rest: Pose(rotation: 010°))"],
+                        ["fit", "Phrase('📄' resting: Pose(rotation: 010°))"],
                         [
                             "Program",
                             "excited",
@@ -716,7 +716,7 @@
                     "lines": [
                         [
                             "fit",
-                            "Phrase('💔' rest: Sequence({0%: Pose(scale: 1) 50%: Pose(scale: 1.2) 100%: Pose(scale: 1)} duration: 3s))"
+                            "Phrase('💔' resting:Sequence({0%: Pose(scale: 1) 50%: Pose(scale: 1.2) 100%: Pose(scale: 1)} duration: 3s))"
                         ],
                         [
                             "FunctionDefinition",
@@ -766,12 +766,12 @@
                     "concept": "Text",
                     "performance": [
                         "fit",
-                        "Phrase('\"\"' rest: Sequence({0%: Pose(scale: 1) 50%: Pose(scale: 0.5 opacity: 0.5) 100%: Pose(scale: 1)} duration: 2s))"
+                        "Phrase('\"\"' resting:Sequence({0%: Pose(scale: 1) 50%: Pose(scale: 0.5 opacity: 0.5) 100%: Pose(scale: 1)} duration: 2s))"
                     ],
                     "lines": [
                         [
                             "fit",
-                            "Phrase('\"\"' rest: Sequence({0%: Pose(scale: 1) 50%: Pose(scale: 2 opacity: 0.5) 100%: Pose(scale: 1)} duration: 2s))"
+                            "Phrase('\"\"' resting:Sequence({0%: Pose(scale: 1) 50%: Pose(scale: 2 opacity: 0.5) 100%: Pose(scale: 1)} duration: 2s))"
                         ],
                         ["FunctionDefinition", "curious", "@Text?"],
                         [
@@ -941,9 +941,9 @@
                     "performance": [
                         "fit",
                         "Group(Row() [",
-                        "   Phrase('1' rest: Sequence({0%: Pose(offset: Place(0m 1m)) 50%: Pose(offset: Place(0m -1m)) 100%: Pose(offset: Place(0m 1m))} duration: 2s)) ",
-                        "   Phrase('+' rest: Sequence({0%: Pose(offset: Place(0m -1m)) 50%: Pose(offset: Place(0m 1m)) 100%: Pose(offset: Place(0m -1m))} duration: 2s)) ",
-                        "   Phrase('1' rest: Sequence({0%: Pose(offset: Place(0m 1m)) 50%: Pose(offset: Place(0m -1m)) 100%: Pose(offset: Place(0m 1m))} duration: 2s)) ",
+                        "   Phrase('1' resting:Sequence({0%: Pose(offset: Place(0m 1m)) 50%: Pose(offset: Place(0m -1m)) 100%: Pose(offset: Place(0m 1m))} duration: 2s)) ",
+                        "   Phrase('+' resting:Sequence({0%: Pose(offset: Place(0m -1m)) 50%: Pose(offset: Place(0m 1m)) 100%: Pose(offset: Place(0m -1m))} duration: 2s)) ",
+                        "   Phrase('1' resting:Sequence({0%: Pose(offset: Place(0m 1m)) 50%: Pose(offset: Place(0m -1m)) 100%: Pose(offset: Place(0m 1m))} duration: 2s)) ",
                         "])"
                     ],
                     "lines": [
@@ -1023,7 +1023,7 @@
                     "concept": "Truth",
                     "performance": [
                         "fit",
-                        "Group(Row() [Phrase('⊤') Phrase('⊥')] rest: Sequence({ 0%: Pose(rotation: 0°) 50%: Pose(rotation: 180°) 100%: Pose(rotation: 360°)} duration: 2s))"
+                        "Group(Row() [Phrase('⊤') Phrase('⊥')] resting:Sequence({ 0%: Pose(rotation: 0°) 50%: Pose(rotation: 180°) 100%: Pose(rotation: 360°)} duration: 2s))"
                     ],
                     "lines": [
                         ["fit", "Stage([])"],
@@ -1180,7 +1180,7 @@
                             "                        Grid(multiple multiple) ",
                             "                        ('⊤⊥'.repeat(multiple ^ 2) ÷ '').translate(",
                             "                        ƒ(glyph•'') ",
-                            "                        Phrase(glyph rest: Pose(",
+                            "                        Phrase(glyph resting:Pose(",
                             "                            color: Color(75% 0 0°) ",
                             "                            rotation: 90° ",
                             "                            offset:Place(0m (Time() ^ 2) · -0.000025m/ms^2))",
@@ -1237,7 +1237,7 @@
                             "                                    off:Random(-3 3) · 1m",
                             "                                    Phrase(",
                             "                                        n → '' ",
-                            "                                        rest: Sequence({",
+                            "                                        resting:Sequence({",
                             "                                                    0%:Pose(offset: Place(z: 0m)) ",
                             "                                                    50%:Pose(offset: Place(z: off)) ",
                             "                                                    100%:Pose(offset: Place(z:0m))",
@@ -1439,7 +1439,7 @@
                     "concept": "Nothing",
                     "performance": [
                         "fix",
-                        "Motion(Phrase('ø' size: 5m) vy: ◆ ? 5m/s ø)"
+                        "Motion(Phrase('ø' size: 5m) startvy: 5m/s)"
                     ],
                     "lines": [
                         [
@@ -1563,7 +1563,7 @@
                         "fit",
                         "clockwise: Sequence({0%: Pose(rotation: 0°) 50%: Pose(rotation: 180°) 100%: Pose(rotation: 360°)} duration: 2s)",
                         "                    counter: Sequence({0%: Pose(rotation: 0°) 50%: Pose(rotation: -180°) 100%: Pose(rotation: -360°)} duration: 2s)",
-                        "                    Group(Row() [Phrase('[' rest: clockwise) Phrase(']' rest: counter) ])"
+                        "                    Group(Row() [Phrase('[' resting:clockwise) Phrase(']' resting:counter) ])"
                     ],
                     "lines": [
                         [
@@ -1580,7 +1580,7 @@
                             "fit",
                             "up: Sequence({0%: Pose(offset: Place(0m -1m)) 50%: Pose(offset: Place(0m 0m)) 100%: Pose(offset: Place(0m -1m))} duration: 2s)",
                             "                        down: Sequence({0%: Pose(offset: Place(0m 1m)) 50%: Pose(offset: Place(0m 0m)) 100%: Pose(offset: Place(0m 1m))} duration: 2s)",
-                            "                        Group(Row() [Phrase('[' rest: up) Phrase(']' rest: down)])"
+                            "                        Group(Row() [Phrase('[' resting:up) Phrase(']' resting:down)])"
                         ],
                         null,
                         [
@@ -1597,7 +1597,7 @@
                             "fit",
                             "up: Sequence({0%: Pose(offset: Place(0m 1m)) 50%: Pose(offset: Place(0m 0m)) 100%: Pose(offset: Place(0m 1m))} duration: 2s)",
                             "                        down: Sequence({0%: Pose(offset: Place(0m -1m)) 50%: Pose(offset: Place(0m 0m)) 100%: Pose(offset: Place(0m -1m))} duration: 2s)",
-                            "                        Group(Row() [Phrase('[' rest: up) Phrase(']' rest: down)])"
+                            "                        Group(Row() [Phrase('[' resting:up) Phrase(']' resting:down)])"
                         ],
                         null,
                         [
@@ -1608,7 +1608,7 @@
                         [
                             "fit",
                             "wobble: Sequence({0%: Pose(offset: Place(0m)) 25%: Pose(offset: Place(-.1m)) 50%: Pose(offset: Place(.2m)) 75%: Pose(offset: Place(-.3m)) 100%: Pose(offset: Place(0m))} duration: 0.1s)",
-                            "Group(Row() [Phrase('[' rest: wobble) Phrase(']' rest: wobble)])"
+                            "Group(Row() [Phrase('[' resting:wobble) Phrase(']' resting:wobble)])"
                         ],
                         [
                             "List",
@@ -1724,7 +1724,7 @@
                         "fit",
                         "clockwise: Sequence({0%: Pose(rotation: 0°) 50%: Pose(rotation: 180°) 100%: Pose(rotation: 360°)} duration: 2s)",
                         "                    counter: Sequence({0%: Pose(rotation: 0°) 50%: Pose(rotation: -180°) 100%: Pose(rotation: -360°)} duration: 2s)",
-                        "                    Group(Row() [Phrase('{' rest: clockwise) Phrase('}' rest: counter) ])"
+                        "                    Group(Row() [Phrase('{' resting:clockwise) Phrase('}' resting:counter) ])"
                     ],
                     "lines": [
                         ["use", "fit", "DarkVoid"],
@@ -1841,7 +1841,7 @@
                         "fit",
                         "clockwise: Sequence({0%: Pose(rotation: 0°) 50%: Pose(rotation: 180°) 100%: Pose(rotation: 360°)} duration: 2s)",
                         "                    counter: Sequence({0%: Pose(rotation: 0°) 50%: Pose(rotation: -180°) 100%: Pose(rotation: -360°)} duration: 2s)",
-                        "                    Group(Row(0m) [Phrase('{' rest: clockwise) Phrase(':') Phrase('}' rest: counter) ])"
+                        "                    Group(Row(0m) [Phrase('{' resting:clockwise) Phrase(':') Phrase('}' resting:counter) ])"
                     ],
                     "lines": [
                         ["use", "fit", "DarkVoid"],
@@ -2330,7 +2330,7 @@
                         [
                             "fix",
                             "amp: (Mic() ÷ 10)",
-                            "Phrase('.'.repeat(amp.roundDown()) rest: Pose(scale: amp))"
+                            "Phrase('.'.repeat(amp.roundDown()) resting:Pose(scale: amp))"
                         ],
                         [
                             "FunctionDefinition",
@@ -2419,7 +2419,7 @@
                     "lines": [
                         [
                             "fit",
-                            "Phrase('⌨️' rest: Sequence({0%: Pose(rotation: -5°) 25%: Pose(rotation: 0°) 50%: Pose(rotation: 5°) 75%: Pose(rotation: 0°) 100%: Pose(rotation: -5°)} 1s 'straight'))"
+                            "Phrase('⌨️' resting:Sequence({0%: Pose(rotation: -5°) 25%: Pose(rotation: 0°) 50%: Pose(rotation: 5°) 75%: Pose(rotation: 0°) 100%: Pose(rotation: -5°)} 1s 'straight'))"
                         ],
                         [
                             "FunctionDefinition",
@@ -2467,7 +2467,7 @@
                     "lines": [
                         [
                             "fix",
-                            "Phrase('👆🏻' rest: Sequence({0%: Pose(offset: Place(0m 0m)) 25%: Pose(offset: Place(-1m 1m)) 50%: Pose(offset: Place(1m 1m)) 75%: Pose(offset: Place(1m 0m)) 100%: Pose(offset: Place(0m 0m))} 3s))"
+                            "Phrase('👆🏻' resting:Sequence({0%: Pose(offset: Place(0m 0m)) 25%: Pose(offset: Place(-1m 1m)) 50%: Pose(offset: Place(1m 1m)) 75%: Pose(offset: Place(1m 0m)) 100%: Pose(offset: Place(0m 0m))} 3s))"
                         ],
                         [
                             "FunctionDefinition",
@@ -2480,15 +2480,23 @@
                             "curious",
                             "Move your pointer around the stage and you'll see the stream of @Place change on stage."
                         ],
-                        ["edit", "Pointer()"],
+                        ["fix", "Pointer()"],
                         ["Pointer", "neutral", "wzzzzzzzzz…"],
                         null,
                         [
                             "FunctionDefinition",
                             "excited",
-                            "@Pointer can be fun if you want to link the place of a phrase to where the pointer is."
+                            "Now let's see it on stage!"
                         ],
-                        ["fit", "Phrase('hi' place: Pointer())"],
+                        ["Pointer", "neutral", "wzzzzzzzzz…"],
+                        ["fix", "Phrase(Pointer()→'' place: Pointer())"],
+                        null,
+                        [
+                            "FunctionDefinition",
+                            "excited",
+                            "@Pointer can be fun if you want to link the @Place of a @Phrase to where the pointer is."
+                        ],
+                        ["fix", "Phrase('🐪' size: 4m place: Pointer())"],
                         ["Pointer", "neutral", "wzzzzzzzz…"]
                     ]
                 },
@@ -2580,15 +2588,59 @@
                     ]
                 },
                 {
+                    "name": "Move me",
+                    "concept": "Placement",
+                    "performance": [
+                        "fix",
+                        "Phrase('click, tap, or arrow to move me' place: Placement() moving:Pose() duration: 0.25s)"
+                    ],
+                    "lines": [
+                        [
+                            "edit",
+                            "Phrase('🌭' place: Placement() moving:Pose() duration: 0.25s)"
+                        ],
+                        [
+                            "FunctionDefinition",
+                            "kind",
+                            "Sometimes its nice to engage the audience in our place on @Stage.",
+                            "@Placement is a great way to do that! It's a stream of @Place, that responds to keyboard arrow keys, clicks, and taps.",
+                            "Try using those to move the hot dog around."
+                        ],
+                        null,
+                        [
+                            "edit",
+                            "Phrase('🌭' place: Placement(distance: 0.5m) moving:Pose() duration: 0.25s)"
+                        ],
+                        [
+                            "FunctionDefinition",
+                            "kind",
+                            "There are lots of ways you can customize it. For example, if you wanted to change how it moves, you can give it a distance.",
+                            "See how we gave it \\0.5\\ for the for the first input? Now it moves a little less. Try changing it to a different number!"
+                        ],
+                        null,
+                        [
+                            "edit",
+                            "Phrase('🌭' place: Placement(depth: ⊤) moving:Pose() duration: 0.25s)"
+                        ],
+                        [
+                            "FunctionDefinition",
+                            "kind",
+                            "You can also turn on and off movement on different axes. For example, give depth \\⊤\\ to allow movement on the z-axis.",
+                            "Press the + and - keys to move it closer or further away from the focus."
+                        ]
+                    ]
+                },
+                {
                     "name": "Keeping moving",
                     "concept": "Motion",
                     "performance": [
                         "fix",
                         "Motion(",
-                        "    Phrase('🏀' 3m place: ◆ ? Place(0m 5m) ø) ",
-                        "    vx: ◆ ? 0m/s ø",
-                        "    vy: ◆ ? 0m/s ø",
-                        "    vangle: ◆ ? 0°/s ø",
+                        "    Phrase('🏀' 3m)",
+                        "    startplace: Place(0m 5m)",
+                        "    startvx: 0m/s",
+                        "    startvy: 0m/s",
+                        "    startvangle: 0°/s",
                         ")"
                     ],
                     "lines": [
@@ -2603,30 +2655,31 @@
                         [
                             "fix",
                             "Motion(",
-                            "                            Phrase('🏀' 3m place: ◆ ? Place(0m 5m) ø) ",
-                            "                        )"
+                            "  Phrase('🏀' 3m) startplace: Place(0m 5m)",
+                            ")"
                         ],
                         [
                             "FunctionDefinition",
                             "excited",
-                            "Here's the simplest way to use it. This creates a @Motion stream that starts with this @Phrase, but then has a place that is a @Conditional. Do you see the little @Initial? That means 'True if the performance has just started', so the @Conditional here means 'If the performance has just started, start the ball at the place \\Place(0m 5m)\\'. Otherwise, it's @NoneLiteral, which tells the @Motion stream to keep moving the ball based on *gravity*. The ground is at \\0m\\ on the y-axes"
+                            "Here's the simplest way to use it. This creates a @Motion stream that starts with this @Phrase. It'll keep moving the ball based on *gravity*. The ground is at \\0m\\ on the y-axes."
                         ],
                         ["Motion", "excited", "Woosh…"],
                         null,
                         [
                             "fix",
                             "Motion(",
-                            "    Phrase('🏀' 3m place: ◆ ? Place(0m 5m) ø) ",
-                            "    vx: ◆ ? -5m/s ø",
-                            "    vy: ◆ ? 5m/s ø",
-                            "    vangle: ◆ ? 30°/s ø",
+                            "    Phrase('🏀' 3m) ",
+                            "    startplace: Place(0m 5m)",
+                            "    startvx: -5m/s",
+                            "    startvy: 5m/s",
+                            "    startvangle: 30°/s",
                             ")"
                         ],
                         [
                             "FunctionDefinition",
                             "excited",
                             "But @Motion has many other tricks.",
-                            "For example, it can have initial velocities, @Motion/vx, @Motion/vy, @Motion/vz, and @Motion/vangle.",
+                            "For example, it can have initial velocities, @Motion/startvx, @Motion/startvy, @Motion/startvz, and @Motion/startvangle.",
                             "This example makes the ball move left and up, spinning a bit initially."
                         ],
                         ["Motion", "excited", "Woooosh…"],
@@ -2634,10 +2687,11 @@
                         [
                             "fix",
                             "Motion(",
-                            "    Phrase('🏀' 3m place: ◆ ? Place(0m 5m) ø) ",
-                            "    vx: ◆ ? -5m/s ø",
-                            "    vy: ◆ ? 5m/s ø",
-                            "    vangle: ◆ ? 30°/s ø",
+                            "    Phrase('🏀' 3m) ",
+                            "    startplace: Place(0m 5m)",
+                            "    startvx: -5m/s",
+                            "    startvy: 5m/s",
+                            "    startvangle: 30°/s",
                             "    gravity: 200m/s^2",
                             ")"
                         ],
@@ -2653,8 +2707,9 @@
                         [
                             "fix",
                             "Motion(",
-                            "    Phrase('🏀' 3m place: ◆ ? Place(0m 5m) ø) ",
-                            "    vy: ◆ ? 50m/s ø",
+                            "    Phrase('🏀' 3m)",
+                            "    Place(0m 5m)",
+                            "    startvy: 50m/s",
                             ")"
                         ],
                         [
@@ -2670,7 +2725,7 @@
                     "concept": "Reaction",
                     "performance": ["use", "fit", "Symbol", "…"],
                     "lines": [
-                        ["fit", "Phrase('…' rest: Pose(rotation: 120°))"],
+                        ["fit", "Phrase('…' resting:Pose(rotation: 120°))"],
                         [
                             "FunctionDefinition",
                             "neutral",
@@ -2682,7 +2737,7 @@
                             "Yeah yeah yeah! It's @FunctionDefinition! How are you doing? Everything has been so… constant, lately. Have you noticed that?"
                         ],
                         null,
-                        ["fit", "Phrase('…' rest: Pose(rotation: 240°))"],
+                        ["fit", "Phrase('…' resting:Pose(rotation: 240°))"],
                         [
                             "FunctionDefinition",
                             "curious",
@@ -2694,7 +2749,7 @@
                             "Super strange, super strange. My whole life has been about change, always listening and watching for new inputs from people, helping transform them into values. But there hasn't been anything. Until just a moment ago… Wait … is that a person?"
                         ],
                         null,
-                        ["fit", "Phrase('…' rest: Pose(rotation: 360°))"],
+                        ["fit", "Phrase('…' resting:Pose(rotation: 360°))"],
                         [
                             "FunctionDefinition",
                             "excited",
@@ -3011,9 +3066,9 @@
                         [
                             "Phrase",
                             "neutral",
-                            "Now that we have all those out of the way, we can talk about dancing, darling! Dancing is one of my favorite things to do. There are *four* ways I move. First, I can @Type/enter. Enter is my way of entering the stage. If you don't tell me how to enter, I'll just BLIP appear on stage like I teleported there. But if you give me @Pose. I'll start with the pose you give me, then move to my resting pose. For example, let's make me fade in from invisible to oh-so-in-your face visible."
+                            "Now that we have all those out of the way, we can talk about dancing, darling! Dancing is one of my favorite things to do. There are *four* ways I move. First, I can @Type/entering. Enter is my way of entering the stage. If you don't tell me how to enter, I'll just BLIP appear on stage like I teleported there. But if you give me @Pose. I'll start with the pose you give me, then move to my resting pose. For example, let's make me fade in from invisible to oh-so-in-your face visible."
                         ],
-                        ["edit", "Phrase('hi' enter: Pose(opacity: 0))"],
+                        ["edit", "Phrase('hi' entering: Pose(opacity: 0))"],
                         null,
                         [
                             "Phrase",
@@ -3022,17 +3077,17 @@
                         ],
                         [
                             "edit",
-                            "Phrase('hi' enter: Pose(opacity: 0) duration: 5s)"
+                            "Phrase('hi' entering: Pose(opacity: 0) duration: 5s)"
                         ],
                         null,
                         [
                             "Phrase",
                             "neutral",
-                            "Now, say I was moving. We'll set my place to time, so I move to the right a bit every second. But if we set a @Type/move @Pose, and have the @Pose/rotation \\5°\\ and maybe a little color, every time my place changes, I'll glide across the stage with the cutest little tilt."
+                            "Now, say I was moving. We'll set my place to time, so I move to the right a bit every second. But if we set a @Type/moving @Pose, and have the @Pose/rotation \\5°\\ and maybe a little color, every time my place changes, I'll glide across the stage with the cutest little tilt."
                         ],
                         [
                             "fit",
-                            "Phrase('hi' size: 5m place: Place(Time(1000ms) · 0.001m/ms 0m) move: Pose(rotation: 5°) duration: 0.5s)"
+                            "Phrase('hi' size: 5m place: Place(Time(1000ms) · 0.001m/ms 0m) moving:Pose(rotation: 5°) duration: 0.5s)"
                         ],
                         null,
                         [
@@ -3042,29 +3097,29 @@
                         ],
                         [
                             "fit",
-                            "Phrase('hi' size: 5m place: Place(Time(1000ms) · 0.001m/ms 0m) move: Pose(rotation: 5°) duration: 0.5s style: “straight”)"
+                            "Phrase('hi' size: 5m place: Place(Time(1000ms) · 0.001m/ms 0m) moving:Pose(rotation: 5°) duration: 0.5s style: “straight”)"
                         ],
                         null,
                         [
                             "Phrase",
                             "excited",
-                            "And for the coup de grâce, let's have me @Type/exit in style. We can play with @Conditional and have me exit stage after 3 seconds."
+                            "And for the coup de grâce, let's have me @Type/exiting in style. We can play with @Conditional and have me exit stage after 3 seconds."
                         ],
                         [
                             "fit",
                             "Time(1000ms) < 3000ms ? ",
-                            "Phrase('hi' size: 5m place: Place(Time(1000ms) · 0.001m/ms 0m) move: Pose(rotation: 5°) duration: 0.5s) ",
+                            "Phrase('hi' size: 5m place: Place(Time(1000ms) · 0.001m/ms 0m) moving:Pose(rotation: 5°) duration: 0.5s) ",
                             "Phrase('')"
                         ],
                         null,
                         [
                             "Phrase",
                             "surprised",
-                            "Not the exit you were hoping for? The disappearing act is a bit harsh, ain't it? Give me an @Type/exit @Pose, and I'll glide off on stage toward whatever pose you want. Here we'll have me get large than life, fall upside down, and fade out to @Pose/opacity \\0\\."
+                            "Not the exit you were hoping for? The disappearing act is a bit harsh, ain't it? Give me an @Type/exiting @Pose, and I'll glide off on stage toward whatever pose you want. Here we'll have me get large than life, fall upside down, and fade out to @Pose/opacity \\0\\."
                         ],
                         [
                             "fit",
-                            "Time(1000ms) < 3000ms ? Phrase('hi' size: 5m place: Place(Time(1000ms) · 0.001m/ms 0m) move: Pose(rotation: 5°) exit: Pose(scale: 10 rotation: 180° opacity: 0) duration: 0.5s) Phrase('')"
+                            "Time(1000ms) < 3000ms ? Phrase('hi' size: 5m place: Place(Time(1000ms) · 0.001m/ms 0m) moving:Pose(rotation: 5°) exiting:Pose(scale: 10 rotation: 180° opacity: 0) duration: 0.5s) Phrase('')"
                         ],
                         null,
                         [
@@ -3079,8 +3134,8 @@
                             "        'hi'",
                             "        size: 5m",
                             "        place: Place(Time(1000ms) · 0.001m/ms 0m)",
-                            "        move: Pose(rotation: 5°)",
-                            "        exit: Pose(scale: 10 rotation: 180° opacity: 0)",
+                            "        moving:Pose(rotation: 5°)",
+                            "        exiting:Pose(scale: 10 rotation: 180° opacity: 0)",
                             "        duration: 0.5s",
                             "    )",
                             "    Phrase(“”)"
@@ -3190,7 +3245,7 @@
                         ],
                         [
                             "fit",
-                            "Phrase('😀' rest: Sequence({0%: Pose() 25%: Pose(offset: Place(0m 1m) scale: 2) 50%: Pose(offset: Place(0m 0m) flipy: ⊤) 75%: Pose(rotation: 45°) 100%: Pose()} 2s))"
+                            "Phrase('😀' resting:Sequence({0%: Pose() 25%: Pose(offset: Place(0m 1m) scale: 2) 50%: Pose(offset: Place(0m 0m) flipy: ⊤) 75%: Pose(rotation: 45°) 100%: Pose()} 2s))"
                         ],
                         null,
                         [
@@ -3202,10 +3257,10 @@
                             "edit",
                             "Phrase(",
                             "    'dance'",
-                            "    enter: Sequence(",
+                            "    entering: Sequence(",
                             "        {",
                             "            0%: Pose(rotation: 0°)",
-                            "            33%:Pose(rotation: -5°)",
+                            "            33%: Pose(rotation: -5°)",
                             "            66%: Pose(rotation: 5°)",
                             "            100%: Pose(rotation: 0°)",
                             "        }",
@@ -3222,7 +3277,7 @@
                             "edit",
                             "Phrase(",
                             "    'dance'",
-                            "    enter: Sequence(",
+                            "    entering: Sequence(",
                             "        {",
                             "            0%: Pose(rotation: 0°)",
                             "            33%:Pose(rotation: -5°)",
@@ -3243,7 +3298,7 @@
                             "edit",
                             "Phrase(",
                             "    'dance'",
-                            "    enter: Sequence(",
+                            "    entering: Sequence(",
                             "        {",
                             "            0%: Pose(rotation: 0°)",
                             "            33%: Pose(rotation: -5°)",
@@ -3258,13 +3313,13 @@
                         [
                             "Sequence",
                             "curious",
-                            "But, you say, what if we wanted to do it forever? You can set a @Type/rest to me. For as long as @Phrase is on stage and resting, they'll repeat a sequence. Infinite wobbles!"
+                            "But, you say, what if we wanted to do it forever? You can set a @Type/resting to me. For as long as @Phrase is on stage and resting, they'll repeat a sequence. Infinite wobbles!"
                         ],
                         [
                             "edit",
                             "Phrase(",
                             "    'dance'",
-                            "    rest: Sequence(",
+                            "    resting:Sequence(",
                             "        {",
                             "        0%: Pose(rotation: 0°)",
                             "        33%:Pose(rotation: -5°)",
@@ -3314,7 +3369,7 @@
                     "concept": "Group",
                     "performance": [
                         "fit",
-                        "Group(Grid(2 2) [Phrase('1' rest: Sequence(spin() 1s)) Phrase('2' rest: Sequence(spin() 2s)) Phrase('3' rest: Sequence(spin() 3s)) Phrase('4' rest: Sequence(spin() 4s))])"
+                        "Group(Grid(2 2) [Phrase('1' resting:Sequence(spin() 1s)) Phrase('2' resting:Sequence(spin() 2s)) Phrase('3' resting:Sequence(spin() 3s)) Phrase('4' resting:Sequence(spin() 4s))])"
                     ],
                     "lines": [
                         ["use", "fit", "Symbol", "☹️"],
@@ -3522,9 +3577,9 @@
                             "Group(",
                             "    Grid(2 2) [",
                             "    Group(Stack() [Phrase('one') Phrase(“two”)])",
-                            "    Group(Stack() [Phrase('three') Phrase(“four”)] rest: Pose(rotation: 45°))",
+                            "    Group(Stack() [Phrase('three') Phrase(“four”)] resting:Pose(rotation: 45°))",
                             "    Group(Stack() [Phrase('five') Phrase(“six”)])",
-                            "    Group(Stack() [Phrase('seven') Phrase(“eight”)] rest: Pose(rotation: 45°))",
+                            "    Group(Stack() [Phrase('seven') Phrase(“eight”)] resting:Pose(rotation: 45°))",
                             "    ]",
                             ")"
                         ],
@@ -3568,7 +3623,7 @@
                     "lines": [
                         [
                             "fix",
-                            "Stage([Phrase('🎭' 5m rest: Sequence(bounce(5m) 2s))] background: Color(0% 0 0°))"
+                            "Stage([Phrase('🎭' 5m resting:Sequence(bounce(5m) 2s))] background: Color(0% 0 0°))"
                         ],
                         [
                             "FunctionDefinition",
@@ -3583,7 +3638,7 @@
                         null,
                         [
                             "fix",
-                            "Stage([Phrase('🎭' 5m rest: Pose(rotation: 25° scale: 5))] background: Color(0% 0 0°))"
+                            "Stage([Phrase('🎭' 5m resting:Pose(rotation: 25° scale: 5))] background: Color(0% 0 0°))"
                         ],
                         [
                             "FunctionDefinition",
@@ -3598,7 +3653,7 @@
                         null,
                         [
                             "fix",
-                            "Stage([Phrase('🎭' 5m rest: Pose(rotation: -150° scale: 10))] background: Color(0% 0 0°))"
+                            "Stage([Phrase('🎭' 5m resting:Pose(rotation: -150° scale: 10))] background: Color(0% 0 0°))"
                         ],
                         [
                             "FunctionDefinition",
@@ -3662,7 +3717,7 @@
                             "    [Phrase(“🐈” place:Place(-2.5m))]",
                             "    background: Color(0 0 0°)",
                             "    frame: Rectangle(-2m -2m 2m 2m)",
-                            "    rest:Pose(rotation: 30°)",
+                            "    resting: Pose(rotation: 30°)",
                             ")"
                         ],
                         null,
@@ -3681,7 +3736,7 @@
                     "lines": [
                         [
                             "fix",
-                            "Phrase('🔘' 10m enter: Sequence({0%: Pose(offset: Place(0m 0m)) 50%: Pose(offset: Place(0m -0.2m)) 100%: Pose(offset: Place(0m 0m))} 1s count: 3x))"
+                            "Phrase('🔘' 10m entering: Sequence({0%: Pose(offset: Place(0m 0m)) 50%: Pose(offset: Place(0m -0.2m)) 100%: Pose(offset: Place(0m 0m))} 1s count: 3x))"
                         ],
                         [
                             "FunctionDefinition",
@@ -3768,7 +3823,10 @@
                             "@FunctionDefinition? Oh wow, it is you. It has been absolutely silent for far too long. Who's your friend here?"
                         ],
                         null,
-                        ["fit", "Phrase(':' rest: Pose(scale: 10ms ÷ Time()))"],
+                        [
+                            "fit",
+                            "Phrase(':' resting:Pose(scale: 10ms ÷ Time()))"
+                        ],
                         [
                             "FunctionDefinition",
                             "kind",
@@ -3782,7 +3840,7 @@
                         null,
                         [
                             "fix",
-                            "Phrase(':' 10m rest: Sequence(bounce(3m) 1s))"
+                            "Phrase(':' 10m resting:Sequence(bounce(3m) 1s))"
                         ],
                         [
                             "FunctionDefinition",
@@ -4078,7 +4136,7 @@
                         null,
                         [
                             "fit",
-                            "Phrase('()' rest: Sequence(spin() 1s 'straight'))"
+                            "Phrase('()' resting:Sequence(spin() 1s 'straight'))"
                         ],
                         [
                             "FunctionDefinition",
@@ -4211,7 +4269,7 @@
                         null,
                         [
                             "fit",
-                            "Phrase('•' rest: Sequence({0%: Pose(scale: 1) 50%: Pose(scale: 1.2) 100%: Pose(scale: 1)} 3s))"
+                            "Phrase('•' resting:Sequence({0%: Pose(scale: 1) 50%: Pose(scale: 1.2) 100%: Pose(scale: 1)} 3s))"
                         ],
                         [
                             "FunctionDefinition",
@@ -4236,7 +4294,7 @@
                         ],
                         [
                             "fit",
-                            "Phrase('•' rest: Sequence({0%: Pose(offset: Place(-0.25m)) 50%: Pose(offset: Place(0.25m)) 100%: Pose(offset: Place(-0.25m))} 3s))"
+                            "Phrase('•' resting:Sequence({0%: Pose(offset: Place(-0.25m)) 50%: Pose(offset: Place(0.25m)) 100%: Pose(offset: Place(-0.25m))} 3s))"
                         ],
                         null,
                         [
@@ -4252,7 +4310,7 @@
                         ],
                         [
                             "fit",
-                            "Phrase('•' rest: Sequence({0%: Pose(rotation: 0°) 80%: Pose(rotation: 15°) 100%: Pose(rotation: 0°)} 3s))"
+                            "Phrase('•' resting:Sequence({0%: Pose(rotation: 0°) 80%: Pose(rotation: 15°) 100%: Pose(rotation: 0°)} 3s))"
                         ],
                         null,
                         [
@@ -4263,7 +4321,7 @@
                         ["StructureDefinition", "happy", "We can, can't we?"],
                         [
                             "fit",
-                            "Phrase('•' rest: Sequence({0%: Pose(offset: Place(0m 0.25m)) 50%: Pose(offset: Place(0m 0m)) 100%: Pose(offset: Place(0m 0.25m))} 3s))"
+                            "Phrase('•' resting:Sequence({0%: Pose(offset: Place(0m 0.25m)) 50%: Pose(offset: Place(0m 0m)) 100%: Pose(offset: Place(0m 0.25m))} 3s))"
                         ],
                         null,
                         [
@@ -4274,7 +4332,7 @@
                         ["StructureDefinition", "eager", "I think so."],
                         [
                             "fit",
-                            "Phrase('•' rest: Sequence({0%: Pose(offset: Place(0m 0.25m)) 50%: Pose(offset: Place(0m 0m)) 100%: Pose(offset: Place(0m 0.25m))} 1.5s))"
+                            "Phrase('•' resting:Sequence({0%: Pose(offset: Place(0m 0.25m)) 50%: Pose(offset: Place(0m 0m)) 100%: Pose(offset: Place(0m 0.25m))} 1.5s))"
                         ],
                         null,
                         [
@@ -4294,7 +4352,7 @@
                         ],
                         [
                             "fix",
-                            "Phrase('•' enter: Pose(scale: 0.5) rest: Pose(scale: 2))"
+                            "Phrase('•' entering: Pose(scale: 0.5) resting:Pose(scale: 2))"
                         ],
                         null,
                         [
@@ -4368,7 +4426,7 @@
                             "",
                             "Group(Stack(0m) [",
                             "  Phrase(messages[index])",
-                            "  Phrase(messages[index] rest: Pose(flipy: ⊤ opacity: 25%))",
+                            "  Phrase(messages[index] resting:Pose(flipy: ⊤ opacity: 25%))",
                             "])"
                         ],
                         null,
@@ -4395,7 +4453,7 @@
                             "",
                             "Group(Stack(0.5m) [",
                             "  Phrase(marquee.now())",
-                            "  Phrase(marquee.now() rest: Pose(flipy: ⊤ opacity: 25%))",
+                            "  Phrase(marquee.now() resting:Pose(flipy: ⊤ opacity: 25%))",
                             "])"
                         ],
                         null,
@@ -4429,7 +4487,7 @@
                             "",
                             "Group(Stack(0.5m) [",
                             "  Phrase(marquee.now())",
-                            "  Phrase(marquee.now() rest: Pose(flipy: ⊤ opacity: 25%))",
+                            "  Phrase(marquee.now() resting:Pose(flipy: ⊤ opacity: 25%))",
                             "])"
                         ],
                         null,
@@ -4502,7 +4560,7 @@
                         null,
                         [
                             "fit",
-                            "Phrase('•' rest: Sequence({0%: Pose(scale: 1) 50%: Pose(scale: 1.2) 100%: Pose(scale: 1)} 3s))"
+                            "Phrase('•' resting:Sequence({0%: Pose(scale: 1) 50%: Pose(scale: 1.2) 100%: Pose(scale: 1)} 3s))"
                         ],
                         [
                             "FunctionDefinition",
@@ -4745,7 +4803,7 @@
                     "concept": null,
                     "performance": [
                         "fit",
-                        "Stage([Phrase('😨' rest: Sequence(shake() style: 'straight'))] background: Color(0% 0 0°))"
+                        "Stage([Phrase('😨' resting:Sequence(shake() style: 'straight'))] background: Color(0% 0 0°))"
                     ],
                     "lines": [
                         [

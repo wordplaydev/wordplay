@@ -137,10 +137,10 @@ export default function getTypeOutputProperties(
             () => BooleanLiteral.make(false)
         ),
         ...getPoseProperties(project, locale),
-        getPoseProperty(project, locale.output.Type.enter),
-        getPoseProperty(project, locale.output.Type.rest),
-        getPoseProperty(project, locale.output.Type.move),
-        getPoseProperty(project, locale.output.Type.exit),
+        getPoseProperty(project, locale.output.Type.entering),
+        getPoseProperty(project, locale.output.Type.resting),
+        getPoseProperty(project, locale.output.Type.moving),
+        getPoseProperty(project, locale.output.Type.exiting),
         getDurationProperty(locale),
         getStyleProperty(locale),
     ];

@@ -32,6 +32,7 @@
         type EditorsContext,
         EditorsSymbol,
         type EditorState,
+        ProjectCommandContextSymbol,
     } from './Contexts';
     import type Project from '@models/Project';
     import Documentation from '@components/concepts/Documentation.svelte';
@@ -205,6 +206,16 @@
     setContext<SelectedPhraseContext>(SelectedPhraseSymbol, selectedPhrase);
 
     /**
+     * Invalidates these inputs, indicating that it shouldn't be used.
+     * This is a bit of a hack: we primarily use it as a way for the UI to communicate
+     * to itself that when creating a new Evaluator, it shouldn't mirror the prior Evaluator's inputs.
+     */
+    let replayInputs = true;
+    function resetInputs() {
+        replayInputs = false;
+    }
+
+    /**
      * Create a store for an evaluator for the project.
      * Make it available to children.
      * When the project changes,
@@ -219,8 +230,15 @@
         // Stop the old evaluator.
         $evaluator?.stop();
 
-        // Make the new evaluator
-        const newEvaluator = new Evaluator(newProject, $evaluator);
+        // Make the new evaluator, replaying the previous evaluator's inputs, unless we marked the last evaluator is out of date.
+        const newEvaluator = new Evaluator(
+            newProject,
+            true,
+            replayInputs ? $evaluator : undefined
+        );
+
+        // Switch back to replay after the next input.
+        replayInputs = true;
 
         // Listen to the evaluator changes to update evaluator-related stores.
         newEvaluator.observe(updateEvaluatorStores);
@@ -921,24 +939,29 @@
         }
     }
 
+    $: commandContext = {
+        caret:
+            layout.isFullscreen() && !layout.isSourceExpanded()
+                ? undefined
+                : Array.from($editors.values()).find((editor) => editor.focused)
+                      ?.caret,
+        evaluator: $evaluator,
+        database: $config,
+        fullscreen,
+        focusOrCycleTile,
+        resetInputs,
+        help: () => (help = !help),
+    };
+    const commandContextStore = writable(commandContext);
+    $: commandContextStore.set(commandContext);
+    setContext(ProjectCommandContextSymbol, commandContextStore);
+
     function handleKey(event: KeyboardEvent) {
         if ($dragged !== undefined && event.key === 'Escape')
             dragged.set(undefined);
 
         // See if there's a command that matches...
-        const result = handleKeyCommand(event, {
-            caret:
-                layout.isFullscreen() && !layout.isSourceExpanded()
-                    ? undefined
-                    : Array.from($editors.values()).find(
-                          (editor) => editor.focused
-                      )?.caret,
-            evaluator: $evaluator,
-            database: $config,
-            fullscreen,
-            focusOrCycleTile,
-            help: () => (help = !help),
-        });
+        const result = handleKeyCommand(event, commandContext);
 
         // If something handled it, consume the event.
         if (result !== false) {

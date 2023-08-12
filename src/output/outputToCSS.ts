@@ -39,12 +39,14 @@ function rotateDeg(deg: number) {
 export function rootScale(z: number, focusZ: number) {
     // Compute the delta between this phrase and the focus.
     const dz = z - focusZ;
-    // Compute a scale proportional to the focal length and inversely proporitional to the difference.
+    // Compute a scale proportional to the focal length and inversely proportional to the difference.
     return dz < 0 ? 0 : dz === 0 ? 1 : FOCAL_LENGTH / dz;
 }
 
-export function incrementalScale(z: number) {
-    return Math.max(0, 1 + INCREMENTAL_SCALING_FACTOR - z / FOCAL_LENGTH);
+export function incrementalScale(z: number, focusZ: number) {
+    // Perspective scaling should be proportional to the delta between the z and focus, just like the root.
+    // However, we need to divide by the scaling applied by the root, since CSS transforms are cumulative.
+    return FOCAL_LENGTH / (focusZ - z) / (FOCAL_LENGTH / focusZ);
 }
 
 export function centerTransform(viewportWidth: number, viewportHeight: number) {
@@ -98,30 +100,14 @@ export function toOutputTransform(
     const root = viewport !== undefined;
 
     // Compute rendered scale based on scale and and flip
-    let xScale = 1;
-    let yScale = 1;
-    let xOffset = 0;
-    let yOffset = 0;
-    let zOffset = 0;
-    let rotation = 0;
-    if (primaryPose) {
-        const scale = primaryPose.scale ?? secondaryPose.scale;
-        if (scale !== undefined) {
-            xScale = scale;
-            yScale = scale;
-        }
-        if (primaryPose.flipx ?? secondaryPose.flipx === true)
-            xScale = xScale * -1;
-        if (primaryPose.flipy ?? secondaryPose.flipy === true)
-            yScale = yScale * -1;
-        const offset = primaryPose.offset ?? secondaryPose.offset;
-        if (offset !== undefined) {
-            xOffset = offset.x * PX_PER_METER;
-            yOffset = offset.y * PX_PER_METER;
-            zOffset = offset.z;
-        }
-        rotation = primaryPose.rotation ?? secondaryPose.rotation ?? 0;
-    }
+    const scale = primaryPose.scale ?? secondaryPose.scale ?? 1;
+    const xScale = scale * (primaryPose.flipx ?? secondaryPose.flipx ? -1 : 1);
+    const yScale = scale * (primaryPose.flipy ?? secondaryPose.flipy ? -1 : 1);
+    const offset = primaryPose.offset ?? secondaryPose.offset;
+    const xOffset = offset ? offset.x * PX_PER_METER : 0;
+    const yOffset = offset ? offset.y * PX_PER_METER : 0;
+    const zOffset = offset ? offset.z : 0;
+    const rotation = primaryPose.rotation ?? secondaryPose.rotation ?? 0;
 
     // Compute the final z position of the output based on it's place and it's offset.
     const z = place.z + zOffset;
@@ -131,7 +117,9 @@ export function toOutputTransform(
     // If it's not the root, then we add to that some scaling factor proportional to the
     // additional z of the output. This accounts for the cumulative nature of CSS transforms,
     // where parents affect their children.
-    const perspectiveScale = root ? rootScale(z, focus.z) : incrementalScale(z);
+    const perspectiveScale = root
+        ? rootScale(z, focus.z)
+        : incrementalScale(z, focus.z);
 
     // Find the center of the stage, around which we will rotate and scale.
     let centerXOffset = root ? 0 : metrics.width / 2;

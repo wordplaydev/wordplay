@@ -174,7 +174,7 @@ export default class Scene {
                 if (!newScene.has(name)) {
                     // If the phrase has an exit squence, then add it to the phrases to keep rendering
                     // and remember it's current global place, so we can render it there.
-                    if (output.exit) {
+                    if (output.exiting) {
                         exited.set(name, output);
                         const place = info.global;
                         // Use the global place since it's now parent-less.

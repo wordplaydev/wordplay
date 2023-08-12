@@ -17,7 +17,7 @@
     $: [evaluator, value] = updatePreview(project);
 
     function updatePreview(project: Project): [Evaluator, Value | undefined] {
-        const evaluator = new Evaluator(project, undefined, false);
+        const evaluator = new Evaluator(project, false);
         const value = evaluator.getInitialValue();
         evaluator.stop();
         return [evaluator, value];

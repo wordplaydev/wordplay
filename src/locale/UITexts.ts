@@ -138,6 +138,12 @@ type UITexts = {
         conceptLink: Template;
         /** The description of the timeline slider */
         timeline: string;
+        /** The button that creates a phrase when there is none */
+        createPhrase: string;
+        /** The button that creates a group when there is none */
+        createGroup: string;
+        /** The button that creates a stage when there is none */
+        createStage: string;
     };
     prompt: {
         deleteSource: string;
@@ -167,8 +173,6 @@ type UITexts = {
     };
     header: {
         learn: string;
-        editing: string;
-        select: string;
         projects: string;
         examples: string;
         /** Documentation header in structure and functions before inputs */
@@ -200,6 +204,13 @@ type UITexts = {
         output: string;
         palette: string;
         editor: string;
+    };
+    palette: {
+        offerPhrase: Template;
+        offerGroup: Template;
+        offerStage: Template;
+        pauseToEdit: Template;
+        editing: Template;
     };
     feedback: {
         unknownProject: string;

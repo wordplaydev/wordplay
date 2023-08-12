@@ -26,11 +26,11 @@ line: number•# ? poem[number] ø
  
 line•Line ?
 	Stage(
-		[ Phrase(line.text enter: line.pose ⏳: 1s name: number → "" style: 'cautious') ]
-        background: line.back rest: 🤪(color: line.front) 
+		[ Phrase(line.text entering: line.pose ⏳: 1s name: number → "" style: 'cautious') ]
+        background: line.back resting: 🤪(color: line.front) 
     )
     Stage(
-        [Group(Stack() [Phrase("ADVICE TO MYSELF") Phrase("Jane Hirshfield")] enter: 🤪(scale: 0.75))] 
+        [Group(Stack() [Phrase("ADVICE TO MYSELF") Phrase("Jane Hirshfield")] entering: 🤪(scale: 0.75))] 
         background: Color(0% 0 0°) 
         color: Color(100% 100 100°)
     )

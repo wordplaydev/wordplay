@@ -51,7 +51,7 @@ Stage(
                 size: 1m
                 place: Place(letter.x letter.y)
                 rotation: letter.angle · 1°
-                rest: Pose(
+                resting:Pose(
                   opacity: letter.visible ? 1 0 
                   color: 🌈(100% 0 0°)
                 )

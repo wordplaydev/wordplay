@@ -91,6 +91,9 @@ export default class Evaluation {
     /** A list of conversions in this context. */
     readonly #conversions: ConversionDefinitionValue[] = [];
 
+    /** A sum of the sizes of all of the values bound */
+    #size: number = 0;
+
     /** The step to execute next */
     #stepIndex: number = 0;
 
@@ -303,6 +306,8 @@ export default class Evaluation {
     bind(names: Names | string, value: Value) {
         const bindings = this.#bindings[0];
 
+        this.#size += value.getSize();
+
         // Set the value by name or names.
         bindings.set(names, value);
         if (names instanceof Names)
@@ -416,9 +421,6 @@ export default class Evaluation {
 
     getSize() {
         // Get all the values from the bindings maps, flatten them into a list, and add up their sizes.
-        return this.#bindings
-            .map((bindings) => Array.from(bindings.values()))
-            .flat()
-            .reduce((sum, val) => sum + val.getSize(), 0);
+        return this.#size;
     }
 }
