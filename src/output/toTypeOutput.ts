@@ -15,7 +15,7 @@ import type Project from '../models/Project';
 import { toBoolean, toNumber } from './Stage';
 import { toFont, toText } from './Phrase';
 import Place, { toPlace } from './Place';
-import { toColor } from './Color';
+import Color, { toColor } from './Color';
 import type TextLang from './TextLang';
 import { DefinitePose, toPose } from './Pose';
 import type Pose from './Pose';
@@ -88,6 +88,7 @@ export function getStyle(
     name: TextLang | undefined;
     selectable: boolean | undefined;
     place: Place | undefined;
+    background: Color | undefined;
     pose: DefinitePose | undefined;
     resting: Pose | Sequence | undefined;
     entering: Pose | Sequence | undefined;
@@ -103,6 +104,7 @@ export function getStyle(
         nameVal,
         selectableVal,
         colorVal,
+        backgroundVal,
         opacityVal,
         offsetVal,
         rotationVal,
@@ -122,7 +124,7 @@ export function getStyle(
     const place = toPlace(placeVal);
     const name = toText(nameVal);
     const selectable = toBoolean(selectableVal);
-
+    const background = toColor(backgroundVal);
     const color = toColor(colorVal);
     const opacity = toNumber(opacityVal);
     const offset = toPlace(offsetVal);
@@ -154,6 +156,7 @@ export function getStyle(
         place,
         name,
         selectable,
+        background,
         pose,
         resting: rest,
         entering: enter,

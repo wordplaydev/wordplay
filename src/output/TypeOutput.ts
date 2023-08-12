@@ -33,8 +33,11 @@ ${getBind(
 ${getBind(locales, (locale) => locale.output.Type.place)}•📍|ø: ø
 ${getBind(locales, (locale) => locale.output.Type.name)}•""|ø: ø
 ${getBind(locales, (locale) => locale.output.Type.selectable)}•?: ⊥
-${getBind(locales, (locale) => locale.output.Pose.color)}•🌈${
+${getBind(locales, (locale) => locale.output.Type.color)}•🌈${
         stage ? ': Color(0% 0 0°)' : '|ø: ø'
+    }
+${getBind(locales, (locale) => locale.output.Type.background)}•Color${
+        stage ? ': Color(100% 0 0°)' : '|ø: ø'
     }
 ${getBind(locales, (locale) => locale.output.Pose.opacity)}•%${
         stage ? ': 1' : '|ø: ø'
@@ -73,6 +76,7 @@ export default abstract class TypeOutput extends Output {
     readonly place: Place | undefined;
     readonly name: TextLang | string;
     readonly selectable: boolean;
+    readonly background: Color | undefined;
     readonly pose: DefinitePose;
     readonly entering: Pose | Sequence | undefined;
     readonly resting: Pose | Sequence | undefined;
@@ -88,6 +92,7 @@ export default abstract class TypeOutput extends Output {
         place: Place | undefined = undefined,
         name: TextLang | string,
         selectable: boolean,
+        background: Color | undefined,
         pose: DefinitePose,
         entry: Pose | Sequence | undefined = undefined,
         resting: Pose | Sequence | undefined = undefined,
@@ -103,6 +108,7 @@ export default abstract class TypeOutput extends Output {
         this.place = place;
         this.name = name;
         this.selectable = selectable;
+        this.background = background;
         this.pose = pose;
         this.entering = entry;
         this.resting = resting;

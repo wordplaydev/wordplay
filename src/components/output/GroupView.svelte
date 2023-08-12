@@ -73,6 +73,7 @@
     style:height={sizeToPx(layout.height)}
     style:font-family={getFaceCSS(context.face)}
     style:font-size={getSizeCSS(context.size)}
+    style:background={group.background?.toCSS() ?? null}
     style:color={getColorCSS(group.getFirstRestPose(), group.pose)}
     style:opacity={getOpacityCSS(group.getFirstRestPose(), group.pose)}
     style:clip-path={clip ? clip.toCSSClip() : null}

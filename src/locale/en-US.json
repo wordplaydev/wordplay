@@ -2943,6 +2943,10 @@
                 "doc": "The @Color I should be by default, unless overriden by a different @Pose.",
                 "names": "color"
             },
+            "background": {
+                "doc": "The color of the background of the stage.",
+                "names": "background"
+            },
             "opacity": {
                 "doc": "How transparent I should be by default, between \\0\\ and \\1\\, unless overriden by a different @Pose. Helpful for fading in and out.",
                 "names": "opacity"
@@ -3228,10 +3232,6 @@
             "content": {
                 "doc": "The list of @Type to show on stage.",
                 "names": "content"
-            },
-            "background": {
-                "doc": "The color of the background of the stage.",
-                "names": "background"
             },
             "frame": {
                 "doc": "The shape and size of frame to place around the stage, hiding everything outside it.",

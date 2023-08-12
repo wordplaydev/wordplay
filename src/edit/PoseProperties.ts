@@ -11,7 +11,8 @@ import type Project from '../models/Project';
 
 export default function getPoseProperties(
     project: Project,
-    locale: Locale
+    locale: Locale,
+    background: boolean
 ): OutputProperty[] {
     return [
         new OutputProperty(
@@ -32,6 +33,21 @@ export default function getPoseProperties(
             (expr) => expr instanceof NumberLiteral,
             () => NumberLiteral.make(1)
         ),
+        ...(background
+            ? [
+                  new OutputProperty(
+                      locale.output.Type.background,
+                      'color' as const,
+                      false,
+                      false,
+                      (expr, context) =>
+                          expr instanceof Evaluate &&
+                          expr.is(project.shares.output.Color, context),
+                      (languages) =>
+                          createColorLiteral(project, languages, 0.5, 100, 180)
+                  ),
+              ]
+            : []),
         new OutputProperty(
             locale.output.Pose.scale,
             new OutputPropertyRange(0, 10, 0.25, '', 2),

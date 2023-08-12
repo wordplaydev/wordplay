@@ -10,7 +10,7 @@ Stage([
 			"🐭" 
 			selectable: ⊤
 			place: place
-resting:caught ? Pose(rotation: 180°) Pose()
+			resting: caught ? Pose(rotation: 180°) Pose()
 			moving:caught ? Pose() Sequence({0%: Pose(rotation: 0°) 100%:Pose(rotation: 360°)})
 			duration: 1s
 			name: 'mouse'

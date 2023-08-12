@@ -3702,7 +3702,7 @@
                         ["Stage", "surprised", "THE WORLD IS CLOSING IN…"],
                         [
                             "edit",
-                            "Stage([Phrase(“🐈” place:Place(-2.5m))] background: Color(0 0 0°) frame: Rectangle(-2m -2m 2m 2m))"
+                            "Stage([Phrase(“🐈” place: Place(-2.5m))] background: Color(0 0 0°) frame: Rectangle(-2m -2m 2m 2m))"
                         ],
                         null,
                         [
@@ -3716,8 +3716,8 @@
                             "Stage(",
                             "    [Phrase(“🐈” place:Place(-2.5m))]",
                             "    background: Color(0 0 0°)",
-                            "    frame: Rectangle(-2m -2m 2m 2m)",
                             "    resting: Pose(rotation: 30°)",
+                            "    frame: Rectangle(-2m -2m 2m 2m)",
                             ")"
                         ],
                         null,

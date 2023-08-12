@@ -309,9 +309,9 @@
         style:font-family={getFaceCSS(stage.face)}
         style:font-size={getSizeCSS(context.size)}
         style:color={getColorCSS(stage.getFirstRestPose(), stage.pose)}
-        style:background={background ? stage.background.toCSS() : null}
+        style:background={background ? stage.back.toCSS() : null}
         style:opacity={getOpacityCSS(stage.getFirstRestPose(), stage.pose)}
-        style:--grid-color={stage.background.complement().toCSS()}
+        style:--grid-color={stage.back.complement().toCSS()}
         bind:this={view}
     >
         <!-- Render the stage -->

@@ -1627,6 +1627,7 @@
                 "doc": "$?",
                 "names": "$? color"
             },
+            "background": { "doc": "$?", "names": "fondo" },
             "opacity": {
                 "doc": "$?",
                 "names": "$? opacity"
@@ -1663,7 +1664,6 @@
             "doc": "$?",
             "description": "$?",
             "content": { "doc": "$?", "names": "contenido" },
-            "background": { "doc": "$?", "names": "fondo" },
             "frame": { "doc": "$?", "names": "marco" }
         },
         "Group": {

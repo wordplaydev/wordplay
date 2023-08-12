@@ -4438,9 +4438,6 @@
             "Stage": {
               "additionalProperties": false,
               "properties": {
-                "background": {
-                  "$ref": "#/definitions/NameAndDoc"
-                },
                 "content": {
                   "$ref": "#/definitions/NameAndDoc"
                 },
@@ -4459,7 +4456,6 @@
                 }
               },
               "required": [
-                "background",
                 "content",
                 "description",
                 "doc",
@@ -4471,6 +4467,9 @@
             "Type": {
               "additionalProperties": false,
               "properties": {
+                "background": {
+                  "$ref": "#/definitions/NameAndDoc"
+                },
                 "color": {
                   "$ref": "#/definitions/NameAndDoc"
                 },
@@ -4533,6 +4532,7 @@
                 }
               },
               "required": [
+                "background",
                 "color",
                 "doc",
                 "duration",

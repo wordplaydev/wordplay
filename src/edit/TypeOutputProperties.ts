@@ -136,7 +136,7 @@ export default function getTypeOutputProperties(
             (expr) => expr instanceof BooleanLiteral,
             () => BooleanLiteral.make(false)
         ),
-        ...getPoseProperties(project, locale),
+        ...getPoseProperties(project, locale, true),
         getPoseProperty(project, locale.output.Type.entering),
         getPoseProperty(project, locale.output.Type.resting),
         getPoseProperty(project, locale.output.Type.moving),

@@ -7,6 +7,7 @@ export type TypeTexts = {
     name: NameAndDoc;
     selectable: NameAndDoc;
     color: NameAndDoc;
+    background: NameAndDoc;
     opacity: NameAndDoc;
     offset: NameAndDoc;
     rotation: NameAndDoc;
@@ -38,7 +39,6 @@ type OutputTexts = {
         /** $1: total outputs, $2: total phrases, $3: total groups, $4: pose */
         description: Template;
         content: NameAndDoc;
-        background: NameAndDoc;
         frame: NameAndDoc;
     };
     Arrangement: NameAndDoc;

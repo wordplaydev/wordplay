@@ -180,6 +180,7 @@
         bind:this={view}
         style:font-family={getFaceCSS(context.face)}
         style:font-size={getSizeCSS(context.size)}
+        style:background={phrase.background?.toCSS() ?? null}
         style:color={getColorCSS(phrase.getFirstRestPose(), phrase.pose)}
         style:opacity={getOpacityCSS(phrase.getFirstRestPose(), phrase.pose)}
         style:width="{metrics.width}px"

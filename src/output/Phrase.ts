@@ -29,6 +29,7 @@ export function createPhraseType(locales: Locale[]) {
     ${getBind(locales, (locale) => locale.output.Phrase, '•')} Type(
         ${getBind(locales, (locale) => locale.output.Phrase.text)}•""|[""]|\`…\`
         ${createTypeOutputInputs(locales, false)}
+        ${getBind(locales, (locale) => locale.output.Phrase)}
     )`);
 }
 
@@ -54,6 +55,7 @@ export default class Phrase extends TypeOutput {
         place: Place | undefined = undefined,
         name: TextLang | string,
         selectable: boolean,
+        background: Color | undefined,
         pose: DefinitePose,
         entering: Pose | Sequence | undefined = undefined,
         resting: Pose | Sequence | undefined = undefined,
@@ -69,6 +71,7 @@ export default class Phrase extends TypeOutput {
             place,
             name,
             selectable,
+            background,
             pose,
             entering,
             resting,
@@ -257,6 +260,7 @@ export function toPhrase(
         place,
         name,
         selectable,
+        background,
         pose,
         resting: rest,
         entering: enter,
@@ -279,6 +283,7 @@ export function toPhrase(
               place,
               namer?.getName(name?.text, value) ?? `${value.creator.id}`,
               selectable,
+              background,
               pose,
               enter,
               rest,

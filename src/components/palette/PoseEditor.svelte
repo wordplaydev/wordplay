@@ -17,7 +17,7 @@
     export let outputs: OutputExpression[];
     export let sequence: boolean;
 
-    $: PoseProperties = getPoseProperties(project, $config.getLocale());
+    $: PoseProperties = getPoseProperties(project, $config.getLocale(), false);
 
     // Create a mapping from pose properties to values
     let propertyValues: Map<OutputProperty, OutputPropertyValueSet>;
