@@ -767,10 +767,12 @@
         ) {
             if (tile.mode === Mode.Collapsed && $selectedOutput.length === 0) {
                 const output = project.getOutput();
-                if (output.length > 0)
+                if (output.length > 0) {
                     setSelectedOutput(selectedOutputPaths, project, [
                         output[0],
                     ]);
+                    $evaluator.pause();
+                }
             } else if (tile.mode === Mode.Expanded) {
                 setSelectedOutput(selectedOutputPaths, project, []);
             }
