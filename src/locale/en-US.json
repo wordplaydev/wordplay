@@ -3035,6 +3035,10 @@
             "doc": "I am @Row, a horizontal @Arrangement of @Type, with optional padding in between. Have you met my twin, @Stack?",
             "names": ["➡", "Row"],
             "description": "row of $1 phrases and groups",
+            "alignment": {
+                "doc": "Whether to align text at the start, center, or end on each column.",
+                "names": "alignment"
+            },
             "padding": {
                 "doc": "The amount of padding to place between output.",
                 "names": "padding"
@@ -3044,6 +3048,10 @@
             "doc": "I am @Stack, a vertical @Arrangement of @Type, with optional padding in between. Have you met my twin, @Row? ",
             "names": ["⬇", "Stack"],
             "description": "stack of $1 phrases and groups",
+            "alignment": {
+                "doc": "Whether to align text at the start, center, or end on each row.",
+                "names": "alignment"
+            },
             "padding": {
                 "doc": "The amount of padding to place between output.",
                 "names": "padding"

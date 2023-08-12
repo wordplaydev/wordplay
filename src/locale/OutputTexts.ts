@@ -83,6 +83,7 @@ type OutputTexts = {
          * $3 group count
          */
         description: Template;
+        alignment: NameAndDoc;
         padding: NameAndDoc;
     };
     Stack: NameAndDoc & {
@@ -92,6 +93,7 @@ type OutputTexts = {
          * $3 group count
          */
         description: Template;
+        alignment: NameAndDoc;
         padding: NameAndDoc;
     };
     Grid: NameAndDoc & {

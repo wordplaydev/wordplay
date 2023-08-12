@@ -4353,6 +4353,9 @@
             "Row": {
               "additionalProperties": false,
               "properties": {
+                "alignment": {
+                  "$ref": "#/definitions/NameAndDoc"
+                },
                 "description": {
                   "$ref": "#/definitions/Template",
                   "description": "$1 total count $2 phrase count $3 group count"
@@ -4368,6 +4371,7 @@
                 }
               },
               "required": [
+                "alignment",
                 "description",
                 "doc",
                 "names",
@@ -4405,6 +4409,9 @@
             "Stack": {
               "additionalProperties": false,
               "properties": {
+                "alignment": {
+                  "$ref": "#/definitions/NameAndDoc"
+                },
                 "description": {
                   "$ref": "#/definitions/Template",
                   "description": "$1 total count $2 phrase count $3 group count"
@@ -4420,6 +4427,7 @@
                 }
               },
               "required": [
+                "alignment",
                 "description",
                 "doc",
                 "names",

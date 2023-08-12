@@ -31,5 +31,6 @@ export function getOutputInput(
     value: StructureValue,
     index: number
 ): Value | undefined {
-    return value.resolve(value.type.inputs[index].names);
+    const input = value.type.inputs[index];
+    return input ? value.resolve(input.names) : undefined;
 }

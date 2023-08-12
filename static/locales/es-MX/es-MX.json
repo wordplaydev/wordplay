@@ -1684,12 +1684,20 @@
             "names": ["Fila"],
             "doc": "$?",
             "description": "$?",
+            "alignment": {
+                "doc": "$?",
+                "names": "$?"
+            },
             "padding": { "doc": "$?", "names": "relleno" }
         },
         "Stack": {
             "names": "Pila",
             "doc": "$?",
             "description": "$?",
+            "alignment": {
+                "doc": "$?",
+                "names": "$?"
+            },
             "padding": { "doc": "$?", "names": "relleno" }
         },
         "Grid": {

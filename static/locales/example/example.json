@@ -1673,13 +1673,21 @@
             "names": ["Fila"],
             "doc": "$?",
             "description": "$?",
+            "alignment": {
+                "doc": "$?",
+                "names": "$?"
+            },
             "padding": { "doc": "$?", "names": "$?" }
         },
         "Stack": {
             "names": "$?",
             "doc": "$?",
             "description": "$?",
-            "padding": { "doc": "$?", "names": "$?" }
+            "padding": { "doc": "$?", "names": "$?" },
+            "alignment": {
+                "doc": "$?",
+                "names": "$?"
+            }
         },
         "Grid": {
             "names": "$?",
