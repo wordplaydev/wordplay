@@ -117,9 +117,10 @@ export function toOutputTransform(
     // If it's not the root, then we add to that some scaling factor proportional to the
     // additional z of the output. This accounts for the cumulative nature of CSS transforms,
     // where parents affect their children.
-    const perspectiveScale = root
+    const candidateScale = root
         ? rootScale(z, focus.z)
         : incrementalScale(z, focus.z);
+    const perspectiveScale = isNaN(candidateScale) ? 100 : candidateScale;
 
     // Find the center of the stage, around which we will rotate and scale.
     let centerXOffset = root ? 0 : metrics.width / 2;
