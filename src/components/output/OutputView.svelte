@@ -417,125 +417,128 @@
         }
     }
     function handlePointerMove(event: PointerEvent) {
-        const valueRect = valueView?.getBoundingClientRect();
-
-        if (valueRect === undefined) return;
-
         // Handle focus or output moves..
-        if (event.buttons === 1 && drag && valueRect && renderedFocus) {
-            const { x: renderedDeltaX, y: renderedDeltaY } = pixelsToMeters(
-                event.clientX - valueRect.left - drag.left,
-                event.clientY - valueRect.top - drag.top,
-                drag.startPlace.z,
-                renderedFocus.z
-            );
+        if (event.buttons === 1 && drag && renderedFocus) {
+            const valueRect = valueView?.getBoundingClientRect();
+            if (valueRect !== undefined) {
+                const { x: renderedDeltaX, y: renderedDeltaY } = pixelsToMeters(
+                    event.clientX - valueRect.left - drag.left,
+                    event.clientY - valueRect.top - drag.top,
+                    drag.startPlace.z,
+                    renderedFocus.z
+                );
 
-            const newX = twoDigits(drag.startPlace.x + renderedDeltaX);
-            const newY = twoDigits(drag.startPlace.y - renderedDeltaY);
+                const newX = twoDigits(drag.startPlace.x + renderedDeltaX);
+                const newY = twoDigits(drag.startPlace.y - renderedDeltaY);
 
-            // If painting, gather points
-            if (painting && paintingConfig) {
-                // Is the new position a certain Euclidian distance from the most recent position? Add a point to the stroke.
-                const prior = paintingPlaces.at(-1);
-                if (
-                    prior === undefined ||
-                    Math.sqrt(
-                        Math.pow(prior.x - newX, 2) +
-                            Math.pow(prior.y - newY, 2)
-                    ) > 0.5
-                ) {
-                    // Add the point
-                    paintingPlaces.push({ x: newX, y: newY });
+                // If painting, gather points
+                if (painting && paintingConfig) {
+                    // Is the new position a certain Euclidian distance from the most recent position? Add a point to the stroke.
+                    const prior = paintingPlaces.at(-1);
+                    if (
+                        prior === undefined ||
+                        Math.sqrt(
+                            Math.pow(prior.x - newX, 2) +
+                                Math.pow(prior.y - newY, 2)
+                        ) > 0.5
+                    ) {
+                        // Add the point
+                        paintingPlaces.push({ x: newX, y: newY });
 
-                    const minX = twoDigits(
-                        Math.min.apply(
-                            null,
-                            paintingPlaces.map((p) => p.x)
-                        )
-                    );
-                    const minY = twoDigits(
-                        Math.min.apply(
-                            null,
-                            paintingPlaces.map((p) => p.y)
-                        )
-                    );
-
-                    // Create a stroke. represented as freeform group of phrases with explicit positions.
-                    const group = toExpression(
-                        `Group(Free() [${paintingPlaces
-                            .map(
-                                (p) =>
-                                    `Place(${twoDigits(
-                                        p.x - minX
-                                    )}m ${twoDigits(p.y - minY)}m)`
+                        const minX = twoDigits(
+                            Math.min.apply(
+                                null,
+                                paintingPlaces.map((p) => p.x)
                             )
-                            .join(
-                                ' '
-                            )}].translate(ƒ(place•Place) Phrase('a' place: place)) place: Place(${minX}m ${minY}m))`
-                    );
+                        );
+                        const minY = twoDigits(
+                            Math.min.apply(
+                                null,
+                                paintingPlaces.map((p) => p.y)
+                            )
+                        );
 
-                    // Add the stroke to the project's verse
-                    if (strokeNodeID === undefined) {
-                        addStageContent($config, project, group);
-                    } else {
-                        const node = project.getNodeByID(strokeNodeID);
-                        if (node)
-                            $config.reviseProjectNodes(project, [
-                                [node, group],
-                            ]);
+                        // Create a stroke. represented as freeform group of phrases with explicit positions.
+                        const group = toExpression(
+                            `Group(Free() [${paintingPlaces
+                                .map(
+                                    (p) =>
+                                        `Place(${twoDigits(
+                                            p.x - minX
+                                        )}m ${twoDigits(p.y - minY)}m)`
+                                )
+                                .join(
+                                    ' '
+                                )}].translate(ƒ(place•Place) Phrase('a' place: place)) place: Place(${minX}m ${minY}m))`
+                        );
+
+                        // Add the stroke to the project's verse
+                        if (strokeNodeID === undefined) {
+                            addStageContent($config, project, group);
+                        } else {
+                            const node = project.getNodeByID(strokeNodeID);
+                            if (node)
+                                $config.reviseProjectNodes(project, [
+                                    [node, group],
+                                ]);
+                        }
+                        strokeNodeID = group.id;
                     }
-                    strokeNodeID = group.id;
-                }
-            } else {
-                if (event.shiftKey && stage) {
-                    stage.setFocus(newX, newY, drag.startPlace.z);
-                    event.stopPropagation();
-                } else if (
-                    selectedOutput &&
-                    $selectedOutput &&
-                    $selectedOutput.length > 0 &&
-                    !$selectedOutput[0].is(
-                        project.shares.output.Stage,
-                        project.getNodeContext($selectedOutput[0])
-                    )
-                ) {
-                    moveOutput(
-                        $config,
-                        project,
-                        $selectedOutput,
-                        $config.getLocales(),
-                        newX,
-                        newY,
-                        false
-                    );
-                    event.stopPropagation();
+                } else {
+                    if (event.shiftKey && stage) {
+                        stage.setFocus(newX, newY, drag.startPlace.z);
+                        event.stopPropagation();
+                    } else if (
+                        selectedOutput &&
+                        $selectedOutput &&
+                        $selectedOutput.length > 0 &&
+                        !$selectedOutput[0].is(
+                            project.shares.output.Stage,
+                            project.getNodeContext($selectedOutput[0])
+                        )
+                    ) {
+                        moveOutput(
+                            $config,
+                            project,
+                            $selectedOutput,
+                            $config.getLocales(),
+                            newX,
+                            newY,
+                            false
+                        );
+                        event.stopPropagation();
+                    }
                 }
             }
         }
 
         const pointerStreams = evaluator.getBasisStreamsOfType(Pointer);
-        if (evaluator.isPlaying() && pointerStreams.length > 0) {
-            // First, get the position of the pointer relative to the tile bounds.
-            const tileX = event.clientX - valueRect.left - valueRect.width / 2;
-            const tileY = -(
-                event.clientY -
-                valueRect.top -
-                valueRect.height / 2
-            );
+        if (valueView && evaluator.isPlaying() && pointerStreams.length > 0) {
+            const valueRect = valueView.getBoundingClientRect();
+            if (valueRect !== undefined) {
+                // First, get the position of the pointer relative to the tile bounds.
+                const tileX =
+                    event.clientX - valueRect.left - valueRect.width / 2;
+                const tileY = -(
+                    event.clientY -
+                    valueRect.top -
+                    valueRect.height / 2
+                );
 
-            // Now translate the position into stage coordinates.
-            const position = pixelsToMeters(
-                tileX,
-                tileY,
-                0,
-                renderedFocus?.z ?? 0
-            );
+                // Now translate the position into stage coordinates.
+                const position = pixelsToMeters(
+                    tileX,
+                    tileY,
+                    0,
+                    renderedFocus?.z ?? 0
+                );
 
-            // Now translate the position relative to the stage focus.
-            position.x -= renderedFocus?.x ?? 0;
-            position.y -= renderedFocus?.y ?? 0;
+                // Now translate the position relative to the stage focus.
+                position.x -= renderedFocus?.x ?? 0;
+                position.y -= renderedFocus?.y ?? 0;
 
-            pointerStreams.forEach((stream) => stream.react(position));
+                pointerStreams.forEach((stream) => stream.react(position));
+            }
         }
     }
 
