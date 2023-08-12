@@ -34,7 +34,7 @@ export function createStageType(locales: Locale[]) {
             (locale) => locale.output.Stage.background
         )}•Color: Color(100 0 0°)
         ${getBind(locales, (locale) => locale.output.Stage.frame)}•Shape|ø: ø
-        ${createTypeOutputInputs(locales)}
+        ${createTypeOutputInputs(locales, true)}
     )
 `);
 }

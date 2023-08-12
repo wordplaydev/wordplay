@@ -28,7 +28,7 @@ export function createPhraseType(locales: Locale[]) {
     return toStructure(`
     ${getBind(locales, (locale) => locale.output.Phrase, '•')} Type(
         ${getBind(locales, (locale) => locale.output.Phrase.text)}•""|[""]|\`…\`
-        ${createTypeOutputInputs(locales)}
+        ${createTypeOutputInputs(locales, false)}
     )`);
 }
 

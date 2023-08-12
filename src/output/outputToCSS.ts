@@ -55,8 +55,8 @@ export function centerTransform(viewportWidth: number, viewportHeight: number) {
     return translateXY(viewportWidth / 2, viewportHeight / 2);
 }
 
-export function getFaceCSS(face: string) {
-    return `"${face}", ${CSSFallbackFaces}`;
+export function getFaceCSS(face: string | undefined) {
+    return face ? `"${face}", ${CSSFallbackFaces}` : null;
 }
 
 export function getSizeCSS(size: number | undefined) {

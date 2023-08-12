@@ -21,23 +21,37 @@ export function createTypeType(locales: Locale[]) {
 
 export const DefaultStyle = 'zippy';
 
-export function createTypeOutputInputs(locales: Locale[]) {
+export function createTypeOutputInputs(locales: Locale[], stage: boolean) {
     return `
-${getBind(locales, (locale) => locale.output.Type.size)}•#m: 1m
+${getBind(locales, (locale) => locale.output.Type.size)}•${
+        stage ? '#m: 1m' : '#m|ø: ø'
+    }
 ${getBind(
     locales,
     (locale) => locale.output.Type.face
-)}•${SupportedFontsFamiliesType}|ø: ø
-${getBind(locales, (locale) => locale.output.Type.place)}•ø|📍: ø
+)}•${SupportedFontsFamiliesType}${stage ? ": 'Noto Sans'" : '|ø: ø'}
+${getBind(locales, (locale) => locale.output.Type.place)}•📍|ø: ø
 ${getBind(locales, (locale) => locale.output.Type.name)}•""|ø: ø
 ${getBind(locales, (locale) => locale.output.Type.selectable)}•?: ⊥
-${getBind(locales, (locale) => locale.output.Pose.color)}•🌈|ø: ø
-${getBind(locales, (locale) => locale.output.Pose.opacity)}•%|ø: ø
+${getBind(locales, (locale) => locale.output.Pose.color)}•🌈${
+        stage ? ': Color(0% 0 0°)' : '|ø: ø'
+    }
+${getBind(locales, (locale) => locale.output.Pose.opacity)}•%${
+        stage ? ': 1' : '|ø: ø'
+    }
 ${getBind(locales, (locale) => locale.output.Pose.offset)}•📍|ø: ø
-${getBind(locales, (locale) => locale.output.Type.rotation)}•#°|ø: ø
-${getBind(locales, (locale) => locale.output.Pose.scale)}•#|ø: ø
-${getBind(locales, (locale) => locale.output.Pose.flipx)}•?|ø: ø
-${getBind(locales, (locale) => locale.output.Pose.flipy)}•?|ø: ø
+${getBind(locales, (locale) => locale.output.Type.rotation)}•#°${
+        stage ? ': 0°' : '|ø: ø'
+    }
+${getBind(locales, (locale) => locale.output.Pose.scale)}•#${
+        stage ? ': 1' : '|ø: ø'
+    }
+${getBind(locales, (locale) => locale.output.Pose.flipx)}•?${
+        stage ? ': ⊥' : '|ø: ø'
+    }
+${getBind(locales, (locale) => locale.output.Pose.flipy)}•?${
+        stage ? ': ⊥' : '|ø: ø'
+    }
 ${getBind(locales, (locale) => locale.output.Type.entering)}•ø|🤪|💃: ø
 ${getBind(locales, (locale) => locale.output.Type.resting)}•ø|🤪|💃: ø
 ${getBind(locales, (locale) => locale.output.Type.moving)}•ø|🤪|💃: ø

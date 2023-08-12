@@ -24,7 +24,7 @@ export function createGroupType(locales: Locale[]) {
     ${getBind(locales, (locale) => locale.output.Group, TYPE_SYMBOL)} Type(
         ${getBind(locales, (locale) => locale.output.Group.layout)}•Arrangement
         ${getBind(locales, (locale) => locale.output.Group.content)}•[Type|ø]
-        ${createTypeOutputInputs(locales)}
+        ${createTypeOutputInputs(locales, false)}
     )`);
 }
 

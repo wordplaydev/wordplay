@@ -7,7 +7,13 @@
     import type Project from '@models/Project';
     import type Stage from '@output/Stage';
     import { loadedFonts } from '@basis/Fonts';
-    import { PX_PER_METER, toCSS } from '@output/outputToCSS';
+    import {
+        PX_PER_METER,
+        getColorCSS,
+        getFaceCSS,
+        getOpacityCSS,
+        getSizeCSS,
+    } from '@output/outputToCSS';
     import Place from '@output/Place';
     import Evaluate from '@nodes/Evaluate';
     import { DefaultFace, DefaultSize } from '@output/Stage';
@@ -300,15 +306,12 @@
         data-id={stage.getHTMLID()}
         data-node-id={stage.value.creator.id}
         data-selectable={stage.selectable}
-        style={toCSS({
-            'font-family': `"${stage.face}", ${DefaultFace}`,
-            background: background ? stage.background.toCSS() : undefined,
-            '--grid-color': stage.background.complement().toCSS(),
-            color:
-                (
-                    stage.getFirstRestPose()?.color ?? stage.pose.color
-                )?.toCSS() ?? 'var(--wordplay-foreground)',
-        })}
+        style:font-family={getFaceCSS(stage.face)}
+        style:font-size={getSizeCSS(context.size)}
+        style:color={getColorCSS(stage.getFirstRestPose(), stage.pose)}
+        style:background={background ? stage.background.toCSS() : null}
+        style:opacity={getOpacityCSS(stage.getFirstRestPose(), stage.pose)}
+        style:--grid-color={stage.background.complement().toCSS()}
         bind:this={view}
     >
         <!-- Render the stage -->
@@ -430,6 +433,8 @@
         width: 100%;
         height: 100%;
         position: relative;
+
+        color: var(--wordplay-foreground);
 
         --grid-color: currentColor;
 
