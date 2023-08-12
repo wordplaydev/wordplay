@@ -2,12 +2,7 @@
     import { toShortcut, type Command } from '../editor/util/Commands';
     import Button from './Button.svelte';
     import { config } from '../../db/Database';
-    import {
-        IdleKind,
-        getEditors,
-        getEvaluator,
-        getProjectCommandContext,
-    } from '../project/Contexts';
+    import { IdleKind, getEditors, getEvaluator } from '../project/Contexts';
     import { tokenize } from '../../parser/Tokenizer';
     import TokenView from '../editor/TokenView.svelte';
     import { tick } from 'svelte';
@@ -27,7 +22,11 @@
         ? $editors?.get(sourceID)
         : Array.from($editors.values()).find((editor) => editor.focused);
 
-    const projectCommandContext = getProjectCommandContext();
+    $: context = {
+        caret: editor?.caret,
+        evaluator: $evaluator,
+        database: $config,
+    };
 </script>
 
 <Button
@@ -37,17 +36,14 @@
     active={command.active === undefined
         ? true
         : editor
-        ? command.active(
-              { caret: editor.caret, evaluator: $evaluator, database: $config },
-              ''
-          )
+        ? command.active(context, '')
         : false}
     action={async () => {
         const hadFocus = view !== undefined && document.activeElement === view;
 
-        if ($projectCommandContext === undefined) return;
+        if (context === undefined) return;
 
-        const result = command.execute($projectCommandContext, '');
+        const result = command.execute(context, '');
         if (typeof result === 'boolean') {
         } else if (result instanceof Promise)
             result.then((edit) =>

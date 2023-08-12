@@ -58,7 +58,7 @@ export function getKeyboardEditIdle() {
     return getContext<KeyboardEditIdleContext>(KeyboardEditIdleSymbol);
 }
 
-export type ProjectCommandContext = Readable<CommandContext>;
+export type ProjectCommandContext = Writable<CommandContext>;
 export const ProjectCommandContextSymbol = Symbol('projectcommand');
 export function getProjectCommandContext() {
     return getContext<ProjectCommandContext>(ProjectCommandContextSymbol);
