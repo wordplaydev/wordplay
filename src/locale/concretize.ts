@@ -72,6 +72,7 @@ export function concretizeOrUndefined(
     // See if we've cached this template.
     let markup = TemplateToMarkupCache.get(template);
     if (markup === undefined) {
+        console.log('miss');
         [markup] = toMarkup(template);
         TemplateToMarkupCache.set(template, markup);
     }

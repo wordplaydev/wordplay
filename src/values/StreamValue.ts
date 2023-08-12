@@ -161,8 +161,7 @@ export default abstract class StreamValue<
     abstract stop(): void;
 
     getSize() {
-        let sum = 0;
-        for (const value of this.values) sum += value.value.getSize();
-        return sum;
+        // Estimate based on most recent value.
+        return this.values.length * (this.values.at(-1)?.value.getSize() ?? 0);
     }
 }
