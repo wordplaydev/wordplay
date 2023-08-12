@@ -163,7 +163,7 @@ export default class Phrase extends TypeOutput {
         if (
             height !== undefined &&
             ascent !== undefined &&
-            Fonts.isLoaded(renderedFace)
+            Fonts.isFaceLoaded(renderedFace)
         )
             this._metrics = dimensions;
 

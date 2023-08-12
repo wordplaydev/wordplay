@@ -82,7 +82,7 @@ export class FontManager {
         { name: 'Noto Mono', weight: 400, italic: false },
     ];
 
-    facesLoaded = new Map<string, 'requested' | 'loaded'>();
+    facesLoaded = new Map<string, 'requested' | 'loaded' | 'failed'>();
 
     constructor() {
         this.fonts.forEach((font) => this.load(font));
@@ -104,47 +104,65 @@ export class FontManager {
         );
     }
 
-    isRequested(face: string) {
+    isFaceRequested(face: string) {
         return this.facesLoaded.has(face);
     }
 
-    isLoaded(face: string) {
+    isFaceLoaded(face: string) {
         return this.facesLoaded.get(face) === 'loaded';
     }
 
-    loadFace(name: string) {
+    async loadFace(name: string) {
         if (this.facesLoaded.get(name) === 'loaded') return;
 
         // Mark the face requested.
         this.facesLoaded.set(name, 'requested');
 
         const face = SupportedFaces.find((font) => font.name === name);
+
+        const promises: Promise<boolean>[] = [];
         if (face) {
             // Load all fonts in the face
             if (Array.isArray(face.weights)) {
                 for (const weight of face.weights)
-                    this.load({
-                        name: name,
-                        weight: weight,
-                        italic: false,
-                    });
-                if (face.italic)
-                    for (const weight of face.weights)
+                    promises.push(
                         this.load({
                             name: name,
                             weight: weight,
-                            italic: true,
-                        });
+                            italic: false,
+                        })
+                    );
+                if (face.italic)
+                    for (const weight of face.weights)
+                        promises.push(
+                            this.load({
+                                name: name,
+                                weight: weight,
+                                italic: true,
+                            })
+                        );
             } else
-                this.load({
-                    name: name,
-                    weight: 300, // this is ignored
-                    italic: false, // this is ignored
-                });
+                promises.push(
+                    this.load({
+                        name: name,
+                        weight: 300, // this is ignored
+                        italic: false, // this is ignored
+                    })
+                );
+        } else {
+            this.facesLoaded.set(name, 'failed');
+            return;
         }
+
+        const loads = await Promise.all(promises);
+
+        this.facesLoaded.set(
+            name,
+            loads.every((loaded) => loaded) ? 'loaded' : 'failed'
+        );
     }
 
-    load(font: Font) {
+    async load(font: Font): Promise<boolean> {
         // Don't try to add if not in a browser yet.
         if (typeof document === 'undefined' || typeof FontFace === 'undefined')
             return false;
@@ -179,10 +197,12 @@ export class FontManager {
         document.fonts.add(fontFace);
 
         // Load the font, and when it's done, mark it as loaded and notify any listeners.
-        fontFace.load().then(() => {
-            this.facesLoaded.set(font.name, 'loaded');
-            loadedFonts.set(new Set(this.facesLoaded.keys()));
-        });
+        await fontFace.load();
+
+        this.facesLoaded.set(font.name, 'loaded');
+        loadedFonts.set(new Set(this.facesLoaded.keys()));
+
+        return true;
     }
 }
 
