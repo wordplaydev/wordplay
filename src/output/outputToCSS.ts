@@ -55,39 +55,21 @@ export function centerTransform(viewportWidth: number, viewportHeight: number) {
     return translateXY(viewportWidth / 2, viewportHeight / 2);
 }
 
-export default function outputToCSS(
-    face: string | undefined,
-    size: number | undefined,
-    primaryPose: Pose,
-    secondaryPose: Pose,
-    place: Place,
-    width: number | undefined,
-    height: number | undefined,
-    focus: Place,
-    parentAscent: number,
-    metrics: Metrics,
-    viewport: { width: number; height: number } | undefined = undefined
-) {
-    return toCSS({
-        width: width ? sizeToPx(width) : undefined,
-        height: height ? sizeToPx(height) : undefined,
-        transform: toOutputTransform(
-            primaryPose,
-            secondaryPose,
-            place,
-            focus,
-            parentAscent,
-            metrics,
-            viewport
-        ),
-        // This disables translation around the center; we want to translate around the focus.
-        'transform-origin': '0 0',
-        color: (primaryPose.color ?? secondaryPose.color)?.toCSS(),
-        opacity: (primaryPose.opacity ?? primaryPose.opacity)?.toString(),
-        'font-family': `"${face}", ${CSSFallbackFaces}`,
-        // The font size is whatever it's normal size is, but adjusted for perspective, then translated into pixels.
-        'font-size': size ? sizeToPx(size) : undefined,
-    });
+export function getFaceCSS(face: string) {
+    return `"${face}", ${CSSFallbackFaces}`;
+}
+
+export function getSizeCSS(size: number | undefined) {
+    // The font size is whatever it's normal size is, but adjusted for perspective, then translated into pixels.
+    return size !== undefined ? sizeToPx(size) : null;
+}
+
+export function getColorCSS(primary: Pose, secondary: Pose) {
+    return (primary.color ?? secondary.color)?.toCSS() ?? null;
+}
+
+export function getOpacityCSS(primary: Pose, secondary: Pose) {
+    return (primary.opacity ?? secondary.opacity)?.toString() ?? null;
 }
 
 export function toOutputTransform(

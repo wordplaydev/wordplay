@@ -1,5 +1,3 @@
-<svelte:options immutable={true} />
-
 <script context="module" lang="ts">
     const HalfGridlineThickness = 0.1;
 </script>

@@ -1,8 +1,14 @@
-<svelte:options immutable={true} />
-
 <script lang="ts">
     import type Place from '@output/Place';
-    import outputToCSS, { PX_PER_METER } from '@output/outputToCSS';
+    import {
+        PX_PER_METER,
+        getColorCSS,
+        getFaceCSS,
+        getSizeCSS,
+        getOpacityCSS,
+        sizeToPx,
+        toOutputTransform,
+    } from '@output/outputToCSS';
     import type RenderContext from '@output/RenderContext';
     import Phrase from '@output/Phrase';
     import PhraseView from './PhraseView.svelte';
@@ -63,15 +69,17 @@
     data-node-id={group.value.creator.id}
     data-name={group.getName()}
     data-selectable={group.selectable}
-    style={outputToCSS(
-        context.face,
-        context.size,
-        // No first pose because of an empty sequence? Give a default.
+    style:width={sizeToPx(layout.width)}
+    style:height={sizeToPx(layout.height)}
+    style:font-family={getFaceCSS(context.face)}
+    style:font-size={getSizeCSS(context.size)}
+    style:color={getColorCSS(group.getFirstRestPose(), group.pose)}
+    style:opacity={getOpacityCSS(group.getFirstRestPose(), group.pose)}
+    style:clip-path={clip ? clip.toCSSClip() : null}
+    style:transform={toOutputTransform(
         group.getFirstRestPose(),
         group.pose,
         place,
-        layout.width,
-        layout.height,
         focus,
         parentAscent,
         {
@@ -81,7 +89,6 @@
         },
         viewport
     )}
-    style:clip-path={clip ? clip.toCSSClip() : null}
 >
     <slot />
     {#each ordered as [child, childPlace] (child.getName())}
@@ -126,6 +133,9 @@
         position: absolute;
         left: 0;
         top: 0;
+
+        /* This disables translation around the center; we want to translate around the focus.*/
+        transform-origin: 0 0;
     }
 
     .frame {

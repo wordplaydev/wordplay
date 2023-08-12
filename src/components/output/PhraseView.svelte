@@ -1,7 +1,13 @@
 <script lang="ts">
     import type Phrase from '@output/Phrase';
     import type Place from '@output/Place';
-    import outputToCSS from '@output/outputToCSS';
+    import {
+        getColorCSS,
+        getFaceCSS as getFaceCSS,
+        getSizeCSS as getSizeCSS,
+        getOpacityCSS,
+        toOutputTransform,
+    } from '@output/outputToCSS';
     import type RenderContext from '@output/RenderContext';
     import Evaluate from '@nodes/Evaluate';
     import TextLiteral from '@nodes/TextLiteral';
@@ -172,16 +178,17 @@
         on:dblclick={$editable && interactive ? enter : null}
         on:keydown={$editable && interactive ? move : null}
         bind:this={view}
+        style:font-family={getFaceCSS(context.face)}
+        style:font-size={getSizeCSS(context.size)}
+        style:color={getColorCSS(phrase.getFirstRestPose(), phrase.pose)}
+        style:opacity={getOpacityCSS(phrase.getFirstRestPose(), phrase.pose)}
+        style:width="{metrics.width}px"
+        style:height="{metrics.height}px"
         style:line-height="{metrics.height}px"
-        style={outputToCSS(
-            context.face,
-            context.size,
-            // No first pose because of an empty sequence? Give a default.
+        style:transform={toOutputTransform(
             phrase.getFirstRestPose(),
             phrase.pose,
             place,
-            undefined,
-            undefined,
             focus,
             parentAscent,
             metrics
@@ -214,8 +221,9 @@
         left: 0;
         top: 0;
         white-space: nowrap;
-        width: fit-content;
-        height: fit-content;
+
+        /* This disables translation around the center; we want to translate around the focus.*/
+        transform-origin: 0 0;
     }
 
     :global(.editing) .phrase {

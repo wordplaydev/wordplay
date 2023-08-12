@@ -161,7 +161,7 @@ export class Grid extends Arrangement {
                     const place = new Place(
                         this.value,
                         cellLeft + (columnWidth - cell.output.width) / 2,
-                        cellTop + (rowHeight - cell.output.ascent) / 2,
+                        cellTop + (rowHeight - cell.output.height) / 2,
                         0
                     );
                     places.push([cell.output.output, place]);

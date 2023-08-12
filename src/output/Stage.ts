@@ -113,7 +113,7 @@ export default class Stage extends TypeOutput {
                           -layout.width / 2,
                           // We would normally not negate the y because its in math coordinates, but we want to move it
                           // down the y-axis by half, so we subtract.
-                          -layout.ascent / 2,
+                          -layout.height / 2,
                           0
                       );
                 places.push([child, place]);
@@ -122,8 +122,8 @@ export default class Stage extends TypeOutput {
                 if (place.x + layout.width > right)
                     right = place.x + layout.width;
                 if (place.y < bottom) bottom = place.y;
-                if (place.y + layout.ascent > top)
-                    top = place.y + layout.ascent;
+                if (place.y + layout.height > top)
+                    top = place.y + layout.height;
             }
         }
 
