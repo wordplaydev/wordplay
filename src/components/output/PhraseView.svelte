@@ -216,10 +216,6 @@
         white-space: nowrap;
         width: fit-content;
         height: fit-content;
-
-        /** Put the group in a layer to offload rendering to the GPU */
-        will-change: transform, opacity, width, height, font-size, font-family,
-            color, transform-origin;
     }
 
     :global(.editing) .phrase {

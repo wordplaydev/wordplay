@@ -434,6 +434,9 @@
         position: relative;
 
         --grid-color: currentColor;
+
+        /** Put the stage in a layer, since it's contents likely change frequently. */
+        will-change: contents;
     }
 
     .stage[data-selectable='true'] {
