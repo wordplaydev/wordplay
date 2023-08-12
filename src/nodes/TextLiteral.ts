@@ -106,10 +106,12 @@ export default class TextLiteral extends Literal {
             let next: string;
             if (p instanceof Token) {
                 next = unescaped(p.getText());
-            } else if (evaluator.peekValue() instanceof TextValue) {
-                next = (evaluator.popValue(this) as TextValue).text;
             } else {
-                next = evaluator.popValue(this).toString();
+                const value = evaluator.peekValue();
+                next =
+                    value instanceof TextValue
+                        ? value.text
+                        : value?.toString() ?? '';
             }
             // Assemble in reverse order
             text = next + text;
