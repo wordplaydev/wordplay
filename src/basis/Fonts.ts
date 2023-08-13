@@ -1,5 +1,6 @@
 import { writable } from 'svelte/store';
 import { OR_SYMBOL } from '@parser/Symbols';
+import { LatinCyrillicGreek, type Script } from '../locale/Scripts';
 
 export type FontWeight = 100 | 200 | 300 | 400 | 500 | 600 | 700 | 800 | 900;
 export type FontWeightRange = { min: FontWeight; max: FontWeight };
@@ -9,7 +10,7 @@ export type Face = {
     name: string; // The name of the font
     weights: FontWeight[] | FontWeightRange; // Weights supported on the font
     italic: boolean; // True if italics is supported on the weights above,
-    languages?: string[]; // A list of 3-letter ISO language codes supported
+    scripts: Script[]; // A list of ISO 15924 scripts supported
 };
 
 export type Font = {
@@ -28,38 +29,43 @@ const SupportedFaces: Face[] = [
         name: 'Roboto',
         weights: [100, 300, 400, 500, 700, 900],
         italic: true,
-        languages: ['eng'], // Update with languages at https://fonts.google.com/specimen/Roboto/glyphs
+        scripts: LatinCyrillicGreek,
     },
     {
         name: 'Noto Sans',
         weights: [100, 200, 300, 400, 500, 600, 700, 800, 900],
         italic: true,
-        languages: ['eng'], // Update with languages at https://fonts.google.com/noto/specimen/Noto+Sans/about?query=noto+sans
+        scripts: LatinCyrillicGreek,
     },
     {
         name: 'Noto Emoji',
         weights: { min: 300, max: 700 },
         italic: false,
+        scripts: ['Emoj'],
     },
     {
         name: 'Noto Color Emoji',
         weights: { min: 300, max: 700 },
         italic: false,
+        scripts: ['Emoj'],
     },
     {
         name: 'Noto Mono',
         weights: { min: 100, max: 900 },
         italic: false,
+        scripts: LatinCyrillicGreek,
     },
     {
         name: 'Poor Story',
         weights: [400],
         italic: false,
+        scripts: ['Kore', 'Latn'],
     },
     {
         name: 'Permanent Marker',
         weights: [400],
         italic: false,
+        scripts: ['Latn'],
     },
 ];
 export { SupportedFaces as SupportedFonts };

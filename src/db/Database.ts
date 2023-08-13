@@ -19,10 +19,7 @@ import { FirebaseError } from 'firebase/app';
 import type Locale from '../locale/Locale';
 import type { LayoutObject } from '../components/project/Layout';
 import type LanguageCode from '../locale/LanguageCode';
-import {
-    getLanguageDirection,
-    type WritingLayout,
-} from '../locale/LanguageCode';
+import { getLanguageDirection } from '../locale/LanguageCode';
 import Progress from '../tutorial/Progress';
 import Arrangement from './Arrangement';
 import type { Tutorial } from '../tutorial/Tutorial';
@@ -34,6 +31,7 @@ import {
     type SupportedLocale,
     getBestSupportedLocales,
 } from '../locale/Locale';
+import type { WritingLayout } from '../locale/Scripts';
 
 const PROJECTS_KEY = 'projects';
 const LAYOUTS_KEY = 'layouts';
