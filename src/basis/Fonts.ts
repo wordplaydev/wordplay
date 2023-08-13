@@ -26,18 +26,6 @@ export const loadedFonts = writable<Set<string>>(new Set());
  */
 const SupportedFaces: Face[] = [
     {
-        name: 'Borel',
-        weights: [400],
-        italic: false,
-        scripts: Latin,
-    },
-    {
-        name: 'Roboto',
-        weights: [100, 300, 400, 500, 700, 900],
-        italic: true,
-        scripts: LatinCyrillicGreek,
-    },
-    {
         name: 'Noto Sans',
         weights: [100, 200, 300, 400, 500, 600, 700, 800, 900],
         italic: true,
@@ -50,12 +38,6 @@ const SupportedFaces: Face[] = [
         scripts: ['Jpan'],
     },
     {
-        name: 'Noto Sans Simplified Chinese',
-        weights: [100, 300, 400, 500, 700, 900],
-        italic: false,
-        scripts: ['Hani'],
-    },
-    {
         name: 'Noto Emoji',
         weights: { min: 300, max: 700 },
         italic: false,
@@ -66,6 +48,12 @@ const SupportedFaces: Face[] = [
         weights: { min: 300, max: 700 },
         italic: false,
         scripts: ['Emoj'],
+    },
+    {
+        name: 'Noto Sans Simplified Chinese',
+        weights: [100, 300, 400, 500, 700, 900],
+        italic: false,
+        scripts: ['Hani'],
     },
     {
         name: 'Noto Mono',
@@ -84,6 +72,18 @@ const SupportedFaces: Face[] = [
         weights: [400],
         italic: false,
         scripts: ['Latn'],
+    },
+    {
+        name: 'Borel',
+        weights: [400],
+        italic: false,
+        scripts: Latin,
+    },
+    {
+        name: 'Roboto',
+        weights: [100, 300, 400, 500, 700, 900],
+        italic: true,
+        scripts: LatinCyrillicGreek,
     },
 ];
 export { SupportedFaces as SupportedFonts };
