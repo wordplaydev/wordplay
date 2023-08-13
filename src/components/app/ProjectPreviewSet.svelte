@@ -49,7 +49,6 @@
         gap: calc(2 * var(--wordplay-spacing));
         row-gap: calc(2 * var(--wordplay-spacing));
         justify-content: center;
-        margin: calc(2 * var(--wordplay-spacing));
     }
 
     .controls {
