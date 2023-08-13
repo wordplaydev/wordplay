@@ -1,13 +1,14 @@
 import Graphemer from 'graphemer';
 
-/** NodeJS import silliness */
-let Graph = Graphemer;
-if (typeof process !== 'undefined') {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    Graph = (Graphemer as any).default;
+// This silliness is due to Graphemer not behaving the same in browsers and in Node
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function isConstructor(obj: any) {
+    return !!obj.prototype && !!obj.prototype.constructor.name;
 }
-
-const Segmenter = new Graph();
+const Segmenter = isConstructor(Graphemer)
+    ? new Graphemer()
+    : // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      (new (Graphemer as any).default() as Graphemer);
 
 export default class UnicodeString {
     readonly text: string;
