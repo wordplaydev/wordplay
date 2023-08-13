@@ -1,6 +1,6 @@
 import { writable } from 'svelte/store';
 import { OR_SYMBOL } from '@parser/Symbols';
-import { LatinCyrillicGreek, type Script } from '../locale/Scripts';
+import { Latin, LatinCyrillicGreek, type Script } from '../locale/Scripts';
 
 export type FontWeight = 100 | 200 | 300 | 400 | 500 | 600 | 700 | 800 | 900;
 export type FontWeightRange = { min: FontWeight; max: FontWeight };
@@ -26,6 +26,12 @@ export const loadedFonts = writable<Set<string>>(new Set());
  */
 const SupportedFaces: Face[] = [
     {
+        name: 'Borel',
+        weights: [400],
+        italic: false,
+        scripts: Latin,
+    },
+    {
         name: 'Roboto',
         weights: [100, 300, 400, 500, 700, 900],
         italic: true,
@@ -36,6 +42,18 @@ const SupportedFaces: Face[] = [
         weights: [100, 200, 300, 400, 500, 600, 700, 800, 900],
         italic: true,
         scripts: LatinCyrillicGreek,
+    },
+    {
+        name: 'Noto Sans Japanese',
+        weights: { min: 100, max: 900 },
+        italic: false,
+        scripts: ['Jpan'],
+    },
+    {
+        name: 'Noto Sans Simplified Chinese',
+        weights: [100, 300, 400, 500, 700, 900],
+        italic: false,
+        scripts: ['Hani'],
     },
     {
         name: 'Noto Emoji',
