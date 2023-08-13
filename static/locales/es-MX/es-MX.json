@@ -1965,7 +1965,12 @@
         },
         "feedback": {
             "unknownProject": "No hay ningún proyecto con este ID.",
-            "loading": "$?"
+            "loading": "$?",
+            "save": {
+                "saving": "$?",
+                "saved": "$?",
+                "unsaved": "$?"
+            }
         },
         "login": {
             "header": "$?",

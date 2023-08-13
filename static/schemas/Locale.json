@@ -5691,13 +5691,34 @@
                 "loading": {
                   "type": "string"
                 },
+                "save": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "saved": {
+                      "type": "string"
+                    },
+                    "saving": {
+                      "type": "string"
+                    },
+                    "unsaved": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "saving",
+                    "saved",
+                    "unsaved"
+                  ],
+                  "type": "object"
+                },
                 "unknownProject": {
                   "type": "string"
                 }
               },
               "required": [
                 "unknownProject",
-                "loading"
+                "loading",
+                "save"
               ],
               "type": "object"
             },

@@ -1952,7 +1952,15 @@
             "pauseToEdit": "$?",
             "editing": "$?"
         },
-        "feedback": { "unknownProject": "$?", "loading": "$?" },
+        "feedback": {
+            "unknownProject": "$?",
+            "loading": "$?",
+            "save": {
+                "saving": "$?",
+                "saved": "$?",
+                "unsaved": "$?"
+            }
+        },
         "login": {
             "header": "$?",
             "prompt": "$?",

@@ -215,6 +215,11 @@ type UITexts = {
     feedback: {
         unknownProject: string;
         loading: string;
+        save: {
+            saving: string;
+            saved: string;
+            unsaved: string;
+        };
     };
     login: {
         header: string;

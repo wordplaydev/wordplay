@@ -3468,7 +3468,12 @@
         },
         "feedback": {
             "unknownProject": "There's no performance with this ID.",
-            "loading": "Loading, thank you for waiting!"
+            "loading": "Loading, thank you for waiting!",
+            "save": {
+                "saving": "saving",
+                "saved": "saved",
+                "unsaved": "unsaved"
+            }
         },
         "login": {
             "header": "Login",
