@@ -4,7 +4,7 @@ import Purpose from '../concepts/Purpose';
 import Glyphs from '../lore/Glyphs';
 import { node, type Grammar, type Replacement, any, none, list } from './Node';
 import Token from './Token';
-import Symbol from './Symbol';
+import Sym from './Symbol';
 import { unescaped } from './TextLiteral';
 import Example from './Example';
 import WebLink from './WebLink';
@@ -40,7 +40,7 @@ export default class Words extends Content {
     }
 
     static make() {
-        return new Words(undefined, [new Token('…', Symbol.Words)], undefined);
+        return new Words(undefined, [new Token('…', Sym.Words)], undefined);
     }
 
     getGrammar(): Grammar {
@@ -48,11 +48,11 @@ export default class Words extends Content {
             {
                 name: 'open',
                 kind: any(
-                    node(Symbol.Italic),
-                    node(Symbol.Underline),
-                    node(Symbol.Light),
-                    node(Symbol.Bold),
-                    node(Symbol.Extra),
+                    node(Sym.Italic),
+                    node(Sym.Underline),
+                    node(Sym.Light),
+                    node(Sym.Bold),
+                    node(Sym.Extra),
                     none('close')
                 ),
             },
@@ -63,7 +63,7 @@ export default class Words extends Content {
                     node(WebLink),
                     node(ConceptLink),
                     node(Example),
-                    node(Symbol.Words),
+                    node(Sym.Words),
                     node(Mention),
                     node(Branch)
                 ),
@@ -71,11 +71,11 @@ export default class Words extends Content {
             {
                 name: 'close',
                 kind: any(
-                    node(Symbol.Italic),
-                    node(Symbol.Underline),
-                    node(Symbol.Light),
-                    node(Symbol.Bold),
-                    node(Symbol.Extra),
+                    node(Sym.Italic),
+                    node(Sym.Underline),
+                    node(Sym.Light),
+                    node(Sym.Bold),
+                    node(Sym.Extra),
                     none('open')
                 ),
             },
@@ -109,24 +109,24 @@ export default class Words extends Content {
     getFormat(): Format | undefined {
         return this.open === undefined
             ? undefined
-            : this.open.isSymbol(Symbol.Italic)
+            : this.open.isSymbol(Sym.Italic)
             ? 'italic'
-            : this.open.isSymbol(Symbol.Underline)
+            : this.open.isSymbol(Sym.Underline)
             ? 'underline'
-            : this.open.isSymbol(Symbol.Light)
+            : this.open.isSymbol(Sym.Light)
             ? 'light'
-            : this.open.isSymbol(Symbol.Bold)
+            : this.open.isSymbol(Sym.Bold)
             ? 'bold'
             : 'extra';
     }
 
     getWeight(): FontWeight | undefined {
         return this.open
-            ? this.open.isSymbol(Symbol.Light)
+            ? this.open.isSymbol(Sym.Light)
                 ? 300
-                : this.open.isSymbol(Symbol.Bold)
+                : this.open.isSymbol(Sym.Bold)
                 ? 700
-                : this.open.isSymbol(Symbol.Extra)
+                : this.open.isSymbol(Sym.Extra)
                 ? 900
                 : 400
             : undefined;

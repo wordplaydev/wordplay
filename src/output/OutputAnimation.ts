@@ -270,7 +270,7 @@ export default class OutputAnimation {
             ]);
         // If move is a sequence, run it, but account for the resting pose.
         else if (move instanceof Sequence) {
-            let transitions = move.compile(undefined, rest);
+            const transitions = move.compile(undefined, rest);
 
             if (transitions === undefined) return;
 

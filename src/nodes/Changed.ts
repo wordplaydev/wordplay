@@ -12,7 +12,7 @@ import type Bind from './Bind';
 import type TypeSet from './TypeSet';
 import TypeException from '@values/TypeException';
 import AnyType from './AnyType';
-import Symbol from './Symbol';
+import Sym from './Symbol';
 import { CHANGE_SYMBOL } from '@parser/Symbols';
 import Start from '@runtime/Start';
 import BoolValue from '@values/BoolValue';
@@ -41,12 +41,12 @@ export default class Changed extends AtomicExpression {
     }
 
     static make(stream: Expression) {
-        return new Changed(new Token(CHANGE_SYMBOL, Symbol.Change), stream);
+        return new Changed(new Token(CHANGE_SYMBOL, Sym.Change), stream);
     }
 
     getGrammar(): Grammar {
         return [
-            { name: 'change', kind: node(Symbol.Change) },
+            { name: 'change', kind: node(Sym.Change) },
             {
                 name: 'stream',
                 kind: node(Expression),

@@ -10,7 +10,7 @@
 
     export let link: ConceptRef | ConceptLink | Concept;
     export let label: string | undefined = undefined;
-    export let symbolic: boolean = true;
+    export let symbolic = true;
 
     // Resolve the concept
     let index = getConceptIndex();

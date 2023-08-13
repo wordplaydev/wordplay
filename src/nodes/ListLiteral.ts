@@ -22,7 +22,7 @@ import Glyphs from '../lore/Glyphs';
 import Purpose from '../concepts/Purpose';
 import type { BasisTypeName } from '../basis/BasisConstants';
 import concretize from '../locale/concretize';
-import Symbol from './Symbol';
+import Sym from './Symbol';
 import AnyType from './AnyType';
 
 export default class ListLiteral extends Expression {
@@ -54,7 +54,7 @@ export default class ListLiteral extends Expression {
 
     getGrammar(): Grammar {
         return [
-            { name: 'open', kind: node(Symbol.ListOpen) },
+            { name: 'open', kind: node(Sym.ListOpen) },
             {
                 name: 'values',
                 kind: list(node(Expression)),
@@ -67,7 +67,7 @@ export default class ListLiteral extends Expression {
                 space: true,
                 indent: true,
             },
-            { name: 'close', kind: node(Symbol.ListClose) },
+            { name: 'close', kind: node(Sym.ListClose) },
         ];
     }
 

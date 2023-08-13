@@ -27,8 +27,6 @@ export function createRectangleType(locales: Locale[]) {
 }
 
 export abstract class Shape {
-    constructor() {}
-
     /** Should return a valid CSS clip-path value */
     abstract toCSSClip(): string;
     abstract toSVGPath(): string;

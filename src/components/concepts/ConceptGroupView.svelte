@@ -7,7 +7,7 @@
 
     export let concepts: Concept[];
 
-    let expanded: boolean = false;
+    let expanded = false;
 
     function toggle() {
         expanded = !expanded;

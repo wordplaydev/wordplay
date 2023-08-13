@@ -1,6 +1,6 @@
 import type { Grammar, Replacement } from './Node';
 import Token from './Token';
-import Symbol from './Symbol';
+import Sym from './Symbol';
 import { TYPE_CLOSE_SYMBOL, TYPE_OPEN_SYMBOL } from '@parser/Symbols';
 import Names from './Names';
 import type TypeVariable from './TypeVariable';
@@ -28,9 +28,9 @@ export default class TypeVariables extends Node {
 
     static make(variables?: TypeVariable[]) {
         return new TypeVariables(
-            new Token(TYPE_OPEN_SYMBOL, Symbol.TypeOpen),
+            new Token(TYPE_OPEN_SYMBOL, Sym.TypeOpen),
             variables ?? [],
-            new Token(TYPE_CLOSE_SYMBOL, Symbol.TypeClose)
+            new Token(TYPE_CLOSE_SYMBOL, Sym.TypeClose)
         );
     }
 
@@ -40,9 +40,9 @@ export default class TypeVariables extends Node {
 
     getGrammar(): Grammar {
         return [
-            { name: 'open', kind: node(Symbol.TypeOpen) },
+            { name: 'open', kind: node(Sym.TypeOpen) },
             { name: 'variables', kind: node(Names) },
-            { name: 'close', kind: node(Symbol.TypeClose) },
+            { name: 'close', kind: node(Sym.TypeClose) },
         ];
     }
 

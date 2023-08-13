@@ -22,7 +22,7 @@ import { getDocLocales } from '@locale/getDocLocales';
 import { getNameLocales } from '@locale/getNameLocales';
 import type Expression from '../nodes/Expression';
 import type Locale from '../locale/Locale';
-import type { FunctionText } from '../locale/Locale';
+import type { FunctionText, NameAndDoc } from '../locale/Locale';
 
 export default function bootstrapNumber(locales: Locale[]) {
     const subtractNames = getNameLocales(
@@ -31,7 +31,7 @@ export default function bootstrapNumber(locales: Locale[]) {
     );
 
     function createBinaryOp(
-        text: (locale: Locale) => FunctionText<any>,
+        text: (locale: Locale) => FunctionText<NameAndDoc[]>,
         inputType: Type,
         outputType: Type,
         expression: (
@@ -39,7 +39,7 @@ export default function bootstrapNumber(locales: Locale[]) {
             left: NumberValue,
             right: NumberValue
         ) => Value | undefined,
-        requireEqualUnits: boolean = true
+        requireEqualUnits = true
     ) {
         return createBasisFunction(
             locales,
@@ -86,7 +86,7 @@ export default function bootstrapNumber(locales: Locale[]) {
     }
 
     function createUnaryOp(
-        text: (locale: Locale) => FunctionText<any>,
+        text: (locale: Locale) => FunctionText<NameAndDoc[]>,
         outputType: Type,
         expression: (
             requestor: Expression,

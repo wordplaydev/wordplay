@@ -59,8 +59,8 @@ function getEditorOffset(el: HTMLElement) {
     // Account for the editor's viewport
     const editorViewport = el.closest('.editor');
 
-    var _x = 0;
-    var _y = 0;
+    let _x = 0;
+    let _y = 0;
 
     if (editorViewport) {
         const editorRect = editorViewport.getBoundingClientRect();
@@ -168,7 +168,7 @@ function toRows(nodeView: HTMLElement): Rect[] {
     });
 }
 
-export function getUnderlineOf(nodeView: HTMLElement, offset: number = 0) {
+export function getUnderlineOf(nodeView: HTMLElement, offset = 0) {
     const rows = toRows(nodeView);
 
     // If the rows are empty, draw an arrow where the element is
@@ -197,22 +197,10 @@ export function getUnderlineOf(nodeView: HTMLElement, offset: number = 0) {
             path: rows
                 .map((row) => `M ${row.l} ${row.b} L ${row.r} ${row.b}`)
                 .join(' '),
-            minx: Math.min.apply(
-                Math,
-                rows.map((row) => row.l)
-            ),
-            miny: Math.min.apply(
-                Math,
-                rows.map((row) => row.t)
-            ),
-            maxx: Math.max.apply(
-                Math,
-                rows.map((row) => row.r)
-            ),
-            maxy: Math.max.apply(
-                Math,
-                rows.map((row) => row.b)
-            ),
+            minx: Math.min(...rows.map((row) => row.l)),
+            miny: Math.min(...rows.map((row) => row.t)),
+            maxx: Math.max(...rows.map((row) => row.r)),
+            maxy: Math.max(...rows.map((row) => row.b)),
         };
     }
 }
@@ -228,7 +216,7 @@ export default function getOutlineOf(nodeView: HTMLElement): Outline {
     // Construct a path clockwise by moving through the rows.
     // Start with the top left of the first row.
     type Pos = { x: number; y: number };
-    let path: Pos[] = [{ x: lines[0].l - padding, y: lines[0].t - padding }];
+    const path: Pos[] = [{ x: lines[0].l - padding, y: lines[0].t - padding }];
     // Trace the right edge of the remaining rows.
     for (let i = 0; i < lines.length; i++) {
         // Right top, then right bottom, extending down to the below row's top if there is one.
@@ -274,21 +262,9 @@ export default function getOutlineOf(nodeView: HTMLElement): Outline {
     // Construct the path and bounding box
     return {
         path: `M ${path.map((pos) => `${pos.x} ${pos.y}`).join(' L ')} Z`,
-        minx: Math.min.apply(
-            Math,
-            path.map((pos) => pos.x)
-        ),
-        miny: Math.min.apply(
-            Math,
-            path.map((pos) => pos.y)
-        ),
-        maxx: Math.max.apply(
-            Math,
-            path.map((pos) => pos.x)
-        ),
-        maxy: Math.max.apply(
-            Math,
-            path.map((pos) => pos.y)
-        ),
+        minx: Math.min(...path.map((pos) => pos.x)),
+        miny: Math.min(...path.map((pos) => pos.y)),
+        maxx: Math.max(...path.map((pos) => pos.x)),
+        maxy: Math.max(...path.map((pos) => pos.y)),
     };
 }

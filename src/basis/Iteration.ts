@@ -44,7 +44,8 @@ type FinishHandler<Kind, ExpressionKind extends Expression> = (
     expression: ExpressionKind
 ) => Value;
 
-export class Iteration<State> extends Expression {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export class Iteration<State = any> extends Expression {
     readonly output: Type;
     readonly initialize: (
         evaluator: Evaluator,
@@ -85,7 +86,7 @@ export class Iteration<State> extends Expression {
         return this.output;
     }
 
-    compile(context: Context): Step[] {
+    compile(): Step[] {
         return [
             new Start(this),
             ...getIteration(this, this.initialize, this.check, this.next),
@@ -178,7 +179,9 @@ export class Iteration<State> extends Expression {
         return true;
     }
 
-    computeConflicts() {}
+    computeConflicts() {
+        return;
+    }
 
     // We don't clone these, we just erase their parent, since there's only one of them.
     clone() {

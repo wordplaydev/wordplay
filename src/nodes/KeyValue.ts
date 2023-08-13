@@ -7,7 +7,7 @@ import Glyphs from '../lore/Glyphs';
 import Purpose from '../concepts/Purpose';
 import type { BasisTypeName } from '../basis/BasisConstants';
 import Node, { node } from './Node';
-import Symbol from './Symbol';
+import Sym from './Symbol';
 import ExpressionPlaceholder from './ExpressionPlaceholder';
 
 export default class KeyValue extends Node {
@@ -45,7 +45,7 @@ export default class KeyValue extends Node {
                 kind: node(Expression),
                 label: (translation: Locale) => translation.term.key,
             },
-            { name: 'bind', kind: node(Symbol.Bind) },
+            { name: 'bind', kind: node(Sym.Bind) },
             {
                 name: 'value',
                 kind: node(Expression),
@@ -70,7 +70,9 @@ export default class KeyValue extends Node {
         return 'map';
     }
 
-    computeConflicts() {}
+    computeConflicts() {
+        return;
+    }
 
     getNodeLocale(translation: Locale) {
         return translation.node.KeyValue;

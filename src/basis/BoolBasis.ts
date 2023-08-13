@@ -10,12 +10,12 @@ import { getNameLocales } from '@locale/getNameLocales';
 import Evaluation from '@runtime/Evaluation';
 import type Expression from '../nodes/Expression';
 import type Locale from '../locale/Locale';
-import type { FunctionText } from '../locale/Locale';
+import type { FunctionText, NameAndDoc } from '../locale/Locale';
 import type Type from '../nodes/Type';
 
 export default function bootstrapBool(locales: Locale[]) {
     function createBooleanFunction(
-        text: (locale: Locale) => FunctionText<any>,
+        text: (locale: Locale) => FunctionText<NameAndDoc[]>,
         inputs: Type[],
         expression: (
             requestor: Expression,

@@ -1,4 +1,4 @@
-enum Symbol {
+enum Sym {
     EvalOpen = '(',
     EvalClose = ')',
     SetOpen = '{',
@@ -84,19 +84,19 @@ enum Symbol {
 
 /** Tokens that can be many different possible sequences of characters. We use this list to know when a token is static and can only be one symbol. */
 export const WildcardSymbols = new Set([
-    Symbol.Number,
-    Symbol.Number,
-    Symbol.Decimal,
-    Symbol.Name,
-    Symbol.Boolean,
-    Symbol.Text,
-    Symbol.Words,
-    Symbol.Concept,
-    Symbol.End,
+    Sym.Number,
+    Sym.Number,
+    Sym.Decimal,
+    Sym.Name,
+    Sym.Boolean,
+    Sym.Text,
+    Sym.Words,
+    Sym.Concept,
+    Sym.End,
 ]);
 
-export function isTokenType(text: string): text is Symbol {
-    return Object.values(Symbol).includes(text as unknown as Symbol);
+export function isTokenType(text: string): text is Sym {
+    return Object.values(Sym).includes(text as unknown as Sym);
 }
 
-export default Symbol;
+export default Sym;

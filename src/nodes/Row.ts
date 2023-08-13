@@ -6,7 +6,7 @@ import type Locale from '@locale/Locale';
 import Glyphs from '../lore/Glyphs';
 import Purpose from '../concepts/Purpose';
 import Node, { any, list, node } from './Node';
-import Symbol from './Symbol';
+import Sym from './Symbol';
 import Evaluation, { type EvaluationNode } from '@runtime/Evaluation';
 import type Evaluator from '@runtime/Evaluator';
 import type Value from '../values/Value';
@@ -33,9 +33,9 @@ export default class Row extends Node {
 
     static make() {
         return new Row(
-            new Token(TABLE_OPEN_SYMBOL, Symbol.TableOpen),
+            new Token(TABLE_OPEN_SYMBOL, Sym.TableOpen),
             [],
-            new Token(TABLE_CLOSE_SYMBOL, Symbol.TableClose)
+            new Token(TABLE_CLOSE_SYMBOL, Sym.TableClose)
         );
     }
 
@@ -44,16 +44,16 @@ export default class Row extends Node {
             {
                 name: 'open',
                 kind: any(
-                    node(Symbol.TableOpen),
-                    node(Symbol.Select),
-                    node(Symbol.Insert),
-                    node(Symbol.Delete),
-                    node(Symbol.Update)
+                    node(Sym.TableOpen),
+                    node(Sym.Select),
+                    node(Sym.Insert),
+                    node(Sym.Delete),
+                    node(Sym.Update)
                 ),
                 newline: true,
             },
             { name: 'cells', kind: list(node(Expression)), space: true },
-            { name: 'close', kind: node(Symbol.TableClose) },
+            { name: 'close', kind: node(Sym.TableClose) },
         ];
     }
 
@@ -77,7 +77,9 @@ export default class Row extends Node {
         return this.cells.every((cell) => !(cell instanceof Bind));
     }
 
-    computeConflicts() {}
+    computeConflicts() {
+        return;
+    }
 
     getNodeLocale(translation: Locale) {
         return translation.node.Row;

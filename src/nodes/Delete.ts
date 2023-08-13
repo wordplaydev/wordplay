@@ -20,7 +20,7 @@ import NodeRef from '@locale/NodeRef';
 import Glyphs from '../lore/Glyphs';
 import IncompatibleInput from '../conflicts/IncompatibleInput';
 import concretize from '../locale/concretize';
-import Symbol from './Symbol';
+import Sym from './Symbol';
 import Purpose from '../concepts/Purpose';
 import FunctionDefinition from './FunctionDefinition';
 import Names from './Names';
@@ -50,11 +50,7 @@ export default class Delete extends Expression {
     }
 
     static make(table: Expression, query: Expression) {
-        return new Delete(
-            table,
-            new Token(DELETE_SYMBOL, Symbol.Delete),
-            query
-        );
+        return new Delete(table, new Token(DELETE_SYMBOL, Sym.Delete), query);
     }
 
     getGrammar(): Grammar {
@@ -64,7 +60,7 @@ export default class Delete extends Expression {
                 kind: node(Expression),
                 label: (translation: Locale) => translation.term.table,
             },
-            { name: 'del', kind: node(Symbol.Delete), space: true },
+            { name: 'del', kind: node(Sym.Delete), space: true },
             {
                 name: 'query',
                 kind: node(Expression),

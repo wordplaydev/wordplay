@@ -4,7 +4,7 @@ import type Locale from '@locale/Locale';
 import BasisType from './BasisType';
 import { node, type Grammar, type Replacement } from './Node';
 import Token from './Token';
-import Symbol from './Symbol';
+import Sym from './Symbol';
 import type TypeSet from './TypeSet';
 import Glyphs from '../lore/Glyphs';
 
@@ -19,10 +19,10 @@ export default class NoneType extends BasisType {
         this.computeChildren();
     }
 
-    static None = new NoneType(new Token(NONE_SYMBOL, Symbol.None));
+    static None = new NoneType(new Token(NONE_SYMBOL, Sym.None));
 
     static make() {
-        return new NoneType(new Token(NONE_SYMBOL, Symbol.None));
+        return new NoneType(new Token(NONE_SYMBOL, Sym.None));
     }
 
     static getPossibleNodes() {
@@ -30,10 +30,12 @@ export default class NoneType extends BasisType {
     }
 
     getGrammar(): Grammar {
-        return [{ name: 'none', kind: node(Symbol.None) }];
+        return [{ name: 'none', kind: node(Sym.None) }];
     }
 
-    computeConflicts() {}
+    computeConflicts() {
+        return;
+    }
 
     clone(replace?: Replacement) {
         return new NoneType(

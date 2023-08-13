@@ -29,7 +29,7 @@ import Purpose from '../concepts/Purpose';
 import NoneValue from '@values/NoneValue';
 import IncompatibleInput from '../conflicts/IncompatibleInput';
 import concretize from '../locale/concretize';
-import Symbol from './Symbol';
+import Sym from './Symbol';
 import ExpressionPlaceholder from './ExpressionPlaceholder';
 
 export default class ListAccess extends Expression {
@@ -81,7 +81,7 @@ export default class ListAccess extends Expression {
                 // Must be a list
                 getType: () => ListType.make(),
             },
-            { name: 'open', kind: node(Symbol.ListOpen) },
+            { name: 'open', kind: node(Sym.ListOpen) },
             {
                 name: 'index',
                 kind: node(Expression),
@@ -89,7 +89,7 @@ export default class ListAccess extends Expression {
                 // Must be a number
                 getType: () => NumberType.make(),
             },
-            { name: 'close', kind: node(Symbol.ListClose) },
+            { name: 'close', kind: node(Sym.ListClose) },
         ];
     }
 

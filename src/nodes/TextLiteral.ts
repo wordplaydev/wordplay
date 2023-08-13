@@ -16,7 +16,7 @@ import Translation from './Translation';
 import UnionType from './UnionType';
 import { getPreferred } from './LanguageTagged';
 import Token from './Token';
-import Symbol from './Symbol';
+import Sym from './Symbol';
 import type Expression from './Expression';
 import type Step from '@runtime/Step';
 import Start from '@runtime/Start';
@@ -124,7 +124,9 @@ export default class TextLiteral extends Literal {
         );
     }
 
-    computeConflicts() {}
+    computeConflicts() {
+        return;
+    }
 
     computeType(context: Context): Type {
         // A union of all of the literal types of each alternative.
@@ -133,7 +135,7 @@ export default class TextLiteral extends Literal {
             this.texts.map((text) =>
                 text.segments.length === 1 &&
                 text.segments[0] instanceof Token &&
-                text.segments[0].isSymbol(Symbol.Words)
+                text.segments[0].isSymbol(Sym.Words)
                     ? new TextType(
                           text.open.clone(),
                           text.segments[0].clone(),

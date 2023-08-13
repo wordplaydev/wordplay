@@ -11,7 +11,7 @@ declare namespace App {
 }
 
 declare namespace svelteHTML {
-    interface HTMLAttributes<T> {
-        'on:outclick'?: (event: any) => any;
+    interface HTMLAttributes {
+        'on:outclick'?: (event: unknown) => unknown;
     }
 }

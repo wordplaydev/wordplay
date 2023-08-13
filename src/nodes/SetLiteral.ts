@@ -13,7 +13,7 @@ import type TypeSet from './TypeSet';
 import SetType from './SetType';
 import type Bind from './Bind';
 import { SET_CLOSE_SYMBOL, SET_OPEN_SYMBOL } from '@parser/Symbols';
-import Symbol from './Symbol';
+import Sym from './Symbol';
 import { node, type Grammar, type Replacement, list } from './Node';
 import type Locale from '@locale/Locale';
 import Glyphs from '../lore/Glyphs';
@@ -42,9 +42,9 @@ export default class SetLiteral extends Expression {
 
     static make(values?: Expression[]) {
         return new SetLiteral(
-            new Token(SET_OPEN_SYMBOL, Symbol.SetOpen),
+            new Token(SET_OPEN_SYMBOL, Sym.SetOpen),
             values ?? [],
-            new Token(SET_CLOSE_SYMBOL, Symbol.SetClose)
+            new Token(SET_CLOSE_SYMBOL, Sym.SetClose)
         );
     }
 
@@ -54,7 +54,7 @@ export default class SetLiteral extends Expression {
 
     getGrammar(): Grammar {
         return [
-            { name: 'open', kind: node(Symbol.SetOpen) },
+            { name: 'open', kind: node(Sym.SetOpen) },
             {
                 name: 'values',
                 kind: list(node(Expression)),
@@ -64,7 +64,7 @@ export default class SetLiteral extends Expression {
                 space: true,
                 indent: true,
             },
-            { name: 'close', kind: node(Symbol.SetClose) },
+            { name: 'close', kind: node(Sym.SetClose) },
         ];
     }
 

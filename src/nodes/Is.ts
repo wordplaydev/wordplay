@@ -20,7 +20,7 @@ import { node, type Grammar, type Replacement } from './Node';
 import type Locale from '@locale/Locale';
 import NodeRef from '@locale/NodeRef';
 import Glyphs from '../lore/Glyphs';
-import Symbol from './Symbol';
+import Sym from './Symbol';
 import { TYPE_SYMBOL } from '../parser/Symbols';
 import Purpose from '../concepts/Purpose';
 import concretize from '../locale/concretize';
@@ -44,7 +44,7 @@ export default class Is extends Expression {
     }
 
     static make(left: Expression, right: Type) {
-        return new Is(left, new Token(TYPE_SYMBOL, Symbol.TypeOperator), right);
+        return new Is(left, new Token(TYPE_SYMBOL, Sym.TypeOperator), right);
     }
 
     static getPossibleNodes(
@@ -63,7 +63,7 @@ export default class Is extends Expression {
     getGrammar(): Grammar {
         return [
             { name: 'expression', kind: node(Expression) },
-            { name: 'operator', kind: node(Symbol.Type) },
+            { name: 'operator', kind: node(Sym.Type) },
             { name: 'type', kind: node(Type) },
         ];
     }

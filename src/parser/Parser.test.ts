@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-types */
 import { test, expect } from 'vitest';
 import Bind from '@nodes/Bind';
 import Block from '@nodes/Block';
@@ -253,6 +254,7 @@ test.each([
         const statement = block.statements[0];
         expect(statement instanceof kind);
         if (property !== undefined && propertyKind !== undefined) {
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             const field = (statement as any)[property];
             expect(field).toBeInstanceOf(propertyKind);
             if (propertyKind === Array) {

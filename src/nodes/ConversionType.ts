@@ -2,7 +2,7 @@ import type { BasisTypeName } from '../basis/BasisConstants';
 import { CONVERT_SYMBOL } from '@parser/Symbols';
 import type Context from './Context';
 import Token from './Token';
-import Symbol from './Symbol';
+import Sym from './Symbol';
 import Type from './Type';
 import type TypeSet from './TypeSet';
 import { node, type Grammar, type Replacement } from './Node';
@@ -27,7 +27,7 @@ export default class ConversionType extends Type {
     static make(input: Type, output: Type) {
         return new ConversionType(
             input,
-            new Token(CONVERT_SYMBOL, Symbol.Convert),
+            new Token(CONVERT_SYMBOL, Sym.Convert),
             output
         );
     }
@@ -35,7 +35,7 @@ export default class ConversionType extends Type {
     getGrammar(): Grammar {
         return [
             { name: 'input', kind: node(Type) },
-            { name: 'convert', kind: node(Symbol.Convert), space: true },
+            { name: 'convert', kind: node(Sym.Convert), space: true },
             { name: 'output', kind: node(Type), space: true },
         ];
     }
@@ -48,7 +48,9 @@ export default class ConversionType extends Type {
         ) as this;
     }
 
-    computeConflicts() {}
+    computeConflicts() {
+        return;
+    }
 
     acceptsAll(types: TypeSet, context: Context): boolean {
         return types

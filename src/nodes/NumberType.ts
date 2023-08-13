@@ -2,7 +2,7 @@ import type { BasisTypeName } from '../basis/BasisConstants';
 import { MEASUREMENT_SYMBOL as NUMBER_SYMBOL } from '@parser/Symbols';
 import type Context from './Context';
 import Token from './Token';
-import Symbol from './Symbol';
+import Sym from './Symbol';
 import Unit from './Unit';
 import BinaryEvaluate from './BinaryEvaluate';
 import BasisType from './BasisType';
@@ -48,7 +48,7 @@ export default class NumberType extends BasisType {
         op?: BinaryEvaluate | UnaryEvaluate | Evaluate
     ) {
         return new NumberType(
-            new Token(NUMBER_SYMBOL, Symbol.NumberType),
+            new Token(NUMBER_SYMBOL, Sym.NumberType),
             unit ?? Unit.Empty,
             op
         );
@@ -68,7 +68,7 @@ export default class NumberType extends BasisType {
 
     getGrammar(): Grammar {
         return [
-            { name: 'number', kind: node(Symbol.NumberType) },
+            { name: 'number', kind: node(Sym.NumberType) },
             { name: 'unit', kind: node(Unit) },
         ];
     }
@@ -120,7 +120,7 @@ export default class NumberType extends BasisType {
 
             // If this is a specific number, then all other possible type must be the same specific number.
             if (
-                this.number.isSymbol(Symbol.Number) &&
+                this.number.isSymbol(Sym.Number) &&
                 this.number.getText() !== possibleType.number.getText()
             )
                 return false;
@@ -136,7 +136,7 @@ export default class NumberType extends BasisType {
     }
 
     isLiteral() {
-        return this.number.isSymbol(Symbol.Number);
+        return this.number.isSymbol(Sym.Number);
     }
 
     getLiteral() {
@@ -202,7 +202,9 @@ export default class NumberType extends BasisType {
         );
     }
 
-    computeConflicts() {}
+    computeConflicts() {
+        return;
+    }
 
     getBasisTypeName(): BasisTypeName {
         return 'measurement';

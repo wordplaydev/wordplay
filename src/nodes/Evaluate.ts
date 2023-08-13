@@ -52,7 +52,7 @@ import FunctionType from './FunctionType';
 import AnyType from './AnyType';
 import { NotAType } from './NotAType';
 import concretize from '../locale/concretize';
-import Symbol from './Symbol';
+import Sym from './Symbol';
 import Refer from '../edit/Refer';
 import BasisType from './BasisType';
 import Purpose from '../concepts/Purpose';
@@ -195,7 +195,7 @@ export default class Evaluate extends Expression {
                     translation.node.Evaluate.function,
             },
             { name: 'types', kind: any(node(TypeInputs), none()) },
-            { name: 'open', kind: node(Symbol.EvalOpen) },
+            { name: 'open', kind: node(Sym.EvalOpen) },
             {
                 name: 'inputs',
                 kind: list(node(Expression)),
@@ -236,7 +236,7 @@ export default class Evaluate extends Expression {
                     return fun.inputs[insertionIndex].getType(context);
                 },
             },
-            { name: 'close', kind: node(Symbol.EvalClose) },
+            { name: 'close', kind: node(Sym.EvalClose) },
         ];
     }
 
@@ -338,7 +338,7 @@ export default class Evaluate extends Expression {
         name: string,
         expression: Expression | undefined,
         context: Context,
-        named: boolean = true
+        named = true
     ): Evaluate {
         const mapping = this.getMappingFor(name, context);
         if (mapping === undefined) return this;

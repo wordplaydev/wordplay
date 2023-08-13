@@ -39,11 +39,11 @@
     export let evaluator: Evaluator;
     export let value: Value | undefined;
     export let fullscreen: boolean;
-    export let fit: boolean = true;
-    export let grid: boolean = false;
-    export let painting: boolean = false;
+    export let fit = true;
+    export let grid = false;
+    export let painting = false;
     export let paintingConfig: PaintingConfiguration | undefined = undefined;
-    export let mini: boolean = false;
+    export let mini = false;
     export let background: Color | string | null = null;
 
     $: interactive = !mini;

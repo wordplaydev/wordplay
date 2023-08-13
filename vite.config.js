@@ -1,4 +1,5 @@
 import { sveltekit } from '@sveltejs/kit/vite';
+import eslint from 'vite-plugin-eslint';
 import path from 'path';
 
 /**
@@ -22,7 +23,7 @@ function LocaleHotReload() {
 
 /** @type {import('vite').UserConfig} */
 const config = {
-    plugins: [sveltekit(), LocaleHotReload()],
+    plugins: [sveltekit(), LocaleHotReload(), eslint()],
     resolve: {
         alias: {
             '@components': path.resolve('./src/components'),

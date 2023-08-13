@@ -9,12 +9,11 @@ import Node, {
 import Token from './Token';
 import { EXPONENT_SYMBOL } from '@parser/Symbols';
 import { PRODUCT_SYMBOL } from '@parser/Symbols';
-import Symbol from './Symbol';
+import Sym from './Symbol';
 import NameToken from './NameToken';
 import type Locale from '@locale/Locale';
 import Glyphs from '../lore/Glyphs';
 import Purpose from '../concepts/Purpose';
-import type Context from './Context';
 import Markup from './Markup';
 import type Type from './Type';
 
@@ -36,7 +35,7 @@ export default class Dimension extends Node {
         this.name = name;
         this.caret =
             exponent !== undefined && caret === undefined
-                ? new Token(EXPONENT_SYMBOL, Symbol.Operator)
+                ? new Token(EXPONENT_SYMBOL, Sym.Operator)
                 : caret;
         this.exponent = exponent === undefined ? undefined : exponent;
 
@@ -45,20 +44,17 @@ export default class Dimension extends Node {
 
     static make(subsequent: boolean, unit: string, exponent: number) {
         return new Dimension(
-            subsequent ? new Token(PRODUCT_SYMBOL, Symbol.Operator) : undefined,
+            subsequent ? new Token(PRODUCT_SYMBOL, Sym.Operator) : undefined,
             new NameToken(unit),
-            exponent > 1
-                ? new Token(EXPONENT_SYMBOL, Symbol.Operator)
-                : undefined,
-            exponent > 1 ? new Token('' + exponent, Symbol.Number) : undefined
+            exponent > 1 ? new Token(EXPONENT_SYMBOL, Sym.Operator) : undefined,
+            exponent > 1 ? new Token('' + exponent, Sym.Number) : undefined
         );
     }
 
     static getPossibleNodes(
         type: Type | undefined,
         anchor: Node,
-        selected: boolean,
-        context: Context
+        selected: boolean
     ): Dimension[] {
         // If we've selected this anchor for replacement, offer to replace it with...
         if (anchor && selected && anchor instanceof Dimension) {
@@ -75,15 +71,15 @@ export default class Dimension extends Node {
 
     getGrammar(): Grammar {
         return [
-            { name: 'product', kind: any(node(Symbol.Operator), none()) },
-            { name: 'name', kind: node(Symbol.Name), uncompletable: true },
+            { name: 'product', kind: any(node(Sym.Operator), none()) },
+            { name: 'name', kind: node(Sym.Name), uncompletable: true },
             {
                 name: 'caret',
-                kind: any(node(Symbol.Operator), none('exponent')),
+                kind: any(node(Sym.Operator), none('exponent')),
             },
             {
                 name: 'exponent',
-                kind: any(node(Symbol.Number), none('caret')),
+                kind: any(node(Sym.Number), none('caret')),
             },
         ];
     }
@@ -101,7 +97,7 @@ export default class Dimension extends Node {
         return this.product !== undefined
             ? this
             : new Dimension(
-                  new Token(PRODUCT_SYMBOL, Symbol.Operator),
+                  new Token(PRODUCT_SYMBOL, Sym.Operator),
                   this.name?.clone(),
                   this.caret,
                   this.exponent
@@ -114,7 +110,7 @@ export default class Dimension extends Node {
             : new Dimension(
                   this.product,
                   this.name,
-                  new Token(EXPONENT_SYMBOL, Symbol.Operator),
+                  new Token(EXPONENT_SYMBOL, Sym.Operator),
                   this.exponent
               );
     }
@@ -125,8 +121,8 @@ export default class Dimension extends Node {
             : new Dimension(
                   this.product,
                   this.name,
-                  new Token(EXPONENT_SYMBOL, Symbol.Operator),
-                  new Token(power.toString(), [Symbol.Number, Symbol.Decimal])
+                  new Token(EXPONENT_SYMBOL, Sym.Operator),
+                  new Token(power.toString(), [Sym.Number, Sym.Decimal])
               );
     }
 
@@ -142,13 +138,15 @@ export default class Dimension extends Node {
         return this.name?.getText();
     }
 
-    computeConflicts() {}
+    computeConflicts() {
+        return;
+    }
 
     getNodeLocale(translation: Locale) {
         return translation.node.Dimension;
     }
 
-    getDescription(_: Concretizer, locale: Locale, __: Context) {
+    getDescription(_: Concretizer, locale: Locale) {
         const dim = this.getName();
 
         return Markup.words(

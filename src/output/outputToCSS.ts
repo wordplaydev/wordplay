@@ -107,12 +107,12 @@ export function toOutputTransform(
     const perspectiveScale = isNaN(candidateScale) ? 100 : candidateScale;
 
     // Find the center of the stage, around which we will rotate and scale.
-    let centerXOffset = root ? 0 : metrics.width / 2;
-    let centerYOffset = root ? 0 : metrics.height / 2;
+    const centerXOffset = root ? 0 : metrics.width / 2;
+    const centerYOffset = root ? 0 : metrics.height / 2;
 
     // Translate the place to screen coordinates.
-    let placeX = place.x * PX_PER_METER;
-    let placeY =
+    const placeX = place.x * PX_PER_METER;
+    const placeY =
         // Negate y to account for flipped y axis.
         -place.y * PX_PER_METER -
         // If this isn't the root, subtract the height to render from the bottom
@@ -122,8 +122,8 @@ export function toOutputTransform(
 
     // Translate the focus to focus coordinates.
     // Negate y to account for flipped y axis.
-    let focusX = focus.x * PX_PER_METER;
-    let focusY = -focus.y * PX_PER_METER;
+    const focusX = focus.x * PX_PER_METER;
+    const focusY = -focus.y * PX_PER_METER;
 
     // These are applied in reverse.
     const transform = [

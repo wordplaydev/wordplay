@@ -1,5 +1,5 @@
 import Token from '@nodes/Token';
-import Symbol from '@nodes/Symbol';
+import Sym from '@nodes/Symbol';
 import Unit from '@nodes/Unit';
 import BoolValue from '@values/BoolValue';
 import NoneValue from '@values/NoneValue';
@@ -63,18 +63,18 @@ export default class NumberValue extends SimpleValue {
         if (negated) text = text.substring(1);
 
         // Infinity
-        if (number.isSymbol(Symbol.Infinity) || text === '∞') {
+        if (number.isSymbol(Sym.Infinity) || text === '∞') {
             return [new Decimal(Infinity * (negated ? -1 : 1)), undefined];
         }
         // Pi
-        else if (number.isSymbol(Symbol.Pi) || text === 'π') {
+        else if (number.isSymbol(Sym.Pi) || text === 'π') {
             return [
                 new Decimal(Math.PI * (negated ? -1 : 1)),
                 Decimal.precision,
             ];
         }
         // If it matches the decimal pattern, randomize requested digits, then convert to a Decimal.
-        else if (number.isSymbol(Symbol.Decimal)) {
+        else if (number.isSymbol(Sym.Decimal)) {
             // Is there a trailing %? Note it and strip it.
             const isPercent = text.endsWith('%');
             if (isPercent) text = text.substring(0, text.length - 1);
@@ -91,19 +91,12 @@ export default class NumberValue extends SimpleValue {
             ];
         }
         // If it matches a number with a different base, convert it to a Decimal.
-        else if (number.isSymbol(Symbol.Base)) {
+        else if (number.isSymbol(Sym.Base)) {
             return [convertBase(text).times(negated ? -1 : 1), undefined];
-        } else if (number.isSymbol(Symbol.RomanNumeral)) {
+        } else if (number.isSymbol(Sym.RomanNumeral)) {
             return [convertRoman(text).times(negated ? -1 : 1), undefined];
-        } else if (number.isSymbol(Symbol.JapaneseNumeral)) {
+        } else if (number.isSymbol(Sym.JapaneseNumeral)) {
             return [convertJapanese(text).times(negated ? -1 : 1), undefined];
-        }
-        // If it matches the Pi token, convert to Pi.
-        else if (number.isSymbol(Symbol.Pi)) {
-            return [
-                Decimal.acos(-1).times(negated ? -1 : 1),
-                Decimal.precision,
-            ];
         } else {
             return [new Decimal(NaN), undefined];
         }

@@ -102,8 +102,12 @@ export default class Motion extends TemporalStreamValue<Value, number> {
     }
 
     // No setup or teardown, the Evaluator handles the requestAnimationFrame loop.
-    start() {}
-    stop() {}
+    start() {
+        return;
+    }
+    stop() {
+        return;
+    }
 
     update(
         output: TypeOutput | undefined,

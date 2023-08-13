@@ -251,8 +251,8 @@ export default class Source extends Expression {
 
         // Make a mutable list of the old tokens
         const oldTokens = [...this.tokens];
-        let added: Token[] = [];
-        let removed: Token[] = [];
+        const added: Token[] = [];
+        const removed: Token[] = [];
 
         // Scan through the new tokens, reusing as many tokens as possible.
         for (let i = 0; i < newTokens.length; i++) {
@@ -281,7 +281,7 @@ export default class Source extends Expression {
         let newProgram = parseProgram(new Tokens(newTokens, spaces));
 
         // Make an empty list of replacements.
-        let replacements: [Node, Node][] = [];
+        const replacements: [Node, Node][] = [];
 
         // Create a set of all of the old program's nodes, except the program itself.
         const unmatchedOldNodes = new Set(this.expression.traverseTopDown());
@@ -325,8 +325,11 @@ export default class Source extends Expression {
 
         // If we found old subtrees to preserve, replace them in the new tree.
         while (replacements.length > 0) {
-            const [oldTree, newTree] = replacements.shift()!;
-            newProgram = newProgram.replace(newTree, oldTree);
+            const next = replacements.shift();
+            if (next) {
+                const [oldTree, newTree] = next;
+                newProgram = newProgram.replace(newTree, oldTree);
+            }
         }
 
         // Otherwise, reparse the program with the reused tokens and return a new source file
@@ -659,7 +662,7 @@ export default class Source extends Expression {
         );
     }
 
-    getTokenAt(position: number, includingWhitespace: boolean = true) {
+    getTokenAt(position: number, includingWhitespace = true) {
         // This could be faster with binary search, but let's not prematurely optimize.
         for (const [token, index] of this.tokenPositions) {
             if (
@@ -782,7 +785,7 @@ export default class Source extends Expression {
     }
 
     getTokensAfter(token: Token) {
-        let tokensAfter = this.getTokens();
+        const tokensAfter = this.getTokens();
         const indexOfCurrentToken = tokensAfter.indexOf(token);
         return indexOfCurrentToken < 0
             ? []
@@ -832,7 +835,7 @@ export default class Source extends Expression {
     computeType(context: Context): Type {
         return this.expression.getType(context);
     }
-    getDependencies(_: Context): Expression[] {
+    getDependencies(): Expression[] {
         return [this.expression];
     }
     evaluateTypeSet(_: Bind, __: TypeSet, current: TypeSet): TypeSet {

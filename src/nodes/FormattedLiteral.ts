@@ -20,7 +20,7 @@ import Finish from '@runtime/Finish';
 import type Step from '@runtime/Step';
 import type Evaluator from '@runtime/Evaluator';
 import Token from './Token';
-import Symbol from './Symbol';
+import Sym from './Symbol';
 import TextValue from '../values/TextValue';
 
 export default class FormattedLiteral extends Literal {
@@ -100,7 +100,7 @@ export default class FormattedLiteral extends Literal {
                 value instanceof TextValue
                     ? value.text
                     : value?.toString() ?? '';
-            concrete = concrete.replace(example, new Token(text, Symbol.Words));
+            concrete = concrete.replace(example, new Token(text, Sym.Words));
         }
 
         return new MarkupValue(this, concrete.markup);

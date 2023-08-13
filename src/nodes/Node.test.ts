@@ -44,7 +44,13 @@ test.each([
     ['ƒ a(b c)', 'inputs', 0, '[ 1 2 3 ]', 'ƒ a(b c)'],
 ])(
     'Replace in %s: %i %i with %s, producing %s',
-    (code, type: Function | string, number, replacement, result) => {
+    (
+        code,
+        type: string | (new (...params: never[]) => Node),
+        number,
+        replacement,
+        result
+    ) => {
         const expr = parseExpression(toTokens(code));
         const newNode =
             replacement === undefined

@@ -18,10 +18,10 @@
 
     let user = getUser();
     let email: string;
-    let missingEmail: boolean = false;
-    let sent: boolean = false;
+    let missingEmail = false;
+    let sent = false;
     let success: boolean | undefined = undefined;
-    let error: string = '';
+    let error = '';
 
     function redirect() {
         window.localStorage.removeItem('email');
@@ -29,7 +29,7 @@
         goto('/projects');
     }
 
-    function fail(err: any) {
+    function fail(err: unknown) {
         if (err instanceof FirebaseError) {
             console.error(err.code);
             console.error(err.message);

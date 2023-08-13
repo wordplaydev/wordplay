@@ -12,6 +12,8 @@ import MapType from './MapType';
 import UnknownInput from '@conflicts/UnknownInput';
 import UnexpectedTypeInput from '@conflicts/UnexpectedTypeInput';
 import { DefaultLocale } from '../db/Database';
+import type Node from './Node';
+import type Conflict from '../conflicts/Conflict';
 
 test.each([
     [
@@ -103,8 +105,8 @@ test.each([
     (
         good: string,
         bad: string,
-        node: Function,
-        conflict: Function,
+        node: new (...params: never[]) => Node,
+        conflict: new (...params: never[]) => Conflict,
         number?: number
     ) => {
         testConflict(good, bad, node, conflict, number);

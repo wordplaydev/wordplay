@@ -6,7 +6,7 @@ import TypePlaceholder from '@nodes/TypePlaceholder';
 import Type from '@nodes/Type';
 import type Project from '@models/Project';
 import Token from '@nodes/Token';
-import Symbol from '@nodes/Symbol';
+import Sym from '@nodes/Symbol';
 import Program from '@nodes/Program';
 import Block from '@nodes/Block';
 import Bind from '../nodes/Bind';
@@ -224,7 +224,7 @@ export function getInsertionPoint(
     if (parent === undefined) return;
 
     // Special case the end token of the Program, since it's block has no delimters.
-    if (node instanceof Token && node.isSymbol(Symbol.End)) {
+    if (node instanceof Token && node.isSymbol(Sym.End)) {
         if (parent instanceof Program && parent.expression instanceof Block) {
             return new InsertionPoint(
                 parent.expression,
@@ -239,7 +239,7 @@ export function getInsertionPoint(
     }
 
     // Find the list this node is either in or delimits.
-    let field = source.root.getContainingParentList(node, after);
+    const field = source.root.getContainingParentList(node, after);
     if (field === undefined) return;
     const list = parent.getField(field);
     if (!Array.isArray(list)) return undefined;

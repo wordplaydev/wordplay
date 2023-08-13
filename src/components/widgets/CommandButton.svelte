@@ -10,8 +10,8 @@
     /** If source ID isn't provided, then the one with focus is used. */
     export let sourceID: string | undefined = undefined;
     export let command: Command;
-    export let token: boolean = false;
-    export let focusAfter: boolean = false;
+    export let token = false;
+    export let focusAfter = false;
 
     const evaluator = getEvaluator();
     const editors = getEditors();
@@ -44,14 +44,13 @@
         if (context === undefined) return;
 
         const result = command.execute(context, '');
-        if (typeof result === 'boolean') {
-        } else if (result instanceof Promise)
+        if (result instanceof Promise)
             result.then((edit) =>
                 editor
                     ? editor.edit(edit, IdleKind.Typing, focusAfter)
                     : undefined
             );
-        else if (result !== undefined)
+        else if (typeof result !== 'boolean' && result !== undefined)
             editor?.edit(result, IdleKind.Typing, focusAfter);
 
         // If we didn't ask the editor to focus, restore focus on button after update.

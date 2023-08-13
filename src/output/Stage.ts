@@ -54,7 +54,7 @@ export default class Stage extends TypeOutput {
         resting: Pose | Sequence | undefined = undefined,
         moveing: Pose | Sequence | undefined = undefined,
         exiting: Pose | Sequence | undefined = undefined,
-        duration: number = 0,
+        duration = 0,
         style: string | undefined = 'zippy'
     ) {
         super(
@@ -159,8 +159,6 @@ export class NameGenerator {
     /** Number visible phrases, giving them unique IDs to key off of. */
     readonly counter = new Map<number, number>();
     readonly names = new Map<string, number>();
-
-    constructor() {}
 
     getName(name: string | undefined, value: Value) {
         // If given a name, make sure it's not a duplicate,

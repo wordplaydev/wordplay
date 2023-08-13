@@ -25,7 +25,7 @@ export default class Mic extends TemporalStreamValue<NumberValue, number> {
     analyzer: AnalyserNode | undefined;
     frequencies: Uint8Array = new Uint8Array(FFT_SIZE);
     lastSampleTime: number | undefined = undefined;
-    stopped: boolean = false;
+    stopped = false;
 
     frequency: number;
 

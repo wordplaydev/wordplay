@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-types */
 import BlockView from '../BlockView.svelte';
 import BorrowView from '../BorrowView.svelte';
 import BindView from '../BindView.svelte';
@@ -165,6 +166,7 @@ import FormattedLiteral from '@nodes/FormattedLiteral';
 import IsLocale from '@nodes/IsLocale';
 
 const nodeToView = new Map<Function, ConstructorOfATypedSvelteComponent>();
+
 nodeToView.set(Source, SourceView);
 nodeToView.set(Program, ProgramView);
 nodeToView.set(Token, TokenView);

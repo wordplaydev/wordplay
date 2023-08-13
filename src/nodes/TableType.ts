@@ -1,7 +1,7 @@
 import Bind from '@nodes/Bind';
 import type Context from './Context';
 import Token from './Token';
-import Symbol from './Symbol';
+import Sym from './Symbol';
 import { TABLE_CLOSE_SYMBOL, TABLE_OPEN_SYMBOL } from '@parser/Symbols';
 import type TypeSet from './TypeSet';
 import type { BasisTypeName } from '../basis/BasisConstants';
@@ -41,17 +41,17 @@ export default class TableType extends BasisType {
 
     static make(columns: Bind[] = []) {
         return new TableType(
-            new Token(TABLE_OPEN_SYMBOL, [Symbol.TableOpen]),
+            new Token(TABLE_OPEN_SYMBOL, [Sym.TableOpen]),
             columns,
-            new Token(TABLE_CLOSE_SYMBOL, [Symbol.TableClose])
+            new Token(TABLE_CLOSE_SYMBOL, [Sym.TableClose])
         );
     }
 
     getGrammar(): Grammar {
         return [
-            { name: 'open', kind: node(Symbol.TableOpen) },
+            { name: 'open', kind: node(Sym.TableOpen) },
             { name: 'columns', kind: list(node(Bind)), space: true },
-            { name: 'close', kind: node(Symbol.TableClose) },
+            { name: 'close', kind: node(Sym.TableClose) },
         ];
     }
 

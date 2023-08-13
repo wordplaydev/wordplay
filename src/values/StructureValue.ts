@@ -46,7 +46,7 @@ export default class StructureValue extends Value {
 
         if (thisBindings[0].size !== thatBindings[0].size) return false;
 
-        return Array.from(thisBindings[0].keys()).every((key, index) => {
+        return Array.from(thisBindings[0].keys()).every((key) => {
             const thisKey = typeof key === 'string' ? key : key.getNames()[0];
             const thisValue = thisBindings[0].get(thisKey);
             const thatValue = thatBindings[0].get(thisKey);

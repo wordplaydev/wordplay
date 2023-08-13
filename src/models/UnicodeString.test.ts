@@ -1,6 +1,8 @@
 import { test, expect } from 'vitest';
 import UnicodeString from './UnicodeString';
 
+expect(new UnicodeString('🌷🎁💩😜👍🏳️‍🌈').getLength()).toBe(6);
+
 test.each([
     ['happy', '!', 5, 'happy!'],
     ['happy', 's', 0, 'shappy'],

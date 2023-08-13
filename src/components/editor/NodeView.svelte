@@ -18,7 +18,7 @@
     import concretize from '../../locale/concretize';
 
     export let node: Node | undefined;
-    export let small: boolean = false;
+    export let small = false;
 
     const evaluation = getEvaluation();
     const locales = getLocales();

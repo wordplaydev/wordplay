@@ -4,7 +4,7 @@
     import type Value from '@values/Value';
 
     export let value: Value;
-    export let inline: boolean = true;
+    export let inline = true;
 </script>
 
 {#if inline || !inline}<span>{value.constructor.name}</span>{/if}

@@ -2,7 +2,7 @@ import type { Edit, Revision } from '../components/editor/util/Commands';
 import Block from '@nodes/Block';
 import Node, { ListOf } from '@nodes/Node';
 import Token from '@nodes/Token';
-import Symbol from '@nodes/Symbol';
+import Sym from '@nodes/Symbol';
 import {
     Delimiters,
     FormattingSymbols,
@@ -442,7 +442,7 @@ export default class Caret {
                 // If there's an entry point, choose the corresponding next position to preserve a sense of directionality.
                 // Otherwise, choose the first or last token of the currently selected node, moving before or past it.
                 let start: boolean;
-                let offset: number = 0;
+                let offset = 0;
                 if (this.entry === undefined) start = direction < 0;
                 else {
                     if (this.entry === 'next') {
@@ -520,7 +520,7 @@ export default class Caret {
             : token;
     }
 
-    getTextPosition(start: boolean, offset: number = 0): number | undefined {
+    getTextPosition(start: boolean, offset = 0): number | undefined {
         if (this.position instanceof Node) {
             // Get the first or last token of the given node.
             const tokens = this.position.nodes(
@@ -545,7 +545,7 @@ export default class Caret {
         const tokenAtPosition = this.source.getTokenAt(position, false);
         if (tokenAtPosition === undefined) return undefined;
         // If the token is a placeholder token, get the placeholder ancestor it's in.
-        if (tokenAtPosition.isSymbol(Symbol.Placeholder))
+        if (tokenAtPosition.isSymbol(Sym.Placeholder))
             return this.source.root
                 .getAncestors(tokenAtPosition)
                 .find((a) => a.isPlaceholder());
@@ -643,7 +643,7 @@ export default class Caret {
     }
 
     /** If complete is true, will automatically close a delimited symbol. */
-    insert(text: string, complete: boolean = true): Edit | undefined {
+    insert(text: string, complete = true): Edit | undefined {
         // Normalize the mystery string, ensuring it follows Unicode normalization form.
         text = text.normalize();
 
@@ -692,7 +692,7 @@ export default class Caret {
             // Is the text being typed what's already there?
             text === this.source.code.at(newPosition) &&
             // Is what's being typed a closing delimiter of a text literal?
-            ((this.tokenIncludingSpace.isSymbol(Symbol.Text) &&
+            ((this.tokenIncludingSpace.isSymbol(Sym.Text) &&
                 TextOpenByTextClose[
                     this.tokenIncludingSpace.getText().charAt(0)
                 ] === text) ||
@@ -722,8 +722,8 @@ export default class Caret {
                 !(
                     // The token prior is text or unknown
                     (
-                        (this.tokenPrior.isSymbol(Symbol.Text) ||
-                            this.tokenPrior.isSymbol(Symbol.Unknown)) &&
+                        (this.tokenPrior.isSymbol(Sym.Text) ||
+                            this.tokenPrior.isSymbol(Sym.Unknown)) &&
                         // The text typed closes a matching delimiter
                         text === Delimiters[this.tokenPrior.getText().charAt(0)]
                     )
@@ -777,9 +777,9 @@ export default class Caret {
     isInsideText() {
         const isText =
             this.tokenExcludingSpace !== undefined &&
-            this.tokenExcludingSpace.isSymbol(Symbol.Words);
+            this.tokenExcludingSpace.isSymbol(Sym.Words);
         const isAfterText =
-            this.tokenPrior && this.tokenPrior.isSymbol(Symbol.Words);
+            this.tokenPrior && this.tokenPrior.isSymbol(Sym.Words);
         return (isText && !this.betweenDelimiters()) || isAfterText;
     }
 
@@ -790,7 +790,7 @@ export default class Caret {
     isPlaceholderToken() {
         return (
             this.position instanceof Token &&
-            this.position.isSymbol(Symbol.Placeholder)
+            this.position.isSymbol(Sym.Placeholder)
         );
     }
 
@@ -1040,7 +1040,7 @@ export default class Caret {
 
     wrap(key: string): Edit | undefined {
         let node = this.position instanceof Node ? this.position : undefined;
-        if (node instanceof Token && !node.isSymbol(Symbol.End))
+        if (node instanceof Token && !node.isSymbol(Sym.End))
             node = this.source.root.getParent(node);
         if (node === undefined || !(node instanceof Expression))
             return undefined;

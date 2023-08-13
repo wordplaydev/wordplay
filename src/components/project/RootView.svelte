@@ -25,12 +25,12 @@
     export let node: Node;
     /** Optional space; if not provided, all nodes are rendered with preferred space. */
     export let spaces: Spaces | undefined = undefined;
-    export let inert: boolean = false;
-    export let inline: boolean = false;
+    export let inert = false;
+    export let inline = false;
     /** If inline, and true, this will be a maximum width */
-    export let elide: boolean = false;
+    export let elide = false;
     /** If true, hides names and docs not in a selected locale */
-    export let localized: boolean = false;
+    export let localized = false;
 
     /** Get the root, or make one if it's not a source. */
     $: root = node instanceof Source ? node.root : new Root(node);

@@ -5,13 +5,16 @@ import Context from '@nodes/Context';
 import Source from '@nodes/Source';
 import Project from '../models/Project';
 import { DefaultLocale } from '../db/Database';
+import type Node from '../nodes/Node';
+import type Conflict from './Conflict';
+import type Type from '../nodes/Type';
 
 export function testConflict(
     goodCode: string,
     badCode: string,
-    nodeType: Function,
-    conflictType: Function,
-    nodeIndex: number = 0
+    nodeType: new (...params: never[]) => Node,
+    conflictType: new (...params: never[]) => Conflict,
+    nodeIndex = 0
 ) {
     const goodSource = new Source('test', goodCode);
     const goodProject = new Project(
@@ -46,7 +49,10 @@ export function testConflict(
 }
 
 /** Given some code, verify that the type of the last expression in the program's block is of the expected type. */
-export function testTypes(code: string, typeExpected: Function) {
+export function testTypes(
+    code: string,
+    typeExpected: new (...params: never[]) => Type
+) {
     const source = new Source('test', code);
     const project = new Project(null, 'test', source, [], DefaultLocale);
     const last =
@@ -58,11 +64,7 @@ export function testTypes(code: string, typeExpected: Function) {
         const type = last.getType(new Context(project, source));
         const match = type instanceof typeExpected;
         if (!match)
-            console.log(
-                `Type of expression ${last.toWordplay()} is ${
-                    type.constructor.name
-                }`
-            );
+            console.log(`Type of expression ${last.toWordplay()} is ${type}`);
         expect(match).toBe(true);
     } else {
         console.log(`Last expression of this code is undefined.`);

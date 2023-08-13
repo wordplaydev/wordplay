@@ -29,7 +29,7 @@ import Names from '@nodes/Names';
 import type { Database } from '@db/Database';
 import type Locale from '@locale/Locale';
 import { Content } from '../../project/Tile';
-import Symbol from '../../../nodes/Symbol';
+import Sym from '../../../nodes/Symbol';
 
 export type Command = {
     /** The iconographic text symbol to use */
@@ -570,7 +570,7 @@ const Commands: Command[] = [
             if (caret === undefined) return false;
             const position = caret.position;
             if (position instanceof Node) {
-                let parent = caret.source.root.getParent(position);
+                const parent = caret.source.root.getParent(position);
                 if (parent && !(parent instanceof Source))
                     return caret.withPosition(parent);
             }
@@ -800,8 +800,8 @@ const Commands: Command[] = [
             const tokensPrior = caret?.getTokensPrior();
             if (tokensPrior)
                 for (let i = tokensPrior.length - 1; i >= 0; i--) {
-                    if (tokensPrior[i].isSymbol(Symbol.TableClose)) break;
-                    else if (tokensPrior[i].isSymbol(Symbol.TableOpen))
+                    if (tokensPrior[i].isSymbol(Sym.TableClose)) break;
+                    else if (tokensPrior[i].isSymbol(Sym.TableOpen))
                         return caret.insert(TABLE_CLOSE_SYMBOL);
                 }
 

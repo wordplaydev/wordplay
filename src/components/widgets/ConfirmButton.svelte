@@ -4,7 +4,7 @@
 
     export let tip: string;
     export let action: () => void;
-    export let enabled: boolean = true;
+    export let enabled = true;
     export let prompt: string;
 
     let confirming = false;

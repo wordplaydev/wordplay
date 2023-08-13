@@ -16,8 +16,8 @@
     import Page from '@components/app/Page.svelte';
 
     /** True if we're async loading the project, as opposed to getting it from the browser cache. */
-    let loading: boolean = false;
-    let error: boolean = false;
+    let loading = false;
+    let error = false;
 
     /** The project store is derived from the projects and the page's project ID. */
     const project: Writable<Project | undefined> = writable(undefined);

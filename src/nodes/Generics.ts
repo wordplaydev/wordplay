@@ -71,12 +71,14 @@ export default function getConcreteExpectedType(
     // If the type is some other type, but contains one of the above, concretize them and construct a new compound type.
     // We do this in a loop since each time we clone the type, the abstract types that have yet to be concretized
     // are cloned too, so we can't just get a list and loop through it.
+    let moreAbstractTypes = true;
     do {
         const abstractTypes: (NameType | NumberType)[] = type.nodes(
             (n): n is NameType | NumberType =>
                 (n instanceof NameType && n.isTypeVariable(context)) ||
                 (n instanceof NumberType && n.hasDerivedUnit())
         );
+        moreAbstractTypes = abstractTypes.length > 0;
         const nextAbstractType = abstractTypes[0];
         // If there's another abstract type, resolve it.
         if (nextAbstractType) {
@@ -98,7 +100,7 @@ export default function getConcreteExpectedType(
         }
         // If there isn't another abstract type, we have our type!
         else break;
-    } while (true);
+    } while (moreAbstractTypes);
 
     // Return the now concrete type.
     return type;

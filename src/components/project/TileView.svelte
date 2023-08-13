@@ -31,7 +31,7 @@
     export let dragging: boolean;
     export let fullscreenID: string | undefined;
     export let background: Color | string | null = null;
-    export let focuscontent: boolean = false;
+    export let focuscontent = false;
 
     $: fullscreen = tile.id === fullscreenID;
 

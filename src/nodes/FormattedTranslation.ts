@@ -4,7 +4,7 @@ import type { Grammar, Replacement } from './Node';
 import Token from './Token';
 import type Locale from '@locale/Locale';
 import { FORMATTED_SYMBOL } from '@parser/Symbols';
-import Symbol from './Symbol';
+import Sym from './Symbol';
 import type Paragraph from './Paragraph';
 import Words from './Words';
 import Glyphs from '../lore/Glyphs';
@@ -37,9 +37,9 @@ export default class FormattedTranslation extends LanguageTagged {
 
     static make(content?: Paragraph[]) {
         return new FormattedTranslation(
-            new Token(FORMATTED_SYMBOL, Symbol.Formatted),
+            new Token(FORMATTED_SYMBOL, Sym.Formatted),
             new Markup(content ?? []),
-            new Token(FORMATTED_SYMBOL, Symbol.Formatted),
+            new Token(FORMATTED_SYMBOL, Sym.Formatted),
             undefined
         );
     }
@@ -58,9 +58,9 @@ export default class FormattedTranslation extends LanguageTagged {
 
     getGrammar(): Grammar {
         return [
-            { name: 'open', kind: node(Symbol.Formatted) },
+            { name: 'open', kind: node(Sym.Formatted) },
             { name: 'markup', kind: node(Markup) },
-            { name: 'close', kind: node(Symbol.Formatted) },
+            { name: 'close', kind: node(Sym.Formatted) },
             { name: 'language', kind: optional(node(Language)) },
         ];
     }
@@ -97,7 +97,9 @@ export default class FormattedTranslation extends LanguageTagged {
                   .join();
     }
 
-    computeConflicts() {}
+    computeConflicts() {
+        return;
+    }
 
     getNodeLocale(translation: Locale) {
         return translation.node.FormattedTranslation;

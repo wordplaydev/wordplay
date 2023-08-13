@@ -12,7 +12,7 @@
     import { config } from '../../db/Database';
 
     export let nodes: Node[];
-    export let elide: boolean = false;
+    export let elide = false;
 
     let caret = getCaret();
 
@@ -23,8 +23,8 @@
      * the performance hit.
      **/
     let visible: Node[];
-    let hiddenBefore: number = 0;
-    let hiddenAfter: number = 0;
+    let hiddenBefore = 0;
+    let hiddenAfter = 0;
     $: {
         // More than some number? Elide.
         if (elide && nodes.length > LIMIT && $caret) {

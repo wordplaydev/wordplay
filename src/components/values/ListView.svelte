@@ -5,11 +5,11 @@
     import { LIST_CLOSE_SYMBOL, LIST_OPEN_SYMBOL } from '@parser/Symbols';
     import SymbolView from './SymbolView.svelte';
     import ValueView from './ValueView.svelte';
-    import Symbol from '@nodes/Symbol';
+    import Sym from '@nodes/Symbol';
     import Expandable from './Expandable.svelte';
 
     export let value: ListValue;
-    export let inline: boolean = true;
+    export let inline = true;
 
     const limit = 5;
 </script>
@@ -21,7 +21,7 @@
 {#if inline}
     <SymbolView
         symbol={LIST_OPEN_SYMBOL}
-        type={Symbol.ListOpen}
+        type={Sym.ListOpen}
     />{#if value.values.length > limit}<Expandable
             ><svelte:fragment slot="expanded"
                 >{#each value.values as item, index}<ValueView
@@ -39,7 +39,7 @@
                 {inline}
             />{#if index < value.values.length - 1}{' '}{/if}{/each}{/if}<SymbolView
         symbol={LIST_CLOSE_SYMBOL}
-        type={Symbol.ListClose}
+        type={Sym.ListClose}
     />
     <!-- 
     Block lists are basically inline but without collapsing, as they are likely in a place that can tolerate many values.
@@ -47,10 +47,10 @@
 {:else}
     <SymbolView
         symbol={LIST_OPEN_SYMBOL}
-        type={Symbol.ListOpen}
+        type={Sym.ListOpen}
     />{#each value.values as item}{' '}<ValueView
             value={item}
             {inline}
         />{/each}
-    <SymbolView symbol={LIST_CLOSE_SYMBOL} type={Symbol.ListClose} />
+    <SymbolView symbol={LIST_CLOSE_SYMBOL} type={Sym.ListClose} />
 {/if}

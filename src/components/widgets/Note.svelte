@@ -1,7 +1,7 @@
 <script lang="ts">
     import { config } from '../../db/Database';
 
-    export let center: boolean = false;
+    export let center = false;
 </script>
 
 <div class="note" class:center style:direction={$config.getWritingDirection()}

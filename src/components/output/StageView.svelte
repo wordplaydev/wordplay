@@ -201,9 +201,9 @@
     /** Keep track of the tile view's content window size for use in fitting content to the window */
     let parent: Element | null;
     let observer: ResizeObserver | undefined;
-    let viewportWidth: number = 0;
-    let viewportHeight: number = 0;
-    let changed: boolean = false;
+    let viewportWidth = 0;
+    let viewportHeight = 0;
+    let changed = false;
     $: {
         if (observer && parent) observer.unobserve(parent);
         if (view && view.parentElement) {

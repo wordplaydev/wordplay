@@ -4,7 +4,7 @@
     "scripts": {
         "postinstall": "svelte-kit sync && cp .env.template .env",
         "check": "svelte-check --tsconfig ./tsconfig.json --watch --ignore .svelte-kit",
-        "lint": "eslint .",
+        "lint": "eslint src",
         "test": "vitest",
         "test:coverage": "vitest run --coverage",
         "dev": "vite dev",
@@ -46,11 +46,12 @@
         "@testing-library/jest-dom": "^5",
         "@testing-library/svelte": "^4",
         "@types/uuid": "^9",
-        "@typescript-eslint/eslint-plugin": "^5",
-        "@typescript-eslint/parser": "^5",
+        "@typescript-eslint/eslint-plugin": "^5.62.0",
+        "@typescript-eslint/parser": "^5.62.0",
         "ajv": "^8",
         "chalk": "^5.3.0",
-        "eslint": "^8",
+        "eslint": "^8.47.0",
+        "eslint-plugin-compat": "^4.1.4",
         "eslint-plugin-svelte": "^2.32.2",
         "npm-watch": "^0.11.0",
         "prettier": "2",
@@ -64,6 +65,7 @@
         "tsx": "^3.12.7",
         "typescript": "^5",
         "vite": "^4.4",
+        "vite-plugin-eslint": "^1.8.1",
         "vitest": "^0"
     },
     "type": "module",
@@ -71,7 +73,12 @@
         "colorjs.io": "^0",
         "decimal.js": "^10",
         "firebase": "^9",
+        "graphemer": "^1.4.0",
         "recoverable-random": "^1.0.3",
         "uuid": "^9"
-    }
+    },
+    "browserslist": [
+        "defaults",
+        "not op_mini all"
+    ]
 }

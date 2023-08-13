@@ -111,7 +111,7 @@
     $: source = isUse
         ? Performances[performance[2] as keyof typeof Performances].apply(
               undefined,
-              performance.slice(3) as any
+              performance.slice(3) as [string]
           )
         : performance.slice(1).join('\n');
 

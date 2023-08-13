@@ -11,7 +11,7 @@
     import SegmentHTMLView from './SegmentHTMLView.svelte';
 
     export let markup: Markup;
-    export let inline: boolean = false;
+    export let inline = false;
 
     $: spaces = markup.spaces;
 

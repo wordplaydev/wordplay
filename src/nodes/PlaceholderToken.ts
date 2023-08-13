@@ -1,9 +1,9 @@
 import { PLACEHOLDER_SYMBOL } from '@parser/Symbols';
 import Token from './Token';
-import Symbol from './Symbol';
+import Sym from './Symbol';
 
 export default class PlaceholderToken extends Token {
     constructor() {
-        super(PLACEHOLDER_SYMBOL, Symbol.Placeholder);
+        super(PLACEHOLDER_SYMBOL, Sym.Placeholder);
     }
 }

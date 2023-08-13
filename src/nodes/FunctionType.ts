@@ -1,5 +1,5 @@
 import Token from './Token';
-import Symbol from './Symbol';
+import Sym from './Symbol';
 import Type from './Type';
 import type Context from './Context';
 import { FUNCTION_SYMBOL } from '@parser/Symbols';
@@ -66,7 +66,7 @@ export default class FunctionType extends Type {
         definition?: FunctionDefinition
     ) {
         return new FunctionType(
-            new Token(FUNCTION_SYMBOL, Symbol.Function),
+            new Token(FUNCTION_SYMBOL, Sym.Function),
             typeVars,
             new EvalOpenToken(),
             inputs,
@@ -94,20 +94,20 @@ export default class FunctionType extends Type {
 
     getGrammar(): Grammar {
         return [
-            { name: 'fun', kind: node(Symbol.Function) },
+            { name: 'fun', kind: node(Sym.Function) },
             {
                 name: 'types',
                 kind: optional(node(TypeVariables)),
                 space: true,
             },
-            { name: 'open', kind: node(Symbol.EvalOpen) },
+            { name: 'open', kind: node(Sym.EvalOpen) },
             {
                 name: 'inputs',
                 kind: list(node(Bind)),
                 space: true,
                 indent: true,
             },
-            { name: 'close', kind: node(Symbol.EvalClose) },
+            { name: 'close', kind: node(Sym.EvalClose) },
             { name: 'output', kind: node(Type), space: true },
         ];
     }
@@ -126,8 +126,8 @@ export default class FunctionType extends Type {
     acceptsAll(types: TypeSet, context: Context): boolean {
         return types.list().every((type) => {
             if (!(type instanceof FunctionType)) return false;
-            let inputsToCheck: Bind[] = type.inputs;
-            let outputToCheck = type.output;
+            const inputsToCheck: Bind[] = type.inputs;
+            const outputToCheck = type.output;
 
             if (!(outputToCheck instanceof Type)) return false;
             if (!this.output.accepts(outputToCheck, context)) return false;

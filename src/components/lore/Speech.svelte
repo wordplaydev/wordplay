@@ -12,19 +12,19 @@
 
     export let glyph: Glyph | Concept;
     /** If true, speech is placed below glyph. If false, speech is placed to the right or left of glyph. */
-    export let below: boolean = false;
+    export let below = false;
     /** If true and speech is not below, reading order is flipped. */
-    export let flip: boolean = false;
+    export let flip = false;
     /** If true and speech is not below, baseline aligns the glyph and speech */
-    export let baseline: boolean = false;
+    export let baseline = false;
     /** If true, uses foreground color for background, and background for foreground. */
-    export let invert: boolean = false;
+    export let invert = false;
     /** If true, sets height of speech to 100% and scrolls it */
-    export let scroll: boolean = true;
+    export let scroll = true;
     /** Optional emotion */
     export let emotion: Emotion | undefined = undefined;
     /** Optionally turn off animation */
-    export let emote: boolean = true;
+    export let emote = true;
 
     $: renderedEmotion =
         emotion ??

@@ -5,7 +5,7 @@ import type { BasisTypeName } from '../basis/BasisConstants';
 import BasisType from './BasisType';
 import { node, type Grammar, type Replacement } from './Node';
 import type TypeSet from './TypeSet';
-import Symbol from './Symbol';
+import Sym from './Symbol';
 import Token from './Token';
 import Glyphs from '../lore/Glyphs';
 import { DOCS_SYMBOL } from '../parser/Symbols';
@@ -20,11 +20,11 @@ export default class FormattedType extends BasisType {
     }
 
     static make() {
-        return new FormattedType(new Token(DOCS_SYMBOL, Symbol.Doc));
+        return new FormattedType(new Token(DOCS_SYMBOL, Sym.Doc));
     }
 
     getGrammar(): Grammar {
-        return [{ name: 'tick', kind: node(Symbol.Doc) }];
+        return [{ name: 'tick', kind: node(Sym.Doc) }];
     }
 
     acceptsAll(types: TypeSet): boolean {

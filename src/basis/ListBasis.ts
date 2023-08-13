@@ -818,8 +818,7 @@ export default function bootstrapList(locales: Locale[]) {
                             }
                         },
                         // Create the translated list.
-                        (evaluator, info, expression) =>
-                            info.list.get(info.index)
+                        (evaluator, info) => info.list.get(info.index)
                     )
                 ),
                 createFunction(
@@ -889,7 +888,7 @@ export default function bootstrapList(locales: Locale[]) {
                             return undefined;
                         },
                         // Create the translated list.
-                        (evaluator, info, expression) => info.combo
+                        (evaluator, info) => info.combo
                     )
                 ),
                 createFunction(
@@ -933,7 +932,7 @@ export default function bootstrapList(locales: Locale[]) {
                         ListType.make(ListTypeVariable.getReference()),
                         // Start with an index at the beginning of the list, a reference to the list for convenience,
                         // and an empty list of keyed values.
-                        (evaluator, expression) => {
+                        (evaluator) => {
                             return {
                                 index: 1, // 1-indexed, since we index the list, not a Javascript array
                                 list: evaluator.getCurrentClosure() as ListValue,

@@ -92,11 +92,11 @@
     export let project: Project;
     export let original: Project | undefined = undefined;
     /** If set to false, only the output is shown initially. */
-    export let editable: boolean = true;
+    export let editable = true;
     /** True if the output should be fit to content */
-    export let fit: boolean = true;
-    export let autofocus: boolean = true;
-    export let showHelp: boolean = true;
+    export let fit = true;
+    export let autofocus = true;
+    export let showHelp = true;
 
     // The HTMLElement that represents this element
     let view: HTMLElement | undefined = undefined;
@@ -121,11 +121,11 @@
     let canvas: HTMLElement;
 
     /** Whether to show the keyboard help dialog */
-    let help: boolean = false;
+    let help = false;
 
     /** The current canvas dimensions */
-    let canvasWidth: number = 1024;
-    let canvasHeight: number = 768;
+    let canvasWidth = 1024;
+    let canvasHeight = 768;
 
     /** The background color of the output, so we can make the tile match. */
     let outputBackground: Color | string | null;
@@ -137,7 +137,7 @@
     let newSource: Source | undefined = undefined;
 
     /** Keep a source select, to decide what value is shown on stage */
-    let selectedSourceIndex: number = 0;
+    let selectedSourceIndex = 0;
     $: selectedSource = project.getSources()[selectedSourceIndex];
 
     /** The conflicts present in the current project. **/
@@ -456,18 +456,18 @@
         | undefined = undefined;
 
     /** The furthest boundary of a dragged tile, defining the dimensions of the canvas while in freeform layout mode. */
-    let maxRight: number = 0;
-    let maxBottom: number = 0;
+    let maxRight = 0;
+    let maxBottom = 0;
 
     /* A global context for a node being dragged */
     let dragged = writable<Node | undefined>(undefined);
     setContext<DraggedContext>(DraggedSymbol, dragged);
 
     /** True if the output should show a grid */
-    let grid: boolean = false;
+    let grid = false;
 
     /** Undefined or an object defining painting configuration */
-    let painting: boolean = false;
+    let painting = false;
     let paintingConfig: PaintingConfiguration = {
         characters: 'a',
         size: 1,
@@ -569,7 +569,7 @@
     /**
      * Reanalyze on a delay any time the project changes.
      * */
-    let updateTimer: NodeJS.Timer | undefined = undefined;
+    let updateTimer: NodeJS.Timeout | undefined = undefined;
     $: {
         // Re-evaluate immediately.
         if (!$evaluator.isStarted()) $evaluator.start();

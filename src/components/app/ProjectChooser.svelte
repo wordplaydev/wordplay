@@ -20,7 +20,7 @@
         goto(`/project/${newProjectID}`);
     }
 
-    function changeProject(example: Project, fullscreen: boolean = false) {
+    function changeProject(example: Project, fullscreen = false) {
         goto(
             `/project/${example.id}${
                 fullscreen ? `?${PROJECT_PARAM_PLAY}` : ''

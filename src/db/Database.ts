@@ -81,7 +81,7 @@ type Config = {
     tutorial: TutorialProgress;
 };
 
-function setLocalValue(key: string, value: any) {
+function setLocalValue(key: string, value: unknown) {
     if (typeof window !== 'undefined') {
         if (value === null) window.localStorage.removeItem(key);
         else window.localStorage.setItem(key, JSON.stringify(value));
@@ -179,7 +179,7 @@ export class Database {
 
     async loadLocales(
         preferredLocales: SupportedLocale[],
-        refresh: boolean = false
+        refresh = false
     ): Promise<Locale[]> {
         // Asynchronously load all unloaded
         const locales = (
@@ -410,11 +410,7 @@ export class Database {
     }
 
     /** Create a project and return it's ID */
-    createProject(
-        locales: Locale[],
-        uid: string | undefined,
-        code: string = ''
-    ) {
+    createProject(locales: Locale[], uid: string | undefined, code = '') {
         const newProject = new Project(
             null,
             '',
@@ -430,7 +426,7 @@ export class Database {
     }
 
     /** Batch set projects */
-    setProjects(projects: Project[], persist: boolean = true) {
+    setProjects(projects: Project[], persist = true) {
         for (const project of projects) {
             // See if there's an existing record for this project
             // so we can preserve it's history.
@@ -589,7 +585,7 @@ export class Database {
         );
     }
 
-    saveConfig(key: keyof Config, value: any) {
+    saveConfig(key: keyof Config, value: unknown) {
         // Persist in local storage.
         this.setStatus(SaveStatus.Saving);
         try {
@@ -791,22 +787,20 @@ export class Database {
 
         // Immediately get the config from the database
         if (this.uid) {
-            try {
-                const config = await getDoc(doc(firestore, 'users', this.uid));
-                if (config.exists()) {
-                    const data = config.data();
-                    // Copy each key/value pair from the database to memory and the local store.
-                    for (const key in data) {
-                        if (key in this.config) {
-                            (this.config as Record<string, any>)[key] =
-                                data[key];
-                            setLocalValue(key, data[key]);
-                        }
+            const config = await getDoc(doc(firestore, 'users', this.uid));
+            if (config.exists()) {
+                const data = config.data();
+                // Copy each key/value pair from the database to memory and the local store.
+                for (const key in data) {
+                    if (key in this.config) {
+                        (this.config as Record<string, unknown>)[key] =
+                            data[key];
+                        setLocalValue(key, data[key]);
                     }
-                    // Update the config store.
-                    this.configStore.set(this);
                 }
-            } catch (_) {}
+                // Update the config store.
+                this.configStore.set(this);
+            }
         }
     }
 

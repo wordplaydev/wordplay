@@ -1,6 +1,6 @@
 import type LanguageCode from './LanguageCode';
 import { Languages } from './LanguageCode';
-import type Symbol from '../nodes/Symbol';
+import type Sym from '../nodes/Symbol';
 import type BasisTexts from './BasisTexts';
 import type NodeTexts from './NodeTexts';
 import type OutputTexts from './OutputTexts';
@@ -41,7 +41,7 @@ export type Locale = {
     /** The default Program for a new project */
     newProject: string;
     term: TermTexts;
-    token: Record<keyof typeof Symbol, string>;
+    token: Record<keyof typeof Sym, string>;
     node: NodeTexts;
     basis: BasisTexts;
     input: InputTexts;
@@ -58,7 +58,7 @@ export type NameAndDoc = {
     doc: DocText;
 };
 
-export type FunctionText<Inputs> = {
+export type FunctionText<Inputs extends NameAndDoc[]> = {
     names: NameText;
     doc: DocText;
     inputs: Inputs;

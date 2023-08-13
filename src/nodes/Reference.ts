@@ -27,7 +27,7 @@ import NameException from '@values/NameException';
 import NodeRef from '@locale/NodeRef';
 import Evaluate from './Evaluate';
 import StreamDefinitionType from './StreamDefinitionType';
-import Symbol from './Symbol';
+import Sym from './Symbol';
 import concretize, { type TemplateInput } from '../locale/concretize';
 import Glyphs from '../lore/Glyphs';
 import type Node from './Node';
@@ -155,7 +155,7 @@ export default class Reference extends AtomicExpression {
         return [
             {
                 name: 'name',
-                kind: node(Symbol.Name),
+                kind: node(Sym.Name),
                 uncompletable: true,
                 label: (translation: Locale) => translation.node.Reference.name,
                 // The valid definitions of the name are anything in scope, except for the current name.
@@ -178,7 +178,7 @@ export default class Reference extends AtomicExpression {
     }
 
     isPlaceholder() {
-        return this.name.isSymbol(Symbol.Placeholder);
+        return this.name.isSymbol(Sym.Placeholder);
     }
 
     getName() {
@@ -286,7 +286,7 @@ export default class Reference extends AtomicExpression {
             // Grab the furthest ancestor and evaluate possible types from there.
             const root = guards[0];
             if (root !== undefined) {
-                let possibleTypes = type.getTypeSet(context);
+                const possibleTypes = type.getTypeSet(context);
                 root.evaluateTypeSet(
                     definition,
                     possibleTypes,
@@ -359,7 +359,7 @@ export default class Reference extends AtomicExpression {
         );
     }
 
-    getDescriptionInputs(_: Locale, __: Context): TemplateInput[] {
+    getDescriptionInputs(): TemplateInput[] {
         return [this.getName()];
     }
 

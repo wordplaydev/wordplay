@@ -98,7 +98,7 @@ export default class Phrase extends TypeOutput {
         );
     }
 
-    getMetrics(context: RenderContext, parsed: boolean = true) {
+    getMetrics(context: RenderContext, parsed = true) {
         // Return the cache, if there is one.
         if (parsed && this._metrics) {
             return this._metrics;
@@ -123,7 +123,7 @@ export default class Phrase extends TypeOutput {
         let height: undefined | number = 0;
         let ascent: undefined | number = 0;
 
-        let formats: FormattedText[] | undefined =
+        const formats: FormattedText[] | undefined =
             text instanceof TextLang
                 ? [{ text: text.text, italic: false, weight: undefined }]
                 : text?.getFormats();
@@ -252,7 +252,7 @@ export function toPhrase(
 ): Phrase | undefined {
     if (!(value instanceof StructureValue)) return undefined;
 
-    let texts = toTextLang(getOutputInput(value, 0));
+    const texts = toTextLang(getOutputInput(value, 0));
 
     const {
         size,
@@ -302,7 +302,7 @@ export function toText(value: Value | undefined) {
 }
 
 export function toTextLang(value: Value | undefined) {
-    let texts =
+    const texts =
         value instanceof TextValue
             ? [new TextLang(value, value.text, value.format)]
             : value instanceof ListValue &&

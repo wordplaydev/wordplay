@@ -50,7 +50,7 @@
 
     let dragged = getDragged();
 
-    let query: string = '';
+    let query = '';
     let results: [Concept, [string, number, number][]][] | undefined =
         undefined;
 

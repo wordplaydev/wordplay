@@ -1,3 +1,6 @@
+/* eslint-disable @typescript-eslint/ban-types */
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import type Conflict from '@conflicts/Conflict';
 import type Definition from './Definition';
 import type Context from './Context';
@@ -13,7 +16,7 @@ import type { BasisTypeName } from '../basis/BasisConstants';
 import type Root from './Root';
 import type { TemplateInput } from '../locale/concretize';
 import type Markup from './Markup';
-import type Symbol from './Symbol';
+import type Sym from './Symbol';
 
 /* A global ID for nodes, for helping index them */
 let NODE_ID_COUNTER = 0;
@@ -165,7 +168,7 @@ export default abstract class Node {
         return nodes as Kind[];
     }
 
-    find<NodeType extends Node>(type: Function, nth: number = 0) {
+    find<NodeType extends Node>(type: new (...params: any[]) => Node, nth = 0) {
         return this.nodes((node): node is NodeType => node instanceof type)[
             nth
         ] as NodeType;
@@ -559,7 +562,7 @@ export default abstract class Node {
     }
 
     /** Always true, except in Token, which overrids. This helps us aovid importing Token here, creating an import cycle. */
-    isSymbol(type: Symbol) {
+    isSymbol(_: Sym) {
         return false;
     }
 
@@ -649,7 +652,7 @@ export default abstract class Node {
         const text = this.getNodeLocale(locale);
         return concretizer(
             locale,
-            text.hasOwnProperty('description')
+            'description' in text
                 ? (text as DescriptiveNodeText).description
                 : text.name,
             ...this.getDescriptionInputs(locale, context)
@@ -660,7 +663,7 @@ export default abstract class Node {
      * Get the list of inputs to give to concretize the description.
      */
     getDescriptionInputs(_: Locale, __: Context): TemplateInput[] {
-        return [] as TemplateInput[];
+        return [];
     }
 
     getDoc(locale: Locale): DocText {
@@ -709,7 +712,7 @@ export default abstract class Node {
     }
 
     /** A representation for debugging */
-    toString(depth: number = 0): string {
+    toString(depth = 0): string {
         const tabs = '\t'.repeat(depth);
         return `${tabs}${this.constructor.name}\n${this.getChildren()
             .map((n) => n.toString(depth + 1))
@@ -754,11 +757,10 @@ export type Field = {
  */
 export type FieldValue = Node | Node[] | undefined;
 
-export type NodeKind = Function | Symbol | undefined;
+export type NodeKind = Function | Sym | undefined;
 
 /** These classes help encapsulate field definitions for node grammars, centralizing reasoning about validity. */
 export abstract class FieldKind {
-    constructor() {}
     abstract allows(value: FieldValue): boolean;
     abstract allowsKind(kind: Function): boolean;
     abstract enumerate(): NodeKind[];
@@ -769,8 +771,8 @@ export abstract class FieldKind {
 
 // A field can be of this type of node or token type.
 export class IsA extends FieldKind {
-    readonly kind: Function | Symbol;
-    constructor(kind: Function | Symbol) {
+    readonly kind: Function | Sym;
+    constructor(kind: Function | Sym) {
         super();
         this.kind = kind;
     }
@@ -942,7 +944,7 @@ export class Any extends FieldKind {
 }
 
 /** These are shorthand functions for making grammars a bit less verbose. */
-export function node(kind: Function | Symbol) {
+export function node(kind: Function | Sym) {
     return new IsA(kind);
 }
 export function none(dependency?: string) {

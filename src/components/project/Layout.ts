@@ -181,7 +181,7 @@ export default class Layout {
 
     /* A stack of output and source files with optional palette next to output and docs next to source */
     vertical(width: number, height: number) {
-        let newLayout: Layout = this;
+        let newLayout: Layout = new Layout(this.tiles, this.fullscreenID);
         const expanded = this.expanded();
 
         const output = expanded.find((tile) => tile.id === OutputID);
@@ -190,7 +190,7 @@ export default class Layout {
         const docs = expanded.find((tile) => tile.id === DocsID);
 
         let top = 0;
-        let tileHeight =
+        const tileHeight =
             height /
             ((output || palette ? 1 : 0) +
                 (sources.length + (sources.length === 0 && docs ? 1 : 0)));
@@ -258,7 +258,7 @@ export default class Layout {
 
     /* Docs on the left, then source, then output, with optional palette below it */
     horizontal(width: number, height: number) {
-        let newLayout: Layout = this;
+        let newLayout: Layout = new Layout(this.tiles, this.fullscreenID);
         const expanded = this.expanded();
 
         const output = expanded.find((tile) => tile.id === OutputID);
@@ -267,7 +267,7 @@ export default class Layout {
         const docs = expanded.find((tile) => tile.id === DocsID);
 
         let left = 0;
-        let tileWidth =
+        const tileWidth =
             width /
             ((docs ? 0.5 : 0) + sources.length + (output || palette ? 1 : 0));
 
@@ -327,14 +327,14 @@ export default class Layout {
     }
 
     positioned() {
-        let newLayout: Layout = this;
+        let newLayout: Layout = new Layout(this.tiles, this.fullscreenID);
         for (const tile of this.tiles)
             newLayout = newLayout.withTileBounds(tile, tile.position);
         return newLayout;
     }
 
     randomPositions(width: number, height: number) {
-        let positions = new Map<string, Bounds>();
+        const positions = new Map<string, Bounds>();
         const tiles = this.tiles;
         const tileWidth = width / (tiles.length / 2);
         const tileHeight = height / (tiles.length / 2);

@@ -24,7 +24,11 @@ import type Locale from '../locale/Locale';
 import createDefaultShares from '@runtime/createDefaultShares';
 import type LanguageCode from '../locale/LanguageCode';
 import bootstrapTable from './TableBasis';
-import { createInputs, type FunctionText } from '../locale/Locale';
+import {
+    createInputs,
+    type FunctionText,
+    type NameAndDoc,
+} from '../locale/Locale';
 import { getDocLocales } from '../locale/getDocLocales';
 import { getNameLocales } from '../locale/getNameLocales';
 import bootstrapStructure from './StructureBasis';
@@ -156,7 +160,7 @@ export class Basis {
 
 export function createBasisFunction(
     locales: Locale[],
-    text: (locale: Locale) => FunctionText<any>,
+    text: (locale: Locale) => FunctionText<NameAndDoc[]>,
     typeVars: TypeVariables | undefined,
     types: (Type | [Type, Expression])[],
     output: Type,

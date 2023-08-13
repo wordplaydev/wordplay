@@ -17,7 +17,8 @@ export default abstract class Literal extends AtomicExpression {
         return [];
     }
 
-    compile(context: Context): Step[] {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    compile(_: Context): Step[] {
         return [new StartFinish(this)];
     }
 

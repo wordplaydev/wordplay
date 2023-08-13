@@ -19,7 +19,9 @@ export default class NeverType extends Type {
     getBasisTypeName(): BasisTypeName {
         return 'never';
     }
-    computeConflicts() {}
+    computeConflicts() {
+        return;
+    }
 
     toWordplay() {
         return NEVER_SYMBOL;

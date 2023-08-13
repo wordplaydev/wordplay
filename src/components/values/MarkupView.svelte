@@ -5,7 +5,7 @@
     import MarkupHTMLView from '../concepts/MarkupHTMLView.svelte';
 
     export let value: MarkupValue;
-    export let inline: boolean = true;
+    export let inline = true;
 </script>
 
 <MarkupHTMLView markup={value.markup} {inline} />

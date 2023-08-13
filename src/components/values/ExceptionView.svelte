@@ -5,7 +5,7 @@
     import { config } from '../../db/Database';
 
     export let value: ExceptionValue;
-    export let inline: boolean = true;
+    export let inline = true;
 </script>
 
 {#if inline || !inline}

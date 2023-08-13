@@ -79,5 +79,3 @@ test.each([
             .join('|')
     ).toBe(segments);
 });
-
-test('Tokenize betweens', () => {});

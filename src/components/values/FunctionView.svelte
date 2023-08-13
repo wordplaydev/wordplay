@@ -4,19 +4,19 @@
     import type FunctionValue from '@values/FunctionValue';
     import SymbolView from './SymbolView.svelte';
     import { FUNCTION_SYMBOL } from '@parser/Symbols';
-    import Symbol from '@nodes/Symbol';
+    import Sym from '@nodes/Symbol';
     import { config } from '../../db/Database';
 
     export let value: FunctionValue;
-    export let inline: boolean = true;
+    export let inline = true;
 </script>
 
 {#if inline || !inline}
-    <SymbolView symbol={FUNCTION_SYMBOL} type={Symbol.Function} />
+    <SymbolView symbol={FUNCTION_SYMBOL} type={Sym.Function} />
     <SymbolView
         symbol={value.definition.names.getPreferredNameString(
             $config.getLocales()
         )}
-        type={Symbol.Name}
+        type={Sym.Name}
     />
 {/if}

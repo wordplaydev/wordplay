@@ -43,7 +43,7 @@
     } from './util/Highlights';
     import ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
     import TypePlaceholder from '@nodes/TypePlaceholder';
-    import Symbol from '@nodes/Symbol';
+    import Sym from '@nodes/Symbol';
     import RootView from '../project/RootView.svelte';
     import type Project from '@models/Project';
     import type Conflict from '@conflicts/Conflict';
@@ -82,8 +82,8 @@
     export let sourceID: string;
     /** True if this editor's output is selected by the container. */
     export let selected: boolean;
-    export let autofocus: boolean = true;
-    export let showHelp: boolean = true;
+    export let autofocus = true;
+    export let showHelp = true;
 
     // A per-editor store that contains the current editor's cursor. We expose it as context to children.
     const caret = writable<Caret>(
@@ -480,10 +480,7 @@
         return undefined;
     }
 
-    async function ensureElementIsVisible(
-        element: Element,
-        nearest: boolean = false
-    ) {
+    async function ensureElementIsVisible(element: Element, nearest = false) {
         // Scroll to the element. Note that we don't set "smooth" here because it break's Chrome's ability to horizontally scroll.
         element.scrollIntoView({
             block: nearest ? 'nearest' : 'center',
@@ -550,7 +547,7 @@
                 ? nonTokenNodeUnderPointer
                 : // If the node is a placeholder token, select it's placeholder ancestor
                 tokenUnderPointer instanceof Token &&
-                  tokenUnderPointer.isSymbol(Symbol.Placeholder)
+                  tokenUnderPointer.isSymbol(Sym.Placeholder)
                 ? source.root
                       .getAncestors(tokenUnderPointer)
                       .find((a) => a.isPlaceholder())
@@ -1071,8 +1068,8 @@
     }
 
     /** True if the last symbol was a dead key*/
-    let keyWasDead: boolean = false;
-    let replacePreviousWithNext: boolean = false;
+    let keyWasDead = false;
+    let replacePreviousWithNext = false;
 
     function handleTextInput(event: Event) {
         lastKeyDownIgnored = false;
@@ -1213,7 +1210,6 @@
     All NodeViews are set to role="presentation"
     We use the live region above 
 -->
-<!-- svelte-ignore a11y-no-static-element-interactions -->
 <div
     class="editor {$evaluation !== undefined && $evaluation.playing
         ? 'playing'

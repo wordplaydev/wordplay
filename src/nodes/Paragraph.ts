@@ -16,7 +16,7 @@ import ValueRef from '../locale/ValueRef';
 import Branch from './Branch';
 import { unescapeMarkupSymbols } from '../parser/Tokenizer';
 import Node, { list, node } from '@nodes/Node';
-import Symbol from './Symbol';
+import Sym from './Symbol';
 
 export type NodeSegment =
     | Token
@@ -47,7 +47,7 @@ export default class Paragraph extends Content {
             {
                 name: 'segments',
                 kind: list(
-                    node(Symbol.Words),
+                    node(Sym.Words),
                     node(Words),
                     node(WebLink),
                     node(ConceptLink),

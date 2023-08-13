@@ -13,9 +13,9 @@
     export let concept: Concept | undefined = undefined;
     export let spaces: Spaces | undefined = undefined;
     export let type: Type | undefined = undefined;
-    export let describe: boolean = true;
-    export let inline: boolean = false;
-    export let outline: boolean = true;
+    export let describe = true;
+    export let inline = false;
+    export let outline = true;
 
     let dragged = getDragged();
 

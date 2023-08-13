@@ -20,7 +20,7 @@ export default class Key extends StreamValue<
     { key: string; down: boolean }
 > {
     readonly evaluator: Evaluator;
-    on: boolean = false;
+    on = false;
 
     key: string | undefined;
     down: boolean | undefined;

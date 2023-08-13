@@ -27,7 +27,7 @@ import type { BasisTypeName } from '../basis/BasisConstants';
 import StreamToken from './StreamToken';
 import concretize from '../locale/concretize';
 import ExpectedStream from '../conflicts/ExpectedStream';
-import Symbol from './Symbol';
+import Sym from './Symbol';
 import ExpressionPlaceholder from './ExpressionPlaceholder';
 import type Node from './Node';
 import UnknownType from './UnknownType';
@@ -95,7 +95,7 @@ export default class Reaction extends Expression {
                 label: (translation: Locale) =>
                     translation.node.Reaction.initial,
             },
-            { name: 'dots', kind: node(Symbol.Stream), space: true },
+            { name: 'dots', kind: node(Sym.Stream), space: true },
             {
                 name: 'condition',
                 kind: node(Expression),
@@ -106,7 +106,7 @@ export default class Reaction extends Expression {
             },
             {
                 name: 'nextdots',
-                kind: node(Symbol.Stream),
+                kind: node(Sym.Stream),
                 space: true,
                 indent: true,
             },

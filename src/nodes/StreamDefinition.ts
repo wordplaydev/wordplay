@@ -2,7 +2,7 @@ import type Node from './Node';
 import Bind from './Bind';
 import Expression from './Expression';
 import Token from './Token';
-import Symbol from './Symbol';
+import Sym from './Symbol';
 import Type from './Type';
 import type Conflict from '@conflicts/Conflict';
 import { getEvaluationInputConflicts } from './util';
@@ -85,7 +85,7 @@ export default class StreamDefinition extends Expression {
     ) {
         return new StreamDefinition(
             docs,
-            new Token(STREAM_SYMBOL, Symbol.Stream),
+            new Token(STREAM_SYMBOL, Sym.Stream),
             names instanceof Names ? names : Names.make(names),
             new EvalOpenToken(),
             inputs,
@@ -99,17 +99,17 @@ export default class StreamDefinition extends Expression {
     getGrammar(): Grammar {
         return [
             { name: 'docs', kind: optional(node(Docs)) },
-            { name: 'dots', kind: node(Symbol.Stream) },
+            { name: 'dots', kind: node(Sym.Stream) },
             { name: 'names', kind: node(Names) },
-            { name: 'open', kind: node(Symbol.EvalOpen) },
+            { name: 'open', kind: node(Sym.EvalOpen) },
             {
                 name: 'inputs',
                 kind: list(node(Bind)),
                 space: true,
                 indent: true,
             },
-            { name: 'close', kind: node(Symbol.EvalClose) },
-            { name: 'dot', kind: any(node(Symbol.Type), none('output')) },
+            { name: 'close', kind: node(Sym.EvalClose) },
+            { name: 'dot', kind: any(node(Sym.Type), none('output')) },
             { name: 'output', kind: any(node(Type), none('dot')) },
         ];
     }

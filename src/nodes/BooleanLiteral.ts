@@ -6,7 +6,7 @@ import { FALSE_SYMBOL, TRUE_SYMBOL } from '@parser/Symbols';
 import type Bind from './Bind';
 import type Context from './Context';
 import type TypeSet from './TypeSet';
-import Symbol from './Symbol';
+import Sym from './Symbol';
 import { node, type Grammar, type Replacement } from './Node';
 import type Locale from '@locale/Locale';
 import NodeRef from '@locale/NodeRef';
@@ -28,10 +28,7 @@ export default class BooleanLiteral extends Literal {
 
     static make(value: boolean) {
         return new BooleanLiteral(
-            new Token(
-                value === true ? TRUE_SYMBOL : FALSE_SYMBOL,
-                Symbol.Boolean
-            )
+            new Token(value === true ? TRUE_SYMBOL : FALSE_SYMBOL, Sym.Boolean)
         );
     }
 
@@ -43,7 +40,7 @@ export default class BooleanLiteral extends Literal {
         return [
             {
                 name: 'value',
-                kind: node(Symbol.Boolean),
+                kind: node(Sym.Boolean),
                 getType: () => BooleanType.make(),
             },
         ];
@@ -59,7 +56,9 @@ export default class BooleanLiteral extends Literal {
         return 'boolean';
     }
 
-    computeConflicts() {}
+    computeConflicts() {
+        return;
+    }
 
     computeType(): Type {
         return BooleanType.make();

@@ -9,9 +9,8 @@ import {
 } from '../parser/Symbols';
 import { node, type Grammar, type Replacement } from './Node';
 import Token from './Token';
-import Symbol from './Symbol';
+import Sym from './Symbol';
 import type { TemplateInput } from '../locale/concretize';
-import type Context from './Context';
 import Content from './Content';
 
 export default class WebLink extends Content {
@@ -39,11 +38,11 @@ export default class WebLink extends Content {
 
     static make(description: string, url: string) {
         return new WebLink(
-            new Token(TAG_OPEN_SYMBOL, Symbol.TagOpen),
-            new Token(description, Symbol.Words),
-            new Token(LINK_SYMBOL, Symbol.Link),
-            new Token(url, Symbol.URL),
-            new Token(TAG_CLOSE_SYMBOL, Symbol.TagClose)
+            new Token(TAG_OPEN_SYMBOL, Sym.TagOpen),
+            new Token(description, Sym.Words),
+            new Token(LINK_SYMBOL, Sym.Link),
+            new Token(url, Sym.URL),
+            new Token(TAG_CLOSE_SYMBOL, Sym.TagClose)
         );
     }
 
@@ -53,11 +52,11 @@ export default class WebLink extends Content {
 
     getGrammar(): Grammar {
         return [
-            { name: 'open', kind: node(Symbol.TagOpen) },
-            { name: 'description', kind: node(Symbol.Words) },
-            { name: 'at', kind: node(Symbol.Link) },
-            { name: 'url', kind: node(Symbol.URL) },
-            { name: 'close', kind: node(Symbol.TagClose) },
+            { name: 'open', kind: node(Sym.TagOpen) },
+            { name: 'description', kind: node(Sym.Words) },
+            { name: 'at', kind: node(Sym.Link) },
+            { name: 'url', kind: node(Sym.URL) },
+            { name: 'close', kind: node(Sym.TagClose) },
         ];
     }
 
@@ -87,7 +86,7 @@ export default class WebLink extends Content {
         return Glyphs.Link;
     }
 
-    getDescriptionInputs(_: Locale, __: Context): TemplateInput[] {
+    getDescriptionInputs(): TemplateInput[] {
         return [this.url?.getText()];
     }
 

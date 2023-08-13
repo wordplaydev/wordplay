@@ -12,7 +12,7 @@
 
     export let concept: Concept;
     export let type: Type | undefined = undefined;
-    export let header: boolean = true;
+    export let header = true;
     export let variables: TypeVariables | undefined = undefined;
 
     $: node = concept.getRepresentation();

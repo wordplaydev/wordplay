@@ -3,7 +3,7 @@ import type FunctionDefinition from './FunctionDefinition';
 import type Context from './Context';
 import Token from './Token';
 import type Node from './Node';
-import Symbol from './Symbol';
+import Sym from './Symbol';
 import Type from './Type';
 import { OR_SYMBOL } from '@parser/Symbols';
 import type TypeSet from './TypeSet';
@@ -32,7 +32,7 @@ export default class UnionType extends Type {
     }
 
     static make(left: Type, right: Type) {
-        return new UnionType(left, new Token(OR_SYMBOL, Symbol.Union), right);
+        return new UnionType(left, new Token(OR_SYMBOL, Sym.Union), right);
     }
 
     static getPossibleNodes(
@@ -47,7 +47,6 @@ export default class UnionType extends Type {
                       TypePlaceholder.make(),
                       TypePlaceholder.make()
                   ),
-            ,
         ];
     }
 
@@ -58,7 +57,7 @@ export default class UnionType extends Type {
     getGrammar(): Grammar {
         return [
             { name: 'left', kind: node(Type) },
-            { name: 'or', kind: node(Symbol.Union) },
+            { name: 'or', kind: node(Sym.Union) },
             { name: 'right', kind: node(Type) },
         ];
     }
@@ -147,7 +146,9 @@ export default class UnionType extends Type {
         return 'union';
     }
 
-    computeConflicts() {}
+    computeConflicts() {
+        return [];
+    }
 
     /** Override the base class: basis type scopes are their basis structure definitions. */
     getScope(context: Context): Node | undefined {

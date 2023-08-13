@@ -27,7 +27,7 @@ import Purpose from '../concepts/Purpose';
 import type { BasisTypeName } from '../basis/BasisConstants';
 import concretize from '../locale/concretize';
 import ValueException from '../values/ValueException';
-import Symbol from './Symbol';
+import Sym from './Symbol';
 
 export default class MapLiteral extends Expression {
     readonly open: Token;
@@ -66,15 +66,15 @@ export default class MapLiteral extends Expression {
 
     getGrammar(): Grammar {
         return [
-            { name: 'open', kind: node(Symbol.SetOpen) },
-            { name: 'bind', kind: optional(node(Symbol.Bind)) },
+            { name: 'open', kind: node(Sym.SetOpen) },
+            { name: 'bind', kind: optional(node(Sym.Bind)) },
             {
                 name: 'values',
                 kind: list(node(KeyValue)),
                 space: true,
                 indent: true,
             },
-            { name: 'close', kind: node(Symbol.SetClose) },
+            { name: 'close', kind: node(Sym.SetClose) },
         ];
     }
 
@@ -117,7 +117,7 @@ export default class MapLiteral extends Expression {
     }
 
     computeType(context: Context): Type {
-        let keyType =
+        const keyType =
             this.values.length === 0
                 ? new AnyType()
                 : UnionType.getPossibleUnion(
@@ -125,7 +125,7 @@ export default class MapLiteral extends Expression {
                       this.getKeyValuePairs().map((v) => v.key.getType(context))
                   );
 
-        let valueType =
+        const valueType =
             this.values.length === 0
                 ? new AnyType()
                 : UnionType.getPossibleUnion(
@@ -225,7 +225,7 @@ export default class MapLiteral extends Expression {
         );
     }
 
-    getDescriptionInputs(locale: Locale, _: Context) {
+    getDescriptionInputs() {
         return [this.values.length];
     }
 

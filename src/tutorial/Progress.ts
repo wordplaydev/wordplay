@@ -87,7 +87,7 @@ export default class Progress {
         if (scene === undefined) return undefined;
         if (this.pause === 0) return undefined;
 
-        let dialog: Dialog[] = [];
+        const dialog: Dialog[] = [];
         let pause = 1;
         for (let i = 0; i < scene.lines.length && pause <= this.pause; i++) {
             const line = scene.lines[i];

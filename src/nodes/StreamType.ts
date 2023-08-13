@@ -5,7 +5,7 @@ import AnyType from './AnyType';
 import type Context from './Context';
 import { node, type Grammar, type Replacement } from './Node';
 import Token from './Token';
-import Symbol from './Symbol';
+import Sym from './Symbol';
 import Type from './Type';
 import type TypeSet from './TypeSet';
 import Glyphs from '../lore/Glyphs';
@@ -27,19 +27,21 @@ export default class StreamType extends Type {
 
     static make(type?: Type) {
         return new StreamType(
-            new Token(STREAM_SYMBOL, Symbol.Stream),
+            new Token(STREAM_SYMBOL, Sym.Stream),
             type ?? new AnyType()
         );
     }
 
     getGrammar(): Grammar {
         return [
-            { name: 'stream', kind: node(Symbol.Stream) },
+            { name: 'stream', kind: node(Sym.Stream) },
             { name: 'type', kind: node(Type) },
         ];
     }
 
-    computeConflicts() {}
+    computeConflicts() {
+        return;
+    }
 
     acceptsAll(types: TypeSet, context: Context): boolean {
         return types

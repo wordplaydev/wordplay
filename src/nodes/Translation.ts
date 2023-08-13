@@ -1,6 +1,6 @@
 import Token from './Token';
 import Language from './Language';
-import Symbol from './Symbol';
+import Sym from './Symbol';
 import { node, type Grammar, type Replacement, optional, list } from './Node';
 import type Locale from '@locale/Locale';
 import Emotion from '../lore/Emotion';
@@ -38,18 +38,18 @@ export default class Translation extends LanguageTagged {
 
     static make(text?: string, language?: Language) {
         return new Translation(
-            new Token("'", Symbol.Text),
-            [new Token(text ?? '', Symbol.Words)],
-            new Token("'", Symbol.Text),
+            new Token("'", Sym.Text),
+            [new Token(text ?? '', Sym.Words)],
+            new Token("'", Sym.Text),
             language
         );
     }
 
     getGrammar(): Grammar {
         return [
-            { name: 'open', kind: node(Symbol.Text) },
-            { name: 'segments', kind: list(node(Symbol.Words), node(Example)) },
-            { name: 'close', kind: node(Symbol.Text) },
+            { name: 'open', kind: node(Sym.Text) },
+            { name: 'segments', kind: list(node(Sym.Words), node(Example)) },
+            { name: 'close', kind: node(Sym.Text) },
             { name: 'language', kind: optional(node(Language)) },
         ];
     }
@@ -67,7 +67,9 @@ export default class Translation extends LanguageTagged {
         return Purpose.Value;
     }
 
-    computeConflicts() {}
+    computeConflicts() {
+        return;
+    }
 
     /** Get the text, with any escape characters processed. */
     getText(): string {

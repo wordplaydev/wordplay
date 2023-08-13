@@ -1,4 +1,6 @@
-const Segmenter = new Intl.Segmenter();
+import Graphemer from 'graphemer';
+
+const Segmenter = new Graphemer();
 
 export default class UnicodeString {
     readonly text: string;
@@ -14,8 +16,8 @@ export default class UnicodeString {
     getGraphemes() {
         if (this._segments === undefined)
             this._segments = [
-                ...Array.from(Segmenter.segment(this.text)).map(
-                    (s) => s.segment
+                ...Array.from(Segmenter.splitGraphemes(this.text)).map(
+                    (s) => s
                 ),
             ];
         return this._segments;
@@ -107,7 +109,7 @@ export default class UnicodeString {
         const delimiterGraphemes = new UnicodeString(delimiter).getGraphemes();
         let graphemes = this.getGraphemes();
         const segments: string[] = [];
-        let current: string = '';
+        let current = '';
         while (graphemes.length > 0) {
             // Is the next sequence a delimter match?
             if (

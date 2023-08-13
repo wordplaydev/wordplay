@@ -10,7 +10,7 @@
     export let underline: Outline;
     export let types: HighlightType[];
     export let above: boolean;
-    export let ignored: boolean = false;
+    export let ignored = false;
 
     $: filteredClasses = types
         .filter((type) => HighlightTypes[type] === above)

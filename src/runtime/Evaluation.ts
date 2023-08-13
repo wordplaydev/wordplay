@@ -45,7 +45,7 @@ export type EvaluationNode =
     | TableLiteral
     | Insert
     | Delete
-    | Iteration<any>
+    | Iteration
     | Borrow
     | Source
     | StreamDefinition;
@@ -92,10 +92,10 @@ export default class Evaluation {
     readonly #conversions: ConversionDefinitionValue[] = [];
 
     /** A sum of the sizes of all of the values bound */
-    #size: number = 0;
+    #size = 0;
 
     /** The step to execute next */
-    #stepIndex: number = 0;
+    #stepIndex = 0;
 
     constructor(
         evaluator: Evaluator,
@@ -315,7 +315,7 @@ export default class Evaluation {
     }
 
     /** A convience function for getting a value by name, but only if it is a certain type */
-    get<Kind>(name: string | Names, type: new (...params: any[]) => Kind) {
+    get<Kind>(name: string | Names, type: new (...params: never[]) => Kind) {
         const value = this.resolve(name);
         return value instanceof type ? value : undefined;
     }

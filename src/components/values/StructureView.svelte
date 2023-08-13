@@ -1,7 +1,7 @@
 <svelte:options immutable={true} />
 
 <script lang="ts">
-    import Symbol from '@nodes/Symbol';
+    import Sym from '@nodes/Symbol';
     import {
         BIND_SYMBOL,
         EVAL_CLOSE_SYMBOL,
@@ -16,25 +16,22 @@
     import { config } from '../../db/Database';
 
     export let value: StructureValue;
-    export let inline: boolean = true;
+    export let inline = true;
 </script>
 
 <!-- Inline structures show the name and binds -->
 {#if inline}
     <SymbolView
         symbol={value.type.names.getPreferredNameString($config.getLocales())}
-        type={Symbol.Name}
-    /><SymbolView symbol={EVAL_OPEN_SYMBOL} type={Symbol.EvalOpen} /><Expandable
+        type={Sym.Name}
+    /><SymbolView symbol={EVAL_OPEN_SYMBOL} type={Sym.EvalOpen} /><Expandable
         ><svelte:fragment slot="expanded">
             {#each value.type.inputs as input, index}<SymbolView
                     symbol={input.names.getPreferredNameString(
                         $config.getLocales()
                     )}
-                    type={Symbol.Name}
-                /><SymbolView
-                    symbol={BIND_SYMBOL}
-                    type={Symbol.Bind}
-                /><ValueView
+                    type={Sym.Name}
+                /><SymbolView symbol={BIND_SYMBOL} type={Sym.Bind} /><ValueView
                     value={value.resolve(input.getNames()[0]) ??
                         new NoneValue(value.type)}
                     {inline}
@@ -46,7 +43,7 @@
                     >&ZeroWidthSpace;</span
                 >{:else}…{/if}</svelte:fragment
         ></Expandable
-    ><SymbolView symbol={EVAL_CLOSE_SYMBOL} type={Symbol.EvalClose} />
+    ><SymbolView symbol={EVAL_CLOSE_SYMBOL} type={Sym.EvalClose} />
 
     <!-- Block structures are HTML tables -->
 {:else}
@@ -60,7 +57,7 @@
                     symbol={value.type.names.getPreferredNameString(
                         $config.getLocales()
                     )}
-                    type={Symbol.Name}
+                    type={Sym.Name}
                 /></th
             >{#if color}
                 <th
@@ -77,7 +74,7 @@
                         symbol={input.names.getPreferredNameString(
                             $config.getLocales()
                         )}
-                        type={Symbol.Name}
+                        type={Sym.Name}
                     /></td
                 ><td
                     ><ValueView

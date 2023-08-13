@@ -29,9 +29,6 @@ export default class Start extends Step {
 }
 
 export function start(evaluator: Evaluator, expr: Expression) {
-    // Notify that evaluation is starting.
-    evaluator.startExpression(expr);
-
     // If this expression is constant and it has a latest value, don't evaluate.
     // Finish.finish() will return the latest value.
     if (

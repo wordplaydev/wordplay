@@ -117,7 +117,7 @@ export default class Project {
         locales: Locale | Locale[],
         carets: SerializedCarets | undefined = undefined,
         uids: string[] = [],
-        listed: boolean = true
+        listed = true
     ) {
         this.id = id ?? uuidv4();
         this.uids = uids;
@@ -298,7 +298,7 @@ export default class Project {
                     conflict,
                 ]);
                 if (complicitNodes.secondary) {
-                    let nodeConflicts =
+                    const nodeConflicts =
                         this.analysis.secondary.get(
                             complicitNodes.secondary.node
                         ) ?? [];

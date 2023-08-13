@@ -5,7 +5,7 @@ import Language from './Language';
 import BasisType from './BasisType';
 import { node, type Grammar, type Replacement, optional } from './Node';
 import Token from './Token';
-import Symbol from './Symbol';
+import Sym from './Symbol';
 import type TypeSet from './TypeSet';
 import Emotion from '../lore/Emotion';
 import UnionType from './UnionType';
@@ -38,9 +38,9 @@ export default class TextType extends BasisType {
 
     static make(text?: string, format?: Language) {
         return new TextType(
-            new Token(TEXT_SYMBOL, Symbol.Text),
-            text ? new Token(text, Symbol.Words) : undefined,
-            new Token(TEXT_SYMBOL, Symbol.Text),
+            new Token(TEXT_SYMBOL, Sym.Text),
+            text ? new Token(text, Sym.Words) : undefined,
+            new Token(TEXT_SYMBOL, Sym.Text),
             format
         );
     }
@@ -51,9 +51,9 @@ export default class TextType extends BasisType {
 
     getGrammar(): Grammar {
         return [
-            { name: 'open', kind: node(Symbol.Text) },
-            { name: 'text', kind: node(Symbol.Words) },
-            { name: 'close', kind: node(Symbol.Text) },
+            { name: 'open', kind: node(Sym.Text) },
+            { name: 'text', kind: node(Sym.Words) },
+            { name: 'close', kind: node(Sym.Text) },
             { name: 'language', kind: optional(node(Language)) },
         ];
     }
@@ -67,7 +67,9 @@ export default class TextType extends BasisType {
         ) as this;
     }
 
-    computeConflicts() {}
+    computeConflicts() {
+        return;
+    }
 
     acceptsAll(types: TypeSet, context: Context): boolean {
         // For this to accept the given type, it must accept all possible types.

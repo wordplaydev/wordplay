@@ -319,7 +319,7 @@ export function addSoloPhrase(database: Database, project: Project) {
 
 export function addGroup(database: Database, project: Project) {
     // Find the solo phrase. If there isn't one, bail.
-    let phrase = getSoloPhrase(project);
+    const phrase = getSoloPhrase(project);
     if (phrase === undefined) return;
 
     // Build a new group, wrapping the phrase.

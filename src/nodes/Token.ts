@@ -2,7 +2,7 @@ import UnicodeString from '../models/UnicodeString';
 import type Spaces from '../parser/Spaces';
 import type Locale from '../locale/Locale';
 import Node, { type Grammar, type Replacement } from './Node';
-import Symbol from './Symbol';
+import Sym from './Symbol';
 import Emotion from '../lore/Emotion';
 import Purpose from '../concepts/Purpose';
 import type { Template } from '../locale/Locale';
@@ -15,12 +15,12 @@ import type { TemplateInput } from '../locale/concretize';
 
 export default class Token extends Node {
     /** The one or more types of token this might represent. This is narrowed during parsing to one.*/
-    readonly types: Symbol[];
+    readonly types: Sym[];
 
     /** The text of the token */
     readonly text: UnicodeString;
 
-    constructor(text: string | UnicodeString, types: Symbol | Symbol[]) {
+    constructor(text: string | UnicodeString, types: Sym | Sym[]) {
         super();
 
         this.types = Array.isArray(types) ? types : [types];
@@ -32,8 +32,8 @@ export default class Token extends Node {
         // No token is allowed to be empty except the end token.
         if (
             this.text.isEmpty() &&
-            !this.isSymbol(Symbol.End) &&
-            !this.isSymbol(Symbol.Words)
+            !this.isSymbol(Sym.End) &&
+            !this.isSymbol(Sym.Words)
         )
             throw Error('This token has no text');
     }
@@ -48,7 +48,9 @@ export default class Token extends Node {
         return true;
     }
 
-    computeConflicts() {}
+    computeConflicts() {
+        return;
+    }
 
     getNodeLocale(translation: Locale) {
         return translation.node.Token;
@@ -60,16 +62,16 @@ export default class Token extends Node {
 
     // TOKEN TYPES
 
-    isntSymbol(type: Symbol) {
+    isntSymbol(type: Sym) {
         return !this.isSymbol(type);
     }
 
-    isSymbol(type: Symbol) {
+    isSymbol(type: Sym) {
         return this.getTypes().includes(type);
     }
 
     isName() {
-        return this.isSymbol(Symbol.Name);
+        return this.isSymbol(Sym.Name);
     }
 
     getTypes() {
@@ -132,14 +134,14 @@ export default class Token extends Node {
         context: Context,
         translation: Locale
     ): Template | undefined {
-        if (!this.isSymbol(Symbol.Placeholder)) return undefined;
+        if (!this.isSymbol(Sym.Placeholder)) return undefined;
         const parent = root.getParent(this);
         return parent === undefined
             ? undefined
             : parent.getChildPlaceholderLabel(this, translation, context, root);
     }
 
-    getDescriptionInputs(locale: Locale, _: Context): TemplateInput[] {
+    getDescriptionInputs(locale: Locale): TemplateInput[] {
         return [getTokenLabel(this, locale), this.getText()];
     }
 
@@ -148,7 +150,7 @@ export default class Token extends Node {
         let text = this.getText();
 
         // Is this text? Localize delimiters.
-        const isText = this.isSymbol(Symbol.Text);
+        const isText = this.isSymbol(Sym.Text);
         if (isText) {
             // Is there a closing delimiter? If not, we don't replace it.
             const lastChar = text.at(-1);
@@ -168,7 +170,7 @@ export default class Token extends Node {
         }
 
         // Is this a name? Choose the most appropriate name.
-        if (this.isSymbol(Symbol.Name) && name) {
+        if (this.isSymbol(Sym.Name) && name) {
             const parent = root.getParent(this);
             let def: Definition | undefined = undefined;
             if (parent) {
@@ -205,9 +207,9 @@ export default class Token extends Node {
 
     // DEBUGGING
 
-    toString(depth: number = 0) {
+    toString(depth = 0) {
         return `${'\t'.repeat(depth)}${
-            Array.isArray(this.types) ? this.types.join() : Symbol[this.types]
+            Array.isArray(this.types) ? this.types.join() : Sym[this.types]
         }: ${this.text
             .toString()
             .replaceAll('\n', '\\n')
@@ -225,11 +227,11 @@ export default class Token extends Node {
 export function getTokenLabel(token: Node, translation: Locale): string {
     if (!(token instanceof Token)) return token.getLabel(translation);
 
-    const tokenType = Object.entries(Symbol).find(
+    const tokenType = Object.entries(Sym).find(
         ([, val]) => val === token.types[0]
     );
     const tokenLabel = tokenType
-        ? translation.token[tokenType[0] as keyof typeof Symbol]
+        ? translation.token[tokenType[0] as keyof typeof Sym]
         : '';
     return tokenLabel;
 }

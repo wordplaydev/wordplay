@@ -43,8 +43,8 @@ export default class Camera extends TemporalStreamValue<ListValue, RawFrame> {
     frequency: number;
     width: number;
     height: number;
-    playing: boolean = false;
-    stopped: boolean = false;
+    playing = false;
+    stopped = false;
 
     constructor(
         evaluator: Evaluator,
