@@ -233,6 +233,7 @@ type UITexts = {
     };
     edit: EditTexts;
     error: {
+        notfound: { header: string; message: string };
         tutorial: string;
         /** The placeholder indicating that a locale string is not yet written */
         unwritten: string;

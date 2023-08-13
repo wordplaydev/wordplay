@@ -3501,6 +3501,10 @@
             "bind": "name this expression"
         },
         "error": {
+            "notfound": {
+                "header": "Eep!",
+                "message": "Where is this place? Can we go home?"
+            },
             "tutorial": "We weren't able to find a tutorial for this language.",
             "unwritten": "TBD",
             "template": "This template couldn't be parsed: $1"

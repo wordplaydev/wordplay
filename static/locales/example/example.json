@@ -1983,6 +1983,14 @@
             "unwrap": "$?",
             "bind": "$?"
         },
-        "error": { "tutorial": "$?", "unwritten": "$?", "template": "$?" }
+        "error": {
+            "notfound": {
+                "header": "$?",
+                "message": "$?"
+            },
+            "tutorial": "$?",
+            "unwritten": "$?",
+            "template": "$?"
+        }
     }
 }

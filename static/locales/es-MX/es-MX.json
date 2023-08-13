@@ -1998,6 +1998,10 @@
             "bind": "nombra esta expresión"
         },
         "error": {
+            "notfound": {
+                "header": "$?",
+                "message": "$?"
+            },
             "tutorial": "$?",
             "unwritten": "no escrito",
             "template": "$?"
