@@ -1,6 +1,13 @@
 import Graphemer from 'graphemer';
 
-const Segmenter = new Graphemer();
+/** NodeJS import silliness */
+let Graph = Graphemer;
+if (typeof process !== 'undefined') {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    Graph = (Graphemer as any).default;
+}
+
+const Segmenter = new Graph();
 
 export default class UnicodeString {
     readonly text: string;
