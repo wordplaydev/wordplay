@@ -9,7 +9,7 @@
     import Evaluator from '@runtime/Evaluator';
     import type Value from '../../values/Value';
     import CodeView from './CodeView.svelte';
-    import { config } from '../../db/Database';
+    import { locales } from '../../db/Database';
     import Stage, { toStage } from '../../output/Stage';
     import OutputView from '../output/OutputView.svelte';
 
@@ -24,7 +24,7 @@
         'example',
         new Source('example', [example.program, spaces]),
         [],
-        $config.getLocales()
+        $locales
     );
     let value: Value | undefined = undefined;
     let stage: Stage | undefined = undefined;

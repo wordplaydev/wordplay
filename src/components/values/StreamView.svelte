@@ -3,7 +3,7 @@
 <script lang="ts">
     import Sym from '@nodes/Symbol';
     import type StreamValue from '@values/StreamValue';
-    import { config } from '../../db/Database';
+    import { locales } from '../../db/Database';
     import SymbolView from './SymbolView.svelte';
 
     export let value: StreamValue;
@@ -11,6 +11,6 @@
 </script>
 
 {#if inline || !inline}<SymbolView
-        symbol={value.getPreferredName($config.getLocales())}
+        symbol={value.getPreferredName($locales)}
         type={Sym.Name}
     />{/if}

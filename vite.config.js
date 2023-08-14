@@ -4,7 +4,7 @@ import path from 'path';
 
 /**
  * Make a little plugin that checks for locale file changes and fires an event.
- * The event is handled in Database.ts, where locales are cached.
+ * The event is handled in database.ts, where locales are cached.
  */
 function LocaleHotReload() {
     return {

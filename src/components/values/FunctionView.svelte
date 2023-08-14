@@ -5,7 +5,7 @@
     import SymbolView from './SymbolView.svelte';
     import { FUNCTION_SYMBOL } from '@parser/Symbols';
     import Sym from '@nodes/Symbol';
-    import { config } from '../../db/Database';
+    import { locales } from '../../db/Database';
 
     export let value: FunctionValue;
     export let inline = true;
@@ -14,9 +14,7 @@
 {#if inline || !inline}
     <SymbolView symbol={FUNCTION_SYMBOL} type={Sym.Function} />
     <SymbolView
-        symbol={value.definition.names.getPreferredNameString(
-            $config.getLocales()
-        )}
+        symbol={value.definition.names.getPreferredNameString($locales)}
         type={Sym.Name}
     />
 {/if}

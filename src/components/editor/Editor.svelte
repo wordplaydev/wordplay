@@ -65,7 +65,13 @@
     import PlaceholderView from './PlaceholderView.svelte';
     import Expression from '../../nodes/Expression';
     import { DOCUMENTATION_SYMBOL, TYPE_SYMBOL } from '../../parser/Symbols';
-    import { config } from '../../db/Database';
+    import {
+        database,
+        locale,
+        locales,
+        writingDirection,
+        writingLayout,
+    } from '../../db/Database';
     import Button from '../widgets/Button.svelte';
     import OutputView from '../output/OutputView.svelte';
     import ConceptLinkUI from '../concepts/ConceptLinkUI.svelte';
@@ -137,11 +143,7 @@
                   .generalize(context)
             : undefined;
     $: caretTypeDescription = caretExpressionType
-        ?.getDescription(
-            concretize,
-            $config.getLocale(),
-            project.getContext(source)
-        )
+        ?.getDescription(concretize, $locale, project.getContext(source))
         .toText();
 
     // A store of highlighted nodes, used by node views to highlight themselves.
@@ -522,7 +524,7 @@
         );
 
         // Update the project with the new source files
-        $config.reviseProject(
+        database.reviseProject(
             project,
             newProject.withCaret(newSource, newCaretPosition)
         );
@@ -816,7 +818,7 @@
             const positionOffset = Math.round(
                 Math.abs(
                     event.clientX -
-                        ($config.getWritingDirection() === 'ltr'
+                        ($writingDirection === 'ltr'
                             ? spaceBounds.left
                             : spaceBounds.right)
                 ) / spaceWidth
@@ -1046,7 +1048,7 @@
 
         // Update the caret and project.
         if (newSource) {
-            $config.reviseProject(
+            database.reviseProject(
                 project,
                 project
                     .withSource(source, newSource)
@@ -1174,7 +1176,7 @@
         const result = handleKeyCommand(event, {
             caret: $caret,
             evaluator,
-            database: $config,
+            database: database,
             toggleMenu,
         });
 
@@ -1210,17 +1212,18 @@
     All NodeViews are set to role="presentation"
     We use the live region above 
 -->
+<!-- svelte-ignore missing-declaration -->
 <div
     class="editor {$evaluation !== undefined && $evaluation.playing
         ? 'playing'
         : 'stepping'}"
     data-uiid="editor"
     role="application"
-    aria-label={`${
-        $config.getLocale().ui.section.editor
-    } ${source.getPreferredName($config.getLocales())}`}
-    style:direction={$config.getWritingDirection()}
-    style:writing-mode={$config.getWritingLayout()}
+    aria-label={`${$locale.ui.section.editor} ${source.getPreferredName(
+        $locales
+    )}`}
+    style:direction={$writingDirection}
+    style:writing-mode={$writingLayout}
     data-id={source.id}
     bind:this={editor}
     on:pointerdown|stopPropagation|preventDefault={handlePointerDown}
@@ -1313,7 +1316,7 @@
                     />{/if}
                 <!-- Show the node's label and type -->
                 {$caret.position.getLabel(
-                    $config.getLocale()
+                    $locale
                 )}{#if caretExpressionType}&nbsp;{TYPE_SYMBOL}&nbsp;{#if typeConcept}<ConceptLinkUI
                             link={typeConcept}
                             label={caretTypeDescription}
@@ -1341,7 +1344,7 @@
 {#if project.supplements.length > 0}
     <div class="output-preview-container">
         <Button
-            tip={$config.getLocale().ui.description.showOutput}
+            tip={$locale.ui.description.showOutput}
             active={!selected}
             action={() => dispatch('preview')}
             scale={false}

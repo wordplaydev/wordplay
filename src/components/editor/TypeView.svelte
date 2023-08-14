@@ -5,7 +5,7 @@
     import type AnyType from '@nodes/AnyType';
     import concretize from '../../locale/concretize';
     import { getProject, getRoot } from '../project/Contexts';
-    import { config } from '../../db/Database';
+    import { locale } from '../../db/Database';
     import MarkupHtmlView from '../concepts/MarkupHTMLView.svelte';
 
     export let node: AnyType;
@@ -21,11 +21,7 @@
 
 <span
     >{#if context}<MarkupHtmlView
-            markup={node.getDescription(
-                concretize,
-                $config.getLocale(),
-                context
-            )}
+            markup={node.getDescription(concretize, $locale, context)}
         />{:else}{node.toWordplay()}{/if}</span
 >
 

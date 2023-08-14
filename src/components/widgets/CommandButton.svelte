@@ -1,7 +1,7 @@
 <script lang="ts">
     import { toShortcut, type Command } from '../editor/util/Commands';
     import Button from './Button.svelte';
-    import { config } from '../../db/Database';
+    import { database, locale } from '../../db/Database';
     import { IdleKind, getEditors, getEvaluator } from '../project/Contexts';
     import { tokenize } from '../../parser/Tokenizer';
     import TokenView from '../editor/TokenView.svelte';
@@ -25,12 +25,12 @@
     $: context = {
         caret: editor?.caret,
         evaluator: $evaluator,
-        database: $config,
+        database,
     };
 </script>
 
 <Button
-    tip={command.description($config.getLocale()) + ` (${toShortcut(command)})`}
+    tip={command.description($locale) + ` (${toShortcut(command)})`}
     bind:view
     uiid={command.uiid}
     active={command.active === undefined

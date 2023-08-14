@@ -3,7 +3,12 @@
     import LanguageChooser from './LocaleChooser.svelte';
     import { getUser, isDark } from '../project/Contexts';
     import { PUBLIC_CONTEXT } from '$env/static/public';
-    import { config } from '../../db/Database';
+    import {
+        animationFactor,
+        database,
+        locale,
+        arrangement,
+    } from '../../db/Database';
     import LayoutChooser from './LayoutChooser.svelte';
     import { page } from '$app/stores';
     import { goto } from '$app/navigation';
@@ -17,11 +22,9 @@
     let user = getUser();
     let dark = isDark();
 
-    $: arrangement = $config.getArrangement();
-
     $: anonymous = $user === null;
     $: animationSymbol = { 0: '🧘🏽‍♀️', 1: '🏃‍♀️', 2: '½', 3: '⅓', 4: '¼' }[
-        $config.getAnimationFactor()
+        $animationFactor
     ];
 
     function getBackPath(route: string): string {
@@ -52,41 +55,37 @@
             {#if PUBLIC_CONTEXT !== 'prod'}
                 <div class="account" class:anonymous>
                     <a href="/login">
-                        {$user
-                            ? $user.email
-                            : $config.getLocale().ui.labels.anonymous}
+                        {$user ? $user.email : $locale.ui.labels.anonymous}
                     </a>
                 </div>
             {/if}
             <Button
-                tip={arrangement === Arrangement.Free
-                    ? $config.getLocale().ui.description.vertical
-                    : arrangement === Arrangement.Vertical
-                    ? $config.getLocale().ui.description.horizontal
-                    : $config.getLocale().ui.description.freeform}
+                tip={$arrangement === Arrangement.Free
+                    ? $locale.ui.description.vertical
+                    : $arrangement === Arrangement.Vertical
+                    ? $locale.ui.description.horizontal
+                    : $locale.ui.description.freeform}
                 action={() =>
-                    $config.setArrangement(
-                        arrangement === Arrangement.Vertical
+                    database.setArrangement(
+                        $arrangement === Arrangement.Vertical
                             ? Arrangement.Horizontal
-                            : arrangement === Arrangement.Horizontal
+                            : $arrangement === Arrangement.Horizontal
                             ? Arrangement.Free
                             : Arrangement.Vertical
                     )}
-                >{#if arrangement === Arrangement.Vertical}↕{:else if arrangement === Arrangement.Horizontal}↔️{:else if arrangement === Arrangement.Free}⏹️{/if}</Button
+                >{#if $arrangement === Arrangement.Vertical}↕{:else if $arrangement === Arrangement.Horizontal}↔️{:else if $arrangement === Arrangement.Free}⏹️{/if}</Button
             >
             <Button
-                tip={$config.getLocale().ui.description.animate}
+                tip={$locale.ui.description.animate}
                 action={() =>
-                    $config.setAnimationFactor(
-                        $config.getAnimationFactor() < 4
-                            ? $config.getAnimationFactor() + 1
-                            : 0
+                    database.setAnimationFactor(
+                        $animationFactor < 4 ? $animationFactor + 1 : 0
                     )}>{animationSymbol}</Button
             >
             <LayoutChooser />
             <LanguageChooser />
             <Button
-                tip={$config.getLocale().ui.description.dark}
+                tip={$locale.ui.description.dark}
                 action={() =>
                     dark.set(
                         $dark === undefined
@@ -103,12 +102,12 @@
     {/if}
     <Status />
     <Button
-        tip={$config.getLocale().ui.description.settings}
+        tip={$locale.ui.description.settings}
         action={() => (expanded = !expanded)}
         ><div class="gear" class:expanded>⚙</div></Button
     >
     {#if $page.route.id !== '/'}<Button
-            tip={$config.getLocale().ui.description.close}
+            tip={$locale.ui.description.close}
             active={$page.route.id !== null && $page.route.id !== "/'"}
             action={() => goto(getBackPath($page.route.id ?? '/'))}>❌</Button
         >{/if}

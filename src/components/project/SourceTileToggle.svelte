@@ -2,7 +2,7 @@
     import { createEventDispatcher } from 'svelte';
     import type Source from '@nodes/Source';
     import { getConflicts } from './Contexts';
-    import { config } from '../../db/Database';
+    import { locales } from '../../db/Database';
     import Glyphs from '../../lore/Glyphs';
 
     export let source: Source;
@@ -54,7 +54,7 @@
             >{/if}
         {#if primaryCount === 0 && secondaryCount === 0}{Glyphs.Program
                 .symbols}{/if}
-        {source.names.getPreferredNameString($config.getLocales())}
+        {source.names.getPreferredNameString($locales)}
     </span>
 </div>
 

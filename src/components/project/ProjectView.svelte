@@ -71,7 +71,13 @@
     import Timeline from '../evaluator/Timeline.svelte';
     import Painting from '../output/Painting.svelte';
     import type PaintingConfiguration from '../output/PaintingConfiguration';
-    import { config } from '../../db/Database';
+    import {
+        database,
+        locale,
+        locales,
+        arrangement,
+        languages,
+    } from '../../db/Database';
     import Arrangement from '../../db/Arrangement';
     import {
         DOCUMENTATION_SYMBOL,
@@ -305,9 +311,7 @@
                     newTiles.push(
                         tile
                             .withName(
-                                source.names.getPreferredNameString(
-                                    $config.getLocales()
-                                )
+                                source.names.getPreferredNameString($locales)
                             )
                             // If not editable, keep the source files collapsed
                             .withMode(editable ? tile.mode : Mode.Collapsed)
@@ -336,7 +340,7 @@
 
         return new Tile(
             Layout.getSourceID(index),
-            source.names.getPreferredNameString($config.getLocales()),
+            source.names.getPreferredNameString($locales),
             Content.Source,
             index === 0 || expandNewTile ? Mode.Expanded : Mode.Collapsed,
             undefined,
@@ -345,7 +349,7 @@
     }
 
     function initializedLayout() {
-        const persistedLayout = $config.getProjectLayout(project.id);
+        const persistedLayout = database.getProjectLayout(project.id);
         return persistedLayout === null
             ? null
             : persistedLayout.withTiles(syncTiles(persistedLayout.tiles));
@@ -420,10 +424,10 @@
         // Set the URL to reflect the latest concept selected.
         if ($path.length > 0) {
             const concept = $path[$path.length - 1];
-            const name = concept.getName($config.getLocale(), false);
+            const name = concept.getName($locale, false);
             const ownerName = $index
                 ?.getConceptOwner(concept)
-                ?.getName($config.getLocale(), false);
+                ?.getName($locale, false);
 
             searchParams.set(
                 PROJECT_PARAM_CONCEPT,
@@ -443,7 +447,7 @@
     }
 
     /** Persist the layout when it changes */
-    $: $config.setProjectLayout(project.id, layout);
+    $: database.setProjectLayout(project.id, layout);
 
     /** The tile being dragged */
     let draggedTile:
@@ -471,12 +475,12 @@
     let paintingConfig: PaintingConfiguration = {
         characters: 'a',
         size: 1,
-        font: $config.getLocale().ui.font.app,
+        font: $locale.ui.font.app,
     };
 
     /** Set up project wide concept index and path context */
     export let index: ConceptIndexContext = writable(
-        ConceptIndex.make(project, $config.getLocales())
+        ConceptIndex.make(project, $locales)
     );
     setContext(ConceptIndexSymbol, index);
 
@@ -513,7 +517,7 @@
         // Make a new concept index with the new project and translations, but the old examples.
         const newIndex =
             project && $index
-                ? ConceptIndex.make(project, $config.getLocales()).withExamples(
+                ? ConceptIndex.make(project, $locales).withExamples(
                       $index.examples
                   )
                 : undefined;
@@ -605,11 +609,7 @@
 
     /** When the canvas size changes, resize the layout */
     $: if (canvasWidth && canvasHeight) {
-        layout = layout.resized(
-            $config.getArrangement(),
-            canvasWidth,
-            canvasHeight
-        );
+        layout = layout.resized($arrangement, canvasWidth, canvasHeight);
     }
 
     /** Recompute the bounds based every time the layout changes. */
@@ -625,7 +625,7 @@
     /** When the program steps language changes, get the latest value of the program's evaluation. */
     $: {
         $evaluation;
-        $config.getLanguages();
+        $languages;
         latestValue = $evaluator.getLatestSourceValue(selectedSource);
     }
 
@@ -780,7 +780,7 @@
 
         layout = layout
             .withTileLast(tile.withMode(mode))
-            .resized($config.getArrangement(), canvasWidth, canvasHeight);
+            .resized($arrangement, canvasWidth, canvasHeight);
     }
 
     async function setFullscreen(tile: Tile, fullscreen: boolean) {
@@ -801,7 +801,7 @@
         if (event.buttons !== 1) return;
 
         // Is the arrangement free? Start dragging the tile if so.
-        if ($config.getArrangement() === Arrangement.Free) {
+        if ($arrangement === Arrangement.Free) {
             const tileView = document
                 .elementFromPoint(event.clientX, event.clientY)
                 ?.closest('.tile');
@@ -948,7 +948,7 @@
                 : Array.from($editors.values()).find((editor) => editor.focused)
                       ?.caret,
         evaluator: $evaluator,
-        database: $config,
+        database,
         fullscreen,
         focusOrCycleTile,
         resetInputs,
@@ -1013,31 +1013,26 @@
 
     function addSource() {
         const newProject = project.withNewSource(
-            `${$config.getLocale().term.source}${
-                project.supplements.length + 1
-            }`
+            `${$locale.term.source}${project.supplements.length + 1}`
         );
 
         // Remember this new source so when we compute the new layout, we can remember to expand it initially.
         newSource = newProject.supplements.at(-1);
 
         // This will propogate back to a new project here, updating the UI.
-        $config.reviseProject(project, newProject);
+        database.reviseProject(project, newProject);
     }
 
     function removeSource(source: Source) {
-        $config.reviseProject(project, project.withoutSource(source));
+        database.reviseProject(project, project.withoutSource(source));
     }
 
     function renameSource(id: string, name: string) {
         if (!isName(name)) return;
         const source = getSourceByID(id);
-        $config.reviseProject(
+        database.reviseProject(
             project,
-            project.withSource(
-                source,
-                source.withName(name, $config.getLocales()[0])
-            )
+            project.withSource(source, source.withName(name, $locales[0]))
         );
     }
 
@@ -1050,7 +1045,7 @@
     }
 
     function revert() {
-        if (original) $config.reviseProject(project, original);
+        if (original) database.reviseProject(project, original);
     }
 </script>
 
@@ -1077,7 +1072,7 @@
         bind:this={canvas}
     >
         <!-- This little guy enables the scroll bars to appear at the furthest extent a window has moved. -->
-        {#if $config.getArrangement() === Arrangement.Free}
+        {#if $arrangement === Arrangement.Free}
             <div
                 class="boundary"
                 style:left="{maxRight}px"
@@ -1092,12 +1087,12 @@
                 <div class="empty">⬇️</div>
             {:else}
                 <!-- Lay out each of the tiles according to its specification, in order if in free layout, but in layout order if not. -->
-                {#each $config.getArrangement() === Arrangement.Free ? layout.tiles : layout.getTilesInReadingOrder() as tile (tile.id)}
+                {#each $arrangement === Arrangement.Free ? layout.tiles : layout.getTilesInReadingOrder() as tile (tile.id)}
                     {#if tile.isExpanded() && (layout.fullscreenID === undefined || layout.fullscreenID === tile.id)}
                         <TileView
                             {tile}
                             {layout}
-                            arrangement={$config.getArrangement()}
+                            arrangement={$arrangement}
                             background={tile.kind === Content.Output
                                 ? outputBackground
                                 : null}
@@ -1131,12 +1126,11 @@
                                     <!-- Can't delete main. -->
                                     {#if source !== project.main}
                                         <ConfirmButton
-                                            tip={$config.getLocale().ui
-                                                .description.deleteSource}
+                                            tip={$locale.ui.description
+                                                .deleteSource}
                                             action={() => removeSource(source)}
-                                            prompt={$config.getLocale().ui
-                                                .prompt.deleteSource}
-                                            >⨉</ConfirmButton
+                                            prompt={$locale.ui.prompt
+                                                .deleteSource}>⨉</ConfirmButton
                                         >
                                     {/if}
                                 {/if}
@@ -1145,20 +1139,18 @@
                                 {#if tile.kind === Content.Output}
                                     {#if !editable}<Button
                                             uiid="editProject"
-                                            tip={$config.getLocale().ui
-                                                .description.editProject}
+                                            tip={$locale.ui.description
+                                                .editProject}
                                             action={() => becomeEditable()}
                                             >✏️</Button
                                         >{/if}
                                     {#if !$evaluation.evaluator.isPlaying()}<Painting
                                             bind:painting
                                         />{/if}<Button
-                                        tip={$config.getLocale().ui.description
-                                            .grid}
+                                        tip={$locale.ui.description.grid}
                                         action={() => (grid = !grid)}>▦</Button
                                     ><Button
-                                        tip={$config.getLocale().ui.description
-                                            .fit}
+                                        tip={$locale.ui.description.fit}
                                         action={() => (fit = !fit)}
                                         >{#if fit}🔒{:else}🔓{/if}</Button
                                     >
@@ -1244,16 +1236,16 @@
         <nav class="footer">
             {#if original}<Button
                     uiid="revertProject"
-                    tip={$config.getLocale().ui.description.revertProject}
+                    tip={$locale.ui.description.revertProject}
                     active={!project.equals(original)}
                     action={() => revert()}>↺</Button
                 >{/if}
             <TextField
                 text={project.name}
-                description={$config.getLocale().ui.description.editProjectName}
-                placeholder={$config.getLocale().ui.placeholders.project}
+                description={$locale.ui.description.editProjectName}
+                placeholder={$locale.ui.placeholders.project}
                 changed={(name) =>
-                    $config.reviseProject(project, project.withName(name))}
+                    database.reviseProject(project, project.withName(name))}
             />
             {#each layout.getNonSources() as tile}
                 <NonSourceTileToggle
@@ -1274,13 +1266,13 @@
             {/each}
             <Button
                 uiid="addSource"
-                tip={$config.getLocale().ui.description.addSource}
+                tip={$locale.ui.description.addSource}
                 action={addSource}>+</Button
             >
             <span class="help">
                 <ProjectLanguages {project} />
                 <Button
-                    tip={ShowKeyboardHelp.description($config.getLocale())}
+                    tip={ShowKeyboardHelp.description($locale)}
                     action={() => (help = true)}
                     >{ShowKeyboardHelp.symbol}</Button
                 ></span

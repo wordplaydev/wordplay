@@ -10,7 +10,7 @@
     } from '../project/Contexts';
     import { addContent, moveContent, removeContent } from './editOutput';
     import type ListLiteral from '../../nodes/ListLiteral';
-    import { config } from '../../db/Database';
+    import { database, locale } from '../../db/Database';
 
     export let project: Project;
     export let list: ListLiteral | undefined;
@@ -47,31 +47,31 @@
         {#each list.values as content, index}
             <div class="content">
                 <Button
-                    tip={$config.getLocale().ui.description.removeContent}
+                    tip={$locale.ui.description.removeContent}
                     action={() =>
                         list
-                            ? removeContent($config, project, list, index)
+                            ? removeContent(database, project, list, index)
                             : undefined}
                     active={list.values.length > 0}>⨉</Button
                 >
                 <Button
-                    tip={$config.getLocale().ui.description.moveContentUp}
+                    tip={$locale.ui.description.moveContentUp}
                     action={() =>
                         list
-                            ? moveContent($config, project, list, index, -1)
+                            ? moveContent(database, project, list, index, -1)
                             : undefined}
                     active={index > 0}>↑</Button
                 >
                 <Button
-                    tip={$config.getLocale().ui.description.moveContentDown}
+                    tip={$locale.ui.description.moveContentDown}
                     action={() =>
                         list
-                            ? moveContent($config, project, list, index, 1)
+                            ? moveContent(database, project, list, index, 1)
                             : undefined}
                     active={index < list.values.length - 1}>↓</Button
                 >
                 <Button
-                    tip={$config.getLocale().ui.description.editContent}
+                    tip={$locale.ui.description.editContent}
                     action={() => editContent(index)}>✎</Button
                 >
                 <RootView node={content} localized />
@@ -79,11 +79,11 @@
         {/each}
         <div class="add">
             <Button
-                tip={$config.getLocale().ui.description.addPhrase}
+                tip={$locale.ui.description.addPhrase}
                 action={() =>
                     list
                         ? addContent(
-                              $config,
+                              database,
                               project,
                               list,
                               list?.values.length ?? 1 - 1,
@@ -93,11 +93,11 @@
                 >+{project.shares.output.Phrase.getNames()[0]}</Button
             >
             <Button
-                tip={$config.getLocale().ui.description.addGroup}
+                tip={$locale.ui.description.addGroup}
                 action={() =>
                     list
                         ? addContent(
-                              $config,
+                              database,
                               project,
                               list,
                               list?.values.length ?? 1 - 1,
@@ -108,7 +108,7 @@
             ></div
         >
     {:else}
-        <Note>{$config.getLocale().ui.labels.computed}</Note>
+        <Note>{$locale.ui.labels.computed}</Note>
     {/if}
 </div>
 

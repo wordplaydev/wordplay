@@ -9,7 +9,13 @@
     } from '../components/project/Contexts';
     import { writable } from 'svelte/store';
     import Fonts from '../basis/Fonts';
-    import { config } from '../db/Database';
+    import {
+        locales,
+        locale,
+        database,
+        animationFactor,
+        languages,
+    } from '../db/Database';
     import { browser } from '$app/environment';
     import { goto } from '$app/navigation';
     import { PUBLIC_CONTEXT } from '$env/static/public';
@@ -17,7 +23,7 @@
     import { getLanguageDirection } from '../locale/LanguageCode';
 
     /** Expose the translations as context, updating them as necessary */
-    $: setContext(LocalesSymbol, $config.getLocales());
+    $: setContext(LocalesSymbol, $locales);
 
     let loaded = false;
 
@@ -27,7 +33,7 @@
 
     // Keep the page's language and direction up to date.
     $: {
-        const language = $config.getLocale().language;
+        const language = $locale.language;
         document.documentElement.setAttribute('lang', language);
         document.documentElement.setAttribute(
             'dir',
@@ -45,17 +51,17 @@
         document.fonts.ready.then(() => (loaded = true));
 
         // Login the user
-        $config.login((newUser) => user.set(newUser));
+        database.login((newUser) => user.set(newUser));
 
         // Update dark mode, now that we're mounted.
         dark.set(isDarkSet());
 
         /** Load whatever is stored in local storage */
-        $config.loadLocalData();
+        database.loadLocalData();
 
         // Have the Database cleanup database connections.
         return () => {
-            $config.clean();
+            database.clean();
         };
     });
 
@@ -107,10 +113,10 @@
 {#if PUBLIC_CONTEXT !== 'prod' || $page.route.id === '/'}
     <div
         class:dark={$dark}
-        style:--animation-factor={$config.getAnimationFactor()}
+        style:--animation-factor={$animationFactor}
         style:--wordplay-app-font={Array.from(
             new Set([
-                ...$config.getLocales().map((locale) => locale.ui.font.app),
+                ...$locales.map((locale) => locale.ui.font.app),
                 'Noto Emoji',
             ])
         )
@@ -118,14 +124,14 @@
             .join(', ')}
         style:--wordplay-code-font={Array.from(
             new Set([
-                ...$config.getLocales().map((locale) => locale.ui.font.code),
+                ...$locales.map((locale) => locale.ui.font.code),
                 'Noto Mono',
                 'Noto Emoji',
             ])
         )
             .map((font) => `"${font}"`)
             .join(', ')}
-        lang={$config.getLanguages()[0]}
+        lang={$languages[0]}
     >
         {#if loaded}
             <slot />

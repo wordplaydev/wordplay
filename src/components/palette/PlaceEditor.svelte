@@ -9,7 +9,7 @@
     import Note from '../widgets/Note.svelte';
     import { getNumber } from './editOutput';
     import Expression from '../../nodes/Expression';
-    import { config } from '../../db/Database';
+    import { database, locale, locales } from '../../db/Database';
     import { tick } from 'svelte';
 
     export let project: Project;
@@ -29,7 +29,7 @@
             (view) => document.activeElement === view
         );
 
-        $config.reviseProjectNodes(project, [
+        database.reviseProjectNodes(project, [
             [
                 place,
                 place.withBindAs(
@@ -52,7 +52,7 @@
 </script>
 
 <div class="place">
-    {#each [getFirstName($config.getLocale().output.Place.x.names), getFirstName($config.getLocale().output.Place.y.names), getFirstName($config.getLocale().output.Place.z.names)] as dimension, index}
+    {#each [getFirstName($locale.output.Place.x.names), getFirstName($locale.output.Place.y.names), getFirstName($locale.output.Place.z.names)] as dimension, index}
         {@const given = place?.getMappingFor(
             dimension,
             project.getNodeContext(place)
@@ -66,17 +66,14 @@
                     text={`${value}`}
                     validator={valid}
                     placeholder={getFirstName(dimension)}
-                    description={$config.getLocale().ui.description
-                        .editCoordinate}
+                    description={$locale.ui.description.editCoordinate}
                     changed={(value) => handleChange(dimension, value)}
                     bind:view={views[index]}
                 />
                 <Note>m</Note>
             {:else}
                 <Note
-                    >{$config
-                        .getLocales()
-                        .map((locale) => locale.ui.labels.computed)}</Note
+                    >{$locales.map((locale) => locale.ui.labels.computed)}</Note
                 >
             {/if}
         </div>

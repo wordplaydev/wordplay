@@ -1,11 +1,10 @@
 <script lang="ts">
-    import { config } from '../../db/Database';
+    import { writingDirection } from '../../db/Database';
 
     export let center = false;
 </script>
 
-<div class="note" class:center style:direction={$config.getWritingDirection()}
-    ><slot /></div
+<div class="note" class:center style:direction={$writingDirection}><slot /></div
 >
 
 <style>

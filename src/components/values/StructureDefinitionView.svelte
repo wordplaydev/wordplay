@@ -5,7 +5,7 @@
     import SymbolView from './SymbolView.svelte';
     import { TYPE_SYMBOL } from '@parser/Symbols';
     import Sym from '@nodes/Symbol';
-    import { config } from '../../db/Database';
+    import { locales } from '../../db/Database';
 
     export let value: StructureDefinitionValue;
     export let inline = true;
@@ -15,8 +15,6 @@
         symbol={TYPE_SYMBOL}
         type={Sym.Type}
     /><SymbolView
-        symbol={value.definition.names.getPreferredNameString(
-            $config.getLocales()
-        )}
+        symbol={value.definition.names.getPreferredNameString($locales)}
         type={Sym.Name}
     />{/if}

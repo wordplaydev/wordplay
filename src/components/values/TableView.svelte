@@ -5,7 +5,7 @@
     import { TABLE_CLOSE_SYMBOL, TABLE_OPEN_SYMBOL } from '@parser/Symbols';
     import SymbolView from './SymbolView.svelte';
     import Sym from '@nodes/Symbol';
-    import { config } from '../../db/Database';
+    import { locales } from '../../db/Database';
     import ValueView from './ValueView.svelte';
     import Expandable from './Expandable.svelte';
     import RowView from './RowView.svelte';
@@ -24,9 +24,7 @@
         symbol={TABLE_OPEN_SYMBOL}
         type={Sym.TableOpen}
     />{#each value.type.columns as col}{' '}<SymbolView
-            symbol={col
-                ? col.names.getPreferredNameString($config.getLocales())
-                : ''}
+            symbol={col ? col.names.getPreferredNameString($locales) : ''}
             type={Sym.Name}
         />{/each}{' '}<SymbolView
         symbol={TABLE_CLOSE_SYMBOL}
@@ -66,9 +64,7 @@
             {#each value.type.columns as col}{' '}<td
                     ><SymbolView
                         symbol={col
-                            ? col.names.getPreferredNameString(
-                                  $config.getLocales()
-                              )
+                            ? col.names.getPreferredNameString($locales)
                             : ''}
                         type={Sym.Name}
                     /></td

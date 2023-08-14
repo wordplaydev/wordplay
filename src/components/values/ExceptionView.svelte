@@ -2,12 +2,12 @@
 
 <script lang="ts">
     import type ExceptionValue from '@values/ExceptionValue';
-    import { config } from '../../db/Database';
+    import { locale } from '../../db/Database';
 
     export let value: ExceptionValue;
     export let inline = true;
 </script>
 
 {#if inline || !inline}
-    ! {value.getDescription($config.getLocale()).toText()}
+    ! {value.getDescription($locale).toText()}
 {/if}

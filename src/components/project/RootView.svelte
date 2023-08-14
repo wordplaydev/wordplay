@@ -19,7 +19,7 @@
     import Source from '@nodes/Source';
     import Name from '@nodes/Name';
     import Program from '@nodes/Program';
-    import { config } from '../../db/Database';
+    import { languages } from '../../db/Database';
     import TextLiteral from '../../nodes/TextLiteral';
 
     export let node: Node;
@@ -101,18 +101,16 @@
                 const tags = tagged.getTags();
                 // If at least one is visible, hide all those not in a preferred language.
                 if (
-                    $config
-                        .getLanguages()
-                        .some((lang) =>
-                            tags.some((l) => l.getLanguage() === lang)
-                        )
+                    $languages.some((lang) =>
+                        tags.some((l) => l.getLanguage() === lang)
+                    )
                 ) {
                     let first = false;
                     for (const nameOrDoc of tags) {
                         const caretIn = $caret?.isIn(nameOrDoc, true);
-                        const selectedLocale = $config
-                            .getLanguages()
-                            .some((t) => t === nameOrDoc.getLanguage());
+                        const selectedLocale = $languages.some(
+                            (t) => t === nameOrDoc.getLanguage()
+                        );
                         // Not a selected language and not in the node? Hide it.
                         if (!selectedLocale && !caretIn)
                             newHidden.add(nameOrDoc);

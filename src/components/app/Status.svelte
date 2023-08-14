@@ -1,14 +1,14 @@
 <script lang="ts">
-    import { SaveStatus, config } from '../../db/Database';
+    import { SaveStatus, locale } from '../../db/Database';
     import { status } from '../../db/Database';
 </script>
 
 <div class="status {$status}">
     {$status === SaveStatus.Saved
-        ? `${$config.getLocale().ui.feedback.save.saved} ✔`
+        ? `${$locale.ui.feedback.save.saved} ✔`
         : $status === SaveStatus.Saving
-        ? `${$config.getLocale().ui.feedback.save.saving} …`
-        : `${$config.getLocale().ui.feedback.save.unsaved} ⨉`}
+        ? `${$locale.ui.feedback.save.saving} …`
+        : `${$locale.ui.feedback.save.unsaved} ⨉`}
 </div>
 
 <style>

@@ -1,6 +1,6 @@
 <script lang="ts">
     import Lead from './Lead.svelte';
-    import { config, projects } from '../../db/Database';
+    import { database, locale, locales, projects } from '../../db/Database';
     import ProjectSet from './ProjectPreviewSet.svelte';
     import { examples, makeProject } from '../../examples/examples';
     import type Project from '../../models/Project';
@@ -12,10 +12,10 @@
     const user = getUser();
 
     function newProject() {
-        const newProjectID = $config.createProject(
-            $config.getLocales(),
+        const newProjectID = database.createProject(
+            $locales,
             $user ? $user.uid : undefined,
-            $config.getLocale().newProject
+            $locale.newProject
         );
         goto(`/project/${newProjectID}`);
     }
@@ -31,23 +31,23 @@
     function copyProject(project: Project) {
         let newProject = project.copy();
         if ($user) newProject = newProject.withUser($user.uid);
-        $config.addProject(newProject);
+        database.addProject(newProject);
         changeProject(newProject);
     }
 </script>
 
-<Lead>{$config.getLocale().ui.header.projects}</Lead>
+<Lead>{$locale.ui.header.projects}</Lead>
 <ProjectSet
     set={$projects.getCurrentProjects()}
     previewAction={(project) => changeProject(project, true)}
     editAction={(project) => changeProject(project)}
 />
 
-<Button tip={$config.getLocale().ui.description.newProject} action={newProject}
+<Button tip={$locale.ui.description.newProject} action={newProject}
     ><span style:font-size="xxx-large">+</span>
 </Button>
 
-<Lead>{$config.getLocale().ui.header.examples}</Lead>
+<Lead>{$locale.ui.header.examples}</Lead>
 {#await Promise.all(examples.map((example) => makeProject(example)))}
     …
 {:then projects}<ProjectSet

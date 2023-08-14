@@ -5,7 +5,7 @@
     import Sym from '@nodes/Symbol';
     import type StreamDefinitionValue from '../../values/StreamDefinitionValue';
     import { STREAM_SYMBOL } from '../../parser/Symbols';
-    import { config } from '../../db/Database';
+    import { locales } from '../../db/Database';
 
     export let value: StreamDefinitionValue;
     export let inline = true;
@@ -15,8 +15,6 @@
         symbol={STREAM_SYMBOL}
         type={Sym.Stream}
     /><SymbolView
-        symbol={value.definition.names.getPreferredNameString(
-            $config.getLocales()
-        )}
+        symbol={value.definition.names.getPreferredNameString($locales)}
         type={Sym.Name}
     />{/if}

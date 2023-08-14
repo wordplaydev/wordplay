@@ -1,6 +1,6 @@
 import Project, { type SerializedProject } from '@models/Project';
 import type Node from '@nodes/Node';
-import { writable, type Writable } from 'svelte/store';
+import { get, writable, type Writable, derived } from 'svelte/store';
 import Source from '@nodes/Source';
 import {
     collection,
@@ -20,9 +20,8 @@ import type Locale from '../locale/Locale';
 import type { LayoutObject } from '../components/project/Layout';
 import type LanguageCode from '../locale/LanguageCode';
 import { getLanguageDirection } from '../locale/LanguageCode';
-import Progress from '../tutorial/Progress';
+import type Progress from '../tutorial/Progress';
 import Arrangement from './Arrangement';
-import type { Tutorial } from '../tutorial/Tutorial';
 import { Basis } from '../basis/Basis';
 import en from '../locale/en-US.json';
 import Layout from '../components/project/Layout';
@@ -72,12 +71,12 @@ export type TutorialProgress = {
 const TutorialDefault = { act: 1, scene: 1, line: 1 };
 
 type Config = {
-    layouts: Record<string, LayoutObject>;
-    arrangement: Arrangement;
-    animationFactor: number;
-    locales: SupportedLocale[];
-    writingLayout: WritingLayout;
-    tutorial: TutorialProgress;
+    layouts: Writable<Record<string, LayoutObject>>;
+    arrangement: Writable<Arrangement>;
+    animationFactor: Writable<number>;
+    locales: Writable<SupportedLocale[]>;
+    writingLayout: Writable<WritingLayout>;
+    tutorial: Writable<TutorialProgress>;
 };
 
 function setLocalValue(key: string, value: unknown) {
@@ -97,9 +96,6 @@ export class Database {
     /** The default locale */
     private readonly defaultLocale: Locale;
 
-    /** A Svelte store for that contains this. Updated when config changes. */
-    private configStore: Writable<Database>;
-
     /** A Svelte store for that contains this. Updated when projects change. */
     private projectsStore: Writable<Database>;
 
@@ -109,18 +105,33 @@ export class Database {
     /** The current Firebase user ID */
     private uid: string | null = null;
 
-    /** The current creator configuration */
-    private config: Config = {
-        layouts: {},
-        arrangement: Arrangement.Vertical,
-        animationFactor: 1,
-        locales: ['en-US'],
-        writingLayout: 'horizontal-tb',
-        tutorial: TutorialDefault,
+    /** The current creator configuration. Each value is a store, supporting reactivity. */
+    readonly config: Readonly<Config> = {
+        layouts: writable({}),
+        arrangement: writable(Arrangement.Vertical),
+        animationFactor: writable(1),
+        locales: writable(['en-US']),
+        writingLayout: writable('horizontal-tb'),
+        tutorial: writable(TutorialDefault),
     };
 
+    readonly animationDuration = derived(
+        this.config.animationFactor,
+        (factor) => factor * ANIMATION_DURATION
+    );
+
+    //* A Svelte store for the locales corresponding to the selected locale names in the config.
+    readonly locales: Writable<Locale[]> = writable([DefaultLocale]);
+    readonly locale = derived(this.locales, ($locales) => $locales[0]);
+    readonly languages = derived(this.locales, ($locales) =>
+        $locales.map((locale) => locale.language)
+    );
+    readonly writingDirection = derived(this.locales, ($locales) =>
+        getLanguageDirection($locales[0].language)
+    );
+
     /** The locales loaded. Undefined if the language code doesn't exist. */
-    private locales: Record<
+    private localesLoaded: Record<
         SupportedLocale,
         Locale | Promise<Locale | undefined> | undefined
     > = {} as Record<
@@ -158,16 +169,15 @@ export class Database {
         this.defaultLocale = defaultLocale;
         this.projects = new Map();
 
-        this.configStore = writable(this);
         this.projectsStore = writable(this);
 
         // Store the default locale
-        this.locales[
+        this.localesLoaded[
             `${defaultLocale.language}-${defaultLocale.region}` as SupportedLocale
         ] = defaultLocale;
 
         // Initialize default languages
-        if (locales.length > 0) this.config.locales = locales;
+        if (locales.length > 0) this.config.locales.set(locales);
 
         this.loadLocalData();
     }
@@ -192,8 +202,16 @@ export class Database {
         // Ask fonts to load the locale's preferred fonts.
         Fonts.loadLocales(locales);
 
-        // Notify config listeners.
-        this.configStore.set(this);
+        // Update the locales stores
+        this.locales.set(
+            get(this.config.locales)
+                .map((l) => this.localesLoaded[l])
+                .filter(
+                    (l): l is Locale =>
+                        l !== undefined && !(l instanceof Promise)
+                )
+        );
+
         return locales;
     }
 
@@ -204,12 +222,12 @@ export class Database {
         // Already checked and it doesn't exist? Just return undefined.
         if (
             !refresh &&
-            Object.hasOwn(this.locales, lang) &&
-            this.locales[lang] === undefined
+            Object.hasOwn(this.localesLoaded, lang) &&
+            this.localesLoaded[lang] === undefined
         )
             return undefined;
 
-        const current = this.locales[lang];
+        const current = this.localesLoaded[lang];
 
         // Are we in the middle of getting it? Return the promise we already made.
         if (current instanceof Promise) {
@@ -226,27 +244,29 @@ export class Database {
                             response.ok ? await response.json() : undefined
                         )
                         .catch(() => undefined);
-                this.locales[lang] = promise;
+                this.localesLoaded[lang] = promise;
                 const locale = await promise;
-                this.locales[lang] = locale;
+                this.localesLoaded[lang] = locale;
                 return locale;
             } catch (_) {
-                this.locales[lang] = undefined;
+                this.localesLoaded[lang] = undefined;
                 return undefined;
             }
         } else return current;
     }
 
     getProjectLayout(id: string) {
-        const layouts = this.config.layouts;
+        const layouts = get(this.config.layouts);
         const layout = layouts ? layouts[id] : null;
         return layout ? Layout.fromObject(layout) : null;
     }
 
     setProjectLayout(id: string, layout: Layout) {
         // Has the layout changed?
-        const currentLayoutObject = this.config.layouts[id] ?? null;
-        const currentLayout = Layout.fromObject(currentLayoutObject);
+        const currentLayoutObject = get(this.config.layouts)[id] ?? null;
+        const currentLayout = currentLayoutObject
+            ? Layout.fromObject(currentLayoutObject)
+            : null;
         if (currentLayout !== null && currentLayout.isEqualTo(layout)) return;
 
         const newLayout = Object.fromEntries(
@@ -257,32 +277,32 @@ export class Database {
     }
 
     setLayout(layouts: Record<string, LayoutObject>) {
-        if (this.config.layouts === layouts) return;
-        this.config.layouts = layouts;
+        if (get(this.config.layouts) === layouts) return;
+        this.config.layouts.set(layouts);
         this.saveConfig(LAYOUTS_KEY, layouts);
     }
 
-    getArrangement() {
-        return this.config.arrangement;
+    getArrangement(): Arrangement {
+        return get(this.config.arrangement);
     }
 
     setArrangement(arrangement: Arrangement) {
-        if (this.config.arrangement === arrangement) return;
-        this.config.arrangement = arrangement;
+        if (this.getArrangement() === arrangement) return;
+        this.config.arrangement.set(arrangement);
         this.saveConfig(ARRANGEMENT_KEY, arrangement);
     }
 
-    getAnimationFactor() {
-        return this.config.animationFactor;
+    getAnimationFactor(): number {
+        return get(this.config.animationFactor);
     }
 
     getAnimationDuration() {
-        return this.getAnimationFactor() * ANIMATION_DURATION;
+        return get(this.animationDuration);
     }
 
     setAnimationFactor(factor: number) {
-        if (this.config.animationFactor === factor) return;
-        this.config.animationFactor = factor;
+        if (this.getAnimationFactor() === factor) return;
+        this.config.animationFactor.set(factor);
         return this.saveConfig(ANIMATION_FACTOR_KEY, factor);
     }
 
@@ -296,8 +316,8 @@ export class Database {
 
     getLocales(): Locale[] {
         // Map preferred languages into locales, filtering out missing locales.
-        const locales = this.config.locales
-            .map((locale) => this.locales[locale])
+        const locales = get(this.config.locales)
+            .map((locale) => this.localesLoaded[locale])
             .filter(
                 (locale): locale is Locale =>
                     locale !== undefined && !(locale instanceof Promise)
@@ -316,7 +336,7 @@ export class Database {
     /** Set the languages, load all locales if they aren't loaded, revise all projects to include any new locales, and save the new configuration. */
     async setLocales(preferredLocales: SupportedLocale[]) {
         // Update the configuration with the new languages, regardless of whether we successfully loaded them.
-        this.config.locales = preferredLocales;
+        this.config.locales.set(preferredLocales);
         this.saveConfig(LOCALES_KEY, preferredLocales);
 
         // Try to load locales for the requested languages
@@ -334,47 +354,35 @@ export class Database {
     }
 
     getWritingDirection() {
-        return getLanguageDirection(this.getLanguages()[0]);
+        return get(this.writingDirection);
     }
 
-    getWritingLayout() {
-        return this.config.writingLayout;
+    getWritingLayout(): WritingLayout {
+        return get(this.config.writingLayout);
     }
 
     setWritingLayout(layout: WritingLayout) {
-        if (this.config.writingLayout === layout) return;
-        this.config.writingLayout = layout;
+        if (this.getWritingLayout() === layout) return;
+        this.config.writingLayout.set(layout);
         this.saveConfig(WRITING_LAYOUT_KEY, layout);
     }
 
     setTutorialProgress(progress: Progress) {
         const value = progress.seralize();
+        const current = get(this.config.tutorial);
         if (
-            value.act === this.config.tutorial.act &&
-            value.scene === this.config.tutorial.scene &&
-            value.line === this.config.tutorial.line
+            value.act === current.act &&
+            value.scene === current.scene &&
+            value.line === current.line
         )
             return;
 
-        this.config.tutorial = value;
+        this.config.tutorial.set(value);
         this.saveConfig(TUTORIAL_KEY, value);
-    }
-
-    getTutorialProgress(tutorial: Tutorial) {
-        return new Progress(
-            tutorial,
-            this.config.tutorial.act,
-            this.config.tutorial.scene,
-            this.config.tutorial.line
-        );
     }
 
     getSaveStatusStore() {
         return this.statusStore;
-    }
-
-    getConfigStore() {
-        return this.configStore;
     }
 
     getProjectsStore() {
@@ -609,9 +617,6 @@ export class Database {
         } catch (_) {
             this.setStatus(SaveStatus.Error);
         }
-
-        // Notify config listeners.
-        this.configStore.set(this);
     }
 
     /** Persist in storage */
@@ -660,34 +665,40 @@ export class Database {
         const projects = getLocalValue<SerializedProject[]>(PROJECTS_KEY);
         if (projects) this.updateProjects(projects);
 
-        this.config.arrangement =
+        this.config.arrangement.set(
             (getLocalValue<string>(ARRANGEMENT_KEY) as Arrangement) ??
-            Arrangement.Vertical;
+                Arrangement.Vertical
+        );
 
-        this.config.layouts =
-            getLocalValue<Record<string, LayoutObject>>(LAYOUTS_KEY) ?? {};
+        this.config.layouts.set(
+            getLocalValue<Record<string, LayoutObject>>(LAYOUTS_KEY) ?? {}
+        );
 
         const persisted = getLocalValue(ANIMATION_FACTOR_KEY);
-        this.config.animationFactor =
+        this.config.animationFactor.set(
             persisted === true ||
-            persisted === null ||
-            !(typeof persisted === 'number')
+                persisted === null ||
+                !(typeof persisted === 'number')
                 ? 1
-                : Math.min(4, Math.max(0, persisted));
+                : Math.min(4, Math.max(0, persisted))
+        );
 
         const locales = getLocalValue<string[]>(LOCALES_KEY);
-        this.config.locales =
+        this.config.locales.set(
             locales === null || locales.length === 0
                 ? [SupportedLocales[0]]
-                : (locales as SupportedLocale[]);
+                : (locales as SupportedLocale[])
+        );
 
-        this.loadLocales(this.config.locales);
+        this.loadLocales(get(this.config.locales));
 
-        this.config.writingLayout =
-            getLocalValue<WritingLayout>(WRITING_LAYOUT_KEY) ?? 'horizontal-tb';
+        this.config.writingLayout.set(
+            getLocalValue<WritingLayout>(WRITING_LAYOUT_KEY) ?? 'horizontal-tb'
+        );
 
-        this.config.tutorial =
-            getLocalValue<TutorialProgress>(TUTORIAL_KEY) ?? TutorialDefault;
+        this.config.tutorial.set(
+            getLocalValue<TutorialProgress>(TUTORIAL_KEY) ?? TutorialDefault
+        );
     }
 
     async updateProjects(serializedProjects: SerializedProject[]) {
@@ -795,13 +806,25 @@ export class Database {
                 // Copy each key/value pair from the database to memory and the local store.
                 for (const key in data) {
                     if (key in this.config) {
-                        (this.config as Record<string, unknown>)[key] =
-                            data[key];
+                        const value = data[key];
+
+                        // See if it's a valid configuration key and value.
+                        if (key === 'layouts') this.config.layouts.set(value);
+                        else if (key === 'arrangement')
+                            this.config.arrangement.set(value);
+                        else if (key === 'animationFactor')
+                            this.config.animationFactor.set(value);
+                        else if (key === 'locales')
+                            this.config.locales.set(value);
+                        else if (key === 'writingLayout')
+                            this.config.writingLayout.set(value);
+                        else if (key === 'tutorial')
+                            this.config.tutorial.set(value);
+
+                        // Remember the value locally
                         setLocalValue(key, data[key]);
                     }
                 }
-                // Update the config store.
-                this.configStore.set(this);
             }
         }
     }
@@ -818,17 +841,26 @@ export const DefaultLocale = en as Locale;
 const browserLanguages =
     typeof navigator !== 'undefined' ? navigator.languages : [];
 
-const db = new Database(
+export const database = new Database(
     getBestSupportedLocales(browserLanguages.slice()),
     DefaultLocale
 );
 
-export const config = db.getConfigStore();
-export const projects = db.getProjectsStore();
-export const status = db.getSaveStatusStore();
+export const animationFactor = database.config.animationFactor;
+export const animationDuration = database.animationDuration;
+export const tutorialProgress = database.config.tutorial;
+export const arrangement = database.config.arrangement;
+export const locale = database.locale;
+export const locales = database.locales;
+export const languages = database.languages;
+export const writingDirection = database.writingDirection;
+export const writingLayout = database.config.writingLayout;
+
+export const projects = database.getProjectsStore();
+export const status = database.getSaveStatusStore();
 
 if (import.meta.hot) {
     import.meta.hot.on('locales-update', () => {
-        db.refreshLocales();
+        database.refreshLocales();
     });
 }

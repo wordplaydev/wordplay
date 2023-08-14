@@ -19,7 +19,7 @@
         getSelectedOutput,
         getSelectedPhrase,
     } from '../project/Contexts';
-    import { config } from '../../db/Database';
+    import { database, locale, locales } from '../../db/Database';
     import TextLang from '../../output/TextLang';
     import MarkupHtmlView from '../concepts/MarkupHTMLView.svelte';
     import Markup from '../../nodes/Markup';
@@ -43,7 +43,7 @@
     $: visible = place.z > focus.z && (phrase.size ?? context.size > 0);
 
     // Get the phrase's text in the preferred language
-    $: text = phrase.getLocalizedTextOrDoc($config.getLocales());
+    $: text = phrase.getLocalizedTextOrDoc($locales);
     $: empty = phrase.isEmpty();
     $: selectable = phrase.selectable && !empty;
 
@@ -123,10 +123,10 @@
             select(null);
 
             moveOutput(
-                $config,
+                database,
                 $project,
                 [phrase.value.creator],
-                $config.getLocales(),
+                $locales,
                 horizontal,
                 vertical,
                 true
@@ -147,7 +147,7 @@
         if (event.currentTarget.selectionStart !== null)
             select(event.currentTarget.selectionStart);
 
-        $config.reviseProjectNodes($project, [
+        database.reviseProjectNodes($project, [
             [
                 phrase.value.creator,
                 phrase.value.creator.replace(
@@ -164,10 +164,8 @@
         role={selectable ? 'button' : 'presentation'}
         aria-hidden={empty ? 'true' : null}
         aria-disabled={!selectable}
-        aria-label={phrase.getDescription($config.getLocales())}
-        aria-roledescription={!selectable
-            ? $config.getLocale().term.phrase
-            : null}
+        aria-label={phrase.getDescription($locales)}
+        aria-roledescription={!selectable ? $locale.term.phrase : null}
         class="output phrase"
         class:selected
         tabIndex={interactive && ((!empty && selectable) || editing) ? 0 : null}

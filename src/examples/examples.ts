@@ -28,8 +28,7 @@ import Catch from './Catch.wp?raw';
 import Amplitude from './Amplitude.wp?raw';
 import { parseNames, toTokens } from '../parser/Parser';
 import type Names from '../nodes/Names';
-import { config } from '../db/Database';
-import { get } from 'svelte/store';
+import { database } from '../db/Database';
 import { getBestSupportedLocales } from '../locale/Locale';
 
 export type Stuff = {
@@ -39,7 +38,7 @@ export type Stuff = {
 };
 
 export async function makeProject(stuff: Stuff) {
-    const locales = await get(config).loadLocales(
+    const locales = await database.loadLocales(
         getBestSupportedLocales(stuff.locales)
     );
 

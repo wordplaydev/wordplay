@@ -7,7 +7,7 @@
     import type Glyph from '../../lore/Glyph';
     import ConceptLinkUI from '../concepts/ConceptLinkUI.svelte';
     import Eyes from './Eyes.svelte';
-    import { config } from '../../db/Database';
+    import { locales, locale } from '../../db/Database';
     import Emotion from '../../lore/Emotion';
 
     export let glyph: Glyph | Concept;
@@ -28,13 +28,11 @@
 
     $: renderedEmotion =
         emotion ??
-        (glyph instanceof Concept
-            ? glyph?.getEmotion($config.getLocale())
-            : undefined);
+        (glyph instanceof Concept ? glyph?.getEmotion($locale) : undefined);
 
     $: glyphs =
         glyph instanceof Concept
-            ? glyph.getGlyphs($config.getLocales()).symbols
+            ? glyph.getGlyphs($locales).symbols
             : glyph.symbols;
 
     $: symbols =

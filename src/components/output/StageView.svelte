@@ -37,7 +37,7 @@
     import type TypeOutput from '../../output/TypeOutput';
     import Sequence from '../../output/Sequence';
     import Reference from '../../nodes/Reference';
-    import { config } from '../../db/Database';
+    import { animationFactor, locale, locales } from '../../db/Database';
 
     export let project: Project;
     export let evaluator: Evaluator;
@@ -78,7 +78,7 @@
                   .filter(
                       (output): output is Phrase => output instanceof Phrase
                   )
-                  .map((output) => output.getDescription($config.getLocales()))
+                  .map((output) => output.getDescription($locales))
                   .join(', ')
             : '';
 
@@ -94,10 +94,10 @@
                         : previouslyPresent.get(name);
                 if (!entered.has(name)) {
                     const previousText = previous
-                        ?.getDescription($config.getLocales())
+                        ?.getDescription($locales)
                         .toString();
                     const currentText = output
-                        .getDescription($config.getLocales())
+                        .getDescription($locales)
                         .toString();
                     if (
                         previousText !== currentText &&
@@ -225,11 +225,11 @@
     }
 
     $: context = new RenderContext(
-        stage.face ?? $config.getLocale().ui.font.app,
+        stage.face ?? $locale.ui.font.app,
         stage.size ?? DefaultSize,
-        $config.getLocales(),
+        $locales,
         $loadedFonts,
-        $config.getAnimationFactor()
+        $animationFactor
     );
     $: contentBounds = stage.getLayout(context);
 
@@ -302,7 +302,7 @@
             $selectedOutput &&
             $selectedOutput.includes(stage.value.creator)}
         class:editing={$evaluation?.playing === false && !painting}
-        aria-label={stage.getDescription($config.getLocales())}
+        aria-label={stage.getDescription($locales)}
         data-id={stage.getHTMLID()}
         data-node-id={stage.value.creator.id}
         data-selectable={stage.selectable}
@@ -406,13 +406,13 @@
                 >
                     {#if enteredDescription.length > 0}
                         <p
-                            >{$config.getLocale().term.entered}
+                            >{$locale.term.entered}
                             {enteredDescription}</p
                         >
                     {/if}
                     {#if changedDescription.length > 0}
                         <p
-                            >{$config.getLocale().term.changed}
+                            >{$locale.term.changed}
                             {changedDescription}</p
                         >
                     {/if}
