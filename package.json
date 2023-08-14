@@ -61,6 +61,7 @@
         "svelte-jester": "^2",
         "svelte-preprocess": "^5",
         "ts-jest": "^29.1",
+        "ts-json-schema-generator": "^1",
         "tslib": "^2.6",
         "tsx": "^3.12.7",
         "typescript": "^5",

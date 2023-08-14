@@ -175,6 +175,28 @@
           "$ref": "#/definitions/Character"
         },
         {
+          "enum": [
+            "$?",
+            "angry",
+            "arrogant",
+            "bored",
+            "cheerful",
+            "curious",
+            "confused",
+            "eager",
+            "excited",
+            "grumpy",
+            "happy",
+            "insecure",
+            "kind",
+            "neutral",
+            "sad",
+            "scared",
+            "serious",
+            "shy",
+            "surprised",
+            "precise"
+          ],
           "type": "string"
         }
       ],
