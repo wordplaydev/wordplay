@@ -1543,24 +1543,29 @@
         "Choice": { "doc": "$?", "names": ["Selección", "Elección"] },
         "Button": {
             "doc": "$?",
-            "names": ["Botón"],
+            "names": "Botón",
             "down": { "names": "abajo", "doc": "$?" }
         },
         "Pointer": { "doc": "$?", "names": ["Puntero"] },
         "Key": {
             "doc": "$?",
-            "names": ["Teclado"],
+            "names": "Teclado",
             "key": { "names": "tecla", "doc": "$?" },
             "down": { "names": "abajo", "doc": "$?" }
         },
         "Time": {
             "doc": "$?",
-            "names": ["Tiempo"],
+            "names": "Tiempo",
             "frequency": { "names": ["frecuencia"], "doc": "$?" }
         },
-        "Mic": {
+        "Volume": {
             "doc": "$?",
-            "names": ["Micrófono", "🎤"],
+            "names": "$? Volume",
+            "frequency": { "names": ["frecuencia"], "doc": "$?" }
+        },
+        "Pitch": {
+            "doc": "$?",
+            "names": "$? Pitch",
             "frequency": { "names": ["frecuencia"], "doc": "$?" }
         },
         "Camera": {

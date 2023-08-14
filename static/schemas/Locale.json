@@ -1504,26 +1504,6 @@
               ],
               "type": "object"
             },
-            "Mic": {
-              "additionalProperties": false,
-              "properties": {
-                "doc": {
-                  "$ref": "#/definitions/DocText"
-                },
-                "frequency": {
-                  "$ref": "#/definitions/NameAndDoc"
-                },
-                "names": {
-                  "$ref": "#/definitions/NameText"
-                }
-              },
-              "required": [
-                "doc",
-                "frequency",
-                "names"
-              ],
-              "type": "object"
-            },
             "Motion": {
               "additionalProperties": false,
               "properties": {
@@ -1589,6 +1569,26 @@
                 "vx",
                 "vy",
                 "vz"
+              ],
+              "type": "object"
+            },
+            "Pitch": {
+              "additionalProperties": false,
+              "properties": {
+                "doc": {
+                  "$ref": "#/definitions/DocText"
+                },
+                "frequency": {
+                  "$ref": "#/definitions/NameAndDoc"
+                },
+                "names": {
+                  "$ref": "#/definitions/NameText"
+                }
+              },
+              "required": [
+                "doc",
+                "frequency",
+                "names"
               ],
               "type": "object"
             },
@@ -1664,6 +1664,26 @@
                 "names"
               ],
               "type": "object"
+            },
+            "Volume": {
+              "additionalProperties": false,
+              "properties": {
+                "doc": {
+                  "$ref": "#/definitions/DocText"
+                },
+                "frequency": {
+                  "$ref": "#/definitions/NameAndDoc"
+                },
+                "names": {
+                  "$ref": "#/definitions/NameText"
+                }
+              },
+              "required": [
+                "doc",
+                "frequency",
+                "names"
+              ],
+              "type": "object"
             }
           },
           "required": [
@@ -1673,7 +1693,8 @@
             "Pointer",
             "Key",
             "Time",
-            "Mic",
+            "Volume",
+            "Pitch",
             "Camera",
             "Motion",
             "Placement"

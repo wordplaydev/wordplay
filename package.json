@@ -74,6 +74,7 @@
         "decimal.js": "^10",
         "firebase": "^9",
         "graphemer": "^1.4.0",
+        "pitchy": "^4.0.7",
         "recoverable-random": "^1.0.3",
         "uuid": "^9"
     },

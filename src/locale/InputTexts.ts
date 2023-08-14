@@ -12,7 +12,10 @@ type InputTexts = {
         down: NameAndDoc;
     };
     Time: NameAndDoc & { frequency: NameAndDoc };
-    Mic: NameAndDoc & {
+    Volume: NameAndDoc & {
+        frequency: NameAndDoc;
+    };
+    Pitch: NameAndDoc & {
         frequency: NameAndDoc;
     };
     Camera: NameAndDoc & {

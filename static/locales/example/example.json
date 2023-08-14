@@ -1547,9 +1547,14 @@
             "names": ["Tiempo"],
             "frequency": { "names": ["frecuencia"], "doc": "$?" }
         },
-        "Mic": {
+        "Volume": {
             "doc": "$?",
-            "names": ["Micrófono", "🎤"],
+            "names": "$? Volume",
+            "frequency": { "names": ["frecuencia"], "doc": "$?" }
+        },
+        "Pitch": {
+            "doc": "$?",
+            "names": "$? Pitch",
             "frequency": { "names": ["frecuencia"], "doc": "$?" }
         },
         "Camera": {

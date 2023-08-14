@@ -28,7 +28,7 @@ Group(
     100%: Pose(rotation: 360° color:Color(10% 0 0°))} duration:20s))
   ] background: Color(0% 0 0°)
 )`,
-    TakeTheMic: () => `Phrase("🎤" size: Mic()· 1m)`,
+    TakeTheMic: () => `Phrase("🎤" size: Volume()· 1m)`,
     RainingEmoji: () => `count: 50
 size: 30
 
@@ -390,7 +390,7 @@ Group(
       size: 3m
       rotation: char.rotation
       place: char.place
-      color: Color(Mic() · 1% Mic() 0°)
+      color: Color(Volume() Volume() 0°)
       moving:Pose()
       duration: 0.5s
     )

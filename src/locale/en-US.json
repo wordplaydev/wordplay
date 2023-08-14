@@ -2775,15 +2775,29 @@
                 "doc": "This is the frequency with which time should tick. It defaults to \\33ms\\, which is about 30 times per second."
             }
         },
-        "Mic": {
+        "Volume": {
             "doc": [
                 "/bzzzzzzz/",
                 "@FunctionDefinition here, I'll take the mic.",
-                "This stream is a series of amplitudes, sampled at the frequency of your choice. By default, the frequency is \\30hz\\, or 30 times per second, but you can change it to anything less frequent.",
-                "\\Mic()\\",
-                "Mic is great for listening to the sounds an audience is making, especially how loud they are!"
+                "This stream is a series of volumes between 0 and 1, sampled at the frequency of your choice. By default, the frequency is \\30hz\\, or 30 times per second, but you can change it to anything less frequent.",
+                "\\Volume()\\",
+                "This is great for listening to how loud the audience is!"
             ],
-            "names": ["🎤", "Mic"],
+            "names": ["🎤", "Volume"],
+            "frequency": {
+                "names": ["frequency"],
+                "doc": "The time between samplings."
+            }
+        },
+        "Pitch": {
+            "doc": [
+                "/hummmmm/",
+                "@FunctionDefinition here, let's talk pitch!",
+                "This stream is a series of frequencies in hertz, indicating the pitch of sound, sampled at the frequency of your choice. We've found that the human voice is between 20Hz and 5000Hz, so plan on numbers in that range.",
+                "\\Pitch()\\",
+                "This is great for listening the tone that someone is speaking or singing."
+            ],
+            "names": ["🎵", "Pitch"],
             "frequency": {
                 "names": ["frequency"],
                 "doc": "The time between samplings."

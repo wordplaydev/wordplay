@@ -10,7 +10,7 @@ count: 100
 size: 20m
 
 ``The amplitude of the mic``
-amps: Mic()
+amps: Volume()
 
 ``The letter chosen and it's position, rotational velocity and whether it's visible.``
 •Letter(letter•"" x•#m y•#m angle•# speed•# visible•?) ()
@@ -34,7 +34,7 @@ letters•[Letter]: count → [#].translate(
     letters.translate(
         ƒ(letter•Letter)
             letter.y > 0m ? (letter.y: letter.y - 0.5m).angle: letter.angle + letter.speed
-					(letter.y: size + 2m).visible: Random(0 amps) > 50
+					(letter.y: size + 2m).visible: Random(0 amps) > 0.5
     )
 
 ``Convert the letters into phrases``
