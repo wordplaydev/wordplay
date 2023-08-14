@@ -107,7 +107,7 @@ export default class TextLiteral extends Literal {
             if (p instanceof Token) {
                 next = unescaped(p.getText());
             } else {
-                const value = evaluator.peekValue();
+                const value = evaluator.popValue(this);
                 next =
                     value instanceof TextValue
                         ? value.text
