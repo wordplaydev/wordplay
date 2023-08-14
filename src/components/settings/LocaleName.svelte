@@ -6,11 +6,13 @@
 
     export let locale: string;
     export let supported: boolean;
+
+    $: region = getLocaleRegionName(locale);
 </script>
 
 <span class="language" class:supported
     >{getLocaleLanguageName(locale)}
-    <sub>({getLocaleRegionName(locale)})</sub></span
+    {#if region}<sub>({region})</sub>{/if}</span
 >
 
 <style>

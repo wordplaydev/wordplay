@@ -1,7 +1,12 @@
+import type { SupportedFaces } from '../basis/Fonts';
 import type EditTexts from './EditTexts';
 import type { DocText, Template } from './Locale';
 
 type UITexts = {
+    font: {
+        app: (typeof SupportedFaces)[number];
+        code: (typeof SupportedFaces)[number];
+    };
     phrases: {
         /** Used to address someone or say hi, on the login screen. */
         welcome: string;

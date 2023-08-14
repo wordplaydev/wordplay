@@ -1,7 +1,7 @@
 import type Pose from './Pose';
 import type Value from '@values/Value';
 import type Color from './Color';
-import Fonts, { type FontWeight } from '../basis/Fonts';
+import Fonts, { type FontWeight, type SupportedFace } from '../basis/Fonts';
 import TextValue from '@values/TextValue';
 import TypeOutput, { createTypeOutputInputs } from './TypeOutput';
 import type RenderContext from './RenderContext';
@@ -51,7 +51,7 @@ export default class Phrase extends TypeOutput {
         value: StructureValue,
         text: TextLang[] | MarkupValue,
         size: number | undefined = undefined,
-        font: string | undefined = undefined,
+        face: SupportedFace | undefined = undefined,
         place: Place | undefined = undefined,
         name: TextLang | string,
         selectable: boolean,
@@ -67,7 +67,7 @@ export default class Phrase extends TypeOutput {
         super(
             value,
             size,
-            font,
+            face,
             place,
             name,
             selectable,

@@ -43,6 +43,6 @@ export const Scripts = {
 
 export type Script = keyof typeof Scripts;
 
-export const Latin: Script[] = ['Latn'];
-export const Arab: Script[] = ['Arab'];
-export const LatinCyrillicGreek: Script[] = ['Latn', 'Cyrl', 'Grek'];
+export const Latin = ['Latn'] as const;
+export const Arab = ['Arab'] as const;
+export const LatinCyrillicGreek = ['Latn', 'Cyrl', 'Grek'] as const;

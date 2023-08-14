@@ -18,6 +18,7 @@ import type { DefinitePose } from './Pose';
 import StructureValue from '@values/StructureValue';
 import { getOutputInput } from './Output';
 import concretize from '../locale/concretize';
+import type { SupportedFace } from '../basis/Fonts';
 
 export function createGroupType(locales: Locale[]) {
     return toStructure(`
@@ -37,7 +38,7 @@ export default class Group extends TypeOutput {
         layout: Arrangement,
         content: (TypeOutput | null)[],
         size: number | undefined = undefined,
-        font: string | undefined = undefined,
+        face: SupportedFace | undefined = undefined,
         place: Place | undefined = undefined,
         name: TextLang | string,
         selectable: boolean,
@@ -53,7 +54,7 @@ export default class Group extends TypeOutput {
         super(
             value,
             size,
-            font,
+            face,
             place,
             name,
             selectable,

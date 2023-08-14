@@ -1782,6 +1782,10 @@
         }
     },
     "ui": {
+        "font": {
+            "app": "Noto Sans",
+            "code": "Noto Mono"
+        },
         "phrases": {
             "welcome": "hola",
             "motto": "Donde las palabras cobran vida"

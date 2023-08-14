@@ -38,7 +38,7 @@
     onMount(() => {
         if (PUBLIC_CONTEXT === 'prod') goto('/');
 
-        // Force Noto Sans to load
+        // Force default font to load
         Fonts.loadFace('Noto Sans');
 
         // Show only after fonts are loaded, to prevent font jiggle.
@@ -107,7 +107,24 @@
 {#if PUBLIC_CONTEXT !== 'prod' || $page.route.id === '/'}
     <div
         class:dark={$dark}
-        style="--animation-factor: {$config.getAnimationFactor()}"
+        style:--animation-factor={$config.getAnimationFactor()}
+        style:--wordplay-app-font={Array.from(
+            new Set([
+                ...$config.getLocales().map((locale) => locale.ui.font.app),
+                'Noto Emoji',
+            ])
+        )
+            .map((font) => `"${font}"`)
+            .join(', ')}
+        style:--wordplay-code-font={Array.from(
+            new Set([
+                ...$config.getLocales().map((locale) => locale.ui.font.code),
+                'Noto Mono',
+                'Noto Emoji',
+            ])
+        )
+            .map((font) => `"${font}"`)
+            .join(', ')}
         lang={$config.getLanguages()[0]}
     >
         {#if loaded}

@@ -471,7 +471,7 @@
     let paintingConfig: PaintingConfiguration = {
         characters: 'a',
         size: 1,
-        font: 'Noto Sans',
+        font: $config.getLocale().ui.font.app,
     };
 
     /** Set up project wide concept index and path context */
@@ -1378,7 +1378,7 @@
         font-size: 2rem;
         top: -1.5rem;
         left: -1.5rem;
-        font-family: 'Noto Sans', 'Noto Emoji';
+        font-family: 'Noto Emoji';
         pointer-events: none;
     }
 

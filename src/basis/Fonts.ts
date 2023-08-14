@@ -1,30 +1,46 @@
 import { writable } from 'svelte/store';
 import { OR_SYMBOL } from '@parser/Symbols';
 import { Latin, LatinCyrillicGreek, type Script } from '../locale/Scripts';
+import type Locale from '../locale/Locale';
+
+export const SupportedFaces = [
+    'Noto Sans',
+    'Noto Sans Japanese',
+    'Noto Emoji',
+    'Noto Color Emoji',
+    'Noto Sans Simplified Chinese',
+    'Noto Mono',
+    'Poor Story',
+    'Permanent Marker',
+    'Borel',
+    'Roboto',
+] as const;
+
+export type SupportedFace = (typeof SupportedFaces)[number];
 
 export type FontWeight = 100 | 200 | 300 | 400 | 500 | 600 | 700 | 800 | 900;
 export type FontWeightRange = { min: FontWeight; max: FontWeight };
 
 /** Each font has data necessary for loading it from Google Fonts. */
 export type Face = {
-    name: string; // The name of the font
-    weights: FontWeight[] | FontWeightRange; // Weights supported on the font
-    italic: boolean; // True if italics is supported on the weights above,
-    scripts: Script[]; // A list of ISO 15924 scripts supported
+    readonly name: string; // The name of the font
+    readonly weights: FontWeight[] | FontWeightRange; // Weights supported on the font
+    readonly italic: boolean; // True if italics is supported on the weights above,
+    readonly scripts: Readonly<Script[]>; // A list of ISO 15924 scripts supported
 };
 
 export type Font = {
-    name: string;
-    weight: FontWeight;
-    italic: boolean;
+    readonly name: SupportedFace;
+    readonly weight: FontWeight;
+    readonly italic: boolean;
 };
 
-export const loadedFonts = writable<Set<string>>(new Set());
+export const loadedFonts = writable<Set<SupportedFace>>(new Set());
 
 /**
  * A data structure that represents fonts that creators can use to style phrases.
  */
-const SupportedFaces: Face[] = [
+const Faces: Face[] = [
     {
         name: 'Noto Sans',
         weights: [100, 200, 300, 400, 500, 600, 700, 800, 900],
@@ -86,7 +102,6 @@ const SupportedFaces: Face[] = [
         scripts: LatinCyrillicGreek,
     },
 ];
-export { SupportedFaces as SupportedFonts };
 
 /**
  * This data structure managers the fonts that have been loaded,
@@ -105,7 +120,7 @@ export class FontManager {
         { name: 'Noto Color Emoji', weight: 400, italic: false },
     ];
 
-    facesLoaded = new Map<string, 'requested' | 'loaded' | 'failed'>();
+    facesLoaded = new Map<SupportedFace, 'requested' | 'loaded' | 'failed'>();
 
     constructor() {
         this.fonts.forEach((font) => this.load(font));
@@ -113,7 +128,7 @@ export class FontManager {
 
     /** Returns true if the given font spec appears in SupportedFonts */
     getSupportedFont(font: Font) {
-        return SupportedFaces.find(
+        return Faces.find(
             (candidate) =>
                 // The name matches
                 candidate.name === font.name &&
@@ -127,21 +142,28 @@ export class FontManager {
         );
     }
 
-    isFaceRequested(face: string) {
+    isFaceRequested(face: SupportedFace) {
         return this.facesLoaded.has(face);
     }
 
-    isFaceLoaded(face: string) {
+    isFaceLoaded(face: SupportedFace) {
         return this.facesLoaded.get(face) === 'loaded';
     }
 
-    async loadFace(name: string) {
+    loadLocales(locales: Locale[]) {
+        for (const locale of locales) {
+            this.loadFace(locale.ui.font.app);
+            this.loadFace(locale.ui.font.code);
+        }
+    }
+
+    async loadFace(name: SupportedFace) {
         if (this.facesLoaded.get(name) === 'loaded') return;
 
         // Mark the face requested.
         this.facesLoaded.set(name, 'requested');
 
-        const face = SupportedFaces.find((font) => font.name === name);
+        const face = Faces.find((font) => font.name === name);
 
         const promises: Promise<boolean>[] = [];
         if (face) {
@@ -232,6 +254,6 @@ export class FontManager {
 const Fonts = new FontManager();
 export default Fonts;
 
-export const SupportedFontsFamiliesType = SupportedFaces.map(
+export const SupportedFontsFamiliesType = Faces.map(
     (font) => `"${font.name}"`
 ).join(OR_SYMBOL);

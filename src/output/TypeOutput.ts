@@ -10,7 +10,10 @@ import TextLang from './TextLang';
 import type Pose from './Pose';
 import type { DefinitePose } from './Pose';
 import type RenderContext from './RenderContext';
-import Fonts, { SupportedFontsFamiliesType } from '../basis/Fonts';
+import Fonts, {
+    SupportedFontsFamiliesType,
+    type SupportedFace,
+} from '../basis/Fonts';
 import type Locale from '../locale/Locale';
 
 export function createTypeType(locales: Locale[]) {
@@ -29,7 +32,9 @@ ${getBind(locales, (locale) => locale.output.Type.size)}•${
 ${getBind(
     locales,
     (locale) => locale.output.Type.face
-)}•${SupportedFontsFamiliesType}${stage ? ": 'Noto Sans'" : '|ø: ø'}
+)}•${SupportedFontsFamiliesType}${
+        stage ? `: "${locales[0].ui.font.app}"` : '|ø: ø'
+    }
 ${getBind(locales, (locale) => locale.output.Type.place)}•📍|ø: ø
 ${getBind(locales, (locale) => locale.output.Type.name)}•""|ø: ø
 ${getBind(locales, (locale) => locale.output.Type.selectable)}•?: ⊥
@@ -72,7 +77,7 @@ ${getBind(locales, (locale) => locale.output.Type.style)}•${locales
 /** Every group has the same style information. */
 export default abstract class TypeOutput extends Output {
     readonly size: number | undefined;
-    readonly face: string | undefined;
+    readonly face: SupportedFace | undefined;
     readonly place: Place | undefined;
     readonly name: TextLang | string;
     readonly selectable: boolean;
@@ -88,7 +93,7 @@ export default abstract class TypeOutput extends Output {
     constructor(
         value: Value,
         size: number | undefined = undefined,
-        font: string | undefined = undefined,
+        font: SupportedFace | undefined = undefined,
         place: Place | undefined = undefined,
         name: TextLang | string,
         selectable: boolean,

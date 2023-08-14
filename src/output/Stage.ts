@@ -19,8 +19,8 @@ import concretize from '../locale/concretize';
 import type Locale from '../locale/Locale';
 import type Project from '../models/Project';
 import { getOutputInput } from './Output';
+import type { SupportedFace } from '../basis/Fonts';
 
-export const DefaultFace = 'Noto Sans';
 export const CSSFallbackFaces = `"Noto Color Emoji"`;
 export const DefaultSize = 1;
 
@@ -45,7 +45,7 @@ export default class Stage extends TypeOutput {
         background: Color,
         frame: Shape | undefined = undefined,
         size: number,
-        font: string,
+        face: SupportedFace,
         place: Place | undefined = undefined,
         name: TextLang | string,
         selectable: boolean,
@@ -60,7 +60,7 @@ export default class Stage extends TypeOutput {
         super(
             value,
             size,
-            font,
+            face,
             place,
             name,
             selectable,
@@ -223,7 +223,7 @@ export function toStage(project: Project, value: Value): Stage | undefined {
                   background,
                   frame,
                   size ?? DefaultSize,
-                  font ?? DefaultFace,
+                  font ?? project.locales[0].ui.font.app,
                   place,
                   namer.getName(name?.text, value),
                   selectable,
@@ -255,7 +255,7 @@ export function toStage(project: Project, value: Value): Stage | undefined {
                   ),
                   undefined,
                   DefaultSize,
-                  DefaultFace,
+                  project.locales[0].ui.font.app,
                   undefined,
                   namer.getName(undefined, value),
                   type.selectable,

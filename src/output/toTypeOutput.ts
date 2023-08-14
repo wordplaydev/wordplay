@@ -13,7 +13,7 @@ import NoneValue from '@values/NoneValue';
 import { toFree } from './Free';
 import type Project from '../models/Project';
 import { toBoolean, toNumber } from './Stage';
-import { toFont, toText } from './Phrase';
+import { toFont as toFace, toText } from './Phrase';
 import Place, { toPlace } from './Place';
 import Color, { toColor } from './Color';
 import type TextLang from './TextLang';
@@ -23,6 +23,7 @@ import type Sequence from './Sequence';
 import { getOutputInputs } from './Output';
 import { toSequence } from './Sequence';
 import TextValue from '../values/TextValue';
+import type { SupportedFace } from '../basis/Fonts';
 
 export function toTypeOutput(
     project: Project,
@@ -84,7 +85,7 @@ export function getStyle(
     index: number
 ): {
     size: number | undefined;
-    face: string | undefined;
+    face: SupportedFace | undefined;
     name: TextLang | undefined;
     selectable: boolean | undefined;
     place: Place | undefined;
@@ -120,7 +121,7 @@ export function getStyle(
     ] = getOutputInputs(value, index);
 
     const size = toNumber(sizeVal);
-    const font = toFont(faceVal);
+    const face = toFace(faceVal) as SupportedFace;
     const place = toPlace(placeVal);
     const name = toText(nameVal);
     const selectable = toBoolean(selectableVal);
@@ -152,7 +153,7 @@ export function getStyle(
 
     return {
         size,
-        face: font,
+        face,
         place,
         name,
         selectable,

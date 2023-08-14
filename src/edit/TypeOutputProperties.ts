@@ -1,4 +1,4 @@
-import { SupportedFonts } from '@basis/Fonts';
+import { SupportedFaces } from '@basis/Fonts';
 import Evaluate from '@nodes/Evaluate';
 import type Expression from '@nodes/Expression';
 import NumberLiteral from '@nodes/NumberLiteral';
@@ -84,7 +84,7 @@ export default function getTypeOutputProperties(
         new OutputProperty(
             locale.output.Type.face,
             new OutputPropertyOptions(
-                [...SupportedFonts.map((font) => font.name)],
+                [...SupportedFaces],
                 true,
                 (text: string) => TextLiteral.make(text),
                 (expression: Expression | undefined) =>
@@ -95,7 +95,7 @@ export default function getTypeOutputProperties(
             false,
             true,
             (expr) => expr instanceof TextLiteral,
-            () => TextLiteral.make('Noto Sans')
+            () => TextLiteral.make(locale.ui.font.app)
         ),
         new OutputProperty(
             locale.output.Type.place,

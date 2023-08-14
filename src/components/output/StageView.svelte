@@ -16,7 +16,7 @@
     } from '@output/outputToCSS';
     import Place from '@output/Place';
     import Evaluate from '@nodes/Evaluate';
-    import { DefaultFace, DefaultSize } from '@output/Stage';
+    import { DefaultSize } from '@output/Stage';
     import { createPlace } from '@output/Place';
     import Scene, { type OutputInfoSet } from '@output/Scene';
     import GroupView from './GroupView.svelte';
@@ -225,7 +225,7 @@
     }
 
     $: context = new RenderContext(
-        stage.face ?? DefaultFace,
+        stage.face ?? $config.getLocale().ui.font.app,
         stage.size ?? DefaultSize,
         $config.getLocales(),
         $loadedFonts,

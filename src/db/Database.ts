@@ -32,6 +32,7 @@ import {
     getBestSupportedLocales,
 } from '../locale/Locale';
 import type { WritingLayout } from '../locale/Scripts';
+import Fonts from '../basis/Fonts';
 
 const PROJECTS_KEY = 'projects';
 const LAYOUTS_KEY = 'layouts';
@@ -179,7 +180,7 @@ export class Database {
         preferredLocales: SupportedLocale[],
         refresh = false
     ): Promise<Locale[]> {
-        // Asynchronously load all unloaded
+        // Asynchronously load all unloaded locales.
         const locales = (
             await Promise.all(
                 preferredLocales.map(async (locale) =>
@@ -187,6 +188,9 @@ export class Database {
                 )
             )
         ).filter((locale): locale is Locale => locale !== undefined);
+
+        // Ask fonts to load the locale's preferred fonts.
+        Fonts.loadLocales(locales);
 
         // Notify config listeners.
         this.configStore.set(this);
