@@ -26,7 +26,7 @@ Here are the roles I've brainstormed so far, and what responsibilites those role
 | **Design**                 | Many issues identify problems but do not have designs, or only have design sketches, without sufficient detail for engineering. This role takes design problems and envisions a concrete design suitable for implementation, iterating through community feedback and guidance from Amy. Design specifications should be in the main issue description, providing clear guidance for what needs to be implemented. |
 | **Project management**     | Triage new issues, improving their quality, closing duplicates, linking to relevant issues, labeling them appropriately, deciding which milestones they belong in in consulation with Amy. Coordinate the engineering and design work of multiple students so that they don't do duplicative work and make conflicting decisions.                                                                                  |
 | **Localization**           | Improve existing locales and write new ones. Adadpt existing languages for new regions. Build communities of students working on the same language to divide up the localization work while maintaiing a shared voice. Manage out of date translations.                                                                                                                                                            |
-| **Testing**                | Find ways in which Wordplay does not work as intended, particularly in non-English, non-mouse based ways. Look for duplicates before submitting, create new issues. Write new unit tests to improve test coverage.                                                                                                                                                                                                 |
+| **Verification**           | Find ways in which Wordplay does not work as intended, particularly in non-English, non-mouse based ways. Look for duplicates before submitting, create new issues. Write new unit tests to improve test coverage.                                                                                                                                                                                                 |
 | **Writing**                | Improve documentation, including documents like this, the contributors guide, as well as Wordplay's documentation. Coordinate with localization teams around updates.                                                                                                                                                                                                                                              |
 
 Remember: you could do more than one of the above. Your quarter could be a bit of localization, some testing, or maybe one big design project plus some project management. There's no reason to limit yourself to a single role if you want to try multiple. Just make sure the work you commit to is feasible for the time you've committed.
@@ -51,9 +51,4 @@ In summer, I'll recruit a couple students to work full time on bigger features t
 
 # Knowledge
 
-There's a lot you need to know to contribute to Wordplay. Here's a growing list of things you should do and/or read during the onboarding week:
-
--   Go through the Wordplay tutorial to learn the language and get used to the interface. (Submit any defects you find as issues, taking on the verification role).
--   Read the relevant part of `CONTRIBUTING.md`.
--   Make a few Wordplay programs to get used to what's possible to create with it.
--   Read `ARCHITECTURE.md`, even if you don't want an engineering role. It explains key concepts in the implementation.
+There's a lot you need to know to contribute to Wordplay. Read the [CONTRIBUTING.md](https://github.com/amyjko/wordplay/blob/main/CONTRIBUTING.md) page and anything it tells you to read.
