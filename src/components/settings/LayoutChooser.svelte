@@ -36,8 +36,7 @@
 
     .layout {
         font-size: 50%;
-        max-width: 5em;
-        max-height: 5em;
+        min-width: 4em;
         cursor: pointer;
         user-select: none;
     }
