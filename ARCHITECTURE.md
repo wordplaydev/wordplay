@@ -47,6 +47,8 @@ One important note about AST nodes: they are all **immutable**. This has a few i
 
 To work around the lack of a parent, we have `Root.ts`, which represents the root of an AST, and manages all of the parent information, offering facilities for figuring out the structure of an AST.
 
+A Wordplay Project is a list of `Source`, with a name, ID, and other metadata.
+
 Overall, it's best to think of the nodes as the center of everything: they define a program's structure, behavior, description, and more, and so most other things in Wordplay rely on nodes and trees to do their work.
 
 ### Type Checking
@@ -126,6 +128,10 @@ On each edit, the project is revised, reevaluated, and re-rendered. Making this 
 The documentation component takes all of the default `FunctionDefinition`, `StructureDefinition`, `ConversionDefintion`, and `StreamDefinition` -- Wordplay's standard libraries -- and builds `Concept` data structures out of them. This creates a `ConceptIndex`, which contains all of the named things for which there is documentation.
 
 Most documentation is written in `Locale`, as all of it needs to be localized. But documentation is also written in `Doc` nodes in programs. `ConceptIndex` gathers all of these documentations and provides an interactive way to navigate and search them.
+
+### Project View
+
+`ProjectView.svelte` defines a set of `Tile` that represent source files, documentation windows, palettes, output, and other project level settings. It's basically a window manager and global context store. It also reacts to project revisions, pushing the revised project down to its views to update its appearance. It relies heavily on Svelte to make these updates minimal and fast.
 
 ## Immutability
 
