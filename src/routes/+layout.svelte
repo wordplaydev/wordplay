@@ -56,9 +56,6 @@
         // Update dark mode, now that we're mounted.
         dark.set(isDarkSet());
 
-        /** Load whatever is stored in local storage */
-        database.loadLocalData();
-
         // Have the Database cleanup database connections.
         return () => {
             database.clean();

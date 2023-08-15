@@ -32,33 +32,12 @@ import {
 } from '../locale/Locale';
 import type { WritingLayout } from '../locale/Scripts';
 import Fonts from '../basis/Fonts';
-
-const PROJECTS_KEY = 'projects';
-const LAYOUTS_KEY = 'layouts';
-const ARRANGEMENT_KEY = 'arrangement';
-const ANIMATION_FACTOR_KEY = 'animationFactor';
-const LOCALES_KEY = 'locales';
-const WRITING_LAYOUT_KEY = 'writingLayout';
-const TUTORIAL_KEY = 'tutorial';
-const CAMERA_KEY = 'camera';
-const MIC_KEY = 'mic';
-
-/** If true, we only persist on the device, and not in the database. */
-const deviceSpecific: Record<keyof Config, boolean> = {
-    layouts: true,
-    arrangement: true,
-    animationFactor: false,
-    locales: false,
-    writingLayout: false,
-    tutorial: false,
-    camera: true,
-    mic: true,
-};
-
-const ANIMATION_DURATION = 200;
+import Setting from './Setting';
 
 // Remember this many project edits.
 const PROJECT_HISTORY_LIMIT = 1000;
+
+const PROJECTS_KEY = 'projects';
 
 export enum SaveStatus {
     Saved = 'saved',
@@ -72,19 +51,6 @@ export type TutorialProgress = {
     line: number;
 };
 
-const TutorialDefault = { act: 1, scene: 1, line: 1 };
-
-type Config = {
-    layouts: Writable<Record<string, LayoutObject>>;
-    arrangement: Writable<Arrangement>;
-    animationFactor: Writable<number>;
-    locales: Writable<SupportedLocale[]>;
-    writingLayout: Writable<WritingLayout>;
-    tutorial: Writable<TutorialProgress>;
-    camera: Writable<string | null>;
-    mic: Writable<string | null>;
-};
-
 function setLocalValue(key: string, value: unknown) {
     if (typeof window !== 'undefined') {
         if (value === null) window.localStorage.removeItem(key);
@@ -92,40 +58,121 @@ function setLocalValue(key: string, value: unknown) {
     }
 }
 
-function getLocalValue<Type>(key: string): Type | null {
-    const value =
-        typeof window !== 'undefined' ? window.localStorage.getItem(key) : null;
-    return value === null ? null : (JSON.parse(value) as Type);
-}
-
 export class Database {
     /** The default locale */
     private readonly defaultLocale: Locale;
 
     /** A Svelte store for that contains this. Updated when projects change. */
-    private projectsStore: Writable<Database>;
+    readonly projectsStore: Writable<Database>;
 
     /** The status of persisting the projects. */
-    private statusStore: Writable<SaveStatus> = writable(SaveStatus.Saved);
+    readonly statusStore: Writable<SaveStatus> = writable(SaveStatus.Saved);
 
     /** The current Firebase user ID */
     private uid: string | null = null;
 
-    /** The current creator configuration. Each value is a store, supporting reactivity. */
-    readonly config: Readonly<Config> = {
-        layouts: writable({}),
-        arrangement: writable(Arrangement.Vertical),
-        animationFactor: writable(1),
-        locales: writable(['en-US']),
-        writingLayout: writable('horizontal-tb'),
-        tutorial: writable(TutorialDefault),
-        camera: writable(null),
-        mic: writable(null),
+    /** The current settings */
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    readonly settings = {
+        layouts: new Setting<Record<string, LayoutObject>>(
+            'layouts',
+            true,
+            {},
+            (value) =>
+                value != null &&
+                value.constructor.name === 'Object' &&
+                Array.from(Object.keys(value)).every(
+                    (key) => typeof key === 'string'
+                )
+                    ? (value as Record<string, LayoutObject>)
+                    : undefined,
+            (current, value) => current === value
+        ),
+        arrangement: new Setting<Arrangement>(
+            'arrangement',
+            true,
+            Arrangement.Vertical,
+            (value) =>
+                typeof value === 'string' &&
+                Object.values<string>(Arrangement).includes(value)
+                    ? (value as Arrangement)
+                    : undefined,
+            (current, value) => current == value
+        ),
+        animationFactor: new Setting<number>(
+            'animationFactor',
+            false,
+            1,
+            (value) =>
+                typeof value === 'number' && value >= 1 ? value : undefined,
+            (current, value) => current == value
+        ),
+        locales: new Setting<SupportedLocale[]>(
+            'locales',
+            false,
+            ['en-US'],
+
+            (value) =>
+                Array.isArray(value) &&
+                value.every(
+                    (locale) =>
+                        typeof locale === 'string' &&
+                        SupportedLocales.includes(locale as SupportedLocale)
+                )
+                    ? (value as SupportedLocale[])
+                    : undefined,
+            (current, value) =>
+                current.length === value.length &&
+                current.every((locale, index) => value[index] === locale)
+        ),
+        writingLayout: new Setting<WritingLayout>(
+            'writingLayout',
+            false,
+            'horizontal-tb',
+            (value) =>
+                value === 'horizontal-tb' ||
+                value === 'vertical-rl' ||
+                value === 'vertical-lr'
+                    ? value
+                    : undefined,
+            (current, value) => current == value
+        ),
+        tutorial: new Setting<TutorialProgress>(
+            'tutorial',
+            false,
+            { act: 1, scene: 1, line: 1 },
+            (value) =>
+                value != null &&
+                typeof value === 'object' &&
+                'act' in value &&
+                'scene' in value &&
+                'line' in value
+                    ? (value as TutorialProgress)
+                    : undefined,
+            (current, value) =>
+                current.act === value.act &&
+                current.scene === value.scene &&
+                current.line === value.line
+        ),
+        camera: new Setting<string | null>(
+            'camera',
+            true,
+            null,
+            (value) => (typeof value === 'string' ? value : null),
+            (current, value) => current == value
+        ),
+        mic: new Setting<string | null>(
+            'mic',
+            true,
+            null,
+            (value) => (typeof value === 'string' ? value : null),
+            (current, value) => current == value
+        ),
     };
 
     readonly animationDuration = derived(
-        this.config.animationFactor,
-        (factor) => factor * ANIMATION_DURATION
+        this.settings.animationFactor.value,
+        (factor) => factor * 200
     );
 
     //* A Svelte store for the locales corresponding to the selected locale names in the config.
@@ -185,9 +232,7 @@ export class Database {
         ] = defaultLocale;
 
         // Initialize default languages
-        if (locales.length > 0) this.config.locales.set(locales);
-
-        this.loadLocalData();
+        if (locales.length > 0) this.settings.locales.set(this, locales);
     }
 
     async refreshLocales() {
@@ -212,7 +257,8 @@ export class Database {
 
         // Update the locales stores
         this.locales.set(
-            get(this.config.locales)
+            this.settings.locales
+                .get()
                 .map((l) => this.localesLoaded[l])
                 .filter(
                     (l): l is Locale =>
@@ -264,54 +310,48 @@ export class Database {
     }
 
     getProjectLayout(id: string) {
-        const layouts = get(this.config.layouts);
+        const layouts = this.settings.layouts.get();
         const layout = layouts ? layouts[id] : null;
         return layout ? Layout.fromObject(layout) : null;
     }
 
     setProjectLayout(id: string, layout: Layout) {
         // Has the layout changed?
-        const currentLayoutObject = get(this.config.layouts)[id] ?? null;
+        const currentLayoutObject = this.settings.layouts.get()[id] ?? null;
         const currentLayout = currentLayoutObject
             ? Layout.fromObject(currentLayoutObject)
             : null;
         if (currentLayout !== null && currentLayout.isEqualTo(layout)) return;
 
         const newLayout = Object.fromEntries(
-            Object.entries(this.config.layouts)
+            Object.entries(this.settings.layouts)
         );
         newLayout[id] = layout.toObject();
         this.setLayout(newLayout);
     }
 
     setLayout(layouts: Record<string, LayoutObject>) {
-        if (get(this.config.layouts) === layouts) return;
-        this.config.layouts.set(layouts);
-        this.saveConfig(LAYOUTS_KEY, layouts);
+        this.settings.layouts.set(database, layouts);
     }
 
     getArrangement(): Arrangement {
-        return get(this.config.arrangement);
+        return this.settings.arrangement.get();
     }
 
     setArrangement(arrangement: Arrangement) {
-        if (this.getArrangement() === arrangement) return;
-        this.config.arrangement.set(arrangement);
-        this.saveConfig(ARRANGEMENT_KEY, arrangement);
+        this.settings.arrangement.set(this, arrangement);
     }
 
     getAnimationFactor(): number {
-        return get(this.config.animationFactor);
+        return this.settings.animationFactor.get();
+    }
+
+    setAnimationFactor(factor: number) {
+        this.settings.animationFactor.set(this, factor);
     }
 
     getAnimationDuration() {
         return get(this.animationDuration);
-    }
-
-    setAnimationFactor(factor: number) {
-        if (this.getAnimationFactor() === factor) return;
-        this.config.animationFactor.set(factor);
-        return this.saveConfig(ANIMATION_FACTOR_KEY, factor);
     }
 
     getLanguages(): LanguageCode[] {
@@ -324,7 +364,8 @@ export class Database {
 
     getLocales(): Locale[] {
         // Map preferred languages into locales, filtering out missing locales.
-        const locales = get(this.config.locales)
+        const locales = this.settings.locales
+            .get()
             .map((locale) => this.localesLoaded[locale])
             .filter(
                 (locale): locale is Locale =>
@@ -344,8 +385,7 @@ export class Database {
     /** Set the languages, load all locales if they aren't loaded, revise all projects to include any new locales, and save the new configuration. */
     async setLocales(preferredLocales: SupportedLocale[]) {
         // Update the configuration with the new languages, regardless of whether we successfully loaded them.
-        this.config.locales.set(preferredLocales);
-        this.saveConfig(LOCALES_KEY, preferredLocales);
+        this.settings.locales.set(this, preferredLocales);
 
         // Try to load locales for the requested languages
         const locales = await this.loadLocales(preferredLocales);
@@ -366,53 +406,31 @@ export class Database {
     }
 
     getWritingLayout(): WritingLayout {
-        return get(this.config.writingLayout);
+        return this.settings.writingLayout.get();
     }
 
     setWritingLayout(layout: WritingLayout) {
-        if (this.getWritingLayout() === layout) return;
-        this.config.writingLayout.set(layout);
-        this.saveConfig(WRITING_LAYOUT_KEY, layout);
+        this.settings.writingLayout.set(this, layout);
     }
 
     setTutorialProgress(progress: Progress) {
-        const value = progress.seralize();
-        const current = get(this.config.tutorial);
-        if (
-            value.act === current.act &&
-            value.scene === current.scene &&
-            value.line === current.line
-        )
-            return;
-
-        this.config.tutorial.set(value);
-        this.saveConfig(TUTORIAL_KEY, value);
+        this.settings.tutorial.set(this, progress.seralize());
     }
 
     setCamera(deviceID: string | null) {
-        this.config.camera.set(deviceID);
-        this.saveConfig(CAMERA_KEY, deviceID);
+        this.settings.camera.set(this, deviceID);
     }
 
     getCamera() {
-        return get(this.config.camera);
+        return this.settings.camera.get();
     }
 
     setMic(deviceID: string | null) {
-        this.config.mic.set(deviceID);
-        this.saveConfig(MIC_KEY, deviceID);
+        this.settings.mic.set(this, deviceID);
     }
 
     getMic() {
-        return get(this.config.mic);
-    }
-
-    getSaveStatusStore() {
-        return this.statusStore;
-    }
-
-    getProjectsStore() {
-        return this.projectsStore;
+        return this.settings.mic.get();
     }
 
     /** Get a list of all current projects */
@@ -621,22 +639,21 @@ export class Database {
         );
     }
 
-    saveConfig(key: keyof Config, value: unknown) {
-        // Persist in local storage.
+    /** Saves settings to Firebase, if available. */
+    persistSettings() {
         this.setStatus(SaveStatus.Saving);
         try {
-            setLocalValue(key, value);
-
             // Try to save online, if this is not device specific
-            if (firestore && !deviceSpecific[key] && this.uid) {
+            if (firestore && this.uid) {
                 // Get the config, but delete all device-specific configs.
-                const config = { ...this.config };
-                for (const key in deviceSpecific) {
-                    if (deviceSpecific[key as keyof Config] === true)
-                        delete config[key as keyof Config];
+                const settings: Record<string, unknown> = {};
+                for (const [key, setting] of Object.entries(this.settings)) {
+                    const value = setting.get();
+                    if (value !== null) settings[key] = value;
                 }
 
-                setDoc(doc(firestore, 'users', this.uid), config);
+                // Save in firestore
+                setDoc(doc(firestore, 'users', this.uid), settings);
             }
 
             this.setStatus(SaveStatus.Saved);
@@ -684,52 +701,6 @@ export class Database {
                 this.setStatus(SaveStatus.Error);
             }
         }
-    }
-
-    /** Load from local browser storage */
-    loadLocalData() {
-        const projects = getLocalValue<SerializedProject[]>(PROJECTS_KEY);
-        if (projects) this.updateProjects(projects);
-
-        this.config.arrangement.set(
-            (getLocalValue<string>(ARRANGEMENT_KEY) as Arrangement) ??
-                Arrangement.Vertical
-        );
-
-        this.config.layouts.set(
-            getLocalValue<Record<string, LayoutObject>>(LAYOUTS_KEY) ?? {}
-        );
-
-        const persisted = getLocalValue(ANIMATION_FACTOR_KEY);
-        this.config.animationFactor.set(
-            persisted === true ||
-                persisted === null ||
-                !(typeof persisted === 'number')
-                ? 1
-                : Math.min(4, Math.max(0, persisted))
-        );
-
-        const locales = getLocalValue<string[]>(LOCALES_KEY);
-        this.config.locales.set(
-            locales === null || locales.length === 0
-                ? [SupportedLocales[0]]
-                : (locales as SupportedLocale[])
-        );
-
-        this.loadLocales(get(this.config.locales));
-
-        this.config.writingLayout.set(
-            getLocalValue<WritingLayout>(WRITING_LAYOUT_KEY) ?? 'horizontal-tb'
-        );
-
-        this.config.tutorial.set(
-            getLocalValue<TutorialProgress>(TUTORIAL_KEY) ?? TutorialDefault
-        );
-
-        this.config.camera.set(
-            getLocalValue<string | null>(CAMERA_KEY) ?? null
-        );
-        this.config.mic.set(getLocalValue<string | null>(MIC_KEY) ?? null);
     }
 
     async updateProjects(serializedProjects: SerializedProject[]) {
@@ -836,41 +807,11 @@ export class Database {
                 const data = config.data();
                 // Copy each key/value pair from the database to memory and the local store.
                 for (const key in data) {
-                    if (key in this.config) {
+                    if (key in this.settings) {
                         const value = data[key];
-
-                        // See if it's a valid configuration key and value.
-                        if (key === LAYOUTS_KEY) this.config.layouts.set(value);
-                        else if (key === ARRANGEMENT_KEY)
-                            this.config.arrangement.set(
-                                Object.values(Arrangement).includes(value)
-                                    ? value
-                                    : Arrangement.Horizontal
-                            );
-                        else if (key === ANIMATION_FACTOR_KEY)
-                            this.config.animationFactor.set(
-                                typeof value === 'number' && value >= 1
-                                    ? value
-                                    : 1
-                            );
-                        else if (key === LOCALES_KEY)
-                            this.config.locales.set(value);
-                        else if (key === WRITING_LAYOUT_KEY)
-                            this.config.writingLayout.set(
-                                value === 'horizontal-tb' ||
-                                    value === 'vertical-rl' ||
-                                    value === 'vertical-lr'
-                                    ? value
-                                    : 'horizontal-tb'
-                            );
-                        else if (key === TUTORIAL_KEY)
-                            this.config.tutorial.set(value);
-                        else if (key === CAMERA_KEY)
-                            this.config.camera.set(value);
-                        else if (key === MIC_KEY) this.config.mic.set(value);
-
-                        // Remember the value locally
-                        setLocalValue(key, data[key]);
+                        (this.settings as Record<string, Setting<unknown>>)[
+                            key
+                        ].set(this, value);
                     }
                 }
             }
@@ -894,20 +835,20 @@ export const database = new Database(
     DefaultLocale
 );
 
-export const animationFactor = database.config.animationFactor;
+export const animationFactor = database.settings.animationFactor.value;
 export const animationDuration = database.animationDuration;
-export const tutorialProgress = database.config.tutorial;
-export const arrangement = database.config.arrangement;
+export const tutorialProgress = database.settings.tutorial.value;
+export const arrangement = database.settings.arrangement.value;
 export const locale = database.locale;
 export const locales = database.locales;
 export const languages = database.languages;
 export const writingDirection = database.writingDirection;
-export const writingLayout = database.config.writingLayout;
-export const camera = database.config.camera;
-export const mic = database.config.mic;
+export const writingLayout = database.settings.writingLayout.value;
+export const camera = database.settings.camera.value;
+export const mic = database.settings.mic.value;
 
-export const projects = database.getProjectsStore();
-export const status = database.getSaveStatusStore();
+export const projects = database.projectsStore;
+export const status = database.statusStore;
 
 if (import.meta.hot) {
     import.meta.hot.on('locales-update', () => {
