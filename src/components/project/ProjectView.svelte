@@ -945,8 +945,11 @@
         caret:
             layout.isFullscreen() && !layout.isSourceExpanded()
                 ? undefined
-                : Array.from($editors.values()).find((editor) => editor.focused)
-                      ?.caret,
+                : (
+                      Array.from($editors.values()).find(
+                          (editor) => editor.focused
+                      ) ?? Array.from($editors.values())[0]
+                  )?.caret,
         evaluator: $evaluator,
         database,
         fullscreen,
