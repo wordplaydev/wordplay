@@ -8,6 +8,8 @@
         database,
         locale,
         arrangement,
+        camera,
+        mic,
     } from '../../db/Database';
     import LayoutChooser from './LayoutChooser.svelte';
     import { page } from '$app/stores';
@@ -16,6 +18,8 @@
     import Arrangement from '../../db/Arrangement';
     import Status from '../app/Status.svelte';
     import { slide } from 'svelte/transition';
+    import Options from '../widgets/Options.svelte';
+    import { onMount } from 'svelte';
 
     let expanded = false;
 
@@ -40,6 +44,32 @@
         )
             goto(getBackPath($page.route.id));
     }
+
+    onMount(async () => {
+        if (
+            typeof navigator === 'undefined' ||
+            typeof navigator.mediaDevices == 'undefined'
+        ) {
+            devicesRetrieved = undefined;
+            return;
+        }
+
+        const devices = await navigator.mediaDevices.enumerateDevices();
+
+        cameras = devices.filter((device) => device.kind === 'videoinput');
+        mics = devices.filter((device) => device.kind === 'audioinput');
+        devicesRetrieved = true;
+    });
+
+    let devicesRetrieved: boolean | undefined = false;
+    let cameras: MediaDeviceInfo[] = [];
+    let mics: MediaDeviceInfo[] = [];
+
+    $: cameraDevice = $camera
+        ? cameras.find((cam) => cam.deviceId === $camera)
+        : undefined;
+
+    $: micDevice = $mic ? mics.find((m) => m.deviceId === $mic) : undefined;
 </script>
 
 <svelte:window on:keydown={handleKey} />
@@ -84,6 +114,43 @@
             >
             <LayoutChooser />
             <LanguageChooser />
+            {#if devicesRetrieved}
+                <label for="camera-setting">
+                    🎥
+                    <Options
+                        value={cameraDevice?.label}
+                        id="camera-setting"
+                        options={[
+                            undefined,
+                            ...cameras.map((device) => device.label),
+                        ]}
+                        change={(choice) =>
+                            database.setCamera(
+                                cameras.find(
+                                    (camera) => camera.label === choice
+                                )?.deviceId ?? null
+                            )}
+                        width="4em"
+                    />
+                </label>
+                <label for="mic-setting">
+                    🎤
+                    <Options
+                        value={micDevice?.label}
+                        id="mic-setting"
+                        options={[
+                            undefined,
+                            ...mics.map((device) => device.label),
+                        ]}
+                        change={(choice) =>
+                            database.setMic(
+                                mics.find((mic) => mic.label === choice)
+                                    ?.deviceId ?? null
+                            )}
+                        width="4em"
+                    />
+                </label>
+            {/if}
             <Button
                 tip={$locale.ui.description.dark}
                 action={() =>

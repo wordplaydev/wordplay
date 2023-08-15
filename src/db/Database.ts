@@ -40,6 +40,8 @@ const ANIMATION_FACTOR_KEY = 'animationFactor';
 const LOCALES_KEY = 'locales';
 const WRITING_LAYOUT_KEY = 'writingLayout';
 const TUTORIAL_KEY = 'tutorial';
+const CAMERA_KEY = 'camera';
+const MIC_KEY = 'mic';
 
 /** If true, we only persist on the device, and not in the database. */
 const deviceSpecific: Record<keyof Config, boolean> = {
@@ -49,6 +51,8 @@ const deviceSpecific: Record<keyof Config, boolean> = {
     locales: false,
     writingLayout: false,
     tutorial: false,
+    camera: true,
+    mic: true,
 };
 
 const ANIMATION_DURATION = 200;
@@ -77,6 +81,8 @@ type Config = {
     locales: Writable<SupportedLocale[]>;
     writingLayout: Writable<WritingLayout>;
     tutorial: Writable<TutorialProgress>;
+    camera: Writable<string | null>;
+    mic: Writable<string | null>;
 };
 
 function setLocalValue(key: string, value: unknown) {
@@ -113,6 +119,8 @@ export class Database {
         locales: writable(['en-US']),
         writingLayout: writable('horizontal-tb'),
         tutorial: writable(TutorialDefault),
+        camera: writable(null),
+        mic: writable(null),
     };
 
     readonly animationDuration = derived(
@@ -379,6 +387,24 @@ export class Database {
 
         this.config.tutorial.set(value);
         this.saveConfig(TUTORIAL_KEY, value);
+    }
+
+    setCamera(deviceID: string | null) {
+        this.config.camera.set(deviceID);
+        this.saveConfig(CAMERA_KEY, deviceID);
+    }
+
+    getCamera() {
+        return get(this.config.camera);
+    }
+
+    setMic(deviceID: string | null) {
+        this.config.mic.set(deviceID);
+        this.saveConfig(MIC_KEY, deviceID);
+    }
+
+    getMic() {
+        return get(this.config.mic);
     }
 
     getSaveStatusStore() {
@@ -699,6 +725,11 @@ export class Database {
         this.config.tutorial.set(
             getLocalValue<TutorialProgress>(TUTORIAL_KEY) ?? TutorialDefault
         );
+
+        this.config.camera.set(
+            getLocalValue<string | null>(CAMERA_KEY) ?? null
+        );
+        this.config.mic.set(getLocalValue<string | null>(MIC_KEY) ?? null);
     }
 
     async updateProjects(serializedProjects: SerializedProject[]) {
@@ -809,17 +840,34 @@ export class Database {
                         const value = data[key];
 
                         // See if it's a valid configuration key and value.
-                        if (key === 'layouts') this.config.layouts.set(value);
-                        else if (key === 'arrangement')
-                            this.config.arrangement.set(value);
-                        else if (key === 'animationFactor')
-                            this.config.animationFactor.set(value);
-                        else if (key === 'locales')
+                        if (key === LAYOUTS_KEY) this.config.layouts.set(value);
+                        else if (key === ARRANGEMENT_KEY)
+                            this.config.arrangement.set(
+                                Object.values(Arrangement).includes(value)
+                                    ? value
+                                    : Arrangement.Horizontal
+                            );
+                        else if (key === ANIMATION_FACTOR_KEY)
+                            this.config.animationFactor.set(
+                                typeof value === 'number' && value >= 1
+                                    ? value
+                                    : 1
+                            );
+                        else if (key === LOCALES_KEY)
                             this.config.locales.set(value);
-                        else if (key === 'writingLayout')
-                            this.config.writingLayout.set(value);
-                        else if (key === 'tutorial')
+                        else if (key === WRITING_LAYOUT_KEY)
+                            this.config.writingLayout.set(
+                                value === 'horizontal-tb' ||
+                                    value === 'vertical-rl' ||
+                                    value === 'vertical-lr'
+                                    ? value
+                                    : 'horizontal-tb'
+                            );
+                        else if (key === TUTORIAL_KEY)
                             this.config.tutorial.set(value);
+                        else if (key === CAMERA_KEY)
+                            this.config.camera.set(value);
+                        else if (key === MIC_KEY) this.config.mic.set(value);
 
                         // Remember the value locally
                         setLocalValue(key, data[key]);
@@ -855,6 +903,8 @@ export const locales = database.locales;
 export const languages = database.languages;
 export const writingDirection = database.writingDirection;
 export const writingLayout = database.config.writingLayout;
+export const camera = database.config.camera;
+export const mic = database.config.mic;
 
 export const projects = database.getProjectsStore();
 export const status = database.getSaveStatusStore();

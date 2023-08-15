@@ -2,6 +2,7 @@ import type Evaluator from '@runtime/Evaluator';
 import TemporalStreamValue from '../values/TemporalStreamValue';
 import NumberType from '../nodes/NumberType';
 import NumberValue from '@values/NumberValue';
+import { database } from '../db/Database';
 
 /** We want more deail in the frequency domain and less in the amplitude domain, but we also want to minimize how much data we analyze. */
 export const DEFAULT_FREQUENCY = 33;
@@ -83,19 +84,23 @@ export default abstract class AudioStream extends TemporalStreamValue<
             return;
         if (this.source !== undefined) return;
 
-        navigator.mediaDevices.getUserMedia({ audio: true }).then((stream) => {
-            // Don't start if we've stopped. This handles the case where an Evaluator is shutting down, but this promise hasn't resolved yet.
-            if (this.stopped) return;
+        const micID = database.getMic();
 
-            // Create an analyzer
-            this.context = new AudioContext();
-            this.analyzer = this.context.createAnalyser();
-            this.analyzer.fftSize = this.fftSize;
-            this.stream = stream;
-            this.source = this.context.createMediaStreamSource(stream);
+        navigator.mediaDevices
+            .getUserMedia({ audio: micID ? { deviceId: micID } : true })
+            .then((stream) => {
+                // Don't start if we've stopped. This handles the case where an Evaluator is shutting down, but this promise hasn't resolved yet.
+                if (this.stopped) return;
 
-            this.connect();
-        });
+                // Create an analyzer
+                this.context = new AudioContext();
+                this.analyzer = this.context.createAnalyser();
+                this.analyzer.fftSize = this.fftSize;
+                this.stream = stream;
+                this.source = this.context.createMediaStreamSource(stream);
+
+                this.connect();
+            });
     }
 
     stop() {

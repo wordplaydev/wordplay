@@ -77,6 +77,8 @@
         locales,
         arrangement,
         languages,
+        camera,
+        mic,
     } from '../../db/Database';
     import Arrangement from '../../db/Arrangement';
     import {
@@ -645,6 +647,19 @@
         );
         if (tile && tile.isCollapsed()) hideMenu();
     }
+
+    /** If the camera or mic changes, restart the evaluator to reflect to the new stream. */
+    const cameraUnsubscribe = camera.subscribe(() =>
+        database.reviseProject(project, project.clone())
+    );
+    const micUnsubscribe = mic.subscribe(() =>
+        database.reviseProject(project, project.clone())
+    );
+
+    onDestroy(() => {
+        cameraUnsubscribe();
+        micUnsubscribe();
+    });
 
     function hideMenu() {
         // Hide the menu
