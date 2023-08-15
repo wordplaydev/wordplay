@@ -94,7 +94,6 @@
         gap: var(--wordplay-spacing);
         overflow-x: scroll;
         padding: var(--wordplay-spacing);
-        min-height: 3em;
     }
 
     section.expanded {

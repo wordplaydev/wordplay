@@ -71,7 +71,6 @@
 
     .name {
         cursor: pointer;
-        padding: var(--wordplay-spacing);
     }
 
     .name:focus {

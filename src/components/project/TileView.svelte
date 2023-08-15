@@ -336,13 +336,9 @@
         flex-direction: row;
         flex-wrap: nowrap;
         align-items: center;
-        padding-top: var(--wordplay-spacing);
-        padding-left: var(--wordplay-spacing);
-        padding-right: var(--wordplay-spacing);
-        padding-bottom: 0;
+        padding: var(--wordplay-spacing);
         gap: var(--wordplay-spacing);
         width: 100%;
-        min-height: 2.75em;
         overflow-x: auto;
     }
 
