@@ -14,12 +14,12 @@ import { getDocLocales } from '@locale/getDocLocales';
 import { getNameLocales } from '@locale/getNameLocales';
 import type Expression from '@nodes/Expression';
 import type Locale from '../locale/Locale';
-import type { FunctionText } from '../locale/Locale';
+import type { FunctionText, NameAndDoc } from '../locale/Locale';
 import ListType from '../nodes/ListType';
 
 export default function bootstrapText(locales: Locale[]) {
     function createBinaryTextFunction<OutputType extends Value>(
-        functionText: (locale: Locale) => FunctionText<any>,
+        functionText: (locale: Locale) => FunctionText<NameAndDoc[]>,
         fun: (
             requestor: Expression,
             text: TextValue,

@@ -1,7 +1,7 @@
 import type Pose from './Pose';
 import type Value from '@values/Value';
 import type Color from './Color';
-import Fonts, { type FontWeight } from '../basis/Fonts';
+import Fonts, { type FontWeight, type SupportedFace } from '../basis/Fonts';
 import TextValue from '@values/TextValue';
 import TypeOutput, { createTypeOutputInputs } from './TypeOutput';
 import type RenderContext from './RenderContext';
@@ -13,7 +13,7 @@ import getTextMetrics from './getTextMetrics';
 import type Sequence from './Sequence';
 import { PX_PER_METER, sizeToPx } from './outputToCSS';
 import { getBind } from '@locale/getBind';
-import type { NameGenerator } from './Stage';
+import { CSSFallbackFaces, type NameGenerator } from './Stage';
 import type Locale from '../locale/Locale';
 import type Project from '../models/Project';
 import type { DefinitePose } from './Pose';
@@ -28,29 +28,34 @@ export function createPhraseType(locales: Locale[]) {
     return toStructure(`
     ${getBind(locales, (locale) => locale.output.Phrase, '•')} Type(
         ${getBind(locales, (locale) => locale.output.Phrase.text)}•""|[""]|\`…\`
-        ${createTypeOutputInputs(locales)}
+        ${createTypeOutputInputs(locales, false)}
+        ${getBind(locales, (locale) => locale.output.Phrase)}
     )`);
 }
+
+export type Metrics = {
+    /** The pixel width of the rendered text in its font and style. */
+    width: number;
+    /** The pixel height of the very top of the rendered text to its rendered bottom. */
+    height: number;
+    /** The pixel ascent of the font. */
+    ascent: number;
+};
 
 export default class Phrase extends TypeOutput {
     readonly text: TextLang[] | MarkupValue;
 
-    _metrics:
-        | {
-              width: number;
-              fontAscent: number;
-              actualAscent: number;
-          }
-        | undefined = undefined;
+    _metrics: Metrics | undefined = undefined;
 
     constructor(
         value: StructureValue,
         text: TextLang[] | MarkupValue,
         size: number | undefined = undefined,
-        font: string | undefined = undefined,
+        face: SupportedFace | undefined = undefined,
         place: Place | undefined = undefined,
         name: TextLang | string,
         selectable: boolean,
+        background: Color | undefined,
         pose: DefinitePose,
         entering: Pose | Sequence | undefined = undefined,
         resting: Pose | Sequence | undefined = undefined,
@@ -62,10 +67,11 @@ export default class Phrase extends TypeOutput {
         super(
             value,
             size,
-            font,
+            face,
             place,
             name,
             selectable,
+            background,
             pose,
             entering,
             resting,
@@ -79,7 +85,7 @@ export default class Phrase extends TypeOutput {
 
         // Make sure this font is loaded. This is a little late -- we could do some static analysis
         // and try to determine this in advance -- but anything can compute a font name. Maybe an optimization later.
-        if (this.font) Fonts.loadFamily(this.font);
+        if (this.face) Fonts.loadFace(this.face);
     }
 
     find(check: (output: TypeOutput) => boolean): TypeOutput | undefined {
@@ -92,7 +98,7 @@ export default class Phrase extends TypeOutput {
         );
     }
 
-    getMetrics(context: RenderContext, parsed: boolean = true) {
+    getMetrics(context: RenderContext, parsed = true) {
         // Return the cache, if there is one.
         if (parsed && this._metrics) {
             return this._metrics;
@@ -102,7 +108,7 @@ export default class Phrase extends TypeOutput {
         // 1) the animated font, if there is one
         // 2) this phrase's font, if there is one
         // 3) otherwise, the verse's font.
-        const renderedFont = this.font ?? context.font;
+        const renderedFace = this.face ?? context.face;
 
         // The size is: whatever is explicitly set, or whatever is inherited in the context.
         // 1) the explicit
@@ -114,10 +120,10 @@ export default class Phrase extends TypeOutput {
 
         // Figure out a width.
         let width = 0;
-        let fontAscent: undefined | number = 0;
-        let actualAscent: undefined | number = 0;
+        let height: undefined | number = 0;
+        let ascent: undefined | number = 0;
 
-        let formats: FormattedText[] | undefined =
+        const formats: FormattedText[] | undefined =
             text instanceof TextLang
                 ? [{ text: text.text, italic: false, weight: undefined }]
                 : text?.getFormats();
@@ -131,15 +137,18 @@ export default class Phrase extends TypeOutput {
                     // Convert the size to pixels and choose a font name.
                     `${formatted.weight ?? ''} ${
                         formatted.italic ? 'italic' : ''
-                    } ${sizeToPx(renderedSize)} ${renderedFont}`
+                    } ${sizeToPx(
+                        renderedSize
+                    )} "${renderedFace}", ${CSSFallbackFaces}`
                 );
 
                 if (metrics) {
                     width += metrics.width;
-                    fontAscent = metrics.fontBoundingBoxAscent;
-                    actualAscent = Math.max(
-                        metrics.actualBoundingBoxAscent,
-                        actualAscent
+                    ascent = metrics.fontBoundingBoxAscent;
+                    height = Math.max(
+                        metrics.actualBoundingBoxAscent +
+                            metrics.actualBoundingBoxDescent,
+                        height
                     );
                 }
             }
@@ -147,14 +156,14 @@ export default class Phrase extends TypeOutput {
 
         const dimensions = {
             width,
-            fontAscent,
-            actualAscent,
+            height,
+            ascent,
         };
         // If the font is loaded, these metrics can be trusted, so we cache them.
         if (
-            actualAscent !== undefined &&
-            fontAscent !== undefined &&
-            Fonts.isLoaded(renderedFont)
+            height !== undefined &&
+            ascent !== undefined &&
+            Fonts.isFaceLoaded(renderedFace)
         )
             this._metrics = dimensions;
 
@@ -175,8 +184,8 @@ export default class Phrase extends TypeOutput {
             top: 0,
             bottom: 0,
             width: metrics.width / PX_PER_METER,
-            height: metrics.fontAscent / PX_PER_METER,
-            actualHeight: metrics.actualAscent / PX_PER_METER,
+            height: metrics.height / PX_PER_METER,
+            ascent: metrics.ascent / PX_PER_METER,
             places: [],
         };
     }
@@ -216,7 +225,7 @@ export default class Phrase extends TypeOutput {
             text,
             this.name instanceof TextLang ? this.name.text : undefined,
             this.size,
-            this.font,
+            this.face,
             this.pose.getDescription(locales)
         ).toText();
     }
@@ -243,14 +252,15 @@ export function toPhrase(
 ): Phrase | undefined {
     if (!(value instanceof StructureValue)) return undefined;
 
-    let texts = toTextLang(getOutputInput(value, 0));
+    const texts = toTextLang(getOutputInput(value, 0));
 
     const {
         size,
-        font,
+        face: font,
         place,
         name,
         selectable,
+        background,
         pose,
         resting: rest,
         entering: enter,
@@ -273,6 +283,7 @@ export function toPhrase(
               place,
               namer?.getName(name?.text, value) ?? `${value.creator.id}`,
               selectable,
+              background,
               pose,
               enter,
               rest,
@@ -291,7 +302,7 @@ export function toText(value: Value | undefined) {
 }
 
 export function toTextLang(value: Value | undefined) {
-    let texts =
+    const texts =
         value instanceof TextValue
             ? [new TextLang(value, value.text, value.format)]
             : value instanceof ListValue &&

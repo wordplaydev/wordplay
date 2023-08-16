@@ -6,7 +6,7 @@ import type Evaluator from '@runtime/Evaluator';
 import type Step from '@runtime/Step';
 import NumberValue from '@values/NumberValue';
 import Unit from './Unit';
-import Symbol from './Symbol';
+import Sym from './Sym';
 import { BORROW_SYMBOL } from '@parser/Symbols';
 import Expression from './Expression';
 import Bind from './Bind';
@@ -66,7 +66,7 @@ export default class Borrow extends AtomicExpression {
     ) {
         super();
 
-        this.borrow = borrow ?? new Token(BORROW_SYMBOL, Symbol.Borrow);
+        this.borrow = borrow ?? new Token(BORROW_SYMBOL, Sym.Borrow);
         this.source = source;
         this.dot = dot;
         this.name = name;
@@ -77,14 +77,14 @@ export default class Borrow extends AtomicExpression {
 
     getGrammar(): Grammar {
         return [
-            { name: 'borrow', kind: node(Symbol.Borrow) },
+            { name: 'borrow', kind: node(Sym.Borrow) },
             {
                 name: 'source',
                 kind: any(node(Reference), none()),
                 space: true,
                 label: (locale: Locale) => locale.node.Borrow.source,
             },
-            { name: 'dot', kind: optional(node(Symbol.Access)) },
+            { name: 'dot', kind: optional(node(Sym.Access)) },
             {
                 name: 'name',
                 kind: optional(node(Reference)),
@@ -92,7 +92,7 @@ export default class Borrow extends AtomicExpression {
             },
             {
                 name: 'version',
-                kind: optional(node(Symbol.Number)),
+                kind: optional(node(Sym.Number)),
                 label: (locale: Locale) => locale.node.Borrow.version,
             },
         ];
@@ -140,7 +140,7 @@ export default class Borrow extends AtomicExpression {
     }
 
     getDependencies(context: Context): Expression[] {
-        const [_, def] = this.getShare(context) ?? [];
+        const [, def] = this.getShare(context) ?? [];
         return def instanceof Expression ? [def] : [];
     }
 
@@ -237,7 +237,7 @@ export default class Borrow extends AtomicExpression {
     }
 
     computeType(context: Context): Type {
-        const [_, definition] = this.getShare(context) ?? [];
+        const [, definition] = this.getShare(context) ?? [];
         return definition === undefined
             ? new UnknownNameType(this, this.name?.name, undefined)
             : definition.getType(context);
@@ -291,7 +291,7 @@ export default class Borrow extends AtomicExpression {
         return Glyphs.Borrow;
     }
 
-    getDescriptionInputs(_: Locale, __: Context) {
+    getDescriptionInputs() {
         return [this.name?.getName()];
     }
 }

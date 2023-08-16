@@ -34,7 +34,7 @@ import Names from './Names';
 import Evaluation from '@runtime/Evaluation';
 import BoolValue from '@values/BoolValue';
 import { SELECT_SYMBOL, TABLE_CLOSE_SYMBOL } from '../parser/Symbols';
-import Symbol from './Symbol';
+import Sym from './Sym';
 import Token from './Token';
 import ExpressionPlaceholder from './ExpressionPlaceholder';
 
@@ -63,9 +63,9 @@ export default class Select extends Expression {
         return new Select(
             table,
             new Row(
-                new Token(SELECT_SYMBOL, Symbol.Select),
+                new Token(SELECT_SYMBOL, Sym.Select),
                 [],
-                new Token(TABLE_CLOSE_SYMBOL, Symbol.TableClose)
+                new Token(TABLE_CLOSE_SYMBOL, Sym.TableClose)
             ),
             query
         );

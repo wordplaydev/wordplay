@@ -7,5 +7,6 @@
         font-weight: bold;
         margin-top: 2em;
         margin-bottom: calc(var(--wordplay-spacing) / 2);
+        text-align: center;
     }
 </style>

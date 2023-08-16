@@ -7,7 +7,6 @@ import Place from './Place';
 import toStructure from '../basis/toStructure';
 import NumberValue from '@values/NumberValue';
 import Decimal from 'decimal.js';
-import { toColor } from './Color';
 import ListValue from '@values/ListValue';
 import { getBind } from '@locale/getBind';
 import BoolValue from '@values/BoolValue';
@@ -20,28 +19,25 @@ import concretize from '../locale/concretize';
 import type Locale from '../locale/Locale';
 import type Project from '../models/Project';
 import { getOutputInput } from './Output';
+import type { SupportedFace } from '../basis/Fonts';
 
-export const DefaultFont = `'Noto Sans', 'Noto Color Emoji'`;
+export const CSSFallbackFaces = `"Noto Color Emoji"`;
 export const DefaultSize = 1;
 
 export function createStageType(locales: Locale[]) {
     return toStructure(`
     ${getBind(locales, (locale) => locale.output.Stage, '•')} Type(
         ${getBind(locales, (locale) => locale.output.Stage.content)}•[Type]
-        ${getBind(
-            locales,
-            (locale) => locale.output.Stage.background
-        )}•Color: Color(100 0 0°)
         ${getBind(locales, (locale) => locale.output.Stage.frame)}•Shape|ø: ø
-        ${createTypeOutputInputs(locales)}
+        ${createTypeOutputInputs(locales, true)}
     )
 `);
 }
 
 export default class Stage extends TypeOutput {
     readonly content: (TypeOutput | null)[];
-    readonly background: Color;
     readonly frame: Shape | undefined;
+    readonly back: Color;
 
     constructor(
         value: Value,
@@ -49,7 +45,7 @@ export default class Stage extends TypeOutput {
         background: Color,
         frame: Shape | undefined = undefined,
         size: number,
-        font: string,
+        face: SupportedFace,
         place: Place | undefined = undefined,
         name: TextLang | string,
         selectable: boolean,
@@ -58,16 +54,17 @@ export default class Stage extends TypeOutput {
         resting: Pose | Sequence | undefined = undefined,
         moveing: Pose | Sequence | undefined = undefined,
         exiting: Pose | Sequence | undefined = undefined,
-        duration: number = 0,
+        duration = 0,
         style: string | undefined = 'zippy'
     ) {
         super(
             value,
             size,
-            font,
+            face,
             place,
             name,
             selectable,
+            background,
             pose,
             entering,
             resting,
@@ -78,8 +75,8 @@ export default class Stage extends TypeOutput {
         );
 
         this.content = content;
-        this.background = background;
         this.frame = frame;
+        this.back = background;
     }
 
     getOutput() {
@@ -134,7 +131,7 @@ export default class Stage extends TypeOutput {
             bottom,
             width: right - left,
             height: top - bottom,
-            actualHeight: top - bottom,
+            ascent: top - bottom,
             places,
         };
     }
@@ -162,8 +159,6 @@ export class NameGenerator {
     /** Number visible phrases, giving them unique IDs to key off of. */
     readonly counter = new Map<number, number>();
     readonly names = new Map<string, number>();
-
-    constructor() {}
 
     getName(name: string | undefined, value: Value) {
         // If given a name, make sure it's not a duplicate,
@@ -198,15 +193,15 @@ export function toStage(project: Project, value: Value): Stage | undefined {
             possibleGroups instanceof ListValue
                 ? toTypeOutputList(project, possibleGroups, namer)
                 : toTypeOutput(project, possibleGroups, namer);
-        const background = toColor(getOutputInput(value, 1));
-        const frame = toShape(getOutputInput(value, 2));
+        const frame = toShape(getOutputInput(value, 1));
 
         const {
             size,
-            font,
+            face: font,
             place,
             name,
             selectable,
+            background,
             pose,
             resting: rest,
             entering: enter,
@@ -214,7 +209,7 @@ export function toStage(project: Project, value: Value): Stage | undefined {
             exiting: exit,
             duration,
             style,
-        } = getStyle(project, value, 3);
+        } = getStyle(project, value, 2);
 
         return content !== undefined &&
             background !== undefined &&
@@ -228,7 +223,7 @@ export function toStage(project: Project, value: Value): Stage | undefined {
                   background,
                   frame,
                   size ?? DefaultSize,
-                  font ?? DefaultFont,
+                  font ?? project.locales[0].ui.font.app,
                   place,
                   namer.getName(name?.text, value),
                   selectable,
@@ -260,7 +255,7 @@ export function toStage(project: Project, value: Value): Stage | undefined {
                   ),
                   undefined,
                   DefaultSize,
-                  DefaultFont,
+                  project.locales[0].ui.font.app,
                   undefined,
                   namer.getName(undefined, value),
                   type.selectable,

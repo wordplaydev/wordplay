@@ -10,7 +10,10 @@ import TextLang from './TextLang';
 import type Pose from './Pose';
 import type { DefinitePose } from './Pose';
 import type RenderContext from './RenderContext';
-import Fonts, { SupportedFontsFamiliesType } from '../basis/Fonts';
+import Fonts, {
+    SupportedFontsFamiliesType,
+    type SupportedFace,
+} from '../basis/Fonts';
 import type Locale from '../locale/Locale';
 
 export function createTypeType(locales: Locale[]) {
@@ -21,23 +24,42 @@ export function createTypeType(locales: Locale[]) {
 
 export const DefaultStyle = 'zippy';
 
-export function createTypeOutputInputs(locales: Locale[]) {
+export function createTypeOutputInputs(locales: Locale[], stage: boolean) {
     return `
-${getBind(locales, (locale) => locale.output.Type.size)}•#m: 1m
+${getBind(locales, (locale) => locale.output.Type.size)}•${
+        stage ? '#m: 1m' : '#m|ø: ø'
+    }
 ${getBind(
     locales,
-    (locale) => locale.output.Type.family
-)}•${SupportedFontsFamiliesType}|ø: ø
-${getBind(locales, (locale) => locale.output.Type.place)}•ø|📍: ø
+    (locale) => locale.output.Type.face
+)}•${SupportedFontsFamiliesType}${
+        stage ? `: "${locales[0].ui.font.app}"` : '|ø: ø'
+    }
+${getBind(locales, (locale) => locale.output.Type.place)}•📍|ø: ø
 ${getBind(locales, (locale) => locale.output.Type.name)}•""|ø: ø
 ${getBind(locales, (locale) => locale.output.Type.selectable)}•?: ⊥
-${getBind(locales, (locale) => locale.output.Pose.color)}•🌈|ø: ø
-${getBind(locales, (locale) => locale.output.Pose.opacity)}•%|ø: ø
+${getBind(locales, (locale) => locale.output.Type.color)}•🌈${
+        stage ? ': Color(0% 0 0°)' : '|ø: ø'
+    }
+${getBind(locales, (locale) => locale.output.Type.background)}•Color${
+        stage ? ': Color(100% 0 0°)' : '|ø: ø'
+    }
+${getBind(locales, (locale) => locale.output.Pose.opacity)}•%${
+        stage ? ': 1' : '|ø: ø'
+    }
 ${getBind(locales, (locale) => locale.output.Pose.offset)}•📍|ø: ø
-${getBind(locales, (locale) => locale.output.Type.rotation)}•#°|ø: ø
-${getBind(locales, (locale) => locale.output.Pose.scale)}•#|ø: ø
-${getBind(locales, (locale) => locale.output.Pose.flipx)}•?|ø: ø
-${getBind(locales, (locale) => locale.output.Pose.flipy)}•?|ø: ø
+${getBind(locales, (locale) => locale.output.Type.rotation)}•#°${
+        stage ? ': 0°' : '|ø: ø'
+    }
+${getBind(locales, (locale) => locale.output.Pose.scale)}•#${
+        stage ? ': 1' : '|ø: ø'
+    }
+${getBind(locales, (locale) => locale.output.Pose.flipx)}•?${
+        stage ? ': ⊥' : '|ø: ø'
+    }
+${getBind(locales, (locale) => locale.output.Pose.flipy)}•?${
+        stage ? ': ⊥' : '|ø: ø'
+    }
 ${getBind(locales, (locale) => locale.output.Type.entering)}•ø|🤪|💃: ø
 ${getBind(locales, (locale) => locale.output.Type.resting)}•ø|🤪|💃: ø
 ${getBind(locales, (locale) => locale.output.Type.moving)}•ø|🤪|💃: ø
@@ -55,10 +77,11 @@ ${getBind(locales, (locale) => locale.output.Type.style)}•${locales
 /** Every group has the same style information. */
 export default abstract class TypeOutput extends Output {
     readonly size: number | undefined;
-    readonly font: string | undefined;
+    readonly face: SupportedFace | undefined;
     readonly place: Place | undefined;
     readonly name: TextLang | string;
     readonly selectable: boolean;
+    readonly background: Color | undefined;
     readonly pose: DefinitePose;
     readonly entering: Pose | Sequence | undefined;
     readonly resting: Pose | Sequence | undefined;
@@ -70,10 +93,11 @@ export default abstract class TypeOutput extends Output {
     constructor(
         value: Value,
         size: number | undefined = undefined,
-        font: string | undefined = undefined,
+        font: SupportedFace | undefined = undefined,
         place: Place | undefined = undefined,
         name: TextLang | string,
         selectable: boolean,
+        background: Color | undefined,
         pose: DefinitePose,
         entry: Pose | Sequence | undefined = undefined,
         resting: Pose | Sequence | undefined = undefined,
@@ -85,10 +109,11 @@ export default abstract class TypeOutput extends Output {
         super(value);
 
         this.size = size ? Math.max(0, size) : size;
-        this.font = font;
+        this.face = font;
         this.place = place;
         this.name = name;
         this.selectable = selectable;
+        this.background = background;
         this.pose = pose;
         this.entering = entry;
         this.resting = resting;
@@ -97,7 +122,7 @@ export default abstract class TypeOutput extends Output {
         this.duration = duration;
         this.style = style;
 
-        if (this.font) Fonts.loadFamily(this.font);
+        if (this.face) Fonts.loadFace(this.face);
     }
 
     abstract getLayout(context: RenderContext): {
@@ -108,7 +133,7 @@ export default abstract class TypeOutput extends Output {
         bottom: number;
         width: number;
         height: number;
-        actualHeight: number;
+        ascent: number;
         places: [TypeOutput, Place][];
     };
 
@@ -139,7 +164,7 @@ export default abstract class TypeOutput extends Output {
     }
 
     getRenderContext(context: RenderContext) {
-        return context.withFontAndSize(this.font, this.size);
+        return context.withFontAndSize(this.face, this.size);
     }
 
     getHTMLID(): string {

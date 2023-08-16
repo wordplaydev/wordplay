@@ -8,7 +8,7 @@ import { NotANumber } from '@conflicts/NotANumber';
 import type Bind from './Bind';
 import type Context from './Context';
 import type TypeSet from './TypeSet';
-import Symbol from './Symbol';
+import Sym from './Sym';
 import Node, { node, type Grammar, type Replacement, optional } from './Node';
 import type Locale from '@locale/Locale';
 import NodeRef from '@locale/NodeRef';
@@ -34,7 +34,7 @@ export default class NumberLiteral extends Literal {
         this.computeChildren();
     }
 
-    static make(number?: number | string, unit?: Unit, ...types: Symbol[]) {
+    static make(number?: number | string, unit?: Unit, ...types: Sym[]) {
         return new NumberLiteral(
             new Token(
                 number === undefined
@@ -42,7 +42,7 @@ export default class NumberLiteral extends Literal {
                     : typeof number === 'number'
                     ? '' + number
                     : number,
-                types.length === 0 ? Symbol.Decimal : types
+                types.length === 0 ? Sym.Decimal : types
             ),
             unit === undefined ? Unit.Empty : unit
         );
@@ -71,20 +71,15 @@ export default class NumberLiteral extends Literal {
                           numberType.unit instanceof Unit
                               ? numberType.unit.clone()
                               : undefined,
-                          Symbol.Number,
-                          Symbol.Decimal
+                          Sym.Number,
+                          Sym.Decimal
                       )
             );
         } else {
             return [
-                NumberLiteral.make(0, undefined, Symbol.Number, Symbol.Decimal),
-                NumberLiteral.make('π', undefined, Symbol.Number, Symbol.Pi),
-                NumberLiteral.make(
-                    '∞',
-                    undefined,
-                    Symbol.Number,
-                    Symbol.Infinity
-                ),
+                NumberLiteral.make(0, undefined, Sym.Number, Sym.Decimal),
+                NumberLiteral.make('π', undefined, Sym.Number, Sym.Pi),
+                NumberLiteral.make('∞', undefined, Sym.Number, Sym.Infinity),
             ];
         }
     }
@@ -95,7 +90,7 @@ export default class NumberLiteral extends Literal {
 
     getGrammar(): Grammar {
         return [
-            { name: 'number', kind: node(Symbol.Number), uncompletable: true },
+            { name: 'number', kind: node(Sym.Number), uncompletable: true },
             { name: 'unit', kind: optional(node(Unit)) },
         ];
     }

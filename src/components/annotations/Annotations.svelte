@@ -17,10 +17,10 @@
     import type Evaluator from '@runtime/Evaluator';
     import type Project from '../../models/Project';
     import { getEvaluation } from '../project/Contexts';
-    import { config } from '../../db/Database';
     import type Markup from '../../nodes/Markup';
     import concretize from '../../locale/concretize';
     import type Source from '../../nodes/Source';
+    import { locale, locales } from '../../db/Database';
 
     export let project: Project;
     export let evaluator: Evaluator;
@@ -53,30 +53,22 @@
                         node: node,
                         element: view,
                         messages: $evaluation?.step
-                            ? $config
-                                  .getLocales()
-                                  .map((locale) =>
-                                      (
-                                          $evaluation?.step as Step
-                                      ).getExplanations(locale, evaluator)
+                            ? $locales.map((locale) =>
+                                  ($evaluation?.step as Step).getExplanations(
+                                      locale,
+                                      evaluator
                                   )
+                              )
                             : evaluator.steppedToNode() && evaluator.isDone()
-                            ? $config
-                                  .getLocales()
-                                  .map((locale) =>
-                                      concretize(
-                                          locale,
-                                          locale.node.Program.unevaluated
-                                      )
+                            ? $locales.map((locale) =>
+                                  concretize(
+                                      locale,
+                                      locale.node.Program.unevaluated
                                   )
-                            : $config
-                                  .getLocales()
-                                  .map((locale) =>
-                                      concretize(
-                                          locale,
-                                          locale.node.Program.done
-                                      )
-                                  ),
+                              )
+                            : $locales.map((locale) =>
+                                  concretize(locale, locale.node.Program.done)
+                              ),
                         kind: 'step',
                     },
                 ];
@@ -98,19 +90,17 @@
                                   {
                                       node: primary.node,
                                       element: getNodeView(primary.node),
-                                      messages: $config
-                                          .getLocales()
-                                          .map((locale) =>
-                                              primary.explanation(
-                                                  locale,
-                                                  project.getNodeContext(
-                                                      primary.node
-                                                  ) ??
-                                                      project.getContext(
-                                                          project.main
-                                                      )
-                                              )
-                                          ),
+                                      messages: $locales.map((locale) =>
+                                          primary.explanation(
+                                              locale,
+                                              project.getNodeContext(
+                                                  primary.node
+                                              ) ??
+                                                  project.getContext(
+                                                      project.main
+                                                  )
+                                          )
+                                      ),
                                       kind: conflict.isMinor()
                                           ? ('minor' as const)
                                           : ('primary' as const),
@@ -123,16 +113,14 @@
                                   {
                                       node: secondary.node,
                                       element: getNodeView(secondary.node),
-                                      messages: $config
-                                          .getLocales()
-                                          .map((locale) =>
-                                              secondary.explanation(
-                                                  locale,
-                                                  project.getNodeContext(
-                                                      secondary.node
-                                                  )
+                                      messages: $locales.map((locale) =>
+                                          secondary.explanation(
+                                              locale,
+                                              project.getNodeContext(
+                                                  secondary.node
                                               )
-                                          ),
+                                          )
+                                      ),
                                       kind: 'secondary' as const,
                                   },
                               ]
@@ -197,7 +185,7 @@
 </script>
 
 <!-- Render annotations by node -->
-<section aria-label={$config.getLocale().ui.section.conflicts}>
+<section aria-label={$locale.ui.section.conflicts}>
     {#each Array.from(annotationsByNode.values()) as annotations, index}
         <Annotation id={index} {annotations} />
     {/each}

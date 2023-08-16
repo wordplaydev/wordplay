@@ -1,0 +1,29 @@
+{
+    "extends": [
+        "eslint:recommended",
+        "plugin:@typescript-eslint/recommended",
+        "plugin:compat/recommended",
+        "plugin:svelte/recommended"
+    ],
+    "parser": "@typescript-eslint/parser",
+    "overrides": [
+        {
+            "files": ["*.svelte"],
+            "parser": "svelte-eslint-parser",
+            "parserOptions": {
+                "parser": "@typescript-eslint/parser"
+            }
+        },
+        {
+            "files": ["*.ts", "*.svelte"],
+            "rules": {
+                "no-undef": "off"
+            }
+        }
+    ],
+    "plugins": ["@typescript-eslint", "compat"],
+    "root": true,
+    "env": {
+        "browser": true
+    }
+}

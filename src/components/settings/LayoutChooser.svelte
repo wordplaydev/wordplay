@@ -1,11 +1,11 @@
 <script lang="ts">
-    import { config } from '../../db/Database';
+    import { database, writingLayout } from '../../db/Database';
 
     function toggleLayout() {
-        $config.setWritingLayout(
-            $config.getWritingLayout() === 'horizontal-tb'
+        database.setWritingLayout(
+            $writingLayout === 'horizontal-tb'
                 ? 'vertical-rl'
-                : $config.getWritingLayout() === 'vertical-rl'
+                : $writingLayout === 'vertical-rl'
                 ? 'vertical-lr'
                 : 'horizontal-tb'
         );
@@ -16,7 +16,7 @@
     <div
         role="button"
         class="layout"
-        style:writing-mode={$config.getWritingLayout()}
+        style:writing-mode={$writingLayout}
         tabindex="0"
         on:pointerdown|stopPropagation={toggleLayout}
         on:keydown={(event) =>
@@ -36,8 +36,7 @@
 
     .layout {
         font-size: 50%;
-        max-width: 5em;
-        max-height: 5em;
+        min-width: 4em;
         cursor: pointer;
         user-select: none;
     }

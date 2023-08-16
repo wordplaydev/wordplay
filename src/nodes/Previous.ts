@@ -15,7 +15,7 @@ import type Bind from './Bind';
 import type TypeSet from './TypeSet';
 import TypeException from '@values/TypeException';
 import AnyType from './AnyType';
-import Symbol from './Symbol';
+import Sym from './Sym';
 import { PREVIOUS_SYMBOL } from '@parser/Symbols';
 import Start from '@runtime/Start';
 import UnionType from './UnionType';
@@ -53,10 +53,10 @@ export default class Previous extends Expression {
         this.computeChildren();
     }
 
-    static make(stream: Expression, index: Expression, range: boolean = false) {
+    static make(stream: Expression, index: Expression, range = false) {
         return new Previous(
-            new Token(PREVIOUS_SYMBOL, Symbol.Previous),
-            range ? new Token(PREVIOUS_SYMBOL, Symbol.Previous) : undefined,
+            new Token(PREVIOUS_SYMBOL, Sym.Previous),
+            range ? new Token(PREVIOUS_SYMBOL, Sym.Previous) : undefined,
             index,
             stream
         );
@@ -78,10 +78,10 @@ export default class Previous extends Expression {
 
     getGrammar(): Grammar {
         return [
-            { name: 'previous', kind: node(Symbol.Previous) },
+            { name: 'previous', kind: node(Sym.Previous) },
             {
                 name: 'range',
-                kind: optional(node(Symbol.Previous)),
+                kind: optional(node(Sym.Previous)),
             },
             {
                 name: 'number',

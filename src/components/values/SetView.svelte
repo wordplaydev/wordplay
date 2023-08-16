@@ -3,13 +3,13 @@
 <script lang="ts">
     import type SetValue from '@values/SetValue';
     import SymbolView from './SymbolView.svelte';
-    import Symbol from '@nodes/Symbol';
+    import Sym from '@nodes/Sym';
     import ValueView from './ValueView.svelte';
     import { SET_CLOSE_SYMBOL, SET_OPEN_SYMBOL } from '@parser/Symbols';
     import Expandable from './Expandable.svelte';
 
     export let value: SetValue;
-    export let inline: boolean = true;
+    export let inline = true;
 
     const Limit = 3;
 </script>
@@ -18,7 +18,7 @@
 {#if inline}
     <SymbolView
         symbol={SET_OPEN_SYMBOL}
-        type={Symbol.SetOpen}
+        type={Sym.SetOpen}
     />{#if value.values.length > Limit}<Expandable
             ><svelte:fragment slot="expanded"
                 >{#each value.values as item, index}<ValueView
@@ -36,14 +36,14 @@
                 {inline}
             />{#if index < value.values.length - 1}{' '}{/if}{/each}{/if}<SymbolView
         symbol={SET_CLOSE_SYMBOL}
-        type={Symbol.SetClose}
+        type={Sym.SetClose}
     />
     <!-- Block sets are like inline, but not collapsed -->
 {:else}
-    <SymbolView symbol={SET_OPEN_SYMBOL} type={Symbol.SetOpen} />
+    <SymbolView symbol={SET_OPEN_SYMBOL} type={Sym.SetOpen} />
     {#each value.values as item, index}<ValueView
             value={item}
             {inline}
         />{#if index < value.values.length - 1}{' '}{/if}{/each}
-    <SymbolView symbol={SET_CLOSE_SYMBOL} type={Symbol.SetClose} />
+    <SymbolView symbol={SET_CLOSE_SYMBOL} type={Sym.SetClose} />
 {/if}

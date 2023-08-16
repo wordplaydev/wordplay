@@ -1,6 +1,6 @@
 <script lang="ts">
     export let to: string;
-    export let external: boolean = false;
+    export let external = false;
 </script>
 
 <a href={to} target={external ? '_blank' : null}><slot /></a>

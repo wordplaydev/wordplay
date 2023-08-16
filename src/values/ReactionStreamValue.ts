@@ -19,9 +19,16 @@ export default class ReactionStream extends StreamValue<Value, null> {
         this.reaction = reaction;
     }
 
-    start(): void {}
-    stop() {}
-    react() {}
+    start() {
+        return;
+    }
+    stop() {
+        return;
+    }
+    react() {
+        return;
+    }
+
     getType(context: Context) {
         return this.reaction.getType(context);
     }
@@ -30,7 +37,7 @@ export default class ReactionStream extends StreamValue<Value, null> {
 /** This isn't ever actually used, it's just here to meet the requirements of the Stream interface. */
 const ReactionDefinition = StreamDefinition.make(
     getDocLocales([], (t) => t.node.Reaction.doc),
-    getNameLocales([], (t) => STREAM_SYMBOL),
+    getNameLocales([], () => STREAM_SYMBOL),
     [],
     ExpressionPlaceholder.make(),
     new AnyType()

@@ -19,7 +19,14 @@
     } from '../project/Contexts';
     import type Evaluator from '@runtime/Evaluator';
     import type PaintingConfiguration from './PaintingConfiguration';
-    import { config } from '../../db/Database';
+    import {
+        animationFactor,
+        database,
+        locale,
+        locales,
+        writingDirection,
+        writingLayout,
+    } from '../../db/Database';
     import type Color from '../../output/Color';
     import Key from '../../input/Key';
     import { PX_PER_METER, rootScale } from '../../output/outputToCSS';
@@ -39,11 +46,11 @@
     export let evaluator: Evaluator;
     export let value: Value | undefined;
     export let fullscreen: boolean;
-    export let fit: boolean = true;
-    export let grid: boolean = false;
-    export let painting: boolean = false;
+    export let fit = true;
+    export let grid = false;
+    export let painting = false;
     export let paintingConfig: PaintingConfiguration | undefined = undefined;
-    export let mini: boolean = false;
+    export let mini = false;
     export let background: Color | string | null = null;
 
     $: interactive = !mini;
@@ -85,7 +92,7 @@
     let keyboardInputView: HTMLInputElement | undefined = undefined;
 
     /** When creator's preferred animation factor changes, update evaluator */
-    $: evaluator.updateTimeMultiplier($config.getAnimationFactor());
+    $: evaluator.updateTimeMultiplier($animationFactor);
 
     function handleKeyUp(event: KeyboardEvent) {
         keysDown.set(event.key, false);
@@ -207,7 +214,7 @@
                     event.key === 'Backspace' &&
                     (event.metaKey || event.ctrlKey)
                 ) {
-                    $config.reviseProjectNodes(project, [
+                    database.reviseProjectNodes(project, [
                         [evaluate, undefined],
                     ]);
                     event.stopPropagation();
@@ -396,7 +403,7 @@
                     : // If there's selected output, it's the first output selected
                     $selectedOutput && $selectedOutput.length > 0
                     ? getPlace(
-                          $config.getLocale(),
+                          $locale,
                           $selectedOutput[0],
                           evaluator.project.getNodeContext($selectedOutput[0])
                       )
@@ -474,11 +481,11 @@
 
                         // Add the stroke to the project's verse
                         if (strokeNodeID === undefined) {
-                            addStageContent($config, project, group);
+                            addStageContent(database, project, group);
                         } else {
                             const node = project.getNodeByID(strokeNodeID);
                             if (node)
-                                $config.reviseProjectNodes(project, [
+                                database.reviseProjectNodes(project, [
                                     [node, group],
                                 ]);
                         }
@@ -498,10 +505,10 @@
                         )
                     ) {
                         moveOutput(
-                            $config,
+                            database,
                             project,
                             $selectedOutput,
-                            $config.getLocales(),
+                            $locales,
                             newX,
                             newY,
                             false
@@ -717,10 +724,10 @@
     class="output"
     data-uuid="stage"
     role="application"
-    aria-label={$config.getLocale().ui.section.output}
+    aria-label={$locale.ui.section.output}
     class:mini
-    style:direction={$config.getWritingDirection()}
-    style:writing-mode={$config.getWritingLayout()}
+    style:direction={$writingDirection}
+    style:writing-mode={$writingLayout}
 >
     <div
         class="value"
@@ -760,7 +767,7 @@
                         invert
                     >
                         <svelte:fragment slot="content">
-                            {#each $config.getLocales() as locale}
+                            {#each $locales as locale}
                                 <MarkupHTMLView
                                     markup={exception.getExplanation(locale)}
                                 />
@@ -778,13 +785,11 @@
                     <ValueView {value} interactive={false} />
                 {:else}
                     <h2
-                        >{$config
-                            .getLocales()
-                            .map((locale) =>
-                                value === undefined
-                                    ? undefined
-                                    : value.getDescription(locale).toText()
-                            )}</h2
+                        >{$locales.map((locale) =>
+                            value === undefined
+                                ? undefined
+                                : value.getDescription(locale).toText()
+                        )}</h2
                     >
                     <ValueView {value} inline={false} />
                 {/if}

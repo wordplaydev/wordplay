@@ -21,7 +21,7 @@ export default class MissingCell extends Conflict {
         return {
             primary: {
                 node: this.cell,
-                explanation: (locale: Locale, context: Context) =>
+                explanation: (locale: Locale) =>
                     concretize(
                         locale,
                         locale.node.Row.conflict.ExtraCell.primary

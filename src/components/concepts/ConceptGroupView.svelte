@@ -3,11 +3,11 @@
     import type Concept from '@concepts/Concept';
     import CodeView from './CodeView.svelte';
     import Note from '../widgets/Note.svelte';
-    import { config } from '../../db/Database';
+    import { animationDuration } from '../../db/Database';
 
     export let concepts: Concept[];
 
-    let expanded: boolean = false;
+    let expanded = false;
 
     function toggle() {
         expanded = !expanded;
@@ -19,7 +19,7 @@
         {#if expanded || index < 3}
             <span
                 transition:slide|local={{
-                    duration: $config.getAnimationDuration(),
+                    duration: $animationDuration,
                 }}
             >
                 <CodeView {concept} node={concept.getRepresentation()} />

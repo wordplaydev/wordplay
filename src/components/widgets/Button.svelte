@@ -3,14 +3,14 @@
 <script lang="ts">
     export let tip: string;
     export let action: () => void;
-    export let active: boolean = true;
-    export let stretch: boolean = false;
-    export let submit: boolean = false;
+    export let active = true;
+    export let stretch = false;
+    export let submit = false;
     export let uiid: string | undefined = undefined;
     export let classes: string | undefined = undefined;
-    export let scale: boolean = true;
+    export let scale = true;
     export let view: HTMLButtonElement | undefined = undefined;
-    export let large: boolean = false;
+    export let large = false;
 
     async function doAction(event: Event) {
         if (active) {

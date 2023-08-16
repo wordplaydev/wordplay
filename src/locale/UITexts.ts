@@ -1,7 +1,12 @@
+import type { SupportedFaces } from '../basis/Fonts';
 import type EditTexts from './EditTexts';
 import type { DocText, Template } from './Locale';
 
 type UITexts = {
+    font: {
+        app: (typeof SupportedFaces)[number];
+        code: (typeof SupportedFaces)[number];
+    };
     phrases: {
         /** Used to address someone or say hi, on the login screen. */
         welcome: string;
@@ -215,6 +220,11 @@ type UITexts = {
     feedback: {
         unknownProject: string;
         loading: string;
+        save: {
+            saving: string;
+            saved: string;
+            unsaved: string;
+        };
     };
     login: {
         header: string;
@@ -233,6 +243,7 @@ type UITexts = {
     };
     edit: EditTexts;
     error: {
+        notfound: { header: string; message: string };
         tutorial: string;
         /** The placeholder indicating that a locale string is not yet written */
         unwritten: string;

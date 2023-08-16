@@ -30,7 +30,7 @@ export default class Placement extends StreamValue<
 > {
     readonly evaluator: Evaluator;
 
-    on: boolean = false;
+    on = false;
 
     x: number;
     y: number;

@@ -6,6 +6,8 @@ import BinaryEvaluate from './BinaryEvaluate';
 import { test, expect } from 'vitest';
 import IncompatibleInput from '../conflicts/IncompatibleInput';
 import { DefaultLocale } from '../db/Database';
+import type Node from './Node';
+import type Conflict from '../conflicts/Conflict';
 
 test.each([
     ['⊥ ? 2 3"', '1 ? 2 3', Conditional, ExpectedBooleanCondition],
@@ -78,8 +80,8 @@ test.each([
     (
         good: string,
         bad: string,
-        node: Function,
-        conflict: Function,
+        node: new (...params: never[]) => Node,
+        conflict: new (...params: never[]) => Conflict,
         number?: number
     ) => {
         testConflict(good, bad, node, conflict, number);

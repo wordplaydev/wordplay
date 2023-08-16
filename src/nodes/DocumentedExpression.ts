@@ -38,7 +38,9 @@ export default class DocumentedExpression extends AtomicExpression {
         return Purpose.Document;
     }
 
-    computeConflicts() {}
+    computeConflicts() {
+        return;
+    }
 
     computeType(context: Context): Type {
         return this.expression.getType(context);

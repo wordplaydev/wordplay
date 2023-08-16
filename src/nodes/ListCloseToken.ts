@@ -1,9 +1,9 @@
 import { LIST_CLOSE_SYMBOL } from '@parser/Symbols';
 import Token from './Token';
-import Symbol from './Symbol';
+import Sym from './Sym';
 
 export default class ListCloseToken extends Token {
     constructor() {
-        super(LIST_CLOSE_SYMBOL, Symbol.ListClose);
+        super(LIST_CLOSE_SYMBOL, Sym.ListClose);
     }
 }

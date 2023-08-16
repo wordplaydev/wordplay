@@ -10,7 +10,7 @@ import type StreamValue from '../values/StreamValue';
 
 export default function createStreamEvaluator<Kind extends StreamValue>(
     valueType: Type,
-    streamType: new (...params: any[]) => Kind,
+    streamType: new (...params: never[]) => Kind,
     create: (evaluation: Evaluation) => Kind | ExceptionValue,
     update: (stream: Kind, evaluation: Evaluation) => void
 ) {

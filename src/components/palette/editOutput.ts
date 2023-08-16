@@ -11,8 +11,6 @@ import Decimal from 'decimal.js';
 import TextLiteral from '../../nodes/TextLiteral';
 import ListLiteral from '../../nodes/ListLiteral';
 import { toExpression } from '../../parser/Parser';
-import { config } from '../../db/Database';
-import { get } from 'svelte/store';
 import type Locale from '../../locale/Locale';
 import FormattedLiteral from '../../nodes/FormattedLiteral';
 import Convert from '../../nodes/Convert';
@@ -126,7 +124,7 @@ export function createPlaceholderPhrase(database: Database, project: Project) {
         Reference.make(
             PhraseType.names.getPreferredNameString(project.locales)
         ),
-        [TextLiteral.make(get(config).getLocale().ui.phrases.welcome)]
+        [TextLiteral.make(project.locales[0].ui.phrases.welcome)]
     );
 }
 
@@ -139,7 +137,6 @@ export function addContent(
 ) {
     const GroupType = project.shares.output.Group;
     const RowType = project.shares.output.Row;
-    const locales = get(config).getLocales();
     const newPhrase = createPlaceholderPhrase(database, project);
     reviseContent(database, project, list, [
         ...list.values.slice(0, index + 1),
@@ -148,12 +145,14 @@ export function addContent(
             : // Create a group with a Row layout and a single phrase
               Evaluate.make(
                   Reference.make(
-                      GroupType.names.getPreferredNameString(locales)
+                      GroupType.names.getPreferredNameString(project.locales)
                   ),
                   [
                       Evaluate.make(
                           Reference.make(
-                              RowType.names.getPreferredNameString(locales)
+                              RowType.names.getPreferredNameString(
+                                  project.locales
+                              )
                           ),
                           []
                       ),
@@ -310,7 +309,6 @@ export function addSoloPhrase(database: Database, project: Project) {
     phrase = Evaluate.make(Reference.make(PHRASE_SYMBOL), [text]);
 
     database.reviseProject(
-        project,
         project.withRevisedNodes([
             last ? [last, phrase] : [block, block.withStatement(phrase)],
         ])
@@ -319,7 +317,7 @@ export function addSoloPhrase(database: Database, project: Project) {
 
 export function addGroup(database: Database, project: Project) {
     // Find the solo phrase. If there isn't one, bail.
-    let phrase = getSoloPhrase(project);
+    const phrase = getSoloPhrase(project);
     if (phrase === undefined) return;
 
     // Build a new group, wrapping the phrase.
@@ -332,10 +330,7 @@ export function addGroup(database: Database, project: Project) {
     ]);
 
     // Replace the phrase with the group.
-    database.reviseProject(
-        project,
-        project.withRevisedNodes([[phrase, group]])
-    );
+    database.reviseProject(project.withRevisedNodes([[phrase, group]]));
 }
 
 export function addStage(
@@ -359,7 +354,6 @@ export function addStage(
 
     // Replace the phrase with the group.
     database.reviseProject(
-        project,
         project.withRevisedNodes([
             existing ? [existing, stage] : [block, block.withStatement(stage)],
         ])

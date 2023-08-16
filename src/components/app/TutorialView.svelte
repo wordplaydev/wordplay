@@ -16,13 +16,13 @@
     import PlayView from './PlayView.svelte';
     import Button from '../widgets/Button.svelte';
     import Source from '../../nodes/Source';
-    import { config, projects } from '../../db/Database';
+    import { database, locale, locales, arrangement } from '../../db/Database';
     import type Spaces from '../../parser/Spaces';
     import { toMarkup } from '../../parser/Parser';
     import MarkupHTMLView from '../concepts/MarkupHTMLView.svelte';
     import { setContext } from 'svelte';
     import type ConceptIndex from '../../concepts/ConceptIndex';
-    import { writable, type Writable } from 'svelte/store';
+    import { writable } from 'svelte/store';
     import { tick } from 'svelte';
     import { goto } from '$app/navigation';
     import ConceptLink from '../../nodes/ConceptLink';
@@ -111,44 +111,50 @@
     $: source = isUse
         ? Performances[performance[2] as keyof typeof Performances].apply(
               undefined,
-              performance.slice(3) as any
+              performance.slice(3) as [string]
           )
         : performance.slice(1).join('\n');
 
-    // Figure out the default project to show.
-    $: defaultProject = new Project(
+    // Every time the progress changes, create an initial project for the step.
+    $: initialProject = new Project(
         progress.getProjectID(),
-        scene ? scene.name : act ? act.name : $config.getLocale().wordplay,
-        new Source($config.getLocale().term.start, source),
+        scene ? scene.name : act ? act.name : $locale.wordplay,
+        new Source($locale.term.start, source),
         [],
-        $config.getLocales(),
-        undefined,
+        $locales,
         $user ? [$user.uid] : [],
+        undefined,
         false
     );
 
-    // Start with the default project.
-    $: project = defaultProject;
-
-    // Set a project context for those that depend on it, such as Palette.svelte.
-    const projectStore: Writable<Project | undefined> = writable(undefined);
-    setContext<ProjectContext>(ProjectSymbol, projectStore);
-    $: projectStore.set(project);
-
-    // Any time the project database changes for the current ID, update the project.
-    // This is what allows us to persist any edits to the project.
-    $: if ($config) {
-        const proj = $projects.getProject(progress.getProjectID());
-        if (proj) project = proj;
+    // Every time the progress changes, see if there's a revision to the project stored in the database,
+    // and use that instead.
+    $: {
+        // Check asynchronously if there's a project for this tutorial project ID already.
+        database.getProject(progress.getProjectID()).then((existingProject) => {
+            // If there is, get it's store.
+            if (existingProject)
+                projectStore = database.getProjectStore(
+                    progress.getProjectID()
+                );
+            // If there's not, add this project to the database and get its store, so we can react to its changes.
+            else
+                projectStore = database
+                    .addOrUpdateProject(initialProject, false, false)
+                    .getStore();
+        });
     }
 
-    // Any time the project changes, add/update it in projects.
-    // This persists the project state for later.
-    $: if (project) {
-        const existing = $projects.getProject(project.id);
-        if (existing !== undefined && !existing.equals(project))
-            $config.addProject(project);
-    }
+    // Every time the progress changes, get the store for the corresponding project, if there is one.
+    $: projectStore = database.getProjectStore(progress.getProjectID());
+
+    // Every time the project store changes, update the context.
+    $: if (projectStore)
+        setContext<ProjectContext>(ProjectSymbol, projectStore);
+
+    // When the project changes to something other than the initial project, start persisting it.
+    $: if ($projectStore !== undefined && !$projectStore.equals(initialProject))
+        database.getProjectHistory($projectStore.id)?.setPersist();
 
     let selection: Progress | undefined = undefined;
     function handleSelect() {
@@ -156,21 +162,26 @@
     }
 
     async function handleKey(event: KeyboardEvent) {
-        if (event.key === 'ArrowLeft' || event.key === 'Backspace')
+        let focus = false;
+        if (event.key === 'ArrowLeft' || event.key === 'Backspace') {
+            focus = true;
             navigate(progress.previousPause() ?? progress);
-        else if (
+        } else if (
             event.key === 'ArrowRight' ||
             event.key === 'Enter' ||
             event.key === ' '
         ) {
+            focus = true;
             const next = progress.nextPause();
             if (next) navigate(next);
             else goto('/projects');
         }
 
         // Focus the dialog after navigating.
-        await tick();
-        if (view) view.focus();
+        if (focus) {
+            await tick();
+            if (view) view.focus();
+        }
     }
 </script>
 
@@ -183,7 +194,7 @@
 
 <section
     class="tutorial"
-    class:vertical={$config.getArrangement() === Arrangement.Vertical}
+    class:vertical={$arrangement === Arrangement.Vertical}
 >
     <!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
     <!-- svelte-ignore a11y-no-noninteractive-tabindex -->
@@ -196,15 +207,15 @@
     >
         <div class="turns">
             {#if act === undefined}
-                <div class="title play">{$config.getLocale().wordplay}</div>
+                <div class="title play">{$locale.wordplay}</div>
             {:else if scene === undefined}
                 <div class="title act"
-                    >{$config.getLocale().term.act}
+                    >{$locale.term.act}
                     {progress.act}<p><em>{act.name}</em></p></div
                 >
             {:else if dialog === undefined}
                 <div class="title scene"
-                    >{$config.getLocale().term.scene}
+                    >{$locale.term.scene}
                     {progress.scene}<p><em>{scene.name}</em></p
                     >{#if scene.concept}<em>{scene.concept}</em>{/if}</div
                 >
@@ -215,7 +226,7 @@
                         <Speech
                             glyph={$conceptsStore
                                 ?.getConceptByName(turn.dialog[0])
-                                ?.getGlyphs($config.getLocales()) ?? {
+                                ?.getGlyphs($locales) ?? {
                                 symbols: turn.dialog[0],
                             }}
                             flip={turn.dialog[0] !== 'FunctionDefinition'}
@@ -233,7 +244,7 @@
         </div>
         <nav>
             <Button
-                tip={$config.getLocale().ui.description.previousLessonStep}
+                tip={$locale.ui.description.previousLessonStep}
                 action={() => navigate(progress.previousPause() ?? progress)}
                 active={progress.previousPause() !== undefined}>⇦</Button
             >
@@ -257,7 +268,7 @@
             </select>
             <Note
                 >{#if act !== undefined}{act.name}{/if}
-                {#if act !== undefined && scene !== undefined}{#if $config.getArrangement() !== Arrangement.Vertical}<br
+                {#if act !== undefined && scene !== undefined}{#if $arrangement !== Arrangement.Vertical}<br
                         />{/if}{scene.concept ?? scene.name}{/if}
                 {#if act !== undefined && scene !== undefined && progress.pause > 0}
                     <span class="progress"
@@ -269,7 +280,7 @@
                     >{/if}</Note
             >
             <Button
-                tip={$config.getLocale().ui.description.nextLessonStep}
+                tip={$locale.ui.description.nextLessonStep}
                 action={() => navigate(progress.nextPause() ?? progress)}
                 active={progress.nextPause() !== undefined}>⇨</Button
             >
@@ -277,21 +288,22 @@
     </div>
     <!-- Create a new view from scratch when the code changes -->
     <!-- Autofocus the main editor if it's currently focused -->
-    {#key performance}
-        {#if project}
-            {#if scene && performance}
-                <div class="project"
-                    ><ProjectView
-                        {project}
-                        original={defaultProject}
-                        bind:index={concepts}
-                        {editable}
-                        {fit}
-                        autofocus={false}
-                        showHelp={false}
-                    /></div
-                >{:else}<PlayView {project} {fit} />{/if}
-        {/if}
+    {#key initialProject}
+        {#if scene}
+            <div class="project"
+                ><ProjectView
+                    project={$projectStore ?? initialProject}
+                    original={initialProject}
+                    bind:index={concepts}
+                    {editable}
+                    {fit}
+                    autofocus={false}
+                    showHelp={false}
+                /></div
+            >{:else}<PlayView
+                project={$projectStore ?? initialProject}
+                {fit}
+            />{/if}
     {/key}
 </section>
 {#key highlights}

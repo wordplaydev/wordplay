@@ -13,7 +13,7 @@ import Language from '../nodes/Language';
 export function getBind(
     locales: Locale[],
     select: (locale: Locale) => NameAndDoc,
-    separator: string = ' '
+    separator = ' '
 ): string {
     // Get the symbolic names from English (US), which we always include.
     const enNames = locales.some(

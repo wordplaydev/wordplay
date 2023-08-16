@@ -19,7 +19,7 @@
     import type Layout from './Layout';
     import TextField from '../widgets/TextField.svelte';
     import { isName } from '../../parser/Tokenizer';
-    import { config } from '../../db/Database';
+    import { locale } from '../../db/Database';
     import { onMount } from 'svelte';
     import type Arrangement from '../../db/Arrangement';
     import Glyphs from '../../lore/Glyphs';
@@ -31,7 +31,7 @@
     export let dragging: boolean;
     export let fullscreenID: string | undefined;
     export let background: Color | string | null = null;
-    export let focuscontent: boolean = false;
+    export let focuscontent = false;
 
     $: fullscreen = tile.id === fullscreenID;
 
@@ -196,9 +196,8 @@
                     {Glyphs.Program.symbols}
                     <TextField
                         text={tile.name}
-                        description={$config.getLocale().ui.description
-                            .editSourceName}
-                        placeholder={$config.getLocale().ui.placeholders.name}
+                        description={$locale.ui.description.editSourceName}
+                        placeholder={$locale.ui.placeholders.name}
                         validator={(text) => isName(text)}
                         changed={handleRename}
                     />
@@ -210,12 +209,12 @@
             <div class="toolbar">
                 <slot name="extra" />
                 <Button
-                    tip={$config.getLocale().ui.description.collapse}
+                    tip={$locale.ui.description.collapse}
                     action={() => dispatch('mode', { mode: Mode.Collapsed })}
                     active={!layout.isFullscreen()}>⎵</Button
                 >
                 <Button
-                    tip={$config.getLocale().ui.description.fullscreen}
+                    tip={$locale.ui.description.fullscreen}
                     action={() =>
                         dispatch('fullscreen', {
                             fullscreen: !fullscreen,
@@ -337,13 +336,9 @@
         flex-direction: row;
         flex-wrap: nowrap;
         align-items: center;
-        padding-top: var(--wordplay-spacing);
-        padding-left: var(--wordplay-spacing);
-        padding-right: var(--wordplay-spacing);
-        padding-bottom: 0;
+        padding: var(--wordplay-spacing);
         gap: var(--wordplay-spacing);
         width: 100%;
-        min-height: 2.75em;
         overflow-x: auto;
     }
 

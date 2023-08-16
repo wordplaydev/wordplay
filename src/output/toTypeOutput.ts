@@ -13,9 +13,9 @@ import NoneValue from '@values/NoneValue';
 import { toFree } from './Free';
 import type Project from '../models/Project';
 import { toBoolean, toNumber } from './Stage';
-import { toFont, toText } from './Phrase';
+import { toFont as toFace, toText } from './Phrase';
 import Place, { toPlace } from './Place';
-import { toColor } from './Color';
+import Color, { toColor } from './Color';
 import type TextLang from './TextLang';
 import { DefinitePose, toPose } from './Pose';
 import type Pose from './Pose';
@@ -23,6 +23,7 @@ import type Sequence from './Sequence';
 import { getOutputInputs } from './Output';
 import { toSequence } from './Sequence';
 import TextValue from '../values/TextValue';
+import type { SupportedFace } from '../basis/Fonts';
 
 export function toTypeOutput(
     project: Project,
@@ -84,10 +85,11 @@ export function getStyle(
     index: number
 ): {
     size: number | undefined;
-    font: string | undefined;
+    face: SupportedFace | undefined;
     name: TextLang | undefined;
     selectable: boolean | undefined;
     place: Place | undefined;
+    background: Color | undefined;
     pose: DefinitePose | undefined;
     resting: Pose | Sequence | undefined;
     entering: Pose | Sequence | undefined;
@@ -98,11 +100,12 @@ export function getStyle(
 } {
     const [
         sizeVal,
-        familyVal,
+        faceVal,
         placeVal,
         nameVal,
         selectableVal,
         colorVal,
+        backgroundVal,
         opacityVal,
         offsetVal,
         rotationVal,
@@ -118,11 +121,11 @@ export function getStyle(
     ] = getOutputInputs(value, index);
 
     const size = toNumber(sizeVal);
-    const font = toFont(familyVal);
+    const face = toFace(faceVal) as SupportedFace;
     const place = toPlace(placeVal);
     const name = toText(nameVal);
     const selectable = toBoolean(selectableVal);
-
+    const background = toColor(backgroundVal);
     const color = toColor(colorVal);
     const opacity = toNumber(opacityVal);
     const offset = toPlace(offsetVal);
@@ -150,10 +153,11 @@ export function getStyle(
 
     return {
         size,
-        font,
+        face,
         place,
         name,
         selectable,
+        background,
         pose,
         resting: rest,
         entering: enter,

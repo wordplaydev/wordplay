@@ -1,7 +1,7 @@
 <svelte:options immutable={true} />
 
 <script lang="ts">
-    import Symbol from '@nodes/Symbol';
+    import Sym from '@nodes/Sym';
     import {
         BIND_SYMBOL,
         EVAL_CLOSE_SYMBOL,
@@ -13,28 +13,23 @@
     import ValueView from './ValueView.svelte';
     import { toColor } from '../../output/Color';
     import Expandable from './Expandable.svelte';
-    import { config } from '../../db/Database';
+    import { locales } from '../../db/Database';
 
     export let value: StructureValue;
-    export let inline: boolean = true;
+    export let inline = true;
 </script>
 
 <!-- Inline structures show the name and binds -->
 {#if inline}
     <SymbolView
-        symbol={value.type.names.getPreferredNameString($config.getLocales())}
-        type={Symbol.Name}
-    /><SymbolView symbol={EVAL_OPEN_SYMBOL} type={Symbol.EvalOpen} /><Expandable
+        symbol={value.type.names.getPreferredNameString($locales)}
+        type={Sym.Name}
+    /><SymbolView symbol={EVAL_OPEN_SYMBOL} type={Sym.EvalOpen} /><Expandable
         ><svelte:fragment slot="expanded">
             {#each value.type.inputs as input, index}<SymbolView
-                    symbol={input.names.getPreferredNameString(
-                        $config.getLocales()
-                    )}
-                    type={Symbol.Name}
-                /><SymbolView
-                    symbol={BIND_SYMBOL}
-                    type={Symbol.Bind}
-                /><ValueView
+                    symbol={input.names.getPreferredNameString($locales)}
+                    type={Sym.Name}
+                /><SymbolView symbol={BIND_SYMBOL} type={Sym.Bind} /><ValueView
                     value={value.resolve(input.getNames()[0]) ??
                         new NoneValue(value.type)}
                     {inline}
@@ -46,7 +41,7 @@
                     >&ZeroWidthSpace;</span
                 >{:else}…{/if}</svelte:fragment
         ></Expandable
-    ><SymbolView symbol={EVAL_CLOSE_SYMBOL} type={Symbol.EvalClose} />
+    ><SymbolView symbol={EVAL_CLOSE_SYMBOL} type={Sym.EvalClose} />
 
     <!-- Block structures are HTML tables -->
 {:else}
@@ -57,10 +52,8 @@
         <tr
             ><th colspan={color ? 1 : 2}
                 ><SymbolView
-                    symbol={value.type.names.getPreferredNameString(
-                        $config.getLocales()
-                    )}
-                    type={Symbol.Name}
+                    symbol={value.type.names.getPreferredNameString($locales)}
+                    type={Sym.Name}
                 /></th
             >{#if color}
                 <th
@@ -74,10 +67,8 @@
         {#each value.type.inputs as input}<tr
                 ><td
                     ><SymbolView
-                        symbol={input.names.getPreferredNameString(
-                            $config.getLocales()
-                        )}
-                        type={Symbol.Name}
+                        symbol={input.names.getPreferredNameString($locales)}
+                        type={Sym.Name}
                     /></td
                 ><td
                     ><ValueView

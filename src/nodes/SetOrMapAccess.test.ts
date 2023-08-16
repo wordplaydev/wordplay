@@ -27,5 +27,3 @@ test.each([
 ])('Expect %s to be %s', (code, value) => {
     expect(Evaluator.evaluateCode(DefaultLocale, code)?.toString()).toBe(value);
 });
-
-test('Test set and map access evaluation', () => {});

@@ -10,7 +10,7 @@
         getEvaluation,
         getSelectedOutput,
     } from '../project/Contexts';
-    import { config } from '../../db/Database';
+    import { database, locale } from '../../db/Database';
     import concretize from '../../locale/concretize';
     import {
         addGroup,
@@ -35,7 +35,6 @@
     let evaluation = getEvaluation();
     let index = getConceptIndex();
     let selectedOutput = getSelectedOutput();
-    $: locale = $config.getLocale();
 
     /** Transform the selected Evaluate nodes into Output wrappers, filtering out anything that's not valid output. */
     $: outputs = $selectedOutput
@@ -77,7 +76,7 @@
     }
 </script>
 
-<section class="palette" aria-label={$config.getLocale().ui.section.palette}>
+<section class="palette" aria-label={$locale.ui.section.palette}>
     {#if propertyValues.size > 0}
         <Speech
             glyph={(outputs.length > 1 || definition === undefined
@@ -93,7 +92,7 @@
         >
             <svelte:fragment slot="content">
                 <MarkupHtmlView
-                    markup={concretize(locale, locale.ui.palette.editing)}
+                    markup={concretize($locale, $locale.ui.palette.editing)}
                 />
             </svelte:fragment>
         </Speech>
@@ -106,9 +105,9 @@
         {#if $evaluation.playing && hasOutput(project)}
             <EditOffer
                 symbols={PALETTE_SYMBOL}
-                {locale}
-                message={locale.ui.palette.pauseToEdit}
-                tip={locale.ui.description.pause}
+                locale={$locale}
+                message={$locale.ui.palette.pauseToEdit}
+                tip={$locale.ui.description.pause}
                 action={() => $evaluation.evaluator.pause()}
                 command="⏸️"
             />
@@ -116,30 +115,30 @@
         {#if phrase === undefined}
             <EditOffer
                 symbols={PHRASE_SYMBOL}
-                {locale}
-                message={locale.ui.palette.offerPhrase}
-                tip={locale.ui.description.createPhrase}
-                action={() => addSoloPhrase($config, project)}
+                locale={$locale}
+                message={$locale.ui.palette.offerPhrase}
+                tip={$locale.ui.description.createPhrase}
+                action={() => addSoloPhrase(database, project)}
                 command={`+${PHRASE_SYMBOL}`}
             />
         {/if}
         {#if phrase !== undefined && stage === undefined}
             <EditOffer
                 symbols={GROUP_SYMBOL}
-                {locale}
-                message={locale.ui.palette.offerGroup}
-                tip={locale.ui.description.createGroup}
-                action={() => addGroup($config, project)}
+                locale={$locale}
+                message={$locale.ui.palette.offerGroup}
+                tip={$locale.ui.description.createGroup}
+                action={() => addGroup(database, project)}
                 command={`+${GROUP_SYMBOL}`}
             />
         {/if}
         {#if stage === undefined}
             <EditOffer
                 symbols={STAGE_SYMBOL}
-                {locale}
-                message={locale.ui.palette.offerStage}
-                tip={locale.ui.description.createStage}
-                action={() => addStage($config, project, group ?? phrase)}
+                locale={$locale}
+                message={$locale.ui.palette.offerStage}
+                tip={$locale.ui.description.createStage}
+                action={() => addStage(database, project, group ?? phrase)}
                 command={`+${STAGE_SYMBOL}`}
             />
         {/if}

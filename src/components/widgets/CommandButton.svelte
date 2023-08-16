@@ -1,11 +1,10 @@
 <script lang="ts">
     import { toShortcut, type Command } from '../editor/util/Commands';
     import Button from './Button.svelte';
-    import { config } from '../../db/Database';
+    import { locale } from '../../db/Database';
     import {
         IdleKind,
         getEditors,
-        getEvaluator,
         getProjectCommandContext,
     } from '../project/Contexts';
     import { tokenize } from '../../parser/Tokenizer';
@@ -15,10 +14,9 @@
     /** If source ID isn't provided, then the one with focus is used. */
     export let sourceID: string | undefined = undefined;
     export let command: Command;
-    export let token: boolean = false;
-    export let focusAfter: boolean = false;
+    export let token = false;
+    export let focusAfter = false;
 
-    const evaluator = getEvaluator();
     const editors = getEditors();
 
     let view: HTMLButtonElement | undefined = undefined;
@@ -27,35 +25,31 @@
         ? $editors?.get(sourceID)
         : Array.from($editors.values()).find((editor) => editor.focused);
 
-    const projectCommandContext = getProjectCommandContext();
+    const context = getProjectCommandContext();
 </script>
 
 <Button
-    tip={command.description($config.getLocale()) + ` (${toShortcut(command)})`}
+    tip={command.description($locale) + ` (${toShortcut(command)})`}
     bind:view
     uiid={command.uiid}
     active={command.active === undefined
         ? true
         : editor
-        ? command.active(
-              { caret: editor.caret, evaluator: $evaluator, database: $config },
-              ''
-          )
+        ? command.active($context, '')
         : false}
     action={async () => {
         const hadFocus = view !== undefined && document.activeElement === view;
 
-        if ($projectCommandContext === undefined) return;
+        if (context === undefined) return;
 
-        const result = command.execute($projectCommandContext, '');
-        if (typeof result === 'boolean') {
-        } else if (result instanceof Promise)
+        const result = command.execute($context, '');
+        if (result instanceof Promise)
             result.then((edit) =>
                 editor
                     ? editor.edit(edit, IdleKind.Typing, focusAfter)
                     : undefined
             );
-        else if (result !== undefined)
+        else if (typeof result !== 'boolean' && result !== undefined)
             editor?.edit(result, IdleKind.Typing, focusAfter);
 
         // If we didn't ask the editor to focus, restore focus on button after update.

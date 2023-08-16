@@ -7,34 +7,32 @@
     import type Glyph from '../../lore/Glyph';
     import ConceptLinkUI from '../concepts/ConceptLinkUI.svelte';
     import Eyes from './Eyes.svelte';
-    import { config } from '../../db/Database';
+    import { locales, locale } from '../../db/Database';
     import Emotion from '../../lore/Emotion';
 
     export let glyph: Glyph | Concept;
     /** If true, speech is placed below glyph. If false, speech is placed to the right or left of glyph. */
-    export let below: boolean = false;
+    export let below = false;
     /** If true and speech is not below, reading order is flipped. */
-    export let flip: boolean = false;
+    export let flip = false;
     /** If true and speech is not below, baseline aligns the glyph and speech */
-    export let baseline: boolean = false;
+    export let baseline = false;
     /** If true, uses foreground color for background, and background for foreground. */
-    export let invert: boolean = false;
+    export let invert = false;
     /** If true, sets height of speech to 100% and scrolls it */
-    export let scroll: boolean = true;
+    export let scroll = true;
     /** Optional emotion */
     export let emotion: Emotion | undefined = undefined;
     /** Optionally turn off animation */
-    export let emote: boolean = true;
+    export let emote = true;
 
     $: renderedEmotion =
         emotion ??
-        (glyph instanceof Concept
-            ? glyph?.getEmotion($config.getLocale())
-            : undefined);
+        (glyph instanceof Concept ? glyph?.getEmotion($locale) : undefined);
 
     $: glyphs =
         glyph instanceof Concept
-            ? glyph.getGlyphs($config.getLocales()).symbols
+            ? glyph.getGlyphs($locales).symbols
             : glyph.symbols;
 
     $: symbols =

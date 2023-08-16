@@ -19,7 +19,7 @@ const DEFAULT_FREQUENCY = 33;
 
 export default class Time extends TemporalStreamValue<NumberValue, number> {
     firstTime: number | undefined = undefined;
-    frequency: number = 33;
+    frequency = 33;
     lastTime: DOMHighResTimeStamp | undefined = undefined;
 
     constructor(evaluator: Evaluator, frequency: number = DEFAULT_FREQUENCY) {
@@ -33,8 +33,12 @@ export default class Time extends TemporalStreamValue<NumberValue, number> {
     }
 
     // No setup or cleanup necessary; Evaluator manages the requestAnimationFrame loop.
-    start() {}
-    stop() {}
+    start() {
+        return;
+    }
+    stop() {
+        return;
+    }
 
     setFrequency(frequency: number | undefined) {
         this.frequency = frequency ?? DEFAULT_FREQUENCY;

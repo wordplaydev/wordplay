@@ -21,7 +21,7 @@ import type Value from '@values/Value';
 import { node, type Grammar, type Replacement, optional, list } from './Node';
 import type Locale from '@locale/Locale';
 import type LanguageCode from '@locale/LanguageCode';
-import Symbol from './Symbol';
+import Sym from './Sym';
 import Glyphs from '../lore/Glyphs';
 import BlankException from '@values/BlankException';
 import concretize from '../locale/concretize';
@@ -55,7 +55,7 @@ export default class Program extends Expression {
             undefined,
             [],
             new Block(expressions, BlockKind.Root),
-            new Token('', Symbol.End)
+            new Token('', Sym.End)
         );
     }
 
@@ -64,7 +64,7 @@ export default class Program extends Expression {
             { name: 'docs', kind: optional(node(Docs)) },
             { name: 'borrows', kind: list(node(Borrow)) },
             { name: 'expression', kind: node(Block) },
-            { name: 'end', kind: node(Symbol.End) },
+            { name: 'end', kind: node(Sym.End) },
         ];
     }
 

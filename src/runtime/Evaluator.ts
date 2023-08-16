@@ -75,7 +75,7 @@ export default class Evaluator {
     readonly observers: EvaluationObserver[] = [];
 
     /** False if start() has yet to be called, true otherwise. */
-    #started: boolean = false;
+    #started = false;
 
     /** True if stop() was called */
     #stopped = false;
@@ -98,10 +98,10 @@ export default class Evaluator {
     /**
      * The total number of steps evaluated since the last reaction.
      */
-    #totalStepCount: number = 0;
+    #totalStepCount = 0;
 
     /** True if the last step was triggered by a step to a particular node. */
-    #steppedToNode: boolean = false;
+    #steppedToNode = false;
 
     /** The streams changes that triggered this evaluation */
     reactions: StreamChange[] = [];
@@ -116,7 +116,7 @@ export default class Evaluator {
         path: Path;
         number: number;
         stepIndex: number;
-        raw: any;
+        raw: unknown;
         silent: boolean;
     })[] = [];
 
@@ -125,7 +125,7 @@ export default class Evaluator {
      * Only true during Evaluator.mirror(). We use it to avoid broadcasting evaluation changes
      * and to steer evaluation during input replay.
      */
-    #replayingInputs: boolean = false;
+    #replayingInputs = false;
 
     /**
      * All of the basis streams created while evaluating the program.
@@ -139,7 +139,7 @@ export default class Evaluator {
     evaluateByStream: Map<StreamValue, EvaluationNode> = new Map();
 
     /** A derived cache of temporal streams, to avoid having to look them up. */
-    basisTemporalStreams: TemporalStreamValue<any, any>[] = [];
+    basisTemporalStreams: TemporalStreamValue<Value, unknown>[] = [];
 
     /** A mapping from Reaction nodes in the program to the streams they are listening to. */
     reactionStreams: Map<Reaction, StreamValue> = new Map();
@@ -151,7 +151,7 @@ export default class Evaluator {
     sourceValues: Map<Source, IndexedValue[]> = new Map();
 
     /** The total size of the source values, for managing memory */
-    sourceValueSize: number = 0;
+    sourceValueSize = 0;
 
     /**
      * An execution history, mapping Expressions to the sequence of values they have produced.
@@ -174,7 +174,7 @@ export default class Evaluator {
      * The last time we received from requestAnimationFrame.
      */
     previousTime: DOMHighResTimeStamp | undefined = undefined;
-    animating: boolean = false;
+    animating = false;
 
     /**
      * A list of temporal streams that have updated, for pooling them into a single reevaluation,
@@ -185,7 +185,7 @@ export default class Evaluator {
 
     /** The animation multiplier to apply to all time-based streams. Can come from anywhere, but typically a user configuration.
      */
-    timeMultiplier: number = 1;
+    timeMultiplier = 1;
 
     /**
      * Remember streams that were converted to values so we can convert them back to streams
@@ -207,7 +207,7 @@ export default class Evaluator {
      * */
     constructor(
         project: Project,
-        reactive: boolean = true,
+        reactive = true,
         prior: Evaluator | undefined = undefined
     ) {
         this.project = project;
@@ -284,7 +284,7 @@ export default class Evaluator {
                 // See if we can find the corresponding stream.
                 else {
                     // Resolve the node from the path.
-                    let evaluate = this.project.resolvePath(input.path);
+                    const evaluate = this.project.resolvePath(input.path);
 
                     // Couldn't find the node, or it's not an evaluate? Stop here.
                     if (evaluate === undefined) {
@@ -575,7 +575,7 @@ export default class Evaluator {
     }
 
     /** Reset everything necessary for a new evaluation. */
-    resetForEvaluation(keepConstants: boolean, broadcast: boolean = true) {
+    resetForEvaluation(keepConstants: boolean, broadcast = true) {
         // Reset the non-constant expression values.
         if (keepConstants) {
             for (const [expression] of this.values)
@@ -867,7 +867,7 @@ export default class Evaluator {
      * Step backwards. This involves moving the stepIndex back, then reevaluating the project --
      * from the beginning -- until reaching the stepIndex. This relies on memoization of non-deterministic inputs.
      */
-    stepBack(offset: number = -1, broadcast: boolean = true) {
+    stepBack(offset = -1, broadcast = true) {
         if (this.isPlaying()) this.pause();
 
         // Compute our our target step
@@ -1064,7 +1064,7 @@ export default class Evaluator {
     }
 
     getBasisStreamsOfType<Kind extends StreamValue>(
-        type: new (...params: any[]) => Kind
+        type: new (...params: never[]) => Kind
     ) {
         // Make a big list of all the streams and filter by the ones of the given type.
         return Array.from(this.basisStreams.values())
@@ -1082,7 +1082,7 @@ export default class Evaluator {
     /** Set before to true if this request is happening just before a stream is evaluated */
     getBasisStreamFor(
         evaluate: EvaluationNode,
-        before: boolean = false
+        before = false
     ): StreamValue | undefined {
         const streams = this.basisStreams.get(evaluate);
         const count =
@@ -1172,7 +1172,7 @@ export default class Evaluator {
         }
     }
 
-    react(stream: StreamValue, raw: any, silent: boolean) {
+    react(stream: StreamValue, raw: unknown, silent: boolean) {
         if (!(stream instanceof Reaction)) {
             // Find the evaluate to which it corresponds.
             const evaluate = this.evaluateByStream.get(stream);
@@ -1216,8 +1216,8 @@ export default class Evaluator {
     evaluate(changed: StreamValue[]) {
         // A stream changed!
         // STEP 1: Find the zero or more nodes that depend on this stream.
-        let affectedExpressions: Set<Expression> = new Set();
-        let streamReferences = new Set<Expression>();
+        const affectedExpressions: Set<Expression> = new Set();
+        const streamReferences = new Set<Expression>();
         for (const stream of changed) {
             const streamNode = stream.creator;
             const affected = this.project.getExpressionsAffectedBy(streamNode);
@@ -1231,7 +1231,7 @@ export default class Evaluator {
 
         // STEP 2: Traverse the dependency graphs of each source, finding all that directly or indirectly are affected by this stream's change.
         const affectedSources: Set<Source> = new Set();
-        let unvisited = new Set(affectedExpressions);
+        const unvisited = new Set(affectedExpressions);
         while (unvisited.size > 0) {
             for (const expr of unvisited) {
                 // Remove from the visited list.
@@ -1366,8 +1366,6 @@ export default class Evaluator {
             }
         }
     }
-
-    startExpression(_: Expression) {}
 
     saveExpressionValue(expression: Expression, value: Value) {
         // Remember the value it computed in the value history, if we haven't already recorded a value for this step index.

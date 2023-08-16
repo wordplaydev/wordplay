@@ -1,8 +1,86 @@
 # Hi helper!
 
-Welcome! For now, contributions are limited to localization.
+Welcome! This document is your guide for several types of contributions:
+
+-   [Development](#development)
+-   [Testing](#testing)
+-   [Localization](#localization)
+
+Regardless of what role you take on, there are a few things you should start with:
+
+1.  Start by going through the Wordplay tutorial to learn the language and get used to the interface. (Submit any defects you find as issues).
+2.  Make a few Wordplay programs to get used to what's possible to create with it.
+3.  Do the [setup](#setup) below
+4.  Come back here and read the section appropriate for the role you want to have.
 
 This guide is always evolving, so [write Amy](mailto:ajko@uw.edu) if you have ideas for how to improve it.
+
+## Setup
+
+For setup, our goal is for you to install a code editor, clone the Wordplay repository, install all of the necessary parts of the Wordplay implementation.
+
+1. **Install Node**. If you don't have `node` installed, [install it](https://nodejs.org/en/download). And if you don't know if you do, you probably don't. It won't hurt to install it again.
+2. **Install VS Code**. If you don't have VS Code installed, [install it](https://code.visualstudio.com/). It's a popular code editor, and the one we most recommend for contributing.
+3. **Clone the Wordplay repository**. Open VS Code, and then find the toolbar icon called "Source Control". Click it, and you'll a panel with a few buttons appears, one labeled "Clone Repository". Click it, then copy and paste `https://github.com/amyjko/wordplay` into the prompt. Once you enter it, it'll ask you where you want to clone the repository; choose a place on your computer where you want to store it.
+4. **Open the repository in VS Code**. It'll work for a second to get the repository from the internet, then ask you if you want to open it. Say yes. It'll then ask you whether you whether you trust the authors. (Do you? I trust me, but that's me.)
+5. **Open a terminal**. In the menu, choose `Terminal > New Terminal` to open up a command line so we can do some work with some commands. Keep this open; you'll be using it later.
+6. **Install dependencies**. Type `npm install`. This will install all of the code that Wordplay needs to run. If you run into problems, it's likely an issue with how Node was installed, and quite often permissions issues. There are so many things that can go wrong here, so web search is your friend if you're seeing an error.
+
+Also, and this is key, Wordplay's code and dependencies are always changing, so it's important to run these two commands every once in a while:
+
+```
+git pull
+npm update
+```
+
+They will pull in new Wordplay code from GitHub and also new code that Wordplay depends on. Think of this like any other software update hygiene.
+
+If you made it this far, you're all set up! Let's proceed to working on some localization.
+
+## Development
+
+Hello developer! If you're reading this, it's because you want to help fix bugs, build new features, and make Wordplay the best Wordplay it can be. We're excited to collaborate with you!
+
+Assuming you've done the steps at the top of this guide first, you should have a sense of what Wordplay. The next step is to understand how it's built. For that, you should read [ARCHITECTURE.md](https://github.com/amyjko/wordplay/blob/main/ARCHITECTURE.md), which overviews all of the major components in the Wordplay implementation. and key dependencies. If you're working in a specific part of Wordplay's implementation, it's okay to just read the subsections that are relevant.
+
+After you've learned the architecture, the rest is all process. Here's how we generally work:
+
+First, When working, always have at least four terminals open, one with `npm run dev` (for interactive testing while you build), one with `npm run check` (to show any TypeScript errors), one with `npm run test` to (ensure you know when any tests fail), and one with `npm run locales` (to know when you've violated any localization rules).
+
+Once you have your environment set up:
+
+1. Review [available issues](https://github.com/amyjko/wordplay/issues), searching for the ones you like.
+2. Ask Amy to assign it to you, so everyone knows that you're the point of contact for it.
+3. Review the current behavior and the text of the issue. Does it need elaboration, minimal reproduction steps, design work? Get all of that information and add it to the issue, preferably putting it in the main body of the issue in a central place, rather than as comments.
+4. Clone the repository if you haven't and create a branch that mentions the issue # that you're working on.
+5. If there is no test that verifies the defect is repaired, write one. If it's a new feature, you may need to write multiple. See the testing selection below on test writing for guidance.
+6. Fix the defect, build the feature. If necessary, fork and publish the branch to collaborate with others. Talk to everyone who might have a stake in the decision, including Amy, other contributors, and make sure the design and implementation decisions you're making are aligned with the project's existing patterns.
+7. Commit to your branch; it's okay to have multiple commits as long as the last one explicitly references the issue you worked on, so that GitHub automatically closes the issue when your fix is merged.
+8. Submit a pull request when you believe your work is done. Write a detailed explanation of the issue, the work you did, and any issues or decisions you had to make that the reviewer might need to consider.
+9. The reviewer may come back with feedback for you to address before your work is merged to `dev`. Do it!
+10. Once your pull request is accepted, you can delete your branch (and your fork if you like).
+
+Once you're done, go back to step 1 above pick another issue!
+
+## Verification
+
+Thanks for helping verify that Wordplay works as intended!
+
+Wordplay uses [vitest](https://vitest.dev/) for testing. The basic concept behind vitest is that `.test.ts` contain tests, and it will find them wherever they are in our project, and run them. The `npm run test` command defined in `package.json` will watch for changes and re-run tests whose dependencies have changed, so testing is fast and incremental.
+
+Writing good tests involves good coverage; contributing tests means writing tests that increase our coverage of untested aspects of the platform. Our footprint is relatively large, so we don't yet track coverage in a systematic way, so for now, here's the process you should follow for contributing tests:
+
+1. Find components that do not have test files at all, especially ones that have a large number of dependencies, such as the core programming language and runtime.
+2. Once you've found a good area of focus, create a branch to represent the tests you want to write.
+3. Create test files where they don't exist
+4. Write tests that attempt to cover all possible ways the component might execute. Wordplay is generally written functionally with immutable data structures, so it should be relatively straightforward to write tests without having to worry about setting up any other state.
+5. As you write tests, you may find defects. Congratulations, you're in the best position to fix them! If you see the issue, go ahead and commit fixes. But you may also need to coordinate with others on the right fix, and optionally submit an issue if it's a particularly hard defect.
+6. Once you have a collection of tests you're happy with (and that all pass, obviously), submit a pull request for merging into `dev`. Iterate with the reviewer on your tests until they're satisfied.
+7. Delete your branch (and fork, if you made one).
+
+Once you're done, go back to step 1 and pick another area to test!
+
+Along the way, you may wonder if your work is of value; after all, there are an infinite number of tests we could write, and not all will catch bugs. The best way to think about it is this: even if all the tests you write pass correctly, and you don't find any defects, the tests you're writing may _prevent_ defects in the future, when we change things. That's the value you're providing.
 
 ## Localization
 
@@ -28,36 +106,10 @@ Let's start with some key principles and then we'll get into the technical detai
 
 If all of those sound right to you, and you're still excited to contribute, let's get started!
 
-### Learning
-
-Before you start localizing, we highly recommend you go through the Wordplay tutorial first. It's linked to on the front page, and will teach you everything about the language that you might need to know to help write a great translation.
-
-### Setup
+### Editing
 
 Until we manage to build some better web-based tools for localization, contributing localizations currently requires using the tools that software developers use to build Wordplay.
 This isn't ideal, so hopefully these instructions make it as easy as possible.
-
-For setup, our goal is for you to install a code editor, clone the Wordplay repository, install all of the necessary parts of the Wordplay implementation.
-
-1. **Install Node**. If you don't have `node` installed, [install it](https://nodejs.org/en/download). And if you don't know if you do, you probably don't. It won't hurt to install it again.
-2. **Install VS Code**. If you don't have VS Code installed, [install it](https://code.visualstudio.com/). It's a popular code editor, and the one we most recommend for contributing.
-3. **Clone the Wordplay repository**. Open VS Code, and then find the toolbar icon called "Source Control". Click it, and you'll a panel with a few buttons appears, one labeled "Clone Repository". Click it, then copy and paste `https://github.com/amyjko/wordplay` into the prompt. Once you enter it, it'll ask you where you want to clone the repository; choose a place on your computer where you want to store it.
-4. **Open the repository in VS Code**. It'll work for a second to get the repository from the internet, then ask you if you want to open it. Say yes. It'll then ask you whether you whether you trust the authors. (Do you? I trust me, but that's me.)
-5. **Open a terminal**. In the menu, choose `Terminal > New Terminal` to open up a command line so we can do some work with some commands. Keep this open; you'll be using it later.
-6. **Install dependencies**. Type `npm install`. This will install all of the code that Wordplay needs to run. If you run into problems, it's likely an issue with how Node was installed, and quite often permissions issues. There are so many things that can go wrong here, so web search is your friend if you're seeing an error.
-
-Also, and this is key, Wordplay's code and dependencies are always changing, so it's important to run these two commands every once in a while:
-
-```
-git pull
-npm update
-```
-
-They will pull in new Wordplay code from GitHub and also new code that Wordplay depends on. Think of this like any other software update hygiene.
-
-If you made it this far, you're all set up! Let's proceed to working on some localization.
-
-### Editing
 
 Wordplay localization files life in the folder `static/locales` -- with one exception, which is English. You'll find that in `src/locale/en-US.json`, because it's imported as a default locale, since it has several symbolic names for things.
 Inside the `static/locales` folder are folders that are named using [ISO 639-1 language codes](https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes).

@@ -1547,9 +1547,14 @@
             "names": ["Tiempo"],
             "frequency": { "names": ["frecuencia"], "doc": "$?" }
         },
-        "Mic": {
+        "Volume": {
             "doc": "$?",
-            "names": ["Micrófono", "🎤"],
+            "names": "$? Volume",
+            "frequency": { "names": ["frecuencia"], "doc": "$?" }
+        },
+        "Pitch": {
+            "doc": "$?",
+            "names": "$? Pitch",
             "frequency": { "names": ["frecuencia"], "doc": "$?" }
         },
         "Camera": {
@@ -1608,7 +1613,7 @@
             "names": "$?",
             "doc": "$?",
             "size": { "doc": "$?", "names": "$?" },
-            "family": { "doc": "$?", "names": "$?" },
+            "face": { "doc": "$?", "names": "$?" },
             "place": { "doc": "$?", "names": "$?" },
             "name": { "doc": "$?", "names": "$?" },
             "selectable": { "doc": "$?", "names": "$?" },
@@ -1616,6 +1621,7 @@
                 "doc": "$?",
                 "names": "$? color"
             },
+            "background": { "doc": "$?", "names": "$? background" },
             "opacity": {
                 "doc": "$?",
                 "names": "$? opacity"
@@ -1652,7 +1658,6 @@
             "doc": "$?",
             "description": "$?",
             "content": { "doc": "$?", "names": "$?" },
-            "background": { "doc": "$?", "names": "$?" },
             "frame": { "doc": "$?", "names": "$?" }
         },
         "Group": {
@@ -1673,13 +1678,21 @@
             "names": ["Fila"],
             "doc": "$?",
             "description": "$?",
+            "alignment": {
+                "doc": "$?",
+                "names": "$? alignment"
+            },
             "padding": { "doc": "$?", "names": "$?" }
         },
         "Stack": {
             "names": "$?",
             "doc": "$?",
             "description": "$?",
-            "padding": { "doc": "$?", "names": "$?" }
+            "padding": { "doc": "$?", "names": "$?" },
+            "alignment": {
+                "doc": "$?",
+                "names": "$? alignment"
+            }
         },
         "Grid": {
             "names": "$?",
@@ -1763,6 +1776,10 @@
         }
     },
     "ui": {
+        "font": {
+            "app": "Noto Sans",
+            "code": "Noto Mono"
+        },
         "phrases": {
             "welcome": "$?",
             "motto": "$?"
@@ -1944,7 +1961,15 @@
             "pauseToEdit": "$?",
             "editing": "$?"
         },
-        "feedback": { "unknownProject": "$?", "loading": "$?" },
+        "feedback": {
+            "unknownProject": "$?",
+            "loading": "$?",
+            "save": {
+                "saving": "$?",
+                "saved": "$?",
+                "unsaved": "$?"
+            }
+        },
         "login": {
             "header": "$?",
             "prompt": "$?",
@@ -1975,6 +2000,14 @@
             "unwrap": "$?",
             "bind": "$?"
         },
-        "error": { "tutorial": "$?", "unwritten": "$?", "template": "$?" }
+        "error": {
+            "notfound": {
+                "header": "$?",
+                "message": "$?"
+            },
+            "tutorial": "$?",
+            "unwritten": "$?",
+            "template": "$?"
+        }
     }
 }

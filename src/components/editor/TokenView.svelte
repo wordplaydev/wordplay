@@ -7,7 +7,7 @@
         getHidden,
     } from '../project/Contexts';
     import TokenCategories from './TokenCategories';
-    import { config } from '../../db/Database';
+    import { locale, locales } from '../../db/Database';
 
     export let node: Token;
 
@@ -23,7 +23,7 @@
     // See if this is a placeholder that should be rendered differently.
     $: placeholder =
         $project && $root && context
-            ? node.getPlaceholder($root, context, $config.getLocale())
+            ? node.getPlaceholder($root, context, $locale)
             : undefined;
 
     // True if the caret is "on" this token.
@@ -45,7 +45,7 @@
             ? node.getText()
             : node.localized(
                   $caret === undefined || !$caret.isIn(node, true),
-                  $config.getLocales(),
+                  $locales,
                   $root,
                   context
               );

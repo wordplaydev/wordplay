@@ -1,2 +1,2 @@
 === Talk
-Phrase(Mic() > 50 ? "😮" "😐" 5m)
+Phrase(Volume() > 0.5 ? "😮" "😐" 5m)

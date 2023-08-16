@@ -22,7 +22,7 @@ import Glyphs from '../lore/Glyphs';
 import Purpose from '../concepts/Purpose';
 import concretize from '../locale/concretize';
 import NodeRef from '../locale/NodeRef';
-import Symbol from './Symbol';
+import Sym from './Sym';
 import ExpressionPlaceholder from './ExpressionPlaceholder';
 import Reference from './Reference';
 import type Node from './Node';
@@ -67,7 +67,7 @@ export default class PropertyBind extends Expression {
     getGrammar(): Grammar {
         return [
             { name: 'reference', kind: node(PropertyReference) },
-            { name: 'bind', kind: node(Symbol.Bind) },
+            { name: 'bind', kind: node(Sym.Bind) },
             { name: 'value', kind: node(Expression) },
         ];
     }

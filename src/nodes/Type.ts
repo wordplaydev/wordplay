@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import type ConversionDefinition from './ConversionDefinition';
 import type FunctionDefinition from './FunctionDefinition';
 import Node from './Node';

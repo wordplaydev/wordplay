@@ -27,7 +27,7 @@ import { none, type Grammar, type Replacement, node, list, any } from './Node';
 import type Locale from '@locale/Locale';
 import Glyphs from '../lore/Glyphs';
 import concretize from '../locale/concretize';
-import Symbol from './Symbol';
+import Sym from './Sym';
 import Purpose from '../concepts/Purpose';
 
 export enum BlockKind {
@@ -95,7 +95,7 @@ export default class Block extends Expression {
             { name: 'docs', kind: any(node(Docs), none()) },
             {
                 name: 'open',
-                kind: any(node(Symbol.EvalOpen), none()),
+                kind: any(node(Sym.EvalOpen), none()),
                 uncompletable: true,
             },
             {
@@ -110,7 +110,7 @@ export default class Block extends Expression {
             },
             {
                 name: 'close',
-                kind: any(node(Symbol.EvalClose), none()),
+                kind: any(node(Sym.EvalClose), none()),
                 newline: this.isStructure(),
                 uncompletable: true,
             },

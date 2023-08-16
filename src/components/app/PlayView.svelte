@@ -7,7 +7,7 @@
     import { onMount } from 'svelte';
 
     export let project: Project;
-    export let fit: boolean = true;
+    export let fit = true;
 
     function update() {
         latest = evaluator.getLatestSourceValue(project.main);

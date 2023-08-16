@@ -1,5 +1,5 @@
 import Token from './Token';
-import Symbol from './Symbol';
+import Sym from './Sym';
 import { QUESTION_SYMBOL } from '@parser/Symbols';
 import BasisType from './BasisType';
 import type TypeSet from './TypeSet';
@@ -20,7 +20,7 @@ export default class BooleanType extends BasisType {
     }
 
     static make() {
-        return new BooleanType(new Token(QUESTION_SYMBOL, Symbol.BooleanType));
+        return new BooleanType(new Token(QUESTION_SYMBOL, Sym.BooleanType));
     }
 
     static getPossibleNodes() {
@@ -28,7 +28,7 @@ export default class BooleanType extends BasisType {
     }
 
     getGrammar(): Grammar {
-        return [{ name: 'type', kind: node(Symbol.BooleanType) }];
+        return [{ name: 'type', kind: node(Sym.BooleanType) }];
     }
 
     clone(replace?: Replacement) {
@@ -37,7 +37,9 @@ export default class BooleanType extends BasisType {
         ) as this;
     }
 
-    computeConflicts() {}
+    computeConflicts() {
+        return;
+    }
 
     acceptsAll(types: TypeSet) {
         return types.list().every((type) => type instanceof BooleanType);

@@ -4,19 +4,17 @@
     import type StructureDefinitionValue from '@values/StructureDefinitionValue';
     import SymbolView from './SymbolView.svelte';
     import { TYPE_SYMBOL } from '@parser/Symbols';
-    import Symbol from '@nodes/Symbol';
-    import { config } from '../../db/Database';
+    import Sym from '@nodes/Sym';
+    import { locales } from '../../db/Database';
 
     export let value: StructureDefinitionValue;
-    export let inline: boolean = true;
+    export let inline = true;
 </script>
 
 {#if inline || !inline}<SymbolView
         symbol={TYPE_SYMBOL}
-        type={Symbol.Type}
+        type={Sym.Type}
     /><SymbolView
-        symbol={value.definition.names.getPreferredNameString(
-            $config.getLocales()
-        )}
-        type={Symbol.Name}
+        symbol={value.definition.names.getPreferredNameString($locales)}
+        type={Sym.Name}
     />{/if}

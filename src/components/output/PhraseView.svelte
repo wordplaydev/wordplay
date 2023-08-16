@@ -1,9 +1,13 @@
-<svelte:options immutable={true} />
-
 <script lang="ts">
     import type Phrase from '@output/Phrase';
     import type Place from '@output/Place';
-    import outputToCSS from '@output/outputToCSS';
+    import {
+        getColorCSS,
+        getFaceCSS as getFaceCSS,
+        getSizeCSS as getSizeCSS,
+        getOpacityCSS,
+        toOutputTransform,
+    } from '@output/outputToCSS';
     import type RenderContext from '@output/RenderContext';
     import Evaluate from '@nodes/Evaluate';
     import TextLiteral from '@nodes/TextLiteral';
@@ -15,7 +19,7 @@
         getSelectedOutput,
         getSelectedPhrase,
     } from '../project/Contexts';
-    import { config } from '../../db/Database';
+    import { database, locale, locales } from '../../db/Database';
     import TextLang from '../../output/TextLang';
     import MarkupHtmlView from '../concepts/MarkupHTMLView.svelte';
     import Markup from '../../nodes/Markup';
@@ -39,7 +43,7 @@
     $: visible = place.z > focus.z && (phrase.size ?? context.size > 0);
 
     // Get the phrase's text in the preferred language
-    $: text = phrase.getLocalizedTextOrDoc($config.getLocales());
+    $: text = phrase.getLocalizedTextOrDoc($locales);
     $: empty = phrase.isEmpty();
     $: selectable = phrase.selectable && !empty;
 
@@ -119,10 +123,10 @@
             select(null);
 
             moveOutput(
-                $config,
+                database,
                 $project,
                 [phrase.value.creator],
-                $config.getLocales(),
+                $locales,
                 horizontal,
                 vertical,
                 true
@@ -143,7 +147,7 @@
         if (event.currentTarget.selectionStart !== null)
             select(event.currentTarget.selectionStart);
 
-        $config.reviseProjectNodes($project, [
+        database.reviseProjectNodes($project, [
             [
                 phrase.value.creator,
                 phrase.value.creator.replace(
@@ -160,10 +164,8 @@
         role={selectable ? 'button' : 'presentation'}
         aria-hidden={empty ? 'true' : null}
         aria-disabled={!selectable}
-        aria-label={phrase.getDescription($config.getLocales())}
-        aria-roledescription={!selectable
-            ? $config.getLocale().term.phrase
-            : null}
+        aria-label={phrase.getDescription($locales)}
+        aria-roledescription={!selectable ? $locale.term.phrase : null}
         class="output phrase"
         class:selected
         tabIndex={interactive && ((!empty && selectable) || editing) ? 0 : null}
@@ -174,18 +176,18 @@
         on:dblclick={$editable && interactive ? enter : null}
         on:keydown={$editable && interactive ? move : null}
         bind:this={view}
+        style:font-family={getFaceCSS(context.face)}
+        style:font-size={getSizeCSS(context.size)}
+        style:background={phrase.background?.toCSS() ?? null}
+        style:color={getColorCSS(phrase.getFirstRestPose(), phrase.pose)}
+        style:opacity={getOpacityCSS(phrase.getFirstRestPose(), phrase.pose)}
         style:width="{metrics.width}px"
-        style:height="{metrics.actualAscent}px"
-        style:line-height="{metrics.actualAscent}px"
-        style={outputToCSS(
-            context.font,
-            context.size,
-            // No first pose because of an empty sequence? Give a default.
+        style:height="{metrics.height}px"
+        style:line-height="{metrics.height}px"
+        style:transform={toOutputTransform(
             phrase.getFirstRestPose(),
             phrase.pose,
             place,
-            undefined,
-            undefined,
             focus,
             parentAscent,
             metrics
@@ -218,12 +220,9 @@
         left: 0;
         top: 0;
         white-space: nowrap;
-        width: fit-content;
-        height: fit-content;
 
-        /** Put the group in a layer to offload rendering to the GPU */
-        will-change: transform, opacity, width, height, font-size, font-family,
-            color, transform-origin;
+        /* This disables translation around the center; we want to translate around the focus.*/
+        transform-origin: 0 0;
     }
 
     :global(.editing) .phrase {

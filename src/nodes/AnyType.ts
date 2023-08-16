@@ -21,7 +21,9 @@ export default class AnyType extends Type {
         return 'any';
     }
 
-    computeConflicts() {}
+    computeConflicts() {
+        return;
+    }
 
     getNodeLocale(translation: Locale) {
         return translation.node.AnyType;

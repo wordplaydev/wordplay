@@ -30,7 +30,7 @@ import Purpose from '../concepts/Purpose';
 import IncompatibleInput from '../conflicts/IncompatibleInput';
 import { NotAType } from './NotAType';
 import concretize from '../locale/concretize';
-import Symbol from './Symbol';
+import Sym from './Sym';
 
 export default class SetOrMapAccess extends Expression {
     readonly setOrMap: Expression;
@@ -72,13 +72,13 @@ export default class SetOrMapAccess extends Expression {
                 // Must be a number
                 getType: () => UnionType.make(SetType.make(), MapType.make()),
             },
-            { name: 'open', kind: node(Symbol.SetOpen) },
+            { name: 'open', kind: node(Sym.SetOpen) },
             {
                 name: 'key',
                 kind: node(Expression),
                 label: (translation: Locale) => translation.term.key,
             },
-            { name: 'close', kind: node(Symbol.SetClose) },
+            { name: 'close', kind: node(Sym.SetClose) },
         ];
     }
 

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import NoneValue from '@values/NoneValue';
 import SimpleValue from './SimpleValue';
 import type Value from '@values/Value';
@@ -14,6 +15,7 @@ export const MAX_STREAM_LENGTH = 256;
 
 export default abstract class StreamValue<
     ValueType extends Value = Value,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     Raw = any
 > extends SimpleValue {
     /** The evaluator that processes this stream */
@@ -26,7 +28,11 @@ export default abstract class StreamValue<
     values: { value: ValueType; stepIndex: StepNumber }[] = [];
 
     /** Listeners watching this stream */
-    reactors: ((stream: StreamValue, raw: Raw, silent: boolean) => void)[] = [];
+    reactors: ((
+        stream: StreamValue<Value, any>,
+        raw: Raw,
+        silent: boolean
+    ) => void)[] = [];
 
     constructor(
         evaluator: Evaluator,
@@ -57,7 +63,7 @@ export default abstract class StreamValue<
 
     abstract react(raw: Raw): void;
 
-    add(value: ValueType, raw: Raw, silent: boolean = false) {
+    add(value: ValueType, raw: Raw, silent = false) {
         // Ignore values during stepping.
         if (!this.evaluator.isReplayingInputs() && this.evaluator.isStepping())
             return;
@@ -127,11 +133,23 @@ export default abstract class StreamValue<
         );
     }
 
-    listen(listener: (stream: StreamValue, raw: Raw, silent: boolean) => void) {
+    listen(
+        listener: (
+            stream: StreamValue<Value, unknown>,
+            raw: Raw,
+            silent: boolean
+        ) => void
+    ) {
         this.reactors.push(listener);
     }
 
-    ignore(listener: (stream: StreamValue, raw: Raw, silent: boolean) => void) {
+    ignore(
+        listener: (
+            stream: StreamValue<Value, unknown>,
+            raw: Raw,
+            silent: boolean
+        ) => void
+    ) {
         this.reactors = this.reactors.filter((l) => l !== listener);
     }
 

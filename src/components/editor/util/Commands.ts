@@ -28,8 +28,8 @@ import ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
 import Names from '@nodes/Names';
 import type { Database } from '@db/Database';
 import type Locale from '@locale/Locale';
-import { Content } from '../../project/Tile';
-import Symbol from '../../../nodes/Symbol';
+import { TileKind } from '../../project/Tile';
+import Sym from '../../../nodes/Sym';
 
 export type Command = {
     /** The iconographic text symbol to use */
@@ -75,7 +75,7 @@ export type CommandContext = {
     database: Database;
     toggleMenu?: () => void;
     fullscreen?: (on: boolean) => void;
-    focusOrCycleTile?: (content?: Content) => void;
+    focusOrCycleTile?: (content?: TileKind) => void;
     resetInputs?: () => void;
     help?: () => void;
 };
@@ -283,10 +283,7 @@ export const Restart: Command = {
         if (context.resetInputs === undefined) return false;
         // Mark the inputs invalid so we don't inherit them
         context.resetInputs();
-        context.database.reviseProject(
-            context.evaluator.project,
-            context.evaluator.project.clone()
-        );
+        context.database.reviseProject(context.evaluator.project.clone());
         return undefined;
     },
 };
@@ -413,7 +410,7 @@ export const FocusOutput: Command = {
     key: 'Digit1',
     execute: (context) =>
         context.focusOrCycleTile
-            ? context.focusOrCycleTile(Content.Output)
+            ? context.focusOrCycleTile(TileKind.Output)
             : false,
 };
 
@@ -428,7 +425,7 @@ export const FocusSource: Command = {
     key: 'Digit2',
     execute: (context) =>
         context.focusOrCycleTile
-            ? context.focusOrCycleTile(Content.Source)
+            ? context.focusOrCycleTile(TileKind.Source)
             : false,
 };
 
@@ -443,7 +440,7 @@ export const FocusDocs: Command = {
     key: 'Digit3',
     execute: (context) =>
         context.focusOrCycleTile
-            ? context.focusOrCycleTile(Content.Documentation)
+            ? context.focusOrCycleTile(TileKind.Documentation)
             : false,
 };
 
@@ -458,7 +455,7 @@ export const FocusPalette: Command = {
     key: 'Digit4',
     execute: (context) =>
         context.focusOrCycleTile
-            ? context.focusOrCycleTile(Content.Palette)
+            ? context.focusOrCycleTile(TileKind.Palette)
             : false,
 };
 
@@ -570,7 +567,7 @@ const Commands: Command[] = [
             if (caret === undefined) return false;
             const position = caret.position;
             if (position instanceof Node) {
-                let parent = caret.source.root.getParent(position);
+                const parent = caret.source.root.getParent(position);
                 if (parent && !(parent instanceof Source))
                     return caret.withPosition(parent);
             }
@@ -800,8 +797,8 @@ const Commands: Command[] = [
             const tokensPrior = caret?.getTokensPrior();
             if (tokensPrior)
                 for (let i = tokensPrior.length - 1; i >= 0; i--) {
-                    if (tokensPrior[i].isSymbol(Symbol.TableClose)) break;
-                    else if (tokensPrior[i].isSymbol(Symbol.TableOpen))
+                    if (tokensPrior[i].isSymbol(Sym.TableClose)) break;
+                    else if (tokensPrior[i].isSymbol(Sym.TableOpen))
                         return caret.insert(TABLE_CLOSE_SYMBOL);
                 }
 
@@ -838,9 +835,14 @@ const Commands: Command[] = [
         key: 'KeyZ',
         keySymbol: 'Z',
         active: (context) =>
-            context.database.projectIsUndoable(context.evaluator.project.id),
+            context.database
+                .getProjectHistory(context.evaluator.project.id)
+                ?.isUndoable() === true,
         execute: (context) =>
-            context.database.undoProject(context.evaluator.project.id) === true,
+            context.database.undoRedoProject(
+                context.evaluator.project.id,
+                -1
+            ) !== undefined,
     },
     {
         symbol: '⟳',
@@ -853,9 +855,14 @@ const Commands: Command[] = [
         key: 'KeyZ',
         keySymbol: 'Z',
         active: (context) =>
-            context.database.projectIsRedoable(context.evaluator.project.id),
+            context.database
+                .getProjectHistory(context.evaluator.project.id)
+                ?.isRedoable() === true,
         execute: (context) =>
-            context.database.redoProject(context.evaluator.project.id) === true,
+            context.database.undoRedoProject(
+                context.evaluator.project.id,
+                1
+            ) !== undefined,
     },
     {
         symbol: '↲',

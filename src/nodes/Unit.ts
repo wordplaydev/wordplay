@@ -11,7 +11,7 @@ import NumberValue from '@values/NumberValue';
 import type TypeSet from './TypeSet';
 import type { BasisTypeName } from '../basis/BasisConstants';
 import LanguageToken from './LanguageToken';
-import Symbol from './Symbol';
+import Sym from './Sym';
 import { node, type Grammar, type Replacement, list, optional } from './Node';
 import type Locale from '@locale/Locale';
 import Emotion from '../lore/Emotion';
@@ -112,7 +112,7 @@ export default class Unit extends Type {
                             if (this.slash === undefined)
                                 this.slash = new Token(
                                     LANGUAGE_SYMBOL,
-                                    Symbol.Language
+                                    Sym.Language
                                 );
                         }
                     }
@@ -162,7 +162,7 @@ export default class Unit extends Type {
     getGrammar(): Grammar {
         return [
             { name: 'numerator', kind: list(node(Dimension)) },
-            { name: 'slash', kind: optional(node(Symbol.Language)) },
+            { name: 'slash', kind: optional(node(Sym.Language)) },
             { name: 'denominator', kind: list(node(Dimension)) },
         ];
     }
@@ -237,7 +237,9 @@ export default class Unit extends Type {
         );
     }
 
-    computeConflicts() {}
+    computeConflicts() {
+        return;
+    }
 
     hasNumerator(dimension: string) {
         return this.numerator.find((dim) => dim.hasDimension(dimension));

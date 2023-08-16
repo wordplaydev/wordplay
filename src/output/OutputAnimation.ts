@@ -270,7 +270,7 @@ export default class OutputAnimation {
             ]);
         // If move is a sequence, run it, but account for the resting pose.
         else if (move instanceof Sequence) {
-            let transitions = move.compile(undefined, rest);
+            const transitions = move.compile(undefined, rest);
 
             if (transitions === undefined) return;
 
@@ -457,11 +457,11 @@ export default class OutputAnimation {
                     // we do in GroupView.
                     this.state === State.Exiting || parents[0] instanceof Stage
                         ? 0
-                        : parents[0].getLayout(this.context).height,
+                        : parents[0].getLayout(this.context).ascent,
                     {
                         width: layout.width * PX_PER_METER,
-                        fontAscent: layout.height * PX_PER_METER,
-                        actualAscent: layout.actualHeight * PX_PER_METER,
+                        ascent: layout.ascent * PX_PER_METER,
+                        height: layout.height * PX_PER_METER,
                     }
                 );
             }

@@ -53,7 +53,7 @@
 </script>
 
 <script lang="ts">
-    import { config } from '../../db/Database';
+    import { locale } from '../../db/Database';
     import { getFirstName } from '../../locale/Locale';
     import Button from './Button.svelte';
 
@@ -132,7 +132,7 @@
             min={0}
             max={100}
             increment={1}
-            tip={getFirstName($config.getLocale().output.Color.lightness.names)}
+            tip={getFirstName($locale.output.Color.lightness.names)}
             unit={'%'}
             change={(value) => {
                 lightness = Math.round(value);
@@ -145,7 +145,7 @@
             max={150}
             increment={1}
             unit=""
-            tip={getFirstName($config.getLocale().output.Color.chroma.names)}
+            tip={getFirstName($locale.output.Color.chroma.names)}
             change={(value) => {
                 chroma = Math.round(value);
                 broadcast();
@@ -157,7 +157,7 @@
             max={360}
             increment={1}
             unit={'°'}
-            tip={getFirstName($config.getLocale().output.Color.hue.names)}
+            tip={getFirstName($locale.output.Color.hue.names)}
             change={(value) => {
                 hue = Math.round(value);
                 broadcast();

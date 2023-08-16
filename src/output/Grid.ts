@@ -107,8 +107,8 @@ export class Grid extends Arrangement {
                     ? this.cellHeight
                     : grid[row].reduce(
                           (max, cell) =>
-                              cell.output && cell.output.height > max
-                                  ? cell.output.height
+                              cell.output && cell.output.ascent > max
+                                  ? cell.output.ascent
                                   : max,
                           0
                       );

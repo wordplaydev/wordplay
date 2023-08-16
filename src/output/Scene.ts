@@ -37,14 +37,14 @@ export default class Scene {
     stage: Stage | undefined = undefined;
 
     /** True if the stage is animated and interactive */
-    live: boolean = true;
+    live = true;
 
     /** The current fonts that are loaded */
     fontsLoaded: Set<string> = new Set();
 
     /** The current viewport size from the verse */
-    viewportWidth: number = 0;
-    viewportHeight: number = 0;
+    viewportWidth = 0;
+    viewportHeight = 0;
 
     /** The current focus from the verse. */
     focus: Place;

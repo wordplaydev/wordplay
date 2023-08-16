@@ -13,7 +13,7 @@ import type Locale from '../locale/Locale';
 export default class Choice extends StreamValue<TextValue, string> {
     readonly evaluator: Evaluator;
 
-    on: boolean = true;
+    on = true;
 
     constructor(evaluator: Evaluator) {
         super(
@@ -26,7 +26,9 @@ export default class Choice extends StreamValue<TextValue, string> {
         this.evaluator = evaluator;
     }
 
-    configure() {}
+    configure() {
+        return;
+    }
 
     react(name: string) {
         // Only add the event if it mateches the requirements.

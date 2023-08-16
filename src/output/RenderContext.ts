@@ -1,29 +1,31 @@
+import type { SupportedFace } from '../basis/Fonts';
 import type Locale from '../locale/Locale';
 
 export default class RenderContext {
-    readonly font: string;
+    /** A single typeface name with no text delimiters */
+    readonly face: SupportedFace;
     readonly size: number;
     readonly locales: Locale[];
-    readonly fonts: Set<string>;
+    readonly fonts: Set<SupportedFace>;
     readonly animationFactor: number;
 
     constructor(
-        font: string,
+        face: SupportedFace,
         size: number,
         locales: Locale[],
-        fonts: Set<string>,
+        fonts: Set<SupportedFace>,
         animationFactor: number
     ) {
-        this.font = font;
+        this.face = face;
         this.size = size;
         this.locales = locales;
         this.fonts = fonts;
         this.animationFactor = animationFactor;
     }
 
-    withFontAndSize(font: string | undefined, size: number | undefined) {
+    withFontAndSize(font: SupportedFace | undefined, size: number | undefined) {
         return new RenderContext(
-            font ?? this.font,
+            font ?? this.face,
             size ?? this.size,
             this.locales,
             this.fonts,

@@ -16,7 +16,7 @@ import Translation from './Translation';
 import UnionType from './UnionType';
 import { getPreferred } from './LanguageTagged';
 import Token from './Token';
-import Symbol from './Symbol';
+import Sym from './Sym';
 import type Expression from './Expression';
 import type Step from '@runtime/Step';
 import Start from '@runtime/Start';
@@ -106,10 +106,12 @@ export default class TextLiteral extends Literal {
             let next: string;
             if (p instanceof Token) {
                 next = unescaped(p.getText());
-            } else if (evaluator.peekValue() instanceof TextValue) {
-                next = (evaluator.popValue(this) as TextValue).text;
             } else {
-                next = evaluator.popValue(this).toString();
+                const value = evaluator.popValue(this);
+                next =
+                    value instanceof TextValue
+                        ? value.text
+                        : value?.toString() ?? '';
             }
             // Assemble in reverse order
             text = next + text;
@@ -122,7 +124,9 @@ export default class TextLiteral extends Literal {
         );
     }
 
-    computeConflicts() {}
+    computeConflicts() {
+        return;
+    }
 
     computeType(context: Context): Type {
         // A union of all of the literal types of each alternative.
@@ -131,7 +135,7 @@ export default class TextLiteral extends Literal {
             this.texts.map((text) =>
                 text.segments.length === 1 &&
                 text.segments[0] instanceof Token &&
-                text.segments[0].isSymbol(Symbol.Words)
+                text.segments[0].isSymbol(Sym.Words)
                     ? new TextType(
                           text.open.clone(),
                           text.segments[0].clone(),

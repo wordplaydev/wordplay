@@ -6,7 +6,7 @@
     import Expandable from './Expandable.svelte';
 
     export let value: TextValue;
-    export let inline: boolean = true;
+    export let inline = true;
 
     $: text = value.toWordplay();
 

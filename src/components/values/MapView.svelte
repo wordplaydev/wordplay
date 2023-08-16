@@ -8,27 +8,24 @@
         SET_CLOSE_SYMBOL,
         SET_OPEN_SYMBOL,
     } from '@parser/Symbols';
-    import Symbol from '@nodes/Symbol';
+    import Sym from '@nodes/Sym';
     import ValueView from './ValueView.svelte';
     import Expandable from './Expandable.svelte';
 
     export let value: MapValue;
-    export let inline: boolean = true;
+    export let inline = true;
 
     const Limit = 3;
 </script>
 
 <!-- Inline maps show a certain number key/value pairs before eliding. -->
 {#if inline}
-    <SymbolView symbol={SET_OPEN_SYMBOL} type={Symbol.SetOpen} /><Expandable
+    <SymbolView symbol={SET_OPEN_SYMBOL} type={Sym.SetOpen} /><Expandable
         ><svelte:fragment slot="expanded"
             >{#each value.values as [key, val], index}<ValueView
                     value={key}
                     {inline}
-                /><SymbolView
-                    symbol={BIND_SYMBOL}
-                    type={Symbol.Bind}
-                /><ValueView
+                /><SymbolView symbol={BIND_SYMBOL} type={Sym.Bind} /><ValueView
                     value={val}
                     {inline}
                 />{#if index < value.values.length - 1}{' '}{/if}{/each}</svelte:fragment
@@ -36,15 +33,12 @@
             >{#each value.values.slice(0, Limit) as [key, val], index}<ValueView
                     value={key}
                     {inline}
-                /><SymbolView
-                    symbol={BIND_SYMBOL}
-                    type={Symbol.Bind}
-                /><ValueView
+                /><SymbolView symbol={BIND_SYMBOL} type={Sym.Bind} /><ValueView
                     value={val}
                     {inline}
                 />{#if index < value.values.length - 1}{' '}{/if}{/each}{#if value.values.length > 3}…{/if}</svelte:fragment
         ></Expandable
-    ><SymbolView symbol={SET_CLOSE_SYMBOL} type={Symbol.SetClose} />
+    ><SymbolView symbol={SET_CLOSE_SYMBOL} type={Sym.SetClose} />
 {:else}
     <!-- Block maps are displayed as a two column table -->
     <table>

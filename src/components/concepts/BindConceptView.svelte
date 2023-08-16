@@ -1,16 +1,16 @@
 <script lang="ts">
     import type BindConcept from '@concepts/BindConcept';
     import Speech from '../lore/Speech.svelte';
-    import { config } from '../../db/Database';
+    import { locales } from '../../db/Database';
     import MarkupHTMLView from './MarkupHTMLView.svelte';
     import RootView from '../project/RootView.svelte';
 
     export let concept: BindConcept;
 </script>
 
-<Speech glyph={concept.getGlyphs($config.getLocales())} below={true}>
+<Speech glyph={concept.getGlyphs($locales)} below={true}>
     <svelte:fragment slot="content">
-        {#each $config.getLocales() as trans}
+        {#each $locales as trans}
             {@const markup = concept.getDocs(trans)}
             {#if markup}
                 <MarkupHTMLView {markup} />

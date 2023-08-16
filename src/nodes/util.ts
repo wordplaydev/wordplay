@@ -3,7 +3,7 @@ import InputListMustBeLast from '@conflicts/InputListMustBeLast';
 import Bind from './Bind';
 import type Node from './Node';
 import Token from './Token';
-import Symbol from './Symbol';
+import Sym from './Sym';
 import DuplicateName from '@conflicts/DuplicateName';
 
 export function requiredBindAfterOptional(
@@ -68,10 +68,10 @@ export function getEvaluationInputConflicts(inputs: Bind[]) {
 
 export function endsWithName(node: Node) {
     const tokens = node.nodes((t): t is Token => t instanceof Token);
-    return tokens.length > 0 && tokens[tokens.length - 1].isSymbol(Symbol.Name);
+    return tokens.length > 0 && tokens[tokens.length - 1].isSymbol(Sym.Name);
 }
 
 export function startsWithName(node: Node) {
     const tokens = node.nodes((t): t is Token => t instanceof Token);
-    return tokens.length > 0 && tokens[0].isSymbol(Symbol.Name);
+    return tokens.length > 0 && tokens[0].isSymbol(Sym.Name);
 }

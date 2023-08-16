@@ -2,21 +2,19 @@
 
 <script lang="ts">
     import SymbolView from './SymbolView.svelte';
-    import Symbol from '@nodes/Symbol';
+    import Sym from '@nodes/Sym';
     import type StreamDefinitionValue from '../../values/StreamDefinitionValue';
     import { STREAM_SYMBOL } from '../../parser/Symbols';
-    import { config } from '../../db/Database';
+    import { locales } from '../../db/Database';
 
     export let value: StreamDefinitionValue;
-    export let inline: boolean = true;
+    export let inline = true;
 </script>
 
 {#if inline || !inline}<SymbolView
         symbol={STREAM_SYMBOL}
-        type={Symbol.Stream}
+        type={Sym.Stream}
     /><SymbolView
-        symbol={value.definition.names.getPreferredNameString(
-            $config.getLocales()
-        )}
-        type={Symbol.Name}
+        symbol={value.definition.names.getPreferredNameString($locales)}
+        type={Sym.Name}
     />{/if}

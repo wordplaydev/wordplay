@@ -32,7 +32,7 @@ import UnknownColumn from '../conflicts/UnknownColumn';
 import InvalidRow from '../conflicts/InvalidRow';
 import Token from './Token';
 import { INSERT_SYMBOL, TABLE_CLOSE_SYMBOL } from '../parser/Symbols';
-import Symbol from './Symbol';
+import Sym from './Sym';
 import ExpressionPlaceholder from './ExpressionPlaceholder';
 
 export default class Insert extends Expression {
@@ -52,9 +52,9 @@ export default class Insert extends Expression {
         return new Insert(
             table,
             new Row(
-                new Token(INSERT_SYMBOL, Symbol.Insert),
+                new Token(INSERT_SYMBOL, Sym.Insert),
                 cells,
-                new Token(TABLE_CLOSE_SYMBOL, Symbol.TableClose)
+                new Token(TABLE_CLOSE_SYMBOL, Sym.TableClose)
             )
         );
     }
@@ -116,7 +116,7 @@ export default class Insert extends Expression {
     }
 
     computeConflicts(context: Context): Conflict[] {
-        let conflicts: Conflict[] = [];
+        const conflicts: Conflict[] = [];
 
         const tableType = this.table.getType(context);
 

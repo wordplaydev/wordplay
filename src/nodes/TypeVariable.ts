@@ -51,7 +51,9 @@ export default class TypeVariable extends Node {
         return this.names.getPreferredNameString(locales);
     }
 
-    computeConflicts() {}
+    computeConflicts() {
+        return;
+    }
 
     getNodeLocale(translation: Locale) {
         return translation.node.TypeVariable;

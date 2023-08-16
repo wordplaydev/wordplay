@@ -5,13 +5,13 @@
 </script>
 
 <script lang="ts">
-    import { config } from '../../db/Database';
+    import { animationDuration, animationFactor } from '../../db/Database';
     import type Markup from '@nodes/Markup';
     import Paragraph from '@nodes/Paragraph';
     import SegmentHTMLView from './SegmentHTMLView.svelte';
 
     export let markup: Markup;
-    export let inline: boolean = false;
+    export let inline = false;
 
     $: spaces = markup.spaces;
 
@@ -39,8 +39,8 @@
         {/each}
     {:else}{#each paragraphsAndLists as paragraphOrList, index}<p
                 class="paragraph"
-                class:animated={$config.getAnimationFactor() > 0}
-                style="--delay:{$config.getAnimationDuration() * index * 0.1}ms"
+                class:animated={$animationFactor > 0}
+                style="--delay:{$animationDuration * index * 0.1}ms"
                 >{#if paragraphOrList instanceof Paragraph}
                     {#each paragraphOrList.segments as segment}<SegmentHTMLView
                             {segment}

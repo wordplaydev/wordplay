@@ -43,7 +43,7 @@
     } from './util/Highlights';
     import ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
     import TypePlaceholder from '@nodes/TypePlaceholder';
-    import Symbol from '@nodes/Symbol';
+    import Sym from '@nodes/Sym';
     import RootView from '../project/RootView.svelte';
     import type Project from '@models/Project';
     import type Conflict from '@conflicts/Conflict';
@@ -65,7 +65,13 @@
     import PlaceholderView from './PlaceholderView.svelte';
     import Expression from '../../nodes/Expression';
     import { DOCUMENTATION_SYMBOL, TYPE_SYMBOL } from '../../parser/Symbols';
-    import { config } from '../../db/Database';
+    import {
+        database,
+        locale,
+        locales,
+        writingDirection,
+        writingLayout,
+    } from '../../db/Database';
     import Button from '../widgets/Button.svelte';
     import OutputView from '../output/OutputView.svelte';
     import ConceptLinkUI from '../concepts/ConceptLinkUI.svelte';
@@ -82,14 +88,47 @@
     export let sourceID: string;
     /** True if this editor's output is selected by the container. */
     export let selected: boolean;
-    export let autofocus: boolean = true;
-    export let showHelp: boolean = true;
+    export let autofocus = true;
+    export let showHelp = true;
 
     // A per-editor store that contains the current editor's cursor. We expose it as context to children.
     const caret = writable<Caret>(
         new Caret(source, 0, undefined, undefined, undefined)
     );
     setContext(CaretSymbol, caret);
+
+    // When source changes, update various nested state from the source.
+    $: caret.set($caret.withSource(source));
+
+    // On mount, start the caret to the project's caret for the source.
+    onMount(() => {
+        caret.set(
+            new Caret(
+                source,
+                project.getCaretPosition(source) ?? 0,
+                undefined,
+                undefined,
+                undefined
+            )
+        );
+    });
+
+    // When the project is undone or redone, set the caret's position to the project's historical caret position.
+    $: if (database.getProjectHistory(project.id)?.wasRestored()) {
+        const position = project.getCaretPosition(source);
+        if (position !== undefined) caret.set($caret.withPosition(position));
+    }
+
+    $: caretExpressionType =
+        $caret.position instanceof Expression
+            ? $caret.position
+                  .getType(context)
+                  .simplify(context)
+                  .generalize(context)
+            : undefined;
+    $: caretTypeDescription = caretExpressionType
+        ?.getDescription(concretize, $locale, project.getContext(source))
+        .toText();
 
     // A menu of potential transformations based on the caret position.
     // Managed here but displayed by the project to allow it to escape the editor view.
@@ -115,34 +154,6 @@
 
     /** True if something in the editor is focused. */
     let focused: boolean;
-
-    // On mount, initialize the cWhenever the project or source changes, set the caret to the project's caret for the source.
-    onMount(() => {
-        caret.set(
-            new Caret(
-                source,
-                project.getCaretPosition(source) ?? 0,
-                undefined,
-                undefined,
-                undefined
-            )
-        );
-    });
-
-    $: caretExpressionType =
-        $caret.position instanceof Expression
-            ? $caret.position
-                  .getType(context)
-                  .simplify(context)
-                  .generalize(context)
-            : undefined;
-    $: caretTypeDescription = caretExpressionType
-        ?.getDescription(
-            concretize,
-            $config.getLocale(),
-            project.getContext(source)
-        )
-        .toText();
 
     // A store of highlighted nodes, used by node views to highlight themselves.
     // We store centrally since the logic that determines what's highlighted is in the Editor.
@@ -248,9 +259,6 @@
 
     // The possible candidate for dragging
     let dragCandidate: Node | undefined = undefined;
-
-    // When source changes, update various nested state from the source.
-    $: caret.set($caret.withSource(source));
 
     $: context = project.getContext(source);
 
@@ -480,10 +488,7 @@
         return undefined;
     }
 
-    async function ensureElementIsVisible(
-        element: Element,
-        nearest: boolean = false
-    ) {
+    async function ensureElementIsVisible(element: Element, nearest = false) {
         // Scroll to the element. Note that we don't set "smooth" here because it break's Chrome's ability to horizontally scroll.
         element.scrollIntoView({
             block: nearest ? 'nearest' : 'center',
@@ -525,8 +530,7 @@
         );
 
         // Update the project with the new source files
-        $config.reviseProject(
-            project,
+        database.reviseProject(
             newProject.withCaret(newSource, newCaretPosition)
         );
 
@@ -550,7 +554,7 @@
                 ? nonTokenNodeUnderPointer
                 : // If the node is a placeholder token, select it's placeholder ancestor
                 tokenUnderPointer instanceof Token &&
-                  tokenUnderPointer.isSymbol(Symbol.Placeholder)
+                  tokenUnderPointer.isSymbol(Sym.Placeholder)
                 ? source.root
                       .getAncestors(tokenUnderPointer)
                       .find((a) => a.isPlaceholder())
@@ -819,7 +823,7 @@
             const positionOffset = Math.round(
                 Math.abs(
                     event.clientX -
-                        ($config.getWritingDirection() === 'ltr'
+                        ($writingDirection === 'ltr'
                             ? spaceBounds.left
                             : spaceBounds.right)
                 ) / spaceWidth
@@ -1049,8 +1053,7 @@
 
         // Update the caret and project.
         if (newSource) {
-            $config.reviseProject(
-                project,
+            database.reviseProject(
                 project
                     .withSource(source, newSource)
                     .withCaret(newSource, newCaret.position)
@@ -1071,8 +1074,8 @@
     }
 
     /** True if the last symbol was a dead key*/
-    let keyWasDead: boolean = false;
-    let replacePreviousWithNext: boolean = false;
+    let keyWasDead = false;
+    let replacePreviousWithNext = false;
 
     function handleTextInput(event: Event) {
         lastKeyDownIgnored = false;
@@ -1177,7 +1180,7 @@
         const result = handleKeyCommand(event, {
             caret: $caret,
             evaluator,
-            database: $config,
+            database: database,
             toggleMenu,
         });
 
@@ -1213,18 +1216,18 @@
     All NodeViews are set to role="presentation"
     We use the live region above 
 -->
-<!-- svelte-ignore a11y-no-static-element-interactions -->
+<!-- svelte-ignore missing-declaration -->
 <div
     class="editor {$evaluation !== undefined && $evaluation.playing
         ? 'playing'
         : 'stepping'}"
     data-uiid="editor"
     role="application"
-    aria-label={`${
-        $config.getLocale().ui.section.editor
-    } ${source.getPreferredName($config.getLocales())}`}
-    style:direction={$config.getWritingDirection()}
-    style:writing-mode={$config.getWritingLayout()}
+    aria-label={`${$locale.ui.section.editor} ${source.getPreferredName(
+        $locales
+    )}`}
+    style:direction={$writingDirection}
+    style:writing-mode={$writingLayout}
     data-id={source.id}
     bind:this={editor}
     on:pointerdown|stopPropagation|preventDefault={handlePointerDown}
@@ -1317,7 +1320,7 @@
                     />{/if}
                 <!-- Show the node's label and type -->
                 {$caret.position.getLabel(
-                    $config.getLocale()
+                    $locale
                 )}{#if caretExpressionType}&nbsp;{TYPE_SYMBOL}&nbsp;{#if typeConcept}<ConceptLinkUI
                             link={typeConcept}
                             label={caretTypeDescription}
@@ -1345,7 +1348,7 @@
 {#if project.supplements.length > 0}
     <div class="output-preview-container">
         <Button
-            tip={$config.getLocale().ui.description.showOutput}
+            tip={$locale.ui.description.showOutput}
             active={!selected}
             action={() => dispatch('preview')}
             scale={false}

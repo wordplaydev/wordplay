@@ -106,7 +106,7 @@ export default class Spaces {
         // 1) iterate through the explicit space
         // 2) each time we find a preferred space character (a space, a new line, a tab), consume it
         // 3) append whatever we didn't find to the end.
-        let preferredSpaceChars = preferredSpace.split('');
+        const preferredSpaceChars = preferredSpace.split('');
         let additionalSpace = '';
         let index = 0;
         while (index < precedingSpace.length) {

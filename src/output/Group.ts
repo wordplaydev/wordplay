@@ -18,13 +18,14 @@ import type { DefinitePose } from './Pose';
 import StructureValue from '@values/StructureValue';
 import { getOutputInput } from './Output';
 import concretize from '../locale/concretize';
+import type { SupportedFace } from '../basis/Fonts';
 
 export function createGroupType(locales: Locale[]) {
     return toStructure(`
     ${getBind(locales, (locale) => locale.output.Group, TYPE_SYMBOL)} Type(
         ${getBind(locales, (locale) => locale.output.Group.layout)}•Arrangement
         ${getBind(locales, (locale) => locale.output.Group.content)}•[Type|ø]
-        ${createTypeOutputInputs(locales)}
+        ${createTypeOutputInputs(locales, false)}
     )`);
 }
 
@@ -37,10 +38,11 @@ export default class Group extends TypeOutput {
         layout: Arrangement,
         content: (TypeOutput | null)[],
         size: number | undefined = undefined,
-        font: string | undefined = undefined,
+        face: SupportedFace | undefined = undefined,
         place: Place | undefined = undefined,
         name: TextLang | string,
         selectable: boolean,
+        background: Color | undefined,
         pose: DefinitePose,
         entering: Pose | Sequence | undefined = undefined,
         resting: Pose | Sequence | undefined = undefined,
@@ -52,10 +54,11 @@ export default class Group extends TypeOutput {
         super(
             value,
             size,
-            font,
+            face,
             place,
             name,
             selectable,
+            background,
             pose,
             entering,
             resting,
@@ -79,7 +82,7 @@ export default class Group extends TypeOutput {
             bottom: layout.bottom,
             width: layout.width,
             height: layout.height,
-            actualHeight: layout.height,
+            ascent: layout.height,
             places: layout.places,
         };
     }
@@ -127,10 +130,11 @@ export function toGroup(
 
     const {
         size,
-        font,
+        face: font,
         place,
         name,
         selectable,
+        background,
         pose,
         resting: rest,
         entering: enter,
@@ -155,6 +159,7 @@ export function toGroup(
               place,
               namer?.getName(name?.text, value) ?? `${value.creator.id}`,
               selectable,
+              background,
               pose,
               enter,
               rest,

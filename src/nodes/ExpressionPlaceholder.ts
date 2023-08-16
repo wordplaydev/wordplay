@@ -27,7 +27,7 @@ import Evaluate from './Evaluate';
 import getConcreteExpectedType from './Generics';
 import BinaryEvaluate from './BinaryEvaluate';
 import FunctionDefinition from './FunctionDefinition';
-import Symbol from './Symbol';
+import Sym from './Sym';
 import Purpose from '../concepts/Purpose';
 
 export default class ExpressionPlaceholder extends AtomicExpression {
@@ -67,7 +67,7 @@ export default class ExpressionPlaceholder extends AtomicExpression {
         return [
             {
                 name: 'placeholder',
-                kind: node(Symbol.Placeholder),
+                kind: node(Sym.Placeholder),
                 label: (
                     translation: Locale,
                     _: Node,
@@ -86,7 +86,7 @@ export default class ExpressionPlaceholder extends AtomicExpression {
                     );
                 },
             },
-            { name: 'dot', kind: any(node(Symbol.Access), none('type')) },
+            { name: 'dot', kind: any(node(Sym.Access), none('type')) },
             {
                 name: 'type',
                 kind: any(node(Type), none('dot')),

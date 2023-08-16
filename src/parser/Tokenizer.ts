@@ -1,5 +1,5 @@
 import Token from '@nodes/Token';
-import Symbol from '@nodes/Symbol';
+import Sym from '@nodes/Sym';
 import {
     BIND_SYMBOL,
     QUESTION_SYMBOL,
@@ -64,7 +64,7 @@ import ConceptRegEx from './ConceptRegEx';
 import ReservedSymbols from './ReservedSymbols';
 
 const TEXT_SEPARATORS = '\'‘’"“”„«»‹›「」『』';
-const OPERATORS = `${NOT_SYMBOL}\\-\\^${SUM_SYMBOL}\\${DIFFERENCE_SYMBOL}×${PRODUCT_SYMBOL}÷%<≤=≠≥>&|~\?\\u2200-\\u22FF\\u2A00-\\u2AFF\\u2190-\\u21FF\\u27F0-\\u27FF\\u2900-\\u297F`;
+const OPERATORS = `${NOT_SYMBOL}\\-\\^${SUM_SYMBOL}\\${DIFFERENCE_SYMBOL}×${PRODUCT_SYMBOL}÷%<≤=≠≥>&|~?\\u2200-\\u22FF\\u2A00-\\u2AFF\\u2190-\\u21FF\\u27F0-\\u27FF\\u2900-\\u297F`;
 
 export const OperatorRegEx = new RegExp(`^[${OPERATORS}]`, 'u');
 export const URLRegEx = new RegExp(
@@ -141,166 +141,166 @@ export function isName(name: string) {
 }
 
 function escapeRegexCharacter(c: string) {
-    return /[\\\/\(\)\[\]\{\}]/.test(c) ? '\\' + c : c;
+    return /[\\/()[\]{}]/.test(c) ? '\\' + c : c;
 }
 
 const patterns = [
-    { pattern: LIST_OPEN_SYMBOL, types: [Symbol.ListOpen] },
-    { pattern: LIST_CLOSE_SYMBOL, types: [Symbol.ListClose] },
-    { pattern: SET_OPEN_SYMBOL, types: [Symbol.SetOpen] },
-    { pattern: SET_CLOSE_SYMBOL, types: [Symbol.SetClose] },
+    { pattern: LIST_OPEN_SYMBOL, types: [Sym.ListOpen] },
+    { pattern: LIST_CLOSE_SYMBOL, types: [Sym.ListClose] },
+    { pattern: SET_OPEN_SYMBOL, types: [Sym.SetOpen] },
+    { pattern: SET_CLOSE_SYMBOL, types: [Sym.SetClose] },
     {
         pattern: COMMA_SYMBOL,
-        types: [Symbol.Separator],
+        types: [Sym.Separator],
     },
-    { pattern: LANGUAGE_SYMBOL, types: [Symbol.Language, Symbol.Italic] },
-    { pattern: SELECT_SYMBOL, types: [Symbol.Select] },
-    { pattern: INSERT_SYMBOL, types: [Symbol.Insert] },
-    { pattern: DELETE_SYMBOL, types: [Symbol.Delete] },
-    { pattern: UPDATE_SYMBOL, types: [Symbol.Update] },
-    { pattern: TABLE_OPEN_SYMBOL, types: [Symbol.TableOpen] },
-    { pattern: TABLE_CLOSE_SYMBOL, types: [Symbol.TableClose] },
-    { pattern: BIND_SYMBOL, types: [Symbol.Bind] },
-    { pattern: FUNCTION_SYMBOL, types: [Symbol.Function] },
-    { pattern: BORROW_SYMBOL, types: [Symbol.Borrow] },
-    { pattern: SHARE_SYMBOL, types: [Symbol.Share] },
-    { pattern: CONVERT_SYMBOL, types: [Symbol.Convert] },
-    { pattern: CONVERT_SYMBOL2, types: [Symbol.Convert] },
-    { pattern: CONVERT_SYMBOL3, types: [Symbol.Convert] },
-    { pattern: NONE_SYMBOL, types: [Symbol.None, Symbol.None] },
-    { pattern: TYPE_SYMBOL, types: [Symbol.Type, Symbol.TypeOperator] },
+    { pattern: LANGUAGE_SYMBOL, types: [Sym.Language, Sym.Italic] },
+    { pattern: SELECT_SYMBOL, types: [Sym.Select] },
+    { pattern: INSERT_SYMBOL, types: [Sym.Insert] },
+    { pattern: DELETE_SYMBOL, types: [Sym.Delete] },
+    { pattern: UPDATE_SYMBOL, types: [Sym.Update] },
+    { pattern: TABLE_OPEN_SYMBOL, types: [Sym.TableOpen] },
+    { pattern: TABLE_CLOSE_SYMBOL, types: [Sym.TableClose] },
+    { pattern: BIND_SYMBOL, types: [Sym.Bind] },
+    { pattern: FUNCTION_SYMBOL, types: [Sym.Function] },
+    { pattern: BORROW_SYMBOL, types: [Sym.Borrow] },
+    { pattern: SHARE_SYMBOL, types: [Sym.Share] },
+    { pattern: CONVERT_SYMBOL, types: [Sym.Convert] },
+    { pattern: CONVERT_SYMBOL2, types: [Sym.Convert] },
+    { pattern: CONVERT_SYMBOL3, types: [Sym.Convert] },
+    { pattern: NONE_SYMBOL, types: [Sym.None, Sym.None] },
+    { pattern: TYPE_SYMBOL, types: [Sym.Type, Sym.TypeOperator] },
     {
         pattern: OR_SYMBOL,
-        types: [Symbol.Operator, Symbol.Union],
+        types: [Sym.Operator, Sym.Union],
     },
-    { pattern: TYPE_OPEN_SYMBOL, types: [Symbol.TypeOpen] },
-    { pattern: TYPE_CLOSE_SYMBOL, types: [Symbol.TypeClose] },
+    { pattern: TYPE_OPEN_SYMBOL, types: [Sym.TypeOpen] },
+    { pattern: TYPE_CLOSE_SYMBOL, types: [Sym.TypeClose] },
     {
         pattern: TAG_OPEN_SYMBOL,
-        types: [Symbol.Operator, Symbol.TagOpen],
+        types: [Sym.Operator, Sym.TagOpen],
     },
     {
         pattern: TAG_CLOSE_SYMBOL,
-        types: [Symbol.Operator, Symbol.TagClose],
+        types: [Sym.Operator, Sym.TagClose],
     },
     {
         pattern: STREAM_SYMBOL,
-        types: [Symbol.Stream, Symbol.Etc],
+        types: [Sym.Stream, Sym.Etc],
     },
     {
         pattern: STREAM_SYMBOL2,
-        types: [Symbol.Stream, Symbol.Etc],
+        types: [Sym.Stream, Sym.Etc],
     },
     {
         pattern: /^\$[a-zA-Z0-9?]+/,
-        types: [Symbol.Mention],
+        types: [Sym.Mention],
     },
-    { pattern: INITIAL_SYMBOL, types: [Symbol.Initial] },
-    { pattern: CHANGE_SYMBOL, types: [Symbol.Change] },
-    { pattern: PREVIOUS_SYMBOL, types: [Symbol.Previous] },
-    { pattern: PLACEHOLDER_SYMBOL, types: [Symbol.Placeholder] },
+    { pattern: INITIAL_SYMBOL, types: [Sym.Initial] },
+    { pattern: CHANGE_SYMBOL, types: [Sym.Change] },
+    { pattern: PREVIOUS_SYMBOL, types: [Sym.Previous] },
+    { pattern: PLACEHOLDER_SYMBOL, types: [Sym.Placeholder] },
     // Roman numerals
     {
         pattern: /^-?[ⅠⅡⅢⅣⅤⅥⅦⅧⅨⅩⅪⅫⅬⅭⅮⅯ]+/,
-        types: [Symbol.Number, Symbol.RomanNumeral],
+        types: [Sym.Number, Sym.RomanNumeral],
     },
     // Japanese numbers
     {
         pattern:
             /^-?[0-9]*[一二三四五六七八九十百千万]+(・[一二三四五六七八九分厘毛糸忽]+)?/u,
-        types: [Symbol.Number, Symbol.JapaneseNumeral],
+        types: [Sym.Number, Sym.JapaneseNumeral],
     },
     // Numbers with bases between base 2 and 16
     {
         pattern: /^-?([2-9]|1[0-6]);[0-9A-F]+([.,][0-9A-F]+)?%?/,
-        types: [Symbol.Number, Symbol.Base],
+        types: [Sym.Number, Sym.Base],
     },
     // Tokenize numbers before - gets slurped up, to allow for negative numbers.
     {
         pattern: /^-?[0-9]+([.,][0-9]+)?%?/,
-        types: [Symbol.Number, Symbol.Decimal],
+        types: [Sym.Number, Sym.Decimal],
     },
     {
         pattern: /^-?[.,][0-9]+%?/,
-        types: [Symbol.Number, Symbol.Decimal],
+        types: [Sym.Number, Sym.Decimal],
     },
-    { pattern: /^-?π/, types: [Symbol.Number, Symbol.Pi] },
-    { pattern: /^-?∞/, types: [Symbol.Number, Symbol.Infinity] },
+    { pattern: /^-?π/, types: [Sym.Number, Sym.Pi] },
+    { pattern: /^-?∞/, types: [Sym.Number, Sym.Infinity] },
     // Must be after numbers, which can have a leading period.
-    { pattern: PROPERTY_SYMBOL, types: [Symbol.Access, Symbol.This] },
-    { pattern: TRUE_SYMBOL, types: [Symbol.Boolean] },
-    { pattern: FALSE_SYMBOL, types: [Symbol.Boolean] },
+    { pattern: PROPERTY_SYMBOL, types: [Sym.Access, Sym.This] },
+    { pattern: TRUE_SYMBOL, types: [Sym.Boolean] },
+    { pattern: FALSE_SYMBOL, types: [Sym.Boolean] },
     // Match all possible text open and close tokens
-    { pattern: '"', types: [Symbol.Text] },
-    { pattern: '“', types: [Symbol.Text] },
-    { pattern: '”', types: [Symbol.Text] },
-    { pattern: '„', types: [Symbol.Text] },
-    { pattern: "'", types: [Symbol.Text] },
-    { pattern: '‘', types: [Symbol.Text] },
-    { pattern: '’', types: [Symbol.Text] },
-    { pattern: '‹', types: [Symbol.Text] },
-    { pattern: '›', types: [Symbol.Text] },
-    { pattern: '«', types: [Symbol.Text] },
-    { pattern: '»', types: [Symbol.Text] },
-    { pattern: '「', types: [Symbol.Text] },
-    { pattern: '」', types: [Symbol.Text] },
-    { pattern: '『', types: [Symbol.Text] },
-    { pattern: '』', types: [Symbol.Text] },
+    { pattern: '"', types: [Sym.Text] },
+    { pattern: '“', types: [Sym.Text] },
+    { pattern: '”', types: [Sym.Text] },
+    { pattern: '„', types: [Sym.Text] },
+    { pattern: "'", types: [Sym.Text] },
+    { pattern: '‘', types: [Sym.Text] },
+    { pattern: '’', types: [Sym.Text] },
+    { pattern: '‹', types: [Sym.Text] },
+    { pattern: '›', types: [Sym.Text] },
+    { pattern: '«', types: [Sym.Text] },
+    { pattern: '»', types: [Sym.Text] },
+    { pattern: '「', types: [Sym.Text] },
+    { pattern: '」', types: [Sym.Text] },
+    { pattern: '『', types: [Sym.Text] },
+    { pattern: '』', types: [Sym.Text] },
     // Match code open/close markers
-    { pattern: CODE_SYMBOL, types: [Symbol.Code] },
+    { pattern: CODE_SYMBOL, types: [Sym.Code] },
     // Finally, catch any leftover single open or close parentheses.
-    { pattern: EVAL_OPEN_SYMBOL, types: [Symbol.EvalOpen] },
-    { pattern: EVAL_CLOSE_SYMBOL, types: [Symbol.EvalClose] },
+    { pattern: EVAL_OPEN_SYMBOL, types: [Sym.EvalOpen] },
+    { pattern: EVAL_CLOSE_SYMBOL, types: [Sym.EvalClose] },
     // Match primtive types after strings since one is a standalone quote symbol.
-    { pattern: MEASUREMENT_SYMBOL, types: [Symbol.NumberType] },
+    { pattern: MEASUREMENT_SYMBOL, types: [Sym.NumberType] },
     {
         pattern: QUESTION_SYMBOL,
-        types: [Symbol.BooleanType, Symbol.Conditional],
+        types: [Sym.BooleanType, Sym.Conditional],
     },
-    { pattern: '¿', types: [Symbol.BooleanType, Symbol.Conditional] },
+    { pattern: '¿', types: [Sym.BooleanType, Sym.Conditional] },
     // Tokenize formatting symbols before binary ops
     {
         pattern: LIGHT_SYMBOL,
-        types: [Symbol.Light, Symbol.Operator],
+        types: [Sym.Light, Sym.Operator],
     },
     {
         pattern: UNDERSCORE_SYMBOL,
-        types: [Symbol.Underline, Symbol.Operator],
+        types: [Sym.Underline, Sym.Operator],
     },
     {
         pattern: BOLD_SYMBOL,
-        types: [Symbol.Bold, Symbol.Operator],
+        types: [Sym.Bold, Sym.Operator],
     },
     {
         pattern: EXTRA_SYMBOL,
-        types: [Symbol.Extra, Symbol.Operator],
+        types: [Sym.Extra, Sym.Operator],
     },
-    { pattern: '-', types: [Symbol.Operator, Symbol.Region] },
-    { pattern: GLOBE1_SYMBOL, types: [Symbol.Locale] },
-    { pattern: GLOBE2_SYMBOL, types: [Symbol.Locale] },
-    { pattern: GLOBE3_SYMBOL, types: [Symbol.Locale] },
+    { pattern: '-', types: [Sym.Operator, Sym.Region] },
+    { pattern: GLOBE1_SYMBOL, types: [Sym.Locale] },
+    { pattern: GLOBE2_SYMBOL, types: [Sym.Locale] },
+    { pattern: GLOBE3_SYMBOL, types: [Sym.Locale] },
     // Prefix and infix operators are single Unicode glyphs that are surrounded by whitespace that are not one of the above
     // and one of the following:
     // - Mathematical operators: U+2200..U+22FF
     // - Supplementary operators: U+2A00–U+2AFF
     // - Arrows: U+2190–U+21FF, U+27F0–U+27FF, U+2900–U+297F
     // - Basic latin operators: +-×·÷%^<≤=≠≥>&|
-    { pattern: OperatorRegEx, types: [Symbol.Operator] },
-    { pattern: FORMATTED_TYPE_SYMBOL, types: [Symbol.FormattedType] },
-    { pattern: '`...`', types: [Symbol.FormattedType] },
-    { pattern: DOCS_SYMBOL, types: [Symbol.Doc] },
+    { pattern: OperatorRegEx, types: [Sym.Operator] },
+    { pattern: FORMATTED_TYPE_SYMBOL, types: [Sym.FormattedType] },
+    { pattern: '`...`', types: [Sym.FormattedType] },
+    { pattern: DOCS_SYMBOL, types: [Sym.Doc] },
     // Must be after docs
-    { pattern: FORMATTED_SYMBOL, types: [Symbol.Formatted] },
+    { pattern: FORMATTED_SYMBOL, types: [Sym.Formatted] },
     {
         pattern: new RegExp(`^${ConceptRegEx}`),
-        types: [Symbol.Concept],
+        types: [Sym.Concept],
     },
-    { pattern: LINK_SYMBOL, types: [Symbol.Link] },
+    { pattern: LINK_SYMBOL, types: [Sym.Link] },
 
     // All other tokens are names, which are sequences of Unicode glyphs that are not one of the reserved symbols above or whitespace.
     {
         pattern: NameRegEx,
-        types: [Symbol.Name],
+        types: [Sym.Name],
     },
 ];
 
@@ -325,28 +325,28 @@ export const TextDelimiters = new Set<string>([
     ...Object.keys(TextCloseByTextOpen),
 ]);
 
-export const Delimiters: Record<string, string> = {};
+export const DelimiterCloseByOpen: Record<string, string> = {};
 
-Delimiters[EVAL_OPEN_SYMBOL] = EVAL_CLOSE_SYMBOL;
-Delimiters[LIST_OPEN_SYMBOL] = LIST_CLOSE_SYMBOL;
-Delimiters[SET_OPEN_SYMBOL] = SET_CLOSE_SYMBOL;
-Delimiters[TYPE_OPEN_SYMBOL] = TYPE_CLOSE_SYMBOL;
-Delimiters[TABLE_OPEN_SYMBOL] = TABLE_CLOSE_SYMBOL;
-Delimiters[CODE_SYMBOL] = CODE_SYMBOL;
-Delimiters[DOCS_SYMBOL] = DOCS_SYMBOL;
-Delimiters[TABLE_OPEN_SYMBOL] = TABLE_CLOSE_SYMBOL;
+DelimiterCloseByOpen[EVAL_OPEN_SYMBOL] = EVAL_CLOSE_SYMBOL;
+DelimiterCloseByOpen[LIST_OPEN_SYMBOL] = LIST_CLOSE_SYMBOL;
+DelimiterCloseByOpen[SET_OPEN_SYMBOL] = SET_CLOSE_SYMBOL;
+DelimiterCloseByOpen[TYPE_OPEN_SYMBOL] = TYPE_CLOSE_SYMBOL;
+DelimiterCloseByOpen[TABLE_OPEN_SYMBOL] = TABLE_CLOSE_SYMBOL;
+DelimiterCloseByOpen[CODE_SYMBOL] = CODE_SYMBOL;
+DelimiterCloseByOpen[DOCS_SYMBOL] = DOCS_SYMBOL;
+DelimiterCloseByOpen[TABLE_OPEN_SYMBOL] = TABLE_CLOSE_SYMBOL;
 
-for (const symbol of FormattingSymbols) Delimiters[symbol] = symbol;
+for (const symbol of FormattingSymbols) DelimiterCloseByOpen[symbol] = symbol;
 
 // Add the text delimiters.
 for (const [open, close] of Object.entries(TextCloseByTextOpen))
-    Delimiters[open] = close;
+    DelimiterCloseByOpen[open] = close;
 
 // Construct the reverse delimiters.
-export const REVERSE_DELIMITERS: Record<string, string> = {};
+export const DelimiterOpenByClose: Record<string, string> = {};
 
-for (const [open, close] of Object.entries(Delimiters))
-    REVERSE_DELIMITERS[close] = open;
+for (const [open, close] of Object.entries(DelimiterCloseByOpen))
+    DelimiterOpenByClose[close] = open;
 
 export function tokens(source: string): Token[] {
     return tokenize(source).getTokens();
@@ -368,11 +368,10 @@ export function tokenize(source: string): TokenList {
         const container = context.length > 0 && context[0];
         const tokenizingMarkup =
             container &&
-            (container.isSymbol(Symbol.Doc) ||
-                container.isSymbol(Symbol.Formatted));
+            (container.isSymbol(Sym.Doc) || container.isSymbol(Sym.Formatted));
 
         // If we're in text, don't read any whitespace.
-        if (container && container.isSymbol(Symbol.Text)) {
+        if (container && container.isSymbol(Sym.Text)) {
             space = '';
         }
         // If we're in a doc, then read whitespace starting with newlines only.
@@ -391,7 +390,7 @@ export function tokenize(source: string): TokenList {
 
         // Tokenize the next token. We tokenize in documentation mode if we're inside a doc and the eval depth
         // has not changed since we've entered.
-        let nextToken = getNextToken(source, context);
+        const nextToken = getNextToken(source, context);
 
         // Add the new token to the list
         tokens.push(nextToken);
@@ -404,35 +403,35 @@ export function tokenize(source: string): TokenList {
         source = source.substring(nextToken.text.toString().length);
 
         // If the token was a code open symbol...
-        if (nextToken.isSymbol(Symbol.Code)) {
+        if (nextToken.isSymbol(Sym.Code)) {
             // And there's a code context open, close it
-            if (context.length > 0 && context[0].isSymbol(Symbol.Code))
+            if (context.length > 0 && context[0].isSymbol(Sym.Code))
                 context.shift();
             // Otherwise open one.
             else context.unshift(nextToken);
         }
         // If the token we encountered a doc...
-        else if (nextToken.isSymbol(Symbol.Doc)) {
+        else if (nextToken.isSymbol(Sym.Doc)) {
             /// And there's a doc context open, close it
-            if (context.length > 0 && context[0].isSymbol(Symbol.Doc))
+            if (context.length > 0 && context[0].isSymbol(Sym.Doc))
                 context.shift();
             // Otherwise open one
             else context.unshift(nextToken);
         }
         // If the token we encountered a formatted...
-        else if (nextToken.isSymbol(Symbol.Formatted)) {
+        else if (nextToken.isSymbol(Sym.Formatted)) {
             /// And there's a doc context open, close it
-            if (context.length > 0 && context[0].isSymbol(Symbol.Formatted))
+            if (context.length > 0 && context[0].isSymbol(Sym.Formatted))
                 context.shift();
             // Otherwise open one
             else context.unshift(nextToken);
         }
         // If the token was a text delimiter...
-        else if (nextToken.isSymbol(Symbol.Text)) {
+        else if (nextToken.isSymbol(Sym.Text)) {
             // And this closes an open text context, close it
             if (
                 context.length > 0 &&
-                context[0].isSymbol(Symbol.Text) &&
+                context[0].isSymbol(Sym.Text) &&
                 nextToken.getText() ===
                     TextCloseByTextOpen[context[0].getText()]
             )
@@ -443,11 +442,8 @@ export function tokenize(source: string): TokenList {
     }
 
     // If there's nothing left -- or nothing but space -- and the last token isn't a already end token, add one, and remember the space before it.
-    if (
-        tokens.length === 0 ||
-        !tokens[tokens.length - 1].isSymbol(Symbol.End)
-    ) {
-        const end = new Token('', Symbol.End);
+    if (tokens.length === 0 || !tokens[tokens.length - 1].isSymbol(Sym.End)) {
+        const end = new Token('', Sym.End);
         tokens.push(end);
         if (source.length > 0) spaces.set(end, source);
     }
@@ -457,13 +453,13 @@ export function tokenize(source: string): TokenList {
 
 function getNextToken(source: string, context: Token[]): Token {
     // If there's nothing left after trimming source, return an end of file token.
-    if (source.length === 0) return new Token('', Symbol.End);
+    if (source.length === 0) return new Token('', Sym.End);
 
     if (context.length > 0) {
         const container = context[0];
         // If we're in text, keep reading until the next code open, text close, end of line, or end of source,
         // then make a words token.
-        if (container.isSymbol(Symbol.Text)) {
+        if (container.isSymbol(Sym.Text)) {
             // Find the closest code, text close, or end of line
             // For code, we want a standalone code open not preceded or followed by another.
             const codeIndex = source.match(/(?<!\\)\\(?!\\)/)?.index ?? -1;
@@ -490,24 +486,24 @@ function getNextToken(source: string, context: Token[]): Token {
                             ? source.length
                             : stopIndex
                     ),
-                    Symbol.Words
+                    Sym.Words
                 );
         }
         // If we're in a doc, special case a few token types that only appear in docs (URL, WORDS)
         else if (
-            container.isSymbol(Symbol.Doc) ||
-            container.isSymbol(Symbol.Formatted)
+            container.isSymbol(Sym.Doc) ||
+            container.isSymbol(Sym.Formatted)
         ) {
             // Check URLs first, since the word regex will match URLs.
             const urlMatch = source.match(URLRegEx);
-            if (urlMatch !== null) return new Token(urlMatch[0], Symbol.URL);
+            if (urlMatch !== null) return new Token(urlMatch[0], Sym.URL);
 
             const wordsMatch = source.match(WordsRegEx);
             if (wordsMatch !== null) {
                 // Take everything up until two newlines separated only by space.
                 const match = wordsMatch[0].split(/\n[ \t]*\n/)[0];
                 // Add the preceding space back on, since it's part of the words.
-                return new Token(match, Symbol.Words);
+                return new Token(match, Sym.Words);
             }
         }
     }
@@ -538,10 +534,10 @@ function getNextToken(source: string, context: Token[]): Token {
     return new Token(
         source.substring(
             0,
-            next.isSymbol(Symbol.End)
+            next.isSymbol(Sym.End)
                 ? source.length
                 : source.indexOf(next.getText())
         ),
-        Symbol.Unknown
+        Sym.Unknown
     );
 }

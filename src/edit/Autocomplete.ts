@@ -64,7 +64,7 @@ import UnknownType from '../nodes/UnknownType';
 import Program from '../nodes/Program';
 import Dimension from '../nodes/Dimension';
 import UnparsableExpression from '../nodes/UnparsableExpression';
-import { WildcardSymbols } from '../nodes/Symbol';
+import { WildcardSymbols } from '../nodes/Sym';
 import IsLocale from '../nodes/IsLocale';
 import TableLiteral from '../nodes/TableLiteral';
 import Insert from '../nodes/Insert';

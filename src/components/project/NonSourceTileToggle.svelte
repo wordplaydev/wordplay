@@ -2,7 +2,7 @@
     import { createEventDispatcher } from 'svelte';
     import Button from '../widgets/Button.svelte';
     import type Tile from './Tile';
-    import { config } from '../../db/Database';
+    import { locale } from '../../db/Database';
 
     export let tile: Tile;
 
@@ -12,7 +12,7 @@
 <Button
     classes={tile.id}
     uiid="{tile.id}Expand"
-    tip={`${$config.getLocale().ui.description.expand} ${tile.name}`}
+    tip={`${$locale.ui.description.expand} ${tile.name}`}
     action={() => dispatch('toggle')}
     ><span class="name" class:collapsed={tile.isCollapsed()}>{tile.name}</span
     ></Button

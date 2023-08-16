@@ -3,7 +3,7 @@
 <script lang="ts">
     import Button from '../widgets/Button.svelte';
     import { getLanguageLayout, PossibleLanguages } from '@locale/LanguageCode';
-    import { config } from '../../db/Database';
+    import { database, locale, locales } from '../../db/Database';
     import {
         SupportedLocales,
         getLocaleLanguage,
@@ -18,9 +18,9 @@
 
     let show: boolean;
 
-    $: selectedLocales = $config
-        .getLocales()
-        .map((locale) => toLocaleString(locale)) as SupportedLocale[];
+    $: selectedLocales = $locales.map((locale) =>
+        toLocaleString(locale)
+    ) as SupportedLocale[];
 
     function select(locale: SupportedLocale) {
         selectedLocales = selectedLocales.includes(locale)
@@ -40,47 +40,37 @@
 
         // Set the layout and direction based on the preferred language.
         if (selectedLocales.length > 0) {
-            $config.setWritingLayout(
+            database.setWritingLayout(
                 getLanguageLayout(
                     getLocaleLanguage(selectedLocales[0]) as LanguageCode
                 )
             );
             // Save setLocales
-            $config.setLocales(selectedLocales as SupportedLocale[]);
+            database.setLocales(selectedLocales as SupportedLocale[]);
         }
     }
 </script>
 
 <Dialog bind:show>
-    <h1
-        >{concretize(
-            $config.getLocale(),
-            $config.getLocale().ui.header.selectedLocales
-        ).toText()}</h1
-    >
+    <h1>{concretize($locale, $locale.ui.header.selectedLocales).toText()}</h1>
     <div class="languages">
-        {#each selectedLocales as locale}
+        {#each selectedLocales as selected}
             <Button
-                action={() => select(locale)}
+                action={() => select(selected)}
+                tip={$locale.ui.description.removeLanguage}
                 active={selectedLocales.length > 1}
-                tip={$config.getLocale().ui.description.removeLanguage}
                 >{#if selectedLocales.length > 1}
                     ⨉
-                {/if}<LocaleName {locale} supported /></Button
+                {/if}<LocaleName locale={selected} supported /></Button
             >
         {/each}
     </div>
-    <h1
-        >{concretize(
-            $config.getLocale(),
-            $config.getLocale().ui.header.supportedLocales
-        ).toText()}</h1
-    >
+    <h1>{concretize($locale, $locale.ui.header.supportedLocales).toText()}</h1>
     <div class="languages">
         {#each SupportedLocales.filter((supported) => !selectedLocales.some((locale) => locale === supported)) as supported}
             <Button
                 action={() => select(supported)}
-                tip={$config.getLocale().ui.description.addLanguage}
+                tip={$locale.ui.description.addLanguage}
                 >+ <LocaleName locale={supported} supported /></Button
             >
         {:else}&mdash;
@@ -91,8 +81,8 @@
             external
             to="https://github.com/amyjko/wordplay/blob/main/CONTRIBUTING.md#localization"
             >{concretize(
-                $config.getLocale(),
-                $config.getLocale().ui.header.helpLocalize
+                $locale,
+                $locale.ui.header.helpLocalize
             ).toText()}</Link
         ></h1
     >
@@ -103,7 +93,7 @@
     </div>
 </Dialog>
 <Button
-    tip={$config.getLocale().ui.description.changeLanguage}
+    tip={$locale.ui.description.changeLanguage}
     action={() => (show = true)}
 >
     <span class="chosen">

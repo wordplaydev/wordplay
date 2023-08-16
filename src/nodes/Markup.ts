@@ -8,7 +8,7 @@ import { list, node, type Grammar, type Replacement } from './Node';
 import type Spaces from '../parser/Spaces';
 import { toMarkup } from '../parser/Parser';
 import Token from './Token';
-import Symbol from './Symbol';
+import Sym from './Sym';
 import type Node from './Node';
 import Words from './Words';
 import type { FormattedText } from '../output/Phrase';
@@ -64,7 +64,9 @@ export default class Markup extends Content {
         return Purpose.Document;
     }
 
-    computeConflicts() {}
+    computeConflicts() {
+        return;
+    }
 
     getNodeLocale(translation: Locale) {
         return translation.node.Markup;
@@ -103,8 +105,7 @@ export default class Markup extends Content {
             .map((p) => p.nodes())
             .flat()
             .filter(
-                (n): n is Token =>
-                    n instanceof Token && n.isSymbol(Symbol.Words)
+                (n): n is Token => n instanceof Token && n.isSymbol(Sym.Words)
             )
             .filter((w) => w.getText().indexOf(text) >= 0);
 
@@ -136,7 +137,7 @@ export default class Markup extends Content {
             if (node instanceof Words) {
                 if (words[0] === node) words.shift();
                 else words.unshift(node);
-            } else if (node instanceof Token && node.isSymbol(Symbol.Words)) {
+            } else if (node instanceof Token && node.isSymbol(Sym.Words)) {
                 formats.push({
                     text: node.getText(),
                     italic: words.some((word) => word.getFormat() === 'italic'),

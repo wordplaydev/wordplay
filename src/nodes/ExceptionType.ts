@@ -19,7 +19,9 @@ export default class ExceptionType extends Type {
         return [];
     }
 
-    computeConflicts() {}
+    computeConflicts() {
+        return;
+    }
 
     acceptsAll(types: TypeSet): boolean {
         return types

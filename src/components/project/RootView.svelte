@@ -19,18 +19,18 @@
     import Source from '@nodes/Source';
     import Name from '@nodes/Name';
     import Program from '@nodes/Program';
-    import { config } from '../../db/Database';
+    import { languages } from '../../db/Database';
     import TextLiteral from '../../nodes/TextLiteral';
 
     export let node: Node;
     /** Optional space; if not provided, all nodes are rendered with preferred space. */
     export let spaces: Spaces | undefined = undefined;
-    export let inert: boolean = false;
-    export let inline: boolean = false;
+    export let inert = false;
+    export let inline = false;
     /** If inline, and true, this will be a maximum width */
-    export let elide: boolean = false;
+    export let elide = false;
     /** If true, hides names and docs not in a selected locale */
-    export let localized: boolean = false;
+    export let localized = false;
 
     /** Get the root, or make one if it's not a source. */
     $: root = node instanceof Source ? node.root : new Root(node);
@@ -101,18 +101,16 @@
                 const tags = tagged.getTags();
                 // If at least one is visible, hide all those not in a preferred language.
                 if (
-                    $config
-                        .getLanguages()
-                        .some((lang) =>
-                            tags.some((l) => l.getLanguage() === lang)
-                        )
+                    $languages.some((lang) =>
+                        tags.some((l) => l.getLanguage() === lang)
+                    )
                 ) {
                     let first = false;
                     for (const nameOrDoc of tags) {
                         const caretIn = $caret?.isIn(nameOrDoc, true);
-                        const selectedLocale = $config
-                            .getLanguages()
-                            .some((t) => t === nameOrDoc.getLanguage());
+                        const selectedLocale = $languages.some(
+                            (t) => t === nameOrDoc.getLanguage()
+                        );
                         // Not a selected language and not in the node? Hide it.
                         if (!selectedLocale && !caretIn)
                             newHidden.add(nameOrDoc);

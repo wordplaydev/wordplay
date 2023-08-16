@@ -31,7 +31,7 @@ import { MisplacedShare } from '@conflicts/MisplacedShare';
 import { DuplicateShare } from '@conflicts/DuplicateShare';
 import type TypeSet from './TypeSet';
 import type Value from '@values/Value';
-import Symbol from './Symbol';
+import Sym from './Sym';
 import type Name from './Name';
 import DuplicateName from '@conflicts/DuplicateName';
 import { node, none, type Grammar, type Replacement, any } from './Node';
@@ -119,8 +119,6 @@ export default class Bind extends Expression {
                 return [
                     Bind.make(undefined, Names.make(['_']), undefined, anchor),
                 ];
-            else {
-            }
         }
         // If offer insertions under various conditions
         else {
@@ -171,8 +169,8 @@ export default class Bind extends Expression {
             },
             {
                 name: 'share',
-                kind: any(node(Symbol.Share), none()),
-                getToken: () => new Token(SHARE_SYMBOL, Symbol.Share),
+                kind: any(node(Sym.Share), none()),
+                getToken: () => new Token(SHARE_SYMBOL, Sym.Share),
             },
             {
                 name: 'names',
@@ -180,12 +178,12 @@ export default class Bind extends Expression {
             },
             {
                 name: 'etc',
-                kind: any(node(Symbol.Etc), none()),
-                getToken: () => new Token(ETC_SYMBOL, Symbol.Etc),
+                kind: any(node(Sym.Etc), none()),
+                getToken: () => new Token(ETC_SYMBOL, Sym.Etc),
             },
-            { name: 'dot', kind: any(node(Symbol.Type), none('type')) },
+            { name: 'dot', kind: any(node(Sym.Type), none('type')) },
             { name: 'type', kind: any(node(Type), none('dot')) },
-            { name: 'colon', kind: any(node(Symbol.Bind), none('value')) },
+            { name: 'colon', kind: any(node(Sym.Bind), none('value')) },
             {
                 name: 'value',
                 kind: any(node(Expression), none('colon')),
@@ -577,7 +575,7 @@ export default class Bind extends Expression {
                       // for stream-based recurrence relations, where a stream or reaction's future values can be
                       // affected by their past values.
                       if (this.value) {
-                          let stream =
+                          const stream =
                               evaluator.getBasisStreamFor(
                                   this.value as EvaluationNode,
                                   true
@@ -585,7 +583,7 @@ export default class Bind extends Expression {
                               evaluator.reactionStreams.get(
                                   this.value as Reaction
                               );
-                          let latest = stream?.latest();
+                          const latest = stream?.latest();
                           if (latest) evaluator.bind(this.names, latest);
                       }
                       return undefined;

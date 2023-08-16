@@ -8,8 +8,8 @@
 
     export let value: Value;
     export let node: Node | undefined = undefined;
-    export let interactive: boolean = true;
-    export let inline: boolean = true;
+    export let interactive = true;
+    export let inline = true;
 
     if (interactive) setContext('interactive', true);
 </script>

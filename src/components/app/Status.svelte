@@ -1,14 +1,14 @@
 <script lang="ts">
-    import { SaveStatus } from '../../db/Database';
+    import { SaveStatus, locale } from '../../db/Database';
     import { status } from '../../db/Database';
 </script>
 
 <div class="status {$status}">
     {$status === SaveStatus.Saved
-        ? '✔'
+        ? `${$locale.ui.feedback.save.saved} ✔`
         : $status === SaveStatus.Saving
-        ? '…'
-        : '⨉'}
+        ? `${$locale.ui.feedback.save.saving} …`
+        : `${$locale.ui.feedback.save.unsaved} ⨉`}
 </div>
 
 <style>
@@ -17,7 +17,6 @@
         padding: var(--wordplay-spacing);
         border-radius: 50%;
         background: var(--wordplay-background);
-        width: 2em;
         height: 2em;
         display: flex;
         align-items: center;

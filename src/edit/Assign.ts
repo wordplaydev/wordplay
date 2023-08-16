@@ -68,7 +68,7 @@ export default class Assign<NodeType extends Node> extends Revision {
             : undefined;
 
         // Split the space using the position, defaulting to the original space.
-        let newSpaces =
+        const newSpaces =
             newNode === undefined
                 ? this.context.source.spaces
                 : Revision.splitSpace(
@@ -88,7 +88,7 @@ export default class Assign<NodeType extends Node> extends Revision {
             );
 
         // Place the caret at first placeholder or the end of the node in the source.
-        let newCaretPosition =
+        const newCaretPosition =
             newNode === undefined
                 ? originalPosition ?? this.position
                 : newNode.getFirstPlaceholder() ??
@@ -110,7 +110,7 @@ export default class Assign<NodeType extends Node> extends Revision {
     }
 
     getDescription(locale: Locale) {
-        let node =
+        const node =
             this.child instanceof Refer
                 ? this.child.getNode([locale])
                 : this.getNewNode([locale]);

@@ -5,7 +5,7 @@ export enum Mode {
     Collapsed = 'collapsed',
 }
 
-export enum Content {
+export enum TileKind {
     Output = 'output',
     Documentation = 'docs',
     Source = 'source',
@@ -16,7 +16,7 @@ export default class Tile {
     /** An internal name for lookups */
     readonly id: string;
     /** The type of window content */
-    readonly kind: Content;
+    readonly kind: TileKind;
     /** A creator visible name for display */
     readonly name: string;
     /** The current position of the tile in the browser window */
@@ -29,7 +29,7 @@ export default class Tile {
     constructor(
         id: string,
         name: string,
-        kind: Content,
+        kind: TileKind,
         mode: Mode,
         bounds: Bounds | undefined,
         position: Bounds
@@ -51,15 +51,15 @@ export default class Tile {
     }
 
     isSource() {
-        return this.kind === Content.Source;
+        return this.kind === TileKind.Source;
     }
 
     getOrder() {
-        return this.kind === Content.Palette
+        return this.kind === TileKind.Palette
             ? 0
-            : this.kind === Content.Output
+            : this.kind === TileKind.Output
             ? 1
-            : this.kind === Content.Documentation
+            : this.kind === TileKind.Documentation
             ? 2
             : 3;
     }

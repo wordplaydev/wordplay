@@ -24,7 +24,7 @@ import type Locale from '@locale/Locale';
 import { UnenclosedType } from './UnenclosedType';
 import Glyphs from '../lore/Glyphs';
 import { PROPERTY_SYMBOL } from '../parser/Symbols';
-import Symbol from './Symbol';
+import Sym from './Sym';
 import concretize from '../locale/concretize';
 import type Node from './Node';
 import Purpose from '../concepts/Purpose';
@@ -42,7 +42,7 @@ export default class This extends AtomicExpression {
     }
 
     static make() {
-        return new This(new Token(PROPERTY_SYMBOL, Symbol.Access));
+        return new This(new Token(PROPERTY_SYMBOL, Sym.Access));
     }
 
     static getPossibleNodes(
@@ -65,7 +65,7 @@ export default class This extends AtomicExpression {
     }
 
     getGrammar(): Grammar {
-        return [{ name: 'dis', kind: node(Symbol.This) }];
+        return [{ name: 'dis', kind: node(Sym.This) }];
     }
 
     getPurpose() {

@@ -1,6 +1,6 @@
 import Project, { type SerializedProject } from '@models/Project';
 import type Node from '@nodes/Node';
-import { writable, type Writable } from 'svelte/store';
+import { get, writable, type Writable, derived } from 'svelte/store';
 import Source from '@nodes/Source';
 import {
     collection,
@@ -17,15 +17,11 @@ import { firestore, auth } from '@db/firebase';
 import { onAuthStateChanged, type Unsubscribe, type User } from 'firebase/auth';
 import { FirebaseError } from 'firebase/app';
 import type Locale from '../locale/Locale';
-import type { LayoutObject } from '../components/project/Layout';
+import type { SerializedLayout } from '../components/project/Layout';
 import type LanguageCode from '../locale/LanguageCode';
-import {
-    getLanguageDirection,
-    type WritingLayout,
-} from '../locale/LanguageCode';
-import Progress from '../tutorial/Progress';
-import Arrangement from './Arrangement';
-import type { Tutorial } from '../tutorial/Tutorial';
+import { getLanguageDirection } from '../locale/LanguageCode';
+import type Progress from '../tutorial/Progress';
+import type Arrangement from './Arrangement';
 import { Basis } from '../basis/Basis';
 import en from '../locale/en-US.json';
 import Layout from '../components/project/Layout';
@@ -34,29 +30,19 @@ import {
     type SupportedLocale,
     getBestSupportedLocales,
 } from '../locale/Locale';
-
-const PROJECTS_KEY = 'projects';
-const LAYOUTS_KEY = 'layouts';
-const ARRANGEMENT_KEY = 'arrangement';
-const ANIMATION_FACTOR_KEY = 'animationFactor';
-const LOCALES_KEY = 'locales';
-const WRITING_LAYOUT_KEY = 'writingLayout';
-const TUTORIAL_KEY = 'tutorial';
-
-/** If true, we only persist on the device, and not in the database. */
-const deviceSpecific: Record<keyof Config, boolean> = {
-    layouts: true,
-    arrangement: true,
-    animationFactor: false,
-    locales: false,
-    writingLayout: false,
-    tutorial: false,
-};
-
-const ANIMATION_DURATION = 200;
-
-// Remember this many project edits.
-const PROJECT_HISTORY_LIMIT = 1000;
+import type { WritingLayout } from '../locale/Scripts';
+import Fonts from '../basis/Fonts';
+import type Setting from './Setting';
+import { LayoutsSetting } from './LayoutsSetting';
+import { ArrangementSetting } from './ArrangementSetting';
+import { AnimationFactorSetting } from './AnimationFactorSetting';
+import { LocalesSetting } from './LocalesSetting';
+import { WritingLayoutSetting } from './WritingLayoutSetting';
+import { TutorialProgressSetting } from './TutorialProgressSetting';
+import { CameraSetting } from './CameraSetting';
+import { MicSetting } from './MicSetting';
+import { ProjectsDatabase } from './ProjectsDatabase';
+import { ProjectHistory } from './ProjectHistory';
 
 export enum SaveStatus {
     Saved = 'saved',
@@ -64,64 +50,47 @@ export enum SaveStatus {
     Error = 'error',
 }
 
-export type TutorialProgress = {
-    act: number;
-    scene: number;
-    line: number;
-};
-
-const TutorialDefault = { act: 1, scene: 1, line: 1 };
-
-type Config = {
-    layouts: Record<string, LayoutObject>;
-    arrangement: Arrangement;
-    animationFactor: number;
-    locales: SupportedLocale[];
-    writingLayout: WritingLayout;
-    tutorial: TutorialProgress;
-};
-
-function setLocalValue(key: string, value: any) {
-    if (typeof window !== 'undefined') {
-        if (value === null) window.localStorage.removeItem(key);
-        else window.localStorage.setItem(key, JSON.stringify(value));
-    }
-}
-
-function getLocalValue<Type>(key: string): Type | null {
-    const value =
-        typeof window !== 'undefined' ? window.localStorage.getItem(key) : null;
-    return value === null ? null : (JSON.parse(value) as Type);
-}
-
 export class Database {
     /** The default locale */
     private readonly defaultLocale: Locale;
 
-    /** A Svelte store for that contains this. Updated when config changes. */
-    private configStore: Writable<Database>;
-
-    /** A Svelte store for that contains this. Updated when projects change. */
-    private projectsStore: Writable<Database>;
-
     /** The status of persisting the projects. */
-    private statusStore: Writable<SaveStatus> = writable(SaveStatus.Saved);
+    readonly statusStore: Writable<SaveStatus> = writable(SaveStatus.Saved);
 
     /** The current Firebase user ID */
     private uid: string | null = null;
 
-    /** The current creator configuration */
-    private config: Config = {
-        layouts: {},
-        arrangement: Arrangement.Vertical,
-        animationFactor: 1,
-        locales: ['en-US'],
-        writingLayout: 'horizontal-tb',
-        tutorial: TutorialDefault,
+    /** The current settings */
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    readonly settings = {
+        layouts: LayoutsSetting,
+        arrangement: ArrangementSetting,
+        animationFactor: AnimationFactorSetting,
+        locales: LocalesSetting,
+        writingLayout: WritingLayoutSetting,
+        tutorial: TutorialProgressSetting,
+        camera: CameraSetting,
+        mic: MicSetting,
     };
 
-    /** The locales loaded. Undefined if the language code doesn't exist. */
-    private locales: Record<
+    /** A derived store based on animation factor */
+    readonly animationDuration = derived(
+        this.settings.animationFactor.value,
+        (factor) => factor * 200
+    );
+
+    /** Derived stores based on selected locales. */
+    readonly locales: Writable<Locale[]> = writable([DefaultLocale]);
+    readonly locale = derived(this.locales, ($locales) => $locales[0]);
+    readonly languages = derived(this.locales, ($locales) =>
+        $locales.map((locale) => locale.language)
+    );
+    readonly writingDirection = derived(this.locales, ($locales) =>
+        getLanguageDirection($locales[0].language)
+    );
+
+    /** The locales loaded, loading, or failed to load. */
+    private localesLoaded: Record<
         SupportedLocale,
         Locale | Promise<Locale | undefined> | undefined
     > = {} as Record<
@@ -129,24 +98,11 @@ export class Database {
         Locale | Promise<Locale | undefined> | undefined
     >;
 
-    /** The current list of projects. */
-    private projects: Map<
-        string,
-        {
-            // The current version of the project
-            current: Project;
-            // Previous versions of the project.
-            // It always contains the current version of the project and is therefore never empty.
-            // There is one history for the entire project; no per-source history.
-            // History is not persisted, it's session-only.
-            history: [Project, ...Project[]];
-            // The index of the current project in the history.
-            // The present is the last value in the history.
-            index: number;
-            // True if this was successfully saved in the remote database.
-            saved: boolean;
-        }
-    >;
+    /** The current set of projects in memory. Backed by the IndexedDB local database and Firebase. */
+    private projects: Map<string, ProjectHistory>;
+
+    /** An IndexedDB backed database of projects, allowing for scalability of local persistence. */
+    readonly projectsDB = new ProjectsDatabase();
 
     /** Debounce timer, used to clear pending requests. */
     private timer: NodeJS.Timer | undefined = undefined;
@@ -157,20 +113,18 @@ export class Database {
 
     constructor(locales: SupportedLocale[], defaultLocale: Locale) {
         this.defaultLocale = defaultLocale;
-        this.projects = new Map();
-
-        this.configStore = writable(this);
-        this.projectsStore = writable(this);
 
         // Store the default locale
-        this.locales[
+        this.localesLoaded[
             `${defaultLocale.language}-${defaultLocale.region}` as SupportedLocale
         ] = defaultLocale;
 
         // Initialize default languages
-        if (locales.length > 0) this.config.locales = locales;
+        if (locales.length > 0) this.settings.locales.set(this, locales);
 
-        this.loadLocalData();
+        // Initialize the in-memory project store from the local database.
+        this.projects = new Map();
+        this.loadProjects();
     }
 
     async refreshLocales() {
@@ -179,9 +133,9 @@ export class Database {
 
     async loadLocales(
         preferredLocales: SupportedLocale[],
-        refresh: boolean = false
+        refresh = false
     ): Promise<Locale[]> {
-        // Asynchronously load all unloaded
+        // Asynchronously load all unloaded locales.
         const locales = (
             await Promise.all(
                 preferredLocales.map(async (locale) =>
@@ -190,8 +144,20 @@ export class Database {
             )
         ).filter((locale): locale is Locale => locale !== undefined);
 
-        // Notify config listeners.
-        this.configStore.set(this);
+        // Ask fonts to load the locale's preferred fonts.
+        Fonts.loadLocales(locales);
+
+        // Update the locales stores
+        this.locales.set(
+            this.settings.locales
+                .get()
+                .map((l) => this.localesLoaded[l])
+                .filter(
+                    (l): l is Locale =>
+                        l !== undefined && !(l instanceof Promise)
+                )
+        );
+
         return locales;
     }
 
@@ -202,12 +168,12 @@ export class Database {
         // Already checked and it doesn't exist? Just return undefined.
         if (
             !refresh &&
-            Object.hasOwn(this.locales, lang) &&
-            this.locales[lang] === undefined
+            Object.hasOwn(this.localesLoaded, lang) &&
+            this.localesLoaded[lang] === undefined
         )
             return undefined;
 
-        const current = this.locales[lang];
+        const current = this.localesLoaded[lang];
 
         // Are we in the middle of getting it? Return the promise we already made.
         if (current instanceof Promise) {
@@ -224,64 +190,60 @@ export class Database {
                             response.ok ? await response.json() : undefined
                         )
                         .catch(() => undefined);
-                this.locales[lang] = promise;
+                this.localesLoaded[lang] = promise;
                 const locale = await promise;
-                this.locales[lang] = locale;
+                this.localesLoaded[lang] = locale;
                 return locale;
             } catch (_) {
-                this.locales[lang] = undefined;
+                this.localesLoaded[lang] = undefined;
                 return undefined;
             }
         } else return current;
     }
 
     getProjectLayout(id: string) {
-        const layouts = this.config.layouts;
+        const layouts = this.settings.layouts.get();
         const layout = layouts ? layouts[id] : null;
-        return layout ? Layout.fromObject(layout) : null;
+        return layout ? Layout.fromObject(id, layout) : null;
     }
 
     setProjectLayout(id: string, layout: Layout) {
         // Has the layout changed?
-        const currentLayoutObject = this.config.layouts[id] ?? null;
-        const currentLayout = Layout.fromObject(currentLayoutObject);
+        const currentLayoutObject = this.settings.layouts.get()[id] ?? null;
+        const currentLayout = currentLayoutObject
+            ? Layout.fromObject(id, currentLayoutObject)
+            : null;
         if (currentLayout !== null && currentLayout.isEqualTo(layout)) return;
 
         const newLayout = Object.fromEntries(
-            Object.entries(this.config.layouts)
+            Object.entries(this.settings.layouts.get())
         );
         newLayout[id] = layout.toObject();
         this.setLayout(newLayout);
     }
 
-    setLayout(layouts: Record<string, LayoutObject>) {
-        if (this.config.layouts === layouts) return;
-        this.config.layouts = layouts;
-        this.saveConfig(LAYOUTS_KEY, layouts);
+    setLayout(layouts: Record<string, SerializedLayout>) {
+        this.settings.layouts.set(database, layouts);
     }
 
-    getArrangement() {
-        return this.config.arrangement;
+    getArrangement(): Arrangement {
+        return this.settings.arrangement.get();
     }
 
     setArrangement(arrangement: Arrangement) {
-        if (this.config.arrangement === arrangement) return;
-        this.config.arrangement = arrangement;
-        this.saveConfig(ARRANGEMENT_KEY, arrangement);
+        this.settings.arrangement.set(this, arrangement);
     }
 
-    getAnimationFactor() {
-        return this.config.animationFactor;
-    }
-
-    getAnimationDuration() {
-        return this.getAnimationFactor() * ANIMATION_DURATION;
+    getAnimationFactor(): number {
+        return this.settings.animationFactor.get();
     }
 
     setAnimationFactor(factor: number) {
-        if (this.config.animationFactor === factor) return;
-        this.config.animationFactor = factor;
-        return this.saveConfig(ANIMATION_FACTOR_KEY, factor);
+        this.settings.animationFactor.set(this, factor);
+    }
+
+    getAnimationDuration() {
+        return get(this.animationDuration);
     }
 
     getLanguages(): LanguageCode[] {
@@ -294,8 +256,9 @@ export class Database {
 
     getLocales(): Locale[] {
         // Map preferred languages into locales, filtering out missing locales.
-        const locales = this.config.locales
-            .map((locale) => this.locales[locale])
+        const locales = this.settings.locales
+            .get()
+            .map((locale) => this.localesLoaded[locale])
             .filter(
                 (locale): locale is Locale =>
                     locale !== undefined && !(locale instanceof Promise)
@@ -314,107 +277,104 @@ export class Database {
     /** Set the languages, load all locales if they aren't loaded, revise all projects to include any new locales, and save the new configuration. */
     async setLocales(preferredLocales: SupportedLocale[]) {
         // Update the configuration with the new languages, regardless of whether we successfully loaded them.
-        this.config.locales = preferredLocales;
-        this.saveConfig(LOCALES_KEY, preferredLocales);
+        this.settings.locales.set(this, preferredLocales);
 
         // Try to load locales for the requested languages
         const locales = await this.loadLocales(preferredLocales);
 
         // Revise all projects to have the new locale
-        for (const [, project] of this.projects) {
-            project.current = project.current.withLocales(locales);
-            project.history = project.history.map((proj) =>
-                proj.withLocales(locales)
-            ) as [Project, ...Project[]];
-        }
-
-        this.projectsStore.set(this);
+        for (const [, history] of this.projects) history.withLocales(locales);
     }
 
     getWritingDirection() {
-        return getLanguageDirection(this.getLanguages()[0]);
+        return get(this.writingDirection);
     }
 
-    getWritingLayout() {
-        return this.config.writingLayout;
+    getWritingLayout(): WritingLayout {
+        return this.settings.writingLayout.get();
     }
 
     setWritingLayout(layout: WritingLayout) {
-        if (this.config.writingLayout === layout) return;
-        this.config.writingLayout = layout;
-        this.saveConfig(WRITING_LAYOUT_KEY, layout);
+        this.settings.writingLayout.set(this, layout);
     }
 
     setTutorialProgress(progress: Progress) {
-        const value = progress.seralize();
-        if (
-            value.act === this.config.tutorial.act &&
-            value.scene === this.config.tutorial.scene &&
-            value.line === this.config.tutorial.line
-        )
-            return;
-
-        this.config.tutorial = value;
-        this.saveConfig(TUTORIAL_KEY, value);
+        this.settings.tutorial.set(this, progress.seralize());
     }
 
-    getTutorialProgress(tutorial: Tutorial) {
-        return new Progress(
-            tutorial,
-            this.config.tutorial.act,
-            this.config.tutorial.scene,
-            this.config.tutorial.line
-        );
+    setCamera(deviceID: string | null) {
+        this.settings.camera.set(this, deviceID);
     }
 
-    getSaveStatusStore() {
-        return this.statusStore;
+    getCamera() {
+        return this.settings.camera.get();
     }
 
-    getConfigStore() {
-        return this.configStore;
+    setMic(deviceID: string | null) {
+        this.settings.mic.set(this, deviceID);
     }
 
-    getProjectsStore() {
-        return this.projectsStore;
+    getMic() {
+        return this.settings.mic.get();
+    }
+
+    getProjectStore(id: string) {
+        return this.projects.get(id)?.getStore();
     }
 
     /** Get a list of all current projects */
-    getCurrentProjects() {
-        return Array.from(this.projects.values()).map((p) => p.current);
+    async getAllCreatorProjects(): Promise<Project[]> {
+        await this.loadProjects();
+        return Array.from(this.projects.values()).map((p) => p.getCurrent());
     }
 
     /** Returns the current version of the project with the given ID, if it exists. */
-    getProject(id: string) {
-        return this.projects.get(id)?.current;
-    }
+    async getProject(id: string): Promise<Project | undefined> {
+        // First, check memory.
+        const project = this.projects.get(id)?.getCurrent();
+        if (project !== undefined) return project;
 
-    async loadProject(projectID: string): Promise<Project | undefined> {
-        // If we don't have it, ask the database for it.
+        // Not there? Check the local database.
+        if (IndexedDBSupported) {
+            const localProject = await this.projectsDB.get(id);
+            if (localProject !== undefined) {
+                const proj = await this.deserializeProject(localProject);
+                if (proj) {
+                    this.addOrUpdateProject(proj, false, true);
+                    return proj;
+                }
+            }
+        }
+
+        // Not there? See if Firebase has it.
         if (firestore) {
             try {
-                const projectDoc = await getDoc(
-                    doc(firestore, 'projects', projectID)
-                );
+                const projectDoc = await getDoc(doc(firestore, 'projects', id));
                 if (projectDoc.exists()) {
                     const project = await this.deserializeProject(
                         projectDoc.data() as SerializedProject
                     );
-                    if (project !== undefined) this.addProject(project);
+                    if (project !== undefined)
+                        this.addOrUpdateProject(project, false, false);
                     return project;
                 }
             } catch (err) {
                 return undefined;
             }
         }
+
+        return undefined;
+    }
+
+    async loadProjects() {
+        if (IndexedDBSupported) {
+            const projects = await this.projectsDB.all();
+            this.updateProjects(projects);
+        }
     }
 
     /** Create a project and return it's ID */
-    createProject(
-        locales: Locale[],
-        uid: string | undefined,
-        code: string = ''
-    ) {
+    createProject(locales: Locale[], uid: string | undefined, code = '') {
         const newProject = new Project(
             null,
             '',
@@ -422,33 +382,35 @@ export class Database {
             [],
             // The project starts with all of the locales currently selected in the config.
             locales,
-            undefined,
             uid ? [uid] : []
         );
-        this.addProject(newProject);
+        this.addOrUpdateProject(newProject, false, true);
         return newProject.id;
     }
 
     /** Batch set projects */
-    setProjects(projects: Project[], persist: boolean = true) {
-        for (const project of projects) {
-            // See if there's an existing record for this project
-            // so we can preserve it's history.
-            const info = this.projects.get(project.id);
-
-            this.projects.set(project.id, {
-                current: project,
-                history: info ? info.history : [project],
-                index: info ? info.index : 0,
-                saved: false,
-            });
-        }
-        if (persist) this.requestProjectsSave();
+    setProjects(projects: Project[], persist = true) {
+        for (const project of projects)
+            this.addOrUpdateProject(project, false, persist);
     }
 
-    /** Add a single project, overriding any project with it's ID. */
-    addProject(project: Project) {
-        this.setProjects([project]);
+    addOrUpdateProject(
+        project: Project,
+        remember: boolean,
+        persist: boolean
+    ): ProjectHistory {
+        // Update or create a history for this project.
+        let history = this.projects.get(project.id);
+        if (history) history.edit(project, remember);
+        else {
+            history = new ProjectHistory(project, persist);
+            this.projects.set(project.id, history);
+        }
+
+        // Defer a save.
+        if (persist) this.requestProjectsSave();
+
+        return history;
     }
 
     /** Delete the project with the given ID, if it exists */
@@ -468,95 +430,32 @@ export class Database {
         }
     }
 
-    /** Replaces the project with the given project, adding the current version to the history, and erasing the future, if there is any. */
-    reviseProject(projectID: string | Project, revised: Project) {
-        // Find the ID we're revising.
-        const id = projectID instanceof Project ? projectID.id : projectID;
-
-        // Get the info for the project. Bail if we don't find it, since this should never happen.
-        const serialized = this.projects.get(id);
-
-        // Couldn't find it? Add it.
-        if (serialized === undefined) {
-            this.addProject(revised);
-            return;
-        }
-
-        // Is the undo pointer before the end? Trim the future, keeping the present intact.
-        serialized.history.splice(
-            serialized.index + 1,
-            serialized.history.length - serialized.index - 1
-        );
-
-        // Is the length of the history great than the limit? Trim it.
-        if (serialized.history.length > PROJECT_HISTORY_LIMIT)
-            serialized.history.splice(
-                0,
-                PROJECT_HISTORY_LIMIT - serialized.history.length
-            );
-
-        // Add the revised project to the history.
-        serialized.history.push(revised);
-
-        // Reset the pointer to the end of the history
-        serialized.index = serialized.history.length - 1;
-
-        // Set the current project to the revised project.
-        serialized.current = revised;
-
-        // Mark unsaved
-        serialized.saved = false;
-
-        // Request a save to persist the current version.
-        this.requestProjectsSave();
-    }
-
-    projectIsUndoable(id: string) {
-        const info = this.projects.get(id);
-        return info !== undefined && info.index > 0;
-    }
-
-    undoProject(id: string) {
-        return this.undoRedoProject(id, -1);
-    }
-
-    projectIsRedoable(id: string) {
-        const info = this.projects.get(id);
-        return info !== undefined && info.index < info.history.length - 1;
-    }
-
-    redoProject(id: string) {
-        return this.undoRedoProject(id, 1);
-    }
-
-    undoRedoProject(id: string, direction: -1 | 1): boolean {
-        const info = this.projects.get(id);
-        // No record of this project? Do nothing.
-        if (info === undefined) return false;
-
-        // In the present? Do nothing.
-        if (direction > 0 && info.index === info.history.length - 1)
-            return false;
-        // No more history? Do nothing.
-        else if (direction < 0 && info.index === 0) return false;
-
-        // Move the index back a step in time
-        info.index += direction;
-
-        // Change the current project to the historical project.
-        info.current = info.history[info.index];
-
-        this.requestProjectsSave();
-
-        return true;
-    }
-
     /** Shorthand for revising nodes in a project */
     reviseProjectNodes(
         project: Project,
         revisions: [Node, Node | undefined][]
     ) {
-        this.reviseProject(project, project.withRevisedNodes(revisions));
+        this.reviseProject(project.withRevisedNodes(revisions));
+    }
+
+    /** Replaces the project with the given project, adding the current version to the history, and erasing the future, if there is any. */
+    reviseProject(revised: Project, remember = true) {
+        this.addOrUpdateProject(revised, remember, true);
+    }
+
+    getProjectHistory(id: string) {
+        return this.projects.get(id);
+    }
+
+    undoRedoProject(id: string, direction: -1 | 1): Project | undefined {
+        const history = this.projects.get(id);
+        // No record of this project? Do nothing.
+        if (history === undefined) return undefined;
+
+        const project = history.undoRedo(direction);
+        if (project) this.requestProjectsSave();
+
+        return project;
     }
 
     /**
@@ -564,9 +463,6 @@ export class Database {
      * Should be called any time this.projects is modified.
      */
     requestProjectsSave() {
-        // Broadcast to all listeners.
-        this.projectsStore.set(this);
-
         // Note that we're saving.
         this.setStatus(SaveStatus.Saving);
 
@@ -574,7 +470,7 @@ export class Database {
         clearTimeout(this.timer);
 
         // Initiate another.
-        this.timer = setTimeout(() => this.saveProjects(), 1000);
+        this.timer = setTimeout(() => this.persistProjects(), 1000);
     }
 
     /** Update the saving status and broadcast via the store. */
@@ -584,46 +480,45 @@ export class Database {
 
     /** Convert to an object suitable for JSON serialization */
     toProjectsObject(): SerializedProject[] {
-        return Array.from(this.projects.values()).map((project) =>
-            project.current.serialize()
-        );
+        return Array.from(this.projects.values())
+            .filter((history) => history.isPersisted())
+            .map((history) => history.getCurrent().serialize());
     }
 
-    saveConfig(key: keyof Config, value: any) {
-        // Persist in local storage.
+    /** Saves settings to Firebase, if available. */
+    persistSettings() {
         this.setStatus(SaveStatus.Saving);
         try {
-            setLocalValue(key, value);
-
             // Try to save online, if this is not device specific
-            if (firestore && !deviceSpecific[key] && this.uid) {
+            if (firestore && this.uid) {
                 // Get the config, but delete all device-specific configs.
-                const config = { ...this.config };
-                for (const key in deviceSpecific) {
-                    if (deviceSpecific[key as keyof Config] === true)
-                        delete config[key as keyof Config];
+                const settings: Record<string, unknown> = {};
+                for (const [key, setting] of Object.entries(this.settings)) {
+                    const value = setting.get();
+                    if (value !== null) settings[key] = value;
                 }
 
-                setDoc(doc(firestore, 'users', this.uid), config);
+                // Save in firestore
+                setDoc(doc(firestore, 'users', this.uid), settings);
             }
 
             this.setStatus(SaveStatus.Saved);
         } catch (_) {
             this.setStatus(SaveStatus.Error);
         }
-
-        // Notify config listeners.
-        this.configStore.set(this);
     }
 
     /** Persist in storage */
-    async saveProjects() {
-        // First, cache the projects to local storage.
-        this.setStatus(SaveStatus.Saving);
-        try {
-            setLocalValue(PROJECTS_KEY, this.toProjectsObject());
-            this.setStatus(SaveStatus.Saved);
-        } catch (_) {
+    async persistProjects() {
+        // First, try to save locally
+        if ('indexedDB' in window) {
+            this.setStatus(SaveStatus.Saving);
+            try {
+                this.projectsDB.save(this.toProjectsObject());
+            } catch (_) {
+                this.setStatus(SaveStatus.Error);
+            }
+        } else {
             this.setStatus(SaveStatus.Error);
         }
 
@@ -632,21 +527,27 @@ export class Database {
             try {
                 // Create a batch of all of the new and updated projects.
                 const batch = writeBatch(firestore);
-                this.projects.forEach((project) => {
-                    if (firestore && !project.saved)
+                this.projects.forEach((history) => {
+                    if (
+                        firestore &&
+                        history.isUnsaved() &&
+                        history.isPersisted()
+                    ) {
+                        const current = history.getCurrent();
                         batch.set(
-                            doc(firestore, 'projects', project.current.id),
+                            doc(firestore, 'projects', current.id),
                             (this.uid
-                                ? project.current.withUser(this.uid)
-                                : project.current
+                                ? current.withUser(this.uid)
+                                : current
                             ).serialize()
                         );
+                    }
                 });
 
                 await batch.commit();
 
                 // Mark all projects saved if successful.
-                this.projects.forEach((project) => (project.saved = true));
+                this.projects.forEach((project) => project.markSaved());
             } catch (error) {
                 if (error instanceof FirebaseError) {
                     console.error(error.code);
@@ -654,42 +555,10 @@ export class Database {
                 }
                 this.setStatus(SaveStatus.Error);
             }
+            this.setStatus(SaveStatus.Saved);
+        } else {
+            this.setStatus(SaveStatus.Saved);
         }
-    }
-
-    /** Load from local browser storage */
-    loadLocalData() {
-        const projects = getLocalValue<SerializedProject[]>(PROJECTS_KEY);
-        if (projects) this.updateProjects(projects);
-
-        this.config.arrangement =
-            (getLocalValue<string>(ARRANGEMENT_KEY) as Arrangement) ??
-            Arrangement.Vertical;
-
-        this.config.layouts =
-            getLocalValue<Record<string, LayoutObject>>(LAYOUTS_KEY) ?? {};
-
-        const persisted = getLocalValue(ANIMATION_FACTOR_KEY);
-        this.config.animationFactor =
-            persisted === true ||
-            persisted === null ||
-            !(typeof persisted === 'number')
-                ? 1
-                : Math.min(4, Math.max(0, persisted));
-
-        const locales = getLocalValue<string[]>(LOCALES_KEY);
-        this.config.locales =
-            locales === null || locales.length === 0
-                ? [SupportedLocales[0]]
-                : (locales as SupportedLocale[]);
-
-        this.loadLocales(this.config.locales);
-
-        this.config.writingLayout =
-            getLocalValue<WritingLayout>(WRITING_LAYOUT_KEY) ?? 'horizontal-tb';
-
-        this.config.tutorial =
-            getLocalValue<TutorialProgress>(TUTORIAL_KEY) ?? TutorialDefault;
     }
 
     async updateProjects(serializedProjects: SerializedProject[]) {
@@ -730,10 +599,10 @@ export class Database {
             sources[0],
             sources.slice(1),
             locales,
+            project.uids,
             project.sources.map((s, index) => {
                 return { source: sources[index], caret: s.caret };
             }),
-            project.uids,
             project.listed
         );
     }
@@ -760,7 +629,7 @@ export class Database {
         this.uid = uid;
 
         // Save whatever's in local storage.
-        this.saveProjects();
+        this.persistProjects();
 
         // Any time the user projects changes in the database, update projects.
         this.projectsQueryUnsubscribe =
@@ -791,22 +660,19 @@ export class Database {
 
         // Immediately get the config from the database
         if (this.uid) {
-            try {
-                const config = await getDoc(doc(firestore, 'users', this.uid));
-                if (config.exists()) {
-                    const data = config.data();
-                    // Copy each key/value pair from the database to memory and the local store.
-                    for (const key in data) {
-                        if (key in this.config) {
-                            (this.config as Record<string, any>)[key] =
-                                data[key];
-                            setLocalValue(key, data[key]);
-                        }
+            const config = await getDoc(doc(firestore, 'users', this.uid));
+            if (config.exists()) {
+                const data = config.data();
+                // Copy each key/value pair from the database to memory and the local store.
+                for (const key in data) {
+                    if (key in this.settings) {
+                        const value = data[key];
+                        (this.settings as Record<string, Setting<unknown>>)[
+                            key
+                        ].set(this, value);
                     }
-                    // Update the config store.
-                    this.configStore.set(this);
                 }
-            } catch (_) {}
+            }
         }
     }
 
@@ -822,17 +688,29 @@ export const DefaultLocale = en as Locale;
 const browserLanguages =
     typeof navigator !== 'undefined' ? navigator.languages : [];
 
-const db = new Database(
+const IndexedDBSupported =
+    typeof window !== 'undefined' && 'indexedDB' in window;
+
+export const database = new Database(
     getBestSupportedLocales(browserLanguages.slice()),
     DefaultLocale
 );
 
-export const config = db.getConfigStore();
-export const projects = db.getProjectsStore();
-export const status = db.getSaveStatusStore();
+export const animationFactor = database.settings.animationFactor.value;
+export const animationDuration = database.animationDuration;
+export const tutorialProgress = database.settings.tutorial.value;
+export const arrangement = database.settings.arrangement.value;
+export const locale = database.locale;
+export const locales = database.locales;
+export const languages = database.languages;
+export const writingDirection = database.writingDirection;
+export const writingLayout = database.settings.writingLayout.value;
+export const camera = database.settings.camera.value;
+export const mic = database.settings.mic.value;
+export const status = database.statusStore;
 
 if (import.meta.hot) {
     import.meta.hot.on('locales-update', () => {
-        db.refreshLocales();
+        database.refreshLocales();
     });
 }

@@ -1,11 +1,9 @@
-import type Conflict from '@conflicts/Conflict';
 import Token from './Token';
 import type Type from './Type';
 import type Evaluator from '@runtime/Evaluator';
 import type Value from '@values/Value';
 import type Step from '@runtime/Step';
-import type Context from './Context';
-import Symbol from './Symbol';
+import Sym from './Sym';
 import { GLOBE1_SYMBOL } from '@parser/Symbols';
 import BoolValue from '@values/BoolValue';
 import { node, type Grammar, type Replacement, optional } from './Node';
@@ -36,7 +34,7 @@ export default class IsLocale extends AtomicExpression {
     }
 
     static make(language?: Language) {
-        return new IsLocale(new Token(GLOBE1_SYMBOL, Symbol.Change), language);
+        return new IsLocale(new Token(GLOBE1_SYMBOL, Sym.Change), language);
     }
 
     static getPossibleNodes(
@@ -51,7 +49,7 @@ export default class IsLocale extends AtomicExpression {
 
     getGrammar(): Grammar {
         return [
-            { name: 'globe', kind: node(Symbol.Locale) },
+            { name: 'globe', kind: node(Sym.Locale) },
             {
                 name: 'locale',
                 kind: optional(node(Language)),
@@ -70,8 +68,8 @@ export default class IsLocale extends AtomicExpression {
         return Purpose.Decide;
     }
 
-    computeConflicts(context: Context): Conflict[] {
-        return [];
+    computeConflicts() {
+        return;
     }
 
     computeType(): Type {
@@ -103,12 +101,7 @@ export default class IsLocale extends AtomicExpression {
     getDependencies(): Expression[] {
         return [];
     }
-    evaluateTypeSet(
-        bind: Bind,
-        original: TypeSet,
-        current: TypeSet,
-        context: Context
-    ): TypeSet {
+    evaluateTypeSet(bind: Bind, original: TypeSet, current: TypeSet): TypeSet {
         return current;
     }
 
@@ -124,7 +117,7 @@ export default class IsLocale extends AtomicExpression {
         return translation.node.IsLocale;
     }
 
-    getStartExplanations(locale: Locale, context: Context) {
+    getStartExplanations(locale: Locale) {
         return concretize(
             locale,
             locale.node.IsLocale.start,

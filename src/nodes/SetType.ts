@@ -12,7 +12,7 @@ import { node, type Grammar, type Replacement, optional } from './Node';
 import type Locale from '@locale/Locale';
 import Glyphs from '../lore/Glyphs';
 import NodeRef from '../locale/NodeRef';
-import Symbol from './Symbol';
+import Sym from './Sym';
 import type Node from './Node';
 
 export default class SetType extends BasisType {
@@ -47,9 +47,9 @@ export default class SetType extends BasisType {
 
     getGrammar(): Grammar {
         return [
-            { name: 'open', kind: node(Symbol.SetOpen) },
+            { name: 'open', kind: node(Sym.SetOpen) },
             { name: 'key', kind: optional(node(Type)) },
-            { name: 'close', kind: node(Symbol.SetClose) },
+            { name: 'close', kind: node(Sym.SetClose) },
         ];
     }
 

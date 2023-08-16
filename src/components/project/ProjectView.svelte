@@ -44,7 +44,7 @@
     import getOutlineOf, { getUnderlineOf } from '../editor/util/outline';
     import type { HighlightSpec } from '../editor/util/Highlights';
     import TileView, { type ResizeDirection } from './TileView.svelte';
-    import Tile, { Content, Mode } from './Tile';
+    import Tile, { TileKind, Mode } from './Tile';
     import OutputView from '../output/OutputView.svelte';
     import Editor from '../editor/Editor.svelte';
     import Layout, { DocsID, OutputID, PaletteID } from './Layout';
@@ -71,7 +71,15 @@
     import Timeline from '../evaluator/Timeline.svelte';
     import Painting from '../output/Painting.svelte';
     import type PaintingConfiguration from '../output/PaintingConfiguration';
-    import { config } from '../../db/Database';
+    import {
+        database,
+        locale,
+        locales,
+        arrangement,
+        languages,
+        camera,
+        mic,
+    } from '../../db/Database';
     import Arrangement from '../../db/Arrangement';
     import {
         DOCUMENTATION_SYMBOL,
@@ -92,11 +100,11 @@
     export let project: Project;
     export let original: Project | undefined = undefined;
     /** If set to false, only the output is shown initially. */
-    export let editable: boolean = true;
+    export let editable = true;
     /** True if the output should be fit to content */
-    export let fit: boolean = true;
-    export let autofocus: boolean = true;
-    export let showHelp: boolean = true;
+    export let fit = true;
+    export let autofocus = true;
+    export let showHelp = true;
 
     // The HTMLElement that represents this element
     let view: HTMLElement | undefined = undefined;
@@ -121,11 +129,11 @@
     let canvas: HTMLElement;
 
     /** Whether to show the keyboard help dialog */
-    let help: boolean = false;
+    let help = false;
 
     /** The current canvas dimensions */
-    let canvasWidth: number = 1024;
-    let canvasHeight: number = 768;
+    let canvasWidth = 1024;
+    let canvasHeight = 768;
 
     /** The background color of the output, so we can make the tile match. */
     let outputBackground: Color | string | null;
@@ -137,7 +145,7 @@
     let newSource: Source | undefined = undefined;
 
     /** Keep a source select, to decide what value is shown on stage */
-    let selectedSourceIndex: number = 0;
+    let selectedSourceIndex = 0;
     $: selectedSource = project.getSources()[selectedSourceIndex];
 
     /** The conflicts present in the current project. **/
@@ -295,7 +303,7 @@
         // Go through each tile and map it to a source file.
         // If we don't find it, remove the tile.
         for (const tile of tiles) {
-            if (tile.kind !== Content.Source) {
+            if (tile.kind !== TileKind.Source) {
                 newTiles.push(tile);
             } else {
                 const source = project
@@ -305,9 +313,7 @@
                     newTiles.push(
                         tile
                             .withName(
-                                source.names.getPreferredNameString(
-                                    $config.getLocales()
-                                )
+                                source.names.getPreferredNameString($locales)
                             )
                             // If not editable, keep the source files collapsed
                             .withMode(editable ? tile.mode : Mode.Collapsed)
@@ -336,8 +342,8 @@
 
         return new Tile(
             Layout.getSourceID(index),
-            source.names.getPreferredNameString($config.getLocales()),
-            Content.Source,
+            source.names.getPreferredNameString($locales),
+            TileKind.Source,
             index === 0 || expandNewTile ? Mode.Expanded : Mode.Collapsed,
             undefined,
             Tile.randomPosition(1024, 768)
@@ -345,7 +351,7 @@
     }
 
     function initializedLayout() {
-        const persistedLayout = $config.getProjectLayout(project.id);
+        const persistedLayout = database.getProjectLayout(project.id);
         return persistedLayout === null
             ? null
             : persistedLayout.withTiles(syncTiles(persistedLayout.tiles));
@@ -355,8 +361,11 @@
     let layout: Layout;
     $: {
         layout =
-            (!layoutInitialized ? initializedLayout() : null) ??
+            (!layoutInitialized || layout.projectID !== project.id
+                ? initializedLayout()
+                : null) ??
             new Layout(
+                project.id,
                 layout
                     ? syncTiles(layout.tiles)
                     : // Create a layout in reading order.
@@ -364,7 +373,7 @@
                           new Tile(
                               PaletteID,
                               PALETTE_SYMBOL,
-                              Content.Palette,
+                              TileKind.Palette,
                               Mode.Collapsed,
                               undefined,
                               Tile.randomPosition(1024, 768)
@@ -372,7 +381,7 @@
                           new Tile(
                               OutputID,
                               STAGE_SYMBOL,
-                              Content.Output,
+                              TileKind.Output,
                               Mode.Expanded,
                               undefined,
                               Tile.randomPosition(1024, 768)
@@ -380,7 +389,7 @@
                           new Tile(
                               DocsID,
                               DOCUMENTATION_SYMBOL,
-                              Content.Documentation,
+                              TileKind.Documentation,
                               Mode.Collapsed,
                               undefined,
                               Tile.randomPosition(1024, 768)
@@ -409,21 +418,24 @@
         layoutInitialized = true;
     }
 
+    /** Persist the layout when it changes */
+    $: database.setProjectLayout(project.id, layout);
+
     /** When the layout or path changes, add or remove query params based on state */
     $: {
         const searchParams = new URLSearchParams($page.url.searchParams);
 
-        if (layout.fullscreenID === Content.Output)
+        if (layout.fullscreenID === TileKind.Output)
             searchParams.set(PROJECT_PARAM_PLAY, '');
         else searchParams.delete(PROJECT_PARAM_PLAY);
 
         // Set the URL to reflect the latest concept selected.
         if ($path.length > 0) {
             const concept = $path[$path.length - 1];
-            const name = concept.getName($config.getLocale(), false);
+            const name = concept.getName($locale, false);
             const ownerName = $index
                 ?.getConceptOwner(concept)
-                ?.getName($config.getLocale(), false);
+                ?.getName($locale, false);
 
             searchParams.set(
                 PROJECT_PARAM_CONCEPT,
@@ -442,9 +454,6 @@
             goto(`?${search}`, { replaceState: true });
     }
 
-    /** Persist the layout when it changes */
-    $: $config.setProjectLayout(project.id, layout);
-
     /** The tile being dragged */
     let draggedTile:
         | {
@@ -456,27 +465,27 @@
         | undefined = undefined;
 
     /** The furthest boundary of a dragged tile, defining the dimensions of the canvas while in freeform layout mode. */
-    let maxRight: number = 0;
-    let maxBottom: number = 0;
+    let maxRight = 0;
+    let maxBottom = 0;
 
     /* A global context for a node being dragged */
     let dragged = writable<Node | undefined>(undefined);
     setContext<DraggedContext>(DraggedSymbol, dragged);
 
     /** True if the output should show a grid */
-    let grid: boolean = false;
+    let grid = false;
 
     /** Undefined or an object defining painting configuration */
-    let painting: boolean = false;
+    let painting = false;
     let paintingConfig: PaintingConfiguration = {
         characters: 'a',
         size: 1,
-        font: 'Noto Sans',
+        font: $locale.ui.font.app,
     };
 
     /** Set up project wide concept index and path context */
     export let index: ConceptIndexContext = writable(
-        ConceptIndex.make(project, $config.getLocales())
+        ConceptIndex.make(project, $locales)
     );
     setContext(ConceptIndexSymbol, index);
 
@@ -513,7 +522,7 @@
         // Make a new concept index with the new project and translations, but the old examples.
         const newIndex =
             project && $index
-                ? ConceptIndex.make(project, $config.getLocales()).withExamples(
+                ? ConceptIndex.make(project, $locales).withExamples(
                       $index.examples
                   )
                 : undefined;
@@ -569,7 +578,7 @@
     /**
      * Reanalyze on a delay any time the project changes.
      * */
-    let updateTimer: NodeJS.Timer | undefined = undefined;
+    let updateTimer: NodeJS.Timeout | undefined = undefined;
     $: {
         // Re-evaluate immediately.
         if (!$evaluator.isStarted()) $evaluator.start();
@@ -605,11 +614,7 @@
 
     /** When the canvas size changes, resize the layout */
     $: if (canvasWidth && canvasHeight) {
-        layout = layout.resized(
-            $config.getArrangement(),
-            canvasWidth,
-            canvasHeight
-        );
+        layout = layout.resized($arrangement, canvasWidth, canvasHeight);
     }
 
     /** Recompute the bounds based every time the layout changes. */
@@ -625,7 +630,7 @@
     /** When the program steps language changes, get the latest value of the program's evaluation. */
     $: {
         $evaluation;
-        $config.getLanguages();
+        $languages;
         latestValue = $evaluator.getLatestSourceValue(selectedSource);
     }
 
@@ -645,6 +650,19 @@
         );
         if (tile && tile.isCollapsed()) hideMenu();
     }
+
+    /** If the camera or mic changes, restart the evaluator to reflect to the new stream. */
+    const cameraUnsubscribe = camera.subscribe(() =>
+        database.reviseProject(project.clone(), false)
+    );
+    const micUnsubscribe = mic.subscribe(() =>
+        database.reviseProject(project.clone(), false)
+    );
+
+    onDestroy(() => {
+        cameraUnsubscribe();
+        micUnsubscribe();
+    });
 
     function hideMenu() {
         // Hide the menu
@@ -704,7 +722,7 @@
         (viewToFocus ?? view).focus();
     }
 
-    async function focusOrCycleTile(content?: Content) {
+    async function focusOrCycleTile(content?: TileKind) {
         const visible = layout.tiles.filter((tile) => !tile.isCollapsed());
         const currentTileIndex = visible.findIndex((tile) => {
             const view = getTileView(tile.id);
@@ -728,7 +746,7 @@
             if (next) focusTile(next.id);
         }
         // Not source? Toggle the kind.
-        else if (content !== Content.Source) {
+        else if (content !== TileKind.Source) {
             const tile = layout.tiles.find((tile) => tile.kind === content);
             if (tile) {
                 toggleTile(tile);
@@ -767,10 +785,12 @@
         ) {
             if (tile.mode === Mode.Collapsed && $selectedOutput.length === 0) {
                 const output = project.getOutput();
-                if (output.length > 0)
+                if (output.length > 0) {
                     setSelectedOutput(selectedOutputPaths, project, [
                         output[0],
                     ]);
+                    $evaluator.pause();
+                }
             } else if (tile.mode === Mode.Expanded) {
                 setSelectedOutput(selectedOutputPaths, project, []);
             }
@@ -778,7 +798,7 @@
 
         layout = layout
             .withTileLast(tile.withMode(mode))
-            .resized($config.getArrangement(), canvasWidth, canvasHeight);
+            .resized($arrangement, canvasWidth, canvasHeight);
     }
 
     async function setFullscreen(tile: Tile, fullscreen: boolean) {
@@ -799,7 +819,7 @@
         if (event.buttons !== 1) return;
 
         // Is the arrangement free? Start dragging the tile if so.
-        if ($config.getArrangement() === Arrangement.Free) {
+        if ($arrangement === Arrangement.Free) {
             const tileView = document
                 .elementFromPoint(event.clientX, event.clientY)
                 ?.closest('.tile');
@@ -940,13 +960,16 @@
     }
 
     $: commandContext = {
-        caret:
-            layout.isFullscreen() && !layout.isSourceExpanded()
-                ? undefined
-                : Array.from($editors.values()).find((editor) => editor.focused)
-                      ?.caret,
+        // Send the active caret, unless a non-source tile is fullscreen
+        caret: layout.isFullscreenNonSource()
+            ? undefined
+            : (
+                  Array.from($editors.values()).find(
+                      (editor) => editor.focused
+                  ) ?? Array.from($editors.values())[0]
+              )?.caret,
         evaluator: $evaluator,
-        database: $config,
+        database,
         fullscreen,
         focusOrCycleTile,
         resetInputs,
@@ -1011,31 +1034,25 @@
 
     function addSource() {
         const newProject = project.withNewSource(
-            `${$config.getLocale().term.source}${
-                project.supplements.length + 1
-            }`
+            `${$locale.term.source}${project.supplements.length + 1}`
         );
 
         // Remember this new source so when we compute the new layout, we can remember to expand it initially.
         newSource = newProject.supplements.at(-1);
 
         // This will propogate back to a new project here, updating the UI.
-        $config.reviseProject(project, newProject);
+        database.reviseProject(newProject);
     }
 
     function removeSource(source: Source) {
-        $config.reviseProject(project, project.withoutSource(source));
+        database.reviseProject(project.withoutSource(source));
     }
 
     function renameSource(id: string, name: string) {
         if (!isName(name)) return;
         const source = getSourceByID(id);
-        $config.reviseProject(
-            project,
-            project.withSource(
-                source,
-                source.withName(name, $config.getLocales()[0])
-            )
+        database.reviseProject(
+            project.withSource(source, source.withName(name, $locales[0]))
         );
     }
 
@@ -1048,7 +1065,7 @@
     }
 
     function revert() {
-        if (original) $config.reviseProject(project, original);
+        if (original) database.reviseProject(original);
     }
 </script>
 
@@ -1075,7 +1092,7 @@
         bind:this={canvas}
     >
         <!-- This little guy enables the scroll bars to appear at the furthest extent a window has moved. -->
-        {#if $config.getArrangement() === Arrangement.Free}
+        {#if $arrangement === Arrangement.Free}
             <div
                 class="boundary"
                 style:left="{maxRight}px"
@@ -1090,19 +1107,19 @@
                 <div class="empty">⬇️</div>
             {:else}
                 <!-- Lay out each of the tiles according to its specification, in order if in free layout, but in layout order if not. -->
-                {#each $config.getArrangement() === Arrangement.Free ? layout.tiles : layout.getTilesInReadingOrder() as tile (tile.id)}
+                {#each $arrangement === Arrangement.Free ? layout.tiles : layout.getTilesInReadingOrder() as tile (tile.id)}
                     {#if tile.isExpanded() && (layout.fullscreenID === undefined || layout.fullscreenID === tile.id)}
                         <TileView
                             {tile}
                             {layout}
-                            arrangement={$config.getArrangement()}
-                            background={tile.kind === Content.Output
+                            arrangement={$arrangement}
+                            background={tile.kind === TileKind.Output
                                 ? outputBackground
                                 : null}
                             dragging={draggedTile?.id === tile.id}
                             fullscreenID={layout.fullscreenID}
-                            focuscontent={tile.kind === Content.Source ||
-                                tile.kind === Content.Output}
+                            focuscontent={tile.kind === TileKind.Source ||
+                                tile.kind === TileKind.Output}
                             on:mode={(event) =>
                                 setMode(tile, event.detail.mode)}
                             on:position={(event) =>
@@ -1129,34 +1146,31 @@
                                     <!-- Can't delete main. -->
                                     {#if source !== project.main}
                                         <ConfirmButton
-                                            tip={$config.getLocale().ui
-                                                .description.deleteSource}
+                                            tip={$locale.ui.description
+                                                .deleteSource}
                                             action={() => removeSource(source)}
-                                            prompt={$config.getLocale().ui
-                                                .prompt.deleteSource}
-                                            >⨉</ConfirmButton
+                                            prompt={$locale.ui.prompt
+                                                .deleteSource}>⨉</ConfirmButton
                                         >
                                     {/if}
                                 {/if}
                             </svelte:fragment>
                             <svelte:fragment slot="extra">
-                                {#if tile.kind === Content.Output}
+                                {#if tile.kind === TileKind.Output}
                                     {#if !editable}<Button
                                             uiid="editProject"
-                                            tip={$config.getLocale().ui
-                                                .description.editProject}
+                                            tip={$locale.ui.description
+                                                .editProject}
                                             action={() => becomeEditable()}
                                             >✏️</Button
                                         >{/if}
                                     {#if !$evaluation.evaluator.isPlaying()}<Painting
                                             bind:painting
                                         />{/if}<Button
-                                        tip={$config.getLocale().ui.description
-                                            .grid}
+                                        tip={$locale.ui.description.grid}
                                         action={() => (grid = !grid)}>▦</Button
                                     ><Button
-                                        tip={$config.getLocale().ui.description
-                                            .fit}
+                                        tip={$locale.ui.description.fit}
                                         action={() => (fit = !fit)}
                                         >{#if fit}🔒{:else}🔓{/if}</Button
                                     >
@@ -1169,11 +1183,11 @@
                                 {/if}
                             </svelte:fragment>
                             <svelte:fragment slot="content">
-                                {#if tile.kind === Content.Documentation}
+                                {#if tile.kind === TileKind.Documentation}
                                     <Documentation {project} />
-                                {:else if tile.kind === Content.Palette}
+                                {:else if tile.kind === TileKind.Palette}
                                     <Palette {project} />
-                                {:else if tile.kind === Content.Output}
+                                {:else if tile.kind === TileKind.Output}
                                     <OutputView
                                         {project}
                                         evaluator={$evaluator}
@@ -1217,7 +1231,7 @@
                                     </div>
                                 {/if}</svelte:fragment
                             ><svelte:fragment slot="footer"
-                                >{#if tile.kind === Content.Source}
+                                >{#if tile.kind === TileKind.Source}
                                     <Annotations
                                         {project}
                                         evaluator={$evaluator}
@@ -1226,7 +1240,7 @@
                                         stepping={$evaluation.playing === false}
                                     /><GlyphChooser
                                         sourceID={tile.id}
-                                    />{:else if tile.kind === Content.Output && layout.fullscreenID !== tile.id && editable}
+                                    />{:else if tile.kind === TileKind.Output && layout.fullscreenID !== tile.id && editable}
                                     <Timeline
                                         evaluator={$evaluator}
                                     />{/if}</svelte:fragment
@@ -1242,16 +1256,16 @@
         <nav class="footer">
             {#if original}<Button
                     uiid="revertProject"
-                    tip={$config.getLocale().ui.description.revertProject}
+                    tip={$locale.ui.description.revertProject}
                     active={!project.equals(original)}
                     action={() => revert()}>↺</Button
                 >{/if}
             <TextField
                 text={project.name}
-                description={$config.getLocale().ui.description.editProjectName}
-                placeholder={$config.getLocale().ui.placeholders.project}
+                description={$locale.ui.description.editProjectName}
+                placeholder={$locale.ui.placeholders.project}
                 changed={(name) =>
-                    $config.reviseProject(project, project.withName(name))}
+                    database.reviseProject(project.withName(name))}
             />
             {#each layout.getNonSources() as tile}
                 <NonSourceTileToggle
@@ -1272,13 +1286,13 @@
             {/each}
             <Button
                 uiid="addSource"
-                tip={$config.getLocale().ui.description.addSource}
+                tip={$locale.ui.description.addSource}
                 action={addSource}>+</Button
             >
             <span class="help">
                 <ProjectLanguages {project} />
                 <Button
-                    tip={ShowKeyboardHelp.description($config.getLocale())}
+                    tip={ShowKeyboardHelp.description($locale)}
                     action={() => (help = true)}
                     >{ShowKeyboardHelp.symbol}</Button
                 ></span
@@ -1376,7 +1390,7 @@
         font-size: 2rem;
         top: -1.5rem;
         left: -1.5rem;
-        font-family: 'Noto Sans', 'Noto Emoji';
+        font-family: 'Noto Emoji';
         pointer-events: none;
     }
 

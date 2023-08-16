@@ -850,7 +850,7 @@
                 },
                 "ValueException": {
                     "description": "missing value",
-                    "explanation": "oh no, someone expected a value but didn't get one…"
+                    "explanation": "I expected a value but didn't get one!"
                 }
             }
         },
@@ -2775,15 +2775,29 @@
                 "doc": "This is the frequency with which time should tick. It defaults to \\33ms\\, which is about 30 times per second."
             }
         },
-        "Mic": {
+        "Volume": {
             "doc": [
                 "/bzzzzzzz/",
                 "@FunctionDefinition here, I'll take the mic.",
-                "This stream is a series of amplitudes, sampled at the frequency of your choice. By default, the frequency is \\30hz\\, or 30 times per second, but you can change it to anything less frequent.",
-                "\\Mic()\\",
-                "Mic is great for listening to the sounds an audience is making, especially how loud they are!"
+                "This stream is a series of volumes between 0 and 1, sampled at the frequency of your choice. By default, the frequency is \\30hz\\, or 30 times per second, but you can change it to anything less frequent.",
+                "\\Volume()\\",
+                "This is great for listening to how loud the audience is!"
             ],
-            "names": ["🎤", "Mic"],
+            "names": ["🎤", "Volume"],
+            "frequency": {
+                "names": ["frequency"],
+                "doc": "The time between samplings."
+            }
+        },
+        "Pitch": {
+            "doc": [
+                "/hummmmm/",
+                "@FunctionDefinition here, let's talk pitch!",
+                "This stream is a series of frequencies in hertz, indicating the pitch of sound, sampled at the frequency of your choice. We've found that the human voice is between 20Hz and 5000Hz, so plan on numbers in that range.",
+                "\\Pitch()\\",
+                "This is great for listening the tone that someone is speaking or singing."
+            ],
+            "names": ["🎵", "Pitch"],
             "frequency": {
                 "names": ["frequency"],
                 "doc": "The time between samplings."
@@ -2923,9 +2937,9 @@
                 "doc": "The font size, in meters, of this output.",
                 "names": "size"
             },
-            "family": {
-                "doc": "The name of the font family that this output should be dressed in.",
-                "names": "font"
+            "face": {
+                "doc": "The name of the font face that this output should be dressed in.",
+                "names": "face"
             },
             "place": {
                 "doc": "The place on stage where this output should be.",
@@ -2942,6 +2956,10 @@
             "color": {
                 "doc": "The @Color I should be by default, unless overriden by a different @Pose.",
                 "names": "color"
+            },
+            "background": {
+                "doc": "The color of the background of the stage.",
+                "names": "background"
             },
             "opacity": {
                 "doc": "How transparent I should be by default, between \\0\\ and \\1\\, unless overriden by a different @Pose. Helpful for fading in and out.",
@@ -3035,6 +3053,10 @@
             "doc": "I am @Row, a horizontal @Arrangement of @Type, with optional padding in between. Have you met my twin, @Stack?",
             "names": ["➡", "Row"],
             "description": "row of $1 phrases and groups",
+            "alignment": {
+                "doc": "Whether to align text at the start, center, or end on each column.",
+                "names": "alignment"
+            },
             "padding": {
                 "doc": "The amount of padding to place between output.",
                 "names": "padding"
@@ -3044,6 +3066,10 @@
             "doc": "I am @Stack, a vertical @Arrangement of @Type, with optional padding in between. Have you met my twin, @Row? ",
             "names": ["⬇", "Stack"],
             "description": "stack of $1 phrases and groups",
+            "alignment": {
+                "doc": "Whether to align text at the start, center, or end on each row.",
+                "names": "alignment"
+            },
             "padding": {
                 "doc": "The amount of padding to place between output.",
                 "names": "padding"
@@ -3221,10 +3247,6 @@
                 "doc": "The list of @Type to show on stage.",
                 "names": "content"
             },
-            "background": {
-                "doc": "The color of the background of the stage.",
-                "names": "background"
-            },
             "frame": {
                 "doc": "The shape and size of frame to place around the stage, hiding everything outside it.",
                 "names": "frame"
@@ -3270,6 +3292,10 @@
         }
     },
     "ui": {
+        "font": {
+            "app": "Noto Sans",
+            "code": "Noto Mono"
+        },
         "phrases": {
             "welcome": "hello",
             "motto": "Where words come to life"
@@ -3460,7 +3486,12 @@
         },
         "feedback": {
             "unknownProject": "There's no performance with this ID.",
-            "loading": "Loading, thank you for waiting!"
+            "loading": "Loading, thank you for waiting!",
+            "save": {
+                "saving": "saving",
+                "saved": "saved",
+                "unsaved": "unsaved"
+            }
         },
         "login": {
             "header": "Login",
@@ -3493,6 +3524,10 @@
             "bind": "name this expression"
         },
         "error": {
+            "notfound": {
+                "header": "Eep!",
+                "message": "Where is this place? Can we go home?"
+            },
             "tutorial": "We weren't able to find a tutorial for this language.",
             "unwritten": "TBD",
             "template": "This template couldn't be parsed: $1"

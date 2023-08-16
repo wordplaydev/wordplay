@@ -1,9 +1,9 @@
 import { EVAL_OPEN_SYMBOL } from '@parser/Symbols';
 import Token from './Token';
-import Symbol from './Symbol';
+import Sym from './Sym';
 
 export default class EvalOpenToken extends Token {
     constructor() {
-        super(EVAL_OPEN_SYMBOL, Symbol.EvalOpen);
+        super(EVAL_OPEN_SYMBOL, Sym.EvalOpen);
     }
 }

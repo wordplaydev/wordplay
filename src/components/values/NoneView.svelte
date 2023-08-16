@@ -1,15 +1,15 @@
 <svelte:options immutable={true} />
 
 <script lang="ts">
-    import Symbol from '@nodes/Symbol';
+    import Sym from '@nodes/Sym';
     import type NoneValue from '@values/NoneValue';
     import SymbolView from './SymbolView.svelte';
 
     export let value: NoneValue;
-    export let inline: boolean = true;
+    export let inline = true;
 </script>
 
 {#if inline || !inline}<SymbolView
         symbol={value.toWordplay()}
-        type={Symbol.None}
+        type={Sym.None}
     />{/if}

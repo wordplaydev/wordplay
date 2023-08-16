@@ -55,8 +55,7 @@ export default class TableLiteral extends Expression {
     static getPossibleNodes(
         type: Type | undefined,
         anchor: Node,
-        selected: boolean,
-        context: Context
+        selected: boolean
     ) {
         return type === undefined && !selected ? [TableLiteral.make()] : [];
     }
@@ -66,7 +65,7 @@ export default class TableLiteral extends Expression {
     }
 
     computeConflicts(context: Context): Conflict[] {
-        let conflicts: Conflict[] = [];
+        const conflicts: Conflict[] = [];
 
         // Validate each row.
         const type = this.getType(context);

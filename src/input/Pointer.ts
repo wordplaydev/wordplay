@@ -38,7 +38,7 @@ export default class Pointer extends StreamValue<
     { x: number; y: number }
 > {
     readonly evaluator: Evaluator;
-    on: boolean = false;
+    on = false;
 
     constructor(evaluator: Evaluator) {
         super(
@@ -85,7 +85,9 @@ export function createPointerDefinition(
             new StructureType(PlaceType),
             Pointer,
             (evaluation) => new Pointer(evaluation.getEvaluator()),
-            () => {}
+            () => {
+                return;
+            }
         ),
         new StructureType(PlaceType)
     );

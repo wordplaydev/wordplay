@@ -13,7 +13,7 @@ import { node, type Grammar, type Replacement, any, none } from './Node';
 import type Locale from '@locale/Locale';
 import Glyphs from '../lore/Glyphs';
 import NodeRef from '../locale/NodeRef';
-import Symbol from './Symbol';
+import Sym from './Sym';
 import TypePlaceholder from './TypePlaceholder';
 import type Node from './Node';
 
@@ -67,11 +67,11 @@ export default class MapType extends BasisType {
 
     getGrammar(): Grammar {
         return [
-            { name: 'open', kind: node(Symbol.SetOpen) },
+            { name: 'open', kind: node(Sym.SetOpen) },
             { name: 'key', kind: any(node(Type), none('value')) },
-            { name: 'bind', kind: node(Symbol.Bind) },
+            { name: 'bind', kind: node(Sym.Bind) },
             { name: 'value', kind: any(node(Type), none('key')) },
-            { name: 'close', kind: node(Symbol.SetClose) },
+            { name: 'close', kind: node(Sym.SetClose) },
         ];
     }
 

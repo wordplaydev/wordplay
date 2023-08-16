@@ -1,68 +1,107 @@
 import { writable } from 'svelte/store';
 import { OR_SYMBOL } from '@parser/Symbols';
+import { Latin, LatinCyrillicGreek, type Script } from '../locale/Scripts';
+import type Locale from '../locale/Locale';
+
+export const SupportedFaces = [
+    'Noto Sans',
+    'Noto Sans Japanese',
+    'Noto Emoji',
+    'Noto Color Emoji',
+    'Noto Sans Simplified Chinese',
+    'Noto Mono',
+    'Poor Story',
+    'Permanent Marker',
+    'Borel',
+    'Roboto',
+] as const;
+
+export type SupportedFace = (typeof SupportedFaces)[number];
 
 export type FontWeight = 100 | 200 | 300 | 400 | 500 | 600 | 700 | 800 | 900;
 export type FontWeightRange = { min: FontWeight; max: FontWeight };
 
 /** Each font has data necessary for loading it from Google Fonts. */
-export type FontFamily = {
-    name: string; // The name of the font
-    weights: FontWeight[] | FontWeightRange; // Weights supported on the font
-    italic: boolean; // True if italics is supported on the weights above,
-    languages?: string[]; // A list of 3-letter ISO language codes supported
+export type Face = {
+    readonly name: string; // The name of the font
+    readonly weights: FontWeight[] | FontWeightRange; // Weights supported on the font
+    readonly italic: boolean; // True if italics is supported on the weights above,
+    readonly scripts: Readonly<Script[]>; // A list of ISO 15924 scripts supported
 };
 
 export type Font = {
-    name: string;
-    weight: FontWeight;
-    italic: boolean;
+    readonly name: SupportedFace;
+    readonly weight: FontWeight;
+    readonly italic: boolean;
 };
 
-export const loadedFonts = writable<Set<string>>(new Set());
+export const loadedFonts = writable<Set<SupportedFace>>(new Set());
 
 /**
  * A data structure that represents fonts that creators can use to style phrases.
  */
-const SupportedFontFamilies: FontFamily[] = [
-    {
-        name: 'Roboto',
-        weights: [100, 300, 400, 500, 700, 900],
-        italic: true,
-        languages: ['eng'], // Update with languages at https://fonts.google.com/specimen/Roboto/glyphs
-    },
+const Faces: Face[] = [
     {
         name: 'Noto Sans',
         weights: [100, 200, 300, 400, 500, 600, 700, 800, 900],
         italic: true,
-        languages: ['eng'], // Update with languages at https://fonts.google.com/noto/specimen/Noto+Sans/about?query=noto+sans
+        scripts: LatinCyrillicGreek,
+    },
+    {
+        name: 'Noto Sans Japanese',
+        weights: { min: 100, max: 900 },
+        italic: false,
+        scripts: ['Jpan'],
     },
     {
         name: 'Noto Emoji',
         weights: { min: 300, max: 700 },
         italic: false,
+        scripts: ['Emoj'],
     },
     {
         name: 'Noto Color Emoji',
         weights: { min: 300, max: 700 },
         italic: false,
+        scripts: ['Emoj'],
+    },
+    {
+        name: 'Noto Sans Simplified Chinese',
+        weights: [100, 300, 400, 500, 700, 900],
+        italic: false,
+        scripts: ['Hani'],
     },
     {
         name: 'Noto Mono',
         weights: { min: 100, max: 900 },
         italic: false,
+        scripts: LatinCyrillicGreek,
     },
     {
         name: 'Poor Story',
         weights: [400],
         italic: false,
+        scripts: ['Kore', 'Latn'],
     },
     {
         name: 'Permanent Marker',
         weights: [400],
         italic: false,
+        scripts: ['Latn'],
+    },
+    {
+        name: 'Borel',
+        weights: [400],
+        italic: false,
+        scripts: Latin,
+    },
+    {
+        name: 'Roboto',
+        weights: [100, 300, 400, 500, 700, 900],
+        italic: true,
+        scripts: LatinCyrillicGreek,
     },
 ];
-export { SupportedFontFamilies as SupportedFonts };
 
 /**
  * This data structure managers the fonts that have been loaded,
@@ -74,15 +113,15 @@ export class FontManager {
         { name: 'Noto Sans', weight: 300, italic: false },
         { name: 'Noto Sans', weight: 300, italic: true },
         { name: 'Noto Sans', weight: 400, italic: false },
-        { name: 'Noto Sans', weight: 700, italic: false },
         { name: 'Noto Sans', weight: 400, italic: true },
+        { name: 'Noto Sans', weight: 700, italic: false },
         { name: 'Noto Sans', weight: 700, italic: true },
+        { name: 'Noto Mono', weight: 400, italic: false },
         { name: 'Noto Emoji', weight: 400, italic: false },
         { name: 'Noto Color Emoji', weight: 400, italic: false },
-        { name: 'Noto Mono', weight: 400, italic: false },
     ];
 
-    loaded = new Map<string, 'requested' | 'loaded'>();
+    facesLoaded = new Map<SupportedFace, 'requested' | 'loaded' | 'failed'>();
 
     constructor() {
         this.fonts.forEach((font) => this.load(font));
@@ -90,7 +129,7 @@ export class FontManager {
 
     /** Returns true if the given font spec appears in SupportedFonts */
     getSupportedFont(font: Font) {
-        return SupportedFontFamilies.find(
+        return Faces.find(
             (candidate) =>
                 // The name matches
                 candidate.name === font.name &&
@@ -104,46 +143,72 @@ export class FontManager {
         );
     }
 
-    isRequested(family: string) {
-        return this.loaded.has(family);
-    }
-    isLoaded(family: string) {
-        return this.loaded.get(family) === 'loaded';
+    isFaceRequested(face: SupportedFace) {
+        return this.facesLoaded.has(face);
     }
 
-    loadFamily(name: string) {
-        if (this.loaded.get(name) === 'loaded') return;
+    isFaceLoaded(face: SupportedFace) {
+        return this.facesLoaded.get(face) === 'loaded';
+    }
 
-        // Mark the family requested.
-        this.loaded.set(name, 'requested');
-
-        const family = SupportedFontFamilies.find((font) => font.name === name);
-        if (family) {
-            // Load all fonts in the family
-            if (Array.isArray(family.weights)) {
-                for (const weight of family.weights)
-                    this.load({
-                        name: name,
-                        weight: weight,
-                        italic: false,
-                    });
-                if (family.italic)
-                    for (const weight of family.weights)
-                        this.load({
-                            name: name,
-                            weight: weight,
-                            italic: true,
-                        });
-            } else
-                this.load({
-                    name: name,
-                    weight: 300, // this is ignored
-                    italic: false, // this is ignored
-                });
+    loadLocales(locales: Locale[]) {
+        for (const locale of locales) {
+            this.loadFace(locale.ui.font.app);
+            this.loadFace(locale.ui.font.code);
         }
     }
 
-    load(font: Font) {
+    async loadFace(name: SupportedFace) {
+        if (this.facesLoaded.get(name) === 'loaded') return;
+
+        // Mark the face requested.
+        this.facesLoaded.set(name, 'requested');
+
+        const face = Faces.find((font) => font.name === name);
+
+        const promises: Promise<boolean>[] = [];
+        if (face) {
+            // Load all fonts in the face
+            if (Array.isArray(face.weights)) {
+                for (const weight of face.weights)
+                    promises.push(
+                        this.load({
+                            name: name,
+                            weight: weight,
+                            italic: false,
+                        })
+                    );
+                if (face.italic)
+                    for (const weight of face.weights)
+                        promises.push(
+                            this.load({
+                                name: name,
+                                weight: weight,
+                                italic: true,
+                            })
+                        );
+            } else
+                promises.push(
+                    this.load({
+                        name: name,
+                        weight: 300, // this is ignored
+                        italic: false, // this is ignored
+                    })
+                );
+        } else {
+            this.facesLoaded.set(name, 'failed');
+            return;
+        }
+
+        const loads = await Promise.all(promises);
+
+        this.facesLoaded.set(
+            name,
+            loads.every((loaded) => loaded) ? 'loaded' : 'failed'
+        );
+    }
+
+    async load(font: Font): Promise<boolean> {
         // Don't try to add if not in a browser yet.
         if (typeof document === 'undefined' || typeof FontFace === 'undefined')
             return false;
@@ -178,16 +243,18 @@ export class FontManager {
         document.fonts.add(fontFace);
 
         // Load the font, and when it's done, mark it as loaded and notify any listeners.
-        fontFace.load().then(() => {
-            this.loaded.set(font.name, 'loaded');
-            loadedFonts.set(new Set(this.loaded.keys()));
-        });
+        await fontFace.load();
+
+        this.facesLoaded.set(font.name, 'loaded');
+        loadedFonts.set(new Set(this.facesLoaded.keys()));
+
+        return true;
     }
 }
 
 const Fonts = new FontManager();
 export default Fonts;
 
-export const SupportedFontsFamiliesType = SupportedFontFamilies.map(
+export const SupportedFontsFamiliesType = Faces.map(
     (font) => `"${font.name}"`
 ).join(OR_SYMBOL);

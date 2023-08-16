@@ -8,7 +8,7 @@
     export let increment: number;
     export let tip: string;
     export let change: (value: number) => void;
-    export let precision: number = 0;
+    export let precision = 0;
 
     let view: HTMLInputElement | undefined = undefined;
 

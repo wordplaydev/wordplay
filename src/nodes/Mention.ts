@@ -8,7 +8,7 @@ import Glyphs from '../lore/Glyphs';
 import Content from './Content';
 import { node, type Replacement, type Grammar } from './Node';
 import Token from './Token';
-import Symbol from './Symbol';
+import Sym from './Sym';
 import type Node from './Node';
 
 /**
@@ -37,7 +37,7 @@ export default class Mention extends Content {
     }
 
     getGrammar(): Grammar {
-        return [{ name: 'name', kind: node(Symbol.Mention) }];
+        return [{ name: 'name', kind: node(Sym.Mention) }];
     }
     computeConflicts() {
         return [];
@@ -71,15 +71,12 @@ export default class Mention extends Content {
         // Is it a number? Resolve to an input.
         const numberMatch = name.match(/^[0-9]+/);
         if (name === '?') {
-            const replacement = new Token(
-                locale.ui.error.unwritten,
-                Symbol.Words
-            );
+            const replacement = new Token(locale.ui.error.unwritten, Sym.Words);
             replacements.push([this, replacement]);
             return replacement;
         } else if (name === '!') {
             // Just return an empty token.
-            const invisible = new Token('', Symbol.Words);
+            const invisible = new Token('', Sym.Words);
             replacements.push([this, invisible]);
             return invisible;
         } else if (numberMatch !== null) {
@@ -95,7 +92,7 @@ export default class Mention extends Content {
                     ? input
                     : input === undefined
                     ? undefined
-                    : new Token(input.toString(), Symbol.Words);
+                    : new Token(input.toString(), Sym.Words);
 
             if (replacement instanceof Token)
                 replacements.push([this, replacement]);
@@ -110,7 +107,7 @@ export default class Mention extends Content {
                 : undefined;
 
             const replacement = phrase
-                ? new Token(phrase, Symbol.Words)
+                ? new Token(phrase, Sym.Words)
                 : undefined;
 
             if (replacement instanceof Token)

@@ -20,7 +20,8 @@ import Finish from '@runtime/Finish';
 import type Step from '@runtime/Step';
 import type Evaluator from '@runtime/Evaluator';
 import Token from './Token';
-import Symbol from './Symbol';
+import Sym from './Sym';
+import TextValue from '../values/TextValue';
 
 export default class FormattedLiteral extends Literal {
     readonly texts: FormattedTranslation[];
@@ -94,8 +95,12 @@ export default class FormattedLiteral extends Literal {
         let concrete = translation;
         for (let i = expressions.length - 1; i >= 0; i--) {
             const example = concrete.getExamples()[i];
-            const text = evaluator.popValue(this).toString();
-            concrete = concrete.replace(example, new Token(text, Symbol.Words));
+            const value = evaluator.popValue(this);
+            const text =
+                value instanceof TextValue
+                    ? value.text
+                    : value?.toString() ?? '';
+            concrete = concrete.replace(example, new Token(text, Sym.Words));
         }
 
         return new MarkupValue(this, concrete.markup);

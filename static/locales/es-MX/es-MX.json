@@ -1543,24 +1543,29 @@
         "Choice": { "doc": "$?", "names": ["Selección", "Elección"] },
         "Button": {
             "doc": "$?",
-            "names": ["Botón"],
+            "names": "Botón",
             "down": { "names": "abajo", "doc": "$?" }
         },
         "Pointer": { "doc": "$?", "names": ["Puntero"] },
         "Key": {
             "doc": "$?",
-            "names": ["Teclado"],
+            "names": "Teclado",
             "key": { "names": "tecla", "doc": "$?" },
             "down": { "names": "abajo", "doc": "$?" }
         },
         "Time": {
             "doc": "$?",
-            "names": ["Tiempo"],
+            "names": "Tiempo",
             "frequency": { "names": ["frecuencia"], "doc": "$?" }
         },
-        "Mic": {
+        "Volume": {
             "doc": "$?",
-            "names": ["Micrófono", "🎤"],
+            "names": "$? Volume",
+            "frequency": { "names": ["frecuencia"], "doc": "$?" }
+        },
+        "Pitch": {
+            "doc": "$?",
+            "names": "$? Pitch",
             "frequency": { "names": ["frecuencia"], "doc": "$?" }
         },
         "Camera": {
@@ -1619,7 +1624,7 @@
             "names": "tipo",
             "doc": "$?",
             "size": { "doc": "$?", "names": "tamaño" },
-            "family": { "doc": "$?", "names": "fuente" },
+            "face": { "doc": "$?", "names": "fuente" },
             "place": { "doc": "$?", "names": "place" },
             "name": { "doc": "$?", "names": "nombre" },
             "selectable": { "doc": "$?", "names": "seleccionable" },
@@ -1627,6 +1632,7 @@
                 "doc": "$?",
                 "names": "$? color"
             },
+            "background": { "doc": "$?", "names": "fondo" },
             "opacity": {
                 "doc": "$?",
                 "names": "$? opacity"
@@ -1663,7 +1669,6 @@
             "doc": "$?",
             "description": "$?",
             "content": { "doc": "$?", "names": "contenido" },
-            "background": { "doc": "$?", "names": "fondo" },
             "frame": { "doc": "$?", "names": "marco" }
         },
         "Group": {
@@ -1684,12 +1689,20 @@
             "names": ["Fila"],
             "doc": "$?",
             "description": "$?",
+            "alignment": {
+                "doc": "$?",
+                "names": "$? alignment"
+            },
             "padding": { "doc": "$?", "names": "relleno" }
         },
         "Stack": {
             "names": "Pila",
             "doc": "$?",
             "description": "$?",
+            "alignment": {
+                "doc": "$?",
+                "names": "$? alignment"
+            },
             "padding": { "doc": "$?", "names": "relleno" }
         },
         "Grid": {
@@ -1774,6 +1787,10 @@
         }
     },
     "ui": {
+        "font": {
+            "app": "Noto Sans",
+            "code": "Noto Mono"
+        },
         "phrases": {
             "welcome": "hola",
             "motto": "Donde las palabras cobran vida"
@@ -1957,7 +1974,12 @@
         },
         "feedback": {
             "unknownProject": "No hay ningún proyecto con este ID.",
-            "loading": "$?"
+            "loading": "$?",
+            "save": {
+                "saving": "$?",
+                "saved": "$?",
+                "unsaved": "$?"
+            }
         },
         "login": {
             "header": "$?",
@@ -1990,6 +2012,10 @@
             "bind": "nombra esta expresión"
         },
         "error": {
+            "notfound": {
+                "header": "$?",
+                "message": "$?"
+            },
             "tutorial": "$?",
             "unwritten": "no escrito",
             "template": "$?"

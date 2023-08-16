@@ -1,11 +1,11 @@
 <script lang="ts">
-    import { config } from '../../db/Database';
+    import { locale } from '../../db/Database';
 </script>
 
 <div class="container">
     <div class="cursor">|</div>
     <div aria-live="assertive" aria-atomic="true" aria-relevant="all"
-        >{$config.getLocale().ui.feedback.loading}</div
+        >{$locale.ui.feedback.loading}</div
     >
 </div>
 

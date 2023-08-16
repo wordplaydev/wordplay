@@ -14,7 +14,7 @@ import type Locale from '../locale/Locale';
 import NoneLiteral from '../nodes/NoneLiteral';
 
 export default class Button extends StreamValue<BoolValue, boolean> {
-    on: boolean = false;
+    on = false;
     down: boolean | undefined;
 
     constructor(evaluator: Evaluator, down: boolean | undefined) {

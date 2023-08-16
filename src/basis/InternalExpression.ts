@@ -31,7 +31,7 @@ export default class InternalExpression extends AtomicExpression {
         super();
 
         if (typeof type === 'string') {
-            let possibleType = parseType(toTokens(type));
+            const possibleType = parseType(toTokens(type));
             this.type = possibleType;
         } else this.type = type;
 
@@ -39,7 +39,9 @@ export default class InternalExpression extends AtomicExpression {
         this.evaluator = evaluator;
     }
 
-    computeConflicts() {}
+    computeConflicts() {
+        return;
+    }
 
     getGrammar() {
         return [];

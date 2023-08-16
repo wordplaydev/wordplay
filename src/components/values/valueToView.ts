@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-types */
 import StreamView from './StreamView.svelte';
 import FunctionView from './FunctionView.svelte';
 import NoneView from './NoneView.svelte';
@@ -54,7 +55,7 @@ mapping.set(MarkupValue, MarkupView);
 export default function valueToView(type: Function) {
     let prototype = type;
     do {
-        let view = mapping.get(prototype);
+        const view = mapping.get(prototype);
         if (view !== undefined) return view;
         prototype = Object.getPrototypeOf(prototype);
     } while (prototype);

@@ -4,7 +4,7 @@ import { node, type Field, type Replacement } from './Node';
 import Token from './Token';
 import Glyphs from '../lore/Glyphs';
 import { LINK_SYMBOL } from '../parser/Symbols';
-import Symbol from './Symbol';
+import Symbol from './Sym';
 import Purpose from '../concepts/Purpose';
 import Content from './Content';
 
@@ -37,16 +37,19 @@ export default class ConceptLink extends Content {
             locale.input,
             locale.output,
             locale.basis,
-        ].find((c) => c.hasOwnProperty(name)) as Record<string, any>;
+        ].find((c) => name in c);
 
         // Valid if we found it, and no property was specified, or it was, and the concept has it.
         return (
             name === 'UI' ||
             (section !== undefined &&
                 (prop === undefined ||
-                    section[name].hasOwnProperty(prop) ||
+                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                    prop in (section as Record<string, any>)[name] ||
                     (section === locale.basis &&
-                        section[name].function.hasOwnProperty(prop))))
+                        prop in
+                            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                            (section as Record<string, any>)[name].function)))
         );
     }
 

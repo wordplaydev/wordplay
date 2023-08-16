@@ -34,6 +34,7 @@ ball: Motion(
 Stage([
 		Phrase(
     	"🐈"
+        face: "Noto Color Emoji"
     	name: "kitty"
     	size: 2m
     	place: Place(cat.position 0m)

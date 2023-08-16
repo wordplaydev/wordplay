@@ -1,6 +1,6 @@
 import Arrangement from '../../db/Arrangement';
 import type Bounds from './Bounds';
-import { Content, Mode } from './Tile';
+import { TileKind, Mode } from './Tile';
 import Tile from './Tile';
 
 export type TileID = string;
@@ -9,7 +9,7 @@ export const OutputID = 'output';
 export const PaletteID = 'palette';
 export const DocsID = 'docs';
 
-export type LayoutObject = {
+export type SerializedLayout = {
     fullscreen: string | null;
     tiles: {
         id: TileID;
@@ -17,20 +17,26 @@ export type LayoutObject = {
         bounds: Bounds | null;
         position: Bounds;
         name: string;
-        kind: Content;
+        kind: TileKind;
     }[];
 };
 
 export default class Layout {
+    readonly projectID: string;
     readonly tiles: Tile[];
     readonly fullscreenID: string | undefined;
 
-    constructor(tiles: Tile[], fullscreenID: string | undefined) {
+    constructor(
+        projectID: string,
+        tiles: Tile[],
+        fullscreenID: string | undefined
+    ) {
+        this.projectID = projectID;
         this.fullscreenID = fullscreenID;
         this.tiles = tiles;
     }
 
-    toObject(): LayoutObject {
+    toObject(): SerializedLayout {
         return {
             fullscreen: this.fullscreenID ?? null,
             tiles: this.tiles.map((tile) => {
@@ -46,10 +52,11 @@ export default class Layout {
         };
     }
 
-    static fromObject(layout: LayoutObject | null) {
+    static fromObject(projectID: string, layout: SerializedLayout | null) {
         return layout === null
             ? null
             : new Layout(
+                  projectID,
                   layout.tiles.map(
                       (tile) =>
                           new Tile(
@@ -67,6 +74,13 @@ export default class Layout {
 
     isFullscreen() {
         return this.fullscreenID !== undefined;
+    }
+
+    isFullscreenNonSource() {
+        return (
+            this.fullscreenID !== undefined &&
+            this.getTileWithID(this.fullscreenID)?.kind !== TileKind.Source
+        );
     }
 
     isSourceExpanded() {
@@ -116,6 +130,7 @@ export default class Layout {
         return index < 0
             ? this
             : new Layout(
+                  this.projectID,
                   [
                       ...this.tiles.slice(0, index),
                       newTile,
@@ -126,7 +141,7 @@ export default class Layout {
     }
 
     withTiles(tiles: Tile[]) {
-        return new Layout(tiles, this.fullscreenID);
+        return new Layout(this.projectID, tiles, this.fullscreenID);
     }
 
     withTileLast(tile: Tile) {
@@ -134,6 +149,7 @@ export default class Layout {
         return index < 0
             ? this
             : new Layout(
+                  this.projectID,
                   [
                       ...this.tiles.slice(0, index),
                       ...this.tiles.slice(index + 1),
@@ -156,11 +172,11 @@ export default class Layout {
     }
 
     withFullscreen(tileID: string) {
-        return new Layout(this.tiles, tileID);
+        return new Layout(this.projectID, this.tiles, tileID);
     }
 
     withoutFullscreen() {
-        return new Layout(this.tiles, undefined);
+        return new Layout(this.projectID, this.tiles, undefined);
     }
 
     collapsed() {
@@ -181,7 +197,11 @@ export default class Layout {
 
     /* A stack of output and source files with optional palette next to output and docs next to source */
     vertical(width: number, height: number) {
-        let newLayout: Layout = this;
+        let newLayout: Layout = new Layout(
+            this.projectID,
+            this.tiles,
+            this.fullscreenID
+        );
         const expanded = this.expanded();
 
         const output = expanded.find((tile) => tile.id === OutputID);
@@ -190,7 +210,7 @@ export default class Layout {
         const docs = expanded.find((tile) => tile.id === DocsID);
 
         let top = 0;
-        let tileHeight =
+        const tileHeight =
             height /
             ((output || palette ? 1 : 0) +
                 (sources.length + (sources.length === 0 && docs ? 1 : 0)));
@@ -258,7 +278,11 @@ export default class Layout {
 
     /* Docs on the left, then source, then output, with optional palette below it */
     horizontal(width: number, height: number) {
-        let newLayout: Layout = this;
+        let newLayout: Layout = new Layout(
+            this.projectID,
+            this.tiles,
+            this.fullscreenID
+        );
         const expanded = this.expanded();
 
         const output = expanded.find((tile) => tile.id === OutputID);
@@ -267,7 +291,7 @@ export default class Layout {
         const docs = expanded.find((tile) => tile.id === DocsID);
 
         let left = 0;
-        let tileWidth =
+        const tileWidth =
             width /
             ((docs ? 0.5 : 0) + sources.length + (output || palette ? 1 : 0));
 
@@ -327,14 +351,18 @@ export default class Layout {
     }
 
     positioned() {
-        let newLayout: Layout = this;
+        let newLayout: Layout = new Layout(
+            this.projectID,
+            this.tiles,
+            this.fullscreenID
+        );
         for (const tile of this.tiles)
             newLayout = newLayout.withTileBounds(tile, tile.position);
         return newLayout;
     }
 
     randomPositions(width: number, height: number) {
-        let positions = new Map<string, Bounds>();
+        const positions = new Map<string, Bounds>();
         const tiles = this.tiles;
         const tileWidth = width / (tiles.length / 2);
         const tileHeight = height / (tiles.length / 2);

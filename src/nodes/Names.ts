@@ -3,7 +3,7 @@ import type LanguageCode from '@locale/LanguageCode';
 import Name from './Name';
 import Token from './Token';
 import { COMMA_SYMBOL } from '@parser/Symbols';
-import Symbol from './Symbol';
+import Sym from './Sym';
 import NameToken from './NameToken';
 import Language from './Language';
 import type Locale from '@locale/Locale';
@@ -34,9 +34,7 @@ export default class Names extends Node {
         for (const name of names) {
             list.push(
                 new Name(
-                    first
-                        ? undefined
-                        : new Token(COMMA_SYMBOL, Symbol.Separator),
+                    first ? undefined : new Token(COMMA_SYMBOL, Sym.Separator),
                     new NameToken(name)
                 )
             );
@@ -96,17 +94,14 @@ export default class Names extends Node {
         return this.names.find((name) => name.isSymbolic())?.getName();
     }
 
-    getPreferredNameString(
-        preferred: Locale | Locale[],
-        symbolic: boolean = true
-    ) {
+    getPreferredNameString(preferred: Locale | Locale[], symbolic = true) {
         preferred = Array.isArray(preferred) ? preferred : [preferred];
         return this.getPreferredName(preferred, symbolic)?.getName() ?? '-';
     }
 
     getPreferredName(
         preferred: Locale | Locale[],
-        symbolic: boolean = true
+        symbolic = true
     ): Name | undefined {
         if (symbolic) {
             const symbolicMatch = symbolic

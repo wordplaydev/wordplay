@@ -37,7 +37,7 @@ import ValueException from '../values/ValueException';
 import type Value from '../values/Value';
 import Token from './Token';
 import { TABLE_CLOSE_SYMBOL, UPDATE_SYMBOL } from '../parser/Symbols';
-import Symbol from './Symbol';
+import Sym from './Sym';
 import ExpressionPlaceholder from './ExpressionPlaceholder';
 
 type UpdateState = { table: TableValue; index: number; rows: StructureValue[] };
@@ -61,9 +61,9 @@ export default class Update extends Expression {
         return new Update(
             table,
             new Row(
-                new Token(UPDATE_SYMBOL, Symbol.Select),
+                new Token(UPDATE_SYMBOL, Sym.Select),
                 [],
-                new Token(TABLE_CLOSE_SYMBOL, Symbol.TableClose)
+                new Token(TABLE_CLOSE_SYMBOL, Sym.TableClose)
             ),
             query
         );
@@ -250,7 +250,7 @@ export default class Update extends Expression {
                 ],
                 (requestor: Expression, evaluation: Evaluation) => {
                     // Get the row
-                    let row = evaluation.getClosure();
+                    const row = evaluation.getClosure();
                     // Not a row? Exception.
                     if (!(row instanceof StructureValue))
                         return new ValueException(
@@ -351,6 +351,7 @@ export default class Update extends Expression {
     }
 
     evaluate(evaluator: Evaluator, prior: Value | undefined): Value {
+        if (prior) return prior;
         const { table, rows } = getIterationResult<UpdateState>(evaluator);
         return new TableValue(this, table.type, rows);
     }
