@@ -19,6 +19,7 @@
     import Options from '../widgets/Options.svelte';
     import { onMount } from 'svelte';
     import Link from '../app/Link.svelte';
+    import Status from '../app/Status.svelte';
 
     let expanded = false;
 
@@ -171,6 +172,7 @@
             >
         </Link>
     </div>
+    <Status />
     {#if $page.route.id !== '/'}<Button
             tip={$locale.ui.description.close}
             active={$page.route.id !== null && $page.route.id !== "/'"}
