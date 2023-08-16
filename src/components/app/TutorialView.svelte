@@ -289,20 +289,21 @@
     <!-- Create a new view from scratch when the code changes -->
     <!-- Autofocus the main editor if it's currently focused -->
     {#key initialProject}
-        {#if $projectStore}
-            {#if scene}
-                <div class="project"
-                    ><ProjectView
-                        project={$projectStore}
-                        original={initialProject}
-                        bind:index={concepts}
-                        {editable}
-                        {fit}
-                        autofocus={false}
-                        showHelp={false}
-                    /></div
-                >{:else}<PlayView project={$projectStore} {fit} />{/if}
-        {/if}
+        {#if scene}
+            <div class="project"
+                ><ProjectView
+                    project={$projectStore ?? initialProject}
+                    original={initialProject}
+                    bind:index={concepts}
+                    {editable}
+                    {fit}
+                    autofocus={false}
+                    showHelp={false}
+                /></div
+            >{:else}<PlayView
+                project={$projectStore ?? initialProject}
+                {fit}
+            />{/if}
     {/key}
 </section>
 {#key highlights}
