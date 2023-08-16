@@ -13,7 +13,7 @@ import type TypeSet from './TypeSet';
 import type Bind from './Bind';
 import Start from '@runtime/Start';
 import { QUESTION_SYMBOL } from '@parser/Symbols';
-import Sym from './Symbol';
+import Sym from './Sym';
 import Finish from '@runtime/Finish';
 import type Evaluator from '@runtime/Evaluator';
 import type Value from '@values/Value';

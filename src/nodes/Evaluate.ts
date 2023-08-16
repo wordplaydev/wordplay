@@ -52,7 +52,7 @@ import FunctionType from './FunctionType';
 import AnyType from './AnyType';
 import { NotAType } from './NotAType';
 import concretize from '../locale/concretize';
-import Sym from './Symbol';
+import Sym from './Sym';
 import Refer from '../edit/Refer';
 import BasisType from './BasisType';
 import Purpose from '../concepts/Purpose';

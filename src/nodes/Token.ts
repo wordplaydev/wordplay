@@ -2,7 +2,7 @@ import UnicodeString from '../models/UnicodeString';
 import type Spaces from '../parser/Spaces';
 import type Locale from '../locale/Locale';
 import Node, { type Grammar, type Replacement } from './Node';
-import Sym from './Symbol';
+import Sym from './Sym';
 import Emotion from '../lore/Emotion';
 import Purpose from '../concepts/Purpose';
 import type { Template } from '../locale/Locale';

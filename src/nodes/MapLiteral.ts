@@ -27,7 +27,7 @@ import Purpose from '../concepts/Purpose';
 import type { BasisTypeName } from '../basis/BasisConstants';
 import concretize from '../locale/concretize';
 import ValueException from '../values/ValueException';
-import Sym from './Symbol';
+import Sym from './Sym';
 
 export default class MapLiteral extends Expression {
     readonly open: Token;

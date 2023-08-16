@@ -29,7 +29,7 @@ import Purpose from '../concepts/Purpose';
 import NoneValue from '@values/NoneValue';
 import IncompatibleInput from '../conflicts/IncompatibleInput';
 import concretize from '../locale/concretize';
-import Sym from './Symbol';
+import Sym from './Sym';
 import ExpressionPlaceholder from './ExpressionPlaceholder';
 
 export default class ListAccess extends Expression {

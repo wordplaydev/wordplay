@@ -4,7 +4,7 @@
     import type StructureDefinitionValue from '@values/StructureDefinitionValue';
     import SymbolView from './SymbolView.svelte';
     import { TYPE_SYMBOL } from '@parser/Symbols';
-    import Sym from '@nodes/Symbol';
+    import Sym from '@nodes/Sym';
     import { locales } from '../../db/Database';
 
     export let value: StructureDefinitionValue;

@@ -16,7 +16,7 @@ import type { BasisTypeName } from '../basis/BasisConstants';
 import type Root from './Root';
 import type { TemplateInput } from '../locale/concretize';
 import type Markup from './Markup';
-import type Sym from './Symbol';
+import type Sym from './Sym';
 
 /* A global ID for nodes, for helping index them */
 let NODE_ID_COUNTER = 0;

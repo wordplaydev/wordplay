@@ -22,7 +22,7 @@ import Glyphs from '../lore/Glyphs';
 import Purpose from '../concepts/Purpose';
 import concretize from '../locale/concretize';
 import NodeRef from '../locale/NodeRef';
-import Sym from './Symbol';
+import Sym from './Sym';
 import ExpressionPlaceholder from './ExpressionPlaceholder';
 import Reference from './Reference';
 import type Node from './Node';

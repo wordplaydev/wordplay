@@ -22,7 +22,7 @@ import Glyphs from '../lore/Glyphs';
 import Purpose from '../concepts/Purpose';
 import type { BasisTypeName } from '../basis/BasisConstants';
 import concretize from '../locale/concretize';
-import Sym from './Symbol';
+import Sym from './Sym';
 import AnyType from './AnyType';
 
 export default class ListLiteral extends Expression {

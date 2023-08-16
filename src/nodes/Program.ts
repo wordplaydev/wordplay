@@ -21,7 +21,7 @@ import type Value from '@values/Value';
 import { node, type Grammar, type Replacement, optional, list } from './Node';
 import type Locale from '@locale/Locale';
 import type LanguageCode from '@locale/LanguageCode';
-import Sym from './Symbol';
+import Sym from './Sym';
 import Glyphs from '../lore/Glyphs';
 import BlankException from '@values/BlankException';
 import concretize from '../locale/concretize';

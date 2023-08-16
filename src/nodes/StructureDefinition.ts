@@ -36,7 +36,7 @@ import InternalException from '@values/InternalException';
 import Glyphs from '../lore/Glyphs';
 import Purpose from '../concepts/Purpose';
 import { SHARE_SYMBOL } from '../parser/Symbols';
-import Sym from './Symbol';
+import Sym from './Sym';
 import concretize from '../locale/concretize';
 import Evaluate from './Evaluate';
 import ExpressionPlaceholder from './ExpressionPlaceholder';

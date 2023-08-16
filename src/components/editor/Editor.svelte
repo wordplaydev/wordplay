@@ -43,7 +43,7 @@
     } from './util/Highlights';
     import ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
     import TypePlaceholder from '@nodes/TypePlaceholder';
-    import Sym from '@nodes/Symbol';
+    import Sym from '@nodes/Sym';
     import RootView from '../project/RootView.svelte';
     import type Project from '@models/Project';
     import type Conflict from '@conflicts/Conflict';

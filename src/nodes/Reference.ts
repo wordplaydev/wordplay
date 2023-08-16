@@ -27,7 +27,7 @@ import NameException from '@values/NameException';
 import NodeRef from '@locale/NodeRef';
 import Evaluate from './Evaluate';
 import StreamDefinitionType from './StreamDefinitionType';
-import Sym from './Symbol';
+import Sym from './Sym';
 import concretize, { type TemplateInput } from '../locale/concretize';
 import Glyphs from '../lore/Glyphs';
 import type Node from './Node';

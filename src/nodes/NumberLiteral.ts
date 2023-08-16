@@ -8,7 +8,7 @@ import { NotANumber } from '@conflicts/NotANumber';
 import type Bind from './Bind';
 import type Context from './Context';
 import type TypeSet from './TypeSet';
-import Sym from './Symbol';
+import Sym from './Sym';
 import Node, { node, type Grammar, type Replacement, optional } from './Node';
 import type Locale from '@locale/Locale';
 import NodeRef from '@locale/NodeRef';

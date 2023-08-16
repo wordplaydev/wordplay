@@ -12,7 +12,7 @@ import { node, type Grammar, type Replacement, optional } from './Node';
 import type Locale from '@locale/Locale';
 import Glyphs from '../lore/Glyphs';
 import NodeRef from '../locale/NodeRef';
-import Sym from './Symbol';
+import Sym from './Sym';
 import type Node from './Node';
 
 export default class SetType extends BasisType {

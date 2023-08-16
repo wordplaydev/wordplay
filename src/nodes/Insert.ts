@@ -32,7 +32,7 @@ import UnknownColumn from '../conflicts/UnknownColumn';
 import InvalidRow from '../conflicts/InvalidRow';
 import Token from './Token';
 import { INSERT_SYMBOL, TABLE_CLOSE_SYMBOL } from '../parser/Symbols';
-import Sym from './Symbol';
+import Sym from './Sym';
 import ExpressionPlaceholder from './ExpressionPlaceholder';
 
 export default class Insert extends Expression {

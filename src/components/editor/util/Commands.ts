@@ -29,7 +29,7 @@ import Names from '@nodes/Names';
 import type { Database } from '@db/Database';
 import type Locale from '@locale/Locale';
 import { TileKind } from '../../project/Tile';
-import Sym from '../../../nodes/Symbol';
+import Sym from '../../../nodes/Sym';
 
 export type Command = {
     /** The iconographic text symbol to use */

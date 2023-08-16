@@ -4,7 +4,7 @@ import type { Grammar, Replacement } from './Node';
 import Token from './Token';
 import type Locale from '@locale/Locale';
 import { FORMATTED_SYMBOL } from '@parser/Symbols';
-import Sym from './Symbol';
+import Sym from './Sym';
 import type Paragraph from './Paragraph';
 import Words from './Words';
 import Glyphs from '../lore/Glyphs';

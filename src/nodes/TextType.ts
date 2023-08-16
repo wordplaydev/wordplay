@@ -5,7 +5,7 @@ import Language from './Language';
 import BasisType from './BasisType';
 import { node, type Grammar, type Replacement, optional } from './Node';
 import Token from './Token';
-import Sym from './Symbol';
+import Sym from './Sym';
 import type TypeSet from './TypeSet';
 import Emotion from '../lore/Emotion';
 import UnionType from './UnionType';

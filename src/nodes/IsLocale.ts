@@ -3,7 +3,7 @@ import type Type from './Type';
 import type Evaluator from '@runtime/Evaluator';
 import type Value from '@values/Value';
 import type Step from '@runtime/Step';
-import Sym from './Symbol';
+import Sym from './Sym';
 import { GLOBE1_SYMBOL } from '@parser/Symbols';
 import BoolValue from '@values/BoolValue';
 import { node, type Grammar, type Replacement, optional } from './Node';

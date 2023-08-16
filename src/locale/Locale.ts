@@ -1,6 +1,6 @@
 import type LanguageCode from './LanguageCode';
 import { Languages } from './LanguageCode';
-import type Sym from '../nodes/Symbol';
+import type Sym from '../nodes/Sym';
 import type BasisTexts from './BasisTexts';
 import type NodeTexts from './NodeTexts';
 import type OutputTexts from './OutputTexts';

@@ -1,7 +1,7 @@
 <svelte:options immutable={true} />
 
 <script lang="ts">
-    import Sym from '@nodes/Symbol';
+    import Sym from '@nodes/Sym';
     import {
         BIND_SYMBOL,
         EVAL_CLOSE_SYMBOL,

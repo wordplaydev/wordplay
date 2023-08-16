@@ -10,7 +10,7 @@ import UnknownLanguage from '@conflicts/UnknownLanguage';
 import type Locale from '@locale/Locale';
 import Glyphs from '../lore/Glyphs';
 import Purpose from '../concepts/Purpose';
-import Sym from './Symbol';
+import Sym from './Sym';
 import type Type from './Type';
 import type LanguageCode from '@locale/LanguageCode';
 

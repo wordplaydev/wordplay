@@ -8,7 +8,7 @@ import { list, node, type Grammar, type Replacement } from './Node';
 import type Spaces from '../parser/Spaces';
 import { toMarkup } from '../parser/Parser';
 import Token from './Token';
-import Sym from './Symbol';
+import Sym from './Sym';
 import type Node from './Node';
 import Words from './Words';
 import type { FormattedText } from '../output/Phrase';

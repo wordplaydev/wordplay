@@ -16,7 +16,7 @@ import ValueRef from '../locale/ValueRef';
 import Branch from './Branch';
 import { unescapeMarkupSymbols } from '../parser/Tokenizer';
 import Node, { list, node } from '@nodes/Node';
-import Sym from './Symbol';
+import Sym from './Sym';
 
 export type NodeSegment =
     | Token

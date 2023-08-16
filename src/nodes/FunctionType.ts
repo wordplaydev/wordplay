@@ -1,5 +1,5 @@
 import Token from './Token';
-import Sym from './Symbol';
+import Sym from './Sym';
 import Type from './Type';
 import type Context from './Context';
 import { FUNCTION_SYMBOL } from '@parser/Symbols';

@@ -9,7 +9,7 @@ import {
 } from '../parser/Symbols';
 import { node, type Grammar, type Replacement } from './Node';
 import Token from './Token';
-import Sym from './Symbol';
+import Sym from './Sym';
 import type { TemplateInput } from '../locale/concretize';
 import Content from './Content';
 

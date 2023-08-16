@@ -1,6 +1,6 @@
 import Token from './Token';
 import Language from './Language';
-import Sym from './Symbol';
+import Sym from './Sym';
 import { node, type Grammar, type Replacement, optional, list } from './Node';
 import type Locale from '@locale/Locale';
 import Emotion from '../lore/Emotion';

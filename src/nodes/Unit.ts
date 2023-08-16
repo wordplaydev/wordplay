@@ -11,7 +11,7 @@ import NumberValue from '@values/NumberValue';
 import type TypeSet from './TypeSet';
 import type { BasisTypeName } from '../basis/BasisConstants';
 import LanguageToken from './LanguageToken';
-import Sym from './Symbol';
+import Sym from './Sym';
 import { node, type Grammar, type Replacement, list, optional } from './Node';
 import type Locale from '@locale/Locale';
 import Emotion from '../lore/Emotion';

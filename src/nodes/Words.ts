@@ -4,7 +4,7 @@ import Purpose from '../concepts/Purpose';
 import Glyphs from '../lore/Glyphs';
 import { node, type Grammar, type Replacement, any, none, list } from './Node';
 import Token from './Token';
-import Sym from './Symbol';
+import Sym from './Sym';
 import { unescaped } from './TextLiteral';
 import Example from './Example';
 import WebLink from './WebLink';

@@ -1,5 +1,5 @@
 import Token from '@nodes/Token';
-import Sym from '@nodes/Symbol';
+import Sym from '@nodes/Sym';
 import {
     BIND_SYMBOL,
     QUESTION_SYMBOL,

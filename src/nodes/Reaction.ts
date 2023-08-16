@@ -27,7 +27,7 @@ import type { BasisTypeName } from '../basis/BasisConstants';
 import StreamToken from './StreamToken';
 import concretize from '../locale/concretize';
 import ExpectedStream from '../conflicts/ExpectedStream';
-import Sym from './Symbol';
+import Sym from './Sym';
 import ExpressionPlaceholder from './ExpressionPlaceholder';
 import type Node from './Node';
 import UnknownType from './UnknownType';

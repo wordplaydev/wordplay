@@ -1,7 +1,7 @@
 <svelte:options immutable={true} />
 
 <script lang="ts">
-    import type Sym from '@nodes/Symbol';
+    import type Sym from '@nodes/Sym';
     import TokenCategories from '../editor/TokenCategories';
 
     export let symbol: string;

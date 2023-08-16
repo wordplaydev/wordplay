@@ -1,6 +1,6 @@
 import type { Grammar, Replacement } from './Node';
 import Token from './Token';
-import Sym from './Symbol';
+import Sym from './Sym';
 import { TYPE_CLOSE_SYMBOL, TYPE_OPEN_SYMBOL } from '@parser/Symbols';
 import Names from './Names';
 import type TypeVariable from './TypeVariable';

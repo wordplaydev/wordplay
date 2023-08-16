@@ -20,7 +20,7 @@ import NodeRef from '@locale/NodeRef';
 import Glyphs from '../lore/Glyphs';
 import IncompatibleInput from '../conflicts/IncompatibleInput';
 import concretize from '../locale/concretize';
-import Sym from './Symbol';
+import Sym from './Sym';
 import Purpose from '../concepts/Purpose';
 import FunctionDefinition from './FunctionDefinition';
 import Names from './Names';

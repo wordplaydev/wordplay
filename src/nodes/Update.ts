@@ -37,7 +37,7 @@ import ValueException from '../values/ValueException';
 import type Value from '../values/Value';
 import Token from './Token';
 import { TABLE_CLOSE_SYMBOL, UPDATE_SYMBOL } from '../parser/Symbols';
-import Sym from './Symbol';
+import Sym from './Sym';
 import ExpressionPlaceholder from './ExpressionPlaceholder';
 
 type UpdateState = { table: TableValue; index: number; rows: StructureValue[] };

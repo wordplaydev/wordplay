@@ -3,7 +3,7 @@ import type LanguageCode from '@locale/LanguageCode';
 import Name from './Name';
 import Token from './Token';
 import { COMMA_SYMBOL } from '@parser/Symbols';
-import Sym from './Symbol';
+import Sym from './Sym';
 import NameToken from './NameToken';
 import Language from './Language';
 import type Locale from '@locale/Locale';

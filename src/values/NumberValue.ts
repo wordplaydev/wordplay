@@ -1,5 +1,5 @@
 import Token from '@nodes/Token';
-import Sym from '@nodes/Symbol';
+import Sym from '@nodes/Sym';
 import Unit from '@nodes/Unit';
 import BoolValue from '@values/BoolValue';
 import NoneValue from '@values/NoneValue';

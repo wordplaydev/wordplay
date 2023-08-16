@@ -8,7 +8,7 @@
         SET_CLOSE_SYMBOL,
         SET_OPEN_SYMBOL,
     } from '@parser/Symbols';
-    import Sym from '@nodes/Symbol';
+    import Sym from '@nodes/Sym';
     import ValueView from './ValueView.svelte';
     import Expandable from './Expandable.svelte';
 

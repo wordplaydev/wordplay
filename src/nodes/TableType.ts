@@ -1,7 +1,7 @@
 import Bind from '@nodes/Bind';
 import type Context from './Context';
 import Token from './Token';
-import Sym from './Symbol';
+import Sym from './Sym';
 import { TABLE_CLOSE_SYMBOL, TABLE_OPEN_SYMBOL } from '@parser/Symbols';
 import type TypeSet from './TypeSet';
 import type { BasisTypeName } from '../basis/BasisConstants';

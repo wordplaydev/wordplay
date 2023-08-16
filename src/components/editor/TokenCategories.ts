@@ -1,4 +1,4 @@
-import Sym from '@nodes/Symbol';
+import Sym from '@nodes/Sym';
 
 const TokenCategoryDelimiter = 'delimiter';
 const TokenCategoryRelation = 'relation';

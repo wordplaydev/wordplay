@@ -1,5 +1,5 @@
 import Token from './Token';
-import Sym from './Symbol';
+import Sym from './Sym';
 import { QUESTION_SYMBOL } from '@parser/Symbols';
 import BasisType from './BasisType';
 import type TypeSet from './TypeSet';

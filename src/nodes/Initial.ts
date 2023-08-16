@@ -7,7 +7,7 @@ import type Value from '@values/Value';
 import type Step from '@runtime/Step';
 import type Bind from './Bind';
 import type TypeSet from './TypeSet';
-import Sym from './Symbol';
+import Sym from './Sym';
 import { INITIAL_SYMBOL } from '@parser/Symbols';
 import BoolValue from '@values/BoolValue';
 import { node, type Grammar, type Replacement } from './Node';

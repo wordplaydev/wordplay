@@ -15,7 +15,7 @@ import ConversionDefinition from './ConversionDefinition';
 import Halt from '@runtime/Halt';
 import Block from './Block';
 import { CONVERT_SYMBOL, PROPERTY_SYMBOL } from '@parser/Symbols';
-import Sym from './Symbol';
+import Sym from './Sym';
 import Names from './Names';
 import type Evaluator from '@runtime/Evaluator';
 import type Value from '@values/Value';

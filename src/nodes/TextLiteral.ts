@@ -16,7 +16,7 @@ import Translation from './Translation';
 import UnionType from './UnionType';
 import { getPreferred } from './LanguageTagged';
 import Token from './Token';
-import Sym from './Symbol';
+import Sym from './Sym';
 import type Expression from './Expression';
 import type Step from '@runtime/Step';
 import Start from '@runtime/Start';

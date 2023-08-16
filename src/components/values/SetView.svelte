@@ -3,7 +3,7 @@
 <script lang="ts">
     import type SetValue from '@values/SetValue';
     import SymbolView from './SymbolView.svelte';
-    import Sym from '@nodes/Symbol';
+    import Sym from '@nodes/Sym';
     import ValueView from './ValueView.svelte';
     import { SET_CLOSE_SYMBOL, SET_OPEN_SYMBOL } from '@parser/Symbols';
     import Expandable from './Expandable.svelte';

@@ -5,7 +5,7 @@ import Program from './Program';
 import Token from './Token';
 import Glyphs from '../lore/Glyphs';
 import Purpose from '../concepts/Purpose';
-import Sym from './Symbol';
+import Sym from './Sym';
 import { CODE_SYMBOL } from '../parser/Symbols';
 import Content from './Content';
 

@@ -8,7 +8,7 @@ import Glyphs from '../lore/Glyphs';
 import Content from './Content';
 import { node, type Replacement, type Grammar } from './Node';
 import Token from './Token';
-import Sym from './Symbol';
+import Sym from './Sym';
 import type Node from './Node';
 
 /**

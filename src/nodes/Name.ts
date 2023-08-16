@@ -5,7 +5,7 @@ import Language from './Language';
 import NameToken from './NameToken';
 import type Locale from '@locale/Locale';
 import { COMMA_SYMBOL } from '@parser/Symbols';
-import Sym from './Symbol';
+import Sym from './Sym';
 import Emotion from '../lore/Emotion';
 import Purpose from '../concepts/Purpose';
 import type Context from './Context';

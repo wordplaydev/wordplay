@@ -5,7 +5,7 @@
     import { LIST_CLOSE_SYMBOL, LIST_OPEN_SYMBOL } from '@parser/Symbols';
     import SymbolView from './SymbolView.svelte';
     import ValueView from './ValueView.svelte';
-    import Sym from '@nodes/Symbol';
+    import Sym from '@nodes/Sym';
     import Expandable from './Expandable.svelte';
 
     export let value: ListValue;

@@ -6,7 +6,7 @@ import type Locale from '@locale/Locale';
 import Glyphs from '../lore/Glyphs';
 import Purpose from '../concepts/Purpose';
 import Node, { any, list, node } from './Node';
-import Sym from './Symbol';
+import Sym from './Sym';
 import Evaluation, { type EvaluationNode } from '@runtime/Evaluation';
 import type Evaluator from '@runtime/Evaluator';
 import type Value from '../values/Value';

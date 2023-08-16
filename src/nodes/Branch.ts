@@ -7,7 +7,7 @@ import Content from './Content';
 import Mention from './Mention';
 import { node, type Replacement, type Grammar, list, optional } from './Node';
 import Token from './Token';
-import Sym from './Symbol';
+import Sym from './Sym';
 import Words from './Words';
 import type Node from './Node';
 

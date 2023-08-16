@@ -13,7 +13,7 @@ import type TypeSet from './TypeSet';
 import SetType from './SetType';
 import type Bind from './Bind';
 import { SET_CLOSE_SYMBOL, SET_OPEN_SYMBOL } from '@parser/Symbols';
-import Sym from './Symbol';
+import Sym from './Sym';
 import { node, type Grammar, type Replacement, list } from './Node';
 import type Locale from '@locale/Locale';
 import Glyphs from '../lore/Glyphs';

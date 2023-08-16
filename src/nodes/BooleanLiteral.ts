@@ -6,7 +6,7 @@ import { FALSE_SYMBOL, TRUE_SYMBOL } from '@parser/Symbols';
 import type Bind from './Bind';
 import type Context from './Context';
 import type TypeSet from './TypeSet';
-import Sym from './Symbol';
+import Sym from './Sym';
 import { node, type Grammar, type Replacement } from './Node';
 import type Locale from '@locale/Locale';
 import NodeRef from '@locale/NodeRef';

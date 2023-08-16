@@ -2,7 +2,7 @@ import { tokenize } from './Tokenizer';
 import { DOCS_SYMBOL, EXPONENT_SYMBOL, PRODUCT_SYMBOL } from './Symbols';
 import type Node from '@nodes/Node';
 import Token from '@nodes/Token';
-import Sym from '@nodes/Symbol';
+import Sym from '@nodes/Sym';
 import type Expression from '@nodes/Expression';
 import type Type from '@nodes/Type';
 import Program from '@nodes/Program';
@@ -226,8 +226,21 @@ export class Tokens {
         );
     }
 
+    hasAfter(): boolean {
+        const after = this.#unread[1];
+        return (
+            after !== undefined &&
+            !after.isSymbol(Sym.End) &&
+            !after.isSymbol(Sym.Code)
+        );
+    }
+
     nextIsUnary(): boolean {
-        return this.nextIs(Sym.Operator) && this.afterLacksPrecedingSpace();
+        return (
+            this.nextIs(Sym.Operator) &&
+            this.hasAfter() &&
+            this.afterLacksPrecedingSpace()
+        );
     }
 
     /** Returns true if and only if the next token has a preceding line break. */

@@ -2,7 +2,7 @@ import type { Edit, Revision } from '../components/editor/util/Commands';
 import Block from '@nodes/Block';
 import Node, { ListOf } from '@nodes/Node';
 import Token from '@nodes/Token';
-import Sym from '@nodes/Symbol';
+import Sym from '@nodes/Sym';
 import {
     Delimiters,
     FormattingSymbols,

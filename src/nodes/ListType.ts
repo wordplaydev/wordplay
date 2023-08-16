@@ -3,7 +3,7 @@ import { LIST_CLOSE_SYMBOL, LIST_OPEN_SYMBOL } from '@parser/Symbols';
 import type Context from './Context';
 import BasisType from './BasisType';
 import Token from './Token';
-import Sym from './Symbol';
+import Sym from './Sym';
 import Type from './Type';
 import type TypeSet from './TypeSet';
 import { node, type Grammar, type Replacement, optional } from './Node';

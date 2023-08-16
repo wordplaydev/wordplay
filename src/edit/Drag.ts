@@ -6,7 +6,7 @@ import TypePlaceholder from '@nodes/TypePlaceholder';
 import Type from '@nodes/Type';
 import type Project from '@models/Project';
 import Token from '@nodes/Token';
-import Sym from '@nodes/Symbol';
+import Sym from '@nodes/Sym';
 import Program from '@nodes/Program';
 import Block from '@nodes/Block';
 import Bind from '../nodes/Bind';

@@ -20,7 +20,7 @@ import { node, type Grammar, type Replacement } from './Node';
 import type Locale from '@locale/Locale';
 import NodeRef from '@locale/NodeRef';
 import Glyphs from '../lore/Glyphs';
-import Sym from './Symbol';
+import Sym from './Sym';
 import { TYPE_SYMBOL } from '../parser/Symbols';
 import Purpose from '../concepts/Purpose';
 import concretize from '../locale/concretize';

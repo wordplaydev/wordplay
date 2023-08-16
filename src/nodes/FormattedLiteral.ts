@@ -20,7 +20,7 @@ import Finish from '@runtime/Finish';
 import type Step from '@runtime/Step';
 import type Evaluator from '@runtime/Evaluator';
 import Token from './Token';
-import Sym from './Symbol';
+import Sym from './Sym';
 import TextValue from '../values/TextValue';
 
 export default class FormattedLiteral extends Literal {

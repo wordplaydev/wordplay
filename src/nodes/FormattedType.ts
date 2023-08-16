@@ -5,7 +5,7 @@ import type { BasisTypeName } from '../basis/BasisConstants';
 import BasisType from './BasisType';
 import { node, type Grammar, type Replacement } from './Node';
 import type TypeSet from './TypeSet';
-import Sym from './Symbol';
+import Sym from './Sym';
 import Token from './Token';
 import Glyphs from '../lore/Glyphs';
 import { DOCS_SYMBOL } from '../parser/Symbols';

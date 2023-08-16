@@ -15,7 +15,7 @@ import type TypeSet from './TypeSet';
 import Conditional from './Conditional';
 import Is from './Is';
 import { PROPERTY_SYMBOL } from '@parser/Symbols';
-import Sym from './Symbol';
+import Sym from './Sym';
 import TypeVariable from './TypeVariable';
 import NameException from '@values/NameException';
 import type Definition from './Definition';

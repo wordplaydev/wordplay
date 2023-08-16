@@ -4,7 +4,7 @@
     import type FunctionValue from '@values/FunctionValue';
     import SymbolView from './SymbolView.svelte';
     import { FUNCTION_SYMBOL } from '@parser/Symbols';
-    import Sym from '@nodes/Symbol';
+    import Sym from '@nodes/Sym';
     import { locales } from '../../db/Database';
 
     export let value: FunctionValue;

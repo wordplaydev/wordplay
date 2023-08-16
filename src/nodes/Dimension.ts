@@ -9,7 +9,7 @@ import Node, {
 import Token from './Token';
 import { EXPONENT_SYMBOL } from '@parser/Symbols';
 import { PRODUCT_SYMBOL } from '@parser/Symbols';
-import Sym from './Symbol';
+import Sym from './Sym';
 import NameToken from './NameToken';
 import type Locale from '@locale/Locale';
 import Glyphs from '../lore/Glyphs';

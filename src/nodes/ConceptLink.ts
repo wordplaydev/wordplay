@@ -4,7 +4,7 @@ import { node, type Field, type Replacement } from './Node';
 import Token from './Token';
 import Glyphs from '../lore/Glyphs';
 import { LINK_SYMBOL } from '../parser/Symbols';
-import Symbol from './Symbol';
+import Symbol from './Sym';
 import Purpose from '../concepts/Purpose';
 import Content from './Content';
 

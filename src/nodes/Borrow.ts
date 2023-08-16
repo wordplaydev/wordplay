@@ -6,7 +6,7 @@ import type Evaluator from '@runtime/Evaluator';
 import type Step from '@runtime/Step';
 import NumberValue from '@values/NumberValue';
 import Unit from './Unit';
-import Sym from './Symbol';
+import Sym from './Sym';
 import { BORROW_SYMBOL } from '@parser/Symbols';
 import Expression from './Expression';
 import Bind from './Bind';

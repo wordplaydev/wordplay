@@ -27,7 +27,7 @@ import { none, type Grammar, type Replacement, node, list, any } from './Node';
 import type Locale from '@locale/Locale';
 import Glyphs from '../lore/Glyphs';
 import concretize from '../locale/concretize';
-import Sym from './Symbol';
+import Sym from './Sym';
 import Purpose from '../concepts/Purpose';
 
 export enum BlockKind {

@@ -5,7 +5,7 @@ import AnyType from './AnyType';
 import type Context from './Context';
 import { node, type Grammar, type Replacement } from './Node';
 import Token from './Token';
-import Sym from './Symbol';
+import Sym from './Sym';
 import Type from './Type';
 import type TypeSet from './TypeSet';
 import Glyphs from '../lore/Glyphs';

@@ -3,7 +3,7 @@ import type FunctionDefinition from './FunctionDefinition';
 import type Context from './Context';
 import Token from './Token';
 import type Node from './Node';
-import Sym from './Symbol';
+import Sym from './Sym';
 import Type from './Type';
 import { OR_SYMBOL } from '@parser/Symbols';
 import type TypeSet from './TypeSet';

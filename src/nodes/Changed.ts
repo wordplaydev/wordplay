@@ -12,7 +12,7 @@ import type Bind from './Bind';
 import type TypeSet from './TypeSet';
 import TypeException from '@values/TypeException';
 import AnyType from './AnyType';
-import Sym from './Symbol';
+import Sym from './Sym';
 import { CHANGE_SYMBOL } from '@parser/Symbols';
 import Start from '@runtime/Start';
 import BoolValue from '@values/BoolValue';

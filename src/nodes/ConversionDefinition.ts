@@ -1,7 +1,7 @@
 import type Node from './Node';
 import Expression from './Expression';
 import Token from './Token';
-import Sym from './Symbol';
+import Sym from './Sym';
 import type Conflict from '@conflicts/Conflict';
 import { MisplacedConversion } from '@conflicts/MisplacedConversion';
 import Block from './Block';

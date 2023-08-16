@@ -24,7 +24,7 @@ import type Locale from '@locale/Locale';
 import { UnenclosedType } from './UnenclosedType';
 import Glyphs from '../lore/Glyphs';
 import { PROPERTY_SYMBOL } from '../parser/Symbols';
-import Sym from './Symbol';
+import Sym from './Sym';
 import concretize from '../locale/concretize';
 import type Node from './Node';
 import Purpose from '../concepts/Purpose';

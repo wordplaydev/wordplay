@@ -30,7 +30,7 @@ import Purpose from '../concepts/Purpose';
 import IncompatibleInput from '../conflicts/IncompatibleInput';
 import { NotAType } from './NotAType';
 import concretize from '../locale/concretize';
-import Sym from './Symbol';
+import Sym from './Sym';
 
 export default class SetOrMapAccess extends Expression {
     readonly setOrMap: Expression;

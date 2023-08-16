@@ -31,7 +31,7 @@ import { MisplacedShare } from '@conflicts/MisplacedShare';
 import { DuplicateShare } from '@conflicts/DuplicateShare';
 import type TypeSet from './TypeSet';
 import type Value from '@values/Value';
-import Sym from './Symbol';
+import Sym from './Sym';
 import type Name from './Name';
 import DuplicateName from '@conflicts/DuplicateName';
 import { node, none, type Grammar, type Replacement, any } from './Node';

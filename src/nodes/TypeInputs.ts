@@ -4,7 +4,7 @@ import Glyphs from '../lore/Glyphs';
 import { TYPE_CLOSE_SYMBOL, TYPE_OPEN_SYMBOL } from '../parser/Symbols';
 import type { Grammar, Replacement } from './Node';
 import Token from './Token';
-import Sym from './Symbol';
+import Sym from './Sym';
 import Type from './Type';
 import Node, { list, node, optional } from './Node';
 

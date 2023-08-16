@@ -34,7 +34,7 @@ import Names from './Names';
 import Evaluation from '@runtime/Evaluation';
 import BoolValue from '@values/BoolValue';
 import { SELECT_SYMBOL, TABLE_CLOSE_SYMBOL } from '../parser/Symbols';
-import Sym from './Symbol';
+import Sym from './Sym';
 import Token from './Token';
 import ExpressionPlaceholder from './ExpressionPlaceholder';
 

@@ -27,7 +27,7 @@ import Evaluate from './Evaluate';
 import getConcreteExpectedType from './Generics';
 import BinaryEvaluate from './BinaryEvaluate';
 import FunctionDefinition from './FunctionDefinition';
-import Sym from './Symbol';
+import Sym from './Sym';
 import Purpose from '../concepts/Purpose';
 
 export default class ExpressionPlaceholder extends AtomicExpression {

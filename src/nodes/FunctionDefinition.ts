@@ -2,7 +2,7 @@ import type Node from './Node';
 import Bind from './Bind';
 import Expression from './Expression';
 import Token from './Token';
-import Sym from './Symbol';
+import Sym from './Sym';
 import Type from './Type';
 import type Conflict from '@conflicts/Conflict';
 import { getEvaluationInputConflicts } from './util';

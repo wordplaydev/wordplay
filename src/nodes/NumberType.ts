@@ -2,7 +2,7 @@ import type { BasisTypeName } from '../basis/BasisConstants';
 import { MEASUREMENT_SYMBOL as NUMBER_SYMBOL } from '@parser/Symbols';
 import type Context from './Context';
 import Token from './Token';
-import Sym from './Symbol';
+import Sym from './Sym';
 import Unit from './Unit';
 import BinaryEvaluate from './BinaryEvaluate';
 import BasisType from './BasisType';

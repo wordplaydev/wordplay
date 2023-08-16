@@ -13,7 +13,7 @@ import { node, type Grammar, type Replacement, any, none } from './Node';
 import type Locale from '@locale/Locale';
 import Glyphs from '../lore/Glyphs';
 import NodeRef from '../locale/NodeRef';
-import Sym from './Symbol';
+import Sym from './Sym';
 import TypePlaceholder from './TypePlaceholder';
 import type Node from './Node';
 

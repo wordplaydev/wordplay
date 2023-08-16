@@ -5,7 +5,7 @@
         TABLE_CLOSE_SYMBOL,
         TABLE_OPEN_SYMBOL,
     } from '../../parser/Symbols';
-    import Sym from '../../nodes/Symbol';
+    import Sym from '../../nodes/Sym';
     import type TableType from '../../nodes/TableType';
     import ValueView from './ValueView.svelte';
 
