@@ -121,7 +121,6 @@ export default class Project {
     ) {
         this.id = id ?? uuidv4();
         this.uids = uids;
-        this.listed = listed;
 
         // Remember the source.
         this.name = name;
@@ -144,6 +143,9 @@ export default class Project {
                       return { source, caret: 0 };
                   })
                 : carets;
+
+        // Remember whether this project should be listed as a project. (Used to not list tutorial projects).
+        this.listed = listed;
 
         // Initialize roots for all definitions that can be referenced.
         this.roots = [

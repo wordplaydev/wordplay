@@ -129,36 +129,32 @@
 
     // Every time the progress changes, see if there's a revision to the project stored in the database,
     // and use that instead.
-    let editedProject: Project | undefined = undefined;
     $: {
-        // See if there's a project for this ID already.
+        // Check asynchronously if there's a project for this tutorial project ID already.
         database.getProject(progress.getProjectID()).then((existingProject) => {
-            // Set the project to show to the existing project if there is one, and to the default if there isn't.
-            if (existingProject !== undefined) {
-                if (
-                    editedProject !== existingProject ||
-                    editedProject === undefined
-                ) {
-                    editedProject = existingProject;
-                    projectStore = database.getProjectStore(
-                        progress.getProjectID()
-                    );
-                }
-            }
-            // If there isn't, persist the existing project
-            else {
-                editedProject = initialProject;
-                database.addOrUpdateProject(initialProject, false, true);
-            }
+            // If there is, get it's store.
+            if (existingProject)
+                projectStore = database.getProjectStore(
+                    progress.getProjectID()
+                );
+            // If there's not, add this project to the database and get its store, so we can react to its changes.
+            else
+                projectStore = database
+                    .addOrUpdateProject(initialProject, false, false)
+                    .getStore();
         });
     }
 
-    // Every time the project changes, get it's store
+    // Every time the progress changes, get the store for the corresponding project, if there is one.
     $: projectStore = database.getProjectStore(progress.getProjectID());
 
     // Every time the project store changes, update the context.
     $: if (projectStore)
         setContext<ProjectContext>(ProjectSymbol, projectStore);
+
+    // When the project changes to something other than the initial project, start persisting it.
+    $: if ($projectStore !== undefined && !$projectStore.equals(initialProject))
+        database.getProjectHistory($projectStore.id)?.setPersist();
 
     let selection: Progress | undefined = undefined;
     function handleSelect() {
@@ -287,12 +283,12 @@
     </div>
     <!-- Create a new view from scratch when the code changes -->
     <!-- Autofocus the main editor if it's currently focused -->
-    {#key editedProject}
-        {#if editedProject}
+    {#key initialProject}
+        {#if $projectStore}
             {#if scene}
                 <div class="project"
                     ><ProjectView
-                        project={editedProject}
+                        project={$projectStore}
                         original={initialProject}
                         bind:index={concepts}
                         {editable}
@@ -300,7 +296,7 @@
                         autofocus={false}
                         showHelp={false}
                     /></div
-                >{:else}<PlayView project={editedProject} {fit} />{/if}
+                >{:else}<PlayView project={$projectStore} {fit} />{/if}
         {/if}
     {/key}
 </section>

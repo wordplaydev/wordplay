@@ -403,7 +403,7 @@ export class Database {
         let history = this.projects.get(project.id);
         if (history) history.edit(project, remember);
         else {
-            history = new ProjectHistory(project);
+            history = new ProjectHistory(project, persist);
             this.projects.set(project.id, history);
         }
 
@@ -480,9 +480,9 @@ export class Database {
 
     /** Convert to an object suitable for JSON serialization */
     toProjectsObject(): SerializedProject[] {
-        return Array.from(this.projects.values()).map((history) =>
-            history.getCurrent().serialize()
-        );
+        return Array.from(this.projects.values())
+            .filter((history) => history.isPersisted())
+            .map((history) => history.getCurrent().serialize());
     }
 
     /** Saves settings to Firebase, if available. */
@@ -510,8 +510,8 @@ export class Database {
 
     /** Persist in storage */
     async persistProjects() {
+        // First, try to save locally
         if ('indexedDB' in window) {
-            // First, try to save locally
             this.setStatus(SaveStatus.Saving);
             try {
                 this.projectsDB.save(this.toProjectsObject());
@@ -528,7 +528,11 @@ export class Database {
                 // Create a batch of all of the new and updated projects.
                 const batch = writeBatch(firestore);
                 this.projects.forEach((history) => {
-                    if (firestore && history.isUnsaved()) {
+                    if (
+                        firestore &&
+                        history.isUnsaved() &&
+                        history.isPersisted()
+                    ) {
                         const current = history.getCurrent();
                         batch.set(
                             doc(firestore, 'projects', current.id),

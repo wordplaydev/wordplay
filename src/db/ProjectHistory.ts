@@ -15,28 +15,34 @@ export enum ChangeType {
  * on changes to the project.
  */
 export class ProjectHistory {
-    // The id of the project being tracked
+    /** The id of the project being tracked */
     readonly id: string;
-    // A Svelte store of the current version of the project.
+    /** A Svelte store of the current version of the project. */
     private current: Writable<Project>;
-    // Previous versions of the project.
-    // It always contains the current version of the project and is therefore never empty.
-    // There is one history for the entire project; no per-source history.
-    // History is not persisted, it's session-only.
+    /**
+     * Previous versions of the project.
+     * It always contains the current version of the project and is therefore never empty.
+     * There is one history for the entire project; no per-source history.
+     * History is not persisted, it's session-only.
+     */
     private history: Project[] = [];
-    // The index of the current project in the history.
-    // The present is the last value in the history.
+    /**  The index of the current project in the history. */
     private index: number;
-    // The type of change recently made to the project, so that editors know how to handle caret positions.
+    /** The type of change recently made to the project, so that editors know how to handle caret positions.  */
     private change: ChangeType = ChangeType.Edit;
-    // True if this was successfully saved in the remote database.
+
+    /** True if this was successfully saved in the remote database. */
     private saved = false;
 
-    constructor(project: Project) {
+    /** True if this should be persisted in databases */
+    private persist: boolean;
+
+    constructor(project: Project, persist?: boolean) {
         this.id = project.id;
         this.current = writable(project);
         this.history.push(project);
         this.index = 0;
+        this.persist = persist ?? true;
     }
 
     withLocales(locales: Locale[]) {
@@ -124,5 +130,13 @@ export class ProjectHistory {
 
     wasRestored() {
         return this.change === ChangeType.UndoRedo;
+    }
+
+    isPersisted() {
+        return this.persist;
+    }
+
+    setPersist() {
+        return (this.persist = true);
     }
 }

@@ -653,10 +653,10 @@
 
     /** If the camera or mic changes, restart the evaluator to reflect to the new stream. */
     const cameraUnsubscribe = camera.subscribe(() =>
-        database.reviseProject(project.clone())
+        database.reviseProject(project.clone(), false)
     );
     const micUnsubscribe = mic.subscribe(() =>
-        database.reviseProject(project.clone())
+        database.reviseProject(project.clone(), false)
     );
 
     onDestroy(() => {
