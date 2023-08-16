@@ -532,8 +532,8 @@ export default class Project {
             this.main,
             this.supplements,
             this.locales,
-            this.carets.map((c) =>
-                c.source === source
+            this.carets.map((sourceCaret) =>
+                sourceCaret.source === source
                     ? {
                           source,
                           caret:
@@ -541,7 +541,7 @@ export default class Project {
                                   ? source.root.getPath(caret)
                                   : caret,
                       }
-                    : c
+                    : sourceCaret
             ),
             this.uids,
             this.listed

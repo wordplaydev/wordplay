@@ -110,10 +110,7 @@
     <div class="login">
         {#if auth}
             {#if $user && !$user.isAnonymous}
-                <Lead
-                    >{$locale.ui.phrases.welcome}
-                    {$user.email}</Lead
-                >
+                <Lead>{$locale.ui.phrases.welcome} {$user.email}</Lead>
                 <Button tip={$locale.ui.login.logout} action={logout}
                     >{$locale.ui.login.logout}</Button
                 >

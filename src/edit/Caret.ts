@@ -569,7 +569,7 @@ export default class Caret {
                 : position,
             // If given a column set it, otherwise keep the old one.
             column ?? this.column,
-            entry,
+            entry ?? this.entry,
             this.addition
         );
     }

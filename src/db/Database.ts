@@ -21,7 +21,7 @@ import type { LayoutObject } from '../components/project/Layout';
 import type LanguageCode from '../locale/LanguageCode';
 import { getLanguageDirection } from '../locale/LanguageCode';
 import type Progress from '../tutorial/Progress';
-import Arrangement from './Arrangement';
+import type Arrangement from './Arrangement';
 import { Basis } from '../basis/Basis';
 import en from '../locale/en-US.json';
 import Layout from '../components/project/Layout';
@@ -32,12 +32,17 @@ import {
 } from '../locale/Locale';
 import type { WritingLayout } from '../locale/Scripts';
 import Fonts from '../basis/Fonts';
-import Setting from './Setting';
-
-// Remember this many project edits.
-const PROJECT_HISTORY_LIMIT = 1000;
-
-const PROJECTS_KEY = 'projects';
+import type Setting from './Setting';
+import { LayoutsSetting } from './LayoutsSetting';
+import { ArrangementSetting } from './ArrangementSetting';
+import { AnimationFactorSetting } from './AnimationFactorSetting';
+import { LocalesSetting } from './LocalesSetting';
+import { WritingLayoutSetting } from './WritingLayoutSetting';
+import { TutorialProgressSetting } from './TutorialProgressSetting';
+import { CameraSetting } from './CameraSetting';
+import { MicSetting } from './MicSetting';
+import { ProjectsDatabase } from './ProjectsDatabase';
+import { ProjectHistory } from './ProjectHistory';
 
 export enum SaveStatus {
     Saved = 'saved',
@@ -45,25 +50,9 @@ export enum SaveStatus {
     Error = 'error',
 }
 
-export type TutorialProgress = {
-    act: number;
-    scene: number;
-    line: number;
-};
-
-function setLocalValue(key: string, value: unknown) {
-    if (typeof window !== 'undefined') {
-        if (value === null) window.localStorage.removeItem(key);
-        else window.localStorage.setItem(key, JSON.stringify(value));
-    }
-}
-
 export class Database {
     /** The default locale */
     private readonly defaultLocale: Locale;
-
-    /** A Svelte store for that contains this. Updated when projects change. */
-    readonly projectsStore: Writable<Database>;
 
     /** The status of persisting the projects. */
     readonly statusStore: Writable<SaveStatus> = writable(SaveStatus.Saved);
@@ -74,108 +63,23 @@ export class Database {
     /** The current settings */
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     readonly settings = {
-        layouts: new Setting<Record<string, LayoutObject>>(
-            'layouts',
-            true,
-            {},
-            (value) =>
-                value != null &&
-                value.constructor.name === 'Object' &&
-                Array.from(Object.keys(value)).every(
-                    (key) => typeof key === 'string'
-                )
-                    ? (value as Record<string, LayoutObject>)
-                    : undefined,
-            (current, value) => current === value
-        ),
-        arrangement: new Setting<Arrangement>(
-            'arrangement',
-            true,
-            Arrangement.Vertical,
-            (value) =>
-                typeof value === 'string' &&
-                Object.values<string>(Arrangement).includes(value)
-                    ? (value as Arrangement)
-                    : undefined,
-            (current, value) => current == value
-        ),
-        animationFactor: new Setting<number>(
-            'animationFactor',
-            false,
-            1,
-            (value) =>
-                typeof value === 'number' && value >= 1 ? value : undefined,
-            (current, value) => current == value
-        ),
-        locales: new Setting<SupportedLocale[]>(
-            'locales',
-            false,
-            ['en-US'],
-
-            (value) =>
-                Array.isArray(value) &&
-                value.every(
-                    (locale) =>
-                        typeof locale === 'string' &&
-                        SupportedLocales.includes(locale as SupportedLocale)
-                )
-                    ? (value as SupportedLocale[])
-                    : undefined,
-            (current, value) =>
-                current.length === value.length &&
-                current.every((locale, index) => value[index] === locale)
-        ),
-        writingLayout: new Setting<WritingLayout>(
-            'writingLayout',
-            false,
-            'horizontal-tb',
-            (value) =>
-                value === 'horizontal-tb' ||
-                value === 'vertical-rl' ||
-                value === 'vertical-lr'
-                    ? value
-                    : undefined,
-            (current, value) => current == value
-        ),
-        tutorial: new Setting<TutorialProgress>(
-            'tutorial',
-            false,
-            { act: 1, scene: 1, line: 1 },
-            (value) =>
-                value != null &&
-                typeof value === 'object' &&
-                'act' in value &&
-                'scene' in value &&
-                'line' in value
-                    ? (value as TutorialProgress)
-                    : undefined,
-            (current, value) =>
-                current.act === value.act &&
-                current.scene === value.scene &&
-                current.line === value.line
-        ),
-        camera: new Setting<string | null>(
-            'camera',
-            true,
-            null,
-            (value) => (typeof value === 'string' ? value : null),
-            (current, value) => current == value
-        ),
-        mic: new Setting<string | null>(
-            'mic',
-            true,
-            null,
-            (value) => (typeof value === 'string' ? value : null),
-            (current, value) => current == value
-        ),
+        layouts: LayoutsSetting,
+        arrangement: ArrangementSetting,
+        animationFactor: AnimationFactorSetting,
+        locales: LocalesSetting,
+        writingLayout: WritingLayoutSetting,
+        tutorial: TutorialProgressSetting,
+        camera: CameraSetting,
+        mic: MicSetting,
     };
 
+    /** A derived store based on animation factor */
     readonly animationDuration = derived(
         this.settings.animationFactor.value,
         (factor) => factor * 200
     );
 
-    //* A Svelte store for the locales corresponding to the selected locale names in the config.
+    /** Derived stores based on selected locales. */
     readonly locales: Writable<Locale[]> = writable([DefaultLocale]);
     readonly locale = derived(this.locales, ($locales) => $locales[0]);
     readonly languages = derived(this.locales, ($locales) =>
@@ -185,7 +89,7 @@ export class Database {
         getLanguageDirection($locales[0].language)
     );
 
-    /** The locales loaded. Undefined if the language code doesn't exist. */
+    /** The locales loaded, loading, or failed to load. */
     private localesLoaded: Record<
         SupportedLocale,
         Locale | Promise<Locale | undefined> | undefined
@@ -194,24 +98,11 @@ export class Database {
         Locale | Promise<Locale | undefined> | undefined
     >;
 
-    /** The current list of projects. */
-    private projects: Map<
-        string,
-        {
-            // The current version of the project
-            current: Project;
-            // Previous versions of the project.
-            // It always contains the current version of the project and is therefore never empty.
-            // There is one history for the entire project; no per-source history.
-            // History is not persisted, it's session-only.
-            history: [Project, ...Project[]];
-            // The index of the current project in the history.
-            // The present is the last value in the history.
-            index: number;
-            // True if this was successfully saved in the remote database.
-            saved: boolean;
-        }
-    >;
+    /** The current set of projects in memory. Backed by the IndexedDB local database and Firebase. */
+    private projects: Map<string, ProjectHistory>;
+
+    /** An IndexedDB backed database of projects, allowing for scalability of local persistence. */
+    readonly projectsDB = new ProjectsDatabase();
 
     /** Debounce timer, used to clear pending requests. */
     private timer: NodeJS.Timer | undefined = undefined;
@@ -222,9 +113,6 @@ export class Database {
 
     constructor(locales: SupportedLocale[], defaultLocale: Locale) {
         this.defaultLocale = defaultLocale;
-        this.projects = new Map();
-
-        this.projectsStore = writable(this);
 
         // Store the default locale
         this.localesLoaded[
@@ -233,6 +121,10 @@ export class Database {
 
         // Initialize default languages
         if (locales.length > 0) this.settings.locales.set(this, locales);
+
+        // Initialize the in-memory project store from the local database.
+        this.projects = new Map();
+        this.loadProjects();
     }
 
     async refreshLocales() {
@@ -324,7 +216,7 @@ export class Database {
         if (currentLayout !== null && currentLayout.isEqualTo(layout)) return;
 
         const newLayout = Object.fromEntries(
-            Object.entries(this.settings.layouts)
+            Object.entries(this.settings.layouts.get())
         );
         newLayout[id] = layout.toObject();
         this.setLayout(newLayout);
@@ -391,14 +283,7 @@ export class Database {
         const locales = await this.loadLocales(preferredLocales);
 
         // Revise all projects to have the new locale
-        for (const [, project] of this.projects) {
-            project.current = project.current.withLocales(locales);
-            project.history = project.history.map((proj) =>
-                proj.withLocales(locales)
-            ) as [Project, ...Project[]];
-        }
-
-        this.projectsStore.set(this);
+        for (const [, history] of this.projects) history.withLocales(locales);
     }
 
     getWritingDirection() {
@@ -433,33 +318,58 @@ export class Database {
         return this.settings.mic.get();
     }
 
+    getProjectStore(id: string) {
+        return this.projects.get(id)?.getStore();
+    }
+
     /** Get a list of all current projects */
-    getCurrentProjects() {
-        return Array.from(this.projects.values()).map((p) => p.current);
+    async getAllCreatorProjects(): Promise<Project[]> {
+        await this.loadProjects();
+        return Array.from(this.projects.values()).map((p) => p.getCurrent());
     }
 
     /** Returns the current version of the project with the given ID, if it exists. */
-    getProject(id: string) {
-        return this.projects.get(id)?.current;
-    }
+    async getProject(id: string): Promise<Project | undefined> {
+        // First, check memory.
+        const project = this.projects.get(id)?.getCurrent();
+        if (project !== undefined) return project;
 
-    async loadProject(projectID: string): Promise<Project | undefined> {
-        // If we don't have it, ask the database for it.
+        // Not there? Check the local database.
+        if (IndexedDBSupported) {
+            const localProject = await this.projectsDB.get(id);
+            if (localProject !== undefined) {
+                const proj = await this.deserializeProject(localProject);
+                if (proj) {
+                    this.addOrUpdateProject(proj, false, true);
+                    return proj;
+                }
+            }
+        }
+
+        // Not there? See if Firebase has it.
         if (firestore) {
             try {
-                const projectDoc = await getDoc(
-                    doc(firestore, 'projects', projectID)
-                );
+                const projectDoc = await getDoc(doc(firestore, 'projects', id));
                 if (projectDoc.exists()) {
                     const project = await this.deserializeProject(
                         projectDoc.data() as SerializedProject
                     );
-                    if (project !== undefined) this.addProject(project);
+                    if (project !== undefined)
+                        this.addOrUpdateProject(project, false, false);
                     return project;
                 }
             } catch (err) {
                 return undefined;
             }
+        }
+
+        return undefined;
+    }
+
+    async loadProjects() {
+        if (IndexedDBSupported) {
+            const projects = await this.projectsDB.all();
+            this.updateProjects(projects);
         }
     }
 
@@ -475,30 +385,33 @@ export class Database {
             undefined,
             uid ? [uid] : []
         );
-        this.addProject(newProject);
+        this.addOrUpdateProject(newProject, false, true);
         return newProject.id;
     }
 
     /** Batch set projects */
     setProjects(projects: Project[], persist = true) {
-        for (const project of projects) {
-            // See if there's an existing record for this project
-            // so we can preserve it's history.
-            const info = this.projects.get(project.id);
-
-            this.projects.set(project.id, {
-                current: project,
-                history: info ? info.history : [project],
-                index: info ? info.index : 0,
-                saved: false,
-            });
-        }
-        if (persist) this.requestProjectsSave();
+        for (const project of projects)
+            this.addOrUpdateProject(project, false, persist);
     }
 
-    /** Add a single project, overriding any project with it's ID. */
-    addProject(project: Project) {
-        this.setProjects([project]);
+    addOrUpdateProject(
+        project: Project,
+        remember: boolean,
+        persist: boolean
+    ): ProjectHistory {
+        // Update or create a history for this project.
+        let history = this.projects.get(project.id);
+        if (history) history.edit(project, remember);
+        else {
+            history = new ProjectHistory(project);
+            this.projects.set(project.id, history);
+        }
+
+        // Defer a save.
+        if (persist) this.requestProjectsSave();
+
+        return history;
     }
 
     /** Delete the project with the given ID, if it exists */
@@ -518,95 +431,32 @@ export class Database {
         }
     }
 
-    /** Replaces the project with the given project, adding the current version to the history, and erasing the future, if there is any. */
-    reviseProject(projectID: string | Project, revised: Project) {
-        // Find the ID we're revising.
-        const id = projectID instanceof Project ? projectID.id : projectID;
-
-        // Get the info for the project. Bail if we don't find it, since this should never happen.
-        const serialized = this.projects.get(id);
-
-        // Couldn't find it? Add it.
-        if (serialized === undefined) {
-            this.addProject(revised);
-            return;
-        }
-
-        // Is the undo pointer before the end? Trim the future, keeping the present intact.
-        serialized.history.splice(
-            serialized.index + 1,
-            serialized.history.length - serialized.index - 1
-        );
-
-        // Is the length of the history great than the limit? Trim it.
-        if (serialized.history.length > PROJECT_HISTORY_LIMIT)
-            serialized.history.splice(
-                0,
-                PROJECT_HISTORY_LIMIT - serialized.history.length
-            );
-
-        // Add the revised project to the history.
-        serialized.history.push(revised);
-
-        // Reset the pointer to the end of the history
-        serialized.index = serialized.history.length - 1;
-
-        // Set the current project to the revised project.
-        serialized.current = revised;
-
-        // Mark unsaved
-        serialized.saved = false;
-
-        // Request a save to persist the current version.
-        this.requestProjectsSave();
-    }
-
-    projectIsUndoable(id: string) {
-        const info = this.projects.get(id);
-        return info !== undefined && info.index > 0;
-    }
-
-    undoProject(id: string) {
-        return this.undoRedoProject(id, -1);
-    }
-
-    projectIsRedoable(id: string) {
-        const info = this.projects.get(id);
-        return info !== undefined && info.index < info.history.length - 1;
-    }
-
-    redoProject(id: string) {
-        return this.undoRedoProject(id, 1);
-    }
-
-    undoRedoProject(id: string, direction: -1 | 1): boolean {
-        const info = this.projects.get(id);
-        // No record of this project? Do nothing.
-        if (info === undefined) return false;
-
-        // In the present? Do nothing.
-        if (direction > 0 && info.index === info.history.length - 1)
-            return false;
-        // No more history? Do nothing.
-        else if (direction < 0 && info.index === 0) return false;
-
-        // Move the index back a step in time
-        info.index += direction;
-
-        // Change the current project to the historical project.
-        info.current = info.history[info.index];
-
-        this.requestProjectsSave();
-
-        return true;
-    }
-
     /** Shorthand for revising nodes in a project */
     reviseProjectNodes(
         project: Project,
         revisions: [Node, Node | undefined][]
     ) {
-        this.reviseProject(project, project.withRevisedNodes(revisions));
+        this.reviseProject(project.withRevisedNodes(revisions));
+    }
+
+    /** Replaces the project with the given project, adding the current version to the history, and erasing the future, if there is any. */
+    reviseProject(revised: Project, remember = true) {
+        this.addOrUpdateProject(revised, remember, true);
+    }
+
+    getProjectHistory(id: string) {
+        return this.projects.get(id);
+    }
+
+    undoRedoProject(id: string, direction: -1 | 1): Project | undefined {
+        const history = this.projects.get(id);
+        // No record of this project? Do nothing.
+        if (history === undefined) return undefined;
+
+        const project = history.undoRedo(direction);
+        if (project) this.requestProjectsSave();
+
+        return project;
     }
 
     /**
@@ -614,9 +464,6 @@ export class Database {
      * Should be called any time this.projects is modified.
      */
     requestProjectsSave() {
-        // Broadcast to all listeners.
-        this.projectsStore.set(this);
-
         // Note that we're saving.
         this.setStatus(SaveStatus.Saving);
 
@@ -624,7 +471,7 @@ export class Database {
         clearTimeout(this.timer);
 
         // Initiate another.
-        this.timer = setTimeout(() => this.saveProjects(), 1000);
+        this.timer = setTimeout(() => this.persistProjects(), 1000);
     }
 
     /** Update the saving status and broadcast via the store. */
@@ -634,8 +481,8 @@ export class Database {
 
     /** Convert to an object suitable for JSON serialization */
     toProjectsObject(): SerializedProject[] {
-        return Array.from(this.projects.values()).map((project) =>
-            project.current.serialize()
+        return Array.from(this.projects.values()).map((history) =>
+            history.getCurrent().serialize()
         );
     }
 
@@ -663,13 +510,16 @@ export class Database {
     }
 
     /** Persist in storage */
-    async saveProjects() {
-        // First, cache the projects to local storage.
-        this.setStatus(SaveStatus.Saving);
-        try {
-            setLocalValue(PROJECTS_KEY, this.toProjectsObject());
-            this.setStatus(SaveStatus.Saved);
-        } catch (_) {
+    async persistProjects() {
+        if ('indexedDB' in window) {
+            // First, try to save locally
+            this.setStatus(SaveStatus.Saving);
+            try {
+                this.projectsDB.save(this.toProjectsObject());
+            } catch (_) {
+                this.setStatus(SaveStatus.Error);
+            }
+        } else {
             this.setStatus(SaveStatus.Error);
         }
 
@@ -678,21 +528,23 @@ export class Database {
             try {
                 // Create a batch of all of the new and updated projects.
                 const batch = writeBatch(firestore);
-                this.projects.forEach((project) => {
-                    if (firestore && !project.saved)
+                this.projects.forEach((history) => {
+                    if (firestore && history.isUnsaved()) {
+                        const current = history.getCurrent();
                         batch.set(
-                            doc(firestore, 'projects', project.current.id),
+                            doc(firestore, 'projects', current.id),
                             (this.uid
-                                ? project.current.withUser(this.uid)
-                                : project.current
+                                ? current.withUser(this.uid)
+                                : current
                             ).serialize()
                         );
+                    }
                 });
 
                 await batch.commit();
 
                 // Mark all projects saved if successful.
-                this.projects.forEach((project) => (project.saved = true));
+                this.projects.forEach((project) => project.markSaved());
             } catch (error) {
                 if (error instanceof FirebaseError) {
                     console.error(error.code);
@@ -700,6 +552,9 @@ export class Database {
                 }
                 this.setStatus(SaveStatus.Error);
             }
+            this.setStatus(SaveStatus.Saved);
+        } else {
+            this.setStatus(SaveStatus.Saved);
         }
     }
 
@@ -771,7 +626,7 @@ export class Database {
         this.uid = uid;
 
         // Save whatever's in local storage.
-        this.saveProjects();
+        this.persistProjects();
 
         // Any time the user projects changes in the database, update projects.
         this.projectsQueryUnsubscribe =
@@ -830,6 +685,9 @@ export const DefaultLocale = en as Locale;
 const browserLanguages =
     typeof navigator !== 'undefined' ? navigator.languages : [];
 
+const IndexedDBSupported =
+    typeof window !== 'undefined' && 'indexedDB' in window;
+
 export const database = new Database(
     getBestSupportedLocales(browserLanguages.slice()),
     DefaultLocale
@@ -846,8 +704,6 @@ export const writingDirection = database.writingDirection;
 export const writingLayout = database.settings.writingLayout.value;
 export const camera = database.settings.camera.value;
 export const mic = database.settings.mic.value;
-
-export const projects = database.projectsStore;
 export const status = database.statusStore;
 
 if (import.meta.hot) {

@@ -309,7 +309,6 @@ export function addSoloPhrase(database: Database, project: Project) {
     phrase = Evaluate.make(Reference.make(PHRASE_SYMBOL), [text]);
 
     database.reviseProject(
-        project,
         project.withRevisedNodes([
             last ? [last, phrase] : [block, block.withStatement(phrase)],
         ])
@@ -331,10 +330,7 @@ export function addGroup(database: Database, project: Project) {
     ]);
 
     // Replace the phrase with the group.
-    database.reviseProject(
-        project,
-        project.withRevisedNodes([[phrase, group]])
-    );
+    database.reviseProject(project.withRevisedNodes([[phrase, group]]));
 }
 
 export function addStage(
@@ -358,7 +354,6 @@ export function addStage(
 
     // Replace the phrase with the group.
     database.reviseProject(
-        project,
         project.withRevisedNodes([
             existing ? [existing, stage] : [block, block.withStatement(stage)],
         ])

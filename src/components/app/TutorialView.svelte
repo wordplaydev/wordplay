@@ -16,19 +16,13 @@
     import PlayView from './PlayView.svelte';
     import Button from '../widgets/Button.svelte';
     import Source from '../../nodes/Source';
-    import {
-        database,
-        locale,
-        locales,
-        projects,
-        arrangement,
-    } from '../../db/Database';
+    import { database, locale, locales, arrangement } from '../../db/Database';
     import type Spaces from '../../parser/Spaces';
     import { toMarkup } from '../../parser/Parser';
     import MarkupHTMLView from '../concepts/MarkupHTMLView.svelte';
     import { setContext } from 'svelte';
     import type ConceptIndex from '../../concepts/ConceptIndex';
-    import { writable, type Writable } from 'svelte/store';
+    import { writable } from 'svelte/store';
     import { tick } from 'svelte';
     import { goto } from '$app/navigation';
     import ConceptLink from '../../nodes/ConceptLink';
@@ -121,8 +115,8 @@
           )
         : performance.slice(1).join('\n');
 
-    // Figure out the default project to show.
-    $: defaultProject = new Project(
+    // Every time the progress changes, create an initial project for the step.
+    $: initialProject = new Project(
         progress.getProjectID(),
         scene ? scene.name : act ? act.name : $locale.wordplay,
         new Source($locale.term.start, source),
@@ -133,28 +127,38 @@
         false
     );
 
-    // Start with the default project.
-    $: project = defaultProject;
-
-    // Set a project context for those that depend on it, such as Palette.svelte.
-    const projectStore: Writable<Project | undefined> = writable(undefined);
-    setContext<ProjectContext>(ProjectSymbol, projectStore);
-    $: projectStore.set(project);
-
-    // Any time the project database changes for the current ID, update the project.
-    // This is what allows us to persist any edits to the project.
-    $: if ($projects) {
-        const proj = $projects.getProject(progress.getProjectID());
-        if (proj) project = proj;
+    // Every time the progress changes, see if there's a revision to the project stored in the database,
+    // and use that instead.
+    let editedProject: Project | undefined = undefined;
+    $: {
+        // See if there's a project for this ID already.
+        database.getProject(progress.getProjectID()).then((existingProject) => {
+            // Set the project to show to the existing project if there is one, and to the default if there isn't.
+            if (existingProject !== undefined) {
+                if (
+                    editedProject !== existingProject ||
+                    editedProject === undefined
+                ) {
+                    editedProject = existingProject;
+                    projectStore = database.getProjectStore(
+                        progress.getProjectID()
+                    );
+                }
+            }
+            // If there isn't, persist the existing project
+            else {
+                editedProject = initialProject;
+                database.addOrUpdateProject(initialProject, false, true);
+            }
+        });
     }
 
-    // Any time the project changes, add/update it in projects.
-    // This persists the project state for later.
-    $: if (project) {
-        const existing = $projects.getProject(project.id);
-        if (existing !== undefined && !existing.equals(project))
-            database.addProject(project);
-    }
+    // Every time the project changes, get it's store
+    $: projectStore = database.getProjectStore(progress.getProjectID());
+
+    // Every time the project store changes, update the context.
+    $: if (projectStore)
+        setContext<ProjectContext>(ProjectSymbol, projectStore);
 
     let selection: Progress | undefined = undefined;
     function handleSelect() {
@@ -283,20 +287,20 @@
     </div>
     <!-- Create a new view from scratch when the code changes -->
     <!-- Autofocus the main editor if it's currently focused -->
-    {#key performance}
-        {#if project}
-            {#if scene && performance}
+    {#key editedProject}
+        {#if editedProject}
+            {#if scene}
                 <div class="project"
                     ><ProjectView
-                        {project}
-                        original={defaultProject}
+                        project={editedProject}
+                        original={initialProject}
                         bind:index={concepts}
                         {editable}
                         {fit}
                         autofocus={false}
                         showHelp={false}
                     /></div
-                >{:else}<PlayView {project} {fit} />{/if}
+                >{:else}<PlayView project={editedProject} {fit} />{/if}
         {/if}
     {/key}
 </section>

@@ -73,6 +73,7 @@
     "dependencies": {
         "colorjs.io": "^0",
         "decimal.js": "^10",
+        "dexie": "^4.0.1-alpha.25",
         "firebase": "^9",
         "graphemer": "^1.4.0",
         "pitchy": "^4.0.7",

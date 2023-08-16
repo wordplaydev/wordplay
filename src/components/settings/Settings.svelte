@@ -2,7 +2,6 @@
     import Button from '../widgets/Button.svelte';
     import LanguageChooser from './LocaleChooser.svelte';
     import { getUser, isDark } from '../project/Contexts';
-    import { PUBLIC_CONTEXT } from '$env/static/public';
     import {
         animationFactor,
         database,
@@ -20,6 +19,7 @@
     import { slide } from 'svelte/transition';
     import Options from '../widgets/Options.svelte';
     import { onMount } from 'svelte';
+    import Link from '../app/Link.svelte';
 
     let expanded = false;
 
@@ -80,15 +80,15 @@
     use:clickOutside
     on:outclick={() => (expanded = false)}
 >
+    <div class="account" class:anonymous>
+        <Link to="/login">
+            <span class="user"
+                >{$user ? $user.email : $locale.ui.labels.anonymous}</span
+            >
+        </Link>
+    </div>
     {#if expanded}
         <div class="controls" transition:slide>
-            {#if PUBLIC_CONTEXT !== 'prod'}
-                <div class="account" class:anonymous>
-                    <a href="/login">
-                        {$user ? $user.email : $locale.ui.labels.anonymous}
-                    </a>
-                </div>
-            {/if}
             <Button
                 tip={$arrangement === Arrangement.Free
                     ? $locale.ui.description.vertical
@@ -220,7 +220,6 @@
 
     .dark-mode {
         display: inline-block;
-        width: 2em;
     }
 
     .gear.expanded {
@@ -235,7 +234,7 @@
         font-size: medium;
     }
 
-    .account.anonymous a {
+    .anonymous .user {
         color: var(--wordplay-background);
     }
 </style>

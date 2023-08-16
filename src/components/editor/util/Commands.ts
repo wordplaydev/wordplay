@@ -283,10 +283,7 @@ export const Restart: Command = {
         if (context.resetInputs === undefined) return false;
         // Mark the inputs invalid so we don't inherit them
         context.resetInputs();
-        context.database.reviseProject(
-            context.evaluator.project,
-            context.evaluator.project.clone()
-        );
+        context.database.reviseProject(context.evaluator.project.clone());
         return undefined;
     },
 };
@@ -838,9 +835,14 @@ const Commands: Command[] = [
         key: 'KeyZ',
         keySymbol: 'Z',
         active: (context) =>
-            context.database.projectIsUndoable(context.evaluator.project.id),
+            context.database
+                .getProjectHistory(context.evaluator.project.id)
+                ?.isUndoable() === true,
         execute: (context) =>
-            context.database.undoProject(context.evaluator.project.id) === true,
+            context.database.undoRedoProject(
+                context.evaluator.project.id,
+                -1
+            ) !== undefined,
     },
     {
         symbol: '⟳',
@@ -853,9 +855,14 @@ const Commands: Command[] = [
         key: 'KeyZ',
         keySymbol: 'Z',
         active: (context) =>
-            context.database.projectIsRedoable(context.evaluator.project.id),
+            context.database
+                .getProjectHistory(context.evaluator.project.id)
+                ?.isRedoable() === true,
         execute: (context) =>
-            context.database.redoProject(context.evaluator.project.id) === true,
+            context.database.undoRedoProject(
+                context.evaluator.project.id,
+                1
+            ) !== undefined,
     },
     {
         symbol: '↲',

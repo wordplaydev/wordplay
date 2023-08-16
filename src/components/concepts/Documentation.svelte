@@ -157,7 +157,6 @@
 
         // Update the project with the new source files
         database.reviseProject(
-            project,
             project
                 .withSource(source, newSource)
                 .withCaret(newSource, source.getNodeFirstPosition(node) ?? 0)

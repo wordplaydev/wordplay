@@ -97,6 +97,39 @@
     );
     setContext(CaretSymbol, caret);
 
+    // When source changes, update various nested state from the source.
+    $: caret.set($caret.withSource(source));
+
+    // On mount, start the caret to the project's caret for the source.
+    onMount(() => {
+        caret.set(
+            new Caret(
+                source,
+                project.getCaretPosition(source) ?? 0,
+                undefined,
+                undefined,
+                undefined
+            )
+        );
+    });
+
+    // When the project is undone or redone, set the caret's position to the project's historical caret position.
+    $: if (database.getProjectHistory(project.id)?.wasRestored()) {
+        const position = project.getCaretPosition(source);
+        if (position !== undefined) caret.set($caret.withPosition(position));
+    }
+
+    $: caretExpressionType =
+        $caret.position instanceof Expression
+            ? $caret.position
+                  .getType(context)
+                  .simplify(context)
+                  .generalize(context)
+            : undefined;
+    $: caretTypeDescription = caretExpressionType
+        ?.getDescription(concretize, $locale, project.getContext(source))
+        .toText();
+
     // A menu of potential transformations based on the caret position.
     // Managed here but displayed by the project to allow it to escape the editor view.
     export let menu: Menu | undefined = undefined;
@@ -121,30 +154,6 @@
 
     /** True if something in the editor is focused. */
     let focused: boolean;
-
-    // On mount, initialize the cWhenever the project or source changes, set the caret to the project's caret for the source.
-    onMount(() => {
-        caret.set(
-            new Caret(
-                source,
-                project.getCaretPosition(source) ?? 0,
-                undefined,
-                undefined,
-                undefined
-            )
-        );
-    });
-
-    $: caretExpressionType =
-        $caret.position instanceof Expression
-            ? $caret.position
-                  .getType(context)
-                  .simplify(context)
-                  .generalize(context)
-            : undefined;
-    $: caretTypeDescription = caretExpressionType
-        ?.getDescription(concretize, $locale, project.getContext(source))
-        .toText();
 
     // A store of highlighted nodes, used by node views to highlight themselves.
     // We store centrally since the logic that determines what's highlighted is in the Editor.
@@ -250,9 +259,6 @@
 
     // The possible candidate for dragging
     let dragCandidate: Node | undefined = undefined;
-
-    // When source changes, update various nested state from the source.
-    $: caret.set($caret.withSource(source));
 
     $: context = project.getContext(source);
 
@@ -525,7 +531,6 @@
 
         // Update the project with the new source files
         database.reviseProject(
-            project,
             newProject.withCaret(newSource, newCaretPosition)
         );
 
@@ -1049,7 +1054,6 @@
         // Update the caret and project.
         if (newSource) {
             database.reviseProject(
-                project,
                 project
                     .withSource(source, newSource)
                     .withCaret(newSource, newCaret.position)

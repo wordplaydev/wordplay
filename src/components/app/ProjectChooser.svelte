@@ -1,6 +1,6 @@
 <script lang="ts">
     import Lead from './Lead.svelte';
-    import { database, locale, locales, projects } from '../../db/Database';
+    import { database, locale, locales } from '../../db/Database';
     import ProjectSet from './ProjectPreviewSet.svelte';
     import { examples, makeProject } from '../../examples/examples';
     import type Project from '../../models/Project';
@@ -31,17 +31,23 @@
     function copyProject(project: Project) {
         let newProject = project.copy();
         if ($user) newProject = newProject.withUser($user.uid);
-        database.addProject(newProject);
+        database.addOrUpdateProject(newProject, false, true);
         changeProject(newProject);
     }
 </script>
 
 <Lead>{$locale.ui.header.projects}</Lead>
-<ProjectSet
-    set={$projects.getCurrentProjects()}
-    previewAction={(project) => changeProject(project, true)}
-    editAction={(project) => changeProject(project)}
-/>
+{#await database.getAllCreatorProjects()}
+    …
+{:then projects}
+    <ProjectSet
+        set={projects}
+        previewAction={(project) => changeProject(project, true)}
+        editAction={(project) => changeProject(project)}
+    />
+{:catch error}
+    {error}
+{/await}
 
 <Button tip={$locale.ui.description.newProject} action={newProject}
     ><span style:font-size="xxx-large">+</span>
