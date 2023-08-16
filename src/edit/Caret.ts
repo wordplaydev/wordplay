@@ -4,9 +4,9 @@ import Node, { ListOf } from '@nodes/Node';
 import Token from '@nodes/Token';
 import Sym from '@nodes/Sym';
 import {
-    Delimiters,
+    DelimiterCloseByOpen,
     FormattingSymbols,
-    REVERSE_DELIMITERS,
+    DelimiterOpenByClose,
     TextOpenByTextClose,
 } from '@parser/Tokenizer';
 import {
@@ -688,7 +688,7 @@ export default class Caret {
         if (
             this.tokenIncludingSpace &&
             // Is what's being typed a closing delimiter?
-            text in REVERSE_DELIMITERS &&
+            text in DelimiterOpenByClose &&
             // Is the text being typed what's already there?
             text === this.source.code.at(newPosition) &&
             // Is what's being typed a closing delimiter of a text literal?
@@ -697,7 +697,7 @@ export default class Caret {
                     this.tokenIncludingSpace.getText().charAt(0)
                 ] === text) ||
                 // Is what's being typed a closing delimiter of an open delimiter?
-                (this.tokenIncludingSpace.getText() in REVERSE_DELIMITERS &&
+                (this.tokenIncludingSpace.getText() in DelimiterOpenByClose &&
                     this.source.getMatchedDelimiter(
                         this.tokenIncludingSpace
                     ) !== undefined))
@@ -715,22 +715,23 @@ export default class Caret {
         // Otherwise, if the text to insert is an opening delimiter and this isn't an unclosed text delimiter, automatically insert its closing counterpart.
         else if (
             complete &&
-            text in Delimiters &&
+            text in DelimiterCloseByOpen &&
             ((!this.isInsideText() && !FormattingSymbols.includes(text)) ||
                 (this.isInsideText() && FormattingSymbols.includes(text))) &&
             (this.tokenPrior === undefined ||
-                !(
-                    // The token prior is text or unknown
-                    (
-                        (this.tokenPrior.isSymbol(Sym.Text) ||
-                            this.tokenPrior.isSymbol(Sym.Unknown)) &&
-                        // The text typed closes a matching delimiter
-                        text === Delimiters[this.tokenPrior.getText().charAt(0)]
-                    )
-                ))
+                // The text typed closes a matching delimiter
+                (this.source.getUnmatchedDelimiter(this.tokenPrior, text) ===
+                    undefined &&
+                    !(
+                        // The token prior is text or unknown
+                        (
+                            this.tokenPrior.isSymbol(Sym.Text) ||
+                            this.tokenPrior.isSymbol(Sym.Unknown)
+                        )
+                    )))
         ) {
             closed = true;
-            text += Delimiters[text];
+            text += DelimiterCloseByOpen[text];
         }
         // If the two preceding characters are dots and this is a dot, delete the last two dots then insert the stream symbol.
         else if (
@@ -870,7 +871,7 @@ export default class Caret {
             );
             if (placeholder) return this.deleteNode(placeholder);
 
-            if (before && after && Delimiters[before] === after) {
+            if (before && after && DelimiterCloseByOpen[before] === after) {
                 // If there's an adjacent pair of delimiters, delete them both.
                 let newSource = this.source.withoutGraphemeAt(this.position);
                 if (newSource)

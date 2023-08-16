@@ -3,7 +3,11 @@ import Token from './Token';
 import Program from './Program';
 import type Conflict from '@conflicts/Conflict';
 import { parseProgram, Tokens } from '@parser/Parser';
-import { Delimiters, REVERSE_DELIMITERS, tokenize } from '@parser/Tokenizer';
+import {
+    DelimiterCloseByOpen,
+    DelimiterOpenByClose,
+    tokenize,
+} from '@parser/Tokenizer';
 import UnicodeString from '../models/UnicodeString';
 import type Value from '@values/Value';
 import type Context from './Context';
@@ -19,7 +23,6 @@ import FunctionDefinition from './FunctionDefinition';
 import StructureDefinition from './StructureDefinition';
 import type Spaces from '@parser/Spaces';
 import NoneValue from '@values/NoneValue';
-import type SetOpenToken from './SetOpenToken';
 import type Locale from '@locale/Locale';
 import Glyphs from '../lore/Glyphs';
 import Root from './Root';
@@ -177,22 +180,47 @@ export default class Source extends Expression {
         );
     }
 
-    getMatchedDelimiter(delimiter: Token): Token | undefined {
-        const text = delimiter.getText();
+    getMatchedDelimiter(anchor: Token): Token | undefined {
+        const text = anchor.getText();
         const match =
-            text in Delimiters
-                ? Delimiters[text]
-                : text in REVERSE_DELIMITERS
-                ? REVERSE_DELIMITERS[text]
+            text in DelimiterCloseByOpen
+                ? DelimiterCloseByOpen[text]
+                : text in DelimiterOpenByClose
+                ? DelimiterOpenByClose[text]
                 : undefined;
         if (match === undefined) return;
         return this.root
-            .getParent(delimiter)
+            .getParent(anchor)
             ?.getChildren()
             .find(
-                (node): node is SetOpenToken =>
+                (node): node is Token =>
                     node instanceof Token && node.getText() === match
             );
+    }
+
+    getUnmatchedDelimiter(anchor: Token, delimiter: string): Token | undefined {
+        const open =
+            delimiter in DelimiterCloseByOpen
+                ? DelimiterCloseByOpen[delimiter]
+                : undefined;
+        if (open === undefined) return;
+
+        const ancestors = this.root.getAncestors(anchor);
+        let next = ancestors.shift();
+        while (next !== undefined) {
+            const match = next
+                .getChildren()
+                .find(
+                    (child): child is Token =>
+                        child instanceof Token &&
+                        child !== anchor &&
+                        child.getText() === open
+                );
+            if (match) return match;
+            next = ancestors.shift();
+        }
+
+        return undefined;
     }
 
     withName(name: string, locale: Locale) {
