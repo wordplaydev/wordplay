@@ -361,8 +361,11 @@
     let layout: Layout;
     $: {
         layout =
-            (!layoutInitialized ? initializedLayout() : null) ??
+            (!layoutInitialized || layout.projectID !== project.id
+                ? initializedLayout()
+                : null) ??
             new Layout(
+                project.id,
                 layout
                     ? syncTiles(layout.tiles)
                     : // Create a layout in reading order.
@@ -415,6 +418,9 @@
         layoutInitialized = true;
     }
 
+    /** Persist the layout when it changes */
+    $: database.setProjectLayout(project.id, layout);
+
     /** When the layout or path changes, add or remove query params based on state */
     $: {
         const searchParams = new URLSearchParams($page.url.searchParams);
@@ -447,9 +453,6 @@
         if (search !== currentSearch)
             goto(`?${search}`, { replaceState: true });
     }
-
-    /** Persist the layout when it changes */
-    $: database.setProjectLayout(project.id, layout);
 
     /** The tile being dragged */
     let draggedTile:

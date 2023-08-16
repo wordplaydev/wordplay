@@ -22,10 +22,16 @@ export type SerializedLayout = {
 };
 
 export default class Layout {
+    readonly projectID: string;
     readonly tiles: Tile[];
     readonly fullscreenID: string | undefined;
 
-    constructor(tiles: Tile[], fullscreenID: string | undefined) {
+    constructor(
+        projectID: string,
+        tiles: Tile[],
+        fullscreenID: string | undefined
+    ) {
+        this.projectID = projectID;
         this.fullscreenID = fullscreenID;
         this.tiles = tiles;
     }
@@ -46,10 +52,11 @@ export default class Layout {
         };
     }
 
-    static fromObject(layout: SerializedLayout | null) {
+    static fromObject(projectID: string, layout: SerializedLayout | null) {
         return layout === null
             ? null
             : new Layout(
+                  projectID,
                   layout.tiles.map(
                       (tile) =>
                           new Tile(
@@ -116,6 +123,7 @@ export default class Layout {
         return index < 0
             ? this
             : new Layout(
+                  this.projectID,
                   [
                       ...this.tiles.slice(0, index),
                       newTile,
@@ -126,7 +134,7 @@ export default class Layout {
     }
 
     withTiles(tiles: Tile[]) {
-        return new Layout(tiles, this.fullscreenID);
+        return new Layout(this.projectID, tiles, this.fullscreenID);
     }
 
     withTileLast(tile: Tile) {
@@ -134,6 +142,7 @@ export default class Layout {
         return index < 0
             ? this
             : new Layout(
+                  this.projectID,
                   [
                       ...this.tiles.slice(0, index),
                       ...this.tiles.slice(index + 1),
@@ -156,11 +165,11 @@ export default class Layout {
     }
 
     withFullscreen(tileID: string) {
-        return new Layout(this.tiles, tileID);
+        return new Layout(this.projectID, this.tiles, tileID);
     }
 
     withoutFullscreen() {
-        return new Layout(this.tiles, undefined);
+        return new Layout(this.projectID, this.tiles, undefined);
     }
 
     collapsed() {
@@ -181,7 +190,11 @@ export default class Layout {
 
     /* A stack of output and source files with optional palette next to output and docs next to source */
     vertical(width: number, height: number) {
-        let newLayout: Layout = new Layout(this.tiles, this.fullscreenID);
+        let newLayout: Layout = new Layout(
+            this.projectID,
+            this.tiles,
+            this.fullscreenID
+        );
         const expanded = this.expanded();
 
         const output = expanded.find((tile) => tile.id === OutputID);
@@ -258,7 +271,11 @@ export default class Layout {
 
     /* Docs on the left, then source, then output, with optional palette below it */
     horizontal(width: number, height: number) {
-        let newLayout: Layout = new Layout(this.tiles, this.fullscreenID);
+        let newLayout: Layout = new Layout(
+            this.projectID,
+            this.tiles,
+            this.fullscreenID
+        );
         const expanded = this.expanded();
 
         const output = expanded.find((tile) => tile.id === OutputID);
@@ -327,7 +344,11 @@ export default class Layout {
     }
 
     positioned() {
-        let newLayout: Layout = new Layout(this.tiles, this.fullscreenID);
+        let newLayout: Layout = new Layout(
+            this.projectID,
+            this.tiles,
+            this.fullscreenID
+        );
         for (const tile of this.tiles)
             newLayout = newLayout.withTileBounds(tile, tile.position);
         return newLayout;

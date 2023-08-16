@@ -204,14 +204,14 @@ export class Database {
     getProjectLayout(id: string) {
         const layouts = this.settings.layouts.get();
         const layout = layouts ? layouts[id] : null;
-        return layout ? Layout.fromObject(layout) : null;
+        return layout ? Layout.fromObject(id, layout) : null;
     }
 
     setProjectLayout(id: string, layout: Layout) {
         // Has the layout changed?
         const currentLayoutObject = this.settings.layouts.get()[id] ?? null;
         const currentLayout = currentLayoutObject
-            ? Layout.fromObject(currentLayoutObject)
+            ? Layout.fromObject(id, currentLayoutObject)
             : null;
         if (currentLayout !== null && currentLayout.isEqualTo(layout)) return;
 
