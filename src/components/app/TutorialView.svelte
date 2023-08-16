@@ -162,21 +162,26 @@
     }
 
     async function handleKey(event: KeyboardEvent) {
-        if (event.key === 'ArrowLeft' || event.key === 'Backspace')
+        let focus = false;
+        if (event.key === 'ArrowLeft' || event.key === 'Backspace') {
+            focus = true;
             navigate(progress.previousPause() ?? progress);
-        else if (
+        } else if (
             event.key === 'ArrowRight' ||
             event.key === 'Enter' ||
             event.key === ' '
         ) {
+            focus = true;
             const next = progress.nextPause();
             if (next) navigate(next);
             else goto('/projects');
         }
 
         // Focus the dialog after navigating.
-        await tick();
-        if (view) view.focus();
+        if (focus) {
+            await tick();
+            if (view) view.focus();
+        }
     }
 </script>
 
