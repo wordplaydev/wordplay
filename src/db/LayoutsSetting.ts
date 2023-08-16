@@ -1,7 +1,7 @@
-import type { LayoutObject } from '../components/project/Layout';
+import type { SerializedLayout } from '../components/project/Layout';
 import Setting from './Setting';
 
-export const LayoutsSetting = new Setting<Record<string, LayoutObject>>(
+export const LayoutsSetting = new Setting<Record<string, SerializedLayout>>(
     'layouts',
     true,
     {},
@@ -9,7 +9,7 @@ export const LayoutsSetting = new Setting<Record<string, LayoutObject>>(
         value != null &&
         value.constructor.name === 'Object' &&
         Array.from(Object.keys(value)).every((key) => typeof key === 'string')
-            ? (value as Record<string, LayoutObject>)
+            ? (value as Record<string, SerializedLayout>)
             : undefined,
     (current, value) => current === value
 );

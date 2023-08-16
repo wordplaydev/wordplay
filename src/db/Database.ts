@@ -17,7 +17,7 @@ import { firestore, auth } from '@db/firebase';
 import { onAuthStateChanged, type Unsubscribe, type User } from 'firebase/auth';
 import { FirebaseError } from 'firebase/app';
 import type Locale from '../locale/Locale';
-import type { LayoutObject } from '../components/project/Layout';
+import type { SerializedLayout } from '../components/project/Layout';
 import type LanguageCode from '../locale/LanguageCode';
 import { getLanguageDirection } from '../locale/LanguageCode';
 import type Progress from '../tutorial/Progress';
@@ -222,7 +222,7 @@ export class Database {
         this.setLayout(newLayout);
     }
 
-    setLayout(layouts: Record<string, LayoutObject>) {
+    setLayout(layouts: Record<string, SerializedLayout>) {
         this.settings.layouts.set(database, layouts);
     }
 

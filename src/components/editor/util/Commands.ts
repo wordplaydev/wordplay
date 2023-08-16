@@ -28,7 +28,7 @@ import ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
 import Names from '@nodes/Names';
 import type { Database } from '@db/Database';
 import type Locale from '@locale/Locale';
-import { Content } from '../../project/Tile';
+import { TileKind } from '../../project/Tile';
 import Sym from '../../../nodes/Symbol';
 
 export type Command = {
@@ -75,7 +75,7 @@ export type CommandContext = {
     database: Database;
     toggleMenu?: () => void;
     fullscreen?: (on: boolean) => void;
-    focusOrCycleTile?: (content?: Content) => void;
+    focusOrCycleTile?: (content?: TileKind) => void;
     resetInputs?: () => void;
     help?: () => void;
 };
@@ -410,7 +410,7 @@ export const FocusOutput: Command = {
     key: 'Digit1',
     execute: (context) =>
         context.focusOrCycleTile
-            ? context.focusOrCycleTile(Content.Output)
+            ? context.focusOrCycleTile(TileKind.Output)
             : false,
 };
 
@@ -425,7 +425,7 @@ export const FocusSource: Command = {
     key: 'Digit2',
     execute: (context) =>
         context.focusOrCycleTile
-            ? context.focusOrCycleTile(Content.Source)
+            ? context.focusOrCycleTile(TileKind.Source)
             : false,
 };
 
@@ -440,7 +440,7 @@ export const FocusDocs: Command = {
     key: 'Digit3',
     execute: (context) =>
         context.focusOrCycleTile
-            ? context.focusOrCycleTile(Content.Documentation)
+            ? context.focusOrCycleTile(TileKind.Documentation)
             : false,
 };
 
@@ -455,7 +455,7 @@ export const FocusPalette: Command = {
     key: 'Digit4',
     execute: (context) =>
         context.focusOrCycleTile
-            ? context.focusOrCycleTile(Content.Palette)
+            ? context.focusOrCycleTile(TileKind.Palette)
             : false,
 };
 

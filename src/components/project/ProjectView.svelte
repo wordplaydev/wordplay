@@ -44,7 +44,7 @@
     import getOutlineOf, { getUnderlineOf } from '../editor/util/outline';
     import type { HighlightSpec } from '../editor/util/Highlights';
     import TileView, { type ResizeDirection } from './TileView.svelte';
-    import Tile, { Content, Mode } from './Tile';
+    import Tile, { TileKind, Mode } from './Tile';
     import OutputView from '../output/OutputView.svelte';
     import Editor from '../editor/Editor.svelte';
     import Layout, { DocsID, OutputID, PaletteID } from './Layout';
@@ -303,7 +303,7 @@
         // Go through each tile and map it to a source file.
         // If we don't find it, remove the tile.
         for (const tile of tiles) {
-            if (tile.kind !== Content.Source) {
+            if (tile.kind !== TileKind.Source) {
                 newTiles.push(tile);
             } else {
                 const source = project
@@ -343,7 +343,7 @@
         return new Tile(
             Layout.getSourceID(index),
             source.names.getPreferredNameString($locales),
-            Content.Source,
+            TileKind.Source,
             index === 0 || expandNewTile ? Mode.Expanded : Mode.Collapsed,
             undefined,
             Tile.randomPosition(1024, 768)
@@ -370,7 +370,7 @@
                           new Tile(
                               PaletteID,
                               PALETTE_SYMBOL,
-                              Content.Palette,
+                              TileKind.Palette,
                               Mode.Collapsed,
                               undefined,
                               Tile.randomPosition(1024, 768)
@@ -378,7 +378,7 @@
                           new Tile(
                               OutputID,
                               STAGE_SYMBOL,
-                              Content.Output,
+                              TileKind.Output,
                               Mode.Expanded,
                               undefined,
                               Tile.randomPosition(1024, 768)
@@ -386,7 +386,7 @@
                           new Tile(
                               DocsID,
                               DOCUMENTATION_SYMBOL,
-                              Content.Documentation,
+                              TileKind.Documentation,
                               Mode.Collapsed,
                               undefined,
                               Tile.randomPosition(1024, 768)
@@ -419,7 +419,7 @@
     $: {
         const searchParams = new URLSearchParams($page.url.searchParams);
 
-        if (layout.fullscreenID === Content.Output)
+        if (layout.fullscreenID === TileKind.Output)
             searchParams.set(PROJECT_PARAM_PLAY, '');
         else searchParams.delete(PROJECT_PARAM_PLAY);
 
@@ -719,7 +719,7 @@
         (viewToFocus ?? view).focus();
     }
 
-    async function focusOrCycleTile(content?: Content) {
+    async function focusOrCycleTile(content?: TileKind) {
         const visible = layout.tiles.filter((tile) => !tile.isCollapsed());
         const currentTileIndex = visible.findIndex((tile) => {
             const view = getTileView(tile.id);
@@ -743,7 +743,7 @@
             if (next) focusTile(next.id);
         }
         // Not source? Toggle the kind.
-        else if (content !== Content.Source) {
+        else if (content !== TileKind.Source) {
             const tile = layout.tiles.find((tile) => tile.kind === content);
             if (tile) {
                 toggleTile(tile);
@@ -1110,13 +1110,13 @@
                             {tile}
                             {layout}
                             arrangement={$arrangement}
-                            background={tile.kind === Content.Output
+                            background={tile.kind === TileKind.Output
                                 ? outputBackground
                                 : null}
                             dragging={draggedTile?.id === tile.id}
                             fullscreenID={layout.fullscreenID}
-                            focuscontent={tile.kind === Content.Source ||
-                                tile.kind === Content.Output}
+                            focuscontent={tile.kind === TileKind.Source ||
+                                tile.kind === TileKind.Output}
                             on:mode={(event) =>
                                 setMode(tile, event.detail.mode)}
                             on:position={(event) =>
@@ -1153,7 +1153,7 @@
                                 {/if}
                             </svelte:fragment>
                             <svelte:fragment slot="extra">
-                                {#if tile.kind === Content.Output}
+                                {#if tile.kind === TileKind.Output}
                                     {#if !editable}<Button
                                             uiid="editProject"
                                             tip={$locale.ui.description
@@ -1180,11 +1180,11 @@
                                 {/if}
                             </svelte:fragment>
                             <svelte:fragment slot="content">
-                                {#if tile.kind === Content.Documentation}
+                                {#if tile.kind === TileKind.Documentation}
                                     <Documentation {project} />
-                                {:else if tile.kind === Content.Palette}
+                                {:else if tile.kind === TileKind.Palette}
                                     <Palette {project} />
-                                {:else if tile.kind === Content.Output}
+                                {:else if tile.kind === TileKind.Output}
                                     <OutputView
                                         {project}
                                         evaluator={$evaluator}
@@ -1228,7 +1228,7 @@
                                     </div>
                                 {/if}</svelte:fragment
                             ><svelte:fragment slot="footer"
-                                >{#if tile.kind === Content.Source}
+                                >{#if tile.kind === TileKind.Source}
                                     <Annotations
                                         {project}
                                         evaluator={$evaluator}
@@ -1237,7 +1237,7 @@
                                         stepping={$evaluation.playing === false}
                                     /><GlyphChooser
                                         sourceID={tile.id}
-                                    />{:else if tile.kind === Content.Output && layout.fullscreenID !== tile.id && editable}
+                                    />{:else if tile.kind === TileKind.Output && layout.fullscreenID !== tile.id && editable}
                                     <Timeline
                                         evaluator={$evaluator}
                                     />{/if}</svelte:fragment

@@ -1,6 +1,6 @@
 import Arrangement from '../../db/Arrangement';
 import type Bounds from './Bounds';
-import { Content, Mode } from './Tile';
+import { TileKind, Mode } from './Tile';
 import Tile from './Tile';
 
 export type TileID = string;
@@ -9,7 +9,7 @@ export const OutputID = 'output';
 export const PaletteID = 'palette';
 export const DocsID = 'docs';
 
-export type LayoutObject = {
+export type SerializedLayout = {
     fullscreen: string | null;
     tiles: {
         id: TileID;
@@ -17,7 +17,7 @@ export type LayoutObject = {
         bounds: Bounds | null;
         position: Bounds;
         name: string;
-        kind: Content;
+        kind: TileKind;
     }[];
 };
 
@@ -30,7 +30,7 @@ export default class Layout {
         this.tiles = tiles;
     }
 
-    toObject(): LayoutObject {
+    toObject(): SerializedLayout {
         return {
             fullscreen: this.fullscreenID ?? null,
             tiles: this.tiles.map((tile) => {
@@ -46,7 +46,7 @@ export default class Layout {
         };
     }
 
-    static fromObject(layout: LayoutObject | null) {
+    static fromObject(layout: SerializedLayout | null) {
         return layout === null
             ? null
             : new Layout(
