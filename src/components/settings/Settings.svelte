@@ -15,7 +15,6 @@
     import { goto } from '$app/navigation';
     import { clickOutside } from '../app/clickOutside';
     import Arrangement from '../../db/Arrangement';
-    import Status from '../app/Status.svelte';
     import { slide } from 'svelte/transition';
     import Options from '../widgets/Options.svelte';
     import { onMount } from 'svelte';
@@ -80,13 +79,6 @@
     use:clickOutside
     on:outclick={() => (expanded = false)}
 >
-    <div class="account" class:anonymous>
-        <Link to="/login">
-            <span class="user"
-                >{$user ? $user.email : $locale.ui.labels.anonymous}</span
-            >
-        </Link>
-    </div>
     {#if expanded}
         <div class="controls" transition:slide>
             <Button
@@ -167,12 +159,18 @@
             >
         </div>
     {/if}
-    <Status />
     <Button
         tip={$locale.ui.description.settings}
         action={() => (expanded = !expanded)}
         ><div class="gear" class:expanded>⚙</div></Button
     >
+    <div class="account" class:anonymous>
+        <Link to="/login">
+            <span class="user"
+                >{$user ? $user.email : $locale.ui.labels.anonymous}</span
+            >
+        </Link>
+    </div>
     {#if $page.route.id !== '/'}<Button
             tip={$locale.ui.description.close}
             active={$page.route.id !== null && $page.route.id !== "/'"}
@@ -232,6 +230,7 @@
         color: var(--wordplay-background);
         padding: calc(var(--wordplay-spacing) / 2) var(--wordplay-spacing);
         font-size: medium;
+        border-radius: var(--wordplay-border-radius);
     }
 
     .anonymous .user {

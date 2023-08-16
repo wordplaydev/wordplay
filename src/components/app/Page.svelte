@@ -1,6 +1,7 @@
 <script lang="ts">
     import Settings from '../settings/Settings.svelte';
     import Link from './Link.svelte';
+    import Status from './Status.svelte';
 
     export let fullscreen = false;
 </script>
@@ -10,6 +11,7 @@
         <slot />
     </main>
     <footer class:fullscreen>
+        <Status />
         <div class="beta"
             ><Link external to="https://github.com/amyjko/wordplay/milestone/1"
                 >beta</Link
