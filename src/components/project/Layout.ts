@@ -76,6 +76,13 @@ export default class Layout {
         return this.fullscreenID !== undefined;
     }
 
+    isFullscreenNonSource() {
+        return (
+            this.fullscreenID !== undefined &&
+            this.getTileWithID(this.fullscreenID)?.kind !== TileKind.Source
+        );
+    }
+
     isSourceExpanded() {
         return this.tiles.some((tile) => tile.isSource() && tile.isExpanded());
     }

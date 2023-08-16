@@ -960,14 +960,14 @@
     }
 
     $: commandContext = {
-        caret:
-            layout.isFullscreen() && !layout.isSourceExpanded()
-                ? undefined
-                : (
-                      Array.from($editors.values()).find(
-                          (editor) => editor.focused
-                      ) ?? Array.from($editors.values())[0]
-                  )?.caret,
+        // Send the active caret, unless a non-source tile is fullscreen
+        caret: layout.isFullscreenNonSource()
+            ? undefined
+            : (
+                  Array.from($editors.values()).find(
+                      (editor) => editor.focused
+                  ) ?? Array.from($editors.values())[0]
+              )?.caret,
         evaluator: $evaluator,
         database,
         fullscreen,
