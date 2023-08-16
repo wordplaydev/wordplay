@@ -382,7 +382,6 @@ export class Database {
             [],
             // The project starts with all of the locales currently selected in the config.
             locales,
-            undefined,
             uid ? [uid] : []
         );
         this.addOrUpdateProject(newProject, false, true);
@@ -596,10 +595,10 @@ export class Database {
             sources[0],
             sources.slice(1),
             locales,
+            project.uids,
             project.sources.map((s, index) => {
                 return { source: sources[index], caret: s.caret };
             }),
-            project.uids,
             project.listed
         );
     }

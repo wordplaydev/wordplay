@@ -115,8 +115,8 @@ export default class Project {
         main: Source,
         supplements: Source[],
         locales: Locale | Locale[],
-        carets: SerializedCarets | undefined = undefined,
         uids: string[] = [],
+        carets: SerializedCarets | undefined = undefined,
         listed = true
     ) {
         this.id = id ?? uuidv4();
@@ -160,8 +160,8 @@ export default class Project {
             this.main,
             this.supplements,
             this.locales,
-            this.carets,
             this.uids,
+            this.carets,
             this.listed
         );
     }
@@ -488,8 +488,8 @@ export default class Project {
             this.main,
             this.supplements,
             this.locales,
-            this.carets,
             this.uids,
+            this.carets,
             this.listed
         );
     }
@@ -501,8 +501,8 @@ export default class Project {
             this.main,
             this.supplements,
             this.locales,
-            this.carets,
             this.uids,
+            this.carets,
             this.listed
         );
     }
@@ -519,8 +519,8 @@ export default class Project {
             this.main,
             this.supplements,
             Array.from(new Set([...this.locales, ...locales])),
-            this.carets,
             this.uids,
+            this.carets,
             this.listed
         );
     }
@@ -532,6 +532,7 @@ export default class Project {
             this.main,
             this.supplements,
             this.locales,
+            this.uids,
             this.carets.map((sourceCaret) =>
                 sourceCaret.source === source
                     ? {
@@ -543,7 +544,6 @@ export default class Project {
                       }
                     : sourceCaret
             ),
-            this.uids,
             this.listed
         );
     }
@@ -555,8 +555,8 @@ export default class Project {
             this.main,
             this.supplements.filter((s) => s !== source),
             this.locales,
-            this.carets.filter((c) => c.source !== source),
             this.uids,
+            this.carets.filter((c) => c.source !== source),
             this.listed
         );
     }
@@ -580,6 +580,7 @@ export default class Project {
             newMain,
             newSupplements,
             this.locales,
+            this.uids,
             this.carets.map((caret) => {
                 // See if the caret's source was replaced.
                 const replacement = replacements.find(
@@ -589,7 +590,6 @@ export default class Project {
                     ? { source: replacement[1], caret: caret.caret }
                     : caret;
             }),
-            this.uids,
             this.listed
         );
     }
@@ -651,8 +651,8 @@ export default class Project {
             this.main,
             [...this.supplements, newSource],
             this.locales,
-            [...this.carets, { source: newSource, caret: 0 }],
-            this.uids
+            this.uids,
+            [...this.carets, { source: newSource, caret: 0 }]
         );
     }
 
@@ -665,8 +665,8 @@ export default class Project {
                   this.main,
                   this.supplements,
                   this.locales,
-                  this.carets,
                   [...this.uids, uid],
+                  this.carets,
                   this.listed
               );
     }
