@@ -51,7 +51,7 @@ We use the [GitHub Flow](https://docs.github.com/en/get-started/quickstart/githu
 
 Once you have your environment set up:
 
-1. Review [available issues](https://github.com/amyjko/wordplay/issues), searching for the ones you like.
+1. Review [available issues](https://github.com/amyjko/wordplay/issues), searching for the ones you like. If you're just starting, filter by the `starter` label to find issues that might be easier for someone learning the implementation.
 2. Ask Amy to assign it to you, so everyone knows that you're the point of contact for it.
 3. Review the current behavior and the text of the issue. Does it need elaboration, minimal reproduction steps, design work? Make sure everything aligns with the issue templates, adding any information necessary in the main description of the issue. (Only use comments for discussion about the issue, treating the description as the latest summary of the conversation.)
 4. When you're ready to work on the issue, create a branch from `main` in which to do your work. Publish it if you like, so that others can work on it with you. (If you're a team member, you should have permissions to publish to the repo; if not, fork and publish it in your fork.)
