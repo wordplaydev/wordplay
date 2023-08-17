@@ -105,7 +105,7 @@ export class Database {
     readonly projectsDB = new ProjectsDatabase();
 
     /** Debounce timer, used to clear pending requests. */
-    private timer: NodeJS.Timer | undefined = undefined;
+    private timer: NodeJS.Timeout | undefined = undefined;
 
     /** Realtime query unsubscribers */
     private authUnsubscribe: Unsubscribe | undefined = undefined;

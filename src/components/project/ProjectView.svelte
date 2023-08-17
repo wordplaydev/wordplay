@@ -158,7 +158,7 @@
     /** Keep a project view global store indicating whether the creator is idle. */
     const keyboardEditIdle = writable<IdleKind>(IdleKind.Idle);
     setContext(KeyboardEditIdleSymbol, keyboardEditIdle);
-    let keyboardIdleTimeout: NodeJS.Timer | undefined = undefined;
+    let keyboardIdleTimeout: NodeJS.Timeout | undefined = undefined;
 
     // When keyboard edit idle changes to true, set a timeout
     // to reset it to false after a delay.
