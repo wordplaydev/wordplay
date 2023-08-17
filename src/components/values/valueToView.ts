@@ -32,8 +32,9 @@ import ExceptionView from './ExceptionView.svelte';
 import ExceptionValue from '@values/ExceptionValue';
 import MarkupView from './MarkupView.svelte';
 import MarkupValue from '@values/MarkupValue';
+import type { ComponentType, SvelteComponent } from 'svelte';
 
-const mapping = new Map<Function, ConstructorOfATypedSvelteComponent>();
+const mapping = new Map<Function, ComponentType<SvelteComponent>>();
 
 mapping.set(FunctionValue, FunctionView);
 mapping.set(NoneValue, NoneView);
