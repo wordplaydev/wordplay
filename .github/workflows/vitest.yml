@@ -24,6 +24,7 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
-    - name: Run vitest
     - run: npm ci
+      name: Install dependencies
     - run: npm test
+      name: Run vitest
