@@ -47,18 +47,20 @@ After you've learned the architecture, the rest is all process. Here's how we ge
 
 First, When working, always have at least four terminals open, one with `npm run dev` (for interactive testing while you build), one with `npm run check` (to show any TypeScript errors), one with `npm run test` to (ensure you know when any tests fail), and one with `npm run locales` (to know when you've violated any localization rules).
 
+We use the [GitHub Flow](https://docs.github.com/en/get-started/quickstart/github-flow) branching strategy on this project. Here's what it looks like in practice:
+
 Once you have your environment set up:
 
 1. Review [available issues](https://github.com/amyjko/wordplay/issues), searching for the ones you like.
 2. Ask Amy to assign it to you, so everyone knows that you're the point of contact for it.
 3. Review the current behavior and the text of the issue. Does it need elaboration, minimal reproduction steps, design work? Get all of that information and add it to the issue, preferably putting it in the main body of the issue in a central place, rather than as comments.
-4. Clone the repository if you haven't and create a branch that mentions the issue # that you're working on.
-5. If there is no test that verifies the defect is repaired, write one. If it's a new feature, you may need to write multiple. See the testing selection below on test writing for guidance.
-6. Fix the defect, build the feature. If necessary, fork and publish the branch to collaborate with others. Talk to everyone who might have a stake in the decision, including Amy, other contributors, and make sure the design and implementation decisions you're making are aligned with the project's existing patterns.
-7. Commit to your branch; it's okay to have multiple commits as long as the last one explicitly references the issue you worked on, so that GitHub automatically closes the issue when your fix is merged.
-8. Submit a pull request when you believe your work is done. Write a detailed explanation of the issue, the work you did, and any issues or decisions you had to make that the reviewer might need to consider.
-9. The reviewer may come back with feedback for you to address before your work is merged to `dev`. Do it!
-10. Once your pull request is accepted, you can delete your branch (and your fork if you like).
+4. When you're ready to work on the issue, create a branch from `main` in which to do your work. Publish it if you like, so that others can work on it with you. (If you're a team member, you should have permissions to publish to the repo; if not, fork and publish it in your fork.)
+5. If there is no test that verifies the defect is repaired, write one (there probably isn't one, which is why there's a defect!). If it's a new feature, you may need to write multiple to express all of the feature's requirements. See the [verification](#verification) selection below on test writing for guidance.
+6. Fix the defect, or build the feature. Talk to everyone who might have a stake in the decision, including Amy, other contributors, and make sure the design and implementation decisions you're making are aligned with the project's existing patterns.
+7. Commit to your branch. It's okay to have multiple commits as long as the last one explicitly references the issue you worked on, so that GitHub automatically closes the issue when your fix is merged.
+8. When you believe your work is onde, submit a pull request, requesting your branch be merged into `main`. Write a detailed explanation of the issue, the work you did, and any issues or decisions you had to make that the reviewer might need to consider.
+9. The reviewer may come back with feedback for you to address before your work is merged to `main`. This includes automated feedback, such as tests that have failed.
+10. Once your pull request is accepted, delete your branch, so we have a tidy set of branches. (Your commits are saved, its just the branch that's gone).
 
 Once you're done, go back to step 1 above pick another issue!
 
@@ -71,7 +73,7 @@ Wordplay uses [vitest](https://vitest.dev/) for testing. The basic concept behin
 Writing good tests involves good coverage; contributing tests means writing tests that increase our coverage of untested aspects of the platform. Our footprint is relatively large, so we don't yet track coverage in a systematic way, so for now, here's the process you should follow for contributing tests:
 
 1. Find components that do not have test files at all, especially ones that have a large number of dependencies, such as the core programming language and runtime.
-2. Once you've found a good area of focus, create a branch to represent the tests you want to write.
+2. Once you've found a good area of focus, create a branch off of `main` to represent the tests you want to write.
 3. Create test files where they don't exist
 4. Write tests that attempt to cover all possible ways the component might execute. Wordplay is generally written functionally with immutable data structures, so it should be relatively straightforward to write tests without having to worry about setting up any other state.
 5. As you write tests, you may find defects. Congratulations, you're in the best position to fix them! If you see the issue, go ahead and commit fixes. But you may also need to coordinate with others on the right fix, and optionally submit an issue if it's a particularly hard defect.
