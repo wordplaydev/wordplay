@@ -32,8 +32,4 @@
     sub {
         font-size: 30%;
     }
-    p {
-        font-size: min(3vw, 40pt);
-        font-style: it;
-    }
 </style>
