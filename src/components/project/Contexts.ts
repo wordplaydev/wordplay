@@ -18,7 +18,7 @@ import type { User } from 'firebase/auth';
 import type Evaluator from '@runtime/Evaluator';
 import type Locale from '@locale/Locale';
 import type Root from '@nodes/Root';
-import type { Edit } from '../editor/util/Commands';
+import type { CommandContext, Edit } from '../editor/util/Commands';
 import type { CaretPosition } from '../../edit/Caret';
 
 // App related contexts
@@ -58,6 +58,12 @@ export function getKeyboardEditIdle() {
     return getContext<KeyboardEditIdleContext>(KeyboardEditIdleSymbol);
 }
 
+export type ProjectCommandContext = Writable<CommandContext>;
+export const ProjectCommandContextSymbol = Symbol('projectcommand');
+export function getProjectCommandContext() {
+    return getContext<ProjectCommandContext>(ProjectCommandContextSymbol);
+}
+
 // Evaluation related contexts
 
 export type EvaluatorContext = Readable<Evaluator>;
@@ -75,7 +81,7 @@ export type EvaluationContext = {
     streams: StreamChange[];
 };
 export const EvaluationSymbol = Symbol('evaluation');
-export function getEvaluation(): Writable<EvaluationContext> | undefined {
+export function getEvaluation(): Writable<EvaluationContext> {
     return getContext(EvaluationSymbol);
 }
 

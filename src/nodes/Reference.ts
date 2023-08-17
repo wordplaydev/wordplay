@@ -6,7 +6,7 @@ import type Token from './Token';
 import Type from './Type';
 import TypeVariable from './TypeVariable';
 import type Evaluator from '@runtime/Evaluator';
-import type Value from '@runtime/Value';
+import type Value from '@values/Value';
 import type Step from '@runtime/Step';
 import type Context from './Context';
 import type Definition from './Definition';
@@ -23,11 +23,11 @@ import UnknownNameType from './UnknownNameType';
 import { node, type Grammar, type Replacement, ListOf } from './Node';
 import type Locale from '@locale/Locale';
 import AtomicExpression from './AtomicExpression';
-import NameException from '@runtime/NameException';
+import NameException from '@values/NameException';
 import NodeRef from '@locale/NodeRef';
 import Evaluate from './Evaluate';
 import StreamDefinitionType from './StreamDefinitionType';
-import Symbol from './Symbol';
+import Sym from './Sym';
 import concretize, { type TemplateInput } from '../locale/concretize';
 import Glyphs from '../lore/Glyphs';
 import type Node from './Node';
@@ -155,7 +155,7 @@ export default class Reference extends AtomicExpression {
         return [
             {
                 name: 'name',
-                kind: node(Symbol.Name),
+                kind: node(Sym.Name),
                 uncompletable: true,
                 label: (translation: Locale) => translation.node.Reference.name,
                 // The valid definitions of the name are anything in scope, except for the current name.
@@ -178,7 +178,7 @@ export default class Reference extends AtomicExpression {
     }
 
     isPlaceholder() {
-        return this.name.isSymbol(Symbol.Placeholder);
+        return this.name.isSymbol(Sym.Placeholder);
     }
 
     getName() {
@@ -271,22 +271,22 @@ export default class Reference extends AtomicExpression {
             const guards = context.source.root
                 .getAncestors(this)
                 ?.filter(
-                    (a) =>
+                    (a): a is Conditional =>
                         a instanceof Conditional &&
                         a.condition.nodes(
-                            (n) =>
+                            (n): n is Reference =>
                                 context.source.root.getParent(n) instanceof
                                     Is &&
                                 n instanceof Reference &&
                                 definition === n.resolve(context)
-                        )
+                        ).length > 0
                 )
-                .reverse() as Conditional[];
+                .reverse();
 
             // Grab the furthest ancestor and evaluate possible types from there.
             const root = guards[0];
             if (root !== undefined) {
-                let possibleTypes = type.getTypeSet(context);
+                const possibleTypes = type.getTypeSet(context);
                 root.evaluateTypeSet(
                     definition,
                     possibleTypes,
@@ -359,7 +359,7 @@ export default class Reference extends AtomicExpression {
         );
     }
 
-    getDescriptionInputs(_: Locale, __: Context): TemplateInput[] {
+    getDescriptionInputs(): TemplateInput[] {
         return [this.getName()];
     }
 

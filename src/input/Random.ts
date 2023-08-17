@@ -1,143 +1,114 @@
-import type Evaluator from '@runtime/Evaluator';
-import Stream from '@runtime/Stream';
-import StreamDefinition from '@nodes/StreamDefinition';
-import { getDocLocales } from '@locale/getDocLocales';
-import { getNameLocales } from '@locale/getNameLocales';
 import NumberType from '@nodes/NumberType';
-import Bind from '@nodes/Bind';
 import UnionType from '@nodes/UnionType';
 import NoneType from '@nodes/NoneType';
 import NoneLiteral from '@nodes/NoneLiteral';
-import StreamType from '@nodes/StreamType';
-import Number from '@runtime/Number';
-import Unit from '@nodes/Unit';
-import createStreamEvaluator from './createStreamEvaluator';
+import NumberValue from '@values/NumberValue';
 import type Locale from '../locale/Locale';
+import { createBasisFunction } from '../basis/Basis';
+import type Evaluation from '../runtime/Evaluation';
+import type Expression from '../nodes/Expression';
+import Unit from '../nodes/Unit';
+import NoneValue from '../values/NoneValue';
 
-export const FREQUENCY = 33;
-
-export default class Random extends Stream<Number> {
-    min: number | undefined;
-    max: number | undefined;
-    unit: Unit | undefined;
-
-    constructor(
-        evaluator: Evaluator,
-        min: number | undefined,
-        max: number | undefined,
-        unit: Unit | undefined
+function getRandomInRange(
+    random: number,
+    min: NumberValue | undefined,
+    max: NumberValue | undefined
+) {
+    // Swap if they're out of order.
+    if (
+        min !== undefined &&
+        max !== undefined &&
+        min.num.toNumber() > max.num.toNumber()
     ) {
-        super(
-            evaluator,
-            evaluator.project.shares.input.Random,
-            Random.next(evaluator, min, max, unit)
-        );
-
-        this.min = min;
-        this.max = max;
-        this.unit = unit;
+        const temp = min;
+        min = max;
+        max = temp;
     }
 
-    setRange(
-        min: number | undefined,
-        max: number | undefined,
-        unit: Unit | undefined
-    ) {
-        this.min = min;
-        this.max = max;
-        this.unit = unit;
-    }
+    // Get the max precision, if available.
+    const minPrecision = min?.precision;
+    const maxPrecision = max?.precision;
+    const precision =
+        minPrecision === undefined
+            ? maxPrecision === undefined
+                ? undefined
+                : maxPrecision
+            : maxPrecision === undefined
+            ? minPrecision
+            : Math.max(minPrecision, maxPrecision);
 
-    static next(
-        evaluator: Evaluator,
-        min: number | undefined,
-        max: number | undefined,
-        unit: Unit | undefined
-    ) {
-        return new Number(
-            evaluator.getMain(),
-            min === undefined
-                ? max === undefined
-                    ? // No range provided, [0, 1)
-                      Math.random()
-                    : // Just a max, [0, max)
-                      Math.random() * max
-                : max === undefined
-                ? // Just a min, (-min, 0]
-                  Math.random() * min
-                : // Both [min, max]
-                  Random.getRandomIntInclusive(min, max),
-            unit
-        );
-    }
+    // Get the raw numbers
+    const minNumber = min?.toNumber();
+    const maxNumber = max?.toNumber();
 
-    static getRandomIntInclusive(min: number, max: number) {
-        min = Math.ceil(min);
-        max = Math.floor(max);
-        return Math.floor(Math.random() * (max - min + 1) + min);
-    }
-
-    /**
-     * Override latest behavior: if in the present, silently add a new value to return. (If in the past, do as normal).
-     */
-    latest() {
-        // If in the present, add a value without causing a reaction.
-        if (!this.evaluator.isInPast())
-            this.add(
-                Random.next(this.evaluator, this.min, this.max, this.unit),
-                true
-            );
-
-        // Return the latest value (present or past).
-        return super.latest();
-    }
-
-    start() {}
-    stop() {}
-
-    getType() {
-        return StreamType.make(NumberType.make());
+    // Decide the range.
+    if (minNumber === undefined) {
+        if (maxNumber === undefined)
+            return toPrecisionRange(0, 1, random, precision);
+        else return toPrecisionRange(0, maxNumber, random, precision);
+    } else {
+        if (maxNumber === undefined)
+            return toPrecisionRange(0, minNumber, random, precision);
+        else return toPrecisionRange(minNumber, maxNumber, random, precision);
     }
 }
 
-export function createRandomDefinition(locales: Locale[]) {
-    const MinBind = Bind.make(
-        getDocLocales(locales, (locale) => locale.input.Random.min.doc),
-        getNameLocales(locales, (locale) => locale.input.Random.min.names),
-        UnionType.make(NumberType.make(Unit.Wildcard), NoneType.make()),
-        // Default to nothing
-        NoneLiteral.make()
-    );
+function toPrecisionRange(
+    min: number,
+    max: number,
+    random: number,
+    precision: number | undefined
+) {
+    const scaled = random * (max - min) + min;
+    const pow = precision !== undefined ? Math.pow(10, precision) : undefined;
+    return pow ? Math.round(scaled * pow) / pow : scaled;
+}
 
-    const MaxBind = Bind.make(
-        getDocLocales(locales, (locale) => locale.input.Random.max.doc),
-        getNameLocales(locales, (locale) => locale.input.Random.max.names),
-        UnionType.make(NumberType.make(Unit.Wildcard), NoneType.make()),
-        // Default to nothing
-        NoneLiteral.make()
-    );
-
-    return StreamDefinition.make(
-        getDocLocales(locales, (locale) => locale.input.Random.doc),
-        getNameLocales(locales, (locale) => locale.input.Random.names),
-        [MinBind, MaxBind],
-        createStreamEvaluator(
-            NumberType.make(),
-            Random,
-            (evaluation) =>
-                new Random(
-                    evaluation.getEvaluator(),
-                    evaluation.get(MinBind.names, Number)?.toNumber(),
-                    evaluation.get(MaxBind.names, Number)?.toNumber(),
-                    evaluation.get(MinBind.names, Number)?.unit
+export function createRandomFunction(locales: Locale[]) {
+    return createBasisFunction(
+        locales,
+        (locale) => locale.input.Random,
+        undefined,
+        [
+            [
+                UnionType.make(NumberType.make(Unit.Wildcard), NoneType.make()),
+                NoneLiteral.make(),
+            ],
+            [
+                UnionType.make(NumberType.make(Unit.Wildcard), NoneType.make()),
+                NoneLiteral.make(),
+            ],
+        ],
+        NumberType.make(),
+        (requestor: Expression, evaluation: Evaluation) => {
+            const min = evaluation.getInput(0);
+            const max = evaluation.getInput(1);
+            if (!(min instanceof NumberValue || min instanceof NoneValue))
+                return evaluation.getValueOrTypeException(
+                    evaluation.getCreator(),
+                    NumberType.make(),
+                    min
+                );
+            if (!(max instanceof NumberValue || max instanceof NoneValue))
+                return evaluation.getValueOrTypeException(
+                    evaluation.getCreator(),
+                    NumberType.make(),
+                    max
+                );
+            return new NumberValue(
+                requestor,
+                getRandomInRange(
+                    evaluation.getEvaluator().getRandom(),
+                    min instanceof NoneValue ? undefined : min,
+                    max instanceof NoneValue ? undefined : max
                 ),
-            (stream, evaluation) =>
-                stream.setRange(
-                    evaluation.get(MinBind.names, Number)?.toNumber(),
-                    evaluation.get(MaxBind.names, Number)?.toNumber(),
-                    evaluation.get(MinBind.names, Number)?.unit
-                )
-        ),
-        NumberType.make()
+                min instanceof NumberValue
+                    ? min.unit
+                    : max instanceof NumberValue
+                    ? max.unit
+                    : undefined
+            );
+        }
     );
 }

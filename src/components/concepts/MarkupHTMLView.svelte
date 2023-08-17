@@ -5,12 +5,13 @@
 </script>
 
 <script lang="ts">
-    import { config } from '../../db/Creator';
-    import type Markup from '../../nodes/Markup';
-    import Paragraph from '../../nodes/Paragraph';
+    import { animationDuration, animationFactor } from '../../db/Database';
+    import type Markup from '@nodes/Markup';
+    import Paragraph from '@nodes/Paragraph';
     import SegmentHTMLView from './SegmentHTMLView.svelte';
 
     export let markup: Markup;
+    export let inline = false;
 
     $: spaces = markup.spaces;
 
@@ -31,25 +32,32 @@
     );
 </script>
 
-{#if spaces}{#each paragraphsAndLists as paragraphOrList, index}<p
-            class="paragraph"
-            class:animated={$config.getAnimationFactor() > 0}
-            style="--delay:{$config.getAnimationDuration() * index * 0.1}ms"
-            >{#if paragraphOrList instanceof Paragraph}
-                {#each paragraphOrList.segments as segment}<SegmentHTMLView
-                        {segment}
-                        {spaces}
-                        alone={paragraphOrList.segments.length === 1}
-                    />{/each}{:else}<ul
-                    >{#each paragraphOrList.items as paragraph}<li
-                            >{#each paragraph.segments as segment}<SegmentHTMLView
-                                    {segment}
-                                    {spaces}
-                                    alone={paragraph.segments.length === 1}
-                                />{/each}</li
-                        >{/each}</ul
-                >{/if}</p
-        >{/each}{:else}-{/if}
+{#if spaces}
+    {#if inline}
+        {#each markup.asLine().paragraphs[0].segments as segment}
+            <SegmentHTMLView {segment} {spaces} alone={false} />
+        {/each}
+    {:else}{#each paragraphsAndLists as paragraphOrList, index}<p
+                class="paragraph"
+                class:animated={$animationFactor > 0}
+                style="--delay:{$animationDuration * index * 0.1}ms"
+                >{#if paragraphOrList instanceof Paragraph}
+                    {#each paragraphOrList.segments as segment}<SegmentHTMLView
+                            {segment}
+                            {spaces}
+                            alone={paragraphOrList.segments.length === 1}
+                        />{/each}{:else}<ul
+                        >{#each paragraphOrList.items as paragraph}<li
+                                >{#each paragraph.segments as segment}<SegmentHTMLView
+                                        {segment}
+                                        {spaces}
+                                        alone={paragraph.segments.length === 1}
+                                    />{/each}</li
+                            >{/each}</ul
+                    >{/if}</p
+            >{/each}
+    {/if}
+{:else}-{/if}
 
 <style>
     .paragraph.animated {

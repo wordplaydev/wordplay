@@ -2,8 +2,8 @@ import Expression from './Expression';
 import Token from './Token';
 import type Type from './Type';
 import type Evaluator from '@runtime/Evaluator';
-import type Value from '@runtime/Value';
-import Set from '@runtime/Set';
+import type Value from '@values/Value';
+import SetValue from '@values/SetValue';
 import type Step from '@runtime/Step';
 import Finish from '@runtime/Finish';
 import Start from '@runtime/Start';
@@ -13,7 +13,7 @@ import type TypeSet from './TypeSet';
 import SetType from './SetType';
 import type Bind from './Bind';
 import { SET_CLOSE_SYMBOL, SET_OPEN_SYMBOL } from '@parser/Symbols';
-import Symbol from './Symbol';
+import Sym from './Sym';
 import { node, type Grammar, type Replacement, list } from './Node';
 import type Locale from '@locale/Locale';
 import Glyphs from '../lore/Glyphs';
@@ -42,9 +42,9 @@ export default class SetLiteral extends Expression {
 
     static make(values?: Expression[]) {
         return new SetLiteral(
-            new Token(SET_OPEN_SYMBOL, Symbol.SetOpen),
+            new Token(SET_OPEN_SYMBOL, Sym.SetOpen),
             values ?? [],
-            new Token(SET_CLOSE_SYMBOL, Symbol.SetClose)
+            new Token(SET_CLOSE_SYMBOL, Sym.SetClose)
         );
     }
 
@@ -54,7 +54,7 @@ export default class SetLiteral extends Expression {
 
     getGrammar(): Grammar {
         return [
-            { name: 'open', kind: node(Symbol.SetOpen) },
+            { name: 'open', kind: node(Sym.SetOpen) },
             {
                 name: 'values',
                 kind: list(node(Expression)),
@@ -64,7 +64,7 @@ export default class SetLiteral extends Expression {
                 space: true,
                 indent: true,
             },
-            { name: 'close', kind: node(Symbol.SetClose) },
+            { name: 'close', kind: node(Sym.SetClose) },
         ];
     }
 
@@ -131,7 +131,7 @@ export default class SetLiteral extends Expression {
         const values = [];
         for (let i = 0; i < this.values.length; i++)
             values.unshift(evaluator.popValue(this));
-        return new Set(this, values);
+        return new SetValue(this, values);
     }
 
     evaluateTypeSet(

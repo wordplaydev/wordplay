@@ -1,11 +1,13 @@
 import { test, expect } from 'vitest';
-import { parseExpression, toTokens } from '@parser/Parser';
 import Bind from './Bind';
 import Docs from './Docs';
 import Language from './Language';
 import NumberLiteral from './NumberLiteral';
 import Reference from './Reference';
 import Token from './Token';
+import type Node from './Node';
+import { toTokens } from '../parser/toTokens';
+import parseExpression from '../parser/parseExpression';
 
 test.each([
     '1',
@@ -26,7 +28,7 @@ test.each([
     ['1 + 2 + 3', NumberLiteral, 2, '4', '1 + 2 + 4'],
     // Replace Node with undefined
     ['"Hi"/en', Language, 0, undefined, '"Hi"'],
-    ['`Hi`/en(1)', Docs, 0, undefined, '(1)'],
+    ['``Hi``/en(1)', Docs, 0, undefined, '(1)'],
     // Remove Node in list
     ['[ 1 2 3 ]', NumberLiteral, 0, undefined, '[ 2 3 ]'],
     // Replace Node in list
@@ -43,7 +45,13 @@ test.each([
     ['ƒ a(b c)', 'inputs', 0, '[ 1 2 3 ]', 'ƒ a(b c)'],
 ])(
     'Replace in %s: %i %i with %s, producing %s',
-    (code, type: Function | string, number, replacement, result) => {
+    (
+        code,
+        type: string | (new (...params: never[]) => Node),
+        number,
+        replacement,
+        result
+    ) => {
         const expr = parseExpression(toTokens(code));
         const newNode =
             replacement === undefined
@@ -54,9 +62,8 @@ test.each([
         const oldNode =
             typeof type === 'string'
                 ? type
-                : expr.nodes((s) => s instanceof type)[number];
+                : expr.nodes((s): s is Node => s instanceof type)[number];
         const newExpr = expr.replace(oldNode, newNode);
-        console.log(newExpr.toWordplay());
         expect(newExpr.isEqualTo(expected)).toBeTruthy();
     }
 );

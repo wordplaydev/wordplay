@@ -1,8 +1,8 @@
-import Bool from '@runtime/Bool';
+import BoolValue from '@values/BoolValue';
 import type Evaluator from '@runtime/Evaluator';
 import Finish from '@runtime/Finish';
 import type Step from '@runtime/Step';
-import type Value from '@runtime/Value';
+import type Value from '@values/Value';
 import BooleanType from './BooleanType';
 import Expression from './Expression';
 import type Context from './Context';
@@ -11,7 +11,7 @@ import Type from './Type';
 import type Bind from './Bind';
 import Reference from './Reference';
 import PropertyReference from './PropertyReference';
-import StructureDefinitionType from './StructureDefinitionType';
+import StructureType from './StructureType';
 import { ImpossibleType } from '@conflicts/ImpossibleType';
 import UnionType from './UnionType';
 import TypeSet from './TypeSet';
@@ -20,7 +20,7 @@ import { node, type Grammar, type Replacement } from './Node';
 import type Locale from '@locale/Locale';
 import NodeRef from '@locale/NodeRef';
 import Glyphs from '../lore/Glyphs';
-import Symbol from './Symbol';
+import Sym from './Sym';
 import { TYPE_SYMBOL } from '../parser/Symbols';
 import Purpose from '../concepts/Purpose';
 import concretize from '../locale/concretize';
@@ -44,7 +44,7 @@ export default class Is extends Expression {
     }
 
     static make(left: Expression, right: Type) {
-        return new Is(left, new Token(TYPE_SYMBOL, Symbol.TypeOperator), right);
+        return new Is(left, new Token(TYPE_SYMBOL, Sym.TypeOperator), right);
     }
 
     static getPossibleNodes(
@@ -63,7 +63,7 @@ export default class Is extends Expression {
     getGrammar(): Grammar {
         return [
             { name: 'expression', kind: node(Expression) },
-            { name: 'operator', kind: node(Symbol.Type) },
+            { name: 'operator', kind: node(Sym.Type) },
             { name: 'type', kind: node(Type) },
         ];
     }
@@ -112,7 +112,7 @@ export default class Is extends Expression {
 
         const value = evaluator.popValue(this);
 
-        return new Bool(
+        return new BoolValue(
             this,
             this.type.accepts(
                 value.getType(evaluator.getCurrentContext()),
@@ -144,7 +144,7 @@ export default class Is extends Expression {
             this.expression.name
         ) {
             const subject = this.expression.getSubjectType(context);
-            if (subject instanceof StructureDefinitionType) {
+            if (subject instanceof StructureType) {
                 if (
                     bind ===
                         subject.getDefinition(this.expression.name.getName()) &&
@@ -185,7 +185,7 @@ export default class Is extends Expression {
         return concretize(
             locale,
             locale.node.Is.finish,
-            result instanceof Bool && result.bool,
+            result instanceof BoolValue && result.bool,
             new NodeRef(this.type, locale, context)
         );
     }

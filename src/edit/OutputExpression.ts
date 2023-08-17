@@ -2,11 +2,11 @@ import type Project from '../models/Project';
 import Evaluate from '../nodes/Evaluate';
 import StructureDefinition from '@nodes/StructureDefinition';
 import Expression from '@nodes/Expression';
-import type Value from '@runtime/Value';
+import type Value from '@values/Value';
 import Bind from '@nodes/Bind';
 import Literal from '@nodes/Literal';
-import Number from '@runtime/Number';
-import Text from '@runtime/Text';
+import NumberValue from '@values/NumberValue';
+import TextValue from '@values/TextValue';
 import type OutputProperty from './OutputProperty';
 import getStageProperties from './StageProperties';
 import getGroupProperties from './GroupProperties';
@@ -104,8 +104,8 @@ export default class OutputExpression {
 
         // What binding does this name refer to?
         const binding = this.node
-            .getInputMapping(type)
-            .inputs.find((mapping) => mapping.expected.names.hasName(name));
+            .getInputMapping(this.project.getNodeContext(this.node))
+            ?.inputs.find((mapping) => mapping.expected.names.hasName(name));
 
         // Doesn't exist? Bail.
         if (binding === undefined) return undefined;
@@ -137,7 +137,7 @@ export default class OutputExpression {
 
     getNumberProperty(name: string): number | undefined {
         const value = this.getPropertyValue(name);
-        return value !== undefined && value.value instanceof Number
+        return value !== undefined && value.value instanceof NumberValue
             ? value.value.toNumber()
             : undefined;
         // return unit === '%' && number !== undefined ? number * 100 : number;
@@ -145,7 +145,7 @@ export default class OutputExpression {
 
     getTextProperty(name: string): string | undefined {
         const value = this.getPropertyValue(name);
-        return value !== undefined && value.value instanceof Text
+        return value !== undefined && value.value instanceof TextValue
             ? value.value.text
             : undefined;
     }

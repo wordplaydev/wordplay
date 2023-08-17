@@ -1,8 +1,13 @@
 <script lang="ts">
     import type Token from '@nodes/Token';
-    import { getProject, getCaret, getRoot } from '../project/Contexts';
+    import {
+        getProject,
+        getCaret,
+        getRoot,
+        getHidden,
+    } from '../project/Contexts';
     import TokenCategories from './TokenCategories';
-    import { config } from '../../db/Creator';
+    import { locale, locales } from '../../db/Database';
 
     export let node: Token;
 
@@ -18,7 +23,7 @@
     // See if this is a placeholder that should be rendered differently.
     $: placeholder =
         $project && $root && context
-            ? node.getPlaceholder($root, context, $config.getLocale())
+            ? node.getPlaceholder($root, context, $locale)
             : undefined;
 
     // True if the caret is "on" this token.
@@ -40,16 +45,20 @@
             ? node.getText()
             : node.localized(
                   $caret === undefined || !$caret.isIn(node, true),
-                  $config.getLocales(),
+                  $locales,
                   $root,
                   context
               );
+
+    let hidden = getHidden();
+    $: hide = node ? $hidden?.has(node) : false;
 </script>
 
 <span
     class="token-view token-category-{TokenCategories.get(
         Array.isArray(node.types) ? node.types[0] ?? 'default' : node.types
     )}"
+    class:hide
     class:active
     class:editable={$caret !== undefined}
     class:placeholder={placeholder !== undefined}
@@ -72,6 +81,12 @@
 
         /** This allows us to style things up the the tree. */
         text-decoration: inherit;
+    }
+
+    .hide {
+        width: 0;
+        height: 0;
+        overflow: hidden;
     }
 
     .token-view.added {

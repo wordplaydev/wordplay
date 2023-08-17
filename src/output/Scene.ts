@@ -6,7 +6,7 @@ import OutputAnimation from './OutputAnimation';
 import type Transition from './Transition';
 import type Node from '@nodes/Node';
 import type RenderContext from './RenderContext';
-import type Evaluator from '../runtime/Evaluator';
+import type Evaluator from '@runtime/Evaluator';
 
 export type OutputName = string;
 
@@ -37,14 +37,14 @@ export default class Scene {
     stage: Stage | undefined = undefined;
 
     /** True if the stage is animated and interactive */
-    live: boolean = true;
+    live = true;
 
     /** The current fonts that are loaded */
     fontsLoaded: Set<string> = new Set();
 
     /** The current viewport size from the verse */
-    viewportWidth: number = 0;
-    viewportHeight: number = 0;
+    viewportWidth = 0;
+    viewportHeight = 0;
 
     /** The current focus from the verse. */
     focus: Place;
@@ -174,7 +174,7 @@ export default class Scene {
                 if (!newScene.has(name)) {
                     // If the phrase has an exit squence, then add it to the phrases to keep rendering
                     // and remember it's current global place, so we can render it there.
-                    if (output.exit) {
+                    if (output.exiting) {
                         exited.set(name, output);
                         const place = info.global;
                         // Use the global place since it's now parent-less.

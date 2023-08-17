@@ -4,33 +4,44 @@
     import CodeView from './CodeView.svelte';
     import MarkupHTMLView from './MarkupHTMLView.svelte';
     import Speech from '../lore/Speech.svelte';
-    import { config } from '../../db/Creator';
+    import { animationDuration, locale, locales } from '../../db/Database';
     import type Type from '../../nodes/Type';
     import concretize from '../../locale/concretize';
+    import type TypeVariables from '../../nodes/TypeVariables';
+    import RootView from '../project/RootView.svelte';
 
     export let concept: Concept;
     export let type: Type | undefined = undefined;
-    export let header: boolean = true;
+    export let header = true;
+    export let variables: TypeVariables | undefined = undefined;
 
     $: node = concept.getRepresentation();
-    $: locale = $config.getLocale();
 </script>
 
-<div
-    class="concept"
-    transition:slide|local={{ duration: $config.getAnimationDuration() }}
->
+<div class="concept" transition:slide|local={{ duration: $animationDuration }}>
     {#if header}
         <CodeView {concept} {type} {node} describe={false} />
     {/if}
 
-    <Speech glyph={concept.getGlyphs($config.getLocales())} below={header}>
-        {@const markup = concept.getDocs(locale)}
-        {#if markup}
-            <MarkupHTMLView {markup} />
-        {:else}
-            {concretize(locale, locale.ui.labels.nodoc)}
-        {/if}
+    <Speech glyph={concept.getGlyphs($locales)} below={header}>
+        <svelte:fragment slot="content">
+            {@const markup = concept.getDocs($locale)}
+            {#if markup}
+                <MarkupHTMLView {markup} />
+            {:else}
+                {concretize($locale, $locale.ui.labels.nodoc)}
+            {/if}
+        </svelte:fragment>
+        <svelte:fragment slot="aside"
+            >{#if variables}{#each variables.variables as variable, index}{#if index > 0},
+                    {/if}{@const name =
+                        variable.names.getPreferredName(
+                            $locale
+                        )}{#if name}<RootView
+                            localized
+                            node={name.withoutLanguage()}
+                        />{/if}{/each}{/if}</svelte:fragment
+        >
     </Speech>
 
     <slot />

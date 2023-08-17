@@ -2,13 +2,15 @@
     import { getConceptIndex, getConceptPath } from '../project/Contexts';
     import ConceptLink from '@nodes/ConceptLink';
     import Concept from '@concepts/Concept';
-    import { config } from '../../db/Creator';
+    import { locale } from '../../db/Database';
     import TutorialHighlight from '../app/TutorialHighlight.svelte';
     import type ConceptRef from '../../locale/ConceptRef';
+    import Button from '../widgets/Button.svelte';
+    import concretize from '../../locale/concretize';
 
     export let link: ConceptRef | ConceptLink | Concept;
     export let label: string | undefined = undefined;
-    export let symbolic: boolean = true;
+    export let symbolic = true;
 
     // Resolve the concept
     let index = getConceptIndex();
@@ -39,7 +41,7 @@
                 if (concept && names.length > 1) {
                     const subConcept = Array.from(
                         concept.getSubConcepts()
-                    ).find((sub) => sub.hasName(names[1], $config.getLocale()));
+                    ).find((sub) => sub.hasName(names[1], $locale));
                     if (subConcept !== undefined) concept = subConcept;
                     else if (concept.affiliation !== undefined) {
                         const structure = $index.getStructureConcept(
@@ -48,9 +50,7 @@
                         if (structure) {
                             const subConcept = Array.from(
                                 structure.getSubConcepts()
-                            ).find((sub) =>
-                                sub.hasName(names[1], $config.getLocale())
-                            );
+                            ).find((sub) => sub.hasName(names[1], $locale));
                             if (subConcept) {
                                 container = concept;
                                 concept = subConcept;
@@ -66,8 +66,8 @@
     let symbolicName: string;
     $: {
         if (concept) {
-            symbolicName = concept.getName($config.getLocale(), true);
-            longName = concept.getName($config.getLocale(), false);
+            symbolicName = concept.getName($locale, true);
+            longName = concept.getName($locale, false);
         }
     }
 
@@ -83,45 +83,47 @@
     }
 </script>
 
-{#if concept}<span
-        role="button"
-        class="conceptlink interactive"
-        tabindex="0"
-        on:pointerdown={navigate}
-        on:keydown={(event) =>
-            event.key == ' ' || event.key === 'Enter' ? navigate() : undefined}
-        >{#if label}{label}{:else}<span class="long">{longName}</span
-            >{#if symbolicName !== longName && symbolic}<sub>{symbolicName}</sub
-                >{/if}{/if}</span
+{#if concept}<Button
+        action={navigate}
+        tip={concretize(
+            $locale,
+            $locale.ui.description.conceptLink,
+            longName
+        ).toText()}
+        ><span class="conceptlink interactive"
+            >{#if label}{label}{:else}<span class="long">{longName}</span
+                >{#if symbolicName !== longName && symbolic}<sub
+                        >{symbolicName}</sub
+                    >{/if}{/if}</span
+        ></Button
     >{:else if ui}<TutorialHighlight
     />{:else if link instanceof ConceptLink}<span
         >{#if container}{container.getName(
-                $config.getLocale(),
+                $locale,
                 false
             )}{/if}{link.concept.getText()}</span
     >{/if}
 
 <style>
-    span {
+    .conceptlink {
         display: inline-block;
     }
 
-    span.interactive .long {
+    .conceptlink.interactive {
         text-decoration: underline;
         text-decoration-color: var(--wordplay-highlight-color);
+        text-decoration-thickness: var(--wordplay-border-width);
     }
 
-    span.interactive:hover {
-        transform: scale(1.2);
+    :global(button):focus .conceptlink,
+    .conceptlink.interactive:hover {
         cursor: pointer;
-    }
-
-    span:focus {
-        outline: none;
-        text-decoration-color: var(--wordplay-focus-color);
-    }
-
-    span:focus .long {
         text-decoration-thickness: var(--wordplay-focus-width);
+    }
+
+    :global(button):focus .conceptlink {
+        background: var(--wordplay-focus-color);
+        color: var(--wordplay-background);
+        border-radius: var(--wordplay-border-radius);
     }
 </style>

@@ -3,13 +3,14 @@
 <script lang="ts">
     export let tip: string;
     export let action: () => void;
-    export let active: boolean = true;
-    export let stretch: boolean = false;
-    export let submit: boolean = false;
+    export let active = true;
+    export let stretch = false;
+    export let submit = false;
     export let uiid: string | undefined = undefined;
     export let classes: string | undefined = undefined;
-    export let scale: boolean = true;
+    export let scale = true;
     export let view: HTMLButtonElement | undefined = undefined;
+    export let large = false;
 
     async function doAction(event: Event) {
         if (active) {
@@ -26,6 +27,7 @@
     data-uiid={uiid}
     class={classes}
     class:scale
+    class:large
     type={submit ? 'submit' : null}
     title={tip}
     aria-label={tip}
@@ -35,7 +37,12 @@
     on:pointerdown={(event) =>
         event.button === 0 && active ? doAction(event) : undefined}
     on:keydown={(event) =>
-        event.key === 'Enter' || event.key === ' '
+        (event.key === 'Enter' || event.key === ' ') &&
+        // Only activate with no modifiers down. Enter is used for other shortcuts.
+        !event.shiftKey &&
+        !event.ctrlKey &&
+        !event.altKey &&
+        !event.metaKey
             ? doAction(event)
             : undefined}
 >
@@ -48,6 +55,7 @@
         font-family: var(--wordplay-app-font);
         font-size: inherit;
         font-weight: var(--wordplay-font-weight);
+        font-style: inherit;
         transform-origin: center;
         user-select: none;
         border: none;
@@ -72,17 +80,23 @@
     }
 
     button:focus {
-        outline: none;
-        color: var(--wordplay-focus-color);
-        fill: var(--wordplay-focus-color);
+        background: var(--wordplay-focus-color);
+        border-radius: var(--wordplay-border-radius);
+        color: var(--wordplay-background);
+        fill: var(--wordplay-background);
     }
 
     button.scale:focus[aria-disabled='false'],
     button.scale:hover[aria-disabled='false'] {
-        transform: scale(1.25);
+        transform: scale(1.1);
     }
 
     :global(button:focus .token-view) {
-        color: var(--wordplay-focus-color);
+        border-radius: var(--wordplay-border-radius);
+        color: var(--wordplay-background);
+    }
+
+    .large {
+        font-size: 24pt;
     }
 </style>

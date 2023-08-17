@@ -1,15 +1,13 @@
 import { test, expect } from 'vitest';
-import Evaluator from '@runtime/Evaluator';
-import { DefaultLocale } from '../db/Creator';
+import evaluateCode from '../runtime/evaluate';
 
-test('Test custom type conflicts', () => {
-    expect(
-        Evaluator.evaluateCode(DefaultLocale, `"hello"`)?.toWordplay([])
-    ).toBe('"hello"');
-    expect(
-        Evaluator.evaluateCode(DefaultLocale, `"hello"/`)?.toWordplay([])
-    ).toBe('"hello"');
-    expect(
-        Evaluator.evaluateCode(DefaultLocale, `"hello"/en`)?.toWordplay([])
-    ).toBe('"hello"/en');
+test.each([
+    // Test JavaScript number translation.
+    [`"hello"`, '"hello"'],
+    [`"hello"/`, '"hello"'],
+    [`"hello"/en`, '"hello"/en'],
+    [`"hello\\1\\world"/en`, '"hello1world"/en'],
+    [`"hello\\'no'\\world"/en`, '"hellonoworld"/en'],
+])('%s -> %s', (code, value) => {
+    expect(evaluateCode(code)?.toWordplay([])).toBe(value);
 });

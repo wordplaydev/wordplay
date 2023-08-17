@@ -3,7 +3,7 @@ import type Locale from './Locale';
 
 export async function getLocale(
     language: LanguageCode,
-    test: boolean = false
+    test = false
 ): Promise<Locale | undefined> {
     const response = await fetch(
         `${

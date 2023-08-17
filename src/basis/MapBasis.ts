@@ -1,26 +1,29 @@
-import Bind from '@nodes/Bind';
 import Block, { BlockKind } from '@nodes/Block';
 import BooleanType from '@nodes/BooleanType';
-import FunctionDefinition from '@nodes/FunctionDefinition';
 import FunctionType from '@nodes/FunctionType';
 import MapType from '@nodes/MapType';
 import StructureDefinition from '@nodes/StructureDefinition';
-import List from '@runtime/List';
-import Text from '@runtime/Text';
-import Map from '@runtime/Map';
-import Set from '@runtime/Set';
-import HOFMapFilter from './HOFMapFilter';
-import HOFMapTranslate from './HOFMapTranslate';
+import ListValue from '@values/ListValue';
+import TextValue from '@values/TextValue';
+import MapValue from '@values/MapValue';
+import SetValue from '@values/SetValue';
 import { createBasisConversion, createBasisFunction } from './Basis';
-import Bool from '@runtime/Bool';
+import BoolValue from '@values/BoolValue';
 import TypeVariables from '@nodes/TypeVariables';
 import { getDocLocales } from '@locale/getDocLocales';
 import { getNameLocales } from '@locale/getNameLocales';
 import TypeVariable from '@nodes/TypeVariable';
 import type Evaluation from '@runtime/Evaluation';
-import type Value from '@runtime/Value';
+import type Value from '@values/Value';
 import type Expression from '../nodes/Expression';
 import type Locale from '../locale/Locale';
+import { createFunction, createInputs } from '../locale/Locale';
+import { Iteration } from './Iteration';
+import NumberType from '../nodes/NumberType';
+import NumberValue from '@values/NumberValue';
+import TextType from '../nodes/TextType';
+import SetType from '../nodes/SetType';
+import ListType from '../nodes/ListType';
 
 export default function bootstrapMap(locales: Locale[]) {
     const KeyTypeVariableNames = getNameLocales(
@@ -34,95 +37,8 @@ export default function bootstrapMap(locales: Locale[]) {
     );
     const ValueTypeVariable = new TypeVariable(ValueTypeVariableNames);
 
-    const mapFilterHOFType = FunctionType.make(
-        undefined,
-        [
-            Bind.make(
-                getDocLocales(
-                    locales,
-                    (locale) => locale.basis.Map.function.filter.key.doc
-                ),
-                getNameLocales(
-                    locales,
-                    (locale) => locale.basis.Map.function.filter.key.names
-                ),
-                KeyTypeVariable.getReference()
-            ),
-            Bind.make(
-                getDocLocales(
-                    locales,
-                    (locale) => locale.basis.Map.function.filter.value.doc
-                ),
-                getNameLocales(
-                    locales,
-                    (locale) => locale.basis.Map.function.filter.value.names
-                ),
-                ValueTypeVariable.getReference()
-            ),
-        ],
-        BooleanType.make()
-    );
-
-    const translateTypeVariable = new TypeVariable(
+    const TranslateTypeVariable = new TypeVariable(
         getNameLocales(locales, (locale) => locale.basis.Map.result)
-    );
-
-    const mapTranslateHOFType = FunctionType.make(
-        undefined,
-        [
-            Bind.make(
-                getDocLocales(
-                    locales,
-                    (locale) => locale.basis.Map.function.translate.key.doc
-                ),
-                getNameLocales(
-                    locales,
-                    (locale) => locale.basis.Map.function.translate.key.names
-                ),
-                KeyTypeVariable.getReference()
-            ),
-            Bind.make(
-                getDocLocales(
-                    locales,
-                    (locale) => locale.basis.Map.function.translate.value.doc
-                ),
-                getNameLocales(
-                    locales,
-                    (locale) => locale.basis.Map.function.translate.value.names
-                ),
-                ValueTypeVariable.getReference()
-            ),
-        ],
-        translateTypeVariable.getReference()
-    );
-
-    const equalsFunctionValueNames = getNameLocales(
-        locales,
-        (locale) => locale.basis.Map.function.equals.inputs[0].names
-    );
-    const notEqualsFunctionValueNames = getNameLocales(
-        locales,
-        (locale) => locale.basis.Map.function.notequals.inputs[0].names
-    );
-
-    const setFunctionKeyNames = getNameLocales(
-        locales,
-        (locale) => locale.basis.Map.function.set.inputs[0].names
-    );
-
-    const setFunctionValueNames = getNameLocales(
-        locales,
-        (locale) => locale.basis.Map.function.set.inputs[1].names
-    );
-
-    const unsetFunctionKeyNames = getNameLocales(
-        locales,
-        (locale) => locale.basis.Map.function.unset.inputs[0].names
-    );
-
-    const removeFunctionValueNames = getNameLocales(
-        locales,
-        (locale) => locale.basis.Map.function.remove.inputs[0].names
     );
 
     return StructureDefinition.make(
@@ -138,114 +54,81 @@ export default function bootstrapMap(locales: Locale[]) {
         new Block(
             [
                 createBasisFunction(
-                    getDocLocales(
-                        locales,
-                        (locale) => locale.basis.Map.function.equals.doc
-                    ),
-                    getNameLocales(
-                        locales,
-                        (locale) => locale.basis.Map.function.equals.names
-                    ),
+                    locales,
+                    (locale) => locale.basis.Map.function.size,
                     undefined,
-                    [
-                        Bind.make(
-                            getDocLocales(
-                                locales,
-                                (t) => t.basis.Map.function.equals.inputs[0].doc
-                            ),
-                            equalsFunctionValueNames,
-                            MapType.make()
-                        ),
-                    ],
+                    [],
+                    NumberType.make(),
+                    (requestor, evaluation) => {
+                        const map = evaluation?.getClosure();
+                        return !(map instanceof MapValue)
+                            ? evaluation.getValueOrTypeException(
+                                  requestor,
+                                  MapType.make(),
+                                  map
+                              )
+                            : new NumberValue(
+                                  requestor,
+                                  map.size(requestor).num
+                              );
+                    }
+                ),
+                createBasisFunction(
+                    locales,
+                    (locale) => locale.basis.Map.function.equals,
+                    undefined,
+                    [MapType.make()],
                     BooleanType.make(),
                     (requestor, evaluation) => {
                         const map = evaluation?.getClosure();
-                        const other = evaluation.resolve(
-                            equalsFunctionValueNames
-                        );
-                        return !(map instanceof Map && other instanceof Map)
+                        const other = evaluation.getInput(0);
+                        return !(
+                            map instanceof MapValue && other instanceof MapValue
+                        )
                             ? evaluation.getValueOrTypeException(
                                   requestor,
                                   MapType.make(),
                                   other
                               )
-                            : new Bool(requestor, map.isEqualTo(other));
+                            : new BoolValue(requestor, map.isEqualTo(other));
                     }
                 ),
                 createBasisFunction(
-                    getDocLocales(
-                        locales,
-                        (locale) => locale.basis.Map.function.notequals.doc
-                    ),
-                    getNameLocales(
-                        locales,
-                        (locale) => locale.basis.Map.function.notequals.names
-                    ),
+                    locales,
+                    (locale) => locale.basis.Map.function.notequals,
                     undefined,
-                    [
-                        Bind.make(
-                            getDocLocales(
-                                locales,
-                                (t) =>
-                                    t.basis.Map.function.notequals.inputs[0].doc
-                            ),
-                            notEqualsFunctionValueNames,
-                            MapType.make()
-                        ),
-                    ],
+                    [MapType.make()],
                     BooleanType.make(),
                     (requestor, evaluation) => {
                         const map = evaluation?.getClosure();
-                        const other = evaluation.resolve(
-                            notEqualsFunctionValueNames
-                        );
-                        return !(map instanceof Map && other instanceof Map)
+                        const other = evaluation.getInput(0);
+                        return !(
+                            map instanceof MapValue && other instanceof MapValue
+                        )
                             ? evaluation.getValueOrTypeException(
                                   requestor,
                                   MapType.make(),
                                   other
                               )
-                            : new Bool(requestor, !map.isEqualTo(other));
+                            : new BoolValue(requestor, !map.isEqualTo(other));
                     }
                 ),
                 createBasisFunction(
-                    getDocLocales(
-                        locales,
-                        (locale) => locale.basis.Map.function.set.doc
-                    ),
-                    getNameLocales(
-                        locales,
-                        (locale) => locale.basis.Map.function.set.names
-                    ),
+                    locales,
+                    (locale) => locale.basis.Map.function.set,
                     undefined,
                     [
-                        Bind.make(
-                            getDocLocales(
-                                locales,
-                                (locale) =>
-                                    locale.basis.Map.function.set.inputs[0].doc
-                            ),
-                            setFunctionKeyNames,
-                            KeyTypeVariable.getReference()
-                        ),
-                        Bind.make(
-                            getDocLocales(
-                                locales,
-                                (locale) =>
-                                    locale.basis.Map.function.set.inputs[1].doc
-                            ),
-                            setFunctionValueNames,
-                            ValueTypeVariable.getReference()
-                        ),
+                        KeyTypeVariable.getReference(),
+                        ValueTypeVariable.getReference(),
                     ],
                     MapType.make(),
                     (requestor, evaluation) => {
                         const map: Evaluation | Value | undefined =
                             evaluation.getClosure();
-                        const key = evaluation.resolve(setFunctionKeyNames);
-                        const value = evaluation.resolve(setFunctionValueNames);
+                        const key = evaluation.getInput(0);
+                        const value = evaluation.getInput(1);
                         if (
-                            map instanceof Map &&
+                            map instanceof MapValue &&
                             key !== undefined &&
                             value !== undefined
                         )
@@ -259,32 +142,15 @@ export default function bootstrapMap(locales: Locale[]) {
                     }
                 ),
                 createBasisFunction(
-                    getDocLocales(
-                        locales,
-                        (locale) => locale.basis.Map.function.unset.doc
-                    ),
-                    getNameLocales(
-                        locales,
-                        (locale) => locale.basis.Map.function.unset.names
-                    ),
+                    locales,
+                    (locale) => locale.basis.Map.function.unset,
                     undefined,
-                    [
-                        Bind.make(
-                            getDocLocales(
-                                locales,
-                                (locale) =>
-                                    locale.basis.Map.function.unset.inputs[0]
-                                        .doc
-                            ),
-                            unsetFunctionKeyNames,
-                            KeyTypeVariable.getReference()
-                        ),
-                    ],
+                    [KeyTypeVariable.getReference()],
                     MapType.make(),
                     (requestor, evaluation) => {
                         const map = evaluation.getClosure();
-                        const key = evaluation.resolve(unsetFunctionKeyNames);
-                        if (map instanceof Map && key !== undefined)
+                        const key = evaluation.getInput(0);
+                        if (map instanceof MapValue && key !== undefined)
                             return map.unset(requestor, key);
                         else
                             return evaluation.getValueOrTypeException(
@@ -295,32 +161,15 @@ export default function bootstrapMap(locales: Locale[]) {
                     }
                 ),
                 createBasisFunction(
-                    getDocLocales(
-                        locales,
-                        (locale) => locale.basis.Map.function.remove.doc
-                    ),
-                    getNameLocales(
-                        locales,
-                        (locale) => locale.basis.Map.function.remove.names
-                    ),
+                    locales,
+                    (locale) => locale.basis.Map.function.remove,
                     undefined,
-                    [
-                        Bind.make(
-                            getDocLocales(
-                                locales,
-                                (t) => t.basis.Map.function.remove.inputs[0].doc
-                            ),
-                            removeFunctionValueNames,
-                            ValueTypeVariable.getReference()
-                        ),
-                    ],
+                    [ValueTypeVariable.getReference()],
                     MapType.make(),
                     (requestor, evaluation) => {
                         const map = evaluation.getClosure();
-                        const value = evaluation.resolve(
-                            removeFunctionValueNames
-                        );
-                        if (map instanceof Map && value !== undefined)
+                        const value = evaluation.getInput(0);
+                        if (map instanceof MapValue && value !== undefined)
                             return map.remove(requestor, value);
                         else
                             return evaluation.getValueOrTypeException(
@@ -330,66 +179,155 @@ export default function bootstrapMap(locales: Locale[]) {
                             );
                     }
                 ),
-                FunctionDefinition.make(
-                    getDocLocales(
-                        locales,
-                        (locale) => locale.basis.Map.function.filter.doc
-                    ),
-                    getNameLocales(
-                        locales,
-                        (locale) => locale.basis.Map.function.filter.names
-                    ),
+                createFunction(
+                    locales,
+                    (locale) => locale.basis.Map.function.filter,
                     undefined,
-                    [
-                        Bind.make(
-                            getDocLocales(
-                                locales,
-                                (t) => t.basis.Map.function.filter.inputs[0].doc
+                    createInputs(
+                        locales,
+                        (l) => l.basis.Map.function.filter.inputs,
+                        [
+                            FunctionType.make(
+                                undefined,
+                                createInputs(
+                                    locales,
+                                    (locale) =>
+                                        locale.basis.Map.function.filter
+                                            .checker,
+                                    [
+                                        KeyTypeVariable.getReference(),
+                                        ValueTypeVariable.getReference(),
+                                        MapType.make(
+                                            KeyTypeVariable.getReference(),
+                                            ValueTypeVariable.getReference()
+                                        ),
+                                    ]
+                                ),
+                                BooleanType.make()
                             ),
-                            getNameLocales(
-                                locales,
-                                (t) =>
-                                    t.basis.Map.function.filter.inputs[0].names
-                            ),
-                            mapFilterHOFType
-                        ),
-                    ],
-                    new HOFMapFilter(mapFilterHOFType),
+                        ]
+                    ),
                     MapType.make(
                         KeyTypeVariable.getReference(),
                         ValueTypeVariable.getReference()
+                    ),
+                    new Iteration<{
+                        index: number;
+                        map: MapValue;
+                        filtered: [Value, Value][];
+                    }>(
+                        MapType.make(
+                            KeyTypeVariable.getReference(),
+                            ValueTypeVariable.getReference()
+                        ),
+                        // Start with an index of one, the list we're translating, and an empty translated list.
+                        (evaluator) => {
+                            return {
+                                index: 0,
+                                map: evaluator.getCurrentClosure() as MapValue,
+                                filtered: [],
+                            };
+                        },
+                        // If we're past the end, stop. Otherwise, evaluate the translator function on the next value.
+                        (evaluator, info, expr) =>
+                            info.index >= info.map.values.length
+                                ? false
+                                : expr.evaluateFunctionInput(evaluator, 0, [
+                                      info.map.values[info.index][0],
+                                      info.map.values[info.index][1],
+                                      info.map,
+                                  ]),
+                        // Save the translated value and increment the index.
+                        (evaluator, info, expression) => {
+                            const include = evaluator.popValue(expression);
+                            if (!(include instanceof BoolValue))
+                                return evaluator.getValueOrTypeException(
+                                    expression,
+                                    BooleanType.make(),
+                                    include
+                                );
+                            if (include.bool)
+                                info.filtered.push(info.map.values[info.index]);
+                            info.index = info.index + 1;
+                            return undefined;
+                        },
+                        // Create the translated list.
+                        (evaluator, info, expression) =>
+                            new MapValue(expression, info.filtered)
                     )
                 ),
-                FunctionDefinition.make(
-                    getDocLocales(
+                createFunction(
+                    locales,
+                    (locale) => locale.basis.Map.function.translate,
+                    TypeVariables.make([TranslateTypeVariable]),
+                    createInputs(
                         locales,
-                        (locale) => locale.basis.Map.function.translate.doc
-                    ),
-                    getNameLocales(
-                        locales,
-                        (locale) => locale.basis.Map.function.translate.names
-                    ),
-                    TypeVariables.make([translateTypeVariable]),
-                    [
-                        Bind.make(
-                            getDocLocales(
-                                locales,
-                                (t) =>
-                                    t.basis.Map.function.translate.inputs[0].doc
+                        (t) => t.basis.Map.function.translate.inputs,
+                        [
+                            FunctionType.make(
+                                undefined,
+                                createInputs(
+                                    locales,
+                                    (locale) =>
+                                        locale.basis.Map.function.translate
+                                            .translator,
+                                    [
+                                        KeyTypeVariable.getReference(),
+                                        ValueTypeVariable.getReference(),
+
+                                        MapType.make(
+                                            KeyTypeVariable.getReference(),
+                                            ValueTypeVariable.getReference()
+                                        ),
+                                    ]
+                                ),
+                                TranslateTypeVariable.getReference()
                             ),
-                            getNameLocales(
-                                locales,
-                                (t) =>
-                                    t.basis.Map.function.translate.inputs[0]
-                                        .names
-                            ),
-                            mapTranslateHOFType
-                        ),
-                    ],
-                    new HOFMapTranslate(mapTranslateHOFType),
+                        ]
+                    ),
                     MapType.make(
                         KeyTypeVariable.getReference(),
-                        translateTypeVariable.getReference()
+                        TranslateTypeVariable.getReference()
+                    ),
+                    new Iteration<{
+                        index: number;
+                        map: MapValue;
+                        translated: [Value, Value][];
+                    }>(
+                        MapType.make(
+                            KeyTypeVariable.getReference(),
+                            TranslateTypeVariable.getReference()
+                        ),
+                        // Start with an index of one, the list we're translating, and an empty translated list.
+                        (evaluator) => {
+                            return {
+                                index: 0,
+                                map: evaluator.getCurrentClosure() as MapValue,
+                                translated: [],
+                            };
+                        },
+                        // If we're past the end, stop. Otherwise, evaluate the translator function on the next value.
+                        (evaluator, info, expr) =>
+                            info.index >= info.map.values.length
+                                ? false
+                                : expr.evaluateFunctionInput(evaluator, 0, [
+                                      info.map.values[info.index][0],
+                                      info.map.values[info.index][1],
+                                      info.map,
+                                  ]),
+                        // Save the translated value and increment the index.
+                        (evaluator, info, expression) => {
+                            const newValue = evaluator.popValue(expression);
+                            info.translated.push([
+                                info.map.values[info.index][0],
+                                newValue,
+                            ]);
+                            info.index = info.index + 1;
+                            return undefined;
+                        },
+                        // Create the translated list.
+                        (evaluator, info, expression) =>
+                            new MapValue(expression, info.translated)
                     )
                 ),
                 createBasisConversion(
@@ -397,30 +335,39 @@ export default function bootstrapMap(locales: Locale[]) {
                         locales,
                         (locale) => locale.basis.Map.conversion.text
                     ),
-                    '{:}',
-                    "''",
-                    (requestor: Expression, val: Map) =>
-                        new Text(requestor, val.toString())
+                    MapType.make(
+                        KeyTypeVariable.getReference(),
+                        ValueTypeVariable.getReference()
+                    ),
+                    TextType.make(),
+                    (requestor: Expression, val: MapValue) =>
+                        new TextValue(requestor, val.toString())
                 ),
                 createBasisConversion(
                     getDocLocales(
                         locales,
                         (locale) => locale.basis.Map.conversion.set
                     ),
-                    '{:}',
-                    '{}',
-                    (requestor: Expression, val: Map) =>
-                        new Set(requestor, val.getKeys())
+                    MapType.make(
+                        KeyTypeVariable.getReference(),
+                        ValueTypeVariable.getReference()
+                    ),
+                    SetType.make(KeyTypeVariable.getReference()),
+                    (requestor: Expression, val: MapValue) =>
+                        new SetValue(requestor, val.getKeys())
                 ),
                 createBasisConversion(
                     getDocLocales(
                         locales,
                         (locale) => locale.basis.Map.conversion.list
                     ),
-                    '{:}',
-                    '[]',
-                    (requestor: Expression, val: Map) =>
-                        new List(requestor, val.getValues())
+                    MapType.make(
+                        KeyTypeVariable.getReference(),
+                        ValueTypeVariable.getReference()
+                    ),
+                    ListType.make(ValueTypeVariable.getReference()),
+                    (requestor: Expression, val: MapValue) =>
+                        new ListValue(requestor, val.getValues())
                 ),
             ],
             BlockKind.Structure

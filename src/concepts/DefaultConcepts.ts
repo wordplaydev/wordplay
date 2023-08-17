@@ -23,7 +23,6 @@ import SetLiteral from '@nodes/SetLiteral';
 import SetType from '@nodes/SetType';
 import StreamType from '@nodes/StreamType';
 import StructureDefinition from '@nodes/StructureDefinition';
-import Template from '@nodes/Template';
 import TextLiteral from '@nodes/TextLiteral';
 import TextType from '@nodes/TextType';
 import TypePlaceholder from '@nodes/TypePlaceholder';
@@ -42,7 +41,7 @@ import Dimension from '../nodes/Dimension';
 import Doc from '../nodes/Doc';
 import Paragraph from '../nodes/Paragraph';
 import Words from '../nodes/Words';
-import Symbol from '../nodes/Symbol';
+import Sym from '../nodes/Sym';
 import Token from '../nodes/Token';
 import Evaluate from '../nodes/Evaluate';
 import Example from '../nodes/Example';
@@ -76,6 +75,16 @@ import SetOrMapAccess from '../nodes/SetOrMapAccess';
 import Source from '../nodes/Source';
 import NameType from '../nodes/NameType';
 import type Locale from '../locale/Locale';
+import FormattedLiteral from '../nodes/FormattedLiteral';
+import FormattedTranslation from '../nodes/FormattedTranslation';
+import IsLocale from '../nodes/IsLocale';
+import TableType from '../nodes/TableType';
+import TableLiteral from '../nodes/TableLiteral';
+import Insert from '../nodes/Insert';
+import Select from '../nodes/Select';
+import Update from '../nodes/Update';
+import Delete from '../nodes/Delete';
+import Translation from '../nodes/Translation';
 
 /** These are ordered by appearance in the docs. */
 const templates: Node[] = [
@@ -104,6 +113,19 @@ const templates: Node[] = [
     ),
     ExpressionPlaceholder.make(),
     Convert.make(ExpressionPlaceholder.make(), TypePlaceholder.make()),
+    Insert.make(ExpressionPlaceholder.make(TableType.make())),
+    Select.make(
+        ExpressionPlaceholder.make(TableType.make()),
+        ExpressionPlaceholder.make(BooleanType.make())
+    ),
+    Update.make(
+        ExpressionPlaceholder.make(TableType.make()),
+        ExpressionPlaceholder.make(BooleanType.make())
+    ),
+    Delete.make(
+        ExpressionPlaceholder.make(TableType.make()),
+        ExpressionPlaceholder.make(BooleanType.make())
+    ),
 
     // Project
     Program.make([ExpressionPlaceholder.make()]),
@@ -115,14 +137,19 @@ const templates: Node[] = [
         ExpressionPlaceholder.make(),
         ExpressionPlaceholder.make()
     ),
+    Is.make(ExpressionPlaceholder.make(), TypePlaceholder.make()),
+    IsLocale.make(Language.make(undefined)),
+    Initial.make(),
+    Changed.make(ExpressionPlaceholder.make(StreamType.make())),
     Reaction.make(
         ExpressionPlaceholder.make(),
         ExpressionPlaceholder.make(BooleanType.make()),
         ExpressionPlaceholder.make()
     ),
-    Is.make(ExpressionPlaceholder.make(), TypePlaceholder.make()),
-    Initial.make(),
-    Changed.make(ExpressionPlaceholder.make(StreamType.make())),
+    Previous.make(
+        ExpressionPlaceholder.make(StreamType.make()),
+        ExpressionPlaceholder.make(NumberType.make())
+    ),
 
     // Bind
     Bind.make(
@@ -158,7 +185,7 @@ const templates: Node[] = [
     BooleanType.make(),
     TextType.make(),
     NumberType.make(),
-    Unit.make(['unit']),
+    Unit.reuse(['unit']),
     ListType.make(),
     SetType.make(),
     NoneType.make(),
@@ -171,12 +198,17 @@ const templates: Node[] = [
     Dimension.make(false, PLACEHOLDER_SYMBOL, 1),
     new AnyType(),
     FunctionType.make(undefined, [], TypePlaceholder.make()),
+    StreamType.make(),
+    TableType.make(),
 
     // Values
     BooleanLiteral.make(true),
     NumberLiteral.make(0),
     TextLiteral.make(''),
-    Template.make(),
+    NoneLiteral.make(),
+    Translation.make(),
+    FormattedTranslation.make([]),
+    new FormattedLiteral([FormattedTranslation.make([])]),
     ListAccess.make(
         ExpressionPlaceholder.make(ListType.make()),
         ExpressionPlaceholder.make()
@@ -186,15 +218,9 @@ const templates: Node[] = [
         ExpressionPlaceholder.make(SetType.make()),
         ExpressionPlaceholder.make()
     ),
+    TableLiteral.make(),
 
     This.make(),
-
-    // Streams
-    StreamType.make(),
-    Previous.make(
-        ExpressionPlaceholder.make(StreamType.make()),
-        ExpressionPlaceholder.make(NumberType.make())
-    ),
 
     // Documentation
     Doc.make([new Paragraph([Words.make()])]),
@@ -216,7 +242,7 @@ const templates: Node[] = [
         new ListCloseToken(),
         new EvalOpenToken(),
         new SetCloseToken(),
-        new Token(CONVERT_SYMBOL, Symbol.Convert),
+        new Token(CONVERT_SYMBOL, Sym.Convert),
     ]),
 ];
 
@@ -241,7 +267,7 @@ export function getBasisConcepts(
             basis.getSimpleDefinition('text'),
             basis.getSimpleDefinition('text'),
             TextType.make(),
-            [TextLiteral.make(''), Template.make()],
+            [TextLiteral.make('')],
             locales,
             context
         ),
@@ -300,6 +326,15 @@ export function getBasisConcepts(
             basis.getSimpleDefinition('none'),
             NoneType.make(),
             [NoneLiteral.make()],
+            locales,
+            context
+        ),
+        new StructureConcept(
+            Purpose.Value,
+            basis.getSimpleDefinition('table'),
+            basis.getSimpleDefinition('table'),
+            TableType.make(),
+            [new TableLiteral(TableType.make(), [])],
             locales,
             context
         ),

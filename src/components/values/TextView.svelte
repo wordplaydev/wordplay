@@ -1,26 +1,24 @@
 <svelte:options immutable={true} />
 
 <script lang="ts">
-    import Symbol from '@nodes/Symbol';
-    import type Text from '@runtime/Text';
+    import type TextValue from '@values/TextValue';
     import UnicodeString from '../../models/UnicodeString';
     import Expandable from './Expandable.svelte';
-    import SymbolView from './SymbolView.svelte';
 
-    export let value: Text;
+    export let value: TextValue;
+    export let inline = true;
+
     $: text = value.toWordplay();
 
     const limit = 32;
 </script>
 
-{#if text.length > limit}
+{#if inline && text.length > limit}
     <Expandable
-        ><svelte:fragment slot="expanded"
-            ><SymbolView symbol={text} type={Symbol.Text} /></svelte:fragment
+        ><svelte:fragment slot="expanded">{text}</svelte:fragment
         ><svelte:fragment slot="collapsed"
-            ><SymbolView
-                symbol={new UnicodeString(text).substring(0, limit).toString()}
-                type={Symbol.Text}
-            />…</svelte:fragment
+            >{new UnicodeString(text)
+                .substring(0, limit)
+                .toString()}…</svelte:fragment
         ></Expandable
-    >{:else}<SymbolView symbol={text} type={Symbol.Text} />{/if}
+    >{:else}{text}{/if}

@@ -1,7 +1,12 @@
+import type { SupportedFaces } from '../basis/Fonts';
 import type EditTexts from './EditTexts';
 import type { DocText, Template } from './Locale';
 
 type UITexts = {
+    font: {
+        app: (typeof SupportedFaces)[number];
+        code: (typeof SupportedFaces)[number];
+    };
     phrases: {
         /** Used to address someone or say hi, on the login screen. */
         welcome: string;
@@ -108,7 +113,9 @@ type UITexts = {
         insertLessThanOrEqualSymbol: string;
         insertGreaterThanOrEqualSymbol: string;
         insertStreamSymbol: string;
+        insertPreviousSymbol: string;
         insertConvertSymbol: string;
+        insertTableSymbol: string;
         insertLineBreak: string;
         backspace: string;
         copy: string;
@@ -133,6 +140,15 @@ type UITexts = {
         focusDocs: string;
         focusPalette: string;
         focusCycle: string;
+        conceptLink: Template;
+        /** The description of the timeline slider */
+        timeline: string;
+        /** The button that creates a phrase when there is none */
+        createPhrase: string;
+        /** The button that creates a group when there is none */
+        createGroup: string;
+        /** The button that creates a stage when there is none */
+        createStage: string;
     };
     prompt: {
         deleteSource: string;
@@ -162,9 +178,8 @@ type UITexts = {
     };
     header: {
         learn: string;
-        editing: string;
-        select: string;
         projects: string;
+        about: string;
         examples: string;
         /** Documentation header in structure and functions before inputs */
         inputs: string;
@@ -196,9 +211,21 @@ type UITexts = {
         palette: string;
         editor: string;
     };
+    palette: {
+        offerPhrase: Template;
+        offerGroup: Template;
+        offerStage: Template;
+        pauseToEdit: Template;
+        editing: Template;
+    };
     feedback: {
         unknownProject: string;
         loading: string;
+        save: {
+            saving: string;
+            saved: string;
+            unsaved: string;
+        };
     };
     login: {
         header: string;
@@ -217,11 +244,15 @@ type UITexts = {
     };
     edit: EditTexts;
     error: {
+        notfound: { header: string; message: string };
         tutorial: string;
         /** The placeholder indicating that a locale string is not yet written */
         unwritten: string;
         /** The placeholder string indicating that a template string could not be parsed */
         template: string;
+    };
+    about: {
+        content: string[];
     };
 };
 

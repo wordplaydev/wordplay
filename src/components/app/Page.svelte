@@ -1,13 +1,15 @@
 <script lang="ts">
     import Settings from '../settings/Settings.svelte';
     import Link from './Link.svelte';
+
+    export let fullscreen = false;
 </script>
 
 <div class="page">
     <main>
         <slot />
     </main>
-    <footer>
+    <footer class:fullscreen>
         <div class="beta"
             ><Link external to="https://github.com/amyjko/wordplay/milestone/1"
                 >beta</Link
@@ -36,7 +38,7 @@
     main {
         display: flex;
         flex-direction: column;
-        align-items: center;
+        align-items: start;
         overflow: scroll;
         flex: 1;
         min-height: 0;
@@ -58,5 +60,9 @@
             var(--wordplay-border-width);
         background: var(--wordplay-background);
         z-index: 1;
+    }
+
+    .fullscreen:not(:hover) {
+        opacity: 0.25;
     }
 </style>

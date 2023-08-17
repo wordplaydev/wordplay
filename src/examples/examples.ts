@@ -25,11 +25,12 @@ import Letters from './Letters.wp?raw';
 import RotatingBinary from './RotatingBinary.wp?raw';
 import Greeting from './Greeting.wp?raw';
 import Catch from './Catch.wp?raw';
-import { parseNames, toTokens } from '../parser/Parser';
+import Amplitude from './Amplitude.wp?raw';
+import { parseNames } from '../parser/parseBind';
 import type Names from '../nodes/Names';
-import { config } from '../db/Creator';
-import { get } from 'svelte/store';
+import { database } from '../db/Database';
 import { getBestSupportedLocales } from '../locale/Locale';
+import { toTokens } from '../parser/toTokens';
 
 export type Stuff = {
     name: string;
@@ -38,7 +39,7 @@ export type Stuff = {
 };
 
 export async function makeProject(stuff: Stuff) {
-    const locales = await get(config).loadLocales(
+    const locales = await database.loadLocales(
         getBestSupportedLocales(stuff.locales)
     );
 
@@ -103,4 +104,5 @@ export const examples: Stuff[] = [
     RotatingBinary,
     Catch,
     Greeting,
+    Amplitude,
 ].map((source) => wpToStuff(source));

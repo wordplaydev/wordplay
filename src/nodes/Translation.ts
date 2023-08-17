@@ -1,22 +1,35 @@
 import Token from './Token';
 import Language from './Language';
-import Symbol from './Symbol';
-import { node, type Grammar, type Replacement, optional } from './Node';
+import Sym from './Sym';
+import { node, type Grammar, type Replacement, optional, list } from './Node';
 import type Locale from '@locale/Locale';
 import Emotion from '../lore/Emotion';
-import { TextDelimiters } from '../parser/Tokenizer';
+import { TextCloseByTextOpen, TextDelimiters } from '../parser/Tokenizer';
 import Purpose from '../concepts/Purpose';
 import { LanguageTagged } from './LanguageTagged';
+import Example from './Example';
+import type Program from './Program';
 
 export const ESCAPE_REGEX = /\\(.)/g;
 
-export default class Translation extends LanguageTagged {
-    readonly text: Token;
+export type TranslationSegment = Token | Example;
 
-    constructor(text: Token, language?: Language) {
+export default class Translation extends LanguageTagged {
+    readonly open: Token;
+    readonly segments: TranslationSegment[];
+    readonly close: Token | undefined;
+
+    constructor(
+        open: Token,
+        segments: TranslationSegment[],
+        close: Token | undefined,
+        language?: Language
+    ) {
         super(language);
 
-        this.text = text;
+        this.open = open;
+        this.segments = segments;
+        this.close = close;
 
         /** Unescape the text string */
 
@@ -25,21 +38,27 @@ export default class Translation extends LanguageTagged {
 
     static make(text?: string, language?: Language) {
         return new Translation(
-            new Token(`'${text ?? ''}'`, Symbol.Text),
+            new Token("'", Sym.Text),
+            [new Token(text ?? '', Sym.Words)],
+            new Token("'", Sym.Text),
             language
         );
     }
 
     getGrammar(): Grammar {
         return [
-            { name: 'text', kind: node(Symbol.Text) },
+            { name: 'open', kind: node(Sym.Text) },
+            { name: 'segments', kind: list(node(Sym.Words), node(Example)) },
+            { name: 'close', kind: node(Sym.Text) },
             { name: 'language', kind: optional(node(Language)) },
         ];
     }
 
     clone(replace?: Replacement): this {
         return new Translation(
-            this.replaceChild('text', this.text, replace),
+            this.replaceChild('open', this.open, replace),
+            this.replaceChild('segments', this.segments, replace),
+            this.replaceChild('close', this.close, replace),
             this.replaceChild('language', this.language, replace)
         ) as this;
     }
@@ -48,30 +67,47 @@ export default class Translation extends LanguageTagged {
         return Purpose.Value;
     }
 
-    computeConflicts() {}
+    computeConflicts() {
+        return;
+    }
 
     /** Get the text, with any escape characters processed. */
     getText(): string {
-        // Replace any escapes with the character they're escaping
-        return unescaped(this.text.getText());
+        return this.segments
+            .filter((segment): segment is Token => segment instanceof Token)
+            .map((token) => unescaped(token.getText()))
+            .join('');
     }
 
     getNodeLocale(translation: Locale) {
         return translation.node.Translation;
     }
 
+    getExpressions(): Program[] {
+        return this.segments
+            .filter((segment): segment is Example => segment instanceof Example)
+            .map((example) => example.program);
+    }
+
     getGlyphs() {
         return {
-            symbols: this.text.getDelimiters(),
+            symbols: this.getDelimiters(),
             emotion: Emotion.excited,
         };
+    }
+
+    getDelimiters(): string {
+        return (
+            this.open.getText() + this.close?.getText() ??
+            TextCloseByTextOpen[this.open.getText()]
+        );
     }
 
     getDescriptionInputs() {
         return [this.getText()];
     }
 
-    adjust(direction: -1 | 1, locales: Locale[]): this | undefined {
+    adjust(direction: -1 | 1): this | undefined {
         const text = this.getText();
         const last = text.codePointAt(text.length - 1);
         if (last !== undefined) {

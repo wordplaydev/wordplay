@@ -6,13 +6,13 @@ clicks < 3 ?
         "mumble" 
         size: 1m
         name: "mum"
-        enter: Pose(scale: 0)
-        rest: Sequence({ 
+        entering: Pose(scale: 0)
+        resting: Sequence({ 
             0% : Pose(scale: (clicks + 1) · 1.1)
             50%: Pose(scale: (clicks + 1) · 0.9)
             100%: Pose(scale: (clicks + 1) · 1.1)
         } duration: 0.5s)
-        exit: Sequence({
+        exiting: Sequence({
             0%: Pose(opacity: 1 scale: 1)
             100%: Pose(opacity: 0 scale: 10)
         } duration: 2s)

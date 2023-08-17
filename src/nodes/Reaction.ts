@@ -1,10 +1,9 @@
 import type Conflict from '@conflicts/Conflict';
 import Expression from './Expression';
-import CycleType from './CycleType';
 import type Token from './Token';
 import type Type from './Type';
 import type Evaluator from '@runtime/Evaluator';
-import type Value from '@runtime/Value';
+import type Value from '@values/Value';
 import type Step from '@runtime/Step';
 import Jump from '@runtime/Jump';
 import Finish from '@runtime/Finish';
@@ -13,24 +12,25 @@ import type Bind from './Bind';
 import type Context from './Context';
 import UnionType from './UnionType';
 import type TypeSet from './TypeSet';
-import Exception from '@runtime/Exception';
+import ExceptionValue from '@values/ExceptionValue';
 import { node, type Grammar, type Replacement } from './Node';
 import type Locale from '@locale/Locale';
 import BooleanType from './BooleanType';
 import ExpectedBooleanCondition from '../conflicts/ExpectedBooleanCondition';
-import Check from '../runtime/Check';
-import Bool from '../runtime/Bool';
-import ValueException from '../runtime/ValueException';
-import TypeException from '../runtime/TypeException';
+import Check from '@runtime/Check';
+import BoolValue from '@values/BoolValue';
+import ValueException from '../values/ValueException';
+import TypeException from '../values/TypeException';
 import Glyphs from '../lore/Glyphs';
 import Purpose from '../concepts/Purpose';
 import type { BasisTypeName } from '../basis/BasisConstants';
 import StreamToken from './StreamToken';
 import concretize from '../locale/concretize';
 import ExpectedStream from '../conflicts/ExpectedStream';
-import Symbol from './Symbol';
+import Sym from './Sym';
 import ExpressionPlaceholder from './ExpressionPlaceholder';
 import type Node from './Node';
+import UnknownType from './UnknownType';
 
 export default class Reaction extends Expression {
     readonly initial: Expression;
@@ -95,7 +95,7 @@ export default class Reaction extends Expression {
                 label: (translation: Locale) =>
                     translation.node.Reaction.initial,
             },
-            { name: 'dots', kind: node(Symbol.Stream), space: true },
+            { name: 'dots', kind: node(Sym.Stream), space: true },
             {
                 name: 'condition',
                 kind: node(Expression),
@@ -106,7 +106,7 @@ export default class Reaction extends Expression {
             },
             {
                 name: 'nextdots',
-                kind: node(Symbol.Stream),
+                kind: node(Sym.Stream),
                 space: true,
                 indent: true,
             },
@@ -172,9 +172,9 @@ export default class Reaction extends Expression {
             this.next.getType(context),
         ]).generalize(context);
 
-        // If the type includes an unknown type because of a cycle, remove the unknown, since the rest of the type defines the possible values.
+        // If the type includes an unknown type because of a cycle or some other unknown type, remove the unknown, since the rest of the type defines the possible values.
         const types = type.getTypeSet(context).list();
-        const cycle = types.findIndex((type) => type instanceof CycleType);
+        const cycle = types.findIndex((type) => type instanceof UnknownType);
         if (cycle >= 0) {
             types.splice(cycle, 1);
             return UnionType.getPossibleUnion(context, types);
@@ -208,7 +208,7 @@ export default class Reaction extends Expression {
                 const value = evaluator.popValue(this);
                 if (value === undefined)
                     return new ValueException(evaluator, this);
-                else if (!(value instanceof Bool))
+                else if (!(value instanceof BoolValue))
                     return new TypeException(
                         this,
                         evaluator,
@@ -263,7 +263,7 @@ export default class Reaction extends Expression {
 
         // At this point in the compiled steps above, we should have a value on the stack
         // that is either the initial value for this reaction's stream or a new value.
-        if (streamValue instanceof Exception) return streamValue;
+        if (streamValue instanceof ExceptionValue) return streamValue;
 
         // If the stream's value is different from the latest value, add it.
         const latest = evaluator.getReactionStreamLatest(this);

@@ -1,22 +1,23 @@
 import toStructure from '../basis/toStructure';
-import type Value from '@runtime/Value';
+import type Value from '@values/Value';
 import type Color from './Color';
 import type TypeOutput from './TypeOutput';
 import type RenderContext from './RenderContext';
 import Place from './Place';
 import { getBind } from '@locale/getBind';
 import Arrangement from './Arrangement';
-import Number from '../runtime/Number';
+import NumberValue from '@values/NumberValue';
 import Phrase from './Phrase';
 import Group from './Group';
 import concretize from '../locale/concretize';
 import type Locale from '../locale/Locale';
 import { getOutputInput } from './Output';
-import Structure from '../runtime/Structure';
+import StructureValue from '../values/StructureValue';
 
 export function createStackType(locales: Locale[]) {
     return toStructure(`
     ${getBind(locales, (locale) => locale.output.Stack, '•')} Arrangement(
+        ${getBind(locales, (locale) => locale.output.Stack.alignment)}•-1|0|1: 0
         ${getBind(locales, (locale) => locale.output.Stack.padding)}•#m: 1m
     )
 `);
@@ -24,10 +25,14 @@ export function createStackType(locales: Locale[]) {
 
 export class Stack extends Arrangement {
     readonly padding: number;
+    readonly alignment: -1 | 0 | 1;
 
-    constructor(value: Value, padding: Number) {
+    constructor(value: Value, alignment: NumberValue, padding: NumberValue) {
         super(value);
         this.padding = padding.toNumber();
+
+        const align = alignment.toNumber();
+        this.alignment = align === 0 ? 0 : align < 0 ? -1 : 1;
     }
 
     getLayout(children: (TypeOutput | null)[], context: RenderContext) {
@@ -45,7 +50,7 @@ export class Stack extends Arrangement {
         // The height is the sum of all of the child heights plus padding between them
         const height =
             layouts.reduce(
-                (height, layout) => height + (layout ? layout.height : 0),
+                (height, layout) => height + (layout ? layout.ascent : 0),
                 0
             ) +
             this.padding * (layouts.length - 1);
@@ -61,13 +66,17 @@ export class Stack extends Arrangement {
         for (const child of layouts) {
             if (child) {
                 // Subtract the child's height to y to get it to its baseline.
-                y = y - child.height;
+                y = y - child.ascent;
                 const place = new Place(
                     this.value,
                     // Place the x in the center of the stack, or if it has a place, use that
                     child.output.place && child.output.place.x !== undefined
                         ? child.output.place.x
-                        : (width - child.width) / 2,
+                        : this.alignment === 0
+                        ? (width - child.width) / 2
+                        : this.alignment < 0
+                        ? 0
+                        : width - child.width,
                     y,
                     // If the phrase has a place, use it's z, otherwise default to the 0 plane.
                     child.output.place && child.output.place.z !== undefined
@@ -84,7 +93,7 @@ export class Stack extends Arrangement {
                 if (place.y < bottom) bottom = place.y;
                 if (place.x + child.width > right)
                     right = place.x + child.width;
-                if (place.y + child.height > top) top = place.y + child.height;
+                if (place.y + child.ascent > top) top = place.y + child.ascent;
             }
         }
 
@@ -115,7 +124,10 @@ export class Stack extends Arrangement {
 }
 
 export function toStack(value: Value | undefined): Stack | undefined {
-    if (!(value instanceof Structure)) return undefined;
-    const padding = getOutputInput(value, 0);
-    return padding instanceof Number ? new Stack(value, padding) : undefined;
+    if (!(value instanceof StructureValue)) return undefined;
+    const alignment = getOutputInput(value, 0);
+    const padding = getOutputInput(value, 1);
+    return padding instanceof NumberValue && alignment instanceof NumberValue
+        ? new Stack(value, alignment, padding)
+        : undefined;
 }

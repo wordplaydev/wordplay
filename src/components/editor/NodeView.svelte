@@ -12,13 +12,13 @@
     import getNodeView from './util/nodeToView';
     import Expression from '@nodes/Expression';
     import ValueView from '@components/values/ValueView.svelte';
-    import type Value from '@runtime/Value';
+    import type Value from '@values/Value';
     import Space from './Space.svelte';
     import Token from '../../nodes/Token';
     import concretize from '../../locale/concretize';
 
     export let node: Node | undefined;
-    export let small: boolean = false;
+    export let small = false;
 
     const evaluation = getEvaluation();
     const locales = getLocales();

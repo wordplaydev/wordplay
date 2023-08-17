@@ -1,4 +1,4 @@
-import type { TutorialProgress } from '../db/Creator';
+import type { TutorialProgress } from '../db/TutorialProgressSetting';
 import {
     PerformanceMode,
     type Act,
@@ -87,7 +87,7 @@ export default class Progress {
         if (scene === undefined) return undefined;
         if (this.pause === 0) return undefined;
 
-        let dialog: Dialog[] = [];
+        const dialog: Dialog[] = [];
         let pause = 1;
         for (let i = 0; i < scene.lines.length && pause <= this.pause; i++) {
             const line = scene.lines[i];
@@ -105,7 +105,10 @@ export default class Progress {
 
     /** Generate a project ID suitable for this point in the tutorial. We save code for each */
     getProjectID() {
-        return `${this.act}-${this.scene}-${this.getPerformanceLine()}`;
+        const line = this.getPerformanceLine();
+        return `${this.act}-${this.scene}${
+            line !== undefined ? `-${this.getPerformanceLine()}` : ''
+        }`;
     }
 
     seralize(): TutorialProgress {

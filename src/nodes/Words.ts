@@ -2,9 +2,9 @@ import type Conflict from '@conflicts/Conflict';
 import type Locale from '@locale/Locale';
 import Purpose from '../concepts/Purpose';
 import Glyphs from '../lore/Glyphs';
-import { node, type Grammar, type Replacement, any, none } from './Node';
+import { node, type Grammar, type Replacement, any, none, list } from './Node';
 import Token from './Token';
-import Symbol from './Symbol';
+import Sym from './Sym';
 import { unescaped } from './TextLiteral';
 import Example from './Example';
 import WebLink from './WebLink';
@@ -14,9 +14,11 @@ import type { TemplateInput } from '../locale/concretize';
 import type { NodeSegment, Segment } from './Paragraph';
 import NodeRef from '../locale/NodeRef';
 import ValueRef from '../locale/ValueRef';
-import { unescapeDocSymbols } from '../parser/Tokenizer';
-import type Node from './Node';
+import { unescapeMarkupSymbols } from '../parser/Tokenizer';
+import Node from './Node';
 import type { FontWeight } from '../basis/Fonts';
+import Mention from './Mention';
+import Branch from './Branch';
 
 export type Format = 'italic' | 'underline' | 'light' | 'bold' | 'extra';
 
@@ -38,7 +40,7 @@ export default class Words extends Content {
     }
 
     static make() {
-        return new Words(undefined, [new Token('…', Symbol.Words)], undefined);
+        return new Words(undefined, [new Token('…', Sym.Words)], undefined);
     }
 
     getGrammar(): Grammar {
@@ -46,31 +48,34 @@ export default class Words extends Content {
             {
                 name: 'open',
                 kind: any(
-                    node(Symbol.Italic),
-                    node(Symbol.Underline),
-                    node(Symbol.Light),
-                    node(Symbol.Bold),
-                    node(Symbol.Extra),
+                    node(Sym.Italic),
+                    node(Sym.Underline),
+                    node(Sym.Light),
+                    node(Sym.Bold),
+                    node(Sym.Extra),
                     none('close')
                 ),
             },
             {
                 name: 'segments',
-                kind: any(
+                kind: list(
                     node(Words),
                     node(WebLink),
                     node(ConceptLink),
-                    node(Example)
+                    node(Example),
+                    node(Sym.Words),
+                    node(Mention),
+                    node(Branch)
                 ),
             },
             {
                 name: 'close',
                 kind: any(
-                    node(Symbol.Italic),
-                    node(Symbol.Underline),
-                    node(Symbol.Light),
-                    node(Symbol.Bold),
-                    node(Symbol.Extra),
+                    node(Sym.Italic),
+                    node(Sym.Underline),
+                    node(Sym.Light),
+                    node(Sym.Bold),
+                    node(Sym.Extra),
                     none('open')
                 ),
             },
@@ -90,9 +95,7 @@ export default class Words extends Content {
     }
 
     getNodeSegments() {
-        return this.segments.filter(
-            (s) => s instanceof Content || s instanceof Token
-        ) as NodeSegment[];
+        return this.segments.filter((s) => s instanceof Node) as NodeSegment[];
     }
 
     getPurpose() {
@@ -106,24 +109,24 @@ export default class Words extends Content {
     getFormat(): Format | undefined {
         return this.open === undefined
             ? undefined
-            : this.open.isSymbol(Symbol.Italic)
+            : this.open.isSymbol(Sym.Italic)
             ? 'italic'
-            : this.open.isSymbol(Symbol.Underline)
+            : this.open.isSymbol(Sym.Underline)
             ? 'underline'
-            : this.open.isSymbol(Symbol.Light)
+            : this.open.isSymbol(Sym.Light)
             ? 'light'
-            : this.open.isSymbol(Symbol.Bold)
+            : this.open.isSymbol(Sym.Bold)
             ? 'bold'
             : 'extra';
     }
 
     getWeight(): FontWeight | undefined {
         return this.open
-            ? this.open.isSymbol(Symbol.Light)
+            ? this.open.isSymbol(Sym.Light)
                 ? 300
-                : this.open.isSymbol(Symbol.Bold)
+                : this.open.isSymbol(Sym.Bold)
                 ? 700
-                : this.open.isSymbol(Symbol.Extra)
+                : this.open.isSymbol(Sym.Extra)
                 ? 900
                 : 400
             : undefined;
@@ -150,7 +153,7 @@ export default class Words extends Content {
             // Replace all repeated special characters with single special characters.
             else if (content instanceof Token) {
                 const replacement = content.withText(
-                    unescapeDocSymbols(content.getText())
+                    unescapeMarkupSymbols(content.getText())
                 );
                 if (replacement.getText() !== content.getText()) {
                     replacements.push([content, replacement]);

@@ -1,12 +1,12 @@
 import Token from './Token';
 import NoneType from './NoneType';
 import type Type from './Type';
-import None from '@runtime/None';
+import NoneValue from '@values/NoneValue';
 import type Bind from './Bind';
 import type Context from './Context';
 import type TypeSet from './TypeSet';
 import { NONE_SYMBOL } from '@parser/Symbols';
-import Symbol from './Symbol';
+import Sym from './Sym';
 import Node, { node, type Grammar, type Replacement } from './Node';
 import type Locale from '@locale/Locale';
 import Literal from './Literal';
@@ -29,14 +29,14 @@ export default class NoneLiteral extends Literal {
         return [
             {
                 name: 'none',
-                kind: node(Symbol.None),
+                kind: node(Sym.None),
                 getType: () => NoneType.make(),
             },
         ];
     }
 
     static make() {
-        return new NoneLiteral(new Token(NONE_SYMBOL, Symbol.None));
+        return new NoneLiteral(new Token(NONE_SYMBOL, Sym.None));
     }
 
     static getPossibleNodes(
@@ -61,14 +61,16 @@ export default class NoneLiteral extends Literal {
         return 'none';
     }
 
-    computeConflicts() {}
+    computeConflicts() {
+        return;
+    }
 
     computeType(): Type {
         return NoneType.None;
     }
 
     getValue() {
-        return new None(this);
+        return new NoneValue(this);
     }
 
     getStart() {

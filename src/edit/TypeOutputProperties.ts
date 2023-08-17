@@ -1,4 +1,4 @@
-import { SupportedFonts } from '@basis/Fonts';
+import { SupportedFaces } from '@basis/Fonts';
 import Evaluate from '@nodes/Evaluate';
 import type Expression from '@nodes/Expression';
 import NumberLiteral from '@nodes/NumberLiteral';
@@ -38,7 +38,7 @@ export function getDurationProperty(locale: Locale): OutputProperty {
         false,
         false,
         (expr) => expr instanceof NumberLiteral,
-        () => NumberLiteral.make(0.25, Unit.make(['s']))
+        () => NumberLiteral.make(0.25, Unit.create(['s']))
     );
 }
 
@@ -79,12 +79,12 @@ export default function getTypeOutputProperties(
             false,
             true,
             (expr) => expr instanceof NumberLiteral,
-            () => NumberLiteral.make(1, Unit.make(['m']))
+            () => NumberLiteral.make(1, Unit.create(['m']))
         ),
         new OutputProperty(
-            locale.output.Type.family,
+            locale.output.Type.face,
             new OutputPropertyOptions(
-                [...SupportedFonts.map((font) => font.name)],
+                [...SupportedFaces],
                 true,
                 (text: string) => TextLiteral.make(text),
                 (expression: Expression | undefined) =>
@@ -95,7 +95,7 @@ export default function getTypeOutputProperties(
             false,
             true,
             (expr) => expr instanceof TextLiteral,
-            () => TextLiteral.make('Noto Sans')
+            () => TextLiteral.make(locale.ui.font.app)
         ),
         new OutputProperty(
             locale.output.Type.place,
@@ -114,9 +114,9 @@ export default function getTypeOutputProperties(
                         project.shares.output.Place
                     ),
                     [
-                        NumberLiteral.make(0, Unit.make(['m'])),
-                        NumberLiteral.make(0, Unit.make(['m'])),
-                        NumberLiteral.make(0, Unit.make(['m'])),
+                        NumberLiteral.make(0, Unit.create(['m'])),
+                        NumberLiteral.make(0, Unit.create(['m'])),
+                        NumberLiteral.make(0, Unit.create(['m'])),
                     ]
                 )
         ),
@@ -136,11 +136,11 @@ export default function getTypeOutputProperties(
             (expr) => expr instanceof BooleanLiteral,
             () => BooleanLiteral.make(false)
         ),
-        ...getPoseProperties(project, locale),
-        getPoseProperty(project, locale.output.Type.enter),
-        getPoseProperty(project, locale.output.Type.rest),
-        getPoseProperty(project, locale.output.Type.move),
-        getPoseProperty(project, locale.output.Type.exit),
+        ...getPoseProperties(project, locale, true),
+        getPoseProperty(project, locale.output.Type.entering),
+        getPoseProperty(project, locale.output.Type.resting),
+        getPoseProperty(project, locale.output.Type.moving),
+        getPoseProperty(project, locale.output.Type.exiting),
         getDurationProperty(locale),
         getStyleProperty(locale),
     ];

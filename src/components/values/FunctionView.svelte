@@ -1,17 +1,20 @@
 <svelte:options immutable={true} />
 
 <script lang="ts">
-    import type FunctionValue from '@runtime/FunctionValue';
+    import type FunctionValue from '@values/FunctionValue';
     import SymbolView from './SymbolView.svelte';
     import { FUNCTION_SYMBOL } from '@parser/Symbols';
-    import Symbol from '@nodes/Symbol';
-    import { config } from '../../db/Creator';
+    import Sym from '@nodes/Sym';
+    import { locales } from '../../db/Database';
 
     export let value: FunctionValue;
+    export let inline = true;
 </script>
 
-<SymbolView symbol={FUNCTION_SYMBOL} type={Symbol.Function} />
-<SymbolView
-    symbol={value.definition.names.getPreferredNameString($config.getLocales())}
-    type={Symbol.Name}
-/>
+{#if inline || !inline}
+    <SymbolView symbol={FUNCTION_SYMBOL} type={Sym.Function} />
+    <SymbolView
+        symbol={value.definition.names.getPreferredNameString($locales)}
+        type={Sym.Name}
+    />
+{/if}

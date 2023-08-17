@@ -1,24 +1,28 @@
-import Row from './Row';
+import Row, { getRowFromValues } from './Row';
 import type Conflict from '@conflicts/Conflict';
 import Expression from './Expression';
 import TableType from './TableType';
-import type Bind from './Bind';
+import Bind from './Bind';
 import type Node from './Node';
 import type Evaluator from '@runtime/Evaluator';
-import type Value from '@runtime/Value';
-import Table from '@runtime/Table';
+import type Value from '@values/Value';
+import TableValue from '@values/TableValue';
 import type Step from '@runtime/Step';
 import Finish from '@runtime/Finish';
 import Start from '@runtime/Start';
 import type Context from './Context';
 import type TypeSet from './TypeSet';
-import { analyzeRow } from './util';
-import Exception from '@runtime/Exception';
 import { node, type Grammar, type Replacement, list } from './Node';
 import type Locale from '@locale/Locale';
 import Glyphs from '../lore/Glyphs';
 import Purpose from '../concepts/Purpose';
 import concretize from '../locale/concretize';
+import StructureValue from '../values/StructureValue';
+import MissingCell from '../conflicts/MissingCell';
+import IncompatibleCellType from '../conflicts/IncompatibleCellType';
+import ExtraCell from '../conflicts/ExtraCell';
+import UnexpectedColumnBind from '../conflicts/UnexpectedColumnBind';
+import type Type from './Type';
 
 export default class TableLiteral extends Expression {
     readonly type: TableType;
@@ -33,6 +37,10 @@ export default class TableLiteral extends Expression {
         this.computeChildren();
     }
 
+    static make() {
+        return new TableLiteral(TableType.make(), [Row.make()]);
+    }
+
     getGrammar(): Grammar {
         return [
             {
@@ -44,18 +52,54 @@ export default class TableLiteral extends Expression {
         ];
     }
 
+    static getPossibleNodes(
+        type: Type | undefined,
+        anchor: Node,
+        selected: boolean
+    ) {
+        return type === undefined && !selected ? [TableLiteral.make()] : [];
+    }
+
     getPurpose() {
-        return Purpose.Bind;
+        return Purpose.Value;
     }
 
     computeConflicts(context: Context): Conflict[] {
-        let conflicts: Conflict[] = [];
+        const conflicts: Conflict[] = [];
 
         // Validate each row.
         const type = this.getType(context);
         if (type instanceof TableType) {
-            for (const row of this.rows)
-                conflicts = conflicts.concat(analyzeRow(type, row, context));
+            for (const row of this.rows) {
+                // Copy the cells
+                const cells = row.cells.slice();
+                for (const column of type.columns) {
+                    const cell = cells.shift();
+                    // No cell?
+                    if (cell === undefined)
+                        conflicts.push(new MissingCell(row, type, column));
+                    // Unexpected bind?
+                    else if (cell instanceof Bind)
+                        conflicts.push(new UnexpectedColumnBind(this, cell));
+                    // Incompatible cell?
+                    else {
+                        const expected = column.getType(context);
+                        const given = cell.getType(context);
+                        if (!expected.accepts(given, context))
+                            conflicts.push(
+                                new IncompatibleCellType(
+                                    type,
+                                    cell,
+                                    expected,
+                                    given
+                                )
+                            );
+                    }
+                }
+                // Extra cells?
+                for (const extra of cells)
+                    conflicts.push(new ExtraCell(extra, type));
+            }
         }
 
         return conflicts;
@@ -97,17 +141,18 @@ export default class TableLiteral extends Expression {
     evaluate(evaluator: Evaluator, prior: Value | undefined): Value {
         if (prior) return prior;
 
-        const rows: Value[][] = [];
+        const rows: StructureValue[] = [];
         for (let r = 0; r < this.rows.length; r++) {
-            const row: Value[] = [];
-            for (let c = 0; c < this.type.columns.length; c++) {
-                const cell = evaluator.popValue(this);
-                if (cell instanceof Exception) return cell;
-                else row.unshift(cell);
-            }
-            rows.unshift(row);
+            // Get the values, building the list in order of appearance.
+            const values: Value[] = [];
+            for (let c = 0; c < this.rows[r].cells.length; c++)
+                values.unshift(evaluator.popValue(this));
+
+            const row = getRowFromValues(evaluator, this, this.type, values);
+            if (row instanceof StructureValue) rows.unshift(row);
+            else return row;
         }
-        return new Table(this, rows);
+        return new TableValue(this, this.type, rows);
     }
 
     clone(replace?: Replacement) {

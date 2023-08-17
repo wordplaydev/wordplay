@@ -1,6 +1,6 @@
 import Step from './Step';
-import type Evaluator from './Evaluator';
-import type Value from './Value';
+import type Evaluator from '@runtime/Evaluator';
+import type Value from '../values/Value';
 import type Expression from '@nodes/Expression';
 import { finish } from './Finish';
 import { start } from './Start';

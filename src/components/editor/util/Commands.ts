@@ -15,18 +15,21 @@ import {
     SOURCE_SYMBOL,
     STAGE_SYMBOL,
     PALETTE_SYMBOL,
+    PREVIOUS_SYMBOL,
+    TABLE_OPEN_SYMBOL,
+    TABLE_CLOSE_SYMBOL,
 } from '@parser/Symbols';
 
-import type Source from '@nodes/Source';
+import Source from '@nodes/Source';
 import { toClipboard } from './Clipboard';
 import type Evaluator from '@runtime/Evaluator';
 import FunctionDefinition from '@nodes/FunctionDefinition';
 import ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
 import Names from '@nodes/Names';
-import type { Creator } from '@db/Creator';
+import type { Database } from '@db/Database';
 import type Locale from '@locale/Locale';
-import Program from '@nodes/Program';
-import { Content } from '../../project/Tile';
+import { TileKind } from '../../project/Tile';
+import Sym from '../../../nodes/Sym';
 
 export type Command = {
     /** The iconographic text symbol to use */
@@ -47,6 +50,9 @@ export type Command = {
     alt: boolean | undefined;
     /** If true, control or meta is required, if false, it's disqualifying, if undefined, it can be either */
     control: boolean | undefined;
+    /** An UI to place on buttons corresponding to this command for tutorial highlighting */
+    uiid?: string;
+    /** A function that should indicate whether the command is active */
     active?: (context: CommandContext, key: string) => boolean;
     /** Generates an edit or other editor command */
     execute: (
@@ -66,10 +72,11 @@ export type Command = {
 export type CommandContext = {
     caret: Caret | undefined;
     evaluator: Evaluator;
-    creator: Creator;
+    database: Database;
     toggleMenu?: () => void;
     fullscreen?: (on: boolean) => void;
-    focusOrCycleTile?: (content?: Content) => void;
+    focusOrCycleTile?: (content?: TileKind) => void;
+    resetInputs?: () => void;
     help?: () => void;
 };
 
@@ -150,11 +157,8 @@ export const IncrementLiteral: Command = {
     shift: false,
     key: 'ArrowUp',
     keySymbol: '↑',
-    active: ({ evaluator, caret }) =>
-        caret?.getAdjustableLiteral(evaluator.project.locales) !== undefined ??
-        false,
-    execute: ({ evaluator, caret }) =>
-        caret?.adjustLiteral(undefined, 1, evaluator.project.locales) ?? false,
+    active: ({ caret }) => caret?.getAdjustableLiteral() !== undefined ?? false,
+    execute: ({ caret }) => caret?.adjustLiteral(undefined, 1) ?? false,
 };
 
 export const DecrementLiteral: Command = {
@@ -167,11 +171,8 @@ export const DecrementLiteral: Command = {
     alt: true,
     key: 'ArrowDown',
     keySymbol: '↓',
-    active: ({ evaluator, caret }) =>
-        caret?.getAdjustableLiteral(evaluator.project.locales) !== undefined ??
-        false,
-    execute: ({ evaluator, caret }) =>
-        caret?.adjustLiteral(undefined, -1, evaluator.project.locales) ?? false,
+    active: ({ caret }) => caret?.getAdjustableLiteral() !== undefined ?? false,
+    execute: ({ caret }) => caret?.adjustLiteral(undefined, -1) ?? false,
 };
 
 export const StepBack: Command = {
@@ -270,17 +271,21 @@ export const StepForwardNode: Command = {
 export const Restart: Command = {
     symbol: '↻',
     description: (l) => l.ui.description.reset,
+    uiid: 'resetEvaluator',
     visible: Visibility.Visible,
     category: Category.Evaluate,
     key: 'Enter',
     shift: true,
     alt: false,
     control: true,
-    execute: (context) =>
-        context.creator.reviseProject(
-            context.evaluator.project,
-            context.evaluator.project.clone()
-        ),
+    execute: (context) => {
+        // Don't handle this if we don't have access to the reset function.
+        if (context.resetInputs === undefined) return false;
+        // Mark the inputs invalid so we don't inherit them
+        context.resetInputs();
+        context.database.reviseProject(context.evaluator.project.clone());
+        return undefined;
+    },
 };
 
 export const StepToStart: Command = {
@@ -405,7 +410,7 @@ export const FocusOutput: Command = {
     key: 'Digit1',
     execute: (context) =>
         context.focusOrCycleTile
-            ? context.focusOrCycleTile(Content.Output)
+            ? context.focusOrCycleTile(TileKind.Output)
             : false,
 };
 
@@ -420,7 +425,7 @@ export const FocusSource: Command = {
     key: 'Digit2',
     execute: (context) =>
         context.focusOrCycleTile
-            ? context.focusOrCycleTile(Content.Source)
+            ? context.focusOrCycleTile(TileKind.Source)
             : false,
 };
 
@@ -435,7 +440,7 @@ export const FocusDocs: Command = {
     key: 'Digit3',
     execute: (context) =>
         context.focusOrCycleTile
-            ? context.focusOrCycleTile(Content.Documentation)
+            ? context.focusOrCycleTile(TileKind.Documentation)
             : false,
 };
 
@@ -450,7 +455,7 @@ export const FocusPalette: Command = {
     key: 'Digit4',
     execute: (context) =>
         context.focusOrCycleTile
-            ? context.focusOrCycleTile(Content.Palette)
+            ? context.focusOrCycleTile(TileKind.Palette)
             : false,
 };
 
@@ -502,10 +507,10 @@ const Commands: Command[] = [
         shift: false,
         key: 'ArrowLeft',
         keySymbol: '←',
-        execute: ({ caret, creator }) =>
+        execute: ({ caret, database }) =>
             caret?.moveInline(
                 false,
-                creator.getWritingDirection() === 'ltr' ? -1 : 1
+                database.getWritingDirection() === 'ltr' ? -1 : 1
             ) ?? false,
     },
     {
@@ -518,10 +523,10 @@ const Commands: Command[] = [
         shift: false,
         key: 'ArrowRight',
         keySymbol: '→',
-        execute: ({ caret, creator }) =>
+        execute: ({ caret, database }) =>
             caret?.moveInline(
                 false,
-                creator.getWritingDirection() === 'ltr' ? 1 : -1
+                database.getWritingDirection() === 'ltr' ? 1 : -1
             ) ?? false,
     },
     {
@@ -562,10 +567,9 @@ const Commands: Command[] = [
             if (caret === undefined) return false;
             const position = caret.position;
             if (position instanceof Node) {
-                // Don't select program's parent.
-                if (position instanceof Program) return undefined;
-                let parent = caret.source.root.getParent(position);
-                if (parent) return caret.withPosition(parent);
+                const parent = caret.source.root.getParent(position);
+                if (parent && !(parent instanceof Source))
+                    return caret.withPosition(parent);
             }
             // Find the node corresponding to the position.
             // And if it's parent only has the one child, select it.
@@ -740,18 +744,6 @@ const Commands: Command[] = [
         execute: ({ caret }) => caret?.insert('≥') ?? false,
     },
     {
-        symbol: CONVERT_SYMBOL,
-        description: (l) => l.ui.description.insertConvertSymbol,
-        visible: Visibility.Visible,
-        category: Category.Insert,
-        alt: true,
-        shift: false,
-        control: false,
-        key: 'ArrowRight',
-        keySymbol: '→',
-        execute: ({ caret }) => caret?.insert(CONVERT_SYMBOL) ?? false,
-    },
-    {
         symbol: STREAM_SYMBOL,
         description: (l) => l.ui.description.insertStreamSymbol,
         visible: Visibility.Visible,
@@ -762,6 +754,56 @@ const Commands: Command[] = [
         key: 'Semicolon',
         keySymbol: ';',
         execute: ({ caret }) => caret?.insert(STREAM_SYMBOL) ?? false,
+    },
+    {
+        symbol: PREVIOUS_SYMBOL,
+        description: (l) => l.ui.description.insertPreviousSymbol,
+        visible: Visibility.Visible,
+        category: Category.Insert,
+        alt: true,
+        shift: false,
+        control: false,
+        key: 'ArrowLeft',
+        keySymbol: '←',
+        execute: ({ caret }) => caret?.insert(PREVIOUS_SYMBOL) ?? false,
+    },
+    {
+        symbol: CONVERT_SYMBOL,
+        description: (l) => l.ui.description.insertConvertSymbol,
+        visible: Visibility.Visible,
+        category: Category.Insert,
+        alt: true,
+        shift: false,
+        control: false,
+        key: 'ArrowRight',
+        keySymbol: CONVERT_SYMBOL,
+        execute: ({ caret }) => caret?.insert(CONVERT_SYMBOL) ?? false,
+    },
+    {
+        symbol: TABLE_OPEN_SYMBOL,
+        description: (l) => l.ui.description.insertTableSymbol,
+        visible: Visibility.Visible,
+        category: Category.Insert,
+        alt: true,
+        shift: false,
+        control: false,
+        key: 'KeyT',
+        keySymbol: 't',
+        execute: ({ caret }) => {
+            if (caret === undefined) return false;
+
+            // Before inserting (and potentially autocompleting)
+            // see if there's an unclosed table open prior to the cursor, and if so, insert a close symbol.
+            const tokensPrior = caret?.getTokensPrior();
+            if (tokensPrior)
+                for (let i = tokensPrior.length - 1; i >= 0; i--) {
+                    if (tokensPrior[i].isSymbol(Sym.TableClose)) break;
+                    else if (tokensPrior[i].isSymbol(Sym.TableOpen))
+                        return caret.insert(TABLE_CLOSE_SYMBOL);
+                }
+
+            return caret.insert(TABLE_OPEN_SYMBOL) ?? false;
+        },
     },
 
     // EVALUATE
@@ -793,9 +835,14 @@ const Commands: Command[] = [
         key: 'KeyZ',
         keySymbol: 'Z',
         active: (context) =>
-            context.creator.projectIsUndoable(context.evaluator.project.id),
+            context.database
+                .getProjectHistory(context.evaluator.project.id)
+                ?.isUndoable() === true,
         execute: (context) =>
-            context.creator.undoProject(context.evaluator.project.id) === true,
+            context.database.undoRedoProject(
+                context.evaluator.project.id,
+                -1
+            ) !== undefined,
     },
     {
         symbol: '⟳',
@@ -808,9 +855,14 @@ const Commands: Command[] = [
         key: 'KeyZ',
         keySymbol: 'Z',
         active: (context) =>
-            context.creator.projectIsRedoable(context.evaluator.project.id),
+            context.database
+                .getProjectHistory(context.evaluator.project.id)
+                ?.isRedoable() === true,
         execute: (context) =>
-            context.creator.redoProject(context.evaluator.project.id) === true,
+            context.database.undoRedoProject(
+                context.evaluator.project.id,
+                1
+            ) !== undefined,
     },
     {
         symbol: '↲',

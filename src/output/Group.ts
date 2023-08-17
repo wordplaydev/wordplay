@@ -1,5 +1,5 @@
 import toStructure from '../basis/toStructure';
-import type Value from '../runtime/Value';
+import type Value from '../values/Value';
 import { getBind } from '../locale/getBind';
 import type Arrangement from './Arrangement';
 import type Color from './Color';
@@ -15,16 +15,17 @@ import type { NameGenerator } from './Stage';
 import type Locale from '../locale/Locale';
 import type Project from '../models/Project';
 import type { DefinitePose } from './Pose';
-import Structure from '../runtime/Structure';
+import StructureValue from '@values/StructureValue';
 import { getOutputInput } from './Output';
 import concretize from '../locale/concretize';
+import type { SupportedFace } from '../basis/Fonts';
 
 export function createGroupType(locales: Locale[]) {
     return toStructure(`
     ${getBind(locales, (locale) => locale.output.Group, TYPE_SYMBOL)} Type(
         ${getBind(locales, (locale) => locale.output.Group.layout)}•Arrangement
         ${getBind(locales, (locale) => locale.output.Group.content)}•[Type|ø]
-        ${createTypeOutputInputs(locales)}
+        ${createTypeOutputInputs(locales, false)}
     )`);
 }
 
@@ -37,30 +38,32 @@ export default class Group extends TypeOutput {
         layout: Arrangement,
         content: (TypeOutput | null)[],
         size: number | undefined = undefined,
-        font: string | undefined = undefined,
+        face: SupportedFace | undefined = undefined,
         place: Place | undefined = undefined,
         name: TextLang | string,
         selectable: boolean,
+        background: Color | undefined,
         pose: DefinitePose,
-        enter: Pose | Sequence | undefined = undefined,
-        rest: Pose | Sequence | undefined = undefined,
-        move: Pose | Sequence | undefined = undefined,
-        exit: Pose | Sequence | undefined = undefined,
+        entering: Pose | Sequence | undefined = undefined,
+        resting: Pose | Sequence | undefined = undefined,
+        moving: Pose | Sequence | undefined = undefined,
+        exiting: Pose | Sequence | undefined = undefined,
         duration: number,
         style: string
     ) {
         super(
             value,
             size,
-            font,
+            face,
             place,
             name,
             selectable,
+            background,
             pose,
-            enter,
-            rest,
-            move,
-            exit,
+            entering,
+            resting,
+            moving,
+            exiting,
             duration,
             style
         );
@@ -79,13 +82,22 @@ export default class Group extends TypeOutput {
             bottom: layout.bottom,
             width: layout.width,
             height: layout.height,
-            actualHeight: layout.height,
+            ascent: layout.height,
             places: layout.places,
         };
     }
 
     getOutput() {
         return this.content;
+    }
+
+    find(check: (output: TypeOutput) => boolean): TypeOutput | undefined {
+        for (const output of this.content) {
+            if (output !== null) {
+                if (check(output)) return output;
+            }
+        }
+        return undefined;
     }
 
     getBackground(): Color | undefined {
@@ -111,22 +123,23 @@ export function toGroup(
     value: Value | undefined,
     namer?: NameGenerator
 ): Group | undefined {
-    if (!(value instanceof Structure)) return undefined;
+    if (!(value instanceof StructureValue)) return undefined;
 
     const layout = toArrangement(project, getOutputInput(value, 0));
     const content = toTypeOutputList(project, getOutputInput(value, 1), namer);
 
     const {
         size,
-        font,
+        face: font,
         place,
         name,
         selectable,
+        background,
         pose,
-        rest,
-        enter,
-        move,
-        exit,
+        resting: rest,
+        entering: enter,
+        moving: move,
+        exiting: exit,
         duration,
         style,
     } = getStyle(project, value, 2);
@@ -146,6 +159,7 @@ export function toGroup(
               place,
               namer?.getName(name?.text, value) ?? `${value.creator.id}`,
               selectable,
+              background,
               pose,
               enter,
               rest,

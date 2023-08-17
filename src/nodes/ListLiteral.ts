@@ -2,9 +2,9 @@ import Expression from './Expression';
 import ListType from './ListType';
 import type Token from './Token';
 import type Type from './Type';
-import List from '@runtime/List';
+import ListValue from '@values/ListValue';
 import type Evaluator from '@runtime/Evaluator';
-import type Value from '@runtime/Value';
+import type Value from '@values/Value';
 import type Step from '@runtime/Step';
 import Finish from '@runtime/Finish';
 import Start from '@runtime/Start';
@@ -22,7 +22,7 @@ import Glyphs from '../lore/Glyphs';
 import Purpose from '../concepts/Purpose';
 import type { BasisTypeName } from '../basis/BasisConstants';
 import concretize from '../locale/concretize';
-import Symbol from './Symbol';
+import Sym from './Sym';
 import AnyType from './AnyType';
 
 export default class ListLiteral extends Expression {
@@ -54,7 +54,7 @@ export default class ListLiteral extends Expression {
 
     getGrammar(): Grammar {
         return [
-            { name: 'open', kind: node(Symbol.ListOpen) },
+            { name: 'open', kind: node(Sym.ListOpen) },
             {
                 name: 'values',
                 kind: list(node(Expression)),
@@ -67,7 +67,7 @@ export default class ListLiteral extends Expression {
                 space: true,
                 indent: true,
             },
-            { name: 'close', kind: node(Symbol.ListClose), space: true },
+            { name: 'close', kind: node(Sym.ListClose) },
         ];
     }
 
@@ -140,7 +140,7 @@ export default class ListLiteral extends Expression {
             values.unshift(evaluator.popValue(this));
 
         // Construct the new list.
-        return new List(this, values);
+        return new ListValue(this, values);
     }
 
     evaluateTypeSet(

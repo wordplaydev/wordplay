@@ -22,4 +22,5 @@ export type BasisTypeName =
     | 'union'
     | 'variable'
     | 'name'
-    | 'docs';
+    | 'formatted'
+    | 'internal';

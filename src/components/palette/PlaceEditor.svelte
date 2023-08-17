@@ -3,13 +3,13 @@
     import TextField from '../widgets/TextField.svelte';
     import type Evaluate from '../../nodes/Evaluate';
     import type Project from '@models/Project';
-    import Number from '@runtime/Number';
+    import NumberValue from '@values/NumberValue';
     import NumberLiteral from '@nodes/NumberLiteral';
     import Unit from '@nodes/Unit';
     import Note from '../widgets/Note.svelte';
     import { getNumber } from './editOutput';
     import Expression from '../../nodes/Expression';
-    import { config } from '../../db/Creator';
+    import { database, locale, locales } from '../../db/Database';
     import { tick } from 'svelte';
 
     export let project: Project;
@@ -18,7 +18,7 @@
     let views: HTMLInputElement[] = [];
 
     function valid(val: string) {
-        return !Number.fromUnknown(val).isNaN();
+        return !NumberValue.fromUnknown(val).isNaN();
     }
 
     async function handleChange(dimension: string, value: string) {
@@ -29,14 +29,14 @@
             (view) => document.activeElement === view
         );
 
-        $config.reviseProjectNodes(project, [
+        database.reviseProjectNodes(project, [
             [
                 place,
                 place.withBindAs(
                     dimension,
                     NumberLiteral.make(
                         value.length === 0 ? 0 : value,
-                        Unit.make(['m'])
+                        Unit.create(['m'])
                     ),
                     project.getNodeContext(place)
                 ),
@@ -52,7 +52,7 @@
 </script>
 
 <div class="place">
-    {#each [getFirstName($config.getLocale().output.Place.x.names), getFirstName($config.getLocale().output.Place.y.names), getFirstName($config.getLocale().output.Place.z.names)] as dimension, index}
+    {#each [getFirstName($locale.output.Place.x.names), getFirstName($locale.output.Place.y.names), getFirstName($locale.output.Place.z.names)] as dimension, index}
         {@const given = place?.getMappingFor(
             dimension,
             project.getNodeContext(place)
@@ -66,17 +66,14 @@
                     text={`${value}`}
                     validator={valid}
                     placeholder={getFirstName(dimension)}
-                    description={$config.getLocale().ui.description
-                        .editCoordinate}
+                    description={$locale.ui.description.editCoordinate}
                     changed={(value) => handleChange(dimension, value)}
                     bind:view={views[index]}
                 />
                 <Note>m</Note>
             {:else}
                 <Note
-                    >{$config
-                        .getLocales()
-                        .map((locale) => locale.ui.labels.computed)}</Note
+                    >{$locales.map((locale) => locale.ui.labels.computed)}</Note
                 >
             {/if}
         </div>

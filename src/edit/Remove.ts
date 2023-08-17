@@ -81,7 +81,7 @@ export default class Remove extends Revision {
         // We get them in reverse since some children are recreated during cloning of their sibling exists.
         // (For example, a colon before a value in a Bind). Reversing ensures that the contingent value is removed first.
         // It also ensures that the child indices do not change as we remove them.
-        let indicies = nodes
+        const indicies = nodes
             .map((node) => parent.getChildren().indexOf(node))
             .reverse();
 

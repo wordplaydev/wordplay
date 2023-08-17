@@ -2,8 +2,7 @@ import type { NameAndDoc } from './Locale';
 
 type InputTexts = {
     Random: NameAndDoc & {
-        min: NameAndDoc;
-        max: NameAndDoc;
+        inputs: [NameAndDoc, NameAndDoc];
     };
     Choice: NameAndDoc;
     Button: NameAndDoc & { down: NameAndDoc };
@@ -13,7 +12,10 @@ type InputTexts = {
         down: NameAndDoc;
     };
     Time: NameAndDoc & { frequency: NameAndDoc };
-    Mic: NameAndDoc & {
+    Volume: NameAndDoc & {
+        frequency: NameAndDoc;
+    };
+    Pitch: NameAndDoc & {
         frequency: NameAndDoc;
     };
     Camera: NameAndDoc & {
@@ -23,6 +25,11 @@ type InputTexts = {
     };
     Motion: NameAndDoc & {
         type: NameAndDoc;
+        startplace: NameAndDoc;
+        startvx: NameAndDoc;
+        startvy: NameAndDoc;
+        startvz: NameAndDoc;
+        startvangle: NameAndDoc;
         vx: NameAndDoc;
         vy: NameAndDoc;
         vz: NameAndDoc;
@@ -30,6 +37,9 @@ type InputTexts = {
         mass: NameAndDoc;
         gravity: NameAndDoc;
         bounciness: NameAndDoc;
+    };
+    Placement: NameAndDoc & {
+        inputs: [NameAndDoc, NameAndDoc, NameAndDoc, NameAndDoc, NameAndDoc];
     };
 };
 

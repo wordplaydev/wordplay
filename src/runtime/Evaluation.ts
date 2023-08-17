@@ -2,17 +2,17 @@ import type ConversionDefinition from '@nodes/ConversionDefinition';
 import FunctionDefinition from '@nodes/FunctionDefinition';
 import StructureDefinition from '@nodes/StructureDefinition';
 import type Type from '@nodes/Type';
-import type Conversion from './Conversion';
-import type Evaluator from './Evaluator';
-import Exception from './Exception';
+import type ConversionDefinitionValue from '@values/ConversionDefinitionValue';
+import type Evaluator from '@runtime/Evaluator';
+import ExceptionValue from '@values/ExceptionValue';
 import type Step from './Step';
-import Stream from './Stream';
-import Value from './Value';
-import ValueException from './ValueException';
-import TypeException from './TypeException';
-import Structure from './Structure';
-import Simple from './Simple';
-import Number from './Number';
+import StreamValue from '../values/StreamValue';
+import Value from '../values/Value';
+import ValueException from '../values/ValueException';
+import TypeException from '../values/TypeException';
+import StructureValue from '../values/StructureValue';
+import SimpleValue from '../values/SimpleValue';
+import NumberValue from '@values/NumberValue';
 import type Node from '@nodes/Node';
 import Names from '@nodes/Names';
 import type Expression from '@nodes/Expression';
@@ -20,30 +20,37 @@ import Finish from './Finish';
 import type UnaryEvaluate from '@nodes/UnaryEvaluate';
 import type BinaryEvaluate from '@nodes/BinaryEvaluate';
 import type Evaluate from '@nodes/Evaluate';
-import type HOF from '../basis/HOF';
 import type Source from '@nodes/Source';
 import type Convert from '@nodes/Convert';
 import type Borrow from '@nodes/Borrow';
-import StructureDefinitionValue from './StructureDefinitionValue';
-import type { StepNumber } from './Evaluator';
-import FunctionValue from './FunctionValue';
+import StructureDefinitionValue from '../values/StructureDefinitionValue';
+import type { StepNumber } from '@runtime/Evaluator';
+import FunctionValue from '../values/FunctionValue';
 import StreamDefinition from '../nodes/StreamDefinition';
-import StreamDefinitionValue from './StreamDefinitionValue';
+import StreamDefinitionValue from '../values/StreamDefinitionValue';
 import type PropertyBind from '../nodes/PropertyBind';
 import type Context from '../nodes/Context';
 import StartFinish from './StartFinish';
+import type TableLiteral from '../nodes/TableLiteral';
+import type Insert from '../nodes/Insert';
+import type Delete from '../nodes/Delete';
+import type { Iteration } from '../basis/Iteration';
 
-export type EvaluatorNode =
+export type EvaluationNode =
     | UnaryEvaluate
     | BinaryEvaluate
     | Evaluate
     | PropertyBind
     | Convert
-    | HOF
+    | TableLiteral
+    | Insert
+    | Delete
+    | Iteration
     | Borrow
     | Source
     | StreamDefinition;
-export type EvaluationNode =
+
+export type DefinitionNode =
     | FunctionDefinition
     | StructureDefinition
     | StreamDefinition
@@ -58,7 +65,7 @@ export default class Evaluation {
     readonly #source: Source | undefined;
 
     /** The node that caused this evaluation to start. */
-    readonly #evaluatorNode: EvaluatorNode;
+    readonly #evaluation: EvaluationNode;
 
     /** The context, for passing around to getType, etc. */
     readonly #context: Context;
@@ -67,7 +74,7 @@ export default class Evaluation {
     readonly #stepNumber: StepNumber;
 
     /** The node that defined this expression being evaluated. */
-    readonly #evaluationNode: EvaluationNode;
+    readonly #definition: DefinitionNode;
 
     /** A cache of the node's steps */
     readonly #steps: Step[];
@@ -82,34 +89,37 @@ export default class Evaluation {
     readonly #values: Value[] = [];
 
     /** A list of conversions in this context. */
-    readonly #conversions: Conversion[] = [];
+    readonly #conversions: ConversionDefinitionValue[] = [];
+
+    /** A sum of the sizes of all of the values bound */
+    #size = 0;
 
     /** The step to execute next */
-    #stepIndex: number = 0;
+    #stepIndex = 0;
 
     constructor(
         evaluator: Evaluator,
-        evaluatorNode: EvaluatorNode,
-        evaluationNode: EvaluationNode,
+        evaluation: EvaluationNode,
+        definition: DefinitionNode,
         closure?: Evaluation | Value,
         bindings?: Map<Names | string, Value>
     ) {
         this.#evaluator = evaluator;
-        this.#evaluatorNode = evaluatorNode;
-        this.#evaluationNode = evaluationNode;
+        this.#evaluation = evaluation;
+        this.#definition = definition;
         this.#closure = closure;
 
         // Remember what step this was.
         this.#stepNumber = evaluator.getStepIndex();
 
         // Derive some state
-        this.#source = evaluator.project.getSourceOf(evaluationNode);
+        this.#source = evaluator.project.getSourceOf(definition);
         this.#context = evaluator.project.getContext(
             this.#source ?? evaluator.project.main
         );
 
         // Ask the evaluator to compile (and optionally cache) steps for this definition.
-        this.#steps = this.#evaluator.getSteps(evaluationNode);
+        this.#steps = this.#evaluator.getSteps(definition);
 
         // Add any bindings given.
         if (bindings) {
@@ -121,7 +131,7 @@ export default class Evaluation {
         return this.#source;
     }
     getCreator() {
-        return this.#evaluatorNode;
+        return this.#evaluation;
     }
     getCurrentNode() {
         return this.currentStep()?.node ?? this.getCreator();
@@ -130,7 +140,7 @@ export default class Evaluation {
         return this.#evaluator;
     }
     getDefinition() {
-        return this.#evaluationNode;
+        return this.#definition;
     }
     getClosure() {
         return this.#closure;
@@ -170,11 +180,11 @@ export default class Evaluation {
         const result = this.#steps[this.#stepIndex].evaluate(evaluator);
 
         // If it's an exception, return it to the evaluator to halt the program.
-        if (result instanceof Exception) return result;
+        if (result instanceof ExceptionValue) return result;
         // If it's a stream, resolve it to its latest value,
         // but remember where it came from so other expressions that need the stream
         // can get it back.
-        else if (result instanceof Stream) {
+        else if (result instanceof StreamValue) {
             const value = result.latest();
             this.#values.unshift(value);
             evaluator.setStreamResolved(value, result);
@@ -200,8 +210,8 @@ export default class Evaluation {
     end(): Value | undefined {
         // If this block is creating a structure, take the context and bindings we just created
         // and convert it into a structure.
-        if (this.#evaluationNode instanceof StructureDefinition)
-            return new Structure(this.#evaluatorNode, this);
+        if (this.#definition instanceof StructureDefinition)
+            return new StructureValue(this.#evaluation, this);
         // Otherwise, return the value on the top of the stack.
         else return this.peekValue();
     }
@@ -296,6 +306,8 @@ export default class Evaluation {
     bind(names: Names | string, value: Value) {
         const bindings = this.#bindings[0];
 
+        this.#size += value.getSize();
+
         // Set the value by name or names.
         bindings.set(names, value);
         if (names instanceof Names)
@@ -303,7 +315,7 @@ export default class Evaluation {
     }
 
     /** A convience function for getting a value by name, but only if it is a certain type */
-    get<Kind>(name: string | Names, type: new (...params: any[]) => Kind) {
+    get<Kind>(name: string | Names, type: new (...params: never[]) => Kind) {
         const value = this.resolve(name);
         return value instanceof type ? value : undefined;
     }
@@ -340,7 +352,7 @@ export default class Evaluation {
     }
 
     /** Remember the given conversion for later. */
-    addConversion(conversion: Conversion) {
+    addConversion(conversion: ConversionDefinitionValue) {
         this.#conversions.push(conversion);
     }
 
@@ -355,17 +367,31 @@ export default class Evaluation {
     /** Finds the enclosuring structure that "*" refers to. */
     getThis(requestor: Node): Value | undefined {
         const context = this.#closure;
-        if (context instanceof Structure) return context;
-        else if (context instanceof Number)
-            return context.unitless(this.#evaluationNode);
-        else if (context instanceof Simple) return context;
+        if (context instanceof StructureValue) return context;
+        else if (context instanceof NumberValue)
+            return context.unitless(this.#definition);
+        else if (context instanceof SimpleValue) return context;
         else if (context instanceof Evaluation)
             return context.getThis(requestor);
         else return undefined;
     }
 
+    /** Given an input number in the evaluation's definition, get the corresponding input given to that input, if one was given. */
+    getInput(index: number): Value | undefined {
+        if (
+            !(
+                this.#definition instanceof FunctionDefinition ||
+                this.#definition instanceof StructureDefinition
+            )
+        )
+            return undefined;
+
+        const names = this.#definition.inputs[index]?.names;
+        return names ? this.resolve(names) : undefined;
+    }
+
     withValue(
-        creator: EvaluatorNode,
+        creator: EvaluationNode,
         property: string,
         value: Value
     ): Evaluation | undefined {
@@ -376,7 +402,7 @@ export default class Evaluation {
         const newEvaluation = new Evaluation(
             this.#evaluator,
             creator,
-            this.#evaluationNode,
+            this.#definition,
             this.#closure,
             this.#bindings[0]
         );
@@ -395,9 +421,6 @@ export default class Evaluation {
 
     getSize() {
         // Get all the values from the bindings maps, flatten them into a list, and add up their sizes.
-        return this.#bindings
-            .map((bindings) => Array.from(bindings.values()))
-            .flat()
-            .reduce((sum, val) => sum + val.getSize(), 0);
+        return this.#size;
     }
 }

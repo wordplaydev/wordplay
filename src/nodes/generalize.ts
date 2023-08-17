@@ -30,7 +30,10 @@ export default function generalize(types: Type, context: Context) {
                     )
             )
         )
-            types = TextType.make((possible[0] as TextType).language);
+            types = TextType.make(
+                undefined,
+                (possible[0] as TextType).language
+            );
         // All numbers with equivalent units? Generalize to a number with the unit.
         else if (possible.every((type) => type instanceof NumberType)) {
             const first = possible[0];

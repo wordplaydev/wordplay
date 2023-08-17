@@ -3,7 +3,7 @@ import type Expression from './Expression';
 import type Token from './Token';
 import Type from './Type';
 import type Node from './Node';
-import type Value from '@runtime/Value';
+import type Value from '@values/Value';
 import type Step from '@runtime/Step';
 import Placeholder from '@conflicts/Placeholder';
 import Halt from '@runtime/Halt';
@@ -11,7 +11,7 @@ import Bind from './Bind';
 import type Context from './Context';
 import type TypeSet from './TypeSet';
 import type Evaluator from '@runtime/Evaluator';
-import UnimplementedException from '@runtime/UnimplementedException';
+import UnimplementedException from '@values/UnimplementedException';
 import PlaceholderToken from './PlaceholderToken';
 import UnimplementedType from './UnimplementedType';
 import TypeToken from './TypeToken';
@@ -27,7 +27,7 @@ import Evaluate from './Evaluate';
 import getConcreteExpectedType from './Generics';
 import BinaryEvaluate from './BinaryEvaluate';
 import FunctionDefinition from './FunctionDefinition';
-import Symbol from './Symbol';
+import Sym from './Sym';
 import Purpose from '../concepts/Purpose';
 
 export default class ExpressionPlaceholder extends AtomicExpression {
@@ -67,7 +67,7 @@ export default class ExpressionPlaceholder extends AtomicExpression {
         return [
             {
                 name: 'placeholder',
-                kind: node(Symbol.Placeholder),
+                kind: node(Sym.Placeholder),
                 label: (
                     translation: Locale,
                     _: Node,
@@ -86,7 +86,7 @@ export default class ExpressionPlaceholder extends AtomicExpression {
                     );
                 },
             },
-            { name: 'dot', kind: any(node(Symbol.Access), none('type')) },
+            { name: 'dot', kind: any(node(Sym.Access), none('type')) },
             {
                 name: 'type',
                 kind: any(node(Type), none('dot')),
@@ -124,8 +124,8 @@ export default class ExpressionPlaceholder extends AtomicExpression {
                 const bind =
                     parent instanceof Evaluate
                         ? parent
-                              .getInputMapping(fun)
-                              .inputs.find((map) => map.given === this)
+                              .getInputMapping(context)
+                              ?.inputs.find((map) => map.given === this)
                               ?.expected
                         : fun.inputs[0];
                 if (bind) {

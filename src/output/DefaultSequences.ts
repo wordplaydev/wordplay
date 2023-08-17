@@ -3,10 +3,11 @@ import FunctionDefinition from '../nodes/FunctionDefinition';
 import NumberLiteral from '../nodes/NumberLiteral';
 import NumberType from '../nodes/NumberType';
 import Unit from '../nodes/Unit';
-import { parseExpression, toTokens } from '../parser/Parser';
 import { getDocLocales } from '../locale/getDocLocales';
 import { getNameLocales } from '../locale/getNameLocales';
 import type Locale from '../locale/Locale';
+import { toTokens } from '../parser/toTokens';
+import parseExpression from '../parser/parseExpression';
 
 export function createSway(locales: Locale[]) {
     return FunctionDefinition.make(
@@ -23,8 +24,8 @@ export function createSway(locales: Locale[]) {
                     locales,
                     (locale) => locale.output.sequence.sway.angle.names
                 ),
-                NumberType.make(Unit.make(['°'])),
-                NumberLiteral.make(2, Unit.make(['°']))
+                NumberType.make(Unit.reuse(['°'])),
+                NumberLiteral.make(2, Unit.reuse(['°']))
             ),
         ],
         parseExpression(
@@ -55,8 +56,8 @@ export function createBounce(locales: Locale[]) {
                     locales,
                     (locale) => locale.output.sequence.bounce.height.names
                 ),
-                NumberType.make(Unit.make(['m'])),
-                NumberLiteral.make(2, Unit.make(['m']))
+                NumberType.make(Unit.reuse(['m'])),
+                NumberLiteral.make(2, Unit.reuse(['m']))
             ),
         ],
         parseExpression(

@@ -5,7 +5,7 @@
     import Button from '../widgets/Button.svelte';
     import TextField from '../widgets/TextField.svelte';
     import TokenView from './TokenView.svelte';
-    import { config } from '../../db/Creator';
+    import { locale } from '../../db/Database';
     import Commands, { Category } from './util/Commands';
     import CommandButton from '../widgets/CommandButton.svelte';
     import concretize from '../../locale/concretize';
@@ -44,7 +44,7 @@
 <section class:expanded class="directory" data-uiid="directory">
     <TextField
         placeholder="🔍"
-        description={$config.getLocale().ui.description.characterSearch}
+        description={$locale.ui.description.characterSearch}
         bind:text={query}
     />
     <div class="matches">
@@ -58,8 +58,8 @@
         {:else}
             {#each results as glyph}<Button
                     tip={concretize(
-                        $config.getLocale(),
-                        $config.getLocale().ui.description.insertSymbol,
+                        $locale,
+                        $locale.ui.description.insertSymbol,
                         glyph
                     ).toText()}
                     action={() => insert(glyph)}
@@ -68,19 +68,20 @@
         {/if}
     </div>
     <Button
-        tip={$config.getLocale().ui.description.chooserExpand}
+        tip={$locale.ui.description.chooserExpand}
         action={() => (expanded = !expanded)}>{expanded ? '–' : '+'}</Button
     >
 </section>
 
 <style>
     section {
-        padding: var(--wordplay-spacing);
         display: flex;
         flex-direction: row;
         gap: var(--wordplay-spacing);
+        padding-left: var(--wordplay-spacing);
+        padding-right: var(--wordplay-spacing);
         background-color: var(--wordplay-background);
-        align-items: baseline;
+        align-items: center;
         border-top: var(--wordplay-border-color) solid 1px;
         border-bottom: var(--wordplay-border-color) solid 1px;
     }
@@ -92,7 +93,7 @@
         flex-wrap: nowrap;
         gap: var(--wordplay-spacing);
         overflow-x: scroll;
-        align-content: baseline;
+        padding: var(--wordplay-spacing);
     }
 
     section.expanded {

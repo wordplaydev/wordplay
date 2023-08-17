@@ -1,18 +1,19 @@
 import chalk from 'chalk';
 import fs from 'fs';
 import path from 'path';
-import Locale from './src/locale/Locale';
-import { parseDoc, toTokens } from './src/parser/Parser';
-import Token from './src/nodes/Token';
-import Symbol from './src/nodes/Symbol';
-import ConceptLink from './src/nodes/ConceptLink';
+import Ajv from 'ajv';
 import { concretizeOrUndefined } from './src/locale/concretize';
+import { parseDoc, parseLocaleDoc, toTokens } from './src/parser/Parser';
+import Locale, { toDocString } from './src/locale/Locale';
+import Token from './src/nodes/Token';
+import Sym from './src/nodes/Sym';
+import ConceptLink from './src/nodes/ConceptLink';
+import { Performances } from './src/tutorial/Performances';
 import Tutorial, { Performance, Line, Dialog } from './src/tutorial/Tutorial';
-import Project from './src/models/Project';
 import Source from './src/nodes/Source';
 import Node from './src/nodes/Node';
-import Ajv from 'ajv';
-import { Performances } from './src/tutorial/Performances';
+import { DOCS_SYMBOL } from './src/parser/Symbols';
+import Project from './src/models/Project';
 
 // Read in and compile the two schema
 const localeSchema = JSON.parse(
@@ -149,6 +150,7 @@ type Strings = [string[], string, string][];
  */
 function getKeyTemplatePairs(
     path: string[],
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     record: Record<any, any>,
     pairs: Strings
 ) {
@@ -168,6 +170,10 @@ function getKeyTemplatePairs(
             !Array.isArray(value)
         )
             getKeyTemplatePairs([...path, key], value, pairs);
+        else if (Array.isArray(value)) {
+            for (const record of value)
+                getKeyTemplatePairs([...path, key], record, pairs);
+        }
     }
 }
 
@@ -185,12 +191,12 @@ function verifyLocale(locale: Locale) {
         // If the key suggests that it's documentation, try to parse it as a doc and
         // see if it has any tokens of unknown type or unparsable expressions or types.
         if (key === 'doc') {
-            const doc = parseDoc(toTokens('`' + value + '`'));
+            const doc = parseLocaleDoc(toDocString(value));
             const unknownTokens = doc
                 .leaves()
                 .filter(
                     (node) =>
-                        node instanceof Token && node.isSymbol(Symbol.Unknown)
+                        node instanceof Token && node.isSymbol(Sym.Unknown)
                 );
 
             if (unknownTokens.length > 0)
@@ -263,7 +269,7 @@ function verifyLocale(locale: Locale) {
         }
     }
 
-    let unwritten = pairs.filter(([, , value]) => value.startsWith('$?'));
+    const unwritten = pairs.filter(([, , value]) => value.startsWith('$?'));
 
     if (unwritten.length > 0)
         bad(
@@ -271,7 +277,7 @@ function verifyLocale(locale: Locale) {
             `Locale has ${unwritten.length} unwritten strings ("$?"). Keep writing!`
         );
 
-    let outofdate = pairs.filter(([, , value]) => value.startsWith('$!'));
+    const outofdate = pairs.filter(([, , value]) => value.startsWith('$!'));
 
     if (outofdate.length > 0)
         bad(
@@ -331,7 +337,7 @@ function verifyTutorial(locale: Locale, tutorial: Tutorial) {
         })
         .flat();
 
-    for (let { kind, list } of programs) {
+    for (const { kind, list } of programs) {
         let code: string | undefined = undefined;
         let conflictsIntentional = false;
         // If it's a Performance import, get it's code. Otherwise, join lines.
@@ -346,7 +352,7 @@ function verifyTutorial(locale: Locale, tutorial: Tutorial) {
                     `use ${name} doesn't exist in Performances. Is it misspelled or missing?`
                 );
             else {
-                code = fun.apply(null, inputs);
+                code = fun.apply(...inputs);
             }
         } else code = list.join('\n');
 
@@ -383,7 +389,13 @@ function verifyTutorial(locale: Locale, tutorial: Tutorial) {
                 .filter((line): line is Dialog => line !== null)
                 // Map each line of dialog to a flat list of concepts in the dialog
                 .map((line) =>
-                    parseDoc(toTokens('`' + line.slice(2).join('\n\n') + '`'))
+                    parseDoc(
+                        toTokens(
+                            DOCS_SYMBOL +
+                                line.slice(2).join('\n\n') +
+                                DOCS_SYMBOL
+                        )
+                    )
                         .nodes()
                         .filter(
                             (node: Node): node is ConceptLink =>

@@ -63,7 +63,10 @@ type NodeTexts = {
              * $2: Row
              * */
             MissingCell: ConflictText;
+            /** $1: Cell */
+            ExtraCell: ConflictText;
             UnknownColumn: InternalConflictText;
+            UnexpectedColumnBind: ConflictText;
         }>;
     /**
      * Description
@@ -320,7 +323,7 @@ type NodeTexts = {
      * Finish
      * $1: resulting value
      */
-    HOF: NodeText &
+    Iteration: NodeText &
         ExpressionText & {
             initialize: Template;
             next: Template;
@@ -353,6 +356,7 @@ type NodeTexts = {
              */
             TypeException: ExceptionText;
         }>;
+    IsLocale: DescriptiveNodeText & AtomicExpressionText;
     /**
      * Start
      * $1: list
@@ -519,7 +523,6 @@ type NodeTexts = {
         ExpressionText & {
             item: Template;
         };
-    Template: NodeText & ExpressionText;
     /**
      * Description
      * $1: the text
@@ -530,6 +533,16 @@ type NodeTexts = {
      * $1: the text
      */
     Translation: DescriptiveNodeText;
+    /**
+     * Description
+     * $1: the text
+     */
+    FormattedLiteral: DescriptiveNodeText & AtomicExpressionText;
+    /**
+     * Description
+     * $1: the text
+     */
+    FormattedTranslation: DescriptiveNodeText;
     /**
      * Finish
      * $1: resulting value
@@ -570,7 +583,7 @@ type NodeTexts = {
     Update: NodeText &
         ExpressionText &
         Conflicts<{
-            ExpectedUpdateBind: InternalConflictText;
+            ExpectedColumnBind: InternalConflictText;
             /**
              * $1: Expected
              * $2: Given
@@ -580,7 +593,7 @@ type NodeTexts = {
     AnyType: NodeText;
     BooleanType: NodeText;
     ConversionType: NodeText;
-    DocsType: NodeText;
+    FormattedType: NodeText;
     ExceptionType: NodeText;
     FunctionDefinitionType: NodeText;
     FunctionType: DescriptiveNodeText;
@@ -629,7 +642,7 @@ type NodeTexts = {
      * Description
      * $1: Name of structure
      */
-    StructureDefinitionType: DescriptiveNodeText;
+    StructureType: DescriptiveNodeText;
     TableType: NodeText &
         Conflicts<{
             /** $: The missing column */

@@ -2,26 +2,33 @@
     import Button from '../widgets/Button.svelte';
     import LanguageChooser from './LocaleChooser.svelte';
     import { getUser, isDark } from '../project/Contexts';
-    import { PUBLIC_CONTEXT } from '$env/static/public';
-    import { config } from '../../db/Creator';
+    import {
+        animationFactor,
+        database,
+        locale,
+        arrangement,
+        camera,
+        mic,
+    } from '../../db/Database';
     import LayoutChooser from './LayoutChooser.svelte';
     import { page } from '$app/stores';
     import { goto } from '$app/navigation';
     import { clickOutside } from '../app/clickOutside';
     import Arrangement from '../../db/Arrangement';
-    import Status from '../app/Status.svelte';
     import { slide } from 'svelte/transition';
+    import Options from '../widgets/Options.svelte';
+    import { onMount } from 'svelte';
+    import Link from '../app/Link.svelte';
+    import Status from '../app/Status.svelte';
 
     let expanded = false;
 
     let user = getUser();
     let dark = isDark();
 
-    $: arrangement = $config.getArrangement();
-
     $: anonymous = $user === null;
     $: animationSymbol = { 0: '🧘🏽‍♀️', 1: '🏃‍♀️', 2: '½', 3: '⅓', 4: '¼' }[
-        $config.getAnimationFactor()
+        $animationFactor
     ];
 
     function getBackPath(route: string): string {
@@ -37,6 +44,32 @@
         )
             goto(getBackPath($page.route.id));
     }
+
+    onMount(async () => {
+        if (
+            typeof navigator === 'undefined' ||
+            typeof navigator.mediaDevices == 'undefined'
+        ) {
+            devicesRetrieved = undefined;
+            return;
+        }
+
+        const devices = await navigator.mediaDevices.enumerateDevices();
+
+        cameras = devices.filter((device) => device.kind === 'videoinput');
+        mics = devices.filter((device) => device.kind === 'audioinput');
+        devicesRetrieved = true;
+    });
+
+    let devicesRetrieved: boolean | undefined = false;
+    let cameras: MediaDeviceInfo[] = [];
+    let mics: MediaDeviceInfo[] = [];
+
+    $: cameraDevice = $camera
+        ? cameras.find((cam) => cam.deviceId === $camera)
+        : undefined;
+
+    $: micDevice = $mic ? mics.find((m) => m.deviceId === $mic) : undefined;
 </script>
 
 <svelte:window on:keydown={handleKey} />
@@ -49,44 +82,70 @@
 >
     {#if expanded}
         <div class="controls" transition:slide>
-            {#if PUBLIC_CONTEXT !== 'prod'}
-                <div class="account" class:anonymous>
-                    <a href="/login">
-                        {$user
-                            ? $user.email
-                            : $config.getLocale().ui.labels.anonymous}
-                    </a>
-                </div>
-            {/if}
             <Button
-                tip={arrangement === Arrangement.Free
-                    ? $config.getLocale().ui.description.vertical
-                    : arrangement === Arrangement.Vertical
-                    ? $config.getLocale().ui.description.horizontal
-                    : $config.getLocale().ui.description.freeform}
+                tip={$arrangement === Arrangement.Free
+                    ? $locale.ui.description.vertical
+                    : $arrangement === Arrangement.Vertical
+                    ? $locale.ui.description.horizontal
+                    : $locale.ui.description.freeform}
                 action={() =>
-                    $config.setArrangement(
-                        arrangement === Arrangement.Vertical
+                    database.setArrangement(
+                        $arrangement === Arrangement.Vertical
                             ? Arrangement.Horizontal
-                            : arrangement === Arrangement.Horizontal
+                            : $arrangement === Arrangement.Horizontal
                             ? Arrangement.Free
                             : Arrangement.Vertical
                     )}
-                >{#if arrangement === Arrangement.Vertical}↕{:else if arrangement === Arrangement.Horizontal}↔️{:else if arrangement === Arrangement.Free}⏹️{/if}</Button
+                >{#if $arrangement === Arrangement.Vertical}↕{:else if $arrangement === Arrangement.Horizontal}↔️{:else if $arrangement === Arrangement.Free}⏹️{/if}</Button
             >
             <Button
-                tip={$config.getLocale().ui.description.animate}
+                tip={$locale.ui.description.animate}
                 action={() =>
-                    $config.setAnimationFactor(
-                        $config.getAnimationFactor() < 4
-                            ? $config.getAnimationFactor() + 1
-                            : 0
+                    database.setAnimationFactor(
+                        $animationFactor < 4 ? $animationFactor + 1 : 0
                     )}>{animationSymbol}</Button
             >
             <LayoutChooser />
             <LanguageChooser />
+            {#if devicesRetrieved}
+                <label for="camera-setting">
+                    🎥
+                    <Options
+                        value={cameraDevice?.label}
+                        id="camera-setting"
+                        options={[
+                            undefined,
+                            ...cameras.map((device) => device.label),
+                        ]}
+                        change={(choice) =>
+                            database.setCamera(
+                                cameras.find(
+                                    (camera) => camera.label === choice
+                                )?.deviceId ?? null
+                            )}
+                        width="4em"
+                    />
+                </label>
+                <label for="mic-setting">
+                    🎤
+                    <Options
+                        value={micDevice?.label}
+                        id="mic-setting"
+                        options={[
+                            undefined,
+                            ...mics.map((device) => device.label),
+                        ]}
+                        change={(choice) =>
+                            database.setMic(
+                                mics.find((mic) => mic.label === choice)
+                                    ?.deviceId ?? null
+                            )}
+                        width="4em"
+                    />
+                </label>
+            {/if}
             <Button
-                tip={$config.getLocale().ui.description.dark}
+                tip={$locale.ui.description.dark}
                 action={() =>
                     dark.set(
                         $dark === undefined
@@ -101,14 +160,21 @@
             >
         </div>
     {/if}
-    <Status />
     <Button
-        tip={$config.getLocale().ui.description.settings}
+        tip={$locale.ui.description.settings}
         action={() => (expanded = !expanded)}
         ><div class="gear" class:expanded>⚙</div></Button
     >
+    <div class="account" class:anonymous>
+        <Link to="/login">
+            <span class="user"
+                >{$user ? $user.email : $locale.ui.labels.anonymous}</span
+            >
+        </Link>
+    </div>
+    <Status />
     {#if $page.route.id !== '/'}<Button
-            tip={$config.getLocale().ui.description.close}
+            tip={$locale.ui.description.close}
             active={$page.route.id !== null && $page.route.id !== "/'"}
             action={() => goto(getBackPath($page.route.id ?? '/'))}>❌</Button
         >{/if}
@@ -154,7 +220,6 @@
 
     .dark-mode {
         display: inline-block;
-        width: 2em;
     }
 
     .gear.expanded {
@@ -167,9 +232,10 @@
         color: var(--wordplay-background);
         padding: calc(var(--wordplay-spacing) / 2) var(--wordplay-spacing);
         font-size: medium;
+        border-radius: var(--wordplay-border-radius);
     }
 
-    .account.anonymous a {
+    .anonymous .user {
         color: var(--wordplay-background);
     }
 </style>

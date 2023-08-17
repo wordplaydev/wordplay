@@ -61,7 +61,7 @@ export default class Append<NodeType extends Node> extends Revision {
         );
 
         // Make a new program with the new parent
-        let newProgram = this.context.source.expression.replace(
+        const newProgram = this.context.source.expression.replace(
             this.parent,
             newParent
         );
@@ -97,10 +97,10 @@ export default class Append<NodeType extends Node> extends Revision {
 
     getEditedNode(locales: Locale[]): [Node, Node] {
         // Get the node to insert.
-        let newChild = this.getNewNode(locales);
+        const newChild = this.getNewNode(locales);
 
         // Clone the list.
-        let newList = [...this.list];
+        const newList = [...this.list];
 
         // Insert the new child in the list.
         // If its unspecified or it is but it's not in the list, then it's at the end of the list.
@@ -114,7 +114,7 @@ export default class Append<NodeType extends Node> extends Revision {
     }
 
     getDescription(locale: Locale) {
-        let node =
+        const node =
             this.insertion instanceof Refer
                 ? this.insertion.getNode([locale])
                 : this.getNewNode([locale]);

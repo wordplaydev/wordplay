@@ -19,7 +19,7 @@
     import type Layout from './Layout';
     import TextField from '../widgets/TextField.svelte';
     import { isName } from '../../parser/Tokenizer';
-    import { config } from '../../db/Creator';
+    import { locale } from '../../db/Database';
     import { onMount } from 'svelte';
     import type Arrangement from '../../db/Arrangement';
     import Glyphs from '../../lore/Glyphs';
@@ -31,6 +31,7 @@
     export let dragging: boolean;
     export let fullscreenID: string | undefined;
     export let background: Color | string | null = null;
+    export let focuscontent = false;
 
     $: fullscreen = tile.id === fullscreenID;
 
@@ -176,6 +177,7 @@
             : ''}"
         class:fullscreen
         class:dragging
+        class:focuscontent
         class:animated={mounted}
         data-id={tile.id}
         style:background={background instanceof Color
@@ -194,12 +196,10 @@
                     {Glyphs.Program.symbols}
                     <TextField
                         text={tile.name}
-                        description={$config.getLocale().ui.description
-                            .editSourceName}
-                        placeholder={$config.getLocale().ui.placeholders.name}
+                        description={$locale.ui.description.editSourceName}
+                        placeholder={$locale.ui.placeholders.name}
                         validator={(text) => isName(text)}
                         changed={handleRename}
-                        border={false}
                     />
                 {:else}
                     {tile.name}
@@ -209,12 +209,12 @@
             <div class="toolbar">
                 <slot name="extra" />
                 <Button
-                    tip={$config.getLocale().ui.description.collapse}
+                    tip={$locale.ui.description.collapse}
                     action={() => dispatch('mode', { mode: Mode.Collapsed })}
                     active={!layout.isFullscreen()}>⎵</Button
                 >
                 <Button
-                    tip={$config.getLocale().ui.description.fullscreen}
+                    tip={$locale.ui.description.fullscreen}
                     action={() =>
                         dispatch('fullscreen', {
                             fullscreen: !fullscreen,
@@ -336,19 +336,15 @@
         flex-direction: row;
         flex-wrap: nowrap;
         align-items: center;
-        padding-top: var(--wordplay-spacing);
-        padding-left: var(--wordplay-spacing);
-        padding-right: var(--wordplay-spacing);
-        padding-bottom: 0;
+        padding: var(--wordplay-spacing);
         gap: var(--wordplay-spacing);
         width: 100%;
-        min-height: 2em;
         overflow-x: auto;
     }
 
     /** Dim the header a bit so that they don't demand so much attention */
     .header {
-        opacity: 0.5;
+        opacity: 0.8;
     }
 
     .toolbar {
@@ -375,19 +371,12 @@
         flex-grow: 1;
     }
 
-    .tile:focus-within:after {
-        width: 100%;
-        height: 100%;
-        content: '';
+    .focuscontent .content:focus-within {
         outline: var(--wordplay-focus-color) solid var(--wordplay-focus-width);
         outline-offset: calc(-1 * var(--wordplay-focus-width));
-        position: absolute;
-        top: 0;
-        left: 0;
-        pointer-events: none;
     }
 
-    .tile.fullscreen:focus-within:after {
+    .focuscontent.fullscreen .content:focus-within:after {
         outline-width: calc(var(--wordplay-focus-width) / 2);
         outline-offset: calc(-1 * var(--wordplay-focus-width) / 2);
     }

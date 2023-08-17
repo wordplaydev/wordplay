@@ -2,10 +2,14 @@
 
 <style>
     h1 {
-        font-size: 10vw;
+        font-size: min(10vw, 80pt);
         font-family: var(--wordplay-app-font);
+        color: var(--wordplay-header);
         font-weight: bold;
-        margin-top: 2em;
-        margin-bottom: calc(var(--wordplay-spacing) / 2);
+        margin-inline-start: -0.25em;
+        margin-block-start: 1em;
+        margin-block-end: calc(var(--wordplay-spacing) / 3);
+        text-align: start;
+        transform: rotate(-1deg);
     }
 </style>

@@ -1,14 +1,14 @@
 import type Names from '@nodes/Names';
 import Unit from '@nodes/Unit';
-import Number from '@runtime/Number';
-import Stream from '@runtime/Stream';
-import Structure, { createStructure } from '@runtime/Structure';
-import type Value from '@runtime/Value';
+import NumberValue from '@values/NumberValue';
+import StreamValue from '@values/StreamValue';
+import StructureValue, { createStructure } from '@values/StructureValue';
+import type Value from '@values/Value';
 import type Evaluator from '@runtime/Evaluator';
 import StreamDefinition from '@nodes/StreamDefinition';
 import { getDocLocales } from '@locale/getDocLocales';
 import { getNameLocales } from '@locale/getNameLocales';
-import StructureDefinitionType from '@nodes/StructureDefinitionType';
+import StructureType from '@nodes/StructureType';
 import StreamType from '@nodes/StreamType';
 import createStreamEvaluator from './createStreamEvaluator';
 import type Locale from '../locale/Locale';
@@ -20,35 +20,43 @@ function position(evaluator: Evaluator, x: number, y: number) {
     const bindings = new Map<Names, Value>();
     bindings.set(
         PlaceType.inputs[0].names,
-        new Number(evaluator.getMain(), x, Unit.make(['m']))
+        new NumberValue(evaluator.getMain(), x, Unit.reuse(['m']))
     );
     bindings.set(
         PlaceType.inputs[1].names,
-        new Number(evaluator.getMain(), y, Unit.make(['m']))
+        new NumberValue(evaluator.getMain(), y, Unit.reuse(['m']))
     );
     bindings.set(
         PlaceType.inputs[2].names,
-        new Number(evaluator.getMain(), 0, Unit.make(['m']))
+        new NumberValue(evaluator.getMain(), 0, Unit.reuse(['m']))
     );
     return createStructure(evaluator, PlaceType, bindings);
 }
 
-export default class Pointer extends Stream<Structure> {
+export default class Pointer extends StreamValue<
+    StructureValue,
+    { x: number; y: number }
+> {
     readonly evaluator: Evaluator;
-    on: boolean = false;
+    on = false;
 
     constructor(evaluator: Evaluator) {
         super(
             evaluator,
             evaluator.project.shares.input.Pointer,
-            position(evaluator, 0, 0)
+            position(evaluator, 0, 0),
+            { x: 0, y: 0 }
         );
 
         this.evaluator = evaluator;
     }
 
-    record(x: number, y: number) {
-        if (this.on) this.add(position(this.evaluator, x, y));
+    react(coordinate: { x: number; y: number }) {
+        if (this.on)
+            this.add(
+                position(this.evaluator, coordinate.x, coordinate.y),
+                coordinate
+            );
     }
 
     start() {
@@ -60,10 +68,7 @@ export default class Pointer extends Stream<Structure> {
 
     getType(): Type {
         return StreamType.make(
-            new StructureDefinitionType(
-                this.evaluator.project.shares.output.Place,
-                []
-            )
+            new StructureType(this.evaluator.project.shares.output.Place, [])
         );
     }
 }
@@ -77,11 +82,13 @@ export function createPointerDefinition(
         getNameLocales(locales, (locale) => locale.input.Pointer.names),
         [],
         createStreamEvaluator(
-            new StructureDefinitionType(PlaceType),
+            new StructureType(PlaceType),
             Pointer,
             (evaluation) => new Pointer(evaluation.getEvaluator()),
-            () => {}
+            () => {
+                return;
+            }
         ),
-        new StructureDefinitionType(PlaceType)
+        new StructureType(PlaceType)
     );
 }

@@ -8,18 +8,18 @@ import Start from '@runtime/Start';
 import Finish from '@runtime/Finish';
 import type Context from './Context';
 import type Node from './Node';
-import StructureDefinitionType from './StructureDefinitionType';
+import StructureType from './StructureType';
 import Bind from './Bind';
 import UnionType from './UnionType';
 import type TypeSet from './TypeSet';
 import Conditional from './Conditional';
 import Is from './Is';
 import { PROPERTY_SYMBOL } from '@parser/Symbols';
-import Symbol from './Symbol';
+import Sym from './Sym';
 import TypeVariable from './TypeVariable';
-import NameException from '@runtime/NameException';
+import NameException from '@values/NameException';
 import type Definition from './Definition';
-import type Value from '@runtime/Value';
+import type Value from '@values/Value';
 import StreamType from './StreamType';
 import Reference from './Reference';
 import NameType from './NameType';
@@ -28,7 +28,7 @@ import { node, type Grammar, type Replacement } from './Node';
 import type Locale from '@locale/Locale';
 import NodeRef from '@locale/NodeRef';
 import Glyphs from '../lore/Glyphs';
-import UnimplementedException from '../runtime/UnimplementedException';
+import UnimplementedException from '../values/UnimplementedException';
 import Purpose from '../concepts/Purpose';
 import { UnknownName } from '../conflicts/UnknownName';
 import concretize from '../locale/concretize';
@@ -55,7 +55,7 @@ export default class PropertyReference extends Expression {
     static make(subject: Expression, name?: Reference) {
         return new PropertyReference(
             subject,
-            new Token(PROPERTY_SYMBOL, Symbol.Access),
+            new Token(PROPERTY_SYMBOL, Sym.Access),
             name
         );
     }
@@ -73,7 +73,7 @@ export default class PropertyReference extends Expression {
         else if (node instanceof PropertyReference) {
             const selectionType = node.structure.getType(context);
             const definition =
-                selectionType instanceof StructureDefinitionType
+                selectionType instanceof StructureType
                     ? selectionType.structure
                     : selectionType instanceof BasisType
                     ? context
@@ -136,7 +136,7 @@ export default class PropertyReference extends Expression {
     getGrammar(): Grammar {
         return [
             { name: 'structure', kind: node(Expression) },
-            { name: 'dot', kind: node(Symbol.Access) },
+            { name: 'dot', kind: node(Sym.Access) },
             {
                 name: 'name',
                 kind: node(Reference),
@@ -190,7 +190,7 @@ export default class PropertyReference extends Expression {
     getDefinitions(node: Node, context: Context): Definition[] {
         const subjectType = this.getSubjectType(context);
 
-        if (subjectType instanceof StructureDefinitionType)
+        if (subjectType instanceof StructureType)
             return subjectType.structure.getDefinitions(node);
         else return subjectType.getDefinitions(node, context);
     }
@@ -200,7 +200,7 @@ export default class PropertyReference extends Expression {
 
         const subjectType = this.getSubjectType(context);
 
-        if (subjectType instanceof StructureDefinitionType)
+        if (subjectType instanceof StructureType)
             return subjectType.getDefinition(this.name.getName());
         else
             return subjectType.getDefinitionOfNameInScope(
@@ -236,7 +236,7 @@ export default class PropertyReference extends Expression {
                 const bindType = type.resolve(context);
                 if (
                     bindType instanceof TypeVariable &&
-                    subjectType instanceof StructureDefinitionType
+                    subjectType instanceof StructureType
                 ) {
                     const typeInput = subjectType.resolveTypeVariable(
                         bindType.getNames()[0]
@@ -258,27 +258,27 @@ export default class PropertyReference extends Expression {
                     .getRoot(this)
                     ?.getAncestors(this)
                     ?.filter(
-                        (a) =>
+                        (a): a is Conditional =>
                             // Guards must be conditionals
                             a instanceof Conditional &&
                             // Guards must have references to this same property in a type check
                             a.condition.nodes(
-                                (n) =>
+                                (n): n is PropertyReference =>
                                     this.name !== undefined &&
                                     context.source.root.getParent(n) instanceof
                                         Is &&
                                     n instanceof PropertyReference &&
                                     n.getSubjectType(context) instanceof
-                                        StructureDefinitionType &&
+                                        StructureType &&
                                     def ===
                                         (
                                             n.getSubjectType(
                                                 context
-                                            ) as StructureDefinitionType
+                                            ) as StructureType
                                         ).getDefinition(this.name.getName())
                             ).length > 0
                     )
-                    .reverse() as Conditional[];
+                    .reverse();
 
                 // Grab the furthest ancestor and evaluate possible types from there.
                 const root =
@@ -286,7 +286,7 @@ export default class PropertyReference extends Expression {
                         ? guards[0]
                         : undefined;
                 if (root !== undefined) {
-                    let possibleTypes = type.getTypeSet(context);
+                    const possibleTypes = type.getTypeSet(context);
                     root.evaluateTypeSet(
                         def,
                         possibleTypes,

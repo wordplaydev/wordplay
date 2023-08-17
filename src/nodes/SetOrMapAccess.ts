@@ -4,9 +4,9 @@ import Expression from './Expression';
 import type Token from './Token';
 import Type from './Type';
 import type Evaluator from '@runtime/Evaluator';
-import type Value from '@runtime/Value';
-import Set from '@runtime/Set';
-import Map from '@runtime/Map';
+import type Value from '@values/Value';
+import SetValue from '@values/SetValue';
+import MapValue from '@values/MapValue';
 import type Step from '@runtime/Step';
 import Finish from '@runtime/Finish';
 import Start from '@runtime/Start';
@@ -16,7 +16,7 @@ import SetType from './SetType';
 import BooleanType from './BooleanType';
 import type Bind from './Bind';
 import type TypeSet from './TypeSet';
-import TypeException from '@runtime/TypeException';
+import TypeException from '@values/TypeException';
 import UnionType from './UnionType';
 import SetOpenToken from './SetOpenToken';
 import SetCloseToken from './SetCloseToken';
@@ -30,7 +30,7 @@ import Purpose from '../concepts/Purpose';
 import IncompatibleInput from '../conflicts/IncompatibleInput';
 import { NotAType } from './NotAType';
 import concretize from '../locale/concretize';
-import Symbol from './Symbol';
+import Sym from './Sym';
 
 export default class SetOrMapAccess extends Expression {
     readonly setOrMap: Expression;
@@ -72,13 +72,13 @@ export default class SetOrMapAccess extends Expression {
                 // Must be a number
                 getType: () => UnionType.make(SetType.make(), MapType.make()),
             },
-            { name: 'open', kind: node(Symbol.SetOpen) },
+            { name: 'open', kind: node(Sym.SetOpen) },
             {
                 name: 'key',
                 kind: node(Expression),
                 label: (translation: Locale) => translation.term.key,
             },
-            { name: 'close', kind: node(Symbol.SetClose) },
+            { name: 'close', kind: node(Sym.SetClose) },
         ];
     }
 
@@ -166,7 +166,7 @@ export default class SetOrMapAccess extends Expression {
         const key = evaluator.popValue(this);
         const setOrMap = evaluator.popValue(this);
 
-        if (!(setOrMap instanceof Set || setOrMap instanceof Map))
+        if (!(setOrMap instanceof SetValue || setOrMap instanceof MapValue))
             return new TypeException(
                 this,
                 evaluator,

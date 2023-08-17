@@ -5,9 +5,9 @@ import NumberType from './NumberType';
 import type Token from './Token';
 import Type from './Type';
 import type Evaluator from '@runtime/Evaluator';
-import type Value from '@runtime/Value';
-import List from '@runtime/List';
-import Number from '@runtime/Number';
+import type Value from '@values/Value';
+import ListValue from '@values/ListValue';
+import NumberValue from '@values/NumberValue';
 import type Step from '@runtime/Step';
 import Finish from '@runtime/Finish';
 import Start from '@runtime/Start';
@@ -26,10 +26,10 @@ import NodeRef from '@locale/NodeRef';
 import Glyphs from '../lore/Glyphs';
 import type { BasisTypeName } from '../basis/BasisConstants';
 import Purpose from '../concepts/Purpose';
-import None from '../runtime/None';
+import NoneValue from '@values/NoneValue';
 import IncompatibleInput from '../conflicts/IncompatibleInput';
 import concretize from '../locale/concretize';
-import Symbol from './Symbol';
+import Sym from './Sym';
 import ExpressionPlaceholder from './ExpressionPlaceholder';
 
 export default class ListAccess extends Expression {
@@ -81,7 +81,7 @@ export default class ListAccess extends Expression {
                 // Must be a list
                 getType: () => ListType.make(),
             },
-            { name: 'open', kind: node(Symbol.ListOpen) },
+            { name: 'open', kind: node(Sym.ListOpen) },
             {
                 name: 'index',
                 kind: node(Expression),
@@ -89,7 +89,7 @@ export default class ListAccess extends Expression {
                 // Must be a number
                 getType: () => NumberType.make(),
             },
-            { name: 'close', kind: node(Symbol.ListClose) },
+            { name: 'close', kind: node(Sym.ListClose) },
         ];
     }
 
@@ -176,11 +176,11 @@ export default class ListAccess extends Expression {
         if (prior) return prior;
 
         const index = evaluator.popValue(this, NumberType.make());
-        if (!(index instanceof Number) || !index.num.isInteger())
-            return new None(this);
+        if (!(index instanceof NumberValue) || !index.num.isInteger())
+            return new NoneValue(this);
 
         const list = evaluator.popValue(this, ListType.make());
-        if (!(list instanceof List)) return list;
+        if (!(list instanceof ListValue)) return list;
 
         return list.get(index);
     }

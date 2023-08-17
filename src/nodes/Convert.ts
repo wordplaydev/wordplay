@@ -10,15 +10,15 @@ import Evaluation from '@runtime/Evaluation';
 import type Context from './Context';
 import type Bind from './Bind';
 import type TypeSet from './TypeSet';
-import Exception from '@runtime/Exception';
+import ExceptionValue from '@values/ExceptionValue';
 import ConversionDefinition from './ConversionDefinition';
 import Halt from '@runtime/Halt';
 import Block from './Block';
 import { CONVERT_SYMBOL, PROPERTY_SYMBOL } from '@parser/Symbols';
-import Symbol from './Symbol';
+import Sym from './Sym';
 import Names from './Names';
 import type Evaluator from '@runtime/Evaluator';
-import type Value from '@runtime/Value';
+import type Value from '@values/Value';
 import { node, type Grammar, type Replacement } from './Node';
 import type Locale from '@locale/Locale';
 import StartConversion from '@runtime/StartConversion';
@@ -28,11 +28,13 @@ import { NotAType } from './NotAType';
 import ConversionType from './ConversionType';
 import NeverType from './NeverType';
 import concretize from '../locale/concretize';
-import ConversionException from '../runtime/ConversionException';
+import ConversionException from '@values/ConversionException';
 import ExpressionPlaceholder from './ExpressionPlaceholder';
 import TypePlaceholder from './TypePlaceholder';
 import type Node from './Node';
 import Purpose from '../concepts/Purpose';
+import NameType from './NameType';
+import { getConcreteConversionTypeVariable } from './Generics';
 
 export default class Convert extends Expression {
     readonly expression: Expression;
@@ -52,7 +54,7 @@ export default class Convert extends Expression {
     static make(expression: Expression, type: Type) {
         return new Convert(
             expression,
-            new Token(CONVERT_SYMBOL, Symbol.Convert),
+            new Token(CONVERT_SYMBOL, Sym.Convert),
             type
         );
     }
@@ -75,7 +77,7 @@ export default class Convert extends Expression {
     getGrammar(): Grammar {
         return [
             { name: 'expression', kind: node(Expression) },
-            { name: 'convert', kind: node(Symbol.Convert), space: true },
+            { name: 'convert', kind: node(Sym.Convert), space: true },
             { name: 'type', kind: node(Type), space: true },
         ];
     }
@@ -153,7 +155,31 @@ export default class Convert extends Expression {
                 ConversionType.make(this.expression.getType(context), this.type)
             );
         const lastConversion = conversions[conversions.length - 1];
-        return lastConversion.output;
+
+        // Now that we have an output type, concretize it, in case it has generic types.
+        let output = lastConversion.output;
+
+        // Find any variable types in the output and resolve them to concrete types,
+        // constructing a new output type.
+        let moreReplacements = false;
+        do {
+            const variable = output
+                .nodes()
+                .find((node): node is NameType => node instanceof NameType);
+            if (variable === undefined) break;
+            const concrete = getConcreteConversionTypeVariable(
+                variable,
+                lastConversion,
+                this,
+                context
+            );
+            if (concrete === variable) break;
+
+            output = output.replace(variable, concrete);
+            moreReplacements = true;
+        } while (moreReplacements);
+
+        return output;
     }
 
     getDependencies(): Expression[] {
@@ -196,7 +222,7 @@ export default class Convert extends Expression {
     startEvaluation(evaluator: Evaluator, conversion: ConversionDefinition) {
         // Get the value to convert
         const value = evaluator.popValue(this);
-        if (value instanceof Exception) return value;
+        if (value instanceof ExceptionValue) return value;
 
         // Execute the conversion.
         evaluator.startEvaluation(
@@ -289,7 +315,8 @@ function getConversionPath(
             let to = output;
 
             // Find the path, tracing backwards from output to input.
-            while (true) {
+            const match = true;
+            while (match) {
                 // Find the type that goes to this type
                 const fromKey = Array.from(edges.keys()).find((t) =>
                     t.accepts(to, context)
@@ -314,7 +341,7 @@ function getConversionPath(
         }
 
         // Find all of the output types reachable through conversions
-        for (let out of conversions
+        for (const out of conversions
             .filter((c) => c.convertsType(currentInput, context))
             .map((c) => c.output)
             .filter((c) => c instanceof Type) as Type[]) {

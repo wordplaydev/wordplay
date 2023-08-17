@@ -1,10 +1,10 @@
 <script lang="ts">
     import { PUBLIC_CONTEXT } from '$env/static/public';
     import Lead from '@components/app/Lead.svelte';
-    import Page from '@components/app/Page.svelte';
     import BigLink from '../components/app/BigLink.svelte';
     import Background from '../components/app/Background.svelte';
-    import { config } from '../db/Creator';
+    import { locale } from '../db/Database';
+    import Writing from '../components/app/Writing.svelte';
 </script>
 
 <svelte:head>
@@ -14,18 +14,22 @@
 </svelte:head>
 
 <Background />
-<Page>
-    <Lead>{$config.getLocale().wordplay}</Lead>
-    <p>{$config.getLocale().ui.phrases.motto}</p>
+<Writing>
+    <Lead>{$locale.wordplay}<sub>.dev</sub></Lead>
+    <p>{$locale.ui.phrases.motto}</p>
     {#if PUBLIC_CONTEXT === 'prod'}
         <p
             >Coming Fall 2023. Write <a href="https://amyjko.com">Amy</a> for details.</p
         >
     {:else}
-        <BigLink to="/learn">{$config.getLocale().ui.header.learn}</BigLink>
-        <BigLink to="/projects"
-            >{$config.getLocale().ui.header.projects}</BigLink
-        >
-        <BigLink to="/login">{$config.getLocale().ui.login.header}</BigLink>
+        <BigLink to="/learn">{$locale.ui.header.learn}</BigLink>
+        <BigLink to="/projects">{$locale.ui.header.projects}</BigLink>
+        <BigLink to="/about">{$locale.ui.header.about}</BigLink>
     {/if}
-</Page>
+</Writing>
+
+<style>
+    sub {
+        font-size: 30%;
+    }
+</style>

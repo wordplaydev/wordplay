@@ -1,11 +1,11 @@
 <svelte:options immutable={true} />
 
 <script lang="ts">
-    import type Symbol from '@nodes/Symbol';
+    import type Sym from '@nodes/Sym';
     import TokenCategories from '../editor/TokenCategories';
 
     export let symbol: string;
-    export let type: Symbol;
+    export let type: Sym;
 
     $: category = TokenCategories.get(type);
 </script>
@@ -15,6 +15,7 @@
 <style>
     .symbol {
         color: currentColor;
+        white-space: pre;
     }
 
     .category-name {

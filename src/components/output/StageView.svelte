@@ -1,5 +1,3 @@
-<svelte:options immutable={true} />
-
 <script context="module" lang="ts">
     const HalfGridlineThickness = 0.1;
 </script>
@@ -9,10 +7,16 @@
     import type Project from '@models/Project';
     import type Stage from '@output/Stage';
     import { loadedFonts } from '@basis/Fonts';
-    import { PX_PER_METER, toCSS } from '@output/outputToCSS';
+    import {
+        PX_PER_METER,
+        getColorCSS,
+        getFaceCSS,
+        getOpacityCSS,
+        getSizeCSS,
+    } from '@output/outputToCSS';
     import Place from '@output/Place';
     import Evaluate from '@nodes/Evaluate';
-    import { DefaultFont, DefaultSize } from '@output/Stage';
+    import { DefaultSize } from '@output/Stage';
     import { createPlace } from '@output/Place';
     import Scene, { type OutputInfoSet } from '@output/Scene';
     import GroupView from './GroupView.svelte';
@@ -33,7 +37,7 @@
     import type TypeOutput from '../../output/TypeOutput';
     import Sequence from '../../output/Sequence';
     import Reference from '../../nodes/Reference';
-    import { config } from '../../db/Creator';
+    import { animationFactor, locale, locales } from '../../db/Database';
 
     export let project: Project;
     export let evaluator: Evaluator;
@@ -44,6 +48,7 @@
     export let fit: boolean;
     export let grid: boolean;
     export let painting: boolean;
+    export let background: boolean;
 
     const selectedOutput = getSelectedOutput();
     const evaluation = getEvaluation();
@@ -73,7 +78,7 @@
                   .filter(
                       (output): output is Phrase => output instanceof Phrase
                   )
-                  .map((output) => output.getDescription($config.getLocales()))
+                  .map((output) => output.getDescription($locales))
                   .join(', ')
             : '';
 
@@ -89,18 +94,18 @@
                         : previouslyPresent.get(name);
                 if (!entered.has(name)) {
                     const previousText = previous
-                        ?.getDescription($config.getLocales())
+                        ?.getDescription($locales)
                         .toString();
                     const currentText = output
-                        .getDescription($config.getLocales())
+                        .getDescription($locales)
                         .toString();
                     if (
                         previousText !== currentText &&
                         typeof currentText === 'string'
                     ) {
                         const sequence =
-                            output.rest instanceof Sequence
-                                ? output.rest
+                            output.resting instanceof Sequence
+                                ? output.resting
                                 : undefined;
                         const sequenceDescription = sequence
                             ? sequence.value.creator instanceof Evaluate &&
@@ -196,9 +201,9 @@
     /** Keep track of the tile view's content window size for use in fitting content to the window */
     let parent: Element | null;
     let observer: ResizeObserver | undefined;
-    let viewportWidth: number = 0;
-    let viewportHeight: number = 0;
-    let changed: boolean = false;
+    let viewportWidth = 0;
+    let viewportHeight = 0;
+    let changed = false;
     $: {
         if (observer && parent) observer.unobserve(parent);
         if (view && view.parentElement) {
@@ -220,11 +225,11 @@
     }
 
     $: context = new RenderContext(
-        stage.font ?? DefaultFont,
+        stage.face ?? $locale.ui.font.app,
         stage.size ?? DefaultSize,
-        $config.getLocales(),
+        $locales,
         $loadedFonts,
-        $config.getAnimationFactor()
+        $animationFactor
     );
     $: contentBounds = stage.getLayout(context);
 
@@ -297,21 +302,19 @@
             $selectedOutput &&
             $selectedOutput.includes(stage.value.creator)}
         class:editing={$evaluation?.playing === false && !painting}
-        aria-label={stage.getDescription($config.getLocales())}
+        aria-label={stage.getDescription($locales)}
         data-id={stage.getHTMLID()}
         data-node-id={stage.value.creator.id}
         data-selectable={stage.selectable}
-        style={toCSS({
-            'font-family': `"${stage.font}", ${DefaultFont}`,
-            background: stage.background.toCSS(),
-            '--grid-color': stage.background.complement().toCSS(),
-            color:
-                stage.getFirstRestPose()?.color?.toCSS() ??
-                'var(--wordplay-foreground)',
-        })}
+        style:font-family={getFaceCSS(stage.face)}
+        style:font-size={getSizeCSS(context.size)}
+        style:color={getColorCSS(stage.getFirstRestPose(), stage.pose)}
+        style:background={background ? stage.back.toCSS() : null}
+        style:opacity={getOpacityCSS(stage.getFirstRestPose(), stage.pose)}
+        style:--grid-color={stage.back.complement().toCSS()}
         bind:this={view}
     >
-        <!-- Render the verse -->
+        <!-- Render the stage -->
         <GroupView
             group={stage}
             place={center}
@@ -403,13 +406,13 @@
                 >
                     {#if enteredDescription.length > 0}
                         <p
-                            >{$config.getLocale().term.entered}
+                            >{$locale.term.entered}
                             {enteredDescription}</p
                         >
                     {/if}
                     {#if changedDescription.length > 0}
                         <p
-                            >{$config.getLocale().term.changed}
+                            >{$locale.term.changed}
                             {changedDescription}</p
                         >
                     {/if}
@@ -431,7 +434,12 @@
         height: 100%;
         position: relative;
 
+        color: var(--wordplay-foreground);
+
         --grid-color: currentColor;
+
+        /** Put the stage in a layer, since it's contents likely change frequently. */
+        will-change: contents;
     }
 
     .stage[data-selectable='true'] {

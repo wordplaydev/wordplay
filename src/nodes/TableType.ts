@@ -1,8 +1,7 @@
-import Type from './Type';
 import Bind from '@nodes/Bind';
 import type Context from './Context';
 import Token from './Token';
-import Symbol from './Symbol';
+import Sym from './Sym';
 import { TABLE_CLOSE_SYMBOL, TABLE_OPEN_SYMBOL } from '@parser/Symbols';
 import type TypeSet from './TypeSet';
 import type { BasisTypeName } from '../basis/BasisConstants';
@@ -12,11 +11,21 @@ import ExpectedColumnType from '@conflicts/ExpectedColumnType';
 import { node, type Grammar, type Replacement, list } from './Node';
 import type Locale from '@locale/Locale';
 import Glyphs from '../lore/Glyphs';
+import BasisType from './BasisType';
+import StructureDefinition from './StructureDefinition';
+import Names from './Names';
+import type Reference from './Reference';
+import type Definition from './Definition';
+import type Type from './Type';
+import StructureType from './StructureType';
 
-export default class TableType extends Type {
+export default class TableType extends BasisType {
     readonly open: Token;
     readonly columns: Bind[];
     readonly close: Token | undefined;
+
+    /** The structure definition that defines each row's data, derived from the table type. */
+    readonly definition: StructureDefinition;
 
     constructor(open: Token, columns: Bind[], close: Token | undefined) {
         super();
@@ -25,22 +34,24 @@ export default class TableType extends Type {
         this.columns = columns;
         this.close = close;
 
+        this.definition = this.getStructureDefinition();
+
         this.computeChildren();
     }
 
-    static make(columns: Bind[]) {
+    static make(columns: Bind[] = []) {
         return new TableType(
-            new Token(TABLE_OPEN_SYMBOL, [Symbol.TableOpen]),
+            new Token(TABLE_OPEN_SYMBOL, [Sym.TableOpen]),
             columns,
-            new Token(TABLE_CLOSE_SYMBOL, [Symbol.TableClose])
+            new Token(TABLE_CLOSE_SYMBOL, [Sym.TableClose])
         );
     }
 
     getGrammar(): Grammar {
         return [
-            { name: 'open', kind: node(Symbol.TableOpen) },
-            { name: 'columns', kind: list(node(Bind)) },
-            { name: 'close', kind: node(Symbol.TableClose) },
+            { name: 'open', kind: node(Sym.TableOpen) },
+            { name: 'columns', kind: list(node(Bind)), space: true },
+            { name: 'close', kind: node(Sym.TableClose) },
         ];
     }
 
@@ -64,6 +75,31 @@ export default class TableType extends Type {
         return conflicts;
     }
 
+    getDefinitions(): Definition[] {
+        return this.columns;
+    }
+
+    getStructureDefinition() {
+        return StructureDefinition.make(
+            undefined,
+            Names.make([]),
+            [],
+            undefined,
+            this.columns,
+            undefined
+        );
+    }
+
+    withColumns(references: Reference[]) {
+        return TableType.make(
+            references
+                .map((ref) =>
+                    this.columns.find((bind) => bind.hasName(ref.getName()))
+                )
+                .filter((bind): bind is Bind => bind !== undefined)
+        );
+    }
+
     getColumnNamed(name: string): Bind | undefined {
         return this.columns.find((c) => c instanceof Bind && c.hasName(name));
     }
@@ -71,6 +107,7 @@ export default class TableType extends Type {
     acceptsAll(types: TypeSet, context: Context) {
         return types.list().every((type) => {
             if (!(type instanceof TableType)) return false;
+            if (this.columns.length === 0) return true;
             if (this.columns.length !== type.columns.length) return false;
             for (let i = 0; i < this.columns.length; i++)
                 if (
@@ -81,6 +118,14 @@ export default class TableType extends Type {
                     return false;
             return true;
         });
+    }
+
+    resolveTypeVariable(name: string, context: Context): Type | undefined {
+        const listDef = context.getBasis().getSimpleDefinition('table');
+        return listDef.types !== undefined &&
+            listDef.types.hasVariableNamed(name)
+            ? new StructureType(this.definition)
+            : undefined;
     }
 
     getBasisTypeName(): BasisTypeName {

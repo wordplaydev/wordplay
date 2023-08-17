@@ -1,10 +1,14 @@
 <svelte:options immutable={true} />
 
 <script lang="ts">
-    import type Exception from '../../runtime/Exception';
-    import { config } from '../../db/Creator';
+    import type ExceptionValue from '@values/ExceptionValue';
+    import { locale } from '../../db/Database';
+    import concretize from '../../locale/concretize';
 
-    export let value: Exception;
+    export let value: ExceptionValue;
+    export let inline = true;
 </script>
 
-! {value.getDescription($config.getLocale()).toText()}
+{#if inline || !inline}
+    ! {value.getDescription(concretize, $locale).toText()}
+{/if}

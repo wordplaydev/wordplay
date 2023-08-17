@@ -12,7 +12,7 @@ import { node, type Grammar, type Replacement, optional } from './Node';
 import type Locale from '@locale/Locale';
 import Glyphs from '../lore/Glyphs';
 import NodeRef from '../locale/NodeRef';
-import Symbol from './Symbol';
+import Sym from './Sym';
 import type Node from './Node';
 
 export default class SetType extends BasisType {
@@ -47,9 +47,9 @@ export default class SetType extends BasisType {
 
     getGrammar(): Grammar {
         return [
-            { name: 'open', kind: node(Symbol.SetOpen) },
+            { name: 'open', kind: node(Sym.SetOpen) },
             { name: 'key', kind: optional(node(Type)) },
-            { name: 'close', kind: node(Symbol.SetClose) },
+            { name: 'close', kind: node(Sym.SetClose) },
         ];
     }
 
@@ -74,10 +74,11 @@ export default class SetType extends BasisType {
             (type) =>
                 // If they have one, then they must be compable, and if there is a value type, they must be compatible.
                 type instanceof SetType &&
-                // If the key type isn't specified, any will do.
+                // If this set's key type isn't specified, it will accept any key type
                 (this.key === undefined ||
-                    (this.key instanceof Type &&
-                        type.key instanceof Type &&
+                    // If it is a specific type, see if the other set's type is unspecified or compatible
+                    type.key === undefined ||
+                    (type.key instanceof Type &&
                         this.key.accepts(type.key, context)))
         );
     }

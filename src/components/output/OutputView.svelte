@@ -1,10 +1,9 @@
 <script lang="ts">
     import { toStage } from '../../output/Stage';
-    import Exception from '@runtime/Exception';
-    import type Value from '@runtime/Value';
+    import ExceptionValue from '@values/ExceptionValue';
+    import type Value from '@values/Value';
     import type Project from '@models/Project';
     import ValueView from '../values/ValueView.svelte';
-    import type Source from '@nodes/Source';
     import StageView from './StageView.svelte';
     import MarkupHTMLView from '../concepts/MarkupHTMLView.svelte';
     import Speech from '../lore/Speech.svelte';
@@ -20,8 +19,14 @@
     } from '../project/Contexts';
     import type Evaluator from '@runtime/Evaluator';
     import type PaintingConfiguration from './PaintingConfiguration';
-    import { config } from '../../db/Creator';
-    import concretize from '../../locale/concretize';
+    import {
+        animationFactor,
+        database,
+        locale,
+        locales,
+        writingDirection,
+        writingLayout,
+    } from '../../db/Database';
     import type Color from '../../output/Color';
     import Key from '../../input/Key';
     import { PX_PER_METER, rootScale } from '../../output/outputToCSS';
@@ -32,20 +37,21 @@
     import Button from '../../input/Button';
     import Place from '../../output/Place';
     import moveOutput, { addStageContent } from '../palette/editOutput';
-    import { toExpression } from '../../parser/Parser';
     import { getPlace } from '../../output/getPlace';
     import { SvelteComponent, afterUpdate, beforeUpdate } from 'svelte';
+    import Placement from '../../input/Placement';
+    import { toExpression } from '../../parser/parseExpression';
+    import concretize from '../../locale/concretize';
 
     export let project: Project;
     export let evaluator: Evaluator;
-    export let source: Source;
     export let value: Value | undefined;
     export let fullscreen: boolean;
-    export let fit: boolean = true;
-    export let grid: boolean = false;
-    export let painting: boolean = false;
+    export let fit = true;
+    export let grid = false;
+    export let painting = false;
     export let paintingConfig: PaintingConfiguration | undefined = undefined;
-    export let mini: boolean = false;
+    export let mini = false;
     export let background: Color | string | null = null;
 
     $: interactive = !mini;
@@ -75,34 +81,41 @@
 
     let renderedFocus: Place;
 
-    $: exception = value instanceof Exception ? value : undefined;
-    $: verse = value === undefined ? undefined : toStage(project, value);
+    const keysDown: Map<string, boolean> = new Map();
+
+    $: exception = value instanceof ExceptionValue ? value : undefined;
+    $: stageValue = value === undefined ? undefined : toStage(project, value);
     $: background =
-        $keyboardEditIdle !== IdleKind.Typing && value instanceof Exception
+        $keyboardEditIdle !== IdleKind.Typing && value instanceof ExceptionValue
             ? 'var(--wordplay-error)'
-            : verse?.background ?? null;
+            : stageValue?.background ?? null;
 
     let keyboardInputView: HTMLInputElement | undefined = undefined;
 
     /** When creator's preferred animation factor changes, update evaluator */
-    $: evaluator.updateTimeMultiplier($config.getAnimationFactor());
+    $: evaluator.updateTimeMultiplier($animationFactor);
 
     function handleKeyUp(event: KeyboardEvent) {
+        keysDown.set(event.key, false);
+
         if (event.key === 'Tab') return;
 
         // Reset the value
         if (keyboardInputView) keyboardInputView.value = '';
 
-        // Record the key event on all keyboard streams if it wasn't handled above.
+        // Is the program evaluating?
         if (evaluator.isPlaying()) {
+            // Record the key event on all keyboard streams if it wasn't handled above.
             evaluator
                 .getBasisStreamsOfType(Key)
-                .map((stream) => stream.record(event.key, false));
+                .map((stream) => stream.react({ key: event.key, down: false }));
         }
         // else ignore();
     }
 
     function handleKeyDown(event: KeyboardEvent) {
+        keysDown.set(event.key, true);
+
         // Never handle tab; that's for keyboard navigation.
         if (event.key === 'Tab') return;
 
@@ -202,7 +215,7 @@
                     event.key === 'Backspace' &&
                     (event.metaKey || event.ctrlKey)
                 ) {
-                    $config.reviseProjectNodes(project, [
+                    database.reviseProjectNodes(project, [
                         [evaluate, undefined],
                     ]);
                     event.stopPropagation();
@@ -224,17 +237,44 @@
             if (
                 (event.key === 'Enter' || event.key === ' ') &&
                 event.target instanceof HTMLElement
-            )
+            ) {
                 recordSelection(event);
+                event.stopPropagation();
+            }
         }
 
         // If dragging the focus, stop
         if (drag) drag = undefined;
 
+        // Finally, if the event was ignored by all of the above, pass it to streams.
         if (evaluator.isPlaying()) {
             evaluator
                 .getBasisStreamsOfType(Key)
-                .map((stream) => stream.record(event.key, true));
+                .map((stream) => stream.react({ key: event.key, down: true }));
+
+            // Map keys onto axes of change for any Placement streams.
+            if (
+                event.key.startsWith('Arrow') ||
+                event.key === '-' ||
+                event.key === '='
+            ) {
+                evaluator.getBasisStreamsOfType(Placement).map((stream) =>
+                    stream.react({
+                        x: keysDown.get('ArrowLeft')
+                            ? -1
+                            : keysDown.get('ArrowRight')
+                            ? 1
+                            : 0,
+                        y: keysDown.get('ArrowUp')
+                            ? 1
+                            : keysDown.get('ArrowDown')
+                            ? -1
+                            : 0,
+                        z: keysDown.get('-') ? 1 : keysDown.get('=') ? -1 : 0,
+                    })
+                );
+                event.stopPropagation();
+            }
         }
     }
 
@@ -253,21 +293,22 @@
         if (evaluator.isPlaying())
             evaluator
                 .getBasisStreamsOfType(Button)
-                .map((stream) => stream.record(false));
+                .map((stream) => stream.react(false));
     }
 
     function handlePointerDown(event: PointerEvent) {
-        // Focus the keyboard input.
+        // Focus the keyboard input if it exists.
         if (keyboardInputView) {
             keyboardInputView.focus();
             event.stopPropagation();
             event.preventDefault();
         }
 
+        // If the evaluator is playing, record button events.
         if (evaluator.isPlaying()) {
             evaluator
                 .getBasisStreamsOfType(Button)
-                .forEach((stream) => stream.record(true));
+                .forEach((stream) => stream.react(true));
 
             // Was the target clicked on output with a name? Add it to choice streams.
             if (event.target instanceof HTMLElement) {
@@ -276,6 +317,7 @@
             }
         }
 
+        // If we're editing, select output.
         if (editable) {
             if (painting) {
                 if (selectedOutputPaths)
@@ -283,12 +325,64 @@
             } else if (!selectPointerOutput(event)) ignore();
         }
 
+        // If there's a Placement, send it some navigation events based on position.
+        const placements = evaluator.getBasisStreamsOfType(Placement);
+        if (placements.length > 0 && valueView && stageValue) {
+            for (const placement of placements) {
+                // First, find the output on stage that this placement is placing,
+                // so we can find the position of the pointer relative to the output.
+                const output = stageValue.find(
+                    (output) => output.place?.value === placement.latest()
+                );
+                // Couldn't find the output? Move to the next one.
+                if (output === undefined) continue;
+
+                // Now find the view of the output.
+                const outputView = document.querySelector(
+                    `[data-id="${output.getHTMLID()}"]`
+                );
+                // Couldn't find the view? Move on to the next one.
+                if (outputView === null) continue;
+
+                const outputRect = outputView.getBoundingClientRect();
+                const outputX = outputRect.left + outputRect.width / 2;
+                const outputY = outputRect.top + outputRect.height / 2;
+                const relativePointerX = event.clientX - outputX;
+                const relativePointerY = event.clientY - outputY;
+                const atan2 =
+                    (Math.atan2(relativePointerY, relativePointerX) * 180) /
+                    Math.PI;
+                const angle =
+                    relativePointerY < 0 ? Math.abs(atan2) : 360 - atan2;
+
+                const threshold = 20;
+                // Divide the 360 degrees into 45 degree segments
+                // Send the navigation directions to all all of the placements.
+                placement.react({
+                    x:
+                        angle < 90 - threshold || angle > 270 + threshold
+                            ? 1
+                            : angle > 90 + threshold && angle < 270 - threshold
+                            ? -1
+                            : 0,
+                    y:
+                        angle > threshold && angle < 180 - threshold
+                            ? 1
+                            : angle > 180 + threshold && angle < 360 - threshold
+                            ? -1
+                            : 0,
+                    z: 0,
+                });
+            }
+        }
+
+        // If there's a focus, start dragging.
         if (valueView && renderedFocus) {
             // Start dragging.
             const rect = valueView.getBoundingClientRect();
             const dx = event.clientX - rect.left;
             const dy = event.clientY - rect.top;
-            const { x: mx, y: my } = mouseToMeters(
+            const { x: mx, y: my } = pixelsToMeters(
                 dx - rect.width / 2,
                 -(dy - rect.height / 2),
                 0,
@@ -310,7 +404,7 @@
                     : // If there's selected output, it's the first output selected
                     $selectedOutput && $selectedOutput.length > 0
                     ? getPlace(
-                          $config.getLocale(),
+                          $locale,
                           $selectedOutput[0],
                           evaluator.project.getNodeContext($selectedOutput[0])
                       )
@@ -332,103 +426,128 @@
     }
     function handlePointerMove(event: PointerEvent) {
         // Handle focus or output moves..
-        if (event.buttons === 1 && drag && valueView) {
-            const rect = valueView.getBoundingClientRect();
-            const { x: renderedDeltaX, y: renderedDeltaY } = mouseToMeters(
-                event.clientX - rect.left - drag.left,
-                event.clientY - rect.top - drag.top,
-                drag.startPlace.z,
-                renderedFocus.z
-            );
+        if (event.buttons === 1 && drag && renderedFocus) {
+            const valueRect = valueView?.getBoundingClientRect();
+            if (valueRect !== undefined) {
+                const { x: renderedDeltaX, y: renderedDeltaY } = pixelsToMeters(
+                    event.clientX - valueRect.left - drag.left,
+                    event.clientY - valueRect.top - drag.top,
+                    drag.startPlace.z,
+                    renderedFocus.z
+                );
 
-            const newX = twoDigits(drag.startPlace.x + renderedDeltaX);
-            const newY = twoDigits(drag.startPlace.y - renderedDeltaY);
+                const newX = twoDigits(drag.startPlace.x + renderedDeltaX);
+                const newY = twoDigits(drag.startPlace.y - renderedDeltaY);
 
-            // If painting, gather points
-            if (painting && paintingConfig) {
-                // Is the new position a certain Euclidian distance from the most recent position? Add a point to the stroke.
-                const prior = paintingPlaces.at(-1);
-                if (
-                    prior === undefined ||
-                    Math.sqrt(
-                        Math.pow(prior.x - newX, 2) +
-                            Math.pow(prior.y - newY, 2)
-                    ) > 0.5
-                ) {
-                    // Add the point
-                    paintingPlaces.push({ x: newX, y: newY });
+                // If painting, gather points
+                if (painting && paintingConfig) {
+                    // Is the new position a certain Euclidian distance from the most recent position? Add a point to the stroke.
+                    const prior = paintingPlaces.at(-1);
+                    if (
+                        prior === undefined ||
+                        Math.sqrt(
+                            Math.pow(prior.x - newX, 2) +
+                                Math.pow(prior.y - newY, 2)
+                        ) > 0.5
+                    ) {
+                        // Add the point
+                        paintingPlaces.push({ x: newX, y: newY });
 
-                    const minX = twoDigits(
-                        Math.min.apply(
-                            null,
-                            paintingPlaces.map((p) => p.x)
-                        )
-                    );
-                    const minY = twoDigits(
-                        Math.min.apply(
-                            null,
-                            paintingPlaces.map((p) => p.y)
-                        )
-                    );
-
-                    // Create a stroke. represented as freeform group of phrases with explicit positions.
-                    const group = toExpression(
-                        `Group(Free() [${paintingPlaces
-                            .map(
-                                (p) =>
-                                    `Place(${twoDigits(
-                                        p.x - minX
-                                    )}m ${twoDigits(p.y - minY)}m)`
+                        const minX = twoDigits(
+                            Math.min.apply(
+                                null,
+                                paintingPlaces.map((p) => p.x)
                             )
-                            .join(
-                                ' '
-                            )}].translate(ƒ(place•Place) Phrase('a' place: place)) place: Place(${minX}m ${minY}m))`
-                    );
+                        );
+                        const minY = twoDigits(
+                            Math.min.apply(
+                                null,
+                                paintingPlaces.map((p) => p.y)
+                            )
+                        );
 
-                    // Add the stroke to the project's verse
-                    if (strokeNodeID === undefined) {
-                        addStageContent($config, project, group);
-                    } else {
-                        const node = project.getNodeByID(strokeNodeID);
-                        if (node)
-                            $config.reviseProjectNodes(project, [
-                                [node, group],
-                            ]);
+                        // Create a stroke. represented as freeform group of phrases with explicit positions.
+                        const group = toExpression(
+                            `Group(Free() [${paintingPlaces
+                                .map(
+                                    (p) =>
+                                        `Place(${twoDigits(
+                                            p.x - minX
+                                        )}m ${twoDigits(p.y - minY)}m)`
+                                )
+                                .join(
+                                    ' '
+                                )}].translate(ƒ(place•Place) Phrase('a' place: place)) place: Place(${minX}m ${minY}m))`
+                        );
+
+                        // Add the stroke to the project's verse
+                        if (strokeNodeID === undefined) {
+                            addStageContent(database, project, group);
+                        } else {
+                            const node = project.getNodeByID(strokeNodeID);
+                            if (node)
+                                database.reviseProjectNodes(project, [
+                                    [node, group],
+                                ]);
+                        }
+                        strokeNodeID = group.id;
                     }
-                    strokeNodeID = group.id;
-                }
-            } else {
-                if (event.shiftKey && stage) {
-                    stage.setFocus(newX, newY, drag.startPlace.z);
-                    event.stopPropagation();
-                } else if (
-                    selectedOutput &&
-                    $selectedOutput &&
-                    $selectedOutput.length > 0 &&
-                    !$selectedOutput[0].is(
-                        project.shares.output.Stage,
-                        project.getNodeContext($selectedOutput[0])
-                    )
-                ) {
-                    moveOutput(
-                        $config,
-                        project,
-                        $selectedOutput,
-                        $config.getLocales(),
-                        newX,
-                        newY,
-                        false
-                    );
-                    event.stopPropagation();
+                } else {
+                    if (event.shiftKey && stage) {
+                        stage.setFocus(newX, newY, drag.startPlace.z);
+                        event.stopPropagation();
+                    } else if (
+                        selectedOutput &&
+                        $selectedOutput &&
+                        $selectedOutput.length > 0 &&
+                        !$selectedOutput[0].is(
+                            project.shares.output.Stage,
+                            project.getNodeContext($selectedOutput[0])
+                        )
+                    ) {
+                        moveOutput(
+                            database,
+                            project,
+                            $selectedOutput,
+                            $locales,
+                            newX,
+                            newY,
+                            false
+                        );
+                        event.stopPropagation();
+                    }
                 }
             }
         }
 
-        if (evaluator.isPlaying())
-            evaluator
-                .getBasisStreamsOfType(Pointer)
-                .map((stream) => stream.record(event.offsetX, event.offsetY));
-        // Don't give feedback on this; it's not expected.
+        const pointerStreams = evaluator.getBasisStreamsOfType(Pointer);
+        if (valueView && evaluator.isPlaying() && pointerStreams.length > 0) {
+            const valueRect = valueView.getBoundingClientRect();
+            if (valueRect !== undefined) {
+                // First, get the position of the pointer relative to the tile bounds.
+                const tileX =
+                    event.clientX - valueRect.left - valueRect.width / 2;
+                const tileY = -(
+                    event.clientY -
+                    valueRect.top -
+                    valueRect.height / 2
+                );
+
+                // Now translate the position into stage coordinates.
+                const position = pixelsToMeters(
+                    tileX,
+                    tileY,
+                    0,
+                    renderedFocus?.z ?? 0
+                );
+
+                // Now translate the position relative to the stage focus.
+                position.x -= renderedFocus?.x ?? 0;
+                position.y -= renderedFocus?.y ?? 0;
+
+                pointerStreams.forEach((stream) => stream.react(position));
+            }
+        }
     }
 
     /**
@@ -478,7 +597,7 @@
         return true;
     }
 
-    function mouseToMeters(mx: number, my: number, z: number, focusZ: number) {
+    function pixelsToMeters(mx: number, my: number, z: number, focusZ: number) {
         const scale = rootScale(z, focusZ);
         return { x: mx / PX_PER_METER / scale, y: my / PX_PER_METER / scale };
     }
@@ -496,7 +615,7 @@
         return getOutputNodeIDFromElement(element.closest('.output'));
     }
     function recordSelection(event: Event) {
-        if (verse === undefined) return;
+        if (stageValue === undefined) return;
 
         const target = event?.target as HTMLElement;
         // Was the target clicked on output with a name? Add it to choice streams.
@@ -505,13 +624,13 @@
         const selection =
             selectable && name
                 ? name
-                : verse.selectable
-                ? verse.getName()
+                : stageValue.selectable
+                ? stageValue.getName()
                 : undefined;
         if (selection) {
             evaluator
                 .getBasisStreamsOfType(Choice)
-                .forEach((stream) => stream.record(selection));
+                .forEach((stream) => stream.react(selection));
             event.stopPropagation();
         }
     }
@@ -606,10 +725,10 @@
     class="output"
     data-uuid="stage"
     role="application"
-    aria-label={$config.getLocale().ui.section.output}
+    aria-label={$locale.ui.section.output}
     class:mini
-    style:direction={$config.getWritingDirection()}
-    style:writing-mode={$config.getWritingLayout()}
+    style:direction={$writingDirection}
+    style:writing-mode={$writingLayout}
 >
     <div
         class="value"
@@ -624,7 +743,7 @@
         on:pointerup={interactive ? handlePointerUp : null}
         on:pointermove={interactive ? handlePointerMove : null}
     >
-        {#if evaluator.getBasisStreamsOfType(Key).length > 0}
+        {#if $evaluation?.evaluator.getBasisStreamsOfType(Key).length > 0 || $evaluation?.evaluator.getBasisStreamsOfType(Placement).length > 0}
             <input
                 class="keyboard-input"
                 type="text"
@@ -638,7 +757,7 @@
         {/if}
 
         <!-- If it's because the keyboard isn't idle, show feedback instead of the value.-->
-        {#if !mini && $evaluation?.playing === true && $keyboardEditIdle === IdleKind.Typing}
+        {#if !mini && $evaluation?.playing === true && $keyboardEditIdle === IdleKind.Typing && exception !== undefined}
             <div class="message editing">⌨️</div>
             <!-- If there's an exception, show that. -->
         {:else if exception !== undefined}
@@ -647,39 +766,35 @@
                         glyph={$index?.getNodeConcept(exception.creator) ??
                             exception.creator.getGlyphs()}
                         invert
-                        >{#each $config.getLocales() as locale}
-                            <MarkupHTMLView
-                                markup={exception.getExplanation(locale)}
-                            />
-                        {/each}</Speech
+                    >
+                        <svelte:fragment slot="content">
+                            {#each $locales as locale}
+                                <MarkupHTMLView
+                                    markup={exception.getExplanation(locale)}
+                                />
+                            {/each}</svelte:fragment
+                        ></Speech
                     >{/if}
             </div>
             <!-- If there's no verse -->
         {:else if value === undefined}
             <div class="message evaluating">◆</div>
             <!-- If there's a value, but it's not a verse, show that -->
-        {:else if verse === undefined}
+        {:else if stageValue === undefined}
             <div class="message">
                 {#if mini}
                     <ValueView {value} interactive={false} />
                 {:else}
                     <h2
-                        >{$config
-                            .getLocales()
-                            .map((translation) =>
-                                value === undefined
-                                    ? undefined
-                                    : value
-                                          .getType(project.getContext(source))
-                                          .getDescription(
-                                              concretize,
-                                              translation,
-                                              project.getContext(source)
-                                          )
-                                          .toText()
-                            )}</h2
+                        >{$locales.map((locale) =>
+                            value === undefined
+                                ? undefined
+                                : value
+                                      .getDescription(concretize, locale)
+                                      .toText()
+                        )}</h2
                     >
-                    <p><ValueView {value} /></p>
+                    <ValueView {value} inline={false} />
                 {/if}
             </div>
             <!-- Otherwise, show the Stage -->
@@ -687,8 +802,9 @@
             <StageView
                 {project}
                 {evaluator}
-                stage={verse}
+                stage={stageValue}
                 {fullscreen}
+                background={mini}
                 bind:fit
                 bind:grid
                 bind:painting
@@ -748,8 +864,10 @@
         padding: var(--wordplay-spacing);
         font-size: 48pt;
         transform-origin: center;
-        justify-content: center;
         align-items: center;
+        margin: auto;
+        margin-top: 1em;
+        overflow: scroll;
     }
 
     .editing {

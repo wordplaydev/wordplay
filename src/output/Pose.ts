@@ -1,6 +1,6 @@
 import toStructure from '@basis/toStructure';
-import Structure from '@runtime/Structure';
-import type Value from '@runtime/Value';
+import StructureValue from '@values/StructureValue';
+import type Value from '@values/Value';
 import type Color from './Color';
 import Output, { getOutputInputs } from './Output';
 import type Place from './Place';
@@ -42,7 +42,7 @@ export default class Pose extends Output {
         color?: Color,
         opacity?: number,
         offset?: Place,
-        tilt?: number,
+        rotation?: number,
         scale?: number,
         flipx?: boolean,
         flipy?: boolean
@@ -52,7 +52,7 @@ export default class Pose extends Output {
         this.color = color;
         this.opacity = opacity;
         this.offset = offset;
-        this.rotation = tilt;
+        this.rotation = rotation;
         this.scale = scale;
         this.flipx = flipx;
         this.flipy = flipy;
@@ -110,12 +110,12 @@ export class DefinitePose extends Pose {
     constructor(
         value: Value,
         color: Color | undefined,
-        opacity: number,
-        offset: Place,
-        rotation: number,
-        scale: number,
-        flipx: boolean,
-        flipy: boolean
+        opacity: number | undefined,
+        offset: Place | undefined,
+        rotation: number | undefined,
+        scale: number | undefined,
+        flipx: boolean | undefined,
+        flipy: boolean | undefined
     ) {
         super(value, color, opacity, offset, rotation, scale, flipx, flipy);
     }
@@ -127,7 +127,7 @@ export function toPose(
 ): Pose | undefined {
     if (
         !(
-            value instanceof Structure &&
+            value instanceof StructureValue &&
             value.type === project.shares.output.Pose
         )
     )

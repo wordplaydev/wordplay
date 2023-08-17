@@ -1,7 +1,7 @@
 <svelte:options immutable={true} />
 
 <script lang="ts">
-    import type Evaluate from '@nodes/Evaluate';
+    import Evaluate from '@nodes/Evaluate';
     import NodeView from './NodeView.svelte';
     import type Bind from '../../nodes/Bind';
     import { getCaret, getProject } from '../project/Contexts';
@@ -20,10 +20,18 @@
     $: {
         nextBind = undefined;
         menuPosition = undefined;
-        if ($caret && $project && $caret.isIn(node, node.close === undefined)) {
-            const fun = node.getFunction($project.getNodeContext(node));
-            if (fun) {
-                const mapping = node.getInputMapping(fun);
+        // We only show if the caret is in this evaluate, but not in one of it's child evaluates.
+        if (
+            $caret &&
+            $project &&
+            $caret.isIn(node, node.close === undefined) &&
+            !node
+                .nodes()
+                .filter((child) => child instanceof Evaluate && child !== node)
+                .some((evaluate) => $caret?.isIn(evaluate, false))
+        ) {
+            const mapping = node.getInputMapping($project.getNodeContext(node));
+            if (mapping) {
                 // Reset the bind.
                 nextBind = undefined;
                 // Loop through each of the expected types and see if the given types match.
@@ -52,7 +60,7 @@
         node={input}
     />{/each}{#if nextBind}<span class="hint"
         >&nbsp;…<RootView
-            node={nextBind}
+            node={nextBind.withoutValue()}
             inline
             elide
             localized

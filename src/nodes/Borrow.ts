@@ -4,36 +4,44 @@ import type Context from './Context';
 import Token from './Token';
 import type Evaluator from '@runtime/Evaluator';
 import type Step from '@runtime/Step';
-import Number from '@runtime/Number';
+import NumberValue from '@values/NumberValue';
 import Unit from './Unit';
-import Symbol from './Symbol';
+import Sym from './Sym';
 import { BORROW_SYMBOL } from '@parser/Symbols';
 import Expression from './Expression';
 import Bind from './Bind';
 import type Type from './Type';
 import type TypeSet from './TypeSet';
-import type Value from '@runtime/Value';
+import type Value from '@values/Value';
 import Source from './Source';
 import Evaluation from '@runtime/Evaluation';
-import NameException from '@runtime/NameException';
+import NameException from '@values/NameException';
 import FunctionDefinition from './FunctionDefinition';
 import StructureDefinition from './StructureDefinition';
-import CycleException from '@runtime/CycleException';
-import FunctionValue from '@runtime/FunctionValue';
-import StructureDefinitionValue from '@runtime/StructureDefinitionValue';
+import CycleException from '@values/CycleException';
+import FunctionValue from '@values/FunctionValue';
+import StructureDefinitionValue from '@values/StructureDefinitionValue';
 import Start from '@runtime/Start';
 import Finish from '@runtime/Finish';
 import UnknownNameType from './UnknownNameType';
-import { node, type Grammar, type Replacement, none, any } from './Node';
+import {
+    node,
+    type Grammar,
+    type Replacement,
+    none,
+    any,
+    optional,
+} from './Node';
 import type Locale from '@locale/Locale';
 import AtomicExpression from './AtomicExpression';
-import UnimplementedException from '@runtime/UnimplementedException';
+import UnimplementedException from '@values/UnimplementedException';
 import NodeRef from '@locale/NodeRef';
 import StreamDefinition from './StreamDefinition';
-import StreamDefinitionValue from '../runtime/StreamDefinitionValue';
+import StreamDefinitionValue from '../values/StreamDefinitionValue';
 import Glyphs from '../lore/Glyphs';
 import concretize from '../locale/concretize';
 import Purpose from '../concepts/Purpose';
+import Reference from './Reference';
 
 export type SharedDefinition =
     | Source
@@ -44,21 +52,21 @@ export type SharedDefinition =
 
 export default class Borrow extends AtomicExpression {
     readonly borrow: Token;
-    readonly source?: Token;
+    readonly source?: Reference;
     readonly dot?: Token;
-    readonly name?: Token;
+    readonly name?: Reference;
     readonly version?: Token;
 
     constructor(
         borrow?: Token,
-        source?: Token,
+        source?: Reference,
         dot?: Token,
-        name?: Token,
+        name?: Reference,
         version?: Token
     ) {
         super();
 
-        this.borrow = borrow ?? new Token(BORROW_SYMBOL, Symbol.Borrow);
+        this.borrow = borrow ?? new Token(BORROW_SYMBOL, Sym.Borrow);
         this.source = source;
         this.dot = dot;
         this.name = name;
@@ -69,22 +77,22 @@ export default class Borrow extends AtomicExpression {
 
     getGrammar(): Grammar {
         return [
-            { name: 'borrow', kind: node(Symbol.Borrow) },
+            { name: 'borrow', kind: node(Sym.Borrow) },
             {
                 name: 'source',
-                kind: any(node(Symbol.Name), none()),
+                kind: any(node(Reference), none()),
                 space: true,
                 label: (locale: Locale) => locale.node.Borrow.source,
             },
-            { name: 'dot', kind: any(node(Symbol.Access), none('name')) },
+            { name: 'dot', kind: optional(node(Sym.Access)) },
             {
                 name: 'name',
-                kind: any(node(Symbol.Name), none('dot')),
+                kind: optional(node(Reference)),
                 label: (locale: Locale) => locale.node.Borrow.name,
             },
             {
                 name: 'version',
-                kind: any(node(Symbol.Number), none()),
+                kind: optional(node(Sym.Number)),
                 label: (locale: Locale) => locale.node.Borrow.version,
             },
         ];
@@ -114,8 +122,8 @@ export default class Borrow extends AtomicExpression {
         if (this.source === undefined) return undefined;
 
         return context.project.getShare(
-            this.source.getText(),
-            this.name?.getText()
+            this.source.getName(),
+            this.name?.getName()
         );
     }
 
@@ -132,7 +140,7 @@ export default class Borrow extends AtomicExpression {
     }
 
     getDependencies(context: Context): Expression[] {
-        const [_, def] = this.getShare(context) ?? [];
+        const [, def] = this.getShare(context) ?? [];
         return def instanceof Expression ? [def] : [];
     }
 
@@ -205,7 +213,7 @@ export default class Borrow extends AtomicExpression {
                 if (source === undefined)
                     return new NameException(
                         this,
-                        this.source,
+                        this.source.name,
                         undefined,
                         evaluator
                     );
@@ -213,12 +221,12 @@ export default class Borrow extends AtomicExpression {
             }
             // Bind the share if we're binding a share.
             else if (this.name) {
-                const name = this.name.getText();
+                const name = this.name.getName();
                 const value = evaluator.getLastEvaluation()?.resolve(name);
                 if (definition === undefined || value === undefined)
                     return new NameException(
                         this,
-                        this.name,
+                        this.name.name,
                         undefined,
                         evaluator
                     );
@@ -229,9 +237,9 @@ export default class Borrow extends AtomicExpression {
     }
 
     computeType(context: Context): Type {
-        const [_, definition] = this.getShare(context) ?? [];
+        const [, definition] = this.getShare(context) ?? [];
         return definition === undefined
-            ? new UnknownNameType(this, this.name, undefined)
+            ? new UnknownNameType(this, this.name?.name, undefined)
             : definition.getType(context);
     }
 
@@ -240,13 +248,13 @@ export default class Borrow extends AtomicExpression {
     }
 
     getName() {
-        return this.source === undefined ? undefined : this.source.getText();
+        return this.source === undefined ? undefined : this.source.getName();
     }
 
     getVersion() {
         return this.version === undefined
             ? undefined
-            : new Number(this, this.version, Unit.Empty).toNumber();
+            : new NumberValue(this, this.version, Unit.Empty).toNumber();
     }
 
     getStart() {
@@ -270,11 +278,11 @@ export default class Borrow extends AtomicExpression {
                       this.source,
                       locale,
                       context,
-                      this.source.getText()
+                      this.source.getName()
                   )
                 : undefined,
             this.name
-                ? new NodeRef(this.name, locale, context, this.name.getText())
+                ? new NodeRef(this.name, locale, context, this.name.getName())
                 : undefined
         );
     }
@@ -283,7 +291,7 @@ export default class Borrow extends AtomicExpression {
         return Glyphs.Borrow;
     }
 
-    getDescriptionInputs(_: Locale, __: Context) {
-        return [this.name?.getText()];
+    getDescriptionInputs() {
+        return [this.name?.getName()];
     }
 }

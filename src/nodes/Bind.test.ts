@@ -2,11 +2,10 @@ import { test, expect } from 'vitest';
 import { testConflict } from '@conflicts/TestUtilities';
 import UnusedBind from '@conflicts/UnusedBind';
 import IncompatibleType from '@conflicts/IncompatibleType';
-import Evaluator from '@runtime/Evaluator';
 import Bind from './Bind';
 import { MisplacedShare } from '@conflicts/MisplacedShare';
 import { MissingShareLanguages } from '@conflicts/MissingShareLanguages';
-import { DefaultLocale } from '../db/Creator';
+import evaluateCode from '../runtime/evaluate';
 
 test.each([
     ['a•#: 1\na', 'a•"": 1\na', Bind, IncompatibleType],
@@ -23,5 +22,5 @@ test.each([
 );
 
 test.each([['a: 5\na', '5']])('Expect %s to be %s', (code, value) => {
-    expect(Evaluator.evaluateCode(DefaultLocale, code)?.toString()).toBe(value);
+    expect(evaluateCode(code)?.toString()).toBe(value);
 });

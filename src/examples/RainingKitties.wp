@@ -4,8 +4,8 @@ size: 30
 
 •Kitty(x•# y•# z•# angle•# speed•#) ()
 
-`Initially, make a list of 20 kitties, each placed somewhere random.
-When the the clock ticks, move them all down a bit.`
+``Initially, make a list of 20 kitties, each placed somewhere random.
+When the the clock ticks, move them all down a bit.``
 kitties•[Kitty]:  
     count → [].translate(
         ƒ(_) Kitty(
@@ -23,12 +23,13 @@ kitties•[Kitty]:
                 .angle: kitty.angle + kitty.speed
     				)
 
-`Convert the kitties into phrases`
+``Convert the kitties into phrases``
 Stage(
     kitties.translate(
         ƒ(kitty•Kitty) 
             Phrase(
                 "🐈" 
+                face: "Noto Color Emoji"
                 size: 5m 
                 place: Place(
                     kitty.x · 1m
@@ -36,6 +37,7 @@ Stage(
                     kitty.z · 1m
                 )
                 rotation: kitty.angle · 1°
+                duration: 0s
             )
     )
     place: Place(0m 0m -5m)

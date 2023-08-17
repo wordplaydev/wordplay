@@ -1,7 +1,7 @@
 import toStructure from '../basis/toStructure';
 import { TYPE_SYMBOL } from '../parser/Symbols';
-import Structure from '../runtime/Structure';
-import type Value from '../runtime/Value';
+import StructureValue from '../values/StructureValue';
+import type Value from '../values/Value';
 import { getBind } from '../locale/getBind';
 import { toNumber } from './Stage';
 import { PX_PER_METER } from './outputToCSS';
@@ -27,8 +27,6 @@ export function createRectangleType(locales: Locale[]) {
 }
 
 export abstract class Shape {
-    constructor() {}
-
     /** Should return a valid CSS clip-path value */
     abstract toCSSClip(): string;
     abstract toSVGPath(): string;
@@ -100,7 +98,7 @@ export class Rectangle extends Shape {
 }
 
 export function toShape(value: Value | undefined) {
-    if (!(value instanceof Structure)) return undefined;
+    if (!(value instanceof StructureValue)) return undefined;
 
     const [leftVal, topVal, rightVal, bottomVal] = getOutputInputs(value);
 

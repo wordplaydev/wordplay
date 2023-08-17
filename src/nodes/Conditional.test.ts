@@ -1,11 +1,12 @@
 import { testConflict } from '@conflicts/TestUtilities';
 import ExpectedBooleanCondition from '@conflicts/ExpectedBooleanCondition';
-import Evaluator from '@runtime/Evaluator';
 import Conditional from './Conditional';
 import BinaryEvaluate from './BinaryEvaluate';
 import { test, expect } from 'vitest';
 import IncompatibleInput from '../conflicts/IncompatibleInput';
-import { DefaultLocale } from '../db/Creator';
+import type Node from './Node';
+import type Conflict from '../conflicts/Conflict';
+import evaluateCode from '../runtime/evaluate';
 
 test.each([
     ['⊥ ? 2 3"', '1 ? 2 3', Conditional, ExpectedBooleanCondition],
@@ -78,8 +79,8 @@ test.each([
     (
         good: string,
         bad: string,
-        node: Function,
-        conflict: Function,
+        node: new (...params: never[]) => Node,
+        conflict: new (...params: never[]) => Conflict,
         number?: number
     ) => {
         testConflict(good, bad, node, conflict, number);
@@ -87,16 +88,9 @@ test.each([
 );
 
 test('Test conditional logic', () => {
-    expect(
-        Evaluator.evaluateCode(DefaultLocale, "1 < 5 ? 'yes' 'no'")?.toString()
-    ).toBe('"yes"');
-    expect(
-        Evaluator.evaluateCode(DefaultLocale, "1 > 5 ? 'yes' 'no'")?.toString()
-    ).toBe('"no"');
-    expect(
-        Evaluator.evaluateCode(
-            DefaultLocale,
-            "1 > 5 ? 'yes' 1 > 0 ? 'maybe' 'no'"
-        )?.toString()
-    ).toBe('"maybe"');
+    expect(evaluateCode("1 < 5 ? 'yes' 'no'")?.toString()).toBe('"yes"');
+    expect(evaluateCode("1 > 5 ? 'yes' 'no'")?.toString()).toBe('"no"');
+    expect(evaluateCode("1 > 5 ? 'yes' 1 > 0 ? 'maybe' 'no'")?.toString()).toBe(
+        '"maybe"'
+    );
 });

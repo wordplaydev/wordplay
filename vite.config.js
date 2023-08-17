@@ -1,9 +1,10 @@
 import { sveltekit } from '@sveltejs/kit/vite';
+import eslint from 'vite-plugin-eslint';
 import path from 'path';
 
 /**
  * Make a little plugin that checks for locale file changes and fires an event.
- * The event is handled in Creator.ts, where it updates.
+ * The event is handled in database.ts, where locales are cached.
  */
 function LocaleHotReload() {
     return {
@@ -22,12 +23,13 @@ function LocaleHotReload() {
 
 /** @type {import('vite').UserConfig} */
 const config = {
-    plugins: [sveltekit(), LocaleHotReload()],
+    plugins: [sveltekit(), LocaleHotReload(), eslint()],
     resolve: {
         alias: {
             '@components': path.resolve('./src/components'),
             '@nodes': path.resolve('./src/nodes'),
             '@runtime': path.resolve('./src/runtime'),
+            '@values': path.resolve('./src/values'),
             '@conflicts': path.resolve('./src/conflicts'),
             '@locale': path.resolve('./src/locale'),
             '@concepts': path.resolve('./src/concepts'),

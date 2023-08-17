@@ -1,6 +1,6 @@
 import type Conflict from '@conflicts/Conflict';
 import type Type from './Type';
-import type Value from '@runtime/Value';
+import type Value from '@values/Value';
 import type Step from '@runtime/Step';
 import type Bind from './Bind';
 import type Context from './Context';
@@ -11,20 +11,20 @@ import type Expression from './Expression';
 import Token from './Token';
 import StructureDefinition from './StructureDefinition';
 import { MisplacedThis } from '@conflicts/MisplacedThis';
-import StructureDefinitionType from './StructureDefinitionType';
-import NameException from '@runtime/NameException';
+import StructureType from './StructureType';
+import NameException from '@values/NameException';
 import ConversionDefinition from './ConversionDefinition';
 import NumberType from './NumberType';
 import StartFinish from '@runtime/StartFinish';
 import Reaction from './Reaction';
-import ValueException from '@runtime/ValueException';
+import ValueException from '@values/ValueException';
 import { node, type Grammar, type Replacement } from './Node';
 import AtomicExpression from './AtomicExpression';
 import type Locale from '@locale/Locale';
 import { UnenclosedType } from './UnenclosedType';
 import Glyphs from '../lore/Glyphs';
 import { PROPERTY_SYMBOL } from '../parser/Symbols';
-import Symbol from './Symbol';
+import Sym from './Sym';
 import concretize from '../locale/concretize';
 import type Node from './Node';
 import Purpose from '../concepts/Purpose';
@@ -42,7 +42,7 @@ export default class This extends AtomicExpression {
     }
 
     static make() {
-        return new This(new Token(PROPERTY_SYMBOL, Symbol.Access));
+        return new This(new Token(PROPERTY_SYMBOL, Sym.Access));
     }
 
     static getPossibleNodes(
@@ -65,7 +65,7 @@ export default class This extends AtomicExpression {
     }
 
     getGrammar(): Grammar {
-        return [{ name: 'dis', kind: node(Symbol.This) }];
+        return [{ name: 'dis', kind: node(Sym.This) }];
     }
 
     getPurpose() {
@@ -103,7 +103,7 @@ export default class This extends AtomicExpression {
             ? new UnenclosedType(this)
             : // Structure definition's have the structure type
             structure instanceof StructureDefinition
-            ? new StructureDefinitionType(structure, [])
+            ? new StructureType(structure, [])
             : // Conversion definitions have the input type
             structure instanceof ConversionDefinition
             ? // We strip the unit from this in order to provide a scalar for conversion.

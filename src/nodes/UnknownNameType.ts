@@ -3,7 +3,6 @@ import type Token from './Token';
 import type Node from './Node';
 import type Type from './Type';
 import type Locale from '@locale/Locale';
-import type Context from './Context';
 import type { TemplateInput } from '../locale/concretize';
 import concretize from '../locale/concretize';
 
@@ -24,7 +23,7 @@ export default class UnknownNameType extends UnknownType<Node> {
         return concretize(locale, locale.node.UnknownNameType.name);
     }
 
-    getDescriptionInputs(_: Locale, __: Context): TemplateInput[] {
+    getDescriptionInputs(): TemplateInput[] {
         return [this.name?.getText()];
     }
 }

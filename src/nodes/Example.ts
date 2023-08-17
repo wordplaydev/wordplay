@@ -5,8 +5,8 @@ import Program from './Program';
 import Token from './Token';
 import Glyphs from '../lore/Glyphs';
 import Purpose from '../concepts/Purpose';
-import Symbol from './Symbol';
-import { EXAMPLE_CLOSE_SYMBOL, EXAMPLE_OPEN_SYMBOL } from '../parser/Symbols';
+import Sym from './Sym';
+import { CODE_SYMBOL } from '../parser/Symbols';
 import Content from './Content';
 
 export default class Example extends Content {
@@ -24,9 +24,9 @@ export default class Example extends Content {
 
     static make(program: Program) {
         return new Example(
-            new Token(EXAMPLE_OPEN_SYMBOL, Symbol.ExampleOpen),
+            new Token(CODE_SYMBOL, Sym.Code),
             program,
-            new Token(EXAMPLE_CLOSE_SYMBOL, Symbol.ExampleClose)
+            new Token(CODE_SYMBOL, Sym.Code)
         );
     }
 
@@ -36,9 +36,9 @@ export default class Example extends Content {
 
     getGrammar(): Grammar {
         return [
-            { name: 'open', kind: node(Symbol.ExampleOpen) },
+            { name: 'open', kind: node(Sym.Code) },
             { name: 'program', kind: node(Program) },
-            { name: 'close', kind: node(Symbol.ExampleClose) },
+            { name: 'close', kind: node(Sym.Code) },
         ];
     }
 

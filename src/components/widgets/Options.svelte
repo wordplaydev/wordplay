@@ -4,6 +4,8 @@
     export let value: string | undefined;
     export let options: (string | undefined)[];
     export let change: (value: string | undefined) => void;
+    export let width = '10em';
+    export let id: string | undefined = undefined;
 
     let view: HTMLSelectElement | undefined = undefined;
 
@@ -33,9 +35,11 @@
 
 <select
     bind:value
+    {id}
     on:change={() => commitChange(value)}
     on:keydown|stopPropagation={handleKey}
     bind:this={view}
+    style:width
 >
     {#each options as option}
         <option value={option}>{option === undefined ? '—' : option}</option>
@@ -49,7 +53,6 @@
         padding-left: var(--wordplay-spacing);
         padding-right: var(--wordplay-spacing);
         font-family: var(--wordplay-app-font);
-        width: 100%;
         border: var(--wordplay-border-color) solid var(--wordplay-border-width);
         border-radius: var(--wordplay-border-radius);
     }

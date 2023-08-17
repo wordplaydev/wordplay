@@ -1,26 +1,26 @@
 === RainingLetters/en
-`This program has a set of raining letters that fall to the ground according 
+``This program has a set of raining letters that fall to the ground according 
 to the rules of physics, and once they hit, become eligible for dropping again.
 We always have the same number of letters dropping, but make visible a different number
-based on the amplitude of the microphone.`
+based on the amplitude of the microphone.``
 
-`The max number of letters `
+``The max number of letters ``
 count: 100
-`The horizontal spread of the letters`
+``The horizontal spread of the letters``
 size: 20m
 
-`The amplitude of the mic`
-amps: Mic()
+``The amplitude of the mic``
+amps: Volume()
 
-`The letter chosen and it's position, rotational velocity and whether it's visible.`
+``The letter chosen and it's position, rotational velocity and whether it's visible.``
 •Letter(letter•"" x•#m y•#m angle•# speed•# visible•?) ()
 
 tick: Time()
 
-`Initialize as a list of random letters in random positions`
-letters•[Letter]: count → [].translate(
+``Initialize as a list of random letters in random positions``
+letters•[Letter]: count → [#].translate(
         ƒ(_) Letter(
-           "abcdefghijklmnopqrstuvwxyz" → [].random() 
+           "abcdefghijklmnopqrstuvwxyz" → [''].random() 
             Random(-size size) · 1m
             Random(0 size + 2m) · 1m
             Random(360)
@@ -29,15 +29,15 @@ letters•[Letter]: count → [].translate(
         )
     )
     … ∆ tick …
-		`If the letter is above the y-axes, move it down a bit and rotate it.
-     Otherwise, reset it above the threshold and randomly decide whether it's visible.`
+		``If the letter is above the y-axes, move it down a bit and rotate it.
+     Otherwise, reset it above the threshold and randomly decide whether it's visible.``
     letters.translate(
         ƒ(letter•Letter)
             letter.y > 0m ? (letter.y: letter.y - 0.5m).angle: letter.angle + letter.speed
-					(letter.y: size + 2m).visible: Random(0 amps) > 50
+					(letter.y: size + 2m).visible: Random(0 amps) > 0.5
     )
 
-`Convert the letters into phrases`
+``Convert the letters into phrases``
 Stage(
     [
       Phrase("☁️" size: 3m place:Place(-8m 12m))
@@ -51,10 +51,11 @@ Stage(
                 size: 1m
                 place: Place(letter.x letter.y)
                 rotation: letter.angle · 1°
-                rest: Pose(
+                resting:Pose(
                   opacity: letter.visible ? 1 0 
                   color: 🌈(100% 0 0°)
                 )
+                duration: 0s
             )
     ))
     place: Place(0m -2 · size -5m) background: 🌈(63% 93 248°)

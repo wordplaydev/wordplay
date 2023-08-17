@@ -3,18 +3,18 @@ import type Expression from './Expression';
 import Token from './Token';
 import type Type from './Type';
 import type Evaluator from '@runtime/Evaluator';
-import type Value from '@runtime/Value';
+import type Value from '@values/Value';
 import type Step from '@runtime/Step';
 import type Bind from './Bind';
 import type TypeSet from './TypeSet';
-import Symbol from './Symbol';
+import Sym from './Sym';
 import { INITIAL_SYMBOL } from '@parser/Symbols';
-import Bool from '@runtime/Bool';
+import BoolValue from '@values/BoolValue';
 import { node, type Grammar, type Replacement } from './Node';
 import type Locale from '@locale/Locale';
 import AtomicExpression from './AtomicExpression';
 import BooleanType from './BooleanType';
-import StartFinish from '../runtime/StartFinish';
+import StartFinish from '@runtime/StartFinish';
 import type Node from './Node';
 import Glyphs from '../lore/Glyphs';
 import Purpose from '../concepts/Purpose';
@@ -33,7 +33,7 @@ export default class Initial extends AtomicExpression {
     }
 
     static make() {
-        return new Initial(new Token(INITIAL_SYMBOL, Symbol.Initial));
+        return new Initial(new Token(INITIAL_SYMBOL, Sym.Initial));
     }
 
     static getPossibleNodes() {
@@ -41,7 +41,7 @@ export default class Initial extends AtomicExpression {
     }
 
     getGrammar(): Grammar {
-        return [{ name: 'diamond', kind: node(Symbol.Initial) }];
+        return [{ name: 'diamond', kind: node(Sym.Initial) }];
     }
 
     clone(replace?: Replacement) {
@@ -82,7 +82,7 @@ export default class Initial extends AtomicExpression {
     evaluate(evaluator: Evaluator, prior: Value | undefined): Value {
         if (prior) return prior;
 
-        return new Bool(this, evaluator.isInitialEvaluation());
+        return new BoolValue(this, evaluator.isInitialEvaluation());
     }
 
     evaluateTypeSet(_: Bind, __: TypeSet, current: TypeSet) {

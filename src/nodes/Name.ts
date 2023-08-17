@@ -5,7 +5,7 @@ import Language from './Language';
 import NameToken from './NameToken';
 import type Locale from '@locale/Locale';
 import { COMMA_SYMBOL } from '@parser/Symbols';
-import Symbol from './Symbol';
+import Sym from './Sym';
 import Emotion from '../lore/Emotion';
 import Purpose from '../concepts/Purpose';
 import type Context from './Context';
@@ -38,8 +38,8 @@ export default class Name extends LanguageTagged {
 
     getGrammar(): Grammar {
         return [
-            { name: 'separator', kind: optional(node(Symbol.Separator)) },
-            { name: 'name', kind: optional(node(Symbol.Name)) },
+            { name: 'separator', kind: optional(node(Sym.Separator)) },
+            { name: 'name', kind: optional(node(Sym.Name)) },
             { name: 'language', kind: optional(node(Language)) },
         ];
     }
@@ -86,7 +86,7 @@ export default class Name extends LanguageTagged {
         return this.separator !== undefined
             ? this
             : new Name(
-                  new Token(COMMA_SYMBOL, Symbol.Separator),
+                  new Token(COMMA_SYMBOL, Sym.Separator),
                   this.name,
                   this.language
               );
@@ -112,6 +112,10 @@ export default class Name extends LanguageTagged {
 
     startsWith(prefix: string) {
         return this.name && this.name.startsWith(prefix);
+    }
+
+    withoutLanguage() {
+        return new Name(this.separator, this.name, undefined);
     }
 
     getLowerCaseName(): string | undefined {

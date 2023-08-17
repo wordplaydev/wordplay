@@ -1,11 +1,12 @@
 import type Evaluator from '@runtime/Evaluator';
 import StartFinish from '@runtime/StartFinish';
 import type Step from '@runtime/Step';
-import type Value from '@runtime/Value';
+import type Value from '@values/Value';
 import AtomicExpression from './AtomicExpression';
 import type Expression from './Expression';
 import Purpose from '../concepts/Purpose';
 import type Locale from '../locale/Locale';
+import type Context from './Context';
 
 export default abstract class Literal extends AtomicExpression {
     constructor() {
@@ -16,7 +17,8 @@ export default abstract class Literal extends AtomicExpression {
         return [];
     }
 
-    compile(): Step[] {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    compile(_: Context): Step[] {
         return [new StartFinish(this)];
     }
 

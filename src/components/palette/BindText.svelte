@@ -4,11 +4,12 @@
     import TextField from '../widgets/TextField.svelte';
     import type OutputProperty from '@edit/OutputProperty';
     import { getProject } from '../project/Contexts';
-    import { config } from '../../db/Creator';
+    import { database, locale, locales, languages } from '@db/Database';
     import { tick } from 'svelte';
-    import Language from '../../nodes/Language';
-    import { DOCS_SYMBOL } from '../../parser/Symbols';
-    import { parseDocs, toTokens } from '../../parser/Parser';
+    import Language from '@nodes/Language';
+    import { FORMATTED_SYMBOL } from '@parser/Symbols';
+    import { parseFormattedLiteral } from '@parser/parseExpression';
+    import { toTokens } from '@parser/toTokens';
 
     export let property: OutputProperty;
     export let values: OutputPropertyValues;
@@ -20,17 +21,14 @@
     // Whenever the text changes, update in the project.
     async function handleChange(newValue: string) {
         if ($project === undefined) return;
-        $config.reviseProjectNodes(
+        database.reviseProjectNodes(
             $project,
             $project.getBindReplacements(
                 values.getExpressions(),
                 property.getName(),
-                newValue.startsWith(DOCS_SYMBOL)
-                    ? parseDocs(toTokens(newValue))
-                    : TextLiteral.make(
-                          newValue,
-                          Language.make($config.getLanguages()[0])
-                      )
+                newValue.startsWith(FORMATTED_SYMBOL)
+                    ? parseFormattedLiteral(toTokens(newValue))
+                    : TextLiteral.make(newValue, Language.make($languages[0]))
             )
         );
 
@@ -41,12 +39,10 @@
 
 <TextField
     text={values.getText()}
-    description={$config.getLocale().ui.description.editTextOutput}
+    description={$locale.ui.description.editTextOutput}
     placeholder={values.isEmpty()
         ? ''
-        : values.values[0].bind.names.getPreferredNameString(
-              $config.getLocales()
-          )}
+        : values.values[0].bind.names.getPreferredNameString($locales)}
     {validator}
     changed={handleChange}
     bind:view

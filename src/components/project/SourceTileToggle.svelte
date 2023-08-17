@@ -1,30 +1,16 @@
 <script lang="ts">
     import { createEventDispatcher } from 'svelte';
     import type Source from '@nodes/Source';
-    import type Value from '@runtime/Value';
-    import OutputView from '../output/OutputView.svelte';
-    import { getConflicts, getEvaluation } from './Contexts';
-    import type Evaluator from '@runtime/Evaluator';
-    import type Project from '../../models/Project';
-    import { config } from '../../db/Creator';
+    import { getConflicts } from './Contexts';
+    import { locales } from '../../db/Database';
     import Glyphs from '../../lore/Glyphs';
 
-    export let project: Project;
-    export let evaluator: Evaluator;
     export let source: Source;
-    export let output: boolean;
     export let expanded: boolean;
 
-    let evaluation = getEvaluation();
     let conflicts = getConflicts();
 
     const dispatch = createEventDispatcher();
-
-    let latest: Value | undefined;
-    $: {
-        $evaluation;
-        latest = evaluator.getLatestSourceValue(source);
-    }
 
     // The number of conflicts is the number of nodes in the source involved in conflicts
     let primaryCount = 0;
@@ -68,21 +54,8 @@
             >{/if}
         {#if primaryCount === 0 && secondaryCount === 0}{Glyphs.Program
                 .symbols}{/if}
-        {source.names.getPreferredNameString($config.getLocales())}
+        {source.names.getPreferredNameString($locales)}
     </span>
-    <!-- Disabling for now. It doesn't help much because it's so tiny. We may restore it later. -->
-    {#if output && false}
-        <div class="output">
-            <OutputView
-                {project}
-                {evaluator}
-                {source}
-                value={latest}
-                fullscreen={false}
-                mini
-            />
-        </div>
-    {/if}
 </div>
 
 <style>
@@ -101,8 +74,9 @@
     }
 
     .name:focus {
-        outline: none;
-        color: var(--wordplay-highlight-color);
+        background: var(--wordplay-focus-color);
+        color: var(--wordplay-background);
+        border-radius: var(--wordplay-border-radius);
     }
 
     .expanded .name {
@@ -129,15 +103,5 @@
 
     .secondary {
         background-color: var(--wordplay-warning);
-    }
-
-    .output {
-        width: 2ex;
-        height: 2ex;
-        border: var(--wordplay-border-color) solid var(--wordplay-border-width);
-    }
-
-    .expanded .output {
-        display: hidden;
     }
 </style>

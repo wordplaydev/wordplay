@@ -2,10 +2,11 @@ import type { Edit, Revision } from '../components/editor/util/Commands';
 import Block from '@nodes/Block';
 import Node, { ListOf } from '@nodes/Node';
 import Token from '@nodes/Token';
-import Symbol from '@nodes/Symbol';
+import Sym from '@nodes/Sym';
 import {
-    DELIMITERS,
-    REVERSE_DELIMITERS,
+    DelimiterCloseByOpen,
+    FormattingSymbols,
+    DelimiterOpenByClose,
     TextOpenByTextClose,
 } from '@parser/Tokenizer';
 import {
@@ -21,7 +22,6 @@ import UnicodeString from '../models/UnicodeString';
 import ListLiteral from '@nodes/ListLiteral';
 import SetLiteral from '../nodes/SetLiteral';
 import MapLiteral from '../nodes/MapLiteral';
-import type TextLiteral from '../nodes/TextLiteral';
 import NumberLiteral from '../nodes/NumberLiteral';
 import BooleanLiteral from '../nodes/BooleanLiteral';
 import type Literal from '../nodes/Literal';
@@ -31,7 +31,6 @@ import type Type from '../nodes/Type';
 import type LanguageCode from '../locale/LanguageCode';
 import NodeRef from '../locale/NodeRef';
 import type Conflict from '../conflicts/Conflict';
-import type Locale from '../locale/Locale';
 import Translation from '../nodes/Translation';
 import { LanguageTagged } from '../nodes/LanguageTagged';
 
@@ -96,6 +95,12 @@ export default class Caret {
         return this.tokenPrior;
     }
 
+    getTokensPrior() {
+        return this.tokenIncludingSpace
+            ? this.source.getTokensBefore(this.tokenIncludingSpace)
+            : undefined;
+    }
+
     atBeginningOfTokenSpace() {
         return this.tokenSpaceIndex === this.position;
     }
@@ -133,7 +138,7 @@ export default class Caret {
         );
     }
 
-    getAdjustableLiteral(locales: Locale[]): Literal | undefined {
+    getAdjustableLiteral(): Literal | undefined {
         const node =
             this.position instanceof Node
                 ? this.position
@@ -142,12 +147,7 @@ export default class Caret {
             return this.source.root
                 .getSelfAndAncestors(node)
                 .find(
-                    (
-                        literal
-                    ): literal is
-                        | TextLiteral
-                        | NumberLiteral
-                        | BooleanLiteral =>
+                    (literal): literal is NumberLiteral | BooleanLiteral =>
                         (literal instanceof Translation &&
                             literal.getText().length === 1) ||
                         literal instanceof NumberLiteral ||
@@ -324,7 +324,9 @@ export default class Caret {
                     nodeLineNumber === lineNumber ||
                     (parent instanceof Block && emptyLine)
                 ) {
-                    const nodesTokens = node.nodes((t) => t instanceof Token);
+                    const nodesTokens = node.nodes(
+                        (t): t is Token => t instanceof Token
+                    );
                     if (
                         parent &&
                         nodesTokens.length > 0 &&
@@ -440,7 +442,7 @@ export default class Caret {
                 // If there's an entry point, choose the corresponding next position to preserve a sense of directionality.
                 // Otherwise, choose the first or last token of the currently selected node, moving before or past it.
                 let start: boolean;
-                let offset: number = 0;
+                let offset = 0;
                 if (this.entry === undefined) start = direction < 0;
                 else {
                     if (this.entry === 'next') {
@@ -518,7 +520,7 @@ export default class Caret {
             : token;
     }
 
-    getTextPosition(start: boolean, offset: number = 0): number | undefined {
+    getTextPosition(start: boolean, offset = 0): number | undefined {
         if (this.position instanceof Node) {
             // Get the first or last token of the given node.
             const tokens = this.position.nodes(
@@ -543,24 +545,11 @@ export default class Caret {
         const tokenAtPosition = this.source.getTokenAt(position, false);
         if (tokenAtPosition === undefined) return undefined;
         // If the token is a placeholder token, get the placeholder ancestor it's in.
-        if (tokenAtPosition.isSymbol(Symbol.Placeholder))
+        if (tokenAtPosition.isSymbol(Sym.Placeholder))
             return this.source.root
                 .getAncestors(tokenAtPosition)
                 .find((a) => a.isPlaceholder());
         else return undefined;
-    }
-
-    moveNodeHorizontal(direction: -1 | 1) {
-        if (this.position instanceof Node) {
-            const nodes = this.source.nodes((node) => node instanceof Token);
-            let index = nodes.indexOf(this.position);
-            let next = nodes[index + direction];
-            // while(next !== undefined && next instanceof Token) {
-            //     index += direction;
-            //     next = nodes[index + direction];
-            // }
-            return next === undefined ? this : this.withPosition(next);
-        } else return this;
     }
 
     withPosition(
@@ -580,7 +569,7 @@ export default class Caret {
                 : position,
             // If given a column set it, otherwise keep the old one.
             column ?? this.column,
-            entry,
+            entry ?? this.entry,
             this.addition
         );
     }
@@ -654,7 +643,7 @@ export default class Caret {
     }
 
     /** If complete is true, will automatically close a delimited symbol. */
-    insert(text: string, complete: boolean = true): Edit | undefined {
+    insert(text: string, complete = true): Edit | undefined {
         // Normalize the mystery string, ensuring it follows Unicode normalization form.
         text = text.normalize();
 
@@ -699,16 +688,16 @@ export default class Caret {
         if (
             this.tokenIncludingSpace &&
             // Is what's being typed a closing delimiter?
-            text in REVERSE_DELIMITERS &&
+            text in DelimiterOpenByClose &&
             // Is the text being typed what's already there?
             text === this.source.code.at(newPosition) &&
             // Is what's being typed a closing delimiter of a text literal?
-            ((this.tokenIncludingSpace.isSymbol(Symbol.Text) &&
+            ((this.tokenIncludingSpace.isSymbol(Sym.Text) &&
                 TextOpenByTextClose[
                     this.tokenIncludingSpace.getText().charAt(0)
                 ] === text) ||
                 // Is what's being typed a closing delimiter of an open delimiter?
-                (this.tokenIncludingSpace.getText() in REVERSE_DELIMITERS &&
+                (this.tokenIncludingSpace.getText() in DelimiterOpenByClose &&
                     this.source.getMatchedDelimiter(
                         this.tokenIncludingSpace
                     ) !== undefined))
@@ -726,21 +715,23 @@ export default class Caret {
         // Otherwise, if the text to insert is an opening delimiter and this isn't an unclosed text delimiter, automatically insert its closing counterpart.
         else if (
             complete &&
-            text in DELIMITERS &&
-            !this.isInsideText() &&
+            text in DelimiterCloseByOpen &&
+            ((!this.isInsideText() && !FormattingSymbols.includes(text)) ||
+                (this.isInsideText() && FormattingSymbols.includes(text))) &&
             (this.tokenPrior === undefined ||
-                !(
-                    // The token prior is text or unknown
-                    (
-                        (this.tokenPrior.isSymbol(Symbol.Text) ||
-                            this.tokenPrior.isSymbol(Symbol.Unknown)) &&
-                        // The text typed closes a matching delimiter
-                        text === DELIMITERS[this.tokenPrior.getText().charAt(0)]
-                    )
-                ))
+                // The text typed closes a matching delimiter
+                (this.source.getUnmatchedDelimiter(this.tokenPrior, text) ===
+                    undefined &&
+                    !(
+                        // The token prior is text or unknown
+                        (
+                            this.tokenPrior.isSymbol(Sym.Text) ||
+                            this.tokenPrior.isSymbol(Sym.Unknown)
+                        )
+                    )))
         ) {
             closed = true;
-            text += DELIMITERS[text];
+            text += DelimiterCloseByOpen[text];
         }
         // If the two preceding characters are dots and this is a dot, delete the last two dots then insert the stream symbol.
         else if (
@@ -787,16 +778,9 @@ export default class Caret {
     isInsideText() {
         const isText =
             this.tokenExcludingSpace !== undefined &&
-            (this.tokenExcludingSpace.isSymbol(Symbol.Text) ||
-                this.tokenExcludingSpace.isSymbol(Symbol.TemplateBetween) ||
-                this.tokenExcludingSpace.isSymbol(Symbol.TemplateOpen) ||
-                this.tokenExcludingSpace.isSymbol(Symbol.TemplateClose));
+            this.tokenExcludingSpace.isSymbol(Sym.Words);
         const isAfterText =
-            this.tokenPrior &&
-            (this.tokenPrior.isSymbol(Symbol.Text) ||
-                this.tokenPrior.isSymbol(Symbol.TemplateBetween) ||
-                this.tokenPrior.isSymbol(Symbol.TemplateOpen) ||
-                this.tokenPrior.isSymbol(Symbol.TemplateClose));
+            this.tokenPrior && this.tokenPrior.isSymbol(Sym.Words);
         return (isText && !this.betweenDelimiters()) || isAfterText;
     }
 
@@ -807,7 +791,7 @@ export default class Caret {
     isPlaceholderToken() {
         return (
             this.position instanceof Token &&
-            this.position.isSymbol(Symbol.Placeholder)
+            this.position.isSymbol(Sym.Placeholder)
         );
     }
 
@@ -841,7 +825,7 @@ export default class Caret {
     }
 
     getRange(node: Node): [number, number] | undefined {
-        const tokens = node.nodes((t) => t instanceof Token) as Token[];
+        const tokens = node.nodes((t): t is Token => t instanceof Token);
         const first = tokens[0];
         const last = tokens[tokens.length - 1];
         const firstIndex = this.source.getTokenTextPosition(first);
@@ -887,7 +871,7 @@ export default class Caret {
             );
             if (placeholder) return this.deleteNode(placeholder);
 
-            if (before && after && DELIMITERS[before] === after) {
+            if (before && after && DelimiterCloseByOpen[before] === after) {
                 // If there's an adjacent pair of delimiters, delete them both.
                 let newSource = this.source.withoutGraphemeAt(this.position);
                 if (newSource)
@@ -1057,7 +1041,7 @@ export default class Caret {
 
     wrap(key: string): Edit | undefined {
         let node = this.position instanceof Node ? this.position : undefined;
-        if (node instanceof Token && !node.isSymbol(Symbol.End))
+        if (node instanceof Token && !node.isSymbol(Sym.End))
             node = this.source.root.getParent(node);
         if (node === undefined || !(node instanceof Expression))
             return undefined;
@@ -1075,11 +1059,7 @@ export default class Caret {
         return [newSource, this.withSource(newSource).withAddition(wrapper)];
     }
 
-    adjustLiteral(
-        node: Node | undefined,
-        direction: -1 | 1,
-        locales: Locale[]
-    ): Edit | undefined {
+    adjustLiteral(node: Node | undefined, direction: -1 | 1): Edit | undefined {
         // Find the token we're at
         const token = node
             ? node
@@ -1091,7 +1071,7 @@ export default class Caret {
 
         const ancestors = [token, ...this.source.root.getAncestors(token)];
         for (const ancestor of ancestors) {
-            const revision = ancestor.adjust(direction, locales);
+            const revision = ancestor.adjust(direction);
             if (revision) {
                 const newSource = this.source.replace(ancestor, revision);
                 return [

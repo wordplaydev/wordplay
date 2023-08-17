@@ -1,13 +1,11 @@
 import FunctionDefinition from '@nodes/FunctionDefinition';
-import BasisExpression from './BasisExpression';
+import InternalExpression from './InternalExpression';
 import type Context from '@nodes/Context';
-import type Type from '@nodes/Type';
+import Type from '@nodes/Type';
 import ConversionDefinition from '@nodes/ConversionDefinition';
-import type Bind from '@nodes/Bind';
-import Value from '@runtime/Value';
+import Value from '@values/Value';
 import type Evaluation from '@runtime/Evaluation';
 import type StructureDefinition from '@nodes/StructureDefinition';
-import { parseType, toTokens } from '@parser/Parser';
 import bootstrapNone from './NoneBasis';
 import bootstrapBool from './BoolBasis';
 import bootstrapText from './TextBasis';
@@ -19,12 +17,22 @@ import Block from '@nodes/Block';
 import type { BasisTypeName } from './BasisConstants';
 import type TypeVariables from '@nodes/TypeVariables';
 import type Docs from '@nodes/Docs';
-import type Names from '@nodes/Names';
 import type Expression from '@nodes/Expression';
 import Root from '../nodes/Root';
 import type Locale from '../locale/Locale';
-import createDefaultShares from '../runtime/createDefaultShares';
+import createDefaultShares from '@runtime/createDefaultShares';
 import type LanguageCode from '../locale/LanguageCode';
+import bootstrapTable from './TableBasis';
+import {
+    createInputs,
+    type FunctionText,
+    type NameAndDoc,
+} from '../locale/Locale';
+import { getDocLocales } from '../locale/getDocLocales';
+import { getNameLocales } from '../locale/getNameLocales';
+import bootstrapStructure from './StructureBasis';
+import { toTokens } from '../parser/toTokens';
+import parseType from '../parser/paresType';
 
 export class Basis {
     readonly locales: Locale[];
@@ -48,6 +56,8 @@ export class Basis {
         this.addStructure('measurement', bootstrapNumber(locales));
         this.addStructure('set', bootstrapSet(locales));
         this.addStructure('map', bootstrapMap(locales));
+        this.addStructure('table', bootstrapTable(locales));
+        this.addStructure('structure', bootstrapStructure(locales));
 
         this.shares = createDefaultShares(locales);
     }
@@ -150,37 +160,40 @@ export class Basis {
 }
 
 export function createBasisFunction(
-    docs: Docs,
-    names: Names,
+    locales: Locale[],
+    text: (locale: Locale) => FunctionText<NameAndDoc[]>,
     typeVars: TypeVariables | undefined,
-    inputs: Bind[],
+    types: (Type | [Type, Expression])[],
     output: Type,
     evaluator: (requestor: Expression, evaluator: Evaluation) => Value
 ) {
     return FunctionDefinition.make(
-        docs,
-        names,
+        getDocLocales(locales, (l) => text(l).doc),
+        getNameLocales(locales, (l) => text(l).names),
         typeVars,
-        inputs,
-        new BasisExpression(output, evaluator),
+        createInputs(locales, (l) => text(l).inputs, types),
+        new InternalExpression(output, [], evaluator),
         output
     );
 }
 
 export function createBasisConversion<ValueType extends Value>(
     docs: Docs,
-    inputTypeString: string,
-    outputTypeString: string,
+    input: Type | string,
+    output: Type | string,
     convert: (requestor: Expression, value: ValueType) => Value
 ) {
     // Parse the expected type.
-    const inputType = parseType(toTokens(inputTypeString));
+    const inputType =
+        input instanceof Type ? input : parseType(toTokens(input));
+    const outputType =
+        output instanceof Type ? output : parseType(toTokens(output));
 
     return ConversionDefinition.make(
         docs,
         inputType,
-        outputTypeString,
-        new BasisExpression(outputTypeString, (requestor, evaluation) => {
+        output,
+        new InternalExpression(outputType, [], (requestor, evaluation) => {
             const val = evaluation.getClosure();
             if (
                 val instanceof Value &&

@@ -9,10 +9,10 @@ import { getEvaluationInputConflicts } from './util';
 import ConversionDefinition from './ConversionDefinition';
 import type Evaluator from '@runtime/Evaluator';
 import type Step from '@runtime/Step';
-import StructureDefinitionValue from '@runtime/StructureDefinitionValue';
+import StructureDefinitionValue from '@values/StructureDefinitionValue';
 import type Context from './Context';
 import type Definition from './Definition';
-import StructureDefinitionType from './StructureDefinitionType';
+import StructureType from './StructureType';
 import Token from './Token';
 import type TypeSet from './TypeSet';
 import { UnimplementedInterface } from '@conflicts/UnimplementedInterface';
@@ -23,7 +23,7 @@ import EvalOpenToken from './EvalOpenToken';
 import EvalCloseToken from './EvalCloseToken';
 import Docs from './Docs';
 import Names from './Names';
-import type Value from '@runtime/Value';
+import type Value from '@values/Value';
 import StartFinish from '@runtime/StartFinish';
 import TypeVariables from './TypeVariables';
 import Reference from './Reference';
@@ -32,11 +32,11 @@ import { optional, type Grammar, type Replacement, node, list } from './Node';
 import type Locale from '@locale/Locale';
 import AtomicExpression from './AtomicExpression';
 import type NameType from './NameType';
-import InternalException from '@runtime/InternalException';
+import InternalException from '@values/InternalException';
 import Glyphs from '../lore/Glyphs';
 import Purpose from '../concepts/Purpose';
 import { SHARE_SYMBOL } from '../parser/Symbols';
-import Symbol from './Symbol';
+import Sym from './Sym';
 import concretize from '../locale/concretize';
 import Evaluate from './Evaluate';
 import ExpressionPlaceholder from './ExpressionPlaceholder';
@@ -124,10 +124,10 @@ export default class StructureDefinition extends AtomicExpression {
             { name: 'docs', kind: optional(node(Docs)) },
             {
                 name: 'share',
-                kind: optional(node(Symbol.Share)),
-                getToken: () => new Token(SHARE_SYMBOL, Symbol.Share),
+                kind: optional(node(Sym.Share)),
+                getToken: () => new Token(SHARE_SYMBOL, Sym.Share),
             },
-            { name: 'type', kind: node(Symbol.Type) },
+            { name: 'type', kind: node(Sym.Type) },
             { name: 'names', kind: node(Names) },
             { name: 'interfaces', kind: list(node(Reference)), space: true },
             {
@@ -135,14 +135,14 @@ export default class StructureDefinition extends AtomicExpression {
                 kind: optional(node(TypeVariables)),
                 space: true,
             },
-            { name: 'open', kind: node(Symbol.EvalOpen) },
+            { name: 'open', kind: node(Sym.EvalOpen) },
             {
                 name: 'inputs',
                 kind: list(node(Bind)),
                 space: true,
                 indent: true,
             },
-            { name: 'close', kind: node(Symbol.EvalClose) },
+            { name: 'close', kind: node(Sym.EvalClose) },
             {
                 name: 'expression',
                 kind: optional(node(Block)),
@@ -201,7 +201,7 @@ export default class StructureDefinition extends AtomicExpression {
             ),
             this.inputs
                 .filter((input) => !input.hasDefault())
-                .map((input) => ExpressionPlaceholder.make())
+                .map(() => ExpressionPlaceholder.make())
         );
     }
 
@@ -411,7 +411,7 @@ export default class StructureDefinition extends AtomicExpression {
     }
 
     computeType(): Type {
-        return new StructureDefinitionType(this, []);
+        return new StructureType(this, []);
     }
 
     getDependencies(): Expression[] {

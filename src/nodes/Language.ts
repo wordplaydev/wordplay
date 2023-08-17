@@ -10,7 +10,7 @@ import UnknownLanguage from '@conflicts/UnknownLanguage';
 import type Locale from '@locale/Locale';
 import Glyphs from '../lore/Glyphs';
 import Purpose from '../concepts/Purpose';
-import Symbol from './Symbol';
+import Sym from './Sym';
 import type Type from './Type';
 import type LanguageCode from '@locale/LanguageCode';
 
@@ -31,8 +31,11 @@ export default class Language extends Node {
         this.computeChildren();
     }
 
-    static make(lang: string) {
-        return new Language(new LanguageToken(), new NameToken(lang));
+    static make(lang: string | undefined) {
+        return new Language(
+            new LanguageToken(),
+            lang ? new NameToken(lang) : undefined
+        );
     }
 
     static getPossibleNodes(type: Type | undefined, node: Node | undefined) {
@@ -47,10 +50,10 @@ export default class Language extends Node {
 
     getGrammar(): Grammar {
         return [
-            { name: 'slash', kind: node(Symbol.Language) },
-            { name: 'language', kind: optional(node(Symbol.Name)) },
-            { name: 'dash', kind: optional(node(Symbol.Region)) },
-            { name: 'region', kind: optional(node(Symbol.Name)) },
+            { name: 'slash', kind: node(Sym.Language) },
+            { name: 'language', kind: optional(node(Sym.Name)) },
+            { name: 'dash', kind: optional(node(Sym.Region)) },
+            { name: 'region', kind: optional(node(Sym.Name)) },
         ];
     }
 

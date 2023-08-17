@@ -14,9 +14,9 @@ import Mention from './Mention';
 import NodeRef from '../locale/NodeRef';
 import ValueRef from '../locale/ValueRef';
 import Branch from './Branch';
-import { unescapeDocSymbols } from '../parser/Tokenizer';
+import { unescapeMarkupSymbols } from '../parser/Tokenizer';
 import Node, { list, node } from '@nodes/Node';
-import Symbol from './Symbol';
+import Sym from './Sym';
 
 export type NodeSegment =
     | Token
@@ -47,7 +47,7 @@ export default class Paragraph extends Content {
             {
                 name: 'segments',
                 kind: list(
-                    node(Symbol.Words),
+                    node(Sym.Words),
                     node(Words),
                     node(WebLink),
                     node(ConceptLink),
@@ -97,7 +97,7 @@ export default class Paragraph extends Content {
             // Replace all repeated special characters with single special characters.
             else if (content instanceof Token) {
                 const replacement = content.withText(
-                    unescapeDocSymbols(content.getText())
+                    unescapeMarkupSymbols(content.getText())
                 );
                 if (replacement.getText() !== content.getText()) {
                     replacements.push([content, replacement]);

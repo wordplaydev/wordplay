@@ -3,7 +3,7 @@
 <script lang="ts">
     import type ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
     import NodeView from './NodeView.svelte';
-    import { getProject } from '../project/Contexts';
+    import { getCaret, getProject } from '../project/Contexts';
     import RootView from '../project/RootView.svelte';
     import UnknownType from '../../nodes/UnknownType';
     import PlaceholderView from './PlaceholderView.svelte';
@@ -11,6 +11,7 @@
     export let node: ExpressionPlaceholder;
 
     const project = getProject();
+    const caret = getCaret();
     $: inferredType = $project
         ? node.getType($project.getNodeContext(node))
         : undefined;
@@ -30,7 +31,7 @@
                 inert
                 localized
                 node={inferredType}
-            />{/if}<PlaceholderView position={node} /></span
+            />{/if}{#if caret}<PlaceholderView position={node} />{/if}</span
     ></span
 >
 

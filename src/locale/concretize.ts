@@ -1,5 +1,5 @@
 import Markup from '../nodes/Markup';
-import { toMarkup } from '../parser/Parser';
+import { toMarkup } from '../parser/toMarkup';
 import type Locale from './Locale';
 import type NodeRef from './NodeRef';
 import type ValueRef from './ValueRef';
@@ -11,6 +11,10 @@ export type TemplateInput =
     | undefined
     | NodeRef
     | ValueRef;
+
+/** We maintain cache a mapping from template strings to compiled markup, since they are fixed structures.
+ * We just reuse them with different inputs.*/
+const TemplateToMarkupCache: Map<string, Markup> = new Map();
 
 /**
  * Takes a localization templae and converts it to a concrete string.
@@ -65,6 +69,13 @@ export function concretizeOrUndefined(
     if (template === '' || template === '$?')
         return Markup.words(locale.ui.error.unwritten);
 
-    const [markup] = toMarkup(template);
+    // See if we've cached this template.
+    let markup = TemplateToMarkupCache.get(template);
+    if (markup === undefined) {
+        [markup] = toMarkup(template);
+        TemplateToMarkupCache.set(template, markup);
+    }
+
+    // Now concretize the markup with the given inputs.
     return markup.concretize(locale, inputs);
 }

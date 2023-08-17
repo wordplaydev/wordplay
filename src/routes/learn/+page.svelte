@@ -3,7 +3,7 @@
     import Progress from '../../tutorial/Progress';
     import { goto } from '$app/navigation';
     import { page } from '$app/stores';
-    import { config } from '../../db/Creator';
+    import { database, locale, tutorialProgress } from '../../db/Database';
     import { onMount } from 'svelte';
     import Loading from '@components/app/Loading.svelte';
     import type Tutorial from '../../tutorial/Tutorial';
@@ -12,13 +12,13 @@
 
     let tutorial: Tutorial | undefined | null = undefined;
 
-    $: locale = toLocaleString($config.getLocale());
+    $: localeString = toLocaleString($locale);
 
     async function loadTutorial() {
         try {
             // Load the locale's tutorial
             const response = await fetch(
-                `/locales/${locale}/${locale}-tutorial.json`
+                `/locales/${localeString}/${localeString}-tutorial.json`
             );
             tutorial = await response.json();
         } catch (err) {
@@ -53,7 +53,7 @@
             pause !== null &&
             isFinite(parseInt(pause))
         )
-            $config.setTutorialProgress(
+            database.setTutorialProgress(
                 new Progress(
                     tutorial,
                     parseInt(act),
@@ -64,7 +64,7 @@
     }
 
     function navigate(newProgress: Progress) {
-        $config.setTutorialProgress(newProgress);
+        database.setTutorialProgress(newProgress);
         // Set the URL to mirror the progress, if not at it.
         goto(
             `/learn?act=${newProgress.act}&scene=${newProgress.scene}&pause=${newProgress.pause}`
@@ -76,10 +76,15 @@
     {#if tutorial === undefined}
         <Loading />
     {:else if tutorial === null}
-        {$config.getLocale().ui.error.tutorial}
+        {$locale.ui.error.tutorial}
     {:else}
         <TutorialView
-            progress={$config.getTutorialProgress(tutorial)}
+            progress={new Progress(
+                tutorial,
+                $tutorialProgress.act,
+                $tutorialProgress.scene,
+                $tutorialProgress.line
+            )}
             {navigate}
         />
     {/if}

@@ -7,7 +7,7 @@ import UnusedBind from '@conflicts/UnusedBind';
 import IncompatibleType from '@conflicts/IncompatibleType';
 import UnexpectedEtc from '@conflicts/UnexpectedEtc';
 import NameType from './NameType';
-import StructureDefinitionType from './StructureDefinitionType';
+import StructureType from './StructureType';
 import StructureDefinition from './StructureDefinition';
 import type Evaluator from '@runtime/Evaluator';
 import type Step from '@runtime/Step';
@@ -16,8 +16,8 @@ import Halt from '@runtime/Halt';
 import Finish from '@runtime/Finish';
 import Block from './Block';
 import ListType from './ListType';
-import ValueException from '@runtime/ValueException';
-import Exception from '@runtime/Exception';
+import ValueException from '@values/ValueException';
+import ExceptionValue from '@values/ExceptionValue';
 import type Definition from './Definition';
 import AnyType from './AnyType';
 import { ETC_SYMBOL, PLACEHOLDER_SYMBOL, SHARE_SYMBOL } from '@parser/Symbols';
@@ -30,8 +30,8 @@ import { MissingShareLanguages } from '@conflicts/MissingShareLanguages';
 import { MisplacedShare } from '@conflicts/MisplacedShare';
 import { DuplicateShare } from '@conflicts/DuplicateShare';
 import type TypeSet from './TypeSet';
-import type Value from '@runtime/Value';
-import Symbol from './Symbol';
+import type Value from '@values/Value';
+import Sym from './Sym';
 import type Name from './Name';
 import DuplicateName from '@conflicts/DuplicateName';
 import { node, none, type Grammar, type Replacement, any } from './Node';
@@ -39,7 +39,7 @@ import type Locale from '@locale/Locale';
 import NodeRef from '@locale/NodeRef';
 import Glyphs from '../lore/Glyphs';
 import Purpose from '../concepts/Purpose';
-import type { EvaluatorNode } from '../runtime/Evaluation';
+import type { EvaluationNode } from '@runtime/Evaluation';
 import type Reaction from './Reaction';
 import Evaluate from './Evaluate';
 import FunctionType from './FunctionType';
@@ -119,8 +119,6 @@ export default class Bind extends Expression {
                 return [
                     Bind.make(undefined, Names.make(['_']), undefined, anchor),
                 ];
-            else {
-            }
         }
         // If offer insertions under various conditions
         else {
@@ -143,25 +141,22 @@ export default class Bind extends Expression {
                     (anchor instanceof Expression &&
                         parent.inputs.includes(anchor)))
             ) {
-                const fun = parent.getFunction(context);
-                if (fun) {
-                    const mapping = parent.getInputMapping(fun);
-                    return mapping.inputs
-                        .filter((input) => input.given === undefined)
-                        .map(
-                            (input) =>
-                                new Refer(
-                                    (name) =>
-                                        Bind.make(
-                                            undefined,
-                                            Names.make([name]),
-                                            undefined,
-                                            ExpressionPlaceholder.make()
-                                        ),
-                                    input.expected
-                                )
-                        );
-                }
+                const mapping = parent.getInputMapping(context);
+                return mapping?.inputs
+                    .filter((input) => input.given === undefined)
+                    .map(
+                        (input) =>
+                            new Refer(
+                                (name) =>
+                                    Bind.make(
+                                        undefined,
+                                        Names.make([name]),
+                                        undefined,
+                                        ExpressionPlaceholder.make()
+                                    ),
+                                input.expected
+                            )
+                    );
             } else return [];
         }
     }
@@ -174,8 +169,8 @@ export default class Bind extends Expression {
             },
             {
                 name: 'share',
-                kind: any(node(Symbol.Share), none()),
-                getToken: () => new Token(SHARE_SYMBOL, Symbol.Share),
+                kind: any(node(Sym.Share), none()),
+                getToken: () => new Token(SHARE_SYMBOL, Sym.Share),
             },
             {
                 name: 'names',
@@ -183,12 +178,12 @@ export default class Bind extends Expression {
             },
             {
                 name: 'etc',
-                kind: any(node(Symbol.Etc), none()),
-                getToken: () => new Token(ETC_SYMBOL, Symbol.Etc),
+                kind: any(node(Sym.Etc), none()),
+                getToken: () => new Token(ETC_SYMBOL, Sym.Etc),
             },
-            { name: 'dot', kind: any(node(Symbol.Type), none('type')) },
+            { name: 'dot', kind: any(node(Sym.Type), none('type')) },
             { name: 'type', kind: any(node(Type), none('dot')) },
-            { name: 'colon', kind: any(node(Symbol.Bind), none('value')) },
+            { name: 'colon', kind: any(node(Sym.Bind), none('value')) },
             {
                 name: 'value',
                 kind: any(node(Expression), none('colon')),
@@ -235,6 +230,19 @@ export default class Bind extends Expression {
             this.type,
             this.colon,
             this.value
+        );
+    }
+
+    withoutValue() {
+        return new Bind(
+            undefined,
+            this.share,
+            this.names,
+            this.etc,
+            this.dot,
+            this.type,
+            undefined,
+            undefined
         );
     }
 
@@ -418,11 +426,9 @@ export default class Bind extends Expression {
     getCorrespondingBindDefinition(context: Context) {
         const parent = this.getParent(context);
         if (parent instanceof Evaluate) {
-            const fun = parent.getFunction(context);
-            if (fun)
-                return parent
-                    .getInputMapping(fun)
-                    .inputs.find((input) => input.given === this)?.expected;
+            return parent
+                .getInputMapping(context)
+                ?.inputs.find((input) => input.given === this)?.expected;
         }
         return undefined;
     }
@@ -459,19 +465,16 @@ export default class Bind extends Expression {
         // Leave any other names (namely those that refer to type variables) to be concretized by others.
         if (type instanceof NameType) {
             const nameType = type.getType(context);
-            if (nameType instanceof StructureDefinitionType) return nameType;
+            if (nameType instanceof StructureType) return nameType;
         }
 
         const parent = this.getParent(context);
 
         // If the parent is an evaluate, see what input it corresponds to.
         if (parent instanceof Evaluate) {
-            const fun = parent.getFunction(context);
-            if (fun) {
-                const mapping = parent.getInputMapping(fun);
-                const input = mapping.inputs.find((i) => i.given === this);
-                if (input) return input.expected.getType(context);
-            }
+            const mapping = parent.getInputMapping(context);
+            const input = mapping?.inputs.find((i) => i.given === this);
+            if (input) return input.expected.getType(context);
         }
 
         // If the bind is in a function definition that is part of a function evaluation that takes a function input,
@@ -488,9 +491,15 @@ export default class Bind extends Expression {
                         funcIndex < evalFunc.inputs.length
                     ) {
                         const bind = evalFunc.inputs[funcIndex];
-                        const bindType = bind.getType(context);
-                        if (bindType instanceof FunctionType) {
-                            const funcBind = bindType.inputs[bindIndex];
+                        const functionType = bind
+                            .getType(context)
+                            .getPossibleTypes(context)
+                            .find(
+                                (type): type is FunctionType =>
+                                    type instanceof FunctionType
+                            );
+                        if (functionType) {
+                            const funcBind = functionType.inputs[bindIndex];
                             if (funcBind) type = funcBind.getType(context);
 
                             const concreteFunctionType =
@@ -499,8 +508,13 @@ export default class Bind extends Expression {
                                     bind,
                                     evaluate,
                                     context
-                                );
-                            if (concreteFunctionType instanceof FunctionType) {
+                                )
+                                    .getPossibleTypes(context)
+                                    .find(
+                                        (type): type is FunctionType =>
+                                            type instanceof FunctionType
+                                    );
+                            if (concreteFunctionType) {
                                 type =
                                     concreteFunctionType.inputs[
                                         bindIndex
@@ -561,15 +575,15 @@ export default class Bind extends Expression {
                       // for stream-based recurrence relations, where a stream or reaction's future values can be
                       // affected by their past values.
                       if (this.value) {
-                          let stream =
+                          const stream =
                               evaluator.getBasisStreamFor(
-                                  this.value as EvaluatorNode,
+                                  this.value as EvaluationNode,
                                   true
                               ) ??
                               evaluator.reactionStreams.get(
                                   this.value as Reaction
                               );
-                          let latest = stream?.latest();
+                          const latest = stream?.latest();
                           if (latest) evaluator.bind(this.names, latest);
                       }
                       return undefined;
@@ -592,7 +606,7 @@ export default class Bind extends Expression {
         const value = prior ?? evaluator.popValue(this);
 
         // If it's an exception, return it instead of binding.
-        if (value instanceof Exception) return value;
+        if (value instanceof ExceptionValue) return value;
 
         // Bind the value on the stack to the names.
         evaluator.bind(this.names, value);

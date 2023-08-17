@@ -2,13 +2,13 @@ import type { BasisTypeName } from '../basis/BasisConstants';
 import { MEASUREMENT_SYMBOL as NUMBER_SYMBOL } from '@parser/Symbols';
 import type Context from './Context';
 import Token from './Token';
-import Symbol from './Symbol';
+import Sym from './Sym';
 import Unit from './Unit';
 import BinaryEvaluate from './BinaryEvaluate';
 import BasisType from './BasisType';
 import UnaryEvaluate from './UnaryEvaluate';
 import NumberLiteral from './NumberLiteral';
-import Number from '@runtime/Number';
+import NumberValue from '@values/NumberValue';
 import Evaluate from './Evaluate';
 import PropertyReference from './PropertyReference';
 import type TypeSet from './TypeSet';
@@ -48,7 +48,7 @@ export default class NumberType extends BasisType {
         op?: BinaryEvaluate | UnaryEvaluate | Evaluate
     ) {
         return new NumberType(
-            new Token(NUMBER_SYMBOL, Symbol.NumberType),
+            new Token(NUMBER_SYMBOL, Sym.NumberType),
             unit ?? Unit.Empty,
             op
         );
@@ -68,7 +68,7 @@ export default class NumberType extends BasisType {
 
     getGrammar(): Grammar {
         return [
-            { name: 'number', kind: node(Symbol.NumberType) },
+            { name: 'number', kind: node(Sym.NumberType) },
             { name: 'unit', kind: node(Unit) },
         ];
     }
@@ -120,7 +120,7 @@ export default class NumberType extends BasisType {
 
             // If this is a specific number, then all other possible type must be the same specific number.
             if (
-                this.number.isSymbol(Symbol.Number) &&
+                this.number.isSymbol(Sym.Number) &&
                 this.number.getText() !== possibleType.number.getText()
             )
                 return false;
@@ -136,7 +136,7 @@ export default class NumberType extends BasisType {
     }
 
     isLiteral() {
-        return this.number.isSymbol(Symbol.Number);
+        return this.number.isSymbol(Sym.Number);
     }
 
     getLiteral() {
@@ -186,7 +186,10 @@ export default class NumberType extends BasisType {
         const constant =
             this.op instanceof BinaryEvaluate &&
             this.op.right instanceof NumberLiteral
-                ? new Number(this.op.right, this.op.right.number).toNumber()
+                ? new NumberValue(
+                      this.op.right,
+                      this.op.right.number
+                  ).toNumber()
                 : undefined;
 
         // Recursively concretize the left and right units and pass them to the derive the concrete unit.
@@ -199,7 +202,9 @@ export default class NumberType extends BasisType {
         );
     }
 
-    computeConflicts() {}
+    computeConflicts() {
+        return;
+    }
 
     getBasisTypeName(): BasisTypeName {
         return 'measurement';

@@ -9,7 +9,8 @@ import Replace from './Replace';
 import NumberLiteral from '../nodes/NumberLiteral';
 import Append from './Append';
 import Reference from '../nodes/Reference';
-import { DefaultLocale } from '../db/Creator';
+import { DefaultLocale } from '../db/Database';
+import type Revision from './Revision';
 
 test.each([
     ['blank program suggestions', '**', undefined, Append, '0'],
@@ -93,7 +94,7 @@ test.each([
         description: string,
         code: string,
         position: ((node: Node) => boolean) | undefined,
-        kind: Function,
+        kind: new (...params: never[]) => Revision,
         edit: string
     ) => {
         // See if there's a placeholder for the caret.
@@ -105,7 +106,7 @@ test.each([
 
         const source = new Source('test', code);
         const project = new Project(null, 'test', source, [], DefaultLocale);
-        let resolvedPosition =
+        const resolvedPosition =
             position === undefined
                 ? insertionPoint
                 : source.nodes().find((node) => position(node));

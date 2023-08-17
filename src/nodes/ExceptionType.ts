@@ -1,5 +1,5 @@
 import type { BasisTypeName } from '../basis/BasisConstants';
-import type Exception from '@runtime/Exception';
+import type ExceptionValue from '@values/ExceptionValue';
 import type Locale from '@locale/Locale';
 import Type from './Type';
 import type TypeSet from './TypeSet';
@@ -7,9 +7,9 @@ import { EXCEPTION_SYMBOL } from '../parser/Symbols';
 import Glyphs from '../lore/Glyphs';
 
 export default class ExceptionType extends Type {
-    readonly exception: Exception;
+    readonly exception: ExceptionValue;
 
-    constructor(exception: Exception) {
+    constructor(exception: ExceptionValue) {
         super();
 
         this.exception = exception;
@@ -19,7 +19,9 @@ export default class ExceptionType extends Type {
         return [];
     }
 
-    computeConflicts() {}
+    computeConflicts() {
+        return;
+    }
 
     acceptsAll(types: TypeSet): boolean {
         return types

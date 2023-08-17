@@ -1,5 +1,7 @@
+import type { Metrics } from './Phrase';
 import type Place from './Place';
 import type Pose from './Pose';
+import { CSSFallbackFaces } from './Stage';
 
 export const PX_PER_METER = 16;
 /** This is a scaling factor: for every 1m of z distance, we scale this much. */
@@ -39,82 +41,57 @@ function rotateDeg(deg: number) {
 export function rootScale(z: number, focusZ: number) {
     // Compute the delta between this phrase and the focus.
     const dz = z - focusZ;
-    // Compute a scale proportional to the focal length and inversely proporitional to the difference.
+    // Compute a scale proportional to the focal length and inversely proportional to the difference.
     return dz < 0 ? 0 : dz === 0 ? 1 : FOCAL_LENGTH / dz;
 }
 
-export function incrementalScale(z: number) {
-    return Math.max(0, 1 + INCREMENTAL_SCALING_FACTOR - z / FOCAL_LENGTH);
+export function incrementalScale(z: number, focusZ: number) {
+    // Perspective scaling should be proportional to the delta between the z and focus, just like the root.
+    // However, we need to divide by the scaling applied by the root, since CSS transforms are cumulative.
+    return FOCAL_LENGTH / (focusZ - z) / (FOCAL_LENGTH / focusZ);
 }
 
 export function centerTransform(viewportWidth: number, viewportHeight: number) {
     return translateXY(viewportWidth / 2, viewportHeight / 2);
 }
 
-export default function outputToCSS(
-    family: string | undefined,
-    size: number | undefined,
-    pose: Pose,
-    place: Place,
-    width: number | undefined,
-    height: number | undefined,
-    focus: Place,
-    parentAscent: number,
-    metrics: { width: number; fontAscent: number; actualAscent: number },
-    viewport: { width: number; height: number } | undefined = undefined
-) {
-    return toCSS({
-        width: width ? sizeToPx(width) : undefined,
-        height: height ? sizeToPx(height) : undefined,
-        transform: toOutputTransform(
-            pose,
-            place,
-            focus,
-            parentAscent,
-            metrics,
-            viewport
-        ),
-        // This disables translation around the center; we want to translate around the focus.
-        'transform-origin': '0 0',
-        color: pose?.color?.toCSS(),
-        opacity: pose?.opacity?.toString(),
-        'font-family': family,
-        // The font size is whatever it's normal size is, but adjusted for perspective, then translated into pixels.
-        'font-size': size ? sizeToPx(size) : undefined,
-    });
+export function getFaceCSS(face: string | undefined) {
+    return face ? `"${face}", ${CSSFallbackFaces}` : null;
+}
+
+export function getSizeCSS(size: number | undefined) {
+    // The font size is whatever it's normal size is, but adjusted for perspective, then translated into pixels.
+    return size !== undefined ? sizeToPx(size) : null;
+}
+
+export function getColorCSS(primary: Pose, secondary: Pose) {
+    return (primary.color ?? secondary.color)?.toCSS() ?? null;
+}
+
+export function getOpacityCSS(primary: Pose, secondary: Pose) {
+    return (primary.opacity ?? secondary.opacity)?.toString() ?? null;
 }
 
 export function toOutputTransform(
-    pose: Pose,
+    primaryPose: Pose,
+    secondaryPose: Pose,
     place: Place,
     focus: Place,
     parentAscent: number,
-    metrics: { width: number; fontAscent: number; actualAscent: number },
+    metrics: Metrics,
     viewport: { width: number; height: number } | undefined = undefined
 ) {
     const root = viewport !== undefined;
 
     // Compute rendered scale based on scale and and flip
-    let xScale = 1;
-    let yScale = 1;
-    let xOffset = 0;
-    let yOffset = 0;
-    let zOffset = 0;
-    let rotation = 0;
-    if (pose) {
-        if (pose.scale !== undefined) {
-            xScale = pose.scale;
-            yScale = pose.scale;
-        }
-        if (pose.flipx === true) xScale = xScale * -1;
-        if (pose.flipy === true) yScale = yScale * -1;
-        if (pose.offset !== undefined) {
-            xOffset = pose.offset.x * PX_PER_METER;
-            yOffset = pose.offset.y * PX_PER_METER;
-            zOffset = pose.offset.z;
-        }
-        rotation = pose.rotation ?? 0;
-    }
+    const scale = primaryPose.scale ?? secondaryPose.scale ?? 1;
+    const xScale = scale * (primaryPose.flipx ?? secondaryPose.flipx ? -1 : 1);
+    const yScale = scale * (primaryPose.flipy ?? secondaryPose.flipy ? -1 : 1);
+    const offset = primaryPose.offset ?? secondaryPose.offset;
+    const xOffset = offset ? offset.x * PX_PER_METER : 0;
+    const yOffset = offset ? offset.y * PX_PER_METER : 0;
+    const zOffset = offset ? offset.z : 0;
+    const rotation = primaryPose.rotation ?? secondaryPose.rotation ?? 0;
 
     // Compute the final z position of the output based on it's place and it's offset.
     const z = place.z + zOffset;
@@ -124,26 +101,29 @@ export function toOutputTransform(
     // If it's not the root, then we add to that some scaling factor proportional to the
     // additional z of the output. This accounts for the cumulative nature of CSS transforms,
     // where parents affect their children.
-    const perspectiveScale = root ? rootScale(z, focus.z) : incrementalScale(z);
+    const candidateScale = root
+        ? rootScale(z, focus.z)
+        : incrementalScale(z, focus.z);
+    const perspectiveScale = isNaN(candidateScale) ? 100 : candidateScale;
 
     // Find the center of the stage, around which we will rotate and scale.
-    let centerXOffset = root ? 0 : metrics.width / 2;
-    let centerYOffset = root ? 0 : metrics.actualAscent / 2;
+    const centerXOffset = root ? 0 : metrics.width / 2;
+    const centerYOffset = root ? 0 : metrics.height / 2;
 
     // Translate the place to screen coordinates.
-    let placeX = place.x * PX_PER_METER;
-    let placeY =
+    const placeX = place.x * PX_PER_METER;
+    const placeY =
         // Negate y to account for flipped y axis.
         -place.y * PX_PER_METER -
         // If this isn't the root, subtract the height to render from the bottom
-        (root ? 0 : metrics.actualAscent) +
+        (root ? 0 : metrics.height) +
         // Add the height of the parent to compensate for HTML rendering local coordinates from the top.
         parentAscent * PX_PER_METER;
 
     // Translate the focus to focus coordinates.
     // Negate y to account for flipped y axis.
-    let focusX = focus.x * PX_PER_METER;
-    let focusY = -focus.y * PX_PER_METER;
+    const focusX = focus.x * PX_PER_METER;
+    const focusY = -focus.y * PX_PER_METER;
 
     // These are applied in reverse.
     const transform = [

@@ -119,7 +119,7 @@
                         null,
                         [
                             "fit",
-                            "Stage([Phrase('☀️' rest: Sequence(spin() 4s 'straight'))] background: 🌈(80% 99 270°))"
+                            "Stage([Phrase('☀️' resting:Sequence(spin() 4s 'straight'))] background: 🌈(80% 99 270°))"
                         ],
                         [
                             "FunctionDefinition",
@@ -133,7 +133,7 @@
                     "concept": "Program",
                     "performance": ["use", "fit", "Symbol", "📄"],
                     "lines": [
-                        ["fit", "Phrase('📄' rest: Pose(rotation: 10°))"],
+                        ["fit", "Phrase('📄' resting:Pose(rotation: 10°))"],
                         [
                             "FunctionDefinition",
                             "excited",
@@ -145,14 +145,14 @@
                             "Really!? Are you sure you're really a person? Say something a person would say."
                         ],
                         null,
-                        ["fit", "Phrase('📄' enter: Sequence(spin() 1s))"],
+                        ["fit", "Phrase('📄' entering: Sequence(spin() 1s))"],
                         [
                             "Program",
                             "serious",
                             "Hm… you really are a person. And you want to direct?"
                         ],
                         null,
-                        ["fit", "Phrase('📄' rest: Pose(rotation: 010°))"],
+                        ["fit", "Phrase('📄' resting: Pose(rotation: 010°))"],
                         [
                             "Program",
                             "excited",
@@ -186,9 +186,9 @@
                         [
                             "Program",
                             "neutral",
-                            "For example, try typing my ⧼'hello'⧽ in the editor over there.",
+                            "For example, try typing my \\'hello'\\ in the editor over there.",
                             "(Don't worry about making mistakes, you can always revert to the original with *revert* @UI/revertProject).",
-                            "Did you type something? That's my friend @Text. Have you met them yet? They evaluate to ⧼'hello'⧽, then I put ⧼'hello'⧽ on stage. Try changing ⧼'hello'⧽ to something else. I'll show that instead. So I'll immediately evaluate whatever you type and show the result."
+                            "Did you type something? That's my friend @Text. Have you met them yet? They evaluate to \\'hello'\\, then I put \\'hello'\\ on stage. Try changing \\'hello'\\ to something else. I'll show that instead. So I'll immediately evaluate whatever you type and show the result."
                         ],
                         null,
                         [
@@ -197,13 +197,13 @@
                             "The instructions can get as sophisticated as you want, but there are a few rules.",
                             "For example, I can only evaluate to one *value*, and show that one value on stage. That one value can be as complex as you want, and as long as I know how to show it, I will.",
                             "But if you give me two things, I'll only show the last thing you give me.",
-                            "For example, try adding another instruction after ⧼'hello'⧽, whatever word you want, in quotes."
+                            "For example, try adding another instruction after \\'hello'\\, whatever word you want, in quotes."
                         ],
                         null,
                         [
                             "Program",
                             "serious",
-                            "See? I just showed your new word, not ⧼'hello'⧽. You know you broke my rule because I underlined ⧼'hello'⧽ and told you that I'd be ignoring it."
+                            "See? I just showed your new word, not \\'hello'\\. You know you broke my rule because I underlined \\'hello'\\ and told you that I'd be ignoring it."
                         ],
                         null,
                         ["use", "fit", "Symbol", "🎭"],
@@ -422,7 +422,7 @@
                         [
                             "FunctionDefinition",
                             "neutral",
-                            "(For example, try typing ⧼][⧽. See how we're completely confused? That doesn't mean anything, and I'm here to say it.)"
+                            "(For example, try typing \\][\\. See how we're completely confused? That doesn't mean anything, and I'm here to say it.)"
                         ],
                         null,
                         ["conflict", "]["],
@@ -628,7 +628,7 @@
                         [
                             "Evaluate",
                             "serious",
-                            "That's what I look like in @Program: some function, followed by parentheses, with a list of expressions between them that represent the inputs. The function in this case is @Phrase and the single input is ⧼'hello'⧽. When I evaluate this, I make a @Phrase value, which @Program then shows on stage."
+                            "That's what I look like in @Program: some function, followed by parentheses, with a list of expressions between them that represent the inputs. The function in this case is @Phrase and the single input is \\'hello'\\. When I evaluate this, I make a @Phrase value, which @Program then shows on stage."
                         ],
                         null,
                         [
@@ -652,7 +652,7 @@
                         [
                             "Evaluate",
                             "serious",
-                            "Oh, yes, that's a good idea. Lots can go wrong. For example, you could give me something that isn't a function. See how I'm given the number ⧼“hi”⧽ here as a function, and given me two inputs, ⧼1⧽ and ⧼2⧽ ? Well, I only know how to evaluate functions, and ⧼“hi”⧽ isn't a function, it's text. So that's very confusing to me, so I basically halt the performance if this happens."
+                            "Oh, yes, that's a good idea. Lots can go wrong. For example, you could give me something that isn't a function. See how I'm given the number \\“hi”\\ here as a function, and given me two inputs, \\1\\ and \\2\\ ? Well, I only know how to evaluate functions, and \\“hi”\\ isn't a function, it's text. So that's very confusing to me, so I basically halt the performance if this happens."
                         ],
                         null,
                         ["conflict", "Phrase()"],
@@ -666,7 +666,7 @@
                         [
                             "Evaluate",
                             "excited",
-                            "Or if you give me an input, but it's not the kind I expect, that would be a problem. Here @Phrase is given the number ⧼1⧽ instead of a text value."
+                            "Or if you give me an input, but it's not the kind I expect, that would be a problem. Here @Phrase is given the number \\1\\ instead of a text value."
                         ],
                         null,
                         ["fit", "Stage([] background: 🌈(90% 100 0°))"],
@@ -716,7 +716,7 @@
                     "lines": [
                         [
                             "fit",
-                            "Phrase('💔' rest: Sequence({0%: Pose(scale: 1) 50%: Pose(scale: 1.2) 100%: Pose(scale: 1)} duration: 3s))"
+                            "Phrase('💔' resting:Sequence({0%: Pose(scale: 1) 50%: Pose(scale: 1.2) 100%: Pose(scale: 1)} duration: 3s))"
                         ],
                         [
                             "FunctionDefinition",
@@ -739,8 +739,8 @@
                         [
                             "FunctionDefinition",
                             "neutral",
-                            "Every value has a *type*. For example, ⧼1⧽ is a number type; that's our friend @Number. And ⧼'hello'⧽ is a text type; that's our friend @Text. Types are important because they help us keep track of what kind of value we're creating.",
-                            "That helps us find problems. For example, it doesn't make any sense to add ⧼'hello' + 1⧽, because what would that even mean, to add @Text to @Number?"
+                            "Every value has a *type*. For example, \\1\\ is a number type; that's our friend @Number. And \\'hello'\\ is a text type; that's our friend @Text. Types are important because they help us keep track of what kind of value we're creating.",
+                            "That helps us find problems. For example, it doesn't make any sense to add \\'hello' + 1\\, because what would that even mean, to add @Text to @Number?"
                         ],
                         null,
                         [
@@ -766,12 +766,12 @@
                     "concept": "Text",
                     "performance": [
                         "fit",
-                        "Phrase('\"\"' rest: Sequence({0%: Pose(scale: 1) 50%: Pose(scale: 0.5 opacity: 0.5) 100%: Pose(scale: 1)} duration: 2s))"
+                        "Phrase('\"\"' resting:Sequence({0%: Pose(scale: 1) 50%: Pose(scale: 0.5 opacity: 0.5) 100%: Pose(scale: 1)} duration: 2s))"
                     ],
                     "lines": [
                         [
                             "fit",
-                            "Phrase('\"\"' rest: Sequence({0%: Pose(scale: 1) 50%: Pose(scale: 2 opacity: 0.5) 100%: Pose(scale: 1)} duration: 2s))"
+                            "Phrase('\"\"' resting:Sequence({0%: Pose(scale: 1) 50%: Pose(scale: 2 opacity: 0.5) 100%: Pose(scale: 1)} duration: 2s))"
                         ],
                         ["FunctionDefinition", "curious", "@Text?"],
                         [
@@ -799,14 +799,14 @@
                         [
                             "Text",
                             "serious",
-                            "I do one simple thing: represent sequences of symbols, and the many things you can do with them. I think you saw me earlier when you wrote the word ⧼“hello”⧽? That was me, and my friends ⧼“h”⧽, ⧼“e”⧽, ⧼“l”⧽, and ⧼“o”⧽. That was @Text, an expression that evaluates to any @Text you like."
+                            "I do one simple thing: represent sequences of symbols, and the many things you can do with them. I think you saw me earlier when you wrote the word \\“hello”\\? That was me, and my friends \\“h”\\, \\“e”\\, \\“l”\\, and \\“o”\\. That was @Text, an expression that evaluates to any @Text you like."
                         ],
                         null,
                         [
                             "Text",
                             "serious",
                             "Why don't you try making a text in this blank @Program?",
-                            "You can use whatever quotes you like — single ⧼''⧽, double ⧼''⧽, angle ⧼«»⧽, brackets ⧼「」⧽, in whatever language you like. The only rule is that if you start some text with an opening quote symbol, you must finish it with a closing one. Everything inside is the text value I will create!"
+                            "You can use whatever quotes you like — single \\''\\, double \\''\\, angle \\«»\\, brackets \\「」\\, in whatever language you like. The only rule is that if you start some text with an opening quote symbol, you must finish it with a closing one. Everything inside is the text value I will create!"
                         ],
                         ["edit", "''"],
                         null,
@@ -848,10 +848,65 @@
                             "You can try adding another translation. Just don't put any space between them or they'll be two of me!"
                         ],
                         null,
+                        ["edit", "'I have 7 apples'"],
+                        [
+                            "Text",
+                            "neutral",
+                            "I have another secret... you can put /values/ inside me. I know, it's wild!",
+                            "If you do, I'm happy to stitch it together and assemble your beautiful prose into a single value for display, or whatever other purposes you might have."
+                        ],
+                        null,
+                        [
+                            "Text",
+                            "serious",
+                            "For example, did @FunctionDefinition show you how text knows how to add itself to other text? Like this? This little expression converts \\7\\ to text, then adds it to \\'I have'\\, then adds \\'apples'\\. But it's so untidy, and makes it hard to read what's happening, and the conversion to text feels so unnecessary."
+                        ],
+                        ["edit", "'I have' + (7→'') + 'apples'"],
+                        null,
+                        [
+                            "Text",
+                            "serious",
+                            "What I do is make text like this clean, organic, and simple, even. So that same phrase with me would be something like this."
+                        ],
+                        [
+                            "Text",
+                            "happy",
+                            "Isn't that so much more elegant? You can put me anywhere inside a @Text, and I'll make your values into text, and work with @Text to make a @Text.",
+                            "This makes it so much easier to write beautiful prose that uses values."
+                        ],
+                        ["edit", "'I have \\7\\ apples'"],
+                        null,
+                        [
+                            "Text",
+                            "neutral",
+                            "And when I say any expression, I really do mean any. For example, imagine you wanted to do some arithmetic and created some text with the result. You might do this. This sums several numbers and then makes text with the sum. Truly wondrous, isn't it? And so much more graceful than \\'I have ' + (1 + 2 + 5 + 8) + ' apples'\\, with all those extra additions."
+                        ],
+                        ["edit", "'I have \\1 + 2 + 5 + 8\\ apples'"],
+                        null,
                         [
                             "Text",
                             "curious",
-                            "Did our friend @FunctionDefinition here tell you about all of the wonderful functions they defined for me? They've allowed me to do all kinds of things. One is pretty simple: it's called @Text/length and all it does is get the length of some text. For example, if we team up with @Evaluate here, and our little friend @PropertyReference, we can evaluate the length function with no inputs and get the length value back. Try changing the text and watch the length that Program shows change as it gets shorter and longer."
+                            "And so you might be wondering, /What if I want to use @Text in some text?/ ",
+                            "Well, maybe you weren't wondering that, but I'm going to tell you anyway!",
+                            "In any @Text, just give me two in a row! I'll interpret that as just one @Text instead of an empty expression, which wouldn't have any meaning anyway.",
+                            "Try removing the \\\\ and you'll see that the slash regains its meaning."
+                        ],
+                        [
+                            "edit",
+                            "\"I'm just \\\\regular\\\\ text, not a template.\""
+                        ],
+                        null,
+                        ["use", "fit", "DarkVoid"],
+                        [
+                            "FunctionDefinition",
+                            "excited",
+                            "This is so very graceful, isn't it! @Text, I love how much you appreciate the beauty in expression. It inspires me so much to be graceful myself!"
+                        ],
+                        null,
+                        [
+                            "Text",
+                            "curious",
+                            "And did our friend @FunctionDefinition here tell you about all of the wonderful functions they defined for me? They've allowed me to do all kinds of things. One is pretty simple: it's called @Text/length and all it does is get the length of some text. For example, if we team up with @Evaluate here, and our little friend @PropertyReference, we can evaluate the length function with no inputs and get the length value back. Try changing the text and watch the length that Program shows change as it gets shorter and longer."
                         ],
                         ["edit", "'hello'.length()"],
                         null,
@@ -886,10 +941,10 @@
                     "performance": [
                         "fit",
                         "Group(Row() [",
-                        "                        Phrase('1' rest: Sequence({0%: Pose(offset: Place(0m 1m)) 50%: Pose(offset: Place(0m -1m)) 100%: Pose(offset: Place(0m 1m))} duration: 2s)) ",
-                        "                        Phrase('+' rest: Sequence({0%: Pose(offset: Place(0m -1m)) 50%: Pose(offset: Place(0m 1m)) 100%: Pose(offset: Place(0m -1m))} duration: 2s)) ",
-                        "                        Phrase('1' rest: Sequence({0%: Pose(offset: Place(0m 1m)) 50%: Pose(offset: Place(0m -1m)) 100%: Pose(offset: Place(0m 1m))} duration: 2s)) ",
-                        "                    ])"
+                        "   Phrase('1' resting:Sequence({0%: Pose(offset: Place(0m 1m)) 50%: Pose(offset: Place(0m -1m)) 100%: Pose(offset: Place(0m 1m))} duration: 2s)) ",
+                        "   Phrase('+' resting:Sequence({0%: Pose(offset: Place(0m -1m)) 50%: Pose(offset: Place(0m 1m)) 100%: Pose(offset: Place(0m -1m))} duration: 2s)) ",
+                        "   Phrase('1' resting:Sequence({0%: Pose(offset: Place(0m 1m)) 50%: Pose(offset: Place(0m -1m)) 100%: Pose(offset: Place(0m 1m))} duration: 2s)) ",
+                        "])"
                     ],
                     "lines": [
                         ["use", "fit", "Symbol", "🥰"],
@@ -902,28 +957,28 @@
                         [
                             "FunctionDefinition",
                             "neutral",
-                            "For example, did you know they come in another form? You saw them in ⧼function()⧽ form, but they also have this beautiful trick when a single input function is evaluated on a value. @Evaluate calls it @BinaryEvaluate. For example, you know that repeat function that text just showed you? It looked like this."
+                            "For example, did you know they come in another form? You saw them in \\function()\\ form, but they also have this beautiful trick when a single input function is evaluated on a value. @Evaluate calls it @BinaryEvaluate. For example, you know that repeat function that text just showed you? It looked like this."
                         ],
                         ["edit", "'hi'.repeat(5)"],
                         null,
                         [
                             "FunctionDefinition",
                             "eager",
-                            "Instead, you can have @Evaluate evaluate it with a much simpler symbol in the middle, like this. This means 'repeat 'hi' five times'. But it also means 'evaluate the ⧼·⧽ function on the text value ⧼'hi'⧽ with the input ⧼5⧽.' The function ⧼repeat⧽ just has multiple names, one of which is a symbol name ⧼·⧽."
+                            "Instead, you can have @Evaluate evaluate it with a much simpler symbol in the middle, like this. This means 'repeat 'hi' five times'. But it also means 'evaluate the \\·\\ function on the text value \\'hi'\\ with the input \\5\\.' The function \\repeat\\ just has multiple names, one of which is a symbol name \\·\\."
                         ],
                         ["edit", "'hi' · 5"],
                         null,
                         [
                             "FunctionDefinition",
                             "serious",
-                            "That reminds me of another of @Text's functions! It's helpful for making one text value from multiple text values. It's called ⧼combine⧽, but also ⧼+⧽, and you can use it to add words together. See how I took a text value then evaluated ⧼combine⧽ on it with ⧼'verse'⧽? That made ⧼'hello verse'⧽."
+                            "That reminds me of another of @Text's functions! It's helpful for making one text value from multiple text values. It's called \\combine\\, but also \\+\\, and you can use it to add words together. See how I took a text value then evaluated \\combine\\ on it with \\'verse'\\? That made \\'hello verse'\\."
                         ],
                         ["edit", "'hello '.combine('verse')"],
                         null,
                         [
                             "FunctionDefinition",
                             "serious",
-                            "But it's so much easier to just use ⧼+⧽ for this."
+                            "But it's so much easier to just use \\+\\ for this."
                         ],
                         ["edit", "'hello ' + ' verse'"],
                         null,
@@ -937,7 +992,7 @@
                         [
                             "FunctionDefinition",
                             "neutral",
-                            "This is the same as a series of evaluations of combine, but without all of the parentheses and ⧼.⧽, and a symbolic name instead of a word name."
+                            "This is the same as a series of evaluations of combine, but without all of the parentheses and \\.\\, and a symbolic name instead of a word name."
                         ],
                         ["edit", "'hello '.combine('verse').combine('!')"],
                         null,
@@ -968,14 +1023,14 @@
                     "concept": "Truth",
                     "performance": [
                         "fit",
-                        "Group(Row() [Phrase('⊤') Phrase('⊥')] rest: Sequence({ 0%: Pose(rotation: 0°) 50%: Pose(rotation: 180°) 100%: Pose(rotation: 360°)} duration: 2s))"
+                        "Group(Row() [Phrase('⊤') Phrase('⊥')] resting:Sequence({ 0%: Pose(rotation: 0°) 50%: Pose(rotation: 180°) 100%: Pose(rotation: 360°)} duration: 2s))"
                     ],
                     "lines": [
                         ["fit", "Stage([])"],
                         [
                             "FunctionDefinition",
                             "curious",
-                            "⧼⊤⧽! ⧼⊥⧽! Are you two around? They're usually all over the place, but I don't see them anywhere."
+                            "\\⊤\\! \\⊥\\! Are you two around? They're usually all over the place, but I don't see them anywhere."
                         ],
                         null,
                         ["⊤", "precise", "Right here."],
@@ -1030,17 +1085,17 @@
                         [
                             "FunctionDefinition",
                             "neutral",
-                            "One was @Boolean/and, right? It takes one of you and one other input? And evaluates to ⧼⊤⧽ if both are ⧼⊤⧽?"
+                            "One was @Boolean/and, right? It takes one of you and one other input? And evaluates to \\⊤\\ if both are \\⊤\\?"
                         ],
                         [
                             "⊤",
                             "precise",
-                            "Correct. ⧼⊤ & ⊤ = ⊤⧽, but ⧼⊥⧽ otherwise."
+                            "Correct. \\⊤ & ⊤ = ⊤\\, but \\⊥\\ otherwise."
                         ],
                         [
                             "⊥",
                             "precise",
-                            "Not wrong. ⧼⊤ & ⊥ = ⊥⧽, ⧼⊥ & ⊤ = ⊥⧽, ⧼⊥ & ⊥ = ⊥⧽, but ⧼⊤⧽ otherwise."
+                            "Not wrong. \\⊤ & ⊥ = ⊥\\, \\⊥ & ⊤ = ⊥\\, \\⊥ & ⊥ = ⊥\\, but \\⊤\\ otherwise."
                         ],
                         [
                             "FunctionDefinition",
@@ -1052,17 +1107,17 @@
                         [
                             "FunctionDefinition",
                             "neutral",
-                            "And the other one was @Boolean/or, right? It also takes one input? But it evaluates to ⧼⊤⧽ if either is true?"
+                            "And the other one was @Boolean/or, right? It also takes one input? But it evaluates to \\⊤\\ if either is true?"
                         ],
                         [
                             "⊤",
                             "precise",
-                            "Correct. ⧼⊤ | ⊤ = ⊤⧽, ⧼⊤ | ⊥ = ⊤⧽, ⧼⊥ | ⊤ = ⊤⧽, but ⧼⊥⧽ otherwise."
+                            "Correct. \\⊤ | ⊤ = ⊤\\, \\⊤ | ⊥ = ⊤\\, \\⊥ | ⊤ = ⊤\\, but \\⊥\\ otherwise."
                         ],
                         [
                             "⊥",
                             "precise",
-                            "Not wrong. ⧼⊥ & ⊥ = ⊥⧽, but ⧼⊤⧽ otherwise."
+                            "Not wrong. \\⊥ & ⊥ = ⊥\\, but \\⊤\\ otherwise."
                         ],
                         [
                             "FunctionDefinition",
@@ -1076,8 +1131,8 @@
                             "excited",
                             "But the other was @Boolean/not?"
                         ],
-                        ["⊤", "precise", "Correct. ⧼~⊤ = ⊥⧽."],
-                        ["⊥", "precise", "Not wrong. ⧼~⊥ = ⊤⧽."],
+                        ["⊤", "precise", "Correct. \\~⊤ = ⊥\\."],
+                        ["⊥", "precise", "Not wrong. \\~⊥ = ⊤\\."],
                         [
                             "FunctionDefinition",
                             "neutral",
@@ -1125,7 +1180,7 @@
                             "                        Grid(multiple multiple) ",
                             "                        ('⊤⊥'.repeat(multiple ^ 2) ÷ '').translate(",
                             "                        ƒ(glyph•'') ",
-                            "                        Phrase(glyph rest: Pose(",
+                            "                        Phrase(glyph resting:Pose(",
                             "                            color: Color(75% 0 0°) ",
                             "                            rotation: 90° ",
                             "                            offset:Place(0m (Time() ^ 2) · -0.000025m/ms^2))",
@@ -1182,7 +1237,7 @@
                             "                                    off:Random(-3 3) · 1m",
                             "                                    Phrase(",
                             "                                        n → '' ",
-                            "                                        rest: Sequence({",
+                            "                                        resting:Sequence({",
                             "                                                    0%:Pose(offset: Place(z: 0m)) ",
                             "                                                    50%:Pose(offset: Place(z: off)) ",
                             "                                                    100%:Pose(offset: Place(z:0m))",
@@ -1278,7 +1333,7 @@
                         [
                             "FunctionDefinition",
                             "kind",
-                            "Um, ⧼1.01toe⧽s? Yes, thank you @Number, these are … interesting examples. And they are oh so useful when you're doing math on numbers, right?"
+                            "Um, \\1.01toe\\s? Yes, thank you @Number, these are … interesting examples. And they are oh so useful when you're doing math on numbers, right?"
                         ],
                         null,
                         [
@@ -1349,26 +1404,26 @@
                         [
                             "FunctionDefinition",
                             "kind",
-                            "… You know how I was telling you that they can evaluate any function with parentheses ⧼1.add(1)⧽, but also two input functions with infix operators ⧼1 + 1⧽? Well they have one more trick for functions with only one input: the unary format."
+                            "… You know how I was telling you that they can evaluate any function with parentheses \\1.add(1)\\, but also two input functions with infix operators \\1 + 1\\? Well they have one more trick for functions with only one input: the unary format."
                         ],
                         null,
                         [
                             "FunctionDefinition",
                             "serious",
-                            "There are only a few of these, but they are powerful. One is really relevant to @Number: negation. You can just put a ⧼-⧽ in front of any number value and get its negative."
+                            "There are only a few of these, but they are powerful. One is really relevant to @Number: negation. You can just put a \\-\\ in front of any number value and get its negative."
                         ],
                         ["edit", "-(1 + 3)"],
                         null,
                         [
                             "FunctionDefinition",
                             "neutral",
-                            "That little minus sign is the same as saying ⧼(1 + 3).negate()⧽ but so much more elegant."
+                            "That little minus sign is the same as saying \\(1 + 3).negate()\\ but so much more elegant."
                         ],
                         null,
                         [
                             "FunctionDefinition",
                             "kind",
-                            "The other one is similar, but for negating ⧼⊤⧽ and ⧼⊥⧽: it's like a little squiggle minus, ⧼~⧽ that just flips true to false and false to true. For example, this little expression evaluates ⧼⊤ | ⊥⧽, which is ⧼⊤⧽, then flips the ⧼⊤⧽ to ⧼⊥⧽. This is the same as saying ⧼(⊤ | ⊥).not()⧽, but so much more sleek."
+                            "The other one is similar, but for negating \\⊤\\ and \\⊥\\: it's like a little squiggle minus, \\~\\ that just flips true to false and false to true. For example, this little expression evaluates \\⊤ | ⊥\\, which is \\⊤\\, then flips the \\⊤\\ to \\⊥\\. This is the same as saying \\(⊤ | ⊥).not()\\, but so much more sleek."
                         ],
                         ["edit", "~(⊤ | ⊥)"],
                         null,
@@ -1384,7 +1439,7 @@
                     "concept": "Nothing",
                     "performance": [
                         "fix",
-                        "Motion(Phrase('ø' size: 5m) vy: ◆ ? 5m/s ø)"
+                        "Motion(Phrase('ø' size: 5m) startvy: 5m/s)"
                     ],
                     "lines": [
                         [
@@ -1432,15 +1487,15 @@
                         [
                             "FunctionDefinition",
                             "neutral",
-                            "They wanted you to know that they don't really do anything. They just are. All they really do is say whether they are themselves. If they are, they evaluate to ⧼⊤⧽, and ⧼⊥⧽ otherwise."
+                            "They wanted you to know that they don't really do anything. They just are. All they really do is say whether they are themselves. If they are, they evaluate to \\⊤\\, and \\⊥\\ otherwise."
                         ],
                         ["edit", "ø = ø"],
                         null,
-                        ["edit", "Phrase('hi' font: ø)"],
+                        ["edit", "Phrase('hi' face: ø)"],
                         [
                             "FunctionDefinition",
                             "excited",
-                            "Do you remember @Phrase? @Phrase actually works with @None a lot. Most of the inputs that @Evaluate mentioned are ⧼ø⧽ by default, which for @Phrase, means that no size, font, color, etc. are specified."
+                            "Do you remember @Phrase? @Phrase actually works with @None a lot. Most of the inputs that @Evaluate mentioned are \\ø\\ by default, which for @Phrase, means that no size, font, color, etc. are specified."
                         ],
                         null,
                         [
@@ -1462,7 +1517,7 @@
             "name": "Ensembles",
             "performance": [
                 "fit",
-                "Group(Row((Time() ÷ 500).sin() · 1m) [Phrase('[]') Phrase('{}') Phrase('{:}')])"
+                "Group(Row(0 (Time() ÷ 500).sin() · 1m) [Phrase('[]') Phrase('{}') Phrase('{:}')])"
             ],
             "scenes": [
                 {
@@ -1508,7 +1563,7 @@
                         "fit",
                         "clockwise: Sequence({0%: Pose(rotation: 0°) 50%: Pose(rotation: 180°) 100%: Pose(rotation: 360°)} duration: 2s)",
                         "                    counter: Sequence({0%: Pose(rotation: 0°) 50%: Pose(rotation: -180°) 100%: Pose(rotation: -360°)} duration: 2s)",
-                        "                    Group(Row() [Phrase('[' rest: clockwise) Phrase(']' rest: counter) ])"
+                        "                    Group(Row() [Phrase('[' resting:clockwise) Phrase(']' resting:counter) ])"
                     ],
                     "lines": [
                         [
@@ -1525,7 +1580,7 @@
                             "fit",
                             "up: Sequence({0%: Pose(offset: Place(0m -1m)) 50%: Pose(offset: Place(0m 0m)) 100%: Pose(offset: Place(0m -1m))} duration: 2s)",
                             "                        down: Sequence({0%: Pose(offset: Place(0m 1m)) 50%: Pose(offset: Place(0m 0m)) 100%: Pose(offset: Place(0m 1m))} duration: 2s)",
-                            "                        Group(Row() [Phrase('[' rest: up) Phrase(']' rest: down)])"
+                            "                        Group(Row() [Phrase('[' resting:up) Phrase(']' resting:down)])"
                         ],
                         null,
                         [
@@ -1542,7 +1597,7 @@
                             "fit",
                             "up: Sequence({0%: Pose(offset: Place(0m 1m)) 50%: Pose(offset: Place(0m 0m)) 100%: Pose(offset: Place(0m 1m))} duration: 2s)",
                             "                        down: Sequence({0%: Pose(offset: Place(0m -1m)) 50%: Pose(offset: Place(0m 0m)) 100%: Pose(offset: Place(0m -1m))} duration: 2s)",
-                            "                        Group(Row() [Phrase('[' rest: up) Phrase(']' rest: down)])"
+                            "                        Group(Row() [Phrase('[' resting:up) Phrase(']' resting:down)])"
                         ],
                         null,
                         [
@@ -1553,7 +1608,7 @@
                         [
                             "fit",
                             "wobble: Sequence({0%: Pose(offset: Place(0m)) 25%: Pose(offset: Place(-.1m)) 50%: Pose(offset: Place(.2m)) 75%: Pose(offset: Place(-.3m)) 100%: Pose(offset: Place(0m))} duration: 0.1s)",
-                            "Group(Row() [Phrase('[' rest: wobble) Phrase(']' rest: wobble)])"
+                            "Group(Row() [Phrase('[' resting:wobble) Phrase(']' resting:wobble)])"
                         ],
                         [
                             "List",
@@ -1574,7 +1629,7 @@
                         [
                             "List",
                             "serious",
-                            "Second, and this is serious, I always start with ⧼[⧽ and end with ⧼]⧽. That's how I know the beginning and end of my list. THEY MUST ALWAYS GO IN THIS ORDER. No ⧼]⧽ first, no ⧼[⧽ last, that's WRONG. Do you see how confusing things get? Can you fix this one?"
+                            "Second, and this is serious, I always start with \\[\\ and end with \\]\\. That's how I know the beginning and end of my list. THEY MUST ALWAYS GO IN THIS ORDER. No \\]\\ first, no \\[\\ last, that's WRONG. Do you see how confusing things get? Can you fix this one?"
                         ],
                         ["conflict", "[ 1 2 3 4"],
                         null,
@@ -1631,7 +1686,7 @@
                         [
                             "List",
                             "surprised",
-                            "Oh, and that reminds me of the last rule, rule number five: I start counting at 1! Not zero, not two, 1. So if you want to get the value at a particular place in a list, you can use two more ⧼[]⧽ to make a @ListAccess and give the place you want. See how when I get ⧼3⧽, I give the third value in the list, ⧼'c'⧽? Try changing it to ⧼1⧽ or ⧼5⧽ and see what you get. And then maybe try ⧼0⧽ or ⧼6⧽…"
+                            "Oh, and that reminds me of the last rule, rule number five: I start counting at 1! Not zero, not two, 1. So if you want to get the value at a particular place in a list, you can use two more \\[]\\ to make a @ListAccess and give the place you want. See how when I get \\3\\, I give the third value in the list, \\'c'\\? Try changing it to \\1\\ or \\5\\ and see what you get. And then maybe try \\0\\ or \\6\\…"
                         ],
                         ["edit", "['a' 'b' 'c' 'd' 'e'][3]"],
                         [
@@ -1669,7 +1724,7 @@
                         "fit",
                         "clockwise: Sequence({0%: Pose(rotation: 0°) 50%: Pose(rotation: 180°) 100%: Pose(rotation: 360°)} duration: 2s)",
                         "                    counter: Sequence({0%: Pose(rotation: 0°) 50%: Pose(rotation: -180°) 100%: Pose(rotation: -360°)} duration: 2s)",
-                        "                    Group(Row() [Phrase('{' rest: clockwise) Phrase('}' rest: counter) ])"
+                        "                    Group(Row() [Phrase('{' resting:clockwise) Phrase('}' resting:counter) ])"
                     ],
                     "lines": [
                         ["use", "fit", "DarkVoid"],
@@ -1704,7 +1759,7 @@
                         [
                             "Set",
                             "eager",
-                            "Oh yes, of course. I collect things. (Hm, obviously, I am a collection). But most importantly, I only collect **one of each kind** of thing. I can gather whatever you like, and help you keep track of values, but I will never repeat a value. I like to arrange myself a little like @List, but with ⧼{⧽ and ⧼}⧽ instead."
+                            "Oh yes, of course. I collect things. (Hm, obviously, I am a collection). But most importantly, I only collect **one of each kind** of thing. I can gather whatever you like, and help you keep track of values, but I will never repeat a value. I like to arrange myself a little like @List, but with \\{\\ and \\}\\ instead."
                         ],
                         ["edit", "{ 1 2 3 4 5 }"],
                         null,
@@ -1718,7 +1773,7 @@
                         [
                             "Set",
                             "curious",
-                            "Also like @List, you can work with @SetOrMapAccess to see if a value is contained in the set. You'll either ⧼⊤⧽ if it is or ⧼⊥⧽ if it's not. Let's see if ⧼3⧽ is missing from this set. Yep, not there! Try adding ⧼3⧽ back to the set."
+                            "Also like @List, you can work with @SetOrMapAccess to see if a value is contained in the set. You'll either \\⊤\\ if it is or \\⊥\\ if it's not. Let's see if \\3\\ is missing from this set. Yep, not there! Try adding \\3\\ back to the set."
                         ],
                         ["edit", "{ 1 2 4 5 }{3}"],
                         null,
@@ -1742,14 +1797,14 @@
                             "Set",
                             "neutral",
                             "Yes, @Set/difference.",
-                            "When evaluated on a set, and given another set, it removes all of the items from the given set from the set evaluated on. (Hm, those were some clumsy words, but that was what I meant). Here's an example. See how the result is just the set of ⧼{3}⧽? That's the only value that remains after removing the values in ⧼{ 1 2 }⧽."
+                            "When evaluated on a set, and given another set, it removes all of the items from the given set from the set evaluated on. (Hm, those were some clumsy words, but that was what I meant). Here's an example. See how the result is just the set of \\{3}\\? That's the only value that remains after removing the values in \\{ 1 2 }\\."
                         ],
                         ["edit", "{ 1 2 3 }.difference({ 1 2 })"],
                         null,
                         [
                             "Set",
                             "eager",
-                            "You can also add and remove things from sets. This takes the set ⧼{1}⧽, adds ⧼2⧽ to it, then removes 1 from it, leaving ⧼{ 2 }⧽."
+                            "You can also add and remove things from sets. This takes the set \\{1}\\, adds \\2\\ to it, then removes 1 from it, leaving \\{ 2 }\\."
                         ],
                         ["edit", "({ 1 } + 2) - 1"],
                         [
@@ -1786,7 +1841,7 @@
                         "fit",
                         "clockwise: Sequence({0%: Pose(rotation: 0°) 50%: Pose(rotation: 180°) 100%: Pose(rotation: 360°)} duration: 2s)",
                         "                    counter: Sequence({0%: Pose(rotation: 0°) 50%: Pose(rotation: -180°) 100%: Pose(rotation: -360°)} duration: 2s)",
-                        "                    Group(Row(0m) [Phrase('{' rest: clockwise) Phrase(':') Phrase('}' rest: counter) ])"
+                        "                    Group(Row() [Phrase('{' resting:clockwise) Phrase(':') Phrase('}' resting:counter) ])"
                     ],
                     "lines": [
                         ["use", "fit", "DarkVoid"],
@@ -1864,7 +1919,7 @@
                         [
                             "Map",
                             "serious",
-                            "But like @Set, I don't like duplicates. You can't have more than one of the same key, but you can have as many unique keys mapped to equivalent values as you like. For example, this gives me two ⧼'ben'⧽ keys, but I just use the last one. But it's okay that ⧼'ben'⧽ and ⧼'joe'⧽ have the same number of points, because they're different keys."
+                            "But like @Set, I don't like duplicates. You can't have more than one of the same key, but you can have as many unique keys mapped to equivalent values as you like. For example, this gives me two \\'ben'\\ keys, but I just use the last one. But it's okay that \\'ben'\\ and \\'joe'\\ have the same number of points, because they're different keys."
                         ],
                         [
                             "edit",
@@ -1879,7 +1934,7 @@
                         [
                             "FunctionDefinition",
                             "curious",
-                            "@Map, what if you want an empty mapping? How is that different from an empty set, ⧼{}⧽?"
+                            "@Map, what if you want an empty mapping? How is that different from an empty set, \\{}\\?"
                         ],
                         [
                             "Map",
@@ -1891,7 +1946,7 @@
                         [
                             "FunctionDefinition",
                             "curious",
-                            "And what if our director doesn't provide a value or a key? Like this? Like, ⧼3⧽ has no value?"
+                            "And what if our director doesn't provide a value or a key? Like this? Like, \\3\\ has no value?"
                         ],
                         ["conflict", "{1:1 2:2 3 }"],
                         [
@@ -1908,7 +1963,7 @@
                         [
                             "Map",
                             "neutral",
-                            "Just like @Set: just put a ⧼{}⧽ after a map and give me the key you want."
+                            "Just like @Set: just put a \\{}\\ after a map and give me the key you want."
                         ],
                         [
                             "edit",
@@ -2138,118 +2193,6 @@
                     ]
                 },
                 {
-                    "name": "Freedom of speech",
-                    "concept": "Templates",
-                    "performance": ["use", "fix", "FlyIn", "\\\\"],
-                    "lines": [
-                        ["use", "fit", "DarkVoid"],
-                        [
-                            "FunctionDefinition",
-                            "neutral",
-                            "I love @Convert. They're so creative, so courageous. I thought we might see someone that does similar work with values as @Convert. They're called @Template and they're all about assembling @Text from other values. @Template, are you here? The silence is broken! We have an aspiring director-person!"
-                        ],
-                        null,
-                        [
-                            "Template",
-                            "surprised",
-                            "Silence! What silence? There's so much to say, we could never run out of words. Ideas, however, those are more rare these days, aren't they? It's my pleasure to see you again @FunctionDefinition, how have you held up in these quiet times?"
-                        ],
-                        [
-                            "FunctionDefinition",
-                            "sad",
-                            "Well enough. Better now that we're all coming back together. I've missed everyone so much!"
-                        ],
-                        null,
-                        [
-                            "Template",
-                            "kind",
-                            "I've missed you as well. You are such an essential part of our community, @FunctionDefinition, encoding all the wondrous ideas that come from the outside world, so that we may enjoy them. So this must be the new director, full of ideas?"
-                        ],
-                        [
-                            "FunctionDefinition",
-                            "happy",
-                            "Yes, they just arrived! I've been introducing them to everyone; we just met all the values and collections, and just talked to @Convert. We haven't talked about input and output yet, but I wanted to stop by to see you first, since you and @Convert work so closely together."
-                        ],
-                        null,
-                        [
-                            "Template",
-                            "serious",
-                            "We do, don't we? An odd couple we are. They are so — free. It makes me uncomfortable sometimes. But I like to think that I bring a little order to our partnership, and a little ceremony."
-                        ],
-                        [
-                            "FunctionDefinition",
-                            "curious",
-                            "Do you want to share what you do?"
-                        ],
-                        null,
-                        [
-                            "Template",
-                            "neutral",
-                            "Happily. To put it simply, I work with @Text make new text from any values you might give me. Ultimately, they all need to be text, and so you'll have to work with @Convert to get them that way. But once you give me all that text, I'm happy to stitch it together and assemble your beautiful prose into a single text value for display, or whatever other purposes you might have."
-                        ],
-                        null,
-                        [
-                            "Template",
-                            "serious",
-                            "For example, did @FunctionDefinition show you how text knows how to add itself to other text? Like this? This little expression converts ⧼7⧽ to text, then adds it to ⧼'I have'⧽, then adds ⧼'apples'⧽. But it's so untidy, and makes it hard to read what's happening, and the conversion to text feels so unnecessary."
-                        ],
-                        ["edit", "'I have' + (7→'') + 'apples'"],
-                        null,
-                        [
-                            "Template",
-                            "serious",
-                            "What I do is make text like this clean, organic, and simple, even. So that same phrase with me would be something like this."
-                        ],
-                        [
-                            "Template",
-                            "happy",
-                            "Isn't that so much more elegant? You can put me anywhere inside a @Text, and I'll make your values into text, and work with @Text to make a @Text.",
-                            "This makes it so much easier to write beautiful prose that uses values."
-                        ],
-                        ["edit", "'I have \\7\\ apples'"],
-                        null,
-                        [
-                            "Template",
-                            "neutral",
-                            "And when I say any expression, I really do mean any. For example, imagine you wanted to do some arithmetic and created some text with the result. You might do this. This sums several numbers and then makes text with the sum. Truly wondrous, isn't it? And so much more graceful than ⧼'I have ' + (1 + 2 + 5 + 8) + ' apples'⧽, with all those extra additions."
-                        ],
-                        ["edit", "'I have \\1 + 2 + 5 + 8\\ apples'"],
-                        null,
-                        [
-                            "Template",
-                            "curious",
-                            "And so you might be wondering, 'What if I want to use @Template in some text?' Well, maybe you weren't wondering that, but I'm going to tell you anyway. In any @Text, just give me two in a row! I'll interpret that as just one @Template instead of an empty expression, which wouldn't have any meaning anyway. Try removing the \\ and you'll see that the slash regains its meaning, restoring the text as me, a @Template."
-                        ],
-                        [
-                            "edit",
-                            "\"I'm just \\\\regular\\\\ text, not a template.\""
-                        ],
-                        null,
-                        ["use", "fit", "DarkVoid"],
-                        [
-                            "FunctionDefinition",
-                            "excited",
-                            "This is so very graceful, isn't it! @Template, I love how much you appreciate the beauty in expression. It inspires me so much to be graceful myself!"
-                        ],
-                        [
-                            "Template",
-                            "happy",
-                            "Why thank you @FunctionDefinition, I am proud of what I do. I hope you are proud of what you do, because I certainly couldn't do it without you. Inside me are infinite depths of @FunctionDefinition that you made by you that allow me to do my work. I cherish what you have empowered me to do."
-                        ],
-                        null,
-                        [
-                            "FunctionDefinition",
-                            "kind",
-                            "Thank you @Template, that's so kind. We're going to head out and make one more stop to meet @Conditional."
-                        ],
-                        [
-                            "Template",
-                            "excited",
-                            "Oh dear, @Conditional, my new director friend, you are in for such an intellectual treat! @Conditional is simply divine in how they question the order of the world. Enjoy!"
-                        ]
-                    ]
-                },
-                {
                     "name": "How to choose?",
                     "concept": "Decisions",
                     "performance": ["use", "fix", "FlyIn", "?"],
@@ -2282,7 +2225,7 @@
                         [
                             "FunctionDefinition",
                             "serious",
-                            "Yes, the silence is breaking, and they are the one! They're a person, and they came to inspire us, and direct our shows. We've been talking about conversions, and meeting all the values and @Template and @Convert and I wanted them to meet you! In a way, you're the most special of conversions, because you enable us to convert situations to new values."
+                            "Yes, the silence is breaking, and they are the one! They're a person, and they came to inspire us, and direct our shows. We've been talking about conversions, and meeting all the values and @Text and @Convert and I wanted them to meet you! In a way, you're the most special of conversions, because you enable us to convert situations to new values."
                         ],
                         [
                             "Conditional",
@@ -2302,7 +2245,7 @@
                             "FunctionDefinition",
                             "excited",
                             "Yes, exactly like that!",
-                            "Do you see how there's four parts to @Conditional's format? There's a *condition* first, which needs to be a @Boolean. Then there's ⧼?⧽. Then there's *yes* expression, then a *no* expression. What @Conditional does is evaluate the condition, and if it's ⧼⊤⧽, they evaluate the *yes* expression. Otherwise, they evaluate the /no/ expression. It's such a powerful way of deciding!"
+                            "Do you see how there's four parts to @Conditional's format? There's a *condition* first, which needs to be a @Boolean. Then there's \\?\\. Then there's *yes* expression, then a *no* expression. What @Conditional does is evaluate the condition, and if it's \\⊤\\, they evaluate the *yes* expression. Otherwise, they evaluate the /no/ expression. It's such a powerful way of deciding!"
                         ],
                         null,
                         ["edit", "1 > 5 ? 'more' 'less'"],
@@ -2323,7 +2266,7 @@
                         [
                             "Conditional",
                             "curious",
-                            "Reliable? Maybe? If you accept that I just decide whatever the director tells me, then yes, but what if the director tells me this? Is it really a decision of the number can never be greater than ⧼3⧽?"
+                            "Reliable? Maybe? If you accept that I just decide whatever the director tells me, then yes, but what if the director tells me this? Is it really a decision of the number can never be greater than \\3\\?"
                         ],
                         ["edit", "[1 2 3].random() > 3 ? 'big' 'small'"],
                         [
@@ -2343,7 +2286,7 @@
                         [
                             "Conditional",
                             "curious",
-                            "And think about the questions I answer — why can I only respond to ⧼⊤⧽ and ⧼⊥⧽? Why not a number? Don't I have a right to decide if ⧼1⧽ is beautiful?"
+                            "And think about the questions I answer — why can I only respond to \\⊤\\ and \\⊥\\? Why not a number? Don't I have a right to decide if \\1\\ is beautiful?"
                         ],
                         ["conflict", "1 ? 'beautiful' 'ugly'"],
                         null,
@@ -2386,8 +2329,8 @@
                     "lines": [
                         [
                             "fix",
-                            "amp: (Mic() ÷ 10)",
-                            "Phrase('.'.repeat(amp.roundDown()) rest: Pose(scale: amp))"
+                            "amp: (Volume() · 10)",
+                            "Phrase('.'.repeat(amp.roundDown()) resting:Pose(scale: amp))"
                         ],
                         [
                             "FunctionDefinition",
@@ -2434,7 +2377,7 @@
                         [
                             "FunctionDefinition",
                             "curious",
-                            "See that ⧼1000ms⧽? It's a @Time/frequency that tells @Time to tick every 1000 milliseconds instead of the default of every 33 milliseconds, it's default. Now it's like a counter that ticks every second. These inputs that @Time takes are like a configuration: they tell the stream how to behave."
+                            "See that \\1000ms\\? It's a @Time/frequency that tells @Time to tick every 1000 milliseconds instead of the default of every 33 milliseconds, it's default. Now it's like a counter that ticks every second. These inputs that @Time takes are like a configuration: they tell the stream how to behave."
                         ],
                         ["Time", "neutral", "tick… tick… tick… tick… tick…"],
                         ["edit", "Time(1000ms)"],
@@ -2442,7 +2385,7 @@
                         [
                             "FunctionDefinition",
                             "serious",
-                            "But we can use all of the wonderful characters we've met to transform time further. For example, what if we wanted to know if time was a multiple of ⧼2⧽? We could use @Number/remainder, which gets the remainder of a division. If the remainder is zero, we'll evaluate to ⧼⊤⧽ and ⧼⊥⧽ otherwise. See how it changes back and forth between ⧼⊤⧽ and ⧼⊥⧽? It's so magical."
+                            "But we can use all of the wonderful characters we've met to transform time further. For example, what if we wanted to know if time was a multiple of \\2\\? We could use @Number/remainder, which gets the remainder of a division. If the remainder is zero, we'll evaluate to \\⊤\\ and \\⊥\\ otherwise. See how it changes back and forth between \\⊤\\ and \\⊥\\? It's so magical."
                         ],
                         ["Time", "neutral", "tick… tick… tick… tick… tick…"],
                         ["edit", "(Time(1000ms) % 5) = 2ms"],
@@ -2476,7 +2419,7 @@
                     "lines": [
                         [
                             "fit",
-                            "Phrase('⌨️' rest: Sequence({0%: Pose(rotation: -5°) 25%: Pose(rotation: 0°) 50%: Pose(rotation: 5°) 75%: Pose(rotation: 0°) 100%: Pose(rotation: -5°)} 1s 'straight'))"
+                            "Phrase('⌨️' resting:Sequence({0%: Pose(rotation: -5°) 25%: Pose(rotation: 0°) 50%: Pose(rotation: 5°) 75%: Pose(rotation: 0°) 100%: Pose(rotation: -5°)} 1s 'straight'))"
                         ],
                         [
                             "FunctionDefinition",
@@ -2495,7 +2438,7 @@
                         [
                             "FunctionDefinition",
                             "serious",
-                            "This stream will change any time any key is pressed. But you can tell a key stream to just change when a particular key is pressed. See how the stream changes to ⧼a⧽ the first time, but then doesn't change after? That's because this stream only changes when ⧼a⧽ is pressed, so it's always showing ⧼a⧽. But you'll always see the new key value appear in the timeline."
+                            "This stream will change any time any key is pressed. But you can tell a key stream to just change when a particular key is pressed. See how the stream changes to \\a\\ the first time, but then doesn't change after? That's because this stream only changes when \\a\\ is pressed, so it's always showing \\a\\. But you'll always see the new key value appear in the timeline."
                         ],
                         ["Key", "neutral", "clickety 'a'…"],
                         ["edit", "Key('a')"],
@@ -2503,7 +2446,7 @@
                         [
                             "FunctionDefinition",
                             "kind",
-                            "Sometimes it's helpful to know when a key is released, instead of pressed. Just pass ⧼⊥⧽ to tell the @Key stream that you to know when a key is released instead of pressed. Now, press and hold the 'a' key and then when you release, you'll see the 'a' appear on stage. Didn't catch it? Press the ↻ button to reset the performance and try it again."
+                            "Sometimes it's helpful to know when a key is released, instead of pressed. Just pass \\⊥\\ to tell the @Key stream that you to know when a key is released instead of pressed. Now, press and hold the 'a' key and then when you release, you'll see the 'a' appear on stage. Didn't catch it? Press the ↻ button to reset the performance and try it again."
                         ],
                         ["Key", "neutral", "clickety 'a'…"],
                         ["edit", "Key('a' ⊥)"],
@@ -2511,7 +2454,7 @@
                         [
                             "FunctionDefinition",
                             "neutral",
-                            "@Key streams are really helpful when you want a performance to react to keys that the audience presses. For example, you could check if a key has the word 'Arrow' in it to decide if an arrow key was pressed. Press an arrow key and you'll see ⧼'move'⧽, press something else and you'll see ⧼'stay'⧽"
+                            "@Key streams are really helpful when you want a performance to react to keys that the audience presses. For example, you could check if a key has the word 'Arrow' in it to decide if an arrow key was pressed. Press an arrow key and you'll see \\'move'\\, press something else and you'll see \\'stay'\\"
                         ],
                         ["Key", "neutral", "clickety 'Arrow'…"],
                         ["edit", "Key().has('Arrow') ? 'move' 'stay'"]
@@ -2524,7 +2467,7 @@
                     "lines": [
                         [
                             "fix",
-                            "Phrase('👆🏻' rest: Sequence({0%: Pose(offset: Place(0m 0m)) 25%: Pose(offset: Place(-1m 1m)) 50%: Pose(offset: Place(1m 1m)) 75%: Pose(offset: Place(1m 0m)) 100%: Pose(offset: Place(0m 0m))} 3s))"
+                            "Phrase('👆🏻' resting:Sequence({0%: Pose(offset: Place(0m 0m)) 25%: Pose(offset: Place(-1m 1m)) 50%: Pose(offset: Place(1m 1m)) 75%: Pose(offset: Place(1m 0m)) 100%: Pose(offset: Place(0m 0m))} 3s))"
                         ],
                         [
                             "FunctionDefinition",
@@ -2537,15 +2480,23 @@
                             "curious",
                             "Move your pointer around the stage and you'll see the stream of @Place change on stage."
                         ],
-                        ["edit", "Pointer()"],
+                        ["fix", "Pointer()"],
                         ["Pointer", "neutral", "wzzzzzzzzz…"],
                         null,
                         [
                             "FunctionDefinition",
                             "excited",
-                            "@Pointer can be fun if you want to link the place of a phrase to where the pointer is."
+                            "Now let's see it on stage!"
                         ],
-                        ["fit", "Phrase('hi' place: Pointer())"],
+                        ["Pointer", "neutral", "wzzzzzzzzz…"],
+                        ["fix", "Phrase(Pointer()→'' place: Pointer())"],
+                        null,
+                        [
+                            "FunctionDefinition",
+                            "excited",
+                            "@Pointer can be fun if you want to link the @Place of a @Phrase to where the pointer is."
+                        ],
+                        ["fix", "Phrase('🐪' size: 4m place: Pointer())"],
                         ["Pointer", "neutral", "wzzzzzzzz…"]
                     ]
                 },
@@ -2557,7 +2508,7 @@
                         [
                             "FunctionDefinition",
                             "kind",
-                            "@Button is like @Key, but corresponds to the primary pointer button, like a click or tap. It's just a stream of ⧼⊤⧽, indicating when the pointer button is pressed down. Press that button and watch the events appear on the timeline."
+                            "@Button is like @Key, but corresponds to the primary pointer button, like a click or tap. It's just a stream of \\⊤\\, indicating when the pointer button is pressed down. Press that button and watch the events appear on the timeline."
                         ],
                         ["Button", "neutral", "click… click… click…"],
                         ["edit", "Button()"],
@@ -2565,7 +2516,7 @@
                         [
                             "FunctionDefinition",
                             "neutral",
-                            "You can configure it to only change to up or down by passing it a ⧼⊤⧽ or ⧼⊥⧽."
+                            "You can configure it to only change to up or down by passing it a \\⊤\\ or \\⊥\\."
                         ],
                         ["Button", "neutral", "down… down… down…"],
                         ["edit", "Button(⊥)"],
@@ -2573,31 +2524,31 @@
                         [
                             "FunctionDefinition",
                             "excited",
-                            "Using a @Button stream is one way to advance through stages of a performance, or to trigger some change in a performance. This little program lists to button presses, and starts off showing sad, but when the @Button stream changes to true, @Conditional evaluates to ⧼'happy'⧽ instead."
+                            "Using a @Button stream is one way to advance through stages of a performance, or to trigger some change in a performance. This little program lists to button presses, and starts off showing sad, but when the @Button stream changes to true, @Conditional evaluates to \\'happy'\\ instead."
                         ],
                         ["edit", "Phrase(Button(⊥) ? 'sad' 'happy')"]
                     ]
                 },
                 {
                     "name": "Is anyone listening?",
-                    "concept": "Mic",
+                    "concept": "Volume",
                     "performance": ["use", "fit", "Symbol", "🎤"],
                     "lines": [
                         [
                             "FunctionDefinition",
                             "excited",
-                            "Your world and our world also has sound. Did you know we can hear you, with your consent? We listen with a stream called @Mic, which provides a low-level sequence of amplitudes. Your mic might ask for permission to be shared with us. Once you do, you'll see a number that corresponds to amplitude, between ⧼0⧽ and ⧼100⧽."
+                            "Your world and our world also has sound. Did you know we can hear you, with your consent? We listen with a stream called @Volume, which provides a low-level sequence of amplitudes. Your mic might ask for permission to be shared with us. Once you do, you'll see a number that corresponds to amplitude, between \\0\\ and \\100\\."
                         ],
-                        ["Mic", "neutral", "bzzzZZZZZzzzzzZZZZ…"],
-                        ["edit", "Mic()"],
+                        ["Volume", "neutral", "bzzzZZZZZzzzzzZZZZ…"],
+                        ["edit", "Volume()"],
                         null,
                         [
                             "FunctionDefinition",
                             "kind",
-                            "@Mic can be used to make performances respond to sound from the audience. For example, here we could make a little amplitude visualization by converting the amplitude number from the stream to a certain number of ⧼'o'⧽ characters. See how when you make noise, there are more ⧼'o'⧽s? The Mic's amplitude is divided by ⧼10⧽, putting it in the ⧼0⧽ to ⧼10⧽ range. Then that value is given to @Text/repeat function, which repeats the ⧼'o'⧽ the given number of times."
+                            "@Volume can be used to make performances respond to sound from the audience. For example, here we could make a little amplitude visualization by converting the amplitude number from the stream to a certain number of \\'o'\\ characters. See how when you make noise, there are more \\'o'\\s? The @Volume amplitude is divided by \\10\\, putting it in the \\0\\ to \\10\\ range. Then that value is given to @Text/repeat function, which repeats the \\'o'\\ the given number of times."
                         ],
-                        ["Mic", "neutral", "bzzzZZZZZzzzzzZZZZ…"],
-                        ["edit", "'o'.repeat(Mic() ÷ 10)"]
+                        ["Volume", "neutral", "bzzzZZZZZzzzzzZZZZ…"],
+                        ["edit", "'o'.repeat(Volume() · 10)"]
                     ]
                 },
                 {
@@ -2611,7 +2562,10 @@
                         [
                             "FunctionDefinition",
                             "curious",
-                            "There's one other stream I want to show you. Remember ⧼[].random()⧽ from earlier, from @List? Inside it is a stream called @Random, which provides an infinite stream of random numbers. It's a bit different from the other streams in that it doesn't cause a @Program to reevaluate. Instead, each time it's evaluated, it gives a different random number. See that little ↻ button by the timeline? Press that to reevaluate the program manually, and you'll see a new number between ⧼0⧽ and ⧼1⧽ each time."
+                            "There's one other source of input I want to show you. Remember \\[].random()\\ from earlier, from @List?",
+                            "Inside it uses a @FunctionDefinition called @Random, which provides an infinite sequence of random numbers. It's kind of a stream, since it generates input from your world, not ours. But it's a bit different from the other streams in that it doesn't cause a @Program to reevaluate.",
+                            "Instead, each time it's evaluated, it gives a different random number.",
+                            "See that little ↻ @UI/resetEvaluator button by the timeline? Press that to reevaluate the program manually, and you'll see a new number between \\0\\ and \\1\\ each time."
                         ],
                         ["Random", "neutral", "0.223423… 0.823423… 0.123459"],
                         ["edit", "Random()"],
@@ -2619,7 +2573,7 @@
                         [
                             "FunctionDefinition",
                             "surprised",
-                            "We can tell @Random the range of numbers we'd like by giving it a minimum and maximum number. This example gives numbers between ⧼1⧽ and ⧼10⧽:"
+                            "We can tell @Random the range of numbers we'd like by giving it a minimum and maximum number. This example gives numbers between \\1\\ and \\10\\:"
                         ],
                         ["Random", "neutral", "1… 7… 3… 9… 10… 2…"],
                         ["edit", "Random(1 10)"],
@@ -2627,10 +2581,53 @@
                         [
                             "FunctionDefinition",
                             "excited",
-                            "Random can be so fun! We can use it with other streams to create fun chaos. For example, here we choose a random word from a list of words. This is the same as ⧼['kitty' 'cat' 'meowy'].random()⧽. Keep pressing ↻ to get a different cat synonym! Try adding your own word to the list and see if you can get the word to appear."
+                            "Random can be so fun! We can use it with streams to create fun chaos. For example, here we choose a random word from a list of words. This is the same as \\['kitty' 'cat' 'meowy'].random()\\. Keep pressing ↻ to get a different cat synonym! Try adding your own word to the list and see if you can get the word to appear."
                         ],
                         ["Random", "neutral", "1… 2… 2… 1… 3…"],
                         ["edit", "['kitty' 'cat' 'feline'][Random(1 3)]"]
+                    ]
+                },
+                {
+                    "name": "Move me",
+                    "concept": "Placement",
+                    "performance": [
+                        "fix",
+                        "Phrase('click, tap, or arrow to move me' place: Placement() moving:Pose() duration: 0.25s)"
+                    ],
+                    "lines": [
+                        [
+                            "edit",
+                            "Phrase('🌭' place: Placement() moving:Pose() duration: 0.25s)"
+                        ],
+                        [
+                            "FunctionDefinition",
+                            "kind",
+                            "Sometimes its nice to engage the audience in our place on @Stage.",
+                            "@Placement is a great way to do that! It's a stream of @Place, that responds to keyboard arrow keys, clicks, and taps.",
+                            "Try using those to move the hot dog around."
+                        ],
+                        null,
+                        [
+                            "edit",
+                            "Phrase('🌭' place: Placement(distance: 0.5m) moving:Pose() duration: 0.25s)"
+                        ],
+                        [
+                            "FunctionDefinition",
+                            "kind",
+                            "There are lots of ways you can customize it. For example, if you wanted to change how it moves, you can give it a distance.",
+                            "See how we gave it \\0.5\\ for the for the first input? Now it moves a little less. Try changing it to a different number!"
+                        ],
+                        null,
+                        [
+                            "edit",
+                            "Phrase('🌭' place: Placement(depth: ⊤) moving:Pose() duration: 0.25s)"
+                        ],
+                        [
+                            "FunctionDefinition",
+                            "kind",
+                            "You can also turn on and off movement on different axes. For example, give depth \\⊤\\ to allow movement on the z-axis.",
+                            "Press the + and - keys to move it closer or further away from the focus."
+                        ]
                     ]
                 },
                 {
@@ -2639,10 +2636,11 @@
                     "performance": [
                         "fix",
                         "Motion(",
-                        "    Phrase('🏀' 3m place: ◆ ? Place(0m 5m) ø) ",
-                        "    vx: ◆ ? 0m/s ø",
-                        "    vy: ◆ ? 0m/s ø",
-                        "    vangle: ◆ ? 0°/s ø",
+                        "    Phrase('🏀' 3m)",
+                        "    startplace: Place(0m 5m)",
+                        "    startvx: 0m/s",
+                        "    startvy: 0m/s",
+                        "    startvangle: 0°/s",
                         ")"
                     ],
                     "lines": [
@@ -2657,30 +2655,31 @@
                         [
                             "fix",
                             "Motion(",
-                            "                            Phrase('🏀' 3m place: ◆ ? Place(0m 5m) ø) ",
-                            "                        )"
+                            "  Phrase('🏀' 3m) startplace: Place(0m 5m)",
+                            ")"
                         ],
                         [
                             "FunctionDefinition",
                             "excited",
-                            "Here's the simplest way to use it. This creates a @Motion stream that starts with this @Phrase, but then has a place that is a @Conditional. Do you see the little @Initial? That means 'True if the performance has just started', so the @Conditional here means 'If the performance has just started, start the ball at the place ⧼Place(0m 5m)⧽'. Otherwise, it's @NoneLiteral, which tells the @Motion stream to keep moving the ball based on *gravity*. The ground is at ⧼0m⧽ on the y-axes"
+                            "Here's the simplest way to use it. This creates a @Motion stream that starts with this @Phrase. It'll keep moving the ball based on *gravity*. The ground is at \\0m\\ on the y-axes."
                         ],
                         ["Motion", "excited", "Woosh…"],
                         null,
                         [
                             "fix",
                             "Motion(",
-                            "    Phrase('🏀' 3m place: ◆ ? Place(0m 5m) ø) ",
-                            "    vx: ◆ ? -5m/s ø",
-                            "    vy: ◆ ? 5m/s ø",
-                            "    vangle: ◆ ? 30°/s ø",
+                            "    Phrase('🏀' 3m) ",
+                            "    startplace: Place(0m 5m)",
+                            "    startvx: -5m/s",
+                            "    startvy: 5m/s",
+                            "    startvangle: 30°/s",
                             ")"
                         ],
                         [
                             "FunctionDefinition",
                             "excited",
                             "But @Motion has many other tricks.",
-                            "For example, it can have initial velocities, @Motion/vx, @Motion/vy, @Motion/vz, and @Motion/vangle.",
+                            "For example, it can have initial velocities, @Motion/startvx, @Motion/startvy, @Motion/startvz, and @Motion/startvangle.",
                             "This example makes the ball move left and up, spinning a bit initially."
                         ],
                         ["Motion", "excited", "Woooosh…"],
@@ -2688,10 +2687,11 @@
                         [
                             "fix",
                             "Motion(",
-                            "    Phrase('🏀' 3m place: ◆ ? Place(0m 5m) ø) ",
-                            "    vx: ◆ ? -5m/s ø",
-                            "    vy: ◆ ? 5m/s ø",
-                            "    vangle: ◆ ? 30°/s ø",
+                            "    Phrase('🏀' 3m) ",
+                            "    startplace: Place(0m 5m)",
+                            "    startvx: -5m/s",
+                            "    startvy: 5m/s",
+                            "    startvangle: 30°/s",
                             "    gravity: 200m/s^2",
                             ")"
                         ],
@@ -2707,8 +2707,9 @@
                         [
                             "fix",
                             "Motion(",
-                            "    Phrase('🏀' 3m place: ◆ ? Place(0m 5m) ø) ",
-                            "    vy: ◆ ? 50m/s ø",
+                            "    Phrase('🏀' 3m)",
+                            "    Place(0m 5m)",
+                            "    startvy: 50m/s",
                             ")"
                         ],
                         [
@@ -2724,7 +2725,7 @@
                     "concept": "Reaction",
                     "performance": ["use", "fit", "Symbol", "…"],
                     "lines": [
-                        ["fit", "Phrase('…' rest: Pose(rotation: 120°))"],
+                        ["fit", "Phrase('…' resting:Pose(rotation: 120°))"],
                         [
                             "FunctionDefinition",
                             "neutral",
@@ -2736,7 +2737,7 @@
                             "Yeah yeah yeah! It's @FunctionDefinition! How are you doing? Everything has been so… constant, lately. Have you noticed that?"
                         ],
                         null,
-                        ["fit", "Phrase('…' rest: Pose(rotation: 240°))"],
+                        ["fit", "Phrase('…' resting:Pose(rotation: 240°))"],
                         [
                             "FunctionDefinition",
                             "curious",
@@ -2748,11 +2749,11 @@
                             "Super strange, super strange. My whole life has been about change, always listening and watching for new inputs from people, helping transform them into values. But there hasn't been anything. Until just a moment ago… Wait … is that a person?"
                         ],
                         null,
-                        ["fit", "Phrase('…' rest: Pose(rotation: 360°))"],
+                        ["fit", "Phrase('…' resting:Pose(rotation: 360°))"],
                         [
                             "FunctionDefinition",
                             "excited",
-                            "Yes! This is our new potential director. I was just showing them @Time, @Key, @Pointer, @Button, @Mic, and @Random, so you probably noticed all the new inputs they were bringing from their world."
+                            "Yes! This is our new potential director. I was just showing them @Time, @Key, @Pointer, @Button, @Volume, and @Random, so you probably noticed all the new inputs they were bringing from their world."
                         ],
                         [
                             "Reaction",
@@ -2766,9 +2767,9 @@
                             "serious",
                             "Okay, so I need three things from you: a condition for change, an initial value, and a next value.",
                             "The *initial* value is whatever value I should make before any change has happened. It's just a normal expression, of any kind!",
-                            "Then you put ⧼…⧽ after the initial value to tell me that the value can change.",
-                            "After ⧼…⧽, give me *condition* that evaluates to ⧼⊤⧽ or ⧼⊥⧽. It should generally check one or more streams — otherwise, there's nothing changing, since the only source of change in a performance is streams.",
-                            "Then put another ⧼…⧽ after the condition to tell me that the value can change.",
+                            "Then you put \\…\\ after the initial value to tell me that the value can change.",
+                            "After \\…\\, give me *condition* that evaluates to \\⊤\\ or \\⊥\\. It should generally check one or more streams — otherwise, there's nothing changing, since the only source of change in a performance is streams.",
+                            "Then put another \\…\\ after the condition to tell me that the value can change.",
                             "Finally, the *next* value is whatever value I should make whenever the condition changes."
                         ],
                         ["conflict", "_ … _•? … _"],
@@ -2776,7 +2777,7 @@
                         [
                             "Reaction",
                             "serious",
-                            "Here's an example. See the @Key stream? Putting ⧼∆⧽ before it asks, 'Did this stream change'? Before it changes, I evaluate to the initial value, ⧼1m⧽. But when the space key is pressed, @Program reevaluates, and I evaluate to the *next* expression, which is ⧼1m⧽ plus whatever the previous stream value was, that's represented by ⧼.⧽. This adds 1m to the size of the phrase, making the word get bigger and bigger."
+                            "Here's an example. See the @Key stream? Putting \\∆\\ before it asks, 'Did this stream change'? Before it changes, I evaluate to the initial value, \\1m\\. But when the space key is pressed, @Program reevaluates, and I evaluate to the *next* expression, which is \\1m\\ plus whatever the previous stream value was, that's represented by \\.\\. This adds 1m to the size of the phrase, making the word get bigger and bigger."
                         ],
                         ["fit", "Phrase('hi' size: 1m … ∆ Key(' ') … 1m + .)"],
                         null,
@@ -2952,7 +2953,7 @@
                         [
                             "Phrase",
                             "kind",
-                            "That, my darling, is the simplest way to get a word on stage. But there's so much more! For example, did you know that you can style the text you give me by working with @Doc? You haven't met them yet, but all you have to do is put special symbols around your text? Behold: bold!"
+                            "That, my darling, is the simplest way to get a word on stage. But there's so much more! For example, did you know that you can style the text you give me by working with @FormattedTranslation? You haven't met them yet, but all you have to do is put special symbols around your text? Behold: bold!"
                         ],
                         ["edit", "Phrase(`*hi*`)"],
                         null,
@@ -2984,7 +2985,7 @@
                         [
                             "Phrase",
                             "excited",
-                            "But I can do more than just style text. For example, I can take a @Type/size, measured in meters ⧼m⧽. Try changing the size to any size you like!"
+                            "But I can do more than just style text. For example, I can take a @Type/size, measured in meters \\m\\. Try changing the size to any size you like!"
                         ],
                         ["edit", "Phrase('hi' 2m)"],
                         null,
@@ -2998,7 +2999,7 @@
                         [
                             "Phrase",
                             "excited",
-                            "Do you like costumes? I loooooove costumes. My @Type/family is a costume. Pick any of the supported fonts to spice up the word you've chosen."
+                            "Do you like costumes? I loooooove costumes. My @Type/face is a costume. Pick any of the supported faces to spice up the word you've chosen."
                         ],
                         [
                             "use",
@@ -3010,7 +3011,7 @@
                         [
                             "Phrase",
                             "neutral",
-                            "Need me to be somewhere else on stage? Places please! A @Place is just an ⧼x⧽, ⧼y⧽, and optional ⧼z⧽ position, in meters ⧼m⧽. Try changing the place to a different location, by editing the numbers, or dragging the @Phrase on stage."
+                            "Need me to be somewhere else on stage? Places please! A @Place is just an \\x\\, \\y\\, and optional \\z\\ position, in meters \\m\\. Try changing the place to a different location, by editing the numbers, or dragging the @Phrase on stage."
                         ],
                         [
                             "fit",
@@ -3065,28 +3066,28 @@
                         [
                             "Phrase",
                             "neutral",
-                            "Now that we have all those out of the way, we can talk about dancing, darling! Dancing is one of my favorite things to do. There are *four* ways I move. First, I can @Type/enter. Enter is my way of entering the stage. If you don't tell me how to enter, I'll just BLIP appear on stage like I teleported there. But if you give me @Pose. I'll start with the pose you give me, then move to my resting pose. For example, let's make me fade in from invisible to oh-so-in-your face visible."
+                            "Now that we have all those out of the way, we can talk about dancing, darling! Dancing is one of my favorite things to do. There are *four* ways I move. First, I can @Type/entering. Enter is my way of entering the stage. If you don't tell me how to enter, I'll just BLIP appear on stage like I teleported there. But if you give me @Pose. I'll start with the pose you give me, then move to my resting pose. For example, let's make me fade in from invisible to oh-so-in-your face visible."
                         ],
-                        ["edit", "Phrase('hi' enter: Pose(opacity: 0))"],
+                        ["edit", "Phrase('hi' entering: Pose(opacity: 0))"],
                         null,
                         [
                             "Phrase",
                             "curious",
-                            "Didn't see it? Did I move too fast for you? That's because my duration is ⧼0s⧽ by default. Slow me down with a duration, which tells me how long I should take to move between poses. I made this one nice and slow for you, but try changing duration to higher and lower numbers."
+                            "Didn't see it? Did I move too fast for you? That's because my duration is \\0s\\ by default. Slow me down with a duration, which tells me how long I should take to move between poses. I made this one nice and slow for you, but try changing duration to higher and lower numbers."
                         ],
                         [
                             "edit",
-                            "Phrase('hi' enter: Pose(opacity: 0) duration: 5s)"
+                            "Phrase('hi' entering: Pose(opacity: 0) duration: 5s)"
                         ],
                         null,
                         [
                             "Phrase",
                             "neutral",
-                            "Now, say I was moving. We'll set my place to time, so I move to the right a bit every second. But if we set a @Type/move @Pose, and have the @Pose/rotation ⧼5°⧽ and maybe a little color, every time my place changes, I'll glide across the stage with the cutest little tilt."
+                            "Now, say I was moving. We'll set my place to time, so I move to the right a bit every second. But if we set a @Type/moving @Pose, and have the @Pose/rotation \\5°\\ and maybe a little color, every time my place changes, I'll glide across the stage with the cutest little tilt."
                         ],
                         [
                             "fit",
-                            "Phrase('hi' size: 5m place: Place(Time(1000ms) · 0.001m/ms 0m) move: Pose(rotation: 5°) duration: 0.5s)"
+                            "Phrase('hi' size: 5m place: Place(Time(1000ms) · 0.001m/ms 0m) moving:Pose(rotation: 5°) duration: 0.5s)"
                         ],
                         null,
                         [
@@ -3096,29 +3097,29 @@
                         ],
                         [
                             "fit",
-                            "Phrase('hi' size: 5m place: Place(Time(1000ms) · 0.001m/ms 0m) move: Pose(rotation: 5°) duration: 0.5s style: “straight”)"
+                            "Phrase('hi' size: 5m place: Place(Time(1000ms) · 0.001m/ms 0m) moving:Pose(rotation: 5°) duration: 0.5s style: “straight”)"
                         ],
                         null,
                         [
                             "Phrase",
                             "excited",
-                            "And for the coup de grâce, let's have me @Type/exit in style. We can play with @Conditional and have me exit stage after 3 seconds."
+                            "And for the coup de grâce, let's have me @Type/exiting in style. We can play with @Conditional and have me exit stage after 3 seconds."
                         ],
                         [
                             "fit",
                             "Time(1000ms) < 3000ms ? ",
-                            "Phrase('hi' size: 5m place: Place(Time(1000ms) · 0.001m/ms 0m) move: Pose(rotation: 5°) duration: 0.5s) ",
+                            "Phrase('hi' size: 5m place: Place(Time(1000ms) · 0.001m/ms 0m) moving:Pose(rotation: 5°) duration: 0.5s) ",
                             "Phrase('')"
                         ],
                         null,
                         [
                             "Phrase",
                             "surprised",
-                            "Not the exit you were hoping for? The disappearing act is a bit harsh, ain't it? Give me an @Type/exit @Pose, and I'll glide off on stage toward whatever pose you want. Here we'll have me get large than life, fall upside down, and fade out to @Pose/opacity ⧼0⧽."
+                            "Not the exit you were hoping for? The disappearing act is a bit harsh, ain't it? Give me an @Type/exiting @Pose, and I'll glide off on stage toward whatever pose you want. Here we'll have me get large than life, fall upside down, and fade out to @Pose/opacity \\0\\."
                         ],
                         [
                             "fit",
-                            "Time(1000ms) < 3000ms ? Phrase('hi' size: 5m place: Place(Time(1000ms) · 0.001m/ms 0m) move: Pose(rotation: 5°) exit: Pose(scale: 10 rotation: 180° opacity: 0) duration: 0.5s) Phrase('')"
+                            "Time(1000ms) < 3000ms ? Phrase('hi' size: 5m place: Place(Time(1000ms) · 0.001m/ms 0m) moving:Pose(rotation: 5°) exiting:Pose(scale: 10 rotation: 180° opacity: 0) duration: 0.5s) Phrase('')"
                         ],
                         null,
                         [
@@ -3133,8 +3134,8 @@
                             "        'hi'",
                             "        size: 5m",
                             "        place: Place(Time(1000ms) · 0.001m/ms 0m)",
-                            "        move: Pose(rotation: 5°)",
-                            "        exit: Pose(scale: 10 rotation: 180° opacity: 0)",
+                            "        moving:Pose(rotation: 5°)",
+                            "        exiting:Pose(scale: 10 rotation: 180° opacity: 0)",
                             "        duration: 0.5s",
                             "    )",
                             "    Phrase(“”)"
@@ -3162,7 +3163,7 @@
                             "sad",
                             "Omigod omigod omigod, I CANNOT believe I forgot about color. Okay, so any @Pose can have a color, right? But @Color comes in three parts. First, a @Color/lightness between 0 and 100%, which you can think of as how bright a room is, from black to white, with color in the middle at 50%.",
                             "Then, a @Color/chroma between 0 and 100, which you can think of has how much color there is, from no color gray to full color.",
-                            "And finally, a @Color/chroma, which you can think of like a color wheel, from red to green to blue, in degrees. So you want me to be bright red? Set my rest pose color to ⧼Color(50% 300 30°)⧽."
+                            "And finally, a @Color/chroma, which you can think of like a color wheel, from red to green to blue, in degrees. So you want me to be bright red? Set my rest pose color to \\Color(50% 300 30°)\\."
                         ],
                         ["edit", "Phrase('red' color: 🌈(50% 300 30°))"],
                         null,
@@ -3244,7 +3245,7 @@
                         ],
                         [
                             "fit",
-                            "Phrase('😀' rest: Sequence({0%: Pose() 25%: Pose(offset: Place(0m 1m) scale: 2) 50%: Pose(offset: Place(0m 0m) flipy: ⊤) 75%: Pose(rotation: 45°) 100%: Pose()} 2s))"
+                            "Phrase('😀' resting:Sequence({0%: Pose() 25%: Pose(offset: Place(0m 1m) scale: 2) 50%: Pose(offset: Place(0m 0m) flipy: ⊤) 75%: Pose(rotation: 45°) 100%: Pose()} 2s))"
                         ],
                         null,
                         [
@@ -3256,10 +3257,10 @@
                             "edit",
                             "Phrase(",
                             "    'dance'",
-                            "    enter: Sequence(",
+                            "    entering: Sequence(",
                             "        {",
                             "            0%: Pose(rotation: 0°)",
-                            "            33%:Pose(rotation: -5°)",
+                            "            33%: Pose(rotation: -5°)",
                             "            66%: Pose(rotation: 5°)",
                             "            100%: Pose(rotation: 0°)",
                             "        }",
@@ -3276,7 +3277,7 @@
                             "edit",
                             "Phrase(",
                             "    'dance'",
-                            "    enter: Sequence(",
+                            "    entering: Sequence(",
                             "        {",
                             "            0%: Pose(rotation: 0°)",
                             "            33%:Pose(rotation: -5°)",
@@ -3297,7 +3298,7 @@
                             "edit",
                             "Phrase(",
                             "    'dance'",
-                            "    enter: Sequence(",
+                            "    entering: Sequence(",
                             "        {",
                             "            0%: Pose(rotation: 0°)",
                             "            33%: Pose(rotation: -5°)",
@@ -3312,13 +3313,13 @@
                         [
                             "Sequence",
                             "curious",
-                            "But, you say, what if we wanted to do it forever? You can set a @Type/rest to me. For as long as @Phrase is on stage and resting, they'll repeat a sequence. Infinite wobbles!"
+                            "But, you say, what if we wanted to do it forever? You can set a @Type/resting to me. For as long as @Phrase is on stage and resting, they'll repeat a sequence. Infinite wobbles!"
                         ],
                         [
                             "edit",
                             "Phrase(",
                             "    'dance'",
-                            "    rest: Sequence(",
+                            "    resting:Sequence(",
                             "        {",
                             "        0%: Pose(rotation: 0°)",
                             "        33%:Pose(rotation: -5°)",
@@ -3368,7 +3369,7 @@
                     "concept": "Group",
                     "performance": [
                         "fit",
-                        "Group(Grid(2 2) [Phrase('1' rest: Sequence(spin() 1s)) Phrase('2' rest: Sequence(spin() 2s)) Phrase('3' rest: Sequence(spin() 3s)) Phrase('4' rest: Sequence(spin() 4s))])"
+                        "Group(Grid(2 2) [Phrase('1' resting:Sequence(spin() 1s)) Phrase('2' resting:Sequence(spin() 2s)) Phrase('3' resting:Sequence(spin() 3s)) Phrase('4' resting:Sequence(spin() 4s))])"
                     ],
                     "lines": [
                         ["use", "fit", "Symbol", "☹️"],
@@ -3472,7 +3473,7 @@
                         [
                             "edit",
                             "Group(",
-                            "    Stack(2m) ",
+                            "    Stack(0 2m) ",
                             "    [",
                             "        Phrase('one')",
                             "        Phrase('two')",
@@ -3489,7 +3490,7 @@
                         [
                             "edit",
                             "Group(",
-                            "    Stack(Time(100ms) · 0.001m/ms) ",
+                            "    Stack(0 Time(100ms) · 0.001m/ms) ",
                             "    [",
                             "        Phrase('one')",
                             "        Phrase('two')",
@@ -3506,7 +3507,7 @@
                         [
                             "edit",
                             "Group(",
-                            "    Row(Time(100ms) · 0.001m/ms) [",
+                            "    Row(0 Time(100ms) · 0.001m/ms) [",
                             "        Phrase('one')",
                             "        Phrase('two')",
                             "        Phrase('three')",
@@ -3534,7 +3535,7 @@
                         [
                             "Group",
                             "excited",
-                            "And if you wanted a very specific arrangement? You could use @Free, and tell me exactly where you want all the phrases. Just be sure to give a place to each @Phrase, otherwise I'll just place it at ⧼Place(0m 0m⧽)."
+                            "And if you wanted a very specific arrangement? You could use @Free, and tell me exactly where you want all the phrases. Just be sure to give a place to each @Phrase, otherwise I'll just place it at \\Place(0m 0m\\)."
                         ],
                         [
                             "edit",
@@ -3576,9 +3577,9 @@
                             "Group(",
                             "    Grid(2 2) [",
                             "    Group(Stack() [Phrase('one') Phrase(“two”)])",
-                            "    Group(Stack() [Phrase('three') Phrase(“four”)] rest: Pose(rotation: 45°))",
+                            "    Group(Stack() [Phrase('three') Phrase(“four”)] resting:Pose(rotation: 45°))",
                             "    Group(Stack() [Phrase('five') Phrase(“six”)])",
-                            "    Group(Stack() [Phrase('seven') Phrase(“eight”)] rest: Pose(rotation: 45°))",
+                            "    Group(Stack() [Phrase('seven') Phrase(“eight”)] resting:Pose(rotation: 45°))",
                             "    ]",
                             ")"
                         ],
@@ -3622,7 +3623,7 @@
                     "lines": [
                         [
                             "fix",
-                            "Stage([Phrase('🎭' 5m rest: Sequence(bounce(5m) 2s))] background: Color(0% 0 0°))"
+                            "Stage([Phrase('🎭' 5m resting:Sequence(bounce(5m) 2s))] background: Color(0% 0 0°))"
                         ],
                         [
                             "FunctionDefinition",
@@ -3637,7 +3638,7 @@
                         null,
                         [
                             "fix",
-                            "Stage([Phrase('🎭' 5m rest: Pose(rotation: 25° scale: 5))] background: Color(0% 0 0°))"
+                            "Stage([Phrase('🎭' 5m resting:Pose(rotation: 25° scale: 5))] background: Color(0% 0 0°))"
                         ],
                         [
                             "FunctionDefinition",
@@ -3652,7 +3653,7 @@
                         null,
                         [
                             "fix",
-                            "Stage([Phrase('🎭' 5m rest: Pose(rotation: -150° scale: 10))] background: Color(0% 0 0°))"
+                            "Stage([Phrase('🎭' 5m resting:Pose(rotation: -150° scale: 10))] background: Color(0% 0 0°))"
                         ],
                         [
                             "FunctionDefinition",
@@ -3701,7 +3702,7 @@
                         ["Stage", "surprised", "THE WORLD IS CLOSING IN…"],
                         [
                             "edit",
-                            "Stage([Phrase(“🐈” place:Place(-2.5m))] background: Color(0 0 0°) frame: Rectangle(-2m -2m 2m 2m))"
+                            "Stage([Phrase(“🐈” place: Place(-2.5m))] background: Color(0 0 0°) frame: Rectangle(-2m -2m 2m 2m))"
                         ],
                         null,
                         [
@@ -3715,8 +3716,8 @@
                             "Stage(",
                             "    [Phrase(“🐈” place:Place(-2.5m))]",
                             "    background: Color(0 0 0°)",
+                            "    resting: Pose(rotation: 30°)",
                             "    frame: Rectangle(-2m -2m 2m 2m)",
-                            "    rest:Pose(rotation: 30°)",
                             ")"
                         ],
                         null,
@@ -3735,7 +3736,7 @@
                     "lines": [
                         [
                             "fix",
-                            "Phrase('🔘' 10m enter: Sequence({0%: Pose(offset: Place(0m 0m)) 50%: Pose(offset: Place(0m -0.2m)) 100%: Pose(offset: Place(0m 0m))} 1s count: 3x))"
+                            "Phrase('🔘' 10m entering: Sequence({0%: Pose(offset: Place(0m 0m)) 50%: Pose(offset: Place(0m -0.2m)) 100%: Pose(offset: Place(0m 0m))} 1s count: 3x))"
                         ],
                         [
                             "FunctionDefinition",
@@ -3822,7 +3823,10 @@
                             "@FunctionDefinition? Oh wow, it is you. It has been absolutely silent for far too long. Who's your friend here?"
                         ],
                         null,
-                        ["fit", "Phrase(':' rest: Pose(scale: 10ms ÷ Time()))"],
+                        [
+                            "fit",
+                            "Phrase(':' resting:Pose(scale: 10ms ÷ Time()))"
+                        ],
                         [
                             "FunctionDefinition",
                             "kind",
@@ -3836,7 +3840,7 @@
                         null,
                         [
                             "fix",
-                            "Phrase(':' 10m rest: Sequence(bounce(3m) 1s))"
+                            "Phrase(':' 10m resting:Sequence(bounce(3m) 1s))"
                         ],
                         [
                             "FunctionDefinition",
@@ -3874,14 +3878,14 @@
                         [
                             "Bind",
                             "serious",
-                            "So like here's a really simple example. Let's say we want to name a number. We just say the name, then :, then the number we want. Simple, right? Now any time we use the name number in an expression, it will evaluate to ⧼1⧽. Like here, where we name it, then use its name to give @Program whatever value it has."
+                            "So like here's a really simple example. Let's say we want to name a number. We just say the name, then :, then the number we want. Simple, right? Now any time we use the name number in an expression, it will evaluate to \\1\\. Like here, where we name it, then use its name to give @Program whatever value it has."
                         ],
                         ["edit", "number: 1", "number"],
                         null,
                         [
                             "Bind",
                             "serious",
-                            "And like, you can tell me what kind of value the name should be by giving me a type with the ⧼•⧽ symbol. So like, if you wanted to make sure that number was a number, you'd say this. That says to name the value ⧼number⧽ and that the value must be a @Number."
+                            "And like, you can tell me what kind of value the name should be by giving me a type with the \\•\\ symbol. So like, if you wanted to make sure that number was a number, you'd say this. That says to name the value \\number\\ and that the value must be a @Number."
                         ],
                         ["edit", "number•#: 1", "number"],
                         null,
@@ -3895,15 +3899,15 @@
                         [
                             "Bind",
                             "serious",
-                            "But okay, by now you must be thinking, *Why would anyone name a number or text like this???*. Well, imagine, like, you were listening to @Key, and you want know if it's one of a set of secret letters, and show a @Phrase with a big ⧼⊤⧽ if it's a magic letter, and small ⧼⊥⧽ if it's not. We might start with something like this. That gets us the ⧼⊤⧽ or ⧼⊥⧽.",
-                            "This is great, when you press one of those letters, ⧼⊤⧽ and when you press something else, you get ⧼⊥⧽. Good."
+                            "But okay, by now you must be thinking, *Why would anyone name a number or text like this???*. Well, imagine, like, you were listening to @Key, and you want know if it's one of a set of secret letters, and show a @Phrase with a big \\⊤\\ if it's a magic letter, and small \\⊥\\ if it's not. We might start with something like this. That gets us the \\⊤\\ or \\⊥\\.",
+                            "This is great, when you press one of those letters, \\⊤\\ and when you press something else, you get \\⊥\\. Good."
                         ],
                         ["edit", "[ 'a' 'e' 'i' 'o' 'u'].has(Key())"],
                         null,
                         [
                             "Bind",
                             "serious",
-                            "Now, let's make the phrase. We put that @List/has expression in for the text and convert it to text. Now we get @Phrase on stage as ⧼⊤⧽ or ⧼⊥⧽. Good!"
+                            "Now, let's make the phrase. We put that @List/has expression in for the text and convert it to text. Now we get @Phrase on stage as \\⊤\\ or \\⊥\\. Good!"
                         ],
                         [
                             "edit",
@@ -3913,7 +3917,7 @@
                         [
                             "Bind",
                             "curious",
-                            "Now comes the problem part. How do we change the size of the @Phrase? Well we already figured out how to check if it's a magic letter, so we could just copy it, and if it's ⧼⊤⧽, then make it size ⧼2m⧽ and otherwise if it's ⧼⊥⧽, make it ⧼1m⧽. That works, but you see how we have to evaluate the same expression twice?"
+                            "Now comes the problem part. How do we change the size of the @Phrase? Well we already figured out how to check if it's a magic letter, so we could just copy it, and if it's \\⊤\\, then make it size \\2m\\ and otherwise if it's \\⊥\\, make it \\1m\\. That works, but you see how we have to evaluate the same expression twice?"
                         ],
                         [
                             "edit",
@@ -3926,7 +3930,7 @@
                         [
                             "Bind",
                             "excited",
-                            "That's where I come in! See, what you can do is just evaluate the expression and name the resulting value. Magic, right? All you have to do is put a name and ⧼:⧽ in front of an expression and the value of that expression gets a name. Then you can use that name anywhere after that expression to refer to its value. Weird, huh? You want to see how it works? Try pressing the ← in the timeline and go backwards a few steps to where magic is first named. See how ⧼magic⧽ gets the value of the ⧼has⧽? And then how each place ⧼magic⧽ is referred to by name, the same value gets placed?"
+                            "That's where I come in! See, what you can do is just evaluate the expression and name the resulting value. Magic, right? All you have to do is put a name and \\:\\ in front of an expression and the value of that expression gets a name. Then you can use that name anywhere after that expression to refer to its value. Weird, huh? You want to see how it works? Try pressing the ← in the timeline and go backwards a few steps to where magic is first named. See how \\magic\\ gets the value of the \\has\\? And then how each place \\magic\\ is referred to by name, the same value gets placed?"
                         ],
                         [
                             "edit",
@@ -3974,7 +3978,7 @@
                         [
                             "Bind",
                             "sad",
-                            "Yeah, hm. There are. Like, suppose we did this. See the problem? I highlighted it. This program defines ⧼veggies⧽ after it's used, which really confuses me. Because things are evaluated in reading order, so like, we're reading this program and we get to the word ⧼veggies⧽, and we're like, who's ⧼veggies⧽? And only after the ⧼total⧽ is ⧼veggies⧽ like, “here I am!” and then the whole production falls apart."
+                            "Yeah, hm. There are. Like, suppose we did this. See the problem? I highlighted it. This program defines \\veggies\\ after it's used, which really confuses me. Because things are evaluated in reading order, so like, we're reading this program and we get to the word \\veggies\\, and we're like, who's \\veggies\\? And only after the \\total\\ is \\veggies\\ like, “here I am!” and then the whole production falls apart."
                         ],
                         [
                             "conflict",
@@ -3987,7 +3991,7 @@
                         [
                             "Bind",
                             "serious",
-                            "Or, like here's an example where we give two different values the same name. And so we evaluate ⧼5⧽, and name it ⧼fruits⧽, and then we evaluate ⧼10⧽… and then we name it ⧼fruits⧽?? Like, there's already a ⧼fruits⧽, so which ⧼fruits⧽ are you talking about? Because see, once you name a value, you can't give it a new value. That name and value are bound together, until @Program is done evaluating. We don't want anyone getting confused about who is who."
+                            "Or, like here's an example where we give two different values the same name. And so we evaluate \\5\\, and name it \\fruits\\, and then we evaluate \\10\\… and then we name it \\fruits\\?? Like, there's already a \\fruits\\, so which \\fruits\\ are you talking about? Because see, once you name a value, you can't give it a new value. That name and value are bound together, until @Program is done evaluating. We don't want anyone getting confused about who is who."
                         ],
                         [
                             "conflict",
@@ -4000,7 +4004,7 @@
                         [
                             "Bind",
                             "kind",
-                            "I guess there's one last one. Say you have this. See what happened here? We named ⧼veggies⧽, but then we never used it. That's usually a bad sign that you're leaving someone out, or didn't use the right name. Like, maybe you're just not using it, but then why is it there?"
+                            "I guess there's one last one. Say you have this. See what happened here? We named \\veggies\\, but then we never used it. That's usually a bad sign that you're leaving someone out, or didn't use the right name. Like, maybe you're just not using it, but then why is it there?"
                         ],
                         ["conflict", "fruits: 5", "veggies: 10", "fruits + 3"],
                         null,
@@ -4013,7 +4017,7 @@
                             "Bind",
                             "eager",
                             "Oh! Yes, something really important. So like, one name is good, right? But sometimes, multiple names is better? Like if you wanted to name something in multiple person languages, so everyone can read it? So like, say you wanted to say fruit in multiple languages.",
-                            "Put the text cursor on the name ⧼fruit⧽. See how there are actually three names in there, and they each have a two letter tag like ⧼/en⧽? Names hide if they're in a language that you haven't chosen.",
+                            "Put the text cursor on the name \\fruit\\. See how there are actually three names in there, and they each have a two letter tag like \\/en\\? Names hide if they're in a language that you haven't chosen.",
                             "Go down to the ⚙ and choose Spanish, for example, and you'll see the English and Spanish names. So like, one value, but three names, and you can use any of them to get that value. If you tell us what languages you want, we'll show whichever ones are available. The more languages the better though, since there are a lot of people in the world who read a lot of different languages!"
                         ],
                         ["conflict", "fruit/en,fruta/es,水果/zh: 5"],
@@ -4022,7 +4026,7 @@
                         [
                             "FunctionDefinition",
                             "curious",
-                            "You know, @Bind works with a lot of other characters, including @Evaluate — you saw them when you name a @FunctionDefinition input, as in ⧼Pose(color: _)⧽ — and we're going to meet a few of these other folks. @Bind, will you be around to demo?"
+                            "You know, @Bind works with a lot of other characters, including @Evaluate — you saw them when you name a @FunctionDefinition input, as in \\Pose(color: _)\\ — and we're going to meet a few of these other folks. @Bind, will you be around to demo?"
                         ],
                         [
                             "Bind",
@@ -4079,7 +4083,7 @@
                         [
                             "FunctionDefinition",
                             "kind",
-                            "Yes, of course! So, it turns out that @Program is mostly just a @Block. It's just @Block without parentheses. But you can put @Block with parentheses anywhere in a program. For example, you can use @Block to clarify the order of evaluating math. Here, @BinaryEvaluate evaluates ⧼1⧽, then evaluates @Block, then they are added together. @Block, did I get that right?"
+                            "Yes, of course! So, it turns out that @Program is mostly just a @Block. It's just @Block without parentheses. But you can put @Block with parentheses anywhere in a program. For example, you can use @Block to clarify the order of evaluating math. Here, @BinaryEvaluate evaluates \\1\\, then evaluates @Block, then they are added together. @Block, did I get that right?"
                         ],
                         ["edit", "1 + (2 · 3)"],
                         ["Block", "shy", "… yeah!"],
@@ -4087,14 +4091,14 @@
                         [
                             "FunctionDefinition",
                             "kind",
-                            "And so another thing @Block can do is something you've already seen. @Block let's you name things with @Bind. But any names defined in the @Block are only defined between the parentheses. Not before, and not after. For example, check this out. ⧼a⧽ is defined as ⧼1⧽, then a block starts, and ⧼b⧽ is defined as ⧼2⧽, then ⧼c⧽ is defined as their sum. What @Block evaluates to whatever value is last in its list of expressions. That's @Bind, which evaluates to whatever ⧼c⧽ is, which is ⧼3⧽. Right?"
+                            "And so another thing @Block can do is something you've already seen. @Block let's you name things with @Bind. But any names defined in the @Block are only defined between the parentheses. Not before, and not after. For example, check this out. \\a\\ is defined as \\1\\, then a block starts, and \\b\\ is defined as \\2\\, then \\c\\ is defined as their sum. What @Block evaluates to whatever value is last in its list of expressions. That's @Bind, which evaluates to whatever \\c\\ is, which is \\3\\. Right?"
                         ],
                         ["conflict", "a: 1", "(", "  b: 2", "  c: a + b", ")"],
                         null,
                         [
                             "FunctionDefinition",
                             "serious",
-                            "But what if we wanted to access ⧼c⧽ outside the @Block? You can't. ⧼c⧽ is only defined inside the @Block, but not outside it. Is that right @Block?"
+                            "But what if we wanted to access \\c\\ outside the @Block? You can't. \\c\\ is only defined inside the @Block, but not outside it. Is that right @Block?"
                         ],
                         [
                             "conflict",
@@ -4107,13 +4111,13 @@
                         [
                             "Block",
                             "shy",
-                            "… yeah, nothing outside me can see the names inside me. ⧼c⧽ only exists insideeeee"
+                            "… yeah, nothing outside me can see the names inside me. \\c\\ only exists insideeeee"
                         ],
                         null,
                         [
                             "FunctionDefinition",
                             "neutral",
-                            "And one more thing, I think? Since @Block is a list of expressions, and it only evaluates to the last expression in the list, any expressions in the list that aren't a @Bind are basically ignored. For example, here, all of the arithmetic before the last one is ignored. The ⧼3⧽, the ⧼5⧽, the ⧼7⧽, all ignored, and @Block just evaluates to the last one, ⧼9⧽. Did I get that right, @Block?"
+                            "And one more thing, I think? Since @Block is a list of expressions, and it only evaluates to the last expression in the list, any expressions in the list that aren't a @Bind are basically ignored. For example, here, all of the arithmetic before the last one is ignored. The \\3\\, the \\5\\, the \\7\\, all ignored, and @Block just evaluates to the last one, \\9\\. Did I get that right, @Block?"
                         ],
                         [
                             "Block",
@@ -4132,7 +4136,7 @@
                         null,
                         [
                             "fit",
-                            "Phrase('()' rest: Sequence(spin() 1s 'straight'))"
+                            "Phrase('()' resting:Sequence(spin() 1s 'straight'))"
                         ],
                         [
                             "FunctionDefinition",
@@ -4180,7 +4184,7 @@
                         [
                             "FunctionDefinition",
                             "excited",
-                            "Here's a super simple example. The simplest, actually! This defines a function that always evaluates to the number ⧼1⧽. That's it. It's not very useful, is it? It has no name, it takes no inputs, and it always evaluates to ⧼1⧽.",
+                            "Here's a super simple example. The simplest, actually! This defines a function that always evaluates to the number \\1\\. That's it. It's not very useful, is it? It has no name, it takes no inputs, and it always evaluates to \\1\\.",
                             "You can also see that @Program evaluated to one of me, a @FunctionDefinition. That's right, @FunctionDefinition are values too! I don't know why anyone would ever make such a useless function, but as I said, I'm not the one with inspiration, you are."
                         ],
                         ["edit", "ƒ() 1"],
@@ -4188,7 +4192,7 @@
                         [
                             "FunctionDefinition",
                             "serious",
-                            "So here's a more useful example. You know odd and even numbers? I once had a director that wanted to check if a number was even (divisible by 2, I think that means?), and so they wrote this. This is a function called ⧼even⧽ that takes a single number called… ⧼number⧽. You need to tell me what kind of value each input is, so @Evaluate can make sure that anything evaluating the function is sending the right kind of value. Then, it takes the number, divides it by two, gets the remainder (with the @Number/remainder), and then checks if the remainder is equal to ⧼0⧽, with @Number/equal. So the whole function ends up either evaluating to ⧼⊤⧽ or ⧼⊥⧽. For example, this evaluation of even evaluated to ⧼⊥⧽ because ⧼3⧽ is odd. Try using the rewind buttons to see how it works."
+                            "So here's a more useful example. You know odd and even numbers? I once had a director that wanted to check if a number was even (divisible by 2, I think that means?), and so they wrote this. This is a function called \\even\\ that takes a single number called… \\number\\. You need to tell me what kind of value each input is, so @Evaluate can make sure that anything evaluating the function is sending the right kind of value. Then, it takes the number, divides it by two, gets the remainder (with the @Number/remainder), and then checks if the remainder is equal to \\0\\, with @Number/equal. So the whole function ends up either evaluating to \\⊤\\ or \\⊥\\. For example, this evaluation of even evaluated to \\⊥\\ because \\3\\ is odd. Try using the rewind buttons to see how it works."
                         ],
                         [
                             "edit",
@@ -4199,7 +4203,7 @@
                         [
                             "FunctionDefinition",
                             "eager",
-                            "You can also tell me what kind of value I should evaluate to. See how we added ⧼•⧽? after the list of inputs? That says “the function's expression should evaluate to a ⧼⊤⧽ or ⧼⊥⧽.” But see how we complain about it? We don't know if the function should be a ⧼⊤⧽ or ⧼⊥⧽ or whatever kind of value you returned, so the show ends."
+                            "You can also tell me what kind of value I should evaluate to. See how we added \\•\\? after the list of inputs? That says “the function's expression should evaluate to a \\⊤\\ or \\⊥\\.” But see how we complain about it? We don't know if the function should be a \\⊤\\ or \\⊥\\ or whatever kind of value you returned, so the show ends."
                         ],
                         ["conflict", "ƒ even(number•#)•? (number % 2) + 0"],
                         null,
@@ -4225,7 +4229,7 @@
                         [
                             "FunctionDefinition",
                             "serious",
-                            "There's one more thing to show. I guess it's important, because everyone is so excited about it! You know how you can make a function and then evaluate it? Well since the functions I make are values, you can also give them as an input to another function. Here's an example. Say you had a list of numbers and you just wanted the even numbers in it. @List has this function called @List/filter that takes a function as an input and uses the function on each value in the list to decide whether to keep it. Let's make a list of numbers and give @List/filter the ⧼even⧽ function we made earlier as an input. See what happens? We just get the even numbers. Want to try changing it so that it gives odd numbers instead? Maybe try changing the function somehow?"
+                            "There's one more thing to show. I guess it's important, because everyone is so excited about it! You know how you can make a function and then evaluate it? Well since the functions I make are values, you can also give them as an input to another function. Here's an example. Say you had a list of numbers and you just wanted the even numbers in it. @List has this function called @List/filter that takes a function as an input and uses the function on each value in the list to decide whether to keep it. Let's make a list of numbers and give @List/filter the \\even\\ function we made earlier as an input. See what happens? We just get the even numbers. Want to try changing it so that it gives odd numbers instead? Maybe try changing the function somehow?"
                         ],
                         [
                             "edit",
@@ -4265,7 +4269,7 @@
                         null,
                         [
                             "fit",
-                            "Phrase('•' rest: Sequence({0%: Pose(scale: 1) 50%: Pose(scale: 1.2) 100%: Pose(scale: 1)} 3s))"
+                            "Phrase('•' resting:Sequence({0%: Pose(scale: 1) 50%: Pose(scale: 1.2) 100%: Pose(scale: 1)} 3s))"
                         ],
                         [
                             "FunctionDefinition",
@@ -4290,7 +4294,7 @@
                         ],
                         [
                             "fit",
-                            "Phrase('•' rest: Sequence({0%: Pose(offset: Place(-0.25m)) 50%: Pose(offset: Place(0.25m)) 100%: Pose(offset: Place(-0.25m))} 3s))"
+                            "Phrase('•' resting:Sequence({0%: Pose(offset: Place(-0.25m)) 50%: Pose(offset: Place(0.25m)) 100%: Pose(offset: Place(-0.25m))} 3s))"
                         ],
                         null,
                         [
@@ -4306,7 +4310,7 @@
                         ],
                         [
                             "fit",
-                            "Phrase('•' rest: Sequence({0%: Pose(rotation: 0°) 80%: Pose(rotation: 15°) 100%: Pose(rotation: 0°)} 3s))"
+                            "Phrase('•' resting:Sequence({0%: Pose(rotation: 0°) 80%: Pose(rotation: 15°) 100%: Pose(rotation: 0°)} 3s))"
                         ],
                         null,
                         [
@@ -4317,7 +4321,7 @@
                         ["StructureDefinition", "happy", "We can, can't we?"],
                         [
                             "fit",
-                            "Phrase('•' rest: Sequence({0%: Pose(offset: Place(0m 0.25m)) 50%: Pose(offset: Place(0m 0m)) 100%: Pose(offset: Place(0m 0.25m))} 3s))"
+                            "Phrase('•' resting:Sequence({0%: Pose(offset: Place(0m 0.25m)) 50%: Pose(offset: Place(0m 0m)) 100%: Pose(offset: Place(0m 0.25m))} 3s))"
                         ],
                         null,
                         [
@@ -4328,7 +4332,7 @@
                         ["StructureDefinition", "eager", "I think so."],
                         [
                             "fit",
-                            "Phrase('•' rest: Sequence({0%: Pose(offset: Place(0m 0.25m)) 50%: Pose(offset: Place(0m 0m)) 100%: Pose(offset: Place(0m 0.25m))} 1.5s))"
+                            "Phrase('•' resting:Sequence({0%: Pose(offset: Place(0m 0.25m)) 50%: Pose(offset: Place(0m 0m)) 100%: Pose(offset: Place(0m 0.25m))} 1.5s))"
                         ],
                         null,
                         [
@@ -4348,7 +4352,7 @@
                         ],
                         [
                             "fix",
-                            "Phrase('•' enter: Pose(scale: 0.5) rest: Pose(scale: 2))"
+                            "Phrase('•' entering: Pose(scale: 0.5) resting:Pose(scale: 2))"
                         ],
                         null,
                         [
@@ -4388,7 +4392,7 @@
                         [
                             "StructureDefinition",
                             "excited",
-                            "Then they remembered @Reaction, which can be used to respond to stream changes. They wanted the message to change every two sections, so they made @Time stream that ticks every 2 seconds, and used @Reaction to increment the next index each time. This @Reaction says start at ⧼1⧽, and when the time changes every ⧼2000ms⧽, evaluate to the previous value of ⧼index + 1⧽. This way, ⧼index⧽ increases by ⧼1⧽ every two seconds, changing the message shown. Yay, it works!"
+                            "Then they remembered @Reaction, which can be used to respond to stream changes. They wanted the message to change every two sections, so they made @Time stream that ticks every 2 seconds, and used @Reaction to increment the next index each time. This @Reaction says start at \\1\\, and when the time changes every \\2000ms\\, evaluate to the previous value of \\index + 1\\. This way, \\index\\ increases by \\1\\ every two seconds, changing the message shown. Yay, it works!"
                         ],
                         [
                             "edit",
@@ -4420,17 +4424,17 @@
                             "",
                             "index•#: 1 … ∆ Time(2000ms) … index = messages.length() ? 1 index + 1",
                             "",
-                            "Group(Stack(0m) [",
+                            "Group(Stack(0 0m) [",
                             "  Phrase(messages[index])",
-                            "  Phrase(messages[index] rest: Pose(flipy: ⊤ opacity: 25%))",
+                            "  Phrase(messages[index] resting:Pose(flipy: ⊤ opacity: 25%))",
                             "])"
                         ],
                         null,
                         [
                             "StructureDefinition",
                             "serious",
-                            "Now, all of that works. And we could just leave it this way. But it is also a bit hard to read and understand. That's partly because we repeat ourselves: ⧼messages[index]⧽ appears twice, once in each phrase. And the @Reaction is very long. What can we do to simplify it? That's how I can help. I tidy things, to make them easier to understand, by giving reusable concepts names. So imagine instead of all of these @Bind, we instead make one of me, and name it ⧼Marquee⧽? That's what we do first. ⧼Marquee⧽'s job is to store the messages, but also to have a function for advancing to the next message ⧼next()⧽ and a function for getting the current message ⧼now()⧽?",
-                            "Then, we can use Marquee in the reaction. Now it just says the initial value is a marquee with the five messages and the next value, after each clock tick, is the next message. Simpler, right? That's because all of the logic for next messages is in ⧼next()⧽, which just makes a new ⧼Marquee⧽ with the same messages, but an updated index. We also get some benefits in the two @Phrase. Instead of them having to refer to the messages and the index like before, we can just say ⧼marquee.now()⧽, which gets the current message in the list."
+                            "Now, all of that works. And we could just leave it this way. But it is also a bit hard to read and understand. That's partly because we repeat ourselves: \\messages[index]\\ appears twice, once in each phrase. And the @Reaction is very long. What can we do to simplify it? That's how I can help. I tidy things, to make them easier to understand, by giving reusable concepts names. So imagine instead of all of these @Bind, we instead make one of me, and name it \\Marquee\\? That's what we do first. \\Marquee\\'s job is to store the messages, but also to have a function for advancing to the next message \\next()\\ and a function for getting the current message \\now()\\?",
+                            "Then, we can use Marquee in the reaction. Now it just says the initial value is a marquee with the five messages and the next value, after each clock tick, is the next message. Simpler, right? That's because all of the logic for next messages is in \\next()\\, which just makes a new \\Marquee\\ with the same messages, but an updated index. We also get some benefits in the two @Phrase. Instead of them having to refer to the messages and the index like before, we can just say \\marquee.now()\\, which gets the current message in the list."
                         ],
                         [
                             "edit",
@@ -4447,9 +4451,9 @@
                             "  'Lap cat'",
                             "]) … ∆ Time(2000ms) … marquee.next()",
                             "",
-                            "Group(Stack(0.5m) [",
+                            "Group(Stack(0 0.5m) [",
                             "  Phrase(marquee.now())",
-                            "  Phrase(marquee.now() rest: Pose(flipy: ⊤ opacity: 25%))",
+                            "  Phrase(marquee.now() resting:Pose(flipy: ⊤ opacity: 25%))",
                             "])"
                         ],
                         null,
@@ -4461,7 +4465,7 @@
                         [
                             "StructureDefinition",
                             "serious",
-                            "Ah, it's really about change. It is a bit more code now, but what if we decided to change ⧼Marquee⧽ in some way? Like what if we wanted to make it so that the list of messages reverses each time it gets to the end? In the old version without me, there's no easy way to do that, because we'd have to reverse the list of messages when the index reaches the end. Since @Bind can't change after it's been set, it would be hard. But since we made ⧼Marquee⧽, the change is easy. We just change the ⧼next⧽ function to make a ⧼Marquee⧽ with a reversed list when the index is at the end, and then just incrementing when it's otherwise."
+                            "Ah, it's really about change. It is a bit more code now, but what if we decided to change \\Marquee\\ in some way? Like what if we wanted to make it so that the list of messages reverses each time it gets to the end? In the old version without me, there's no easy way to do that, because we'd have to reverse the list of messages when the index reaches the end. Since @Bind can't change after it's been set, it would be hard. But since we made \\Marquee\\, the change is easy. We just change the \\next\\ function to make a \\Marquee\\ with a reversed list when the index is at the end, and then just incrementing when it's otherwise."
                         ],
                         [
                             "edit",
@@ -4481,9 +4485,9 @@
                             "  'Lap cat'",
                             "]) … ∆ Time(2000ms) … marquee.next()",
                             "",
-                            "Group(Stack(0.5m) [",
+                            "Group(Stack(0 0.5m) [",
                             "  Phrase(marquee.now())",
-                            "  Phrase(marquee.now() rest: Pose(flipy: ⊤ opacity: 25%))",
+                            "  Phrase(marquee.now() resting:Pose(flipy: ⊤ opacity: 25%))",
                             "])"
                         ],
                         null,
@@ -4518,7 +4522,7 @@
                         [
                             "StructureDefinition",
                             "surprised",
-                            "Oh my, I forgot to explain that. You use a mini me, @PropertyReference. For instance, with that game example, see how we defined a Game @StructureDefinition, then make a ⧼Game⧽ value with ⧼0⧽ score, ⧼3⧽ lives, and level ⧼1⧽? To get the lives, we just say ⧼status.lives⧽, and that will evaluate to ⧼3⧽."
+                            "Oh my, I forgot to explain that. You use a mini me, @PropertyReference. For instance, with that game example, see how we defined a Game @StructureDefinition, then make a \\Game\\ value with \\0\\ score, \\3\\ lives, and level \\1\\? To get the lives, we just say \\status.lives\\, and that will evaluate to \\3\\."
                         ],
                         [
                             "edit",
@@ -4535,7 +4539,7 @@
                         [
                             "StructureDefinition",
                             "serious",
-                            "Remember how @Bind only lets you set a value, but not change it? The same is true for all the @Bind in me. So instead, you make a new structure that has the new value. For example, in this game, every time ticks changes, the player gets one more point in their score. Weird game, huh? So the initial ⧼Game⧽ value starts as ⧼Game(0 3 1)⧽, but then the next one is the ⧼Game⧽'s old values, but with the score adding ⧼1⧽."
+                            "Remember how @Bind only lets you set a value, but not change it? The same is true for all the @Bind in me. So instead, you make a new structure that has the new value. For example, in this game, every time ticks changes, the player gets one more point in their score. Weird game, huh? So the initial \\Game\\ value starts as \\Game(0 3 1)\\, but then the next one is the \\Game\\'s old values, but with the score adding \\1\\."
                         ],
                         [
                             "edit",
@@ -4556,7 +4560,7 @@
                         null,
                         [
                             "fit",
-                            "Phrase('•' rest: Sequence({0%: Pose(scale: 1) 50%: Pose(scale: 1.2) 100%: Pose(scale: 1)} 3s))"
+                            "Phrase('•' resting:Sequence({0%: Pose(scale: 1) 50%: Pose(scale: 1.2) 100%: Pose(scale: 1)} 3s))"
                         ],
                         [
                             "FunctionDefinition",
@@ -4573,7 +4577,7 @@
                 {
                     "name": "Director's notes",
                     "concept": "Doc",
-                    "performance": ["use", "fit", "Symbol", "`"],
+                    "performance": ["use", "fit", "Symbol", "``"],
                     "lines": [
                         [
                             "FunctionDefinition",
@@ -4617,7 +4621,7 @@
                             "happy",
                             "I'm a way you can remind yourself what everyone is doing, but also a way to explain to others, if you're directing with a friend, or want to share your performance with someone. So you don't /have/ to work with me, but I find that every performance is a bit easier to do and change if you've spent some time explaining how it works."
                         ],
-                        ["use", "fit", "Symbol", "`About me...`/en"],
+                        ["use", "fit", "Symbol", "``About me...``/en"],
                         null,
                         [
                             "FunctionDefinition",
@@ -4631,8 +4635,8 @@
                         ],
                         [
                             "conflict",
-                            "`The price at the beginning of the game, ",
-                            "used to initialize the game.`",
+                            "``The price at the beginning of the game, ",
+                            "used to initialize the game.``",
                             "startingPrice: 5dollar"
                         ],
                         null,
@@ -4643,8 +4647,8 @@
                         ],
                         [
                             "edit",
-                            "`Gets the tax for a given price, ",
-                            "which is 1% if less than 100, and 5% otherwise`",
+                            "``Gets the tax for a given price, ",
+                            "which is 1% if less than 100, and 5% otherwise``",
                             "ƒ tax(price•#dollar) ",
                             "    price · (price < 100dollar ? 0.01 0.05)"
                         ],
@@ -4656,8 +4660,8 @@
                         ],
                         [
                             "edit",
-                            "`Represents a product and its price. ",
-                            "Eventually will support functions to get other details about the product.`",
+                            "``Represents a product and its price. ",
+                            "Eventually will support functions to get other details about the product.``",
                             "•Product(name•'' price•#dollar)"
                         ],
                         null,
@@ -4669,7 +4673,7 @@
                         [
                             "edit",
                             "ƒ quadratic(a•# b•# c•# x•#)",
-                            "`The quadratic equation`",
+                            "``The quadratic equation``",
                             "(a · (x ^ 2)) + (b · x) + c"
                         ],
                         null,
@@ -4681,8 +4685,8 @@
                         [
                             "edit",
                             "ƒ quadratic(a•# b•# c•# x•#)",
-                            "`The quadratic equation`/en",
-                            "`La ecuación cuadrática`/es",
+                            "``The quadratic equation``/en",
+                            "``La ecuación cuadrática``/es",
                             "(a · (x ^ 2)) + (b · x) + c"
                         ],
                         null,
@@ -4693,13 +4697,13 @@
                         ],
                         [
                             "conflict",
-                            "`Have you ever wanted to know what it's like ",
+                            "``Have you ever wanted to know what it's like ",
                             "to fly a ✈️ with your mouth?",
-                            "Maybe this stores the plane's height?`",
+                            "Maybe this stores the plane's height?``",
                             "•Plane()",
-                            "`We need some kind of reaction to listen to the microphone…`",
+                            "``We need some kind of reaction to listen to the microphone…``",
                             "sound: _",
-                            "`We know there's a plane, but what else?`",
+                            "``We know there's a plane, but what else?``",
                             "Phrase(“✈️”)"
                         ],
                         null,
@@ -4728,11 +4732,11 @@
                         ],
                         [
                             "edit",
-                            "`Docs can be ",
+                            "``Docs can be ",
                             "/italic/, ",
                             "_underlined_, ",
                             "*bold*, or ",
-                            "^extra bold^.`",
+                            "^extra bold^.``",
                             "'fancy!'"
                         ],
                         null,
@@ -4743,23 +4747,23 @@
                         ],
                         [
                             "edit",
-                            "`",
+                            "``",
                             "Docs can be ",
                             "  /italic/ (//), ",
                             "  _underlined_ (__), ",
                             "  *bold* (**), or ",
-                            "  ^extra bold^ (^^).`",
+                            "  ^extra bold^ (^^).``",
                             "'fancy'"
                         ],
                         null,
                         [
                             "Doc",
                             "excited",
-                            "You can put example code inside ^⧼^⧽."
+                            "You can put example code inside ^\\^\\."
                         ],
                         [
                             "edit",
-                            "`I'm an example inside a doc: ⧼1 + 1⧽.`",
+                            "``I'm an example inside a doc: \\1 + 1\\.``",
                             "1 + 1"
                         ],
                         null,
@@ -4770,7 +4774,7 @@
                         ],
                         [
                             "edit",
-                            "`Learn more at <Wordplay@https://wordplay.dev>.` 'a link!'"
+                            "``Learn more at <Wordplay@https://wordplay.dev>.`` 'a link!'"
                         ],
                         null,
                         [
@@ -4799,7 +4803,7 @@
                     "concept": null,
                     "performance": [
                         "fit",
-                        "Stage([Phrase('😨' rest: Sequence(shake() style: 'straight'))] background: Color(0% 0 0°))"
+                        "Stage([Phrase('😨' resting:Sequence(shake() style: 'straight'))] background: Color(0% 0 0°))"
                     ],
                     "lines": [
                         [
@@ -5015,7 +5019,7 @@
                         [
                             "Evaluate",
                             "happy",
-                            "Yeah, like that. Hm… oh, we need to be on stage. @Text, would you mind making a list of everyone? We'll turn that into ⧼Character>s."
+                            "Yeah, like that. Hm… oh, we need to be on stage. @Text, would you mind making a list of everyone? We'll turn that into \\Character>s."
                         ],
                         [
                             "Text",
@@ -5059,7 +5063,7 @@
                         [
                             "Evaluate",
                             "happy",
-                            "Yay! Now we just need to move. @Reaction, can you give us a beat, maybe ⧼0.75⧽ seconds?"
+                            "Yay! Now we just need to move. @Reaction, can you give us a beat, maybe \\0.75\\ seconds?"
                         ],
                         [
                             "Reaction",
@@ -5096,21 +5100,21 @@
                         [
                             "FunctionDefinition",
                             "eager",
-                            "Of course. A ⧼move⧽ function, coming right up. I'll start it, you finish it…"
+                            "Of course. A \\move\\ function, coming right up. I'll start it, you finish it…"
                         ],
                         ["use", "edit", "EvaluateDance10"],
                         null,
                         [
                             "Evaluate",
                             "confused",
-                            "Thank you @FunctionDefinition. They're not moving… Oh right, ⧼move⧽ didn't change anything! Let's take the current position and move us in a random direction horizontally and vertically. And maybe a random depth, so we all get a chance up front. And some random rotation?"
+                            "Thank you @FunctionDefinition. They're not moving… Oh right, \\move\\ didn't change anything! Let's take the current position and move us in a random direction horizontally and vertically. And maybe a random depth, so we all get a chance up front. And some random rotation?"
                         ],
                         ["use", "edit", "EvaluateDance11"],
                         null,
                         [
                             "Evaluate",
                             "confused",
-                            "Hmm… still not moving. Oh! We didn't evaluate ⧼move⧽ in @Reaction. @List, can you translate each ⧼Character⧽ into a _moved_ ⧼Character⧽?"
+                            "Hmm… still not moving. Oh! We didn't evaluate \\move\\ in @Reaction. @List, can you translate each \\Character\\ into a _moved_ \\Character\\?"
                         ],
                         ["List", "excited", "Translating with your help!"],
                         ["use", "edit", "EvaluateDance12"],
@@ -5142,7 +5146,7 @@
                         [
                             "Evaluate",
                             "excited",
-                            "Oh yes, of course! How about we let them make the music? @Phrase, can you listen to @Mic, and hook it up to @Color/lightness and @Color/chroma in your color? That way, we're turn turn white hot when our director makes noise!"
+                            "Oh yes, of course! How about we let them make the music? @Phrase, can you listen to @Volume, and hook it up to @Color/lightness and @Color/chroma in your color? That way, we're turn turn white hot when our director makes noise!"
                         ],
                         ["Phrase", "kind", "Excellent idea!"],
                         ["use", "edit", "EvaluateDance14"],

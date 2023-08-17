@@ -1,5 +1,5 @@
 import toStructure from '../basis/toStructure';
-import type Value from '@runtime/Value';
+import type Value from '@values/Value';
 import type Color from './Color';
 import type TypeOutput from './TypeOutput';
 import type RenderContext from './RenderContext';
@@ -41,8 +41,8 @@ export class Free extends Arrangement {
                 if (place.x + layout.width > right)
                     right = place.x + layout.width;
                 if (place.y < bottom) bottom = place.y;
-                if (place.y + layout.height > top)
-                    top = place.y + layout.height;
+                if (place.y + layout.ascent > top)
+                    top = place.y + layout.ascent;
             }
         }
 

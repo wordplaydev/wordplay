@@ -1,6 +1,6 @@
 <script lang="ts">
     import Switch from '@components/widgets/Switch.svelte';
-    import { config } from '../../db/Creator';
+    import { locale } from '../../db/Database';
 
     export let painting: boolean;
 </script>
@@ -8,8 +8,8 @@
 <Switch
     on={painting}
     toggle={(on) => (painting = on)}
-    offTip={$config.getLocale().ui.description.place}
-    onTip={$config.getLocale().ui.description.paint}
+    offTip={$locale.ui.description.place}
+    onTip={$locale.ui.description.paint}
     offLabel="✥"
     onLabel="🖌️"
 />

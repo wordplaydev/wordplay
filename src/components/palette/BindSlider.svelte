@@ -1,12 +1,13 @@
 <script lang="ts">
-    import { parseNumber, toTokens } from '@parser/Parser';
+    import { parseNumber } from '@parser/parseExpression';
     import Slider from '../widgets/Slider.svelte';
     import type OutputPropertyValues from '@edit/OutputPropertyValueSet';
     import type OutputPropertyRange from '@edit/OutputPropertyRange';
     import type OutputProperty from '@edit/OutputProperty';
     import { getProject } from '../project/Contexts';
-    import { config } from '../../db/Creator';
+    import { database } from '../../db/Database';
     import { getFirstName } from '../../locale/Locale';
+    import { toTokens } from '../../parser/toTokens';
 
     export let property: OutputProperty;
     export let values: OutputPropertyValues;
@@ -18,7 +19,7 @@
     function handleChange(newValue: number) {
         if ($project === undefined) return;
 
-        $config.reviseProjectNodes(
+        database.reviseProjectNodes(
             $project,
             $project.getBindReplacements(
                 values.getExpressions(),

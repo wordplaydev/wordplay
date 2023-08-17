@@ -15,10 +15,10 @@ import type Definition from './Definition';
 import StructureDefinition from './StructureDefinition';
 import FunctionDefinition from './FunctionDefinition';
 import type TypeSet from './TypeSet';
-import None from '@runtime/None';
+import NoneValue from '@values/NoneValue';
 import ConversionDefinition from './ConversionDefinition';
 import Docs from './Docs';
-import type Value from '@runtime/Value';
+import type Value from '@values/Value';
 import EvalCloseToken from './EvalCloseToken';
 import EvalOpenToken from './EvalOpenToken';
 import UnclosedDelimiter from '@conflicts/UnclosedDelimiter';
@@ -27,7 +27,7 @@ import { none, type Grammar, type Replacement, node, list, any } from './Node';
 import type Locale from '@locale/Locale';
 import Glyphs from '../lore/Glyphs';
 import concretize from '../locale/concretize';
-import Symbol from './Symbol';
+import Sym from './Sym';
 import Purpose from '../concepts/Purpose';
 
 export enum BlockKind {
@@ -95,7 +95,7 @@ export default class Block extends Expression {
             { name: 'docs', kind: any(node(Docs), none()) },
             {
                 name: 'open',
-                kind: any(node(Symbol.EvalOpen), none()),
+                kind: any(node(Sym.EvalOpen), none()),
                 uncompletable: true,
             },
             {
@@ -110,7 +110,7 @@ export default class Block extends Expression {
             },
             {
                 name: 'close',
-                kind: any(node(Symbol.EvalClose), none()),
+                kind: any(node(Sym.EvalClose), none()),
                 newline: this.isStructure(),
                 uncompletable: true,
             },
@@ -305,7 +305,7 @@ export default class Block extends Expression {
             values.push(evaluator.popValue(this));
 
         // Root blocks are allowed to have no value, but all others must have one.
-        return this.isStructure() ? new None(this) : values[0];
+        return this.isStructure() ? new NoneValue(this) : values[0];
     }
 
     /**

@@ -1,24 +1,24 @@
 import toStructure from '../basis/toStructure';
-import type Value from '@runtime/Value';
+import type Value from '@values/Value';
 import type Color from './Color';
 import type TypeOutput from './TypeOutput';
 import type RenderContext from './RenderContext';
 import { getBind } from '@locale/getBind';
 import Arrangement from './Arrangement';
-import Number from '../runtime/Number';
+import NumberValue from '@values/NumberValue';
 import Place from './Place';
-import None from '../runtime/None';
+import NoneValue from '@values/NoneValue';
 import concretize from '../locale/concretize';
 import type Locale from '../locale/Locale';
 import { getOutputInputs } from './Output';
-import Structure from '../runtime/Structure';
+import StructureValue from '../values/StructureValue';
 
 export function createGridType(locales: Locale[]) {
     return toStructure(`
     ${getBind(locales, (locale) => locale.output.Grid, '•')} Arrangement(
-        ${getBind(locales, (locale) => locale.output.Grid.rows)}•#
-        ${getBind(locales, (locale) => locale.output.Grid.columns)}•#
-        ${getBind(locales, (locale) => locale.output.Grid.padding)}•#m: 1m
+        ${getBind(locales, (locale) => locale.output.Grid.rows)}•#|ø:ø
+        ${getBind(locales, (locale) => locale.output.Grid.columns)}•#|ø:ø
+        ${getBind(locales, (locale) => locale.output.Grid.padding)}•#m:1m
         ${getBind(locales, (locale) => locale.output.Grid.cellWidth)}•#m|ø: ø
         ${getBind(locales, (locale) => locale.output.Grid.cellHeight)}•#m|ø: ø
     )
@@ -26,34 +26,54 @@ export function createGridType(locales: Locale[]) {
 }
 
 export class Grid extends Arrangement {
-    readonly rows: number;
-    readonly columns: number;
+    readonly rows: number | undefined;
+    readonly columns: number | undefined;
     readonly padding: number;
     readonly cellWidth: number | undefined;
     readonly cellHeight: number | undefined;
 
     constructor(
         value: Value,
-        rows: Number,
-        columns: Number,
-        padding: Number,
-        cellWidth: Number | None,
-        cellHeight: Number | None
+        rows: NumberValue | NoneValue,
+        columns: NumberValue | NoneValue,
+        padding: NumberValue,
+        cellWidth: NumberValue | NoneValue,
+        cellHeight: NumberValue | NoneValue
     ) {
         super(value);
-        this.rows = Math.max(1, rows.toNumber());
-        this.columns = Math.max(1, columns.toNumber());
+        this.rows =
+            rows instanceof NoneValue
+                ? undefined
+                : Math.max(1, rows.toNumber());
+        this.columns =
+            columns instanceof NoneValue
+                ? undefined
+                : Math.max(1, columns.toNumber());
         this.padding = padding.toNumber();
         this.cellWidth =
-            cellWidth instanceof Number ? cellWidth.toNumber() : undefined;
+            cellWidth instanceof NumberValue ? cellWidth.toNumber() : undefined;
         this.cellHeight =
-            cellHeight instanceof Number ? cellHeight.toNumber() : undefined;
+            cellHeight instanceof NumberValue
+                ? cellHeight.toNumber()
+                : undefined;
     }
 
     getLayout(outputs: (TypeOutput | null)[], context: RenderContext) {
         const layouts = outputs.map((output) =>
             output ? output.getLayout(context) : null
         );
+
+        // Figure out the number of rows and columns to have.
+        const rows: number =
+            this.rows ??
+            (this.columns
+                ? Math.ceil(outputs.length / this.columns)
+                : Math.ceil(Math.sqrt(outputs.length)));
+        const columns: number =
+            this.columns ??
+            (this.rows
+                ? Math.ceil(outputs.length / this.rows)
+                : Math.ceil(Math.sqrt(outputs.length)));
 
         // This layout algorithm arranges children from the left to right,
         // starting at the top row, and working towards the bottom.
@@ -66,13 +86,9 @@ export class Grid extends Arrangement {
         // First, build a matrix of the requested size.
         const grid = [];
         const unplaced = layouts.slice();
-        for (let rowIndex = 0; rowIndex < this.rows; rowIndex++) {
+        for (let rowIndex = 0; rowIndex < rows; rowIndex++) {
             const row = [];
-            for (
-                let columnIndex = 0;
-                columnIndex < this.columns;
-                columnIndex++
-            ) {
+            for (let columnIndex = 0; columnIndex < columns; columnIndex++) {
                 row.push({
                     output: unplaced.shift() ?? null,
                     place: undefined,
@@ -84,22 +100,22 @@ export class Grid extends Arrangement {
         // First, compute the max height of each row and max width of each column.
         // This prepares us to position each output within the grid.
         const rowHeights: number[] = [];
-        for (let row = 0; row < this.rows; row++) {
+        for (let row = 0; row < rows; row++) {
             // The row height is the explicit cell height or the max height in the row.
             rowHeights[row] =
                 this.cellHeight !== undefined
                     ? this.cellHeight
                     : grid[row].reduce(
                           (max, cell) =>
-                              cell.output && cell.output.height > max
-                                  ? cell.output.height
+                              cell.output && cell.output.ascent > max
+                                  ? cell.output.ascent
                                   : max,
                           0
                       );
         }
 
         const columnWidths: number[] = [];
-        for (let column = 0; column < this.columns; column++) {
+        for (let column = 0; column < columns; column++) {
             columnWidths[column] =
                 this.cellWidth !== undefined
                     ? this.cellWidth
@@ -116,16 +132,16 @@ export class Grid extends Arrangement {
 
         const width =
             columnWidths.reduce((sum, width) => sum + width, 0) +
-            this.padding * (this.columns - 1);
+            this.padding * (columns - 1);
 
         const height =
             rowHeights.reduce((sum, height) => sum + height, 0) +
-            this.padding * (this.rows - 1);
+            this.padding * (rows - 1);
 
         // Next, position each child in a cell, iterating through each row from left to right.
         const places: [TypeOutput, Place][] = [];
-        for (let row = 0; row < this.rows; row++) {
-            for (let col = 0; col < this.columns; col++) {
+        for (let row = 0; row < rows; row++) {
+            for (let col = 0; col < columns; col++) {
                 // Get the output in this cell.
                 const cell = grid[row][col];
                 if (cell.output) {
@@ -179,16 +195,16 @@ export class Grid extends Arrangement {
 }
 
 export function toGrid(value: Value | undefined): Grid | undefined {
-    if (!(value instanceof Structure)) return undefined;
+    if (!(value instanceof StructureValue)) return undefined;
 
     const [rows, columns, padding, cellWidth, cellHeight] =
         getOutputInputs(value);
 
-    return rows instanceof Number &&
-        columns instanceof Number &&
-        padding instanceof Number &&
-        (cellWidth instanceof Number || cellWidth instanceof None) &&
-        (cellHeight instanceof Number || cellHeight instanceof None)
+    return (rows instanceof NumberValue || rows instanceof NoneValue) &&
+        (columns instanceof NumberValue || columns instanceof NoneValue) &&
+        padding instanceof NumberValue &&
+        (cellWidth instanceof NumberValue || cellWidth instanceof NoneValue) &&
+        (cellHeight instanceof NumberValue || cellHeight instanceof NoneValue)
         ? new Grid(value, rows, columns, padding, cellWidth, cellHeight)
         : undefined;
 }

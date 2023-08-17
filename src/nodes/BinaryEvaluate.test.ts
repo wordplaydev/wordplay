@@ -1,11 +1,10 @@
 import { test, expect } from 'vitest';
 import { testConflict } from '@conflicts/TestUtilities';
-import Evaluator from '@runtime/Evaluator';
 import BinaryEvaluate from './BinaryEvaluate';
 import { FALSE_SYMBOL } from '@parser/Symbols';
 import { OR_SYMBOL } from '@parser/Symbols';
 import IncompatibleInput from '@conflicts/IncompatibleInput';
-import { DefaultLocale } from '../db/Creator';
+import evaluateCode from '../runtime/evaluate';
 
 test.each([
     ['1 · 5', '1 · ""', BinaryEvaluate, IncompatibleInput],
@@ -40,5 +39,5 @@ test.each([
     ['⊤ & ~⊤', '⊥'],
     ['~(⊤ & ⊤)', '⊥'],
 ])('Expect %s to be %s', (code, value) => {
-    expect(Evaluator.evaluateCode(DefaultLocale, code)?.toString()).toBe(value);
+    expect(evaluateCode(code)?.toString()).toBe(value);
 });

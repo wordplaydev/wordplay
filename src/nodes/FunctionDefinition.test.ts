@@ -5,11 +5,10 @@ import DuplicateTypeVariable from '@conflicts/DuplicateTypeVariable';
 import FunctionDefinition from './FunctionDefinition';
 import DuplicateName from '@conflicts/DuplicateName';
 import TypeVariables from './TypeVariables';
-import Evaluator from '@runtime/Evaluator';
 import NoExpression from '@conflicts/NoExpression';
-import EvaluationLimitException from '@runtime/EvaluationLimitException';
+import EvaluationLimitException from '@values/EvaluationLimitException';
 import IncompatibleType from '../conflicts/IncompatibleType';
-import { DefaultLocale } from '../db/Creator';
+import evaluateCode from '../runtime/evaluate';
 
 test.each([
     ['ƒ(a b) 1', 'ƒ(a a) 1', FunctionDefinition, DuplicateName],
@@ -26,7 +25,7 @@ test.each([
 );
 
 test('Test text functions', () => {
-    expect(
-        Evaluator.evaluateCode(DefaultLocale, 'ƒ a() a() a()')
-    ).toBeInstanceOf(EvaluationLimitException);
+    expect(evaluateCode('ƒ a() a() a()')).toBeInstanceOf(
+        EvaluationLimitException
+    );
 });

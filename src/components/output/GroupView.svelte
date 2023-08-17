@@ -1,8 +1,14 @@
-<svelte:options immutable={true} />
-
 <script lang="ts">
     import type Place from '@output/Place';
-    import outputToCSS, { PX_PER_METER } from '@output/outputToCSS';
+    import {
+        PX_PER_METER,
+        getColorCSS,
+        getFaceCSS,
+        getSizeCSS,
+        getOpacityCSS,
+        sizeToPx,
+        toOutputTransform,
+    } from '@output/outputToCSS';
     import type RenderContext from '@output/RenderContext';
     import Phrase from '@output/Phrase';
     import PhraseView from './PhraseView.svelte';
@@ -11,7 +17,7 @@
     import { getSelectedOutput } from '../project/Contexts';
     import type { Shape } from '../../output/Shapes';
     import type Stage from '../../output/Stage';
-    import { config } from '../../db/Creator';
+    import { locale, locales } from '../../db/Database';
 
     export let group: Group | Stage;
     export let place: Place;
@@ -50,10 +56,10 @@
 
 <div
     role={!group.selectable ? 'presentation' : 'group'}
-    aria-label={group.getDescription($config.getLocales())}
+    aria-label={group.getDescription($locales)}
     aria-roledescription={group instanceof Group
-        ? $config.getLocale().term.group
-        : $config.getLocale().term.stage}
+        ? $locale.term.group
+        : $locale.term.stage}
     aria-hidden={empty ? 'true' : null}
     class="output group {group.constructor.name}"
     class:selected={selected && !root}
@@ -63,24 +69,27 @@
     data-node-id={group.value.creator.id}
     data-name={group.getName()}
     data-selectable={group.selectable}
-    style={outputToCSS(
-        context.font,
-        context.size,
-        // No first pose because of an empty sequence? Give a default.
+    style:width={sizeToPx(layout.width)}
+    style:height={sizeToPx(layout.height)}
+    style:font-family={getFaceCSS(context.face)}
+    style:font-size={getSizeCSS(context.size)}
+    style:background={group.background?.toCSS() ?? null}
+    style:color={getColorCSS(group.getFirstRestPose(), group.pose)}
+    style:opacity={getOpacityCSS(group.getFirstRestPose(), group.pose)}
+    style:clip-path={clip ? clip.toCSSClip() : null}
+    style:transform={toOutputTransform(
         group.getFirstRestPose(),
+        group.pose,
         place,
-        layout.width,
-        layout.height,
         focus,
         parentAscent,
         {
             width: layout.width * PX_PER_METER,
-            fontAscent: layout.height * PX_PER_METER,
-            actualAscent: layout.height * PX_PER_METER,
+            height: layout.height * PX_PER_METER,
+            ascent: layout.height * PX_PER_METER,
         },
         viewport
     )}
-    style:clip-path={clip ? clip.toCSSClip() : null}
 >
     <slot />
     {#each ordered as [child, childPlace] (child.getName())}
@@ -125,6 +134,9 @@
         position: absolute;
         left: 0;
         top: 0;
+
+        /* This disables translation around the center; we want to translate around the focus.*/
+        transform-origin: 0 0;
     }
 
     .frame {

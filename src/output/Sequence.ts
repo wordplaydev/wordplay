@@ -1,15 +1,15 @@
 import toStructure from '../basis/toStructure';
 import { TYPE_SYMBOL } from '@parser/Symbols';
-import Structure from '@runtime/Structure';
-import type Value from '@runtime/Value';
+import StructureValue from '@values/StructureValue';
+import type Value from '@values/Value';
 import { getBind } from '@locale/getBind';
 import Output, { getOutputInputs } from './Output';
 import type Pose from './Pose';
 import { toPose } from './Pose';
 import { toDecimal } from './Stage';
-import Text from '../runtime/Text';
-import Map from '../runtime/Map';
-import Number from '../runtime/Number';
+import TextValue from '../values/TextValue';
+import MapValue from '../values/MapValue';
+import NumberValue from '@values/NumberValue';
 import Transition from './Transition';
 import type Place from './Place';
 import type { TransitionSequence } from './OutputAnimation';
@@ -131,7 +131,7 @@ export default class Sequence extends Output {
 export function toSequence(project: Project, value: Value | undefined) {
     if (
         !(
-            value instanceof Structure &&
+            value instanceof StructureValue &&
             value.type === project.shares.output.Sequence
         )
     )
@@ -142,13 +142,13 @@ export function toSequence(project: Project, value: Value | undefined) {
     const count = toDecimal(countVal);
     const duration = toDecimal(durationVal);
 
-    if (!(poses instanceof Map)) return undefined;
+    if (!(poses instanceof MapValue)) return undefined;
 
     // Convert the map to a sorted list of steps
     const steps: SequenceStep[] = [];
 
     for (const [key, value] of poses.values) {
-        const percent = key instanceof Number ? key.toNumber() : undefined;
+        const percent = key instanceof NumberValue ? key.toNumber() : undefined;
         const pose = toPose(project, value);
         if (percent !== undefined && pose !== undefined)
             steps.push({ percent, pose });
@@ -157,7 +157,7 @@ export function toSequence(project: Project, value: Value | undefined) {
     // Sort the steps in increasing percents.
     steps.sort((a, b) => a.percent - b.percent);
 
-    return count && duration && style instanceof Text && poses
+    return count && duration && style instanceof TextValue && poses
         ? new Sequence(
               value,
               count.toNumber(),

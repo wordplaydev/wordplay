@@ -5,13 +5,14 @@
     import NodeView from './NodeView.svelte';
     import { getEvaluation } from '../project/Contexts';
     import Evaluate from '@nodes/Evaluate';
-    import type Stream from '@runtime/Stream';
+    import type StreamValue from '@values/StreamValue';
+    import type Value from '../../values/Value';
 
     export let node: Reference;
 
     let evaluation = getEvaluation();
 
-    let stream: Stream | undefined;
+    let stream: StreamValue<Value, unknown> | undefined;
     $: {
         if ($evaluation) {
             const parent = $evaluation.evaluator.project

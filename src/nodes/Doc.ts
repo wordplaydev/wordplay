@@ -1,10 +1,10 @@
 import Language from './Language';
-import { any, node, none } from './Node';
+import { node, optional } from './Node';
 import type { Grammar, Replacement } from './Node';
 import Token from './Token';
 import type Locale from '@locale/Locale';
 import { DOCS_SYMBOL } from '@parser/Symbols';
-import Symbol from './Symbol';
+import Sym from './Sym';
 import type Paragraph from './Paragraph';
 import Words from './Words';
 import Glyphs from '../lore/Glyphs';
@@ -36,9 +36,9 @@ export default class Doc extends LanguageTagged {
 
     static make(content?: Paragraph[]) {
         return new Doc(
-            new Token(DOCS_SYMBOL, Symbol.Doc),
+            new Token(DOCS_SYMBOL, Sym.Doc),
             new Markup(content ?? []),
-            new Token(DOCS_SYMBOL, Symbol.Doc),
+            new Token(DOCS_SYMBOL, Sym.Doc),
             undefined
         );
     }
@@ -49,10 +49,10 @@ export default class Doc extends LanguageTagged {
 
     getGrammar(): Grammar {
         return [
-            { name: 'open', kind: node(Symbol.Doc) },
+            { name: 'open', kind: node(Sym.Doc) },
             { name: 'markup', kind: node(Markup) },
-            { name: 'close', kind: node(Symbol.Doc) },
-            { name: 'language', kind: any(node(Language), none()) },
+            { name: 'close', kind: node(Sym.Doc) },
+            { name: 'language', kind: optional(node(Language)) },
         ];
     }
 
@@ -77,12 +77,15 @@ export default class Doc extends LanguageTagged {
         const first: Paragraph | undefined = this.markup.paragraphs[0];
         return first === undefined
             ? ''
-            : (first.nodes((n) => n instanceof Words) as Words[])
+            : first
+                  .nodes((n): n is Words => n instanceof Words)
                   .map((w) => w.toText())
                   .join();
     }
 
-    computeConflicts() {}
+    computeConflicts() {
+        return;
+    }
 
     getNodeLocale(translation: Locale) {
         return translation.node.Doc;

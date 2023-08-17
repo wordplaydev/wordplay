@@ -25,7 +25,9 @@ export default abstract class UnknownType<
         return [];
     }
 
-    computeConflicts() {}
+    computeConflicts() {
+        return [];
+    }
 
     acceptsAll() {
         return false;
@@ -43,7 +45,7 @@ export default abstract class UnknownType<
         return UNKNOWN_SYMBOL;
     }
 
-    getReasons(): UnknownType<any>[] {
+    getReasons(): UnknownType<Node>[] {
         return [
             this,
             ...(this.why instanceof UnknownType

@@ -1,12 +1,13 @@
+import { v4 as uuidv4 } from 'uuid';
 import type Conflict from '@conflicts/Conflict';
 import Evaluate from '@nodes/Evaluate';
+import { Basis } from '../basis/Basis';
 import Expression from '@nodes/Expression';
 import FunctionDefinition from '@nodes/FunctionDefinition';
 import type Program from '@nodes/Program';
 import type StructureDefinition from '@nodes/StructureDefinition';
 import Source from '@nodes/Source';
 import Node from '@nodes/Node';
-import HOF from '../basis/HOF';
 import Context from '@nodes/Context';
 import type { SharedDefinition } from '@nodes/Borrow';
 import PropertyReference from '@nodes/PropertyReference';
@@ -14,16 +15,15 @@ import type Bind from '@nodes/Bind';
 import Reference from '@nodes/Reference';
 import type LanguageCode from '@locale/LanguageCode';
 import type StreamDefinition from '@nodes/StreamDefinition';
-import { v4 as uuidv4 } from 'uuid';
-import { parseNames, toTokens } from '../parser/Parser';
+import { parseNames } from '../parser/parseBind';
 import Root from '../nodes/Root';
 import type { Path } from '../nodes/Root';
 import type { CaretPosition } from '../edit/Caret';
-import { Basis } from '../basis/Basis';
-import type createDefaultShares from '../runtime/createDefaultShares';
+import type createDefaultShares from '@runtime/createDefaultShares';
 import FunctionType from '../nodes/FunctionType';
 import type Locale from '../locale/Locale';
 import { toLocaleString } from '../locale/Locale';
+import { toTokens } from '../parser/toTokens';
 
 export type SerializedSource = {
     names: string;
@@ -116,13 +116,12 @@ export default class Project {
         main: Source,
         supplements: Source[],
         locales: Locale | Locale[],
-        carets: SerializedCarets | undefined = undefined,
         uids: string[] = [],
-        listed: boolean = true
+        carets: SerializedCarets | undefined = undefined,
+        listed = true
     ) {
         this.id = id ?? uuidv4();
         this.uids = uids;
-        this.listed = listed;
 
         // Remember the source.
         this.name = name;
@@ -146,6 +145,9 @@ export default class Project {
                   })
                 : carets;
 
+        // Remember whether this project should be listed as a project. (Used to not list tutorial projects).
+        this.listed = listed;
+
         // Initialize roots for all definitions that can be referenced.
         this.roots = [
             ...this.getSources().map((source) => source.root),
@@ -161,8 +163,8 @@ export default class Project {
             this.main,
             this.supplements,
             this.locales,
-            this.carets,
             this.uids,
+            this.carets,
             this.listed
         );
     }
@@ -189,6 +191,17 @@ export default class Project {
 
     getRoot(node: Node): Root | undefined {
         return this.roots.find((root) => root.has(node));
+    }
+
+    /** Given a path, try to resolve a corresponding node in one of the sources. */
+    resolvePath(path: Path) {
+        // Resolve the node from the path.
+        let evaluate: Node | undefined = undefined;
+        for (const root of this.roots) {
+            evaluate = root.resolvePath(path);
+            if (evaluate !== undefined) break;
+        }
+        return evaluate;
     }
 
     /** True if one of the project's contains the given node. */
@@ -288,7 +301,7 @@ export default class Project {
                     conflict,
                 ]);
                 if (complicitNodes.secondary) {
-                    let nodeConflicts =
+                    const nodeConflicts =
                         this.analysis.secondary.get(
                             complicitNodes.secondary.node
                         ) ?? [];
@@ -314,10 +327,7 @@ export default class Project {
 
                         // Is it a higher order function? Get the function input
                         // and add the Evaluate as a caller of the function input.
-                        if (
-                            fun instanceof FunctionDefinition &&
-                            fun.expression instanceof HOF
-                        ) {
+                        if (fun instanceof FunctionDefinition) {
                             for (const input of node.inputs) {
                                 const type = input.getType(context);
                                 if (
@@ -465,7 +475,8 @@ export default class Project {
         for (const source of this.getSources()) {
             const context = this.getContext(source);
             for (const ref of source.nodes(
-                (n) => n instanceof Reference || n instanceof PropertyReference
+                (n): n is Reference | PropertyReference =>
+                    n instanceof Reference || n instanceof PropertyReference
             ) as (Reference | PropertyReference)[]) {
                 if (ref.resolve(context) === bind) refs.push(ref);
             }
@@ -480,8 +491,8 @@ export default class Project {
             this.main,
             this.supplements,
             this.locales,
-            this.carets,
             this.uids,
+            this.carets,
             this.listed
         );
     }
@@ -493,8 +504,8 @@ export default class Project {
             this.main,
             this.supplements,
             this.locales,
-            this.carets,
             this.uids,
+            this.carets,
             this.listed
         );
     }
@@ -511,8 +522,8 @@ export default class Project {
             this.main,
             this.supplements,
             Array.from(new Set([...this.locales, ...locales])),
-            this.carets,
             this.uids,
+            this.carets,
             this.listed
         );
     }
@@ -524,8 +535,9 @@ export default class Project {
             this.main,
             this.supplements,
             this.locales,
-            this.carets.map((c) =>
-                c.source === source
+            this.uids,
+            this.carets.map((sourceCaret) =>
+                sourceCaret.source === source
                     ? {
                           source,
                           caret:
@@ -533,9 +545,8 @@ export default class Project {
                                   ? source.root.getPath(caret)
                                   : caret,
                       }
-                    : c
+                    : sourceCaret
             ),
-            this.uids,
             this.listed
         );
     }
@@ -547,8 +558,8 @@ export default class Project {
             this.main,
             this.supplements.filter((s) => s !== source),
             this.locales,
-            this.carets.filter((c) => c.source !== source),
             this.uids,
+            this.carets.filter((c) => c.source !== source),
             this.listed
         );
     }
@@ -572,6 +583,7 @@ export default class Project {
             newMain,
             newSupplements,
             this.locales,
+            this.uids,
             this.carets.map((caret) => {
                 // See if the caret's source was replaced.
                 const replacement = replacements.find(
@@ -581,7 +593,6 @@ export default class Project {
                     ? { source: replacement[1], caret: caret.caret }
                     : caret;
             }),
-            this.uids,
             this.listed
         );
     }
@@ -643,8 +654,8 @@ export default class Project {
             this.main,
             [...this.supplements, newSource],
             this.locales,
-            [...this.carets, { source: newSource, caret: 0 }],
-            this.uids
+            this.uids,
+            [...this.carets, { source: newSource, caret: 0 }]
         );
     }
 
@@ -657,8 +668,8 @@ export default class Project {
                   this.main,
                   this.supplements,
                   this.locales,
-                  this.carets,
                   [...this.uids, uid],
+                  this.carets,
                   this.listed
               );
     }
@@ -725,7 +736,7 @@ export default class Project {
         return position !== undefined
             ? typeof position === 'number'
                 ? position
-                : source.root.resolvePath(source, position)
+                : source.root.resolvePath(position)
             : undefined;
     }
 

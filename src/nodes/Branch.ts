@@ -7,7 +7,7 @@ import Content from './Content';
 import Mention from './Mention';
 import { node, type Replacement, type Grammar, list, optional } from './Node';
 import Token from './Token';
-import Symbol from './Symbol';
+import Sym from './Sym';
 import Words from './Words';
 import type Node from './Node';
 
@@ -48,11 +48,11 @@ export default class Branch extends Content {
     getGrammar(): Grammar {
         return [
             { name: 'mention', kind: node(Mention) },
-            { name: 'open', kind: node(Symbol.ListOpen) },
+            { name: 'open', kind: node(Sym.ListOpen) },
             { name: 'yes', kind: list(node(Words)) },
-            { name: 'bar', kind: optional(node(Symbol.Union)) },
+            { name: 'bar', kind: optional(node(Sym.Union)) },
             { name: 'no', kind: list(node(Words)) },
-            { name: 'close', kind: node(Symbol.ListClose) },
+            { name: 'close', kind: node(Sym.ListClose) },
         ];
     }
     computeConflicts() {

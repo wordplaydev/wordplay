@@ -2,21 +2,22 @@ import type { NameAndDoc, Template, NameText } from './Locale';
 
 export type TypeTexts = {
     size: NameAndDoc;
-    family: NameAndDoc;
+    face: NameAndDoc;
     place: NameAndDoc;
     name: NameAndDoc;
     selectable: NameAndDoc;
     color: NameAndDoc;
+    background: NameAndDoc;
     opacity: NameAndDoc;
     offset: NameAndDoc;
     rotation: NameAndDoc;
     scale: NameAndDoc;
     flipx: NameAndDoc;
     flipy: NameAndDoc;
-    enter: NameAndDoc;
-    rest: NameAndDoc;
-    move: NameAndDoc;
-    exit: NameAndDoc;
+    entering: NameAndDoc;
+    resting: NameAndDoc;
+    moving: NameAndDoc;
+    exiting: NameAndDoc;
     duration: NameAndDoc;
     style: NameAndDoc;
 };
@@ -38,7 +39,6 @@ type OutputTexts = {
         /** $1: total outputs, $2: total phrases, $3: total groups, $4: pose */
         description: Template;
         content: NameAndDoc;
-        background: NameAndDoc;
         frame: NameAndDoc;
     };
     Arrangement: NameAndDoc;
@@ -83,6 +83,7 @@ type OutputTexts = {
          * $3 group count
          */
         description: Template;
+        alignment: NameAndDoc;
         padding: NameAndDoc;
     };
     Stack: NameAndDoc & {
@@ -92,6 +93,7 @@ type OutputTexts = {
          * $3 group count
          */
         description: Template;
+        alignment: NameAndDoc;
         padding: NameAndDoc;
     };
     Grid: NameAndDoc & {

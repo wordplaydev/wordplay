@@ -9,20 +9,20 @@ import Finish from '@runtime/Finish';
 import type Context from './Context';
 import type Bind from './Bind';
 import type TypeSet from './TypeSet';
-import NameException from '@runtime/NameException';
-import type Value from '@runtime/Value';
+import NameException from '@values/NameException';
+import type Value from '@values/Value';
 import { node, type Grammar, type Replacement } from './Node';
 import type Locale from '@locale/Locale';
 import BindToken from './BindToken';
-import Structure from '../runtime/Structure';
-import ValueException from '../runtime/ValueException';
+import StructureValue from '../values/StructureValue';
+import ValueException from '../values/ValueException';
 import PropertyReference from './PropertyReference';
 import IncompatibleType from '../conflicts/IncompatibleType';
 import Glyphs from '../lore/Glyphs';
 import Purpose from '../concepts/Purpose';
 import concretize from '../locale/concretize';
 import NodeRef from '../locale/NodeRef';
-import Symbol from './Symbol';
+import Sym from './Sym';
 import ExpressionPlaceholder from './ExpressionPlaceholder';
 import Reference from './Reference';
 import type Node from './Node';
@@ -67,7 +67,7 @@ export default class PropertyBind extends Expression {
     getGrammar(): Grammar {
         return [
             { name: 'reference', kind: node(PropertyReference) },
-            { name: 'bind', kind: node(Symbol.Bind) },
+            { name: 'bind', kind: node(Sym.Bind) },
             { name: 'value', kind: node(Expression) },
         ];
     }
@@ -132,7 +132,7 @@ export default class PropertyBind extends Expression {
         const subject = evaluator.popValue(this);
 
         if (
-            !(subject instanceof Structure) ||
+            !(subject instanceof StructureValue) ||
             this.reference.name === undefined
         )
             return new ValueException(evaluator, this);

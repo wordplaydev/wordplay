@@ -1,6 +1,6 @@
 import TextType from './TextType';
 import type Type from './Type';
-import Text from '@runtime/Text';
+import TextValue from '@values/TextValue';
 import type Language from './Language';
 import type Bind from './Bind';
 import type Context from './Context';
@@ -10,14 +10,19 @@ import type Locale from '@locale/Locale';
 import Literal from './Literal';
 import Emotion from '../lore/Emotion';
 import type { BasisTypeName } from '../basis/BasisConstants';
-import { TextDelimiters } from '../parser/Tokenizer';
 import concretize from '../locale/concretize';
 import type Node from './Node';
 import Translation from './Translation';
 import UnionType from './UnionType';
 import { getPreferred } from './LanguageTagged';
-
-export const ESCAPE_REGEX = /\\(.)/g;
+import Token from './Token';
+import Sym from './Sym';
+import type Expression from './Expression';
+import type Step from '@runtime/Step';
+import Start from '@runtime/Start';
+import Finish from '@runtime/Finish';
+import type Evaluator from '@runtime/Evaluator';
+import type Value from '../values/Value';
 
 export default class TextLiteral extends Literal {
     /** The raw token in the program */
@@ -66,12 +71,79 @@ export default class TextLiteral extends Literal {
         return 'text';
     }
 
-    computeConflicts() {}
+    getDependencies(): Expression[] {
+        return this.texts.map((text) => text.getExpressions()).flat();
+    }
+
+    compile(context: Context): Step[] {
+        const text = this.getLocaleText(context.project.locales);
+        // Choose a locale, compile its expressions, and then construct a string from the results.
+        return [
+            new Start(this),
+            ...text
+                .getExpressions()
+                .reduce(
+                    (parts: Step[], part) => [
+                        ...parts,
+                        ...part.expression.compile(context),
+                    ],
+                    []
+                ),
+            new Finish(this),
+        ];
+    }
+
+    evaluate(evaluator: Evaluator, prior: Value | undefined): Value {
+        if (prior) return prior;
+
+        const translation = this.getLocaleText(evaluator.project.locales);
+        const expressions = translation.segments;
+
+        // Build the string in reverse, accounting for the reversed stack of values.
+        let text = '';
+        for (let i = expressions.length - 1; i >= 0; i--) {
+            const p = expressions[i];
+            let next: string;
+            if (p instanceof Token) {
+                next = unescaped(p.getText());
+            } else {
+                const value = evaluator.popValue(this);
+                next =
+                    value instanceof TextValue
+                        ? value.text
+                        : value?.toString() ?? '';
+            }
+            // Assemble in reverse order
+            text = next + text;
+        }
+        // Construct the text value.
+        return new TextValue(
+            this,
+            text,
+            translation.language?.getLanguageText()
+        );
+    }
+
+    computeConflicts() {
+        return;
+    }
 
     computeType(context: Context): Type {
+        // A union of all of the literal types of each alternative.
         return UnionType.getPossibleUnion(
             context,
-            this.texts.map((text) => new TextType(text.text, text.language))
+            this.texts.map((text) =>
+                text.segments.length === 1 &&
+                text.segments[0] instanceof Token &&
+                text.segments[0].isSymbol(Sym.Words)
+                    ? new TextType(
+                          text.open.clone(),
+                          text.segments[0].clone(),
+                          text.close?.clone(),
+                          text.language
+                      )
+                    : TextType.make()
+            )
         );
     }
 
@@ -81,16 +153,18 @@ export default class TextLiteral extends Literal {
         return unescaped(this.texts[0].getText());
     }
 
-    getValue(locales: Locale[]): Text {
-        // Get the alternatives
-        const best =
-            this.texts.length === 1
-                ? this.texts[0]
-                : getPreferred(locales, this.texts);
+    getLocaleText(locales: Locale[]) {
+        return this.texts.length === 1
+            ? this.texts[0]
+            : getPreferred(locales, this.texts);
+    }
 
-        return new Text(
+    getValue(locales: Locale[]): TextValue {
+        // Get the alternatives
+        const best = this.getLocaleText(locales);
+        return new TextValue(
             this,
-            undelimited(best.getText()),
+            best.getText(),
             best.language === undefined
                 ? undefined
                 : best.language.getLanguageText()
@@ -131,7 +205,7 @@ export default class TextLiteral extends Literal {
 
     getGlyphs() {
         return {
-            symbols: this.texts[0].text.getDelimiters(),
+            symbols: this.texts[0].getDelimiters(),
             emotion: Emotion.excited,
         };
     }
@@ -142,12 +216,5 @@ export default class TextLiteral extends Literal {
 }
 
 export function unescaped(text: string) {
-    return text.replaceAll(ESCAPE_REGEX, '$1');
-}
-
-export function undelimited(text: string) {
-    return text.substring(
-        1,
-        text.length - (TextDelimiters.has(text.charAt(text.length - 1)) ? 1 : 0)
-    );
+    return text.replaceAll('\\\\', '\\');
 }

@@ -90,7 +90,7 @@ export default class Replace<NodeType extends Node> extends Revision {
                 )
             );
 
-        let newCaretPosition =
+        const newCaretPosition =
             replacement !== undefined
                 ? replacement.getFirstPlaceholder() ??
                   newSource.getNodeLastPosition(replacement)
@@ -125,7 +125,7 @@ export default class Replace<NodeType extends Node> extends Revision {
 
     getDescription(locale: Locale) {
         if (this.description) return Markup.words(this.description(locale));
-        let node =
+        const node =
             this.replacement instanceof Refer
                 ? this.replacement.getNode([locale])
                 : this.getNewNode([locale]);

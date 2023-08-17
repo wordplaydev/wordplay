@@ -1,10 +1,9 @@
 import { test, expect } from 'vitest';
 import { testConflict } from '@conflicts/TestUtilities';
 import { IncompatibleKey } from '@conflicts/IncompatibleKey';
-import Evaluator from '@runtime/Evaluator';
 import SetOrMapAccess from './SetOrMapAccess';
 import IncompatibleInput from '../conflicts/IncompatibleInput';
-import { DefaultLocale } from '../db/Creator';
+import evaluateCode from '../runtime/evaluate';
 
 test.each([
     [
@@ -25,7 +24,5 @@ test.each([
     ['{1 2 3}{2}', '⊤'],
     ["{1:'a' 2:'b' 3:'c'}{2}", '"b"'],
 ])('Expect %s to be %s', (code, value) => {
-    expect(Evaluator.evaluateCode(DefaultLocale, code)?.toString()).toBe(value);
+    expect(evaluateCode(code)?.toString()).toBe(value);
 });
-
-test('Test set and map access evaluation', () => {});

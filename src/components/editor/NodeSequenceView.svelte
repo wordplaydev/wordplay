@@ -9,10 +9,10 @@
     import { getCaret } from '../project/Contexts';
     import NodeView from './NodeView.svelte';
     import Button from '../widgets/Button.svelte';
-    import { config } from '../../db/Creator';
+    import { locale } from '../../db/Database';
 
     export let nodes: Node[];
-    export let elide: boolean = false;
+    export let elide = false;
 
     let caret = getCaret();
 
@@ -23,8 +23,8 @@
      * the performance hit.
      **/
     let visible: Node[];
-    let hiddenBefore: number = 0;
-    let hiddenAfter: number = 0;
+    let hiddenBefore = 0;
+    let hiddenAfter = 0;
     $: {
         // More than some number? Elide.
         if (elide && nodes.length > LIMIT && $caret) {
@@ -77,13 +77,13 @@
 
 {#if hiddenBefore > 0}
     <Button
-        tip={$config.getLocale().ui.description.expandCode}
+        tip={$locale.ui.description.expandCode}
         action={() => (elide = false)}
         ><span class="count">… {hiddenBefore}</span></Button
     >{/if}{#each visible as node (node.id)}<NodeView
         {node}
     />{/each}{#if hiddenAfter > 0}<Button
-        tip={$config.getLocale().ui.description.expandCode}
+        tip={$locale.ui.description.expandCode}
         action={() => (elide = false)}
         ><span class="count">… {hiddenAfter}</span></Button
     >{/if}

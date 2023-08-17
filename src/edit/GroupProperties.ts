@@ -15,9 +15,14 @@ export default function getGroupProperties(
         new OutputProperty(
             locale.output.Group.layout,
             new OutputPropertyOptions(
-                [project.shares.output.Row, project.shares.output.Stack].map(
-                    (type) => `${type.names.getNames()[0]}`
-                ),
+                Object.values(project.shares.output)
+                    .filter((type) =>
+                        type.implements(
+                            project.shares.output.Arrangement,
+                            project.getContext(project.main)
+                        )
+                    )
+                    .map((type) => `${type.names.getNames()[0]}`),
                 false,
                 (text: string) => Evaluate.make(Reference.make(text), []),
                 (expression: Expression | undefined) =>

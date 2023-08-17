@@ -17,16 +17,16 @@ import Expression from './Expression';
 import type Bind from './Bind';
 import type Type from './Type';
 import type TypeSet from './TypeSet';
-import type Value from '@runtime/Value';
+import type Value from '@values/Value';
 import { node, type Grammar, type Replacement, optional, list } from './Node';
 import type Locale from '@locale/Locale';
 import type LanguageCode from '@locale/LanguageCode';
-import Symbol from './Symbol';
+import Sym from './Sym';
 import Glyphs from '../lore/Glyphs';
-import BlankException from '../runtime/BlankException';
+import BlankException from '@values/BlankException';
 import concretize from '../locale/concretize';
 import Purpose from '../concepts/Purpose';
-import DocsValue from '../runtime/DocsValue';
+import ValueRef from '../locale/ValueRef';
 
 export default class Program extends Expression {
     readonly docs?: Docs;
@@ -55,7 +55,7 @@ export default class Program extends Expression {
             undefined,
             [],
             new Block(expressions, BlockKind.Root),
-            new Token('', Symbol.End)
+            new Token('', Sym.End)
         );
     }
 
@@ -64,7 +64,7 @@ export default class Program extends Expression {
             { name: 'docs', kind: optional(node(Docs)) },
             { name: 'borrows', kind: list(node(Borrow)) },
             { name: 'expression', kind: node(Block) },
-            { name: 'end', kind: node(Symbol.End) },
+            { name: 'end', kind: node(Sym.End) },
         ];
     }
 
@@ -126,7 +126,7 @@ export default class Program extends Expression {
             new Set(
                 (
                     this.nodes(
-                        (n) =>
+                        (n): n is Language =>
                             n instanceof Language &&
                             n.getLanguageText() !== undefined
                     ) as Language[]
@@ -138,10 +138,10 @@ export default class Program extends Expression {
     }
 
     getUnitsUsed(): Unit[] {
-        return this.nodes((n) => n instanceof Unit) as Unit[];
+        return this.nodes((n): n is Unit => n instanceof Unit);
     }
     getDimensionsUsed(): Dimension[] {
-        return this.nodes((n) => n instanceof Dimension) as Dimension[];
+        return this.nodes((n): n is Dimension => n instanceof Dimension);
     }
 
     getDependencies(): Expression[] {
@@ -172,8 +172,6 @@ export default class Program extends Expression {
         // Otherwise, return whatever the block computed.
         return this.expression.statements.length > 0
             ? value
-            : this.docs
-            ? new DocsValue(this.docs)
             : new BlankException(evaluator, this);
     }
 
@@ -195,11 +193,17 @@ export default class Program extends Expression {
         evaluator: Evaluator
     ) {
         const reaction = evaluator.getReactionPriorTo(evaluator.getStepIndex());
+        const change = reaction && reaction.changes.length > 0;
 
         return concretize(
             locale,
             locale.node.Program.start,
-            reaction && reaction.changes.length > 0
+            change
+                ? new ValueRef(reaction.changes[0].stream, locale, context)
+                : undefined,
+            change
+                ? new ValueRef(reaction.changes[0].value, locale, context)
+                : undefined
         );
     }
 

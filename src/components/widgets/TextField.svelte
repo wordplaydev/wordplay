@@ -1,17 +1,17 @@
 <script lang="ts">
-    export let text: string = '';
+    export let text = '';
     export let placeholder: string;
     export let description: string;
     export let validator: undefined | ((text: string) => boolean) = undefined;
     export let changed: undefined | ((text: string) => void) = undefined;
     export let done: undefined | (() => void) = undefined;
-    export let fill: boolean = false;
+    export let fill = false;
     export let view: HTMLInputElement | undefined = undefined;
-    export let border: boolean = true;
-    export let right: boolean = false;
-    export let defaultFocus: boolean = false;
+    export let border = true;
+    export let right = false;
+    export let defaultFocus = false;
 
-    let width: number = 0;
+    let width = 0;
 
     function handleInput() {
         if (changed && (validator === undefined || validator(text) === true))
@@ -76,7 +76,7 @@
 
     input.border {
         border-bottom: var(--wordplay-inactive-color) solid
-            var(--wordplay-border-width);
+            var(--wordplay-focus-width);
     }
 
     input.right {
@@ -89,7 +89,7 @@
 
     input:focus {
         border-bottom: var(--wordplay-focus-color) solid
-            var(--wordplay-border-width);
+            var(--wordplay-focus-width);
     }
 
     input.error {

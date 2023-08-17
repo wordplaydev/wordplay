@@ -1,7 +1,6 @@
 import type { BasisTypeName } from '../basis/BasisConstants';
 import type Locale from '@locale/Locale';
 import Type from './Type';
-import type TypeSet from './TypeSet';
 import type TypeVariable from './TypeVariable';
 import Glyphs from '../lore/Glyphs';
 import type { Grammar } from './Node';
@@ -19,7 +18,9 @@ export default class VariableType extends Type {
         return [];
     }
 
-    computeConflicts() {}
+    computeConflicts() {
+        return [];
+    }
 
     clone() {
         return new VariableType(this.definition) as this;
@@ -30,14 +31,15 @@ export default class VariableType extends Type {
         return true;
     }
 
-    acceptsAll(types: TypeSet) {
-        return types
-            .list()
-            .every(
-                (type) =>
-                    type instanceof VariableType &&
-                    type.definition == this.definition
-            );
+    acceptsAll() {
+        return true;
+        // return types
+        //     .list()
+        //     .every(
+        //         (type) =>
+        //             type instanceof VariableType &&
+        //             type.definition == this.definition
+        //     );
     }
 
     getBasisTypeName(): BasisTypeName {

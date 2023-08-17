@@ -12,7 +12,7 @@
     import type Expression from '@nodes/Expression';
     import Button from '../widgets/Button.svelte';
     import Note from '../widgets/Note.svelte';
-    import { config } from '../../db/Creator';
+    import { database, locale, locales } from '../../db/Database';
 
     export let project: Project;
     export let map: MapLiteral | undefined;
@@ -33,9 +33,9 @@
 
     function revisePercent(kv: KeyValue | Expression, percent: string) {
         let text = percent.replace('%', '');
-        const number = NumberLiteral.make(text, Unit.make(['%']));
+        const number = NumberLiteral.make(text, Unit.create(['%']));
         if (kv instanceof KeyValue && number.isInteger())
-            $config.reviseProjectNodes(project, [[kv.key, number]]);
+            database.reviseProjectNodes(project, [[kv.key, number]]);
     }
 
     function addPose(index: number) {
@@ -49,7 +49,7 @@
                         ? kv.key.number.getText().replace('%', '')
                         : 0
                 ),
-                createPoseLiteral(project, $config.getLocales())
+                createPoseLiteral(project, $locales)
             ),
             ...map.values.slice(index + 1),
         ] as KeyValue[]);
@@ -81,7 +81,7 @@
 
     function revise(newValues: KeyValue[]) {
         if (map)
-            $config.reviseProjectNodes(project, [
+            database.reviseProjectNodes(project, [
                 [map, MapLiteral.make(newValues)],
             ]);
     }
@@ -95,10 +95,9 @@
                     <div class="percent"
                         ><TextField
                             text={pair.key.toWordplay()}
-                            description={$config.getLocale().ui.description
+                            description={$locale.ui.description
                                 .editSequencePercent}
-                            placeholder={$config.getLocale().ui.placeholders
-                                .percent}
+                            placeholder={$locale.ui.placeholders.percent}
                             validator={(value) => {
                                 const number = parseInt(value.replace('%', ''));
                                 if (isNaN(number)) return false;
@@ -127,23 +126,22 @@
                             changed={(value) => revisePercent(pair, value)}
                         />
                         <Button
-                            tip={$config.getLocale().ui.description.addPose}
+                            tip={$locale.ui.description.addPose}
                             action={() => addPose(index)}>+</Button
                         >
                         <Button
-                            tip={$config.getLocale().ui.description.removePose}
+                            tip={$locale.ui.description.removePose}
                             action={() => removePose(index)}
                             active={map !== undefined && map.values.length > 1}
                             >⨉</Button
                         >
                         <Button
-                            tip={$config.getLocale().ui.description.movePoseUp}
+                            tip={$locale.ui.description.movePoseUp}
                             action={() => movePose(index, -1)}
                             active={index > 0}>↑</Button
                         >
                         <Button
-                            tip={$config.getLocale().ui.description
-                                .movePoseDown}
+                            tip={$locale.ui.description.movePoseDown}
                             action={() => movePose(index, 1)}
                             active={index < map.values.length - 1}>↓</Button
                         >
@@ -161,7 +159,7 @@
             {/if}
         {/each}
     {:else}
-        <Note>{$config.getLocale().ui.labels.notSequence}</Note>
+        <Note>{$locale.ui.labels.notSequence}</Note>
     {/if}
 </div>
 

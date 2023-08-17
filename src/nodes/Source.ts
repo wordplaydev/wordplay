@@ -2,10 +2,14 @@ import Node, { node, type Grammar, type Replacement } from './Node';
 import Token from './Token';
 import Program from './Program';
 import type Conflict from '@conflicts/Conflict';
-import { parseProgram, Tokens } from '@parser/Parser';
-import { DELIMITERS, REVERSE_DELIMITERS, tokenize } from '@parser/Tokenizer';
+import parseProgram from '@parser/parseProgram';
+import {
+    DelimiterCloseByOpen,
+    DelimiterOpenByClose,
+    tokenize,
+} from '@parser/Tokenizer';
 import UnicodeString from '../models/UnicodeString';
-import type Value from '@runtime/Value';
+import type Value from '@values/Value';
 import type Context from './Context';
 import Names from './Names';
 import type Borrow from './Borrow';
@@ -18,13 +22,13 @@ import type { SharedDefinition } from './Borrow';
 import FunctionDefinition from './FunctionDefinition';
 import StructureDefinition from './StructureDefinition';
 import type Spaces from '@parser/Spaces';
-import None from '@runtime/None';
-import type SetOpenToken from './SetOpenToken';
+import NoneValue from '@values/NoneValue';
 import type Locale from '@locale/Locale';
 import Glyphs from '../lore/Glyphs';
 import Root from './Root';
 import Markup from './Markup';
 import Purpose from '../concepts/Purpose';
+import Tokens from '../parser/Tokens';
 
 /** A document representing executable Wordplay code and it's various metadata, such as conflicts, tokens, and evaulator. */
 export default class Source extends Expression {
@@ -85,8 +89,8 @@ export default class Source extends Expression {
         // Create an index of the token positions and space roots.
         let index = 0;
         for (const token of this.expression.nodes(
-            (n) => n instanceof Token
-        ) as Token[]) {
+            (n): n is Token => n instanceof Token
+        )) {
             // Increment by the amount of space
             index += this.spaces.getSpace(token).length;
             // Remember the position.
@@ -177,22 +181,47 @@ export default class Source extends Expression {
         );
     }
 
-    getMatchedDelimiter(delimiter: Token): Token | undefined {
-        const text = delimiter.getText();
+    getMatchedDelimiter(anchor: Token): Token | undefined {
+        const text = anchor.getText();
         const match =
-            text in DELIMITERS
-                ? DELIMITERS[text]
-                : text in REVERSE_DELIMITERS
-                ? REVERSE_DELIMITERS[text]
+            text in DelimiterCloseByOpen
+                ? DelimiterCloseByOpen[text]
+                : text in DelimiterOpenByClose
+                ? DelimiterOpenByClose[text]
                 : undefined;
         if (match === undefined) return;
         return this.root
-            .getParent(delimiter)
+            .getParent(anchor)
             ?.getChildren()
             .find(
-                (node): node is SetOpenToken =>
+                (node): node is Token =>
                     node instanceof Token && node.getText() === match
             );
+    }
+
+    getUnmatchedDelimiter(anchor: Token, delimiter: string): Token | undefined {
+        const open =
+            delimiter in DelimiterCloseByOpen
+                ? DelimiterCloseByOpen[delimiter]
+                : undefined;
+        if (open === undefined) return;
+
+        const ancestors = this.root.getAncestors(anchor);
+        let next = ancestors.shift();
+        while (next !== undefined) {
+            const match = next
+                .getChildren()
+                .find(
+                    (child): child is Token =>
+                        child instanceof Token &&
+                        child !== anchor &&
+                        child.getText() === open
+                );
+            if (match) return match;
+            next = ancestors.shift();
+        }
+
+        return undefined;
     }
 
     withName(name: string, locale: Locale) {
@@ -251,8 +280,8 @@ export default class Source extends Expression {
 
         // Make a mutable list of the old tokens
         const oldTokens = [...this.tokens];
-        let added: Token[] = [];
-        let removed: Token[] = [];
+        const added: Token[] = [];
+        const removed: Token[] = [];
 
         // Scan through the new tokens, reusing as many tokens as possible.
         for (let i = 0; i < newTokens.length; i++) {
@@ -281,7 +310,7 @@ export default class Source extends Expression {
         let newProgram = parseProgram(new Tokens(newTokens, spaces));
 
         // Make an empty list of replacements.
-        let replacements: [Node, Node][] = [];
+        const replacements: [Node, Node][] = [];
 
         // Create a set of all of the old program's nodes, except the program itself.
         const unmatchedOldNodes = new Set(this.expression.traverseTopDown());
@@ -325,8 +354,11 @@ export default class Source extends Expression {
 
         // If we found old subtrees to preserve, replace them in the new tree.
         while (replacements.length > 0) {
-            const [oldTree, newTree] = replacements.shift()!;
-            newProgram = newProgram.replace(newTree, oldTree);
+            const next = replacements.shift();
+            if (next) {
+                const [oldTree, newTree] = next;
+                newProgram = newProgram.replace(newTree, oldTree);
+            }
         }
 
         // Otherwise, reparse the program with the reused tokens and return a new source file
@@ -659,7 +691,7 @@ export default class Source extends Expression {
         );
     }
 
-    getTokenAt(position: number, includingWhitespace: boolean = true) {
+    getTokenAt(position: number, includingWhitespace = true) {
         // This could be faster with binary search, but let's not prematurely optimize.
         for (const [token, index] of this.tokenPositions) {
             if (
@@ -700,10 +732,19 @@ export default class Source extends Expression {
         return this.getNextToken(token, 1);
     }
 
+    getTokensBefore(token: Token) {
+        const tokens = this.expression.nodes(
+            (n): n is Token => n instanceof Token
+        );
+        const index = tokens.indexOf(token);
+        if (index < 0) return undefined;
+        else return tokens.slice(0, index);
+    }
+
     getNextToken(token: Token, direction: -1 | 1): Token | undefined {
         const tokens = this.expression.nodes(
-            (n) => n instanceof Token
-        ) as Token[];
+            (n): n is Token => n instanceof Token
+        );
         const index = tokens.indexOf(token);
 
         if (direction < 0 && index <= 0) return undefined;
@@ -773,7 +814,7 @@ export default class Source extends Expression {
     }
 
     getTokensAfter(token: Token) {
-        let tokensAfter = this.getTokens();
+        const tokensAfter = this.getTokens();
         const indexOfCurrentToken = tokensAfter.indexOf(token);
         return indexOfCurrentToken < 0
             ? []
@@ -823,7 +864,7 @@ export default class Source extends Expression {
     computeType(context: Context): Type {
         return this.expression.getType(context);
     }
-    getDependencies(_: Context): Expression[] {
+    getDependencies(): Expression[] {
         return [this.expression];
     }
     evaluateTypeSet(_: Bind, __: TypeSet, current: TypeSet): TypeSet {
@@ -839,7 +880,7 @@ export default class Source extends Expression {
     }
 
     evaluate(): Value {
-        return new None(this);
+        return new NoneValue(this);
     }
 
     getStart() {

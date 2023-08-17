@@ -1,33 +1,37 @@
 import toStructure from '../basis/toStructure';
-import type Value from '@runtime/Value';
+import type Value from '@values/Value';
 import type Color from './Color';
 import type TypeOutput from './TypeOutput';
 import type RenderContext from './RenderContext';
 import Place from './Place';
 import { getBind } from '@locale/getBind';
-import Number from '../runtime/Number';
+import NumberValue from '@values/NumberValue';
 import Arrangement from './Arrangement';
 import Group from './Group';
 import Phrase from './Phrase';
 import concretize from '../locale/concretize';
 import type Locale from '../locale/Locale';
 import { getOutputInput } from './Output';
-import Structure from '../runtime/Structure';
+import StructureValue from '../values/StructureValue';
 
 export function createRowType(locales: Locale[]) {
     return toStructure(`
     ${getBind(locales, (locale) => locale.output.Row, '•')} Arrangement(
+        ${getBind(locales, (locale) => locale.output.Row.alignment)}•-1|0|1: 0
         ${getBind(locales, (locale) => locale.output.Row.padding)}•#m: 1m
     )
 `);
 }
 
 export class Row extends Arrangement {
+    readonly alignment: -1 | 0 | 1;
     readonly padding: number;
 
-    constructor(value: Value, padding: Number) {
+    constructor(value: Value, alignment: NumberValue, padding: NumberValue) {
         super(value);
 
+        const align = alignment.toNumber();
+        this.alignment = align === 0 ? 0 : align < 0 ? -1 : 1;
         this.padding = padding.toNumber();
     }
 
@@ -47,7 +51,7 @@ export class Row extends Arrangement {
 
         // Get the height of the container so we can center each phrase vertically.
         const height = layouts.reduce(
-            (max, layout) => Math.max(max, layout === null ? 0 : layout.height),
+            (max, layout) => Math.max(max, layout === null ? 0 : layout.ascent),
             0
         );
 
@@ -62,10 +66,13 @@ export class Row extends Arrangement {
                 const place = new Place(
                     this.value,
                     x,
-
                     child.output.place && child.output.place.y !== undefined
                         ? child.output.place.y
-                        : (height - child.height) / 2,
+                        : this.alignment === 0
+                        ? (height - child.ascent) / 2
+                        : this.alignment < 0
+                        ? 0
+                        : height - child.ascent,
                     // If the phrase a place, use it's z, otherwise default to the 0 plane.
                     child.output.place && child.output.place.z !== undefined
                         ? child.output.place.z
@@ -79,7 +86,7 @@ export class Row extends Arrangement {
                 if (place.y < bottom) bottom = place.y;
                 if (place.x + child.width > right)
                     right = place.x + child.width;
-                if (place.y + child.height > top) top = place.y + child.height;
+                if (place.y + child.ascent > top) top = place.y + child.ascent;
             }
         }
 
@@ -110,7 +117,10 @@ export class Row extends Arrangement {
 }
 
 export function toRow(value: Value | undefined): Row | undefined {
-    if (!(value instanceof Structure)) return undefined;
-    const padding = getOutputInput(value, 0);
-    return padding instanceof Number ? new Row(value, padding) : undefined;
+    if (!(value instanceof StructureValue)) return undefined;
+    const alignment = getOutputInput(value, 0);
+    const padding = getOutputInput(value, 1);
+    return alignment instanceof NumberValue && padding instanceof NumberValue
+        ? new Row(value, alignment, padding)
+        : undefined;
 }

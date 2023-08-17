@@ -14,6 +14,8 @@ import type Type from './Type';
 import TypeVariable from './TypeVariable';
 import type UnaryEvaluate from './UnaryEvaluate';
 import { UnknownVariableType } from './UnknownVariableType';
+import type ConversionDefinition from './ConversionDefinition';
+import type Convert from './Convert';
 
 export type EvaluationType = Evaluate | BinaryEvaluate | UnaryEvaluate;
 
@@ -69,12 +71,14 @@ export default function getConcreteExpectedType(
     // If the type is some other type, but contains one of the above, concretize them and construct a new compound type.
     // We do this in a loop since each time we clone the type, the abstract types that have yet to be concretized
     // are cloned too, so we can't just get a list and loop through it.
+    let moreAbstractTypes = true;
     do {
-        const abstractTypes = type.nodes(
-            (n) =>
+        const abstractTypes: (NameType | NumberType)[] = type.nodes(
+            (n): n is NameType | NumberType =>
                 (n instanceof NameType && n.isTypeVariable(context)) ||
                 (n instanceof NumberType && n.hasDerivedUnit())
-        ) as (NameType | NumberType)[];
+        );
+        moreAbstractTypes = abstractTypes.length > 0;
         const nextAbstractType = abstractTypes[0];
         // If there's another abstract type, resolve it.
         if (nextAbstractType) {
@@ -96,7 +100,7 @@ export default function getConcreteExpectedType(
         }
         // If there isn't another abstract type, we have our type!
         else break;
-    } while (true);
+    } while (moreAbstractTypes);
 
     // Return the now concrete type.
     return type;
@@ -266,4 +270,21 @@ function getConcreteTypeVariable(
 
     // We failed to find the type! Who knows what this type variable refers to.
     return new UnknownVariableType(evaluation);
+}
+
+export function getConcreteConversionTypeVariable(
+    type: NameType,
+    definition: ConversionDefinition,
+    convert: Convert,
+    context: Context
+): Type {
+    // Get the type of the input on the convert.
+    const inputType = convert.expression.getType(context);
+
+    // Resolve the type variable.
+    const concreteTypeCorrespondingToTypeVariable =
+        inputType.resolveTypeVariable(type.getName(), context);
+
+    // Not a type variable? Return the type unchanged.
+    return concreteTypeCorrespondingToTypeVariable ?? type;
 }

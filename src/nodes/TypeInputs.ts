@@ -4,7 +4,7 @@ import Glyphs from '../lore/Glyphs';
 import { TYPE_CLOSE_SYMBOL, TYPE_OPEN_SYMBOL } from '../parser/Symbols';
 import type { Grammar, Replacement } from './Node';
 import Token from './Token';
-import Symbol from './Symbol';
+import Sym from './Sym';
 import Type from './Type';
 import Node, { list, node, optional } from './Node';
 
@@ -25,9 +25,9 @@ export default class TypeInputs extends Node {
 
     static make(types?: Type[]) {
         return new TypeInputs(
-            new Token(TYPE_OPEN_SYMBOL, Symbol.TypeOpen),
+            new Token(TYPE_OPEN_SYMBOL, Sym.TypeOpen),
             types ?? [],
-            new Token(TYPE_CLOSE_SYMBOL, Symbol.TypeClose)
+            new Token(TYPE_CLOSE_SYMBOL, Sym.TypeClose)
         );
     }
 
@@ -41,9 +41,9 @@ export default class TypeInputs extends Node {
 
     getGrammar(): Grammar {
         return [
-            { name: 'open', kind: node(Symbol.TypeOpen) },
+            { name: 'open', kind: node(Sym.TypeOpen) },
             { name: 'types', kind: list(node(Type)) },
-            { name: 'close', kind: optional(node(Symbol.TypeClose)) },
+            { name: 'close', kind: optional(node(Sym.TypeClose)) },
         ];
     }
 
@@ -55,7 +55,9 @@ export default class TypeInputs extends Node {
         ) as this;
     }
 
-    computeConflicts() {}
+    computeConflicts() {
+        return;
+    }
 
     getNodeLocale(translation: Locale) {
         return translation.node.TypeInputs;

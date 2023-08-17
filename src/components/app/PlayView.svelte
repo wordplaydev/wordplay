@@ -3,17 +3,18 @@
     import type Project from '@models/Project';
     import OutputView from '@components/output/OutputView.svelte';
     import Evaluator from '@runtime/Evaluator';
-    import type Value from '@runtime/Value';
+    import type Value from '@values/Value';
     import { onMount } from 'svelte';
+    import { database } from '../../db/Database';
 
     export let project: Project;
-    export let fit: boolean = true;
+    export let fit = true;
 
     function update() {
         latest = evaluator.getLatestSourceValue(project.main);
     }
     // Clone the project and get its initial value, then stop the project's evaluator.
-    let evaluator: Evaluator = new Evaluator(project);
+    let evaluator: Evaluator = new Evaluator(project, database);
     let latest: Value | undefined = undefined;
 
     onMount(() => {
@@ -29,7 +30,6 @@
 <OutputView
     {project}
     {evaluator}
-    source={project.main}
     value={latest}
     fullscreen={false}
     {fit}

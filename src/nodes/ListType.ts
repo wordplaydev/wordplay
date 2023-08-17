@@ -3,7 +3,7 @@ import { LIST_CLOSE_SYMBOL, LIST_OPEN_SYMBOL } from '@parser/Symbols';
 import type Context from './Context';
 import BasisType from './BasisType';
 import Token from './Token';
-import Symbol from './Symbol';
+import Sym from './Sym';
 import Type from './Type';
 import type TypeSet from './TypeSet';
 import { node, type Grammar, type Replacement, optional } from './Node';
@@ -37,9 +37,9 @@ export default class ListType extends BasisType {
 
     static make(type?: Type, length?: number) {
         return new ListType(
-            new Token(LIST_OPEN_SYMBOL, Symbol.ListOpen),
+            new Token(LIST_OPEN_SYMBOL, Sym.ListOpen),
             type,
-            new Token(LIST_CLOSE_SYMBOL, Symbol.ListClose),
+            new Token(LIST_CLOSE_SYMBOL, Sym.ListClose),
             length
         );
     }
@@ -57,9 +57,9 @@ export default class ListType extends BasisType {
 
     getGrammar(): Grammar {
         return [
-            { name: 'open', kind: node(Symbol.ListOpen) },
+            { name: 'open', kind: node(Sym.ListOpen) },
             { name: 'type', kind: optional(node(Type)) },
-            { name: 'close', kind: node(Symbol.ListClose) },
+            { name: 'close', kind: node(Sym.ListClose) },
         ];
     }
 
@@ -71,7 +71,9 @@ export default class ListType extends BasisType {
         ) as this;
     }
 
-    computeConflicts() {}
+    computeConflicts() {
+        return;
+    }
 
     acceptsAll(types: TypeSet, context: Context): boolean {
         return types.list().every(

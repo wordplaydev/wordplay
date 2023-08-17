@@ -30,7 +30,6 @@ import Previous from '../nodes/Previous';
 import PropertyBind from '../nodes/PropertyBind';
 import PropertyReference from '../nodes/PropertyReference';
 import Reaction from '../nodes/Reaction';
-import Template from '../nodes/Template';
 import TextLiteral from '../nodes/TextLiteral';
 import ExpressionPlaceholder from '../nodes/ExpressionPlaceholder';
 import StructureDefinition from '../nodes/StructureDefinition';
@@ -65,7 +64,13 @@ import UnknownType from '../nodes/UnknownType';
 import Program from '../nodes/Program';
 import Dimension from '../nodes/Dimension';
 import UnparsableExpression from '../nodes/UnparsableExpression';
-import { WildcardSymbols } from '../nodes/Symbol';
+import { WildcardSymbols } from '../nodes/Sym';
+import IsLocale from '../nodes/IsLocale';
+import TableLiteral from '../nodes/TableLiteral';
+import Insert from '../nodes/Insert';
+import Select from '../nodes/Select';
+import Delete from '../nodes/Delete';
+import Update from '../nodes/Update';
 
 /** Given a project and a caret, generate a set of transforms that can be applied at the location. */
 export function getEditsAt(project: Project, caret: Caret): Revision[] {
@@ -466,13 +471,13 @@ const PossibleNodes = [
     NumberLiteral,
     BooleanLiteral,
     TextLiteral,
-    Template,
     NoneLiteral,
     ListLiteral,
     ListAccess,
-    MapLiteral,
     KeyValue,
     SetLiteral,
+    MapLiteral,
+    TableLiteral,
     ExpressionPlaceholder,
     // Binds and blocks
     Bind,
@@ -486,9 +491,14 @@ const PossibleNodes = [
     UnaryEvaluate,
     Evaluate,
     Convert,
+    Insert,
+    Select,
+    Delete,
+    Update,
     // Conditions
     Conditional,
     Is,
+    IsLocale,
     // Define
     FunctionDefinition,
     StructureDefinition,

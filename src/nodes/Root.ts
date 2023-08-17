@@ -56,7 +56,7 @@ export default class Root {
         const ancestors: Node[] = [];
         let current: Node | undefined = node;
         do {
-            let parent = this.getParent(current);
+            const parent = this.getParent(current);
             if (parent) {
                 ancestors.push(parent);
                 current = parent;
@@ -98,7 +98,7 @@ export default class Root {
         let previousField = undefined;
         let previousWasList = false;
         for (const name of parent.getChildNames()) {
-            const field = (parent as any)[name] as Node | Node[];
+            const field = parent.getField(name);
             // If this field is an array and the field includes this node, we found it!
             if (Array.isArray(field) && field.includes(node)) return name;
             // If this field is this node and the next field is an array, we found it!
@@ -114,7 +114,7 @@ export default class Root {
     /** Get the highest ancestor of this node's first token. */
     getSpaceRoot(node: Node) {
         // Find the first leaf of this node.
-        let token = node.getFirstLeaf();
+        const token = node.getFirstLeaf();
 
         // If there isn't one, this has no space root.
         if (token === undefined) return undefined;
@@ -152,7 +152,7 @@ export default class Root {
      * It's also used for caret persistence, to serialize node selections.
      */
     getPath(node: Node): Path {
-        let parent = this.getParent(node);
+        const parent = this.getParent(node);
         if (parent)
             return [
                 ...this.getPath(parent),
@@ -167,7 +167,8 @@ export default class Root {
     /**
      * Attempts to recursively resolve a path by traversing children.
      */
-    resolvePath(node: Node, path: Path): Node | undefined {
+    resolvePath(path: Path, node?: Node): Node | undefined {
+        node = node ?? this.root;
         if (path.length === 0) return node;
 
         const { type, index } = path[0];
@@ -180,19 +181,6 @@ export default class Root {
             ? undefined
             : // Otherwise, ask the corresponding child to continue resolving the path, unless there isn't one,
               // in which case the path doesn't resolve.
-              this.resolvePath(child, path.slice(1));
+              this.resolvePath(path.slice(1), child);
     }
-
-    // resolvePath(path: Path): Node | undefined {
-    //     if (path.length === 0) return this.node;
-
-    //     const [type, index] = path[0];
-
-    //     // If the type of node doesn't match, this path doesn't resolve.
-    //     return this.node.constructor.name !== type
-    //         ? undefined
-    //         : // Otherwise, ask the corresponding child to continue resolving the path, unless there isn't one,
-    //           // in which case the path doesn't resolve.
-    //           this.getChildren()[index]?.resolvePath(path.slice(1));
-    // }
 }

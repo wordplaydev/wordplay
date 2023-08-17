@@ -28,6 +28,28 @@
           "$ref": "#/definitions/DocText"
         },
         "emotion": {
+          "enum": [
+            "$?",
+            "angry",
+            "arrogant",
+            "bored",
+            "cheerful",
+            "curious",
+            "confused",
+            "eager",
+            "excited",
+            "grumpy",
+            "happy",
+            "insecure",
+            "kind",
+            "neutral",
+            "sad",
+            "scared",
+            "serious",
+            "shy",
+            "surprised",
+            "precise"
+          ],
           "type": "string"
         },
         "name": {
@@ -93,7 +115,7 @@
       ],
       "type": "object"
     },
-    "FunctionText<[def-alias-1127088073-1675-1745-1127088073-0-4348,def-alias-1127088073-1675-1745-1127088073-0-4348]>": {
+    "FunctionText<[def-alias-1127088073-2005-2075-1127088073-0-5755,def-alias-1127088073-2005-2075-1127088073-0-5755]>": {
       "additionalProperties": false,
       "properties": {
         "doc": {
@@ -118,7 +140,7 @@
       ],
       "type": "object"
     },
-    "FunctionText<[def-alias-1127088073-1675-1745-1127088073-0-4348]>": {
+    "FunctionText<[def-alias-1127088073-2005-2075-1127088073-0-5755]>": {
       "additionalProperties": false,
       "properties": {
         "doc": {
@@ -179,19 +201,19 @@
                   "additionalProperties": false,
                   "properties": {
                     "and": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1675-1745-1127088073-0-4348%5D%3E"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-2005-2075-1127088073-0-5755%5D%3E"
                     },
                     "equals": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1675-1745-1127088073-0-4348%5D%3E"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-2005-2075-1127088073-0-5755%5D%3E"
                     },
                     "not": {
                       "$ref": "#/definitions/FunctionText%3C%5B%5D%3E"
                     },
                     "notequal": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1675-1745-1127088073-0-4348%5D%3E"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-2005-2075-1127088073-0-5755%5D%3E"
                     },
                     "or": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1675-1745-1127088073-0-4348%5D%3E"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-2005-2075-1127088073-0-5755%5D%3E"
                     }
                   },
                   "required": [
@@ -212,22 +234,6 @@
                 "name",
                 "function",
                 "conversion"
-              ],
-              "type": "object"
-            },
-            "Docs": {
-              "additionalProperties": false,
-              "properties": {
-                "doc": {
-                  "$ref": "#/definitions/DocText"
-                },
-                "name": {
-                  "$ref": "#/definitions/NameText"
-                }
-              },
-              "required": [
-                "doc",
-                "name"
               ],
               "type": "object"
             },
@@ -257,11 +263,19 @@
                   "additionalProperties": false,
                   "properties": {
                     "add": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1675-1745-1127088073-0-4348%5D%3E"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-2005-2075-1127088073-0-5755%5D%3E"
                     },
                     "all": {
                       "additionalProperties": false,
                       "properties": {
+                        "checker": {
+                          "items": {
+                            "$ref": "#/definitions/NameAndDoc"
+                          },
+                          "maxItems": 3,
+                          "minItems": 3,
+                          "type": "array"
+                        },
                         "doc": {
                           "$ref": "#/definitions/DocText"
                         },
@@ -275,33 +289,32 @@
                         },
                         "names": {
                           "$ref": "#/definitions/NameText"
-                        },
-                        "value": {
-                          "$ref": "#/definitions/NameAndDoc"
                         }
                       },
                       "required": [
+                        "checker",
                         "doc",
                         "inputs",
-                        "names",
-                        "value"
+                        "names"
                       ],
                       "type": "object"
                     },
                     "append": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1675-1745-1127088073-0-4348%5D%3E"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-2005-2075-1127088073-0-5755%5D%3E"
                     },
                     "combine": {
                       "additionalProperties": false,
                       "properties": {
-                        "combination": {
-                          "$ref": "#/definitions/NameAndDoc"
+                        "combiner": {
+                          "items": {
+                            "$ref": "#/definitions/NameAndDoc"
+                          },
+                          "maxItems": 4,
+                          "minItems": 4,
+                          "type": "array"
                         },
                         "doc": {
                           "$ref": "#/definitions/DocText"
-                        },
-                        "index": {
-                          "$ref": "#/definitions/NameAndDoc"
                         },
                         "inputs": {
                           "items": {
@@ -313,27 +326,30 @@
                         },
                         "names": {
                           "$ref": "#/definitions/NameText"
-                        },
-                        "next": {
-                          "$ref": "#/definitions/NameAndDoc"
                         }
                       },
                       "required": [
-                        "combination",
+                        "combiner",
                         "doc",
-                        "index",
                         "inputs",
-                        "names",
-                        "next"
+                        "names"
                       ],
                       "type": "object"
                     },
                     "equals": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1675-1745-1127088073-0-4348%5D%3E"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-2005-2075-1127088073-0-5755%5D%3E"
                     },
                     "filter": {
                       "additionalProperties": false,
                       "properties": {
+                        "checker": {
+                          "items": {
+                            "$ref": "#/definitions/NameAndDoc"
+                          },
+                          "maxItems": 3,
+                          "minItems": 3,
+                          "type": "array"
+                        },
                         "doc": {
                           "$ref": "#/definitions/DocText"
                         },
@@ -347,22 +363,27 @@
                         },
                         "names": {
                           "$ref": "#/definitions/NameText"
-                        },
-                        "value": {
-                          "$ref": "#/definitions/NameAndDoc"
                         }
                       },
                       "required": [
+                        "checker",
                         "doc",
                         "inputs",
-                        "names",
-                        "value"
+                        "names"
                       ],
                       "type": "object"
                     },
                     "find": {
                       "additionalProperties": false,
                       "properties": {
+                        "checker": {
+                          "items": {
+                            "$ref": "#/definitions/NameAndDoc"
+                          },
+                          "maxItems": 3,
+                          "minItems": 3,
+                          "type": "array"
+                        },
                         "doc": {
                           "$ref": "#/definitions/DocText"
                         },
@@ -376,16 +397,13 @@
                         },
                         "names": {
                           "$ref": "#/definitions/NameText"
-                        },
-                        "value": {
-                          "$ref": "#/definitions/NameAndDoc"
                         }
                       },
                       "required": [
+                        "checker",
                         "doc",
                         "inputs",
-                        "names",
-                        "value"
+                        "names"
                       ],
                       "type": "object"
                     },
@@ -393,10 +411,10 @@
                       "$ref": "#/definitions/FunctionText%3C%5B%5D%3E"
                     },
                     "has": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1675-1745-1127088073-0-4348%5D%3E"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-2005-2075-1127088073-0-5755%5D%3E"
                     },
                     "join": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1675-1745-1127088073-0-4348%5D%3E"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-2005-2075-1127088073-0-5755%5D%3E"
                     },
                     "last": {
                       "$ref": "#/definitions/FunctionText%3C%5B%5D%3E"
@@ -405,22 +423,22 @@
                       "$ref": "#/definitions/FunctionText%3C%5B%5D%3E"
                     },
                     "notequals": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1675-1745-1127088073-0-4348%5D%3E"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-2005-2075-1127088073-0-5755%5D%3E"
                     },
                     "random": {
                       "$ref": "#/definitions/FunctionText%3C%5B%5D%3E"
                     },
                     "replace": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1675-1745-1127088073-0-4348%2Cdef-alias-1127088073-1675-1745-1127088073-0-4348%5D%3E"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-2005-2075-1127088073-0-5755%2Cdef-alias-1127088073-2005-2075-1127088073-0-5755%5D%3E"
                     },
                     "reverse": {
                       "$ref": "#/definitions/FunctionText%3C%5B%5D%3E"
                     },
                     "sans": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1675-1745-1127088073-0-4348%5D%3E"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-2005-2075-1127088073-0-5755%5D%3E"
                     },
                     "sansAll": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1675-1745-1127088073-0-4348%5D%3E"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-2005-2075-1127088073-0-5755%5D%3E"
                     },
                     "sansFirst": {
                       "$ref": "#/definitions/FunctionText%3C%5B%5D%3E"
@@ -428,8 +446,42 @@
                     "sansLast": {
                       "$ref": "#/definitions/FunctionText%3C%5B%5D%3E"
                     },
+                    "sorted": {
+                      "additionalProperties": false,
+                      "properties": {
+                        "doc": {
+                          "$ref": "#/definitions/DocText"
+                        },
+                        "inputs": {
+                          "items": {
+                            "$ref": "#/definitions/NameAndDoc"
+                          },
+                          "maxItems": 1,
+                          "minItems": 1,
+                          "type": "array"
+                        },
+                        "names": {
+                          "$ref": "#/definitions/NameText"
+                        },
+                        "sequencer": {
+                          "items": {
+                            "$ref": "#/definitions/NameAndDoc"
+                          },
+                          "maxItems": 1,
+                          "minItems": 1,
+                          "type": "array"
+                        }
+                      },
+                      "required": [
+                        "doc",
+                        "inputs",
+                        "names",
+                        "sequencer"
+                      ],
+                      "type": "object"
+                    },
                     "subsequence": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1675-1745-1127088073-0-4348%2Cdef-alias-1127088073-1675-1745-1127088073-0-4348%5D%3E"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-2005-2075-1127088073-0-5755%2Cdef-alias-1127088073-2005-2075-1127088073-0-5755%5D%3E"
                     },
                     "translate": {
                       "additionalProperties": false,
@@ -437,9 +489,6 @@
                         "doc": {
                           "$ref": "#/definitions/DocText"
                         },
-                        "index": {
-                          "$ref": "#/definitions/NameAndDoc"
-                        },
                         "inputs": {
                           "items": {
                             "$ref": "#/definitions/NameAndDoc"
@@ -451,22 +500,34 @@
                         "names": {
                           "$ref": "#/definitions/NameText"
                         },
-                        "value": {
-                          "$ref": "#/definitions/NameAndDoc"
+                        "translator": {
+                          "items": {
+                            "$ref": "#/definitions/NameAndDoc"
+                          },
+                          "maxItems": 3,
+                          "minItems": 3,
+                          "type": "array"
                         }
                       },
                       "required": [
                         "doc",
-                        "index",
                         "inputs",
                         "names",
-                        "value"
+                        "translator"
                       ],
                       "type": "object"
                     },
                     "until": {
                       "additionalProperties": false,
                       "properties": {
+                        "checker": {
+                          "items": {
+                            "$ref": "#/definitions/NameAndDoc"
+                          },
+                          "maxItems": 3,
+                          "minItems": 3,
+                          "type": "array"
+                        },
                         "doc": {
                           "$ref": "#/definitions/DocText"
                         },
@@ -480,16 +541,13 @@
                         },
                         "names": {
                           "$ref": "#/definitions/NameText"
-                        },
-                        "value": {
-                          "$ref": "#/definitions/NameAndDoc"
                         }
                       },
                       "required": [
+                        "checker",
                         "doc",
                         "inputs",
-                        "names",
-                        "value"
+                        "names"
                       ],
                       "type": "object"
                     }
@@ -517,7 +575,8 @@
                     "all",
                     "until",
                     "find",
-                    "combine"
+                    "combine",
+                    "sorted"
                   ],
                   "type": "object"
                 },
@@ -575,11 +634,19 @@
                   "additionalProperties": false,
                   "properties": {
                     "equals": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1675-1745-1127088073-0-4348%5D%3E"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-2005-2075-1127088073-0-5755%5D%3E"
                     },
                     "filter": {
                       "additionalProperties": false,
                       "properties": {
+                        "checker": {
+                          "items": {
+                            "$ref": "#/definitions/NameAndDoc"
+                          },
+                          "maxItems": 3,
+                          "minItems": 3,
+                          "type": "array"
+                        },
                         "doc": {
                           "$ref": "#/definitions/DocText"
                         },
@@ -591,33 +658,29 @@
                           "minItems": 1,
                           "type": "array"
                         },
-                        "key": {
-                          "$ref": "#/definitions/NameAndDoc"
-                        },
                         "names": {
                           "$ref": "#/definitions/NameText"
-                        },
-                        "value": {
-                          "$ref": "#/definitions/NameAndDoc"
                         }
                       },
                       "required": [
+                        "checker",
                         "doc",
                         "inputs",
-                        "key",
-                        "names",
-                        "value"
+                        "names"
                       ],
                       "type": "object"
                     },
                     "notequals": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1675-1745-1127088073-0-4348%5D%3E"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-2005-2075-1127088073-0-5755%5D%3E"
                     },
                     "remove": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1675-1745-1127088073-0-4348%5D%3E"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-2005-2075-1127088073-0-5755%5D%3E"
                     },
                     "set": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1675-1745-1127088073-0-4348%2Cdef-alias-1127088073-1675-1745-1127088073-0-4348%5D%3E"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-2005-2075-1127088073-0-5755%2Cdef-alias-1127088073-2005-2075-1127088073-0-5755%5D%3E"
+                    },
+                    "size": {
+                      "$ref": "#/definitions/FunctionText%3C%5B%5D%3E"
                     },
                     "translate": {
                       "additionalProperties": false,
@@ -633,30 +696,32 @@
                           "minItems": 1,
                           "type": "array"
                         },
-                        "key": {
-                          "$ref": "#/definitions/NameAndDoc"
-                        },
                         "names": {
                           "$ref": "#/definitions/NameText"
                         },
-                        "value": {
-                          "$ref": "#/definitions/NameAndDoc"
+                        "translator": {
+                          "items": {
+                            "$ref": "#/definitions/NameAndDoc"
+                          },
+                          "maxItems": 3,
+                          "minItems": 3,
+                          "type": "array"
                         }
                       },
                       "required": [
                         "doc",
                         "inputs",
-                        "key",
                         "names",
-                        "value"
+                        "translator"
                       ],
                       "type": "object"
                     },
                     "unset": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1675-1745-1127088073-0-4348%5D%3E"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-2005-2075-1127088073-0-5755%5D%3E"
                     }
                   },
                   "required": [
+                    "size",
                     "equals",
                     "notequals",
                     "set",
@@ -713,10 +778,10 @@
                   "additionalProperties": false,
                   "properties": {
                     "equals": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1675-1745-1127088073-0-4348%5D%3E"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-2005-2075-1127088073-0-5755%5D%3E"
                     },
                     "notequals": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1675-1745-1127088073-0-4348%5D%3E"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-2005-2075-1127088073-0-5755%5D%3E"
                     }
                   },
                   "required": [
@@ -947,46 +1012,46 @@
                   "additionalProperties": false,
                   "properties": {
                     "add": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1675-1745-1127088073-0-4348%5D%3E"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-2005-2075-1127088073-0-5755%5D%3E"
                     },
                     "cos": {
                       "$ref": "#/definitions/FunctionText%3C%5B%5D%3E"
                     },
                     "divide": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1675-1745-1127088073-0-4348%5D%3E"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-2005-2075-1127088073-0-5755%5D%3E"
                     },
                     "equal": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1675-1745-1127088073-0-4348%5D%3E"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-2005-2075-1127088073-0-5755%5D%3E"
                     },
                     "greaterOrEqual": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1675-1745-1127088073-0-4348%5D%3E"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-2005-2075-1127088073-0-5755%5D%3E"
                     },
                     "greaterThan": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1675-1745-1127088073-0-4348%5D%3E"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-2005-2075-1127088073-0-5755%5D%3E"
                     },
                     "lessOrEqual": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1675-1745-1127088073-0-4348%5D%3E"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-2005-2075-1127088073-0-5755%5D%3E"
                     },
                     "lessThan": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1675-1745-1127088073-0-4348%5D%3E"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-2005-2075-1127088073-0-5755%5D%3E"
                     },
                     "multiply": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1675-1745-1127088073-0-4348%5D%3E"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-2005-2075-1127088073-0-5755%5D%3E"
                     },
                     "notequal": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1675-1745-1127088073-0-4348%5D%3E"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-2005-2075-1127088073-0-5755%5D%3E"
                     },
                     "positive": {
                       "$ref": "#/definitions/FunctionText%3C%5B%5D%3E"
                     },
                     "power": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1675-1745-1127088073-0-4348%5D%3E"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-2005-2075-1127088073-0-5755%5D%3E"
                     },
                     "remainder": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1675-1745-1127088073-0-4348%5D%3E"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-2005-2075-1127088073-0-5755%5D%3E"
                     },
                     "root": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1675-1745-1127088073-0-4348%5D%3E"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-2005-2075-1127088073-0-5755%5D%3E"
                     },
                     "round": {
                       "$ref": "#/definitions/FunctionText%3C%5B%5D%3E"
@@ -1001,7 +1066,7 @@
                       "$ref": "#/definitions/FunctionText%3C%5B%5D%3E"
                     },
                     "subtract": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1675-1745-1127088073-0-4348%5D%3E"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-2005-2075-1127088073-0-5755%5D%3E"
                     }
                   },
                   "required": [
@@ -1065,17 +1130,25 @@
                   "additionalProperties": false,
                   "properties": {
                     "add": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1675-1745-1127088073-0-4348%5D%3E"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-2005-2075-1127088073-0-5755%5D%3E"
                     },
                     "difference": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1675-1745-1127088073-0-4348%5D%3E"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-2005-2075-1127088073-0-5755%5D%3E"
                     },
                     "equals": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1675-1745-1127088073-0-4348%5D%3E"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-2005-2075-1127088073-0-5755%5D%3E"
                     },
                     "filter": {
                       "additionalProperties": false,
                       "properties": {
+                        "checker": {
+                          "items": {
+                            "$ref": "#/definitions/NameAndDoc"
+                          },
+                          "maxItems": 2,
+                          "minItems": 2,
+                          "type": "array"
+                        },
                         "doc": {
                           "$ref": "#/definitions/DocText"
                         },
@@ -1089,27 +1162,27 @@
                         },
                         "names": {
                           "$ref": "#/definitions/NameText"
-                        },
-                        "value": {
-                          "$ref": "#/definitions/NameAndDoc"
                         }
                       },
                       "required": [
+                        "checker",
                         "doc",
                         "inputs",
-                        "names",
-                        "value"
+                        "names"
                       ],
                       "type": "object"
                     },
                     "intersection": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1675-1745-1127088073-0-4348%5D%3E"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-2005-2075-1127088073-0-5755%5D%3E"
                     },
                     "notequals": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1675-1745-1127088073-0-4348%5D%3E"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-2005-2075-1127088073-0-5755%5D%3E"
                     },
                     "remove": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1675-1745-1127088073-0-4348%5D%3E"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-2005-2075-1127088073-0-5755%5D%3E"
+                    },
+                    "size": {
+                      "$ref": "#/definitions/FunctionText%3C%5B%5D%3E"
                     },
                     "translate": {
                       "additionalProperties": false,
@@ -1128,23 +1201,29 @@
                         "names": {
                           "$ref": "#/definitions/NameText"
                         },
-                        "value": {
-                          "$ref": "#/definitions/NameAndDoc"
+                        "translator": {
+                          "items": {
+                            "$ref": "#/definitions/NameAndDoc"
+                          },
+                          "maxItems": 2,
+                          "minItems": 2,
+                          "type": "array"
                         }
                       },
                       "required": [
                         "doc",
                         "inputs",
                         "names",
-                        "value"
+                        "translator"
                       ],
                       "type": "object"
                     },
                     "union": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1675-1745-1127088073-0-4348%5D%3E"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-2005-2075-1127088073-0-5755%5D%3E"
                     }
                   },
                   "required": [
+                    "size",
                     "equals",
                     "notequals",
                     "add",
@@ -1162,12 +1241,116 @@
                 },
                 "name": {
                   "$ref": "#/definitions/NameText"
+                },
+                "out": {
+                  "$ref": "#/definitions/NameText"
                 }
               },
               "required": [
                 "doc",
                 "name",
                 "kind",
+                "out",
+                "function",
+                "conversion"
+              ],
+              "type": "object"
+            },
+            "Structure": {
+              "additionalProperties": false,
+              "properties": {
+                "conversion": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "text": {
+                      "$ref": "#/definitions/DocText"
+                    }
+                  },
+                  "required": [
+                    "text"
+                  ],
+                  "type": "object"
+                },
+                "doc": {
+                  "$ref": "#/definitions/DocText"
+                },
+                "function": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "equals": {
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-2005-2075-1127088073-0-5755%5D%3E"
+                    },
+                    "notequal": {
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-2005-2075-1127088073-0-5755%5D%3E"
+                    }
+                  },
+                  "required": [
+                    "equals",
+                    "notequal"
+                  ],
+                  "type": "object"
+                },
+                "name": {
+                  "$ref": "#/definitions/NameText"
+                }
+              },
+              "required": [
+                "doc",
+                "name",
+                "function",
+                "conversion"
+              ],
+              "type": "object"
+            },
+            "Table": {
+              "additionalProperties": false,
+              "properties": {
+                "conversion": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "list": {
+                      "$ref": "#/definitions/DocText"
+                    },
+                    "text": {
+                      "$ref": "#/definitions/DocText"
+                    }
+                  },
+                  "required": [
+                    "list",
+                    "text"
+                  ],
+                  "type": "object"
+                },
+                "doc": {
+                  "$ref": "#/definitions/DocText"
+                },
+                "function": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "equals": {
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-2005-2075-1127088073-0-5755%5D%3E"
+                    },
+                    "notequal": {
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-2005-2075-1127088073-0-5755%5D%3E"
+                    }
+                  },
+                  "required": [
+                    "equals",
+                    "notequal"
+                  ],
+                  "type": "object"
+                },
+                "name": {
+                  "$ref": "#/definitions/NameText"
+                },
+                "row": {
+                  "$ref": "#/definitions/NameText"
+                }
+              },
+              "required": [
+                "doc",
+                "name",
+                "row",
                 "function",
                 "conversion"
               ],
@@ -1199,31 +1382,31 @@
                   "additionalProperties": false,
                   "properties": {
                     "combine": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1675-1745-1127088073-0-4348%5D%3E"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-2005-2075-1127088073-0-5755%5D%3E"
                     },
                     "ends": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1675-1745-1127088073-0-4348%5D%3E"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-2005-2075-1127088073-0-5755%5D%3E"
                     },
                     "equals": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1675-1745-1127088073-0-4348%5D%3E"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-2005-2075-1127088073-0-5755%5D%3E"
                     },
                     "has": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1675-1745-1127088073-0-4348%5D%3E"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-2005-2075-1127088073-0-5755%5D%3E"
                     },
                     "length": {
                       "$ref": "#/definitions/FunctionText%3C%5B%5D%3E"
                     },
                     "notequals": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1675-1745-1127088073-0-4348%5D%3E"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-2005-2075-1127088073-0-5755%5D%3E"
                     },
                     "repeat": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1675-1745-1127088073-0-4348%5D%3E"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-2005-2075-1127088073-0-5755%5D%3E"
                     },
                     "segment": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1675-1745-1127088073-0-4348%5D%3E"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-2005-2075-1127088073-0-5755%5D%3E"
                     },
                     "starts": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1675-1745-1127088073-0-4348%5D%3E"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-2005-2075-1127088073-0-5755%5D%3E"
                     }
                   },
                   "required": [
@@ -1260,7 +1443,8 @@
             "List",
             "Set",
             "Map",
-            "Docs"
+            "Table",
+            "Structure"
           ],
           "type": "object"
         },
@@ -1342,26 +1526,6 @@
               ],
               "type": "object"
             },
-            "Mic": {
-              "additionalProperties": false,
-              "properties": {
-                "doc": {
-                  "$ref": "#/definitions/DocText"
-                },
-                "frequency": {
-                  "$ref": "#/definitions/NameAndDoc"
-                },
-                "names": {
-                  "$ref": "#/definitions/NameText"
-                }
-              },
-              "required": [
-                "doc",
-                "frequency",
-                "names"
-              ],
-              "type": "object"
-            },
             "Motion": {
               "additionalProperties": false,
               "properties": {
@@ -1379,6 +1543,21 @@
                 },
                 "names": {
                   "$ref": "#/definitions/NameText"
+                },
+                "startplace": {
+                  "$ref": "#/definitions/NameAndDoc"
+                },
+                "startvangle": {
+                  "$ref": "#/definitions/NameAndDoc"
+                },
+                "startvx": {
+                  "$ref": "#/definitions/NameAndDoc"
+                },
+                "startvy": {
+                  "$ref": "#/definitions/NameAndDoc"
+                },
+                "startvz": {
+                  "$ref": "#/definitions/NameAndDoc"
                 },
                 "type": {
                   "$ref": "#/definitions/NameAndDoc"
@@ -1402,11 +1581,61 @@
                 "gravity",
                 "mass",
                 "names",
+                "startplace",
+                "startvangle",
+                "startvx",
+                "startvy",
+                "startvz",
                 "type",
                 "vangle",
                 "vx",
                 "vy",
                 "vz"
+              ],
+              "type": "object"
+            },
+            "Pitch": {
+              "additionalProperties": false,
+              "properties": {
+                "doc": {
+                  "$ref": "#/definitions/DocText"
+                },
+                "frequency": {
+                  "$ref": "#/definitions/NameAndDoc"
+                },
+                "names": {
+                  "$ref": "#/definitions/NameText"
+                }
+              },
+              "required": [
+                "doc",
+                "frequency",
+                "names"
+              ],
+              "type": "object"
+            },
+            "Placement": {
+              "additionalProperties": false,
+              "properties": {
+                "doc": {
+                  "$ref": "#/definitions/DocText"
+                },
+                "inputs": {
+                  "items": {
+                    "$ref": "#/definitions/NameAndDoc"
+                  },
+                  "maxItems": 5,
+                  "minItems": 5,
+                  "type": "array"
+                },
+                "names": {
+                  "$ref": "#/definitions/NameText"
+                }
+              },
+              "required": [
+                "doc",
+                "inputs",
+                "names"
               ],
               "type": "object"
             },
@@ -1419,10 +1648,32 @@
                 "doc": {
                   "$ref": "#/definitions/DocText"
                 },
-                "max": {
-                  "$ref": "#/definitions/NameAndDoc"
+                "inputs": {
+                  "items": {
+                    "$ref": "#/definitions/NameAndDoc"
+                  },
+                  "maxItems": 2,
+                  "minItems": 2,
+                  "type": "array"
                 },
-                "min": {
+                "names": {
+                  "$ref": "#/definitions/NameText"
+                }
+              },
+              "required": [
+                "doc",
+                "inputs",
+                "names"
+              ],
+              "type": "object"
+            },
+            "Time": {
+              "additionalProperties": false,
+              "properties": {
+                "doc": {
+                  "$ref": "#/definitions/DocText"
+                },
+                "frequency": {
                   "$ref": "#/definitions/NameAndDoc"
                 },
                 "names": {
@@ -1431,13 +1682,12 @@
               },
               "required": [
                 "doc",
-                "max",
-                "min",
+                "frequency",
                 "names"
               ],
               "type": "object"
             },
-            "Time": {
+            "Volume": {
               "additionalProperties": false,
               "properties": {
                 "doc": {
@@ -1465,17 +1715,124 @@
             "Pointer",
             "Key",
             "Time",
-            "Mic",
+            "Volume",
+            "Pitch",
             "Camera",
-            "Motion"
+            "Motion",
+            "Placement"
           ],
           "type": "object"
         },
         "language": {
           "description": "An ISO 639-1 language code",
-          "type": [
-            "string"
-          ]
+          "enum": [
+            "😀",
+            "af",
+            "am",
+            "ar",
+            "as",
+            "az",
+            "ba",
+            "be",
+            "bg",
+            "bn",
+            "bo",
+            "br",
+            "bs",
+            "ca",
+            "co",
+            "cs",
+            "cy",
+            "da",
+            "de",
+            "el",
+            "en",
+            "es",
+            "et",
+            "eu",
+            "fa",
+            "fi",
+            "fil",
+            "fo",
+            "fr",
+            "fy",
+            "ga",
+            "gd",
+            "gl",
+            "ha",
+            "he",
+            "hi",
+            "hr",
+            "hu",
+            "hy",
+            "id",
+            "ig",
+            "ii",
+            "is",
+            "it",
+            "iu",
+            "ja",
+            "ka",
+            "kk",
+            "km",
+            "kn",
+            "ko",
+            "kok",
+            "ky",
+            "lb",
+            "lo",
+            "lt",
+            "lv",
+            "mi",
+            "mk",
+            "ml",
+            "mn",
+            "mr",
+            "ms",
+            "mt",
+            "my",
+            "ne",
+            "nl",
+            "no",
+            "oc",
+            "pa",
+            "pl",
+            "ps",
+            "pt",
+            "qu",
+            "rm",
+            "ro",
+            "ru",
+            "rw",
+            "sa",
+            "si",
+            "sk",
+            "sl",
+            "sq",
+            "sr",
+            "sv",
+            "sw",
+            "syc",
+            "ta",
+            "te",
+            "tg",
+            "th",
+            "tl",
+            "tn",
+            "tr",
+            "tt",
+            "ug",
+            "uk",
+            "ur",
+            "uz",
+            "vi",
+            "wo",
+            "xh",
+            "yo",
+            "zh",
+            "zu"
+          ],
+          "type": "string"
         },
         "newProject": {
           "description": "The default Program for a new project",
@@ -1494,6 +1851,28 @@
                   "$ref": "#/definitions/DocText"
                 },
                 "emotion": {
+                  "enum": [
+                    "$?",
+                    "angry",
+                    "arrogant",
+                    "bored",
+                    "cheerful",
+                    "curious",
+                    "confused",
+                    "eager",
+                    "excited",
+                    "grumpy",
+                    "happy",
+                    "insecure",
+                    "kind",
+                    "neutral",
+                    "sad",
+                    "scared",
+                    "serious",
+                    "shy",
+                    "surprised",
+                    "precise"
+                  ],
                   "type": "string"
                 },
                 "name": {
@@ -1534,6 +1913,28 @@
                   "$ref": "#/definitions/DocText"
                 },
                 "emotion": {
+                  "enum": [
+                    "$?",
+                    "angry",
+                    "arrogant",
+                    "bored",
+                    "cheerful",
+                    "curious",
+                    "confused",
+                    "eager",
+                    "excited",
+                    "grumpy",
+                    "happy",
+                    "insecure",
+                    "kind",
+                    "neutral",
+                    "sad",
+                    "scared",
+                    "serious",
+                    "shy",
+                    "surprised",
+                    "precise"
+                  ],
                   "type": "string"
                 },
                 "finish": {
@@ -1615,6 +2016,28 @@
                   "$ref": "#/definitions/DocText"
                 },
                 "emotion": {
+                  "enum": [
+                    "$?",
+                    "angry",
+                    "arrogant",
+                    "bored",
+                    "cheerful",
+                    "curious",
+                    "confused",
+                    "eager",
+                    "excited",
+                    "grumpy",
+                    "happy",
+                    "insecure",
+                    "kind",
+                    "neutral",
+                    "sad",
+                    "scared",
+                    "serious",
+                    "shy",
+                    "surprised",
+                    "precise"
+                  ],
                   "type": "string"
                 },
                 "finish": {
@@ -1665,6 +2088,28 @@
                   "$ref": "#/definitions/DocText"
                 },
                 "emotion": {
+                  "enum": [
+                    "$?",
+                    "angry",
+                    "arrogant",
+                    "bored",
+                    "cheerful",
+                    "curious",
+                    "confused",
+                    "eager",
+                    "excited",
+                    "grumpy",
+                    "happy",
+                    "insecure",
+                    "kind",
+                    "neutral",
+                    "sad",
+                    "scared",
+                    "serious",
+                    "shy",
+                    "surprised",
+                    "precise"
+                  ],
                   "type": "string"
                 },
                 "finish": {
@@ -1703,6 +2148,28 @@
                   "$ref": "#/definitions/DocText"
                 },
                 "emotion": {
+                  "enum": [
+                    "$?",
+                    "angry",
+                    "arrogant",
+                    "bored",
+                    "cheerful",
+                    "curious",
+                    "confused",
+                    "eager",
+                    "excited",
+                    "grumpy",
+                    "happy",
+                    "insecure",
+                    "kind",
+                    "neutral",
+                    "sad",
+                    "scared",
+                    "serious",
+                    "shy",
+                    "surprised",
+                    "precise"
+                  ],
                   "type": "string"
                 },
                 "name": {
@@ -1755,6 +2222,28 @@
                   "$ref": "#/definitions/DocText"
                 },
                 "emotion": {
+                  "enum": [
+                    "$?",
+                    "angry",
+                    "arrogant",
+                    "bored",
+                    "cheerful",
+                    "curious",
+                    "confused",
+                    "eager",
+                    "excited",
+                    "grumpy",
+                    "happy",
+                    "insecure",
+                    "kind",
+                    "neutral",
+                    "sad",
+                    "scared",
+                    "serious",
+                    "shy",
+                    "surprised",
+                    "precise"
+                  ],
                   "type": "string"
                 },
                 "exception": {
@@ -1808,6 +2297,28 @@
                   "$ref": "#/definitions/DocText"
                 },
                 "emotion": {
+                  "enum": [
+                    "$?",
+                    "angry",
+                    "arrogant",
+                    "bored",
+                    "cheerful",
+                    "curious",
+                    "confused",
+                    "eager",
+                    "excited",
+                    "grumpy",
+                    "happy",
+                    "insecure",
+                    "kind",
+                    "neutral",
+                    "sad",
+                    "scared",
+                    "serious",
+                    "shy",
+                    "surprised",
+                    "precise"
+                  ],
                   "type": "string"
                 },
                 "name": {
@@ -1861,6 +2372,28 @@
                   "description": "jump after the \"then\" expression"
                 },
                 "emotion": {
+                  "enum": [
+                    "$?",
+                    "angry",
+                    "arrogant",
+                    "bored",
+                    "cheerful",
+                    "curious",
+                    "confused",
+                    "eager",
+                    "excited",
+                    "grumpy",
+                    "happy",
+                    "insecure",
+                    "kind",
+                    "neutral",
+                    "sad",
+                    "scared",
+                    "serious",
+                    "shy",
+                    "surprised",
+                    "precise"
+                  ],
                   "type": "string"
                 },
                 "finish": {
@@ -1916,6 +2449,28 @@
                   "$ref": "#/definitions/DocText"
                 },
                 "emotion": {
+                  "enum": [
+                    "$?",
+                    "angry",
+                    "arrogant",
+                    "bored",
+                    "cheerful",
+                    "curious",
+                    "confused",
+                    "eager",
+                    "excited",
+                    "grumpy",
+                    "happy",
+                    "insecure",
+                    "kind",
+                    "neutral",
+                    "sad",
+                    "scared",
+                    "serious",
+                    "shy",
+                    "surprised",
+                    "precise"
+                  ],
                   "type": "string"
                 },
                 "name": {
@@ -1959,6 +2514,28 @@
                   "$ref": "#/definitions/DocText"
                 },
                 "emotion": {
+                  "enum": [
+                    "$?",
+                    "angry",
+                    "arrogant",
+                    "bored",
+                    "cheerful",
+                    "curious",
+                    "confused",
+                    "eager",
+                    "excited",
+                    "grumpy",
+                    "happy",
+                    "insecure",
+                    "kind",
+                    "neutral",
+                    "sad",
+                    "scared",
+                    "serious",
+                    "shy",
+                    "surprised",
+                    "precise"
+                  ],
                   "type": "string"
                 },
                 "exception": {
@@ -2006,6 +2583,28 @@
                   "$ref": "#/definitions/DocText"
                 },
                 "emotion": {
+                  "enum": [
+                    "$?",
+                    "angry",
+                    "arrogant",
+                    "bored",
+                    "cheerful",
+                    "curious",
+                    "confused",
+                    "eager",
+                    "excited",
+                    "grumpy",
+                    "happy",
+                    "insecure",
+                    "kind",
+                    "neutral",
+                    "sad",
+                    "scared",
+                    "serious",
+                    "shy",
+                    "surprised",
+                    "precise"
+                  ],
                   "type": "string"
                 },
                 "finish": {
@@ -2040,6 +2639,28 @@
                   "$ref": "#/definitions/DocText"
                 },
                 "emotion": {
+                  "enum": [
+                    "$?",
+                    "angry",
+                    "arrogant",
+                    "bored",
+                    "cheerful",
+                    "curious",
+                    "confused",
+                    "eager",
+                    "excited",
+                    "grumpy",
+                    "happy",
+                    "insecure",
+                    "kind",
+                    "neutral",
+                    "sad",
+                    "scared",
+                    "serious",
+                    "shy",
+                    "surprised",
+                    "precise"
+                  ],
                   "type": "string"
                 },
                 "name": {
@@ -2057,9 +2678,6 @@
               ],
               "type": "object"
             },
-            "DocsType": {
-              "$ref": "#/definitions/NodeText"
-            },
             "DocumentedExpression": {
               "additionalProperties": false,
               "properties": {
@@ -2067,6 +2685,28 @@
                   "$ref": "#/definitions/DocText"
                 },
                 "emotion": {
+                  "enum": [
+                    "$?",
+                    "angry",
+                    "arrogant",
+                    "bored",
+                    "cheerful",
+                    "curious",
+                    "confused",
+                    "eager",
+                    "excited",
+                    "grumpy",
+                    "happy",
+                    "insecure",
+                    "kind",
+                    "neutral",
+                    "sad",
+                    "scared",
+                    "serious",
+                    "shy",
+                    "surprised",
+                    "precise"
+                  ],
                   "type": "string"
                 },
                 "name": {
@@ -2139,6 +2779,28 @@
                   "$ref": "#/definitions/DocText"
                 },
                 "emotion": {
+                  "enum": [
+                    "$?",
+                    "angry",
+                    "arrogant",
+                    "bored",
+                    "cheerful",
+                    "curious",
+                    "confused",
+                    "eager",
+                    "excited",
+                    "grumpy",
+                    "happy",
+                    "insecure",
+                    "kind",
+                    "neutral",
+                    "sad",
+                    "scared",
+                    "serious",
+                    "shy",
+                    "surprised",
+                    "precise"
+                  ],
                   "type": "string"
                 },
                 "evaluate": {
@@ -2218,6 +2880,28 @@
                   "$ref": "#/definitions/DocText"
                 },
                 "emotion": {
+                  "enum": [
+                    "$?",
+                    "angry",
+                    "arrogant",
+                    "bored",
+                    "cheerful",
+                    "curious",
+                    "confused",
+                    "eager",
+                    "excited",
+                    "grumpy",
+                    "happy",
+                    "insecure",
+                    "kind",
+                    "neutral",
+                    "sad",
+                    "scared",
+                    "serious",
+                    "shy",
+                    "surprised",
+                    "precise"
+                  ],
                   "type": "string"
                 },
                 "exception": {
@@ -2255,6 +2939,64 @@
               ],
               "type": "object"
             },
+            "FormattedLiteral": {
+              "additionalProperties": false,
+              "description": "Description $1: the text",
+              "properties": {
+                "description": {
+                  "$ref": "#/definitions/Template"
+                },
+                "doc": {
+                  "$ref": "#/definitions/DocText"
+                },
+                "emotion": {
+                  "enum": [
+                    "$?",
+                    "angry",
+                    "arrogant",
+                    "bored",
+                    "cheerful",
+                    "curious",
+                    "confused",
+                    "eager",
+                    "excited",
+                    "grumpy",
+                    "happy",
+                    "insecure",
+                    "kind",
+                    "neutral",
+                    "sad",
+                    "scared",
+                    "serious",
+                    "shy",
+                    "surprised",
+                    "precise"
+                  ],
+                  "type": "string"
+                },
+                "name": {
+                  "type": "string"
+                },
+                "start": {
+                  "$ref": "#/definitions/Template"
+                }
+              },
+              "required": [
+                "description",
+                "doc",
+                "emotion",
+                "name",
+                "start"
+              ],
+              "type": "object"
+            },
+            "FormattedTranslation": {
+              "$ref": "#/definitions/DescriptiveNodeText",
+              "description": "Description $1: the text"
+            },
+            "FormattedType": {
+              "$ref": "#/definitions/NodeText"
+            },
             "FunctionDefinition": {
               "additionalProperties": false,
               "description": "Description $1: function name in locale",
@@ -2278,6 +3020,28 @@
                   "$ref": "#/definitions/DocText"
                 },
                 "emotion": {
+                  "enum": [
+                    "$?",
+                    "angry",
+                    "arrogant",
+                    "bored",
+                    "cheerful",
+                    "curious",
+                    "confused",
+                    "eager",
+                    "excited",
+                    "grumpy",
+                    "happy",
+                    "insecure",
+                    "kind",
+                    "neutral",
+                    "sad",
+                    "scared",
+                    "serious",
+                    "shy",
+                    "surprised",
+                    "precise"
+                  ],
                   "type": "string"
                 },
                 "name": {
@@ -2303,47 +3067,6 @@
             "FunctionType": {
               "$ref": "#/definitions/DescriptiveNodeText"
             },
-            "HOF": {
-              "additionalProperties": false,
-              "description": "Finish $1: resulting value",
-              "properties": {
-                "check": {
-                  "$ref": "#/definitions/Template"
-                },
-                "doc": {
-                  "$ref": "#/definitions/DocText"
-                },
-                "emotion": {
-                  "type": "string"
-                },
-                "finish": {
-                  "$ref": "#/definitions/Template"
-                },
-                "initialize": {
-                  "$ref": "#/definitions/Template"
-                },
-                "name": {
-                  "type": "string"
-                },
-                "next": {
-                  "$ref": "#/definitions/Template"
-                },
-                "start": {
-                  "$ref": "#/definitions/Template"
-                }
-              },
-              "required": [
-                "check",
-                "doc",
-                "emotion",
-                "finish",
-                "initialize",
-                "name",
-                "next",
-                "start"
-              ],
-              "type": "object"
-            },
             "Initial": {
               "$ref": "#/definitions/NodeText"
             },
@@ -2355,6 +3078,28 @@
                   "$ref": "#/definitions/DocText"
                 },
                 "emotion": {
+                  "enum": [
+                    "$?",
+                    "angry",
+                    "arrogant",
+                    "bored",
+                    "cheerful",
+                    "curious",
+                    "confused",
+                    "eager",
+                    "excited",
+                    "grumpy",
+                    "happy",
+                    "insecure",
+                    "kind",
+                    "neutral",
+                    "sad",
+                    "scared",
+                    "serious",
+                    "shy",
+                    "surprised",
+                    "precise"
+                  ],
                   "type": "string"
                 },
                 "finish": {
@@ -2399,6 +3144,28 @@
                   "$ref": "#/definitions/DocText"
                 },
                 "emotion": {
+                  "enum": [
+                    "$?",
+                    "angry",
+                    "arrogant",
+                    "bored",
+                    "cheerful",
+                    "curious",
+                    "confused",
+                    "eager",
+                    "excited",
+                    "grumpy",
+                    "happy",
+                    "insecure",
+                    "kind",
+                    "neutral",
+                    "sad",
+                    "scared",
+                    "serious",
+                    "shy",
+                    "surprised",
+                    "precise"
+                  ],
                   "type": "string"
                 },
                 "exception": {
@@ -2436,6 +3203,119 @@
               ],
               "type": "object"
             },
+            "IsLocale": {
+              "additionalProperties": false,
+              "properties": {
+                "description": {
+                  "$ref": "#/definitions/Template"
+                },
+                "doc": {
+                  "$ref": "#/definitions/DocText"
+                },
+                "emotion": {
+                  "enum": [
+                    "$?",
+                    "angry",
+                    "arrogant",
+                    "bored",
+                    "cheerful",
+                    "curious",
+                    "confused",
+                    "eager",
+                    "excited",
+                    "grumpy",
+                    "happy",
+                    "insecure",
+                    "kind",
+                    "neutral",
+                    "sad",
+                    "scared",
+                    "serious",
+                    "shy",
+                    "surprised",
+                    "precise"
+                  ],
+                  "type": "string"
+                },
+                "name": {
+                  "type": "string"
+                },
+                "start": {
+                  "$ref": "#/definitions/Template"
+                }
+              },
+              "required": [
+                "description",
+                "doc",
+                "emotion",
+                "name",
+                "start"
+              ],
+              "type": "object"
+            },
+            "Iteration": {
+              "additionalProperties": false,
+              "description": "Finish $1: resulting value",
+              "properties": {
+                "check": {
+                  "$ref": "#/definitions/Template"
+                },
+                "doc": {
+                  "$ref": "#/definitions/DocText"
+                },
+                "emotion": {
+                  "enum": [
+                    "$?",
+                    "angry",
+                    "arrogant",
+                    "bored",
+                    "cheerful",
+                    "curious",
+                    "confused",
+                    "eager",
+                    "excited",
+                    "grumpy",
+                    "happy",
+                    "insecure",
+                    "kind",
+                    "neutral",
+                    "sad",
+                    "scared",
+                    "serious",
+                    "shy",
+                    "surprised",
+                    "precise"
+                  ],
+                  "type": "string"
+                },
+                "finish": {
+                  "$ref": "#/definitions/Template"
+                },
+                "initialize": {
+                  "$ref": "#/definitions/Template"
+                },
+                "name": {
+                  "type": "string"
+                },
+                "next": {
+                  "$ref": "#/definitions/Template"
+                },
+                "start": {
+                  "$ref": "#/definitions/Template"
+                }
+              },
+              "required": [
+                "check",
+                "doc",
+                "emotion",
+                "finish",
+                "initialize",
+                "name",
+                "next",
+                "start"
+              ],
+              "type": "object"
+            },
             "KeyValue": {
               "$ref": "#/definitions/NodeText"
             },
@@ -2465,6 +3345,28 @@
                   "$ref": "#/definitions/DocText"
                 },
                 "emotion": {
+                  "enum": [
+                    "$?",
+                    "angry",
+                    "arrogant",
+                    "bored",
+                    "cheerful",
+                    "curious",
+                    "confused",
+                    "eager",
+                    "excited",
+                    "grumpy",
+                    "happy",
+                    "insecure",
+                    "kind",
+                    "neutral",
+                    "sad",
+                    "scared",
+                    "serious",
+                    "shy",
+                    "surprised",
+                    "precise"
+                  ],
                   "type": "string"
                 },
                 "name": {
@@ -2488,6 +3390,28 @@
                   "$ref": "#/definitions/DocText"
                 },
                 "emotion": {
+                  "enum": [
+                    "$?",
+                    "angry",
+                    "arrogant",
+                    "bored",
+                    "cheerful",
+                    "curious",
+                    "confused",
+                    "eager",
+                    "excited",
+                    "grumpy",
+                    "happy",
+                    "insecure",
+                    "kind",
+                    "neutral",
+                    "sad",
+                    "scared",
+                    "serious",
+                    "shy",
+                    "surprised",
+                    "precise"
+                  ],
                   "type": "string"
                 },
                 "finish": {
@@ -2520,6 +3444,28 @@
                   "$ref": "#/definitions/DocText"
                 },
                 "emotion": {
+                  "enum": [
+                    "$?",
+                    "angry",
+                    "arrogant",
+                    "bored",
+                    "cheerful",
+                    "curious",
+                    "confused",
+                    "eager",
+                    "excited",
+                    "grumpy",
+                    "happy",
+                    "insecure",
+                    "kind",
+                    "neutral",
+                    "sad",
+                    "scared",
+                    "serious",
+                    "shy",
+                    "surprised",
+                    "precise"
+                  ],
                   "type": "string"
                 },
                 "finish": {
@@ -2574,6 +3520,28 @@
                   "$ref": "#/definitions/DocText"
                 },
                 "emotion": {
+                  "enum": [
+                    "$?",
+                    "angry",
+                    "arrogant",
+                    "bored",
+                    "cheerful",
+                    "curious",
+                    "confused",
+                    "eager",
+                    "excited",
+                    "grumpy",
+                    "happy",
+                    "insecure",
+                    "kind",
+                    "neutral",
+                    "sad",
+                    "scared",
+                    "serious",
+                    "shy",
+                    "surprised",
+                    "precise"
+                  ],
                   "type": "string"
                 },
                 "finish": {
@@ -2637,6 +3605,28 @@
                   "$ref": "#/definitions/DocText"
                 },
                 "emotion": {
+                  "enum": [
+                    "$?",
+                    "angry",
+                    "arrogant",
+                    "bored",
+                    "cheerful",
+                    "curious",
+                    "confused",
+                    "eager",
+                    "excited",
+                    "grumpy",
+                    "happy",
+                    "insecure",
+                    "kind",
+                    "neutral",
+                    "sad",
+                    "scared",
+                    "serious",
+                    "shy",
+                    "surprised",
+                    "precise"
+                  ],
                   "type": "string"
                 },
                 "name": {
@@ -2668,6 +3658,28 @@
                   "$ref": "#/definitions/DocText"
                 },
                 "emotion": {
+                  "enum": [
+                    "$?",
+                    "angry",
+                    "arrogant",
+                    "bored",
+                    "cheerful",
+                    "curious",
+                    "confused",
+                    "eager",
+                    "excited",
+                    "grumpy",
+                    "happy",
+                    "insecure",
+                    "kind",
+                    "neutral",
+                    "sad",
+                    "scared",
+                    "serious",
+                    "shy",
+                    "surprised",
+                    "precise"
+                  ],
                   "type": "string"
                 },
                 "name": {
@@ -2720,6 +3732,28 @@
                   "$ref": "#/definitions/DocText"
                 },
                 "emotion": {
+                  "enum": [
+                    "$?",
+                    "angry",
+                    "arrogant",
+                    "bored",
+                    "cheerful",
+                    "curious",
+                    "confused",
+                    "eager",
+                    "excited",
+                    "grumpy",
+                    "happy",
+                    "insecure",
+                    "kind",
+                    "neutral",
+                    "sad",
+                    "scared",
+                    "serious",
+                    "shy",
+                    "surprised",
+                    "precise"
+                  ],
                   "type": "string"
                 },
                 "name": {
@@ -2755,6 +3789,28 @@
                   "$ref": "#/definitions/DocText"
                 },
                 "emotion": {
+                  "enum": [
+                    "$?",
+                    "angry",
+                    "arrogant",
+                    "bored",
+                    "cheerful",
+                    "curious",
+                    "confused",
+                    "eager",
+                    "excited",
+                    "grumpy",
+                    "happy",
+                    "insecure",
+                    "kind",
+                    "neutral",
+                    "sad",
+                    "scared",
+                    "serious",
+                    "shy",
+                    "surprised",
+                    "precise"
+                  ],
                   "type": "string"
                 },
                 "finish": {
@@ -2787,6 +3843,28 @@
                   "$ref": "#/definitions/Template"
                 },
                 "emotion": {
+                  "enum": [
+                    "$?",
+                    "angry",
+                    "arrogant",
+                    "bored",
+                    "cheerful",
+                    "curious",
+                    "confused",
+                    "eager",
+                    "excited",
+                    "grumpy",
+                    "happy",
+                    "insecure",
+                    "kind",
+                    "neutral",
+                    "sad",
+                    "scared",
+                    "serious",
+                    "shy",
+                    "surprised",
+                    "precise"
+                  ],
                   "type": "string"
                 },
                 "exception": {
@@ -2856,6 +3934,28 @@
                   "$ref": "#/definitions/DocText"
                 },
                 "emotion": {
+                  "enum": [
+                    "$?",
+                    "angry",
+                    "arrogant",
+                    "bored",
+                    "cheerful",
+                    "curious",
+                    "confused",
+                    "eager",
+                    "excited",
+                    "grumpy",
+                    "happy",
+                    "insecure",
+                    "kind",
+                    "neutral",
+                    "sad",
+                    "scared",
+                    "serious",
+                    "shy",
+                    "surprised",
+                    "precise"
+                  ],
                   "type": "string"
                 },
                 "finish": {
@@ -2889,6 +3989,28 @@
                   "$ref": "#/definitions/DocText"
                 },
                 "emotion": {
+                  "enum": [
+                    "$?",
+                    "angry",
+                    "arrogant",
+                    "bored",
+                    "cheerful",
+                    "curious",
+                    "confused",
+                    "eager",
+                    "excited",
+                    "grumpy",
+                    "happy",
+                    "insecure",
+                    "kind",
+                    "neutral",
+                    "sad",
+                    "scared",
+                    "serious",
+                    "shy",
+                    "surprised",
+                    "precise"
+                  ],
                   "type": "string"
                 },
                 "finish": {
@@ -2938,6 +4060,28 @@
                   "$ref": "#/definitions/DocText"
                 },
                 "emotion": {
+                  "enum": [
+                    "$?",
+                    "angry",
+                    "arrogant",
+                    "bored",
+                    "cheerful",
+                    "curious",
+                    "confused",
+                    "eager",
+                    "excited",
+                    "grumpy",
+                    "happy",
+                    "insecure",
+                    "kind",
+                    "neutral",
+                    "sad",
+                    "scared",
+                    "serious",
+                    "shy",
+                    "surprised",
+                    "precise"
+                  ],
                   "type": "string"
                 },
                 "finish": {
@@ -3001,6 +4145,28 @@
                   "$ref": "#/definitions/DocText"
                 },
                 "emotion": {
+                  "enum": [
+                    "$?",
+                    "angry",
+                    "arrogant",
+                    "bored",
+                    "cheerful",
+                    "curious",
+                    "confused",
+                    "eager",
+                    "excited",
+                    "grumpy",
+                    "happy",
+                    "insecure",
+                    "kind",
+                    "neutral",
+                    "sad",
+                    "scared",
+                    "serious",
+                    "shy",
+                    "surprised",
+                    "precise"
+                  ],
                   "type": "string"
                 },
                 "exception": {
@@ -3040,12 +4206,19 @@
                 "conflict": {
                   "additionalProperties": false,
                   "properties": {
+                    "ExtraCell": {
+                      "$ref": "#/definitions/ConflictText",
+                      "description": "$1: Cell"
+                    },
                     "InvalidRow": {
                       "$ref": "#/definitions/InternalConflictText"
                     },
                     "MissingCell": {
                       "$ref": "#/definitions/ConflictText",
                       "description": "$1: Column $2: Row"
+                    },
+                    "UnexpectedColumnBind": {
+                      "$ref": "#/definitions/ConflictText"
                     },
                     "UnknownColumn": {
                       "$ref": "#/definitions/InternalConflictText"
@@ -3054,7 +4227,9 @@
                   "required": [
                     "InvalidRow",
                     "MissingCell",
-                    "UnknownColumn"
+                    "ExtraCell",
+                    "UnknownColumn",
+                    "UnexpectedColumnBind"
                   ],
                   "type": "object"
                 },
@@ -3062,6 +4237,28 @@
                   "$ref": "#/definitions/DocText"
                 },
                 "emotion": {
+                  "enum": [
+                    "$?",
+                    "angry",
+                    "arrogant",
+                    "bored",
+                    "cheerful",
+                    "curious",
+                    "confused",
+                    "eager",
+                    "excited",
+                    "grumpy",
+                    "happy",
+                    "insecure",
+                    "kind",
+                    "neutral",
+                    "sad",
+                    "scared",
+                    "serious",
+                    "shy",
+                    "surprised",
+                    "precise"
+                  ],
                   "type": "string"
                 },
                 "name": {
@@ -3097,6 +4294,28 @@
                   "$ref": "#/definitions/DocText"
                 },
                 "emotion": {
+                  "enum": [
+                    "$?",
+                    "angry",
+                    "arrogant",
+                    "bored",
+                    "cheerful",
+                    "curious",
+                    "confused",
+                    "eager",
+                    "excited",
+                    "grumpy",
+                    "happy",
+                    "insecure",
+                    "kind",
+                    "neutral",
+                    "sad",
+                    "scared",
+                    "serious",
+                    "shy",
+                    "surprised",
+                    "precise"
+                  ],
                   "type": "string"
                 },
                 "finish": {
@@ -3130,6 +4349,28 @@
                   "$ref": "#/definitions/DocText"
                 },
                 "emotion": {
+                  "enum": [
+                    "$?",
+                    "angry",
+                    "arrogant",
+                    "bored",
+                    "cheerful",
+                    "curious",
+                    "confused",
+                    "eager",
+                    "excited",
+                    "grumpy",
+                    "happy",
+                    "insecure",
+                    "kind",
+                    "neutral",
+                    "sad",
+                    "scared",
+                    "serious",
+                    "shy",
+                    "surprised",
+                    "precise"
+                  ],
                   "type": "string"
                 },
                 "finish": {
@@ -3173,6 +4414,28 @@
                   "$ref": "#/definitions/DocText"
                 },
                 "emotion": {
+                  "enum": [
+                    "$?",
+                    "angry",
+                    "arrogant",
+                    "bored",
+                    "cheerful",
+                    "curious",
+                    "confused",
+                    "eager",
+                    "excited",
+                    "grumpy",
+                    "happy",
+                    "insecure",
+                    "kind",
+                    "neutral",
+                    "sad",
+                    "scared",
+                    "serious",
+                    "shy",
+                    "surprised",
+                    "precise"
+                  ],
                   "type": "string"
                 },
                 "finish": {
@@ -3209,6 +4472,28 @@
                   "$ref": "#/definitions/DocText"
                 },
                 "emotion": {
+                  "enum": [
+                    "$?",
+                    "angry",
+                    "arrogant",
+                    "bored",
+                    "cheerful",
+                    "curious",
+                    "confused",
+                    "eager",
+                    "excited",
+                    "grumpy",
+                    "happy",
+                    "insecure",
+                    "kind",
+                    "neutral",
+                    "sad",
+                    "scared",
+                    "serious",
+                    "shy",
+                    "surprised",
+                    "precise"
+                  ],
                   "type": "string"
                 },
                 "name": {
@@ -3268,6 +4553,28 @@
                   "$ref": "#/definitions/DocText"
                 },
                 "emotion": {
+                  "enum": [
+                    "$?",
+                    "angry",
+                    "arrogant",
+                    "bored",
+                    "cheerful",
+                    "curious",
+                    "confused",
+                    "eager",
+                    "excited",
+                    "grumpy",
+                    "happy",
+                    "insecure",
+                    "kind",
+                    "neutral",
+                    "sad",
+                    "scared",
+                    "serious",
+                    "shy",
+                    "surprised",
+                    "precise"
+                  ],
                   "type": "string"
                 },
                 "name": {
@@ -3287,7 +4594,7 @@
               ],
               "type": "object"
             },
-            "StructureDefinitionType": {
+            "StructureType": {
               "$ref": "#/definitions/DescriptiveNodeText",
               "description": "Description $1: Name of structure"
             },
@@ -3302,6 +4609,28 @@
                   "$ref": "#/definitions/DocText"
                 },
                 "emotion": {
+                  "enum": [
+                    "$?",
+                    "angry",
+                    "arrogant",
+                    "bored",
+                    "cheerful",
+                    "curious",
+                    "confused",
+                    "eager",
+                    "excited",
+                    "grumpy",
+                    "happy",
+                    "insecure",
+                    "kind",
+                    "neutral",
+                    "sad",
+                    "scared",
+                    "serious",
+                    "shy",
+                    "surprised",
+                    "precise"
+                  ],
                   "type": "string"
                 },
                 "finish": {
@@ -3348,6 +4677,28 @@
                   "$ref": "#/definitions/DocText"
                 },
                 "emotion": {
+                  "enum": [
+                    "$?",
+                    "angry",
+                    "arrogant",
+                    "bored",
+                    "cheerful",
+                    "curious",
+                    "confused",
+                    "eager",
+                    "excited",
+                    "grumpy",
+                    "happy",
+                    "insecure",
+                    "kind",
+                    "neutral",
+                    "sad",
+                    "scared",
+                    "serious",
+                    "shy",
+                    "surprised",
+                    "precise"
+                  ],
                   "type": "string"
                 },
                 "name": {
@@ -3362,34 +4713,6 @@
               ],
               "type": "object"
             },
-            "Template": {
-              "additionalProperties": false,
-              "properties": {
-                "doc": {
-                  "$ref": "#/definitions/DocText"
-                },
-                "emotion": {
-                  "type": "string"
-                },
-                "finish": {
-                  "$ref": "#/definitions/Template"
-                },
-                "name": {
-                  "type": "string"
-                },
-                "start": {
-                  "$ref": "#/definitions/Template"
-                }
-              },
-              "required": [
-                "doc",
-                "emotion",
-                "finish",
-                "name",
-                "start"
-              ],
-              "type": "object"
-            },
             "TextLiteral": {
               "additionalProperties": false,
               "description": "Description $1: the text",
@@ -3401,6 +4724,28 @@
                   "$ref": "#/definitions/DocText"
                 },
                 "emotion": {
+                  "enum": [
+                    "$?",
+                    "angry",
+                    "arrogant",
+                    "bored",
+                    "cheerful",
+                    "curious",
+                    "confused",
+                    "eager",
+                    "excited",
+                    "grumpy",
+                    "happy",
+                    "insecure",
+                    "kind",
+                    "neutral",
+                    "sad",
+                    "scared",
+                    "serious",
+                    "shy",
+                    "surprised",
+                    "precise"
+                  ],
                   "type": "string"
                 },
                 "name": {
@@ -3443,6 +4788,28 @@
                   "$ref": "#/definitions/DocText"
                 },
                 "emotion": {
+                  "enum": [
+                    "$?",
+                    "angry",
+                    "arrogant",
+                    "bored",
+                    "cheerful",
+                    "curious",
+                    "confused",
+                    "eager",
+                    "excited",
+                    "grumpy",
+                    "happy",
+                    "insecure",
+                    "kind",
+                    "neutral",
+                    "sad",
+                    "scared",
+                    "serious",
+                    "shy",
+                    "surprised",
+                    "precise"
+                  ],
                   "type": "string"
                 },
                 "name": {
@@ -3495,6 +4862,28 @@
                   "$ref": "#/definitions/DocText"
                 },
                 "emotion": {
+                  "enum": [
+                    "$?",
+                    "angry",
+                    "arrogant",
+                    "bored",
+                    "cheerful",
+                    "curious",
+                    "confused",
+                    "eager",
+                    "excited",
+                    "grumpy",
+                    "happy",
+                    "insecure",
+                    "kind",
+                    "neutral",
+                    "sad",
+                    "scared",
+                    "serious",
+                    "shy",
+                    "surprised",
+                    "precise"
+                  ],
                   "type": "string"
                 },
                 "name": {
@@ -3523,6 +4912,28 @@
                   "$ref": "#/definitions/DocText"
                 },
                 "emotion": {
+                  "enum": [
+                    "$?",
+                    "angry",
+                    "arrogant",
+                    "bored",
+                    "cheerful",
+                    "curious",
+                    "confused",
+                    "eager",
+                    "excited",
+                    "grumpy",
+                    "happy",
+                    "insecure",
+                    "kind",
+                    "neutral",
+                    "sad",
+                    "scared",
+                    "serious",
+                    "shy",
+                    "surprised",
+                    "precise"
+                  ],
                   "type": "string"
                 },
                 "finish": {
@@ -3567,6 +4978,28 @@
                   "$ref": "#/definitions/DocText"
                 },
                 "emotion": {
+                  "enum": [
+                    "$?",
+                    "angry",
+                    "arrogant",
+                    "bored",
+                    "cheerful",
+                    "curious",
+                    "confused",
+                    "eager",
+                    "excited",
+                    "grumpy",
+                    "happy",
+                    "insecure",
+                    "kind",
+                    "neutral",
+                    "sad",
+                    "scared",
+                    "serious",
+                    "shy",
+                    "surprised",
+                    "precise"
+                  ],
                   "type": "string"
                 },
                 "name": {
@@ -3613,6 +5046,28 @@
                   "$ref": "#/definitions/DocText"
                 },
                 "emotion": {
+                  "enum": [
+                    "$?",
+                    "angry",
+                    "arrogant",
+                    "bored",
+                    "cheerful",
+                    "curious",
+                    "confused",
+                    "eager",
+                    "excited",
+                    "grumpy",
+                    "happy",
+                    "insecure",
+                    "kind",
+                    "neutral",
+                    "sad",
+                    "scared",
+                    "serious",
+                    "shy",
+                    "surprised",
+                    "precise"
+                  ],
                   "type": "string"
                 },
                 "exception": {
@@ -3655,7 +5110,7 @@
                 "conflict": {
                   "additionalProperties": false,
                   "properties": {
-                    "ExpectedUpdateBind": {
+                    "ExpectedColumnBind": {
                       "$ref": "#/definitions/InternalConflictText"
                     },
                     "IncompatibleCellType": {
@@ -3664,7 +5119,7 @@
                     }
                   },
                   "required": [
-                    "ExpectedUpdateBind",
+                    "ExpectedColumnBind",
                     "IncompatibleCellType"
                   ],
                   "type": "object"
@@ -3673,6 +5128,28 @@
                   "$ref": "#/definitions/DocText"
                 },
                 "emotion": {
+                  "enum": [
+                    "$?",
+                    "angry",
+                    "arrogant",
+                    "bored",
+                    "cheerful",
+                    "curious",
+                    "confused",
+                    "eager",
+                    "excited",
+                    "grumpy",
+                    "happy",
+                    "insecure",
+                    "kind",
+                    "neutral",
+                    "sad",
+                    "scared",
+                    "serious",
+                    "shy",
+                    "surprised",
+                    "precise"
+                  ],
                   "type": "string"
                 },
                 "finish": {
@@ -3741,10 +5218,11 @@
             "Evaluate",
             "ExpressionPlaceholder",
             "FunctionDefinition",
-            "HOF",
+            "Iteration",
             "Insert",
             "Initial",
             "Is",
+            "IsLocale",
             "ListAccess",
             "ListLiteral",
             "MapLiteral",
@@ -3764,9 +5242,10 @@
             "StreamDefinition",
             "StructureDefinition",
             "TableLiteral",
-            "Template",
             "TextLiteral",
             "Translation",
+            "FormattedLiteral",
+            "FormattedTranslation",
             "This",
             "UnaryEvaluate",
             "UnparsableExpression",
@@ -3774,7 +5253,7 @@
             "AnyType",
             "BooleanType",
             "ConversionType",
-            "DocsType",
+            "FormattedType",
             "ExceptionType",
             "FunctionDefinitionType",
             "FunctionType",
@@ -3788,7 +5267,7 @@
             "SetType",
             "StreamDefinitionType",
             "StreamType",
-            "StructureDefinitionType",
+            "StructureType",
             "TableType",
             "TextType",
             "TypePlaceholder",
@@ -4100,6 +5579,9 @@
             "Row": {
               "additionalProperties": false,
               "properties": {
+                "alignment": {
+                  "$ref": "#/definitions/NameAndDoc"
+                },
                 "description": {
                   "$ref": "#/definitions/Template",
                   "description": "$1 total count $2 phrase count $3 group count"
@@ -4115,6 +5597,7 @@
                 }
               },
               "required": [
+                "alignment",
                 "description",
                 "doc",
                 "names",
@@ -4152,6 +5635,9 @@
             "Stack": {
               "additionalProperties": false,
               "properties": {
+                "alignment": {
+                  "$ref": "#/definitions/NameAndDoc"
+                },
                 "description": {
                   "$ref": "#/definitions/Template",
                   "description": "$1 total count $2 phrase count $3 group count"
@@ -4167,6 +5653,7 @@
                 }
               },
               "required": [
+                "alignment",
                 "description",
                 "doc",
                 "names",
@@ -4177,9 +5664,6 @@
             "Stage": {
               "additionalProperties": false,
               "properties": {
-                "background": {
-                  "$ref": "#/definitions/NameAndDoc"
-                },
                 "content": {
                   "$ref": "#/definitions/NameAndDoc"
                 },
@@ -4198,7 +5682,6 @@
                 }
               },
               "required": [
-                "background",
                 "content",
                 "description",
                 "doc",
@@ -4210,6 +5693,9 @@
             "Type": {
               "additionalProperties": false,
               "properties": {
+                "background": {
+                  "$ref": "#/definitions/NameAndDoc"
+                },
                 "color": {
                   "$ref": "#/definitions/NameAndDoc"
                 },
@@ -4219,13 +5705,13 @@
                 "duration": {
                   "$ref": "#/definitions/NameAndDoc"
                 },
-                "enter": {
+                "entering": {
                   "$ref": "#/definitions/NameAndDoc"
                 },
-                "exit": {
+                "exiting": {
                   "$ref": "#/definitions/NameAndDoc"
                 },
-                "family": {
+                "face": {
                   "$ref": "#/definitions/NameAndDoc"
                 },
                 "flipx": {
@@ -4234,7 +5720,7 @@
                 "flipy": {
                   "$ref": "#/definitions/NameAndDoc"
                 },
-                "move": {
+                "moving": {
                   "$ref": "#/definitions/NameAndDoc"
                 },
                 "name": {
@@ -4252,7 +5738,7 @@
                 "place": {
                   "$ref": "#/definitions/NameAndDoc"
                 },
-                "rest": {
+                "resting": {
                   "$ref": "#/definitions/NameAndDoc"
                 },
                 "rotation": {
@@ -4272,21 +5758,22 @@
                 }
               },
               "required": [
+                "background",
                 "color",
                 "doc",
                 "duration",
-                "enter",
-                "exit",
-                "family",
+                "entering",
+                "exiting",
+                "face",
                 "flipx",
                 "flipy",
-                "move",
+                "moving",
                 "name",
                 "names",
                 "offset",
                 "opacity",
                 "place",
-                "rest",
+                "resting",
                 "rotation",
                 "scale",
                 "selectable",
@@ -4577,6 +6064,9 @@
             "Change": {
               "type": "string"
             },
+            "Code": {
+              "type": "string"
+            },
             "Concept": {
               "type": "string"
             },
@@ -4607,13 +6097,13 @@
             "EvalOpen": {
               "type": "string"
             },
-            "ExampleClose": {
-              "type": "string"
-            },
-            "ExampleOpen": {
-              "type": "string"
-            },
             "Extra": {
+              "type": "string"
+            },
+            "Formatted": {
+              "type": "string"
+            },
+            "FormattedType": {
               "type": "string"
             },
             "Function": {
@@ -4647,6 +6137,9 @@
               "type": "string"
             },
             "ListOpen": {
+              "type": "string"
+            },
+            "Locale": {
               "type": "string"
             },
             "Mention": {
@@ -4712,15 +6205,6 @@
             "TagOpen": {
               "type": "string"
             },
-            "TemplateBetween": {
-              "type": "string"
-            },
-            "TemplateClose": {
-              "type": "string"
-            },
-            "TemplateOpen": {
-              "type": "string"
-            },
             "Text": {
               "type": "string"
             },
@@ -4774,6 +6258,8 @@
             "Share",
             "Convert",
             "Doc",
+            "Formatted",
+            "FormattedType",
             "Words",
             "Link",
             "Italic",
@@ -4783,8 +6269,6 @@
             "Extra",
             "Concept",
             "URL",
-            "ExampleOpen",
-            "ExampleClose",
             "Mention",
             "Branch",
             "None",
@@ -4815,12 +6299,11 @@
             "Placeholder",
             "Etc",
             "This",
+            "Locale",
             "Operator",
             "Conditional",
             "Text",
-            "TemplateOpen",
-            "TemplateBetween",
-            "TemplateClose",
+            "Code",
             "Number",
             "Decimal",
             "Base",
@@ -4834,6 +6317,21 @@
         "ui": {
           "additionalProperties": false,
           "properties": {
+            "about": {
+              "additionalProperties": false,
+              "properties": {
+                "content": {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                }
+              },
+              "required": [
+                "content"
+              ],
+              "type": "object"
+            },
             "description": {
               "additionalProperties": false,
               "properties": {
@@ -4886,7 +6384,22 @@
                 "collapse": {
                   "type": "string"
                 },
+                "conceptLink": {
+                  "$ref": "#/definitions/Template"
+                },
                 "copy": {
+                  "type": "string"
+                },
+                "createGroup": {
+                  "description": "The button that creates a group when there is none",
+                  "type": "string"
+                },
+                "createPhrase": {
+                  "description": "The button that creates a phrase when there is none",
+                  "type": "string"
+                },
+                "createStage": {
+                  "description": "The button that creates a stage when there is none",
                   "type": "string"
                 },
                 "cursorContainer": {
@@ -5039,6 +6552,9 @@
                 "insertNotEqualSymbol": {
                   "type": "string"
                 },
+                "insertPreviousSymbol": {
+                  "type": "string"
+                },
                 "insertProductSymbol": {
                   "type": "string"
                 },
@@ -5050,6 +6566,9 @@
                 },
                 "insertSymbol": {
                   "$ref": "#/definitions/Template"
+                },
+                "insertTableSymbol": {
+                  "type": "string"
                 },
                 "insertTrueSymbol": {
                   "type": "string"
@@ -5158,6 +6677,10 @@
                 "start": {
                   "type": "string"
                 },
+                "timeline": {
+                  "description": "The description of the timeline slider",
+                  "type": "string"
+                },
                 "type": {
                   "type": "string"
                 },
@@ -5256,7 +6779,9 @@
                 "insertLessThanOrEqualSymbol",
                 "insertGreaterThanOrEqualSymbol",
                 "insertStreamSymbol",
+                "insertPreviousSymbol",
                 "insertConvertSymbol",
+                "insertTableSymbol",
                 "insertLineBreak",
                 "backspace",
                 "copy",
@@ -5280,7 +6805,12 @@
                 "focusSource",
                 "focusDocs",
                 "focusPalette",
-                "focusCycle"
+                "focusCycle",
+                "conceptLink",
+                "timeline",
+                "createPhrase",
+                "createGroup",
+                "createStage"
               ],
               "type": "object"
             },
@@ -5360,6 +6890,22 @@
             "error": {
               "additionalProperties": false,
               "properties": {
+                "notfound": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "header": {
+                      "type": "string"
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "header",
+                    "message"
+                  ],
+                  "type": "object"
+                },
                 "template": {
                   "description": "The placeholder string indicating that a template string could not be parsed",
                   "type": "string"
@@ -5373,6 +6919,7 @@
                 }
               },
               "required": [
+                "notfound",
                 "tutorial",
                 "unwritten",
                 "template"
@@ -5385,19 +6932,83 @@
                 "loading": {
                   "type": "string"
                 },
+                "save": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "saved": {
+                      "type": "string"
+                    },
+                    "saving": {
+                      "type": "string"
+                    },
+                    "unsaved": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "saving",
+                    "saved",
+                    "unsaved"
+                  ],
+                  "type": "object"
+                },
                 "unknownProject": {
                   "type": "string"
                 }
               },
               "required": [
                 "unknownProject",
-                "loading"
+                "loading",
+                "save"
+              ],
+              "type": "object"
+            },
+            "font": {
+              "additionalProperties": false,
+              "properties": {
+                "app": {
+                  "enum": [
+                    "Noto Sans",
+                    "Noto Sans Japanese",
+                    "Noto Emoji",
+                    "Noto Color Emoji",
+                    "Noto Sans Simplified Chinese",
+                    "Noto Mono",
+                    "Poor Story",
+                    "Permanent Marker",
+                    "Borel",
+                    "Roboto"
+                  ],
+                  "type": "string"
+                },
+                "code": {
+                  "enum": [
+                    "Noto Sans",
+                    "Noto Sans Japanese",
+                    "Noto Emoji",
+                    "Noto Color Emoji",
+                    "Noto Sans Simplified Chinese",
+                    "Noto Mono",
+                    "Poor Story",
+                    "Permanent Marker",
+                    "Borel",
+                    "Roboto"
+                  ],
+                  "type": "string"
+                }
+              },
+              "required": [
+                "app",
+                "code"
               ],
               "type": "object"
             },
             "header": {
               "additionalProperties": false,
               "properties": {
+                "about": {
+                  "type": "string"
+                },
                 "conversions": {
                   "description": "Documentation header in structure before conversions",
                   "type": "string"
@@ -5406,9 +7017,6 @@
                   "type": "string"
                 },
                 "editCode": {
-                  "type": "string"
-                },
-                "editing": {
                   "type": "string"
                 },
                 "examples": {
@@ -5446,9 +7054,6 @@
                   "description": "Documentation header in structure before properties",
                   "type": "string"
                 },
-                "select": {
-                  "type": "string"
-                },
                 "selectedLocales": {
                   "description": "How to label the locales that have been selected",
                   "type": "string"
@@ -5460,9 +7065,8 @@
               },
               "required": [
                 "learn",
-                "editing",
-                "select",
                 "projects",
+                "about",
                 "examples",
                 "inputs",
                 "interfaces",
@@ -5590,6 +7194,34 @@
               ],
               "type": "object"
             },
+            "palette": {
+              "additionalProperties": false,
+              "properties": {
+                "editing": {
+                  "$ref": "#/definitions/Template"
+                },
+                "offerGroup": {
+                  "$ref": "#/definitions/Template"
+                },
+                "offerPhrase": {
+                  "$ref": "#/definitions/Template"
+                },
+                "offerStage": {
+                  "$ref": "#/definitions/Template"
+                },
+                "pauseToEdit": {
+                  "$ref": "#/definitions/Template"
+                }
+              },
+              "required": [
+                "offerPhrase",
+                "offerGroup",
+                "offerStage",
+                "pauseToEdit",
+                "editing"
+              ],
+              "type": "object"
+            },
             "phrases": {
               "additionalProperties": false,
               "properties": {
@@ -5708,6 +7340,7 @@
             }
           },
           "required": [
+            "font",
             "phrases",
             "placeholders",
             "description",
@@ -5715,10 +7348,12 @@
             "labels",
             "header",
             "section",
+            "palette",
             "feedback",
             "login",
             "edit",
-            "error"
+            "error",
+            "about"
           ],
           "type": "object"
         },
@@ -5779,6 +7414,28 @@
           "$ref": "#/definitions/DocText"
         },
         "emotion": {
+          "enum": [
+            "$?",
+            "angry",
+            "arrogant",
+            "bored",
+            "cheerful",
+            "curious",
+            "confused",
+            "eager",
+            "excited",
+            "grumpy",
+            "happy",
+            "insecure",
+            "kind",
+            "neutral",
+            "sad",
+            "scared",
+            "serious",
+            "shy",
+            "surprised",
+            "precise"
+          ],
           "type": "string"
         },
         "name": {

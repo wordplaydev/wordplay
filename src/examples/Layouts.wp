@@ -5,12 +5,12 @@ zbounce: Sequence({0%: Pose(offset: Place(z: 0m)) 50%: Pose(offset: Place(z: -2m
 Group(Row() [
   Group(Stack() [
     Phrase("Kitty") 
-    Phrase("Cat" rest: zbounce) 
-    Group(Row() [ Phrase("Dog") Phrase("Canine") ] rest: throb)
+    Phrase("Cat" resting:zbounce) 
+    Group(Row() [ Phrase("Dog") Phrase("Canine") ] resting:throb)
     Phrase("Feline")
   ])
   Group(Stack() [
     Phrase("Hi")
     Phrase("Hello")
-  ] rest: Sequence(spin() 2s "straight"))
+  ] resting:Sequence(spin() 2s "straight"))
 ])

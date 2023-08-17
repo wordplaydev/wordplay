@@ -7,38 +7,32 @@
     import type Glyph from '../../lore/Glyph';
     import ConceptLinkUI from '../concepts/ConceptLinkUI.svelte';
     import Eyes from './Eyes.svelte';
-    import { config } from '../../db/Creator';
+    import { locales, locale } from '../../db/Database';
     import Emotion from '../../lore/Emotion';
-    import RootView from '../project/RootView.svelte';
-    import type Bind from '../../nodes/Bind';
 
     export let glyph: Glyph | Concept;
-    /** An optional type to display next to the glyph,*/
-    export let bind: Bind | undefined = undefined;
     /** If true, speech is placed below glyph. If false, speech is placed to the right or left of glyph. */
-    export let below: boolean = false;
+    export let below = false;
     /** If true and speech is not below, reading order is flipped. */
-    export let flip: boolean = false;
+    export let flip = false;
     /** If true and speech is not below, baseline aligns the glyph and speech */
-    export let baseline: boolean = false;
+    export let baseline = false;
     /** If true, uses foreground color for background, and background for foreground. */
-    export let invert: boolean = false;
+    export let invert = false;
     /** If true, sets height of speech to 100% and scrolls it */
-    export let scroll: boolean = true;
+    export let scroll = true;
     /** Optional emotion */
     export let emotion: Emotion | undefined = undefined;
     /** Optionally turn off animation */
-    export let emote: boolean = true;
+    export let emote = true;
 
     $: renderedEmotion =
         emotion ??
-        (glyph instanceof Concept
-            ? glyph?.getEmotion($config.getLocale())
-            : undefined);
+        (glyph instanceof Concept ? glyph?.getEmotion($locale) : undefined);
 
     $: glyphs =
         glyph instanceof Concept
-            ? glyph.getGlyphs($config.getLocales()).symbols
+            ? glyph.getGlyphs($locales).symbols
             : glyph.symbols;
 
     $: symbols =
@@ -67,22 +61,16 @@
             {/if}
             <Eyes {invert} emotion={emotion ?? Emotion.neutral} />
         </div>
-        {#if bind && bind.type}
-            • <RootView node={bind.type} inline />{#if bind.value}: <RootView
-                    node={bind.value}
-                    inline
-                    localized
-                />{/if}
-        {/if}
+        <slot name="aside" />
     </div>
     <div
         class="message {below ? 'below' : flip ? 'flip' : 'reading'} {document
             .documentElement.dir}"
     >
         {#if scroll}
-            <div class="scroller"><slot /></div>
+            <div class="scroller"><slot name="content" /></div>
         {:else}
-            <slot />
+            <slot name="content" />
         {/if}
     </div>
 </div>

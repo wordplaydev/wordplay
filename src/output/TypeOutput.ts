@@ -1,5 +1,5 @@
 import toStructure from '../basis/toStructure';
-import type Value from '@runtime/Value';
+import type Value from '@values/Value';
 import type Color from './Color';
 import Output from './Output';
 import type Place from './Place';
@@ -10,7 +10,10 @@ import TextLang from './TextLang';
 import type Pose from './Pose';
 import type { DefinitePose } from './Pose';
 import type RenderContext from './RenderContext';
-import Fonts, { SupportedFontsFamiliesType } from '../basis/Fonts';
+import Fonts, {
+    SupportedFontsFamiliesType,
+    type SupportedFace,
+} from '../basis/Fonts';
 import type Locale from '../locale/Locale';
 
 export function createTypeType(locales: Locale[]) {
@@ -21,28 +24,47 @@ export function createTypeType(locales: Locale[]) {
 
 export const DefaultStyle = 'zippy';
 
-export function createTypeOutputInputs(locales: Locale[]) {
+export function createTypeOutputInputs(locales: Locale[], stage: boolean) {
     return `
-${getBind(locales, (locale) => locale.output.Type.size)}•#m|ø: ø
+${getBind(locales, (locale) => locale.output.Type.size)}•${
+        stage ? '#m: 1m' : '#m|ø: ø'
+    }
 ${getBind(
     locales,
-    (locale) => locale.output.Type.family
-)}•${SupportedFontsFamiliesType}|ø: ø
-${getBind(locales, (locale) => locale.output.Type.place)}•ø|📍: ø
+    (locale) => locale.output.Type.face
+)}•${SupportedFontsFamiliesType}${
+        stage ? `: "${locales[0].ui.font.app}"` : '|ø: ø'
+    }
+${getBind(locales, (locale) => locale.output.Type.place)}•📍|ø: ø
 ${getBind(locales, (locale) => locale.output.Type.name)}•""|ø: ø
 ${getBind(locales, (locale) => locale.output.Type.selectable)}•?: ⊥
-${getBind(locales, (locale) => locale.output.Pose.color)}•🌈|ø: ø
-${getBind(locales, (locale) => locale.output.Pose.opacity)}•%: 100%
-${getBind(locales, (locale) => locale.output.Pose.offset)}•📍: 📍()
-${getBind(locales, (locale) => locale.output.Type.rotation)}•#°: 0°
-${getBind(locales, (locale) => locale.output.Pose.scale)}•#: 1
-${getBind(locales, (locale) => locale.output.Pose.flipx)}•?: ⊥
-${getBind(locales, (locale) => locale.output.Pose.flipy)}•?: ⊥
-${getBind(locales, (locale) => locale.output.Type.enter)}•ø|🤪|💃: ø
-${getBind(locales, (locale) => locale.output.Type.rest)}•ø|🤪|💃: ø
-${getBind(locales, (locale) => locale.output.Type.move)}•ø|🤪|💃: ø
-${getBind(locales, (locale) => locale.output.Type.exit)}•ø|🤪|💃: ø
-${getBind(locales, (locale) => locale.output.Type.duration)}•#s: 0s
+${getBind(locales, (locale) => locale.output.Type.color)}•🌈${
+        stage ? ': Color(0% 0 0°)' : '|ø: ø'
+    }
+${getBind(locales, (locale) => locale.output.Type.background)}•Color${
+        stage ? ': Color(100% 0 0°)' : '|ø: ø'
+    }
+${getBind(locales, (locale) => locale.output.Pose.opacity)}•%${
+        stage ? ': 1' : '|ø: ø'
+    }
+${getBind(locales, (locale) => locale.output.Pose.offset)}•📍|ø: ø
+${getBind(locales, (locale) => locale.output.Type.rotation)}•#°${
+        stage ? ': 0°' : '|ø: ø'
+    }
+${getBind(locales, (locale) => locale.output.Pose.scale)}•#${
+        stage ? ': 1' : '|ø: ø'
+    }
+${getBind(locales, (locale) => locale.output.Pose.flipx)}•?${
+        stage ? ': ⊥' : '|ø: ø'
+    }
+${getBind(locales, (locale) => locale.output.Pose.flipy)}•?${
+        stage ? ': ⊥' : '|ø: ø'
+    }
+${getBind(locales, (locale) => locale.output.Type.entering)}•ø|🤪|💃: ø
+${getBind(locales, (locale) => locale.output.Type.resting)}•ø|🤪|💃: ø
+${getBind(locales, (locale) => locale.output.Type.moving)}•ø|🤪|💃: ø
+${getBind(locales, (locale) => locale.output.Type.exiting)}•ø|🤪|💃: ø
+${getBind(locales, (locale) => locale.output.Type.duration)}•#s: 0.25s
 ${getBind(locales, (locale) => locale.output.Type.style)}•${locales
         .map((locale) =>
             Object.values(locale.output.Easing).map((id) => `"${id}"`)
@@ -55,49 +77,52 @@ ${getBind(locales, (locale) => locale.output.Type.style)}•${locales
 /** Every group has the same style information. */
 export default abstract class TypeOutput extends Output {
     readonly size: number | undefined;
-    readonly font: string | undefined;
+    readonly face: SupportedFace | undefined;
     readonly place: Place | undefined;
     readonly name: TextLang | string;
     readonly selectable: boolean;
+    readonly background: Color | undefined;
     readonly pose: DefinitePose;
-    readonly enter: Pose | Sequence | undefined;
-    readonly rest: Pose | Sequence | undefined;
-    readonly move: Pose | Sequence | undefined;
-    readonly exit: Pose | Sequence | undefined;
+    readonly entering: Pose | Sequence | undefined;
+    readonly resting: Pose | Sequence | undefined;
+    readonly moving: Pose | Sequence | undefined;
+    readonly exiting: Pose | Sequence | undefined;
     readonly duration: number;
     readonly style: string;
 
     constructor(
         value: Value,
         size: number | undefined = undefined,
-        font: string | undefined = undefined,
+        font: SupportedFace | undefined = undefined,
         place: Place | undefined = undefined,
         name: TextLang | string,
         selectable: boolean,
+        background: Color | undefined,
         pose: DefinitePose,
         entry: Pose | Sequence | undefined = undefined,
-        rest: Pose | Sequence | undefined = undefined,
-        move: Pose | Sequence | undefined = undefined,
-        exit: Pose | Sequence | undefined = undefined,
+        resting: Pose | Sequence | undefined = undefined,
+        moving: Pose | Sequence | undefined = undefined,
+        exiting: Pose | Sequence | undefined = undefined,
         duration: number,
         style: string
     ) {
         super(value);
 
         this.size = size ? Math.max(0, size) : size;
-        this.font = font;
+        this.face = font;
         this.place = place;
         this.name = name;
         this.selectable = selectable;
+        this.background = background;
         this.pose = pose;
-        this.enter = entry;
-        this.rest = rest;
-        this.move = move;
-        this.exit = exit;
+        this.entering = entry;
+        this.resting = resting;
+        this.moving = moving;
+        this.exiting = exiting;
         this.duration = duration;
         this.style = style;
 
-        if (this.font) Fonts.loadFamily(this.font);
+        if (this.face) Fonts.loadFace(this.face);
     }
 
     abstract getLayout(context: RenderContext): {
@@ -108,7 +133,7 @@ export default abstract class TypeOutput extends Output {
         bottom: number;
         width: number;
         height: number;
-        actualHeight: number;
+        ascent: number;
         places: [TypeOutput, Place][];
     };
 
@@ -116,14 +141,22 @@ export default abstract class TypeOutput extends Output {
     abstract getBackground(): Color | undefined;
     abstract getDescription(locales: Locale[]): string;
 
+    /* 
+    Given a predict function that takes a type input, recursively scans
+    outputs for a match.
+    */
+    abstract find(
+        check: (output: TypeOutput) => boolean
+    ): TypeOutput | undefined;
+
     getRestOrDefaultPose(): Pose | Sequence {
-        return this.rest ?? this.pose;
+        return this.resting ?? this.pose;
     }
 
     getFirstRestPose(): Pose {
-        return this.rest instanceof Sequence
-            ? this.rest.getFirstPose() ?? this.pose
-            : this.rest ?? this.pose;
+        return this.resting instanceof Sequence
+            ? this.resting.getFirstPose() ?? this.pose
+            : this.resting ?? this.pose;
     }
 
     getDefaultPose(): DefinitePose {
@@ -131,7 +164,7 @@ export default abstract class TypeOutput extends Output {
     }
 
     getRenderContext(context: RenderContext) {
-        return context.withFontAndSize(this.font, this.size);
+        return context.withFontAndSize(this.face, this.size);
     }
 
     getHTMLID(): string {
@@ -149,10 +182,10 @@ export default abstract class TypeOutput extends Output {
 
     isAnimated() {
         return (
-            this.enter !== undefined ||
-            this.rest instanceof Sequence ||
-            this.move !== undefined ||
-            this.exit !== undefined ||
+            this.entering !== undefined ||
+            this.resting instanceof Sequence ||
+            this.moving !== undefined ||
+            this.exiting !== undefined ||
             this.duration > 0
         );
     }

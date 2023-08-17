@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-types */
 import BlockView from '../BlockView.svelte';
 import BorrowView from '../BorrowView.svelte';
 import BindView from '../BindView.svelte';
@@ -18,7 +19,6 @@ import ReferenceView from '../ReferenceView.svelte';
 import BinaryEvaluateView from '../BinaryEvaluateView.svelte';
 import NumberLiteralView from '../NumberLiteralView.svelte';
 import UnitView from '../UnitView.svelte';
-import TemplateView from '../TemplateView.svelte';
 import ConvertView from '../ConvertView.svelte';
 import PropertyReferenceView from '../PropertyReferenceView.svelte';
 import FunctionDefinitionView from '../FunctionDefinitionView.svelte';
@@ -64,7 +64,7 @@ import TypeView from '../TypeView.svelte';
 import DocumentedExpressionView from '../DocumentedExpressionView.svelte';
 import TypeInputsView from '../TypeInputsView.svelte';
 import ChangedView from '../ChangedView.svelte';
-import StructureDefinitionTypeView from '../StructureDefinitionTypeView.svelte';
+import StructureTypeView from '../StructureTypeView.svelte';
 import ParagraphView from '../ParagraphView.svelte';
 import LinkView from '../WebLinkView.svelte';
 import ConceptLinkView from '../ConceptLinkView.svelte';
@@ -75,8 +75,11 @@ import InitialView from '../InitialView.svelte';
 import MarkupView from '../MarkupView.svelte';
 import SourceView from '../SourceView.svelte';
 import ConversionTypeView from '../ConversionTypeView.svelte';
-import DocsTypeView from '../DocsTypeView.svelte';
+import FormattedTypeView from '../FormattedTypeView.svelte';
 import TranslationView from '../TranslationView.svelte';
+import FormattedLiteralView from '../FormattedLiteralView.svelte';
+import FormattedTranslationView from '../FormattedTranslationView.svelte';
+import IsLocaleView from '../IsLocaleView.svelte';
 
 import type Node from '@nodes/Node';
 import Program from '@nodes/Program';
@@ -94,7 +97,6 @@ import NameType from '@nodes/NameType';
 import TypeVariables from '@nodes/TypeVariables';
 import TypeInputs from '@nodes/TypeInputs';
 import TextLiteral from '@nodes/TextLiteral';
-import Template from '@nodes/Template';
 import TextType from '@nodes/TextType';
 import FunctionDefinition from '@nodes/FunctionDefinition';
 import FunctionType from '@nodes/FunctionType';
@@ -144,7 +146,7 @@ import UnparsableType from '@nodes/UnparsableType';
 import UnparsableExpression from '@nodes/UnparsableExpression';
 import DocumentedExpression from '@nodes/DocumentedExpression';
 import TypeVariable from '@nodes/TypeVariable';
-import StructureDefinitionType from '@nodes/StructureDefinitionType';
+import StructureType from '@nodes/StructureType';
 import Paragraph from '@nodes/Paragraph';
 import WebLink from '@nodes/WebLink';
 import ConceptLink from '@nodes/ConceptLink';
@@ -157,10 +159,15 @@ import VariableType from '@nodes/VariableType';
 import VariableTypeView from '../VariableTypeView.svelte';
 import Source from '@nodes/Source';
 import Type from '@nodes/Type';
-import DocsType from '@nodes/DocsType';
+import FormattedType from '@nodes/FormattedType';
 import Translation from '@nodes/Translation';
+import FormattedTranslation from '@nodes/FormattedTranslation';
+import FormattedLiteral from '@nodes/FormattedLiteral';
+import IsLocale from '@nodes/IsLocale';
+import type { ComponentType, SvelteComponent } from 'svelte';
 
-const nodeToView = new Map<Function, ConstructorOfATypedSvelteComponent>();
+const nodeToView = new Map<Function, ComponentType<SvelteComponent>>();
+
 nodeToView.set(Source, SourceView);
 nodeToView.set(Program, ProgramView);
 nodeToView.set(Token, TokenView);
@@ -173,6 +180,8 @@ nodeToView.set(Words, WordsView);
 nodeToView.set(DocumentedExpression, DocumentedExpressionView);
 nodeToView.set(Example, ExampleView);
 nodeToView.set(Markup, MarkupView);
+nodeToView.set(FormattedLiteral, FormattedLiteralView);
+nodeToView.set(FormattedTranslation, FormattedTranslationView);
 
 nodeToView.set(Borrow, BorrowView);
 
@@ -196,7 +205,6 @@ nodeToView.set(VariableType, VariableTypeView);
 
 nodeToView.set(TextLiteral, TextLiteralView);
 nodeToView.set(Translation, TranslationView);
-nodeToView.set(Template, TemplateView);
 nodeToView.set(TextType, TextTypeView);
 
 nodeToView.set(FunctionDefinition, FunctionDefinitionView);
@@ -235,7 +243,7 @@ nodeToView.set(ListLiteral, ListLiteralView);
 nodeToView.set(ListAccess, ListAccessView);
 nodeToView.set(ListType, ListTypeView);
 
-nodeToView.set(DocsType, DocsTypeView);
+nodeToView.set(FormattedType, FormattedTypeView);
 
 nodeToView.set(TableLiteral, TableLiteralView);
 nodeToView.set(TableType, TableTypeView);
@@ -256,12 +264,13 @@ nodeToView.set(UnparsableExpression, UnparsableExpressionView);
 nodeToView.set(UnionType, UnionTypeView);
 nodeToView.set(TypePlaceholder, TypePlaceholderView);
 nodeToView.set(Is, IsView);
+nodeToView.set(IsLocale, IsLocaleView);
 
 nodeToView.set(This, ThisView);
 
 nodeToView.set(Type, TypeView);
 
-nodeToView.set(StructureDefinitionType, StructureDefinitionTypeView);
+nodeToView.set(StructureType, StructureTypeView);
 
 export default function getNodeView(node: Node) {
     // Climp the class hierarchy until finding a satisfactory view of the node.

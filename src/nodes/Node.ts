@@ -1,3 +1,6 @@
+/* eslint-disable @typescript-eslint/ban-types */
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import type Conflict from '@conflicts/Conflict';
 import type Definition from './Definition';
 import type Context from './Context';
@@ -13,7 +16,8 @@ import type { BasisTypeName } from '../basis/BasisConstants';
 import type Root from './Root';
 import type { TemplateInput } from '../locale/concretize';
 import type Markup from './Markup';
-import type Symbol from './Symbol';
+import type Sym from './Sym';
+import type Concretizer from './Concretizer';
 
 /* A global ID for nodes, for helping index them */
 let NODE_ID_COUNTER = 0;
@@ -152,19 +156,23 @@ export default abstract class Node {
                   .join(' ')}•`;
     }
 
+    //filter<S extends T>(predicate: (value: T, index: number, array: T[]) => value is S, thisArg?: any): S[];
+
     /** Returns all this and all descendants in depth first order. Optionally uses the given function to decide whether to include a node. */
-    nodes(include?: (node: Node) => boolean): Node[] {
+    nodes<Kind extends Node>(include?: (node: Node) => node is Kind): Kind[] {
         const nodes: Node[] = [];
         this.traverse((node) => {
-            if (include === undefined || include.call(undefined, node) === true)
+            if (include === undefined || include(node) === true)
                 nodes.push(node);
             return true;
         });
-        return nodes;
+        return nodes as Kind[];
     }
 
-    find<NodeType extends Node>(type: Function, nth: number = 0) {
-        return this.nodes((node) => node instanceof type)[nth] as NodeType;
+    find<NodeType extends Node>(type: new (...params: any[]) => Node, nth = 0) {
+        return this.nodes((node): node is NodeType => node instanceof type)[
+            nth
+        ] as NodeType;
     }
 
     /** Finds the descendant of this node (or this node) that has the given ID. */
@@ -280,6 +288,15 @@ export default abstract class Node {
         return this.getParent(context)?.getScopeOfChild(this, context);
     }
 
+    /**
+     * Get any additional basis scope that should be included in definition searches
+     * that can't be included because this node already has a scope it returns.
+     * This really only applies to StructureType.
+     */
+    getAdditionalBasisScope(context: Context): Node | undefined {
+        return undefined;
+    }
+
     /** By default, the scope of a child is it's parent's parent. */
     getScopeOfChild(_: Node, context: Context): Node | undefined {
         return this.getParent(context);
@@ -303,15 +320,25 @@ export default abstract class Node {
         if (cache) return cache;
 
         let definitions: Definition[] = [];
+
         // Start with this node and see if it exposes any definitions to itself.
         let scope: Node | undefined = this.getScope(context);
-        while (scope !== undefined) {
+        // See if this node has any additional basis functions to include.
+        let additional = this.getAdditionalBasisScope(context);
+        while (scope !== undefined || additional) {
             // Order matters here: defintions close in the tree have precedent, so they should go first.
-            definitions = definitions.concat(
-                scope.getDefinitions(this, context)
-            );
+            if (additional)
+                definitions = definitions.concat(
+                    additional.getDefinitions(this, context)
+                );
+            if (scope)
+                definitions = definitions.concat(
+                    scope.getDefinitions(this, context)
+                );
+            // Before changing the scope, see if it has any additional basis scope to add.
+            additional = scope?.getAdditionalBasisScope(context);
             // After getting definitions from the scope, get the scope's scope.
-            scope = scope.getScope(context);
+            scope = scope?.getScope(context);
         }
 
         // Finally, add project and basis definitions.
@@ -536,7 +563,7 @@ export default abstract class Node {
     }
 
     /** Always true, except in Token, which overrids. This helps us aovid importing Token here, creating an import cycle. */
-    isSymbol(type: Symbol) {
+    isSymbol(_: Sym) {
         return false;
     }
 
@@ -545,7 +572,7 @@ export default abstract class Node {
     }
 
     /** Adjust this node in the requested direction, if that makes sense. By default, do nothing. */
-    adjust(direction: -1 | 1, locale: Locale[]): this | undefined {
+    adjust(direction: -1 | 1): this | undefined {
         return undefined;
     }
 
@@ -626,7 +653,7 @@ export default abstract class Node {
         const text = this.getNodeLocale(locale);
         return concretizer(
             locale,
-            text.hasOwnProperty('description')
+            'description' in text
                 ? (text as DescriptiveNodeText).description
                 : text.name,
             ...this.getDescriptionInputs(locale, context)
@@ -637,7 +664,7 @@ export default abstract class Node {
      * Get the list of inputs to give to concretize the description.
      */
     getDescriptionInputs(_: Locale, __: Context): TemplateInput[] {
-        return [] as TemplateInput[];
+        return [];
     }
 
     getDoc(locale: Locale): DocText {
@@ -686,7 +713,7 @@ export default abstract class Node {
     }
 
     /** A representation for debugging */
-    toString(depth: number = 0): string {
+    toString(depth = 0): string {
         const tabs = '\t'.repeat(depth);
         return `${tabs}${this.constructor.name}\n${this.getChildren()
             .map((n) => n.toString(depth + 1))
@@ -731,11 +758,10 @@ export type Field = {
  */
 export type FieldValue = Node | Node[] | undefined;
 
-export type NodeKind = Function | Symbol | undefined;
+export type NodeKind = Function | Sym | undefined;
 
 /** These classes help encapsulate field definitions for node grammars, centralizing reasoning about validity. */
 export abstract class FieldKind {
-    constructor() {}
     abstract allows(value: FieldValue): boolean;
     abstract allowsKind(kind: Function): boolean;
     abstract enumerate(): NodeKind[];
@@ -746,8 +772,8 @@ export abstract class FieldKind {
 
 // A field can be of this type of node or token type.
 export class IsA extends FieldKind {
-    readonly kind: Function | Symbol;
-    constructor(kind: Function | Symbol) {
+    readonly kind: Function | Sym;
+    constructor(kind: Function | Sym) {
         super();
         this.kind = kind;
     }
@@ -919,7 +945,7 @@ export class Any extends FieldKind {
 }
 
 /** These are shorthand functions for making grammars a bit less verbose. */
-export function node(kind: Function | Symbol) {
+export function node(kind: Function | Sym) {
     return new IsA(kind);
 }
 export function none(dependency?: string) {
@@ -942,9 +968,3 @@ export type Replacement = {
     original: Node | Node[] | string;
     replacement: FieldValue;
 };
-
-export type Concretizer = (
-    locale: Locale,
-    template: string,
-    ...inputs: TemplateInput[]
-) => Markup;

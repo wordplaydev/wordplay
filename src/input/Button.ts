@@ -1,5 +1,5 @@
 import type Evaluator from '@runtime/Evaluator';
-import Stream from '@runtime/Stream';
+import StreamValue from '@values/StreamValue';
 import StreamDefinition from '@nodes/StreamDefinition';
 import { getDocLocales } from '@locale/getDocLocales';
 import { getNameLocales } from '@locale/getNameLocales';
@@ -7,21 +7,22 @@ import BooleanType from '../nodes/BooleanType';
 import Bind from '@nodes/Bind';
 import UnionType from '@nodes/UnionType';
 import NoneType from '@nodes/NoneType';
-import Bool from '@runtime/Bool';
+import BoolValue from '@values/BoolValue';
 import StreamType from '@nodes/StreamType';
 import createStreamEvaluator from './createStreamEvaluator';
 import type Locale from '../locale/Locale';
 import NoneLiteral from '../nodes/NoneLiteral';
 
-export default class Button extends Stream<Bool> {
-    on: boolean = false;
+export default class Button extends StreamValue<BoolValue, boolean> {
+    on = false;
     down: boolean | undefined;
 
     constructor(evaluator: Evaluator, down: boolean | undefined) {
         super(
             evaluator,
             evaluator.project.shares.input.Button,
-            new Bool(evaluator.getMain(), false)
+            new BoolValue(evaluator.getMain(), false),
+            false
         );
 
         this.down = down;
@@ -31,9 +32,9 @@ export default class Button extends Stream<Bool> {
         this.down = down;
     }
 
-    record(down: boolean) {
+    react(down: boolean) {
         if (this.on && (this.down === undefined || this.down === down))
-            this.add(new Bool(this.creator, down));
+            this.add(new BoolValue(this.creator, down), down);
     }
 
     start() {
@@ -66,10 +67,10 @@ export function createButtonDefinition(locales: Locale[]) {
             (evaluation) =>
                 new Button(
                     evaluation.getEvaluator(),
-                    evaluation.get(DownBind.names, Bool)?.bool
+                    evaluation.get(DownBind.names, BoolValue)?.bool
                 ),
             (stream, evaluation) =>
-                stream.setDown(evaluation.get(DownBind.names, Bool)?.bool)
+                stream.setDown(evaluation.get(DownBind.names, BoolValue)?.bool)
         ),
         BooleanType.make()
     );

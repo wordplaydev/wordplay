@@ -12,18 +12,18 @@ key: Key()
 state•State:  start … ∆ key … state.options[key → #]
 
 options: state.options.length() > 0 ? 
-    state.options.translate(ƒ(option•State) Phrase("***\option.action\***" size: 2m name: option.action duration: 1s enter: Pose(opacity: 0%)))
-    [ Phrase("**GAME OVER**") ]
+    state.options.translate(ƒ(option•State) Phrase(`*\option.action\*` size: 2m name: option.action duration: 1s entering: Pose(opacity: 0%)))
+    [ Phrase(`*GAME OVER*`) ]
 
 
 Stage(
   [
 		Group(
 			Stack()
-			[Phrase(state.description duration: 0.5s name: state.action enter: Pose(offset: Place(0m 2m)))].append(options)
+			[Phrase(state.description duration: 0.5s name: state.action entering: Pose(offset: Place(0m 2m)))].append(options)
       )
   ] 
   background: Color(0 0 0%°) 
   color: Color(100% 0 0°)
-  font: "Permanent Marker"
+  face: "Permanent Marker"
 )
