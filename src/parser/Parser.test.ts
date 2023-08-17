@@ -11,7 +11,7 @@ import NumberLiteral from '@nodes/NumberLiteral';
 import NumberType from '@nodes/NumberType';
 import NameType from '@nodes/NameType';
 import NoneType from '@nodes/NoneType';
-import { toProgram, parseBlock, toTokens, parseDoc } from './Parser';
+import { toProgram } from './parseProgram';
 import Program from '@nodes/Program';
 import StreamType from '@nodes/StreamType';
 import TableType from '@nodes/TableType';
@@ -65,6 +65,9 @@ import FormattedTranslation from '../nodes/FormattedTranslation';
 import IsLocale from '../nodes/IsLocale';
 import Language from '../nodes/Language';
 import Delete from '../nodes/Delete';
+import { toTokens } from './toTokens';
+import parseDoc from './parseDoc';
+import { parseBlock } from './parseExpression';
 
 test('Parse programs', () => {
     expect(toProgram('')).toBeInstanceOf(Program);

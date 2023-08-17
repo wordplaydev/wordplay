@@ -1,5 +1,5 @@
 import Markup from '../nodes/Markup';
-import { toMarkup } from '../parser/Parser';
+import { toMarkup } from '../parser/toMarkup';
 import type Locale from './Locale';
 import type NodeRef from './NodeRef';
 import type ValueRef from './ValueRef';

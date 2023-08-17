@@ -179,6 +179,7 @@ type UITexts = {
     header: {
         learn: string;
         projects: string;
+        about: string;
         examples: string;
         /** Documentation header in structure and functions before inputs */
         inputs: string;
@@ -249,6 +250,9 @@ type UITexts = {
         unwritten: string;
         /** The placeholder string indicating that a template string could not be parsed */
         template: string;
+    };
+    about: {
+        content: string[];
     };
 };
 

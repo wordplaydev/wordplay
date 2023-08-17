@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { parseNumber, toTokens } from '@parser/Parser';
+    import { parseNumber } from '@parser/Parser';
     import Slider from '../widgets/Slider.svelte';
     import type OutputPropertyValues from '@edit/OutputPropertyValueSet';
     import type OutputPropertyRange from '@edit/OutputPropertyRange';
@@ -7,6 +7,7 @@
     import { getProject } from '../project/Contexts';
     import { database } from '../../db/Database';
     import { getFirstName } from '../../locale/Locale';
+    import { toTokens } from '../../parser/toTokens';
 
     export let property: OutputProperty;
     export let values: OutputPropertyValues;

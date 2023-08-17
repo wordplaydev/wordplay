@@ -4,11 +4,12 @@ import Source from '@nodes/Source';
 import { dropNodeOnSource, InsertionPoint } from './Drag';
 import type Node from '@nodes/Node';
 import ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
-import { parseExpression, toTokens } from '@parser/Parser';
 import NumberLiteral from '@nodes/NumberLiteral';
 import ListLiteral from '@nodes/ListLiteral';
 import Token from '@nodes/Token';
 import { DefaultLocale } from '../db/Database';
+import { toTokens } from '../parser/toTokens';
+import parseExpression from '../parser/parseExpression';
 
 test.each([
     // Replace placeholder with rootless expression

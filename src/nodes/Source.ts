@@ -2,7 +2,7 @@ import Node, { node, type Grammar, type Replacement } from './Node';
 import Token from './Token';
 import Program from './Program';
 import type Conflict from '@conflicts/Conflict';
-import { parseProgram, Tokens } from '@parser/Parser';
+import parseProgram from '@parser/parseProgram';
 import {
     DelimiterCloseByOpen,
     DelimiterOpenByClose,
@@ -28,6 +28,7 @@ import Glyphs from '../lore/Glyphs';
 import Root from './Root';
 import Markup from './Markup';
 import Purpose from '../concepts/Purpose';
+import Tokens from '../parser/Tokens';
 
 /** A document representing executable Wordplay code and it's various metadata, such as conflicts, tokens, and evaulator. */
 export default class Source extends Expression {

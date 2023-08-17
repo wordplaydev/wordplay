@@ -2,7 +2,6 @@ import { test, expect } from 'vitest';
 import { testConflict, testTypes } from '@conflicts/TestUtilities';
 import IncompatibleInput from '@conflicts/IncompatibleInput';
 import NotInstantiable from '@conflicts/NotInstantiable';
-import Evaluator from '@runtime/Evaluator';
 import Evaluate from './Evaluate';
 import MissingInput from '@conflicts/MissingInput';
 import MisplacedInput from '@conflicts/MisplacedInput';
@@ -11,9 +10,9 @@ import SetType from './SetType';
 import MapType from './MapType';
 import UnknownInput from '@conflicts/UnknownInput';
 import UnexpectedTypeInput from '@conflicts/UnexpectedTypeInput';
-import { DefaultLocale } from '../db/Database';
 import type Node from './Node';
 import type Conflict from '../conflicts/Conflict';
+import evaluateCode from '../runtime/evaluate';
 
 test.each([
     [
@@ -133,7 +132,7 @@ test.each([
     ['x: ƒ(a•#:1 b…•#:1) [ a b ]\nx(1 5)', '[1 [5]]'],
     ['x: ƒ(a•#:1 b…•#:1) [ a b ]\nx(5 1)', '[5 [1]]'],
 ])('%s = %s', (code: string, value: string) => {
-    expect(Evaluator.evaluateCode(DefaultLocale, code)?.toString()).toBe(value);
+    expect(evaluateCode(code)?.toString()).toBe(value);
 });
 
 test('Test generics', () => {

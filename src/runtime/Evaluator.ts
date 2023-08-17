@@ -35,6 +35,7 @@ import type { Path } from '../nodes/Root';
 import Evaluate from '../nodes/Evaluate';
 
 import NumberGenerator from 'recoverable-random';
+import type { Database } from '../db/Database';
 
 /** Anything that wants to listen to changes in the state of this evaluator */
 export type EvaluationObserver = () => void;
@@ -61,6 +62,9 @@ export enum Mode {
 export default class Evaluator {
     /** The project that this is evaluating. */
     readonly project: Project;
+
+    /** The database that contains settings for evaluation */
+    readonly database: Database;
 
     /** True if the evaluator reacts to stream inputs. */
     readonly reactive: boolean;
@@ -207,10 +211,12 @@ export default class Evaluator {
      * */
     constructor(
         project: Project,
+        database: Database,
         reactive = true,
         prior: Evaluator | undefined = undefined
     ) {
         this.project = project;
+        this.database = database;
 
         this.reactive = reactive;
 
@@ -243,6 +249,7 @@ export default class Evaluator {
      * This is primarily used for testing.
      */
     static evaluateCode(
+        database: Database,
         locale: Locale,
         main: string,
         supplements?: string[]
@@ -257,7 +264,7 @@ export default class Evaluator {
             ),
             locale
         );
-        return new Evaluator(project).getInitialValue();
+        return new Evaluator(project, database).getInitialValue();
     }
 
     /** Mirror the given evaluator's stream history and state, but with the new source. */

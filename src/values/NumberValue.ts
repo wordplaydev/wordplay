@@ -10,7 +10,7 @@ import type Value from '../values/Value';
 import type { BasisTypeName } from '../basis/BasisConstants';
 import type Locale from '@locale/Locale';
 import type Expression from '../nodes/Expression';
-import concretize from '../locale/concretize';
+import type Concretizer from '../nodes/Concretizer';
 
 /** A decimal number with a unit. */
 export default class NumberValue extends SimpleValue {
@@ -260,7 +260,7 @@ export default class NumberValue extends SimpleValue {
         }${this.unit.toString()}`;
     }
 
-    getDescription(locale: Locale) {
+    getDescription(concretize: Concretizer, locale: Locale) {
         return concretize(locale, locale.term.number);
     }
 

@@ -5,7 +5,7 @@ import type { BasisTypeName } from '../basis/BasisConstants';
 import SimpleValue from './SimpleValue';
 import type Locale from '@locale/Locale';
 import type Expression from '../nodes/Expression';
-import concretize from '../locale/concretize';
+import type Concretizer from '../nodes/Concretizer';
 
 export default class NoneValue extends SimpleValue {
     constructor(creator: Expression) {
@@ -28,7 +28,7 @@ export default class NoneValue extends SimpleValue {
         return NONE_SYMBOL;
     }
 
-    getDescription(locale: Locale) {
+    getDescription(concretize: Concretizer, locale: Locale) {
         return concretize(locale, locale.term.none);
     }
 

@@ -3,10 +3,11 @@ import FunctionDefinition from '../nodes/FunctionDefinition';
 import NumberLiteral from '../nodes/NumberLiteral';
 import NumberType from '../nodes/NumberType';
 import Unit from '../nodes/Unit';
-import { parseExpression, toTokens } from '../parser/Parser';
 import { getDocLocales } from '../locale/getDocLocales';
 import { getNameLocales } from '../locale/getNameLocales';
 import type Locale from '../locale/Locale';
+import { toTokens } from '../parser/toTokens';
+import parseExpression from '../parser/parseExpression';
 
 export function createSway(locales: Locale[]) {
     return FunctionDefinition.make(

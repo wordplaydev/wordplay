@@ -4,10 +4,10 @@ import { TABLE_CLOSE_SYMBOL, TABLE_OPEN_SYMBOL } from '@parser/Symbols';
 import type ExceptionValue from '@values/ExceptionValue';
 import type Value from '@values/Value';
 import type Locale from '@locale/Locale';
-import concretize from '../locale/concretize';
 import SimpleValue from './SimpleValue';
 import type StructureValue from '@values/StructureValue';
 import type Expression from '../nodes/Expression';
+import type Concretizer from '../nodes/Concretizer';
 
 export default class TableValue extends SimpleValue {
     readonly type: TableType;
@@ -57,8 +57,8 @@ export default class TableValue extends SimpleValue {
         return text.trim();
     }
 
-    getDescription(translation: Locale) {
-        return concretize(translation, translation.term.table);
+    getDescription(concretize: Concretizer, locale: Locale) {
+        return concretize(locale, locale.term.table);
     }
 
     getSize() {

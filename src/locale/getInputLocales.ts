@@ -5,7 +5,7 @@ import Docs from '@nodes/Docs';
 import { localeToLanguage } from './localeToLanguage';
 import { toDocString, type NameAndDoc, nameWithoutMentions } from './Locale';
 import type Locale from './Locale';
-import { parseLocaleDoc } from '@parser/Parser';
+import { parseLocaleDoc } from '@locale/Locale';
 
 export function getInputLocales(
     locales: Locale[],

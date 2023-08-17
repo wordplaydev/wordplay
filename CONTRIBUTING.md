@@ -3,7 +3,7 @@
 Welcome! This document is your guide for several types of contributions:
 
 -   [Development](#development)
--   [Testing](#testing)
+-   [Verification](#verification)
 -   [Localization](#localization)
 
 Regardless of what role you take on, there are a few things you should start with:

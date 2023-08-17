@@ -4,11 +4,12 @@
     import TextField from '../widgets/TextField.svelte';
     import type OutputProperty from '@edit/OutputProperty';
     import { getProject } from '../project/Contexts';
-    import { database, locale, locales, languages } from '../../db/Database';
+    import { database, locale, locales, languages } from '@db/Database';
     import { tick } from 'svelte';
     import Language from '@nodes/Language';
-    import { FORMATTED_SYMBOL } from '../../parser/Symbols';
-    import { parseFormattedLiteral, toTokens } from '../../parser/Parser';
+    import { FORMATTED_SYMBOL } from '@parser/Symbols';
+    import { parseFormattedLiteral } from '@parser/Parser';
+    import { toTokens } from '@parser/toTokens';
 
     export let property: OutputProperty;
     export let values: OutputPropertyValues;

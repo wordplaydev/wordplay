@@ -164,8 +164,9 @@ import Translation from '@nodes/Translation';
 import FormattedTranslation from '@nodes/FormattedTranslation';
 import FormattedLiteral from '@nodes/FormattedLiteral';
 import IsLocale from '@nodes/IsLocale';
+import type { ComponentType, SvelteComponent } from 'svelte';
 
-const nodeToView = new Map<Function, ConstructorOfATypedSvelteComponent>();
+const nodeToView = new Map<Function, ComponentType<SvelteComponent>>();
 
 nodeToView.set(Source, SourceView);
 nodeToView.set(Program, ProgramView);

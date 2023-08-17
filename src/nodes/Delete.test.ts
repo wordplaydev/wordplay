@@ -2,8 +2,7 @@ import { test, expect } from 'vitest';
 import { testConflict } from '@conflicts/TestUtilities';
 import Delete from './Delete';
 import IncompatibleInput from '../conflicts/IncompatibleInput';
-import Evaluator from '@runtime/Evaluator';
-import { DefaultLocale } from '../db/Database';
+import evaluateCode from '../runtime/evaluate';
 
 test.each([
     [
@@ -28,8 +27,6 @@ test.each([
 test.each([['⎡a•# b•#⎦⎡1 2⎦⎡1 3⎦ ⎡- b = 3', '⎡ 1 2 ⎦']])(
     '%s = %s',
     (code: string, value: string) => {
-        expect(
-            Evaluator.evaluateCode(DefaultLocale, code)?.toWordplay([])
-        ).toBe(value);
+        expect(evaluateCode(code)?.toWordplay([])).toBe(value);
     }
 );

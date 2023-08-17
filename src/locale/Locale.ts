@@ -7,7 +7,6 @@ import type OutputTexts from './OutputTexts';
 import type UITexts from './UITexts';
 import type InputTexts from './InputTexts';
 import type TermTexts from './TermTexts';
-import { parseLocaleDoc } from '../parser/Parser';
 import type Markup from '../nodes/Markup';
 import { Regions, type RegionCode } from './Regions';
 import type Type from '../nodes/Type';
@@ -17,6 +16,9 @@ import Bind from '../nodes/Bind';
 import type TypeVariables from '../nodes/TypeVariables';
 import type Expression from '../nodes/Expression';
 import FunctionDefinition from '../nodes/FunctionDefinition';
+import parseDoc from '../parser/parseDoc';
+import { toTokens } from '../parser/toTokens';
+import { DOCS_SYMBOL } from '../parser/Symbols';
 
 /** A list of locales officially supported by Wordplay. */
 export const SupportedLocales = ['en-US', 'es-MX'] as const;
@@ -70,6 +72,10 @@ export type DocText = string | string[];
 
 export function toDocString(doc: DocText) {
     return Array.isArray(doc) ? doc.join('\n\n') : doc;
+}
+
+export function parseLocaleDoc(doc: string) {
+    return parseDoc(toTokens(DOCS_SYMBOL + doc + DOCS_SYMBOL));
 }
 
 export function docToMarkup(doc: DocText): Markup {

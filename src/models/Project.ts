@@ -1,5 +1,7 @@
+import { v4 as uuidv4 } from 'uuid';
 import type Conflict from '@conflicts/Conflict';
 import Evaluate from '@nodes/Evaluate';
+import { Basis } from '../basis/Basis';
 import Expression from '@nodes/Expression';
 import FunctionDefinition from '@nodes/FunctionDefinition';
 import type Program from '@nodes/Program';
@@ -13,16 +15,15 @@ import type Bind from '@nodes/Bind';
 import Reference from '@nodes/Reference';
 import type LanguageCode from '@locale/LanguageCode';
 import type StreamDefinition from '@nodes/StreamDefinition';
-import { v4 as uuidv4 } from 'uuid';
-import { parseNames, toTokens } from '../parser/Parser';
+import { parseNames } from '../parser/parseBind';
 import Root from '../nodes/Root';
 import type { Path } from '../nodes/Root';
 import type { CaretPosition } from '../edit/Caret';
-import { Basis } from '../basis/Basis';
 import type createDefaultShares from '@runtime/createDefaultShares';
 import FunctionType from '../nodes/FunctionType';
 import type Locale from '../locale/Locale';
 import { toLocaleString } from '../locale/Locale';
+import { toTokens } from '../parser/toTokens';
 
 export type SerializedSource = {
     names: string;

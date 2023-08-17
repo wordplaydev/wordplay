@@ -37,6 +37,11 @@
 </script>
 
 <Lead>{$locale.ui.header.projects}</Lead>
+<center
+    ><Button tip={$locale.ui.description.newProject} action={newProject}
+        ><span style:font-size="xxx-large">+</span>
+    </Button></center
+>
 {#await database.getAllCreatorProjects()}
     …
 {:then projects}
@@ -48,10 +53,6 @@
 {:catch error}
     {error}
 {/await}
-
-<Button tip={$locale.ui.description.newProject} action={newProject}
-    ><span style:font-size="xxx-large">+</span>
-</Button>
 
 <Lead>{$locale.ui.header.examples}</Lead>
 {#await Promise.all(examples.map((example) => makeProject(example)))}

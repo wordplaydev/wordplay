@@ -6,7 +6,6 @@ import ConversionDefinition from '@nodes/ConversionDefinition';
 import Value from '@values/Value';
 import type Evaluation from '@runtime/Evaluation';
 import type StructureDefinition from '@nodes/StructureDefinition';
-import { parseType, toTokens } from '@parser/Parser';
 import bootstrapNone from './NoneBasis';
 import bootstrapBool from './BoolBasis';
 import bootstrapText from './TextBasis';
@@ -32,6 +31,8 @@ import {
 import { getDocLocales } from '../locale/getDocLocales';
 import { getNameLocales } from '../locale/getNameLocales';
 import bootstrapStructure from './StructureBasis';
+import { toTokens } from '../parser/toTokens';
+import parseType from '../parser/paresType';
 
 export class Basis {
     readonly locales: Locale[];

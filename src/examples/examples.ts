@@ -26,10 +26,11 @@ import RotatingBinary from './RotatingBinary.wp?raw';
 import Greeting from './Greeting.wp?raw';
 import Catch from './Catch.wp?raw';
 import Amplitude from './Amplitude.wp?raw';
-import { parseNames, toTokens } from '../parser/Parser';
+import { parseNames } from '../parser/parseBind';
 import type Names from '../nodes/Names';
 import { database } from '../db/Database';
 import { getBestSupportedLocales } from '../locale/Locale';
+import { toTokens } from '../parser/toTokens';
 
 export type Stuff = {
     name: string;

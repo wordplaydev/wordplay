@@ -1,5 +1,4 @@
 import { test, expect } from 'vitest';
-import { parseExpression, toTokens } from '@parser/Parser';
 import Bind from './Bind';
 import Docs from './Docs';
 import Language from './Language';
@@ -7,6 +6,8 @@ import NumberLiteral from './NumberLiteral';
 import Reference from './Reference';
 import Token from './Token';
 import type Node from './Node';
+import { toTokens } from '../parser/toTokens';
+import parseExpression from '../parser/parseExpression';
 
 test.each([
     '1',
