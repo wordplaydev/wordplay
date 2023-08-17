@@ -1942,6 +1942,7 @@
         "header": {
             "learn": "$?",
             "projects": "Funcións",
+            "about": "$?",
             "examples": "ejemplos",
             "inputs": "$?",
             "interfaces": "$?",
@@ -2019,6 +2020,9 @@
             "tutorial": "$?",
             "unwritten": "no escrito",
             "template": "$?"
+        },
+        "about": {
+            "content": ["$?"]
         }
     }
 }

@@ -8,7 +8,7 @@
 
 <style>
     p {
-        font-size: min(6vw, 64pt);
+        font-size: min(6vw, 32pt);
         margin-bottom: var(--wordplay-spacing);
     }
 </style>

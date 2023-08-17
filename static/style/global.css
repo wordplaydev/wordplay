@@ -13,6 +13,7 @@
     /* Colors */
     --wordplay-foreground: var(--color-black);
     --wordplay-background: var(--color-white);
+    --wordplay-header: var(--color-dark-grey);
     --wordplay-chrome: var(--color-light-grey);
     --wordplay-border-color: var(--color-light-grey);
     --wordplay-evaluation-color: var(--color-pink);
@@ -63,6 +64,7 @@
 
     --wordplay-foreground: var(--color-white);
     --wordplay-background: var(--color-black);
+    --wordplay-header: var(--color-dark-grey);
     --wordplay-chrome: var(--color-dark-grey);
     --wordplay-border-color: var(--color-dark-grey);
     --wordplay-hover: #463000;
@@ -257,11 +259,9 @@ h3 {
 }
 
 p {
-    margin: 0;
-}
-
-p:not(:last-of-type) {
-    margin-bottom: 0.8em;
+    margin-block-start: 0;
+    margin-block-end: 1.5em;
+    line-height: 1.5;
 }
 
 a:hover {
