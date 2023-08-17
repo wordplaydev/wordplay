@@ -38,7 +38,7 @@
     main {
         display: flex;
         flex-direction: column;
-        align-items: center;
+        align-items: start;
         overflow: scroll;
         flex: 1;
         min-height: 0;

@@ -1,6 +1,5 @@
-import Evaluator from '@runtime/Evaluator';
 import { test, expect } from 'vitest';
-import { DefaultLocale } from '../db/Database';
+import evaluateCode from '../runtime/evaluate';
 
 test.each([
     [
@@ -19,7 +18,5 @@ Time()
         '0',
     ],
 ])('Expect %s to be %s', (code, supplements, value) => {
-    expect(
-        Evaluator.evaluateCode(DefaultLocale, code, supplements)?.toString()
-    ).toBe(value);
+    expect(evaluateCode(code, supplements)?.toString()).toBe(value);
 });

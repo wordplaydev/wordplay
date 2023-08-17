@@ -4,8 +4,7 @@ import UnknownColumn from '@conflicts/UnknownColumn';
 import ExpectedSelectName from '@conflicts/ExpectedSelectName';
 import Select from './Select';
 import IncompatibleInput from '../conflicts/IncompatibleInput';
-import { DefaultLocale } from '../db/Database';
-import Evaluator from '@runtime/Evaluator';
+import evaluateCode from '../runtime/evaluate';
 
 test.each([
     [
@@ -46,7 +45,5 @@ test.each([
     ['⎡a•# b•#⎦⎡1 2⎦ ⎡3 4⎦ ⎡? b ⎦ a < 2', '⎡ 2 ⎦'],
     ['⎡a•# b•#⎦⎡1 2⎦ ⎡3 4⎦ ⎡? b a⎦ a < 2', '⎡ 2 1 ⎦'],
 ])('%s = %s', (code: string, value: string) => {
-    expect(Evaluator.evaluateCode(DefaultLocale, code)?.toWordplay([])).toBe(
-        value
-    );
+    expect(evaluateCode(code)?.toWordplay([])).toBe(value);
 });

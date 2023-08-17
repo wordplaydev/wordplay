@@ -48,7 +48,7 @@
         align-items: center;
         gap: calc(2 * var(--wordplay-spacing));
         row-gap: calc(2 * var(--wordplay-spacing));
-        justify-content: center;
+        justify-content: flex-start;
     }
 
     .controls {

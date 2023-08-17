@@ -5,8 +5,7 @@ import IncompatibleCellType from '@conflicts/IncompatibleCellType';
 import ExpectedColumnBind from '@conflicts/ExpectedColumnBind';
 import Update from './Update';
 import IncompatibleInput from '../conflicts/IncompatibleInput';
-import Evaluator from '@runtime/Evaluator';
-import { DefaultLocale } from '../db/Database';
+import evaluateCode from '../runtime/evaluate';
 
 test.each([
     [
@@ -48,7 +47,5 @@ test.each([
     ['⎡a•# b•#⎦⎡1 2⎦ ⎡3 4⎦ ⎡: a: 2 ⎦ a < 2', '⎡ 2 2 ⎦\n⎡ 3 4 ⎦'],
     ['⎡a•# b•#⎦⎡1 2⎦ ⎡3 4⎦ ⎡: a: 2 b: b + 1 ⎦ a < 2', '⎡ 2 3 ⎦\n⎡ 3 4 ⎦'],
 ])('%s = %s', (code: string, value: string) => {
-    expect(Evaluator.evaluateCode(DefaultLocale, code)?.toWordplay([])).toBe(
-        value
-    );
+    expect(evaluateCode(code)?.toWordplay([])).toBe(value);
 });

@@ -2,7 +2,6 @@ import type Evaluator from '@runtime/Evaluator';
 import TemporalStreamValue from '../values/TemporalStreamValue';
 import NumberType from '../nodes/NumberType';
 import NumberValue from '@values/NumberValue';
-import { database } from '../db/Database';
 
 /** We want more deail in the frequency domain and less in the amplitude domain, but we also want to minimize how much data we analyze. */
 export const DEFAULT_FREQUENCY = 33;
@@ -84,7 +83,7 @@ export default abstract class AudioStream extends TemporalStreamValue<
             return;
         if (this.source !== undefined) return;
 
-        const micID = database.getMic();
+        const micID = this.evaluator.database.getMic();
 
         navigator.mediaDevices
             .getUserMedia({ audio: micID ? { deviceId: micID } : true })

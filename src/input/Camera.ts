@@ -21,7 +21,6 @@ import type Locale from '../locale/Locale';
 import type StructureDefinition from '../nodes/StructureDefinition';
 import type Names from '../nodes/Names';
 import type Value from '../values/Value';
-import { database } from '../db/Database';
 
 type CameraConfig = {
     stream: MediaStream;
@@ -194,7 +193,7 @@ export default class Camera extends TemporalStreamValue<ListValue, RawFrame> {
             .getUserMedia({
                 audio: false,
                 video: {
-                    deviceId: database.getCamera() ?? undefined,
+                    deviceId: this.evaluator.database.getCamera() ?? undefined,
                     width: { min: this.width },
                     height: { min: this.height },
                     facingMode: 'user',

@@ -4,11 +4,11 @@
     export let to: string;
 </script>
 
-<p><Link {to}><slot /></Link></p>
+<Link {to}><div class="big"><slot /></div></Link>
 
 <style>
-    p {
-        font-size: min(6vw, 64pt);
+    .big {
+        font-size: min(6vw, 32pt);
         margin-bottom: var(--wordplay-spacing);
     }
 </style>

@@ -3,7 +3,7 @@
     import OutputView from '@components/output/OutputView.svelte';
     import Evaluator from '@runtime/Evaluator';
     import type Value from '@values/Value';
-    import { locale } from '../../db/Database';
+    import { database, locale } from '../../db/Database';
     import { onMount } from 'svelte';
     import { fade } from 'svelte/transition';
 
@@ -17,7 +17,7 @@
     $: [evaluator, value] = updatePreview(project);
 
     function updatePreview(project: Project): [Evaluator, Value | undefined] {
-        const evaluator = new Evaluator(project, false);
+        const evaluator = new Evaluator(project, database, false);
         const value = evaluator.getInitialValue();
         evaluator.stop();
         return [evaluator, value];

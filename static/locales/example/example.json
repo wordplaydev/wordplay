@@ -1931,6 +1931,7 @@
         "header": {
             "learn": "$?",
             "projects": "$?",
+            "about": "$?",
             "examples": "$?",
             "inputs": "$?",
             "interfaces": "$?",
@@ -2008,6 +2009,9 @@
             "tutorial": "$?",
             "unwritten": "$?",
             "template": "$?"
+        },
+        "about": {
+            "content": ["$?"]
         }
     }
 }

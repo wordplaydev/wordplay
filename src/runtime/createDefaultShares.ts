@@ -7,7 +7,7 @@ import { createStackType } from '../output/Stack';
 import { createRowType } from '../output/Row';
 import { createColorType } from '../output/Color';
 import { createPlaceType } from '../output/Place';
-import { createTimeDefinition as createTimeType } from '../input/Time';
+import { createTimeType } from '../input/Time';
 import { createKeyDefinition } from '../input/Key';
 import { createVolumeDefinition } from '../input/Volume';
 import { createMotionDefinition } from '../input/Motion';
