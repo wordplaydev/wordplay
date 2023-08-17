@@ -4,7 +4,7 @@ import path from 'path';
 import Locale, { toDocString } from './src/locale/Locale';
 import { parseDoc, parseLocaleDoc, toTokens } from './src/parser/Parser';
 import Token from './src/nodes/Token';
-import Symbol from './src/nodes/Symbol';
+import Sym from './src/nodes/Sym';
 import ConceptLink from './src/nodes/ConceptLink';
 import { concretizeOrUndefined } from './src/locale/concretize';
 import Tutorial, { Performance, Line, Dialog } from './src/tutorial/Tutorial';
@@ -150,6 +150,7 @@ type Strings = [string[], string, string][];
  */
 function getKeyTemplatePairs(
     path: string[],
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     record: Record<any, any>,
     pairs: Strings
 ) {
@@ -195,7 +196,7 @@ function verifyLocale(locale: Locale) {
                 .leaves()
                 .filter(
                     (node) =>
-                        node instanceof Token && node.isSymbol(Symbol.Unknown)
+                        node instanceof Token && node.isSymbol(Sym.Unknown)
                 );
 
             if (unknownTokens.length > 0)
@@ -268,7 +269,7 @@ function verifyLocale(locale: Locale) {
         }
     }
 
-    let unwritten = pairs.filter(([, , value]) => value.startsWith('$?'));
+    const unwritten = pairs.filter(([, , value]) => value.startsWith('$?'));
 
     if (unwritten.length > 0)
         bad(
@@ -276,7 +277,7 @@ function verifyLocale(locale: Locale) {
             `Locale has ${unwritten.length} unwritten strings ("$?"). Keep writing!`
         );
 
-    let outofdate = pairs.filter(([, , value]) => value.startsWith('$!'));
+    const outofdate = pairs.filter(([, , value]) => value.startsWith('$!'));
 
     if (outofdate.length > 0)
         bad(
@@ -336,7 +337,7 @@ function verifyTutorial(locale: Locale, tutorial: Tutorial) {
         })
         .flat();
 
-    for (let { kind, list } of programs) {
+    for (const { kind, list } of programs) {
         let code: string | undefined = undefined;
         let conflictsIntentional = false;
         // If it's a Performance import, get it's code. Otherwise, join lines.
@@ -351,7 +352,7 @@ function verifyTutorial(locale: Locale, tutorial: Tutorial) {
                     `use ${name} doesn't exist in Performances. Is it misspelled or missing?`
                 );
             else {
-                code = fun.apply(null, inputs);
+                code = fun.apply(...inputs);
             }
         } else code = list.join('\n');
 
