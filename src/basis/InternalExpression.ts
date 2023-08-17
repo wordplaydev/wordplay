@@ -3,7 +3,6 @@ import type Value from '@values/Value';
 import type Type from '@nodes/Type';
 import type Step from '@runtime/Step';
 import type Expression from '@nodes/Expression';
-import { parseType, toTokens } from '@parser/Parser';
 import type Evaluation from '@runtime/Evaluation';
 import type Bind from '@nodes/Bind';
 import type Context from '@nodes/Context';
@@ -17,6 +16,8 @@ import concretize from '../locale/concretize';
 import Purpose from '../concepts/Purpose';
 import Start from '@runtime/Start';
 import Finish from '@runtime/Finish';
+import { toTokens } from '../parser/toTokens';
+import parseType from '../parser/paresType';
 
 export default class InternalExpression extends AtomicExpression {
     readonly type: Type;

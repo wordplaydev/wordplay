@@ -8,8 +8,8 @@ import type Locale from '@locale/Locale';
 import type Expression from '../nodes/Expression';
 import ListValue from '@values/ListValue';
 import BoolValue from '@values/BoolValue';
-import concretize from '../locale/concretize';
 import UnicodeString from '../models/UnicodeString';
+import type Concretizer from '../nodes/Concretizer';
 
 export default class TextValue extends SimpleValue {
     readonly text: string;
@@ -98,8 +98,8 @@ export default class TextValue extends SimpleValue {
         return new NumberValue(requestor, sum);
     }
 
-    getDescription(locale: Locale) {
-        return concretize(locale, locale.term.text);
+    getDescription(concretizer: Concretizer, locale: Locale) {
+        return concretizer(locale, locale.term.text);
     }
 
     getSize() {

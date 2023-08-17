@@ -9,7 +9,7 @@ import SimpleValue from './SimpleValue';
 import type Value from '../values/Value';
 import type Locale from '@locale/Locale';
 import type Expression from '../nodes/Expression';
-import concretize from '../locale/concretize';
+import type Concretizer from '../nodes/Concretizer';
 
 export default class BoolValue extends SimpleValue {
     readonly bool: boolean;
@@ -60,7 +60,7 @@ export default class BoolValue extends SimpleValue {
         return val instanceof BoolValue && this.bool === val.bool;
     }
 
-    getDescription(locale: Locale) {
+    getDescription(concretize: Concretizer, locale: Locale) {
         return concretize(locale, locale.term.boolean);
     }
 

@@ -8,8 +8,8 @@ import type { BasisTypeName } from '../basis/BasisConstants';
 import type Locale from '@locale/Locale';
 import type StreamDefinition from '../nodes/StreamDefinition';
 import type Expression from '../nodes/Expression';
-import concretize from '../locale/concretize';
 import ListValue from '@values/ListValue';
+import type Concretizer from '../nodes/Concretizer';
 
 export const MAX_STREAM_LENGTH = 256;
 
@@ -48,7 +48,7 @@ export default abstract class StreamValue<
         this.add(initalValue, initialRaw);
     }
 
-    getDescription(locale: Locale) {
+    getDescription(concretize: Concretizer, locale: Locale) {
         return concretize(
             locale,
             this.definition.docs

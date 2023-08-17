@@ -1,11 +1,5 @@
-import Node, {
-    none,
-    type Concretizer,
-    type Replacement,
-    node,
-    any,
-    type Grammar,
-} from './Node';
+import Node, { none, type Replacement, node, any, type Grammar } from './Node';
+import type Concretizer from './Concretizer';
 import Token from './Token';
 import { EXPONENT_SYMBOL } from '@parser/Symbols';
 import { PRODUCT_SYMBOL } from '@parser/Symbols';

@@ -18,7 +18,7 @@ import {
 import type { BasisTypeName } from '../basis/BasisConstants';
 import type Locale from '@locale/Locale';
 import type Expression from '../nodes/Expression';
-import concretize from '../locale/concretize';
+import type Concretizer from '../nodes/Concretizer';
 
 export default class StructureValue extends Value {
     readonly type: StructureDefinition;
@@ -129,7 +129,7 @@ export default class StructureValue extends Value {
         )}${EVAL_OPEN_SYMBOL}${bindings.join(' ')}${EVAL_CLOSE_SYMBOL}`;
     }
 
-    getDescription(locale: Locale) {
+    getDescription(concretize: Concretizer, locale: Locale) {
         return concretize(locale, locale.term.structure);
     }
 

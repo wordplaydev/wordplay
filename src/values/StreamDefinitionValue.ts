@@ -5,7 +5,7 @@ import type { BasisTypeName } from '../basis/BasisConstants';
 import type Locale from '@locale/Locale';
 import type StreamDefinition from '../nodes/StreamDefinition';
 import StreamType from '../nodes/StreamType';
-import concretize from '../locale/concretize';
+import type Concretizer from '../nodes/Concretizer';
 
 export default class StreamDefinitionValue extends SimpleValue {
     /** The definition from the AST. */
@@ -38,8 +38,8 @@ export default class StreamDefinitionValue extends SimpleValue {
         );
     }
 
-    getDescription(translation: Locale) {
-        return concretize(translation, translation.term.function);
+    getDescription(concretize: Concretizer, locale: Locale) {
+        return concretize(locale, locale.term.function);
     }
 
     getSize() {

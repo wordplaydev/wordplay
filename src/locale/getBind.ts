@@ -4,7 +4,7 @@ import { localeToLanguage } from './localeToLanguage';
 import { toDocString, type NameAndDoc } from './Locale';
 import type Locale from './Locale';
 import { getLocaleNames } from './getInputLocales';
-import { parseLocaleDoc } from '@parser/Parser';
+import { parseLocaleDoc } from '@locale/Locale';
 import type Doc from '../nodes/Doc';
 import en from '../locale/en-US.json';
 import Name from '../nodes/Name';

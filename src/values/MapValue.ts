@@ -13,7 +13,7 @@ import {
 import type { BasisTypeName } from '../basis/BasisConstants';
 import type Locale from '@locale/Locale';
 import type Expression from '../nodes/Expression';
-import concretize from '../locale/concretize';
+import type Concretizer from '../nodes/Concretizer';
 
 export default class MapValue extends SimpleValue {
     readonly values: [Value, Value][];
@@ -122,7 +122,7 @@ export default class MapValue extends SimpleValue {
             .join(' ')}${SET_CLOSE_SYMBOL}`;
     }
 
-    getDescription(locale: Locale) {
+    getDescription(concretize: Concretizer, locale: Locale) {
         return concretize(locale, locale.term.map);
     }
 

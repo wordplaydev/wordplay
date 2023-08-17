@@ -37,10 +37,10 @@
     import Button from '../../input/Button';
     import Place from '../../output/Place';
     import moveOutput, { addStageContent } from '../palette/editOutput';
-    import { toExpression } from '../../parser/Parser';
     import { getPlace } from '../../output/getPlace';
     import { SvelteComponent, afterUpdate, beforeUpdate } from 'svelte';
     import Placement from '../../input/Placement';
+    import { toExpression } from '../../parser/parseExpression';
 
     export let project: Project;
     export let evaluator: Evaluator;

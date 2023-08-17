@@ -1,5 +1,6 @@
 import type FunctionDefinition from '@nodes/FunctionDefinition';
-import { parseFunction, toTokens } from '@parser/Parser';
+import { toTokens } from '../parser/toTokens';
+import { parseFunction } from '../parser/parseExpression';
 
 export default function toFunction(wordplay: string): FunctionDefinition {
     return parseFunction(toTokens(wordplay));

@@ -1,8 +1,9 @@
 import { test, expect } from 'vitest';
-import { parseNumber, toTokens } from '@parser/Parser';
 import { FALSE_SYMBOL, TRUE_SYMBOL } from '@parser/Symbols';
 import NumberValue from '@values/NumberValue';
 import evaluateCode from '../runtime/evaluate';
+import { toTokens } from '../parser/toTokens';
+import { parseNumber } from '../parser/parseExpression';
 
 test.each([
     // Test JavaScript number translation.

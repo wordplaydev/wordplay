@@ -1,8 +1,9 @@
 import { test, expect } from 'vitest';
 import Project from '../models/Project';
 import Source from './Source';
-import { parseType, toTokens } from '../parser/Parser';
 import { DefaultLocale } from '../db/Database';
+import { toTokens } from '../parser/toTokens';
+import parseType from '../parser/paresType';
 
 test.each([
     ["'hi'|'hello'", "''"],

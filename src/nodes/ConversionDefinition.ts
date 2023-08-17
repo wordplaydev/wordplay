@@ -11,7 +11,6 @@ import type Evaluator from '@runtime/Evaluator';
 import type Step from '@runtime/Step';
 import ConversionDefinitionValue from '@values/ConversionDefinitionValue';
 import type Context from './Context';
-import { parseType, toTokens } from '@parser/Parser';
 import { CONVERT_SYMBOL } from '@parser/Symbols';
 import type Bind from './Bind';
 import type TypeSet from './TypeSet';
@@ -28,6 +27,8 @@ import type Value from '../values/Value';
 import NodeRef from '../locale/NodeRef';
 import TypePlaceholder from './TypePlaceholder';
 import ExpressionPlaceholder from './ExpressionPlaceholder';
+import { toTokens } from '../parser/toTokens';
+import parseType from '../parser/paresType';
 
 export default class ConversionDefinition extends AtomicExpression {
     readonly docs: Docs | undefined;

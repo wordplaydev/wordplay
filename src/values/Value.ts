@@ -5,6 +5,7 @@ import type { BasisTypeName } from '../basis/BasisConstants';
 import type Locale from '@locale/Locale';
 import type Expression from '../nodes/Expression';
 import type Markup from '../nodes/Markup';
+import type Concretizer from '@nodes/Concretizer';
 
 /** Used to uniquely distinguish values. */
 let VALUE_ID = 0;
@@ -34,7 +35,7 @@ export default abstract class Value {
 
     abstract isEqualTo(value: Value): boolean;
 
-    abstract getDescription(locale: Locale): Markup;
+    abstract getDescription(concretizer: Concretizer, locale: Locale): Markup;
 
     /**
      * Should returns a rough estimate of how much memory this value uses.

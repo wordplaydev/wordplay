@@ -6,7 +6,7 @@ import type Value from '@values/Value';
 import { TYPE_SYMBOL } from '@parser/Symbols';
 import type { BasisTypeName } from '../basis/BasisConstants';
 import type Locale from '@locale/Locale';
-import concretize from '../locale/concretize';
+import type Concretizer from '../nodes/Concretizer';
 
 export default class StructureDefinitionValue extends SimpleValue {
     /** The definition from the AST. */
@@ -44,7 +44,7 @@ export default class StructureDefinitionValue extends SimpleValue {
         );
     }
 
-    getDescription(translation: Locale) {
+    getDescription(concretize: Concretizer, translation: Locale) {
         return concretize(translation, translation.term.function);
     }
 

@@ -5,10 +5,10 @@ import type Evaluator from '@runtime/Evaluator';
 import type { BasisTypeName } from '../basis/BasisConstants';
 import type Node from '@nodes/Node';
 import type Expression from '../nodes/Expression';
-import concretize from '../locale/concretize';
 import type Locale from '../locale/Locale';
 import type { ExceptionText } from '../locale/NodeTexts';
 import type Markup from '../nodes/Markup';
+import type Concretizer from '../nodes/Concretizer';
 
 export default abstract class ExceptionValue extends SimpleValue {
     readonly evaluator: Evaluator;
@@ -35,7 +35,7 @@ export default abstract class ExceptionValue extends SimpleValue {
 
     abstract getExceptionText(locale: Locale): ExceptionText;
 
-    getDescription(locale: Locale) {
+    getDescription(concretize: Concretizer, locale: Locale) {
         return concretize(locale, this.getExceptionText(locale).description);
     }
 

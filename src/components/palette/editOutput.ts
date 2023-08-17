@@ -10,7 +10,6 @@ import UnaryEvaluate from '../../nodes/UnaryEvaluate';
 import Decimal from 'decimal.js';
 import TextLiteral from '../../nodes/TextLiteral';
 import ListLiteral from '../../nodes/ListLiteral';
-import { toExpression } from '../../parser/Parser';
 import type Locale from '../../locale/Locale';
 import FormattedLiteral from '../../nodes/FormattedLiteral';
 import Convert from '../../nodes/Convert';
@@ -20,6 +19,7 @@ import {
     PHRASE_SYMBOL,
     STAGE_SYMBOL,
 } from '../../parser/Symbols';
+import { toExpression } from '../../parser/parseExpression';
 
 export function getNumber(given: Expression): number | undefined {
     const measurement =

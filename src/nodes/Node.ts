@@ -17,6 +17,7 @@ import type Root from './Root';
 import type { TemplateInput } from '../locale/concretize';
 import type Markup from './Markup';
 import type Sym from './Sym';
+import type Concretizer from './Concretizer';
 
 /* A global ID for nodes, for helping index them */
 let NODE_ID_COUNTER = 0;
@@ -967,9 +968,3 @@ export type Replacement = {
     original: Node | Node[] | string;
     replacement: FieldValue;
 };
-
-export type Concretizer = (
-    locale: Locale,
-    template: string,
-    ...inputs: TemplateInput[]
-) => Markup;

@@ -1,5 +1,4 @@
 import type Locale from '../locale/Locale';
-import concretize from '../locale/concretize';
 import type { BasisTypeName } from '../basis/BasisConstants';
 import FormattedType from '../nodes/FormattedType';
 import type Markup from '../nodes/Markup';
@@ -7,6 +6,7 @@ import type Type from '../nodes/Type';
 import SimpleValue from './SimpleValue';
 import type Value from '../values/Value';
 import type FormattedLiteral from '../nodes/FormattedLiteral';
+import type Concretizer from '../nodes/Concretizer';
 
 export default class MarkupValue extends SimpleValue {
     readonly markup: Markup;
@@ -30,7 +30,7 @@ export default class MarkupValue extends SimpleValue {
         );
     }
 
-    getDescription(locale: Locale): Markup {
+    getDescription(concretize: Concretizer, locale: Locale): Markup {
         return concretize(locale, locale.node.Docs.name);
     }
 
