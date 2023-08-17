@@ -241,6 +241,7 @@
         // Make the new evaluator, replaying the previous evaluator's inputs, unless we marked the last evaluator is out of date.
         const newEvaluator = new Evaluator(
             newProject,
+            database,
             true,
             replayInputs ? $evaluator : undefined
         );

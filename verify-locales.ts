@@ -1,19 +1,19 @@
 import chalk from 'chalk';
 import fs from 'fs';
 import path from 'path';
-import Locale, { toDocString } from './src/locale/Locale';
+import Ajv from 'ajv';
+import { concretizeOrUndefined } from './src/locale/concretize';
 import { parseDoc, parseLocaleDoc, toTokens } from './src/parser/Parser';
+import Locale, { toDocString } from './src/locale/Locale';
 import Token from './src/nodes/Token';
 import Sym from './src/nodes/Sym';
 import ConceptLink from './src/nodes/ConceptLink';
-import { concretizeOrUndefined } from './src/locale/concretize';
+import { Performances } from './src/tutorial/Performances';
 import Tutorial, { Performance, Line, Dialog } from './src/tutorial/Tutorial';
-import Project from './src/models/Project';
 import Source from './src/nodes/Source';
 import Node from './src/nodes/Node';
-import Ajv from 'ajv';
-import { Performances } from './src/tutorial/Performances';
 import { DOCS_SYMBOL } from './src/parser/Symbols';
+import Project from './src/models/Project';
 
 // Read in and compile the two schema
 const localeSchema = JSON.parse(

@@ -77,7 +77,7 @@ export default class Time extends TemporalStreamValue<NumberValue, number> {
     }
 }
 
-export function createTimeDefinition(locale: Locale[]) {
+export function createTimeType(locale: Locale[]) {
     const TimeType = NumberType.make(Unit.reuse(['ms']));
 
     const FrequencyBind = Bind.make(

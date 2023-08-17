@@ -4,7 +4,7 @@ import NumberValue from '@values/NumberValue';
 import Source from './Source';
 import Project from '../models/Project';
 import type Value from '../values/Value';
-import { DefaultLocale } from '../db/Database';
+import { DefaultLocale, database } from '../db/Database';
 
 test.each([
     // A single source with 1 should evaluate to 1
@@ -23,7 +23,7 @@ test.each([
                 .map((code, index) => new Source(`sup${index + 1}`, code)),
             DefaultLocale
         );
-        const value = new Evaluator(project).getInitialValue();
+        const value = new Evaluator(project, database).getInitialValue();
         expect(value).toBeDefined();
         expect((value as Value).constructor).toBe(valueType);
     }
