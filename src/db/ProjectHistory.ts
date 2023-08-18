@@ -45,6 +45,7 @@ export class ProjectHistory {
         this.persist = persist ?? true;
     }
 
+    /** Revise this project history to have all of the specified locales. */
     withLocales(locales: Locale[]) {
         this.current.set(get(this.current).withLocales(locales));
         this.history = this.history.map((proj) => proj.withLocales(locales));

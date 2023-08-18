@@ -47,7 +47,7 @@
                 )
             );
             // Save setLocales
-            DB.localesDB.setLocales(selectedLocales as SupportedLocale[]);
+            DB.Locales.setLocales(selectedLocales as SupportedLocale[]);
         }
     }
 </script>

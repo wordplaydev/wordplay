@@ -1,16 +1,14 @@
 <script lang="ts">
-    import { DB } from '../../db/Database';
+    import { Projects } from '../../db/Database';
     import type Project from '../../models/Project';
     import ProjectPreviewSet from './ProjectPreviewSet.svelte';
     import Subheader from './Subheader.svelte';
-    import gotoProject from './gotoProject';
 
     export let projects: Project[];
     export let name: string;
 
     function viewProject(project: Project) {
-        DB.addOrUpdateProject(project, false, true);
-        gotoProject(project, true);
+        Projects.track(project, false, false);
     }
 </script>
 

@@ -39,7 +39,7 @@ export function getNumber(given: Expression): number | undefined {
 }
 
 export default function moveOutput(
-    projects: Database,
+    db: Database,
     project: Project,
     evaluates: Evaluate[],
     locales: Locale[],
@@ -49,7 +49,7 @@ export default function moveOutput(
 ) {
     const PlaceType = project.shares.output.Place;
 
-    projects.reviseProjectNodes(
+    db.Projects.revise(
         project,
         evaluates.map((evaluate) => {
             const ctx = project.getNodeContext(evaluate);
@@ -164,12 +164,12 @@ export function addContent(
 }
 
 export function reviseContent(
-    projects: Database,
+    db: Database,
     project: Project,
     list: ListLiteral,
     newValues: Expression[]
 ) {
-    projects.reviseProjectNodes(project, [[list, ListLiteral.make(newValues)]]);
+    db.Projects.revise(project, [[list, ListLiteral.make(newValues)]]);
 }
 
 export function removeContent(
@@ -283,7 +283,7 @@ export function getSoloGroup(project: Project): Evaluate | undefined {
     return undefined;
 }
 
-export function addSoloPhrase(database: Database, project: Project) {
+export function addSoloPhrase(db: Database, project: Project) {
     // First, check if there's an existing phrase.
     let phrase = getSoloPhrase(project);
     if (phrase) return;
@@ -298,9 +298,7 @@ export function addSoloPhrase(database: Database, project: Project) {
     const text =
         //Nothing? Use a welcome phrase.
         last === undefined
-            ? TextLiteral.make(
-                  database.localesDB.getLocale().ui.phrases.welcome
-              )
+            ? TextLiteral.make(db.Locales.getLocale().ui.phrases.welcome)
             : // Already text or formatted? Just use it without modification.
             last instanceof TextLiteral || last instanceof FormattedLiteral
             ? last
@@ -310,14 +308,14 @@ export function addSoloPhrase(database: Database, project: Project) {
     // Build a new Phrase
     phrase = Evaluate.make(Reference.make(PHRASE_SYMBOL), [text]);
 
-    database.reviseProject(
+    db.Projects.reviseProject(
         project.withRevisedNodes([
             last ? [last, phrase] : [block, block.withStatement(phrase)],
         ])
     );
 }
 
-export function addGroup(database: Database, project: Project) {
+export function addGroup(db: Database, project: Project) {
     // Find the solo phrase. If there isn't one, bail.
     const phrase = getSoloPhrase(project);
     if (phrase === undefined) return;
@@ -332,11 +330,11 @@ export function addGroup(database: Database, project: Project) {
     ]);
 
     // Replace the phrase with the group.
-    database.reviseProject(project.withRevisedNodes([[phrase, group]]));
+    db.Projects.reviseProject(project.withRevisedNodes([[phrase, group]]));
 }
 
 export function addStage(
-    database: Database,
+    db: Database,
     project: Project,
     existing: Evaluate | undefined
 ) {
@@ -346,16 +344,14 @@ export function addStage(
 
     // Build a new stage, wrapping the phrase.
     stage = Evaluate.make(Reference.make(STAGE_SYMBOL), [
-        ListLiteral.make([
-            existing ?? createPlaceholderPhrase(database, project),
-        ]),
+        ListLiteral.make([existing ?? createPlaceholderPhrase(db, project)]),
     ]);
 
     // Find the block to insert
     const block = project.main.expression.expression;
 
     // Replace the phrase with the group.
-    database.reviseProject(
+    db.Projects.reviseProject(
         project.withRevisedNodes([
             existing ? [existing, stage] : [block, block.withStatement(stage)],
         ])

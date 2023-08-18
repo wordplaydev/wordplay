@@ -80,6 +80,7 @@
         camera,
         mic,
         Settings,
+        Projects,
     } from '../../db/Database';
     import Arrangement from '../../db/Arrangement';
     import {
@@ -655,10 +656,10 @@
 
     /** If the camera or mic changes, restart the evaluator to reflect to the new stream. */
     const cameraUnsubscribe = camera.subscribe(() =>
-        DB.reviseProject(project.clone(), false)
+        Projects.reviseProject(project.clone(), false)
     );
     const micUnsubscribe = mic.subscribe(() =>
-        DB.reviseProject(project.clone(), false)
+        Projects.reviseProject(project.clone(), false)
     );
 
     onDestroy(() => {
@@ -1043,17 +1044,17 @@
         newSource = newProject.supplements.at(-1);
 
         // This will propogate back to a new project here, updating the UI.
-        DB.reviseProject(newProject);
+        Projects.reviseProject(newProject);
     }
 
     function removeSource(source: Source) {
-        DB.reviseProject(project.withoutSource(source));
+        Projects.reviseProject(project.withoutSource(source));
     }
 
     function renameSource(id: string, name: string) {
         if (!isName(name)) return;
         const source = getSourceByID(id);
-        DB.reviseProject(
+        Projects.reviseProject(
             project.withSource(source, source.withName(name, $locales[0]))
         );
     }
@@ -1067,7 +1068,7 @@
     }
 
     function revert() {
-        if (original) DB.reviseProject(original);
+        if (original) Projects.reviseProject(original);
     }
 </script>
 
@@ -1266,7 +1267,8 @@
                 text={project.name}
                 description={$locale.ui.description.editProjectName}
                 placeholder={$locale.ui.placeholders.project}
-                changed={(name) => DB.reviseProject(project.withName(name))}
+                changed={(name) =>
+                    Projects.reviseProject(project.withName(name))}
             />
             {#each layout.getNonSources() as tile}
                 <NonSourceTileToggle

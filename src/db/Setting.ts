@@ -69,6 +69,6 @@ export default class Setting<Type> {
 
         // If not device-specific, save in Firebase
         // Try to save online, if this is not device specific
-        if (!this.device) database.persistSettings();
+        if (!this.device) database.uploadSettings();
     }
 }

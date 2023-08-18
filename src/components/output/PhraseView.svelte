@@ -19,7 +19,7 @@
         getSelectedOutput,
         getSelectedPhrase,
     } from '../project/Contexts';
-    import { DB, locale, locales } from '../../db/Database';
+    import { DB, Projects, locale, locales } from '../../db/Database';
     import TextLang from '../../output/TextLang';
     import MarkupHtmlView from '../concepts/MarkupHTMLView.svelte';
     import Markup from '../../nodes/Markup';
@@ -147,7 +147,7 @@
         if (event.currentTarget.selectionStart !== null)
             select(event.currentTarget.selectionStart);
 
-        DB.reviseProjectNodes($project, [
+        Projects.revise($project, [
             [
                 phrase.value.creator,
                 phrase.value.creator.replace(

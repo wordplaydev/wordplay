@@ -25,7 +25,7 @@ export type Stuff = {
 };
 
 export async function makeProject(stuff: Stuff) {
-    const locales = await DB.localesDB.loadLocales(
+    const locales = await DB.Locales.loadLocales(
         getBestSupportedLocales(stuff.locales)
     );
 

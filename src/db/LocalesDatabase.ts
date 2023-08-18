@@ -166,6 +166,6 @@ export default class LocalesDatabase {
         const locales = await this.loadLocales(preferredLocales);
 
         // Revise all projects to have the new locale
-        this.database.localizeProjects(locales);
+        this.database.Projects.localize(locales);
     }
 }

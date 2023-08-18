@@ -1,7 +1,7 @@
 <script lang="ts">
     import type Project from '../../models/Project';
     import ProjectPreview from './ProjectPreview.svelte';
-    import { DB, languages, locale } from '../../db/Database';
+    import { Projects, languages, locale } from '../../db/Database';
     import gotoProject from './gotoProject';
     import Button from '../widgets/Button.svelte';
     import ConfirmButton from '../widgets/ConfirmButton.svelte';
@@ -33,7 +33,7 @@
                     ><ConfirmButton
                         prompt={$locale.ui.prompt.deleteProject}
                         tip={$locale.ui.description.deleteProject}
-                        action={() => DB.deleteProject(project.id)}
+                        action={() => Projects.deleteProject(project.id)}
                         >⨉</ConfirmButton
                     ></div
                 >{/if}</ProjectPreview

@@ -1,7 +1,12 @@
 <script lang="ts">
     import Writing from '@components/app/Writing.svelte';
     import Header from '@components/app/Header.svelte';
-    import { DB, editableProjects, locale, locales } from '../../db/Database';
+    import {
+        Projects,
+        editableProjects,
+        locale,
+        locales,
+    } from '../../db/Database';
     import ProjectPreviewSet from '@components/app/ProjectPreviewSet.svelte';
     import { goto } from '$app/navigation';
     import Button from '@components/widgets/Button.svelte';
@@ -10,7 +15,7 @@
     const user = getUser();
 
     function newProject() {
-        const newProjectID = DB.createProject(
+        const newProjectID = Projects.create(
             $locales,
             $user ? $user.uid : undefined,
             $locale.newProject

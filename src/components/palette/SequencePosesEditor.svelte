@@ -12,7 +12,7 @@
     import type Expression from '@nodes/Expression';
     import Button from '../widgets/Button.svelte';
     import Note from '../widgets/Note.svelte';
-    import { DB, locale, locales } from '../../db/Database';
+    import { Projects, locale, locales } from '../../db/Database';
 
     export let project: Project;
     export let map: MapLiteral | undefined;
@@ -35,7 +35,7 @@
         let text = percent.replace('%', '');
         const number = NumberLiteral.make(text, Unit.create(['%']));
         if (kv instanceof KeyValue && number.isInteger())
-            DB.reviseProjectNodes(project, [[kv.key, number]]);
+            Projects.revise(project, [[kv.key, number]]);
     }
 
     function addPose(index: number) {
@@ -80,8 +80,7 @@
     }
 
     function revise(newValues: KeyValue[]) {
-        if (map)
-            DB.reviseProjectNodes(project, [[map, MapLiteral.make(newValues)]]);
+        if (map) Projects.revise(project, [[map, MapLiteral.make(newValues)]]);
     }
 </script>
 

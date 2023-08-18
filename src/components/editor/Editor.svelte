@@ -67,6 +67,7 @@
     import { DOCUMENTATION_SYMBOL, TYPE_SYMBOL } from '../../parser/Symbols';
     import {
         DB,
+        Projects,
         locale,
         locales,
         writingDirection,
@@ -114,7 +115,7 @@
     });
 
     // When the project is undone or redone, set the caret's position to the project's historical caret position.
-    $: if (DB.getProjectHistory(project.id)?.wasRestored()) {
+    $: if (Projects.getHistory(project.id)?.wasRestored()) {
         const position = project.getCaretPosition(source);
         if (position !== undefined) caret.set($caret.withPosition(position));
     }
@@ -530,7 +531,9 @@
         );
 
         // Update the project with the new source files
-        DB.reviseProject(newProject.withCaret(newSource, newCaretPosition));
+        Projects.reviseProject(
+            newProject.withCaret(newSource, newCaretPosition)
+        );
 
         // Focus the node caret selected.
         grabFocus();
@@ -1051,7 +1054,7 @@
 
         // Update the caret and project.
         if (newSource) {
-            DB.reviseProject(
+            Projects.reviseProject(
                 project
                     .withSource(source, newSource)
                     .withCaret(newSource, newCaret.position)

@@ -12,7 +12,7 @@
     import Loading from '@components/app/Loading.svelte';
     import { setContext } from 'svelte';
     import { browser } from '$app/environment';
-    import { DB, locale } from '@db/Database';
+    import { Projects, locale } from '@db/Database';
     import Page from '@components/app/Page.svelte';
     import { Settings } from '@db/Database';
 
@@ -21,11 +21,10 @@
     let error = false;
 
     /** The project store is derived from the projects and the page's project ID. */
-    let projectStore: Writable<Project> | undefined = undefined;
+    let store: Writable<Project> | undefined = undefined;
     let project: Project | undefined = undefined;
     let unsub: Unsubscriber | undefined = undefined;
-    $: if (projectStore)
-        setContext<ProjectContext>(ProjectSymbol, projectStore);
+    $: if (store) setContext<ProjectContext>(ProjectSymbol, store);
 
     // Create a concept path for children
     setContext(ConceptPathSymbol, writable([]));
@@ -38,15 +37,22 @@
             // Set loading feedback.
             loading = true;
             // Async load the project from the database.
-            DB.getProject(projectID)
-                .then(() => {
-                    const store = DB.getProjectStore(projectID);
-                    if (store && store !== projectStore) {
+            Projects.get(projectID)
+                .then((proj) => {
+                    // Remember the project
+                    project = proj;
+                    loading = false;
+                    error = false;
+
+                    // See if the project is editable, and if so, get it's store, so we can track it's changes.
+                    const projectStore = Projects.getStore(projectID);
+                    if (projectStore && store !== projectStore) {
+                        // Unsubscribe from the previous store
                         if (unsub) unsub();
-                        projectStore = store;
+                        // Remember the new store
+                        store = projectStore;
+                        // Update the project we're showing whenever it changes.
                         unsub = store.subscribe((proj) => (project = proj));
-                        loading = false;
-                        error = false;
                     }
                 })
                 .catch(() => {

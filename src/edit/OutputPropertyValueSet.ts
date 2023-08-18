@@ -161,7 +161,7 @@ export default class OutputPropertyValueSet {
         // Find all the values that are given, then map them to [ Evaluate, Evaluate ] pairs
         // that represent the original Evaluate and the replacement without the given value.
         // If the property is required, replace with a default value.
-        projects.reviseProjectNodes(
+        projects.Projects.revise(
             project,
             project.getBindReplacements(
                 this.values
@@ -176,8 +176,8 @@ export default class OutputPropertyValueSet {
     }
 
     /** Given a project, set this property to a reasonable starting value */
-    set(projects: Database, project: Project, locales: Locale[]) {
-        projects.reviseProjectNodes(
+    set(db: Database, project: Project, locales: Locale[]) {
+        db.Projects.revise(
             project,
             project.getBindReplacements(
                 this.values

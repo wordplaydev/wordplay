@@ -9,7 +9,7 @@
     import Note from '../widgets/Note.svelte';
     import { getNumber } from './editOutput';
     import Expression from '../../nodes/Expression';
-    import { DB, locale, locales } from '../../db/Database';
+    import { Projects, locale, locales } from '../../db/Database';
     import { tick } from 'svelte';
 
     export let project: Project;
@@ -29,7 +29,7 @@
             (view) => document.activeElement === view
         );
 
-        DB.reviseProjectNodes(project, [
+        Projects.revise(project, [
             [
                 place,
                 place.withBindAs(

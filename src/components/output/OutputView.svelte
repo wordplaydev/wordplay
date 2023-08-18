@@ -24,6 +24,7 @@
         DB,
         locale,
         locales,
+        Projects,
         writingDirection,
         writingLayout,
     } from '../../db/Database';
@@ -215,7 +216,7 @@
                     event.key === 'Backspace' &&
                     (event.metaKey || event.ctrlKey)
                 ) {
-                    DB.reviseProjectNodes(project, [[evaluate, undefined]]);
+                    Projects.revise(project, [[evaluate, undefined]]);
                     event.stopPropagation();
                     return;
                 }
@@ -483,8 +484,7 @@
                             addStageContent(DB, project, group);
                         } else {
                             const node = project.getNodeByID(strokeNodeID);
-                            if (node)
-                                DB.reviseProjectNodes(project, [[node, group]]);
+                            if (node) Projects.revise(project, [[node, group]]);
                         }
                         strokeNodeID = group.id;
                     }

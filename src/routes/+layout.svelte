@@ -56,7 +56,7 @@
         // Update dark mode, now that we're mounted.
         dark.set(isDarkSet());
 
-        // Have the Database cleanup database connections.
+        // Have the Database cleanup database connections when this is unmounted.
         return () => {
             DB.clean();
         };

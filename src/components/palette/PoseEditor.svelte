@@ -10,7 +10,7 @@
     import MapLiteral from '@nodes/MapLiteral';
     import KeyValue from '@nodes/KeyValue';
     import NumberLiteral from '@nodes/NumberLiteral';
-    import { DB, locale, locales } from '../../db/Database';
+    import { Projects, locale, locales } from '../../db/Database';
     import getPoseProperties from '@edit/PoseProperties';
 
     export let project: Project;
@@ -34,7 +34,7 @@
     }
 
     function convert() {
-        DB.reviseProjectNodes(
+        Projects.revise(
             project,
             outputs.map((output) => [
                 output.node,

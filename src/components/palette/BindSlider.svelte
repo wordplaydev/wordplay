@@ -5,7 +5,7 @@
     import type OutputPropertyRange from '@edit/OutputPropertyRange';
     import type OutputProperty from '@edit/OutputProperty';
     import { getProject } from '../project/Contexts';
-    import { DB } from '../../db/Database';
+    import { Projects } from '../../db/Database';
     import { getFirstName } from '../../locale/Locale';
     import { toTokens } from '../../parser/toTokens';
 
@@ -19,7 +19,7 @@
     function handleChange(newValue: number) {
         if ($project === undefined) return;
 
-        DB.reviseProjectNodes(
+        Projects.revise(
             $project,
             $project.getBindReplacements(
                 values.getExpressions(),

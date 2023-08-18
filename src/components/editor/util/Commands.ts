@@ -278,12 +278,12 @@ export const Restart: Command = {
     shift: true,
     alt: false,
     control: true,
-    execute: (context) => {
+    execute: ({ resetInputs, database, evaluator }) => {
         // Don't handle this if we don't have access to the reset function.
-        if (context.resetInputs === undefined) return false;
+        if (resetInputs === undefined) return false;
         // Mark the inputs invalid so we don't inherit them
-        context.resetInputs();
-        context.database.reviseProject(context.evaluator.project.clone());
+        resetInputs();
+        database.Projects.reviseProject(evaluator.project.clone());
         return undefined;
     },
 };
@@ -510,7 +510,7 @@ const Commands: Command[] = [
         execute: ({ caret, database }) =>
             caret?.moveInline(
                 false,
-                database.localesDB.getWritingDirection() === 'ltr' ? -1 : 1
+                database.Locales.getWritingDirection() === 'ltr' ? -1 : 1
             ) ?? false,
     },
     {
@@ -526,7 +526,7 @@ const Commands: Command[] = [
         execute: ({ caret, database }) =>
             caret?.moveInline(
                 false,
-                database.localesDB.getWritingDirection() === 'ltr' ? 1 : -1
+                database.Locales.getWritingDirection() === 'ltr' ? 1 : -1
             ) ?? false,
     },
     {
@@ -834,15 +834,11 @@ const Commands: Command[] = [
         alt: false,
         key: 'KeyZ',
         keySymbol: 'Z',
-        active: (context) =>
-            context.database
-                .getProjectHistory(context.evaluator.project.id)
-                ?.isUndoable() === true,
-        execute: (context) =>
-            context.database.undoRedoProject(
-                context.evaluator.project.id,
-                -1
-            ) !== undefined,
+        active: ({ database, evaluator }) =>
+            database.Projects.getHistory(evaluator.project.id)?.isUndoable() ===
+            true,
+        execute: ({ database, evaluator }) =>
+            database.Projects.undoRedo(evaluator.project.id, -1) !== undefined,
     },
     {
         symbol: '⟳',
@@ -854,15 +850,11 @@ const Commands: Command[] = [
         alt: false,
         key: 'KeyZ',
         keySymbol: 'Z',
-        active: (context) =>
-            context.database
-                .getProjectHistory(context.evaluator.project.id)
-                ?.isRedoable() === true,
-        execute: (context) =>
-            context.database.undoRedoProject(
-                context.evaluator.project.id,
-                1
-            ) !== undefined,
+        active: ({ evaluator, database }) =>
+            database.Projects.getHistory(evaluator.project.id)?.isRedoable() ===
+            true,
+        execute: ({ database, evaluator }) =>
+            database.Projects.undoRedo(evaluator.project.id, 1) !== undefined,
     },
     {
         symbol: '↲',
