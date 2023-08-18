@@ -674,6 +674,10 @@ export default class Project {
               );
     }
 
+    isReadOnly(uid: string) {
+        return !this.uids.includes(uid);
+    }
+
     getBindReplacements(
         evaluates: Evaluate[],
         name: string,
