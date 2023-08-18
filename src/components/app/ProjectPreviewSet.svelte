@@ -1,13 +1,14 @@
 <script lang="ts">
     import type Project from '../../models/Project';
     import ProjectPreview from './ProjectPreview.svelte';
-    import { database, languages, locale } from '../../db/Database';
+    import { DB, languages, locale } from '../../db/Database';
+    import gotoProject from './gotoProject';
     import Button from '../widgets/Button.svelte';
     import ConfirmButton from '../widgets/ConfirmButton.svelte';
 
     export let set: Project[];
-    export let previewAction: (project: Project) => void;
-    export let editAction: ((project: Project) => void) | undefined = undefined;
+    export let editable: boolean;
+    export let beforePlay: undefined | ((project: Project) => void) = undefined;
 
     function sortProjects(projects: Project[]): Project[] {
         return projects.sort((a, b) =>
@@ -20,18 +21,19 @@
     {#each sortProjects(set).filter((p) => p.listed) as project (project.id)}
         <ProjectPreview
             {project}
-            action={() => previewAction(project)}
+            action={() => {
+                if (beforePlay) beforePlay(project);
+                gotoProject(project, true);
+            }}
             delay={Math.random() * set.length * 50}
-            >{#if editAction}<div class="controls"
-                    ><Button
+            >{#if editable}<div class="controls">
+                    <Button
                         tip={$locale.ui.description.editProject}
-                        action={() =>
-                            editAction ? editAction(project) : undefined}
-                        >✎</Button
+                        action={() => gotoProject(project, false)}>✎</Button
                     ><ConfirmButton
                         prompt={$locale.ui.prompt.deleteProject}
                         tip={$locale.ui.description.deleteProject}
-                        action={() => database.deleteProject(project.id)}
+                        action={() => DB.deleteProject(project.id)}
                         >⨉</ConfirmButton
                     ></div
                 >{/if}</ProjectPreview

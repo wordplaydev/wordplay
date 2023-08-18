@@ -10,7 +10,7 @@
     } from '../project/Contexts';
     import { addContent, moveContent, removeContent } from './editOutput';
     import type ListLiteral from '../../nodes/ListLiteral';
-    import { database, locale } from '../../db/Database';
+    import { DB, locale } from '../../db/Database';
 
     export let project: Project;
     export let list: ListLiteral | undefined;
@@ -50,7 +50,7 @@
                     tip={$locale.ui.description.removeContent}
                     action={() =>
                         list
-                            ? removeContent(database, project, list, index)
+                            ? removeContent(DB, project, list, index)
                             : undefined}
                     active={list.values.length > 0}>⨉</Button
                 >
@@ -58,7 +58,7 @@
                     tip={$locale.ui.description.moveContentUp}
                     action={() =>
                         list
-                            ? moveContent(database, project, list, index, -1)
+                            ? moveContent(DB, project, list, index, -1)
                             : undefined}
                     active={index > 0}>↑</Button
                 >
@@ -66,7 +66,7 @@
                     tip={$locale.ui.description.moveContentDown}
                     action={() =>
                         list
-                            ? moveContent(database, project, list, index, 1)
+                            ? moveContent(DB, project, list, index, 1)
                             : undefined}
                     active={index < list.values.length - 1}>↓</Button
                 >
@@ -83,7 +83,7 @@
                 action={() =>
                     list
                         ? addContent(
-                              database,
+                              DB,
                               project,
                               list,
                               list?.values.length ?? 1 - 1,
@@ -97,7 +97,7 @@
                 action={() =>
                     list
                         ? addContent(
-                              database,
+                              DB,
                               project,
                               list,
                               list?.values.length ?? 1 - 1,

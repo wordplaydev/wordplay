@@ -12,8 +12,9 @@
     import Loading from '@components/app/Loading.svelte';
     import { setContext } from 'svelte';
     import { browser } from '$app/environment';
-    import { database, locale } from '@db/Database';
+    import { DB, locale } from '@db/Database';
     import Page from '@components/app/Page.svelte';
+    import { Settings } from '@db/Database';
 
     /** True if we're async loading the project, as opposed to getting it from the browser cache. */
     let loading = false;
@@ -37,10 +38,9 @@
             // Set loading feedback.
             loading = true;
             // Async load the project from the database.
-            database
-                .getProject(projectID)
+            DB.getProject(projectID)
                 .then(() => {
-                    const store = database.getProjectStore(projectID);
+                    const store = DB.getProjectStore(projectID);
                     if (store && store !== projectStore) {
                         if (unsub) unsub();
                         projectStore = store;
@@ -62,7 +62,7 @@
 
 {#if project}
     <Page
-        fullscreen={database.getProjectLayout(project.id)?.isFullscreen() ??
+        fullscreen={Settings.getProjectLayout(project.id)?.isFullscreen() ??
             false}
     >
         {#key project.id}

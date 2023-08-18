@@ -14,7 +14,7 @@ import Letters from './Letters.wp?raw';
 import Catch from './Catch.wp?raw';
 import { parseNames } from '../parser/parseBind';
 import type Names from '../nodes/Names';
-import { database } from '../db/Database';
+import { DB } from '../db/Database';
 import { getBestSupportedLocales } from '../locale/Locale';
 import { toTokens } from '../parser/toTokens';
 
@@ -25,12 +25,12 @@ export type Stuff = {
 };
 
 export async function makeProject(stuff: Stuff) {
-    const locales = await database.loadLocales(
+    const locales = await DB.localesDB.loadLocales(
         getBestSupportedLocales(stuff.locales)
     );
 
     return new Project(
-        stuff.name,
+        null,
         stuff.name,
         new Source(stuff.sources[0].names, stuff.sources[0].code),
         stuff.sources.slice(1).map((s) => new Source(s.names, s.code)),

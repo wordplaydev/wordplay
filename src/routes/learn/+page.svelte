@@ -3,7 +3,7 @@
     import Progress from '../../tutorial/Progress';
     import { goto } from '$app/navigation';
     import { page } from '$app/stores';
-    import { database, locale, tutorialProgress } from '../../db/Database';
+    import { Settings, locale, tutorialProgress } from '../../db/Database';
     import { onMount } from 'svelte';
     import Loading from '@components/app/Loading.svelte';
     import type Tutorial from '../../tutorial/Tutorial';
@@ -53,7 +53,7 @@
             pause !== null &&
             isFinite(parseInt(pause))
         )
-            database.setTutorialProgress(
+            Settings.setTutorialProgress(
                 new Progress(
                     tutorial,
                     parseInt(act),
@@ -64,7 +64,7 @@
     }
 
     function navigate(newProgress: Progress) {
-        database.setTutorialProgress(newProgress);
+        Settings.setTutorialProgress(newProgress);
         // Set the URL to mirror the progress, if not at it.
         goto(
             `/learn?act=${newProgress.act}&scene=${newProgress.scene}&pause=${newProgress.pause}`

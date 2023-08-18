@@ -298,7 +298,9 @@ export function addSoloPhrase(database: Database, project: Project) {
     const text =
         //Nothing? Use a welcome phrase.
         last === undefined
-            ? TextLiteral.make(database.getLocale().ui.phrases.welcome)
+            ? TextLiteral.make(
+                  database.localesDB.getLocale().ui.phrases.welcome
+              )
             : // Already text or formatted? Just use it without modification.
             last instanceof TextLiteral || last instanceof FormattedLiteral
             ? last

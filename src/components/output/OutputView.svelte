@@ -21,7 +21,7 @@
     import type PaintingConfiguration from './PaintingConfiguration';
     import {
         animationFactor,
-        database,
+        DB,
         locale,
         locales,
         writingDirection,
@@ -215,9 +215,7 @@
                     event.key === 'Backspace' &&
                     (event.metaKey || event.ctrlKey)
                 ) {
-                    database.reviseProjectNodes(project, [
-                        [evaluate, undefined],
-                    ]);
+                    DB.reviseProjectNodes(project, [[evaluate, undefined]]);
                     event.stopPropagation();
                     return;
                 }
@@ -482,13 +480,11 @@
 
                         // Add the stroke to the project's verse
                         if (strokeNodeID === undefined) {
-                            addStageContent(database, project, group);
+                            addStageContent(DB, project, group);
                         } else {
                             const node = project.getNodeByID(strokeNodeID);
                             if (node)
-                                database.reviseProjectNodes(project, [
-                                    [node, group],
-                                ]);
+                                DB.reviseProjectNodes(project, [[node, group]]);
                         }
                         strokeNodeID = group.id;
                     }
@@ -506,7 +502,7 @@
                         )
                     ) {
                         moveOutput(
-                            database,
+                            DB,
                             project,
                             $selectedOutput,
                             $locales,

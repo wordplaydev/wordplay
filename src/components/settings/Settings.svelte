@@ -4,11 +4,11 @@
     import { getUser, isDark } from '../project/Contexts';
     import {
         animationFactor,
-        database,
         locale,
         arrangement,
         camera,
         mic,
+        Settings,
     } from '../../db/Database';
     import LayoutChooser from './LayoutChooser.svelte';
     import { page } from '$app/stores';
@@ -89,7 +89,7 @@
                     ? $locale.ui.description.horizontal
                     : $locale.ui.description.freeform}
                 action={() =>
-                    database.setArrangement(
+                    Settings.setArrangement(
                         $arrangement === Arrangement.Vertical
                             ? Arrangement.Horizontal
                             : $arrangement === Arrangement.Horizontal
@@ -101,7 +101,7 @@
             <Button
                 tip={$locale.ui.description.animate}
                 action={() =>
-                    database.setAnimationFactor(
+                    Settings.setAnimationFactor(
                         $animationFactor < 4 ? $animationFactor + 1 : 0
                     )}>{animationSymbol}</Button
             >
@@ -118,7 +118,7 @@
                             ...cameras.map((device) => device.label),
                         ]}
                         change={(choice) =>
-                            database.setCamera(
+                            Settings.setCamera(
                                 cameras.find(
                                     (camera) => camera.label === choice
                                 )?.deviceId ?? null
@@ -136,7 +136,7 @@
                             ...mics.map((device) => device.label),
                         ]}
                         change={(choice) =>
-                            database.setMic(
+                            Settings.setMic(
                                 mics.find((mic) => mic.label === choice)
                                     ?.deviceId ?? null
                             )}

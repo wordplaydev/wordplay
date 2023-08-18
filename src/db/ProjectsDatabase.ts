@@ -11,16 +11,20 @@ export class ProjectsDatabase extends Dexie {
         });
     }
 
-    async get(id: string): Promise<SerializedProject | undefined> {
+    async getProject(id: string): Promise<SerializedProject | undefined> {
         const project = await this.projects.where('id').equals(id).toArray();
         return project[0];
     }
 
-    save(projects: SerializedProject[]) {
+    async deleteProject(id: string): Promise<void> {
+        return await this.projects.delete(id);
+    }
+
+    saveProjects(projects: SerializedProject[]) {
         this.projects.bulkPut(projects);
     }
 
-    async all(): Promise<SerializedProject[]> {
+    async getAllProjects(): Promise<SerializedProject[]> {
         return this.projects.toArray();
     }
 }

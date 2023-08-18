@@ -12,7 +12,7 @@
     import {
         locales,
         locale,
-        database,
+        DB,
         animationFactor,
         languages,
     } from '../db/Database';
@@ -51,14 +51,14 @@
         document.fonts.ready.then(() => (loaded = true));
 
         // Login the user
-        database.login((newUser) => user.set(newUser));
+        DB.login((newUser) => user.set(newUser));
 
         // Update dark mode, now that we're mounted.
         dark.set(isDarkSet());
 
         // Have the Database cleanup database connections.
         return () => {
-            database.clean();
+            DB.clean();
         };
     });
 

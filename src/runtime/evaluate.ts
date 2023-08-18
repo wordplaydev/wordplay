@@ -1,4 +1,4 @@
-import { DefaultLocale, database } from '../db/Database';
+import { DefaultLocale, DB } from '../db/Database';
 import type Locale from '../locale/Locale';
 import Project from '../models/Project';
 import Source from '../nodes/Source';
@@ -24,5 +24,5 @@ export default function evaluateCode(
         ),
         locale ?? DefaultLocale
     );
-    return new Evaluator(project, database).getInitialValue();
+    return new Evaluator(project, DB).getInitialValue();
 }

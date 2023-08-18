@@ -19,7 +19,7 @@
         getSelectedOutput,
         getSelectedPhrase,
     } from '../project/Contexts';
-    import { database, locale, locales } from '../../db/Database';
+    import { DB, locale, locales } from '../../db/Database';
     import TextLang from '../../output/TextLang';
     import MarkupHtmlView from '../concepts/MarkupHTMLView.svelte';
     import Markup from '../../nodes/Markup';
@@ -123,7 +123,7 @@
             select(null);
 
             moveOutput(
-                database,
+                DB,
                 $project,
                 [phrase.value.creator],
                 $locales,
@@ -147,7 +147,7 @@
         if (event.currentTarget.selectionStart !== null)
             select(event.currentTarget.selectionStart);
 
-        database.reviseProjectNodes($project, [
+        DB.reviseProjectNodes($project, [
             [
                 phrase.value.creator,
                 phrase.value.creator.replace(

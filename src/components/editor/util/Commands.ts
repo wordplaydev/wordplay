@@ -510,7 +510,7 @@ const Commands: Command[] = [
         execute: ({ caret, database }) =>
             caret?.moveInline(
                 false,
-                database.getWritingDirection() === 'ltr' ? -1 : 1
+                database.localesDB.getWritingDirection() === 'ltr' ? -1 : 1
             ) ?? false,
     },
     {
@@ -526,7 +526,7 @@ const Commands: Command[] = [
         execute: ({ caret, database }) =>
             caret?.moveInline(
                 false,
-                database.getWritingDirection() === 'ltr' ? 1 : -1
+                database.localesDB.getWritingDirection() === 'ltr' ? 1 : -1
             ) ?? false,
     },
     {

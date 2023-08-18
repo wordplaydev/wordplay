@@ -21,7 +21,7 @@
     import PlaceEditor from './PlaceEditor.svelte';
     import ConceptLinkUI from '../concepts/ConceptLinkUI.svelte';
     import { getConceptIndex } from '../project/Contexts';
-    import { database, locale, locales } from '../../db/Database';
+    import { DB, locale, locales } from '../../db/Database';
     import { tick } from 'svelte';
 
     export let project: Project;
@@ -36,8 +36,8 @@
     let toggleView: HTMLButtonElement | undefined;
 
     async function toggleValues(set: boolean) {
-        if (set) values.set(database, project, $locales);
-        else values.unset(database, project, $locales);
+        if (set) values.set(DB, project, $locales);
+        else values.unset(DB, project, $locales);
         // Preserve focus on toggle button after setting.
         await tick();
         toggleView?.focus();

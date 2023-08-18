@@ -16,7 +16,7 @@
     import PlayView from './PlayView.svelte';
     import Button from '../widgets/Button.svelte';
     import Source from '../../nodes/Source';
-    import { database, locale, locales, arrangement } from '../../db/Database';
+    import { DB, locale, locales, arrangement } from '../../db/Database';
     import type Spaces from '../../parser/Spaces';
     import { toMarkup } from '../../parser/toMarkup';
     import MarkupHTMLView from '../concepts/MarkupHTMLView.svelte';
@@ -131,22 +131,22 @@
     // and use that instead.
     $: {
         // Check asynchronously if there's a project for this tutorial project ID already.
-        database.getProject(progress.getProjectID()).then((existingProject) => {
+        DB.getProject(progress.getProjectID()).then((existingProject) => {
             // If there is, get it's store.
             if (existingProject)
-                projectStore = database.getProjectStore(
-                    progress.getProjectID()
-                );
+                projectStore = DB.getProjectStore(progress.getProjectID());
             // If there's not, add this project to the database and get its store, so we can react to its changes.
             else
-                projectStore = database
-                    .addOrUpdateProject(initialProject, false, false)
-                    .getStore();
+                projectStore = DB.addOrUpdateProject(
+                    initialProject,
+                    false,
+                    false
+                ).getStore();
         });
     }
 
     // Every time the progress changes, get the store for the corresponding project, if there is one.
-    $: projectStore = database.getProjectStore(progress.getProjectID());
+    $: projectStore = DB.getProjectStore(progress.getProjectID());
 
     // Every time the project store changes, update the context.
     $: if (projectStore)
@@ -154,7 +154,7 @@
 
     // When the project changes to something other than the initial project, start persisting it.
     $: if ($projectStore !== undefined && !$projectStore.equals(initialProject))
-        database.getProjectHistory($projectStore.id)?.setPersist();
+        DB.getProjectHistory($projectStore.id)?.setPersist();
 
     let selection: Progress | undefined = undefined;
     function handleSelect() {

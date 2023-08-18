@@ -10,7 +10,7 @@
         getEvaluation,
         getSelectedOutput,
     } from '../project/Contexts';
-    import { database, locale } from '../../db/Database';
+    import { DB, locale } from '../../db/Database';
     import concretize from '../../locale/concretize';
     import {
         addGroup,
@@ -118,7 +118,7 @@
                 locale={$locale}
                 message={$locale.ui.palette.offerPhrase}
                 tip={$locale.ui.description.createPhrase}
-                action={() => addSoloPhrase(database, project)}
+                action={() => addSoloPhrase(DB, project)}
                 command={`+${PHRASE_SYMBOL}`}
             />
         {/if}
@@ -128,7 +128,7 @@
                 locale={$locale}
                 message={$locale.ui.palette.offerGroup}
                 tip={$locale.ui.description.createGroup}
-                action={() => addGroup(database, project)}
+                action={() => addGroup(DB, project)}
                 command={`+${GROUP_SYMBOL}`}
             />
         {/if}
@@ -138,7 +138,7 @@
                 locale={$locale}
                 message={$locale.ui.palette.offerStage}
                 tip={$locale.ui.description.createStage}
-                action={() => addStage(database, project, group ?? phrase)}
+                action={() => addStage(DB, project, group ?? phrase)}
                 command={`+${STAGE_SYMBOL}`}
             />
         {/if}

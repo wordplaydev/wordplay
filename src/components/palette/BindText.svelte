@@ -4,7 +4,7 @@
     import TextField from '../widgets/TextField.svelte';
     import type OutputProperty from '@edit/OutputProperty';
     import { getProject } from '../project/Contexts';
-    import { database, locale, locales, languages } from '@db/Database';
+    import { DB, locale, locales, languages } from '@db/Database';
     import { tick } from 'svelte';
     import Language from '@nodes/Language';
     import { FORMATTED_SYMBOL } from '@parser/Symbols';
@@ -21,7 +21,7 @@
     // Whenever the text changes, update in the project.
     async function handleChange(newValue: string) {
         if ($project === undefined) return;
-        database.reviseProjectNodes(
+        DB.reviseProjectNodes(
             $project,
             $project.getBindReplacements(
                 values.getExpressions(),

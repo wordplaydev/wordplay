@@ -28,7 +28,7 @@
     import { tick } from 'svelte';
     import TextField from '../widgets/TextField.svelte';
     import type Project from '../../models/Project';
-    import { database, locale, locales } from '../../db/Database';
+    import { DB, locale, locales } from '../../db/Database';
     import getScrollParent from '../util/getScrollParent';
     import Note from '../widgets/Note.svelte';
     import ConceptLinkUI from './ConceptLinkUI.svelte';
@@ -156,7 +156,7 @@
         );
 
         // Update the project with the new source files
-        database.reviseProject(
+        DB.reviseProject(
             project
                 .withSource(source, newSource)
                 .withCaret(newSource, source.getNodeFirstPosition(node) ?? 0)

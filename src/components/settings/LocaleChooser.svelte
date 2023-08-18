@@ -3,7 +3,7 @@
 <script lang="ts">
     import Button from '../widgets/Button.svelte';
     import { getLanguageLayout, PossibleLanguages } from '@locale/LanguageCode';
-    import { database, locale, locales } from '../../db/Database';
+    import { DB, locale, locales } from '../../db/Database';
     import {
         SupportedLocales,
         getLocaleLanguage,
@@ -15,6 +15,7 @@
     import { toLocaleString } from '../../locale/Locale';
     import type LanguageCode from '@locale/LanguageCode';
     import LocaleName from './LocaleName.svelte';
+    import { Settings } from '../../db/Database';
 
     let show: boolean;
 
@@ -40,13 +41,13 @@
 
         // Set the layout and direction based on the preferred language.
         if (selectedLocales.length > 0) {
-            database.setWritingLayout(
+            Settings.setWritingLayout(
                 getLanguageLayout(
                     getLocaleLanguage(selectedLocales[0]) as LanguageCode
                 )
             );
             // Save setLocales
-            database.setLocales(selectedLocales as SupportedLocale[]);
+            DB.localesDB.setLocales(selectedLocales as SupportedLocale[]);
         }
     }
 </script>

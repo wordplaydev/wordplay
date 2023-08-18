@@ -72,13 +72,14 @@
     import Painting from '../output/Painting.svelte';
     import type PaintingConfiguration from '../output/PaintingConfiguration';
     import {
-        database,
+        DB,
         locale,
         locales,
         arrangement,
         languages,
         camera,
         mic,
+        Settings,
     } from '../../db/Database';
     import Arrangement from '../../db/Arrangement';
     import {
@@ -241,7 +242,7 @@
         // Make the new evaluator, replaying the previous evaluator's inputs, unless we marked the last evaluator is out of date.
         const newEvaluator = new Evaluator(
             newProject,
-            database,
+            DB,
             true,
             replayInputs ? $evaluator : undefined
         );
@@ -352,7 +353,7 @@
     }
 
     function initializedLayout() {
-        const persistedLayout = database.getProjectLayout(project.id);
+        const persistedLayout = Settings.getProjectLayout(project.id);
         return persistedLayout === null
             ? null
             : persistedLayout.withTiles(syncTiles(persistedLayout.tiles));
@@ -420,7 +421,7 @@
     }
 
     /** Persist the layout when it changes */
-    $: database.setProjectLayout(project.id, layout);
+    $: Settings.setProjectLayout(project.id, layout);
 
     /** When the layout or path changes, add or remove query params based on state */
     $: {
@@ -654,10 +655,10 @@
 
     /** If the camera or mic changes, restart the evaluator to reflect to the new stream. */
     const cameraUnsubscribe = camera.subscribe(() =>
-        database.reviseProject(project.clone(), false)
+        DB.reviseProject(project.clone(), false)
     );
     const micUnsubscribe = mic.subscribe(() =>
-        database.reviseProject(project.clone(), false)
+        DB.reviseProject(project.clone(), false)
     );
 
     onDestroy(() => {
@@ -970,7 +971,7 @@
                   ) ?? Array.from($editors.values())[0]
               )?.caret,
         evaluator: $evaluator,
-        database,
+        database: DB,
         fullscreen,
         focusOrCycleTile,
         resetInputs,
@@ -1042,17 +1043,17 @@
         newSource = newProject.supplements.at(-1);
 
         // This will propogate back to a new project here, updating the UI.
-        database.reviseProject(newProject);
+        DB.reviseProject(newProject);
     }
 
     function removeSource(source: Source) {
-        database.reviseProject(project.withoutSource(source));
+        DB.reviseProject(project.withoutSource(source));
     }
 
     function renameSource(id: string, name: string) {
         if (!isName(name)) return;
         const source = getSourceByID(id);
-        database.reviseProject(
+        DB.reviseProject(
             project.withSource(source, source.withName(name, $locales[0]))
         );
     }
@@ -1066,7 +1067,7 @@
     }
 
     function revert() {
-        if (original) database.reviseProject(original);
+        if (original) DB.reviseProject(original);
     }
 </script>
 
@@ -1265,8 +1266,7 @@
                 text={project.name}
                 description={$locale.ui.description.editProjectName}
                 placeholder={$locale.ui.placeholders.project}
-                changed={(name) =>
-                    database.reviseProject(project.withName(name))}
+                changed={(name) => DB.reviseProject(project.withName(name))}
             />
             {#each layout.getNonSources() as tile}
                 <NonSourceTileToggle
