@@ -68,6 +68,9 @@ export default class Scene {
     /** A callback for when the animating nodes change, so other parts of the UI can highlight them. */
     readonly tick: (nodes: Set<Node>) => void;
 
+    /** If true, the scene has been stopped and will no longer be animated */
+    private stopped = false;
+
     constructor(
         evaluator: Evaluator,
         exit: (name: OutputName) => void,
@@ -93,6 +96,8 @@ export default class Scene {
         height: number,
         context: RenderContext
     ) {
+        if (this.stopped) return undefined;
+
         this.stage = verse;
         this.live = live;
         this.focus = focus;
@@ -233,6 +238,8 @@ export default class Scene {
         >,
         exited: Map<OutputName, TypeOutput>
     ): Set<OutputName> {
+        if (this.stopped) return new Set();
+
         // Update the phrase of all present and exited animations, potentially
         // ending and starting animations.
         for (const [name, output] of present) {
@@ -276,6 +283,7 @@ export default class Scene {
     }
 
     stop() {
+        this.stopped = true;
         this.animations.forEach((animation) => animation.exited());
     }
 

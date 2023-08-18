@@ -500,7 +500,9 @@ export default class OutputAnimation {
         });
 
         // When the animation is done, update the animation state.
-        this.animation.onfinish = () => this.finish();
+        this.animation.onfinish = () => {
+            this.finish();
+        };
     }
 
     finish() {

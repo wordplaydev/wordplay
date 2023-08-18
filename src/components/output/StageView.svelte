@@ -135,7 +135,7 @@
     /** The creator or audience adjusted focus. */
     let adjustedFocus: Place = createPlace(evaluator, 0, 0, -12);
 
-    /** A stage to manage entries, exits, animations. A new one for each project. */
+    /** A stage to manage entries, exits, animations. A new one each time the for each project. */
     let scene: Scene;
     $: {
         if (scene !== undefined) scene.stop();
@@ -177,11 +177,13 @@
         );
 
         previouslyPresent = present;
-        ({ exiting, present, entered } = results);
+        let animate: (() => void) | undefined = undefined;
+        if (results !== undefined)
+            ({ exiting, present, entered, animate } = results);
 
         // Defer rendering until we have a view so that animations can be bound to DOM elements.
         tick().then(() => {
-            results.animate();
+            if (animate) animate();
         });
     }
 
