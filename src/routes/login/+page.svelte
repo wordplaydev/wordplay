@@ -2,7 +2,7 @@
     import TextField from '@components/widgets/TextField.svelte';
     import Page from '@components/app/Page.svelte';
     import { getUser } from '@components/project/Contexts';
-    import Lead from '@components/app/Lead.svelte';
+    import Header from '@components/app/Header.svelte';
     import Button from '@components/widgets/Button.svelte';
     import {
         isSignInWithEmailLink,
@@ -110,12 +110,12 @@
     <div class="login">
         {#if auth}
             {#if $user && !$user.isAnonymous}
-                <Lead>{$locale.ui.phrases.welcome} {$user.email}</Lead>
+                <Header>{$locale.ui.phrases.welcome} {$user.email}</Header>
                 <Button tip={$locale.ui.login.logout} action={logout}
                     >{$locale.ui.login.logout}</Button
                 >
             {:else}
-                <Lead>{$locale.ui.login.header}</Lead>
+                <Header>{$locale.ui.login.header}</Header>
                 <p>
                     {#if missingEmail}
                         {$locale.ui.login.enterEmail}

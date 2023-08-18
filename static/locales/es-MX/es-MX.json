@@ -1941,7 +1941,8 @@
         },
         "header": {
             "learn": "$?",
-            "projects": "Funcións",
+            "projects": "$?",
+            "galleries": "$?",
             "about": "$?",
             "examples": "ejemplos",
             "inputs": "$?",

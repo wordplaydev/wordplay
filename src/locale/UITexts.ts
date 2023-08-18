@@ -179,6 +179,8 @@ type UITexts = {
     header: {
         learn: string;
         projects: string;
+        /** How to describe galleries of projects */
+        galleries: string;
         about: string;
         examples: string;
         /** Documentation header in structure and functions before inputs */

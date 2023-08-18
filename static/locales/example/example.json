@@ -1931,6 +1931,7 @@
         "header": {
             "learn": "$?",
             "projects": "$?",
+            "galleries": "$?",
             "about": "$?",
             "examples": "$?",
             "inputs": "$?",
