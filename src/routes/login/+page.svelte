@@ -9,7 +9,7 @@
         signInWithEmailLink,
     } from 'firebase/auth';
     import { FirebaseError } from 'firebase/app';
-    import { auth } from '@db/firebase';
+    import { auth, firestore } from '@db/firebase';
     import { goto } from '$app/navigation';
     import { onMount } from 'svelte';
     import { locale } from '../../db/Database';
@@ -107,7 +107,7 @@
 </script>
 
 <Writing>
-    {#if auth}
+    {#if auth && firestore}
         {#if $user && !$user.isAnonymous}
             <Header>{$locale.ui.phrases.welcome} {$user.email}</Header>
             <Button tip={$locale.ui.login.logout} action={logout}
@@ -141,7 +141,7 @@
                 {:else if success === true}
                     {$locale.ui.login.success}
                 {:else if success === false}
-                    {error}
+                    <Feedback>{error}</Feedback>
                 {/if}
             </p>
         {/if}

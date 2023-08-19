@@ -15,6 +15,7 @@
     import { Projects, locale } from '@db/Database';
     import Page from '@components/app/Page.svelte';
     import { Settings } from '@db/Database';
+    import Writing from '../../../components/app/Writing.svelte';
 
     /** True if we're async loading the project, as opposed to getting it from the browser cache. */
     let loading = false;
@@ -84,5 +85,5 @@
 {:else if loading}
     <Loading />
 {:else if $page.params.projectid || error}
-    <Feedback>{$locale.ui.feedback.unknownProject}</Feedback>
+    <Writing><Feedback>{$locale.ui.feedback.unknownProject}</Feedback></Writing>
 {/if}
