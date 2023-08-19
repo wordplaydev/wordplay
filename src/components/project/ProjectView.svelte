@@ -1078,7 +1078,7 @@
     /** Copy the project, track it, then gotoProject(). */
     function copy() {
         const copy = project.copy();
-        Projects.track(copy, true, true);
+        Projects.track(copy, true, true, false);
         gotoProject(copy, false);
     }
 </script>

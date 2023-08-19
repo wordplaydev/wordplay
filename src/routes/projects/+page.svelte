@@ -10,16 +10,9 @@
     import ProjectPreviewSet from '@components/app/ProjectPreviewSet.svelte';
     import { goto } from '$app/navigation';
     import Button from '@components/widgets/Button.svelte';
-    import { getUser } from '../../components/project/Contexts';
-
-    const user = getUser();
 
     function newProject() {
-        const newProjectID = Projects.create(
-            $locales,
-            $user ? $user.uid : undefined,
-            $locale.newProject
-        );
+        const newProjectID = Projects.create($locales, $locale.newProject);
         goto(`/project/${newProjectID}`);
     }
 </script>

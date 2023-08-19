@@ -1,6 +1,5 @@
 <script lang="ts">
     import TextField from '@components/widgets/TextField.svelte';
-    import Page from '@components/app/Page.svelte';
     import { getUser } from '@components/project/Contexts';
     import Header from '@components/app/Header.svelte';
     import Button from '@components/widgets/Button.svelte';
@@ -15,6 +14,7 @@
     import { onMount } from 'svelte';
     import { locale } from '../../db/Database';
     import Feedback from '../../components/app/Feedback.svelte';
+    import Writing from '../../components/app/Writing.svelte';
 
     let user = getUser();
     let email: string;
@@ -106,60 +106,51 @@
     });
 </script>
 
-<Page>
-    <div class="login">
-        {#if auth}
-            {#if $user && !$user.isAnonymous}
-                <Header>{$locale.ui.phrases.welcome} {$user.email}</Header>
-                <Button tip={$locale.ui.login.logout} action={logout}
-                    >{$locale.ui.login.logout}</Button
-                >
-            {:else}
-                <Header>{$locale.ui.login.header}</Header>
-                <p>
-                    {#if missingEmail}
-                        {$locale.ui.login.enterEmail}
-                    {:else if $user === null}
-                        {$locale.ui.login.anonymousPrompt}
-                    {:else}
-                        {$locale.ui.login.prompt}
-                    {/if}
-                </p>
-                <form class="form" on:submit={login}>
-                    <TextField
-                        description={$locale.ui.description.loginEmail}
-                        placeholder={$locale.ui.placeholders.email}
-                        bind:text={email}
-                    /><Button
-                        tip={$locale.ui.login.submit}
-                        active={/^.+@.+$/.test(email)}
-                        action={() => undefined}>&gt;</Button
-                    >
-                </form>
-                <p>
-                    {#if sent === true}
-                        {$locale.ui.login.sent}
-                    {:else if success === true}
-                        {$locale.ui.login.success}
-                    {:else if success === false}
-                        {error}
-                    {/if}
-                </p>
-            {/if}
+<Writing>
+    {#if auth}
+        {#if $user && !$user.isAnonymous}
+            <Header>{$locale.ui.phrases.welcome} {$user.email}</Header>
+            <Button tip={$locale.ui.login.logout} action={logout}
+                >{$locale.ui.login.logout}</Button
+            >
         {:else}
-            <Feedback>No connection to the server, so no logins.</Feedback>
+            <Header>{$locale.ui.login.header}</Header>
+            <p>
+                {#if missingEmail}
+                    {$locale.ui.login.enterEmail}
+                {:else if $user === null}
+                    {$locale.ui.login.anonymousPrompt}
+                {:else}
+                    {$locale.ui.login.prompt}
+                {/if}
+            </p>
+            <form class="form" on:submit={login}>
+                <TextField
+                    description={$locale.ui.description.loginEmail}
+                    placeholder={$locale.ui.placeholders.email}
+                    bind:text={email}
+                /><Button
+                    tip={$locale.ui.login.submit}
+                    active={/^.+@.+$/.test(email)}
+                    action={() => undefined}>&gt;</Button
+                >
+            </form>
+            <p>
+                {#if sent === true}
+                    {$locale.ui.login.sent}
+                {:else if success === true}
+                    {$locale.ui.login.success}
+                {:else if success === false}
+                    {error}
+                {/if}
+            </p>
         {/if}
-    </div>
-</Page>
+    {:else}
+        <Feedback>{$locale.ui.error.noDatabase}</Feedback>
+    {/if}
+</Writing>
 
 <style>
-    .login {
-        width: 50%;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-    }
-
     .form {
         display: flex;
         flex-direction: row;

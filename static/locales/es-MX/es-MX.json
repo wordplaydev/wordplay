@@ -2021,7 +2021,8 @@
             },
             "tutorial": "$?",
             "unwritten": "no escrito",
-            "template": "$?"
+            "template": "$?",
+            "noDatabase": "$?"
         },
         "about": {
             "content": ["$?"]

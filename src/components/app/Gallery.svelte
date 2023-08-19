@@ -8,7 +8,7 @@
     export let name: string;
 
     function viewProject(project: Project) {
-        Projects.track(project, false, false);
+        Projects.track(project, false, false, false);
     }
 </script>
 

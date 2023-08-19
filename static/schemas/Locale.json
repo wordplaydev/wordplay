@@ -6894,6 +6894,10 @@
             "error": {
               "additionalProperties": false,
               "properties": {
+                "noDatabase": {
+                  "description": "What to show when there's no database connection.",
+                  "type": "string"
+                },
                 "notfound": {
                   "additionalProperties": false,
                   "properties": {
@@ -6926,7 +6930,8 @@
                 "notfound",
                 "tutorial",
                 "unwritten",
-                "template"
+                "template",
+                "noDatabase"
               ],
               "type": "object"
             },

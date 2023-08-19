@@ -140,6 +140,7 @@
                 projectStore = Projects.track(
                     initialProject,
                     true,
+                    false,
                     false
                 )?.getStore();
         });

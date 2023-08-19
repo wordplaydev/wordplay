@@ -37,12 +37,13 @@ export class ProjectHistory {
     /** True if this should be persisted in databases */
     private persist: boolean;
 
-    constructor(project: Project, persist?: boolean) {
+    constructor(project: Project, persist: boolean, saved: boolean) {
         this.id = project.id;
         this.current = writable(project);
         this.history.push(project);
         this.index = 0;
         this.persist = persist ?? true;
+        this.saved = saved;
     }
 
     /** Revise this project history to have all of the specified locales. */
@@ -114,6 +115,9 @@ export class ProjectHistory {
         // Set the change type to undo/redo.
         this.change = ChangeType.UndoRedo;
 
+        // Mark unsaved
+        this.saved = false;
+
         return newProject;
     }
 
@@ -122,7 +126,7 @@ export class ProjectHistory {
     }
 
     markSaved() {
-        return (this.saved = true);
+        this.saved = true;
     }
 
     wasEdited() {
@@ -138,6 +142,15 @@ export class ProjectHistory {
     }
 
     setPersist() {
-        return (this.persist = true);
+        this.persist = true;
+    }
+
+    serializeWithUserID(userID: string | null) {
+        const current = this.getCurrent();
+        return (
+            userID !== null && !current.uids.includes(userID)
+                ? current.withUser(userID)
+                : current
+        ).serialize();
     }
 }

@@ -109,45 +109,45 @@ export class Database {
         this.userID = uid;
 
         // Unsubscribe from the old user's realtime project query
-        if (this.projectsQueryUnsubscribe) this.projectsQueryUnsubscribe();
+        if (this.projectsQueryUnsubscribe) {
+            this.projectsQueryUnsubscribe();
+            this.projectsQueryUnsubscribe = undefined;
+        }
 
-        // Any time the user projects changes in the database, update projects.
-        this.projectsQueryUnsubscribe =
-            uid === null
-                ? undefined
-                : onSnapshot(
-                      query(
-                          collection(firestore, 'projects'),
-                          where('uids', 'array-contains', uid)
-                      ),
-                      async (snapshot) => {
-                          const serialized: SerializedProject[] = [];
-                          snapshot.forEach((project) => {
-                              serialized.push(
-                                  project.data() as SerializedProject
-                              );
-                          });
-
-                          // Deserialize the projects and track them, if they're not already tracked
-                          for (const project of await this.Projects.deserializeAll(
-                              serialized
-                          ))
-                              this.Projects.track(project, true, false);
-                      },
-                      (error) => {
-                          if (error instanceof FirebaseError) {
-                              console.error(error.code);
-                              console.error(error.message);
-                          }
-                          this.setStatus(SaveStatus.Error);
-                      }
-                  );
-
-        // If we have a user, save the current database to the cloud
-        if (this.userID) this.Projects.saveSoon();
-
-        // Get the config from the database
+        // Is there a user logged in now? Set up the realtime projects query,
+        // save any local projects to the database and get configuration data from the cloud.
         if (this.userID) {
+            // Any time the user projects changes in the database, update projects.
+            this.projectsQueryUnsubscribe = onSnapshot(
+                query(
+                    collection(firestore, 'projects'),
+                    where('uids', 'array-contains', uid)
+                ),
+                async (snapshot) => {
+                    const serialized: SerializedProject[] = [];
+                    snapshot.forEach((project) => {
+                        serialized.push(project.data() as SerializedProject);
+                    });
+
+                    // Deserialize the projects and track them, if they're not already tracked
+                    for (const project of await this.Projects.deserializeAll(
+                        serialized
+                    ))
+                        this.Projects.track(project, true, true, true);
+                },
+                (error) => {
+                    if (error instanceof FirebaseError) {
+                        console.error(error.code);
+                        console.error(error.message);
+                    }
+                    this.setStatus(SaveStatus.Error);
+                }
+            );
+
+            // If we have a user, save the current database to the cloud
+            this.Projects.saveSoon();
+
+            // Get the config from the database
             const config = await getDoc(doc(firestore, 'users', this.userID));
             if (config.exists()) {
                 const data = config.data();

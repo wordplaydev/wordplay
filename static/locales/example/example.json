@@ -2010,7 +2010,8 @@
             },
             "tutorial": "$?",
             "unwritten": "$?",
-            "template": "$?"
+            "template": "$?",
+            "noDatabase": "$?"
         },
         "about": {
             "content": ["$?"]

@@ -253,6 +253,8 @@ type UITexts = {
         unwritten: string;
         /** The placeholder string indicating that a template string could not be parsed */
         template: string;
+        /** What to show when there's no database connection. */
+        noDatabase: string;
     };
     about: {
         content: string[];
