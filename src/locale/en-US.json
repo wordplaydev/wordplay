@@ -3355,6 +3355,7 @@
             "addSource": "create a new $source",
             "deleteSource": "remove this $source",
             "deleteProject": "delete this performance",
+            "copyProject": "copy this project",
             "editProject": "edit this performance",
             "settings": "show settings",
             "newProject": "new performance",

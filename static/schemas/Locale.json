@@ -6390,6 +6390,9 @@
                 "copy": {
                   "type": "string"
                 },
+                "copyProject": {
+                  "type": "string"
+                },
                 "createGroup": {
                   "description": "The button that creates a group when there is none",
                   "type": "string"
@@ -6741,6 +6744,7 @@
                 "deleteSource",
                 "deleteProject",
                 "editProject",
+                "copyProject",
                 "settings",
                 "newProject",
                 "dark",

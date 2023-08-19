@@ -1839,6 +1839,7 @@
             "addSource": "$?",
             "deleteSource": "$?",
             "deleteProject": "$?",
+            "copyProject": "$?",
             "editProject": "$?",
             "settings": "$?",
             "newProject": "$?",

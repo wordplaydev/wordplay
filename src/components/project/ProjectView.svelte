@@ -98,6 +98,7 @@
     import Help from './Help.svelte';
     import type Color from '../../output/Color';
     import ProjectLanguages from './ProjectLanguages.svelte';
+    import gotoProject from '../app/gotoProject';
 
     export let project: Project;
     export let original: Project | undefined = undefined;
@@ -1073,6 +1074,13 @@
     function revert() {
         if (original) Projects.reviseProject(original);
     }
+
+    /** Copy the project, track it, then gotoProject(). */
+    function copy() {
+        const copy = project.copy();
+        Projects.track(copy, true, true);
+        gotoProject(copy, false);
+    }
 </script>
 
 <svelte:head><title>Wordplay - {project.name}</title></svelte:head>
@@ -1269,6 +1277,11 @@
                     active={!project.equals(original)}
                     action={() => revert()}>↺</Button
                 >{/if}
+            {#if !editable}
+                <Button tip={$locale.ui.description.copyProject} action={copy}
+                    ><span class="copy">✐+</span></Button
+                >
+            {/if}
             {#if editable}<TextField
                     text={project.name}
                     description={$locale.ui.description.editProjectName}
@@ -1432,6 +1445,16 @@
         flex-direction: row;
         flex-wrap: nowrap;
         gap: var(--wordplay-spacing);
+    }
+
+    .copy {
+        display: inline-block;
+        background: var(--wordplay-highlight-color);
+        color: var(--wordplay-background);
+        border-radius: var(--wordplay-border-radius);
+        padding-inline-start: var(--wordplay-spacing);
+        padding-inline-end: var(--wordplay-spacing);
+        user-select: none;
     }
 
     .footer {

@@ -69,6 +69,7 @@ type UITexts = {
         deleteSource: string;
         deleteProject: string;
         editProject: string;
+        copyProject: string;
         settings: string;
         newProject: string;
         dark: string;
