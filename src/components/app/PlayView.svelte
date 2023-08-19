@@ -34,4 +34,5 @@
     fullscreen={false}
     {fit}
     grid={false}
+    editable={false}
 />

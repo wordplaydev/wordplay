@@ -23,6 +23,7 @@
     /** The project store is derived from the projects and the page's project ID. */
     let store: Writable<Project> | undefined = undefined;
     let project: Project | undefined = undefined;
+    let editable = false;
     let unsub: Unsubscriber | undefined = undefined;
     $: if (store) setContext<ProjectContext>(ProjectSymbol, store);
 
@@ -41,18 +42,23 @@
                 .then((proj) => {
                     // Remember the project
                     project = proj;
+                    editable = false;
                     loading = false;
                     error = false;
 
                     // See if the project is editable, and if so, get it's store, so we can track it's changes.
                     const projectStore = Projects.getStore(projectID);
-                    if (projectStore && store !== projectStore) {
-                        // Unsubscribe from the previous store
-                        if (unsub) unsub();
-                        // Remember the new store
-                        store = projectStore;
-                        // Update the project we're showing whenever it changes.
-                        unsub = store.subscribe((proj) => (project = proj));
+                    if (projectStore) {
+                        editable = true;
+                        if (store !== projectStore) {
+                            // Unsubscribe from the previous store
+                            if (unsub) unsub();
+                            // Mark the project editable.
+                            // Remember the new store
+                            store = projectStore;
+                            // Update the project we're showing whenever it changes.
+                            unsub = store.subscribe((proj) => (project = proj));
+                        }
                     }
                 })
                 .catch(() => {
@@ -72,7 +78,7 @@
             false}
     >
         {#key project.id}
-            <ProjectView {project} />
+            <ProjectView {project} {editable} />
         {/key}
     </Page>
 {:else if loading}

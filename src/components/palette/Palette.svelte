@@ -31,6 +31,7 @@
     import EditOffer from './EditOffer.svelte';
 
     export let project: Project;
+    export let editable: boolean;
 
     let evaluation = getEvaluation();
     let index = getConceptIndex();
@@ -99,7 +100,7 @@
 
         <!-- Something selected? Show the property values. -->
         {#each Array.from(propertyValues.entries()) as [property, values]}
-            <PaletteProperty {project} {property} {values} />
+            <PaletteProperty {project} {property} {values} {editable} />
         {/each}
     {:else}
         {#if $evaluation.playing && hasOutput(project)}
@@ -112,35 +113,37 @@
                 command="⏸️"
             />
         {/if}
-        {#if phrase === undefined}
-            <EditOffer
-                symbols={PHRASE_SYMBOL}
-                locale={$locale}
-                message={$locale.ui.palette.offerPhrase}
-                tip={$locale.ui.description.createPhrase}
-                action={() => addSoloPhrase(DB, project)}
-                command={`+${PHRASE_SYMBOL}`}
-            />
-        {/if}
-        {#if phrase !== undefined && stage === undefined}
-            <EditOffer
-                symbols={GROUP_SYMBOL}
-                locale={$locale}
-                message={$locale.ui.palette.offerGroup}
-                tip={$locale.ui.description.createGroup}
-                action={() => addGroup(DB, project)}
-                command={`+${GROUP_SYMBOL}`}
-            />
-        {/if}
-        {#if stage === undefined}
-            <EditOffer
-                symbols={STAGE_SYMBOL}
-                locale={$locale}
-                message={$locale.ui.palette.offerStage}
-                tip={$locale.ui.description.createStage}
-                action={() => addStage(DB, project, group ?? phrase)}
-                command={`+${STAGE_SYMBOL}`}
-            />
+        {#if editable}
+            {#if phrase === undefined}
+                <EditOffer
+                    symbols={PHRASE_SYMBOL}
+                    locale={$locale}
+                    message={$locale.ui.palette.offerPhrase}
+                    tip={$locale.ui.description.createPhrase}
+                    action={() => addSoloPhrase(DB, project)}
+                    command={`+${PHRASE_SYMBOL}`}
+                />
+            {/if}
+            {#if phrase !== undefined && stage === undefined}
+                <EditOffer
+                    symbols={GROUP_SYMBOL}
+                    locale={$locale}
+                    message={$locale.ui.palette.offerGroup}
+                    tip={$locale.ui.description.createGroup}
+                    action={() => addGroup(DB, project)}
+                    command={`+${GROUP_SYMBOL}`}
+                />
+            {/if}
+            {#if stage === undefined}
+                <EditOffer
+                    symbols={STAGE_SYMBOL}
+                    locale={$locale}
+                    message={$locale.ui.palette.offerStage}
+                    tip={$locale.ui.description.createStage}
+                    action={() => addStage(DB, project, group ?? phrase)}
+                    command={`+${STAGE_SYMBOL}`}
+                />
+            {/if}
         {/if}
     {/if}
 </section>

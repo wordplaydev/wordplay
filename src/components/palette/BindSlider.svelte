@@ -12,6 +12,7 @@
     export let property: OutputProperty;
     export let values: OutputPropertyValues;
     export let range: OutputPropertyRange;
+    export let editable: boolean;
 
     const project = getProject();
 
@@ -43,4 +44,5 @@
     tip={getFirstName(property.name.names)}
     change={handleChange}
     precision={range.precision}
+    {editable}
 />

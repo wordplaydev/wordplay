@@ -9,6 +9,7 @@
     export let tip: string;
     export let change: (value: number) => void;
     export let precision = 0;
+    export let editable: boolean;
 
     let view: HTMLInputElement | undefined = undefined;
 
@@ -38,6 +39,7 @@
         bind:value
         bind:this={view}
         on:input={handleChange}
+        disabled={!editable}
     />
     <div class="text">
         {#if value === undefined}

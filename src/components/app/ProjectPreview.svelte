@@ -48,6 +48,7 @@
                     fit={true}
                     grid={false}
                     mini
+                    editable={false}
                 />
             </div>
         {/if}

@@ -2,13 +2,19 @@
     export let on: boolean | undefined;
     export let changed: undefined | ((value: boolean | undefined) => void) =
         undefined;
+    export let editable = true;
 
     function handleInput() {
         if (changed) changed(on);
     }
 </script>
 
-<input type="checkbox" bind:checked={on} on:change={handleInput} />
+<input
+    type="checkbox"
+    disabled={!editable}
+    bind:checked={on}
+    on:change={handleInput}
+/>
 
 <style>
     [type='checkbox'] {

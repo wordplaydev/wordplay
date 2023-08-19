@@ -12,6 +12,7 @@
 
     export let property: OutputProperty;
     export let values: OutputPropertyValueSet;
+    export let editable: boolean;
 
     let project = getProject();
     let selectedOutput = getSelectedOutput();
@@ -72,4 +73,4 @@
     }
 </script>
 
-<ColorChooser {lightness} {chroma} {hue} change={handleChange} />
+<ColorChooser {lightness} {chroma} {hue} change={handleChange} {editable} />

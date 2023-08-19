@@ -95,6 +95,7 @@
                     {value}
                     fullscreen={false}
                     mini
+                    editable={false}
                 />
             </div>
         {:else}<ValueView {value} inline={false} />{/if}</div

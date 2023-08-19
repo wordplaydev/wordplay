@@ -8,6 +8,7 @@
 
     export let property: OutputProperty;
     export let values: OutputPropertyValues;
+    export let editable: boolean;
 
     const project = getProject();
 
@@ -27,4 +28,4 @@
     }
 </script>
 
-<Checkbox on={values.getBool()} changed={handleChange} />
+<Checkbox on={values.getBool()} changed={handleChange} {editable} />

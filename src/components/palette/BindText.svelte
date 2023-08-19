@@ -14,6 +14,7 @@
     export let property: OutputProperty;
     export let values: OutputPropertyValues;
     export let validator: (text: string) => boolean;
+    export let editable: boolean;
 
     let project = getProject();
     let view: HTMLInputElement | undefined = undefined;
@@ -46,4 +47,5 @@
     {validator}
     changed={handleChange}
     bind:view
+    {editable}
 />

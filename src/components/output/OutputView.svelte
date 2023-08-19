@@ -54,6 +54,7 @@
     export let paintingConfig: PaintingConfiguration | undefined = undefined;
     export let mini = false;
     export let background: Color | string | null = null;
+    export let editable: boolean;
 
     $: interactive = !mini;
     $: editable = interactive && $evaluation?.playing === false;
@@ -213,6 +214,7 @@
                 }
                 // Remove the node that created this phrase.
                 else if (
+                    editable &&
                     event.key === 'Backspace' &&
                     (event.metaKey || event.ctrlKey)
                 ) {
@@ -439,7 +441,7 @@
                 const newY = twoDigits(drag.startPlace.y - renderedDeltaY);
 
                 // If painting, gather points
-                if (painting && paintingConfig) {
+                if (editable && painting && paintingConfig) {
                     // Is the new position a certain Euclidian distance from the most recent position? Add a point to the stroke.
                     const prior = paintingPlaces.at(-1);
                     if (

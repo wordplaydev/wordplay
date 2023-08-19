@@ -16,6 +16,7 @@
 
     export let project: Project;
     export let map: MapLiteral | undefined;
+    export let editable: boolean;
 
     // Get the map from the value set, unless its not a valid sequence or the maps of the selections aren't equal.
     $: valid =
@@ -121,26 +122,30 @@
                                 return true;
                             }}
                             changed={(value) => revisePercent(pair, value)}
+                            {editable}
                         />
                         <Button
                             tip={$locale.ui.description.addPose}
+                            active={editable}
                             action={() => addPose(index)}>+</Button
                         >
                         <Button
                             tip={$locale.ui.description.removePose}
                             action={() => removePose(index)}
-                            active={map !== undefined && map.values.length > 1}
-                            >⨉</Button
+                            active={editable &&
+                                map !== undefined &&
+                                map.values.length > 1}>⨉</Button
                         >
                         <Button
                             tip={$locale.ui.description.movePoseUp}
                             action={() => movePose(index, -1)}
-                            active={index > 0}>↑</Button
+                            active={editable && index > 0}>↑</Button
                         >
                         <Button
                             tip={$locale.ui.description.movePoseDown}
                             action={() => movePose(index, 1)}
-                            active={index < map.values.length - 1}>↓</Button
+                            active={editable && index < map.values.length - 1}
+                            >↓</Button
                         >
                     </div>
                     <div class="pose"
@@ -150,6 +155,7 @@
                                 new OutputExpression(project, pair.value),
                             ]}
                             sequence
+                            {editable}
                         /></div
                     >
                 </div>

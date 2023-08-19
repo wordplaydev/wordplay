@@ -1,6 +1,7 @@
 <script context="module" lang="ts">
     import ColorJS from 'colorjs.io';
     import Slider from './Slider.svelte';
+
     // Create a list of hues in the LCH color space from 0 to 360
     function getColors(lightness: number, chroma: number) {
         const values = [];
@@ -65,6 +66,7 @@
     export let lightness: number;
     /** A handler */
     export let change: (l: number, c: number, h: number) => void;
+    export let editable = true;
 
     $: color = new ColorJS(ColorJS.spaces.lch, [lightness, chroma, hue], 1);
 
@@ -91,8 +93,8 @@
     <div class="preview" style:background-color={color.display()} />
     <div
         class="bands"
-        on:pointerdown={handleMouseMove}
-        on:pointermove={handleMouseMove}
+        on:pointerdown={editable ? handleMouseMove : null}
+        on:pointermove={editable ? handleMouseMove : null}
         bind:clientWidth={hueWidth}
         bind:clientHeight={hueHeight}
     >
@@ -138,6 +140,7 @@
                 lightness = Math.round(value);
                 broadcast();
             }}
+            {editable}
         />
         <Slider
             value={chroma}
@@ -150,6 +153,7 @@
                 chroma = Math.round(value);
                 broadcast();
             }}
+            {editable}
         />
         <Slider
             value={hue}
@@ -162,6 +166,7 @@
                 hue = Math.round(value);
                 broadcast();
             }}
+            {editable}
         />
     </div>
 </div>

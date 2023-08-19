@@ -14,6 +14,7 @@
 
     export let project: Project;
     export let place: Evaluate | undefined;
+    export let editable: boolean;
 
     let views: HTMLInputElement[] = [];
 
@@ -65,6 +66,7 @@
                 <TextField
                     text={`${value}`}
                     validator={valid}
+                    {editable}
                     placeholder={getFirstName(dimension)}
                     description={$locale.ui.description.editCoordinate}
                     changed={(value) => handleChange(dimension, value)}

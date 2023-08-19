@@ -16,6 +16,7 @@
     export let project: Project;
     export let outputs: OutputExpression[];
     export let sequence: boolean;
+    export let editable: boolean;
 
     $: PoseProperties = getPoseProperties(project, $locale, false);
 
@@ -61,9 +62,9 @@
 
 <div class="pose-properties">
     {#each Array.from(propertyValues.entries()) as [property, values]}
-        <PaletteProperty {project} {property} {values} />
+        <PaletteProperty {project} {property} {values} {editable} />
     {/each}
-    {#if !sequence}
+    {#if !sequence && editable}
         <Button tip={$locale.ui.description.sequence} action={convert}
             >{project.shares.output.Sequence.getNames()[0]}</Button
         >

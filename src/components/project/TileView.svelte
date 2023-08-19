@@ -32,6 +32,7 @@
     export let fullscreenID: string | undefined;
     export let background: Color | string | null = null;
     export let focuscontent = false;
+    export let editable: boolean;
 
     $: fullscreen = tile.id === fullscreenID;
 
@@ -192,7 +193,7 @@
         <!-- Render the toolbar -->
         <div class="header" style:color={foreground} style:fill={foreground}>
             <div class="name" class:source={tile.isSource()}>
-                {#if tile.isSource()}
+                {#if editable && tile.isSource()}
                     {Glyphs.Program.symbols}
                     <TextField
                         text={tile.name}

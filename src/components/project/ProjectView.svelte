@@ -101,8 +101,10 @@
 
     export let project: Project;
     export let original: Project | undefined = undefined;
-    /** If set to false, only the output is shown initially. */
+    /** If false, then all things editable are deactivated */
     export let editable = true;
+    /** If set to false, only the output is shown initially. */
+    export let playing = true;
     /** True if the output should be fit to content */
     export let fit = true;
     export let autofocus = true;
@@ -318,8 +320,8 @@
                             .withName(
                                 source.names.getPreferredNameString($locales)
                             )
-                            // If not editable, keep the source files collapsed
-                            .withMode(editable ? tile.mode : Mode.Collapsed)
+                            // If playing, keep the source files collapsed
+                            .withMode(playing ? tile.mode : Mode.Collapsed)
                     );
             }
         }
@@ -398,9 +400,9 @@
                               Tile.randomPosition(1024, 768)
                           ),
                           ...project.getSources().map((source, index) =>
-                              // If not editable, collapse the source initially.
+                              // If playing, collapse the source initially.
                               createSourceTile(source, index).withMode(
-                                  editable &&
+                                  playing &&
                                       (index === 0 || source === newSource)
                                       ? Mode.Expanded
                                       : Mode.Collapsed
@@ -1059,11 +1061,12 @@
         );
     }
 
-    function becomeEditable() {
+    function stopPlaying() {
         const main = layout.getTileWithID(Layout.getSourceID(0));
         if (main) {
-            toggleTile(main);
-            editable = true;
+            playing = true;
+            setMode(main, Mode.Expanded);
+            layout = layout.withoutFullscreen();
         }
     }
 
@@ -1115,6 +1118,7 @@
                         <TileView
                             {tile}
                             {layout}
+                            {editable}
                             arrangement={$arrangement}
                             background={tile.kind === TileKind.Output
                                 ? outputBackground
@@ -1147,7 +1151,7 @@
                                 {#if tile.isSource()}
                                     {@const source = getSourceByID(tile.id)}
                                     <!-- Can't delete main. -->
-                                    {#if source !== project.main}
+                                    {#if editable && source !== project.main}
                                         <ConfirmButton
                                             tip={$locale.ui.description
                                                 .deleteSource}
@@ -1160,11 +1164,11 @@
                             </svelte:fragment>
                             <svelte:fragment slot="extra">
                                 {#if tile.kind === TileKind.Output}
-                                    {#if !editable}<Button
+                                    {#if playing && editable}<Button
                                             uiid="editProject"
                                             tip={$locale.ui.description
                                                 .editProject}
-                                            action={() => becomeEditable()}
+                                            action={() => stopPlaying()}
                                             >✏️</Button
                                         >{/if}
                                     {#if !$evaluation.evaluator.isPlaying()}<Painting
@@ -1189,7 +1193,7 @@
                                 {#if tile.kind === TileKind.Documentation}
                                     <Documentation {project} />
                                 {:else if tile.kind === TileKind.Palette}
-                                    <Palette {project} />
+                                    <Palette {project} {editable} />
                                 {:else if tile.kind === TileKind.Output}
                                     <OutputView
                                         {project}
@@ -1202,6 +1206,7 @@
                                         bind:painting
                                         {paintingConfig}
                                         bind:background={outputBackground}
+                                        {editable}
                                     />
                                     <!-- Show an editor, annotations, and a mini output view -->
                                 {:else}
@@ -1211,6 +1216,7 @@
                                             {project}
                                             evaluator={$evaluator}
                                             {source}
+                                            {editable}
                                             sourceID={tile.id}
                                             selected={source === selectedSource}
                                             autofocus={autofocus &&
@@ -1243,7 +1249,7 @@
                                         stepping={$evaluation.playing === false}
                                     /><GlyphChooser
                                         sourceID={tile.id}
-                                    />{:else if tile.kind === TileKind.Output && layout.fullscreenID !== tile.id && editable}
+                                    />{:else if tile.kind === TileKind.Output && layout.fullscreenID !== tile.id && playing}
                                     <Timeline
                                         evaluator={$evaluator}
                                     />{/if}</svelte:fragment
@@ -1255,7 +1261,7 @@
         {/key}
     </div>
 
-    {#if !layout.isFullscreen() && editable}
+    {#if !layout.isFullscreen() && playing}
         <nav class="footer">
             {#if original}<Button
                     uiid="revertProject"
@@ -1263,13 +1269,13 @@
                     active={!project.equals(original)}
                     action={() => revert()}>↺</Button
                 >{/if}
-            <TextField
-                text={project.name}
-                description={$locale.ui.description.editProjectName}
-                placeholder={$locale.ui.placeholders.project}
-                changed={(name) =>
-                    Projects.reviseProject(project.withName(name))}
-            />
+            {#if editable}<TextField
+                    text={project.name}
+                    description={$locale.ui.description.editProjectName}
+                    placeholder={$locale.ui.placeholders.project}
+                    changed={(name) =>
+                        Projects.reviseProject(project.withName(name))}
+                />{:else}{project.name}{/if}
             {#each layout.getNonSources() as tile}
                 <NonSourceTileToggle
                     {tile}
@@ -1287,11 +1293,12 @@
                     />
                 {/if}
             {/each}
-            <Button
-                uiid="addSource"
-                tip={$locale.ui.description.addSource}
-                action={addSource}>+</Button
-            >
+            {#if editable}
+                <Button
+                    uiid="addSource"
+                    tip={$locale.ui.description.addSource}
+                    action={addSource}>+</Button
+                >{/if}
             <span class="help">
                 <ProjectLanguages {project} />
                 <Button

@@ -27,6 +27,7 @@
     export let project: Project;
     export let property: OutputProperty;
     export let values: OutputPropertyValueSet;
+    export let editable: boolean;
 
     let index = getConceptIndex();
     $: bind = values.getBind();
@@ -50,14 +51,15 @@
                 link={bindConcept}
             />{:else}&mdash;{/if}</h3
     >
-    <Button
-        tip={valuesAreSet
-            ? $locale.ui.description.revert
-            : $locale.ui.description.set}
-        bind:view={toggleView}
-        action={() => toggleValues(!valuesAreSet)}
-        >{valuesAreSet ? '⨉' : '✎'}</Button
-    >
+    {#if editable}
+        <Button
+            tip={valuesAreSet
+                ? $locale.ui.description.revert
+                : $locale.ui.description.set}
+            bind:view={toggleView}
+            action={() => toggleValues(!valuesAreSet)}
+            >{valuesAreSet ? '⨉' : '✎'}</Button
+        >{/if}
     <div class="control">
         {#if values.areMixed()}
             <Note
@@ -83,15 +85,25 @@
         {:else if !values.areEditable(project)}
             <Note>{$locales.map((locale) => locale.ui.labels.computed)}</Note>
         {:else if property.type instanceof OutputPropertyRange}
-            <BindSlider {property} {values} range={property.type} />
+            <BindSlider {property} {values} range={property.type} {editable} />
         {:else if property.type instanceof OutputPropertyOptions}
-            <BindOptions {property} {values} options={property.type} />
+            <BindOptions
+                {property}
+                {values}
+                options={property.type}
+                {editable}
+            />
         {:else if property.type instanceof OutputPropertyText}
-            <BindText {property} {values} validator={property.type.validator} />
+            <BindText
+                {property}
+                {values}
+                validator={property.type.validator}
+                {editable}
+            />
         {:else if property.type === 'color'}
-            <BindColor {property} {values} />
+            <BindColor {property} {values} {editable} />
         {:else if property.type === 'bool'}
-            <BindCheckbox {property} {values} />
+            <BindCheckbox {property} {values} {editable} />
         {:else if property.type === 'pose'}
             {@const expression = values.getExpression()}
             {#if expression instanceof Evaluate && expression.is(project.shares.output.Pose, project.getNodeContext(expression))}
@@ -99,19 +111,25 @@
                     {project}
                     outputs={values.getOutputExpressions(project)}
                     sequence={false}
+                    {editable}
                 />
             {:else if expression instanceof Evaluate && expression.is(project.shares.output.Sequence, project.getNodeContext(expression))}
                 <SequenceEditor
                     {project}
                     outputs={values.getOutputExpressions(project)}
+                    {editable}
                 />
             {/if}
         {:else if property.type == 'poses'}
-            <SequencePosesEditor {project} map={values.getMap()} />
+            <SequencePosesEditor {project} map={values.getMap()} {editable} />
         {:else if property.type === 'content'}
-            <ContentEditor {project} list={values.getList()} />
+            <ContentEditor {project} list={values.getList()} {editable} />
         {:else if property.type === 'place'}
-            <PlaceEditor {project} place={values.getPlace(project)} />
+            <PlaceEditor
+                {project}
+                place={values.getPlace(project)}
+                {editable}
+            />
         {/if}
     </div>
 </div>

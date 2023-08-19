@@ -14,6 +14,7 @@
 
     export let project: Project;
     export let list: ListLiteral | undefined;
+    export let editable: boolean;
 
     const selectedOutputPaths = getSelectedOutputPaths();
 
@@ -52,7 +53,7 @@
                         list
                             ? removeContent(DB, project, list, index)
                             : undefined}
-                    active={list.values.length > 0}>⨉</Button
+                    active={editable && list.values.length > 0}>⨉</Button
                 >
                 <Button
                     tip={$locale.ui.description.moveContentUp}
@@ -60,7 +61,7 @@
                         list
                             ? moveContent(DB, project, list, index, -1)
                             : undefined}
-                    active={index > 0}>↑</Button
+                    active={editable && index > 0}>↑</Button
                 >
                 <Button
                     tip={$locale.ui.description.moveContentDown}
@@ -68,10 +69,12 @@
                         list
                             ? moveContent(DB, project, list, index, 1)
                             : undefined}
-                    active={index < list.values.length - 1}>↓</Button
+                    active={editable && index < list.values.length - 1}
+                    >↓</Button
                 >
                 <Button
                     tip={$locale.ui.description.editContent}
+                    active={editable}
                     action={() => editContent(index)}>✎</Button
                 >
                 <RootView node={content} localized />
@@ -80,6 +83,7 @@
         <div class="add">
             <Button
                 tip={$locale.ui.description.addPhrase}
+                active={editable}
                 action={() =>
                     list
                         ? addContent(
@@ -94,6 +98,7 @@
             >
             <Button
                 tip={$locale.ui.description.addGroup}
+                active={editable}
                 action={() =>
                     list
                         ? addContent(

@@ -9,6 +9,7 @@
     export let property: OutputProperty;
     export let values: OutputPropertyValues;
     export let options: OutputPropertyOptions;
+    export let editable: boolean;
 
     let project = getProject();
 
@@ -32,4 +33,5 @@
         ? [undefined, ...options.values]
         : options.values}
     change={handleChange}
+    {editable}
 />

@@ -91,6 +91,7 @@
     export let selected: boolean;
     export let autofocus = true;
     export let showHelp = true;
+    export let editable: boolean;
 
     // A per-editor store that contains the current editor's cursor. We expose it as context to children.
     const caret = writable<Caret>(
@@ -567,7 +568,7 @@
             caret.set($caret.withPosition(newPosition));
 
         // Mark that the creator might want to drag the node under the mouse and remember where the click started.
-        if (nonTokenNodeUnderPointer) {
+        if (editable && nonTokenNodeUnderPointer) {
             dragCandidate = nonTokenNodeUnderPointer;
             // If the primary mouse button is down, start dragging and set insertion.
             // We only start dragging if the cursor has moved more than a certain amount since last click.
@@ -1054,12 +1055,14 @@
 
         // Update the caret and project.
         if (newSource) {
-            Projects.reviseProject(
-                project
-                    .withSource(source, newSource)
-                    .withCaret(newSource, newCaret.position)
-            );
-            caret.set(newCaret.withSource(newSource));
+            if (editable) {
+                Projects.reviseProject(
+                    project
+                        .withSource(source, newSource)
+                        .withCaret(newSource, newCaret.position)
+                );
+                caret.set(newCaret.withSource(newSource));
+            }
         } else {
             // Remove the addition, since the caret moved since being added.
             caret.set(newCaret.withoutAddition());
@@ -1222,6 +1225,7 @@
     class="editor {$evaluation !== undefined && $evaluation.playing
         ? 'playing'
         : 'stepping'}"
+    class:readonly={!editable}
     data-uiid="editor"
     role="application"
     aria-label={`${$locale.ui.section.editor} ${source.getPreferredName(
@@ -1285,7 +1289,7 @@
     <CaretView
         caret={$caret}
         {source}
-        blink={$keyboardEditIdle === IdleKind.Idle && focused}
+        blink={$keyboardEditIdle === IdleKind.Idle && focused && editable}
         ignored={$evaluation !== undefined &&
             $evaluation.playing === true &&
             lastKeyDownIgnored}
@@ -1364,6 +1368,7 @@
                         value={evaluator.getLatestSourceValue(source)}
                         fullscreen={false}
                         mini
+                        editable={false}
                     />
                 {/if}
             </div>
@@ -1386,6 +1391,10 @@
 
         /* Don't let iOS grab pointer move events, so we can do drag and drop. */
         touch-action: none;
+    }
+
+    .editor.readonly {
+        background: var(--wordplay-alternating-color);
     }
 
     .editor:focus {

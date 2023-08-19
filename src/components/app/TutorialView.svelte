@@ -295,7 +295,7 @@
                     project={$projectStore ?? initialProject}
                     original={initialProject}
                     bind:index={concepts}
-                    {editable}
+                    playing={editable}
                     {fit}
                     autofocus={false}
                     showHelp={false}
