@@ -9,6 +9,7 @@
         camera,
         mic,
         Settings,
+        Projects,
     } from '../../db/Database';
     import LayoutChooser from './LayoutChooser.svelte';
     import { page } from '$app/stores';
@@ -19,6 +20,7 @@
     import { onMount } from 'svelte';
     import Link from '../app/Link.svelte';
     import Status from '../app/Status.svelte';
+    import { goto } from '$app/navigation';
 
     let expanded = false;
 
@@ -30,13 +32,21 @@
         $animationFactor
     ];
 
+    function back() {
+        if ($page.route.id?.startsWith('/project/')) {
+            const projectID = $page.params.projectid;
+            if (Projects.readonlyProjects.has(projectID)) goto('/galleries');
+            else goto('/projects');
+        } else goto('/');
+    }
+
     function handleKey(event: KeyboardEvent) {
         if (
             (event.ctrlKey || event.metaKey) &&
             event.key === 'Escape' &&
             $page.route.id !== null
         ) {
-            history.back();
+            back();
         }
     }
 
@@ -171,7 +181,7 @@
     {#if $page.route.id !== '/'}<Button
             tip={$locale.ui.description.close}
             active={$page.route.id !== null && $page.route.id !== "/'"}
-            action={() => history.back()}>❌</Button
+            action={back}>❌</Button
         >{/if}
 </div>
 
