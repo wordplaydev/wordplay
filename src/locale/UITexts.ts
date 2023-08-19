@@ -255,6 +255,8 @@ type UITexts = {
         template: string;
         /** What to show when there's no database connection. */
         noDatabase: string;
+        /** When some other device had a more recent edit that overrode this device's version. */
+        overwritten: string;
     };
     about: {
         content: string[];

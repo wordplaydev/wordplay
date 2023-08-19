@@ -110,6 +110,7 @@
     export let fit = true;
     export let autofocus = true;
     export let showHelp = true;
+    export let overwritten = false;
 
     // The HTMLElement that represents this element
     let view: HTMLElement | undefined = undefined;
@@ -1312,6 +1313,9 @@
                     tip={$locale.ui.description.addSource}
                     action={addSource}>+</Button
                 >{/if}
+            {#if overwritten}
+                <span class="overwritten">{$locale.ui.error.overwritten}</span>
+            {/if}
             <span class="help">
                 <ProjectLanguages {project} />
                 <Button
@@ -1460,5 +1464,14 @@
     .footer {
         border-bottom: var(--wordplay-border-color) solid
             var(--wordplay-border-width);
+    }
+
+    .overwritten {
+        display: inline-block;
+        background: var(--wordplay-error);
+        color: var(--wordplay-background);
+        padding-inline-start: var(--wordplay-spacing);
+        padding-inline-end: var(--wordplay-spacing);
+        border-radius: var(--wordplay-border-radius);
     }
 </style>

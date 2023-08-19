@@ -6914,6 +6914,10 @@
                   ],
                   "type": "object"
                 },
+                "overwritten": {
+                  "description": "When some other device had a more recent edit that overrode this device's version.",
+                  "type": "string"
+                },
                 "template": {
                   "description": "The placeholder string indicating that a template string could not be parsed",
                   "type": "string"
@@ -6931,7 +6935,8 @@
                 "tutorial",
                 "unwritten",
                 "template",
-                "noDatabase"
+                "noDatabase",
+                "overwritten"
               ],
               "type": "object"
             },

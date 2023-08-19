@@ -130,8 +130,11 @@ export default class ProjectsDatabase {
         saved: boolean
     ): ProjectHistory | undefined {
         if (editable) {
-            if (!this.editableProjects.has(project.id)) {
-                const history = new ProjectHistory(project, persist, saved);
+            // If we're not tracking this yet, create a history and store the version given.
+            // If persisted, request a save.
+            let history = this.editableProjects.get(project.id);
+            if (history === undefined) {
+                history = new ProjectHistory(project, persist, saved);
                 this.editableProjects.set(project.id, history);
 
                 // Update the editable projects
@@ -142,6 +145,17 @@ export default class ProjectsDatabase {
 
                 // Return the history
                 return history;
+            }
+            // If we already have a history, then reconcile the given version with the current history.
+            else {
+                const current = history.getCurrent();
+                // If the given one has the later timestamp, overwrite. This is naive strategy that
+                // assumes that all systems have valid clocks, and it also fails to acccount
+                // for non-conflicting edits.
+                if (project.timestamp > current.timestamp) {
+                    console.log('Overwriting with more recent edit');
+                    history.edit(project, true, true);
+                }
             }
         } else {
             this.readonlyProjects.set(project.id, project);

@@ -3534,7 +3534,8 @@
             "tutorial": "We weren't able to find a tutorial for this language.",
             "unwritten": "TBD",
             "template": "This template couldn't be parsed: $1",
-            "noDatabase": "We can't reach the database"
+            "noDatabase": "We can't reach the database",
+            "overwritten": "Found a more recent version online."
         },
         "about": {
             "content": [

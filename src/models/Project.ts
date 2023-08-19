@@ -38,6 +38,7 @@ export type SerializedProject = {
     locales: string[];
     uids: string[];
     listed: boolean;
+    timestamp: number;
 };
 
 type Analysis = {
@@ -101,6 +102,9 @@ export default class Project {
     /** The localized basis bindings */
     readonly basis: Basis;
 
+    /** The time when this project version created. */
+    readonly timestamp: number;
+
     /** Conflicts. */
     analyzed: 'unanalyzed' | 'analyzing' | 'analyzed' = 'unanalyzed';
     analysis: Analysis = {
@@ -119,10 +123,12 @@ export default class Project {
         locales: Locale | Locale[],
         uids: string[] = [],
         carets: SerializedCarets | undefined = undefined,
-        listed = true
+        listed = true,
+        timestamp: number | undefined = undefined
     ) {
         this.id = id ?? uuidv4();
         this.uids = uids;
+        this.timestamp = timestamp ?? Date.now();
 
         // Remember the source.
         this.name = name;
@@ -776,7 +782,8 @@ export default class Project {
             project.sources.map((s, index) => {
                 return { source: sources[index], caret: s.caret };
             }),
-            project.listed
+            project.listed,
+            project.timestamp
         );
     }
 
@@ -810,6 +817,7 @@ export default class Project {
             locales: this.locales.map((l) => toLocaleString(l)),
             uids: this.uids,
             listed: this.listed,
+            timestamp: this.timestamp,
         };
     }
 }

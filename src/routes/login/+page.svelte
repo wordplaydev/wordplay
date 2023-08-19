@@ -137,9 +137,9 @@
             </form>
             <p>
                 {#if sent === true}
-                    {$locale.ui.login.sent}
+                    <Feedback>{$locale.ui.login.sent}</Feedback>
                 {:else if success === true}
-                    {$locale.ui.login.success}
+                    <Feedback>{$locale.ui.login.success}</Feedback>
                 {:else if success === false}
                     <Feedback>{error}</Feedback>
                 {/if}

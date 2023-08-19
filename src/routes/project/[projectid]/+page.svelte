@@ -25,6 +25,7 @@
     let store: Writable<Project> | undefined = undefined;
     let project: Project | undefined = undefined;
     let editable = false;
+    let overwritten = false;
     let unsub: Unsubscriber | undefined = undefined;
     $: if (store) setContext<ProjectContext>(ProjectSymbol, store);
 
@@ -58,7 +59,13 @@
                             // Remember the new store
                             store = projectStore;
                             // Update the project we're showing whenever it changes.
-                            unsub = store.subscribe((proj) => (project = proj));
+                            unsub = store.subscribe((proj) => {
+                                project = proj;
+                                overwritten =
+                                    Projects.getHistory(
+                                        proj.id
+                                    )?.wasOverwritten() ?? false;
+                            });
                         }
                     }
                 })
@@ -79,7 +86,7 @@
             false}
     >
         {#key project.id}
-            <ProjectView {project} {editable} />
+            <ProjectView {project} {editable} {overwritten} />
         {/key}
     </Page>
 {:else if loading}

@@ -47,6 +47,7 @@ export function wpToSerializedProject(project: string): SerializedProject {
         locales: languages.size === 0 ? ['en-US'] : Array.from(languages),
         uids: [],
         listed: true,
+        timestamp: Date.now(),
     };
 }
 

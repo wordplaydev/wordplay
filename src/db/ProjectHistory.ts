@@ -37,6 +37,9 @@ export class ProjectHistory {
     /** True if this should be persisted in databases */
     private persist: boolean;
 
+    /** True if the last edit was an overwrite */
+    private overwrite = false;
+
     constructor(project: Project, persist: boolean, saved: boolean) {
         this.id = project.id;
         this.current = writable(project);
@@ -60,7 +63,7 @@ export class ProjectHistory {
         return this.current;
     }
 
-    edit(project: Project, remember: boolean) {
+    edit(project: Project, remember: boolean, overwrite = false) {
         // Is the undo pointer before the end? Trim the future before we add the future.
         this.history.splice(
             this.index + 1,
@@ -81,6 +84,9 @@ export class ProjectHistory {
         // Mark it as not saved.
         this.saved = false;
 
+        // Update overwrite
+        this.overwrite = overwrite;
+
         // Trim the history if we've exceeded our limit.
         if (this.history.length > PROJECT_HISTORY_LIMIT)
             this.history.splice(0, PROJECT_HISTORY_LIMIT - this.history.length);
@@ -95,6 +101,10 @@ export class ProjectHistory {
 
     isRedoable() {
         return this.index < this.history.length - 1;
+    }
+
+    wasOverwritten() {
+        return this.overwrite;
     }
 
     undoRedo(direction: -1 | 1): Project | undefined {
@@ -117,6 +127,9 @@ export class ProjectHistory {
 
         // Mark unsaved
         this.saved = false;
+
+        // Reset overwrite.
+        this.overwrite = false;
 
         return newProject;
     }
