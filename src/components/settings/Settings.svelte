@@ -12,7 +12,6 @@
     } from '../../db/Database';
     import LayoutChooser from './LayoutChooser.svelte';
     import { page } from '$app/stores';
-    import { goto } from '$app/navigation';
     import { clickOutside } from '../app/clickOutside';
     import Arrangement from '../../db/Arrangement';
     import { slide } from 'svelte/transition';
@@ -31,18 +30,14 @@
         $animationFactor
     ];
 
-    function getBackPath(route: string): string {
-        if (route.startsWith('/project/')) return '/projects';
-        else return '/';
-    }
-
     function handleKey(event: KeyboardEvent) {
         if (
             (event.ctrlKey || event.metaKey) &&
             event.key === 'Escape' &&
             $page.route.id !== null
-        )
-            goto(getBackPath($page.route.id));
+        ) {
+            history.back();
+        }
     }
 
     onMount(async () => {
@@ -176,7 +171,7 @@
     {#if $page.route.id !== '/'}<Button
             tip={$locale.ui.description.close}
             active={$page.route.id !== null && $page.route.id !== "/'"}
-            action={() => goto(getBackPath($page.route.id ?? '/'))}>❌</Button
+            action={() => history.back()}>❌</Button
         >{/if}
 </div>
 
