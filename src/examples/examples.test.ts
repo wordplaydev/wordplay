@@ -1,5 +1,5 @@
 import { test, expect } from 'vitest';
-import { makeProject, wpToStuff, type Stuff, examples } from './examples';
+import { examples, wpToSerializedProjects } from './examples';
 import en from '../locale/en-US.json';
 import type Locale from '../locale/Locale';
 import Listen from './Listen.wp?raw';
@@ -14,8 +14,11 @@ import Between from './Between.wp?raw';
 import RotatingBinary from './RotatingBinary.wp?raw';
 import Greeting from './Greeting.wp?raw';
 import Amplitude from './Amplitude.wp?raw';
+import type { SerializedProject } from '../models/Project';
+import Project from '../models/Project';
+import { Locales } from '../db/Database';
 
-export const testExamples: Stuff[] = [
+export const testExamples = wpToSerializedProjects([
     Listen,
     Talk,
     Laughing,
@@ -28,12 +31,12 @@ export const testExamples: Stuff[] = [
     RotatingBinary,
     Greeting,
     Amplitude,
-].map((source) => wpToStuff(source));
+]);
 
-test.each([...examples, ...testExamples])(
+test.each([...examples.values(), ...testExamples.values()])(
     `Ensure $name has no conflicts`,
-    async (example: Stuff) => {
-        const project = await makeProject(example);
+    async (example: SerializedProject) => {
+        const project = await Project.deserializeProject(Locales, example);
         project.analyze();
         project.getAnalysis();
         const context = project.getContext(project.main);

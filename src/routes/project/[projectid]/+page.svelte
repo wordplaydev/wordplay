@@ -32,7 +32,7 @@
 
     // Whenever the page or projects change, update the project store.
     $: if ($page) {
-        const projectID = $page.params.projectid;
+        const projectID = decodeURI($page.params.projectid);
         // No matching project, but we have a project ID and we're in the browser?
         if (projectID && projectID.length > 0 && browser) {
             // Set loading feedback.

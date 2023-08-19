@@ -1,4 +1,5 @@
-===Amplitude
+Amplitude
+===
 amplitudes•[#]: ←← 10 Volume()
 vis: amplitudes.translate(ƒ (amp•#) Phrase("⚫️" opacity: amp size: 10m))
 Stage([Group( Row() vis )] place: Place(0m 0m -50m))

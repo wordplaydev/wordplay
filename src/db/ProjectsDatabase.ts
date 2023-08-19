@@ -3,13 +3,14 @@ import type { SerializedProject } from '../models/Project';
 import { ProjectHistory } from './ProjectHistory';
 import { writable, type Writable } from 'svelte/store';
 import Project from '../models/Project';
-import { getBestSupportedLocales, type Locale } from '../locale/Locale';
+import type { Locale } from '../locale/Locale';
 import { SaveStatus, type Database } from './Database';
 import { deleteDoc, doc, getDoc, writeBatch } from 'firebase/firestore';
 import { FirebaseError } from 'firebase/app';
 import { firestore } from './firebase';
 import type Node from '../nodes/Node';
 import Source from '../nodes/Source';
+import { examples } from '../examples/examples';
 
 export class ProjectsDexie extends Dexie {
     projects!: Table<SerializedProject>;
@@ -67,6 +68,20 @@ export default class ProjectsDatabase {
 
         // Hydrate the editable projects from disk
         this.hydrate();
+
+        // Eventually Add the examples to the read only database.
+        Promise.all(
+            Array.from(examples.values()).map(async (example) =>
+                this.track(
+                    await Project.deserializeProject(
+                        this.database.Locales,
+                        example
+                    ),
+                    false,
+                    false
+                )
+            )
+        );
     }
 
     async hydrate() {
@@ -96,34 +111,7 @@ export default class ProjectsDatabase {
     async deserialize(
         project: SerializedProject
     ): Promise<Project | undefined> {
-        const sources = project.sources.map((source) =>
-            Project.sourceToSource(source)
-        );
-
-        // Get all of the locales on which the project depends.
-        const dependentLocales = await this.database.Locales.loadLocales(
-            getBestSupportedLocales(project.locales)
-        );
-
-        const locales = Array.from(
-            new Set([
-                ...dependentLocales,
-                ...this.database.Locales.getLocales(),
-            ])
-        );
-
-        return new Project(
-            project.id,
-            project.name,
-            sources[0],
-            sources.slice(1),
-            locales,
-            project.uids,
-            project.sources.map((s, index) => {
-                return { source: sources[index], caret: s.caret };
-            }),
-            project.listed
-        );
+        return Project.deserializeProject(this.database.Locales, project);
     }
 
     /**

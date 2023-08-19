@@ -1,5 +1,4 @@
-import Project from '../models/Project';
-import Source from '@nodes/Source';
+import type { SerializedProject } from '../models/Project';
 import WhatWord from './WhatWord.wp?raw';
 import Kitties from './RainingKitties.wp?raw';
 import Move from './Move.wp?raw';
@@ -13,58 +12,54 @@ import Adventure from './Adventure.wp?raw';
 import Letters from './Letters.wp?raw';
 import Catch from './Catch.wp?raw';
 import { parseNames } from '../parser/parseBind';
-import type Names from '../nodes/Names';
-import { DB } from '../db/Database';
-import { getBestSupportedLocales } from '../locale/Locale';
 import { toTokens } from '../parser/toTokens';
 
-export type Stuff = {
-    name: string;
-    sources: { names: Names; code: string }[];
-    locales: string[];
-};
+export function wpToSerializedProject(project: string): SerializedProject {
+    // Get the first line and the rest.
+    const firstLine = project.split('\n')[0];
 
-export async function makeProject(stuff: Stuff) {
-    const locales = await DB.Locales.loadLocales(
-        getBestSupportedLocales(stuff.locales)
-    );
+    const rest = project.substring(firstLine.length + 1);
 
-    return new Project(
-        null,
-        stuff.name,
-        new Source(stuff.sources[0].names, stuff.sources[0].code),
-        stuff.sources.slice(1).map((s) => new Source(s.names, s.code)),
-        locales
-    );
-}
+    // The first line is the project name
+    const name = firstLine.trim();
 
-export function wpToStuff(text: string): Stuff {
     // Split the file by "===" lines
-    const files = text.split(/(?==== .*\n)/g);
+    const files = rest.split(/(?==== .*\n)/g);
 
     // Split the files by header and code
+    const languages: Set<string> = new Set();
+
     const sources = files.map((file) => {
         const EOL = file.indexOf('\n') + 1;
         const header = file.substring(0, EOL);
-        const name = header.replace('===', '').trim();
+        const names = header.replace('===', '').trim();
         const code = file.substring(EOL);
-        return { names: parseNames(toTokens(name)), code: code };
+        for (const language of parseNames(toTokens(names)).getLanguages())
+            languages.add(language);
+        return { names, code, caret: 0 };
     });
-
-    // Find all of the languages referenced
-    const languages = Array.from(
-        new Set(sources.map((source) => source.names.getLanguages()).flat())
-    );
 
     // Return stuff for display
     return {
-        name: sources[0].names.getNames()[0],
+        name,
+        id: name,
         sources: sources,
-        locales: languages.length === 0 ? ['en-US'] : languages,
+        locales: languages.size === 0 ? ['en-US'] : Array.from(languages),
+        uids: [],
+        listed: true,
     };
 }
 
-export const examples: Stuff[] = [
+export function wpToSerializedProjects(raw: string[]) {
+    const examples = new Map<string, SerializedProject>();
+    for (const example of raw) {
+        const serialized = wpToSerializedProject(example);
+        examples.set(serialized.id, serialized);
+    }
+    return examples;
+}
+
+export const examples = wpToSerializedProjects([
     Adventure,
     WhatWord,
     Kitties,
@@ -77,4 +72,4 @@ export const examples: Stuff[] = [
     Letters,
     Maze,
     Catch,
-].map((source) => wpToStuff(source));
+]);

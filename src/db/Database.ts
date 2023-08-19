@@ -186,6 +186,7 @@ export const DB = new Database(
 
 export const Settings = DB.Settings;
 export const Projects = DB.Projects;
+export const Locales = DB.Locales;
 
 export const animationFactor = Settings.settings.animationFactor.value;
 export const animationDuration = Settings.animationDuration;

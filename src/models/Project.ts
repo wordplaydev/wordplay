@@ -22,8 +22,9 @@ import type { CaretPosition } from '../edit/Caret';
 import type createDefaultShares from '@runtime/createDefaultShares';
 import FunctionType from '../nodes/FunctionType';
 import type Locale from '../locale/Locale';
-import { toLocaleString } from '../locale/Locale';
+import { getBestSupportedLocales, toLocaleString } from '../locale/Locale';
 import { toTokens } from '../parser/toTokens';
+import type LocalesDatabase from '../db/LocalesDatabase';
 
 export type SerializedSource = {
     names: string;
@@ -744,8 +745,39 @@ export default class Project {
             : undefined;
     }
 
-    static sourceToSource(source: SerializedSource): Source {
+    static deserializeSource(source: SerializedSource): Source {
         return new Source(parseNames(toTokens(source.names)), source.code);
+    }
+
+    static async deserializeProject(
+        localesDB: LocalesDatabase,
+        project: SerializedProject
+    ): Promise<Project> {
+        const sources = project.sources.map((source) =>
+            Project.deserializeSource(source)
+        );
+
+        // Get all of the locales on which the project depends.
+        const dependentLocales = await localesDB.loadLocales(
+            getBestSupportedLocales(project.locales)
+        );
+
+        const locales = Array.from(
+            new Set([...dependentLocales, ...localesDB.getLocales()])
+        );
+
+        return new Project(
+            project.id,
+            project.name,
+            sources[0],
+            sources.slice(1),
+            locales,
+            project.uids,
+            project.sources.map((s, index) => {
+                return { source: sources[index], caret: s.caret };
+            }),
+            project.listed
+        );
     }
 
     getLanguagesUsed(): LanguageCode[] {
