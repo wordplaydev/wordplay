@@ -272,7 +272,6 @@ export default class ProjectsDatabase {
 
         const editable = Array.from(this.editableProjects.values());
         const persisted = editable.filter((history) => history.isPersisted());
-        const unsaved = persisted.filter((history) => history.isUnsaved());
 
         // First, save all projects to the local DB, including the user ID if they don't have it already.
         if ('indexedDB' in window) {
@@ -293,6 +292,8 @@ export default class ProjectsDatabase {
 
         // Then, try to save them in Firebase if we have a user ID.
         if (firestore && this.database.getUserID()) {
+            const unsaved = persisted.filter((history) => history.isUnsaved());
+
             try {
                 // Create a batch of all of the new and updated projects.
                 const batch = writeBatch(firestore);
