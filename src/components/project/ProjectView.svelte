@@ -1473,5 +1473,6 @@
         padding-inline-start: var(--wordplay-spacing);
         padding-inline-end: var(--wordplay-spacing);
         border-radius: var(--wordplay-border-radius);
+        white-space: nowrap;
     }
 </style>

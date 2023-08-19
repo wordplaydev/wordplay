@@ -1,4 +1,4 @@
-import Dexie, { type Table } from 'dexie';
+import Dexie, { liveQuery, type Observable, type Table } from 'dexie';
 import type { SerializedProject } from '../models/Project';
 import { ProjectHistory } from './ProjectHistory';
 import { writable, type Writable } from 'svelte/store';
@@ -35,8 +35,8 @@ export class ProjectsDexie extends Dexie {
         this.projects.bulkPut(projects);
     }
 
-    async getAllProjects(): Promise<SerializedProject[]> {
-        return this.projects.toArray();
+    async getAllProjects(): Promise<Observable<SerializedProject[]>> {
+        return liveQuery(() => this.projects.toArray());
     }
 }
 
@@ -51,8 +51,12 @@ export default class ProjectsDatabase {
     readonly IndexedDBSupported =
         typeof window !== 'undefined' && 'indexedDB' in window;
 
+    /** The local live query that we listen to for cross-tab local changes */
+    private editableProjects: Observable<SerializedProject[]> | undefined =
+        undefined;
+
     /** An in-memory index of project histories by project ID. Populated on load, synced with local IndexedDB and cloud Firestore, when available. */
-    private editableProjects: Map<string, ProjectHistory> = new Map();
+    private projectHistories: Map<string, ProjectHistory> = new Map();
 
     /** A store of all user editable projects stored in projectsDB. Derived from editable projects above. */
     readonly allEditableProjects: Writable<Project[]> = writable([]);
@@ -88,17 +92,27 @@ export default class ProjectsDatabase {
     async hydrate() {
         // Local DB support?
         if (this.IndexedDBSupported) {
-            // Get all the projects from disk, deserialize them.
-            const projects = await this.deserializeAll(
-                await this.localDB.getAllProjects()
-            );
+            this.editableProjects = await this.localDB.getAllProjects();
 
-            // Track each as editable, but don't persist back to the local database, since we just read them from disk.
-            for (const project of projects)
-                this.track(project, true, true, false);
+            if (this.editableProjects && this.editableProjects.getValue) {
+                // Sync every time projects changes
+                this.editableProjects.subscribe((projects) =>
+                    this.sync(projects)
+                );
+                // Sync now
+                this.sync(this.editableProjects.getValue());
+            }
         }
 
         // We don't pull projects from the cloud. That's handled by a realtime Firestore query and happens upon login, and whenever records change.
+    }
+
+    async sync(serialized: SerializedProject[]) {
+        // Get all the projects from disk, deserialize them.
+        const projects = await this.deserializeAll(serialized);
+
+        // Track each as editable, but don't persist back to the local database, since we just read them from disk.
+        for (const project of projects) this.track(project, true, true, false);
     }
 
     async deserializeAll(serialized: SerializedProject[]) {
@@ -132,10 +146,10 @@ export default class ProjectsDatabase {
         if (editable) {
             // If we're not tracking this yet, create a history and store the version given.
             // If persisted, request a save.
-            let history = this.editableProjects.get(project.id);
+            let history = this.projectHistories.get(project.id);
             if (history === undefined) {
                 history = new ProjectHistory(project, persist, saved);
-                this.editableProjects.set(project.id, history);
+                this.projectHistories.set(project.id, history);
 
                 // Update the editable projects
                 this.refreshEditableProjects();
@@ -165,7 +179,7 @@ export default class ProjectsDatabase {
     /** Get all the current projects in a list so that anything that depends on the projects has a fresh list. */
     refreshEditableProjects() {
         this.allEditableProjects.set(
-            Array.from(this.editableProjects.values()).map((history) =>
+            Array.from(this.projectHistories.values()).map((history) =>
                 history.getCurrent()
             )
         );
@@ -199,7 +213,7 @@ export default class ProjectsDatabase {
         if (readonly) return readonly;
 
         // First, check memory. If it's in the local DB, it should be in memory.
-        const project = this.editableProjects.get(id)?.getCurrent();
+        const project = this.projectHistories.get(id)?.getCurrent();
         if (project !== undefined) return project;
 
         // Not there? Check the local database. We may not have finished hydrating yet.
@@ -242,7 +256,7 @@ export default class ProjectsDatabase {
      * */
     edit(project: Project, remember: boolean, persist: boolean) {
         // Update or create a history for this project.
-        const history = this.editableProjects.get(project.id);
+        const history = this.projectHistories.get(project.id);
         if (history) {
             history.edit(project, remember);
 
@@ -258,7 +272,7 @@ export default class ProjectsDatabase {
     /** Delete the project with the given ID, if it exists */
     async deleteProject(id: string) {
         // Delete from the cache
-        this.editableProjects.delete(id);
+        this.projectHistories.delete(id);
 
         // Refresh the ditable projects
         this.refreshEditableProjects();
@@ -284,7 +298,7 @@ export default class ProjectsDatabase {
     async persist() {
         const userID = this.database.getUserID();
 
-        const editable = Array.from(this.editableProjects.values());
+        const editable = Array.from(this.projectHistories.values());
         const persisted = editable.filter((history) => history.isPersisted());
 
         // First, save all projects to the local DB, including the user ID if they don't have it already.
@@ -318,7 +332,7 @@ export default class ProjectsDatabase {
                 await batch.commit();
 
                 // Mark all projects saved to the cloud if successful.
-                this.editableProjects.forEach((history) => history.markSaved());
+                this.projectHistories.forEach((history) => history.markSaved());
             } catch (error) {
                 if (error instanceof FirebaseError) {
                     console.error(error.code);
@@ -334,7 +348,7 @@ export default class ProjectsDatabase {
 
     /** Revise all editable projects to use the specified locales */
     localize(locales: Locale[]) {
-        for (const [, history] of this.editableProjects)
+        for (const [, history] of this.projectHistories)
             history.withLocales(locales);
     }
 
@@ -350,17 +364,17 @@ export default class ProjectsDatabase {
 
     /** Gets the project history for the given project ID, if there is one. */
     getHistory(id: string) {
-        return this.editableProjects.get(id);
+        return this.projectHistories.get(id);
     }
 
     /** Given a project ID, get the reactive store that stores it, so the caller can be notified when it changes. */
     getStore(id: string) {
-        return this.editableProjects.get(id)?.getStore();
+        return this.projectHistories.get(id)?.getStore();
     }
 
     /** Given a project ID and direction, undo or redo */
     undoRedo(id: string, direction: -1 | 1): Project | undefined {
-        const history = this.editableProjects.get(id);
+        const history = this.projectHistories.get(id);
         // No record of this project? Do nothing.
         if (history === undefined) return undefined;
 

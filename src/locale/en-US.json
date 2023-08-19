@@ -3535,7 +3535,7 @@
             "unwritten": "TBD",
             "template": "This template couldn't be parsed: $1",
             "noDatabase": "We can't reach the database",
-            "overwritten": "Found a more recent version online."
+            "overwritten": "Found a more recent version!"
         },
         "about": {
             "content": [
