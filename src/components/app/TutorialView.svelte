@@ -123,6 +123,7 @@
         [],
         $locales,
         $user ? [$user.uid] : [],
+        false,
         undefined,
         false
     );

@@ -3426,6 +3426,9 @@
             "createGroup": "create a Group, wrapping any existing Phrase",
             "createStage": "create a Stage, wrapping any existing Group or Phrase"
         },
+        "button": {
+            "togglePublic": "toggle public or private"
+        },
         "confirm": {
             "archiveProject": {
                 "description": "archive this performance",
@@ -3494,7 +3497,7 @@
             "editing": "Edit me!"
         },
         "feedback": {
-            "unknownProject": "There's no performance with this ID.",
+            "unknownProject": "This performance doesn't exist or isn't public.",
             "loading": "Loading, thank you for waiting!",
             "save": {
                 "saving": "saving",

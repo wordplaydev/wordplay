@@ -18,7 +18,7 @@ export class ProjectsDexie extends Dexie {
     constructor() {
         super('wordplay');
         this.version(1).stores({
-            projects: '++id, name, locales, uids, listed',
+            projects: '++id, name, locales, uids',
         });
     }
 

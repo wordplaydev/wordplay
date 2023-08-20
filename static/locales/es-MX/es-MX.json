@@ -1921,6 +1921,9 @@
             "createGroup": "$?",
             "createStage": "$?"
         },
+        "button": {
+            "togglePublic": "$?"
+        },
         "confirm": {
             "archiveProject": {
                 "description": "$?",

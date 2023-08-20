@@ -149,6 +149,9 @@ type UITexts = {
         /** The button that creates a stage when there is none */
         createStage: string;
     };
+    button: {
+        togglePublic: string;
+    };
     confirm: {
         archiveProject: {
             description: string;

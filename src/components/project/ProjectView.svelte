@@ -1283,7 +1283,17 @@
                 <Button tip={$locale.ui.description.copyProject} action={copy}
                     ><span class="copy">✐+</span></Button
                 >
+            {:else}
+                <Button
+                    tip={$locale.ui.button.togglePublic}
+                    action={() =>
+                        Projects.reviseProject(
+                            project.asPublic(!project.public)
+                        )}
+                    >{#if project.public}🌐{:else}🤫{/if}</Button
+                >
             {/if}
+
             {#if editable}<TextField
                     text={project.name}
                     description={$locale.ui.description.editProjectName}

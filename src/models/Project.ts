@@ -39,8 +39,10 @@ export type SerializedProject = {
     sources: SerializedSource[];
     /** A list of locales, which are a ISO 639-1 languaage code, followed by a -, followed by ISO 3166-2 region code: https://en.wikipedia.org/wiki/ISO_3166-2 */
     locales: string[];
-    /** A list of Firestore user IDs */
+    /** A list of Firestore user IDs that have privileges to edit this project */
     uids: string[];
+    /** Whether this project can be viewed by anyone */
+    public: boolean;
     /** True if the project is listed in a creator's performance */
     listed: boolean;
     /** True if the project is archived */
@@ -92,6 +94,9 @@ export default class Project {
     /** True if it should be listed in the projects list. Allows tutorial projects not to be listed. */
     readonly listed: boolean;
 
+    /** True if this project should be viewable by anyone */
+    readonly public: boolean;
+
     /** True if has been archived */
     readonly archived: boolean;
 
@@ -133,6 +138,7 @@ export default class Project {
         supplements: Source[],
         locales: Locale | Locale[],
         uids: string[] = [],
+        pub = false,
         carets: SerializedCarets | undefined = undefined,
         listed = true,
         archived = false,
@@ -140,6 +146,7 @@ export default class Project {
     ) {
         this.id = id ?? uuidv4();
         this.uids = uids;
+        this.public = pub;
         this.timestamp = timestamp ?? Date.now();
 
         // Remember the source.
@@ -186,6 +193,7 @@ export default class Project {
             this.supplements,
             this.locales,
             this.uids,
+            this.public,
             this.carets,
             this.listed,
             this.archived
@@ -515,6 +523,7 @@ export default class Project {
             this.supplements,
             this.locales,
             this.uids,
+            this.public,
             this.carets,
             this.listed,
             this.archived
@@ -529,6 +538,7 @@ export default class Project {
             this.supplements,
             this.locales,
             this.uids,
+            this.public,
             this.carets,
             this.listed,
             this.archived
@@ -548,6 +558,7 @@ export default class Project {
             this.supplements,
             Array.from(new Set([...this.locales, ...locales])),
             this.uids,
+            this.public,
             this.carets,
             this.listed,
             this.archived
@@ -562,6 +573,7 @@ export default class Project {
             this.supplements,
             this.locales,
             this.uids,
+            this.public,
             this.carets.map((sourceCaret) =>
                 sourceCaret.source === source
                     ? {
@@ -586,6 +598,7 @@ export default class Project {
             this.supplements.filter((s) => s !== source),
             this.locales,
             this.uids,
+            this.public,
             this.carets.filter((c) => c.source !== source),
             this.listed,
             this.archived
@@ -612,6 +625,7 @@ export default class Project {
             newSupplements,
             this.locales,
             this.uids,
+            this.public,
             this.carets.map((caret) => {
                 // See if the caret's source was replaced.
                 const replacement = replacements.find(
@@ -684,6 +698,7 @@ export default class Project {
             [...this.supplements, newSource],
             this.locales,
             this.uids,
+            this.public,
             [...this.carets, { source: newSource, caret: 0 }],
             this.listed,
             this.archived
@@ -700,10 +715,26 @@ export default class Project {
                   this.supplements,
                   this.locales,
                   [...this.uids, uid],
+                  this.public,
                   this.carets,
                   this.listed,
                   this.archived
               );
+    }
+
+    asPublic(pub = true) {
+        return new Project(
+            this.id,
+            this.name,
+            this.main,
+            this.supplements,
+            this.locales,
+            this.uids,
+            pub,
+            this.carets,
+            this.listed,
+            this.archived
+        );
     }
 
     isReadOnly(uid: string) {
@@ -804,6 +835,7 @@ export default class Project {
             sources.slice(1),
             locales,
             project.uids,
+            project.public,
             project.sources.map((s, index) => {
                 return { source: sources[index], caret: s.caret };
             }),
@@ -843,6 +875,7 @@ export default class Project {
             this.supplements,
             this.locales,
             this.uids,
+            this.public,
             this.carets,
             this.listed,
             true
@@ -865,6 +898,7 @@ export default class Project {
             locales: this.locales.map((l) => toLocaleString(l)),
             uids: this.uids,
             listed: this.listed,
+            public: this.public,
             archived: this.archived,
             timestamp: this.timestamp,
         };

@@ -6332,6 +6332,18 @@
               ],
               "type": "object"
             },
+            "button": {
+              "additionalProperties": false,
+              "properties": {
+                "togglePublic": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "togglePublic"
+              ],
+              "type": "object"
+            },
             "confirm": {
               "additionalProperties": false,
               "properties": {
@@ -7388,6 +7400,7 @@
             "phrases",
             "placeholders",
             "description",
+            "button",
             "confirm",
             "prompt",
             "labels",
