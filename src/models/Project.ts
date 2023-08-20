@@ -32,12 +32,18 @@ export type SerializedSource = {
     caret: SerializedCaret;
 };
 export type SerializedProject = {
+    /** A uuid4 */
     id: string;
+    /** A single Translation, serialized */
     name: string;
     sources: SerializedSource[];
+    /** A list of locales, which are a ISO 639-1 languaage code, followed by a -, followed by ISO 3166-2 region code: https://en.wikipedia.org/wiki/ISO_3166-2 */
     locales: string[];
+    /** A list of Firestore user IDs */
     uids: string[];
+    /** True if the project is listed in a creator's performance */
     listed: boolean;
+    /** When this was created */
     timestamp: number;
 };
 
