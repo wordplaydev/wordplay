@@ -6332,6 +6332,48 @@
               ],
               "type": "object"
             },
+            "confirm": {
+              "additionalProperties": false,
+              "properties": {
+                "archiveProject": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "description": {
+                      "type": "string"
+                    },
+                    "prompt": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "description",
+                    "prompt"
+                  ],
+                  "type": "object"
+                },
+                "deleteSource": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "description": {
+                      "type": "string"
+                    },
+                    "prompt": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "description",
+                    "prompt"
+                  ],
+                  "type": "object"
+                }
+              },
+              "required": [
+                "archiveProject",
+                "deleteSource"
+              ],
+              "type": "object"
+            },
             "description": {
               "additionalProperties": false,
               "properties": {
@@ -6435,12 +6477,6 @@
                   "type": "string"
                 },
                 "decrementLiteral": {
-                  "type": "string"
-                },
-                "deleteProject": {
-                  "type": "string"
-                },
-                "deleteSource": {
                   "type": "string"
                 },
                 "docBack": {
@@ -6741,8 +6777,6 @@
                 "sequence",
                 "animate",
                 "addSource",
-                "deleteSource",
-                "deleteProject",
                 "editProject",
                 "copyProject",
                 "settings",
@@ -7298,15 +7332,8 @@
             "prompt": {
               "additionalProperties": false,
               "properties": {
-                "deleteProject": {
-                  "type": "string"
-                },
-                "deleteSource": {
-                  "type": "string"
-                },
                 "emptyProgram": {
-                  "$ref": "#/definitions/DocText",
-                  "description": "Takes one input, the shortcut key for showing the menu."
+                  "$ref": "#/definitions/DocText"
                 },
                 "keyStreamInput": {
                   "description": "How to describe the text input field in the output when there's a key stream active",
@@ -7314,8 +7341,6 @@
                 }
               },
               "required": [
-                "deleteSource",
-                "deleteProject",
                 "emptyProgram",
                 "keyStreamInput"
               ],
@@ -7363,6 +7388,7 @@
             "phrases",
             "placeholders",
             "description",
+            "confirm",
             "prompt",
             "labels",
             "header",

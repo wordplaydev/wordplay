@@ -66,8 +66,6 @@ type UITexts = {
         sequence: string;
         animate: string;
         addSource: string;
-        deleteSource: string;
-        deleteProject: string;
         editProject: string;
         copyProject: string;
         settings: string;
@@ -151,10 +149,17 @@ type UITexts = {
         /** The button that creates a stage when there is none */
         createStage: string;
     };
+    confirm: {
+        archiveProject: {
+            description: string;
+            prompt: string;
+        };
+        deleteSource: {
+            description: string;
+            prompt: string;
+        };
+    };
     prompt: {
-        deleteSource: string;
-        deleteProject: string;
-        /** Takes one input, the shortcut key for showing the menu. */
         emptyProgram: DocText;
         /** How to describe the text input field in the output when there's a key stream active */
         keyStreamInput: string;

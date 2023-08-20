@@ -1837,8 +1837,6 @@
             "sequence": "$?",
             "animate": "$?",
             "addSource": "$?",
-            "deleteSource": "$?",
-            "deleteProject": "$?",
             "copyProject": "$?",
             "editProject": "$?",
             "settings": "$?",
@@ -1912,9 +1910,17 @@
             "createGroup": "$?",
             "createStage": "$?"
         },
+        "confirm": {
+            "archiveProject": {
+                "description": "$?",
+                "prompt": "$?"
+            },
+            "deleteSource": {
+                "description": "$?",
+                "prompt": "$?"
+            }
+        },
         "prompt": {
-            "deleteSource": "$?",
-            "deleteProject": "$?",
             "emptyProgram": "$?",
             "keyStreamInput": "$?"
         },

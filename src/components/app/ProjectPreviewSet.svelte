@@ -31,10 +31,10 @@
                         tip={$locale.ui.description.editProject}
                         action={() => gotoProject(project, false)}>✎</Button
                     ><ConfirmButton
-                        prompt={$locale.ui.prompt.deleteProject}
-                        tip={$locale.ui.description.deleteProject}
-                        action={() => Projects.deleteProject(project.id)}
-                        >⨉</ConfirmButton
+                        prompt={$locale.ui.confirm.archiveProject.prompt}
+                        tip={$locale.ui.confirm.archiveProject.description}
+                        action={() => Projects.archiveProject(project.id)}
+                        >🗑️</ConfirmButton
                     ></div
                 >{/if}</ProjectPreview
         >

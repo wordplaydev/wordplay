@@ -1162,11 +1162,12 @@
                                     <!-- Can't delete main. -->
                                     {#if editable && source !== project.main}
                                         <ConfirmButton
-                                            tip={$locale.ui.description
-                                                .deleteSource}
+                                            tip={$locale.ui.confirm.deleteSource
+                                                .description}
                                             action={() => removeSource(source)}
-                                            prompt={$locale.ui.prompt
-                                                .deleteSource}>⨉</ConfirmButton
+                                            prompt={$locale.ui.confirm
+                                                .deleteSource.prompt}
+                                            >⨉</ConfirmButton
                                         >
                                     {/if}
                                 {/if}

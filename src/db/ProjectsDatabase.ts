@@ -5,7 +5,7 @@ import { writable, type Writable } from 'svelte/store';
 import Project from '../models/Project';
 import type { Locale } from '../locale/Locale';
 import { SaveStatus, type Database } from './Database';
-import { deleteDoc, doc, getDoc, writeBatch } from 'firebase/firestore';
+import { doc, getDoc, writeBatch } from 'firebase/firestore';
 import { FirebaseError } from 'firebase/app';
 import { firestore } from './firebase';
 import type Node from '../nodes/Node';
@@ -100,7 +100,7 @@ export default class ProjectsDatabase {
                     this.sync(projects)
                 );
                 // Sync now
-                this.sync(this.editableProjects.getValue());
+                // this.sync(this.editableProjects.getValue());
             }
         }
 
@@ -167,7 +167,6 @@ export default class ProjectsDatabase {
                 // assumes that all systems have valid clocks, and it also fails to acccount
                 // for non-conflicting edits.
                 if (project.timestamp > current.timestamp) {
-                    console.log('Overwriting with more recent edit');
                     history.edit(project, true, true);
                 }
             }
@@ -179,9 +178,9 @@ export default class ProjectsDatabase {
     /** Get all the current projects in a list so that anything that depends on the projects has a fresh list. */
     refreshEditableProjects() {
         this.allEditableProjects.set(
-            Array.from(this.projectHistories.values()).map((history) =>
-                history.getCurrent()
-            )
+            Array.from(this.projectHistories.values())
+                .map((history) => history.getCurrent())
+                .filter((project) => !project.isArchived())
         );
     }
 
@@ -270,28 +269,33 @@ export default class ProjectsDatabase {
     }
 
     /** Delete the project with the given ID, if it exists */
-    async deleteProject(id: string) {
-        // Delete from the cache
-        this.projectHistories.delete(id);
+    async archiveProject(id: string) {
+        // For now, we don't actually delete projects, we just mark them archived.
+        // This prevents accidental data loss.
+        const history = this.projectHistories.get(id);
+        if (history) this.edit(history.getCurrent().asArchived(), false, true);
 
-        // Refresh the ditable projects
-        this.refreshEditableProjects();
+        // // Delete from the cache
+        // this.projectHistories.delete(id);
 
-        // Delete from the local database
-        this.localDB.deleteProject(id);
+        // // Refresh the editable projects
+        // this.refreshEditableProjects();
 
-        // Delete from Firebase if connected with a user.
-        if (firestore && this.database.getUserID()) {
-            try {
-                await deleteDoc(doc(firestore, 'projects', id));
-            } catch (error) {
-                if (error instanceof FirebaseError) {
-                    console.error(error.code);
-                    console.error(error.message);
-                }
-                this.database.setStatus(SaveStatus.Error);
-            }
-        }
+        // // Delete from the local database
+        // this.localDB.deleteProject(id);
+
+        // // Delete from Firebase if connected with a user.
+        // if (firestore && this.database.getUserID()) {
+        //     try {
+        //         await deleteDoc(doc(firestore, 'projects', id));
+        //     } catch (error) {
+        //         if (error instanceof FirebaseError) {
+        //             console.error(error.code);
+        //             console.error(error.message);
+        //         }
+        //         this.database.setStatus(SaveStatus.Error);
+        //     }
+        // }
     }
 
     /** Persist in storage */
