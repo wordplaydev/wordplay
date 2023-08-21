@@ -145,7 +145,7 @@ export default class Project {
         timestamp: number | undefined = undefined
     ) {
         this.id = id ?? uuidv4();
-        this.uids = uids;
+        this.uids = uids.filter((uid) => uid.length > 0);
         this.public = pub;
         this.timestamp = timestamp ?? Date.now();
 
@@ -715,6 +715,23 @@ export default class Project {
                   this.supplements,
                   this.locales,
                   [...this.uids, uid],
+                  this.public,
+                  this.carets,
+                  this.listed,
+                  this.archived
+              );
+    }
+
+    withoutUser(uid: string) {
+        return !this.uids.some((user) => user === uid)
+            ? this
+            : new Project(
+                  this.id,
+                  this.name,
+                  this.main,
+                  this.supplements,
+                  this.locales,
+                  this.uids.filter((id) => id != uid),
                   this.public,
                   this.carets,
                   this.listed,

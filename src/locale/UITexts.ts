@@ -151,6 +151,8 @@ type UITexts = {
     };
     button: {
         togglePublic: string;
+        showCollaborators: string;
+        removeCollaborator: string;
     };
     confirm: {
         archiveProject: {
@@ -160,6 +162,18 @@ type UITexts = {
         deleteSource: {
             description: string;
             prompt: string;
+        };
+    };
+    dialog: {
+        collaborators: {
+            header: string;
+            explanation: string;
+        };
+    };
+    field: {
+        collaborator: {
+            placeholder: string;
+            description: string;
         };
     };
     prompt: {
@@ -265,6 +279,8 @@ type UITexts = {
         noDatabase: string;
         /** When some other device had a more recent edit that overrode this device's version. */
         overwritten: string;
+        /** When someone tries to add an email collaborator that doesn't have a Wordplay account */
+        unknownEmail: string;
     };
     about: {
         content: string[];

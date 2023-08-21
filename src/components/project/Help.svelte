@@ -31,6 +31,7 @@
 <style>
     table {
         border-spacing: 0;
+        border: none;
         width: 100%;
     }
 

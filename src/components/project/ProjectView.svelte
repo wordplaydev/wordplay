@@ -99,6 +99,7 @@
     import type Color from '../../output/Color';
     import ProjectLanguages from './ProjectLanguages.svelte';
     import gotoProject from '../app/gotoProject';
+    import Collaborators from './Collaborators.svelte';
 
     export let project: Project;
     export let original: Project | undefined = undefined;
@@ -136,6 +137,9 @@
 
     /** Whether to show the keyboard help dialog */
     let help = false;
+
+    /** Whether to show the collaborators dialog */
+    let collaborators = false;
 
     /** The current canvas dimensions */
     let canvasWidth = 1024;
@@ -1092,6 +1096,7 @@
     on:pointerup={handlePointerUp}
 />
 
+<Collaborators bind:show={collaborators} {project} />
 <Help bind:show={help} />
 <!-- Render the app header and the current project, if there is one. -->
 <main class="project" bind:this={view}>
@@ -1291,6 +1296,10 @@
                             project.asPublic(!project.public)
                         )}
                     >{#if project.public}🌐{:else}🤫{/if}</Button
+                >
+                <Button
+                    tip={$locale.ui.button.showCollaborators}
+                    action={() => (collaborators = true)}>🤝</Button
                 >
             {/if}
 

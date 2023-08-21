@@ -1922,7 +1922,9 @@
             "createStage": "$?"
         },
         "button": {
-            "togglePublic": "$?"
+            "togglePublic": "$?",
+            "showCollaborators": "$?",
+            "removeCollaborator": "$?"
         },
         "confirm": {
             "archiveProject": {
@@ -1932,6 +1934,18 @@
             "deleteSource": {
                 "description": "$?",
                 "prompt": "$?"
+            }
+        },
+        "dialog": {
+            "collaborators": {
+                "header": "$?",
+                "explanation": "$?"
+            }
+        },
+        "field": {
+            "collaborator": {
+                "placeholder": "$?",
+                "description": "$?"
             }
         },
         "prompt": {
@@ -2032,7 +2046,8 @@
             "unwritten": "no escrito",
             "template": "$?",
             "noDatabase": "$?",
-            "overwritten": "$?"
+            "overwritten": "$?",
+            "unknownEmail": "$?"
         },
         "about": {
             "content": ["$?"]

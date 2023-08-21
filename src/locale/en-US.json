@@ -3427,7 +3427,9 @@
             "createStage": "create a Stage, wrapping any existing Group or Phrase"
         },
         "button": {
-            "togglePublic": "toggle public or private"
+            "togglePublic": "toggle public or private",
+            "showCollaborators": "show collaborators dialog",
+            "removeCollaborator": "remove collaborator"
         },
         "confirm": {
             "archiveProject": {
@@ -3437,6 +3439,18 @@
             "deleteSource": {
                 "description": "delete this $source",
                 "prompt": "delete"
+            }
+        },
+        "dialog": {
+            "collaborators": {
+                "header": "Collaborators",
+                "explanation": "Want someone to help edit this project? Add or remove them by email."
+            }
+        },
+        "field": {
+            "collaborator": {
+                "placeholder": "email",
+                "description": "the email address of the person who you want to grant edit access."
             }
         },
         "prompt": {
@@ -3544,7 +3558,8 @@
             "unwritten": "TBD",
             "template": "This template couldn't be parsed: $1",
             "noDatabase": "We can't reach the database",
-            "overwritten": "Found a more recent version!"
+            "overwritten": "Found a more recent version!",
+            "unknownEmail": "We don't know a creator with this email."
         },
         "about": {
             "content": [

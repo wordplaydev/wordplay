@@ -13,10 +13,15 @@ import {
     PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
     PUBLIC_FIREBASE_APP_ID,
 } from '$env/static/public';
+import {
+    connectFunctionsEmulator,
+    getFunctions,
+    type Functions,
+} from 'firebase/functions';
 
-let auth: Auth | undefined;
-let firestore: Firestore | undefined;
-
+let auth: Auth | undefined = undefined;
+let firestore: Firestore | undefined = undefined;
+let functions: Functions | undefined = undefined;
 try {
     if (PUBLIC_FIREBASE_API_KEY.length > 0) {
         const firebaseConfig = {
@@ -33,13 +38,13 @@ try {
 
         auth = getAuth(app);
         firestore = getFirestore(app);
-        // export const functions = getFunctions(app);
+        functions = getFunctions(app);
 
         // Initialize emulator if environment is local.
         if (PUBLIC_CONTEXT === 'local') {
             connectFirestoreEmulator(firestore, 'localhost', 8080);
             connectAuthEmulator(auth, 'http://localhost:9099');
-            // connectFunctionsEmulator(functions, 'localhost', 5001);
+            connectFunctionsEmulator(functions, 'localhost', 5001);
         }
     }
 } catch (err) {
@@ -49,3 +54,4 @@ try {
 
 export { auth };
 export { firestore };
+export { functions };

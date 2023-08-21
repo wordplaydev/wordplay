@@ -6335,12 +6335,20 @@
             "button": {
               "additionalProperties": false,
               "properties": {
+                "removeCollaborator": {
+                  "type": "string"
+                },
+                "showCollaborators": {
+                  "type": "string"
+                },
                 "togglePublic": {
                   "type": "string"
                 }
               },
               "required": [
-                "togglePublic"
+                "togglePublic",
+                "showCollaborators",
+                "removeCollaborator"
               ],
               "type": "object"
             },
@@ -6864,6 +6872,31 @@
               ],
               "type": "object"
             },
+            "dialog": {
+              "additionalProperties": false,
+              "properties": {
+                "collaborators": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "explanation": {
+                      "type": "string"
+                    },
+                    "header": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "header",
+                    "explanation"
+                  ],
+                  "type": "object"
+                }
+              },
+              "required": [
+                "collaborators"
+              ],
+              "type": "object"
+            },
             "edit": {
               "additionalProperties": false,
               "properties": {
@@ -6971,6 +7004,10 @@
                 "tutorial": {
                   "type": "string"
                 },
+                "unknownEmail": {
+                  "description": "When someone tries to add an email collaborator that doesn't have a Wordplay account",
+                  "type": "string"
+                },
                 "unwritten": {
                   "description": "The placeholder indicating that a locale string is not yet written",
                   "type": "string"
@@ -6982,7 +7019,8 @@
                 "unwritten",
                 "template",
                 "noDatabase",
-                "overwritten"
+                "overwritten",
+                "unknownEmail"
               ],
               "type": "object"
             },
@@ -7020,6 +7058,31 @@
                 "unknownProject",
                 "loading",
                 "save"
+              ],
+              "type": "object"
+            },
+            "field": {
+              "additionalProperties": false,
+              "properties": {
+                "collaborator": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "description": {
+                      "type": "string"
+                    },
+                    "placeholder": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "placeholder",
+                    "description"
+                  ],
+                  "type": "object"
+                }
+              },
+              "required": [
+                "collaborator"
               ],
               "type": "object"
             },
@@ -7402,6 +7465,8 @@
             "description",
             "button",
             "confirm",
+            "dialog",
+            "field",
             "prompt",
             "labels",
             "header",
