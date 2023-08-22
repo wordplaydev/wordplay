@@ -188,7 +188,11 @@ export default class Layout {
     }
 
     resized(arrangement: Arrangement, width: number, height: number) {
-        return arrangement === Arrangement.Vertical
+        return arrangement === Arrangement.Responsive
+            ? width > height
+                ? this.horizontal(width, height)
+                : this.vertical(width, height)
+            : arrangement === Arrangement.Vertical
             ? this.vertical(width, height)
             : arrangement === Arrangement.Horizontal
             ? this.horizontal(width, height)

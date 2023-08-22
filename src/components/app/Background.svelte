@@ -126,5 +126,6 @@
         position: absolute;
         opacity: 0.05;
         user-select: none;
+        color: var(--wordplay-foreground);
     }
 </style>

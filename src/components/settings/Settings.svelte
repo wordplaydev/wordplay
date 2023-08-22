@@ -82,20 +82,24 @@
         <p
             ><Mode
                 descriptions={$locale.ui.mode.layout}
-                choice={$arrangement === Arrangement.Horizontal
+                choice={$arrangement === Arrangement.Responsive
                     ? 0
-                    : $arrangement === Arrangement.Vertical
+                    : $arrangement === Arrangement.Horizontal
                     ? 1
-                    : 2}
+                    : $arrangement === Arrangement.Vertical
+                    ? 2
+                    : 3}
                 select={(choice) =>
                     Settings.setArrangement(
                         choice == 0
-                            ? Arrangement.Horizontal
+                            ? Arrangement.Responsive
                             : choice === 1
+                            ? Arrangement.Horizontal
+                            : choice === 2
                             ? Arrangement.Vertical
                             : Arrangement.Free
                     )}
-                modes={['↔️', '↕', '⏹️']}
+                modes={['📐', '↔️', '↕', '⏹️']}
             /></p
         >
         <p

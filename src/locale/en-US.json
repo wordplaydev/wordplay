@@ -3444,7 +3444,7 @@
         "mode": {
             "layout": {
                 "label": "layout",
-                "modes": ["horizontal", "vertical", "free"]
+                "modes": ["automatic", "horizontal", "vertical", "free"]
             },
             "animate": {
                 "label": "animations",

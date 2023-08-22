@@ -7442,7 +7442,7 @@
                   "$ref": "#/definitions/ModeText%3C%5Bstring%2Cstring%2Cstring%5D%3E"
                 },
                 "layout": {
-                  "$ref": "#/definitions/ModeText%3C%5Bstring%2Cstring%2Cstring%5D%3E"
+                  "$ref": "#/definitions/ModeText%3C%5Bstring%2Cstring%2Cstring%2Cstring%5D%3E"
                 },
                 "writing": {
                   "$ref": "#/definitions/ModeText%3C%5Bstring%2Cstring%2Cstring%5D%3E"
@@ -7673,6 +7673,27 @@
           },
           "maxItems": 5,
           "minItems": 5,
+          "type": "array"
+        }
+      },
+      "required": [
+        "label",
+        "modes"
+      ],
+      "type": "object"
+    },
+    "ModeText<[string,string,string,string]>": {
+      "additionalProperties": false,
+      "properties": {
+        "label": {
+          "type": "string"
+        },
+        "modes": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 4,
+          "minItems": 4,
           "type": "array"
         }
       },

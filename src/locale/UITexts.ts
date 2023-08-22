@@ -173,7 +173,7 @@ type UITexts = {
         tile: ToggleText;
     };
     mode: {
-        layout: ModeText<[string, string, string]>;
+        layout: ModeText<[string, string, string, string]>;
         animate: ModeText<[string, string, string, string, string]>;
         dark: ModeText<[string, string, string]>;
         writing: ModeText<[string, string, string]>;
