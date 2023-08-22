@@ -18,6 +18,7 @@ import {
     PREVIOUS_SYMBOL,
     TABLE_OPEN_SYMBOL,
     TABLE_CLOSE_SYMBOL,
+    EDIT_SYMBOL,
 } from '@parser/Symbols';
 
 import Source from '@nodes/Source';
@@ -375,7 +376,7 @@ export const ShowMenu: Command = {
 
 export const EnterFullscreen: Command = {
     symbol: '▶️',
-    description: (l) => l.ui.description.fullscreen,
+    description: (l) => l.ui.toggle.fullscreen.off,
     visible: Visibility.Invisible,
     category: Category.Evaluate,
     shift: false,
@@ -387,8 +388,8 @@ export const EnterFullscreen: Command = {
 };
 
 export const ExitFullscreen: Command = {
-    symbol: '✎',
-    description: (l) => l.ui.description.fullscreen,
+    symbol: EDIT_SYMBOL,
+    description: (l) => l.ui.toggle.fullscreen.on,
     visible: Visibility.Invisible,
     category: Category.Evaluate,
     shift: false,

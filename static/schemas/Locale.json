@@ -64,6 +64,22 @@
       ],
       "type": "object"
     },
+    "DialogText": {
+      "additionalProperties": false,
+      "properties": {
+        "explanation": {
+          "type": "string"
+        },
+        "header": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "header",
+        "explanation"
+      ],
+      "type": "object"
+    },
     "DocText": {
       "anyOf": [
         {
@@ -6536,9 +6552,6 @@
                   "description": "The button shown when a list of code is ellided; clicking it shows the hidden code.",
                   "type": "string"
                 },
-                "fit": {
-                  "type": "string"
-                },
                 "focusCycle": {
                   "type": "string"
                 },
@@ -6564,12 +6577,6 @@
                   "type": "string"
                 },
                 "freeform": {
-                  "type": "string"
-                },
-                "fullscreen": {
-                  "type": "string"
-                },
-                "grid": {
                   "type": "string"
                 },
                 "help": {
@@ -6772,7 +6779,6 @@
                 "docBack",
                 "revert",
                 "set",
-                "fullscreen",
                 "collapse",
                 "expand",
                 "close",
@@ -6782,8 +6788,6 @@
                 "horizontal",
                 "vertical",
                 "freeform",
-                "fit",
-                "grid",
                 "addPose",
                 "removePose",
                 "movePoseUp",
@@ -6876,6 +6880,12 @@
               "additionalProperties": false,
               "properties": {
                 "collaborators": {
+                  "$ref": "#/definitions/DialogText"
+                },
+                "help": {
+                  "$ref": "#/definitions/DialogText"
+                },
+                "locale": {
                   "additionalProperties": false,
                   "properties": {
                     "explanation": {
@@ -6883,17 +6893,33 @@
                     },
                     "header": {
                       "type": "string"
+                    },
+                    "selected": {
+                      "description": "How to label the locales that have been selected",
+                      "type": "string"
+                    },
+                    "supported": {
+                      "description": "How to label the supported locales that have not been selected",
+                      "type": "string"
                     }
                   },
                   "required": [
+                    "explanation",
                     "header",
-                    "explanation"
+                    "selected",
+                    "supported"
                   ],
                   "type": "object"
+                },
+                "settings": {
+                  "$ref": "#/definitions/DialogText"
                 }
               },
               "required": [
-                "collaborators"
+                "collaborators",
+                "settings",
+                "locale",
+                "help"
               ],
               "type": "object"
             },
@@ -7180,14 +7206,6 @@
                 "properties": {
                   "description": "Documentation header in structure before properties",
                   "type": "string"
-                },
-                "selectedLocales": {
-                  "description": "How to label the locales that have been selected",
-                  "type": "string"
-                },
-                "supportedLocales": {
-                  "description": "How to label the supported locales that have not been selected",
-                  "type": "string"
                 }
               },
               "required": [
@@ -7201,8 +7219,6 @@
                 "properties",
                 "functions",
                 "conversions",
-                "selectedLocales",
-                "supportedLocales",
                 "helpLocalize",
                 "moveCursor",
                 "editCode",
@@ -7416,6 +7432,30 @@
               ],
               "type": "object"
             },
+            "mode": {
+              "additionalProperties": false,
+              "properties": {
+                "animate": {
+                  "$ref": "#/definitions/ModeText%3C%5Bstring%2Cstring%2Cstring%2Cstring%2Cstring%5D%3E"
+                },
+                "dark": {
+                  "$ref": "#/definitions/ModeText%3C%5Bstring%2Cstring%2Cstring%5D%3E"
+                },
+                "layout": {
+                  "$ref": "#/definitions/ModeText%3C%5Bstring%2Cstring%2Cstring%2Cstring%5D%3E"
+                },
+                "writing": {
+                  "$ref": "#/definitions/ModeText%3C%5Bstring%2Cstring%2Cstring%5D%3E"
+                }
+              },
+              "required": [
+                "layout",
+                "animate",
+                "dark",
+                "writing"
+              ],
+              "type": "object"
+            },
             "palette": {
               "additionalProperties": false,
               "properties": {
@@ -7550,6 +7590,30 @@
                 "editor"
               ],
               "type": "object"
+            },
+            "toggle": {
+              "additionalProperties": false,
+              "properties": {
+                "fit": {
+                  "$ref": "#/definitions/ToggleText"
+                },
+                "fullscreen": {
+                  "$ref": "#/definitions/ToggleText"
+                },
+                "grid": {
+                  "$ref": "#/definitions/ToggleText"
+                },
+                "tile": {
+                  "$ref": "#/definitions/ToggleText"
+                }
+              },
+              "required": [
+                "grid",
+                "fit",
+                "fullscreen",
+                "tile"
+              ],
+              "type": "object"
             }
           },
           "required": [
@@ -7557,6 +7621,8 @@
             "phrases",
             "placeholders",
             "description",
+            "toggle",
+            "mode",
             "button",
             "confirm",
             "dialog",
@@ -7592,6 +7658,69 @@
         "input",
         "output",
         "ui"
+      ],
+      "type": "object"
+    },
+    "ModeText<[string,string,string,string,string]>": {
+      "additionalProperties": false,
+      "properties": {
+        "label": {
+          "type": "string"
+        },
+        "modes": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 5,
+          "minItems": 5,
+          "type": "array"
+        }
+      },
+      "required": [
+        "label",
+        "modes"
+      ],
+      "type": "object"
+    },
+    "ModeText<[string,string,string,string]>": {
+      "additionalProperties": false,
+      "properties": {
+        "label": {
+          "type": "string"
+        },
+        "modes": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 4,
+          "minItems": 4,
+          "type": "array"
+        }
+      },
+      "required": [
+        "label",
+        "modes"
+      ],
+      "type": "object"
+    },
+    "ModeText<[string,string,string]>": {
+      "additionalProperties": false,
+      "properties": {
+        "label": {
+          "type": "string"
+        },
+        "modes": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 3,
+          "minItems": 3,
+          "type": "array"
+        }
+      },
+      "required": [
+        "label",
+        "modes"
       ],
       "type": "object"
     },
@@ -7922,6 +8051,22 @@
     },
     "Template": {
       "type": "string"
+    },
+    "ToggleText": {
+      "additionalProperties": false,
+      "properties": {
+        "off": {
+          "type": "string"
+        },
+        "on": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "on",
+        "off"
+      ],
+      "type": "object"
     }
   }
 }

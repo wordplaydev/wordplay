@@ -35,11 +35,7 @@
         DB.getEmailFromUserIDs(project.uids).then((map) => (emails = map));
 </script>
 
-<Dialog bind:show>
-    <h1>{$locale.ui.dialog.collaborators.header}</h1>
-
-    <p>{$locale.ui.dialog.collaborators.explanation}</p>
-
+<Dialog bind:show description={$locale.ui.dialog.collaborators}>
     <form class="form" on:submit={add}>
         <TextField
             bind:text={email}

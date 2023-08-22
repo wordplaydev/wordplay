@@ -30,7 +30,7 @@
     class:large
     data-uiid={uiid}
     class={classes}
-    type={submit ? 'submit' : null}
+    type={submit ? 'submit' : 'button'}
     title={tip}
     aria-label={tip}
     aria-disabled={!active}

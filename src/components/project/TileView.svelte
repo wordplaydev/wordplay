@@ -24,6 +24,7 @@
     import type Arrangement from '../../db/Arrangement';
     import Glyphs from '../../lore/Glyphs';
     import Color from '../../output/Color';
+    import Toggle from '../widgets/Toggle.svelte';
 
     export let tile: Tile;
     export let layout: Layout;
@@ -214,9 +215,10 @@
                     action={() => dispatch('mode', { mode: Mode.Collapsed })}
                     active={!layout.isFullscreen()}>⎵</Button
                 >
-                <Button
-                    tip={$locale.ui.description.fullscreen}
-                    action={() =>
+                <Toggle
+                    tips={$locale.ui.toggle.fullscreen}
+                    on={fullscreen}
+                    toggle={() =>
                         dispatch('fullscreen', {
                             fullscreen: !fullscreen,
                         })}
@@ -236,7 +238,7 @@
                             ></g
                         ></svg
                     >
-                </Button>
+                </Toggle>
             </div>
         </div>
         <!-- Render the content -->

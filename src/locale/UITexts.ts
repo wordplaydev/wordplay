@@ -7,6 +7,21 @@ type ButtonText = {
     tip: string;
 };
 
+export type ToggleText = {
+    on: string;
+    off: string;
+};
+
+export type ModeText<Modes extends string[]> = {
+    label: string;
+    modes: Modes;
+};
+
+export type DialogText = {
+    header: string;
+    explanation: string;
+};
+
 type UITexts = {
     font: {
         app: (typeof SupportedFaces)[number];
@@ -46,7 +61,6 @@ type UITexts = {
         docBack: string;
         revert: string;
         set: string;
-        fullscreen: string;
         collapse: string;
         expand: string;
         close: string;
@@ -56,8 +70,6 @@ type UITexts = {
         horizontal: string;
         vertical: string;
         freeform: string;
-        fit: string;
-        grid: string;
         addPose: string;
         removePose: string;
         movePoseUp: string;
@@ -154,6 +166,18 @@ type UITexts = {
         /** The button that creates a stage when there is none */
         createStage: string;
     };
+    toggle: {
+        grid: ToggleText;
+        fit: ToggleText;
+        fullscreen: ToggleText;
+        tile: ToggleText;
+    };
+    mode: {
+        layout: ModeText<[string, string, string, string]>;
+        animate: ModeText<[string, string, string, string, string]>;
+        dark: ModeText<[string, string, string]>;
+        writing: ModeText<[string, string, string]>;
+    };
     button: {
         togglePublic: string;
         showCollaborators: string;
@@ -170,10 +194,15 @@ type UITexts = {
         };
     };
     dialog: {
-        collaborators: {
-            header: string;
-            explanation: string;
+        collaborators: DialogText;
+        settings: DialogText;
+        locale: DialogText & {
+            /** How to label the locales that have been selected */
+            selected: string;
+            /** How to label the supported locales that have not been selected */
+            supported: string;
         };
+        help: DialogText;
     };
     field: {
         collaborator: {
@@ -221,10 +250,6 @@ type UITexts = {
         functions: string;
         /** Documentation header in structure before conversions */
         conversions: string;
-        /** How to label the locales that have been selected */
-        selectedLocales: string;
-        /** How to label the supported locales that have not been selected */
-        supportedLocales: string;
         /** How to request help with localization */
         helpLocalize: string;
         moveCursor: string;

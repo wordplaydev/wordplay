@@ -4,6 +4,8 @@
     import { getConflicts } from './Contexts';
     import { locales } from '../../db/Database';
     import Glyphs from '../../lore/Glyphs';
+    import Toggle from '../widgets/Toggle.svelte';
+    import { locale } from '../../db/Database';
 
     export let source: Source;
     export let expanded: boolean;
@@ -34,56 +36,20 @@
     }
 </script>
 
-<div class="mini" class:expanded>
-    <span
-        role="button"
-        class="name"
-        tabindex="0"
-        on:pointerdown={() => dispatch('toggle')}
-        on:keydown={(event) => {
-            if (event.key === 'Enter' || event.key === ' ') {
-                dispatch('toggle');
-                event.stopPropagation();
-            }
-        }}
-    >
-        {#if primaryCount > 0}<span class="count primary">{primaryCount}</span
-            >{/if}
-        {#if secondaryCount > 0}<span class="count secondary"
-                >{secondaryCount}</span
-            >{/if}
-        {#if primaryCount === 0 && secondaryCount === 0}{Glyphs.Program
-                .symbols}{/if}
-        {source.names.getPreferredNameString($locales)}
-    </span>
-</div>
+<Toggle
+    tips={$locale.ui.toggle.tile}
+    on={expanded}
+    toggle={() => dispatch('toggle')}
+>
+    {#if primaryCount > 0}<span class="count primary">{primaryCount}</span>{/if}
+    {#if secondaryCount > 0}<span class="count secondary">{secondaryCount}</span
+        >{/if}
+    {#if primaryCount === 0 && secondaryCount === 0}{Glyphs.Program
+            .symbols}{/if}
+    {source.names.getPreferredNameString($locales)}
+</Toggle>
 
 <style>
-    .mini {
-        width: auto;
-        user-select: none;
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        overflow: hidden;
-        gap: var(--wordplay-spacing);
-    }
-
-    .name {
-        cursor: pointer;
-    }
-
-    .name:focus {
-        background: var(--wordplay-focus-color);
-        color: var(--wordplay-background);
-        border-radius: var(--wordplay-border-radius);
-    }
-
-    .expanded .name {
-        display: inline-block;
-        transform: scale(0.85);
-    }
-
     .count {
         font-size: small;
         border-radius: 50%;

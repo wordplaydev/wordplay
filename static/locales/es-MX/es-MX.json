@@ -1823,7 +1823,6 @@
             "docBack": "$?",
             "revert": "$?",
             "set": "$?",
-            "fullscreen": "$?",
             "collapse": "$?",
             "expand": "$?",
             "close": "$?",
@@ -1833,8 +1832,6 @@
             "horizontal": "$?",
             "vertical": "$?",
             "freeform": "$?",
-            "fit": "$?",
-            "grid": "$?",
             "addPose": "$?",
             "removePose": "$?",
             "movePoseUp": "$?",
@@ -1921,6 +1918,39 @@
             "createGroup": "$?",
             "createStage": "$?"
         },
+        "toggle": {
+            "grid": {
+                "on": "$?",
+                "off": "$?"
+            },
+            "fit": {
+                "on": "$?",
+                "off": "$?"
+            },
+            "fullscreen": {
+                "on": "$?",
+                "off": "$?"
+            },
+            "tile": {
+                "on": "$?",
+                "off": "$?"
+            }
+        },
+        "mode": {
+            "layout": { "label": "$?", "modes": ["$?", "$?", "$?", "$?"] },
+            "animate": {
+                "label": "$?",
+                "modes": ["$?", "$?", "$?", "$?", "$?"]
+            },
+            "dark": {
+                "label": "$?",
+                "modes": ["$?", "$?", "$?"]
+            },
+            "writing": {
+                "label": "$?",
+                "modes": ["$?", "$?", "$?"]
+            }
+        },
         "button": {
             "togglePublic": "$?",
             "showCollaborators": "$?",
@@ -1938,6 +1968,20 @@
         },
         "dialog": {
             "collaborators": {
+                "header": "$?",
+                "explanation": "$?"
+            },
+            "settings": {
+                "header": "$?",
+                "explanation": "$?"
+            },
+            "locale": {
+                "header": "$?",
+                "explanation": "$?",
+                "selected": "$?",
+                "supported": "$?"
+            },
+            "help": {
                 "header": "$?",
                 "explanation": "$?"
             }
@@ -1974,8 +2018,6 @@
             "properties": "$?",
             "functions": "$?",
             "conversions": "$?",
-            "selectedLocales": "$?",
-            "supportedLocales": "$?",
             "helpLocalize": "$?",
             "moveCursor": "$?",
             "editCode": "$?",

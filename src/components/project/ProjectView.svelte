@@ -85,6 +85,7 @@
     import Arrangement from '../../db/Arrangement';
     import {
         DOCUMENTATION_SYMBOL,
+        EDIT_SYMBOL,
         PALETTE_SYMBOL,
         STAGE_SYMBOL,
     } from '../../parser/Symbols';
@@ -100,6 +101,7 @@
     import ProjectLanguages from './ProjectLanguages.svelte';
     import gotoProject from '../app/gotoProject';
     import Collaborators from './Collaborators.svelte';
+    import Toggle from '../widgets/Toggle.svelte';
 
     export let project: Project;
     export let original: Project | undefined = undefined;
@@ -1184,17 +1186,19 @@
                                             tip={$locale.ui.description
                                                 .editProject}
                                             action={() => stopPlaying()}
-                                            >✏️</Button
+                                            >{EDIT_SYMBOL}</Button
                                         >{/if}
                                     {#if !$evaluation.evaluator.isPlaying()}<Painting
                                             bind:painting
-                                        />{/if}<Button
-                                        tip={$locale.ui.description.grid}
-                                        action={() => (grid = !grid)}>▦</Button
-                                    ><Button
-                                        tip={$locale.ui.description.fit}
-                                        action={() => (fit = !fit)}
-                                        >{#if fit}🔒{:else}🔓{/if}</Button
+                                        />{/if}<Toggle
+                                        tips={$locale.ui.toggle.grid}
+                                        on={grid}
+                                        toggle={() => (grid = !grid)}>▦</Toggle
+                                    ><Toggle
+                                        tips={$locale.ui.toggle.fit}
+                                        on={fit}
+                                        toggle={() => (fit = !fit)}
+                                        >{#if fit}🔒{:else}🔓{/if}</Toggle
                                     >
                                 {:else if tile.isSource()}
                                     <!-- Make a Button for every modify command -->

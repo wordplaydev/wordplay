@@ -28,6 +28,7 @@
 </script>
 
 <Options
+    id={property.getName()}
     value={options.toText(values.getExpression())}
     options={options.allowNone
         ? [undefined, ...options.values]
