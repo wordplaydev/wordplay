@@ -1,7 +1,7 @@
 <script lang="ts">
     import Button from '../widgets/Button.svelte';
     import LanguageChooser from './LocaleChooser.svelte';
-    import { getUser, isDark } from '../project/Contexts';
+    import { getProject, getUser, isDark } from '../project/Contexts';
     import {
         animationFactor,
         locale,
@@ -26,6 +26,7 @@
 
     let user = getUser();
     let dark = isDark();
+    let project = getProject();
 
     $: anonymous = $user === null;
     $: animationSymbol = { 0: '🧘🏽‍♀️', 1: '🏃‍♀️', 2: '½', 3: '⅓', 4: '¼' }[
@@ -177,7 +178,9 @@
             >
         </Link>
     </div>
-    <Status />
+    {#if $project}
+        <Status />
+    {/if}
     {#if $page.route.id !== '/'}<Button
             tip={$locale.ui.description.close}
             active={$page.route.id !== null && $page.route.id !== "/'"}
