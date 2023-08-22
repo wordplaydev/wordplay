@@ -10,8 +10,8 @@
         mic,
         Settings,
         Projects,
+        writingLayout,
     } from '../../db/Database';
-    import LayoutChooser from './LayoutChooser.svelte';
     import { page } from '$app/stores';
     import { clickOutside } from '../app/clickOutside';
     import Arrangement from '../../db/Arrangement';
@@ -21,6 +21,7 @@
     import Link from '../app/Link.svelte';
     import Status from '../app/Status.svelte';
     import { goto } from '$app/navigation';
+    import Mode from '../widgets/Mode.svelte';
 
     let expanded = false;
 
@@ -29,9 +30,6 @@
     let project = getProject();
 
     $: anonymous = $user === null;
-    $: animationSymbol = { 0: '🧘🏽‍♀️', 1: '🏃‍♀️', 2: '½', 3: '⅓', 4: '¼' }[
-        $animationFactor
-    ];
 
     function back() {
         if ($page.route.id?.startsWith('/project/')) {
@@ -88,30 +86,46 @@
 >
     {#if expanded}
         <div class="controls" transition:slide>
-            <Button
-                tip={$arrangement === Arrangement.Free
-                    ? $locale.ui.description.vertical
+            <Mode
+                descriptions={$locale.ui.mode.layout}
+                choice={$arrangement === Arrangement.Horizontal
+                    ? 0
                     : $arrangement === Arrangement.Vertical
-                    ? $locale.ui.description.horizontal
-                    : $locale.ui.description.freeform}
-                action={() =>
+                    ? 1
+                    : 2}
+                select={(choice) =>
                     Settings.setArrangement(
-                        $arrangement === Arrangement.Vertical
+                        choice == 0
                             ? Arrangement.Horizontal
-                            : $arrangement === Arrangement.Horizontal
-                            ? Arrangement.Free
-                            : Arrangement.Vertical
+                            : choice === 1
+                            ? Arrangement.Vertical
+                            : Arrangement.Free
                     )}
-                >{#if $arrangement === Arrangement.Vertical}↕{:else if $arrangement === Arrangement.Horizontal}↔️{:else if $arrangement === Arrangement.Free}⏹️{/if}</Button
-            >
-            <Button
-                tip={$locale.ui.description.animate}
-                action={() =>
-                    Settings.setAnimationFactor(
-                        $animationFactor < 4 ? $animationFactor + 1 : 0
-                    )}>{animationSymbol}</Button
-            >
-            <LayoutChooser />
+                modes={['↔️', '↕', '⏹️']}
+            />
+            <Mode
+                descriptions={$locale.ui.mode.animate}
+                choice={$animationFactor}
+                select={(choice) => Settings.setAnimationFactor(choice)}
+                modes={['🧘🏽‍♀️', '🏃‍♀️', '½', '⅓', '¼']}
+            />
+            <Mode
+                descriptions={$locale.ui.mode.writing}
+                choice={$writingLayout === 'horizontal-tb'
+                    ? 0
+                    : $writingLayout === 'vertical-rl'
+                    ? 1
+                    : 2}
+                select={(choice) =>
+                    Settings.setWritingLayout(
+                        choice === 0
+                            ? 'horizontal-tb'
+                            : choice === 1
+                            ? 'vertical-rl'
+                            : 'vertical-lr'
+                    )}
+                modes={['→↓', '↓←', '↓→']}
+            />
             <LanguageChooser />
             {#if devicesRetrieved}
                 <label for="camera-setting">
@@ -150,20 +164,15 @@
                     />
                 </label>
             {/if}
-            <Button
-                tip={$locale.ui.description.dark}
-                action={() =>
+            <Mode
+                descriptions={$locale.ui.mode.dark}
+                choice={$dark === false ? 0 : $dark === true ? 1 : 2}
+                select={(choice) =>
                     dark.set(
-                        $dark === undefined
-                            ? true
-                            : $dark === true
-                            ? false
-                            : undefined
+                        choice === 0 ? false : choice === 1 ? true : undefined
                     )}
-                ><div class="dark-mode"
-                    >{$dark === true ? '☽' : $dark === false ? '☼' : '☼/☽'}</div
-                ></Button
-            >
+                modes={['☼', '☽', '-']}
+            />
         </div>
     {/if}
     <Button
@@ -222,10 +231,6 @@
 
     .gear {
         transition: transform calc(var(--animation-factor) * 200ms) ease-out;
-    }
-
-    .dark-mode {
-        display: inline-block;
     }
 
     .gear.expanded {

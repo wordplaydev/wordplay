@@ -101,6 +101,7 @@
     import ProjectLanguages from './ProjectLanguages.svelte';
     import gotoProject from '../app/gotoProject';
     import Collaborators from './Collaborators.svelte';
+    import Toggle from '../widgets/Toggle.svelte';
 
     export let project: Project;
     export let original: Project | undefined = undefined;
@@ -1189,13 +1190,15 @@
                                         >{/if}
                                     {#if !$evaluation.evaluator.isPlaying()}<Painting
                                             bind:painting
-                                        />{/if}<Button
-                                        tip={$locale.ui.description.grid}
-                                        action={() => (grid = !grid)}>▦</Button
-                                    ><Button
-                                        tip={$locale.ui.description.fit}
-                                        action={() => (fit = !fit)}
-                                        >{#if fit}🔒{:else}🔓{/if}</Button
+                                        />{/if}<Toggle
+                                        tips={$locale.ui.toggle.grid}
+                                        on={grid}
+                                        toggle={() => (grid = !grid)}>▦</Toggle
+                                    ><Toggle
+                                        tips={$locale.ui.toggle.fit}
+                                        on={fit}
+                                        toggle={() => (fit = !fit)}
+                                        >{#if fit}🔒{:else}🔓{/if}</Toggle
                                     >
                                 {:else if tile.isSource()}
                                     <!-- Make a Button for every modify command -->

@@ -376,7 +376,7 @@ export const ShowMenu: Command = {
 
 export const EnterFullscreen: Command = {
     symbol: '▶️',
-    description: (l) => l.ui.description.fullscreen,
+    description: (l) => l.ui.toggle.fullscreen.off,
     visible: Visibility.Invisible,
     category: Category.Evaluate,
     shift: false,
@@ -389,7 +389,7 @@ export const EnterFullscreen: Command = {
 
 export const ExitFullscreen: Command = {
     symbol: EDIT_SYMBOL,
-    description: (l) => l.ui.description.fullscreen,
+    description: (l) => l.ui.toggle.fullscreen.on,
     visible: Visibility.Invisible,
     category: Category.Evaluate,
     shift: false,

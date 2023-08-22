@@ -1823,7 +1823,6 @@
             "docBack": "$?",
             "revert": "$?",
             "set": "$?",
-            "fullscreen": "$?",
             "collapse": "$?",
             "expand": "$?",
             "close": "$?",
@@ -1833,8 +1832,6 @@
             "horizontal": "$?",
             "vertical": "$?",
             "freeform": "$?",
-            "fit": "$?",
-            "grid": "$?",
             "addPose": "$?",
             "removePose": "$?",
             "movePoseUp": "$?",
@@ -1920,6 +1917,39 @@
             "createPhrase": "$?",
             "createGroup": "$?",
             "createStage": "$?"
+        },
+        "toggle": {
+            "grid": {
+                "on": "$?",
+                "off": "$?"
+            },
+            "fit": {
+                "on": "$?",
+                "off": "$?"
+            },
+            "fullscreen": {
+                "on": "$?",
+                "off": "$?"
+            },
+            "tile": {
+                "on": "$?",
+                "off": "$?"
+            }
+        },
+        "mode": {
+            "layout": { "label": "$?", "modes": ["$?", "$?", "$?"] },
+            "animate": {
+                "label": "$?",
+                "modes": ["$?", "$?", "$?", "$?", "$?"]
+            },
+            "dark": {
+                "label": "$?",
+                "modes": ["$?", "$?", "$?"]
+            },
+            "writing": {
+                "label": "$?",
+                "modes": ["$?", "$?", "$?"]
+            }
         },
         "button": {
             "togglePublic": "$?",

@@ -7,6 +7,16 @@ type ButtonText = {
     tip: string;
 };
 
+export type ToggleText = {
+    on: string;
+    off: string;
+};
+
+export type ModeText<Modes extends string[]> = {
+    label: string;
+    modes: Modes;
+};
+
 type UITexts = {
     font: {
         app: (typeof SupportedFaces)[number];
@@ -46,7 +56,6 @@ type UITexts = {
         docBack: string;
         revert: string;
         set: string;
-        fullscreen: string;
         collapse: string;
         expand: string;
         close: string;
@@ -56,8 +65,6 @@ type UITexts = {
         horizontal: string;
         vertical: string;
         freeform: string;
-        fit: string;
-        grid: string;
         addPose: string;
         removePose: string;
         movePoseUp: string;
@@ -153,6 +160,18 @@ type UITexts = {
         createGroup: string;
         /** The button that creates a stage when there is none */
         createStage: string;
+    };
+    toggle: {
+        grid: ToggleText;
+        fit: ToggleText;
+        fullscreen: ToggleText;
+        tile: ToggleText;
+    };
+    mode: {
+        layout: ModeText<[string, string, string]>;
+        animate: ModeText<[string, string, string, string, string]>;
+        dark: ModeText<[string, string, string]>;
+        writing: ModeText<[string, string, string]>;
     };
     button: {
         togglePublic: string;

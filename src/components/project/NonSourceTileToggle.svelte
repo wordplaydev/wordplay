@@ -1,6 +1,6 @@
 <script lang="ts">
     import { createEventDispatcher } from 'svelte';
-    import Button from '../widgets/Button.svelte';
+    import Toggle from '../widgets/Toggle.svelte';
     import type Tile from './Tile';
     import { locale } from '../../db/Database';
 
@@ -9,18 +9,9 @@
     const dispatch = createEventDispatcher();
 </script>
 
-<Button
-    classes={tile.id}
+<Toggle
     uiid="{tile.id}Expand"
-    tip={`${$locale.ui.description.expand} ${tile.name}`}
-    action={() => dispatch('toggle')}
-    ><span class="name" class:collapsed={tile.isCollapsed()}>{tile.name}</span
-    ></Button
+    tips={$locale.ui.toggle.tile}
+    on={tile.isExpanded()}
+    toggle={() => dispatch('toggle')}>{tile.name}</Toggle
 >
-
-<style>
-    :not(.collapsed) {
-        display: inline-block;
-        transform: scale(0.85);
-    }
-</style>

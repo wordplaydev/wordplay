@@ -3328,7 +3328,6 @@
             "docBack": "return to previous",
             "revert": "revert to default",
             "set": "edit this property",
-            "fullscreen": "fill the browser with this window",
             "collapse": "collapse window",
             "expand": "expand window",
             "close": "close",
@@ -3338,8 +3337,6 @@
             "horizontal": "switch to horizontal arrangement",
             "vertical": "switch to vertical arrangement",
             "freeform": "switch to free form arrangement",
-            "fit": "fit to content",
-            "grid": "show/hide grid",
             "addPose": "add pose",
             "removePose": "remove pose",
             "movePoseUp": "move pose up",
@@ -3425,6 +3422,52 @@
             "createPhrase": "create a Phrase, showing the existing value as text",
             "createGroup": "create a Group, wrapping any existing Phrase",
             "createStage": "create a Stage, wrapping any existing Group or Phrase"
+        },
+        "toggle": {
+            "grid": {
+                "on": "hide grid lines",
+                "off": "show grid lines"
+            },
+            "fit": {
+                "on": "control zoom manually",
+                "off": "fit zoom to content"
+            },
+            "fullscreen": {
+                "on": "leave full screen",
+                "off": "expand tile to full screen"
+            },
+            "tile": {
+                "on": "hide this tile",
+                "off": "show this tile"
+            }
+        },
+        "mode": {
+            "layout": {
+                "label": "layout",
+                "modes": ["horizontal", "vertical", "free"]
+            },
+            "animate": {
+                "label": "animations",
+                "modes": [
+                    "off",
+                    "on",
+                    "half speed",
+                    "third speed",
+                    "quarter speed"
+                ]
+            },
+            "dark": {
+                "label": "theme",
+                "modes": ["light colors", "dark colors", "use device setting"]
+            },
+            "writing": {
+                "label": "writing layout",
+                "modes": [
+                    "horizontal, left to right",
+                    "vertical, right to left",
+                    "vertical, left to right"
+                ]
+            }
         },
         "button": {
             "togglePublic": "toggle public or private",
