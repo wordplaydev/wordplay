@@ -205,8 +205,6 @@
         max-width: 0;
         max-height: 1.25em;
         opacity: 0;
-        overflow-x: hidden;
-        overflow-y: hidden;
         user-select: none;
     }
 
