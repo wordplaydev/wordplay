@@ -64,6 +64,22 @@
       ],
       "type": "object"
     },
+    "DialogText": {
+      "additionalProperties": false,
+      "properties": {
+        "explanation": {
+          "type": "string"
+        },
+        "header": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "header",
+        "explanation"
+      ],
+      "type": "object"
+    },
     "DocText": {
       "anyOf": [
         {
@@ -6864,6 +6880,12 @@
               "additionalProperties": false,
               "properties": {
                 "collaborators": {
+                  "$ref": "#/definitions/DialogText"
+                },
+                "help": {
+                  "$ref": "#/definitions/DialogText"
+                },
+                "locale": {
                   "additionalProperties": false,
                   "properties": {
                     "explanation": {
@@ -6871,17 +6893,33 @@
                     },
                     "header": {
                       "type": "string"
+                    },
+                    "selected": {
+                      "description": "How to label the locales that have been selected",
+                      "type": "string"
+                    },
+                    "supported": {
+                      "description": "How to label the supported locales that have not been selected",
+                      "type": "string"
                     }
                   },
                   "required": [
+                    "explanation",
                     "header",
-                    "explanation"
+                    "selected",
+                    "supported"
                   ],
                   "type": "object"
+                },
+                "settings": {
+                  "$ref": "#/definitions/DialogText"
                 }
               },
               "required": [
-                "collaborators"
+                "collaborators",
+                "settings",
+                "locale",
+                "help"
               ],
               "type": "object"
             },
@@ -7168,14 +7206,6 @@
                 "properties": {
                   "description": "Documentation header in structure before properties",
                   "type": "string"
-                },
-                "selectedLocales": {
-                  "description": "How to label the locales that have been selected",
-                  "type": "string"
-                },
-                "supportedLocales": {
-                  "description": "How to label the supported locales that have not been selected",
-                  "type": "string"
                 }
               },
               "required": [
@@ -7189,8 +7219,6 @@
                 "properties",
                 "functions",
                 "conversions",
-                "selectedLocales",
-                "supportedLocales",
                 "helpLocalize",
                 "moveCursor",
                 "editCode",

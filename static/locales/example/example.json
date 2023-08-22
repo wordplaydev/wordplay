@@ -1959,6 +1959,20 @@
             "collaborators": {
                 "header": "$?",
                 "explanation": "$?"
+            },
+            "settings": {
+                "header": "$?",
+                "explanation": "$?"
+            },
+            "locale": {
+                "header": "$?",
+                "explanation": "$?",
+                "selected": "$?",
+                "supported": "$?"
+            },
+            "help": {
+                "header": "$?",
+                "explanation": "$?"
             }
         },
         "field": {
@@ -1993,8 +2007,6 @@
             "properties": "$?",
             "functions": "$?",
             "conversions": "$?",
-            "selectedLocales": "$?",
-            "supportedLocales": "$?",
             "helpLocalize": "$?",
             "moveCursor": "$?",
             "editCode": "$?",

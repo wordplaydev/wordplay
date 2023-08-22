@@ -2,9 +2,12 @@
     import { onMount, tick } from 'svelte';
     import { locale } from '../../db/Database';
     import Button from './Button.svelte';
+    import type { DialogText } from '../../locale/UITexts';
 
     export let dialog: HTMLDialogElement | undefined = undefined;
     export let show: boolean;
+    export let description: DialogText;
+    export let width: string | undefined = undefined;
 
     $: {
         if (dialog) {
@@ -30,11 +33,14 @@
 <!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
 <dialog
     bind:this={dialog}
+    style:width
     tabindex="-1"
     on:keydown={(event) =>
         event.key === 'Escape' ? (show = false) : undefined}
 >
     <div class="content">
+        <h1>{description.header}</h1>
+        <p>{description.explanation}</p>
         <slot />
         <div class="close">
             <Button
@@ -52,6 +58,9 @@
         padding: calc(2 * var(--wordplay-spacing));
         width: 80vw;
         height: 80vh;
+        background-color: var(--wordplay-background);
+        color: var(--wordplay-foreground);
+        border: var(--wordplay-border-width) solid var(--wordplay-border-color);
     }
 
     .close {

@@ -7,7 +7,7 @@
     export let show: boolean;
 </script>
 
-<Dialog bind:show>
+<Dialog bind:show description={$locale.ui.dialog.help}>
     <table>
         <td colspan="3"><h1>{$locale.ui.header.moveCursor}</h1></td>
         {#each Commands.filter((c) => c.category === Category.Cursor) as command}

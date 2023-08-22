@@ -58,9 +58,9 @@
     --color-yellow: #cb8b00;
     --color-white: #ffffff;
     --color-black: #000000;
-    --color-light-grey: #cccccc;
-    --color-very-light-grey: #eeeeee;
-    --color-dark-grey: #888888;
+    --color-light-grey: #484848;
+    --color-very-light-grey: #252525;
+    --color-dark-grey: #8a8a8a;
 
     --wordplay-foreground: var(--color-white);
     --wordplay-background: var(--color-black);
@@ -68,6 +68,7 @@
     --wordplay-chrome: var(--color-dark-grey);
     --wordplay-border-color: var(--color-dark-grey);
     --wordplay-hover: #463000;
+    --wordplay-alternating-color: var(--color-very-light-grey);
 }
 
 @keyframes wobble {

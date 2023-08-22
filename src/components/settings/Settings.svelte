@@ -13,17 +13,16 @@
         writingLayout,
     } from '../../db/Database';
     import { page } from '$app/stores';
-    import { clickOutside } from '../app/clickOutside';
     import Arrangement from '../../db/Arrangement';
-    import { slide } from 'svelte/transition';
     import Options from '../widgets/Options.svelte';
     import { onMount } from 'svelte';
     import Link from '../app/Link.svelte';
     import Status from '../app/Status.svelte';
     import { goto } from '$app/navigation';
     import Mode from '../widgets/Mode.svelte';
+    import Dialog from '../widgets/Dialog.svelte';
 
-    let expanded = false;
+    let show = false;
 
     let user = getUser();
     let dark = isDark();
@@ -78,15 +77,11 @@
 
 <svelte:window on:keydown={handleKey} />
 
-<div
-    class="settings"
-    class:expanded
-    use:clickOutside
-    on:outclick={() => (expanded = false)}
->
-    {#if expanded}
-        <div class="controls" transition:slide>
-            <Mode
+<div class="settings">
+    <LanguageChooser />
+    <Dialog bind:show width="50vw" description={$locale.ui.dialog.settings}>
+        <p
+            ><Mode
                 descriptions={$locale.ui.mode.layout}
                 choice={$arrangement === Arrangement.Horizontal
                     ? 0
@@ -102,14 +97,18 @@
                             : Arrangement.Free
                     )}
                 modes={['↔️', '↕', '⏹️']}
-            />
-            <Mode
+            /></p
+        >
+        <p
+            ><Mode
                 descriptions={$locale.ui.mode.animate}
                 choice={$animationFactor}
                 select={(choice) => Settings.setAnimationFactor(choice)}
                 modes={['🧘🏽‍♀️', '🏃‍♀️', '½', '⅓', '¼']}
-            />
-            <Mode
+            /></p
+        >
+        <p
+            ><Mode
                 descriptions={$locale.ui.mode.writing}
                 choice={$writingLayout === 'horizontal-tb'
                     ? 0
@@ -125,10 +124,11 @@
                             : 'vertical-lr'
                     )}
                 modes={['→↓', '↓←', '↓→']}
-            />
-            <LanguageChooser />
-            {#if devicesRetrieved}
-                <label for="camera-setting">
+            /></p
+        >
+        {#if devicesRetrieved}
+            <p
+                ><label for="camera-setting">
                     🎥
                     <Options
                         value={cameraDevice?.label}
@@ -145,8 +145,10 @@
                             )}
                         width="4em"
                     />
-                </label>
-                <label for="mic-setting">
+                </label></p
+            >
+            <p
+                ><label for="mic-setting">
                     🎤
                     <Options
                         value={micDevice?.label}
@@ -162,9 +164,11 @@
                             )}
                         width="4em"
                     />
-                </label>
-            {/if}
-            <Mode
+                </label></p
+            >
+        {/if}
+        <p
+            ><Mode
                 descriptions={$locale.ui.mode.dark}
                 choice={$dark === false ? 0 : $dark === true ? 1 : 2}
                 select={(choice) =>
@@ -173,12 +177,10 @@
                     )}
                 modes={['☼', '☽', '-']}
             />
-        </div>
-    {/if}
-    <Button
-        tip={$locale.ui.description.settings}
-        action={() => (expanded = !expanded)}
-        ><div class="gear" class:expanded>⚙</div></Button
+        </p>
+    </Dialog>
+    <Button tip={$locale.ui.description.settings} action={() => (show = !show)}
+        >⚙</Button
     >
     <div class="account" class:anonymous>
         <Link to="/login">
@@ -204,38 +206,6 @@
         align-items: center;
         gap: var(--wordplay-spacing);
         margin-left: auto;
-    }
-
-    .controls {
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        gap: var(--wordplay-spacing);
-        max-width: 0;
-        max-height: 1.25em;
-        opacity: 0;
-        user-select: none;
-    }
-
-    .controls {
-        transition: max-width, opacity;
-        transition-duration: calc(var(--animation-factor) * 200ms);
-        transition-timing-function: ease-out;
-    }
-
-    .settings.expanded .controls {
-        max-width: 40em;
-        opacity: 1;
-        user-select: all;
-    }
-
-    .gear {
-        transition: transform calc(var(--animation-factor) * 200ms) ease-out;
-    }
-
-    .gear.expanded {
-        display: inline-block;
-        transform: rotate(270deg);
     }
 
     .account.anonymous {

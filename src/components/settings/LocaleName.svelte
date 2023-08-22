@@ -11,8 +11,9 @@
 </script>
 
 <span class="language" class:supported
-    >{getLocaleLanguageName(locale)}
-    {#if region}<sub>({region})</sub>{/if}</span
+    ><span class="name">{getLocaleLanguageName(locale)}</span>{#if region}<sub
+            >{region}</sub
+        >{/if}</span
 >
 
 <style>
@@ -24,5 +25,9 @@
     .language:not(.supported) {
         opacity: 0.6;
         cursor: default;
+    }
+
+    sub {
+        font-size: xx-small;
     }
 </style>

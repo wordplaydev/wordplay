@@ -52,7 +52,7 @@
         user-select: none;
         border: none;
         background: none;
-        color: currentcolor;
+        color: var(--wordplay-foreground);
         cursor: pointer;
         width: fit-content;
         white-space: nowrap;

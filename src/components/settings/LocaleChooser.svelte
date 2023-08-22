@@ -52,8 +52,8 @@
     }
 </script>
 
-<Dialog bind:show>
-    <h1>{concretize($locale, $locale.ui.header.selectedLocales).toText()}</h1>
+<Dialog bind:show description={$locale.ui.dialog.locale}>
+    <h1>{concretize($locale, $locale.ui.dialog.locale.selected).toText()}</h1>
     <div class="languages">
         {#each selectedLocales as selected}
             <Button
@@ -66,7 +66,7 @@
             >
         {/each}
     </div>
-    <h1>{concretize($locale, $locale.ui.header.supportedLocales).toText()}</h1>
+    <h1>{concretize($locale, $locale.ui.dialog.locale.supported).toText()}</h1>
     <div class="languages">
         {#each SupportedLocales.filter((supported) => !selectedLocales.some((locale) => locale === supported)) as supported}
             <Button

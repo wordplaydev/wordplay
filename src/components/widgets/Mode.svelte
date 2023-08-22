@@ -10,35 +10,45 @@
     export let active = true;
 </script>
 
-<div class="group" role="radiogroup" aria-label={descriptions.label}>
-    {#each modes as mode, index}
-        <button
-            type="button"
-            role="radio"
-            aria-checked={index === choice}
-            class:selected={index === choice}
-            aria-label={descriptions.modes[index]}
-            title={descriptions.modes[index]}
-            aria-disabled={!active}
-            on:dblclick|stopPropagation
-            on:pointerdown={(event) =>
-                event.button === 0 && active ? select(index) : undefined}
-            on:keydown={(event) =>
-                (event.key === 'Enter' || event.key === ' ') &&
-                // Only activate with no modifiers down. Enter is used for other shortcuts.
-                !event.shiftKey &&
-                !event.ctrlKey &&
-                !event.altKey &&
-                !event.metaKey
-                    ? select(index)
-                    : undefined}
-        >
-            {mode}
-        </button>
-    {/each}
+<div class="mode">
+    <label for={descriptions.label}>{descriptions.label}</label>
+    <div class="group" role="radiogroup" aria-labelledby={descriptions.label}>
+        {#each modes as mode, index}
+            <button
+                type="button"
+                role="radio"
+                aria-checked={index === choice}
+                class:selected={index === choice}
+                aria-label={descriptions.modes[index]}
+                title={descriptions.modes[index]}
+                aria-disabled={!active}
+                on:dblclick|stopPropagation
+                on:pointerdown={(event) =>
+                    event.button === 0 && active ? select(index) : undefined}
+                on:keydown={(event) =>
+                    (event.key === 'Enter' || event.key === ' ') &&
+                    // Only activate with no modifiers down. Enter is used for other shortcuts.
+                    !event.shiftKey &&
+                    !event.ctrlKey &&
+                    !event.altKey &&
+                    !event.metaKey
+                        ? select(index)
+                        : undefined}
+            >
+                {mode}
+            </button>
+        {/each}
+    </div>
 </div>
 
 <style>
+    .mode {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        gap: var(--wordplay-spacing);
+    }
+
     button {
         font-family: var(--wordplay-app-font);
         font-weight: var(--wordplay-font-weight);
@@ -46,6 +56,7 @@
         width: fit-content;
         white-space: nowrap;
         border: none;
+        color: var(--wordplay-foreground);
         background: none;
         padding: var(--wordplay-spacing);
         transition: transform calc(var(--animation-factor) * 200ms);

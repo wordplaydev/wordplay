@@ -17,6 +17,11 @@ export type ModeText<Modes extends string[]> = {
     modes: Modes;
 };
 
+export type DialogText = {
+    header: string;
+    explanation: string;
+};
+
 type UITexts = {
     font: {
         app: (typeof SupportedFaces)[number];
@@ -189,10 +194,15 @@ type UITexts = {
         };
     };
     dialog: {
-        collaborators: {
-            header: string;
-            explanation: string;
+        collaborators: DialogText;
+        settings: DialogText;
+        locale: DialogText & {
+            /** How to label the locales that have been selected */
+            selected: string;
+            /** How to label the supported locales that have not been selected */
+            supported: string;
         };
+        help: DialogText;
     };
     field: {
         collaborator: {
@@ -240,10 +250,6 @@ type UITexts = {
         functions: string;
         /** Documentation header in structure before conversions */
         conversions: string;
-        /** How to label the locales that have been selected */
-        selectedLocales: string;
-        /** How to label the supported locales that have not been selected */
-        supportedLocales: string;
         /** How to request help with localization */
         helpLocalize: string;
         moveCursor: string;
