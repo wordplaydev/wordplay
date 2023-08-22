@@ -12,41 +12,61 @@
     import Loading from '@components/app/Loading.svelte';
     import { setContext } from 'svelte';
     import { browser } from '$app/environment';
-    import { database, locale } from '@db/Database';
+    import { Projects, locale } from '@db/Database';
     import Page from '@components/app/Page.svelte';
+    import { Settings } from '@db/Database';
+    import Writing from '../../../components/app/Writing.svelte';
 
     /** True if we're async loading the project, as opposed to getting it from the browser cache. */
     let loading = false;
     let error = false;
 
     /** The project store is derived from the projects and the page's project ID. */
-    let projectStore: Writable<Project> | undefined = undefined;
+    let store: Writable<Project> | undefined = undefined;
     let project: Project | undefined = undefined;
+    let editable = false;
+    let overwritten = false;
     let unsub: Unsubscriber | undefined = undefined;
-    $: if (projectStore)
-        setContext<ProjectContext>(ProjectSymbol, projectStore);
+    $: if (store) setContext<ProjectContext>(ProjectSymbol, store);
 
     // Create a concept path for children
     setContext(ConceptPathSymbol, writable([]));
 
     // Whenever the page or projects change, update the project store.
     $: if ($page) {
-        const projectID = $page.params.projectid;
+        const projectID = decodeURI($page.params.projectid);
         // No matching project, but we have a project ID and we're in the browser?
         if (projectID && projectID.length > 0 && browser) {
             // Set loading feedback.
             loading = true;
             // Async load the project from the database.
-            database
-                .getProject(projectID)
-                .then(() => {
-                    const store = database.getProjectStore(projectID);
-                    if (store && store !== projectStore) {
-                        if (unsub) unsub();
-                        projectStore = store;
-                        unsub = store.subscribe((proj) => (project = proj));
-                        loading = false;
-                        error = false;
+            Projects.get(projectID)
+                .then((proj) => {
+                    // Remember the project
+                    project = proj;
+                    editable = false;
+                    loading = false;
+                    error = false;
+
+                    // See if the project is editable, and if so, get it's store, so we can track it's changes.
+                    const projectStore = Projects.getStore(projectID);
+                    if (projectStore) {
+                        editable = true;
+                        if (store !== projectStore) {
+                            // Unsubscribe from the previous store
+                            if (unsub) unsub();
+                            // Mark the project editable.
+                            // Remember the new store
+                            store = projectStore;
+                            // Update the project we're showing whenever it changes.
+                            unsub = store.subscribe((proj) => {
+                                project = proj;
+                                overwritten =
+                                    Projects.getHistory(
+                                        proj.id
+                                    )?.wasOverwritten() ?? false;
+                            });
+                        }
                     }
                 })
                 .catch(() => {
@@ -62,15 +82,15 @@
 
 {#if project}
     <Page
-        fullscreen={database.getProjectLayout(project.id)?.isFullscreen() ??
+        fullscreen={Settings.getProjectLayout(project.id)?.isFullscreen() ??
             false}
     >
         {#key project.id}
-            <ProjectView {project} />
+            <ProjectView {project} {editable} {overwritten} />
         {/key}
     </Page>
 {:else if loading}
     <Loading />
 {:else if $page.params.projectid || error}
-    <Feedback>{$locale.ui.feedback.unknownProject}</Feedback>
+    <Writing><Feedback>{$locale.ui.feedback.unknownProject}</Feedback></Writing>
 {/if}

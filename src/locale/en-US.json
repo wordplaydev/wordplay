@@ -3353,8 +3353,7 @@
             "sequence": "convert to a sequence",
             "animate": "toggle animations on/off",
             "addSource": "create a new $source",
-            "deleteSource": "remove this $source",
-            "deleteProject": "delete this performance",
+            "copyProject": "copy this project",
             "editProject": "edit this performance",
             "settings": "show settings",
             "newProject": "new performance",
@@ -3427,9 +3426,34 @@
             "createGroup": "create a Group, wrapping any existing Phrase",
             "createStage": "create a Stage, wrapping any existing Group or Phrase"
         },
+        "button": {
+            "togglePublic": "toggle public or private",
+            "showCollaborators": "show collaborators dialog",
+            "removeCollaborator": "remove collaborator"
+        },
+        "confirm": {
+            "archiveProject": {
+                "description": "archive this performance",
+                "prompt": "archive"
+            },
+            "deleteSource": {
+                "description": "delete this $source",
+                "prompt": "delete"
+            }
+        },
+        "dialog": {
+            "collaborators": {
+                "header": "Collaborators",
+                "explanation": "Want someone to help edit this project? Add or remove them by email."
+            }
+        },
+        "field": {
+            "collaborator": {
+                "placeholder": "email",
+                "description": "the email address of the person who you want to grant edit access."
+            }
+        },
         "prompt": {
-            "deleteSource": "delete",
-            "deleteProject": "delete",
             "emptyProgram": [
                 "Let's get started! You can …",
                 "• Open 📕 and drag 🖱️ us to this program.",
@@ -3454,6 +3478,7 @@
         "header": {
             "learn": "Learn",
             "projects": "Performances",
+            "galleries": "Galleries",
             "about": "About",
             "examples": "Examples",
             "inputs": "Inputs",
@@ -3486,7 +3511,7 @@
             "editing": "Edit me!"
         },
         "feedback": {
-            "unknownProject": "There's no performance with this ID.",
+            "unknownProject": "This performance doesn't exist or isn't public.",
             "loading": "Loading, thank you for waiting!",
             "save": {
                 "saving": "saving",
@@ -3496,18 +3521,40 @@
         },
         "login": {
             "header": "Login",
-            "prompt": "Log in to access your performances.",
-            "anonymousPrompt": "Your performances are saved on this device. Create an account to save them online.",
+            "prompt": {
+                "login": "Log in to access your performances.",
+                "enter": "It looks like you're logging in on a different device. Can you enter your email again?",
+                "anonymous": "Your performances are saved on this device. Create an account to save them online.",
+                "play": "You're logged in. Have fun!",
+                "change": "You can change your email address.",
+                "check": "Check your original email address for a confirmation link.",
+                "logout": "You can log out."
+            },
             "submit": "send a login email",
-            "enterEmail": "It looks like you're logging in on a different device. Can you enter your email again?",
             "sent": "Check your email for a link.",
             "success": "Account created!",
-            "failure": "Couldn't reach the internet...",
-            "expiredFailure": "This link expired.",
-            "invalidFailure": "This link isn't valid.",
-            "emailFailure": "This email wasn't valid.",
-            "logout": "logout",
-            "offline": "You appear to be offline."
+            "error": {
+                "expired": "This link expired.",
+                "invalid": "This link isn't valid.",
+                "email": "This email wasn't valid.",
+                "other": "Unable to login",
+                "failure": "Couldn't reach the internet...",
+                "offline": "You appear to be offline."
+            },
+            "button": {
+                "logout": {
+                    "tip": "logout of your account",
+                    "label": "logout"
+                },
+                "login": {
+                    "tip": "login with this email, sending a login link",
+                    "label": ">"
+                },
+                "update": {
+                    "tip": "change your email",
+                    "label": ">"
+                }
+            }
         },
         "edit": {
             "node": "$1$2[, type $2|]",
@@ -3531,7 +3578,10 @@
             },
             "tutorial": "We weren't able to find a tutorial for this language.",
             "unwritten": "TBD",
-            "template": "This template couldn't be parsed: $1"
+            "template": "This template couldn't be parsed: $1",
+            "noDatabase": "We can't reach the database",
+            "overwritten": "Found a more recent version!",
+            "unknownEmail": "We don't know a creator with this email."
         },
         "about": {
             "content": [

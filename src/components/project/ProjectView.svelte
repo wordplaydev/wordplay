@@ -72,13 +72,15 @@
     import Painting from '../output/Painting.svelte';
     import type PaintingConfiguration from '../output/PaintingConfiguration';
     import {
-        database,
+        DB,
         locale,
         locales,
         arrangement,
         languages,
         camera,
         mic,
+        Settings,
+        Projects,
     } from '../../db/Database';
     import Arrangement from '../../db/Arrangement';
     import {
@@ -96,15 +98,20 @@
     import Help from './Help.svelte';
     import type Color from '../../output/Color';
     import ProjectLanguages from './ProjectLanguages.svelte';
+    import gotoProject from '../app/gotoProject';
+    import Collaborators from './Collaborators.svelte';
 
     export let project: Project;
     export let original: Project | undefined = undefined;
-    /** If set to false, only the output is shown initially. */
+    /** If false, then all things editable are deactivated */
     export let editable = true;
+    /** If set to false, only the output is shown initially. */
+    export let playing = true;
     /** True if the output should be fit to content */
     export let fit = true;
     export let autofocus = true;
     export let showHelp = true;
+    export let overwritten = false;
 
     // The HTMLElement that represents this element
     let view: HTMLElement | undefined = undefined;
@@ -130,6 +137,9 @@
 
     /** Whether to show the keyboard help dialog */
     let help = false;
+
+    /** Whether to show the collaborators dialog */
+    let collaborators = false;
 
     /** The current canvas dimensions */
     let canvasWidth = 1024;
@@ -241,7 +251,7 @@
         // Make the new evaluator, replaying the previous evaluator's inputs, unless we marked the last evaluator is out of date.
         const newEvaluator = new Evaluator(
             newProject,
-            database,
+            DB,
             true,
             replayInputs ? $evaluator : undefined
         );
@@ -316,8 +326,8 @@
                             .withName(
                                 source.names.getPreferredNameString($locales)
                             )
-                            // If not editable, keep the source files collapsed
-                            .withMode(editable ? tile.mode : Mode.Collapsed)
+                            // If playing, keep the source files collapsed
+                            .withMode(playing ? tile.mode : Mode.Collapsed)
                     );
             }
         }
@@ -352,7 +362,7 @@
     }
 
     function initializedLayout() {
-        const persistedLayout = database.getProjectLayout(project.id);
+        const persistedLayout = Settings.getProjectLayout(project.id);
         return persistedLayout === null
             ? null
             : persistedLayout.withTiles(syncTiles(persistedLayout.tiles));
@@ -396,9 +406,9 @@
                               Tile.randomPosition(1024, 768)
                           ),
                           ...project.getSources().map((source, index) =>
-                              // If not editable, collapse the source initially.
+                              // If playing, collapse the source initially.
                               createSourceTile(source, index).withMode(
-                                  editable &&
+                                  playing &&
                                       (index === 0 || source === newSource)
                                       ? Mode.Expanded
                                       : Mode.Collapsed
@@ -420,7 +430,7 @@
     }
 
     /** Persist the layout when it changes */
-    $: database.setProjectLayout(project.id, layout);
+    $: Settings.setProjectLayout(project.id, layout);
 
     /** When the layout or path changes, add or remove query params based on state */
     $: {
@@ -654,10 +664,10 @@
 
     /** If the camera or mic changes, restart the evaluator to reflect to the new stream. */
     const cameraUnsubscribe = camera.subscribe(() =>
-        database.reviseProject(project.clone(), false)
+        Projects.reviseProject(project.clone(), false)
     );
     const micUnsubscribe = mic.subscribe(() =>
-        database.reviseProject(project.clone(), false)
+        Projects.reviseProject(project.clone(), false)
     );
 
     onDestroy(() => {
@@ -970,7 +980,7 @@
                   ) ?? Array.from($editors.values())[0]
               )?.caret,
         evaluator: $evaluator,
-        database,
+        database: DB,
         fullscreen,
         focusOrCycleTile,
         resetInputs,
@@ -1042,31 +1052,39 @@
         newSource = newProject.supplements.at(-1);
 
         // This will propogate back to a new project here, updating the UI.
-        database.reviseProject(newProject);
+        Projects.reviseProject(newProject);
     }
 
     function removeSource(source: Source) {
-        database.reviseProject(project.withoutSource(source));
+        Projects.reviseProject(project.withoutSource(source));
     }
 
     function renameSource(id: string, name: string) {
         if (!isName(name)) return;
         const source = getSourceByID(id);
-        database.reviseProject(
+        Projects.reviseProject(
             project.withSource(source, source.withName(name, $locales[0]))
         );
     }
 
-    function becomeEditable() {
+    function stopPlaying() {
         const main = layout.getTileWithID(Layout.getSourceID(0));
         if (main) {
-            toggleTile(main);
-            editable = true;
+            playing = true;
+            setMode(main, Mode.Expanded);
+            layout = layout.withoutFullscreen();
         }
     }
 
     function revert() {
-        if (original) database.reviseProject(original);
+        if (original) Projects.reviseProject(original);
+    }
+
+    /** Copy the project, track it, then gotoProject(). */
+    function copy() {
+        const copy = project.copy();
+        Projects.track(copy, true, true, false);
+        gotoProject(copy, false);
     }
 </script>
 
@@ -1078,6 +1096,7 @@
     on:pointerup={handlePointerUp}
 />
 
+<Collaborators bind:show={collaborators} {project} />
 <Help bind:show={help} />
 <!-- Render the app header and the current project, if there is one. -->
 <main class="project" bind:this={view}>
@@ -1113,6 +1132,7 @@
                         <TileView
                             {tile}
                             {layout}
+                            {editable}
                             arrangement={$arrangement}
                             background={tile.kind === TileKind.Output
                                 ? outputBackground
@@ -1145,24 +1165,25 @@
                                 {#if tile.isSource()}
                                     {@const source = getSourceByID(tile.id)}
                                     <!-- Can't delete main. -->
-                                    {#if source !== project.main}
+                                    {#if editable && source !== project.main}
                                         <ConfirmButton
-                                            tip={$locale.ui.description
-                                                .deleteSource}
+                                            tip={$locale.ui.confirm.deleteSource
+                                                .description}
                                             action={() => removeSource(source)}
-                                            prompt={$locale.ui.prompt
-                                                .deleteSource}>⨉</ConfirmButton
+                                            prompt={$locale.ui.confirm
+                                                .deleteSource.prompt}
+                                            >⨉</ConfirmButton
                                         >
                                     {/if}
                                 {/if}
                             </svelte:fragment>
                             <svelte:fragment slot="extra">
                                 {#if tile.kind === TileKind.Output}
-                                    {#if !editable}<Button
+                                    {#if playing && editable}<Button
                                             uiid="editProject"
                                             tip={$locale.ui.description
                                                 .editProject}
-                                            action={() => becomeEditable()}
+                                            action={() => stopPlaying()}
                                             >✏️</Button
                                         >{/if}
                                     {#if !$evaluation.evaluator.isPlaying()}<Painting
@@ -1187,7 +1208,7 @@
                                 {#if tile.kind === TileKind.Documentation}
                                     <Documentation {project} />
                                 {:else if tile.kind === TileKind.Palette}
-                                    <Palette {project} />
+                                    <Palette {project} {editable} />
                                 {:else if tile.kind === TileKind.Output}
                                     <OutputView
                                         {project}
@@ -1200,6 +1221,7 @@
                                         bind:painting
                                         {paintingConfig}
                                         bind:background={outputBackground}
+                                        {editable}
                                     />
                                     <!-- Show an editor, annotations, and a mini output view -->
                                 {:else}
@@ -1209,6 +1231,7 @@
                                             {project}
                                             evaluator={$evaluator}
                                             {source}
+                                            {editable}
                                             sourceID={tile.id}
                                             selected={source === selectedSource}
                                             autofocus={autofocus &&
@@ -1241,7 +1264,7 @@
                                         stepping={$evaluation.playing === false}
                                     /><GlyphChooser
                                         sourceID={tile.id}
-                                    />{:else if tile.kind === TileKind.Output && layout.fullscreenID !== tile.id && editable}
+                                    />{:else if tile.kind === TileKind.Output && layout.fullscreenID !== tile.id && playing}
                                     <Timeline
                                         evaluator={$evaluator}
                                     />{/if}</svelte:fragment
@@ -1253,7 +1276,7 @@
         {/key}
     </div>
 
-    {#if !layout.isFullscreen() && editable}
+    {#if !layout.isFullscreen() && playing}
         <nav class="footer">
             {#if original}<Button
                     uiid="revertProject"
@@ -1261,13 +1284,32 @@
                     active={!project.equals(original)}
                     action={() => revert()}>↺</Button
                 >{/if}
-            <TextField
-                text={project.name}
-                description={$locale.ui.description.editProjectName}
-                placeholder={$locale.ui.placeholders.project}
-                changed={(name) =>
-                    database.reviseProject(project.withName(name))}
-            />
+            {#if !editable}
+                <Button tip={$locale.ui.description.copyProject} action={copy}
+                    ><span class="copy">✐+</span></Button
+                >
+            {:else}
+                <Button
+                    tip={$locale.ui.button.togglePublic}
+                    action={() =>
+                        Projects.reviseProject(
+                            project.asPublic(!project.public)
+                        )}
+                    >{#if project.public}🌐{:else}🤫{/if}</Button
+                >
+                <Button
+                    tip={$locale.ui.button.showCollaborators}
+                    action={() => (collaborators = true)}>🤝</Button
+                >
+            {/if}
+
+            {#if editable}<TextField
+                    text={project.name}
+                    description={$locale.ui.description.editProjectName}
+                    placeholder={$locale.ui.placeholders.project}
+                    changed={(name) =>
+                        Projects.reviseProject(project.withName(name))}
+                />{:else}{project.name}{/if}
             {#each layout.getNonSources() as tile}
                 <NonSourceTileToggle
                     {tile}
@@ -1285,11 +1327,15 @@
                     />
                 {/if}
             {/each}
-            <Button
-                uiid="addSource"
-                tip={$locale.ui.description.addSource}
-                action={addSource}>+</Button
-            >
+            {#if editable}
+                <Button
+                    uiid="addSource"
+                    tip={$locale.ui.description.addSource}
+                    action={addSource}>+</Button
+                >{/if}
+            {#if overwritten}
+                <span class="overwritten">{$locale.ui.error.overwritten}</span>
+            {/if}
             <span class="help">
                 <ProjectLanguages {project} />
                 <Button
@@ -1425,8 +1471,28 @@
         gap: var(--wordplay-spacing);
     }
 
+    .copy {
+        display: inline-block;
+        background: var(--wordplay-highlight-color);
+        color: var(--wordplay-background);
+        border-radius: var(--wordplay-border-radius);
+        padding-inline-start: var(--wordplay-spacing);
+        padding-inline-end: var(--wordplay-spacing);
+        user-select: none;
+    }
+
     .footer {
         border-bottom: var(--wordplay-border-color) solid
             var(--wordplay-border-width);
+    }
+
+    .overwritten {
+        display: inline-block;
+        background: var(--wordplay-error);
+        color: var(--wordplay-background);
+        padding-inline-start: var(--wordplay-spacing);
+        padding-inline-end: var(--wordplay-spacing);
+        border-radius: var(--wordplay-border-radius);
+        white-space: nowrap;
     }
 </style>

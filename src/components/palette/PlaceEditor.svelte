@@ -9,11 +9,12 @@
     import Note from '../widgets/Note.svelte';
     import { getNumber } from './editOutput';
     import Expression from '../../nodes/Expression';
-    import { database, locale, locales } from '../../db/Database';
+    import { Projects, locale, locales } from '../../db/Database';
     import { tick } from 'svelte';
 
     export let project: Project;
     export let place: Evaluate | undefined;
+    export let editable: boolean;
 
     let views: HTMLInputElement[] = [];
 
@@ -29,7 +30,7 @@
             (view) => document.activeElement === view
         );
 
-        database.reviseProjectNodes(project, [
+        Projects.revise(project, [
             [
                 place,
                 place.withBindAs(
@@ -65,6 +66,7 @@
                 <TextField
                     text={`${value}`}
                     validator={valid}
+                    {editable}
                     placeholder={getFirstName(dimension)}
                     description={$locale.ui.description.editCoordinate}
                     changed={(value) => handleChange(dimension, value)}

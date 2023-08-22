@@ -1,4 +1,5 @@
-=== RainingLetters/en
+RainingLetters
+=== start/en
 ``This program has a set of raining letters that fall to the ground according 
 to the rules of physics, and once they hit, become eligible for dropping again.
 We always have the same number of letters dropping, but make visible a different number

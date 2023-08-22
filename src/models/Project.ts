@@ -22,8 +22,9 @@ import type { CaretPosition } from '../edit/Caret';
 import type createDefaultShares from '@runtime/createDefaultShares';
 import FunctionType from '../nodes/FunctionType';
 import type Locale from '../locale/Locale';
-import { toLocaleString } from '../locale/Locale';
+import { getBestSupportedLocales, toLocaleString } from '../locale/Locale';
 import { toTokens } from '../parser/toTokens';
+import type LocalesDatabase from '../db/LocalesDatabase';
 
 export type SerializedSource = {
     names: string;
@@ -31,12 +32,23 @@ export type SerializedSource = {
     caret: SerializedCaret;
 };
 export type SerializedProject = {
+    /** A uuid4 */
     id: string;
+    /** A single Translation, serialized */
     name: string;
     sources: SerializedSource[];
+    /** A list of locales, which are a ISO 639-1 languaage code, followed by a -, followed by ISO 3166-2 region code: https://en.wikipedia.org/wiki/ISO_3166-2 */
     locales: string[];
+    /** A list of Firestore user IDs that have privileges to edit this project */
     uids: string[];
+    /** Whether this project can be viewed by anyone */
+    public: boolean;
+    /** True if the project is listed in a creator's performance */
     listed: boolean;
+    /** True if the project is archived */
+    archived: boolean;
+    /** When this was created */
+    timestamp: number;
 };
 
 type Analysis = {
@@ -82,6 +94,12 @@ export default class Project {
     /** True if it should be listed in the projects list. Allows tutorial projects not to be listed. */
     readonly listed: boolean;
 
+    /** True if this project should be viewable by anyone */
+    readonly public: boolean;
+
+    /** True if has been archived */
+    readonly archived: boolean;
+
     /** A cache of source contexts */
     readonly sourceContext: Map<Source, Context> = new Map();
 
@@ -100,6 +118,9 @@ export default class Project {
     /** The localized basis bindings */
     readonly basis: Basis;
 
+    /** The time when this project version created. */
+    readonly timestamp: number;
+
     /** Conflicts. */
     analyzed: 'unanalyzed' | 'analyzing' | 'analyzed' = 'unanalyzed';
     analysis: Analysis = {
@@ -117,11 +138,16 @@ export default class Project {
         supplements: Source[],
         locales: Locale | Locale[],
         uids: string[] = [],
+        pub = false,
         carets: SerializedCarets | undefined = undefined,
-        listed = true
+        listed = true,
+        archived = false,
+        timestamp: number | undefined = undefined
     ) {
         this.id = id ?? uuidv4();
-        this.uids = uids;
+        this.uids = uids.filter((uid) => uid.length > 0);
+        this.public = pub;
+        this.timestamp = timestamp ?? Date.now();
 
         // Remember the source.
         this.name = name;
@@ -148,6 +174,9 @@ export default class Project {
         // Remember whether this project should be listed as a project. (Used to not list tutorial projects).
         this.listed = listed;
 
+        // Remember whether this is archived.
+        this.archived = archived;
+
         // Initialize roots for all definitions that can be referenced.
         this.roots = [
             ...this.getSources().map((source) => source.root),
@@ -164,8 +193,10 @@ export default class Project {
             this.supplements,
             this.locales,
             this.uids,
+            this.public,
             this.carets,
-            this.listed
+            this.listed,
+            this.archived
         );
     }
 
@@ -492,8 +523,10 @@ export default class Project {
             this.supplements,
             this.locales,
             this.uids,
+            this.public,
             this.carets,
-            this.listed
+            this.listed,
+            this.archived
         );
     }
 
@@ -505,8 +538,10 @@ export default class Project {
             this.supplements,
             this.locales,
             this.uids,
+            this.public,
             this.carets,
-            this.listed
+            this.listed,
+            this.archived
         );
     }
 
@@ -523,8 +558,10 @@ export default class Project {
             this.supplements,
             Array.from(new Set([...this.locales, ...locales])),
             this.uids,
+            this.public,
             this.carets,
-            this.listed
+            this.listed,
+            this.archived
         );
     }
 
@@ -536,6 +573,7 @@ export default class Project {
             this.supplements,
             this.locales,
             this.uids,
+            this.public,
             this.carets.map((sourceCaret) =>
                 sourceCaret.source === source
                     ? {
@@ -547,7 +585,8 @@ export default class Project {
                       }
                     : sourceCaret
             ),
-            this.listed
+            this.listed,
+            this.archived
         );
     }
 
@@ -559,8 +598,10 @@ export default class Project {
             this.supplements.filter((s) => s !== source),
             this.locales,
             this.uids,
+            this.public,
             this.carets.filter((c) => c.source !== source),
-            this.listed
+            this.listed,
+            this.archived
         );
     }
 
@@ -584,6 +625,7 @@ export default class Project {
             newSupplements,
             this.locales,
             this.uids,
+            this.public,
             this.carets.map((caret) => {
                 // See if the caret's source was replaced.
                 const replacement = replacements.find(
@@ -593,7 +635,8 @@ export default class Project {
                     ? { source: replacement[1], caret: caret.caret }
                     : caret;
             }),
-            this.listed
+            this.listed,
+            this.archived
         );
     }
 
@@ -655,7 +698,10 @@ export default class Project {
             [...this.supplements, newSource],
             this.locales,
             this.uids,
-            [...this.carets, { source: newSource, caret: 0 }]
+            this.public,
+            [...this.carets, { source: newSource, caret: 0 }],
+            this.listed,
+            this.archived
         );
     }
 
@@ -669,9 +715,47 @@ export default class Project {
                   this.supplements,
                   this.locales,
                   [...this.uids, uid],
+                  this.public,
                   this.carets,
-                  this.listed
+                  this.listed,
+                  this.archived
               );
+    }
+
+    withoutUser(uid: string) {
+        return !this.uids.some((user) => user === uid)
+            ? this
+            : new Project(
+                  this.id,
+                  this.name,
+                  this.main,
+                  this.supplements,
+                  this.locales,
+                  this.uids.filter((id) => id != uid),
+                  this.public,
+                  this.carets,
+                  this.listed,
+                  this.archived
+              );
+    }
+
+    asPublic(pub = true) {
+        return new Project(
+            this.id,
+            this.name,
+            this.main,
+            this.supplements,
+            this.locales,
+            this.uids,
+            pub,
+            this.carets,
+            this.listed,
+            this.archived
+        );
+    }
+
+    isReadOnly(uid: string) {
+        return !this.uids.includes(uid);
     }
 
     getBindReplacements(
@@ -740,8 +824,42 @@ export default class Project {
             : undefined;
     }
 
-    static sourceToSource(source: SerializedSource): Source {
+    static deserializeSource(source: SerializedSource): Source {
         return new Source(parseNames(toTokens(source.names)), source.code);
+    }
+
+    static async deserializeProject(
+        localesDB: LocalesDatabase,
+        project: SerializedProject
+    ): Promise<Project> {
+        const sources = project.sources.map((source) =>
+            Project.deserializeSource(source)
+        );
+
+        // Get all of the locales on which the project depends.
+        const dependentLocales = await localesDB.loadLocales(
+            getBestSupportedLocales(project.locales)
+        );
+
+        const locales = Array.from(
+            new Set([...dependentLocales, ...localesDB.getLocales()])
+        );
+
+        return new Project(
+            project.id,
+            project.name,
+            sources[0],
+            sources.slice(1),
+            locales,
+            project.uids,
+            project.public,
+            project.sources.map((s, index) => {
+                return { source: sources[index], caret: s.caret };
+            }),
+            project.listed,
+            project.archived,
+            project.timestamp
+        );
     }
 
     getLanguagesUsed(): LanguageCode[] {
@@ -755,6 +873,29 @@ export default class Project {
 
         return Array.from(
             new Set([...this.locales.map((l) => l.language), ...used])
+        );
+    }
+
+    isListed() {
+        return this.listed;
+    }
+
+    isArchived() {
+        return this.archived;
+    }
+
+    asArchived() {
+        return new Project(
+            this.id,
+            this.name,
+            this.main,
+            this.supplements,
+            this.locales,
+            this.uids,
+            this.public,
+            this.carets,
+            this.listed,
+            true
         );
     }
 
@@ -774,6 +915,9 @@ export default class Project {
             locales: this.locales.map((l) => toLocaleString(l)),
             uids: this.uids,
             listed: this.listed,
+            public: this.public,
+            archived: this.archived,
+            timestamp: this.timestamp,
         };
     }
 }

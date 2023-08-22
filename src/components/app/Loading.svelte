@@ -1,9 +1,10 @@
 <script lang="ts">
-    import { locale } from '../../db/Database';
+    import Spinning from './Spinning.svelte';
+    import { locale } from '@db/Database';
 </script>
 
 <div class="container">
-    <div class="cursor">|</div>
+    <Spinning />
     <div aria-live="assertive" aria-atomic="true" aria-relevant="all"
         >{$locale.ui.feedback.loading}</div
     >
@@ -18,24 +19,7 @@
         justify-content: center;
         align-items: center;
         gap: var(--wordplay-spacing);
-        font-size: medium;
-    }
-
-    .cursor {
         font-size: xx-large;
-        animation: wobble infinite linear;
-        animation-duration: calc(var(--animation-factor) * 1s);
-    }
-
-    @keyframes wobble {
-        0% {
-            transform: rotate(0deg);
-        }
-        50% {
-            transform: rotate(180deg);
-        }
-        100% {
-            transform: rotate(360deg);
-        }
+        font-size: medium;
     }
 </style>

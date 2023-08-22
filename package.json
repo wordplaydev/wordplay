@@ -75,6 +75,7 @@
         "decimal.js": "^10",
         "dexie": "^4.0.1-alpha.25",
         "firebase": "^9",
+        "firebase-functions": "^4.4.1",
         "graphemer": "^1.4.0",
         "pitchy": "^4.0.7",
         "recoverable-random": "^1.0.3",

@@ -6,10 +6,12 @@ labels: defect
 assignees: ''
 ---
 
-**Expected behavior**
+## Expected behavior
+
 A clear and concise description of what you expected to happen.
 
-**Actual behavior**
+## Actual behavior
+
 Provide detailed steps that consistently reproduce the behavior, including any example code. If you can, make the steps as minimal as possible, finding the smallest possible set of steps that still produce the unexpected behavior.
 
 1. Go to '...'
@@ -17,10 +19,11 @@ Provide detailed steps that consistently reproduce the behavior, including any e
 3. Scroll down to '....'
 4. See error
 
-**Screenshots**
+## Screenshots
+
 If applicable, add screenshots to help explain your problem.
 
-**Environment**
+## Environment
 
 What platform, OS, browser, and version are you using?
 

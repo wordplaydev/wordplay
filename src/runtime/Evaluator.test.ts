@@ -4,7 +4,7 @@ import Source from '@nodes/Source';
 import EvaluationLimitException from '../values/EvaluationLimitException';
 import StepLimitException from '../values/StepLimitException';
 import Evaluator from '@runtime/Evaluator';
-import { DefaultLocale, database } from '../db/Database';
+import { DefaultLocale, DB } from '../db/Database';
 
 test.each([0, 1, 10, 15])('Step back %i', (steps: number) => {
     const fib = `
@@ -14,7 +14,7 @@ test.each([0, 1, 10, 15])('Step back %i', (steps: number) => {
 
     const source = new Source('test', fib);
     const project = new Project(null, 'test', source, [], DefaultLocale);
-    const evaluator = new Evaluator(project, database);
+    const evaluator = new Evaluator(project, DB);
     evaluator.start();
     const stepIndex = evaluator.getStepIndex();
 
@@ -37,7 +37,7 @@ test('Too many steps', () => {
 
     const source = new Source('test', fib);
     const project = new Project(null, 'test', source, [], DefaultLocale);
-    const evaluator = new Evaluator(project, database);
+    const evaluator = new Evaluator(project, DB);
     evaluator.start();
     expect(evaluator.getLatestSourceValue(source)).toBeInstanceOf(
         StepLimitException
@@ -52,7 +52,7 @@ test('Too many evaluations', () => {
 
     const source = new Source('test', fib);
     const project = new Project(null, 'test', source, [], DefaultLocale);
-    const evaluator = new Evaluator(project, database);
+    const evaluator = new Evaluator(project, DB);
     evaluator.start();
     expect(evaluator.getLatestSourceValue(source)).toBeInstanceOf(
         EvaluationLimitException

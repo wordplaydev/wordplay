@@ -4,7 +4,7 @@
     import TextField from '../widgets/TextField.svelte';
     import type OutputProperty from '@edit/OutputProperty';
     import { getProject } from '../project/Contexts';
-    import { database, locale, locales, languages } from '@db/Database';
+    import { locale, locales, languages, Projects } from '@db/Database';
     import { tick } from 'svelte';
     import Language from '@nodes/Language';
     import { FORMATTED_SYMBOL } from '@parser/Symbols';
@@ -14,6 +14,7 @@
     export let property: OutputProperty;
     export let values: OutputPropertyValues;
     export let validator: (text: string) => boolean;
+    export let editable: boolean;
 
     let project = getProject();
     let view: HTMLInputElement | undefined = undefined;
@@ -21,7 +22,7 @@
     // Whenever the text changes, update in the project.
     async function handleChange(newValue: string) {
         if ($project === undefined) return;
-        database.reviseProjectNodes(
+        Projects.revise(
             $project,
             $project.getBindReplacements(
                 values.getExpressions(),
@@ -46,4 +47,5 @@
     {validator}
     changed={handleChange}
     bind:view
+    {editable}
 />

@@ -5,7 +5,7 @@
     import Evaluator from '@runtime/Evaluator';
     import type Value from '@values/Value';
     import { onMount } from 'svelte';
-    import { database } from '../../db/Database';
+    import { DB } from '../../db/Database';
 
     export let project: Project;
     export let fit = true;
@@ -14,7 +14,7 @@
         latest = evaluator.getLatestSourceValue(project.main);
     }
     // Clone the project and get its initial value, then stop the project's evaluator.
-    let evaluator: Evaluator = new Evaluator(project, database);
+    let evaluator: Evaluator = new Evaluator(project, DB);
     let latest: Value | undefined = undefined;
 
     onMount(() => {
@@ -34,4 +34,5 @@
     fullscreen={false}
     {fit}
     grid={false}
+    editable={false}
 />

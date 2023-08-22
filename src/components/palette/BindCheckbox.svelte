@@ -4,17 +4,18 @@
     import BooleanLiteral from '@nodes/BooleanLiteral';
     import type OutputProperty from '@edit/OutputProperty';
     import { getProject } from '../project/Contexts';
-    import { database } from '../../db/Database';
+    import { Projects } from '../../db/Database';
 
     export let property: OutputProperty;
     export let values: OutputPropertyValues;
+    export let editable: boolean;
 
     const project = getProject();
 
     // Whenever the text changes, update in the project.
     function handleChange(newValue: boolean | undefined) {
         if ($project === undefined) return;
-        database.reviseProjectNodes(
+        Projects.revise(
             $project,
             $project.getBindReplacements(
                 values.getExpressions(),
@@ -27,4 +28,4 @@
     }
 </script>
 
-<Checkbox on={values.getBool()} changed={handleChange} />
+<Checkbox on={values.getBool()} changed={handleChange} {editable} />

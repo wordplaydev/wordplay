@@ -5,13 +5,14 @@
     import type OutputPropertyRange from '@edit/OutputPropertyRange';
     import type OutputProperty from '@edit/OutputProperty';
     import { getProject } from '../project/Contexts';
-    import { database } from '../../db/Database';
+    import { Projects } from '../../db/Database';
     import { getFirstName } from '../../locale/Locale';
     import { toTokens } from '../../parser/toTokens';
 
     export let property: OutputProperty;
     export let values: OutputPropertyValues;
     export let range: OutputPropertyRange;
+    export let editable: boolean;
 
     const project = getProject();
 
@@ -19,7 +20,7 @@
     function handleChange(newValue: number) {
         if ($project === undefined) return;
 
-        database.reviseProjectNodes(
+        Projects.revise(
             $project,
             $project.getBindReplacements(
                 values.getExpressions(),
@@ -43,4 +44,5 @@
     tip={getFirstName(property.name.names)}
     change={handleChange}
     precision={range.precision}
+    {editable}
 />

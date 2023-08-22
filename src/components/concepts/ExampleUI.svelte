@@ -9,7 +9,7 @@
     import Evaluator from '@runtime/Evaluator';
     import type Value from '../../values/Value';
     import CodeView from './CodeView.svelte';
-    import { database, locales } from '../../db/Database';
+    import { DB, locales } from '../../db/Database';
     import Stage, { toStage } from '../../output/Stage';
     import OutputView from '../output/OutputView.svelte';
 
@@ -33,7 +33,7 @@
         if (evaluator) evaluator.ignore(update);
 
         if (evaluated) {
-            evaluator = new Evaluator(project, database);
+            evaluator = new Evaluator(project, DB);
             evaluator.observe(update);
             evaluator.start();
         } else {
@@ -95,6 +95,7 @@
                     {value}
                     fullscreen={false}
                     mini
+                    editable={false}
                 />
             </div>
         {:else}<ValueView {value} inline={false} />{/if}</div

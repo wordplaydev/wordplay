@@ -11,6 +11,7 @@
     export let scale = true;
     export let view: HTMLButtonElement | undefined = undefined;
     export let large = false;
+    export let background = false;
 
     async function doAction(event: Event) {
         if (active) {
@@ -24,10 +25,11 @@
     it invisible to screen readers. -->
 <button
     class:stretch
-    data-uiid={uiid}
-    class={classes}
+    class:background
     class:scale
     class:large
+    data-uiid={uiid}
+    class={classes}
     type={submit ? 'submit' : null}
     title={tip}
     aria-label={tip}
@@ -98,5 +100,15 @@
 
     .large {
         font-size: 24pt;
+    }
+
+    .background {
+        background: var(--wordplay-alternating-color);
+        border-radius: var(--wordplay-border-radius);
+        padding: var(--wordplay-spacing);
+    }
+
+    button.background:hover[aria-disabled='false'] {
+        transform: rotate(-2deg);
     }
 </style>

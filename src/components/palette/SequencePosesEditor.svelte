@@ -12,10 +12,11 @@
     import type Expression from '@nodes/Expression';
     import Button from '../widgets/Button.svelte';
     import Note from '../widgets/Note.svelte';
-    import { database, locale, locales } from '../../db/Database';
+    import { Projects, locale, locales } from '../../db/Database';
 
     export let project: Project;
     export let map: MapLiteral | undefined;
+    export let editable: boolean;
 
     // Get the map from the value set, unless its not a valid sequence or the maps of the selections aren't equal.
     $: valid =
@@ -35,7 +36,7 @@
         let text = percent.replace('%', '');
         const number = NumberLiteral.make(text, Unit.create(['%']));
         if (kv instanceof KeyValue && number.isInteger())
-            database.reviseProjectNodes(project, [[kv.key, number]]);
+            Projects.revise(project, [[kv.key, number]]);
     }
 
     function addPose(index: number) {
@@ -80,10 +81,7 @@
     }
 
     function revise(newValues: KeyValue[]) {
-        if (map)
-            database.reviseProjectNodes(project, [
-                [map, MapLiteral.make(newValues)],
-            ]);
+        if (map) Projects.revise(project, [[map, MapLiteral.make(newValues)]]);
     }
 </script>
 
@@ -124,26 +122,30 @@
                                 return true;
                             }}
                             changed={(value) => revisePercent(pair, value)}
+                            {editable}
                         />
                         <Button
                             tip={$locale.ui.description.addPose}
+                            active={editable}
                             action={() => addPose(index)}>+</Button
                         >
                         <Button
                             tip={$locale.ui.description.removePose}
                             action={() => removePose(index)}
-                            active={map !== undefined && map.values.length > 1}
-                            >⨉</Button
+                            active={editable &&
+                                map !== undefined &&
+                                map.values.length > 1}>⨉</Button
                         >
                         <Button
                             tip={$locale.ui.description.movePoseUp}
                             action={() => movePose(index, -1)}
-                            active={index > 0}>↑</Button
+                            active={editable && index > 0}>↑</Button
                         >
                         <Button
                             tip={$locale.ui.description.movePoseDown}
                             action={() => movePose(index, 1)}
-                            active={index < map.values.length - 1}>↓</Button
+                            active={editable && index < map.values.length - 1}
+                            >↓</Button
                         >
                     </div>
                     <div class="pose"
@@ -153,6 +155,7 @@
                                 new OutputExpression(project, pair.value),
                             ]}
                             sequence
+                            {editable}
                         /></div
                     >
                 </div>

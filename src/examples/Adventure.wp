@@ -1,4 +1,5 @@
-=== Adventure/en
+Adventure
+=== start/en
 •State(action•"" description•[""] options•[State])
 
 stand: State('stand up' ["You can't stand, you're tied down."] [])

@@ -4,18 +4,19 @@
     import type OutputProperty from '@edit/OutputProperty';
     import type OutputPropertyOptions from '@edit/OutputPropertyOptions';
     import { getProject } from '../project/Contexts';
-    import { database } from '../../db/Database';
+    import { Projects } from '../../db/Database';
 
     export let property: OutputProperty;
     export let values: OutputPropertyValues;
     export let options: OutputPropertyOptions;
+    export let editable: boolean;
 
     let project = getProject();
 
     // Whenever the drop down value changes, revise the Evaluates to match the new value.
     function handleChange(newValue: string | undefined) {
         if ($project === undefined) return;
-        database.reviseProjectNodes(
+        Projects.revise(
             $project,
             $project.getBindReplacements(
                 values.getExpressions(),
@@ -32,4 +33,5 @@
         ? [undefined, ...options.values]
         : options.values}
     change={handleChange}
+    {editable}
 />

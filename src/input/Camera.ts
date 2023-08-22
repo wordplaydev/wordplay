@@ -193,7 +193,9 @@ export default class Camera extends TemporalStreamValue<ListValue, RawFrame> {
             .getUserMedia({
                 audio: false,
                 video: {
-                    deviceId: this.evaluator.database.getCamera() ?? undefined,
+                    deviceId:
+                        this.evaluator.database.Settings.getCamera() ??
+                        undefined,
                     width: { min: this.width },
                     height: { min: this.height },
                     facingMode: 'user',

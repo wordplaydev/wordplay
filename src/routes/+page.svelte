@@ -1,6 +1,6 @@
 <script lang="ts">
     import { PUBLIC_CONTEXT } from '$env/static/public';
-    import Lead from '@components/app/Lead.svelte';
+    import Header from '@components/app/Header.svelte';
     import BigLink from '../components/app/BigLink.svelte';
     import Background from '../components/app/Background.svelte';
     import { locale } from '../db/Database';
@@ -15,7 +15,7 @@
 
 <Background />
 <Writing>
-    <Lead>{$locale.wordplay}<sub>.dev</sub></Lead>
+    <Header>{$locale.wordplay}<sub>.dev</sub></Header>
     <p>{$locale.ui.phrases.motto}</p>
     {#if PUBLIC_CONTEXT === 'prod'}
         <p
@@ -24,6 +24,7 @@
     {:else}
         <BigLink to="/learn">{$locale.ui.header.learn}</BigLink>
         <BigLink to="/projects">{$locale.ui.header.projects}</BigLink>
+        <BigLink to="/galleries">{$locale.ui.header.galleries}</BigLink>
         <BigLink to="/about">{$locale.ui.header.about}</BigLink>
     {/if}
 </Writing>

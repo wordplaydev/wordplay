@@ -37,14 +37,19 @@ export class ProjectHistory {
     /** True if this should be persisted in databases */
     private persist: boolean;
 
-    constructor(project: Project, persist?: boolean) {
+    /** True if the last edit was an overwrite */
+    private overwrite = false;
+
+    constructor(project: Project, persist: boolean, saved: boolean) {
         this.id = project.id;
         this.current = writable(project);
         this.history.push(project);
         this.index = 0;
         this.persist = persist ?? true;
+        this.saved = saved;
     }
 
+    /** Revise this project history to have all of the specified locales. */
     withLocales(locales: Locale[]) {
         this.current.set(get(this.current).withLocales(locales));
         this.history = this.history.map((proj) => proj.withLocales(locales));
@@ -58,7 +63,7 @@ export class ProjectHistory {
         return this.current;
     }
 
-    edit(project: Project, remember: boolean) {
+    edit(project: Project, remember: boolean, overwrite = false) {
         // Is the undo pointer before the end? Trim the future before we add the future.
         this.history.splice(
             this.index + 1,
@@ -79,6 +84,9 @@ export class ProjectHistory {
         // Mark it as not saved.
         this.saved = false;
 
+        // Update overwrite
+        this.overwrite = overwrite;
+
         // Trim the history if we've exceeded our limit.
         if (this.history.length > PROJECT_HISTORY_LIMIT)
             this.history.splice(0, PROJECT_HISTORY_LIMIT - this.history.length);
@@ -93,6 +101,10 @@ export class ProjectHistory {
 
     isRedoable() {
         return this.index < this.history.length - 1;
+    }
+
+    wasOverwritten() {
+        return this.overwrite;
     }
 
     undoRedo(direction: -1 | 1): Project | undefined {
@@ -113,6 +125,12 @@ export class ProjectHistory {
         // Set the change type to undo/redo.
         this.change = ChangeType.UndoRedo;
 
+        // Mark unsaved
+        this.saved = false;
+
+        // Reset overwrite.
+        this.overwrite = false;
+
         return newProject;
     }
 
@@ -121,7 +139,7 @@ export class ProjectHistory {
     }
 
     markSaved() {
-        return (this.saved = true);
+        this.saved = true;
     }
 
     wasEdited() {
@@ -137,6 +155,15 @@ export class ProjectHistory {
     }
 
     setPersist() {
-        return (this.persist = true);
+        this.persist = true;
+    }
+
+    serializeWithUserID(userID: string | null) {
+        const current = this.getCurrent();
+        return (
+            userID !== null && !current.uids.includes(userID)
+                ? current.withUser(userID)
+                : current
+        ).serialize();
     }
 }

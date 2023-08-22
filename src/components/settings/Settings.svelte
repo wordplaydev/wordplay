@@ -1,18 +1,18 @@
 <script lang="ts">
     import Button from '../widgets/Button.svelte';
     import LanguageChooser from './LocaleChooser.svelte';
-    import { getUser, isDark } from '../project/Contexts';
+    import { getProject, getUser, isDark } from '../project/Contexts';
     import {
         animationFactor,
-        database,
         locale,
         arrangement,
         camera,
         mic,
+        Settings,
+        Projects,
     } from '../../db/Database';
     import LayoutChooser from './LayoutChooser.svelte';
     import { page } from '$app/stores';
-    import { goto } from '$app/navigation';
     import { clickOutside } from '../app/clickOutside';
     import Arrangement from '../../db/Arrangement';
     import { slide } from 'svelte/transition';
@@ -20,20 +20,25 @@
     import { onMount } from 'svelte';
     import Link from '../app/Link.svelte';
     import Status from '../app/Status.svelte';
+    import { goto } from '$app/navigation';
 
     let expanded = false;
 
     let user = getUser();
     let dark = isDark();
+    let project = getProject();
 
     $: anonymous = $user === null;
     $: animationSymbol = { 0: '🧘🏽‍♀️', 1: '🏃‍♀️', 2: '½', 3: '⅓', 4: '¼' }[
         $animationFactor
     ];
 
-    function getBackPath(route: string): string {
-        if (route.startsWith('/project/')) return '/projects';
-        else return '/';
+    function back() {
+        if ($page.route.id?.startsWith('/project/')) {
+            const projectID = $page.params.projectid;
+            if (Projects.readonlyProjects.has(projectID)) goto('/galleries');
+            else goto('/projects');
+        } else goto('/');
     }
 
     function handleKey(event: KeyboardEvent) {
@@ -41,8 +46,9 @@
             (event.ctrlKey || event.metaKey) &&
             event.key === 'Escape' &&
             $page.route.id !== null
-        )
-            goto(getBackPath($page.route.id));
+        ) {
+            back();
+        }
     }
 
     onMount(async () => {
@@ -89,7 +95,7 @@
                     ? $locale.ui.description.horizontal
                     : $locale.ui.description.freeform}
                 action={() =>
-                    database.setArrangement(
+                    Settings.setArrangement(
                         $arrangement === Arrangement.Vertical
                             ? Arrangement.Horizontal
                             : $arrangement === Arrangement.Horizontal
@@ -101,7 +107,7 @@
             <Button
                 tip={$locale.ui.description.animate}
                 action={() =>
-                    database.setAnimationFactor(
+                    Settings.setAnimationFactor(
                         $animationFactor < 4 ? $animationFactor + 1 : 0
                     )}>{animationSymbol}</Button
             >
@@ -118,7 +124,7 @@
                             ...cameras.map((device) => device.label),
                         ]}
                         change={(choice) =>
-                            database.setCamera(
+                            Settings.setCamera(
                                 cameras.find(
                                     (camera) => camera.label === choice
                                 )?.deviceId ?? null
@@ -136,7 +142,7 @@
                             ...mics.map((device) => device.label),
                         ]}
                         change={(choice) =>
-                            database.setMic(
+                            Settings.setMic(
                                 mics.find((mic) => mic.label === choice)
                                     ?.deviceId ?? null
                             )}
@@ -172,11 +178,13 @@
             >
         </Link>
     </div>
-    <Status />
+    {#if $project}
+        <Status />
+    {/if}
     {#if $page.route.id !== '/'}<Button
             tip={$locale.ui.description.close}
             active={$page.route.id !== null && $page.route.id !== "/'"}
-            action={() => goto(getBackPath($page.route.id ?? '/'))}>❌</Button
+            action={back}>❌</Button
         >{/if}
 </div>
 
@@ -237,5 +245,9 @@
 
     .anonymous .user {
         color: var(--wordplay-background);
+    }
+
+    label {
+        white-space: nowrap;
     }
 </style>

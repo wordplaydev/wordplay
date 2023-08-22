@@ -8,10 +8,11 @@
     import ColorChooser from '../widgets/ColorChooser.svelte';
     import type OutputProperty from '../../edit/OutputProperty';
     import { getProject, getSelectedOutput } from '../project/Contexts';
-    import { database } from '../../db/Database';
+    import { Projects } from '../../db/Database';
 
     export let property: OutputProperty;
     export let values: OutputPropertyValueSet;
+    export let editable: boolean;
 
     let project = getProject();
     let selectedOutput = getSelectedOutput();
@@ -40,7 +41,7 @@
             ]
         );
 
-        database.reviseProjectNodes(
+        Projects.revise(
             $project,
             $project.getBindReplacements(
                 values.getExpressions(),
@@ -72,4 +73,4 @@
     }
 </script>
 
-<ColorChooser {lightness} {chroma} {hue} change={handleChange} />
+<ColorChooser {lightness} {chroma} {hue} change={handleChange} {editable} />

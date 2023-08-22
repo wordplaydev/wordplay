@@ -6,6 +6,7 @@
     export let change: (value: string | undefined) => void;
     export let width = '10em';
     export let id: string | undefined = undefined;
+    export let editable = true;
 
     let view: HTMLSelectElement | undefined = undefined;
 
@@ -40,6 +41,7 @@
     on:keydown|stopPropagation={handleKey}
     bind:this={view}
     style:width
+    disabled={!editable}
 >
     {#each options as option}
         <option value={option}>{option === undefined ? '—' : option}</option>

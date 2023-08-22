@@ -10,12 +10,13 @@
     import MapLiteral from '@nodes/MapLiteral';
     import KeyValue from '@nodes/KeyValue';
     import NumberLiteral from '@nodes/NumberLiteral';
-    import { database, locale, locales } from '../../db/Database';
+    import { Projects, locale, locales } from '../../db/Database';
     import getPoseProperties from '@edit/PoseProperties';
 
     export let project: Project;
     export let outputs: OutputExpression[];
     export let sequence: boolean;
+    export let editable: boolean;
 
     $: PoseProperties = getPoseProperties(project, $locale, false);
 
@@ -34,7 +35,7 @@
     }
 
     function convert() {
-        database.reviseProjectNodes(
+        Projects.revise(
             project,
             outputs.map((output) => [
                 output.node,
@@ -61,9 +62,9 @@
 
 <div class="pose-properties">
     {#each Array.from(propertyValues.entries()) as [property, values]}
-        <PaletteProperty {project} {property} {values} />
+        <PaletteProperty {project} {property} {values} {editable} />
     {/each}
-    {#if !sequence}
+    {#if !sequence && editable}
         <Button tip={$locale.ui.description.sequence} action={convert}
             >{project.shares.output.Sequence.getNames()[0]}</Button
         >

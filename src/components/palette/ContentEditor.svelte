@@ -10,10 +10,11 @@
     } from '../project/Contexts';
     import { addContent, moveContent, removeContent } from './editOutput';
     import type ListLiteral from '../../nodes/ListLiteral';
-    import { database, locale } from '../../db/Database';
+    import { DB, locale } from '../../db/Database';
 
     export let project: Project;
     export let list: ListLiteral | undefined;
+    export let editable: boolean;
 
     const selectedOutputPaths = getSelectedOutputPaths();
 
@@ -50,28 +51,30 @@
                     tip={$locale.ui.description.removeContent}
                     action={() =>
                         list
-                            ? removeContent(database, project, list, index)
+                            ? removeContent(DB, project, list, index)
                             : undefined}
-                    active={list.values.length > 0}>⨉</Button
+                    active={editable && list.values.length > 0}>⨉</Button
                 >
                 <Button
                     tip={$locale.ui.description.moveContentUp}
                     action={() =>
                         list
-                            ? moveContent(database, project, list, index, -1)
+                            ? moveContent(DB, project, list, index, -1)
                             : undefined}
-                    active={index > 0}>↑</Button
+                    active={editable && index > 0}>↑</Button
                 >
                 <Button
                     tip={$locale.ui.description.moveContentDown}
                     action={() =>
                         list
-                            ? moveContent(database, project, list, index, 1)
+                            ? moveContent(DB, project, list, index, 1)
                             : undefined}
-                    active={index < list.values.length - 1}>↓</Button
+                    active={editable && index < list.values.length - 1}
+                    >↓</Button
                 >
                 <Button
                     tip={$locale.ui.description.editContent}
+                    active={editable}
                     action={() => editContent(index)}>✎</Button
                 >
                 <RootView node={content} localized />
@@ -80,10 +83,11 @@
         <div class="add">
             <Button
                 tip={$locale.ui.description.addPhrase}
+                active={editable}
                 action={() =>
                     list
                         ? addContent(
-                              database,
+                              DB,
                               project,
                               list,
                               list?.values.length ?? 1 - 1,
@@ -94,10 +98,11 @@
             >
             <Button
                 tip={$locale.ui.description.addGroup}
+                active={editable}
                 action={() =>
                     list
                         ? addContent(
-                              database,
+                              DB,
                               project,
                               list,
                               list?.values.length ?? 1 - 1,

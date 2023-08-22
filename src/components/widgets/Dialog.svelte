@@ -59,4 +59,8 @@
         top: calc(2 * var(--wordplay-spacing));
         right: calc(2 * var(--wordplay-spacing));
     }
+
+    .content {
+        min-height: 100%;
+    }
 </style>

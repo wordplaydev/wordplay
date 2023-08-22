@@ -1,5 +1,5 @@
 <script lang="ts">
-    import Lead from '../../components/app/Lead.svelte';
+    import Header from '../../components/app/Header.svelte';
     import Writing from '../../components/app/Writing.svelte';
     import MarkupHtmlView from '../../components/concepts/MarkupHTMLView.svelte';
     import { locale } from '../../db/Database';
@@ -7,7 +7,7 @@
 </script>
 
 <Writing>
-    <Lead>{$locale.ui.header.about}</Lead>
+    <Header>{$locale.ui.header.about}</Header>
 
     <MarkupHtmlView
         markup={Markup.words($locale.ui.about.content.join('\n\n'))}

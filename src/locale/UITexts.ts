@@ -2,6 +2,11 @@ import type { SupportedFaces } from '../basis/Fonts';
 import type EditTexts from './EditTexts';
 import type { DocText, Template } from './Locale';
 
+type ButtonText = {
+    label: string;
+    tip: string;
+};
+
 type UITexts = {
     font: {
         app: (typeof SupportedFaces)[number];
@@ -66,9 +71,8 @@ type UITexts = {
         sequence: string;
         animate: string;
         addSource: string;
-        deleteSource: string;
-        deleteProject: string;
         editProject: string;
+        copyProject: string;
         settings: string;
         newProject: string;
         dark: string;
@@ -150,10 +154,34 @@ type UITexts = {
         /** The button that creates a stage when there is none */
         createStage: string;
     };
+    button: {
+        togglePublic: string;
+        showCollaborators: string;
+        removeCollaborator: string;
+    };
+    confirm: {
+        archiveProject: {
+            description: string;
+            prompt: string;
+        };
+        deleteSource: {
+            description: string;
+            prompt: string;
+        };
+    };
+    dialog: {
+        collaborators: {
+            header: string;
+            explanation: string;
+        };
+    };
+    field: {
+        collaborator: {
+            placeholder: string;
+            description: string;
+        };
+    };
     prompt: {
-        deleteSource: string;
-        deleteProject: string;
-        /** Takes one input, the shortcut key for showing the menu. */
         emptyProgram: DocText;
         /** How to describe the text input field in the output when there's a key stream active */
         keyStreamInput: string;
@@ -179,6 +207,8 @@ type UITexts = {
     header: {
         learn: string;
         projects: string;
+        /** How to describe galleries of projects */
+        galleries: string;
         about: string;
         examples: string;
         /** Documentation header in structure and functions before inputs */
@@ -229,18 +259,31 @@ type UITexts = {
     };
     login: {
         header: string;
-        prompt: string;
-        anonymousPrompt: string;
-        enterEmail: string;
+        prompt: {
+            login: string;
+            enter: string;
+            anonymous: string;
+            change: string;
+            check: string;
+            play: string;
+            logout: string;
+        };
         submit: string;
         sent: string;
         success: string;
-        failure: string;
-        expiredFailure: string;
-        invalidFailure: string;
-        emailFailure: string;
-        logout: string;
-        offline: string;
+        error: {
+            expired: string;
+            invalid: string;
+            email: string;
+            other: string;
+            failure: string;
+            offline: string;
+        };
+        button: {
+            logout: ButtonText;
+            login: ButtonText;
+            update: ButtonText;
+        };
     };
     edit: EditTexts;
     error: {
@@ -250,6 +293,12 @@ type UITexts = {
         unwritten: string;
         /** The placeholder string indicating that a template string could not be parsed */
         template: string;
+        /** What to show when there's no database connection. */
+        noDatabase: string;
+        /** When some other device had a more recent edit that overrode this device's version. */
+        overwritten: string;
+        /** When someone tries to add an email collaborator that doesn't have a Wordplay account */
+        unknownEmail: string;
     };
     about: {
         content: string[];

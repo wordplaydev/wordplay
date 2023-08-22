@@ -1,4 +1,5 @@
-===RotatingBinary/en
+RotatingBinary
+===start/en
 slowSpin:Sequence(spin() 10s "straight")
 
 Stage([

@@ -1,27 +1,32 @@
 <script lang="ts">
     import TextField from '@components/widgets/TextField.svelte';
-    import Page from '@components/app/Page.svelte';
     import { getUser } from '@components/project/Contexts';
-    import Lead from '@components/app/Lead.svelte';
+    import Header from '@components/app/Header.svelte';
     import Button from '@components/widgets/Button.svelte';
     import {
         isSignInWithEmailLink,
         sendSignInLinkToEmail,
         signInWithEmailLink,
+        updateEmail,
     } from 'firebase/auth';
     import { FirebaseError } from 'firebase/app';
-    import { auth } from '@db/firebase';
+    import { auth, firestore } from '@db/firebase';
     import { goto } from '$app/navigation';
     import { onMount } from 'svelte';
-    import { locale } from '../../db/Database';
+    import { DB, locale } from '../../db/Database';
     import Feedback from '../../components/app/Feedback.svelte';
+    import Writing from '../../components/app/Writing.svelte';
+    import validateEmail from '../../db/validEmail';
+    import Spinning from '../../components/app/Spinning.svelte';
 
     let user = getUser();
     let email: string;
     let missingEmail = false;
     let sent = false;
     let success: boolean | undefined = undefined;
-    let error = '';
+    let loginFeedback = '';
+    let changeSubmitted = false;
+    let changeFeedback: string | undefined = undefined;
 
     function redirect() {
         window.localStorage.removeItem('email');
@@ -33,16 +38,16 @@
         if (err instanceof FirebaseError) {
             console.error(err.code);
             console.error(err.message);
-            error =
+            loginFeedback =
                 {
-                    'auth/id-token-expired': $locale.ui.login.expiredFailure,
-                    'auth/id-token-revoked': $locale.ui.login.invalidFailure,
-                    'auth/invalid-argument': $locale.ui.login.invalidFailure,
-                    'auth/invalid-email': $locale.ui.login.emailFailure,
-                }[err.code] ?? $locale.ui.login.failure;
+                    'auth/id-token-expired': $locale.ui.login.error.expired,
+                    'auth/id-token-revoked': $locale.ui.login.error.invalid,
+                    'auth/invalid-argument': $locale.ui.login.error.invalid,
+                    'auth/invalid-email': $locale.ui.login.error.other,
+                }[err.code] ?? $locale.ui.login.error.failure;
         } else {
             console.error(err);
-            error = $locale.ui.login.failure;
+            loginFeedback = $locale.ui.login.error.failure;
         }
         success = false;
     }
@@ -96,6 +101,37 @@
         }
     }
 
+    let errors: Record<string, string>;
+    $: errors = {
+        'auth/invalid-mail': $locale.ui.login.error.email,
+    };
+
+    async function update() {
+        const user = DB.getUser();
+        if (auth === undefined || user === null || user.email === null) return;
+
+        // Enter loading state, try to login and wait for it to complete, and then leave loading state.
+        // Give some feedback when loading.
+        changeSubmitted = true;
+        const previousEmail = user.email;
+        try {
+            await updateEmail(user, email);
+            changeFeedback = `Check your original email address, ${previousEmail}, for a confirmation link.`;
+        } catch (error) {
+            if (
+                error !== null &&
+                typeof error === 'object' &&
+                'code' in error &&
+                typeof error.code === 'string'
+            )
+                changeFeedback =
+                    errors[error.code] ??
+                    "Couldn't update email for an unknown reason.";
+        } finally {
+            changeSubmitted = false;
+        }
+    }
+
     function logout() {
         if (auth) auth.signOut();
     }
@@ -106,65 +142,85 @@
     });
 </script>
 
-<Page>
-    <div class="login">
-        {#if auth}
-            {#if $user && !$user.isAnonymous}
-                <Lead>{$locale.ui.phrases.welcome} {$user.email}</Lead>
-                <Button tip={$locale.ui.login.logout} action={logout}
-                    >{$locale.ui.login.logout}</Button
-                >
-            {:else}
-                <Lead>{$locale.ui.login.header}</Lead>
-                <p>
-                    {#if missingEmail}
-                        {$locale.ui.login.enterEmail}
-                    {:else if $user === null}
-                        {$locale.ui.login.anonymousPrompt}
-                    {:else}
-                        {$locale.ui.login.prompt}
-                    {/if}
-                </p>
-                <form class="form" on:submit={login}>
-                    <TextField
+<Writing>
+    {#if auth && firestore}
+        {#if $user && !$user.isAnonymous}
+            <Header>{$user.email}</Header>
+            <p>{$locale.ui.login.prompt.play}</p>
+            <p
+                >{$locale.ui.login.prompt.logout}
+                <Button
+                    background
+                    tip={$locale.ui.login.button.logout.tip}
+                    action={logout}
+                    >{$locale.ui.login.button.logout.label}</Button
+                ></p
+            >
+            <p>{$locale.ui.login.prompt.change}</p>
+            <form class="form" on:submit={update}>
+                <p
+                    ><TextField
                         description={$locale.ui.description.loginEmail}
                         placeholder={$locale.ui.placeholders.email}
                         bind:text={email}
+                        editable={!changeSubmitted}
                     /><Button
-                        tip={$locale.ui.login.submit}
-                        active={/^.+@.+$/.test(email)}
-                        action={() => undefined}>&gt;</Button
-                    >
-                </form>
-                <p>
-                    {#if sent === true}
-                        {$locale.ui.login.sent}
-                    {:else if success === true}
-                        {$locale.ui.login.success}
-                    {:else if success === false}
-                        {error}
-                    {/if}
-                </p>
-            {/if}
+                        tip={$locale.ui.login.button.update.tip}
+                        active={validateEmail(email)}
+                        action={() => undefined}
+                        >{$locale.ui.login.button.update.label}</Button
+                    ></p
+                >
+            </form>
+            <p>
+                {#if changeSubmitted}<Spinning />
+                {:else if changeFeedback}<Feedback inline
+                        >{changeFeedback}</Feedback
+                    >{/if}</p
+            >
         {:else}
-            <Feedback>No connection to the server, so no logins.</Feedback>
+            <Header>{$locale.ui.login.header}</Header>
+            <p>
+                {#if missingEmail}
+                    {$locale.ui.login.prompt.enter}
+                {:else if $user === null}
+                    {$locale.ui.login.prompt.anonymous}
+                {:else}
+                    {$locale.ui.login.prompt.login}
+                {/if}
+            </p>
+            <form class="form" on:submit={login}>
+                <TextField
+                    description={$locale.ui.description.loginEmail}
+                    placeholder={$locale.ui.placeholders.email}
+                    bind:text={email}
+                /><Button
+                    tip={$locale.ui.login.button.login.tip}
+                    active={validateEmail(email)}
+                    action={() => undefined}
+                    >{$locale.ui.login.button.login.label}</Button
+                >
+            </form>
+            <p>
+                {#if sent === true}
+                    <Feedback>{$locale.ui.login.sent}</Feedback>
+                {:else if success === true}
+                    <Feedback>{$locale.ui.login.success}</Feedback>
+                {:else if success === false}
+                    <Feedback>{loginFeedback}</Feedback>
+                {/if}
+            </p>
         {/if}
-    </div>
-</Page>
+    {:else}
+        <Feedback>{$locale.ui.error.noDatabase}</Feedback>
+    {/if}
+</Writing>
 
 <style>
-    .login {
-        width: 50%;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-    }
-
     .form {
         display: flex;
         flex-direction: row;
         gap: var(--wordplay-spacing);
-        font-size: x-large;
         margin: var(--wordplay-spacing);
     }
 </style>

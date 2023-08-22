@@ -9,6 +9,7 @@
 
     export let project: Project;
     export let outputs: OutputExpression[];
+    export let editable: boolean;
 
     $: SequenceProperties = getSequenceProperties(project, $locale);
 
@@ -29,7 +30,7 @@
 
 <div class="sequence-properties">
     {#each Array.from(propertyValues.entries()) as [property, values]}
-        <PaletteProperty {project} {property} {values} />
+        <PaletteProperty {project} {property} {values} {editable} />
     {/each}
 </div>
 

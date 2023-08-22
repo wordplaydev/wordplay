@@ -10,6 +10,7 @@
     export let border = true;
     export let right = false;
     export let defaultFocus = false;
+    export let editable = true;
 
     let width = 0;
 
@@ -31,6 +32,7 @@
         aria-placeholder={placeholder}
         {placeholder}
         style:width={fill ? null : `${width + 5}px`}
+        disabled={!editable}
         bind:this={view}
         bind:value={text}
         on:input={handleInput}

@@ -1,8 +1,8 @@
 <script lang="ts">
-    import { database, writingLayout } from '../../db/Database';
+    import { Settings, writingLayout } from '../../db/Database';
 
     function toggleLayout() {
-        database.setWritingLayout(
+        Settings.setWritingLayout(
             $writingLayout === 'horizontal-tb'
                 ? 'vertical-rl'
                 : $writingLayout === 'vertical-rl'

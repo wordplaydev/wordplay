@@ -12,7 +12,7 @@
 
 <div class="prompt" class:confirming>
     <Button {tip} action={() => (confirming = !confirming)} active={enabled}
-        ><slot /></Button
+        >{#if confirming}⨉{:else}<slot />{/if}</Button
     >
     {#if confirming}
         <Button stretch tip={$locale.ui.description.yes} action={() => action()}

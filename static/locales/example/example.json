@@ -1837,8 +1837,7 @@
             "sequence": "$?",
             "animate": "$?",
             "addSource": "$?",
-            "deleteSource": "$?",
-            "deleteProject": "$?",
+            "copyProject": "$?",
             "editProject": "$?",
             "settings": "$?",
             "newProject": "$?",
@@ -1911,9 +1910,34 @@
             "createGroup": "$?",
             "createStage": "$?"
         },
+        "button": {
+            "togglePublic": "$?",
+            "showCollaborators": "$?",
+            "removeCollaborator": "$?"
+        },
+        "confirm": {
+            "archiveProject": {
+                "description": "$?",
+                "prompt": "$?"
+            },
+            "deleteSource": {
+                "description": "$?",
+                "prompt": "$?"
+            }
+        },
+        "dialog": {
+            "collaborators": {
+                "header": "$?",
+                "explanation": "$?"
+            }
+        },
+        "field": {
+            "collaborator": {
+                "placeholder": "$?",
+                "description": "$?"
+            }
+        },
         "prompt": {
-            "deleteSource": "$?",
-            "deleteProject": "$?",
             "emptyProgram": "$?",
             "keyStreamInput": "$?"
         },
@@ -1931,6 +1955,7 @@
         "header": {
             "learn": "$?",
             "projects": "$?",
+            "galleries": "$?",
             "about": "$?",
             "examples": "$?",
             "inputs": "$?",
@@ -1973,18 +1998,40 @@
         },
         "login": {
             "header": "$?",
-            "prompt": "$?",
-            "anonymousPrompt": "$?",
+            "prompt": {
+                "login": "$?",
+                "enter": "$?",
+                "anonymous": "$?",
+                "play": "$?",
+                "change": "$?",
+                "check": "$?",
+                "logout": "$?"
+            },
             "submit": "$?",
-            "enterEmail": "$?",
             "sent": "$?",
             "success": "$?",
-            "failure": "$?",
-            "expiredFailure": "$?",
-            "invalidFailure": "$?",
-            "emailFailure": "$?",
-            "logout": "$?",
-            "offline": "$?"
+            "error": {
+                "expired": "$?",
+                "invalid": "$?",
+                "email": "$?",
+                "other": "$?",
+                "offline": "$?",
+                "failure": "$?"
+            },
+            "button": {
+                "logout": {
+                    "tip": "$?",
+                    "label": "$?"
+                },
+                "login": {
+                    "tip": "$?",
+                    "label": ">"
+                },
+                "update": {
+                    "tip": "$?",
+                    "label": "$?"
+                }
+            }
         },
         "edit": {
             "node": "$?",
@@ -2008,7 +2055,10 @@
             },
             "tutorial": "$?",
             "unwritten": "$?",
-            "template": "$?"
+            "template": "$?",
+            "noDatabase": "$?",
+            "overwritten": "$?",
+            "unknownEmail": "$?"
         },
         "about": {
             "content": ["$?"]

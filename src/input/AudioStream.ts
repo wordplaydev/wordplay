@@ -83,7 +83,7 @@ export default abstract class AudioStream extends TemporalStreamValue<
             return;
         if (this.source !== undefined) return;
 
-        const micID = this.evaluator.database.getMic();
+        const micID = this.evaluator.database.Settings.getMic();
 
         navigator.mediaDevices
             .getUserMedia({ audio: micID ? { deviceId: micID } : true })
