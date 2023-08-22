@@ -243,4 +243,8 @@
     .anonymous .user {
         color: var(--wordplay-background);
     }
+
+    label {
+        white-space: nowrap;
+    }
 </style>
