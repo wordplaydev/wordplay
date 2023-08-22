@@ -2,20 +2,20 @@ import chalk from 'chalk';
 import fs from 'fs';
 import path from 'path';
 import Ajv from 'ajv';
-import { concretizeOrUndefined } from './src/locale/concretize';
-import parseDoc from './src/parser/parseDoc';
-import { parseLocaleDoc } from './src/locale/Locale';
-import { toTokens } from './src/parser/toTokens';
-import Locale, { toDocString } from './src/locale/Locale';
-import Token from './src/nodes/Token';
-import Sym from './src/nodes/Sym';
-import ConceptLink from './src/nodes/ConceptLink';
-import { Performances } from './src/tutorial/Performances';
-import Tutorial, { Performance, Line, Dialog } from './src/tutorial/Tutorial';
-import Source from './src/nodes/Source';
-import Node from './src/nodes/Node';
-import { DOCS_SYMBOL } from './src/parser/Symbols';
-import Project from './src/models/Project';
+import { concretizeOrUndefined } from '../locale/concretize';
+import parseDoc from '../parser/parseDoc';
+import { parseLocaleDoc, type Locale, toDocString } from '../locale/Locale';
+import { toTokens } from '../parser/toTokens';
+import Token from '../nodes/Token';
+import Sym from '../nodes/Sym';
+import ConceptLink from '../nodes/ConceptLink';
+import { Performances } from '../tutorial/Performances';
+import type Tutorial from '../tutorial/Tutorial';
+import type { Performance, Line, Dialog } from '../tutorial/Tutorial';
+import Source from '../nodes/Source';
+import type Node from '../nodes/Node';
+import { DOCS_SYMBOL } from '../parser/Symbols';
+import Project from '../models/Project';
 
 // Read in and compile the two schema
 const localeSchema = JSON.parse(
@@ -347,14 +347,19 @@ function verifyTutorial(locale: Locale, tutorial: Tutorial) {
             conflictsIntentional = list[0] === 'conflict';
             const name = list[1];
             const inputs = list.slice(2);
-            const fun = Performances[name];
+            const fun = (
+                Performances as Record<
+                    string,
+                    ((...input: string[]) => string) | undefined
+                >
+            )[name];
             if (fun === undefined)
                 bad(
                     2,
                     `use ${name} doesn't exist in Performances. Is it misspelled or missing?`
                 );
             else {
-                code = fun.apply(...inputs);
+                code = fun(...inputs);
             }
         } else code = list.join('\n');
 
