@@ -1,5 +1,6 @@
 <script lang="ts">
     import { DB, Projects, locale } from '../../db/Database';
+    import validateEmail from '../../db/validEmail';
     import type Project from '../../models/Project';
     import Feedback from '../app/Feedback.svelte';
     import Spinning from '../app/Spinning.svelte';
@@ -15,7 +16,7 @@
     let unknown = false;
 
     async function add() {
-        if (validator(email)) {
+        if (validateEmail(email)) {
             adding = true;
             const userID = await DB.getUserIDFromEmail(email);
             adding = false;
@@ -27,7 +28,6 @@
             }
         }
     }
-    const validator = (text: string) => /.+@.+\..+/.test(text);
 
     // Whenever the project changes, get it's user's email addresses
     let emails: Map<string, string | null> = new Map();
@@ -45,11 +45,11 @@
             bind:text={email}
             placeholder={$locale.ui.field.collaborator.placeholder}
             description={$locale.ui.field.collaborator.description}
-            {validator}
+            validator={validateEmail}
         />
         <Button
             tip={$locale.ui.login.submit}
-            active={validator(email)}
+            active={validateEmail(email)}
             action={() => undefined}>&gt;</Button
         >
         {#if adding}<Spinning />{/if}

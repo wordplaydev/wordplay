@@ -2,6 +2,11 @@ import type { SupportedFaces } from '../basis/Fonts';
 import type EditTexts from './EditTexts';
 import type { DocText, Template } from './Locale';
 
+type ButtonText = {
+    label: string;
+    tip: string;
+};
+
 type UITexts = {
     font: {
         app: (typeof SupportedFaces)[number];
@@ -254,18 +259,31 @@ type UITexts = {
     };
     login: {
         header: string;
-        prompt: string;
-        anonymousPrompt: string;
-        enterEmail: string;
+        prompt: {
+            login: string;
+            enter: string;
+            anonymous: string;
+            change: string;
+            check: string;
+            play: string;
+            logout: string;
+        };
         submit: string;
         sent: string;
         success: string;
-        failure: string;
-        expiredFailure: string;
-        invalidFailure: string;
-        emailFailure: string;
-        logout: string;
-        offline: string;
+        error: {
+            expired: string;
+            invalid: string;
+            email: string;
+            other: string;
+            failure: string;
+            offline: string;
+        };
+        button: {
+            logout: ButtonText;
+            login: ButtonText;
+            update: ButtonText;
+        };
     };
     edit: EditTexts;
     error: {

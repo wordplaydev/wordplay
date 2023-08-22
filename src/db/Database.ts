@@ -44,7 +44,7 @@ export class Database {
     readonly Status: Writable<SaveStatus> = writable(SaveStatus.Saved);
 
     /** The current Firestore user ID */
-    private userID: string | null = null;
+    private user: User | null = null;
 
     /** A cache of user email addresses retrieved from Firesbase */
     private emailsByUserID = new Map<string, string>();
@@ -67,8 +67,16 @@ export class Database {
         this.Projects = new ProjectsDatabase(this);
     }
 
+    getUser() {
+        return this.user;
+    }
+
     getUserID() {
-        return this.userID;
+        return this.user ? this.user.uid : null;
+    }
+
+    getUserEmail() {
+        return this.user ? this.user.email : null;
     }
 
     /** Update the saving status and broadcast via the store. */
@@ -81,10 +89,10 @@ export class Database {
         this.setStatus(SaveStatus.Saving);
         try {
             // Try to save settings in the cloud.
-            if (firestore && this.userID) {
+            if (firestore && this.user) {
                 // Save in firestore
                 setDoc(
-                    doc(firestore, 'users', this.userID),
+                    doc(firestore, 'users', this.user.uid),
                     this.Settings.toObject()
                 );
             }
@@ -102,16 +110,16 @@ export class Database {
         this.authUnsubscribe = onAuthStateChanged(auth, async (newUser) => {
             callback(newUser);
             // Update the Projects with the new user, syncing with the database.
-            this.updateUser(newUser ? newUser.uid : null);
+            this.updateUser(newUser);
         });
     }
 
     /** Start a realtime database query on this user's projects, updating them whenever they change. */
-    async updateUser(uid: string | null) {
+    async updateUser(user: User | null) {
         if (firestore === undefined) return;
 
         // Update the user ID
-        this.userID = uid;
+        this.user = user;
 
         // Unsubscribe from the old user's realtime project query
         if (this.projectsQueryUnsubscribe) {
@@ -121,12 +129,12 @@ export class Database {
 
         // Is there a user logged in now? Set up the realtime projects query,
         // save any local projects to the database and get configuration data from the cloud.
-        if (this.userID) {
+        if (this.user) {
             // Any time the user projects changes in the database, update projects.
             this.projectsQueryUnsubscribe = onSnapshot(
                 query(
                     collection(firestore, 'projects'),
-                    where('uids', 'array-contains', uid)
+                    where('uids', 'array-contains', this.user.uid)
                 ),
                 async (snapshot) => {
                     const serialized: SerializedProject[] = [];
@@ -153,7 +161,7 @@ export class Database {
             this.Projects.saveSoon();
 
             // Get the config from the database
-            const config = await getDoc(doc(firestore, 'users', this.userID));
+            const config = await getDoc(doc(firestore, 'users', this.user.uid));
             if (config.exists()) {
                 const data = config.data();
                 // Copy each key/value pair from the database to memory and the local store.

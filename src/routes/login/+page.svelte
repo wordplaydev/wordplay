@@ -7,21 +7,26 @@
         isSignInWithEmailLink,
         sendSignInLinkToEmail,
         signInWithEmailLink,
+        updateEmail,
     } from 'firebase/auth';
     import { FirebaseError } from 'firebase/app';
     import { auth, firestore } from '@db/firebase';
     import { goto } from '$app/navigation';
     import { onMount } from 'svelte';
-    import { locale } from '../../db/Database';
+    import { DB, locale } from '../../db/Database';
     import Feedback from '../../components/app/Feedback.svelte';
     import Writing from '../../components/app/Writing.svelte';
+    import validateEmail from '../../db/validEmail';
+    import Spinning from '../../components/app/Spinning.svelte';
 
     let user = getUser();
     let email: string;
     let missingEmail = false;
     let sent = false;
     let success: boolean | undefined = undefined;
-    let error = '';
+    let loginFeedback = '';
+    let changeSubmitted = false;
+    let changeFeedback: string | undefined = undefined;
 
     function redirect() {
         window.localStorage.removeItem('email');
@@ -33,16 +38,16 @@
         if (err instanceof FirebaseError) {
             console.error(err.code);
             console.error(err.message);
-            error =
+            loginFeedback =
                 {
-                    'auth/id-token-expired': $locale.ui.login.expiredFailure,
-                    'auth/id-token-revoked': $locale.ui.login.invalidFailure,
-                    'auth/invalid-argument': $locale.ui.login.invalidFailure,
-                    'auth/invalid-email': $locale.ui.login.emailFailure,
-                }[err.code] ?? $locale.ui.login.failure;
+                    'auth/id-token-expired': $locale.ui.login.error.expired,
+                    'auth/id-token-revoked': $locale.ui.login.error.invalid,
+                    'auth/invalid-argument': $locale.ui.login.error.invalid,
+                    'auth/invalid-email': $locale.ui.login.error.other,
+                }[err.code] ?? $locale.ui.login.error.failure;
         } else {
             console.error(err);
-            error = $locale.ui.login.failure;
+            loginFeedback = $locale.ui.login.error.failure;
         }
         success = false;
     }
@@ -96,6 +101,37 @@
         }
     }
 
+    let errors: Record<string, string>;
+    $: errors = {
+        'auth/invalid-mail': $locale.ui.login.error.email,
+    };
+
+    async function update() {
+        const user = DB.getUser();
+        if (auth === undefined || user === null || user.email === null) return;
+
+        // Enter loading state, try to login and wait for it to complete, and then leave loading state.
+        // Give some feedback when loading.
+        changeSubmitted = true;
+        const previousEmail = user.email;
+        try {
+            await updateEmail(user, email);
+            changeFeedback = `Check your original email address, ${previousEmail}, for a confirmation link.`;
+        } catch (error) {
+            if (
+                error !== null &&
+                typeof error === 'object' &&
+                'code' in error &&
+                typeof error.code === 'string'
+            )
+                changeFeedback =
+                    errors[error.code] ??
+                    "Couldn't update email for an unknown reason.";
+        } finally {
+            changeSubmitted = false;
+        }
+    }
+
     function logout() {
         if (auth) auth.signOut();
     }
@@ -109,19 +145,48 @@
 <Writing>
     {#if auth && firestore}
         {#if $user && !$user.isAnonymous}
-            <Header>{$locale.ui.phrases.welcome} {$user.email}</Header>
-            <Button tip={$locale.ui.login.logout} action={logout}
-                >{$locale.ui.login.logout}</Button
+            <Header>{$user.email}</Header>
+            <p>{$locale.ui.login.prompt.play}</p>
+            <p
+                >{$locale.ui.login.prompt.logout}
+                <Button
+                    background
+                    tip={$locale.ui.login.button.logout.tip}
+                    action={logout}
+                    >{$locale.ui.login.button.logout.label}</Button
+                ></p
+            >
+            <p>{$locale.ui.login.prompt.change}</p>
+            <form class="form" on:submit={update}>
+                <p
+                    ><TextField
+                        description={$locale.ui.description.loginEmail}
+                        placeholder={$locale.ui.placeholders.email}
+                        bind:text={email}
+                        editable={!changeSubmitted}
+                    /><Button
+                        tip={$locale.ui.login.button.update.tip}
+                        active={validateEmail(email)}
+                        action={() => undefined}
+                        >{$locale.ui.login.button.update.label}</Button
+                    ></p
+                >
+            </form>
+            <p>
+                {#if changeSubmitted}<Spinning />
+                {:else if changeFeedback}<Feedback inline
+                        >{changeFeedback}</Feedback
+                    >{/if}</p
             >
         {:else}
             <Header>{$locale.ui.login.header}</Header>
             <p>
                 {#if missingEmail}
-                    {$locale.ui.login.enterEmail}
+                    {$locale.ui.login.prompt.enter}
                 {:else if $user === null}
-                    {$locale.ui.login.anonymousPrompt}
+                    {$locale.ui.login.prompt.anonymous}
                 {:else}
-                    {$locale.ui.login.prompt}
+                    {$locale.ui.login.prompt.login}
                 {/if}
             </p>
             <form class="form" on:submit={login}>
@@ -130,9 +195,10 @@
                     placeholder={$locale.ui.placeholders.email}
                     bind:text={email}
                 /><Button
-                    tip={$locale.ui.login.submit}
-                    active={/^.+@.+$/.test(email)}
-                    action={() => undefined}>&gt;</Button
+                    tip={$locale.ui.login.button.login.tip}
+                    active={validateEmail(email)}
+                    action={() => undefined}
+                    >{$locale.ui.login.button.login.label}</Button
                 >
             </form>
             <p>
@@ -141,7 +207,7 @@
                 {:else if success === true}
                     <Feedback>{$locale.ui.login.success}</Feedback>
                 {:else if success === false}
-                    <Feedback>{error}</Feedback>
+                    <Feedback>{loginFeedback}</Feedback>
                 {/if}
             </p>
         {/if}
@@ -155,7 +221,6 @@
         display: flex;
         flex-direction: row;
         gap: var(--wordplay-spacing);
-        font-size: x-large;
         margin: var(--wordplay-spacing);
     }
 </style>

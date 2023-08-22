@@ -1998,18 +1998,40 @@
         },
         "login": {
             "header": "$?",
-            "prompt": "$?",
-            "anonymousPrompt": "$?",
+            "prompt": {
+                "login": "$?",
+                "enter": "$?",
+                "anonymous": "$?",
+                "play": "$?",
+                "change": "$?",
+                "check": "$?",
+                "logout": "$?"
+            },
             "submit": "$?",
-            "enterEmail": "$?",
             "sent": "$?",
             "success": "$?",
-            "failure": "$?",
-            "expiredFailure": "$?",
-            "invalidFailure": "$?",
-            "emailFailure": "$?",
-            "logout": "$?",
-            "offline": "$?"
+            "error": {
+                "expired": "$?",
+                "invalid": "$?",
+                "email": "$?",
+                "other": "$?",
+                "offline": "$?",
+                "failure": "$?"
+            },
+            "button": {
+                "logout": {
+                    "tip": "$?",
+                    "label": "$?"
+                },
+                "login": {
+                    "tip": "$?",
+                    "label": ">"
+                },
+                "update": {
+                    "tip": "$?",
+                    "label": "$?"
+                }
+            }
         },
         "edit": {
             "node": "$?",

@@ -7265,35 +7265,135 @@
             "login": {
               "additionalProperties": false,
               "properties": {
-                "anonymousPrompt": {
-                  "type": "string"
+                "button": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "login": {
+                      "additionalProperties": false,
+                      "properties": {
+                        "label": {
+                          "type": "string"
+                        },
+                        "tip": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "label",
+                        "tip"
+                      ],
+                      "type": "object"
+                    },
+                    "logout": {
+                      "additionalProperties": false,
+                      "properties": {
+                        "label": {
+                          "type": "string"
+                        },
+                        "tip": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "label",
+                        "tip"
+                      ],
+                      "type": "object"
+                    },
+                    "update": {
+                      "additionalProperties": false,
+                      "properties": {
+                        "label": {
+                          "type": "string"
+                        },
+                        "tip": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "label",
+                        "tip"
+                      ],
+                      "type": "object"
+                    }
+                  },
+                  "required": [
+                    "logout",
+                    "login",
+                    "update"
+                  ],
+                  "type": "object"
                 },
-                "emailFailure": {
-                  "type": "string"
-                },
-                "enterEmail": {
-                  "type": "string"
-                },
-                "expiredFailure": {
-                  "type": "string"
-                },
-                "failure": {
-                  "type": "string"
+                "error": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "email": {
+                      "type": "string"
+                    },
+                    "expired": {
+                      "type": "string"
+                    },
+                    "failure": {
+                      "type": "string"
+                    },
+                    "invalid": {
+                      "type": "string"
+                    },
+                    "offline": {
+                      "type": "string"
+                    },
+                    "other": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "expired",
+                    "invalid",
+                    "email",
+                    "other",
+                    "failure",
+                    "offline"
+                  ],
+                  "type": "object"
                 },
                 "header": {
                   "type": "string"
                 },
-                "invalidFailure": {
-                  "type": "string"
-                },
-                "logout": {
-                  "type": "string"
-                },
-                "offline": {
-                  "type": "string"
-                },
                 "prompt": {
-                  "type": "string"
+                  "additionalProperties": false,
+                  "properties": {
+                    "anonymous": {
+                      "type": "string"
+                    },
+                    "change": {
+                      "type": "string"
+                    },
+                    "check": {
+                      "type": "string"
+                    },
+                    "enter": {
+                      "type": "string"
+                    },
+                    "login": {
+                      "type": "string"
+                    },
+                    "logout": {
+                      "type": "string"
+                    },
+                    "play": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "login",
+                    "enter",
+                    "anonymous",
+                    "change",
+                    "check",
+                    "play",
+                    "logout"
+                  ],
+                  "type": "object"
                 },
                 "sent": {
                   "type": "string"
@@ -7308,17 +7408,11 @@
               "required": [
                 "header",
                 "prompt",
-                "anonymousPrompt",
-                "enterEmail",
                 "submit",
                 "sent",
                 "success",
-                "failure",
-                "expiredFailure",
-                "invalidFailure",
-                "emailFailure",
-                "logout",
-                "offline"
+                "error",
+                "button"
               ],
               "type": "object"
             },
