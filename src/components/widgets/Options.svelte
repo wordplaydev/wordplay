@@ -5,7 +5,7 @@
     export let options: (string | undefined)[];
     export let change: (value: string | undefined) => void;
     export let width = '10em';
-    export let id: string | undefined = undefined;
+    export let id: string;
     export let editable = true;
 
     let view: HTMLSelectElement | undefined = undefined;

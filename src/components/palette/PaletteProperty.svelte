@@ -23,7 +23,7 @@
     import { getConceptIndex } from '../project/Contexts';
     import { DB, locale, locales } from '../../db/Database';
     import { tick } from 'svelte';
-    import { EDIT_SYMBOL } from '../../parser/Symbols';
+    import { DOCUMENTATION_SYMBOL, EDIT_SYMBOL } from '../../parser/Symbols';
 
     export let project: Project;
     export let property: OutputProperty;
@@ -47,10 +47,16 @@
 </script>
 
 <div class="property">
-    <h3 class="name"
-        >{#if bindConcept}<ConceptLinkUI
-                link={bindConcept}
-            />{:else}&mdash;{/if}</h3
+    <h3 class="name">
+        {#if bindConcept}<small
+                ><ConceptLinkUI
+                    link={bindConcept}
+                    label={DOCUMENTATION_SYMBOL}
+                /></small
+            >{/if}
+        <label for={property.getName()}
+            >{bindConcept?.getName($locale, false) ?? '—'}</label
+        ></h3
     >
     {#if editable}
         <Button
@@ -149,6 +155,7 @@
         flex-basis: 5em;
         text-align: left;
         margin: 0;
+        white-space: nowrap;
     }
 
     .control {
