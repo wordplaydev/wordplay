@@ -18,7 +18,6 @@
     import { onMount } from 'svelte';
     import Link from '../app/Link.svelte';
     import Status from '../app/Status.svelte';
-    import { goto } from '$app/navigation';
     import Mode from '../widgets/Mode.svelte';
     import Dialog from '../widgets/Dialog.svelte';
 
@@ -30,12 +29,12 @@
 
     $: anonymous = $user === null;
 
-    function back() {
+    function getBackPath() {
         if ($page.route.id?.startsWith('/project/')) {
             const projectID = $page.params.projectid;
-            if (Projects.readonlyProjects.has(projectID)) goto('/galleries');
-            else goto('/projects');
-        } else goto('/');
+            if (Projects.readonlyProjects.has(projectID)) return '/galleries';
+            return '/projects';
+        } else return '/';
     }
 
     function handleKey(event: KeyboardEvent) {
@@ -44,7 +43,7 @@
             event.key === 'Escape' &&
             $page.route.id !== null
         ) {
-            back();
+            getBackPath();
         }
     }
 
@@ -192,11 +191,7 @@
     {#if $project}
         <Status />
     {/if}
-    {#if $page.route.id !== '/'}<Button
-            tip={$locale.ui.description.close}
-            active={$page.route.id !== null && $page.route.id !== "/'"}
-            action={back}>❌</Button
-        >{/if}
+    {#if $page.route.id !== '/'}<Link to={getBackPath()}>❌</Link>{/if}
 </div>
 
 <style>
