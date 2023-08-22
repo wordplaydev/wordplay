@@ -85,6 +85,7 @@
     import Arrangement from '../../db/Arrangement';
     import {
         DOCUMENTATION_SYMBOL,
+        EDIT_SYMBOL,
         PALETTE_SYMBOL,
         STAGE_SYMBOL,
     } from '../../parser/Symbols';
