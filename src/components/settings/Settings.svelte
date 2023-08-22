@@ -20,6 +20,7 @@
     import Status from '../app/Status.svelte';
     import Mode from '../widgets/Mode.svelte';
     import Dialog from '../widgets/Dialog.svelte';
+    import { goto } from '$app/navigation';
 
     let show = false;
 
@@ -43,7 +44,7 @@
             event.key === 'Escape' &&
             $page.route.id !== null
         ) {
-            getBackPath();
+            goto(getBackPath());
         }
     }
 
