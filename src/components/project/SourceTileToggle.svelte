@@ -65,7 +65,6 @@
         display: flex;
         flex-direction: row;
         align-items: center;
-        overflow: hidden;
         gap: var(--wordplay-spacing);
     }
 
