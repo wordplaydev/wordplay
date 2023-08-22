@@ -5,6 +5,7 @@
     import gotoProject from './gotoProject';
     import Button from '../widgets/Button.svelte';
     import ConfirmButton from '../widgets/ConfirmButton.svelte';
+    import { EDIT_SYMBOL } from '../../parser/Symbols';
 
     export let set: Project[];
     export let editable: boolean;
@@ -29,7 +30,8 @@
             >{#if editable}<div class="controls">
                     <Button
                         tip={$locale.ui.description.editProject}
-                        action={() => gotoProject(project, false)}>✎</Button
+                        action={() => gotoProject(project, false)}
+                        >{EDIT_SYMBOL}</Button
                     ><ConfirmButton
                         prompt={$locale.ui.confirm.archiveProject.prompt}
                         tip={$locale.ui.confirm.archiveProject.description}

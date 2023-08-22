@@ -23,6 +23,7 @@
     import { getConceptIndex } from '../project/Contexts';
     import { DB, locale, locales } from '../../db/Database';
     import { tick } from 'svelte';
+    import { EDIT_SYMBOL } from '../../parser/Symbols';
 
     export let project: Project;
     export let property: OutputProperty;
@@ -58,7 +59,7 @@
                 : $locale.ui.description.set}
             bind:view={toggleView}
             action={() => toggleValues(!valuesAreSet)}
-            >{valuesAreSet ? '⨉' : '✎'}</Button
+            >{valuesAreSet ? '⨉' : EDIT_SYMBOL}</Button
         >{/if}
     <div class="control">
         {#if values.areMixed()}

@@ -1184,7 +1184,7 @@
                                             tip={$locale.ui.description
                                                 .editProject}
                                             action={() => stopPlaying()}
-                                            >✏️</Button
+                                            >{EDIT_SYMBOL}</Button
                                         >{/if}
                                     {#if !$evaluation.evaluator.isPlaying()}<Painting
                                             bind:painting

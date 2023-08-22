@@ -18,6 +18,7 @@ import {
     PREVIOUS_SYMBOL,
     TABLE_OPEN_SYMBOL,
     TABLE_CLOSE_SYMBOL,
+    EDIT_SYMBOL,
 } from '@parser/Symbols';
 
 import Source from '@nodes/Source';
@@ -387,7 +388,7 @@ export const EnterFullscreen: Command = {
 };
 
 export const ExitFullscreen: Command = {
-    symbol: '✎',
+    symbol: EDIT_SYMBOL,
     description: (l) => l.ui.description.fullscreen,
     visible: Visibility.Invisible,
     category: Category.Evaluate,

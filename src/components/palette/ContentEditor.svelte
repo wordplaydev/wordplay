@@ -11,6 +11,7 @@
     import { addContent, moveContent, removeContent } from './editOutput';
     import type ListLiteral from '../../nodes/ListLiteral';
     import { DB, locale } from '../../db/Database';
+    import { EDIT_SYMBOL } from '../../parser/Symbols';
 
     export let project: Project;
     export let list: ListLiteral | undefined;
@@ -75,7 +76,7 @@
                 <Button
                     tip={$locale.ui.description.editContent}
                     active={editable}
-                    action={() => editContent(index)}>✎</Button
+                    action={() => editContent(index)}>{EDIT_SYMBOL}</Button
                 >
                 <RootView node={content} localized />
             </div>
