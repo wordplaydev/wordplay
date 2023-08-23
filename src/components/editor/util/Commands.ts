@@ -993,10 +993,14 @@ const Commands: Command[] = [
     FocusCycle,
 ];
 
+const TouchSupported =
+    typeof window !== 'undefined' && 'ontouchstart' in window;
+
 export const VisibleModifyCommands = Commands.filter(
     (c) =>
         (c.category === Category.Cursor || c.category === Category.Modify) &&
-        (c.visible === Visibility.Visible || c.visible === Visibility.Touch)
+        (c.visible === Visibility.Visible ||
+            (TouchSupported && c.visible === Visibility.Touch))
 );
 
 export default Commands;
