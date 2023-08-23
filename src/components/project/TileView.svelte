@@ -257,6 +257,7 @@
         display: flex;
         flex-direction: column;
         align-items: flex-start;
+        border: var(--wordplay-border-color) solid 1px;
 
         /* Don't let iOS grab pointer move events, so we can do drag and drop. */
         touch-action: none;
@@ -343,6 +344,7 @@
         gap: var(--wordplay-spacing);
         width: 100%;
         overflow-x: auto;
+        flex-shrink: 0;
     }
 
     /** Dim the header a bit so that they don't demand so much attention */
