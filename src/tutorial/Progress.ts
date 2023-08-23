@@ -195,4 +195,10 @@ export default class Progress {
                     : 0
             );
     }
+
+    getURL(): string {
+        return `/learn?locale=${this.getLocale()}&act=${this.act}&scene=${
+            this.scene
+        }&pause=${this.pause}`;
+    }
 }

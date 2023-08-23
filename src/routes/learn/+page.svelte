@@ -59,11 +59,7 @@
     function navigate(newProgress: Progress) {
         Settings.setTutorialProgress(newProgress);
         // Set the URL to mirror the progress, if not at it.
-        goto(
-            `/learn?locale=${newProgress.getLocale()}&act=${
-                newProgress.act
-            }&scene=${newProgress.scene}&pause=${newProgress.pause}`
-        );
+        goto(newProgress.getURL());
     }
 </script>
 
