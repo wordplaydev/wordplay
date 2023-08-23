@@ -51,4 +51,17 @@ export const PerformanceMode = [
 
 export type PeformanceModeType = (typeof PerformanceMode)[number];
 
+export async function loadTutorial(localeString: string) {
+    try {
+        // Load the locale's tutorial, if it exists.
+        const response = await fetch(
+            `/locales/${localeString}/${localeString}-tutorial.json`
+        );
+        return await response.json();
+    } catch (err) {
+        // Couldn't load it? Show an error.
+        return null;
+    }
+}
+
 export default Tutorial;

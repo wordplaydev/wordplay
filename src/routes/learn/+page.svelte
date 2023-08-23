@@ -6,7 +6,6 @@
     import { Settings, locale, tutorialProgress } from '../../db/Database';
     import { onMount } from 'svelte';
     import Loading from '@components/app/Loading.svelte';
-    import type Tutorial from '../../tutorial/Tutorial';
     import Page from '@components/app/Page.svelte';
     import Speech from '../../components/lore/Speech.svelte';
     import Link from '../../components/app/Link.svelte';
@@ -14,33 +13,21 @@
     import Writing from '../../components/app/Writing.svelte';
     import Header from '../../components/app/Header.svelte';
     import { toLocaleString } from '../../locale/Locale';
+    import { loadTutorial, type Tutorial } from '../../tutorial/Tutorial';
 
     let tutorial: Tutorial | undefined | null = undefined;
 
     $: localeString =
         $page.url.searchParams.get('locale') ?? toLocaleString($locale);
 
-    async function loadTutorial() {
-        try {
-            // Load the locale's tutorial
-            const response = await fetch(
-                `/locales/${localeString}/${localeString}-tutorial.json`
-            );
-            tutorial = await response.json();
-        } catch (err) {
-            // Couldn't load it? Show an error.
-            tutorial = null;
-        }
-    }
-
     onMount(async () => {
-        loadTutorial();
+        tutorial = await loadTutorial(localeString);
     });
 
     // If hot module reloading, and there's a locale update, refresh the tutorial.
     if (import.meta.hot) {
         import.meta.hot.on('locales-update', () => {
-            loadTutorial();
+            loadTutorial(localeString);
         });
     }
 
