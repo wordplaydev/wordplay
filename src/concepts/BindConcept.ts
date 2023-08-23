@@ -7,6 +7,7 @@ import type Locale from '@locale/Locale';
 import type Purpose from './Purpose';
 import Emotion from '../lore/Emotion';
 import type Markup from '../nodes/Markup';
+import type { Character } from '../tutorial/Tutorial';
 
 export default class BindConcept extends Concept {
     /** The type this concept represents. */
@@ -71,6 +72,10 @@ export default class BindConcept extends Concept {
 
     getSubConcepts(): Set<Concept> {
         return new Set();
+    }
+
+    getCharacter(): Character | undefined {
+        return undefined;
     }
 
     isEqualTo(concept: Concept) {

@@ -39,6 +39,10 @@ export default class Progress {
         this.pause = pause;
     }
 
+    getLocale() {
+        return `${this.tutorial.language}-${this.tutorial.region}`;
+    }
+
     getAct(): Act | undefined {
         return this.tutorial.acts[this.act - 1];
     }
@@ -113,6 +117,8 @@ export default class Progress {
 
     seralize(): TutorialProgress {
         return {
+            language: this.tutorial.language,
+            region: this.tutorial.region,
             act: this.act,
             scene: this.scene,
             line: this.pause,
@@ -188,5 +194,37 @@ export default class Progress {
                       ).length + 1
                     : 0
             );
+    }
+
+    getURL(): string {
+        return `/learn?locale=${this.getLocale()}&act=${this.act}&scene=${
+            this.scene
+        }&pause=${this.pause}`;
+    }
+
+    static fromURL(
+        tutorial: Tutorial,
+        params: URLSearchParams
+    ): Progress | undefined {
+        // Figure out where we are in the tutorial.
+        const act = params.get('act');
+        const scene = params.get('scene');
+        const pause = params.get('pause');
+        if (
+            tutorial &&
+            act !== null &&
+            isFinite(parseInt(act)) &&
+            scene !== null &&
+            isFinite(parseInt(scene)) &&
+            pause !== null &&
+            isFinite(parseInt(pause))
+        )
+            return new Progress(
+                tutorial,
+                parseInt(act),
+                parseInt(scene),
+                parseInt(pause)
+            );
+        else return undefined;
     }
 }

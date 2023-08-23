@@ -12,6 +12,7 @@ import type Locale from '@locale/Locale';
 import Purpose from './Purpose';
 import Emotion from '../lore/Emotion';
 import type Markup from '../nodes/Markup';
+import type { Character } from '../tutorial/Tutorial';
 
 export default class StructureConcept extends Concept {
     /** The type this concept represents. */
@@ -158,6 +159,27 @@ export default class StructureConcept extends Concept {
             concept instanceof StructureConcept &&
             concept.definition === this.definition
         );
+    }
+
+    getCharacter(): Character | undefined {
+        const name = this.definition.names.getNonSymbolicName();
+        if (name === undefined) return undefined;
+        const locale = this.context.project.locales[0];
+        for (const [key, text] of Object.entries(locale.output))
+            if (
+                'names' in text &&
+                ((typeof text.names === 'string' && text.names === name) ||
+                    text.names.includes(name))
+            )
+                return key as Character;
+        for (const [key, text] of Object.entries(locale.basis))
+            if (
+                'name' in text &&
+                ((typeof text.name === 'string' && text.name === name) ||
+                    text.name.includes(name))
+            )
+                return key as Character;
+        return undefined;
     }
 
     /**

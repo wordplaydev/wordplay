@@ -3,23 +3,28 @@ import type OutputTexts from '@locale/OutputTexts';
 import type NodeTexts from '@locale/NodeTexts';
 import type Emotion from '../lore/Emotion';
 import type BasisTexts from '../locale/BasisTexts';
+import type { RegionCode } from '../locale/Regions';
+import type LanguageCode from '../locale/LanguageCode';
 
 export type Tutorial = {
     /** This is here so that when we generate a JSON schema for a tutorial, the VS Code schema property is allowed **/
     $schema: string;
+    language: LanguageCode;
+    region: RegionCode;
     acts: Act[];
 };
 
 export type Act = {
-    name: string;
+    title: string;
     performance: Performance;
     scenes: Scene[];
 };
 
 export type Scene = {
-    name: string;
+    title: string;
+    subtitle: string | null;
+    concept?: Character;
     performance: Performance;
-    concept: string | null;
     lines: Line[];
 };
 

@@ -7,6 +7,8 @@ import Fonts from '../basis/Fonts';
 import { Basis } from '../basis/Basis';
 import type Setting from './Setting';
 import type LanguageCode from '../locale/LanguageCode';
+import type { RegionCode } from '../locale/Regions';
+import type Tutorial from '../tutorial/Tutorial';
 
 /** A cache of locales loaded */
 export default class LocalesDatabase {
@@ -38,6 +40,8 @@ export default class LocalesDatabase {
     /** The setting for the locales */
     readonly setting: Setting<SupportedLocale[]>;
 
+    private tutorialsLoaded: Record<string, Tutorial | undefined> = {};
+
     constructor(
         database: Database,
         locales: SupportedLocale[],
@@ -53,6 +57,9 @@ export default class LocalesDatabase {
         ] = defaultLocale;
 
         this.setting = setting;
+
+        // Load the requested locales.
+        this.loadLocales(locales);
     }
 
     async refreshLocales() {
@@ -167,5 +174,31 @@ export default class LocalesDatabase {
 
         // Revise all projects to have the new locale
         this.database.Projects.localize(locales);
+    }
+
+    async getTutorial(
+        language: LanguageCode,
+        region: RegionCode
+    ): Promise<Tutorial | undefined> {
+        const localeString = `${language}-${region}`;
+
+        if (localeString in this.tutorialsLoaded)
+            return this.tutorialsLoaded[localeString];
+
+        let tutorial: Tutorial | undefined;
+        try {
+            // Load the locale's tutorial, if it exists.
+            const response = await fetch(
+                `/locales/${localeString}/${localeString}-tutorial.json`
+            );
+            tutorial = await response.json();
+        } catch (err) {
+            // Couldn't load it? Show an error.
+            tutorial = undefined;
+        }
+
+        this.tutorialsLoaded[localeString] = tutorial;
+
+        return tutorial;
     }
 }

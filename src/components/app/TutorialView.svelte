@@ -20,7 +20,7 @@
     import type Spaces from '../../parser/Spaces';
     import { toMarkup } from '../../parser/toMarkup';
     import MarkupHTMLView from '../concepts/MarkupHTMLView.svelte';
-    import { setContext } from 'svelte';
+    import { onMount, setContext } from 'svelte';
     import type ConceptIndex from '../../concepts/ConceptIndex';
     import { writable } from 'svelte/store';
     import { tick } from 'svelte';
@@ -48,7 +48,12 @@
 
     const user = getUser();
 
-    let view: HTMLElement | undefined;
+    let nextButton: HTMLButtonElement | undefined;
+    let previousButton: HTMLButtonElement | undefined;
+    let focusView: HTMLButtonElement | undefined = undefined;
+
+    // Focus next button on load.
+    onMount(() => nextButton?.focus());
 
     /** The current place in the tutorial */
     $: act = progress.getAct();
@@ -116,17 +121,22 @@
         : performance.slice(1).join('\n');
 
     // Every time the progress changes, create an initial project for the step.
-    $: initialProject = new Project(
-        progress.getProjectID(),
-        scene ? scene.name : act ? act.name : $locale.wordplay,
-        new Source($locale.term.start, source),
-        [],
-        $locales,
-        $user ? [$user.uid] : [],
-        false,
-        undefined,
-        false
-    );
+    let initialProject: Project;
+    $: if (
+        initialProject === undefined ||
+        progress.getProjectID() !== initialProject.id
+    )
+        initialProject = new Project(
+            progress.getProjectID(),
+            scene ? scene.title : act ? act.title : $locale.wordplay,
+            new Source($locale.term.start, source),
+            [],
+            $locales,
+            $user ? [$user.uid] : [],
+            false,
+            undefined,
+            false
+        );
 
     // Every time the progress changes, see if there's a revision to the project stored in the database,
     // and use that instead.
@@ -164,34 +174,30 @@
     }
 
     async function handleKey(event: KeyboardEvent) {
-        let focus = false;
+        focusView = undefined;
         if (event.key === 'ArrowLeft' || event.key === 'Backspace') {
-            focus = true;
+            focusView = previousButton;
             navigate(progress.previousPause() ?? progress);
         } else if (
             event.key === 'ArrowRight' ||
             event.key === 'Enter' ||
             event.key === ' '
         ) {
-            focus = true;
+            focusView = nextButton;
             const next = progress.nextPause();
             if (next) navigate(next);
             else goto('/projects');
         }
 
-        // Focus the dialog after navigating.
-        if (focus) {
-            await tick();
-            if (view) view.focus();
-        }
+        await tick();
+        focusView?.focus();
     }
 </script>
 
 <!-- If the body gets focus, focus the instructions. -->
 <svelte:body
-    on:focus={() => {
-        tick().then(() => view?.focus());
-    }}
+    on:focus|preventDefault|stopPropagation={() =>
+        tick().then(() => (focusView ?? nextButton)?.focus())}
 />
 
 <section
@@ -199,27 +205,26 @@
     class:vertical={$arrangement === Arrangement.Vertical}
 >
     <!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
-    <!-- svelte-ignore a11y-no-noninteractive-tabindex -->
     <div
         role="article"
         class="dialog"
-        tabindex="0"
         on:keydown={handleKey}
-        bind:this={view}
+        on:pointerdown|stopPropagation|preventDefault={() =>
+            nextButton?.focus()}
     >
-        <div class="turns">
+        <div class="turns" aria-live="assertive">
             {#if act === undefined}
                 <div class="title play">{$locale.wordplay}</div>
             {:else if scene === undefined}
                 <div class="title act"
                     >{$locale.term.act}
-                    {progress.act}<p><em>{act.name}</em></p></div
+                    {progress.act}<p><em>{act.title}</em></p></div
                 >
             {:else if dialog === undefined}
                 <div class="title scene"
                     >{$locale.term.scene}
-                    {progress.scene}<p><em>{scene.name}</em></p
-                    >{#if scene.concept}<em>{scene.concept}</em>{/if}</div
+                    {progress.scene}<p><em>{scene.title}</em></p
+                    >{#if scene.subtitle}<em>{scene.subtitle}</em>{/if}</div
                 >
             {:else}
                 {#key turns}
@@ -248,13 +253,17 @@
             <Button
                 tip={$locale.ui.description.previousLessonStep}
                 action={() => navigate(progress.previousPause() ?? progress)}
-                active={progress.previousPause() !== undefined}>⇦</Button
+                active={progress.previousPause() !== undefined}
+                bind:view={previousButton}>⇦</Button
             >
-
             <!-- A hierarchical select of tutorial units and lessons  -->
-            <select bind:value={selection} on:change={handleSelect}>
+            <select
+                bind:value={selection}
+                on:change={handleSelect}
+                on:keydown|stopPropagation
+            >
                 {#each progress.tutorial.acts as act, actIndex}
-                    <optgroup label={act.name}>
+                    <optgroup label={act.title}>
                         {#each act.scenes as scene, sceneIndex}
                             <option
                                 value={new Progress(
@@ -262,16 +271,16 @@
                                     actIndex + 1,
                                     sceneIndex + 1,
                                     0
-                                )}>{scene.concept ?? scene.name}</option
+                                )}>{scene.subtitle ?? scene.title}</option
                             >
                         {/each}
                     </optgroup>
                 {/each}
             </select>
             <Note
-                >{#if act !== undefined}{act.name}{/if}
+                >{#if act !== undefined}{act.title}{/if}
                 {#if act !== undefined && scene !== undefined}{#if $arrangement !== Arrangement.Vertical}<br
-                        />{/if}{scene.concept ?? scene.name}{/if}
+                        />{/if}{scene.subtitle ?? scene.title}{/if}
                 {#if act !== undefined && scene !== undefined && progress.pause > 0}
                     <span class="progress"
                         >&ndash; {progress.pause} /
@@ -284,7 +293,8 @@
             <Button
                 tip={$locale.ui.description.nextLessonStep}
                 action={() => navigate(progress.nextPause() ?? progress)}
-                active={progress.nextPause() !== undefined}>⇨</Button
+                active={progress.nextPause() !== undefined}
+                bind:view={nextButton}>⇨</Button
             >
         </nav>
     </div>
@@ -433,9 +443,18 @@
     }
 
     select {
-        width: 1em;
+        width: 1.25em;
         border: none;
         cursor: pointer;
+        padding: var(--wordplay-spacing);
+        border-radius: var(--wordplay-border-radius);
+    }
+
+    select:focus {
+        background: var(--wordplay-focus-color);
+        color: var(--wordplay-background);
+        font-weight: bold;
+        outline: none;
     }
 
     select::after {

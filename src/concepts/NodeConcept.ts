@@ -7,6 +7,7 @@ import type StructureDefinition from '@nodes/StructureDefinition';
 import type Emotion from '../lore/Emotion';
 import type Markup from '../nodes/Markup';
 import { docToMarkup } from '@locale/Locale';
+import type { Character } from '../tutorial/Tutorial';
 
 export default class NodeConcept extends Concept {
     readonly template: Node;
@@ -66,6 +67,13 @@ export default class NodeConcept extends Concept {
 
     getSubConcepts(): Set<Concept> {
         return new Set();
+    }
+
+    getCharacter(): Character | undefined {
+        const locale = this.context.project.locales[0];
+        const text = this.template.getNodeLocale(locale);
+        const match = Object.entries(locale.node).find(([, t]) => t === text);
+        return match ? (match[0] as Character) : undefined;
     }
 
     isEqualTo(concept: Concept) {

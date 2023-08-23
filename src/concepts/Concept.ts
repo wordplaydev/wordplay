@@ -6,6 +6,7 @@ import type StructureDefinition from '@nodes/StructureDefinition';
 import type Glyph from '../lore/Glyph';
 import type Emotion from '../lore/Emotion';
 import type Markup from '../nodes/Markup';
+import type { Character } from '../tutorial/Tutorial';
 
 /**
  * Represents some part of the Wordplay language, API, or example ecosystem.
@@ -134,6 +135,8 @@ export default abstract class Concept {
             concepts = concepts.concat(concept.getAllSubConcepts());
         return concepts;
     }
+
+    abstract getCharacter(): Character | undefined;
 
     abstract isEqualTo(concept: Concept): boolean;
 }

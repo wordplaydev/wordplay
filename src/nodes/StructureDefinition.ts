@@ -456,15 +456,12 @@ export default class StructureDefinition extends AtomicExpression {
         return this.names;
     }
 
-    getNodeLocale(translation: Locale) {
-        return translation.node.StructureDefinition;
+    getNodeLocale(locale: Locale) {
+        return locale.node.StructureDefinition;
     }
 
-    getStartExplanations(translation: Locale) {
-        return concretize(
-            translation,
-            translation.node.StructureDefinition.start
-        );
+    getStartExplanations(locale: Locale) {
+        return concretize(locale, locale.node.StructureDefinition.start);
     }
 
     getDescriptionInputs(locale: Locale) {
