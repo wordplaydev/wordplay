@@ -193,7 +193,7 @@
 <!-- If the body gets focus, focus the instructions. -->
 <svelte:body
     on:focus={() => {
-        tick().then(() => focusView?.focus());
+        tick().then(() => (focusView ?? nextButton)?.focus());
     }}
 />
 
