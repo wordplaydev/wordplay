@@ -15,15 +15,15 @@ export type Tutorial = {
 };
 
 export type Act = {
-    name: string;
+    title: string;
     performance: Performance;
     scenes: Scene[];
 };
 
 export type Scene = {
-    name: string;
+    title: string;
+    subtitle: string | null;
     performance: Performance;
-    concept: string | null;
     lines: Line[];
 };
 

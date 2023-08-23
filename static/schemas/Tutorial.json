@@ -5,9 +5,6 @@
     "Act": {
       "additionalProperties": false,
       "properties": {
-        "name": {
-          "type": "string"
-        },
         "performance": {
           "$ref": "#/definitions/Performance"
         },
@@ -16,10 +13,13 @@
             "$ref": "#/definitions/Scene"
           },
           "type": "array"
+        },
+        "title": {
+          "type": "string"
         }
       },
       "required": [
-        "name",
+        "title",
         "performance",
         "scenes"
       ],
@@ -495,29 +495,29 @@
     "Scene": {
       "additionalProperties": false,
       "properties": {
-        "concept": {
-          "type": [
-            "string",
-            "null"
-          ]
-        },
         "lines": {
           "items": {
             "$ref": "#/definitions/Line"
           },
           "type": "array"
         },
-        "name": {
-          "type": "string"
-        },
         "performance": {
           "$ref": "#/definitions/Performance"
+        },
+        "subtitle": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "title": {
+          "type": "string"
         }
       },
       "required": [
-        "name",
+        "title",
+        "subtitle",
         "performance",
-        "concept",
         "lines"
       ],
       "type": "object"

@@ -128,7 +128,7 @@
     )
         initialProject = new Project(
             progress.getProjectID(),
-            scene ? scene.name : act ? act.name : $locale.wordplay,
+            scene ? scene.title : act ? act.title : $locale.wordplay,
             new Source($locale.term.start, source),
             [],
             $locales,
@@ -209,13 +209,13 @@
             {:else if scene === undefined}
                 <div class="title act"
                     >{$locale.term.act}
-                    {progress.act}<p><em>{act.name}</em></p></div
+                    {progress.act}<p><em>{act.title}</em></p></div
                 >
             {:else if dialog === undefined}
                 <div class="title scene"
                     >{$locale.term.scene}
-                    {progress.scene}<p><em>{scene.name}</em></p
-                    >{#if scene.concept}<em>{scene.concept}</em>{/if}</div
+                    {progress.scene}<p><em>{scene.title}</em></p
+                    >{#if scene.subtitle}<em>{scene.subtitle}</em>{/if}</div
                 >
             {:else}
                 {#key turns}
@@ -254,7 +254,7 @@
                 on:keydown|stopPropagation
             >
                 {#each progress.tutorial.acts as act, actIndex}
-                    <optgroup label={act.name}>
+                    <optgroup label={act.title}>
                         {#each act.scenes as scene, sceneIndex}
                             <option
                                 value={new Progress(
@@ -262,16 +262,16 @@
                                     actIndex + 1,
                                     sceneIndex + 1,
                                     0
-                                )}>{scene.concept ?? scene.name}</option
+                                )}>{scene.subtitle ?? scene.title}</option
                             >
                         {/each}
                     </optgroup>
                 {/each}
             </select>
             <Note
-                >{#if act !== undefined}{act.name}{/if}
+                >{#if act !== undefined}{act.title}{/if}
                 {#if act !== undefined && scene !== undefined}{#if $arrangement !== Arrangement.Vertical}<br
-                        />{/if}{scene.concept ?? scene.name}{/if}
+                        />{/if}{scene.subtitle ?? scene.title}{/if}
                 {#if act !== undefined && scene !== undefined && progress.pause > 0}
                     <span class="progress"
                         >&ndash; {progress.pause} /
