@@ -48,7 +48,6 @@
 
     const user = getUser();
 
-    let view: HTMLElement | undefined;
     let nextButton: HTMLButtonElement | undefined;
     let previousButton: HTMLButtonElement | undefined;
     let focusView: HTMLButtonElement | undefined = undefined;
@@ -200,7 +199,7 @@
     class:vertical={$arrangement === Arrangement.Vertical}
 >
     <!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
-    <div role="article" class="dialog" on:keydown={handleKey} bind:this={view}>
+    <div role="article" class="dialog" on:keydown={handleKey}>
         <div class="turns" aria-live="assertive">
             {#if act === undefined}
                 <div class="title play">{$locale.wordplay}</div>

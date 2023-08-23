@@ -1,13 +1,13 @@
 <script lang="ts">
-    import Page from '../components/app/Page.svelte';
     import Header from '../components/app/Header.svelte';
     import { locale } from '../db/Database';
     import Link from '../components/app/Link.svelte';
     import Speech from '../components/lore/Speech.svelte';
     import Glyphs from '../lore/Glyphs';
+    import Writing from '../components/app/Writing.svelte';
 </script>
 
-<Page>
+<Writing>
     <Header>{$locale.ui.error.notfound.header}</Header>
     <Speech glyph={Glyphs.Function}
         ><p slot="content">
@@ -15,4 +15,4 @@
             <Link to="/">🏠</Link></p
         ></Speech
     >
-</Page>
+</Writing>

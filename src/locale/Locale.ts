@@ -35,7 +35,7 @@ export type Locale = {
     /** A path to the generated JSON schema that mirrors this type, for validation and auto-complete */
     $schema: string;
     /** An ISO 639-1 language code */
-    language: keyof typeof Languages;
+    language: LanguageCode;
     /** An ISO 3166-2 region code: https://en.wikipedia.org/wiki/ISO_3166-2 */
     region: RegionCode;
     /** The name of the platform */

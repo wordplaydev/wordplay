@@ -1,5 +1,7 @@
 {
     "$schema": "../../schemas/Tutorial.json",
+    "language": "en",
+    "region": "US",
     "acts": [
         {
             "name": "The Verse",

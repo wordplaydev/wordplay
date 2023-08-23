@@ -39,6 +39,10 @@ export default class Progress {
         this.pause = pause;
     }
 
+    getLocale() {
+        return `${this.tutorial.language}-${this.tutorial.region}`;
+    }
+
     getAct(): Act | undefined {
         return this.tutorial.acts[this.act - 1];
     }
@@ -113,6 +117,8 @@ export default class Progress {
 
     seralize(): TutorialProgress {
         return {
+            language: this.tutorial.language,
+            region: this.tutorial.region,
             act: this.act,
             scene: this.scene,
             line: this.pause,

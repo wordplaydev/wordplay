@@ -8,11 +8,17 @@
     import Loading from '@components/app/Loading.svelte';
     import type Tutorial from '../../tutorial/Tutorial';
     import Page from '@components/app/Page.svelte';
+    import Speech from '../../components/lore/Speech.svelte';
+    import Link from '../../components/app/Link.svelte';
+    import Glyphs from '../../lore/Glyphs';
+    import Writing from '../../components/app/Writing.svelte';
+    import Header from '../../components/app/Header.svelte';
     import { toLocaleString } from '../../locale/Locale';
 
     let tutorial: Tutorial | undefined | null = undefined;
 
-    $: localeString = toLocaleString($locale);
+    $: localeString =
+        $page.url.searchParams.get('locale') ?? toLocaleString($locale);
 
     async function loadTutorial() {
         try {
@@ -67,17 +73,29 @@
         Settings.setTutorialProgress(newProgress);
         // Set the URL to mirror the progress, if not at it.
         goto(
-            `/learn?act=${newProgress.act}&scene=${newProgress.scene}&pause=${newProgress.pause}`
+            `/learn?locale=${newProgress.getLocale()}&act=${
+                newProgress.act
+            }&scene=${newProgress.scene}&pause=${newProgress.pause}`
         );
     }
 </script>
 
-<Page>
-    {#if tutorial === undefined}
+{#if tutorial === undefined}
+    <Page>
         <Loading />
-    {:else if tutorial === null}
-        {$locale.ui.error.tutorial}
-    {:else}
+    </Page>
+{:else if tutorial === null}
+    <Writing>
+        <Header>:(</Header>
+        <Speech glyph={Glyphs.Function}
+            ><p slot="content">
+                {$locale.ui.error.tutorial}
+                <Link to="/">🏠</Link></p
+            ></Speech
+        ></Writing
+    >
+{:else}
+    <Page>
         <TutorialView
             progress={new Progress(
                 tutorial,
@@ -87,5 +105,5 @@
             )}
             {navigate}
         />
-    {/if}
-</Page>
+    </Page>
+{/if}
