@@ -57,7 +57,7 @@
         border-radius: var(--wordplay-border-radius);
         padding: calc(2 * var(--wordplay-spacing));
         width: 80vw;
-        height: 80vh;
+        height: max-content;
         background-color: var(--wordplay-background);
         color: var(--wordplay-foreground);
         border: var(--wordplay-border-width) solid var(--wordplay-border-color);
