@@ -33,27 +33,10 @@
 
     // Set progress if URL indicates one.
     $: {
-        // Figure out where we are in the tutorial.
-        const act = $page.url.searchParams.get('act');
-        const scene = $page.url.searchParams.get('scene');
-        const pause = $page.url.searchParams.get('pause');
-        if (
-            tutorial &&
-            act !== null &&
-            isFinite(parseInt(act)) &&
-            scene !== null &&
-            isFinite(parseInt(scene)) &&
-            pause !== null &&
-            isFinite(parseInt(pause))
-        )
-            Settings.setTutorialProgress(
-                new Progress(
-                    tutorial,
-                    parseInt(act),
-                    parseInt(scene),
-                    parseInt(pause)
-                )
-            );
+        if (tutorial) {
+            const progress = Progress.fromURL(tutorial, $page.url.searchParams);
+            if (progress) Settings.setTutorialProgress(progress);
+        }
     }
 
     function navigate(newProgress: Progress) {

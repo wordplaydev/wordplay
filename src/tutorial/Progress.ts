@@ -201,4 +201,30 @@ export default class Progress {
             this.scene
         }&pause=${this.pause}`;
     }
+
+    static fromURL(
+        tutorial: Tutorial,
+        params: URLSearchParams
+    ): Progress | undefined {
+        // Figure out where we are in the tutorial.
+        const act = params.get('act');
+        const scene = params.get('scene');
+        const pause = params.get('pause');
+        if (
+            tutorial &&
+            act !== null &&
+            isFinite(parseInt(act)) &&
+            scene !== null &&
+            isFinite(parseInt(scene)) &&
+            pause !== null &&
+            isFinite(parseInt(pause))
+        )
+            return new Progress(
+                tutorial,
+                parseInt(act),
+                parseInt(scene),
+                parseInt(pause)
+            );
+        else return undefined;
+    }
 }
