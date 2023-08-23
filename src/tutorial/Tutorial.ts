@@ -23,6 +23,7 @@ export type Act = {
 export type Scene = {
     title: string;
     subtitle: string | null;
+    concept?: Character;
     performance: Performance;
     lines: Line[];
 };

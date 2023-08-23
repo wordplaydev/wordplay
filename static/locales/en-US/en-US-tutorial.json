@@ -133,6 +133,7 @@
                 {
                     "title": "Would you like a program?",
                     "subtitle": "Program",
+                    "concept": "Program",
                     "performance": ["use", "fit", "Symbol", "📄"],
                     "lines": [
                         ["fit", "Phrase('📄' resting:Pose(rotation: 10°))"],
@@ -241,6 +242,7 @@
                 {
                     "title": "Holding space",
                     "subtitle": "Placeholder",
+                    "concept": "ExpressionPlaceholder",
                     "performance": ["use", "fit", "DarkVoid"],
                     "lines": [
                         [
@@ -351,6 +353,7 @@
                 {
                     "title": "Say again?",
                     "subtitle": "Unparsable",
+                    "concept": "UnparsableExpression",
                     "performance": ["use", "fit", "Symbol", "ahkeolfewvk"],
                     "lines": [
                         [
@@ -493,6 +496,7 @@
                 {
                     "title": "Love is in the err",
                     "subtitle": "Evaluate",
+                    "concept": "Evaluate",
                     "performance": [
                         "fit",
                         "Stage([Phrase('💔')] background: 🌈(90% 100 0°))"
@@ -766,6 +770,7 @@
                 {
                     "title": "Quote, unquote",
                     "subtitle": "Text",
+                    "concept": "TextLiteral",
                     "performance": [
                         "fit",
                         "Phrase('\"\"' resting:Sequence({0%: Pose(scale: 1) 50%: Pose(scale: 0.5 opacity: 0.5) 100%: Pose(scale: 1)} duration: 2s))"
@@ -940,6 +945,7 @@
                 {
                     "title": "Symbol in the middle",
                     "subtitle": "Infix",
+                    "concept": "BinaryEvaluate",
                     "performance": [
                         "fit",
                         "Group(Row() [",
@@ -1023,6 +1029,7 @@
                 {
                     "title": "Yes and no",
                     "subtitle": "Truth",
+                    "concept": "Boolean",
                     "performance": [
                         "fit",
                         "Group(Row() [Phrase('⊤') Phrase('⊥')] resting:Sequence({ 0%: Pose(rotation: 0°) 50%: Pose(rotation: 180°) 100%: Pose(rotation: 360°)} duration: 2s))"
@@ -1209,6 +1216,7 @@
                 {
                     "title": "Let me count the ways",
                     "subtitle": "Numbers",
+                    "concept": "Number",
                     "performance": [
                         "fit",
                         "numbers•[#]: 25 → []",
@@ -1395,6 +1403,7 @@
                 {
                     "title": "Opening (re)marks",
                     "subtitle": "Prefix",
+                    "concept": "UnaryEvaluate",
                     "performance": ["use", "fit", "Symbol", "~"],
                     "lines": [
                         [
@@ -1439,6 +1448,7 @@
                 {
                     "title": "Emptiness",
                     "subtitle": "Nothing",
+                    "concept": "None",
                     "performance": [
                         "fix",
                         "Motion(Phrase('ø' size: 5m) startvy: 5m/s)"
@@ -1561,6 +1571,7 @@
                 {
                     "title": "Places, everyone!",
                     "subtitle": "Lists",
+                    "concept": "List",
                     "performance": [
                         "fit",
                         "clockwise: Sequence({0%: Pose(rotation: 0°) 50%: Pose(rotation: 180°) 100%: Pose(rotation: 360°)} duration: 2s)",
@@ -1722,6 +1733,7 @@
                 {
                     "title": "One of each",
                     "subtitle": "Sets",
+                    "concept": "Set",
                     "performance": [
                         "fit",
                         "clockwise: Sequence({0%: Pose(rotation: 0°) 50%: Pose(rotation: 180°) 100%: Pose(rotation: 360°)} duration: 2s)",
@@ -1839,6 +1851,7 @@
                 {
                     "title": "One to one",
                     "subtitle": "Mappings",
+                    "concept": "Map",
                     "performance": [
                         "fit",
                         "clockwise: Sequence({0%: Pose(rotation: 0°) 50%: Pose(rotation: 180°) 100%: Pose(rotation: 360°)} duration: 2s)",
@@ -2039,6 +2052,7 @@
                 {
                     "title": "We can be anything",
                     "subtitle": "Convert",
+                    "concept": "Convert",
                     "performance": ["use", "fix", "FlyIn", "→"],
                     "lines": [
                         ["use", "fit", "DarkVoid"],
@@ -2197,6 +2211,7 @@
                 {
                     "title": "How to choose?",
                     "subtitle": "Decisions",
+                    "concept": "Conditional",
                     "performance": ["use", "fix", "FlyIn", "?"],
                     "lines": [
                         ["use", "fit", "DarkVoid"],
@@ -2359,6 +2374,7 @@
                 {
                     "title": "Tick, tick, tick...",
                     "subtitle": "Time",
+                    "concept": "Time",
                     "performance": ["use", "fit", "Symbol", "🕦"],
                     "lines": [
                         [
@@ -2417,6 +2433,7 @@
                 {
                     "title": "Clickity clack",
                     "subtitle": "Key",
+                    "concept": "Key",
                     "performance": ["use", "fit", "Symbol", "⌨️"],
                     "lines": [
                         [
@@ -2465,6 +2482,7 @@
                 {
                     "title": "Hummmmmmm…",
                     "subtitle": "Pointer",
+                    "concept": "Pointer",
                     "performance": ["use", "fit", "Symbol", "👆🏻"],
                     "lines": [
                         [
@@ -2505,6 +2523,7 @@
                 {
                     "title": "And... now!",
                     "subtitle": "Button",
+                    "concept": "Button",
                     "performance": ["use", "fit", "Symbol", "🖱️"],
                     "lines": [
                         [
@@ -2534,6 +2553,7 @@
                 {
                     "title": "Is anyone listening?",
                     "subtitle": "Volume",
+                    "concept": "Volume",
                     "performance": ["use", "fit", "Symbol", "🎤"],
                     "lines": [
                         [
@@ -2556,6 +2576,7 @@
                 {
                     "title": "You never know…",
                     "subtitle": "Random",
+                    "concept": "Random",
                     "performance": [
                         "fit",
                         "Phrase(((Time(100ms) % 10) ÷ 1ms) → '')"
@@ -2592,6 +2613,7 @@
                 {
                     "title": "Move me",
                     "subtitle": "Placement",
+                    "concept": "Placement",
                     "performance": [
                         "fix",
                         "Phrase('click, tap, or arrow to move me' place: Placement() moving:Pose() duration: 0.25s)"
@@ -2635,6 +2657,7 @@
                 {
                     "title": "Keeping moving",
                     "subtitle": "Motion",
+                    "concept": "Motion",
                     "performance": [
                         "fix",
                         "Motion(",
@@ -2725,6 +2748,7 @@
                 {
                     "title": "On cue",
                     "subtitle": "Reaction",
+                    "concept": "Reaction",
                     "performance": ["use", "fit", "Symbol", "…"],
                     "lines": [
                         ["fit", "Phrase('…' resting:Pose(rotation: 120°))"],
@@ -2904,6 +2928,7 @@
                 {
                     "title": "Say what?",
                     "subtitle": "Phrase",
+                    "concept": "Phrase",
                     "performance": ["use", "fit", "Symbol", "💬"],
                     "lines": [
                         [
@@ -3193,6 +3218,7 @@
                 {
                     "title": "1, 2, 3, 4, 1, 2, 3, 4",
                     "subtitle": "Sequence",
+                    "concept": "Sequence",
                     "performance": ["use", "fix", "DancingEmoji", "💃"],
                     "lines": [
                         ["use", "fit", "DarkVoid"],
@@ -3369,6 +3395,7 @@
                 {
                     "title": "Places please",
                     "subtitle": "Group",
+                    "concept": "Group",
                     "performance": [
                         "fit",
                         "Group(Grid(2 2) [Phrase('1' resting:Sequence(spin() 1s)) Phrase('2' resting:Sequence(spin() 2s)) Phrase('3' resting:Sequence(spin() 3s)) Phrase('4' resting:Sequence(spin() 4s))])"
@@ -3618,6 +3645,7 @@
                 {
                     "title": "Stage… right?",
                     "subtitle": "Stage",
+                    "concept": "Stage",
                     "performance": [
                         "fix",
                         "Stage([Phrase('🎭' 5m)] background: Color(0% 0 0°))"
@@ -3734,6 +3762,7 @@
                 {
                     "title": "Is there someone named...",
                     "subtitle": "Choice",
+                    "concept": "Choice",
                     "performance": ["fix", "Phrase('🔘' 10m)"],
                     "lines": [
                         [
@@ -3811,6 +3840,7 @@
                 {
                     "title": "Naming",
                     "subtitle": "Bind",
+                    "concept": "Bind",
                     "performance": ["use", "fit", "Symbol", ":"],
                     "lines": [
                         ["fit", "Phrase(':' rotation: 90°)"],
@@ -4040,6 +4070,7 @@
                 {
                     "title": "Off stage",
                     "subtitle": "Block",
+                    "concept": "Block",
                     "performance": ["use", "fit", "Symbol", "()"],
                     "lines": [
                         ["fix", "Phrase('()' 1m)"],
@@ -4160,6 +4191,7 @@
                 {
                     "title": "Stage directions",
                     "subtitle": "Functions",
+                    "concept": "FunctionDefinition",
                     "performance": ["use", "fit", "Symbol", "ƒ"],
                     "lines": [
                         ["use", "fit", "Symbol", "☺️"],
@@ -4260,6 +4292,7 @@
                 {
                     "title": "Set design",
                     "subtitle": "Structures",
+                    "concept": "StructureDefinition",
                     "performance": ["use", "fit", "Symbol", "•"],
                     "lines": [
                         ["use", "fit", "DarkVoid"],
@@ -4579,6 +4612,7 @@
                 {
                     "title": "Director's notes",
                     "subtitle": "Doc",
+                    "concept": "Doc",
                     "performance": ["use", "fit", "Symbol", "``"],
                     "lines": [
                         [
