@@ -20,7 +20,7 @@
     import type Spaces from '../../parser/Spaces';
     import { toMarkup } from '../../parser/toMarkup';
     import MarkupHTMLView from '../concepts/MarkupHTMLView.svelte';
-    import { setContext } from 'svelte';
+    import { onMount, setContext } from 'svelte';
     import type ConceptIndex from '../../concepts/ConceptIndex';
     import { writable } from 'svelte/store';
     import { tick } from 'svelte';
@@ -51,6 +51,9 @@
     let nextButton: HTMLButtonElement | undefined;
     let previousButton: HTMLButtonElement | undefined;
     let focusView: HTMLButtonElement | undefined = undefined;
+
+    // Focus next button on load.
+    onMount(() => nextButton?.focus());
 
     /** The current place in the tutorial */
     $: act = progress.getAct();
