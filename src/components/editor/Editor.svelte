@@ -428,7 +428,12 @@
     }
 
     // Update the highlights when any of these stores values change
-    $: if ($nodeConflicts && $evaluation) {
+    $: if (
+        $nodeConflicts &&
+        $evaluation &&
+        $writingLayout &&
+        $writingDirection
+    ) {
         tick().then(() =>
             highlights.set(
                 getHighlights(

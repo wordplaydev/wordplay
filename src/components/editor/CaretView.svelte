@@ -19,7 +19,7 @@
     import Node from '@nodes/Node';
     import Token from '../../nodes/Token';
     import { getLanguageDirection } from '../../locale/LanguageCode';
-    import { locale } from '../../db/Database';
+    import { locale, writingDirection, writingLayout } from '../../db/Database';
     import type Caret from '../../edit/Caret';
 
     export let caret: Caret;
@@ -43,7 +43,13 @@
 
     // Whenever the caret changes, update the index we should render and scroll to it.
     $: {
-        if (token !== undefined && caret !== undefined) {
+        // Position depends on writing direction and layout
+        if (
+            token !== undefined &&
+            caret !== undefined &&
+            $writingDirection &&
+            $writingLayout
+        ) {
             // Get some of the token's metadata
             let spaceIndex = caret.source.getTokenSpacePosition(token);
             let lastIndex = caret.source.getTokenLastPosition(token);
