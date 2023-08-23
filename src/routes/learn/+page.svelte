@@ -3,7 +3,12 @@
     import Progress from '../../tutorial/Progress';
     import { goto } from '$app/navigation';
     import { page } from '$app/stores';
-    import { Settings, locale, tutorialProgress } from '../../db/Database';
+    import {
+        Locales,
+        Settings,
+        locale,
+        tutorialProgress,
+    } from '../../db/Database';
     import { onMount } from 'svelte';
     import Loading from '@components/app/Loading.svelte';
     import Page from '@components/app/Page.svelte';
@@ -12,22 +17,21 @@
     import Glyphs from '../../lore/Glyphs';
     import Writing from '../../components/app/Writing.svelte';
     import Header from '../../components/app/Header.svelte';
-    import { toLocaleString } from '../../locale/Locale';
-    import { loadTutorial, type Tutorial } from '../../tutorial/Tutorial';
+    import type Tutorial from '../../tutorial/Tutorial';
 
     let tutorial: Tutorial | undefined | null = undefined;
 
-    $: localeString =
-        $page.url.searchParams.get('locale') ?? toLocaleString($locale);
-
     onMount(async () => {
-        tutorial = await loadTutorial(localeString);
+        tutorial = await Locales.getTutorial($locale.language, $locale.region);
     });
 
     // If hot module reloading, and there's a locale update, refresh the tutorial.
     if (import.meta.hot) {
-        import.meta.hot.on('locales-update', () => {
-            loadTutorial(localeString);
+        import.meta.hot.on('locales-update', async () => {
+            tutorial = await Locales.getTutorial(
+                $locale.language,
+                $locale.region
+            );
         });
     }
 

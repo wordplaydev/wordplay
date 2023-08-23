@@ -12,6 +12,7 @@ import StructureConcept from './StructureConcept';
 import Evaluate from '../nodes/Evaluate';
 import ExpressionPlaceholder from '../nodes/ExpressionPlaceholder';
 import type Markup from '../nodes/Markup';
+import type { Character } from '../tutorial/Tutorial';
 
 export default class StreamConcept extends Concept {
     /** The type this concept represents. */
@@ -87,6 +88,20 @@ export default class StreamConcept extends Concept {
 
     getSubConcepts(): Set<Concept> {
         return new Set(this.inputs);
+    }
+
+    getCharacter(): Character | undefined {
+        const name = this.definition.names.getNonSymbolicName();
+        if (name === undefined) return undefined;
+        const locale = this.context.project.locales[0];
+        for (const [key, text] of Object.entries(locale.input))
+            if (
+                'names' in text &&
+                ((typeof text.names === 'string' && text.names === name) ||
+                    text.names.includes(name))
+            )
+                return key as Character;
+        return undefined;
     }
 
     isEqualTo(concept: Concept) {

@@ -4,11 +4,19 @@
     import CodeView from './CodeView.svelte';
     import MarkupHTMLView from './MarkupHTMLView.svelte';
     import Speech from '../lore/Speech.svelte';
-    import { animationDuration, locale, locales } from '../../db/Database';
+    import {
+        Locales,
+        animationDuration,
+        locale,
+        locales,
+    } from '../../db/Database';
     import type Type from '../../nodes/Type';
     import concretize from '../../locale/concretize';
     import type TypeVariables from '../../nodes/TypeVariables';
     import RootView from '../project/RootView.svelte';
+    import type Locale from '../../locale/Locale';
+    import Progress from '../../tutorial/Progress';
+    import Link from '../app/Link.svelte';
 
     export let concept: Concept;
     export let type: Type | undefined = undefined;
@@ -16,11 +24,44 @@
     export let variables: TypeVariables | undefined = undefined;
 
     $: node = concept.getRepresentation();
+
+    /** See if the concept corresponds to a character name, and find that character name in the locale's tutorial. */
+    let tutorialURL: string | undefined = undefined;
+    $: getConceptURL($locale).then((url) => (tutorialURL = url));
+
+    async function getConceptURL(locale: Locale) {
+        const character = concept.getCharacter();
+        if (character) {
+            const tutorial = await Locales.getTutorial(
+                locale.language,
+                locale.region
+            );
+            if (tutorial) {
+                for (const [actIndex, act] of tutorial.acts.entries()) {
+                    for (const [sceneIndex, scene] of act.scenes.entries()) {
+                        if (scene.concept === character) {
+                            return new Progress(
+                                tutorial,
+                                actIndex + 1,
+                                sceneIndex + 1,
+                                0
+                            ).getURL();
+                        }
+                    }
+                }
+            }
+        }
+
+        return undefined;
+    }
 </script>
 
 <div class="concept" transition:slide|local={{ duration: $animationDuration }}>
     {#if header}
         <CodeView {concept} {type} {node} describe={false} />
+        {#if tutorialURL}
+            <Link external to={tutorialURL}>{$locale.ui.labels.learn}</Link>
+        {/if}
     {/if}
 
     <Speech glyph={concept.getGlyphs($locales)} below={header}>

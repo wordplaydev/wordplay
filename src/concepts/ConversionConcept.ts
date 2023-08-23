@@ -11,6 +11,7 @@ import Purpose from './Purpose';
 import type StructureConcept from './StructureConcept';
 import concretize from '../locale/concretize';
 import type Markup from '../nodes/Markup';
+import type { Character } from '../tutorial/Tutorial';
 
 export default class ConversionConcept extends Concept {
     /** The function this concept represents. */
@@ -75,6 +76,10 @@ export default class ConversionConcept extends Concept {
 
     getSubConcepts(): Set<Concept> {
         return new Set();
+    }
+
+    getCharacter(): Character | undefined {
+        return undefined;
     }
 
     isEqualTo(concept: Concept) {

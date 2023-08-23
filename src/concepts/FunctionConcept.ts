@@ -9,6 +9,7 @@ import type Purpose from './Purpose';
 import type StructureDefinition from '@nodes/StructureDefinition';
 import Emotion from '../lore/Emotion';
 import type Markup from '../nodes/Markup';
+import type { Character } from '../tutorial/Tutorial';
 
 export default class FunctionConcept extends Concept {
     /** The function this concept represents. */
@@ -84,6 +85,10 @@ export default class FunctionConcept extends Concept {
 
     getSubConcepts(): Set<Concept> {
         return new Set(this.inputs);
+    }
+
+    getCharacter(): Character | undefined {
+        return undefined;
     }
 
     isEqualTo(concept: Concept) {
