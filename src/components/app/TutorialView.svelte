@@ -174,6 +174,7 @@
     }
 
     async function handleKey(event: KeyboardEvent) {
+        focusView = undefined;
         if (event.key === 'ArrowLeft' || event.key === 'Backspace') {
             focusView = previousButton;
             navigate(progress.previousPause() ?? progress);
@@ -187,14 +188,16 @@
             if (next) navigate(next);
             else goto('/projects');
         }
+
+        await tick();
+        focusView?.focus();
     }
 </script>
 
 <!-- If the body gets focus, focus the instructions. -->
 <svelte:body
-    on:focus={() => {
-        tick().then(() => (focusView ?? nextButton)?.focus());
-    }}
+    on:focus|preventDefault|stopPropagation={() =>
+        tick().then(() => (focusView ?? nextButton)?.focus())}
 />
 
 <section
@@ -202,7 +205,13 @@
     class:vertical={$arrangement === Arrangement.Vertical}
 >
     <!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
-    <div role="article" class="dialog" on:keydown={handleKey}>
+    <div
+        role="article"
+        class="dialog"
+        on:keydown={handleKey}
+        on:pointerdown|stopPropagation|preventDefault={() =>
+            nextButton?.focus()}
+    >
         <div class="turns" aria-live="assertive">
             {#if act === undefined}
                 <div class="title play">{$locale.wordplay}</div>
