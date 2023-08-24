@@ -303,32 +303,6 @@
         cursor: s-resize;
     }
 
-    .tile.horizontal.editor {
-        border-right: var(--wordplay-border-color) solid 1px;
-    }
-
-    .tile.vertical:not(:last-child) {
-        border-bottom: var(--wordplay-border-color) solid 1px;
-    }
-
-    .tile.horizontal.docs,
-    .tile.vertical.docs,
-    .tile.vertical.palette {
-        border-right: var(--wordplay-border-color) solid 1px;
-    }
-
-    .tile.vertical.docs {
-        border-top: var(--wordplay-border-color) solid 1px;
-    }
-
-    .tile.vertical.palette {
-        border-bottom: var(--wordplay-border-color) solid 1px;
-    }
-
-    .tile.horizontal:not(:last-child) {
-        border-right: var(--wordplay-border-color) solid 1px;
-    }
-
     .tile.dragging {
         transition: none;
     }
