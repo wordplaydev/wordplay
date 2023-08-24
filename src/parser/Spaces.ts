@@ -168,7 +168,7 @@ export default class Spaces {
                 (field.indent === true ||
                     (field.indent instanceof Function &&
                         field.indent(parent, child) === true)) &&
-                preferredSpace.indexOf('\n') >= 0
+                currentPrecedingSpace.indexOf('\n') >= 0
             )
                 preferredSpace = preferredSpace + '\t';
 
