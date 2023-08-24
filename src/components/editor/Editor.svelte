@@ -1295,9 +1295,8 @@
         autocorrect="off"
         autocapitalize="none"
         class="keyboard-input"
-        style={`left: ${caretLocation?.left ?? 0}; top: ${
-            caretLocation?.top ?? 0
-        };`}
+        style:left={caretLocation ? `${caretLocation.left}px` : null}
+        style:top={caretLocation ? `${caretLocation.top}px` : null}
         bind:this={input}
         on:input={handleTextInput}
         on:keydown={handleKeyDown}
@@ -1333,7 +1332,7 @@
             class:node={$caret.isNode()}
             on:pointerdown|stopPropagation
             style:left={caretLocation
-                ? `calc(${caretLocation.left} - ${OutlinePadding}px)`
+                ? `calc(${caretLocation.left}px - ${OutlinePadding}px)`
                 : undefined}
             style:top={caretLocation ? `${caretLocation.bottom}px` : undefined}
             >{#if $caret.position instanceof Node}
