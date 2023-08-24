@@ -122,7 +122,7 @@
 
     .node-view.block {
         display: inline-block;
-        vertical-align: middle;
+        vertical-align: baseline;
         padding: calc(var(--wordplay-spacing) / 3);
         border: var(--wordplay-border-width) solid var(--wordplay-border-color);
         border-radius: var(--wordplay-border-radius);
