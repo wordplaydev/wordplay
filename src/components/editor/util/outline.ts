@@ -135,7 +135,11 @@ export function createRectangleOutlineOf(nodeView: HTMLElement): string {
     } L ${lm - OutlinePadding} ${bm + OutlinePadding} Z`;
 }
 
-function toRows(nodeView: HTMLElement): Rect[] {
+function toRows(
+    nodeView: HTMLElement,
+    horizontal: boolean,
+    rtl: boolean
+): Rect[] {
     const rects: Rect[] = getTokenRects(nodeView);
 
     // The official way to render nothing...
@@ -149,8 +153,15 @@ function toRows(nodeView: HTMLElement): Rect[] {
             currentRow.length === 0
                 ? undefined
                 : currentRow[currentRow.length - 1];
-        // If this row is empty or this rect's vertical center is below the last rect's bottom
-        if (lastRect === undefined || rect.t + rect.h / 2 <= lastRect.b)
+        // If this row is empty or this rect's vertical center is below the last rect's bottom, add to the current row.
+        if (
+            lastRect === undefined ||
+            (horizontal
+                ? rect.t + rect.h / 2 <= lastRect.b
+                : rtl
+                ? rect.r - rect.w / 2 >= lastRect.l
+                : rect.l + rect.w / 2 <= lastRect.r)
+        )
             currentRow.push(rect);
         else rows.push([rect]);
     }
@@ -168,8 +179,13 @@ function toRows(nodeView: HTMLElement): Rect[] {
     });
 }
 
-export function getUnderlineOf(nodeView: HTMLElement, offset = 0) {
-    const rows = toRows(nodeView);
+export function getUnderlineOf(
+    nodeView: HTMLElement,
+    horizontal: boolean,
+    rtl: boolean,
+    offset = 0
+) {
+    const rows = toRows(nodeView, horizontal, rtl);
 
     // If the rows are empty, draw an arrow where the element is
     if (rows.length === 0) {
@@ -185,7 +201,7 @@ export function getUnderlineOf(nodeView: HTMLElement, offset = 0) {
             maxy: rect.b + radius,
         };
     }
-    // Generate a path from the bottom edge of each line's rectangle.
+    // Generate a path from the bottom edge (horizontal) or left edge (vertical) of each line's rectangle.
     // Each line starts with a move to, and then a single line to to the edge of the rectangle.
     else {
         rows.forEach((row) => {
@@ -194,9 +210,13 @@ export function getUnderlineOf(nodeView: HTMLElement, offset = 0) {
         });
 
         return {
-            path: rows
-                .map((row) => `M ${row.l} ${row.b} L ${row.r} ${row.b}`)
-                .join(' '),
+            path: horizontal
+                ? rows
+                      .map((row) => `M ${row.l} ${row.b} L ${row.r} ${row.b}`)
+                      .join(' ')
+                : rows
+                      .map((row) => `M ${row.l} ${row.t} L ${row.l} ${row.b}`)
+                      .join(' '),
             minx: Math.min(...rows.map((row) => row.l)),
             miny: Math.min(...rows.map((row) => row.t)),
             maxx: Math.max(...rows.map((row) => row.r)),
@@ -205,8 +225,12 @@ export function getUnderlineOf(nodeView: HTMLElement, offset = 0) {
     }
 }
 
-export default function getOutlineOf(nodeView: HTMLElement): Outline {
-    const lines = toRows(nodeView);
+export default function getOutlineOf(
+    nodeView: HTMLElement,
+    horizontal: boolean,
+    rtl: boolean
+): Outline {
+    const lines = toRows(nodeView, horizontal, rtl);
 
     if (lines.length === 0)
         return { path: '', minx: 0, miny: 0, maxx: 0, maxy: 0 };

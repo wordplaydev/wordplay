@@ -451,11 +451,21 @@
     }
 
     // Update the outline positions any time the highlights change;
-    $: outlines = updateOutlines($highlights, getNodeView);
+    $: outlines = updateOutlines(
+        $highlights,
+        $writingLayout === 'horizontal-tb',
+        $writingDirection === 'rtl' || $writingLayout === 'vertical-rl',
+        getNodeView
+    );
 
     // After updates, manage highlight classes on nodes
     afterUpdate(() => {
-        updateOutlines($highlights, getNodeView);
+        updateOutlines(
+            $highlights,
+            $writingLayout === 'horizontal-tb',
+            $writingDirection === 'rtl' || $writingLayout === 'vertical-rl',
+            getNodeView
+        );
 
         // Optimization: add and remove classes for styling here rather than having them
         // retrieved in each NodeView.

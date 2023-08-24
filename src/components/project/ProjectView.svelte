@@ -81,6 +81,8 @@
         mic,
         Settings,
         Projects,
+        writingLayout,
+        writingDirection,
     } from '../../db/Database';
     import Arrangement from '../../db/Arrangement';
     import {
@@ -691,8 +693,18 @@
         if (nodeView instanceof HTMLElement)
             outline = {
                 types: ['dragging'],
-                outline: getOutlineOf(nodeView),
-                underline: getUnderlineOf(nodeView),
+                outline: getOutlineOf(
+                    nodeView,
+                    $writingDirection === 'rtl' ||
+                        $writingLayout === 'vertical-rl',
+                    $writingDirection === 'rtl'
+                ),
+                underline: getUnderlineOf(
+                    nodeView,
+                    $writingDirection === 'rtl' ||
+                        $writingLayout === 'vertical-rl',
+                    $writingDirection === 'rtl'
+                ),
             };
     });
 

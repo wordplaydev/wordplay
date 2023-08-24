@@ -232,6 +232,8 @@ export function getHighlights(
 /** Populate the given Set with nodes to highlight. */
 export function updateOutlines(
     highlights: Highlights,
+    horizontal: boolean,
+    rtl: boolean,
     getNodeView: (node: Node) => HTMLElement | undefined
 ) {
     const outlines = [];
@@ -242,8 +244,8 @@ export function updateOutlines(
         if (nodeView) {
             const outline = {
                 types: Array.from(types),
-                outline: getOutlineOf(nodeView),
-                underline: getUnderlineOf(nodeView),
+                outline: getOutlineOf(nodeView, horizontal, rtl),
+                underline: getUnderlineOf(nodeView, horizontal, rtl),
             };
             outlines.push(outline);
             nodeViews.set(outline, nodeView);
@@ -298,7 +300,12 @@ export function updateOutlines(
             const index = outlines.indexOf(outline);
             const view = nodeViews.get(outline);
             if (index >= 0 && view)
-                outlines[index].underline = getUnderlineOf(view, offset);
+                outlines[index].underline = getUnderlineOf(
+                    view,
+                    horizontal,
+                    rtl,
+                    offset
+                );
         }
     }
 
