@@ -583,12 +583,17 @@
             caret.set($caret.withPosition(newPosition));
 
         // Mark that the creator might want to drag the node under the mouse and remember where the click started.
+        dragPoint = undefined;
         if (editable && nonTokenNodeUnderPointer) {
             dragCandidate = nonTokenNodeUnderPointer;
             // If the primary mouse button is down, start dragging and set insertion.
-            // We only start dragging if the cursor has moved more than a certain amount since last click.
-            if (dragCandidate && event.buttons === 1)
+            // We don't actually start dragging until the cursor has moved more than a certain amount since last click.
+            if (dragCandidate && event.buttons === 1) {
                 dragPoint = { x: event.clientX, y: event.clientY };
+                event.preventDefault();
+                event.stopPropagation();
+                if (editor) editor.style.touchAction = 'none';
+            }
         }
     }
 
@@ -937,6 +942,9 @@
     function handlePointerMove(event: PointerEvent) {
         if (evaluator === undefined) return;
 
+        // Remove the touch action disabling now that we're moving.
+        if (editor) editor.style.removeProperty('touchAction');
+
         if (evaluator.isPlaying()) handleEditHover(event);
         else handleDebugHover(event);
     }
@@ -1241,6 +1249,7 @@
         ? 'playing'
         : 'stepping'}"
     class:readonly={!editable}
+    class:dragging={dragCandidate !== undefined || $dragged !== undefined}
     data-uiid="editor"
     role="application"
     aria-label={`${$locale.ui.section.editor} ${source.getPreferredName(
@@ -1403,8 +1412,9 @@
         margin-bottom: auto;
         min-width: fit-content;
         min-height: fit-content;
+    }
 
-        /* Don't let iOS grab pointer move events, so we can do drag and drop. */
+    .editor.dragging {
         touch-action: none;
     }
 
