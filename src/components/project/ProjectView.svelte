@@ -1500,6 +1500,7 @@
     .footer {
         border-bottom: var(--wordplay-border-color) solid
             var(--wordplay-border-width);
+        overflow-x: scroll;
     }
 
     .overwritten {
