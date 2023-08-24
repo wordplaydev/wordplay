@@ -10,6 +10,12 @@ import type Locale from '@locale/Locale';
 import ValueRef from '@locale/ValueRef';
 import type Markup from './Markup';
 
+export enum ExpressionKind {
+    Simple = 'simple',
+    Evaluate = 'block',
+    Definition = 'definition',
+}
+
 export default abstract class Expression extends Node {
     constructor() {
         super();
@@ -84,5 +90,10 @@ export default abstract class Expression extends Node {
     ) {
         const value = evaluator.peekValue();
         return value ? new ValueRef(value, translation, context) : undefined;
+    }
+
+    /** True if the expression is considered a "composite" expression suitable for rendering as a block in the editor */
+    getKind(): ExpressionKind {
+        return ExpressionKind.Simple;
     }
 }

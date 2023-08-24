@@ -6,7 +6,7 @@ import UnexpectedInput from '@conflicts/UnexpectedInput';
 import IncompatibleInput from '@conflicts/IncompatibleInput';
 import NotInstantiable from '@conflicts/NotInstantiable';
 import StructureType from './StructureType';
-import Expression from './Expression';
+import Expression, { ExpressionKind } from './Expression';
 import type Token from './Token';
 import Type from './Type';
 import type Evaluator from '@runtime/Evaluator';
@@ -942,5 +942,9 @@ export default class Evaluate extends Expression {
 
     getGlyphs() {
         return Glyphs.Evaluate;
+    }
+
+    getKind() {
+        return ExpressionKind.Evaluate;
     }
 }

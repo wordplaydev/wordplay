@@ -1,5 +1,5 @@
 import type Node from './Node';
-import Expression from './Expression';
+import Expression, { ExpressionKind } from './Expression';
 import Token from './Token';
 import Sym from './Sym';
 import type Conflict from '@conflicts/Conflict';
@@ -210,5 +210,9 @@ export default class ConversionDefinition extends AtomicExpression {
             new NodeRef(this.input, locale, context),
             new NodeRef(this.output, locale, context),
         ];
+    }
+
+    getKind() {
+        return ExpressionKind.Definition;
     }
 }

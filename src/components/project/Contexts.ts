@@ -112,6 +112,8 @@ export type EditorState = {
     edit: EditHandler;
     focused: boolean;
     toggleMenu: () => void;
+    blocks: boolean;
+    blocksMode: Writable<boolean>;
 };
 export type EditorsContext = Writable<Map<string, EditorState>>;
 export function getEditors() {
@@ -154,6 +156,12 @@ export type HighlightContext = Writable<Highlights> | undefined;
 export const HighlightSymbol = Symbol('highlight');
 export function getHighlights() {
     return getContext<HighlightContext>(HighlightSymbol);
+}
+
+export const BlocksModeSymbol = Symbol('block');
+export type BlocksModeContext = Writable<boolean>;
+export function getBlocksMode() {
+    return getContext<BlocksModeContext>(BlocksModeSymbol);
 }
 
 export const SpaceSymbol = Symbol('space');

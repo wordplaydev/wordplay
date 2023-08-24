@@ -8,9 +8,10 @@
         getInsertionPoint,
         getSpace,
         getLocales,
+        getBlocksMode,
     } from '../project/Contexts';
     import getNodeView from './util/nodeToView';
-    import Expression from '@nodes/Expression';
+    import Expression, { ExpressionKind } from '@nodes/Expression';
     import ValueView from '@components/values/ValueView.svelte';
     import type Value from '@values/Value';
     import Space from './Space.svelte';
@@ -54,14 +55,19 @@
     // Get the root's computed spaces store
     let spaces = getSpace();
     // See if this node has any to render.
-    $: space = node ? $spaces?.get(node) : undefined;
+    $: space = node && $spaces ? $spaces.get(node) : undefined;
 
     // Get the hidden context.
     let hidden = getHidden();
     $: hide = node ? $hidden?.has(node) : false;
 
+    // Get blocks mode
+    let blocks = getBlocksMode();
+
     // Get the insertion point
     let insertion = getInsertionPoint();
+
+    $: kind = node instanceof Expression ? node.getKind() : undefined;
 </script>
 
 <!-- Don't render anything if we weren't given a node. -->
@@ -79,6 +85,11 @@
         data-uiid={node.constructor.name}
         class:hide
         class:small
+        class:block={$blocks &&
+            kind !== undefined &&
+            kind !== ExpressionKind.Simple}
+        class:evaluate={kind === ExpressionKind.Evaluate}
+        class:definition={kind === ExpressionKind.Definition}
         data-id={node.id}
         id={`node-${node.id}`}
         aria-hidden={hide ? 'true' : null}
@@ -100,9 +111,29 @@
         position: relative;
         border-top-left-radius: var(--wordplay-editor-radius);
         border-bottom-right-radius: var(--wordplay-editor-radius);
+        padding: 0;
+        transition-property: background-color, padding, border-color;
+        transition-duration: calc(var(--animation-factor) * 200ms);
+        transition-timing-function: ease-out;
 
         /** This allows us to style things up the the tree. */
         text-decoration: inherit;
+    }
+
+    .node-view.block {
+        display: inline-block;
+        vertical-align: middle;
+        padding: calc(var(--wordplay-spacing) / 3);
+        border: var(--wordplay-border-width) solid var(--wordplay-border-color);
+        border-radius: var(--wordplay-border-radius);
+    }
+
+    .block.evaluate {
+        background: var(--wordplay-evaluation-color-transparent);
+    }
+
+    .block.definition {
+        background: var(--wordplay-doc-color-transparent);
     }
 
     .node-view.hovered {

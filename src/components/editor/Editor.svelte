@@ -34,6 +34,7 @@
         EditorSymbol,
         getConceptIndex,
         getEditors,
+        BlocksModeSymbol,
     } from '../project/Contexts';
     import {
         type Highlights,
@@ -98,6 +99,10 @@
         new Caret(source, 0, undefined, undefined, undefined)
     );
     setContext(CaretSymbol, caret);
+
+    // Whether to render code as blocks or text
+    const blocksMode = writable<boolean>(true);
+    setContext(BlocksModeSymbol, blocksMode);
 
     // When source changes, update various nested state from the source.
     $: caret.set($caret.withSource(source));
@@ -243,6 +248,8 @@
             edit: handleEdit,
             focused,
             toggleMenu,
+            blocks: $blocksMode,
+            blocksMode: blocksMode,
         });
         editors.set($editors);
     }
@@ -444,7 +451,8 @@
                     $hovered,
                     $insertion,
                     $animatingNodes,
-                    $selectedOutput
+                    $selectedOutput,
+                    $blocksMode
                 )
             )
         );
@@ -1010,6 +1018,10 @@
         insertion.set(undefined);
     }
 
+    function toggleBlocks() {
+        blocksMode.set(!$blocksMode);
+    }
+
     async function showMenu(node: CaretPosition | undefined = undefined) {
         // Wait for everything to be updated so we have a fresh context
         await tick();
@@ -1211,6 +1223,7 @@
             evaluator,
             database: DB,
             toggleMenu,
+            toggleBlocks,
         });
 
         // If it produced a new caret and optionally a new project, update the stores.

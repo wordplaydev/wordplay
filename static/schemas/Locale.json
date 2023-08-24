@@ -7594,6 +7594,9 @@
             "toggle": {
               "additionalProperties": false,
               "properties": {
+                "blocks": {
+                  "$ref": "#/definitions/ToggleText"
+                },
                 "fit": {
                   "$ref": "#/definitions/ToggleText"
                 },
@@ -7611,7 +7614,8 @@
                 "grid",
                 "fit",
                 "fullscreen",
-                "tile"
+                "tile",
+                "blocks"
               ],
               "type": "object"
             }

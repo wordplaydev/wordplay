@@ -75,6 +75,7 @@ export type CommandContext = {
     evaluator: Evaluator;
     database: Database;
     toggleMenu?: () => void;
+    toggleBlocks?: () => void;
     fullscreen?: (on: boolean) => void;
     focusOrCycleTile?: (content?: TileKind) => void;
     resetInputs?: () => void;
@@ -856,6 +857,18 @@ const Commands: Command[] = [
             true,
         execute: ({ database, evaluator }) =>
             database.Projects.undoRedo(evaluator.project.id, 1) !== undefined,
+    },
+    {
+        symbol: '▭',
+        description: (l) => l.ui.toggle.blocks.on,
+        visible: Visibility.Invisible,
+        category: Category.Modify,
+        shift: true,
+        alt: true,
+        control: true,
+        key: 'Enter',
+        execute: ({ toggleBlocks }) =>
+            toggleBlocks ? toggleBlocks() : undefined,
     },
     {
         symbol: '↲',

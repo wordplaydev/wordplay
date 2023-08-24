@@ -3439,6 +3439,10 @@
             "tile": {
                 "on": "hide this tile",
                 "off": "show this tile"
+            },
+            "blocks": {
+                "on": "hide block backgrounds",
+                "off": "show block backgrounds"
             }
         },
         "mode": {

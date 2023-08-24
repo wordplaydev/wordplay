@@ -60,7 +60,8 @@ export function getHighlights(
     hovered: Node | undefined,
     insertion: InsertionPoint | undefined,
     animatingNodes: Set<Node> | undefined,
-    selectedOutput: Evaluate[] | undefined
+    selectedOutput: Evaluate[] | undefined,
+    blocks: boolean
 ): Highlights {
     const project = evaluator.project;
 
@@ -201,7 +202,9 @@ export function getHighlights(
         const token = source.getTokenAt(caret.position);
         if (token) caretParent = source.root.getParent(token);
     }
+
     if (
+        !blocks &&
         caretParent &&
         !caret.isNode() &&
         (animatingNodes === undefined ||

@@ -3,7 +3,7 @@ import Bind from './Bind';
 import type Conflict from '@conflicts/Conflict';
 import { ExpectedEndingExpression } from '@conflicts/ExpectedEndingExpression';
 import { IgnoredExpression } from '@conflicts/IgnoredExpression';
-import Expression from './Expression';
+import Expression, { ExpressionKind } from './Expression';
 import type Token from './Token';
 import type Type from './Type';
 import type Evaluator from '@runtime/Evaluator';
@@ -359,5 +359,9 @@ export default class Block extends Expression {
 
     getGlyphs() {
         return Glyphs.Block;
+    }
+
+    getKind() {
+        return !this.isRoot() ? ExpressionKind.Evaluate : ExpressionKind.Simple;
     }
 }

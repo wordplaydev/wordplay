@@ -1,6 +1,6 @@
 import type Node from './Node';
 import Bind from './Bind';
-import Expression from './Expression';
+import Expression, { ExpressionKind } from './Expression';
 import type Conflict from '@conflicts/Conflict';
 import Type from './Type';
 import Block from './Block';
@@ -470,5 +470,9 @@ export default class StructureDefinition extends AtomicExpression {
 
     getGlyphs() {
         return Glyphs.Type;
+    }
+
+    getKind() {
+        return ExpressionKind.Definition;
     }
 }

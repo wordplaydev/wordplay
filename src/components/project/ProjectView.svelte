@@ -1213,6 +1213,19 @@
                                         >{#if fit}🔒{:else}🔓{/if}</Toggle
                                     >
                                 {:else if tile.isSource()}
+                                    {@const editorState = $editors.get(tile.id)}
+                                    <Toggle
+                                        tips={$locale.ui.toggle.blocks}
+                                        on={editorState
+                                            ? editorState.blocks
+                                            : false}
+                                        toggle={() =>
+                                            editorState
+                                                ? editorState.blocksMode.set(
+                                                      !editorState.blocks
+                                                  )
+                                                : undefined}>▭</Toggle
+                                    >
                                     <!-- Make a Button for every modify command -->
                                     {#each VisibleModifyCommands as command}<CommandButton
                                             {command}

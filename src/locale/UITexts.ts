@@ -171,6 +171,7 @@ type UITexts = {
         fit: ToggleText;
         fullscreen: ToggleText;
         tile: ToggleText;
+        blocks: ToggleText;
     };
     mode: {
         layout: ModeText<[string, string, string, string]>;
