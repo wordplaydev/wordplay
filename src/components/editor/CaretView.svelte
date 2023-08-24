@@ -2,12 +2,14 @@
 
 <script context="module" lang="ts">
     let spaceWidth: number | null = null;
+    let spaceHeight: number | null = null;
     let tabWidth: number | null = null;
+    let tabHeight: number | null = null;
 
     export type CaretBounds = {
-        top: string;
-        left: string;
-        height: string;
+        top: number;
+        left: number;
+        height: number;
         bottom: number;
     };
 </script>
@@ -105,8 +107,10 @@
         );
     }
 
-    function computeLocation() {
+    function computeLocation(): CaretBounds | undefined {
         if (caret === undefined) return;
+
+        const horizontal = $writingLayout === 'horizontal-tb';
 
         // Start assuming no position.
         location = undefined;
@@ -157,13 +161,12 @@
                     placeholderView?.getBoundingClientRect();
                 if (placeholderViewRect) {
                     return {
-                        left: `${
+                        left:
                             placeholderViewRect.left +
                             viewportXOffset +
-                            placeholderViewRect.width / 2
-                        }px`,
-                        top: `${placeholderViewRect.top + viewportYOffset}px`,
-                        height: `${placeholderViewRect.height}px`,
+                            placeholderViewRect.width / 2,
+                        top: placeholderViewRect.top + viewportYOffset,
+                        height: placeholderViewRect.height,
                         bottom: placeholderViewRect.bottom + viewportYOffset,
                     };
                 }
@@ -172,9 +175,9 @@
             // This is for scrolling purposes.
             else
                 return {
-                    left: `${nodeViewRect.left + viewportXOffset}px`,
-                    top: `${nodeViewRect.top + viewportYOffset}px`,
-                    height: `${nodeViewRect.height}px`,
+                    left: nodeViewRect.left + viewportXOffset,
+                    top: nodeViewRect.top + viewportYOffset,
+                    height: nodeViewRect.height,
                     bottom: nodeViewRect.bottom + viewportYOffset,
                 };
         }
@@ -214,35 +217,45 @@
             }
         }
 
-        let tokenHeight = tokenViewRect.height;
+        let caretHeight = horizontal
+            ? tokenViewRect.height
+            : tokenViewRect.width;
 
-        if (tokenHeight === 0) {
+        if (caretHeight === 0) {
             const before = source.getTokenBefore(token);
             const beforeView = before ? getTokenView(before) : undefined;
-            tokenHeight = beforeView?.getBoundingClientRect().height ?? 0;
+            caretHeight = beforeView?.getBoundingClientRect().height ?? 0;
         }
 
         let lineHeight;
 
-        if (firstTokenView && firstTokenViewAfterLineBreak && lineBreakCount) {
-            lineHeight =
-                ((
-                    firstTokenViewAfterLineBreak.querySelector(
-                        '.token-view'
-                    ) as Element
-                ).getBoundingClientRect().top -
-                    (
-                        firstTokenView.querySelector('.token-view') as Element
-                    ).getBoundingClientRect().top) /
-                lineBreakCount;
+        if (
+            firstTokenView &&
+            firstTokenViewAfterLineBreak &&
+            lineBreakCount !== undefined
+        ) {
+            const firstTokenAfterLineBreakBound = (
+                firstTokenViewAfterLineBreak.querySelector(
+                    '.token-view'
+                ) as Element
+            ).getBoundingClientRect();
+            const firstTokenBound = (
+                firstTokenView.querySelector('.token-view') as Element
+            ).getBoundingClientRect();
+
+            lineHeight = horizontal
+                ? (firstTokenAfterLineBreakBound.top - firstTokenBound.top) /
+                  lineBreakCount
+                : (firstTokenAfterLineBreakBound.left - firstTokenBound.left) /
+                  lineBreakCount;
         } else {
-            lineHeight = tokenViewRect.height;
+            lineHeight = horizontal
+                ? tokenViewRect.height
+                : tokenViewRect.width;
         }
 
         // Is the caret in the text, and not the space?
         if (caretIndex > 0) {
-            // Measure the width of the text at this index, if we haven't already.
-            let widthAtCaret = undefined;
             // Trim the text to the position
             const trimmedText = token.text.substring(0, caretIndex).toString();
             // Get the text node of the token view
@@ -253,16 +266,22 @@
             );
             // Temporarily replace the node
             textNode.replaceWith(tempNode);
-            // Get the text element's new width
-            widthAtCaret = tokenView.getBoundingClientRect().width;
+            // Get the trimmed text element's dimensions
+            const trimmedBounds = tokenView.getBoundingClientRect();
+            const widthAtCaret = trimmedBounds.width;
+            const heightAtCaret = trimmedBounds.height;
+
             // Restore the text node
             tempNode.replaceWith(textNode);
 
-            // Set the left of the caret offset at the measured width in the direction of the writing.
             return {
-                left: `${tokenStart + (leftToRight ? 1 : -1) * widthAtCaret}px`,
-                top: `${tokenTop}px`,
-                height: `${tokenHeight}px`,
+                // If horizontal, set the left of the caret offset at the measured width in the direction of the writing.
+                left:
+                    tokenStart +
+                    (horizontal ? (leftToRight ? 1 : -1) * widthAtCaret : 0),
+                // If vertical, set the top of the caret offset at the measured height in the direction of the writing.
+                top: tokenTop + (horizontal ? 0 : heightAtCaret),
+                height: caretHeight,
                 bottom: tokenTop + tokenViewRect.height,
             };
         }
@@ -280,16 +299,15 @@
             const spaceBefore = explicitSpace.substring(0, spaceIndex);
             const spaceAfter = explicitSpace.substring(spaceIndex);
 
-            let spaceTop: number;
-
             // Find the start position of the editor, based on language direction.
             const editorStyle = window.getComputedStyle(editorView);
             const editorHorizontalPadding = parseInt(
                 editorStyle.getPropertyValue('padding-left').replace('px', '')
             );
-            const editorHorizontalStart = leftToRight
-                ? editorHorizontalPadding
-                : viewportRect.width - editorHorizontalPadding;
+            const editorHorizontalStart =
+                leftToRight && $writingLayout !== 'vertical-rl'
+                    ? editorHorizontalPadding
+                    : viewportRect.width - editorHorizontalPadding;
             const editorVerticalStart =
                 parseInt(
                     editorStyle
@@ -298,16 +316,25 @@
                 ) + 4;
 
             // Get some measurements on spaces and tab.
-            if (spaceWidth === null || tabWidth === null) {
+            if (
+                spaceWidth === null ||
+                tabWidth === null ||
+                spaceHeight === null ||
+                tabHeight === null
+            ) {
                 const spaceElement = editorView.querySelector(
                     `.space[data-id="${token.id}"]`
                 );
                 if (spaceElement === null) return;
                 const spaceText = spaceElement.innerHTML;
                 spaceElement.innerHTML = SPACE_HTML;
-                spaceWidth = spaceElement.getBoundingClientRect().width;
+                const spaceBounds = spaceElement.getBoundingClientRect();
+                spaceWidth = spaceBounds.width;
+                spaceHeight = spaceBounds.height;
                 spaceElement.innerHTML = TAB_HTML;
-                tabWidth = spaceElement.getBoundingClientRect().width;
+                const tabBounds = spaceElement.getBoundingClientRect();
+                tabWidth = tabBounds.width;
+                tabHeight = tabBounds.height;
                 spaceElement.innerHTML = spaceText;
             }
 
@@ -328,6 +355,24 @@
                           : priorTokenViewRect.left) -
                       viewportRect.left +
                       viewport.scrollLeft;
+
+            let priorTokenVerticalEnd =
+                priorTokenViewRect === undefined
+                    ? editorVerticalStart
+                    : (leftToRight
+                          ? priorTokenViewRect.bottom
+                          : priorTokenViewRect.top) -
+                      viewportRect.top +
+                      viewport.scrollTop;
+
+            let priorTokenLeft =
+                priorTokenViewRect === undefined
+                    ? editorHorizontalStart -
+                      ($writingLayout === 'vertical-rl' ? lineHeight : 0)
+                    : priorTokenViewRect.left -
+                      viewportRect.left +
+                      viewport.scrollLeft;
+
             let priorTokenTop =
                 priorTokenViewRect === undefined
                     ? editorVerticalStart
@@ -335,37 +380,75 @@
                       viewportRect.top +
                       viewport.scrollTop;
 
-            let spaces: undefined | number;
-            let tabs: undefined | number;
-
-            let horizontalOffset: number | undefined = undefined;
-
             // 1) Trailing space (the caret is before the first newline)
             if (spaceBefore.indexOf('\n') < 0) {
                 // Count the number of spaces prior to the next newline.
-                spaces = spaceBefore.split(' ').length - 1;
-                tabs = spaceBefore.split('\t').length - 1;
+                const spaces = spaceBefore.split(' ').length - 1;
+                const tabs = spaceBefore.split('\t').length - 1;
 
-                // Place the caret to the right of the prior token, {spaces} after.
-                horizontalOffset = priorTokenHorizontalEnd;
-                spaceTop = priorTokenTop;
+                if (horizontal) {
+                    // For horizontal layout, place the caret to the right of the prior token, {spaces} after.
+                    return {
+                        left:
+                            priorTokenHorizontalEnd +
+                            (leftToRight ? 1 : -1) *
+                                (spaces * spaceWidth + tabs * tabWidth),
+                        top: priorTokenTop,
+                        height: caretHeight,
+                        bottom: priorTokenTop + caretHeight,
+                    };
+                } else {
+                    // For vertical layouts, place the caret to below the prior token, {spaces} after.
+                    return {
+                        left: priorTokenLeft,
+                        top:
+                            priorTokenVerticalEnd +
+                            (leftToRight ? 1 : -1) *
+                                (spaces * spaceHeight + tabs * tabHeight),
+                        height: caretHeight,
+                        bottom: priorTokenLeft + caretHeight,
+                    };
+                }
             }
             // 2) Empty line (there is a newline before and after the current position)
             else if (
                 spaceBefore.indexOf('\n') >= 0 &&
                 spaceAfter.indexOf('\n') >= 0
             ) {
-                // Place the caret's top at {tokenHeight} * {number of new lines prior}
-                spaceTop =
-                    priorTokenTop +
-                    (spaceBefore.split('\n').length - 1) * lineHeight;
-
                 // Place the caret's left the number of spaces on this line
                 const beforeLines = spaceBefore.split('\n');
                 const spaceOnLine = beforeLines[beforeLines.length - 1];
 
-                spaces = spaceOnLine.split(' ').length - 1;
-                tabs = spaceOnLine.split('\t').length - 1;
+                const spaces = spaceOnLine.split(' ').length - 1;
+                const tabs = spaceOnLine.split('\t').length - 1;
+
+                const offset =
+                    (spaceBefore.split('\n').length - 1) * lineHeight;
+
+                if (horizontal) {
+                    // Place the caret's top at {tokenHeight} * {number of new lines prior}
+                    const spaceTop = priorTokenTop + offset;
+                    return {
+                        left:
+                            editorHorizontalStart +
+                            (leftToRight ? 1 : -1) *
+                                (spaces * spaceWidth + tabs * tabWidth),
+                        top: spaceTop,
+                        height: caretHeight,
+                        bottom: spaceTop + caretHeight,
+                    };
+                } else {
+                    const spaceLeft = priorTokenLeft - offset;
+                    return {
+                        left: spaceLeft,
+                        top:
+                            editorVerticalStart +
+                            (leftToRight ? 1 : -1) *
+                                (spaces * spaceHeight + tabs * tabHeight),
+                        height: caretHeight,
+                        bottom: spaceLeft + caretHeight,
+                    };
+                }
             }
             // 3) Preceding space (the caret is after the last newline)
             else {
@@ -391,24 +474,33 @@
                 }
 
                 // Compute the spaces prior to the caret on this line.
-                spaces = spaceOnLastLine.split(' ').length - 1;
-                tabs = spaceOnLastLine.split('\t').length - 1;
+                const spaces = spaceOnLastLine.split(' ').length - 1;
+                const tabs = spaceOnLastLine.split('\t').length - 1;
 
-                spaceTop = tokenTop;
+                const spaceTop = tokenTop;
+
+                if (horizontal) {
+                    return {
+                        left:
+                            editorHorizontalStart +
+                            (leftToRight ? 1 : -1) *
+                                (spaces * spaceWidth + tabs * tabWidth),
+                        top: spaceTop,
+                        height: caretHeight,
+                        bottom: spaceTop + caretHeight,
+                    };
+                } else {
+                    return {
+                        left: tokenStart,
+                        top:
+                            editorVerticalStart +
+                            (leftToRight ? 1 : -1) *
+                                (spaces * spaceWidth + tabs * tabWidth),
+                        height: caretHeight,
+                        bottom: spaceTop + caretHeight,
+                    };
+                }
             }
-
-            return {
-                left: `${
-                    (horizontalOffset === undefined
-                        ? editorHorizontalStart
-                        : horizontalOffset) +
-                    (leftToRight ? 1 : -1) *
-                        (spaces * spaceWidth + tabs * tabWidth)
-                }px`,
-                top: `${spaceTop}px`,
-                height: `${tokenHeight}px`,
-                bottom: spaceTop + tokenHeight,
-            };
         }
     }
 </script>
@@ -416,16 +508,21 @@
 <span
     class="caret {blink ? 'blink' : ''} {ignored ? 'ignored' : ''}"
     class:node={caret && caret.isNode() && !caret.isPlaceholderNode()}
-    style={location === undefined
-        ? 'display:none'
-        : `left: ${location.left}; top: ${location.top}; height: ${location.height};`}
+    style:display={location === undefined ? 'none' : null}
+    style:left={location ? `${location.left}px` : null}
+    style:top={location ? `${location.top}px` : null}
+    style:width={location
+        ? `${$writingLayout === 'horizontal-tb' ? 2 : location.height}px`
+        : null}
+    style:height={location
+        ? `${$writingLayout === 'horizontal-tb' ? location.height : 2}px`
+        : null}
     bind:this={element}
 />
 
 <style>
     .caret {
         position: absolute;
-        width: 2px;
         background-color: var(--wordplay-foreground);
     }
 
