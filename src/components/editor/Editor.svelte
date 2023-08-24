@@ -825,14 +825,14 @@
                 .sort((a, b) => a.offset - b.offset)[0]; // Chose the closest
 
         // If we have a closest line, find the line number
-        if (closestLine && spaceView) {
+        if (closestLine) {
             // Compute the horizontal position at which to place the caret.
             // Find the width of a single space by finding the longest line,
             // which determines its width.
-            const spaceBounds = spaceView.getBoundingClientRect();
+            const spaceBounds = spaceView?.getBoundingClientRect();
             const tokenSpace = source.spaces.getSpace(closestLine.token);
             const spaceWidth =
-                spaceBounds.width /
+                (spaceBounds?.width ?? 0) /
                 Math.max.apply(
                     null,
                     tokenSpace
@@ -841,15 +841,17 @@
                         .map((s) => s.length)
                 );
 
-            // Offset the caret position by the number of spaces from the dge that was clicked.
-            const positionOffset = Math.round(
-                Math.abs(
-                    event.clientX -
-                        ($writingDirection === 'ltr'
-                            ? spaceBounds.left
-                            : spaceBounds.right)
-                ) / spaceWidth
-            );
+            // Offset the caret position by the number of spaces from the edge that was clicked.
+            const positionOffset = spaceBounds
+                ? Math.round(
+                      Math.abs(
+                          event.clientX -
+                              ($writingDirection === 'ltr'
+                                  ? spaceBounds.left
+                                  : spaceBounds.right)
+                      ) / spaceWidth
+                  )
+                : 0;
 
             const index = $caret.source.getTokenSpacePosition(
                 closestLine.token
