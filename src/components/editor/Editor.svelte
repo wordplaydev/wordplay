@@ -1374,32 +1374,32 @@
     {#if source.isEmpty() && showHelp}
         <EditorHelp />
     {/if}
+    {#if project.supplements.length > 0}
+        <div class="output-preview-container">
+            <Button
+                tip={$locale.ui.description.showOutput}
+                active={!selected}
+                action={() => dispatch('preview')}
+                scale={false}
+            >
+                <div class="output-preview">
+                    {#if selected}
+                        <span style="font-size:200%">🎭</span>
+                    {:else}
+                        <OutputView
+                            {project}
+                            {evaluator}
+                            value={evaluator.getLatestSourceValue(source)}
+                            fullscreen={false}
+                            mini
+                            editable={false}
+                        />
+                    {/if}
+                </div>
+            </Button>
+        </div>
+    {/if}
 </div>
-{#if project.supplements.length > 0}
-    <div class="output-preview-container">
-        <Button
-            tip={$locale.ui.description.showOutput}
-            active={!selected}
-            action={() => dispatch('preview')}
-            scale={false}
-        >
-            <div class="output-preview">
-                {#if selected}
-                    <span style="font-size:200%">🎭</span>
-                {:else}
-                    <OutputView
-                        {project}
-                        {evaluator}
-                        value={evaluator.getLatestSourceValue(source)}
-                        fullscreen={false}
-                        mini
-                        editable={false}
-                    />
-                {/if}
-            </div>
-        </Button>
-    </div>
-{/if}
 
 <style>
     .editor {
@@ -1413,6 +1413,9 @@
         margin-bottom: auto;
         min-width: fit-content;
         min-height: fit-content;
+        display: flex;
+        flex-direction: column;
+        gap: var(--wordplay-spacing);
     }
 
     .editor.dragging {
@@ -1465,7 +1468,7 @@
         position: sticky;
         bottom: var(--wordplay-spacing);
         right: var(--wordplay-spacing);
-        background: var(--wordplay-background);
+        display: inline-block;
         align-self: flex-end;
     }
 
@@ -1474,6 +1477,7 @@
         height: 5em;
         border: var(--wordplay-border-color) solid var(--wordplay-border-width);
         border-radius: var(--wordplay-border-radius);
+        background: var(--wordplay-background);
         overflow: hidden;
         cursor: pointer;
         display: flex;
