@@ -3640,12 +3640,11 @@
         },
         "about": {
             "content": [
-                "Have you ever felt like coding was just for English-reading, non-disabled Westerners obssessed with code?",
+                "Have you ever felt like coding was just for English fluent, non-disabled Westerners obsessed with computers?",
                 "Yeah, us too.",
-                "That's not an accident. Most programming languages are designed by people fluent in English, /for/ people who are fluent in English. By non-disabled, /for/ non-disabled people. By people who find computing intrinsically interesting, /for/ people who feel the same.",
-                "Wordplay aspires to be something different. A programming platform designed for /all/ of the world's languages, and is /about/ language. For /all/ of the humanity's diverse abilities. For people who find computing an interesting medium to express themselves *playfully*, *artfully*, and *interactively*.",
-                "We're a community of designers, educators, and developers trying to bring this vision to life. We're centered at the <University of Washington@https://washington.edu> <Information School@https://ischool.uw.edu/> in Seattle, Washington, USA, a suprisingly diverse place that aspires to welcome everyone, and undo the ravages of colonialism that continue today. Making this programming environment is part of that mission.",
-                "See our <current milestone@https://github.com/amyjko/wordplay/milestones> to see what we're working on, and if you'd like to help, learn <how to contribute@https://github.com/amyjko/wordplay/blob/main/CONTRIBUTING.md>. Or write our leader <Amy@https://amyjko.phd> with questions."
+                "Wordplay aspires to be something different. A programming platform designed for /all/ of the world's languages, and is /about/ language. For /all/ of the humanity's diverse abilities. For youth and young adults who find computing an interesting medium to express themselves *playfully*, *artfully*, and *interactively*.",
+                "We're a community of designers, educators, and developers trying to bring this vision to life. We're centered at the <University of Washington@https://washington.edu> <Information School@https://ischool.uw.edu/> in Seattle, Washington, USA, a place that aspires to welcome everyone and undo the ravages of colonialism that continue today. Making this platform is part of that mission.",
+                "See our <milestones@https://github.com/amyjko/wordplay/milestones> to see what we're working on, and if you'd like to help, learn <how to contribute@https://github.com/amyjko/wordplay/blob/main/CONTRIBUTING.md>. Or write our leader <Amy@https://amyjko.phd> with questions."
             ]
         }
     }
