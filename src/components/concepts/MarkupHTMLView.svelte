@@ -83,4 +83,12 @@
             transform: scaleY(1);
         }
     }
+
+    p {
+        margin-block-end: 0;
+    }
+
+    p:not(:first-child) {
+        margin-block-start: 1em;
+    }
 </style>
