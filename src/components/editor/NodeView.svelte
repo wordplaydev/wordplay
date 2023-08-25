@@ -144,6 +144,11 @@
         outline: var(--wordplay-border-width) solid var(--wordplay-doc-color);
     }
 
+    .blockselected {
+        outline: var(--wordplay-focus-width) solid
+            var(--wordplay-highlight-color);
+    }
+
     .node-view.hovered {
         cursor: pointer;
     }

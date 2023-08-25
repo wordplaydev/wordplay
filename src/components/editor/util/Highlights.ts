@@ -31,6 +31,7 @@ export const HighlightTypes = {
     minor: true,
     animating: false,
     output: true,
+    blockselected: true,
 };
 export type HighlightType = keyof typeof HighlightTypes;
 export type Highlights = Map<Node, Set<HighlightType>>;
@@ -83,8 +84,18 @@ export function getHighlights(
         addHighlight(source, newHighlights, latestValue.step.node, 'exception');
 
     // Is the caret selecting a node? Highlight it.
-    if (caret.position instanceof Node && !caret.isPlaceholderNode())
-        addHighlight(source, newHighlights, caret.position, 'selected');
+    if (caret.position instanceof Node && !caret.isPlaceholderNode()) {
+        const tokensSelected =
+            !blocks ||
+            !(caret.position instanceof Expression) ||
+            caret.position.getKind() === ExpressionKind.Simple;
+        addHighlight(
+            source,
+            newHighlights,
+            caret.position,
+            tokensSelected ? 'selected' : 'blockselected'
+        );
+    }
 
     // Is a node being dragged?
     if (dragged !== undefined) {
