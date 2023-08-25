@@ -1212,6 +1212,7 @@
         const result = handleKeyCommand(event, {
             caret: $caret,
             evaluator,
+            dragging: $dragged !== undefined,
             database: DB,
             toggleMenu,
         });

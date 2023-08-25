@@ -1003,6 +1003,7 @@
                   ) ?? Array.from($editors.values())[0]
               )?.caret,
         evaluator: $evaluator,
+        dragging: $dragged !== undefined,
         database: DB,
         fullscreen,
         focusOrCycleTile,

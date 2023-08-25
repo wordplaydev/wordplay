@@ -74,6 +74,7 @@ export type CommandContext = {
     caret: Caret | undefined;
     evaluator: Evaluator;
     database: Database;
+    dragging: boolean;
     toggleMenu?: () => void;
     toggleBlocks?: () => void;
     fullscreen?: (on: boolean) => void;
@@ -397,8 +398,8 @@ export const ExitFullscreen: Command = {
     alt: false,
     control: false,
     key: 'Escape',
-    execute: (context) =>
-        context.fullscreen ? context.fullscreen(false) : false,
+    execute: ({ fullscreen, dragging }) =>
+        dragging ? false : fullscreen ? fullscreen(false) : false,
 };
 
 export const FocusOutput: Command = {
@@ -565,8 +566,9 @@ const Commands: Command[] = [
         alt: undefined,
         control: false,
         shift: undefined,
-        execute: ({ caret }) => {
+        execute: ({ dragging, caret }) => {
             if (caret === undefined) return false;
+            if (dragging) return false;
             const position = caret.position;
             if (position instanceof Node) {
                 const parent = caret.source.root.getParent(position);
