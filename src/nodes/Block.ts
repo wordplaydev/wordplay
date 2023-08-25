@@ -362,6 +362,8 @@ export default class Block extends Expression {
     }
 
     getKind() {
-        return !this.isRoot() ? ExpressionKind.Evaluate : ExpressionKind.Simple;
+        return this.kind === BlockKind.Block
+            ? ExpressionKind.Evaluate
+            : ExpressionKind.Simple;
     }
 }

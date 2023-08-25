@@ -126,7 +126,10 @@
         vertical-align: baseline;
         padding: calc(var(--wordplay-spacing) / 3);
         border: var(--wordplay-border-width) solid var(--wordplay-border-color);
-        border-radius: var(--wordplay-border-radius);
+        border-radius: var(--wordplay-border-radius)
+            calc(2 * var(--wordplay-border-radius))
+            calc(2 * var(--wordplay-border-radius))
+            var(--wordplay-border-radius);
         cursor: default;
     }
 
