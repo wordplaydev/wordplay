@@ -191,6 +191,18 @@ export default class Evaluate extends Expression {
             {
                 name: 'fun',
                 kind: node(Expression),
+                getType: (context) =>
+                    FunctionType.make(
+                        undefined,
+                        this.inputs.map((input) =>
+                            Bind.make(
+                                undefined,
+                                Names.make(['_']),
+                                input.getType(context)
+                            )
+                        ),
+                        new AnyType()
+                    ),
                 label: (translation: Locale) =>
                     translation.node.Evaluate.function,
             },

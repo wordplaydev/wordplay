@@ -86,6 +86,8 @@
         data-uiid={node.constructor.name}
         class:hide
         class:small
+        class:block={kind === ExpressionKind.Evaluate ||
+            kind === ExpressionKind.Definition}
         class:evaluate={kind === ExpressionKind.Evaluate}
         class:definition={kind === ExpressionKind.Definition}
         data-id={node.id}
@@ -119,8 +121,7 @@
         text-decoration: inherit;
     }
 
-    .evaluate,
-    .definition {
+    .block {
         display: inline-block;
         vertical-align: baseline;
         padding: calc(var(--wordplay-spacing) / 3);

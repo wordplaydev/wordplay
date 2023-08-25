@@ -36,6 +36,7 @@ import Purpose from '../concepts/Purpose';
 import StructureDefinition from './StructureDefinition';
 import FunctionDefinition from './FunctionDefinition';
 import StreamDefinition from './StreamDefinition';
+import FunctionType from './FunctionType';
 
 /**
  * A reference to some Definition. Can optionally take the definition which it refers,
@@ -90,10 +91,18 @@ export default class Reference extends AtomicExpression {
                 .map((definition) => {
                     // Bind of acceptible type? Make a reference.
                     if (
-                        definition instanceof Bind &&
-                        (expectedType === undefined ||
+                        (definition instanceof Bind &&
+                            (expectedType === undefined ||
+                                expectedType.accepts(
+                                    definition
+                                        .getType(context)
+                                        .generalize(context),
+                                    context
+                                ))) || // A function type that matches the function?
+                        (expectedType instanceof FunctionType &&
+                            definition instanceof FunctionDefinition &&
                             expectedType.accepts(
-                                definition.getType(context).generalize(context),
+                                definition.getType(context),
                                 context
                             ))
                     )
@@ -104,13 +113,15 @@ export default class Reference extends AtomicExpression {
                         );
                     // If the anchor is in list field, and the anchor is not being replaced, offer (Binary/Unary)Evaluate in scope.
                     else if (
-                        isBeingReplaced &&
+                        isBeingReplaced ||
                         anchor.getParent(context)?.getFieldOfChild(anchor)
                             ?.kind instanceof ListOf
                     ) {
                         if (
                             definition instanceof FunctionDefinition &&
+                            // Any type?
                             (expectedType === undefined ||
+                                // A function that returns a type that matches the expected type?
                                 expectedType.accepts(
                                     definition.getOutputType(context),
                                     context

@@ -288,7 +288,7 @@
         background: var(--wordplay-hover);
     }
 
-    .revision.selected :global(.token-view) {
+    .revision.selected :not(.block) :global(.token-view) {
         color: var(--wordplay-background);
     }
 
