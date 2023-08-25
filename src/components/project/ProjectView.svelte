@@ -33,6 +33,7 @@
         EditorsSymbol,
         type EditorState,
         ProjectCommandContextSymbol,
+        BlocksModeSymbol,
     } from './Contexts';
     import type Project from '@models/Project';
     import Documentation from '@components/concepts/Documentation.svelte';
@@ -168,6 +169,10 @@
     /** Keep the project in a store so we can derive other stores from it. */
     let projectStore = writable<Project>(project);
     $: if ($projectStore !== project) projectStore.set(project);
+
+    // Whether to render code as blocks or text
+    const blocksMode = writable<boolean>(true);
+    setContext(BlocksModeSymbol, blocksMode);
 
     /** Keep a project view global store indicating whether the creator is idle. */
     const keyboardEditIdle = writable<IdleKind>(IdleKind.Idle);
@@ -690,7 +695,7 @@
     afterUpdate(() => {
         /** After each update, measure an outline of the node view in the drag container. */
         const nodeView = dragContainer?.querySelector('.node-view');
-        if (nodeView instanceof HTMLElement)
+        if (nodeView instanceof HTMLElement && $blocksMode === false)
             outline = {
                 types: ['dragging'],
                 outline: getOutlineOf(
@@ -707,6 +712,10 @@
                 ),
             };
     });
+
+    function toggleBlocks() {
+        blocksMode.set(!$blocksMode);
+    }
 
     function getTileView(tileID: string) {
         return view?.querySelector(`.tile[data-id="${tileID}"]`) ?? null;
@@ -998,6 +1007,7 @@
         fullscreen,
         focusOrCycleTile,
         resetInputs,
+        toggleBlocks,
         help: () => (help = !help),
     };
     const commandContextStore = writable(commandContext);
@@ -1213,18 +1223,10 @@
                                         >{#if fit}🔒{:else}🔓{/if}</Toggle
                                     >
                                 {:else if tile.isSource()}
-                                    {@const editorState = $editors.get(tile.id)}
                                     <Toggle
                                         tips={$locale.ui.toggle.blocks}
-                                        on={editorState
-                                            ? editorState.blocks
-                                            : false}
-                                        toggle={() =>
-                                            editorState
-                                                ? editorState.blocksMode.set(
-                                                      !editorState.blocks
-                                                  )
-                                                : undefined}>▭</Toggle
+                                        on={$blocksMode}
+                                        toggle={toggleBlocks}>▭</Toggle
                                     >
                                     <!-- Make a Button for every modify command -->
                                     {#each VisibleModifyCommands as command}<CommandButton
@@ -1395,6 +1397,7 @@
                     node={$dragged}
                     spaces={project.getSourceOf($dragged)?.spaces}
                     localized
+                    blocks={writable(true)}
                 />
                 <div class="cursor">🐲</div>
             </div>
@@ -1470,9 +1473,9 @@
         pointer-events: none;
     }
 
-    .drag-container :global(.token-view) {
+    /* .drag-container :global(.token-view) {
         color: var(--wordplay-background);
-    }
+    } */
 
     .empty {
         width: 100%;

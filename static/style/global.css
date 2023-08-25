@@ -1,8 +1,8 @@
 :root {
     --color-blue: #648fff;
-    --color-blue-transparent: #648fff0c;
+    --color-light-blue: #eaf0fe;
     --color-purple: #785ef0;
-    --color-purple-transparent: #785ef00c;
+    --color-light-purple: #e6e4ed;
     --color-pink: #dc267f;
     --color-orange: #fe6100;
     --color-yellow: #ffb000;
@@ -19,7 +19,7 @@
     --wordplay-chrome: var(--color-light-grey);
     --wordplay-border-color: var(--color-light-grey);
     --wordplay-evaluation-color: var(--color-pink);
-    --wordplay-evaluation-color-transparent: var(--color-blue-transparent);
+    --wordplay-evaluation-color-light: var(--color-light-blue);
     --wordplay-highlight-color: var(--color-yellow);
     --wordplay-focus-color: var(--color-orange);
     --wordplay-hover: #feebc3;
@@ -28,7 +28,7 @@
     --wordplay-inactive-color: var(--color-light-grey);
     --wordplay-alternating-color: var(--color-very-light-grey);
     --wordplay-doc-color: var(--color-purple);
-    --wordplay-doc-color-transparent: var(--color-purple-transparent);
+    --wordplay-doc-color-light: var(--color-light-purple);
     --wordplay-relation-color: var(--color-orange);
     --wordplay-operator-color: var(--color-orange);
     --wordplay-type-color: var(--color-orange);

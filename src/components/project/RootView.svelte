@@ -1,6 +1,6 @@
 <script lang="ts">
     import { setContext } from 'svelte';
-    import { writable } from 'svelte/store';
+    import { writable, type Writable } from 'svelte/store';
     import Docs from '@nodes/Docs';
     import Names from '@nodes/Names';
     import type Node from '@nodes/Node';
@@ -14,6 +14,7 @@
         SpaceSymbol,
         type SpaceContext,
         CaretSymbol,
+        BlocksModeSymbol,
     } from './Contexts';
     import Root from '@nodes/Root';
     import Source from '@nodes/Source';
@@ -31,6 +32,7 @@
     export let elide = false;
     /** If true, hides names and docs not in a selected locale */
     export let localized = false;
+    export let blocks: Writable<boolean> | undefined = undefined;
 
     /** Get the root, or make one if it's not a source. */
     $: root = node instanceof Source ? node.root : new Root(node);
@@ -43,6 +45,8 @@
     // When the spaces change, update the rendered spaces
     let renderedSpace: SpaceContext = writable(new Map());
     setContext(SpaceSymbol, renderedSpace);
+
+    if (blocks) setContext(BlocksModeSymbol, blocks);
 
     $: if (inert) setContext(CaretSymbol, undefined);
 

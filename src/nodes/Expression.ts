@@ -92,7 +92,7 @@ export default abstract class Expression extends Node {
         return value ? new ValueRef(value, translation, context) : undefined;
     }
 
-    /** True if the expression is considered a "composite" expression suitable for rendering as a block in the editor */
+    /** Get the kind of node, for highlighting or other purposes */
     getKind(): ExpressionKind {
         return ExpressionKind.Simple;
     }

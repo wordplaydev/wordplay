@@ -274,7 +274,13 @@ export function isValidDropTarget(
             ?.getFieldOfChild(target);
 
         // If we found a field and the dragged node is an instanceof one of the allowed types, it's a valid drop target.
-        if (field && field.kind.allowsKind(dragged.constructor)) return true;
+        if (
+            field &&
+            field.kind.allowsKind(dragged.constructor) &&
+            // Don't allow drops on nodes that are children of the dragged node.
+            !dragged.contains(target)
+        )
+            return true;
     }
 
     // Allow binds to be dropped on children of blocks.

@@ -2,7 +2,7 @@ import Node from '@nodes/Node';
 import type Source from '@nodes/Source';
 import type Evaluator from '@runtime/Evaluator';
 import type Evaluate from '@nodes/Evaluate';
-import Expression from '@nodes/Expression';
+import Expression, { ExpressionKind } from '@nodes/Expression';
 import ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
 import Token from '@nodes/Token';
 import Type from '@nodes/Type';
@@ -18,7 +18,7 @@ import Block from '../../../nodes/Block';
 
 /** Highlight types and whether they are rendered above or below the code. True for above. */
 export const HighlightTypes = {
-    selected: false,
+    selected: true,
     evaluating: false,
     exception: true,
     hovered: false,
@@ -149,7 +149,13 @@ export function getHighlights(
         }
     }
     // Otherwise, is a node hovered over? Highlight it.
-    else if (hovered instanceof Node)
+    else if (
+        hovered instanceof Node &&
+        !(
+            hovered instanceof Expression &&
+            hovered.getKind() !== ExpressionKind.Simple
+        )
+    )
         addHighlight(source, newHighlights, hovered, 'hovered');
 
     // Inserting? Highlight the parent we're inserting into.

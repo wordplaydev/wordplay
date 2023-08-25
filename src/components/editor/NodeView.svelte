@@ -67,7 +67,8 @@
     // Get the insertion point
     let insertion = getInsertionPoint();
 
-    $: kind = node instanceof Expression ? node.getKind() : undefined;
+    $: kind =
+        $blocks && node instanceof Expression ? node.getKind() : undefined;
 </script>
 
 <!-- Don't render anything if we weren't given a node. -->
@@ -85,9 +86,6 @@
         data-uiid={node.constructor.name}
         class:hide
         class:small
-        class:block={$blocks &&
-            kind !== undefined &&
-            kind !== ExpressionKind.Simple}
         class:evaluate={kind === ExpressionKind.Evaluate}
         class:definition={kind === ExpressionKind.Definition}
         data-id={node.id}
@@ -115,25 +113,35 @@
         transition-property: background-color, padding, border-color;
         transition-duration: calc(var(--animation-factor) * 200ms);
         transition-timing-function: ease-out;
+        border-color: transparent;
 
         /** This allows us to style things up the the tree. */
         text-decoration: inherit;
     }
 
-    .node-view.block {
+    .evaluate,
+    .definition {
         display: inline-block;
         vertical-align: baseline;
         padding: calc(var(--wordplay-spacing) / 3);
         border: var(--wordplay-border-width) solid var(--wordplay-border-color);
         border-radius: var(--wordplay-border-radius);
+        cursor: default;
     }
 
-    .block.evaluate {
-        background: var(--wordplay-evaluation-color-transparent);
+    .evaluate {
+        background: var(--wordplay-evaluation-color-light);
+    }
+    .evaluate:hover:not(.dragged):not(:has(.node-view:hover)) {
+        outline: var(--wordplay-border-width) solid
+            var(--wordplay-evaluation-color);
     }
 
-    .block.definition {
-        background: var(--wordplay-doc-color-transparent);
+    .definition {
+        background: var(--wordplay-doc-color-light);
+    }
+    .definition:hover:not(.dragged):not(:has(.node-view:hover)) {
+        outline: var(--wordplay-border-width) solid var(--wordplay-doc-color);
     }
 
     .node-view.hovered {
@@ -143,6 +151,15 @@
     /* When beginning dragged in an editor, hide the node view contents to create a sense of spatial integrity. */
     .dragged :global(.token-view) {
         opacity: 0;
+    }
+
+    .dragged,
+    .dragged :global(.node-view) {
+        border: none;
+    }
+
+    .dragged :global(.node-view) {
+        background: none;
     }
 
     .hide {

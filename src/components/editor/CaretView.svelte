@@ -21,8 +21,14 @@
     import Node from '@nodes/Node';
     import Token from '../../nodes/Token';
     import { getLanguageDirection } from '../../locale/LanguageCode';
-    import { locale, writingDirection, writingLayout } from '../../db/Database';
+    import {
+        animationDuration,
+        locale,
+        writingDirection,
+        writingLayout,
+    } from '../../db/Database';
     import type Caret from '../../edit/Caret';
+    import { getBlocksMode } from '../project/Contexts';
 
     export let caret: Caret;
     export let source: Source;
@@ -40,12 +46,20 @@
 
     $: leftToRight = getLanguageDirection($locale.language) === 'ltr';
 
+    const blocks = getBlocksMode();
+
     // The index we should render
     let caretIndex: number | undefined = undefined;
 
+    // Whenever blocks changes, compute position after animation.
+    $: {
+        $blocks;
+        setTimeout(() => (location = computeLocation()), $animationDuration);
+    }
+
     // Whenever the caret changes, update the index we should render and scroll to it.
     $: {
-        // Position depends on writing direction and layout
+        // Position depends on writing direction and layout and blocks mode
         if (
             token !== undefined &&
             caret !== undefined &&

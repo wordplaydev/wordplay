@@ -79,7 +79,7 @@
 
     .outline.selected path {
         stroke: var(--wordplay-highlight-color);
-        fill: var(--wordplay-highlight-color);
+        fill: none;
     }
 
     .outline.dragged path {
@@ -113,7 +113,7 @@
             .node-view.evaluating .token-view,
             .node-view.animating .token-view,
             .node-view.dragging .token-view,
-            .node-view.selected .token-view
+
         ) {
         color: var(--wordplay-background) !important;
     }

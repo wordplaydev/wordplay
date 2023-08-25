@@ -867,8 +867,7 @@ const Commands: Command[] = [
         alt: true,
         control: true,
         key: 'Enter',
-        execute: ({ toggleBlocks }) =>
-            toggleBlocks ? toggleBlocks() : undefined,
+        execute: ({ toggleBlocks }) => (toggleBlocks ? toggleBlocks() : false),
     },
     {
         symbol: '↲',
