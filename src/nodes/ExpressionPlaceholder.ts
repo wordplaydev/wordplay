@@ -86,7 +86,7 @@ export default class ExpressionPlaceholder extends AtomicExpression {
                     );
                 },
             },
-            { name: 'dot', kind: any(node(Sym.Access), none('type')) },
+            { name: 'dot', kind: any(node(Sym.Type), none('type')) },
             {
                 name: 'type',
                 kind: any(node(Type), none('dot')),
