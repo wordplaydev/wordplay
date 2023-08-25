@@ -1,5 +1,6 @@
 node_modules
 .svelte-kit
+.DS_Store
 **/.DS_Store
 .env
 .env.emulator
