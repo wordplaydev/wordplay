@@ -11,12 +11,12 @@ import Node, { node, type Grammar, type Replacement, list } from './Node';
 import type TypeSet from './TypeSet';
 import UnparsableType from './UnparsableType';
 import type Locale from '@locale/Locale';
-import AtomicExpression from './AtomicExpression';
+import SimpleExpression from './AtomicExpression';
 import Glyphs from '../lore/Glyphs';
 import concretize from '../locale/concretize';
 import Purpose from '../concepts/Purpose';
 
-export default class UnparsableExpression extends AtomicExpression {
+export default class UnparsableExpression extends SimpleExpression {
     readonly unparsables: Node[];
 
     constructor(nodes: Node[]) {

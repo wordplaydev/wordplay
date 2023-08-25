@@ -33,7 +33,7 @@ import {
     optional,
 } from './Node';
 import type Locale from '@locale/Locale';
-import AtomicExpression from './AtomicExpression';
+import SimpleExpression from './AtomicExpression';
 import UnimplementedException from '@values/UnimplementedException';
 import NodeRef from '@locale/NodeRef';
 import StreamDefinition from './StreamDefinition';
@@ -50,7 +50,7 @@ export type SharedDefinition =
     | StructureDefinition
     | StreamDefinition;
 
-export default class Borrow extends AtomicExpression {
+export default class Borrow extends SimpleExpression {
     readonly borrow: Token;
     readonly source?: Reference;
     readonly dot?: Token;

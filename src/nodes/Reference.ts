@@ -22,7 +22,7 @@ import StartFinish from '@runtime/StartFinish';
 import UnknownNameType from './UnknownNameType';
 import { node, type Grammar, type Replacement, ListOf } from './Node';
 import type Locale from '@locale/Locale';
-import AtomicExpression from './AtomicExpression';
+import SimpleExpression from './AtomicExpression';
 import NameException from '@values/NameException';
 import NodeRef from '@locale/NodeRef';
 import Evaluate from './Evaluate';
@@ -44,7 +44,7 @@ import FunctionType from './FunctionType';
  * but nevertheless have a known definition to which they refer. This is also helpful
  * in localization, allowing us to easily switch definitions.
  */
-export default class Reference extends AtomicExpression {
+export default class Reference extends SimpleExpression {
     readonly name: Token;
     readonly definition: Definition | undefined;
 

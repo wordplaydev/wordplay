@@ -8,7 +8,7 @@ import type Bind from '@nodes/Bind';
 import type Context from '@nodes/Context';
 import type TypeSet from '@nodes/TypeSet';
 import StartFinish from '@runtime/StartFinish';
-import AtomicExpression from '@nodes/AtomicExpression';
+import SimpleExpression from '@nodes/AtomicExpression';
 import type Locale from '@locale/Locale';
 import InternalException from '@values/InternalException';
 import Glyphs from '../lore/Glyphs';
@@ -19,7 +19,7 @@ import Finish from '@runtime/Finish';
 import { toTokens } from '../parser/toTokens';
 import parseType from '../parser/paresType';
 
-export default class InternalExpression extends AtomicExpression {
+export default class InternalExpression extends SimpleExpression {
     readonly type: Type;
     readonly evaluator: (requestor: Expression, evaluator: Evaluation) => Value;
     readonly steps: Step[];

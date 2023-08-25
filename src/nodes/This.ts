@@ -19,7 +19,7 @@ import StartFinish from '@runtime/StartFinish';
 import Reaction from './Reaction';
 import ValueException from '@values/ValueException';
 import { node, type Grammar, type Replacement } from './Node';
-import AtomicExpression from './AtomicExpression';
+import SimpleExpression from './AtomicExpression';
 import type Locale from '@locale/Locale';
 import { UnenclosedType } from './UnenclosedType';
 import Glyphs from '../lore/Glyphs';
@@ -31,7 +31,7 @@ import Purpose from '../concepts/Purpose';
 
 type ThisStructure = StructureDefinition | ConversionDefinition | Reaction;
 
-export default class This extends AtomicExpression {
+export default class This extends SimpleExpression {
     readonly dis: Token;
 
     constructor(dis: Token) {

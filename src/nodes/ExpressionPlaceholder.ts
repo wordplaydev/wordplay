@@ -17,7 +17,7 @@ import UnimplementedType from './UnimplementedType';
 import TypeToken from './TypeToken';
 import { node, type Grammar, type Replacement, none, any } from './Node';
 import type Locale from '@locale/Locale';
-import AtomicExpression from './AtomicExpression';
+import SimpleExpression from './AtomicExpression';
 import type { Template } from '@locale/Locale';
 import Glyphs from '../lore/Glyphs';
 import type Root from './Root';
@@ -30,7 +30,7 @@ import FunctionDefinition from './FunctionDefinition';
 import Sym from './Sym';
 import Purpose from '../concepts/Purpose';
 
-export default class ExpressionPlaceholder extends AtomicExpression {
+export default class ExpressionPlaceholder extends SimpleExpression {
     readonly placeholder: Token;
     readonly dot: Token | undefined;
     readonly type: Type | undefined;

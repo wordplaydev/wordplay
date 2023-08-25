@@ -9,12 +9,12 @@ import type Evaluator from '@runtime/Evaluator';
 import Docs from './Docs';
 import { node, type Grammar, type Replacement } from './Node';
 import type Locale from '@locale/Locale';
-import AtomicExpression from './AtomicExpression';
+import SimpleExpression from './AtomicExpression';
 import Glyphs from '../lore/Glyphs';
 import concretize from '../locale/concretize';
 import Purpose from '../concepts/Purpose';
 
-export default class DocumentedExpression extends AtomicExpression {
+export default class DocumentedExpression extends SimpleExpression {
     readonly docs: Docs;
     readonly expression: Expression;
 

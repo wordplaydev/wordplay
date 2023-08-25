@@ -13,7 +13,7 @@ import Unit from './Unit';
 import Dimension from './Dimension';
 import Docs from './Docs';
 import { BorrowCycle } from '@conflicts/BorrowCycle';
-import Expression from './Expression';
+import Expression, { ExpressionKind } from './Expression';
 import type Bind from './Bind';
 import type Type from './Type';
 import type TypeSet from './TypeSet';
@@ -221,5 +221,9 @@ export default class Program extends Expression {
 
     getGlyphs() {
         return Glyphs.Program;
+    }
+
+    getKind() {
+        return ExpressionKind.Simple;
     }
 }

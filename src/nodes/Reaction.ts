@@ -1,5 +1,5 @@
 import type Conflict from '@conflicts/Conflict';
-import Expression from './Expression';
+import Expression, { ExpressionKind } from './Expression';
 import type Token from './Token';
 import type Type from './Type';
 import type Evaluator from '@runtime/Evaluator';
@@ -317,5 +317,9 @@ export default class Reaction extends Expression {
 
     getGlyphs() {
         return Glyphs.Stream;
+    }
+
+    getKind() {
+        return ExpressionKind.Evaluate;
     }
 }

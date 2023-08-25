@@ -18,7 +18,7 @@ import Start from '@runtime/Start';
 import BoolValue from '@values/BoolValue';
 import { node, type Grammar, type Replacement } from './Node';
 import type Locale from '@locale/Locale';
-import AtomicExpression from './AtomicExpression';
+import SimpleExpression from './AtomicExpression';
 import NodeRef from '@locale/NodeRef';
 import BooleanType from './BooleanType';
 import Glyphs from '../lore/Glyphs';
@@ -27,7 +27,7 @@ import type { BasisTypeName } from '../basis/BasisConstants';
 import IncompatibleInput from '../conflicts/IncompatibleInput';
 import concretize from '../locale/concretize';
 
-export default class Changed extends AtomicExpression {
+export default class Changed extends SimpleExpression {
     readonly change: Token;
     readonly stream: Expression;
 

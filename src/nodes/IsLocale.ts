@@ -8,7 +8,7 @@ import { GLOBE1_SYMBOL } from '@parser/Symbols';
 import BoolValue from '@values/BoolValue';
 import { node, type Grammar, type Replacement, optional } from './Node';
 import type Locale from '@locale/Locale';
-import AtomicExpression from './AtomicExpression';
+import SimpleExpression from './AtomicExpression';
 import BooleanType from './BooleanType';
 import Glyphs from '../lore/Glyphs';
 import Purpose from '../concepts/Purpose';
@@ -20,7 +20,7 @@ import type Expression from './Expression';
 import type TypeSet from './TypeSet';
 import type Node from './Node';
 
-export default class IsLocale extends AtomicExpression {
+export default class IsLocale extends SimpleExpression {
     readonly globe: Token;
     readonly locale: Language | undefined;
 

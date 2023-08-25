@@ -30,7 +30,6 @@ import Reference from './Reference';
 import NotAnInterface from '@conflicts/NotAnInterface';
 import { optional, type Grammar, type Replacement, node, list } from './Node';
 import type Locale from '@locale/Locale';
-import AtomicExpression from './AtomicExpression';
 import type NameType from './NameType';
 import InternalException from '@values/InternalException';
 import Glyphs from '../lore/Glyphs';
@@ -40,8 +39,9 @@ import Sym from './Sym';
 import concretize from '../locale/concretize';
 import Evaluate from './Evaluate';
 import ExpressionPlaceholder from './ExpressionPlaceholder';
+import DefinitionExpression from './DefinitionExpression';
 
-export default class StructureDefinition extends AtomicExpression {
+export default class StructureDefinition extends DefinitionExpression {
     readonly docs: Docs | undefined;
     readonly share: Token | undefined;
     readonly type: Token;

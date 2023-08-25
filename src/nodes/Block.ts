@@ -16,7 +16,6 @@ import StructureDefinition from './StructureDefinition';
 import FunctionDefinition from './FunctionDefinition';
 import type TypeSet from './TypeSet';
 import NoneValue from '@values/NoneValue';
-import ConversionDefinition from './ConversionDefinition';
 import Docs from './Docs';
 import type Value from '@values/Value';
 import EvalCloseToken from './EvalCloseToken';
@@ -29,6 +28,7 @@ import Glyphs from '../lore/Glyphs';
 import concretize from '../locale/concretize';
 import Sym from './Sym';
 import Purpose from '../concepts/Purpose';
+import DefinitionExpression from './DefinitionExpression';
 
 export enum BlockKind {
     Root = 'root',
@@ -198,12 +198,7 @@ export default class Block extends Expression {
             .filter(
                 (s) =>
                     s instanceof Expression &&
-                    !(
-                        s instanceof StructureDefinition ||
-                        s instanceof FunctionDefinition ||
-                        s instanceof ConversionDefinition ||
-                        s instanceof Bind
-                    )
+                    !(s instanceof DefinitionExpression || s instanceof Bind)
             )
             .forEach((s) => conflicts.push(new IgnoredExpression(this, s)));
 

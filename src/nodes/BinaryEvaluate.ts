@@ -1,5 +1,5 @@
 import type Conflict from '@conflicts/Conflict';
-import Expression, { ExpressionKind } from './Expression';
+import Expression from './Expression';
 import type Type from './Type';
 import type Evaluator from '@runtime/Evaluator';
 import type Step from '@runtime/Step';
@@ -412,9 +412,5 @@ export default class BinaryEvaluate extends Expression {
 
     getDescriptionInputs(locale: Locale, context: Context) {
         return [new NodeRef(this.fun, locale, context)];
-    }
-
-    getKind() {
-        return ExpressionKind.Evaluate;
     }
 }

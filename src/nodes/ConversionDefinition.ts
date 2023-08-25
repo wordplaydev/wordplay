@@ -1,5 +1,5 @@
 import type Node from './Node';
-import Expression, { ExpressionKind } from './Expression';
+import Expression from './Expression';
 import Token from './Token';
 import Sym from './Sym';
 import type Conflict from '@conflicts/Conflict';
@@ -18,7 +18,6 @@ import Docs from './Docs';
 import StartFinish from '@runtime/StartFinish';
 import { node, none, type Grammar, type Replacement, any } from './Node';
 import type Locale from '@locale/Locale';
-import AtomicExpression from './AtomicExpression';
 import InternalException from '@values/InternalException';
 import Glyphs from '../lore/Glyphs';
 import Purpose from '../concepts/Purpose';
@@ -29,8 +28,9 @@ import TypePlaceholder from './TypePlaceholder';
 import ExpressionPlaceholder from './ExpressionPlaceholder';
 import { toTokens } from '../parser/toTokens';
 import parseType from '../parser/paresType';
+import DefinitionExpression from './DefinitionExpression';
 
-export default class ConversionDefinition extends AtomicExpression {
+export default class ConversionDefinition extends DefinitionExpression {
     readonly docs: Docs | undefined;
     readonly arrow: Token;
     readonly input: Type;
@@ -210,9 +210,5 @@ export default class ConversionDefinition extends AtomicExpression {
             new NodeRef(this.input, locale, context),
             new NodeRef(this.output, locale, context),
         ];
-    }
-
-    getKind() {
-        return ExpressionKind.Definition;
     }
 }

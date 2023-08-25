@@ -94,6 +94,6 @@ export default abstract class Expression extends Node {
 
     /** Get the kind of node, for highlighting or other purposes */
     getKind(): ExpressionKind {
-        return ExpressionKind.Simple;
+        return ExpressionKind.Evaluate;
     }
 }

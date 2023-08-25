@@ -1,6 +1,6 @@
 import type Node from './Node';
 import Bind from './Bind';
-import Expression, { ExpressionKind } from './Expression';
+import Expression from './Expression';
 import Token from './Token';
 import Sym from './Sym';
 import Type from './Type';
@@ -41,9 +41,9 @@ import Evaluate from './Evaluate';
 import PropertyReference from './PropertyReference';
 import Reference from './Reference';
 import Purpose from '../concepts/Purpose';
-import AtomicExpression from './AtomicExpression';
+import DefinitionExpression from './DefinitionExpression';
 
-export default class FunctionDefinition extends AtomicExpression {
+export default class FunctionDefinition extends DefinitionExpression {
     readonly docs?: Docs;
     readonly share: Token | undefined;
     readonly fun: Token;
@@ -429,9 +429,5 @@ export default class FunctionDefinition extends AtomicExpression {
 
     getGlyphs() {
         return Glyphs.Function;
-    }
-
-    getKind() {
-        return ExpressionKind.Definition;
     }
 }

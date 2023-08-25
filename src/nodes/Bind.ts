@@ -1,4 +1,4 @@
-import Expression from './Expression';
+import Expression, { ExpressionKind } from './Expression';
 import type Context from './Context';
 import Token from './Token';
 import Type from './Type';
@@ -653,5 +653,9 @@ export default class Bind extends Expression {
 
     getGlyphs() {
         return Glyphs.Bind;
+    }
+
+    getKind() {
+        return ExpressionKind.Simple;
     }
 }

@@ -1,7 +1,7 @@
 import BooleanType from './BooleanType';
 import type Conflict from '@conflicts/Conflict';
 import ExpectedBooleanCondition from '@conflicts/ExpectedBooleanCondition';
-import Expression, { ExpressionKind } from './Expression';
+import Expression from './Expression';
 import Token from './Token';
 import type Type from './Type';
 import type Step from '@runtime/Step';
@@ -238,9 +238,5 @@ export default class Conditional extends Expression {
 
     getGlyphs() {
         return Glyphs.Conditional;
-    }
-
-    getKind() {
-        return ExpressionKind.Evaluate;
     }
 }

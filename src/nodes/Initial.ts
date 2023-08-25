@@ -12,7 +12,7 @@ import { INITIAL_SYMBOL } from '@parser/Symbols';
 import BoolValue from '@values/BoolValue';
 import { node, type Grammar, type Replacement } from './Node';
 import type Locale from '@locale/Locale';
-import AtomicExpression from './AtomicExpression';
+import SimpleExpression from './AtomicExpression';
 import BooleanType from './BooleanType';
 import StartFinish from '@runtime/StartFinish';
 import type Node from './Node';
@@ -21,7 +21,7 @@ import Purpose from '../concepts/Purpose';
 import type { BasisTypeName } from '../basis/BasisConstants';
 import concretize from '../locale/concretize';
 
-export default class Initial extends AtomicExpression {
+export default class Initial extends SimpleExpression {
     readonly diamond: Token;
 
     constructor(change: Token) {

@@ -2,13 +2,13 @@ import type Evaluator from '@runtime/Evaluator';
 import StartFinish from '@runtime/StartFinish';
 import type Step from '@runtime/Step';
 import type Value from '@values/Value';
-import AtomicExpression from './AtomicExpression';
+import SimpleExpression from './AtomicExpression';
 import type Expression from './Expression';
 import Purpose from '../concepts/Purpose';
 import type Locale from '../locale/Locale';
 import type Context from './Context';
 
-export default abstract class Literal extends AtomicExpression {
+export default abstract class Literal extends SimpleExpression {
     constructor() {
         super();
     }

@@ -1,6 +1,6 @@
 import type Node from './Node';
 import Bind from './Bind';
-import Expression from './Expression';
+import type Expression from './Expression';
 import Token from './Token';
 import Sym from './Sym';
 import Type from './Type';
@@ -37,8 +37,9 @@ import Purpose from '../concepts/Purpose';
 import Evaluate from './Evaluate';
 import Reference from './Reference';
 import ExpressionPlaceholder from './ExpressionPlaceholder';
+import DefinitionExpression from './DefinitionExpression';
 
-export default class StreamDefinition extends Expression {
+export default class StreamDefinition extends DefinitionExpression {
     readonly docs?: Docs;
     readonly dots: Token;
     readonly names: Names;
@@ -231,10 +232,6 @@ export default class StreamDefinition extends Expression {
     }
 
     getStartExplanations(locale: Locale) {
-        return concretize(locale, locale.node.StreamDefinition.start);
-    }
-
-    getFinishExplanations(locale: Locale) {
         return concretize(locale, locale.node.StreamDefinition.start);
     }
 
