@@ -84,6 +84,7 @@
         Projects,
         writingLayout,
         writingDirection,
+        blocks,
     } from '../../db/Database';
     import Arrangement from '../../db/Arrangement';
     import {
@@ -171,8 +172,7 @@
     $: if ($projectStore !== project) projectStore.set(project);
 
     // Whether to render code as blocks or text
-    const blocksMode = writable<boolean>(true);
-    setContext(BlocksModeSymbol, blocksMode);
+    setContext(BlocksModeSymbol, blocks);
 
     /** Keep a project view global store indicating whether the creator is idle. */
     const keyboardEditIdle = writable<IdleKind>(IdleKind.Idle);
@@ -695,7 +695,7 @@
     afterUpdate(() => {
         /** After each update, measure an outline of the node view in the drag container. */
         const nodeView = dragContainer?.querySelector('.node-view');
-        if (nodeView instanceof HTMLElement && $blocksMode === false)
+        if (nodeView instanceof HTMLElement && $blocks === false)
             outline = {
                 types: ['dragging'],
                 outline: getOutlineOf(
@@ -714,7 +714,7 @@
     });
 
     function toggleBlocks() {
-        blocksMode.set(!$blocksMode);
+        Settings.setBlocks(!$blocks);
     }
 
     function getTileView(tileID: string) {
@@ -1226,7 +1226,7 @@
                                 {:else if tile.isSource()}
                                     <Toggle
                                         tips={$locale.ui.toggle.blocks}
-                                        on={$blocksMode}
+                                        on={$blocks}
                                         toggle={toggleBlocks}>▭</Toggle
                                     >
                                     <!-- Make a Button for every modify command -->

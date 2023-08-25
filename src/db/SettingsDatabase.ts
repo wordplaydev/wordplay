@@ -14,6 +14,7 @@ import type Arrangement from './Arrangement';
 import type { WritingLayout } from '../locale/Scripts';
 import type Progress from '../tutorial/Progress';
 import Layout from '../components/project/Layout';
+import { BlocksSetting } from './BlocksSetting';
 
 /** Enscapsulates settings stored in localStorage. */
 export default class SettingsDatabase {
@@ -29,6 +30,7 @@ export default class SettingsDatabase {
         tutorial: TutorialProgressSetting,
         camera: CameraSetting,
         mic: MicSetting,
+        blocks: BlocksSetting,
     };
 
     /** A derived store based on animation factor */
@@ -99,6 +101,10 @@ export default class SettingsDatabase {
 
     getMic() {
         return this.settings.mic.get();
+    }
+
+    setBlocks(on: boolean) {
+        this.settings.blocks.set(this.database, on);
     }
 
     /** To serialize to a database */
