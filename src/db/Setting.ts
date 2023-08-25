@@ -37,11 +37,11 @@ export default class Setting<Type> {
 
         let value;
         try {
-            value =
-                valueString === null
-                    ? this.defaultValue
-                    : this.validator(JSON.parse(valueString)) ??
-                      this.defaultValue;
+            if (valueString !== null) {
+                const parsed = JSON.parse(valueString);
+                if (this.validator(parsed)) value = parsed;
+            }
+            if (value === undefined) value = this.defaultValue;
         } catch (_) {
             value = this.defaultValue;
         }

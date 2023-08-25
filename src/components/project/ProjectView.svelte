@@ -33,7 +33,6 @@
         EditorsSymbol,
         type EditorState,
         ProjectCommandContextSymbol,
-        BlocksModeSymbol,
     } from './Contexts';
     import type Project from '@models/Project';
     import Documentation from '@components/concepts/Documentation.svelte';
@@ -170,9 +169,6 @@
     /** Keep the project in a store so we can derive other stores from it. */
     let projectStore = writable<Project>(project);
     $: if ($projectStore !== project) projectStore.set(project);
-
-    // Whether to render code as blocks or text
-    setContext(BlocksModeSymbol, blocks);
 
     /** Keep a project view global store indicating whether the creator is idle. */
     const keyboardEditIdle = writable<IdleKind>(IdleKind.Idle);
@@ -1398,7 +1394,6 @@
                     node={$dragged}
                     spaces={project.getSourceOf($dragged)?.spaces}
                     localized
-                    blocks={writable(true)}
                 />
                 <div class="cursor">🐲</div>
             </div>

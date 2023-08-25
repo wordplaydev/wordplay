@@ -23,12 +23,12 @@
     import { getLanguageDirection } from '../../locale/LanguageCode';
     import {
         animationDuration,
+        blocks,
         locale,
         writingDirection,
         writingLayout,
     } from '../../db/Database';
     import type Caret from '../../edit/Caret';
-    import { getBlocksMode } from '../project/Contexts';
 
     export let caret: Caret;
     export let source: Source;
@@ -45,8 +45,6 @@
     $: token = caret?.getToken();
 
     $: leftToRight = getLanguageDirection($locale.language) === 'ltr';
-
-    const blocks = getBlocksMode();
 
     // The index we should render
     let caretIndex: number | undefined = undefined;

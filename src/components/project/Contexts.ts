@@ -156,12 +156,6 @@ export function getHighlights() {
     return getContext<HighlightContext>(HighlightSymbol);
 }
 
-export const BlocksModeSymbol = Symbol('block');
-export type BlocksModeContext = Writable<boolean>;
-export function getBlocksMode() {
-    return getContext<BlocksModeContext>(BlocksModeSymbol);
-}
-
 export const SpaceSymbol = Symbol('space');
 export type SpaceContext = Writable<
     Map<Node, { token: Token; space: string; additional: string }>

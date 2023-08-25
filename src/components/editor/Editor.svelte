@@ -34,7 +34,6 @@
         EditorSymbol,
         getConceptIndex,
         getEditors,
-        getBlocksMode,
     } from '../project/Contexts';
     import {
         type Highlights,
@@ -69,6 +68,7 @@
     import {
         DB,
         Projects,
+        blocks,
         locale,
         locales,
         writingDirection,
@@ -148,7 +148,6 @@
     const keyboardEditIdle = getKeyboardEditIdle();
     const editors = getEditors();
     const concepts = getConceptIndex();
-    const blocks = getBlocksMode();
 
     const dispatch = createEventDispatcher();
 

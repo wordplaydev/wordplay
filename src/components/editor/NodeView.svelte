@@ -8,7 +8,6 @@
         getInsertionPoint,
         getSpace,
         getLocales,
-        getBlocksMode,
     } from '../project/Contexts';
     import getNodeView from './util/nodeToView';
     import Expression, { ExpressionKind } from '@nodes/Expression';
@@ -17,6 +16,7 @@
     import Space from './Space.svelte';
     import Token from '../../nodes/Token';
     import concretize from '../../locale/concretize';
+    import { blocks } from '../../db/Database';
 
     export let node: Node | undefined;
     export let small = false;
@@ -60,9 +60,6 @@
     // Get the hidden context.
     let hidden = getHidden();
     $: hide = node ? $hidden?.has(node) : false;
-
-    // Get blocks mode
-    let blocks = getBlocksMode();
 
     // Get the insertion point
     let insertion = getInsertionPoint();
