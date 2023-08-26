@@ -127,22 +127,22 @@
             calc(2 * var(--wordplay-border-radius))
             calc(2 * var(--wordplay-border-radius))
             var(--wordplay-border-radius);
+        box-shadow: var(--color-shadow) 1px 1px;
         cursor: default;
     }
 
     .evaluate {
-        background: var(--wordplay-evaluation-color-light);
+        background: var(--color-light-blue);
     }
     .evaluate:hover:not(.dragged):not(:has(.node-view:hover)) {
-        outline: var(--wordplay-border-width) solid
-            var(--wordplay-evaluation-color);
+        outline: var(--wordplay-focus-width) solid var(--color-blue);
     }
 
     .definition {
-        background: var(--wordplay-doc-color-light);
+        background: var(--color-light-purple);
     }
     .definition:hover:not(.dragged):not(:has(.node-view:hover)) {
-        outline: var(--wordplay-border-width) solid var(--wordplay-doc-color);
+        outline: var(--wordplay-focus-width) solid var(--color-purple);
     }
 
     .blockselected {
