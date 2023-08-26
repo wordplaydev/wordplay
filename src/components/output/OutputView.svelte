@@ -681,7 +681,7 @@
 
     function ignore() {
         ignored = true;
-        setTimeout(() => (ignored = false), 250);
+        setTimeout(() => (ignored = false), $animationFactor * 100);
     }
 
     let priorFocusRect: DOMRect | undefined = undefined;

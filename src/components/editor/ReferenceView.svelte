@@ -7,6 +7,7 @@
     import Evaluate from '@nodes/Evaluate';
     import type StreamValue from '@values/StreamValue';
     import type Value from '../../values/Value';
+    import { animationFactor } from '../../db/Database';
 
     export let node: Reference;
 
@@ -43,7 +44,7 @@
         ) {
             animating = true;
             // Reset after the animation is done.
-            setTimeout(() => (animating = false), 200);
+            setTimeout(() => (animating = false), $animationFactor * 200);
         }
     }
 </script>

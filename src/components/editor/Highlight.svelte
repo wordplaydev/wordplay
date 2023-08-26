@@ -1,6 +1,7 @@
 <svelte:options immutable={true} />
 
 <script lang="ts">
+    import { animationFactor } from '../../db/Database';
     import { HighlightTypes, type HighlightType } from './util/Highlights';
     import type { Outline } from './util/outline';
 
@@ -17,7 +18,7 @@
         .join(' ');
 
     // Flip back to unignored after the animation so we can give more feedback.
-    $: if (ignored) setTimeout(() => (ignored = false), 250);
+    $: if (ignored) setTimeout(() => (ignored = false), $animationFactor * 250);
 </script>
 
 <svg
@@ -171,7 +172,7 @@
 
     .ignored {
         animation-name: shake;
-        animation-duration: calc(var(--animation-factor) * 0.25s);
+        animation-duration: calc(var(--animation-factor) * 250ms);
         animation-iteration-count: 1;
     }
 
