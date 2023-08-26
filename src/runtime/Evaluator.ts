@@ -51,9 +51,9 @@ export const MAX_CALL_STACK_DEPTH = 256;
 export const MAX_STEP_COUNT = 262144;
 
 // Don't let source values take more than 256 MB of memory.
-// One memory unit is probably an average of about 64 bytes, given how much
+// One memory unit is probably an average of about 128 bytes, given how much
 // provenance we store per value.
-export const MAX_SOURCE_VALUE_SIZE = 1048576;
+export const MAX_SOURCE_VALUE_SIZE = 52428;
 
 export enum Mode {
     Play,
@@ -159,6 +159,7 @@ export default class Evaluator {
     /**
      * An execution history, mapping Expressions to the sequence of values they have produced.
      * Used for avoiding reevaluation, as well as the front end for debugging.
+     * It's reset on every evaluation.
      */
     values: Map<Expression, IndexedValue[]> = new Map();
 

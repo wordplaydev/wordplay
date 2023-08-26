@@ -142,7 +142,7 @@
         if (originalTextValue === undefined) return;
 
         // Reset the cache for proper layout.
-        phrase._metrics = undefined;
+        phrase.resetMetrics();
 
         if (event.currentTarget.selectionStart !== null)
             select(event.currentTarget.selectionStart);

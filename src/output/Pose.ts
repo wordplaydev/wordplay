@@ -37,6 +37,8 @@ export default class Pose extends Output {
     readonly flipx?: boolean;
     readonly flipy?: boolean;
 
+    private _description: string | undefined = undefined;
+
     constructor(
         value: Value,
         color?: Color,
@@ -73,17 +75,20 @@ export default class Pose extends Output {
     }
 
     getDescription(locales: Locale[]) {
-        return concretize(
-            locales[0],
-            locales[0].output.Pose.description,
-            this.opacity !== 1 ? this.opacity : undefined,
-            this.rotation !== undefined && this.rotation % 360
-                ? this.rotation
-                : undefined,
-            this.scale !== 1 ? this.scale : undefined,
-            this.flipx,
-            this.flipy
-        ).toText();
+        if (this._description === undefined) {
+            this._description = concretize(
+                locales[0],
+                locales[0].output.Pose.description,
+                this.opacity !== 1 ? this.opacity : undefined,
+                this.rotation !== undefined && this.rotation % 360
+                    ? this.rotation
+                    : undefined,
+                this.scale !== 1 ? this.scale : undefined,
+                this.flipx,
+                this.flipy
+            ).toText();
+        }
+        return this._description;
     }
 
     /** True if this pose's values equal the given pose's. */

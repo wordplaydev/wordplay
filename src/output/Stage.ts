@@ -39,6 +39,8 @@ export default class Stage extends TypeOutput {
     readonly frame: Shape | undefined;
     readonly back: Color;
 
+    private _description: string | undefined = undefined;
+
     constructor(
         value: Value,
         content: (TypeOutput | null)[],
@@ -141,13 +143,16 @@ export default class Stage extends TypeOutput {
     }
 
     getDescription(locales: Locale[]) {
-        return concretize(
-            locales[0],
-            locales[0].output.Stage.description,
-            this.content.length,
-            this.frame?.getDescription(locales[0]),
-            this.pose.getDescription(locales)
-        ).toText();
+        if (this._description === undefined) {
+            this._description = concretize(
+                locales[0],
+                locales[0].output.Stage.description,
+                this.content.length,
+                this.frame?.getDescription(locales[0]),
+                this.pose.getDescription(locales)
+            ).toText();
+        }
+        return this._description;
     }
 
     isEmpty() {

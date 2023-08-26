@@ -33,6 +33,8 @@ export default class Group extends TypeOutput {
     readonly content: (TypeOutput | null)[];
     readonly layout: Arrangement;
 
+    private _description: string | undefined = undefined;
+
     constructor(
         value: Value,
         layout: Arrangement,
@@ -105,12 +107,15 @@ export default class Group extends TypeOutput {
     }
 
     getDescription(locales: Locale[]) {
-        return concretize(
-            locales[0],
-            locales[0].output.Group.description,
-            this.layout.getDescription(this.content, locales),
-            this.pose.getDescription(locales)
-        ).toText();
+        if (this._description === undefined) {
+            this._description = concretize(
+                locales[0],
+                locales[0].output.Group.description,
+                this.layout.getDescription(this.content, locales),
+                this.pose.getDescription(locales)
+            ).toText();
+        }
+        return this._description;
     }
 
     isEmpty() {

@@ -25,7 +25,7 @@ export default class Token extends Node {
 
         this.types = Array.isArray(types) ? types : [types];
 
-        // Ensure tokens are canonically structred. from a unicode perspective.
+        // Ensure tokens are canonically structured from a unicode perspective.
         this.text =
             text instanceof UnicodeString ? text : new UnicodeString(text);
 

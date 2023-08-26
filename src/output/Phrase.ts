@@ -45,7 +45,9 @@ export type Metrics = {
 export default class Phrase extends TypeOutput {
     readonly text: TextLang[] | MarkupValue;
 
-    _metrics: Metrics | undefined = undefined;
+    private _metrics: Metrics | undefined = undefined;
+
+    private _description: string | undefined = undefined;
 
     constructor(
         value: StructureValue,
@@ -96,6 +98,10 @@ export default class Phrase extends TypeOutput {
         return (this.value as StructureValue).resolve(
             (this.value as StructureValue).type.inputs[0].names
         );
+    }
+
+    resetMetrics() {
+        this._metrics = undefined;
     }
 
     getMetrics(context: RenderContext, parsed = true) {
@@ -213,21 +219,24 @@ export default class Phrase extends TypeOutput {
     }
 
     getDescription(locales: Locale[]) {
-        const textOrDoc = this.getLocalizedTextOrDoc(locales);
-        const text =
-            textOrDoc instanceof TextLang
-                ? textOrDoc.text
-                : textOrDoc?.toText() ?? '';
+        if (this._description === undefined) {
+            const textOrDoc = this.getLocalizedTextOrDoc(locales);
+            const text =
+                textOrDoc instanceof TextLang
+                    ? textOrDoc.text
+                    : textOrDoc?.toText() ?? '';
 
-        return concretize(
-            locales[0],
-            locales[0].output.Phrase.description,
-            text,
-            this.name instanceof TextLang ? this.name.text : undefined,
-            this.size,
-            this.face,
-            this.pose.getDescription(locales)
-        ).toText();
+            this._description = concretize(
+                locales[0],
+                locales[0].output.Phrase.description,
+                text,
+                this.name instanceof TextLang ? this.name.text : undefined,
+                this.size,
+                this.face,
+                this.pose.getDescription(locales)
+            ).toText();
+        }
+        return this._description;
     }
 
     isEmpty() {
