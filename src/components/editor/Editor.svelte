@@ -868,7 +868,7 @@
         }
 
         // Otherwise, choose the last position if nothing else matches.
-        return source.getTokenLastPosition(source.expression.end);
+        return source.getCode().getLength();
     }
 
     function getInsertionPointsAt(event: PointerEvent) {
@@ -1194,8 +1194,6 @@
         if (evaluator === undefined) return;
         if (editor === null) return;
 
-        const startTime = Date.now();
-
         // Assume we'll handle it.
         lastKeyDownIgnored = false;
 
@@ -1231,10 +1229,6 @@
             // Prevent default keyboard commands from being otherwise handled.
             event.preventDefault();
             event.stopPropagation();
-
-            tick().then(() =>
-                console.log(`Round trip: ${Date.now() - startTime}`)
-            );
         }
         // Give feedback that we didn't execute a command.
         else if (!/^(Shift|Control|Alt|Meta|Tab)$/.test(event.key))

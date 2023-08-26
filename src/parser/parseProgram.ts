@@ -1,4 +1,3 @@
-import Token from '@nodes/Token';
 import Sym from '@nodes/Sym';
 import Program from '@nodes/Program';
 import Borrow from '@nodes/Borrow';
@@ -24,9 +23,7 @@ export default function parseProgram(tokens: Tokens, doc = false): Program {
 
     // If the next token is the end, we're done! Otherwise, read all of the remaining
     // tokens and bundle them into an unparsable.
-    const end = tokens.nextIsEnd()
-        ? tokens.read(Sym.End)
-        : new Token('', Sym.End);
+    const end = tokens.nextIsEnd() ? tokens.read(Sym.End) : undefined;
 
     return new Program(docs, borrows, block, end);
 }

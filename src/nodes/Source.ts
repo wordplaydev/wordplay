@@ -276,7 +276,7 @@ export default class Source extends Expression {
         // Tokenize the new text
         const tokenList = tokenize(newCode);
         const newTokens = tokenList.getTokens();
-        const spaces = tokenList.getSpaces();
+        const newSpaces = tokenList.getSpaces();
 
         // Make a mutable list of the old tokens
         const oldTokens = [...this.tokens];
@@ -284,16 +284,18 @@ export default class Source extends Expression {
         const removed: Token[] = [];
 
         // Scan through the new tokens, reusing as many tokens as possible.
+        // let reused = 0;
         for (let i = 0; i < newTokens.length; i++) {
             const newToken = newTokens[i];
             // Search the existing tokens for a match, and if we find one, discard everything prior
             const index = oldTokens.findIndex((old) => old.isEqualTo(newToken));
             if (index >= 0) {
+                // reused++;
                 const oldToken = oldTokens[index];
                 // Replace the new token with the old token
                 newTokens[i] = oldToken;
                 // Point the new spaces to the old token
-                spaces.replace(newToken, oldToken);
+                newSpaces.replace(newToken, oldToken);
                 // Remember what we're about to remove
                 for (let j = 0; j < index; j++) removed.push(oldTokens[j]);
                 // Rid of all the tokens prior to the reused one, since they're obsolete.
@@ -304,10 +306,13 @@ export default class Source extends Expression {
             }
         }
 
+        // FOR DEBUGGING
+        // console.log(`${reused}/${newTokens.length} tokens reused`);
+
         // Try to reuse as many Nodes as possible by parsing the program with revised tokens, then identifying
         // subtrees that are equivalent in the old and new tree, then recycling them in the new tree. Equivalence is defined as any node
         // that has an referentially identical sequence of Tokens and is of the same type.
-        let newProgram = parseProgram(new Tokens(newTokens, spaces));
+        let newProgram = parseProgram(new Tokens(newTokens, newSpaces));
 
         // Make an empty list of replacements.
         const replacements: [Node, Node][] = [];
@@ -350,6 +355,14 @@ export default class Source extends Expression {
                 // Remember the replacement.
                 replacements.push([match, newNode]);
             }
+            // FOR DEBUGGING
+            // else {
+            //     console.log(
+            //         `Couldn't find match for ${
+            //             newNode.constructor.name
+            //         } ${newNode.toWordplay()}`
+            //     );
+            // }
         }
 
         // If we found old subtrees to preserve, replace them in the new tree.
@@ -361,8 +374,16 @@ export default class Source extends Expression {
             }
         }
 
+        // FOR DEBUGGING
+        // const original = this.expression.traverseTopDown();
+        // const revised = newProgram.traverseTopDown();
+        // const news = revised.filter((n) => !original.includes(n));
+        // console.log(`${news.length} new nodes`);
+        // for (const node of news)
+        //     console.log(node.constructor.name + ' ' + node.toWordplay());
+
         // Otherwise, reparse the program with the reused tokens and return a new source file
-        return new Source(this.names, [newProgram, spaces]);
+        return new Source(this.names, [newProgram, newSpaces]);
     }
 
     withCode(code: string) {

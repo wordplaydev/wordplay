@@ -32,13 +32,13 @@ export default class Program extends Expression {
     readonly docs?: Docs;
     readonly borrows: Borrow[];
     readonly expression: Block;
-    readonly end: Token;
+    readonly end: Token | undefined;
 
     constructor(
         docs: Docs | undefined,
         borrows: Borrow[],
         expression: Block,
-        end: Token
+        end: Token | undefined
     ) {
         super();
 
@@ -64,7 +64,7 @@ export default class Program extends Expression {
             { name: 'docs', kind: optional(node(Docs)) },
             { name: 'borrows', kind: list(node(Borrow)) },
             { name: 'expression', kind: node(Block) },
-            { name: 'end', kind: node(Sym.End) },
+            { name: 'end', kind: optional(node(Sym.End)) },
         ];
     }
 
@@ -176,11 +176,11 @@ export default class Program extends Expression {
     }
 
     getStart() {
-        return this.getFirstLeaf() ?? this.end;
+        return this.getFirstLeaf() ?? this.expression;
     }
 
     getFinish() {
-        return this.end;
+        return this.end ?? this.expression;
     }
 
     getNodeLocale(translation: Locale) {
