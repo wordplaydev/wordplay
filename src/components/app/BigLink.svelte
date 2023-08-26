@@ -4,7 +4,7 @@
     export let to: string;
 </script>
 
-<div><Link {to}><span class="big"><slot /></span></Link></div>
+<p><Link {to}><span class="big"><slot /></span></Link></p>
 
 <style>
     .big {

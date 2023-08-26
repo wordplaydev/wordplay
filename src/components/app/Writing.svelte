@@ -20,6 +20,6 @@
     }
 
     :global(p:not(:last-of-type)) {
-        margin-block-end: 2em;
+        margin-block-end: 1em;
     }
 </style>
