@@ -835,7 +835,7 @@ export default class Evaluator {
             if (this.evaluations.length > 0) {
                 this.evaluations[0].pushValue(value);
                 // Remember the value that was evaluated.
-                this.saveExpressionValue(evaluation.getCreator(), value);
+                this.rememberExpressionValue(evaluation.getCreator(), value);
             }
             // Otherwise, save the value and clean up this final evaluation; nothing left to do!
             else this.end();
@@ -1358,12 +1358,17 @@ export default class Evaluator {
         }
     }
 
-    saveExpressionValue(expression: Expression, value: Value) {
-        // Remember the value it computed in the value history, if we haven't already recorded a value for this step index.
-        const list = this.values.get(expression) ?? [];
+    rememberExpressionValue(expression: Expression, value: Value) {
+        // Get the remembered values for this expression, and the current step we're on.
+        let list = this.values.get(expression);
+        if (list === undefined) {
+            list = [];
+            this.values.set(expression, list);
+        }
         const index = this.getStepIndex();
-        // If the list doesn't have a value for this index, save it.
-        if (!list.some((v) => v.stepNumber === index)) {
+
+        // If we haven't stored any values yet, or the most recent vvalue is before the current index, remember it.
+        if (list.length === 0 || list[list.length - 1].stepNumber < index) {
             list.push({ value: value, stepNumber: index });
             this.values.set(expression, list);
         }

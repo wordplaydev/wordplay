@@ -34,8 +34,8 @@ export function finish(evaluator: Evaluator, expr: Expression) {
     // Otherwise, finish evaluating.
     const value = expr.evaluate(evaluator, undefined);
 
-    // Notify the evaluator that we finished this evaluation.
-    evaluator.saveExpressionValue(expr, value);
+    // Ask the evaluator to remember the value we computed.
+    evaluator.rememberExpressionValue(expr, value);
 
     return value;
 }
