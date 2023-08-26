@@ -31,6 +31,13 @@ test.each([
         '2',
         '4',
     ],
+    // Ensure that reactions are evaluated by count, just like other reactions.
+    [
+        `time: Time()\n['hi' 'ho'].translate(ƒ(val) val … ∆ time … 'no')`,
+        makeOne,
+        '["hi" "ho"]',
+        '["no" "no"]',
+    ],
 ])(
     'React to %s',
     (
@@ -51,7 +58,7 @@ test.each([
         expect(actualInitial?.toString()).toBe(expectedInitial);
 
         // Add the given value to the stream
-        const stream = Array.from(evaluator.basisStreams.values())[0][0];
+        const stream = Array.from(evaluator.streamsByCreator.values())[0][0];
         expect(stream).not.toBeUndefined();
         stream?.add(value(source), null);
 

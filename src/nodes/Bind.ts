@@ -39,8 +39,7 @@ import type Locale from '@locale/Locale';
 import NodeRef from '@locale/NodeRef';
 import Glyphs from '../lore/Glyphs';
 import Purpose from '../concepts/Purpose';
-import type { EvaluationNode } from '@runtime/Evaluation';
-import type Reaction from './Reaction';
+import Reaction from './Reaction';
 import Evaluate from './Evaluate';
 import FunctionType from './FunctionType';
 import concretize from '../locale/concretize';
@@ -574,15 +573,14 @@ export default class Bind extends Expression {
                       // a stream, and if so, bind this Bind's names to the previous value. This allows
                       // for stream-based recurrence relations, where a stream or reaction's future values can be
                       // affected by their past values.
-                      if (this.value) {
-                          const stream =
-                              evaluator.getBasisStreamFor(
-                                  this.value as EvaluationNode,
-                                  true
-                              ) ??
-                              evaluator.reactionStreams.get(
-                                  this.value as Reaction
-                              );
+                      if (
+                          this.value instanceof Evaluate ||
+                          this.value instanceof Reaction
+                      ) {
+                          const stream = evaluator.getStreamFor(
+                              this.value,
+                              true
+                          );
                           const latest = stream?.latest();
                           if (latest) evaluator.bind(this.names, latest);
                       }

@@ -4,7 +4,6 @@ import Evaluation, {
     type DefinitionNode,
     type EvaluationNode,
 } from './Evaluation';
-import ReactionStream from '../values/ReactionStreamValue';
 import type StreamValue from '../values/StreamValue';
 import Value from '../values/Value';
 import ExceptionValue from '../values/ExceptionValue';
@@ -36,6 +35,7 @@ import Evaluate from '../nodes/Evaluate';
 
 import NumberGenerator from 'recoverable-random';
 import type { Database } from '../db/Database';
+import ReactionStream from '../values/ReactionStream';
 
 /** Anything that wants to listen to changes in the state of this evaluator */
 export type EvaluationObserver = () => void;
@@ -45,6 +45,7 @@ export type StreamChange = {
     changes: StreamValueChange[];
     stepIndex: number;
 };
+export type StreamCreator = Evaluate | Reaction;
 export type IndexedValue = { value: Value | undefined; stepNumber: StepNumber };
 export const MAX_CALL_STACK_DEPTH = 256;
 export const MAX_STEP_COUNT = 262144;
@@ -132,21 +133,19 @@ export default class Evaluator {
     #replayingInputs = false;
 
     /**
-     * All of the basis streams created while evaluating the program.
+     * All of the streams created while evaluating the program, including basis ones and reactions.
      * Each node gets a list of streams because multiple evaluations of the
      * node in a single evaluation generates a distinct stream for each evaluation.
-     * They are uniquely identified by the index of their creation.
+     * They are uniquely identified by counting each evaluation, and using that count to associate
+     * future evaluations with their corresponding histories.
      * We keep an index of counts during evaluation in order to do this mapping.
      * */
-    basisStreams: Map<EvaluationNode, StreamValue[]> = new Map();
-    basisStreamEvaluationCount: Map<EvaluationNode, number> = new Map();
-    evaluateByStream: Map<StreamValue, EvaluationNode> = new Map();
+    streamsByCreator: Map<StreamCreator, StreamValue[]> = new Map();
+    streamCreatorCount: Map<StreamCreator, number> = new Map();
+    creatorByStream: Map<StreamValue, StreamCreator> = new Map();
 
     /** A derived cache of temporal streams, to avoid having to look them up. */
-    basisTemporalStreams: TemporalStreamValue<Value, unknown>[] = [];
-
-    /** A mapping from Reaction nodes in the program to the streams they are listening to. */
-    reactionStreams: Map<Reaction, StreamValue> = new Map();
+    temporalStreams: TemporalStreamValue<Value, unknown>[] = [];
 
     /** A set of possible execution modes, defaulting to play. */
     mode: Mode = Mode.Play;
@@ -231,7 +230,7 @@ export default class Evaluator {
         this.sourceValueSize = 0;
 
         // Clear the stream mapping
-        this.basisStreams = new Map();
+        this.streamsByCreator = new Map();
 
         // Tell everyone.
         this.broadcast();
@@ -308,7 +307,7 @@ export default class Evaluator {
                         // );
                         break;
                     }
-                    const streams = this.basisStreams.get(evaluate);
+                    const streams = this.streamsByCreator.get(evaluate);
 
                     // Couldn't find a corresponding list of streams associated with this node? Stop here.
                     if (streams === undefined) {
@@ -602,7 +601,7 @@ export default class Evaluator {
         this.streamsResolved.clear();
 
         // Reset the stream evaluation count
-        this.basisStreamEvaluationCount.clear();
+        this.streamCreatorCount.clear();
 
         // Notify listeners.
         if (broadcast) this.broadcast();
@@ -688,7 +687,7 @@ export default class Evaluator {
 
     stopStreams() {
         // Stop all basis streams.
-        for (const streams of this.basisStreams.values()) {
+        for (const streams of this.streamsByCreator.values()) {
             for (const stream of streams) stream.stop();
         }
     }
@@ -1027,32 +1026,6 @@ export default class Evaluator {
         );
     }
 
-    /**
-     * True if the given node has a stream yet. Time-dependent, so it returns false
-     * even if there is a stream, but the stream's first value was after the curren time.
-     * */
-    hasReactionStream(reaction: Reaction) {
-        const stream = this.reactionStreams.get(reaction);
-        return stream && stream.getFirstStepIndex() < this.getStepIndex();
-    }
-
-    getReactionStreamLatest(reaction: Reaction): Value | undefined {
-        return this.reactionStreams.get(reaction)?.latest();
-    }
-
-    addToReactionStream(reaction: Reaction, value: Value) {
-        // If in the past, do nothing, since we're just reusing historical values.
-        // Otherwise, add the value or create the stream if it doesn't yet exist.
-        if (!this.isInPast()) {
-            const stream = this.reactionStreams.get(reaction);
-            if (stream) stream.add(value, null);
-            else {
-                const newStream = new ReactionStream(this, reaction, value);
-                this.reactionStreams.set(reaction, newStream);
-            }
-        }
-    }
-
     getStreamResolved(value: Value): StreamValue | undefined {
         const stream = this.streamsResolved.get(value);
 
@@ -1075,39 +1048,38 @@ export default class Evaluator {
         type: new (...params: never[]) => Kind
     ) {
         // Make a big list of all the streams and filter by the ones of the given type.
-        return Array.from(this.basisStreams.values())
+        return Array.from(this.streamsByCreator.values())
             .reduce((streams, list) => streams.concat(list), [])
             .filter((stream): stream is Kind => stream instanceof type);
     }
 
     /** Called by stream definitions to identify previously created streams to which an evaluation should correspond. */
-    incrementBasisStreamEvaluationCount(evaluate: EvaluationNode) {
+    incrementStreamEvaluationCount(evaluate: StreamCreator) {
         // Set or increment the evaluation count.
-        const count = this.basisStreamEvaluationCount.get(evaluate) ?? 0;
-        this.basisStreamEvaluationCount.set(evaluate, count + 1);
+        const count = this.streamCreatorCount.get(evaluate) ?? 0;
+        this.streamCreatorCount.set(evaluate, count + 1);
     }
 
-    /** Set before to true if this request is happening just before a stream is evaluated */
-    getBasisStreamFor(
-        evaluate: EvaluationNode,
+    /** Given a stream creator, find the corresponding stream value. */
+    getStreamFor(
+        creator: StreamCreator,
         before = false
     ): StreamValue | undefined {
-        const streams = this.basisStreams.get(evaluate);
+        const streams = this.streamsByCreator.get(creator);
         const count =
-            (this.basisStreamEvaluationCount.get(evaluate) ?? 0) +
-            (before ? 1 : 0);
+            (this.streamCreatorCount.get(creator) ?? 0) + (before ? 1 : 0);
 
         return streams === undefined || count === 0
             ? undefined
             : streams[count - 1];
     }
 
-    addBasisStreamFor(evaluate: EvaluationNode, stream: StreamValue): void {
-        const streams = this.basisStreams.get(evaluate) ?? [];
+    addStreamFor(evaluate: StreamCreator, stream: StreamValue): void {
+        const streams = this.streamsByCreator.get(evaluate) ?? [];
 
         // Remember the mapping bidirectionally
-        this.basisStreams.set(evaluate, [...streams, stream]);
-        this.evaluateByStream.set(stream, evaluate);
+        this.streamsByCreator.set(evaluate, [...streams, stream]);
+        this.creatorByStream.set(stream, evaluate);
 
         // Start the stream if this is reactive. Otherwise, we just take it's initial value.
         if (this.reactive) stream.start();
@@ -1118,7 +1090,7 @@ export default class Evaluator {
         // If it's a temporal stream and we haven't already started a loop, start one.
         // Ensure we only start one by having an animation flag.
         if (stream instanceof TemporalStreamValue) {
-            this.basisTemporalStreams.push(stream);
+            this.temporalStreams.push(stream);
             // If we haven't yet started a loop, start one.
             if (
                 !this.animating &&
@@ -1129,6 +1101,14 @@ export default class Evaluator {
                 window.requestAnimationFrame(this.tick.bind(this));
             }
         }
+    }
+
+    createReactionStream(reaction: Reaction, value: Value) {
+        if (!this.isInPast())
+            this.addStreamFor(
+                reaction,
+                new ReactionStream(this, reaction, value)
+            );
     }
 
     getRandom() {
@@ -1155,7 +1135,7 @@ export default class Evaluator {
                         "Hmmm, something is modifying temporal streams outside of the Evaluator's control. Tsk tsk!"
                     );
                 // Tick each one, indirectly filling this.temporalReactions.
-                for (const stream of this.basisTemporalStreams)
+                for (const stream of this.temporalStreams)
                     stream.tick(time, delta, this.timeMultiplier);
 
                 // Now reevaluate with all of the temporal stream updates.
@@ -1183,13 +1163,15 @@ export default class Evaluator {
     react(stream: StreamValue, raw: unknown, silent: boolean) {
         if (!(stream instanceof Reaction)) {
             // Find the evaluate to which it corresponds.
-            const evaluate = this.evaluateByStream.get(stream);
+            const evaluate = this.creatorByStream.get(stream);
             if (evaluate === undefined)
                 console.error(
                     "Warning: received a stream change that doesn't correspond to an evaluate. There must be a defect somewhere."
                 );
             else {
-                const number = this.basisStreams.get(evaluate)?.indexOf(stream);
+                const number = this.streamsByCreator
+                    .get(evaluate)
+                    ?.indexOf(stream);
                 const root = this.project.getRoot(evaluate);
                 if (root === undefined)
                     console.error(

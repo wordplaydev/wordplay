@@ -21,7 +21,7 @@
                 ?.getParent(node);
             stream =
                 parent instanceof Evaluate
-                    ? $evaluation.evaluator.getBasisStreamFor(parent)
+                    ? $evaluation.evaluator.getStreamFor(parent)
                     : undefined;
         }
     }

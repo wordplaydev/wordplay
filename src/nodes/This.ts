@@ -137,7 +137,7 @@ export default class This extends SimpleExpression {
             ?.getAncestors(this)
             .find((n) => n instanceof Reaction) as Reaction | undefined;
         if (reaction) {
-            const latestValue = evaluator.getReactionStreamLatest(reaction);
+            const latestValue = evaluator.getStreamFor(reaction)?.latest();
             return latestValue ?? new ValueException(evaluator, reaction);
         }
 

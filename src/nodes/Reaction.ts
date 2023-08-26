@@ -199,6 +199,10 @@ export default class Reaction extends Expression {
                     streams: new Set(),
                 });
 
+                // Notify the evaluator that we're evaluating a stream so it can keep
+                // track of the number of types the node has evaluated, identifying individual streams.
+                evaluator.incrementStreamEvaluationCount(this);
+
                 return undefined;
             }),
             // Then evaluate the condition.
@@ -226,14 +230,18 @@ export default class Reaction extends Expression {
                               evaluator.didStreamCauseReaction(stream)
                           );
 
-                // If this reaction already has a stream
-                if (evaluator.hasReactionStream(this)) {
+                // See if there's a stream created for this.
+                const stream = evaluator.getStreamFor(this);
+
+                // If this reaction already has a stream, see if the change expression was true, and if
+                // so evaluate the next step.
+                if (stream) {
                     // if the condition was true and a dependency changed, jump to the next step.
                     if (changed && value.bool)
                         evaluator.jump(initialSteps.length + 1);
                     // If it was false, push the last reaction value and skip the rest.
                     else {
-                        const latest = evaluator.getReactionStreamLatest(this);
+                        const latest = stream.latest();
                         if (latest === undefined)
                             return new ValueException(evaluator, this);
                         evaluator.pushValue(latest);
@@ -265,10 +273,23 @@ export default class Reaction extends Expression {
         // that is either the initial value for this reaction's stream or a new value.
         if (streamValue instanceof ExceptionValue) return streamValue;
 
-        // If the stream's value is different from the latest value, add it.
-        const latest = evaluator.getReactionStreamLatest(this);
-        if (latest !== streamValue)
-            evaluator.addToReactionStream(this, streamValue);
+        // Let's find the stream corresponding to this reaction, if there is one.
+        const stream = evaluator.getStreamFor(this);
+
+        // If we found one...
+        if (stream) {
+            // Find the stream's latest value.
+            const latest = stream.latest();
+            // If the stream's value is different from the latest value, that means that the change expression was true, and we have a new value.
+            // We'll add the new value to the existing stream, silently.
+            if (latest !== streamValue) {
+                stream.add(streamValue, null, true);
+            }
+        }
+        // If we didn't find one, we'll create a reaction stream with the initial value.
+        else {
+            evaluator.createReactionStream(this, streamValue);
+        }
 
         // Return the value we computed.
         return streamValue;
