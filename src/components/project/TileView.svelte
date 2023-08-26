@@ -175,7 +175,7 @@
         class="tile {resizeDirection
             ? `resize-${resizeDirection}`
             : ''} {arrangement} {tile.id} {tile.id.startsWith('source')
-            ? 'editor'
+            ? 'editor-viewport'
             : ''}"
         class:fullscreen
         class:dragging

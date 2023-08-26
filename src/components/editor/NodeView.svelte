@@ -122,27 +122,30 @@
         display: inline-block;
         vertical-align: baseline;
         padding: calc(var(--wordplay-spacing) / 3);
-        border: var(--wordplay-border-width) solid var(--wordplay-border-color);
         border-start-start-radius: 0;
         border-start-end-radius: var(--wordplay-border-radius);
         border-end-end-radius: var(--wordplay-border-radius);
         border-end-start-radius: 0;
         padding: calc(var(--wordplay-spacing) / 2);
-        box-shadow: var(--color-shadow) 1px 1px;
+        box-shadow: var(--color-shadow) 1px 1px 4px;
         cursor: default;
     }
 
     .evaluate {
         background: var(--color-light-blue);
     }
-    .evaluate:hover:not(.dragged):not(:has(.node-view:hover)) {
+
+    :global(.editor:not(.dragging))
+        .evaluate:hover:not(:has(.node-view:hover)) {
         outline: var(--wordplay-focus-width) solid var(--color-blue);
     }
 
     .definition {
         background: var(--color-light-purple);
     }
-    .definition:hover:not(.dragged):not(:has(.node-view:hover)) {
+
+    :global(.editor:not(.dragging))
+        .definition:hover:not(:has(.node-view:hover)) {
         outline: var(--wordplay-focus-width) solid var(--color-purple);
     }
 
@@ -157,7 +160,7 @@
 
     /* When beginning dragged in an editor, hide the node view contents to create a sense of spatial integrity. */
     .dragged :global(.token-view) {
-        opacity: 0;
+        opacity: 0.25;
     }
 
     .dragged,
