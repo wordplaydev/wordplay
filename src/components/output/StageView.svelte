@@ -63,6 +63,20 @@
     let mounted = false;
     onMount(() => (mounted = true));
 
+    /** Here we keep track of whether the stage has not been rerendered for some period of time.
+     * We use this as an optimization, only rendering expensive templated aria-labels for Group and Phrase views
+     * when the screen is still, since someone with a screen reader wouldn't be able to track something changing any faster.
+     */
+    let stillTimeout: NodeJS.Timeout | undefined = undefined;
+    let still = false;
+    $: if (stage) {
+        if (stillTimeout) clearTimeout(stillTimeout);
+        stillTimeout = setTimeout(() => {
+            still = true;
+            console.log('Still');
+        }, 300);
+    }
+
     /** The list of visible phrases */
     let exiting: OutputInfoSet;
 
@@ -73,7 +87,7 @@
 
     /** A description of phrases that have entered the scene */
     $: enteredDescription =
-        entered.size > 0
+        still && entered.size > 0
             ? Array.from(entered.values())
                   .filter(
                       (output): output is Phrase => output instanceof Phrase
@@ -85,48 +99,50 @@
     /** A description of non-entering phrases that changed text */
     let changedDescription = '';
     $: {
-        const changed: string[] = [];
-        for (const [name, output] of present.entries()) {
-            if (output instanceof Phrase) {
-                const previous =
-                    previouslyPresent === undefined
-                        ? undefined
-                        : previouslyPresent.get(name);
-                if (!entered.has(name)) {
-                    const previousText = previous
-                        ?.getDescription($locales)
-                        .toString();
-                    const currentText = output
-                        .getDescription($locales)
-                        .toString();
-                    if (
-                        previousText !== currentText &&
-                        typeof currentText === 'string'
-                    ) {
-                        const sequence =
-                            output.resting instanceof Sequence
-                                ? output.resting
+        if (still) {
+            const changed: string[] = [];
+            for (const [name, output] of present.entries()) {
+                if (output instanceof Phrase) {
+                    const previous =
+                        previouslyPresent === undefined
+                            ? undefined
+                            : previouslyPresent.get(name);
+                    if (!entered.has(name)) {
+                        const previousText = previous
+                            ?.getDescription($locales)
+                            .toString();
+                        const currentText = output
+                            .getDescription($locales)
+                            .toString();
+                        if (
+                            previousText !== currentText &&
+                            typeof currentText === 'string'
+                        ) {
+                            const sequence =
+                                output.resting instanceof Sequence
+                                    ? output.resting
+                                    : undefined;
+                            const sequenceDescription = sequence
+                                ? sequence.value.creator instanceof Evaluate &&
+                                  sequence.value.creator.inputs[0] instanceof
+                                      Evaluate &&
+                                  sequence.value.creator.inputs[0]
+                                      .fun instanceof Reference
+                                    ? sequence.value.creator.inputs[0].fun.getName()
+                                    : ''
                                 : undefined;
-                        const sequenceDescription = sequence
-                            ? sequence.value.creator instanceof Evaluate &&
-                              sequence.value.creator.inputs[0] instanceof
-                                  Evaluate &&
-                              sequence.value.creator.inputs[0].fun instanceof
-                                  Reference
-                                ? sequence.value.creator.inputs[0].fun.getName()
-                                : ''
-                            : undefined;
-                        changed.push(
-                            currentText +
-                                (sequenceDescription
-                                    ? ` ${sequenceDescription} animation`
-                                    : '')
-                        );
+                            changed.push(
+                                currentText +
+                                    (sequenceDescription
+                                        ? ` ${sequenceDescription} animation`
+                                        : '')
+                            );
+                        }
                     }
                 }
             }
+            changedDescription = changed.length > 0 ? changed.join(', ') : '';
         }
-        changedDescription = changed.length > 0 ? changed.join(', ') : '';
     }
 
     /** The verse focus that fits the content to the view*/
@@ -327,6 +343,7 @@
             {context}
             {interactive}
             {editing}
+            {still}
         >
             {#if grid}
                 {@const left = Math.min(
@@ -384,6 +401,7 @@
                         parentAscent={0}
                         {context}
                         {editing}
+                        {still}
                     />
                 {:else if info.output instanceof Group}
                     <GroupView
@@ -394,6 +412,7 @@
                         {interactive}
                         {context}
                         {editing}
+                        {still}
                     />
                 {/if}
             {/each}

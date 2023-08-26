@@ -31,6 +31,7 @@
     export let parentAscent: number;
     export let context: RenderContext;
     export let editing: boolean;
+    export let still: boolean;
 
     const selectedOutput = getSelectedOutput();
     const selectedPhrase = getSelectedPhrase();
@@ -164,7 +165,7 @@
         role={selectable ? 'button' : 'presentation'}
         aria-hidden={empty ? 'true' : null}
         aria-disabled={!selectable}
-        aria-label={phrase.getDescription($locales)}
+        aria-label={still ? phrase.getDescription($locales) : null}
         aria-roledescription={!selectable ? $locale.term.phrase : null}
         class="output phrase"
         class:selected

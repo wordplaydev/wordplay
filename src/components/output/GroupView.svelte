@@ -29,6 +29,7 @@
     export let parentAscent: number;
     export let context: RenderContext;
     export let editing: boolean;
+    export let still: boolean;
 
     $: root = viewport !== undefined;
 
@@ -56,7 +57,7 @@
 
 <div
     role={!group.selectable ? 'presentation' : 'group'}
-    aria-label={group.getDescription($locales)}
+    aria-label={still ? group.getDescription($locales) : null}
     aria-roledescription={group instanceof Group
         ? $locale.term.group
         : $locale.term.stage}
@@ -102,6 +103,7 @@
                 parentAscent={root ? 0 : layout.height}
                 {context}
                 {editing}
+                {still}
             />
         {:else}
             <svelte:self
