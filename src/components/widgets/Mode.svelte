@@ -11,7 +11,7 @@
 </script>
 
 <div class="mode">
-    <label for={descriptions.label}>{descriptions.label}</label>
+    {descriptions.label}
     <div class="group" role="radiogroup" aria-labelledby={descriptions.label}>
         {#each modes as mode, index}
             <button
