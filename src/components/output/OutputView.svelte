@@ -91,7 +91,10 @@
         !mini &&
         $evaluation?.playing === true &&
         $keyboardEditIdle === IdleKind.Typing;
-    $: background = stageValue?.background ?? null;
+    $: background =
+        value instanceof ExceptionValue
+            ? 'var(--wordplay-error)'
+            : stageValue?.background ?? null;
 
     let keyboardInputView: HTMLInputElement | undefined = undefined;
 
@@ -840,12 +843,13 @@
         width: 100%;
         height: 100%;
         overflow: hidden;
-        transition: ease-in, width ease-in, height ease-in;
+        transition: ease-in-out background-color, filter, ease-in,
+            height ease-in;
         transition-duration: calc(var(--animation-factor) * 200ms);
     }
 
     .value.typing {
-        filter: blur(4px);
+        filter: blur(1em);
     }
 
     .mini {
