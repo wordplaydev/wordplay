@@ -19,7 +19,7 @@ import StartFinish from '@runtime/StartFinish';
 import Reaction from './Reaction';
 import ValueException from '@values/ValueException';
 import { node, type Grammar, type Replacement } from './Node';
-import SimpleExpression from './AtomicExpression';
+import SimpleExpression from './SimpleExpression';
 import type Locale from '@locale/Locale';
 import { UnenclosedType } from './UnenclosedType';
 import Glyphs from '../lore/Glyphs';

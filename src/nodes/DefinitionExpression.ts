@@ -1,4 +1,4 @@
-import SimpleExpression from './AtomicExpression';
+import SimpleExpression from './SimpleExpression';
 import { ExpressionKind } from './Expression';
 
 export default abstract class DefinitionExpression extends SimpleExpression {

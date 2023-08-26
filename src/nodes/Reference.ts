@@ -22,7 +22,7 @@ import StartFinish from '@runtime/StartFinish';
 import UnknownNameType from './UnknownNameType';
 import { node, type Grammar, type Replacement, ListOf } from './Node';
 import type Locale from '@locale/Locale';
-import SimpleExpression from './AtomicExpression';
+import SimpleExpression from './SimpleExpression';
 import NameException from '@values/NameException';
 import NodeRef from '@locale/NodeRef';
 import Evaluate from './Evaluate';

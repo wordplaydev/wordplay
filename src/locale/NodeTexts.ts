@@ -15,11 +15,11 @@ export type DescriptiveNodeText = NodeText & {
     description: Template;
 };
 
-export interface AtomicExpressionText {
+export interface SimpleExpressionText {
     start: Template;
 }
 
-export interface ExpressionText extends AtomicExpressionText {
+export interface ExpressionText extends SimpleExpressionText {
     finish: Template;
 }
 
@@ -42,7 +42,7 @@ export interface ExceptionText {
 type NodeTexts = {
     Dimension: DescriptiveNodeText;
     Doc: NodeText;
-    Docs: NodeText & AtomicExpressionText;
+    Docs: NodeText & SimpleExpressionText;
     KeyValue: NodeText;
     Language: DescriptiveNodeText &
         Conflicts<{
@@ -170,14 +170,14 @@ type NodeTexts = {
      * Description
      * $1: true if true, false otherwise
      */
-    BooleanLiteral: DescriptiveNodeText & AtomicExpressionText;
+    BooleanLiteral: DescriptiveNodeText & SimpleExpressionText;
     /**
      * Start
      * $1: source
      * $2: name borrowed
      */
     Borrow: DescriptiveNodeText &
-        AtomicExpressionText & {
+        SimpleExpressionText & {
             source: Template;
             bind: Template;
             version: Template;
@@ -195,7 +195,7 @@ type NodeTexts = {
      * Start
      * $1: stream that changed
      */
-    Changed: NodeText & AtomicExpressionText;
+    Changed: NodeText & SimpleExpressionText;
     /**
      * Start
      * $1: condition to check
@@ -219,7 +219,7 @@ type NodeTexts = {
             ExpectedBooleanCondition: ConflictText;
         }>;
     ConversionDefinition: DescriptiveNodeText &
-        AtomicExpressionText &
+        SimpleExpressionText &
         Conflicts<{ MisplacedConversion: InternalConflictText }>;
     /**
      * Start
@@ -250,7 +250,7 @@ type NodeTexts = {
      * $1: resulting value
      */
     Delete: NodeText & ExpressionText;
-    DocumentedExpression: NodeText & AtomicExpressionText;
+    DocumentedExpression: NodeText & SimpleExpressionText;
     /**
      * Descriptionn
      * $1: name of function being evaluated
@@ -303,7 +303,7 @@ type NodeTexts = {
      * $1: type or undefined
      */
     ExpressionPlaceholder: DescriptiveNodeText &
-        AtomicExpressionText & {
+        SimpleExpressionText & {
             placeholder: Template;
         } & Conflicts<{ Placeholder: InternalConflictText }> &
         Exceptions<{
@@ -315,7 +315,7 @@ type NodeTexts = {
      * $1: function name in locale
      */
     FunctionDefinition: DescriptiveNodeText &
-        AtomicExpressionText &
+        SimpleExpressionText &
         Conflicts<{
             NoExpression: InternalConflictText;
         }>;
@@ -356,7 +356,7 @@ type NodeTexts = {
              */
             TypeException: ExceptionText;
         }>;
-    IsLocale: DescriptiveNodeText & AtomicExpressionText;
+    IsLocale: DescriptiveNodeText & SimpleExpressionText;
     /**
      * Start
      * $1: list
@@ -387,10 +387,10 @@ type NodeTexts = {
             NotAKeyValue: ConflictText;
         }>;
     NumberLiteral: DescriptiveNodeText &
-        AtomicExpressionText &
+        SimpleExpressionText &
         Conflicts<{ NotANumber: InternalConflictText }>;
-    BasisExpression: NodeText & AtomicExpressionText;
-    NoneLiteral: NodeText & AtomicExpressionText;
+    BasisExpression: NodeText & SimpleExpressionText;
+    NoneLiteral: NodeText & SimpleExpressionText;
     /**
      * Start
      * $1: the stream expression being checked
@@ -451,7 +451,7 @@ type NodeTexts = {
      * $1: the name being resolved
      */
     Reference: DescriptiveNodeText &
-        AtomicExpressionText & {
+        SimpleExpressionText & {
             name: Template;
         } & Conflicts</** $1: The name that depends on itself */
         {
@@ -496,13 +496,13 @@ type NodeTexts = {
             IncompatibleKey: ConflictText;
         }>;
     Source: NodeText;
-    StreamDefinition: NodeText & AtomicExpressionText;
+    StreamDefinition: NodeText & SimpleExpressionText;
     /**
      * Description
      * $1: name of the structure
      */
     StructureDefinition: DescriptiveNodeText &
-        AtomicExpressionText &
+        SimpleExpressionText &
         Conflicts<{
             DisallowedInputs: InternalConflictText;
             IncompleteImplementation: InternalConflictText;
@@ -527,7 +527,7 @@ type NodeTexts = {
      * Description
      * $1: the text
      */
-    TextLiteral: DescriptiveNodeText & AtomicExpressionText;
+    TextLiteral: DescriptiveNodeText & SimpleExpressionText;
     /**
      * Description
      * $1: the text
@@ -537,7 +537,7 @@ type NodeTexts = {
      * Description
      * $1: the text
      */
-    FormattedLiteral: DescriptiveNodeText & AtomicExpressionText;
+    FormattedLiteral: DescriptiveNodeText & SimpleExpressionText;
     /**
      * Description
      * $1: the text
@@ -548,7 +548,7 @@ type NodeTexts = {
      * $1: resulting value
      */
     This: NodeText &
-        AtomicExpressionText &
+        SimpleExpressionText &
         Conflicts<{ MisplacedThis: InternalConflictText }>;
     /**
      * Description
@@ -558,7 +558,7 @@ type NodeTexts = {
      */
     UnaryEvaluate: DescriptiveNodeText & ExpressionText;
     UnparsableExpression: NodeText &
-        AtomicExpressionText &
+        SimpleExpressionText &
         Conflicts<{
             /**
              * $1: True if expression, false if type

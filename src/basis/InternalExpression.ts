@@ -8,7 +8,7 @@ import type Bind from '@nodes/Bind';
 import type Context from '@nodes/Context';
 import type TypeSet from '@nodes/TypeSet';
 import StartFinish from '@runtime/StartFinish';
-import SimpleExpression from '@nodes/AtomicExpression';
+import SimpleExpression from '@nodes/SimpleExpression';
 import type Locale from '@locale/Locale';
 import InternalException from '@values/InternalException';
 import Glyphs from '../lore/Glyphs';

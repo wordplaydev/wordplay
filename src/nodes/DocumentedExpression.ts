@@ -9,7 +9,7 @@ import type Evaluator from '@runtime/Evaluator';
 import Docs from './Docs';
 import { node, type Grammar, type Replacement } from './Node';
 import type Locale from '@locale/Locale';
-import SimpleExpression from './AtomicExpression';
+import SimpleExpression from './SimpleExpression';
 import Glyphs from '../lore/Glyphs';
 import concretize from '../locale/concretize';
 import Purpose from '../concepts/Purpose';

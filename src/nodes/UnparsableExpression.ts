@@ -11,7 +11,7 @@ import Node, { node, type Grammar, type Replacement, list } from './Node';
 import type TypeSet from './TypeSet';
 import UnparsableType from './UnparsableType';
 import type Locale from '@locale/Locale';
-import SimpleExpression from './AtomicExpression';
+import SimpleExpression from './SimpleExpression';
 import Glyphs from '../lore/Glyphs';
 import concretize from '../locale/concretize';
 import Purpose from '../concepts/Purpose';

@@ -12,7 +12,7 @@ import { INITIAL_SYMBOL } from '@parser/Symbols';
 import BoolValue from '@values/BoolValue';
 import { node, type Grammar, type Replacement } from './Node';
 import type Locale from '@locale/Locale';
-import SimpleExpression from './AtomicExpression';
+import SimpleExpression from './SimpleExpression';
 import BooleanType from './BooleanType';
 import StartFinish from '@runtime/StartFinish';
 import type Node from './Node';

@@ -8,7 +8,7 @@ import { GLOBE1_SYMBOL } from '@parser/Symbols';
 import BoolValue from '@values/BoolValue';
 import { node, type Grammar, type Replacement, optional } from './Node';
 import type Locale from '@locale/Locale';
-import SimpleExpression from './AtomicExpression';
+import SimpleExpression from './SimpleExpression';
 import BooleanType from './BooleanType';
 import Glyphs from '../lore/Glyphs';
 import Purpose from '../concepts/Purpose';

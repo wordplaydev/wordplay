@@ -33,7 +33,7 @@ import {
     optional,
 } from './Node';
 import type Locale from '@locale/Locale';
-import SimpleExpression from './AtomicExpression';
+import SimpleExpression from './SimpleExpression';
 import UnimplementedException from '@values/UnimplementedException';
 import NodeRef from '@locale/NodeRef';
 import StreamDefinition from './StreamDefinition';
