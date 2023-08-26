@@ -29,6 +29,7 @@
         writingLayout,
     } from '../../db/Database';
     import type Caret from '../../edit/Caret';
+    import { getEvaluation } from '../project/Contexts';
 
     export let caret: Caret;
     export let source: Source;
@@ -49,9 +50,12 @@
     // The index we should render
     let caretIndex: number | undefined = undefined;
 
+    const evaluation = getEvaluation();
+
     // Whenever blocks changes, compute position after animation.
     $: {
         $blocks;
+        $evaluation;
         setTimeout(() => (location = computeLocation()), $animationDuration);
     }
 

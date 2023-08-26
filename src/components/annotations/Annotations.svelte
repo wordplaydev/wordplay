@@ -33,9 +33,12 @@
     let annotations: AnnotationInfo[] = [];
     let annotationsByNode: Map<Node, AnnotationInfo[]> = new Map();
 
-    // When current step or conflicts change, update the annotations.
+    // When any of these states change, update annotations.
     $: {
-        if (stepping || conflicts) updateAnnotations();
+        stepping;
+        conflicts;
+        $evaluation;
+        updateAnnotations();
     }
 
     async function updateAnnotations() {
