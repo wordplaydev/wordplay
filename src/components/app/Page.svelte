@@ -42,6 +42,7 @@
         overflow: scroll;
         flex: 1;
         min-height: 0;
+        padding-block-end: 1em;
     }
 
     main:focus {

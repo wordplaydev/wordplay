@@ -3,13 +3,10 @@
     import Writing from '../../components/app/Writing.svelte';
     import MarkupHtmlView from '../../components/concepts/MarkupHTMLView.svelte';
     import { locale } from '../../db/Database';
-    import Markup from '../../nodes/Markup';
 </script>
 
 <Writing>
-    <Header>{$locale.ui.header.about}</Header>
+    <Header>{$locale.ui.page.about.header}</Header>
 
-    <MarkupHtmlView
-        markup={Markup.words($locale.ui.about.content.join('\n\n'))}
-    />
+    <MarkupHtmlView markup={$locale.ui.page.about.content} />
 </Writing>

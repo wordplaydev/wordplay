@@ -40,14 +40,17 @@
             console.error(err.message);
             loginFeedback =
                 {
-                    'auth/id-token-expired': $locale.ui.login.error.expired,
-                    'auth/id-token-revoked': $locale.ui.login.error.invalid,
-                    'auth/invalid-argument': $locale.ui.login.error.invalid,
-                    'auth/invalid-email': $locale.ui.login.error.other,
-                }[err.code] ?? $locale.ui.login.error.failure;
+                    'auth/id-token-expired':
+                        $locale.ui.page.login.error.expired,
+                    'auth/id-token-revoked':
+                        $locale.ui.page.login.error.invalid,
+                    'auth/invalid-argument':
+                        $locale.ui.page.login.error.invalid,
+                    'auth/invalid-email': $locale.ui.page.login.error.other,
+                }[err.code] ?? $locale.ui.page.login.error.failure;
         } else {
             console.error(err);
-            loginFeedback = $locale.ui.login.error.failure;
+            loginFeedback = $locale.ui.page.login.error.failure;
         }
         success = false;
     }
@@ -103,7 +106,7 @@
 
     let errors: Record<string, string>;
     $: errors = {
-        'auth/invalid-mail': $locale.ui.login.error.email,
+        'auth/invalid-mail': $locale.ui.page.login.error.email,
     };
 
     async function update() {
@@ -146,17 +149,17 @@
     {#if auth && firestore}
         {#if $user && !$user.isAnonymous}
             <Header>{$user.email}</Header>
-            <p>{$locale.ui.login.prompt.play}</p>
+            <p>{$locale.ui.page.login.prompt.play}</p>
             <p
-                >{$locale.ui.login.prompt.logout}
+                >{$locale.ui.page.login.prompt.logout}
                 <Button
                     background
-                    tip={$locale.ui.login.button.logout.tip}
+                    tip={$locale.ui.page.login.button.logout.tip}
                     action={logout}
-                    >{$locale.ui.login.button.logout.label}</Button
+                    >{$locale.ui.page.login.button.logout.label}</Button
                 ></p
             >
-            <p>{$locale.ui.login.prompt.change}</p>
+            <p>{$locale.ui.page.login.prompt.change}</p>
             <form class="form" on:submit={update}>
                 <p
                     ><TextField
@@ -165,10 +168,10 @@
                         bind:text={email}
                         editable={!changeSubmitted}
                     /><Button
-                        tip={$locale.ui.login.button.update.tip}
+                        tip={$locale.ui.page.login.button.update.tip}
                         active={validateEmail(email)}
                         action={() => undefined}
-                        >{$locale.ui.login.button.update.label}</Button
+                        >{$locale.ui.page.login.button.update.label}</Button
                     ></p
                 >
             </form>
@@ -179,14 +182,14 @@
                     >{/if}</p
             >
         {:else}
-            <Header>{$locale.ui.login.header}</Header>
+            <Header>{$locale.ui.page.login.header}</Header>
             <p>
                 {#if missingEmail}
-                    {$locale.ui.login.prompt.enter}
+                    {$locale.ui.page.login.prompt.enter}
                 {:else if $user === null}
-                    {$locale.ui.login.prompt.anonymous}
+                    {$locale.ui.page.login.prompt.anonymous}
                 {:else}
-                    {$locale.ui.login.prompt.login}
+                    {$locale.ui.page.login.prompt.login}
                 {/if}
             </p>
             <form class="form" on:submit={login}>
@@ -195,17 +198,17 @@
                     placeholder={$locale.ui.placeholders.email}
                     bind:text={email}
                 /><Button
-                    tip={$locale.ui.login.button.login.tip}
+                    tip={$locale.ui.page.login.button.login.tip}
                     active={validateEmail(email)}
                     action={() => undefined}
-                    >{$locale.ui.login.button.login.label}</Button
+                    >{$locale.ui.page.login.button.login.label}</Button
                 >
             </form>
             <p>
                 {#if sent === true}
-                    <Feedback>{$locale.ui.login.sent}</Feedback>
+                    <Feedback>{$locale.ui.page.login.sent}</Feedback>
                 {:else if success === true}
-                    <Feedback>{$locale.ui.login.success}</Feedback>
+                    <Feedback>{$locale.ui.page.login.success}</Feedback>
                 {:else if success === false}
                     <Feedback>{loginFeedback}</Feedback>
                 {/if}

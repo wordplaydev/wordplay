@@ -6333,21 +6333,6 @@
         "ui": {
           "additionalProperties": false,
           "properties": {
-            "about": {
-              "additionalProperties": false,
-              "properties": {
-                "content": {
-                  "items": {
-                    "type": "string"
-                  },
-                  "type": "array"
-                }
-              },
-              "required": [
-                "content"
-              ],
-              "type": "object"
-            },
             "button": {
               "additionalProperties": false,
               "properties": {
@@ -7155,9 +7140,6 @@
             "header": {
               "additionalProperties": false,
               "properties": {
-                "about": {
-                  "type": "string"
-                },
                 "conversions": {
                   "description": "Documentation header in structure before conversions",
                   "type": "string"
@@ -7168,15 +7150,8 @@
                 "editCode": {
                   "type": "string"
                 },
-                "examples": {
-                  "type": "string"
-                },
                 "functions": {
                   "description": "Documentation header in structure before functions",
-                  "type": "string"
-                },
-                "galleries": {
-                  "description": "How to describe galleries of projects",
                   "type": "string"
                 },
                 "helpLocalize": {
@@ -7194,13 +7169,7 @@
                   "description": "Documentation header in structure view before interfaces",
                   "type": "string"
                 },
-                "learn": {
-                  "type": "string"
-                },
                 "moveCursor": {
-                  "type": "string"
-                },
-                "projects": {
                   "type": "string"
                 },
                 "properties": {
@@ -7209,11 +7178,6 @@
                 }
               },
               "required": [
-                "learn",
-                "projects",
-                "galleries",
-                "about",
-                "examples",
                 "inputs",
                 "interfaces",
                 "properties",
@@ -7278,160 +7242,6 @@
               ],
               "type": "object"
             },
-            "login": {
-              "additionalProperties": false,
-              "properties": {
-                "button": {
-                  "additionalProperties": false,
-                  "properties": {
-                    "login": {
-                      "additionalProperties": false,
-                      "properties": {
-                        "label": {
-                          "type": "string"
-                        },
-                        "tip": {
-                          "type": "string"
-                        }
-                      },
-                      "required": [
-                        "label",
-                        "tip"
-                      ],
-                      "type": "object"
-                    },
-                    "logout": {
-                      "additionalProperties": false,
-                      "properties": {
-                        "label": {
-                          "type": "string"
-                        },
-                        "tip": {
-                          "type": "string"
-                        }
-                      },
-                      "required": [
-                        "label",
-                        "tip"
-                      ],
-                      "type": "object"
-                    },
-                    "update": {
-                      "additionalProperties": false,
-                      "properties": {
-                        "label": {
-                          "type": "string"
-                        },
-                        "tip": {
-                          "type": "string"
-                        }
-                      },
-                      "required": [
-                        "label",
-                        "tip"
-                      ],
-                      "type": "object"
-                    }
-                  },
-                  "required": [
-                    "logout",
-                    "login",
-                    "update"
-                  ],
-                  "type": "object"
-                },
-                "error": {
-                  "additionalProperties": false,
-                  "properties": {
-                    "email": {
-                      "type": "string"
-                    },
-                    "expired": {
-                      "type": "string"
-                    },
-                    "failure": {
-                      "type": "string"
-                    },
-                    "invalid": {
-                      "type": "string"
-                    },
-                    "offline": {
-                      "type": "string"
-                    },
-                    "other": {
-                      "type": "string"
-                    }
-                  },
-                  "required": [
-                    "expired",
-                    "invalid",
-                    "email",
-                    "other",
-                    "failure",
-                    "offline"
-                  ],
-                  "type": "object"
-                },
-                "header": {
-                  "type": "string"
-                },
-                "prompt": {
-                  "additionalProperties": false,
-                  "properties": {
-                    "anonymous": {
-                      "type": "string"
-                    },
-                    "change": {
-                      "type": "string"
-                    },
-                    "check": {
-                      "type": "string"
-                    },
-                    "enter": {
-                      "type": "string"
-                    },
-                    "login": {
-                      "type": "string"
-                    },
-                    "logout": {
-                      "type": "string"
-                    },
-                    "play": {
-                      "type": "string"
-                    }
-                  },
-                  "required": [
-                    "login",
-                    "enter",
-                    "anonymous",
-                    "change",
-                    "check",
-                    "play",
-                    "logout"
-                  ],
-                  "type": "object"
-                },
-                "sent": {
-                  "type": "string"
-                },
-                "submit": {
-                  "type": "string"
-                },
-                "success": {
-                  "type": "string"
-                }
-              },
-              "required": [
-                "header",
-                "prompt",
-                "submit",
-                "sent",
-                "success",
-                "error",
-                "button"
-              ],
-              "type": "object"
-            },
             "mode": {
               "additionalProperties": false,
               "properties": {
@@ -7453,6 +7263,241 @@
                 "animate",
                 "dark",
                 "writing"
+              ],
+              "type": "object"
+            },
+            "page": {
+              "additionalProperties": false,
+              "properties": {
+                "about": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "content": {
+                      "items": {
+                        "type": "string"
+                      },
+                      "type": "array"
+                    },
+                    "header": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "header",
+                    "content"
+                  ],
+                  "type": "object"
+                },
+                "galleries": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "examples": {
+                      "type": "string"
+                    },
+                    "header": {
+                      "description": "How to describe galleries of projects",
+                      "type": "string"
+                    },
+                    "prompt": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "header",
+                    "prompt",
+                    "examples"
+                  ],
+                  "type": "object"
+                },
+                "learn": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "header": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "header"
+                  ],
+                  "type": "object"
+                },
+                "login": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "button": {
+                      "additionalProperties": false,
+                      "properties": {
+                        "login": {
+                          "additionalProperties": false,
+                          "properties": {
+                            "label": {
+                              "type": "string"
+                            },
+                            "tip": {
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "label",
+                            "tip"
+                          ],
+                          "type": "object"
+                        },
+                        "logout": {
+                          "additionalProperties": false,
+                          "properties": {
+                            "label": {
+                              "type": "string"
+                            },
+                            "tip": {
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "label",
+                            "tip"
+                          ],
+                          "type": "object"
+                        },
+                        "update": {
+                          "additionalProperties": false,
+                          "properties": {
+                            "label": {
+                              "type": "string"
+                            },
+                            "tip": {
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "label",
+                            "tip"
+                          ],
+                          "type": "object"
+                        }
+                      },
+                      "required": [
+                        "logout",
+                        "login",
+                        "update"
+                      ],
+                      "type": "object"
+                    },
+                    "error": {
+                      "additionalProperties": false,
+                      "properties": {
+                        "email": {
+                          "type": "string"
+                        },
+                        "expired": {
+                          "type": "string"
+                        },
+                        "failure": {
+                          "type": "string"
+                        },
+                        "invalid": {
+                          "type": "string"
+                        },
+                        "offline": {
+                          "type": "string"
+                        },
+                        "other": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "expired",
+                        "invalid",
+                        "email",
+                        "other",
+                        "failure",
+                        "offline"
+                      ],
+                      "type": "object"
+                    },
+                    "header": {
+                      "type": "string"
+                    },
+                    "prompt": {
+                      "additionalProperties": false,
+                      "properties": {
+                        "anonymous": {
+                          "type": "string"
+                        },
+                        "change": {
+                          "type": "string"
+                        },
+                        "check": {
+                          "type": "string"
+                        },
+                        "enter": {
+                          "type": "string"
+                        },
+                        "login": {
+                          "type": "string"
+                        },
+                        "logout": {
+                          "type": "string"
+                        },
+                        "play": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "login",
+                        "enter",
+                        "anonymous",
+                        "change",
+                        "check",
+                        "play",
+                        "logout"
+                      ],
+                      "type": "object"
+                    },
+                    "sent": {
+                      "type": "string"
+                    },
+                    "submit": {
+                      "type": "string"
+                    },
+                    "success": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "header",
+                    "prompt",
+                    "submit",
+                    "sent",
+                    "success",
+                    "error",
+                    "button"
+                  ],
+                  "type": "object"
+                },
+                "projects": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "header": {
+                      "type": "string"
+                    },
+                    "prompt": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "header",
+                    "prompt"
+                  ],
+                  "type": "object"
+                }
+              },
+              "required": [
+                "learn",
+                "projects",
+                "galleries",
+                "about",
+                "login"
               ],
               "type": "object"
             },
@@ -7637,10 +7682,9 @@
             "section",
             "palette",
             "feedback",
-            "login",
+            "page",
             "edit",
-            "error",
-            "about"
+            "error"
           ],
           "type": "object"
         },

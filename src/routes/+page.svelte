@@ -22,10 +22,10 @@
             >Coming Fall 2023. Write <a href="https://amyjko.com">Amy</a> for details.</p
         >
     {:else}
-        <BigLink to="/learn">{$locale.ui.header.learn}</BigLink>
-        <BigLink to="/projects">{$locale.ui.header.projects}</BigLink>
-        <BigLink to="/galleries">{$locale.ui.header.galleries}</BigLink>
-        <BigLink to="/about">{$locale.ui.header.about}</BigLink>
+        <BigLink to="/learn">{$locale.ui.page.learn.header}</BigLink>
+        <BigLink to="/projects">{$locale.ui.page.projects.header}</BigLink>
+        <BigLink to="/galleries">{$locale.ui.page.galleries.header}</BigLink>
+        <BigLink to="/about">{$locale.ui.page.about.header}</BigLink>
     {/if}
 </Writing>
 

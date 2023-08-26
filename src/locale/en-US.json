@@ -3537,11 +3537,6 @@
             "anonymous": "login"
         },
         "header": {
-            "learn": "Learn",
-            "projects": "Performances",
-            "galleries": "Galleries",
-            "about": "About",
-            "examples": "Examples",
             "inputs": "Inputs",
             "interfaces": "Interfaces",
             "properties": "Properties",
@@ -3578,40 +3573,67 @@
                 "unsaved": "unsaved"
             }
         },
-        "login": {
-            "header": "Login",
-            "prompt": {
-                "login": "Log in to access your performances.",
-                "enter": "It looks like you're logging in on a different device. Can you enter your email again?",
-                "anonymous": "Your performances are saved on this device. Create an account to save them online.",
-                "play": "You're logged in. Have fun!",
-                "change": "You can change your email address.",
-                "check": "Check your original email address for a confirmation link.",
-                "logout": "You can log out."
+        "page": {
+            "learn": {
+                "header": "Learn"
             },
-            "submit": "send a login email",
-            "sent": "Check your email for a link.",
-            "success": "Account created!",
-            "error": {
-                "expired": "This link expired.",
-                "invalid": "This link isn't valid.",
-                "email": "This email wasn't valid.",
-                "other": "Unable to login",
-                "failure": "Couldn't reach the internet...",
-                "offline": "You appear to be offline."
+            "projects": {
+                "header": "Projects",
+                "prompt": "Ready to say something? Create a project or work on one. If you get stuck, keep <learning@://learn>."
             },
-            "button": {
-                "logout": {
-                    "tip": "logout of your account",
-                    "label": "logout"
+            "galleries": {
+                "header": "Galleries",
+                "prompt": "These are performances that others have made. Experience them, study them, or adapt them into your own statement.",
+                "examples": "Examples"
+            },
+            "about": {
+                "header": "About",
+                "content": [
+                    "Have you ever felt like coding was just for English fluent, non-disabled Westerners obsessed with computers?",
+                    "Yeah, us too.",
+                    "This isn't an accident. Since the dawn of computing, programming languages have been design and built by mostly the same group of people -- white, cis, English-speaking men in academia and industry in the US and Europe, and the occasional white woman mathematician. They did their work in a time of post-colonial, winner-take-all power, and programming languages were a key tool for keeping it.",
+                    "Whether intentional or not, this history has led to a vision of computation that is primarily about speed, logic, profit, and domination.",
+                    "This is an injustice. Because computing, for better and worse, now undergirds daily life in visible and invisible ways, and the people who have access to create with it are the ones most like its creators. The rest of humanity remains beholden to this power, because imagining anything different requires access, gatekept by language barriers, accesibility barriers, economic barriers, and inequities in public education.",
+                    "*Wordplay* aspires to be something different. A programming platform designed to be global, supporting /all/ of the world's languages, but also /about/ the world's languages. A platform on which everyone can create, with whatever abilities they have, to share interactive content that anyone can experience, with whatever abilities they have. For youth and young adults who want to express themselves *playfully*, *artfully*, and *interactively*. Not with the goal of harnessing power, but of creating diverse community that recognize the incredible strength that comes from our beautiful differences.",
+                    "We're a community of designers, educators, and developers trying to bring this vision to life. We are people of color, we are trans, we are queer, we are disabled, and we come from all over the world. We're centered at the <University of Washington@https://washington.edu> <Information School@https://ischool.uw.edu/> in Seattle, Washington, USA, a place that aspires to welcome everyone and undo the ravages of colonialism that continue today. Making this programming language and platform is part of that mission.",
+                    "See our <milestones@https://github.com/amyjko/wordplay/milestones> to see what we're working on, and if you'd like to help, learn <how to contribute@https://github.com/amyjko/wordplay/blob/main/CONTRIBUTING.md>. Or write our community organizer <Amy@https://amyjko.phd> with questions."
+                ]
+            },
+            "login": {
+                "header": "Login",
+                "prompt": {
+                    "login": "Log in to access your performances.",
+                    "enter": "It looks like you're logging in on a different device. Can you enter your email again?",
+                    "anonymous": "Your performances are saved on this device. Create an account to save them online.",
+                    "play": "You're logged in. Have fun!",
+                    "change": "You can change your email address.",
+                    "check": "Check your original email address for a confirmation link.",
+                    "logout": "You can log out."
                 },
-                "login": {
-                    "tip": "login with this email, sending a login link",
-                    "label": ">"
+                "submit": "send a login email",
+                "sent": "Check your email for a link.",
+                "success": "Account created!",
+                "error": {
+                    "expired": "This link expired.",
+                    "invalid": "This link isn't valid.",
+                    "email": "This email wasn't valid.",
+                    "other": "Unable to login",
+                    "failure": "Couldn't reach the internet...",
+                    "offline": "You appear to be offline."
                 },
-                "update": {
-                    "tip": "change your email",
-                    "label": ">"
+                "button": {
+                    "logout": {
+                        "tip": "logout of your account",
+                        "label": "logout"
+                    },
+                    "login": {
+                        "tip": "login with this email, sending a login link",
+                        "label": ">"
+                    },
+                    "update": {
+                        "tip": "change your email",
+                        "label": ">"
+                    }
                 }
             }
         },
@@ -3641,18 +3663,6 @@
             "noDatabase": "We can't reach the database",
             "overwritten": "Found a more recent version!",
             "unknownEmail": "We don't know a creator with this email."
-        },
-        "about": {
-            "content": [
-                "Have you ever felt like coding was just for English fluent, non-disabled Westerners obsessed with computers?",
-                "Yeah, us too.",
-                "This isn't an accident. Since the dawn of computing, programming languages have been design and built by mostly the same group of people -- white, cis, English-speaking men in academia and industry in the US and Europe, and the occasional white woman mathematician. They did their work in a time of post-colonial, winner-take-all power, and programming languages were a key tool for keeping it.",
-                "Whether intentional or not, this history has led to a vision of computation that is primarily about speed, logic, profit, and domination.",
-                "This is an injustice. Because computing, for better and worse, now undergirds daily life in visible and invisible ways, and the people who have access to create with it are the ones most like its creators. The rest of humanity remains beholden to this power, because imagining anything different requires access, gatekept by language barriers, accesibility barriers, economic barriers, and inequities in public education.",
-                "*Wordplay* aspires to be something different. A programming platform designed to be global, supporting /all/ of the world's languages, but also /about/ the world's languages. A platform on which everyone can create, with whatever abilities they have, to share interactive content that anyone can experience, with whatever abilities they have. For youth and young adults who want to express themselves *playfully*, *artfully*, and *interactively*. Not with the goal of harnessing power, but of creating diverse community that recognize the incredible strength that comes from our beautiful differences.",
-                "We're a community of designers, educators, and developers trying to bring this vision to life. We are people of color, we are trans, we are queer, we are disabled, and we come from all over the world. We're centered at the <University of Washington@https://washington.edu> <Information School@https://ischool.uw.edu/> in Seattle, Washington, USA, a place that aspires to welcome everyone and undo the ravages of colonialism that continue today. Making this programming language and platform is part of that mission.",
-                "See our <milestones@https://github.com/amyjko/wordplay/milestones> to see what we're working on, and if you'd like to help, learn <how to contribute@https://github.com/amyjko/wordplay/blob/main/CONTRIBUTING.md>. Or write our community organizer <Amy@https://amyjko.phd> with questions."
-            ]
         }
     }
 }

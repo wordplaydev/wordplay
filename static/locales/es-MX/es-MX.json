@@ -2012,11 +2012,6 @@
             "anonymous": "$?"
         },
         "header": {
-            "learn": "$?",
-            "projects": "$?",
-            "galleries": "$?",
-            "about": "$?",
-            "examples": "ejemplos",
             "inputs": "$?",
             "interfaces": "$?",
             "properties": "$?",
@@ -2053,40 +2048,58 @@
                 "unsaved": "$?"
             }
         },
-        "login": {
-            "header": "$?",
-            "prompt": {
-                "login": "$?",
-                "enter": "$?",
-                "anonymous": "$?",
-                "play": "$?",
-                "change": "$?",
-                "check": "$?",
-                "logout": "$?"
+        "page": {
+            "learn": {
+                "header": "$?"
             },
-            "submit": "$?",
-            "sent": "$?",
-            "success": "$?",
-            "error": {
-                "expired": "$?",
-                "invalid": "$?",
-                "email": "$?",
-                "other": "$?",
-                "offline": "$?",
-                "failure": "$?"
+            "projects": {
+                "header": "$?",
+                "prompt": "$?"
             },
-            "button": {
-                "logout": {
-                    "tip": "$?",
-                    "label": "$?"
+            "galleries": {
+                "header": "$?",
+                "prompt": "$?",
+                "examples": "ejemplos"
+            },
+            "about": {
+                "header": "$?",
+                "content": ["$?"]
+            },
+            "login": {
+                "header": "$?",
+                "prompt": {
+                    "login": "$?",
+                    "enter": "$?",
+                    "anonymous": "$?",
+                    "play": "$?",
+                    "change": "$?",
+                    "check": "$?",
+                    "logout": "$?"
                 },
-                "login": {
-                    "tip": "$?",
-                    "label": ">"
+                "submit": "$?",
+                "sent": "$?",
+                "success": "$?",
+                "error": {
+                    "expired": "$?",
+                    "invalid": "$?",
+                    "email": "$?",
+                    "other": "$?",
+                    "offline": "$?",
+                    "failure": "$?"
                 },
-                "update": {
-                    "tip": "$?",
-                    "label": "$?"
+                "button": {
+                    "logout": {
+                        "tip": "$?",
+                        "label": "$?"
+                    },
+                    "login": {
+                        "tip": "$?",
+                        "label": ">"
+                    },
+                    "update": {
+                        "tip": "$?",
+                        "label": "$?"
+                    }
                 }
             }
         },
@@ -2116,9 +2129,6 @@
             "noDatabase": "$?",
             "overwritten": "$?",
             "unknownEmail": "$?"
-        },
-        "about": {
-            "content": ["$?"]
         }
     }
 }

@@ -6,17 +6,24 @@
 
 <script lang="ts">
     import { animationDuration, animationFactor } from '../../db/Database';
-    import type Markup from '@nodes/Markup';
+    import Markup from '@nodes/Markup';
     import Paragraph from '@nodes/Paragraph';
     import SegmentHTMLView from './SegmentHTMLView.svelte';
 
-    export let markup: Markup;
+    export let markup: Markup | string[] | string;
     export let inline = false;
 
-    $: spaces = markup.spaces;
+    $: parsed =
+        markup instanceof Markup
+            ? markup
+            : Markup.words(
+                  Array.isArray(markup) ? markup.join('\n\n') : markup
+              );
+
+    $: spaces = parsed.spaces;
 
     // Convert sequences of paragraphs that start with bullets into an HTML list.
-    $: paragraphsAndLists = markup.paragraphs.reduce(
+    $: paragraphsAndLists = parsed.paragraphs.reduce(
         (stuff: ParagraphOrList[], next: Paragraph) => {
             if (next.isBulleted()) {
                 const previous = stuff.at(-1);
@@ -34,7 +41,7 @@
 
 {#if spaces}
     {#if inline}
-        {#each markup.asLine().paragraphs[0].segments as segment}
+        {#each parsed.asLine().paragraphs[0].segments as segment}
             <SegmentHTMLView {segment} {spaces} alone={false} />
         {/each}
     {:else}{#each paragraphsAndLists as paragraphOrList, index}<p

@@ -44,7 +44,7 @@
             validator={validateEmail}
         />
         <Button
-            tip={$locale.ui.login.submit}
+            tip={$locale.ui.page.login.submit}
             active={validateEmail(email)}
             action={() => undefined}>&gt;</Button
         >

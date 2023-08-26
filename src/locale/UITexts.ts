@@ -235,12 +235,6 @@ type UITexts = {
         anonymous: string;
     };
     header: {
-        learn: string;
-        projects: string;
-        /** How to describe galleries of projects */
-        galleries: string;
-        about: string;
-        examples: string;
         /** Documentation header in structure and functions before inputs */
         inputs: string;
         /** Documentation header in structure view before interfaces */
@@ -283,32 +277,51 @@ type UITexts = {
             unsaved: string;
         };
     };
-    login: {
-        header: string;
-        prompt: {
-            login: string;
-            enter: string;
-            anonymous: string;
-            change: string;
-            check: string;
-            play: string;
-            logout: string;
+    page: {
+        learn: {
+            header: string;
         };
-        submit: string;
-        sent: string;
-        success: string;
-        error: {
-            expired: string;
-            invalid: string;
-            email: string;
-            other: string;
-            failure: string;
-            offline: string;
+        projects: {
+            header: string;
+            prompt: string;
         };
-        button: {
-            logout: ButtonText;
-            login: ButtonText;
-            update: ButtonText;
+        galleries: {
+            /** How to describe galleries of projects */
+            header: string;
+            prompt: string;
+            examples: string;
+        };
+        about: {
+            header: string;
+            content: string[];
+        };
+        login: {
+            header: string;
+            prompt: {
+                login: string;
+                enter: string;
+                anonymous: string;
+                change: string;
+                check: string;
+                play: string;
+                logout: string;
+            };
+            submit: string;
+            sent: string;
+            success: string;
+            error: {
+                expired: string;
+                invalid: string;
+                email: string;
+                other: string;
+                failure: string;
+                offline: string;
+            };
+            button: {
+                logout: ButtonText;
+                login: ButtonText;
+                update: ButtonText;
+            };
         };
     };
     edit: EditTexts;
@@ -325,9 +338,6 @@ type UITexts = {
         overwritten: string;
         /** When someone tries to add an email collaborator that doesn't have a Wordplay account */
         unknownEmail: string;
-    };
-    about: {
-        content: string[];
     };
 };
 
