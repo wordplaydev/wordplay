@@ -1053,7 +1053,7 @@
                 menu = menu.withSelection([newIndex, 0]);
                 return false;
             } else {
-                handleEdit(selection, IdleKind.Typing, true);
+                handleEdit(selection, IdleKind.Typed, true);
                 return true;
             }
         }
@@ -1062,7 +1062,7 @@
 
     async function handleEdit(
         edit: Edit | undefined,
-        idle: IdleKind = IdleKind.Typing,
+        idle: IdleKind,
         /** True if the editor should claim focus after performing this edit.
          * For all actions that come from the editor, it should.
          * But there are other things that edit, and they may not want the editor grabbing focus.
@@ -1194,6 +1194,8 @@
         if (evaluator === undefined) return;
         if (editor === null) return;
 
+        const startTime = Date.now();
+
         // Assume we'll handle it.
         lastKeyDownIgnored = false;
 
@@ -1208,7 +1210,7 @@
         // just let the character with diacritic remark be typed, and handle it in the input handler above.
         if (replacePreviousWithNext) return;
 
-        const result = handleKeyCommand(event, {
+        const [command, result] = handleKeyCommand(event, {
             caret: $caret,
             evaluator,
             dragging: $dragged !== undefined,
@@ -1218,7 +1220,7 @@
 
         // If it produced a new caret and optionally a new project, update the stores.
         const idle =
-            event.key.length === 1 ? IdleKind.Typing : IdleKind.Navigating;
+            command?.typing === true ? IdleKind.Typing : IdleKind.Typed;
 
         if (result !== false) {
             if (result instanceof Promise)
@@ -1229,6 +1231,10 @@
             // Prevent default keyboard commands from being otherwise handled.
             event.preventDefault();
             event.stopPropagation();
+
+            tick().then(() =>
+                console.log(`Round trip: ${Date.now() - startTime}`)
+            );
         }
         // Give feedback that we didn't execute a command.
         else if (!/^(Shift|Control|Alt|Meta|Tab)$/.test(event.key))

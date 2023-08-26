@@ -87,10 +87,11 @@
 
     $: exception = value instanceof ExceptionValue ? value : undefined;
     $: stageValue = value === undefined ? undefined : toStage(project, value);
-    $: background =
-        $keyboardEditIdle !== IdleKind.Typing && value instanceof ExceptionValue
-            ? 'var(--wordplay-error)'
-            : stageValue?.background ?? null;
+    $: typing =
+        !mini &&
+        $evaluation?.playing === true &&
+        $keyboardEditIdle === IdleKind.Typing;
+    $: background = stageValue?.background ?? null;
 
     let keyboardInputView: HTMLInputElement | undefined = undefined;
 
@@ -731,6 +732,7 @@
     <div
         class="value"
         class:ignored
+        class:typing
         role="presentation"
         bind:this={valueView}
         on:keydown={interactive ? handleKeyDown : undefined}
@@ -754,11 +756,8 @@
             />
         {/if}
 
-        <!-- If it's because the keyboard isn't idle, show feedback instead of the value.-->
-        {#if !mini && $evaluation?.playing === true && $keyboardEditIdle === IdleKind.Typing && exception !== undefined}
-            <div class="message editing">⌨️</div>
-            <!-- If there's an exception, show that. -->
-        {:else if exception !== undefined}
+        <!-- If there's an exception, show that. -->
+        {#if exception !== undefined}
             <div class="message exception" data-uiid="exception"
                 >{#if mini}!{:else}<Speech
                         glyph={$index?.getNodeConcept(exception.creator) ??
@@ -845,6 +844,10 @@
         transition-duration: calc(var(--animation-factor) * 200ms);
     }
 
+    .value.typing {
+        filter: blur(4px);
+    }
+
     .mini {
         position: static;
         box-shadow: none;
@@ -866,11 +869,6 @@
         margin: auto;
         margin-top: 1em;
         overflow: scroll;
-    }
-
-    .editing {
-        animation: jiggle ease-out infinite;
-        animation-duration: calc(var(--animation-factor) * 0.2s);
     }
 
     @keyframes jiggle {

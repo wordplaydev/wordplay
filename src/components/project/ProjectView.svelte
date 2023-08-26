@@ -1,6 +1,8 @@
 <script context="module" lang="ts">
     export const PROJECT_PARAM_PLAY = 'play';
     export const PROJECT_PARAM_CONCEPT = 'concept';
+
+    export const TYPING_DELAY = 300;
 </script>
 
 <script lang="ts">
@@ -249,10 +251,21 @@
     setContext<EvaluatorContext>(EvaluatorSymbol, evaluator);
 
     // When the project changes, create a new evaluator, observe it.
+    let evaluatorTimeout: NodeJS.Timeout | undefined = undefined;
     projectStore.subscribe((newProject) => {
         // Stop the old evaluator.
         $evaluator?.stop();
 
+        if ($keyboardEditIdle === IdleKind.Typing) {
+            if (evaluatorTimeout) clearTimeout(evaluatorTimeout);
+            evaluatorTimeout = setTimeout(
+                () => updateEvaluator(newProject),
+                TYPING_DELAY
+            );
+        } else updateEvaluator(newProject);
+    });
+
+    function updateEvaluator(newProject: Project) {
         // Make the new evaluator, replaying the previous evaluator's inputs, unless we marked the last evaluator is out of date.
         const newEvaluator = new Evaluator(
             newProject,
@@ -269,7 +282,7 @@
 
         // Set the evaluator store
         evaluator.set(newEvaluator);
-    });
+    }
 
     /** Create a store for all of the evaluation state, so that the editor nodes can update when it changes. */
     const evaluation: Writable<EvaluationContext> = writable(
@@ -603,7 +616,7 @@
         updateTimer = setTimeout(() => {
             project.analyze();
             conflicts?.set(project.getConflicts());
-        }, 300);
+        }, TYPING_DELAY);
     }
 
     /** When stepping and the current step changes, change the active source. */
@@ -647,7 +660,11 @@
     $: {
         $evaluation;
         $languages;
-        latestValue = $evaluator.getLatestSourceValue(selectedSource);
+        // We don't use the source we compute in the reaction above because we want this to be based only
+        // on the current evaluator. This is because we sometimes evaluate some time after updating the project
+        // for typing responsiveness.
+        const source = $evaluator.project.getSources()[selectedSourceIndex];
+        if (source) latestValue = $evaluator.getLatestSourceValue(source);
     }
 
     /**
@@ -1016,7 +1033,7 @@
             dragged.set(undefined);
 
         // See if there's a command that matches...
-        const result = handleKeyCommand(event, commandContext);
+        const [, result] = handleKeyCommand(event, commandContext);
 
         // If something handled it, consume the event.
         if (result !== false) {

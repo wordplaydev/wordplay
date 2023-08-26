@@ -85,6 +85,7 @@
         fullscreen={Settings.getProjectLayout(project.id)?.isFullscreen() ??
             false}
     >
+        <!-- When the project ID changes, create a new project. -->
         {#key project.id}
             <ProjectView {project} {editable} {overwritten} />
         {/key}

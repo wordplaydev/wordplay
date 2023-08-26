@@ -48,10 +48,14 @@ export function getProject() {
 }
 
 export enum IdleKind {
-    Idle,
-    Navigating,
-    Typing,
+    /** Indicates no keyboard activity. */
+    Idle = 'idle',
+    /** Indicates active typing (generally a flurry of insertion or deletion) */
+    Typing = 'typing',
+    /** Indicates a single command that will not come in a flurry  */
+    Typed = 'typed',
 }
+
 export type KeyboardEditIdleContext = Writable<IdleKind>;
 export const KeyboardEditIdleSymbol = Symbol('idle');
 export function getKeyboardEditIdle() {

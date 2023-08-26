@@ -51,6 +51,8 @@ export type Command = {
     alt: boolean | undefined;
     /** If true, control or meta is required, if false, it's disqualifying, if undefined, it can be either */
     control: boolean | undefined;
+    /** If true, indicates that the command is likely to be invoked in a flurry. See KeyboardActivity. */
+    typing?: boolean | undefined;
     /** An UI to place on buttons corresponding to this command for tutorial highlighting */
     uiid?: string;
     /** A function that should indicate whether the command is active */
@@ -112,7 +114,10 @@ export function toShortcut(command: Command) {
 export function handleKeyCommand(
     event: KeyboardEvent,
     context: CommandContext
-) {
+): [
+    Command | undefined,
+    Edit | Promise<Edit | undefined> | boolean | undefined | void
+] {
     // Map meta key to control on Mac OS/iOS.
     const control = event.metaKey || event.ctrlKey;
 
@@ -131,10 +136,10 @@ export function handleKeyCommand(
         ) {
             // If so, execute it.
             const result = command.execute(context, event.key);
-            if (result !== false) return result;
+            if (result !== false) return [command, result];
         }
     }
-    return false;
+    return [undefined, false];
 }
 
 export const ShowKeyboardHelp: Command = {
@@ -880,6 +885,7 @@ const Commands: Command[] = [
         alt: false,
         control: false,
         key: 'Enter',
+        typing: true,
         execute: ({ caret }) =>
             caret === undefined
                 ? false
@@ -897,6 +903,7 @@ const Commands: Command[] = [
         shift: false,
         control: false,
         alt: false,
+        typing: true,
         execute: ({ caret }) => caret?.backspace() ?? false,
     },
     {
@@ -996,6 +1003,7 @@ const Commands: Command[] = [
         control: false,
         shift: undefined,
         alt: false,
+        typing: true,
         execute: ({ caret }, key) =>
             caret && key.length === 1 ? caret.insert(key) : false,
     },

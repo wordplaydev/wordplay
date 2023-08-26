@@ -388,6 +388,7 @@ export default class Evaluator {
             new Context(this.project, this.project.main)
         );
     }
+
     /** Get whatever the latest result was of evaluating the program and its streams. */
     getLatestSourceValue(source: Source): Value | undefined {
         return this.getSourceValueBefore(source, this.getStepIndex());

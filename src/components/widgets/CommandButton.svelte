@@ -46,11 +46,11 @@
         if (result instanceof Promise)
             result.then((edit) =>
                 editor
-                    ? editor.edit(edit, IdleKind.Typing, focusAfter)
+                    ? editor.edit(edit, IdleKind.Typed, focusAfter)
                     : undefined
             );
         else if (typeof result !== 'boolean' && result !== undefined)
-            editor?.edit(result, IdleKind.Typing, focusAfter);
+            editor?.edit(result, IdleKind.Typed, focusAfter);
 
         // If we didn't ask the editor to focus, restore focus on button after update.
         if (!focusAfter && hadFocus) {
