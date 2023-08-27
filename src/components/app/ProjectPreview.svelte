@@ -32,7 +32,8 @@
         role="button"
         class="preview"
         tabindex="0"
-        on:pointerdown={action}
+        on:pointerdown={(event) =>
+            action && event.button === 0 ? action() : undefined}
         on:keydown={(event) =>
             action && (event.key === '' || event.key === 'Enter')
                 ? action()
