@@ -25,6 +25,8 @@ import type Value from '../values/Value';
 import Decimal from 'decimal.js';
 import { getFirstName } from '../locale/Locale';
 import NameType from '../nodes/NameType';
+import type Context from '../nodes/Context';
+import type Type from '../nodes/Type';
 
 const Bounciness = 0.5;
 const Gravity = 9.8;
@@ -209,8 +211,12 @@ export default class Motion extends TemporalStreamValue<Value, number> {
         this.react(delta / 1000 / Math.max(1, multiplier));
     }
 
-    getType() {
-        return StreamType.make(NumberType.make(Unit.reuse(['ms'])));
+    getType(context: Context): Type {
+        return StreamType.make(
+            NameType.make(
+                context.project.shares.output.Phrase.names.getNames()[0]
+            )
+        );
     }
 }
 

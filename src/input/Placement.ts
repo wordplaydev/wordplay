@@ -20,6 +20,10 @@ import NumberLiteral from '../nodes/NumberLiteral';
 import BooleanLiteral from '../nodes/BooleanLiteral';
 import Evaluate from '../nodes/Evaluate';
 import Reference from '../nodes/Reference';
+import type Context from '../nodes/Context';
+import type Type from '../nodes/Type';
+import StructureType from '../nodes/StructureType';
+import type StructureDefinition from '../nodes/StructureDefinition';
 
 type Direction = -1 | 0 | 1;
 type PlacementEvent = { x: Direction; y: Direction; z: Direction };
@@ -96,12 +100,19 @@ export default class Placement extends StreamValue<
         this.on = false;
     }
 
-    getType() {
-        return StreamType.make(TextType.make());
+    getType(context: Context): Type {
+        return StreamType.make(
+            NameType.make(
+                context.project.shares.output.Place.names.getNames()[0]
+            )
+        );
     }
 }
 
-export function createPlacementDefinition(locales: Locale[]) {
+export function createPlacementDefinition(
+    locales: Locale[],
+    placeType: StructureDefinition
+) {
     const PlaceName = getFirstName(locales[0].output.Place.names);
     const inputs = createInputs(locales, (l) => l.input.Placement.inputs, [
         [
@@ -153,6 +164,6 @@ export function createPlacementDefinition(locales: Locale[]) {
                     evaluation.get(inputs[4].names, BoolValue)?.bool ?? false
                 )
         ),
-        TextType.make()
+        new StructureType(placeType)
     );
 }

@@ -57,7 +57,7 @@ export default function createDefaultShares(locales: Locale[]) {
             OutputTypes.Type,
             OutputTypes.Phrase
         ),
-        Placement: createPlacementDefinition(locales),
+        Placement: createPlacementDefinition(locales, PlaceType),
         Key: createKeyDefinition(locales),
         Button: createButtonDefinition(locales),
         Pointer: createPointerDefinition(locales, PlaceType),
