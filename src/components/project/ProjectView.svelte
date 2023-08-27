@@ -257,9 +257,6 @@
     // When the project changes, create a new evaluator, observe it.
     let evaluatorTimeout: NodeJS.Timeout | undefined = undefined;
     projectStore.subscribe((newProject) => {
-        // Stop the old evaluator.
-        $evaluator?.stop();
-
         if ($keyboardEditIdle === IdleKind.Typing) {
             if (evaluatorTimeout) clearTimeout(evaluatorTimeout);
             evaluatorTimeout = setTimeout(
@@ -270,6 +267,9 @@
     });
 
     function updateEvaluator(newProject: Project) {
+        // Stop the old evaluator.
+        $evaluator?.stop();
+
         // Make the new evaluator, replaying the previous evaluator's inputs, unless we marked the last evaluator is out of date.
         const newEvaluator = new Evaluator(
             newProject,
