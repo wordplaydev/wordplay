@@ -114,6 +114,7 @@
                 {interactive}
                 {context}
                 {editing}
+                {still}
             />
         {/if}
     {/each}
