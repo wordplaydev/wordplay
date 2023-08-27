@@ -13,7 +13,7 @@
         class={`button off ${on ? 'inactive' : 'active'}`}
         role="button"
         aria-disabled={!on}
-        aria-label={onTip}
+        aria-label={offTip}
         tabindex={on ? 0 : null}
         title={offTip}
         on:pointerdown|stopPropagation={() => toggle(false)}
@@ -25,7 +25,7 @@
         class={`button on ${on ? 'active' : 'inactive'}`}
         role="button"
         aria-disabled={on}
-        aria-label={offTip}
+        aria-label={onTip}
         tabindex={on ? null : 0}
         title={onTip}
         on:pointerdown|stopPropagation={() => toggle(true)}
