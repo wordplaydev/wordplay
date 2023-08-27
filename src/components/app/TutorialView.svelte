@@ -260,6 +260,7 @@
             <select
                 bind:value={selection}
                 on:change={handleSelect}
+                on:pointerdown|stopPropagation
                 on:keydown|stopPropagation
             >
                 {#each progress.tutorial.acts as act, actIndex}
