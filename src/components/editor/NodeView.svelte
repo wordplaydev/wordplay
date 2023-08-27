@@ -132,7 +132,7 @@
     }
 
     .evaluate {
-        background: var(--color-light-blue);
+        background: var(--color-blue-transparent);
     }
 
     :global(.editor:not(.dragging))
@@ -141,7 +141,7 @@
     }
 
     .definition {
-        background: var(--color-light-purple);
+        background: var(--color-purple-transparent);
     }
 
     :global(.editor:not(.dragging))

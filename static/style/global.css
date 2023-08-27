@@ -1,8 +1,8 @@
 :root {
     --color-blue: #648fff;
-    --color-light-blue: #e5f2fb;
+    --color-blue-transparent: #648fff33;
     --color-purple: #785ef0;
-    --color-light-purple: #f1eeff;
+    --color-purple-transparent: #785ef033;
     --color-pink: #dc267f;
     --color-light-pink: #f7d3e4;
     --color-orange: #fe6100;
@@ -29,7 +29,7 @@
     --wordplay-inactive-color: var(--color-light-grey);
     --wordplay-alternating-color: var(--color-very-light-grey);
     --wordplay-doc-color: var(--color-purple);
-    --wordplay-doc-color-light: var(--color-light-purple);
+    --wordplay-doc-color-light: var(--color-purple-transparent);
     --wordplay-relation-color: var(--color-orange);
     --wordplay-operator-color: var(--color-orange);
     --wordplay-type-color: var(--color-orange);
@@ -57,9 +57,9 @@
 
 :root .dark {
     --color-blue: #3a72fe;
-    --color-light-blue: #0f1e45;
+    --color-blue-transparent: #0f1e45;
     --color-purple: #5b3ce6;
-    --color-light-purple: #261862;
+    --color-purple-transparent: #261862;
     --color-pink: #921a54;
     --color-light-pink: rgb(77, 15, 45);
     --color-orange: #ba4904;
