@@ -51,7 +51,7 @@ export class Row extends Arrangement {
 
         // Get the height of the container so we can center each phrase vertically.
         const height = layouts.reduce(
-            (max, layout) => Math.max(max, layout === null ? 0 : layout.ascent),
+            (max, layout) => Math.max(max, layout === null ? 0 : layout.height),
             0
         );
 
@@ -61,18 +61,24 @@ export class Row extends Arrangement {
             right = 0,
             bottom = 0;
         const positions: [TypeOutput, Place][] = [];
+        // Layout each child from start to end.
         for (const child of layouts) {
             if (child) {
                 const place = new Place(
                     this.value,
+                    // Current x position
                     x,
+                    // If a y is specified, use it.
                     child.output.place && child.output.place.y !== undefined
                         ? child.output.place.y
-                        : this.alignment === 0
-                        ? (height - child.ascent) / 2
-                        : this.alignment < 0
+                        : // If vertical alignment is centered, center y.
+                        this.alignment === 0
+                        ? (height - child.height) / 2
+                        : // If alignment is top, 0.
+                        this.alignment < 0
                         ? 0
-                        : height - child.ascent,
+                        : // If alignment is bottom
+                          height - child.height,
                     // If the phrase a place, use it's z, otherwise default to the 0 plane.
                     child.output.place && child.output.place.z !== undefined
                         ? child.output.place.z
