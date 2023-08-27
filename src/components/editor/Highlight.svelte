@@ -84,6 +84,26 @@
         fill: none;
     }
 
+    .delimiter.outline path {
+        stroke: var(--wordplay-highlight-color);
+        stroke-width: var(--wordplay-border-width);
+        animation: calc(250ms * var(--animation-factor)) linear wave infinite;
+        fill: var(--wordplay-hover);
+        transform-origin: center;
+    }
+
+    @keyframes wave {
+        0% {
+            transform: scale(1);
+        }
+        50% {
+            transform: scale(1.05);
+        }
+        100% {
+            transform: scale(1);
+        }
+    }
+
     .outline.dragged path {
         fill: var(--wordplay-hover);
         stroke: var(--wordplay-hover);

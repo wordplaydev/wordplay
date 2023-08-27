@@ -32,6 +32,7 @@ export const HighlightTypes = {
     animating: false,
     output: true,
     blockselected: true,
+    delimiter: false,
 };
 export type HighlightType = keyof typeof HighlightTypes;
 export type Highlights = Map<Node, Set<HighlightType>>;
@@ -209,7 +210,7 @@ export function getHighlights(
     if (caret.position instanceof Token) {
         const match = source.getMatchedDelimiter(caret.position);
         if (match) {
-            addHighlight(source, newHighlights, match, 'hovered');
+            addHighlight(source, newHighlights, match, 'delimiter');
         }
     }
 
