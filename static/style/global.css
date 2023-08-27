@@ -4,6 +4,7 @@
     --color-purple: #785ef0;
     --color-light-purple: #f1eeff;
     --color-pink: #dc267f;
+    --color-light-pink: #f7d3e4;
     --color-orange: #fe6100;
     --color-yellow: #ffb000;
     --color-white: #ffffff;
@@ -59,7 +60,8 @@
     --color-light-blue: #0f1e45;
     --color-purple: #5b3ce6;
     --color-light-purple: #261862;
-    --color-pink: #fe2e93;
+    --color-pink: #921a54;
+    --color-light-pink: rgb(77, 15, 45);
     --color-orange: #ba4904;
     --color-yellow: #cb8b00;
     --color-white: #ffffff;
