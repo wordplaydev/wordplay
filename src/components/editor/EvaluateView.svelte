@@ -8,6 +8,8 @@
     import RootView from '../project/RootView.svelte';
     import PlaceholderView from './PlaceholderView.svelte';
     import Token from '../../nodes/Token';
+    import { fade } from 'svelte/transition';
+    import { animationDuration } from '../../db/Database';
 
     export let node: Evaluate;
 
@@ -56,10 +58,10 @@
 
 <NodeView node={node.fun} /><NodeView node={node.types} /><NodeView
     node={node.open}
-/>{#each node.inputs as input}<NodeView
-        node={input}
-    />{/each}{#if nextBind}<span class="hint"
-        >&nbsp;…<RootView
+/>{#each node.inputs as input}<NodeView node={input} />{/each}{#if nextBind}<div
+        class="hint"
+        transition:fade={{ duration: $animationDuration }}
+        >&nbsp;<RootView
             node={nextBind.withoutValue()}
             inline
             elide
@@ -67,13 +69,18 @@
             inert
         />{#if menuPosition}<PlaceholderView
                 position={menuPosition}
-            />{/if}</span
+            />{/if}</div
     >{/if}<NodeView node={node.close} />
 
 <style>
+    .hint {
+        display: inline-block;
+    }
+
     .hint,
     .hint :global(.token-view) {
         color: var(--wordplay-inactive-color);
         font-style: italic;
+        font-size: small;
     }
 </style>
