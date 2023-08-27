@@ -13,6 +13,7 @@ import concretize from '../locale/concretize';
 import type Locale from '../locale/Locale';
 import { getOutputInput } from './Output';
 import StructureValue from '../values/StructureValue';
+import Decimal from 'decimal.js';
 
 export function createStackType(locales: Locale[]) {
     return toStructure(`
@@ -56,7 +57,7 @@ export class Stack extends Arrangement {
             this.padding * (layouts.length - 1);
 
         // Start at the top and work our way down.
-        let y = height;
+        let y = new Decimal(height);
 
         const places: [TypeOutput, Place][] = [];
         let left = 0,
@@ -65,7 +66,7 @@ export class Stack extends Arrangement {
             top = 0;
         for (const child of layouts) {
             if (child) {
-                y = y - child.height;
+                y = y.sub(child.height);
                 // Subtract the child's height to y to get it to its baseline.
                 const place = new Place(
                     this.value,
@@ -78,7 +79,8 @@ export class Stack extends Arrangement {
                         ? 0
                         : width - child.width,
                     // The current y, minus the child's height
-                    y,
+                    // There's a rounding error at 0 that causes janky positioning.
+                    y.round().toNumber() === 0 ? 0 : y.toNumber(),
                     // If the phrase has a place, use it's z, otherwise default to the 0 plane.
                     child.output.place && child.output.place.z !== undefined
                         ? child.output.place.z
@@ -87,7 +89,7 @@ export class Stack extends Arrangement {
                 places.push([child.output, place]);
 
                 // Subtract the padding.
-                y = y - this.padding;
+                y = y.sub(this.padding);
 
                 // Update bounds.
                 if (place.x < left) left = place.x;
