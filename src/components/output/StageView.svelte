@@ -73,7 +73,6 @@
         if (stillTimeout) clearTimeout(stillTimeout);
         stillTimeout = setTimeout(() => {
             still = true;
-            console.log('Still');
         }, 300);
     }
 

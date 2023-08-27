@@ -772,7 +772,7 @@
 
         <!-- If there's an exception, show that. -->
         {#if exception !== undefined}
-            <div class="message exception" data-uiid="exception"
+            <div class="message exception" class:mini data-uiid="exception"
                 >{#if mini}!{:else}<Speech
                         glyph={$index?.getNodeConcept(exception.creator) ??
                             exception.creator.getGlyphs()}
@@ -790,10 +790,10 @@
             </div>
             <!-- If there's no verse -->
         {:else if value === undefined}
-            <div class="message evaluating">◆</div>
+            <div class="message evaluating" class:mini>◆</div>
             <!-- If there's a value, but it's not a verse, show that -->
         {:else if stageValue === undefined}
-            <div class="message">
+            <div class="message" class:mini>
                 {#if mini}
                     <ValueView {value} interactive={false} />
                 {:else}
@@ -887,6 +887,12 @@
         margin: auto;
         margin-top: 1em;
         overflow: scroll;
+    }
+
+    .message.mini {
+        margin: 0;
+        padding: 0;
+        font-size: 2em;
     }
 
     @keyframes jiggle {
