@@ -175,6 +175,9 @@
     }
 
     async function handleKey(event: KeyboardEvent) {
+        // Ignore any modifiers; thhose are handled by the editor and project view.
+        if (event.shiftKey || event.ctrlKey || event.altKey) return;
+
         focusView = undefined;
         if (event.key === 'ArrowLeft' || event.key === 'Backspace') {
             focusView = previousButton;
