@@ -178,6 +178,9 @@ export default class Evaluator {
      * The last time we received from requestAnimationFrame.
      */
     previousTime: DOMHighResTimeStamp | undefined = undefined;
+
+    /** The relative time, accounting for pauses, accumulated from deltas */
+    currentTime = 0;
     animating = false;
 
     /**
@@ -1122,29 +1125,33 @@ export default class Evaluator {
 
     tick(time: DOMHighResTimeStamp) {
         // First time? Just record it and bail.
+        let delta = 0;
         if (this.previousTime === undefined) {
             this.previousTime = time;
         } else {
             // Compute the delta and remember the previous time.
-            const delta = time - this.previousTime;
+            delta = time - this.previousTime;
             this.previousTime = time;
+        }
+
+        if (!this.isStepping()) {
+            // Add the delta to the current time.
+            this.currentTime += delta;
 
             // If we're in play mode, tick all the temporal streams.
-            if (!this.isStepping()) {
-                if (this.temporalReactions.length > 0)
-                    console.error(
-                        "Hmmm, something is modifying temporal streams outside of the Evaluator's control. Tsk tsk!"
-                    );
-                // Tick each one, indirectly filling this.temporalReactions.
-                for (const stream of this.temporalStreams)
-                    stream.tick(time, delta, this.timeMultiplier);
+            if (this.temporalReactions.length > 0)
+                console.error(
+                    "Hmmm, something is modifying temporal streams outside of the Evaluator's control. Tsk tsk!"
+                );
+            // Tick each one, indirectly filling this.temporalReactions.
+            for (const stream of this.temporalStreams)
+                stream.tick(this.currentTime, delta, this.timeMultiplier);
 
-                // Now reevaluate with all of the temporal stream updates.
-                this.flush();
+            // Now reevaluate with all of the temporal stream updates.
+            this.flush();
 
-                // Remember that we did in the history, so we can replay evaluation.
-                this.#inputs.push(null);
-            }
+            // Remember that we did in the history, so we can replay evaluation.
+            this.#inputs.push(null);
         }
 
         // Tick again in a bit if we're not stopped.
