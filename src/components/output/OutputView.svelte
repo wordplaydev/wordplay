@@ -445,9 +445,11 @@
         if (event.buttons === 1 && drag && renderedFocus) {
             const valueRect = valueView?.getBoundingClientRect();
             if (valueRect !== undefined) {
+                const mouseXDelta = event.clientX - valueRect.left - drag.left;
+                const mouseYDelta = event.clientY - valueRect.top - drag.top;
                 const { x: renderedDeltaX, y: renderedDeltaY } = pixelsToMeters(
-                    event.clientX - valueRect.left - drag.left,
-                    event.clientY - valueRect.top - drag.top,
+                    mouseXDelta,
+                    mouseYDelta,
                     drag.startPlace.z,
                     renderedFocus.z
                 );
@@ -505,9 +507,17 @@
                         }
                         strokeNodeID = group.id;
                     }
-                } else {
+                }
+                // If panning, move focus
+                else {
                     if (event.shiftKey && stage) {
-                        stage.setFocus(newX, newY, drag.startPlace.z);
+                        const scale = rootScale(0, renderedFocus.z);
+                        // Scale down the mouse delta and offset by the drag starting point.
+                        stage.setFocus(
+                            renderedDeltaX / scale + drag.startPlace.x,
+                            -renderedDeltaY / scale + drag.startPlace.y,
+                            drag.startPlace.z
+                        );
                         event.stopPropagation();
                     } else if (
                         selectedOutput &&
