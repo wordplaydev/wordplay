@@ -43,18 +43,21 @@ export class Stack extends Arrangement {
         );
 
         // The width is the maximum child width
-        const width = layouts.reduce(
-            (max, layout) => Math.max(max, layout ? layout.width : 0),
-            0
+        const width = new Decimal(
+            layouts.reduce(
+                (max, layout) => Math.max(max, layout ? layout.width : 0),
+                0
+            )
         );
 
         // The height is the sum of all of the child heights plus padding between them
-        const height =
+        const height = new Decimal(
             layouts.reduce(
                 (height, layout) => height + (layout ? layout.height : 0),
                 0
             ) +
-            this.padding * (layouts.length - 1);
+                this.padding * (layouts.length - 1)
+        );
 
         // Start at the top and work our way down.
         let y = new Decimal(height);
@@ -74,13 +77,13 @@ export class Stack extends Arrangement {
                     child.output.place && child.output.place.x !== undefined
                         ? child.output.place.x
                         : this.alignment === 0
-                        ? (width - child.width) / 2
+                        ? width.sub(child.width).div(2).toNumber()
                         : this.alignment < 0
                         ? 0
-                        : width - child.width,
+                        : width.sub(child.width).toNumber(),
                     // The current y, minus the child's height
                     // There's a rounding error at 0 that causes janky positioning.
-                    y.round().toNumber() === 0 ? 0 : y.toNumber(),
+                    y.round().equals(0) ? 0 : y.toNumber(),
                     // If the phrase has a place, use it's z, otherwise default to the 0 plane.
                     child.output.place && child.output.place.z !== undefined
                         ? child.output.place.z
@@ -105,8 +108,8 @@ export class Stack extends Arrangement {
             top: bottom,
             right,
             bottom,
-            width,
-            height,
+            width: width.toNumber(),
+            height: height.toNumber(),
             places,
         };
     }
