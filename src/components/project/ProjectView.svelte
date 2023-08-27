@@ -113,11 +113,14 @@
     /** If false, then all things editable are deactivated */
     export let editable = true;
     /** If set to false, only the output is shown initially. */
-    export let playing = true;
+    export let playing = false;
     /** True if the output should be fit to content */
     export let fit = true;
+    /** True if the project should focus the main editor source on mount */
     export let autofocus = true;
+    /** True if the editor should show help on an empty main source file*/
     export let showHelp = true;
+    /** True if the project was overwritten by another instance of Wordplay */
     export let overwritten = false;
 
     // The HTMLElement that represents this element
@@ -345,7 +348,7 @@
                                 source.names.getPreferredNameString($locales)
                             )
                             // If playing, keep the source files collapsed
-                            .withMode(playing ? tile.mode : Mode.Collapsed)
+                            .withMode(playing ? Mode.Collapsed : tile.mode)
                     );
             }
         }
@@ -428,8 +431,8 @@
                               createSourceTile(source, index).withMode(
                                   playing &&
                                       (index === 0 || source === newSource)
-                                      ? Mode.Expanded
-                                      : Mode.Collapsed
+                                      ? Mode.Collapsed
+                                      : Mode.Expanded
                               )
                           ),
                       ],
@@ -1108,7 +1111,7 @@
     function stopPlaying() {
         const main = layout.getTileWithID(Layout.getSourceID(0));
         if (main) {
-            playing = true;
+            playing = false;
             setMode(main, Mode.Expanded);
             layout = layout.withoutFullscreen();
         }
@@ -1309,7 +1312,7 @@
                                         stepping={$evaluation.playing === false}
                                     /><GlyphChooser
                                         sourceID={tile.id}
-                                    />{:else if tile.kind === TileKind.Output && layout.fullscreenID !== tile.id && playing}
+                                    />{:else if tile.kind === TileKind.Output && layout.fullscreenID !== tile.id && !playing}
                                     <Timeline
                                         evaluator={$evaluator}
                                     />{/if}</svelte:fragment
@@ -1321,7 +1324,7 @@
         {/key}
     </div>
 
-    {#if !layout.isFullscreen() && playing}
+    {#if !layout.isFullscreen() && !playing}
         <nav class="footer">
             {#if original}<Button
                     uiid="revertProject"
