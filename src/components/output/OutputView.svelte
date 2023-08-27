@@ -885,14 +885,16 @@
         transform-origin: center;
         align-items: center;
         margin: auto;
-        margin-top: 1em;
         overflow: scroll;
     }
 
     .message.mini {
         margin: 0;
         padding: 0;
-        font-size: 2em;
+        font-size: inherit;
+        overflow: hidden;
+        flex-direction: row;
+        justify-content: center;
     }
 
     @keyframes jiggle {
@@ -941,5 +943,9 @@
     .ignored {
         animation: shake 1;
         animation-duration: calc(var(--animation-factor) * 100ms);
+    }
+
+    h2 {
+        margin-top: 1em;
     }
 </style>
