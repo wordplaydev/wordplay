@@ -3372,6 +3372,8 @@
             "cursorLineAfter": "move cursor to line after",
             "cursorInlineBefore": "move cursor to position before",
             "cursorInlineAfter": "move cursor to position after",
+            "cursorLineStart": "move cursor to start of line",
+            "cursorLineEnd": "move cursor to start of line",
             "cursorNeighborBefore": "select neighbor before",
             "cursorNeighborAfter": "select neighbor after",
             "cursorContainer": "select container",

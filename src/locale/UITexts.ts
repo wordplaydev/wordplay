@@ -111,6 +111,8 @@ type UITexts = {
         cursorLineAfter: string;
         cursorInlineBefore: string;
         cursorInlineAfter: string;
+        cursorLineStart: string;
+        cursorLineEnd: string;
         cursorNeighborBefore: string;
         cursorNeighborAfter: string;
         cursorContainer: string;

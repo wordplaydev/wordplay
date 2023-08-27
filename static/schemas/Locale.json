@@ -6485,6 +6485,12 @@
                   "description": "Move caret to the line before",
                   "type": "string"
                 },
+                "cursorLineEnd": {
+                  "type": "string"
+                },
+                "cursorLineStart": {
+                  "type": "string"
+                },
                 "cursorNeighborAfter": {
                   "type": "string"
                 },
@@ -6808,6 +6814,8 @@
                 "cursorLineAfter",
                 "cursorInlineBefore",
                 "cursorInlineAfter",
+                "cursorLineStart",
+                "cursorLineEnd",
                 "cursorNeighborBefore",
                 "cursorNeighborAfter",
                 "cursorContainer",

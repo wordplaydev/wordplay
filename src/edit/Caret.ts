@@ -512,6 +512,31 @@ export default class Caret {
         }
     }
 
+    atLineBoundary(start: boolean): Caret {
+        let position =
+            this.position instanceof Node
+                ? this.source.getNodeFirstPosition(this.position)
+                : this.position;
+        if (position === undefined) return this;
+        if (start) {
+            if (this.source.code.at(position - 1) === '\n') return this;
+            do {
+                position--;
+                if (this.source.code.at(position) === '\n')
+                    return this.withPosition(position + 1);
+            } while (position > 0);
+            return this.withPosition(0);
+        } else {
+            if (this.source.code.at(position) === '\n') return this;
+            do {
+                position++;
+                if (this.source.code.at(position) === '\n')
+                    return this.withPosition(position);
+            } while (position < this.source.code.getLength());
+            return this.withPosition(this.source.code.getLength() - 1);
+        }
+    }
+
     getParentOfOnlyChild(token: Token): Node {
         const parent = this.source.root.getParent(token);
         const tokens = parent?.leaves();

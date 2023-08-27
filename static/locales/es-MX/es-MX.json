@@ -1867,6 +1867,8 @@
             "cursorLineAfter": "$?",
             "cursorInlineBefore": "$?",
             "cursorInlineAfter": "$?",
+            "cursorLineStart": "$?",
+            "cursorLineEnd": "$?",
             "cursorNeighborBefore": "$?",
             "cursorNeighborAfter": "$?",
             "cursorContainer": "$?",
