@@ -32,6 +32,7 @@
     import type { Dialog, Performance } from '../../tutorial/Tutorial';
     import type Markup from '../../nodes/Markup';
     import Arrangement from '../../db/Arrangement';
+    import Header from './Header.svelte';
 
     export let progress: Progress;
     export let navigate: (progress: Progress) => void;
@@ -204,51 +205,8 @@
     class="tutorial"
     class:vertical={$arrangement === Arrangement.Vertical}
 >
-    <!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
-    <div
-        role="article"
-        class="dialog"
-        on:keydown={handleKey}
-        on:pointerdown|stopPropagation|preventDefault={() =>
-            nextButton?.focus()}
-    >
-        <div class="turns" aria-live="assertive">
-            {#if act === undefined}
-                <div class="title play">{$locale.wordplay}</div>
-            {:else if scene === undefined}
-                <div class="title act"
-                    >{$locale.term.act}
-                    {progress.act}<p><em>{act.title}</em></p></div
-                >
-            {:else if dialog === undefined}
-                <div class="title scene"
-                    >{$locale.term.scene}
-                    {progress.scene}<p><em>{scene.title}</em></p
-                    >{#if scene.subtitle}<em>{scene.subtitle}</em>{/if}</div
-                >
-            {:else}
-                {#key turns}
-                    {#each turns as turn}
-                        <!-- First speaker is always function, alternating speakers are the concept we're learning about. -->
-                        <Speech
-                            glyph={$conceptsStore
-                                ?.getConceptByName(turn.dialog[0])
-                                ?.getGlyphs($locales) ?? {
-                                symbols: turn.dialog[0],
-                            }}
-                            flip={turn.dialog[0] !== 'FunctionDefinition'}
-                            baseline
-                            scroll={false}
-                            emotion={Emotion[turn.dialog[1]]}
-                        >
-                            <svelte:fragment slot="content">
-                                <MarkupHTMLView markup={turn.speech} />
-                            </svelte:fragment>
-                        </Speech>
-                    {/each}
-                {/key}
-            {/if}
-        </div>
+    <div class="header">
+        <Header>Learn</Header>
         <nav>
             <Button
                 tip={$locale.ui.description.previousLessonStep}
@@ -280,11 +238,11 @@
             </select>
             <Note
                 >{#if act !== undefined}{act.title}{/if}
-                {#if act !== undefined && scene !== undefined}{#if $arrangement !== Arrangement.Vertical}<br
-                        />{/if}{scene.subtitle ?? scene.title}{/if}
+                {#if act !== undefined && scene !== undefined}&mdash; {scene.subtitle ??
+                        scene.title}{/if}
                 {#if act !== undefined && scene !== undefined && progress.pause > 0}
                     <span class="progress"
-                        >&ndash; {progress.pause} /
+                        >&mdash; {progress.pause} /
                         {scene
                             ? scene.lines.filter((line) => line === null)
                                   .length + 1
@@ -299,25 +257,73 @@
             >
         </nav>
     </div>
-    <!-- Create a new view from scratch when the code changes -->
-    <!-- Autofocus the main editor if it's currently focused -->
-    {#key initialProject}
-        {#if scene}
-            <div class="project"
-                ><ProjectView
+    <div class="content">
+        <!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
+        <div
+            role="article"
+            class="dialog"
+            on:keydown={handleKey}
+            on:pointerdown|stopPropagation|preventDefault={() =>
+                nextButton?.focus()}
+        >
+            <div class="turns" aria-live="assertive">
+                {#if act === undefined}
+                    <div class="title play">{$locale.wordplay}</div>
+                {:else if scene === undefined}
+                    <div class="title act"
+                        >{$locale.term.act}
+                        {progress.act}<p><em>{act.title}</em></p></div
+                    >
+                {:else if dialog === undefined}
+                    <div class="title scene"
+                        >{$locale.term.scene}
+                        {progress.scene}<p><em>{scene.title}</em></p
+                        >{#if scene.subtitle}<em>{scene.subtitle}</em>{/if}</div
+                    >
+                {:else}
+                    {#key turns}
+                        {#each turns as turn}
+                            <!-- First speaker is always function, alternating speakers are the concept we're learning about. -->
+                            <Speech
+                                glyph={$conceptsStore
+                                    ?.getConceptByName(turn.dialog[0])
+                                    ?.getGlyphs($locales) ?? {
+                                    symbols: turn.dialog[0],
+                                }}
+                                flip={turn.dialog[0] !== 'FunctionDefinition'}
+                                baseline
+                                scroll={false}
+                                emotion={Emotion[turn.dialog[1]]}
+                            >
+                                <svelte:fragment slot="content">
+                                    <MarkupHTMLView markup={turn.speech} />
+                                </svelte:fragment>
+                            </Speech>
+                        {/each}
+                    {/key}
+                {/if}
+            </div>
+        </div>
+        <!-- Create a new view from scratch when the code changes -->
+        <!-- Autofocus the main editor if it's currently focused -->
+        {#key initialProject}
+            {#if scene}
+                <div class="project"
+                    ><ProjectView
+                        project={$projectStore ?? initialProject}
+                        original={initialProject}
+                        bind:index={concepts}
+                        playing={!editable}
+                        {fit}
+                        autofocus={false}
+                        showHelp={false}
+                    /></div
+                >{:else}<PlayView
                     project={$projectStore ?? initialProject}
-                    original={initialProject}
-                    bind:index={concepts}
-                    playing={!editable}
                     {fit}
-                    autofocus={false}
-                    showHelp={false}
-                /></div
-            >{:else}<PlayView
-                project={$projectStore ?? initialProject}
-                {fit}
-            />{/if}
-    {/key}
+                />{/if}
+        {/key}
+    </div>
 </section>
 {#key highlights}
     {#each highlights as highlight}
@@ -327,6 +333,20 @@
 
 <style>
     .tutorial {
+        display: flex;
+        flex-direction: column;
+        flex-wrap: nowrap;
+        width: 100%;
+        height: 100%;
+    }
+
+    .header {
+        display: flex;
+        flex-direction: row;
+        gap: var(--wordplay-spacing);
+    }
+
+    .content {
         display: flex;
         flex-direction: row;
         align-items: center;
@@ -404,13 +424,9 @@
         padding: var(--wordplay-spacing);
         display: flex;
         flex-direction: row;
-        gap: var(--wordplay-spacing);
+        gap: calc(2 * var(--wordplay-spacing));
         align-items: center;
         width: 100%;
-    }
-
-    nav :global(button:last-child) {
-        margin-left: auto;
     }
 
     .turns {

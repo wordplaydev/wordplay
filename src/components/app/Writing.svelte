@@ -19,6 +19,7 @@
 
     :global(p) {
         max-width: 30em;
+        margin-inline-start: 1em;
     }
 
     :global(p:not(:last-of-type)) {
