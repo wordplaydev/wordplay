@@ -43,6 +43,7 @@
     import Placement from '../../input/Placement';
     import { toExpression } from '../../parser/parseExpression';
     import concretize from '../../locale/concretize';
+    import Live from './Live.svelte';
 
     export let project: Project;
     export let evaluator: Evaluator;
@@ -83,7 +84,11 @@
 
     let renderedFocus: Place;
 
+    /** A map from key string IDs to whether they are up or down */
     const keysDown: Map<string, boolean> = new Map();
+
+    /** The key most recently entered, for announcing **/
+    let keyRecentlyPressed: string | undefined = undefined;
 
     $: exception = value instanceof ExceptionValue ? value : undefined;
     $: stageValue = value === undefined ? undefined : toStage(project, value);
@@ -120,6 +125,9 @@
     }
 
     function handleKeyDown(event: KeyboardEvent) {
+        // Reset the key pressed
+        keyRecentlyPressed = undefined;
+
         keysDown.set(event.key, true);
 
         // Never handle tab; that's for keyboard navigation.
@@ -256,6 +264,9 @@
             evaluator
                 .getBasisStreamsOfType(Key)
                 .map((stream) => stream.react({ key: event.key, down: true }));
+
+            // Announce the key pressed
+            keyRecentlyPressed = event.key;
 
             // Map keys onto axes of change for any Placement streams.
             if (
@@ -774,7 +785,8 @@
                                 />
                             {/each}</svelte:fragment
                         ></Speech
-                    >{/if}
+                    ><Live>{exception.getExplanation($locale).toText()}</Live>
+                {/if}
             </div>
             <!-- If there's no verse -->
         {:else if value === undefined}
@@ -785,16 +797,16 @@
                 {#if mini}
                     <ValueView {value} interactive={false} />
                 {:else}
-                    <h2
-                        >{$locales.map((locale) =>
-                            value === undefined
-                                ? undefined
-                                : value
-                                      .getDescription(concretize, locale)
-                                      .toText()
-                        )}</h2
-                    >
+                    {@const description = value
+                        .getDescription(concretize, $locale)
+                        .toText()}
+                    <h2>{description}</h2>
                     <ValueView {value} inline={false} />
+                    <Live
+                        >{description}
+                        {value}
+                        {value.getDescription(concretize, $locale)}</Live
+                    >
                 {/if}
             </div>
             <!-- Otherwise, show the Stage -->
@@ -815,6 +827,8 @@
             />
         {/if}
     </div>
+    {#if keyRecentlyPressed}<Live>{keyRecentlyPressed}</Live>
+    {/if}
 </section>
 
 <style>

@@ -1103,7 +1103,7 @@
             "exception": {
                 "UnparsableException": {
                     "description": "???",
-                    "explanation": "???"
+                    "explanation": "/Hi, @FunctionDefinition here! We had to stop the performance because we didn't know what kind of instruction this is./"
                 }
             }
         },
