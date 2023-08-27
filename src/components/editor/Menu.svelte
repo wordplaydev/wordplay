@@ -11,6 +11,8 @@
     import { RevisionSet } from './util/Menu';
     import concretize from '../../locale/concretize';
     import Token from '../../nodes/Token';
+    import Bind from '../../nodes/Bind';
+    import Evaluate from '../../nodes/Evaluate';
 
     export let menu: Menu;
     /* What to run when hiding the menu */
@@ -39,15 +41,27 @@
     let index = getConceptIndex();
 
     $: selectedRevision = menu.getSelection();
-    $: selectedNewNode =
+    $: [newNode, newParent] =
         selectedRevision instanceof Revision
-            ? selectedRevision.getNewNode($locales)
+            ? selectedRevision.getEditedNode($locales)
+            : [undefined, undefined];
+    let evaluateBind: Bind | undefined;
+    $: if (
+        selectedRevision instanceof Revision &&
+        newNode instanceof Bind &&
+        newParent instanceof Evaluate
+    ) {
+        const fun = newParent.getFunction(selectedRevision.context);
+        evaluateBind = fun?.inputs.find(
+            (input) =>
+                newNode instanceof Bind && input.hasName(newNode.getNames()[0])
+        );
+    }
+    $: selectedConcept =
+        $index && newParent && newNode
+            ? $index.getRelevantConcept(evaluateBind ?? newNode)
             : undefined;
     $: selectedDocs = selectedConcept?.getDocs($locale);
-    $: selectedConcept =
-        $index && selectedNewNode
-            ? $index.getRelevantConcept(selectedNewNode)
-            : undefined;
 
     /* When the selection changes, scroll it's corresponding view and focus it. */
     let revisionViews: HTMLElement[] = [];

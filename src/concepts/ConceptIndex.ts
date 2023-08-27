@@ -188,6 +188,8 @@ export default class ConceptIndex {
                 ? node.getFunction(context)
                 : node instanceof Reference
                 ? node.resolve(context)
+                : node instanceof Bind
+                ? node
                 : undefined;
         const definitionConcept =
             definition instanceof FunctionDefinition

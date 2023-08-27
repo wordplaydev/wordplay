@@ -2934,23 +2934,23 @@
                 "Go meet them to learn more about how to use them."
             ],
             "size": {
-                "doc": "The font size, in meters, of this output.",
+                "doc": "How tall I should be, in meters!",
                 "names": "size"
             },
             "face": {
-                "doc": "The name of the font face that this output should be dressed in.",
+                "doc": "The name of the font face I should put on.",
                 "names": "face"
             },
             "place": {
-                "doc": "The place on stage where this output should be.",
+                "doc": "The place on stage where I should be.",
                 "names": "place"
             },
             "name": {
-                "doc": "The name of this output, useful for @Choice, and for enabling output with a shared name to be treated as the same output in animations.",
+                "doc": "A name you give me, helpful with @Choice, and for enabling output with a shared name to be treated as the same output in animations.",
                 "names": "name"
             },
             "selectable": {
-                "doc": "If \\⊤\\, indicates that the output can be selected via a pointer or keyboard.",
+                "doc": "If \\⊤\\, indicates that I can be selected via a pointer or keyboard.",
                 "names": "selectable"
             },
             "color": {
@@ -2958,7 +2958,7 @@
                 "names": "color"
             },
             "background": {
-                "doc": "The color of the background of the stage.",
+                "doc": "The @Color to project behind me.",
                 "names": "background"
             },
             "opacity": {
@@ -2986,19 +2986,19 @@
                 "names": "flipy"
             },
             "entering": {
-                "doc": "The @Pose or @Sequence to use upon entering the stage.",
+                "doc": "The @Pose or @Sequence I should do upon entering the stage.",
                 "names": "entering"
             },
             "resting": {
-                "doc": "The @Pose or @Sequence to use after I've entered stage, before I exit, and while my @Place isn't changing. If you don't give me one, I'll just use my defaults.",
+                "doc": "The @Pose or @Sequence I should do after I've entered stage, before I exit, and while my @Place isn't changing. If you don't give me one, I'll just use my defaults.",
                 "names": "resting"
             },
             "moving": {
-                "doc": "The @Pose or @Sequence to use when moving places, instead of my defaults.",
+                "doc": "The @Pose or @Sequence I should do when moving places on stage, instead of my defaults.",
                 "names": "moving"
             },
             "exiting": {
-                "doc": "The @Pose or @Sequence to use when exiting stage.",
+                "doc": "The @Pose or @Sequence to should do before exiting stage.",
                 "names": "exiting"
             },
             "duration": {
