@@ -80,6 +80,7 @@
 
     .outline.selected path {
         stroke: var(--wordplay-highlight-color);
+        stroke-width: var(--wordplay-focus-width);
         fill: none;
     }
 

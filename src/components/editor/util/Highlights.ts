@@ -95,6 +95,8 @@ export function getHighlights(
             caret.position,
             tokensSelected ? 'selected' : 'blockselected'
         );
+        if (tokensSelected)
+            addHighlight(source, newHighlights, caret.position, 'hovered');
     }
 
     // Is a node being dragged?
