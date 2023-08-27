@@ -382,8 +382,9 @@ export default class OutputAnimation {
         // Use the sequence to create an animation with the Web Animation API.
 
         // Find the element corresponding to the phrase in the given stage.
+        // We look inside the live stage corresponding to the stae's HTML ID
         const element = document.querySelector(
-            `.stage.live [data-id="${this.scene.stage.getHTMLID()}"] [data-id="${this.output.getHTMLID()}"]`
+            `.stage.live[data-id="${this.scene.stage.getHTMLID()}"] [data-id="${this.output.getHTMLID()}"]`
         );
 
         // If there's DOM element and this isn't exiting, start an animation.
@@ -443,7 +444,7 @@ export default class OutputAnimation {
             const localPlace = transition.place ?? info.local;
 
             // Convert the rest to a transform that respects the rendering rules.
-            // All of this logic should mirror what GroupView and PhraseView do.
+            // All of this logic should mirror what StageView, GroupView, and PhraseView do.
             if (localPlace && offsetFocus) {
                 const layout = this.output.getLayout(this.context);
 
@@ -451,18 +452,29 @@ export default class OutputAnimation {
                     transition.pose,
                     this.output.pose,
                     localPlace,
-                    offsetFocus,
-                    // Anything rooted in the verse has no height.
+                    // The offset is the scene focus if it's the stage, offset from focus otherwise
+                    this.output instanceof Stage
+                        ? this.scene.focus
+                        : offsetFocus,
+                    // Anything rooted in the stage has no height.
                     // Otherwise, pass the height of the parent, just like
                     // we do in GroupView.
-                    this.state === State.Exiting || parents[0] instanceof Stage
+                    this.state === State.Exiting ||
+                        parents[0] instanceof Stage ||
+                        parents[0] === undefined
                         ? 0
                         : parents[0].getLayout(this.context).ascent,
                     {
                         width: layout.width * PX_PER_METER,
                         ascent: layout.ascent * PX_PER_METER,
                         height: layout.height * PX_PER_METER,
-                    }
+                    },
+                    this.output instanceof Stage
+                        ? {
+                              width: this.scene.viewportWidth,
+                              height: this.scene.viewportHeight,
+                          }
+                        : undefined
                 );
             }
 
