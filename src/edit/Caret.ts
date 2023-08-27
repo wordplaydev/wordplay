@@ -744,7 +744,7 @@ export default class Caret {
             ((!this.isInsideText() && !FormattingSymbols.includes(text)) ||
                 (this.isInsideText() && FormattingSymbols.includes(text))) &&
             (this.tokenPrior === undefined ||
-                // The text typed closes a matching delimiter
+                // The text typed does not close an unmatched delimiter
                 (this.source.getUnmatchedDelimiter(this.tokenPrior, text) ===
                     undefined &&
                     !(

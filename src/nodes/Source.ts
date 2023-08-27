@@ -217,7 +217,8 @@ export default class Source extends Expression {
                         child !== anchor &&
                         child.getText() === open
                 );
-            if (match) return match;
+            if (match && this.getMatchedDelimiter(match) === undefined)
+                return match;
             next = ancestors.shift();
         }
 
