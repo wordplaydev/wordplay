@@ -460,6 +460,9 @@
 
         /** Put the stage in a layer, since it's contents likely change frequently. */
         will-change: contents;
+
+        /** No touch actions on the stage, since we handle them ourselves. */
+        touch-action: none;
     }
 
     .stage[data-selectable='true'] {

@@ -90,6 +90,11 @@
     /** The key most recently entered, for announcing **/
     let keyRecentlyPressed: string | undefined = undefined;
 
+    /** Event cache for touch panning and zooming */
+    let pointersByIndex: PointerEvent[] = [];
+    let startDifference: number | undefined = undefined;
+    let startGesturePlace: Place | undefined = undefined;
+
     $: exception = value instanceof ExceptionValue ? value : undefined;
     $: stageValue = value === undefined ? undefined : toStage(project, value);
     $: typing =
@@ -301,18 +306,10 @@
         }
     }
 
-    function handlePointerUp() {
-        drag = undefined;
-        paintingPlaces = [];
-        strokeNodeID = undefined;
-
-        if (evaluator.isPlaying())
-            evaluator
-                .getBasisStreamsOfType(Button)
-                .map((stream) => stream.react(false));
-    }
-
     function handlePointerDown(event: PointerEvent) {
+        // Add event to pointer event cache for
+        pointersByIndex.push(event);
+
         // Focus the keyboard input if it exists.
         if (keyboardInputView) {
             keyboardInputView.focus();
@@ -441,6 +438,50 @@
         }
     }
     function handlePointerMove(event: PointerEvent) {
+        // TOUCH PANNING AND ZOOMING
+
+        // Find the last event we had for this pointer.
+        const index = pointersByIndex.findIndex(
+            (event) => event.pointerId === event.pointerId
+        );
+        // Replace it with this new event
+        pointersByIndex[index] = event;
+
+        // If there are two pointers down, check for a pinch
+        if (pointersByIndex.length === 2) {
+            // Find the difference on the x axis
+            const currentPointerDifference = Math.abs(
+                pointersByIndex[0].clientX - pointersByIndex[1].clientX
+            );
+            // No differences yet? Initialize to the current difference, which
+            // is the anchor difference. Also initialize to the current rendered focus.
+            if (
+                startDifference === undefined ||
+                startGesturePlace === undefined
+            ) {
+                startDifference = currentPointerDifference;
+                startGesturePlace = renderedFocus;
+            } else {
+                const delta = currentPointerDifference - startDifference;
+                const scale = rootScale(0, renderedFocus.z);
+                const newZ = startGesturePlace.z + delta / PX_PER_METER / scale;
+                const boundedNewZ =
+                    newZ > -1 || newZ === Infinity
+                        ? -1
+                        : newZ < -40 || newZ === -Infinity
+                        ? -40
+                        : newZ;
+                if (!isNaN(boundedNewZ))
+                    stage.setFocus(
+                        startGesturePlace.x,
+                        startGesturePlace.y,
+                        boundedNewZ
+                    );
+            }
+        }
+
+        // MOUSE PANNING AND ZOOMING
+
         // Handle focus or output moves..
         if (event.buttons === 1 && drag && renderedFocus) {
             const valueRect = valueView?.getBoundingClientRect();
@@ -571,6 +612,36 @@
                 pointerStreams.forEach((stream) => stream.react(position));
             }
         }
+    }
+
+    function handlePointerUp(event: PointerEvent) {
+        // Remove this event from the event cache.
+        const index = pointersByIndex.findIndex(
+            (ev) => ev.pointerId === event.pointerId
+        );
+        pointersByIndex.splice(index, 1);
+        // Rset the distance once the number of pointers is less than 2.
+        if (pointersByIndex.length < 2) {
+            cancelGesture();
+        }
+
+        drag = undefined;
+        paintingPlaces = [];
+        strokeNodeID = undefined;
+
+        if (evaluator.isPlaying())
+            evaluator
+                .getBasisStreamsOfType(Button)
+                .map((stream) => stream.react(false));
+    }
+
+    function cancelGesture() {
+        startDifference = undefined;
+        startGesturePlace = undefined;
+    }
+
+    function handlePointerLeave() {
+        cancelGesture();
     }
 
     /**
@@ -766,6 +837,7 @@
             interactive ? handlePointerDown(event) : null}
         on:pointerup={interactive ? handlePointerUp : null}
         on:pointermove={interactive ? handlePointerMove : null}
+        on:pointerleave={interactive ? handlePointerLeave : null}
     >
         {#if $evaluation?.evaluator.getBasisStreamsOfType(Key).length > 0 || $evaluation?.evaluator.getBasisStreamsOfType(Placement).length > 0}
             <input
