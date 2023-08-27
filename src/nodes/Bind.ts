@@ -469,16 +469,20 @@ export default class Bind extends Expression {
 
         const parent = this.getParent(context);
 
-        // If the parent is an evaluate, see what input it corresponds to.
-        if (parent instanceof Evaluate) {
-            const mapping = parent.getInputMapping(context);
-            const input = mapping?.inputs.find((i) => i.given === this);
-            if (input) return input.expected.getType(context);
-        }
-
-        // If the bind is in a function definition that is part of a function evaluation that takes a function input,
+        // No type? If the bind is in a function definition that is part of a function evaluation that takes a function input,
         // get the type from the function input.
         if (type === undefined) {
+            // If the parent is an evaluate and there's no value specified, see what input it corresponds to.
+            if (
+                parent instanceof Evaluate &&
+                (this.value === undefined ||
+                    this.value instanceof ExpressionPlaceholder)
+            ) {
+                const mapping = parent.getInputMapping(context);
+                const input = mapping?.inputs.find((i) => i.given === this);
+                if (input) return input.expected.getType(context);
+            }
+
             if (parent instanceof FunctionDefinition) {
                 const bindIndex = parent.inputs.indexOf(this);
                 const evaluate = parent.getParent(context);

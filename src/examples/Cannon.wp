@@ -1,11 +1,11 @@
 Cannon
 === start/en
-•Question(id•"" vx•# vy•# va•#)
+•Question(id•"" vx•#m/s vy•#m/s va•#°/s)
 
 magnitude: 2
 pressed: ∆ Key()
 count•#: 0 … ∆ Key() … count + 1
-questions•[Question]:  [] … ∆ Key() … questions.add(Question(count→"" Random(magnitude magnitude · 2) Random(magnitude · 2 magnitude · 4) Random(0 360)))
+questions•[Question]:  [] … ∆ Key() … questions.add(Question(count→"" Random(magnitude magnitude · 2) · 1m/s Random(magnitude · 2 magnitude · 4) · 1m/s Random(0 360) · 1°/s))
 
 Stage(
     [ Phrase('👨‍👨‍👧‍👦' face: "Noto Emoji" place: 📍(0m 0m 0m)) ].append(
