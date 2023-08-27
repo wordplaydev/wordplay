@@ -201,9 +201,12 @@
         tick().then(() => (focusView ?? nextButton)?.focus())}
 />
 
+<!-- svelte-ignore a11y-no-static-element-interactions -->
 <section
     class="tutorial"
     class:vertical={$arrangement === Arrangement.Vertical}
+    on:keydown={handleKey}
+    on:pointerdown|stopPropagation|preventDefault={() => nextButton?.focus()}
 >
     <div class="header">
         <Header>Learn</Header>
@@ -213,6 +216,12 @@
                 action={() => navigate(progress.previousPause() ?? progress)}
                 active={progress.previousPause() !== undefined}
                 bind:view={previousButton}>⇦</Button
+            >
+            <Button
+                tip={$locale.ui.description.nextLessonStep}
+                action={() => navigate(progress.nextPause() ?? progress)}
+                active={progress.nextPause() !== undefined}
+                bind:view={nextButton}>⇨</Button
             >
             <!-- A hierarchical select of tutorial units and lessons  -->
             <select
@@ -249,23 +258,10 @@
                             : '?'}</span
                     >{/if}</Note
             >
-            <Button
-                tip={$locale.ui.description.nextLessonStep}
-                action={() => navigate(progress.nextPause() ?? progress)}
-                active={progress.nextPause() !== undefined}
-                bind:view={nextButton}>⇨</Button
-            >
         </nav>
     </div>
     <div class="content">
-        <!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
-        <div
-            role="article"
-            class="dialog"
-            on:keydown={handleKey}
-            on:pointerdown|stopPropagation|preventDefault={() =>
-                nextButton?.focus()}
-        >
+        <div role="article" class="dialog">
             <div class="turns" aria-live="assertive">
                 {#if act === undefined}
                     <div class="title play">{$locale.wordplay}</div>
