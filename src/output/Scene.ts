@@ -1,7 +1,7 @@
 import type TypeOutput from './TypeOutput';
 import Place from './Place';
 import { createPlace } from './Place';
-import type Stage from './Stage';
+import Stage from './Stage';
 import OutputAnimation from './OutputAnimation';
 import type Transition from './Transition';
 import type Node from '@nodes/Node';
@@ -48,6 +48,7 @@ export default class Scene {
 
     /** The current focus from the verse. */
     focus: Place;
+    priorStagePlace: Place | undefined;
 
     /** The previous and current places where groups are at */
     scene: OutputInfoSet = new Map<OutputName, OutputInfo>();
@@ -82,6 +83,7 @@ export default class Scene {
 
         // Initialize unintialized defaults.
         this.focus = createPlace(this.evaluator, 0, 0, -6);
+        this.priorStagePlace = this.focus;
     }
 
     /**
@@ -89,7 +91,7 @@ export default class Scene {
      * rendered screen reflects it.
      */
     update(
-        verse: Stage,
+        stage: Stage,
         live: boolean,
         focus: Place,
         width: number,
@@ -98,7 +100,9 @@ export default class Scene {
     ) {
         if (this.stopped) return undefined;
 
-        this.stage = verse;
+        this.priorStagePlace = this.stage?.place;
+
+        this.stage = stage;
         this.live = live;
         this.focus = focus;
         this.viewportWidth = width;
@@ -125,12 +129,13 @@ export default class Scene {
             context
         );
 
-        const center = new Place(verse.value, 0, 0, 0);
-        newScene.set(verse.getName(), {
-            output: verse,
+        const center = new Place(stage.value, 0, 0, 0);
+        newScene.set(stage.getName(), {
+            output: stage,
+            // We keep these at the center for cacluations, but use the focus place below to detect movement.
             global: center,
             local: center,
-            rotation: verse.pose.rotation,
+            rotation: stage.pose.rotation,
             parents: [],
             context,
         });
@@ -147,13 +152,20 @@ export default class Scene {
 
             // Did the place change? Note the move.
             const priorOutputInfo = this.scene.get(name);
-            const priorLocal = priorOutputInfo?.local;
+            const priorLocal =
+                output instanceof Stage
+                    ? this.priorStagePlace
+                    : priorOutputInfo?.local;
+            const currentLocal =
+                output instanceof Stage ? output.place : info.local;
             if (
                 priorLocal &&
-                (priorLocal.x !== info.local.x ||
-                    priorLocal.y !== info.local.y ||
-                    priorLocal.z !== info.local.z)
+                currentLocal &&
+                (priorLocal.x !== currentLocal.x ||
+                    priorLocal.y !== currentLocal.y ||
+                    priorLocal.z !== currentLocal.z)
             ) {
+                // Mark it moved, and remember the positioning so we can generate animations.
                 moved.set(name, {
                     output: output,
                     prior: {
@@ -161,7 +173,7 @@ export default class Scene {
                         rotation: priorOutputInfo?.rotation,
                     },
                     present: {
-                        place: info.local,
+                        place: currentLocal,
                         rotation: info.output.pose.rotation,
                     },
                 });
