@@ -65,7 +65,6 @@
         $selectedPhrase.index !== null;
 
     $: metrics = phrase.getMetrics(context);
-    $: console.log(metrics?.height);
 
     onMount(restore);
 
