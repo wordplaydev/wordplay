@@ -286,12 +286,11 @@ export const Restart: Command = {
     shift: true,
     alt: false,
     control: true,
-    execute: ({ resetInputs, database, evaluator }) => {
+    execute: ({ resetInputs }) => {
         // Don't handle this if we don't have access to the reset function.
         if (resetInputs === undefined) return false;
-        // Mark the inputs invalid so we don't inherit them
+        // Reset the project's inputs.
         resetInputs();
-        database.Projects.reviseProject(evaluator.project.clone());
         return undefined;
     },
 };

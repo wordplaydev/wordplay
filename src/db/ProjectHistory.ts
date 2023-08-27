@@ -95,6 +95,10 @@ export class ProjectHistory {
         this.current.set(project);
     }
 
+    ping() {
+        this.current.set(this.getCurrent());
+    }
+
     isUndoable() {
         return this.index > 0;
     }

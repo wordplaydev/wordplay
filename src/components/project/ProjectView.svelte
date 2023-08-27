@@ -241,6 +241,7 @@
     let replayInputs = true;
     function resetInputs() {
         replayInputs = false;
+        updateEvaluator(project);
     }
 
     /**
