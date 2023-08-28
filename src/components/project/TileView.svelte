@@ -223,7 +223,11 @@
                             fullscreen: !fullscreen,
                         })}
                 >
-                    <svg height="13px" viewBox="0 0 14 14" width="14px"
+                    <svg
+                        height="13px"
+                        viewBox="0 0 14 14"
+                        width="14px"
+                        style="stroke: var(--wordplay-foreground)"
                         ><title /><desc /><defs /><g
                             fill-rule="evenodd"
                             stroke-width="1"
@@ -242,9 +246,10 @@
             </div>
         </div>
         <!-- Render the content -->
-        <div class="content" on:scroll={() => dispatch('scroll')}>
+        <div class="content" on:scroll={(event) => dispatch('scroll')}>
             <slot name="content" />
         </div>
+        <!-- Render the footer -->
         <div class="footer"><slot name="footer" /></div>
     </section>
 </div>
@@ -257,10 +262,14 @@
         display: flex;
         flex-direction: column;
         align-items: flex-start;
-        border: var(--wordplay-border-color) solid 1px;
 
         /* Don't let iOS grab pointer move events, so we can do drag and drop. */
         touch-action: none;
+    }
+
+    .tile.responsive {
+        border-bottom: var(--wordplay-border-width) solid
+            var(--wordplay-border-color);
     }
 
     .tile.free {
@@ -342,22 +351,17 @@
     }
 
     .content {
+        width: 100%;
+        flex-grow: 1;
+        position: relative;
         overflow: scroll;
         /* This doesn't work in Chrome :( It prevents scrolling altogether */
         /* scroll-behavior: smooth; */
-        position: relative;
-        width: 100%;
-        flex-grow: 1;
     }
 
-    .focuscontent .content:focus-within {
+    .content:focus-within {
         outline: var(--wordplay-focus-color) solid var(--wordplay-focus-width);
         outline-offset: calc(-1 * var(--wordplay-focus-width));
-    }
-
-    .focuscontent.fullscreen .content:focus-within:after {
-        outline-width: calc(var(--wordplay-focus-width) / 2);
-        outline-offset: calc(-1 * var(--wordplay-focus-width) / 2);
     }
 
     .fullscreen {

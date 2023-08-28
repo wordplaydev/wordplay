@@ -83,7 +83,6 @@
         background-color: var(--wordplay-background);
         align-items: center;
         border-top: var(--wordplay-border-color) solid 1px;
-        border-bottom: var(--wordplay-border-color) solid 1px;
     }
 
     .matches {

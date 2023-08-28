@@ -1271,6 +1271,7 @@
         ? 'playing'
         : 'stepping'}"
     class:readonly={!editable}
+    class:focused
     class:dragging={dragCandidate !== undefined || $dragged !== undefined}
     data-uiid="editor"
     role="application"
@@ -1413,7 +1414,7 @@
         line-height: var(--wordplay-code-line-height);
         position: relative;
         user-select: none;
-        padding: calc(2 * var(--wordplay-spacing));
+        padding: var(--wordplay-spacing);
         flex: 1;
         cursor: text;
         margin-bottom: auto;
@@ -1426,14 +1427,6 @@
 
     .editor.dragging {
         touch-action: none;
-    }
-
-    .editor.readonly {
-        background: var(--wordplay-alternating-color);
-    }
-
-    .editor:focus {
-        outline: none;
     }
 
     .keyboard-input {
