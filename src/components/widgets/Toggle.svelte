@@ -51,7 +51,7 @@
         transform-origin: center;
         user-select: none;
         border: none;
-        background: none;
+        background: var(--wordplay-background);
         color: var(--wordplay-foreground);
         cursor: pointer;
         width: fit-content;
