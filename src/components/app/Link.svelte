@@ -11,7 +11,8 @@
         text-decoration: none;
     }
 
-    a:focus {
+    a:focus,
+    a:hover {
         outline: none;
         text-decoration: underline;
         text-decoration-thickness: var(--wordplay-focus-width);

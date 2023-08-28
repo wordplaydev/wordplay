@@ -325,6 +325,10 @@ type UITexts = {
                 update: ButtonText;
             };
         };
+        rights: {
+            header: string;
+            content: string[];
+        };
     };
     edit: EditTexts;
     error: {

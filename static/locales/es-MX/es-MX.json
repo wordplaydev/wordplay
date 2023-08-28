@@ -2104,6 +2104,10 @@
                         "label": "$?"
                     }
                 }
+            },
+            "rights": {
+                "header": "$?",
+                "content": ["$?"]
             }
         },
         "edit": {

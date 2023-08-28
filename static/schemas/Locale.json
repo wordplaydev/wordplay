@@ -7503,6 +7503,25 @@
                     "prompt"
                   ],
                   "type": "object"
+                },
+                "rights": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "content": {
+                      "items": {
+                        "type": "string"
+                      },
+                      "type": "array"
+                    },
+                    "header": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "header",
+                    "content"
+                  ],
+                  "type": "object"
                 }
               },
               "required": [
@@ -7510,7 +7529,8 @@
                 "projects",
                 "galleries",
                 "about",
-                "login"
+                "login",
+                "rights"
               ],
               "type": "object"
             },
