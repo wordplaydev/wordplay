@@ -23,6 +23,7 @@
     import { getLanguageDirection } from '../../locale/LanguageCode';
     import {
         animationDuration,
+        animationFactor,
         blocks,
         locale,
         writingDirection,
@@ -57,6 +58,10 @@
         $blocks;
         $evaluation;
         setTimeout(() => (location = computeLocation()), $animationDuration);
+    }
+
+    $: if (ignored) {
+        setTimeout(() => (ignored = false), 200 * $animationFactor);
     }
 
     // Whenever the caret changes, update the index we should render and scroll to it.

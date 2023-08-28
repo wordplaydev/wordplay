@@ -1030,6 +1030,8 @@
     }
 
     async function showMenu(node: CaretPosition | undefined = undefined) {
+        if (!editable) return;
+
         // Wait for everything to be updated so we have a fresh context
         await tick();
 
@@ -1106,7 +1108,7 @@
                         .withCaret(newSource, newCaret.position)
                 );
                 caret.set(newCaret.withSource(newSource));
-            }
+            } else lastKeyDownIgnored = true;
         } else {
             // Remove the addition, since the caret moved since being added.
             caret.set(newCaret.withoutAddition());
@@ -1238,10 +1240,11 @@
             command?.typing === true ? IdleKind.Typing : IdleKind.Typed;
 
         if (result !== false) {
-            if (result instanceof Promise)
+            if (result instanceof Promise) {
                 result.then((edit) => handleEdit(edit, idle, true));
-            else if (result !== undefined && result !== true)
+            } else if (result !== undefined && result !== true) {
                 handleEdit(result, idle, true);
+            }
 
             // Prevent default keyboard commands from being otherwise handled.
             event.preventDefault();
