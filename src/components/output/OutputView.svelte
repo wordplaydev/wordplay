@@ -139,11 +139,16 @@
     function handleKeyDown(event: KeyboardEvent) {
         keysDown.set(event.key, true);
 
+        const command = event.metaKey || event.ctrlKey;
+        const shift = event.shiftKey;
+        const select =
+            (event.key === 'Enter' || event.key === ' ') && !command && !shift;
+
         // Never handle tab; that's for keyboard navigation.
         if (event.key === 'Tab') return;
 
         // Adjust verse focus
-        if (event.shiftKey && stage) {
+        if (shift && stage) {
             const increment = 1;
             if (event.key === 'ArrowLeft') {
                 event.stopPropagation();
@@ -222,7 +227,7 @@
             const evaluate = getOutputNodeFromID(getOutputNodeIDFromFocus());
             if (evaluate !== undefined) {
                 // Add or remove the focused node from the selection.
-                if (event.key === 'Enter' || event.key === ' ') {
+                if (select) {
                     setSelectedOutput(
                         selectedOutputPaths,
                         project,
@@ -234,11 +239,7 @@
                     return;
                 }
                 // Remove the node that created this phrase.
-                else if (
-                    editable &&
-                    event.key === 'Backspace' &&
-                    (event.metaKey || event.ctrlKey)
-                ) {
+                else if (editable && event.key === 'Backspace' && command) {
                     Projects.revise(project, [[evaluate, undefined]]);
                     event.stopPropagation();
                     return;
@@ -256,10 +257,7 @@
 
         if (evaluator.isPlaying()) {
             // Was the target clicked on output with a name? Add it to choice streams.
-            if (
-                (event.key === 'Enter' || event.key === ' ') &&
-                event.target instanceof HTMLElement
-            ) {
+            if (select && event.target instanceof HTMLElement) {
                 recordSelection(event);
                 event.stopPropagation();
             }
