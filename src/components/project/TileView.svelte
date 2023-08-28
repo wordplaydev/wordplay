@@ -246,9 +246,13 @@
             </div>
         </div>
         <!-- Render the content -->
-        <div class="content" on:scroll={(event) => dispatch('scroll')}>
+        <div class="content" on:scroll={() => dispatch('scroll')}>
             <slot name="content" />
         </div>
+        <!-- Render a focus indicator. We do this instead of an outline to avoid content form overlapping an inset CSS outline.  -->
+        {#if focuscontent}
+            <div class="focus-indicator" />
+        {/if}
         <!-- Render the footer -->
         <div class="footer"><slot name="footer" /></div>
     </section>
@@ -267,13 +271,21 @@
         touch-action: none;
     }
 
-    .tile.responsive {
+    .tile.responsive,
+    .tile.vertical {
         border-bottom: var(--wordplay-border-width) solid
+            var(--wordplay-border-color);
+    }
+
+    .tile:not(.output).responsive,
+    .tile:not(.output).horizontal {
+        border-right: var(--wordplay-border-width) solid
             var(--wordplay-border-color);
     }
 
     .tile.free {
         z-index: 1;
+        border: var(--wordplay-border-width) solid var(--wordplay-border-color);
     }
 
     .tile.animated {
@@ -359,9 +371,14 @@
         /* scroll-behavior: smooth; */
     }
 
-    .content:focus-within {
-        outline: var(--wordplay-focus-color) solid var(--wordplay-focus-width);
-        outline-offset: calc(-1 * var(--wordplay-focus-width));
+    .focus-indicator {
+        height: var(--wordplay-focus-width);
+        flex-shrink: 0;
+        width: 100%;
+    }
+
+    .content:focus-within + .focus-indicator {
+        background-color: var(--wordplay-focus-color);
     }
 
     .fullscreen {
