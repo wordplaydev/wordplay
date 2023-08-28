@@ -19,9 +19,17 @@ import FunctionDefinition from '../nodes/FunctionDefinition';
 import parseDoc from '../parser/parseDoc';
 import { toTokens } from '../parser/toTokens';
 import { DOCS_SYMBOL } from '../parser/Symbols';
+import { PUBLIC_CONTEXT } from '$env/static/public';
+
+PUBLIC_CONTEXT === 'local';
+const EventuallySupportedLocales = ['zh-CN'];
 
 /** A list of locales officially supported by Wordplay. */
-export const SupportedLocales = ['en-US', 'es-MX'] as const;
+export const SupportedLocales = [
+    'en-US',
+    'es-MX',
+    ...EventuallySupportedLocales,
+] as const;
 
 /** One of the supported locales above */
 export type SupportedLocale = (typeof SupportedLocales)[number];

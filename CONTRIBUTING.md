@@ -141,6 +141,8 @@ That means you're the first to work on it!
 You'll find a folder `static/locales/example` that contains templates to start from.
 Copy that folder and rename it and its files to the language code that you want to work on, or copy an existing locale and start from it (being careful to keep track of which strings aren't yet translated).
 
+Before you can test your edits in the interface, you need to add the locale you're editing to the "eventually" supported locales. These are stored in `Locale.ts`, in a constant near the top of the file. Add it there, and you'll be able to see that option in the language chooser.
+
 The recommended editing setup is as follows:
 
 -   Have VS Code open with the locale file you're editing
