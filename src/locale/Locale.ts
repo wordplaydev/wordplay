@@ -21,14 +21,14 @@ import { toTokens } from '../parser/toTokens';
 import { DOCS_SYMBOL } from '../parser/Symbols';
 import { PUBLIC_CONTEXT } from '$env/static/public';
 
-PUBLIC_CONTEXT === 'local';
+/** A list of locales that are in progress but not supported yet. Only added when developing locally. */
 const EventuallySupportedLocales = ['zh-CN'];
 
 /** A list of locales officially supported by Wordplay. */
 export const SupportedLocales = [
     'en-US',
     'es-MX',
-    ...EventuallySupportedLocales,
+    ...(PUBLIC_CONTEXT === 'local' ? EventuallySupportedLocales : []),
 ] as const;
 
 /** One of the supported locales above */
