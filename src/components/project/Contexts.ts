@@ -20,6 +20,7 @@ import type Locale from '@locale/Locale';
 import type Root from '@nodes/Root';
 import type { CommandContext, Edit } from '../editor/util/Commands';
 import type { CaretPosition } from '../../edit/Caret';
+import type LanguageCode from '../../locale/LanguageCode';
 
 // App related contexts
 
@@ -239,4 +240,20 @@ export type SelectedPhraseContext = Writable<{
 } | null>;
 export function getSelectedPhrase(): SelectedPhraseContext | undefined {
     return getContext(SelectedPhraseSymbol);
+}
+
+// Accessibility contexts
+
+// These are lists of announcements rendered invisiblily in the project view
+// for screen readers. Children can override by ID to change what's announced.
+// This minimizes the number of live regions on the page, increasing the likelihood
+// that they're read.
+export const AnnouncerSymbol = Symbol('announcer');
+export type Announce = (
+    id: string,
+    language: LanguageCode | undefined,
+    message: string
+) => void;
+export function getAnnounce(): Readable<Announce | undefined> {
+    return getContext(AnnouncerSymbol);
 }

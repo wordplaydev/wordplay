@@ -93,7 +93,6 @@
                     {project}
                     {evaluator}
                     {value}
-                    fullscreen={false}
                     mini
                     editable={false}
                 />

@@ -218,13 +218,16 @@ export default class Phrase extends TypeOutput {
         } else return this.text.markup;
     }
 
+    getShortDescription(locales: Locale[]) {
+        const textOrDoc = this.getLocalizedTextOrDoc(locales);
+        return textOrDoc instanceof TextLang
+            ? textOrDoc.text
+            : textOrDoc?.toText() ?? '';
+    }
+
     getDescription(locales: Locale[]) {
         if (this._description === undefined) {
-            const textOrDoc = this.getLocalizedTextOrDoc(locales);
-            const text =
-                textOrDoc instanceof TextLang
-                    ? textOrDoc.text
-                    : textOrDoc?.toText() ?? '';
+            const text = this.getShortDescription(locales);
 
             this._description = concretize(
                 locales[0],

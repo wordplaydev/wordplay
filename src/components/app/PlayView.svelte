@@ -31,7 +31,6 @@
     {project}
     {evaluator}
     value={latest}
-    fullscreen={false}
     {fit}
     grid={false}
     editable={false}

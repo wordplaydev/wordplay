@@ -35,6 +35,8 @@
         EditorsSymbol,
         type EditorState,
         ProjectCommandContextSymbol,
+        AnnouncerSymbol,
+        type Announce,
     } from './Contexts';
     import type Project from '@models/Project';
     import Documentation from '@components/concepts/Documentation.svelte';
@@ -107,6 +109,7 @@
     import gotoProject from '../app/gotoProject';
     import Collaborators from './Collaborators.svelte';
     import Toggle from '../widgets/Toggle.svelte';
+    import Announcer from './Announcer.svelte';
 
     export let project: Project;
     export let original: Project | undefined = undefined;
@@ -287,6 +290,12 @@
         // Set the evaluator store
         evaluator.set(newEvaluator);
     }
+
+    /** Create a store for announcements for children to add to. */
+    let announce: Announce;
+    let announcer: Writable<Announce|undefined> = writable(undefined);
+    $: announcer.set(announce);
+    setContext<Writable<Announce | undefined>>(AnnouncerSymbol, announcer);
 
     /** Create a store for all of the evaluation state, so that the editor nodes can update when it changes. */
     const evaluation: Writable<EvaluationContext> = writable(
@@ -1263,8 +1272,6 @@
                                         {project}
                                         evaluator={$evaluator}
                                         value={latestValue}
-                                        fullscreen={layout.fullscreenID ===
-                                            tile.id}
                                         bind:fit
                                         bind:grid
                                         bind:painting
@@ -1420,6 +1427,9 @@
             </div>
         {/if}
     {/if}
+
+    <!-- Render a live region with announcements -->
+    <Announcer bind:announce />
 </main>
 
 <style>

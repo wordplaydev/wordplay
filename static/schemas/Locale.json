@@ -5946,8 +5946,12 @@
             "map": {
               "type": "string"
             },
+            "moved": {
+              "description": "How to describe output that has moved",
+              "type": "string"
+            },
             "name": {
-              "description": "How to refer to names that things have",
+              "description": "How to refer to names",
               "type": "string"
             },
             "none": {
@@ -6028,6 +6032,7 @@
             "start",
             "entered",
             "changed",
+            "moved",
             "name",
             "value",
             "boolean",

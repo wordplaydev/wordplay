@@ -18,7 +18,7 @@
     import Evaluate from '@nodes/Evaluate';
     import { DefaultSize } from '@output/Stage';
     import { createPlace } from '@output/Place';
-    import Scene, { type OutputInfoSet } from '@output/Scene';
+    import Scene, { type Moved, type OutputInfoSet } from '@output/Scene';
     import GroupView from './GroupView.svelte';
     import { tick } from 'svelte';
     import Phrase from '@output/Phrase';
@@ -30,19 +30,22 @@
     import { writable } from 'svelte/store';
     import {
         getAnimatingNodes,
+        getAnnounce,
         getEvaluation,
         getSelectedOutput,
     } from '../project/Contexts';
     import type Evaluator from '@runtime/Evaluator';
     import type TypeOutput from '../../output/TypeOutput';
-    import Sequence from '../../output/Sequence';
-    import Reference from '../../nodes/Reference';
     import { animationFactor, locale, locales } from '../../db/Database';
+    import {
+        describeEnteredOutput,
+        describeMovedOutput,
+        describedChangedOutput,
+    } from './OutputDescriptions';
 
     export let project: Project;
     export let evaluator: Evaluator;
     export let stage: Stage;
-    export let fullscreen: boolean;
     export let interactive: boolean;
     export let editable: boolean;
     export let fit: boolean;
@@ -63,85 +66,58 @@
     let mounted = false;
     onMount(() => (mounted = true));
 
-    /** Here we keep track of whether the stage has not been rerendered for some period of time.
-     * We use this as an optimization, only rendering expensive templated aria-labels for Group and Phrase views
-     * when the screen is still, since someone with a screen reader wouldn't be able to track something changing any faster.
+    /**
+     * Here we keep track of whether the stage has not been rerendered for some period of time.
+     * We use this as an optimization, only generating expensive templated aria-labels for Group and Phrase views
+     * when the screen is still, or when we haven't announced for a while. This is because screen reader users wouldn't be able to track something changing any faster,
+     * since reading takes time.
      */
     let stillTimeout: NodeJS.Timeout | undefined = undefined;
-    let still = false;
+    let lastAnnouncement = 0;
+    let announce = false;
     $: if (stage) {
+        // Start by assuming we're not going to announce.
+        announce = false;
+        // Have we not announced in a while? Let's announce now.
+        const now = Date.now();
+        if (now - lastAnnouncement > 1000) {
+            announce = true;
+            lastAnnouncement = now;
+        }
+        // Clear any timeout we had set up recently, then make a new one, announcing in a bit.
         if (stillTimeout) clearTimeout(stillTimeout);
         stillTimeout = setTimeout(() => {
-            still = true;
+            announce = true;
+            lastAnnouncement = Date.now();
         }, 300);
     }
 
-    /** The list of visible phrases */
-    let exiting: OutputInfoSet;
-
-    /** The list of entered phrases */
+    let exiting: OutputInfoSet = new Map();
     let entered: Map<string, TypeOutput> = new Map();
     let present: Map<string, TypeOutput> = new Map();
+    let moved: Moved = new Map();
     let previouslyPresent: Map<string, TypeOutput> | undefined = undefined;
 
-    /** A description of phrases that have entered the scene */
-    $: enteredDescription =
-        still && entered.size > 0
-            ? Array.from(entered.values())
-                  .filter(
-                      (output): output is Phrase => output instanceof Phrase
-                  )
-                  .map((output) => output.getDescription($locales))
-                  .join(', ')
-            : '';
+    const announcer = getAnnounce();
 
-    /** A description of non-entering phrases that changed text */
-    let changedDescription = '';
-    $: {
-        if (still) {
-            const changed: string[] = [];
-            for (const [name, output] of present.entries()) {
-                if (output instanceof Phrase) {
-                    const previous =
-                        previouslyPresent === undefined
-                            ? undefined
-                            : previouslyPresent.get(name);
-                    if (!entered.has(name)) {
-                        const previousText = previous
-                            ?.getDescription($locales)
-                            .toString();
-                        const currentText = output
-                            .getDescription($locales)
-                            .toString();
-                        if (
-                            previousText !== currentText &&
-                            typeof currentText === 'string'
-                        ) {
-                            const sequence =
-                                output.resting instanceof Sequence
-                                    ? output.resting
-                                    : undefined;
-                            const sequenceDescription = sequence
-                                ? sequence.value.creator instanceof Evaluate &&
-                                  sequence.value.creator.inputs[0] instanceof
-                                      Evaluate &&
-                                  sequence.value.creator.inputs[0]
-                                      .fun instanceof Reference
-                                    ? sequence.value.creator.inputs[0].fun.getName()
-                                    : ''
-                                : undefined;
-                            changed.push(
-                                currentText +
-                                    (sequenceDescription
-                                        ? ` ${sequenceDescription} animation`
-                                        : '')
-                            );
-                        }
-                    }
-                }
-            }
-            changedDescription = changed.length > 0 ? changed.join(', ') : '';
-        }
+    // Announce changes on stage.
+    $: if ($announcer) {
+        const language = $locales[0].language;
+        if (entered.size > 0)
+            $announcer(
+                'entered',
+                language,
+                describeEnteredOutput($locales, entered)
+            );
+        for (const change of describedChangedOutput(
+            $locales,
+            entered,
+            present,
+            previouslyPresent
+        ))
+            $announcer('changed', language, change);
+        if (moved.size > 0)
+            $announcer('moved', language, describeMovedOutput($locales, moved));
     }
 
     /** The verse focus that fits the content to the view*/
@@ -194,7 +170,7 @@
         previouslyPresent = present;
         let animate: (() => void) | undefined = undefined;
         if (results !== undefined)
-            ({ exiting, present, entered, animate } = results);
+            ({ entered, present, moved, entered, animate } = results);
 
         // Defer rendering until we have a view so that animations can be bound to DOM elements.
         tick().then(() => {
@@ -342,7 +318,7 @@
             {context}
             {interactive}
             {editing}
-            {still}
+            still={announce}
         >
             {#if grid}
                 {@const left = Math.min(
@@ -400,7 +376,7 @@
                         parentAscent={0}
                         {context}
                         {editing}
-                        {still}
+                        still={announce}
                     />
                 {:else if info.output instanceof Group}
                     <GroupView
@@ -411,33 +387,10 @@
                         {interactive}
                         {context}
                         {editing}
-                        {still}
+                        still={announce}
                     />
                 {/if}
             {/each}
-            <!-- Render screen reader live region when in full screen -->
-            {#if fullscreen}
-                <div
-                    role="region"
-                    class="output-changes"
-                    aria-live="polite"
-                    aria-atomic="true"
-                    aria-relevant="all"
-                >
-                    {#if enteredDescription.length > 0}
-                        <p
-                            >{$locale.term.entered}
-                            {enteredDescription}</p
-                        >
-                    {/if}
-                    {#if changedDescription.length > 0}
-                        <p
-                            >{$locale.term.changed}
-                            {changedDescription}</p
-                        >
-                    {/if}
-                </div>
-            {/if}
         </GroupView>
     </section>
 {/if}
@@ -517,9 +470,5 @@
     .axis {
         background-color: var(--grid-color);
         opacity: 0.4;
-    }
-
-    .output-changes {
-        font-size: 0;
     }
 </style>

@@ -7,7 +7,7 @@ import type Place from './Place';
 import type Pose from './Pose';
 import type RenderContext from './RenderContext';
 import type Sequence from './Sequence';
-import type TextLang from './TextLang';
+import TextLang from './TextLang';
 import TypeOutput, { createTypeOutputInputs } from './TypeOutput';
 import { getStyle, toArrangement, toTypeOutputList } from './toTypeOutput';
 import { TYPE_SYMBOL } from '../parser/Symbols';
@@ -19,6 +19,7 @@ import StructureValue from '@values/StructureValue';
 import { getOutputInput } from './Output';
 import concretize from '../locale/concretize';
 import type { SupportedFace } from '../basis/Fonts';
+import { getFirstName } from '../locale/Locale';
 
 export function createGroupType(locales: Locale[]) {
     return toStructure(`
@@ -104,6 +105,12 @@ export default class Group extends TypeOutput {
 
     getBackground(): Color | undefined {
         throw new Error('Method not implemented.');
+    }
+
+    getShortDescription(locales: Locale[]) {
+        return this.name instanceof TextLang
+            ? this.name.text
+            : getFirstName(locales[0].output.Group.names);
     }
 
     getDescription(locales: Locale[]) {

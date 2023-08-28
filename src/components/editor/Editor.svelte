@@ -34,6 +34,7 @@
         EditorSymbol,
         getConceptIndex,
         getEditors,
+        getAnnounce,
     } from '../project/Contexts';
     import {
         type Highlights,
@@ -267,6 +268,22 @@
 
     // Hide the menu when the caret changes.
     $: if ($caret) hideMenu();
+
+    // Whenever the caret changes, update it's announcements.
+    const announce = getAnnounce();
+    $: {
+        if ($announce && document.activeElement === input) {
+            $announce(
+                sourceID,
+                $caret.getLanguage(),
+                $caret.getDescription(
+                    caretExpressionType,
+                    conflictsOfInterest,
+                    context
+                )
+            );
+        }
+    }
 
     // When the caret changes, see if there's an adjustable at it, and if so, measure it and then show it.
     let adjustable: Node | undefined;
@@ -1358,20 +1375,7 @@
                             link={typeConcept}
                             label={caretTypeDescription}
                         />{:else}{caretTypeDescription}{/if}{/if}
-                <PlaceholderView
-                    position={$caret.position}
-                />{/if}{#if document.activeElement === input}<div
-                    class="screen-reader-description"
-                    aria-live="polite"
-                    aria-atomic="true"
-                    aria-relevant="all"
-                    lang={$caret.getLanguage() ?? null}
-                    >{$caret.getDescription(
-                        caretExpressionType,
-                        conflictsOfInterest,
-                        context
-                    )}</div
-                >{/if}</div
+                <PlaceholderView position={$caret.position} />{/if}</div
         >
     {/key}
     {#if source.isEmpty() && showHelp}
@@ -1393,7 +1397,6 @@
                             {project}
                             {evaluator}
                             value={evaluator.getLatestSourceValue(source)}
-                            fullscreen={false}
                             mini
                             editable={false}
                         />
@@ -1461,10 +1464,6 @@
 
     .caret-description.node {
         opacity: 1;
-    }
-
-    .screen-reader-description {
-        font-size: 0;
     }
 
     .output-preview-container {

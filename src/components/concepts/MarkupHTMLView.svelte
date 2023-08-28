@@ -93,6 +93,7 @@
 
     p {
         margin-block-end: 0;
+        margin-inline-start: 0;
     }
 
     p:not(:first-child) {

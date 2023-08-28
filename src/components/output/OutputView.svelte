@@ -9,6 +9,7 @@
     import Speech from '../lore/Speech.svelte';
     import {
         IdleKind,
+        getAnnounce,
         getConceptIndex,
         getEvaluation,
         getKeyboardEditIdle,
@@ -43,12 +44,10 @@
     import Placement from '../../input/Placement';
     import { toExpression } from '../../parser/parseExpression';
     import concretize from '../../locale/concretize';
-    import Live from './Live.svelte';
 
     export let project: Project;
     export let evaluator: Evaluator;
     export let value: Value | undefined;
-    export let fullscreen: boolean;
     export let fit = true;
     export let grid = false;
     export let painting = false;
@@ -66,6 +65,7 @@
     const selectedOutput = getSelectedOutput();
     const selectedOutputPaths = getSelectedOutputPaths();
     const selectedPhrase = getSelectedPhrase();
+    const announce = getAnnounce();
 
     let ignored = false;
 
@@ -87,9 +87,6 @@
     /** A map from key string IDs to whether they are up or down */
     const keysDown: Map<string, boolean> = new Map();
 
-    /** The key most recently entered, for announcing **/
-    let keyRecentlyPressed: string | undefined = undefined;
-
     /** Event cache for touch panning and zooming */
     let pointersByIndex: PointerEvent[] = [];
     let startDifference: number | undefined = undefined;
@@ -107,6 +104,16 @@
             : stageValue?.background ?? null;
 
     let keyboardInputView: HTMLInputElement | undefined = undefined;
+
+    // Announce changes in values.
+    $: if ($announce && value && (exception || stageValue === undefined))
+        $announce(
+            'value',
+            $locale.language,
+            exception
+                ? exception.getExplanation($locale).toText()
+                : value.getDescription(concretize, $locale).toText()
+        );
 
     /** When creator's preferred animation factor changes, update evaluator */
     $: evaluator.updateTimeMultiplier($animationFactor);
@@ -130,9 +137,6 @@
     }
 
     function handleKeyDown(event: KeyboardEvent) {
-        // Reset the key pressed
-        keyRecentlyPressed = undefined;
-
         keysDown.set(event.key, true);
 
         // Never handle tab; that's for keyboard navigation.
@@ -271,7 +275,7 @@
                 .map((stream) => stream.react({ key: event.key, down: true }));
 
             // Announce the key pressed
-            keyRecentlyPressed = event.key;
+            if ($announce) $announce('keyinput', $locale.language, event.key);
 
             // Map keys onto axes of change for any Placement streams.
             if (
@@ -867,13 +871,13 @@
                                 />
                             {/each}</svelte:fragment
                         ></Speech
-                    ><Live>{exception.getExplanation($locale).toText()}</Live>
+                    >
                 {/if}
             </div>
             <!-- If there's no verse -->
         {:else if value === undefined}
             <div class="message evaluating" class:mini>◆</div>
-            <!-- If there's a value, but it's not a verse, show that -->
+            <!-- If there's a value, but it's not a stage, show that -->
         {:else if stageValue === undefined}
             <div class="message" class:mini>
                 {#if mini}
@@ -884,11 +888,6 @@
                         .toText()}
                     <h2>{description}</h2>
                     <ValueView {value} inline={false} />
-                    <Live
-                        >{description}
-                        {value}
-                        {value.getDescription(concretize, $locale)}</Live
-                    >
                 {/if}
             </div>
             <!-- Otherwise, show the Stage -->
@@ -897,7 +896,6 @@
                 {project}
                 {evaluator}
                 stage={stageValue}
-                {fullscreen}
                 background={mini}
                 bind:fit
                 bind:grid
@@ -909,8 +907,6 @@
             />
         {/if}
     </div>
-    {#if keyRecentlyPressed}<Live>{keyRecentlyPressed}</Live>
-    {/if}
 </section>
 
 <style>

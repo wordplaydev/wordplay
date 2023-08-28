@@ -45,7 +45,6 @@
                     {project}
                     {evaluator}
                     {value}
-                    fullscreen={false}
                     fit={true}
                     grid={false}
                     mini

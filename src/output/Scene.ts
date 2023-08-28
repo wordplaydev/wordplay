@@ -19,6 +19,17 @@ export type OutputInfo = {
     context: RenderContext;
 };
 
+export type Moved = Map<
+    OutputName,
+    {
+        output: TypeOutput;
+        prior: Orientation;
+        present: Orientation;
+    }
+>;
+
+export type OutputsByName = Map<OutputName, TypeOutput>;
+
 export type OutputInfoSet = Map<OutputName, OutputInfo>;
 export type Orientation = { place: Place; rotation: number | undefined };
 
@@ -109,17 +120,10 @@ export default class Scene {
         this.viewportHeight = height;
 
         // Create sets of who entered, exited, and present output by their name.
-        const entered = new Map<OutputName, TypeOutput>();
-        const moved = new Map<
-            OutputName,
-            {
-                output: TypeOutput;
-                prior: Orientation;
-                present: Orientation;
-            }
-        >();
-        const exited = new Map<OutputName, TypeOutput>();
-        const present = new Map<OutputName, TypeOutput>();
+        const entered: OutputsByName = new Map();
+        const moved: Moved = new Map();
+        const exited: OutputsByName = new Map();
+        const present: OutputsByName = new Map();
 
         // Add the verse to the scene. This is necessary so that animations can get its context.
         const newScene = this.layout(
@@ -223,6 +227,7 @@ export default class Scene {
         return {
             entered,
             present,
+            moved,
             exiting,
             // We pass back an animation function so that the view can start animating once it's refreshed
             // DOM elements. This way the animation handlers can assume DOM elements are ready for animation.

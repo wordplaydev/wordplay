@@ -23,6 +23,7 @@
         "start": "$?",
         "entered": "$?",
         "changed": "$?",
+        "moved": "$?",
         "name": "$?",
         "value": "$?",
         "text": "$?",

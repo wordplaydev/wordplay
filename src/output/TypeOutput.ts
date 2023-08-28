@@ -139,6 +139,7 @@ export default abstract class TypeOutput extends Output {
 
     abstract getOutput(): (TypeOutput | null)[];
     abstract getBackground(): Color | undefined;
+    abstract getShortDescription(locales: Locale[]): string;
     abstract getDescription(locales: Locale[]): string;
 
     /* 

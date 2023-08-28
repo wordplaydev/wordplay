@@ -20,7 +20,9 @@ type TermTexts = {
     entered: string;
     /** How to describe output that has changed */
     changed: string;
-    /** How to refer to names that things have */
+    /** How to describe output that has moved */
+    moved: string;
+    /** How to refer to names */
     name: string;
     value: string;
     boolean: string;

@@ -23,6 +23,7 @@
         "start": "start",
         "entered": "new",
         "changed": "changed",
+        "moved": "moved",
         "name": "name",
         "value": "value",
         "text": "text",
@@ -3641,7 +3642,7 @@
         },
         "edit": {
             "node": "$1$2[, type $2|]",
-            "before": "before $1",
+            "before": "before $1[$1|end]",
             "inside": "inside $1",
             "between": "between $1 and $2",
             "line": "empty line between $1[$1|start] and $2[$2|end]",

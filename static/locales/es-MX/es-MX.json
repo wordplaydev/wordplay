@@ -23,6 +23,7 @@
         "start": "comenzar",
         "entered": "ingresó",
         "changed": "cambiada",
+        "moved": "$?",
         "name": "nombre",
         "value": "valor",
         "text": "texto",

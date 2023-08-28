@@ -11,7 +11,7 @@ import ListValue from '@values/ListValue';
 import { getBind } from '@locale/getBind';
 import BoolValue from '@values/BoolValue';
 import { getStyle, toTypeOutput, toTypeOutputList } from './toTypeOutput';
-import type TextLang from './TextLang';
+import TextLang from './TextLang';
 import Pose, { DefinitePose } from './Pose';
 import type Sequence from './Sequence';
 import { toShape, type Shape } from './Shapes';
@@ -20,6 +20,7 @@ import type Locale from '../locale/Locale';
 import type Project from '../models/Project';
 import { getOutputInput } from './Output';
 import type { SupportedFace } from '../basis/Fonts';
+import { getFirstName } from '../locale/Locale';
 
 export const CSSFallbackFaces = `"Noto Color Emoji"`;
 export const DefaultSize = 1;
@@ -140,6 +141,12 @@ export default class Stage extends TypeOutput {
 
     getBackground(): Color | undefined {
         return undefined;
+    }
+
+    getShortDescription(locales: Locale[]) {
+        return this.name instanceof TextLang
+            ? this.name.text
+            : getFirstName(locales[0].output.Group.names);
     }
 
     getDescription(locales: Locale[]) {

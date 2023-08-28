@@ -79,11 +79,15 @@ export default class Pose extends Output {
             this._description = concretize(
                 locales[0],
                 locales[0].output.Pose.description,
-                this.opacity !== 1 ? this.opacity : undefined,
-                this.rotation !== undefined && this.rotation % 360
-                    ? this.rotation
+                this.opacity !== undefined && this.opacity !== 1
+                    ? Math.round(this.opacity)
                     : undefined,
-                this.scale !== 1 ? this.scale : undefined,
+                this.rotation !== undefined && this.rotation % 360
+                    ? Math.round(this.rotation)
+                    : undefined,
+                this.scale !== undefined && this.scale !== 1
+                    ? Math.round(this.scale)
+                    : undefined,
                 this.flipx,
                 this.flipy
             ).toText();
