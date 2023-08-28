@@ -179,7 +179,7 @@
                     dark.set(
                         choice === 0 ? false : choice === 1 ? true : undefined
                     )}
-                modes={['☼', '☽', '-']}
+                modes={['☼', '☽', '☼/☽']}
             />
         </p>
     </Dialog>
