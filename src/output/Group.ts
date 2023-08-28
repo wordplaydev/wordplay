@@ -118,6 +118,7 @@ export default class Group extends TypeOutput {
             this._description = concretize(
                 locales[0],
                 locales[0].output.Group.description,
+                this.name instanceof TextLang ? this.name.text : undefined,
                 this.layout.getDescription(this.content, locales),
                 this.pose.getDescription(locales)
             ).toText();

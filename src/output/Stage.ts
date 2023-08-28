@@ -155,6 +155,7 @@ export default class Stage extends TypeOutput {
                 locales[0],
                 locales[0].output.Stage.description,
                 this.content.length,
+                this.name instanceof TextLang ? this.name.text : undefined,
                 this.frame?.getDescription(locales[0]),
                 this.pose.getDescription(locales)
             ).toText();

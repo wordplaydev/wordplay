@@ -2947,7 +2947,13 @@
                 "names": "place"
             },
             "name": {
-                "doc": "A name you give me, helpful with @Choice, and for enabling output with a shared name to be treated as the same output in animations.",
+                "doc": [
+                    "A name you give me! This is helpful for many things.",
+                    "First, if I have a name, I'll use it to describe myself in screen reader descriptions.",
+                    "Second, when animating, you might have multiple different expressions that are supposed to represent the same content on stage; give them the same name and they will animate as one.",
+                    "Finally, I'm helpful with @Choice: the names you give me appear in that stream.",
+                    "You can give me many different names, each in a different language, if it's helpful. I'll always use the name in the first selected locale."
+                ],
                 "names": "name"
             },
             "selectable": {
@@ -3029,7 +3035,7 @@
                 "doc": "The list of @Type to arrange.",
                 "names": "content"
             },
-            "description": "$1 $2"
+            "description": "$1[$1|] $2 $3"
         },
         "Phrase": {
             "doc": [
@@ -3252,7 +3258,7 @@
                 "doc": "The shape and size of frame to place around the stage, hiding everything outside it.",
                 "names": "frame"
             },
-            "description": "stage of $1 phrases $2[$2 frame|] $3"
+            "description": "stage $1[$1|] of $2 phrases $3[$3 frame|] $4"
         },
         "Easing": {
             "straight": "straight",
