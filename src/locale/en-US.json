@@ -3578,7 +3578,7 @@
             "loading": "Loading, thank you for waiting!",
             "save": {
                 "saving": "saving",
-                "saved": "saved",
+                "saved": "saved online",
                 "local": "saved locally",
                 "unsaved": "unsaved"
             }
