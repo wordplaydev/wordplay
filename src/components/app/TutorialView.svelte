@@ -16,7 +16,7 @@
     import PlayView from './PlayView.svelte';
     import Button from '../widgets/Button.svelte';
     import Source from '../../nodes/Source';
-    import { locale, locales, arrangement, Projects } from '../../db/Database';
+    import { locale, locales, Projects } from '../../db/Database';
     import type Spaces from '../../parser/Spaces';
     import { toMarkup } from '../../parser/toMarkup';
     import MarkupHTMLView from '../concepts/MarkupHTMLView.svelte';
@@ -31,7 +31,6 @@
     import { Performances } from '../../tutorial/Performances';
     import type { Dialog, Performance } from '../../tutorial/Tutorial';
     import type Markup from '../../nodes/Markup';
-    import Arrangement from '../../db/Arrangement';
     import Header from './Header.svelte';
 
     export let progress: Progress;
@@ -207,7 +206,6 @@
 <!-- svelte-ignore a11y-no-static-element-interactions -->
 <section
     class="tutorial"
-    class:vertical={$arrangement === Arrangement.Vertical}
     on:keydown={handleKey}
     on:pointerdown|stopPropagation|preventDefault={() => nextButton?.focus()}
 >
@@ -356,10 +354,6 @@
         width: 100%;
     }
 
-    .tutorial.vertical {
-        flex-direction: column-reverse;
-    }
-
     .title {
         display: flex;
         flex-direction: column;
@@ -408,13 +402,6 @@
             var(--wordplay-border-color);
     }
 
-    .vertical .dialog {
-        height: 20%;
-        width: 100%;
-        min-height: 30%;
-        min-width: 0;
-    }
-
     .dialog:focus {
         outline-offset: calc(-1 * var(--wordplay-focus-width));
     }
@@ -447,10 +434,6 @@
         min-width: 0;
         width: 100%;
         height: 100%;
-    }
-
-    .vertical .project {
-        min-height: 0;
     }
 
     .progress {
