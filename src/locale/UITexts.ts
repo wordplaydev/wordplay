@@ -276,6 +276,7 @@ type UITexts = {
         save: {
             saving: string;
             saved: string;
+            local: string;
             unsaved: string;
         };
     };

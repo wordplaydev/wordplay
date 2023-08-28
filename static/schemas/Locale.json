@@ -7057,6 +7057,9 @@
                 "save": {
                   "additionalProperties": false,
                   "properties": {
+                    "local": {
+                      "type": "string"
+                    },
                     "saved": {
                       "type": "string"
                     },
@@ -7070,6 +7073,7 @@
                   "required": [
                     "saving",
                     "saved",
+                    "local",
                     "unsaved"
                   ],
                   "type": "object"

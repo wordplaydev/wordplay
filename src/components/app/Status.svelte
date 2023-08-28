@@ -1,11 +1,18 @@
 <script lang="ts">
     import { SaveStatus, locale } from '../../db/Database';
     import { status } from '../../db/Database';
+    import { getUser } from '../project/Contexts';
+
+    const user = getUser();
 </script>
 
 <div class="status {$status}">
     {$status === SaveStatus.Saved
-        ? `${$locale.ui.feedback.save.saved} ✔`
+        ? `${
+              $user === null
+                  ? $locale.ui.feedback.save.local
+                  : $locale.ui.feedback.save.saved
+          } ✔`
         : $status === SaveStatus.Saving
         ? `${$locale.ui.feedback.save.saving} …`
         : `${$locale.ui.feedback.save.unsaved} ⨉`}

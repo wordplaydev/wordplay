@@ -3543,7 +3543,7 @@
             "inherited": "inherited",
             "notSequence": "not a sequence",
             "notContent": "not a content list",
-            "anonymous": "login"
+            "anonymous": "anonymous"
         },
         "header": {
             "inputs": "Inputs",
@@ -3579,6 +3579,7 @@
             "save": {
                 "saving": "saving",
                 "saved": "saved",
+                "local": "saved locally",
                 "unsaved": "unsaved"
             }
         },

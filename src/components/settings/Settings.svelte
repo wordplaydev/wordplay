@@ -78,6 +78,16 @@
 <svelte:window on:keydown={handleKey} />
 
 <div class="settings">
+    {#if $project}
+        <Status />
+    {/if}
+    <div class="account" class:anonymous>
+        <Link to="/login">
+            <span class="user"
+                >{$user ? $user.email : $locale.ui.labels.anonymous}</span
+            >
+        </Link>
+    </div>
     <LanguageChooser />
     <Dialog bind:show width="50vw" description={$locale.ui.dialog.settings}>
         <p
@@ -186,16 +196,6 @@
     <Button tip={$locale.ui.description.settings} action={() => (show = !show)}
         >⚙</Button
     >
-    <div class="account" class:anonymous>
-        <Link to="/login">
-            <span class="user"
-                >{$user ? $user.email : $locale.ui.labels.anonymous}</span
-            >
-        </Link>
-    </div>
-    {#if $project}
-        <Status />
-    {/if}
     {#if $page.route.id !== '/'}<Link to={getBackPath()}>❌</Link>{/if}
 </div>
 

@@ -2037,6 +2037,7 @@
             "save": {
                 "saving": "$?",
                 "saved": "$?",
+                "local": "$?",
                 "unsaved": "$?"
             }
         },
