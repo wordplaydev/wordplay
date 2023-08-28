@@ -122,7 +122,7 @@
         padding: var(--wordplay-spacing);
         border-radius: var(--wordplay-border-radius);
         border: var(--wordplay-border-width) solid var(--wordplay-border-color);
-        overflow-x: scroll;
+        overflow-x: auto;
         white-space: nowrap;
     }
 </style>

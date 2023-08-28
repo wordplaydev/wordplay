@@ -418,7 +418,7 @@
     .turns {
         padding: var(--wordplay-spacing);
         flex-grow: 1;
-        overflow: scroll;
+        overflow: auto;
         overflow-clip-margin: var(--wordplay-spacing);
         display: flex;
         flex-direction: column;

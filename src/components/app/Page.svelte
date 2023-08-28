@@ -39,7 +39,7 @@
         display: flex;
         flex-direction: column;
         align-items: start;
-        overflow: scroll;
+        overflow: auto;
         flex: 1;
         min-height: 0;
     }
@@ -53,7 +53,7 @@
         flex-direction: row;
         width: 100%;
         max-width: 100%;
-        overflow: scroll;
+        overflow: auto;
         padding: var(--wordplay-spacing);
         border-radius: var(--wordplay-border-radius);
         border-top: var(--wordplay-border-color) solid

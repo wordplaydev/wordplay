@@ -366,7 +366,7 @@
         width: 100%;
         flex-grow: 1;
         position: relative;
-        overflow: scroll;
+        overflow: auto;
         /* This doesn't work in Chrome :( It prevents scrolling altogether */
         /* scroll-behavior: smooth; */
     }

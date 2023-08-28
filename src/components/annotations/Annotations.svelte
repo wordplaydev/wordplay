@@ -197,7 +197,7 @@
 <style>
     section {
         max-height: 10em;
-        overflow-y: scroll;
+        overflow-y: auto;
         width: 100%;
         border-top: var(--wordplay-border-width) solid
             var(--wordplay-border-color);

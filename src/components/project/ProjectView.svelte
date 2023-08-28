@@ -293,7 +293,7 @@
 
     /** Create a store for announcements for children to add to. */
     let announce: Announce;
-    let announcer: Writable<Announce|undefined> = writable(undefined);
+    let announcer: Writable<Announce | undefined> = writable(undefined);
     $: announcer.set(announce);
     setContext<Writable<Announce | undefined>>(AnnouncerSymbol, announcer);
 
@@ -1465,7 +1465,7 @@
 
     .canvas {
         flex: 1;
-        overflow: scroll;
+        overflow: auto;
     }
 
     nav {
@@ -1543,7 +1543,7 @@
     .footer {
         border-bottom: var(--wordplay-border-color) solid
             var(--wordplay-border-width);
-        overflow-x: scroll;
+        overflow-x: auto;
     }
 
     .overwritten {

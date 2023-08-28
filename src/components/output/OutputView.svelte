@@ -961,7 +961,7 @@
         transform-origin: center;
         align-items: center;
         margin: auto;
-        overflow: scroll;
+        overflow: auto;
     }
 
     .message.mini {

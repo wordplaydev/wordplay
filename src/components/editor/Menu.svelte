@@ -272,7 +272,7 @@
     .revisions {
         display: flex;
         flex-direction: column;
-        overflow-y: scroll;
+        overflow-y: auto;
         overflow-x: hidden;
         flex-grow: 1;
     }
@@ -309,6 +309,6 @@
     .details {
         margin-inline-end: auto;
         width: 15em;
-        overflow-y: scroll;
+        overflow-y: auto;
     }
 </style>

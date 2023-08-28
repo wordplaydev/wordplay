@@ -91,7 +91,7 @@
         flex-direction: row;
         flex-wrap: nowrap;
         gap: var(--wordplay-spacing);
-        overflow-x: scroll;
+        overflow-x: auto;
         padding: var(--wordplay-spacing);
     }
 
@@ -101,7 +101,7 @@
 
     .expanded .matches {
         overflow-x: none;
-        overflow-y: scroll;
+        overflow-y: auto;
         flex-wrap: wrap;
         height: 100%;
     }
