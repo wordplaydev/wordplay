@@ -4,7 +4,7 @@ import Setting from './Setting';
 export const ArrangementSetting = new Setting<Arrangement>(
     'arrangement',
     true,
-    Arrangement.Vertical,
+    Arrangement.Responsive,
     (value) =>
         typeof value === 'string' &&
         Object.values<string>(Arrangement).includes(value)
