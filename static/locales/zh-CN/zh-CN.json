@@ -1,0 +1,2131 @@
+{
+    "$schema": "../../schemas/Locale.json",
+    "language": "zh",
+    "region": "CN",
+    "wordplay": "双关语",
+    "newProject": "$?",
+    "term": {
+        "evaluate": "评价",
+        "bind": "联结",
+        "decide": "决定",
+        "document": "文件",
+        "project": "工程",
+        "source": "来源",
+        "input": "输入",
+        "output": "输出",
+        "convert": "转变",
+        "act": "表演",
+        "scene": "场景",
+        "phrase": "短语",
+        "group": "组",
+        "stage": "舞台",
+        "type": "类型",
+        "start": "开始",
+        "entered": "进入",
+        "changed": "改变了",
+        "moved": "移动了",
+        "name": "姓名",
+        "value": "价值",
+        "text": "文字",
+        "boolean": "布尔值",
+        "map": "映射?",
+        "number": "数字",
+        "function": "函数",
+        "exception": "异常",
+        "table": "表格",
+        "none": "空的",
+        "list": "清单",
+        "stream": "溪流",
+        "structure": "结构",
+        "streamdefinition": "$?",
+        "index": "索引",
+        "query": "询问",
+        "row": "排",
+        "set": "组",
+        "key": "钥匙"
+    },
+    "token": {
+        "EvalOpen": "$?",
+        "EvalClose": "$?",
+        "SetOpen": "$?",
+        "SetClose": "$?",
+        "ListOpen": "$?",
+        "ListClose": "$?",
+        "TagOpen": "$?",
+        "TagClose": "$?",
+        "Bind": "$?",
+        "Access": "$?",
+        "Function": "$?",
+        "Borrow": "$?",
+        "Share": "$?",
+        "Convert": "$?",
+        "Doc": "$?",
+        "Formatted": "$?",
+        "FormattedType": "$?",
+        "Words": "$?",
+        "Link": "$?",
+        "Italic": "$?",
+        "Underline": "$?",
+        "Light": "$?",
+        "Bold": "$?",
+        "Extra": "$?",
+        "Concept": "$?",
+        "URL": "$?",
+        "Code": "$?",
+        "Mention": "$?",
+        "Branch": "$?",
+        "None": "$?",
+        "Type": "$?",
+        "TypeOperator": "$?",
+        "TypeOpen": "$?",
+        "TypeClose": "$?",
+        "Separator": "$?",
+        "Language": "$?",
+        "Region": "$?",
+        "BooleanType": "$?",
+        "NumberType": "$?",
+        "JapaneseNumeral": "$?",
+        "RomanNumeral": "$?",
+        "Pi": "$?",
+        "Infinity": "$?",
+        "TableOpen": "$?",
+        "TableClose": "$?",
+        "Select": "$?",
+        "Insert": "$?",
+        "Update": "$?",
+        "Delete": "$?",
+        "Union": "$?",
+        "Stream": "$?",
+        "Change": "$?",
+        "Initial": "$?",
+        "Previous": "$?",
+        "Placeholder": "$?",
+        "Etc": "$?",
+        "This": "$?",
+        "Operator": "$?",
+        "Conditional": "$?",
+        "Text": "$?",
+        "Number": "$?",
+        "Decimal": "$?",
+        "Base": "$?",
+        "Boolean": "$?",
+        "Name": "$?",
+        "Unknown": "$?",
+        "Locale": "$?",
+        "End": "$?"
+    },
+    "node": {
+        "Dimension": {
+            "name": "$?",
+            "description": "$?",
+            "emotion": "$?",
+            "doc": "$?"
+        },
+        "Doc": {
+            "name": "$?",
+            "emotion": "$?",
+            "doc": "$?"
+        },
+        "Docs": {
+            "name": "$?",
+            "emotion": "$?",
+            "doc": "$?",
+            "start": "$?"
+        },
+        "KeyValue": {
+            "name": "$?",
+            "emotion": "$?",
+            "doc": "$?"
+        },
+        "Language": {
+            "name": "$?",
+            "description": "$?",
+            "emotion": "$?",
+            "doc": "$?",
+            "conflict": {
+                "UnknownLanguage": "$?",
+                "MissingLanguage": "$?"
+            }
+        },
+        "Name": {
+            "name": "$?",
+            "description": "$?",
+            "emotion": "$?",
+            "doc": "$?"
+        },
+        "Names": {
+            "name": "$?",
+            "emotion": "$?",
+            "doc": "$?"
+        },
+        "Row": {
+            "name": "$?",
+            "emotion": "$?",
+            "doc": "$?",
+            "conflict": {
+                "InvalidRow": "$?",
+                "MissingCell": { "primary": "$?", "secondary": "$?" },
+                "UnknownColumn": "$?",
+                "ExtraCell": {
+                    "primary": "$?",
+                    "secondary": "$?"
+                },
+                "UnexpectedColumnBind": {
+                    "primary": "$?",
+                    "secondary": "$?"
+                }
+            }
+        },
+        "Token": {
+            "name": "$?",
+            "description": "$?",
+            "emotion": "$?",
+            "doc": "$?"
+        },
+        "TypeInputs": {
+            "name": "$?",
+            "emotion": "$?",
+            "doc": "$?"
+        },
+        "TypeVariable": {
+            "name": "$?",
+            "emotion": "$?",
+            "doc": "$?",
+            "conflict": {
+                "DuplicateTypeVariable": { "primary": "$?", "secondary": "$?" }
+            }
+        },
+        "TypeVariables": {
+            "name": "$?",
+            "emotion": "$?",
+            "doc": "$?"
+        },
+        "Markup": {
+            "name": "$?",
+            "description": "$?",
+            "emotion": "$?",
+            "doc": "$?"
+        },
+        "Paragraph": {
+            "name": "$?",
+            "emotion": "$?",
+            "doc": "$?"
+        },
+        "WebLink": {
+            "name": "$?",
+            "description": "$?",
+            "emotion": "$?",
+            "doc": "$?"
+        },
+        "ConceptLink": {
+            "name": "$?",
+            "description": "$?",
+            "emotion": "$?",
+            "doc": "$?"
+        },
+        "Words": {
+            "name": "$?",
+            "emotion": "$?",
+            "doc": "$?"
+        },
+        "Example": {
+            "name": "$?",
+            "emotion": "$?",
+            "doc": "$?"
+        },
+        "Mention": {
+            "name": "$?",
+            "description": "$?",
+            "emotion": "$?",
+            "doc": "$?"
+        },
+        "Branch": {
+            "name": "$?",
+            "emotion": "$?",
+            "doc": "$?"
+        },
+        "BinaryEvaluate": {
+            "name": "$?",
+            "description": "$?",
+            "emotion": "$?",
+            "doc": "$?",
+            "right": "$?",
+            "start": "$?",
+            "finish": "$?",
+            "conflict": {
+                "OrderOfOperations": "$?"
+            }
+        },
+        "Bind": {
+            "name": "$?",
+            "description": "$?",
+            "emotion": "$?",
+            "doc": "$?",
+            "start": "$?",
+            "finish": "$?",
+            "conflict": {
+                "DuplicateName": { "primary": "$?", "secondary": "$?" },
+                "DuplicateShare": { "primary": "$?", "secondary": "$?" },
+                "IncompatibleType": { "primary": "$?", "secondary": "$?" },
+                "MisplacedShare": "$?",
+                "MissingShareLanguages": "$?",
+                "RequiredAfterOptional": "$?",
+                "UnexpectedEtc": "$?",
+                "UnusedBind": "$?"
+            }
+        },
+        "Block": {
+            "name": "$?",
+            "description": "$?",
+            "emotion": "$?",
+            "doc": "$?",
+            "statement": "$?",
+            "start": "$?",
+            "finish": "$?",
+            "conflict": {
+                "ExpectedEndingExpression": "$?",
+                "IgnoredExpression": { "primary": "$?", "secondary": "$?" }
+            }
+        },
+        "BooleanLiteral": {
+            "name": "$?",
+            "description": "$?",
+            "emotion": "$?",
+            "doc": "$?",
+            "start": "$?"
+        },
+        "Borrow": {
+            "name": "$?",
+            "description": "$?",
+            "emotion": "$?",
+            "doc": "$?",
+            "start": "$?",
+            "source": "$?",
+            "bind": "$?",
+            "version": "$?",
+            "conflict": {
+                "UnknownBorrow": "$?",
+                "BorrowCycle": "$?"
+            },
+            "exception": {
+                "CycleException": {
+                    "description": "$?",
+                    "explanation": "$?"
+                }
+            }
+        },
+        "Changed": {
+            "name": "$?",
+            "emotion": "$?",
+            "doc": "$?",
+            "start": "$?"
+        },
+        "Conditional": {
+            "name": "$?",
+            "emotion": "$?",
+            "doc": "$?",
+            "start": "$?",
+            "afterthen": "$?",
+            "else": "$?",
+            "finish": "$?",
+            "condition": "$?",
+            "yes": "$?",
+            "no": "$?",
+            "conflict": {
+                "ExpectedBooleanCondition": {
+                    "primary": "$?",
+                    "secondary": "$?"
+                }
+            }
+        },
+        "ConversionDefinition": {
+            "name": "$?",
+            "description": "$1 → $2",
+            "emotion": "$?",
+            "doc": "$?",
+            "start": "$?",
+            "conflict": {
+                "MisplacedConversion": "$?"
+            }
+        },
+        "Convert": {
+            "name": "$?",
+            "emotion": "$?",
+            "doc": "$?",
+            "start": "$?",
+            "finish": "$?",
+            "conflict": {
+                "UnknownConversion": "$?"
+            },
+            "exception": {
+                "ConversionException": {
+                    "description": "$?",
+                    "explanation": "$?"
+                }
+            }
+        },
+        "Delete": {
+            "name": "$?",
+            "emotion": "$?",
+            "doc": "$?",
+            "start": "$?",
+            "finish": "$?"
+        },
+        "DocumentedExpression": {
+            "name": "$?",
+            "emotion": "$?",
+            "doc": "$?",
+            "start": "$?"
+        },
+        "Evaluate": {
+            "name": "$?",
+            "description": "$?",
+            "emotion": "$?",
+            "doc": "$?",
+            "start": "$?",
+            "evaluate": "$?",
+            "finish": "$?",
+            "function": "$?",
+            "input": "$?",
+            "conflict": {
+                "IncompatibleInput": { "primary": "$?", "secondary": "$?" },
+                "UnexpectedTypeInput": { "primary": "$?", "secondary": "$?" },
+                "MisplacedInput": "$?",
+                "MissingInput": { "primary": "$?", "secondary": "$?" },
+                "NotInstantiable": "$?",
+                "UnexpectedInput": { "primary": "$?", "secondary": "$?" },
+                "UnknownInput": { "primary": "$?", "secondary": "$?" },
+                "InputListMustBeLast": "$?"
+            },
+            "exception": {
+                "FunctionException": {
+                    "description": "$?",
+                    "explanation": "$?"
+                }
+            }
+        },
+        "ExpressionPlaceholder": {
+            "name": "$?",
+            "description": "$?",
+            "emotion": "$?",
+            "doc": "$?",
+            "start": "$?",
+            "placeholder": "$?",
+            "conflict": {
+                "Placeholder": "$?"
+            },
+            "exception": {
+                "UnimplementedException": {
+                    "description": "$?",
+                    "explanation": "$?"
+                }
+            }
+        },
+        "FunctionDefinition": {
+            "name": "$?",
+            "description": "$?",
+            "emotion": "$?",
+            "doc": "$?",
+            "start": "$?",
+            "conflict": {
+                "NoExpression": "$?"
+            }
+        },
+        "Iteration": {
+            "name": "$?",
+            "emotion": "$?",
+            "doc": "$?",
+            "start": "$?",
+            "initialize": "$?",
+            "next": "$?",
+            "check": "$?",
+            "finish": "$?"
+        },
+        "Initial": {
+            "name": "$?",
+            "emotion": "$?",
+            "doc": "$?"
+        },
+        "Insert": {
+            "name": "$?",
+            "emotion": "$?",
+            "doc": "$?",
+            "start": "$?",
+            "finish": "$?"
+        },
+        "Is": {
+            "name": "$?",
+            "description": "$?",
+            "emotion": "$?",
+            "doc": "$?",
+            "start": "$?",
+            "finish": "$?",
+            "conflict": {
+                "ImpossibleType": "$?"
+            },
+            "exception": {
+                "TypeException": {
+                    "description": "$?",
+                    "explanation": "$?"
+                }
+            }
+        },
+        "IsLocale": {
+            "name": "$?",
+            "description": "$?",
+            "emotion": "$?",
+            "doc": "$?",
+            "start": "$?"
+        },
+        "ListAccess": {
+            "name": "$?",
+            "emotion": "$?",
+            "doc": "$?",
+            "start": "$?",
+            "finish": "$?"
+        },
+        "ListLiteral": {
+            "name": "$?",
+            "description": "$?",
+            "emotion": "$?",
+            "doc": "$?",
+            "start": "$?",
+            "finish": "$?",
+            "item": "$?"
+        },
+        "MapLiteral": {
+            "name": "$?",
+            "description": "$?",
+            "emotion": "$?",
+            "doc": "$?",
+            "start": "$?",
+            "finish": "$?",
+            "conflict": {
+                "NotAKeyValue": { "primary": "$?", "secondary": "$?" }
+            }
+        },
+        "NumberLiteral": {
+            "name": "$?",
+            "description": "$?",
+            "emotion": "$?",
+            "doc": "$?",
+            "start": "$?",
+            "conflict": {
+                "NotANumber": "$?"
+            }
+        },
+        "BasisExpression": {
+            "name": "$?",
+            "emotion": "$?",
+            "doc": "$?",
+            "start": "$?"
+        },
+        "NoneLiteral": {
+            "name": "$?",
+            "emotion": "$?",
+            "doc": "$?",
+            "start": "$?"
+        },
+        "Previous": {
+            "name": "$?",
+            "emotion": "$?",
+            "doc": "$?",
+            "start": "$?",
+            "finish": "$?"
+        },
+        "Program": {
+            "name": "$?",
+            "emotion": "$?",
+            "doc": "$?",
+            "unevaluated": "$?",
+            "start": "$?",
+            "halt": "$?",
+            "finish": "$?",
+            "done": "$?",
+            "exception": {
+                "BlankException": {
+                    "description": "$?",
+                    "explanation": "$?"
+                },
+                "EvaluationLimitException": {
+                    "description": "$?",
+                    "explanation": "$?"
+                },
+                "StepLimitException": {
+                    "description": "$?",
+                    "explanation": "$?"
+                },
+                "ValueException": {
+                    "description": "$?",
+                    "explanation": "$?"
+                }
+            }
+        },
+        "PropertyBind": {
+            "name": "$?",
+            "description": "$?",
+            "emotion": "$?",
+            "doc": "$?",
+            "start": "$?",
+            "finish": "$?"
+        },
+        "PropertyReference": {
+            "name": "$?",
+            "description": "$?",
+            "emotion": "$?",
+            "doc": "$?",
+            "start": "$?",
+            "finish": "$?",
+            "property": "$?"
+        },
+        "Reaction": {
+            "name": "$?",
+            "emotion": "$?",
+            "doc": "$?",
+            "start": "$?",
+            "finish": "$?",
+            "initial": "$?",
+            "condition": "$?",
+            "next": "$?",
+            "conflict": {
+                "ExpectedStream": "$?"
+            }
+        },
+        "Reference": {
+            "name": "$?",
+            "description": "$?",
+            "emotion": "$?",
+            "doc": "$?",
+            "start": "$?",
+            "conflict": {
+                "UnknownName": "$?",
+                "ReferenceCycle": "$?",
+                "UnexpectedTypeVariable": "$?"
+            },
+            "exception": {
+                "NameException": {
+                    "description": "$?",
+                    "explanation": "$?"
+                }
+            }
+        },
+        "Select": {
+            "name": "$?",
+            "emotion": "$?",
+            "doc": "$?",
+            "start": "$?",
+            "finish": "$?",
+            "conflict": {
+                "ExpectedSelectName": "$?"
+            }
+        },
+        "SetLiteral": {
+            "name": "$?",
+            "description": "$?",
+            "emotion": "$?",
+            "doc": "$?",
+            "start": "$?",
+            "finish": "$?"
+        },
+        "SetOrMapAccess": {
+            "name": "$?",
+            "emotion": "$?",
+            "doc": "$?",
+            "start": "$?",
+            "finish": "$?",
+            "conflict": {
+                "IncompatibleKey": { "primary": "$?", "secondary": "$?" }
+            }
+        },
+        "Source": {
+            "name": "$?",
+            "emotion": "$?",
+            "doc": "$?"
+        },
+        "StreamDefinition": {
+            "name": "$?",
+            "emotion": "$?",
+            "doc": "$?",
+            "start": "$?"
+        },
+        "StructureDefinition": {
+            "name": "$?",
+            "description": "$?",
+            "emotion": "$?",
+            "doc": "$?",
+            "start": "$?",
+            "conflict": {
+                "DisallowedInputs": "$?",
+                "IncompleteImplementation": "$?",
+                "NotAnInterface": "$?",
+                "UnimplementedInterface": "$?"
+            }
+        },
+        "TableLiteral": {
+            "name": "$?",
+            "description": "$?",
+            "emotion": "$?",
+            "doc": "$?",
+            "item": "$?",
+            "start": "$?",
+            "finish": "$?"
+        },
+        "TextLiteral": {
+            "name": "$?",
+            "description": "$?",
+            "emotion": "$?",
+            "doc": "$?",
+            "start": "$?"
+        },
+        "Translation": {
+            "name": "$?",
+            "description": "$?",
+            "emotion": "$?",
+            "doc": "$?"
+        },
+        "FormattedLiteral": {
+            "name": "$?",
+            "description": "$?",
+            "emotion": "$?",
+            "doc": "$?",
+            "start": "$?"
+        },
+        "FormattedTranslation": {
+            "name": "$?",
+            "description": "$?",
+            "emotion": "$?",
+            "doc": "$?"
+        },
+        "This": {
+            "name": "$?",
+            "emotion": "$?",
+            "doc": "$?",
+            "start": "$?",
+            "conflict": {
+                "MisplacedThis": "$?"
+            }
+        },
+        "UnaryEvaluate": {
+            "name": "$?",
+            "description": "$?",
+            "emotion": "$?",
+            "doc": "$?",
+            "start": "$?",
+            "finish": "$?"
+        },
+        "UnparsableExpression": {
+            "name": "$?",
+            "emotion": "$?",
+            "doc": "$?",
+            "start": "$?",
+            "conflict": {
+                "UnparsableConflict": "$?",
+                "UnclosedDelimiter": "$?"
+            },
+            "exception": {
+                "UnparsableException": {
+                    "description": "$?",
+                    "explanation": "$?"
+                }
+            }
+        },
+        "Update": {
+            "name": "$?",
+            "emotion": "$?",
+            "doc": "$?",
+            "start": "$?",
+            "finish": "$?",
+            "conflict": {
+                "ExpectedColumnBind": "$?",
+                "IncompatibleCellType": { "primary": "$?", "secondary": "$?" }
+            }
+        },
+        "AnyType": {
+            "name": "$?",
+            "emotion": "$?",
+            "doc": "$?"
+        },
+        "BooleanType": {
+            "name": "$?",
+            "emotion": "$?",
+            "doc": "$?"
+        },
+        "ConversionType": {
+            "name": "$?",
+            "emotion": "$?",
+            "doc": "$?"
+        },
+        "FormattedType": {
+            "name": "$?",
+            "emotion": "$?",
+            "doc": "$?"
+        },
+        "ExceptionType": {
+            "name": "$?",
+            "emotion": "$?",
+            "doc": "$?"
+        },
+        "FunctionDefinitionType": {
+            "name": "$?",
+            "emotion": "$?",
+            "doc": "$?"
+        },
+        "FunctionType": {
+            "name": "$?",
+            "description": "$?",
+            "emotion": "$?",
+            "doc": "$?"
+        },
+        "ListType": {
+            "name": "$?",
+            "description": "$?",
+            "emotion": "$?",
+            "doc": "$?"
+        },
+        "MapType": {
+            "name": "$?",
+            "description": "$?",
+            "emotion": "$?",
+            "doc": "$?"
+        },
+        "NumberType": {
+            "name": "$?",
+            "description": "$?",
+            "emotion": "$?",
+            "doc": "$?"
+        },
+        "NameType": {
+            "name": "$?",
+            "description": "$?",
+            "emotion": "$?",
+            "doc": "$?",
+            "conflict": {
+                "UnknownTypeName": "$?"
+            }
+        },
+        "NeverType": {
+            "name": "$?",
+            "emotion": "$?",
+            "doc": "$?"
+        },
+        "NoneType": {
+            "name": "$?",
+            "emotion": "$?",
+            "doc": "$?"
+        },
+        "SetType": {
+            "name": "$?",
+            "description": "$?",
+            "emotion": "$?",
+            "doc": "$?"
+        },
+        "StreamDefinitionType": {
+            "name": "$?",
+            "emotion": "$?",
+            "doc": "$?"
+        },
+        "StreamType": {
+            "name": "$?",
+            "emotion": "$?",
+            "doc": "$?"
+        },
+        "StructureType": {
+            "name": "$?",
+            "description": "$1",
+            "emotion": "$?",
+            "doc": "$?"
+        },
+        "UnknownType": {
+            "name": "$?",
+            "unknown": "$?",
+            "connector": "$?",
+            "emotion": "$?",
+            "doc": "$?"
+        },
+        "TableType": {
+            "name": "$?",
+            "emotion": "$?",
+            "doc": "$?",
+            "conflict": {
+                "ExpectedColumnType": "$?"
+            }
+        },
+        "TextType": {
+            "name": "$?",
+            "description": "$?",
+            "emotion": "$?",
+            "doc": "$?"
+        },
+        "TypePlaceholder": {
+            "name": "$?",
+            "emotion": "$?",
+            "doc": "$?"
+        },
+        "UnionType": {
+            "name": "$?",
+            "description": "$?",
+            "emotion": "$?",
+            "doc": "$?"
+        },
+        "Unit": {
+            "name": "$?",
+            "description": "$?",
+            "emotion": "$?",
+            "doc": "$?"
+        },
+        "UnparsableType": {
+            "name": "$?",
+            "emotion": "$?",
+            "doc": "$?"
+        },
+        "VariableType": {
+            "name": "$?",
+            "emotion": "$?",
+            "doc": "$?"
+        },
+        "CycleType": {
+            "name": "$?",
+            "description": "$?",
+            "emotion": "$?",
+            "doc": "$?"
+        },
+        "UnknownVariableType": {
+            "name": "$?",
+            "emotion": "$?",
+            "doc": "$?"
+        },
+        "NotAType": {
+            "name": "$?",
+            "description": "$?",
+            "emotion": "$?",
+            "doc": "$?"
+        },
+        "NoExpressionType": {
+            "name": "$?",
+            "emotion": "$?",
+            "doc": "$?"
+        },
+        "NotEnclosedType": {
+            "name": "$?",
+            "emotion": "$?",
+            "doc": "$?"
+        },
+        "NotImplementedType": {
+            "name": "$?",
+            "emotion": "$?",
+            "doc": "$?"
+        },
+        "UnknownNameType": {
+            "name": "$?",
+            "description": "$?",
+            "emotion": "$?",
+            "doc": "$?"
+        }
+    },
+    "basis": {
+        "Boolean": {
+            "doc": "$?",
+            "name": "$?",
+            "function": {
+                "and": {
+                    "doc": "$?",
+                    "names": "$?",
+                    "inputs": [{ "doc": "$?", "names": "$?" }]
+                },
+                "or": {
+                    "doc": "$?",
+                    "names": "$?",
+                    "inputs": [{ "doc": "$?", "names": "$?" }]
+                },
+                "not": { "doc": "$?", "names": "$?", "inputs": [] },
+                "equals": {
+                    "doc": "$?",
+                    "names": "$?",
+                    "inputs": [{ "doc": "$?", "names": "$?" }]
+                },
+                "notequal": {
+                    "doc": "$?",
+                    "names": "$?",
+                    "inputs": [{ "doc": "$?", "names": "$?" }]
+                }
+            },
+            "conversion": { "text": "$?" }
+        },
+        "None": {
+            "doc": "$?",
+            "name": "$?",
+            "function": {
+                "equals": {
+                    "doc": "$?",
+                    "names": ["=", "equals"],
+                    "inputs": [{ "doc": "$?", "names": "$?" }]
+                },
+                "notequals": {
+                    "doc": "$?",
+                    "names": "$?",
+                    "inputs": [{ "doc": "$?", "names": "$?" }]
+                }
+            },
+            "conversion": { "text": "$?" }
+        },
+        "Text": {
+            "doc": "$?",
+            "name": "$?",
+            "function": {
+                "length": { "doc": "$?", "names": "$?", "inputs": [] },
+                "equals": {
+                    "doc": "$?",
+                    "names": ["=", "equals"],
+                    "inputs": [{ "doc": "$?", "names": "$?" }]
+                },
+                "notequals": {
+                    "doc": "$?",
+                    "names": "$?",
+                    "inputs": [{ "doc": "$?", "names": "$?" }]
+                },
+                "repeat": {
+                    "doc": "$?",
+                    "names": "$?",
+                    "inputs": [{ "doc": "$?", "names": "$?" }]
+                },
+                "segment": {
+                    "doc": "$?",
+                    "names": ["segmentar"],
+                    "inputs": [{ "doc": "$?", "names": "$?" }]
+                },
+                "combine": {
+                    "doc": "$?",
+                    "names": "$?",
+                    "inputs": [{ "doc": "$?", "names": "$?" }]
+                },
+                "has": {
+                    "doc": "$?",
+                    "names": ["tiene"],
+                    "inputs": [{ "doc": "$?", "names": "$?" }]
+                },
+                "starts": {
+                    "doc": "$?",
+                    "names": ["$? starts"],
+                    "inputs": [{ "doc": "$?", "names": "texto" }]
+                },
+                "ends": {
+                    "doc": "$?",
+                    "names": ["$? ends"],
+                    "inputs": [{ "doc": "$?", "names": "texto" }]
+                }
+            },
+            "conversion": { "list": "$?", "number": "$?" }
+        },
+        "Number": {
+            "doc": "$?",
+            "name": "$?",
+            "function": {
+                "add": {
+                    "doc": "$?",
+                    "names": "$?",
+                    "inputs": [{ "doc": "$?", "names": "$?" }]
+                },
+                "subtract": {
+                    "doc": "$?",
+                    "names": "$?",
+                    "inputs": [{ "doc": "$?", "names": "$?" }]
+                },
+                "multiply": {
+                    "doc": "$?",
+                    "names": "$?",
+                    "inputs": [{ "doc": "$?", "names": "$?" }]
+                },
+                "divide": {
+                    "doc": "$?",
+                    "names": ["÷", "divide"],
+                    "inputs": [{ "doc": "$?", "names": "$?" }]
+                },
+                "remainder": {
+                    "doc": "$?",
+                    "names": "$?",
+                    "inputs": [{ "doc": "$?", "names": "$?" }]
+                },
+                "positive": {
+                    "doc": "$?",
+                    "names": ["$?positive"],
+                    "inputs": []
+                },
+                "round": {
+                    "doc": "$?",
+                    "names": ["$?round"],
+                    "inputs": []
+                },
+                "roundDown": {
+                    "doc": "$?",
+                    "names": ["$?down"],
+                    "inputs": []
+                },
+                "roundUp": {
+                    "doc": "$?",
+                    "names": ["$?up"],
+                    "inputs": []
+                },
+                "power": {
+                    "doc": "$?",
+                    "names": ["^", "power"],
+                    "inputs": [{ "doc": "$?", "names": "$?" }]
+                },
+                "root": {
+                    "doc": "$?",
+                    "names": ["√", "root"],
+                    "inputs": [{ "doc": "$?", "names": "$?" }]
+                },
+                "lessThan": {
+                    "doc": "$?",
+                    "names": ["<", "lessthan"],
+                    "inputs": [{ "doc": "$?", "names": "$?" }]
+                },
+                "lessOrEqual": {
+                    "doc": "$?",
+                    "names": ["≤", "lessorequal"],
+                    "inputs": [{ "doc": "$?", "names": "$?" }]
+                },
+                "greaterThan": {
+                    "doc": "$?",
+                    "names": [">", "greaterthan"],
+                    "inputs": [{ "doc": "$?", "names": "$?" }]
+                },
+                "greaterOrEqual": {
+                    "doc": "$?",
+                    "names": ["≥", "greaterorequal"],
+                    "inputs": [{ "doc": "$?", "names": "$?" }]
+                },
+                "equal": {
+                    "doc": "$?",
+                    "names": "$?",
+                    "inputs": [{ "doc": "$?", "names": "$?" }]
+                },
+                "notequal": {
+                    "doc": "$?",
+                    "names": "$?",
+                    "inputs": [{ "doc": "$?", "names": "$?" }]
+                },
+                "cos": {
+                    "doc": "$?",
+                    "names": ["cos", "cosine"],
+                    "inputs": []
+                },
+                "sin": { "doc": "$?", "names": ["sin", "sine"], "inputs": [] }
+            },
+            "conversion": {
+                "text": "$?",
+                "list": "$?",
+                "s2m": "$?",
+                "s2h": "$?",
+                "s2day": "$?",
+                "s2wk": "$?",
+                "s2year": "$?",
+                "s2ms": "$?",
+                "ms2s": "$?",
+                "min2s": "$?",
+                "h2s": "$?",
+                "day2s": "$?",
+                "wk2s": "$?",
+                "yr2s": "$?",
+                "m2pm": "$?",
+                "m2nm": "$?",
+                "m2micro": "$?",
+                "m2mm": "$?",
+                "m2cm": "$?",
+                "m2dm": "$?",
+                "m2km": "$?",
+                "m2Mm": "$?",
+                "m2Gm": "$?",
+                "m2Tm": "$?",
+                "pm2m": "$?",
+                "nm2m": "$?",
+                "micro2m": "$?",
+                "mm2m": "$?",
+                "cm2m": "$?",
+                "dm2m": "$?",
+                "km2m": "$?",
+                "Mm2m": "$?",
+                "Gm2m": "$?",
+                "Tm2m": "$?",
+                "km2mi": "$?",
+                "mi2km": "$?",
+                "cm2in": "$?",
+                "in2cm": "$?",
+                "m2ft": "$?",
+                "ft2m": "$?",
+                "g2mg": "$?",
+                "mg2g": "$?",
+                "g2kg": "$?",
+                "kg2g": "$?",
+                "g2oz": "$?",
+                "oz2g": "$?",
+                "oz2lb": "$?",
+                "lb2oz": "$?"
+            }
+        },
+        "List": {
+            "doc": "$?",
+            "name": "$?",
+            "kind": "$?",
+            "out": "$?",
+            "outofbounds": "$?",
+            "function": {
+                "add": {
+                    "doc": "$?",
+                    "names": "$?",
+                    "inputs": [{ "doc": "$?", "names": "$?" }]
+                },
+                "append": {
+                    "doc": "$?",
+                    "names": "$?",
+                    "inputs": [{ "doc": "$?", "names": "$?" }]
+                },
+                "replace": {
+                    "doc": "$?",
+                    "names": ["reemplazar"],
+                    "inputs": [
+                        { "doc": "$?", "names": "$?" },
+                        { "doc": "$?", "names": "$?" }
+                    ]
+                },
+                "length": { "doc": "$?", "names": "$?", "inputs": [] },
+                "random": { "doc": "$?", "names": "$?", "inputs": [] },
+                "first": { "doc": "$?", "names": "$?", "inputs": [] },
+                "last": { "doc": "$?", "names": "$?", "inputs": [] },
+                "has": {
+                    "doc": "$?",
+                    "names": "$?",
+                    "inputs": [{ "doc": "$?", "names": "$?" }]
+                },
+                "join": {
+                    "doc": "$?",
+                    "names": "$?",
+                    "inputs": [{ "doc": "$?", "names": "$?" }]
+                },
+                "subsequence": {
+                    "doc": "$?",
+                    "names": "$? subsequence",
+                    "inputs": [
+                        {
+                            "doc": "$?",
+                            "names": "$?"
+                        },
+                        {
+                            "doc": "$?",
+                            "names": "$?"
+                        }
+                    ]
+                },
+                "sansFirst": {
+                    "doc": "$?",
+                    "names": "$?",
+                    "inputs": []
+                },
+                "sansLast": { "doc": "$?", "names": "$?", "inputs": [] },
+                "sans": {
+                    "doc": "$?",
+                    "names": "$?",
+                    "inputs": [{ "doc": "$?", "names": "$?" }]
+                },
+                "sansAll": {
+                    "doc": "$?",
+                    "names": "$?",
+                    "inputs": [{ "doc": "$?", "names": "$?" }]
+                },
+                "reverse": { "doc": "$?", "names": "$?", "inputs": [] },
+                "equals": {
+                    "doc": "$?",
+                    "names": ["=", "equals"],
+                    "inputs": [{ "doc": "$?", "names": "$?" }]
+                },
+                "notequals": {
+                    "doc": "$?",
+                    "names": "$?",
+                    "inputs": [{ "doc": "$?", "names": "$?" }]
+                },
+                "translate": {
+                    "doc": "$?",
+                    "names": "$?",
+                    "inputs": [{ "doc": "$?", "names": "$?" }],
+                    "translator": [
+                        { "doc": "$?", "names": "$?item" },
+                        { "doc": "$?", "names": "$?index" },
+                        {
+                            "doc": "$?",
+                            "names": "$?"
+                        }
+                    ]
+                },
+                "filter": {
+                    "doc": "$?",
+                    "names": "$?",
+                    "inputs": [{ "doc": "$?", "names": "$?" }],
+                    "checker": [
+                        { "doc": "$?", "names": "$?item" },
+                        { "doc": "$?", "names": "$?index" },
+                        {
+                            "doc": "$?",
+                            "names": "$?"
+                        }
+                    ]
+                },
+                "all": {
+                    "doc": "$?",
+                    "names": "$?",
+                    "inputs": [{ "doc": "$?", "names": "$?" }],
+                    "checker": [
+                        { "doc": "$?", "names": "$?item" },
+                        { "doc": "$?", "names": "$?index" },
+                        {
+                            "doc": "$?",
+                            "names": "$?"
+                        }
+                    ]
+                },
+                "until": {
+                    "doc": "$?",
+                    "names": "$?",
+                    "inputs": [{ "doc": "$?", "names": "$?" }],
+                    "checker": [
+                        { "doc": "$?", "names": "$?item" },
+                        { "doc": "$?", "names": "$?index" },
+                        {
+                            "doc": "$?",
+                            "names": "$?"
+                        }
+                    ]
+                },
+                "find": {
+                    "doc": "$?",
+                    "names": "$?",
+                    "inputs": [{ "doc": "$?", "names": "$?" }],
+                    "checker": [
+                        { "doc": "$?", "names": "$?value" },
+                        { "doc": "$?", "names": "$?index" },
+                        {
+                            "doc": "$?",
+                            "names": "$?"
+                        }
+                    ]
+                },
+                "combine": {
+                    "doc": "$?",
+                    "names": "$?",
+                    "inputs": [
+                        { "doc": "$?", "names": "$?" },
+                        { "doc": "$?", "names": "$?" }
+                    ],
+                    "combiner": [
+                        { "doc": "$?", "names": "$?" },
+                        { "doc": "$?", "names": "$?" },
+                        { "doc": "$?", "names": "$?" },
+                        {
+                            "doc": "$?",
+                            "names": "$?"
+                        }
+                    ]
+                },
+                "sorted": {
+                    "doc": "$?",
+                    "names": "$?",
+                    "inputs": [{ "doc": "$", "names": "$?sequencer" }],
+                    "sequencer": [{ "doc": "$?", "names": "$?value" }]
+                }
+            },
+            "conversion": { "text": "$?", "set": "$?" }
+        },
+        "Set": {
+            "doc": "$?",
+            "name": "$?",
+            "kind": "$?",
+            "out": "$?",
+            "function": {
+                "size": {
+                    "doc": "$?",
+                    "names": "$?size",
+                    "inputs": []
+                },
+                "equals": {
+                    "doc": "$?",
+                    "names": ["=", "equals"],
+                    "inputs": [{ "doc": "$?", "names": "$?" }]
+                },
+                "notequals": {
+                    "doc": "$?",
+                    "names": "$?",
+                    "inputs": [{ "doc": "$?", "names": "$?" }]
+                },
+                "add": {
+                    "doc": "$?",
+                    "names": ["add", "+"],
+                    "inputs": [{ "doc": "$?", "names": "$?" }]
+                },
+                "remove": {
+                    "doc": "$?",
+                    "names": ["remove", "-"],
+                    "inputs": [{ "doc": "$?", "names": "$?" }]
+                },
+                "union": {
+                    "doc": "$?",
+                    "names": ["union", "∪"],
+                    "inputs": [{ "doc": "$?", "names": "$?" }]
+                },
+                "intersection": {
+                    "doc": "$?",
+                    "names": ["intersection", "∩"],
+                    "inputs": [{ "doc": "$?", "names": "$?" }]
+                },
+                "difference": {
+                    "doc": "$?",
+                    "names": "$?",
+                    "inputs": [{ "doc": "$?", "names": "$?" }]
+                },
+                "filter": {
+                    "doc": "$?",
+                    "names": "filter",
+                    "inputs": [{ "doc": "$?", "names": "$?checker" }],
+                    "checker": [
+                        { "doc": "$?", "names": "$?value" },
+                        {
+                            "doc": "$?",
+                            "names": "$?set"
+                        }
+                    ]
+                },
+                "translate": {
+                    "doc": "$?",
+                    "names": "translate",
+                    "inputs": [{ "doc": "$?", "names": "$?translator" }],
+                    "translator": [
+                        { "doc": "$?", "names": "$?value" },
+                        {
+                            "doc": "$?",
+                            "names": "$?set"
+                        }
+                    ]
+                }
+            },
+            "conversion": { "text": "$?", "list": "$?" }
+        },
+        "Map": {
+            "doc": "$?",
+            "name": "$?",
+            "key": "$?",
+            "value": "$?",
+            "result": "$?",
+            "function": {
+                "size": {
+                    "doc": "$?",
+                    "names": "$?size",
+                    "inputs": []
+                },
+                "equals": {
+                    "doc": "$?",
+                    "names": ["=", "equals"],
+                    "inputs": [{ "doc": "$?", "names": "$?" }]
+                },
+                "notequals": {
+                    "doc": "$?",
+                    "names": "$?",
+                    "inputs": [{ "doc": "$?", "names": "$?" }]
+                },
+                "set": {
+                    "doc": "$?",
+                    "names": "$?",
+                    "inputs": [
+                        { "doc": "$?", "names": "$?" },
+                        { "doc": "$?", "names": "$?" }
+                    ]
+                },
+                "unset": {
+                    "doc": "$?",
+                    "names": "$?",
+                    "inputs": [{ "doc": "$?", "names": "$?" }]
+                },
+                "remove": {
+                    "doc": "$?",
+                    "names": "$?",
+                    "inputs": [{ "doc": "$?", "names": "$?" }]
+                },
+                "filter": {
+                    "doc": "$?",
+                    "names": "filter",
+                    "inputs": [{ "doc": "$?", "names": "$?checker" }],
+                    "checker": [
+                        { "doc": "$?", "names": "$?key" },
+                        { "doc": "$?", "names": "$?value" },
+                        { "doc": "$?", "names": "$?" }
+                    ]
+                },
+                "translate": {
+                    "doc": "$?",
+                    "names": "translate",
+                    "inputs": [{ "doc": "$?", "names": "$?translator" }],
+                    "translator": [
+                        { "doc": "$?", "names": "$?key" },
+                        { "doc": "$?", "names": "$?value" },
+                        { "doc": "$?", "names": "$?" }
+                    ]
+                }
+            },
+            "conversion": { "text": "$?", "set": "$?", "list": "$?" }
+        },
+        "Table": {
+            "doc": "$?",
+            "name": "$?",
+            "row": "$?",
+            "function": {
+                "equals": {
+                    "doc": "$?",
+                    "names": "$? equals",
+                    "inputs": [{ "doc": "$?", "names": "$? value" }]
+                },
+                "notequal": {
+                    "doc": "$?",
+                    "names": "$?",
+                    "inputs": [{ "doc": "$?", "names": "$? value" }]
+                }
+            },
+            "conversion": {
+                "list": "$?",
+                "text": "$?"
+            }
+        },
+        "Structure": {
+            "doc": "$?",
+            "name": "$?",
+            "function": {
+                "equals": {
+                    "doc": "$?",
+                    "names": "$? =",
+                    "inputs": [
+                        {
+                            "doc": "$?",
+                            "names": "$? value"
+                        }
+                    ]
+                },
+                "notequal": {
+                    "doc": "$?",
+                    "names": "$? ≠",
+                    "inputs": [
+                        {
+                            "doc": "$?",
+                            "names": "$? value"
+                        }
+                    ]
+                }
+            },
+            "conversion": {
+                "text": "$?"
+            }
+        }
+    },
+    "input": {
+        "Random": {
+            "doc": "$?",
+            "names": ["Azar"],
+            "inputs": [
+                { "names": "$?", "doc": "$?" },
+                { "names": "$?", "doc": "$?" }
+            ]
+        },
+        "Choice": { "doc": "$?", "names": ["Selección", "Elección"] },
+        "Button": {
+            "doc": "$?",
+            "names": ["Botón"],
+            "down": { "names": "$?", "doc": "$?" }
+        },
+        "Pointer": { "doc": "$?", "names": ["Puntero"] },
+        "Key": {
+            "doc": "$?",
+            "names": ["Teclado"],
+            "key": { "names": "$?", "doc": "$?" },
+            "down": { "names": "$?", "doc": "$?" }
+        },
+        "Time": {
+            "doc": "$?",
+            "names": ["Tiempo"],
+            "frequency": { "names": ["frecuencia"], "doc": "$?" }
+        },
+        "Volume": {
+            "doc": "$?",
+            "names": "$? Volume",
+            "frequency": { "names": ["frecuencia"], "doc": "$?" }
+        },
+        "Pitch": {
+            "doc": "$?",
+            "names": "$? Pitch",
+            "frequency": { "names": ["frecuencia"], "doc": "$?" }
+        },
+        "Camera": {
+            "doc": "$?",
+            "names": ["Cámara"],
+            "width": { "names": ["ancho"], "doc": "$?" },
+            "height": { "names": ["altura"], "doc": "$?" },
+            "frequency": { "names": ["frecuencia"], "doc": "$?" }
+        },
+        "Motion": {
+            "names": "$?",
+            "doc": "$?",
+            "type": { "doc": "$?", "names": "$?" },
+            "startplace": { "doc": "$?", "names": "$? startplace" },
+            "startvx": { "doc": "$?", "names": "$? startvx" },
+            "startvy": { "doc": "$?", "names": "$? startvy" },
+            "startvz": { "doc": "$?", "names": "$? startvz" },
+            "startvangle": { "doc": "$?", "names": "$? startvangle" },
+            "vx": { "doc": "$?", "names": "$?" },
+            "vy": { "doc": "$?", "names": "$?" },
+            "vz": { "doc": "$?", "names": "$?" },
+            "vangle": { "doc": "$?", "names": "$?" },
+            "mass": { "doc": "$?", "names": "$?" },
+            "bounciness": { "doc": "$?", "names": "$?" },
+            "gravity": { "doc": "$?", "names": "$?" }
+        },
+        "Placement": {
+            "doc": ["$?"],
+            "names": "$? Placement",
+            "inputs": [
+                {
+                    "doc": "$?",
+                    "names": "$? start"
+                },
+                {
+                    "doc": "$?",
+                    "names": "$? distance"
+                },
+                {
+                    "doc": "$?",
+                    "names": "$? horizontal"
+                },
+                {
+                    "doc": "$?",
+                    "names": "$? vertical"
+                },
+                {
+                    "doc": "$?",
+                    "names": "$? depth"
+                }
+            ]
+        }
+    },
+    "output": {
+        "Type": {
+            "names": "$?",
+            "doc": "$?",
+            "size": { "doc": "$?", "names": "$?" },
+            "face": { "doc": "$?", "names": "$?" },
+            "place": { "doc": "$?", "names": "$?" },
+            "name": { "doc": "$?", "names": "$?" },
+            "selectable": { "doc": "$?", "names": "$?" },
+            "color": {
+                "doc": "$?",
+                "names": "$? color"
+            },
+            "background": { "doc": "$?", "names": "$? background" },
+            "opacity": {
+                "doc": "$?",
+                "names": "$? opacity"
+            },
+            "offset": {
+                "doc": "$?",
+                "names": "$? offset"
+            },
+            "rotation": {
+                "doc": "$?",
+                "names": "$? rotation"
+            },
+            "scale": {
+                "doc": "$?",
+                "names": "$? scale"
+            },
+            "flipx": {
+                "doc": "$?",
+                "names": "$? flipx"
+            },
+            "flipy": {
+                "doc": "$?",
+                "names": "$? flipy"
+            },
+            "entering": { "doc": "$?", "names": "$?" },
+            "resting": { "doc": "$?", "names": "$?" },
+            "moving": { "doc": "$?", "names": "$?" },
+            "exiting": { "doc": "$?", "names": "$?" },
+            "duration": { "doc": "$?", "names": ["duración"] },
+            "style": { "doc": "$?", "names": "$?" }
+        },
+        "Stage": {
+            "names": "$?",
+            "doc": "$?",
+            "description": "$?",
+            "content": { "doc": "$?", "names": "$?" },
+            "frame": { "doc": "$?", "names": "$?" }
+        },
+        "Group": {
+            "names": "$?",
+            "doc": "$?",
+            "content": { "doc": "$?", "names": "$?" },
+            "layout": { "doc": "$?", "names": "$?" },
+            "description": "$?"
+        },
+        "Phrase": {
+            "names": ["💬", "Frase"],
+            "doc": "$?",
+            "text": { "doc": "$?", "names": "$?" },
+            "description": "$?"
+        },
+        "Arrangement": { "names": ["Arrangement"], "doc": "$?" },
+        "Row": {
+            "names": ["Fila"],
+            "doc": "$?",
+            "description": "$?",
+            "alignment": {
+                "doc": "$?",
+                "names": "$? alignment"
+            },
+            "padding": { "doc": "$?", "names": "$?" }
+        },
+        "Stack": {
+            "names": "$?",
+            "doc": "$?",
+            "description": "$?",
+            "padding": { "doc": "$?", "names": "$?" },
+            "alignment": {
+                "doc": "$?",
+                "names": "$? alignment"
+            }
+        },
+        "Grid": {
+            "names": "$?",
+            "doc": "$?",
+            "description": "$?",
+            "rows": { "doc": "$?", "names": "$?" },
+            "columns": { "doc": "$?", "names": "$?" },
+            "padding": { "doc": "$?", "names": "$?" },
+            "cellWidth": { "doc": "$?", "names": "$?" },
+            "cellHeight": { "doc": "$?", "names": "$?" }
+        },
+        "Free": {
+            "names": "$?",
+            "doc": "$?",
+            "description": "$?"
+        },
+        "Shape": { "names": "$?", "doc": "$?" },
+        "Rectangle": {
+            "names": "$?",
+            "doc": "$?",
+            "left": { "doc": "$?", "names": "$?" },
+            "top": { "doc": "$?", "names": "$?" },
+            "right": { "doc": "$?", "names": "$?" },
+            "bottom": { "doc": "$?", "names": "$?" }
+        },
+        "Pose": {
+            "names": "$?",
+            "doc": "$?",
+            "duration": { "doc": "$?", "names": "$?" },
+            "style": { "doc": "$?", "names": "$?" },
+            "color": { "doc": "$?", "names": "$?" },
+            "opacity": { "doc": "$?", "names": "$?" },
+            "offset": { "doc": "$?", "names": "$?" },
+            "rotation": { "doc": "$?", "names": "$?" },
+            "scale": { "doc": "$?", "names": "$?" },
+            "flipx": { "doc": "$?", "names": "$?" },
+            "flipy": { "doc": "$?", "names": "$?" },
+            "description": "$?"
+        },
+        "Color": {
+            "names": "$?",
+            "doc": "$?",
+            "lightness": { "doc": "$?", "names": ["luminosidad"] },
+            "chroma": { "doc": "$?", "names": ["croma"] },
+            "hue": { "doc": "$?", "names": ["matiz"] }
+        },
+        "Sequence": {
+            "names": "$?",
+            "doc": "$?",
+            "count": { "doc": "$?", "names": "$?" },
+            "poses": { "doc": "$?", "names": "$?" }
+        },
+        "Place": {
+            "names": ["Posición"],
+            "doc": "$?",
+            "x": { "doc": "$?", "names": "$?" },
+            "y": { "doc": "$?", "names": "$?" },
+            "z": { "doc": "$?", "names": "$?" }
+        },
+        "Easing": {
+            "straight": "$?",
+            "cautious": "$?",
+            "pokey": "$?",
+            "zippy": "$?"
+        },
+        "sequence": {
+            "sway": {
+                "doc": "$?",
+                "names": ["vaivén"],
+                "angle": { "doc": "$?", "names": ["ángulo"] }
+            },
+            "bounce": {
+                "doc": "$?",
+                "names": ["rebotar"],
+                "height": { "doc": "$?", "names": ["altura"] }
+            },
+            "spin": { "doc": "$?", "names": ["girar"] },
+            "fadein": { "doc": "$?", "names": ["revelar"] },
+            "popup": { "doc": "$?", "names": ["surgir"] },
+            "shake": { "doc": "$?", "names": ["agitar"] }
+        }
+    },
+    "ui": {
+        "font": {
+            "app": "Noto Sans",
+            "code": "Noto Mono"
+        },
+        "phrases": {
+            "welcome": "$?",
+            "motto": "$?"
+        },
+        "placeholders": {
+            "code": "$?",
+            "expression": "$?",
+            "type": "$?",
+            "percent": "$?",
+            "name": "$?",
+            "project": "$?",
+            "email": "$?"
+        },
+        "description": {
+            "yes": "$?",
+            "no": "$?",
+            "play": "$?",
+            "pause": "$?",
+            "backStep": "$?",
+            "backNode": "$?",
+            "backInput": "$?",
+            "out": "$?",
+            "forwardStep": "$?",
+            "forwardNode": "$?",
+            "forwardInput": "$?",
+            "present": "$?",
+            "start": "$?",
+            "reset": "$?",
+            "home": "$?",
+            "docBack": "$?",
+            "revert": "$?",
+            "set": "$?",
+            "collapse": "$?",
+            "expand": "$?",
+            "close": "$?",
+            "changeLanguage": "$?",
+            "addLanguage": "$?",
+            "removeLanguage": "$?",
+            "horizontal": "$?",
+            "vertical": "$?",
+            "freeform": "$?",
+            "addPose": "$?",
+            "removePose": "$?",
+            "movePoseUp": "$?",
+            "movePoseDown": "$?",
+            "addPhrase": "$?",
+            "addGroup": "$?",
+            "removeContent": "$?",
+            "moveContentUp": "$?",
+            "moveContentDown": "$?",
+            "editContent": "$?",
+            "sequence": "$?",
+            "animate": "$?",
+            "addSource": "$?",
+            "copyProject": "$?",
+            "editProject": "$?",
+            "settings": "$?",
+            "newProject": "$?",
+            "dark": "$?",
+            "chooserExpand": "$?",
+            "place": "$?",
+            "paint": "$?",
+            "nextLesson": "$?",
+            "previousLesson": "$?",
+            "nextLessonStep": "$?",
+            "previousLessonStep": "$?",
+            "revertProject": "$?",
+            "showOutput": "$?",
+            "expandCode": "$?",
+            "addInput": "$?",
+            "menu": "$?",
+            "menuBack": "$?",
+            "cursorLineBefore": "$?",
+            "cursorLineAfter": "$?",
+            "cursorInlineBefore": "$?",
+            "cursorInlineAfter": "$?",
+            "cursorLineStart": "$?",
+            "cursorLineEnd": "$?",
+            "cursorNeighborBefore": "$?",
+            "cursorNeighborAfter": "$?",
+            "cursorContainer": "$?",
+            "selectAll": "$?",
+            "incrementLiteral": "$?",
+            "decrementLiteral": "$?",
+            "insertSymbol": "$?",
+            "insertTrueSymbol": "$?",
+            "insertFalseSymbol": "$?",
+            "insertNoneSymbol": "$?",
+            "insertDegreeSymbol": "$?",
+            "insertNotEqualSymbol": "$?",
+            "insertProductSymbol": "$?",
+            "insertQuotientSymbol": "$?",
+            "insertFunctionSymbol": "$?",
+            "insertLessThanOrEqualSymbol": "$?",
+            "insertGreaterThanOrEqualSymbol": "$?",
+            "insertStreamSymbol": "$?",
+            "insertConvertSymbol": "$?",
+            "insertPreviousSymbol": "$?",
+            "insertTableSymbol": "$?",
+            "insertLineBreak": "$?",
+            "backspace": "$?",
+            "cut": "$?",
+            "copy": "$?",
+            "paste": "$?",
+            "parenthesize": "$?",
+            "enumerate": "$?",
+            "type": "$?",
+            "undo": "$?",
+            "redo": "$?",
+            "help": "$?",
+            "documentationSearch": "$?",
+            "characterSearch": "$?",
+            "editTextOutput": "$?",
+            "editCoordinate": "$?",
+            "editSequencePercent": "$?",
+            "editProjectName": "$?",
+            "editSourceName": "$?",
+            "loginEmail": "$?",
+            "focusOutput": "$?",
+            "focusSource": "$?",
+            "focusDocs": "$?",
+            "focusPalette": "$?",
+            "focusCycle": "$?",
+            "conceptLink": "$?",
+            "timeline": "$?",
+            "createPhrase": "$?",
+            "createGroup": "$?",
+            "createStage": "$?"
+        },
+        "toggle": {
+            "grid": {
+                "on": "$?",
+                "off": "$?"
+            },
+            "fit": {
+                "on": "$?",
+                "off": "$?"
+            },
+            "fullscreen": {
+                "on": "$?",
+                "off": "$?"
+            },
+            "tile": {
+                "on": "$?",
+                "off": "$?"
+            },
+            "blocks": {
+                "on": "$?",
+                "off": "$?"
+            }
+        },
+        "mode": {
+            "layout": { "label": "$?", "modes": ["$?", "$?", "$?", "$?"] },
+            "animate": {
+                "label": "$?",
+                "modes": ["$?", "$?", "$?", "$?", "$?"]
+            },
+            "dark": {
+                "label": "$?",
+                "modes": ["$?", "$?", "$?"]
+            },
+            "writing": {
+                "label": "$?",
+                "modes": ["$?", "$?", "$?"]
+            }
+        },
+        "button": {
+            "togglePublic": "$?",
+            "showCollaborators": "$?",
+            "removeCollaborator": "$?"
+        },
+        "confirm": {
+            "archiveProject": {
+                "description": "$?",
+                "prompt": "$?"
+            },
+            "deleteSource": {
+                "description": "$?",
+                "prompt": "$?"
+            }
+        },
+        "dialog": {
+            "collaborators": {
+                "header": "$?",
+                "explanation": "$?"
+            },
+            "settings": {
+                "header": "$?",
+                "explanation": "$?"
+            },
+            "locale": {
+                "header": "$?",
+                "explanation": "$?",
+                "selected": "$?",
+                "supported": "$?"
+            },
+            "help": {
+                "header": "$?",
+                "explanation": "$?"
+            }
+        },
+        "field": {
+            "collaborator": {
+                "placeholder": "$?",
+                "description": "$?"
+            }
+        },
+        "prompt": {
+            "emptyProgram": "$?",
+            "keyStreamInput": "$?"
+        },
+        "labels": {
+            "learn": "$?",
+            "nodoc": "$?",
+            "mixed": "$?",
+            "computed": "$?",
+            "default": "$?",
+            "inherited": "$?",
+            "notSequence": "$?",
+            "notContent": "$?",
+            "anonymous": "$?"
+        },
+        "header": {
+            "inputs": "$?",
+            "interfaces": "$?",
+            "properties": "$?",
+            "functions": "$?",
+            "conversions": "$?",
+            "helpLocalize": "$?",
+            "moveCursor": "$?",
+            "editCode": "$?",
+            "insertCode": "$?",
+            "debug": "$?"
+        },
+        "section": {
+            "project": "$?",
+            "conflicts": "$?",
+            "timeline": "$?",
+            "toolbar": "$?",
+            "output": "$?",
+            "palette": "$?",
+            "editor": "$?"
+        },
+        "palette": {
+            "offerPhrase": "$?",
+            "offerGroup": "$?",
+            "offerStage": "$?",
+            "pauseToEdit": "$?",
+            "editing": "$?"
+        },
+        "feedback": {
+            "unknownProject": "$?",
+            "loading": "$?",
+            "save": {
+                "saving": "$?",
+                "saved": "$?",
+                "local": "$?",
+                "unsaved": "$?"
+            }
+        },
+        "page": {
+            "learn": {
+                "header": "$?"
+            },
+            "projects": {
+                "header": "$?",
+                "prompt": "$?"
+            },
+            "galleries": {
+                "header": "$?",
+                "prompt": "$?",
+                "examples": "ejemplos"
+            },
+            "about": {
+                "header": "$?",
+                "content": ["$?"]
+            },
+            "login": {
+                "header": "$?",
+                "prompt": {
+                    "login": "$?",
+                    "enter": "$?",
+                    "anonymous": "$?",
+                    "play": "$?",
+                    "change": "$?",
+                    "check": "$?",
+                    "logout": "$?"
+                },
+                "submit": "$?",
+                "sent": "$?",
+                "success": "$?",
+                "error": {
+                    "expired": "$?",
+                    "invalid": "$?",
+                    "email": "$?",
+                    "other": "$?",
+                    "offline": "$?",
+                    "failure": "$?"
+                },
+                "button": {
+                    "logout": {
+                        "tip": "$?",
+                        "label": "$?"
+                    },
+                    "login": {
+                        "tip": "$?",
+                        "label": ">"
+                    },
+                    "update": {
+                        "tip": "$?",
+                        "label": "$?"
+                    }
+                }
+            },
+            "rights": {
+                "header": "$?",
+                "content": ["$?"]
+            }
+        },
+        "edit": {
+            "node": "$?",
+            "before": "$?",
+            "inside": "$?",
+            "between": "$?",
+            "line": "$?",
+            "conflicts": "$?",
+            "assign": "$?",
+            "append": "$?",
+            "remove": "$?",
+            "replace": "$?",
+            "wrap": "$?",
+            "unwrap": "$?",
+            "bind": "$?"
+        },
+        "error": {
+            "notfound": {
+                "header": "$?",
+                "message": "$?"
+            },
+            "tutorial": "$?",
+            "unwritten": "$?",
+            "template": "$?",
+            "noDatabase": "$?",
+            "overwritten": "$?",
+            "unknownEmail": "$?"
+        }
+    }
+}
