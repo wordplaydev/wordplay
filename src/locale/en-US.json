@@ -3604,6 +3604,10 @@
             "blocks": {
                 "on": "hide block backgrounds",
                 "off": "show block backgrounds"
+            },
+            "public": {
+                "on": "change to private",
+                "off": "change to public"
             }
         },
         "mode": {
@@ -3635,7 +3639,6 @@
             }
         },
         "button": {
-            "togglePublic": "toggle public or private",
             "showCollaborators": "show collaborators dialog",
             "removeCollaborator": "remove collaborator"
         },

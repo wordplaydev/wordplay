@@ -1930,6 +1930,10 @@
             "blocks": {
                 "on": "$?",
                 "off": "$?"
+            },
+            "public": {
+                "on": "$?",
+                "off": "$?"
             }
         },
         "mode": {
@@ -1948,7 +1952,6 @@
             }
         },
         "button": {
-            "togglePublic": "$?",
             "showCollaborators": "$?",
             "removeCollaborator": "$?"
         },

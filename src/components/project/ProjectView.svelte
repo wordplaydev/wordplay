@@ -1345,13 +1345,14 @@
                     ><span class="copy">✐+</span></Button
                 >
             {:else}
-                <Button
-                    tip={$locale.ui.button.togglePublic}
-                    action={() =>
+                <Toggle
+                    tips={$locale.ui.toggle.public}
+                    toggle={() =>
                         Projects.reviseProject(
                             project.asPublic(!project.public)
                         )}
-                    >{#if project.public}🌐{:else}🤫{/if}</Button
+                    on={project.public}
+                    >{#if project.public}🌐{:else}🤫{/if}</Toggle
                 >
                 <Button
                     tip={$locale.ui.button.showCollaborators}

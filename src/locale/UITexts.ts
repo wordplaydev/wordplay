@@ -174,6 +174,7 @@ type UITexts = {
         fullscreen: ToggleText;
         tile: ToggleText;
         blocks: ToggleText;
+        public: ToggleText;
     };
     mode: {
         layout: ModeText<[string, string, string, string]>;
@@ -182,7 +183,6 @@ type UITexts = {
         writing: ModeText<[string, string, string]>;
     };
     button: {
-        togglePublic: string;
         showCollaborators: string;
         removeCollaborator: string;
     };

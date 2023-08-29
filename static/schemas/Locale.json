@@ -6485,13 +6485,9 @@
                 },
                 "showCollaborators": {
                   "type": "string"
-                },
-                "togglePublic": {
-                  "type": "string"
                 }
               },
               "required": [
-                "togglePublic",
                 "showCollaborators",
                 "removeCollaborator"
               ],
@@ -7827,6 +7823,9 @@
                 "grid": {
                   "$ref": "#/definitions/ToggleText"
                 },
+                "public": {
+                  "$ref": "#/definitions/ToggleText"
+                },
                 "tile": {
                   "$ref": "#/definitions/ToggleText"
                 }
@@ -7836,7 +7835,8 @@
                 "fit",
                 "fullscreen",
                 "tile",
-                "blocks"
+                "blocks",
+                "public"
               ],
               "type": "object"
             }
