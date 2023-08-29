@@ -3640,7 +3640,8 @@
         },
         "button": {
             "showCollaborators": "show collaborators dialog",
-            "removeCollaborator": "remove collaborator"
+            "removeCollaborator": "remove collaborator",
+            "copyProject": "copy project as text"
         },
         "confirm": {
             "archiveProject": {

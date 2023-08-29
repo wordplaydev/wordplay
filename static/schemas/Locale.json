@@ -6480,6 +6480,9 @@
             "button": {
               "additionalProperties": false,
               "properties": {
+                "copyProject": {
+                  "type": "string"
+                },
                 "removeCollaborator": {
                   "type": "string"
                 },
@@ -6489,7 +6492,8 @@
               },
               "required": [
                 "showCollaborators",
-                "removeCollaborator"
+                "removeCollaborator",
+                "copyProject"
               ],
               "type": "object"
             },

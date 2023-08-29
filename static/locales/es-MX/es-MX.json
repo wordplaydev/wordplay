@@ -2044,7 +2044,8 @@
         },
         "button": {
             "showCollaborators": "$?",
-            "removeCollaborator": "$?"
+            "removeCollaborator": "$?",
+            "copyProject": "$?"
         },
         "confirm": {
             "archiveProject": {

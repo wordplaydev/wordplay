@@ -22,7 +22,7 @@ import {
 } from '@parser/Symbols';
 
 import Source from '@nodes/Source';
-import { toClipboard } from './Clipboard';
+import { copyNode } from './Clipboard';
 import type Evaluator from '@runtime/Evaluator';
 import FunctionDefinition from '@nodes/FunctionDefinition';
 import ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
@@ -941,7 +941,7 @@ const Commands: Command[] = [
         keySymbol: 'X',
         execute: (context) => {
             if (!(context.caret?.position instanceof Node)) return false;
-            toClipboard(context.caret.position, context.caret.source.spaces);
+            copyNode(context.caret.position, context.caret.source.spaces);
             return context.caret.backspace();
         },
     },
@@ -957,7 +957,7 @@ const Commands: Command[] = [
         keySymbol: 'C',
         execute: (context) => {
             if (!(context.caret?.position instanceof Node)) return false;
-            return toClipboard(
+            return copyNode(
                 context.caret.position,
                 context.caret.source.spaces
             );

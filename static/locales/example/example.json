@@ -1612,7 +1612,14 @@
     "output": {
         "Type": {
             "names": "$?",
+            "doc": "$?"
+        },
+        "Stage": {
+            "names": "$?",
             "doc": "$?",
+            "description": "$?",
+            "content": { "doc": "$?", "names": "$?" },
+            "frame": { "doc": "$?", "names": "$?" },
             "size": { "doc": "$?", "names": "$?" },
             "face": { "doc": "$?", "names": "$?" },
             "place": { "doc": "$?", "names": "$?" },
@@ -1654,25 +1661,98 @@
             "duration": { "doc": "$?", "names": ["duración"] },
             "style": { "doc": "$?", "names": "$?" }
         },
-        "Stage": {
+        "Group": {
             "names": "$?",
             "doc": "$?",
             "description": "$?",
             "content": { "doc": "$?", "names": "$?" },
-            "frame": { "doc": "$?", "names": "$?" }
-        },
-        "Group": {
-            "names": "$?",
-            "doc": "$?",
-            "content": { "doc": "$?", "names": "$?" },
             "layout": { "doc": "$?", "names": "$?" },
-            "description": "$?"
+            "size": { "doc": "$?", "names": "$?" },
+            "face": { "doc": "$?", "names": "$?" },
+            "place": { "doc": "$?", "names": "$?" },
+            "name": { "doc": "$?", "names": "$?" },
+            "selectable": { "doc": "$?", "names": "$?" },
+            "color": {
+                "doc": "$?",
+                "names": "$? color"
+            },
+            "background": { "doc": "$?", "names": "$? background" },
+            "opacity": {
+                "doc": "$?",
+                "names": "$? opacity"
+            },
+            "offset": {
+                "doc": "$?",
+                "names": "$? offset"
+            },
+            "rotation": {
+                "doc": "$?",
+                "names": "$? rotation"
+            },
+            "scale": {
+                "doc": "$?",
+                "names": "$? scale"
+            },
+            "flipx": {
+                "doc": "$?",
+                "names": "$? flipx"
+            },
+            "flipy": {
+                "doc": "$?",
+                "names": "$? flipy"
+            },
+            "entering": { "doc": "$?", "names": "$?" },
+            "resting": { "doc": "$?", "names": "$?" },
+            "moving": { "doc": "$?", "names": "$?" },
+            "exiting": { "doc": "$?", "names": "$?" },
+            "duration": { "doc": "$?", "names": ["duración"] },
+            "style": { "doc": "$?", "names": "$?" }
         },
         "Phrase": {
             "names": ["💬", "Frase"],
             "doc": "$?",
+            "description": "$?",
             "text": { "doc": "$?", "names": "$?" },
-            "description": "$?"
+            "size": { "doc": "$?", "names": "$?" },
+            "face": { "doc": "$?", "names": "$?" },
+            "place": { "doc": "$?", "names": "$?" },
+            "name": { "doc": "$?", "names": "$?" },
+            "selectable": { "doc": "$?", "names": "$?" },
+            "color": {
+                "doc": "$?",
+                "names": "$? color"
+            },
+            "background": { "doc": "$?", "names": "$? background" },
+            "opacity": {
+                "doc": "$?",
+                "names": "$? opacity"
+            },
+            "offset": {
+                "doc": "$?",
+                "names": "$? offset"
+            },
+            "rotation": {
+                "doc": "$?",
+                "names": "$? rotation"
+            },
+            "scale": {
+                "doc": "$?",
+                "names": "$? scale"
+            },
+            "flipx": {
+                "doc": "$?",
+                "names": "$? flipx"
+            },
+            "flipy": {
+                "doc": "$?",
+                "names": "$? flipy"
+            },
+            "entering": { "doc": "$?", "names": "$?" },
+            "resting": { "doc": "$?", "names": "$?" },
+            "moving": { "doc": "$?", "names": "$?" },
+            "exiting": { "doc": "$?", "names": "$?" },
+            "duration": { "doc": "$?", "names": ["duración"] },
+            "style": { "doc": "$?", "names": "$?" }
         },
         "Arrangement": { "names": ["Arrangement"], "doc": "$?" },
         "Row": {
@@ -1953,7 +2033,8 @@
         },
         "button": {
             "showCollaborators": "$?",
-            "removeCollaborator": "$?"
+            "removeCollaborator": "$?",
+            "copyProject": "$?"
         },
         "confirm": {
             "archiveProject": {

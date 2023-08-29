@@ -4,7 +4,7 @@
     import { getDragged } from '../project/Contexts';
     import type Node from '@nodes/Node';
     import TypeView from './TypeView.svelte';
-    import { toClipboard } from '../editor/util/Clipboard';
+    import { copyNode } from '../editor/util/Clipboard';
     import type Type from '../../nodes/Type';
     import type Spaces from '../../parser/Spaces';
     import ConceptLinkUI from './ConceptLinkUI.svelte';
@@ -29,7 +29,7 @@
     }
 
     function copy() {
-        toClipboard(node);
+        copyNode(node);
     }
 </script>
 

@@ -88,7 +88,7 @@
         fill: var(--wordplay-background);
     }
 
-    button:hover {
+    button:hover:not(:focus) {
         background: var(--wordplay-alternating-color);
         border-radius: var(--wordplay-border-radius);
     }

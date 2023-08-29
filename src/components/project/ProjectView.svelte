@@ -110,6 +110,7 @@
     import Collaborators from './Collaborators.svelte';
     import Toggle from '../widgets/Toggle.svelte';
     import Announcer from './Announcer.svelte';
+    import { toClipboard } from '../editor/util/Clipboard';
 
     export let project: Project;
     export let original: Project | undefined = undefined;
@@ -1357,6 +1358,10 @@
                 <Button
                     tip={$locale.ui.button.showCollaborators}
                     action={() => (collaborators = true)}>🤝</Button
+                >
+                <Button
+                    tip={$locale.ui.button.copyProject}
+                    action={() => toClipboard(project.toWordplay())}>📚</Button
                 >
             {/if}
 

@@ -185,6 +185,7 @@ type UITexts = {
     button: {
         showCollaborators: string;
         removeCollaborator: string;
+        copyProject: string;
     };
     confirm: {
         archiveProject: {

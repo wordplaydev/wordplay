@@ -920,4 +920,16 @@ export default class Project {
             timestamp: this.timestamp,
         };
     }
+
+    toWordplay() {
+        return (
+            `${this.name}\n` +
+            this.getSources()
+                .map(
+                    (source) =>
+                        `=== ${source.names.toWordplay()}\n${source.code.toString()}`
+                )
+                .join('\n')
+        );
+    }
 }
