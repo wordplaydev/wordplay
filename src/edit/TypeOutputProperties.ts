@@ -33,7 +33,7 @@ function getPoseProperty(project: Project, name: NameAndDoc): OutputProperty {
 
 export function getDurationProperty(locale: Locale): OutputProperty {
     return new OutputProperty(
-        locale.output.Type.duration,
+        locale.output.Phrase.duration,
         new OutputPropertyRange(0, 2, 0.25, 's', 2),
         false,
         false,
@@ -44,7 +44,7 @@ export function getDurationProperty(locale: Locale): OutputProperty {
 
 export function getStyleProperty(locale: Locale): OutputProperty {
     return new OutputProperty(
-        locale.output.Type.style,
+        locale.output.Phrase.style,
         new OutputPropertyOptions(
             Object.values(locale.output.Easing).reduce(
                 (all: string[], next: NameText) => [
@@ -74,7 +74,7 @@ export default function getTypeOutputProperties(
 ): OutputProperty[] {
     return [
         new OutputProperty(
-            locale.output.Type.size,
+            locale.output.Phrase.size,
             new OutputPropertyRange(0.25, 32, 0.25, 'm'),
             false,
             true,
@@ -82,7 +82,7 @@ export default function getTypeOutputProperties(
             () => NumberLiteral.make(1, Unit.create(['m']))
         ),
         new OutputProperty(
-            locale.output.Type.face,
+            locale.output.Phrase.face,
             new OutputPropertyOptions(
                 [...SupportedFaces],
                 true,
@@ -98,7 +98,7 @@ export default function getTypeOutputProperties(
             () => TextLiteral.make(locale.ui.font.app)
         ),
         new OutputProperty(
-            locale.output.Type.place,
+            locale.output.Phrase.place,
             'place',
             false,
             false,
@@ -121,7 +121,7 @@ export default function getTypeOutputProperties(
                 )
         ),
         new OutputProperty(
-            locale.output.Type.name,
+            locale.output.Phrase.name,
             new OutputPropertyText(() => true),
             false,
             false,
@@ -129,7 +129,7 @@ export default function getTypeOutputProperties(
             () => TextLiteral.make('')
         ),
         new OutputProperty(
-            locale.output.Type.selectable,
+            locale.output.Phrase.selectable,
             'bool',
             false,
             false,
@@ -137,10 +137,10 @@ export default function getTypeOutputProperties(
             () => BooleanLiteral.make(false)
         ),
         ...getPoseProperties(project, locale, true),
-        getPoseProperty(project, locale.output.Type.entering),
-        getPoseProperty(project, locale.output.Type.resting),
-        getPoseProperty(project, locale.output.Type.moving),
-        getPoseProperty(project, locale.output.Type.exiting),
+        getPoseProperty(project, locale.output.Phrase.entering),
+        getPoseProperty(project, locale.output.Phrase.resting),
+        getPoseProperty(project, locale.output.Phrase.moving),
+        getPoseProperty(project, locale.output.Phrase.exiting),
         getDurationProperty(locale),
         getStyleProperty(locale),
     ];

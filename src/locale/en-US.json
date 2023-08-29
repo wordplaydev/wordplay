@@ -2696,7 +2696,7 @@
             "doc": [
                 "/clickety tap!/",
                 "/@FunctionDefinition here, I'll explain this one./",
-                "Think of @Choice like a stream of @Type/name that are selected by your audience. If someone clicks, taps, or keyboard selects by pressing /Enter/ on a @Phrase with a name -- @Choice will have a new value matching the name.",
+                "Think of @Choice like a stream of @Phrase/name that are selected by your audience. If someone clicks, taps, or keyboard selects by pressing /Enter/ on a @Phrase with a name -- @Choice will have a new value matching the name.",
                 "So the best way to use it is to create a performance with named selectable phrases @Phrase, and then use a @Reaction to decide what to do when that name is chosen.",
                 "Here's the simplest example:",
                 "\\Group(\nStack() \n[\nPhrase('one' selectable:⊤ name:'1') \nPhrase('two' selectable:⊤ name:'2') \nPhrase(Choice())\n]\n)\\",
@@ -2839,7 +2839,7 @@
             ],
             "names": ["⚽️", "Motion"],
             "type": {
-                "doc": "The @Phrase to refine with new @Type/resting places and rotations.",
+                "doc": "The @Phrase to refine with new @Phrase/resting places and rotations.",
                 "names": "type"
             },
             "startplace": {
@@ -2933,7 +2933,117 @@
             "doc": [
                 "I am not a @StructureDefinition you can actually make. But I am a very important one, as I inspire the most important elements of our dance: @Phrase, @Group, and @Stage.",
                 "Go meet them to learn more about how to use them."
+            ]
+        },
+        "Group": {
+            "doc": [
+                "Oh hello, how are you? I'm always fine when others are around, so it's great to be with you!",
+                "I group together @Phrase and @Group on @Stage and put them in an @Arrangement, so there's some order to where they're placed.",
+                "To work, I need you to give me an @Arrangement, and then a @List of @Type to arrange.",
+                "For example, here I am with a @Stack arrangement and a few @Phrase to stack vertically:",
+                "\\Group(Stack() [Phrase('first') Phrase('second')])\\",
+                "How exactly I arrange things depend on the @Arrangement you give me."
             ],
+            "names": ["🔳", "Group"],
+            "layout": {
+                "doc": "The arrangement to use to put @Type in their places.",
+                "names": "layout"
+            },
+            "content": {
+                "doc": "The list of @Type to arrange.",
+                "names": "content"
+            },
+            "size": {
+                "doc": "How tall the wonderful content inside me should be, unless they have a size of their own!",
+                "names": "size"
+            },
+            "face": {
+                "doc": "The name of the font face content inside me should have, unless they have their own face to use.",
+                "names": "face"
+            },
+            "place": {
+                "doc": "The place on stage where I should be. The content inside me will be arranged relative to there.",
+                "names": "place"
+            },
+            "name": {
+                "doc": ["The same as @Phrase/name!"],
+                "names": "name"
+            },
+            "selectable": {
+                "doc": "The same as @Phrase/selectable!",
+                "names": "selectable"
+            },
+            "color": {
+                "doc": "The @Color that content inside me should be, unless they have their own color.",
+                "names": "color"
+            },
+            "background": {
+                "doc": "The @Color to project behind me.",
+                "names": "background"
+            },
+            "opacity": {
+                "doc": "How transparent everything inside me should be, between \\0\\ and \\1\\, unless overriden by a different @Pose.",
+                "names": "opacity"
+            },
+            "offset": {
+                "doc": "A @Place indicating how offset from my normal @Place it should be, unless overriden by a different @Pose. Helpful for wiggling in place.",
+                "names": "offset"
+            },
+            "rotation": {
+                "doc": "How tilted should I be around my center, my @Pose has a different one.",
+                "names": "rotation"
+            },
+            "scale": {
+                "doc": "How big I should be relative to my original size.",
+                "names": "scale"
+            },
+            "flipx": {
+                "doc": "Same as @Phrase/flipx!",
+                "names": "flipx"
+            },
+            "flipy": {
+                "doc": "Same as @Phrase/flipy",
+                "names": "flipy"
+            },
+            "entering": {
+                "doc": "Same as @Phrase/entering!",
+                "names": "entering"
+            },
+            "resting": {
+                "doc": "Same as @Phrase/resting!",
+                "names": "resting"
+            },
+            "moving": {
+                "doc": "Same as @Phrase/moving!",
+                "names": "moving"
+            },
+            "exiting": {
+                "doc": "Same as @Phrase/exiting!",
+                "names": "exiting"
+            },
+            "duration": {
+                "doc": "Same as @Phrase/duration!",
+                "names": ["⏳", "duration"]
+            },
+            "style": {
+                "doc": "Same as @Phrase/style!",
+                "names": "style"
+            },
+            "description": "$1[$1|] $2 $3"
+        },
+        "Phrase": {
+            "doc": [
+                "Hello, hello! Remember me? How could anyone forget /me/. That's right, I am the manificent @Phrase, ready to represent the loveliest of @Text on @Stage.",
+                "Just make me like this, and I'll appear on @Stage:",
+                "\\Phrase('magnificient!')\\",
+                "I need some @Text, obviously, but otherwise, I can do everything a @Type can do, including changing my size, font, rotation, and do all of my incredible dances with @Pose and @Sequence.",
+                "You can also select me on @Stage and edit me on the palette next door."
+            ],
+            "names": ["💬", "Phrase"],
+            "text": {
+                "doc": "The characters to show on @Stage.",
+                "names": "text"
+            },
             "size": {
                 "doc": "How tall I should be, in meters!",
                 "names": "size"
@@ -3015,40 +3125,6 @@
             "style": {
                 "doc": "The animation style to use when moving to a different place on stage.",
                 "names": "style"
-            }
-        },
-        "Group": {
-            "doc": [
-                "Oh hello, how are you? I'm always fine when others are around, so it's great to be with you!",
-                "I group together @Phrase and @Group on @Stage and put them in an @Arrangement, so there's some order to where they're placed.",
-                "To work, I need you to give me an @Arrangement, and then a @List of @Type to arrange.",
-                "For example, here I am with a @Stack arrangement and a few @Phrase to stack vertically:",
-                "\\Group(Stack() [Phrase('first') Phrase('second')])\\",
-                "How exactly I arrange things depend on the @Arrangement you give me."
-            ],
-            "names": ["🔳", "Group"],
-            "layout": {
-                "doc": "The arrangement to use to put @Type in their places.",
-                "names": "layout"
-            },
-            "content": {
-                "doc": "The list of @Type to arrange.",
-                "names": "content"
-            },
-            "description": "$1[$1|] $2 $3"
-        },
-        "Phrase": {
-            "doc": [
-                "Hello, hello! Remember me? How could anyone forget /me/. That's right, I am the manificent @Phrase, ready to represent the loveliest of @Text on @Stage.",
-                "Just make me like this, and I'll appear on @Stage:",
-                "\\Phrase('magnificient!')\\",
-                "I need some @Text, obviously, but otherwise, I can do everything a @Type can do, including changing my size, font, rotation, and do all of my incredible dances with @Pose and @Sequence.",
-                "You can also select me on @Stage and edit me on the palette next door."
-            ],
-            "names": ["💬", "Phrase"],
-            "text": {
-                "doc": "The characters to show on @Stage.",
-                "names": "text"
             },
             "description": "$3[$3 meter |]phrase $1 $2[named $2|] $4[$4|] $5"
         },
@@ -3257,6 +3333,82 @@
             "frame": {
                 "doc": "The shape and size of frame to place around the stage, hiding everything outside it.",
                 "names": "frame"
+            },
+            "size": {
+                "doc": "LIKE @Group/size",
+                "names": "size"
+            },
+            "face": {
+                "doc": "LIKE @Group/face",
+                "names": "face"
+            },
+            "place": {
+                "doc": "IF I WERE A CAMERA, THIS IS WHERE I AM LOOKING",
+                "names": "place"
+            },
+            "name": {
+                "doc": ["SAME AS @Phrase/name!"],
+                "names": "name"
+            },
+            "selectable": {
+                "doc": "SAME AS @Phrase/selectable!",
+                "names": "selectable"
+            },
+            "color": {
+                "doc": "SAME AS @Group/color",
+                "names": "color"
+            },
+            "background": {
+                "doc": "SAME AS @Group/background",
+                "names": "background"
+            },
+            "opacity": {
+                "doc": "SAME AS @Group/opacity",
+                "names": "opacity"
+            },
+            "offset": {
+                "doc": "SAME AS @Group/offset",
+                "names": "offset"
+            },
+            "rotation": {
+                "doc": "SAME AS @Group/rotation",
+                "names": "rotation"
+            },
+            "scale": {
+                "doc": "SAME AS @Group/scale",
+                "names": "scale"
+            },
+            "flipx": {
+                "doc": "SAME AS @Group/flipx",
+                "names": "flipx"
+            },
+            "flipy": {
+                "doc": "SAME AS @Group/flipy",
+                "names": "flipy"
+            },
+            "entering": {
+                "doc": "SAME AS @Group/entering",
+                "names": "entering"
+            },
+            "resting": {
+                "doc": "SAME AS @Group/resting!",
+                "names": "resting"
+            },
+            "moving": {
+                "doc": "SAME AS @Group/moving!",
+                "names": "moving"
+            },
+            "exiting": {
+                "doc": "SAME AS @Group/exiting!",
+                "names": "exiting"
+            },
+            "duration": {
+                "doc": "SAME AS @Phrase/duration!",
+                "names": ["⏳", "duration"]
+            },
+            "style": {
+                "doc": "SAME AS @Phrase/style!",
+                "names": "style"
             },
             "description": "stage $1[$1|] of $2 phrases $3[$3 frame|] $4"
         },

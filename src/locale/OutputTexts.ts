@@ -23,24 +23,24 @@ export type TypeTexts = {
 };
 
 type OutputTexts = {
-    Type: NameAndDoc & TypeTexts;
+    Type: NameAndDoc;
     Group: NameAndDoc & {
         content: NameAndDoc;
         layout: NameAndDoc;
         /** $1 = Layout description, $2 = pose description */
         description: Template;
-    };
+    } & TypeTexts;
     Phrase: NameAndDoc & {
         text: NameAndDoc;
         /** non-optional text, optional name, optional size, optional font, then non-optional pose */
         description: Template;
-    };
+    } & TypeTexts;
     Stage: NameAndDoc & {
         /** $1: total outputs, $2: total phrases, $3: total groups, $4: pose */
         description: Template;
         content: NameAndDoc;
         frame: NameAndDoc;
-    };
+    } & TypeTexts;
     Arrangement: NameAndDoc;
     Shape: NameAndDoc;
     Rectangle: NameAndDoc & {

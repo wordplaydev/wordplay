@@ -8,7 +8,7 @@ import type Pose from './Pose';
 import type RenderContext from './RenderContext';
 import type Sequence from './Sequence';
 import TextLang from './TextLang';
-import TypeOutput, { createTypeOutputInputs } from './TypeOutput';
+import TypeOutput, { DefaultStyle } from './TypeOutput';
 import { getStyle, toArrangement, toTypeOutputList } from './toTypeOutput';
 import { TYPE_SYMBOL } from '../parser/Symbols';
 import type { NameGenerator } from './Stage';
@@ -18,7 +18,7 @@ import type { DefinitePose } from './Pose';
 import StructureValue from '@values/StructureValue';
 import { getOutputInput } from './Output';
 import concretize from '../locale/concretize';
-import type { SupportedFace } from '../basis/Fonts';
+import { SupportedFontsFamiliesType, type SupportedFace } from '../basis/Fonts';
 import { getFirstName } from '../locale/Locale';
 
 export function createGroupType(locales: Locale[]) {
@@ -26,7 +26,36 @@ export function createGroupType(locales: Locale[]) {
     ${getBind(locales, (locale) => locale.output.Group, TYPE_SYMBOL)} Type(
         ${getBind(locales, (locale) => locale.output.Group.layout)}•Arrangement
         ${getBind(locales, (locale) => locale.output.Group.content)}•[Type|ø]
-        ${createTypeOutputInputs(locales, false)}
+        ${getBind(locales, (locale) => locale.output.Group.size)}•${'#m|ø: ø'}
+    ${getBind(
+        locales,
+        (locale) => locale.output.Group.face
+    )}•${SupportedFontsFamiliesType}${'|ø: ø'}
+    ${getBind(locales, (locale) => locale.output.Group.place)}•📍|ø: ø
+    ${getBind(locales, (locale) => locale.output.Group.name)}•""|ø: ø
+    ${getBind(locales, (locale) => locale.output.Group.selectable)}•?: ⊥
+    ${getBind(locales, (locale) => locale.output.Group.color)}•🌈${'|ø: ø'}
+    ${getBind(
+        locales,
+        (locale) => locale.output.Group.background
+    )}•Color${'|ø: ø'}
+    ${getBind(locales, (locale) => locale.output.Group.opacity)}•%${'|ø: ø'}
+    ${getBind(locales, (locale) => locale.output.Group.offset)}•📍|ø: ø
+    ${getBind(locales, (locale) => locale.output.Group.rotation)}•#°${'|ø: ø'}
+    ${getBind(locales, (locale) => locale.output.Group.scale)}•#${'|ø: ø'}
+    ${getBind(locales, (locale) => locale.output.Group.flipx)}•?${'|ø: ø'}
+    ${getBind(locales, (locale) => locale.output.Group.flipy)}•?${'|ø: ø'}
+    ${getBind(locales, (locale) => locale.output.Group.entering)}•ø|🤪|💃: ø
+    ${getBind(locales, (locale) => locale.output.Group.resting)}•ø|🤪|💃: ø
+    ${getBind(locales, (locale) => locale.output.Group.moving)}•ø|🤪|💃: ø
+    ${getBind(locales, (locale) => locale.output.Group.exiting)}•ø|🤪|💃: ø
+    ${getBind(locales, (locale) => locale.output.Group.duration)}•#s: 0.25s
+    ${getBind(locales, (locale) => locale.output.Group.style)}•${locales
+        .map((locale) =>
+            Object.values(locale.output.Easing).map((id) => `"${id}"`)
+        )
+        .flat()
+        .join('|')}: "${DefaultStyle}"
     )`);
 }
 

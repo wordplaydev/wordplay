@@ -1,6 +1,6 @@
 import StructureValue from '@values/StructureValue';
 import type Value from '@values/Value';
-import TypeOutput, { createTypeOutputInputs } from './TypeOutput';
+import TypeOutput, { DefaultStyle } from './TypeOutput';
 import type RenderContext from './RenderContext';
 import Color from './Color';
 import Place from './Place';
@@ -19,7 +19,7 @@ import concretize from '../locale/concretize';
 import type Locale from '../locale/Locale';
 import type Project from '../models/Project';
 import { getOutputInput } from './Output';
-import type { SupportedFace } from '../basis/Fonts';
+import { SupportedFontsFamiliesType, type SupportedFace } from '../basis/Fonts';
 import { getFirstName } from '../locale/Locale';
 
 export const CSSFallbackFaces = `"Noto Color Emoji"`;
@@ -30,7 +30,39 @@ export function createStageType(locales: Locale[]) {
     ${getBind(locales, (locale) => locale.output.Stage, '•')} Type(
         ${getBind(locales, (locale) => locale.output.Stage.content)}•[Type]
         ${getBind(locales, (locale) => locale.output.Stage.frame)}•Shape|ø: ø
-        ${createTypeOutputInputs(locales, true)}
+        ${getBind(locales, (locale) => locale.output.Stage.size)}•${'#m: 1m'}
+    ${getBind(
+        locales,
+        (locale) => locale.output.Stage.face
+    )}•${SupportedFontsFamiliesType}: "${locales[0].ui.font.app}"
+    ${getBind(locales, (locale) => locale.output.Stage.place)}•📍|ø: ø
+    ${getBind(locales, (locale) => locale.output.Stage.name)}•""|ø: ø
+    ${getBind(locales, (locale) => locale.output.Stage.selectable)}•?: ⊥
+    ${getBind(
+        locales,
+        (locale) => locale.output.Stage.color
+    )}•🌈${': Color(0% 0 0°)'}
+    ${getBind(
+        locales,
+        (locale) => locale.output.Stage.background
+    )}•Color${': Color(100% 0 0°)'}
+    ${getBind(locales, (locale) => locale.output.Stage.opacity)}•%${': 1'}
+    ${getBind(locales, (locale) => locale.output.Stage.offset)}•📍|ø: ø
+    ${getBind(locales, (locale) => locale.output.Stage.rotation)}•#°${': 0°'}
+    ${getBind(locales, (locale) => locale.output.Stage.scale)}•#${': 1'}
+    ${getBind(locales, (locale) => locale.output.Stage.flipx)}•?${': ⊥'}
+    ${getBind(locales, (locale) => locale.output.Stage.flipy)}•?${': ⊥'}
+    ${getBind(locales, (locale) => locale.output.Stage.entering)}•ø|🤪|💃: ø
+    ${getBind(locales, (locale) => locale.output.Stage.resting)}•ø|🤪|💃: ø
+    ${getBind(locales, (locale) => locale.output.Stage.moving)}•ø|🤪|💃: ø
+    ${getBind(locales, (locale) => locale.output.Stage.exiting)}•ø|🤪|💃: ø
+    ${getBind(locales, (locale) => locale.output.Stage.duration)}•#s: 0.25s
+    ${getBind(locales, (locale) => locale.output.Stage.style)}•${locales
+        .map((locale) =>
+            Object.values(locale.output.Easing).map((id) => `"${id}"`)
+        )
+        .flat()
+        .join('|')}: "${DefaultStyle}"
     )
 `);
 }

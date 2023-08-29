@@ -10,10 +10,7 @@ import TextLang from './TextLang';
 import type Pose from './Pose';
 import type { DefinitePose } from './Pose';
 import type RenderContext from './RenderContext';
-import Fonts, {
-    SupportedFontsFamiliesType,
-    type SupportedFace,
-} from '../basis/Fonts';
+import Fonts, { type SupportedFace } from '../basis/Fonts';
 import type Locale from '../locale/Locale';
 
 export function createTypeType(locales: Locale[]) {
@@ -23,56 +20,6 @@ export function createTypeType(locales: Locale[]) {
 }
 
 export const DefaultStyle = 'zippy';
-
-export function createTypeOutputInputs(locales: Locale[], stage: boolean) {
-    return `
-${getBind(locales, (locale) => locale.output.Type.size)}•${
-        stage ? '#m: 1m' : '#m|ø: ø'
-    }
-${getBind(
-    locales,
-    (locale) => locale.output.Type.face
-)}•${SupportedFontsFamiliesType}${
-        stage ? `: "${locales[0].ui.font.app}"` : '|ø: ø'
-    }
-${getBind(locales, (locale) => locale.output.Type.place)}•📍|ø: ø
-${getBind(locales, (locale) => locale.output.Type.name)}•""|ø: ø
-${getBind(locales, (locale) => locale.output.Type.selectable)}•?: ⊥
-${getBind(locales, (locale) => locale.output.Type.color)}•🌈${
-        stage ? ': Color(0% 0 0°)' : '|ø: ø'
-    }
-${getBind(locales, (locale) => locale.output.Type.background)}•Color${
-        stage ? ': Color(100% 0 0°)' : '|ø: ø'
-    }
-${getBind(locales, (locale) => locale.output.Pose.opacity)}•%${
-        stage ? ': 1' : '|ø: ø'
-    }
-${getBind(locales, (locale) => locale.output.Pose.offset)}•📍|ø: ø
-${getBind(locales, (locale) => locale.output.Type.rotation)}•#°${
-        stage ? ': 0°' : '|ø: ø'
-    }
-${getBind(locales, (locale) => locale.output.Pose.scale)}•#${
-        stage ? ': 1' : '|ø: ø'
-    }
-${getBind(locales, (locale) => locale.output.Pose.flipx)}•?${
-        stage ? ': ⊥' : '|ø: ø'
-    }
-${getBind(locales, (locale) => locale.output.Pose.flipy)}•?${
-        stage ? ': ⊥' : '|ø: ø'
-    }
-${getBind(locales, (locale) => locale.output.Type.entering)}•ø|🤪|💃: ø
-${getBind(locales, (locale) => locale.output.Type.resting)}•ø|🤪|💃: ø
-${getBind(locales, (locale) => locale.output.Type.moving)}•ø|🤪|💃: ø
-${getBind(locales, (locale) => locale.output.Type.exiting)}•ø|🤪|💃: ø
-${getBind(locales, (locale) => locale.output.Type.duration)}•#s: 0.25s
-${getBind(locales, (locale) => locale.output.Type.style)}•${locales
-        .map((locale) =>
-            Object.values(locale.output.Easing).map((id) => `"${id}"`)
-        )
-        .flat()
-        .join('|')}: "${DefaultStyle}"
-)`;
-}
 
 /** Every group has the same style information. */
 export default abstract class TypeOutput extends Output {

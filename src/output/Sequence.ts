@@ -23,8 +23,8 @@ export function createSequenceType(locales: Locale[]) {
             locales,
             (locale) => locale.output.Sequence.poses
         )}•{ % : Pose }
-        ${getBind(locales, (locale) => locale.output.Type.duration)}•#s: 0.25s
-        ${getBind(locales, (locale) => locale.output.Type.style)}•${locales
+        ${getBind(locales, (locale) => locale.output.Phrase.duration)}•#s: 0.25s
+        ${getBind(locales, (locale) => locale.output.Phrase.style)}•${locales
         .map((locale) =>
             Object.values(locale.output.Easing).map((id) => `"${id}"`)
         )

@@ -1623,7 +1623,14 @@
     "output": {
         "Type": {
             "names": "tipo",
+            "doc": "$?"
+        },
+        "Stage": {
+            "names": "Verso",
             "doc": "$?",
+            "description": "$?",
+            "content": { "doc": "$?", "names": "contenido" },
+            "frame": { "doc": "$?", "names": "marco" },
             "size": { "doc": "$?", "names": "tamaño" },
             "face": { "doc": "$?", "names": "fuente" },
             "place": { "doc": "$?", "names": "place" },
@@ -1665,25 +1672,98 @@
             "duration": { "doc": "$?", "names": "duración" },
             "style": { "doc": "$?", "names": "estilo" }
         },
-        "Stage": {
-            "names": "Verso",
-            "doc": "$?",
-            "description": "$?",
-            "content": { "doc": "$?", "names": "contenido" },
-            "frame": { "doc": "$?", "names": "marco" }
-        },
         "Group": {
             "names": "Group",
             "doc": "$?",
+            "description": "$?",
             "content": { "doc": "$?", "names": "content" },
             "layout": { "doc": "$?", "names": "layout" },
-            "description": "$?"
+            "size": { "doc": "$?", "names": "tamaño" },
+            "face": { "doc": "$?", "names": "fuente" },
+            "place": { "doc": "$?", "names": "place" },
+            "name": { "doc": "$?", "names": "nombre" },
+            "selectable": { "doc": "$?", "names": "seleccionable" },
+            "color": {
+                "doc": "$?",
+                "names": "$? color"
+            },
+            "background": { "doc": "$?", "names": "fondo" },
+            "opacity": {
+                "doc": "$?",
+                "names": "$? opacity"
+            },
+            "offset": {
+                "doc": "$?",
+                "names": "$? offset"
+            },
+            "rotation": {
+                "doc": "$?",
+                "names": "$? rotation"
+            },
+            "scale": {
+                "doc": "$?",
+                "names": "$? scale"
+            },
+            "flipx": {
+                "doc": "$?",
+                "names": "$? flipx"
+            },
+            "flipy": {
+                "doc": "$?",
+                "names": "$? flipy"
+            },
+            "entering": { "doc": "$?", "names": "$! ingresar" },
+            "resting": { "doc": "$?", "names": "$! descansar" },
+            "moving": { "doc": "$?", "names": "$! mover" },
+            "exiting": { "doc": "$?", "names": "$! salida" },
+            "duration": { "doc": "$?", "names": "duración" },
+            "style": { "doc": "$?", "names": "estilo" }
         },
         "Phrase": {
             "names": "Frase",
             "doc": "$?",
+            "description": "$?",
             "text": { "doc": "$?", "names": "texto" },
-            "description": "$?"
+            "size": { "doc": "$?", "names": "tamaño" },
+            "face": { "doc": "$?", "names": "fuente" },
+            "place": { "doc": "$?", "names": "place" },
+            "name": { "doc": "$?", "names": "nombre" },
+            "selectable": { "doc": "$?", "names": "seleccionable" },
+            "color": {
+                "doc": "$?",
+                "names": "$? color"
+            },
+            "background": { "doc": "$?", "names": "fondo" },
+            "opacity": {
+                "doc": "$?",
+                "names": "$? opacity"
+            },
+            "offset": {
+                "doc": "$?",
+                "names": "$? offset"
+            },
+            "rotation": {
+                "doc": "$?",
+                "names": "$? rotation"
+            },
+            "scale": {
+                "doc": "$?",
+                "names": "$? scale"
+            },
+            "flipx": {
+                "doc": "$?",
+                "names": "$? flipx"
+            },
+            "flipy": {
+                "doc": "$?",
+                "names": "$? flipy"
+            },
+            "entering": { "doc": "$?", "names": "$! ingresar" },
+            "resting": { "doc": "$?", "names": "$! descansar" },
+            "moving": { "doc": "$?", "names": "$! mover" },
+            "exiting": { "doc": "$?", "names": "$! salida" },
+            "duration": { "doc": "$?", "names": "duración" },
+            "style": { "doc": "$?", "names": "estilo" }
         },
         "Arrangement": { "names": ["Arrangement"], "doc": "$?" },
         "Row": {

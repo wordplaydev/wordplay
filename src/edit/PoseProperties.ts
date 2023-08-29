@@ -36,7 +36,7 @@ export default function getPoseProperties(
         ...(background
             ? [
                   new OutputProperty(
-                      locale.output.Type.background,
+                      locale.output.Phrase.background,
                       'color' as const,
                       false,
                       false,

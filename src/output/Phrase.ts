@@ -1,9 +1,13 @@
 import type Pose from './Pose';
 import type Value from '@values/Value';
 import type Color from './Color';
-import Fonts, { type FontWeight, type SupportedFace } from '../basis/Fonts';
+import Fonts, {
+    SupportedFontsFamiliesType,
+    type FontWeight,
+    type SupportedFace,
+} from '../basis/Fonts';
 import TextValue from '@values/TextValue';
-import TypeOutput, { createTypeOutputInputs } from './TypeOutput';
+import TypeOutput, { DefaultStyle } from './TypeOutput';
 import type RenderContext from './RenderContext';
 import type Place from './Place';
 import ListValue from '@values/ListValue';
@@ -28,8 +32,45 @@ export function createPhraseType(locales: Locale[]) {
     return toStructure(`
     ${getBind(locales, (locale) => locale.output.Phrase, '•')} Type(
         ${getBind(locales, (locale) => locale.output.Phrase.text)}•""|[""]|\`…\`
-        ${createTypeOutputInputs(locales, false)}
-        ${getBind(locales, (locale) => locale.output.Phrase)}
+        ${getBind(locales, (locale) => locale.output.Phrase.size)}•${'#m|ø: ø'}
+        ${getBind(
+            locales,
+            (locale) => locale.output.Phrase.face
+        )}•${SupportedFontsFamiliesType}${'|ø: ø'}
+        ${getBind(locales, (locale) => locale.output.Phrase.place)}•📍|ø: ø
+        ${getBind(locales, (locale) => locale.output.Phrase.name)}•""|ø: ø
+        ${getBind(locales, (locale) => locale.output.Phrase.selectable)}•?: ⊥
+        ${getBind(locales, (locale) => locale.output.Phrase.color)}•🌈${'|ø: ø'}
+        ${getBind(
+            locales,
+            (locale) => locale.output.Phrase.background
+        )}•Color${'|ø: ø'}
+        ${getBind(
+            locales,
+            (locale) => locale.output.Phrase.opacity
+        )}•%${'|ø: ø'}
+        ${getBind(locales, (locale) => locale.output.Phrase.offset)}•📍|ø: ø
+        ${getBind(
+            locales,
+            (locale) => locale.output.Phrase.rotation
+        )}•#°${'|ø: ø'}
+        ${getBind(locales, (locale) => locale.output.Phrase.scale)}•#${'|ø: ø'}
+        ${getBind(locales, (locale) => locale.output.Phrase.flipx)}•?${'|ø: ø'}
+        ${getBind(locales, (locale) => locale.output.Phrase.flipy)}•?${'|ø: ø'}
+        ${getBind(
+            locales,
+            (locale) => locale.output.Phrase.entering
+        )}•ø|🤪|💃: ø
+        ${getBind(locales, (locale) => locale.output.Phrase.resting)}•ø|🤪|💃: ø
+        ${getBind(locales, (locale) => locale.output.Phrase.moving)}•ø|🤪|💃: ø
+        ${getBind(locales, (locale) => locale.output.Phrase.exiting)}•ø|🤪|💃: ø
+        ${getBind(locales, (locale) => locale.output.Phrase.duration)}•#s: 0.25s
+        ${getBind(locales, (locale) => locale.output.Phrase.style)}•${locales
+        .map((locale) =>
+            Object.values(locale.output.Easing).map((id) => `"${id}"`)
+        )
+        .flat()
+        .join('|')}: "${DefaultStyle}"
     )`);
 }
 

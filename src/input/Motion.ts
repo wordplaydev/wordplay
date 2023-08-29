@@ -167,14 +167,14 @@ export default class Motion extends TemporalStreamValue<Value, number> {
 
             const en = this.evaluator.project.basis.locales[0];
             const PlaceName =
-                typeof en.output.Type.place.names === 'string'
-                    ? en.output.Type.place.names
-                    : en.output.Type.place.names[0];
+                typeof en.output.Phrase.place.names === 'string'
+                    ? en.output.Phrase.place.names
+                    : en.output.Phrase.place.names[0];
 
             const RotationName =
-                typeof en.output.Type.rotation.names === 'string'
-                    ? en.output.Type.rotation.names
-                    : en.output.Type.rotation.names[0];
+                typeof en.output.Phrase.rotation.names === 'string'
+                    ? en.output.Phrase.rotation.names
+                    : en.output.Phrase.rotation.names[0];
 
             // Create a new type output with an updated place.
             const revised = output
