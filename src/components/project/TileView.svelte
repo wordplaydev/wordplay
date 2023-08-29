@@ -210,11 +210,6 @@
             </div>
             <div class="toolbar">
                 <slot name="extra" />
-                <Button
-                    tip={$locale.ui.description.collapse}
-                    action={() => dispatch('mode', { mode: Mode.Collapsed })}
-                    active={!layout.isFullscreen()}>⎵</Button
-                >
                 <Toggle
                     tips={$locale.ui.toggle.fullscreen}
                     on={fullscreen}
@@ -243,6 +238,11 @@
                         ></svg
                     >
                 </Toggle>
+                <Button
+                    tip={$locale.ui.description.collapse}
+                    action={() => dispatch('mode', { mode: Mode.Collapsed })}
+                    active={!layout.isFullscreen()}>⨉</Button
+                >
             </div>
         </div>
         <!-- Render the content -->

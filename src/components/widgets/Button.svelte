@@ -88,6 +88,11 @@
         fill: var(--wordplay-background);
     }
 
+    button:hover {
+        background: var(--wordplay-alternating-color);
+        border-radius: var(--wordplay-border-radius);
+    }
+
     button.scale:focus[aria-disabled='false'],
     button.scale:hover[aria-disabled='false'] {
         transform: scale(1.1);

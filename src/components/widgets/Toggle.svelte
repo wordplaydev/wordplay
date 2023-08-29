@@ -51,13 +51,13 @@
         transform-origin: center;
         user-select: none;
         border: none;
+        border-radius: var(--wordplay-border-radius);
         background: var(--wordplay-background);
         color: var(--wordplay-foreground);
         cursor: pointer;
         width: fit-content;
         white-space: nowrap;
         transition: transform calc(var(--animation-factor) * 200ms);
-        border-radius: var(--wordplay-border-radius);
     }
 
     button.on {
