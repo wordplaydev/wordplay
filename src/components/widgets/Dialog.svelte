@@ -63,6 +63,11 @@
         border: var(--wordplay-border-width) solid var(--wordplay-border-color);
     }
 
+    dialog::backdrop {
+        transition: backdrop-filter;
+        backdrop-filter: blur(10px);
+    }
+
     .close {
         position: absolute;
         top: calc(2 * var(--wordplay-spacing));
