@@ -19,7 +19,6 @@ import FunctionDefinition from '../nodes/FunctionDefinition';
 import parseDoc from '../parser/parseDoc';
 import { toTokens } from '../parser/toTokens';
 import { DOCS_SYMBOL } from '../parser/Symbols';
-import { PUBLIC_CONTEXT } from '$env/static/public';
 
 /** A list of locales that are in progress but not supported yet. Only added when developing locally. */
 const EventuallySupportedLocales = ['zh-CN'];
@@ -28,7 +27,7 @@ const EventuallySupportedLocales = ['zh-CN'];
 export const SupportedLocales = [
     'en-US',
     'es-MX',
-    ...(PUBLIC_CONTEXT === 'local' ? EventuallySupportedLocales : []),
+    ...(import.meta.hot ? EventuallySupportedLocales : []),
 ] as const;
 
 /** One of the supported locales above */
