@@ -198,8 +198,8 @@
                     {Glyphs.Program.symbols}
                     <TextField
                         text={tile.name}
-                        description={$locale.ui.description.editSourceName}
-                        placeholder={$locale.ui.placeholders.name}
+                        description={$locale.ui.source.field.name.description}
+                        placeholder={$locale.ui.source.field.name.placeholder}
                         validator={(text) => isName(text)}
                         changed={handleRename}
                     />
@@ -211,7 +211,7 @@
             <div class="toolbar">
                 <slot name="extra" />
                 <Toggle
-                    tips={$locale.ui.toggle.fullscreen}
+                    tips={$locale.ui.tile.toggle.fullscreen}
                     on={fullscreen}
                     toggle={() =>
                         dispatch('fullscreen', {
@@ -239,7 +239,7 @@
                     >
                 </Toggle>
                 <Button
-                    tip={$locale.ui.description.collapse}
+                    tip={$locale.ui.tile.button.collapse}
                     action={() => dispatch('mode', { mode: Mode.Collapsed })}
                     active={!layout.isFullscreen()}>⨉</Button
                 >

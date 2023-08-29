@@ -144,7 +144,7 @@ export function handleKeyCommand(
 
 export const ShowKeyboardHelp: Command = {
     symbol: '⌨️',
-    description: (l) => l.ui.description.help,
+    description: (l) => l.ui.project.help,
     visible: Visibility.Invisible,
     category: Category.Help,
     shift: false,
@@ -157,7 +157,7 @@ export const ShowKeyboardHelp: Command = {
 
 export const IncrementLiteral: Command = {
     symbol: '+',
-    description: (l) => l.ui.description.incrementLiteral,
+    description: (l) => l.ui.source.cursor.incrementLiteral,
     visible: Visibility.Touch,
     category: Category.Modify,
     control: false,
@@ -171,7 +171,7 @@ export const IncrementLiteral: Command = {
 
 export const DecrementLiteral: Command = {
     symbol: '−',
-    description: (l) => l.ui.description.decrementLiteral,
+    description: (l) => l.ui.source.cursor.decrementLiteral,
     visible: Visibility.Touch,
     category: Category.Modify,
     shift: false,
@@ -185,7 +185,7 @@ export const DecrementLiteral: Command = {
 
 export const StepBack: Command = {
     symbol: '←',
-    description: (l) => l.ui.description.backStep,
+    description: (l) => l.ui.timeline.button.backStep,
     visible: Visibility.Visible,
     category: Category.Evaluate,
     shift: false,
@@ -199,7 +199,7 @@ export const StepBack: Command = {
 
 export const StepForward: Command = {
     symbol: '→',
-    description: (l) => l.ui.description.forwardStep,
+    description: (l) => l.ui.timeline.button.forwardStep,
     visible: Visibility.Visible,
     category: Category.Evaluate,
     shift: false,
@@ -216,7 +216,7 @@ export const StepForward: Command = {
 
 export const StepBackInput: Command = {
     symbol: '⇠',
-    description: (l) => l.ui.description.backInput,
+    description: (l) => l.ui.timeline.button.backInput,
     visible: Visibility.Visible,
     category: Category.Evaluate,
     shift: true,
@@ -230,7 +230,7 @@ export const StepBackInput: Command = {
 
 export const StepForwardInput: Command = {
     symbol: '⇢',
-    description: (l) => l.ui.description.forwardInput,
+    description: (l) => l.ui.timeline.button.forwardInput,
     visible: Visibility.Visible,
     category: Category.Evaluate,
     shift: true,
@@ -244,7 +244,7 @@ export const StepForwardInput: Command = {
 
 export const StepBackNode: Command = {
     symbol: '⏴',
-    description: (l) => l.ui.description.backNode,
+    description: (l) => l.ui.timeline.button.backNode,
     visible: Visibility.Visible,
     category: Category.Evaluate,
     shift: false,
@@ -261,7 +261,7 @@ export const StepBackNode: Command = {
 
 export const StepForwardNode: Command = {
     symbol: '⏵',
-    description: (l) => l.ui.description.forwardNode,
+    description: (l) => l.ui.timeline.button.forwardNode,
     visible: Visibility.Visible,
     category: Category.Evaluate,
     key: 'ArrowRight',
@@ -278,7 +278,7 @@ export const StepForwardNode: Command = {
 
 export const Restart: Command = {
     symbol: '↻',
-    description: (l) => l.ui.description.reset,
+    description: (l) => l.ui.timeline.button.reset,
     uiid: 'resetEvaluator',
     visible: Visibility.Visible,
     category: Category.Evaluate,
@@ -297,7 +297,7 @@ export const Restart: Command = {
 
 export const StepToStart: Command = {
     symbol: '⇤',
-    description: (l) => l.ui.description.start,
+    description: (l) => l.ui.timeline.button.start,
     visible: Visibility.Visible,
     category: Category.Evaluate,
     shift: true,
@@ -311,7 +311,7 @@ export const StepToStart: Command = {
 
 export const StepToPresent: Command = {
     symbol: '⇥',
-    description: (l) => l.ui.description.forwardInput,
+    description: (l) => l.ui.timeline.button.forwardInput,
     visible: Visibility.Visible,
     category: Category.Evaluate,
     shift: true,
@@ -325,7 +325,7 @@ export const StepToPresent: Command = {
 
 export const StepOut: Command = {
     symbol: '↑',
-    description: (l) => l.ui.description.out,
+    description: (l) => l.ui.timeline.button.out,
     visible: Visibility.Visible,
     category: Category.Evaluate,
     shift: false,
@@ -342,7 +342,7 @@ export const StepOut: Command = {
 
 export const Play: Command = {
     symbol: '▶️',
-    description: (l) => l.ui.description.play,
+    description: (l) => l.ui.timeline.button.play,
     visible: Visibility.Visible,
     category: Category.Evaluate,
     shift: false,
@@ -355,7 +355,7 @@ export const Play: Command = {
 
 export const Pause: Command = {
     symbol: '⏸',
-    description: (l) => l.ui.description.pause,
+    description: (l) => l.ui.timeline.button.pause,
     visible: Visibility.Visible,
     category: Category.Evaluate,
     shift: false,
@@ -368,7 +368,7 @@ export const Pause: Command = {
 
 export const ShowMenu: Command = {
     symbol: '▾',
-    description: (l) => l.ui.description.menu,
+    description: (l) => l.ui.source.menu.show,
     visible: Visibility.Visible,
     category: Category.Modify,
     shift: false,
@@ -382,7 +382,7 @@ export const ShowMenu: Command = {
 
 export const EnterFullscreen: Command = {
     symbol: '▶️',
-    description: (l) => l.ui.toggle.fullscreen.off,
+    description: (l) => l.ui.tile.toggle.fullscreen.off,
     visible: Visibility.Invisible,
     category: Category.Evaluate,
     shift: false,
@@ -395,7 +395,7 @@ export const EnterFullscreen: Command = {
 
 export const ExitFullscreen: Command = {
     symbol: EDIT_SYMBOL,
-    description: (l) => l.ui.toggle.fullscreen.on,
+    description: (l) => l.ui.tile.toggle.fullscreen.on,
     visible: Visibility.Invisible,
     category: Category.Evaluate,
     shift: false,
@@ -408,7 +408,7 @@ export const ExitFullscreen: Command = {
 
 export const FocusOutput: Command = {
     symbol: STAGE_SYMBOL,
-    description: (l) => l.ui.description.focusOutput,
+    description: (l) => l.ui.project.button.focusOutput,
     visible: Visibility.Invisible,
     category: Category.Cursor,
     shift: false,
@@ -423,7 +423,7 @@ export const FocusOutput: Command = {
 
 export const FocusSource: Command = {
     symbol: SOURCE_SYMBOL,
-    description: (l) => l.ui.description.focusSource,
+    description: (l) => l.ui.project.button.focusSource,
     visible: Visibility.Invisible,
     category: Category.Cursor,
     shift: false,
@@ -438,7 +438,7 @@ export const FocusSource: Command = {
 
 export const FocusDocs: Command = {
     symbol: DOCUMENTATION_SYMBOL,
-    description: (l) => l.ui.description.focusDocs,
+    description: (l) => l.ui.project.button.focusDocs,
     visible: Visibility.Invisible,
     category: Category.Cursor,
     shift: false,
@@ -453,7 +453,7 @@ export const FocusDocs: Command = {
 
 export const FocusPalette: Command = {
     symbol: PALETTE_SYMBOL,
-    description: (l) => l.ui.description.focusPalette,
+    description: (l) => l.ui.project.button.focusPalette,
     visible: Visibility.Invisible,
     category: Category.Cursor,
     shift: false,
@@ -468,7 +468,7 @@ export const FocusPalette: Command = {
 
 export const FocusCycle: Command = {
     symbol: '💬',
-    description: (l) => l.ui.description.focusCycle,
+    description: (l) => l.ui.project.button.focusCycle,
     visible: Visibility.Invisible,
     category: Category.Cursor,
     shift: false,
@@ -482,7 +482,7 @@ export const FocusCycle: Command = {
 const Commands: Command[] = [
     {
         symbol: '↑',
-        description: (l) => l.ui.description.cursorLineBefore,
+        description: (l) => l.ui.source.cursor.priorLine,
         visible: Visibility.Touch,
         category: Category.Cursor,
         alt: false,
@@ -494,7 +494,7 @@ const Commands: Command[] = [
     },
     {
         symbol: '↓',
-        description: (l) => l.ui.description.cursorLineAfter,
+        description: (l) => l.ui.source.cursor.nextLine,
         visible: Visibility.Touch,
         category: Category.Cursor,
         alt: false,
@@ -506,7 +506,7 @@ const Commands: Command[] = [
     },
     {
         symbol: '←',
-        description: (l) => l.ui.description.cursorInlineBefore,
+        description: (l) => l.ui.source.cursor.priorInline,
         visible: Visibility.Touch,
         category: Category.Cursor,
         alt: false,
@@ -522,7 +522,7 @@ const Commands: Command[] = [
     },
     {
         symbol: '→',
-        description: (l) => l.ui.description.cursorInlineAfter,
+        description: (l) => l.ui.source.cursor.nextInline,
         visible: Visibility.Touch,
         category: Category.Cursor,
         alt: false,
@@ -538,7 +538,7 @@ const Commands: Command[] = [
     },
     {
         symbol: '⇤',
-        description: (l) => l.ui.description.cursorLineStart,
+        description: (l) => l.ui.source.cursor.lineStart,
         visible: Visibility.Touch,
         category: Category.Cursor,
         alt: false,
@@ -550,7 +550,7 @@ const Commands: Command[] = [
     },
     {
         symbol: '⇥',
-        description: (l) => l.ui.description.cursorLineEnd,
+        description: (l) => l.ui.source.cursor.lineEnd,
         visible: Visibility.Touch,
         category: Category.Cursor,
         alt: false,
@@ -562,7 +562,7 @@ const Commands: Command[] = [
     },
     {
         symbol: '⬉',
-        description: (l) => l.ui.description.cursorNeighborBefore,
+        description: (l) => l.ui.source.cursor.priorNode,
         visible: Visibility.Visible,
         category: Category.Cursor,
         alt: false,
@@ -574,7 +574,7 @@ const Commands: Command[] = [
     },
     {
         symbol: '⬈',
-        description: (l) => l.ui.description.cursorNeighborAfter,
+        description: (l) => l.ui.source.cursor.nextNode,
         visible: Visibility.Visible,
         category: Category.Cursor,
         alt: false,
@@ -586,7 +586,7 @@ const Commands: Command[] = [
     },
     {
         symbol: '▣',
-        description: (l) => l.ui.description.cursorContainer,
+        description: (l) => l.ui.source.cursor.parent,
         visible: Visibility.Visible,
         category: Category.Cursor,
         key: 'Escape',
@@ -622,7 +622,7 @@ const Commands: Command[] = [
     },
     {
         symbol: '📄',
-        description: (l) => l.ui.description.selectAll,
+        description: (l) => l.ui.source.cursor.selectAll,
         visible: Visibility.Visible,
         category: Category.Cursor,
         alt: false,
@@ -635,7 +635,7 @@ const Commands: Command[] = [
     },
     {
         symbol: TRUE_SYMBOL,
-        description: (l) => l.ui.description.insertTrueSymbol,
+        description: (l) => l.ui.source.cursor.insertTrue,
         visible: Visibility.Visible,
         category: Category.Insert,
         alt: true,
@@ -647,7 +647,7 @@ const Commands: Command[] = [
     },
     {
         symbol: FALSE_SYMBOL,
-        description: (l) => l.ui.description.insertFalseSymbol,
+        description: (l) => l.ui.source.cursor.insertFalse,
         visible: Visibility.Visible,
         category: Category.Insert,
         alt: true,
@@ -659,7 +659,7 @@ const Commands: Command[] = [
     },
     {
         symbol: NONE_SYMBOL,
-        description: (l) => l.ui.description.insertNoneSymbol,
+        description: (l) => l.ui.source.cursor.insertNone,
         visible: Visibility.Visible,
         category: Category.Insert,
         alt: true,
@@ -671,7 +671,7 @@ const Commands: Command[] = [
     },
     {
         symbol: FUNCTION_SYMBOL,
-        description: (l) => l.ui.description.insertFunctionSymbol,
+        description: (l) => l.ui.source.cursor.insertFunction,
         visible: Visibility.Visible,
         category: Category.Insert,
         alt: true,
@@ -693,7 +693,7 @@ const Commands: Command[] = [
     },
     {
         symbol: TYPE_SYMBOL,
-        description: (l) => l.ui.description.insertFalseSymbol,
+        description: (l) => l.ui.source.cursor.insertType,
         visible: Visibility.Visible,
         category: Category.Insert,
         alt: true,
@@ -705,7 +705,7 @@ const Commands: Command[] = [
     },
     {
         symbol: '≠',
-        description: (l) => l.ui.description.insertNotEqualSymbol,
+        description: (l) => l.ui.source.cursor.insertNotEqual,
         visible: Visibility.Visible,
         category: Category.Insert,
         alt: true,
@@ -717,7 +717,7 @@ const Commands: Command[] = [
     },
     {
         symbol: PRODUCT_SYMBOL,
-        description: (l) => l.ui.description.insertProductSymbol,
+        description: (l) => l.ui.source.cursor.insertProduct,
         visible: Visibility.Visible,
         category: Category.Insert,
         alt: true,
@@ -729,7 +729,7 @@ const Commands: Command[] = [
     },
     {
         symbol: QUOTIENT_SYMBOL,
-        description: (l) => l.ui.description.insertQuotientSymbol,
+        description: (l) => l.ui.source.cursor.insertQuotient,
         visible: Visibility.Visible,
         category: Category.Insert,
         alt: true,
@@ -741,7 +741,7 @@ const Commands: Command[] = [
     },
     {
         symbol: DEGREE_SYMBOL,
-        description: (l) => l.ui.description.insertDegreeSymbol,
+        description: (l) => l.ui.source.cursor.insertDegree,
         visible: Visibility.Visible,
         category: Category.Insert,
         alt: true,
@@ -753,7 +753,7 @@ const Commands: Command[] = [
     },
     {
         symbol: '≤',
-        description: (l) => l.ui.description.insertLessThanOrEqualSymbol,
+        description: (l) => l.ui.source.cursor.insertLessOrEqual,
         visible: Visibility.Visible,
         category: Category.Insert,
         shift: false,
@@ -766,7 +766,7 @@ const Commands: Command[] = [
     {
         symbol: '≥',
         keySymbol: '.',
-        description: (l) => l.ui.description.insertGreaterThanOrEqualSymbol,
+        description: (l) => l.ui.source.cursor.insertGreaterOrEqual,
         visible: Visibility.Visible,
         category: Category.Insert,
         shift: false,
@@ -777,7 +777,7 @@ const Commands: Command[] = [
     },
     {
         symbol: STREAM_SYMBOL,
-        description: (l) => l.ui.description.insertStreamSymbol,
+        description: (l) => l.ui.source.cursor.insertStream,
         visible: Visibility.Visible,
         category: Category.Insert,
         alt: true,
@@ -789,7 +789,7 @@ const Commands: Command[] = [
     },
     {
         symbol: PREVIOUS_SYMBOL,
-        description: (l) => l.ui.description.insertPreviousSymbol,
+        description: (l) => l.ui.source.cursor.insertPrevious,
         visible: Visibility.Visible,
         category: Category.Insert,
         alt: true,
@@ -801,7 +801,7 @@ const Commands: Command[] = [
     },
     {
         symbol: CONVERT_SYMBOL,
-        description: (l) => l.ui.description.insertConvertSymbol,
+        description: (l) => l.ui.source.cursor.insertConvert,
         visible: Visibility.Visible,
         category: Category.Insert,
         alt: true,
@@ -813,7 +813,7 @@ const Commands: Command[] = [
     },
     {
         symbol: TABLE_OPEN_SYMBOL,
-        description: (l) => l.ui.description.insertTableSymbol,
+        description: (l) => l.ui.source.cursor.insertTable,
         visible: Visibility.Visible,
         category: Category.Insert,
         alt: true,
@@ -858,7 +858,7 @@ const Commands: Command[] = [
     ShowMenu,
     {
         symbol: '⟲',
-        description: (l) => l.ui.description.undo,
+        description: (l) => l.ui.source.cursor.undo,
         visible: Visibility.Visible,
         category: Category.Modify,
         shift: false,
@@ -874,7 +874,7 @@ const Commands: Command[] = [
     },
     {
         symbol: '⟳',
-        description: (l) => l.ui.description.redo,
+        description: (l) => l.ui.source.cursor.redo,
         visible: Visibility.Visible,
         category: Category.Modify,
         shift: true,
@@ -890,7 +890,7 @@ const Commands: Command[] = [
     },
     {
         symbol: '▭',
-        description: (l) => l.ui.toggle.blocks.on,
+        description: (l) => l.ui.source.toggle.blocks.on,
         visible: Visibility.Invisible,
         category: Category.Modify,
         shift: true,
@@ -901,7 +901,7 @@ const Commands: Command[] = [
     },
     {
         symbol: '↲',
-        description: (l) => l.ui.description.insertLineBreak,
+        description: (l) => l.ui.source.cursor.insertLine,
         visible: Visibility.Touch,
         category: Category.Modify,
         shift: false,
@@ -918,7 +918,7 @@ const Commands: Command[] = [
     },
     {
         symbol: '⌫',
-        description: (l) => l.ui.description.backspace,
+        description: (l) => l.ui.source.cursor.backspace,
         visible: Visibility.Touch,
         category: Category.Modify,
         key: 'Backspace',
@@ -931,7 +931,7 @@ const Commands: Command[] = [
     },
     {
         symbol: '✂️',
-        description: (l) => l.ui.description.cut,
+        description: (l) => l.ui.source.cursor.cut,
         visible: Visibility.Visible,
         category: Category.Modify,
         control: true,
@@ -947,7 +947,7 @@ const Commands: Command[] = [
     },
     {
         symbol: '📚',
-        description: (l) => l.ui.description.copy,
+        description: (l) => l.ui.source.cursor.copy,
         visible: Visibility.Visible,
         category: Category.Modify,
         control: true,
@@ -965,7 +965,7 @@ const Commands: Command[] = [
     },
     {
         symbol: '📋',
-        description: (l) => l.ui.description.paste,
+        description: (l) => l.ui.source.cursor.paste,
         visible: Visibility.Visible,
         category: Category.Modify,
         control: true,
@@ -993,7 +993,7 @@ const Commands: Command[] = [
     },
     {
         symbol: '( _ )',
-        description: (l) => l.ui.description.parenthesize,
+        description: (l) => l.ui.source.cursor.parenthesize,
         visible: Visibility.Visible,
         category: Category.Modify,
         control: false,
@@ -1005,7 +1005,7 @@ const Commands: Command[] = [
     },
     {
         symbol: '[ _ ]',
-        description: (l) => l.ui.description.enumerate,
+        description: (l) => l.ui.source.cursor.enumerate,
         visible: Visibility.Visible,
         category: Category.Modify,
         control: undefined,
@@ -1020,7 +1020,7 @@ const Commands: Command[] = [
     /** The command to rule them all... inserts things */
     {
         symbol: 'a',
-        description: (l) => l.ui.description.type,
+        description: (l) => l.ui.source.cursor.type,
         visible: Visibility.Invisible,
         category: Category.Modify,
         control: false,

@@ -68,14 +68,16 @@
                     validator={valid}
                     {editable}
                     placeholder={getFirstName(dimension)}
-                    description={$locale.ui.description.editCoordinate}
+                    description={$locale.ui.palette.field.coordinate}
                     changed={(value) => handleChange(dimension, value)}
                     bind:view={views[index]}
                 />
                 <Note>m</Note>
             {:else}
                 <Note
-                    >{$locales.map((locale) => locale.ui.labels.computed)}</Note
+                    >{$locales.map(
+                        (locale) => locale.ui.palette.labels.computed
+                    )}</Note
                 >
             {/if}
         </div>

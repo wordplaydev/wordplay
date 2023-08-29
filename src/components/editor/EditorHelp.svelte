@@ -7,10 +7,9 @@
     import { docToMarkup } from '@locale/Locale';
     import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
 
-    $: markup = docToMarkup($locale.ui.prompt.emptyProgram).concretize(
-        $locale,
-        [toShortcut(ShowMenu)]
-    );
+    $: markup = docToMarkup($locale.ui.source.empty).concretize($locale, [
+        toShortcut(ShowMenu),
+    ]);
 </script>
 
 {#if markup}

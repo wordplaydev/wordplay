@@ -56,7 +56,7 @@ export default function concretize(
     return (
         concretizeOrUndefined(locale, template, ...inputs) ??
         // Create a representation of a template that couldn't be concretized.
-        Markup.words(`${locale.ui.error.template}: ${template}`)
+        Markup.words(`${locale.ui.template.unparsable}: ${template}`)
     );
 }
 
@@ -67,7 +67,7 @@ export function concretizeOrUndefined(
 ): Markup | undefined {
     // Not written? Return the TBD string.
     if (template === '' || template === '$?')
-        return Markup.words(locale.ui.error.unwritten);
+        return Markup.words(locale.ui.template.unwritten);
 
     // See if we've cached this template.
     let markup = TemplateToMarkupCache.get(template);

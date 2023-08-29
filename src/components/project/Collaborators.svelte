@@ -35,12 +35,12 @@
         DB.getEmailFromUserIDs(project.uids).then((map) => (emails = map));
 </script>
 
-<Dialog bind:show description={$locale.ui.dialog.collaborators}>
+<Dialog bind:show description={$locale.ui.dialog.share}>
     <form class="form" on:submit={add}>
         <TextField
             bind:text={email}
-            placeholder={$locale.ui.field.collaborator.placeholder}
-            description={$locale.ui.field.collaborator.description}
+            placeholder={$locale.ui.dialog.share.field.email.placeholder}
+            description={$locale.ui.dialog.share.field.email.description}
             validator={validateEmail}
         />
         <Button
@@ -50,7 +50,9 @@
         >
         {#if adding}<Spinning />{/if}
         {#if unknown}<p
-                ><Feedback inline>{$locale.ui.error.unknownEmail}</Feedback></p
+                ><Feedback inline
+                    >{$locale.ui.dialog.share.error.unknown}</Feedback
+                ></p
             >{/if}
     </form>
 
@@ -61,7 +63,7 @@
                     >{#if emails.has(uid)}{emails.get(uid) ??
                             '?'}{:else}<Spinning />{/if}</span
                 ><Button
-                    tip={$locale.ui.button.removeCollaborator}
+                    tip={$locale.ui.project.button.removeCollaborator}
                     active={project.uids.length > 1}
                     action={() =>
                         Projects.reviseProject(project.withoutUser(uid))}

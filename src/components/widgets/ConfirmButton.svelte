@@ -1,6 +1,6 @@
 <script lang="ts">
-    import Button from './Button.svelte';
     import { locale } from '../../db/Database';
+    import Button from './Button.svelte';
 
     export let tip: string;
     export let action: () => void;
@@ -11,13 +11,14 @@
 </script>
 
 <div class="prompt" class:confirming>
-    <Button {tip} action={() => (confirming = !confirming)} active={enabled}
+    <Button
+        tip={confirming ? $locale.ui.widget.confirm.cancel : tip}
+        action={() => (confirming = !confirming)}
+        active={enabled}
         >{#if confirming}⨉{:else}<slot />{/if}</Button
     >
     {#if confirming}
-        <Button stretch tip={$locale.ui.description.yes} action={() => action()}
-            >{prompt}</Button
-        >
+        <Button stretch {tip} action={() => action()}>{prompt}</Button>
     {/if}
 </div>
 

@@ -59,7 +59,7 @@
         <Header>:(</Header>
         <Speech glyph={Glyphs.Function}
             ><p slot="content">
-                {$locale.ui.error.tutorial}
+                {$locale.ui.page.learn.error}
                 <Link to="/">🏠</Link></p
             ></Speech
         ></Writing

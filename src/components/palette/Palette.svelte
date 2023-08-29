@@ -77,7 +77,7 @@
     }
 </script>
 
-<section class="palette" aria-label={$locale.ui.section.palette}>
+<section class="palette" aria-label={$locale.ui.palette.label}>
     {#if propertyValues.size > 0}
         <Speech
             glyph={(outputs.length > 1 || definition === undefined
@@ -93,7 +93,10 @@
         >
             <svelte:fragment slot="content">
                 <MarkupHtmlView
-                    markup={concretize($locale, $locale.ui.palette.editing)}
+                    markup={concretize(
+                        $locale,
+                        $locale.ui.palette.prompt.editing
+                    )}
                 />
             </svelte:fragment>
         </Speech>
@@ -107,8 +110,8 @@
             <EditOffer
                 symbols={PALETTE_SYMBOL}
                 locale={$locale}
-                message={$locale.ui.palette.pauseToEdit}
-                tip={$locale.ui.description.pause}
+                message={$locale.ui.palette.prompt.pauseToEdit}
+                tip={$locale.ui.timeline.button.pause}
                 action={() => $evaluation.evaluator.pause()}
                 command="⏸️"
             />
@@ -118,8 +121,8 @@
                 <EditOffer
                     symbols={PHRASE_SYMBOL}
                     locale={$locale}
-                    message={$locale.ui.palette.offerPhrase}
-                    tip={$locale.ui.description.createPhrase}
+                    message={$locale.ui.palette.prompt.offerPhrase}
+                    tip={$locale.ui.palette.button.createPhrase}
                     action={() => addSoloPhrase(DB, project)}
                     command={`+${PHRASE_SYMBOL}`}
                 />
@@ -128,8 +131,8 @@
                 <EditOffer
                     symbols={GROUP_SYMBOL}
                     locale={$locale}
-                    message={$locale.ui.palette.offerGroup}
-                    tip={$locale.ui.description.createGroup}
+                    message={$locale.ui.palette.prompt.offerGroup}
+                    tip={$locale.ui.palette.button.createGroup}
                     action={() => addGroup(DB, project)}
                     command={`+${GROUP_SYMBOL}`}
                 />
@@ -138,8 +141,8 @@
                 <EditOffer
                     symbols={STAGE_SYMBOL}
                     locale={$locale}
-                    message={$locale.ui.palette.offerStage}
-                    tip={$locale.ui.description.createStage}
+                    message={$locale.ui.palette.prompt.offerStage}
+                    tip={$locale.ui.palette.button.createStage}
                     action={() => addStage(DB, project, group ?? phrase)}
                     command={`+${STAGE_SYMBOL}`}
                 />

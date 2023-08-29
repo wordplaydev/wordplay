@@ -93,5 +93,5 @@
 {:else if loading}
     <Loading />
 {:else if $page.params.projectid || error}
-    <Writing><Feedback>{$locale.ui.feedback.unknownProject}</Feedback></Writing>
+    <Writing><Feedback>{$locale.ui.project.error.unknown}</Feedback></Writing>
 {/if}

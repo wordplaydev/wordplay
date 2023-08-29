@@ -3,7 +3,7 @@
     import OutputView from '@components/output/OutputView.svelte';
     import Evaluator from '@runtime/Evaluator';
     import type Value from '@values/Value';
-    import { DB, locale } from '../../db/Database';
+    import { DB } from '../../db/Database';
     import { onMount } from 'svelte';
     import { fade } from 'svelte/transition';
 
@@ -54,9 +54,7 @@
         {/if}
     </div>
     <div class="name"
-        >{#if project.name.length === 0}<em class="untitled"
-                >{$locale.ui.placeholders.project}</em
-            >{:else}
+        >{#if project.name.length === 0}<em class="untitled">&mdash;</em>{:else}
             {project.name}{/if}<slot /></div
     >
 </div>

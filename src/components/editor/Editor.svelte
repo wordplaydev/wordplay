@@ -1278,7 +1278,7 @@
     class:dragging={dragCandidate !== undefined || $dragged !== undefined}
     data-uiid="editor"
     role="application"
-    aria-label={`${$locale.ui.section.editor} ${source.getPreferredName(
+    aria-label={`${$locale.ui.source.label} ${source.getPreferredName(
         $locales
     )}`}
     style:direction={$writingDirection}
@@ -1388,7 +1388,7 @@
     {#if project.supplements.length > 0}
         <div class="output-preview-container">
             <Button
-                tip={$locale.ui.description.showOutput}
+                tip={$locale.ui.source.button.selectOutput}
                 active={!selected}
                 action={() => dispatch('preview')}
                 scale={false}

@@ -65,7 +65,7 @@
         <PaletteProperty {project} {property} {values} {editable} />
     {/each}
     {#if !sequence && editable}
-        <Button tip={$locale.ui.description.sequence} action={convert}
+        <Button tip={$locale.ui.palette.button.sequence} action={convert}
             >{project.shares.output.Sequence.getNames()[0]}</Button
         >
     {/if}

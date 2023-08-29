@@ -174,7 +174,7 @@
 
 <section
     class="evaluation"
-    aria-label={$locale.ui.section.timeline}
+    aria-label={$locale.ui.timeline.label}
     class:stepping={$evaluation?.playing === false}
 >
     <Controls {evaluator} />
@@ -184,7 +184,7 @@
         class="timeline"
         tabindex={0}
         data-uiid="timeline"
-        aria-label={$locale.ui.description.timeline}
+        aria-label={$locale.ui.timeline.slider}
         aria-valuemin={0}
         aria-valuemax={$evaluation.evaluator.getStepCount()}
         aria-valuenow={$evaluation.stepIndex}

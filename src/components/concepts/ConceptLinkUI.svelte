@@ -88,11 +88,7 @@
 
 {#if concept}<Button
         action={navigate}
-        tip={concretize(
-            $locale,
-            $locale.ui.description.conceptLink,
-            longName
-        ).toText()}
+        tip={concretize($locale, $locale.ui.docs.link, longName).toText()}
         ><span class="conceptlink interactive"
             >{#if label}{label}{:else}<span class="long">{longName}</span
                 >{#if symbolicName !== longName && symbolic}<sub

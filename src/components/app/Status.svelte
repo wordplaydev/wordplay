@@ -8,14 +8,10 @@
 
 <div class="status {$status}">
     {$status === SaveStatus.Saved
-        ? `${
-              $user === null
-                  ? $locale.ui.feedback.save.local
-                  : $locale.ui.feedback.save.saved
-          } ✔`
+        ? `${$user === null ? $locale.ui.save.local : $locale.ui.save.saved} ✔`
         : $status === SaveStatus.Saving
-        ? `${$locale.ui.feedback.save.saving} …`
-        : `${$locale.ui.feedback.save.unsaved} ⨉`}
+        ? `${$locale.ui.save.saving} …`
+        : `${$locale.ui.save.unsaved} ⨉`}
 </div>
 
 <style>

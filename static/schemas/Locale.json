@@ -2,6 +2,38 @@
   "$ref": "#/definitions/Locale",
   "$schema": "http://json-schema.org/draft-07/schema#",
   "definitions": {
+    "ButtonText": {
+      "additionalProperties": false,
+      "properties": {
+        "label": {
+          "type": "string"
+        },
+        "tip": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "label",
+        "tip"
+      ],
+      "type": "object"
+    },
+    "ConfirmText": {
+      "additionalProperties": false,
+      "properties": {
+        "description": {
+          "type": "string"
+        },
+        "prompt": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "description",
+        "prompt"
+      ],
+      "type": "object"
+    },
     "ConflictText": {
       "additionalProperties": false,
       "properties": {
@@ -64,22 +96,6 @@
       ],
       "type": "object"
     },
-    "DialogText": {
-      "additionalProperties": false,
-      "properties": {
-        "explanation": {
-          "type": "string"
-        },
-        "header": {
-          "type": "string"
-        }
-      },
-      "required": [
-        "header",
-        "explanation"
-      ],
-      "type": "object"
-    },
     "DocText": {
       "anyOf": [
         {
@@ -106,6 +122,22 @@
       "required": [
         "description",
         "explanation"
+      ],
+      "type": "object"
+    },
+    "FieldText": {
+      "additionalProperties": false,
+      "properties": {
+        "description": {
+          "type": "string"
+        },
+        "placeholder": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "description",
+        "placeholder"
       ],
       "type": "object"
     },
@@ -6133,9 +6165,6 @@
             "stream": {
               "type": "string"
             },
-            "streamdefinition": {
-              "type": "string"
-            },
             "structure": {
               "type": "string"
             },
@@ -6186,7 +6215,6 @@
             "row",
             "set",
             "structure",
-            "streamdefinition",
             "stream",
             "index",
             "query",
@@ -6477,553 +6505,26 @@
         "ui": {
           "additionalProperties": false,
           "properties": {
-            "button": {
+            "conflicts": {
               "additionalProperties": false,
+              "description": "The conflicts area at the bottom of the editor.",
               "properties": {
-                "copyProject": {
-                  "type": "string"
-                },
-                "removeCollaborator": {
-                  "type": "string"
-                },
-                "showCollaborators": {
+                "label": {
+                  "description": "The ARIA label for the conflicts section in the editor.",
                   "type": "string"
                 }
               },
               "required": [
-                "showCollaborators",
-                "removeCollaborator",
-                "copyProject"
-              ],
-              "type": "object"
-            },
-            "confirm": {
-              "additionalProperties": false,
-              "properties": {
-                "archiveProject": {
-                  "additionalProperties": false,
-                  "properties": {
-                    "description": {
-                      "type": "string"
-                    },
-                    "prompt": {
-                      "type": "string"
-                    }
-                  },
-                  "required": [
-                    "description",
-                    "prompt"
-                  ],
-                  "type": "object"
-                },
-                "deleteSource": {
-                  "additionalProperties": false,
-                  "properties": {
-                    "description": {
-                      "type": "string"
-                    },
-                    "prompt": {
-                      "type": "string"
-                    }
-                  },
-                  "required": [
-                    "description",
-                    "prompt"
-                  ],
-                  "type": "object"
-                }
-              },
-              "required": [
-                "archiveProject",
-                "deleteSource"
-              ],
-              "type": "object"
-            },
-            "description": {
-              "additionalProperties": false,
-              "properties": {
-                "addGroup": {
-                  "type": "string"
-                },
-                "addInput": {
-                  "description": "The next input shown in evaluate expressions that, when clicked, add a placeholder",
-                  "type": "string"
-                },
-                "addLanguage": {
-                  "type": "string"
-                },
-                "addPhrase": {
-                  "type": "string"
-                },
-                "addPose": {
-                  "type": "string"
-                },
-                "addSource": {
-                  "type": "string"
-                },
-                "animate": {
-                  "type": "string"
-                },
-                "backInput": {
-                  "type": "string"
-                },
-                "backNode": {
-                  "type": "string"
-                },
-                "backStep": {
-                  "type": "string"
-                },
-                "backspace": {
-                  "type": "string"
-                },
-                "changeLanguage": {
-                  "type": "string"
-                },
-                "characterSearch": {
-                  "type": "string"
-                },
-                "chooserExpand": {
-                  "type": "string"
-                },
-                "close": {
-                  "type": "string"
-                },
-                "collapse": {
-                  "type": "string"
-                },
-                "conceptLink": {
-                  "$ref": "#/definitions/Template"
-                },
-                "copy": {
-                  "type": "string"
-                },
-                "copyProject": {
-                  "type": "string"
-                },
-                "createGroup": {
-                  "description": "The button that creates a group when there is none",
-                  "type": "string"
-                },
-                "createPhrase": {
-                  "description": "The button that creates a phrase when there is none",
-                  "type": "string"
-                },
-                "createStage": {
-                  "description": "The button that creates a stage when there is none",
-                  "type": "string"
-                },
-                "cursorContainer": {
-                  "type": "string"
-                },
-                "cursorInlineAfter": {
-                  "type": "string"
-                },
-                "cursorInlineBefore": {
-                  "type": "string"
-                },
-                "cursorLineAfter": {
-                  "description": "Move caret to the line after",
-                  "type": "string"
-                },
-                "cursorLineBefore": {
-                  "description": "Move caret to the line before",
-                  "type": "string"
-                },
-                "cursorLineEnd": {
-                  "type": "string"
-                },
-                "cursorLineStart": {
-                  "type": "string"
-                },
-                "cursorNeighborAfter": {
-                  "type": "string"
-                },
-                "cursorNeighborBefore": {
-                  "type": "string"
-                },
-                "cut": {
-                  "type": "string"
-                },
-                "dark": {
-                  "type": "string"
-                },
-                "decrementLiteral": {
-                  "type": "string"
-                },
-                "docBack": {
-                  "type": "string"
-                },
-                "documentationSearch": {
-                  "type": "string"
-                },
-                "editContent": {
-                  "type": "string"
-                },
-                "editCoordinate": {
-                  "type": "string"
-                },
-                "editProject": {
-                  "type": "string"
-                },
-                "editProjectName": {
-                  "type": "string"
-                },
-                "editSequencePercent": {
-                  "type": "string"
-                },
-                "editSourceName": {
-                  "type": "string"
-                },
-                "editTextOutput": {
-                  "type": "string"
-                },
-                "enumerate": {
-                  "type": "string"
-                },
-                "expand": {
-                  "type": "string"
-                },
-                "expandCode": {
-                  "description": "The button shown when a list of code is ellided; clicking it shows the hidden code.",
-                  "type": "string"
-                },
-                "focusCycle": {
-                  "type": "string"
-                },
-                "focusDocs": {
-                  "type": "string"
-                },
-                "focusOutput": {
-                  "type": "string"
-                },
-                "focusPalette": {
-                  "type": "string"
-                },
-                "focusSource": {
-                  "type": "string"
-                },
-                "forwardInput": {
-                  "type": "string"
-                },
-                "forwardNode": {
-                  "type": "string"
-                },
-                "forwardStep": {
-                  "type": "string"
-                },
-                "freeform": {
-                  "type": "string"
-                },
-                "help": {
-                  "type": "string"
-                },
-                "home": {
-                  "type": "string"
-                },
-                "horizontal": {
-                  "type": "string"
-                },
-                "incrementLiteral": {
-                  "type": "string"
-                },
-                "insertConvertSymbol": {
-                  "type": "string"
-                },
-                "insertDegreeSymbol": {
-                  "type": "string"
-                },
-                "insertFalseSymbol": {
-                  "type": "string"
-                },
-                "insertFunctionSymbol": {
-                  "type": "string"
-                },
-                "insertGreaterThanOrEqualSymbol": {
-                  "type": "string"
-                },
-                "insertLessThanOrEqualSymbol": {
-                  "type": "string"
-                },
-                "insertLineBreak": {
-                  "type": "string"
-                },
-                "insertNoneSymbol": {
-                  "type": "string"
-                },
-                "insertNotEqualSymbol": {
-                  "type": "string"
-                },
-                "insertPreviousSymbol": {
-                  "type": "string"
-                },
-                "insertProductSymbol": {
-                  "type": "string"
-                },
-                "insertQuotientSymbol": {
-                  "type": "string"
-                },
-                "insertStreamSymbol": {
-                  "type": "string"
-                },
-                "insertSymbol": {
-                  "$ref": "#/definitions/Template"
-                },
-                "insertTableSymbol": {
-                  "type": "string"
-                },
-                "insertTrueSymbol": {
-                  "type": "string"
-                },
-                "loginEmail": {
-                  "type": "string"
-                },
-                "menu": {
-                  "description": "How to describe the autocomplete menu",
-                  "type": "string"
-                },
-                "menuBack": {
-                  "description": "How to describe the autocomplete back button for leaving the submenu",
-                  "type": "string"
-                },
-                "moveContentDown": {
-                  "type": "string"
-                },
-                "moveContentUp": {
-                  "type": "string"
-                },
-                "movePoseDown": {
-                  "type": "string"
-                },
-                "movePoseUp": {
-                  "type": "string"
-                },
-                "newProject": {
-                  "type": "string"
-                },
-                "nextLesson": {
-                  "type": "string"
-                },
-                "nextLessonStep": {
-                  "type": "string"
-                },
-                "no": {
-                  "type": "string"
-                },
-                "out": {
-                  "type": "string"
-                },
-                "paint": {
-                  "type": "string"
-                },
-                "parenthesize": {
-                  "type": "string"
-                },
-                "paste": {
-                  "type": "string"
-                },
-                "pause": {
-                  "type": "string"
-                },
-                "place": {
-                  "type": "string"
-                },
-                "play": {
-                  "type": "string"
-                },
-                "present": {
-                  "type": "string"
-                },
-                "previousLesson": {
-                  "type": "string"
-                },
-                "previousLessonStep": {
-                  "type": "string"
-                },
-                "redo": {
-                  "type": "string"
-                },
-                "removeContent": {
-                  "type": "string"
-                },
-                "removeLanguage": {
-                  "type": "string"
-                },
-                "removePose": {
-                  "type": "string"
-                },
-                "reset": {
-                  "type": "string"
-                },
-                "revert": {
-                  "type": "string"
-                },
-                "revertProject": {
-                  "type": "string"
-                },
-                "selectAll": {
-                  "type": "string"
-                },
-                "sequence": {
-                  "type": "string"
-                },
-                "set": {
-                  "type": "string"
-                },
-                "settings": {
-                  "type": "string"
-                },
-                "showOutput": {
-                  "type": "string"
-                },
-                "start": {
-                  "type": "string"
-                },
-                "timeline": {
-                  "description": "The description of the timeline slider",
-                  "type": "string"
-                },
-                "type": {
-                  "type": "string"
-                },
-                "undo": {
-                  "type": "string"
-                },
-                "vertical": {
-                  "type": "string"
-                },
-                "yes": {
-                  "type": "string"
-                }
-              },
-              "required": [
-                "yes",
-                "no",
-                "play",
-                "pause",
-                "backStep",
-                "backNode",
-                "backInput",
-                "out",
-                "start",
-                "forwardStep",
-                "forwardNode",
-                "forwardInput",
-                "present",
-                "reset",
-                "home",
-                "docBack",
-                "revert",
-                "set",
-                "collapse",
-                "expand",
-                "close",
-                "changeLanguage",
-                "addLanguage",
-                "removeLanguage",
-                "horizontal",
-                "vertical",
-                "freeform",
-                "addPose",
-                "removePose",
-                "movePoseUp",
-                "movePoseDown",
-                "addGroup",
-                "addPhrase",
-                "removeContent",
-                "moveContentUp",
-                "moveContentDown",
-                "editContent",
-                "sequence",
-                "animate",
-                "addSource",
-                "editProject",
-                "copyProject",
-                "settings",
-                "newProject",
-                "dark",
-                "chooserExpand",
-                "place",
-                "paint",
-                "nextLesson",
-                "previousLesson",
-                "nextLessonStep",
-                "previousLessonStep",
-                "revertProject",
-                "showOutput",
-                "expandCode",
-                "addInput",
-                "menu",
-                "menuBack",
-                "cursorLineBefore",
-                "cursorLineAfter",
-                "cursorInlineBefore",
-                "cursorInlineAfter",
-                "cursorLineStart",
-                "cursorLineEnd",
-                "cursorNeighborBefore",
-                "cursorNeighborAfter",
-                "cursorContainer",
-                "selectAll",
-                "incrementLiteral",
-                "decrementLiteral",
-                "insertSymbol",
-                "insertTrueSymbol",
-                "insertFalseSymbol",
-                "insertNoneSymbol",
-                "insertNotEqualSymbol",
-                "insertProductSymbol",
-                "insertQuotientSymbol",
-                "insertDegreeSymbol",
-                "insertFunctionSymbol",
-                "insertLessThanOrEqualSymbol",
-                "insertGreaterThanOrEqualSymbol",
-                "insertStreamSymbol",
-                "insertPreviousSymbol",
-                "insertConvertSymbol",
-                "insertTableSymbol",
-                "insertLineBreak",
-                "backspace",
-                "copy",
-                "cut",
-                "paste",
-                "parenthesize",
-                "enumerate",
-                "type",
-                "undo",
-                "redo",
-                "help",
-                "documentationSearch",
-                "characterSearch",
-                "editTextOutput",
-                "editCoordinate",
-                "editSequencePercent",
-                "editProjectName",
-                "editSourceName",
-                "loginEmail",
-                "focusOutput",
-                "focusSource",
-                "focusDocs",
-                "focusPalette",
-                "focusCycle",
-                "conceptLink",
-                "timeline",
-                "createPhrase",
-                "createGroup",
-                "createStage"
+                "label"
               ],
               "type": "object"
             },
             "dialog": {
               "additionalProperties": false,
               "properties": {
-                "collaborators": {
-                  "$ref": "#/definitions/DialogText"
-                },
                 "help": {
-                  "$ref": "#/definitions/DialogText"
-                },
-                "locale": {
                   "additionalProperties": false,
+                  "description": "The keyboard shortcut reference dialog",
                   "properties": {
                     "explanation": {
                       "type": "string"
@@ -7031,37 +6532,329 @@
                     "header": {
                       "type": "string"
                     },
-                    "selected": {
-                      "description": "How to label the locales that have been selected",
-                      "type": "string"
-                    },
-                    "supported": {
-                      "description": "How to label the supported locales that have not been selected",
-                      "type": "string"
+                    "subheader": {
+                      "additionalProperties": false,
+                      "properties": {
+                        "debug": {
+                          "type": "string"
+                        },
+                        "editCode": {
+                          "type": "string"
+                        },
+                        "insertCode": {
+                          "type": "string"
+                        },
+                        "moveCursor": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "moveCursor",
+                        "editCode",
+                        "insertCode",
+                        "debug"
+                      ],
+                      "type": "object"
                     }
                   },
                   "required": [
                     "explanation",
                     "header",
-                    "selected",
-                    "supported"
+                    "subheader"
+                  ],
+                  "type": "object"
+                },
+                "locale": {
+                  "additionalProperties": false,
+                  "description": "The locale chooser dialog",
+                  "properties": {
+                    "button": {
+                      "additionalProperties": false,
+                      "properties": {
+                        "add": {
+                          "description": "Add a locale",
+                          "type": "string"
+                        },
+                        "remove": {
+                          "description": "Remove a locale",
+                          "type": "string"
+                        },
+                        "show": {
+                          "description": "Show the locale chooser dialog",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "show",
+                        "add",
+                        "remove"
+                      ],
+                      "type": "object"
+                    },
+                    "explanation": {
+                      "type": "string"
+                    },
+                    "header": {
+                      "type": "string"
+                    },
+                    "subheader": {
+                      "additionalProperties": false,
+                      "properties": {
+                        "help": {
+                          "description": "How to request help with localization",
+                          "type": "string"
+                        },
+                        "selected": {
+                          "description": "How to label the locales that have been selected",
+                          "type": "string"
+                        },
+                        "supported": {
+                          "description": "How to label the supported locales that have not been selected",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "selected",
+                        "supported",
+                        "help"
+                      ],
+                      "type": "object"
+                    }
+                  },
+                  "required": [
+                    "button",
+                    "explanation",
+                    "header",
+                    "subheader"
                   ],
                   "type": "object"
                 },
                 "settings": {
-                  "$ref": "#/definitions/DialogText"
+                  "additionalProperties": false,
+                  "description": "The settings dialog",
+                  "properties": {
+                    "button": {
+                      "additionalProperties": false,
+                      "properties": {
+                        "show": {
+                          "description": "Show the settings dialog",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "show"
+                      ],
+                      "type": "object"
+                    },
+                    "explanation": {
+                      "type": "string"
+                    },
+                    "header": {
+                      "type": "string"
+                    },
+                    "mode": {
+                      "additionalProperties": false,
+                      "properties": {
+                        "animate": {
+                          "$ref": "#/definitions/ModeText%3C%5Bstring%2Cstring%2Cstring%2Cstring%2Cstring%5D%3E",
+                          "description": "The animation on/off/slowdown mode"
+                        },
+                        "dark": {
+                          "$ref": "#/definitions/ModeText%3C%5Bstring%2Cstring%2Cstring%5D%3E",
+                          "description": "The dark on/off/automatic mode"
+                        },
+                        "layout": {
+                          "$ref": "#/definitions/ModeText%3C%5Bstring%2Cstring%2Cstring%2Cstring%5D%3E",
+                          "description": "The project tile layout mode"
+                        },
+                        "writing": {
+                          "$ref": "#/definitions/ModeText%3C%5Bstring%2Cstring%2Cstring%5D%3E",
+                          "description": "The writing layout direction"
+                        }
+                      },
+                      "required": [
+                        "layout",
+                        "animate",
+                        "dark",
+                        "writing"
+                      ],
+                      "type": "object"
+                    }
+                  },
+                  "required": [
+                    "button",
+                    "explanation",
+                    "header",
+                    "mode"
+                  ],
+                  "type": "object"
+                },
+                "share": {
+                  "additionalProperties": false,
+                  "description": "The sharing dialog",
+                  "properties": {
+                    "error": {
+                      "additionalProperties": false,
+                      "properties": {
+                        "unknown": {
+                          "description": "When someone tries to add an email collaborator that doesn't have a Wordplay account",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "unknown"
+                      ],
+                      "type": "object"
+                    },
+                    "explanation": {
+                      "type": "string"
+                    },
+                    "field": {
+                      "additionalProperties": false,
+                      "properties": {
+                        "email": {
+                          "additionalProperties": false,
+                          "description": "The email address of the collaborator being added",
+                          "properties": {
+                            "description": {
+                              "type": "string"
+                            },
+                            "placeholder": {
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "placeholder",
+                            "description"
+                          ],
+                          "type": "object"
+                        }
+                      },
+                      "required": [
+                        "email"
+                      ],
+                      "type": "object"
+                    },
+                    "header": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "error",
+                    "explanation",
+                    "field",
+                    "header"
+                  ],
+                  "type": "object"
                 }
               },
               "required": [
-                "collaborators",
+                "share",
                 "settings",
                 "locale",
                 "help"
               ],
               "type": "object"
             },
+            "docs": {
+              "additionalProperties": false,
+              "description": "The documentation browser",
+              "properties": {
+                "button": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "back": {
+                      "description": "The back button in the docs tile",
+                      "type": "string"
+                    },
+                    "home": {
+                      "description": "The home button in the docs tile",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "home",
+                    "back"
+                  ],
+                  "type": "object"
+                },
+                "field": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "search": {
+                      "description": "The search text field",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "search"
+                  ],
+                  "type": "object"
+                },
+                "header": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "conversions": {
+                      "description": "Documentation header in structure before conversions",
+                      "type": "string"
+                    },
+                    "functions": {
+                      "description": "Documentation header in structure before functions",
+                      "type": "string"
+                    },
+                    "inputs": {
+                      "description": "Documentation header in structure and functions before inputs",
+                      "type": "string"
+                    },
+                    "interfaces": {
+                      "description": "Documentation header in structure view before interfaces",
+                      "type": "string"
+                    },
+                    "properties": {
+                      "description": "Documentation header in structure before properties",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "inputs",
+                    "interfaces",
+                    "properties",
+                    "functions",
+                    "conversions"
+                  ],
+                  "type": "object"
+                },
+                "label": {
+                  "description": "The ARIA label for the palette section.",
+                  "type": "string"
+                },
+                "learn": {
+                  "description": "A link to the tutorial for a concept",
+                  "type": "string"
+                },
+                "link": {
+                  "$ref": "#/definitions/Template",
+                  "description": "A link to a concept in documentation"
+                },
+                "nodoc": {
+                  "description": "Shown if documentation is missing for a concept",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "label",
+                "link",
+                "learn",
+                "nodoc",
+                "button",
+                "field",
+                "header"
+              ],
+              "type": "object"
+            },
             "edit": {
               "additionalProperties": false,
+              "description": "Descriptions of cursor positions and code transformations",
               "properties": {
                 "append": {
                   "$ref": "#/definitions/Template",
@@ -7133,126 +6926,6 @@
               ],
               "type": "object"
             },
-            "error": {
-              "additionalProperties": false,
-              "properties": {
-                "noDatabase": {
-                  "description": "What to show when there's no database connection.",
-                  "type": "string"
-                },
-                "notfound": {
-                  "additionalProperties": false,
-                  "properties": {
-                    "header": {
-                      "type": "string"
-                    },
-                    "message": {
-                      "type": "string"
-                    }
-                  },
-                  "required": [
-                    "header",
-                    "message"
-                  ],
-                  "type": "object"
-                },
-                "overwritten": {
-                  "description": "When some other device had a more recent edit that overrode this device's version.",
-                  "type": "string"
-                },
-                "template": {
-                  "description": "The placeholder string indicating that a template string could not be parsed",
-                  "type": "string"
-                },
-                "tutorial": {
-                  "type": "string"
-                },
-                "unknownEmail": {
-                  "description": "When someone tries to add an email collaborator that doesn't have a Wordplay account",
-                  "type": "string"
-                },
-                "unwritten": {
-                  "description": "The placeholder indicating that a locale string is not yet written",
-                  "type": "string"
-                }
-              },
-              "required": [
-                "notfound",
-                "tutorial",
-                "unwritten",
-                "template",
-                "noDatabase",
-                "overwritten",
-                "unknownEmail"
-              ],
-              "type": "object"
-            },
-            "feedback": {
-              "additionalProperties": false,
-              "properties": {
-                "loading": {
-                  "type": "string"
-                },
-                "save": {
-                  "additionalProperties": false,
-                  "properties": {
-                    "local": {
-                      "type": "string"
-                    },
-                    "saved": {
-                      "type": "string"
-                    },
-                    "saving": {
-                      "type": "string"
-                    },
-                    "unsaved": {
-                      "type": "string"
-                    }
-                  },
-                  "required": [
-                    "saving",
-                    "saved",
-                    "local",
-                    "unsaved"
-                  ],
-                  "type": "object"
-                },
-                "unknownProject": {
-                  "type": "string"
-                }
-              },
-              "required": [
-                "unknownProject",
-                "loading",
-                "save"
-              ],
-              "type": "object"
-            },
-            "field": {
-              "additionalProperties": false,
-              "properties": {
-                "collaborator": {
-                  "additionalProperties": false,
-                  "properties": {
-                    "description": {
-                      "type": "string"
-                    },
-                    "placeholder": {
-                      "type": "string"
-                    }
-                  },
-                  "required": [
-                    "placeholder",
-                    "description"
-                  ],
-                  "type": "object"
-                }
-              },
-              "required": [
-                "collaborator"
-              ],
-              "type": "object"
-            },
             "font": {
               "additionalProperties": false,
               "properties": {
@@ -7293,132 +6966,54 @@
               ],
               "type": "object"
             },
-            "header": {
+            "output": {
               "additionalProperties": false,
               "properties": {
-                "conversions": {
-                  "description": "Documentation header in structure before conversions",
+                "field": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "key": {
+                      "description": "The invisible text field that accepts key input when a key stream is active",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "key"
+                  ],
+                  "type": "object"
+                },
+                "label": {
+                  "description": "The ARIA label for the output section",
                   "type": "string"
                 },
-                "debug": {
-                  "type": "string"
-                },
-                "editCode": {
-                  "type": "string"
-                },
-                "functions": {
-                  "description": "Documentation header in structure before functions",
-                  "type": "string"
-                },
-                "helpLocalize": {
-                  "description": "How to request help with localization",
-                  "type": "string"
-                },
-                "inputs": {
-                  "description": "Documentation header in structure and functions before inputs",
-                  "type": "string"
-                },
-                "insertCode": {
-                  "type": "string"
-                },
-                "interfaces": {
-                  "description": "Documentation header in structure view before interfaces",
-                  "type": "string"
-                },
-                "moveCursor": {
-                  "type": "string"
-                },
-                "properties": {
-                  "description": "Documentation header in structure before properties",
-                  "type": "string"
+                "toggle": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "fit": {
+                      "$ref": "#/definitions/ToggleText",
+                      "description": "Toggle whether output is fit to window"
+                    },
+                    "grid": {
+                      "$ref": "#/definitions/ToggleText",
+                      "description": "Toggle whether grid is shown"
+                    },
+                    "paint": {
+                      "$ref": "#/definitions/ToggleText",
+                      "description": "Toggle whether painting or placing"
+                    }
+                  },
+                  "required": [
+                    "grid",
+                    "fit",
+                    "paint"
+                  ],
+                  "type": "object"
                 }
               },
               "required": [
-                "inputs",
-                "interfaces",
-                "properties",
-                "functions",
-                "conversions",
-                "helpLocalize",
-                "moveCursor",
-                "editCode",
-                "insertCode",
-                "debug"
-              ],
-              "type": "object"
-            },
-            "labels": {
-              "additionalProperties": false,
-              "properties": {
-                "anonymous": {
-                  "description": "Shown when using an anonymous account",
-                  "type": "string"
-                },
-                "computed": {
-                  "description": "Shown in the output palette when the output(s) selected have expressions that are not editable using the editor.",
-                  "type": "string"
-                },
-                "default": {
-                  "description": "Shown in the output palette when the output(s) selected have no value set, but have a default",
-                  "type": "string"
-                },
-                "inherited": {
-                  "description": "Shown in the output palette when a value is unset but is inherited",
-                  "type": "string"
-                },
-                "learn": {
-                  "type": "string"
-                },
-                "mixed": {
-                  "description": "Shown in the output palette when multiple outputs are selected but they have unequal values.",
-                  "type": "string"
-                },
-                "nodoc": {
-                  "type": "string"
-                },
-                "notContent": {
-                  "description": "Shown in the output palette when a list of content is isn't valid",
-                  "type": "string"
-                },
-                "notSequence": {
-                  "description": "Shown in the output palette when a sequence isn't valid",
-                  "type": "string"
-                }
-              },
-              "required": [
-                "learn",
-                "nodoc",
-                "mixed",
-                "computed",
-                "default",
-                "inherited",
-                "notSequence",
-                "notContent",
-                "anonymous"
-              ],
-              "type": "object"
-            },
-            "mode": {
-              "additionalProperties": false,
-              "properties": {
-                "animate": {
-                  "$ref": "#/definitions/ModeText%3C%5Bstring%2Cstring%2Cstring%2Cstring%2Cstring%5D%3E"
-                },
-                "dark": {
-                  "$ref": "#/definitions/ModeText%3C%5Bstring%2Cstring%2Cstring%5D%3E"
-                },
-                "layout": {
-                  "$ref": "#/definitions/ModeText%3C%5Bstring%2Cstring%2Cstring%2Cstring%5D%3E"
-                },
-                "writing": {
-                  "$ref": "#/definitions/ModeText%3C%5Bstring%2Cstring%2Cstring%5D%3E"
-                }
-              },
-              "required": [
-                "layout",
-                "animate",
-                "dark",
-                "writing"
+                "label",
+                "toggle",
+                "field"
               ],
               "type": "object"
             },
@@ -7429,12 +7024,14 @@
                   "additionalProperties": false,
                   "properties": {
                     "content": {
+                      "description": "Text for the about page",
                       "items": {
                         "type": "string"
                       },
                       "type": "array"
                     },
                     "header": {
+                      "description": "Header for the about page",
                       "type": "string"
                     }
                   },
@@ -7448,6 +7045,7 @@
                   "additionalProperties": false,
                   "properties": {
                     "examples": {
+                      "description": "The subheader for the examples",
                       "type": "string"
                     },
                     "header": {
@@ -7455,6 +7053,7 @@
                       "type": "string"
                     },
                     "prompt": {
+                      "description": "Explanation for the galleries page",
                       "type": "string"
                     }
                   },
@@ -7465,71 +7064,75 @@
                   ],
                   "type": "object"
                 },
-                "learn": {
+                "landing": {
                   "additionalProperties": false,
                   "properties": {
-                    "header": {
+                    "motto": {
+                      "description": "The motto for Wordplay on the landing page.",
                       "type": "string"
                     }
                   },
                   "required": [
-                    "header"
+                    "motto"
                   ],
                   "type": "object"
                 },
-                "login": {
+                "learn": {
                   "additionalProperties": false,
                   "properties": {
                     "button": {
                       "additionalProperties": false,
                       "properties": {
+                        "next": {
+                          "description": "Advance to the next pause in the dialog",
+                          "type": "string"
+                        },
+                        "previous": {
+                          "description": "Navigate back to the previous pause in the dialog",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "next",
+                        "previous"
+                      ],
+                      "type": "object"
+                    },
+                    "error": {
+                      "description": "When the tutorial could not be found",
+                      "type": "string"
+                    },
+                    "header": {
+                      "description": "The header for the tutorial page",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "header",
+                    "error",
+                    "button"
+                  ],
+                  "type": "object"
+                },
+                "login": {
+                  "additionalProperties": false,
+                  "description": "The login and account page",
+                  "properties": {
+                    "anonymous": {
+                      "description": "Shown when using an anonymous account instead of creator's email",
+                      "type": "string"
+                    },
+                    "button": {
+                      "additionalProperties": false,
+                      "properties": {
                         "login": {
-                          "additionalProperties": false,
-                          "properties": {
-                            "label": {
-                              "type": "string"
-                            },
-                            "tip": {
-                              "type": "string"
-                            }
-                          },
-                          "required": [
-                            "label",
-                            "tip"
-                          ],
-                          "type": "object"
+                          "$ref": "#/definitions/ButtonText"
                         },
                         "logout": {
-                          "additionalProperties": false,
-                          "properties": {
-                            "label": {
-                              "type": "string"
-                            },
-                            "tip": {
-                              "type": "string"
-                            }
-                          },
-                          "required": [
-                            "label",
-                            "tip"
-                          ],
-                          "type": "object"
+                          "$ref": "#/definitions/ButtonText"
                         },
                         "update": {
-                          "additionalProperties": false,
-                          "properties": {
-                            "label": {
-                              "type": "string"
-                            },
-                            "tip": {
-                              "type": "string"
-                            }
-                          },
-                          "required": [
-                            "label",
-                            "tip"
-                          ],
-                          "type": "object"
+                          "$ref": "#/definitions/ButtonText"
                         }
                       },
                       "required": [
@@ -7571,7 +7174,34 @@
                       ],
                       "type": "object"
                     },
+                    "field": {
+                      "additionalProperties": false,
+                      "properties": {
+                        "email": {
+                          "additionalProperties": false,
+                          "description": "The login email",
+                          "properties": {
+                            "description": {
+                              "type": "string"
+                            },
+                            "placeholder": {
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "description",
+                            "placeholder"
+                          ],
+                          "type": "object"
+                        }
+                      },
+                      "required": [
+                        "email"
+                      ],
+                      "type": "object"
+                    },
                     "header": {
+                      "description": "Header for the login page",
                       "type": "string"
                     },
                     "prompt": {
@@ -7622,10 +7252,12 @@
                   },
                   "required": [
                     "header",
+                    "anonymous",
                     "prompt",
                     "submit",
                     "sent",
                     "success",
+                    "field",
                     "error",
                     "button"
                   ],
@@ -7633,30 +7265,69 @@
                 },
                 "projects": {
                   "additionalProperties": false,
+                  "description": "The project creation and browsing page",
                   "properties": {
+                    "button": {
+                      "additionalProperties": false,
+                      "properties": {
+                        "create": {
+                          "description": "Create a new project",
+                          "type": "string"
+                        },
+                        "edit": {
+                          "description": "Edit a project",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "create",
+                        "edit"
+                      ],
+                      "type": "object"
+                    },
+                    "confirm": {
+                      "additionalProperties": false,
+                      "properties": {
+                        "archive": {
+                          "$ref": "#/definitions/ConfirmText",
+                          "description": "The project archive button"
+                        }
+                      },
+                      "required": [
+                        "archive"
+                      ],
+                      "type": "object"
+                    },
                     "header": {
+                      "description": "Header for the projects page",
                       "type": "string"
                     },
                     "prompt": {
+                      "description": "Explanation for the project page",
                       "type": "string"
                     }
                   },
                   "required": [
                     "header",
-                    "prompt"
+                    "prompt",
+                    "button",
+                    "confirm"
                   ],
                   "type": "object"
                 },
                 "rights": {
                   "additionalProperties": false,
+                  "description": "The rights/terms of service page",
                   "properties": {
                     "content": {
+                      "description": "Paragraphs for the rights page",
                       "items": {
                         "type": "string"
                       },
                       "type": "array"
                     },
                     "header": {
+                      "description": "Header for the rights page",
                       "type": "string"
                     }
                   },
@@ -7665,9 +7336,30 @@
                     "content"
                   ],
                   "type": "object"
+                },
+                "unknown": {
+                  "additionalProperties": false,
+                  "description": "The unknown route page",
+                  "properties": {
+                    "header": {
+                      "description": "The header for the unknown route",
+                      "type": "string"
+                    },
+                    "message": {
+                      "description": "The message for the unknown route",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "header",
+                    "message"
+                  ],
+                  "type": "object"
                 }
               },
               "required": [
+                "unknown",
+                "landing",
                 "learn",
                 "projects",
                 "galleries",
@@ -7679,168 +7371,932 @@
             },
             "palette": {
               "additionalProperties": false,
+              "description": "The palette editor",
               "properties": {
-                "editing": {
-                  "$ref": "#/definitions/Template"
+                "button": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "addGroup": {
+                      "description": "Add a group to the output",
+                      "type": "string"
+                    },
+                    "addPhrase": {
+                      "description": "Add a phrase to the output",
+                      "type": "string"
+                    },
+                    "createGroup": {
+                      "description": "The button that creates a group when there is none",
+                      "type": "string"
+                    },
+                    "createPhrase": {
+                      "description": "The button that creates a phrase when there is none",
+                      "type": "string"
+                    },
+                    "createStage": {
+                      "description": "The button that creates a stage when there is none",
+                      "type": "string"
+                    },
+                    "down": {
+                      "description": "Move child down in list",
+                      "type": "string"
+                    },
+                    "edit": {
+                      "description": "Edit the child",
+                      "type": "string"
+                    },
+                    "remove": {
+                      "description": "Remove child from this output",
+                      "type": "string"
+                    },
+                    "revert": {
+                      "description": "Resets a property to it's default value",
+                      "type": "string"
+                    },
+                    "sequence": {
+                      "description": "Convert a pose to a sequence",
+                      "type": "string"
+                    },
+                    "set": {
+                      "description": "Sets the property to a value, allowing modification",
+                      "type": "string"
+                    },
+                    "up": {
+                      "description": "Move child up in list",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "revert",
+                    "set",
+                    "addGroup",
+                    "addPhrase",
+                    "remove",
+                    "up",
+                    "down",
+                    "edit",
+                    "sequence",
+                    "createPhrase",
+                    "createGroup",
+                    "createStage"
+                  ],
+                  "type": "object"
                 },
-                "offerGroup": {
-                  "$ref": "#/definitions/Template"
+                "field": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "coordinate": {
+                      "type": "string"
+                    },
+                    "text": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "text",
+                    "coordinate"
+                  ],
+                  "type": "object"
                 },
-                "offerPhrase": {
-                  "$ref": "#/definitions/Template"
+                "label": {
+                  "description": "The ARIA label for the palette section",
+                  "type": "string"
                 },
-                "offerStage": {
-                  "$ref": "#/definitions/Template"
+                "labels": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "computed": {
+                      "description": "Shown in the output palette when the output(s) selected have expressions that are not editable using the editor.",
+                      "type": "string"
+                    },
+                    "default": {
+                      "description": "Shown in the output palette when the output(s) selected have no value set, but have a default",
+                      "type": "string"
+                    },
+                    "inherited": {
+                      "description": "Shown in the output palette when a value is unset but is inherited",
+                      "type": "string"
+                    },
+                    "mixed": {
+                      "description": "Shown in the output palette when multiple outputs are selected but they have unequal values.",
+                      "type": "string"
+                    },
+                    "notContent": {
+                      "description": "Shown in the output palette when a list of content is isn't valid",
+                      "type": "string"
+                    },
+                    "notSequence": {
+                      "description": "Shown in the output palette when a sequence isn't valid",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "mixed",
+                    "computed",
+                    "default",
+                    "inherited",
+                    "notSequence",
+                    "notContent"
+                  ],
+                  "type": "object"
                 },
-                "pauseToEdit": {
-                  "$ref": "#/definitions/Template"
+                "prompt": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "editing": {
+                      "$ref": "#/definitions/Template",
+                      "description": "The text prompting the creator to edit the selected output"
+                    },
+                    "offerGroup": {
+                      "$ref": "#/definitions/Template",
+                      "description": "The text offering to create a group in the palette without a stage"
+                    },
+                    "offerPhrase": {
+                      "$ref": "#/definitions/Template",
+                      "description": "The text offering to create a phrase in the palette without a stage"
+                    },
+                    "offerStage": {
+                      "$ref": "#/definitions/Template",
+                      "description": "The text offering to create a stage in the palette without a stage"
+                    },
+                    "pauseToEdit": {
+                      "$ref": "#/definitions/Template",
+                      "description": "The text offering to pause the project to allow palette editing"
+                    }
+                  },
+                  "required": [
+                    "offerPhrase",
+                    "offerGroup",
+                    "offerStage",
+                    "pauseToEdit",
+                    "editing"
+                  ],
+                  "type": "object"
+                },
+                "sequence": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "button": {
+                      "additionalProperties": false,
+                      "properties": {
+                        "add": {
+                          "description": "Add pose",
+                          "type": "string"
+                        },
+                        "down": {
+                          "description": "Move pose down",
+                          "type": "string"
+                        },
+                        "remove": {
+                          "description": "Remove pose",
+                          "type": "string"
+                        },
+                        "up": {
+                          "description": "Move pose up",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "add",
+                        "remove",
+                        "up",
+                        "down"
+                      ],
+                      "type": "object"
+                    },
+                    "field": {
+                      "additionalProperties": false,
+                      "properties": {
+                        "percent": {
+                          "description": "Edit percent for pose",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "percent"
+                      ],
+                      "type": "object"
+                    }
+                  },
+                  "required": [
+                    "button",
+                    "field"
+                  ],
+                  "type": "object"
                 }
               },
               "required": [
-                "offerPhrase",
-                "offerGroup",
-                "offerStage",
-                "pauseToEdit",
-                "editing"
+                "label",
+                "labels",
+                "button",
+                "prompt",
+                "field",
+                "sequence"
               ],
               "type": "object"
             },
             "phrases": {
               "additionalProperties": false,
               "properties": {
-                "motto": {
-                  "description": "The motto for Wordplay on the landing page.",
-                  "type": "string"
-                },
                 "welcome": {
-                  "description": "Used to address someone or say hi, on the login screen.",
+                  "description": "Placeholder text used in code examples.",
                   "type": "string"
                 }
               },
               "required": [
-                "welcome",
-                "motto"
+                "welcome"
               ],
               "type": "object"
             },
-            "placeholders": {
+            "project": {
               "additionalProperties": false,
+              "description": "Project settings and controls",
               "properties": {
-                "code": {
+                "button": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "addSource": {
+                      "description": "Add a source file",
+                      "type": "string"
+                    },
+                    "copy": {
+                      "description": "Copy the project as text to the clipboard",
+                      "type": "string"
+                    },
+                    "duplicate": {
+                      "description": "Duplicate the project",
+                      "type": "string"
+                    },
+                    "focusCycle": {
+                      "description": "Keyboard shortcut to cycle between tiles",
+                      "type": "string"
+                    },
+                    "focusDocs": {
+                      "description": "Keyboard shortcut to focus documentation tile",
+                      "type": "string"
+                    },
+                    "focusOutput": {
+                      "description": "Keyboard shortcut to focus output tile",
+                      "type": "string"
+                    },
+                    "focusPalette": {
+                      "description": "Keyboard shortcut to focus palette tiles",
+                      "type": "string"
+                    },
+                    "focusSource": {
+                      "description": "Keyboard shortcut to focus source tiles",
+                      "type": "string"
+                    },
+                    "removeCollaborator": {
+                      "description": "Remove a collaborator that has been shared with",
+                      "type": "string"
+                    },
+                    "revert": {
+                      "description": "Revert project to original code",
+                      "type": "string"
+                    },
+                    "showCollaborators": {
+                      "description": "Shows the sharing dialog",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "showCollaborators",
+                    "removeCollaborator",
+                    "copy",
+                    "addSource",
+                    "duplicate",
+                    "revert",
+                    "focusOutput",
+                    "focusSource",
+                    "focusDocs",
+                    "focusPalette",
+                    "focusCycle"
+                  ],
+                  "type": "object"
+                },
+                "error": {
+                  "additionalProperties": false,
+                  "description": "The error shown when a project ID is unknown.",
+                  "properties": {
+                    "unknown": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "unknown"
+                  ],
+                  "type": "object"
+                },
+                "field": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "name": {
+                      "additionalProperties": false,
+                      "description": "The project name text field",
+                      "properties": {
+                        "description": {
+                          "type": "string"
+                        },
+                        "placeholder": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "description",
+                        "placeholder"
+                      ],
+                      "type": "object"
+                    }
+                  },
+                  "required": [
+                    "name"
+                  ],
+                  "type": "object"
+                },
+                "help": {
+                  "description": "The keyboard shortcut to show the shortcut menu",
                   "type": "string"
                 },
-                "email": {
-                  "type": "string"
-                },
-                "expression": {
-                  "type": "string"
-                },
-                "name": {
-                  "type": "string"
-                },
-                "percent": {
-                  "type": "string"
-                },
-                "project": {
-                  "type": "string"
-                },
-                "type": {
-                  "type": "string"
+                "toggle": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "public": {
+                      "$ref": "#/definitions/ToggleText",
+                      "description": "Whether the project is public or private"
+                    }
+                  },
+                  "required": [
+                    "public"
+                  ],
+                  "type": "object"
                 }
               },
               "required": [
-                "code",
-                "expression",
-                "type",
-                "percent",
-                "name",
-                "project",
-                "email"
+                "error",
+                "button",
+                "toggle",
+                "field",
+                "help"
               ],
               "type": "object"
             },
-            "prompt": {
+            "save": {
               "additionalProperties": false,
               "properties": {
-                "emptyProgram": {
-                  "$ref": "#/definitions/DocText"
+                "local": {
+                  "description": "Shown when saving on device was successful",
+                  "type": "string"
                 },
-                "keyStreamInput": {
-                  "description": "How to describe the text input field in the output when there's a key stream active",
+                "saved": {
+                  "description": "Shown when online saving was successful",
+                  "type": "string"
+                },
+                "saving": {
+                  "description": "Shown when saving has started",
+                  "type": "string"
+                },
+                "unsaved": {
+                  "description": "Shown when there was a problem saving",
                   "type": "string"
                 }
               },
               "required": [
-                "emptyProgram",
-                "keyStreamInput"
+                "saving",
+                "saved",
+                "local",
+                "unsaved"
               ],
               "type": "object"
             },
-            "section": {
+            "source": {
               "additionalProperties": false,
+              "description": "Source file controls",
               "properties": {
-                "conflicts": {
+                "button": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "expandSequence": {
+                      "description": "The button shown when a list of code is ellided; clicking it shows the hidden code.",
+                      "type": "string"
+                    },
+                    "selectOutput": {
+                      "description": "Output preview button for selecting output for display in output tile",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "selectOutput",
+                    "expandSequence"
+                  ],
+                  "type": "object"
+                },
+                "confirm": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "delete": {
+                      "additionalProperties": false,
+                      "description": "The confirm button that deletes a source file",
+                      "properties": {
+                        "description": {
+                          "type": "string"
+                        },
+                        "prompt": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "description",
+                        "prompt"
+                      ],
+                      "type": "object"
+                    }
+                  },
+                  "required": [
+                    "delete"
+                  ],
+                  "type": "object"
+                },
+                "cursor": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "backspace": {
+                      "description": "Delete previous symbol",
+                      "type": "string"
+                    },
+                    "copy": {
+                      "description": "Copy selection to clipboard as text",
+                      "type": "string"
+                    },
+                    "cut": {
+                      "description": "Cut selection to clipboard as text",
+                      "type": "string"
+                    },
+                    "decrementLiteral": {
+                      "description": "Decrement the literal at the cursor",
+                      "type": "string"
+                    },
+                    "enumerate": {
+                      "description": "Listify selection",
+                      "type": "string"
+                    },
+                    "incrementLiteral": {
+                      "description": "Increment the literal at the cursor",
+                      "type": "string"
+                    },
+                    "insertConvert": {
+                      "description": "Insert → symbol",
+                      "type": "string"
+                    },
+                    "insertDegree": {
+                      "description": "Insert ° symbol",
+                      "type": "string"
+                    },
+                    "insertFalse": {
+                      "description": "Insert false symbol",
+                      "type": "string"
+                    },
+                    "insertFunction": {
+                      "description": "Insert ƒ symbol",
+                      "type": "string"
+                    },
+                    "insertGreaterOrEqual": {
+                      "description": "Insert ≥ symbol",
+                      "type": "string"
+                    },
+                    "insertLessOrEqual": {
+                      "description": "Insert ≤ symbol",
+                      "type": "string"
+                    },
+                    "insertLine": {
+                      "description": "Insert new line",
+                      "type": "string"
+                    },
+                    "insertNone": {
+                      "description": "Insert none symbol",
+                      "type": "string"
+                    },
+                    "insertNotEqual": {
+                      "description": "Insert ≠ symbol",
+                      "type": "string"
+                    },
+                    "insertPrevious": {
+                      "description": "Insert ← symbol",
+                      "type": "string"
+                    },
+                    "insertProduct": {
+                      "description": "Insert · symbol",
+                      "type": "string"
+                    },
+                    "insertQuotient": {
+                      "description": "Insert ÷ symbol",
+                      "type": "string"
+                    },
+                    "insertStream": {
+                      "description": "Insert … symbol",
+                      "type": "string"
+                    },
+                    "insertSymbol": {
+                      "description": "Insert selected symbol",
+                      "type": "string"
+                    },
+                    "insertTable": {
+                      "description": "Insert table symbol",
+                      "type": "string"
+                    },
+                    "insertTrue": {
+                      "description": "Insert true symbol",
+                      "type": "string"
+                    },
+                    "insertType": {
+                      "description": "Insert • symbol",
+                      "type": "string"
+                    },
+                    "lineEnd": {
+                      "description": "Move cursor to line end",
+                      "type": "string"
+                    },
+                    "lineStart": {
+                      "description": "Move cursor to line start",
+                      "type": "string"
+                    },
+                    "nextInline": {
+                      "description": "Move cursor inline one position after",
+                      "type": "string"
+                    },
+                    "nextLine": {
+                      "description": "Move caret to the line after",
+                      "type": "string"
+                    },
+                    "nextNode": {
+                      "description": "Move cursor to node after",
+                      "type": "string"
+                    },
+                    "parent": {
+                      "description": "Select parent of node",
+                      "type": "string"
+                    },
+                    "parenthesize": {
+                      "description": "Parenthesize selection",
+                      "type": "string"
+                    },
+                    "paste": {
+                      "description": "Paste clipboard text as code",
+                      "type": "string"
+                    },
+                    "priorInline": {
+                      "description": "Move cursor inline one position before",
+                      "type": "string"
+                    },
+                    "priorLine": {
+                      "description": "Move caret to the line before",
+                      "type": "string"
+                    },
+                    "priorNode": {
+                      "description": "Move cursor to node prior",
+                      "type": "string"
+                    },
+                    "redo": {
+                      "description": "Redo undone edit",
+                      "type": "string"
+                    },
+                    "search": {
+                      "description": "Search for glyph",
+                      "type": "string"
+                    },
+                    "selectAll": {
+                      "description": "Select the whole program",
+                      "type": "string"
+                    },
+                    "type": {
+                      "description": "Insert a symbol",
+                      "type": "string"
+                    },
+                    "undo": {
+                      "description": "Undo last edit",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "priorLine",
+                    "nextLine",
+                    "priorInline",
+                    "nextInline",
+                    "lineStart",
+                    "lineEnd",
+                    "priorNode",
+                    "nextNode",
+                    "parent",
+                    "selectAll",
+                    "incrementLiteral",
+                    "decrementLiteral",
+                    "insertSymbol",
+                    "insertTrue",
+                    "insertFalse",
+                    "insertNone",
+                    "insertNotEqual",
+                    "insertProduct",
+                    "insertQuotient",
+                    "insertDegree",
+                    "insertFunction",
+                    "insertLessOrEqual",
+                    "insertGreaterOrEqual",
+                    "insertType",
+                    "insertStream",
+                    "insertPrevious",
+                    "insertConvert",
+                    "insertTable",
+                    "insertLine",
+                    "backspace",
+                    "copy",
+                    "cut",
+                    "paste",
+                    "parenthesize",
+                    "enumerate",
+                    "type",
+                    "undo",
+                    "redo",
+                    "search"
+                  ],
+                  "type": "object"
+                },
+                "empty": {
+                  "$ref": "#/definitions/DocText",
+                  "description": "The text to show when a source file is empty"
+                },
+                "field": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "name": {
+                      "$ref": "#/definitions/FieldText"
+                    }
+                  },
+                  "required": [
+                    "name"
+                  ],
+                  "type": "object"
+                },
+                "label": {
+                  "description": "The ARIA label for the source file section",
                   "type": "string"
                 },
-                "editor": {
+                "menu": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "back": {
+                      "description": "How to describe the autocomplete back button for leaving the submenu",
+                      "type": "string"
+                    },
+                    "label": {
+                      "description": "How to describe the autocomplete menu",
+                      "type": "string"
+                    },
+                    "show": {
+                      "description": "The menu show button and keyboard shortcut",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "label",
+                    "show",
+                    "back"
+                  ],
+                  "type": "object"
+                },
+                "overwritten": {
+                  "description": "When some other device had a more recent edit that overrode this device's version.",
                   "type": "string"
                 },
-                "output": {
-                  "type": "string"
-                },
-                "palette": {
-                  "type": "string"
-                },
-                "project": {
-                  "type": "string"
-                },
-                "timeline": {
-                  "type": "string"
-                },
-                "toolbar": {
-                  "type": "string"
+                "toggle": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "blocks": {
+                      "$ref": "#/definitions/ToggleText",
+                      "description": "The blocks/text toggle"
+                    },
+                    "glyphs": {
+                      "$ref": "#/definitions/ToggleText",
+                      "description": "The glyph chooser expand/collapse toggle"
+                    }
+                  },
+                  "required": [
+                    "blocks",
+                    "glyphs"
+                  ],
+                  "type": "object"
                 }
               },
               "required": [
-                "project",
-                "conflicts",
-                "timeline",
-                "toolbar",
-                "output",
-                "palette",
-                "editor"
+                "label",
+                "empty",
+                "overwritten",
+                "confirm",
+                "toggle",
+                "button",
+                "menu",
+                "field",
+                "cursor"
               ],
               "type": "object"
             },
-            "toggle": {
+            "template": {
               "additionalProperties": false,
               "properties": {
-                "blocks": {
-                  "$ref": "#/definitions/ToggleText"
+                "unparsable": {
+                  "description": "The placeholder string indicating that a template string could not be parsed",
+                  "type": "string"
                 },
-                "fit": {
-                  "$ref": "#/definitions/ToggleText"
-                },
-                "fullscreen": {
-                  "$ref": "#/definitions/ToggleText"
-                },
-                "grid": {
-                  "$ref": "#/definitions/ToggleText"
-                },
-                "public": {
-                  "$ref": "#/definitions/ToggleText"
-                },
-                "tile": {
-                  "$ref": "#/definitions/ToggleText"
+                "unwritten": {
+                  "description": "The placeholder indicating that a locale string is not yet written",
+                  "type": "string"
                 }
               },
               "required": [
-                "grid",
-                "fit",
-                "fullscreen",
-                "tile",
-                "blocks",
-                "public"
+                "unwritten",
+                "unparsable"
+              ],
+              "type": "object"
+            },
+            "tile": {
+              "additionalProperties": false,
+              "description": "Controls for the tiled windows in the project",
+              "properties": {
+                "button": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "collapse": {
+                      "description": "Collapse the tile window",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "collapse"
+                  ],
+                  "type": "object"
+                },
+                "toggle": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "fullscreen": {
+                      "$ref": "#/definitions/ToggleText",
+                      "description": "Enter and exit tile fullscreen mode"
+                    },
+                    "show": {
+                      "$ref": "#/definitions/ToggleText",
+                      "description": "Show or hide the tile"
+                    }
+                  },
+                  "required": [
+                    "fullscreen",
+                    "show"
+                  ],
+                  "type": "object"
+                }
+              },
+              "required": [
+                "button",
+                "toggle"
+              ],
+              "type": "object"
+            },
+            "timeline": {
+              "additionalProperties": false,
+              "description": "The timeline view below the output",
+              "properties": {
+                "button": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "backInput": {
+                      "description": "Step to the previous input",
+                      "type": "string"
+                    },
+                    "backNode": {
+                      "description": "Step to the previous evaluation of the node at the cursor",
+                      "type": "string"
+                    },
+                    "backStep": {
+                      "description": "One step back",
+                      "type": "string"
+                    },
+                    "forwardInput": {
+                      "description": "Step to the next input",
+                      "type": "string"
+                    },
+                    "forwardNode": {
+                      "description": "Step to the next evaluation of the node at the cursor",
+                      "type": "string"
+                    },
+                    "forwardStep": {
+                      "description": "Step forward one step",
+                      "type": "string"
+                    },
+                    "out": {
+                      "description": "Step out of the current function evaluation",
+                      "type": "string"
+                    },
+                    "pause": {
+                      "description": "Pause evaluation",
+                      "type": "string"
+                    },
+                    "play": {
+                      "description": "Evaluate in real time",
+                      "type": "string"
+                    },
+                    "present": {
+                      "description": "Step to the present",
+                      "type": "string"
+                    },
+                    "reset": {
+                      "description": "Reset the input history to restart the performance",
+                      "type": "string"
+                    },
+                    "start": {
+                      "description": "Step to the very beginning",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "play",
+                    "pause",
+                    "backStep",
+                    "backNode",
+                    "backInput",
+                    "out",
+                    "start",
+                    "forwardStep",
+                    "forwardNode",
+                    "forwardInput",
+                    "present",
+                    "reset"
+                  ],
+                  "type": "object"
+                },
+                "label": {
+                  "description": "The ARIA label for the timeline section",
+                  "type": "string"
+                },
+                "slider": {
+                  "description": "The description of the timeline slider",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "label",
+                "slider",
+                "button"
+              ],
+              "type": "object"
+            },
+            "widget": {
+              "additionalProperties": false,
+              "description": "Generic reusable widgets and their generic labels.",
+              "properties": {
+                "confirm": {
+                  "additionalProperties": false,
+                  "description": "A confirm button",
+                  "properties": {
+                    "cancel": {
+                      "description": "The 'x' cancel button after a confirm button has been pressed.",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "cancel"
+                  ],
+                  "type": "object"
+                },
+                "dialog": {
+                  "additionalProperties": false,
+                  "description": "A modal dialog",
+                  "properties": {
+                    "close": {
+                      "description": "The close button on modal dialogs",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "close"
+                  ],
+                  "type": "object"
+                },
+                "loading": {
+                  "additionalProperties": false,
+                  "description": "The page loading widget, before content is shown",
+                  "properties": {
+                    "message": {
+                      "description": "The message shown in the page loading feedback",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "message"
+                  ],
+                  "type": "object"
+                }
+              },
+              "required": [
+                "confirm",
+                "dialog",
+                "loading"
               ],
               "type": "object"
             }
@@ -7848,23 +8304,20 @@
           "required": [
             "font",
             "phrases",
-            "placeholders",
-            "description",
-            "toggle",
-            "mode",
-            "button",
-            "confirm",
-            "dialog",
-            "field",
-            "prompt",
-            "labels",
-            "header",
-            "section",
+            "widget",
+            "tile",
+            "project",
+            "source",
+            "conflicts",
+            "output",
+            "docs",
             "palette",
-            "feedback",
+            "timeline",
+            "dialog",
+            "save",
             "page",
             "edit",
-            "error"
+            "template"
           ],
           "type": "object"
         },

@@ -93,9 +93,9 @@
                     <div class="percent"
                         ><TextField
                             text={pair.key.toWordplay()}
-                            description={$locale.ui.description
-                                .editSequencePercent}
-                            placeholder={$locale.ui.placeholders.percent}
+                            description={$locale.ui.palette.sequence.field
+                                .percent}
+                            placeholder="%"
                             validator={(value) => {
                                 const number = parseInt(value.replace('%', ''));
                                 if (isNaN(number)) return false;
@@ -125,24 +125,24 @@
                             {editable}
                         />
                         <Button
-                            tip={$locale.ui.description.addPose}
+                            tip={$locale.ui.palette.sequence.button.add}
                             active={editable}
                             action={() => addPose(index)}>+</Button
                         >
                         <Button
-                            tip={$locale.ui.description.removePose}
+                            tip={$locale.ui.palette.sequence.button.remove}
                             action={() => removePose(index)}
                             active={editable &&
                                 map !== undefined &&
                                 map.values.length > 1}>⨉</Button
                         >
                         <Button
-                            tip={$locale.ui.description.movePoseUp}
+                            tip={$locale.ui.palette.sequence.button.up}
                             action={() => movePose(index, -1)}
                             active={editable && index > 0}>↑</Button
                         >
                         <Button
-                            tip={$locale.ui.description.movePoseDown}
+                            tip={$locale.ui.palette.sequence.button.down}
                             action={() => movePose(index, 1)}
                             active={editable && index < map.values.length - 1}
                             >↓</Button
@@ -162,7 +162,7 @@
             {/if}
         {/each}
     {:else}
-        <Note>{$locale.ui.labels.notSequence}</Note>
+        <Note>{$locale.ui.palette.labels.notSequence}</Note>
     {/if}
 </div>
 

@@ -188,7 +188,7 @@
 </script>
 
 <!-- Render annotations by node -->
-<section aria-label={$locale.ui.section.conflicts}>
+<section aria-label={$locale.ui.conflicts.label}>
     {#each Array.from(annotationsByNode.values()) as annotations, index}
         <Annotation id={index} {annotations} />
     {/each}

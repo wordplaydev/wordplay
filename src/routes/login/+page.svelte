@@ -163,8 +163,10 @@
             <form class="form" on:submit={update}>
                 <p
                     ><TextField
-                        description={$locale.ui.description.loginEmail}
-                        placeholder={$locale.ui.placeholders.email}
+                        description={$locale.ui.page.login.field.email
+                            .description}
+                        placeholder={$locale.ui.page.login.field.email
+                            .placeholder}
                         bind:text={email}
                         editable={!changeSubmitted}
                     /><Button
@@ -194,8 +196,8 @@
             </p>
             <form class="form" on:submit={login}>
                 <TextField
-                    description={$locale.ui.description.loginEmail}
-                    placeholder={$locale.ui.placeholders.email}
+                    description={$locale.ui.page.login.field.email.description}
+                    placeholder={$locale.ui.page.login.field.email.placeholder}
                     bind:text={email}
                 /><Button
                     tip={$locale.ui.page.login.button.login.tip}
@@ -215,7 +217,7 @@
             </p>
         {/if}
     {:else}
-        <Feedback>{$locale.ui.error.noDatabase}</Feedback>
+        <Feedback>{$locale.ui.page.login.error.offline}</Feedback>
     {/if}
 </Writing>
 

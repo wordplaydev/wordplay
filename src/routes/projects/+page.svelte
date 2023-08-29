@@ -26,7 +26,7 @@
     <Header>{$locale.ui.page.projects.header}</Header>
     <MarkupHtmlView markup={$locale.ui.page.projects.prompt} />
     <p class="add">
-        <Button tip={$locale.ui.description.newProject} action={newProject}
+        <Button tip={$locale.ui.page.projects.button.create} action={newProject}
             ><span style:font-size="xxx-large">+</span>
         </Button></p
     >

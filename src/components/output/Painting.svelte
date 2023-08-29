@@ -8,8 +8,8 @@
 <Switch
     on={painting}
     toggle={(on) => (painting = on)}
-    offTip={$locale.ui.description.place}
-    onTip={$locale.ui.description.paint}
+    offTip={$locale.ui.output.toggle.paint.off}
+    onTip={$locale.ui.output.toggle.paint.on}
     offLabel="✥"
     onLabel="🖌️"
 />

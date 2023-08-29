@@ -40,7 +40,7 @@
 
 <TextField
     text={values.getText()}
-    description={$locale.ui.description.editTextOutput}
+    description={$locale.ui.palette.field.text}
     placeholder={values.isEmpty()
         ? ''
         : values.values[0].bind.names.getPreferredNameString($locales)}

@@ -1219,12 +1219,11 @@
                                     <!-- Can't delete main. -->
                                     {#if editable && source !== project.main}
                                         <ConfirmButton
-                                            tip={$locale.ui.confirm.deleteSource
-                                                .description}
+                                            tip={$locale.ui.source.confirm
+                                                .delete.description}
                                             action={() => removeSource(source)}
-                                            prompt={$locale.ui.confirm
-                                                .deleteSource.prompt}
-                                            >⨉</ConfirmButton
+                                            prompt={$locale.ui.source.confirm
+                                                .delete.prompt}>⨉</ConfirmButton
                                         >
                                     {/if}
                                 {/if}
@@ -1233,26 +1232,26 @@
                                 {#if tile.kind === TileKind.Output}
                                     {#if playing && editable}<Button
                                             uiid="editProject"
-                                            tip={$locale.ui.description
-                                                .editProject}
+                                            tip={$locale.ui.page.projects.button
+                                                .edit}
                                             action={() => stopPlaying()}
                                             >{EDIT_SYMBOL}</Button
                                         >{/if}
                                     {#if !$evaluation.evaluator.isPlaying()}<Painting
                                             bind:painting
                                         />{/if}<Toggle
-                                        tips={$locale.ui.toggle.grid}
+                                        tips={$locale.ui.output.toggle.grid}
                                         on={grid}
                                         toggle={() => (grid = !grid)}>▦</Toggle
                                     ><Toggle
-                                        tips={$locale.ui.toggle.fit}
+                                        tips={$locale.ui.output.toggle.fit}
                                         on={fit}
                                         toggle={() => (fit = !fit)}
                                         >{#if fit}🔒{:else}🔓{/if}</Toggle
                                     >
                                 {:else if tile.isSource()}
                                     <Toggle
-                                        tips={$locale.ui.toggle.blocks}
+                                        tips={$locale.ui.source.toggle.blocks}
                                         on={$blocks}
                                         toggle={toggleBlocks}>▭</Toggle
                                     >
@@ -1337,17 +1336,17 @@
         <nav class="footer">
             {#if original}<Button
                     uiid="revertProject"
-                    tip={$locale.ui.description.revertProject}
+                    tip={$locale.ui.project.button.revert}
                     active={!project.equals(original)}
                     action={() => revert()}>↺</Button
                 >{/if}
             {#if !editable}
-                <Button tip={$locale.ui.description.copyProject} action={copy}
+                <Button tip={$locale.ui.project.button.duplicate} action={copy}
                     ><span class="copy">✐+</span></Button
                 >
             {:else}
                 <Toggle
-                    tips={$locale.ui.toggle.public}
+                    tips={$locale.ui.project.toggle.public}
                     toggle={() =>
                         Projects.reviseProject(
                             project.asPublic(!project.public)
@@ -1356,19 +1355,19 @@
                     >{#if project.public}🌐{:else}🤫{/if}</Toggle
                 >
                 <Button
-                    tip={$locale.ui.button.showCollaborators}
+                    tip={$locale.ui.project.button.showCollaborators}
                     action={() => (collaborators = true)}>🤝</Button
                 >
                 <Button
-                    tip={$locale.ui.button.copyProject}
+                    tip={$locale.ui.project.button.copy}
                     action={() => toClipboard(project.toWordplay())}>📚</Button
                 >
             {/if}
 
             {#if editable}<TextField
                     text={project.name}
-                    description={$locale.ui.description.editProjectName}
-                    placeholder={$locale.ui.placeholders.project}
+                    description={$locale.ui.project.field.name.description}
+                    placeholder={$locale.ui.project.field.name.placeholder}
                     changed={(name) =>
                         Projects.reviseProject(project.withName(name))}
                 />{:else}{project.name}{/if}
@@ -1392,11 +1391,11 @@
             {#if editable}
                 <Button
                     uiid="addSource"
-                    tip={$locale.ui.description.addSource}
+                    tip={$locale.ui.project.button.addSource}
                     action={addSource}>+</Button
                 >{/if}
             {#if overwritten}
-                <span class="overwritten">{$locale.ui.error.overwritten}</span>
+                <span class="overwritten">{$locale.ui.source.overwritten}</span>
             {/if}
             <span class="help">
                 <ProjectLanguages {project} />

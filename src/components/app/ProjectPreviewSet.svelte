@@ -29,12 +29,13 @@
             delay={Math.random() * set.length * 50}
             >{#if editable}<div class="controls">
                     <Button
-                        tip={$locale.ui.description.editProject}
+                        tip={$locale.ui.page.projects.button.edit}
                         action={() => gotoProject(project, false)}
                         >{EDIT_SYMBOL}</Button
                     ><ConfirmButton
-                        prompt={$locale.ui.confirm.archiveProject.prompt}
-                        tip={$locale.ui.confirm.archiveProject.description}
+                        prompt={$locale.ui.page.projects.confirm.archive.prompt}
+                        tip={$locale.ui.page.projects.confirm.archive
+                            .description}
                         action={() => Projects.archiveProject(project.id)}
                         >🗑️</ConfirmButton
                     ></div

@@ -37,7 +37,7 @@
 </script>
 
 <Toggle
-    tips={$locale.ui.toggle.tile}
+    tips={$locale.ui.tile.toggle.show}
     on={expanded}
     toggle={() => dispatch('toggle')}
 >

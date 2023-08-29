@@ -11,7 +11,7 @@
 
 <Toggle
     uiid="{tile.id}Expand"
-    tips={$locale.ui.toggle.tile}
+    tips={$locale.ui.tile.toggle.show}
     on={tile.isExpanded()}
     toggle={() => dispatch('toggle')}>{tile.name}</Toggle
 >

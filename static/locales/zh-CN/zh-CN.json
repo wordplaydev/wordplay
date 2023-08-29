@@ -37,7 +37,6 @@
         "list": "清单",
         "stream": "溪流",
         "structure": "结构",
-        "streamdefinition": "$?",
         "index": "索引",
         "query": "询问",
         "row": "排",
@@ -1047,22 +1046,22 @@
                 },
                 "positive": {
                     "doc": "$?",
-                    "names": ["$?positive"],
+                    "names": ["$? positive"],
                     "inputs": []
                 },
                 "round": {
                     "doc": "$?",
-                    "names": ["$?round"],
+                    "names": ["$? round"],
                     "inputs": []
                 },
                 "roundDown": {
                     "doc": "$?",
-                    "names": ["$?down"],
+                    "names": ["$? down"],
                     "inputs": []
                 },
                 "roundUp": {
                     "doc": "$?",
-                    "names": ["$?up"],
+                    "names": ["$? up"],
                     "inputs": []
                 },
                 "power": {
@@ -1248,8 +1247,8 @@
                     "names": "$?",
                     "inputs": [{ "doc": "$?", "names": "$?" }],
                     "translator": [
-                        { "doc": "$?", "names": "$?item" },
-                        { "doc": "$?", "names": "$?index" },
+                        { "doc": "$?", "names": "$? item" },
+                        { "doc": "$?", "names": "$? index" },
                         {
                             "doc": "$?",
                             "names": "$?"
@@ -1261,8 +1260,8 @@
                     "names": "$?",
                     "inputs": [{ "doc": "$?", "names": "$?" }],
                     "checker": [
-                        { "doc": "$?", "names": "$?item" },
-                        { "doc": "$?", "names": "$?index" },
+                        { "doc": "$?", "names": "$? item" },
+                        { "doc": "$?", "names": "$? index" },
                         {
                             "doc": "$?",
                             "names": "$?"
@@ -1274,8 +1273,8 @@
                     "names": "$?",
                     "inputs": [{ "doc": "$?", "names": "$?" }],
                     "checker": [
-                        { "doc": "$?", "names": "$?item" },
-                        { "doc": "$?", "names": "$?index" },
+                        { "doc": "$?", "names": "$? item" },
+                        { "doc": "$?", "names": "$? index" },
                         {
                             "doc": "$?",
                             "names": "$?"
@@ -1287,8 +1286,8 @@
                     "names": "$?",
                     "inputs": [{ "doc": "$?", "names": "$?" }],
                     "checker": [
-                        { "doc": "$?", "names": "$?item" },
-                        { "doc": "$?", "names": "$?index" },
+                        { "doc": "$?", "names": "$? item" },
+                        { "doc": "$?", "names": "$? index" },
                         {
                             "doc": "$?",
                             "names": "$?"
@@ -1300,8 +1299,8 @@
                     "names": "$?",
                     "inputs": [{ "doc": "$?", "names": "$?" }],
                     "checker": [
-                        { "doc": "$?", "names": "$?value" },
-                        { "doc": "$?", "names": "$?index" },
+                        { "doc": "$?", "names": "$? value" },
+                        { "doc": "$?", "names": "$? index" },
                         {
                             "doc": "$?",
                             "names": "$?"
@@ -1328,8 +1327,8 @@
                 "sorted": {
                     "doc": "$?",
                     "names": "$?",
-                    "inputs": [{ "doc": "$", "names": "$?sequencer" }],
-                    "sequencer": [{ "doc": "$?", "names": "$?value" }]
+                    "inputs": [{ "doc": "$", "names": "$? sequencer" }],
+                    "sequencer": [{ "doc": "$?", "names": "$? value" }]
                 }
             },
             "conversion": { "text": "$?", "set": "$?" }
@@ -1342,7 +1341,7 @@
             "function": {
                 "size": {
                     "doc": "$?",
-                    "names": "$?size",
+                    "names": "$? size",
                     "inputs": []
                 },
                 "equals": {
@@ -1383,24 +1382,24 @@
                 "filter": {
                     "doc": "$?",
                     "names": "filter",
-                    "inputs": [{ "doc": "$?", "names": "$?checker" }],
+                    "inputs": [{ "doc": "$?", "names": "$? checker" }],
                     "checker": [
-                        { "doc": "$?", "names": "$?value" },
+                        { "doc": "$?", "names": "$? value" },
                         {
                             "doc": "$?",
-                            "names": "$?set"
+                            "names": "$? set"
                         }
                     ]
                 },
                 "translate": {
                     "doc": "$?",
                     "names": "translate",
-                    "inputs": [{ "doc": "$?", "names": "$?translator" }],
+                    "inputs": [{ "doc": "$?", "names": "$? translator" }],
                     "translator": [
-                        { "doc": "$?", "names": "$?value" },
+                        { "doc": "$?", "names": "$? value" },
                         {
                             "doc": "$?",
-                            "names": "$?set"
+                            "names": "$? set"
                         }
                     ]
                 }
@@ -1416,7 +1415,7 @@
             "function": {
                 "size": {
                     "doc": "$?",
-                    "names": "$?size",
+                    "names": "$? size",
                     "inputs": []
                 },
                 "equals": {
@@ -1450,20 +1449,20 @@
                 "filter": {
                     "doc": "$?",
                     "names": "filter",
-                    "inputs": [{ "doc": "$?", "names": "$?checker" }],
+                    "inputs": [{ "doc": "$?", "names": "$? checker" }],
                     "checker": [
-                        { "doc": "$?", "names": "$?key" },
-                        { "doc": "$?", "names": "$?value" },
+                        { "doc": "$?", "names": "$? key" },
+                        { "doc": "$?", "names": "$? value" },
                         { "doc": "$?", "names": "$?" }
                     ]
                 },
                 "translate": {
                     "doc": "$?",
                     "names": "translate",
-                    "inputs": [{ "doc": "$?", "names": "$?translator" }],
+                    "inputs": [{ "doc": "$?", "names": "$? translator" }],
                     "translator": [
-                        { "doc": "$?", "names": "$?key" },
-                        { "doc": "$?", "names": "$?value" },
+                        { "doc": "$?", "names": "$? key" },
+                        { "doc": "$?", "names": "$? value" },
                         { "doc": "$?", "names": "$?" }
                     ]
                 }
@@ -1612,7 +1611,14 @@
     "output": {
         "Type": {
             "names": "$?",
+            "doc": "$?"
+        },
+        "Stage": {
+            "names": "$?",
             "doc": "$?",
+            "description": "$?",
+            "content": { "doc": "$?", "names": "$?" },
+            "frame": { "doc": "$?", "names": "$?" },
             "size": { "doc": "$?", "names": "$?" },
             "face": { "doc": "$?", "names": "$?" },
             "place": { "doc": "$?", "names": "$?" },
@@ -1651,28 +1657,101 @@
             "resting": { "doc": "$?", "names": "$?" },
             "moving": { "doc": "$?", "names": "$?" },
             "exiting": { "doc": "$?", "names": "$?" },
-            "duration": { "doc": "$?", "names": ["duración"] },
+            "duration": { "doc": "$?", "names": ["$?"] },
             "style": { "doc": "$?", "names": "$?" }
-        },
-        "Stage": {
-            "names": "$?",
-            "doc": "$?",
-            "description": "$?",
-            "content": { "doc": "$?", "names": "$?" },
-            "frame": { "doc": "$?", "names": "$?" }
         },
         "Group": {
             "names": "$?",
             "doc": "$?",
+            "description": "$?",
             "content": { "doc": "$?", "names": "$?" },
             "layout": { "doc": "$?", "names": "$?" },
-            "description": "$?"
+            "size": { "doc": "$?", "names": "$?" },
+            "face": { "doc": "$?", "names": "$?" },
+            "place": { "doc": "$?", "names": "$?" },
+            "name": { "doc": "$?", "names": "$?" },
+            "selectable": { "doc": "$?", "names": "$?" },
+            "color": {
+                "doc": "$?",
+                "names": "$? color"
+            },
+            "background": { "doc": "$?", "names": "$? background" },
+            "opacity": {
+                "doc": "$?",
+                "names": "$? opacity"
+            },
+            "offset": {
+                "doc": "$?",
+                "names": "$? offset"
+            },
+            "rotation": {
+                "doc": "$?",
+                "names": "$? rotation"
+            },
+            "scale": {
+                "doc": "$?",
+                "names": "$? scale"
+            },
+            "flipx": {
+                "doc": "$?",
+                "names": "$? flipx"
+            },
+            "flipy": {
+                "doc": "$?",
+                "names": "$? flipy"
+            },
+            "entering": { "doc": "$?", "names": "$?" },
+            "resting": { "doc": "$?", "names": "$?" },
+            "moving": { "doc": "$?", "names": "$?" },
+            "exiting": { "doc": "$?", "names": "$?" },
+            "duration": { "doc": "$?", "names": ["$?"] },
+            "style": { "doc": "$?", "names": "$?" }
         },
         "Phrase": {
             "names": ["💬", "Frase"],
             "doc": "$?",
             "text": { "doc": "$?", "names": "$?" },
-            "description": "$?"
+            "description": "$?",
+            "size": { "doc": "$?", "names": "$?" },
+            "face": { "doc": "$?", "names": "$?" },
+            "place": { "doc": "$?", "names": "$?" },
+            "name": { "doc": "$?", "names": "$?" },
+            "selectable": { "doc": "$?", "names": "$?" },
+            "color": {
+                "doc": "$?",
+                "names": "$? color"
+            },
+            "background": { "doc": "$?", "names": "$? background" },
+            "opacity": {
+                "doc": "$?",
+                "names": "$? opacity"
+            },
+            "offset": {
+                "doc": "$?",
+                "names": "$? offset"
+            },
+            "rotation": {
+                "doc": "$?",
+                "names": "$? rotation"
+            },
+            "scale": {
+                "doc": "$?",
+                "names": "$? scale"
+            },
+            "flipx": {
+                "doc": "$?",
+                "names": "$? flipx"
+            },
+            "flipy": {
+                "doc": "$?",
+                "names": "$? flipy"
+            },
+            "entering": { "doc": "$?", "names": "$?" },
+            "resting": { "doc": "$?", "names": "$?" },
+            "moving": { "doc": "$?", "names": "$?" },
+            "exiting": { "doc": "$?", "names": "$?" },
+            "duration": { "doc": "$?", "names": ["$?"] },
+            "style": { "doc": "$?", "names": "$?" }
         },
         "Arrangement": { "names": ["Arrangement"], "doc": "$?" },
         "Row": {
@@ -1782,272 +1861,347 @@
             "code": "Noto Mono"
         },
         "phrases": {
-            "welcome": "$?",
-            "motto": "$?"
+            "welcome": "$?"
         },
-        "placeholders": {
-            "code": "$?",
-            "expression": "$?",
-            "type": "$?",
-            "percent": "$?",
-            "name": "$?",
-            "project": "$?",
-            "email": "$?"
-        },
-        "description": {
-            "yes": "$?",
-            "no": "$?",
-            "play": "$?",
-            "pause": "$?",
-            "backStep": "$?",
-            "backNode": "$?",
-            "backInput": "$?",
-            "out": "$?",
-            "forwardStep": "$?",
-            "forwardNode": "$?",
-            "forwardInput": "$?",
-            "present": "$?",
-            "start": "$?",
-            "reset": "$?",
-            "home": "$?",
-            "docBack": "$?",
-            "revert": "$?",
-            "set": "$?",
-            "collapse": "$?",
-            "expand": "$?",
-            "close": "$?",
-            "changeLanguage": "$?",
-            "addLanguage": "$?",
-            "removeLanguage": "$?",
-            "horizontal": "$?",
-            "vertical": "$?",
-            "freeform": "$?",
-            "addPose": "$?",
-            "removePose": "$?",
-            "movePoseUp": "$?",
-            "movePoseDown": "$?",
-            "addPhrase": "$?",
-            "addGroup": "$?",
-            "removeContent": "$?",
-            "moveContentUp": "$?",
-            "moveContentDown": "$?",
-            "editContent": "$?",
-            "sequence": "$?",
-            "animate": "$?",
-            "addSource": "$?",
-            "copyProject": "$?",
-            "editProject": "$?",
-            "settings": "$?",
-            "newProject": "$?",
-            "dark": "$?",
-            "chooserExpand": "$?",
-            "place": "$?",
-            "paint": "$?",
-            "nextLesson": "$?",
-            "previousLesson": "$?",
-            "nextLessonStep": "$?",
-            "previousLessonStep": "$?",
-            "revertProject": "$?",
-            "showOutput": "$?",
-            "expandCode": "$?",
-            "addInput": "$?",
-            "menu": "$?",
-            "menuBack": "$?",
-            "cursorLineBefore": "$?",
-            "cursorLineAfter": "$?",
-            "cursorInlineBefore": "$?",
-            "cursorInlineAfter": "$?",
-            "cursorLineStart": "$?",
-            "cursorLineEnd": "$?",
-            "cursorNeighborBefore": "$?",
-            "cursorNeighborAfter": "$?",
-            "cursorContainer": "$?",
-            "selectAll": "$?",
-            "incrementLiteral": "$?",
-            "decrementLiteral": "$?",
-            "insertSymbol": "$?",
-            "insertTrueSymbol": "$?",
-            "insertFalseSymbol": "$?",
-            "insertNoneSymbol": "$?",
-            "insertDegreeSymbol": "$?",
-            "insertNotEqualSymbol": "$?",
-            "insertProductSymbol": "$?",
-            "insertQuotientSymbol": "$?",
-            "insertFunctionSymbol": "$?",
-            "insertLessThanOrEqualSymbol": "$?",
-            "insertGreaterThanOrEqualSymbol": "$?",
-            "insertStreamSymbol": "$?",
-            "insertConvertSymbol": "$?",
-            "insertPreviousSymbol": "$?",
-            "insertTableSymbol": "$?",
-            "insertLineBreak": "$?",
-            "backspace": "$?",
-            "cut": "$?",
-            "copy": "$?",
-            "paste": "$?",
-            "parenthesize": "$?",
-            "enumerate": "$?",
-            "type": "$?",
-            "undo": "$?",
-            "redo": "$?",
-            "help": "$?",
-            "documentationSearch": "$?",
-            "characterSearch": "$?",
-            "editTextOutput": "$?",
-            "editCoordinate": "$?",
-            "editSequencePercent": "$?",
-            "editProjectName": "$?",
-            "editSourceName": "$?",
-            "loginEmail": "$?",
-            "focusOutput": "$?",
-            "focusSource": "$?",
-            "focusDocs": "$?",
-            "focusPalette": "$?",
-            "focusCycle": "$?",
-            "conceptLink": "$?",
-            "timeline": "$?",
-            "createPhrase": "$?",
-            "createGroup": "$?",
-            "createStage": "$?"
-        },
-        "toggle": {
-            "grid": {
-                "on": "$?",
-                "off": "$?"
+        "widget": {
+            "confirm": { "cancel": "$?" },
+            "dialog": {
+                "close": "$?"
             },
-            "fit": {
-                "on": "$?",
-                "off": "$?"
-            },
-            "fullscreen": {
-                "on": "$?",
-                "off": "$?"
-            },
-            "tile": {
-                "on": "$?",
-                "off": "$?"
-            },
-            "blocks": {
-                "on": "$?",
-                "off": "$?"
+            "loading": {
+                "message": "$?"
             }
         },
-        "mode": {
-            "layout": { "label": "$?", "modes": ["$?", "$?", "$?", "$?"] },
-            "animate": {
-                "label": "$?",
-                "modes": ["$?", "$?", "$?", "$?", "$?"]
+        "tile": {
+            "toggle": {
+                "fullscreen": {
+                    "on": "$?",
+                    "off": "$?"
+                },
+                "show": {
+                    "on": "$?",
+                    "off": "$?"
+                }
             },
-            "dark": {
-                "label": "$?",
-                "modes": ["$?", "$?", "$?"]
-            },
-            "writing": {
-                "label": "$?",
-                "modes": ["$?", "$?", "$?"]
+            "button": {
+                "collapse": "$?"
             }
         },
-        "button": {
-            "togglePublic": "$?",
-            "showCollaborators": "$?",
-            "removeCollaborator": "$?"
-        },
-        "confirm": {
-            "archiveProject": {
-                "description": "$?",
-                "prompt": "$?"
+        "project": {
+            "error": {
+                "unknown": "$?"
             },
-            "deleteSource": {
-                "description": "$?",
-                "prompt": "$?"
+            "button": {
+                "showCollaborators": "$?",
+                "removeCollaborator": "$?",
+                "copy": "$?",
+                "addSource": "$?",
+                "duplicate": "$?",
+                "revert": "$?",
+                "focusOutput": "$?",
+                "focusSource": "$?",
+                "focusDocs": "$?",
+                "focusPalette": "$?",
+                "focusCycle": "$?"
+            },
+            "toggle": {
+                "public": {
+                    "on": "$?",
+                    "off": "$?"
+                }
+            },
+            "field": {
+                "name": {
+                    "description": "$?",
+                    "placeholder": "$?"
+                }
+            },
+            "help": "$?"
+        },
+        "source": {
+            "label": "$?",
+            "empty": "$?",
+            "overwritten": "$?",
+            "confirm": {
+                "delete": {
+                    "description": "$?",
+                    "prompt": "$?"
+                }
+            },
+            "toggle": {
+                "blocks": {
+                    "on": "$?",
+                    "off": "$?"
+                },
+                "glyphs": {
+                    "on": "$?",
+                    "off": "$?"
+                }
+            },
+            "button": {
+                "selectOutput": "$?",
+                "expandSequence": "$?"
+            },
+            "field": {
+                "name": {
+                    "description": "$?",
+                    "placeholder": "$?"
+                }
+            },
+            "menu": {
+                "label": "$?",
+                "show": "$?",
+                "back": "$?"
+            },
+            "cursor": {
+                "priorLine": "$?",
+                "nextLine": "$?",
+                "priorInline": "$?",
+                "nextInline": "$?",
+                "lineStart": "$?",
+                "lineEnd": "$?",
+                "priorNode": "$?",
+                "nextNode": "$?",
+                "parent": "$?",
+                "selectAll": "$?",
+                "incrementLiteral": "$?",
+                "decrementLiteral": "$?",
+                "insertSymbol": "$?",
+                "insertTrue": "$?",
+                "insertFalse": "$?",
+                "insertNone": "$?",
+                "insertNotEqual": "$?",
+                "insertProduct": "$?",
+                "insertQuotient": "$?",
+                "insertDegree": "$?",
+                "insertFunction": "$?",
+                "insertLessOrEqual": "$?",
+                "insertGreaterOrEqual": "$?",
+                "insertStream": "$?",
+                "insertConvert": "$?",
+                "insertPrevious": "$?",
+                "insertType": "$?",
+                "insertTable": "$?",
+                "insertLine": "$?",
+                "backspace": "$?",
+                "cut": "$?",
+                "copy": "$?",
+                "paste": "$?",
+                "parenthesize": "$?",
+                "enumerate": "$?",
+                "type": "$?",
+                "undo": "$?",
+                "redo": "$?",
+                "search": "$?"
+            }
+        },
+        "conflicts": {
+            "label": "$?"
+        },
+        "output": {
+            "label": "$?",
+            "toggle": {
+                "grid": {
+                    "on": "$?",
+                    "off": "$?"
+                },
+                "fit": {
+                    "on": "$?",
+                    "off": "$?"
+                },
+                "paint": {
+                    "on": "$?",
+                    "off": "$?"
+                }
+            },
+            "field": {
+                "key": "$?"
+            }
+        },
+        "timeline": {
+            "label": "$?",
+            "slider": "$?",
+            "button": {
+                "play": "$?",
+                "pause": "$?",
+                "backStep": "$?",
+                "backNode": "$?",
+                "backInput": "$?",
+                "out": "$?",
+                "forwardStep": "$?",
+                "forwardNode": "$?",
+                "forwardInput": "$?",
+                "present": "$?",
+                "start": "$?",
+                "reset": "$?"
+            }
+        },
+        "docs": {
+            "label": "$?",
+            "link": "$?",
+            "learn": "$?",
+            "nodoc": "$?",
+            "button": {
+                "home": "$?",
+                "back": "$?"
+            },
+            "field": {
+                "search": "$?"
+            },
+            "header": {
+                "inputs": "$?",
+                "interfaces": "$?",
+                "properties": "$?",
+                "functions": "$?",
+                "conversions": "$?"
             }
         },
         "dialog": {
-            "collaborators": {
+            "share": {
                 "header": "$?",
-                "explanation": "$?"
+                "explanation": "$?",
+                "field": {
+                    "email": {
+                        "placeholder": "$?",
+                        "description": "$?"
+                    }
+                },
+                "error": {
+                    "unknown": "$?"
+                }
             },
             "settings": {
                 "header": "$?",
-                "explanation": "$?"
+                "explanation": "$?",
+                "button": {
+                    "show": "$?"
+                },
+                "mode": {
+                    "layout": {
+                        "label": "$?",
+                        "modes": ["$?", "$?", "$?", "$?"]
+                    },
+                    "animate": {
+                        "label": "$?",
+                        "modes": ["$?", "$?", "$?", "$?", "$?"]
+                    },
+                    "dark": {
+                        "label": "$?",
+                        "modes": ["$?", "$?", "$?"]
+                    },
+                    "writing": {
+                        "label": "$?",
+                        "modes": ["$?", "$?", "$?"]
+                    }
+                }
             },
             "locale": {
                 "header": "$?",
                 "explanation": "$?",
-                "selected": "$?",
-                "supported": "$?"
+                "subheader": {
+                    "selected": "$?",
+                    "supported": "$?",
+                    "help": "$?"
+                },
+                "button": {
+                    "show": "$?",
+                    "add": "$?",
+                    "remove": "$?"
+                }
             },
             "help": {
                 "header": "$?",
-                "explanation": "$?"
+                "explanation": "$?",
+                "subheader": {
+                    "moveCursor": "$?",
+                    "editCode": "$?",
+                    "insertCode": "$?",
+                    "debug": "$?"
+                }
             }
-        },
-        "field": {
-            "collaborator": {
-                "placeholder": "$?",
-                "description": "$?"
-            }
-        },
-        "prompt": {
-            "emptyProgram": "$?",
-            "keyStreamInput": "$?"
-        },
-        "labels": {
-            "learn": "$?",
-            "nodoc": "$?",
-            "mixed": "$?",
-            "computed": "$?",
-            "default": "$?",
-            "inherited": "$?",
-            "notSequence": "$?",
-            "notContent": "$?",
-            "anonymous": "$?"
-        },
-        "header": {
-            "inputs": "$?",
-            "interfaces": "$?",
-            "properties": "$?",
-            "functions": "$?",
-            "conversions": "$?",
-            "helpLocalize": "$?",
-            "moveCursor": "$?",
-            "editCode": "$?",
-            "insertCode": "$?",
-            "debug": "$?"
-        },
-        "section": {
-            "project": "$?",
-            "conflicts": "$?",
-            "timeline": "$?",
-            "toolbar": "$?",
-            "output": "$?",
-            "palette": "$?",
-            "editor": "$?"
         },
         "palette": {
-            "offerPhrase": "$?",
-            "offerGroup": "$?",
-            "offerStage": "$?",
-            "pauseToEdit": "$?",
-            "editing": "$?"
-        },
-        "feedback": {
-            "unknownProject": "$?",
-            "loading": "$?",
-            "save": {
-                "saving": "$?",
-                "saved": "$?",
-                "local": "$?",
-                "unsaved": "$?"
+            "label": "$?",
+            "labels": {
+                "mixed": "$?",
+                "computed": "$?",
+                "default": "$?",
+                "inherited": "$?",
+                "notSequence": "$?",
+                "notContent": "$?"
+            },
+            "button": {
+                "revert": "$?",
+                "set": "$?",
+                "addPhrase": "$?",
+                "addGroup": "$?",
+                "remove": "$?",
+                "up": "$?",
+                "down": "$?",
+                "edit": "$?",
+                "sequence": "$?",
+                "createPhrase": "$?",
+                "createGroup": "$?",
+                "createStage": "$?"
+            },
+            "prompt": {
+                "offerPhrase": "$?",
+                "offerGroup": "$?",
+                "offerStage": "$?",
+                "pauseToEdit": "$?",
+                "editing": "$?"
+            },
+            "field": {
+                "coordinate": "$?",
+                "text": "$?"
+            },
+            "sequence": {
+                "button": {
+                    "add": "$?",
+                    "remove": "$?",
+                    "up": "$?",
+                    "down": "$?"
+                },
+                "field": {
+                    "percent": "$?"
+                }
             }
         },
+        "save": {
+            "saving": "$?",
+            "saved": "$?",
+            "local": "$?",
+            "unsaved": "$?"
+        },
         "page": {
+            "unknown": {
+                "header": "$?",
+                "message": "$?"
+            },
+            "landing": {
+                "motto": "$?"
+            },
             "learn": {
-                "header": "$?"
+                "header": "$?",
+                "error": "$?",
+                "button": {
+                    "next": "$?",
+                    "previous": "$?"
+                }
             },
             "projects": {
                 "header": "$?",
-                "prompt": "$?"
+                "prompt": "$?",
+                "button": {
+                    "create": "$?",
+                    "edit": "$?"
+                },
+                "confirm": {
+                    "archive": {
+                        "description": "$?",
+                        "prompt": "$?"
+                    }
+                }
             },
             "galleries": {
                 "header": "$?",
@@ -2060,6 +2214,7 @@
             },
             "login": {
                 "header": "$?",
+                "anonymous": "$?",
                 "prompt": {
                     "login": "$?",
                     "enter": "$?",
@@ -2079,6 +2234,12 @@
                     "other": "$?",
                     "offline": "$?",
                     "failure": "$?"
+                },
+                "field": {
+                    "email": {
+                        "description": "$?",
+                        "placeholder": "$?"
+                    }
                 },
                 "button": {
                     "logout": {
@@ -2115,17 +2276,9 @@
             "unwrap": "$?",
             "bind": "$?"
         },
-        "error": {
-            "notfound": {
-                "header": "$?",
-                "message": "$?"
-            },
-            "tutorial": "$?",
+        "template": {
             "unwritten": "$?",
-            "template": "$?",
-            "noDatabase": "$?",
-            "overwritten": "$?",
-            "unknownEmail": "$?"
+            "unparsable": "$?"
         }
     }
 }

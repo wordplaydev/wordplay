@@ -9,19 +9,24 @@
 
 <Dialog bind:show description={$locale.ui.dialog.help}>
     <table>
-        <td colspan="3"><h1>{$locale.ui.header.moveCursor}</h1></td>
+        <td colspan="3"
+            ><h1>{$locale.ui.dialog.help.subheader.moveCursor}</h1></td
+        >
         {#each Commands.filter((c) => c.category === Category.Cursor) as command}
             <CommandDescription {command} />
         {/each}
-        <td colspan="3"><h1>{$locale.ui.header.editCode}</h1></td>
+        <td colspan="3"><h1>{$locale.ui.dialog.help.subheader.editCode}</h1></td
+        >
         {#each Commands.filter((c) => c.category === Category.Modify) as command}
             <CommandDescription {command} />
         {/each}
-        <td colspan="3"><h1>{$locale.ui.header.insertCode}</h1></td>
+        <td colspan="3"
+            ><h1>{$locale.ui.dialog.help.subheader.insertCode}</h1></td
+        >
         {#each Commands.filter((c) => c.category === Category.Insert) as command}
             <CommandDescription {command} />
         {/each}
-        <td colspan="3"><h1>{$locale.ui.header.debug}</h1></td>
+        <td colspan="3"><h1>{$locale.ui.dialog.help.subheader.debug}</h1></td>
         {#each Commands.filter((c) => c.category === Category.Evaluate) as command}
             <CommandDescription {command} />
         {/each}

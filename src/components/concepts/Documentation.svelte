@@ -179,18 +179,17 @@
 <div class="header">
     <TextField
         placeholder={'🔍'}
-        description={$locale.ui.description.documentationSearch}
+        description={$locale.ui.docs.field.search}
         bind:text={query}
         fill
     />
     {#if currentConcept}
         <span class="path">
             {#if $path.length > 1}
-                <Button tip={$locale.ui.description.home} action={home}
+                <Button tip={$locale.ui.docs.button.home} action={home}
                     >⇤</Button
                 >{/if}
-            <Button tip={$locale.ui.description.docBack} action={back}>←</Button
-            >
+            <Button tip={$locale.ui.docs.button.back} action={back}>←</Button>
             {#each $path as concept, index}{#if index > 0}…{/if}<ConceptLinkUI
                     link={concept}
                     symbolic={false}
@@ -201,7 +200,7 @@
 </div>
 <section
     class="palette"
-    aria-label={$locale.ui.section.palette}
+    aria-label={$locale.ui.docs.label}
     on:pointerup={handleDrop}
     bind:this={view}
 >

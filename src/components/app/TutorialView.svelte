@@ -213,13 +213,13 @@
         <Header>Learn</Header>
         <nav>
             <Button
-                tip={$locale.ui.description.previousLessonStep}
+                tip={$locale.ui.page.learn.button.previous}
                 action={() => navigate(progress.previousPause() ?? progress)}
                 active={progress.previousPause() !== undefined}
                 bind:view={previousButton}>⇦</Button
             >
             <Button
-                tip={$locale.ui.description.nextLessonStep}
+                tip={$locale.ui.page.learn.button.next}
                 action={() => navigate(progress.nextPause() ?? progress)}
                 active={progress.nextPause() !== undefined}
                 bind:view={nextButton}>⇨</Button

@@ -53,12 +53,17 @@
 </script>
 
 <Dialog bind:show description={$locale.ui.dialog.locale}>
-    <h1>{concretize($locale, $locale.ui.dialog.locale.selected).toText()}</h1>
+    <h2
+        >{concretize(
+            $locale,
+            $locale.ui.dialog.locale.subheader.selected
+        ).toText()}</h2
+    >
     <div class="languages">
         {#each selectedLocales as selected}
             <Button
                 action={() => select(selected)}
-                tip={$locale.ui.description.removeLanguage}
+                tip={$locale.ui.dialog.locale.button.remove}
                 active={selectedLocales.length > 1}
                 >{#if selectedLocales.length > 1}
                     ⨉
@@ -66,26 +71,31 @@
             >
         {/each}
     </div>
-    <h1>{concretize($locale, $locale.ui.dialog.locale.supported).toText()}</h1>
+    <h2
+        >{concretize(
+            $locale,
+            $locale.ui.dialog.locale.subheader.supported
+        ).toText()}</h2
+    >
     <div class="languages">
         {#each SupportedLocales.filter((supported) => !selectedLocales.some((locale) => locale === supported)) as supported}
             <Button
                 action={() => select(supported)}
-                tip={$locale.ui.description.addLanguage}
+                tip={$locale.ui.dialog.locale.button.add}
                 >+ <LocaleName locale={supported} supported /></Button
             >
         {:else}&mdash;
         {/each}
     </div>
-    <h1
+    <h2
         ><Link
             external
             to="https://github.com/amyjko/wordplay/blob/main/CONTRIBUTING.md#localization"
             >{concretize(
                 $locale,
-                $locale.ui.header.helpLocalize
+                $locale.ui.dialog.locale.subheader.help
             ).toText()}</Link
-        ></h1
+        ></h2
     >
     <div class="languages">
         {#each PossibleLanguages.filter((lang) => lang !== '😀' && !SupportedLocales.some((locale) => getLocaleLanguage(locale) === lang)) as lang}
@@ -93,10 +103,7 @@
         {/each}
     </div>
 </Dialog>
-<Button
-    tip={$locale.ui.description.changeLanguage}
-    action={() => (show = true)}
->
+<Button tip={$locale.ui.dialog.locale.button.show} action={() => (show = true)}>
     <span class="chosen">
         {#each selectedLocales as locale, index}{#if index > 0}+{/if}<LocaleName
                 {locale}

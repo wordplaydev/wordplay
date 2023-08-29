@@ -49,7 +49,7 @@
         {#each list.values as content, index}
             <div class="content">
                 <Button
-                    tip={$locale.ui.description.removeContent}
+                    tip={$locale.ui.palette.button.remove}
                     action={() =>
                         list
                             ? removeContent(DB, project, list, index)
@@ -57,7 +57,7 @@
                     active={editable && list.values.length > 0}>⨉</Button
                 >
                 <Button
-                    tip={$locale.ui.description.moveContentUp}
+                    tip={$locale.ui.palette.button.up}
                     action={() =>
                         list
                             ? moveContent(DB, project, list, index, -1)
@@ -65,7 +65,7 @@
                     active={editable && index > 0}>↑</Button
                 >
                 <Button
-                    tip={$locale.ui.description.moveContentDown}
+                    tip={$locale.ui.palette.button.down}
                     action={() =>
                         list
                             ? moveContent(DB, project, list, index, 1)
@@ -74,7 +74,7 @@
                     >↓</Button
                 >
                 <Button
-                    tip={$locale.ui.description.editContent}
+                    tip={$locale.ui.palette.button.edit}
                     active={editable}
                     action={() => editContent(index)}>{EDIT_SYMBOL}</Button
                 >
@@ -83,7 +83,7 @@
         {/each}
         <div class="add">
             <Button
-                tip={$locale.ui.description.addPhrase}
+                tip={$locale.ui.palette.button.addPhrase}
                 active={editable}
                 action={() =>
                     list
@@ -98,7 +98,7 @@
                 >+{project.shares.output.Phrase.getNames()[0]}</Button
             >
             <Button
-                tip={$locale.ui.description.addGroup}
+                tip={$locale.ui.palette.button.addGroup}
                 active={editable}
                 action={() =>
                     list
@@ -114,7 +114,7 @@
             ></div
         >
     {:else}
-        <Note>{$locale.ui.labels.computed}</Note>
+        <Note>{$locale.ui.palette.labels.computed}</Note>
     {/if}
 </div>
 

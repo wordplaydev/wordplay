@@ -17,7 +17,7 @@
 <Background />
 <Writing>
     <Header>{$locale.wordplay}<sub>.dev</sub></Header>
-    <p>{$locale.ui.phrases.motto}</p>
+    <p>{$locale.ui.page.landing.motto}</p>
     {#if PUBLIC_CONTEXT === 'prod'}
         <p
             >Coming Fall 2023. Write <a href="https://amyjko.com">Amy</a> for details.</p

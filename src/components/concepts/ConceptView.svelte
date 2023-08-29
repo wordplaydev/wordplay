@@ -60,7 +60,7 @@
     {#if header}
         <CodeView {concept} {type} {node} describe={false} />
         {#if tutorialURL}
-            <Link external to={tutorialURL}>{$locale.ui.labels.learn}</Link>
+            <Link external to={tutorialURL}>{$locale.ui.docs.learn}</Link>
         {/if}
     {/if}
 
@@ -70,7 +70,7 @@
             {#if markup}
                 <MarkupHTMLView {markup} />
             {:else}
-                {concretize($locale, $locale.ui.labels.nodoc)}
+                {concretize($locale, $locale.ui.docs.nodoc)}
             {/if}
         </svelte:fragment>
         <svelte:fragment slot="aside"

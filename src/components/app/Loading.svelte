@@ -6,7 +6,7 @@
 <div class="container">
     <Spinning />
     <div aria-live="assertive" aria-atomic="true" aria-relevant="all"
-        >{$locale.ui.feedback.loading}</div
+        >{$locale.ui.widget.loading.message}</div
     >
 </div>
 

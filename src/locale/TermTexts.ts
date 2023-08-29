@@ -37,7 +37,6 @@ type TermTexts = {
     row: string;
     set: string;
     structure: string;
-    streamdefinition: string;
     stream: string;
     index: string;
     query: string;

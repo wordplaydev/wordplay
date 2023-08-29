@@ -84,7 +84,7 @@
     <div class="account" class:anonymous>
         <Link to="/login">
             <span class="user"
-                >{$user ? $user.email : $locale.ui.labels.anonymous}</span
+                >{$user ? $user.email : $locale.ui.page.login.anonymous}</span
             >
         </Link>
     </div>
@@ -92,7 +92,7 @@
     <Dialog bind:show width="50vw" description={$locale.ui.dialog.settings}>
         <p
             ><Mode
-                descriptions={$locale.ui.mode.layout}
+                descriptions={$locale.ui.dialog.settings.mode.layout}
                 choice={$arrangement === Arrangement.Responsive
                     ? 0
                     : $arrangement === Arrangement.Horizontal
@@ -115,7 +115,7 @@
         >
         <p
             ><Mode
-                descriptions={$locale.ui.mode.animate}
+                descriptions={$locale.ui.dialog.settings.mode.animate}
                 choice={$animationFactor}
                 select={(choice) => Settings.setAnimationFactor(choice)}
                 modes={['🧘🏽‍♀️', '🏃‍♀️', '½', '⅓', '¼']}
@@ -123,7 +123,7 @@
         >
         <p
             ><Mode
-                descriptions={$locale.ui.mode.writing}
+                descriptions={$locale.ui.dialog.settings.mode.writing}
                 choice={$writingLayout === 'horizontal-tb'
                     ? 0
                     : $writingLayout === 'vertical-rl'
@@ -183,7 +183,7 @@
         {/if}
         <p
             ><Mode
-                descriptions={$locale.ui.mode.dark}
+                descriptions={$locale.ui.dialog.settings.mode.dark}
                 choice={$dark === false ? 0 : $dark === true ? 1 : 2}
                 select={(choice) =>
                     Settings.setDark(
@@ -193,8 +193,9 @@
             />
         </p>
     </Dialog>
-    <Button tip={$locale.ui.description.settings} action={() => (show = !show)}
-        >⚙</Button
+    <Button
+        tip={$locale.ui.dialog.settings.button.show}
+        action={() => (show = !show)}>⚙</Button
     >
     {#if $page.route.id !== '/'}<Link to={getBackPath()}>❌</Link>{/if}
 </div>

@@ -15,7 +15,7 @@
             {#if markup}
                 <MarkupHTMLView {markup} />
             {:else}
-                {trans.ui.labels.nodoc}
+                {trans.ui.docs.nodoc}
             {/if}
         {/each}
     </svelte:fragment>

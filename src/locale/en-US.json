@@ -37,7 +37,6 @@
         "list": "list",
         "stream": "stream",
         "structure": "structure",
-        "streamdefinition": "stream definition",
         "index": "index",
         "query": "query",
         "row": "row",
@@ -3456,231 +3455,68 @@
             "code": "Noto Mono"
         },
         "phrases": {
-            "welcome": "hello",
-            "motto": "Where words come to life!"
+            "welcome": "hello"
         },
-        "placeholders": {
-            "code": "code",
-            "expression": "value",
-            "type": "type",
-            "percent": "percent",
-            "name": "name",
-            "project": "untitled",
-            "email": "email"
-        },
-        "description": {
-            "yes": "confirm",
-            "no": "cancel",
-            "play": "evaluate the program fully",
-            "pause": "evaluate the program one step at a time",
-            "backStep": "step back one",
-            "backNode": "step back to previous node evaluation",
-            "backInput": "back one input",
-            "out": "step out of this function",
-            "forwardStep": "step forward one",
-            "forwardNode": "step forward to next node evaluation",
-            "forwardInput": "step forward to next stream input",
-            "present": "to the present",
-            "start": "to the beginning",
-            "reset": "restart performance",
-            "home": "return home",
-            "docBack": "return to previous",
-            "revert": "revert to default",
-            "set": "edit this property",
-            "collapse": "collapse window",
-            "expand": "expand window",
-            "close": "close",
-            "changeLanguage": "change languages",
-            "addLanguage": "add language",
-            "removeLanguage": "remove language",
-            "horizontal": "switch to horizontal arrangement",
-            "vertical": "switch to vertical arrangement",
-            "freeform": "switch to free form arrangement",
-            "addPose": "add pose",
-            "removePose": "remove pose",
-            "movePoseUp": "move pose up",
-            "movePoseDown": "move pose down",
-            "addPhrase": "add a phrase after this",
-            "addGroup": "add a group after this",
-            "removeContent": "remove this content",
-            "moveContentUp": "move this content up",
-            "moveContentDown": "move this content down",
-            "editContent": "edit this content",
-            "sequence": "convert to a sequence",
-            "animate": "toggle animations on/off",
-            "addSource": "create a new $source",
-            "copyProject": "copy this project",
-            "editProject": "edit this performance",
-            "settings": "show settings",
-            "newProject": "new performance",
-            "dark": "toggle dark mode on, off, and default",
-            "chooserExpand": "expand/collapse",
-            "place": "place output",
-            "paint": "paint output",
-            "nextLesson": "next lesson",
-            "previousLesson": "previous lesson",
-            "nextLessonStep": "next step",
-            "previousLessonStep": "previous step",
-            "revertProject": "revert to original code",
-            "showOutput": "show this output on stage",
-            "expandCode": "expand this collapsed code",
-            "addInput": "add this input",
-            "menu": "autocomplete menu",
-            "menuBack": "leave submenu",
-            "cursorLineBefore": "move cursor to line before",
-            "cursorLineAfter": "move cursor to line after",
-            "cursorInlineBefore": "move cursor to position before",
-            "cursorInlineAfter": "move cursor to position after",
-            "cursorLineStart": "move cursor to start of line",
-            "cursorLineEnd": "move cursor to start of line",
-            "cursorNeighborBefore": "select neighbor before",
-            "cursorNeighborAfter": "select neighbor after",
-            "cursorContainer": "select container",
-            "selectAll": "select program",
-            "incrementLiteral": "increase number, text, or Boolean",
-            "decrementLiteral": "decrease number, text, or Boolean",
-            "insertSymbol": "insert $1",
-            "insertTrueSymbol": "insert true",
-            "insertFalseSymbol": "insert false",
-            "insertNoneSymbol": "insert none symbol",
-            "insertNotEqualSymbol": "insert not equal",
-            "insertProductSymbol": "insert product symbol",
-            "insertQuotientSymbol": "insert quotient symbol",
-            "insertDegreeSymbol": "insert degree symbol",
-            "insertFunctionSymbol": "insert function",
-            "insertLessThanOrEqualSymbol": "insert less than or equal to",
-            "insertGreaterThanOrEqualSymbol": "insert greater than or equal to",
-            "insertStreamSymbol": "insert stream symbol",
-            "insertConvertSymbol": "insert convert symbol",
-            "insertPreviousSymbol": "insert previous symbol",
-            "insertTableSymbol": "insert table symbol",
-            "insertLineBreak": "insert line break",
-            "backspace": "delete selection or prior character",
-            "cut": "cut selection",
-            "copy": "copy selection",
-            "paste": "paste contents of keyboard",
-            "parenthesize": "parenthesize selection",
-            "enumerate": "enumerate selection",
-            "type": "type characters",
-            "undo": "undo previous edit",
-            "redo": "redo undone edit",
-            "help": "show keyboard shortcuts",
-            "documentationSearch": "search for concepts with words",
-            "characterSearch": "search for special characters to insert",
-            "editTextOutput": "edit text of phrase",
-            "editCoordinate": "edit coordinate",
-            "editSequencePercent": "edit sequence percentage",
-            "editProjectName": "edit project name",
-            "editSourceName": "edit source name",
-            "loginEmail": "login email",
-            "focusOutput": "focus keyboard on the stage",
-            "focusSource": "focus on the next source",
-            "focusDocs": "focus on the documentation",
-            "focusPalette": "focus on the palette",
-            "focusCycle": "focus on the next tile",
-            "conceptLink": "show concept $1 in documentation",
-            "timeline": "time slider",
-            "createPhrase": "create a Phrase, showing the existing value as text",
-            "createGroup": "create a Group, wrapping any existing Phrase",
-            "createStage": "create a Stage, wrapping any existing Group or Phrase"
-        },
-        "toggle": {
-            "grid": {
-                "on": "hide grid lines",
-                "off": "show grid lines"
+        "widget": {
+            "confirm": {
+                "cancel": "cancel"
             },
-            "fit": {
-                "on": "control zoom manually",
-                "off": "fit zoom to content"
+            "dialog": {
+                "close": "close"
             },
-            "fullscreen": {
-                "on": "leave full screen",
-                "off": "expand tile to full screen"
-            },
-            "tile": {
-                "on": "hide this tile",
-                "off": "show this tile"
-            },
-            "blocks": {
-                "on": "hide block backgrounds",
-                "off": "show block backgrounds"
-            },
-            "public": {
-                "on": "change to private",
-                "off": "change to public"
+            "loading": {
+                "message": "Loading font faces and text, thanks for waiting!"
             }
         },
-        "mode": {
-            "layout": {
-                "label": "layout",
-                "modes": ["automatic", "horizontal", "vertical", "free"]
+        "tile": {
+            "toggle": {
+                "fullscreen": {
+                    "on": "leave full screen",
+                    "off": "expand tile to full screen"
+                },
+                "show": {
+                    "on": "hide this tile",
+                    "off": "show this tile"
+                }
             },
-            "animate": {
-                "label": "animations",
-                "modes": [
-                    "off",
-                    "on",
-                    "half speed",
-                    "third speed",
-                    "quarter speed"
-                ]
-            },
-            "dark": {
-                "label": "theme",
-                "modes": ["light colors", "dark colors", "use device setting"]
-            },
-            "writing": {
-                "label": "writing layout",
-                "modes": [
-                    "horizontal, left to right",
-                    "vertical, right to left",
-                    "vertical, left to right"
-                ]
+            "button": {
+                "collapse": "collapse window"
             }
         },
-        "button": {
-            "showCollaborators": "show collaborators dialog",
-            "removeCollaborator": "remove collaborator",
-            "copyProject": "copy project as text"
-        },
-        "confirm": {
-            "archiveProject": {
-                "description": "archive this performance",
-                "prompt": "archive"
+        "project": {
+            "error": {
+                "unknown": "This performance doesn't exist or isn't public."
             },
-            "deleteSource": {
-                "description": "delete this $source",
-                "prompt": "delete"
-            }
-        },
-        "dialog": {
-            "collaborators": {
-                "header": "Collaborators",
-                "explanation": "Want someone to help edit this project? Add or remove them by email."
+            "button": {
+                "showCollaborators": "show collaborators dialog",
+                "removeCollaborator": "remove collaborator",
+                "copy": "copy project as text",
+                "addSource": "create a new $source",
+                "duplicate": "copy this project",
+                "revert": "revert to original code",
+                "focusOutput": "focus keyboard on the stage",
+                "focusSource": "focus on the next source",
+                "focusDocs": "focus on the documentation",
+                "focusPalette": "focus on the palette",
+                "focusCycle": "focus on the next tile"
             },
-            "settings": {
-                "header": "Settings",
-                "explanation": "Change layout, device, and theme settings."
+            "toggle": {
+                "public": {
+                    "on": "change to private",
+                    "off": "change to public"
+                }
             },
-            "locale": {
-                "header": "Language",
-                "explanation": "Choose your languages and regions.",
-                "selected": "Selected",
-                "supported": "Available"
+            "field": {
+                "name": {
+                    "description": "edit project name",
+                    "placeholder": "name"
+                }
             },
-            "help": {
-                "header": "Shortcuts",
-                "explanation": "Use these keyboard commands for more efficient editing."
-            }
+            "help": "show keyboard shortcuts"
         },
-        "field": {
-            "collaborator": {
-                "placeholder": "email",
-                "description": "the email address of the person who you want to grant edit access."
-            }
-        },
-        "prompt": {
-            "emptyProgram": [
+        "source": {
+            "label": "program editor",
+            "empty": [
                 "Let's get started! You can …",
                 "• Open 📕 and drag 🖱️ us to this program.",
                 "• Type $1 and choose us from the menu.",
@@ -3688,64 +3524,301 @@
                 "• Browse the gallery for inspiration.",
                 "If you're stuck, <learn more@://learn>."
             ],
-            "keyStreamInput": "key stream listening, type to create input"
-        },
-        "labels": {
-            "learn": "learn more …",
-            "nodoc": "Who am I? What am I? What is my purpose?",
-            "mixed": "mixed",
-            "computed": "computed",
-            "default": "default",
-            "inherited": "inherited",
-            "notSequence": "not a sequence",
-            "notContent": "not a content list",
-            "anonymous": "anonymous"
-        },
-        "header": {
-            "inputs": "Inputs",
-            "interfaces": "Interfaces",
-            "properties": "Properties",
-            "functions": "Functions",
-            "conversions": "Conversions",
-            "helpLocalize": "Help us translate …",
-            "moveCursor": "Move",
-            "editCode": "Edit",
-            "insertCode": "Insert",
-            "debug": "Debug"
-        },
-        "section": {
-            "project": "performance",
-            "conflicts": "conflicts",
-            "timeline": "timeline",
-            "toolbar": "toolbar",
-            "output": "output",
-            "palette": "palette",
-            "editor": "program editor"
-        },
-        "palette": {
-            "offerPhrase": "What a gorgeous value you made! Shall I show it on @Stage?",
-            "offerGroup": "What a wonderful @Phrase you made. Do you want to bring them together into a @Group, to get them arranged?",
-            "offerStage": "VERY GOOD @Program. ADD ME TO CONTROL LIGHTING. COLORS. FRAMES.",
-            "pauseToEdit": "If you ⏸️ the stage, you can select a 💬, 🔳, or 🎭 to edit!",
-            "editing": "Edit me!"
-        },
-        "feedback": {
-            "unknownProject": "This performance doesn't exist or isn't public.",
-            "loading": "Loading, thank you for waiting!",
-            "save": {
-                "saving": "saving",
-                "saved": "saved online",
-                "local": "saved locally",
-                "unsaved": "unsaved"
+            "overwritten": "Received a more recent version!",
+            "confirm": {
+                "delete": {
+                    "description": "delete this $source",
+                    "prompt": "delete"
+                }
+            },
+            "toggle": {
+                "blocks": {
+                    "on": "hide block backgrounds",
+                    "off": "show block backgrounds"
+                },
+                "glyphs": {
+                    "on": "collapse the matching glyphs",
+                    "off": "expand the matching glyphs"
+                }
+            },
+            "button": {
+                "selectOutput": "show this output on stage",
+                "expandSequence": "expand this collapsed code"
+            },
+            "field": {
+                "name": {
+                    "description": "edit source name",
+                    "placeholder": "name"
+                }
+            },
+            "menu": {
+                "label": "autocomplete menu",
+                "show": "show autocomplete menu",
+                "back": "leave submenu"
+            },
+            "cursor": {
+                "priorLine": "move cursor to line before",
+                "nextLine": "move cursor to line after",
+                "priorInline": "move cursor to position before",
+                "nextInline": "move cursor to position after",
+                "lineStart": "move cursor to start of line",
+                "lineEnd": "move cursor to start of line",
+                "priorNode": "select neighbor before",
+                "nextNode": "select neighbor after",
+                "parent": "select container",
+                "selectAll": "select program",
+                "incrementLiteral": "increase number, text, or Boolean",
+                "decrementLiteral": "decrease number, text, or Boolean",
+                "insertSymbol": "insert $1",
+                "insertTrue": "insert true",
+                "insertFalse": "insert false",
+                "insertNone": "insert none symbol",
+                "insertNotEqual": "insert not equal",
+                "insertProduct": "insert product symbol",
+                "insertQuotient": "insert quotient symbol",
+                "insertDegree": "insert degree symbol",
+                "insertFunction": "insert function",
+                "insertLessOrEqual": "insert less than or equal to",
+                "insertGreaterOrEqual": "insert greater than or equal to",
+                "insertType": "insert type symbol",
+                "insertStream": "insert stream symbol",
+                "insertConvert": "insert convert symbol",
+                "insertPrevious": "insert previous symbol",
+                "insertTable": "insert table symbol",
+                "insertLine": "insert line break",
+                "backspace": "delete selection or prior character",
+                "cut": "cut selection",
+                "copy": "copy selection",
+                "paste": "paste contents of keyboard",
+                "parenthesize": "parenthesize selection",
+                "enumerate": "enumerate selection",
+                "type": "type characters",
+                "undo": "undo previous edit",
+                "redo": "redo undone edit",
+                "search": "search for special characters to insert"
             }
         },
+        "conflicts": {
+            "label": "conflicts"
+        },
+        "output": {
+            "label": "program output",
+            "toggle": {
+                "grid": {
+                    "on": "hide grid lines",
+                    "off": "show grid lines"
+                },
+                "fit": {
+                    "on": "control zoom manually",
+                    "off": "fit zoom to content"
+                },
+                "paint": {
+                    "off": "place output",
+                    "on": "paint output"
+                }
+            },
+            "field": {
+                "key": "listening to key presses"
+            }
+        },
+        "timeline": {
+            "label": "timeline",
+            "slider": "time slider",
+            "button": {
+                "play": "evaluate the program to the end, responding to inputs in real time",
+                "pause": "pause the program, enabling stepping forward and backwards",
+                "backStep": "step back one",
+                "backNode": "step back to previous node evaluation",
+                "backInput": "back one input",
+                "out": "step out of this function",
+                "forwardStep": "step forward one",
+                "forwardNode": "step forward to next node evaluation",
+                "forwardInput": "step forward to next stream input",
+                "present": "to the present",
+                "start": "to the beginning",
+                "reset": "restart performance"
+            }
+        },
+        "docs": {
+            "label": "docuemntation browser",
+            "link": "show concept $1 in documentation",
+            "learn": "learn more …",
+            "nodoc": "Who am I? What am I? What is my purpose?",
+            "button": {
+                "home": "return home",
+                "back": "return to previous"
+            },
+            "field": {
+                "search": "search for concepts with words"
+            },
+            "header": {
+                "inputs": "Inputs",
+                "interfaces": "Interfaces",
+                "properties": "Properties",
+                "functions": "Functions",
+                "conversions": "Conversions"
+            }
+        },
+        "dialog": {
+            "share": {
+                "header": "Collaborators",
+                "explanation": "Want someone to help edit this project? Add or remove them by email.",
+                "field": {
+                    "email": {
+                        "placeholder": "email",
+                        "description": "the email address of the person who you want to grant edit access."
+                    }
+                },
+                "error": {
+                    "unknown": "We don't know a creator with this email."
+                }
+            },
+            "settings": {
+                "header": "Settings",
+                "explanation": "Change layout, device, and theme settings.",
+                "button": {
+                    "show": "show settings dialog"
+                },
+                "mode": {
+                    "layout": {
+                        "label": "layout",
+                        "modes": ["automatic", "horizontal", "vertical", "free"]
+                    },
+                    "animate": {
+                        "label": "animations",
+                        "modes": [
+                            "off",
+                            "on",
+                            "half speed",
+                            "third speed",
+                            "quarter speed"
+                        ]
+                    },
+                    "dark": {
+                        "label": "theme",
+                        "modes": [
+                            "light colors",
+                            "dark colors",
+                            "use device setting"
+                        ]
+                    },
+                    "writing": {
+                        "label": "writing layout",
+                        "modes": [
+                            "horizontal, left to right",
+                            "vertical, right to left",
+                            "vertical, left to right"
+                        ]
+                    }
+                }
+            },
+            "locale": {
+                "header": "Language",
+                "explanation": "Choose your languages and regions.",
+                "subheader": {
+                    "selected": "Selected",
+                    "supported": "Available",
+                    "help": "Help us translate …"
+                },
+                "button": {
+                    "show": "change languages",
+                    "add": "add language",
+                    "remove": "remove language"
+                }
+            },
+            "help": {
+                "header": "Shortcuts",
+                "explanation": "Use these keyboard commands for more efficient editing.",
+                "subheader": {
+                    "moveCursor": "Move",
+                    "editCode": "Edit",
+                    "insertCode": "Insert",
+                    "debug": "Debug"
+                }
+            }
+        },
+        "palette": {
+            "label": "palette",
+            "labels": {
+                "mixed": "mixed",
+                "computed": "computed",
+                "default": "default",
+                "inherited": "inherited",
+                "notSequence": "not a sequence",
+                "notContent": "not a content list"
+            },
+            "button": {
+                "revert": "revert to default",
+                "set": "edit this property",
+                "addPhrase": "add a phrase after this",
+                "addGroup": "add a group after this",
+                "remove": "remove this content",
+                "up": "move this content up",
+                "down": "move this content down",
+                "edit": "edit this content",
+                "sequence": "convert to a sequence",
+                "createPhrase": "create a Phrase, showing the existing value as text",
+                "createGroup": "create a Group, wrapping any existing Phrase",
+                "createStage": "create a Stage, wrapping any existing Group or Phrase"
+            },
+            "prompt": {
+                "offerPhrase": "What a gorgeous value you made! Shall I show it on @Stage?",
+                "offerGroup": "What a wonderful @Phrase you made. Do you want to bring them together into a @Group, to get them arranged?",
+                "offerStage": "VERY GOOD @Program. ADD ME TO CONTROL LIGHTING. COLORS. FRAMES.",
+                "pauseToEdit": "If you ⏸️ the stage, you can select a 💬, 🔳, or 🎭 to edit!",
+                "editing": "Edit me!"
+            },
+            "field": {
+                "coordinate": "edit coordinate",
+                "text": "edit text"
+            },
+            "sequence": {
+                "button": {
+                    "add": "add pose",
+                    "remove": "remove pose",
+                    "up": "move pose up",
+                    "down": "move pose down"
+                },
+                "field": {
+                    "percent": "edit percent"
+                }
+            }
+        },
+        "save": {
+            "saving": "saving",
+            "saved": "saved online",
+            "local": "saved locally",
+            "unsaved": "unsaved"
+        },
         "page": {
+            "unknown": {
+                "header": "Eep!",
+                "message": "Where is this place? Can we go home?"
+            },
+            "landing": {
+                "motto": "Where words come to life!"
+            },
             "learn": {
-                "header": "Learn"
+                "header": "Learn",
+                "error": "We weren't able to find a tutorial for this language.",
+                "button": {
+                    "next": "next pause in dialog",
+                    "previous": "previous pause in dialog"
+                }
             },
             "projects": {
                 "header": "Projects",
-                "prompt": "Ready to say something? Create a project or work on one. If you get stuck, keep <learning@://learn>."
+                "prompt": "Ready to say something? Create a project or work on one. If you get stuck, keep <learning@://learn>.",
+                "button": {
+                    "create": "new project",
+                    "edit": "edit this project"
+                },
+                "confirm": {
+                    "archive": {
+                        "description": "archive this performance",
+                        "prompt": "archive"
+                    }
+                }
             },
             "galleries": {
                 "header": "Galleries",
@@ -3767,6 +3840,7 @@
             },
             "login": {
                 "header": "Login",
+                "anonymous": "anonymous",
                 "prompt": {
                     "login": "Log in to access your performances.",
                     "enter": "It looks like you're logging in on a different device. Can you enter your email again?",
@@ -3786,6 +3860,12 @@
                     "other": "Unable to login",
                     "failure": "Couldn't reach the internet...",
                     "offline": "You appear to be offline."
+                },
+                "field": {
+                    "email": {
+                        "description": "edit login email",
+                        "placeholder": "email"
+                    }
                 },
                 "button": {
                     "logout": {
@@ -3841,17 +3921,9 @@
             "unwrap": "unwrap",
             "bind": "name this expression"
         },
-        "error": {
-            "notfound": {
-                "header": "Eep!",
-                "message": "Where is this place? Can we go home?"
-            },
-            "tutorial": "We weren't able to find a tutorial for this language.",
+        "template": {
             "unwritten": "TBD",
-            "template": "This template couldn't be parsed: $1",
-            "noDatabase": "We can't reach the database",
-            "overwritten": "Found a more recent version!",
-            "unknownEmail": "We don't know a creator with this email."
+            "unparsable": "Unparsable template: $1"
         }
     }
 }

@@ -71,7 +71,10 @@ export default class Mention extends Content {
         // Is it a number? Resolve to an input.
         const numberMatch = name.match(/^[0-9]+/);
         if (name === '?') {
-            const replacement = new Token(locale.ui.error.unwritten, Sym.Words);
+            const replacement = new Token(
+                locale.ui.template.unwritten,
+                Sym.Words
+            );
             replacements.push([this, replacement]);
             return replacement;
         } else if (name === '!') {

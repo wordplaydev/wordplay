@@ -61,8 +61,8 @@
     {#if editable}
         <Button
             tip={valuesAreSet
-                ? $locale.ui.description.revert
-                : $locale.ui.description.set}
+                ? $locale.ui.palette.button.revert
+                : $locale.ui.palette.button.set}
             bind:view={toggleView}
             action={() => toggleValues(!valuesAreSet)}
             >{valuesAreSet ? '⨉' : EDIT_SYMBOL}</Button
@@ -71,7 +71,7 @@
         {#if values.areMixed()}
             <Note
                 >{$locales
-                    .map((locale) => locale.ui.labels.mixed)
+                    .map((locale) => locale.ui.palette.labels.mixed)
                     .join('/')}</Note
             >
         {:else if !values.areSet()}
@@ -79,18 +79,22 @@
             <!-- If the values arent set, show as inherited if inherited, and otherwise show the default -->
             <Note
                 >{#if property.inherited}{$locales
-                        .map((locale) => locale.ui.labels.inherited)
+                        .map((locale) => locale.ui.palette.labels.inherited)
                         .join(
                             '/'
                         )}{:else if values.areDefault() && expression !== undefined}<NodeView
                         node={expression}
                     />
                     {$locales
-                        .map((locale) => locale.ui.labels.default)
+                        .map((locale) => locale.ui.palette.labels.default)
                         .join('/')}{:else}&mdash;{/if}</Note
             >
         {:else if !values.areEditable(project)}
-            <Note>{$locales.map((locale) => locale.ui.labels.computed)}</Note>
+            <Note
+                >{$locales.map(
+                    (locale) => locale.ui.palette.labels.computed
+                )}</Note
+            >
         {:else if property.type instanceof OutputPropertyRange}
             <BindSlider {property} {values} range={property.type} {editable} />
         {:else if property.type instanceof OutputPropertyOptions}

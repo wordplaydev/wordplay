@@ -44,7 +44,7 @@
         <slot />
         <div class="close">
             <Button
-                tip={$locale.ui.description.close}
+                tip={$locale.ui.widget.dialog.close}
                 action={() => (show = false)}>❌</Button
             >
         </div>

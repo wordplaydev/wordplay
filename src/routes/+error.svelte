@@ -8,10 +8,10 @@
 </script>
 
 <Writing>
-    <Header>{$locale.ui.error.notfound.header}</Header>
+    <Header>{$locale.ui.page.unknown.header}</Header>
     <Speech glyph={Glyphs.Function}
         ><p slot="content">
-            {$locale.ui.error.notfound.message}
+            {$locale.ui.page.unknown.message}
             <Link to="/">🏠</Link></p
         ></Speech
     >

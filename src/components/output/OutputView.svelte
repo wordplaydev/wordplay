@@ -821,7 +821,7 @@
     class="output"
     data-uuid="stage"
     role="application"
-    aria-label={$locale.ui.section.output}
+    aria-label={$locale.ui.output.label}
     class:mini
     style:direction={$writingDirection}
     style:writing-mode={$writingLayout}
@@ -847,7 +847,7 @@
                 type="text"
                 data-defaultfocus
                 aria-autocomplete="none"
-                aria-label={project.basis.locales[0].ui.prompt.keyStreamInput}
+                aria-label={project.basis.locales[0].ui.output.field.key}
                 autocomplete="off"
                 autocorrect="off"
                 bind:this={keyboardInputView}
