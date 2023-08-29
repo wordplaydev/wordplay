@@ -341,6 +341,8 @@
         display: flex;
         flex-direction: row;
         gap: var(--wordplay-spacing);
+        border-bottom: var(--wordplay-border-color) solid
+            var(--wordplay-border-width);
     }
 
     .content {
