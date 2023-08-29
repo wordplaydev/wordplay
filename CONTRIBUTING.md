@@ -57,8 +57,8 @@ Once you have your environment set up:
 4. When you're ready to work on the issue, create a branch from `main` in which to do your work. Publish it if you like, so that others can work on it with you. (If you're a team member, you should have permissions to publish to the repo; if not, fork and publish it in your fork.)
 5. If there is no test that verifies the defect is repaired, write one (there probably isn't one, which is why there's a defect!). If it's a new feature, you may need to write multiple to express all of the feature's requirements. See the [verification](#verification) selection below on test writing for guidance.
 6. Fix the defect, or build the feature. Talk to everyone who might have a stake in the decision, including Amy, other contributors, and make sure the design and implementation decisions you're making are aligned with the project's existing patterns.
-7. Commit to your branch. It's okay to have multiple commits as long as the last one explicitly references the issue you worked on, so that GitHub automatically closes the issue when your fix is merged.
-8. When you believe your work is onde, submit a pull request, requesting your branch be merged into `main`. Write a detailed explanation of the issue, the work you did, and any issues or decisions you had to make that the reviewer might need to consider.
+7. Commit to your branch. It's okay to have multiple commits as long as the last one explicitly references the issue you worked on, so that GitHub automatically closes the issue when your fix is merged. The `main` branch is likely to change as you work. Regularly pull from `main`, then `git rebase main` in your feature branch, replaying your commits over any changes to main that have happened since you branched from it.
+8. When you believe your work is done, submit a pull request, requesting your branch be merged into `main`. Write a detailed explanation of the issue, the work you did, and any issues or decisions you had to make that the reviewer might need to consider.
 9. The reviewer may come back with feedback for you to address before your work is merged to `main`. This includes automated feedback, such as tests that have failed.
 10. Once your pull request is accepted, delete your branch, so we have a tidy set of branches. (Your commits are saved, its just the branch that's gone).
 
@@ -139,7 +139,9 @@ These are separate files primarily for efficiency: because tutorial can be large
 You may not see a folder for the language code you want to work on.
 That means you're the first to work on it!
 You'll find a folder `static/locales/example` that contains templates to start from.
-Copy that folder and rename it and its files to the language code that you want to work on, or copy an existing locale and start from it (being careful to keep track of which strings aren't yet translated).
+
+-   Copy that folder and rename it and its files to the language code that you want to work on, or copy an existing locale and start from it (being careful to keep track of which strings aren't yet translated).
+-   Then find `Locale.ts` and find the `EventuallySupportedLocales` variable. Add the locale you're working on to that list; make sure it matches the name and region you give for the locale file. This will make it so that you can switch to the locale locally, even though the locale isn't supported yet.
 
 Before you can test your edits in the interface, you need to add the locale you're editing to the "eventually" supported locales. These are stored in `Locale.ts`, in a constant near the top of the file. Add it there, and you'll be able to see that option in the language chooser.
 
@@ -254,6 +256,12 @@ And a little program will run (and re-run) every time you save your locale or tu
 Keep chipping away at your translation until there are no more problems.
 
 ### Submitting
+
+It's best to submit your revisions in chunks, rather than all at once. After all, a lot can change in the `main` branch while you're editing. Here are a few tips:
+
+-   Sync with main regularly by doing a `git pull` in the `main` branch, then in your localization branch, running `git rebase main`. That will replay your commits over all the changes that have happened in main since you branched.
+
+-   Submit pull requests for chunks of work you finish, as described below.
 
 Ready to submit your localization for review?
 We prefer you use a GitHub pull request.
