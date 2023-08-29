@@ -1,7 +1,7 @@
 <script lang="ts">
     import Button from '../widgets/Button.svelte';
     import LanguageChooser from './LocaleChooser.svelte';
-    import { getProject, getUser, isDark } from '../project/Contexts';
+    import { getProject, getUser } from '../project/Contexts';
     import {
         animationFactor,
         locale,
@@ -11,6 +11,7 @@
         Settings,
         Projects,
         writingLayout,
+        dark,
     } from '../../db/Database';
     import { page } from '$app/stores';
     import Arrangement from '../../db/Arrangement';
@@ -25,7 +26,6 @@
     let show = false;
 
     let user = getUser();
-    let dark = isDark();
     let project = getProject();
 
     $: anonymous = $user === null;
@@ -186,8 +186,8 @@
                 descriptions={$locale.ui.mode.dark}
                 choice={$dark === false ? 0 : $dark === true ? 1 : 2}
                 select={(choice) =>
-                    dark.set(
-                        choice === 0 ? false : choice === 1 ? true : undefined
+                    Settings.setDark(
+                        choice === 0 ? false : choice === 1 ? true : null
                     )}
                 modes={['☼', '☽', '☼/☽']}
             />

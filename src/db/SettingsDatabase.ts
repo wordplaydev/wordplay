@@ -15,6 +15,7 @@ import type { WritingLayout } from '../locale/Scripts';
 import type Progress from '../tutorial/Progress';
 import Layout from '../components/project/Layout';
 import { BlocksSetting } from './BlocksSetting';
+import { DarkSetting } from './DarkSetting';
 
 /** Enscapsulates settings stored in localStorage. */
 export default class SettingsDatabase {
@@ -31,6 +32,7 @@ export default class SettingsDatabase {
         camera: CameraSetting,
         mic: MicSetting,
         blocks: BlocksSetting,
+        dark: DarkSetting,
     };
 
     /** A derived store based on animation factor */
@@ -101,6 +103,14 @@ export default class SettingsDatabase {
 
     getMic() {
         return this.settings.mic.get();
+    }
+
+    setDark(dark: boolean | null) {
+        this.settings.dark.set(this.database, dark);
+    }
+
+    getDark() {
+        return this.settings.dark.get();
     }
 
     setBlocks(on: boolean) {

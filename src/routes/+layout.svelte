@@ -2,11 +2,7 @@
     import { onMount, setContext } from 'svelte';
     import Loading from '@components/app/Loading.svelte';
     import type { User } from 'firebase/auth';
-    import {
-        DarkSymbol,
-        LocalesSymbol,
-        UserSymbol,
-    } from '../components/project/Contexts';
+    import { LocalesSymbol, UserSymbol } from '../components/project/Contexts';
     import { writable } from 'svelte/store';
     import Fonts from '../basis/Fonts';
     import {
@@ -15,6 +11,7 @@
         DB,
         animationFactor,
         languages,
+        dark,
     } from '../db/Database';
     import { browser } from '$app/environment';
     import { goto } from '$app/navigation';
@@ -53,22 +50,11 @@
         // Login the user
         DB.login((newUser) => user.set(newUser));
 
-        // Update dark mode, now that we're mounted.
-        dark.set(isDarkSet());
-
         // Have the Database cleanup database connections when this is unmounted.
         return () => {
             DB.clean();
         };
     });
-
-    /** True if either local storage has dark set or the OS is set to dark. */
-    function isDarkSet() {
-        return (
-            typeof window.localStorage !== 'undefined' &&
-            window.localStorage.getItem('dark') === 'true'
-        );
-    }
 
     function prefersDark() {
         return (
@@ -78,32 +64,11 @@
         );
     }
 
-    /** Share dark status globally */
-    const dark = writable<boolean | undefined | null>(
-        browser ? isDarkSet() : null
-    );
-    setContext(DarkSymbol, dark);
-
-    /** When dark mode changes, persist it */
-    $: {
-        if (
-            typeof window !== 'undefined' &&
-            typeof window.localStorage !== 'undefined'
-        ) {
-            if ($dark === true || $dark === false)
-                window.localStorage.setItem('dark', '' + $dark);
-            else if ($dark === undefined)
-                window.localStorage.removeItem('dark');
-        }
-    }
-
     /** When dark mode changes, update the body's dark class */
-    $: {
-        if (browser) {
-            if ($dark === true || ($dark === undefined && prefersDark()))
-                document.body.classList.add('dark');
-            else document.body.classList.remove('dark');
-        }
+    $: if (browser) {
+        if ($dark === true || ($dark === null && prefersDark()))
+            document.body.classList.add('dark');
+        else document.body.classList.remove('dark');
     }
 </script>
 

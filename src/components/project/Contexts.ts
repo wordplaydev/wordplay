@@ -35,11 +35,6 @@ export function getLocales(): Locale[] {
     return getContext(LocalesSymbol);
 }
 
-export const DarkSymbol = Symbol('dark');
-export function isDark(): Writable<boolean | undefined> {
-    return getContext(DarkSymbol);
-}
-
 // Project related contexts
 
 export type ProjectContext = Readable<Project | undefined>;

@@ -300,6 +300,7 @@ export const languages = DB.Locales.languages;
 export const writingDirection = DB.Locales.writingDirection;
 export const writingLayout = Settings.settings.writingLayout.value;
 export const camera = Settings.settings.camera.value;
+export const dark = Settings.settings.dark.value;
 export const mic = Settings.settings.mic.value;
 export const blocks = Settings.settings.blocks.value;
 export const status = DB.Status;
