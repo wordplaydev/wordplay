@@ -1,8 +1,8 @@
 :root {
     --color-blue: #648fff;
-    --color-blue-transparent: #648fff33;
+    --color-blue-transparent: #648fff10;
     --color-purple: #785ef0;
-    --color-purple-transparent: #785ef033;
+    --color-purple-transparent: #785ef010;
     --color-pink: #dc267f;
     --color-light-pink: #f7d3e4;
     --color-orange: #fe6100;
@@ -57,9 +57,9 @@
 
 :root .dark {
     --color-blue: #3a72fe;
-    --color-blue-transparent: #0f1e45;
+    --color-blue-transparent: #0f1e4510;
     --color-purple: #5b3ce6;
-    --color-purple-transparent: #261862;
+    --color-purple-transparent: #26186210;
     --color-pink: #921a54;
     --color-light-pink: rgb(77, 15, 45);
     --color-orange: #ba4904;
