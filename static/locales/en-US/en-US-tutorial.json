@@ -640,13 +640,13 @@
                         [
                             "Evaluate",
                             "neutral",
-                            "Let me show you one of the knobs. Can you find the little *palette* toggle button @UI/paletteExpand? Select it to expand the palette, and then select the phrase on stage. Once you do, you'll see the many inputs that @Phrase accepts. For example, try changing its @Type/size with the slider."
+                            "Let me show you one of the knobs. Can you find the little *palette* toggle button @UI/paletteExpand? Select it to expand the palette, and then select the phrase on stage. Once you do, you'll see the many inputs that @Phrase accepts. For example, try changing its @Phrase/size with the slider."
                         ],
                         null,
                         [
                             "Evaluate",
                             "serious",
-                            "See how when you do that, now I have a new input in me in the program? It's the @Type/size input. Functions have a certain order of inputs, but if a function has a list of optional inputs, you can use their name to specify which one you want to give. We give @Type/size here, but not any of the other optional inputs. Try changing another input with the palette, maybe the font face."
+                            "See how when you do that, now I have a new input in me in the program? It's the @Phrase/size input. Functions have a certain order of inputs, but if a function has a list of optional inputs, you can use their name to specify which one you want to give. We give @Phrase/size here, but not any of the other optional inputs. Try changing another input with the palette, maybe the font face."
                         ],
                         null,
                         ["conflict", "'hi'(1 2)"],
@@ -3012,7 +3012,7 @@
                         [
                             "Phrase",
                             "excited",
-                            "But I can do more than just style text. For example, I can take a @Type/size, measured in meters \\m\\. Try changing the size to any size you like!"
+                            "But I can do more than just style text. For example, I can take a @Phrase/size, measured in meters \\m\\. Try changing the size to any size you like!"
                         ],
                         ["edit", "Phrase('hi' 2m)"],
                         null,
@@ -3026,7 +3026,7 @@
                         [
                             "Phrase",
                             "excited",
-                            "Do you like costumes? I loooooove costumes. My @Type/face is a costume. Pick any of the supported faces to spice up the word you've chosen."
+                            "Do you like costumes? I loooooove costumes. My @Phrase/face is a costume. Pick any of the supported faces to spice up the word you've chosen."
                         ],
                         [
                             "use",
@@ -3083,7 +3083,7 @@
                         [
                             "Phrase",
                             "kind",
-                            "Only want to give a particular property? Just name the one you want. Here we name @Type/size and @Type/rotation."
+                            "Only want to give a particular property? Just name the one you want. Here we name @Phrase/size and @Phrase/rotation."
                         ],
                         [
                             "edit",
@@ -3093,7 +3093,7 @@
                         [
                             "Phrase",
                             "neutral",
-                            "Now that we have all those out of the way, we can talk about dancing, darling! Dancing is one of my favorite things to do. There are *four* ways I move. First, I can @Type/entering. Enter is my way of entering the stage. If you don't tell me how to enter, I'll just BLIP appear on stage like I teleported there. But if you give me @Pose. I'll start with the pose you give me, then move to my resting pose. For example, let's make me fade in from invisible to oh-so-in-your face visible."
+                            "Now that we have all those out of the way, we can talk about dancing, darling! Dancing is one of my favorite things to do. There are *four* ways I move. First, I can @Phrase/entering. Enter is my way of entering the stage. If you don't tell me how to enter, I'll just BLIP appear on stage like I teleported there. But if you give me @Pose. I'll start with the pose you give me, then move to my resting pose. For example, let's make me fade in from invisible to oh-so-in-your face visible."
                         ],
                         ["edit", "Phrase('hi' entering: Pose(opacity: 0))"],
                         null,
@@ -3110,7 +3110,7 @@
                         [
                             "Phrase",
                             "neutral",
-                            "Now, say I was moving. We'll set my place to time, so I move to the right a bit every second. But if we set a @Type/moving @Pose, and have the @Pose/rotation \\5°\\ and maybe a little color, every time my place changes, I'll glide across the stage with the cutest little tilt."
+                            "Now, say I was moving. We'll set my place to time, so I move to the right a bit every second. But if we set a @Phrase/moving @Pose, and have the @Pose/rotation \\5°\\ and maybe a little color, every time my place changes, I'll glide across the stage with the cutest little tilt."
                         ],
                         [
                             "fit",
@@ -3120,7 +3120,7 @@
                         [
                             "Phrase",
                             "curious",
-                            "Not in the mood for cute? How about you make me a little serious by having me slide across straight by changing my @Type/style. It's really subtle, but styles can really change the /emotion/ of a movement."
+                            "Not in the mood for cute? How about you make me a little serious by having me slide across straight by changing my @Phrase/style. It's really subtle, but styles can really change the /emotion/ of a movement."
                         ],
                         [
                             "fit",
@@ -3130,7 +3130,7 @@
                         [
                             "Phrase",
                             "excited",
-                            "And for the coup de grâce, let's have me @Type/exiting in style. We can play with @Conditional and have me exit stage after 3 seconds."
+                            "And for the coup de grâce, let's have me @Phrase/exiting in style. We can play with @Conditional and have me exit stage after 3 seconds."
                         ],
                         [
                             "fit",
@@ -3142,7 +3142,7 @@
                         [
                             "Phrase",
                             "surprised",
-                            "Not the exit you were hoping for? The disappearing act is a bit harsh, ain't it? Give me an @Type/exiting @Pose, and I'll glide off on stage toward whatever pose you want. Here we'll have me get large than life, fall upside down, and fade out to @Pose/opacity \\0\\."
+                            "Not the exit you were hoping for? The disappearing act is a bit harsh, ain't it? Give me an @Phrase/exiting @Pose, and I'll glide off on stage toward whatever pose you want. Here we'll have me get large than life, fall upside down, and fade out to @Pose/opacity \\0\\."
                         ],
                         [
                             "fit",
@@ -3341,7 +3341,7 @@
                         [
                             "Sequence",
                             "curious",
-                            "But, you say, what if we wanted to do it forever? You can set a @Type/resting to me. For as long as @Phrase is on stage and resting, they'll repeat a sequence. Infinite wobbles!"
+                            "But, you say, what if we wanted to do it forever? You can set a @Phrase/resting to me. For as long as @Phrase is on stage and resting, they'll repeat a sequence. Infinite wobbles!"
                         ],
                         [
                             "edit",
@@ -3784,7 +3784,7 @@
                         [
                             "FunctionDefinition",
                             "excited",
-                            "Here's a simple example. See how it has three phrases? The first two have two important details. First, they're set to be selectable. This tells @Stage that if they are clicked, or if the keyboard is used to select them, that they are chosen. The second detail is that they have a @Type/name. That gives @Stage a unique name for the phrase that was chosen. It's important that it's unique so that @Stage knows what was chosen. The third phrase is set to a @Choice stream, which is a series of @Phrase or @Group names are selected. Here, we're just giving the name to another phrase, so that it shows what name is selected. Try clicking the cat or dog, or using the keyboard to select one. See how the third @Phrase shows the name selected?"
+                            "Here's a simple example. See how it has three phrases? The first two have two important details. First, they're set to be selectable. This tells @Stage that if they are clicked, or if the keyboard is used to select them, that they are chosen. The second detail is that they have a @Phrase/name. That gives @Stage a unique name for the phrase that was chosen. It's important that it's unique so that @Stage knows what was chosen. The third phrase is set to a @Choice stream, which is a series of @Phrase or @Group names are selected. Here, we're just giving the name to another phrase, so that it shows what name is selected. Try clicking the cat or dog, or using the keyboard to select one. See how the third @Phrase shows the name selected?"
                         ],
                         [
                             "Choice",
@@ -3904,7 +3904,7 @@
                         [
                             "Bind",
                             "excited",
-                            "Right! So like, values, when we make them, they just kind of get passed around by us, like a ball, from expression to expression, until @Program makes the final value it gives to @Stage to show. But sometimes, rather than passing a value around, it's helpful to set it aside, and save it for later, for some other expression. That's what a @Type/name is for. I name things so we can use them later."
+                            "Right! So like, values, when we make them, they just kind of get passed around by us, like a ball, from expression to expression, until @Program makes the final value it gives to @Stage to show. But sometimes, rather than passing a value around, it's helpful to set it aside, and save it for later, for some other expression. That's what a @Phrase/name is for. I name things so we can use them later."
                         ],
                         null,
                         [
