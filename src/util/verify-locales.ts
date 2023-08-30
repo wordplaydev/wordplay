@@ -46,7 +46,7 @@ say(0, 'Checking locale files for problems!');
 
 fs.readdirSync(path.join('static', 'locales'), { withFileTypes: true }).forEach(
     (file) => {
-        if (file.isDirectory() && file.name !== 'example') {
+        if (file.isDirectory()) {
             const language = file.name;
             say(1, `Let's inspect ${chalk.blue(language)}`);
             // Make sure there's a locale file.
@@ -92,7 +92,7 @@ fs.readdirSync(path.join('static', 'locales'), { withFileTypes: true }).forEach(
                                     `${error.instancePath}: ${error.message}`
                                 );
                         }
-                    } else verifyLocale(locale);
+                    } else verifyLocale(locale, file.name !== 'example');
                 }
 
                 // Make sure there's a tutorial file.
@@ -108,10 +108,11 @@ fs.readdirSync(path.join('static', 'locales'), { withFileTypes: true }).forEach(
                     tutorialData = fs.readFileSync(tutorialPath, 'utf8');
                     good(2, 'Found a tutorial file.');
                 } catch (err) {
-                    bad(
-                        2,
-                        `No tutorial file at ${tutorialPath}. Can you make one?`
-                    );
+                    if (file.name !== 'example')
+                        bad(
+                            2,
+                            `No tutorial file at ${tutorialPath}. Can you make one?`
+                        );
                 }
 
                 if (locale && tutorialData) {
@@ -183,7 +184,7 @@ function pathToString(locale: Locale, path: string[]) {
     return `${locale.language} -> ${path.join(' -> ')}`;
 }
 
-function verifyLocale(locale: Locale) {
+function verifyLocale(locale: Locale, warnUnwritten: boolean) {
     // Get the key/value pairs
     const pairs: Strings = [];
     getKeyTemplatePairs([], locale, pairs);
@@ -273,7 +274,7 @@ function verifyLocale(locale: Locale) {
 
     const unwritten = pairs.filter(([, , value]) => value.startsWith('$?'));
 
-    if (unwritten.length > 0)
+    if (unwritten.length > 0 && warnUnwritten)
         bad(
             2,
             `Locale has ${unwritten.length} unwritten strings ("$?"). Keep writing!`
