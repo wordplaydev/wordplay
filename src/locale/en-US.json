@@ -3303,8 +3303,16 @@
                 "doc": "A @Map of percentages between 0% and 100%, each paired with a @Pose. You don't have to provide all the percents; I will smoothly move a @Type between the ones you give me.",
                 "names": "poses"
             },
+            "duration": {
+                "doc": "How long should I do this dance? If I'm to repeat it, I won't add any time to the duration, I'll just dance faster.",
+                "names": ["⏳", "duration"]
+            },
+            "style": {
+                "doc": "The style should I use to for the dance.",
+                "names": "style"
+            },
             "count": {
-                "doc": "How many times the sequence should repeat before it is done.",
+                "doc": "How many times the sequence should repeat before it is done. This is really helpful for when I enter stage, move on stage, or exit on stage, but when for a rest sequence, it's ignored, since I can rest forever.",
                 "names": "count"
             }
         },

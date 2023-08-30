@@ -1750,7 +1750,7 @@
             "resting": { "doc": "$?", "names": "$?" },
             "moving": { "doc": "$?", "names": "$?" },
             "exiting": { "doc": "$?", "names": "$?" },
-            "duration": { "doc": "$?", "names": ["duración"] },
+            "duration": { "doc": "$?", "names": ["$? duration"] },
             "style": { "doc": "$?", "names": "$?" }
         },
         "Arrangement": { "names": ["Arrangement"], "doc": "$?" },
@@ -1822,8 +1822,16 @@
         "Sequence": {
             "names": "$?",
             "doc": "$?",
-            "count": { "doc": "$?", "names": "$?" },
-            "poses": { "doc": "$?", "names": "$?" }
+            "poses": { "doc": "$?", "names": "$?" },
+            "duration": {
+                "doc": "$?",
+                "names": "$? duration"
+            },
+            "style": {
+                "doc": "$?",
+                "names": "$? style"
+            },
+            "count": { "doc": "$?", "names": "$? count" }
         },
         "Place": {
             "names": ["Posición"],
