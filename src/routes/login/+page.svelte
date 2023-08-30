@@ -28,20 +28,20 @@
     let changeSubmitted = false;
     let changeFeedback: string | undefined = undefined;
 
+    let Errors: Record<string, string>;
+    $: Errors = {
+        'auth/id-token-expired': $locale.ui.page.login.error.expired,
+        'auth/id-token-revoked': $locale.ui.page.login.error.invalid,
+        'auth/invalid-argument': $locale.ui.page.login.error.invalid,
+        'auth/invalid-email': $locale.ui.page.login.error.email,
+    };
+
     function communicateLoginFailure(err: unknown) {
         if (err instanceof FirebaseError) {
             console.error(err.code);
             console.error(err.message);
             loginFeedback =
-                {
-                    'auth/id-token-expired':
-                        $locale.ui.page.login.error.expired,
-                    'auth/id-token-revoked':
-                        $locale.ui.page.login.error.invalid,
-                    'auth/invalid-argument':
-                        $locale.ui.page.login.error.invalid,
-                    'auth/invalid-email': $locale.ui.page.login.error.email,
-                }[err.code] ?? $locale.ui.page.login.error.failure;
+                Errors[err.code] ?? $locale.ui.page.login.error.failure;
         } else {
             console.error(err);
             loginFeedback = $locale.ui.page.login.error.failure;
@@ -101,11 +101,6 @@
         }
     }
 
-    let errors: Record<string, string>;
-    $: errors = {
-        'auth/invalid-mail': $locale.ui.page.login.error.email,
-    };
-
     async function update() {
         const user = DB.getUser();
         if (auth === undefined || user === null || user.email === null) return;
@@ -121,11 +116,14 @@
                 error !== null &&
                 typeof error === 'object' &&
                 'code' in error &&
-                typeof error.code === 'string'
+                typeof error.code === 'string' &&
+                'message' in error &&
+                typeof error.message === 'string'
             ) {
-                console.log(error.code);
+                console.error(error.code);
+                console.error(error.message);
                 changeFeedback =
-                    errors[error.code] ?? $locale.ui.page.login.error.unchanged;
+                    Errors[error.code] ?? $locale.ui.page.login.error.unchanged;
             }
         } finally {
             changeSubmitted = false;
