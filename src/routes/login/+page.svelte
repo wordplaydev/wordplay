@@ -12,7 +12,7 @@
     import { FirebaseError } from 'firebase/app';
     import { auth, firestore } from '@db/firebase';
     import { onMount } from 'svelte';
-    import { DB, locale } from '../../db/Database';
+    import { DB, Projects, locale } from '../../db/Database';
     import Feedback from '../../components/app/Feedback.svelte';
     import Writing from '../../components/app/Writing.svelte';
     import validateEmail from '../../db/validEmail';
@@ -133,8 +133,13 @@
         }
     }
 
-    function logout() {
-        if (auth) auth.signOut();
+    async function logout() {
+        // First, delete the local projects database for privacy.
+        await Projects.deleteLocal();
+        // Then sign out.
+        if (auth) await auth.signOut();
+
+        // We don't delete local storage, since the settings aren't privacy sensitive and are device-specific.
     }
 
     async function deleteAccount() {

@@ -439,4 +439,9 @@ export default class ProjectsDatabase {
         // Initiate another.
         this.timer = setTimeout(() => this.persist(), 1000);
     }
+
+    /** Deletes the local database (usually on logout, for privacy) */
+    async deleteLocal() {
+        this.localDB.delete();
+    }
 }
