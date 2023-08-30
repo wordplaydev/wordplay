@@ -1,7 +1,7 @@
 {
     "$schema": "../../schemas/Locale.json",
-    "language": "$?",
-    "region": "$?",
+    "language": "en",
+    "region": "US",
     "wordplay": "$?",
     "newProject": "$?",
     "term": {
@@ -1046,22 +1046,22 @@
                 },
                 "positive": {
                     "doc": "$?",
-                    "names": ["$?positive"],
+                    "names": ["$? positive"],
                     "inputs": []
                 },
                 "round": {
                     "doc": "$?",
-                    "names": ["$?round"],
+                    "names": ["$? round"],
                     "inputs": []
                 },
                 "roundDown": {
                     "doc": "$?",
-                    "names": ["$?down"],
+                    "names": ["$? down"],
                     "inputs": []
                 },
                 "roundUp": {
                     "doc": "$?",
-                    "names": ["$?up"],
+                    "names": ["$? up"],
                     "inputs": []
                 },
                 "power": {
@@ -1247,8 +1247,8 @@
                     "names": "$?",
                     "inputs": [{ "doc": "$?", "names": "$?" }],
                     "translator": [
-                        { "doc": "$?", "names": "$?item" },
-                        { "doc": "$?", "names": "$?index" },
+                        { "doc": "$?", "names": "$? item" },
+                        { "doc": "$?", "names": "$? index" },
                         {
                             "doc": "$?",
                             "names": "$?"
@@ -1260,8 +1260,8 @@
                     "names": "$?",
                     "inputs": [{ "doc": "$?", "names": "$?" }],
                     "checker": [
-                        { "doc": "$?", "names": "$?item" },
-                        { "doc": "$?", "names": "$?index" },
+                        { "doc": "$?", "names": "$? item" },
+                        { "doc": "$?", "names": "$? index" },
                         {
                             "doc": "$?",
                             "names": "$?"
@@ -1273,8 +1273,8 @@
                     "names": "$?",
                     "inputs": [{ "doc": "$?", "names": "$?" }],
                     "checker": [
-                        { "doc": "$?", "names": "$?item" },
-                        { "doc": "$?", "names": "$?index" },
+                        { "doc": "$?", "names": "$? item" },
+                        { "doc": "$?", "names": "$? index" },
                         {
                             "doc": "$?",
                             "names": "$?"
@@ -1286,8 +1286,8 @@
                     "names": "$?",
                     "inputs": [{ "doc": "$?", "names": "$?" }],
                     "checker": [
-                        { "doc": "$?", "names": "$?item" },
-                        { "doc": "$?", "names": "$?index" },
+                        { "doc": "$?", "names": "$? item" },
+                        { "doc": "$?", "names": "$? index" },
                         {
                             "doc": "$?",
                             "names": "$?"
@@ -1299,8 +1299,8 @@
                     "names": "$?",
                     "inputs": [{ "doc": "$?", "names": "$?" }],
                     "checker": [
-                        { "doc": "$?", "names": "$?value" },
-                        { "doc": "$?", "names": "$?index" },
+                        { "doc": "$?", "names": "$? value" },
+                        { "doc": "$?", "names": "$? index" },
                         {
                             "doc": "$?",
                             "names": "$?"
@@ -1327,8 +1327,8 @@
                 "sorted": {
                     "doc": "$?",
                     "names": "$?",
-                    "inputs": [{ "doc": "$", "names": "$?sequencer" }],
-                    "sequencer": [{ "doc": "$?", "names": "$?value" }]
+                    "inputs": [{ "doc": "$", "names": "$? sequencer" }],
+                    "sequencer": [{ "doc": "$?", "names": "$? value" }]
                 }
             },
             "conversion": { "text": "$?", "set": "$?" }
@@ -1341,7 +1341,7 @@
             "function": {
                 "size": {
                     "doc": "$?",
-                    "names": "$?size",
+                    "names": "$? size",
                     "inputs": []
                 },
                 "equals": {
@@ -1382,24 +1382,24 @@
                 "filter": {
                     "doc": "$?",
                     "names": "filter",
-                    "inputs": [{ "doc": "$?", "names": "$?checker" }],
+                    "inputs": [{ "doc": "$?", "names": "$? checker" }],
                     "checker": [
-                        { "doc": "$?", "names": "$?value" },
+                        { "doc": "$?", "names": "$? value" },
                         {
                             "doc": "$?",
-                            "names": "$?set"
+                            "names": "$? set"
                         }
                     ]
                 },
                 "translate": {
                     "doc": "$?",
                     "names": "translate",
-                    "inputs": [{ "doc": "$?", "names": "$?translator" }],
+                    "inputs": [{ "doc": "$?", "names": "$? translator" }],
                     "translator": [
-                        { "doc": "$?", "names": "$?value" },
+                        { "doc": "$?", "names": "$? value" },
                         {
                             "doc": "$?",
-                            "names": "$?set"
+                            "names": "$? set"
                         }
                     ]
                 }
@@ -1415,7 +1415,7 @@
             "function": {
                 "size": {
                     "doc": "$?",
-                    "names": "$?size",
+                    "names": "$? size",
                     "inputs": []
                 },
                 "equals": {
@@ -1449,20 +1449,20 @@
                 "filter": {
                     "doc": "$?",
                     "names": "filter",
-                    "inputs": [{ "doc": "$?", "names": "$?checker" }],
+                    "inputs": [{ "doc": "$?", "names": "$? checker" }],
                     "checker": [
-                        { "doc": "$?", "names": "$?key" },
-                        { "doc": "$?", "names": "$?value" },
+                        { "doc": "$?", "names": "$? key" },
+                        { "doc": "$?", "names": "$? value" },
                         { "doc": "$?", "names": "$?" }
                     ]
                 },
                 "translate": {
                     "doc": "$?",
                     "names": "translate",
-                    "inputs": [{ "doc": "$?", "names": "$?translator" }],
+                    "inputs": [{ "doc": "$?", "names": "$? translator" }],
                     "translator": [
-                        { "doc": "$?", "names": "$?key" },
-                        { "doc": "$?", "names": "$?value" },
+                        { "doc": "$?", "names": "$? key" },
+                        { "doc": "$?", "names": "$? value" },
                         { "doc": "$?", "names": "$?" }
                     ]
                 }
