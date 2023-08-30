@@ -2245,15 +2245,16 @@
                     "change": "$?",
                     "logout": "$?",
                     "sent": "$?",
-                    "success": "$?"
+                    "success": "$?",
+                    "confirm": "$?"
                 },
                 "error": {
                     "expired": "$?",
                     "invalid": "$?",
                     "email": "$?",
-                    "other": "$?",
                     "offline": "$?",
-                    "failure": "$?"
+                    "failure": "$?",
+                    "unchanged": "$?"
                 },
                 "field": {
                     "email": {

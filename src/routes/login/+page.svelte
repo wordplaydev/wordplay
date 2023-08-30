@@ -40,7 +40,7 @@
                         $locale.ui.page.login.error.invalid,
                     'auth/invalid-argument':
                         $locale.ui.page.login.error.invalid,
-                    'auth/invalid-email': $locale.ui.page.login.error.other,
+                    'auth/invalid-email': $locale.ui.page.login.error.email,
                 }[err.code] ?? $locale.ui.page.login.error.failure;
         } else {
             console.error(err);
@@ -113,20 +113,20 @@
         // Enter loading state, try to login and wait for it to complete, and then leave loading state.
         // Give some feedback when loading.
         changeSubmitted = true;
-        const previousEmail = user.email;
         try {
             await updateEmail(user, email);
-            changeFeedback = `Check your original email address, ${previousEmail}, for a confirmation link.`;
+            changeFeedback = $locale.ui.page.login.prompt.confirm;
         } catch (error) {
             if (
                 error !== null &&
                 typeof error === 'object' &&
                 'code' in error &&
                 typeof error.code === 'string'
-            )
+            ) {
+                console.log(error.code);
                 changeFeedback =
-                    errors[error.code] ??
-                    "Couldn't update email for an unknown reason.";
+                    errors[error.code] ?? $locale.ui.page.login.error.unchanged;
+            }
         } finally {
             changeSubmitted = false;
         }

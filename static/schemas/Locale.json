@@ -7140,12 +7140,15 @@
                       "additionalProperties": false,
                       "properties": {
                         "login": {
+                          "description": "Login button description",
                           "type": "string"
                         },
                         "logout": {
-                          "$ref": "#/definitions/ButtonText"
+                          "$ref": "#/definitions/ButtonText",
+                          "description": "Log out of the account"
                         },
                         "update": {
+                          "description": "Update email button description",
                           "type": "string"
                         }
                       },
@@ -7160,21 +7163,27 @@
                       "additionalProperties": false,
                       "properties": {
                         "email": {
+                          "description": "Shown when the email address isn't valid",
                           "type": "string"
                         },
                         "expired": {
+                          "description": "Shown when the login link expired",
                           "type": "string"
                         },
                         "failure": {
+                          "description": "Unknown failure to login",
                           "type": "string"
                         },
                         "invalid": {
+                          "description": "Shown when the login link isn't valid",
                           "type": "string"
                         },
                         "offline": {
+                          "description": "When there's no connection to Firebase",
                           "type": "string"
                         },
-                        "other": {
+                        "unchanged": {
+                          "description": "When the email addres couldn't be changed for unknown reasons.",
                           "type": "string"
                         }
                       },
@@ -7182,9 +7191,9 @@
                         "expired",
                         "invalid",
                         "email",
-                        "other",
                         "failure",
-                        "offline"
+                        "offline",
+                        "unchanged"
                       ],
                       "type": "object"
                     },
@@ -7225,6 +7234,10 @@
                           "description": "Tells the creator that they can change their email address.",
                           "type": "string"
                         },
+                        "confirm": {
+                          "description": "Prompts creator to check their original email to confirm the email change",
+                          "type": "string"
+                        },
                         "enter": {
                           "description": "Asks the creator to enter their email if they opened the email link in a different browser.",
                           "type": "string"
@@ -7257,7 +7270,8 @@
                         "enter",
                         "play",
                         "logout",
-                        "success"
+                        "success",
+                        "confirm"
                       ],
                       "type": "object"
                     }
