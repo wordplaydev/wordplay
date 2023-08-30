@@ -6693,6 +6693,19 @@
                   "additionalProperties": false,
                   "description": "The sharing dialog",
                   "properties": {
+                    "button": {
+                      "additionalProperties": false,
+                      "properties": {
+                        "submit": {
+                          "description": "Description for the email submission button.",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "submit"
+                      ],
+                      "type": "object"
+                    },
                     "error": {
                       "additionalProperties": false,
                       "properties": {
@@ -6740,6 +6753,7 @@
                     }
                   },
                   "required": [
+                    "button",
                     "error",
                     "explanation",
                     "field",
@@ -7119,20 +7133,20 @@
                   "description": "The login and account page",
                   "properties": {
                     "anonymous": {
-                      "description": "Shown when using an anonymous account instead of creator's email",
+                      "description": "Shown in the footer a creator is not logged in.",
                       "type": "string"
                     },
                     "button": {
                       "additionalProperties": false,
                       "properties": {
                         "login": {
-                          "$ref": "#/definitions/ButtonText"
+                          "type": "string"
                         },
                         "logout": {
                           "$ref": "#/definitions/ButtonText"
                         },
                         "update": {
-                          "$ref": "#/definitions/ButtonText"
+                          "type": "string"
                         }
                       },
                       "required": [
@@ -7201,62 +7215,57 @@
                       "type": "object"
                     },
                     "header": {
-                      "description": "Header for the login page",
+                      "description": "Header for the login page when not logged in",
                       "type": "string"
                     },
                     "prompt": {
                       "additionalProperties": false,
                       "properties": {
-                        "anonymous": {
-                          "type": "string"
-                        },
                         "change": {
-                          "type": "string"
-                        },
-                        "check": {
+                          "description": "Tells the creator that they can change their email address.",
                           "type": "string"
                         },
                         "enter": {
+                          "description": "Asks the creator to enter their email if they opened the email link in a different browser.",
                           "type": "string"
                         },
                         "login": {
+                          "description": "Prompts creator to login to save their work",
                           "type": "string"
                         },
                         "logout": {
+                          "description": "Offers to log out the creator.",
                           "type": "string"
                         },
                         "play": {
+                          "description": "Encouragement to go create after logging in.",
+                          "type": "string"
+                        },
+                        "sent": {
+                          "description": "Prompt to check email for a login link.",
+                          "type": "string"
+                        },
+                        "success": {
+                          "description": "Shown briefly before page redirects to projects",
                           "type": "string"
                         }
                       },
                       "required": [
                         "login",
-                        "enter",
-                        "anonymous",
+                        "sent",
                         "change",
-                        "check",
+                        "enter",
                         "play",
-                        "logout"
+                        "logout",
+                        "success"
                       ],
                       "type": "object"
-                    },
-                    "sent": {
-                      "type": "string"
-                    },
-                    "submit": {
-                      "type": "string"
-                    },
-                    "success": {
-                      "type": "string"
                     }
                   },
                   "required": [
                     "header",
-                    "anonymous",
                     "prompt",
-                    "submit",
-                    "sent",
-                    "success",
+                    "anonymous",
                     "field",
                     "error",
                     "button"

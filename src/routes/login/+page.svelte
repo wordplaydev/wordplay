@@ -28,13 +28,7 @@
     let changeSubmitted = false;
     let changeFeedback: string | undefined = undefined;
 
-    function redirect() {
-        window.localStorage.removeItem('email');
-        success = true;
-        goto('/projects');
-    }
-
-    function fail(err: unknown) {
+    function communicateLoginFailure(err: unknown) {
         if (err instanceof FirebaseError) {
             console.error(err.code);
             console.error(err.message);
@@ -55,7 +49,7 @@
         success = false;
     }
 
-    function finish() {
+    function finishLogin() {
         if (auth) {
             try {
                 // If this is on the same device and browser, then the email should be in local storage.
@@ -73,20 +67,23 @@
                         window.location.href
                     )
                         .then(() => {
-                            redirect();
+                            window.localStorage.removeItem('email');
+                            success = true;
+                            goto('/projects');
                         })
-                        .catch((err) => fail(err));
+                        .catch((err) => communicateLoginFailure(err));
                 }
             } catch (err) {
-                fail(err);
+                communicateLoginFailure(err);
             }
         }
     }
 
-    async function login() {
+    async function startLogin() {
         if (auth) {
             try {
-                if (isSignInWithEmailLink(auth, window.location.href)) finish();
+                if (isSignInWithEmailLink(auth, window.location.href))
+                    finishLogin();
                 else {
                     // Ask Firebase to send an email.
                     await sendSignInLinkToEmail(auth, email, {
@@ -99,7 +96,7 @@
                     sent = true;
                 }
             } catch (err) {
-                fail(err);
+                communicateLoginFailure(err);
             }
         }
     }
@@ -141,13 +138,14 @@
 
     // If it's a sign in, finish signing in once authenticated.
     onMount(() => {
-        if (auth && isSignInWithEmailLink(auth, window.location.href)) finish();
+        if (auth && isSignInWithEmailLink(auth, window.location.href))
+            finishLogin();
     });
 </script>
 
 <Writing>
     {#if auth && firestore}
-        {#if $user && !$user.isAnonymous}
+        {#if $user}
             <Header>{$user.email}</Header>
             <p>{$locale.ui.page.login.prompt.play}</p>
             <p
@@ -170,10 +168,9 @@
                         bind:text={email}
                         editable={!changeSubmitted}
                     /><Button
-                        tip={$locale.ui.page.login.button.update.tip}
+                        tip={$locale.ui.page.login.button.update}
                         active={validateEmail(email)}
-                        action={() => undefined}
-                        >{$locale.ui.page.login.button.update.label}</Button
+                        action={() => undefined}>&gt;</Button
                     ></p
                 >
             </form>
@@ -189,28 +186,25 @@
                 {#if missingEmail}
                     {$locale.ui.page.login.prompt.enter}
                 {:else if $user === null}
-                    {$locale.ui.page.login.prompt.anonymous}
-                {:else}
                     {$locale.ui.page.login.prompt.login}
                 {/if}
             </p>
-            <form class="form" on:submit={login}>
+            <form class="form" on:submit={startLogin}>
                 <TextField
                     description={$locale.ui.page.login.field.email.description}
                     placeholder={$locale.ui.page.login.field.email.placeholder}
                     bind:text={email}
                 /><Button
-                    tip={$locale.ui.page.login.button.login.tip}
+                    tip={$locale.ui.page.login.button.login}
                     active={validateEmail(email)}
-                    action={() => undefined}
-                    >{$locale.ui.page.login.button.login.label}</Button
+                    action={() => undefined}>&gt;</Button
                 >
             </form>
             <p>
                 {#if sent === true}
-                    <Feedback>{$locale.ui.page.login.sent}</Feedback>
+                    <Feedback>{$locale.ui.page.login.prompt.sent}</Feedback>
                 {:else if success === true}
-                    <Feedback>{$locale.ui.page.login.success}</Feedback>
+                    <Feedback>{$locale.ui.page.login.prompt.success}</Feedback>
                 {:else if success === false}
                     <Feedback>{loginFeedback}</Feedback>
                 {/if}

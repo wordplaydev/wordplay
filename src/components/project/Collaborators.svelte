@@ -44,7 +44,7 @@
             validator={validateEmail}
         />
         <Button
-            tip={$locale.ui.page.login.submit}
+            tip={$locale.ui.dialog.share.button.submit}
             active={validateEmail(email)}
             action={() => undefined}>&gt;</Button
         >
