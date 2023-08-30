@@ -3845,8 +3845,8 @@
                 "header": "Login",
                 "anonymous": "anonymous",
                 "prompt": {
-                    "login": "You're not logged in, so your performances are saving on this device instead of online. Submit your email to get a login link.",
-                    "enter": "It looks like you're logging in on a different device. Can you enter your email again?",
+                    "login": "Your performances are saving on this device instead of online. To save them online, submit your email to get a login link.",
+                    "enter": "It looks like your login link came from a different browser or device. Can you enter your email again, just so we're sure it's you?",
                     "play": "You're logged in, we can save your projects online now! Want to create something?",
                     "change": "Want to change your email? Submit a new one and we'll send a confirmation to the old one.",
                     "sent": "Check your email for a login link.",
@@ -3854,7 +3854,7 @@
                     "success": "Account created!",
                     "confirm": "Check your old email address to confirm you new address.",
                     "delete": "Want us to forget everything?",
-                    "reallyDelete": "Are you sure? You'll lose access to your account immediately and your projects will be scheduled for deletion. Collaborators on your projects will also lose access. Type your email to confirm."
+                    "reallyDelete": "Are you sure? Your account and settings will be deleted immediately and your projects will be scheduled for deletion. Collaborators on your projects will immediately lose access to them. Type your email to confirm that this is what you want."
                 },
                 "error": {
                     "expired": "This link expired.",
