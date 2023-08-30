@@ -30,6 +30,7 @@ import ProjectsDatabase from './ProjectsDatabase';
 import LocalesDatabase from './LocalesDatabase';
 import SettingsDatabase from './SettingsDatabase';
 import { httpsCallable } from 'firebase/functions';
+import { PersistenceType } from './ProjectHistory';
 
 export enum SaveStatus {
     Saved = 'saved',
@@ -156,7 +157,12 @@ export class Database {
                     for (const project of await this.Projects.deserializeAll(
                         serialized
                     ))
-                        this.Projects.track(project, true, true, true);
+                        this.Projects.track(
+                            project,
+                            true,
+                            PersistenceType.Online,
+                            true
+                        );
                 },
                 (error) => {
                     if (error instanceof FirebaseError) {

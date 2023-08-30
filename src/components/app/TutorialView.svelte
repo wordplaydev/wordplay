@@ -32,6 +32,7 @@
     import type { Dialog, Performance } from '../../tutorial/Tutorial';
     import type Markup from '../../nodes/Markup';
     import Header from './Header.svelte';
+    import { PersistenceType } from '../../db/ProjectHistory';
 
     export let progress: Progress;
     export let navigate: (progress: Progress) => void;
@@ -147,12 +148,12 @@
             // If there is, get it's store.
             if (existingProject)
                 projectStore = Projects.getStore(progress.getProjectID());
-            // If there's not, add this project to the database and get its store, so we can react to its changes.
+            // If there's not, add this project to the database and get its store, so it can be editable.
             else
                 projectStore = Projects.track(
                     initialProject,
                     true,
-                    false,
+                    PersistenceType.Local,
                     false
                 )?.getStore();
         });
@@ -167,7 +168,9 @@
 
     // When the project changes to something other than the initial project, start persisting it.
     $: if ($projectStore !== undefined && !$projectStore.equals(initialProject))
-        Projects.getHistory($projectStore.id)?.setPersist();
+        Projects.getHistory($projectStore.id)?.setPersist(
+            PersistenceType.Local
+        );
 
     let selection: Progress | undefined = undefined;
     function handleSelect() {

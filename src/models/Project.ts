@@ -32,10 +32,11 @@ export type SerializedSource = {
     caret: SerializedCaret;
 };
 export type SerializedProject = {
-    /** A uuid4 */
+    /** A very likely unique uuid4 string */
     id: string;
     /** A single Translation, serialized */
     name: string;
+    /** The source files in the project */
     sources: SerializedSource[];
     /** A list of locales, which are a ISO 639-1 languaage code, followed by a -, followed by ISO 3166-2 region code: https://en.wikipedia.org/wiki/ISO_3166-2 */
     locales: string[];
@@ -960,6 +961,10 @@ export default class Project {
             archived: this.archived,
             timestamp: this.timestamp,
         };
+    }
+
+    isTutorial() {
+        return this.id.startsWith('tutorial-');
     }
 
     toWordplay() {

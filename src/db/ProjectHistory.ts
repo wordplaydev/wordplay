@@ -10,6 +10,15 @@ export enum ChangeType {
     UndoRedo = 'undoredo',
 }
 
+export enum PersistenceType {
+    /** It should not be editable, or saved in local or cloud databases */
+    None = 'none',
+    /** It should be saved locally, enabling editability, but it won't be persisted in the cloud */
+    Local = "local'",
+    /** It should be saved locally and in the cloud, when possible */
+    Online = 'online',
+}
+
 /**
  * An class representing a project and its history, and a Svelte store for reactivity
  * on changes to the project.
@@ -34,18 +43,18 @@ export class ProjectHistory {
     /** True if this was successfully saved in the remote database. */
     private saved = false;
 
-    /** True if this should be persisted in databases */
-    private persist: boolean;
+    /** True if this should be persisted locally in databases */
+    private persist: PersistenceType;
 
     /** True if the last edit was an overwrite */
     private overwrite = false;
 
-    constructor(project: Project, persist: boolean, saved: boolean) {
+    constructor(project: Project, persist: PersistenceType, saved: boolean) {
         this.id = project.id;
         this.current = writable(project);
         this.history.push(project);
         this.index = 0;
-        this.persist = persist ?? true;
+        this.persist = persist;
         this.saved = saved;
     }
 
@@ -154,11 +163,11 @@ export class ProjectHistory {
         return this.change === ChangeType.UndoRedo;
     }
 
-    isPersisted() {
+    getPersisted() {
         return this.persist;
     }
 
-    setPersist() {
-        this.persist = true;
+    setPersist(mode: PersistenceType) {
+        this.persist = mode;
     }
 }
