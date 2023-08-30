@@ -4,10 +4,8 @@
 </script>
 
 <div class="container">
-    <Spinning />
-    <div aria-live="assertive" aria-atomic="true" aria-relevant="all"
-        >{$locale.ui.widget.loading.message}</div
-    >
+    <Spinning label={$locale.ui.widget.loading.message} />
+    <div>{$locale.ui.widget.loading.message}</div>
 </div>
 
 <style>

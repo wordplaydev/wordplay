@@ -26,6 +26,7 @@
     .prompt.confirming {
         display: flex;
         flex-direction: row;
+        width: max-content;
         gap: var(--wordplay-spacing);
         padding-left: var(--wordplay-spacing);
         padding-right: var(--wordplay-spacing);

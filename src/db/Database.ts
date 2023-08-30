@@ -2,15 +2,22 @@ import type { SerializedProject } from '@models/Project';
 import { writable, type Writable } from 'svelte/store';
 import {
     collection,
+    deleteDoc,
     doc,
     getDoc,
     onSnapshot,
+    or,
     query,
     setDoc,
     where,
 } from 'firebase/firestore';
 import { firestore, auth, functions } from '@db/firebase';
-import { onAuthStateChanged, type Unsubscribe, type User } from 'firebase/auth';
+import {
+    deleteUser,
+    onAuthStateChanged,
+    type Unsubscribe,
+    type User,
+} from 'firebase/auth';
 import { FirebaseError } from 'firebase/app';
 import type Locale from '../locale/Locale';
 import en from '../locale/en-US.json';
@@ -130,11 +137,14 @@ export class Database {
         // Is there a user logged in now? Set up the realtime projects query,
         // save any local projects to the database and get configuration data from the cloud.
         if (this.user) {
-            // Any time the user projects changes in the database, update projects.
+            // Any time projects a creator has access to changes in the database, update projects.
             this.projectsQueryUnsubscribe = onSnapshot(
                 query(
                     collection(firestore, 'projects'),
-                    where('uids', 'array-contains', this.user.uid)
+                    or(
+                        where('owner', '==', this.user.uid),
+                        where('collaborators', 'array-contains', this.user.uid)
+                    )
                 ),
                 async (snapshot) => {
                     const serialized: SerializedProject[] = [];
@@ -273,6 +283,34 @@ export class Database {
     clean() {
         if (this.projectsQueryUnsubscribe) this.projectsQueryUnsubscribe();
         if (this.authUnsubscribe) this.authUnsubscribe();
+    }
+
+    /** Delete account, including all projects, settings, and user. */
+    async deleteAccount(): Promise<boolean> {
+        // Not logged in? Do nothing.
+        const user = this.getUser();
+        if (user === null) return false;
+
+        // No firestore? Do nothing.
+        if (firestore === undefined) return false;
+
+        try {
+            await this.Projects.archiveAllProjects();
+        } catch (err) {
+            console.error(err);
+            return false;
+        }
+
+        // Archiving was successful, delete the user's settings and then the user.
+        try {
+            await deleteDoc(doc(firestore, 'users', user.uid));
+            await deleteUser(user);
+        } catch (err) {
+            console.error(err);
+            return false;
+        }
+
+        return true;
     }
 }
 

@@ -11,13 +11,13 @@
     } from 'firebase/auth';
     import { FirebaseError } from 'firebase/app';
     import { auth, firestore } from '@db/firebase';
-    import { goto } from '$app/navigation';
     import { onMount } from 'svelte';
     import { DB, locale } from '../../db/Database';
     import Feedback from '../../components/app/Feedback.svelte';
     import Writing from '../../components/app/Writing.svelte';
     import validateEmail from '../../db/validEmail';
     import Spinning from '../../components/app/Spinning.svelte';
+    import Link from '../../components/app/Link.svelte';
 
     let user = getUser();
     let email: string;
@@ -27,6 +27,10 @@
     let loginFeedback = '';
     let changeSubmitted = false;
     let changeFeedback: string | undefined = undefined;
+    let deleteRequested = false;
+    let deleteSubmitted = false;
+    let confirmEmail: string;
+    let successfullyDeleted: boolean | undefined = undefined;
 
     let Errors: Record<string, string>;
     $: Errors = {
@@ -69,7 +73,6 @@
                         .then(() => {
                             window.localStorage.removeItem('email');
                             success = true;
-                            goto('/projects');
                         })
                         .catch((err) => communicateLoginFailure(err));
                 }
@@ -134,6 +137,16 @@
         if (auth) auth.signOut();
     }
 
+    async function deleteAccount() {
+        deleteSubmitted = true;
+        successfullyDeleted = await DB.deleteAccount();
+        return true;
+    }
+
+    function readyToDeleteAccount(email: string) {
+        return validateEmail(email) && email === $user?.email;
+    }
+
     // If it's a sign in, finish signing in once authenticated.
     onMount(() => {
         if (auth && isSignInWithEmailLink(auth, window.location.href))
@@ -145,39 +158,112 @@
     {#if auth && firestore}
         {#if $user}
             <Header>{$user.email}</Header>
-            <p>{$locale.ui.page.login.prompt.play}</p>
-            <p
-                >{$locale.ui.page.login.prompt.logout}
-                <Button
-                    background
-                    tip={$locale.ui.page.login.button.logout.tip}
-                    action={logout}
-                    >{$locale.ui.page.login.button.logout.label}</Button
-                ></p
-            >
-            <p>{$locale.ui.page.login.prompt.change}</p>
-            <form class="form" on:submit={update}>
-                <p
-                    ><TextField
-                        description={$locale.ui.page.login.field.email
-                            .description}
-                        placeholder={$locale.ui.page.login.field.email
-                            .placeholder}
-                        bind:text={email}
-                        editable={!changeSubmitted}
-                    /><Button
-                        tip={$locale.ui.page.login.button.update}
-                        active={validateEmail(email)}
-                        action={() => undefined}>&gt;</Button
-                    ></p
-                >
-            </form>
-            <p>
-                {#if changeSubmitted}<Spinning />
-                {:else if changeFeedback}<Feedback inline
-                        >{changeFeedback}</Feedback
-                    >{/if}</p
-            >
+
+            <div class="actions">
+                <div class="action">
+                    <p>{$locale.ui.page.login.prompt.play}</p>
+                    <p
+                        ><Link to="/projects"
+                            >{$locale.ui.page.projects.header}</Link
+                        ></p
+                    >
+                </div>
+                <div class="action">
+                    <p>{$locale.ui.page.login.prompt.logout}</p>
+                    <p
+                        ><Button
+                            background
+                            tip={$locale.ui.page.login.button.logout.tip}
+                            action={logout}
+                            >{$locale.ui.page.login.button.logout.label}</Button
+                        ></p
+                    >
+                </div>
+                <div class="action">
+                    <p>{$locale.ui.page.login.prompt.change}</p>
+                    <form on:submit={update}>
+                        <TextField
+                            description={$locale.ui.page.login.field.email
+                                .description}
+                            placeholder={$locale.ui.page.login.field.email
+                                .placeholder}
+                            bind:text={email}
+                            editable={!changeSubmitted}
+                        /><Button
+                            submit
+                            tip={$locale.ui.page.login.button.update}
+                            active={validateEmail(email)}
+                            action={() => undefined}>&gt;</Button
+                        >
+                        {#if changeSubmitted}<Spinning
+                                label={$locale.ui.page.login.feedback.changing}
+                            />
+                        {:else if changeFeedback}<Feedback inline
+                                >{changeFeedback}</Feedback
+                            >{/if}
+                    </form>
+                </div>
+                <div class="action"
+                    >{#if !deleteSubmitted}
+                        <p>{$locale.ui.page.login.prompt.delete}</p>
+                        <p
+                            ><Button
+                                background
+                                tip={$locale.ui.page.login.button.delete.tip}
+                                action={() =>
+                                    (deleteRequested = !deleteRequested)}
+                                active={!deleteRequested}
+                                >{$locale.ui.page.login.button.delete
+                                    .label}</Button
+                            >
+                        </p>
+                        {#if deleteRequested}
+                            <p aria-live="assertive">
+                                {$locale.ui.page.login.prompt.reallyDelete}
+                            </p>
+
+                            <form
+                                on:submit={() =>
+                                    readyToDeleteAccount(confirmEmail)
+                                        ? deleteAccount()
+                                        : undefined}
+                            >
+                                <TextField
+                                    description={$locale.ui.page.login.field
+                                        .email.description}
+                                    placeholder={$locale.ui.page.login.field
+                                        .email.placeholder}
+                                    fill={true}
+                                    bind:text={confirmEmail}
+                                />
+                                <Button
+                                    background
+                                    submit
+                                    tip={$locale.ui.page.login.button
+                                        .reallyDelete.tip}
+                                    active={readyToDeleteAccount(confirmEmail)}
+                                    action={deleteAccount}
+                                    >{$locale.ui.page.login.button.reallyDelete
+                                        .label}</Button
+                                >
+                            </form>
+                        {/if}
+                    {:else}
+                        {#if successfullyDeleted === undefined}
+                            <p>{$locale.ui.page.login.feedback.deleting}</p>
+                            <p
+                                ><Spinning
+                                    label={$locale.ui.page.login.feedback
+                                        .deleting}
+                                /></p
+                            >{:else if successfullyDeleted === false}
+                            <p aria-live="assertive"
+                                >{$locale.ui.page.login.error.delete}</p
+                            >
+                        {/if}
+                    {/if}
+                </div>
+            </div>
         {:else}
             <Header>{$locale.ui.page.login.header}</Header>
             <p>
@@ -187,12 +273,13 @@
                     {$locale.ui.page.login.prompt.login}
                 {/if}
             </p>
-            <form class="form" on:submit={startLogin}>
+            <form on:submit={startLogin}>
                 <TextField
                     description={$locale.ui.page.login.field.email.description}
                     placeholder={$locale.ui.page.login.field.email.placeholder}
                     bind:text={email}
                 /><Button
+                    submit
                     tip={$locale.ui.page.login.button.login}
                     active={validateEmail(email)}
                     action={() => undefined}>&gt;</Button
@@ -214,10 +301,25 @@
 </Writing>
 
 <style>
-    .form {
+    form {
         display: flex;
         flex-direction: row;
         gap: var(--wordplay-spacing);
         margin: var(--wordplay-spacing);
+    }
+
+    .actions {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: var(--wordplay-spacing);
+    }
+
+    .action {
+        min-width: 15em;
+        width: 40%;
+        padding: var(--wordplay-spacing);
+        border: var(--wordplay-border-color) solid var(--wordplay-border-width);
+        border-radius: var(--wordplay-border-radius);
     }
 </style>

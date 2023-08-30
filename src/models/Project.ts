@@ -39,8 +39,10 @@ export type SerializedProject = {
     sources: SerializedSource[];
     /** A list of locales, which are a ISO 639-1 languaage code, followed by a -, followed by ISO 3166-2 region code: https://en.wikipedia.org/wiki/ISO_3166-2 */
     locales: string[];
+    /** The Firestore user ID owner of this project */
+    owner: string | null;
     /** A list of Firestore user IDs that have privileges to edit this project */
-    uids: string[];
+    collaborators: string[];
     /** Whether this project can be viewed by anyone */
     public: boolean;
     /** True if the project is listed in a creator's performance */
@@ -88,8 +90,11 @@ export default class Project {
     /** Serialized caret positions for each source file */
     readonly carets: SerializedCarets;
 
+    /** The Firestore user ID that owns this project */
+    readonly owner: string | null;
+
     /** A list of uids that have write access to this project. */
-    readonly uids: string[];
+    readonly collaborators: string[];
 
     /** True if it should be listed in the projects list. Allows tutorial projects not to be listed. */
     readonly listed: boolean;
@@ -137,7 +142,8 @@ export default class Project {
         main: Source,
         supplements: Source[],
         locales: Locale | Locale[],
-        uids: string[] = [],
+        owner: string | null = null,
+        collaborators: string[] = [],
         pub = false,
         carets: SerializedCarets | undefined = undefined,
         listed = true,
@@ -145,7 +151,8 @@ export default class Project {
         timestamp: number | undefined = undefined
     ) {
         this.id = id ?? uuidv4();
-        this.uids = uids.filter((uid) => uid.length > 0);
+        this.owner = owner;
+        this.collaborators = collaborators.filter((uid) => uid.length > 0);
         this.public = pub;
         this.timestamp = timestamp ?? Date.now();
 
@@ -192,7 +199,8 @@ export default class Project {
             this.main,
             this.supplements,
             this.locales,
-            this.uids,
+            this.owner,
+            this.collaborators,
             this.public,
             this.carets,
             this.listed,
@@ -522,7 +530,8 @@ export default class Project {
             this.main,
             this.supplements,
             this.locales,
-            this.uids,
+            this.owner,
+            this.collaborators,
             this.public,
             this.carets,
             this.listed,
@@ -537,7 +546,8 @@ export default class Project {
             this.main,
             this.supplements,
             this.locales,
-            this.uids,
+            this.owner,
+            this.collaborators,
             this.public,
             this.carets,
             this.listed,
@@ -557,7 +567,8 @@ export default class Project {
             this.main,
             this.supplements,
             Array.from(new Set([...this.locales, ...locales])),
-            this.uids,
+            this.owner,
+            this.collaborators,
             this.public,
             this.carets,
             this.listed,
@@ -572,7 +583,8 @@ export default class Project {
             this.main,
             this.supplements,
             this.locales,
-            this.uids,
+            this.owner,
+            this.collaborators,
             this.public,
             this.carets.map((sourceCaret) =>
                 sourceCaret.source === source
@@ -597,7 +609,8 @@ export default class Project {
             this.main,
             this.supplements.filter((s) => s !== source),
             this.locales,
-            this.uids,
+            this.owner,
+            this.collaborators,
             this.public,
             this.carets.filter((c) => c.source !== source),
             this.listed,
@@ -624,7 +637,8 @@ export default class Project {
             newMain,
             newSupplements,
             this.locales,
-            this.uids,
+            this.owner,
+            this.collaborators,
             this.public,
             this.carets.map((caret) => {
                 // See if the caret's source was replaced.
@@ -697,7 +711,8 @@ export default class Project {
             this.main,
             [...this.supplements, newSource],
             this.locales,
-            this.uids,
+            this.owner,
+            this.collaborators,
             this.public,
             [...this.carets, { source: newSource, caret: 0 }],
             this.listed,
@@ -705,8 +720,28 @@ export default class Project {
         );
     }
 
-    withUser(uid: string) {
-        return this.uids.some((user) => user === uid)
+    withOwner(owner: string) {
+        return new Project(
+            this.id,
+            this.name,
+            this.main,
+            this.supplements,
+            this.locales,
+            owner,
+            this.collaborators,
+            this.public,
+            this.carets,
+            this.listed,
+            this.archived
+        );
+    }
+
+    hasCollaborator(uid: string) {
+        return this.collaborators.includes(uid);
+    }
+
+    withCollaborator(uid: string) {
+        return this.collaborators.some((user) => user === uid)
             ? this
             : new Project(
                   this.id,
@@ -714,7 +749,8 @@ export default class Project {
                   this.main,
                   this.supplements,
                   this.locales,
-                  [...this.uids, uid],
+                  this.owner,
+                  [...this.collaborators, uid],
                   this.public,
                   this.carets,
                   this.listed,
@@ -722,8 +758,8 @@ export default class Project {
               );
     }
 
-    withoutUser(uid: string) {
-        return !this.uids.some((user) => user === uid)
+    withoutCollaborator(uid: string) {
+        return !this.collaborators.some((user) => user === uid)
             ? this
             : new Project(
                   this.id,
@@ -731,7 +767,8 @@ export default class Project {
                   this.main,
                   this.supplements,
                   this.locales,
-                  this.uids.filter((id) => id != uid),
+                  this.owner,
+                  this.collaborators.filter((id) => id !== uid),
                   this.public,
                   this.carets,
                   this.listed,
@@ -746,7 +783,8 @@ export default class Project {
             this.main,
             this.supplements,
             this.locales,
-            this.uids,
+            this.owner,
+            this.collaborators,
             pub,
             this.carets,
             this.listed,
@@ -755,7 +793,7 @@ export default class Project {
     }
 
     isReadOnly(uid: string) {
-        return !this.uids.includes(uid);
+        return !this.collaborators.includes(uid);
     }
 
     getBindReplacements(
@@ -851,7 +889,8 @@ export default class Project {
             sources[0],
             sources.slice(1),
             locales,
-            project.uids,
+            project.owner,
+            project.collaborators,
             project.public,
             project.sources.map((s, index) => {
                 return { source: sources[index], caret: s.caret };
@@ -891,7 +930,8 @@ export default class Project {
             this.main,
             this.supplements,
             this.locales,
-            this.uids,
+            this.owner,
+            this.collaborators,
             this.public,
             this.carets,
             this.listed,
@@ -913,7 +953,8 @@ export default class Project {
                 };
             }),
             locales: this.locales.map((l) => toLocaleString(l)),
-            uids: this.uids,
+            owner: this.owner,
+            collaborators: this.collaborators,
             listed: this.listed,
             public: this.public,
             archived: this.archived,
