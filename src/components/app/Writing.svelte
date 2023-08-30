@@ -19,7 +19,7 @@
 
     :global(p) {
         max-width: 30em;
-        margin-inline-start: 1em;
+        margin-inline-start: var(--wordplay-spacing);
     }
 
     :global(p:not(:last-of-type)) {
