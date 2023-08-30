@@ -1021,6 +1021,10 @@
         }
     }
 
+    /**
+     * This reactive block creates a ProjectView wide context for commands to do their work,
+     * particularly CommandButtons.
+     */
     $: commandContext = {
         // Send the active caret, unless a non-source tile is fullscreen
         caret: layout.isFullscreenNonSource()
