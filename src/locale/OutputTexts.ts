@@ -63,8 +63,10 @@ type OutputTexts = {
         description: Template;
     };
     Sequence: NameAndDoc & {
-        count: NameAndDoc;
         poses: NameAndDoc;
+        duration: NameAndDoc;
+        count: NameAndDoc;
+        style: NameAndDoc;
     };
     Color: NameAndDoc & {
         lightness: NameAndDoc;

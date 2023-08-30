@@ -5814,18 +5814,26 @@
                 "doc": {
                   "$ref": "#/definitions/DocText"
                 },
+                "duration": {
+                  "$ref": "#/definitions/NameAndDoc"
+                },
                 "names": {
                   "$ref": "#/definitions/NameText"
                 },
                 "poses": {
+                  "$ref": "#/definitions/NameAndDoc"
+                },
+                "style": {
                   "$ref": "#/definitions/NameAndDoc"
                 }
               },
               "required": [
                 "count",
                 "doc",
+                "duration",
                 "names",
-                "poses"
+                "poses",
+                "style"
               ],
               "type": "object"
             },

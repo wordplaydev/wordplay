@@ -1840,8 +1840,16 @@
         "Sequence": {
             "names": "Secuencia",
             "doc": "$?",
-            "count": { "doc": "$?", "names": "count" },
-            "poses": { "doc": "$?", "names": "poses" }
+            "poses": { "doc": "$?", "names": "poses" },
+            "duration": {
+                "doc": "$?",
+                "names": "$? duration"
+            },
+            "style": {
+                "doc": "$?",
+                "names": "$? style"
+            },
+            "count": { "doc": "$?", "names": "count" }
         },
         "Place": {
             "names": ["Posición"],

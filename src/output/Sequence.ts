@@ -16,6 +16,8 @@ import type { TransitionSequence } from './OutputAnimation';
 import type Locale from '../locale/Locale';
 import type Project from '../models/Project';
 
+const MaxCount = 5;
+
 export function createSequenceType(locales: Locale[]) {
     return toStructure(`
     ${getBind(locales, (locale) => locale.output.Sequence, TYPE_SYMBOL)}(
@@ -23,17 +25,22 @@ export function createSequenceType(locales: Locale[]) {
             locales,
             (locale) => locale.output.Sequence.poses
         )}•{ % : Pose }
-        ${getBind(locales, (locale) => locale.output.Phrase.duration)}•#s: 0.25s
-        ${getBind(locales, (locale) => locale.output.Phrase.style)}•${locales
+        ${getBind(
+            locales,
+            (locale) => locale.output.Sequence.duration
+        )}•#s: 0.25s
+        ${getBind(locales, (locale) => locale.output.Sequence.style)}•${locales
         .map((locale) =>
             Object.values(locale.output.Easing).map((id) => `"${id}"`)
         )
         .flat()
         .join('|')}: "${Object.values(locales[0].output.Easing)[0]}"
-        ${getBind(
-            locales,
-            (locale) => locale.output.Sequence.count
-        )}•1x|2x|3x|4x|5x: 1x
+        ${getBind(locales, (locale) => locale.output.Sequence.count)}•${[
+        ...Array(MaxCount + 1).keys(),
+    ]
+        .slice(1)
+        .map((n) => `${n}x`)
+        .join('|')}: 1x
     )
 `);
 }
