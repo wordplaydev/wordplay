@@ -67,7 +67,7 @@
     }
 
     button:hover {
-        background-color: var(--wordplay-alternating-color);
+        transform: scale(1.1);
     }
 
     [aria-disabled='true'] {
