@@ -5,7 +5,6 @@
     import Background from '../components/app/Background.svelte';
     import { locale } from '../db/Database';
     import Writing from '../components/app/Writing.svelte';
-    import Link from '../components/app/Link.svelte';
 </script>
 
 <svelte:head>
@@ -23,6 +22,7 @@
             >Coming Fall 2023. Write <a href="https://amyjko.com">Amy</a> for details.</p
         >
     {:else}
+        <p><BigLink to="/about">{$locale.ui.page.about.header}</BigLink></p>
         <p><BigLink to="/learn">{$locale.ui.page.learn.header}</BigLink></p>
         <p
             ><BigLink to="/projects">{$locale.ui.page.projects.header}</BigLink
@@ -33,8 +33,7 @@
                 >{$locale.ui.page.galleries.header}</BigLink
             ></p
         >
-        <p><Link to="/about">{$locale.ui.page.about.header}</Link></p>
-        <p><Link to="/rights">{$locale.ui.page.rights.header}</Link></p>
+        <p><BigLink to="/rights">{$locale.ui.page.rights.header}</BigLink></p>
     {/if}
 </Writing>
 
