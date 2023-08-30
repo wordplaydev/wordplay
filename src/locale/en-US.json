@@ -3850,11 +3850,11 @@
                     "play": "You're logged in, we can save your projects online now! Want to create something?",
                     "change": "Want to change your email? Submit a new one and we'll send a confirmation to the old one.",
                     "sent": "Check your email for a login link.",
-                    "logout": "Leaving a public device? Logout to remove your data from it.",
+                    "logout": "Leaving a shared device and want to keep your projects private? Logout and we'll remove your projects from this device. They will still be stored online.",
                     "success": "Account created!",
                     "confirm": "Check your old email address to confirm you new address.",
                     "delete": "Want us to forget everything?",
-                    "reallyDelete": "Are you sure? Your projects will be archived and eventually deleted and you'll no longer have access to your account. Type your email to confirm."
+                    "reallyDelete": "Are you sure? You'll lose access to your account immediately and your projects will be scheduled for deletion. Collaborators on your projects will also lose access. Type your email to confirm."
                 },
                 "error": {
                     "expired": "This link expired.",
