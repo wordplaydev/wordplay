@@ -548,6 +548,8 @@ type UITexts = {
                 logout: string;
                 /** Shown briefly before page redirects to projects */
                 success: string;
+                /** Prompts creator to check their original email to confirm the email change */
+                confirm: string;
             };
             /** Shown in the footer a creator is not logged in. */
             anonymous: string;
@@ -559,16 +561,25 @@ type UITexts = {
                 };
             };
             error: {
+                /** Shown when the login link expired */
                 expired: string;
+                /** Shown when the login link isn't valid */
                 invalid: string;
+                /** Shown when the email address isn't valid */
                 email: string;
-                other: string;
+                /** Unknown failure to login */
                 failure: string;
+                /** When there's no connection to Firebase */
                 offline: string;
+                /** When the email addres couldn't be changed for unknown reasons. */
+                unchanged: string;
             };
             button: {
+                /** Log out of the account */
                 logout: ButtonText;
+                /** Login button description */
                 login: string;
+                /** Update email button description  */
                 update: string;
             };
         };

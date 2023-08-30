@@ -2068,6 +2068,9 @@
                 },
                 "error": {
                     "unknown": "$?"
+                },
+                "button": {
+                    "submit": "$?"
                 }
             },
             "settings": {
@@ -2218,22 +2221,20 @@
                 "prompt": {
                     "login": "$?",
                     "enter": "$?",
-                    "anonymous": "$?",
                     "play": "$?",
                     "change": "$?",
-                    "check": "$?",
-                    "logout": "$?"
+                    "logout": "$?",
+                    "sent": "$?",
+                    "success": "$?",
+                    "confirm": "$?"
                 },
-                "submit": "$?",
-                "sent": "$?",
-                "success": "$?",
                 "error": {
                     "expired": "$?",
                     "invalid": "$?",
                     "email": "$?",
-                    "other": "$?",
                     "offline": "$?",
-                    "failure": "$?"
+                    "failure": "$?",
+                    "unchanged": "$?"
                 },
                 "field": {
                     "email": {
@@ -2246,14 +2247,8 @@
                         "tip": "$?",
                         "label": "$?"
                     },
-                    "login": {
-                        "tip": "$?",
-                        "label": ">"
-                    },
-                    "update": {
-                        "tip": "$?",
-                        "label": "$?"
-                    }
+                    "login": "$?",
+                    "update": "$?"
                 }
             },
             "rights": {

@@ -13,7 +13,7 @@ function LocaleHotReload() {
             if (
                 file.includes('locales') &&
                 file.endsWith('.json') &&
-                !file.includes('en-US')
+                !file.endsWith('en-US.json')
             ) {
                 console.log(`${file} changed, sending update event.`);
                 server.ws.send({
