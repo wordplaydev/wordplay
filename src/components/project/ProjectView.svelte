@@ -1030,7 +1030,8 @@
                       (editor) => editor.focused
                   ) ?? Array.from($editors.values())[0]
               )?.caret,
-        evaluator: $evaluator,
+        /** We intentionally depend on the evaluation store because it updates when the evaluator's state changes */
+        evaluator: $evaluation.evaluator,
         dragging: $dragged !== undefined,
         database: DB,
         fullscreen,

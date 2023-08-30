@@ -26,17 +26,20 @@
         : Array.from($editors.values()).find((editor) => editor.focused);
 
     const context = getProjectCommandContext();
+
+    $: active =
+        command.active === undefined
+            ? true
+            : $context
+            ? command.active($context, '')
+            : false;
 </script>
 
 <Button
     tip={command.description($locale) + ` (${toShortcut(command)})`}
     bind:view
     uiid={command.uiid}
-    active={command.active === undefined
-        ? true
-        : editor
-        ? command.active($context, '')
-        : false}
+    {active}
     action={async () => {
         const hadFocus = view !== undefined && document.activeElement === view;
 
