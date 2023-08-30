@@ -94,13 +94,13 @@
 
     @keyframes wave {
         0% {
-            transform: scale(1);
+            transform: translateY(-2px);
         }
         50% {
-            transform: scale(1.05);
+            transform: translateY(2px);
         }
         100% {
-            transform: scale(1);
+            transform: translateY(-2px);
         }
     }
 
