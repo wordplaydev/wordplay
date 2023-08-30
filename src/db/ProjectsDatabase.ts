@@ -1,6 +1,6 @@
 import Dexie, { liveQuery, type Observable, type Table } from 'dexie';
 import type { SerializedProject } from '../models/Project';
-import { ProjectHistory } from './ProjectHistory';
+import { PersistenceType, ProjectHistory } from './ProjectHistory';
 import { writable, type Writable } from 'svelte/store';
 import Project from '../models/Project';
 import type { Locale } from '../locale/Locale';
@@ -82,7 +82,7 @@ export default class ProjectsDatabase {
                         example
                     ),
                     false,
-                    false,
+                    PersistenceType.None,
                     false
                 )
             )
@@ -112,7 +112,16 @@ export default class ProjectsDatabase {
         const projects = await this.deserializeAll(serialized);
 
         // Track each as editable, but don't persist back to the local database, since we just read them from disk.
-        for (const project of projects) this.track(project, true, true, false);
+        // If it's a tutorial project, mark it as local saves only.
+        for (const project of projects)
+            this.track(
+                project,
+                true,
+                project.isTutorial()
+                    ? PersistenceType.Local
+                    : PersistenceType.Online,
+                false
+            );
     }
 
     async deserializeAll(serialized: SerializedProject[]) {
@@ -140,7 +149,7 @@ export default class ProjectsDatabase {
     track(
         project: Project,
         editable: boolean,
-        persist: boolean,
+        persist: PersistenceType,
         saved: boolean
     ): ProjectHistory | undefined {
         if (editable) {
@@ -215,7 +224,7 @@ export default class ProjectsDatabase {
         );
 
         // Track the new project, and request that it be persisted.
-        this.track(newProject, true, true, false);
+        this.track(newProject, true, PersistenceType.Online, false);
 
         // Return it's new ID
         return newProject.id;
@@ -237,7 +246,14 @@ export default class ProjectsDatabase {
             if (localProject !== undefined) {
                 const proj = await this.deserialize(localProject);
                 if (proj) {
-                    this.track(proj, true, false, false);
+                    this.track(
+                        proj,
+                        true,
+                        proj.isTutorial()
+                            ? PersistenceType.Local
+                            : PersistenceType.Online,
+                        false
+                    );
                     return proj;
                 }
             }
@@ -252,7 +268,12 @@ export default class ProjectsDatabase {
                         projectDoc.data() as SerializedProject
                     );
                     if (project !== undefined)
-                        this.track(project, false, false, false);
+                        this.track(
+                            project,
+                            false,
+                            PersistenceType.Online,
+                            false
+                        );
                     return project;
                 }
             } catch (err) {
@@ -303,14 +324,21 @@ export default class ProjectsDatabase {
         const userID = this.database.getUserID();
 
         const editable = Array.from(this.projectHistories.values());
-        const persisted = editable.filter((history) => history.isPersisted());
+        const local = editable.filter(
+            (history) =>
+                history.getPersisted() === PersistenceType.Local ||
+                history.getPersisted() === PersistenceType.Online
+        );
+        const online = editable.filter(
+            (history) => history.getPersisted() === PersistenceType.Online
+        );
 
         // First, save all projects to the local DB, including the user ID if they don't have it already.
         if ('indexedDB' in window) {
             this.database.setStatus(SaveStatus.Saving);
             try {
                 this.localDB.saveProjects(
-                    persisted.map((history) => history.getCurrent().serialize())
+                    local.map((history) => history.getCurrent().serialize())
                 );
             } catch (_) {
                 this.database.setStatus(SaveStatus.Error);
@@ -324,7 +352,7 @@ export default class ProjectsDatabase {
         if (firestore && userID) {
             this.database.setStatus(SaveStatus.Saving);
 
-            const unsaved = persisted.filter((history) => history.isUnsaved());
+            const unsaved = online.filter((history) => history.isUnsaved());
 
             try {
                 // Create a batch of all of the new and updated projects.

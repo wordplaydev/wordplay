@@ -111,6 +111,7 @@
     import Toggle from '../widgets/Toggle.svelte';
     import Announcer from './Announcer.svelte';
     import { toClipboard } from '../editor/util/Clipboard';
+    import { PersistenceType } from '../../db/ProjectHistory';
 
     export let project: Project;
     export let original: Project | undefined = undefined;
@@ -1135,7 +1136,7 @@
     /** Copy the project, track it, then gotoProject(). */
     function copy() {
         const copy = project.copy();
-        Projects.track(copy, true, true, false);
+        Projects.track(copy, true, PersistenceType.Online, false);
         gotoProject(copy, false);
     }
 </script>
