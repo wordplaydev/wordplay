@@ -132,7 +132,8 @@
             new Source($locale.term.start, source),
             [],
             $locales,
-            $user ? [$user.uid] : [],
+            $user?.uid ?? null,
+            [],
             false,
             undefined,
             false

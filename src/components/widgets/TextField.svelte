@@ -1,4 +1,6 @@
 <script lang="ts">
+    import { onMount } from 'svelte';
+
     export let text = '';
     export let placeholder: string;
     export let description: string;
@@ -11,13 +13,18 @@
     export let right = false;
     export let defaultFocus = false;
     export let editable = true;
+    export let email = false;
 
     let width = 0;
 
-    function handleInput() {
+    function handleInput(event: Event) {
         if (changed && (validator === undefined || validator(text) === true))
             changed(text);
     }
+
+    onMount(() => {
+        if (email && view) view.type = 'email';
+    });
 </script>
 
 <div class="field">
@@ -33,8 +40,8 @@
         {placeholder}
         style:width={fill ? null : `${width + 5}px`}
         disabled={!editable}
-        bind:this={view}
         bind:value={text}
+        bind:this={view}
         on:input={handleInput}
         on:keydown|stopPropagation
         on:blur={done}

@@ -7139,6 +7139,10 @@
                     "button": {
                       "additionalProperties": false,
                       "properties": {
+                        "delete": {
+                          "$ref": "#/definitions/ButtonText",
+                          "description": "Delete account button"
+                        },
                         "login": {
                           "description": "Login button description",
                           "type": "string"
@@ -7146,6 +7150,10 @@
                         "logout": {
                           "$ref": "#/definitions/ButtonText",
                           "description": "Log out of the account"
+                        },
+                        "reallyDelete": {
+                          "$ref": "#/definitions/ButtonText",
+                          "description": "Confirm deletion"
                         },
                         "update": {
                           "description": "Update email button description",
@@ -7155,13 +7163,19 @@
                       "required": [
                         "logout",
                         "login",
-                        "update"
+                        "update",
+                        "delete",
+                        "reallyDelete"
                       ],
                       "type": "object"
                     },
                     "error": {
                       "additionalProperties": false,
                       "properties": {
+                        "delete": {
+                          "description": "When account deletion failed",
+                          "type": "string"
+                        },
                         "email": {
                           "description": "Shown when the email address isn't valid",
                           "type": "string"
@@ -7193,7 +7207,26 @@
                         "email",
                         "failure",
                         "offline",
-                        "unchanged"
+                        "unchanged",
+                        "delete"
+                      ],
+                      "type": "object"
+                    },
+                    "feedback": {
+                      "additionalProperties": false,
+                      "properties": {
+                        "changing": {
+                          "description": "Change email pending",
+                          "type": "string"
+                        },
+                        "deleting": {
+                          "description": "Account deleting pending",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "changing",
+                        "deleting"
                       ],
                       "type": "object"
                     },
@@ -7238,6 +7271,10 @@
                           "description": "Prompts creator to check their original email to confirm the email change",
                           "type": "string"
                         },
+                        "delete": {
+                          "description": "Offers to delete account",
+                          "type": "string"
+                        },
                         "enter": {
                           "description": "Asks the creator to enter their email if they opened the email link in a different browser.",
                           "type": "string"
@@ -7252,6 +7289,10 @@
                         },
                         "play": {
                           "description": "Encouragement to go create after logging in.",
+                          "type": "string"
+                        },
+                        "reallyDelete": {
+                          "description": "Offers to really delete account forever",
                           "type": "string"
                         },
                         "sent": {
@@ -7271,7 +7312,9 @@
                         "play",
                         "logout",
                         "success",
-                        "confirm"
+                        "confirm",
+                        "delete",
+                        "reallyDelete"
                       ],
                       "type": "object"
                     }
@@ -7281,6 +7324,7 @@
                     "prompt",
                     "anonymous",
                     "field",
+                    "feedback",
                     "error",
                     "button"
                   ],

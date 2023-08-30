@@ -2226,7 +2226,9 @@
                     "logout": "$?",
                     "sent": "$?",
                     "success": "$?",
-                    "confirm": "$?"
+                    "confirm": "$?",
+                    "delete": "$?",
+                    "reallyDelete": "$?"
                 },
                 "error": {
                     "expired": "$?",
@@ -2234,7 +2236,12 @@
                     "email": "$?",
                     "offline": "$?",
                     "failure": "$?",
-                    "unchanged": "$?"
+                    "unchanged": "$?",
+                    "delete": "$?"
+                },
+                "feedback": {
+                    "changing": "$?",
+                    "deleting": "$?"
                 },
                 "field": {
                     "email": {
@@ -2248,7 +2255,15 @@
                         "label": "$?"
                     },
                     "login": "$?",
-                    "update": "$?"
+                    "update": "$?",
+                    "delete": {
+                        "tip": "$?",
+                        "label": "$?"
+                    },
+                    "reallyDelete": {
+                        "tip": "$?",
+                        "label": "$?"
+                    }
                 }
             },
             "rights": {

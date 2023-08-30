@@ -18,7 +18,7 @@ export class ProjectsDexie extends Dexie {
     constructor() {
         super('wordplay');
         this.version(1).stores({
-            projects: '++id, name, locales, uids',
+            projects: '++id, name, locales, owner, collabators',
         });
     }
 
@@ -163,13 +163,26 @@ export default class ProjectsDatabase {
             // If we already have a history, then reconcile the given version with the current history.
             else {
                 const current = history.getCurrent();
-                // If the given one has the later timestamp, overwrite. This is naive strategy that
+
+                // If the new project is archived, and we're just a collaborator on it, deleted it.
+                const userID = this.database.getUserID();
+                if (
+                    project.isArchived() &&
+                    userID &&
+                    project.hasCollaborator(userID)
+                ) {
+                    this.localDB.deleteProject(project.id);
+                    this.projectHistories.delete(project.id);
+                }
+                // Otherwise, if the given one has the later timestamp, overwrite. This is naive strategy that
                 // assumes that all systems have valid clocks, and it also fails to acccount
                 // for non-conflicting edits.
-                if (project.timestamp > current.timestamp) {
+                else if (project.timestamp > current.timestamp) {
                     history.edit(project, true, true);
                 }
             }
+
+            this.refreshEditableProjects();
         } else {
             this.readonlyProjects.set(project.id, project);
         }
@@ -195,7 +208,10 @@ export default class ProjectsDatabase {
             [],
             // The project starts with all of the locales currently selected in the config.
             locales,
-            userID ? [userID] : []
+            // User owns the project
+            userID,
+            // No collaborators
+            []
         );
 
         // Track the new project, and request that it be persisted.
@@ -274,28 +290,12 @@ export default class ProjectsDatabase {
         // This prevents accidental data loss.
         const history = this.projectHistories.get(id);
         if (history) this.edit(history.getCurrent().asArchived(), false, true);
+    }
 
-        // // Delete from the cache
-        // this.projectHistories.delete(id);
-
-        // // Refresh the editable projects
-        // this.refreshEditableProjects();
-
-        // // Delete from the local database
-        // this.localDB.deleteProject(id);
-
-        // // Delete from Firebase if connected with a user.
-        // if (firestore && this.database.getUserID()) {
-        //     try {
-        //         await deleteDoc(doc(firestore, 'projects', id));
-        //     } catch (error) {
-        //         if (error instanceof FirebaseError) {
-        //             console.error(error.code);
-        //             console.error(error.message);
-        //         }
-        //         this.database.setStatus(SaveStatus.Error);
-        //     }
-        // }
+    async archiveAllProjects() {
+        for (const history of this.projectHistories.values())
+            await this.archiveProject(history.id);
+        await this.persist();
     }
 
     /** Persist in storage */
@@ -308,35 +308,44 @@ export default class ProjectsDatabase {
         // First, save all projects to the local DB, including the user ID if they don't have it already.
         if ('indexedDB' in window) {
             this.database.setStatus(SaveStatus.Saving);
-
             try {
                 this.localDB.saveProjects(
-                    persisted.map((history) =>
-                        history.serializeWithUserID(userID)
-                    )
+                    persisted.map((history) => history.getCurrent().serialize())
                 );
             } catch (_) {
                 this.database.setStatus(SaveStatus.Error);
             }
+            this.database.setStatus(SaveStatus.Saved);
         } else {
             this.database.setStatus(SaveStatus.Error);
         }
 
         // Then, try to save them in Firebase if we have a user ID.
-        if (firestore && this.database.getUserID()) {
+        if (firestore && userID) {
+            this.database.setStatus(SaveStatus.Saving);
+
             const unsaved = persisted.filter((history) => history.isUnsaved());
 
             try {
                 // Create a batch of all of the new and updated projects.
                 const batch = writeBatch(firestore);
-                for (const project of unsaved.map((history) =>
-                    history.serializeWithUserID(this.database.getUserID())
-                ))
+                for (const project of unsaved.map((history) => {
+                    const current = history.getCurrent();
+                    // If the project has no owner, make this user owner, since it was stored locally.
+                    return (
+                        current.owner === null
+                            ? current.withOwner(userID)
+                            : current
+                    ).serialize();
+                }))
                     batch.set(doc(firestore, 'projects', project.id), project);
                 await batch.commit();
 
                 // Mark all projects saved to the cloud if successful.
                 this.projectHistories.forEach((history) => history.markSaved());
+
+                // Mark status as saved
+                this.database.setStatus(SaveStatus.Saved);
             } catch (error) {
                 if (error instanceof FirebaseError) {
                     console.error(error.code);
@@ -344,9 +353,6 @@ export default class ProjectsDatabase {
                 }
                 this.database.setStatus(SaveStatus.Error);
             }
-            this.database.setStatus(SaveStatus.Saved);
-        } else {
-            this.database.setStatus(SaveStatus.Saved);
         }
     }
 

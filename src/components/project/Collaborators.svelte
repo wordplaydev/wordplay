@@ -24,15 +24,18 @@
                 unknown = true;
             } else {
                 unknown = false;
-                Projects.reviseProject(project.withUser(userID));
+                Projects.reviseProject(project.withCollaborator(userID));
             }
+            email = '';
         }
     }
 
     // Whenever the project changes, get it's user's email addresses
     let emails: Map<string, string | null> = new Map();
     $: if (show)
-        DB.getEmailFromUserIDs(project.uids).then((map) => (emails = map));
+        DB.getEmailFromUserIDs(project.collaborators).then(
+            (map) => (emails = map)
+        );
 </script>
 
 <Dialog bind:show description={$locale.ui.dialog.share}>
@@ -48,7 +51,7 @@
             active={validateEmail(email)}
             action={() => undefined}>&gt;</Button
         >
-        {#if adding}<Spinning />{/if}
+        {#if adding}<Spinning label="" />{/if}
         {#if unknown}<p
                 ><Feedback inline
                     >{$locale.ui.dialog.share.error.unknown}</Feedback
@@ -57,17 +60,18 @@
     </form>
 
     <div class="people">
-        {#each project.uids as uid}
+        {#each project.collaborators as uid}
             <div class="person"
                 ><span class="email"
                     >{#if emails.has(uid)}{emails.get(uid) ??
-                            '?'}{:else}<Spinning />{/if}</span
+                            '?'}{:else}<Spinning label="" />{/if}</span
                 ><Button
                     tip={$locale.ui.project.button.removeCollaborator}
-                    active={project.uids.length > 1}
+                    active={project.collaborators.length > 0}
                     action={() =>
-                        Projects.reviseProject(project.withoutUser(uid))}
-                    >⨉</Button
+                        Projects.reviseProject(
+                            project.withoutCollaborator(uid)
+                        )}>⨉</Button
                 ></div
             >
         {/each}

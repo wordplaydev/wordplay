@@ -161,13 +161,4 @@ export class ProjectHistory {
     setPersist() {
         this.persist = true;
     }
-
-    serializeWithUserID(userID: string | null) {
-        const current = this.getCurrent();
-        return (
-            userID !== null && !current.uids.includes(userID)
-                ? current.withUser(userID)
-                : current
-        ).serialize();
-    }
 }

@@ -550,6 +550,10 @@ type UITexts = {
                 success: string;
                 /** Prompts creator to check their original email to confirm the email change */
                 confirm: string;
+                /** Offers to delete account */
+                delete: string;
+                /** Offers to really delete account forever */
+                reallyDelete: string;
             };
             /** Shown in the footer a creator is not logged in. */
             anonymous: string;
@@ -559,6 +563,12 @@ type UITexts = {
                     description: string;
                     placeholder: string;
                 };
+            };
+            feedback: {
+                /** Change email pending */
+                changing: string;
+                /** Account deleting pending */
+                deleting: string;
             };
             error: {
                 /** Shown when the login link expired */
@@ -573,6 +583,8 @@ type UITexts = {
                 offline: string;
                 /** When the email addres couldn't be changed for unknown reasons. */
                 unchanged: string;
+                /** When account deletion failed */
+                delete: string;
             };
             button: {
                 /** Log out of the account */
@@ -581,6 +593,10 @@ type UITexts = {
                 login: string;
                 /** Update email button description  */
                 update: string;
+                /** Delete account button */
+                delete: ButtonText;
+                /** Confirm deletion */
+                reallyDelete: ButtonText;
             };
         };
         /** The rights/terms of service page */
