@@ -3671,6 +3671,9 @@
                 },
                 "error": {
                     "unknown": "We don't know a creator with this email."
+                },
+                "button": {
+                    "submit": "Share the project with this email address"
                 }
             },
             "settings": {
@@ -3842,17 +3845,14 @@
                 "header": "Login",
                 "anonymous": "anonymous",
                 "prompt": {
-                    "login": "Log in to access your performances.",
+                    "login": "You're not logged in, so your performances are saving on this device instead of online. Submit your email to get a login link.",
                     "enter": "It looks like you're logging in on a different device. Can you enter your email again?",
-                    "anonymous": "Your performances are saved on this device. Create an account to save them online.",
                     "play": "You're logged in. Have fun!",
                     "change": "You can change your email address.",
-                    "check": "Check your original email address for a confirmation link.",
-                    "logout": "You can log out."
+                    "sent": "Check your email for a login link.",
+                    "logout": "You can log out.",
+                    "success": "Account created!"
                 },
-                "submit": "send a login email",
-                "sent": "Check your email for a link.",
-                "success": "Account created!",
                 "error": {
                     "expired": "This link expired.",
                     "invalid": "This link isn't valid.",
@@ -3872,14 +3872,8 @@
                         "tip": "logout of your account",
                         "label": "logout"
                     },
-                    "login": {
-                        "tip": "login with this email, sending a login link",
-                        "label": ">"
-                    },
-                    "update": {
-                        "tip": "change your email",
-                        "label": ">"
-                    }
+                    "login": "login with this email, sending a login link",
+                    "update": "change your email"
                 }
             },
             "rights": {

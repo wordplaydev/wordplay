@@ -409,6 +409,10 @@ type UITexts = {
                     description: string;
                 };
             };
+            button: {
+                /** Description for the email submission button. */
+                submit: string;
+            };
             error: {
                 /** When someone tries to add an email collaborator that doesn't have a Wordplay account */
                 unknown: string;
@@ -527,22 +531,26 @@ type UITexts = {
         };
         /** The login and account page */
         login: {
-            /** Header for the login page */
+            /** Header for the login page when not logged in */
             header: string;
             prompt: {
+                /** Prompts creator to login to save their work */
                 login: string;
-                enter: string;
-                anonymous: string;
+                /** Prompt to check email for a login link. */
+                sent: string;
+                /** Tells the creator that they can change their email address. */
                 change: string;
-                check: string;
+                /** Asks the creator to enter their email if they opened the email link in a different browser. */
+                enter: string;
+                /** Encouragement to go create after logging in. */
                 play: string;
+                /** Offers to log out the creator. */
                 logout: string;
+                /** Shown briefly before page redirects to projects */
+                success: string;
             };
-            /** Shown when using an anonymous account instead of creator's email */
+            /** Shown in the footer a creator is not logged in. */
             anonymous: string;
-            submit: string;
-            sent: string;
-            success: string;
             field: {
                 /** The login email */
                 email: {
@@ -560,8 +568,8 @@ type UITexts = {
             };
             button: {
                 logout: ButtonText;
-                login: ButtonText;
-                update: ButtonText;
+                login: string;
+                update: string;
             };
         };
         /** The rights/terms of service page */
