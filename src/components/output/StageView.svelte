@@ -8,6 +8,7 @@
     import type Stage from '@output/Stage';
     import { loadedFonts } from '@basis/Fonts';
     import {
+        FOCAL_LENGTH,
         PX_PER_METER,
         getColorCSS,
         getFaceCSS,
@@ -227,45 +228,43 @@
     $: contentBounds = stage.getLayout(context);
 
     /** When verse or viewport changes, update the autofit focus. */
-    $: {
-        if (view && fit) {
-            // Get the bounds of the verse in verse units.
-            const contentWidth = contentBounds.width;
-            const contentHeight = contentBounds.height;
+    $: if (view && fit) {
+        // Get the bounds of the verse in verse units.
+        const contentWidth = contentBounds.width;
+        const contentHeight = contentBounds.height;
 
-            // Convert them to screen units.
-            const contentRenderedWidth = contentWidth * PX_PER_METER;
-            const contentRenderedHeight = contentHeight * PX_PER_METER;
+        // Convert them to screen units.
+        const contentRenderedWidth = contentWidth * PX_PER_METER;
+        const contentRenderedHeight = contentHeight * PX_PER_METER;
 
-            // Leave some padding on the edges.
-            const availableWidth = viewportWidth * (3 / 4);
-            const availableHeight = viewportHeight * (3 / 4);
+        // Leave some padding on the edges.
+        const availableWidth = viewportWidth * (3 / 4);
+        const availableHeight = viewportHeight * (3 / 4);
 
-            // Figure out the fit dimension based on which scale would be smaller.
-            // This ensures that we don't clip anything.
-            const horizontal =
-                availableWidth / contentRenderedWidth <
-                availableHeight / contentRenderedHeight;
+        // Figure out the fit dimension based on which scale would be smaller.
+        // This ensures that we don't clip anything.
+        const horizontal =
+            availableWidth / contentRenderedWidth <
+            availableHeight / contentRenderedHeight;
 
-            // A bit of constraint solving to calculate the z necessary for achieving the scale computed above.
-            const z =
-                -(
-                    (horizontal ? contentWidth : contentHeight) *
-                    PX_PER_METER *
-                    PX_PER_METER
-                ) / (horizontal ? availableWidth : availableHeight);
+        // A bit of constraint solving to calculate the z necessary for achieving the scale computed above.
+        const z =
+            -(
+                (horizontal ? contentWidth : contentHeight) *
+                PX_PER_METER *
+                FOCAL_LENGTH
+            ) / (horizontal ? availableWidth : availableHeight);
 
-            // Now focus the content on the center of the content.
-            fitFocus = createPlace(
-                evaluator,
-                -(contentBounds.left + contentBounds.width / 2),
-                -contentBounds.top + contentBounds.height / 2,
-                z
-            );
-            // If we're currently fitting to content, just make the adjusted focus the same in case the setting is inactive.
-            // This ensures we start from where we left off.
-            adjustedFocus = fitFocus;
-        }
+        // Now focus the content on the center of the content.
+        fitFocus = createPlace(
+            evaluator,
+            -(contentBounds.left + contentBounds.width / 2),
+            -contentBounds.top + contentBounds.height / 2,
+            z
+        );
+        // If we're currently fitting to content, just make the adjusted focus the same in case the setting is inactive.
+        // This ensures we start from where we left off.
+        adjustedFocus = fitFocus;
     }
 
     export const adjustFocus = (dx: number, dy: number, dz: number) => {
@@ -458,13 +457,13 @@
     }
 
     .horizontal {
-        height: 0.1px;
-        border-top: 0.1px;
+        height: 3px;
+        border-top: 1px;
     }
 
     .vertical {
-        width: 0.1px;
-        border-left: 0.1px;
+        width: 3px;
+        border-left: 1px;
     }
 
     .axis {

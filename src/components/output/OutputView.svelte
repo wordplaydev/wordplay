@@ -303,7 +303,7 @@
 
     function handleWheel(event: WheelEvent) {
         if (stage) {
-            stage.adjustFocus(0, 0, event.deltaY / Math.pow(PX_PER_METER, 2));
+            stage.adjustFocus(0, 0, event.deltaY / PX_PER_METER);
             event.preventDefault();
         }
     }
