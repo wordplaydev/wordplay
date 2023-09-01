@@ -1624,6 +1624,19 @@
                     "names": "$? depth"
                 }
             ]
+        },
+        "Webpage": {
+            "doc": ["$?"],
+            "names": "$? webpage",
+            "url": { "doc": "$?", "names": "$? url" },
+            "query": { "doc": "$?", "names": "$? query" },
+            "frequency": { "doc": "$?", "names": "$? frequency" },
+            "error": {
+                "invalid": "$?",
+                "unvailable": "$?",
+                "notHTML": "$?",
+                "noConnection": "$?"
+            }
         }
     },
     "output": {

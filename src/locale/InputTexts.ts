@@ -41,6 +41,21 @@ type InputTexts = {
     Placement: NameAndDoc & {
         inputs: [NameAndDoc, NameAndDoc, NameAndDoc, NameAndDoc, NameAndDoc];
     };
+    Webpage: NameAndDoc & {
+        url: NameAndDoc;
+        query: NameAndDoc;
+        frequency: NameAndDoc;
+        error: {
+            /** When the URL is not valid */
+            invalid: string;
+            /** The URL could not be accessed */
+            unvailable: string;
+            /** The response was not HTML */
+            notHTML: string;
+            /** There was no connection to the internet */
+            noConnection: string;
+        };
+    };
 };
 
 export default InputTexts;

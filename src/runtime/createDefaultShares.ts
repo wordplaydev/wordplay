@@ -25,6 +25,7 @@ import { createCameraDefinition } from '../input/Camera';
 import { createSequenceType } from '../output/Sequence';
 import { createPlacementDefinition } from '../input/Placement';
 import { createPitchDefinition } from '../input/Pitch';
+import { createWebpageDefinition } from '../input/Webpage';
 
 export default function createDefaultShares(locales: Locale[]) {
     const PlaceType = createPlaceType(locales);
@@ -64,6 +65,7 @@ export default function createDefaultShares(locales: Locale[]) {
         Volume: createVolumeDefinition(locales),
         Pitch: createPitchDefinition(locales),
         Camera: createCameraDefinition(locales, ColorType),
+        Webpage: createWebpageDefinition(locales),
     };
 
     const Sequences = getDefaultSequences(locales);

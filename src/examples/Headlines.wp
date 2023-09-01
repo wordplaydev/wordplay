@@ -1,0 +1,7 @@
+Headlines
+=== start/en
+headlines: Webpage('https://www.nytimes.com' 'h3')
+top: headlines•[''] ? headlines.subsequence(1 7) ø
+top•ø ? 
+Phrase('…')
+Group(Stack() top.translate(ƒ (headline) Phrase(headline)))
