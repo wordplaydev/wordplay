@@ -964,6 +964,7 @@ export default class Caret {
             else {
                 const kind = parent?.getFieldOfChild(node)?.kind;
                 const index = this.source.getNodeFirstPosition(node);
+                const last = this.source.getNodeLastPosition(node);
                 if (kind && index !== undefined) {
                     // If in a list or undefined is allowed, just remove it
                     if (
@@ -1009,6 +1010,25 @@ export default class Caret {
                                 undefined
                             ),
                         ];
+                    }
+                    // Otherwise, delete the sequence of characters.
+                    else if (last !== undefined) {
+                        const newSource = this.source.withoutGraphemesBetween(
+                            index,
+                            last
+                        );
+                        return newSource === undefined
+                            ? undefined
+                            : [
+                                  newSource,
+                                  new Caret(
+                                      newSource,
+                                      index,
+                                      undefined,
+                                      undefined,
+                                      undefined
+                                  ),
+                              ];
                     }
                 }
             }
