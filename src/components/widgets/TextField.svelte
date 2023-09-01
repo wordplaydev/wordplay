@@ -17,7 +17,7 @@
 
     let width = 0;
 
-    function handleInput(event: Event) {
+    function handleInput() {
         if (changed && (validator === undefined || validator(text) === true))
             changed(text);
     }

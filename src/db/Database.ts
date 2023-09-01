@@ -31,6 +31,7 @@ import LocalesDatabase from './LocalesDatabase';
 import SettingsDatabase from './SettingsDatabase';
 import { httpsCallable } from 'firebase/functions';
 import { PersistenceType } from './ProjectHistory';
+import type { FetchError } from '../input/Webpage';
 
 export enum SaveStatus {
     Saved = 'saved',
@@ -318,7 +319,31 @@ export class Database {
 
         return true;
     }
+
+    /** Utility function for getting URL from server */
+    async getHTML(url: string): Promise<string | undefined> {
+        // No access to firebase?
+        if (getWebpage === undefined) {
+            return undefined;
+            return;
+        }
+
+        // Ask the server to get the URL
+        return (
+            await getWebpage({
+                url,
+            })
+        ).data;
+    }
 }
+
+/** The firebase function that we use to proxy get requests to avoid CORS restrictions on gets. */
+const getWebpage = functions
+    ? httpsCallable<{ url: string }, string | FetchError>(
+          functions,
+          'getWebpage'
+      )
+    : undefined;
 
 export const DefaultLocale = en as Locale;
 

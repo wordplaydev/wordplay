@@ -1754,6 +1754,63 @@
                 "names"
               ],
               "type": "object"
+            },
+            "Webpage": {
+              "additionalProperties": false,
+              "properties": {
+                "doc": {
+                  "$ref": "#/definitions/DocText"
+                },
+                "error": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "invalid": {
+                      "description": "When the URL is not valid",
+                      "type": "string"
+                    },
+                    "noConnection": {
+                      "description": "There was no connection to the internet",
+                      "type": "string"
+                    },
+                    "notHTML": {
+                      "description": "The response was not HTML",
+                      "type": "string"
+                    },
+                    "unvailable": {
+                      "description": "The URL could not be accessed",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "invalid",
+                    "unvailable",
+                    "notHTML",
+                    "noConnection"
+                  ],
+                  "type": "object"
+                },
+                "frequency": {
+                  "$ref": "#/definitions/NameAndDoc"
+                },
+                "names": {
+                  "$ref": "#/definitions/NameText"
+                },
+                "query": {
+                  "$ref": "#/definitions/NameAndDoc"
+                },
+                "url": {
+                  "$ref": "#/definitions/NameAndDoc"
+                }
+              },
+              "required": [
+                "doc",
+                "error",
+                "frequency",
+                "names",
+                "query",
+                "url"
+              ],
+              "type": "object"
             }
           },
           "required": [
@@ -1767,7 +1824,8 @@
             "Pitch",
             "Camera",
             "Motion",
-            "Placement"
+            "Placement",
+            "Webpage"
           ],
           "type": "object"
         },

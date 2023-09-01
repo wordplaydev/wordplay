@@ -11,6 +11,7 @@ import Maze from './Maze.wp?raw';
 import Adventure from './Adventure.wp?raw';
 import Letters from './Letters.wp?raw';
 import Catch from './Catch.wp?raw';
+import Headlines from './Headlines.wp?raw';
 import { parseNames } from '../parser/parseBind';
 import { toTokens } from '../parser/toTokens';
 
@@ -76,4 +77,5 @@ export const examples = wpToSerializedProjects([
     Letters,
     Maze,
     Catch,
+    Headlines,
 ]);

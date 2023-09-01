@@ -606,7 +606,7 @@
                 },
                 "MisplacedInput": "this input is out of order.",
                 "MissingInput": {
-                    "primary": "I missing $1, can you add it?",
+                    "primary": "I'm missing $1, can you add it?",
                     "secondary": "this input is required, but $2 didn't provide it"
                 },
                 "NotInstantiable": "I can't make this @StructureDefinition, it has unimplemented functions.",
@@ -2924,6 +2924,33 @@
                     "names": "depth"
                 }
             ]
+        },
+        "Webpage": {
+            "doc": [
+                "/Hey, @FunctionDefinition here. Let's talk about how to get webpages from the internet!/",
+                "When we first heard about your internet, we found it fascinating. A whole world full of connected computers sharing documents with each other? That's amazing!",
+                "So we made a stream that connects to it. You give us a URL, and we'll get all of the text at it. Like this:",
+                "\\Webpage('https://wordplay.dev')\\",
+                "And there's apparently this thing called <CSS@https://developer.mozilla.org/en-US/docs/Learn/CSS/First_steps/What_is_CSS>, which likes you query things on a web page? Give us a CSS selection query and we'll get only the text that matches that query. Like this example, which gets the level one headers.",
+                "\\Webpage('https://wordplay.dev' 'h1')\\",
+                "Lots of things can go wrong with this one. If you lose your internet connection, or the URL doesn't resolve to anything, or the URL isn't public, or the URL isn't an HTML page… All of these can lead to failure."
+            ],
+            "names": ["🔗", "Webpage"],
+            "url": { "doc": "The HTML webpage URL to get.", "names": "url" },
+            "query": {
+                "doc": "The CSS query to evaluate on the HTML",
+                "names": "query"
+            },
+            "frequency": {
+                "doc": "The number of minutes that should pass before the page is fetched again.",
+                "names": "frequency"
+            },
+            "error": {
+                "invalid": "this is not a valid URL",
+                "unvailable": "this URL isn't accessible",
+                "notHTML": "the response wasn't HTML",
+                "noConnection": "no connection to Wordplay"
+            }
         }
     },
     "output": {
