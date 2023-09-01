@@ -283,7 +283,7 @@ export default function bootstrapList(locales: Locale[]) {
                             NoneLiteral.make(),
                         ],
                     ],
-                    ListTypeVariable.getReference(),
+                    ListType.make(ListTypeVariable.getReference()),
                     (requestor, evaluation) => {
                         requestor;
                         const list = evaluation.getClosure();
