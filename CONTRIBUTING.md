@@ -255,6 +255,14 @@ In the terminal, just type
 And a little program will run (and re-run) every time you save your locale or tutorial files, and tell you about any problems, including unwritten strings, code with errors, invalid formatting, invalid concept links, and more.
 Keep chipping away at your translation until there are no more problems.
 
+### Fonts
+
+An important part of supporting a language is finding fonts that support the language. Unfortunately, there aren't many outside the Latin character set. Fortunately, there are Noto fonts for most scripts. Find an appropriate font here:
+
+[Noto Fonts](https://fonts.google.com/?query=noto)
+
+If you're comfortable with it, download the font, add the metadat to `Fonts.ts`, and set the font as the default face for the locale. If that's outside your skillset, ask someone else to do it. We don't want to launch a locale without proper font support.
+
 ### Submitting
 
 It's best to submit your revisions in chunks, rather than all at once. After all, a lot can change in the `main` branch while you're editing. Here are a few tips:
