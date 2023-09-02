@@ -5,6 +5,10 @@
     import Background from '../components/app/Background.svelte';
     import { locale } from '../db/Database';
     import Writing from '../components/app/Writing.svelte';
+    import Speech from '../components/lore/Speech.svelte';
+    import Glyphs from '../lore/Glyphs';
+    import Emotion from '../lore/Emotion';
+    import MarkupHtmlView from '../components/concepts/MarkupHTMLView.svelte';
 </script>
 
 <svelte:head>
@@ -16,29 +20,49 @@
 <Background />
 <Writing>
     <Header>{$locale.wordplay}<sub>.dev</sub></Header>
-    <p>{$locale.ui.page.landing.motto}</p>
+    <div class="welcome">
+        <Speech glyph={Glyphs.Function} emotion={Emotion.happy}
+            ><svelte:fragment slot="content"
+                ><MarkupHtmlView
+                    markup={$locale.ui.page.landing.call}
+                /></svelte:fragment
+            ></Speech
+        >
+    </div>
     {#if PUBLIC_CONTEXT === 'prod'}
         <p
             >Coming Fall 2023. Write <a href="https://amyjko.com">Amy</a> for details.</p
         >
     {:else}
-        <p><BigLink to="/about">{$locale.ui.page.about.header}</BigLink></p>
-        <p><BigLink to="/learn">{$locale.ui.page.learn.header}</BigLink></p>
-        <p
-            ><BigLink to="/projects">{$locale.ui.page.projects.header}</BigLink
-            ></p
+        <BigLink to="/learn" subtitle={$locale.ui.page.landing.link.learn}
+            >{$locale.ui.page.learn.header}</BigLink
         >
-        <p
-            ><BigLink to="/galleries"
-                >{$locale.ui.page.galleries.header}</BigLink
-            ></p
+        <BigLink to="/projects" subtitle={$locale.ui.page.landing.link.projects}
+            >{$locale.ui.page.projects.header}</BigLink
         >
-        <p><BigLink to="/rights">{$locale.ui.page.rights.header}</BigLink></p>
+        <BigLink
+            to="/galleries"
+            subtitle={$locale.ui.page.landing.link.galleries}
+            >{$locale.ui.page.galleries.header}</BigLink
+        >
+        <BigLink to="/rights" subtitle={$locale.ui.page.landing.link.rights}
+            >{$locale.ui.page.rights.header}</BigLink
+        >
+        <BigLink to="/about" subtitle={$locale.ui.page.landing.link.about}
+            >{$locale.ui.page.about.header}</BigLink
+        >
     {/if}
 </Writing>
 
 <style>
     sub {
         font-size: 30%;
+    }
+
+    .welcome {
+        margin-inline-start: -1em;
+        margin-top: 2em;
+        margin-bottom: 2em;
+        width: 50%;
     }
 </style>

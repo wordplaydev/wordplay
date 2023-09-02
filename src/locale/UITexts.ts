@@ -483,8 +483,21 @@ type UITexts = {
             message: string;
         };
         landing: {
-            /** The motto for Wordplay on the landing page. */
-            motto: string;
+            /** What function says as a call to action */
+            call: Template[];
+            /** The subtitles below links */
+            link: {
+                /** What content is on the about page */
+                about: string;
+                /** What content is on the learn page */
+                learn: string;
+                /** What content is on the projects page */
+                projects: string;
+                /** What content is on the galleries page */
+                galleries: string;
+                /** What content is on the rights page */
+                rights: string;
+            };
         };
         learn: {
             /** The header for the tutorial page */

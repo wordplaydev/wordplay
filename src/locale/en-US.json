@@ -3834,7 +3834,16 @@
                 "message": "Where is this place? Can we go home?"
             },
             "landing": {
-                "motto": "Where words come to life!"
+                "call": [
+                    "Oh, hi! Are you a person? Will you stay and bring words to life with us? 🥹 /Pleeeeeeease/?"
+                ],
+                "link": {
+                    "learn": "What is this place?",
+                    "projects": "Create and share peformances",
+                    "galleries": "Experience others' performances",
+                    "rights": "Responsibilities, ours and yours",
+                    "about": "Why does this place exist?"
+                }
             },
             "learn": {
                 "header": "Learn",
@@ -3868,7 +3877,7 @@
                 "content": [
                     "Have you ever felt like coding was just for English fluent, non-disabled Westerners obsessed with computers?",
                     "Yeah, us too.",
-                    "This isn't an accident. Since the dawn of computing, programming languages have been design and built by mostly the same group of people -- white, cis, English-speaking men in academia and industry in the US and Europe, and the occasional white woman mathematician. They did their work in a time of post-colonial, winner-take-all power, and programming languages were a key tool for keeping it.",
+                    "This isn't an accident. Since the dawn of computing, programming languages have been design and built by mostly the same group of people -- white, cis, English-speaking men in academia and industry in the US and Europe, and a few incredible woman mathematicians. They did their work in a time of post-colonial, winner-take-all power, and programming languages were a key tool for securing that power.",
                     "Whether intentional or not, this history has led to a vision of computation that is primarily about speed, logic, profit, and domination.",
                     "This is an injustice. Because computing, for better and worse, now undergirds daily life in visible and invisible ways, and the people who have access to create with it are the ones most like its creators. The rest of humanity remains beholden to this power, because imagining anything different requires access, gatekept by language barriers, accesibility barriers, economic barriers, and inequities in public education.",
                     "*Wordplay* aspires to be something different. A programming platform designed to be global, supporting /all/ of the world's languages, but also /about/ the world's languages. A platform on which everyone can create, with whatever abilities they have, to share interactive content that anyone can experience, with whatever abilities they have. For youth and young adults who want to express themselves *playfully*, *artfully*, and *interactively*. Not with the goal of harnessing power, but of creating diverse community that recognize the incredible strength that comes from our beautiful differences.",
