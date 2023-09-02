@@ -47,6 +47,7 @@ import getConcreteExpectedType from './Generics';
 import type Node from './Node';
 import ExpressionPlaceholder from './ExpressionPlaceholder';
 import Refer from '../edit/Refer';
+import UnknownType from './UnknownType';
 
 export default class Bind extends Expression {
     readonly docs?: Docs;
@@ -471,7 +472,7 @@ export default class Bind extends Expression {
 
         // No type? If the bind is in a function definition that is part of a function evaluation that takes a function input,
         // get the type from the function input.
-        if (type === undefined) {
+        if (type === undefined || type instanceof UnknownType) {
             // If the parent is an evaluate and there's no value specified, see what input it corresponds to.
             if (
                 parent instanceof Evaluate &&
