@@ -252,8 +252,15 @@ type UITexts = {
             paint: ToggleText;
         };
         field: {
-            /** The invisible text field that accepts key input when a key stream is active */
-            key: string;
+            /** The text field that accepts key, placement, and chat input when a key stream is active */
+            key: {
+                label: string;
+                placeholder: string;
+            };
+        };
+        button: {
+            /** The chat submit button */
+            submit: string;
         };
     };
     /** The documentation browser */

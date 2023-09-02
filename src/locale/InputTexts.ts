@@ -41,6 +41,7 @@ type InputTexts = {
     Placement: NameAndDoc & {
         inputs: [NameAndDoc, NameAndDoc, NameAndDoc, NameAndDoc, NameAndDoc];
     };
+    Chat: NameAndDoc;
     Webpage: NameAndDoc & {
         url: NameAndDoc;
         query: NameAndDoc;

@@ -26,6 +26,7 @@ import { createSequenceType } from '../output/Sequence';
 import { createPlacementDefinition } from '../input/Placement';
 import { createPitchDefinition } from '../input/Pitch';
 import { createWebpageDefinition } from '../input/Webpage';
+import { createChatDefinition } from '../input/Chat';
 
 export default function createDefaultShares(locales: Locale[]) {
     const PlaceType = createPlaceType(locales);
@@ -66,6 +67,7 @@ export default function createDefaultShares(locales: Locale[]) {
         Pitch: createPitchDefinition(locales),
         Camera: createCameraDefinition(locales, ColorType),
         Webpage: createWebpageDefinition(locales),
+        Chat: createChatDefinition(locales),
     };
 
     const Sequences = getDefaultSequences(locales);
