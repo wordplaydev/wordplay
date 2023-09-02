@@ -191,6 +191,12 @@ const Faces: Face[] = [
         italic: false,
         scripts: Latin,
     },
+    {
+        name: 'Monoton',
+        weights: [400],
+        italic: false,
+        scripts: Latin,
+    },
 ];
 
 /**
