@@ -10,6 +10,10 @@ assignees: ''
 
 What are you trying to do? Is there a problem you're encountering or a wish you have?
 
+## What's the idea?
+
+How would we address the problem with a new or changed feature?
+
 ## Who benefits?
 
 Is this something you think only you would benefit from? Are there others that would benefit? Are there others that might be harmed by supporting this?
