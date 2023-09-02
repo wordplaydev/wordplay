@@ -167,6 +167,12 @@ const Faces: Face[] = [
         italic: false,
         scripts: Latin,
     },
+    {
+        name: 'Creepster',
+        weights: [400],
+        italic: false,
+        scripts: Latin,
+    },
 ];
 
 /**
