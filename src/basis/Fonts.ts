@@ -3,19 +3,6 @@ import { OR_SYMBOL } from '@parser/Symbols';
 import { Latin, LatinCyrillicGreek, type Script } from '../locale/Scripts';
 import type Locale from '../locale/Locale';
 
-export const SupportedFaces = [
-    'Noto Sans',
-    'Noto Sans Japanese',
-    'Noto Emoji',
-    'Noto Color Emoji',
-    'Noto Sans Simplified Chinese',
-    'Noto Mono',
-    'Poor Story',
-    'Permanent Marker',
-    'Borel',
-    'Roboto',
-] as const;
-
 export type SupportedFace = (typeof SupportedFaces)[number];
 
 export type FontWeight = 100 | 200 | 300 | 400 | 500 | 600 | 700 | 800 | 900;
@@ -294,6 +281,10 @@ const Faces: Face[] = [
         scripts: Latin,
     },
 ];
+
+export const SupportedFaces = Array.from(Object.values(Faces))
+    .map((face) => face.name)
+    .sort();
 
 /**
  * This data structure managers the fonts that have been loaded,
