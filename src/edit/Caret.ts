@@ -91,6 +91,14 @@ export default class Caret {
                 : undefined;
     }
 
+    getNodeInside() {
+        return typeof this.position === 'number'
+            ? this.insideToken()
+                ? this.tokenExcludingSpace
+                : undefined
+            : this.position;
+    }
+
     getTokenPrior() {
         return this.tokenPrior;
     }
@@ -605,6 +613,16 @@ export default class Caret {
             this.position,
             this.column,
             this.entry,
+            this.addition
+        );
+    }
+
+    withEntry(entry: Entry) {
+        return new Caret(
+            this.source,
+            this.position,
+            this.column,
+            entry,
             this.addition
         );
     }
