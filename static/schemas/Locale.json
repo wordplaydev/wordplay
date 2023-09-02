@@ -7147,13 +7147,51 @@
                 "landing": {
                   "additionalProperties": false,
                   "properties": {
-                    "motto": {
-                      "description": "The motto for Wordplay on the landing page.",
-                      "type": "string"
+                    "call": {
+                      "description": "What function says as a call to action",
+                      "items": {
+                        "$ref": "#/definitions/Template"
+                      },
+                      "type": "array"
+                    },
+                    "link": {
+                      "additionalProperties": false,
+                      "description": "The subtitles below links",
+                      "properties": {
+                        "about": {
+                          "description": "What content is on the about page",
+                          "type": "string"
+                        },
+                        "galleries": {
+                          "description": "What content is on the galleries page",
+                          "type": "string"
+                        },
+                        "learn": {
+                          "description": "What content is on the learn page",
+                          "type": "string"
+                        },
+                        "projects": {
+                          "description": "What content is on the projects page",
+                          "type": "string"
+                        },
+                        "rights": {
+                          "description": "What content is on the rights page",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "about",
+                        "learn",
+                        "projects",
+                        "galleries",
+                        "rights"
+                      ],
+                      "type": "object"
                     }
                   },
                   "required": [
-                    "motto"
+                    "call",
+                    "link"
                   ],
                   "type": "object"
                 },

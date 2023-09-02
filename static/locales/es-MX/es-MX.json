@@ -2223,7 +2223,14 @@
                 "message": "$?"
             },
             "landing": {
-                "motto": "Donde las palabras cobran vida"
+                "call": ["$?"],
+                "link": {
+                    "about": "$?",
+                    "learn": "$?",
+                    "projects": "$?",
+                    "galleries": "$?",
+                    "rights": "$?"
+                }
             },
             "learn": {
                 "header": "$?",

@@ -2203,7 +2203,14 @@
                 "message": "$?"
             },
             "landing": {
-                "motto": "$?"
+                "call": ["$?"],
+                "link": {
+                    "about": "$?",
+                    "learn": "$?",
+                    "projects": "$?",
+                    "galleries": "$?",
+                    "rights": "$?"
+                }
             },
             "learn": {
                 "header": "$?",
