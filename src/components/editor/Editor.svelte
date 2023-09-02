@@ -80,7 +80,6 @@
     import ConceptLinkUI from '../concepts/ConceptLinkUI.svelte';
     import Adjust from './Adjust.svelte';
     import EditorHelp from './EditorHelp.svelte';
-    import concretize from '../../locale/concretize';
 
     const SHOW_OUTPUT_IN_PALETTE = false;
 
@@ -130,9 +129,6 @@
                   .simplify(context)
                   .generalize(context)
             : undefined;
-    $: caretTypeDescription = caretExpressionType
-        ?.getDescription(concretize, $locale, project.getContext(source))
-        .toText();
 
     // A menu of potential transformations based on the caret position.
     // Managed here but displayed by the project to allow it to escape the editor view.
@@ -1363,10 +1359,6 @@
                 {@const relevantConcept = $concepts?.getRelevantConcept(
                     $caret.position
                 )}
-                {@const typeConcept =
-                    $concepts && caretExpressionType
-                        ? $concepts.getConceptOfType(caretExpressionType)
-                        : undefined}
                 <!-- Make a link to the node's documentation -->
                 {#if relevantConcept}<ConceptLinkUI
                         link={relevantConcept}
@@ -1375,10 +1367,10 @@
                 <!-- Show the node's label and type -->
                 {$caret.position.getLabel(
                     $locale
-                )}{#if caretExpressionType}&nbsp;{TYPE_SYMBOL}&nbsp;{#if typeConcept}<ConceptLinkUI
-                            link={typeConcept}
-                            label={caretTypeDescription}
-                        />{:else}{caretTypeDescription}{/if}{/if}
+                )}{#if caretExpressionType}&nbsp;{TYPE_SYMBOL}&nbsp;{caretExpressionType.toWordplay(
+                        undefined,
+                        $locale
+                    )}{/if}
                 <PlaceholderView position={$caret.position} />{/if}</div
         >
     {/key}

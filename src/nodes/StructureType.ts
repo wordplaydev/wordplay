@@ -11,6 +11,7 @@ import type Locale from '@locale/Locale';
 import Glyphs from '../lore/Glyphs';
 import type { Grammar } from './Node';
 import BasisType from './BasisType';
+import type Spaces from '../parser/Spaces';
 
 export const STRUCTURE_NATIVE_TYPE_NAME = 'structure';
 
@@ -115,10 +116,8 @@ export default class StructureType extends BasisType {
         return this;
     }
 
-    toWordplay() {
-        return `•${this.structure.getNames()[0] ?? ''}(${this.structure.inputs
-            .map((input) => input.toWordplay())
-            .join(' ')})`;
+    toWordplay(_: Spaces, locale: Locale) {
+        return this.structure.getPreferredName([locale]);
     }
 
     getNodeLocale(translation: Locale) {

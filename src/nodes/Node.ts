@@ -694,11 +694,11 @@ export default abstract class Node {
     }
 
     /** Translates the node back into Wordplay text, using spaces if provided and . */
-    toWordplay(spaces?: Spaces, depth?: number): string {
+    toWordplay(spaces?: Spaces, locale?: Locale, depth?: number): string {
         return this.getChildren()
             .map((child) => {
                 // If spaces were provided, just use those.
-                if (spaces) return child.toWordplay(spaces);
+                if (spaces) return child.toWordplay(spaces, locale);
                 // Otherwise, get the preferred space.
                 const childInBlock = this.isBlockFor(child);
                 const childDepth = (depth ?? 0) + (childInBlock ? 1 : 0);
@@ -707,7 +707,7 @@ export default abstract class Node {
                     '',
                     childDepth
                 );
-                return preferred + child.toWordplay(undefined, childDepth);
+                return preferred + child.toWordplay(spaces, locale, childDepth);
             })
             .join('');
     }
