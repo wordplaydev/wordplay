@@ -143,6 +143,12 @@ const Faces: Face[] = [
         italic: false,
         scripts: Latin,
     },
+    {
+        name: 'Play',
+        weights: [400, 700],
+        italic: false,
+        scripts: LatinCyrillicGreek,
+    },
 ];
 
 /**
