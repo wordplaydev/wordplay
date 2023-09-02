@@ -13,7 +13,8 @@ export type Face = {
     readonly name: string; // The name of the font
     readonly weights: FontWeight[] | FontWeightRange; // Weights supported on the font
     readonly italic: boolean; // True if italics is supported on the weights above,
-    readonly scripts: Readonly<Script[]>; // A list of ISO 15924 scripts supported
+    readonly scripts: Readonly<Script[]>; // A list of ISO 15924 scripts supported,
+    readonly otf?: boolean; // True if the file is OTF format. Default is TTF.
 };
 
 export type Font = {
@@ -57,6 +58,7 @@ const Faces: Face[] = [
         weights: [100, 300, 400, 500, 700, 900],
         italic: false,
         scripts: ['Hani'],
+        otf: true,
     },
     {
         name: 'Noto Mono',
@@ -415,7 +417,7 @@ export class FontManager {
                 font.italic && Array.isArray(supportedFont.weights)
                     ? '-italic'
                     : ''
-            }.ttf`,
+            }.${supportedFont.otf ? 'otf' : 'ttf'}`,
             {
                 style: font.italic ? 'italic' : 'normal',
                 weight: Array.isArray(supportedFont.weights)
