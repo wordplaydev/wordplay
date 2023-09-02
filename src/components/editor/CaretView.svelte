@@ -120,12 +120,30 @@
         location = computeLocation();
     });
 
-    function getTokenView(token: Token) {
-        return (
-            element?.parentElement?.querySelector(
-                `.token-view[data-id="${token.id}"]`
-            ) ?? null
-        );
+    function getNodeView(node: Node) {
+        const editorView = element?.parentElement;
+        if (editorView === null) return null;
+
+        const tokenView =
+            editorView.querySelector(`.token-view[data-id="${node.id}"]`) ??
+            null;
+
+        // No token view? (This can happen when stepping, since values are rendered instead of nodes.)
+        // Try to find the nearest ancestor that is rendered and return that instead.
+        if (tokenView !== null) return tokenView;
+
+        const parents = source.root.getAncestors(node);
+        do {
+            const parent = parents.shift();
+            if (parent) {
+                const parentView = editorView.querySelector(
+                    `.node-view[data-id="${parent.id}"]`
+                );
+                if (parentView) return parentView;
+            }
+        } while (parents.length > 0);
+
+        return null;
     }
 
     function computeLocation(): CaretBounds | undefined {
@@ -153,19 +171,15 @@
 
         // If the caret is a node, find the bottom left token view.
         if (caret.position instanceof Node) {
-            const nodeView = editorView.querySelector(
-                `.node-view[data-id="${caret.position.id}"]`
-            );
+            const nodeView = getNodeView(caret.position);
             if (nodeView === null) return;
 
-            // Find the bottom left token view.
-            const tokenViews = Array.from(
-                nodeView.querySelectorAll('.token-view')
+            // Find the bottom left token or value view.
+            const tokenAndValueViews = Array.from(
+                nodeView.querySelectorAll(':is(.token-view, .value)')
             );
-            if (tokenViews.length === 0) return;
-            let tokenBounds = Array.from(
-                nodeView.querySelectorAll('.token-view')
-            ).map((view) => {
+            if (tokenAndValueViews.length === 0) return;
+            let tokenBounds = tokenAndValueViews.map((view) => {
                 return { view, bounds: view.getBoundingClientRect() };
             });
             tokenBounds.sort((a, b) => a.bounds.left - b.bounds.left);
@@ -209,7 +223,7 @@
         // No index to render? No caret.
         if (caretIndex === undefined) return;
 
-        const tokenView = getTokenView(token);
+        const tokenView = getNodeView(token);
         if (tokenView === null) return;
 
         // Figure out where the token view is, so we can properly offset the caret position in the editor.
@@ -244,7 +258,7 @@
 
         if (caretHeight === 0) {
             const before = source.getTokenBefore(token);
-            const beforeView = before ? getTokenView(before) : undefined;
+            const beforeView = before ? getNodeView(before) : undefined;
             caretHeight = beforeView?.getBoundingClientRect().height ?? 0;
         }
 
@@ -361,12 +375,9 @@
 
             // Find the right side of token just prior to the current one that has this space.
             const priorToken = caret.source.getNextToken(token, -1);
-            const priorTokenView =
-                priorToken === undefined
-                    ? null
-                    : editorView.querySelector(
-                          `.token-view[data-id="${priorToken.id}"]`
-                      );
+            const priorTokenView = priorToken
+                ? getNodeView(priorToken)
+                : undefined;
             const priorTokenViewRect = priorTokenView?.getBoundingClientRect();
             let priorTokenHorizontalEnd =
                 priorTokenViewRect === undefined

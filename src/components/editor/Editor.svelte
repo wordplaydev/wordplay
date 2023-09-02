@@ -1075,13 +1075,14 @@
         return false;
     }
 
+    /**
+     * @param focusAfter: True if the editor should claim focus after performing this edit.
+     *      For all actions that come from the editor, it should.
+     *      But there are other things that edit, and they may not want the editor grabbing focus.
+     **/
     async function handleEdit(
         edit: Edit | undefined,
         idle: IdleKind,
-        /** True if the editor should claim focus after performing this edit.
-         * For all actions that come from the editor, it should.
-         * But there are other things that edit, and they may not want the editor grabbing focus.
-         **/
         focusAfter: boolean
     ) {
         if (edit === undefined) return;
@@ -1089,11 +1090,42 @@
         const navigation = edit instanceof Caret;
 
         // Get the new caret and source to display.
-        const newCaret = navigation ? edit : edit[1];
+        let newCaret = navigation ? edit : edit[1];
         const newSource = navigation ? undefined : edit[0];
 
         // Set the keyboard edit idle to false.
         keyboardEditIdle.set(idle);
+
+        // See if the caret is inside a node that's currently being displayed as a value, and if
+        // so, select the expression who's value is being displayed instead.
+        // This coordinates with logic in NodeView.svelte, which decides when to render a value instead of a node.
+        if ($evaluation && !$evaluation.playing) {
+            const node = newCaret.getNodeInside();
+            const parents = node
+                ? [node, ...(project.getRoot(node)?.getAncestors(node) ?? [])]
+                : [];
+            const expressions = parents.filter(
+                (n): n is Expression =>
+                    n instanceof Expression && !n.isEvaluationInvolved()
+            );
+            const valued = expressions
+                .map((expr) => {
+                    return {
+                        expression: expr,
+                        value: $evaluation.evaluator.getLatestExpressionValueInEvaluation(
+                            expr
+                        ),
+                    };
+                })
+                .filter((val) => val.value !== undefined);
+            const expressionValue = valued.at(-1);
+
+            // If we found a value being rendered
+            if (expressionValue && expressionValue.value)
+                newCaret = newCaret
+                    .withPosition(expressionValue.expression)
+                    .withEntry(undefined);
+        }
 
         // Update the caret and project.
         if (newSource) {
