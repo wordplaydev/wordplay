@@ -287,6 +287,12 @@ const Faces: Face[] = [
         italic: false,
         scripts: Latin,
     },
+    {
+        name: 'Bungee Outline',
+        weights: [400],
+        italic: false,
+        scripts: Latin,
+    },
 ];
 
 /**
