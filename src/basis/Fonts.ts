@@ -233,6 +233,12 @@ const Faces: Face[] = [
         italic: false,
         scripts: Latin,
     },
+    {
+        name: 'Mouse Memoirs',
+        weights: [400],
+        italic: false,
+        scripts: Latin,
+    },
 ];
 
 /**
