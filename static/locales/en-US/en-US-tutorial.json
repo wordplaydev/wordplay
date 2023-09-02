@@ -2746,6 +2746,35 @@
                     ]
                 },
                 {
+                    "title": "Let's talk",
+                    "subtitle": "Chat",
+                    "concept": "Chat",
+                    "performance": ["fit", "Phrase('🗣️')"],
+                    "lines": [
+                        ["fit", "Phrase('🗣️')"],
+                        [
+                            "FunctionDefinition",
+                            "kind",
+                            "Sometimes a performance is an interaction. The audience says something and we say something back.",
+                            "That's what @Chat is for. When you use it, a little box will appear on stage for the audience to type in and when they submit their message, @Text will be added to the stream for the program to respond to."
+                        ],
+                        null,
+                        ["edit", "Chat()"],
+                        [
+                            "FunctionDefinition",
+                            "kind",
+                            "Here's the simplest way to use it. You type something, and then the stage shows it, because the program's value is the @Chat's value."
+                        ],
+                        null,
+                        ["edit", "Chat().has('oo') ? 'choo choo' 'hmm'"],
+                        [
+                            "FunctionDefinition",
+                            "kind",
+                            "It's more fun to check the value of the chat message to shape the response of the program. This little example responds to any message with consecutive o's with a train sound!"
+                        ]
+                    ]
+                },
+                {
                     "title": "Say what?",
                     "subtitle": "Webpage",
                     "concept": "Webpage",

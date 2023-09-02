@@ -50,7 +50,7 @@ export default class Key extends StreamValue<
             (this.key === undefined || this.key === event.key) &&
             (this.down === undefined || this.down === event.down)
         )
-            this.add(new TextValue(this.evaluator.getMain(), event.key), event);
+            this.add(new TextValue(this.creator, event.key), event);
     }
 
     start() {

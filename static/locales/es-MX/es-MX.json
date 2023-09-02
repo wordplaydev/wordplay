@@ -1599,6 +1599,10 @@
             "bounciness": { "doc": "$?", "names": "rebote" },
             "gravity": { "doc": "$?", "names": "gravedad" }
         },
+        "Chat": {
+            "doc": ["$?"],
+            "names": "$?"
+        },
         "Placement": {
             "doc": ["$?"],
             "names": "$? Placement",
@@ -2056,7 +2060,13 @@
                 }
             },
             "field": {
-                "key": "$?"
+                "key": {
+                    "label": "$?",
+                    "placeholder": "$?"
+                }
+            },
+            "button": {
+                "submit": "$?"
             }
         },
         "timeline": {

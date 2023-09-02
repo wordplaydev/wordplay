@@ -2890,6 +2890,16 @@
                 "names": "gravity"
             }
         },
+        "Chat": {
+            "doc": [
+                "/Hi! @FunctionDefinition here. So you want to chat?",
+                "The basic idea of a chat stream is that the audience types a message, and then the program response to it.",
+                "For example, this simple program checks if the message is 'hello', and if it is, the program evaluates to 'hi'. Otherwise, it evaluates to 'huh'?",
+                "\\Chat().has('hello') ? 'hi!' 'huh?'\\",
+                "That's it! You can make all kinds of performances with this, like chat bots, text adventures, or text-based control schemes for other kinds of performances."
+            ],
+            "names": ["🗣️", "Chat"]
+        },
         "Placement": {
             "doc": [
                 "/Hey, @FunctionDefinition here. Let's talk about how to get us moving!/",
@@ -3653,7 +3663,13 @@
                 }
             },
             "field": {
-                "key": "listening to key presses"
+                "key": {
+                    "label": "listening to key presses",
+                    "placeholder": "message"
+                }
+            },
+            "button": {
+                "submit": "submit this chat message"
             }
         },
         "timeline": {

@@ -36,7 +36,6 @@
     import Choice from '../../input/Choice';
     import Evaluate from '../../nodes/Evaluate';
     import Pointer from '../../input/Pointer';
-    import Button from '../../input/Button';
     import Place from '../../output/Place';
     import moveOutput, { addStageContent } from '../palette/editOutput';
     import { getPlace } from '../../output/getPlace';
@@ -44,6 +43,9 @@
     import Placement from '../../input/Placement';
     import { toExpression } from '../../parser/parseExpression';
     import concretize from '../../locale/concretize';
+    import Chat from '../../input/Chat';
+    import { default as ButtonUI } from '../widgets/Button.svelte';
+    import Button from '../../input/Button';
 
     export let project: Project;
     export let evaluator: Evaluator;
@@ -103,7 +105,14 @@
             ? 'var(--wordplay-error)'
             : stageValue?.background ?? null;
 
+    /** Keep track of streams that listen for keyboard input */
+    $: keys = $evaluation?.evaluator.getBasisStreamsOfType(Key).length > 0;
+    $: placements =
+        $evaluation?.evaluator.getBasisStreamsOfType(Placement).length > 0;
+    $: chats = $evaluation?.evaluator.getBasisStreamsOfType(Chat).length > 0;
+
     let keyboardInputView: HTMLInputElement | undefined = undefined;
+    let keyboardInputText = '';
 
     // Announce changes in values.
     $: if ($announce && value && (exception || stageValue === undefined))
@@ -123,8 +132,8 @@
 
         if (event.key === 'Tab') return;
 
-        // Reset the value
-        if (keyboardInputView) keyboardInputView.value = '';
+        // Reset the value if there's not a chat.
+        if (!chats && keyboardInputView) keyboardInputView.value = '';
 
         // Is the program evaluating?
         if (evaluator.isPlaying()) {
@@ -299,6 +308,19 @@
                 event.stopPropagation();
             }
         }
+    }
+
+    function submitChat() {
+        // Get the message
+        const message = keyboardInputText;
+
+        // Reset the message
+        keyboardInputText = '';
+
+        // Pass the message to the chats
+        evaluator
+            .getBasisStreamsOfType(Chat)
+            .forEach((stream) => stream.react(message));
     }
 
     function handleWheel(event: WheelEvent) {
@@ -841,17 +863,37 @@
         on:pointermove={interactive ? handlePointerMove : null}
         on:pointerleave={interactive ? handlePointerLeave : null}
     >
-        {#if $evaluation?.evaluator.getBasisStreamsOfType(Key).length > 0 || $evaluation?.evaluator.getBasisStreamsOfType(Placement).length > 0}
-            <input
-                class="keyboard-input"
-                type="text"
-                data-defaultfocus
-                aria-autocomplete="none"
-                aria-label={project.basis.locales[0].ui.output.field.key}
-                autocomplete="off"
-                autocorrect="off"
-                bind:this={keyboardInputView}
-            />
+        <!-- These streams need keyboard input, so we make a text input field. If there's a chat stream, we make it visible. -->
+        {#if keys || placements || chats}
+            <div class="keyboard" class:visible={chats}>
+                <input
+                    type="text"
+                    class="keyboard-input"
+                    placeholder={chats
+                        ? $locale.ui.output.field.key.placeholder
+                        : null}
+                    data-defaultfocus
+                    aria-autocomplete="none"
+                    aria-label={$locale.ui.output.field.key.label}
+                    autocomplete={chats ? 'on' : 'off'}
+                    autocorrect={chats ? 'on' : 'off'}
+                    on:keydown={(event) =>
+                        chats &&
+                        event.key === 'Enter' &&
+                        event.target &&
+                        'value' in event.target
+                            ? submitChat()
+                            : null}
+                    bind:value={keyboardInputText}
+                    bind:this={keyboardInputView}
+                />
+                {#if chats}
+                    <ButtonUI
+                        tip={$locale.ui.output.button.submit}
+                        action={submitChat}>↑</ButtonUI
+                    >
+                {/if}
+            </div>
         {/if}
 
         <!-- If there's an exception, show that. -->
@@ -1000,16 +1042,31 @@
         color: var(--wordplay-evaluation-color);
     }
 
-    .keyboard-input {
+    .keyboard {
         position: absolute;
         left: 0;
         right: 0;
         bottom: 0;
-        border: none;
         outline: none;
         opacity: 0;
+        display: flex;
+        flex-direction: row;
+        gap: 0;
+    }
+
+    .keyboard-input {
         pointer-events: none;
         touch-action: none;
+        border: none;
+        flex-grow: 1;
+        font-size: var(--wordplay-font-size);
+        padding: var(--wordplay-spacing);
+    }
+
+    .keyboard.visible {
+        opacity: 1;
+        border-top: var(--wordplay-border-color) solid
+            var(--wordplay-border-width);
     }
 
     .keyboard-input:focus {

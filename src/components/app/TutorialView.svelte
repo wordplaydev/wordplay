@@ -182,14 +182,10 @@
         if (event.shiftKey || event.ctrlKey || event.altKey) return;
 
         focusView = undefined;
-        if (event.key === 'ArrowLeft' || event.key === 'Backspace') {
+        if (event.key === 'ArrowLeft') {
             focusView = previousButton;
             navigate(progress.previousPause() ?? progress);
-        } else if (
-            event.key === 'ArrowRight' ||
-            event.key === 'Enter' ||
-            event.key === ' '
-        ) {
+        } else if (event.key === 'ArrowRight' || event.key === ' ') {
             focusView = nextButton;
             const next = progress.nextPause();
             if (next) navigate(next);

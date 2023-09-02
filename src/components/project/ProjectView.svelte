@@ -1029,11 +1029,8 @@
         // Send the active caret, unless a non-source tile is fullscreen
         caret: layout.isFullscreenNonSource()
             ? undefined
-            : (
-                  Array.from($editors.values()).find(
-                      (editor) => editor.focused
-                  ) ?? Array.from($editors.values())[0]
-              )?.caret,
+            : Array.from($editors.values()).find((editor) => editor.focused)
+                  ?.caret,
         /** We intentionally depend on the evaluation store because it updates when the evaluator's state changes */
         evaluator: $evaluation.evaluator,
         dragging: $dragged !== undefined,
@@ -1056,7 +1053,7 @@
         const [, result] = handleKeyCommand(event, commandContext);
 
         // If something handled it, consume the event.
-        if (result !== false) {
+        if (result !== false && result !== undefined) {
             event.stopPropagation();
             event.preventDefault();
         }

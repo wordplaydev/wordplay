@@ -1547,6 +1547,9 @@
               ],
               "type": "object"
             },
+            "Chat": {
+              "$ref": "#/definitions/NameAndDoc"
+            },
             "Choice": {
               "$ref": "#/definitions/NameAndDoc"
             },
@@ -1825,6 +1828,7 @@
             "Camera",
             "Motion",
             "Placement",
+            "Chat",
             "Webpage"
           ],
           "type": "object"
@@ -7049,12 +7053,38 @@
             "output": {
               "additionalProperties": false,
               "properties": {
+                "button": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "submit": {
+                      "description": "The chat submit button",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "submit"
+                  ],
+                  "type": "object"
+                },
                 "field": {
                   "additionalProperties": false,
                   "properties": {
                     "key": {
-                      "description": "The invisible text field that accepts key input when a key stream is active",
-                      "type": "string"
+                      "additionalProperties": false,
+                      "description": "The text field that accepts key, placement, and chat input when a key stream is active",
+                      "properties": {
+                        "label": {
+                          "type": "string"
+                        },
+                        "placeholder": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "label",
+                        "placeholder"
+                      ],
+                      "type": "object"
                     }
                   },
                   "required": [
@@ -7093,7 +7123,8 @@
               "required": [
                 "label",
                 "toggle",
-                "field"
+                "field",
+                "button"
               ],
               "type": "object"
             },
