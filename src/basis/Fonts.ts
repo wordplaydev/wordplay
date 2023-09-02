@@ -185,6 +185,12 @@ const Faces: Face[] = [
         italic: false,
         scripts: Latin,
     },
+    {
+        name: 'Carter One',
+        weights: [400],
+        italic: false,
+        scripts: Latin,
+    },
 ];
 
 /**
