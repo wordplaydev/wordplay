@@ -68,7 +68,6 @@
         width: fit-content;
         white-space: nowrap;
         transition: transform calc(var(--animation-factor) * 200ms);
-        line-height: 1em;
     }
 
     button.stretch {
