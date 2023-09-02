@@ -137,6 +137,12 @@ const Faces: Face[] = [
         italic: true,
         scripts: Latin,
     },
+    {
+        name: 'Shadows Into Light',
+        weights: [400],
+        italic: false,
+        scripts: Latin,
+    },
 ];
 
 /**
