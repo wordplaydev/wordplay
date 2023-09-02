@@ -113,6 +113,12 @@ const Faces: Face[] = [
         italic: true,
         scripts: LatinCyrillicGreek,
     },
+    {
+        name: 'Quicksand',
+        weights: { min: 300, max: 700 },
+        italic: false,
+        scripts: Latin,
+    },
 ];
 
 /**
