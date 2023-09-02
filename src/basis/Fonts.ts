@@ -197,6 +197,12 @@ const Faces: Face[] = [
         italic: false,
         scripts: Latin,
     },
+    {
+        name: 'Aclonica',
+        weights: [400],
+        italic: false,
+        scripts: Latin,
+    },
 ];
 
 /**
