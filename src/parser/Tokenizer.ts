@@ -334,7 +334,13 @@ DelimiterCloseByOpen[TYPE_OPEN_SYMBOL] = TYPE_CLOSE_SYMBOL;
 DelimiterCloseByOpen[TABLE_OPEN_SYMBOL] = TABLE_CLOSE_SYMBOL;
 DelimiterCloseByOpen[CODE_SYMBOL] = CODE_SYMBOL;
 DelimiterCloseByOpen[DOCS_SYMBOL] = DOCS_SYMBOL;
-DelimiterCloseByOpen[TABLE_OPEN_SYMBOL] = TABLE_CLOSE_SYMBOL;
+
+export const PairedCloseDelimiters = new Set<string>();
+PairedCloseDelimiters.add(EVAL_CLOSE_SYMBOL);
+PairedCloseDelimiters.add(LIST_CLOSE_SYMBOL);
+PairedCloseDelimiters.add(SET_CLOSE_SYMBOL);
+PairedCloseDelimiters.add(TYPE_CLOSE_SYMBOL);
+PairedCloseDelimiters.add(TABLE_CLOSE_SYMBOL);
 
 for (const symbol of FormattingSymbols) DelimiterCloseByOpen[symbol] = symbol;
 
