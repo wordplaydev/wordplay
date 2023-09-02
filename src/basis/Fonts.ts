@@ -149,6 +149,12 @@ const Faces: Face[] = [
         italic: false,
         scripts: LatinCyrillicGreek,
     },
+    {
+        name: 'Passion One',
+        weights: [400, 700, 900],
+        italic: false,
+        scripts: Latin,
+    },
 ];
 
 /**
