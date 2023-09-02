@@ -217,7 +217,13 @@ const Faces: Face[] = [
     },
     {
         name: 'Short Stack',
-        weights: [400, 700],
+        weights: [400],
+        italic: false,
+        scripts: Latin,
+    },
+    {
+        name: 'Graduate',
+        weights: [400],
         italic: false,
         scripts: Latin,
     },
