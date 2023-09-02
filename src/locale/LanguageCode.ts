@@ -10,9 +10,9 @@ type LanguageMetadata = {
     name: string;
     /** The English name, in case we need it */
     en: string;
-    /** Optionally deviate from the default of single quotes for text */
+    /** Optionally deviate from the default of ' for text */
     quote?: string;
-    /** Optionally deviate from the default of double quotes for secondary internal quotes */
+    /** Optionally deviate from the default of " for secondary internal quotes */
     secondary?: string;
     /** Specify scripots that the language uses */
     scripts: Script[];
@@ -246,8 +246,12 @@ export function getLanguageName(code: LanguageCode): string | undefined {
     return Languages[code]?.name;
 }
 
-export function getLanguageQuote(code: LanguageCode): string | undefined {
+export function getLanguageQuote(code: LanguageCode): string {
     return (Languages[code] as LanguageMetadata)?.quote ?? "'";
+}
+
+export function getLanguageSecondaryQuote(code: LanguageCode): string {
+    return (Languages[code] as LanguageMetadata)?.secondary ?? '"';
 }
 
 export function getLanguageDirection(code: LanguageCode): WritingDirection {
