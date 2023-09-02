@@ -101,6 +101,12 @@ const Faces: Face[] = [
         italic: true,
         scripts: LatinCyrillicGreek,
     },
+    {
+        name: 'Phudu',
+        weights: { min: 300, max: 900 },
+        italic: false,
+        scripts: ['Latn'],
+    },
 ];
 
 /**
