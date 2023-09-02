@@ -209,6 +209,12 @@ const Faces: Face[] = [
         italic: false,
         scripts: Latin,
     },
+    {
+        name: 'Cabin Sketch',
+        weights: [400, 700],
+        italic: false,
+        scripts: Latin,
+    },
 ];
 
 /**
