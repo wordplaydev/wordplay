@@ -277,7 +277,13 @@ const Faces: Face[] = [
     },
     {
         name: 'Gorditas',
-        weights: [400, 400],
+        weights: [400, 700],
+        italic: false,
+        scripts: Latin,
+    },
+    {
+        name: 'Ribeye Marrow',
+        weights: [400],
         italic: false,
         scripts: Latin,
     },
