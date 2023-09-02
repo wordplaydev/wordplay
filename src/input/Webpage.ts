@@ -245,7 +245,6 @@ function getTextInNode(node: HTMLElement) {
     let child: Node | null;
     const text = [];
     const walk = document.createTreeWalker(node, NodeFilter.SHOW_ALL, (n) => {
-        console.log(n.nodeName);
         return n.nodeName === 'SCRIPT' || n.nodeName === 'STYLE'
             ? NodeFilter.FILTER_REJECT
             : n.nodeType === Node.TEXT_NODE
