@@ -263,6 +263,12 @@ const Faces: Face[] = [
         italic: false,
         scripts: ['Latn', 'Jpan'],
     },
+    {
+        name: 'Codystar',
+        weights: [300, 400],
+        italic: false,
+        scripts: Latin,
+    },
 ];
 
 /**
