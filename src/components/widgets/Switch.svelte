@@ -28,7 +28,8 @@
         aria-label={onTip}
         tabindex={on ? null : 0}
         title={onTip}
-        on:pointerdown|stopPropagation={() => toggle(true)}
+        on:pointerdown|stopPropagation={(event) =>
+            event.button === 0 ? toggle(true) : undefined}
         on:keydown={(event) =>
             event.key === 'Enter' || event.key === ' '
                 ? toggle(true)
@@ -42,6 +43,7 @@
     .switch {
         display: flex;
         flex-direction: row;
+        align-items: center;
         gap: calc(var(--wordplay-spacing) / 4);
         user-select: none;
         font-family: var(--wordplay-app-font);
@@ -57,6 +59,14 @@
         cursor: pointer;
     }
 
+    .button.off {
+        transform-origin: right;
+    }
+
+    .button.on {
+        transform-origin: left;
+    }
+
     .button {
         transition: transform;
         transition-duration: calc(var(--animation-factor) * 200ms);
@@ -66,6 +76,7 @@
         width: var(--wordplay-border-width);
         border-right: var(--wordplay-border-width) solid
             var(--wordplay-border-color);
+        height: 1.5em;
     }
 
     .button.inactive:hover {
@@ -86,7 +97,7 @@
     }
 
     .button.active {
-        transform: scale(0.75);
+        transform: scale(0.8);
         color: var(--wordplay-inactive-color);
     }
 </style>
