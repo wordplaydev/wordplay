@@ -125,6 +125,12 @@ const Faces: Face[] = [
         italic: false,
         scripts: ['Latn', 'Cyrl'],
     },
+    {
+        name: 'Caveat',
+        weights: { min: 400, max: 700 },
+        italic: false,
+        scripts: ['Latn', 'Cyrl'],
+    },
 ];
 
 /**
@@ -215,8 +221,8 @@ export class FontManager {
                 promises.push(
                     this.load({
                         name: name,
-                        weight: 300, // this is ignored
-                        italic: false, // this is ignored
+                        weight: face.weights.min,
+                        italic: face.italic,
                     })
                 );
         } else {
