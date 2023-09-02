@@ -2,6 +2,7 @@ import Bind from '../nodes/Bind';
 import Name from '../nodes/Name';
 import Names from '../nodes/Names';
 import Sym from '../nodes/Sym';
+import { PairedCloseDelimiters } from './Tokenizer';
 import type Tokens from './Tokens';
 import parseType from './paresType';
 import parseExpression, { parseDocs } from './parseExpression';
@@ -25,7 +26,13 @@ export default function parseBind(tokens: Tokens): Bind {
 
     if (tokens.nextIs(Sym.Bind)) {
         colon = tokens.read(Sym.Bind);
-        value = tokens.hasNext() ? parseExpression(tokens) : undefined;
+
+        const next = tokens.peekText();
+        // If there's a next token and it's not a close delimiter, parse a value.
+        value =
+            next && !PairedCloseDelimiters.has(next)
+                ? parseExpression(tokens)
+                : undefined;
     }
 
     return new Bind(docs, share, names, etc, dot, type, colon, value);
