@@ -131,6 +131,12 @@ const Faces: Face[] = [
         italic: false,
         scripts: ['Latn', 'Cyrl'],
     },
+    {
+        name: 'Arvo',
+        weights: [400, 700],
+        italic: true,
+        scripts: Latin,
+    },
 ];
 
 /**
