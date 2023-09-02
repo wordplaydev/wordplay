@@ -173,6 +173,12 @@ const Faces: Face[] = [
         italic: false,
         scripts: Latin,
     },
+    {
+        name: 'Special Elite',
+        weights: [400],
+        italic: false,
+        scripts: Latin,
+    },
 ];
 
 /**
