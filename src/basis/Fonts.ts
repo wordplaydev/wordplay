@@ -239,6 +239,12 @@ const Faces: Face[] = [
         italic: false,
         scripts: Latin,
     },
+    {
+        name: 'Megrim',
+        weights: [400],
+        italic: false,
+        scripts: Latin,
+    },
 ];
 
 /**
