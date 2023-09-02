@@ -100,7 +100,7 @@ export default class Webpage extends StreamValue<
             );
             const text = (
                 this.query === ''
-                    ? doc.body.innerText.split('\n')
+                    ? getTextInNode(doc.body)
                     : Array.from(doc.querySelectorAll(this.query)).map((n) =>
                           n instanceof HTMLElement ? n.innerText : ''
                       )
@@ -239,3 +239,23 @@ const URLResponseCache = new Map<
     string,
     { response: FetchResponse; time: number }
 >();
+
+/** A function that gets a node's text nodes, except for style and script tags */
+function getTextInNode(node: HTMLElement) {
+    let child: Node | null;
+    const text = [];
+    const walk = document.createTreeWalker(node, NodeFilter.SHOW_ALL, (n) => {
+        console.log(n.nodeName);
+        return n.nodeName === 'SCRIPT' || n.nodeName === 'STYLE'
+            ? NodeFilter.FILTER_REJECT
+            : n.nodeType === Node.TEXT_NODE
+            ? NodeFilter.FILTER_ACCEPT
+            : NodeFilter.FILTER_SKIP;
+    });
+    do {
+        child = walk.nextNode();
+        if (child && child.nodeType === Node.TEXT_NODE && child.textContent)
+            text.push(child.textContent);
+    } while (child);
+    return text;
+}
