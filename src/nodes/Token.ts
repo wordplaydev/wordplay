@@ -8,7 +8,10 @@ import Purpose from '../concepts/Purpose';
 import type { Template } from '../locale/Locale';
 import type Root from './Root';
 import { TextOpenByTextClose, TextCloseByTextOpen } from '../parser/Tokenizer';
-import { getLanguageQuote } from '../locale/LanguageCode';
+import {
+    getLanguageQuote,
+    getLanguageSecondaryQuote,
+} from '../locale/LanguageCode';
 import type Definition from './Definition';
 import type Context from './Context';
 import type { TemplateInput } from '../locale/concretize';
@@ -159,13 +162,18 @@ export default class Token extends Node {
                 lastChar !== undefined &&
                 lastChar in TextOpenByTextClose;
             const preferredQuote = getLanguageQuote(locales[0].language);
-            if (preferredQuote) {
+            const preferredSecondaryQuote = getLanguageSecondaryQuote(
+                locales[0].language
+            );
+            if (
+                text.charAt(0) !== preferredQuote &&
+                text.charAt(0) !== preferredSecondaryQuote
+            ) {
                 const preferredClosing = TextCloseByTextOpen[preferredQuote];
-                text = isText
-                    ? preferredQuote +
-                      text.substring(1, text.length - (last ? 1 : 0)) +
-                      (last ? preferredClosing : '')
-                    : text;
+                text =
+                    preferredQuote +
+                    text.substring(1, text.length - (last ? 1 : 0)) +
+                    (last ? preferredClosing : '');
             }
         }
 
