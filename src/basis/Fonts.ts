@@ -107,6 +107,12 @@ const Faces: Face[] = [
         italic: false,
         scripts: ['Latn'],
     },
+    {
+        name: 'Ubuntu',
+        weights: [300, 400, 500, 700],
+        italic: true,
+        scripts: LatinCyrillicGreek,
+    },
 ];
 
 /**
