@@ -440,6 +440,6 @@ export class FontManager {
 const Fonts = new FontManager();
 export default Fonts;
 
-export const SupportedFontsFamiliesType = Faces.map(
-    (font) => `"${font.name}"`
+export const SupportedFontsFamiliesType = SupportedFaces.map(
+    (font) => `"${font}"`
 ).join(OR_SYMBOL);
