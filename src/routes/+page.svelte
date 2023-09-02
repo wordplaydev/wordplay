@@ -45,11 +45,11 @@
             subtitle={$locale.ui.page.landing.link.galleries}
             >{$locale.ui.page.galleries.header}</BigLink
         >
-        <BigLink to="/rights" subtitle={$locale.ui.page.landing.link.rights}
-            >{$locale.ui.page.rights.header}</BigLink
-        >
         <BigLink to="/about" subtitle={$locale.ui.page.landing.link.about}
             >{$locale.ui.page.about.header}</BigLink
+        >
+        <BigLink to="/rights" subtitle={$locale.ui.page.landing.link.rights}
+            >{$locale.ui.page.rights.header}</BigLink
         >
     {/if}
 </Writing>
