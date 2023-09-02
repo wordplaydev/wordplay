@@ -353,7 +353,7 @@
         flex-wrap: nowrap;
         align-items: center;
         min-width: max-content;
-        gap: var(--wordplay-spacing);
+        gap: calc(var(--wordplay-spacing) / 2);
     }
 
     .footer {

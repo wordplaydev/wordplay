@@ -54,10 +54,12 @@
         border-radius: var(--wordplay-border-radius);
         background: var(--wordplay-background);
         color: var(--wordplay-foreground);
+        padding: calc(var(--wordplay-spacing) / 2);
         cursor: pointer;
         width: fit-content;
         white-space: nowrap;
         transition: transform calc(var(--animation-factor) * 200ms);
+        line-height: 1em;
     }
 
     button.on {
@@ -68,6 +70,7 @@
 
     button:hover {
         transform: scale(1.1);
+        background-color: var(--wordplay-alternating-color);
     }
 
     [aria-disabled='true'] {

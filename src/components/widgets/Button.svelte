@@ -62,12 +62,13 @@
         user-select: none;
         border: none;
         background: none;
-        padding: 0;
+        padding: calc(var(--wordplay-spacing) / 2);
         color: currentcolor;
         cursor: pointer;
         width: fit-content;
         white-space: nowrap;
         transition: transform calc(var(--animation-factor) * 200ms);
+        line-height: 1em;
     }
 
     button.stretch {
@@ -108,9 +109,8 @@
     }
 
     .background {
-        background: var(--wordplay-alternating-color);
+        background: var(--wordplay-inactive-color);
         border-radius: var(--wordplay-border-radius);
-        padding: var(--wordplay-spacing);
     }
 
     button.background:hover[aria-disabled='false'] {
