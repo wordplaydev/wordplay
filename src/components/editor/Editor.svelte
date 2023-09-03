@@ -116,10 +116,19 @@
         );
     });
 
-    // When the project is undone or redone, set the caret's position to the project's historical caret position.
-    $: if (Projects.getHistory(project.id)?.wasRestored()) {
+    let restoredPosition: CaretPosition | undefined = undefined;
+    // When the project changes, reset the restored position
+    $: if (project) restoredPosition = undefined;
+    // When the project is undone or redone, if we haven't restored the position, restore it, then remember the restored position.
+    $: if (
+        Projects.getHistory(project.id)?.wasRestored() &&
+        restoredPosition === undefined
+    ) {
         const position = project.getCaretPosition(source);
-        if (position !== undefined) caret.set($caret.withPosition(position));
+        if (position !== undefined && position !== restoredPosition) {
+            restoredPosition = position;
+            caret.set($caret.withPosition(position));
+        }
     }
 
     $: caretExpressionType =
