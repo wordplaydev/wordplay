@@ -132,7 +132,7 @@
         // Try to find the nearest ancestor that is rendered and return that instead.
         if (tokenView !== null) return tokenView;
 
-        const parents = source.root.getAncestors(node);
+        const parents = [node, ...source.root.getAncestors(node)];
         do {
             const parent = parents.shift();
             if (parent) {
@@ -175,15 +175,17 @@
             if (nodeView === null) return;
 
             // Find the bottom left token or value view.
-            const tokenAndValueViews = Array.from(
-                nodeView.querySelectorAll(':is(.token-view, .value)')
-            );
+            const tokenAndValueViews = nodeView.classList.contains('token-view')
+                ? [nodeView]
+                : Array.from(
+                      nodeView.querySelectorAll(':is(.token-view, .value)')
+                  );
             if (tokenAndValueViews.length === 0) return;
             let tokenBounds = tokenAndValueViews.map((view) => {
                 return { view, bounds: view.getBoundingClientRect() };
             });
-            tokenBounds.sort((a, b) => a.bounds.left - b.bounds.left);
             tokenBounds.sort((a, b) => b.bounds.bottom - a.bounds.bottom);
+            tokenBounds.sort((a, b) => a.bounds.left - b.bounds.left);
 
             const nodeViewRect = tokenBounds[0].bounds;
 
