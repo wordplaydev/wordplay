@@ -52,7 +52,7 @@ export default class Row extends Node {
                 ),
                 newline: true,
             },
-            { name: 'cells', kind: list(node(Expression)), space: true },
+            { name: 'cells', kind: list(true, node(Expression)), space: true },
             { name: 'close', kind: node(Sym.TableClose) },
         ];
     }

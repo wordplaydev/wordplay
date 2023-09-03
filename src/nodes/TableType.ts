@@ -50,7 +50,7 @@ export default class TableType extends BasisType {
     getGrammar(): Grammar {
         return [
             { name: 'open', kind: node(Sym.TableOpen) },
-            { name: 'columns', kind: list(node(Bind)), space: true },
+            { name: 'columns', kind: list(true, node(Bind)), space: true },
             { name: 'close', kind: node(Sym.TableClose) },
         ];
     }

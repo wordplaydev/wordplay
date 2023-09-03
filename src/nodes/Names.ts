@@ -44,7 +44,7 @@ export default class Names extends Node {
     }
 
     getGrammar(): Grammar {
-        return [{ name: 'names', kind: list(node(Name)) }];
+        return [{ name: 'names', kind: list(false, node(Name)) }];
     }
 
     clone(replace?: Replacement) {

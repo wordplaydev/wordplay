@@ -83,19 +83,19 @@ export function getEditsAt(project: Project, caret: Caret): Revision[] {
 
     // If the token is a node, find the allowable nodes to replace this node, or whether it's removable
     if (caret.position instanceof Node) {
-        const selection = caret.position;
-        const parent = caret.position.getParent(context);
-        const field = parent?.getFieldOfChild(selection);
-        if (parent && field) {
-            // Match the type of the current node
-            const expectedType = field.getType
-                ? field.getType(context, undefined)
-                : undefined;
-            // Get the allowed kinds on this node and then translate them into replacement edits.
-            edits = getFieldEdits(
-                caret.position,
-                context,
-                (field, parent, node) => [
+        // Get the allowed kinds on this node and then translate them into replacement edits.
+        edits = getFieldEdits(
+            caret.position,
+            context,
+            (field, parent, node) => {
+                // Match the type of the current node
+                const expectedType = field.getType
+                    ? field.getType(context, undefined)
+                    : undefined;
+                // Get the value of the field.
+                const fieldValue = parent.getField(field.name);
+
+                return [
                     // Generate all the possible types
                     ...field.kind
                         .enumerate()
@@ -104,7 +104,7 @@ export function getEditsAt(project: Project, caret: Caret): Revision[] {
                                 field,
                                 kind,
                                 expectedType,
-                                selection,
+                                node,
                                 true,
                                 context
                             ).map(
@@ -112,19 +112,26 @@ export function getEditsAt(project: Project, caret: Caret): Revision[] {
                                     new Replace(
                                         context,
                                         parent,
-                                        selection,
+                                        node,
                                         replacement
                                     )
                             )
                         )
                         .flat(),
-                    // Is this node in a field? Offer to remove it, and any dependent field.
-                    ...(field.kind instanceof ListOf
+                    // Is this node in a list field? Offer to remove it if it can be empty or can't but has more than one element.
+                    ...(field.kind instanceof ListOf &&
+                    (field.kind.allowsEmpty ||
+                        (Array.isArray(fieldValue) && fieldValue.length > 1))
                         ? [new Remove(context, parent, node)]
                         : []),
-                ]
-            );
+                ];
+            }
+        );
 
+        const selection = caret.position;
+        const parent = caret.position.getParent(context);
+        const field = parent?.getFieldOfChild(selection);
+        if (parent && field) {
             // Is the field optional and set?
             if (
                 field.kind.isOptional() &&

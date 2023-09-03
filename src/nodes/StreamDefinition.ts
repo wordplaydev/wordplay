@@ -105,7 +105,7 @@ export default class StreamDefinition extends DefinitionExpression {
             { name: 'open', kind: node(Sym.EvalOpen) },
             {
                 name: 'inputs',
-                kind: list(node(Bind)),
+                kind: list(true, node(Bind)),
                 space: true,
                 indent: true,
             },

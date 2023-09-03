@@ -57,7 +57,7 @@ export default class SetLiteral extends Expression {
             { name: 'open', kind: node(Sym.SetOpen) },
             {
                 name: 'values',
-                kind: list(node(Expression)),
+                kind: list(true, node(Expression)),
                 // Only allow types to be inserted that are of the list's type, if provided.
                 getType: (context) =>
                     this.getItemType(context) ?? new AnyType(),

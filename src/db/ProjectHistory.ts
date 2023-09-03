@@ -37,6 +37,7 @@ export class ProjectHistory {
     private history: Project[] = [];
     /**  The index of the current project in the history. */
     private index: number;
+
     /** The type of change recently made to the project, so that editors know how to handle caret positions.  */
     private change: ChangeType = ChangeType.Edit;
 
@@ -153,10 +154,6 @@ export class ProjectHistory {
 
     markSaved() {
         this.saved = true;
-    }
-
-    wasEdited() {
-        return this.change === ChangeType.Edit;
     }
 
     wasRestored() {

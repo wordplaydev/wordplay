@@ -42,7 +42,7 @@ export default class TypeInputs extends Node {
     getGrammar(): Grammar {
         return [
             { name: 'open', kind: node(Sym.TypeOpen) },
-            { name: 'types', kind: list(node(Type)) },
+            { name: 'types', kind: list(true, node(Type)) },
             { name: 'close', kind: optional(node(Sym.TypeClose)) },
         ];
     }

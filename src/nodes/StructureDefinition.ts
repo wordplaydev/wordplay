@@ -129,7 +129,11 @@ export default class StructureDefinition extends DefinitionExpression {
             },
             { name: 'type', kind: node(Sym.Type) },
             { name: 'names', kind: node(Names) },
-            { name: 'interfaces', kind: list(node(Reference)), space: true },
+            {
+                name: 'interfaces',
+                kind: list(true, node(Reference)),
+                space: true,
+            },
             {
                 name: 'types',
                 kind: optional(node(TypeVariables)),
@@ -138,7 +142,7 @@ export default class StructureDefinition extends DefinitionExpression {
             { name: 'open', kind: node(Sym.EvalOpen) },
             {
                 name: 'inputs',
-                kind: list(node(Bind)),
+                kind: list(true, node(Bind)),
                 space: true,
                 indent: true,
             },

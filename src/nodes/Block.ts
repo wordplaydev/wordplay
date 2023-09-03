@@ -100,7 +100,7 @@ export default class Block extends Expression {
             },
             {
                 name: 'statements',
-                kind: list(node(Expression), node(Bind)),
+                kind: list(true, node(Expression), node(Bind)),
                 label: (translation: Locale) =>
                     translation.node.Block.statement,
                 space: true,
