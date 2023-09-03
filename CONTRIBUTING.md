@@ -257,11 +257,15 @@ Keep chipping away at your translation until there are no more problems.
 
 ### Fonts
 
-An important part of supporting a language is finding fonts that support the language. Unfortunately, there aren't many outside the Latin character set. Fortunately, there are Noto fonts for most scripts. Find an appropriate font here:
+An important part of supporting a language is finding fonts that support the language. Unfortunately, there aren't many outside the Latin character set. Fortunately, there are Noto fonts for most scripts. Find multiple open and free fonts that are appropriate, including the Noto font that supports the script, and any others you can find. The best place for these is [Google Fonts](https://fonts.google.com).
 
-[Noto Fonts](https://fonts.google.com/?query=noto)
+If you're comfortable with it, download the font, add the metadata to `Fonts.ts`, and set the font as the default face for the locale.
 
-If you're comfortable with it, download the font, add the metadat to `Fonts.ts`, and set the font as the default face for the locale. If that's outside your skillset, ask someone else to do it. We don't want to launch a locale without proper font support.
+-   Download the font files and rename them according to the schemes you see in other font folders. Font names can have spaces in the metadata, but not in the folder or file names. The basic syntax for files is `name-weight[-italic]`, and if the font is a variable with font, then just `name-all`.
+-   Be sure to note in the metadata which font weights are supported and whether italics are supported.
+-   Once you've updated the metadata and included the font files in the `/static` folder, test them to make sure they appear in the palette and render correctly once chosen.
+
+If the above is outside your skillset, ask someone else to do it before submitting your locale for final revision. We don't want to launch a locale without proper font support!
 
 ### Submitting
 
