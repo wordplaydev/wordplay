@@ -49,9 +49,9 @@ export default class Branch extends Content {
         return [
             { name: 'mention', kind: node(Mention) },
             { name: 'open', kind: node(Sym.ListOpen) },
-            { name: 'yes', kind: list(node(Words)) },
+            { name: 'yes', kind: list(true, node(Words)) },
             { name: 'bar', kind: optional(node(Sym.Union)) },
-            { name: 'no', kind: list(node(Words)) },
+            { name: 'no', kind: list(true, node(Words)) },
             { name: 'close', kind: node(Sym.ListClose) },
         ];
     }

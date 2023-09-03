@@ -22,7 +22,7 @@ export default class Docs extends Node {
     }
 
     getGrammar(): Grammar {
-        return [{ name: 'docs', kind: list(node(Doc)) }];
+        return [{ name: 'docs', kind: list(false, node(Doc)) }];
     }
 
     clone(replace?: Replacement) {

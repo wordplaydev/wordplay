@@ -814,8 +814,10 @@ export class IsA extends FieldKind {
 // A field can be a list of these node types or token types
 export class ListOf extends FieldKind {
     readonly kinds: IsA[];
-    constructor(...kinds: IsA[]) {
+    readonly allowsEmpty: boolean;
+    constructor(allowsEmpty: boolean, ...kinds: IsA[]) {
         super();
+        this.allowsEmpty = allowsEmpty;
         this.kinds = kinds;
     }
 
@@ -951,8 +953,8 @@ export function node(kind: Function | Sym) {
 export function none(dependency?: string) {
     return new Empty(dependency);
 }
-export function list(...kinds: IsA[]) {
-    return new ListOf(...kinds);
+export function list(allowsEmpty: boolean, ...kinds: IsA[]) {
+    return new ListOf(allowsEmpty, ...kinds);
 }
 export function any(...kinds: (IsA | Empty)[]) {
     return new Any(...kinds);

@@ -48,7 +48,7 @@ export default class TableLiteral extends Expression {
                 kind: node(TableType),
                 label: (translation: Locale) => translation.term.table,
             },
-            { name: 'rows', kind: list(node(Row)) },
+            { name: 'rows', kind: list(true, node(Row)) },
         ];
     }
 

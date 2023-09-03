@@ -47,6 +47,7 @@ export default class Paragraph extends Content {
             {
                 name: 'segments',
                 kind: list(
+                    true,
                     node(Sym.Words),
                     node(Words),
                     node(WebLink),

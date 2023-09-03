@@ -59,6 +59,7 @@ export default class Words extends Content {
             {
                 name: 'segments',
                 kind: list(
+                    true,
                     node(Words),
                     node(WebLink),
                     node(ConceptLink),

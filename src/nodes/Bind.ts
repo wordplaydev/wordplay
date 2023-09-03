@@ -190,8 +190,7 @@ export default class Bind extends Expression {
                 space: true,
                 indent: true,
                 // If there's a type, the value must match it, otherwise anything
-                getType: (context: Context) =>
-                    this.getType(context) ?? new AnyType(),
+                getType: (context: Context) => this.getType(context),
                 label: (locale: Locale, child: Node, context: Context) =>
                     (child === this.value
                         ? this.getCorrespondingBindDefinition(

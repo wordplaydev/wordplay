@@ -210,7 +210,7 @@ export default class Evaluate extends Expression {
             { name: 'open', kind: node(Sym.EvalOpen) },
             {
                 name: 'inputs',
-                kind: list(node(Expression)),
+                kind: list(true, node(Expression)),
                 label: (locale: Locale, child: Node, context: Context) => {
                     // Get the function called
                     const fun = this.getFunction(context);

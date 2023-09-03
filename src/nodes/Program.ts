@@ -62,7 +62,7 @@ export default class Program extends Expression {
     getGrammar(): Grammar {
         return [
             { name: 'docs', kind: optional(node(Docs)) },
-            { name: 'borrows', kind: list(node(Borrow)) },
+            { name: 'borrows', kind: list(true, node(Borrow)) },
             { name: 'expression', kind: node(Block) },
             { name: 'end', kind: optional(node(Sym.End)) },
         ];

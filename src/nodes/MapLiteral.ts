@@ -70,7 +70,7 @@ export default class MapLiteral extends Expression {
             { name: 'bind', kind: optional(node(Sym.Bind)) },
             {
                 name: 'values',
-                kind: list(node(KeyValue)),
+                kind: list(true, node(KeyValue)),
                 space: true,
                 indent: true,
             },

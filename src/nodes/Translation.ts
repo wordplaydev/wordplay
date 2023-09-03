@@ -48,7 +48,10 @@ export default class Translation extends LanguageTagged {
     getGrammar(): Grammar {
         return [
             { name: 'open', kind: node(Sym.Text) },
-            { name: 'segments', kind: list(node(Sym.Words), node(Example)) },
+            {
+                name: 'segments',
+                kind: list(true, node(Sym.Words), node(Example)),
+            },
             { name: 'close', kind: node(Sym.Text) },
             { name: 'language', kind: optional(node(Language)) },
         ];

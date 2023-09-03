@@ -39,7 +39,9 @@ export default class FormattedLiteral extends Literal {
     }
 
     getGrammar(): Grammar {
-        return [{ name: 'texts', kind: list(node(FormattedTranslation)) }];
+        return [
+            { name: 'texts', kind: list(false, node(FormattedTranslation)) },
+        ];
     }
 
     clone(replace?: Replacement) {

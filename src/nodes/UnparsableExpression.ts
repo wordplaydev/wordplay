@@ -26,7 +26,7 @@ export default class UnparsableExpression extends SimpleExpression {
     }
 
     getGrammar(): Grammar {
-        return [{ name: 'unparsables', kind: list(node(Node)) }];
+        return [{ name: 'unparsables', kind: list(true, node(Node)) }];
     }
 
     getPurpose() {
