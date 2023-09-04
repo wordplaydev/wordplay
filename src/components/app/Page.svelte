@@ -51,6 +51,7 @@
     footer {
         display: flex;
         flex-direction: row;
+        align-items: center;
         width: 100%;
         max-width: 100%;
         overflow: auto;
