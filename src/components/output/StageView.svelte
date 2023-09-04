@@ -16,7 +16,6 @@
         getSizeCSS,
     } from '@output/outputToCSS';
     import Place from '@output/Place';
-    import Evaluate from '@nodes/Evaluate';
     import { DefaultSize } from '@output/Stage';
     import { createPlace } from '@output/Place';
     import Scene, { type Moved, type OutputInfoSet } from '@output/Scene';
@@ -33,7 +32,6 @@
         getAnimatingNodes,
         getAnnounce,
         getEvaluation,
-        getSelectedOutput,
     } from '../project/Contexts';
     import type Evaluator from '@runtime/Evaluator';
     import type TypeOutput from '../../output/TypeOutput';
@@ -54,7 +52,6 @@
     export let painting: boolean;
     export let background: boolean;
 
-    const selectedOutput = getSelectedOutput();
     const evaluation = getEvaluation();
     const animatingNodes = getAnimatingNodes();
 
@@ -290,10 +287,6 @@
             : 'inert'} {project.main.names.getNames()[0]}"
         class:interactive
         class:changed
-        class:selected={stage.explicit &&
-            stage.value.creator instanceof Evaluate &&
-            $selectedOutput &&
-            $selectedOutput.includes(stage.value.creator)}
         class:editing={$evaluation?.playing === false && !painting}
         aria-label={stage.getDescription($locales)}
         data-id={stage.getHTMLID()}
@@ -424,12 +417,6 @@
 
     .stage:focus {
         outline: none;
-    }
-
-    .stage.editing.interactive.selected {
-        outline: var(--wordplay-focus-width) dotted
-            var(--wordplay-highlight-color);
-        outline-offset: calc(-3 * var(--wordplay-focus-width));
     }
 
     .stage {
