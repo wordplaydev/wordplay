@@ -845,6 +845,12 @@
     role="application"
     aria-label={$locale.ui.output.label}
     class:mini
+    class:editing={$evaluation?.playing === false && !painting}
+    class:selected={stageValue &&
+        stageValue.explicit &&
+        stageValue.value.creator instanceof Evaluate &&
+        $selectedOutput &&
+        $selectedOutput.includes(stageValue.value.creator)}
     style:direction={$writingDirection}
     style:writing-mode={$writingLayout}
 >
@@ -961,6 +967,12 @@
 
         width: 100%;
         height: 100%;
+    }
+
+    .output.editing.selected {
+        outline: var(--wordplay-focus-width) dotted
+            var(--wordplay-highlight-color);
+        outline-offset: calc(-1 * var(--wordplay-focus-width));
     }
 
     .value {
