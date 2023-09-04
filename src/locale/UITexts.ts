@@ -1,4 +1,4 @@
-import type { SupportedFaces } from '../basis/Fonts';
+import type { SupportedFace } from '../basis/Fonts';
 import type EditTexts from './EditTexts';
 import type { DocText, Template } from './Locale';
 
@@ -34,8 +34,8 @@ export type FieldText = {
 
 type UITexts = {
     font: {
-        app: (typeof SupportedFaces)[number];
-        code: (typeof SupportedFaces)[number];
+        app: SupportedFace;
+        code: SupportedFace;
     };
     phrases: {
         /** Placeholder text used in code examples. */

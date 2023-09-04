@@ -3,14 +3,11 @@ import { OR_SYMBOL } from '@parser/Symbols';
 import { Latin, LatinCyrillicGreek, type Script } from '../locale/Scripts';
 import type Locale from '../locale/Locale';
 
-export type SupportedFace = (typeof SupportedFaces)[number];
-
 export type FontWeight = 100 | 200 | 300 | 400 | 500 | 600 | 700 | 800 | 900;
 export type FontWeightRange = { min: FontWeight; max: FontWeight };
 
 /** Each font has data necessary for loading it from Google Fonts. */
 export type Face = {
-    readonly name: string; // The name of the font
     readonly weights: FontWeight[] | FontWeightRange; // Weights supported on the font
     readonly italic: boolean; // True if italics is supported on the weights above,
     readonly scripts: Readonly<Script[]>; // A list of ISO 15924 scripts supported,
@@ -28,265 +25,223 @@ export const loadedFonts = writable<Set<SupportedFace>>(new Set());
 /**
  * A data structure that represents fonts that creators can use to style phrases.
  */
-const Faces: Face[] = [
-    {
-        name: 'Noto Sans',
+const Faces: Record<string, Face> = {
+    'Noto Sans': {
         weights: [100, 200, 300, 400, 500, 600, 700, 800, 900],
         italic: true,
         scripts: LatinCyrillicGreek,
     },
-    {
-        name: 'Noto Sans Japanese',
+    'Noto Sans Japanese': {
         weights: { min: 100, max: 900 },
         italic: false,
         scripts: ['Jpan'],
     },
-    {
-        name: 'Noto Emoji',
+    'Noto Emoji': {
         weights: { min: 300, max: 700 },
         italic: false,
         scripts: ['Emoj'],
     },
-    {
-        name: 'Noto Color Emoji',
+    'Noto Color Emoji': {
         weights: { min: 300, max: 700 },
         italic: false,
         scripts: ['Emoj'],
     },
-    {
-        name: 'Noto Sans Simplified Chinese',
+    'Noto Sans Simplified Chinese': {
         weights: [100, 300, 400, 500, 700, 900],
         italic: false,
         scripts: ['Hani'],
         otf: true,
     },
-    {
-        name: 'Noto Mono',
+    'Noto Mono': {
         weights: { min: 100, max: 900 },
         italic: false,
         scripts: LatinCyrillicGreek,
     },
-    {
-        name: 'Poor Story',
+    'Poor Story': {
         weights: [400],
         italic: false,
         scripts: ['Kore', 'Latn'],
     },
-    {
-        name: 'Permanent Marker',
+    'Permanent Marker': {
         weights: [400],
         italic: false,
         scripts: ['Latn'],
     },
-    {
-        name: 'Borel',
+    Borel: {
         weights: [400],
         italic: false,
         scripts: Latin,
     },
-    {
-        name: 'Roboto',
+    Roboto: {
         weights: [100, 300, 400, 500, 700, 900],
         italic: true,
         scripts: LatinCyrillicGreek,
     },
-    {
-        name: 'Phudu',
+    Phudu: {
         weights: { min: 300, max: 900 },
         italic: false,
         scripts: ['Latn'],
     },
-    {
-        name: 'Ubuntu',
+    Ubuntu: {
         weights: [300, 400, 500, 700],
         italic: true,
         scripts: LatinCyrillicGreek,
     },
-    {
-        name: 'Quicksand',
+    Quicksand: {
         weights: { min: 300, max: 700 },
         italic: false,
         scripts: Latin,
     },
-    {
-        name: 'Pacifico',
+    Pacifico: {
         weights: [400],
         italic: false,
         scripts: ['Latn', 'Cyrl'],
     },
-    {
-        name: 'Caveat',
+    Caveat: {
         weights: { min: 400, max: 700 },
         italic: false,
         scripts: ['Latn', 'Cyrl'],
     },
-    {
-        name: 'Arvo',
+    Arvo: {
         weights: [400, 700],
         italic: true,
         scripts: Latin,
     },
-    {
-        name: 'Shadows Into Light',
+    'Shadows Into Light': {
         weights: [400],
         italic: false,
         scripts: Latin,
     },
-    {
-        name: 'Play',
+    Play: {
         weights: [400, 700],
         italic: false,
         scripts: LatinCyrillicGreek,
     },
-    {
-        name: 'Passion One',
+    'Passion One': {
         weights: [400, 700, 900],
         italic: false,
         scripts: Latin,
     },
-    {
-        name: 'Titan One',
+    'Titan One': {
         weights: [400],
         italic: false,
         scripts: Latin,
     },
-    {
-        name: 'Luckiest Guy',
+    'Luckiest Guy': {
         weights: [400],
         italic: false,
         scripts: Latin,
     },
-    {
-        name: 'Creepster',
+    Creepster: {
         weights: [400],
         italic: false,
         scripts: Latin,
     },
-    {
-        name: 'Special Elite',
+    'Special Elite': {
         weights: [400],
         italic: false,
         scripts: Latin,
     },
-    {
-        name: 'Tangerine',
+    Tangerine: {
         weights: [400, 700],
         italic: false,
         scripts: Latin,
     },
-    {
-        name: 'Carter One',
+    'Carter One': {
         weights: [400],
         italic: false,
         scripts: Latin,
     },
-    {
-        name: 'Monoton',
+    Monoton: {
         weights: [400],
         italic: false,
         scripts: Latin,
     },
-    {
-        name: 'Aclonica',
+    Aclonica: {
         weights: [400],
         italic: false,
         scripts: Latin,
     },
-    {
-        name: 'Berkshire Swash',
+    'Berkshire Swash': {
         weights: [400],
         italic: false,
         scripts: Latin,
     },
-    {
-        name: 'Cabin Sketch',
+    'Cabin Sketch': {
         weights: [400, 700],
         italic: false,
         scripts: Latin,
     },
-    {
-        name: 'Short Stack',
+    'Short Stack': {
         weights: [400],
         italic: false,
         scripts: Latin,
     },
-    {
-        name: 'Graduate',
+    Graduate: {
         weights: [400],
         italic: false,
         scripts: Latin,
     },
-    {
-        name: 'Silkscreen',
+    Silkscreen: {
         weights: [400, 700],
         italic: false,
         scripts: Latin,
     },
-    {
-        name: 'Mouse Memoirs',
+    'Mouse Memoirs': {
         weights: [400],
         italic: false,
         scripts: Latin,
     },
-    {
-        name: 'Megrim',
+    Megrim: {
         weights: [400],
         italic: false,
         scripts: Latin,
     },
-    {
-        name: 'Modak',
+    Modak: {
         weights: [400],
         italic: false,
         scripts: ['Latn', 'Deva'],
     },
-    {
-        name: 'Sue Ellen Francisco',
+    'Sue Ellen Francisco': {
         weights: [400],
         italic: false,
         scripts: Latin,
     },
-    {
-        name: 'Rampart One',
+    'Rampart One': {
         weights: [400],
         italic: false,
         scripts: ['Latn', 'Jpan'],
     },
-    {
-        name: 'Codystar',
+    Codystar: {
         weights: [300, 400],
         italic: false,
         scripts: Latin,
     },
-    {
-        name: 'Crafty Girls',
+    'Crafty Girls': {
         weights: [400],
         italic: false,
         scripts: Latin,
     },
-    {
-        name: 'Gorditas',
+    Gorditas: {
         weights: [400, 700],
         italic: false,
         scripts: Latin,
     },
-    {
-        name: 'Ribeye Marrow',
+    'Ribeye Marrow': {
         weights: [400],
         italic: false,
         scripts: Latin,
     },
-    {
-        name: 'Bungee Outline',
+    'Bungee Outline': {
         weights: [400],
         italic: false,
         scripts: Latin,
     },
-];
+};
 
-export const SupportedFaces = Array.from(Object.values(Faces))
-    .map((face) => face.name)
-    .sort();
+export type SupportedFace = keyof typeof Faces;
+
+export const SupportedFaces = Object.keys(Faces).sort();
 
 /**
  * This data structure managers the fonts that have been loaded,
@@ -314,17 +269,17 @@ export class FontManager {
 
     /** Returns true if the given font spec appears in SupportedFonts */
     getSupportedFont(font: Font) {
-        return Faces.find(
-            (candidate) =>
-                // The name matches
-                candidate.name === font.name &&
-                // All of the requested weights are supported
-                (Array.isArray(candidate.weights)
-                    ? candidate.weights.includes(font.weight)
-                    : font.weight >= candidate.weights.min &&
-                      font.weight <= candidate.weights.max) &&
+        const candidate = Faces[font.name];
+        return (
+            // All of the requested weights are supported
+            (Array.isArray(candidate.weights)
+                ? candidate.weights.includes(font.weight)
+                : font.weight >= candidate.weights.min &&
+                  font.weight <= candidate.weights.max) &&
                 // If italics are requested, they are available
                 (font.italic === false || candidate.italic)
+                ? candidate
+                : undefined
         );
     }
 
@@ -349,7 +304,7 @@ export class FontManager {
         // Mark the face requested.
         this.facesLoaded.set(name, 'requested');
 
-        const face = Faces.find((font) => font.name === name);
+        const face = Faces[name];
 
         const promises: Promise<boolean>[] = [];
         if (face) {
