@@ -47,6 +47,8 @@
         flex-direction: row;
         flex-wrap: nowrap;
         gap: var(--wordplay-spacing);
+        white-space: nowrap;
+        align-items: center;
     }
 
     button {
