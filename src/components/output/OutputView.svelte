@@ -466,10 +466,10 @@
 
         // Find the last event we had for this pointer.
         const index = pointersByIndex.findIndex(
-            (event) => event.pointerId === event.pointerId
+            (ev) => ev.pointerId === event.pointerId
         );
         // Replace it with this new event
-        pointersByIndex[index] = event;
+        if (index >= 0) pointersByIndex[index] = event;
 
         // If there are two pointers down, check for a pinch
         if (pointersByIndex.length === 2) {
@@ -487,7 +487,7 @@
                 startGesturePlace = renderedFocus;
             } else {
                 const delta = currentPointerDifference - startDifference;
-                const scale = rootScale(0, renderedFocus.z);
+                const scale = rootScale(0, startGesturePlace.z);
                 const newZ = startGesturePlace.z + delta / PX_PER_METER / scale;
                 const boundedNewZ =
                     newZ > -1 || newZ === Infinity
@@ -495,6 +495,7 @@
                         : newZ < -40 || newZ === -Infinity
                         ? -40
                         : newZ;
+
                 if (!isNaN(boundedNewZ))
                     stage.setFocus(
                         startGesturePlace.x,
@@ -643,7 +644,7 @@
         const index = pointersByIndex.findIndex(
             (ev) => ev.pointerId === event.pointerId
         );
-        pointersByIndex.splice(index, 1);
+        if (index >= 0) pointersByIndex.splice(index, 1);
         // Rset the distance once the number of pointers is less than 2.
         if (pointersByIndex.length < 2) {
             cancelGesture();
@@ -662,6 +663,7 @@
     function cancelGesture() {
         startDifference = undefined;
         startGesturePlace = undefined;
+        pointersByIndex = [];
     }
 
     function handlePointerLeave() {
