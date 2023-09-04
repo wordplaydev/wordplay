@@ -73,7 +73,7 @@ import Delete from '../nodes/Delete';
 import Update from '../nodes/Update';
 
 /** A logging flag, helpful for analyzing the control flow of autocomplete when debugging. */
-const LOG = true;
+const LOG = false;
 function note(message: string, level: number) {
     if (LOG) console.log(`${'  '.repeat(level)}Autocomplete: ${message}`);
 }
