@@ -68,6 +68,8 @@ export function createStageType(locales: Locale[]) {
 }
 
 export default class Stage extends TypeOutput {
+    /** True if the stage was explicit in the program or generated to wrap some other content. */
+    readonly explicit: boolean;
     readonly content: (TypeOutput | null)[];
     readonly frame: Shape | undefined;
     readonly back: Color;
@@ -76,6 +78,7 @@ export default class Stage extends TypeOutput {
 
     constructor(
         value: Value,
+        explicit: boolean,
         content: (TypeOutput | null)[],
         background: Color,
         frame: Shape | undefined = undefined,
@@ -109,6 +112,7 @@ export default class Stage extends TypeOutput {
             style
         );
 
+        this.explicit = explicit;
         this.content = content;
         this.frame = frame;
         this.back = background;
@@ -264,6 +268,7 @@ export function toStage(project: Project, value: Value): Stage | undefined {
             selectable !== undefined
             ? new Stage(
                   value,
+                  true,
                   Array.isArray(content) ? content : [content],
                   background,
                   frame,
@@ -282,8 +287,7 @@ export function toStage(project: Project, value: Value): Stage | undefined {
               )
             : undefined;
     }
-    // Try converting it to a group and wrapping it in a Stage with some
-    // default stage values.
+    // Just a phrase or group? Wrap it in a stage.
     else {
         const type = toTypeOutput(project, value, namer);
 
@@ -291,6 +295,7 @@ export function toStage(project: Project, value: Value): Stage | undefined {
             ? undefined
             : new Stage(
                   value,
+                  false,
                   [type],
                   new Color(
                       value,

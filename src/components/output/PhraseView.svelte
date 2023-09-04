@@ -250,12 +250,12 @@
     }
 
     :global(.stage.editing.interactive) .selected {
-        outline: var(--wordplay-border-width) dotted
+        outline: var(--wordplay-focus-width) dotted
             var(--wordplay-highlight-color);
     }
 
     :global(.stage.editing.interactive) :not(.selected) {
-        outline: var(--wordplay-border-width) dotted
+        outline: var(--wordplay-focus-width) dotted
             var(--wordplay-inactive-color);
     }
 
