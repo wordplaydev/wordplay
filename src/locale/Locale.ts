@@ -56,6 +56,11 @@ export type Locale = {
     input: InputTexts;
     output: OutputTexts;
     ui: UITexts;
+    /** Content moderation rules that creators promise to follow’ */
+    rules: {
+        violence: Template;
+        dehumanization: Template;
+    };
 };
 
 export default Locale;

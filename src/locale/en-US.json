@@ -3994,12 +3994,8 @@
                     "Finally, a note about speech. You can say anything you want on this platform in *private*. Projects are private by default, and if you share them with specific email addresses, they are still considered private. We won't moderate anything in private projects.",
                     "But making a project *public*, or including it in a public gallery, is a privilege. This is a platform made for love, affirmation, respect, and dignity. Therefore, we expect all of your *public* content to follow these rules:"
                 ],
-                "promises": [
-                    "No speech that incites, encourages, or celebrates violence, harm, or self harm.",
-                    "No speech that dehumanizes individuals or groups based on their race, ethnicity, national origin, caste, sexual orientation, gender, religion, age, ability, or appearance."
-                ],
                 "consequences": [
-                    "If we find a project that violates these rules, we will mark all of their projects private and prevent the from making any projects public in the future, to minimize the harm the individual's speech is doing. You can help us enforce these rules by reporting any content that you belive violates them."
+                    "If we find a project that violates these rules, we will mark all of it's creator's projects as private and prevent them from making any projects public in the future. You can help us enforce these rules by reporting any content that you believe violates them."
                 ]
             }
         },
@@ -4022,5 +4018,9 @@
             "unwritten": "TBD",
             "unparsable": "Unparsable template: $1"
         }
+    },
+    "rules": {
+        "violence": "No speech that incites, encourages, or celebrates violence, harm, or self harm.",
+        "dehumanization": "No speech that dehumanizes individuals or groups based on their race, ethnicity, national origin, caste, sexual orientation, gender, religion, age, ability, or appearance."
     }
 }
