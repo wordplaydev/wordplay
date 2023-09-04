@@ -2325,7 +2325,6 @@
             "rights": {
                 "header": "$?",
                 "content": ["$?"],
-                "promises": ["$?"],
                 "consequences": ["$?"]
             }
         },
@@ -2348,5 +2347,9 @@
             "unwritten": "$?",
             "unparsable": "$?"
         }
+    },
+    "rules": {
+        "violence": "$?",
+        "dehumanization": "$?"
     }
 }

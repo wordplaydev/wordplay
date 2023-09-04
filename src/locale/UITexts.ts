@@ -629,8 +629,6 @@ type UITexts = {
             header: string;
             /** Paragraphs for the rights page */
             content: Template[];
-            /** A list of content moderation promises that creators make */
-            promises: Template[];
             /** The consequences of violating a promise. */
             consequences: Template[];
         };
