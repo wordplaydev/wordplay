@@ -32,7 +32,7 @@
                 $project.shares.output.Color
             ),
             [
-                NumberLiteral.make(l + '%'),
+                NumberLiteral.make(Math.round(l * 100) + '%'),
                 NumberLiteral.make(c),
                 NumberLiteral.make(
                     h,
@@ -63,7 +63,9 @@
                 const number =
                     mapping && mapping.given instanceof NumberLiteral
                         ? mapping.given.getValue().toNumber() *
-                          (name === 'lightness' ? 100 : 1)
+                          (name === 'lightness' && mapping.given.isPercent()
+                              ? 0.01
+                              : 1)
                         : undefined;
                 return number;
             }
