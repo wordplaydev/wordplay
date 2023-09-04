@@ -62,7 +62,7 @@
     export let hue: number;
     /** any positive value to infinity */
     export let chroma: number;
-    /** 0-100 */
+    /** 0-1 */
     export let lightness: number;
     /** A handler */
     export let change: (l: number, c: number, h: number) => void;
@@ -118,7 +118,11 @@
     <div class="primary">
         {#each Primary as color}<Button
                 tip="color"
-                action={() => ([lightness, chroma, hue] = color)}
+                action={() => {
+                    [lightness, chroma, hue] = color;
+                    lightness /= 100;
+                }}
+                padding={false}
                 ><div
                     class="color"
                     style:background={new ColorJS(
@@ -132,12 +136,12 @@
         <Slider
             value={lightness}
             min={0}
-            max={100}
-            increment={1}
+            max={1}
+            increment={0.01}
             tip={getFirstName($locale.output.Color.lightness.names)}
             unit={'%'}
             change={(value) => {
-                lightness = Math.round(value);
+                lightness = value;
                 broadcast();
             }}
             {editable}
@@ -213,7 +217,7 @@
 
     .primary {
         width: 3em;
-        height: 3em;
+        height: 2em;
         display: flex;
         flex-direction: row;
         flex-wrap: wrap;
