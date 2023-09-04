@@ -17,7 +17,7 @@ import getTextMetrics from './getTextMetrics';
 import type Sequence from './Sequence';
 import { PX_PER_METER, sizeToPx } from './outputToCSS';
 import { getBind } from '@locale/getBind';
-import { CSSFallbackFaces, type NameGenerator } from './Stage';
+import { CSSFallbackFaces, toNumber, type NameGenerator } from './Stage';
 import type Locale from '../locale/Locale';
 import type Project from '../models/Project';
 import type { DefinitePose } from './Pose';
@@ -27,6 +27,7 @@ import { getStyle } from './toTypeOutput';
 import MarkupValue from '@values/MarkupValue';
 import concretize from '../locale/concretize';
 import type Markup from '../nodes/Markup';
+import segmentWraps from './segmentWraps';
 
 export function createPhraseType(locales: Locale[]) {
     return toStructure(`
@@ -71,6 +72,11 @@ export function createPhraseType(locales: Locale[]) {
         )
         .flat()
         .join('|')}: "${DefaultStyle}"
+        ${getBind(locales, (locale) => locale.output.Phrase.wrap)}•#m|ø: ø
+        ${getBind(
+            locales,
+            (locale) => locale.output.Phrase.alignment
+        )}•'<'|'|'|'>': '|'
     )`);
 }
 
@@ -81,10 +87,14 @@ export type Metrics = {
     height: number;
     /** The pixel ascent of the font. */
     ascent: number;
+    /** The pixel descent of the font. */
+    descent: number;
 };
 
 export default class Phrase extends TypeOutput {
     readonly text: TextLang[] | MarkupValue;
+    readonly wrap: number | undefined;
+    readonly alignment: string | undefined;
 
     private _metrics: Metrics | undefined = undefined;
 
@@ -105,7 +115,9 @@ export default class Phrase extends TypeOutput {
         moving: Pose | Sequence | undefined = undefined,
         exiting: Pose | Sequence | undefined = undefined,
         duration: number,
-        style: string
+        style: string,
+        wrap: number | undefined,
+        alignment: string | undefined
     ) {
         super(
             value,
@@ -125,6 +137,8 @@ export default class Phrase extends TypeOutput {
         );
 
         this.text = text;
+        this.wrap = wrap === undefined ? undefined : Math.max(1, wrap);
+        this.alignment = alignment;
 
         // Make sure this font is loaded. This is a little late -- we could do some static analysis
         // and try to determine this in advance -- but anything can compute a font name. Maybe an optimization later.
@@ -165,22 +179,29 @@ export default class Phrase extends TypeOutput {
         // Get the text that will be rendered.
         const text = this.getLocalizedTextOrDoc(context.locales);
 
-        // Figure out a width.
+        // Tracking metrics
         let width = 0;
         let height: undefined | number = 0;
         let ascent: undefined | number = 0;
+        let descent: undefined | number = 0;
+        const maxWidth =
+            this.wrap === undefined ? undefined : this.wrap * PX_PER_METER;
+        let totalHeight = 0;
 
         const formats: FormattedText[] | undefined =
+            // Is it plain text? Make a list of unformatted text.
             text instanceof TextLang
                 ? [{ text: text.text, italic: false, weight: undefined }]
-                : text?.getFormats();
+                : // Otherwise, get the list of formatted segments.
+                  text?.getFormats();
 
-        // Get the list of text nodes and the formats applied to each
-        if (formats) {
-            for (const formatted of formats) {
+        // Go throgh each formatted text,
+        for (const formatted of formats) {
+            // Split the text by spaces and measure each space separated chunk.
+            for (const segment of segmentWraps(formatted.text)) {
                 const metrics = getTextMetrics(
                     // Choose the description with the preferred language.
-                    formatted.text,
+                    segment,
                     // Convert the size to pixels and choose a font name.
                     `${formatted.weight ?? ''} ${
                         formatted.italic ? 'italic' : ''
@@ -190,21 +211,46 @@ export default class Phrase extends TypeOutput {
                 );
 
                 if (metrics) {
-                    width += metrics.width;
                     ascent = metrics.fontBoundingBoxAscent;
+                    descent = metrics.fontBoundingBoxDescent;
                     height = Math.max(
                         metrics.actualBoundingBoxAscent +
                             metrics.actualBoundingBoxDescent,
                         height
                     );
+                    // If we're not wrapping, just accumulate the width.
+                    if (maxWidth === undefined) {
+                        width += metrics.width;
+                    }
+                    // If we are wrapping, then see if adding this width would exceed the boundary.
+                    else {
+                        // Past the boundary? Wrap.
+                        if (width + metrics.width >= maxWidth) {
+                            width = 0;
+                            totalHeight +=
+                                metrics.fontBoundingBoxAscent +
+                                metrics.fontBoundingBoxDescent;
+                            height = 0;
+                        }
+                        // Add the width of the text
+                        width += metrics.width;
+                    }
                 }
             }
+        }
+
+        // Wrapping? The width is specified; we just need to compute the height. To do this,
+        // we place the
+        if (maxWidth !== undefined) {
+            width = maxWidth;
+            height = totalHeight + (width > 0 ? ascent + descent : 0);
         }
 
         const dimensions = {
             width,
             height,
             ascent,
+            descent,
         };
         // If the font is loaded, these metrics can be trusted, so we cache them.
         if (
@@ -233,6 +279,7 @@ export default class Phrase extends TypeOutput {
             width: metrics.width / PX_PER_METER,
             height: metrics.height / PX_PER_METER,
             ascent: metrics.ascent / PX_PER_METER,
+            descent: metrics.descent / PX_PER_METER,
             places: [],
         };
     }
@@ -241,7 +288,7 @@ export default class Phrase extends TypeOutput {
         return undefined;
     }
 
-    getLocalizedTextOrDoc(locales: Locale[]): TextLang | Markup | undefined {
+    getLocalizedTextOrDoc(locales: Locale[]): TextLang | Markup {
         // Get the list of text lang and doc and find the one with the best matching language.
         if (Array.isArray(this.text)) {
             const options = this.text;
@@ -323,6 +370,9 @@ export function toPhrase(
         style,
     } = getStyle(project, value, 1);
 
+    const wrap = toNumber(getOutputInput(value, 20));
+    const alignment = toText(getOutputInput(value, 21));
+
     return texts !== undefined &&
         duration !== undefined &&
         style !== undefined &&
@@ -343,7 +393,9 @@ export function toPhrase(
               move,
               exit,
               duration,
-              style
+              style,
+              wrap,
+              alignment?.text
           )
         : undefined;
 }

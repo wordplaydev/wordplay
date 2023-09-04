@@ -171,6 +171,7 @@ export default class Stage extends TypeOutput {
             width: right - left,
             height: top - bottom,
             ascent: top - bottom,
+            descent: 0,
             places,
         };
     }

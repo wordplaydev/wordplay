@@ -115,6 +115,7 @@ export default class Group extends TypeOutput {
             width: layout.width,
             height: layout.height,
             ascent: layout.height,
+            descent: 0,
             places: layout.places,
         };
     }

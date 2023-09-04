@@ -3092,6 +3092,14 @@
                 "doc": "The place on stage where I should be.",
                 "names": "place"
             },
+            "wrap": {
+                "doc": "The edge at which I should wrap symbols or \\ø\\ if I shouldn't wrap them.",
+                "names": ["↵", "wrap"]
+            },
+            "alignment": {
+                "doc": "If there's a @Phrase/wrap boundary set, whether I should align symbols to the start, center, or end of edge.",
+                "names": "alignment"
+            },
             "name": {
                 "doc": [
                     "A name you give me! This is helpful for many things.",

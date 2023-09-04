@@ -1,3 +1,11 @@
+<script context="module" lang="ts">
+    export const CSSAlignments: Record<string, string> = {
+        '<': 'left',
+        '|': 'center',
+        '>': 'right',
+    };
+</script>
+
 <script lang="ts">
     import type Phrase from '@output/Phrase';
     import type Place from '@output/Place';
@@ -187,7 +195,9 @@
         style:opacity={getOpacityCSS(phrase.getFirstRestPose(), phrase.pose)}
         style:width="{metrics.width}px"
         style:height="{metrics.height}px"
-        style:line-height="{metrics.height}px"
+        style:line-height="{phrase.wrap !== undefined
+            ? metrics.ascent + metrics.descent
+            : metrics.height}px"
         style:transform={toOutputTransform(
             phrase.getFirstRestPose(),
             phrase.pose,
@@ -196,6 +206,10 @@
             parentAscent,
             metrics
         )}
+        style:white-space={phrase.wrap !== undefined ? 'normal' : 'nowrap'}
+        style:text-align={phrase.alignment === undefined
+            ? null
+            : CSSAlignments[phrase.alignment]}
     >
         {#if entered}
             <!-- Stop propagation on key down so that only the input handles it when focused. -->
@@ -226,7 +240,9 @@
         position: absolute;
         left: 0;
         top: 0;
-        white-space: nowrap;
+
+        /** Wrap long words that don't fit on a line */
+        overflow-wrap: normal;
 
         /* This disables translation around the center; we want to translate around the focus.*/
         transform-origin: 0 0;

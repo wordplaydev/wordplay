@@ -90,6 +90,7 @@
             width: layout.width * PX_PER_METER,
             height: layout.height * PX_PER_METER,
             ascent: layout.height * PX_PER_METER,
+            descent: 0,
         },
         viewport
     )}

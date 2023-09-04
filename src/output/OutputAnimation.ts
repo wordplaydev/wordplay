@@ -467,6 +467,7 @@ export default class OutputAnimation {
                     {
                         width: layout.width * PX_PER_METER,
                         ascent: layout.ascent * PX_PER_METER,
+                        descent: layout.descent * PX_PER_METER,
                         height: layout.height * PX_PER_METER,
                     },
                     this.output instanceof Stage

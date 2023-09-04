@@ -1750,6 +1750,14 @@
             "size": { "doc": "$?", "names": "tamaño" },
             "face": { "doc": "$?", "names": "fuente" },
             "place": { "doc": "$?", "names": "place" },
+            "wrap": {
+                "doc": "$?",
+                "names": "$? wrap"
+            },
+            "alignment": {
+                "doc": "$?",
+                "names": "$? alignment"
+            },
             "name": { "doc": "$?", "names": "nombre" },
             "selectable": { "doc": "$?", "names": "seleccionable" },
             "color": {
