@@ -137,7 +137,9 @@ export default class Evaluate extends Expression {
                       anchor.getDefinitionsInScope(context)
                 : // If the node is not selected, get definitions in the anchor's scope
                   anchor.getDefinitionsInScope(context);
-        if (structure) expectedType = undefined;
+
+        // This probably doesn't belong here. The expected type is the expected type, and it should be correct.
+        // if (!isBeingReplaced && structure) expectedType = undefined;
 
         // Convert the definitions to evaluate suggestions.
         return definitions
