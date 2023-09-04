@@ -17,7 +17,7 @@
         margin-block-end: 4em;
     }
 
-    :global(p) {
+    .writing :global(p) {
         max-width: 30em;
         margin-inline-start: var(--wordplay-spacing);
     }

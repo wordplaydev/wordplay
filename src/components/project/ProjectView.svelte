@@ -112,6 +112,7 @@
     import Announcer from './Announcer.svelte';
     import { toClipboard } from '../editor/util/Clipboard';
     import { PersistenceType } from '../../db/ProjectHistory';
+    import Warning from '../widgets/Warning.svelte';
 
     export let project: Project;
     export let original: Project | undefined = undefined;
@@ -151,10 +152,10 @@
     let canvas: HTMLElement;
 
     /** Whether to show the keyboard help dialog */
-    let help = false;
+    let showHelpDialog = false;
 
     /** Whether to show the collaborators dialog */
-    let collaborators = false;
+    let showCollaboratorsDialog = false;
 
     /** The current canvas dimensions */
     let canvasWidth = 1024;
@@ -1039,7 +1040,7 @@
         focusOrCycleTile,
         resetInputs,
         toggleBlocks,
-        help: () => (help = !help),
+        help: () => (showHelpDialog = !showHelpDialog),
     };
     const commandContextStore = writable(commandContext);
     $: commandContextStore.set(commandContext);
@@ -1151,8 +1152,8 @@
     on:pointerup={handlePointerUp}
 />
 
-<Collaborators bind:show={collaborators} {project} />
-<Help bind:show={help} />
+<Collaborators bind:show={showCollaboratorsDialog} {project} />
+<Help bind:show={showHelpDialog} />
 <!-- Render the app header and the current project, if there is one. -->
 <main class="project" bind:this={view}>
     <div
@@ -1348,18 +1349,15 @@
                     ><span class="copy">✐+</span></Button
                 >
             {:else}
-                <Toggle
-                    tips={$locale.ui.project.toggle.public}
-                    toggle={() =>
-                        Projects.reviseProject(
-                            project.asPublic(!project.public)
-                        )}
-                    on={project.public}
-                    >{#if project.public}🌐{:else}🤫{/if}</Toggle
-                >
                 <Button
                     tip={$locale.ui.project.button.showCollaborators}
-                    action={() => (collaborators = true)}>🤝</Button
+                    action={() =>
+                        (showCollaboratorsDialog = !showCollaboratorsDialog)}
+                    ><Warning>
+                        {#if project.public}🌐 {$locale.ui.dialog.share.mode
+                                .public.modes[1]}{:else}🤫 {$locale.ui.dialog
+                                .share.mode.public.modes[0]}{/if}</Warning
+                    ></Button
                 >
                 <Button
                     tip={$locale.ui.project.button.copy}
@@ -1404,7 +1402,7 @@
                 <ProjectLanguages {project} />
                 <Button
                     tip={ShowKeyboardHelp.description($locale)}
-                    action={() => (help = true)}
+                    action={() => (showHelpDialog = true)}
                     >{ShowKeyboardHelp.symbol}</Button
                 ></span
             >
@@ -1535,6 +1533,7 @@
         display: flex;
         flex-direction: row;
         flex-wrap: nowrap;
+        align-items: center;
         gap: var(--wordplay-spacing);
     }
 

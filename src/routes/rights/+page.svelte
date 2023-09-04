@@ -9,4 +9,10 @@
     <Header>{$locale.ui.page.rights.header}</Header>
 
     <MarkupHtmlView markup={$locale.ui.page.rights.content} />
+    <MarkupHtmlView
+        markup={$locale.ui.page.rights.promises
+            .map((promise) => `• ${promise}`)
+            .join('\n\n')}
+    />
+    <MarkupHtmlView markup={$locale.ui.page.rights.consequences} />
 </Writing>
