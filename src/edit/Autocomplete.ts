@@ -72,6 +72,12 @@ import Select from '../nodes/Select';
 import Delete from '../nodes/Delete';
 import Update from '../nodes/Update';
 
+/** A logging flag, helpful for analyzing the control flow of autocomplete when debugging. */
+const LOG = true;
+function note(message: string, level: number) {
+    if (LOG) console.log(`${'  '.repeat(level)}Autocomplete: ${message}`);
+}
+
 /** Given a project and a caret, generate a set of transforms that can be applied at the location. */
 export function getEditsAt(project: Project, caret: Caret): Revision[] {
     const source = caret.source;
@@ -83,84 +89,33 @@ export function getEditsAt(project: Project, caret: Caret): Revision[] {
 
     // If the token is a node, find the allowable nodes to replace this node, or whether it's removable
     if (caret.position instanceof Node) {
-        // Get the allowed kinds on this node and then translate them into replacement edits.
-        edits = getFieldEdits(
-            caret.position,
-            context,
-            (field, parent, node) => {
-                // Match the type of the current node
-                const expectedType = field.getType
-                    ? field.getType(context, undefined)
-                    : undefined;
-                // Get the value of the field.
-                const fieldValue = parent.getField(field.name);
-
-                return [
-                    // Generate all the possible types
-                    ...field.kind
-                        .enumerate()
-                        .map((kind) =>
-                            getPossibleNodes(
-                                field,
-                                kind,
-                                expectedType,
-                                node,
-                                true,
-                                context
-                            ).map(
-                                (replacement) =>
-                                    new Replace(
-                                        context,
-                                        parent,
-                                        node,
-                                        replacement
-                                    )
-                            )
-                        )
-                        .flat(),
-                    // Is this node in a list field? Offer to remove it if it can be empty or can't but has more than one element.
-                    ...(field.kind instanceof ListOf &&
-                    (field.kind.allowsEmpty ||
-                        (Array.isArray(fieldValue) && fieldValue.length > 1))
-                        ? [new Remove(context, parent, node)]
-                        : []),
-                ];
-            }
+        note(
+            `Getting possible field edits for node selection ${caret.position.toWordplay()}`,
+            1
         );
 
-        const selection = caret.position;
-        const parent = caret.position.getParent(context);
-        const field = parent?.getFieldOfChild(selection);
-        if (parent && field) {
-            // Is the field optional and set?
-            if (
-                field.kind.isOptional() &&
-                parent.getField(field.name) !== undefined
-            ) {
-                edits = [
-                    ...edits,
-                    new Remove(
-                        context,
-                        parent,
-                        selection,
-                        ...(field.kind
-                            .enumerateFieldKinds()
-                            .find(
-                                (kind): kind is Empty => kind instanceof Empty
-                            )
-                            ?.getDependencies(parent, context) ?? [])
-                    ),
-                ];
-            }
-        }
+        edits = getNodeEdits(caret.position, context);
     }
     // If the token is a position rather than a node, find edits for the nodes between.
     else {
+        note(`Caret is position, finding nodes before and after.`, 0);
+
+        // If there are no nodes between (because the caret is in the middle of a token)
+        if (caret.insideToken() && caret.tokenExcludingSpace) {
+            note(
+                `Inside token, getting possible replacements for it ${caret.tokenExcludingSpace.toWordplay()}`,
+                1
+            );
+
+            edits = getNodeEdits(caret.tokenExcludingSpace, context);
+        }
+
         const { before, after } = caret.getNodesBetween();
         const adjacent = caret.position === caret.tokenSpaceIndex;
 
         // For each node before, get edits for what can come after.
         for (const node of before) {
+            note(`Getting field relative edits of ${node.toWordplay()}`, 1);
             edits = [
                 ...edits,
                 ...getRelativeFieldEdits(
@@ -176,6 +131,7 @@ export function getEditsAt(project: Project, caret: Caret): Revision[] {
 
         // For each node after, get edits for what can come before.
         for (const node of after) {
+            note(`Getting field relative edits of ${node.toWordplay()}`, 1);
             edits = [
                 ...edits,
                 ...getRelativeFieldEdits(
@@ -193,6 +149,8 @@ export function getEditsAt(project: Project, caret: Caret): Revision[] {
         // delimited except for program blocks, so when we're in an empty program block, there is no
         // delimiter to anchor off of.
         if (context.source.leaves().length === 1) {
+            note(`Getting edits for empty block`, 1);
+
             const programField =
                 source.expression.expression.getFieldNamed('statements');
             if (programField) {
@@ -231,12 +189,89 @@ export function getEditsAt(project: Project, caret: Caret): Revision[] {
         }
     }
 
+    note(`Removing duplicates`, 0);
+
     return edits.filter(
         (edit1, index1) =>
             !edits.some(
                 (edit2, index2) => index2 > index1 && edit1.equals(edit2)
             )
     );
+}
+
+/** Given a node, get possible replacements */
+function getNodeEdits(anchor: Node, context: Context) {
+    let edits: Revision[] = [];
+
+    // Get the allowed kinds on this node and then translate them into replacement edits.
+    edits = getFieldEdits(anchor, context, (field, parent, node) => {
+        // Match the type of the current node
+        const expectedType = field.getType
+            ? field.getType(context, undefined)
+            : undefined;
+        // Get the value of the field.
+        const fieldValue = parent.getField(field.name);
+
+        note(
+            `Finding possible replacement nodes for "${
+                field.name
+            }" with type ${expectedType?.toWordplay()}`,
+            2
+        );
+
+        return [
+            // Generate all the possible types
+            ...field.kind
+                .enumerate()
+                .map((kind) =>
+                    getPossibleNodes(
+                        field,
+                        kind,
+                        expectedType,
+                        node,
+                        true,
+                        context
+                    ).map(
+                        (replacement) =>
+                            new Replace(context, parent, node, replacement)
+                    )
+                )
+                .flat(),
+            // Is this node in a list field? Offer to remove it if it can be empty or can't but has more than one element.
+            ...(field.kind instanceof ListOf &&
+            (field.kind.allowsEmpty ||
+                (Array.isArray(fieldValue) && fieldValue.length > 1))
+                ? [new Remove(context, parent, node)]
+                : []),
+        ];
+    });
+
+    const selection = anchor;
+    const parent = anchor.getParent(context);
+    const field = parent?.getFieldOfChild(selection);
+    if (parent && field) {
+        // Is the field optional and set?
+        if (
+            field.kind.isOptional() &&
+            parent.getField(field.name) !== undefined
+        ) {
+            note(`Field is optional and set, offering removal.`, 1);
+            edits = [
+                ...edits,
+                new Remove(
+                    context,
+                    parent,
+                    selection,
+                    ...(field.kind
+                        .enumerateFieldKinds()
+                        .find((kind): kind is Empty => kind instanceof Empty)
+                        ?.getDependencies(parent, context) ?? [])
+                ),
+            ];
+        }
+    }
+
+    return edits;
 }
 
 /** Given a node, it's context, and a handler, generate a set of transforms appropriate to modify that node and its surroundings. */
@@ -265,6 +300,7 @@ function getFieldEdits(
     return kinds;
 }
 
+/** Given an anchor node, find the field it corresponds to, and find what it might be able to be replaced with. */
 function getRelativeFieldEdits(
     isAfterAnchor: boolean,
     anchorNode: Node,
@@ -287,10 +323,22 @@ function getRelativeFieldEdits(
     // We only do this if this is before, and we're immediately after
     // a node, and for replacements that "complete" the existing parent.
     if (isAfterAnchor && adjacent) {
-        const type =
-            anchorNode instanceof Expression
-                ? anchorNode.getType(context)
-                : undefined;
+        // If the anchor is in a list, get it's index.
+        const list = parent.getField(field.name);
+        const index = Array.isArray(list)
+            ? list.indexOf(anchorNode)
+            : undefined;
+
+        // Determine the expected type, which the field can tell us.
+        const expectedType = field.getType
+            ? field.getType(context, index)
+            : undefined;
+
+        note(
+            `Getting replacements that would "complete" ${anchorNode.toWordplay()} of type ${expectedType?.toWordplay()}`,
+            2
+        );
+
         edits = [
             ...edits,
             ...field.kind
@@ -299,7 +347,9 @@ function getRelativeFieldEdits(
                     getPossibleNodes(
                         field,
                         kind,
-                        type instanceof UnknownType ? undefined : type,
+                        expectedType instanceof UnknownType
+                            ? undefined
+                            : expectedType,
                         anchorNode,
                         true,
                         context
@@ -340,6 +390,11 @@ function getRelativeFieldEdits(
           grammar.slice(0, fieldIndex + 1).reverse();
 
     for (const relativeField of relativeFields) {
+        note(
+            `Checking field "${relativeField.name}" for possible insertions or field sets`,
+            2
+        );
+
         const fieldValue = parent.getField(relativeField.name);
         const fieldIsEmpty =
             fieldValue === undefined ||

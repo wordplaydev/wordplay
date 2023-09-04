@@ -189,8 +189,8 @@ export default class Bind extends Expression {
                 kind: any(node(Expression), none('colon')),
                 space: true,
                 indent: true,
-                // If there's a type, the value must match it, otherwise anything
-                getType: (context: Context) => this.getType(context),
+                // The bind field should be whatever type is expected.
+                getType: (context: Context) => this.getExpectedType(context),
                 label: (locale: Locale, child: Node, context: Context) =>
                     (child === this.value
                         ? this.getCorrespondingBindDefinition(
@@ -448,17 +448,14 @@ export default class Bind extends Expression {
     computeType(context: Context): Type {
         // What type is this binding?
         let type =
-            // If it's declared, use the declaration.
-            this.type instanceof Type
-                ? // Account for variable length arguments
-                  this.isVariableLength()
-                    ? ListType.make(this.type)
-                    : this.type
-                : // If it has an expression, ask the expression.
-                this.value instanceof Expression
+            this.getSpecifiedType() ?? // If it has an expression, ask the expression.
+            (this.value instanceof Expression
                 ? this.value.getType(context)
                 : // Otherwise, we don't know, it could be anything.
-                  undefined;
+                  undefined);
+
+        if (type === undefined || type instanceof UnknownType)
+            type = this.getExpectedType(context);
 
         // If the type is a name, and it refers to a structure, resolve it.
         // Leave any other names (namely those that refer to type variables) to be concretized by others.
@@ -467,69 +464,80 @@ export default class Bind extends Expression {
             if (nameType instanceof StructureType) return nameType;
         }
 
-        const parent = this.getParent(context);
+        return type;
+    }
+
+    getSpecifiedType(): Type | undefined {
+        // If it's declared, use the declaration.
+        return this.type instanceof Type
+            ? // Account for variable length arguments
+              this.isVariableLength()
+                ? ListType.make(this.type)
+                : this.type
+            : undefined;
+    }
+
+    getExpectedType(context: Context) {
+        const expected = this.getSpecifiedType();
+        if (expected) return expected;
 
         // No type? If the bind is in a function definition that is part of a function evaluation that takes a function input,
         // get the type from the function input.
-        if (type === undefined || type instanceof UnknownType) {
-            // If the parent is an evaluate and there's no value specified, see what input it corresponds to.
-            if (
-                parent instanceof Evaluate &&
-                (this.value === undefined ||
-                    this.value instanceof ExpressionPlaceholder)
-            ) {
-                const mapping = parent.getInputMapping(context);
-                const input = mapping?.inputs.find((i) => i.given === this);
-                if (input) return input.expected.getType(context);
-            }
+        const parent = this.getParent(context);
 
-            if (parent instanceof FunctionDefinition) {
-                const bindIndex = parent.inputs.indexOf(this);
-                const evaluate = parent.getParent(context);
-                if (evaluate instanceof Evaluate) {
-                    const funcIndex = evaluate.inputs.indexOf(parent);
-                    const evalFunc = evaluate.getFunction(context);
-                    if (
-                        evalFunc instanceof FunctionDefinition &&
-                        funcIndex < evalFunc.inputs.length
-                    ) {
-                        const bind = evalFunc.inputs[funcIndex];
-                        const functionType = bind
-                            .getType(context)
+        // If the parent is an evaluate and there's no value specified, see what input it corresponds to.
+        if (parent instanceof Evaluate) {
+            const mapping = parent.getInputMapping(context);
+            const input = mapping?.inputs.find((i) => i.given === this);
+            if (input) return input.expected.getType(context);
+        }
+
+        if (parent instanceof FunctionDefinition) {
+            const bindIndex = parent.inputs.indexOf(this);
+            const evaluate = parent.getParent(context);
+            if (evaluate instanceof Evaluate) {
+                const funcIndex = evaluate.inputs.indexOf(parent);
+                const evalFunc = evaluate.getFunction(context);
+                if (
+                    evalFunc instanceof FunctionDefinition &&
+                    funcIndex < evalFunc.inputs.length
+                ) {
+                    const bind = evalFunc.inputs[funcIndex];
+                    const functionType = bind
+                        .getType(context)
+                        .getPossibleTypes(context)
+                        .find(
+                            (type): type is FunctionType =>
+                                type instanceof FunctionType
+                        );
+                    if (functionType) {
+                        let type: Type | undefined;
+                        const funcBind = functionType.inputs[bindIndex];
+                        if (funcBind) type = funcBind.getType(context);
+
+                        const concreteFunctionType = getConcreteExpectedType(
+                            evalFunc,
+                            bind,
+                            evaluate,
+                            context
+                        )
                             .getPossibleTypes(context)
                             .find(
                                 (type): type is FunctionType =>
                                     type instanceof FunctionType
                             );
-                        if (functionType) {
-                            const funcBind = functionType.inputs[bindIndex];
-                            if (funcBind) type = funcBind.getType(context);
-
-                            const concreteFunctionType =
-                                getConcreteExpectedType(
-                                    evalFunc,
-                                    bind,
-                                    evaluate,
+                        if (concreteFunctionType) {
+                            type =
+                                concreteFunctionType.inputs[bindIndex].getType(
                                     context
-                                )
-                                    .getPossibleTypes(context)
-                                    .find(
-                                        (type): type is FunctionType =>
-                                            type instanceof FunctionType
-                                    );
-                            if (concreteFunctionType) {
-                                type =
-                                    concreteFunctionType.inputs[
-                                        bindIndex
-                                    ].getType(context);
-                            }
+                                );
                         }
+                        if (type) return type;
                     }
                 }
             }
         }
-
-        return type ?? new AnyType();
+        return new AnyType();
     }
 
     getDefinitionOfNameInScope() {
