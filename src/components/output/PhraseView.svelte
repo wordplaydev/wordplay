@@ -149,8 +149,6 @@
         const originalTextValue = phrase.getText();
         if (originalTextValue === undefined) return;
 
-        console.log(newText);
-
         // Reset the cache for proper layout.
         phrase.resetMetrics();
 
