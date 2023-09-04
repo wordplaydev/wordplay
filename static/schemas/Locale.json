@@ -5623,6 +5623,9 @@
             "Phrase": {
               "additionalProperties": false,
               "properties": {
+                "alignment": {
+                  "$ref": "#/definitions/NameAndDoc"
+                },
                 "background": {
                   "$ref": "#/definitions/NameAndDoc"
                 },
@@ -5692,9 +5695,13 @@
                 },
                 "text": {
                   "$ref": "#/definitions/NameAndDoc"
+                },
+                "wrap": {
+                  "$ref": "#/definitions/NameAndDoc"
                 }
               },
               "required": [
+                "alignment",
                 "background",
                 "color",
                 "description",
@@ -5717,7 +5724,8 @@
                 "selectable",
                 "size",
                 "style",
-                "text"
+                "text",
+                "wrap"
               ],
               "type": "object"
             },
@@ -7014,34 +7022,10 @@
               "additionalProperties": false,
               "properties": {
                 "app": {
-                  "enum": [
-                    "Noto Sans",
-                    "Noto Sans Japanese",
-                    "Noto Emoji",
-                    "Noto Color Emoji",
-                    "Noto Sans Simplified Chinese",
-                    "Noto Mono",
-                    "Poor Story",
-                    "Permanent Marker",
-                    "Borel",
-                    "Roboto"
-                  ],
-                  "type": "string"
+                  "$ref": "#/definitions/SupportedFace"
                 },
                 "code": {
-                  "enum": [
-                    "Noto Sans",
-                    "Noto Sans Japanese",
-                    "Noto Emoji",
-                    "Noto Color Emoji",
-                    "Noto Sans Simplified Chinese",
-                    "Noto Mono",
-                    "Poor Story",
-                    "Permanent Marker",
-                    "Borel",
-                    "Roboto"
-                  ],
-                  "type": "string"
+                  "$ref": "#/definitions/SupportedFace"
                 }
               },
               "required": [
@@ -8931,6 +8915,11 @@
         "ZW"
       ],
       "type": "string"
+    },
+    "SupportedFace": {
+      "type": [
+        "string"
+      ]
     },
     "Template": {
       "type": "string"

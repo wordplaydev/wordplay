@@ -1732,6 +1732,14 @@
             "size": { "doc": "$?", "names": "$?" },
             "face": { "doc": "$?", "names": "$?" },
             "place": { "doc": "$?", "names": "$?" },
+            "wrap": {
+                "doc": "$?",
+                "names": "$? wrap"
+            },
+            "alignment": {
+                "doc": "$?",
+                "names": "$? alignment"
+            },
             "name": { "doc": "$?", "names": "$?" },
             "selectable": { "doc": "$?", "names": "$?" },
             "color": {

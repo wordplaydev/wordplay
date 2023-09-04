@@ -32,6 +32,8 @@ type OutputTexts = {
     } & TypeTexts;
     Phrase: NameAndDoc & {
         text: NameAndDoc;
+        wrap: NameAndDoc;
+        alignment: NameAndDoc;
         /** non-optional text, optional name, optional size, optional font, then non-optional pose */
         description: Template;
     } & TypeTexts;
