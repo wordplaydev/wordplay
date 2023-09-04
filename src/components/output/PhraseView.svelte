@@ -105,7 +105,14 @@
     }
 
     function move(event: KeyboardEvent) {
-        if ($project === undefined || selectedOutput === undefined) return;
+        if (
+            $project === undefined ||
+            selectedOutput === undefined ||
+            entered ||
+            !event.key.startsWith('Arrow')
+        )
+            return;
+
         const increment = 0.5;
         let horizontal =
             event.key === 'ArrowLeft'
@@ -142,6 +149,8 @@
         const originalTextValue = phrase.getText();
         if (originalTextValue === undefined) return;
 
+        console.log(newText);
+
         // Reset the cache for proper layout.
         phrase.resetMetrics();
 
@@ -175,7 +184,7 @@
         data-name={phrase.getName()}
         data-selectable={selectable}
         on:dblclick={$editable && interactive ? enter : null}
-        on:keydown={$editable && interactive ? move : null}
+        on:keydown={$editable && interactive && !entered ? move : null}
         bind:this={view}
         style:font-family={getFaceCSS(context.face)}
         style:font-size={getSizeCSS(context.size)}
@@ -195,9 +204,10 @@
         )}
     >
         {#if entered}
+            <!-- Stop propagation on key down so that only the input handles it when focused. -->
             <input
                 type="text"
-                bind:value={text}
+                value={text}
                 bind:this={input}
                 on:input={handleInput}
                 on:keydown|stopPropagation
@@ -206,6 +216,8 @@
                     10,
                     phrase.getMetrics(context, false).width
                 )}px"
+                style:height="{metrics.height}px"
+                style:line-height="{metrics.height}px"
             />
         {:else if text instanceof TextLang}{text.text}{:else if text instanceof Markup}<MarkupHtmlView
                 markup={text.asLine()}
@@ -266,7 +278,6 @@
             var(--wordplay-focus-width);
         outline: none;
         min-width: 1em;
-        min-height: 1em;
     }
 
     input:focus {

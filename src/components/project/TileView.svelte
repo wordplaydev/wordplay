@@ -21,7 +21,7 @@
     import { isName } from '../../parser/Tokenizer';
     import { locale } from '../../db/Database';
     import { onMount } from 'svelte';
-    import type Arrangement from '../../db/Arrangement';
+    import Arrangement from '../../db/Arrangement';
     import Glyphs from '../../lore/Glyphs';
     import Color from '../../output/Color';
     import Toggle from '../widgets/Toggle.svelte';
@@ -49,7 +49,11 @@
 
     function handleKeyDown(event: KeyboardEvent) {
         // Move or resize on command-arrow
-        if ((event.metaKey || event.ctrlKey) && event.key.startsWith('Arrow')) {
+        if (
+            (event.metaKey || event.ctrlKey) &&
+            event.key.startsWith('Arrow') &&
+            arrangement === Arrangement.Free
+        ) {
             const increment = 50;
             const resize = event.shiftKey;
             const horizontal =
