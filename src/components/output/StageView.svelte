@@ -290,7 +290,8 @@
             : 'inert'} {project.main.names.getNames()[0]}"
         class:interactive
         class:changed
-        class:selected={stage.value.creator instanceof Evaluate &&
+        class:selected={stage.explicit &&
+            stage.value.creator instanceof Evaluate &&
             $selectedOutput &&
             $selectedOutput.includes(stage.value.creator)}
         class:editing={$evaluation?.playing === false && !painting}
