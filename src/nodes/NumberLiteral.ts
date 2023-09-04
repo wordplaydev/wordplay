@@ -34,7 +34,7 @@ export default class NumberLiteral extends Literal {
         this.computeChildren();
     }
 
-    static make(number?: number | string, unit?: Unit, ...types: Sym[]) {
+    static make(number?: number | string, unit?: Unit, type?: Sym) {
         return new NumberLiteral(
             new Token(
                 number === undefined
@@ -42,7 +42,7 @@ export default class NumberLiteral extends Literal {
                     : typeof number === 'number'
                     ? '' + number
                     : number,
-                types.length === 0 ? [Sym.Number, Sym.Decimal] : types
+                [Sym.Number, ...(type ? [type] : [])]
             ),
             unit === undefined ? Unit.Empty : unit
         );
@@ -70,16 +70,14 @@ export default class NumberLiteral extends Literal {
                           1,
                           numberType.unit instanceof Unit
                               ? numberType.unit.clone()
-                              : undefined,
-                          Sym.Number,
-                          Sym.Decimal
+                              : undefined
                       )
             );
         } else {
             return [
-                NumberLiteral.make(0, undefined, Sym.Number, Sym.Decimal),
-                NumberLiteral.make('π', undefined, Sym.Number, Sym.Pi),
-                NumberLiteral.make('∞', undefined, Sym.Number, Sym.Infinity),
+                NumberLiteral.make(0, undefined, Sym.Decimal),
+                NumberLiteral.make('π', undefined, Sym.Pi),
+                NumberLiteral.make('∞', undefined, Sym.Infinity),
             ];
         }
     }
