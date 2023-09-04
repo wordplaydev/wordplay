@@ -4,8 +4,11 @@
     import type Project from '../../models/Project';
     import Feedback from '../app/Feedback.svelte';
     import Spinning from '../app/Spinning.svelte';
+    import Subheader from '../app/Subheader.svelte';
+    import MarkupHtmlView from '../concepts/MarkupHTMLView.svelte';
     import Button from '../widgets/Button.svelte';
     import Dialog from '../widgets/Dialog.svelte';
+    import Mode from '../widgets/Mode.svelte';
     import TextField from '../widgets/TextField.svelte';
 
     export let show: boolean;
@@ -39,6 +42,12 @@
 </script>
 
 <Dialog bind:show description={$locale.ui.dialog.share}>
+    <Subheader
+        >{$locale.ui.dialog.share.subheader.collaborators.header}</Subheader
+    >
+    <MarkupHtmlView
+        markup={$locale.ui.dialog.share.subheader.collaborators.explanation}
+    />
     <form class="form" on:submit={add}>
         <TextField
             bind:text={email}
@@ -76,6 +85,30 @@
             >
         {/each}
     </div>
+
+    <Subheader>{$locale.ui.dialog.share.subheader.public.header}</Subheader>
+    <MarkupHtmlView
+        markup={$locale.ui.dialog.share.subheader.public.explanation}
+    />
+
+    <MarkupHtmlView
+        markup={$locale.ui.page.rights.promises
+            .map((promise) => `• ${promise}`)
+            .join('\n\n')}
+    />
+    <p>
+        <Mode
+            descriptions={$locale.ui.dialog.share.mode.public}
+            choice={project.public === true ? 1 : 0}
+            select={(choice) =>
+                Projects.reviseProject(project.asPublic(choice === 1))}
+            modes={[
+                '🤫 ' + $locale.ui.dialog.share.mode.public.modes[0],
+                '🌐 ' + $locale.ui.dialog.share.mode.public.modes[1],
+            ]}
+        /></p
+    >
+    <MarkupHtmlView markup={$locale.ui.page.rights.consequences} />
 </Dialog>
 
 <style>

@@ -92,8 +92,12 @@
     }
 
     p {
-        margin-block-end: 0;
         margin-inline-start: 0;
+        line-height: 1.5;
+    }
+
+    p:last-of-type {
+        margin-block-end: 0;
     }
 
     p:not(:first-child) {

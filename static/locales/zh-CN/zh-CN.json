@@ -1937,12 +1937,6 @@
                 "focusPalette": "$?",
                 "focusCycle": "$?"
             },
-            "toggle": {
-                "public": {
-                    "on": "$?",
-                    "off": "$?"
-                }
-            },
             "field": {
                 "name": {
                     "description": "$?",
@@ -2099,10 +2093,26 @@
             "share": {
                 "header": "$?",
                 "explanation": "$?",
+                "subheader": {
+                    "collaborators": {
+                        "header": "$?",
+                        "explanation": "$?"
+                    },
+                    "public": {
+                        "header": "$?",
+                        "explanation": "$?"
+                    }
+                },
                 "field": {
                     "email": {
                         "placeholder": "$?",
                         "description": "$?"
+                    }
+                },
+                "mode": {
+                    "public": {
+                        "label": "$?",
+                        "modes": ["$?", "$?"]
                     }
                 },
                 "error": {
@@ -2314,7 +2324,9 @@
             },
             "rights": {
                 "header": "$?",
-                "content": ["$?"]
+                "content": ["$?"],
+                "promises": ["$?"],
+                "consequences": ["$?"]
             }
         },
         "edit": {

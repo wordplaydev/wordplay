@@ -3553,12 +3553,6 @@
                 "focusPalette": "focus on the palette",
                 "focusCycle": "focus on the next tile"
             },
-            "toggle": {
-                "public": {
-                    "on": "change to private",
-                    "off": "change to public"
-                }
-            },
             "field": {
                 "name": {
                     "description": "edit project name",
@@ -3720,12 +3714,28 @@
         },
         "dialog": {
             "share": {
-                "header": "Collaborators",
-                "explanation": "Want someone to help edit this project? Add or remove them by email.",
+                "header": "Sharing",
+                "explanation": "Control who can edit and see this project.",
+                "subheader": {
+                    "collaborators": {
+                        "header": "Collaborators",
+                        "explanation": "Collaborators can see and edit this project. Add or remove them by email."
+                    },
+                    "public": {
+                        "header": "Public/Private",
+                        "explanation": "Public projects can be seen by anyone in the world. By making a project, you promise:"
+                    }
+                },
                 "field": {
                     "email": {
                         "placeholder": "email",
                         "description": "the email address of the person who you want to grant edit access."
+                    }
+                },
+                "mode": {
+                    "public": {
+                        "label": "visibility",
+                        "modes": ["private", "public"]
                     }
                 },
                 "error": {
@@ -3982,9 +3992,13 @@
                     "• We won't contact you via your email address unless you 1) make an account change that requires us to, 2) you explicitly give us consent to reach out, or 3) in the case of data breach above.",
                     "• We may analyze projects on the platform to understand what everyone is making and how they are making it. We may share these aggregated, anonymized insights in academic publications. We will only do this under the supervision of an institutional review board, as mandated by U.S. federal law.",
                     "Finally, a note about speech. You can say anything you want on this platform in *private*. Projects are private by default, and if you share them with specific email addresses, they are still considered private. We won't moderate anything in private projects.",
-                    "But making a project *public*, or including it in a public gallery, is a privilege. This is a platform made for love, affirmation, respect, and dignity. Therefore, we expect all of your *public* content to follow these rules:",
-                    "• No speech that incites, encourages, or celebrates violence, harm, or self harm.",
-                    "• No speech that dehumanizes individuals or groups based on their race, ethnicity, national origin, caste, sexual orientation, gender, religion, age, ability, or appearance.",
+                    "But making a project *public*, or including it in a public gallery, is a privilege. This is a platform made for love, affirmation, respect, and dignity. Therefore, we expect all of your *public* content to follow these rules:"
+                ],
+                "promises": [
+                    "No speech that incites, encourages, or celebrates violence, harm, or self harm.",
+                    "No speech that dehumanizes individuals or groups based on their race, ethnicity, national origin, caste, sexual orientation, gender, religion, age, ability, or appearance."
+                ],
+                "consequences": [
                     "If we find a project that violates these rules, we will mark all of their projects private and prevent the from making any projects public in the future, to minimize the harm the individual's speech is doing. You can help us enforce these rules by reporting any content that you belive violates them."
                 ]
             }

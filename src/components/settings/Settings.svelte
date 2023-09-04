@@ -22,13 +22,12 @@
     import Mode from '../widgets/Mode.svelte';
     import Dialog from '../widgets/Dialog.svelte';
     import { goto } from '$app/navigation';
+    import Warning from '../widgets/Warning.svelte';
 
     let show = false;
 
     let user = getUser();
     let project = getProject();
-
-    $: anonymous = $user === null;
 
     function getBackPath() {
         if ($page.route.id?.startsWith('/project/')) {
@@ -81,13 +80,13 @@
     {#if $project}
         <Status />
     {/if}
-    <div class="account" class:anonymous>
+    <Warning>
         <Link to="/login">
             <span class="user"
                 >{$user ? $user.email : $locale.ui.page.login.anonymous}</span
             >
         </Link>
-    </div>
+    </Warning>
     <LanguageChooser />
     <Dialog bind:show width="50vw" description={$locale.ui.dialog.settings}>
         <p
@@ -209,19 +208,11 @@
         margin-left: auto;
     }
 
-    .account.anonymous {
-        background: var(--wordplay-warning);
-        color: var(--wordplay-background);
-        padding: calc(var(--wordplay-spacing) / 2) var(--wordplay-spacing);
-        font-size: medium;
-        border-radius: var(--wordplay-border-radius);
-    }
-
-    .anonymous .user {
-        color: var(--wordplay-background);
-    }
-
     label {
         white-space: nowrap;
+    }
+
+    .user {
+        color: var(--wordplay-background);
     }
 </style>

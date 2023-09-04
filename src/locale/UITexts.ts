@@ -19,7 +19,7 @@ export type ModeText<Modes extends string[]> = {
 
 export type DialogText = {
     header: string;
-    explanation: string;
+    explanation: Template;
 };
 
 export type ConfirmText = {
@@ -101,10 +101,6 @@ type UITexts = {
             focusPalette: string;
             /** Keyboard shortcut to cycle between tiles */
             focusCycle: string;
-        };
-        toggle: {
-            /** Whether the project is public or private */
-            public: ToggleText;
         };
         field: {
             /** The project name text field */
@@ -409,6 +405,10 @@ type UITexts = {
     dialog: {
         /** The sharing dialog */
         share: DialogText & {
+            subheader: {
+                collaborators: DialogText;
+                public: DialogText;
+            };
             field: {
                 /** The email address of the collaborator being added */
                 email: {
@@ -419,6 +419,10 @@ type UITexts = {
             button: {
                 /** Description for the email submission button. */
                 submit: string;
+            };
+            mode: {
+                /** The private and public mode descriptions */
+                public: ModeText<[string, string]>;
             };
             error: {
                 /** When someone tries to add an email collaborator that doesn't have a Wordplay account */
@@ -624,7 +628,11 @@ type UITexts = {
             /** Header for the rights page */
             header: string;
             /** Paragraphs for the rights page */
-            content: string[];
+            content: Template[];
+            /** A list of content moderation promises that creators make */
+            promises: Template[];
+            /** The consequences of violating a promise. */
+            consequences: Template[];
         };
     };
     /** Descriptions of cursor positions and code transformations */

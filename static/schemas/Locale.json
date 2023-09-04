@@ -96,6 +96,22 @@
       ],
       "type": "object"
     },
+    "DialogText": {
+      "additionalProperties": false,
+      "properties": {
+        "explanation": {
+          "$ref": "#/definitions/Template"
+        },
+        "header": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "header",
+        "explanation"
+      ],
+      "type": "object"
+    },
     "DocText": {
       "anyOf": [
         {
@@ -6605,7 +6621,7 @@
                   "description": "The keyboard shortcut reference dialog",
                   "properties": {
                     "explanation": {
-                      "type": "string"
+                      "$ref": "#/definitions/Template"
                     },
                     "header": {
                       "type": "string"
@@ -6670,7 +6686,7 @@
                       "type": "object"
                     },
                     "explanation": {
-                      "type": "string"
+                      "$ref": "#/definitions/Template"
                     },
                     "header": {
                       "type": "string"
@@ -6725,7 +6741,7 @@
                       "type": "object"
                     },
                     "explanation": {
-                      "type": "string"
+                      "$ref": "#/definitions/Template"
                     },
                     "header": {
                       "type": "string"
@@ -6798,7 +6814,7 @@
                       "type": "object"
                     },
                     "explanation": {
-                      "type": "string"
+                      "$ref": "#/definitions/Template"
                     },
                     "field": {
                       "additionalProperties": false,
@@ -6828,6 +6844,34 @@
                     },
                     "header": {
                       "type": "string"
+                    },
+                    "mode": {
+                      "additionalProperties": false,
+                      "properties": {
+                        "public": {
+                          "$ref": "#/definitions/ModeText%3C%5Bstring%2Cstring%5D%3E"
+                        }
+                      },
+                      "required": [
+                        "public"
+                      ],
+                      "type": "object"
+                    },
+                    "subheader": {
+                      "additionalProperties": false,
+                      "properties": {
+                        "collaborators": {
+                          "$ref": "#/definitions/DialogText"
+                        },
+                        "public": {
+                          "$ref": "#/definitions/DialogText"
+                        }
+                      },
+                      "required": [
+                        "collaborators",
+                        "public"
+                      ],
+                      "type": "object"
                     }
                   },
                   "required": [
@@ -6835,7 +6879,9 @@
                     "error",
                     "explanation",
                     "field",
-                    "header"
+                    "header",
+                    "mode",
+                    "subheader"
                   ],
                   "type": "object"
                 }
@@ -7505,21 +7551,37 @@
                   "additionalProperties": false,
                   "description": "The rights/terms of service page",
                   "properties": {
+                    "consequences": {
+                      "description": "The consequences of violating a promise.",
+                      "items": {
+                        "$ref": "#/definitions/Template"
+                      },
+                      "type": "array"
+                    },
                     "content": {
                       "description": "Paragraphs for the rights page",
                       "items": {
-                        "type": "string"
+                        "$ref": "#/definitions/Template"
                       },
                       "type": "array"
                     },
                     "header": {
                       "description": "Header for the rights page",
                       "type": "string"
+                    },
+                    "promises": {
+                      "description": "A list of content moderation promises that creators make",
+                      "items": {
+                        "$ref": "#/definitions/Template"
+                      },
+                      "type": "array"
                     }
                   },
                   "required": [
                     "header",
-                    "content"
+                    "content",
+                    "promises",
+                    "consequences"
                   ],
                   "type": "object"
                 },
@@ -7902,25 +7964,11 @@
                 "help": {
                   "description": "The keyboard shortcut to show the shortcut menu",
                   "type": "string"
-                },
-                "toggle": {
-                  "additionalProperties": false,
-                  "properties": {
-                    "public": {
-                      "$ref": "#/definitions/ToggleText",
-                      "description": "Whether the project is public or private"
-                    }
-                  },
-                  "required": [
-                    "public"
-                  ],
-                  "type": "object"
                 }
               },
               "required": [
                 "error",
                 "button",
-                "toggle",
                 "field",
                 "help"
               ],
@@ -8582,6 +8630,27 @@
           },
           "maxItems": 3,
           "minItems": 3,
+          "type": "array"
+        }
+      },
+      "required": [
+        "label",
+        "modes"
+      ],
+      "type": "object"
+    },
+    "ModeText<[string,string]>": {
+      "additionalProperties": false,
+      "properties": {
+        "label": {
+          "type": "string"
+        },
+        "modes": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 2,
+          "minItems": 2,
           "type": "array"
         }
       },

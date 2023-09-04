@@ -3,6 +3,7 @@
     import { locale } from '../../db/Database';
     import Button from './Button.svelte';
     import type { DialogText } from '../../locale/UITexts';
+    import Header from '../app/Header.svelte';
 
     export let dialog: HTMLDialogElement | undefined = undefined;
     export let show: boolean;
@@ -39,7 +40,7 @@
         event.key === 'Escape' ? (show = false) : undefined}
 >
     <div class="content">
-        <h1>{description.header}</h1>
+        <Header>{description.header}</Header>
         <p>{description.explanation}</p>
         <slot />
         <div class="close">
@@ -55,7 +56,7 @@
     dialog {
         position: relative;
         border-radius: var(--wordplay-border-radius);
-        padding: calc(2 * var(--wordplay-spacing));
+        padding: 2em;
         width: 80vw;
         height: max-content;
         background-color: var(--wordplay-background);

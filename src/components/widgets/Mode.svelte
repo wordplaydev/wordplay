@@ -11,7 +11,7 @@
 </script>
 
 <div class="mode">
-    {descriptions.label}
+    <span class="label" id={descriptions.label}>{descriptions.label}</span>
     <div class="group" role="radiogroup" aria-labelledby={descriptions.label}>
         {#each modes as mode, index}
             <button
@@ -51,6 +51,10 @@
         align-items: center;
     }
 
+    .label {
+        font-style: italic;
+    }
+
     button {
         font-family: var(--wordplay-app-font);
         font-weight: var(--wordplay-font-weight);
@@ -62,6 +66,7 @@
         background: none;
         padding: var(--wordplay-spacing);
         transition: transform calc(var(--animation-factor) * 200ms);
+        cursor: pointer;
     }
 
     button:focus {
