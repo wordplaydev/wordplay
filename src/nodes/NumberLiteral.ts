@@ -42,7 +42,7 @@ export default class NumberLiteral extends Literal {
                     : typeof number === 'number'
                     ? '' + number
                     : number,
-                types.length === 0 ? Sym.Decimal : types
+                types.length === 0 ? [Sym.Number, Sym.Decimal] : types
             ),
             unit === undefined ? Unit.Empty : unit
         );
