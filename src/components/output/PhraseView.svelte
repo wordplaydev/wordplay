@@ -49,7 +49,6 @@
     $: selectable = phrase.selectable && !empty;
 
     // The text field, if being edited.
-    let view: HTMLDivElement | undefined;
     let input: HTMLInputElement | undefined;
 
     // Selected if this phrase's value creator is selected
@@ -181,7 +180,6 @@
         data-selectable={selectable}
         on:dblclick={$editable && interactive ? enter : null}
         on:keydown={$editable && interactive && !entered ? move : null}
-        bind:this={view}
         style:font-family={getFaceCSS(context.face)}
         style:font-size={getSizeCSS(context.size)}
         style:background={phrase.background?.toCSS() ?? null}
