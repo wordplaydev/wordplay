@@ -97,9 +97,9 @@ export default class NumberValue extends SimpleValue {
             return [convertRoman(text).times(negated ? -1 : 1), undefined];
         } else if (number.isSymbol(Sym.JapaneseNumeral)) {
             return [convertJapanese(text).times(negated ? -1 : 1), undefined];
-        } else {
-            return [new Decimal(NaN), undefined];
-        }
+        } else if (number.isSymbol(Sym.Number)) {
+            return [NumberValue.fromUnknown(text), undefined];
+        } else return [new Decimal(NaN), undefined];
     }
 
     static fromUnknown(text: string) {

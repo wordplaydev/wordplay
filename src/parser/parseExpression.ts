@@ -228,7 +228,7 @@ function parseAtomicExpression(tokens: Tokens): Expression {
             tokens.nextIs(Sym.Boolean)
             ? new BooleanLiteral(tokens.read(Sym.Boolean))
             : // Numbers with units
-            tokens.nextIs(Sym.Number)
+            tokens.nextIsOneOf(Sym.Number, Sym.Decimal)
             ? parseNumber(tokens)
             : // Text with optional formats
             tokens.nextIs(Sym.Text)
