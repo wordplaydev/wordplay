@@ -82,8 +82,6 @@
                     );
                     input.focus();
                 }
-            } else {
-                if (selected && view) view.focus();
             }
         }
     }
