@@ -11,8 +11,8 @@
     style:left={bounds ? `${bounds.left}px` : null}
     style:top={bounds ? `${bounds.top}px` : null}
 >
-    <CommandButton command={IncrementLiteral} {sourceID} />
-    <CommandButton command={DecrementLiteral} {sourceID} />
+    <CommandButton command={IncrementLiteral} {sourceID} padding={false} />
+    <CommandButton command={DecrementLiteral} {sourceID} padding={false} />
 </div>
 
 <style>
