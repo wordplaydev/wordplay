@@ -96,7 +96,8 @@
         return () => (mounted = false);
     });
 
-    $: if ($animationFactor > 0) window.requestAnimationFrame(step);
+    $: if ($animationFactor > 0 && typeof window !== 'undefined')
+        window.requestAnimationFrame(step);
 </script>
 
 <svelte:window bind:innerWidth={windowWidth} bind:innerHeight={windowHeight} />

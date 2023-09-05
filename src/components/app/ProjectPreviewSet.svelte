@@ -2,10 +2,11 @@
     import type Project from '../../models/Project';
     import ProjectPreview from './ProjectPreview.svelte';
     import { Projects, languages, locale } from '../../db/Database';
-    import gotoProject from './gotoProject';
+    import getProjectLink from './getProjectLink';
     import Button from '../widgets/Button.svelte';
     import ConfirmButton from '../widgets/ConfirmButton.svelte';
     import { EDIT_SYMBOL } from '../../parser/Symbols';
+    import { goto } from '$app/navigation';
 
     export let set: Project[];
     export let editable: boolean;
@@ -24,13 +25,13 @@
             {project}
             action={() => {
                 if (beforePlay) beforePlay(project);
-                gotoProject(project, true);
+                getProjectLink(project, true);
             }}
             delay={Math.random() * set.length * 50}
             >{#if editable}<div class="controls">
                     <Button
                         tip={$locale.ui.page.projects.button.edit}
-                        action={() => gotoProject(project, false)}
+                        action={() => goto(getProjectLink(project, false))}
                         >{EDIT_SYMBOL}</Button
                     ><ConfirmButton
                         prompt={$locale.ui.page.projects.confirm.archive.prompt}

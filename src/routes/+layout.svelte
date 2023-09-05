@@ -23,13 +23,14 @@
     $: setContext(LocalesSymbol, $locales);
 
     let loaded = false;
+    let lag = false;
 
     /** Create a user store to share globally. */
     const user = writable<User | null>(null);
     setContext(UserSymbol, user);
 
     // Keep the page's language and direction up to date.
-    $: {
+    $: if (typeof document !== 'undefined') {
         const language = $locale.language;
         document.documentElement.setAttribute('lang', language);
         document.documentElement.setAttribute(
@@ -49,6 +50,9 @@
 
         // Login the user
         DB.login((newUser) => user.set(newUser));
+
+        // Wait a second before showing loading
+        setTimeout(() => (lag = true), 1000);
 
         // Have the Database cleanup database connections when this is unmounted.
         return () => {
@@ -95,9 +99,8 @@
             .join(', ')}
         lang={$languages[0]}
     >
-        {#if loaded}
-            <slot />
-        {:else}
+        <slot />
+        {#if !loaded && lag}
             <Loading />
         {/if}
     </div>

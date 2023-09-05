@@ -6,6 +6,7 @@
     import { DB } from '../../db/Database';
     import { onMount } from 'svelte';
     import { fade } from 'svelte/transition';
+    import getProjectLink from './getProjectLink';
 
     export let project: Project;
     export let action: (() => void) | undefined = undefined;
@@ -14,7 +15,9 @@
     // Clone the project and get its initial value, then stop the project's evaluator.
     let evaluator: Evaluator;
     let value: Value | undefined;
-    $: [evaluator, value] = updatePreview(project);
+    $: if (visible) {
+        [evaluator, value] = updatePreview(project);
+    }
 
     function updatePreview(project: Project): [Evaluator, Value | undefined] {
         const evaluator = new Evaluator(project, DB, false);
@@ -23,15 +26,15 @@
         return [evaluator, value];
     }
 
+    // Don't show the output view immediately.
     let visible = false;
     onMount(() => setTimeout(() => (visible = true), delay));
 </script>
 
 <div class="project">
-    <div
-        role="button"
+    <a
         class="preview"
-        tabindex="0"
+        href={getProjectLink(project, true)}
         on:pointerdown={(event) =>
             action && event.button === 0 ? action() : undefined}
         on:keydown={(event) =>
@@ -52,7 +55,7 @@
                 />
             </div>
         {/if}
-    </div>
+    </a>
     <div class="name"
         >{#if project.name.length === 0}<em class="untitled">&mdash;</em>{:else}
             {project.name}{/if}<slot /></div
