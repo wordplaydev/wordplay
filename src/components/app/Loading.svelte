@@ -1,11 +1,12 @@
 <script lang="ts">
+    import { fade } from 'svelte/transition';
     import Spinning from './Spinning.svelte';
     import { locale } from '@db/Database';
 </script>
 
-<div class="container">
-    <Spinning label={$locale.ui.widget.loading.message} />
-    <div>{$locale.ui.widget.loading.message}</div>
+<div class="container" out:fade>
+    <Spinning label={$locale.ui.widget.loading.message} large />
+    <p>{$locale.ui.widget.loading.message}</p>
 </div>
 
 <style>
@@ -17,7 +18,5 @@
         justify-content: center;
         align-items: center;
         gap: var(--wordplay-spacing);
-        font-size: xx-large;
-        font-size: medium;
     }
 </style>

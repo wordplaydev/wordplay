@@ -64,8 +64,13 @@
         <slot name="aside" />
     </div>
     <div
-        class="message {below ? 'below' : flip ? 'flip' : 'reading'} {document
-            .documentElement.dir}"
+        class="message {below
+            ? 'below'
+            : flip
+            ? 'flip'
+            : 'reading'} {typeof document !== 'undefined'
+            ? document.documentElement.dir
+            : 'ltr'}"
     >
         {#if scroll}
             <div class="scroller"><slot name="content" /></div>

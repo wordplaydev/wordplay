@@ -106,7 +106,7 @@
     import Help from './Help.svelte';
     import type Color from '../../output/Color';
     import ProjectLanguages from './ProjectLanguages.svelte';
-    import gotoProject from '../app/gotoProject';
+    import getProjectLink from '../app/getProjectLink';
     import Collaborators from './Collaborators.svelte';
     import Toggle from '../widgets/Toggle.svelte';
     import Announcer from './Announcer.svelte';
@@ -1140,7 +1140,7 @@
     function copy() {
         const copy = project.copy();
         Projects.track(copy, true, PersistenceType.Online, false);
-        gotoProject(copy, false);
+        goto(getProjectLink(copy, false));
     }
 </script>
 
