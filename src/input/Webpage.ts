@@ -106,7 +106,9 @@ export default class Webpage extends StreamValue<
                           n instanceof HTMLElement ? n.innerText : ''
                       )
             )
-                .map((t) => t.trim())
+                .map((t) =>
+                    t.replaceAll('\\n', '').replaceAll('\\t', '').trim()
+                )
                 .filter((t) => t !== '')
                 .map((t) => new TextValue(this.creator, t));
             return this.add(new ListValue(this.creator, text), event);
