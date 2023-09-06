@@ -26,6 +26,11 @@
         "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
         "rewrites": [
             {
+                "source": "/function/getWebpage",
+                "function": "getWebpage",
+                "region": "us-central1"
+            },
+            {
                 "source": "**",
                 "destination": "/index.html"
             }

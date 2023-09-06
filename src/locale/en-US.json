@@ -2959,7 +2959,8 @@
                 "invalid": "this is not a valid URL",
                 "unvailable": "this URL isn't accessible",
                 "notHTML": "the response wasn't HTML",
-                "noConnection": "no connection to Wordplay"
+                "noConnection": "no connection to Wordplay",
+                "limit": "too many requests to this domain"
             }
         }
     },

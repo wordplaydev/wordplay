@@ -1787,6 +1787,10 @@
                       "description": "When the URL is not valid",
                       "type": "string"
                     },
+                    "limit": {
+                      "description": "Too many requests to the same domain",
+                      "type": "string"
+                    },
                     "noConnection": {
                       "description": "There was no connection to the internet",
                       "type": "string"
@@ -1804,7 +1808,8 @@
                     "invalid",
                     "unvailable",
                     "notHTML",
-                    "noConnection"
+                    "noConnection",
+                    "limit"
                   ],
                   "type": "object"
                 },
