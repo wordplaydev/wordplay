@@ -55,6 +55,8 @@ type InputTexts = {
             notHTML: string;
             /** There was no connection to the internet */
             noConnection: string;
+            /** Too many requests to the same domain */
+            limit: string;
         };
     };
 };

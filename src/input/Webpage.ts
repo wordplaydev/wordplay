@@ -36,6 +36,7 @@ const FetchErrors = {
     'not-html': (locale: Locale) => locale.input.Webpage.error.notHTML,
     'no-connection': (locale: Locale) =>
         locale.input.Webpage.error.noConnection,
+    'reached-limit': (locale: Locale) => locale.input.Webpage.error.limit,
 };
 
 export type FetchError = keyof typeof FetchErrors;
@@ -159,11 +160,51 @@ export default class Webpage extends StreamValue<
                     this.url
                 )
             ) {
-                html = 'invalid-url';
-                return;
+                html = 'no-connection';
             }
 
-            html = await this.evaluator.database.getHTML(this.url);
+            // Update request data for this domain.
+            const domain = new URL(this.url).hostname;
+            // Get the counts data
+            const counts = DomainCounts[domain] ?? {
+                time: Date.now(),
+                count: 0,
+            };
+            const elapsed = Date.now() - counts.time;
+            // If time is more than 24 hours ago, reset the clock.
+            if (elapsed > 1000 * 60 * 60 * 24) {
+                counts.time = Date.now();
+                counts.count = 0;
+            } else counts.count++;
+
+            DomainCounts[domain] = counts;
+
+            // If local storage exists, save it.
+            if (typeof localStorage !== 'undefined')
+                localStorage.setItem(
+                    'domainRequests',
+                    JSON.stringify(DomainCounts)
+                );
+
+            // console.error(
+            //     `${counts.count} requests to ${domain} in the last 24 hour window`
+            // );
+            // console.error(
+            //     `${
+            //         (1000 * counts.count) / elapsed
+            //     } requests per second to ${domain}`
+            // );
+
+            // If the total number of requests is more than 1000, or more than 10 per second, refuse
+            if (
+                counts.count > 1000 ||
+                (elapsed > 0 && counts.count / elapsed > 10 * 1000)
+            ) {
+                html = 'reached-limit';
+                return;
+            } else {
+                html = await this.evaluator.database.getHTML(this.url);
+            }
         }
 
         this.react({ url: this.url, response: html ?? 'no-connection' });
@@ -239,6 +280,21 @@ const URLResponseCache = new Map<
     string,
     { response: FetchResponse; time: number }
 >();
+
+type DomainData = {
+    /** The time at which counting began. Once we exceed 24 hours from this, we reset count and the time. */
+    time: number;
+    /** The number of requests made to the domain since time was marked. */
+    count: number;
+};
+
+/**
+ * Data by domain to help with rate limiting.
+ * */
+const DomainCounts: Record<string, DomainData> =
+    typeof localStorage !== 'undefined'
+        ? JSON.parse(localStorage.getItem('domainRequests') ?? '{}')
+        : {};
 
 /** A function that gets a node's text nodes, except for style and script tags */
 function getTextInNode(node: HTMLElement) {

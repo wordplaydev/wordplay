@@ -1639,7 +1639,8 @@
                 "invalid": "$?",
                 "unvailable": "$?",
                 "notHTML": "$?",
-                "noConnection": "$?"
+                "noConnection": "$?",
+                "limit": "$?"
             }
         }
     },
