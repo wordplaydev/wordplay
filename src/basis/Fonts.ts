@@ -239,8 +239,10 @@ const Faces: Record<string, Face> = {
     },
 };
 
+/** The font face names supported. To add one, carefully add metadata to Faces and files to /static/fonts/. */
 export type SupportedFace = keyof typeof Faces;
 
+/** A sorted list of font face names, used to generate drop downs for font choosers and union type definitions for font face inputs. */
 export const SupportedFaces = Object.keys(Faces).sort();
 
 /**

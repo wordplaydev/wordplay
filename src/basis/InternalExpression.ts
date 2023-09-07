@@ -107,11 +107,11 @@ export default class InternalExpression extends SimpleExpression {
     }
 
     getNodeLocale(translation: Locale) {
-        return translation.node.BasisExpression;
+        return translation.node.InternalExpression;
     }
 
     getStartExplanations(locale: Locale) {
-        return concretize(locale, locale.node.BasisExpression.start);
+        return concretize(locale, locale.node.InternalExpression.start);
     }
 
     getGlyphs() {

@@ -789,7 +789,7 @@
                 "NotANumber": "I thought I knew all the numbers, but I don't know this one"
             }
         },
-        "BasisExpression": {
+        "InternalExpression": {
             "name": "internal expression",
             "emotion": "neutral",
             "doc": "How did you find me? I'm an expression that only the original creators use. To learn more about me, you'll need to talk to them.",
@@ -1007,7 +1007,6 @@
             "description": "$1 row table",
             "emotion": "angry",
             "doc": "I am a specific table with specific rows. See @Table about how I can help.",
-            "item": "row",
             "start": "first evaluate the rows",
             "finish": "evaluated to new table $1"
         },
@@ -1161,14 +1160,6 @@
             "name": "exception",
             "emotion": "neutral",
             "doc": "I represent an exception. There's no way to tell bind that I am one, because exceptions only ever halt @Program, so you can't use them as values."
-        },
-        "FunctionDefinitionType": {
-            "name": "function type",
-            "emotion": "happy",
-            "doc": [
-                "I represent a @FunctionDefinition. I'm really helpful if you want to say what kind of function a @Bind holds! Like this:",
-                "\\math•ƒ (# # # #) #?: ƒ interesting(a•# b•# c•# d•#) a + b + c + d\\"
-            ]
         },
         "FunctionType": {
             "name": "function type",
@@ -3667,7 +3658,7 @@
             },
             "field": {
                 "key": {
-                    "label": "listening to key presses",
+                    "description": "listening to key presses",
                     "placeholder": "message"
                 }
             },

@@ -49,16 +49,25 @@ export type Locale = {
     wordplay: string;
     /** The default Program for a new project */
     newProject: string;
+    /** Common vocabulary that can be used in documentation and descriptions. */
     term: TermTexts;
+    /** Descriptions of all token categories. See Sym.ts for the symbol or symbol category that each represents. */
     token: Record<keyof typeof Sym, string>;
+    /** Names, descriptions, and documentation for all node types, as well as descriptions of start and end of expression evaluations for debugging. */
     node: NodeTexts;
+    /** Documentation for basic types. */
     basis: BasisTexts;
+    /** Documentation for input types. */
     input: InputTexts;
+    /** Documentation for output types. */
     output: OutputTexts;
+    /** User interface strings */
     ui: UITexts;
-    /** Content moderation rules that creators promise to follow’ */
+    /** Content moderation rules that creators promise to follow. See en-US.json for ground truth language. */
     rules: {
+        /** The rule that bans any content that incites, encourages, or celebrates violence or harm */
         violence: Template;
+        /** The rule that bans any content that treats any individual or group of people as less than human */
         dehumanization: Template;
     };
 };
@@ -68,18 +77,21 @@ export default Locale;
 export type Template = string;
 
 export type NameAndDoc = {
+    /** One or more names for this definition. Be careful not to introduce duplicates. */
     names: NameText;
+    /** Documentation for this definition, to appear in the documentation browser. */
     doc: DocText;
 };
 
-export type FunctionText<Inputs extends NameAndDoc[]> = {
-    names: NameText;
-    doc: DocText;
+export type FunctionText<Inputs extends NameAndDoc[]> = NameAndDoc & {
+    /** Bind definitions for the inputs this function takes */
     inputs: Inputs;
 };
 
+/** A single name or a list of names, all valid Wordplay names */
 export type NameText = string | string[];
 
+/** Wordplay markup, a single paragraph or a list of paragraphs. */
 export type DocText = string | string[];
 
 export function toDocString(doc: DocText) {

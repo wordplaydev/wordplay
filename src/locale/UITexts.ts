@@ -3,38 +3,52 @@ import type EditTexts from './EditTexts';
 import type { DocText, Template } from './Locale';
 
 export type ButtonText = {
+    /** The buttons label */
     label: string;
+    /** THe buttons tooltip and ARIA-label, spoken by screen readers */
     tip: string;
 };
 
 export type ToggleText = {
+    /** The tooltip and ARIA-label for when the toggle is in the on state */
     on: string;
+    /** The tooltip and ARIA-label for when the toggle is in the off state */
     off: string;
 };
 
 export type ModeText<Modes extends string[]> = {
+    /** The tooltip and ARIA-label for the entire mode widget, describing the kind of modes it supports switching to. */
     label: string;
+    /** The tooltip and ARIA-labels to use for each mode button describing the mode to be switched to, in the order of appearance */
     modes: Modes;
 };
 
 export type DialogText = {
+    /** The header to be shown at the top of the dialog */
     header: string;
+    /** The explanation text just below the header. */
     explanation: Template;
 };
 
 export type ConfirmText = {
+    /** The tooltip and ARIA-label for the button */
     description: string;
+    /** The confirmation prompt to show after clicked the first time. */
     prompt: string;
 };
 
 export type FieldText = {
+    /** The tooltip and ARIA-label for the text field */
     description: string;
+    /** The placeholder text fo the text field. */
     placeholder: string;
 };
 
 type UITexts = {
     font: {
+        /** The application font to use throughout the application. Should support the language used in this locale so that glyphs render correctly. Add the face to Fonts.ts if the one you choose is not yet supported. */
         app: SupportedFace;
+        /** The monospace font to use for code in the editor and code examples. Should support the language used in this locale so that glyphs render correctly. Add the face to Fonts.ts if the one you choose is not yet supported. */
         code: SupportedFace;
     };
     phrases: {
@@ -104,10 +118,7 @@ type UITexts = {
         };
         field: {
             /** The project name text field */
-            name: {
-                description: string;
-                placeholder: string;
-            };
+            name: FieldText;
         };
         /** The keyboard shortcut to show the shortcut menu */
         help: string;
@@ -148,6 +159,7 @@ type UITexts = {
             back: string;
         };
         field: {
+            /** The name of the source file */
             name: FieldText;
         };
         cursor: {
@@ -249,10 +261,7 @@ type UITexts = {
         };
         field: {
             /** The text field that accepts key, placement, and chat input when a key stream is active */
-            key: {
-                label: string;
-                placeholder: string;
-            };
+            key: FieldText;
         };
         button: {
             /** The chat submit button */
@@ -349,10 +358,14 @@ type UITexts = {
             editing: Template;
         };
         field: {
+            /** The tooltip and ARIA-label for the text input to Phrase */
             text: string;
+            /** The tooltip and ARIA-label fro the text input for a Place coordinate */
             coordinate: string;
         };
+        /** Widgets for editing sequences */
         sequence: {
+            /** Buttons for editing sequences */
             button: {
                 /** Add pose */
                 add: string;
@@ -363,6 +376,7 @@ type UITexts = {
                 /** Move pose down */
                 down: string;
             };
+            /** Text fields for editing sequences */
             field: {
                 /** Edit percent for pose */
                 percent: string;
@@ -405,25 +419,29 @@ type UITexts = {
     dialog: {
         /** The sharing dialog */
         share: DialogText & {
+            /** The subheaders of the dialog */
             subheader: {
+                /** The collaborators subheader and explanation */
                 collaborators: DialogText;
+                /** The public/private toggle subheader and explanation */
                 public: DialogText;
             };
+            /** Text fields in the share dialog */
             field: {
                 /** The email address of the collaborator being added */
-                email: {
-                    placeholder: string;
-                    description: string;
-                };
+                email: FieldText;
             };
+            /** Buttons in the share dialog */
             button: {
                 /** Description for the email submission button. */
                 submit: string;
             };
+            /** Modes in the share dialog */
             mode: {
                 /** The private and public mode descriptions */
                 public: ModeText<[string, string]>;
             };
+            /** Errors in the share dialog */
             error: {
                 /** When someone tries to add an email collaborator that doesn't have a Wordplay account */
                 unknown: string;
@@ -448,6 +466,7 @@ type UITexts = {
         };
         /** The locale chooser dialog */
         locale: DialogText & {
+            /** Subheaders in the local chooser dialog. */
             subheader: {
                 /** How to label the locales that have been selected */
                 selected: string;
@@ -456,6 +475,7 @@ type UITexts = {
                 /** How to request help with localization */
                 help: string;
             };
+            /** Buttons in the locale chooser dialog */
             button: {
                 /** Show the locale chooser dialog */
                 show: string;
@@ -583,10 +603,7 @@ type UITexts = {
             anonymous: string;
             field: {
                 /** The login email */
-                email: {
-                    description: string;
-                    placeholder: string;
-                };
+                email: FieldText;
             };
             feedback: {
                 /** Change email pending */
