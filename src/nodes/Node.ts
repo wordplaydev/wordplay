@@ -643,7 +643,7 @@ export default abstract class Node {
     }
 
     /**
-     * Given a translation and a context, generate a description of the node.
+     * Given a locale and a context, generate a description of the node.
      * */
     getDescription(
         concretizer: Concretizer,
@@ -653,6 +653,7 @@ export default abstract class Node {
         const text = this.getNodeLocale(locale);
         return concretizer(
             locale,
+            // Is there a description? Use that. Otherwise just use the name.
             'description' in text
                 ? (text as DescriptiveNodeText).description
                 : text.name,

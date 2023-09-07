@@ -5,7 +5,7 @@ import type Expression from './Expression';
 import type Context from './Context';
 import type { TemplateInput } from '../locale/concretize';
 import NodeRef from '../locale/NodeRef';
-import concretize from '../locale/concretize';
+import type Concretizer from './Concretizer';
 
 export class NotAType extends UnknownType<Expression> {
     readonly given: Type;
@@ -16,7 +16,7 @@ export class NotAType extends UnknownType<Expression> {
         this.expected = expected;
     }
 
-    getReason(locale: Locale, context: Context) {
+    getReason(concretize: Concretizer, locale: Locale, context: Context) {
         return concretize(
             locale,
             locale.node.NotAType.description,

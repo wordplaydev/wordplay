@@ -913,6 +913,12 @@
             "description": "$?",
             "emotion": "$?",
             "doc": "$?"
+        },
+        "NonFunctionType": {
+            "name": "$?",
+            "description": "$?",
+            "emotion": "$?",
+            "doc": "$?"
         }
     },
     "basis": {

@@ -289,4 +289,12 @@ export default class Spaces {
     withRoot(root: Spacer) {
         return new Spaces(root, this.#spaces);
     }
+
+    withSpaces(spaces: Spaces) {
+        const newSpaces: Map<Token, string> = new Map(this.#spaces);
+        for (const [token, space] of spaces.#spaces)
+            newSpaces.set(token, space);
+
+        return new Spaces(this.root, newSpaces);
+    }
 }

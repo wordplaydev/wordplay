@@ -64,7 +64,7 @@
                     >{/if}</p
             >{/each}
     {/if}
-{:else}-{/if}
+{:else}no spaces{/if}
 
 <style>
     .paragraph.animated {

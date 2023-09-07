@@ -16,6 +16,9 @@
     import WordsHTMLView from './WordsHTMLView.svelte';
     import RootView from '../project/RootView.svelte';
     import { unescapeMarkupSymbols } from '../../parser/Tokenizer';
+    import UnknownType from '../../nodes/UnknownType';
+    import concretize from '../../locale/concretize';
+    import MarkupHtmlView from './MarkupHTMLView.svelte';
 
     export let segment: Segment;
     export let spaces: Spaces;
@@ -36,11 +39,20 @@
     />{:else if segment instanceof Words}<WordsHTMLView
         words={segment}
         {spaces}
-    />{:else if segment instanceof NodeRef}<RootView
-        node={segment.node}
-        inline
-        localized
-    />{:else if segment instanceof ValueRef}<strong
+    />{:else if segment instanceof NodeRef}{#if segment.node instanceof UnknownType}
+        <MarkupHtmlView
+            markup={segment.node.getDescription(
+                concretize,
+                segment.locale,
+                segment.context
+            )}
+            inline
+        />
+    {:else}<RootView
+            node={segment.node}
+            inline
+            localized
+        />{/if}{:else if segment instanceof ValueRef}<strong
         ><ValueView value={segment.value} /></strong
     >{:else if segment instanceof ConceptRef}<ConceptLinkUI link={segment} />
     <!-- Remove the bullet if the words start with one. -->

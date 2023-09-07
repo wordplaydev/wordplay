@@ -32,9 +32,6 @@ export default class TextLiteral extends Literal {
         super();
 
         this.texts = text;
-        if (text.length === 0) {
-            console.log('Test');
-        }
 
         this.computeChildren();
     }

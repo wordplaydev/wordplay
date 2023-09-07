@@ -124,6 +124,7 @@
         "NoExpressionType",
         "NotEnclosedType",
         "NotImplementedType",
+        "NonFunctionType",
         "Random",
         "Choice",
         "Button",
