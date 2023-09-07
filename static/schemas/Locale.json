@@ -3055,7 +3055,7 @@
             },
             "CycleType": {
               "$ref": "#/definitions/DescriptiveNodeText",
-              "description": "A type that depends on itself and is therefore unknown."
+              "description": "A type that depends on itself and is therefore unknown, e.g., `a: a + 1`."
             },
             "Delete": {
               "additionalProperties": false,
@@ -4296,11 +4296,11 @@
             },
             "NoExpressionType": {
               "$ref": "#/definitions/NodeText",
-              "description": "An unknown type because no expression was given in a block"
+              "description": "An unknown type because no expression was given in a block, e.g., ()"
             },
             "NonFunctionType": {
               "$ref": "#/definitions/DescriptiveNodeText",
-              "description": "Non-function type Description inputs: $1 = the type of the given function"
+              "description": "Non-function type, e.g., `1(2 3)` Description inputs: $1 = the type of the given function"
             },
             "NoneLiteral": {
               "additionalProperties": false,
@@ -4359,15 +4359,15 @@
             },
             "NotAType": {
               "$ref": "#/definitions/DescriptiveNodeText",
-              "description": "Something that has no type. Description inputs: $1 = type expected"
+              "description": "Something that does not have a specific expected type, e.g., `list['hi']` Description inputs: $1 = type expected"
             },
             "NotEnclosedType": {
               "$ref": "#/definitions/NodeText",
-              "description": "An unkonwn type because `.` is not defined in scope"
+              "description": "An unknown type because `.` is not defined in scope, e.g., `a: 1 + .`"
             },
             "NotImplementedType": {
               "$ref": "#/definitions/NodeText",
-              "description": "An unknown type because of a placeholder expression."
+              "description": "An unknown type because of a placeholder expression, e.g., `a: 1 + _`"
             },
             "NumberLiteral": {
               "additionalProperties": false,
@@ -5753,7 +5753,7 @@
             },
             "UnknownNameType": {
               "$ref": "#/definitions/DescriptiveNodeText",
-              "description": "A type representing an unknown named type Description inputs: $1 = name that's not known or undefined"
+              "description": "A type representing an unknown named type, e.g., `b` in `a: b + 1` Description inputs: $1 = name that's not known or undefined"
             },
             "UnknownType": {
               "additionalProperties": false,
@@ -5808,7 +5808,7 @@
             },
             "UnknownVariableType": {
               "$ref": "#/definitions/NodeText",
-              "description": "A variable type that is not defined"
+              "description": "A variable type that is not defined, e.g., `C` in `ƒ help⸨A⸩(b•C)`"
             },
             "UnparsableExpression": {
               "additionalProperties": false,
