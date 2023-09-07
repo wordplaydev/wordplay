@@ -1,10 +1,25 @@
 # Hi helper!
 
-Welcome! This document is your guide for several types of contributions:
+Welcome! You must be here to make programming accessible to everyone in the world, regardless of language or ability. We're excited to have your help!
+
+This document is your guide for several types of contributions:
 
 -   [Development](#development)
 -   [Verification](#verification)
 -   [Localization](#localization)
+
+Others are to come.
+
+## Principles
+
+Before getting started, ther are several key principles we expect you to follow when contributing to the project:
+
+-   **Be kind**. Not only to everyone else contributing, but to anyone who expresses interest in helping, and to everyone who uses the platform. This is not a place to gatekeep, shame, or criticize, its a place to learn, grow, and affirm. We want everyone who engages here to leave feeling smarter, more capable, more welcome, and more valued.
+-   **Attend to the details**. Don't take shorcuts or ignore design details; work on them, or detail the work to be done for later. This is not only important in any engineering and design work, which demands attention to detail in both building and verification, but it also matters greatly for our projects goals of decolonization, justice, and equity in programming. Details of the mundane are where many are where injustice often lives, because it's easiest to ignore.
+-   **Deviate consciously**. This project as a large number of established architectural and interaction design patterns. Most of them were very consciously chosen to support some design goal; some may have been accidents or not well thought through. Before you begin design or engineering work, study how things have been done, and do them like that. And if you find yourself wanting to deviates from other other things work, pause talk to others, and make sure that the deviation is a good idea. Don't deviate just because it's the shortest path.
+-   **Learn from each other**. While Amy is leading, and is a teacher, everyone else in this community is a key source of knowledge too. Write questions in Slack, teach each other, challenge each other to do better. The project relies on everyone to be a source of knowledge and expertise to be successful.
+
+## Getting Started
 
 Regardless of what role you take on, there are a few things you should start with:
 
