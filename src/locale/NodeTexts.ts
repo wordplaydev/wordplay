@@ -774,8 +774,13 @@ type NodeTexts = {
      * Description inputs: $1 = name that's not known or undefined
      */
     UnknownNameType: DescriptiveNodeText;
-    /** A type that is not known */
-    UnknownType: NodeText & { unknown: string; connector: string };
+    /**
+     * A type that is not known. All unknown types are rendered as a sequence of reasons, e.g., 'unknown type because X because Y because Z..."".
+     * The unknown type description is used for the beginning of this message, and then the connector below is used to string them together. */
+    UnknownType: NodeText & {
+        /** The connector between reasons, e.g., "because " */
+        connector: string;
+    };
     /**
      * Two possible types, e.g., `# | ''`
      * Description inputs: $1 = first type, $2 = second type
@@ -805,7 +810,7 @@ type NodeTexts = {
     /** An unknown type because of a placeholder expression. */
     NotImplementedType: NodeText;
     /**
-     * Not a function type
+     * Non-function type
      * Description inputs: $1 = the type of the given function
      * */
     NonFunctionType: DescriptiveNodeText;

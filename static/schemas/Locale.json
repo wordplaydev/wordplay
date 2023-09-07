@@ -4300,7 +4300,7 @@
             },
             "NonFunctionType": {
               "$ref": "#/definitions/DescriptiveNodeText",
-              "description": "Not a function type Description inputs: $1 = the type of the given function"
+              "description": "Non-function type Description inputs: $1 = the type of the given function"
             },
             "NoneLiteral": {
               "additionalProperties": false,
@@ -5757,7 +5757,7 @@
             },
             "UnknownType": {
               "additionalProperties": false,
-              "description": "A type that is not known",
+              "description": "A type that is not known. All types",
               "properties": {
                 "connector": {
                   "type": "string"
@@ -5795,17 +5795,13 @@
                 "name": {
                   "description": "The name that should be used to refer to the node type",
                   "type": "string"
-                },
-                "unknown": {
-                  "type": "string"
                 }
               },
               "required": [
                 "connector",
                 "doc",
                 "emotion",
-                "name",
-                "unknown"
+                "name"
               ],
               "type": "object"
             },
