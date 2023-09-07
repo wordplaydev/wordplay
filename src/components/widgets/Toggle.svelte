@@ -24,6 +24,7 @@
     data-uiid={uiid}
     class:on
     title={on ? tips.on : tips.off}
+    aria-label={on ? tips.on : tips.off}
     aria-disabled={!active}
     aria-pressed={on}
     on:dblclick|stopPropagation

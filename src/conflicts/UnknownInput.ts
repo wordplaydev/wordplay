@@ -6,15 +6,16 @@ import type FunctionDefinition from '@nodes/FunctionDefinition';
 import type Locale from '@locale/Locale';
 import type StreamDefinition from '../nodes/StreamDefinition';
 import concretize from '../locale/concretize';
+import type BinaryEvaluate from '../nodes/BinaryEvaluate';
 
 export default class UnknownInput extends Conflict {
     readonly func: FunctionDefinition | StructureDefinition | StreamDefinition;
-    readonly evaluate: Evaluate;
+    readonly evaluate: Evaluate | BinaryEvaluate;
     readonly given: Bind;
 
     constructor(
         func: FunctionDefinition | StructureDefinition | StreamDefinition,
-        evaluate: Evaluate,
+        evaluate: Evaluate | BinaryEvaluate,
         given: Bind
     ) {
         super(false);

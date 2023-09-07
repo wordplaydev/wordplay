@@ -882,7 +882,7 @@
                         : null}
                     data-defaultfocus
                     aria-autocomplete="none"
-                    aria-label={$locale.ui.output.field.key.label}
+                    aria-label={$locale.ui.output.field.key.description}
                     autocomplete={chats ? 'on' : 'off'}
                     autocorrect={chats ? 'on' : 'off'}
                     on:keydown={(event) =>

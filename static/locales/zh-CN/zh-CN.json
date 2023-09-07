@@ -513,7 +513,7 @@
                 "NotANumber": "$?"
             }
         },
-        "BasisExpression": {
+        "InternalExpression": {
             "name": "$?",
             "emotion": "$?",
             "doc": "$?",
@@ -665,7 +665,6 @@
             "description": "$?",
             "emotion": "$?",
             "doc": "$?",
-            "item": "$?",
             "start": "$?",
             "finish": "$?"
         },
@@ -760,11 +759,6 @@
             "doc": "$?"
         },
         "ExceptionType": {
-            "name": "$?",
-            "emotion": "$?",
-            "doc": "$?"
-        },
-        "FunctionDefinitionType": {
             "name": "$?",
             "emotion": "$?",
             "doc": "$?"
@@ -2044,7 +2038,7 @@
             },
             "field": {
                 "key": {
-                    "label": "$?",
+                    "description": "$?",
                     "placeholder": "$?"
                 }
             },

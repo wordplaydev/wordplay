@@ -513,7 +513,7 @@
                 "NotANumber": "$?"
             }
         },
-        "BasisExpression": {
+        "InternalExpression": {
             "name": "$! expresión incorporada",
             "emotion": "neutral",
             "doc": "$?",
@@ -665,7 +665,6 @@
             "description": "$?",
             "emotion": "neutral",
             "doc": "$?",
-            "item": "row",
             "start": "first evaluate the rows",
             "finish": "$?"
         },
@@ -761,11 +760,6 @@
         },
         "ExceptionType": {
             "name": "tipo de excepción",
-            "emotion": "neutral",
-            "doc": "$?"
-        },
-        "FunctionDefinitionType": {
-            "name": "tipo de función",
             "emotion": "neutral",
             "doc": "$?"
         },
@@ -2064,7 +2058,7 @@
             },
             "field": {
                 "key": {
-                    "label": "$?",
+                    "description": "$?",
                     "placeholder": "$?"
                 }
             },

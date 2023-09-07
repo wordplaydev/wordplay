@@ -212,7 +212,7 @@ export default class Reference extends SimpleExpression {
                 new UnknownName(this, scope instanceof Type ? scope : undefined)
             );
         }
-        // Type variables aren't alowed in type variables.
+        // Can't refer to type variables with a reference, those can only be mentioned in type inputs.
         else if (bindOrTypeVar instanceof TypeVariable)
             conflicts.push(new UnexpectedTypeVariable(this));
 

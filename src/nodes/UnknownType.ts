@@ -54,11 +54,11 @@ export default abstract class UnknownType<
         ];
     }
 
-    getNodeLocale(translation: Locale) {
-        return translation.node.UnknownType;
+    getNodeLocale(locale: Locale) {
+        return locale.node.UnknownType;
     }
 
-    abstract getReason(translation: Locale, context: Context): Markup;
+    abstract getReason(locale: Locale, context: Context): Markup;
 
     getGlyphs() {
         return Glyphs.Unknown;
