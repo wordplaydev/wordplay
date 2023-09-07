@@ -2,13 +2,13 @@
 
 <!-- A fallback view of types that don't have a more specialized view, generally for type errors. -->
 <script lang="ts">
-    import type AnyType from '@nodes/AnyType';
     import concretize from '../../locale/concretize';
     import { getProject, getRoot } from '../project/Contexts';
     import { locale } from '../../db/Database';
     import MarkupHtmlView from '../concepts/MarkupHTMLView.svelte';
+    import type Type from '../../nodes/Type';
 
-    export let node: AnyType;
+    export let node: Type;
 
     let project = getProject();
     let root = getRoot();
@@ -19,15 +19,16 @@
             : $project.getNodeContext($root.root);
 </script>
 
-<span
+<span class="TypeView"
     >{#if context}<MarkupHtmlView
             markup={node.getDescription(concretize, $locale, context)}
         />{:else}{node.toWordplay()}{/if}</span
 >
 
 <style>
-    span {
+    .TypeView {
         display: inline-block;
+        font-family: var(--wordplay-app-font);
         background-color: var(--wordplay-error);
         color: var(--wordplay-background);
         padding-left: calc(var(--wordplay-spacing) / 2);

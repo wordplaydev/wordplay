@@ -1253,7 +1253,7 @@
         "UnknownType": {
             "name": "unknown type",
             "unknown": "unknown",
-            "connector": ", because",
+            "connector": ", because ",
             "emotion": "curious",
             "doc": "Umm... I don't know what I represent, but I really am curious. Do you know? It seems like we should know. You might need to tell us if we can't figure it out."
         },
@@ -1342,9 +1342,15 @@
         },
         "UnknownNameType": {
             "name": "unknown name",
-            "description": "$1[$1 isn't defined | a name wasn't given]",
+            "description": "$1[$1 isn't defined |a name wasn't given]",
             "emotion": "curious",
             "doc": "You know how sometimes @Reference and @PropertyReference don't know the name you're talking about? I'm around when that happens, to represent that we don't know who you're talking about."
+        },
+        "NonFunctionType": {
+            "name": "non-function",
+            "description": "non-function",
+            "emotion": "confused",
+            "doc": "Some of us expected functions; I show up when we don't get one."
         }
     },
     "basis": {

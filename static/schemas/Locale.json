@@ -4298,6 +4298,10 @@
               "$ref": "#/definitions/NodeText",
               "description": "An unknown type because no expression was given in a block"
             },
+            "NonFunctionType": {
+              "$ref": "#/definitions/DescriptiveNodeText",
+              "description": "Not a function type Description inputs: $1 = the type of the given function"
+            },
             "NoneLiteral": {
               "additionalProperties": false,
               "description": "A none literal, e.g., `ø`",
@@ -6085,7 +6089,8 @@
             "UnknownVariableType",
             "NoExpressionType",
             "NotEnclosedType",
-            "NotImplementedType"
+            "NotImplementedType",
+            "NonFunctionType"
           ],
           "type": "object"
         },

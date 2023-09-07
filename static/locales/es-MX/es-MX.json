@@ -931,6 +931,12 @@
             "description": "$?",
             "emotion": "neutral",
             "doc": "$?"
+        },
+        "NonFunctionType": {
+            "name": "$?",
+            "description": "$?",
+            "emotion": "$?",
+            "doc": "$?"
         }
     },
     "basis": {

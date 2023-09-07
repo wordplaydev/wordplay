@@ -43,14 +43,12 @@ import type Locale from '@locale/Locale';
 import type Node from './Node';
 import StartEvaluation from '@runtime/StartEvaluation';
 import UnimplementedException from '@values/UnimplementedException';
-import Reference from './Reference';
 import StreamDefinition from './StreamDefinition';
 import StreamDefinitionType from './StreamDefinitionType';
 import StreamDefinitionValue from '../values/StreamDefinitionValue';
 import Glyphs from '../lore/Glyphs';
 import FunctionType from './FunctionType';
 import AnyType from './AnyType';
-import { NotAType } from './NotAType';
 import concretize from '../locale/concretize';
 import Sym from './Sym';
 import Refer from '../edit/Refer';
@@ -59,6 +57,7 @@ import Purpose from '../concepts/Purpose';
 import TypeException from '../values/TypeException';
 import TypeVariable from './TypeVariable';
 import NameType from './NameType';
+import { NonFunctionType } from './NonFunctionType';
 
 type Mapping = {
     expected: Bind;
@@ -440,8 +439,6 @@ export default class Evaluate extends Expression {
                 new IncompatibleInput(
                     this.fun instanceof PropertyReference
                         ? this.fun.name ?? this.fun
-                        : this.fun instanceof Reference
-                        ? this.fun
                         : this.fun,
                     this.fun instanceof PropertyReference
                         ? this.fun.structure.getType(context)
@@ -633,12 +630,7 @@ export default class Evaluate extends Expression {
             return fun.output;
         }
         // Otherwise, who knows.
-        else
-            return new NotAType(
-                this,
-                this.fun.getType(context),
-                FunctionType.make(undefined, [], new AnyType())
-            );
+        else return new NonFunctionType(this.fun, this.fun.getType(context));
     }
 
     getDependencies(context: Context): Expression[] {

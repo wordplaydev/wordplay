@@ -804,6 +804,11 @@ type NodeTexts = {
     NotEnclosedType: NodeText;
     /** An unknown type because of a placeholder expression. */
     NotImplementedType: NodeText;
+    /**
+     * Not a function type
+     * Description inputs: $1 = the type of the given function
+     * */
+    NonFunctionType: DescriptiveNodeText;
 };
 
 export default NodeTexts;
