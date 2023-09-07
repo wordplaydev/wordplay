@@ -5757,9 +5757,10 @@
             },
             "UnknownType": {
               "additionalProperties": false,
-              "description": "A type that is not known. All types",
+              "description": "A type that is not known. All unknown types are rendered as a sequence of reasons, e.g., 'unknown type because X because Y because Z...\"\". The unknown type description is used for the beginning of this message, and then the connector below is used to string them together.",
               "properties": {
                 "connector": {
+                  "description": "The connector between reasons, e.g., \"because \"",
                   "type": "string"
                 },
                 "doc": {
@@ -6067,7 +6068,6 @@
             "NameType",
             "NeverType",
             "NoneType",
-            "NotAType",
             "SetType",
             "StreamDefinitionType",
             "StreamType",
@@ -6075,17 +6075,18 @@
             "TableType",
             "TextType",
             "TypePlaceholder",
-            "UnknownNameType",
-            "UnknownType",
             "UnionType",
             "UnparsableType",
             "Unit",
             "VariableType",
+            "UnknownType",
+            "UnknownNameType",
             "CycleType",
             "UnknownVariableType",
             "NoExpressionType",
             "NotEnclosedType",
             "NotImplementedType",
+            "NotAType",
             "NonFunctionType"
           ],
           "type": "object"

@@ -732,11 +732,6 @@ type NodeTexts = {
      */
     NoneType: NodeText;
     /**
-     * Something that has no type.
-     * Description inputs: $1 = type expected
-     */
-    NotAType: DescriptiveNodeText;
-    /**
      * A set type, e.g., `{#}`
      * Description inputs: $1 = type or undefined
      */
@@ -770,18 +765,6 @@ type NodeTexts = {
      */
     TypePlaceholder: NodeText;
     /**
-     * A type representing an unknown named type
-     * Description inputs: $1 = name that's not known or undefined
-     */
-    UnknownNameType: DescriptiveNodeText;
-    /**
-     * A type that is not known. All unknown types are rendered as a sequence of reasons, e.g., 'unknown type because X because Y because Z..."".
-     * The unknown type description is used for the beginning of this message, and then the connector below is used to string them together. */
-    UnknownType: NodeText & {
-        /** The connector between reasons, e.g., "because " */
-        connector: string;
-    };
-    /**
      * Two possible types, e.g., `# | ''`
      * Description inputs: $1 = first type, $2 = second type
      */
@@ -799,18 +782,35 @@ type NodeTexts = {
      * A type representing an unknown type variable
      */
     VariableType: NodeText;
-    /** A type that depends on itself and is therefore unknown. */
+    /**
+     * A type that is not known. All unknown types are rendered as a sequence of reasons, e.g., 'unknown type because X because Y because Z..."".
+     * The unknown type description is used for the beginning of this message, and then the connector below is used to string them together. */
+    UnknownType: NodeText & {
+        /** The connector between reasons, e.g., "because " */
+        connector: string;
+    };
+    /**
+     * A type representing an unknown named type, e.g., `b` in `a: b + 1`
+     * Description inputs: $1 = name that's not known or undefined
+     */
+    UnknownNameType: DescriptiveNodeText;
+    /** A type that depends on itself and is therefore unknown, e.g., `a: a + 1`. */
     CycleType: DescriptiveNodeText;
-    /** A variable type that is not defined */
+    /** A variable type that is not defined, e.g., `C` in `ƒ help⸨A⸩(b•C)` */
     UnknownVariableType: NodeText;
-    /** An unknown type because no expression was given in a block */
+    /** An unknown type because no expression was given in a block, e.g., () */
     NoExpressionType: NodeText;
-    /** An unkonwn type because `.` is not defined in scope */
+    /** An unknown type because `.` is not defined in scope, e.g., `a: 1 + .` */
     NotEnclosedType: NodeText;
-    /** An unknown type because of a placeholder expression. */
+    /** An unknown type because of a placeholder expression, e.g., `a: 1 + _` */
     NotImplementedType: NodeText;
     /**
-     * Non-function type
+     * Something that does not have a specific expected type, e.g., `list['hi']`
+     * Description inputs: $1 = type expected
+     */
+    NotAType: DescriptiveNodeText;
+    /**
+     * Non-function type, e.g., `1(2 3)`
      * Description inputs: $1 = the type of the given function
      * */
     NonFunctionType: DescriptiveNodeText;

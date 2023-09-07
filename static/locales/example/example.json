@@ -828,13 +828,6 @@
             "emotion": "$?",
             "doc": "$?"
         },
-        "UnknownType": {
-            "name": "$?",
-            "unknown": "$?",
-            "connector": "$?",
-            "emotion": "$?",
-            "doc": "$?"
-        },
         "TableType": {
             "name": "$?",
             "emotion": "$?",
@@ -876,14 +869,15 @@
             "emotion": "$?",
             "doc": "$?"
         },
-        "CycleType": {
+        "UnknownType": {
             "name": "$?",
-            "description": "$?",
+            "connector": "$?",
             "emotion": "$?",
             "doc": "$?"
         },
-        "UnknownVariableType": {
+        "CycleType": {
             "name": "$?",
+            "description": "$?",
             "emotion": "$?",
             "doc": "$?"
         },
@@ -917,6 +911,11 @@
         "NonFunctionType": {
             "name": "$?",
             "description": "$?",
+            "emotion": "$?",
+            "doc": "$?"
+        },
+        "UnknownVariableType": {
+            "name": "$?",
             "emotion": "$?",
             "doc": "$?"
         }
