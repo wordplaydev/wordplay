@@ -830,7 +830,6 @@
         },
         "UnknownType": {
             "name": "desconocida",
-            "unknown": "$?",
             "connector": "$?",
             "emotion": "neutral",
             "doc": "$?"
@@ -1596,8 +1595,7 @@
             "vz": { "doc": "$?", "names": "vz" },
             "vangle": { "doc": "$?", "names": "vangle" },
             "mass": { "doc": "$?", "names": "masa" },
-            "bounciness": { "doc": "$?", "names": "rebote" },
-            "gravity": { "doc": "$?", "names": "gravedad" }
+            "bounciness": { "doc": "$?", "names": "rebote" }
         },
         "Chat": {
             "doc": ["$?"],
@@ -1694,7 +1692,8 @@
             "moving": { "doc": "$?", "names": "$! mover" },
             "exiting": { "doc": "$?", "names": "$! salida" },
             "duration": { "doc": "$?", "names": "duración" },
-            "style": { "doc": "$?", "names": "estilo" }
+            "style": { "doc": "$?", "names": "estilo" },
+            "gravity": { "doc": "$?", "names": "gravedad" }
         },
         "Group": {
             "names": "Group",

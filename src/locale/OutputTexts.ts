@@ -72,7 +72,10 @@ type OutputTexts = {
         content: NameAndDoc;
         /** The shape of the frame to clip stage content */
         frame: NameAndDoc;
-    } & TypeTexts;
+    } & TypeTexts & {
+            /** Gravity, influencing change in y velocity */
+            gravity: NameAndDoc;
+        };
     /** The base interface for shape types */
     Shape: NameAndDoc;
     /** A rectangle shape, for Stage.frame */

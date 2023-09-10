@@ -1877,10 +1877,6 @@
                   "$ref": "#/definitions/DocText",
                   "description": "Documentation for this definition, to appear in the documentation browser."
                 },
-                "gravity": {
-                  "$ref": "#/definitions/NameAndDoc",
-                  "description": "Gravity, influencing change in y velocity"
-                },
                 "mass": {
                   "$ref": "#/definitions/NameAndDoc",
                   "description": "Mass, influencing collisions"
@@ -1933,7 +1929,6 @@
               "required": [
                 "bounciness",
                 "doc",
-                "gravity",
                 "mass",
                 "names",
                 "startplace",
@@ -6790,6 +6785,10 @@
                   "$ref": "#/definitions/NameAndDoc",
                   "description": "The shape of the frame to clip stage content"
                 },
+                "gravity": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "Gravity, influencing change in y velocity"
+                },
                 "moving": {
                   "$ref": "#/definitions/NameAndDoc",
                   "description": "Pose or sequence for when a phrase, group, or stage is moving"
@@ -6852,6 +6851,7 @@
                 "flipx",
                 "flipy",
                 "frame",
+                "gravity",
                 "moving",
                 "name",
                 "names",
