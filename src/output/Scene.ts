@@ -7,7 +7,6 @@ import type Transition from './Transition';
 import type Node from '@nodes/Node';
 import type RenderContext from './RenderContext';
 import type Evaluator from '@runtime/Evaluator';
-import type { Velocity, Point } from './geometry';
 import Sequence from './Sequence';
 import Pose from './Pose';
 import type Value from '../values/Value';
@@ -38,12 +37,6 @@ export type OutputsByName = Map<OutputName, TypeOutput>;
 
 export type OutputInfoSet = Map<OutputName, OutputInfo>;
 export type Orientation = { place: Place; rotation: number | undefined };
-
-export type Collision = {
-    name: string;
-    velocity: Velocity;
-    place: Point;
-};
 
 /**
  * Derived state of the previous and current Stages.
