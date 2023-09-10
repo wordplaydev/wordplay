@@ -22,6 +22,8 @@ import { getOutputInput } from './Output';
 import { SupportedFontsFamiliesType, type SupportedFace } from '../basis/Fonts';
 import { getFirstName } from '../locale/Locale';
 
+export const DefaultGravity = 9.8;
+
 export const CSSFallbackFaces = `"Noto Color Emoji"`;
 export const DefaultSize = 1;
 
@@ -63,6 +65,10 @@ export function createStageType(locales: Locale[]) {
         )
         .flat()
         .join('|')}: "${DefaultStyle}"
+    ${getBind(
+        locales,
+        (locale) => locale.output.Stage.gravity
+    )}•#m/s^2: ${DefaultGravity}m/s^2
     )
 `);
 }
@@ -73,6 +79,7 @@ export default class Stage extends TypeOutput {
     readonly content: (TypeOutput | null)[];
     readonly frame: Shape | undefined;
     readonly back: Color;
+    readonly gravity: number;
 
     private _description: string | undefined = undefined;
 
@@ -93,7 +100,8 @@ export default class Stage extends TypeOutput {
         moveing: Pose | Sequence | undefined = undefined,
         exiting: Pose | Sequence | undefined = undefined,
         duration = 0,
-        style: string | undefined = 'zippy'
+        style: string | undefined = 'zippy',
+        gravity: number
     ) {
         super(
             value,
@@ -116,6 +124,7 @@ export default class Stage extends TypeOutput {
         this.content = content;
         this.frame = frame;
         this.back = background;
+        this.gravity = gravity;
     }
 
     getOutput() {
@@ -248,6 +257,7 @@ export function toStage(
                 ? toTypeOutputList(project, possibleGroups, namer)
                 : toTypeOutput(project, possibleGroups, namer);
         const frame = toShape(getOutputInput(value, 1));
+        const gravity = toNumber(getOutputInput(value, 21)) ?? DefaultGravity;
 
         const {
             size,
@@ -288,7 +298,8 @@ export function toStage(
                   move,
                   exit,
                   duration,
-                  style
+                  style,
+                  gravity
               )
             : undefined;
     }
@@ -334,7 +345,8 @@ export function toStage(
                   undefined,
                   undefined,
                   0,
-                  'zippy'
+                  DefaultStyle,
+                  DefaultGravity
               );
     }
 }

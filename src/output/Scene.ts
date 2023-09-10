@@ -1,7 +1,7 @@
 import type TypeOutput from './TypeOutput';
 import Place from './Place';
 import { createPlace } from './Place';
-import Stage from './Stage';
+import Stage, { DefaultGravity } from './Stage';
 import OutputAnimation from './OutputAnimation';
 import type Transition from './Transition';
 import type Node from '@nodes/Node';
@@ -115,6 +115,7 @@ export default class Scene {
         // Create an engine
         this.physics = Matter.Engine.create({
             positionIterations: 6,
+            enableSleeping: true,
         });
         // Set timing to match animation factor
         const animationFactor =
@@ -127,9 +128,6 @@ export default class Scene {
             this.physics.world,
             Matter.Bodies.rectangle(0, 250, 200000, 500, { isStatic: true })
         );
-
-        // Set the gravity to the stage's default.
-        this.physics.gravity.scale = 0.002;
     }
 
     /**
@@ -467,7 +465,15 @@ export default class Scene {
 
         // 1) Create a body for each output.
         for (const [name, info] of current) {
-            if (!(info.output instanceof Stage)) {
+            if (info.output instanceof Stage) {
+                // Set the gravity to the Stage's gravity setting.
+                // 0.002 is a good scale for our coordinate system, so we convert based on that.
+                console.log(info.output.gravity);
+                this.physics.gravity.scale = Math.abs(
+                    0.002 * (info.output.gravity / DefaultGravity)
+                );
+                this.physics.gravity.y = info.output.gravity < 0 ? -1 : 1;
+            } else {
                 // Create a rectangle for the output
                 let shape: OutputRectangle | undefined =
                     this.createRectangle(info);
@@ -557,6 +563,7 @@ class OutputRectangle {
                 friction: 0.8,
                 angle,
                 mass: 10,
+                sleepThreshold: 1000,
             }
         );
 

@@ -2017,9 +2017,9 @@
                 "           vx: ◆ ? Random(-5 5) · 1m/s ø ",
                 "           vangle: ◆ ? Random(0 360) · 1°/s ø",
                 "           bounciness: Random()",
-                "           gravity: gravity",
                 "       )",
                 "   )",
+                "   gravity: gravity",
                 ")"
             ],
             "scenes": [
@@ -2711,19 +2711,21 @@
                         null,
                         [
                             "fix",
-                            "Motion(",
-                            "    Phrase('🏀' 3m) ",
-                            "    startplace: Place(0m 5m)",
-                            "    startvx: -5m/s",
-                            "    startvy: 5m/s",
-                            "    startvangle: 30°/s",
-                            "    gravity: 200m/s^2",
+                            "Stage(",
+                            "   [Motion(",
+                            "       Phrase('🏀' 3m) ",
+                            "       startplace: Place(0m 5m)",
+                            "       startvx: -5m/s",
+                            "       startvy: 5m/s",
+                            "       startvangle: 30°/s",
+                            "   )]",
+                            "   gravity: 9.8m/s^2",
                             ")"
                         ],
                         [
                             "FunctionDefinition",
                             "excited",
-                            "You can even change @Motion/gravity to be really extreme.",
+                            "You can even change @Stage/gravity to be really extreme.",
                             "Try changing it to be like the moon, where gravity is really low!",
                             "Or try changing @Motion/mass or @Motion/bounciness, which affects how @Phrase bounce."
                         ],

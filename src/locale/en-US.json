@@ -2880,10 +2880,6 @@
             "bounciness": {
                 "doc": "The fraction between 0 and 1 that determines how much a velocity is dampened when a @Phrase collides.",
                 "names": "bounciness"
-            },
-            "gravity": {
-                "doc": "The gravity to apply to @Motion/vy.",
-                "names": "gravity"
             }
         },
         "Chat": {
@@ -3458,6 +3454,10 @@
             "style": {
                 "doc": "SAME AS @Phrase/style!",
                 "names": "style"
+            },
+            "gravity": {
+                "doc": "The gravity to apply to output whose's place is in @Motion.",
+                "names": "gravity"
             },
             "description": "stage $1[$1|] of $2 phrases $3[$3 frame|] $4"
         },

@@ -67,8 +67,6 @@ type InputTexts = {
         vangle: NameAndDoc;
         /** Mass, influencing collisions */
         mass: NameAndDoc;
-        /** Gravity, influencing change in y velocity */
-        gravity: NameAndDoc;
         /** A coefficient that dampens collisions */
         bounciness: NameAndDoc;
     };

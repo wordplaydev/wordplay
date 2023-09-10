@@ -29,7 +29,6 @@ import { toTypeOutput } from '../output/toTypeOutput';
 import { NameGenerator } from '../output/Stage';
 
 const Bounciness = 0.5;
-const Gravity = 9.8;
 
 export default class Motion extends TemporalStreamValue<Value, number> {
     /** The most recent structure given to this stream to replicate with a position */
@@ -50,7 +49,6 @@ export default class Motion extends TemporalStreamValue<Value, number> {
     /* Collision and gravity properties.. */
     mass: number;
     bounciness: number;
-    gravity: number;
 
     constructor(
         evaluator: Evaluator,
@@ -61,8 +59,7 @@ export default class Motion extends TemporalStreamValue<Value, number> {
         startvz: number | undefined,
         startvangle: number | undefined,
         mass: number | undefined,
-        bounciness: number | undefined,
-        gravity: number | undefined
+        bounciness: number | undefined
     ) {
         super(evaluator, evaluator.project.shares.input.Motion, value, 0);
 
@@ -108,7 +105,6 @@ export default class Motion extends TemporalStreamValue<Value, number> {
 
         this.mass = mass ?? 1;
         this.bounciness = bounciness ?? Bounciness;
-        this.gravity = gravity ?? Gravity;
     }
 
     // No setup or teardown, the Evaluator handles the requestAnimationFrame loop.
@@ -126,8 +122,7 @@ export default class Motion extends TemporalStreamValue<Value, number> {
         vz: number | undefined,
         vangle: number | undefined,
         mass: number | undefined,
-        bounciness: number | undefined,
-        gravity: number | undefined
+        bounciness: number | undefined
     ) {
         if (value) {
             const output = toTypeOutput(
@@ -151,7 +146,6 @@ export default class Motion extends TemporalStreamValue<Value, number> {
 
         if (mass !== undefined) this.mass = mass;
         if (bounciness !== undefined) this.bounciness = bounciness;
-        if (gravity !== undefined) this.gravity = gravity;
     }
 
     react(delta: number) {
@@ -377,13 +371,6 @@ export function createMotionDefinition(
         NumberLiteral.make(Bounciness)
     );
 
-    const GravityBind = Bind.make(
-        getDocLocales(locales, (locale) => locale.input.Motion.gravity.doc),
-        getNameLocales(locales, (locale) => locale.input.Motion.gravity.names),
-        UnionType.orNone(NumberType.make(Unit.reuse(['m'], ['s', 's']))),
-        NumberLiteral.make(9.8, Unit.reuse(['m'], ['s', 's']))
-    );
-
     const type = new StructureType(PhraseType);
 
     return StreamDefinition.make(
@@ -402,7 +389,6 @@ export function createMotionDefinition(
             VAngle,
             MassBind,
             BouncinessBind,
-            GravityBind,
         ],
         createStreamEvaluator<Motion>(
             type.clone(),
@@ -431,9 +417,6 @@ export function createMotionDefinition(
                               ?.toNumber(),
                           evaluation
                               .get(BouncinessBind.names, NumberValue)
-                              ?.toNumber(),
-                          evaluation
-                              .get(GravityBind.names, NumberValue)
                               ?.toNumber()
                       )
                     : new ValueException(
@@ -452,8 +435,7 @@ export function createMotionDefinition(
                     evaluation.get(MassBind.names, NumberValue)?.toNumber(),
                     evaluation
                         .get(BouncinessBind.names, NumberValue)
-                        ?.toNumber(),
-                    evaluation.get(GravityBind.names, NumberValue)?.toNumber()
+                        ?.toNumber()
                 );
             }
         ),

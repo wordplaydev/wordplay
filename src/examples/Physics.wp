@@ -7,15 +7,17 @@ gravity•#m/s^2:  15m/s^2 … ∆ Button(⊤) … -gravity
 hiragana: "ぁあぃいぅうぇえぉおかがきぎくぐけげこごさざしじすずせぜそぞただちぢっつづてでとどなにぬねのはばぱひびぴふぶぷへべぺほぼぽまみむめもゃやゅゆょよらりるれろゎわゐゑをんゔゕゖ"→['']
 
 
-Stage(count → [].translate(
-    ƒ(number) Motion(
-        Phrase(
-            hiragana[number]
-        ) 
-        startplace: Place(y: 10m)
-        startvx: Random(-5 5) · 1m/s
-        startvangle: Random(0 360) · 1°/s
-        bounciness: Random()
-        gravity: gravity
+Stage(
+    count → [].translate(
+        ƒ(number) Motion(
+            Phrase(
+                hiragana[number]
+            ) 
+            startplace: Place(y: 10m)
+            startvx: Random(-5 5) · 1m/s
+            startvangle: Random(0 360) · 1°/s
+            bounciness: Random()
+        )
     )
-))
+    gravity: gravity
+)
