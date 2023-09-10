@@ -36,6 +36,7 @@ import Evaluate from '../nodes/Evaluate';
 import NumberGenerator from 'recoverable-random';
 import type { Database } from '../db/Database';
 import ReactionStream from '../values/ReactionStream';
+import type Scene from '../output/Scene';
 
 /** Anything that wants to listen to changes in the state of this evaluator */
 export type EvaluationObserver = () => void;
@@ -179,6 +180,11 @@ export default class Evaluator {
      */
     previousTime: DOMHighResTimeStamp | undefined = undefined;
 
+    /**
+     * The time between the last evaluation
+     */
+    timeDelta: number | undefined = undefined;
+
     /** The relative time, accounting for pauses, accumulated from deltas */
     currentTime = 0;
     animating = false;
@@ -205,6 +211,9 @@ export default class Evaluator {
         reaction: Reaction;
         streams: Set<StreamValue>;
     }[] = [];
+
+    /** The scene corresponding to what's rendered, which is needed in providing streams access to collisions */
+    scene: Scene | undefined = undefined;
 
     /**
      * Create a new evalutor, given some project.
@@ -410,12 +419,15 @@ export default class Evaluator {
     getStepCount() {
         return this.#stepCount;
     }
+
     getStepIndex() {
         return this.#stepIndex;
     }
+
     getEarliestStepIndexAvailable() {
         return this.reactions[0]?.stepIndex ?? 0;
     }
+
     getSteps(evaluation: DefinitionNode): Step[] {
         // No expression? No steps.
         let steps = this.steps.get(evaluation);
@@ -1125,18 +1137,18 @@ export default class Evaluator {
 
     tick(time: DOMHighResTimeStamp) {
         // First time? Just record it and bail.
-        let delta = 0;
         if (this.previousTime === undefined) {
             this.previousTime = time;
+            this.timeDelta = 0;
         } else {
             // Compute the delta and remember the previous time.
-            delta = time - this.previousTime;
+            this.timeDelta = time - this.previousTime;
             this.previousTime = time;
         }
 
         if (!this.isStepping()) {
             // Add the delta to the current time.
-            this.currentTime += delta;
+            this.currentTime += this.timeDelta;
 
             // If we're in play mode, tick all the temporal streams.
             if (this.temporalReactions.length > 0)
@@ -1145,7 +1157,11 @@ export default class Evaluator {
                 );
             // Tick each one, indirectly filling this.temporalReactions.
             for (const stream of this.temporalStreams)
-                stream.tick(this.currentTime, delta, this.timeMultiplier);
+                stream.tick(
+                    this.currentTime,
+                    this.timeDelta,
+                    this.timeMultiplier
+                );
 
             // Now reevaluate with all of the temporal stream updates.
             this.flush();

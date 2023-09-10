@@ -95,6 +95,8 @@
     let startGesturePlace: Place | undefined = undefined;
 
     $: exception = value instanceof ExceptionValue ? value : undefined;
+
+    /** A global namer of output, updated on each new project, but persistent across changes to stage */
     $: stageValue = value === undefined ? undefined : toStage(project, value);
     $: typing =
         !mini &&

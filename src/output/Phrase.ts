@@ -348,7 +348,7 @@ export function toFont(value: Value | undefined): string | undefined {
 export function toPhrase(
     project: Project,
     value: Value | undefined,
-    namer: NameGenerator | undefined
+    namer: NameGenerator
 ): Phrase | undefined {
     if (!(value instanceof StructureValue)) return undefined;
 
@@ -384,7 +384,7 @@ export function toPhrase(
               size,
               font,
               place,
-              namer?.getName(name?.text, value) ?? `${value.creator.id}`,
+              namer.getName(name?.text, value),
               selectable,
               background,
               pose,

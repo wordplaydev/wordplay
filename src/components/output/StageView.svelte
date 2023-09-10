@@ -127,7 +127,9 @@
     /** A stage to manage entries, exits, animations. A new one each time the for each project. */
     let scene: Scene;
     $: {
+        // Previous scene? Stop it.
         if (scene !== undefined) scene.stop();
+        // Make a new one.
         scene = new Scene(
             evaluator,
             // When output exits, remove it from the map and triggering a render.

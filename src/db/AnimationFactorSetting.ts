@@ -5,5 +5,5 @@ export const AnimationFactorSetting = new Setting<number>(
     false,
     1,
     (value) => (typeof value === 'number' && value >= 1 ? value : undefined),
-    (current, value) => current == value
+    (current, value) => current === value
 );

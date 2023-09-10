@@ -13,8 +13,6 @@ import StructureValue from '@values/StructureValue';
 import { getDocLocales } from '@locale/getDocLocales';
 import { getNameLocales } from '@locale/getNameLocales';
 import createStreamEvaluator from './createStreamEvaluator';
-import type TypeOutput from '../output/TypeOutput';
-import { toTypeOutput } from '../output/toTypeOutput';
 import Evaluate from '../nodes/Evaluate';
 import ValueException from '../values/ValueException';
 import UnionType from '../nodes/UnionType';
@@ -27,12 +25,15 @@ import { getFirstName } from '../locale/Locale';
 import NameType from '../nodes/NameType';
 import type Context from '../nodes/Context';
 import type Type from '../nodes/Type';
+import { toTypeOutput } from '../output/toTypeOutput';
+import { NameGenerator } from '../output/Stage';
 
 const Bounciness = 0.5;
 const Gravity = 9.8;
 
 export default class Motion extends TemporalStreamValue<Value, number> {
-    output: TypeOutput;
+    /** The most recent structure given to this stream to replicate with a position */
+    value: StructureValue;
 
     /** The current location and angle of the object. */
     x: Decimal;
@@ -53,7 +54,7 @@ export default class Motion extends TemporalStreamValue<Value, number> {
 
     constructor(
         evaluator: Evaluator,
-        type: TypeOutput,
+        value: StructureValue,
         startplace: Value | undefined,
         startvx: number | undefined,
         startvy: number | undefined,
@@ -63,9 +64,9 @@ export default class Motion extends TemporalStreamValue<Value, number> {
         bounciness: number | undefined,
         gravity: number | undefined
     ) {
-        super(evaluator, evaluator.project.shares.input.Motion, type.value, 0);
+        super(evaluator, evaluator.project.shares.input.Motion, value, 0);
 
-        this.output = type;
+        this.value = value;
 
         const place =
             startplace instanceof StructureValue &&
@@ -76,22 +77,29 @@ export default class Motion extends TemporalStreamValue<Value, number> {
         const startY = place?.getInput(1);
         const startZ = place?.getInput(2);
 
+        // Convert to a phrase to extract some initial values.
+        const output = toTypeOutput(
+            evaluator.project,
+            value,
+            new NameGenerator()
+        );
+
         this.x = new Decimal(
             (startX instanceof NumberValue ? startX.toNumber() : undefined) ??
-                type.place?.x ??
+                output?.place?.x ??
                 0
         );
         this.y = new Decimal(
             (startY instanceof NumberValue ? startY.toNumber() : undefined) ??
-                type.place?.y ??
+                output?.place?.y ??
                 0
         );
         this.z = new Decimal(
             (startZ instanceof NumberValue ? startZ.toNumber() : undefined) ??
-                type.place?.z ??
+                output?.place?.z ??
                 0
         );
-        this.angle = new Decimal(type.pose.rotation ?? 0);
+        this.angle = new Decimal(output?.pose.rotation ?? 0);
 
         this.vx = new Decimal(startvx ?? 0);
         this.vy = new Decimal(startvy ?? 0);
@@ -112,7 +120,7 @@ export default class Motion extends TemporalStreamValue<Value, number> {
     }
 
     update(
-        output: TypeOutput | undefined,
+        value: StructureValue | undefined,
         vx: number | undefined,
         vy: number | undefined,
         vz: number | undefined,
@@ -121,12 +129,19 @@ export default class Motion extends TemporalStreamValue<Value, number> {
         bounciness: number | undefined,
         gravity: number | undefined
     ) {
-        if (output) {
-            this.output = output;
-            this.x = new Decimal(output.place?.x ?? this.x);
-            this.y = new Decimal(output.place?.y ?? this.y);
-            this.z = new Decimal(output.place?.z ?? this.z);
-            this.angle = new Decimal(output.pose.rotation ?? this.angle);
+        if (value) {
+            const output = toTypeOutput(
+                this.evaluator.project,
+                value,
+                new NameGenerator()
+            );
+            if (output) {
+                this.value = value;
+                // this.x = new Decimal(output.place?.x ?? this.x);
+                // this.y = new Decimal(output.place?.y ?? this.y);
+                // this.z = new Decimal(output.place?.z ?? this.z);
+                // this.angle = new Decimal(output.pose.rotation ?? this.angle);
+            }
         }
 
         this.vx = new Decimal(vx ?? this.vx);
@@ -140,25 +155,62 @@ export default class Motion extends TemporalStreamValue<Value, number> {
     }
 
     react(delta: number) {
-        // First, apply gravity to the y velocity proporitional to elapsed time.
-        this.vy = this.vy.sub(this.gravity * delta);
-
-        // Then, apply velocity to place.
-        this.x = this.x.plus(this.vx.times(delta));
-        this.y = this.y.plus(this.vy.times(delta));
-        this.z = this.z.plus(this.vz.times(delta));
-        this.angle = this.angle.plus(this.va.times(delta));
-
-        // If we collide with 0, negate y velocity.
-        if (this.y.lessThanOrEqualTo(0)) {
-            this.y = new Decimal(0);
-            this.vy = this.vy.neg().times(this.bounciness);
-            this.vx = this.vx.times(this.bounciness);
-            this.va = this.va.times(this.bounciness);
+        // Was there a collision? Update velocities.
+        const latest = this.latest();
+        if (this.evaluator.scene) {
+            // Ask the scene for the output corresponding to the latest value this stream generated.
+            const name = latest
+                ? this.evaluator.scene.getOutputByValue(latest)?.getName()
+                : undefined;
+            if (name) {
+                // Ask the scene for the latest x, y, z, and angle from the physics engine.
+                const placement = this.evaluator.scene.getOutputPlacement(name);
+                if (placement) {
+                    this.x = new Decimal(placement.x);
+                    this.y = new Decimal(placement.y);
+                    this.angle = new Decimal(placement.angle);
+                }
+            }
         }
+        // if (name) {
+        //     const collisions = this.evaluator.scene?.getCollisionsWith(name);
+        //     if (collisions) {
+        //         const collision = collisions[0];
+
+        //         if (!isNaN(collision.place.x) && !isNaN(collision.place.y)) {
+        //             this.x = new Decimal(collision.place.x);
+        //             this.y = new Decimal(collision.place.y);
+        //         }
+        //         this.vx = new Decimal(collision.velocity.vx);
+        //         this.vy = new Decimal(collision.velocity.vy);
+        //         this.va = new Decimal(
+        //             Math.sqrt(
+        //                 Math.pow(collision.velocity.vx, 2) +
+        //                     Math.pow(collision.velocity.vy, 2)
+        //             ) * 60
+        //         );
+        //     }
+        // }
+
+        // // First, apply gravity to the y velocity proporitional to elapsed time.
+        // this.vy = this.vy.sub(this.gravity * delta);
+
+        // // Then, apply velocity to place.
+        // this.x = this.x.plus(this.vx.times(delta));
+        // this.y = this.y.plus(this.vy.times(delta));
+        // this.z = this.z.plus(this.vz.times(delta));
+        // this.angle = this.angle.plus(this.va.times(delta));
+
+        // // If we collide with 0, negate y velocity.
+        // if (this.y.lessThanOrEqualTo(0)) {
+        //     this.y = new Decimal(0);
+        //     this.vy = this.vy.neg().times(this.bounciness);
+        //     this.vx = this.vx.times(this.bounciness);
+        //     this.va = this.va.times(this.bounciness);
+        // }
 
         // Get the type so we can clone and modify it.
-        const output = this.output.value;
+        const output = this.value;
         if (output instanceof StructureValue) {
             const creator =
                 output.creator instanceof Evaluate
@@ -198,7 +250,7 @@ export default class Motion extends TemporalStreamValue<Value, number> {
                     )
                 );
 
-            // Finally, add the new place to the stream.
+            // Finally, add the new phrase to the stream.
             if (revised) this.add(revised, delta);
         }
     }
@@ -356,14 +408,11 @@ export function createMotionDefinition(
             type.clone(),
             Motion,
             (evaluation) => {
-                const type = toTypeOutput(
-                    evaluation.getEvaluator().project,
-                    evaluation.get(TypeBind.names, StructureValue)
-                );
-                return type
+                const value = evaluation.get(TypeBind.names, StructureValue);
+                return value
                     ? new Motion(
                           evaluation.getEvaluator(),
-                          type,
+                          value,
                           evaluation.get(StartPlace.names, StructureValue),
                           evaluation
                               .get(StartVX.names, NumberValue)
@@ -395,10 +444,7 @@ export function createMotionDefinition(
             (stream, evaluation) => {
                 stream.update(
                     // Not valid type output? Revert to the current value.
-                    toTypeOutput(
-                        evaluation.getEvaluator().project,
-                        evaluation.get(TypeBind.names, StructureValue)
-                    ),
+                    evaluation.get(TypeBind.names, StructureValue),
                     evaluation.get(VX.names, NumberValue)?.toNumber(),
                     evaluation.get(VY.names, NumberValue)?.toNumber(),
                     evaluation.get(VZ.names, NumberValue)?.toNumber(),

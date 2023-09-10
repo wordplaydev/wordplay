@@ -10,7 +10,7 @@
     import type Value from '../../values/Value';
     import CodeView from './CodeView.svelte';
     import { DB, locales } from '../../db/Database';
-    import Stage, { toStage } from '../../output/Stage';
+    import Stage, { NameGenerator, toStage } from '../../output/Stage';
     import OutputView from '../output/OutputView.svelte';
 
     export let example: Example;
@@ -44,7 +44,9 @@
     function update() {
         if (evaluator) {
             value = evaluator.getLatestSourceValue(project.main);
-            stage = value ? toStage(project, value) : undefined;
+            stage = value
+                ? toStage(project, value, new NameGenerator())
+                : undefined;
         }
     }
 
