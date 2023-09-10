@@ -164,7 +164,7 @@ export default class Group extends TypeOutput {
 export function toGroup(
     project: Project,
     value: Value | undefined,
-    namer?: NameGenerator
+    namer: NameGenerator
 ): Group | undefined {
     if (!(value instanceof StructureValue)) return undefined;
 

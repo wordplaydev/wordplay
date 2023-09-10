@@ -53,6 +53,14 @@ export default class Place extends Output {
         );
     }
 
+    distanceFrom(place: Place) {
+        return Math.sqrt(
+            Math.pow(place.x - this.x, 2) +
+                Math.pow(place.y - this.y, 2) +
+                Math.pow(place.z - this.z, 2)
+        );
+    }
+
     equals(place: Place) {
         return this.x === place.x && this.y === place.y && this.z === place.z;
     }

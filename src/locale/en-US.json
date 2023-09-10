@@ -1252,7 +1252,6 @@
         },
         "UnknownType": {
             "name": "unknown type",
-            "unknown": "unknown",
             "connector": ", because ",
             "emotion": "curious",
             "doc": "Umm... I don't know what I represent, but I really am curious. Do you know? It seems like we should know. You might need to tell us if we can't figure it out."

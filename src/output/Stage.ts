@@ -231,11 +231,15 @@ export class NameGenerator {
     }
 }
 
-export function toStage(project: Project, value: Value): Stage | undefined {
+export function toStage(
+    project: Project,
+    value: Value,
+    namer?: NameGenerator
+): Stage | undefined {
     if (!(value instanceof StructureValue)) return undefined;
 
     // Create a name generator to guarantee unique default names for all TypeOutput.
-    const namer = new NameGenerator();
+    if (namer === undefined) namer = new NameGenerator();
 
     if (value.type === project.shares.output.Stage) {
         const possibleGroups = getOutputInput(value, 0);

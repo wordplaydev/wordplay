@@ -28,7 +28,7 @@ import type { SupportedFace } from '../basis/Fonts';
 export function toTypeOutput(
     project: Project,
     value: Value | undefined,
-    namer?: NameGenerator
+    namer: NameGenerator
 ): TypeOutput | undefined {
     if (!(value instanceof StructureValue)) return undefined;
     switch (value.type) {
@@ -37,7 +37,7 @@ export function toTypeOutput(
         case project.shares.output.Group:
             return toGroup(project, value, namer);
         case project.shares.output.Stage:
-            return toStage(project, value);
+            return toStage(project, value, namer);
     }
     return undefined;
 }
@@ -45,7 +45,7 @@ export function toTypeOutput(
 export function toTypeOutputList(
     project: Project,
     value: Value | undefined,
-    namer?: NameGenerator
+    namer: NameGenerator
 ): (TypeOutput | null)[] | undefined {
     if (value === undefined || !(value instanceof ListValue)) return undefined;
 

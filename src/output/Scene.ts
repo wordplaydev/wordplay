@@ -7,6 +7,12 @@ import type Transition from './Transition';
 import type Node from '@nodes/Node';
 import type RenderContext from './RenderContext';
 import type Evaluator from '@runtime/Evaluator';
+import type { Velocity, Point } from './geometry';
+import Sequence from './Sequence';
+import Pose from './Pose';
+import type Value from '../values/Value';
+import Matter from 'matter-js';
+import { PX_PER_METER } from './outputToCSS';
 
 export type OutputName = string;
 
@@ -32,6 +38,12 @@ export type OutputsByName = Map<OutputName, TypeOutput>;
 
 export type OutputInfoSet = Map<OutputName, OutputInfo>;
 export type Orientation = { place: Place; rotation: number | undefined };
+
+export type Collision = {
+    name: string;
+    velocity: Velocity;
+    place: Point;
+};
 
 /**
  * Derived state of the previous and current Stages.
@@ -65,6 +77,9 @@ export default class Scene {
     scene: OutputInfoSet = new Map<OutputName, OutputInfo>();
     priorScene: OutputInfoSet = new Map<OutputName, OutputInfo>();
 
+    /** The current outputs by their corresponding values */
+    outputByValue: Map<Value, TypeOutput> = new Map();
+
     /** The active animations, responsible for tracking transitions and animations on named output. */
     readonly animations = new Map<OutputName, OutputAnimation>();
 
@@ -83,18 +98,45 @@ export default class Scene {
     /** If true, the scene has been stopped and will no longer be animated */
     private stopped = false;
 
+    /** A Matter JS engine for managing physics on output. */
+    private physics: Matter.Engine;
+
+    /** A mapping from output names to body IDs */
+    private bodyByName: Map<string, OutputRectangle> = new Map();
+
     constructor(
         evaluator: Evaluator,
         exit: (name: OutputName) => void,
         tick: (nodes: Set<Node>) => void
     ) {
         this.evaluator = evaluator;
+        evaluator.scene = this;
+
         this.exit = exit;
         this.tick = tick;
 
         // Initialize unintialized defaults.
         this.focus = createPlace(this.evaluator, 0, 0, -6);
         this.priorStagePlace = this.focus;
+
+        // Create an engine
+        this.physics = Matter.Engine.create({
+            positionIterations: 6,
+        });
+        // Set timing to match animation factor
+        const animationFactor =
+            evaluator.database.Settings.settings.animationFactor.get();
+        if (animationFactor > 0)
+            this.physics.timing.timeScale = 1 / animationFactor;
+
+        // Add a very long static ground to the world along the x-axis.
+        Matter.Composite.add(
+            this.physics.world,
+            Matter.Bodies.rectangle(0, 250, 200000, 500, { isStatic: true })
+        );
+
+        // Set the gravity to the stage's default.
+        this.physics.gravity.scale = 0.002;
     }
 
     /**
@@ -185,7 +227,7 @@ export default class Scene {
         }
 
         // A mapping from exiting groups to where they previously were.
-        const exiting = new Map<OutputName, OutputInfo>();
+        const exiting: OutputInfoSet = new Map();
 
         // Now that we have a list of everyone present, remove everyone that was present in the prior scene that is no longer, and note that they exited.
         // We only do this if this is an animated stage; exiting isn't animated on non-live stages.
@@ -222,6 +264,19 @@ export default class Scene {
         // Remember the places, so that exiting phrases after the next change have them above.
         this.priorScene = this.scene;
         this.scene = newScene;
+
+        this.outputByValue = new Map();
+        for (const [, output] of this.scene)
+            this.outputByValue.set(output.output.value, output.output);
+
+        // Sync this scene with the Matter engine.
+        this.syncPhysics(
+            this.scene,
+            this.priorScene,
+            entered,
+            exited,
+            this.evaluator.timeDelta ?? 0
+        );
 
         // Return the layout for rendering.
         return {
@@ -361,5 +416,171 @@ export default class Scene {
         parents.shift();
 
         return outputInfo;
+    }
+
+    /** Computes velocity in meters per second. */
+    getOutputVelocity(
+        name: string,
+        output: OutputInfo,
+        prior: OutputInfoSet,
+        secondsElapsed: number
+    ) {
+        const currentPlace = output.global;
+        const priorPlace = prior.get(name)?.global;
+
+        // If we don't know where it was before, it has no velocity
+        if (priorPlace === undefined) return undefined;
+
+        // If the output has a moving sequence, use it's duration. If it has a pose, use the phrase's duration. Otherwise, use the given duration between frames.
+        const duration =
+            output.output.moving instanceof Sequence
+                ? output.output.moving.duration
+                : output.output.moving instanceof Pose
+                ? output.output.duration
+                : secondsElapsed;
+
+        return {
+            vx: (currentPlace.x - priorPlace.x) / duration,
+            vy: (currentPlace.y - priorPlace.y) / duration,
+        };
+    }
+
+    getOutputByValue(value: Value) {
+        return this.outputByValue.get(value);
+    }
+
+    /** Given the current and prior scenes, and the time elapsed since the last one, sync the matter engine. */
+    syncPhysics(
+        current: OutputInfoSet,
+        prior: OutputInfoSet,
+        entered: OutputsByName,
+        exiting: OutputsByName,
+        delta: number
+    ) {
+        // REMOVE all of the exited outputs from the engine.
+
+        // 1) find the body IDs of the names removed.
+        const exitedBodies = Array.from(exiting.values())
+            .map((output) => this.bodyByName.get(output.getName())?.body)
+            .filter((body): body is Matter.Body => body !== undefined);
+
+        // 2) Remove the bodies from the engine
+        Matter.Composite.remove(this.physics.world, exitedBodies, true);
+
+        // 3) Remove the bodies
+        for (const name of exiting.keys()) this.bodyByName.delete(name);
+
+        // CREATE and UPDATE bodies for all outputs currently in the scene.
+
+        // 1) Create a body for each output.
+        for (const [name, info] of current) {
+            if (!(info.output instanceof Stage)) {
+                // Create a rectangle for the output
+                let shape: OutputRectangle | undefined =
+                    this.createRectangle(info);
+
+                // Just entered? Remember the new body we just made.
+                if (entered.has(name)) {
+                    // Remember the body by name
+                    this.bodyByName.set(name, shape);
+
+                    // Add to the engine
+                    Matter.Composite.add(this.physics.world, shape.body);
+                }
+                // Already on the scene? Update the body's verticies with the new shape.
+                else {
+                    // const preliminary = shape;
+                    shape = this.bodyByName.get(name);
+                    // if (shape)
+                    //     Matter.Body.setVertices(
+                    //         shape.body,
+                    //         preliminary.body.vertices
+                    //     );
+                }
+                // Did we find a corresponding body? Update it.
+                if (shape) {
+                    // Set the body's current angle if it has one, otherwise leave it alone.
+                    if (info.output.pose.rotation !== undefined)
+                        Matter.Body.setAngle(
+                            shape.body,
+                            (info.output.pose.rotation * Math.PI) / 180
+                        );
+                }
+            }
+        }
+
+        // UPDATE the engine forward by the duration that has elapsed with the new arrangement.
+        if (this.evaluator.database.Settings.settings.animationFactor.get() > 0)
+            Matter.Engine.update(this.physics, delta);
+    }
+
+    createRectangle(info: OutputInfo) {
+        const { width, height } = info.output.getLayout(info.context);
+        return new OutputRectangle(
+            info.global.x,
+            info.global.y,
+            width,
+            height,
+            ((info.output.pose.rotation ?? 0) * Math.PI) / 180,
+            // Round corners by a fraction of their size
+            0.1 * (info.output.size ?? info.context.size)
+        );
+    }
+
+    getOutputPlacement(
+        name: string
+    ): { x: number; y: number; angle: number } | undefined {
+        const rect = this.bodyByName.get(name);
+        return rect?.getPlacement();
+    }
+}
+
+/** This Matter.Body wrapper helps us remember width and height, avoiding redundant computation. */
+class OutputRectangle {
+    readonly body: Matter.Body;
+    readonly width: number;
+    readonly height: number;
+    constructor(
+        left: number,
+        bottom: number,
+        width: number,
+        height: number,
+        angle: number,
+        corner: number
+    ) {
+        this.body = Matter.Bodies.rectangle(
+            // Body center is half the width from left
+            PX_PER_METER * (left + width / 2),
+            // Negate top to flip y-axes than add half of height to get center
+            PX_PER_METER * -(bottom + height / 2),
+            PX_PER_METER * width,
+            PX_PER_METER * height,
+            // Round corners by a fraction of their size
+            {
+                chamfer: {
+                    radius: corner,
+                },
+                restitution: 0,
+                friction: 0.8,
+                angle,
+                mass: 10,
+            }
+        );
+
+        this.width = width;
+        this.height = height;
+    }
+
+    getPlacement() {
+        return {
+            x: this.body.position.x / PX_PER_METER - this.width / 2,
+            y: -this.body.position.y / PX_PER_METER - this.height / 2,
+            angle:
+                (isNaN(this.body.angle) ||
+                this.body.angle === Infinity ||
+                this.body.angle === -Infinity
+                    ? 0
+                    : this.body.angle * 180) / Math.PI,
+        };
     }
 }
