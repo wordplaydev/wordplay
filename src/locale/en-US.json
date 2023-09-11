@@ -3016,7 +3016,7 @@
             },
             "rotation": {
                 "doc": "How tilted should I be around my center, my @Pose has a different one.",
-                "names": "rotation"
+                "names": ["📐", "rotation"]
             },
             "scale": {
                 "doc": "How big I should be relative to my original size.",
@@ -3359,7 +3359,11 @@
             "names": ["📍", "Place"],
             "x": { "doc": "A position on the x-axis.", "names": "x" },
             "y": { "doc": "A position on the y-axis", "names": "y" },
-            "z": { "doc": "A position on the z-axis", "names": "z" }
+            "z": { "doc": "A position on the z-axis", "names": "z" },
+            "rotation": {
+                "doc": "Rotation at this position",
+                "names": ["📐", "rotation"]
+            }
         },
         "Matter": {
             "doc": "I'm physical properties of output, which influence how I interact with other output on stage.",
@@ -3430,7 +3434,7 @@
             },
             "rotation": {
                 "doc": "SAME AS @Group/rotation",
-                "names": "rotation"
+                "names": ["📐", "rotation"]
             },
             "scale": {
                 "doc": "SAME AS @Group/scale",

@@ -131,6 +131,8 @@ type OutputTexts = {
         y: NameAndDoc;
         /** z-coordinate */
         z: NameAndDoc;
+        /** optional rotation */
+        rotation: NameAndDoc;
     };
     /** Physical properties of matter */
     Matter: NameAndDoc & {

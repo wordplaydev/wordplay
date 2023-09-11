@@ -1867,9 +1867,10 @@
         "Place": {
             "names": ["Posición"],
             "doc": "$?",
-            "x": { "doc": "$?", "names": "$?" },
-            "y": { "doc": "$?", "names": "$?" },
-            "z": { "doc": "$?", "names": "$?" }
+            "x": { "doc": "$?", "names": "$? x" },
+            "y": { "doc": "$?", "names": "$? y" },
+            "z": { "doc": "$?", "names": "$? z" },
+            "rotation": { "doc": "$?", "names": "$? rotation" }
         },
         "Matter": {
             "doc": "$?",

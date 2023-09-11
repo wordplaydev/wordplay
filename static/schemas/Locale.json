@@ -6539,6 +6539,10 @@
                   "$ref": "#/definitions/NameText",
                   "description": "One or more names for this definition. Be careful not to introduce duplicates."
                 },
+                "rotation": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "optional rotation"
+                },
                 "x": {
                   "$ref": "#/definitions/NameAndDoc",
                   "description": "x-coordinate"
@@ -6555,6 +6559,7 @@
               "required": [
                 "doc",
                 "names",
+                "rotation",
                 "x",
                 "y",
                 "z"
