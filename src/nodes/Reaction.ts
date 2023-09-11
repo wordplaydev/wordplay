@@ -150,16 +150,11 @@ export default class Reaction extends Expression {
         if (!(conditionType instanceof BooleanType))
             conflicts.push(new ExpectedBooleanCondition(this, conditionType));
 
-        // The condition should reference a stream.
         if (
-            !this.condition
-                .nodes()
-                .some(
-                    (node) =>
-                        node instanceof Expression &&
-                        context.getStreamType(node.getType(context)) !==
-                            undefined
-                )
+            !Array.from(this.condition.getAllDependencies(context)).some(
+                (node) =>
+                    context.getStreamType(node.getType(context)) !== undefined
+            )
         )
             conflicts.push(new ExpectedStream(this));
 
@@ -220,16 +215,6 @@ export default class Reaction extends Expression {
                         value
                     );
 
-                // Did any of the streams cause the current evaluation?
-                const dependencies = evaluator.reactionDependencies.pop();
-                const streams = dependencies ? dependencies.streams : undefined;
-                const changed =
-                    streams === undefined
-                        ? false
-                        : Array.from(streams).some((stream) =>
-                              evaluator.didStreamCauseReaction(stream)
-                          );
-
                 // See if there's a stream created for this.
                 const stream = evaluator.getStreamFor(this);
 
@@ -237,8 +222,7 @@ export default class Reaction extends Expression {
                 // so evaluate the next step.
                 if (stream) {
                     // if the condition was true and a dependency changed, jump to the next step.
-                    if (changed && value.bool)
-                        evaluator.jump(initialSteps.length + 1);
+                    if (value.bool) evaluator.jump(initialSteps.length + 1);
                     // If it was false, push the last reaction value and skip the rest.
                     else {
                         const latest = stream.latest();
