@@ -2872,14 +2872,6 @@
             "vangle": {
                 "doc": "The rotational velocity at which the @Phrase should rotate, independent of physics.",
                 "names": "vangle"
-            },
-            "mass": {
-                "doc": "The mass of the @Phrase, which may someday influence collisions.",
-                "names": "mass"
-            },
-            "bounciness": {
-                "doc": "The fraction between 0 and 1 that determines how much a velocity is dampened when a @Phrase collides.",
-                "names": "bounciness"
             }
         },
         "Chat": {
@@ -2981,6 +2973,10 @@
             "content": {
                 "doc": "The list of @Type to arrange.",
                 "names": "content"
+            },
+            "matter": {
+                "doc": "How I should react if I were to bump into something else with matter.",
+                "names": "matter"
             },
             "size": {
                 "doc": "How tall the wonderful content inside me should be, unless they have a size of their own!",
@@ -3092,6 +3088,10 @@
             "alignment": {
                 "doc": "If there's a @Phrase/wrap boundary set, whether I should align symbols to the start, center, or end of edge.",
                 "names": "alignment"
+            },
+            "matter": {
+                "doc": "The properties to use if I bump into things!",
+                "names": "matter"
             },
             "name": {
                 "doc": [
@@ -3360,6 +3360,19 @@
             "x": { "doc": "A position on the x-axis.", "names": "x" },
             "y": { "doc": "A position on the y-axis", "names": "y" },
             "z": { "doc": "A position on the z-axis", "names": "z" }
+        },
+        "Matter": {
+            "doc": "I'm physical properties of output, which influence how I interact with other output on stage.",
+            "names": ["⚛️", "Matter"],
+            "mass": { "doc": "A weight, in kilograms", "names": "mass" },
+            "bounciness": {
+                "doc": "How much of my energy to keep on collision, 0 means none, 1 means all of it.",
+                "names": "bounciness"
+            },
+            "friction": {
+                "doc": "How much to keep sliding; 0 means none, 1 means forever.",
+                "names": "friction"
+            }
         },
         "Stage": {
             "doc": [

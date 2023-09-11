@@ -1869,17 +1869,9 @@
               "additionalProperties": false,
               "description": "A stream of phrases in places and rotations simulating physics",
               "properties": {
-                "bounciness": {
-                  "$ref": "#/definitions/NameAndDoc",
-                  "description": "A coefficient that dampens collisions"
-                },
                 "doc": {
                   "$ref": "#/definitions/DocText",
                   "description": "Documentation for this definition, to appear in the documentation browser."
-                },
-                "mass": {
-                  "$ref": "#/definitions/NameAndDoc",
-                  "description": "Mass, influencing collisions"
                 },
                 "names": {
                   "$ref": "#/definitions/NameText",
@@ -1927,9 +1919,7 @@
                 }
               },
               "required": [
-                "bounciness",
                 "doc",
-                "mass",
                 "names",
                 "startplace",
                 "startvangle",
@@ -6282,6 +6272,10 @@
                   "$ref": "#/definitions/NameAndDoc",
                   "description": "The layout to use to place the content in the group on stage"
                 },
+                "matter": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "The matter to use for the group if it's involved in collisions"
+                },
                 "moving": {
                   "$ref": "#/definitions/NameAndDoc",
                   "description": "Pose or sequence for when a phrase, group, or stage is moving"
@@ -6344,6 +6338,7 @@
                 "flipx",
                 "flipy",
                 "layout",
+                "matter",
                 "moving",
                 "name",
                 "names",
@@ -6356,6 +6351,40 @@
                 "selectable",
                 "size",
                 "style"
+              ],
+              "type": "object"
+            },
+            "Matter": {
+              "additionalProperties": false,
+              "description": "Physical properties of matter",
+              "properties": {
+                "bounciness": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "from 0-1, how bouncy something should be, where 0 means not bouncy at all, and 1 means retaining all of it's energy on collision"
+                },
+                "doc": {
+                  "$ref": "#/definitions/DocText",
+                  "description": "Documentation for this definition, to appear in the documentation browser."
+                },
+                "friction": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "from 0-1, where 0 means no sliding, and 1 means sliding indefinitely"
+                },
+                "mass": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "in kilograms, how much something weighs for the purposes of collisions"
+                },
+                "names": {
+                  "$ref": "#/definitions/NameText",
+                  "description": "One or more names for this definition. Be careful not to introduce duplicates."
+                }
+              },
+              "required": [
+                "bounciness",
+                "doc",
+                "friction",
+                "mass",
+                "names"
               ],
               "type": "object"
             },
@@ -6406,6 +6435,10 @@
                 "flipy": {
                   "$ref": "#/definitions/NameAndDoc",
                   "description": "Whether a phrase, group, or stage is flipped vertically"
+                },
+                "matter": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "The matter properties for the phrase"
                 },
                 "moving": {
                   "$ref": "#/definitions/NameAndDoc",
@@ -6476,6 +6509,7 @@
                 "face",
                 "flipx",
                 "flipy",
+                "matter",
                 "moving",
                 "name",
                 "names",
@@ -6962,6 +6996,7 @@
             "Sequence",
             "Color",
             "Place",
+            "Matter",
             "Arrangement",
             "Row",
             "Stack",

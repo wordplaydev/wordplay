@@ -20,6 +20,7 @@ import { getOutputInput } from './Output';
 import concretize from '../locale/concretize';
 import { SupportedFontsFamiliesType, type SupportedFace } from '../basis/Fonts';
 import { getFirstName } from '../locale/Locale';
+import Matter, { toMatter } from './Matter';
 
 export function createGroupType(locales: Locale[]) {
     return toStructure(`
@@ -56,12 +57,14 @@ export function createGroupType(locales: Locale[]) {
         )
         .flat()
         .join('|')}: "${DefaultStyle}"
+    ${getBind(locales, (locale) => locale.output.Group.matter)}•Matter|ø: ø
     )`);
 }
 
 export default class Group extends TypeOutput {
     readonly content: (TypeOutput | null)[];
     readonly layout: Arrangement;
+    readonly matter: Matter | undefined;
 
     private _description: string | undefined = undefined;
 
@@ -69,6 +72,7 @@ export default class Group extends TypeOutput {
         value: Value,
         layout: Arrangement,
         content: (TypeOutput | null)[],
+        matter: Matter | undefined,
         size: number | undefined = undefined,
         face: SupportedFace | undefined = undefined,
         place: Place | undefined = undefined,
@@ -102,6 +106,7 @@ export default class Group extends TypeOutput {
 
         this.content = content;
         this.layout = layout;
+        this.matter = matter;
     }
 
     getLayout(context: RenderContext) {
@@ -170,6 +175,7 @@ export function toGroup(
 
     const layout = toArrangement(project, getOutputInput(value, 0));
     const content = toTypeOutputList(project, getOutputInput(value, 1), namer);
+    const matter = toMatter(getOutputInput(value, 22));
 
     const {
         size,
@@ -197,6 +203,7 @@ export function toGroup(
               value,
               layout,
               content,
+              matter,
               size,
               font,
               place,

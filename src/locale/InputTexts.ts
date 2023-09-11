@@ -65,10 +65,6 @@ type InputTexts = {
         vz: NameAndDoc;
         /** A constant angular velocity to hold */
         vangle: NameAndDoc;
-        /** Mass, influencing collisions */
-        mass: NameAndDoc;
-        /** A coefficient that dampens collisions */
-        bounciness: NameAndDoc;
     };
     /** A stream of Place for easily moving Phrases by keyboard */
     Placement: NameAndDoc & {

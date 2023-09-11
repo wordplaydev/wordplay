@@ -50,6 +50,8 @@ type OutputTexts = {
         content: NameAndDoc;
         /** The layout to use to place the content in the group on stage */
         layout: NameAndDoc;
+        /** The matter to use for the group if it's involved in collisions */
+        matter: NameAndDoc;
         /** $1 = Layout description, $2 = pose description */
         description: Template;
     } & TypeTexts;
@@ -61,6 +63,8 @@ type OutputTexts = {
         wrap: NameAndDoc;
         /** The alignment to use when wrapped */
         alignment: NameAndDoc;
+        /** The matter properties for the phrase */
+        matter: NameAndDoc;
         /** A description of the phrase for screen readers. 1$: non-optional text, $2: optional name, $3: optional size, $4: optional font, $5: then non-optional pose */
         description: Template;
     } & TypeTexts;
@@ -127,6 +131,15 @@ type OutputTexts = {
         y: NameAndDoc;
         /** z-coordinate */
         z: NameAndDoc;
+    };
+    /** Physical properties of matter */
+    Matter: NameAndDoc & {
+        /** in kilograms, how much something weighs for the purposes of collisions */
+        mass: NameAndDoc;
+        /** from 0-1, how bouncy something should be, where 0 means not bouncy at all, and 1 means retaining all of it's energy on collision */
+        bounciness: NameAndDoc;
+        /** from 0-1, where 0 means no sliding, and 1 means sliding indefinitely */
+        friction: NameAndDoc;
     };
     /** The base interface for arrangement types */
     Arrangement: NameAndDoc;

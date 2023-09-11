@@ -27,9 +27,11 @@ import { createPlacementDefinition } from '../input/Placement';
 import { createPitchDefinition } from '../input/Pitch';
 import { createWebpageDefinition } from '../input/Webpage';
 import { createChatDefinition } from '../input/Chat';
+import { createMatterType } from '../output/Matter';
 
 export default function createDefaultShares(locales: Locale[]) {
     const PlaceType = createPlaceType(locales);
+    const MatterType = createMatterType(locales);
     const ColorType = createColorType(locales);
 
     const OutputTypes = {
@@ -41,6 +43,7 @@ export default function createDefaultShares(locales: Locale[]) {
         Sequence: createSequenceType(locales),
         Color: ColorType,
         Place: PlaceType,
+        Matter: MatterType,
         Shape: createShapeType(locales),
         Rectangle: createRectangleType(locales),
         Arrangement: createArrangementType(locales),
