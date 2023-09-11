@@ -1451,7 +1451,7 @@
                     "concept": "None",
                     "performance": [
                         "fix",
-                        "Motion(Phrase('ø' size: 5m) startvy: 5m/s)"
+                        "Phrase('ø' size: 5m place: Motion(vy: ◆ ? 5m/s ø))"
                     ],
                     "lines": [
                         [
@@ -2009,14 +2009,15 @@
                 "gravity•#m/s^2: 15m/s^2",
                 "",
                 "Stage(count → [].translate(",
-                "   ƒ(_) Motion(",
-                "           Phrase(",
-                "               '→?' → [].random()",
-                "               place: ◆ ? Place(y: 10m) ø",
-                "               matter: Matter(bounciness: Random())",
+                "   ƒ(_) ",
+                "       Phrase(",
+                "           '→?' → [].random()",
+                "           place: Motion(",
+                "               ◆ ? Place(y: 10m) ø",
+                "               vx: ◆ ? Random(-5 5) · 1m/s ø",
+                "               vrotation: ◆ ? Random(0 360) · 1°/s ø",
                 "           )",
-                "           vx: ◆ ? Random(-5 5) · 1m/s ø ",
-                "           vangle: ◆ ? Random(0 360) · 1°/s ø",
+                "           matter: Matter(bounciness: Random())",
                 "       )",
                 "   )",
                 "   gravity: gravity",
@@ -2660,13 +2661,7 @@
                     "concept": "Motion",
                     "performance": [
                         "fix",
-                        "Motion(",
-                        "    Phrase('🏀' 3m)",
-                        "    startplace: Place(0m 5m)",
-                        "    startvx: 0m/s",
-                        "    startvy: 0m/s",
-                        "    startvangle: 0°/s",
-                        ")"
+                        "Phrase('🏀' 3m place: Motion(◆ ? Place(0m 5m) ø))"
                     ],
                     "lines": [
                         ["use", "fit", "DarkVoid"],
@@ -2679,9 +2674,7 @@
                         null,
                         [
                             "fix",
-                            "Motion(",
-                            "  Phrase('🏀' 3m) startplace: Place(0m 5m)",
-                            ")"
+                            "Phrase('🏀' 3m place: Motion(◆ ? Place(0m 5m) ø))"
                         ],
                         [
                             "FunctionDefinition",
@@ -2692,19 +2685,13 @@
                         null,
                         [
                             "fix",
-                            "Motion(",
-                            "    Phrase('🏀' 3m) ",
-                            "    startplace: Place(0m 5m)",
-                            "    startvx: -5m/s",
-                            "    startvy: 5m/s",
-                            "    startvangle: 30°/s",
-                            ")"
+                            "Phrase('🏀' 3m place: Motion(Place(0m 5m) vx: -5m/s vy: 5m/s vrotation: 30°/s)) "
                         ],
                         [
                             "FunctionDefinition",
                             "excited",
                             "But @Motion has many other tricks.",
-                            "For example, it can have initial velocities, @Motion/startvx, @Motion/startvy, @Motion/startvz, and @Motion/startvangle.",
+                            "For example, it can have velocities, @Motion/vx, @Motion/vy, and @Motion/vrotation.",
                             "This example makes the ball move left and up, spinning a bit initially."
                         ],
                         ["Motion", "excited", "Woooosh…"],
@@ -2712,13 +2699,9 @@
                         [
                             "fix",
                             "Stage(",
-                            "   [Motion(",
-                            "       Phrase('🏀' 3m matter: Matter()) ",
-                            "       startplace: Place(0m 5m)",
-                            "       startvx: -5m/s",
-                            "       startvy: 5m/s",
-                            "       startvangle: 30°/s",
-                            "   )]",
+                            "   [",
+                            "       Phrase('🏀' 3m place: Motion(Place(0m 5m) vx: -5m/s vy: 5m/s vrotation: 30°/s) matter: Matter()) ",
+                            "   ]",
                             "   gravity: 9.8m/s^2",
                             ")"
                         ],
@@ -2733,11 +2716,7 @@
                         null,
                         [
                             "fix",
-                            "Motion(",
-                            "    Phrase('🏀' 3m)",
-                            "    Place(0m 5m)",
-                            "    startvy: 50m/s",
-                            ")"
+                            "Phrase('🏀' 3m place: Motion(◆ ? Place(0m 5m) ø vy: ◆ ? 50m/s ø))"
                         ],
                         [
                             "FunctionDefinition",
