@@ -12,11 +12,11 @@ Stage(
         ƒ(number) Motion(
             Phrase(
                 hiragana[number]
+                matter: Matter(bounciness: Random())
             ) 
             startplace: Place(y: 10m)
             startvx: Random(-5 5) · 1m/s
             startvangle: Random(0 360) · 1°/s
-            bounciness: Random()
         )
     )
     gravity: gravity

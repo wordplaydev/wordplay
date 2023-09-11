@@ -1575,9 +1575,7 @@
             "vx": { "doc": "$?", "names": "$?" },
             "vy": { "doc": "$?", "names": "$?" },
             "vz": { "doc": "$?", "names": "$?" },
-            "vangle": { "doc": "$?", "names": "$?" },
-            "mass": { "doc": "$?", "names": "$?" },
-            "bounciness": { "doc": "$?", "names": "$?" }
+            "vangle": { "doc": "$?", "names": "$?" }
         },
         "Chat": {
             "doc": ["$?"],
@@ -1683,6 +1681,10 @@
             "description": "$?",
             "content": { "doc": "$?", "names": "$?" },
             "layout": { "doc": "$?", "names": "$?" },
+            "matter": {
+                "doc": "$?",
+                "names": "$? matter"
+            },
             "size": { "doc": "$?", "names": "$?" },
             "face": { "doc": "$?", "names": "$?" },
             "place": { "doc": "$?", "names": "$?" },
@@ -1739,6 +1741,10 @@
             "alignment": {
                 "doc": "$?",
                 "names": "$? alignment"
+            },
+            "matter": {
+                "doc": "$?",
+                "names": "$? matter"
             },
             "name": { "doc": "$?", "names": "$?" },
             "selectable": { "doc": "$?", "names": "$?" },
@@ -1864,6 +1870,19 @@
             "x": { "doc": "$?", "names": "$?" },
             "y": { "doc": "$?", "names": "$?" },
             "z": { "doc": "$?", "names": "$?" }
+        },
+        "Matter": {
+            "doc": "$?",
+            "names": "$? Matter",
+            "mass": { "doc": "$?", "names": "$? mass" },
+            "bounciness": {
+                "doc": "$?",
+                "names": "$? bounciness"
+            },
+            "friction": {
+                "doc": "$?",
+                "names": "$? friction"
+            }
         },
         "Easing": {
             "straight": "$?",

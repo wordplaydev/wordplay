@@ -2,7 +2,6 @@ import type Evaluator from '@runtime/Evaluator';
 import { createPlaceStructure } from '@output/Place';
 import TemporalStreamValue from '@values/TemporalStreamValue';
 import Bind from '@nodes/Bind';
-import NumberLiteral from '@nodes/NumberLiteral';
 import NumberType from '@nodes/NumberType';
 import StreamDefinition from '@nodes/StreamDefinition';
 import StreamType from '@nodes/StreamType';
@@ -28,8 +27,6 @@ import type Type from '../nodes/Type';
 import { toTypeOutput } from '../output/toTypeOutput';
 import { NameGenerator } from '../output/Stage';
 
-const Bounciness = 0.5;
-
 export default class Motion extends TemporalStreamValue<Value, number> {
     /** The most recent structure given to this stream to replicate with a position */
     value: StructureValue;
@@ -46,10 +43,6 @@ export default class Motion extends TemporalStreamValue<Value, number> {
     vz: Decimal;
     va: Decimal;
 
-    /* Collision and gravity properties.. */
-    mass: number;
-    bounciness: number;
-
     constructor(
         evaluator: Evaluator,
         value: StructureValue,
@@ -57,9 +50,7 @@ export default class Motion extends TemporalStreamValue<Value, number> {
         startvx: number | undefined,
         startvy: number | undefined,
         startvz: number | undefined,
-        startvangle: number | undefined,
-        mass: number | undefined,
-        bounciness: number | undefined
+        startvangle: number | undefined
     ) {
         super(evaluator, evaluator.project.shares.input.Motion, value, 0);
 
@@ -102,9 +93,6 @@ export default class Motion extends TemporalStreamValue<Value, number> {
         this.vy = new Decimal(startvy ?? 0);
         this.vz = new Decimal(startvz ?? 0);
         this.va = new Decimal(startvangle ?? 0);
-
-        this.mass = mass ?? 1;
-        this.bounciness = bounciness ?? Bounciness;
     }
 
     // No setup or teardown, the Evaluator handles the requestAnimationFrame loop.
@@ -120,9 +108,7 @@ export default class Motion extends TemporalStreamValue<Value, number> {
         vx: number | undefined,
         vy: number | undefined,
         vz: number | undefined,
-        vangle: number | undefined,
-        mass: number | undefined,
-        bounciness: number | undefined
+        vangle: number | undefined
     ) {
         if (value) {
             const output = toTypeOutput(
@@ -143,9 +129,6 @@ export default class Motion extends TemporalStreamValue<Value, number> {
         this.vy = new Decimal(vy ?? this.vy);
         this.vz = new Decimal(vz ?? this.vz);
         this.va = new Decimal(vangle ?? this.va);
-
-        if (mass !== undefined) this.mass = mass;
-        if (bounciness !== undefined) this.bounciness = bounciness;
     }
 
     react(delta: number) {
@@ -353,24 +336,6 @@ export function createMotionDefinition(
         NoneLiteral.make()
     );
 
-    const MassBind = Bind.make(
-        getDocLocales(locales, (locale) => locale.input.Motion.mass.doc),
-        getNameLocales(locales, (locale) => locale.input.Motion.mass.names),
-        UnionType.orNone(NumberType.make(Unit.reuse(['kg']))),
-        // Default to 1kg.
-        NumberLiteral.make(1, Unit.reuse(['kg']))
-    );
-
-    const BouncinessBind = Bind.make(
-        getDocLocales(locales, (locale) => locale.input.Motion.bounciness.doc),
-        getNameLocales(
-            locales,
-            (locale) => locale.input.Motion.bounciness.names
-        ),
-        UnionType.orNone(NumberType.make()),
-        NumberLiteral.make(Bounciness)
-    );
-
     const type = new StructureType(PhraseType);
 
     return StreamDefinition.make(
@@ -387,8 +352,6 @@ export function createMotionDefinition(
             VY,
             VZ,
             VAngle,
-            MassBind,
-            BouncinessBind,
         ],
         createStreamEvaluator<Motion>(
             type.clone(),
@@ -411,12 +374,6 @@ export function createMotionDefinition(
                               ?.toNumber(),
                           evaluation
                               .get(StartVAngle.names, NumberValue)
-                              ?.toNumber(),
-                          evaluation
-                              .get(MassBind.names, NumberValue)
-                              ?.toNumber(),
-                          evaluation
-                              .get(BouncinessBind.names, NumberValue)
                               ?.toNumber()
                       )
                     : new ValueException(
@@ -431,11 +388,7 @@ export function createMotionDefinition(
                     evaluation.get(VX.names, NumberValue)?.toNumber(),
                     evaluation.get(VY.names, NumberValue)?.toNumber(),
                     evaluation.get(VZ.names, NumberValue)?.toNumber(),
-                    evaluation.get(VAngle.names, NumberValue)?.toNumber(),
-                    evaluation.get(MassBind.names, NumberValue)?.toNumber(),
-                    evaluation
-                        .get(BouncinessBind.names, NumberValue)
-                        ?.toNumber()
+                    evaluation.get(VAngle.names, NumberValue)?.toNumber()
                 );
             }
         ),

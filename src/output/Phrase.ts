@@ -28,6 +28,8 @@ import MarkupValue from '@values/MarkupValue';
 import concretize from '../locale/concretize';
 import type Markup from '../nodes/Markup';
 import segmentWraps from './segmentWraps';
+import type Matter from './Matter';
+import { toMatter } from './Matter';
 
 export function createPhraseType(locales: Locale[]) {
     return toStructure(`
@@ -77,6 +79,7 @@ export function createPhraseType(locales: Locale[]) {
             locales,
             (locale) => locale.output.Phrase.alignment
         )}•'<'|'|'|'>': '|'
+        ${getBind(locales, (locale) => locale.output.Phrase.matter)}•Matter|ø: ø
     )`);
 }
 
@@ -95,6 +98,7 @@ export default class Phrase extends TypeOutput {
     readonly text: TextLang[] | MarkupValue;
     readonly wrap: number | undefined;
     readonly alignment: string | undefined;
+    readonly matter: Matter | undefined;
 
     private _metrics: Metrics | undefined = undefined;
 
@@ -117,7 +121,8 @@ export default class Phrase extends TypeOutput {
         duration: number,
         style: string,
         wrap: number | undefined,
-        alignment: string | undefined
+        alignment: string | undefined,
+        matter: Matter | undefined
     ) {
         super(
             value,
@@ -139,6 +144,7 @@ export default class Phrase extends TypeOutput {
         this.text = text;
         this.wrap = wrap === undefined ? undefined : Math.max(1, wrap);
         this.alignment = alignment;
+        this.matter = matter;
 
         // Make sure this font is loaded. This is a little late -- we could do some static analysis
         // and try to determine this in advance -- but anything can compute a font name. Maybe an optimization later.
@@ -372,6 +378,7 @@ export function toPhrase(
 
     const wrap = toNumber(getOutputInput(value, 20));
     const alignment = toText(getOutputInput(value, 21));
+    const matter = toMatter(getOutputInput(value, 22));
 
     return texts !== undefined &&
         duration !== undefined &&
@@ -395,7 +402,8 @@ export function toPhrase(
               duration,
               style,
               wrap,
-              alignment?.text
+              alignment?.text,
+              matter
           )
         : undefined;
 }

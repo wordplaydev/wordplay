@@ -10,8 +10,11 @@ import type Evaluator from '@runtime/Evaluator';
 import Sequence from './Sequence';
 import Pose from './Pose';
 import type Value from '../values/Value';
-import Matter from 'matter-js';
+import MatterJS from 'matter-js';
 import { PX_PER_METER } from './outputToCSS';
+import Group from './Group';
+import Phrase from './Phrase';
+import type Matter from './Matter';
 
 export type OutputName = string;
 
@@ -92,7 +95,7 @@ export default class Scene {
     private stopped = false;
 
     /** A Matter JS engine for managing physics on output. */
-    private physics: Matter.Engine;
+    private physics: MatterJS.Engine;
 
     /** A mapping from output names to body IDs */
     private bodyByName: Map<string, OutputRectangle> = new Map();
@@ -113,7 +116,7 @@ export default class Scene {
         this.priorStagePlace = this.focus;
 
         // Create an engine
-        this.physics = Matter.Engine.create({
+        this.physics = MatterJS.Engine.create({
             positionIterations: 6,
             enableSleeping: true,
         });
@@ -124,9 +127,9 @@ export default class Scene {
             this.physics.timing.timeScale = 1 / animationFactor;
 
         // Add a very long static ground to the world along the x-axis.
-        Matter.Composite.add(
+        MatterJS.Composite.add(
             this.physics.world,
-            Matter.Bodies.rectangle(0, 250, 200000, 500, { isStatic: true })
+            MatterJS.Bodies.rectangle(0, 250, 200000, 500, { isStatic: true })
         );
     }
 
@@ -453,10 +456,10 @@ export default class Scene {
         // 1) find the body IDs of the names removed.
         const exitedBodies = Array.from(exiting.values())
             .map((output) => this.bodyByName.get(output.getName())?.body)
-            .filter((body): body is Matter.Body => body !== undefined);
+            .filter((body): body is MatterJS.Body => body !== undefined);
 
         // 2) Remove the bodies from the engine
-        Matter.Composite.remove(this.physics.world, exitedBodies, true);
+        MatterJS.Composite.remove(this.physics.world, exitedBodies, true);
 
         // 3) Remove the bodies
         for (const name of exiting.keys()) this.bodyByName.delete(name);
@@ -465,44 +468,68 @@ export default class Scene {
 
         // 1) Create a body for each output.
         for (const [name, info] of current) {
+            // Is it a stage? Update configuration details.
             if (info.output instanceof Stage) {
                 // Set the gravity to the Stage's gravity setting.
                 // 0.002 is a good scale for our coordinate system, so we convert based on that.
-                console.log(info.output.gravity);
                 this.physics.gravity.scale = Math.abs(
                     0.002 * (info.output.gravity / DefaultGravity)
                 );
                 this.physics.gravity.y = info.output.gravity < 0 ? -1 : 1;
-            } else {
-                // Create a rectangle for the output
-                let shape: OutputRectangle | undefined =
-                    this.createRectangle(info);
+            }
+            // Other output with matter? Add or sync it.
+            else {
+                const matter =
+                    info.output instanceof Phrase ||
+                    info.output instanceof Group
+                        ? info.output.matter
+                        : undefined;
 
-                // Just entered? Remember the new body we just made.
-                if (entered.has(name)) {
-                    // Remember the body by name
-                    this.bodyByName.set(name, shape);
+                // If this view has matter, configure it accordingly.
+                if (matter) {
+                    // Create a rectangle for the output
+                    let shape: OutputRectangle | undefined =
+                        this.createOutputBody(info, matter);
 
-                    // Add to the engine
-                    Matter.Composite.add(this.physics.world, shape.body);
+                    // Just entered? Remember the new body we just made.
+                    if (entered.has(name)) {
+                        // Remember the body by name
+                        this.bodyByName.set(name, shape);
+
+                        // Add to the engine
+                        MatterJS.Composite.add(this.physics.world, shape.body);
+                    }
+                    // Already on the scene? Update the body's verticies with the new shape.
+                    else {
+                        // const preliminary = shape;
+                        shape = this.bodyByName.get(name);
+                        // if (shape)
+                        //     Matter.Body.setVertices(
+                        //         shape.body,
+                        //         preliminary.body.vertices
+                        //     );
+                    }
+
+                    // Did we find a corresponding body? Update it.
+                    if (shape) {
+                        // Set the body's current angle if it has one, otherwise leave it alone.
+                        if (info.output.pose.rotation !== undefined)
+                            MatterJS.Body.setAngle(
+                                shape.body,
+                                (info.output.pose.rotation * Math.PI) / 180
+                            );
+                        MatterJS.Body.setMass(shape.body, matter.mass);
+                        shape.body.restitution = matter.bounciness;
+                        shape.body.friction = matter.friction;
+                    }
                 }
-                // Already on the scene? Update the body's verticies with the new shape.
+                // If it doesn't, see if we should remove it, because it previously had matter.
                 else {
-                    // const preliminary = shape;
-                    shape = this.bodyByName.get(name);
-                    // if (shape)
-                    //     Matter.Body.setVertices(
-                    //         shape.body,
-                    //         preliminary.body.vertices
-                    //     );
-                }
-                // Did we find a corresponding body? Update it.
-                if (shape) {
-                    // Set the body's current angle if it has one, otherwise leave it alone.
-                    if (info.output.pose.rotation !== undefined)
-                        Matter.Body.setAngle(
-                            shape.body,
-                            (info.output.pose.rotation * Math.PI) / 180
+                    const rect = this.bodyByName.get(name);
+                    if (rect)
+                        MatterJS.Composite.remove(
+                            this.physics.world,
+                            rect.body
                         );
                 }
             }
@@ -510,10 +537,10 @@ export default class Scene {
 
         // UPDATE the engine forward by the duration that has elapsed with the new arrangement.
         if (this.evaluator.database.Settings.settings.animationFactor.get() > 0)
-            Matter.Engine.update(this.physics, delta);
+            MatterJS.Engine.update(this.physics, delta);
     }
 
-    createRectangle(info: OutputInfo) {
+    createOutputBody(info: OutputInfo, matter: Matter) {
         const { width, height } = info.output.getLayout(info.context);
         return new OutputRectangle(
             info.global.x,
@@ -522,7 +549,8 @@ export default class Scene {
             height,
             ((info.output.pose.rotation ?? 0) * Math.PI) / 180,
             // Round corners by a fraction of their size
-            0.1 * (info.output.size ?? info.context.size)
+            0.1 * (info.output.size ?? info.context.size),
+            matter
         );
     }
 
@@ -536,7 +564,7 @@ export default class Scene {
 
 /** This Matter.Body wrapper helps us remember width and height, avoiding redundant computation. */
 class OutputRectangle {
-    readonly body: Matter.Body;
+    readonly body: MatterJS.Body;
     readonly width: number;
     readonly height: number;
     constructor(
@@ -545,9 +573,10 @@ class OutputRectangle {
         width: number,
         height: number,
         angle: number,
-        corner: number
+        corner: number,
+        matter: Matter
     ) {
-        this.body = Matter.Bodies.rectangle(
+        this.body = MatterJS.Bodies.rectangle(
             // Body center is half the width from left
             PX_PER_METER * (left + width / 2),
             // Negate top to flip y-axes than add half of height to get center
@@ -559,11 +588,11 @@ class OutputRectangle {
                 chamfer: {
                     radius: corner,
                 },
-                restitution: 0,
-                friction: 0.8,
+                restitution: matter.bounciness,
+                friction: matter.friction,
+                mass: matter.mass * 10,
                 angle,
-                mass: 10,
-                sleepThreshold: 1000,
+                sleepThreshold: 500,
             }
         );
 
