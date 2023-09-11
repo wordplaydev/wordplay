@@ -139,7 +139,8 @@ export function getStyle(
         color,
         opacity,
         offset,
-        rotation,
+        // Default to place rotation if it has one
+        rotation ?? place?.rotation,
         scale,
         flipx,
         flipy
