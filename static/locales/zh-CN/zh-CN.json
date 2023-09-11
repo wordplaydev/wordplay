@@ -1857,7 +1857,7 @@
     },
     "ui": {
         "font": {
-            "app": "Noto Sans",
+            "app": "Noto Sans Simplified Chinese",
             "code": "Noto Mono"
         },
         "phrases": {
