@@ -10,6 +10,7 @@ import Evaluation from '@runtime/Evaluation';
 import StructureValue from '../values/StructureValue';
 import Unit from '../nodes/Unit';
 import type Locale from '../locale/Locale';
+import NoneValue from '../values/NoneValue';
 
 export function createPlaceType(locales: Locale[]) {
     return toStructure(`
@@ -17,6 +18,7 @@ export function createPlaceType(locales: Locale[]) {
         ${getBind(locales, (locale) => locale.output.Place.x)}•#m: 0m
         ${getBind(locales, (locale) => locale.output.Place.y)}•#m: 0m
         ${getBind(locales, (locale) => locale.output.Place.z)}•#m: 0m
+        ${getBind(locales, (locale) => locale.output.Place.rotation)}•#°|ø: ø
     )
 `);
 }
@@ -25,13 +27,21 @@ export default class Place extends Output {
     readonly x: number;
     readonly y: number;
     readonly z: number;
+    readonly rotation: number | undefined;
 
-    constructor(value: Value, x: number, y: number, z: number) {
+    constructor(
+        value: Value,
+        x: number,
+        y: number,
+        z: number,
+        rotation?: number | undefined
+    ) {
         super(value);
 
         this.x = x;
         this.y = y;
         this.z = z;
+        this.rotation = rotation;
     }
 
     /** Adds the given place's x and y to this Place's x and y (but leaves z and rotation alone) */
@@ -40,7 +50,8 @@ export default class Place extends Output {
             this.value,
             this.x + place.x,
             this.y - place.y,
-            this.z
+            this.z,
+            this.rotation
         );
     }
 
@@ -49,7 +60,8 @@ export default class Place extends Output {
             this.value,
             this.x - place.x,
             this.y + place.y,
-            this.z
+            this.z,
+            this.rotation
         );
     }
 
@@ -73,12 +85,13 @@ export default class Place extends Output {
 export function toPlace(value: Value | undefined): Place | undefined {
     if (!(value instanceof StructureValue)) return undefined;
 
-    const [xVal, yVal, zVal] = getOutputInputs(value);
+    const [xVal, yVal, zVal, rotationVal] = getOutputInputs(value);
     const x = toNumber(xVal);
     const y = toNumber(yVal);
     const z = toNumber(zVal);
+    const rotation = toNumber(rotationVal);
     return x !== undefined && y !== undefined && z !== undefined
-        ? new Place(value, x, y, z)
+        ? new Place(value, x, y, z, rotation)
         : undefined;
 }
 
@@ -88,7 +101,7 @@ export function createPlace(
     y: number,
     z: number
 ): Place {
-    return new Place(createPlaceStructure(evaluator, x, y, z), x, y, z);
+    return new Place(createPlaceStructure(evaluator, x, y, z), x, y, z, 0);
 }
 
 export function createPlaceStructure(
@@ -113,6 +126,7 @@ export function createPlaceStructure(
         PlaceType.inputs[2].names,
         new NumberValue(creator, z, Unit.reuse(['m']))
     );
+    place.set(PlaceType.inputs[3].names, new NoneValue(creator));
 
     const evaluation = new Evaluation(
         evaluator,
