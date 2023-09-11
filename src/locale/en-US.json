@@ -2833,45 +2833,21 @@
                 "Check out the many other ways to configure it below."
             ],
             "names": ["⚽️", "Motion"],
-            "type": {
-                "doc": "The @Phrase to refine with new @Phrase/resting places and rotations.",
-                "names": "type"
-            },
-            "startplace": {
-                "doc": "The initial place for the @Phrase.",
+            "place": {
+                "doc": "The starting place.",
                 "names": "startplace"
             },
-            "startvx": {
-                "doc": "The initial velocity on the x-axis at which the @Phrase should move.",
-                "names": "startvx"
-            },
-            "startvy": {
-                "doc": "The initial velocity on the y-axis at which the @Phrase should move. If it, it overrides gravity.",
-                "names": "startvy"
-            },
-            "startvz": {
-                "doc": "The initial velocity on the z-axis at which the @Phrase should move.",
-                "names": "startvz"
-            },
-            "startvangle": {
-                "doc": "The initial rotational velocity at which the @Phrase should rotate.",
-                "names": "startvangle"
-            },
             "vx": {
-                "doc": "The velocity on the x-axis at which the @Phrase should move, independent of physics.",
+                "doc": "The velocity on the x-axis at which the place should move, or ø if it should be influenced by physics.",
                 "names": "vx"
             },
             "vy": {
-                "doc": "The velocity on the y-axis at which the @Phrase should move, independent of physics.",
+                "doc": "The velocity on the y-axis at which the place should move, or ø if it should be influenced by physics.",
                 "names": "vy"
             },
-            "vz": {
-                "doc": "The velocity on the z-axis at which the @Phrase should move, independent of physics.",
-                "names": "vz"
-            },
-            "vangle": {
-                "doc": "The rotational velocity at which the @Phrase should rotate, independent of physics.",
-                "names": "vangle"
+            "vrotation": {
+                "doc": "The rotational velocity at which the output should spin, or ø if it should bei influenced by physics.",
+                "names": "vrotation"
             }
         },
         "Chat": {

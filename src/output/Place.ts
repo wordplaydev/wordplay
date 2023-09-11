@@ -108,7 +108,8 @@ export function createPlaceStructure(
     evaluator: Evaluator,
     x: number,
     y: number,
-    z: number
+    z: number,
+    rotation?: number | undefined
 ): StructureValue {
     const creator = evaluator.getMain();
 
@@ -126,7 +127,12 @@ export function createPlaceStructure(
         PlaceType.inputs[2].names,
         new NumberValue(creator, z, Unit.reuse(['m']))
     );
-    place.set(PlaceType.inputs[3].names, new NoneValue(creator));
+    place.set(
+        PlaceType.inputs[3].names,
+        rotation !== undefined
+            ? new NumberValue(creator, rotation, Unit.reuse(['°']))
+            : new NoneValue(creator)
+    );
 
     const evaluation = new Evaluation(
         evaluator,
