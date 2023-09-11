@@ -15,6 +15,7 @@ import { PX_PER_METER } from './outputToCSS';
 import Group from './Group';
 import Phrase from './Phrase';
 import type Matter from './Matter';
+import Motion from '../input/Motion';
 
 export type OutputName = string;
 
@@ -74,7 +75,7 @@ export default class Scene {
     priorScene: OutputInfoSet = new Map<OutputName, OutputInfo>();
 
     /** The current outputs by their corresponding values */
-    outputByValue: Map<Value, TypeOutput> = new Map();
+    outputByPlace: Map<Value, TypeOutput[]> = new Map();
 
     /** The active animations, responsible for tracking transitions and animations on named output. */
     readonly animations = new Map<OutputName, OutputAnimation>();
@@ -161,7 +162,7 @@ export default class Scene {
         const exited: OutputsByName = new Map();
         const present: OutputsByName = new Map();
 
-        // Add the verse to the scene. This is necessary so that animations can get its context.
+        // Add the stage to the scene. This is necessary so that animations can get its context.
         const newScene = this.layout(
             this.stage,
             [],
@@ -259,9 +260,19 @@ export default class Scene {
         this.priorScene = this.scene;
         this.scene = newScene;
 
-        this.outputByValue = new Map();
-        for (const [, output] of this.scene)
-            this.outputByValue.set(output.output.value, output.output);
+        // Remember a mapping between Place values and outputs so that Motion can
+        // map back to the outputs it created Places for, and update their corresponding Bodies.
+        this.outputByPlace = new Map();
+        for (const [, output] of this.scene) {
+            if (output.output.place) {
+                const outputs =
+                    this.outputByPlace.get(output.output.place.value) ?? [];
+                this.outputByPlace.set(output.output.place.value, [
+                    ...outputs,
+                    output.output,
+                ]);
+            }
+        }
 
         // Sync this scene with the Matter engine.
         this.syncPhysics(
@@ -351,6 +362,10 @@ export default class Scene {
     stop() {
         this.stopped = true;
         this.animations.forEach((animation) => animation.exited());
+
+        // Celar the physics engine.
+        MatterJS.World.clear(this.physics.world, false);
+        MatterJS.Engine.clear(this.physics);
     }
 
     exited(animation: OutputAnimation) {
@@ -440,7 +455,7 @@ export default class Scene {
     }
 
     getOutputByValue(value: Value) {
-        return this.outputByValue.get(value);
+        return this.outputByPlace.get(value);
     }
 
     /** Given the current and prior scenes, and the time elapsed since the last one, sync the matter engine. */
@@ -495,6 +510,15 @@ export default class Scene {
                     if (entered.has(name)) {
                         // Remember the body by name
                         this.bodyByName.set(name, shape);
+
+                        // Find the motion that created it and get it's initial values.
+                        const motion = this.evaluator
+                            .getBasisStreamsOfType(Motion)
+                            .find(
+                                (motion) =>
+                                    motion.latest() === info.output.place?.value
+                            );
+                        if (motion) motion.updateBody(shape.body);
 
                         // Add to the engine
                         MatterJS.Composite.add(this.physics.world, shape.body);
@@ -554,11 +578,8 @@ export default class Scene {
         );
     }
 
-    getOutputPlacement(
-        name: string
-    ): { x: number; y: number; angle: number } | undefined {
-        const rect = this.bodyByName.get(name);
-        return rect?.getPlacement();
+    getOutputBody(name: string): OutputRectangle | undefined {
+        return this.bodyByName.get(name);
     }
 }
 

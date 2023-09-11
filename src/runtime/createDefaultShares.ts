@@ -57,11 +57,7 @@ export default function createDefaultShares(locales: Locale[]) {
         Time: createTimeType(locales),
         Random: createRandomFunction(locales),
         Choice: createChoiceDefinition(locales),
-        Motion: createMotionDefinition(
-            locales,
-            OutputTypes.Type,
-            OutputTypes.Phrase
-        ),
+        Motion: createMotionDefinition(locales, OutputTypes.Place),
         Placement: createPlacementDefinition(locales, PlaceType),
         Key: createKeyDefinition(locales),
         Button: createButtonDefinition(locales),

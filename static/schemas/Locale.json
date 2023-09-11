@@ -1877,31 +1877,11 @@
                   "$ref": "#/definitions/NameText",
                   "description": "One or more names for this definition. Be careful not to introduce duplicates."
                 },
-                "startplace": {
+                "place": {
                   "$ref": "#/definitions/NameAndDoc",
                   "description": "Where the phrase should start"
                 },
-                "startvangle": {
-                  "$ref": "#/definitions/NameAndDoc",
-                  "description": "Starting angular velocity"
-                },
-                "startvx": {
-                  "$ref": "#/definitions/NameAndDoc",
-                  "description": "Starting x velocity"
-                },
-                "startvy": {
-                  "$ref": "#/definitions/NameAndDoc",
-                  "description": "Starting y velocity"
-                },
-                "startvz": {
-                  "$ref": "#/definitions/NameAndDoc",
-                  "description": "Starting z velocity"
-                },
-                "type": {
-                  "$ref": "#/definitions/NameAndDoc",
-                  "description": "The phrase template to use"
-                },
-                "vangle": {
+                "vrotation": {
                   "$ref": "#/definitions/NameAndDoc",
                   "description": "A constant angular velocity to hold"
                 },
@@ -1912,25 +1892,15 @@
                 "vy": {
                   "$ref": "#/definitions/NameAndDoc",
                   "description": "A constant y velocity to hold"
-                },
-                "vz": {
-                  "$ref": "#/definitions/NameAndDoc",
-                  "description": "A constant z velocity to hold"
                 }
               },
               "required": [
                 "doc",
                 "names",
-                "startplace",
-                "startvangle",
-                "startvx",
-                "startvy",
-                "startvz",
-                "type",
-                "vangle",
+                "place",
+                "vrotation",
                 "vx",
-                "vy",
-                "vz"
+                "vy"
               ],
               "type": "object"
             },

@@ -9,15 +9,16 @@ hiragana: "ぁあぃいぅうぇえぉおかがきぎくぐけげこごさざし
 
 Stage(
     count → [].translate(
-        ƒ(number) Motion(
+        ƒ(number) 
             Phrase(
                 hiragana[number]
+                place: Motion(
+                    Place(y: 10m)
+                    vx: Random(-5 5) · 1m/s
+                    vrotation: Random(0 360) · 1°/s
+                )
                 matter: Matter(bounciness: Random())
-            ) 
-            startplace: Place(y: 10m)
-            startvx: Random(-5 5) · 1m/s
-            startvangle: Random(0 360) · 1°/s
-        )
+            )           
     )
     gravity: gravity
 )
