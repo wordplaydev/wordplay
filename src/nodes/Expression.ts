@@ -42,6 +42,22 @@ export default abstract class Expression extends Node {
 
     abstract getDependencies(_: Context): Expression[];
 
+    getAllDependencies(
+        context: Context,
+        dependencies?: Set<Expression>
+    ): Set<Expression> {
+        if (dependencies === undefined) dependencies = new Set();
+
+        // Prevent cycles.
+        if (dependencies.has(this)) return dependencies;
+
+        for (const dep of this.getDependencies(context)) {
+            dep.getAllDependencies(context, dependencies);
+            dependencies.add(dep);
+        }
+        return dependencies;
+    }
+
     /** By default, an expression is constant if all of it's dependencies are constant. */
     isConstant(context: Context): boolean {
         // Get the expression's dependencies.
