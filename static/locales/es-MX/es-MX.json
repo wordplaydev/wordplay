@@ -2050,133 +2050,152 @@
                 "parenthesize": "poner entre paréntesis lo que esté seleccionado",
                 "enumerate": "enumerar selección",
                 "type": "escribir caracteres",
-                "undo": "$?",
-                "redo": "$?",
-                "search": "$?"
+                "undo": "deshacer la última edición",
+                "redo": "rehacer la deschaca de la última edición",
+                "search": "buscar caracteres especiales para insertar"
             }
         },
         "conflicts": {
-            "label": "$?"
+            "label": "conflictos"
         },
         "output": {
-            "label": "$?",
+            "label": "salida del programa",
             "toggle": {
                 "grid": {
-                    "on": "$?",
-                    "off": "$?"
+                    "on": "ocultar líneas de cuadrícula",
+                    "off": "mostrar líneas de cuadrícula"
                 },
                 "fit": {
-                    "on": "$?",
-                    "off": "$?"
+                    "on": "controlar el zoom manualmente",
+                    "off": "ajustar el zoom al contenido"
                 },
                 "paint": {
-                    "off": "mover salida",
+                    "off": "colocar salida",
                     "on": "salida de pintura"
                 }
             },
             "field": {
                 "key": {
-                    "label": "$?",
-                    "placeholder": "$?"
+                    "label": "escuchando las pulsaciones de teclas",
+                    "placeholder": "mensaje"
                 }
             },
             "button": {
-                "submit": "$?"
+                "submit": "enviar este mensaje de chat"
             }
         },
         "timeline": {
-            "label": "$?",
-            "slider": "$?",
+            "label": "línea de tiempo",
+            "slider": "control deslizante de línea de tiempo",
             "button": {
-                "play": "$?",
-                "pause": "$?",
-                "backStep": "$?",
-                "backNode": "$?",
-                "backInput": "$?",
-                "out": "$?",
-                "forwardStep": "$?",
-                "forwardNode": "$?",
-                "forwardInput": "$?",
-                "present": "$?",
-                "start": "$?",
-                "reset": "$?"
+                "play": "evaluar el programa hasta el final, respondiendo a las entradas en tiempo real",
+                "pause": "pausar el programa, permitiendo avanzar y retroceder",
+                "backStep": "retroceder una vez",
+                "backNode": "retroceder a la evaluación del nodo anterior",
+                "backInput": "retroceder a la entrada anterior",
+                "out": "salir de esta función",
+                "forwardStep": "da un paso adelante",
+                "forwardNode": "avance a la siguiente evaluación del nodo",
+                "forwardInput": "avance a la siguiente entrada de flujo",
+                "present": "al presente",
+                "start": "al principio",
+                "reset": "reiniciar la actuación"
             }
         },
         "docs": {
-            "label": "$?",
-            "link": "$?",
-            "learn": "$?",
-            "nodoc": "$?",
+            "label": "navegador de documentación",
+            "link": "mostrar concepto $1 en documentación",
+            "learn": "aprende más …",
+            "nodoc": "¿Quién soy? ¿Qué soy yo? ¿Cuál es mi propósito?",
             "button": {
-                "home": "$?",
-                "back": "$?"
+                "home": "volver al inicio",
+                "back": "volver al anterior"
             },
             "field": {
-                "search": "$?"
+                "search": "buscar conceptos con palabras"
             },
             "header": {
-                "inputs": "$?",
-                "interfaces": "$?",
-                "properties": "$?",
-                "functions": "$?",
-                "conversions": "$?"
+                "inputs": "Entradas",
+                "interfaces": "Interfaces",
+                "properties": "Propiedades",
+                "functions": "Funciones",
+                "conversions": "Conversiones"
             }
         },
         "dialog": {
             "share": {
-                "header": "$?",
-                "explanation": "$?",
+                "header": "Compartir",
+                "explanation": "Controla quién puede editar y ver este proyecto.",
                 "subheader": {
                     "collaborators": {
-                        "header": "$?",
-                        "explanation": "$?"
+                        "header": "Colaboradoras",
+                        "explanation": "Los colaboradores pueden ver y editar este proyecto. Agregarlas o quitarlas por correo electrónico."
                     },
                     "public": {
-                        "header": "$?",
-                        "explanation": "$?"
+                        "header": "Pública / Privada",
+                        "explanation": "Los proyectos públicos pueden ser vistos por cualquier persona en el mundo. Al realizar un proyecto, prometes:"
                     }
                 },
                 "field": {
                     "email": {
-                        "placeholder": "$?",
-                        "description": "$?"
+                        "placeholder": "correo electrónico",
+                        "description": "la dirección de correo electrónico de la persona a la que desea otorgarle acceso de edición."
                     }
                 },
                 "mode": {
                     "public": {
-                        "label": "$?",
-                        "modes": ["$?", "$?"]
+                        "label": "visibilidad",
+                        "modes": ["privada", "pública"]
                     }
                 },
                 "error": {
-                    "unknown": "$?"
+                    "unknown": "No conocemos a ningún creador con este correo electrónico."
                 },
                 "button": {
-                    "submit": "$?"
+                    "submit": "Comparte el proyecto con esta dirección de correo electrónico"
                 }
             },
             "settings": {
-                "header": "$?",
-                "explanation": "$?",
+                "header": "Ajustes",
+                "explanation": "Cambie los ajustes de disposición, aparato y tema.",
                 "button": {
-                    "show": "$?"
+                    "show": "mostrar diálogo de ajustes"
                 },
                 "mode": {
                     "layout": {
-                        "label": "$?",
-                        "modes": ["$?", "$?", "$?", "$?"]
+                        "label": "disposición",
+                        "modes": [
+                            "automática",
+                            "horizontal", 
+                            "vertical", 
+                            "libre"
+                        ]
                     },
                     "animate": {
-                        "label": "$?",
-                        "modes": ["$?", "$?", "$?", "$?", "$?"]
+                        "label": "animaciones",
+                        "modes": [
+                            "apagada", 
+                            "prendida ", 
+                            "velocidad media", 
+                            "velocidad tercera ", 
+                            "velocidad a quarto"
+                        ]
                     },
                     "dark": {
-                        "label": "$?",
-                        "modes": ["$?", "$?", "$?"]
+                        "label": "tema",
+                        "modes": [
+                            "colores claros", 
+                            "colores oscuros", 
+                            "usar el ajuste del aparato"
+                        ]
                     },
                     "writing": {
-                        "label": "$?",
-                        "modes": ["$?", "$?", "$?"]
+                        "label": "disposición de escritura",
+                        "modes": [
+                            "horizontal, de izquierda a derecha", 
+                            "vertical, de derecha a izquierda", 
+                            "vertical, de izquierda a derecha"
+                        ]
                     }
                 }
             },
