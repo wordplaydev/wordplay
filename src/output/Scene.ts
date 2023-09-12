@@ -99,7 +99,7 @@ export default class Scene {
     private physics: MatterJS.Engine;
 
     /** A mapping from output names to body IDs */
-    private bodyByName: Map<string, OutputRectangle> = new Map();
+    private bodyByName: Map<string, OutputBody> = new Map();
 
     constructor(
         evaluator: Evaluator,
@@ -454,7 +454,7 @@ export default class Scene {
         };
     }
 
-    getOutputByValue(value: Value) {
+    getOutputByPlace(value: Value) {
         return this.outputByPlace.get(value);
     }
 
@@ -467,23 +467,20 @@ export default class Scene {
         delta: number
     ) {
         // REMOVE all of the exited outputs from the engine.
-
-        // 1) find the body IDs of the names removed.
-        const exitedBodies = Array.from(exiting.values())
-            .map((output) => this.bodyByName.get(output.getName())?.body)
-            .filter((body): body is MatterJS.Body => body !== undefined);
-
-        // 2) Remove the bodies from the engine
-        MatterJS.Composite.remove(this.physics.world, exitedBodies, true);
-
-        // 3) Remove the bodies
-        for (const name of exiting.keys()) this.bodyByName.delete(name);
+        for (const name of exiting.keys()) this.removeOutputBody(name);
 
         // CREATE and UPDATE bodies for all outputs currently in the scene.
 
-        // 1) Create a body for each output.
+        // Create an index of all of the Motion stream's recent places so we can map output's places back to motion streams.
+        const motionByPlace = new Map<Value, Motion>();
+        for (const motion of this.evaluator.getBasisStreamsOfType(Motion)) {
+            for (const value of motion.values.slice(-10))
+                motionByPlace.set(value.value, motion);
+        }
+
+        // Iterate through all of the output in the current scene.
         for (const [name, info] of current) {
-            // Is it a stage? Update configuration details.
+            // Is it a stage? Update gravity based on it's latest value.
             if (info.output instanceof Stage) {
                 // Set the gravity to the Stage's gravity setting.
                 // 0.002 is a good scale for our coordinate system, so we convert based on that.
@@ -492,70 +489,73 @@ export default class Scene {
                 );
                 this.physics.gravity.y = info.output.gravity < 0 ? -1 : 1;
             }
-            // Other output with matter? Add or sync it.
+            // Other kind of output? Sync it.
             else {
+                // Does the output have matter?
                 const matter =
                     info.output instanceof Phrase ||
                     info.output instanceof Group
                         ? info.output.matter
                         : undefined;
 
-                // If this view has matter, configure it accordingly.
-                if (matter) {
-                    // Create a rectangle for the output
-                    let shape: OutputRectangle | undefined =
-                        this.createOutputBody(info, matter);
+                // Is there a motion stream responsible for this output's place? The motion may
+                const motion = info.output.place
+                    ? motionByPlace.get(info.output.place.value)
+                    : undefined;
 
-                    // Find the motion that created it and get it's initial values.
-                    const motion = this.evaluator
-                        .getBasisStreamsOfType(Motion)
-                        .find(
-                            (motion) =>
-                                motion.latest() === info.output.place?.value
-                        );
+                // If the output has matter or is in motion, make sure it's in the MatterJS world.
+                if (matter || motion) {
+                    // Get the body that we already made using it's name.
+                    let shape = this.bodyByName.get(name);
 
-                    // Just entered? Remember the new body we just made.
-                    if (entered.has(name)) {
+                    // Doesn't exist? Make one.
+                    if (shape === undefined) {
+                        // Make a new body for this new output.
+                        shape = this.createOutputBody(info, matter);
+
                         // Remember the body by name
                         this.bodyByName.set(name, shape);
 
-                        // Add to the engine
+                        // Add to the MatteJS world
                         MatterJS.Composite.add(this.physics.world, shape.body);
                     }
-                    // Already on the scene? Update the body's verticies with the new shape.
-                    else {
-                        // const preliminary = shape;
-                        shape = this.bodyByName.get(name);
-                        // if (shape)
-                        //     Matter.Body.setVertices(
-                        //         shape.body,
-                        //         preliminary.body.vertices
-                        //     );
-                    }
 
-                    // Did we find a corresponding body? Update it.
-                    if (shape) {
-                        if (motion) motion.updateBody(shape);
+                    // Update the body's verticies with the new shape.
+                    // if (shape)
+                    //     Matter.Body.setVertices(
+                    //         shape.body,
+                    //         preliminary.body.vertices
+                    //     );
 
-                        // Set the body's current angle if it has one, otherwise leave it alone.
-                        if (info.output.pose.rotation !== undefined)
-                            MatterJS.Body.setAngle(
-                                shape.body,
-                                (info.output.pose.rotation * Math.PI) / 180
-                            );
+                    // Did we make or find a corresponding body? Sync it.
+                    if (motion) motion.updateBody(shape);
+
+                    // Set the body's current angle if it has one, otherwise leave it alone.
+                    if (info.output.pose.rotation !== undefined)
+                        MatterJS.Body.setAngle(
+                            shape.body,
+                            (info.output.pose.rotation * Math.PI) / 180
+                        );
+
+                    // Set matter properties if available.
+                    if (matter) {
                         MatterJS.Body.setMass(shape.body, matter.mass);
                         shape.body.restitution = matter.bounciness;
                         shape.body.friction = matter.friction;
+                        // Ensure it's part of collisions
+                        shape.body.collisionFilter = getCollisionFilter(true);
                     }
+                    // If none are available, remove it from collisions.
+                    else {
+                        shape.body.collisionFilter = getCollisionFilter(false);
+                    }
+
+                    // If no motion, set static
+                    MatterJS.Body.setStatic(shape.body, motion === undefined);
                 }
-                // If it doesn't, see if we should remove it, because it previously had matter.
+                // No motion or matter? Remove it from the MatterJS world so it doesn't mess with collisions.
                 else {
-                    const rect = this.bodyByName.get(name);
-                    if (rect)
-                        MatterJS.Composite.remove(
-                            this.physics.world,
-                            rect.body
-                        );
+                    this.removeOutputBody(name);
                 }
             }
         }
@@ -565,9 +565,17 @@ export default class Scene {
             MatterJS.Engine.update(this.physics, delta);
     }
 
-    createOutputBody(info: OutputInfo, matter: Matter) {
+    removeOutputBody(name: string) {
+        const outputBody = this.bodyByName.get(name);
+        if (outputBody) {
+            MatterJS.Composite.remove(this.physics.world, outputBody.body);
+            this.bodyByName.delete(name);
+        }
+    }
+
+    createOutputBody(info: OutputInfo, matter: Matter | undefined) {
         const { width, height } = info.output.getLayout(info.context);
-        return new OutputRectangle(
+        return new OutputBody(
             info.global.x,
             info.global.y,
             width,
@@ -579,13 +587,13 @@ export default class Scene {
         );
     }
 
-    getOutputBody(name: string): OutputRectangle | undefined {
+    getOutputBody(name: string): OutputBody | undefined {
         return this.bodyByName.get(name);
     }
 }
 
 /** This Matter.Body wrapper helps us remember width and height, avoiding redundant computation. */
-export class OutputRectangle {
+export class OutputBody {
     readonly body: MatterJS.Body;
     readonly width: number;
     readonly height: number;
@@ -596,14 +604,9 @@ export class OutputRectangle {
         height: number,
         angle: number,
         corner: number,
-        matter: Matter
+        matter: Matter | undefined
     ) {
-        const position = this.getPhysicsPositionFromPlace(
-            left,
-            bottom,
-            width,
-            height
-        );
+        const position = this.getPosition(left, bottom, width, height);
 
         this.body = MatterJS.Bodies.rectangle(
             position.x,
@@ -615,24 +618,23 @@ export class OutputRectangle {
                 chamfer: {
                     radius: corner,
                 },
-                restitution: matter.bounciness,
-                friction: matter.friction,
-                mass: matter.mass * 10,
+                restitution: matter?.bounciness ?? 0,
+                friction: matter?.friction ?? 0,
+                mass: (matter?.mass ?? 1) * 10,
                 angle,
                 sleepThreshold: 500,
             }
         );
 
+        if (matter === undefined)
+            this.body.collisionFilter = getCollisionFilter(false);
+
         this.width = width;
         this.height = height;
     }
 
-    getPhysicsPositionFromPlace(
-        left: number,
-        bottom: number,
-        width: number,
-        height: number
-    ) {
+    /** Convert a Place position into a stage Place. */
+    getPosition(left: number, bottom: number, width: number, height: number) {
         return {
             // Body center is half the width from left
             x: PX_PER_METER * (left + width / 2),
@@ -641,7 +643,8 @@ export class OutputRectangle {
         };
     }
 
-    getPlacement() {
+    /** Convert the MatterJS position into stage Place values. */
+    getPlace() {
         return {
             x: this.body.position.x / PX_PER_METER - this.width / 2,
             y: -this.body.position.y / PX_PER_METER - this.height / 2,
@@ -653,4 +656,19 @@ export class OutputRectangle {
                     : this.body.angle * 180) / Math.PI,
         };
     }
+}
+
+/** Abstract away MatterJS's confusing collision filtering system. */
+function getCollisionFilter(included: boolean) {
+    return included
+        ? {
+              group: 1,
+              category: 1,
+              mask: -1,
+          }
+        : {
+              group: -1,
+              category: 2,
+              mask: 0,
+          };
 }
