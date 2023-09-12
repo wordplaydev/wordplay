@@ -20,7 +20,7 @@ import NameType from '../nodes/NameType';
 import type Context from '../nodes/Context';
 import type Type from '../nodes/Type';
 import Matter from 'matter-js';
-import type { OutputRectangle } from '../output/Scene';
+import type { OutputBody } from '../output/Scene';
 
 export default class Motion extends TemporalStreamValue<Value, number> {
     private place: Place | undefined;
@@ -78,7 +78,7 @@ export default class Motion extends TemporalStreamValue<Value, number> {
         }
     }
 
-    updateBody(rect: OutputRectangle) {
+    updateBody(rect: OutputBody) {
         const body = rect.body;
         // Are either of the velocities non-zero? Update the body's velocity.
         if (this.vx !== undefined || this.vy !== undefined)
@@ -98,7 +98,7 @@ export default class Motion extends TemporalStreamValue<Value, number> {
         if (this.place)
             Matter.Body.setPosition(
                 body,
-                rect.getPhysicsPositionFromPlace(
+                rect.getPosition(
                     this.place.x,
                     this.place.y,
                     rect.width,
@@ -113,7 +113,7 @@ export default class Motion extends TemporalStreamValue<Value, number> {
         if (this.evaluator.scene)
             // Ask the scene for the output corresponding to the latest value this stream generated.
             return latest
-                ? this.evaluator.scene.getOutputByValue(latest) ?? []
+                ? this.evaluator.scene.getOutputByPlace(latest) ?? []
                 : [];
         else return [];
     }
@@ -125,7 +125,7 @@ export default class Motion extends TemporalStreamValue<Value, number> {
             // Ask the scene for the latest x, y, z, and angle from the physics engine.
             const placement = this.evaluator.scene
                 .getOutputBody(name)
-                ?.getPlacement();
+                ?.getPlace();
             if (placement) {
                 this.add(
                     createPlaceStructure(

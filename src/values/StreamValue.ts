@@ -70,7 +70,7 @@ export default abstract class StreamValue<
 
         // Update the time.
         this.values.push({
-            value: value,
+            value,
             stepIndex: this.evaluator.getStepIndex(),
         });
 
