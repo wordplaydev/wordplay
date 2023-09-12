@@ -20,7 +20,7 @@ import NameType from '../nodes/NameType';
 import type Context from '../nodes/Context';
 import type Type from '../nodes/Type';
 import Matter from 'matter-js';
-import type { OutputBody } from '../output/Scene';
+import type { OutputBody } from '../output/Physics';
 
 export default class Motion extends TemporalStreamValue<Value, number> {
     private place: Place | undefined;
@@ -72,7 +72,9 @@ export default class Motion extends TemporalStreamValue<Value, number> {
         if (this.evaluator.scene === undefined) return;
 
         for (const output of this.getOutputs()) {
-            const body = this.evaluator.scene.getOutputBody(output.getName());
+            const body = this.evaluator.scene.physics.getOutputBody(
+                output.getName()
+            );
 
             if (body) this.updateBody(body);
         }
@@ -123,7 +125,7 @@ export default class Motion extends TemporalStreamValue<Value, number> {
         for (const output of this.getOutputs()) {
             const name = output.getName();
             // Ask the scene for the latest x, y, z, and angle from the physics engine.
-            const placement = this.evaluator.scene
+            const placement = this.evaluator.scene.physics
                 .getOutputBody(name)
                 ?.getPlace();
             if (placement) {
