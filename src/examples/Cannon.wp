@@ -2,22 +2,27 @@ Cannon
 === start/en
 •Question(id•"" vx•#m/s vy•#m/s va•#°/s)
 
-magnitude: 2
+magnitude: 1
 pressed: ∆ Key()
-count•#: 0 … ∆ Key() … count + 1
-questions•[Question]:  [] … ∆ Key() … questions.add(Question(count→"" Random(magnitude magnitude · 2) · 1m/s Random(magnitude · 2 magnitude · 4) · 1m/s Random(0 360) · 1°/s))
+count•#: 0 … pressed … count + 1
+questions•[Question]: [] … pressed … questions.add(Question(count→"" Random(magnitude magnitude · 2) · 1m/s Random(magnitude magnitude · 2) · 1m/s Random(0 360) · 1°/s))
 
 Stage(
-    [ Phrase('👨‍👨‍👧‍👦' face: "Noto Emoji" place: 📍(0m 0m 0m)) ].append(
-        questions.translate(ƒ(q•Question index•#) (
-          initialize: pressed & (index = questions.length())
-          Motion(
-            Phrase('Q' name: q.id resting:Pose(opacity: initialize ? 0% 100%))
-            startplace: Place(0m 0m 0m)
-            startvx: q.vx
-            startvy: q.vy
-            startvangle: q.va
+    [ Phrase('👨‍👨‍👧‍👦' face: "Noto Emoji") ].append(questions.translate(
+        ƒ(q•Question index•#) (
+            initialize: pressed & (index = questions.length())
+            Phrase(
+                'Q' 
+                name: q.id 
+                place: Motion(
+                    initialize ? Place() ø 
+                    vx: initialize ? q.vx ø 
+                    vy: initialize ? q.vy ø 
+                    vrotation: initialize ? q.va ø
+                )
+                matter: Matter()
+                resting: Pose(opacity: initialize ? 0% 100%)
+            )
         )
-        ))
-    )
+    ))
 )

@@ -1,5 +1,5 @@
 import type Evaluator from '@runtime/Evaluator';
-import { createPlaceStructure } from '@output/Place';
+import Place, { createPlaceStructure, toPlace } from '@output/Place';
 import TemporalStreamValue from '@values/TemporalStreamValue';
 import Bind from '@nodes/Bind';
 import NumberType from '@nodes/NumberType';
@@ -20,9 +20,10 @@ import NameType from '../nodes/NameType';
 import type Context from '../nodes/Context';
 import type Type from '../nodes/Type';
 import Matter from 'matter-js';
+import type { OutputRectangle } from '../output/Scene';
 
 export default class Motion extends TemporalStreamValue<Value, number> {
-    private place: Value | undefined;
+    private place: Place | undefined;
     private vx: number | undefined;
     private vy: number | undefined;
     private vrotation: number | undefined;
@@ -36,12 +37,12 @@ export default class Motion extends TemporalStreamValue<Value, number> {
     ) {
         super(evaluator, evaluator.project.shares.input.Motion, place, 0);
 
-        this.place = place;
+        this.place = toPlace(place);
         this.vx = vx;
         this.vy = vy;
         this.vrotation = vrotation;
 
-        this.setSpeeds();
+        this.updateBodies();
     }
 
     // No setup or teardown, the Evaluator handles the requestAnimationFrame loop.
@@ -58,36 +59,51 @@ export default class Motion extends TemporalStreamValue<Value, number> {
         vy: number | undefined,
         vrotation: number | undefined
     ) {
-        this.place = place;
+        this.place = toPlace(place);
         this.vx = vx;
         this.vy = vy;
         this.vrotation = vrotation;
 
-        this.setSpeeds();
+        this.updateBodies();
     }
 
-    setSpeeds() {
+    /** Find all of the bodies that this motion stream influences and update them. */
+    updateBodies() {
         if (this.evaluator.scene === undefined) return;
 
         for (const output of this.getOutputs()) {
-            const body = this.evaluator.scene.getOutputBody(
-                output.getName()
-            )?.body;
+            const body = this.evaluator.scene.getOutputBody(output.getName());
 
             if (body) this.updateBody(body);
         }
     }
 
-    updateBody(body: Matter.Body) {
+    updateBody(rect: OutputRectangle) {
+        const body = rect.body;
+        // Are either of the velocities non-zero? Update the body's velocity.
         if (this.vx !== undefined || this.vy !== undefined)
             Matter.Body.setVelocity(body, {
                 x: this.vx !== undefined ? this.vx : body.velocity.x,
-                y: this.vy !== undefined ? this.vy : body.velocity.y,
+                // Flip the axis
+                y: this.vy !== undefined ? -this.vy : body.velocity.y,
             });
+        // Is the rotational velocity defined? Update the body's.
         if (this.vrotation !== undefined)
             Matter.Body.setAngularVelocity(
                 body,
                 (this.vrotation * Math.PI) / 180
+            );
+
+        // Did the place of the stream change? Reposition the body.
+        if (this.place)
+            Matter.Body.setPosition(
+                body,
+                rect.getPhysicsPositionFromPlace(
+                    this.place.x,
+                    this.place.y,
+                    rect.width,
+                    rect.height
+                )
             );
     }
 
@@ -116,7 +132,7 @@ export default class Motion extends TemporalStreamValue<Value, number> {
                         this.evaluator,
                         placement.x,
                         placement.y,
-                        0,
+                        this.place?.z ?? 0,
                         placement.angle
                     ),
                     delta
