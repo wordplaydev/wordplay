@@ -18,27 +18,29 @@ cat•Cat:  Cat(5m 1) … ∆ key …
         ((ball.x - (x + 2m)).positive() < 1m)
     )
 
-ball: Motion(
-    Phrase("o") 
-     startplace: Place(0m 0m)
-     vx: ◆ ? 0m/s
-         close(ball.place cat.position) ? (Random(1 5) · -1m/s · cat.direction) 
-          ø
-     vy: ◆ ? 0m/s 
-         close(ball.place cat.position) ? (Random(2 10) · 1m/s) 
-          ø
-     vangle: ◆ ? 0°/s 
-         close(ball.place cat.position) ? (cat.direction · 120°/s) 
-          ø
+colliding: close(ball.place cat.position)
+
+ball: Phrase(
+    "o" 
+    place: Motion(
+        ◆ ? Place(0m 0m) ø
+        vx: ◆ ? 0m/s
+            colliding ? (Random(1 5) · -1m/s · cat.direction) ø
+        vy: ◆ ? 0m/s 
+            colliding ? (Random(2 10) · 1m/s) ø
+        vrotation: ◆ ? 0°/s 
+            colliding ? (cat.direction · 120°/s) ø
+    )
 )
 
-Stage([
-		Phrase(
-    	"🐈"
-        face: "Noto Color Emoji"
-    	name: "kitty"
-    	size: 2m
-    	place: Place(cat.position 0m)
-    	resting: Pose(flipx: cat.direction < 0)
-    	moving: Sequence(sway(5°) 0.25s "zippy")
-) ball] place: Place(0m 0m -5m))
+cat: Phrase(
+    "🐈"
+    face: "Noto Color Emoji"
+    name: "kitty"
+    size: 2m
+    place: Place(cat.position 0m)
+    resting: Pose(flipx: cat.direction < 0)
+    moving: Sequence(sway(5°) 0.25s "zippy")
+)
+
+Stage([ball cat] place: Place(0m 0m -5m))

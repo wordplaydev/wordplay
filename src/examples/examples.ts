@@ -2,7 +2,7 @@ import type { SerializedProject } from '../models/Project';
 import WhatWord from './WhatWord.wp?raw';
 import Kitties from './RainingKitties.wp?raw';
 import Move from './Move.wp?raw';
-import Physics from './Physics.wp?raw';
+import Hira from './Hira.wp?raw';
 import Video from './Video.wp?raw';
 import RainingLetters from './RainingLetters.wp?raw';
 import Poem from './Poem.wp?raw';
@@ -69,7 +69,7 @@ export const examples = wpToSerializedProjects([
     WhatWord,
     Kitties,
     Move,
-    Physics,
+    Hira,
     Video,
     RainingLetters,
     Poem,

@@ -1,4 +1,4 @@
-Physics
+Hiragana
 === start
 count: 32
 
@@ -10,7 +10,7 @@ Stage(count → [].translate(
     ƒ(number index)
         Phrase(
           hiragana[number]
-          place: Motion(Place((index - (count ÷ 2))· 0.2m 10m) vrotation: Random(-10 10)· 1°/s)
+          place: Motion(◆ ? Place((index - (count ÷ 2))· 0.2m 10m) ø vrotation: ◆ ? Random(-10 10)· 1°/s ø)
           matter: Matter(bounciness: 1)
         )
     )
