@@ -2,10 +2,10 @@ Cannon
 === start/en
 •Question(id•"" vx•#m/s vy•#m/s va•#°/s)
 
-magnitude: 1
+magnitude: 2
 pressed: ∆ Key()
 count•#: 0 … pressed … count + 1
-questions•[Question]: [] … pressed … questions.add(Question(count→"" Random(magnitude magnitude · 2) · 1m/s Random(magnitude magnitude · 2) · 1m/s Random(0 360) · 1°/s))
+questions•[Question]: [] … pressed … questions.add(Question(count→"" Random(15 30) · 1m/s Random(20 30) · 1m/s Random(0 2) · 1°/s))
 
 Stage(
     [ Phrase('👨‍👨‍👧‍👦' face: "Noto Emoji") ].append(questions.translate(
@@ -15,7 +15,6 @@ Stage(
                 'Q' 
                 name: q.id 
                 place: Motion(
-                    initialize ? Place() ø 
                     vx: initialize ? q.vx ø 
                     vy: initialize ? q.vy ø 
                     vrotation: initialize ? q.va ø
