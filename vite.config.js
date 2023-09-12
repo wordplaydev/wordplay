@@ -41,7 +41,6 @@ const config = {
             '@models': path.resolve('./src/models'),
             '@db': path.resolve('./src/db'),
         },
-        extensions: ['.js', '.ts', '.json', '.wp', '.svelte'],
     },
 };
 
