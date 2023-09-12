@@ -2,7 +2,6 @@ Cannon
 === start/en
 •Question(id•"" vx•#m/s vy•#m/s va•#°/s)
 
-magnitude: 2
 pressed: ∆ Key()
 count•#: 0 … pressed … count + 1
 questions•[Question]: [] … pressed … questions.add(Question(count→"" Random(15 30) · 1m/s Random(20 30) · 1m/s Random(0 2) · 1°/s))
