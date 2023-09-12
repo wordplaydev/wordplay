@@ -506,19 +506,18 @@ export default class Scene {
                     let shape: OutputRectangle | undefined =
                         this.createOutputBody(info, matter);
 
+                    // Find the motion that created it and get it's initial values.
+                    const motion = this.evaluator
+                        .getBasisStreamsOfType(Motion)
+                        .find(
+                            (motion) =>
+                                motion.latest() === info.output.place?.value
+                        );
+
                     // Just entered? Remember the new body we just made.
                     if (entered.has(name)) {
                         // Remember the body by name
                         this.bodyByName.set(name, shape);
-
-                        // Find the motion that created it and get it's initial values.
-                        const motion = this.evaluator
-                            .getBasisStreamsOfType(Motion)
-                            .find(
-                                (motion) =>
-                                    motion.latest() === info.output.place?.value
-                            );
-                        if (motion) motion.updateBody(shape.body);
 
                         // Add to the engine
                         MatterJS.Composite.add(this.physics.world, shape.body);
@@ -536,6 +535,8 @@ export default class Scene {
 
                     // Did we find a corresponding body? Update it.
                     if (shape) {
+                        if (motion) motion.updateBody(shape);
+
                         // Set the body's current angle if it has one, otherwise leave it alone.
                         if (info.output.pose.rotation !== undefined)
                             MatterJS.Body.setAngle(
@@ -584,7 +585,7 @@ export default class Scene {
 }
 
 /** This Matter.Body wrapper helps us remember width and height, avoiding redundant computation. */
-class OutputRectangle {
+export class OutputRectangle {
     readonly body: MatterJS.Body;
     readonly width: number;
     readonly height: number;
@@ -597,11 +598,16 @@ class OutputRectangle {
         corner: number,
         matter: Matter
     ) {
+        const position = this.getPhysicsPositionFromPlace(
+            left,
+            bottom,
+            width,
+            height
+        );
+
         this.body = MatterJS.Bodies.rectangle(
-            // Body center is half the width from left
-            PX_PER_METER * (left + width / 2),
-            // Negate top to flip y-axes than add half of height to get center
-            PX_PER_METER * -(bottom + height / 2),
+            position.x,
+            position.y,
             PX_PER_METER * width,
             PX_PER_METER * height,
             // Round corners by a fraction of their size
@@ -619,6 +625,20 @@ class OutputRectangle {
 
         this.width = width;
         this.height = height;
+    }
+
+    getPhysicsPositionFromPlace(
+        left: number,
+        bottom: number,
+        width: number,
+        height: number
+    ) {
+        return {
+            // Body center is half the width from left
+            x: PX_PER_METER * (left + width / 2),
+            // Negate top to flip y-axes than add half of height to get center
+            y: PX_PER_METER * -(bottom + height / 2),
+        };
     }
 
     getPlacement() {
