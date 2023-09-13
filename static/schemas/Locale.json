@@ -6328,6 +6328,10 @@
               "additionalProperties": false,
               "description": "Physical properties of matter",
               "properties": {
+                "barriers": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "whether the output can collide with barriers"
+                },
                 "bounciness": {
                   "$ref": "#/definitions/NameAndDoc",
                   "description": "from 0-1, how bouncy something should be, where 0 means not bouncy at all, and 1 means retaining all of it's energy on collision"
@@ -6340,6 +6344,10 @@
                   "$ref": "#/definitions/NameAndDoc",
                   "description": "from 0-1, where 0 means no sliding, and 1 means sliding indefinitely"
                 },
+                "ground": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "whether the output can collide with the ground"
+                },
                 "mass": {
                   "$ref": "#/definitions/NameAndDoc",
                   "description": "in kilograms, how much something weighs for the purposes of collisions"
@@ -6347,14 +6355,21 @@
                 "names": {
                   "$ref": "#/definitions/NameText",
                   "description": "One or more names for this definition. Be careful not to introduce duplicates."
+                },
+                "text": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "whether the output can collide with other output"
                 }
               },
               "required": [
+                "barriers",
                 "bounciness",
                 "doc",
                 "friction",
+                "ground",
                 "mass",
-                "names"
+                "names",
+                "text"
               ],
               "type": "object"
             },
