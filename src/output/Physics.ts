@@ -129,7 +129,20 @@ export default class Physics {
                         MatterJS.Composite.add(this.engine.world, shape.body);
                     }
 
-                    // Did we make or find a corresponding body? Sync it.
+                    // Does the output have no motion but does have matter? Move it to its latest position and apply a velocity.
+                    if (motion === undefined) {
+                        MatterJS.Body.setPosition(
+                            shape.body,
+                            shape.getPosition(
+                                info.global.x,
+                                info.global.y,
+                                info.width,
+                                info.height
+                            )
+                        );
+                    }
+
+                    // Did we make or find a corresponding body? Apply any Place or Velocity overrides in the Motion.
                     if (motion) motion.updateBody(shape);
 
                     // Set the body's current angle if it has one, otherwise leave it alone.
