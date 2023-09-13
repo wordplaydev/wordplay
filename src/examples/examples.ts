@@ -1,7 +1,7 @@
 import type { SerializedProject } from '../models/Project';
 import WhatWord from './WhatWord.wp?raw';
 import Kitties from './RainingKitties.wp?raw';
-import Move from './Move.wp?raw';
+import Pounce from './Pounce.wp?raw';
 import Hira from './Hira.wp?raw';
 import Video from './Video.wp?raw';
 import RainingLetters from './RainingLetters.wp?raw';
@@ -68,7 +68,7 @@ export const examples = wpToSerializedProjects([
     Adventure,
     WhatWord,
     Kitties,
-    Move,
+    Pounce,
     Hira,
     Video,
     RainingLetters,

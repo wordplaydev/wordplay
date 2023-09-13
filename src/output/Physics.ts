@@ -80,7 +80,8 @@ export default class Physics {
 
         // Iterate through all of the output in the current scene.
         for (const [name, info] of current) {
-            // Is it inside a group? Pass.
+            // Is it inside a group? Pass. We only include top level elements in physics, since there's a single coordinate system that they share.
+            // Groups have their own local coordinate systems.
             if (info.parents[0] instanceof Group) {
                 continue;
             }
@@ -136,6 +137,8 @@ export default class Physics {
 
                     // Does the output have no motion but does have matter? Move it to its latest position and apply a velocity.
                     if (motion === undefined) {
+                        // const previousPlace = shape.getPlace();
+
                         MatterJS.Body.setPosition(
                             shape.body,
                             shape.getPosition(
@@ -145,6 +148,12 @@ export default class Physics {
                                 info.height
                             )
                         );
+                        // const delta = {
+                        //     x: PX_PER_METER * (info.global.x - previousPlace.x),
+                        //     y: PX_PER_METER * (info.global.y - previousPlace.y),
+                        // };
+                        // MatterJS.Body.applyForce();
+                        // MatterJS.Body.setVelocity(shape.body, delta);
                     }
 
                     // Did we make or find a corresponding body? Apply any Place or Velocity overrides in the Motion.
@@ -167,8 +176,9 @@ export default class Physics {
                     // Set the collision filter based on the matter settings.
                     shape.body.collisionFilter = getCollisionFilter(matter);
 
-                    // If no motion, set static
-                    MatterJS.Body.setStatic(shape.body, motion === undefined);
+                    // If no motion, set inertia to infinity
+                    // MatterJS.Body.setStatic(shape.body, motion === undefined);
+                    MatterJS.Body.setInertia(shape.body, Infinity);
                 }
                 // No motion or matter? Remove it from the MatterJS world so it doesn't mess with collisions.
                 else {
