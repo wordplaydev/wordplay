@@ -48,7 +48,7 @@ export type StreamChange = {
 };
 export type StreamCreator = Evaluate | Reaction;
 export type IndexedValue = { value: Value | undefined; stepNumber: StepNumber };
-export const MAX_CALL_STACK_DEPTH = 256;
+export const MAX_CALL_STACK_DEPTH = 512;
 export const MAX_STEP_COUNT = 262144;
 
 // Don't let source values take more than 256 MB of memory.
