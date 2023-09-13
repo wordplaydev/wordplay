@@ -1451,7 +1451,7 @@
                     "concept": "None",
                     "performance": [
                         "fix",
-                        "Phrase('ø' size: 5m place: Motion(vy: ◆ ? 5m/s ø))"
+                        "Phrase('ø' size: 5m place: Motion(velocity: Velocity(y: 5m/s)))"
                     ],
                     "lines": [
                         [
@@ -2013,9 +2013,8 @@
                 "       Phrase(",
                 "           '→?' → [].random()",
                 "           place: Motion(",
-                "               ◆ ? Place(y: 10m) ø",
-                "               vx: ◆ ? Random(-5 5) · 1m/s ø",
-                "               vrotation: ◆ ? Random(0 360) · 1°/s ø",
+                "               Place(y: 10m)",
+                "               Velocity(Random(-5 5) · 1m/s angle: Random(0 360) · 1°/s)",
                 "           )",
                 "           matter: Matter(bounciness: Random())",
                 "       )",
@@ -2682,7 +2681,7 @@
                         null,
                         [
                             "fix",
-                            "Phrase('🏀' 3m place: Motion(Place(0m 5m) Velocity(-5m/s 5m/s 30°/s)) "
+                            "Phrase('🏀' 3m place: Motion(Place(0m 5m) Velocity(-5m/s 5m/s 30°/s)))"
                         ],
                         [
                             "FunctionDefinition",
@@ -2697,7 +2696,7 @@
                             "fix",
                             "Stage(",
                             "   [",
-                            "       Phrase('🏀' 3m place: Motion(Place(0m 5m) Velocity(-5m/s 5m/s 30°/s) matter: Matter()) ",
+                            "       Phrase('🏀' 3m place: Motion(Place(0m 5m) Velocity(-5m/s 5m/s 30°/s)) matter: Matter()) ",
                             "   ]",
                             "   gravity: 9.8m/s^2",
                             ")"
@@ -2713,7 +2712,7 @@
                         null,
                         [
                             "fix",
-                            "Phrase('🏀' 3m place: Motion(◆ ? Place(0m 5m) ø vy: ◆ ? 50m/s ø))"
+                            "Phrase('🏀' 3m place: Motion(Place(0m 5m) Velocity(y: 50m/s)))"
                         ],
                         [
                             "FunctionDefinition",
