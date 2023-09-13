@@ -29,7 +29,9 @@ export default class Physics {
         /** A Matter JS engine for managing physics on output. */
         this.engine = MatterJS.Engine.create({
             positionIterations: 6,
-            enableSleeping: true,
+            // Originally had sleeping enabled, but it prevented collisions from happening on sleeping bodies.
+            // In the future, could reenable it and wake up bodies in ways to avoid this collision loss.
+            enableSleeping: false,
         });
 
         // Set timing to match animation factor
@@ -95,8 +97,17 @@ export default class Physics {
                     // Get the body that we already made using it's name.
                     let shape = this.bodyByName.get(name);
 
-                    // Doesn't exist? Make one and add it to the MatterJS world.
-                    if (shape === undefined) {
+                    // Doesn't exist or changed size? Make one and add it to the MatterJS world.
+                    if (
+                        shape === undefined ||
+                        shape.width !== info.width ||
+                        shape.height !== info.height
+                    ) {
+                        // If we already had a body, remove it so we can replace with a new one.
+                        if (shape !== undefined) {
+                            this.removeOutputBody(name);
+                        }
+
                         // Make a new body for this new output.
                         shape = this.createOutputBody(info, matter);
 
@@ -106,13 +117,6 @@ export default class Physics {
                         // Add to the MatteJS world
                         MatterJS.Composite.add(this.engine.world, shape.body);
                     }
-
-                    // Update the body's verticies with the new shape.
-                    // if (shape)
-                    //     Matter.Body.setVertices(
-                    //         shape.body,
-                    //         preliminary.body.vertices
-                    //     );
 
                     // Did we make or find a corresponding body? Sync it.
                     if (motion) motion.updateBody(shape);
