@@ -175,7 +175,7 @@ export function toGroup(
 
     const layout = toArrangement(project, getOutputInput(value, 0));
     const content = toTypeOutputList(project, getOutputInput(value, 1), namer);
-    const matter = toMatter(getOutputInput(value, 22));
+    const matter = toMatter(getOutputInput(value, 21));
 
     const {
         size,

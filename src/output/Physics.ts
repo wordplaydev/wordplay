@@ -80,6 +80,11 @@ export default class Physics {
 
         // Iterate through all of the output in the current scene.
         for (const [name, info] of current) {
+            // Is it inside a group? Pass.
+            if (info.parents[0] instanceof Group) {
+                continue;
+            }
+
             // Is it a stage? Update gravity based on it's latest value.
             if (info.output instanceof Stage) {
                 // Set the gravity to the Stage's gravity setting.
