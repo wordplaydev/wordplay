@@ -134,6 +134,15 @@ type OutputTexts = {
         /** optional rotation */
         rotation: NameAndDoc;
     };
+    /** A velocity vector */
+    Velocity: NameAndDoc & {
+        /** x-coordinate */
+        x: NameAndDoc;
+        /** y-coordinate */
+        y: NameAndDoc;
+        /** rotation */
+        angle: NameAndDoc;
+    };
     /** Physical properties of matter */
     Matter: NameAndDoc & {
         /** in kilograms, how much something weighs for the purposes of collisions */

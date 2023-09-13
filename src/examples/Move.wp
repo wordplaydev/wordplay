@@ -19,14 +19,12 @@ cat•Cat:  Cat(5m 1) … ∆ key …
     )
 
 position: Motion(
-        ◆ ? Place(0m 5m) ø
-        vx: ◆ ? 0m/s
-            close(position cat.position) ? (Random(1 5) · -1m/s · cat.direction) ø
-        vy: ◆ ? 0m/s 
-            close(position cat.position) ? (Random(2 10) · 1m/s) ø
-        vrotation: ◆ ? 0°/s 
-            close(position cat.position) ? (cat.direction · 120°/s) ø
-    )
+    Place(0m 5m)
+    nextvelocity: 
+        close(position cat.position) ? 
+            Velocity((Random(1 5) · -1m/s · cat.direction) (Random(2 10) · 1m/s) (cat.direction · 120°/s)) 
+            ø
+)
 
 ball: Phrase("o" place: position matter: Matter())
 

@@ -1877,30 +1877,30 @@
                   "$ref": "#/definitions/NameText",
                   "description": "One or more names for this definition. Be careful not to introduce duplicates."
                 },
+                "nextplace": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "The next place for the motion, overriding physics"
+                },
+                "nextvelocity": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "The next velocity for the motion, overriding physics"
+                },
                 "place": {
                   "$ref": "#/definitions/NameAndDoc",
-                  "description": "Where the phrase should start"
+                  "description": "The initial place for the motion"
                 },
-                "vrotation": {
+                "velocity": {
                   "$ref": "#/definitions/NameAndDoc",
-                  "description": "A constant angular velocity to hold"
-                },
-                "vx": {
-                  "$ref": "#/definitions/NameAndDoc",
-                  "description": "A constant x velocity to hold"
-                },
-                "vy": {
-                  "$ref": "#/definitions/NameAndDoc",
-                  "description": "A constant y velocity to hold"
+                  "description": "The initial velocity for the motion"
                 }
               },
               "required": [
                 "doc",
                 "names",
+                "nextplace",
+                "nextvelocity",
                 "place",
-                "vrotation",
-                "vx",
-                "vy"
+                "velocity"
               ],
               "type": "object"
             },
@@ -6880,6 +6880,40 @@
               "$ref": "#/definitions/NameAndDoc",
               "description": "The base interface for Phrase, Group, and Stage"
             },
+            "Velocity": {
+              "additionalProperties": false,
+              "description": "A velocity vector",
+              "properties": {
+                "angle": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "rotation"
+                },
+                "doc": {
+                  "$ref": "#/definitions/DocText",
+                  "description": "Documentation for this definition, to appear in the documentation browser."
+                },
+                "names": {
+                  "$ref": "#/definitions/NameText",
+                  "description": "One or more names for this definition. Be careful not to introduce duplicates."
+                },
+                "x": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "x-coordinate"
+                },
+                "y": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "y-coordinate"
+                }
+              },
+              "required": [
+                "angle",
+                "doc",
+                "names",
+                "x",
+                "y"
+              ],
+              "type": "object"
+            },
             "sequence": {
               "additionalProperties": false,
               "description": "Convenience functions for generating maps for Sequences",
@@ -6971,6 +7005,7 @@
             "Sequence",
             "Color",
             "Place",
+            "Velocity",
             "Matter",
             "Arrangement",
             "Row",

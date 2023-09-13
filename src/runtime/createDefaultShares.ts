@@ -28,9 +28,11 @@ import { createPitchDefinition } from '../input/Pitch';
 import { createWebpageDefinition } from '../input/Webpage';
 import { createChatDefinition } from '../input/Chat';
 import { createMatterType } from '../output/Matter';
+import { createVelocityType } from '../output/Velocity';
 
 export default function createDefaultShares(locales: Locale[]) {
     const PlaceType = createPlaceType(locales);
+    const VelocityType = createVelocityType(locales);
     const MatterType = createMatterType(locales);
     const ColorType = createColorType(locales);
 
@@ -44,6 +46,7 @@ export default function createDefaultShares(locales: Locale[]) {
         Color: ColorType,
         Place: PlaceType,
         Matter: MatterType,
+        Velocity: VelocityType,
         Shape: createShapeType(locales),
         Rectangle: createRectangleType(locales),
         Arrangement: createArrangementType(locales),
@@ -57,7 +60,7 @@ export default function createDefaultShares(locales: Locale[]) {
         Time: createTimeType(locales),
         Random: createRandomFunction(locales),
         Choice: createChoiceDefinition(locales),
-        Motion: createMotionDefinition(locales, OutputTypes.Place),
+        Motion: createMotionDefinition(locales, PlaceType, VelocityType),
         Placement: createPlacementDefinition(locales, PlaceType),
         Key: createKeyDefinition(locales),
         Button: createButtonDefinition(locales),

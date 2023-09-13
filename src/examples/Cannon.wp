@@ -13,11 +13,7 @@ Stage(
             Phrase(
                 'Q' 
                 name: q.id 
-                place: Motion(
-                    vx: initialize ? q.vx ø 
-                    vy: initialize ? q.vy ø 
-                    vrotation: initialize ? q.va ø
-                )
+                place: Motion(velocity: Velocity(q.vx q.vy q.va))
                 matter: Matter()
                 resting: Pose(opacity: initialize ? 0% 100%)
             )

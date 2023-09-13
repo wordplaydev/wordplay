@@ -2835,19 +2835,19 @@
             "names": ["⚽️", "Motion"],
             "place": {
                 "doc": "The starting place.",
-                "names": "startplace"
+                "names": "place"
             },
-            "vx": {
-                "doc": "The velocity on the x-axis at which the place should move, or ø if it should be influenced by physics.",
-                "names": "vx"
+            "velocity": {
+                "doc": "The starting velocity",
+                "names": "velocity"
             },
-            "vy": {
-                "doc": "The velocity on the y-axis at which the place should move, or ø if it should be influenced by physics.",
-                "names": "vy"
+            "nextplace": {
+                "doc": "The next place, overriding physics.",
+                "names": "nextplace"
             },
-            "vrotation": {
-                "doc": "The rotational velocity at which the output should spin, or ø if it should bei influenced by physics.",
-                "names": "vrotation"
+            "nextvelocity": {
+                "doc": "The next place, overriding velocity.",
+                "names": "nextvelocity"
             }
         },
         "Chat": {
@@ -3339,6 +3339,22 @@
             "rotation": {
                 "doc": "Rotation at this position",
                 "names": ["📐", "rotation"]
+            }
+        },
+        "Velocity": {
+            "doc": "I'm a location on @Stage. All my inputs are optional, because I'm at the center by default.",
+            "names": ["↗", "Velocity"],
+            "x": {
+                "doc": "How many meters to move each second on the x-axis.",
+                "names": "x"
+            },
+            "y": {
+                "doc": "How many meters to move each second on the y-axis.",
+                "names": "y"
+            },
+            "angle": {
+                "doc": "How many degrees to rotate each second",
+                "names": ["angle", "°"]
             }
         },
         "Matter": {

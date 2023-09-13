@@ -45,14 +45,14 @@ type InputTexts = {
     };
     /** A stream of phrases in places and rotations simulating physics */
     Motion: NameAndDoc & {
-        /** Where the phrase should start */
+        /** The initial place for the motion */
         place: NameAndDoc;
-        /** A constant x velocity to hold */
-        vx: NameAndDoc;
-        /** A constant y velocity to hold */
-        vy: NameAndDoc;
-        /** A constant angular velocity to hold */
-        vrotation: NameAndDoc;
+        /** The initial velocity for the motion */
+        velocity: NameAndDoc;
+        /** The next place for the motion, overriding physics */
+        nextplace: NameAndDoc;
+        /** The next velocity for the motion, overriding physics */
+        nextvelocity: NameAndDoc;
     };
     /** A stream of Place for easily moving Phrases by keyboard */
     Placement: NameAndDoc & {

@@ -1585,9 +1585,9 @@
             "names": "movimiento",
             "doc": "$?",
             "place": { "doc": "$?", "names": "$? place" },
-            "vx": { "doc": "$?", "names": "$? vx" },
-            "vy": { "doc": "$?", "names": "$? vy" },
-            "vrotation": { "doc": "$?", "names": "$? vrotation" }
+            "velocity": { "doc": "$?", "names": "$? velocity" },
+            "nextplace": { "doc": "$?", "names": "$? nextplace" },
+            "nextvelocity": { "doc": "$?", "names": "$? nextvelocity'" }
         },
         "Chat": {
             "doc": ["$?"],
@@ -1883,6 +1883,22 @@
             "y": { "doc": "$?", "names": "$? y" },
             "z": { "doc": "$?", "names": "$? z" },
             "rotation": { "doc": "$?", "names": "$? rotation" }
+        },
+        "Velocity": {
+            "doc": "$?",
+            "names": "$? Velocity",
+            "x": {
+                "doc": "$?",
+                "names": "$? x"
+            },
+            "y": {
+                "doc": "$?",
+                "names": "$? y"
+            },
+            "angle": {
+                "doc": "$? ",
+                "names": "$? angle"
+            }
         },
         "Matter": {
             "doc": "$?",
