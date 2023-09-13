@@ -19,6 +19,8 @@ export type OutputInfo = {
     global: Place;
     local: Place;
     rotation: number | undefined;
+    width: number;
+    height: number;
     parents: TypeOutput[];
     context: RenderContext;
 };
@@ -153,6 +155,8 @@ export default class Scene {
             // We keep these at the center for cacluations, but use the focus place below to detect movement.
             global: center,
             local: center,
+            width: 0,
+            height: 0,
             rotation: stage.pose.rotation,
             parents: [],
             context,
@@ -217,6 +221,8 @@ export default class Scene {
                             output,
                             global: place,
                             local: place,
+                            width: info.width,
+                            height: info.height,
                             rotation: info.rotation,
                             context: info.context,
                             parents: [this.stage],
@@ -382,14 +388,25 @@ export default class Scene {
         const info = outputInfo.get(name);
         // Get this output's place, so we can offset its subgroups.
         const parentPlace = info?.global;
+        // Get the layout of the output
+        const layout = output.getLayout(context);
+        // Update the info's width and height
+        if (info) {
+            info.width = layout.width;
+            info.height = layout.height;
+        }
+
         // Get the places of each of this group's subgroups.
-        for (const [subgroup, place] of output.getLayout(context).places) {
+        for (const [subgroup, place] of layout.places) {
             // Set the place of this subgroup, offseting it by the parent's position to keep it in global coordinates.
             outputInfo.set(subgroup.getName(), {
                 output: subgroup,
                 local: place,
                 global: parentPlace ? place.offset(parentPlace) : place,
                 rotation: info?.rotation,
+                // These dimensions will be set in the recursive call below.
+                width: 0,
+                height: 0,
                 context,
                 parents: parents.slice(),
             });
