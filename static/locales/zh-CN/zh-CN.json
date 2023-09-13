@@ -1893,6 +1893,18 @@
             "friction": {
                 "doc": "$?",
                 "names": "$? friction"
+            },
+            "text": {
+                "doc": "$?",
+                "names": "$? text"
+            },
+            "ground": {
+                "doc": "$?",
+                "names": "$? ground"
+            },
+            "barriers": {
+                "doc": "$?",
+                "names": "$? barriers"
             }
         },
         "Easing": {

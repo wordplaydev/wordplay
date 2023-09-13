@@ -151,6 +151,12 @@ type OutputTexts = {
         bounciness: NameAndDoc;
         /** from 0-1, where 0 means no sliding, and 1 means sliding indefinitely */
         friction: NameAndDoc;
+        /** whether the output can collide with other output */
+        text: NameAndDoc;
+        /** whether the output can collide with the ground */
+        ground: NameAndDoc;
+        /** whether the output can collide with barriers */
+        barriers: NameAndDoc;
     };
     /** The base interface for arrangement types */
     Arrangement: NameAndDoc;

@@ -9,6 +9,10 @@ import type Value from '../values/Value';
 import Motion from '../input/Motion';
 import type Evaluator from '../runtime/Evaluator';
 
+const TextCategory = 0b0001;
+const GroundCategory = 0b0010;
+const BarrierCategory = 0b0100;
+
 /**
  * A MatterJS engine to keep Scene simpler.
  * All details about MatterJS should be encapsulated here,
@@ -43,7 +47,14 @@ export default class Physics {
         // Add a very long static ground to the world along the x-axis.
         MatterJS.Composite.add(
             this.engine.world,
-            MatterJS.Bodies.rectangle(0, 250, 200000, 500, { isStatic: true })
+            MatterJS.Bodies.rectangle(0, 250, 200000, 500, {
+                isStatic: true,
+                collisionFilter: {
+                    group: 1,
+                    category: GroundCategory,
+                    mask: TextCategory | GroundCategory | BarrierCategory,
+                },
+            })
         );
     }
 
@@ -133,13 +144,10 @@ export default class Physics {
                         MatterJS.Body.setMass(shape.body, matter.mass);
                         shape.body.restitution = matter.bounciness;
                         shape.body.friction = matter.friction;
-                        // Ensure it's part of collisions
-                        shape.body.collisionFilter = getCollisionFilter(true);
                     }
-                    // If none are available, remove it from collisions.
-                    else {
-                        shape.body.collisionFilter = getCollisionFilter(false);
-                    }
+
+                    // Set the collision filter based on the matter settings.
+                    shape.body.collisionFilter = getCollisionFilter(matter);
 
                     // If no motion, set static
                     MatterJS.Body.setStatic(shape.body, motion === undefined);
@@ -223,8 +231,7 @@ export class OutputBody {
             }
         );
 
-        if (matter === undefined)
-            this.body.collisionFilter = getCollisionFilter(false);
+        this.body.collisionFilter = getCollisionFilter(matter);
 
         this.width = width;
         this.height = height;
@@ -256,16 +263,19 @@ export class OutputBody {
 }
 
 /** Abstract away MatterJS's confusing collision filtering system. */
-function getCollisionFilter(included: boolean) {
-    return included
+function getCollisionFilter(matter: Matter | undefined) {
+    return matter
         ? {
-              group: 1,
-              category: 1,
-              mask: -1,
+              group: 0,
+              category: TextCategory,
+              mask:
+                  (matter.text ? TextCategory : 0) |
+                  (matter.ground ? GroundCategory : 0) |
+                  (matter.barriers ? BarrierCategory : 0),
           }
         : {
               group: -1,
-              category: 2,
+              category: TextCategory,
               mask: 0,
           };
 }

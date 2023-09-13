@@ -3368,6 +3368,18 @@
             "friction": {
                 "doc": "How much to keep sliding; 0 means none, 1 means forever.",
                 "names": "friction"
+            },
+            "text": {
+                "doc": "Whether it can collide with other output.",
+                "names": "text"
+            },
+            "ground": {
+                "doc": "Whether it can collide with the ground.",
+                "names": "ground"
+            },
+            "barriers": {
+                "doc": "Whether it can collide with barriers on stage.",
+                "names": "barriers"
             }
         },
         "Stage": {
