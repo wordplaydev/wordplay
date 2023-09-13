@@ -30,7 +30,7 @@ import Reference from './Reference';
 import NotAnInterface from '@conflicts/NotAnInterface';
 import { optional, type Grammar, type Replacement, node, list } from './Node';
 import type Locale from '@locale/Locale';
-import type NameType from './NameType';
+import NameType from './NameType';
 import InternalException from '@values/InternalException';
 import Glyphs from '../lore/Glyphs';
 import Purpose from '../concepts/Purpose';
@@ -235,9 +235,15 @@ export default class StructureDefinition extends DefinitionExpression {
             this.getImplementedFunctions().length === 0
         );
     }
+
+    getReference(): NameType {
+        return new NameType(this.getNames()[0], undefined, this);
+    }
+
     getAbstractFunctions(): FunctionDefinition[] {
         return this.getFunctions(false);
     }
+
     getImplementedFunctions(): FunctionDefinition[] {
         return this.getFunctions(true);
     }

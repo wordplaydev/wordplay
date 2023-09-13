@@ -2,10 +2,7 @@ import type Evaluator from '@runtime/Evaluator';
 import Place, { createPlaceStructure, toPlace } from '@output/Place';
 import TemporalStreamValue from '@values/TemporalStreamValue';
 import Bind from '@nodes/Bind';
-import NumberType from '@nodes/NumberType';
 import StreamDefinition from '@nodes/StreamDefinition';
-import Unit from '@nodes/Unit';
-import NumberValue from '@values/NumberValue';
 import StructureValue from '@values/StructureValue';
 import { getDocLocales } from '@locale/getDocLocales';
 import { getNameLocales } from '@locale/getNameLocales';
@@ -15,32 +12,23 @@ import NoneLiteral from '../nodes/NoneLiteral';
 import type Locale from '../locale/Locale';
 import type StructureDefinition from '../nodes/StructureDefinition';
 import type Value from '../values/Value';
-import { getFirstName } from '../locale/Locale';
-import NameType from '../nodes/NameType';
 import type Context from '../nodes/Context';
 import type Type from '../nodes/Type';
 import Matter from 'matter-js';
 import type { OutputBody } from '../output/Physics';
+import type Velocity from '../output/Velocity';
+import { toVelocity } from '../output/Velocity';
+import NoneValue from '../values/NoneValue';
 
 export default class Motion extends TemporalStreamValue<Value, number> {
     private place: Place | undefined;
-    private vx: number | undefined;
-    private vy: number | undefined;
-    private vrotation: number | undefined;
+    private velocity: Velocity | undefined;
 
-    constructor(
-        evaluator: Evaluator,
-        place: Value,
-        vx: number | undefined,
-        vy: number | undefined,
-        vrotation: number | undefined
-    ) {
+    constructor(evaluator: Evaluator, place: Value, velocity: Value) {
         super(evaluator, evaluator.project.shares.input.Motion, place, 0);
 
         this.place = toPlace(place);
-        this.vx = vx;
-        this.vy = vy;
-        this.vrotation = vrotation;
+        this.velocity = toVelocity(velocity);
 
         this.updateBodies();
     }
@@ -53,16 +41,9 @@ export default class Motion extends TemporalStreamValue<Value, number> {
         return;
     }
 
-    update(
-        place: StructureValue | undefined,
-        vx: number | undefined,
-        vy: number | undefined,
-        vrotation: number | undefined
-    ) {
+    update(place: Value | undefined, velocity: Value | undefined) {
         this.place = toPlace(place);
-        this.vx = vx;
-        this.vy = vy;
-        this.vrotation = vrotation;
+        this.velocity = toVelocity(velocity);
 
         this.updateBodies();
     }
@@ -82,19 +63,27 @@ export default class Motion extends TemporalStreamValue<Value, number> {
 
     updateBody(rect: OutputBody) {
         const body = rect.body;
-        // Are either of the velocities non-zero? Update the body's velocity.
-        if (this.vx !== undefined || this.vy !== undefined)
-            Matter.Body.setVelocity(body, {
-                x: this.vx !== undefined ? this.vx : body.velocity.x,
-                // Flip the axis
-                y: this.vy !== undefined ? -this.vy : body.velocity.y,
-            });
-        // Is the rotational velocity defined? Update the body's.
-        if (this.vrotation !== undefined)
-            Matter.Body.setAngularVelocity(
-                body,
-                (this.vrotation * Math.PI) / 180
-            );
+        if (this.velocity !== undefined) {
+            // Are either of the velocities non-zero? Update the body's velocity.
+            if (this.velocity.x !== undefined || this.velocity.y !== undefined)
+                Matter.Body.setVelocity(body, {
+                    x:
+                        this.velocity.x !== undefined
+                            ? this.velocity.x
+                            : body.velocity.x,
+                    // Flip the axis
+                    y:
+                        this.velocity.y !== undefined
+                            ? -this.velocity.y
+                            : body.velocity.y,
+                });
+            // Is the rotational velocity defined? Update the body's.
+            if (this.velocity.angle !== undefined)
+                Matter.Body.setAngularVelocity(
+                    body,
+                    (this.velocity.angle * Math.PI) / 180
+                );
+        }
 
         // Did the place of the stream change? Reposition the body.
         if (this.place)
@@ -152,85 +141,80 @@ export default class Motion extends TemporalStreamValue<Value, number> {
     }
 
     getType(context: Context): Type {
-        return NameType.make(
-            context.project.shares.output.Place.names.getNames()[0]
-        );
+        return context.project.shares.output.Place.getReference();
     }
 }
 
-const SpeedUnit = Unit.reuse(['m'], ['s']);
-const SpeedType = NumberType.make(SpeedUnit);
-const AngleSpeedUnit = Unit.reuse(['°'], ['s']);
-const AngleSpeedType = NumberType.make(AngleSpeedUnit);
-
 export function createMotionDefinition(
     locales: Locale[],
-    phraseType: StructureDefinition
+    placeType: StructureDefinition,
+    velocityType: StructureDefinition
 ) {
-    const PlaceName = getFirstName(locales[0].output.Place.names);
-
-    const Place = Bind.make(
+    const StartPlace = Bind.make(
         getDocLocales(locales, (locale) => locale.input.Motion.place.doc),
         getNameLocales(locales, (locale) => locale.input.Motion.place.names),
-        UnionType.orNone(NameType.make(PlaceName)),
+        UnionType.orNone(placeType.getReference()),
         NoneLiteral.make()
     );
 
-    const VX = Bind.make(
-        getDocLocales(locales, (locale) => locale.input.Motion.vx.doc),
-        getNameLocales(locales, (locale) => locale.input.Motion.vx.names),
-        UnionType.orNone(SpeedType.clone()),
+    const StartVelocity = Bind.make(
+        getDocLocales(locales, (locale) => locale.input.Motion.velocity.doc),
+        getNameLocales(locales, (locale) => locale.input.Motion.velocity.names),
+        UnionType.orNone(velocityType.getReference()),
         NoneLiteral.make()
     );
 
-    const VY = Bind.make(
-        getDocLocales(locales, (locale) => locale.input.Motion.vy.doc),
-        getNameLocales(locales, (locale) => locale.input.Motion.vy.names),
-        UnionType.orNone(SpeedType.clone()),
-        NoneLiteral.make()
-    );
-
-    const VAngle = Bind.make(
-        getDocLocales(locales, (locale) => locale.input.Motion.vrotation.doc),
+    const NextPlace = Bind.make(
+        getDocLocales(locales, (locale) => locale.input.Motion.nextplace.doc),
         getNameLocales(
             locales,
-            (locale) => locale.input.Motion.vrotation.names
+            (locale) => locale.input.Motion.nextplace.names
         ),
-        UnionType.orNone(AngleSpeedType.clone()),
+        UnionType.orNone(placeType.getReference()),
+        NoneLiteral.make()
+    );
+
+    const NextVelocity = Bind.make(
+        getDocLocales(
+            locales,
+            (locale) => locale.input.Motion.nextvelocity.doc
+        ),
+        getNameLocales(
+            locales,
+            (locale) => locale.input.Motion.nextvelocity.names
+        ),
+        UnionType.orNone(velocityType.getReference()),
         NoneLiteral.make()
     );
 
     return StreamDefinition.make(
         getDocLocales(locales, (locale) => locale.input.Motion.doc),
         getNameLocales(locales, (locale) => locale.input.Motion.names),
-        [Place, VX, VY, VAngle],
+        [StartPlace, StartVelocity, NextPlace, NextVelocity],
         createStreamEvaluator<Motion>(
-            NameType.make(phraseType.getNames()[0], phraseType),
+            placeType.getReference(),
             Motion,
             (evaluation) => {
                 return new Motion(
                     evaluation.getEvaluator(),
-                    evaluation.get(Place.names, StructureValue) ??
+                    evaluation.get(StartPlace.names, StructureValue) ??
                         createPlaceStructure(
                             evaluation.getEvaluator(),
                             0,
                             0,
                             0
                         ),
-                    evaluation.get(VX.names, NumberValue)?.toNumber(),
-                    evaluation.get(VY.names, NumberValue)?.toNumber(),
-                    evaluation.get(VAngle.names, NumberValue)?.toNumber()
+                    evaluation.get(StartVelocity.names, StructureValue) ??
+                        new NoneValue(evaluation.getCreator())
                 );
             },
             (stream, evaluation) => {
                 stream.update(
-                    evaluation.get(Place.names, StructureValue),
-                    evaluation.get(VX.names, NumberValue)?.toNumber(),
-                    evaluation.get(VY.names, NumberValue)?.toNumber(),
-                    evaluation.get(VAngle.names, NumberValue)?.toNumber()
+                    evaluation.get(NextPlace.names, StructureValue),
+                    evaluation.get(NextVelocity.names, StructureValue)
                 );
             }
         ),
-        NameType.make(phraseType.getNames()[0], phraseType)
+        placeType.getReference()
     );
 }

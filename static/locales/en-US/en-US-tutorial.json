@@ -2661,7 +2661,7 @@
                     "concept": "Motion",
                     "performance": [
                         "fix",
-                        "Phrase('🏀' 3m place: Motion(◆ ? Place(0m 5m) ø))"
+                        "Phrase('🏀' 3m place: Motion(Place(0m 5m)))"
                     ],
                     "lines": [
                         ["use", "fit", "DarkVoid"],
@@ -2672,10 +2672,7 @@
                             "@Motion is one of the most interesting of those."
                         ],
                         null,
-                        [
-                            "fix",
-                            "Phrase('🏀' 3m place: Motion(◆ ? Place(0m 5m) ø))"
-                        ],
+                        ["fix", "Phrase('🏀' 3m place: Motion(Place(0m 5m)))"],
                         [
                             "FunctionDefinition",
                             "excited",
@@ -2685,13 +2682,13 @@
                         null,
                         [
                             "fix",
-                            "Phrase('🏀' 3m place: Motion(Place(0m 5m) vx: -5m/s vy: 5m/s vrotation: 30°/s)) "
+                            "Phrase('🏀' 3m place: Motion(Place(0m 5m) Velocity(-5m/s 5m/s 30°/s)) "
                         ],
                         [
                             "FunctionDefinition",
                             "excited",
                             "But @Motion has many other tricks.",
-                            "For example, it can have velocities, @Motion/vx, @Motion/vy, and @Motion/vrotation.",
+                            "For example, it can have velocities, @Motion/velocity.",
                             "This example makes the ball move left and up, spinning a bit initially."
                         ],
                         ["Motion", "excited", "Woooosh…"],
@@ -2700,7 +2697,7 @@
                             "fix",
                             "Stage(",
                             "   [",
-                            "       Phrase('🏀' 3m place: Motion(Place(0m 5m) vx: -5m/s vy: 5m/s vrotation: 30°/s) matter: Matter()) ",
+                            "       Phrase('🏀' 3m place: Motion(Place(0m 5m) Velocity(-5m/s 5m/s 30°/s) matter: Matter()) ",
                             "   ]",
                             "   gravity: 9.8m/s^2",
                             ")"
