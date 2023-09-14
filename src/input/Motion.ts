@@ -21,13 +21,15 @@ import { toVelocity } from '../output/Velocity';
 import NoneValue from '../values/NoneValue';
 
 export default class Motion extends TemporalStreamValue<Value, number> {
+    private initialPlace: Place | undefined;
+
     private place: Place | undefined;
     private velocity: Velocity | undefined;
 
     constructor(evaluator: Evaluator, place: Value, velocity: Value) {
         super(evaluator, evaluator.project.shares.input.Motion, place, 0);
 
-        this.place = toPlace(place);
+        this.initialPlace = this.place = toPlace(place);
         this.velocity = toVelocity(velocity);
 
         this.updateBodies();
@@ -123,7 +125,7 @@ export default class Motion extends TemporalStreamValue<Value, number> {
                         this.evaluator,
                         placement.x,
                         placement.y,
-                        this.place?.z ?? 0,
+                        this.place?.z ?? this.initialPlace?.z ?? 0,
                         placement.angle
                     ),
                     delta
