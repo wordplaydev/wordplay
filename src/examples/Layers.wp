@@ -1,0 +1,17 @@
+Layers
+=== start
+count: 10→[]
+
+ƒ balls(z•#m) count.translate(
+    ƒ () 
+        Phrase(
+            'o'
+            place: Motion(
+            Place(Random(-10 10)· 1m Random(0 10)· 1m z)
+            Velocity(Random(-10 10)· 1m/s Random(-5 5)· 1m/s)
+        )
+        matter: Matter(bounciness: 1.5 friction:0)
+    )
+)
+
+Stage(balls(0m).append(balls(-10m).append(balls(10m))) place: Place(0m -5m -20m))
