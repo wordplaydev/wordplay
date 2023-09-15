@@ -83,6 +83,29 @@ type InputTexts = {
             limit: string;
         };
     };
+    /** A stream of collisions between objects with matter. */
+    Collision: NameAndDoc & {
+        /** The subject of a collision */
+        name: NameAndDoc;
+        /** The object of a collision. */
+        other: NameAndDoc;
+    };
+    /** The values that come out of a collision stream. */
+    Rebound: NameAndDoc & {
+        /** The name a collision stream collided with. */
+        subject: NameAndDoc;
+        /** The name a collision stream collided with. */
+        object: NameAndDoc;
+        /** The direction of the collision, relative to the collision stream's subject. */
+        direction: NameAndDoc;
+    };
+    /** A vector indicating a direction and magnitude. */
+    Direction: NameAndDoc & {
+        /** The direction and magnitude on the x-axis */
+        x: NameAndDoc;
+        /** The direction and magnitude on the y-axis */
+        y: NameAndDoc;
+    };
 };
 
 export default InputTexts;

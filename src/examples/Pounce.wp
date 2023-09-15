@@ -5,18 +5,18 @@ Pounce
 key: Key()
 speed: 1m
 
-catPlace: CatPosition(5m 1) … ∆ key …
-    key = "ArrowLeft" ? CatPosition(catPlace.position - speed 1) 
-    	key = "ArrowRight" ? CatPosition(catPlace.position + speed -1) 
-    		catPlace
+kittyPlace: CatPosition(5m 1) … ∆ key …
+    key = "ArrowLeft" ? CatPosition(kittyPlace.position - speed 1) 
+    	key = "ArrowRight" ? CatPosition(kittyPlace.position + speed -1) 
+    		kittyPlace
 
-cat: Phrase(
+kitty: Phrase(
     "🐈"
     face: "Noto Color Emoji"
     name: "kitty"
     size: 2m
-    place: Place(catPlace.position 0m)
-    resting: Pose(flipx: catPlace.direction < 0)
+    place: Place(kittyPlace.position 0m)
+    resting: Pose(flipx: kittyPlace.direction < 0)
     moving: Sequence(sway(5°) 0.25s "zippy")
     matter: Matter(1000kg)
 )
@@ -24,11 +24,11 @@ cat: Phrase(
 ballPlace: Motion(
     Place(0m 15m)
     nextvelocity: 
-        ⊥ ? 
-            Velocity((Random(1 5) · -1m/s · catPlace.direction) (Random(2 10) · 1m/s) (catPlace.direction · 120°/s)) 
-            ø
+        Collision('ball' 'kitty') = ø ? 
+            ø 
+            Velocity((Random(-2 2) · -1m/s · kittyPlace.direction) (Random(1 3) · 1m/s) (kittyPlace.direction · Random(-30 30) · 1°/s)) 
 )
 
-ball: Phrase("o" place: ballPlace matter: Matter(1kg 0.8 0))
+ball: Phrase("o" name: 'ball' place: ballPlace matter: Matter(1kg 0.8 0))
 
-Stage([ball cat] place: Place(z: -15m))
+Stage([ball kitty] place: Place(z: -15m))

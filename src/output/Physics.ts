@@ -8,6 +8,8 @@ import Stage, { DefaultGravity } from './Stage';
 import type Value from '../values/Value';
 import Motion from '../input/Motion';
 import type Evaluator from '../runtime/Evaluator';
+import type { ReboundEvent } from '../input/Collision';
+import Collision from '../input/Collision';
 
 const TextCategory = 0b0001;
 const GroundCategory = 0b0010;
@@ -34,8 +36,9 @@ export default class Physics {
     getEngineAtZ(z: number) {
         let engine = this.enginesByZ.get(Math.round(z));
 
+        // No engine yet for this depth? Make one.
         if (engine === undefined) {
-            /** A Matter JS engine for managing physics on output. */
+            // A Matter JS engine for managing physics on output.
             engine = MatterJS.Engine.create({
                 positionIterations: 6,
                 // Originally had sleeping enabled, but it prevented collisions from happening on sleeping bodies.
@@ -64,6 +67,19 @@ export default class Physics {
 
             // Set the engine.
             this.enginesByZ.set(z, engine);
+
+            // Listen for collisions.
+            MatterJS.Events.on(engine, 'collisionStart', (event) => {
+                this.report(
+                    event.pairs.map((pair) => {
+                        return {
+                            subject: pair.bodyA.label,
+                            object: pair.bodyB.label,
+                            direction: pair.collision.penetration,
+                        };
+                    })
+                );
+            });
         }
 
         // Return the engine.
@@ -242,6 +258,7 @@ export default class Physics {
     createOutputBody(info: OutputInfo, matter: Matter | undefined) {
         const { width, height } = info.output.getLayout(info.context);
         return new OutputBody(
+            info.output.getName(),
             info.global.x,
             info.global.y,
             width,
@@ -253,8 +270,19 @@ export default class Physics {
         );
     }
 
+    /** Get the body corresponding to the given output name */
     getOutputBody(name: string): OutputBody | undefined {
         return this.bodyByName.get(name);
+    }
+
+    /** Report the given collisions to the evaluator's collision streams */
+    report(rebounds: ReboundEvent[]) {
+        // Get the streams.
+        const collisions = this.evaluator.getBasisStreamsOfType(Collision);
+
+        for (const collision of collisions) {
+            for (const rebound of rebounds) collision.react(rebound);
+        }
     }
 
     stop() {
@@ -276,6 +304,7 @@ export class OutputBody {
     readonly width: number;
     readonly height: number;
     constructor(
+        name: string,
         left: number,
         bottom: number,
         width: number,
@@ -301,6 +330,7 @@ export class OutputBody {
                 mass: (matter?.mass ?? 1) * 10,
                 angle,
                 sleepThreshold: 500,
+                label: name,
             }
         );
 

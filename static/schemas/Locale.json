@@ -1836,6 +1836,64 @@
               "$ref": "#/definitions/NameAndDoc",
               "description": "A stream of names selected with the pointer or keyboard"
             },
+            "Collision": {
+              "additionalProperties": false,
+              "description": "A stream of collisions between objects with matter.",
+              "properties": {
+                "doc": {
+                  "$ref": "#/definitions/DocText",
+                  "description": "Documentation for this definition, to appear in the documentation browser."
+                },
+                "name": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "The subject of a collision"
+                },
+                "names": {
+                  "$ref": "#/definitions/NameText",
+                  "description": "One or more names for this definition. Be careful not to introduce duplicates."
+                },
+                "other": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "The object of a collision."
+                }
+              },
+              "required": [
+                "doc",
+                "name",
+                "names",
+                "other"
+              ],
+              "type": "object"
+            },
+            "Direction": {
+              "additionalProperties": false,
+              "description": "A vector indicating a direction and magnitude.",
+              "properties": {
+                "doc": {
+                  "$ref": "#/definitions/DocText",
+                  "description": "Documentation for this definition, to appear in the documentation browser."
+                },
+                "names": {
+                  "$ref": "#/definitions/NameText",
+                  "description": "One or more names for this definition. Be careful not to introduce duplicates."
+                },
+                "x": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "The direction and magnitude on the x-axis"
+                },
+                "y": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "The direction and magnitude on the y-axis"
+                }
+              },
+              "required": [
+                "doc",
+                "names",
+                "x",
+                "y"
+              ],
+              "type": "object"
+            },
             "Key": {
               "additionalProperties": false,
               "description": "A stream of keys pressed, configurable to only show up or down states",
@@ -1990,6 +2048,40 @@
               ],
               "type": "object"
             },
+            "Rebound": {
+              "additionalProperties": false,
+              "description": "The values that come out of a collision stream.",
+              "properties": {
+                "direction": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "The direction of the collision, relative to the collision stream's subject."
+                },
+                "doc": {
+                  "$ref": "#/definitions/DocText",
+                  "description": "Documentation for this definition, to appear in the documentation browser."
+                },
+                "names": {
+                  "$ref": "#/definitions/NameText",
+                  "description": "One or more names for this definition. Be careful not to introduce duplicates."
+                },
+                "object": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "The name a collision stream collided with."
+                },
+                "subject": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "The name a collision stream collided with."
+                }
+              },
+              "required": [
+                "direction",
+                "doc",
+                "names",
+                "object",
+                "subject"
+              ],
+              "type": "object"
+            },
             "Time": {
               "additionalProperties": false,
               "description": "A stream of times since evaluation began",
@@ -2121,7 +2213,10 @@
             "Motion",
             "Placement",
             "Chat",
-            "Webpage"
+            "Webpage",
+            "Collision",
+            "Rebound",
+            "Direction"
           ],
           "type": "object"
         },

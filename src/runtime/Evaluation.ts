@@ -130,27 +130,35 @@ export default class Evaluation {
     getSource() {
         return this.#source;
     }
+
     getCreator() {
         return this.#evaluation;
     }
+
     getCurrentNode() {
         return this.currentStep()?.node ?? this.getCreator();
     }
+
     getEvaluator(): Evaluator {
         return this.#evaluator;
     }
+
     getDefinition() {
         return this.#definition;
     }
+
     getClosure() {
         return this.#closure;
     }
+
     getContext() {
         return this.#context;
     }
+
     getStepNumber() {
         return this.#stepNumber;
     }
+
     /** Utility function for generating a missing value exception */
     getValueOrTypeException(
         expression: Expression,
@@ -315,7 +323,10 @@ export default class Evaluation {
     }
 
     /** A convience function for getting a value by name, but only if it is a certain type */
-    get<Kind>(name: string | Names, type: new (...params: never[]) => Kind) {
+    get<Kind>(
+        name: string | Names,
+        type: new (...params: never[]) => Kind
+    ): Kind | undefined {
         const value = this.resolve(name);
         return value instanceof type ? value : undefined;
     }

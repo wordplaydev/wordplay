@@ -1614,6 +1614,46 @@
                 "noConnection": "$?",
                 "limit": "$?"
             }
+        },
+        "Collision": {
+            "names": "$? Collision",
+            "doc": "$?",
+            "name": {
+                "names": "$? name",
+                "doc": "$?"
+            },
+            "other": {
+                "names": "$? other",
+                "doc": "$?"
+            }
+        },
+        "Rebound": {
+            "names": "$? Rebound",
+            "doc": "$?",
+            "direction": {
+                "names": "$? direction",
+                "doc": "$?"
+            },
+            "subject": {
+                "names": "$? subject",
+                "doc": "$?"
+            },
+            "object": {
+                "names": "$? object",
+                "doc": "$?"
+            }
+        },
+        "Direction": {
+            "names": "$? Direction",
+            "doc": "$?",
+            "x": {
+                "names": "$? x",
+                "doc": "$?"
+            },
+            "y": {
+                "names": "$? y",
+                "doc": "$?"
+            }
         }
     },
     "output": {

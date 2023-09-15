@@ -31,6 +31,39 @@ export default class StructureValue extends Value {
         this.context = context;
     }
 
+    /** Creates an evaluation with the inputs of the given type */
+    static make(
+        evaluator: Evaluator,
+        creator: EvaluationNode,
+        type: StructureDefinition,
+        ...inputs: Value[]
+    ) {
+        const map = new Map<Names, Value>();
+        for (let index = 0; index < type.inputs.length; index++) {
+            const bind = type.inputs[index];
+            const input = inputs[index];
+            if (input === undefined)
+                throw new Error(
+                    `Inputs are missing input # ${index}, ${type.inputs[index]
+                        .getNames()
+                        .join(', ')}`
+                );
+            map.set(bind.names, inputs[index]);
+        }
+
+        const evaluation = new Evaluation(
+            evaluator,
+            creator,
+            type,
+            undefined,
+            map
+        );
+
+        const structure = new StructureValue(creator, evaluation);
+
+        return structure;
+    }
+
     /**
      * A structure is equal to another structure if all of its bindings are equal and they have the same definition.
      */
