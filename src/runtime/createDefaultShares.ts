@@ -29,12 +29,17 @@ import { createWebpageDefinition } from '../input/Webpage';
 import { createChatDefinition } from '../input/Chat';
 import { createMatterType } from '../output/Matter';
 import { createVelocityType } from '../output/Velocity';
+import { createDirectionType } from '../output/Direction';
+import { createReboundType } from '../output/Rebound';
+import { createCollisionDefinition } from '../input/Collision';
 
 export default function createDefaultShares(locales: Locale[]) {
     const PlaceType = createPlaceType(locales);
     const VelocityType = createVelocityType(locales);
     const MatterType = createMatterType(locales);
     const ColorType = createColorType(locales);
+    const DirectionType = createDirectionType(locales);
+    const ReboundType = createReboundType(locales);
 
     const OutputTypes = {
         Type: createTypeType(locales),
@@ -47,6 +52,8 @@ export default function createDefaultShares(locales: Locale[]) {
         Place: PlaceType,
         Matter: MatterType,
         Velocity: VelocityType,
+        Direction: DirectionType,
+        Rebound: ReboundType,
         Shape: createShapeType(locales),
         Rectangle: createRectangleType(locales),
         Arrangement: createArrangementType(locales),
@@ -70,6 +77,7 @@ export default function createDefaultShares(locales: Locale[]) {
         Camera: createCameraDefinition(locales, ColorType),
         Webpage: createWebpageDefinition(locales),
         Chat: createChatDefinition(locales),
+        Collision: createCollisionDefinition(locales, ReboundType),
     };
 
     const Sequences = getDefaultSequences(locales);

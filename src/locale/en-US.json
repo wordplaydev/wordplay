@@ -2922,6 +2922,46 @@
                 "noConnection": "no connection to Wordplay",
                 "limit": "too many requests to this domain"
             }
+        },
+        "Collision": {
+            "names": "Collision",
+            "doc": "$?",
+            "name": {
+                "names": "name",
+                "doc": "$?"
+            },
+            "other": {
+                "names": "other",
+                "doc": "$?"
+            }
+        },
+        "Rebound": {
+            "names": "Rebound",
+            "doc": "I come from @Collision and represent the who was collided with and which direction the collision occurred on. Use me to decide whether to react to a collision in some special way, other than normal physics.",
+            "direction": {
+                "names": "direction",
+                "doc": "The direction and magnitude of the collision, relative to the subject of the collision"
+            },
+            "subject": {
+                "names": "subject",
+                "doc": "The name of the output that was hit by the subject."
+            },
+            "object": {
+                "names": "object",
+                "doc": "The name of the output that hit the subject"
+            }
+        },
+        "Direction": {
+            "names": "Direction",
+            "doc": "I'm a direction and magnitude, along x and y axes.",
+            "x": {
+                "names": "x",
+                "doc": "The direction and magnitude of the direction along the x-axis."
+            },
+            "y": {
+                "names": "y",
+                "doc": "The direction and magnitude of the direction along the y-axis."
+            }
         }
     },
     "output": {
