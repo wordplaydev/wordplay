@@ -10,6 +10,8 @@ import Motion from '../input/Motion';
 import type Evaluator from '../runtime/Evaluator';
 import type { ReboundEvent } from '../input/Collision';
 import Collision from '../input/Collision';
+import { Rectangle } from './Form';
+import type Shape from './Shape';
 
 const TextCategory = 0b0001;
 const GroundCategory = 0b0010;
@@ -28,6 +30,16 @@ export default class Physics {
 
     /** A mapping from output names to body IDs */
     private bodyByName: Map<string, OutputBody> = new Map();
+
+    /** The latest stage synced */
+    private stage: Stage | undefined = undefined;
+
+    /** The hash of the barriers previously added */
+    private previousShapes: Shape[] = [];
+    private currentShapeBodies: {
+        body: MatterJS.Body;
+        engine: MatterJS.Engine;
+    }[] = [];
 
     constructor(evaluator: Evaluator) {
         this.evaluator = evaluator;
@@ -52,19 +64,6 @@ export default class Physics {
             if (animationFactor > 0)
                 engine.timing.timeScale = 1 / animationFactor;
 
-            // Add a very long static ground to the world along the x-axis.
-            MatterJS.Composite.add(
-                engine.world,
-                MatterJS.Bodies.rectangle(0, 250, 200000, 500, {
-                    isStatic: true,
-                    collisionFilter: {
-                        group: 1,
-                        category: GroundCategory,
-                        mask: TextCategory | GroundCategory | BarrierCategory,
-                    },
-                })
-            );
-
             // Set the engine.
             this.enginesByZ.set(z, engine);
 
@@ -86,14 +85,50 @@ export default class Physics {
         return engine;
     }
 
+    /** Rotation is degrees */
+    createRectangle(rectangle: Rectangle, rotation: number | undefined) {
+        // Compute rectangle boundaries in engine coordinates.
+        const left = rectangle.getLeft() * PX_PER_METER;
+        const right =
+            (rectangle.getLeft() + rectangle.getWidth()) * PX_PER_METER;
+        const top = -rectangle.getTop() * PX_PER_METER;
+        const bottom =
+            -(rectangle.getTop() - rectangle.getHeight()) * PX_PER_METER;
+
+        // Place the rectangle at the center of bounds
+        const rect = MatterJS.Bodies.rectangle(
+            (left + right) / 2,
+            (top + bottom) / 2,
+            Math.abs(right - left),
+            Math.abs(bottom - top),
+            {
+                isStatic: true,
+                collisionFilter: {
+                    group: 1,
+                    category: GroundCategory,
+                    mask: TextCategory | GroundCategory | BarrierCategory,
+                },
+            }
+        );
+
+        if (rotation !== undefined && rotation !== 0)
+            MatterJS.Body.rotate(rect, (rotation * Math.PI) / 180);
+
+        return rect;
+    }
+
     /** Given the current and prior scenes, and the time elapsed since the last one, sync the matter engine. */
     sync(
+        stage: Stage,
         current: OutputInfoSet,
         prior: OutputInfoSet,
         entered: OutputsByName,
         exiting: OutputsByName,
         delta: number
     ) {
+        // Update the stage
+        this.stage = stage;
+
         // REMOVE all of the exited outputs from the engine.
         for (const name of exiting.keys()) this.removeOutputBody(name);
 
@@ -221,6 +256,44 @@ export default class Physics {
             }
         }
 
+        // Sync barriers.
+        if (this.stage) {
+            const shapes = this.stage.getShapes();
+
+            // If the shapes changed update them in the engine.
+            if (
+                this.previousShapes.length !== shapes.length ||
+                !this.previousShapes.every((shape, index) =>
+                    shape.value.isEqualTo(shapes[index].value)
+                )
+            ) {
+                // Remove the bodies previously added
+                for (const record of this.currentShapeBodies)
+                    MatterJS.Composite.remove(record.engine.world, record.body);
+
+                // Add the revised bodies
+                this.currentShapeBodies = [];
+                for (const barrier of shapes) {
+                    if (barrier.form instanceof Rectangle) {
+                        const shape = this.createRectangle(
+                            barrier.form,
+                            barrier.pose.rotation
+                        );
+                        if (barrier.name) shape.label = barrier.getName();
+                        const engine = this.getEngineAtZ(barrier.form.z);
+                        MatterJS.Composite.add(engine.world, shape);
+                        this.currentShapeBodies.push({
+                            body: shape,
+                            engine: engine,
+                        });
+                    }
+                }
+
+                // Remember what we added.
+                this.previousShapes = shapes;
+            }
+        }
+
         // UPDATE all the engines forward by the duration that has elapsed with the new arrangement.
         if (
             this.evaluator.database.Settings.settings.animationFactor.get() > 0
@@ -235,21 +308,26 @@ export default class Physics {
         if (outputBody) {
             // Search through the engines and find the one with the body to remove.
             for (const [z, engine] of this.enginesByZ) {
-                // Get the bodies in this engine.
-                const bodies = MatterJS.World.allBodies(engine.world);
-                // If this world contains the body, remove it from the engine.
-                if (bodies.some((body) => body === outputBody.body)) {
-                    // Remove the body.
-                    MatterJS.Composite.remove(engine.world, outputBody.body);
-                    this.bodyByName.delete(name);
+                if (MatterJS.World.allBodies) {
+                    // Get the bodies in this engine.
+                    const bodies = MatterJS.World.allBodies(engine.world);
+                    // If this world contains the body, remove it from the engine.
+                    if (bodies.some((body) => body === outputBody.body)) {
+                        // Remove the body.
+                        MatterJS.Composite.remove(
+                            engine.world,
+                            outputBody.body
+                        );
+                        this.bodyByName.delete(name);
 
-                    // If the engine is now empty, remove the engine.
-                    if (bodies.length === 1) {
-                        this.stopEngine(engine);
-                        this.enginesByZ.delete(z);
+                        // If the engine is now empty, remove the engine.
+                        if (bodies.length === 1) {
+                            this.stopEngine(engine);
+                            this.enginesByZ.delete(z);
+                        }
+
+                        return;
                     }
-
-                    return;
                 }
             }
         }

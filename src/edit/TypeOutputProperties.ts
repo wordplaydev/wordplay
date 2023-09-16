@@ -5,7 +5,7 @@ import NumberLiteral from '@nodes/NumberLiteral';
 import TextLiteral from '@nodes/TextLiteral';
 import Unit from '@nodes/Unit';
 import { createPoseLiteral } from '@output/Pose';
-import { DefaultStyle } from '@output/TypeOutput';
+import { DefaultStyle } from '@output/Output';
 import OutputProperty from './OutputProperty';
 import OutputPropertyText from './OutputPropertyText';
 import OutputPropertyOptions from './OutputPropertyOptions';

@@ -6468,6 +6468,10 @@
               ],
               "type": "object"
             },
+            "Output": {
+              "$ref": "#/definitions/NameAndDoc",
+              "description": "The base interface for Phrase, Group, and Stage, and other types of Output"
+            },
             "Phrase": {
               "additionalProperties": false,
               "description": "A sequence of glyphs",
@@ -6711,24 +6715,32 @@
               "description": "A rectangle shape, for Stage.frame",
               "properties": {
                 "bottom": {
-                  "$ref": "#/definitions/NameAndDoc"
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "Bottom of the rectangle"
                 },
                 "doc": {
                   "$ref": "#/definitions/DocText",
                   "description": "Documentation for this definition, to appear in the documentation browser."
                 },
                 "left": {
-                  "$ref": "#/definitions/NameAndDoc"
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "Left of the rectangle"
                 },
                 "names": {
                   "$ref": "#/definitions/NameText",
                   "description": "One or more names for this definition. Be careful not to introduce duplicates."
                 },
                 "right": {
-                  "$ref": "#/definitions/NameAndDoc"
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "Right of the rectangle"
                 },
                 "top": {
-                  "$ref": "#/definitions/NameAndDoc"
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "Top of the rectangle"
+                },
+                "z": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "Depth of rectangle"
                 }
               },
               "required": [
@@ -6737,7 +6749,8 @@
                 "left",
                 "names",
                 "right",
-                "top"
+                "top",
+                "z"
               ],
               "type": "object"
             },
@@ -6815,8 +6828,108 @@
               "type": "object"
             },
             "Shape": {
-              "$ref": "#/definitions/NameAndDoc",
-              "description": "The base interface for shape types"
+              "additionalProperties": false,
+              "description": "The base interface for shape types",
+              "properties": {
+                "background": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "The background color behind a phrase, group, or stage"
+                },
+                "color": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "The color of glyphs in a phrase, group, or stage"
+                },
+                "doc": {
+                  "$ref": "#/definitions/DocText",
+                  "description": "Documentation for this definition, to appear in the documentation browser."
+                },
+                "duration": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "The curation of transition"
+                },
+                "entering": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "Pose or sequence for when a phrase, group, or stage enters stage"
+                },
+                "exiting": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "Pose or sequence for when a phrase, group, or stage is leaving stage"
+                },
+                "flipx": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "Whether a phrase, group, or stage is flipped horizontally"
+                },
+                "flipy": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "Whether a phrase, group, or stage is flipped vertically"
+                },
+                "form": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "The kind of shape and its details"
+                },
+                "moving": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "Pose or sequence for when a phrase, group, or stage is moving"
+                },
+                "name": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "The name of a phrase, group, or stage, used in Choice, Collision, and animations"
+                },
+                "names": {
+                  "$ref": "#/definitions/NameText",
+                  "description": "One or more names for this definition. Be careful not to introduce duplicates."
+                },
+                "offset": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "The offset of phrase, group, or stage from its place"
+                },
+                "opacity": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "The opacity of a phrase, group, or stage"
+                },
+                "resting": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "Pose or sequence for when a phrase, group, or stage is not moving"
+                },
+                "rotation": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "The rotation of a phrase, group, or stage"
+                },
+                "scale": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "The scale of phrase, group, or stage"
+                },
+                "selectable": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "Whether a phrase, group, or stage is selectable by Choice"
+                },
+                "style": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "The transition style of transitions"
+                }
+              },
+              "required": [
+                "background",
+                "color",
+                "doc",
+                "duration",
+                "entering",
+                "exiting",
+                "flipx",
+                "flipy",
+                "form",
+                "moving",
+                "name",
+                "names",
+                "offset",
+                "opacity",
+                "resting",
+                "rotation",
+                "scale",
+                "selectable",
+                "style"
+              ],
+              "type": "object"
             },
             "Stack": {
               "additionalProperties": false,
@@ -6986,10 +7099,6 @@
               ],
               "type": "object"
             },
-            "Type": {
-              "$ref": "#/definitions/NameAndDoc",
-              "description": "The base interface for Phrase, Group, and Stage"
-            },
             "Velocity": {
               "additionalProperties": false,
               "description": "A velocity vector",
@@ -7105,7 +7214,7 @@
             }
           },
           "required": [
-            "Type",
+            "Output",
             "Group",
             "Phrase",
             "Stage",

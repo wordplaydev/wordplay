@@ -3,11 +3,11 @@ Pounce
 •CatPosition(position•#m direction•#)
 
 key: Key()
-speed: 1m
+speed: 0.5m
 
 kittyPlace: CatPosition(5m 1) … ∆ key …
-    key = "ArrowLeft" ? CatPosition(kittyPlace.position - speed 1) 
-    	key = "ArrowRight" ? CatPosition(kittyPlace.position + speed -1) 
+    ((key = "ArrowLeft") & (kittyPlace.position > -10m)) ? CatPosition(kittyPlace.position - speed 1) 
+    	((key = "ArrowRight") & (kittyPlace.position < 8m)) ? CatPosition(kittyPlace.position + speed -1) 
     		kittyPlace
 
 kitty: Phrase(
@@ -24,12 +24,22 @@ kitty: Phrase(
 pounce: Collision('ball' 'kitty')
 
 ballPlace: Motion(
-    Place(0m 15m)
+    Place(0m 9m)
     nextvelocity: 
         pounce•ø ? ø 
             Velocity((Random(-2 2) · -1m/s · kittyPlace.direction) (Random(5 10) · 1m/s) (kittyPlace.direction · Random(-30 30) · 1°/s)) 
 )
 
-ball: Phrase("o" name: 'ball' place: ballPlace matter: Matter(1kg 0.8 0))
+ball: Phrase("🥹" name: 'ball' place: ballPlace matter: Matter(1kg 0.2 0))
 
-Stage([ball kitty] place: Place(z: -15m))
+Stage(
+    [
+        Shape(Rectangle(-10m 0m 10m -1m))
+        Shape(Rectangle(-10m -1m -9m 10m))
+        Shape(Rectangle(10m -1m 9m 10m))
+        Shape(Rectangle(-10m 10m 10m 11m))
+        ball 
+        kitty
+    ] 
+    place: Place(y: -5m z: -10m)
+)

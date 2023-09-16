@@ -6,7 +6,7 @@ import { toGroup } from './Group';
 import { toPhrase } from './Phrase';
 import { toRow } from './Row';
 import { toStack } from './Stack';
-import type TypeOutput from './TypeOutput';
+import type Output from './Output';
 import { NameGenerator, toStage } from './Stage';
 import { toGrid } from './Grid';
 import NoneValue from '@values/NoneValue';
@@ -20,16 +20,17 @@ import type TextLang from './TextLang';
 import { DefinitePose, toPose } from './Pose';
 import type Pose from './Pose';
 import type Sequence from './Sequence';
-import { getOutputInputs } from './Output';
+import { getOutputInputs } from './Valued';
 import { toSequence } from './Sequence';
 import TextValue from '../values/TextValue';
 import type { SupportedFace } from '../basis/Fonts';
+import { toShape } from './Shape';
 
-export function toTypeOutput(
+export function toOutput(
     project: Project,
     value: Value | undefined,
     namer: NameGenerator
-): TypeOutput | undefined {
+): Output | undefined {
     if (!(value instanceof StructureValue)) return undefined;
     switch (value.type) {
         case project.shares.output.Phrase:
@@ -38,23 +39,25 @@ export function toTypeOutput(
             return toGroup(project, value, namer);
         case project.shares.output.Stage:
             return toStage(project, value, namer);
+        case project.shares.output.Shape:
+            return toShape(project, value, namer);
     }
     return undefined;
 }
 
-export function toTypeOutputList(
+export function toOutputList(
     project: Project,
     value: Value | undefined,
     namer: NameGenerator
-): (TypeOutput | null)[] | undefined {
+): (Output | null)[] | undefined {
     if (value === undefined || !(value instanceof ListValue)) return undefined;
 
-    const phrases: (TypeOutput | null)[] = [];
+    const phrases: (Output | null)[] = [];
     for (const val of value.values) {
         if (!(val instanceof StructureValue || val instanceof NoneValue))
             return undefined;
         const phrase =
-            val instanceof NoneValue ? null : toTypeOutput(project, val, namer);
+            val instanceof NoneValue ? null : toOutput(project, val, namer);
         if (phrase === undefined) return undefined;
         phrases.push(phrase);
     }
@@ -79,7 +82,7 @@ export function toArrangement(
     return undefined;
 }
 
-export function getStyle(
+export function getTypeStyle(
     project: Project,
     value: StructureValue,
     index: number
@@ -98,10 +101,38 @@ export function getStyle(
     duration: number | undefined;
     style: string | undefined;
 } {
+    const [sizeVal, faceVal, placeVal] = getOutputInputs(value, index);
+
+    const size = toNumber(sizeVal);
+    const face = toFace(faceVal) as SupportedFace;
+    const place = toPlace(placeVal);
+
+    const style = getStyle(project, value, index + 3, place);
+
+    return {
+        size,
+        face,
+        place,
+        name: style.name,
+        selectable: style.selectable,
+        background: style.background,
+        pose: style.pose,
+        resting: style.resting,
+        entering: style.entering,
+        moving: style.moving,
+        exiting: style.exiting,
+        duration: style.duration,
+        style: style.style,
+    };
+}
+
+export function getStyle(
+    project: Project,
+    value: StructureValue,
+    index: number,
+    place?: Place | undefined
+) {
     const [
-        sizeVal,
-        faceVal,
-        placeVal,
         nameVal,
         selectableVal,
         colorVal,
@@ -120,9 +151,6 @@ export function getStyle(
         styleVal,
     ] = getOutputInputs(value, index);
 
-    const size = toNumber(sizeVal);
-    const face = toFace(faceVal) as SupportedFace;
-    const place = toPlace(placeVal);
     const name = toText(nameVal);
     const selectable = toBoolean(selectableVal);
     const background = toColor(backgroundVal);
@@ -153,9 +181,6 @@ export function getStyle(
     const duration = toNumber(durationVal);
 
     return {
-        size,
-        face,
-        place,
         name,
         selectable,
         background,

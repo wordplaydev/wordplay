@@ -141,7 +141,7 @@
         "Collision",
         "Rebound",
         "Direction",
-        "Type",
+        "Output",
         "Group",
         "Phrase",
         "Stage",

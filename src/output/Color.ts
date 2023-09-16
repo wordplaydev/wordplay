@@ -1,7 +1,7 @@
 import Decimal from 'decimal.js';
 import toStructure from '../basis/toStructure';
 import type Value from '@values/Value';
-import Output, { getOutputInputs } from './Output';
+import Valued, { getOutputInputs } from './Valued';
 import { toDecimal } from './Stage';
 import ColorJS from 'colorjs.io';
 import { TYPE_SYMBOL } from '@parser/Symbols';
@@ -24,7 +24,7 @@ export function createColorType(locales: Locale[]) {
 `);
 }
 
-export default class Color extends Output {
+export default class Color extends Valued {
     readonly lightness: Decimal;
     readonly chroma: Decimal;
     readonly hue: Decimal;
@@ -44,6 +44,10 @@ export default class Color extends Output {
             this.chroma,
             new Decimal(360).sub(this.hue)
         );
+    }
+
+    hash() {
+        return `${this.lightness}${this.chroma}${this.hue}`;
     }
 
     toCSS() {

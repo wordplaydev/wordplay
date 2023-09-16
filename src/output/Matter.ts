@@ -1,7 +1,7 @@
 import toStructure from '../basis/toStructure';
 import type Value from '@values/Value';
 import { getBind } from '@locale/getBind';
-import Output, { getOutputInputs } from './Output';
+import Valued, { getOutputInputs } from './Valued';
 import { toBoolean, toNumber } from './Stage';
 import StructureValue from '../values/StructureValue';
 import type Locale from '../locale/Locale';
@@ -31,7 +31,7 @@ export function createMatterType(locales: Locale[]) {
 `);
 }
 
-export default class Matter extends Output {
+export default class Matter extends Valued {
     readonly mass: number;
     readonly bounciness: number;
     readonly friction: number;

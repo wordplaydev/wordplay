@@ -1,7 +1,7 @@
 import toStructure from '../basis/toStructure';
 import type Value from '@values/Value';
 import type Color from './Color';
-import type TypeOutput from './TypeOutput';
+import type Output from './Output';
 import type RenderContext from './RenderContext';
 import { getBind } from '@locale/getBind';
 import Arrangement from './Arrangement';
@@ -10,7 +10,7 @@ import Place from './Place';
 import NoneValue from '@values/NoneValue';
 import concretize from '../locale/concretize';
 import type Locale from '../locale/Locale';
-import { getOutputInputs } from './Output';
+import { getOutputInputs } from './Valued';
 import StructureValue from '../values/StructureValue';
 
 export function createGridType(locales: Locale[]) {
@@ -58,7 +58,7 @@ export class Grid extends Arrangement {
                 : undefined;
     }
 
-    getLayout(outputs: (TypeOutput | null)[], context: RenderContext) {
+    getLayout(outputs: (Output | null)[], context: RenderContext) {
         const layouts = outputs.map((output) =>
             output ? output.getLayout(context) : null
         );
@@ -139,7 +139,7 @@ export class Grid extends Arrangement {
             this.padding * (rows - 1);
 
         // Next, position each child in a cell, iterating through each row from left to right.
-        const places: [TypeOutput, Place][] = [];
+        const places: [Output, Place][] = [];
         for (let row = 0; row < rows; row++) {
             for (let col = 0; col < columns; col++) {
                 // Get the output in this cell.
@@ -184,7 +184,7 @@ export class Grid extends Arrangement {
         return undefined;
     }
 
-    getDescription(_: TypeOutput[], locales: Locale[]) {
+    getDescription(_: Output[], locales: Locale[]) {
         return concretize(
             locales[0],
             locales[0].output.Grid.description,

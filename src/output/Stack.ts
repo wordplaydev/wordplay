@@ -1,7 +1,7 @@
 import toStructure from '../basis/toStructure';
 import type Value from '@values/Value';
 import type Color from './Color';
-import type TypeOutput from './TypeOutput';
+import type Output from './Output';
 import type RenderContext from './RenderContext';
 import Place from './Place';
 import { getBind } from '@locale/getBind';
@@ -11,7 +11,7 @@ import Phrase from './Phrase';
 import Group from './Group';
 import concretize from '../locale/concretize';
 import type Locale from '../locale/Locale';
-import { getOutputInput } from './Output';
+import { getOutputInput } from './Valued';
 import StructureValue from '../values/StructureValue';
 import Decimal from 'decimal.js';
 
@@ -36,7 +36,7 @@ export class Stack extends Arrangement {
         this.alignment = align === 0 ? 0 : align < 0 ? -1 : 1;
     }
 
-    getLayout(children: (TypeOutput | null)[], context: RenderContext) {
+    getLayout(children: (Output | null)[], context: RenderContext) {
         // Get the layouts of the children
         const layouts = children.map((child) =>
             child ? child.getLayout(context) : null
@@ -62,7 +62,7 @@ export class Stack extends Arrangement {
         // Start at the top and work our way down.
         let y = new Decimal(height);
 
-        const places: [TypeOutput, Place][] = [];
+        const places: [Output, Place][] = [];
         let left = 0,
             bottom = 0,
             right = 0,
@@ -118,7 +118,7 @@ export class Stack extends Arrangement {
         return undefined;
     }
 
-    getDescription(output: TypeOutput[], locales: Locale[]) {
+    getDescription(output: Output[], locales: Locale[]) {
         return concretize(
             locales[0],
             locales[0].output.Stack.description,

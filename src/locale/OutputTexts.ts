@@ -42,8 +42,8 @@ export type TypeTexts = {
 };
 
 type OutputTexts = {
-    /** The base interface for Phrase, Group, and Stage */
-    Type: NameAndDoc;
+    /** The base interface for Phrase, Group, and Stage, and other types of Output */
+    Output: NameAndDoc;
     /** A group of output with a layout */
     Group: NameAndDoc & {
         /** The list of content in the group */
@@ -81,13 +81,54 @@ type OutputTexts = {
             gravity: NameAndDoc;
         };
     /** The base interface for shape types */
-    Shape: NameAndDoc;
+    Shape: NameAndDoc & {
+        /** The kind of shape and its details */
+        form: NameAndDoc;
+        /** The name of a phrase, group, or stage, used in Choice, Collision, and animations */
+        name: NameAndDoc;
+        /** Whether a phrase, group, or stage is selectable by Choice */
+        selectable: NameAndDoc;
+        /** The color of glyphs in a phrase, group, or stage */
+        color: NameAndDoc;
+        /** The background color behind a phrase, group, or stage */
+        background: NameAndDoc;
+        /** The opacity of a phrase, group, or stage */
+        opacity: NameAndDoc;
+        /** The offset of phrase, group, or stage from its place */
+        offset: NameAndDoc;
+        /** The rotation of a phrase, group, or stage */
+        rotation: NameAndDoc;
+        /** The scale of phrase, group, or stage */
+        scale: NameAndDoc;
+        /** Whether a phrase, group, or stage is flipped horizontally */
+        flipx: NameAndDoc;
+        /** Whether a phrase, group, or stage is flipped vertically */
+        flipy: NameAndDoc;
+        /** Pose or sequence for when a phrase, group, or stage enters stage */
+        entering: NameAndDoc;
+        /** Pose or sequence for when a phrase, group, or stage is not moving */
+        resting: NameAndDoc;
+        /** Pose or sequence for when a phrase, group, or stage is moving */
+        moving: NameAndDoc;
+        /** Pose or sequence for when a phrase, group, or stage is leaving stage */
+        exiting: NameAndDoc;
+        /** The curation of transition */
+        duration: NameAndDoc;
+        /** The transition style of transitions */
+        style: NameAndDoc;
+    };
     /** A rectangle shape, for Stage.frame */
     Rectangle: NameAndDoc & {
+        /** Left of the rectangle */
         left: NameAndDoc;
+        /** Top of the rectangle */
         top: NameAndDoc;
+        /** Right of the rectangle */
         right: NameAndDoc;
+        /** Bottom of the rectangle */
         bottom: NameAndDoc;
+        /** Depth of rectangle */
+        z: NameAndDoc;
     };
     /** A pose, for use in overriding an output's defaults for entering, resting, moving, or existing states */
     Pose: NameAndDoc & {

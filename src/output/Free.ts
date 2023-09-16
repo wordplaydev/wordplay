@@ -1,7 +1,7 @@
 import toStructure from '../basis/toStructure';
 import type Value from '@values/Value';
 import type Color from './Color';
-import type TypeOutput from './TypeOutput';
+import type Output from './Output';
 import type RenderContext from './RenderContext';
 import Place from './Place';
 import { getBind } from '@locale/getBind';
@@ -21,8 +21,8 @@ export class Free extends Arrangement {
         super(value);
     }
 
-    getLayout(children: (TypeOutput | null)[], context: RenderContext) {
-        const places: [TypeOutput, Place][] = [];
+    getLayout(children: (Output | null)[], context: RenderContext) {
+        const places: [Output, Place][] = [];
         let left = 0,
             right = 0,
             bottom = 0,
@@ -62,7 +62,7 @@ export class Free extends Arrangement {
         return undefined;
     }
 
-    getDescription(output: TypeOutput[], locales: Locale[]) {
+    getDescription(output: Output[], locales: Locale[]) {
         return concretize(
             locales[0],
             locales[0].output.Free.description,

@@ -1,7 +1,7 @@
 import toStructure from '../basis/toStructure';
 import type Value from '@values/Value';
 import { getBind } from '@locale/getBind';
-import Output from './Output';
+import Valued from './Valued';
 import type Evaluator from '@runtime/Evaluator';
 import NumberValue from '@values/NumberValue';
 import type { EvaluationNode } from '@runtime/Evaluation';
@@ -18,7 +18,7 @@ export function createDirectionType(locales: Locale[]) {
 `);
 }
 
-export default class Direction extends Output {
+export default class Direction extends Valued {
     readonly x: number;
     readonly y: number;
 

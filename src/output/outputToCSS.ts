@@ -77,8 +77,8 @@ export function getOpacityCSS(primary: Pose, secondary: Pose) {
 }
 
 export function toOutputTransform(
-    primaryPose: Pose,
-    secondaryPose: Pose,
+    primaryPose: Pose | undefined,
+    secondaryPose: Pose | undefined,
     place: Place,
     focus: Place,
     parentAscent: number,
@@ -87,15 +87,25 @@ export function toOutputTransform(
 ) {
     const root = viewport !== undefined;
 
+    const posed = primaryPose && secondaryPose;
+
     // Compute rendered scale based on scale and and flip
-    const scale = primaryPose.scale ?? secondaryPose.scale ?? 1;
-    const xScale = scale * (primaryPose.flipx ?? secondaryPose.flipx ? -1 : 1);
-    const yScale = scale * (primaryPose.flipy ?? secondaryPose.flipy ? -1 : 1);
-    const offset = primaryPose.offset ?? secondaryPose.offset;
+    const scale = posed ? primaryPose.scale ?? secondaryPose.scale ?? 1 : 1;
+    const xScale = posed
+        ? scale * (primaryPose.flipx ?? secondaryPose.flipx ? -1 : 1)
+        : 1;
+    const yScale = posed
+        ? scale * (primaryPose.flipy ?? secondaryPose.flipy ? -1 : 1)
+        : 1;
+    const offset = posed
+        ? primaryPose.offset ?? secondaryPose.offset
+        : undefined;
     const xOffset = offset ? offset.x * PX_PER_METER : 0;
     const yOffset = offset ? offset.y * PX_PER_METER : 0;
     const zOffset = offset ? offset.z : 0;
-    const rotation = primaryPose.rotation ?? secondaryPose.rotation ?? 0;
+    const rotation = posed
+        ? primaryPose.rotation ?? secondaryPose.rotation ?? 0
+        : 0;
 
     // Compute the final z position of the output based on it's place and it's offset.
     const z = place.z + zOffset;
@@ -127,7 +137,7 @@ export function toOutputTransform(
     // Translate the focus to focus coordinates.
     // Negate y to account for flipped y axis.
     const focusX = focus.x * PX_PER_METER;
-    const focusY = -focus.y * PX_PER_METER;
+    const focusY = focus.y * PX_PER_METER;
 
     // These are applied in reverse.
     const transform = [

@@ -34,7 +34,7 @@
         getEvaluation,
     } from '../project/Contexts';
     import type Evaluator from '@runtime/Evaluator';
-    import type TypeOutput from '../../output/TypeOutput';
+    import type Output from '../../output/Output';
     import { animationFactor, locale, locales } from '../../db/Database';
     import {
         describeEnteredOutput,
@@ -91,10 +91,10 @@
     }
 
     let exiting: OutputInfoSet = new Map();
-    let entered: Map<string, TypeOutput> = new Map();
-    let present: Map<string, TypeOutput> = new Map();
+    let entered: Map<string, Output> = new Map();
+    let present: Map<string, Output> = new Map();
     let moved: Moved = new Map();
-    let previouslyPresent: Map<string, TypeOutput> | undefined = undefined;
+    let previouslyPresent: Map<string, Output> | undefined = undefined;
 
     const announcer = getAnnounce();
 
@@ -459,5 +459,11 @@
     .axis {
         background-color: var(--grid-color);
         opacity: 0.4;
+    }
+
+    .rectangle-barrier {
+        position: absolute;
+        background: var(--wordplay-inactive-color);
+        border-radius: calc(var(--wordplay-border-radius) * 2);
     }
 </style>
