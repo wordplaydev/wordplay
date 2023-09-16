@@ -1,0 +1,45 @@
+Pounce
+=== start
+•CatPosition(position•#m direction•#)
+
+key: Key()
+speed: 1m
+
+kittyPlace: CatPosition(5m 1) … ∆ key …
+    ((key = "ArrowLeft") & (kittyPlace.position > -10m)) ? CatPosition(kittyPlace.position - speed 1) 
+    	((key = "ArrowRight") & (kittyPlace.position < 8m)) ? CatPosition(kittyPlace.position + speed -1) 
+    		kittyPlace
+
+kitty: Phrase(
+    "🐈"
+    face: "Noto Color Emoji"
+    name: "kitty"
+    size: 2m
+    place: Place(kittyPlace.position 0m)
+    resting: Pose(flipx: kittyPlace.direction < 0)
+    moving: Sequence(sway(5°) 0.25s "zippy")
+    matter: Matter(1000kg)
+)
+
+pounce: Collision('ball' 'kitty')
+
+ballPlace: Motion(
+    Place(0m 9m)
+    nextvelocity: 
+        pounce•ø ? ø 
+            Velocity((Random(5 15) · -1m/s · kittyPlace.direction) (Random(27 30) · 1m/s) (-kittyPlace.direction · Random(0 15) · 1°/s)) 
+)
+
+ball: Phrase("🧶" name: 'ball' place: ballPlace matter: Matter(1kg 0.5 0 1))
+
+Stage(
+    [
+        Shape(Rectangle(-10m 0m 10m -1m))
+        Shape(Rectangle(-10m -1m -9m 10m))
+        Shape(Rectangle(10m -1m 9m 10m))
+        Shape(Rectangle(-10m 10m 10m 11m))
+        ball 
+        kitty
+    ] 
+    place: Place(y: 5m z: -10m)
+)

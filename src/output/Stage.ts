@@ -1,6 +1,6 @@
 import StructureValue from '@values/StructureValue';
 import type Value from '@values/Value';
-import TypeOutput, { DefaultStyle } from './TypeOutput';
+import Output, { DefaultStyle } from './Output';
 import type RenderContext from './RenderContext';
 import Color from './Color';
 import Place from './Place';
@@ -10,27 +10,30 @@ import Decimal from 'decimal.js';
 import ListValue from '@values/ListValue';
 import { getBind } from '@locale/getBind';
 import BoolValue from '@values/BoolValue';
-import { getStyle, toTypeOutput, toTypeOutputList } from './toTypeOutput';
+import { getTypeStyle, toOutput, toOutputList } from './toOutput';
 import TextLang from './TextLang';
 import Pose, { DefinitePose } from './Pose';
 import type Sequence from './Sequence';
-import { toShape, type Shape } from './Shapes';
 import concretize from '../locale/concretize';
 import type Locale from '../locale/Locale';
 import type Project from '../models/Project';
-import { getOutputInput } from './Output';
+import { getOutputInput } from './Valued';
 import { SupportedFontsFamiliesType, type SupportedFace } from '../basis/Fonts';
 import { getFirstName } from '../locale/Locale';
+import { toRectangle, type Rectangle } from './Form';
+import Shape from './Shape';
+
+export const DefaultGravity = 9.8;
 
 export const CSSFallbackFaces = `"Noto Color Emoji"`;
 export const DefaultSize = 1;
 
 export function createStageType(locales: Locale[]) {
     return toStructure(`
-    ${getBind(locales, (locale) => locale.output.Stage, '•')} Type(
-        ${getBind(locales, (locale) => locale.output.Stage.content)}•[Type]
-        ${getBind(locales, (locale) => locale.output.Stage.frame)}•Shape|ø: ø
-        ${getBind(locales, (locale) => locale.output.Stage.size)}•${'#m: 1m'}
+    ${getBind(locales, (locale) => locale.output.Stage, '•')} Output(
+    ${getBind(locales, (locale) => locale.output.Stage.content)}•[Output]
+    ${getBind(locales, (locale) => locale.output.Stage.frame)}•Rectangle|ø: ø
+    ${getBind(locales, (locale) => locale.output.Stage.size)}•${'#m: 1m'}
     ${getBind(
         locales,
         (locale) => locale.output.Stage.face
@@ -63,25 +66,30 @@ export function createStageType(locales: Locale[]) {
         )
         .flat()
         .join('|')}: "${DefaultStyle}"
+    ${getBind(
+        locales,
+        (locale) => locale.output.Stage.gravity
+    )}•#m/s^2: ${DefaultGravity}m/s^2
     )
 `);
 }
 
-export default class Stage extends TypeOutput {
+export default class Stage extends Output {
     /** True if the stage was explicit in the program or generated to wrap some other content. */
     readonly explicit: boolean;
-    readonly content: (TypeOutput | null)[];
-    readonly frame: Shape | undefined;
+    readonly content: (Output | null)[];
+    readonly frame: Rectangle | undefined;
     readonly back: Color;
+    readonly gravity: number;
 
     private _description: string | undefined = undefined;
 
     constructor(
         value: Value,
         explicit: boolean,
-        content: (TypeOutput | null)[],
+        content: (Output | null)[],
         background: Color,
-        frame: Shape | undefined = undefined,
+        frame: Rectangle | undefined = undefined,
         size: number,
         face: SupportedFace,
         place: Place | undefined = undefined,
@@ -93,7 +101,8 @@ export default class Stage extends TypeOutput {
         moveing: Pose | Sequence | undefined = undefined,
         exiting: Pose | Sequence | undefined = undefined,
         duration = 0,
-        style: string | undefined = 'zippy'
+        style: string | undefined = 'zippy',
+        gravity: number
     ) {
         super(
             value,
@@ -116,13 +125,20 @@ export default class Stage extends TypeOutput {
         this.content = content;
         this.frame = frame;
         this.back = background;
+        this.gravity = gravity;
     }
 
     getOutput() {
         return this.content;
     }
 
-    find(check: (output: TypeOutput) => boolean): TypeOutput | undefined {
+    getShapes() {
+        return this.content.filter(
+            (shape): shape is Shape => shape instanceof Shape
+        );
+    }
+
+    find(check: (output: Output) => boolean): Output | undefined {
         for (const output of this.content) {
             if (output !== null) {
                 if (check(output)) return output;
@@ -132,7 +148,7 @@ export default class Stage extends TypeOutput {
     }
 
     getLayout(context: RenderContext) {
-        const places: [TypeOutput, Place][] = [];
+        const places: [Output, Place][] = [];
         let left = 0,
             right = 0,
             bottom = 0,
@@ -140,17 +156,20 @@ export default class Stage extends TypeOutput {
         for (const child of this.content) {
             if (child) {
                 const layout = child.getLayout(context);
-                const place = child.place
-                    ? child.place
-                    : new Place(
-                          this.value,
-                          // Place everything in the center
-                          -layout.width / 2,
-                          // We would normally not negate the y because its in math coordinates, but we want to move it
-                          // down the y-axis by half, so we subtract.
-                          -layout.height / 2,
-                          0
-                      );
+                const place =
+                    // Does the child have it's own place? Put it there.
+                    child.place
+                        ? child.place
+                        : // Otherwise, put it in the center
+                          new Place(
+                              this.value,
+                              // Place everything in the center
+                              -layout.width / 2,
+                              // We would normally not negate the y because its in math coordinates, but we want to move it
+                              // down the y-axis by half, so we subtract.
+                              -layout.height / 2,
+                              0
+                          );
                 places.push([child, place]);
 
                 if (place.x < left) left = place.x;
@@ -193,7 +212,7 @@ export default class Stage extends TypeOutput {
                 locales[0].output.Stage.description,
                 this.content.length,
                 this.name instanceof TextLang ? this.name.text : undefined,
-                this.frame?.getDescription(locales[0]),
+                this.frame?.getDescription(locales),
                 this.pose.getDescription(locales)
             ).toText();
         }
@@ -231,19 +250,25 @@ export class NameGenerator {
     }
 }
 
-export function toStage(project: Project, value: Value): Stage | undefined {
+export function toStage(
+    project: Project,
+    value: Value,
+    namer?: NameGenerator
+): Stage | undefined {
     if (!(value instanceof StructureValue)) return undefined;
 
     // Create a name generator to guarantee unique default names for all TypeOutput.
-    const namer = new NameGenerator();
+    if (namer === undefined) namer = new NameGenerator();
 
     if (value.type === project.shares.output.Stage) {
         const possibleGroups = getOutputInput(value, 0);
         const content =
             possibleGroups instanceof ListValue
-                ? toTypeOutputList(project, possibleGroups, namer)
-                : toTypeOutput(project, possibleGroups, namer);
-        const frame = toShape(getOutputInput(value, 1));
+                ? toOutputList(project, possibleGroups, namer)
+                : toOutput(project, possibleGroups, namer);
+        const frame = toRectangle(getOutputInput(value, 1));
+
+        const gravity = toNumber(getOutputInput(value, 21)) ?? DefaultGravity;
 
         const {
             size,
@@ -259,7 +284,7 @@ export function toStage(project: Project, value: Value): Stage | undefined {
             exiting: exit,
             duration,
             style,
-        } = getStyle(project, value, 2);
+        } = getTypeStyle(project, value, 2);
 
         return content !== undefined &&
             background !== undefined &&
@@ -284,13 +309,14 @@ export function toStage(project: Project, value: Value): Stage | undefined {
                   move,
                   exit,
                   duration,
-                  style
+                  style,
+                  gravity
               )
             : undefined;
     }
     // Just a phrase or group? Wrap it in a stage.
     else {
-        const type = toTypeOutput(project, value, namer);
+        const type = toOutput(project, value, namer);
 
         return type === undefined
             ? undefined
@@ -330,7 +356,8 @@ export function toStage(project: Project, value: Value): Stage | undefined {
                   undefined,
                   undefined,
                   0,
-                  'zippy'
+                  DefaultStyle,
+                  DefaultGravity
               );
     }
 }

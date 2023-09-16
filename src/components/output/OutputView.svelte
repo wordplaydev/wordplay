@@ -95,11 +95,17 @@
     let startGesturePlace: Place | undefined = undefined;
 
     $: exception = value instanceof ExceptionValue ? value : undefined;
+
+    /** Everyt ime the value changes, try to parse a Stage from it. */
     $: stageValue = value === undefined ? undefined : toStage(project, value);
+
+    /** Keep track of whether the creator is typing, so we can blur output until the next change. */
     $: typing =
         !mini &&
         $evaluation?.playing === true &&
         $keyboardEditIdle === IdleKind.Typing;
+
+    /** Keep a background color up to date. */
     $: background =
         value instanceof ExceptionValue
             ? 'var(--wordplay-error)'
@@ -581,7 +587,7 @@
                         // Scale down the mouse delta and offset by the drag starting point.
                         stage.setFocus(
                             renderedDeltaX / scale + drag.startPlace.x,
-                            -renderedDeltaY / scale + drag.startPlace.y,
+                            renderedDeltaY / scale + drag.startPlace.y,
                             drag.startPlace.z
                         );
                         event.stopPropagation();

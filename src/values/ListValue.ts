@@ -29,7 +29,11 @@ export default class ListValue extends SimpleValue {
     get(index: NumberValue | number) {
         const num = index instanceof NumberValue ? index.toNumber() : index;
         const value =
-            num === 0 ? undefined : this.values.at(num > 0 ? num - 1 : num);
+            num === 0
+                ? undefined
+                : this.values.at(
+                      num > 0 ? (num - 1) % this.values.length : num
+                  );
         return value === undefined ? new NoneValue(this.creator) : value;
     }
 

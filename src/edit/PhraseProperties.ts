@@ -8,8 +8,13 @@ import OutputPropertyRange from './OutputPropertyRange';
 import NumberLiteral from '../nodes/NumberLiteral';
 import Unit from '../nodes/Unit';
 import OutputPropertyOptions from './OutputPropertyOptions';
+import { getTypeOutputProperties } from './OutputProperties';
+import type Project from '../models/Project';
 
-export default function getPhraseProperties(locale: Locale): OutputProperty[] {
+export default function getPhraseProperties(
+    project: Project,
+    locale: Locale
+): OutputProperty[] {
     return [
         new OutputProperty(
             locale.output.Phrase.text,
@@ -42,5 +47,6 @@ export default function getPhraseProperties(locale: Locale): OutputProperty[] {
             (expr) => expr instanceof TextLiteral,
             () => TextLiteral.make('|')
         ),
+        ...getTypeOutputProperties(project, locale),
     ];
 }

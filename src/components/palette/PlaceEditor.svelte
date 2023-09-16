@@ -1,7 +1,7 @@
 <script lang="ts">
     import { getFirstName } from '@locale/Locale';
     import TextField from '../widgets/TextField.svelte';
-    import type Evaluate from '../../nodes/Evaluate';
+    import Evaluate from '../../nodes/Evaluate';
     import type Project from '@models/Project';
     import NumberValue from '@values/NumberValue';
     import NumberLiteral from '@nodes/NumberLiteral';
@@ -11,10 +11,12 @@
     import Expression from '../../nodes/Expression';
     import { Projects, locale, locales } from '../../db/Database';
     import { tick } from 'svelte';
+    import Button from '../widgets/Button.svelte';
 
     export let project: Project;
-    export let place: Evaluate | undefined;
+    export let place: Evaluate;
     export let editable: boolean;
+    export let convertable: boolean;
 
     let views: HTMLInputElement[] = [];
 
@@ -53,7 +55,7 @@
 </script>
 
 <div class="place">
-    {#each [getFirstName($locale.output.Place.x.names), getFirstName($locale.output.Place.y.names), getFirstName($locale.output.Place.z.names)] as dimension, index}
+    {project.shares.output.Place.names.getSymbolicName()}{#each [getFirstName($locale.output.Place.x.names), getFirstName($locale.output.Place.y.names), getFirstName($locale.output.Place.z.names)] as dimension, index}
         {@const given = place?.getMappingFor(
             dimension,
             project.getNodeContext(place)
@@ -83,12 +85,67 @@
         </div>
     {/each}
 </div>
+{#if convertable}
+    <Button
+        tip={$locale.ui.palette.button.addMotion}
+        active={editable}
+        action={() =>
+            Projects.revise(project, [
+                [
+                    place,
+                    Evaluate.make(
+                        project.shares.input.Motion.getReference(
+                            project.locales
+                        ),
+                        [
+                            place,
+                            Evaluate.make(
+                                project.shares.output.Velocity.getReference(
+                                    project.locales
+                                ),
+                                [
+                                    NumberLiteral.make(
+                                        0,
+                                        Unit.create(['m'], ['s'])
+                                    ),
+                                    NumberLiteral.make(
+                                        0,
+                                        Unit.create(['m'], ['s'])
+                                    ),
+                                    NumberLiteral.make(
+                                        0,
+                                        Unit.create(['°'], ['s'])
+                                    ),
+                                ]
+                            ),
+                        ]
+                    ),
+                ],
+            ])}>→{project.shares.input.Motion.getNames()[0]}</Button
+    >
+    <Button
+        tip={$locale.ui.palette.button.addPlacement}
+        active={editable}
+        action={() =>
+            Projects.revise(project, [
+                [
+                    place,
+                    Evaluate.make(
+                        project.shares.input.Placement.getReference(
+                            project.locales
+                        ),
+                        [place]
+                    ),
+                ],
+            ])}>→{project.shares.input.Placement.getNames()[0]}</Button
+    >
+{/if}
 
 <style>
     .place {
         display: flex;
         flex-direction: row;
-        flex-wrap: wrap;
+        flex-wrap: nowrap;
         gap: var(--wordplay-spacing);
         align-items: baseline;
     }

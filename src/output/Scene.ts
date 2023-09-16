@@ -1,4 +1,4 @@
-import type TypeOutput from './TypeOutput';
+import type Output from './Output';
 import Place from './Place';
 import { createPlace } from './Place';
 import Stage from './Stage';
@@ -7,28 +7,34 @@ import type Transition from './Transition';
 import type Node from '@nodes/Node';
 import type RenderContext from './RenderContext';
 import type Evaluator from '@runtime/Evaluator';
+import Sequence from './Sequence';
+import Pose from './Pose';
+import type Value from '../values/Value';
+import Physics from './Physics';
 
 export type OutputName = string;
 
 export type OutputInfo = {
-    output: TypeOutput;
+    output: Output;
     global: Place;
     local: Place;
     rotation: number | undefined;
-    parents: TypeOutput[];
+    width: number;
+    height: number;
+    parents: Output[];
     context: RenderContext;
 };
 
 export type Moved = Map<
     OutputName,
     {
-        output: TypeOutput;
+        output: Output;
         prior: Orientation;
         present: Orientation;
     }
 >;
 
-export type OutputsByName = Map<OutputName, TypeOutput>;
+export type OutputsByName = Map<OutputName, Output>;
 
 export type OutputInfoSet = Map<OutputName, OutputInfo>;
 export type Orientation = { place: Place; rotation: number | undefined };
@@ -65,6 +71,9 @@ export default class Scene {
     scene: OutputInfoSet = new Map<OutputName, OutputInfo>();
     priorScene: OutputInfoSet = new Map<OutputName, OutputInfo>();
 
+    /** The current outputs by their corresponding values */
+    outputByPlace: Map<Value, Output[]> = new Map();
+
     /** The active animations, responsible for tracking transitions and animations on named output. */
     readonly animations = new Map<OutputName, OutputAnimation>();
 
@@ -83,18 +92,25 @@ export default class Scene {
     /** If true, the scene has been stopped and will no longer be animated */
     private stopped = false;
 
+    /** A physics engine for managing motion and collisions of output. */
+    readonly physics: Physics;
+
     constructor(
         evaluator: Evaluator,
         exit: (name: OutputName) => void,
         tick: (nodes: Set<Node>) => void
     ) {
         this.evaluator = evaluator;
+        evaluator.scene = this;
+
         this.exit = exit;
         this.tick = tick;
 
         // Initialize unintialized defaults.
         this.focus = createPlace(this.evaluator, 0, 0, -6);
         this.priorStagePlace = this.focus;
+
+        this.physics = new Physics(evaluator);
     }
 
     /**
@@ -125,7 +141,7 @@ export default class Scene {
         const exited: OutputsByName = new Map();
         const present: OutputsByName = new Map();
 
-        // Add the verse to the scene. This is necessary so that animations can get its context.
+        // Add the stage to the scene. This is necessary so that animations can get its context.
         const newScene = this.layout(
             this.stage,
             [],
@@ -139,6 +155,8 @@ export default class Scene {
             // We keep these at the center for cacluations, but use the focus place below to detect movement.
             global: center,
             local: center,
+            width: 0,
+            height: 0,
             rotation: stage.pose.rotation,
             parents: [],
             context,
@@ -185,7 +203,7 @@ export default class Scene {
         }
 
         // A mapping from exiting groups to where they previously were.
-        const exiting = new Map<OutputName, OutputInfo>();
+        const exiting: OutputInfoSet = new Map();
 
         // Now that we have a list of everyone present, remove everyone that was present in the prior scene that is no longer, and note that they exited.
         // We only do this if this is an animated stage; exiting isn't animated on non-live stages.
@@ -203,6 +221,8 @@ export default class Scene {
                             output,
                             global: place,
                             local: place,
+                            width: info.width,
+                            height: info.height,
                             rotation: info.rotation,
                             context: info.context,
                             parents: [this.stage],
@@ -222,6 +242,23 @@ export default class Scene {
         // Remember the places, so that exiting phrases after the next change have them above.
         this.priorScene = this.scene;
         this.scene = newScene;
+
+        // Remember a mapping between Place values and outputs so that Motion can
+        // map back to the outputs it created Places for, and update their corresponding Bodies.
+        this.outputByPlace = new Map();
+        for (const [, output] of this.scene) {
+            if (output.output.place) {
+                const outputs =
+                    this.outputByPlace.get(output.output.place.value) ?? [];
+                this.outputByPlace.set(output.output.place.value, [
+                    ...outputs,
+                    output.output,
+                ]);
+            }
+        }
+
+        // Sync this scene with the Matter engine.
+        this.physics.sync(this.stage, this.scene, exited);
 
         // Return the layout for rendering.
         return {
@@ -243,17 +280,17 @@ export default class Scene {
      * deletion.
      */
     animate(
-        present: Map<OutputName, TypeOutput>,
-        entered: Map<OutputName, TypeOutput>,
+        present: Map<OutputName, Output>,
+        entered: Map<OutputName, Output>,
         moved: Map<
             OutputName,
             {
-                output: TypeOutput;
+                output: Output;
                 prior: Orientation;
                 present: Orientation;
             }
         >,
-        exited: Map<OutputName, TypeOutput>
+        exited: Map<OutputName, Output>
     ): Set<OutputName> {
         if (this.stopped) return new Set();
 
@@ -302,6 +339,8 @@ export default class Scene {
     stop() {
         this.stopped = true;
         this.animations.forEach((animation) => animation.exited());
+
+        this.physics.stop();
     }
 
     exited(animation: OutputAnimation) {
@@ -328,8 +367,8 @@ export default class Scene {
     // A top down layout algorithm that places groups first, then their subgroups, and uses the
     // ancestor list to compute global places for each group.
     layout(
-        output: TypeOutput,
-        parents: TypeOutput[],
+        output: Output,
+        parents: Output[],
         outputInfo: Map<OutputName, OutputInfo>,
         context: RenderContext
     ) {
@@ -343,14 +382,25 @@ export default class Scene {
         const info = outputInfo.get(name);
         // Get this output's place, so we can offset its subgroups.
         const parentPlace = info?.global;
+        // Get the layout of the output
+        const layout = output.getLayout(context);
+        // Update the info's width and height
+        if (info) {
+            info.width = layout.width;
+            info.height = layout.height;
+        }
+
         // Get the places of each of this group's subgroups.
-        for (const [subgroup, place] of output.getLayout(context).places) {
+        for (const [subgroup, place] of layout.places) {
             // Set the place of this subgroup, offseting it by the parent's position to keep it in global coordinates.
             outputInfo.set(subgroup.getName(), {
                 output: subgroup,
                 local: place,
                 global: parentPlace ? place.offset(parentPlace) : place,
                 rotation: info?.rotation,
+                // These dimensions will be set in the recursive call below.
+                width: 0,
+                height: 0,
                 context,
                 parents: parents.slice(),
             });
@@ -361,5 +411,36 @@ export default class Scene {
         parents.shift();
 
         return outputInfo;
+    }
+
+    /** Computes velocity in meters per second. */
+    getOutputVelocity(
+        name: string,
+        output: OutputInfo,
+        prior: OutputInfoSet,
+        secondsElapsed: number
+    ) {
+        const currentPlace = output.global;
+        const priorPlace = prior.get(name)?.global;
+
+        // If we don't know where it was before, it has no velocity
+        if (priorPlace === undefined) return undefined;
+
+        // If the output has a moving sequence, use it's duration. If it has a pose, use the phrase's duration. Otherwise, use the given duration between frames.
+        const duration =
+            output.output.moving instanceof Sequence
+                ? output.output.moving.duration
+                : output.output.moving instanceof Pose
+                ? output.output.duration
+                : secondsElapsed;
+
+        return {
+            vx: (currentPlace.x - priorPlace.x) / duration,
+            vy: (currentPlace.y - priorPlace.y) / duration,
+        };
+    }
+
+    getOutputByPlace(value: Value) {
+        return this.outputByPlace.get(value);
     }
 }

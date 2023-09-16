@@ -133,30 +133,38 @@ export function addContent(
     project: Project,
     list: ListLiteral,
     index: number,
-    phrase: boolean
+    kind: 'phrase' | 'group' | 'shape'
 ) {
     const GroupType = project.shares.output.Group;
     const RowType = project.shares.output.Row;
-    const newPhrase = createPlaceholderPhrase(database, project);
     reviseContent(database, project, list, [
         ...list.values.slice(0, index + 1),
-        phrase
-            ? newPhrase
+        kind === 'phrase'
+            ? // Create a placeholder phrase
+              createPlaceholderPhrase(database, project)
             : // Create a group with a Row layout and a single phrase
+            kind === 'group'
+            ? Evaluate.make(GroupType.getReference(project.locales), [
+                  Evaluate.make(RowType.getReference(project.locales), []),
+                  ListLiteral.make([
+                      createPlaceholderPhrase(database, project),
+                  ]),
+              ])
+            : // Create a placeholder shape
               Evaluate.make(
-                  Reference.make(
-                      GroupType.names.getPreferredNameString(project.locales)
-                  ),
+                  project.shares.output.Shape.getReference(project.locales),
                   [
                       Evaluate.make(
-                          Reference.make(
-                              RowType.names.getPreferredNameString(
-                                  project.locales
-                              )
+                          project.shares.output.Rectangle.getReference(
+                              project.locales
                           ),
-                          []
+                          [
+                              NumberLiteral.make(-5, Unit.create(['m'])),
+                              NumberLiteral.make(0, Unit.create(['m'])),
+                              NumberLiteral.make(5, Unit.create(['m'])),
+                              NumberLiteral.make(-1, Unit.create(['m'])),
+                          ]
                       ),
-                      ListLiteral.make([newPhrase]),
                   ]
               ),
         ...list.values.slice(index + 1),

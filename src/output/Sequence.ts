@@ -3,7 +3,7 @@ import { TYPE_SYMBOL } from '@parser/Symbols';
 import StructureValue from '@values/StructureValue';
 import type Value from '@values/Value';
 import { getBind } from '@locale/getBind';
-import Output, { getOutputInputs } from './Output';
+import Valued, { getOutputInputs } from './Valued';
 import type Pose from './Pose';
 import { toPose } from './Pose';
 import { toDecimal } from './Stage';
@@ -47,7 +47,7 @@ export function createSequenceType(locales: Locale[]) {
 
 type SequenceStep = { percent: number; pose: Pose };
 
-export default class Sequence extends Output {
+export default class Sequence extends Valued {
     readonly count: number;
     readonly poses: SequenceStep[];
     readonly duration: number;

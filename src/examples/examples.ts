@@ -1,17 +1,18 @@
 import type { SerializedProject } from '../models/Project';
 import WhatWord from './WhatWord.wp?raw';
 import Kitties from './RainingKitties.wp?raw';
-import Move from './Move.wp?raw';
-import Physics from './Physics.wp?raw';
+import Pounce from './Pounce.wp?raw';
+import Hira from './Hira.wp?raw';
 import Video from './Video.wp?raw';
 import RainingLetters from './RainingLetters.wp?raw';
 import Poem from './Poem.wp?raw';
-import Cannon from './Cannon.wp?raw';
+import Questions from './Questions.wp?raw';
 import Maze from './Maze.wp?raw';
 import Adventure from './Adventure.wp?raw';
 import Letters from './Letters.wp?raw';
 import Catch from './Catch.wp?raw';
 import Headlines from './Headlines.wp?raw';
+import Layers from './Layers.wp?raw';
 import { parseNames } from '../parser/parseBind';
 import { toTokens } from '../parser/toTokens';
 
@@ -68,14 +69,15 @@ export const examples = wpToSerializedProjects([
     Adventure,
     WhatWord,
     Kitties,
-    Move,
-    Physics,
+    Pounce,
+    Hira,
     Video,
     RainingLetters,
     Poem,
-    Cannon,
+    Questions,
     Letters,
     Maze,
     Catch,
     Headlines,
+    Layers,
 ]);

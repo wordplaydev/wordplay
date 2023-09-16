@@ -42,14 +42,16 @@ export type TypeTexts = {
 };
 
 type OutputTexts = {
-    /** The base interface for Phrase, Group, and Stage */
-    Type: NameAndDoc;
+    /** The base interface for Phrase, Group, and Stage, and other types of Output */
+    Output: NameAndDoc;
     /** A group of output with a layout */
     Group: NameAndDoc & {
         /** The list of content in the group */
         content: NameAndDoc;
         /** The layout to use to place the content in the group on stage */
         layout: NameAndDoc;
+        /** The matter to use for the group if it's involved in collisions */
+        matter: NameAndDoc;
         /** $1 = Layout description, $2 = pose description */
         description: Template;
     } & TypeTexts;
@@ -61,6 +63,8 @@ type OutputTexts = {
         wrap: NameAndDoc;
         /** The alignment to use when wrapped */
         alignment: NameAndDoc;
+        /** The matter properties for the phrase */
+        matter: NameAndDoc;
         /** A description of the phrase for screen readers. 1$: non-optional text, $2: optional name, $3: optional size, $4: optional font, $5: then non-optional pose */
         description: Template;
     } & TypeTexts;
@@ -72,15 +76,59 @@ type OutputTexts = {
         content: NameAndDoc;
         /** The shape of the frame to clip stage content */
         frame: NameAndDoc;
-    } & TypeTexts;
+    } & TypeTexts & {
+            /** Gravity, influencing change in y velocity */
+            gravity: NameAndDoc;
+        };
     /** The base interface for shape types */
-    Shape: NameAndDoc;
+    Shape: NameAndDoc & {
+        /** The kind of shape and its details */
+        form: NameAndDoc;
+        /** The name of a phrase, group, or stage, used in Choice, Collision, and animations */
+        name: NameAndDoc;
+        /** Whether a phrase, group, or stage is selectable by Choice */
+        selectable: NameAndDoc;
+        /** The color of glyphs in a phrase, group, or stage */
+        color: NameAndDoc;
+        /** The background color behind a phrase, group, or stage */
+        background: NameAndDoc;
+        /** The opacity of a phrase, group, or stage */
+        opacity: NameAndDoc;
+        /** The offset of phrase, group, or stage from its place */
+        offset: NameAndDoc;
+        /** The rotation of a phrase, group, or stage */
+        rotation: NameAndDoc;
+        /** The scale of phrase, group, or stage */
+        scale: NameAndDoc;
+        /** Whether a phrase, group, or stage is flipped horizontally */
+        flipx: NameAndDoc;
+        /** Whether a phrase, group, or stage is flipped vertically */
+        flipy: NameAndDoc;
+        /** Pose or sequence for when a phrase, group, or stage enters stage */
+        entering: NameAndDoc;
+        /** Pose or sequence for when a phrase, group, or stage is not moving */
+        resting: NameAndDoc;
+        /** Pose or sequence for when a phrase, group, or stage is moving */
+        moving: NameAndDoc;
+        /** Pose or sequence for when a phrase, group, or stage is leaving stage */
+        exiting: NameAndDoc;
+        /** The curation of transition */
+        duration: NameAndDoc;
+        /** The transition style of transitions */
+        style: NameAndDoc;
+    };
     /** A rectangle shape, for Stage.frame */
     Rectangle: NameAndDoc & {
+        /** Left of the rectangle */
         left: NameAndDoc;
+        /** Top of the rectangle */
         top: NameAndDoc;
+        /** Right of the rectangle */
         right: NameAndDoc;
+        /** Bottom of the rectangle */
         bottom: NameAndDoc;
+        /** Depth of rectangle */
+        z: NameAndDoc;
     };
     /** A pose, for use in overriding an output's defaults for entering, resting, moving, or existing states */
     Pose: NameAndDoc & {
@@ -124,6 +172,32 @@ type OutputTexts = {
         y: NameAndDoc;
         /** z-coordinate */
         z: NameAndDoc;
+        /** optional rotation */
+        rotation: NameAndDoc;
+    };
+    /** A velocity vector */
+    Velocity: NameAndDoc & {
+        /** x-coordinate */
+        x: NameAndDoc;
+        /** y-coordinate */
+        y: NameAndDoc;
+        /** rotation */
+        angle: NameAndDoc;
+    };
+    /** Physical properties of matter */
+    Matter: NameAndDoc & {
+        /** in kilograms, how much something weighs for the purposes of collisions */
+        mass: NameAndDoc;
+        /** from 0-1, how bouncy something should be, where 0 means not bouncy at all, and 1 means retaining all of it's energy on collision */
+        bounciness: NameAndDoc;
+        /** from 0-1, where 0 means no sliding, and 1 means sliding indefinitely */
+        friction: NameAndDoc;
+        /** from 0-1, what percent of the size to round the corners of the output's rectangle. */
+        roundedness: NameAndDoc;
+        /** whether the output can collide with other output */
+        text: NameAndDoc;
+        /** whether the output can collide with other shapes */
+        shapes: NameAndDoc;
     };
     /** The base interface for arrangement types */
     Arrangement: NameAndDoc;

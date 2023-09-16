@@ -5,7 +5,7 @@ import NumberLiteral from '@nodes/NumberLiteral';
 import TextLiteral from '@nodes/TextLiteral';
 import Unit from '@nodes/Unit';
 import { createPoseLiteral } from '@output/Pose';
-import { DefaultStyle } from '@output/TypeOutput';
+import { DefaultStyle } from '@output/Output';
 import OutputProperty from './OutputProperty';
 import OutputPropertyText from './OutputPropertyText';
 import OutputPropertyOptions from './OutputPropertyOptions';
@@ -67,15 +67,15 @@ export function getStyleProperty(locale: Locale): OutputProperty {
     );
 }
 
-// All output has these properties.
-export default function getTypeOutputProperties(
+// All type output has these properties.
+export function getTypeOutputProperties(
     project: Project,
     locale: Locale
 ): OutputProperty[] {
     return [
         new OutputProperty(
             locale.output.Phrase.size,
-            new OutputPropertyRange(0.25, 32, 0.25, 'm'),
+            new OutputPropertyRange(0.25, 32, 0.25, 'm', 2),
             false,
             true,
             (expr) => expr instanceof NumberLiteral,
@@ -104,7 +104,9 @@ export default function getTypeOutputProperties(
             false,
             (expr, context) =>
                 expr instanceof Evaluate &&
-                expr.is(project.shares.output.Place, context),
+                (expr.is(project.shares.output.Place, context) ||
+                    expr.is(project.shares.input.Motion, context) ||
+                    expr.is(project.shares.input.Placement, context)),
             (locale) =>
                 Evaluate.make(
                     Reference.make(
@@ -120,6 +122,17 @@ export default function getTypeOutputProperties(
                     ]
                 )
         ),
+        ...getOutputProperties(project, locale),
+    ];
+}
+
+/** All output has these properties */
+// All type output has these properties, in this order.
+export function getOutputProperties(
+    project: Project,
+    locale: Locale
+): OutputProperty[] {
+    return [
         new OutputProperty(
             locale.output.Phrase.name,
             new OutputPropertyText(() => true),

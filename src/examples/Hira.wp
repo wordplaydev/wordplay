@@ -1,0 +1,25 @@
+Hiragana
+=== start
+count: 32
+
+gravity•#m/s^2:  15m/s^2 … ∆ Button(⊤) … -gravity
+
+hiragana: "ぁあぃいぅうぇえぉおかがきぎくぐけげこごさざしじすずせぜそぞただちぢっつづてでとどなにぬねのはばぱひびぴふぶぷへべぺほぼぽまみむめもゃやゅゆょよらりるれろゎわゐゑをんゔゕゖ"→['']
+
+letters•[Output]: count → [].translate(
+  ƒ(number index)
+      Phrase(
+        hiragana[number]
+        place: Motion(Place((index - (count ÷ 2))· 0.2m 10m) Velocity(angle: Random(-10 10)· 1°/s))
+        matter: Matter(bounciness: 0.6)
+      )
+  )
+
+
+Stage(
+  letters.append([
+    Shape(Rectangle(-40m 0m 40m -2m))
+  ])
+  gravity: gravity
+  place: Place(0m 5m -20m)
+)

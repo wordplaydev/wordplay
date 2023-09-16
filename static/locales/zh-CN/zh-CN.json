@@ -830,7 +830,6 @@
         },
         "UnknownType": {
             "name": "$?",
-            "unknown": "$?",
             "connector": "$?",
             "emotion": "$?",
             "doc": "$?"
@@ -1565,21 +1564,12 @@
             "frequency": { "names": ["frecuencia"], "doc": "$?" }
         },
         "Motion": {
-            "names": "$?",
+            "names": "movimiento",
             "doc": "$?",
-            "type": { "doc": "$?", "names": "$?" },
-            "startplace": { "doc": "$?", "names": "$? startplace" },
-            "startvx": { "doc": "$?", "names": "$? startvx" },
-            "startvy": { "doc": "$?", "names": "$? startvy" },
-            "startvz": { "doc": "$?", "names": "$? startvz" },
-            "startvangle": { "doc": "$?", "names": "$? startvangle" },
-            "vx": { "doc": "$?", "names": "$?" },
-            "vy": { "doc": "$?", "names": "$?" },
-            "vz": { "doc": "$?", "names": "$?" },
-            "vangle": { "doc": "$?", "names": "$?" },
-            "mass": { "doc": "$?", "names": "$?" },
-            "bounciness": { "doc": "$?", "names": "$?" },
-            "gravity": { "doc": "$?", "names": "$?" }
+            "place": { "doc": "$?", "names": "$? place" },
+            "velocity": { "doc": "$?", "names": "$? velocity" },
+            "nextplace": { "doc": "$?", "names": "$? nextplace" },
+            "nextvelocity": { "doc": "$?", "names": "$? nextvelocity" }
         },
         "Chat": {
             "doc": ["$?"],
@@ -1624,11 +1614,51 @@
                 "noConnection": "$?",
                 "limit": "$?"
             }
+        },
+        "Collision": {
+            "names": "$? Collision",
+            "doc": "$?",
+            "subject": {
+                "names": "$? name",
+                "doc": "$?"
+            },
+            "object": {
+                "names": "$? other",
+                "doc": "$?"
+            }
+        },
+        "Rebound": {
+            "names": "$? Rebound",
+            "doc": "$?",
+            "direction": {
+                "names": "$? direction",
+                "doc": "$?"
+            },
+            "subject": {
+                "names": "$? subject",
+                "doc": "$?"
+            },
+            "object": {
+                "names": "$? object",
+                "doc": "$?"
+            }
+        },
+        "Direction": {
+            "names": "$? Direction",
+            "doc": "$?",
+            "x": {
+                "names": "$? x",
+                "doc": "$?"
+            },
+            "y": {
+                "names": "$? y",
+                "doc": "$?"
+            }
         }
     },
     "output": {
-        "Type": {
-            "names": "$?",
+        "Output": {
+            "names": "$? Output",
             "doc": "$?"
         },
         "Stage": {
@@ -1676,7 +1706,8 @@
             "moving": { "doc": "$?", "names": "$?" },
             "exiting": { "doc": "$?", "names": "$?" },
             "duration": { "doc": "$?", "names": ["$?"] },
-            "style": { "doc": "$?", "names": "$?" }
+            "style": { "doc": "$?", "names": "$?" },
+            "gravity": { "doc": "$?", "names": "$? gravity" }
         },
         "Group": {
             "names": "$?",
@@ -1684,6 +1715,10 @@
             "description": "$?",
             "content": { "doc": "$?", "names": "$?" },
             "layout": { "doc": "$?", "names": "$?" },
+            "matter": {
+                "doc": "$?",
+                "names": "$? matter"
+            },
             "size": { "doc": "$?", "names": "$?" },
             "face": { "doc": "$?", "names": "$?" },
             "place": { "doc": "$?", "names": "$?" },
@@ -1740,6 +1775,10 @@
             "alignment": {
                 "doc": "$?",
                 "names": "$? alignment"
+            },
+            "matter": {
+                "doc": "$?",
+                "names": "$? matter"
             },
             "name": { "doc": "$?", "names": "$?" },
             "selectable": { "doc": "$?", "names": "$?" },
@@ -1815,14 +1854,56 @@
             "doc": "$?",
             "description": "$?"
         },
-        "Shape": { "names": "$?", "doc": "$?" },
+        "Shape": {
+            "names": "$? shape",
+            "doc": "$?",
+            "form": { "doc": "$?", "names": "$? form" },
+            "name": { "doc": "$?", "names": "$? name" },
+            "selectable": { "doc": "$?", "names": "$? selectable" },
+            "color": {
+                "doc": "$?",
+                "names": "$? color"
+            },
+            "background": { "doc": "$?", "names": "$? background" },
+            "opacity": {
+                "doc": "$?",
+                "names": "$? opacity"
+            },
+            "offset": {
+                "doc": "$?",
+                "names": "$? offset"
+            },
+            "rotation": {
+                "doc": "$?",
+                "names": "$? rotation"
+            },
+            "scale": {
+                "doc": "$?",
+                "names": "$? scale"
+            },
+            "flipx": {
+                "doc": "$?",
+                "names": "$? flipx"
+            },
+            "flipy": {
+                "doc": "$?",
+                "names": "$? flipy"
+            },
+            "entering": { "doc": "$?", "names": "$? entering" },
+            "resting": { "doc": "$?", "names": "$? resting" },
+            "moving": { "doc": "$?", "names": "$? moving" },
+            "exiting": { "doc": "$?", "names": "$? exiting" },
+            "duration": { "doc": "$?", "names": ["$? duration"] },
+            "style": { "doc": "$?", "names": "$? style" }
+        },
         "Rectangle": {
             "names": "$?",
             "doc": "$?",
             "left": { "doc": "$?", "names": "$?" },
             "top": { "doc": "$?", "names": "$?" },
             "right": { "doc": "$?", "names": "$?" },
-            "bottom": { "doc": "$?", "names": "$?" }
+            "bottom": { "doc": "$?", "names": "$?" },
+            "z": { "doc": "$?", "names": "$? z" }
         },
         "Pose": {
             "names": "$?",
@@ -1862,9 +1943,51 @@
         "Place": {
             "names": ["Posición"],
             "doc": "$?",
-            "x": { "doc": "$?", "names": "$?" },
-            "y": { "doc": "$?", "names": "$?" },
-            "z": { "doc": "$?", "names": "$?" }
+            "x": { "doc": "$?", "names": "$? x" },
+            "y": { "doc": "$?", "names": "$? y" },
+            "z": { "doc": "$?", "names": "$? z" },
+            "rotation": { "doc": "$?", "names": "$? rotation" }
+        },
+        "Velocity": {
+            "doc": "$?",
+            "names": "$? Velocity",
+            "x": {
+                "doc": "$?",
+                "names": "$? x"
+            },
+            "y": {
+                "doc": "$?",
+                "names": "$? y"
+            },
+            "angle": {
+                "doc": "$? ",
+                "names": "$? angle"
+            }
+        },
+        "Matter": {
+            "doc": "$?",
+            "names": "$? Matter",
+            "mass": { "doc": "$?", "names": "$? mass" },
+            "bounciness": {
+                "doc": "$?",
+                "names": "$? bounciness"
+            },
+            "friction": {
+                "doc": "$?",
+                "names": "$? friction"
+            },
+            "roundedness": {
+                "doc": "$?",
+                "names": "$? roundedness"
+            },
+            "text": {
+                "doc": "$?",
+                "names": "$? text"
+            },
+            "shapes": {
+                "doc": "$?",
+                "names": "$? shapes"
+            }
         },
         "Easing": {
             "straight": "$?",
@@ -2188,6 +2311,9 @@
                 "set": "$?",
                 "addPhrase": "$?",
                 "addGroup": "$?",
+                "addShape": "$?",
+                "addMotion": "$?",
+                "addPlacement": "$?",
                 "remove": "$?",
                 "up": "$?",
                 "down": "$?",

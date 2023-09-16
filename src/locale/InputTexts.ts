@@ -45,32 +45,14 @@ type InputTexts = {
     };
     /** A stream of phrases in places and rotations simulating physics */
     Motion: NameAndDoc & {
-        /** The phrase template to use */
-        type: NameAndDoc;
-        /** Where the phrase should start */
-        startplace: NameAndDoc;
-        /** Starting x velocity */
-        startvx: NameAndDoc;
-        /** Starting y velocity */
-        startvy: NameAndDoc;
-        /** Starting z velocity */
-        startvz: NameAndDoc;
-        /** Starting angular velocity */
-        startvangle: NameAndDoc;
-        /** A constant x velocity to hold */
-        vx: NameAndDoc;
-        /** A constant y velocity to hold */
-        vy: NameAndDoc;
-        /** A constant z velocity to hold */
-        vz: NameAndDoc;
-        /** A constant angular velocity to hold */
-        vangle: NameAndDoc;
-        /** Mass, influencing collisions */
-        mass: NameAndDoc;
-        /** Gravity, influencing change in y velocity */
-        gravity: NameAndDoc;
-        /** A coefficient that dampens collisions */
-        bounciness: NameAndDoc;
+        /** The initial place for the motion */
+        place: NameAndDoc;
+        /** The initial velocity for the motion */
+        velocity: NameAndDoc;
+        /** The next place for the motion, overriding physics */
+        nextplace: NameAndDoc;
+        /** The next velocity for the motion, overriding physics */
+        nextvelocity: NameAndDoc;
     };
     /** A stream of Place for easily moving Phrases by keyboard */
     Placement: NameAndDoc & {
@@ -100,6 +82,29 @@ type InputTexts = {
             /** Too many requests to the same domain */
             limit: string;
         };
+    };
+    /** A stream of collisions between objects with matter. */
+    Collision: NameAndDoc & {
+        /** The subject of a collision */
+        subject: NameAndDoc;
+        /** The object of a collision. */
+        object: NameAndDoc;
+    };
+    /** The values that come out of a collision stream. */
+    Rebound: NameAndDoc & {
+        /** The name a collision stream collided with. */
+        subject: NameAndDoc;
+        /** The name a collision stream collided with. */
+        object: NameAndDoc;
+        /** The direction of the collision, relative to the collision stream's subject. */
+        direction: NameAndDoc;
+    };
+    /** A vector indicating a direction and magnitude. */
+    Direction: NameAndDoc & {
+        /** The direction and magnitude on the x-axis */
+        x: NameAndDoc;
+        /** The direction and magnitude on the y-axis */
+        y: NameAndDoc;
     };
 };
 

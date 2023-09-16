@@ -7,7 +7,7 @@ import Fonts, {
     type SupportedFace,
 } from '../basis/Fonts';
 import TextValue from '@values/TextValue';
-import TypeOutput, { DefaultStyle } from './TypeOutput';
+import Output, { DefaultStyle } from './Output';
 import type RenderContext from './RenderContext';
 import type Place from './Place';
 import ListValue from '@values/ListValue';
@@ -22,16 +22,18 @@ import type Locale from '../locale/Locale';
 import type Project from '../models/Project';
 import type { DefinitePose } from './Pose';
 import StructureValue from '../values/StructureValue';
-import { getOutputInput } from './Output';
-import { getStyle } from './toTypeOutput';
+import { getOutputInput } from './Valued';
+import { getTypeStyle } from './toOutput';
 import MarkupValue from '@values/MarkupValue';
 import concretize from '../locale/concretize';
 import type Markup from '../nodes/Markup';
 import segmentWraps from './segmentWraps';
+import type Matter from './Matter';
+import { toMatter } from './Matter';
 
 export function createPhraseType(locales: Locale[]) {
     return toStructure(`
-    ${getBind(locales, (locale) => locale.output.Phrase, '•')} Type(
+    ${getBind(locales, (locale) => locale.output.Phrase, '•')} Output(
         ${getBind(locales, (locale) => locale.output.Phrase.text)}•""|[""]|\`…\`
         ${getBind(locales, (locale) => locale.output.Phrase.size)}•${'#m|ø: ø'}
         ${getBind(
@@ -77,6 +79,7 @@ export function createPhraseType(locales: Locale[]) {
             locales,
             (locale) => locale.output.Phrase.alignment
         )}•'<'|'|'|'>': '|'
+        ${getBind(locales, (locale) => locale.output.Phrase.matter)}•Matter|ø: ø
     )`);
 }
 
@@ -91,10 +94,11 @@ export type Metrics = {
     descent: number;
 };
 
-export default class Phrase extends TypeOutput {
+export default class Phrase extends Output {
     readonly text: TextLang[] | MarkupValue;
     readonly wrap: number | undefined;
     readonly alignment: string | undefined;
+    readonly matter: Matter | undefined;
 
     private _metrics: Metrics | undefined = undefined;
 
@@ -117,7 +121,8 @@ export default class Phrase extends TypeOutput {
         duration: number,
         style: string,
         wrap: number | undefined,
-        alignment: string | undefined
+        alignment: string | undefined,
+        matter: Matter | undefined
     ) {
         super(
             value,
@@ -139,13 +144,14 @@ export default class Phrase extends TypeOutput {
         this.text = text;
         this.wrap = wrap === undefined ? undefined : Math.max(1, wrap);
         this.alignment = alignment;
+        this.matter = matter;
 
         // Make sure this font is loaded. This is a little late -- we could do some static analysis
         // and try to determine this in advance -- but anything can compute a font name. Maybe an optimization later.
         if (this.face) Fonts.loadFace(this.face);
     }
 
-    find(check: (output: TypeOutput) => boolean): TypeOutput | undefined {
+    find(check: (output: Output) => boolean): Output | undefined {
         return check(this) ? this : undefined;
     }
 
@@ -264,7 +270,7 @@ export default class Phrase extends TypeOutput {
         return dimensions;
     }
 
-    getOutput(): TypeOutput[] {
+    getOutput(): Output[] {
         return [];
     }
 
@@ -348,7 +354,7 @@ export function toFont(value: Value | undefined): string | undefined {
 export function toPhrase(
     project: Project,
     value: Value | undefined,
-    namer: NameGenerator | undefined
+    namer: NameGenerator
 ): Phrase | undefined {
     if (!(value instanceof StructureValue)) return undefined;
 
@@ -368,10 +374,11 @@ export function toPhrase(
         exiting: exit,
         duration,
         style,
-    } = getStyle(project, value, 1);
+    } = getTypeStyle(project, value, 1);
 
     const wrap = toNumber(getOutputInput(value, 20));
     const alignment = toText(getOutputInput(value, 21));
+    const matter = toMatter(getOutputInput(value, 22));
 
     return texts !== undefined &&
         duration !== undefined &&
@@ -384,7 +391,7 @@ export function toPhrase(
               size,
               font,
               place,
-              namer?.getName(name?.text, value) ?? `${value.creator.id}`,
+              namer.getName(name?.text, value),
               selectable,
               background,
               pose,
@@ -395,7 +402,8 @@ export function toPhrase(
               duration,
               style,
               wrap,
-              alignment?.text
+              alignment?.text,
+              matter
           )
         : undefined;
 }

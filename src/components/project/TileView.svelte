@@ -226,7 +226,7 @@
                         height="13px"
                         viewBox="0 0 14 14"
                         width="14px"
-                        style="stroke: var(--wordplay-foreground)"
+                        style="stroke: var(--wordplay-foreground); pointer-events: none;"
                         ><title /><desc /><defs /><g
                             fill-rule="evenodd"
                             stroke-width="1"

@@ -1836,6 +1836,64 @@
               "$ref": "#/definitions/NameAndDoc",
               "description": "A stream of names selected with the pointer or keyboard"
             },
+            "Collision": {
+              "additionalProperties": false,
+              "description": "A stream of collisions between objects with matter.",
+              "properties": {
+                "doc": {
+                  "$ref": "#/definitions/DocText",
+                  "description": "Documentation for this definition, to appear in the documentation browser."
+                },
+                "names": {
+                  "$ref": "#/definitions/NameText",
+                  "description": "One or more names for this definition. Be careful not to introduce duplicates."
+                },
+                "object": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "The object of a collision."
+                },
+                "subject": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "The subject of a collision"
+                }
+              },
+              "required": [
+                "doc",
+                "names",
+                "object",
+                "subject"
+              ],
+              "type": "object"
+            },
+            "Direction": {
+              "additionalProperties": false,
+              "description": "A vector indicating a direction and magnitude.",
+              "properties": {
+                "doc": {
+                  "$ref": "#/definitions/DocText",
+                  "description": "Documentation for this definition, to appear in the documentation browser."
+                },
+                "names": {
+                  "$ref": "#/definitions/NameText",
+                  "description": "One or more names for this definition. Be careful not to introduce duplicates."
+                },
+                "x": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "The direction and magnitude on the x-axis"
+                },
+                "y": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "The direction and magnitude on the y-axis"
+                }
+              },
+              "required": [
+                "doc",
+                "names",
+                "x",
+                "y"
+              ],
+              "type": "object"
+            },
             "Key": {
               "additionalProperties": false,
               "description": "A stream of keys pressed, configurable to only show up or down states",
@@ -1869,83 +1927,38 @@
               "additionalProperties": false,
               "description": "A stream of phrases in places and rotations simulating physics",
               "properties": {
-                "bounciness": {
-                  "$ref": "#/definitions/NameAndDoc",
-                  "description": "A coefficient that dampens collisions"
-                },
                 "doc": {
                   "$ref": "#/definitions/DocText",
                   "description": "Documentation for this definition, to appear in the documentation browser."
-                },
-                "gravity": {
-                  "$ref": "#/definitions/NameAndDoc",
-                  "description": "Gravity, influencing change in y velocity"
-                },
-                "mass": {
-                  "$ref": "#/definitions/NameAndDoc",
-                  "description": "Mass, influencing collisions"
                 },
                 "names": {
                   "$ref": "#/definitions/NameText",
                   "description": "One or more names for this definition. Be careful not to introduce duplicates."
                 },
-                "startplace": {
+                "nextplace": {
                   "$ref": "#/definitions/NameAndDoc",
-                  "description": "Where the phrase should start"
+                  "description": "The next place for the motion, overriding physics"
                 },
-                "startvangle": {
+                "nextvelocity": {
                   "$ref": "#/definitions/NameAndDoc",
-                  "description": "Starting angular velocity"
+                  "description": "The next velocity for the motion, overriding physics"
                 },
-                "startvx": {
+                "place": {
                   "$ref": "#/definitions/NameAndDoc",
-                  "description": "Starting x velocity"
+                  "description": "The initial place for the motion"
                 },
-                "startvy": {
+                "velocity": {
                   "$ref": "#/definitions/NameAndDoc",
-                  "description": "Starting y velocity"
-                },
-                "startvz": {
-                  "$ref": "#/definitions/NameAndDoc",
-                  "description": "Starting z velocity"
-                },
-                "type": {
-                  "$ref": "#/definitions/NameAndDoc",
-                  "description": "The phrase template to use"
-                },
-                "vangle": {
-                  "$ref": "#/definitions/NameAndDoc",
-                  "description": "A constant angular velocity to hold"
-                },
-                "vx": {
-                  "$ref": "#/definitions/NameAndDoc",
-                  "description": "A constant x velocity to hold"
-                },
-                "vy": {
-                  "$ref": "#/definitions/NameAndDoc",
-                  "description": "A constant y velocity to hold"
-                },
-                "vz": {
-                  "$ref": "#/definitions/NameAndDoc",
-                  "description": "A constant z velocity to hold"
+                  "description": "The initial velocity for the motion"
                 }
               },
               "required": [
-                "bounciness",
                 "doc",
-                "gravity",
-                "mass",
                 "names",
-                "startplace",
-                "startvangle",
-                "startvx",
-                "startvy",
-                "startvz",
-                "type",
-                "vangle",
-                "vx",
-                "vy",
-                "vz"
+                "nextplace",
+                "nextvelocity",
+                "place",
+                "velocity"
               ],
               "type": "object"
             },
@@ -2032,6 +2045,40 @@
                 "doc",
                 "inputs",
                 "names"
+              ],
+              "type": "object"
+            },
+            "Rebound": {
+              "additionalProperties": false,
+              "description": "The values that come out of a collision stream.",
+              "properties": {
+                "direction": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "The direction of the collision, relative to the collision stream's subject."
+                },
+                "doc": {
+                  "$ref": "#/definitions/DocText",
+                  "description": "Documentation for this definition, to appear in the documentation browser."
+                },
+                "names": {
+                  "$ref": "#/definitions/NameText",
+                  "description": "One or more names for this definition. Be careful not to introduce duplicates."
+                },
+                "object": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "The name a collision stream collided with."
+                },
+                "subject": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "The name a collision stream collided with."
+                }
+              },
+              "required": [
+                "direction",
+                "doc",
+                "names",
+                "object",
+                "subject"
               ],
               "type": "object"
             },
@@ -2166,7 +2213,10 @@
             "Motion",
             "Placement",
             "Chat",
-            "Webpage"
+            "Webpage",
+            "Collision",
+            "Rebound",
+            "Direction"
           ],
           "type": "object"
         },
@@ -6287,6 +6337,10 @@
                   "$ref": "#/definitions/NameAndDoc",
                   "description": "The layout to use to place the content in the group on stage"
                 },
+                "matter": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "The matter to use for the group if it's involved in collisions"
+                },
                 "moving": {
                   "$ref": "#/definitions/NameAndDoc",
                   "description": "Pose or sequence for when a phrase, group, or stage is moving"
@@ -6349,6 +6403,7 @@
                 "flipx",
                 "flipy",
                 "layout",
+                "matter",
                 "moving",
                 "name",
                 "names",
@@ -6363,6 +6418,59 @@
                 "style"
               ],
               "type": "object"
+            },
+            "Matter": {
+              "additionalProperties": false,
+              "description": "Physical properties of matter",
+              "properties": {
+                "bounciness": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "from 0-1, how bouncy something should be, where 0 means not bouncy at all, and 1 means retaining all of it's energy on collision"
+                },
+                "doc": {
+                  "$ref": "#/definitions/DocText",
+                  "description": "Documentation for this definition, to appear in the documentation browser."
+                },
+                "friction": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "from 0-1, where 0 means no sliding, and 1 means sliding indefinitely"
+                },
+                "mass": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "in kilograms, how much something weighs for the purposes of collisions"
+                },
+                "names": {
+                  "$ref": "#/definitions/NameText",
+                  "description": "One or more names for this definition. Be careful not to introduce duplicates."
+                },
+                "roundedness": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "from 0-1, what percent of the size to round the corners of the output's rectangle."
+                },
+                "shapes": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "whether the output can collide with other shapes"
+                },
+                "text": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "whether the output can collide with other output"
+                }
+              },
+              "required": [
+                "bounciness",
+                "doc",
+                "friction",
+                "mass",
+                "names",
+                "roundedness",
+                "shapes",
+                "text"
+              ],
+              "type": "object"
+            },
+            "Output": {
+              "$ref": "#/definitions/NameAndDoc",
+              "description": "The base interface for Phrase, Group, and Stage, and other types of Output"
             },
             "Phrase": {
               "additionalProperties": false,
@@ -6411,6 +6519,10 @@
                 "flipy": {
                   "$ref": "#/definitions/NameAndDoc",
                   "description": "Whether a phrase, group, or stage is flipped vertically"
+                },
+                "matter": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "The matter properties for the phrase"
                 },
                 "moving": {
                   "$ref": "#/definitions/NameAndDoc",
@@ -6481,6 +6593,7 @@
                 "face",
                 "flipx",
                 "flipy",
+                "matter",
                 "moving",
                 "name",
                 "names",
@@ -6510,6 +6623,10 @@
                   "$ref": "#/definitions/NameText",
                   "description": "One or more names for this definition. Be careful not to introduce duplicates."
                 },
+                "rotation": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "optional rotation"
+                },
                 "x": {
                   "$ref": "#/definitions/NameAndDoc",
                   "description": "x-coordinate"
@@ -6526,6 +6643,7 @@
               "required": [
                 "doc",
                 "names",
+                "rotation",
                 "x",
                 "y",
                 "z"
@@ -6597,24 +6715,32 @@
               "description": "A rectangle shape, for Stage.frame",
               "properties": {
                 "bottom": {
-                  "$ref": "#/definitions/NameAndDoc"
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "Bottom of the rectangle"
                 },
                 "doc": {
                   "$ref": "#/definitions/DocText",
                   "description": "Documentation for this definition, to appear in the documentation browser."
                 },
                 "left": {
-                  "$ref": "#/definitions/NameAndDoc"
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "Left of the rectangle"
                 },
                 "names": {
                   "$ref": "#/definitions/NameText",
                   "description": "One or more names for this definition. Be careful not to introduce duplicates."
                 },
                 "right": {
-                  "$ref": "#/definitions/NameAndDoc"
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "Right of the rectangle"
                 },
                 "top": {
-                  "$ref": "#/definitions/NameAndDoc"
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "Top of the rectangle"
+                },
+                "z": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "Depth of rectangle"
                 }
               },
               "required": [
@@ -6623,7 +6749,8 @@
                 "left",
                 "names",
                 "right",
-                "top"
+                "top",
+                "z"
               ],
               "type": "object"
             },
@@ -6701,8 +6828,108 @@
               "type": "object"
             },
             "Shape": {
-              "$ref": "#/definitions/NameAndDoc",
-              "description": "The base interface for shape types"
+              "additionalProperties": false,
+              "description": "The base interface for shape types",
+              "properties": {
+                "background": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "The background color behind a phrase, group, or stage"
+                },
+                "color": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "The color of glyphs in a phrase, group, or stage"
+                },
+                "doc": {
+                  "$ref": "#/definitions/DocText",
+                  "description": "Documentation for this definition, to appear in the documentation browser."
+                },
+                "duration": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "The curation of transition"
+                },
+                "entering": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "Pose or sequence for when a phrase, group, or stage enters stage"
+                },
+                "exiting": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "Pose or sequence for when a phrase, group, or stage is leaving stage"
+                },
+                "flipx": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "Whether a phrase, group, or stage is flipped horizontally"
+                },
+                "flipy": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "Whether a phrase, group, or stage is flipped vertically"
+                },
+                "form": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "The kind of shape and its details"
+                },
+                "moving": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "Pose or sequence for when a phrase, group, or stage is moving"
+                },
+                "name": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "The name of a phrase, group, or stage, used in Choice, Collision, and animations"
+                },
+                "names": {
+                  "$ref": "#/definitions/NameText",
+                  "description": "One or more names for this definition. Be careful not to introduce duplicates."
+                },
+                "offset": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "The offset of phrase, group, or stage from its place"
+                },
+                "opacity": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "The opacity of a phrase, group, or stage"
+                },
+                "resting": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "Pose or sequence for when a phrase, group, or stage is not moving"
+                },
+                "rotation": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "The rotation of a phrase, group, or stage"
+                },
+                "scale": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "The scale of phrase, group, or stage"
+                },
+                "selectable": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "Whether a phrase, group, or stage is selectable by Choice"
+                },
+                "style": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "The transition style of transitions"
+                }
+              },
+              "required": [
+                "background",
+                "color",
+                "doc",
+                "duration",
+                "entering",
+                "exiting",
+                "flipx",
+                "flipy",
+                "form",
+                "moving",
+                "name",
+                "names",
+                "offset",
+                "opacity",
+                "resting",
+                "rotation",
+                "scale",
+                "selectable",
+                "style"
+              ],
+              "type": "object"
             },
             "Stack": {
               "additionalProperties": false,
@@ -6790,6 +7017,10 @@
                   "$ref": "#/definitions/NameAndDoc",
                   "description": "The shape of the frame to clip stage content"
                 },
+                "gravity": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "Gravity, influencing change in y velocity"
+                },
                 "moving": {
                   "$ref": "#/definitions/NameAndDoc",
                   "description": "Pose or sequence for when a phrase, group, or stage is moving"
@@ -6852,6 +7083,7 @@
                 "flipx",
                 "flipy",
                 "frame",
+                "gravity",
                 "moving",
                 "name",
                 "names",
@@ -6867,9 +7099,39 @@
               ],
               "type": "object"
             },
-            "Type": {
-              "$ref": "#/definitions/NameAndDoc",
-              "description": "The base interface for Phrase, Group, and Stage"
+            "Velocity": {
+              "additionalProperties": false,
+              "description": "A velocity vector",
+              "properties": {
+                "angle": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "rotation"
+                },
+                "doc": {
+                  "$ref": "#/definitions/DocText",
+                  "description": "Documentation for this definition, to appear in the documentation browser."
+                },
+                "names": {
+                  "$ref": "#/definitions/NameText",
+                  "description": "One or more names for this definition. Be careful not to introduce duplicates."
+                },
+                "x": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "x-coordinate"
+                },
+                "y": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "y-coordinate"
+                }
+              },
+              "required": [
+                "angle",
+                "doc",
+                "names",
+                "x",
+                "y"
+              ],
+              "type": "object"
             },
             "sequence": {
               "additionalProperties": false,
@@ -6952,7 +7214,7 @@
             }
           },
           "required": [
-            "Type",
+            "Output",
             "Group",
             "Phrase",
             "Stage",
@@ -6962,6 +7224,8 @@
             "Sequence",
             "Color",
             "Place",
+            "Velocity",
+            "Matter",
             "Arrangement",
             "Row",
             "Stack",
@@ -8473,8 +8737,20 @@
                       "description": "Add a group to the output",
                       "type": "string"
                     },
+                    "addMotion": {
+                      "description": "Set place to Motion stream",
+                      "type": "string"
+                    },
                     "addPhrase": {
                       "description": "Add a phrase to the output",
+                      "type": "string"
+                    },
+                    "addPlacement": {
+                      "description": "Set place to Placement stream",
+                      "type": "string"
+                    },
+                    "addShape": {
+                      "description": "Add a shape to the output",
                       "type": "string"
                     },
                     "createGroup": {
@@ -8523,6 +8799,9 @@
                     "set",
                     "addGroup",
                     "addPhrase",
+                    "addShape",
+                    "addMotion",
+                    "addPlacement",
                     "remove",
                     "up",
                     "down",

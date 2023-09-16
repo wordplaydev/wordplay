@@ -1252,7 +1252,6 @@
         },
         "UnknownType": {
             "name": "unknown type",
-            "unknown": "unknown",
             "connector": ", because ",
             "emotion": "curious",
             "doc": "Umm... I don't know what I represent, but I really am curious. Do you know? It seems like we should know. You might need to tell us if we can't figure it out."
@@ -2834,57 +2833,21 @@
                 "Check out the many other ways to configure it below."
             ],
             "names": ["⚽️", "Motion"],
-            "type": {
-                "doc": "The @Phrase to refine with new @Phrase/resting places and rotations.",
-                "names": "type"
+            "place": {
+                "doc": "The starting place.",
+                "names": "place"
             },
-            "startplace": {
-                "doc": "The initial place for the @Phrase.",
-                "names": "startplace"
+            "velocity": {
+                "doc": "The starting velocity",
+                "names": "velocity"
             },
-            "startvx": {
-                "doc": "The initial velocity on the x-axis at which the @Phrase should move.",
-                "names": "startvx"
+            "nextplace": {
+                "doc": "The next place, overriding physics.",
+                "names": "nextplace"
             },
-            "startvy": {
-                "doc": "The initial velocity on the y-axis at which the @Phrase should move. If it, it overrides gravity.",
-                "names": "startvy"
-            },
-            "startvz": {
-                "doc": "The initial velocity on the z-axis at which the @Phrase should move.",
-                "names": "startvz"
-            },
-            "startvangle": {
-                "doc": "The initial rotational velocity at which the @Phrase should rotate.",
-                "names": "startvangle"
-            },
-            "vx": {
-                "doc": "The velocity on the x-axis at which the @Phrase should move, independent of physics.",
-                "names": "vx"
-            },
-            "vy": {
-                "doc": "The velocity on the y-axis at which the @Phrase should move, independent of physics.",
-                "names": "vy"
-            },
-            "vz": {
-                "doc": "The velocity on the z-axis at which the @Phrase should move, independent of physics.",
-                "names": "vz"
-            },
-            "vangle": {
-                "doc": "The rotational velocity at which the @Phrase should rotate, independent of physics.",
-                "names": "vangle"
-            },
-            "mass": {
-                "doc": "The mass of the @Phrase, which may someday influence collisions.",
-                "names": "mass"
-            },
-            "bounciness": {
-                "doc": "The fraction between 0 and 1 that determines how much a velocity is dampened when a @Phrase collides.",
-                "names": "bounciness"
-            },
-            "gravity": {
-                "doc": "The gravity to apply to @Motion/vy.",
-                "names": "gravity"
+            "nextvelocity": {
+                "doc": "The next place, overriding velocity.",
+                "names": "nextvelocity"
             }
         },
         "Chat": {
@@ -2959,11 +2922,58 @@
                 "noConnection": "no connection to Wordplay",
                 "limit": "too many requests to this domain"
             }
+        },
+        "Collision": {
+            "names": "Collision",
+            "doc": [
+                "/Hi! @FunctionDefinition here. Check out this cool input./",
+                "It can help you find out when @Output bump into each other! This is great way to do something when we bump into each other, other than the normal bouncing off each other @Output might do.",
+                "Just give me a name of @Output, and I'll make a new @Rebound value whenever it bumps into another name. A @Rebound has info about the names that collided and the direction of their collision.",
+                "And if you give me two names, I'll only make a new value when the two names bump into each other.",
+                "Right after I make a new value, I'll make a \\ø\\ since the collision is done after it happens. This indicates that there's no more collision.",
+                ""
+            ],
+            "subject": {
+                "names": "subject",
+                "doc": "The name of the @Output I should look for collisions on."
+            },
+            "object": {
+                "names": "other",
+                "doc": "The name of the other @Output I should look for collisions on."
+            }
+        },
+        "Rebound": {
+            "names": "Rebound",
+            "doc": "I come from @Collision and represent the who was collided with and which direction the collision occurred on. Use me to decide whether to react to a collision in some special way, other than normal physics.",
+            "direction": {
+                "names": "direction",
+                "doc": "The direction and magnitude of the collision, relative to the subject of the collision"
+            },
+            "subject": {
+                "names": "subject",
+                "doc": "The name of the output that was hit by the subject."
+            },
+            "object": {
+                "names": "object",
+                "doc": "The name of the output that hit the subject"
+            }
+        },
+        "Direction": {
+            "names": "Direction",
+            "doc": "I'm a direction and magnitude, along x and y axes.",
+            "x": {
+                "names": "x",
+                "doc": "The direction and magnitude of the direction along the x-axis."
+            },
+            "y": {
+                "names": "y",
+                "doc": "The direction and magnitude of the direction along the y-axis."
+            }
         }
     },
     "output": {
-        "Type": {
-            "names": "Type",
+        "Output": {
+            "names": "Output",
             "doc": [
                 "I am not a @StructureDefinition you can actually make. But I am a very important one, as I inspire the most important elements of our dance: @Phrase, @Group, and @Stage.",
                 "Go meet them to learn more about how to use them."
@@ -2973,19 +2983,23 @@
             "doc": [
                 "Oh hello, how are you? I'm always fine when others are around, so it's great to be with you!",
                 "I group together @Phrase and @Group on @Stage and put them in an @Arrangement, so there's some order to where they're placed.",
-                "To work, I need you to give me an @Arrangement, and then a @List of @Type to arrange.",
+                "To work, I need you to give me an @Arrangement, and then a @List of @Output to arrange.",
                 "For example, here I am with a @Stack arrangement and a few @Phrase to stack vertically:",
                 "\\Group(Stack() [Phrase('first') Phrase('second')])\\",
                 "How exactly I arrange things depend on the @Arrangement you give me."
             ],
             "names": ["🔳", "Group"],
             "layout": {
-                "doc": "The arrangement to use to put @Type in their places.",
+                "doc": "The arrangement to use to put @Output in their places.",
                 "names": "layout"
             },
             "content": {
-                "doc": "The list of @Type to arrange.",
+                "doc": "The list of @Output to arrange.",
                 "names": "content"
+            },
+            "matter": {
+                "doc": "How I should react if I were to bump into something else with matter.",
+                "names": "matter"
             },
             "size": {
                 "doc": "How tall the wonderful content inside me should be, unless they have a size of their own!",
@@ -3025,7 +3039,7 @@
             },
             "rotation": {
                 "doc": "How tilted should I be around my center, my @Pose has a different one.",
-                "names": "rotation"
+                "names": ["📐", "rotation"]
             },
             "scale": {
                 "doc": "How big I should be relative to my original size.",
@@ -3070,7 +3084,7 @@
                 "Hello, hello! Remember me? How could anyone forget /me/. That's right, I am the manificent @Phrase, ready to represent the loveliest of @Text on @Stage.",
                 "Just make me like this, and I'll appear on @Stage:",
                 "\\Phrase('magnificient!')\\",
-                "I need some @Text, obviously, but otherwise, I can do everything a @Type can do, including changing my size, font, rotation, and do all of my incredible dances with @Pose and @Sequence.",
+                "I need some @Text, obviously, but otherwise, I can do everything a @Output can do, including changing my size, font, rotation, and do all of my incredible dances with @Pose and @Sequence.",
                 "You can also select me on @Stage and edit me on the palette next door."
             ],
             "names": ["💬", "Phrase"],
@@ -3097,6 +3111,10 @@
             "alignment": {
                 "doc": "If there's a @Phrase/wrap boundary set, whether I should align symbols to the start, center, or end of edge.",
                 "names": "alignment"
+            },
+            "matter": {
+                "doc": "The properties to use if I bump into things!",
+                "names": "matter"
             },
             "name": {
                 "doc": [
@@ -3175,7 +3193,7 @@
             "names": ["⠿", "Arrangement"]
         },
         "Row": {
-            "doc": "I am @Row, a horizontal @Arrangement of @Type, with optional padding in between. Have you met my twin, @Stack?",
+            "doc": "I am @Row, a horizontal @Arrangement of @Output, with optional padding in between. Have you met my twin, @Stack?",
             "names": ["➡", "Row"],
             "description": "row of $1 phrases and groups",
             "alignment": {
@@ -3188,7 +3206,7 @@
             }
         },
         "Stack": {
-            "doc": "I am @Stack, a vertical @Arrangement of @Type, with optional padding in between. Have you met my twin, @Row? ",
+            "doc": "I am @Stack, a vertical @Arrangement of @Output, with optional padding in between. Have you met my twin, @Row? ",
             "names": ["⬇", "Stack"],
             "description": "stack of $1 phrases and groups",
             "alignment": {
@@ -3201,7 +3219,7 @@
             }
         },
         "Grid": {
-            "doc": "I am grid of @Type. Give me a row and column count and I'll make a tidy arrangement with optional padding and cell sizes.",
+            "doc": "I am grid of @Output. Give me a row and column count and I'll make a tidy arrangement with optional padding and cell sizes.",
             "names": ["▦", "Grid"],
             "description": "$1 row $2 column grid",
             "rows": {
@@ -3227,15 +3245,83 @@
         },
         "Free": {
             "doc": [
-                "I'm like, whatever. Sit wherever you want. Just sit somewhere! Make sure all the @Type you give me have a @Place, otherwise they won't know where to go.",
-                "Oh, and remember that the @Place you give each @Type is relative to the @Group's @Place! So if you're wondering why things aren't appearing where you expect, try giving the @Group a place too."
+                "I'm like, whatever. Sit wherever you want. Just sit somewhere! Make sure all the @Output you give me have a @Place, otherwise they won't know where to go.",
+                "Oh, and remember that the @Place you give each @Output is relative to the @Group's @Place! So if you're wondering why things aren't appearing where you expect, try giving the @Group a place too."
             ],
             "names": ["Free"],
             "description": "free-form $1 outputs"
         },
         "Shape": {
             "doc": "I'm an inspiration to all shapes. I'm useful for telling @Stage what shape to be.",
-            "names": "Shape"
+            "names": ["⬟", "Shape"],
+            "form": {
+                "doc": "I'm the kind of shape to show. Each shape requires different information to define its arrangement.",
+                "names": "form"
+            },
+            "name": {
+                "doc": "I'm the name you can use, for animations and @Collision. For example, if a represent the ground, you might want to call me 'ground'.",
+                "names": "name"
+            },
+            "selectable": {
+                "doc": "Whether I can be selected as part of @Choice.",
+                "names": "selectable"
+            },
+            "color": {
+                "doc": "The color of my borders.",
+                "names": "color"
+            },
+            "background": {
+                "doc": "The color of my background.",
+                "names": "background"
+            },
+            "opacity": {
+                "doc": "How transparent I should be.",
+                "names": "opacity"
+            },
+            "offset": {
+                "doc": "How far from my place I should appear, while remaining in place.",
+                "names": "offset"
+            },
+            "rotation": {
+                "doc": "How rotated I should be. This affects @Collision.",
+                "names": "rotation"
+            },
+            "scale": {
+                "doc": "How magnified I should be, without changing my actual size.",
+                "names": "scale"
+            },
+            "flipx": {
+                "doc": "Whether to mirror me on my x-axis.",
+                "names": "flipx"
+            },
+            "flipy": {
+                "doc": "Whether to mirror me on my y-axis.",
+                "names": "flipy"
+            },
+            "entering": {
+                "doc": "The @Pose or @Sequence I should do when entering @Stage.",
+                "names": "entering"
+            },
+            "resting": {
+                "doc": "The @Pose or @Sequence I should do after entering and while I'm not moving.",
+                "names": "resting"
+            },
+            "moving": {
+                "doc": "The @Pose or @Sequence I should do when moving places.",
+                "names": "moving"
+            },
+            "exiting": {
+                "doc": "The @Pose or @Sequence I should do when leaving @Stage.",
+                "names": "exiting"
+            },
+            "duration": {
+                "doc": "How long my animations should take if they are a single @Pose.",
+                "names": "duration"
+            },
+            "style": {
+                "doc": "The animation style I should use.",
+                "names": "style"
+            }
         },
         "Rectangle": {
             "doc": "I am a rectangle, useful for making @Stage have a boundary the size of your choosing.",
@@ -3255,11 +3341,15 @@
             "bottom": {
                 "doc": "The bottom edge of the stage on the y-axis",
                 "names": "bottom"
+            },
+            "z": {
+                "doc": "The depth position of the rectangle.",
+                "names": "z"
             }
         },
         "Pose": {
             "doc": [
-                "You know when someone strikes the most amazing way of standing, a pauses, and everyone looks? That's me. I capture a pose for @Type to be in, and am the building block of their movements.",
+                "You know when someone strikes the most amazing way of standing, a pauses, and everyone looks? That's me. I capture a pose for @Output to be in, and am the building block of their movements.",
                 "So much goes into a pose. Check out my many inputs to see what kinds of poses you might make!"
             ],
             "names": ["🤪", "Pose"],
@@ -3272,31 +3362,31 @@
                 "names": "style"
             },
             "color": {
-                "doc": "The @Color a @Type should be in this pose, instead of it's default.",
+                "doc": "The @Color a @Output should be in this pose, instead of it's default.",
                 "names": "color"
             },
             "opacity": {
-                "doc": "How transparent a @Type should be, between \\0\\ and \\1\\, instead of it's default. Helpful for fading in and out.",
+                "doc": "How transparent a @Output should be, between \\0\\ and \\1\\, instead of it's default. Helpful for fading in and out.",
                 "names": "opacity"
             },
             "offset": {
-                "doc": "A @Place indicating how offset from a @Type's place it should be, instead of it's default. Helpful for wiggling in place.",
+                "doc": "A @Place indicating how offset from a @Output's place it should be, instead of it's default. Helpful for wiggling in place.",
                 "names": "offset"
             },
             "rotation": {
-                "doc": "How rotated a @Type should be, instead of it's default.",
+                "doc": "How rotated a @Output should be, instead of it's default.",
                 "names": "rotation"
             },
             "scale": {
-                "doc": "How magnified a @Type should be relative to its original size, instead of it's default.",
+                "doc": "How magnified a @Output should be relative to its original size, instead of it's default.",
                 "names": "scale"
             },
             "flipx": {
-                "doc": "Whether a @Type should be mirrored on the x-axis, instead of its default.",
+                "doc": "Whether a @Output should be mirrored on the x-axis, instead of its default.",
                 "names": "flipx"
             },
             "flipy": {
-                "doc": "Whether a @Type should be mirrored on the y-axis, instead of it's default.",
+                "doc": "Whether a @Output should be mirrored on the y-axis, instead of it's default.",
                 "names": "flipy"
             },
             "description": "$1[transparent $1|] $2[rotated $2 degrees|] $3[scaled $3|] $4[flipped horizontally|] $5[flipped vertically|]"
@@ -3343,7 +3433,7 @@
             ],
             "names": ["💃", "Sequence"],
             "poses": {
-                "doc": "A @Map of percentages between 0% and 100%, each paired with a @Pose. You don't have to provide all the percents; I will smoothly move a @Type between the ones you give me.",
+                "doc": "A @Map of percentages between 0% and 100%, each paired with a @Pose. You don't have to provide all the percents; I will smoothly move a @Output between the ones you give me.",
                 "names": "poses"
             },
             "duration": {
@@ -3364,7 +3454,52 @@
             "names": ["📍", "Place"],
             "x": { "doc": "A position on the x-axis.", "names": "x" },
             "y": { "doc": "A position on the y-axis", "names": "y" },
-            "z": { "doc": "A position on the z-axis", "names": "z" }
+            "z": { "doc": "A position on the z-axis", "names": "z" },
+            "rotation": {
+                "doc": "Rotation at this position",
+                "names": ["📐", "rotation"]
+            }
+        },
+        "Velocity": {
+            "doc": "I'm a location on @Stage. All my inputs are optional, because I'm at the center by default.",
+            "names": ["↗", "Velocity"],
+            "x": {
+                "doc": "How many meters to move each second on the x-axis.",
+                "names": "x"
+            },
+            "y": {
+                "doc": "How many meters to move each second on the y-axis.",
+                "names": "y"
+            },
+            "angle": {
+                "doc": "How many degrees to rotate each second",
+                "names": ["angle", "°"]
+            }
+        },
+        "Matter": {
+            "doc": "I'm physical properties of output, which influence how I interact with other output on stage.",
+            "names": ["⚛️", "Matter"],
+            "mass": { "doc": "A weight, in kilograms", "names": "mass" },
+            "bounciness": {
+                "doc": "How much of my energy to keep on collision, 0 means none, 1 means all of it.",
+                "names": "bounciness"
+            },
+            "friction": {
+                "doc": "How much to keep sliding; 0 means none, 1 means forever.",
+                "names": "friction"
+            },
+            "roundedness": {
+                "doc": "How much to round the corners of the output; 0 means none and 1 means 100% of its size, making the sizes circular.",
+                "names": "roundedness"
+            },
+            "text": {
+                "doc": "Whether it can collide with other output.",
+                "names": "text"
+            },
+            "shapes": {
+                "doc": "Whether it can collide with other shapes.",
+                "names": "ground"
+            }
         },
         "Stage": {
             "doc": [
@@ -3377,7 +3512,7 @@
             ],
             "names": ["🎭", "Stage"],
             "content": {
-                "doc": "The list of @Type to show on stage.",
+                "doc": "The list of @Output to show on stage.",
                 "names": "content"
             },
             "frame": {
@@ -3422,7 +3557,7 @@
             },
             "rotation": {
                 "doc": "SAME AS @Group/rotation",
-                "names": "rotation"
+                "names": ["📐", "rotation"]
             },
             "scale": {
                 "doc": "SAME AS @Group/scale",
@@ -3460,6 +3595,10 @@
                 "doc": "SAME AS @Phrase/style!",
                 "names": "style"
             },
+            "gravity": {
+                "doc": "The gravity to apply to output whose's place is in @Motion.",
+                "names": "gravity"
+            },
             "description": "stage $1[$1|] of $2 phrases $3[$3 frame|] $4"
         },
         "Easing": {
@@ -3470,7 +3609,7 @@
         },
         "sequence": {
             "sway": {
-                "doc": "I create a @Sequence that sways back and forth around a @Type's center.",
+                "doc": "I create a @Sequence that sways back and forth around a @Output's center.",
                 "names": ["sway"],
                 "angle": {
                     "doc": "How much to tilt in the sway.",
@@ -3478,24 +3617,24 @@
                 }
             },
             "bounce": {
-                "doc": "I create a @Sequence that bounces @Type a given height.",
+                "doc": "I create a @Sequence that bounces @Output a given height.",
                 "names": ["bounce"],
                 "height": { "doc": "How high to bounce.", "names": ["height"] }
             },
             "spin": {
-                "doc": "I create a @Sequence that rotates @Type around its center.",
+                "doc": "I create a @Sequence that rotates @Output around its center.",
                 "names": ["spin"]
             },
             "fadein": {
-                "doc": "I create a @Sequence that fades @Type in from invisible to visible.",
+                "doc": "I create a @Sequence that fades @Output in from invisible to visible.",
                 "names": ["fadein"]
             },
             "popup": {
-                "doc": "I create a @Sequence that makes @Type scale in quickly than shrink to its normal size.",
+                "doc": "I create a @Sequence that makes @Output scale in quickly than shrink to its normal size.",
                 "names": ["popup"]
             },
             "shake": {
-                "doc": "I create a @Sequence that makes it look like a @Type is scared.",
+                "doc": "I create a @Sequence that makes it look like a @Output is scared.",
                 "names": ["shake"]
             }
         }
@@ -3822,6 +3961,9 @@
                 "set": "edit this property",
                 "addPhrase": "add a phrase after this",
                 "addGroup": "add a group after this",
+                "addShape": "add a shape after this",
+                "addMotion": "set place to Motion stream",
+                "addPlacement": "set place to Placement stream",
                 "remove": "remove this content",
                 "up": "move this content up",
                 "down": "move this content down",

@@ -1451,7 +1451,7 @@
                     "concept": "None",
                     "performance": [
                         "fix",
-                        "Motion(Phrase('ø' size: 5m) startvy: 5m/s)"
+                        "Phrase('ø' size: 5m place: Motion(velocity: Velocity(y: 5m/s)))"
                     ],
                     "lines": [
                         [
@@ -2009,17 +2009,17 @@
                 "gravity•#m/s^2: 15m/s^2",
                 "",
                 "Stage(count → [].translate(",
-                "   ƒ(_) Motion(",
-                "           Phrase(",
-                "               '→?' → [].random()",
-                "               place: ◆ ? Place(y: 10m) ø",
+                "   ƒ(_) ",
+                "       Phrase(",
+                "           '→?' → [].random()",
+                "           place: Motion(",
+                "               Place(y: 10m)",
+                "               Velocity(Random(-5 5) · 1m/s angle: Random(0 360) · 1°/s)",
                 "           )",
-                "           vx: ◆ ? Random(-5 5) · 1m/s ø ",
-                "           vangle: ◆ ? Random(0 360) · 1°/s ø",
-                "           bounciness: Random()",
-                "           gravity: gravity",
+                "           matter: Matter(bounciness: Random())",
                 "       )",
                 "   )",
+                "   gravity: gravity",
                 ")"
             ],
             "scenes": [
@@ -2660,13 +2660,7 @@
                     "concept": "Motion",
                     "performance": [
                         "fix",
-                        "Motion(",
-                        "    Phrase('🏀' 3m)",
-                        "    startplace: Place(0m 5m)",
-                        "    startvx: 0m/s",
-                        "    startvy: 0m/s",
-                        "    startvangle: 0°/s",
-                        ")"
+                        "Stage([Phrase('🏀' 1m place: Motion(Place(0m 10m)) matter: Matter(2kg 0.8)) Shape(Rectangle(-10m 0m 10m -1m))])"
                     ],
                     "lines": [
                         ["use", "fit", "DarkVoid"],
@@ -2674,74 +2668,115 @@
                             "FunctionDefinition",
                             "excited",
                             "So far, all of the *streams* we've talked about are sequences of simple values, like @Text or @Number. Some streams, however, can produce complex values.",
-                            "@Motion is one of the most interesting of those."
+                            "@Motion is one of the most interesting of those. It makes a stream of @Place."
                         ],
                         null,
+                        ["edit", "Phrase('🏀' 3m place: Motion(Place(0m 5m)))"],
                         [
-                            "fix",
-                            "Motion(",
-                            "  Phrase('🏀' 3m) startplace: Place(0m 5m)",
+                            "FunctionDefinition",
+                            "excited",
+                            "Here's the simplest way to use it. This creates a @Motion stream that starts with this @Phrase. It'll keep moving the ball based on *gravity*."
+                        ],
+                        ["Motion", "excited", "/Woosh…/"],
+                        null,
+                        [
+                            "edit",
+                            "Stage([Phrase('🏀' 1m place: Motion(Place(0m 10m))) Shape(Rectangle(-10m 0m 10m -2m))])"
+                        ],
+                        [
+                            "FunctionDefinition",
+                            "excited",
+                            "But the ball keeps falling because there's no ground! We can put something called a @Shape on @Stage, like a @Rectangle. It takes two corners. We'll make it nice and thick.",
+                            "Hm, it falls through the ground..."
+                        ],
+                        ["Motion", "excited", "/Woosh…/"],
+                        null,
+                        [
+                            "edit",
+                            "Stage(",
+                            "   [",
+                            "       Phrase('🏀' 1m place: Motion(Place(0m 10m)) matter: Matter(1kg 0.9))",
+                            "      Shape(Rectangle(-10m 0m 10m -2m))",
+                            "   ]",
                             ")"
                         ],
                         [
                             "FunctionDefinition",
                             "excited",
-                            "Here's the simplest way to use it. This creates a @Motion stream that starts with this @Phrase. It'll keep moving the ball based on *gravity*. The ground is at \\0m\\ on the y-axes."
+                            "Oh right! That's because we forgot to give the ball @Matter. Matter is a way of telling us how heavy the @Output is, how bouncy it is, and how much friction it should have.",
+                            "Let's make the ball really bouncy and light. Yay, now it bounces!"
                         ],
-                        ["Motion", "excited", "Woosh…"],
                         null,
                         [
-                            "fix",
-                            "Motion(",
-                            "    Phrase('🏀' 3m) ",
-                            "    startplace: Place(0m 5m)",
-                            "    startvx: -5m/s",
-                            "    startvy: 5m/s",
-                            "    startvangle: 30°/s",
+                            "edit",
+                            "Stage(",
+                            "\t[",
+                            "\t\tPhrase('🏀' 1m place: Motion(Place(-10m 10m) Velocity(5m/s 15m/s 10°/s)) matter: Matter(1kg 0.9))",
+                            "\t\tShape(Rectangle(-10m 0m 10m -2m))",
+                            "\t]",
                             ")"
                         ],
                         [
                             "FunctionDefinition",
                             "excited",
                             "But @Motion has many other tricks.",
-                            "For example, it can have initial velocities, @Motion/startvx, @Motion/startvy, @Motion/startvz, and @Motion/startvangle.",
-                            "This example makes the ball move left and up, spinning a bit initially."
+                            "For example, we can give it a start @Motion/velocity.",
+                            "This example makes the ball move right and up and spinning a bit initially."
                         ],
                         ["Motion", "excited", "Woooosh…"],
                         null,
                         [
-                            "fix",
-                            "Motion(",
-                            "    Phrase('🏀' 3m) ",
-                            "    startplace: Place(0m 5m)",
-                            "    startvx: -5m/s",
-                            "    startvy: 5m/s",
-                            "    startvangle: 30°/s",
-                            "    gravity: 200m/s^2",
+                            "edit",
+                            "Stage(",
+                            "\t[",
+                            "\t\tPhrase('🏀' 1m place: Motion(Place(-10m 10m) Velocity(5m/s 15m/s 10°/s)) matter: Matter(1kg 0.9))",
+                            "\t\tShape(Rectangle(-10m 0m 10m -2m))",
+                            "\t]",
+                            "\tgravity: 1m/s^s",
                             ")"
                         ],
                         [
                             "FunctionDefinition",
                             "excited",
-                            "You can even change @Motion/gravity to be really extreme.",
+                            "You can even change @Stage/gravity to be really extreme.",
                             "Try changing it to be like the moon, where gravity is really low!",
-                            "Or try changing @Motion/mass or @Motion/bounciness, which affects how @Phrase bounce."
+                            "Or try changing @Matter/mass or @Matter/bounciness, which affects how @Phrase bounce."
                         ],
                         ["Motion", "excited", "Wsh…"],
                         null,
                         [
-                            "fix",
-                            "Motion(",
-                            "    Phrase('🏀' 3m)",
-                            "    Place(0m 5m)",
-                            "    startvy: 50m/s",
+                            "edit",
+                            "Stage(",
+                            "\t[",
+                            "\t\tPhrase(",
+                            "\t\t\t'🏀'",
+                            "\t\t\t1m",
+                            "\t\t\tname: 'ball'",
+                            "\t\t\tplace: Motion(Place(-10m 10m) Velocity(5m/s 15m/s 10°/s))",
+                            "\t\t\tmatter: Matter(1kg 0.9)",
+                            "\t\t\tscale: Collision('ball' 'ground')•ø ? 1 2)",
+                            "\t\tShape(Rectangle(-10m 0m 10m -2m) name: 'ground')",
+                            "\t]",
                             ")"
                         ],
                         [
                             "FunctionDefinition",
                             "excited",
-                            "There are a lot of fun things you can do with a @Motion stream!",
-                            "Maybe you already have some ideas..."
+                            "It's even possible to know when some @Output bumps into another output with related stream called @Collision.",
+                            "We just need to give names to our two @Output. How about 'ball' and 'ground'?",
+                            "Then, we @Collision will give us a @Rebound when they touch and @None with they don't.",
+                            "Let's make the ball scale up each time it hits the ground for emphasis!"
+                        ],
+                        null,
+                        [
+                            "fix",
+                            "Stage([Phrase('🏀' 1m place: Motion(Place(0m 10m)) matter: Matter(2kg 0.8)) Shape(Rectangle(-10m 0m 10m -1m))])"
+                        ],
+                        [
+                            "FunctionDefinition",
+                            "kind",
+                            "There's so much more you can do with @Motion, @Collision, and @Shape!",
+                            "I hope you'll try lots of bouncy things."
                         ]
                     ]
                 },
