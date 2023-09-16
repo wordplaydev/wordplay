@@ -2925,14 +2925,21 @@
         },
         "Collision": {
             "names": "Collision",
-            "doc": "$?",
-            "name": {
-                "names": "name",
-                "doc": "$?"
+            "doc": [
+                "/Hi! @FunctionDefinition here. Check out this cool input./",
+                "It can help you find out when @Output bump into each other! This is great way to do something when we bump into each other, other than the normal bouncing off each other @Output might do.",
+                "Just give me a name of @Output, and I'll make a new @Rebound value whenever it bumps into another name. A @Rebound has info about the names that collided and the direction of their collision.",
+                "And if you give me two names, I'll only make a new value when the two names bump into each other.",
+                "Right after I make a new value, I'll make a \\ø\\ since the collision is done after it happens. This indicates that there's no more collision.",
+                ""
+            ],
+            "subject": {
+                "names": "subject",
+                "doc": "The name of the @Output I should look for collisions on."
             },
-            "other": {
+            "object": {
                 "names": "other",
-                "doc": "$?"
+                "doc": "The name of the other @Output I should look for collisions on."
             }
         },
         "Rebound": {
@@ -3247,44 +3254,74 @@
         "Shape": {
             "doc": "I'm an inspiration to all shapes. I'm useful for telling @Stage what shape to be.",
             "names": ["⬟", "Shape"],
-            "form": { "doc": "$?", "names": "form" },
-            "name": { "doc": "$?", "names": "name" },
-            "selectable": { "doc": "$?", "names": "selectable" },
+            "form": {
+                "doc": "I'm the kind of shape to show. Each shape requires different information to define its arrangement.",
+                "names": "form"
+            },
+            "name": {
+                "doc": "I'm the name you can use, for animations and @Collision. For example, if a represent the ground, you might want to call me 'ground'.",
+                "names": "name"
+            },
+            "selectable": {
+                "doc": "Whether I can be selected as part of @Choice.",
+                "names": "selectable"
+            },
             "color": {
-                "doc": "$?",
+                "doc": "The color of my borders.",
                 "names": "color"
             },
-            "background": { "doc": "$?", "names": "background" },
+            "background": {
+                "doc": "The color of my background.",
+                "names": "background"
+            },
             "opacity": {
-                "doc": "$?",
+                "doc": "How transparent I should be.",
                 "names": "opacity"
             },
             "offset": {
-                "doc": "$?",
+                "doc": "How far from my place I should appear, while remaining in place.",
                 "names": "offset"
             },
             "rotation": {
-                "doc": "$?",
+                "doc": "How rotated I should be. This affects @Collision.",
                 "names": "rotation"
             },
             "scale": {
-                "doc": "$?",
+                "doc": "How magnified I should be, without changing my actual size.",
                 "names": "scale"
             },
             "flipx": {
-                "doc": "$?",
+                "doc": "Whether to mirror me on my x-axis.",
                 "names": "flipx"
             },
             "flipy": {
-                "doc": "$?",
+                "doc": "Whether to mirror me on my y-axis.",
                 "names": "flipy"
             },
-            "entering": { "doc": "$?", "names": "entering" },
-            "resting": { "doc": "$?", "names": "resting" },
-            "moving": { "doc": "$?", "names": "moving" },
-            "exiting": { "doc": "$?", "names": "exiting" },
-            "duration": { "doc": "$?", "names": "duration" },
-            "style": { "doc": "$?", "names": "style" }
+            "entering": {
+                "doc": "The @Pose or @Sequence I should do when entering @Stage.",
+                "names": "entering"
+            },
+            "resting": {
+                "doc": "The @Pose or @Sequence I should do after entering and while I'm not moving.",
+                "names": "resting"
+            },
+            "moving": {
+                "doc": "The @Pose or @Sequence I should do when moving places.",
+                "names": "moving"
+            },
+            "exiting": {
+                "doc": "The @Pose or @Sequence I should do when leaving @Stage.",
+                "names": "exiting"
+            },
+            "duration": {
+                "doc": "How long my animations should take if they are a single @Pose.",
+                "names": "duration"
+            },
+            "style": {
+                "doc": "The animation style I should use.",
+                "names": "style"
+            }
         },
         "Rectangle": {
             "doc": "I am a rectangle, useful for making @Stage have a boundary the size of your choosing.",

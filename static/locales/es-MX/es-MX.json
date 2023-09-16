@@ -1636,11 +1636,11 @@
         "Collision": {
             "names": "$? Collision",
             "doc": "$?",
-            "name": {
+            "subject": {
                 "names": "$? name",
                 "doc": "$?"
             },
-            "other": {
+            "object": {
                 "names": "$? other",
                 "doc": "$?"
             }

@@ -1844,24 +1844,24 @@
                   "$ref": "#/definitions/DocText",
                   "description": "Documentation for this definition, to appear in the documentation browser."
                 },
-                "name": {
-                  "$ref": "#/definitions/NameAndDoc",
-                  "description": "The subject of a collision"
-                },
                 "names": {
                   "$ref": "#/definitions/NameText",
                   "description": "One or more names for this definition. Be careful not to introduce duplicates."
                 },
-                "other": {
+                "object": {
                   "$ref": "#/definitions/NameAndDoc",
                   "description": "The object of a collision."
+                },
+                "subject": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "The subject of a collision"
                 }
               },
               "required": [
                 "doc",
-                "name",
                 "names",
-                "other"
+                "object",
+                "subject"
               ],
               "type": "object"
             },

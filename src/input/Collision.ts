@@ -128,16 +128,22 @@ export function createCollisionDefinition(
     ReboundType: StructureDefinition
 ) {
     const NameBind = Bind.make(
-        getDocLocales(locales, (locale) => locale.input.Collision.name.doc),
-        getNameLocales(locales, (locale) => locale.input.Collision.name.names),
+        getDocLocales(locales, (locale) => locale.input.Collision.subject.doc),
+        getNameLocales(
+            locales,
+            (locale) => locale.input.Collision.subject.names
+        ),
         UnionType.make(TextType.make(), NoneType.make()),
         // Default to none
         NoneLiteral.make()
     );
 
     const OtherBind = Bind.make(
-        getDocLocales(locales, (locale) => locale.input.Collision.other.doc),
-        getNameLocales(locales, (locale) => locale.input.Collision.other.names),
+        getDocLocales(locales, (locale) => locale.input.Collision.object.doc),
+        getNameLocales(
+            locales,
+            (locale) => locale.input.Collision.object.names
+        ),
         UnionType.make(TextType.make(), NoneType.make()),
         // Default to none
         NoneLiteral.make()

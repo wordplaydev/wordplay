@@ -86,9 +86,9 @@ type InputTexts = {
     /** A stream of collisions between objects with matter. */
     Collision: NameAndDoc & {
         /** The subject of a collision */
-        name: NameAndDoc;
+        subject: NameAndDoc;
         /** The object of a collision. */
-        other: NameAndDoc;
+        object: NameAndDoc;
     };
     /** The values that come out of a collision stream. */
     Rebound: NameAndDoc & {
