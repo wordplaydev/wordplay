@@ -2,7 +2,7 @@ import toStructure from '@basis/toStructure';
 import StructureValue from '@values/StructureValue';
 import type Value from '@values/Value';
 import type Color from './Color';
-import Output, { getOutputInputs } from './Output';
+import Valued, { getOutputInputs } from './Valued';
 import type Place from './Place';
 import { toPlace } from './Place';
 import { toBoolean, toNumber } from './Stage';
@@ -28,7 +28,7 @@ export function createPoseType(locales: Locale[]) {
 `);
 }
 
-export default class Pose extends Output {
+export default class Pose extends Valued {
     readonly color?: Color;
     readonly opacity?: number;
     readonly offset?: Place;

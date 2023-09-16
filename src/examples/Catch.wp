@@ -17,6 +17,6 @@ Stage([
 			name: 'mouse'
 		)
 	] 
-	place: Place(0m 0m -2m)
+	place: Place(0m 0m -5m)
 	frame: Rectangle(-3m 3m 3m -3m)
 )

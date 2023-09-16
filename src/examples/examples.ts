@@ -6,7 +6,7 @@ import Hira from './Hira.wp?raw';
 import Video from './Video.wp?raw';
 import RainingLetters from './RainingLetters.wp?raw';
 import Poem from './Poem.wp?raw';
-import Cannon from './Cannon.wp?raw';
+import Questions from './Questions.wp?raw';
 import Maze from './Maze.wp?raw';
 import Adventure from './Adventure.wp?raw';
 import Letters from './Letters.wp?raw';
@@ -74,7 +74,7 @@ export const examples = wpToSerializedProjects([
     Video,
     RainingLetters,
     Poem,
-    Cannon,
+    Questions,
     Letters,
     Maze,
     Catch,

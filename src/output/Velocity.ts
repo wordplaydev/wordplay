@@ -1,7 +1,7 @@
 import toStructure from '../basis/toStructure';
 import type Value from '@values/Value';
 import { getBind } from '@locale/getBind';
-import Output, { getOutputInputs } from './Output';
+import Valued, { getOutputInputs } from './Valued';
 import { toNumber } from './Stage';
 import StructureValue from '../values/StructureValue';
 import type Locale from '../locale/Locale';
@@ -16,7 +16,7 @@ export function createVelocityType(locales: Locale[]) {
 `);
 }
 
-export default class Velocity extends Output {
+export default class Velocity extends Valued {
     readonly x: number | undefined;
     readonly y: number | undefined;
     readonly angle: number | undefined;

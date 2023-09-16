@@ -1657,8 +1657,8 @@
         }
     },
     "output": {
-        "Type": {
-            "names": "$?",
+        "Output": {
+            "names": "$? Output",
             "doc": "$?"
         },
         "Stage": {
@@ -1854,14 +1854,56 @@
             "doc": "$?",
             "description": "$?"
         },
-        "Shape": { "names": "$?", "doc": "$?" },
+        "Shape": {
+            "names": "$? shape",
+            "doc": "$?",
+            "form": { "doc": "$?", "names": "$? form" },
+            "name": { "doc": "$?", "names": "$? name" },
+            "selectable": { "doc": "$?", "names": "$? selectable" },
+            "color": {
+                "doc": "$?",
+                "names": "$? color"
+            },
+            "background": { "doc": "$?", "names": "$? background" },
+            "opacity": {
+                "doc": "$?",
+                "names": "$? opacity"
+            },
+            "offset": {
+                "doc": "$?",
+                "names": "$? offset"
+            },
+            "rotation": {
+                "doc": "$?",
+                "names": "$? rotation"
+            },
+            "scale": {
+                "doc": "$?",
+                "names": "$? scale"
+            },
+            "flipx": {
+                "doc": "$?",
+                "names": "$? flipx"
+            },
+            "flipy": {
+                "doc": "$?",
+                "names": "$? flipy"
+            },
+            "entering": { "doc": "$?", "names": "$? entering" },
+            "resting": { "doc": "$?", "names": "$? resting" },
+            "moving": { "doc": "$?", "names": "$? moving" },
+            "exiting": { "doc": "$?", "names": "$? exiting" },
+            "duration": { "doc": "$?", "names": ["$? duration"] },
+            "style": { "doc": "$?", "names": "$? style" }
+        },
         "Rectangle": {
             "names": "$?",
             "doc": "$?",
             "left": { "doc": "$?", "names": "$?" },
             "top": { "doc": "$?", "names": "$?" },
             "right": { "doc": "$?", "names": "$?" },
-            "bottom": { "doc": "$?", "names": "$?" }
+            "bottom": { "doc": "$?", "names": "$?" },
+            "z": { "doc": "$?", "names": "$? z" }
         },
         "Pose": {
             "names": "$?",

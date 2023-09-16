@@ -1,7 +1,7 @@
 import { createStageType } from '../output/Stage';
 import { createPhraseType } from '../output/Phrase';
 import { createGroupType } from '../output/Group';
-import { createTypeType } from '../output/TypeOutput';
+import { createOutputType } from '../output/Output';
 import { createPoseType } from '../output/Pose';
 import { createStackType } from '../output/Stack';
 import { createRowType } from '../output/Row';
@@ -18,7 +18,7 @@ import { createArrangementType } from '../output/Arrangement';
 import { getDefaultSequences } from '../output/DefaultSequences';
 import { createChoiceDefinition } from '../input/Choice';
 import { createGridType } from '../output/Grid';
-import { createRectangleType, createShapeType } from '../output/Shapes';
+import { createRectangleType, createShapeType } from '../output/Shape';
 import { createFreeType } from '../output/Free';
 import type Locale from '../locale/Locale';
 import { createCameraDefinition } from '../input/Camera';
@@ -42,10 +42,11 @@ export default function createDefaultShares(locales: Locale[]) {
     const ReboundType = createReboundType(locales);
 
     const OutputTypes = {
-        Type: createTypeType(locales),
+        Type: createOutputType(locales),
         Phrase: createPhraseType(locales),
         Group: createGroupType(locales),
         Stage: createStageType(locales),
+        Shape: createShapeType(locales),
         Pose: createPoseType(locales),
         Sequence: createSequenceType(locales),
         Color: ColorType,
@@ -54,7 +55,6 @@ export default function createDefaultShares(locales: Locale[]) {
         Velocity: VelocityType,
         Direction: DirectionType,
         Rebound: ReboundType,
-        Shape: createShapeType(locales),
         Rectangle: createRectangleType(locales),
         Arrangement: createArrangementType(locales),
         Stack: createStackType(locales),

@@ -1675,8 +1675,8 @@
         }
     },
     "output": {
-        "Type": {
-            "names": "tipo",
+        "Output": {
+            "names": "$? Output",
             "doc": "$?"
         },
         "Stage": {
@@ -1872,14 +1872,56 @@
             "doc": "$?",
             "description": "forma libre, $1 producción"
         },
-        "Shape": { "names": "forma", "doc": "$?" },
+        "Shape": {
+            "names": "forma",
+            "doc": "$?",
+            "form": { "doc": "$?", "names": "$? form" },
+            "name": { "doc": "$?", "names": "$? name" },
+            "selectable": { "doc": "$?", "names": "$? selectable" },
+            "color": {
+                "doc": "$?",
+                "names": "$? color"
+            },
+            "background": { "doc": "$?", "names": "$? background" },
+            "opacity": {
+                "doc": "$?",
+                "names": "$? opacity"
+            },
+            "offset": {
+                "doc": "$?",
+                "names": "$? offset"
+            },
+            "rotation": {
+                "doc": "$?",
+                "names": "$? rotation"
+            },
+            "scale": {
+                "doc": "$?",
+                "names": "$? scale"
+            },
+            "flipx": {
+                "doc": "$?",
+                "names": "$? flipx"
+            },
+            "flipy": {
+                "doc": "$?",
+                "names": "$? flipy"
+            },
+            "entering": { "doc": "$?", "names": "$? entering" },
+            "resting": { "doc": "$?", "names": "$? resting" },
+            "moving": { "doc": "$?", "names": "$? moving" },
+            "exiting": { "doc": "$?", "names": "$? exiting" },
+            "duration": { "doc": "$?", "names": ["$? duration"] },
+            "style": { "doc": "$?", "names": "$? style" }
+        },
         "Rectangle": {
             "names": "Rectángulo",
             "doc": "$?",
             "left": { "doc": "$?", "names": "izquierda" },
             "top": { "doc": "$?", "names": "masalta" },
             "right": { "doc": "$?", "names": "derecha" },
-            "bottom": { "doc": "$?", "names": "abajo" }
+            "bottom": { "doc": "$?", "names": "abajo" },
+            "z": { "doc": "$?", "names": "$? z" }
         },
         "Pose": {
             "names": "Pose",

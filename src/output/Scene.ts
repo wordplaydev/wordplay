@@ -1,4 +1,4 @@
-import type TypeOutput from './TypeOutput';
+import type Output from './Output';
 import Place from './Place';
 import { createPlace } from './Place';
 import Stage from './Stage';
@@ -15,26 +15,26 @@ import Physics from './Physics';
 export type OutputName = string;
 
 export type OutputInfo = {
-    output: TypeOutput;
+    output: Output;
     global: Place;
     local: Place;
     rotation: number | undefined;
     width: number;
     height: number;
-    parents: TypeOutput[];
+    parents: Output[];
     context: RenderContext;
 };
 
 export type Moved = Map<
     OutputName,
     {
-        output: TypeOutput;
+        output: Output;
         prior: Orientation;
         present: Orientation;
     }
 >;
 
-export type OutputsByName = Map<OutputName, TypeOutput>;
+export type OutputsByName = Map<OutputName, Output>;
 
 export type OutputInfoSet = Map<OutputName, OutputInfo>;
 export type Orientation = { place: Place; rotation: number | undefined };
@@ -72,7 +72,7 @@ export default class Scene {
     priorScene: OutputInfoSet = new Map<OutputName, OutputInfo>();
 
     /** The current outputs by their corresponding values */
-    outputByPlace: Map<Value, TypeOutput[]> = new Map();
+    outputByPlace: Map<Value, Output[]> = new Map();
 
     /** The active animations, responsible for tracking transitions and animations on named output. */
     readonly animations = new Map<OutputName, OutputAnimation>();
@@ -259,6 +259,7 @@ export default class Scene {
 
         // Sync this scene with the Matter engine.
         this.physics.sync(
+            this.stage,
             this.scene,
             this.priorScene,
             entered,
@@ -286,17 +287,17 @@ export default class Scene {
      * deletion.
      */
     animate(
-        present: Map<OutputName, TypeOutput>,
-        entered: Map<OutputName, TypeOutput>,
+        present: Map<OutputName, Output>,
+        entered: Map<OutputName, Output>,
         moved: Map<
             OutputName,
             {
-                output: TypeOutput;
+                output: Output;
                 prior: Orientation;
                 present: Orientation;
             }
         >,
-        exited: Map<OutputName, TypeOutput>
+        exited: Map<OutputName, Output>
     ): Set<OutputName> {
         if (this.stopped) return new Set();
 
@@ -373,8 +374,8 @@ export default class Scene {
     // A top down layout algorithm that places groups first, then their subgroups, and uses the
     // ancestor list to compute global places for each group.
     layout(
-        output: TypeOutput,
-        parents: TypeOutput[],
+        output: Output,
+        parents: Output[],
         outputInfo: Map<OutputName, OutputInfo>,
         context: RenderContext
     ) {

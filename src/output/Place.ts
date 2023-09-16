@@ -1,7 +1,7 @@
 import toStructure from '../basis/toStructure';
 import type Value from '@values/Value';
 import { getBind } from '@locale/getBind';
-import Output, { getOutputInputs } from './Output';
+import Valued, { getOutputInputs } from './Valued';
 import { toNumber } from './Stage';
 import type Evaluator from '@runtime/Evaluator';
 import type Names from '../nodes/Names';
@@ -23,7 +23,7 @@ export function createPlaceType(locales: Locale[]) {
 `);
 }
 
-export default class Place extends Output {
+export default class Place extends Valued {
     readonly x: number;
     readonly y: number;
     readonly z: number;

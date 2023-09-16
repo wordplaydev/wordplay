@@ -1,7 +1,7 @@
 import type Value from '@values/Value';
-import Output from './Output';
+import Valued from './Valued';
 
-export default class TextLang extends Output {
+export default class TextLang extends Valued {
     readonly text: string;
     readonly lang: string | undefined;
 

@@ -7,7 +7,7 @@ import Fonts, {
     type SupportedFace,
 } from '../basis/Fonts';
 import TextValue from '@values/TextValue';
-import TypeOutput, { DefaultStyle } from './TypeOutput';
+import Output, { DefaultStyle } from './Output';
 import type RenderContext from './RenderContext';
 import type Place from './Place';
 import ListValue from '@values/ListValue';
@@ -22,8 +22,8 @@ import type Locale from '../locale/Locale';
 import type Project from '../models/Project';
 import type { DefinitePose } from './Pose';
 import StructureValue from '../values/StructureValue';
-import { getOutputInput } from './Output';
-import { getStyle } from './toTypeOutput';
+import { getOutputInput } from './Valued';
+import { getTypeStyle } from './toOutput';
 import MarkupValue from '@values/MarkupValue';
 import concretize from '../locale/concretize';
 import type Markup from '../nodes/Markup';
@@ -33,7 +33,7 @@ import { toMatter } from './Matter';
 
 export function createPhraseType(locales: Locale[]) {
     return toStructure(`
-    ${getBind(locales, (locale) => locale.output.Phrase, '•')} Type(
+    ${getBind(locales, (locale) => locale.output.Phrase, '•')} Output(
         ${getBind(locales, (locale) => locale.output.Phrase.text)}•""|[""]|\`…\`
         ${getBind(locales, (locale) => locale.output.Phrase.size)}•${'#m|ø: ø'}
         ${getBind(
@@ -94,7 +94,7 @@ export type Metrics = {
     descent: number;
 };
 
-export default class Phrase extends TypeOutput {
+export default class Phrase extends Output {
     readonly text: TextLang[] | MarkupValue;
     readonly wrap: number | undefined;
     readonly alignment: string | undefined;
@@ -151,7 +151,7 @@ export default class Phrase extends TypeOutput {
         if (this.face) Fonts.loadFace(this.face);
     }
 
-    find(check: (output: TypeOutput) => boolean): TypeOutput | undefined {
+    find(check: (output: Output) => boolean): Output | undefined {
         return check(this) ? this : undefined;
     }
 
@@ -270,7 +270,7 @@ export default class Phrase extends TypeOutput {
         return dimensions;
     }
 
-    getOutput(): TypeOutput[] {
+    getOutput(): Output[] {
         return [];
     }
 
@@ -374,7 +374,7 @@ export function toPhrase(
         exiting: exit,
         duration,
         style,
-    } = getStyle(project, value, 1);
+    } = getTypeStyle(project, value, 1);
 
     const wrap = toNumber(getOutputInput(value, 20));
     const alignment = toText(getOutputInput(value, 21));
