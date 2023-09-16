@@ -344,7 +344,10 @@ export default class Evaluate extends Expression {
         context: Context
     ): Expression | Expression[] | undefined {
         const mapping = this.getInputMapping(context);
-        return mapping?.inputs.find((input) => input.expected === bind)?.given;
+        const given = mapping?.inputs.find(
+            (input) => input.expected === bind
+        )?.given;
+        return given instanceof Bind ? given.value : given;
     }
 
     getLastInput(): Expression | undefined {
