@@ -27,10 +27,10 @@ ballPlace: Motion(
     Place(0m 9m)
     nextvelocity: 
         pounce•ø ? ø 
-            Velocity((Random(5 15) · -1m/s · kittyPlace.direction) (Random(27 30) · 1m/s) (kittyPlace.direction · Random(0 30) · 1°/s)) 
+            Velocity((Random(5 15) · -1m/s · kittyPlace.direction) (Random(27 30) · 1m/s) (-kittyPlace.direction · Random(0 15) · 1°/s)) 
 )
 
-ball: Phrase("🥹" name: 'ball' place: ballPlace matter: Matter(1kg 0.5 0))
+ball: Phrase("🧶" name: 'ball' place: ballPlace matter: Matter(1kg 0.5 0 1))
 
 Stage(
     [

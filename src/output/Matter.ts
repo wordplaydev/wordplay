@@ -15,17 +15,14 @@ export function createMatterType(locales: Locale[]) {
         ${getBind(locales, (locale) => locale.output.Matter.mass)}•#kg: 1kg
         ${getBind(locales, (locale) => locale.output.Matter.bounciness)}•#: 0
         ${getBind(locales, (locale) => locale.output.Matter.friction)}•#: 0.8
+        ${getBind(locales, (locale) => locale.output.Matter.roundedness)}•#: 0.1
         ${getBind(
             locales,
             (locale) => locale.output.Matter.text
         )}•?: ${TRUE_SYMBOL}
         ${getBind(
             locales,
-            (locale) => locale.output.Matter.ground
-        )}•?: ${TRUE_SYMBOL}
-        ${getBind(
-            locales,
-            (locale) => locale.output.Matter.barriers
+            (locale) => locale.output.Matter.shapes
         )}•?: ${TRUE_SYMBOL}
     )
 `);
@@ -35,50 +32,59 @@ export default class Matter extends Valued {
     readonly mass: number;
     readonly bounciness: number;
     readonly friction: number;
+    readonly roundedness: number;
     readonly text: boolean;
-    readonly ground: boolean;
-    readonly barriers: boolean;
+    readonly shapes: boolean;
 
     constructor(
         value: Value,
         mass: number,
         bounciness: number,
         friction: number,
+        roundedness: number,
         text: boolean,
-        ground: boolean,
-        barriers: boolean
+        shapes: boolean
     ) {
         super(value);
 
         this.mass = mass;
         this.bounciness = bounciness;
         this.friction = friction;
+        this.roundedness = roundedness;
         this.text = text;
-        this.ground = ground;
-        this.barriers = barriers;
+        this.shapes = shapes;
     }
 }
 
 export function toMatter(value: Value | undefined): Matter | undefined {
     if (!(value instanceof StructureValue)) return undefined;
 
-    const [massVal, bounceVal, frictionVal, textVal, groundVal, barriersVal] =
-        getOutputInputs(value);
+    const [
+        massVal,
+        bounceVal,
+        frictionVal,
+        roundednessVal,
+        textVal,
+        shapesVal,
+    ] = getOutputInputs(value);
     const mass = toNumber(massVal);
     const bounce = toNumber(bounceVal);
     const friction = toNumber(frictionVal);
+    const roundedness = toNumber(roundednessVal);
     const text = toBoolean(textVal);
-    const ground = toBoolean(groundVal);
-    const barriers = toBoolean(barriersVal);
-    return mass !== undefined && bounce !== undefined && friction !== undefined
+    const shapes = toBoolean(shapesVal);
+    return mass !== undefined &&
+        bounce !== undefined &&
+        friction !== undefined &&
+        roundedness !== undefined
         ? new Matter(
               value,
               mass,
               bounce,
               friction,
+              roundedness,
               text ?? true,
-              ground ?? true,
-              barriers ?? true
+              shapes ?? true
           )
         : undefined;
 }

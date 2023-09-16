@@ -1994,17 +1994,17 @@
                 "doc": "$?",
                 "names": "$? friction"
             },
+            "roundedness": {
+                "doc": "$?",
+                "names": "$? roundedness"
+            },
             "text": {
                 "doc": "$?",
                 "names": "$? text"
             },
-            "ground": {
+            "shapes": {
                 "doc": "$?",
-                "names": "$? ground"
-            },
-            "barriers": {
-                "doc": "$?",
-                "names": "$? barriers"
+                "names": "$? shapes"
             }
         },
         "Easing": {
