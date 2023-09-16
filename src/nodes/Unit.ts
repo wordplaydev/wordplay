@@ -104,9 +104,9 @@ export default class Unit extends Type {
                         else {
                             this.denominator.push(
                                 Dimension.make(
-                                    this.numerator.length > 0,
+                                    this.denominator.length > 0,
                                     unit,
-                                    exp
+                                    Math.abs(exp)
                                 )
                             );
                             if (this.slash === undefined)
