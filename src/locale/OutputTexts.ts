@@ -192,12 +192,12 @@ type OutputTexts = {
         bounciness: NameAndDoc;
         /** from 0-1, where 0 means no sliding, and 1 means sliding indefinitely */
         friction: NameAndDoc;
+        /** from 0-1, what percent of the size to round the corners of the output's rectangle. */
+        roundedness: NameAndDoc;
         /** whether the output can collide with other output */
         text: NameAndDoc;
-        /** whether the output can collide with the ground */
-        ground: NameAndDoc;
-        /** whether the output can collide with barriers */
-        barriers: NameAndDoc;
+        /** whether the output can collide with other shapes */
+        shapes: NameAndDoc;
     };
     /** The base interface for arrangement types */
     Arrangement: NameAndDoc;

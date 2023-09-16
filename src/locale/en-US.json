@@ -3488,17 +3488,17 @@
                 "doc": "How much to keep sliding; 0 means none, 1 means forever.",
                 "names": "friction"
             },
+            "roundedness": {
+                "doc": "How much to round the corners of the output; 0 means none and 1 means 100% of its size, making the sizes circular.",
+                "names": "roundedness"
+            },
             "text": {
                 "doc": "Whether it can collide with other output.",
                 "names": "text"
             },
-            "ground": {
-                "doc": "Whether it can collide with the ground.",
+            "shapes": {
+                "doc": "Whether it can collide with other shapes.",
                 "names": "ground"
-            },
-            "barriers": {
-                "doc": "Whether it can collide with barriers on stage.",
-                "names": "barriers"
             }
         },
         "Stage": {

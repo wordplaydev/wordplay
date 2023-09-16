@@ -14,8 +14,7 @@ import { Rectangle } from './Form';
 import type Shape from './Shape';
 
 const TextCategory = 0b0001;
-const GroundCategory = 0b0010;
-const BarrierCategory = 0b0100;
+const ShapeCategory = 0b0010;
 
 /**
  * A MatterJS engine to keep Scene simpler.
@@ -156,8 +155,8 @@ export default class Physics {
                 isStatic: true,
                 collisionFilter: {
                     group: 1,
-                    category: GroundCategory,
-                    mask: TextCategory | GroundCategory | BarrierCategory,
+                    category: ShapeCategory,
+                    mask: TextCategory | ShapeCategory,
                 },
             }
         );
@@ -379,16 +378,18 @@ export default class Physics {
     }
 
     createOutputBody(info: OutputInfo, matter: Matter | undefined) {
-        const { width, height } = info.output.getLayout(info.context);
+        const { width, height, ascent } = info.output.getLayout(info.context);
         return new OutputBody(
             info.output.getName(),
             info.global.x,
             info.global.y,
             width,
             height,
+            ascent,
             ((info.output.pose.rotation ?? 0) * Math.PI) / 180,
             // Round corners by a fraction of their size
-            0.1 * (info.output.size ?? info.context.size),
+            (matter?.roundedness ?? 0.1) *
+                (info.output.size ?? info.context.size),
             matter
         );
     }
@@ -432,6 +433,7 @@ export class OutputBody {
         bottom: number,
         width: number,
         height: number,
+        ascent: number,
         angle: number,
         corner: number,
         matter: Matter | undefined
@@ -442,11 +444,11 @@ export class OutputBody {
             position.x,
             position.y,
             PX_PER_METER * width,
-            PX_PER_METER * height,
+            PX_PER_METER * ascent,
             // Round corners by a fraction of their size
             {
                 chamfer: {
-                    radius: corner,
+                    radius: corner * PX_PER_METER,
                 },
                 restitution: matter?.bounciness ?? 0,
                 friction: matter?.friction ?? 0,
@@ -496,8 +498,7 @@ function getCollisionFilter(matter: Matter | undefined) {
               category: TextCategory,
               mask:
                   (matter.text ? TextCategory : 0) |
-                  (matter.ground ? GroundCategory : 0) |
-                  (matter.barriers ? BarrierCategory : 0),
+                  (matter.shapes ? ShapeCategory : 0),
           }
         : {
               group: -1,
