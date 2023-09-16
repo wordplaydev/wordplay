@@ -75,7 +75,7 @@ export function getTypeOutputProperties(
     return [
         new OutputProperty(
             locale.output.Phrase.size,
-            new OutputPropertyRange(0.25, 32, 0.25, 'm'),
+            new OutputPropertyRange(0.25, 32, 0.25, 'm', 2),
             false,
             true,
             (expr) => expr instanceof NumberLiteral,
