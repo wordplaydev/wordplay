@@ -98,7 +98,10 @@ export default class NumberValue extends SimpleValue {
         } else if (number.isSymbol(Sym.JapaneseNumeral)) {
             return [convertJapanese(text).times(negated ? -1 : 1), undefined];
         } else if (number.isSymbol(Sym.Number)) {
-            return [NumberValue.fromUnknown(text), undefined];
+            return [
+                NumberValue.fromUnknown(text).times(negated ? -1 : 1),
+                undefined,
+            ];
         } else return [new Decimal(NaN), undefined];
     }
 
