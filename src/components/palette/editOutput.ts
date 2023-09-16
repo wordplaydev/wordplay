@@ -177,10 +177,10 @@ export function addContent(
                               )
                           ),
                           [
-                              NumberLiteral.make(-2, Unit.create(['m'])),
+                              NumberLiteral.make(-5, Unit.create(['m'])),
                               NumberLiteral.make(0, Unit.create(['m'])),
-                              NumberLiteral.make(2, Unit.create(['m'])),
-                              NumberLiteral.make(2, Unit.create(['m'])),
+                              NumberLiteral.make(5, Unit.create(['m'])),
+                              NumberLiteral.make(-1, Unit.create(['m'])),
                           ]
                       ),
                   ]
