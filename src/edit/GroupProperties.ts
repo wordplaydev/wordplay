@@ -6,6 +6,7 @@ import ListLiteral from '../nodes/ListLiteral';
 import Reference from '../nodes/Reference';
 import OutputProperty from './OutputProperty';
 import OutputPropertyOptions from './OutputPropertyOptions';
+import { getTypeOutputProperties } from './OutputProperties';
 
 export default function getGroupProperties(
     project: Project,
@@ -52,5 +53,6 @@ export default function getGroupProperties(
             (expr) => expr instanceof ListLiteral,
             () => ListLiteral.make([])
         ),
+        ...getTypeOutputProperties(project, locale),
     ];
 }

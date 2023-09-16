@@ -15,23 +15,15 @@ type OutputPropertyType =
     | 'pose'
     | 'poses'
     | 'content'
-    | 'place';
+    | 'place'
+    | 'form';
 
 /** Represents an editable property on the output expression, with some optional information about valid property values */
 class OutputProperty {
     /** The internal name of the property, corresponding to bind input names of TypeOutput. */
     readonly name: NameAndDoc;
     /** The type of input, roughly corresponding to widgets. */
-    readonly type:
-        | OutputPropertyRange
-        | OutputPropertyOptions
-        | OutputPropertyText
-        | 'color'
-        | 'bool'
-        | 'pose'
-        | 'poses'
-        | 'content'
-        | 'place';
+    readonly type: OutputPropertyType;
     /** True if the property is required */
     readonly required: boolean;
     /** True if the property uses the nearest parent's property if unset */

@@ -67,8 +67,8 @@ export function getStyleProperty(locale: Locale): OutputProperty {
     );
 }
 
-// All output has these properties.
-export default function getTypeOutputProperties(
+// All type output has these properties.
+export function getTypeOutputProperties(
     project: Project,
     locale: Locale
 ): OutputProperty[] {
@@ -120,6 +120,17 @@ export default function getTypeOutputProperties(
                     ]
                 )
         ),
+        ...getOutputProperties(project, locale),
+    ];
+}
+
+/** All output has these properties */
+// All type output has these properties, in this order.
+export function getOutputProperties(
+    project: Project,
+    locale: Locale
+): OutputProperty[] {
+    return [
         new OutputProperty(
             locale.output.Phrase.name,
             new OutputPropertyText(() => true),

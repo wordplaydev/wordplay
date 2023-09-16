@@ -6,7 +6,7 @@ import { createPoseLiteral } from '../output/Pose';
 import type Locale from '../locale/Locale';
 import OutputProperty from './OutputProperty';
 import OutputPropertyRange from './OutputPropertyRange';
-import { getDurationProperty, getStyleProperty } from './TypeOutputProperties';
+import { getDurationProperty, getStyleProperty } from './OutputProperties';
 import type Project from '../models/Project';
 
 export default function getSequenceProperties(
