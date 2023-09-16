@@ -258,9 +258,10 @@
         fitFocus = createPlace(
             evaluator,
             -(contentBounds.left + contentBounds.width / 2),
-            -contentBounds.top + contentBounds.height / 2,
+            contentBounds.top - contentBounds.height / 2,
             z
         );
+        console.log(fitFocus.y);
         // If we're currently fitting to content, just make the adjusted focus the same in case the setting is inactive.
         // This ensures we start from where we left off.
         adjustedFocus = fitFocus;
