@@ -3961,6 +3961,7 @@
                 "set": "edit this property",
                 "addPhrase": "add a phrase after this",
                 "addGroup": "add a group after this",
+                "addShape": "add a shape after this",
                 "remove": "remove this content",
                 "up": "move this content up",
                 "down": "move this content down",

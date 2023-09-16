@@ -328,6 +328,8 @@ type UITexts = {
             addGroup: string;
             /** Add a phrase to the output */
             addPhrase: string;
+            /** Add a shape to the output */
+            addShape: string;
             /** Remove child from this output */
             remove: string;
             /** Move child up in list */

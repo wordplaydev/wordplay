@@ -133,17 +133,18 @@ export function addContent(
     project: Project,
     list: ListLiteral,
     index: number,
-    phrase: boolean
+    kind: 'phrase' | 'group' | 'shape'
 ) {
     const GroupType = project.shares.output.Group;
     const RowType = project.shares.output.Row;
-    const newPhrase = createPlaceholderPhrase(database, project);
     reviseContent(database, project, list, [
         ...list.values.slice(0, index + 1),
-        phrase
-            ? newPhrase
+        kind === 'phrase'
+            ? // Create a placeholder phrase
+              createPlaceholderPhrase(database, project)
             : // Create a group with a Row layout and a single phrase
-              Evaluate.make(
+            kind === 'group'
+            ? Evaluate.make(
                   Reference.make(
                       GroupType.names.getPreferredNameString(project.locales)
                   ),
@@ -156,7 +157,32 @@ export function addContent(
                           ),
                           []
                       ),
-                      ListLiteral.make([newPhrase]),
+                      ListLiteral.make([
+                          createPlaceholderPhrase(database, project),
+                      ]),
+                  ]
+              )
+            : // Create a placeholder shape
+              Evaluate.make(
+                  Reference.make(
+                      project.shares.output.Shape.names.getPreferredNameString(
+                          project.locales
+                      )
+                  ),
+                  [
+                      Evaluate.make(
+                          Reference.make(
+                              project.shares.output.Rectangle.names.getPreferredNameString(
+                                  project.locales
+                              )
+                          ),
+                          [
+                              NumberLiteral.make(-2, Unit.create(['m'])),
+                              NumberLiteral.make(0, Unit.create(['m'])),
+                              NumberLiteral.make(2, Unit.create(['m'])),
+                              NumberLiteral.make(2, Unit.create(['m'])),
+                          ]
+                      ),
                   ]
               ),
         ...list.values.slice(index + 1),

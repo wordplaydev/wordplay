@@ -8741,6 +8741,10 @@
                       "description": "Add a phrase to the output",
                       "type": "string"
                     },
+                    "addShape": {
+                      "description": "Add a shape to the output",
+                      "type": "string"
+                    },
                     "createGroup": {
                       "description": "The button that creates a group when there is none",
                       "type": "string"
@@ -8787,6 +8791,7 @@
                     "set",
                     "addGroup",
                     "addPhrase",
+                    "addShape",
                     "remove",
                     "up",
                     "down",
