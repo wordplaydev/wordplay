@@ -14,6 +14,8 @@ import type Bind from '../nodes/Bind';
 import type { Database } from '../db/Database';
 import MarkupValue from '@values/MarkupValue';
 import type Locale from '../locale/Locale';
+import type StructureDefinition from '../nodes/StructureDefinition';
+import type StreamDefinition from '../nodes/StreamDefinition';
 
 /**
  * Represents one or more equivalent inputs to an output expression.
@@ -124,18 +126,13 @@ export default class OutputPropertyValueSet {
         return expr instanceof ListLiteral ? expr : undefined;
     }
 
-    getPlace(project: Project) {
+    getEvaluationOf(
+        project: Project,
+        definition: StructureDefinition | StreamDefinition
+    ) {
         const expr = this.getExpression();
         return expr instanceof Evaluate &&
-            expr.is(project.shares.output.Place, project.getNodeContext(expr))
-            ? expr
-            : undefined;
-    }
-
-    getMotion(project: Project) {
-        const expr = this.getExpression();
-        return expr instanceof Evaluate &&
-            expr.is(project.shares.input.Motion, project.getNodeContext(expr))
+            expr.is(definition, project.getNodeContext(expr))
             ? expr
             : undefined;
     }

@@ -134,7 +134,7 @@
                         project.shares.input.Placement.getReference(
                             project.locales
                         ),
-                        []
+                        [place]
                     ),
                 ],
             ])}>→{project.shares.input.Placement.getNames()[0]}</Button
