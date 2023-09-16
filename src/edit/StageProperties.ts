@@ -21,7 +21,7 @@ export default function getStageProperties(
         ),
         new OutputProperty(
             locale.output.Stage.gravity,
-            new OutputPropertyRange(0, 20, 1, 'm/s^2'),
+            new OutputPropertyRange(0, 20, 0.2, 'm/s^2', 1),
             true,
             false,
             (expr) => expr instanceof NumberLiteral,
