@@ -2331,6 +2331,7 @@
                 "set": "$?",
                 "addPhrase": "$?",
                 "addGroup": "$?",
+                "addShape": "$?",
                 "remove": "$?",
                 "up": "$?",
                 "down": "$?",
