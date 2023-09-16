@@ -156,7 +156,7 @@
     $: editableStore.set(editable);
     setContext('project', project);
 
-    /** Whenever the verse, languages, fonts, or rendered focus changes, update the rendered scene accordingly. */
+    /** Whenever the stage, languages, fonts, or rendered focus changes, update the rendered scene accordingly. */
     $: {
         const results = scene.update(
             stage,
@@ -261,7 +261,6 @@
             contentBounds.top - contentBounds.height / 2,
             z
         );
-        console.log(fitFocus.y);
         // If we're currently fitting to content, just make the adjusted focus the same in case the setting is inactive.
         // This ensures we start from where we left off.
         adjustedFocus = fitFocus;

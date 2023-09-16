@@ -103,7 +103,7 @@ export default class Physics {
             };
             MatterJS.Events.on(engine, 'beforeUpdate', limitMaxSpeed);
 
-            // Listen for collisions.
+            // Listen for collision starts.
             MatterJS.Events.on(engine, 'collisionStart', (event) => {
                 this.report(
                     event.pairs.map((pair) => {
@@ -111,6 +111,21 @@ export default class Physics {
                             subject: pair.bodyA.label,
                             object: pair.bodyB.label,
                             direction: pair.collision.penetration,
+                            starting: true,
+                        };
+                    })
+                );
+            });
+
+            // Listen for collision ends.
+            MatterJS.Events.on(engine, 'collisionEnd', (event) => {
+                this.report(
+                    event.pairs.map((pair) => {
+                        return {
+                            subject: pair.bodyA.label,
+                            object: pair.bodyB.label,
+                            direction: pair.collision.penetration,
+                            starting: false,
                         };
                     })
                 );

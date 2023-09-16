@@ -96,12 +96,16 @@
 
     $: exception = value instanceof ExceptionValue ? value : undefined;
 
-    /** A global namer of output, updated on each new project, but persistent across changes to stage */
+    /** Everyt ime the value changes, try to parse a Stage from it. */
     $: stageValue = value === undefined ? undefined : toStage(project, value);
+
+    /** Keep track of whether the creator is typing, so we can blur output until the next change. */
     $: typing =
         !mini &&
         $evaluation?.playing === true &&
         $keyboardEditIdle === IdleKind.Typing;
+
+    /** Keep a background color up to date. */
     $: background =
         value instanceof ExceptionValue
             ? 'var(--wordplay-error)'
