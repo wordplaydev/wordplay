@@ -84,7 +84,6 @@ export default class Motion extends TemporalStreamValue<Value, number> {
                             : body.velocity.y,
                 };
                 Matter.Body.setVelocity(body, velocity);
-                console.log(`vx = ${velocity.x} vy = ${velocity.y}`);
             }
             // Is the rotational velocity defined? Update the body's.
             if (this.velocity.angle !== undefined)
