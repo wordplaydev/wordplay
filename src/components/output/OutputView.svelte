@@ -587,7 +587,7 @@
                         // Scale down the mouse delta and offset by the drag starting point.
                         stage.setFocus(
                             renderedDeltaX / scale + drag.startPlace.x,
-                            -renderedDeltaY / scale + drag.startPlace.y,
+                            renderedDeltaY / scale + drag.startPlace.y,
                             drag.startPlace.z
                         );
                         event.stopPropagation();
