@@ -47,6 +47,7 @@ export default class Motion extends TemporalStreamValue<Value, number> {
         this.place = toPlace(place);
         this.velocity = toVelocity(velocity);
 
+        // Immediately update the bodies.
         this.updateBodies();
     }
 
@@ -67,8 +68,11 @@ export default class Motion extends TemporalStreamValue<Value, number> {
         const body = rect.body;
         if (this.velocity !== undefined) {
             // Are either of the velocities non-zero? Update the body's velocity.
-            if (this.velocity.x !== undefined || this.velocity.y !== undefined)
-                Matter.Body.setVelocity(body, {
+            if (
+                this.velocity.x !== undefined ||
+                this.velocity.y !== undefined
+            ) {
+                const velocity = {
                     x:
                         this.velocity.x !== undefined
                             ? this.velocity.x
@@ -78,7 +82,10 @@ export default class Motion extends TemporalStreamValue<Value, number> {
                         this.velocity.y !== undefined
                             ? -this.velocity.y
                             : body.velocity.y,
-                });
+                };
+                Matter.Body.setVelocity(body, velocity);
+                console.log(`vx = ${velocity.x} vy = ${velocity.y}`);
+            }
             // Is the rotational velocity defined? Update the body's.
             if (this.velocity.angle !== undefined)
                 Matter.Body.setAngularVelocity(
@@ -101,7 +108,7 @@ export default class Motion extends TemporalStreamValue<Value, number> {
     }
 
     getOutputs() {
-        // Find the l
+        // Find the latest place in the scene
         const latest = this.latest();
         if (this.evaluator.scene)
             // Ask the scene for the output corresponding to the latest value this stream generated.

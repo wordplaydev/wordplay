@@ -52,7 +52,8 @@ export default class Physics {
         if (engine === undefined) {
             // A Matter JS engine for managing physics on output.
             engine = MatterJS.Engine.create({
-                positionIterations: 6,
+                positionIterations: 10,
+                velocityIterations: 8,
                 // Originally had sleeping enabled, but it prevented collisions from happening on sleeping bodies.
                 // In the future, could reenable it and wake up bodies in ways to avoid this collision loss.
                 enableSleeping: false,
@@ -118,14 +119,7 @@ export default class Physics {
     }
 
     /** Given the current and prior scenes, and the time elapsed since the last one, sync the matter engine. */
-    sync(
-        stage: Stage,
-        current: OutputInfoSet,
-        prior: OutputInfoSet,
-        entered: OutputsByName,
-        exiting: OutputsByName,
-        delta: number
-    ) {
+    sync(stage: Stage, current: OutputInfoSet, exiting: OutputsByName) {
         // Update the stage
         this.stage = stage;
 
@@ -152,12 +146,11 @@ export default class Physics {
             // Is it a stage? Update all engine's gravity based on the stage's latest value.
             if (info.output instanceof Stage) {
                 // Set the gravity to the Stage's gravity setting.
-                // 0.002 is a good scale for our coordinate system, so we convert based on that.
                 for (const engine of this.enginesByZ.values()) {
-                    engine.gravity.scale = Math.abs(
-                        0.002 * (info.output.gravity / DefaultGravity)
-                    );
-                    engine.gravity.y = info.output.gravity < 0 ? -1 : 1;
+                    // The scale is the pixels per meter
+                    engine.gravity.scale = 1 / PX_PER_METER;
+                    engine.gravity.y =
+                        (info.output.gravity ?? DefaultGravity) / 10;
                 }
             }
             // Other kind of output? Sync it.
@@ -245,8 +238,7 @@ export default class Physics {
                     // Set the collision filter based on the matter settings.
                     shape.body.collisionFilter = getCollisionFilter(matter);
 
-                    // If no motion, set inertia to infinity
-                    // MatterJS.Body.setStatic(shape.body, motion === undefined);
+                    // If no motion, set inertia to infinity, since the output is immovable.
                     MatterJS.Body.setInertia(shape.body, Infinity);
                 }
                 // No motion or matter? Remove it from the MatterJS world so it doesn't mess with collisions.
@@ -293,13 +285,16 @@ export default class Physics {
                 this.previousShapes = shapes;
             }
         }
+    }
 
+    tick(elapsed: number) {
         // UPDATE all the engines forward by the duration that has elapsed with the new arrangement.
+        // Only do this if we haven't done it for the current delta.
         if (
             this.evaluator.database.Settings.settings.animationFactor.get() > 0
         ) {
             for (const engine of this.enginesByZ.values())
-                MatterJS.Engine.update(engine, delta);
+                MatterJS.Engine.update(engine, elapsed);
         }
     }
 

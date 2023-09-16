@@ -30,7 +30,7 @@ ballPlace: Motion(
             Velocity((Random(-2 2) · -1m/s · kittyPlace.direction) (Random(5 10) · 1m/s) (kittyPlace.direction · Random(-30 30) · 1°/s)) 
 )
 
-ball: Phrase("🥹" name: 'ball' place: ballPlace matter: Matter(1kg 0.2 0))
+ball: Phrase("🥹" name: 'ball' place: ballPlace matter: Matter(1kg 0.8 0))
 
 Stage(
     [
@@ -41,5 +41,5 @@ Stage(
         ball 
         kitty
     ] 
-    place: Place(y: -5m z: -10m)
+    place: Place(y: 5m z: -10m)
 )

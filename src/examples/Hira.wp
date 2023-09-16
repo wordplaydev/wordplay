@@ -18,7 +18,8 @@ letters•[Output]: count → [].translate(
 
 Stage(
   letters.append([
-    Shape(Rectangle(-40m 0m 40m -.5m))
+    Shape(Rectangle(-40m 0m 40m -2m))
   ])
   gravity: gravity
+  place: Place(0m 5m -20m)
 )

@@ -10,7 +10,7 @@ count: 10→[]
             Place(Random(-10 10)· 1m Random(0 10)· 1m z)
             Velocity(Random(-10 10)· 1m/s Random(-5 5)· 1m/s)
         )
-        matter: Matter(bounciness: 1.5 friction:0)
+        matter: Matter(bounciness: 1.2 friction:0)
     )
 )
 
