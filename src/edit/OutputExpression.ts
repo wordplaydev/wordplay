@@ -11,7 +11,7 @@ import type OutputProperty from './OutputProperty';
 import getStageProperties from './StageProperties';
 import getGroupProperties from './GroupProperties';
 import getPhraseProperties from './PhraseProperties';
-import getTypeOutputProperties from './TypeOutputProperties';
+import getShapeProperties from './getShapeProperties';
 
 /**
  * Represents the value of a property. If given is true, it means its set explicitly.
@@ -56,6 +56,7 @@ export default class OutputExpression {
             (fun === this.project.shares.output.Stage ||
                 fun === this.project.shares.output.Group ||
                 fun === this.project.shares.output.Phrase ||
+                fun === this.project.shares.output.Shape ||
                 fun === this.project.shares.output.Pose ||
                 fun === this.project.shares.output.Sequence)
             ? fun
@@ -76,20 +77,18 @@ export default class OutputExpression {
         // We handle pose types differently, so we return an empty list here.
         return type === this.project.shares.output.Pose
             ? []
-            : // For all other types, we create a list of editable properties.
+            : // For all other types, we create a list of editable properties if we know how.
               [
                   // Add output type specific properties first
                   ...(type === this.project.shares.output.Phrase
-                      ? getPhraseProperties(locale)
+                      ? getPhraseProperties(this.project, locale)
                       : type === this.project.shares.output.Group
                       ? getGroupProperties(this.project, locale)
                       : type === this.project.shares.output.Stage
                       ? getStageProperties(this.project, locale)
+                      : type === this.project.shares.output.Shape
+                      ? getShapeProperties(this.project, locale)
                       : []),
-                  ...getTypeOutputProperties(
-                      this.project,
-                      this.project.basis.locales[0]
-                  ),
               ];
     }
 

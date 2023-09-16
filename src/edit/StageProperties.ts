@@ -5,6 +5,7 @@ import NumberLiteral from '../nodes/NumberLiteral';
 import Unit from '../nodes/Unit';
 import OutputProperty from './OutputProperty';
 import OutputPropertyRange from './OutputPropertyRange';
+import { getTypeOutputProperties } from './OutputProperties';
 
 export default function getStageProperties(
     project: Project,
@@ -27,5 +28,6 @@ export default function getStageProperties(
             (expr) => expr instanceof NumberLiteral,
             () => NumberLiteral.make('9.8', Unit.create(['m'], ['s', 's']))
         ),
+        ...getTypeOutputProperties(project, locale),
     ];
 }
