@@ -8737,8 +8737,16 @@
                       "description": "Add a group to the output",
                       "type": "string"
                     },
+                    "addMotion": {
+                      "description": "Set place to Motion stream",
+                      "type": "string"
+                    },
                     "addPhrase": {
                       "description": "Add a phrase to the output",
+                      "type": "string"
+                    },
+                    "addPlacement": {
+                      "description": "Set place to Placement stream",
                       "type": "string"
                     },
                     "addShape": {
@@ -8792,6 +8800,8 @@
                     "addGroup",
                     "addPhrase",
                     "addShape",
+                    "addMotion",
+                    "addPlacement",
                     "remove",
                     "up",
                     "down",

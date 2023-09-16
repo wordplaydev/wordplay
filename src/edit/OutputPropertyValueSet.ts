@@ -132,6 +132,14 @@ export default class OutputPropertyValueSet {
             : undefined;
     }
 
+    getMotion(project: Project) {
+        const expr = this.getExpression();
+        return expr instanceof Evaluate &&
+            expr.is(project.shares.input.Motion, project.getNodeContext(expr))
+            ? expr
+            : undefined;
+    }
+
     getName() {
         return this.property.name;
     }

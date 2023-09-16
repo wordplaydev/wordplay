@@ -163,6 +163,10 @@ export default class StreamDefinition extends DefinitionExpression {
         return this.names.getPreferredNameString(locales);
     }
 
+    getReference(locales: Locale[] = []): Reference {
+        return Reference.make(this.getPreferredName(locales), this);
+    }
+
     /**
      * Name, inputs, and outputs must match.
      */

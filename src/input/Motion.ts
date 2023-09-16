@@ -149,7 +149,7 @@ export default class Motion extends TemporalStreamValue<Value, number> {
     }
 
     getType(context: Context): Type {
-        return context.project.shares.output.Place.getReference();
+        return context.project.shares.output.Place.getTypeReference();
     }
 }
 
@@ -161,14 +161,14 @@ export function createMotionDefinition(
     const StartPlace = Bind.make(
         getDocLocales(locales, (locale) => locale.input.Motion.place.doc),
         getNameLocales(locales, (locale) => locale.input.Motion.place.names),
-        UnionType.orNone(placeType.getReference()),
+        UnionType.orNone(placeType.getTypeReference()),
         NoneLiteral.make()
     );
 
     const StartVelocity = Bind.make(
         getDocLocales(locales, (locale) => locale.input.Motion.velocity.doc),
         getNameLocales(locales, (locale) => locale.input.Motion.velocity.names),
-        UnionType.orNone(velocityType.getReference()),
+        UnionType.orNone(velocityType.getTypeReference()),
         NoneLiteral.make()
     );
 
@@ -178,7 +178,7 @@ export function createMotionDefinition(
             locales,
             (locale) => locale.input.Motion.nextplace.names
         ),
-        UnionType.orNone(placeType.getReference()),
+        UnionType.orNone(placeType.getTypeReference()),
         NoneLiteral.make()
     );
 
@@ -191,7 +191,7 @@ export function createMotionDefinition(
             locales,
             (locale) => locale.input.Motion.nextvelocity.names
         ),
-        UnionType.orNone(velocityType.getReference()),
+        UnionType.orNone(velocityType.getTypeReference()),
         NoneLiteral.make()
     );
 
@@ -200,7 +200,7 @@ export function createMotionDefinition(
         getNameLocales(locales, (locale) => locale.input.Motion.names),
         [StartPlace, StartVelocity, NextPlace, NextVelocity],
         createStreamEvaluator<Motion>(
-            placeType.getReference(),
+            placeType.getTypeReference(),
             Motion,
             (evaluation) => {
                 return new Motion(
@@ -223,6 +223,6 @@ export function createMotionDefinition(
                 );
             }
         ),
-        placeType.getReference()
+        placeType.getTypeReference()
     );
 }
