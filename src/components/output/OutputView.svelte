@@ -444,9 +444,10 @@
                     : // If moving focus, the start place is the rendered focus
                     focus
                     ? renderedFocus
-                    : // If there's selected output, it's the first output selected
+                    : // If there's selected output, it's the first output selected, and it has a place
                     $selectedOutput && $selectedOutput.length > 0
                     ? getPlace(
+                          project,
                           $locale,
                           $selectedOutput[0],
                           evaluator.project.getNodeContext($selectedOutput[0])

@@ -114,7 +114,25 @@
             $project === undefined ||
             selectedOutput === undefined ||
             entered ||
-            !event.key.startsWith('Arrow')
+            !event.key.startsWith('Arrow') ||
+            !(phrase.value.creator instanceof Evaluate)
+        )
+            return;
+
+        // Place must be a Place to move it, so creator don't accidently delete a compelx expression.
+        const mapping = phrase.value.creator.getInput(
+            $project.shares.output.Phrase.inputs[3],
+            $project.getNodeContext(phrase.value.creator)
+        );
+        if (
+            !(
+                mapping === undefined ||
+                (mapping instanceof Evaluate &&
+                    mapping.is(
+                        $project.shares.output.Place,
+                        $project.getNodeContext(phrase.value.creator)
+                    ))
+            )
         )
             return;
 
@@ -132,19 +150,17 @@
                 ? -1 * increment
                 : 0;
 
-        if (phrase.value.creator instanceof Evaluate) {
-            select(null);
+        select(null);
 
-            moveOutput(
-                DB,
-                $project,
-                [phrase.value.creator],
-                $locales,
-                horizontal,
-                vertical,
-                true
-            );
-        }
+        moveOutput(
+            DB,
+            $project,
+            [phrase.value.creator],
+            $locales,
+            horizontal,
+            vertical,
+            true
+        );
     }
 
     async function handleInput(event: { currentTarget: HTMLInputElement }) {
