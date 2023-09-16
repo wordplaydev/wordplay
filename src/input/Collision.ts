@@ -17,6 +17,7 @@ import type Type from '../nodes/Type';
 import NoneValue from '../values/NoneValue';
 import TextValue from '../values/TextValue';
 import { createReboundStructure } from '../output/Rebound';
+import { PX_PER_METER } from '../output/outputToCSS';
 
 export type ReboundEvent =
     | {
@@ -86,9 +87,10 @@ export default class Collision extends StreamValue<
             const swap = this.subject === rebound.object;
             const subject = swap ? rebound.object : rebound.subject;
             const object = swap ? rebound.subject : rebound.object;
-            const direction = swap
-                ? { x: -rebound.direction.x, y: -rebound.direction.y }
-                : rebound.direction;
+            const direction = {
+                x: ((swap ? -1 : 1) * rebound.direction.x) / PX_PER_METER,
+                y: ((swap ? -1 : 1) * rebound.direction.y) / PX_PER_METER,
+            };
 
             // Add a collision
             this.add(

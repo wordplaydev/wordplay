@@ -1150,6 +1150,9 @@ export default class Evaluator {
             // Add the delta to the current time.
             this.currentTime += this.timeDelta;
 
+            // Tick physics one frame, so Motion streams get new places.
+            if (this.scene) this.scene.physics.tick(this.timeDelta);
+
             // If we're in play mode, tick all the temporal streams.
             if (this.temporalReactions.length > 0)
                 console.error(

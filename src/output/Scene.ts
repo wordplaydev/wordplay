@@ -258,14 +258,7 @@ export default class Scene {
         }
 
         // Sync this scene with the Matter engine.
-        this.physics.sync(
-            this.stage,
-            this.scene,
-            this.priorScene,
-            entered,
-            exited,
-            this.evaluator.timeDelta ?? 0
-        );
+        this.physics.sync(this.stage, this.scene, exited);
 
         // Return the layout for rendering.
         return {
