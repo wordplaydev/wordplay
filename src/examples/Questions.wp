@@ -4,10 +4,10 @@ Questions
 
 pressed: ∆ Key()
 count•#: 0 … pressed … count + 1
-questions•[Question]: [] … pressed … questions.add(Question(count→"" Random(15 30) · 1m/s Random(20 30) · 1m/s Random(0 2) · 1°/s))
+questions•[Question]: [] … pressed … questions.add(Question(count→"" Random(30 50) · 1m/s Random(30 50) · 1m/s Random(0 30) · 1°/s))
 
 Stage(
-    [ Phrase('👨‍👨‍👧‍👦' face: "Noto Emoji") Shape(Rectangle(-5m 0m 25m -1m))].append(questions.translate(
+    [ Phrase('👨‍👨‍👧‍👦' place: Place(0m 0m) face: "Noto Emoji") Shape(Rectangle(-5m 0m 25m -1m))].append(questions.translate(
         ƒ(q•Question index•#) (
             initialize: pressed & (index = questions.length())
             Phrase(

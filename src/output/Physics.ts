@@ -68,6 +68,41 @@ export default class Physics {
             // Set the engine.
             this.enginesByZ.set(z, engine);
 
+            // Cap velocity
+            const limitMaxSpeed = () => {
+                for (const { body } of this.bodyByName.values()) {
+                    const maxSpeed = 100;
+                    if (body.velocity.x > maxSpeed) {
+                        MatterJS.Body.setVelocity(body, {
+                            x: maxSpeed,
+                            y: body.velocity.y,
+                        });
+                    }
+
+                    if (body.velocity.x < -maxSpeed) {
+                        MatterJS.Body.setVelocity(body, {
+                            x: -maxSpeed,
+                            y: body.velocity.y,
+                        });
+                    }
+
+                    if (body.velocity.y > maxSpeed) {
+                        MatterJS.Body.setVelocity(body, {
+                            x: body.velocity.x,
+                            y: maxSpeed,
+                        });
+                    }
+
+                    if (body.velocity.y < -maxSpeed) {
+                        MatterJS.Body.setVelocity(body, {
+                            x: -body.velocity.x,
+                            y: -maxSpeed,
+                        });
+                    }
+                }
+            };
+            MatterJS.Events.on(engine, 'beforeUpdate', limitMaxSpeed);
+
             // Listen for collisions.
             MatterJS.Events.on(engine, 'collisionStart', (event) => {
                 this.report(
