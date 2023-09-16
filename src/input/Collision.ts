@@ -27,6 +27,8 @@ export type ReboundEvent =
               x: number;
               y: number;
           };
+          /** True if the collision is start, false if it just ended. */
+          starting: boolean;
       }
     | undefined;
 
@@ -92,20 +94,20 @@ export default class Collision extends StreamValue<
                 y: ((swap ? -1 : 1) * rebound.direction.y) / PX_PER_METER,
             };
 
-            // Add a collision
-            this.add(
-                createReboundStructure(
-                    this.evaluator,
-                    this.evaluator.project.shares.input.Collision,
-                    subject,
-                    object,
-                    direction
-                ),
-                rebound
-            );
-
-            // Then immediately add none, after processing the collision.
-            this.add(new NoneValue(this.creator), undefined);
+            // If starting, add a collision
+            if (rebound.starting)
+                this.add(
+                    createReboundStructure(
+                        this.evaluator,
+                        this.evaluator.project.shares.input.Collision,
+                        subject,
+                        object,
+                        direction
+                    ),
+                    rebound
+                );
+            // If ending, immediately add none, after processing the collision.
+            else this.add(new NoneValue(this.creator), undefined);
         }
     }
 
