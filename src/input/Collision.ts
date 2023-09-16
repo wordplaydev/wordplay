@@ -120,7 +120,7 @@ export default class Collision extends StreamValue<
 
     getType(): Type {
         return StreamType.make(
-            this.evaluator.project.shares.output.Rebound.getReference()
+            this.evaluator.project.shares.output.Rebound.getTypeReference()
         );
     }
 }
@@ -156,7 +156,7 @@ export function createCollisionDefinition(
         getNameLocales(locales, (locale) => locale.input.Collision.names),
         [NameBind, OtherBind],
         createStreamEvaluator(
-            ReboundType.getReference(),
+            ReboundType.getTypeReference(),
             Collision,
             (evaluation) =>
                 new Collision(
@@ -170,6 +170,6 @@ export function createCollisionDefinition(
                     evaluation.get(OtherBind.names, TextValue)?.text
                 )
         ),
-        UnionType.make(ReboundType.getReference(), NoneType.make())
+        UnionType.make(ReboundType.getTypeReference(), NoneType.make())
     );
 }

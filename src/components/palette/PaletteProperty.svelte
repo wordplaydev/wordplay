@@ -24,6 +24,7 @@
     import { DB, locale, locales } from '../../db/Database';
     import { tick } from 'svelte';
     import { DOCUMENTATION_SYMBOL, EDIT_SYMBOL } from '../../parser/Symbols';
+    import MotionEditor from './MotionEditor.svelte';
 
     export let project: Project;
     export let property: OutputProperty;
@@ -136,11 +137,13 @@
         {:else if property.type === 'content'}
             <ContentEditor {project} list={values.getList()} {editable} />
         {:else if property.type === 'place'}
-            <PlaceEditor
-                {project}
-                place={values.getPlace(project)}
-                {editable}
-            />
+            {@const place = values.getPlace(project)}
+            {@const motion = values.getMotion(project)}
+            {#if place}
+                <PlaceEditor {project} {place} {editable} convertable={true} />
+            {:else if motion}
+                <MotionEditor {project} {motion} {editable} />
+            {/if}
         {/if}
     </div>
 </div>

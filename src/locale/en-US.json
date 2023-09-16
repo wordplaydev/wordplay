@@ -3962,6 +3962,8 @@
                 "addPhrase": "add a phrase after this",
                 "addGroup": "add a group after this",
                 "addShape": "add a shape after this",
+                "addMotion": "set place to Motion stream",
+                "addPlacement": "set place to Placement stream",
                 "remove": "remove this content",
                 "up": "move this content up",
                 "down": "move this content down",

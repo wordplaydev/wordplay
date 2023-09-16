@@ -330,6 +330,10 @@ type UITexts = {
             addPhrase: string;
             /** Add a shape to the output */
             addShape: string;
+            /** Set place to Motion stream */
+            addMotion: string;
+            /** Set place to Placement stream */
+            addPlacement: string;
             /** Remove child from this output */
             remove: string;
             /** Move child up in list */

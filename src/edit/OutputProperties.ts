@@ -104,7 +104,9 @@ export function getTypeOutputProperties(
             false,
             (expr, context) =>
                 expr instanceof Evaluate &&
-                expr.is(project.shares.output.Place, context),
+                (expr.is(project.shares.output.Place, context) ||
+                    expr.is(project.shares.input.Motion, context) ||
+                    expr.is(project.shares.input.Placement, context)),
             (locale) =>
                 Evaluate.make(
                     Reference.make(

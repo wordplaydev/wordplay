@@ -144,37 +144,19 @@ export function addContent(
               createPlaceholderPhrase(database, project)
             : // Create a group with a Row layout and a single phrase
             kind === 'group'
-            ? Evaluate.make(
-                  Reference.make(
-                      GroupType.names.getPreferredNameString(project.locales)
-                  ),
-                  [
-                      Evaluate.make(
-                          Reference.make(
-                              RowType.names.getPreferredNameString(
-                                  project.locales
-                              )
-                          ),
-                          []
-                      ),
-                      ListLiteral.make([
-                          createPlaceholderPhrase(database, project),
-                      ]),
-                  ]
-              )
+            ? Evaluate.make(GroupType.getReference(project.locales), [
+                  Evaluate.make(RowType.getReference(project.locales), []),
+                  ListLiteral.make([
+                      createPlaceholderPhrase(database, project),
+                  ]),
+              ])
             : // Create a placeholder shape
               Evaluate.make(
-                  Reference.make(
-                      project.shares.output.Shape.names.getPreferredNameString(
-                          project.locales
-                      )
-                  ),
+                  project.shares.output.Shape.getReference(project.locales),
                   [
                       Evaluate.make(
-                          Reference.make(
-                              project.shares.output.Rectangle.names.getPreferredNameString(
-                                  project.locales
-                              )
+                          project.shares.output.Rectangle.getReference(
+                              project.locales
                           ),
                           [
                               NumberLiteral.make(-5, Unit.create(['m'])),

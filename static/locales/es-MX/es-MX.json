@@ -2332,6 +2332,8 @@
                 "addPhrase": "$?",
                 "addGroup": "$?",
                 "addShape": "$?",
+                "addMotion": "$?",
+                "addPlacement": "$?",
                 "remove": "$?",
                 "up": "$?",
                 "down": "$?",

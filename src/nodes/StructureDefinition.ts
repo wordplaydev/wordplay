@@ -236,8 +236,15 @@ export default class StructureDefinition extends DefinitionExpression {
         );
     }
 
-    getReference(): NameType {
+    getTypeReference(): NameType {
         return new NameType(this.getNames()[0], undefined, this);
+    }
+
+    getReference(locales: Locale[] = []): Reference {
+        return Reference.make(
+            this.names.getPreferredNameString(locales, true),
+            this
+        );
     }
 
     getAbstractFunctions(): FunctionDefinition[] {

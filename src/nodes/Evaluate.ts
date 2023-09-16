@@ -339,6 +339,14 @@ export default class Evaluate extends Expression {
         return mappings;
     }
 
+    getInput(
+        bind: Bind,
+        context: Context
+    ): Expression | Expression[] | undefined {
+        const mapping = this.getInputMapping(context);
+        return mapping?.inputs.find((input) => input.expected === bind)?.given;
+    }
+
     getLastInput(): Expression | undefined {
         return this.inputs[this.inputs.length - 1];
     }
@@ -602,7 +610,7 @@ export default class Evaluate extends Expression {
             : undefined;
     }
 
-    is(def: StructureDefinition, context: Context) {
+    is(def: StructureDefinition | StreamDefinition, context: Context) {
         return this.getFunction(context) === def;
     }
 
