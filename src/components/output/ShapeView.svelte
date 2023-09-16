@@ -47,6 +47,7 @@
         data-selectable={selectable}
         style:font-family={getFaceCSS(context.face)}
         style:font-size={getSizeCSS(context.size)}
+        style:border-color={shape.getDefaultPose()?.color?.toCSS()}
         style:background={shape.background?.toCSS() ?? null}
         style:color={getColorCSS(shape.getFirstRestPose(), shape.pose)}
         style:opacity={getOpacityCSS(shape.getFirstRestPose(), shape.pose)}
@@ -80,5 +81,8 @@
     .shape.rectangle {
         background: var(--wordplay-inactive-color);
         border-radius: calc(2 * var(--wordplay-border-radius));
+        border-width: calc(2 * var(--wordplay-border-width));
+        border-style: solid;
+        border-color: transparent;
     }
 </style>
