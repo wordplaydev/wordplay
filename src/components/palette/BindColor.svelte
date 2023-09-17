@@ -9,6 +9,7 @@
     import type OutputProperty from '../../edit/OutputProperty';
     import { getProject, getSelectedOutput } from '../project/Contexts';
     import { Projects } from '../../db/Database';
+    import type Bind from '../../nodes/Bind';
 
     export let property: OutputProperty;
     export let values: OutputPropertyValueSet;
@@ -17,9 +18,15 @@
     let project = getProject();
     let selectedOutput = getSelectedOutput();
 
-    $: lightness = getColorValue('lightness') ?? 0;
-    $: chroma = getColorValue('chroma') ?? 0;
-    $: hue = getColorValue('hue') ?? 0;
+    $: lightness = $project
+        ? getColorValue($project.shares.output.Color.inputs[0]) ?? 0
+        : 0;
+    $: chroma = $project
+        ? getColorValue($project.shares.output.Color.inputs[1]) ?? 0
+        : 0;
+    $: hue = $project
+        ? getColorValue($project.shares.output.Color.inputs[1]) ?? 0
+        : 0;
 
     // Whenever the slider value changes, revise the Evaluates to match the new value.
     function handleChange(l: number, c: number, h: number) {
@@ -51,19 +58,20 @@
         );
     }
 
-    function getColorValue(name: string) {
+    function getColorValue(bind: Bind) {
         if ($project === undefined) return undefined;
         // The value of this facet on every value selected.
         const facets = values.values.map((val) => {
             if ($project && val.expression instanceof Evaluate) {
                 const mapping = val.expression.getMappingFor(
-                    name,
+                    bind,
                     $project.getNodeContext(val.expression)
                 );
                 const number =
                     mapping && mapping.given instanceof NumberLiteral
                         ? mapping.given.getValue().toNumber() *
-                          (name === 'lightness' && mapping.given.isPercent()
+                          (bind === $project.shares.output.Color.inputs[0] &&
+                          mapping.given.isPercent()
                               ? 0.01
                               : 1)
                         : undefined;

@@ -1,5 +1,4 @@
 <script lang="ts">
-    import { getFirstName } from '@locale/Locale';
     import TextField from '../widgets/TextField.svelte';
     import Evaluate from '../../nodes/Evaluate';
     import type Project from '@models/Project';
@@ -12,6 +11,7 @@
     import { Projects, locale, locales } from '../../db/Database';
     import { tick } from 'svelte';
     import Button from '../widgets/Button.svelte';
+    import type Bind from '../../nodes/Bind';
 
     export let project: Project;
     export let place: Evaluate;
@@ -25,7 +25,7 @@
         return !num.isNaN();
     }
 
-    async function handleChange(dimension: string, value: string) {
+    async function handleChange(dimension: Bind, value: string) {
         if (place === undefined) return;
         if (value.length > 0 && !valid(value)) return;
 
@@ -56,11 +56,11 @@
 </script>
 
 <div class="place">
-    {project.shares.output.Place.names.getSymbolicName()}{#each [getFirstName($locale.output.Place.x.names), getFirstName($locale.output.Place.y.names), getFirstName($locale.output.Place.z.names)] as dimension, index}
-        {@const given = place?.getMappingFor(
+    {project.shares.output.Place.names.getSymbolicName()}{#each project.shares.output.Place.inputs as dimension, index}
+        {@const given = place?.getInput(
             dimension,
             project.getNodeContext(place)
-        )?.given}
+        )}
         <!-- Get the measurement literal, if there is one -->
         {@const value =
             given instanceof Expression ? getNumber(given) : undefined}
@@ -70,7 +70,7 @@
                     text={`${value}`}
                     validator={valid}
                     {editable}
-                    placeholder={getFirstName(dimension)}
+                    placeholder={dimension.names.getNames()[0]}
                     description={$locale.ui.palette.field.coordinate}
                     changed={(value) => handleChange(dimension, value)}
                     bind:view={views[index]}

@@ -166,10 +166,18 @@ export default class OutputExpression {
     }
 
     withPropertyUnset(name: string): Evaluate {
-        return this.node.withBindAs(
-            name,
-            undefined,
-            this.project.getNodeContext(this.node)
-        );
+        // Find the bind corresponding to the given name.
+
+        const context = this.project.getNodeContext(this.node);
+        const fun = this.node.getFunction(context);
+        const bind = fun?.inputs.find((bind) => bind.hasName(name));
+
+        return bind
+            ? this.node.withBindAs(
+                  bind,
+                  undefined,
+                  this.project.getNodeContext(this.node)
+              )
+            : this.node;
     }
 }

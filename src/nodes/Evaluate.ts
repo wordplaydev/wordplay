@@ -355,16 +355,16 @@ export default class Evaluate extends Expression {
     }
 
     /**
-     *  Given a name and an expression, create a new evaluate that binds this name to this value instead of its current binding,
+     * Given a bind of the function being evaluated and an expression, create a new evaluate that binds this name to this value instead of its current binding,
      * and if there is no current binding, create one.
      */
     withBindAs(
-        name: string,
+        bind: Bind,
         expression: Expression | undefined,
         context: Context,
         named = true
     ): Evaluate {
-        const mapping = this.getMappingFor(name, context);
+        const mapping = this.getMappingFor(bind, context);
         if (mapping === undefined) return this;
 
         // If we'replacing with nothing
@@ -385,7 +385,7 @@ export default class Evaluate extends Expression {
                 named
                     ? Bind.make(
                           undefined,
-                          Names.make([name]),
+                          Names.make([bind.getNames()[0]]),
                           undefined,
                           expression
                       )
@@ -407,23 +407,12 @@ export default class Evaluate extends Expression {
         );
     }
 
-    getExpressionFor(name: string, context: Context) {
-        const mapping = this.getMappingFor(name, context);
-        return mapping === undefined
-            ? undefined
-            : mapping.given instanceof Bind
-            ? mapping.given.value
-            : mapping.given;
-    }
-
-    getMappingFor(name: string, context: Context) {
+    getMappingFor(bind: Bind, context: Context) {
         // Figure out what the current mapping is.
         const mappings = this.getInputMapping(context);
 
         // Find the bind.
-        return mappings?.inputs.find((input) =>
-            input.expected.names.hasName(name)
-        );
+        return mappings?.inputs.find((input) => input.expected === bind);
     }
 
     computeConflicts(context: Context): Conflict[] {

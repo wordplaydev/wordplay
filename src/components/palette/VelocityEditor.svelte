@@ -1,5 +1,4 @@
 <script lang="ts">
-    import { getFirstName } from '@locale/Locale';
     import TextField from '../widgets/TextField.svelte';
     import type Evaluate from '../../nodes/Evaluate';
     import type Project from '@models/Project';
@@ -11,6 +10,7 @@
     import Expression from '../../nodes/Expression';
     import { Projects, locale, locales } from '../../db/Database';
     import { tick } from 'svelte';
+    import type Bind from '../../nodes/Bind';
 
     export let project: Project;
     export let velocity: Evaluate;
@@ -23,11 +23,7 @@
         return !num.isNaN();
     }
 
-    async function handleChange(
-        dimension: string,
-        index: number,
-        value: string
-    ) {
+    async function handleChange(dimension: Bind, index: number, value: string) {
         if (velocity === undefined) return;
         if (value.length > 0 && !valid(value)) return;
 
@@ -58,12 +54,11 @@
 </script>
 
 <div class="place">
-    {project.shares.output.Velocity.names.getSymbolicName()}{#each project.shares.output.Velocity.inputs.map( (input) => input.getPreferredName($locales) ) as dimension, index}
-        {@const mapping = velocity?.getMappingFor(
+    {project.shares.output.Velocity.names.getSymbolicName()}{#each project.shares.output.Velocity.inputs as dimension, index}
+        {@const given = velocity?.getInput(
             dimension,
             project.getNodeContext(velocity)
         )}
-        {@const given = mapping?.given}
         <!-- Get the measurement literal, if there is one -->
         {@const value =
             given instanceof Expression ? getNumber(given) : undefined}
@@ -73,7 +68,7 @@
                     text={`${value}`}
                     validator={valid}
                     {editable}
-                    placeholder={getFirstName(dimension)}
+                    placeholder={dimension.names.getNames()[0]}
                     description={$locale.ui.palette.field.coordinate}
                     changed={(value) => handleChange(dimension, index, value)}
                     bind:view={views[index]}

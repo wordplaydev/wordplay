@@ -20,6 +20,7 @@ import {
     STAGE_SYMBOL,
 } from '../../parser/Symbols';
 import { toExpression } from '../../parser/parseExpression';
+import { getPlaceExpression } from '../../output/getOrCreatePlace';
 
 export function getNumber(given: Expression): number | undefined {
     const measurement =
@@ -54,65 +55,83 @@ export default function moveOutput(
         evaluates.map((evaluate) => {
             const ctx = project.getNodeContext(evaluate);
 
-            const given = evaluate.getMappingFor('place', ctx);
+            const given = getPlaceExpression(project, evaluate, ctx);
             const place =
-                given &&
-                given.given instanceof Evaluate &&
-                given.given.is(PlaceType, ctx)
-                    ? given.given
-                    : given &&
-                      given.given instanceof Bind &&
-                      given.given.value instanceof Evaluate &&
-                      given.given.value.is(PlaceType, ctx)
-                    ? given.given.value
+                given instanceof Evaluate && given.is(PlaceType, ctx)
+                    ? given
                     : undefined;
 
-            const x = place?.getMappingFor('x', ctx)?.given;
-            const y = place?.getMappingFor('y', ctx)?.given;
-            const z = place?.getMappingFor('z', ctx)?.given;
+            const x = place?.getInput(
+                project.shares.output.Place.inputs[0],
+                ctx
+            );
+            const y = place?.getInput(
+                project.shares.output.Place.inputs[1],
+                ctx
+            );
+            const z = place?.getInput(
+                project.shares.output.Place.inputs[2],
+                ctx
+            );
 
             const xValue = x instanceof Expression ? getNumber(x) : undefined;
             const yValue = y instanceof Expression ? getNumber(y) : undefined;
             const zValue = z instanceof Expression ? getNumber(z) : undefined;
 
+            const bind = evaluate.is(project.shares.output.Phrase, ctx)
+                ? project.shares.output.Phrase.inputs[3]
+                : evaluate.is(project.shares.output.Group, ctx)
+                ? project.shares.output.Phrase.inputs[4]
+                : undefined;
+
             return [
                 evaluate,
-                evaluate.withBindAs(
-                    'place',
-                    Evaluate.make(
-                        Reference.make(
-                            PlaceType.names.getPreferredNameString(locales),
-                            PlaceType
-                        ),
-                        [
-                            // If coordinate is computed, and not a literal, don't change it.
-                            x instanceof Expression && xValue === undefined
-                                ? x
-                                : NumberLiteral.make(
-                                      relative
-                                          ? new Decimal(xValue ?? 0)
-                                                .add(horizontal)
-                                                .toNumber()
-                                          : horizontal,
-                                      Unit.create(['m'])
+                bind === undefined
+                    ? evaluate
+                    : evaluate.withBindAs(
+                          bind,
+                          Evaluate.make(
+                              Reference.make(
+                                  PlaceType.names.getPreferredNameString(
+                                      locales
                                   ),
-                            y instanceof Expression && yValue === undefined
-                                ? y
-                                : NumberLiteral.make(
-                                      relative
-                                          ? new Decimal(yValue ?? 0)
-                                                .add(vertical)
-                                                .toNumber()
-                                          : vertical,
-                                      Unit.create(['m'])
-                                  ),
-                            z instanceof Expression && zValue !== undefined
-                                ? z
-                                : NumberLiteral.make(0, Unit.create(['m'])),
-                        ]
-                    ),
-                    ctx
-                ),
+                                  PlaceType
+                              ),
+                              [
+                                  // If coordinate is computed, and not a literal, don't change it.
+                                  x instanceof Expression &&
+                                  xValue === undefined
+                                      ? x
+                                      : NumberLiteral.make(
+                                            relative
+                                                ? new Decimal(xValue ?? 0)
+                                                      .add(horizontal)
+                                                      .toNumber()
+                                                : horizontal,
+                                            Unit.create(['m'])
+                                        ),
+                                  y instanceof Expression &&
+                                  yValue === undefined
+                                      ? y
+                                      : NumberLiteral.make(
+                                            relative
+                                                ? new Decimal(yValue ?? 0)
+                                                      .add(vertical)
+                                                      .toNumber()
+                                                : vertical,
+                                            Unit.create(['m'])
+                                        ),
+                                  z instanceof Expression &&
+                                  zValue !== undefined
+                                      ? z
+                                      : NumberLiteral.make(
+                                            0,
+                                            Unit.create(['m'])
+                                        ),
+                              ]
+                          ),
+                          ctx
+                      ),
             ];
         })
     );
@@ -231,12 +250,12 @@ export function addStageContent(
 
     if (stage) {
         const context = project.getNodeContext(stage);
-        const list = stage.getExpressionFor(
-            StageType.inputs[0].getNames()[0],
-            context
-        );
-        if (list instanceof ListLiteral) {
-            reviseContent(database, project, list, [...list.values, content]);
+        const content = stage.getInput(StageType.inputs[0], context);
+        if (content instanceof ListLiteral) {
+            reviseContent(database, project, content, [
+                ...content.values,
+                content,
+            ]);
         }
     }
 }
