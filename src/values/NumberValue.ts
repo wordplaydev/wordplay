@@ -12,6 +12,8 @@ import type Locale from '@locale/Locale';
 import type Expression from '../nodes/Expression';
 import type Concretizer from '../nodes/Concretizer';
 
+export type NumberAndPrecision = [Decimal, number | undefined];
+
 /** A decimal number with a unit. */
 export default class NumberValue extends SimpleValue {
     readonly num: Decimal;
@@ -47,7 +49,11 @@ export default class NumberValue extends SimpleValue {
         }
         // If it's a string, try to convert it from one of our known formats to decimal.
         else if (typeof number === 'string') {
-            this.num = NumberValue.fromUnknown(number);
+            const negated = number.charAt(0) === '-';
+            if (negated) number = number.substring(1);
+            const [num, precision] = NumberValue.fromUnknown(number, negated);
+            this.num = num;
+            this.precision = precision;
         }
         // Otherwise, we don't know what it is.
         else {
@@ -55,7 +61,7 @@ export default class NumberValue extends SimpleValue {
         }
     }
 
-    static fromToken(number: Token): [Decimal, number | undefined] {
+    static fromToken(number: Token): NumberAndPrecision {
         let text = number.text.toString();
 
         // All number formats can be negated. Check for it, then remove it.
@@ -75,37 +81,21 @@ export default class NumberValue extends SimpleValue {
         }
         // If it matches the decimal pattern, randomize requested digits, then convert to a Decimal.
         else if (number.isSymbol(Sym.Decimal)) {
-            // Is there a trailing %? Note it and strip it.
-            const isPercent = text.endsWith('%');
-            if (isPercent) text = text.substring(0, text.length - 1);
-
-            // Note the precision of the token after the decimal point.
-            const precision = text.split('.')[1]?.length ?? 0;
-
-            // Set the number, accounting for percent.
-            return [
-                isPercent
-                    ? new Decimal(text).mul(0.01).times(negated ? -1 : 1)
-                    : new Decimal(text).times(negated ? -1 : 1),
-                precision,
-            ];
+            return convertDecimal(text, negated);
         }
         // If it matches a number with a different base, convert it to a Decimal.
         else if (number.isSymbol(Sym.Base)) {
-            return [convertBase(text).times(negated ? -1 : 1), undefined];
+            return convertBase(text, negated);
         } else if (number.isSymbol(Sym.RomanNumeral)) {
-            return [convertRoman(text).times(negated ? -1 : 1), undefined];
+            return convertRoman(text, negated);
         } else if (number.isSymbol(Sym.JapaneseNumeral)) {
-            return [convertJapanese(text).times(negated ? -1 : 1), undefined];
+            return convertJapanese(text, negated);
         } else if (number.isSymbol(Sym.Number)) {
-            return [
-                NumberValue.fromUnknown(text).times(negated ? -1 : 1),
-                undefined,
-            ];
+            return NumberValue.fromUnknown(text, negated);
         } else return [new Decimal(NaN), undefined];
     }
 
-    static fromUnknown(text: string) {
+    static fromUnknown(text: string, negated: boolean): NumberAndPrecision {
         const conversions = [
             convertDecimal,
             convertBase,
@@ -114,10 +104,10 @@ export default class NumberValue extends SimpleValue {
         ];
 
         for (const conversion of conversions) {
-            const result = conversion(text);
-            if (!result.isNaN()) return result;
+            const [num, precision] = conversion(text, negated);
+            if (!num.isNaN()) return [num, precision];
         }
-        return new Decimal(NaN);
+        return [new Decimal(NaN), undefined];
     }
 
     isNotANumber(requestor: Expression): BoolValue {
@@ -315,10 +305,11 @@ const romanNumerals: Record<string, number> = {
     Ⅿ: 1000,
 };
 
-function convertBase(text: string): Decimal {
+function convertBase(text: string, negated: boolean): NumberAndPrecision {
     const [baseString, numString] = text.toString().split(';');
     const base = parseInt(baseString);
-    if (isNaN(base) || numString === undefined) return new Decimal(NaN);
+    if (isNaN(base) || numString === undefined)
+        return [new Decimal(NaN), undefined];
     else {
         let text = numString;
         while (text.indexOf('_') >= 0)
@@ -346,7 +337,7 @@ function convertBase(text: string): Decimal {
                     : parseInt(d)
             );
         if (integralDigits.find((d) => d >= base) !== undefined) {
-            return new Decimal(NaN);
+            return [new Decimal(NaN), undefined];
         } else {
             let num = new Decimal(0);
             let position = 0;
@@ -390,12 +381,12 @@ function convertBase(text: string): Decimal {
                 }
             }
 
-            return num;
+            return [num.times(negated ? -1 : 1), undefined];
         }
     }
 }
 
-function convertRoman(text: string): Decimal {
+function convertRoman(text: string, negated: boolean): NumberAndPrecision {
     // Sum these! Ⅰ Ⅱ Ⅲ Ⅳ Ⅴ Ⅵ Ⅶ Ⅷ Ⅸ Ⅹ Ⅺ Ⅻ Ⅼ Ⅽ Ⅾ Ⅿ
     let numerals = text;
     let sum = new Decimal(0);
@@ -403,7 +394,7 @@ function convertRoman(text: string): Decimal {
     while (numerals.length > 0) {
         const numeral = romanNumerals[numerals.charAt(0)];
         // Didn't find a matching symbol? Not a Roman numeral.
-        if (numeral === undefined) return new Decimal(NaN);
+        if (numeral === undefined) return [new Decimal(NaN), undefined];
         sum = sum.plus(new Decimal(numeral));
         if ((numeral === 5 || numeral === 10) && previous === 1)
             sum = sum.minus(2);
@@ -414,10 +405,10 @@ function convertRoman(text: string): Decimal {
         numerals = numerals.substring(1);
         previous = numeral;
     }
-    return sum;
+    return [sum.times(negated ? -1 : 1), undefined];
 }
 
-function convertJapanese(text: string): Decimal {
+function convertJapanese(text: string, negated: boolean): NumberAndPrecision {
     // Japanese numbers are  sum of products, read left to right.
     // For example, 千二百八十九 is
     // one 千 (1000's) + 二 (two) 百 (100's) + 八 (eight) 十 (10's) + 九 (nine) = 1289.
@@ -470,13 +461,26 @@ function convertJapanese(text: string): Decimal {
         } else sum = sum.plus(new Decimal(value));
     }
 
-    return sum;
+    return [sum.times(negated ? -1 : 1), undefined];
 }
 
-function convertDecimal(text: string) {
+function convertDecimal(text: string, negated: boolean): NumberAndPrecision {
+    // Is there a trailing %? Note it and strip it.
+    const isPercent = text.endsWith('%');
+    if (isPercent) text = text.substring(0, text.length - 1);
+
+    // Note the precision of the token after the decimal point.
+    const precision = text.split('.')[1]?.length ?? 0;
+
     try {
-        return new Decimal(text);
-    } catch (error) {
-        return new Decimal(NaN);
+        // Set the number, accounting for percent.
+        return [
+            isPercent
+                ? new Decimal(text).times(0.01).times(negated ? -1 : 1)
+                : new Decimal(text).times(negated ? -1 : 1),
+            precision,
+        ];
+    } catch (_) {
+        return [new Decimal(NaN), undefined];
     }
 }
