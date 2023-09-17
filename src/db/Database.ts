@@ -92,6 +92,10 @@ export class Database {
         this.Status.set(status);
     }
 
+    getLocales(): Locale[] {
+        return this.Locales.getLocales();
+    }
+
     /** Saves settings to user's firestore record, if available. */
     uploadSettings() {
         this.setStatus(SaveStatus.Saving);

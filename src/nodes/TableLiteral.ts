@@ -117,7 +117,7 @@ export default class TableLiteral extends Expression {
         return dependencies;
     }
 
-    compile(context: Context): Step[] {
+    compile(evaluator: Evaluator, context: Context): Step[] {
         return [
             new Start(this),
             // Compile all of the rows' cell expressions.
@@ -127,7 +127,7 @@ export default class TableLiteral extends Expression {
                     ...row.cells.reduce(
                         (cells: Step[], cell) => [
                             ...cells,
-                            ...cell.compile(context),
+                            ...cell.compile(evaluator, context),
                         ],
                         []
                     ),

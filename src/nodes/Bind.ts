@@ -570,7 +570,7 @@ export default class Bind extends Expression {
         );
     }
 
-    compile(context: Context): Step[] {
+    compile(evaluator: Evaluator, context: Context): Step[] {
         // A bind evaluates its value expression, then pushes it on the stack.
         return this.value === undefined
             ? [
@@ -598,7 +598,7 @@ export default class Bind extends Expression {
                       }
                       return undefined;
                   }),
-                  ...this.value.compile(context),
+                  ...this.value.compile(evaluator, context),
                   new Finish(this),
               ];
     }

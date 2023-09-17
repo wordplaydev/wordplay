@@ -95,14 +95,12 @@
                 [
                     place,
                     Evaluate.make(
-                        project.shares.input.Motion.getReference(
-                            project.locales
-                        ),
+                        project.shares.input.Motion.getReference($locales),
                         [
                             place,
                             Evaluate.make(
                                 project.shares.output.Velocity.getReference(
-                                    project.locales
+                                    $locales
                                 ),
                                 [
                                     NumberLiteral.make(
@@ -132,9 +130,7 @@
                 [
                     place,
                     Evaluate.make(
-                        project.shares.input.Placement.getReference(
-                            project.locales
-                        ),
+                        project.shares.input.Placement.getReference($locales),
                         [place]
                     ),
                 ],

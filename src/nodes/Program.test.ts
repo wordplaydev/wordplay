@@ -23,7 +23,9 @@ test.each([
                 .map((code, index) => new Source(`sup${index + 1}`, code)),
             DefaultLocale
         );
-        const value = new Evaluator(project, DB).getInitialValue();
+        const value = new Evaluator(project, DB, [
+            DefaultLocale,
+        ]).getInitialValue();
         expect(value).toBeDefined();
         expect((value as Value).constructor).toBe(valueType);
     }

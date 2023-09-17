@@ -92,10 +92,10 @@ export default class Changed extends SimpleExpression {
         return [this.stream];
     }
 
-    compile(context: Context): Step[] {
+    compile(evaluator: Evaluator, context: Context): Step[] {
         return [
             new Start(this),
-            ...this.stream.compile(context),
+            ...this.stream.compile(evaluator, context),
             new Finish(this),
         ];
     }

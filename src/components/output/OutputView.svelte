@@ -97,7 +97,7 @@
     $: exception = value instanceof ExceptionValue ? value : undefined;
 
     /** Everyt ime the value changes, try to parse a Stage from it. */
-    $: stageValue = value === undefined ? undefined : toStage(project, value);
+    $: stageValue = value === undefined ? undefined : toStage(evaluator, value);
 
     /** Keep track of whether the creator is typing, so we can blur output until the next change. */
     $: typing =

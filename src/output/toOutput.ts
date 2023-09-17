@@ -25,20 +25,22 @@ import { toSequence } from './Sequence';
 import TextValue from '../values/TextValue';
 import type { SupportedFace } from '../basis/Fonts';
 import { toShape } from './Shape';
+import type Evaluator from '../runtime/Evaluator';
 
 export function toOutput(
-    project: Project,
+    evaluator: Evaluator,
     value: Value | undefined,
     namer: NameGenerator
 ): Output | undefined {
     if (!(value instanceof StructureValue)) return undefined;
+    const project = evaluator.project;
     switch (value.type) {
         case project.shares.output.Phrase:
             return toPhrase(project, value, namer);
         case project.shares.output.Group:
-            return toGroup(project, value, namer);
+            return toGroup(evaluator, value, namer);
         case project.shares.output.Stage:
-            return toStage(project, value, namer);
+            return toStage(evaluator, value, namer);
         case project.shares.output.Shape:
             return toShape(project, value, namer);
     }
@@ -46,7 +48,7 @@ export function toOutput(
 }
 
 export function toOutputList(
-    project: Project,
+    evaluator: Evaluator,
     value: Value | undefined,
     namer: NameGenerator
 ): (Output | null)[] | undefined {
@@ -57,7 +59,7 @@ export function toOutputList(
         if (!(val instanceof StructureValue || val instanceof NoneValue))
             return undefined;
         const phrase =
-            val instanceof NoneValue ? null : toOutput(project, val, namer);
+            val instanceof NoneValue ? null : toOutput(evaluator, val, namer);
         if (phrase === undefined) return undefined;
         phrases.push(phrase);
     }

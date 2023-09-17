@@ -280,6 +280,7 @@
         const newEvaluator = new Evaluator(
             newProject,
             DB,
+            $locales,
             true,
             replayInputs ? $evaluator : undefined
         );

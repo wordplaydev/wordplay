@@ -23,26 +23,14 @@ export function getPreferred<Kind extends LanguageTagged>(
     locales: Locale[],
     texts: Kind[]
 ): Kind {
-    return (
-        texts.find(
-            (text) =>
-                text.language &&
-                locales.some(
-                    (locale) =>
-                        text.language !== undefined &&
-                        text.language.isLocale(locale)
-                )
-        ) ??
-        texts.find(
-            (name) =>
-                name.language &&
-                locales.some(
-                    (locale) =>
-                        name.language !== undefined &&
-                        name.language.isLocaleLanguage(locale)
-                )
-        ) ??
-        // Default to the first name, if there is one.
-        texts[0]
-    );
+    // Find the first locale for which there's a matching locale or language.
+    for (const locale of locales) {
+        for (const text of texts)
+            if (text.language?.isLocale(locale)) return text;
+        for (const text of texts)
+            if (text.language?.isLocaleLanguage(locale)) return text;
+    }
+
+    // Default to first.
+    return texts[0];
 }

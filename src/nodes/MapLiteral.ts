@@ -145,7 +145,7 @@ export default class MapLiteral extends Expression {
             .flat();
     }
 
-    compile(context: Context): Step[] {
+    compile(evaluator: Evaluator, context: Context): Step[] {
         return [
             new Start(this),
             // Evaluate all of the item or key/value expressions
@@ -153,8 +153,8 @@ export default class MapLiteral extends Expression {
                 (steps: Step[], item) => [
                     ...steps,
                     ...[
-                        ...item.key.compile(context),
-                        ...item.value.compile(context),
+                        ...item.key.compile(evaluator, context),
+                        ...item.value.compile(evaluator, context),
                     ],
                 ],
                 []

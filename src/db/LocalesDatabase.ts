@@ -83,15 +83,7 @@ export default class LocalesDatabase {
         Fonts.loadLocales(locales);
 
         // Update the locales stores
-        this.locales.set(
-            this.setting
-                .get()
-                .map((l) => this.localesLoaded[l])
-                .filter(
-                    (l): l is Locale =>
-                        l !== undefined && !(l instanceof Promise)
-                )
-        );
+        this.locales.set(this.computeLocales());
 
         return locales;
     }
@@ -109,7 +101,7 @@ export default class LocalesDatabase {
             return undefined;
 
         // Is this en-US? We bundle it. Bail.
-        if (lang === 'en-US') return DefaultLocale;
+        if (lang === 'en-US') return this.defaultLocale;
 
         const current = this.localesLoaded[lang];
 
@@ -140,19 +132,25 @@ export default class LocalesDatabase {
     }
 
     getLocales(): Locale[] {
-        // Map preferred languages into locales, filtering out missing locales.
-        const locales = this.setting
+        // Map preferred languages into locales, filtering out missing locales and unloaded locales.
+        return get(this.locales);
+    }
+
+    getLocale(): Locale {
+        return this.getLocales()[0];
+    }
+
+    private computeLocales(): Locale[] {
+        const selected = this.setting
             .get()
             .map((locale) => this.localesLoaded[locale])
             .filter(
                 (locale): locale is Locale =>
                     locale !== undefined && !(locale instanceof Promise)
             );
-        return locales.length === 0 ? [this.defaultLocale] : locales;
-    }
 
-    getLocale(): Locale {
-        return this.getLocales()[0];
+        // Update the locales stores
+        return selected.length === 0 ? [this.defaultLocale] : selected;
     }
 
     getLocaleBasis(): Basis {
@@ -168,7 +166,7 @@ export default class LocalesDatabase {
     }
 
     /** Set the languages, load all locales if they aren't loaded, revise all projects to include any new locales, and save the new configuration. */
-    async setLocales(preferredLocales: SupportedLocale[]) {
+    async setLocales(preferredLocales: SupportedLocale[]): Promise<Locale[]> {
         // Update the configuration with the new languages, regardless of whether we successfully loaded them.
         this.setting.set(this.database, preferredLocales);
 
@@ -177,6 +175,8 @@ export default class LocalesDatabase {
 
         // Revise all projects to have the new locale
         this.database.Projects.localize(locales);
+
+        return locales;
     }
 
     async getTutorial(

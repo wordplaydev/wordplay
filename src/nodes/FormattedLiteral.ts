@@ -70,8 +70,8 @@ export default class FormattedLiteral extends Literal {
             .flat();
     }
 
-    compile(context: Context): Step[] {
-        const text = this.getPreferredText(context.project.locales);
+    compile(evaluator: Evaluator, context: Context): Step[] {
+        const text = this.getPreferredText(evaluator.getLocales());
         // Choose a locale, compile its expressions, and then construct a string from the results.
         return [
             new Start(this),
@@ -80,7 +80,7 @@ export default class FormattedLiteral extends Literal {
                 .reduce(
                     (parts: Step[], part) => [
                         ...parts,
-                        ...part.program.expression.compile(context),
+                        ...part.program.expression.compile(evaluator, context),
                     ],
                     []
                 ),
@@ -91,7 +91,7 @@ export default class FormattedLiteral extends Literal {
     evaluate(evaluator: Evaluator, prior: Value | undefined): Value {
         if (prior) return prior;
 
-        const translation = this.getPreferredText(evaluator.project.locales);
+        const translation = this.getPreferredText(evaluator.getLocales());
         const expressions = translation.getExamples();
 
         let concrete = translation;

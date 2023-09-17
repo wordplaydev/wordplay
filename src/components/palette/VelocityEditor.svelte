@@ -58,7 +58,7 @@
 </script>
 
 <div class="place">
-    {project.shares.output.Velocity.names.getSymbolicName()}{#each project.shares.output.Velocity.inputs.map( (input) => input.getPreferredName(project.locales) ) as dimension, index}
+    {project.shares.output.Velocity.names.getSymbolicName()}{#each project.shares.output.Velocity.inputs.map( (input) => input.getPreferredName($locales) ) as dimension, index}
         {@const mapping = velocity?.getMappingFor(
             dimension,
             project.getNodeContext(velocity)

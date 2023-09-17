@@ -86,7 +86,7 @@ export default class Webpage extends StreamValue<
                 new MessageException(
                     this.evaluator.project.shares.input.Webpage,
                     this.evaluator,
-                    error(this.evaluator.project.locales[0])
+                    error(this.evaluator.getLocales()[0])
                 ),
                 event
             );
@@ -126,7 +126,7 @@ export default class Webpage extends StreamValue<
                     this.creator,
                     this.evaluator,
                     FetchErrors['unparsable' as FetchError](
-                        this.evaluator.project.locales[0]
+                        this.evaluator.getLocales()[0]
                     )
                 ),
                 event

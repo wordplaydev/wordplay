@@ -214,7 +214,7 @@ export default class Update extends Expression {
         return [this.table, ...this.row.cells.map((cell) => cell), this.query];
     }
 
-    compile(context: Context): Step[] {
+    compile(evaluator: Evaluator, context: Context): Step[] {
         // Find the type of table and get a structure type for it's row.
         const type = this.table.getType(context);
         const structureType =
@@ -229,7 +229,7 @@ export default class Update extends Expression {
         const updates = binds
             .map((bind) =>
                 bind instanceof Bind && bind.value
-                    ? bind.value.compile(context)
+                    ? bind.value.compile(evaluator, context)
                     : []
             )
             .flat();
@@ -244,7 +244,7 @@ export default class Update extends Expression {
                 structureType,
                 [
                     // 1) evaluate the query
-                    ...this.query.compile(context),
+                    ...this.query.compile(evaluator, context),
                     // 2) evaluate the bind expression
                     ...updates,
                 ],
@@ -306,7 +306,7 @@ export default class Update extends Expression {
         // Evaluate the table expression then this.
         return [
             new Start(this),
-            ...this.table.compile(context),
+            ...this.table.compile(evaluator, context),
             ...getIteration<UpdateState, this>(
                 this,
                 // Track the table, index, and the revised rows.

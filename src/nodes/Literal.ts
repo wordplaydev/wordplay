@@ -18,7 +18,7 @@ export default abstract class Literal extends SimpleExpression {
     }
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    compile(_: Context): Step[] {
+    compile(__: Evaluator, _: Context): Step[] {
         return [new StartFinish(this)];
     }
 
@@ -29,7 +29,7 @@ export default abstract class Literal extends SimpleExpression {
     evaluate(evaluator: Evaluator, prior: Value | undefined): Value {
         if (prior) return prior;
 
-        return this.getValue(evaluator.project.locales);
+        return this.getValue(evaluator.getLocales());
     }
 
     abstract getValue(locales: Locale[]): Value;

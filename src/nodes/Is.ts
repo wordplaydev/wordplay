@@ -99,10 +99,10 @@ export default class Is extends Expression {
         return [this.expression];
     }
 
-    compile(context: Context): Step[] {
+    compile(evaluator: Evaluator, context: Context): Step[] {
         return [
             new Start(this),
-            ...this.expression.compile(context),
+            ...this.expression.compile(evaluator, context),
             new Finish(this),
         ];
     }

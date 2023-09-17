@@ -108,14 +108,14 @@ export default class SetLiteral extends Expression {
         return [...this.values];
     }
 
-    compile(context: Context): Step[] {
+    compile(evaluator: Evaluator, context: Context): Step[] {
         return [
             new Start(this),
             // Evaluate all of the item or key/value expressions
             ...this.values.reduce(
                 (steps: Step[], item) => [
                     ...steps,
-                    ...(item as Expression).compile(context),
+                    ...(item as Expression).compile(evaluator, context),
                 ],
                 []
             ),

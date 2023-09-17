@@ -148,7 +148,7 @@ export default class Program extends Expression {
         return [...this.borrows, this.expression];
     }
 
-    compile(context: Context): Step[] {
+    compile(evaluator: Evaluator, context: Context): Step[] {
         // Execute the borrows, then the block, then this.
         return [
             new Start(this),
@@ -156,7 +156,7 @@ export default class Program extends Expression {
                 (steps: Step[], borrow) => [...steps, ...borrow.compile()],
                 []
             ),
-            ...this.expression.compile(context),
+            ...this.expression.compile(evaluator, context),
             new Finish(this),
         ];
     }

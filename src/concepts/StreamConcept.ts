@@ -90,10 +90,9 @@ export default class StreamConcept extends Concept {
         return new Set(this.inputs);
     }
 
-    getCharacter(): Character | undefined {
+    getCharacter(locale: Locale): Character | undefined {
         const name = this.definition.names.getNonSymbolicName();
         if (name === undefined) return undefined;
-        const locale = this.context.project.locales[0];
         for (const [key, text] of Object.entries(locale.input))
             if (
                 'names' in text &&

@@ -9,18 +9,18 @@ const en = DefaultLocale;
 const es = JSON.parse(readFileSync('static/locales/es-MX/es-MX.json', 'utf8'));
 
 test.each([
-    [`"hello"`, '"hello"', [en]],
-    [`"hello"/`, '"hello"', [en]],
-    [`"hello"/en`, '"hello"/en', [en]],
-    [`"hello\\1\\world"/en`, '"hello1world"/en', [en]],
-    [`"hello\\'no'\\world"/en`, '"hellonoworld"/en', [en]],
-    ['"hello"', '"hello"', [en]],
-    ['"hello"/en', '"hello"/en', [en]],
-    ['"hello"/en"hola"/es', '"hello"/en', [en]],
-    ['"hello"/en"hola"/es', '"hola"/es', [es]],
-    ['"hello"/en"hola"/es', '"hola"/es', [es, en]],
-    ['"hola"/es"hello"/en', '"hola"/es', [es, en]],
-    ['"hola"/es"hello"/en', '"hello"/en', [en]],
+    ['`hello`', 'hello', [en]],
+    ['`hello`/', 'hello', [en]],
+    ['`hello`/en', 'hello', [en]],
+    ['`hello\\1\\world`/en', 'hello1world', [en]],
+    ['`hello\\"no"\\world`/en', 'hellonoworld', [en]],
+    ['`hello`', 'hello', [en]],
+    ['`hello`/en', 'hello', [en]],
+    ['`hello`/en`hola`/es', 'hello', [en]],
+    ['`hello`/en`hola`/es', 'hola', [es]],
+    ['`hello`/en`hola`/es', 'hola', [es, en]],
+    ['`hola`/es`hello`/en', 'hola', [es, en]],
+    ['`hola`/es`hello`/en', 'hello', [en]],
 ])('%s -> %s', async (code, value, locales: Locale[]) => {
     locales = locales.length === 0 ? [en] : locales;
     expect(evaluateCode(code, [], locales)?.toWordplay(locales)).toBe(value);

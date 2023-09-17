@@ -668,7 +668,7 @@ export default class Evaluate extends Expression {
         return false;
     }
 
-    compile(context: Context): Step[] {
+    compile(evaluator: Evaluator, context: Context): Step[] {
         // To compile an evaluate, we need to compile all of the given and default values in
         // order of the function's declaration. This requires getting the function/structure definition
         // and finding an expression to compile for each input.
@@ -701,7 +701,7 @@ export default class Evaluate extends Expression {
                 // Is there a default value?
                 return expected.value !== undefined
                     ? // Compile that.
-                      expected.value.compile(context)
+                      expected.value.compile(evaluator, context)
                     : // Otherwise, halt, since a value was expected but not given.
                       [
                           new Halt(
@@ -719,7 +719,7 @@ export default class Evaluate extends Expression {
                         return given.reduce(
                             (prev: Step[], next) => [
                                 ...prev,
-                                ...next.compile(context),
+                                ...next.compile(evaluator, context),
                             ],
                             []
                         );
@@ -747,7 +747,7 @@ export default class Evaluate extends Expression {
                             ) ||
                         expectedType.accepts(given.getType(context), context);
                     return [
-                        ...given.compile(context),
+                        ...given.compile(evaluator, context),
                         // Evaluate, but if the type was not acceptable, halt
                         ...(acceptable
                             ? []
@@ -772,7 +772,7 @@ export default class Evaluate extends Expression {
         return [
             new Start(this),
             ...inputSteps.reduce((steps: Step[], s) => [...steps, ...s], []),
-            ...this.fun.compile(context),
+            ...this.fun.compile(evaluator, context),
             new StartEvaluation(this),
             new Finish(this),
         ];

@@ -16,12 +16,12 @@ import Pose, { DefinitePose } from './Pose';
 import type Sequence from './Sequence';
 import concretize from '../locale/concretize';
 import type Locale from '../locale/Locale';
-import type Project from '../models/Project';
 import { getOutputInput } from './Valued';
 import { SupportedFontsFamiliesType, type SupportedFace } from '../basis/Fonts';
 import { getFirstName } from '../locale/Locale';
 import { toRectangle, type Rectangle } from './Form';
 import Shape from './Shape';
+import type Evaluator from '../runtime/Evaluator';
 
 export const DefaultGravity = 9.8;
 
@@ -251,11 +251,13 @@ export class NameGenerator {
 }
 
 export function toStage(
-    project: Project,
+    evaluator: Evaluator,
     value: Value,
     namer?: NameGenerator
 ): Stage | undefined {
     if (!(value instanceof StructureValue)) return undefined;
+
+    const project = evaluator.project;
 
     // Create a name generator to guarantee unique default names for all TypeOutput.
     if (namer === undefined) namer = new NameGenerator();
@@ -264,8 +266,8 @@ export function toStage(
         const possibleGroups = getOutputInput(value, 0);
         const content =
             possibleGroups instanceof ListValue
-                ? toOutputList(project, possibleGroups, namer)
-                : toOutput(project, possibleGroups, namer);
+                ? toOutputList(evaluator, possibleGroups, namer)
+                : toOutput(evaluator, possibleGroups, namer);
         const frame = toRectangle(getOutputInput(value, 1));
 
         const gravity = toNumber(getOutputInput(value, 21)) ?? DefaultGravity;
@@ -299,7 +301,7 @@ export function toStage(
                   background,
                   frame,
                   size ?? DefaultSize,
-                  font ?? project.locales[0].ui.font.app,
+                  font ?? evaluator.getLocales()[0].ui.font.app,
                   place,
                   namer.getName(name?.text, value),
                   selectable,
@@ -316,7 +318,7 @@ export function toStage(
     }
     // Just a phrase or group? Wrap it in a stage.
     else {
-        const type = toOutput(project, value, namer);
+        const type = toOutput(evaluator, value, namer);
 
         return type === undefined
             ? undefined
@@ -332,7 +334,7 @@ export function toStage(
                   ),
                   undefined,
                   DefaultSize,
-                  project.locales[0].ui.font.app,
+                  evaluator.getLocales()[0].ui.font.app,
                   undefined,
                   namer.getName(undefined, value),
                   type.selectable,

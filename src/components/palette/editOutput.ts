@@ -118,13 +118,11 @@ export default function moveOutput(
     );
 }
 
-export function createPlaceholderPhrase(database: Database, project: Project) {
+export function createPlaceholderPhrase(project: Project, locales: Locale[]) {
     const PhraseType = project.shares.output.Phrase;
     return Evaluate.make(
-        Reference.make(
-            PhraseType.names.getPreferredNameString(project.locales)
-        ),
-        [TextLiteral.make(project.locales[0].ui.phrases.welcome)]
+        Reference.make(PhraseType.names.getPreferredNameString(locales)),
+        [TextLiteral.make(locales[0].ui.phrases.welcome)]
     );
 }
 
@@ -137,36 +135,30 @@ export function addContent(
 ) {
     const GroupType = project.shares.output.Group;
     const RowType = project.shares.output.Row;
+    const locales = database.Locales.getLocales();
     reviseContent(database, project, list, [
         ...list.values.slice(0, index + 1),
         kind === 'phrase'
             ? // Create a placeholder phrase
-              createPlaceholderPhrase(database, project)
+              createPlaceholderPhrase(project, locales)
             : // Create a group with a Row layout and a single phrase
             kind === 'group'
-            ? Evaluate.make(GroupType.getReference(project.locales), [
-                  Evaluate.make(RowType.getReference(project.locales), []),
-                  ListLiteral.make([
-                      createPlaceholderPhrase(database, project),
-                  ]),
+            ? Evaluate.make(GroupType.getReference(locales), [
+                  Evaluate.make(RowType.getReference(locales), []),
+                  ListLiteral.make([createPlaceholderPhrase(project, locales)]),
               ])
             : // Create a placeholder shape
-              Evaluate.make(
-                  project.shares.output.Shape.getReference(project.locales),
-                  [
-                      Evaluate.make(
-                          project.shares.output.Rectangle.getReference(
-                              project.locales
-                          ),
-                          [
-                              NumberLiteral.make(-5, Unit.create(['m'])),
-                              NumberLiteral.make(0, Unit.create(['m'])),
-                              NumberLiteral.make(5, Unit.create(['m'])),
-                              NumberLiteral.make(-1, Unit.create(['m'])),
-                          ]
-                      ),
-                  ]
-              ),
+              Evaluate.make(project.shares.output.Shape.getReference(locales), [
+                  Evaluate.make(
+                      project.shares.output.Rectangle.getReference(locales),
+                      [
+                          NumberLiteral.make(-5, Unit.create(['m'])),
+                          NumberLiteral.make(0, Unit.create(['m'])),
+                          NumberLiteral.make(5, Unit.create(['m'])),
+                          NumberLiteral.make(-1, Unit.create(['m'])),
+                      ]
+                  ),
+              ]),
         ...list.values.slice(index + 1),
     ]);
 }
@@ -235,7 +227,7 @@ export function addStageContent(
     }
 
     if (content === undefined)
-        content = createPlaceholderPhrase(database, project);
+        content = createPlaceholderPhrase(project, database.getLocales());
 
     if (stage) {
         const context = project.getNodeContext(stage);
@@ -352,7 +344,9 @@ export function addStage(
 
     // Build a new stage, wrapping the phrase.
     stage = Evaluate.make(Reference.make(STAGE_SYMBOL), [
-        ListLiteral.make([existing ?? createPlaceholderPhrase(db, project)]),
+        ListLiteral.make([
+            existing ?? createPlaceholderPhrase(project, db.getLocales()),
+        ]),
     ]);
 
     // Find the block to insert

@@ -10,7 +10,7 @@
         getEvaluation,
         getSelectedOutput,
     } from '../project/Contexts';
-    import { DB, locale } from '../../db/Database';
+    import { DB, locale, locales } from '../../db/Database';
     import concretize from '../../locale/concretize';
     import {
         addGroup,
@@ -40,7 +40,10 @@
     /** Transform the selected Evaluate nodes into Output wrappers, filtering out anything that's not valid output. */
     $: outputs = $selectedOutput
         ? $selectedOutput
-              .map((evaluate) => new OutputExpression(project, evaluate))
+              .map(
+                  (evaluate) =>
+                      new OutputExpression(project, evaluate, $locales)
+              )
               .filter((out) => out.isOutput())
         : [];
     $: definition = outputs[0]?.node.getFunction(

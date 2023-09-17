@@ -30,7 +30,7 @@
     $: getConceptURL($locale).then((url) => (tutorialURL = url));
 
     async function getConceptURL(locale: Locale) {
-        const character = concept.getCharacter();
+        const character = concept.getCharacter(locale);
         if (character) {
             const tutorial = await Locales.getTutorial(
                 locale.language,

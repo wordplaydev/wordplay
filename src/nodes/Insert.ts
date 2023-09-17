@@ -207,12 +207,12 @@ export default class Insert extends Expression {
         return [this.table, ...this.row.cells.map((cell) => cell)];
     }
 
-    compile(context: Context): Step[] {
+    compile(evaluator: Evaluator, context: Context): Step[] {
         const tableType = this.table.getType(context);
 
         return [
             new Start(this),
-            ...this.table.compile(context),
+            ...this.table.compile(evaluator, context),
             ...(!(tableType instanceof TableType)
                 ? [
                       new Halt(
@@ -231,7 +231,7 @@ export default class Insert extends Expression {
                   this.row.cells.reduce(
                       (steps: Step[], cell) => [
                           ...steps,
-                          ...cell.compile(context),
+                          ...cell.compile(evaluator, context),
                       ],
                       []
                   )
@@ -260,7 +260,10 @@ export default class Insert extends Expression {
                                   this
                               ),
                           ];
-                      return [...steps, ...matchingCell.value.compile(context)];
+                      return [
+                          ...steps,
+                          ...matchingCell.value.compile(evaluator, context),
+                      ];
                   }, [])),
             new Finish(this),
         ];

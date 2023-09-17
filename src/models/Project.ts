@@ -38,7 +38,7 @@ export type SerializedProject = {
     name: string;
     /** The source files in the project */
     sources: SerializedSource[];
-    /** A list of locales, which are a ISO 639-1 languaage code, followed by a -, followed by ISO 3166-2 region code: https://en.wikipedia.org/wiki/ISO_3166-2 */
+    /** A list of locales on which this project is dependent. All ISO 639-1 languaage codes, followed by a -, followed by ISO 3166-2 region code: https://en.wikipedia.org/wiki/ISO_3166-2 */
     locales: string[];
     /** The Firestore user ID owner of this project */
     owner: string | null;
@@ -118,8 +118,10 @@ export default class Project {
     /** Default shares */
     readonly shares: ReturnType<typeof createDefaultShares>;
 
-    /** The locales on which this project relies */
-    readonly locales: Locale[];
+    /**
+     * The locales on which this project relies.
+     * Not an indicator of what locales are currently selected; a locale may be selected that this project does not use. */
+    private locales: Locale[];
 
     /** The localized basis bindings */
     readonly basis: Basis;
@@ -290,9 +292,11 @@ export default class Project {
     getSourcesExcept(source: Source) {
         return [this.main, ...this.supplements].filter((s) => s !== source);
     }
+
     getName() {
         return this.name;
     }
+
     getSourceWithProgram(program: Program) {
         return this.getSources().find(
             (source) => source.expression === program

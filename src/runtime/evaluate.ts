@@ -12,7 +12,7 @@ import Evaluator from './Evaluator';
 export default function evaluateCode(
     main: string,
     supplements?: string[],
-    locale?: Locale
+    locale?: Locale | Locale[]
 ): Value | undefined {
     const source = new Source('test', main);
     const project = new Project(
@@ -24,5 +24,13 @@ export default function evaluateCode(
         ),
         locale ?? DefaultLocale
     );
-    return new Evaluator(project, DB).getInitialValue();
+    return new Evaluator(
+        project,
+        DB,
+        locale === undefined
+            ? [DefaultLocale]
+            : Array.isArray(locale)
+            ? locale
+            : [locale]
+    ).getInitialValue();
 }

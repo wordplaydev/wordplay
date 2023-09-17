@@ -180,10 +180,10 @@ export default class Reaction extends Expression {
         return [this.condition, this.initial, this.next];
     }
 
-    compile(context: Context): Step[] {
-        const initialSteps = this.initial.compile(context);
-        const conditionSteps = this.condition.compile(context);
-        const nextSteps = this.next.compile(context);
+    compile(evaluator: Evaluator, context: Context): Step[] {
+        const initialSteps = this.initial.compile(evaluator, context);
+        const conditionSteps = this.condition.compile(evaluator, context);
+        const nextSteps = this.next.compile(evaluator, context);
 
         return [
             // Start by binding the previous value, if there is one.

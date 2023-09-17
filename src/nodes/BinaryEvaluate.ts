@@ -241,9 +241,9 @@ export default class BinaryEvaluate extends Expression {
         ];
     }
 
-    compile(context: Context): Step[] {
-        const left = this.left.compile(context);
-        const right = this.right.compile(context);
+    compile(evaluator: Evaluator, context: Context): Step[] {
+        const left = this.left.compile(evaluator, context);
+        const right = this.right.compile(evaluator, context);
 
         // NOTE: We removed short circuting because Reactions need to evaluate all conditionns to
         // get stream dependencies.

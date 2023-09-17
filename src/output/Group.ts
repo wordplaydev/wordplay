@@ -13,7 +13,6 @@ import { getTypeStyle, toArrangement, toOutputList } from './toOutput';
 import { TYPE_SYMBOL } from '../parser/Symbols';
 import type { NameGenerator } from './Stage';
 import type Locale from '../locale/Locale';
-import type Project from '../models/Project';
 import type { DefinitePose } from './Pose';
 import StructureValue from '@values/StructureValue';
 import { getOutputInput } from './Valued';
@@ -21,6 +20,7 @@ import concretize from '../locale/concretize';
 import { SupportedFontsFamiliesType, type SupportedFace } from '../basis/Fonts';
 import { getFirstName } from '../locale/Locale';
 import Matter, { toMatter } from './Matter';
+import type Evaluator from '../runtime/Evaluator';
 
 export function createGroupType(locales: Locale[]) {
     return toStructure(`
@@ -167,14 +167,15 @@ export default class Group extends Output {
 }
 
 export function toGroup(
-    project: Project,
+    evaluator: Evaluator,
     value: Value | undefined,
     namer: NameGenerator
 ): Group | undefined {
     if (!(value instanceof StructureValue)) return undefined;
 
+    const project = evaluator.project;
     const layout = toArrangement(project, getOutputInput(value, 0));
-    const content = toOutputList(project, getOutputInput(value, 1), namer);
+    const content = toOutputList(evaluator, getOutputInput(value, 1), namer);
     const matter = toMatter(getOutputInput(value, 21));
 
     const {

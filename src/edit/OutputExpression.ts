@@ -12,6 +12,7 @@ import getStageProperties from './StageProperties';
 import getGroupProperties from './GroupProperties';
 import getPhraseProperties from './PhraseProperties';
 import getShapeProperties from './getShapeProperties';
+import type Locale from '../locale/Locale';
 
 /**
  * Represents the value of a property. If given is true, it means its set explicitly.
@@ -39,9 +40,13 @@ export default class OutputExpression {
     /** The evaluate node that this wraps. */
     readonly node: Evaluate;
 
-    constructor(project: Project, evaluate: Evaluate) {
+    /** The locales currently active */
+    readonly locales: Locale[];
+
+    constructor(project: Project, evaluate: Evaluate, locales: Locale[]) {
         this.project = project;
         this.node = evaluate;
+        this.locales = locales;
     }
 
     /** True if the evaluate represents one of the known output types */
@@ -129,7 +134,7 @@ export default class OutputExpression {
                 expression instanceof Expression ? expression : undefined,
             value:
                 expression instanceof Literal
-                    ? expression.getValue(this.project.locales)
+                    ? expression.getValue(this.locales)
                     : undefined,
         };
     }
