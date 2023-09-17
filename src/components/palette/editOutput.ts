@@ -21,6 +21,7 @@ import {
 } from '../../parser/Symbols';
 import { toExpression } from '../../parser/parseExpression';
 import { getPlaceExpression } from '../../output/getOrCreatePlace';
+import type Spread from '../../nodes/Spread';
 
 export function getNumber(given: Expression): number | undefined {
     const measurement =
@@ -186,7 +187,7 @@ export function reviseContent(
     db: Database,
     project: Project,
     list: ListLiteral,
-    newValues: Expression[]
+    newValues: (Expression | Spread)[]
 ) {
     db.Projects.revise(project, [[list, ListLiteral.make(newValues)]]);
 }

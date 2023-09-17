@@ -492,6 +492,11 @@
             "finish": "$?",
             "item": "$?"
         },
+        "Spread": {
+            "name": "$?",
+            "emotion": "serious",
+            "doc": "$?"
+        },
         "MapLiteral": {
             "name": "$?",
             "description": "$?",

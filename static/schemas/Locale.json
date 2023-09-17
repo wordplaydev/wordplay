@@ -5255,6 +5255,10 @@
               "$ref": "#/definitions/NodeText",
               "description": "A source file that contains a name and program."
             },
+            "Spread": {
+              "$ref": "#/definitions/NodeText",
+              "description": "A way of spreading a list's values into a list literal, e.g., `[ [ 1 2 3]… 4 5]` Description inputs: none"
+            },
             "StreamDefinition": {
               "additionalProperties": false,
               "description": "A stream definition. Not typically written, since all streams are defined internally, but basically like a structure definition, e.g., `… Key()`",
@@ -6081,6 +6085,7 @@
             "IsLocale",
             "ListAccess",
             "ListLiteral",
+            "Spread",
             "MapLiteral",
             "NumberLiteral",
             "InternalExpression",

@@ -2,6 +2,8 @@ import { test, expect } from 'vitest';
 import evaluateCode from '../runtime/evaluate';
 
 test.each([
+    ['[1 2 3 :[4 5 6]]', '[1 2 3 4 5 6]'],
+    ['[:[1 2 3] :[4 5 6]]', '[1 2 3 4 5 6]'],
     ['[1 2 3].add(4)', '[1 2 3 4]'],
     ['[1 2 3].has(4)', '⊥'],
     ['[1 2 3].has(3)', '⊤'],

@@ -24,13 +24,15 @@ import type { BasisTypeName } from '../basis/BasisConstants';
 import concretize from '../locale/concretize';
 import Sym from './Sym';
 import AnyType from './AnyType';
+import Spread from './Spread';
+import TypeException from '../values/TypeException';
 
 export default class ListLiteral extends Expression {
     readonly open: Token;
-    readonly values: Expression[];
+    readonly values: (Spread | Expression)[];
     readonly close?: Token;
 
-    constructor(open: Token, values: Expression[], close?: Token) {
+    constructor(open: Token, values: (Spread | Expression)[], close?: Token) {
         super();
 
         this.open = open;
@@ -40,7 +42,7 @@ export default class ListLiteral extends Expression {
         this.computeChildren();
     }
 
-    static make(values?: Expression[]) {
+    static make(values?: (Expression | Spread)[]) {
         return new ListLiteral(
             new ListOpenToken(),
             values ?? [],
@@ -57,7 +59,7 @@ export default class ListLiteral extends Expression {
             { name: 'open', kind: node(Sym.ListOpen) },
             {
                 name: 'values',
-                kind: list(true, node(Expression)),
+                kind: list(true, node(Expression), node(Spread)),
                 label: (translation: Locale) =>
                     translation.node.ListLiteral.item,
                 // Only allow types to be inserted that are of the list's type, if provided.
@@ -74,7 +76,7 @@ export default class ListLiteral extends Expression {
     clone(replace?: Replacement) {
         return new ListLiteral(
             this.replaceChild('open', this.open, replace),
-            this.replaceChild<Expression[]>('values', this.values, replace),
+            this.replaceChild('values', this.values, replace),
             this.replaceChild('close', this.close, replace)
         ) as this;
     }
@@ -117,7 +119,9 @@ export default class ListLiteral extends Expression {
     }
 
     getDependencies(): Expression[] {
-        return [...this.values];
+        return this.values
+            .map((val) => (val instanceof Spread ? val.list : val))
+            .filter((val): val is Expression => val !== undefined);
     }
 
     compile(evaluator: Evaluator, context: Context): Step[] {
@@ -126,7 +130,11 @@ export default class ListLiteral extends Expression {
             ...this.values.reduce(
                 (steps: Step[], item) => [
                     ...steps,
-                    ...item.compile(evaluator, context),
+                    ...(item instanceof Spread
+                        ? item.list
+                            ? item.list.compile(evaluator, context)
+                            : []
+                        : item.compile(evaluator, context)),
                 ],
                 []
             ),
@@ -137,10 +145,34 @@ export default class ListLiteral extends Expression {
     evaluate(evaluator: Evaluator, prior: Value | undefined): Value {
         if (prior) return prior;
 
+        // Start with the list of values from the expression to help keep track of the ones that were handled.
+        const items = this.values.slice();
+
         // Pop all of the values.
         const values = [];
-        for (let i = 0; i < this.values.length; i++)
-            values.unshift(evaluator.popValue(this));
+        for (let i = 0; i < this.values.length; i++) {
+            const value = evaluator.popValue(this);
+            let item;
+            do {
+                item = items.pop();
+            } while (item instanceof Spread && item.list === undefined);
+            // Was this a spread value? Add all of its items to this list.
+            if (item instanceof Spread) {
+                if (value instanceof ListValue) {
+                    // Add them in reverse order so they end up in the correct order.
+                    for (let j = value.values.length - 1; j >= 0; j--)
+                        values.unshift(value.values[j]);
+                } else
+                    return new TypeException(
+                        this,
+                        evaluator,
+                        ListType.make(),
+                        value
+                    );
+            }
+            // Add the non-spread value.
+            else values.unshift(value);
+        }
 
         // Construct the new list.
         return new ListValue(this, values);

@@ -1,3 +1,5 @@
+import type { ComponentType, SvelteComponent } from 'svelte';
+
 /* eslint-disable @typescript-eslint/ban-types */
 import BlockView from '../BlockView.svelte';
 import BorrowView from '../BorrowView.svelte';
@@ -80,6 +82,7 @@ import TranslationView from '../TranslationView.svelte';
 import FormattedLiteralView from '../FormattedLiteralView.svelte';
 import FormattedTranslationView from '../FormattedTranslationView.svelte';
 import IsLocaleView from '../IsLocaleView.svelte';
+import SpreadView from '../SpreadView.svelte';
 
 import type Node from '@nodes/Node';
 import Program from '@nodes/Program';
@@ -164,7 +167,7 @@ import Translation from '@nodes/Translation';
 import FormattedTranslation from '@nodes/FormattedTranslation';
 import FormattedLiteral from '@nodes/FormattedLiteral';
 import IsLocale from '@nodes/IsLocale';
-import type { ComponentType, SvelteComponent } from 'svelte';
+import Spread from '@nodes/Spread';
 
 const nodeToView = new Map<Function, ComponentType<SvelteComponent>>();
 
@@ -240,6 +243,7 @@ nodeToView.set(SetType, SetTypeView);
 nodeToView.set(MapType, MapTypeView);
 
 nodeToView.set(ListLiteral, ListLiteralView);
+nodeToView.set(Spread, SpreadView);
 nodeToView.set(ListAccess, ListAccessView);
 nodeToView.set(ListType, ListTypeView);
 
