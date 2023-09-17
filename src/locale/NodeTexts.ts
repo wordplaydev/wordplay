@@ -441,6 +441,11 @@ type NodeTexts = {
             item: Template;
         };
     /**
+     * A way of spreading a list's values into a list literal, e.g., `[ [ 1 2 3]… 4 5]`
+     * Description inputs: none
+     */
+    Spread: NodeText;
+    /**
      * A map literal, e.g., `{1:1 2:2 3:3}`
      * Finish inputs: $1 = resulting value
      */

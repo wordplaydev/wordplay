@@ -765,6 +765,14 @@
             "finish": "I made a me! $1",
             "item": "item"
         },
+        "Spread": {
+            "name": "list spread",
+            "emotion": "serious",
+            "doc": [
+                "A help you make lists with the values of other lists. Like this:",
+                "\\list1: [1 2 3]\nlist2: [4 5 6]\nfinal: [list1… list2…]"
+            ]
+        },
         "MapLiteral": {
             "name": "map",
             "description": "$1 pairing map",
@@ -1913,8 +1921,10 @@
                 },
                 "append": {
                     "doc": [
-                        "I create a new @List with my values, then all the values of the given @List.",
-                        "\\['apple' 'banana' 'mango'].append(['watermelon' 'starfruit'])\\"
+                        "I create a new @List with my values, then all the values of the given @List after me.",
+                        "\\['apple' 'banana' 'mango'].append(['watermelon' 'starfruit'])\\",
+                        "It's a little bit easier to use @Spread though, like this:",
+                        "\\['apple' 'banana' 'mango' :['watermelon' 'starfruit']]\\"
                     ],
                     "names": ["append"],
                     "inputs": [

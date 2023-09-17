@@ -21,8 +21,11 @@ Stage(
   [
 		Group(
 			Stack()
-			[Phrase(state.description duration: 0.5s name: state.action entering: Pose(offset: Place(0m 2m)))].append(options)
-      )
+			[
+        Phrase(state.description duration: 0.5s name: state.action entering: Pose(offset: Place(0m 2m)))
+        :options
+      ]
+    )
   ] 
   background: Color(0 0 0%°) 
   color: Color(100% 0 0°)

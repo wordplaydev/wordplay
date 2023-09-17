@@ -58,6 +58,7 @@ import { toTokens } from './toTokens';
 import Docs from '../nodes/Docs';
 import parseDoc from './parseDoc';
 import type Doc from '../nodes/Doc';
+import Spread from '../nodes/Spread';
 
 export function toExpression(code: string): Expression {
     return parseExpression(toTokens(code));
@@ -451,18 +452,30 @@ function parseTranslation(tokens: Tokens): Translation {
     return new Translation(text, segments, close, language);
 }
 
-/** LIST :: [ EXPRESSION* ] */
+/** LIST :: [ (SPREAD|EXPRESSION)* ] */
 function parseList(tokens: Tokens): ListLiteral {
     const open = tokens.read(Sym.ListOpen);
-    const values: Expression[] = [];
+    const values: (Spread | Expression)[] = [];
 
     while (
         tokens.hasNext() &&
         tokens.nextIsnt(Sym.ListClose) &&
         tokens.nextIsnt(Sym.Code) &&
         !tokens.nextHasMoreThanOneLineBreak()
-    )
-        values.push(parseExpression(tokens));
+    ) {
+        // Is there a spread next? Parse it.
+        if (tokens.nextIs(Sym.Bind)) {
+            const dots = tokens.read(Sym.Bind);
+            const value =
+                tokens.hasNext() &&
+                tokens.nextIsnt(Sym.ListClose) &&
+                tokens.nextIsnt(Sym.Code) &&
+                !tokens.nextHasMoreThanOneLineBreak()
+                    ? parseExpression(tokens)
+                    : undefined;
+            values.push(new Spread(dots, value));
+        } else values.push(parseExpression(tokens));
+    }
 
     const close = tokens.readIf(Sym.ListClose);
 

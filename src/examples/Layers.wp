@@ -15,10 +15,13 @@ count: 10→[]
 )
 
 Stage(
-    balls(0m).append(balls(-10m).append(balls(10m))).append([ 
+    [ 
+        :balls(0m) 
+        :balls(-10m) 
+        :balls(10m) 
         Shape(Rectangle(-20m 0m 20m -1m 0m))
         Shape(Rectangle(-20m 0m 20m -1m 10m) rotation: 25°)
         Shape(Rectangle(-20m 0m 20m -1m -10m) rotation: -10°)
-    ])
+    ]
     place: Place(0m 10m -30m)
 )
