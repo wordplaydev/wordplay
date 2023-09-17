@@ -44,8 +44,9 @@ export default class SettingsDatabase {
     constructor(database: Database, locales: SupportedLocale[]) {
         this.database = database;
 
-        // Initialize default languages
-        if (locales.length > 0) this.settings.locales.set(database, locales);
+        // Initialize default languages if none are set
+        if (this.settings.locales.get().length === 0 && locales.length > 0)
+            this.settings.locales.set(database, locales);
     }
 
     getProjectLayout(id: string) {
