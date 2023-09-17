@@ -109,7 +109,7 @@ export default class LocalesDatabase {
             return undefined;
 
         // Is this en-US? We bundle it. Bail.
-        if (lang === 'en-US') return undefined;
+        if (lang === 'en-US') return DefaultLocale;
 
         const current = this.localesLoaded[lang];
 
