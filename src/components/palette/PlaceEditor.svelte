@@ -21,7 +21,8 @@
     let views: HTMLInputElement[] = [];
 
     function valid(val: string) {
-        return !NumberValue.fromUnknown(val).isNaN();
+        const [num] = NumberValue.fromUnknown(val, false);
+        return !num.isNaN();
     }
 
     async function handleChange(dimension: string, value: string) {
