@@ -7,7 +7,6 @@
     import Fonts from '../basis/Fonts';
     import {
         locales,
-        locale,
         DB,
         animationFactor,
         languages,
@@ -31,7 +30,7 @@
 
     // Keep the page's language and direction up to date.
     $: if (typeof document !== 'undefined') {
-        const language = $locale.language;
+        const language = $locales[0].language;
         document.documentElement.setAttribute('lang', language);
         document.documentElement.setAttribute(
             'dir',
