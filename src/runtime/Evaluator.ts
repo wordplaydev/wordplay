@@ -913,13 +913,15 @@ export default class Evaluator {
 
         // Step until reaching the target step index.
         while (this.#stepIndex < destinationStep) {
-            // If done, then something's broken, since it should always be possible to ... GET BACK TO THE FUTURE (lol)
-            if (this.isDone())
-                throw Error(
+            // If done, then something's broken in the program, since it should always be possible to ... GET BACK TO THE FUTURE (lol)
+            if (this.isDone()) {
+                console.error(
                     `Couldn't get back to the future; step ${destinationStep}/${
                         this.#stepCount
                     } unreachable. Fatal defect in Evaluator.`
                 );
+                return false;
+            }
 
             this.step();
         }
@@ -1156,7 +1158,7 @@ export default class Evaluator {
             // If we're in play mode, tick all the temporal streams.
             if (this.temporalReactions.length > 0)
                 console.error(
-                    "Hmmm, something is modifying temporal streams outside of the Evaluator's control. Tsk tsk!"
+                    "Something is modifying temporal streams outside of the Evaluator's control. Tsk tsk!"
                 );
             // Tick each one, indirectly filling this.temporalReactions.
             for (const stream of this.temporalStreams)
