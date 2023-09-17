@@ -152,7 +152,11 @@
                         ><PoseEditor
                             {project}
                             outputs={[
-                                new OutputExpression(project, pair.value),
+                                new OutputExpression(
+                                    project,
+                                    pair.value,
+                                    $locales
+                                ),
                             ]}
                             sequence
                             {editable}

@@ -122,14 +122,14 @@
             {#if expression instanceof Evaluate && expression.is(project.shares.output.Pose, project.getNodeContext(expression))}
                 <PoseEditor
                     {project}
-                    outputs={values.getOutputExpressions(project)}
+                    outputs={values.getOutputExpressions(project, $locales)}
                     sequence={false}
                     {editable}
                 />
             {:else if expression instanceof Evaluate && expression.is(project.shares.output.Sequence, project.getNodeContext(expression))}
                 <SequenceEditor
                     {project}
-                    outputs={values.getOutputExpressions(project)}
+                    outputs={values.getOutputExpressions(project, $locales)}
                     {editable}
                 />
             {/if}

@@ -153,11 +153,11 @@ export default class Previous extends Expression {
         return [this.stream, this.number];
     }
 
-    compile(context: Context): Step[] {
+    compile(evaluator: Evaluator, context: Context): Step[] {
         return [
             new Start(this),
-            ...this.stream.compile(context),
-            ...this.number.compile(context),
+            ...this.stream.compile(evaluator, context),
+            ...this.number.compile(evaluator, context),
             new Finish(this),
         ];
     }

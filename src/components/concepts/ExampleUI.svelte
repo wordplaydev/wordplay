@@ -33,7 +33,7 @@
         if (evaluator) evaluator.ignore(update);
 
         if (evaluated) {
-            evaluator = new Evaluator(project, DB);
+            evaluator = new Evaluator(project, DB, $locales);
             evaluator.observe(update);
             evaluator.start();
         } else {
@@ -45,7 +45,7 @@
         if (evaluator) {
             value = evaluator.getLatestSourceValue(project.main);
             stage = value
-                ? toStage(project, value, new NameGenerator())
+                ? toStage(evaluator, value, new NameGenerator())
                 : undefined;
         }
     }

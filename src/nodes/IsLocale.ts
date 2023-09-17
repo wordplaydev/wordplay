@@ -89,12 +89,12 @@ export default class IsLocale extends SimpleExpression {
             this.locale === undefined
                 ? false
                 : this.locale.region === undefined
-                ? evaluator.project.locales.some((locale) =>
-                      this.locale?.isLocaleLanguage(locale)
-                  )
-                : evaluator.project.locales.some((locale) =>
-                      this.locale?.isLocale(locale)
-                  )
+                ? evaluator
+                      .getLocales()
+                      .some((locale) => this.locale?.isLocaleLanguage(locale))
+                : evaluator
+                      .getLocales()
+                      .some((locale) => this.locale?.isLocale(locale))
         );
     }
 

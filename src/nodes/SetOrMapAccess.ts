@@ -150,12 +150,12 @@ export default class SetOrMapAccess extends Expression {
         return [this.setOrMap, this.key];
     }
 
-    compile(context: Context): Step[] {
+    compile(evaluator: Evaluator, context: Context): Step[] {
         // Evaluate the set expression, then the key expression, then this.
         return [
             new Start(this),
-            ...this.setOrMap.compile(context),
-            ...this.key.compile(context),
+            ...this.setOrMap.compile(evaluator, context),
+            ...this.key.compile(evaluator, context),
             new Finish(this),
         ];
     }

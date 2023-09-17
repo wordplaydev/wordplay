@@ -217,7 +217,7 @@ export default class Select extends Expression {
         return [this.table, this.query];
     }
 
-    compile(context: Context): Step[] {
+    compile(evaluator: Evaluator, context: Context): Step[] {
         /** A derived function based on the query, used to evaluate each row of the table. */
         const query = FunctionDefinition.make(
             undefined,
@@ -231,7 +231,7 @@ export default class Select extends Expression {
         // Evaluate the table expression then this.
         return [
             new Start(this),
-            ...this.table.compile(context),
+            ...this.table.compile(evaluator, context),
             ...getIteration<SelectState, this>(
                 this,
                 // Track the table, index through the rows, and a list of selected rows

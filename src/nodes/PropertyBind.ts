@@ -112,13 +112,13 @@ export default class PropertyBind extends Expression {
         return [this.reference, this.value];
     }
 
-    compile(context: Context): Step[] {
+    compile(evaluator: Evaluator, context: Context): Step[] {
         return [
             new Start(this),
             // Evaluate the structure
-            ...this.reference.structure.compile(context),
+            ...this.reference.structure.compile(evaluator, context),
             // Evaluate the value
-            ...this.value.compile(context),
+            ...this.value.compile(evaluator, context),
             // Copy the structure with the new value
             new Finish(this),
         ];

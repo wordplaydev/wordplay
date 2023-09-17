@@ -306,10 +306,10 @@ export default class PropertyReference extends Expression {
         return [this.structure];
     }
 
-    compile(context: Context): Step[] {
+    compile(evaluator: Evaluator, context: Context): Step[] {
         return [
             new Start(this),
-            ...this.structure.compile(context),
+            ...this.structure.compile(evaluator, context),
             new Finish(this),
         ];
     }

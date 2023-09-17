@@ -161,10 +161,9 @@ export default class StructureConcept extends Concept {
         );
     }
 
-    getCharacter(): Character | undefined {
+    getCharacter(locale: Locale): Character | undefined {
         const name = this.definition.names.getNonSymbolicName();
         if (name === undefined) return undefined;
-        const locale = this.context.project.locales[0];
         for (const [key, text] of Object.entries(locale.output))
             if (
                 'names' in text &&

@@ -261,7 +261,7 @@ export default class Block extends Expression {
         return lastStatement === undefined ? [] : [lastStatement];
     }
 
-    compile(context: Context): Step[] {
+    compile(evaluator: Evaluator, context: Context): Step[] {
         // If there are no statements, halt on exception.
         return [
             new Start(this, (evaluator) => {
@@ -273,7 +273,7 @@ export default class Block extends Expression {
             ...this.statements.reduce(
                 (prev: Step[], current) => [
                     ...prev,
-                    ...current.compile(context),
+                    ...current.compile(evaluator, context),
                 ],
                 []
             ),

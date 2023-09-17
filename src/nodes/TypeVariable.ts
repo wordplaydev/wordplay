@@ -36,7 +36,7 @@ export default class TypeVariable extends Node {
     }
 
     getReference(): NameType {
-        return NameType.make(this.names.getNames()[0], this);
+        return NameType.make(this.names.getNames()[0] ?? '_', this);
     }
 
     getNames() {

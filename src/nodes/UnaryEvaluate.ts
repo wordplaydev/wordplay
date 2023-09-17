@@ -133,10 +133,10 @@ export default class UnaryEvaluate extends Expression {
         ];
     }
 
-    compile(context: Context): Step[] {
+    compile(evaluator: Evaluator, context: Context): Step[] {
         return [
             new Start(this),
-            ...this.input.compile(context),
+            ...this.input.compile(evaluator, context),
             new StartEvaluation(this),
             new Finish(this),
         ];

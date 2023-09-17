@@ -75,8 +75,8 @@ export default class TextLiteral extends Literal {
         return this.texts.map((text) => text.getExpressions()).flat();
     }
 
-    compile(context: Context): Step[] {
-        const text = this.getLocaleText(context.project.locales);
+    compile(evaluator: Evaluator, context: Context): Step[] {
+        const text = this.getLocaleText(evaluator.getLocales());
         // Choose a locale, compile its expressions, and then construct a string from the results.
         return [
             new Start(this),
@@ -85,7 +85,7 @@ export default class TextLiteral extends Literal {
                 .reduce(
                     (parts: Step[], part) => [
                         ...parts,
-                        ...part.expression.compile(context),
+                        ...part.expression.compile(evaluator, context),
                     ],
                     []
                 ),
@@ -96,7 +96,7 @@ export default class TextLiteral extends Literal {
     evaluate(evaluator: Evaluator, prior: Value | undefined): Value {
         if (prior) return prior;
 
-        const translation = this.getLocaleText(evaluator.project.locales);
+        const translation = this.getLocaleText(evaluator.getLocales());
         const expressions = translation.segments;
 
         // Build the string in reverse, accounting for the reversed stack of values.

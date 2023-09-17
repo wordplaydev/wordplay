@@ -65,6 +65,9 @@ export default class Evaluator {
     /** The project that this is evaluating. */
     readonly project: Project;
 
+    /** The preferred locales for evaluation. */
+    readonly locales: Locale[];
+
     /** The database that contains settings for evaluation */
     readonly database: Database;
 
@@ -224,11 +227,13 @@ export default class Evaluator {
     constructor(
         project: Project,
         database: Database,
+        locales: Locale[],
         reactive = true,
         prior: Evaluator | undefined = undefined
     ) {
         this.project = project;
         this.database = database;
+        this.locales = locales;
 
         this.reactive = reactive;
 
@@ -276,7 +281,7 @@ export default class Evaluator {
             ),
             locale
         );
-        return new Evaluator(project, database).getInitialValue();
+        return new Evaluator(project, database, [locale]).getInitialValue();
     }
 
     /** Mirror the given evaluator's stream history and state, but with the new source. */
@@ -371,21 +376,32 @@ export default class Evaluator {
     getMain(): Source {
         return this.project.main;
     }
+
     getMode(): Mode {
         return this.mode;
     }
+
     getBasis(): Basis {
         return this.project.basis;
     }
+
     getCurrentStep() {
         return this.evaluations[0]?.currentStep();
     }
+
     getNextStep() {
         return this.evaluations[0]?.nextStep();
     }
+
+    /** Get the currently selected locales from the database */
+    getLocales() {
+        return this.locales;
+    }
+
     getCurrentEvaluation() {
         return this.evaluations.length === 0 ? undefined : this.evaluations[0];
     }
+
     getLastEvaluation() {
         return this.#lastEvaluation;
     }
@@ -439,7 +455,7 @@ export default class Evaluator {
                 const context =
                     this.project.getNodeContext(expression) ??
                     new Context(this.project, this.project.main);
-                steps = expression.compile(context);
+                steps = expression.compile(this, context);
             }
             this.steps.set(evaluation, steps);
         }

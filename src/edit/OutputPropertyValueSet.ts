@@ -86,14 +86,21 @@ export default class OutputPropertyValueSet {
         return expr;
     }
 
-    getOutputExpressions(project: Project): OutputExpression[] {
+    getOutputExpressions(
+        project: Project,
+        locales: Locale[]
+    ): OutputExpression[] {
         return this.values
             .filter(
                 (value) => value.given && value.expression instanceof Evaluate
             )
             .map(
                 (value) =>
-                    new OutputExpression(project, value.expression as Evaluate)
+                    new OutputExpression(
+                        project,
+                        value.expression as Evaluate,
+                        locales
+                    )
             );
     }
 

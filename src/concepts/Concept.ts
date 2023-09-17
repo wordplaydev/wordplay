@@ -136,7 +136,7 @@ export default abstract class Concept {
         return concepts;
     }
 
-    abstract getCharacter(): Character | undefined;
+    abstract getCharacter(locale: Locale): Character | undefined;
 
     abstract isEqualTo(concept: Concept): boolean;
 }

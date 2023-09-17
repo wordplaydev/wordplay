@@ -69,8 +69,7 @@ export default class NodeConcept extends Concept {
         return new Set();
     }
 
-    getCharacter(): Character | undefined {
-        const locale = this.context.project.locales[0];
+    getCharacter(locale: Locale): Character | undefined {
         const text = this.template.getNodeLocale(locale);
         const match = Object.entries(locale.node).find(([, t]) => t === text);
         return match ? (match[0] as Character) : undefined;

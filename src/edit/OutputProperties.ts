@@ -89,7 +89,7 @@ export function getTypeOutputProperties(
                 (text: string) => TextLiteral.make(text),
                 (expression: Expression | undefined) =>
                     expression instanceof TextLiteral
-                        ? expression.getValue(project.locales).text
+                        ? expression.getValue([locale]).text
                         : undefined
             ),
             false,

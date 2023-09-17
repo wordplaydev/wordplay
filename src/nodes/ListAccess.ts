@@ -156,11 +156,11 @@ export default class ListAccess extends Expression {
         return [this.list, this.index];
     }
 
-    compile(context: Context): Step[] {
+    compile(evaluator: Evaluator, context: Context): Step[] {
         return [
             new Start(this),
-            ...this.list.compile(context),
-            ...this.index.compile(context),
+            ...this.list.compile(evaluator, context),
+            ...this.index.compile(evaluator, context),
             new Finish(this),
         ];
     }

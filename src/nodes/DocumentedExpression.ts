@@ -50,8 +50,8 @@ export default class DocumentedExpression extends SimpleExpression {
         return [this.expression];
     }
 
-    compile(context: Context): Step[] {
-        return this.expression.compile(context);
+    compile(evaluator: Evaluator, context: Context): Step[] {
+        return this.expression.compile(evaluator, context);
     }
 
     evaluate(evaluator: Evaluator): Value {

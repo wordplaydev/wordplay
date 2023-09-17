@@ -186,7 +186,7 @@ export default class Convert extends Expression {
         return [this.expression];
     }
 
-    compile(context: Context): Step[] {
+    compile(evaluator: Evaluator, context: Context): Step[] {
         const fromType = this.expression.getType(context);
         // If the type of value is already the type of the requested conversion, then just leave the value on the stack and do nothing.
         // Otherwise, identify the series of conversions that will achieve the right output type.
@@ -197,7 +197,7 @@ export default class Convert extends Expression {
         // Evaluate the expression to convert, then push the conversion function on the stack.
         return [
             new Start(this),
-            ...this.expression.compile(context),
+            ...this.expression.compile(evaluator, context),
             ...(conversions === undefined ||
             (conversions.length === 0 &&
                 !this.type.accepts(this.expression.getType(context), context))

@@ -153,7 +153,7 @@ export default class Delete extends Expression {
         return [this.table, this.query];
     }
 
-    compile(context: Context): Step[] {
+    compile(evaluator: Evaluator, context: Context): Step[] {
         /** A derived function based on the query, used to evaluate each row of the table. */
         const query = FunctionDefinition.make(
             undefined,
@@ -166,7 +166,7 @@ export default class Delete extends Expression {
 
         return [
             new Start(this),
-            ...this.table.compile(context),
+            ...this.table.compile(evaluator, context),
             ...getIteration<DeleteState, this>(
                 this,
                 // Initialize a keep list and a counter as we iterate through the rows.
