@@ -25,8 +25,6 @@ import type Locale from '@locale/Locale';
 import SimpleExpression from './SimpleExpression';
 import NameException from '@values/NameException';
 import NodeRef from '@locale/NodeRef';
-import Evaluate from './Evaluate';
-import StreamDefinitionType from './StreamDefinitionType';
 import Sym from './Sym';
 import concretize, { type TemplateInput } from '../locale/concretize';
 import Glyphs from '../lore/Glyphs';
@@ -225,13 +223,7 @@ export default class Reference extends SimpleExpression {
             const reaction = context
                 .getRoot(this)
                 ?.getAncestors(this)
-                ?.find(
-                    (n) =>
-                        n instanceof Reaction ||
-                        (n instanceof Evaluate &&
-                            n.fun.getType(context) instanceof
-                                StreamDefinitionType)
-                );
+                ?.find((n) => n instanceof Reaction);
             const validCircularReference =
                 reaction !== undefined &&
                 context
