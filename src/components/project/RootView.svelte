@@ -23,6 +23,7 @@
     import Program from '@nodes/Program';
     import { languages } from '../../db/Database';
     import TextLiteral from '../../nodes/TextLiteral';
+    import FormattedLiteral from '../../nodes/FormattedLiteral';
 
     export let node: Node;
     /** Optional space; if not provided, all nodes are rendered with preferred space. */
@@ -94,10 +95,11 @@
             for (const tagged of node
                 .nodes()
                 .filter(
-                    (n): n is Names | Docs | TextLiteral =>
+                    (n): n is Names | Docs | TextLiteral | FormattedLiteral =>
                         n instanceof Names ||
                         n instanceof Docs ||
-                        n instanceof TextLiteral
+                        n instanceof TextLiteral ||
+                        n instanceof FormattedLiteral
                 )) {
                 // Get all the names or docs
                 const tags = tagged.getTags();
