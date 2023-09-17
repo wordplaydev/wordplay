@@ -37,7 +37,7 @@
                           selectedLocales.indexOf(locale) + 1
                       ),
                   ]
-            : [...selectedLocales, locale];
+            : [locale, ...selectedLocales];
 
         // Set the layout and direction based on the preferred language.
         if (selectedLocales.length > 0) {
