@@ -38,7 +38,7 @@
     import Pointer from '../../input/Pointer';
     import Place from '../../output/Place';
     import moveOutput, { addStageContent } from '../palette/editOutput';
-    import { getPlace } from '../../output/getPlace';
+    import { getOrCreatePlace } from '../../output/getOrCreatePlace';
     import { SvelteComponent, afterUpdate, beforeUpdate } from 'svelte';
     import Placement from '../../input/Placement';
     import { toExpression } from '../../parser/parseExpression';
@@ -446,7 +446,7 @@
                     ? renderedFocus
                     : // If there's selected output, it's the first output selected, and it has a place
                     $selectedOutput && $selectedOutput.length > 0
-                    ? getPlace(
+                    ? getOrCreatePlace(
                           project,
                           $locale,
                           $selectedOutput[0],

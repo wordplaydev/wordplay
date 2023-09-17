@@ -806,14 +806,22 @@ export default class Project {
         name: string,
         value: Expression | undefined
     ): [Evaluate, Evaluate | undefined][] {
-        return evaluates.map((evaluate) => [
-            evaluate,
-            evaluate.withBindAs(
-                name,
-                value?.clone(),
-                this.getNodeContext(evaluate)
-            ),
-        ]);
+        return evaluates.map((evaluate) => {
+            // Find the bind corresponding to the name.
+            const context = this.getNodeContext(evaluate);
+            const fun = evaluate.getFunction(context);
+            const bind = fun?.inputs.find((bind) => bind.hasName(name));
+            return bind
+                ? [
+                      evaluate,
+                      evaluate.withBindAs(
+                          bind,
+                          value?.clone(),
+                          this.getNodeContext(evaluate)
+                      ),
+                  ]
+                : [evaluate, evaluate];
+        });
     }
 
     /** Get all the languages used in the project */
