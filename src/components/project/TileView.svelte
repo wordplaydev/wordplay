@@ -357,7 +357,7 @@
         flex-wrap: nowrap;
         align-items: center;
         min-width: max-content;
-        gap: calc(var(--wordplay-spacing) / 2);
+        gap: calc(var(--wordplay-spacing));
     }
 
     .footer {

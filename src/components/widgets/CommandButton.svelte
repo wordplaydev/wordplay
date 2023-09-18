@@ -16,7 +16,6 @@
     export let command: Command;
     export let token = false;
     export let focusAfter = false;
-    export let padding = true;
 
     const editors = getEditors();
 
@@ -40,7 +39,6 @@
     tip={command.description($locale) + ` (${toShortcut(command)})`}
     bind:view
     uiid={command.uiid}
-    {padding}
     {active}
     action={async () => {
         const hadFocus = view !== undefined && document.activeElement === view;
