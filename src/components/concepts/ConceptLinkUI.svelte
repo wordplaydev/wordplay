@@ -89,7 +89,6 @@
 {#if concept}<Button
         action={navigate}
         tip={concretize($locale, $locale.ui.docs.link, longName).toText()}
-        padding={false}
         ><span class="conceptlink interactive"
             >{#if label}{label}{:else}<span class="long">{longName}</span
                 >{#if symbolicName !== longName && symbolic}<sub

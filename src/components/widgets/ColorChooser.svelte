@@ -122,7 +122,6 @@
                     [lightness, chroma, hue] = color;
                     lightness /= 100;
                 }}
-                padding={false}
                 ><div
                     class="color"
                     style:background={new ColorJS(

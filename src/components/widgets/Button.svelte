@@ -12,7 +12,6 @@
     export let view: HTMLButtonElement | undefined = undefined;
     export let large = false;
     export let background = false;
-    export let padding = true;
 
     async function doAction(event: Event) {
         if (active) {
@@ -29,7 +28,6 @@
     class:background
     class:scale
     class:large
-    class:padding
     data-uiid={uiid}
     class={classes}
     type={submit ? 'submit' : 'button'}
@@ -71,10 +69,6 @@
         height: fit-content;
         white-space: nowrap;
         transition: transform calc(var(--animation-factor) * 200ms);
-    }
-
-    button.padding {
-        padding: calc(var(--wordplay-spacing) / 2);
     }
 
     button.stretch {
