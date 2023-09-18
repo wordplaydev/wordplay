@@ -59,7 +59,7 @@ test.each([
     ],
     [
         'x: ƒ(num…•#) a - b\nx(1 2 3)',
-        'x: ƒ(num…•"") a - b\nx(1 2 3)',
+        'x: ƒ(num…•"") num[1]  b\nx(1 2 3)',
         Evaluate,
         IncompatibleInput,
     ],

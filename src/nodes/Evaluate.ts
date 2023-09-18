@@ -8,7 +8,7 @@ import NotInstantiable from '@conflicts/NotInstantiable';
 import StructureType from './StructureType';
 import Expression, { ExpressionKind } from './Expression';
 import type Token from './Token';
-import Type from './Type';
+import type Type from './Type';
 import type Evaluator from '@runtime/Evaluator';
 import type Value from '@values/Value';
 import Evaluation from '@runtime/Evaluation';
@@ -487,14 +487,16 @@ export default class Evaluate extends Expression {
                 if (given instanceof Bind && !expected.sharesName(given))
                     return [new MisplacedInput(fun, this, expected, given)];
 
+                // Concretize the expected type.
+                const expectedType = getConcreteExpectedType(
+                    fun,
+                    expected,
+                    this,
+                    context
+                );
+
                 // Figure out what type this expected input is. Resolve any type variables to concrete values.
                 if (given instanceof Expression) {
-                    const expectedType = getConcreteExpectedType(
-                        fun,
-                        expected,
-                        this,
-                        context
-                    );
                     const givenType = given.getType(context);
                     if (!expectedType.accepts(givenType, context, given))
                         conflicts.push(
@@ -514,9 +516,9 @@ export default class Evaluate extends Expression {
                         const lastType = given[0].getType(context);
                         if (
                             lastType instanceof ListType &&
-                            expected instanceof ListType &&
+                            expectedType instanceof ListType &&
                             (lastType.type === undefined ||
-                                expected.type?.accepts(lastType.type, context))
+                                expectedType.accepts(lastType.type, context))
                         )
                             isVariableListInput = true;
                     }
@@ -526,14 +528,15 @@ export default class Evaluate extends Expression {
                         for (const item of given) {
                             const givenType = item.getType(context);
                             if (
-                                expected.type instanceof Type &&
-                                !expected.type.accepts(givenType, context)
+                                expectedType instanceof ListType &&
+                                expectedType.type &&
+                                !expectedType.type.accepts(givenType, context)
                             )
                                 conflicts.push(
                                     new IncompatibleInput(
                                         item,
                                         givenType,
-                                        expected.type
+                                        expectedType.type
                                     )
                                 );
                         }

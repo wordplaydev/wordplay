@@ -91,13 +91,14 @@ export default class Bind extends Expression {
         docs: Docs | undefined,
         names: Names,
         type?: Type,
-        value?: Expression
+        value?: Expression,
+        variable = false
     ) {
         return new Bind(
             docs,
             undefined,
             names instanceof Names ? names : Names.make(names),
-            undefined,
+            variable ? new Token(ETC_SYMBOL, Sym.Etc) : undefined,
             type === undefined ? undefined : new TypeToken(),
             type,
             value === undefined ? undefined : new BindToken(),

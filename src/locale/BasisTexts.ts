@@ -117,6 +117,10 @@ type BasisTexts = {
             cos: FunctionText<[]>;
             /** See `en-US.json` for documentation  */
             sin: FunctionText<[]>;
+            /** See `en-US.json` for documentation  */
+            min: FunctionText<[NameAndDoc]>;
+            /** See `en-US.json` for documentation  */
+            max: FunctionText<[NameAndDoc]>;
         };
         /** Conversions in the type */
         conversion: {

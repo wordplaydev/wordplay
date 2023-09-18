@@ -29,9 +29,9 @@ export default class TypeVariable extends Node {
         this.computeChildren();
     }
 
-    static make(names: string[], type?: Type | undefined) {
+    static make(names: Names | string[], type?: Type | undefined) {
         return new TypeVariable(
-            Names.make(names),
+            names instanceof Names ? names : Names.make(names),
             type ? new Token(TYPE_SYMBOL, Sym.Type) : undefined,
             type
         );

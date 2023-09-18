@@ -23,6 +23,7 @@ import { getNameLocales } from '@locale/getNameLocales';
 import type Expression from '../nodes/Expression';
 import type Locale from '../locale/Locale';
 import type { FunctionText, NameAndDoc } from '../locale/Locale';
+import ListType from '../nodes/ListType';
 
 export default function bootstrapNumber(locales: Locale[]) {
     const subtractNames = getNameLocales(
@@ -118,6 +119,71 @@ export default function bootstrapNumber(locales: Locale[]) {
                     )
                 );
             }
+        );
+    }
+
+    function createVariableOp(
+        nameAndDoc: (locale: Locale) => NameAndDoc,
+        input: (locale: Locale) => NameAndDoc,
+        evaluator: (
+            creator: Expression,
+            values: NumberValue[],
+            unit: Unit
+        ) => NumberValue
+    ) {
+        return FunctionDefinition.make(
+            getDocLocales(locales, (locale) => nameAndDoc(locale).doc),
+            getNameLocales(locales, (locale) => nameAndDoc(locale).names),
+            undefined,
+            [
+                Bind.make(
+                    getDocLocales(locales, (locale) => input(locale).doc),
+                    getNameLocales(locales, (locale) => input(locale).names),
+                    NumberType.make((unit) => unit),
+                    undefined,
+                    true
+                ),
+            ],
+            new InternalExpression(
+                NumberType.make((unit) => unit),
+                [],
+                (requestor: Expression, evaluation: Evaluation): Value => {
+                    const left: Value | Evaluation | undefined =
+                        evaluation.getClosure();
+                    const right = evaluation.getInput(0);
+
+                    // It should be impossible for the left to be a Number, but the type system doesn't know it.
+                    if (!(left instanceof NumberValue))
+                        return evaluation.getValueOrTypeException(
+                            evaluation.getDefinition(),
+                            NumberType.make(),
+                            left
+                        );
+
+                    const numbers = [left];
+
+                    if (right) {
+                        if (!(right instanceof ListValue))
+                            return evaluation.getValueOrTypeException(
+                                evaluation.getDefinition(),
+                                ListType.make(NumberType.make()),
+                                right
+                            );
+                        for (const num of right.values) {
+                            if (!(num instanceof NumberValue))
+                                return evaluation.getValueOrTypeException(
+                                    evaluation.getDefinition(),
+                                    NumberType.make(),
+                                    num
+                                );
+                            numbers.push(num);
+                        }
+                    }
+
+                    return evaluator(requestor, numbers, left.unit);
+                }
+            ),
+            NumberType.make((unit) => unit)
         );
     }
 
@@ -326,6 +392,27 @@ export default function bootstrapNumber(locales: Locale[]) {
                     (locale) => locale.basis.Number.function.sin,
                     NumberType.make((unit) => unit),
                     (requestor, left) => left.sin(requestor)
+                ),
+                // min/max
+                createVariableOp(
+                    (l) => l.basis.Number.function.min,
+                    (l) => l.basis.Number.function.min.inputs[0],
+                    (requestor, numbers, unit) => {
+                        const min = Math.min(
+                            ...numbers.map((val) => val.toNumber())
+                        );
+                        return new NumberValue(requestor, min, unit);
+                    }
+                ),
+                createVariableOp(
+                    (l) => l.basis.Number.function.max,
+                    (l) => l.basis.Number.function.max.inputs[0],
+                    (requestor, numbers, unit) => {
+                        const max = Math.max(
+                            ...numbers.map((val) => val.toNumber())
+                        );
+                        return new NumberValue(requestor, max, unit);
+                    }
                 ),
 
                 createBasisConversion(

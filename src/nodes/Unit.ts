@@ -228,12 +228,10 @@ export default class Unit extends Type {
     isEqualTo(unit: Unit) {
         return (
             unit instanceof Unit &&
-            ((this.exponents.size === 0 && unit.isWildcard()) ||
-                (this.exponents.size === unit.exponents.size &&
-                    Array.from(this.exponents.keys()).every(
-                        (key) =>
-                            this.exponents.get(key) === unit.exponents.get(key)
-                    )))
+            this.exponents.size === unit.exponents.size &&
+            Array.from(this.exponents.keys()).every(
+                (key) => this.exponents.get(key) === unit.exponents.get(key)
+            )
         );
     }
 
@@ -272,9 +270,11 @@ export default class Unit extends Type {
         ]);
     }
 
-    accepts(unit: Unit): boolean {
+    accepts(unit: Type): boolean {
         // Every key in this exists in the given unit and they have the same exponents.
-        return this.isEqualTo(unit);
+        return (
+            unit instanceof Unit && (this.isEqualTo(unit) || this.isWildcard())
+        );
     }
 
     acceptsAll(types: TypeSet): boolean {

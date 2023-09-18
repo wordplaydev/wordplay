@@ -1835,6 +1835,32 @@
                     "doc": ["Compute the sine of me.", "\\π.cos()\\"],
                     "names": ["sin", "sine"],
                     "inputs": []
+                },
+                "min": {
+                    "doc": [
+                        "Find the smallest number of me and others.",
+                        "\\1.min(2 3 -1)\\"
+                    ],
+                    "names": "min",
+                    "inputs": [
+                        {
+                            "doc": "As many numbers as you want to give me!",
+                            "names": "numbers"
+                        }
+                    ]
+                },
+                "max": {
+                    "doc": [
+                        "Find the largest number of me and others.",
+                        "\\1.max(2 3 4)\\"
+                    ],
+                    "names": "max",
+                    "inputs": [
+                        {
+                            "doc": "As many numbers as you want to give me!",
+                            "names": "numbers"
+                        }
+                    ]
                 }
             },
             "conversion": {

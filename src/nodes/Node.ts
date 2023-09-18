@@ -283,7 +283,10 @@ export default abstract class Node {
 
     // BINDINGS
 
-    /** Get the nearest binding scope of this. */
+    /**
+     * Get the nearest binding scopes of this node. By default, there is only one,
+     * but some nodes can generate multiple scopes (e.g., UnionType).
+     */
     getScope(context: Context): Node | undefined {
         return this.getParent(context)?.getScopeOfChild(this, context);
     }

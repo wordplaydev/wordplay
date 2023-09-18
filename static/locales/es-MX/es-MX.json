@@ -1131,7 +1131,27 @@
                     "names": ["cos", "cosine"],
                     "inputs": []
                 },
-                "sin": { "doc": "$?", "names": ["sin", "sine"], "inputs": [] }
+                "sin": { "doc": "$?", "names": ["sin", "sine"], "inputs": [] },
+                "min": {
+                    "doc": "$?",
+                    "names": "$? min",
+                    "inputs": [
+                        {
+                            "doc": "$?",
+                            "names": "$?"
+                        }
+                    ]
+                },
+                "max": {
+                    "doc": "$?",
+                    "names": "$? max",
+                    "inputs": [
+                        {
+                            "doc": "$?",
+                            "names": "$?"
+                        }
+                    ]
+                }
             },
             "conversion": {
                 "text": "$?",
