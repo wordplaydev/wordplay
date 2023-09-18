@@ -273,10 +273,15 @@ export default class Unit extends Type {
     accepts(unit: Type): boolean {
         // Every key in this exists in the given unit and they have the same exponents.
         return (
+            // Is this a unit?
             unit instanceof Unit &&
+            // And...
+            // The units are equal
             (this.isEqualTo(unit) ||
+                // Or this is a wildcard
                 this.isWildcard() ||
-                (unit.isWildcard() && this.isUnitless()))
+                // Or this is unitless and the unit is a wildcard
+                (this.isUnitless() && unit.isWildcard()))
         );
     }
 
