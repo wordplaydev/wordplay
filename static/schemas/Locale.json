@@ -1283,6 +1283,14 @@
                       "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-3223-3469-1127088073-0-7433%5D%3E",
                       "description": "See `en-US.json` for documentation"
                     },
+                    "max": {
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-3223-3469-1127088073-0-7433%5D%3E",
+                      "description": "See `en-US.json` for documentation"
+                    },
+                    "min": {
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-3223-3469-1127088073-0-7433%5D%3E",
+                      "description": "See `en-US.json` for documentation"
+                    },
                     "multiply": {
                       "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-3223-3469-1127088073-0-7433%5D%3E",
                       "description": "See `en-US.json` for documentation"
@@ -1347,7 +1355,9 @@
                     "equal",
                     "notequal",
                     "cos",
-                    "sin"
+                    "sin",
+                    "min",
+                    "max"
                   ],
                   "type": "object"
                 },
