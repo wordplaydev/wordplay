@@ -63,7 +63,10 @@ export default class NumberType extends BasisType {
     }
 
     generalize() {
-        return NumberType.make(this.unit);
+        // Remove the wildcard if it is one.
+        return this.unit instanceof Unit && this.unit.isWildcard()
+            ? NumberType.make()
+            : NumberType.make(this.unit);
     }
 
     getGrammar(): Grammar {

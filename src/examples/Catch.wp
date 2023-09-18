@@ -4,7 +4,7 @@ Catch
 name: Choice()
 caught: ⊥ … ∆ (name) … (name = 'mouse') & ~caught
 ``Every second, move the mouse``
-place:  Place(0m 0m 0m) … ∆ Time(1000ms) … caught ? Place(0m 0m) Place(Random(-2 2) · 1m Random(-2 2) · 1m)
+place:  Place(0m 0m 0m) … ∆ Time(1000ms) … caught ? Place(0m 0m) Place(Random(-2m 2m) Random(-2m 2m))
 
 Stage([
 		💬(

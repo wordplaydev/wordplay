@@ -16,6 +16,7 @@ import type UnaryEvaluate from './UnaryEvaluate';
 import { UnknownVariableType } from './UnknownVariableType';
 import type ConversionDefinition from './ConversionDefinition';
 import type Convert from './Convert';
+import UnionType from './UnionType';
 
 export type EvaluationType = Evaluate | BinaryEvaluate | UnaryEvaluate;
 
@@ -143,12 +144,12 @@ function getConcreteTypeVariable(
     if (!(typeVariable instanceof TypeVariable))
         return new UnknownVariableType(evaluation);
 
-    // First, the easy case: let's see if the evaluate has a type input that defines this type variable.  see if the type for the type variable was provided explicitly in the evaluation.
+    // First, the easy case: let's see if the evaluate has a type input that defines this type variable. See if the type for the type variable was provided explicitly in the evaluation.
     // What is the index of the type variable in the definition?
     const typeVarIndex = definition.types?.variables.findIndex(
         (v) => v === typeVariable
     );
-    if (typeVarIndex && evaluation instanceof Evaluate) {
+    if (typeVarIndex !== undefined && evaluation instanceof Evaluate) {
         const typeInputs = evaluation.getTypeInputs();
         if (
             typeVarIndex >= 0 &&
@@ -194,28 +195,38 @@ function getConcreteTypeVariable(
     // Is there an input whose type is the type variable we're trying to resolve?
     if (evaluation instanceof Evaluate) {
         // See if the definitions have one of the two cases above.
+
+        // First let's find the function input with a variable type.
         const indexOfInputWithVariableType = definition.inputs.findIndex(
-            (i) =>
-                i instanceof Bind &&
-                i.type instanceof NameType &&
-                i.type.isTypeVariable(context) &&
-                typeVariable.hasName(i.type.getName())
+            (input) => {
+                if (input instanceof Bind && input.type !== undefined)
+                    return canBeTypeVariable(typeVariable, input.type, context);
+                else return false;
+            }
         );
-        const indexOfInputWithVariableOutputType = definition.inputs.findIndex(
-            (i) =>
-                i instanceof Bind &&
-                i.type instanceof FunctionType &&
-                i.type.output instanceof NameType &&
-                i.type.output.isTypeVariable(context) &&
-                typeVariable.hasName(i.type.output.getName())
-        );
+
+        // Let's see if any input is a function with a variable output
+        const indexOfFunctionInputWithVariableOutputType =
+            definition.inputs.findIndex((input) => {
+                if (
+                    input instanceof Bind &&
+                    input.type instanceof FunctionType
+                ) {
+                    return canBeTypeVariable(
+                        typeVariable,
+                        input.type.output,
+                        context
+                    );
+                } else return false;
+            });
 
         let inputFromWhichToInferType = -1;
         let inOutput = false;
         if (indexOfInputWithVariableType >= 0)
             inputFromWhichToInferType = indexOfInputWithVariableType;
-        else if (indexOfInputWithVariableOutputType >= 0) {
-            inputFromWhichToInferType = indexOfInputWithVariableOutputType;
+        else if (indexOfFunctionInputWithVariableOutputType >= 0) {
+            inputFromWhichToInferType =
+                indexOfFunctionInputWithVariableOutputType;
             inOutput = true;
         }
 
@@ -263,12 +274,17 @@ function getConcreteTypeVariable(
                 else concreteType = concreteType.output;
             }
 
-            // If we found a type, return it!
-            if (concreteType !== undefined) return concreteType;
+            // If we found a type, generalize and return it! (We generalize so that we don't use constant types)
+            if (concreteType !== undefined)
+                return concreteType.generalize(context);
         }
     }
 
-    // We failed to find the type! Who knows what this type variable refers to.
+    // Finally, if the type variable has a type constraint, just return that. We do this as a last
+    // resort since the inference above is more specific.
+    if (typeVariable.type) return typeVariable.type.generalize(context);
+
+    // We failed to find the type :(
     return new UnknownVariableType(evaluation);
 }
 
@@ -287,4 +303,19 @@ export function getConcreteConversionTypeVariable(
 
     // Not a type variable? Return the type unchanged.
     return concreteTypeCorrespondingToTypeVariable ?? type;
+}
+
+function canBeTypeVariable(
+    variable: TypeVariable,
+    type: Type,
+    context: Context
+) {
+    const types = type instanceof UnionType ? type.enumerate() : [type];
+    // Are any of them type variables with a matching name?
+    return types.some(
+        (type) =>
+            type instanceof NameType &&
+            type.isTypeVariable(context) &&
+            variable.hasName(type.getName())
+    );
 }

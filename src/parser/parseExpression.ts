@@ -811,8 +811,15 @@ function parseConvert(expression: Expression, tokens: Tokens): Convert {
 export function parseTypeVariables(tokens: Tokens): TypeVariables {
     const open = tokens.read(Sym.TypeOpen);
     const variables: TypeVariable[] = [];
-    while (tokens.hasNext() && tokens.nextIs(Sym.Name))
-        variables.push(new TypeVariable(parseNames(tokens)));
+    while (tokens.hasNext() && tokens.nextIs(Sym.Name)) {
+        const names = parseNames(tokens);
+        let dot, type;
+        if (tokens.nextIs(Sym.Type)) {
+            dot = tokens.read(Sym.Type);
+            type = parseType(tokens, false);
+        }
+        variables.push(new TypeVariable(names, dot, type));
+    }
     const close = tokens.nextIs(Sym.TypeClose)
         ? tokens.read(Sym.TypeClose)
         : undefined;
