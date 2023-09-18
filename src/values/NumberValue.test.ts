@@ -92,7 +92,7 @@ test.each([
     ['1.max(0)', '1'],
     ['1.max(2 3)', '3'],
     ['1.max(0 -1)', '1'],
-    ['1m.max()', '1m'],
+    ['1m.max()', '!ValueException'],
 ])('Expect %s to be %s', (code, value) => {
     expect(evaluateCode(code)?.toString()).toBe(value);
 });
