@@ -22,8 +22,8 @@ tick: Time()
 letters•[Letter]: count → [#].translate(
         ƒ(_) Letter(
            "abcdefghijklmnopqrstuvwxyz" → [''].random() 
-            Random(-size size) · 1m
-            Random(0 size + 2m) · 1m
+            Random(-size size)
+            Random(0m size + 2m)
             Random(360)
             Random(-15 15)
             ⊥

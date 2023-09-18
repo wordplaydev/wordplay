@@ -134,12 +134,16 @@ export default class NameType extends Type {
     }
 
     getType(context: Context): Type {
-        // The name should be defined.
         const definition = this.resolve(context);
+        // Not defined? That's an unknown type.
         if (definition === undefined)
             return new UnknownNameType(this, this.name, undefined);
-        else if (definition instanceof TypeVariable)
-            return new VariableType(definition);
+        // Type variable? If it has a constraint, return that type. Otherwise return a variable type.
+        else if (definition instanceof TypeVariable) {
+            if (definition.type) return definition.type;
+            else return new VariableType(definition);
+        }
+        // Some other type? Get the definition's type.
         else return definition.getType(context);
     }
 

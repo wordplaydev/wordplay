@@ -70,6 +70,17 @@ export default class UnionType extends Type {
         ) as this;
     }
 
+    enumerate(): Type[] {
+        return [
+            ...(this.left instanceof UnionType
+                ? this.left.enumerate()
+                : [this.left]),
+            ...(this.right instanceof UnionType
+                ? this.right.enumerate()
+                : [this.right]),
+        ];
+    }
+
     acceptsAll(types: TypeSet, context: Context): boolean {
         // Union types accept a given type T if T is a subset of the union type.
         // For example:
