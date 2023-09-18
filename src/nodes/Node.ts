@@ -344,7 +344,7 @@ export default abstract class Node {
             scope = scope?.getScope(context);
         }
 
-        // Finally, add project and basis definitions.
+        // Finally, implicitly include standard libraries and definitions.
         definitions = definitions.concat(
             context.project.getDefaultShares().all
         );

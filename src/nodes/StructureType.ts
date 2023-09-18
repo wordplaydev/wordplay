@@ -44,6 +44,7 @@ export default class StructureType extends BasisType {
         return this.structure.expression;
     }
 
+    /** Structures have additional scope from its basis type, e.g., the = function and other inherited functionality. */
     getAdditionalBasisScope(context: Context): Node | undefined {
         return super.getScope(context);
     }
