@@ -865,8 +865,8 @@ export default class Evaluator {
             // If there's another Evaluation on the stack, pass the value to it by pushing it onto it's stack.
             if (this.evaluations.length > 0) {
                 this.evaluations[0].pushValue(value);
-                // Remember the value that was evaluated.
-                this.rememberExpressionValue(evaluation.getCreator(), value);
+                // Remember that this creator created this value.
+                this.rememberExpressionValue(value.creator, value);
             }
             // Otherwise, save the value and clean up this final evaluation; nothing left to do!
             else this.end();
