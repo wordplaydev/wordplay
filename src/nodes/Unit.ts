@@ -1,8 +1,4 @@
-import {
-    QUESTION_SYMBOL,
-    EXPONENT_SYMBOL,
-    LANGUAGE_SYMBOL,
-} from '@parser/Symbols';
+import { EXPONENT_SYMBOL, LANGUAGE_SYMBOL } from '@parser/Symbols';
 import { PRODUCT_SYMBOL } from '@parser/Symbols';
 import Dimension from './Dimension';
 import Token from './Token';
@@ -153,11 +149,6 @@ export default class Unit extends Type {
     }
 
     static Empty = new Unit();
-    static Wildcard = (() => {
-        const exp = new Map();
-        exp.set(QUESTION_SYMBOL, 1);
-        return new Unit(exp);
-    })();
 
     getGrammar(): Grammar {
         return [
@@ -218,9 +209,6 @@ export default class Unit extends Type {
         return newUnit;
     }
 
-    isWildcard() {
-        return this.exponents.get('?') === 1;
-    }
     isUnitless() {
         return this.exponents.size === 0;
     }
@@ -278,10 +266,8 @@ export default class Unit extends Type {
             // And...
             // The units are equal
             (this.isEqualTo(unit) ||
-                // Or this is a wildcard
-                this.isWildcard() ||
-                // Or this is unitless and the unit is a wildcard
-                (this.isUnitless() && unit.isWildcard()))
+                // Or this is unitless
+                this.isUnitless())
         );
     }
 
