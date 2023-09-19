@@ -3,7 +3,7 @@ import evaluateCode from '../runtime/evaluate';
 
 test.each([
     ['1•#', '⊤'],
-    ['1s•#', '⊥'],
+    ['1s•#', '⊤'],
     ['1s•#s', '⊤'],
     ['1s•#m', '⊥'],
     ["'hi'•#", '⊥'],

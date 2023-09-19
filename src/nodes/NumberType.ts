@@ -58,15 +58,9 @@ export default class NumberType extends BasisType {
         return [NumberType.make()];
     }
 
-    static wildcard() {
-        return NumberType.make(Unit.Wildcard);
-    }
-
     generalize() {
-        // Remove the wildcard if it is one.
-        return this.unit instanceof Unit && this.unit.isWildcard()
-            ? NumberType.make()
-            : NumberType.make(this.unit);
+        // Remove the specific number, if there is one, but preserve the unit.
+        return NumberType.make(this.unit);
     }
 
     getGrammar(): Grammar {
@@ -130,7 +124,7 @@ export default class NumberType extends BasisType {
 
             // If the units aren't compatible, then the the types aren't compatible.
             if (
-                !(this.unit instanceof Function || this.unit.isWildcard()) &&
+                !(this.unit instanceof Function || this.unit.isUnitless()) &&
                 !thisUnit.accepts(thatUnit)
             )
                 return false;

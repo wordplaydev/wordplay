@@ -7,7 +7,6 @@ import type Locale from '../locale/Locale';
 import { createBasisFunction } from '../basis/Basis';
 import type Evaluation from '../runtime/Evaluation';
 import type Expression from '../nodes/Expression';
-import Unit from '../nodes/Unit';
 import NoneValue from '../values/NoneValue';
 import TypeVariables from '../nodes/TypeVariables';
 import TypeVariable from '../nodes/TypeVariable';
@@ -69,10 +68,7 @@ function toPrecisionRange(
 
 export function createRandomFunction(locales: Locale[]) {
     /** The type variable can be any number type, but nothing else */
-    const NumberTypeVariable = TypeVariable.make(
-        ['Number'],
-        NumberType.make(Unit.Wildcard)
-    );
+    const NumberTypeVariable = TypeVariable.make(['Number'], NumberType.make());
 
     return createBasisFunction(
         locales,

@@ -263,7 +263,7 @@ export default function bootstrapNumber(locales: Locale[]) {
                 createBinaryOp(
                     (locale) => locale.basis.Number.function.multiply,
                     // The operand's type can be any unitless measurement
-                    NumberType.wildcard(),
+                    NumberType.make(),
                     // The output's type is is the unit's product
                     NumberType.make((left, right) =>
                         right ? left.product(right) : left
@@ -273,7 +273,7 @@ export default function bootstrapNumber(locales: Locale[]) {
                 ),
                 createBinaryOp(
                     (locale) => locale.basis.Number.function.divide,
-                    NumberType.wildcard(),
+                    NumberType.make(),
                     NumberType.make((left, right) =>
                         right ? left.quotient(right) : left
                     ),
@@ -282,7 +282,7 @@ export default function bootstrapNumber(locales: Locale[]) {
                 ),
                 createBinaryOp(
                     (locale) => locale.basis.Number.function.remainder,
-                    NumberType.wildcard(),
+                    NumberType.make(),
                     NumberType.make((left) => left),
                     (requestor, left, right) =>
                         left.remainder(requestor, right),
@@ -290,27 +290,27 @@ export default function bootstrapNumber(locales: Locale[]) {
                 ),
                 createUnaryOp(
                     (locale) => locale.basis.Number.function.roundDown,
-                    NumberType.wildcard(),
+                    NumberType.make(),
                     (requestor, left) => left.roundDown(requestor)
                 ),
                 createUnaryOp(
                     (locale) => locale.basis.Number.function.roundUp,
-                    NumberType.wildcard(),
+                    NumberType.make(),
                     (requestor, left) => left.roundUp(requestor)
                 ),
                 createUnaryOp(
                     (locale) => locale.basis.Number.function.positive,
-                    NumberType.wildcard(),
+                    NumberType.make(),
                     (requestor, left) => left.absolute(requestor)
                 ),
                 createUnaryOp(
                     (locale) => locale.basis.Number.function.round,
-                    NumberType.wildcard(),
+                    NumberType.make(),
                     (requestor, left) => left.round(requestor)
                 ),
                 createBinaryOp(
                     (locale) => locale.basis.Number.function.power,
-                    NumberType.wildcard(),
+                    NumberType.make(),
                     NumberType.make((left, right, constant) => {
                         right;
                         return constant === undefined
@@ -322,7 +322,7 @@ export default function bootstrapNumber(locales: Locale[]) {
                 ),
                 createBinaryOp(
                     (locale) => locale.basis.Number.function.root,
-                    NumberType.wildcard(),
+                    NumberType.make(),
                     NumberType.make((left, right, constant) => {
                         right;
                         return constant === undefined
