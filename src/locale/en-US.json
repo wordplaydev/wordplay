@@ -1175,7 +1175,7 @@
             "emotion": "curious",
             "doc": [
                 "I represent a @FunctionDefinition. I'm really helpful if you want to say what kind of function a @Bind holds! Like this:",
-                "\\math•ƒ (# # # #) #?: ƒ interesting(a•# b•# c•# d•#) a + b + c + d\\"
+                "\\math•ƒ (# # # #) #: ƒ interesting(a•# b•# c•# d•#) a + b + c + d\\"
             ]
         },
         "ListType": {

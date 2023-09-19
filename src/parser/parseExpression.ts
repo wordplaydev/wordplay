@@ -359,23 +359,6 @@ export function parseNumber(tokens: Tokens): NumberLiteral {
 
 /** UNIT :: DIMENSION (·DIMENSION)* (/ DIMENSION (·DIMENSION*))? */
 export function parseUnit(tokens: Tokens): Unit | undefined {
-    // Parse a wildcard unit.
-    if (tokens.nextIs(Sym.Conditional)) {
-        return new Unit(
-            undefined,
-            [
-                new Dimension(
-                    undefined,
-                    tokens.read(Sym.Conditional),
-                    undefined,
-                    undefined
-                ),
-            ],
-            undefined,
-            []
-        );
-    }
-
     // A unit is just a series of names, carets, numbers, and product symbols not separated by spaces.
     const numerator: Dimension[] = [];
 

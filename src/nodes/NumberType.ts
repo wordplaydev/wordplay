@@ -144,7 +144,7 @@ export default class NumberType extends BasisType {
     }
 
     concreteUnit(context: Context): Unit {
-        // If it's a concrete unit or a wildcard, just return it.
+        // If it's a concrete unit, just return it.
         if (this.unit instanceof Unit) return this.unit;
 
         // If the unit is derived, then there must be an operation for it.
