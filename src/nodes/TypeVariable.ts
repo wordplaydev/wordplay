@@ -9,6 +9,7 @@ import Type from './Type';
 import Sym from './Sym';
 import Token from './Token';
 import { TYPE_SYMBOL } from '../parser/Symbols';
+import type Definition from './Definition';
 
 export default class TypeVariable extends Node {
     readonly names: Names;
@@ -79,6 +80,11 @@ export default class TypeVariable extends Node {
 
     computeConflicts() {
         return;
+    }
+
+    /** No type variables are ever  */
+    isEquivalentTo(definition: Definition) {
+        return definition === this;
     }
 
     getNodeLocale(translation: Locale) {

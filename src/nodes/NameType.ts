@@ -129,6 +129,18 @@ export default class NameType extends Type {
         );
     }
 
+    /**
+     * Override get scope to skip over all types, so we don't end up with funky infinite loops with
+     * other types that might try to resolve NameType. None of the types that might
+     * contain this can make definitions anyway.
+     */
+    getScope(context: Context): Node | undefined {
+        return context
+            .getRoot(this)
+            ?.getAncestors(this)
+            .find((node) => !(node instanceof Type));
+    }
+
     isTypeVariable(context: Context) {
         return this.resolve(context) instanceof TypeVariable;
     }

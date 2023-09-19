@@ -53,8 +53,15 @@ export default class StructureType extends BasisType {
         return this.structure.getDefinition(name);
     }
 
-    getDefinitions(node: Node): Definition[] {
-        return [...this.structure.getDefinitions(node)];
+    /** Override to include this structure's definitions, but also the base structure definitions (e.g., =, ≠) */
+    getDefinitions(node: Node, context: Context): Definition[] {
+        return [
+            ...this.structure.getDefinitions(node),
+            ...(this.getAdditionalBasisScope(context)?.getDefinitions(
+                node,
+                context
+            ) ?? []),
+        ];
     }
 
     /** Compatible if it's the same structure definition, or the given type is a refinement of the given structure.*/

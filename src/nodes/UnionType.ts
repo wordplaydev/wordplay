@@ -15,6 +15,7 @@ import NoneType from './NoneType';
 import Glyphs from '../lore/Glyphs';
 import NodeRef from '../locale/NodeRef';
 import TypePlaceholder from './TypePlaceholder';
+import type Definition from './Definition';
 
 export default class UnionType extends Type {
     readonly left: Type;
@@ -161,13 +162,32 @@ export default class UnionType extends Type {
         return [];
     }
 
-    /** Override the base class: basis type scopes are their basis structure definitions. */
-    getScope(context: Context): Node | undefined {
-        // Get the scope of the left and right and only return it if it's the same.
-        // Otherwise, there is no overlapping scope.
-        const leftScope = this.left.getScope(context);
-        const rightScope = this.right.getScope(context);
-        return leftScope === rightScope ? leftScope : undefined;
+    getDefinitionsInScope(context: Context): Definition[] {
+        return this.getDefinitions(this, context);
+    }
+
+    /**
+     * Override to search for definitions on both the left and right types, and
+     * find the intersection of both sets, to allow for a degree of polymorphism. */
+    getDefinitions(anchor: Node, context: Context): Definition[] {
+        // Find the list of definitions in scope of each possible type.
+        // We generalize because literal types don't affect available definitions.
+        const definitionSets = this.generalize(context)
+            .getPossibleTypes(context)
+            .map((type) => type.getDefinitions(anchor, context));
+
+        // Find the definitions that intersect across each type's definition list.
+        // Do this by filtering the first set by all definitions for which all other sets have an equivalent definition.
+        // This is what allows for polymorphism.
+        const first = definitionSets[0];
+        const rest = definitionSets.slice(1);
+        return rest.length == 0
+            ? first
+            : first.filter((def1) =>
+                  rest.every((definitions) =>
+                      definitions.some((def2) => def1.isEquivalentTo(def2))
+                  )
+              );
     }
 
     getNodeLocale(translation: Locale) {

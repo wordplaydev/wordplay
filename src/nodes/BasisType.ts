@@ -15,15 +15,26 @@ export default abstract class BasisType extends Type {
             .getStructureDefinition(this.getBasisTypeName());
     }
 
+    /** All types have the structure type's functions. */
+    getAdditionalBasisScope(context: Context): Node | undefined {
+        return context.getBasis().getStructureDefinition('structure');
+    }
+
     /**
-     * Get the in the basis structure definitions.
+     * Get basis functions and the structure type functions.
      */
     getDefinitions(_: Node, context: Context): Definition[] {
-        return (
-            context
+        return [
+            // Get the functions defined on the base type
+            ...(context
                 .getBasis()
                 .getStructureDefinition(this.getBasisTypeName())
-                ?.getDefinitions(this) ?? []
-        );
+                ?.getDefinitions(this) ?? []),
+            // Include the basis scope functions
+            ...(this.getAdditionalBasisScope(context)?.getDefinitions(
+                _,
+                context
+            ) ?? []),
+        ];
     }
 }

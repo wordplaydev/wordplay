@@ -404,6 +404,22 @@ export default class FunctionDefinition extends DefinitionExpression {
         );
     }
 
+    /** True if a name matches, the output matches, and the input type matches. */
+    isEquivalentTo(definition: Definition) {
+        return (
+            definition === this ||
+            (definition instanceof FunctionDefinition &&
+                this.output &&
+                definition.output &&
+                this.names.sharesName(definition.names) &&
+                this.output.isEqualTo(definition.output) &&
+                this.inputs.length === definition.inputs.length &&
+                this.inputs.every((input, index) =>
+                    input.isEqualTo(definition.inputs[index])
+                ))
+        );
+    }
+
     evaluateTypeSet(
         bind: Bind,
         original: TypeSet,
