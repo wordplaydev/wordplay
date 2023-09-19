@@ -420,7 +420,7 @@ export default function bootstrapNumber(locales: Locale[]) {
                         locales,
                         (locale) => locale.basis.Number.conversion.text
                     ),
-                    '#?',
+                    '#',
                     "''",
                     (requestor: Expression, val: NumberValue) =>
                         new TextValue(requestor, val.toString())
