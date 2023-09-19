@@ -473,6 +473,11 @@ export default class StructureDefinition extends DefinitionExpression {
         return this.names;
     }
 
+    /** Only equal if the same structure definition. */
+    isEquivalentTo(definition: Definition) {
+        return definition === this;
+    }
+
     getNodeLocale(locale: Locale) {
         return locale.node.StructureDefinition;
     }

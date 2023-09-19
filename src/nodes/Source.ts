@@ -29,6 +29,7 @@ import Root from './Root';
 import Markup from './Markup';
 import Purpose from '../concepts/Purpose';
 import Tokens from '../parser/Tokens';
+import type Definition from './Definition';
 
 /** A document representing executable Wordplay code and it's various metadata, such as conflicts, tokens, and evaulator. */
 export default class Source extends Expression {
@@ -125,6 +126,11 @@ export default class Source extends Expression {
 
     isEvaluationRoot() {
         return true;
+    }
+
+    /** Only equal if the same source */
+    isEquivalentTo(definition: Definition) {
+        return definition === this;
     }
 
     has(node: Node) {

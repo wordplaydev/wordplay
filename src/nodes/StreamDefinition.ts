@@ -231,6 +231,11 @@ export default class StreamDefinition extends DefinitionExpression {
         return current;
     }
 
+    /** Only equal if the same stream definition. */
+    isEquivalentTo(definition: Definition) {
+        return definition === this;
+    }
+
     getNodeLocale(translation: Locale) {
         return translation.node.StreamDefinition;
     }

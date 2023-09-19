@@ -626,6 +626,17 @@ export default class Bind extends Expression {
         return value;
     }
 
+    /** True if a name and the type matches */
+    isEquivalentTo(definition: Definition) {
+        return (
+            definition instanceof Bind &&
+            this.type &&
+            definition.type &&
+            this.type.isEqualTo(definition.type) &&
+            this.sharesName(definition)
+        );
+    }
+
     getNodeLocale(translation: Locale) {
         return translation.node.Bind;
     }

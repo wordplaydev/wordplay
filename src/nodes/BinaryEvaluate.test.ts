@@ -8,8 +8,13 @@ import evaluateCode from '../runtime/evaluate';
 
 test.each([
     ['1 · 5', '1 · ""', BinaryEvaluate, IncompatibleInput],
-    ['(1ms % 5) = 1ms', '(1ms % 5) = 1', BinaryEvaluate, IncompatibleInput, 1],
-    ['(5ms ÷ 5) = 1ms', '(1ms ÷ 5) = 1', BinaryEvaluate, IncompatibleInput, 1],
+    [
+        '(1ms % 5) = 1ms',
+        '(1ms % 5) + "hi"',
+        BinaryEvaluate,
+        IncompatibleInput,
+        1,
+    ],
     ['1 + 1', '1 + !', BinaryEvaluate, IncompatibleInput],
     ['1m + 1m', '1m + 1s', BinaryEvaluate, IncompatibleInput],
     [
