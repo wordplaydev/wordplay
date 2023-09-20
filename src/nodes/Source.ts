@@ -422,7 +422,7 @@ export default class Source extends Expression {
                 replace.replacement
                     ? newSource.withSpaces(
                           newSource.spaces.withPreferredSpaceForNode(
-                              newSource,
+                              newSource.root,
                               replace.replacement
                           )
                       )
@@ -526,7 +526,7 @@ export default class Source extends Expression {
 
             // Get rendered space prior to the token.
             const renderedSpace = this.spaces.getPreferredTokenSpace(
-                this,
+                this.root,
                 token
             );
             // Get the physical space prior to the token.
@@ -552,7 +552,7 @@ export default class Source extends Expression {
                 index + 1 === tokens.length ||
                     // Or the next token has a line break before it.
                     this.spaces
-                        .getPreferredTokenSpace(this, tokens[index + 1])
+                        .getPreferredTokenSpace(this.root, tokens[index + 1])
                         .includes('\n')
             );
             if (result !== undefined) return result;

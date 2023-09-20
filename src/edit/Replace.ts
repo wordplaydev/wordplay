@@ -85,7 +85,7 @@ export default class Replace<NodeType extends Node> extends Revision {
         if (replacement)
             newSource = newSource.withSpaces(
                 newSource.spaces.withPreferredSpaceForNode(
-                    newSource,
+                    newSource.root,
                     replacement
                 )
             );

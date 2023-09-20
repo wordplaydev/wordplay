@@ -53,7 +53,10 @@ export default class Remove extends Revision {
 
         // Ensure new parent has preferred space
         newSource = newSource.withSpaces(
-            newSource.spaces.withPreferredSpaceForNode(newSource, newParent)
+            newSource.spaces.withPreferredSpaceForNode(
+                newSource.root,
+                newParent
+            )
         );
 
         // Return the new source and place the caret after the replacement.

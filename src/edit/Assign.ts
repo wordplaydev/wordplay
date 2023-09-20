@@ -84,7 +84,10 @@ export default class Assign<NodeType extends Node> extends Revision {
         // Ensure new child has preferred space.
         if (newNode)
             newSource = newSource.withSpaces(
-                newSource.spaces.withPreferredSpaceForNode(newSource, newNode)
+                newSource.spaces.withPreferredSpaceForNode(
+                    newSource.root,
+                    newNode
+                )
             );
 
         // Place the caret at first placeholder or the end of the node in the source.

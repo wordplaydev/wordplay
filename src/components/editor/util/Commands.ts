@@ -970,7 +970,12 @@ const Commands: Command[] = [
         keySymbol: 'X',
         execute: (context) => {
             if (!(context.caret?.position instanceof Node)) return false;
-            copyNode(context.caret.position, context.caret.source.spaces);
+            copyNode(
+                context.caret.position,
+                context.caret.source.spaces.withPreferredSpace(
+                    context.caret.source
+                )
+            );
             return context.caret.backspace();
         },
     },
@@ -988,7 +993,9 @@ const Commands: Command[] = [
             if (!(context.caret?.position instanceof Node)) return false;
             return copyNode(
                 context.caret.position,
-                context.caret.source.spaces
+                context.caret.source.spaces.withPreferredSpace(
+                    context.caret.source
+                )
             );
         },
     },
