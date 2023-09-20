@@ -984,8 +984,11 @@
         // Remove the touch action disabling now that we're moving.
         if (editor) editor.style.removeProperty('touchAction');
 
-        if (evaluator.isPlaying()) handleEditHover(event);
-        else handleDebugHover(event);
+        // Handle an edit
+        handleEditHover(event);
+
+        // Hover debug stuff when paused.
+        if (!evaluator.isPlaying()) handleDebugHover(event);
     }
 
     function handleEditHover(event: PointerEvent) {
