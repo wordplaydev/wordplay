@@ -1055,7 +1055,7 @@
         const [, result] = handleKeyCommand(event, commandContext);
 
         // If something handled it, consume the event.
-        if (result !== false && result !== undefined) {
+        if (result !== false) {
             event.stopPropagation();
             event.preventDefault();
         }

@@ -121,12 +121,12 @@ export function handleKeyCommand(
     // Map meta key to control on Mac OS/iOS.
     const control = event.metaKey || event.ctrlKey;
 
+    let matchedShortcut = false;
+
     // Loop through the commands and see if there's a match to this event.
     for (const command of Commands) {
-        // Does this command match the event?
+        // Does this command's shortcut pattern match the event?
         if (
-            (command.active === undefined ||
-                command.active(context, event.key)) &&
             (command.control === undefined || command.control === control) &&
             (command.shift === undefined || command.shift === event.shiftKey) &&
             (command.alt === undefined || command.alt === event.altKey) &&
@@ -134,12 +134,23 @@ export function handleKeyCommand(
                 command.key === event.code ||
                 command.key === event.key)
         ) {
-            // If so, execute it.
-            const result = command.execute(context, event.key);
-            if (result !== false) return [command, result];
+            // Update matched shortcut to true, since we matched one.
+            matchedShortcut = true;
+
+            // Is the command active? If so, execute it.
+            if (
+                command.active === undefined ||
+                command.active(context, event.key)
+            ) {
+                // If so, execute it.
+                const result = command.execute(context, event.key);
+                if (result !== false) return [command, result];
+            }
         }
     }
-    return [undefined, false];
+    // Didn't execute? Return false if we didn't match anything and let the shortcut travel to the browser.
+    // If we did match something, return undefined, so we consume the shortcut and don't default to a browser shortcut.
+    return [undefined, matchedShortcut ? undefined : false];
 }
 
 export const ShowKeyboardHelp: Command = {
