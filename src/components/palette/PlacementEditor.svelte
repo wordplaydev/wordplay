@@ -32,7 +32,6 @@
         display: flex;
         flex-direction: row;
         flex-wrap: nowrap;
-        font-family: var(--wordplay-code-font);
         width: 100%;
     }
 </style>
