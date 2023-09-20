@@ -1,7 +1,6 @@
 <svelte:options immutable={true} />
 
 <script lang="ts">
-    import { animationFactor } from '../../db/Database';
     import { HighlightTypes, type HighlightType } from './util/Highlights';
     import type { Outline } from './util/outline';
 
@@ -16,9 +15,6 @@
     $: filteredClasses = types
         .filter((type) => HighlightTypes[type] === above)
         .join(' ');
-
-    // Flip back to unignored after the animation so we can give more feedback.
-    $: if (ignored) setTimeout(() => (ignored = false), $animationFactor * 250);
 </script>
 
 <svg
