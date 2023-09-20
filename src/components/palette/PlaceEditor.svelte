@@ -12,6 +12,7 @@
     import { tick } from 'svelte';
     import Button from '../widgets/Button.svelte';
     import type Bind from '../../nodes/Bind';
+    import NumberType from '../../nodes/NumberType';
 
     export let project: Project;
     export let place: Evaluate;
@@ -40,7 +41,7 @@
                     dimension,
                     NumberLiteral.make(
                         value.length === 0 ? 0 : value,
-                        Unit.create(['m'])
+                        getUnit(dimension)
                     ),
                     project.getNodeContext(place)
                 ),
@@ -53,10 +54,22 @@
             view?.focus();
         }
     }
+
+    function getUnit(bind: Bind) {
+        const types =
+            bind.type === undefined
+                ? []
+                : bind.type.getPossibleTypes(project.getNodeContext(place));
+        const unit = types.find(
+            (type): type is NumberType => type instanceof NumberType
+        )?.unit;
+        return unit instanceof Unit ? unit.clone() : undefined;
+    }
 </script>
 
+{project.shares.output.Place.names.getSymbolicName()}
 <div class="place">
-    {project.shares.output.Place.names.getSymbolicName()}{#each project.shares.output.Place.inputs as dimension, index}
+    {#each project.shares.output.Place.inputs as dimension, index}
         {@const given = place?.getInput(
             dimension,
             project.getNodeContext(place)
@@ -75,7 +88,7 @@
                     changed={(value) => handleChange(dimension, value)}
                     bind:view={views[index]}
                 />
-                <Note>m</Note>
+                <Note>{getUnit(dimension)?.toWordplay() ?? ''}</Note>
             {:else}
                 <Note
                     >{$locales.map(
@@ -142,7 +155,7 @@
     .place {
         display: flex;
         flex-direction: row;
-        flex-wrap: nowrap;
+        flex-wrap: wrap;
         gap: var(--wordplay-spacing);
         align-items: baseline;
     }
@@ -150,7 +163,7 @@
     .dimension {
         display: flex;
         flex-direction: row;
-        flex-wrap: no;
+        flex-wrap: wrap;
         align-items: baseline;
         width: 5em;
     }
