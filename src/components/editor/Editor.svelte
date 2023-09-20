@@ -1297,8 +1297,10 @@
             }
 
             // Prevent default keyboard commands from being otherwise handled.
-            event.preventDefault();
-            event.stopPropagation();
+            if (result !== undefined) {
+                event.preventDefault();
+                event.stopPropagation();
+            }
         }
         // Give feedback that we didn't execute a command.
         else if (!/^(Shift|Control|Alt|Meta|Tab)$/.test(event.key))
