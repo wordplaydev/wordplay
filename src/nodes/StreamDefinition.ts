@@ -147,6 +147,20 @@ export default class StreamDefinition extends DefinitionExpression {
         );
     }
 
+    withoutDocs() {
+        return new StreamDefinition(
+            undefined,
+            this.dots,
+            this.names,
+            this.open,
+            this.inputs.map((input) => input.withoutDocs()),
+            this.close,
+            this.expression,
+            this.dot,
+            this.output
+        );
+    }
+
     sharesName(fun: StreamDefinition) {
         return this.names.sharesName(fun.names);
     }
