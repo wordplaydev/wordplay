@@ -99,6 +99,7 @@
     import type Value from '../../values/Value';
     import {
         ShowKeyboardHelp,
+        ToggleBlocksCommand as ToggleBlocks,
         VisibleModifyCommands,
         handleKeyCommand,
     } from '../editor/util/Commands';
@@ -1258,6 +1259,7 @@
                                     <Toggle
                                         tips={$locale.ui.source.toggle.blocks}
                                         on={$blocks}
+                                        command={ToggleBlocks}
                                         toggle={toggleBlocks}>▭</Toggle
                                     >
                                     <!-- Make a Button for every modify command -->

@@ -2,12 +2,14 @@
 
 <script lang="ts">
     import type { ToggleText } from '../../locale/UITexts';
+    import { toShortcut, type Command } from '../editor/util/Commands';
 
     export let tips: ToggleText;
     export let on: boolean;
     export let toggle: () => void;
     export let active = true;
     export let uiid: string | undefined = undefined;
+    export let command: Command | undefined = undefined;
 
     async function doToggle(event: Event) {
         if (active) {
@@ -15,6 +17,10 @@
             event?.stopPropagation();
         }
     }
+
+    $: title = `${on ? tips.on : tips.off}${
+        command ? ' (' + toShortcut(command) + ')' : ''
+    }`;
 </script>
 
 <!-- Note that we don't make the button inactive using "disabled" because that makes
@@ -23,8 +29,8 @@
     type="button"
     data-uiid={uiid}
     class:on
-    title={on ? tips.on : tips.off}
-    aria-label={on ? tips.on : tips.off}
+    {title}
+    aria-label={title}
     aria-disabled={!active}
     aria-pressed={on}
     on:dblclick|stopPropagation
