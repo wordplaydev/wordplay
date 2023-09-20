@@ -65,9 +65,9 @@
         {@const value =
             given instanceof Expression ? getNumber(given) : undefined}
         <div class="dimension">
-            {#if value !== undefined}
+            {#if value !== undefined || given == undefined}
                 <TextField
-                    text={`${value}`}
+                    text={`${value ?? 0}`}
                     validator={valid}
                     {editable}
                     placeholder={dimension.names.getNames()[0]}
