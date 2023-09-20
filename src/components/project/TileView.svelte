@@ -25,6 +25,7 @@
     import Glyphs from '../../lore/Glyphs';
     import Color from '../../output/Color';
     import Toggle from '../widgets/Toggle.svelte';
+    import { EnterFullscreen, ExitFullscreen } from '../editor/util/Commands';
 
     export let tile: Tile;
     export let layout: Layout;
@@ -217,6 +218,7 @@
                 <Toggle
                     tips={$locale.ui.tile.toggle.fullscreen}
                     on={fullscreen}
+                    command={fullscreen ? ExitFullscreen : EnterFullscreen}
                     toggle={() =>
                         dispatch('fullscreen', {
                             fullscreen: !fullscreen,

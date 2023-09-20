@@ -491,6 +491,18 @@ export const FocusCycle: Command = {
         context.focusOrCycleTile ? context.focusOrCycleTile() : false,
 };
 
+export const ToggleBlocksCommand: Command = {
+    symbol: '▭',
+    description: (l) => l.ui.source.toggle.blocks.on,
+    visible: Visibility.Invisible,
+    category: Category.Modify,
+    shift: true,
+    alt: true,
+    control: true,
+    key: 'Enter',
+    execute: ({ toggleBlocks }) => (toggleBlocks ? toggleBlocks() : false),
+};
+
 const Commands: Command[] = [
     {
         symbol: '↑',
@@ -900,17 +912,7 @@ const Commands: Command[] = [
         execute: ({ database, evaluator }) =>
             database.Projects.undoRedo(evaluator.project.id, 1) !== undefined,
     },
-    {
-        symbol: '▭',
-        description: (l) => l.ui.source.toggle.blocks.on,
-        visible: Visibility.Invisible,
-        category: Category.Modify,
-        shift: true,
-        alt: true,
-        control: true,
-        key: 'Enter',
-        execute: ({ toggleBlocks }) => (toggleBlocks ? toggleBlocks() : false),
-    },
+    ToggleBlocksCommand,
     {
         symbol: '↲',
         description: (l) => l.ui.source.cursor.insertLine,
