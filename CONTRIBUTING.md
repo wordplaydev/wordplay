@@ -33,7 +33,7 @@ This guide is always evolving, so [write Amy](mailto:ajko@uw.edu) if you have id
 
 ## Choose a role (~1 hour)
 
-There are many ways to contribute to the project. Here are the onboardings we've sketched out so far:
+There are many ways to contribute to the project. Here are the roles we've sketched out so far:
 
 -   [Design](contributing/design.md)
 -   [Development](contributing/development.md)
@@ -42,6 +42,11 @@ There are many ways to contribute to the project. Here are the onboardings we've
 -   [Curation](contributing/curation.md)
 -   [Management](contributing/management.md)
 
-Pick one of those, carefully read through all of it, ask questions in #wordplay about it. If it sounds like something you want to do, or learn to do, follow the guidance in those documents to contribute. It's okay if they all seem a bit overwhelming. There's a lot to learn, but that's okay! You've got a whole community of people here ot help.
+Pick one of those, carefully read through all of it, ask questions in #wordplay about it. If it sounds like something you want to do, or learn to do, then:
 
-And if you want to do something else, talk to Amy and we'll figure it out.
+1. Find the corresponding team [on GitHub](https://github.com/orgs/wordplaydev/teams) and send a request to join it.
+2. Follow the guidance in the corresponding document above to contribute.
+
+It's okay to be overwhelmed at this point. There's a lot to learn, but that's okay! You've got a whole community of people here ot help.
+
+And if you want to do something else, talk to Amy and we'll figure it out!
