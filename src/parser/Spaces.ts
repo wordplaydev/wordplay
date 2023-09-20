@@ -1,8 +1,8 @@
 import Token from '@nodes/Token';
 import type Node from '@nodes/Node';
 import type Source from '@nodes/Source';
-import type TokenList from './TokenList';
-import type Root from '@nodes/Root';
+import TokenList from './TokenList';
+import Root from '@nodes/Root';
 
 export const TAB_WIDTH = 2;
 export const SPACE_HTML = '&middot;';
@@ -248,30 +248,47 @@ export default class Spaces {
         for (const token of source.getTokens()) {
             newSpace.#spaces.set(
                 token,
-                this.getPreferredTokenSpace(source, token)
+                this.getPreferredTokenSpace(source.root, token)
+            );
+        }
+        return newSpace;
+    }
+
+    /** Given some arbitrary node, generate spaces that pretty print it */
+    static withPreferredSpace(node: Node): Spaces {
+        const tokens = new TokenList(
+            node.nodes().filter((node): node is Token => node instanceof Token),
+            new Map()
+        );
+        const root = new Root(node);
+        const newSpace = new Spaces(tokens, new Map());
+        for (const token of tokens.getTokens()) {
+            newSpace.#spaces.set(
+                token,
+                newSpace.getPreferredTokenSpace(root, token)
             );
         }
         return newSpace;
     }
 
     /** Create a version of this that pretty prints the given node */
-    withPreferredSpaceForNode(source: Source, node: Node) {
+    withPreferredSpaceForNode(root: Root, node: Node) {
         const newSpace = new Spaces(this.root, this.#spaces);
         for (const token of node
             .nodes()
             .filter((n): n is Token => n instanceof Token)) {
             newSpace.#spaces.set(
                 token,
-                this.getPreferredTokenSpace(source, token)
+                this.getPreferredTokenSpace(root, token)
             );
         }
         return newSpace;
     }
 
-    getPreferredTokenSpace(source: Source, token: Token) {
+    getPreferredTokenSpace(root: Root, token: Token) {
         const currentSpace = this.getSpace(token);
         const preferred = Spaces.getPreferredPrecedingSpace(
-            source.root,
+            root,
             currentSpace,
             token
         );
