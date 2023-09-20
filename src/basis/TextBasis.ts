@@ -16,6 +16,7 @@ import type Expression from '@nodes/Expression';
 import type Locale from '../locale/Locale';
 import type { FunctionText, NameAndDoc } from '../locale/Locale';
 import ListType from '../nodes/ListType';
+import AnyType from '../nodes/AnyType';
 
 export default function bootstrapText(locales: Locale[]) {
     function createBinaryTextFunction<OutputType extends Value>(
@@ -94,11 +95,41 @@ export default function bootstrapText(locales: Locale[]) {
                         );
                     }
                 ),
-                createBinaryTextFunction(
+                createBasisFunction(
+                    locales,
                     (locale) => locale.basis.Text.function.equals,
-                    (requestor, text, input) =>
-                        new BoolValue(requestor, text.isEqualTo(input)),
-                    BooleanType.make()
+                    undefined,
+                    [new AnyType()],
+                    BooleanType.make(),
+                    (requestor, evaluation) => {
+                        const text = evaluation.getClosure() as TextValue;
+                        const input = evaluation.getInput(0);
+                        if (input === undefined)
+                            return evaluation.getValueOrTypeException(
+                                requestor,
+                                TextType.make(),
+                                input
+                            );
+                        return new BoolValue(requestor, text.isEqualTo(input));
+                    }
+                ),
+                createBasisFunction(
+                    locales,
+                    (locale) => locale.basis.Text.function.notequals,
+                    undefined,
+                    [new AnyType()],
+                    BooleanType.make(),
+                    (requestor, evaluation) => {
+                        const text = evaluation.getClosure() as TextValue;
+                        const input = evaluation.getInput(0);
+                        if (input === undefined)
+                            return evaluation.getValueOrTypeException(
+                                requestor,
+                                TextType.make(),
+                                input
+                            );
+                        return new BoolValue(requestor, !text.isEqualTo(input));
+                    }
                 ),
                 createBinaryTextFunction(
                     (locale) => locale.basis.Text.function.notequals,

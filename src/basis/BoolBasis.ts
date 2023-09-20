@@ -12,6 +12,7 @@ import type Expression from '../nodes/Expression';
 import type Locale from '../locale/Locale';
 import type { FunctionText, NameAndDoc } from '../locale/Locale';
 import type Type from '../nodes/Type';
+import AnyType from '../nodes/AnyType';
 
 export default function bootstrapBool(locales: Locale[]) {
     function createBooleanFunction(
@@ -88,13 +89,13 @@ export default function bootstrapBool(locales: Locale[]) {
                 ),
                 createBooleanFunction(
                     (locale) => locale.basis.Boolean.function.equals,
-                    [BooleanType.make()],
+                    [new AnyType()],
                     (requestor, left, right) =>
                         new BoolValue(requestor, left.isEqualTo(right))
                 ),
                 createBooleanFunction(
                     (locale) => locale.basis.Boolean.function.notequal,
-                    [BooleanType.make()],
+                    [new AnyType()],
                     (requestor, left, right) =>
                         new BoolValue(requestor, !left.isEqualTo(right))
                 ),

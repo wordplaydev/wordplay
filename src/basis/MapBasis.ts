@@ -24,6 +24,7 @@ import NumberValue from '@values/NumberValue';
 import TextType from '../nodes/TextType';
 import SetType from '../nodes/SetType';
 import ListType from '../nodes/ListType';
+import AnyType from '../nodes/AnyType';
 
 export default function bootstrapMap(locales: Locale[]) {
     const KeyTypeVariableNames = getNameLocales(
@@ -77,7 +78,7 @@ export default function bootstrapMap(locales: Locale[]) {
                     locales,
                     (locale) => locale.basis.Map.function.equals,
                     undefined,
-                    [MapType.make()],
+                    [new AnyType()],
                     BooleanType.make(),
                     (requestor, evaluation) => {
                         const map = evaluation?.getClosure();
@@ -97,7 +98,7 @@ export default function bootstrapMap(locales: Locale[]) {
                     locales,
                     (locale) => locale.basis.Map.function.notequals,
                     undefined,
-                    [MapType.make()],
+                    [new AnyType()],
                     BooleanType.make(),
                     (requestor, evaluation) => {
                         const map = evaluation?.getClosure();

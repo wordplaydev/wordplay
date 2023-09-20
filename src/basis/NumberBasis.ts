@@ -24,6 +24,7 @@ import type Expression from '../nodes/Expression';
 import type Locale from '../locale/Locale';
 import type { FunctionText, NameAndDoc } from '../locale/Locale';
 import ListType from '../nodes/ListType';
+import AnyType from '../nodes/AnyType';
 
 export default function bootstrapNumber(locales: Locale[]) {
     const subtractNames = getNameLocales(
@@ -370,14 +371,14 @@ export default function bootstrapNumber(locales: Locale[]) {
                 createBinaryOp(
                     (locale) => locale.basis.Number.function.equal,
                     NumberType.make((unit) => unit),
-                    BooleanType.make(),
+                    new AnyType(),
                     (requestor, left, right) =>
                         new BoolValue(requestor, left.isEqualTo(right))
                 ),
                 createBinaryOp(
                     (locale) => locale.basis.Number.function.notequal,
                     NumberType.make((unit) => unit),
-                    BooleanType.make(),
+                    new AnyType(),
                     (requestor, left, right) =>
                         new BoolValue(requestor, !left.isEqualTo(right))
                 ),
