@@ -1,4 +1,4 @@
-# Manager
+# Management
 
 So you want to help manage the project? That's great! There's a lot to manage.
 

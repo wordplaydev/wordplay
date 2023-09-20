@@ -27,7 +27,7 @@ Now that you're set up, there are a few things you should start with:
 
 1.  Go through the Wordplay tutorial to learn the language and get used to the interface.
 2.  Make a few Wordplay programs to get used to what's possible to create with it.
-3.  Ask question in #wordplay about things you don't understand. The tutorial isn't perfect
+3.  Ask question in #wordplay about things you don't understand. The tutorial isn't perfect, so asking questions is good; it helps us identify gaps in the tutorial so we can improve it.
 
 This guide is always evolving, so [write Amy](mailto:ajko@uw.edu) if you have ideas for how to improve it.
 
@@ -37,7 +37,7 @@ There are many ways to contribute to the project. Here are the onboardings we've
 
 -   [Design](contributing/design.md)
 -   [Development](contributing/development.md)
--   [Verification](contributing/development.md)
+-   [Verification](contributing/verification.md)
 -   [Localization](contributing/localization.md)
 -   [Curation](contributing/curation.md)
 -   [Management](contributing/management.md)
