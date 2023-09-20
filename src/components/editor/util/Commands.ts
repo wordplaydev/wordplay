@@ -116,7 +116,8 @@ export function handleKeyCommand(
     context: CommandContext
 ): [
     Command | undefined,
-    Edit | Promise<Edit | undefined> | boolean | undefined | void
+    Edit | Promise<Edit | undefined> | boolean | undefined | void,
+    boolean
 ] {
     // Map meta key to control on Mac OS/iOS.
     const control = event.metaKey || event.ctrlKey;
@@ -144,13 +145,13 @@ export function handleKeyCommand(
             ) {
                 // If so, execute it.
                 const result = command.execute(context, event.key);
-                if (result !== false) return [command, result];
+                if (result !== false) return [command, result, true];
             }
         }
     }
     // Didn't execute? Return false if we didn't match anything and let the shortcut travel to the browser.
     // If we did match something, return undefined, so we consume the shortcut and don't default to a browser shortcut.
-    return [undefined, matchedShortcut ? undefined : false];
+    return [undefined, false, matchedShortcut];
 }
 
 export const ShowKeyboardHelp: Command = {

@@ -1052,10 +1052,10 @@
             dragged.set(undefined);
 
         // See if there's a command that matches...
-        const [, result] = handleKeyCommand(event, commandContext);
+        const [, result, matched] = handleKeyCommand(event, commandContext);
 
         // If something handled it, consume the event.
-        if (result !== false) {
+        if (result !== false || matched) {
             event.stopPropagation();
             event.preventDefault();
         }
