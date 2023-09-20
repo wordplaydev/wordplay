@@ -1138,9 +1138,9 @@
         if (original) Projects.reviseProject(original);
     }
 
-    /** Copy the project, track it, then gotoProject(). */
+    /** Copy the project, make it private, track it, then gotoProject(). */
     function copy() {
-        const copy = project.copy();
+        const copy = project.copy().asPublic(false);
         Projects.track(copy, true, PersistenceType.Online, false);
         goto(getProjectLink(copy, false));
     }
