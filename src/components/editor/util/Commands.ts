@@ -136,7 +136,8 @@ export function handleKeyCommand(
                 command.key === event.key)
         ) {
             // Update matched shortcut to true, since we matched one.
-            matchedShortcut = true;
+            // The only one that doesn't count is the insert symbol catch all.
+            if (command !== InsertSymbol) matchedShortcut = true;
 
             // Is the command active? If so, execute it.
             if (
@@ -501,6 +502,20 @@ export const ToggleBlocks: Command = {
     control: true,
     key: 'Enter',
     execute: ({ toggleBlocks }) => (toggleBlocks ? toggleBlocks() : false),
+};
+
+/** The command to rule them all... inserts things */
+export const InsertSymbol: Command = {
+    symbol: 'a',
+    description: (l) => l.ui.source.cursor.type,
+    visible: Visibility.Invisible,
+    category: Category.Modify,
+    control: false,
+    shift: undefined,
+    alt: false,
+    typing: true,
+    execute: ({ caret }, key) =>
+        caret && key.length === 1 ? caret.insert(key) : false,
 };
 
 const Commands: Command[] = [
@@ -1031,25 +1046,15 @@ const Commands: Command[] = [
     },
     IncrementLiteral,
     DecrementLiteral,
-    /** The command to rule them all... inserts things */
-    {
-        symbol: 'a',
-        description: (l) => l.ui.source.cursor.type,
-        visible: Visibility.Invisible,
-        category: Category.Modify,
-        control: false,
-        shift: undefined,
-        alt: false,
-        typing: true,
-        execute: ({ caret }, key) =>
-            caret && key.length === 1 ? caret.insert(key) : false,
-    },
     ShowKeyboardHelp,
     FocusOutput,
     FocusSource,
     FocusDocs,
     FocusPalette,
     FocusCycle,
+
+    // The catch all
+    InsertSymbol,
 ];
 
 const TouchSupported =
