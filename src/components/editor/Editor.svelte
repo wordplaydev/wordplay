@@ -1296,11 +1296,9 @@
                 handleEdit(result, idle, true);
             }
 
-            // Prevent default keyboard commands from being otherwise handled.
-            if (result !== undefined) {
-                event.preventDefault();
-                event.stopPropagation();
-            }
+            // Prevent default keyboard commands from being otherwise handled, since they were handled here.
+            event.preventDefault();
+            event.stopPropagation();
         }
         // Give feedback that we didn't execute a command.
         else if (!/^(Shift|Control|Alt|Meta|Tab)$/.test(event.key))
