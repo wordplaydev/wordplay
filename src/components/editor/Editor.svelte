@@ -69,6 +69,7 @@
     import {
         DB,
         Projects,
+        animationFactor,
         blocks,
         locale,
         locales,
@@ -223,6 +224,7 @@
     }
 
     async function evalUpdate() {
+        // No evaluator, or we're playing? No need to update the eval editor info.
         if (evaluator === undefined || evaluator.isPlaying()) return;
 
         // If the program contains this node, scroll it's first token into view.
@@ -509,6 +511,17 @@
             }
         }
     });
+
+    function setIgnored(ignored: boolean) {
+        if (ignored) {
+            lastKeyDownIgnored = true;
+            // Flip back to unignored after the animation so we can give more feedback.
+            setTimeout(
+                () => (lastKeyDownIgnored = false),
+                $animationFactor * 250
+            );
+        } else lastKeyDownIgnored = false;
+    }
 
     function getNodeView(node: Node): HTMLElement | undefined {
         // See if there's a node or value view that corresponds to this node.
@@ -1145,7 +1158,7 @@
                         .withCaret(newSource, newCaret.position)
                 );
                 caret.set(newCaret.withSource(newSource));
-            } else lastKeyDownIgnored = true;
+            } else setIgnored(true);
         } else {
             // Remove the addition, since the caret moved since being added.
             caret.set(newCaret.withoutAddition());
@@ -1165,7 +1178,7 @@
     let replacePreviousWithNext = false;
 
     function handleTextInput(event: Event) {
-        lastKeyDownIgnored = false;
+        setIgnored(false);
 
         let edit: Edit | undefined = undefined;
 
@@ -1243,7 +1256,7 @@
 
         // Did we make an update?
         if (edit) handleEdit(edit, IdleKind.Typing, true);
-        else lastKeyDownIgnored = true;
+        else setIgnored(true);
     }
 
     function handleKeyDown(event: KeyboardEvent) {
@@ -1251,7 +1264,7 @@
         if (editor === null) return;
 
         // Assume we'll handle it.
-        lastKeyDownIgnored = false;
+        setIgnored(false);
 
         // If it was a dead key, don't handle it as a command, just remember that it was
         // a dead key, then let the input event above insert it.
@@ -1289,7 +1302,7 @@
         }
         // Give feedback that we didn't execute a command.
         else if (!/^(Shift|Control|Alt|Meta|Tab)$/.test(event.key))
-            lastKeyDownIgnored = true;
+            setIgnored(true);
     }
 
     function getInputID() {
