@@ -433,7 +433,7 @@ export default function bootstrapList(locales: Locale[]) {
                     locales,
                     (locale) => locale.basis.List.function.equals,
                     undefined,
-                    [ListType.make()],
+                    [new AnyType()],
                     BooleanType.make(),
                     (requestor, evaluation) => {
                         const list = evaluation.getClosure();
@@ -457,7 +457,7 @@ export default function bootstrapList(locales: Locale[]) {
                     locales,
                     (locale) => locale.basis.List.function.notequals,
                     undefined,
-                    [ListType.make()],
+                    [new AnyType()],
                     BooleanType.make(),
                     (requestor, evaluation) => {
                         const list = evaluation.getClosure();

@@ -22,6 +22,7 @@ import NumberType from '../nodes/NumberType';
 import NumberValue from '@values/NumberValue';
 import ListType from '../nodes/ListType';
 import TextType from '../nodes/TextType';
+import AnyType from '../nodes/AnyType';
 
 export default function bootstrapSet(locales: Locale[]) {
     const SetTypeVariableNames = getNameLocales(
@@ -70,7 +71,7 @@ export default function bootstrapSet(locales: Locale[]) {
                     locales,
                     (locale) => locale.basis.Set.function.equals,
                     undefined,
-                    [SetType.make()],
+                    [new AnyType()],
                     BooleanType.make(),
                     (requestor, evaluation) => {
                         const set = evaluation?.getClosure();
@@ -90,7 +91,7 @@ export default function bootstrapSet(locales: Locale[]) {
                     locales,
                     (locale) => locale.basis.Set.function.notequals,
                     undefined,
-                    [SetType.make()],
+                    [new AnyType()],
                     BooleanType.make(),
                     (requestor, evaluation) => {
                         const set = evaluation?.getClosure();

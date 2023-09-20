@@ -21,7 +21,7 @@ export default function bootstrapNone(locales: Locale[]) {
         expression: (
             requestor: Expression,
             left: NoneValue,
-            right: NoneValue
+            right: Value
         ) => Value
     ) {
         return createBasisFunction(
@@ -41,7 +41,7 @@ export default function bootstrapNone(locales: Locale[]) {
                         left
                     );
 
-                if (!(right instanceof NoneValue))
+                if (right === undefined)
                     return evaluation.getValueOrTypeException(
                         requestor,
                         NoneType.None,
@@ -73,20 +73,14 @@ export default function bootstrapNone(locales: Locale[]) {
                 createNoneFunction(
                     locales,
                     (locale) => locale.basis.None.function.equals,
-                    (
-                        requestor: Expression,
-                        left: NoneValue,
-                        right: NoneValue
-                    ) => new BoolValue(requestor, left.isEqualTo(right))
+                    (requestor: Expression, left: NoneValue, right: Value) =>
+                        new BoolValue(requestor, left.isEqualTo(right))
                 ),
                 createNoneFunction(
                     locales,
                     (locale) => locale.basis.None.function.notequals,
-                    (
-                        requestor: Expression,
-                        left: NoneValue,
-                        right: NoneValue
-                    ) => new BoolValue(requestor, !left.isEqualTo(right))
+                    (requestor: Expression, left: NoneValue, right: Value) =>
+                        new BoolValue(requestor, !left.isEqualTo(right))
                 ),
             ],
             BlockKind.Structure

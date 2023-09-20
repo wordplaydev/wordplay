@@ -13,7 +13,7 @@ export type BasisTypeName =
     | 'set'
     | 'map'
     | 'table'
-    | 'structure'
+    | typeof StructureTypeName
     | 'column'
     | 'stream'
     | 'streamdefinition'
@@ -24,3 +24,5 @@ export type BasisTypeName =
     | 'name'
     | 'formatted'
     | 'internal';
+
+export const StructureTypeName = 'structure';

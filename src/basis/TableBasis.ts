@@ -24,6 +24,7 @@ import TextType from '../nodes/TextType';
 import TextValue from '../values/TextValue';
 import TypeVariables from '../nodes/TypeVariables';
 import TypeVariable from '../nodes/TypeVariable';
+import AnyType from '../nodes/AnyType';
 
 export default function bootstrapTable(locales: Locale[]) {
     /** This type variable represents the StructureDefinition of a row. */
@@ -71,7 +72,7 @@ export default function bootstrapTable(locales: Locale[]) {
                         locales,
                         (locale) => locale.basis.Table.function.equals.inputs
                     ),
-                    [TableType.make()],
+                    [new AnyType()],
                     new InternalExpression(
                         BooleanType.make(),
                         [],
@@ -100,7 +101,7 @@ export default function bootstrapTable(locales: Locale[]) {
                         locales,
                         (locale) => locale.basis.Table.function.notequal.inputs
                     ),
-                    [TableType.make()],
+                    [new AnyType()],
                     new InternalExpression(
                         BooleanType.make(),
                         [],
