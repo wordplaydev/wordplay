@@ -4,6 +4,8 @@ import type TypeSet from './TypeSet';
 import type Locale from '@locale/Locale';
 import type StreamDefinition from './StreamDefinition';
 import Glyphs from '../lore/Glyphs';
+import { STREAM_SYMBOL } from '../parser/Symbols';
+import type Spaces from '../parser/Spaces';
 
 export default class StreamDefinitionType extends Type {
     readonly definition: StreamDefinition;
@@ -32,6 +34,10 @@ export default class StreamDefinitionType extends Type {
         });
     }
 
+    simplify() {
+        return new StreamDefinitionType(this.definition.withoutDocs());
+    }
+
     getBasisTypeName(): BasisTypeName {
         return 'function';
     }
@@ -40,8 +46,12 @@ export default class StreamDefinitionType extends Type {
         return new StreamDefinitionType(this.definition) as this;
     }
 
-    toWordplay() {
-        return this.definition.toWordplay();
+    /** Mirror StreamType */
+    toWordplay(_: Spaces | undefined, locale: Locale) {
+        return `${STREAM_SYMBOL}${this.definition.output.toWordplay(
+            _,
+            locale
+        )}`;
     }
 
     getNodeLocale(translation: Locale) {
