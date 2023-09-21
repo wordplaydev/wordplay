@@ -16,6 +16,7 @@ import Source from '../nodes/Source';
 import type Node from '../nodes/Node';
 import { DOCS_SYMBOL } from '../parser/Symbols';
 import Project from '../models/Project';
+import { tokenize } from '../parser/Tokenizer';
 
 // Read in and compile the two schema
 const localeSchema = JSON.parse(
@@ -244,6 +245,25 @@ function verifyLocale(locale: Locale, warnUnwritten: boolean) {
             //         path
             //     )}: "${unparsables.map((u) => u.toWordplay()).join(', ')}"`
             // ).toBe(0);
+        }
+        // Is one or more names? Make sure they're valid names or operator symbols.
+        else if (key === 'names') {
+            const names = Array.isArray(value) ? value : [value];
+            for (const name of names) {
+                const token = tokenize(
+                    name.replace('$?').trim()
+                ).getTokens()[0];
+                if (
+                    token === undefined ||
+                    !(token.isName() || token.isSymbol(Sym.Operator))
+                )
+                    bad(
+                        2,
+                        `Name ${name} is not a valid name, it's a ${token
+                            .getTypes()
+                            .join(', ')}`
+                    );
+            }
         }
         // If it's not a doc, assume it's a template string and try to parse it as a template.
         // If we can't, complain.
