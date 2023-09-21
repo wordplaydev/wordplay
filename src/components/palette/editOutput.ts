@@ -109,7 +109,7 @@ export default function moveOutput(
                                                       .add(horizontal)
                                                       .toNumber()
                                                 : horizontal,
-                                            Unit.create(['m'])
+                                            Unit.meters()
                                         ),
                                   y instanceof Expression &&
                                   yValue === undefined
@@ -120,15 +120,12 @@ export default function moveOutput(
                                                       .add(vertical)
                                                       .toNumber()
                                                 : vertical,
-                                            Unit.create(['m'])
+                                            Unit.meters()
                                         ),
                                   z instanceof Expression &&
                                   zValue !== undefined
                                       ? z
-                                      : NumberLiteral.make(
-                                            0,
-                                            Unit.create(['m'])
-                                        ),
+                                      : NumberLiteral.make(0, Unit.meters()),
                               ]
                           ),
                           ctx
@@ -172,10 +169,10 @@ export function addContent(
                   Evaluate.make(
                       project.shares.output.Rectangle.getReference(locales),
                       [
-                          NumberLiteral.make(-5, Unit.create(['m'])),
-                          NumberLiteral.make(0, Unit.create(['m'])),
-                          NumberLiteral.make(5, Unit.create(['m'])),
-                          NumberLiteral.make(-1, Unit.create(['m'])),
+                          NumberLiteral.make(-5, Unit.meters()),
+                          NumberLiteral.make(0, Unit.meters()),
+                          NumberLiteral.make(5, Unit.meters()),
+                          NumberLiteral.make(-1, Unit.meters()),
                       ]
                   ),
               ]),

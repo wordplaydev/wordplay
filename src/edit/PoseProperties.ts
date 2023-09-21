@@ -81,9 +81,9 @@ export default function getPoseProperties(
                         project.shares.output.Place
                     ),
                     [
-                        NumberLiteral.make(0, Unit.create(['m'])),
-                        NumberLiteral.make(0, Unit.create(['m'])),
-                        NumberLiteral.make(0, Unit.create(['m'])),
+                        NumberLiteral.make(0, Unit.meters()),
+                        NumberLiteral.make(0, Unit.meters()),
+                        NumberLiteral.make(0, Unit.meters()),
                     ]
                 )
         ),

@@ -31,7 +31,7 @@ export default function getPhraseProperties(
             false,
             false,
             (expr) => expr instanceof NumberLiteral,
-            () => NumberLiteral.make('10', Unit.create(['m']))
+            () => NumberLiteral.make('10', Unit.meters())
         ),
         new OutputProperty(
             locale.output.Phrase.alignment,
