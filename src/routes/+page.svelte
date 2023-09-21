@@ -9,6 +9,7 @@
     import Glyphs from '../lore/Glyphs';
     import Emotion from '../lore/Emotion';
     import MarkupHtmlView from '../components/concepts/MarkupHTMLView.svelte';
+    import Link from '../components/app/Link.svelte';
 </script>
 
 <svelte:head>
@@ -31,7 +32,13 @@
     </div>
     {#if PUBLIC_CONTEXT === 'prod'}
         <p
-            >Coming Fall 2023. Write <a href="https://amyjko.com">Amy</a> for details.</p
+            >Coming Fall 2023. Write <Link external to="https://amyjko.com"
+                >Amy</Link
+            > for details, or see our <Link
+                external
+                to="https://github.com/wordplaydev/wordplay/milestone/1"
+                >progress toward beta</Link
+            >.</p
         >
     {:else}
         <BigLink to="/learn" subtitle={$locale.ui.page.landing.link.learn}
