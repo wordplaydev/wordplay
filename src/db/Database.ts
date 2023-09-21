@@ -115,7 +115,7 @@ export class Database {
         }
     }
 
-    /** Start listening tothe Firebase Auth user changes */
+    /** Start listening to the Firebase Auth user changes */
     login(callback: (use: User | null) => void) {
         if (auth === undefined) return;
         // Keep the user store in sync.

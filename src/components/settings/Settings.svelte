@@ -83,7 +83,9 @@
     <Warning>
         <Link to="/login">
             <span class="user"
-                >{$user ? $user.email : $locale.ui.page.login.anonymous}</span
+                >{$user && $user.email
+                    ? $user.email
+                    : $locale.ui.page.login.anonymous}</span
             >
         </Link>
     </Warning>

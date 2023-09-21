@@ -39,15 +39,13 @@
     }
 
     onMount(() => {
-        if (PUBLIC_CONTEXT === 'prod') goto('/');
-
         // Force default font to load
         Fonts.loadFace('Noto Sans');
 
         // Show only after fonts are loaded, to prevent font jiggle.
         document.fonts.ready.then(() => (loaded = true));
 
-        // Login the user
+        // Listen for logged in users.
         DB.login((newUser) => user.set(newUser));
 
         // Wait a second before showing loading
@@ -58,6 +56,9 @@
             DB.clean();
         };
     });
+
+    // Are we pre-beta in prod? Always go back to the beginning.
+    $: if ($page && PUBLIC_CONTEXT === 'prod') goto('/');
 
     function prefersDark() {
         return (
@@ -75,7 +76,7 @@
     }
 </script>
 
-{#if PUBLIC_CONTEXT !== 'prod' || $page.route.id === '/'}
+{#if $page.route.id === '/'}
     <div
         class:dark={$dark}
         style:--animation-factor={$animationFactor}
