@@ -58,7 +58,7 @@
     });
 
     // Are we pre-beta in prod? Always go back to the beginning.
-    $: if ($page && PUBLIC_CONTEXT === 'prod') goto('/');
+    $: if (browser && $page && PUBLIC_CONTEXT === 'prod') goto('/');
 
     function prefersDark() {
         return (
