@@ -76,32 +76,27 @@
     }
 </script>
 
-{#if $page.route.id === '/'}
-    <div
-        class:dark={$dark}
-        style:--animation-factor={$animationFactor}
-        style:--wordplay-app-font={Array.from(
-            new Set([
-                ...$locales.map((locale) => locale.ui.font.app),
-                'Noto Emoji',
-            ])
-        )
-            .map((font) => `"${font}"`)
-            .join(', ')}
-        style:--wordplay-code-font={Array.from(
-            new Set([
-                ...$locales.map((locale) => locale.ui.font.code),
-                'Noto Mono',
-                'Noto Emoji',
-            ])
-        )
-            .map((font) => `"${font}"`)
-            .join(', ')}
-        lang={$languages[0]}
-    >
-        <slot />
-        {#if !loaded && lag}
-            <Loading />
-        {/if}
-    </div>
-{/if}
+<div
+    class:dark={$dark}
+    style:--animation-factor={$animationFactor}
+    style:--wordplay-app-font={Array.from(
+        new Set([...$locales.map((locale) => locale.ui.font.app), 'Noto Emoji'])
+    )
+        .map((font) => `"${font}"`)
+        .join(', ')}
+    style:--wordplay-code-font={Array.from(
+        new Set([
+            ...$locales.map((locale) => locale.ui.font.code),
+            'Noto Mono',
+            'Noto Emoji',
+        ])
+    )
+        .map((font) => `"${font}"`)
+        .join(', ')}
+    lang={$languages[0]}
+>
+    <slot />
+    {#if !loaded && lag}
+        <Loading />
+    {/if}
+</div>
