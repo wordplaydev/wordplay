@@ -61,7 +61,7 @@ enum Sym {
 
     // These are the only operators eligible for unary, binary, or teriary notation.
     // We’ve included them for consistency with math notation and readability.
-    Operator = 'binary',
+    Operator = 'operator',
     Conditional = '?',
 
     // Also supports escapes with \to encode various characters
