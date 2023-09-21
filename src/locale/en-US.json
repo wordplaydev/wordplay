@@ -3498,7 +3498,7 @@
         },
         "Velocity": {
             "doc": "I'm a location on @Stage. All my inputs are optional, because I'm at the center by default.",
-            "names": ["↗", "Velocity"],
+            "names": ["💨", "Velocity"],
             "x": {
                 "doc": "How many meters to move each second on the x-axis.",
                 "names": "x"
