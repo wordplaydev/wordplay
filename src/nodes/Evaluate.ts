@@ -877,6 +877,8 @@ export default class Evaluate extends Expression {
         const bindings = new Map<Names, Value>();
         for (let i = 0; i < inputs.length; i++) {
             const bind = inputs[i];
+
+            // Are we missing an input? Throw an excpected value exception.
             if (i >= values.length) return new ValueException(evaluator, this);
 
             // If it's variable length, take the rest of the values and stop.

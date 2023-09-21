@@ -79,7 +79,7 @@ export function getTypeOutputProperties(
             false,
             true,
             (expr) => expr instanceof NumberLiteral,
-            () => NumberLiteral.make(1, Unit.create(['m']))
+            () => NumberLiteral.make(1, Unit.meters())
         ),
         new OutputProperty(
             locale.output.Phrase.face,
@@ -116,9 +116,9 @@ export function getTypeOutputProperties(
                         project.shares.output.Place
                     ),
                     [
-                        NumberLiteral.make(0, Unit.create(['m'])),
-                        NumberLiteral.make(0, Unit.create(['m'])),
-                        NumberLiteral.make(0, Unit.create(['m'])),
+                        NumberLiteral.make(0, Unit.meters()),
+                        NumberLiteral.make(0, Unit.meters()),
+                        NumberLiteral.make(0, Unit.meters()),
                     ]
                 )
         ),

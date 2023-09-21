@@ -118,15 +118,12 @@ export function createPlacementDefinition(
         [
             NameType.make(PlaceName),
             Evaluate.make(Reference.make(PlaceName), [
-                NumberLiteral.make(0, Unit.create(['m'])),
-                NumberLiteral.make(0, Unit.create(['m'])),
-                NumberLiteral.make(0, Unit.create(['m'])),
+                NumberLiteral.make(0, Unit.meters()),
+                NumberLiteral.make(0, Unit.meters()),
+                NumberLiteral.make(0, Unit.meters()),
             ]),
         ],
-        [
-            NumberType.make(Unit.create(['m'])),
-            NumberLiteral.make(1, Unit.create(['m'])),
-        ],
+        [NumberType.make(Unit.meters()), NumberLiteral.make(1, Unit.meters())],
         [BooleanType.make(), BooleanLiteral.make(true)],
         [BooleanType.make(), BooleanLiteral.make(true)],
         [BooleanType.make(), BooleanLiteral.make(false)],

@@ -387,4 +387,8 @@ export default class Unit extends Type {
                 : this.toWordplay(),
         ];
     }
+
+    static meters() {
+        return Unit.create(['m']);
+    }
 }
