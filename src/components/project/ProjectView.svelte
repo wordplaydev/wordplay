@@ -73,7 +73,6 @@
     import type Caret from '../../edit/Caret';
     import GlyphChooser from '../editor/GlyphChooser.svelte';
     import Timeline from '../evaluator/Timeline.svelte';
-    import Painting from '../output/Painting.svelte';
     import type PaintingConfiguration from '../output/PaintingConfiguration';
     import {
         DB,
@@ -1243,9 +1242,11 @@
                                             action={() => stopPlaying()}
                                             >{EDIT_SYMBOL}</Button
                                         >{/if}
-                                    {#if !$evaluation.evaluator.isPlaying()}<Painting
+                                    <!-- {#if !$evaluation.evaluator.isPlaying()}
+                                    <Painting
                                             bind:painting
-                                        />{/if}<Toggle
+                                        />{/if} -->
+                                    <Toggle
                                         tips={$locale.ui.output.toggle.grid}
                                         on={grid}
                                         toggle={() => (grid = !grid)}>▦</Toggle
