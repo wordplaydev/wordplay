@@ -12,16 +12,19 @@ import {
     PUBLIC_FIREBASE_PROJECT_ID,
     PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
     PUBLIC_FIREBASE_APP_ID,
+    PUBLIC_FIREBASE_MEASUREMENT_ID,
 } from '$env/static/public';
 import {
     connectFunctionsEmulator,
     getFunctions,
     type Functions,
 } from 'firebase/functions';
+import { getAnalytics, type Analytics } from 'firebase/analytics';
 
 let auth: Auth | undefined = undefined;
 let firestore: Firestore | undefined = undefined;
 let functions: Functions | undefined = undefined;
+let analytics: Analytics | undefined = undefined;
 try {
     if (PUBLIC_FIREBASE_API_KEY.length > 0) {
         const firebaseConfig = {
@@ -30,6 +33,7 @@ try {
             projectId: PUBLIC_FIREBASE_PROJECT_ID,
             messagingSenderId: PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
             appId: PUBLIC_FIREBASE_APP_ID,
+            measurementId: PUBLIC_FIREBASE_MEASUREMENT_ID,
         };
 
         // Initialize Firebase
@@ -39,6 +43,7 @@ try {
         auth = getAuth(app);
         firestore = getFirestore(app);
         functions = getFunctions(app);
+        analytics = getAnalytics(app);
 
         // Initialize emulator if environment is local.
         if (PUBLIC_CONTEXT === 'local') {
@@ -55,3 +60,4 @@ try {
 export { auth };
 export { firestore };
 export { functions };
+export { analytics };

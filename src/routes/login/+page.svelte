@@ -10,7 +10,7 @@
         updateEmail,
     } from 'firebase/auth';
     import { FirebaseError } from 'firebase/app';
-    import { auth, firestore } from '@db/firebase';
+    import { analytics, auth, firestore } from '@db/firebase';
     import { onMount } from 'svelte';
     import { DB, Projects, locale } from '../../db/Database';
     import Feedback from '../../components/app/Feedback.svelte';
@@ -18,6 +18,7 @@
     import validateEmail from '../../db/validEmail';
     import Spinning from '../../components/app/Spinning.svelte';
     import Link from '../../components/app/Link.svelte';
+    import { logEvent } from 'firebase/analytics';
 
     let user = getUser();
     let email: string;
@@ -73,6 +74,9 @@
                         .then(() => {
                             window.localStorage.removeItem('email');
                             success = true;
+
+                            // Log login
+                            if (analytics) logEvent(analytics, 'login');
                         })
                         .catch((err) => communicateLoginFailure(err));
                 }
