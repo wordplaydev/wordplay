@@ -67,7 +67,7 @@ export const getWebpage = functions.https.onRequest(
             console.log('Invalid URL: ' + url);
             response.json('invalid-url');
         } else {
-            const result = await new Promise((resolve) => {
+            const result: string = await new Promise((resolve) => {
                 lib.get(url, (resp) => {
                     const contentType = resp.headers['content-type'];
                     if (resp.statusCode !== 200) {
@@ -96,6 +96,9 @@ export const getWebpage = functions.https.onRequest(
                     resolve('not-available');
                 });
             });
+
+            // Set the content length header.
+            response.set('Content-Length', `${new Blob([result]).size}`);
 
             // Send the HTML back as text.
             response.json(result);
