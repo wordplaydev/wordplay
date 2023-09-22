@@ -109,11 +109,15 @@
     }
 
     .background {
-        background: var(--wordplay-inactive-color);
+        background: var(--wordplay-alternating-color);
         border-radius: var(--wordplay-border-radius);
+        padding: var(--wordplay-spacing);
+        border: var(--wordplay-border-width) solid var(--wordplay-border-color);
     }
 
     button.background:hover[aria-disabled='false'] {
         transform: rotate(-2deg);
+        background: var(--wordplay-chrome);
+        border-color: var(--wordplay-alternating-color);
     }
 </style>
