@@ -324,16 +324,14 @@ export class Database {
     }
 
     /** Utility function for getting URL from server */
-    async getHTML(url: string): Promise<string | undefined> {
+    async getHTML(url: string): Promise<Response | undefined> {
         // Ask the server to get the URL
         try {
-            return (
-                await fetch(
-                    `${
-                        import.meta.hot ? 'localhost:5002' : ''
-                    }/function/getWebpage?url=${encodeURI(url)}`
-                )
-            ).text();
+            return await fetch(
+                `${
+                    import.meta.hot ? 'http://127.0.0.1:5002' : ''
+                }/function/getWebpage?url=${encodeURI(url)}`
+            );
         } catch (_) {
             return undefined;
         }

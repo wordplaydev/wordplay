@@ -10,7 +10,6 @@ import StreamType from '../nodes/StreamType';
 import createStreamEvaluator from './createStreamEvaluator';
 import type Locale from '../locale/Locale';
 import ListValue from '../values/ListValue';
-import NoneValue from '../values/NoneValue';
 import ListType from '../nodes/ListType';
 import TextLiteral from '../nodes/TextLiteral';
 import NumberType from '../nodes/NumberType';
@@ -27,8 +26,23 @@ import type ExceptionValue from '../values/ExceptionValue';
  * 1) an HTML string (text), converted into a list of text
  * 2) an HTTP error code string defined below
  * 3) undefined, which means loading
+ *
+ *
+ * Note: testing this is tricky because of CORS and because Vite and Firebase use different
+ * local host ports. Here's a setup that works. even though its slower:
+ * - Run the Firebase emulator (npm run emu)
+ * - Build the app
+ * - Visit http://127.0.0.1:5002
+ * - Make a program that uses Webpage
+ * - Responses should not be blocked by CORS, because they're routed through the same port.
  */
-type FetchResponse = { url: string; response: string | undefined };
+type FetchResponse = {
+    url: string;
+    // The response can be a string response, a percent complete, or an error string
+    response: FetchResponseValue;
+};
+
+type FetchResponseValue = string | number | { error: string };
 
 const FetchErrors = {
     'invalid-url': (locale: Locale) => locale.input.Webpage.error.invalid,
@@ -43,7 +57,7 @@ export type FetchError = keyof typeof FetchErrors;
 
 /** Raw inputs are either an HTML string or a HTTP response code number */
 export default class Webpage extends StreamValue<
-    ListValue | NoneValue | ExceptionValue,
+    ListValue | NumberValue | ExceptionValue,
     FetchResponse
 > {
     url: string;
@@ -60,8 +74,9 @@ export default class Webpage extends StreamValue<
         super(
             evaluator,
             evaluator.project.shares.input.Webpage,
-            new NoneValue(evaluator.project.shares.input.Webpage),
-            { url, response: undefined }
+            // Percent loaded starts at 0
+            new NumberValue(evaluator.project.shares.input.Webpage, 0),
+            { url, response: 0 }
         );
 
         this.url = url.trim();
@@ -79,58 +94,67 @@ export default class Webpage extends StreamValue<
         // Cache the response
         URLResponseCache.set(event.url, { response: event, time: Date.now() });
 
-        // See if it's an error, and if so, produce an exception.
-        const error = FetchErrors[event.response as FetchError];
-        if (error)
+        // Is it a progress percent?
+        if (typeof event.response === 'number') {
             return this.add(
-                new MessageException(
-                    this.evaluator.project.shares.input.Webpage,
-                    this.evaluator,
-                    error(this.evaluator.getLocales()[0])
-                ),
+                new NumberValue(this.creator, `${event.response}%`),
                 event
             );
-
-        if (event.response === undefined) {
-            return this.add(new NoneValue(this.creator), event);
         }
-        try {
-            const doc = new DOMParser().parseFromString(
-                event.response,
-                'text/html'
-            );
-            const text = (
-                this.query === ''
-                    ? getTextInNode(doc.body)
-                    : Array.from(doc.querySelectorAll(this.query)).map((n) =>
-                          n instanceof HTMLElement ? n.innerText : ''
-                      )
-            )
-                .map((t) =>
-                    t.replaceAll('\\n', '').replaceAll('\\t', '').trim()
+        // Is it a string
+        else if (typeof event.response === 'string') {
+            try {
+                const doc = new DOMParser().parseFromString(
+                    event.response,
+                    'text/html'
+                );
+                const text = (
+                    this.query === ''
+                        ? getTextInNode(doc.body)
+                        : Array.from(doc.querySelectorAll(this.query)).map(
+                              (n) =>
+                                  n instanceof HTMLElement ? n.innerText : ''
+                          )
                 )
-                .filter((t) => t !== '')
-                .map((t) => new TextValue(this.creator, t));
-            return this.add(new ListValue(this.creator, text), event);
-        } catch (error) {
-            console.error(
-                error !== null &&
-                    typeof error === 'object' &&
-                    'message' in error &&
-                    typeof error.message === 'string'
-                    ? error.message
-                    : '?'
-            );
-            this.add(
-                new MessageException(
-                    this.creator,
-                    this.evaluator,
-                    FetchErrors['unparsable' as FetchError](
-                        this.evaluator.getLocales()[0]
+                    .map((t) =>
+                        t.replaceAll('\\n', '').replaceAll('\\t', '').trim()
                     )
-                ),
-                event
-            );
+                    .filter((t) => t !== '')
+                    .map((t) => new TextValue(this.creator, t));
+                return this.add(new ListValue(this.creator, text), event);
+            } catch (error) {
+                console.error(
+                    error !== null &&
+                        typeof error === 'object' &&
+                        'message' in error &&
+                        typeof error.message === 'string'
+                        ? error.message
+                        : '?'
+                );
+                this.add(
+                    new MessageException(
+                        this.creator,
+                        this.evaluator,
+                        FetchErrors['unparsable' as FetchError](
+                            this.evaluator.getLocales()[0]
+                        )
+                    ),
+                    event
+                );
+            }
+        }
+        // It's an error, produce an exception.
+        else {
+            const error = FetchErrors[event.response.error as FetchError];
+            if (error)
+                return this.add(
+                    new MessageException(
+                        this.evaluator.project.shares.input.Webpage,
+                        this.evaluator,
+                        error(this.evaluator.getLocales()[0])
+                    ),
+                    event
+                );
         }
     }
 
@@ -152,9 +176,9 @@ export default class Webpage extends StreamValue<
         const cache = URLResponseCache.get(this.url);
 
         // Less than a minute old? Reuse it.
-        let html: string | undefined;
+        let response: FetchResponseValue;
         if (cache && Date.now() - cache.time < 1000 * 60) {
-            html = cache.response.response;
+            response = cache.response.response;
         } else {
             // Not a valid URL?
             if (
@@ -162,7 +186,7 @@ export default class Webpage extends StreamValue<
                     this.url
                 )
             ) {
-                html = 'no-connection';
+                response = 'no-connection';
             }
 
             // Update request data for this domain.
@@ -202,14 +226,79 @@ export default class Webpage extends StreamValue<
                 counts.count > 1000 ||
                 (elapsed > 0 && counts.count / elapsed > 10 * 1000)
             ) {
-                html = 'reached-limit';
+                response = { error: 'reached-limit' };
                 return;
             } else {
-                html = await this.evaluator.database.getHTML(this.url);
+                // Get the response object from the fetch.
+                const fetchResponse = await this.evaluator.database.getHTML(
+                    this.url
+                );
+
+                // Get a reader from the response
+                if (
+                    fetchResponse === undefined ||
+                    fetchResponse.body === null ||
+                    fetchResponse.headers === null
+                ) {
+                    response = { error: 'no-connection' };
+                } else {
+                    // Get a response reader
+                    const reader = fetchResponse.body.getReader();
+
+                    // Get the total length, if available.
+                    const contentLengthText =
+                        fetchResponse.headers.get('Content-Length');
+                    const contentLength =
+                        contentLengthText !== null
+                            ? parseInt(contentLengthText)
+                            : undefined;
+
+                    // Read the data in a series of promises
+                    let receivedLength = 0; // received that many bytes at the moment
+                    const chunks: Uint8Array[] = []; // array of received binary chunks (comprises the body)
+                    const done = false;
+                    while (done === false) {
+                        const { done, value } = await reader.read();
+
+                        if (done) break;
+
+                        // Save the array
+                        chunks.push(value);
+                        // Add the length
+                        receivedLength += value.length;
+
+                        // Add a percent complete to the stream
+                        this.react({
+                            url: this.url,
+                            response:
+                                contentLength === undefined
+                                    ? 0
+                                    : 100 * (receivedLength / contentLength),
+                        });
+                    }
+
+                    // Concatenate chunks into single Uint8Array
+                    const chunksAll = new Uint8Array(receivedLength);
+                    let position = 0;
+                    for (const chunk of chunks) {
+                        chunksAll.set(chunk, position);
+                        position += chunk.length;
+                    }
+
+                    // Decode into a UTF-8 string and set it as the response.
+                    response = new TextDecoder('utf-8').decode(chunksAll);
+                }
             }
         }
 
-        this.react({ url: this.url, response: html ?? 'no-connection' });
+        this.react({
+            url: this.url,
+            response:
+                // The server returns errors as plan strings
+                typeof response === 'string' && response in FetchErrors
+                    ? { error: response }
+                    : response,
+        });
 
         // Get it again in the next period.
         this.resetTimeout();
