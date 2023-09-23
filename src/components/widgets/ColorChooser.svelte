@@ -121,6 +121,7 @@
                 action={() => {
                     [lightness, chroma, hue] = color;
                     lightness /= 100;
+                    broadcast();
                 }}
                 ><div
                     class="color"
@@ -139,8 +140,10 @@
             increment={0.01}
             tip={getFirstName($locale.output.Color.lightness.names)}
             unit={'%'}
+            precision={0}
             change={(value) => {
-                lightness = value;
+                console.log(value.toNumber());
+                lightness = value.toNumber();
                 broadcast();
             }}
             {editable}
@@ -153,7 +156,7 @@
             unit=""
             tip={getFirstName($locale.output.Color.chroma.names)}
             change={(value) => {
-                chroma = Math.round(value);
+                chroma = value.round().toNumber();
                 broadcast();
             }}
             {editable}
@@ -166,7 +169,7 @@
             unit={'°'}
             tip={getFirstName($locale.output.Color.hue.names)}
             change={(value) => {
-                hue = Math.round(value);
+                hue = value.round().toNumber();
                 broadcast();
             }}
             {editable}

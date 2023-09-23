@@ -25,7 +25,7 @@
         ? getColorValue($project.shares.output.Color.inputs[1]) ?? 0
         : 0;
     $: hue = $project
-        ? getColorValue($project.shares.output.Color.inputs[1]) ?? 0
+        ? getColorValue($project.shares.output.Color.inputs[2]) ?? 0
         : 0;
 
     // Whenever the slider value changes, revise the Evaluates to match the new value.
@@ -69,11 +69,7 @@
                 );
                 const number =
                     mapping && mapping.given instanceof NumberLiteral
-                        ? mapping.given.getValue().toNumber() *
-                          (bind === $project.shares.output.Color.inputs[0] &&
-                          mapping.given.isPercent()
-                              ? 0.01
-                              : 1)
+                        ? mapping.given.getValue().toNumber()
                         : undefined;
                 return number;
             }
