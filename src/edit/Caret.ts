@@ -994,8 +994,8 @@ export default class Caret {
                             this.withPosition(index).withAddition(undefined),
                         ];
                     }
-                    // If it allows a program, replace it with a program.
-                    else if (kind.allowsKind(Program)) {
+                    // If the selected node is a program, replace it with an empty program.
+                    else if (node instanceof Program) {
                         return [
                             this.source.replace(node, Program.make()),
                             this.withPosition(index).withAddition(undefined),
@@ -1019,8 +1019,11 @@ export default class Caret {
                             ),
                         ];
                     }
-                    // If allows an expression, replace it with an expression placeholder.
-                    else if (kind.allowsKind(Expression)) {
+                    // If allows and requires an expression, replace it with an expression placeholder, since it's required.
+                    else if (
+                        !(kind instanceof ListOf) &&
+                        kind.allowsKind(Expression)
+                    ) {
                         const placeholder = ExpressionPlaceholder.make();
                         return [
                             this.source.replace(node, placeholder),
