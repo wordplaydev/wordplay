@@ -89,7 +89,7 @@
         fill: var(--wordplay-background);
     }
 
-    button:hover:not(:focus) {
+    button:hover:not(:focus)[aria-disabled='false'] {
         background: var(--wordplay-alternating-color);
         border-radius: var(--wordplay-border-radius);
     }
