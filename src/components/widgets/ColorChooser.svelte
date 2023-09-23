@@ -142,7 +142,6 @@
             unit={'%'}
             precision={0}
             change={(value) => {
-                console.log(value.toNumber());
                 lightness = value.toNumber();
                 broadcast();
             }}
