@@ -45,7 +45,14 @@
 
         if (context === undefined) return;
 
-        const result = command.execute($context, '');
+        // Include the caret and toggle menu we have from the editor, if we have them.
+        const caretyContext = Object.assign($context);
+        if (editor) {
+            caretyContext.caret = editor?.caret;
+            caretyContext.toggleMenu = editor?.toggleMenu;
+        }
+
+        const result = command.execute(caretyContext, '');
         if (result instanceof Promise)
             result.then((edit) =>
                 editor
