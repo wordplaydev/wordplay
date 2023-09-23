@@ -1,4 +1,4 @@
-import functions from 'firebase-functions';
+import { onRequest, onCall } from 'firebase-functions/v2/https';
 import admin from 'firebase-admin';
 import { initializeApp } from 'firebase-admin/app';
 import * as https from 'https';
@@ -6,17 +6,19 @@ import * as http from 'http';
 
 initializeApp();
 
-export const getUserIDsFromEmails = functions.https.onCall(
-    async (data: {
-        emails: string[];
-    }): Promise<Record<string, string | null>> => {
-        const emails = data.emails;
+export type Emails = { emails: string[] };
+export type UIDs = { uids: string[] };
+export type IDMapping = Record<string, string | null>;
+
+export const getUserIDsFromEmails = onCall(
+    async (request: { data: Emails }): Promise<IDMapping> => {
+        const emails = request.data.emails;
         const users = await admin.auth().getUsers(
             emails.map((email) => {
                 return { email };
             })
         );
-        const map: Record<string, string | null> = {};
+        const map: IDMapping = {};
         users.users.forEach((user) => {
             if (user.email) map[user.email] = user.uid ?? null;
         });
@@ -24,11 +26,9 @@ export const getUserIDsFromEmails = functions.https.onCall(
     }
 );
 
-export const getEmailsFromUserIDs = functions.https.onCall(
-    async (data: {
-        uids: string[];
-    }): Promise<Record<string, string | null>> => {
-        const uids = data.uids;
+export const getEmailsFromUserIDs = onCall(
+    async (request: { data: UIDs }): Promise<IDMapping> => {
+        const uids = request.data.uids;
 
         const users = await admin.auth().getUsers(
             uids.map((uid) => {
@@ -36,7 +36,7 @@ export const getEmailsFromUserIDs = functions.https.onCall(
             })
         );
 
-        const map: Record<string, string | null> = {};
+        const map: IDMapping = {};
         users.users.forEach((user) => {
             if (user.email) map[user.uid] = user.email ?? null;
         });
@@ -46,7 +46,8 @@ export const getEmailsFromUserIDs = functions.https.onCall(
 );
 
 /** Given a URL that should refer to an HTML document, sends a GET request to the URL to try to get the document's text. */
-export const getWebpage = functions.https.onRequest(
+export const getWebpage = onRequest(
+    { cors: true },
     async (request, response) => {
         const url: string | undefined =
             'url' in request.query && typeof request.query.url === 'string'
