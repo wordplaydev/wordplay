@@ -1,4 +1,5 @@
 <script lang="ts">
+    import Decimal from 'decimal.js';
     import { tick } from 'svelte';
 
     export let value: number | undefined;
@@ -7,14 +8,19 @@
     export let unit: string;
     export let increment: number;
     export let tip: string;
-    export let change: (value: number) => void;
+    export let change: (value: Decimal) => void;
     export let precision = 0;
     export let editable: boolean;
 
     let view: HTMLInputElement | undefined = undefined;
 
     async function handleChange() {
-        if (value !== undefined) change(value);
+        if (value !== undefined)
+            change(
+                new Decimal(value)
+                    // Add two digits of precision to percent units
+                    .toDecimalPlaces(precision + (unit === '%' ? 2 : 0))
+            );
         await tick();
         view?.focus();
     }

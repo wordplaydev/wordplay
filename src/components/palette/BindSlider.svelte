@@ -8,6 +8,7 @@
     import { Projects } from '../../db/Database';
     import { getFirstName } from '../../locale/Locale';
     import { toTokens } from '../../parser/toTokens';
+    import type Decimal from 'decimal.js';
 
     export let property: OutputProperty;
     export let values: OutputPropertyValues;
@@ -17,7 +18,7 @@
     const project = getProject();
 
     // Whenever the slider value changes, revise the Evaluates to match the new value.
-    function handleChange(newValue: number) {
+    function handleChange(newValue: Decimal) {
         if ($project === undefined) return;
 
         Projects.revise(
@@ -27,7 +28,9 @@
                 getFirstName(property.name.names),
                 parseNumber(
                     toTokens(
-                        (range.unit === '%' ? 100 : 1) * newValue + range.unit
+                        newValue
+                            .times(range.unit === '%' ? 100 : 1)
+                            .toString() + range.unit
                     )
                 )
             )
