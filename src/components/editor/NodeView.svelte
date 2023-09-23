@@ -132,21 +132,15 @@
         cursor: default;
     }
 
-    .evaluate {
-        background: var(--color-blue-transparent);
-    }
-
     :global(.editor:not(.dragging))
         .evaluate:hover:not(:has(.node-view:hover)) {
+        background: var(--color-blue-transparent);
         outline: var(--wordplay-focus-width) solid var(--color-blue);
-    }
-
-    .definition {
-        background: var(--color-purple-transparent);
     }
 
     :global(.editor:not(.dragging))
         .definition:hover:not(:has(.node-view:hover)) {
+        background: var(--color-purple-transparent);
         outline: var(--wordplay-focus-width) solid var(--color-purple);
     }
 
