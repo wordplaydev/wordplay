@@ -80,7 +80,7 @@
         tip={$locale.ui.source.button.expandSequence}
         action={() => (elide = false)}
         ><span class="count">… {hiddenBefore}</span></Button
-    >{/if}{#each visible as node (node.id)}<NodeView
+    >{/if}{#each visible as node}<NodeView
         {node}
     />{/each}{#if hiddenAfter > 0}<Button
         tip={$locale.ui.source.button.expandSequence}
