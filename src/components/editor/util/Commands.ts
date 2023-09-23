@@ -1028,7 +1028,7 @@ const Commands: Command[] = [
         },
     },
     {
-        symbol: '( _ )',
+        symbol: '( )',
         description: (l) => l.ui.source.cursor.parenthesize,
         visible: Visibility.Visible,
         category: Category.Modify,
@@ -1040,7 +1040,7 @@ const Commands: Command[] = [
         execute: ({ caret }) => caret?.wrap('('),
     },
     {
-        symbol: '[ _ ]',
+        symbol: '[ ]',
         description: (l) => l.ui.source.cursor.enumerate,
         visible: Visibility.Visible,
         category: Category.Modify,
