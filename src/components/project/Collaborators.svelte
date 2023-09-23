@@ -18,6 +18,10 @@
     let adding = false;
     let unknown = false;
 
+    function validCollaborator(email: string) {
+        return validateEmail(email) && email !== DB.getUserEmail();
+    }
+
     async function add() {
         if (validateEmail(email)) {
             adding = true;
@@ -39,6 +43,8 @@
         DB.getEmailFromUserIDs(project.collaborators).then(
             (map) => (emails = map)
         );
+
+    $: if (email) unknown = false;
 </script>
 
 <Dialog bind:show description={$locale.ui.dialog.share}>
@@ -57,7 +63,7 @@
         />
         <Button
             tip={$locale.ui.dialog.share.button.submit}
-            active={validateEmail(email)}
+            active={validCollaborator(email)}
             action={() => undefined}>&gt;</Button
         >
         {#if adding}<Spinning label="" />{/if}
