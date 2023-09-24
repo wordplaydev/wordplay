@@ -1,4 +1,5 @@
 Headlines
+Visualizations
 === start/en
 headlines: Webpage('https://www.nytimes.com' 'h3')
 top: headlines•[''] ? headlines.subsequence(1 7) ø

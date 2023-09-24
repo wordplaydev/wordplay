@@ -14,6 +14,7 @@
 
     /** Projects in the gallery to highlight */
     $: highlights = gallery.getProjects().slice(0, Count);
+    $: hidden = Math.max(0, gallery.getProjects().length - Count);
 </script>
 
 <div class="gallery">
@@ -37,7 +38,7 @@
                 {/await}
             </div>
         {/each}
-        ⋯
+        {#if hidden > 0}{'•'.repeat(hidden)}{/if}
     </div>
 </div>
 

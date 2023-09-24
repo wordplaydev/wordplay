@@ -21,10 +21,12 @@
     import GalleryPreview from '../../components/app/GalleryPreview.svelte';
     import Spinning from '../../components/app/Spinning.svelte';
     import Button from '../../components/widgets/Button.svelte';
+    import { ExampleGalleries } from '../../examples/examples';
 
     let lastBatch: QueryDocumentSnapshot<DocumentData>;
 
-    let galleries: Gallery[] | undefined = undefined;
+    /** Start the list of galleries with the example galleries. */
+    let galleries: Gallery[] = ExampleGalleries.slice();
 
     onMount(async () => {
         nextBatch();
@@ -82,14 +84,4 @@
     {#if lastBatch}
         <Button background tip="more" action={nextBatch}>more!</Button>
     {/if}
-
-    <!-- {#await Promise.all(Array.from(examples.values()).map( (example) => Project.deserializeProject(Locales, example) ))}
-        …
-    {:then projects}<Gallery
-            {projects}
-            name={$locale.ui.page.galleries.examples}
-        />
-    {:catch error}
-        :( {error}
-    {/await} -->
 </Writing>

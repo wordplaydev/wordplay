@@ -1,4 +1,5 @@
 Catch
+Physics
 ===start/en
 ``If the selected phrase is mouse, toggle whether the mouse is caught.``
 name: Choice()

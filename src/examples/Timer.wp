@@ -1,3 +1,4 @@
 Timer
+Visualizations
 ===
 Phrase("•".repeat(((Time(1000ms) → #s) % 5).roundDown() + 1s))

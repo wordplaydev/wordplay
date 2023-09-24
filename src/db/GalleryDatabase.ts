@@ -20,6 +20,7 @@ import { get, writable, type Writable } from 'svelte/store';
 import type Locale from '../locale/Locale';
 import type Project from '../models/Project';
 import { toLocaleString } from '../locale/Locale';
+import { ExampleGalleries } from '../examples/examples';
 
 export default class GalleryDatabase {
     /** The main database that manages this gallery database */
@@ -46,6 +47,11 @@ export default class GalleryDatabase {
 
     constructor(database: Database) {
         this.database = database;
+
+        // Add the example galleries to the database.
+        for (const gallery of ExampleGalleries) {
+            this.publicGalleries.set(gallery.getID(), writable(gallery));
+        }
 
         this.listen();
     }
