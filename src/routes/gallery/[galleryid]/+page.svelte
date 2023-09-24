@@ -54,7 +54,7 @@
     $: name = gallery?.getName($locale);
     $: description = gallery?.getDescription($locale);
     $: editable = gallery
-        ? $user !== null && gallery?.getCurators().includes($user.uid)
+        ? $user !== null && gallery.getCurators().includes($user.uid)
         : false;
 
     // Anytime the gallery changes, refresh the project list.
@@ -142,60 +142,63 @@
                     />
                 {/if}
 
-                <Button
-                    tip={$locale.ui.page.projects.button.newproject}
-                    action={newProject}
-                    ><span style:font-size="xxx-large">+</span>
-                </Button>
+                {#if editable}
+                    <Button
+                        tip={$locale.ui.page.projects.button.newproject}
+                        action={newProject}
+                        ><span style:font-size="xxx-large">+</span>
+                    </Button>
+                {/if}
             </div>
 
-            <Subheader>{$locale.ui.gallery.subheader.curators.header}</Subheader
-            >
-            {#if editable}
+            {#if editable || gallery.getCurators().length > 0}
+                <Subheader
+                    >{$locale.ui.gallery.subheader.curators.header}</Subheader
+                >
                 <MarkupHtmlView
                     markup={$locale.ui.gallery.subheader.curators.explanation}
                 />
+                <CreatorList
+                    creators={gallery.getCurators()}
+                    {editable}
+                    add={(userID) =>
+                        gallery
+                            ? Galleries.edit(gallery.withCurator(userID))
+                            : undefined}
+                    remove={(userID) =>
+                        gallery
+                            ? Galleries.removeCurator(gallery, userID)
+                            : undefined}
+                    removable={(uid) =>
+                        gallery
+                            ? gallery.getCurators().length > 0 &&
+                              $user !== null &&
+                              $user.uid !== uid
+                            : false}
+                />
             {/if}
 
-            <CreatorList
-                creators={gallery.getCurators()}
-                {editable}
-                add={(userID) =>
-                    gallery
-                        ? Galleries.edit(gallery.withCurator(userID))
-                        : undefined}
-                remove={(userID) =>
-                    gallery
-                        ? Galleries.removeCurator(gallery, userID)
-                        : undefined}
-                removable={(uid) =>
-                    gallery
-                        ? gallery.getCurators().length > 0 &&
-                          $user !== null &&
-                          $user.uid !== uid
-                        : false}
-            />
-
-            <Subheader>{$locale.ui.gallery.subheader.creators.header}</Subheader
-            >
-            {#if editable}
+            {#if editable || gallery.getCreators().length > 0}
+                <Subheader
+                    >{$locale.ui.gallery.subheader.creators.header}</Subheader
+                >
                 <MarkupHtmlView
                     markup={$locale.ui.gallery.subheader.creators.explanation}
                 />
+                <CreatorList
+                    creators={gallery.getCreators()}
+                    {editable}
+                    add={(userID) =>
+                        gallery
+                            ? Galleries.edit(gallery.withCreator(userID))
+                            : undefined}
+                    remove={(userID) =>
+                        gallery
+                            ? Galleries.removeCreator(gallery, userID)
+                            : undefined}
+                    removable={() => true}
+                />
             {/if}
-            <CreatorList
-                creators={gallery.getCreators()}
-                {editable}
-                add={(userID) =>
-                    gallery
-                        ? Galleries.edit(gallery.withCreator(userID))
-                        : undefined}
-                remove={(userID) =>
-                    gallery
-                        ? Galleries.removeCreator(gallery, userID)
-                        : undefined}
-                removable={() => true}
-            />
 
             {#if $user && gallery.getCurators().includes($user.uid)}
                 <Public

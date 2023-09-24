@@ -1,4 +1,5 @@
-Layout Madness
+Layouts
+Physics
 === start
 throb: Sequence({0%: Pose(scale: .9) 50%: Pose(scale: 1.1) 100%: Pose(scale: .9)})
 zbounce: Sequence({0%: Pose(offset: Place(z: 0m)) 50%: Pose(offset: Place(z: -2m)) 100%: Pose(offset: Place(z: 0m))} 1s)
