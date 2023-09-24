@@ -15,15 +15,15 @@ import Headlines from './Headlines.wp?raw';
 import Layers from './Layers.wp?raw';
 import { parseNames } from '../parser/parseBind';
 import { toTokens } from '../parser/toTokens';
+import Gallery from '../models/Gallery';
 
 export function wpToSerializedProject(project: string): SerializedProject {
-    // Get the first line and the rest.
-    const firstLine = project.split('\n')[0];
-
-    const rest = project.substring(firstLine.length + 1);
+    const lines = project.split('\n');
+    const rest = project.substring(lines.slice(0, 2).join().length + 1);
 
     // The first line is the project name
-    const name = firstLine.trim();
+    const name = lines[0].trim();
+    const gallery = lines[1].trim();
 
     // Split the file by "===" lines
     const files = rest.split(/(?==== .*\n)/g);
@@ -53,6 +53,7 @@ export function wpToSerializedProject(project: string): SerializedProject {
         listed: true,
         archived: false,
         timestamp: Date.now(),
+        gallery: gallery.length === 0 ? null : gallery,
     };
 }
 
@@ -81,3 +82,26 @@ export const examples = wpToSerializedProjects([
     Headlines,
     Layers,
 ]);
+
+function createGallery(name: string, description: string) {
+    return new Gallery({
+        id: name,
+        path: name,
+        name: { 'en-US': name },
+        description: { 'en-US': description },
+        words: [],
+        projects: Array.from(examples.values())
+            .filter((example) => example.gallery === name)
+            .map((project) => project.id),
+        curators: [],
+        creators: [],
+        public: true,
+        featured: true,
+    });
+}
+
+export const ExampleGalleries: Gallery[] = [
+    createGallery('Games', 'Simple interactive games that play with words.'),
+    createGallery('Visualizations', 'Visualizations that celebrate language.'),
+    createGallery('Physics', 'Demonstrations of physics'),
+];

@@ -2,7 +2,11 @@ import { derived, get, writable, type Writable } from 'svelte/store';
 import type Locale from '../locale/Locale';
 import { Database, DefaultLocale } from './Database';
 import { getLanguageDirection } from '../locale/LanguageCode';
-import { SupportedLocales, type SupportedLocale } from '../locale/Locale';
+import {
+    SupportedLocales,
+    type SupportedLocale,
+    toLocaleString,
+} from '../locale/Locale';
 import Fonts from '../basis/Fonts';
 import { Basis } from '../basis/Basis';
 import type Setting from './Setting';
@@ -52,9 +56,8 @@ export default class LocalesDatabase {
         this.defaultLocale = defaultLocale;
 
         // Store the default locale
-        this.localesLoaded[
-            `${defaultLocale.language}-${defaultLocale.region}` as SupportedLocale
-        ] = defaultLocale;
+        this.localesLoaded[toLocaleString(defaultLocale) as SupportedLocale] =
+            defaultLocale;
 
         this.setting = setting;
 

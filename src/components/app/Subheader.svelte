@@ -6,7 +6,7 @@
         font-family: var(--wordplay-app-font);
         color: var(--wordplay-header);
         font-weight: bold;
-        margin-inline-start: -0.25em;
+        margin-inline-start: -0.5rem;
         margin-block-start: 1em;
         margin-block-end: var(--wordplay-spacing);
         text-align: start;

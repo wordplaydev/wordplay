@@ -21,7 +21,7 @@
 
     h1 {
         font-size: xx-large;
-        margin-block-start: 4em;
+        margin-block-start: 2em;
         text-align: center;
     }
 </style>

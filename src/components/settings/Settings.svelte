@@ -149,8 +149,13 @@
                         value={cameraDevice?.label}
                         id="camera-setting"
                         options={[
-                            undefined,
-                            ...cameras.map((device) => device.label),
+                            { value: undefined, label: '—' },
+                            ...cameras.map((device) => {
+                                return {
+                                    value: device.label,
+                                    label: device.label,
+                                };
+                            }),
                         ]}
                         change={(choice) =>
                             Settings.setCamera(
@@ -169,8 +174,13 @@
                         value={micDevice?.label}
                         id="mic-setting"
                         options={[
-                            undefined,
-                            ...mics.map((device) => device.label),
+                            { value: undefined, label: '—' },
+                            ...mics.map((device) => {
+                                return {
+                                    value: device.label,
+                                    label: device.label,
+                                };
+                            }),
                         ]}
                         change={(choice) =>
                             Settings.setMic(

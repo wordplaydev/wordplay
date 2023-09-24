@@ -5,7 +5,7 @@ import { writable, type Writable } from 'svelte/store';
 import Project from '../models/Project';
 import type { Locale } from '../locale/Locale';
 import { SaveStatus, type Database } from './Database';
-import { doc, getDoc, writeBatch } from 'firebase/firestore';
+import { doc, getDoc, setDoc, writeBatch } from 'firebase/firestore';
 import { FirebaseError } from 'firebase/app';
 import { firestore } from './firebase';
 import type Node from '../nodes/Node';
@@ -186,7 +186,7 @@ export default class ProjectsDatabase {
                 // Otherwise, if the given one has the later timestamp, overwrite. This is naive strategy that
                 // assumes that all systems have valid clocks, and it also fails to acccount
                 // for non-conflicting edits.
-                else if (project.timestamp > current.timestamp) {
+                else if (project.timestamp >= current.timestamp) {
                     history.edit(project, true, true);
                 }
             }
@@ -207,7 +207,7 @@ export default class ProjectsDatabase {
     }
 
     /** Create a project and return it's ID */
-    create(locales: Locale[], code = '') {
+    create(locales: Locale[], code = '', galleryID?: string) {
         const userID = this.database.getUserID();
         // Make the new project
         const newProject = new Project(
@@ -220,7 +220,17 @@ export default class ProjectsDatabase {
             // User owns the project
             userID,
             // No collaborators
-            []
+            [],
+            // Not public
+            false,
+            // No carets yet
+            undefined,
+            // Yes listed
+            true,
+            // Not archived
+            false,
+            // Optional gallery ID
+            galleryID ?? null
         );
 
         // Track the new project, and request that it be persisted.
@@ -302,7 +312,12 @@ export default class ProjectsDatabase {
             // Defer a save.
             if (persist) this.saveSoon();
         }
-        // No history? Not editable, do nothing.
+        // No history? Directly edit the project in the database, if connected.
+        // This is likely an edit by a curator of a gallery, e.g., removing a project from
+        // a collection.
+        else if (firestore && persist) {
+            setDoc(doc(firestore, 'projects', project.id), project.serialize());
+        }
     }
 
     /** Delete the project with the given ID, if it exists */
