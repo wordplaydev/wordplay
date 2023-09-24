@@ -6,12 +6,14 @@
     export let action: () => void;
     export let enabled = true;
     export let prompt: string;
+    export let background = false;
 
     let confirming = false;
 </script>
 
 <div class="prompt" class:confirming>
     <Button
+        {background}
         tip={confirming ? $locale.ui.widget.confirm.cancel : tip}
         action={() => (confirming = !confirming)}
         active={enabled}

@@ -53,6 +53,7 @@ export function wpToSerializedProject(project: string): SerializedProject {
         listed: true,
         archived: false,
         timestamp: Date.now(),
+        gallery: null,
     };
 }
 

@@ -52,6 +52,8 @@ export type SerializedProject = {
     archived: boolean;
     /** When this was created */
     timestamp: number;
+    /** An optional gallery ID, indicating which gallery this project is in. */
+    gallery: string | null;
 };
 
 type Analysis = {
@@ -118,6 +120,9 @@ export default class Project {
     /** Default shares */
     readonly shares: ReturnType<typeof createDefaultShares>;
 
+    /** Gallery */
+    readonly gallery: string | null;
+
     /**
      * The locales on which this project relies.
      * Not an indicator of what locales are currently selected; a locale may be selected that this project does not use. */
@@ -151,6 +156,8 @@ export default class Project {
         carets: SerializedCarets | undefined = undefined,
         listed = true,
         archived = false,
+        gallery: string | null = null,
+        // This is last; omitting it updates the time.
         timestamp: number | undefined = undefined
     ) {
         this.id = id ?? uuidv4();
@@ -158,8 +165,9 @@ export default class Project {
         this.collaborators = collaborators.filter((uid) => uid.length > 0);
         this.public = pub;
         this.timestamp = timestamp ?? Date.now();
+        this.gallery = gallery;
 
-        // Remember the source.
+        // Remember the name and source.
         this.name = name;
         this.main = main;
         this.supplements = supplements.slice();
@@ -207,7 +215,8 @@ export default class Project {
             this.public,
             this.carets,
             this.listed,
-            this.archived
+            this.archived,
+            this.gallery
         );
     }
 
@@ -540,7 +549,8 @@ export default class Project {
             this.public,
             this.carets,
             this.listed,
-            this.archived
+            this.archived,
+            this.gallery
         );
     }
 
@@ -556,7 +566,8 @@ export default class Project {
             this.public,
             this.carets,
             this.listed,
-            this.archived
+            this.archived,
+            this.gallery
         );
     }
 
@@ -577,7 +588,8 @@ export default class Project {
             this.public,
             this.carets,
             this.listed,
-            this.archived
+            this.archived,
+            this.gallery
         );
     }
 
@@ -603,7 +615,8 @@ export default class Project {
                     : sourceCaret
             ),
             this.listed,
-            this.archived
+            this.archived,
+            this.gallery
         );
     }
 
@@ -619,7 +632,8 @@ export default class Project {
             this.public,
             this.carets.filter((c) => c.source !== source),
             this.listed,
-            this.archived
+            this.archived,
+            this.gallery
         );
     }
 
@@ -655,7 +669,8 @@ export default class Project {
                     : caret;
             }),
             this.listed,
-            this.archived
+            this.archived,
+            this.gallery
         );
     }
 
@@ -721,7 +736,8 @@ export default class Project {
             this.public,
             [...this.carets, { source: newSource, caret: 0 }],
             this.listed,
-            this.archived
+            this.archived,
+            this.gallery
         );
     }
 
@@ -737,7 +753,8 @@ export default class Project {
             this.public,
             this.carets,
             this.listed,
-            this.archived
+            this.archived,
+            this.gallery
         );
     }
 
@@ -759,7 +776,8 @@ export default class Project {
                   this.public,
                   this.carets,
                   this.listed,
-                  this.archived
+                  this.archived,
+                  this.gallery
               );
     }
 
@@ -777,7 +795,8 @@ export default class Project {
                   this.public,
                   this.carets,
                   this.listed,
-                  this.archived
+                  this.archived,
+                  this.gallery
               );
     }
 
@@ -793,7 +812,8 @@ export default class Project {
             pub,
             this.carets,
             this.listed,
-            this.archived
+            this.archived,
+            this.gallery
         );
     }
 
@@ -910,6 +930,7 @@ export default class Project {
             }),
             project.listed,
             project.archived,
+            project.gallery,
             project.timestamp
         );
     }
@@ -948,7 +969,25 @@ export default class Project {
             this.public,
             this.carets,
             this.listed,
-            true
+            true,
+            this.gallery
+        );
+    }
+
+    withGallery(id: string | null) {
+        return new Project(
+            this.id,
+            this.name,
+            this.main,
+            this.supplements,
+            this.locales,
+            this.owner,
+            this.collaborators,
+            this.public,
+            this.carets,
+            this.listed,
+            this.archived,
+            id
         );
     }
 
@@ -972,6 +1011,7 @@ export default class Project {
             public: this.public,
             archived: this.archived,
             timestamp: this.timestamp,
+            gallery: this.gallery,
         };
     }
 

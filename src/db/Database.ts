@@ -11,7 +11,7 @@ import {
     setDoc,
     where,
 } from 'firebase/firestore';
-import { firestore, auth, functions } from '@db/firebase';
+import { firestore, auth } from '@db/firebase';
 import {
     deleteUser,
     onAuthStateChanged,
@@ -29,8 +29,9 @@ import type Setting from './Setting';
 import ProjectsDatabase from './ProjectsDatabase';
 import LocalesDatabase from './LocalesDatabase';
 import SettingsDatabase from './SettingsDatabase';
-import { httpsCallable } from 'firebase/functions';
 import { PersistenceType } from './ProjectHistory';
+import GalleryDatabase from './GalleryDatabase';
+import CreatorDatabase from './CreatorDatabase';
 
 export enum SaveStatus {
     Saved = 'saved',
@@ -48,15 +49,17 @@ export class Database {
     /** An IndexedDB backed database of projects, allowing for scalability of local persistence. */
     readonly Projects: ProjectsDatabase;
 
+    /** A collection of Galleries loaded from the database */
+    readonly Galleries: GalleryDatabase;
+
+    /** A collection of creators loaded from the database */
+    readonly Creators: CreatorDatabase;
+
     /** The status of persisting the projects. */
     readonly Status: Writable<SaveStatus> = writable(SaveStatus.Saved);
 
     /** The current Firestore user ID */
     private user: User | null = null;
-
-    /** A cache of user email addresses retrieved from Firesbase */
-    private emailsByUserID = new Map<string, string>();
-    private userIDsByEmails = new Map<string, string>();
 
     /** Realtime query unsubscribers */
     private authUnsubscribe: Unsubscribe | undefined = undefined;
@@ -71,8 +74,9 @@ export class Database {
             defaultLocale,
             this.Settings.settings.locales
         );
-
         this.Projects = new ProjectsDatabase(this);
+        this.Galleries = new GalleryDatabase(this);
+        this.Creators = new CreatorDatabase(this);
     }
 
     getUser() {
@@ -123,6 +127,9 @@ export class Database {
             callback(newUser);
             // Update the Projects with the new user, syncing with the database.
             this.updateUser(newUser);
+
+            // Update the galleries query with the new user.
+            this.Galleries.listen();
         });
     }
 
@@ -200,99 +207,12 @@ export class Database {
         }
     }
 
-    async getEmailFromUserIDs(
-        uids: string[]
-    ): Promise<Map<string, string | null>> {
-        // Create a new mapping.
-        const emails = new Map<string, string | null>();
-
-        // Populate it with any emails we already have.
-        // Keep track of any uids we don't have.
-        const unknown: string[] = [];
-        for (const uid of uids) {
-            const email = this.emailsByUserID.get(uid);
-            if (email) emails.set(uid, email);
-            else unknown.push(uid);
-        }
-
-        // If there are unknowns, ask the server for them.
-        // No access to functions? Do nothing.
-        if (unknown.length > 0 && functions) {
-            const getUserEmails = httpsCallable<
-                { uids: string[] },
-                Record<string, string>
-            >(functions, 'getEmailsFromUserIDs');
-
-            const newEmails = await getUserEmails({
-                uids: unknown,
-            });
-            for (const [uid, email] of Object.entries(newEmails.data)) {
-                emails.set(uid, email);
-            }
-        }
-
-        // Cache them
-        for (const [uid, email] of emails) {
-            if (email) {
-                this.emailsByUserID.set(uid, email);
-                this.userIDsByEmails.set(email, uid);
-            }
-        }
-
-        return emails;
-    }
-
-    async getUserIDsFromEmails(
-        emails: string[]
-    ): Promise<Map<string, string | null>> {
-        // Create a new mapping.
-        const userIDs = new Map<string, string | null>();
-
-        // Populate it with any emails we already have.
-        // Keep track of any uids we don't have.
-        const unknown: string[] = [];
-        for (const email of emails) {
-            const userID = this.userIDsByEmails.get(email);
-            if (userID) userIDs.set(email, userID);
-            else unknown.push(email);
-        }
-
-        // If there are unknowns, ask the server for them.
-        // No access to functions? Do nothing.
-        if (unknown.length > 0 && functions) {
-            const getUserIDs = httpsCallable<
-                { emails: string[] },
-                Record<string, string>
-            >(functions, 'getUserIDsFromEmails');
-
-            const newUserIDs = await getUserIDs({
-                emails: unknown,
-            });
-            for (const [email, uid] of Object.entries(newUserIDs.data)) {
-                userIDs.set(email, uid);
-            }
-        }
-
-        // Cache them
-        for (const [email, uid] of userIDs) {
-            if (uid) {
-                this.emailsByUserID.set(uid, email);
-                this.userIDsByEmails.set(email, uid);
-            }
-        }
-
-        return userIDs;
-    }
-
-    async getUserIDFromEmail(email: string) {
-        await this.getUserIDsFromEmails([email]);
-        return this.userIDsByEmails.get(email);
-    }
-
     /** Clean up listeners */
     clean() {
         if (this.projectsQueryUnsubscribe) this.projectsQueryUnsubscribe();
         if (this.authUnsubscribe) this.authUnsubscribe();
+
+        this.Galleries.clean();
     }
 
     /** Delete account, including all projects, settings, and user. */
@@ -351,6 +271,8 @@ export const DB = new Database(
 export const Settings = DB.Settings;
 export const Projects = DB.Projects;
 export const Locales = DB.Locales;
+export const Galleries = DB.Galleries;
+export const Creators = DB.Creators;
 
 export const animationFactor = Settings.settings.animationFactor.value;
 export const animationDuration = Settings.animationDuration;

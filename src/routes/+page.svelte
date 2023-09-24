@@ -67,7 +67,7 @@
     }
 
     .welcome {
-        margin-inline-start: -1em;
+        margin-inline-start: -2em;
         margin-top: 2em;
         margin-bottom: 2em;
         width: 50%;

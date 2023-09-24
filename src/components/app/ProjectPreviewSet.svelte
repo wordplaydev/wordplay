@@ -1,7 +1,7 @@
 <script lang="ts">
     import type Project from '../../models/Project';
     import ProjectPreview from './ProjectPreview.svelte';
-    import { Projects, languages, locale } from '../../db/Database';
+    import { languages, locale } from '../../db/Database';
     import getProjectLink from './getProjectLink';
     import Button from '../widgets/Button.svelte';
     import ConfirmButton from '../widgets/ConfirmButton.svelte';
@@ -9,8 +9,15 @@
     import { goto } from '$app/navigation';
 
     export let set: Project[];
-    export let editable: boolean;
     export let beforePlay: undefined | ((project: Project) => void) = undefined;
+    export let remove:
+        | {
+              description: string;
+              prompt: string;
+              label: string;
+              action: (project: Project) => void;
+          }
+        | false;
 
     function sortProjects(projects: Project[]): Project[] {
         return projects.sort((a, b) =>
@@ -25,20 +32,20 @@
             {project}
             action={() => {
                 if (beforePlay) beforePlay(project);
-                getProjectLink(project, true);
+                goto(getProjectLink(project, true));
             }}
             delay={Math.random() * set.length * 50}
-            >{#if editable}<div class="controls">
+            >{#if remove}<div class="controls">
                     <Button
-                        tip={$locale.ui.page.projects.button.edit}
+                        tip={$locale.ui.page.projects.button.editproject}
                         action={() => goto(getProjectLink(project, false))}
                         >{EDIT_SYMBOL}</Button
-                    ><ConfirmButton
-                        prompt={$locale.ui.page.projects.confirm.archive.prompt}
-                        tip={$locale.ui.page.projects.confirm.archive
-                            .description}
-                        action={() => Projects.archiveProject(project.id)}
-                        >🗑️</ConfirmButton
+                    ><slot /><ConfirmButton
+                        prompt={remove.prompt}
+                        tip={remove.description}
+                        action={() =>
+                            remove ? remove.action(project) : undefined}
+                        >{remove.label}</ConfirmButton
                     ></div
                 >{/if}</ProjectPreview
         >

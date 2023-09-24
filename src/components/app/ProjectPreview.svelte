@@ -11,6 +11,7 @@
     export let project: Project;
     export let action: (() => void) | undefined = undefined;
     export let delay: number;
+    export let name = true;
 
     // Clone the project and get its initial value, then stop the project's evaluator.
     let evaluator: Evaluator;
@@ -31,7 +32,7 @@
     onMount(() => setTimeout(() => (visible = true), delay));
 </script>
 
-<div class="project">
+<div class="project" class:named={name}>
     <a
         class="preview"
         href={getProjectLink(project, true)}
@@ -56,21 +57,26 @@
             </div>
         {/if}
     </a>
-    <div class="name"
-        >{#if project.name.length === 0}<em class="untitled">&mdash;</em>{:else}
-            {project.name}{/if}<slot /></div
-    >
+    {#if name}
+        <div class="name"
+            >{#if project.name.length === 0}<em class="untitled">&mdash;</em
+                >{:else}
+                {project.name}{/if}<slot /></div
+        >{/if}
 </div>
 
 <style>
     .project {
         border: var(--wordplay-border-color);
         border-radius: var(--wordplay-border-radius);
-        width: 12em;
         display: flex;
         flex-direction: row;
         align-items: center;
         gap: var(--wordplay-spacing);
+    }
+
+    .project.named {
+        width: 12em;
     }
 
     .output {

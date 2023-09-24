@@ -123,6 +123,35 @@ type UITexts = {
         /** The keyboard shortcut to show the shortcut menu */
         help: string;
     };
+    /** Gallery page labels */
+    gallery: {
+        /** What to call a gallery by default, before it's given a name */
+        untitled: string;
+        /** Headers on the page */
+        subheader: {
+            /** The list of curators */
+            curators: DialogText;
+            /** The list of curators */
+            creators: DialogText;
+            /** Delete header */
+            delete: DialogText;
+        };
+        /** Confirm buttons on the gallery page */
+        confirm: {
+            /** The confirm button that deletes a source file */
+            delete: ConfirmText;
+            /** The confirm button that removes a project from a gallery */
+            remove: ConfirmText;
+        };
+        error: {
+            /** When the gallery is not known or is not public */
+            unknown: string;
+        };
+        field: {
+            name: FieldText;
+            description: FieldText;
+        };
+    };
     /** Source file controls */
     source: {
         /** The ARIA label for the source file section */
@@ -133,10 +162,7 @@ type UITexts = {
         overwritten: string;
         confirm: {
             /** The confirm button that deletes a source file */
-            delete: {
-                description: string;
-                prompt: string;
-            };
+            delete: ConfirmText;
         };
         toggle: {
             /** The blocks/text toggle */
@@ -429,6 +455,8 @@ type UITexts = {
             subheader: {
                 /** The collaborators subheader and explanation */
                 collaborators: DialogText;
+                /** The gallery subheader and explanation */
+                gallery: DialogText;
                 /** The public/private toggle subheader and explanation */
                 public: DialogText;
             };
@@ -553,16 +581,31 @@ type UITexts = {
             /** Header for the projects page */
             header: string;
             /** Explanation for the project page */
-            prompt: string;
+            projectprompt: string;
+            /** Header for the galleries page */
+            galleriesheader: string;
+            /** A prompt to create galleries */
+            galleryprompt: string;
+            /** Buttons on the project page */
             button: {
                 /** Create a new project */
-                create: string;
+                newproject: string;
                 /** Edit a project */
-                edit: string;
+                editproject: string;
+                /** Create a new gallery */
+                newgallery: string;
             };
             confirm: {
                 /** The project archive button */
                 archive: ConfirmText;
+            };
+            error: {
+                /** When there's no access to the database. */
+                noaccess: string;
+                /** When the creator is not logged in. */
+                loggedout: string;
+                /** Unable to create a gallery */
+                newgallery: string;
             };
         };
         galleries: {

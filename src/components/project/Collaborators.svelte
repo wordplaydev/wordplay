@@ -1,50 +1,20 @@
 <script lang="ts">
-    import { DB, Projects, locale } from '../../db/Database';
-    import validateEmail from '../../db/validEmail';
+    import { get } from 'svelte/store';
+    import { Galleries, Projects, locale } from '../../db/Database';
     import type Project from '../../models/Project';
-    import Feedback from '../app/Feedback.svelte';
-    import Spinning from '../app/Spinning.svelte';
     import Subheader from '../app/Subheader.svelte';
     import MarkupHtmlView from '../concepts/MarkupHTMLView.svelte';
-    import Button from '../widgets/Button.svelte';
     import Dialog from '../widgets/Dialog.svelte';
-    import Mode from '../widgets/Mode.svelte';
-    import TextField from '../widgets/TextField.svelte';
+    import Options from '../widgets/Options.svelte';
+    import { getUser } from './Contexts';
+    import CreatorList from './CreatorList.svelte';
+    import Public from './Public.svelte';
 
     export let show: boolean;
     export let project: Project;
 
-    let email = '';
-    let adding = false;
-    let unknown = false;
-
-    function validCollaborator(email: string) {
-        return validateEmail(email) && email !== DB.getUserEmail();
-    }
-
-    async function add() {
-        if (validateEmail(email)) {
-            adding = true;
-            const userID = await DB.getUserIDFromEmail(email);
-            adding = false;
-            if (userID === undefined) {
-                unknown = true;
-            } else {
-                unknown = false;
-                Projects.reviseProject(project.withCollaborator(userID));
-            }
-            email = '';
-        }
-    }
-
-    // Whenever the project changes, get it's user's email addresses
-    let emails: Map<string, string | null> = new Map();
-    $: if (show)
-        DB.getEmailFromUserIDs(project.collaborators).then(
-            (map) => (emails = map)
-        );
-
-    $: if (email) unknown = false;
+    const user = getUser();
+    const creatorGalleries = Galleries.creatorGalleries;
 </script>
 
 <Dialog bind:show description={$locale.ui.dialog.share}>
@@ -54,84 +24,46 @@
     <MarkupHtmlView
         markup={$locale.ui.dialog.share.subheader.collaborators.explanation}
     />
-    <form class="form" on:submit={add}>
-        <TextField
-            bind:text={email}
-            placeholder={$locale.ui.dialog.share.field.email.placeholder}
-            description={$locale.ui.dialog.share.field.email.description}
-            validator={validateEmail}
-        />
-        <Button
-            tip={$locale.ui.dialog.share.button.submit}
-            active={validCollaborator(email)}
-            action={() => undefined}>&gt;</Button
-        >
-        {#if adding}<Spinning label="" />{/if}
-        {#if unknown}<p
-                ><Feedback inline
-                    >{$locale.ui.dialog.share.error.unknown}</Feedback
-                ></p
-            >{/if}
-    </form>
 
-    <div class="people">
-        {#each project.collaborators as uid}
-            <div class="person"
-                ><span class="email"
-                    >{#if emails.has(uid)}{emails.get(uid) ??
-                            '?'}{:else}<Spinning label="" />{/if}</span
-                ><Button
-                    tip={$locale.ui.project.button.removeCollaborator}
-                    active={project.collaborators.length > 0}
-                    action={() =>
-                        Projects.reviseProject(
-                            project.withoutCollaborator(uid)
-                        )}>⨉</Button
-                ></div
-            >
-        {/each}
-    </div>
-
-    <Subheader>{$locale.ui.dialog.share.subheader.public.header}</Subheader>
-    <MarkupHtmlView
-        markup={$locale.ui.dialog.share.subheader.public.explanation}
+    <CreatorList
+        creators={project.collaborators}
+        editable={$user !== null && project.owner === $user.uid}
+        add={(userID) =>
+            Projects.reviseProject(project.withCollaborator(userID))}
+        remove={(userID) =>
+            Projects.reviseProject(project.withoutCollaborator(userID))}
+        removable={() => true}
     />
 
+    <Subheader>{$locale.ui.dialog.share.subheader.gallery.header}</Subheader>
     <MarkupHtmlView
-        markup={Object.values($locale.rules)
-            .map((promise) => `• ${promise}`)
-            .join('\n\n')}
+        markup={$locale.ui.dialog.share.subheader.gallery.explanation}
     />
-    <p>
-        <Mode
-            descriptions={$locale.ui.dialog.share.mode.public}
-            choice={project.public === true ? 1 : 0}
-            select={(choice) =>
-                Projects.reviseProject(project.asPublic(choice === 1))}
-            modes={[
-                '🤫 ' + $locale.ui.dialog.share.mode.public.modes[0],
-                '🌐 ' + $locale.ui.dialog.share.mode.public.modes[1],
-            ]}
-        /></p
-    >
-    <MarkupHtmlView markup={$locale.ui.page.rights.consequences} />
+
+    <Options
+        id="gallerychooser"
+        value={project.gallery ?? undefined}
+        options={[
+            { value: undefined, label: '—' },
+            ...Array.from($creatorGalleries.values()).map((gallery) => {
+                return {
+                    value: get(gallery).getID(),
+                    label: get(gallery).getName($locale),
+                };
+            }),
+        ]}
+        change={(value) => {
+            // Ask the gallery database to put this project in the gallery.
+            if (value) Galleries.addProject(project, value);
+            else Galleries.removeProject(project);
+        }}
+    />
+
+    <Public
+        isPublic={project.public}
+        set={(choice) => Projects.reviseProject(project.asPublic(choice === 1))}
+    />
 </Dialog>
 
 <style>
-    .people {
-        display: flex;
-        flex-direction: column;
-        gap: var(--wordplay-spacing);
-        margin-top: calc(2 * var(--wordplay-spacing));
-    }
-
-    .person {
-        display: flex;
-        flex-direction: row;
-        gap: var(--wordplay-spacing);
-    }
-
-    p {
-        margin-top: var(--wordplay-spacing);
-    }
 </style>

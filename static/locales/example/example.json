@@ -2094,6 +2094,46 @@
             },
             "help": "$?"
         },
+        "gallery": {
+            "untitled": "$?",
+            "subheader": {
+                "curators": {
+                    "header": "$?",
+                    "explanation": "$?"
+                },
+                "creators": {
+                    "header": "$?",
+                    "explanation": "$?"
+                },
+                "delete": {
+                    "header": "$?",
+                    "explanation": "$?"
+                }
+            },
+            "confirm": {
+                "delete": {
+                    "description": "$?",
+                    "prompt": "$?"
+                },
+                "remove": {
+                    "description": "$?",
+                    "prompt": "$??"
+                }
+            },
+            "error": {
+                "unknown": "$?"
+            },
+            "field": {
+                "name": {
+                    "description": "$?",
+                    "placeholder": "$?"
+                },
+                "description": {
+                    "description": "$?",
+                    "placeholder": "$?"
+                }
+            }
+        },
         "source": {
             "label": "$?",
             "empty": "$?",
@@ -2244,6 +2284,10 @@
                 "explanation": "$?",
                 "subheader": {
                     "collaborators": {
+                        "header": "$?",
+                        "explanation": "$?"
+                    },
+                    "gallery": {
                         "header": "$?",
                         "explanation": "$?"
                     },
@@ -2402,16 +2446,24 @@
             },
             "projects": {
                 "header": "$?",
-                "prompt": "$?",
+                "projectprompt": "$?",
+                "galleriesheader": "$?",
+                "galleryprompt": "$?",
                 "button": {
-                    "create": "$?",
-                    "edit": "$?"
+                    "newproject": "$?",
+                    "editproject": "$?",
+                    "newgallery": "$?"
                 },
                 "confirm": {
                     "archive": {
                         "description": "$?",
                         "prompt": "$?"
                     }
+                },
+                "error": {
+                    "noaccess": "$?",
+                    "loggedout": "$?",
+                    "newgallery": "$?"
                 }
             },
             "galleries": {
