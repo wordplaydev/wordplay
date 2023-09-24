@@ -3734,6 +3734,46 @@
             },
             "help": "show keyboard shortcuts"
         },
+        "gallery": {
+            "untitled": "Untitled",
+            "subheader": {
+                "curators": {
+                    "header": "Curators",
+                    "explanation": "Creators who manage this gallery."
+                },
+                "creators": {
+                    "header": "Creators",
+                    "explanation": "Creators who contribute to this gallery."
+                },
+                "delete": {
+                    "header": "Delete",
+                    "explanation": "Deleting this callery will not delete its projects. The gallery will be deleted forever."
+                }
+            },
+            "confirm": {
+                "delete": {
+                    "description": "delete gallery",
+                    "prompt": "delete"
+                },
+                "remove": {
+                    "description": "remove project from gallery",
+                    "prompt": "remove"
+                }
+            },
+            "error": {
+                "unknown": "This gallery doesn't exist or isn't public."
+            },
+            "field": {
+                "name": {
+                    "description": "Gallery name",
+                    "placeholder": "name"
+                },
+                "description": {
+                    "description": "Gallery description",
+                    "placeholder": "Describe your gallery. What is its theme, goals, or community?"
+                }
+            }
+        },
         "source": {
             "label": "program editor",
             "empty": [
@@ -3894,9 +3934,13 @@
                         "header": "Collaborators",
                         "explanation": "Collaborators can see and edit this project. Add or remove them by email."
                     },
+                    "gallery": {
+                        "header": "Gallery",
+                        "explanation": "Add this project in a gallery alongside other creators, or create a gallery on your <projects@://projects> page. If you add a project to a public gallery, your project will become public."
+                    },
                     "public": {
                         "header": "Public/Private",
-                        "explanation": "Public projects can be seen by anyone in the world. By making a project, you promise:"
+                        "explanation": "Public projects and galleries can be seen by anyone in the world. By making a project or gallery public, you promise:"
                     }
                 },
                 "field": {
@@ -4065,16 +4109,24 @@
             },
             "projects": {
                 "header": "Projects",
-                "prompt": "Ready to say something? Create a project or work on one. If you get stuck, keep <learning@://learn>.",
+                "projectprompt": "Ready to say something? Create a project or work on one. If you get stuck, keep <learning@://learn>.",
+                "galleriesheader": "Galleries",
+                "galleryprompt": "Create and curate galleries to share a collection of projects with others.",
                 "button": {
-                    "create": "new project",
-                    "edit": "edit this project"
+                    "newproject": "new project",
+                    "editproject": "edit this project",
+                    "newgallery": "new gallery"
                 },
                 "confirm": {
                     "archive": {
                         "description": "archive this performance",
                         "prompt": "archive"
                     }
+                },
+                "error": {
+                    "noaccess": "We couldn't reach the internet.",
+                    "loggedout": "You must be logged to create and change galleries.",
+                    "newgallery": "We couldn't create a new gallery."
                 }
             },
             "galleries": {
@@ -4171,7 +4223,7 @@
                     "But making a project *public*, or including it in a public gallery, is a privilege. This is a platform made for love, affirmation, respect, and dignity. Therefore, we expect all of your *public* content to follow these rules:"
                 ],
                 "consequences": [
-                    "If we find a project that violates these rules, we will mark all of it's creator's projects as private and prevent them from making any projects public in the future. You can help us enforce these rules by reporting any content that you believe violates them."
+                    "If we find a project or gallery that violates these rules, we will mark it as private and prevent them from making any projects public in the future. You can help us enforce these rules by reporting any content that you believe violates them."
                 ]
             }
         },

@@ -1,0 +1,59 @@
+<script lang="ts">
+    import { goto } from '$app/navigation';
+    import { Projects, locale } from '../../db/Database';
+    import type Gallery from '../../models/Gallery';
+    import Link from './Link.svelte';
+    import ProjectPreview from './ProjectPreview.svelte';
+    import Spinning from './Spinning.svelte';
+    import Subheader from './Subheader.svelte';
+    import getProjectLink from './getProjectLink';
+
+    export let gallery: Gallery;
+
+    const Count = 3;
+
+    /** Projects in the gallery to highlight */
+    $: highlights = gallery.getProjects().slice(0, Count);
+</script>
+
+<div class="gallery">
+    <Link to={`gallery/${gallery.getID()}`}
+        ><Subheader>{gallery.getName($locale)}</Subheader></Link
+    >
+    <div class="previews">
+        {#each highlights as projectID, index}
+            <div class="highlight">
+                {#await Projects.get(projectID)}
+                    <Spinning label={$locale.ui.widget.loading.message} />
+                {:then project}
+                    {#if project}
+                        <ProjectPreview
+                            {project}
+                            name={false}
+                            action={() => goto(getProjectLink(project, true))}
+                            delay={index * 300}
+                        />
+                    {/if}
+                {/await}
+            </div>
+        {/each}
+        ⋯
+    </div>
+</div>
+
+<style>
+    .gallery {
+        padding: var(--wordplay-spacing);
+        border-radius: var(--wordplay-border-radius);
+        margin-block-end: 4em;
+    }
+
+    .previews {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: var(--wordplay-spacing);
+        row-gap: var(--wordplay-spacing);
+    }
+</style>

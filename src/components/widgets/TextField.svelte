@@ -6,7 +6,7 @@
     export let description: string;
     export let validator: undefined | ((text: string) => boolean) = undefined;
     export let changed: undefined | ((text: string) => void) = undefined;
-    export let done: undefined | (() => void) = undefined;
+    export let done: undefined | ((text: string) => void) = undefined;
     export let fill = false;
     export let view: HTMLInputElement | undefined = undefined;
     export let border = true;
@@ -44,7 +44,7 @@
         bind:this={view}
         on:input={handleInput}
         on:keydown|stopPropagation
-        on:blur={done}
+        on:blur={() => (done ? done(text) : undefined)}
     />
     <span class="measurer" bind:clientWidth={width}
         >{text.length === 0 ? placeholder : text}</span
@@ -63,6 +63,7 @@
         background: none;
         font-size: inherit;
         font-family: inherit;
+        font-weight: inherit;
         color: inherit;
         border: none;
         outline: none;

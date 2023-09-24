@@ -1238,7 +1238,7 @@
                                     {#if playing && editable}<Button
                                             uiid="editProject"
                                             tip={$locale.ui.page.projects.button
-                                                .edit}
+                                                .editproject}
                                             action={() => stopPlaying()}
                                             >{EDIT_SYMBOL}</Button
                                         >{/if}

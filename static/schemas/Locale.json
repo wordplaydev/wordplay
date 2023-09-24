@@ -8018,6 +8018,10 @@
                           "$ref": "#/definitions/DialogText",
                           "description": "The collaborators subheader and explanation"
                         },
+                        "gallery": {
+                          "$ref": "#/definitions/DialogText",
+                          "description": "The gallery subheader and explanation"
+                        },
                         "public": {
                           "$ref": "#/definitions/DialogText",
                           "description": "The public/private toggle subheader and explanation"
@@ -8025,6 +8029,7 @@
                       },
                       "required": [
                         "collaborators",
+                        "gallery",
                         "public"
                       ],
                       "type": "object"
@@ -8235,6 +8240,96 @@
               "required": [
                 "app",
                 "code"
+              ],
+              "type": "object"
+            },
+            "gallery": {
+              "additionalProperties": false,
+              "description": "Gallery page labels",
+              "properties": {
+                "confirm": {
+                  "additionalProperties": false,
+                  "description": "Confirm buttons on the gallery page",
+                  "properties": {
+                    "delete": {
+                      "$ref": "#/definitions/ConfirmText",
+                      "description": "The confirm button that deletes a source file"
+                    },
+                    "remove": {
+                      "$ref": "#/definitions/ConfirmText",
+                      "description": "The confirm button that removes a project from a gallery"
+                    }
+                  },
+                  "required": [
+                    "delete",
+                    "remove"
+                  ],
+                  "type": "object"
+                },
+                "error": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "unknown": {
+                      "description": "When the gallery is not known or is not public",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "unknown"
+                  ],
+                  "type": "object"
+                },
+                "field": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "description": {
+                      "$ref": "#/definitions/FieldText"
+                    },
+                    "name": {
+                      "$ref": "#/definitions/FieldText"
+                    }
+                  },
+                  "required": [
+                    "name",
+                    "description"
+                  ],
+                  "type": "object"
+                },
+                "subheader": {
+                  "additionalProperties": false,
+                  "description": "Headers on the page",
+                  "properties": {
+                    "creators": {
+                      "$ref": "#/definitions/DialogText",
+                      "description": "The list of curators"
+                    },
+                    "curators": {
+                      "$ref": "#/definitions/DialogText",
+                      "description": "The list of curators"
+                    },
+                    "delete": {
+                      "$ref": "#/definitions/DialogText",
+                      "description": "Delete header"
+                    }
+                  },
+                  "required": [
+                    "curators",
+                    "creators",
+                    "delete"
+                  ],
+                  "type": "object"
+                },
+                "untitled": {
+                  "description": "What to call a gallery by default, before it's given a name",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "untitled",
+                "subheader",
+                "confirm",
+                "error",
+                "field"
               ],
               "type": "object"
             },
@@ -8633,19 +8728,25 @@
                   "properties": {
                     "button": {
                       "additionalProperties": false,
+                      "description": "Buttons on the project page",
                       "properties": {
-                        "create": {
-                          "description": "Create a new project",
+                        "editproject": {
+                          "description": "Edit a project",
                           "type": "string"
                         },
-                        "edit": {
-                          "description": "Edit a project",
+                        "newgallery": {
+                          "description": "Create a new gallery",
+                          "type": "string"
+                        },
+                        "newproject": {
+                          "description": "Create a new project",
                           "type": "string"
                         }
                       },
                       "required": [
-                        "create",
-                        "edit"
+                        "newproject",
+                        "editproject",
+                        "newgallery"
                       ],
                       "type": "object"
                     },
@@ -8662,20 +8763,54 @@
                       ],
                       "type": "object"
                     },
+                    "error": {
+                      "additionalProperties": false,
+                      "properties": {
+                        "loggedout": {
+                          "description": "When the creator is not logged in.",
+                          "type": "string"
+                        },
+                        "newgallery": {
+                          "description": "Unable to create a gallery",
+                          "type": "string"
+                        },
+                        "noaccess": {
+                          "description": "When there's no access to the database.",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "noaccess",
+                        "loggedout",
+                        "newgallery"
+                      ],
+                      "type": "object"
+                    },
+                    "galleriesheader": {
+                      "description": "Header for the galleries page",
+                      "type": "string"
+                    },
+                    "galleryprompt": {
+                      "description": "A prompt to create galleries",
+                      "type": "string"
+                    },
                     "header": {
                       "description": "Header for the projects page",
                       "type": "string"
                     },
-                    "prompt": {
+                    "projectprompt": {
                       "description": "Explanation for the project page",
                       "type": "string"
                     }
                   },
                   "required": [
                     "header",
-                    "prompt",
+                    "projectprompt",
+                    "galleriesheader",
+                    "galleryprompt",
                     "button",
-                    "confirm"
+                    "confirm",
+                    "error"
                   ],
                   "type": "object"
                 },
@@ -9159,21 +9294,8 @@
                   "additionalProperties": false,
                   "properties": {
                     "delete": {
-                      "additionalProperties": false,
-                      "description": "The confirm button that deletes a source file",
-                      "properties": {
-                        "description": {
-                          "type": "string"
-                        },
-                        "prompt": {
-                          "type": "string"
-                        }
-                      },
-                      "required": [
-                        "description",
-                        "prompt"
-                      ],
-                      "type": "object"
+                      "$ref": "#/definitions/ConfirmText",
+                      "description": "The confirm button that deletes a source file"
                     }
                   },
                   "required": [
@@ -9673,6 +9795,7 @@
             "widget",
             "tile",
             "project",
+            "gallery",
             "source",
             "conflicts",
             "output",

@@ -30,9 +30,12 @@
 <Options
     id={property.getName()}
     value={options.toText(values.getExpression())}
-    options={options.allowNone
-        ? [undefined, ...options.values]
-        : options.values}
+    options={[
+        ...(options.allowNone ? [{ value: undefined, label: '—' }] : []),
+        ...options.values.map((value) => {
+            return { value, label: value };
+        }),
+    ]}
     change={handleChange}
     {editable}
 />
