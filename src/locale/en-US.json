@@ -4160,7 +4160,7 @@
                     "logout": "Leaving a shared device and want to keep your projects private? Logout and we'll remove your projects from this device. They will still be stored online.",
                     "success": "Account created!",
                     "confirm": "Check your old email address to confirm you new address.",
-                    "delete": "Want us to forget everything?",
+                    "delete": "Want us to forget everything you've made here? This can't be undone.",
                     "reallyDelete": "Are you sure? Your account and settings will be deleted immediately and your projects will be scheduled for deletion. Collaborators on your projects will immediately lose access to them. Type your email to confirm that this is what you want.",
                     "name": "Pick an emoji to represent yourself to others."
                 },
@@ -4192,7 +4192,7 @@
                     "update": "change your email",
                     "delete": {
                         "tip": "delete your account",
-                        "label": "delete it all"
+                        "label": "delete my data…"
                     },
                     "reallyDelete": {
                         "tip": "delete your account forever",
