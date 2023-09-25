@@ -95,4 +95,9 @@ export default class CreatorDatabase {
         // Then return what we've got.
         return this.creatorsByEmail.get(email)?.uid ?? null;
     }
+
+    async getCreator(uid: string): Promise<Creator | null> {
+        await this.getCreators([uid], 'uid');
+        return this.creatorsByUID.get(uid) ?? null;
+    }
 }

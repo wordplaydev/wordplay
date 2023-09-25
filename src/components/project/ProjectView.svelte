@@ -87,6 +87,7 @@
         writingLayout,
         writingDirection,
         blocks,
+        Creators,
     } from '../../db/Database';
     import Arrangement from '../../db/Arrangement';
     import {
@@ -113,6 +114,8 @@
     import { toClipboard } from '../editor/util/Clipboard';
     import { PersistenceType } from '../../db/ProjectHistory';
     import Warning from '../widgets/Warning.svelte';
+    import Spinning from '../app/Spinning.svelte';
+    import CreatorView from '../app/CreatorView.svelte';
 
     export let project: Project;
     export let original: Project | undefined = undefined;
@@ -1353,6 +1356,13 @@
                 <Button tip={$locale.ui.project.button.duplicate} action={copy}
                     ><span class="copy">✐+</span></Button
                 >
+                {#if project.owner}
+                    {#await Creators.getCreator(project.owner)}
+                        <Spinning label="" />
+                    {:then creator}
+                        <CreatorView {creator} />
+                    {/await}
+                {/if}
             {:else}
                 <Button
                     tip={$locale.ui.project.button.showCollaborators}
