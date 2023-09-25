@@ -159,7 +159,8 @@
                     markup={$locale.ui.gallery.subheader.curators.explanation}
                 />
                 <CreatorList
-                    creators={gallery.getCurators()}
+                    uids={gallery.getCurators()}
+                    anonymize={!editable}
                     {editable}
                     add={(userID) =>
                         gallery
@@ -186,7 +187,8 @@
                     markup={$locale.ui.gallery.subheader.creators.explanation}
                 />
                 <CreatorList
-                    creators={gallery.getCreators()}
+                    anonymize={!editable}
+                    uids={gallery.getCreators()}
                     {editable}
                     add={(userID) =>
                         gallery

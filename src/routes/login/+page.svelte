@@ -8,6 +8,7 @@
         sendSignInLinkToEmail,
         signInWithEmailLink,
         updateEmail,
+        updateProfile,
     } from 'firebase/auth';
     import { FirebaseError } from 'firebase/app';
     import { analytics, auth, firestore } from '@db/firebase';
@@ -19,6 +20,7 @@
     import Spinning from '../../components/app/Spinning.svelte';
     import Link from '../../components/app/Link.svelte';
     import { logEvent } from 'firebase/analytics';
+    import EmojiChooser from '../../components/widgets/EmojiChooser.svelte';
 
     let user = getUser();
     let email: string;
@@ -161,12 +163,20 @@
         if (auth && isSignInWithEmailLink(auth, window.location.href))
             finishLogin();
     });
+
+    function rename(name: string) {
+        if ($user)
+            // This should trigger an update to the user store, and therefore this view.
+            updateProfile($user, {
+                displayName: name,
+            }).then(() => $user?.reload());
+    }
 </script>
 
 <Writing>
     {#if auth && firestore}
         {#if $user}
-            <Header>{$user.email}</Header>
+            <Header>{$user.displayName ?? '😃'} {$user.email}</Header>
 
             <div class="actions">
                 <div class="action">
@@ -176,6 +186,13 @@
                             >{$locale.ui.page.projects.header}</Link
                         ></p
                     >
+                </div>
+                <div class="action">
+                    <p>{$locale.ui.page.login.prompt.name}</p>
+                    <EmojiChooser
+                        pick={(name) => rename(name)}
+                        emoji={$user?.displayName ?? ''}
+                    />
                 </div>
                 <div class="action">
                     <p>{$locale.ui.page.login.prompt.logout}</p>
@@ -313,6 +330,7 @@
     form {
         display: flex;
         flex-direction: row;
+        flex-wrap: wrap;
         gap: var(--wordplay-spacing);
         margin: var(--wordplay-spacing);
     }

@@ -2072,7 +2072,8 @@
             },
             "loading": {
                 "message": "$?"
-            }
+            },
+            "back": "$?"
         },
         "tile": {
             "toggle": {
@@ -2137,7 +2138,7 @@
                 },
                 "remove": {
                     "description": "$?",
-                    "prompt": "$??"
+                    "prompt": "$?"
                 }
             },
             "error": {
@@ -2508,7 +2509,8 @@
                     "success": "$?",
                     "confirm": "$?",
                     "delete": "$?",
-                    "reallyDelete": "$?"
+                    "reallyDelete": "$?",
+                    "name": "$?"
                 },
                 "error": {
                     "expired": "$?",

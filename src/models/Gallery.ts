@@ -36,6 +36,10 @@ export default class Gallery {
     readonly data: SerializedGallery;
     constructor(data: SerializedGallery) {
         this.data = { ...data };
+
+        // Guarantee no duplicates.
+        this.data.curators = Array.from(new Set(this.data.curators));
+        this.data.creators = Array.from(new Set(this.data.creators));
     }
 
     /** Get the best name given a locale */

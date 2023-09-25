@@ -26,7 +26,8 @@
     />
 
     <CreatorList
-        creators={project.collaborators}
+        anonymize={false}
+        uids={project.collaborators}
         editable={$user !== null && project.owner === $user.uid}
         add={(userID) =>
             Projects.reviseProject(project.withCollaborator(userID))}

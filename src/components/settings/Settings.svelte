@@ -19,7 +19,7 @@
     import Status from '../app/Status.svelte';
     import Mode from '../widgets/Mode.svelte';
     import Dialog from '../widgets/Dialog.svelte';
-    import Warning from '../widgets/Warning.svelte';
+    import CreatorView from '../app/CreatorView.svelte';
 
     let show = false;
 
@@ -62,15 +62,17 @@
     {#if $project}
         <Status />
     {/if}
-    <Warning>
-        <Link to="/login">
-            <span class="user"
-                >{$user && $user.email
-                    ? $user.email
-                    : $locale.ui.page.login.anonymous}</span
-            >
-        </Link>
-    </Warning>
+    <Link to="/login">
+        <CreatorView
+            creator={$user
+                ? {
+                      email: $user.email,
+                      uid: $user.uid,
+                      name: $user.displayName ?? null,
+                  }
+                : null}
+        />
+    </Link>
     <LanguageChooser />
     <Dialog bind:show width="50vw" description={$locale.ui.dialog.settings}>
         <p
@@ -203,10 +205,6 @@
 
     label {
         white-space: nowrap;
-    }
-
-    .user {
-        color: var(--wordplay-background);
     }
 
     .beta {

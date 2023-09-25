@@ -649,6 +649,8 @@ type UITexts = {
                 delete: string;
                 /** Offers to really delete account forever */
                 reallyDelete: string;
+                /** Pick an emoji as a name */
+                name: string;
             };
             /** Shown in the footer a creator is not logged in. */
             anonymous: string;

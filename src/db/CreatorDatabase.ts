@@ -1,109 +1,98 @@
 import { httpsCallable } from 'firebase/functions';
 import type { Database } from './Database';
 import { functions } from './firebase';
+import type { UserIdentifier } from 'firebase-admin/auth';
 
-export default class GalleryDatabase {
+/** The type for a record returned by our cloud functions */
+export type Creator = {
+    uid: string;
+    name: string | null;
+    email: string | null;
+};
+
+export default class CreatorDatabase {
     /** The main database that manages this gallery database */
     readonly database: Database;
 
-    /** A cache of user email addresses retrieved from Firesbase */
-    private emailsByUserID = new Map<string, string>();
-    private userIDsByEmails = new Map<string, string>();
+    /** A cache of creator data from Firebase auth */
+    private creatorsByEmail = new Map<string, Creator>();
+    private creatorsByUID = new Map<string, Creator>();
+
+    private unknownEmails = new Set<string>();
+    private unknownUIDs = new Set<string>();
 
     constructor(database: Database) {
         this.database = database;
     }
 
-    async getEmailFromUserIDs(
+    async getCreators(
+        ids: string[],
+        detail: 'email' | 'uid'
+    ): Promise<Creator[]> {
+        const email = detail === 'email';
+        let missing = ids.slice();
+        const creators: Creator[] = [];
+        for (const id of ids) {
+            const creator = (
+                email ? this.creatorsByEmail : this.creatorsByUID
+            ).get(id);
+            if (creator) creators.push(creator);
+            else missing.push(id);
+        }
+
+        // Found them all? Return the list.
+        if (missing.length === 0) return creators;
+
+        // No access to database? Return what we've got.
+        if (functions === undefined) return creators;
+
+        // Get missing info.
+        const getCreators = httpsCallable<UserIdentifier[], Creator[]>(
+            functions,
+            'getCreators'
+        );
+
+        const missingCreators = (
+            await getCreators(
+                missing.map((id) => (email ? { email: id } : { uid: id }))
+            )
+        ).data as Creator[];
+
+        // Add the missing creators
+        for (const creator of missingCreators) {
+            if (creator.email) this.creatorsByEmail.set(creator.email, creator);
+            this.creatorsByUID.set(creator.uid, creator);
+            missing = missing.filter(
+                (id) => id !== (email ? creator.email : creator.uid)
+            );
+            creators.push(creator);
+        }
+
+        // Remember the emails we didn't find users for.
+        for (const id of missing)
+            (email ? this.unknownEmails : this.unknownUIDs).add(id);
+
+        // Return the final list of creators.
+        return creators;
+    }
+
+    async getCreatorsByEmail(
         uids: string[]
-    ): Promise<Map<string, string | null>> {
-        // Create a new mapping.
-        const emails = new Map<string, string | null>();
+    ): Promise<Record<string, Creator | null>> {
+        // First get any missing creators.
+        await this.getCreators(uids, 'uid');
 
-        // Populate it with any emails we already have.
-        // Keep track of any uids we don't have.
-        const unknown: string[] = [];
-        for (const uid of uids) {
-            const email = this.emailsByUserID.get(uid);
-            if (email) emails.set(uid, email);
-            else unknown.push(uid);
-        }
-
-        // If there are unknowns, ask the server for them.
-        // No access to functions? Do nothing.
-        if (unknown.length > 0 && functions) {
-            const getUserEmails = httpsCallable<
-                { uids: string[] },
-                Record<string, string>
-            >(functions, 'getEmailsFromUserIDs');
-
-            const newEmails = await getUserEmails({
-                uids: unknown,
-            });
-            for (const [uid, email] of Object.entries(newEmails.data)) {
-                emails.set(uid, email);
-            }
-        }
-
-        // Cache them
-        for (const [uid, email] of emails) {
-            if (email) {
-                this.emailsByUserID.set(uid, email);
-                this.userIDsByEmails.set(email, uid);
-            }
-        }
-
-        return emails;
+        // Then construct a mapping
+        const map: Record<string, Creator | null> = {};
+        for (const uid of uids) map[uid] = this.creatorsByUID.get(uid) ?? null;
+        return map;
     }
 
-    async getUserIDsFromEmails(
-        emails: string[]
-    ): Promise<Map<string, string | null>> {
-        // Create a new mapping.
-        const userIDs = new Map<string, string | null>();
+    async getUID(email: string): Promise<string | null> {
+        // First get any missing creators.
+        await this.getCreators([email], 'email');
 
-        // Populate it with any emails we already have.
-        // Keep track of any uids we don't have.
-        const unknown: string[] = [];
-        for (const email of emails) {
-            const userID = this.userIDsByEmails.get(email);
-            if (userID) userIDs.set(email, userID);
-            else unknown.push(email);
-        }
-
-        // If there are unknowns, ask the server for them.
-        // No access to functions? Do nothing.
-        if (unknown.length > 0 && functions) {
-            const getUserIDs = httpsCallable<
-                { emails: string[] },
-                Record<string, string>
-            >(functions, 'getUserIDsFromEmails');
-
-            const newUserIDs = await getUserIDs({
-                emails: unknown,
-            });
-            for (const [email, uid] of Object.entries(newUserIDs.data)) {
-                userIDs.set(email, uid);
-            }
-        }
-
-        // Cache them
-        for (const [email, uid] of userIDs) {
-            if (uid) {
-                this.emailsByUserID.set(uid, email);
-                this.userIDsByEmails.set(email, uid);
-            }
-        }
-
-        return userIDs;
-    }
-
-    async getUserIDFromEmail(email: string) {
-        await this.getUserIDsFromEmails([email]);
-        return this.userIDsByEmails.get(email);
-    }
-
-    getEmail(uid: string) {
-        return this.emailsByUserID.get(uid);
+        // Then return what we've got.
+        return this.creatorsByEmail.get(email)?.uid ?? null;
     }
 }
