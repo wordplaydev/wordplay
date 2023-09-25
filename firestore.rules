@@ -5,12 +5,12 @@ service cloud.firestore {
 
       function isInPublicGalleryOrIsCreator(uid, galleryID) {
         let gallery = get(/databases/$(database)/documents/galleries/$(galleryID)).data;
-        return gallery.public || uid in gallery.creators || uid in gallery.curators;
+        return gallery != null && (gallery.public || uid in gallery.creators || uid in gallery.curators);
       }
 
       function isCuratorOfProjectInGallery(uid, galleryID) {
         let gallery = get(/databases/$(database)/documents/galleries/$(galleryID)).data;
-        return uid in gallery.curators || uid in gallery.creators;
+        return gallery != null && (uid in gallery.curators || uid in gallery.creators);
       }
 
       allow create: if request.auth != null;

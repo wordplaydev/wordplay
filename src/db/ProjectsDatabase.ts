@@ -234,14 +234,14 @@ export default class ProjectsDatabase {
         // Is this an example? Load the example.
         if (id.startsWith(ExamplePrefix)) {
             const serialized = await getExample(id);
-            const project =
-                serialized === undefined
-                    ? undefined
-                    : await Project.deserializeProject(
-                          this.database.Locales,
-                          serialized
-                      );
+            const project = await (serialized === undefined
+                ? undefined
+                : Project.deserializeProject(
+                      this.database.Locales,
+                      serialized
+                  ));
             this.readonlyProjects.set(id, project);
+            return project;
         }
 
         // First, check memory. If it's in the local DB, it should be in memory.
