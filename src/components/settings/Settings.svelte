@@ -9,11 +9,9 @@
         camera,
         mic,
         Settings,
-        Projects,
         writingLayout,
         dark,
     } from '../../db/Database';
-    import { page } from '$app/stores';
     import Arrangement from '../../db/Arrangement';
     import Options from '../widgets/Options.svelte';
     import { onMount } from 'svelte';
@@ -21,31 +19,12 @@
     import Status from '../app/Status.svelte';
     import Mode from '../widgets/Mode.svelte';
     import Dialog from '../widgets/Dialog.svelte';
-    import { goto } from '$app/navigation';
     import Warning from '../widgets/Warning.svelte';
 
     let show = false;
 
     let user = getUser();
     let project = getProject();
-
-    function getBackPath() {
-        if ($page.route.id?.startsWith('/project/')) {
-            const projectID = $page.params.projectid;
-            if (Projects.readonlyProjects.has(projectID)) return '/galleries';
-            return '/projects';
-        } else return '/';
-    }
-
-    function handleKey(event: KeyboardEvent) {
-        if (
-            (event.ctrlKey || event.metaKey) &&
-            event.key === 'Escape' &&
-            $page.route.id !== null
-        ) {
-            goto(getBackPath());
-        }
-    }
 
     onMount(async () => {
         if (
@@ -74,9 +53,12 @@
     $: micDevice = $mic ? mics.find((m) => m.deviceId === $mic) : undefined;
 </script>
 
-<svelte:window on:keydown={handleKey} />
-
 <div class="settings">
+    <div class="beta"
+        ><Link external to="https://github.com/amyjko/wordplay/milestone/1"
+            >beta</Link
+        ></div
+    >
     {#if $project}
         <Status />
     {/if}
@@ -208,7 +190,6 @@
         tip={$locale.ui.dialog.settings.button.show}
         action={() => (show = !show)}>⚙</Button
     >
-    {#if $page.route.id !== '/'}<Link to={getBackPath()}>❌</Link>{/if}
 </div>
 
 <style>
@@ -226,5 +207,9 @@
 
     .user {
         color: var(--wordplay-background);
+    }
+
+    .beta {
+        font-style: italic;
     }
 </style>

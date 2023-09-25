@@ -67,6 +67,8 @@
         cursor: pointer;
         width: fit-content;
         height: fit-content;
+        /* Needs to be clickable */
+        min-width: 1em;
         white-space: nowrap;
         transition: transform calc(var(--animation-factor) * 200ms);
     }
@@ -113,6 +115,10 @@
         border-radius: var(--wordplay-border-radius);
         padding: var(--wordplay-spacing);
         border: var(--wordplay-border-width) solid var(--wordplay-border-color);
+    }
+
+    .background[aria-disabled='true'] {
+        border-color: transparent;
     }
 
     button.background:hover[aria-disabled='false'] {

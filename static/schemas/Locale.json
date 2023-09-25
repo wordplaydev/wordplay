@@ -9738,6 +9738,10 @@
               "additionalProperties": false,
               "description": "Generic reusable widgets and their generic labels.",
               "properties": {
+                "back": {
+                  "description": "The page back button description",
+                  "type": "string"
+                },
                 "confirm": {
                   "additionalProperties": false,
                   "description": "A confirm button",
@@ -9784,7 +9788,8 @@
               "required": [
                 "confirm",
                 "dialog",
-                "loading"
+                "loading",
+                "back"
               ],
               "type": "object"
             }
