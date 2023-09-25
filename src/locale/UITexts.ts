@@ -72,6 +72,8 @@ type UITexts = {
             /** The message shown in the page loading feedback */
             message: string;
         };
+        /** The page back button description */
+        back: string;
     };
     /** Controls for the tiled windows in the project */
     tile: {
