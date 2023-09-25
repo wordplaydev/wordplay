@@ -7,9 +7,11 @@
 </script>
 
 <div class="creator"
-    ><span class="name" style:animation-delay={`${Math.random() * 1000}ms`}
-        >{creator ? creator.name ?? '😃' : '⁉️'}</span
-    >{creator
+    >{#if creator}<span
+            class="name"
+            style:animation-delay={`${Math.random() * 1000}ms`}
+            >{creator.name}</span
+        >{/if}{creator
         ? creator.email === null
             ? '—'
             : anonymize
@@ -24,7 +26,6 @@
         flex-direction: row;
         flex-wrap: nowrap;
         gap: var(--wordplay-spacing);
-        background: var(--wordplay-alternating-color);
         border-radius: var(--wordplay-border-radius);
         border-top-left-radius: 1em;
         border-bottom-left-radius: 1em;
