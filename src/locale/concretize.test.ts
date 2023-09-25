@@ -15,7 +15,7 @@ test.each([
     ],
     [
         'To create a new $project, click here.',
-        'To create a new performance, click here.',
+        'To create a new project, click here.',
         [],
     ],
     ['I am $1 ??', locale.ui.template.unparsable + ': I am $1 ??', []],
