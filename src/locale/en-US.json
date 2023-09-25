@@ -8,7 +8,7 @@
         "bind": "bind",
         "evaluate": "evaluate",
         "decide": "decide",
-        "project": "performance",
+        "project": "project",
         "document": "explain",
         "source": "source",
         "input": "input",
