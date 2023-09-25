@@ -176,7 +176,11 @@
 <Writing>
     {#if auth && firestore}
         {#if $user}
-            <Header>{$user.displayName ?? '😃'} {$user.email}</Header>
+            <Header
+                ><span style:font-family="Noto Color Emoji"
+                    >{$user.displayName ?? '😃'}</span
+                >{$user.email}</Header
+            >
 
             <div class="actions">
                 <div class="action">
