@@ -15,6 +15,7 @@ import { firestore, auth } from '@db/firebase';
 import {
     deleteUser,
     onAuthStateChanged,
+    onIdTokenChanged,
     type Unsubscribe,
     type User,
 } from 'firebase/auth';
@@ -63,6 +64,7 @@ export class Database {
 
     /** Realtime query unsubscribers */
     private authUnsubscribe: Unsubscribe | undefined = undefined;
+    private authRefreshUnsubscribe: Unsubscribe | undefined = undefined;
     private projectsQueryUnsubscribe: Unsubscribe | undefined = undefined;
 
     constructor(locales: SupportedLocale[], defaultLocale: Locale) {
@@ -131,6 +133,12 @@ export class Database {
             // Update the galleries query with the new user.
             this.Galleries.listen();
         });
+        this.authRefreshUnsubscribe = onIdTokenChanged(
+            auth,
+            async (newUser) => {
+                callback(newUser);
+            }
+        );
     }
 
     /** Start a realtime database query on this user's projects, updating them whenever they change. */
@@ -211,6 +219,7 @@ export class Database {
     clean() {
         if (this.projectsQueryUnsubscribe) this.projectsQueryUnsubscribe();
         if (this.authUnsubscribe) this.authUnsubscribe();
+        if (this.authRefreshUnsubscribe) this.authRefreshUnsubscribe();
 
         this.Galleries.clean();
     }

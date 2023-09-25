@@ -162,7 +162,9 @@ export default class Project {
     ) {
         this.id = id ?? uuidv4();
         this.owner = owner;
-        this.collaborators = collaborators.filter((uid) => uid.length > 0);
+        this.collaborators = Array.from(
+            new Set(collaborators.filter((uid) => uid.length > 0))
+        );
         this.public = pub;
         this.timestamp = timestamp ?? Date.now();
         this.gallery = gallery;

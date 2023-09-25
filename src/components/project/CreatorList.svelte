@@ -1,17 +1,20 @@
 <!-- A modifiable list of creators -->
 <script lang="ts">
+    import type { Creator } from '../../db/CreatorDatabase';
     import { DB, locale } from '../../db/Database';
     import validateEmail from '../../db/validEmail';
+    import CreatorView from '../app/CreatorView.svelte';
     import Feedback from '../app/Feedback.svelte';
     import Spinning from '../app/Spinning.svelte';
     import Button from '../widgets/Button.svelte';
     import TextField from '../widgets/TextField.svelte';
 
-    export let creators: string[];
+    export let uids: string[];
     export let add: (uid: string) => void;
     export let remove: (uid: string) => void;
     export let removable: (uid: string) => boolean;
     export let editable: boolean;
+    export let anonymize: boolean;
 
     $: if (email) unknown = false;
 
@@ -19,10 +22,8 @@
     let email = '';
     let unknown = false;
 
-    // Whenever the project changes, get it's user's email addresses
-    let emails: Map<string, string | null> = new Map();
-
-    $: DB.Creators.getEmailFromUserIDs(creators).then((map) => (emails = map));
+    let creators: Record<string, Creator | null> = {};
+    $: DB.Creators.getCreatorsByEmail(uids).then((map) => (creators = map));
 
     function validCollaborator(email: string) {
         // Don't add self
@@ -30,11 +31,11 @@
     }
 
     async function addCreator() {
-        if (validateEmail(email)) {
+        if (validCollaborator(email)) {
             adding = true;
-            const userID = await DB.Creators.getUserIDFromEmail(email);
+            const userID = await DB.Creators.getUID(email);
             adding = false;
-            if (userID === undefined) {
+            if (userID === null) {
                 unknown = true;
             } else {
                 unknown = false;
@@ -68,13 +69,12 @@
 {/if}
 
 <div class="people">
-    {#each creators as uid}
+    {#each Object.entries(creators) as [uid, creator]}
         <div class="person"
-            ><span class="email"
-                >{#if emails.has(uid)}{emails.get(uid) ?? '?'}{:else}<Spinning
-                        label=""
-                    />{/if}</span
-            >{#if editable}<Button
+            >{#if creator}<CreatorView
+                    {anonymize}
+                    {creator}
+                />{:else}?{/if}{#if editable}<Button
                     tip={$locale.ui.project.button.removeCollaborator}
                     active={removable(uid)}
                     action={() => remove(uid)}>⨉</Button
@@ -89,12 +89,14 @@
         flex-direction: column;
         gap: var(--wordplay-spacing);
         margin-block-start: calc(2 * var(--wordplay-spacing));
+        justify-content: center;
     }
 
     .person {
         display: flex;
         flex-direction: row;
         gap: var(--wordplay-spacing);
+        align-items: center;
     }
 
     form {

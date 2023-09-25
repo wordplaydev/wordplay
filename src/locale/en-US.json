@@ -4161,7 +4161,8 @@
                     "success": "Account created!",
                     "confirm": "Check your old email address to confirm you new address.",
                     "delete": "Want us to forget everything?",
-                    "reallyDelete": "Are you sure? Your account and settings will be deleted immediately and your projects will be scheduled for deletion. Collaborators on your projects will immediately lose access to them. Type your email to confirm that this is what you want."
+                    "reallyDelete": "Are you sure? Your account and settings will be deleted immediately and your projects will be scheduled for deletion. Collaborators on your projects will immediately lose access to them. Type your email to confirm that this is what you want.",
+                    "name": "Pick an emoji to represent yourself to others."
                 },
                 "error": {
                     "expired": "This link expired.",

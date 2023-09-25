@@ -3,45 +3,24 @@ import admin from 'firebase-admin';
 import { initializeApp } from 'firebase-admin/app';
 import * as https from 'https';
 import * as http from 'http';
+import { UserIdentifier } from 'firebase-admin/auth';
 
 initializeApp();
 
-export type Emails = { emails: string[] };
-export type UIDs = { uids: string[] };
-export type IDMapping = Record<string, string | null>;
+type UserMatch = { uid: string; email: string | null; name: string | null };
 
-export const getUserIDsFromEmails = onCall(
-    async (request: { data: Emails }): Promise<IDMapping> => {
-        const emails = request.data.emails;
-        const users = await admin.auth().getUsers(
-            emails.map((email) => {
-                return { email };
-            })
-        );
-        const map: IDMapping = {};
+export const getCreators = onCall(
+    async (request: { data: UserIdentifier[] }): Promise<UserMatch[]> => {
+        const users = await admin.auth().getUsers(request.data);
+        const matches: UserMatch[] = [];
         users.users.forEach((user) => {
-            if (user.email) map[user.email] = user.uid ?? null;
+            matches.push({
+                email: user.email ?? null,
+                uid: user.uid,
+                name: user.displayName ?? null,
+            });
         });
-        return map;
-    }
-);
-
-export const getEmailsFromUserIDs = onCall(
-    async (request: { data: UIDs }): Promise<IDMapping> => {
-        const uids = request.data.uids;
-
-        const users = await admin.auth().getUsers(
-            uids.map((uid) => {
-                return { uid };
-            })
-        );
-
-        const map: IDMapping = {};
-        users.users.forEach((user) => {
-            if (user.email) map[user.uid] = user.email ?? null;
-        });
-
-        return map;
+        return matches;
     }
 );
 

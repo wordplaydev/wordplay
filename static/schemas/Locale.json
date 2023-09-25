@@ -8679,6 +8679,10 @@
                           "description": "Offers to log out the creator.",
                           "type": "string"
                         },
+                        "name": {
+                          "description": "Pick an emoji as a name",
+                          "type": "string"
+                        },
                         "play": {
                           "description": "Encouragement to go create after logging in.",
                           "type": "string"
@@ -8706,7 +8710,8 @@
                         "success",
                         "confirm",
                         "delete",
-                        "reallyDelete"
+                        "reallyDelete",
+                        "name"
                       ],
                       "type": "object"
                     }
