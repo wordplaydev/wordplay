@@ -54,7 +54,7 @@ export async function getExample(
 ): Promise<SerializedProject | undefined> {
     try {
         const text = await (
-            await fetch(`examples/${id.split('-')[1]}.wp`)
+            await fetch(`/examples/${id.split('-')[1]}.wp`)
         ).text();
         return parseSerializedProject(text, id);
     } catch (error) {
