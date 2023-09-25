@@ -1,5 +1,4 @@
 Text Transitions
-Visualizations
 === start
 text: [ "boomy" "boom boom" "boooooomy" "boomymcboomface" "moooey" ]
 next: text.random() … ∆ Key() … text.random()

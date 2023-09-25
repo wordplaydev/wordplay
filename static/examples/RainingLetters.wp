@@ -1,5 +1,4 @@
 RainingLetters
-Visualizations
 === start/en
 ``This program has a set of raining letters that fall to the ground according 
 to the rules of physics, and once they hit, become eligible for dropping again.

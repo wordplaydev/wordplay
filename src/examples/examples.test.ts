@@ -1,39 +1,31 @@
 import { test, expect } from 'vitest';
-import { examples, wpToSerializedProjects } from './examples';
 import en from '../locale/en-US.json';
 import type Locale from '../locale/Locale';
-import Listen from './Listen.wp?raw';
-import Talk from './Talk.wp?raw';
-import Laughing from './Laughing.wp?raw';
-import Layouts from './Layouts.wp?raw';
-import Transforms from './WildTransforms.wp?raw';
-import Colors from './Colors.wp?raw';
-import TextTransitions from './TextTransitions.wp?raw';
-import Garden from './Garden.wp?raw';
-import Between from './Between.wp?raw';
-import RotatingBinary from './RotatingBinary.wp?raw';
-import Greeting from './Greeting.wp?raw';
-import Amplitude from './Amplitude.wp?raw';
 import type { SerializedProject } from '../models/Project';
 import Project from '../models/Project';
 import { Locales } from '../db/Database';
+import { readdirSync, readFileSync } from 'fs';
+import path from 'path';
+import { parseSerializedProject } from './examples';
 
-export const testExamples = wpToSerializedProjects([
-    Listen,
-    Talk,
-    Laughing,
-    Layouts,
-    Transforms,
-    Colors,
-    TextTransitions,
-    Garden,
-    Between,
-    RotatingBinary,
-    Greeting,
-    Amplitude,
-]);
+const projects: SerializedProject[] = [];
+readdirSync(path.join('static', 'examples'), { withFileTypes: true }).forEach(
+    (file) => {
+        if (file.isFile()) {
+            const text = readFileSync(
+                path.join('static', 'examples', file.name),
+                'utf8'
+            );
+            const project = parseSerializedProject(
+                text,
+                file.name.split('.')[0]
+            );
+            projects.push(project);
+        }
+    }
+);
 
-test.each([...examples.values(), ...testExamples.values()])(
+test.each([...projects])(
     `Ensure $name has no conflicts`,
     async (example: SerializedProject) => {
         const project = await Project.deserializeProject(Locales, example);
