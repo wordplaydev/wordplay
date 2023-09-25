@@ -171,7 +171,7 @@ export default class ProjectsDatabase {
                 // Otherwise, if the given one has the later timestamp, overwrite. This is naive strategy that
                 // assumes that all systems have valid clocks, and it also fails to acccount
                 // for non-conflicting edits.
-                else if (project.timestamp >= current.timestamp) {
+                else if (project.timestamp > current.timestamp) {
                     history.edit(project, true, true);
                 }
             }
