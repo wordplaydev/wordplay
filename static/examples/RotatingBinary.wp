@@ -1,5 +1,4 @@
 RotatingBinary
-Visualizations
 ===start/en
 slowSpin:Sequence(spin() 10s "straight")
 

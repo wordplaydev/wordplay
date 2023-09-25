@@ -1,5 +1,4 @@
 Greeting
-
 ===start
 ƒ greeting() 
 ["hello" "hola" "안녕" "habari"].random() + " "

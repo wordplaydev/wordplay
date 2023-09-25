@@ -1,29 +1,20 @@
 import type { SerializedProject } from '../models/Project';
-import WhatWord from './WhatWord.wp?raw';
-import Kitties from './RainingKitties.wp?raw';
-import Pounce from './Pounce.wp?raw';
-import Hira from './Hira.wp?raw';
-import Video from './Video.wp?raw';
-import RainingLetters from './RainingLetters.wp?raw';
-import Poem from './Poem.wp?raw';
-import Questions from './Questions.wp?raw';
-import Maze from './Maze.wp?raw';
-import Adventure from './Adventure.wp?raw';
-import Letters from './Letters.wp?raw';
-import Catch from './Catch.wp?raw';
-import Headlines from './Headlines.wp?raw';
-import Layers from './Layers.wp?raw';
 import { parseNames } from '../parser/parseBind';
 import { toTokens } from '../parser/toTokens';
 import Gallery from '../models/Gallery';
 
-export function wpToSerializedProject(project: string): SerializedProject {
+/** This mirrors the static path to examples, but also helps distinguish project IDs from example project names. */
+export const ExamplePrefix = 'example-';
+
+export function parseSerializedProject(
+    project: string,
+    id: string
+): SerializedProject {
     const lines = project.split('\n');
-    const rest = project.substring(lines.slice(0, 2).join().length + 1);
+    const rest = project.substring(lines.slice(0, 1).join().length + 1);
 
     // The first line is the project name
     const name = lines[0].trim();
-    const gallery = lines[1].trim();
 
     // Split the file by "===" lines
     const files = rest.split(/(?==== .*\n)/g);
@@ -44,7 +35,7 @@ export function wpToSerializedProject(project: string): SerializedProject {
     // Return stuff for display
     return {
         name,
-        id: name,
+        id,
         sources: sources,
         locales: languages.size === 0 ? ['en-US'] : Array.from(languages),
         owner: null,
@@ -53,46 +44,33 @@ export function wpToSerializedProject(project: string): SerializedProject {
         listed: true,
         archived: false,
         timestamp: Date.now(),
-        gallery: gallery.length === 0 ? null : gallery,
+        gallery: null,
     };
 }
 
-export function wpToSerializedProjects(raw: string[]) {
-    const examples = new Map<string, SerializedProject>();
-    for (const example of raw) {
-        const serialized = wpToSerializedProject(example);
-        examples.set(serialized.id, serialized);
+/** Asynchronously fetch the example */
+export async function getExample(
+    id: string
+): Promise<SerializedProject | undefined> {
+    try {
+        const text = await (
+            await fetch(`examples/${id.split('-')[1]}.wp`)
+        ).text();
+        return parseSerializedProject(text, id);
+    } catch (error) {
+        console.error(error);
+        return undefined;
     }
-    return examples;
 }
 
-export const examples = wpToSerializedProjects([
-    Adventure,
-    WhatWord,
-    Kitties,
-    Pounce,
-    Hira,
-    Video,
-    RainingLetters,
-    Poem,
-    Questions,
-    Letters,
-    Maze,
-    Catch,
-    Headlines,
-    Layers,
-]);
-
-function createGallery(name: string, description: string) {
+function createGallery(name: string, description: string, projects: string[]) {
     return new Gallery({
         id: name,
         path: name,
         name: { 'en-US': name },
         description: { 'en-US': description },
         words: [],
-        projects: Array.from(examples.values())
-            .filter((example) => example.gallery === name)
-            .map((project) => project.id),
+        projects: projects.map((name) => ExamplePrefix + name),
         curators: [],
         creators: [],
         public: true,
@@ -101,7 +79,31 @@ function createGallery(name: string, description: string) {
 }
 
 export const ExampleGalleries: Gallery[] = [
-    createGallery('Games', 'Simple interactive games that play with words.'),
-    createGallery('Visualizations', 'Visualizations that celebrate language.'),
-    createGallery('Physics', 'Demonstrations of physics'),
+    createGallery('Games', 'Simple interactive games that play with words.', [
+        'Adventure',
+        'Maze',
+        'WhatWord',
+    ]),
+    createGallery('Visualizations', 'Visualizations that celebrate language.', [
+        'Amplitude',
+        'Garden',
+        'Letters',
+        'Poem',
+        'Questions',
+        'RainingKitties',
+        'RotatingBinary',
+    ]),
+    createGallery('Physics', 'Demonstrations of physics', [
+        'Catch',
+        'Hira',
+        'Layers',
+        'Pounce',
+    ]),
+    createGallery('Sound', 'Demonstrations of audio and video input', [
+        'Listen',
+        'Talk',
+        'RainingLetters',
+        'Video',
+    ]),
+    createGallery('Tools', 'Simple utilities', ['Timer', 'Headlines']),
 ];

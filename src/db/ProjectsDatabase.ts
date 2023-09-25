@@ -10,7 +10,7 @@ import { FirebaseError } from 'firebase/app';
 import { firestore } from './firebase';
 import type Node from '../nodes/Node';
 import Source from '../nodes/Source';
-import { examples } from '../examples/examples';
+import { ExamplePrefix, getExample } from '../examples/examples';
 
 export class ProjectsDexie extends Dexie {
     projects!: Table<SerializedProject>;
@@ -62,7 +62,7 @@ export default class ProjectsDatabase {
     readonly allEditableProjects: Writable<Project[]> = writable([]);
 
     /** A cache of read only projects, by project ID. */
-    readonly readonlyProjects: Map<string, Project> = new Map();
+    readonly readonlyProjects: Map<string, Project | undefined> = new Map();
 
     /** Debounce timer, used to clear pending requests. */
     private timer: NodeJS.Timeout | undefined = undefined;
@@ -72,21 +72,6 @@ export default class ProjectsDatabase {
 
         // Hydrate the editable projects from disk
         this.hydrate();
-
-        // Eventually Add the examples to the read only database.
-        Promise.all(
-            Array.from(examples.values()).map(async (example) =>
-                this.track(
-                    await Project.deserializeProject(
-                        this.database.Locales,
-                        example
-                    ),
-                    false,
-                    PersistenceType.None,
-                    false
-                )
-            )
-        );
     }
 
     async hydrate() {
@@ -245,6 +230,19 @@ export default class ProjectsDatabase {
         // First, check read only projects.
         const readonly = this.readonlyProjects.get(id);
         if (readonly) return readonly;
+
+        // Is this an example? Load the example.
+        if (id.startsWith(ExamplePrefix)) {
+            const serialized = await getExample(id);
+            const project =
+                serialized === undefined
+                    ? undefined
+                    : await Project.deserializeProject(
+                          this.database.Locales,
+                          serialized
+                      );
+            this.readonlyProjects.set(id, project);
+        }
 
         // First, check memory. If it's in the local DB, it should be in memory.
         const project = this.projectHistories.get(id)?.getCurrent();

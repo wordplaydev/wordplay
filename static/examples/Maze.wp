@@ -1,5 +1,4 @@
 Maze
-Games
 ===start\en
 ``A maze is a 2D grid of emoji, with some functions for checking the state at particular grid postions.
 Mazes are generated randomly.``/en

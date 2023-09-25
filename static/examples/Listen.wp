@@ -1,4 +1,3 @@
 Listen
-Visualizations
 === start
 Phrase("🔈" resting:Pose(scale: Volume()))
