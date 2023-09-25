@@ -25,8 +25,8 @@ let auth: Auth | undefined = undefined;
 let firestore: Firestore | undefined = undefined;
 let functions: Functions | undefined = undefined;
 let analytics: Analytics | undefined = undefined;
-// Don't connect to firebase when running tests.
-if (typeof process.env.VITEST === 'undefined') {
+// Don't connect to firebase when running in node.
+if (typeof process === 'undefined') {
     try {
         if (PUBLIC_FIREBASE_API_KEY.length > 0) {
             const firebaseConfig = {
