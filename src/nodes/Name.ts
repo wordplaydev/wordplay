@@ -110,6 +110,10 @@ export default class Name extends LanguageTagged {
             : this.name;
     }
 
+    withName(name: string) {
+        return new Name(this.separator, new NameToken(name), this.language);
+    }
+
     startsWith(prefix: string) {
         return this.name && this.name.startsWith(prefix);
     }

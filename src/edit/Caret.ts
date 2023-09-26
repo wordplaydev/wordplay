@@ -1,4 +1,8 @@
-import type { Edit, Revision } from '../components/editor/util/Commands';
+import type {
+    Edit,
+    ProjectRevision,
+    Revision,
+} from '../components/editor/util/Commands';
 import Block from '@nodes/Block';
 import Node, { ListOf } from '@nodes/Node';
 import Token from '@nodes/Token';
@@ -8,6 +12,7 @@ import {
     FormattingSymbols,
     DelimiterOpenByClose,
     TextOpenByTextClose,
+    isName,
 } from '@parser/Tokenizer';
 import {
     CONVERT_SYMBOL,
@@ -33,6 +38,14 @@ import NodeRef from '../locale/NodeRef';
 import type Conflict from '../conflicts/Conflict';
 import Translation from '../nodes/Translation';
 import { LanguageTagged } from '../nodes/LanguageTagged';
+import Reference from '../nodes/Reference';
+import Name from '../nodes/Name';
+import type Project from '../models/Project';
+import type Definition from '../nodes/Definition';
+import DefinitionExpression from '../nodes/DefinitionExpression';
+import NameType from '../nodes/NameType';
+import TypeVariable from '../nodes/TypeVariable';
+import Bind from '../nodes/Bind';
 
 export type InsertionContext = { before: Node[]; after: Node[] };
 export type CaretPosition = number | Node;
@@ -685,10 +698,68 @@ export default class Caret {
         }
     }
 
-    /** If complete is true, will automatically close a delimited symbol. */
-    insert(text: string, complete = true): Edit | undefined {
+    /** Insert text at the current position. If complete is true, will automatically close a delimited symbol. */
+    insert(
+        text: string,
+        project?: Project,
+        complete = true
+    ): Edit | ProjectRevision | undefined {
         // Normalize the mystery string, ensuring it follows Unicode normalization form.
         text = text.normalize();
+
+        // In a name or just after name that's part of a reference or a bind? Try to do a rename instead of an edit.
+        if (project && typeof this.position === 'number') {
+            // Are we in the middle of a name or at it's end?
+            const rename = this.tokenExcludingSpace?.isSymbol(Sym.Name)
+                ? this.tokenExcludingSpace
+                : this.tokenPrior?.isSymbol(Sym.Name) && this.atTokenEnd()
+                ? this.tokenPrior
+                : undefined;
+            const renameParent = rename
+                ? this.source.root.getParent(rename)
+                : undefined;
+            if (
+                renameParent instanceof Name ||
+                renameParent instanceof Reference
+            ) {
+                let start: number | undefined;
+                let newName: string | undefined;
+
+                if (
+                    rename === this.tokenExcludingSpace &&
+                    this.tokenExcludingSpace
+                ) {
+                    start = this.source.getTokenTextPosition(
+                        this.tokenExcludingSpace
+                    );
+                    newName =
+                        start === undefined
+                            ? undefined
+                            : this.tokenExcludingSpace
+                                  .getText()
+                                  .substring(0, this.position - start) +
+                              text +
+                              this.tokenExcludingSpace
+                                  .getText()
+                                  .substring(this.position - start);
+                } else if (rename === this.tokenPrior && this.tokenPrior) {
+                    start = this.source.getTokenTextPosition(this.tokenPrior);
+                    newName = this.tokenPrior.getText() + text;
+                }
+
+                if (start !== undefined && newName && isName(newName)) {
+                    const edit = this.rename(
+                        renameParent,
+                        newName,
+                        project,
+                        this.position -
+                            start +
+                            new UnicodeString(text).getLength()
+                    );
+                    if (edit) return edit;
+                }
+            }
+        }
 
         let newSource: Source | undefined;
         let newPosition: number;
@@ -903,7 +974,162 @@ export default class Caret {
         ];
     }
 
-    backspace(): Edit | undefined {
+    /**
+     *
+     * @param edited The name or reference that was edited
+     * @param newName The new name
+     * @param project The project being edited
+     * @param offset How far from the start of the edited name to move the cursor. Relative to the name since the name's source positions are not stable since many names can change.
+     * @returns A revised project and caret, or nothing
+     */
+    rename(
+        edited: Reference | Name,
+        newName: string,
+        project: Project,
+        offset: number
+    ): ProjectRevision | undefined {
+        let name: Name | undefined;
+        let definition: Definition | undefined;
+        // If the edited thing is a reference, find it's definition and the corresponding name that was edited.
+        if (edited instanceof Reference) {
+            definition = edited.resolve(project.getContext(this.source));
+            name = definition?.names.names.find(
+                (n) => n.getName() === edited.getName()
+            );
+        }
+        // If it was a name, find the definition that the name is naming
+        else {
+            name = edited;
+            definition = this.source.root
+                .getAncestors(edited)
+                .find(
+                    (node): node is Definition =>
+                        node instanceof DefinitionExpression ||
+                        node instanceof Bind ||
+                        node instanceof TypeVariable
+                );
+            // Rename
+        }
+
+        // If we found both a name and a definition, find all of the references to the definition
+        if (name && definition) {
+            const references = project
+                .getSources()
+                .map((source) =>
+                    source
+                        .nodes()
+                        .filter(
+                            (node): node is Reference | NameType =>
+                                (node instanceof Reference ||
+                                    node instanceof NameType) &&
+                                node.resolve(project.getContext(source)) ===
+                                    definition &&
+                                node.getName() === name?.getName()
+                        )
+                )
+                .flat();
+
+            // Remember which source we're editing.
+            const sourceIndex = project.getSources().indexOf(this.source);
+
+            // Rename the name and all the references
+            const revisions = [
+                [name, name.withName(newName)],
+                ...references.map((ref) => [ref, ref.withName(newName)]),
+            ] as [Node, Node][];
+
+            // Revise the project and get the corresponding revised source.
+            const revisedProject = project.withRevisedNodes(revisions);
+            const revisedSource = revisedProject.getSources()[sourceIndex];
+
+            // Find the new source position of the edited name so we can find the new position of the caret.
+            const editedRevision = revisions.find(
+                (revision) => revision[0] === edited
+            );
+            // Bail if we couldn't find it for some reason.
+            if (editedRevision === undefined) return undefined;
+            const start = revisedSource.getTokenTextPosition(
+                editedRevision[1].getFirstLeaf() as Token
+            );
+            // Bail if we couldn't find the start position for some reason.
+            if (start === undefined) return undefined;
+
+            // Return the revised project and caret position.
+            return [
+                revisedProject,
+                this.withSource(revisedSource).withPosition(start + offset),
+            ];
+        }
+    }
+
+    backspace(project: Project): Edit | ProjectRevision | undefined {
+        // If the position is a number, see if this is a rename
+        if (typeof this.position === 'number') {
+            // Are we in the middle of a name or at it's end?
+            const rename =
+                this.tokenExcludingSpace?.isSymbol(Sym.Name) &&
+                !this.atTokenStart()
+                    ? this.tokenExcludingSpace
+                    : this.tokenPrior?.isSymbol(Sym.Name) && this.atTokenEnd()
+                    ? this.tokenPrior
+                    : undefined;
+            const renameParent = rename
+                ? this.source.root.getParent(rename)
+                : undefined;
+            // If the name token is in a name or reference and the name being backspaced is more than one character, then try to rename.
+            if (
+                (renameParent instanceof Name ||
+                    renameParent instanceof Reference) &&
+                // Don't rename if we're deleting the whole name.
+                rename &&
+                rename?.getTextLength() > 1
+            ) {
+                let start: number | undefined;
+                let newName: string | undefined;
+
+                // Are we backspacing in the middle of the name?
+                if (
+                    rename === this.tokenExcludingSpace &&
+                    this.tokenExcludingSpace
+                ) {
+                    // Remember the offset of the caret
+                    start = this.source.getTokenTextPosition(
+                        this.tokenExcludingSpace
+                    );
+                    newName =
+                        start !== undefined
+                            ? this.tokenExcludingSpace
+                                  .getText()
+                                  .substring(0, this.position - start - 1) +
+                              this.tokenExcludingSpace
+                                  .getText()
+                                  .substring(this.position - start)
+                            : undefined;
+                }
+                // If we're backspacing the end of the name...
+                else if (rename === this.tokenPrior && this.tokenPrior) {
+                    // Remmeber position at the end of the token
+                    start = this.source.getTokenTextPosition(this.tokenPrior);
+                    newName = this.tokenPrior
+                        .getText()
+                        .substring(0, this.tokenPrior.getTextLength() - 1);
+                }
+
+                // Without the character prior to the current one in the name.
+                if (start !== undefined && newName) {
+                    // Try to rename, removing the character just before the caret.
+                    const edit = this.rename(
+                        renameParent,
+                        newName,
+                        project,
+                        this.position - start - 1
+                    );
+                    // If we succeeded, return the edit.
+                    if (edit) return edit;
+                }
+            }
+        }
+
         if (typeof this.position === 'number') {
             const before = this.source.getCode().at(this.position - 1);
             const after = this.source.getCode().at(this.position);

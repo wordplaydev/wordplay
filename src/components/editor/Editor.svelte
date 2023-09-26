@@ -10,7 +10,11 @@
         setContext,
     } from 'svelte';
     import UnicodeString from '@models/UnicodeString';
-    import { handleKeyCommand, type Edit } from './util/Commands';
+    import {
+        handleKeyCommand,
+        type Edit,
+        type ProjectRevision,
+    } from './util/Commands';
     import type Source from '@nodes/Source';
     import { writable } from 'svelte/store';
     import type Program from '@nodes/Program';
@@ -46,7 +50,7 @@
     import TypePlaceholder from '@nodes/TypePlaceholder';
     import Sym from '@nodes/Sym';
     import RootView from '../project/RootView.svelte';
-    import type Project from '@models/Project';
+    import Project from '@models/Project';
     import type Conflict from '@conflicts/Conflict';
     import { tick } from 'svelte';
     import { getEditsAt } from '../../edit/Autocomplete';
@@ -1106,7 +1110,7 @@
      *      But there are other things that edit, and they may not want the editor grabbing focus.
      **/
     async function handleEdit(
-        edit: Edit | undefined,
+        edit: Edit | ProjectRevision | undefined,
         idle: IdleKind,
         focusAfter: boolean
     ) {
@@ -1156,11 +1160,17 @@
         if (newSource) {
             if (editable) {
                 Projects.reviseProject(
-                    project
-                        .withSource(source, newSource)
-                        .withCaret(newSource, newCaret.position)
+                    newSource instanceof Project
+                        ? newSource
+                        : project
+                              .withSource(source, newSource)
+                              .withCaret(newSource, newCaret.position)
                 );
-                caret.set(newCaret.withSource(newSource));
+                caret.set(
+                    newSource instanceof Project
+                        ? newCaret
+                        : newCaret.withSource(newSource)
+                );
             } else setIgnored(true);
         } else {
             // Remove the addition, since the caret moved since being added.
@@ -1183,7 +1193,7 @@
     function handleTextInput(event: Event) {
         setIgnored(false);
 
-        let edit: Edit | undefined = undefined;
+        let edit: Edit | ProjectRevision | undefined = undefined;
 
         // Somehow no reference to the input? Bail.
         if (input === null) return;
@@ -1240,10 +1250,10 @@
             else {
                 const char = lastChar.toString();
 
-                // Insert the character tht was added last.
-                edit = newCaret.insert(char, !keyWasDead);
+                // Insert the character that was added last.
+                edit = newCaret.insert(char, project, !keyWasDead);
                 if (edit) {
-                    // Rset the value to the last character.
+                    // Reset the value to the last character.
                     if (value.getLength() > 1)
                         input.value = lastChar.toString();
                 }
@@ -1282,6 +1292,7 @@
 
         const [command, result] = handleKeyCommand(event, {
             caret: $caret,
+            project,
             evaluator,
             dragging: $dragged !== undefined,
             database: DB,

@@ -18,7 +18,11 @@ import type { User } from 'firebase/auth';
 import type Evaluator from '@runtime/Evaluator';
 import type Locale from '@locale/Locale';
 import type Root from '@nodes/Root';
-import type { CommandContext, Edit } from '../editor/util/Commands';
+import type {
+    CommandContext,
+    Edit,
+    ProjectRevision,
+} from '../editor/util/Commands';
 import type { CaretPosition } from '../../edit/Caret';
 import type LanguageCode from '../../locale/LanguageCode';
 
@@ -100,7 +104,7 @@ export function getCaret() {
 }
 
 type EditHandler = (
-    edit: Edit | undefined,
+    edit: Edit | ProjectRevision | undefined,
     idle: IdleKind,
     focus: boolean
 ) => void;

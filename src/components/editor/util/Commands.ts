@@ -31,6 +31,7 @@ import type { Database } from '@db/Database';
 import type Locale from '@locale/Locale';
 import { TileKind } from '../../project/Tile';
 import Sym from '../../../nodes/Sym';
+import type Project from '../../../models/Project';
 
 export type Command = {
     /** The iconographic text symbol to use */
@@ -58,22 +59,24 @@ export type Command = {
     /** A function that should indicate whether the command is active */
     active?: (context: CommandContext, key: string) => boolean;
     /** Generates an edit or other editor command */
-    execute: (
-        context: CommandContext,
-        key: string
-    ) => // Process this edit
-    | Edit
-        // Wait and process this edit
-        | Promise<Edit | undefined>
-        // Handled
-        | boolean
-        // Not handled
-        | undefined
-        | void;
+    execute: (context: CommandContext, key: string) => CommandResult;
 };
+
+type CommandResult =
+    | Edit
+    // Revise a whole project
+    | ProjectRevision
+    // Wait and process this edit
+    | Promise<Edit | ProjectRevision | undefined>
+    // Handled
+    | boolean
+    // Not handled
+    | undefined
+    | void;
 
 export type CommandContext = {
     caret: Caret | undefined;
+    project: Project;
     evaluator: Evaluator;
     database: Database;
     dragging: boolean;
@@ -87,6 +90,8 @@ export type CommandContext = {
 
 export type Edit = Caret | Revision;
 export type Revision = [Source, Caret];
+export type ProjectRevision = [Project, Caret];
+
 export enum Visibility {
     Visible = 'visible',
     Touch = 'touch',
@@ -114,11 +119,7 @@ export function toShortcut(command: Command) {
 export function handleKeyCommand(
     event: KeyboardEvent,
     context: CommandContext
-): [
-    Command | undefined,
-    Edit | Promise<Edit | undefined> | boolean | undefined | void,
-    boolean
-] {
+): [Command | undefined, CommandResult, boolean] {
     // Map meta key to control on Mac OS/iOS.
     const control = event.metaKey || event.ctrlKey;
 
@@ -514,8 +515,8 @@ export const InsertSymbol: Command = {
     shift: undefined,
     alt: false,
     typing: true,
-    execute: ({ caret }, key) =>
-        caret && key.length === 1 ? caret.insert(key) : false,
+    execute: ({ caret, project }, key) =>
+        caret && key.length === 1 ? caret.insert(key, project) : false,
 };
 
 const Commands: Command[] = [
@@ -956,7 +957,7 @@ const Commands: Command[] = [
         control: false,
         alt: false,
         typing: true,
-        execute: ({ caret }) => caret?.backspace() ?? false,
+        execute: ({ caret, project }) => caret?.backspace(project) ?? false,
     },
     {
         symbol: '✂️',
@@ -976,7 +977,7 @@ const Commands: Command[] = [
                     context.caret.source
                 )
             );
-            return context.caret.backspace();
+            return context.caret.backspace(context.project);
         },
     },
     {
