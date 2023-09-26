@@ -536,7 +536,6 @@
                         blockParents.shift();
                     const containingBlockView =
                         blockParents[0] ?? tokenView.closest('.block');
-                    console.log(containingBlockView);
 
                     const rect = containingBlockView?.getBoundingClientRect();
                     horizontalStart =
