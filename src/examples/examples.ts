@@ -83,6 +83,7 @@ export const ExampleGalleries: Gallery[] = [
         'Adventure',
         'Maze',
         'WhatWord',
+        'Catch',
     ]),
     createGallery('Visualizations', 'Visualizations that celebrate language.', [
         'Amplitude',
@@ -94,7 +95,6 @@ export const ExampleGalleries: Gallery[] = [
         'RotatingBinary',
     ]),
     createGallery('Physics', 'Demonstrations of physics', [
-        'Catch',
         'Hira',
         'Layers',
         'Pounce',
