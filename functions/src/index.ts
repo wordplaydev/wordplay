@@ -44,7 +44,7 @@ export const getWebpage = onRequest(
         response.set('Cache-Control', 'public, max-age=600, s-maxage=600');
 
         if (lib === undefined || url === undefined) {
-            console.log('Invalid URL: ' + url);
+            console.log('Invalid URL ' + url);
             response.json('invalid-url');
         } else {
             const result: string = await new Promise((resolve) => {
