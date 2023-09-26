@@ -15,6 +15,10 @@ import getOutlineOf from './outline';
 import Reference from '../../../nodes/Reference';
 import Program from '../../../nodes/Program';
 import Block from '../../../nodes/Block';
+import NameType from '../../../nodes/NameType';
+import Name from '../../../nodes/Name';
+import DefinitionExpression from '../../../nodes/DefinitionExpression';
+import Bind from '../../../nodes/Bind';
 
 /** Highlight types and whether they are rendered above or below the code. True for above. */
 export const HighlightTypes = {
@@ -236,16 +240,54 @@ export function getHighlights(
     )
         addHighlight(source, newHighlights, caretParent, 'hovered');
 
+    // Highlight definitions and uses
     const reference =
-        caret.position instanceof Reference
+        caret.position instanceof Reference ||
+        caret.position instanceof NameType
             ? caret.position
-            : caretParent instanceof Reference
+            : caretParent instanceof Reference ||
+              caretParent instanceof NameType
             ? caretParent
             : undefined;
-    if (reference) {
-        const definition = reference.resolve(project.getContext(source));
-        if (definition !== undefined)
-            addHighlight(source, newHighlights, definition, 'hovered');
+
+    const name =
+        caret.position instanceof Name
+            ? caret.position
+            : caretParent instanceof Name
+            ? caretParent
+            : undefined;
+    const definition = reference
+        ? reference.resolve(project.getContext(source))
+        : name
+        ? source.root
+              .getAncestors(name)
+              .find(
+                  (def): def is DefinitionExpression | Bind =>
+                      def instanceof DefinitionExpression || def instanceof Bind
+              )
+        : undefined;
+    if (definition) {
+        if (reference) {
+            if (definition !== undefined)
+                addHighlight(source, newHighlights, definition, 'hovered');
+        } else {
+            if ('names' in definition)
+                addHighlight(
+                    source,
+                    newHighlights,
+                    definition.names,
+                    'hovered'
+                );
+            const context = project.getContext(source);
+            for (const ref of source
+                .nodes()
+                .filter(
+                    (def): def is Reference | NameType =>
+                        (def instanceof Reference || def instanceof NameType) &&
+                        def.resolve(context) === definition
+                ))
+                addHighlight(source, newHighlights, ref, 'hovered');
+        }
     }
 
     // Update the store, broadcasting the highlights to all node views for rendering.
