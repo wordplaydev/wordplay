@@ -194,6 +194,10 @@ export default class Reference extends SimpleExpression {
         return this.name.getText();
     }
 
+    withName(name: string) {
+        return new Reference(new NameToken(name), this.definition);
+    }
+
     getCorrespondingDefinition(context: Context): Definition | undefined {
         return this.resolve(context);
     }

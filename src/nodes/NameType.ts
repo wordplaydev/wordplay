@@ -61,6 +61,10 @@ export default class NameType extends Type {
         return this.name.getText();
     }
 
+    withName(name: string) {
+        return new NameType(new NameToken(name), this.types, this.definition);
+    }
+
     getDefinitions(node: Node, context: Context) {
         // Get the definitions in the type this name refers to.
         const def = this.resolve(context);

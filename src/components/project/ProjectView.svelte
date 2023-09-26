@@ -1032,6 +1032,7 @@
             ? undefined
             : Array.from($editors.values()).find((editor) => editor.focused)
                   ?.caret,
+        project,
         /** We intentionally depend on the evaluation store because it updates when the evaluator's state changes */
         evaluator: $evaluation.evaluator,
         dragging: $dragged !== undefined,
