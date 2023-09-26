@@ -7,6 +7,7 @@
     import Spinning from './Spinning.svelte';
     import Subheader from './Subheader.svelte';
     import getProjectLink from './getProjectLink';
+    import { browser } from '$app/environment';
 
     export let gallery: Gallery;
 
@@ -21,25 +22,29 @@
     <Link to={`gallery/${gallery.getID()}`}
         ><Subheader>{gallery.getName($locale)}</Subheader></Link
     >
-    <div class="previews">
-        {#each highlights as projectID, index}
-            <div class="highlight">
-                {#await Projects.get(projectID)}
-                    <Spinning label={$locale.ui.widget.loading.message} />
-                {:then project}
-                    {#if project}
-                        <ProjectPreview
-                            {project}
-                            name={false}
-                            action={() => goto(getProjectLink(project, true))}
-                            delay={index * 300}
-                        />
-                    {/if}
-                {/await}
-            </div>
-        {/each}
-        {#if hidden > 0}{'•'.repeat(hidden)}{/if}
-    </div>
+    <!-- We have to guard this since we haven't structured the project database to run server side fetches, so SvelteKit builds fail. -->
+    {#if browser}
+        <div class="previews">
+            {#each highlights as projectID, index}
+                <div class="highlight">
+                    {#await Projects.get(projectID)}
+                        <Spinning label={$locale.ui.widget.loading.message} />
+                    {:then project}
+                        {#if project}
+                            <ProjectPreview
+                                {project}
+                                name={false}
+                                action={() =>
+                                    goto(getProjectLink(project, true))}
+                                delay={index * 300}
+                            />
+                        {/if}
+                    {/await}
+                </div>
+            {/each}
+            {#if hidden > 0}{'•'.repeat(hidden)}{/if}
+        </div>
+    {/if}
 </div>
 
 <style>
