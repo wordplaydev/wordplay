@@ -14,7 +14,7 @@ size: 20m
 amps: Volume()
 
 ``The letter chosen and it's position, rotational velocity and whether it's visible.``
-•Letter(letter•"" x•#m y•#m angle•# speed•# visible•?) ()
+•Letter(letter•"" x•#m y•#m angle•# speed•# visible•?) 
 
 tick: Time()
 
@@ -41,7 +41,7 @@ letters•[Letter]: count → [#].translate(
 ``Convert the letters into phrases``
 Stage(
     [
-      Phrase("☁️" size: 3m place:Place(-8m 12m))
+      Phrase("☁️" size: 3m place: Place(-8m 12m))
       Phrase("☁️" size: 5m place: Place(8m 11m))
       Phrase("🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩" place: Place(-3 · size -0.5m))
     ].append(
@@ -52,12 +52,12 @@ Stage(
                 size: 1m
                 place: Place(letter.x letter.y)
                 rotation: letter.angle · 1°
-                resting:Pose(
+                resting: Pose(
                   opacity: letter.visible ? 1 0 
                   color: 🌈(100% 0 0°)
                 )
                 duration: 0s
             )
     ))
-    place: Place(0m -2 · size -5m) background: 🌈(63% 93 248°)
+    place: Place(0m  1 · size -15m) background: 🌈(63% 93 248°)
 )
