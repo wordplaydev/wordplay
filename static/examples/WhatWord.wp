@@ -1,11 +1,13 @@
 WhatWord
 === start/en
 ↓ words
+
 ``a list of guesses and a secret word``/en
 ``El estado del juego es una lista de conjeturas y una palabra secreta.``/es
 ``قائمة التخمينات وكلمة سرية``/ar
-•Game/en,Juego/es,لعبة/ar(guesses/en,suposiciones/es,التخمينات/ar•[""] secret/en,secreta/es,سر/ar•"") (
-  	guessesRemaining/en,conjeturasRestantes/es,التخميناتالمتبقية/ar: (secret.📏() · 2) - guesses.📏()
+•Game/en,Juego/es,لعبة/ar(guesses/en,suposiciones/es,التخمينات/ar•[""] remaining•[""]) (
+    secret/en,secreta/es,سر/ar•"": remaining[1]
+  	guessesRemaining/en,conjeturasRestantes/es,التخميناتالمتبقية/ar: (secret.📏() · 3) - guesses.📏()
   	status/en,estado/es,حالة/ar: 
     	secret = "" ? "start"
     		secret → [""].all(ƒ(letter•"") guesses.has(letter)) ? "won"
@@ -13,18 +15,16 @@ WhatWord
     				"playing"
 )
 
-start/en,primero/es,أولي/ar: Game([] "")
-
 key/en,tecla/es,مفتاح/ar: ⌨️()
 
 ``When the keyboard state changes, the game state changes.``/en
 ``Cuando cambia el estado del teclado, cambia el estado del juego.``/es
 ``عندما تتغير حالة لوحة المفاتيح ، تتغير حالة اللعبة.``/ar
-state/en,estado/es,حالة/ar•Game: start … ∆ key …
-    key = "Escape" ? start
-    	(state.status ≠ "playing") & (key = " ") ? Game([] words.random())
+state/en,estado/es,حالة/ar•Game: Game([] words.sorted(ƒ () Random())) … ∆ key …
+    key = "Escape" ? Game([] words.sorted(ƒ () Random()))
+    	(state.status ≠ "playing") & (key = " ") ? Game([] words.sansFirst())
     		(state.status = "playing") & (key.length() = 1) & ~state.guesses.has(key) ? 
-      		Game(state.guesses.add(key) state.secret)
+      		Game(state.guesses.add(key) state.remaining)
       		state
 
 ``The board is a translation of the secret, accounting for guesses``/en
@@ -81,7 +81,8 @@ screen/en,cine/es,إظهار/ar:
 ``Create a world with the screen in it``/en
 ``Crea un mundo con la pantalla en él``/es
 ``اصنع عالمًا مع الشاشة بداخله``/ar
-Stage([screen] face: "Poor Story" background: 🌈(0% 0 0°) color: 🌈(100% 0 0°))
+Stage([screen] place: Place(0m 0m -12m) face: "Poor Story" background: 🌈(0% 0 0°) color: 🌈(100% 0 0°))
+
 
 
 === words/en,palabras/es,كلمات/ar
@@ -89,10 +90,43 @@ Stage([screen] face: "Poor Story" background: 🌈(0% 0 0°) color: 🌈(100% 0 
 ``Estas son las palabras secretas. ¡No se lo digas a nadie!``/es
 ``هذه هي الكلمات السرية. لا تخبر أحدا!``/ar
 [
-  'kitty'
-  'house'
-  'heat'
-  'farm'
-  'townhouse'
-  'heatwave'
-]
+"fox"
+"monkey"
+"beaver"
+"cow"
+"wolf"
+"goat"
+"deer"
+"pig"
+"chinchilla"
+"squirrel"
+"rat"
+"shrew"
+"mole"
+"armadillo"
+"opossum"
+"elephant"
+"bat"
+"donkey"
+"horse"
+"hedgehog"
+"cat"
+"giraffe"
+"gorilla"
+"seal"
+"human"
+"kangaroo"
+"marmot"
+"hamster"
+"mouse"
+"rabbit"
+"sheep"
+"jaguar"
+"chimpanzee"
+"baboon"
+"raccoon"
+"mole"
+"shrew"
+"echidna"
+"tapir
+].sorted(ƒ () Random())
