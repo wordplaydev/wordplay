@@ -719,8 +719,9 @@ export default class Caret {
                 ? this.source.root.getParent(rename)
                 : undefined;
             if (
-                renameParent instanceof Name ||
-                renameParent instanceof Reference
+                renameParent instanceof Name
+                // Disabled reference renaming, it's annoying.
+                // || renameParent instanceof Reference
             ) {
                 let start: number | undefined;
                 let newName: string | undefined;
@@ -1078,8 +1079,9 @@ export default class Caret {
                 : undefined;
             // If the name token is in a name or reference and the name being backspaced is more than one character, then try to rename.
             if (
-                (renameParent instanceof Name ||
-                    renameParent instanceof Reference) &&
+                renameParent instanceof Name &&
+                // Disabled  reference renaming, it's annoying.
+                // || renameParent instanceof Reference
                 // Don't rename if we're deleting the whole name.
                 rename &&
                 rename?.getTextLength() > 1
