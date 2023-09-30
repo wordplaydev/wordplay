@@ -76,17 +76,14 @@ export function parseDocs(tokens: Tokens): Docs {
 }
 
 /** EXPRESSION :: BINARY_OPERATION [ conditional EXPRESSION EXPRESSION ]? */
-export default function parseExpression(
-    tokens: Tokens,
-    allowReaction = true
-): Expression {
+export default function parseExpression(tokens: Tokens): Expression {
     let left = parseBinaryEvaluate(tokens);
 
     // Is it conditional statement?
     if (tokens.nextIs(Sym.Conditional)) left = parseConditional(left, tokens);
 
-    // Is it a reaction?
-    if (tokens.nextIs(Sym.Stream) && allowReaction)
+    // Is it a reaction and are reactions allowed?
+    if (tokens.nextIs(Sym.Stream) && tokens.reactionsAllowed())
         left = parseReaction(left, tokens);
 
     // Return whatever expression we got
@@ -554,6 +551,9 @@ function parseTable(tokens: Tokens): TableLiteral {
 function parseRow(tokens: Tokens, expected: Sym = Sym.TableOpen): Row {
     const open = tokens.read(expected);
 
+    // Don't allow reactions on row values.
+    tokens.pushReactionAllowed(false);
+
     const cells: (Bind | Expression)[] = [];
     // Read the cells.
     while (
@@ -570,6 +570,9 @@ function parseRow(tokens: Tokens, expected: Sym = Sym.TableOpen): Row {
 
     // Read the closing row marker.
     const close = tokens.readIf(Sym.TableClose);
+
+    // Restore previous allowance.
+    tokens.popReactionAllowed();
 
     return new Row(open, cells, close);
 }
@@ -608,11 +611,16 @@ function parseDelete(table: Expression, tokens: Tokens): Delete {
 /** STREAM :: EXPRESSION … EXPRESSION */
 function parseReaction(initial: Expression, tokens: Tokens): Reaction {
     const dots = tokens.read(Sym.Stream);
-    const condition = parseExpression(tokens, false);
+    // Parse the condition, but don't allow reactions.
+    tokens.pushReactionAllowed(false);
+    const condition = parseExpression(tokens);
     const nextdots = tokens.nextIs(Sym.Stream)
         ? tokens.read(Sym.Stream)
         : undefined;
-    const next = parseExpression(tokens, false);
+    // Parse the next value expression, still not allowing reactions.
+    const next = parseExpression(tokens);
+    // Revert to previous reactions allowed state.
+    tokens.popReactionAllowed();
     return new Reaction(initial, dots, condition, nextdots, next);
 }
 
@@ -632,6 +640,9 @@ export function parseFunction(tokens: Tokens): FunctionDefinition {
         ? tokens.read(Sym.EvalOpen)
         : undefined;
 
+    // Don't allow reactions on input binds values.
+    tokens.pushReactionAllowed(false);
+
     const inputs: Bind[] = [];
     while (
         tokens.hasNext() &&
@@ -640,6 +651,9 @@ export function parseFunction(tokens: Tokens): FunctionDefinition {
         nextIsBind(tokens, false)
     )
         inputs.push(parseBind(tokens));
+
+    // Restore
+    tokens.popReactionAllowed();
 
     const close = tokens.nextIs(Sym.EvalClose)
         ? tokens.read(Sym.EvalClose)
@@ -691,9 +705,17 @@ export function parseStructure(tokens: Tokens): StructureDefinition {
     const open = tokens.nextIs(Sym.EvalOpen)
         ? tokens.read(Sym.EvalOpen)
         : undefined;
+
+    // Don't allow reactions on structure input binds
+    tokens.pushReactionAllowed(false);
+
     const inputs: Bind[] = [];
     while (tokens.nextIsnt(Sym.EvalClose) && nextIsBind(tokens, false))
         inputs.push(parseBind(tokens));
+
+    // Restore
+    tokens.popReactionAllowed();
+
     const close = tokens.nextIs(Sym.EvalClose)
         ? tokens.read(Sym.EvalClose)
         : undefined;

@@ -13,6 +13,12 @@ export default class Tokens {
     /** The preceding space for each token */
     readonly #spaces;
 
+    /**
+     * A stack indicating whether reactions are currently allowed to be parsed.
+     * We keep it here to avoid having to pass it around parsing function signatures.
+     */
+    readonly reactive: boolean[] = [true];
+
     constructor(tokens: Token[], spaces: Spaces) {
         this.#unread = tokens.slice();
         this.#spaces = spaces;
@@ -194,5 +200,20 @@ export default class Tokens {
             const unreadToken = this.#read.pop();
             if (unreadToken !== undefined) this.#unread.unshift(unreadToken);
         }
+    }
+
+    /** Mark that reads can parse reactions. */
+    pushReactionAllowed(reactive: boolean) {
+        return this.reactive.push(reactive);
+    }
+
+    /** Revert to previous reactions allowed state  */
+    popReactionAllowed() {
+        return this.reactive.pop();
+    }
+
+    /** See whether reactions are currently allowed. */
+    reactionsAllowed() {
+        return this.reactive.at(-1);
     }
 }

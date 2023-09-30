@@ -173,8 +173,14 @@ function parseFunctionType(tokens: Tokens): FunctionType {
 
     const open = tokens.readIf(Sym.EvalOpen);
 
+    // Don't allow reactions on types.
+    tokens.pushReactionAllowed(false);
+
     const inputs: Bind[] = [];
     while (nextIsBind(tokens, false)) inputs.push(parseBind(tokens));
+
+    // Restore previous allowed.
+    tokens.popReactionAllowed();
 
     const close = tokens.readIf(Sym.EvalClose);
 
