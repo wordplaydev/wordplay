@@ -135,13 +135,13 @@ export default class Token extends Node {
     getPlaceholder(
         root: Root,
         context: Context,
-        translation: Locale
+        locale: Locale
     ): Template | undefined {
         if (!this.isSymbol(Sym.Placeholder)) return undefined;
         const parent = root.getParent(this);
         return parent === undefined
             ? undefined
-            : parent.getChildPlaceholderLabel(this, translation, context, root);
+            : parent.getChildPlaceholderLabel(this, locale, context, root);
     }
 
     getDescriptionInputs(locale: Locale): TemplateInput[] {

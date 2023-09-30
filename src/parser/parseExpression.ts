@@ -256,8 +256,8 @@ function parseAtomicExpression(tokens: Tokens): Expression {
             : // A documented expression
             tokens.nextIs(Sym.Doc)
             ? parseDocumentedExpression(tokens)
-            : // Unknown expression
-              new UnparsableExpression(tokens.readLine());
+            : // Unknown expression? Parse something appropriate.
+              parseUnparsable(tokens);
 
     // But wait! Is it one or more infix expressions? Slurp them up.
     let match = false;
@@ -867,6 +867,14 @@ function parsePropertyReference(left: Expression, tokens: Tokens): Expression {
 
     // Return the series of accesses and evaluations we created.
     return left;
+}
+
+function parseUnparsable(tokens: Tokens): Expression {
+    // Are there tokens? Make an unparsable expression with the tokens on the line.
+    if (tokens.hasNext()) return new UnparsableExpression(tokens.readLine());
+
+    // Otherwise, return an expression placeholder.
+    return new ExpressionPlaceholder(undefined, undefined, undefined);
 }
 
 export function parseFormattedLiteral(tokens: Tokens): FormattedLiteral {

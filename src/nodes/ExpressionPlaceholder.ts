@@ -31,12 +31,12 @@ import Sym from './Sym';
 import Purpose from '../concepts/Purpose';
 
 export default class ExpressionPlaceholder extends SimpleExpression {
-    readonly placeholder: Token;
+    readonly placeholder: Token | undefined;
     readonly dot: Token | undefined;
     readonly type: Type | undefined;
 
     constructor(
-        placeholder: Token,
+        placeholder: Token | undefined,
         dot: Token | undefined,
         type: Type | undefined
     ) {
@@ -176,10 +176,10 @@ export default class ExpressionPlaceholder extends SimpleExpression {
     }
 
     getStart() {
-        return this.placeholder;
+        return this.placeholder ?? this;
     }
     getFinish() {
-        return this.placeholder;
+        return this.placeholder ?? this;
     }
 
     getNodeLocale(translation: Locale) {

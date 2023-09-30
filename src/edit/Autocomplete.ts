@@ -399,6 +399,7 @@ function getRelativeFieldEdits(
         const fieldValue = parent.getField(relativeField.name);
         const fieldIsEmpty =
             fieldValue === undefined ||
+            fieldValue instanceof ExpressionPlaceholder ||
             (fieldValue instanceof UnparsableExpression &&
                 fieldValue.isEmpty());
 
