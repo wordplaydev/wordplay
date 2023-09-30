@@ -1,7 +1,7 @@
 <script lang="ts">
     import Button from '../widgets/Button.svelte';
     import LanguageChooser from './LocaleChooser.svelte';
-    import { getProject, getUser } from '../project/Contexts';
+    import { getUser } from '../project/Contexts';
     import {
         animationFactor,
         locale,
@@ -24,7 +24,6 @@
     let show = false;
 
     let user = getUser();
-    let project = getProject();
 
     onMount(async () => {
         if (
@@ -59,9 +58,7 @@
             >beta</Link
         ></div
     >
-    {#if $project}
-        <Status />
-    {/if}
+    <Status />
     <Link to="/login">
         <CreatorView
             creator={$user

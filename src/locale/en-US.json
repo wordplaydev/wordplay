@@ -4111,23 +4111,32 @@
             "projects": {
                 "header": "Projects",
                 "projectprompt": "Ready to say something? Create a project or work on one. If you get stuck, keep <learning@://learn>.",
+                "archiveheader": "Archived",
+                "archiveprompt": "These are projects you've archived. You can permanently delete them or unarchive them. Archived projects will be permanently deleted 30 days after they were last edited.",
                 "galleriesheader": "Galleries",
                 "galleryprompt": "Create and curate galleries to share a collection of projects with others.",
                 "button": {
                     "newproject": "new project",
                     "editproject": "edit this project",
-                    "newgallery": "new gallery"
+                    "newgallery": "new gallery",
+                    "unarchive": "unarchive this project"
                 },
                 "confirm": {
                     "archive": {
                         "description": "archive this performance",
                         "prompt": "archive"
+                    },
+                    "delete": {
+                        "description": "permanently delete this performance",
+                        "prompt": "delete forever"
                     }
                 },
                 "error": {
                     "noaccess": "We couldn't reach the internet.",
-                    "loggedout": "You must be logged to create and change galleries.",
-                    "newgallery": "We couldn't create a new gallery."
+                    "nogalleryedits": "You must be logged to create and change galleries.",
+                    "newgallery": "We couldn't create a new gallery.",
+                    "nodeletes": "You must be logged in to delete archived projects.",
+                    "delete": "Oops, we couldn't delete the project!"
                 }
             },
             "galleries": {
@@ -4150,7 +4159,7 @@
             },
             "login": {
                 "header": "Login",
-                "anonymous": "anonymous",
+                "anonymous": "login",
                 "prompt": {
                     "login": "Your performances are saving on this device instead of online. To save them online, submit your email to get a login link.",
                     "enter": "It looks like your login link came from a different browser or device. Can you enter your email again, just so we're sure it's you?",

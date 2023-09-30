@@ -21,6 +21,8 @@
     import ProjectPreviewSet from '@components/app/ProjectPreviewSet.svelte';
     import Button from '../../../components/widgets/Button.svelte';
     import { locales } from '@db/Database';
+    import { EDIT_SYMBOL } from '../../../parser/Symbols';
+    import getProjectLink from '../../../components/app/getProjectLink';
 
     const user = getUser();
 
@@ -129,6 +131,13 @@
                 {#if projects}
                     <ProjectPreviewSet
                         set={projects}
+                        edit={{
+                            description:
+                                $locale.ui.page.projects.button.editproject,
+                            action: (project) =>
+                                goto(getProjectLink(project, false)),
+                            label: EDIT_SYMBOL,
+                        }}
                         remove={{
                             prompt: $locale.ui.gallery.confirm.remove.prompt,
                             description:

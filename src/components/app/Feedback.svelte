@@ -3,7 +3,7 @@
 </script>
 
 {#if inline}<span class="feedback"><slot /></span>{:else}
-    <h1 class="feedback"><slot /></h1>{/if}
+    <p class="feedback"><slot /></p>{/if}
 
 <style>
     .feedback {
@@ -19,9 +19,8 @@
         display: inline-block;
     }
 
-    h1 {
-        font-size: xx-large;
-        margin-block-start: 2em;
+    p {
+        font-size: large;
         text-align: center;
     }
 </style>

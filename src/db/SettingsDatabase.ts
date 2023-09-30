@@ -16,6 +16,9 @@ import type Progress from '../tutorial/Progress';
 import Layout from '../components/project/Layout';
 import { BlocksSetting } from './BlocksSetting';
 import { DarkSetting } from './DarkSetting';
+import { doc, getDoc } from 'firebase/firestore';
+import { firestore } from './firebase';
+import type Setting from './Setting';
 
 /** Enscapsulates settings stored in localStorage. */
 export default class SettingsDatabase {
@@ -47,6 +50,30 @@ export default class SettingsDatabase {
         // Initialize default languages if none are set
         if (this.settings.locales.get().length === 0 && locales.length > 0)
             this.settings.locales.set(database, locales);
+    }
+
+    async syncUser() {
+        if (firestore === undefined) return;
+        const user = this.database.getUser();
+        if (user === null) return;
+
+        // Get the config from the database
+        const config = await getDoc(doc(firestore, 'users', user.uid));
+        if (config.exists()) {
+            const data = config.data();
+            // Copy each key/value pair from the database to memory and the local store.
+            for (const key in data) {
+                if (key in this.database.Settings.settings) {
+                    const value = data[key];
+                    (
+                        this.database.Settings.settings as Record<
+                            string,
+                            Setting<unknown>
+                        >
+                    )[key].set(this.database, value);
+                }
+            }
+        }
     }
 
     getProjectLayout(id: string) {

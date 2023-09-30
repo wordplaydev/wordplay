@@ -60,11 +60,8 @@
             action={() => undefined}>&gt;</Button
         >
         {#if adding}<Spinning label="" />{/if}
-        {#if unknown}<p
-                ><Feedback inline
-                    >{$locale.ui.dialog.share.error.unknown}</Feedback
-                ></p
-            >{/if}
+        {#if unknown}
+            <Feedback>{$locale.ui.dialog.share.error.unknown}</Feedback>{/if}
     </form>
 {/if}
 
@@ -101,9 +98,5 @@
 
     form {
         margin-block-start: calc(2 * var(--wordplay-spacing));
-    }
-
-    p {
-        margin-top: var(--wordplay-spacing);
     }
 </style>

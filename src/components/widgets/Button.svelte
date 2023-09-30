@@ -98,7 +98,7 @@
 
     button.scale:focus[aria-disabled='false'],
     button.scale:hover[aria-disabled='false'] {
-        transform: scale(1.1);
+        transform: rotate(-3deg);
     }
 
     :global(button:focus .token-view) {

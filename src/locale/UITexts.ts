@@ -584,6 +584,10 @@ type UITexts = {
             header: string;
             /** Explanation for the project page */
             projectprompt: string;
+            /** The header for the archived subsection */
+            archiveheader: string;
+            /** Explanation for the archive subsection */
+            archiveprompt: string;
             /** Header for the galleries page */
             galleriesheader: string;
             /** A prompt to create galleries */
@@ -596,18 +600,26 @@ type UITexts = {
                 editproject: string;
                 /** Create a new gallery */
                 newgallery: string;
+                /** The project unarchive button description */
+                unarchive: string;
             };
             confirm: {
                 /** The project archive button */
                 archive: ConfirmText;
+                /** The project delete button */
+                delete: ConfirmText;
             };
             error: {
                 /** When there's no access to the database. */
                 noaccess: string;
                 /** When the creator is not logged in. */
-                loggedout: string;
+                nogalleryedits: string;
                 /** Unable to create a gallery */
                 newgallery: string;
+                /** Feedback that we are unable to delete when logged out */
+                nodeletes: string;
+                /** Unable to delete project */
+                delete: string;
             };
         };
         galleries: {

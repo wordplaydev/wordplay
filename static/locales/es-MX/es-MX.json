@@ -2468,23 +2468,32 @@
             "projects": {
                 "header": "$?",
                 "projectprompt": "$?",
+                "archiveheader": "$?",
+                "archiveprompt": "$?",
                 "galleriesheader": "$?",
                 "galleryprompt": "$?",
                 "button": {
                     "newproject": "$?",
                     "editproject": "$?",
-                    "newgallery": "$?"
+                    "newgallery": "$?",
+                    "unarchive": "$?"
                 },
                 "confirm": {
                     "archive": {
+                        "description": "$?",
+                        "prompt": "$?"
+                    },
+                    "delete": {
                         "description": "$?",
                         "prompt": "$?"
                     }
                 },
                 "error": {
                     "noaccess": "$?",
-                    "loggedout": "$?",
-                    "newgallery": "$?"
+                    "nogalleryedits": "$?",
+                    "newgallery": "$?",
+                    "nodeletes": "$?",
+                    "delete": "$?"
                 }
             },
             "galleries": {

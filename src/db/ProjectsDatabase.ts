@@ -5,7 +5,19 @@ import { writable, type Writable } from 'svelte/store';
 import Project from '../models/Project';
 import type { Locale } from '../locale/Locale';
 import { SaveStatus, type Database } from './Database';
-import { doc, getDoc, setDoc, writeBatch } from 'firebase/firestore';
+import {
+    collection,
+    deleteDoc,
+    doc,
+    getDoc,
+    onSnapshot,
+    or,
+    query,
+    setDoc,
+    where,
+    writeBatch,
+    type Unsubscribe,
+} from 'firebase/firestore';
 import { FirebaseError } from 'firebase/app';
 import { firestore } from './firebase';
 import type Node from '../nodes/Node';
@@ -61,8 +73,14 @@ export default class ProjectsDatabase {
     /** A store of all user editable projects stored in projectsDB. Derived from editable projects above. */
     readonly allEditableProjects: Writable<Project[]> = writable([]);
 
+    /** A store of all archived projects stored in projectsDB. Derived from editable projects above. */
+    readonly allArchivedProjects: Writable<Project[]> = writable([]);
+
     /** A cache of read only projects, by project ID. */
     readonly readonlyProjects: Map<string, Project | undefined> = new Map();
+
+    /** Remember how to unsubscribe from the user's realtime query. */
+    private projectsQueryUnsubscribe: Unsubscribe | undefined = undefined;
 
     /** Debounce timer, used to clear pending requests. */
     private timer: NodeJS.Timeout | undefined = undefined;
@@ -79,17 +97,16 @@ export default class ProjectsDatabase {
         if (this.IndexedDBSupported) {
             this.editableProjects = await this.localDB.getAllProjects();
 
+            // If we got an observable from the local DB, and it knows how to give us a value, sync whenever it changes.
             if (this.editableProjects && this.editableProjects.getValue) {
-                // Sync every time projects changes
+                // Sync every time projects changes locally
                 this.editableProjects.subscribe((projects) =>
                     this.sync(projects)
                 );
-                // Sync now
-                // this.sync(this.editableProjects.getValue());
             }
         }
 
-        // We don't pull projects from the cloud. That's handled by a realtime Firestore query and happens upon login, and whenever records change.
+        // We don't pull projects from the cloud. That's handled by syncUser() when the user changes.
     }
 
     async sync(serialized: SerializedProject[]) {
@@ -122,6 +139,73 @@ export default class ProjectsDatabase {
         project: SerializedProject
     ): Promise<Project | undefined> {
         return Project.deserializeProject(this.database.Locales, project);
+    }
+
+    /** When the user changes, update the projects from the cloud query */
+    syncUser(remove: boolean) {
+        // If we're supposed to remove local, do it before syncing the user.
+        if (remove) this.deleteLocal();
+
+        const user = this.database.getUser();
+
+        // If there's no more user, do nothing.
+        if (user === null) return;
+
+        // If there's no firestore access, do nothing.
+        if (firestore === undefined) return;
+
+        // Unsubscribe from the old user's realtime project query
+        if (this.projectsQueryUnsubscribe) {
+            this.projectsQueryUnsubscribe();
+            this.projectsQueryUnsubscribe = undefined;
+        }
+
+        // Set up the realtime projects query for the user, tracking any projects from the cloud,
+        // and deleting any tracked locally that didn't appear in the snapshot.
+        this.projectsQueryUnsubscribe = onSnapshot(
+            query(
+                collection(firestore, 'projects'),
+                or(
+                    where('owner', '==', user.uid),
+                    where('collaborators', 'array-contains', user.uid)
+                )
+            ),
+            async (snapshot) => {
+                const serialized: SerializedProject[] = [];
+                const deleted: string[] = [];
+                snapshot.docChanges().forEach((change) => {
+                    const project = change.doc.data() as SerializedProject;
+                    // Removed? Delete the local cache of the project.
+                    if (change.type === 'removed') {
+                        deleted.push(project.id);
+                    }
+                    // Add the project to the list of projects to track.
+                    else {
+                        serialized.push(project);
+                    }
+                });
+
+                // Deserialize the projects and track them, if they're not already tracked
+                for (const project of await this.deserializeAll(serialized))
+                    this.track(project, true, PersistenceType.Online, true);
+
+                // Delete the deleted
+                for (const id of deleted) await this.deleteLocalProject(id);
+
+                // Refresh stores after everything is added and deleted.
+                this.refreshEditableProjects();
+            },
+            (error) => {
+                if (error instanceof FirebaseError) {
+                    console.error(error.code);
+                    console.error(error.message);
+                }
+                this.database.setStatus(SaveStatus.Error);
+            }
+        );
+
+        // If we have a user, save the current database to the cloud
+        this.saveSoon();
     }
 
     /**
@@ -158,20 +242,10 @@ export default class ProjectsDatabase {
             else {
                 const current = history.getCurrent();
 
-                // If the new project is archived, and we're just a collaborator on it, deleted it.
-                const userID = this.database.getUserID();
-                if (
-                    project.isArchived() &&
-                    userID &&
-                    project.hasCollaborator(userID)
-                ) {
-                    this.localDB.deleteProject(project.id);
-                    this.projectHistories.delete(project.id);
-                }
                 // Otherwise, if the given one has the later timestamp, overwrite. This is naive strategy that
                 // assumes that all systems have valid clocks, and it also fails to acccount
                 // for non-conflicting edits.
-                else if (project.timestamp > current.timestamp) {
+                if (project.timestamp > current.timestamp) {
                     history.edit(project, true, true);
                 }
             }
@@ -188,6 +262,11 @@ export default class ProjectsDatabase {
             Array.from(this.projectHistories.values())
                 .map((history) => history.getCurrent())
                 .filter((project) => !project.isArchived())
+        );
+        this.allArchivedProjects.set(
+            Array.from(this.projectHistories.values())
+                .map((history) => history.getCurrent())
+                .filter((project) => project.isArchived())
         );
     }
 
@@ -318,18 +397,53 @@ export default class ProjectsDatabase {
         }
     }
 
-    /** Delete the project with the given ID, if it exists */
-    async archiveProject(id: string) {
+    /** Archive/unarchive the project with the given ID, if it exists */
+    async archiveProject(id: string, archive: boolean) {
         // For now, we don't actually delete projects, we just mark them archived.
         // This prevents accidental data loss.
         const history = this.projectHistories.get(id);
-        if (history) this.edit(history.getCurrent().asArchived(), false, true);
+        if (history)
+            this.edit(history.getCurrent().asArchived(archive), false, true);
     }
 
-    async archiveAllProjects() {
+    async deleteOwnedProjects() {
+        // Delete all projects that this user owns.
+        const ownerID = this.database.getUserID();
         for (const history of this.projectHistories.values())
-            await this.archiveProject(history.id);
-        await this.persist();
+            if (history.getCurrent().owner === ownerID)
+                await this.deleteProject(history.id);
+        await this.deleteLocal();
+    }
+
+    /** Permanently delete this project from the local and cloud database. */
+    async deleteProject(id: string) {
+        // No firestore access? Bail.
+        if (firestore === undefined) return;
+
+        // Get the project
+        const project = await this.get(id);
+        if (project === undefined) return;
+
+        // Remove the project from it's gallery.
+        await this.database.Galleries.removeProject(project);
+
+        // Delete the project doc
+        await deleteDoc(doc(firestore, 'projects', id));
+
+        // Delete from the local cache.
+        this.deleteLocalProject(id);
+
+        // Refresh the project stores.
+        this.refreshEditableProjects();
+    }
+
+    /** Delete project locally */
+    async deleteLocalProject(id: string) {
+        // Delete from the local cache.
+        await this.localDB.deleteProject(id);
+
+        // Untrack the project.
+        this.projectHistories.delete(id);
     }
 
     /** Persist in storage */

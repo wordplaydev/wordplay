@@ -1,16 +1,5 @@
-import type { SerializedProject } from '@models/Project';
 import { writable, type Writable } from 'svelte/store';
-import {
-    collection,
-    deleteDoc,
-    doc,
-    getDoc,
-    onSnapshot,
-    or,
-    query,
-    setDoc,
-    where,
-} from 'firebase/firestore';
+import { deleteDoc, doc, setDoc } from 'firebase/firestore';
 import { firestore, auth } from '@db/firebase';
 import {
     deleteUser,
@@ -19,18 +8,15 @@ import {
     type Unsubscribe,
     type User,
 } from 'firebase/auth';
-import { FirebaseError } from 'firebase/app';
 import type Locale from '../locale/Locale';
 import en from '../locale/en-US.json';
 import {
     type SupportedLocale,
     getBestSupportedLocales,
 } from '../locale/Locale';
-import type Setting from './Setting';
 import ProjectsDatabase from './ProjectsDatabase';
 import LocalesDatabase from './LocalesDatabase';
 import SettingsDatabase from './SettingsDatabase';
-import { PersistenceType } from './ProjectHistory';
 import GalleryDatabase from './GalleryDatabase';
 import CreatorDatabase from './CreatorDatabase';
 
@@ -65,7 +51,6 @@ export class Database {
     /** Realtime query unsubscribers */
     private authUnsubscribe: Unsubscribe | undefined = undefined;
     private authRefreshUnsubscribe: Unsubscribe | undefined = undefined;
-    private projectsQueryUnsubscribe: Unsubscribe | undefined = undefined;
 
     constructor(locales: SupportedLocale[], defaultLocale: Locale) {
         // Set up in-memory stores of configuration settings and locale caches.
@@ -145,79 +130,23 @@ export class Database {
     async updateUser(user: User | null) {
         if (firestore === undefined) return;
 
+        // Delete if the user changed if a different account was logged in, or logged out.
+        const remove =
+            user === null ||
+            (this.user !== null && user !== null && user.uid !== this.user.uid);
+
         // Update the user ID
         this.user = user;
 
-        // Unsubscribe from the old user's realtime project query
-        if (this.projectsQueryUnsubscribe) {
-            this.projectsQueryUnsubscribe();
-            this.projectsQueryUnsubscribe = undefined;
-        }
+        // Tell the projects cache.
+        this.Projects.syncUser(remove);
 
-        // Is there a user logged in now? Set up the realtime projects query,
-        // save any local projects to the database and get configuration data from the cloud.
-        if (this.user) {
-            // Any time projects a creator has access to changes in the database, update projects.
-            this.projectsQueryUnsubscribe = onSnapshot(
-                query(
-                    collection(firestore, 'projects'),
-                    or(
-                        where('owner', '==', this.user.uid),
-                        where('collaborators', 'array-contains', this.user.uid)
-                    )
-                ),
-                async (snapshot) => {
-                    const serialized: SerializedProject[] = [];
-                    snapshot.forEach((project) => {
-                        serialized.push(project.data() as SerializedProject);
-                    });
-
-                    // Deserialize the projects and track them, if they're not already tracked
-                    for (const project of await this.Projects.deserializeAll(
-                        serialized
-                    ))
-                        this.Projects.track(
-                            project,
-                            true,
-                            PersistenceType.Online,
-                            true
-                        );
-                },
-                (error) => {
-                    if (error instanceof FirebaseError) {
-                        console.error(error.code);
-                        console.error(error.message);
-                    }
-                    this.setStatus(SaveStatus.Error);
-                }
-            );
-
-            // If we have a user, save the current database to the cloud
-            this.Projects.saveSoon();
-
-            // Get the config from the database
-            const config = await getDoc(doc(firestore, 'users', this.user.uid));
-            if (config.exists()) {
-                const data = config.data();
-                // Copy each key/value pair from the database to memory and the local store.
-                for (const key in data) {
-                    if (key in this.Settings.settings) {
-                        const value = data[key];
-                        (
-                            this.Settings.settings as Record<
-                                string,
-                                Setting<unknown>
-                            >
-                        )[key].set(this, value);
-                    }
-                }
-            }
-        }
+        // Tell the settings cache.
+        this.Settings.syncUser();
     }
 
     /** Clean up listeners */
     clean() {
-        if (this.projectsQueryUnsubscribe) this.projectsQueryUnsubscribe();
         if (this.authUnsubscribe) this.authUnsubscribe();
         if (this.authRefreshUnsubscribe) this.authRefreshUnsubscribe();
 
@@ -234,7 +163,7 @@ export class Database {
         if (firestore === undefined) return false;
 
         try {
-            await this.Projects.archiveAllProjects();
+            await this.Projects.deleteOwnedProjects();
         } catch (err) {
             console.error(err);
             return false;
@@ -298,6 +227,7 @@ export const mic = Settings.settings.mic.value;
 export const blocks = Settings.settings.blocks.value;
 export const status = DB.Status;
 export const editableProjects = Projects.allEditableProjects;
+export const archivedProjects = Projects.allArchivedProjects;
 
 if (import.meta.hot) {
     import.meta.hot.on('locales-update', () => {

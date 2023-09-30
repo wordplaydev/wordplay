@@ -8731,6 +8731,14 @@
                   "additionalProperties": false,
                   "description": "The project creation and browsing page",
                   "properties": {
+                    "archiveheader": {
+                      "description": "The header for the archived subsection",
+                      "type": "string"
+                    },
+                    "archiveprompt": {
+                      "description": "Explanation for the archive subsection",
+                      "type": "string"
+                    },
                     "button": {
                       "additionalProperties": false,
                       "description": "Buttons on the project page",
@@ -8746,12 +8754,17 @@
                         "newproject": {
                           "description": "Create a new project",
                           "type": "string"
+                        },
+                        "unarchive": {
+                          "description": "The project unarchive button description",
+                          "type": "string"
                         }
                       },
                       "required": [
                         "newproject",
                         "editproject",
-                        "newgallery"
+                        "newgallery",
+                        "unarchive"
                       ],
                       "type": "object"
                     },
@@ -8761,18 +8774,23 @@
                         "archive": {
                           "$ref": "#/definitions/ConfirmText",
                           "description": "The project archive button"
+                        },
+                        "delete": {
+                          "$ref": "#/definitions/ConfirmText",
+                          "description": "The project delete button"
                         }
                       },
                       "required": [
-                        "archive"
+                        "archive",
+                        "delete"
                       ],
                       "type": "object"
                     },
                     "error": {
                       "additionalProperties": false,
                       "properties": {
-                        "loggedout": {
-                          "description": "When the creator is not logged in.",
+                        "delete": {
+                          "description": "Unable to delete project",
                           "type": "string"
                         },
                         "newgallery": {
@@ -8782,12 +8800,22 @@
                         "noaccess": {
                           "description": "When there's no access to the database.",
                           "type": "string"
+                        },
+                        "nodeletes": {
+                          "description": "Feedback that we are unable to delete when logged out",
+                          "type": "string"
+                        },
+                        "nogalleryedits": {
+                          "description": "When the creator is not logged in.",
+                          "type": "string"
                         }
                       },
                       "required": [
                         "noaccess",
-                        "loggedout",
-                        "newgallery"
+                        "nogalleryedits",
+                        "newgallery",
+                        "nodeletes",
+                        "delete"
                       ],
                       "type": "object"
                     },
@@ -8811,6 +8839,8 @@
                   "required": [
                     "header",
                     "projectprompt",
+                    "archiveheader",
+                    "archiveprompt",
                     "galleriesheader",
                     "galleryprompt",
                     "button",

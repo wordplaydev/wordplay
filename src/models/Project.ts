@@ -959,7 +959,7 @@ export default class Project {
         return this.archived;
     }
 
-    asArchived() {
+    asArchived(archived: boolean) {
         return new Project(
             this.id,
             this.name,
@@ -971,7 +971,7 @@ export default class Project {
             this.public,
             this.carets,
             this.listed,
-            true,
+            archived,
             this.gallery
         );
     }
