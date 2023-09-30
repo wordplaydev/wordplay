@@ -4,8 +4,13 @@
     import Button from '../widgets/Button.svelte';
     import Settings from '../settings/Settings.svelte';
     import { locale } from '../../db/Database';
+    import { isSignInWithEmailLink } from 'firebase/auth';
+    import { auth } from '../../db/firebase';
 
     export let fullscreen = false;
+
+    let isLoginLink =
+        auth !== undefined && isSignInWithEmailLink(auth, window.location.href);
 
     function handleKey(event: KeyboardEvent) {
         if (
@@ -32,7 +37,7 @@
         <Button
             tip={$locale.ui.widget.back}
             active={$page.route.id !== '/'}
-            action={() => history.back()}
+            action={() => (isLoginLink ? goto('/') : history.back())}
             ><span class="back">⏴ {getBackLabel()}</span></Button
         >
         <Settings />
