@@ -26,6 +26,7 @@ import Purpose from '../concepts/Purpose';
 import type { BasisTypeName } from '../basis/BasisConstants';
 import IncompatibleInput from '../conflicts/IncompatibleInput';
 import concretize from '../locale/concretize';
+import ExpressionPlaceholder from './ExpressionPlaceholder';
 
 export default class Changed extends SimpleExpression {
     readonly change: Token;
@@ -55,6 +56,10 @@ export default class Changed extends SimpleExpression {
                 getType: () => StreamType.make(new AnyType()),
             },
         ];
+    }
+
+    static getPossibleNodes() {
+        return [Changed.make(ExpressionPlaceholder.make())];
     }
 
     clone(replace?: Replacement) {

@@ -71,6 +71,7 @@ import Insert from '../nodes/Insert';
 import Select from '../nodes/Select';
 import Delete from '../nodes/Delete';
 import Update from '../nodes/Update';
+import Changed from '../nodes/Changed';
 
 /** A logging flag, helpful for analyzing the control flow of autocomplete when debugging. */
 const LOG = false;
@@ -569,6 +570,7 @@ const PossibleNodes = [
     // Streams
     Initial,
     Previous,
+    Changed,
     Reaction,
     // Docs,
     Doc,
