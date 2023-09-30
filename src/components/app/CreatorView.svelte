@@ -10,7 +10,7 @@
     >{#if creator}<span
             class="name"
             style:animation-delay={`${Math.random() * 1000}ms`}
-            >{creator.name}</span
+            >{creator.name ?? '😃'}</span
         >{/if}{creator
         ? creator.email === null
             ? '—'
