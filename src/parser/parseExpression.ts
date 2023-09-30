@@ -78,15 +78,8 @@ export function parseDocs(tokens: Tokens): Docs {
 /** EXPRESSION :: BINARY_OPERATION [ conditional EXPRESSION EXPRESSION ]? */
 export default function parseExpression(
     tokens: Tokens,
-    expectSpace = false,
     allowReaction = true
 ): Expression {
-    // If the next token has more than one preceding line break, just return an unparsable.
-    // This prevents runaway expressions and provides an opportunity to provide feedback precisely
-    // where the expression was expected.
-    if (!expectSpace && tokens.nextHasMoreThanOneLineBreak())
-        return new UnparsableExpression([]);
-
     let left = parseBinaryEvaluate(tokens);
 
     // Is it conditional statement?
@@ -136,7 +129,7 @@ export function parseBlock(
         statements.push(
             nextIsBind(tokens, true)
                 ? parseBind(tokens)
-                : parseExpression(tokens, true)
+                : parseExpression(tokens)
         );
 
     const close = root
@@ -443,8 +436,7 @@ function parseList(tokens: Tokens): ListLiteral {
     while (
         tokens.hasNext() &&
         tokens.nextIsnt(Sym.ListClose) &&
-        tokens.nextIsnt(Sym.Code) &&
-        !tokens.nextHasMoreThanOneLineBreak()
+        tokens.nextIsnt(Sym.Code)
     ) {
         // Is there a spread next? Parse it.
         if (tokens.nextIs(Sym.Bind)) {
@@ -452,8 +444,7 @@ function parseList(tokens: Tokens): ListLiteral {
             const value =
                 tokens.hasNext() &&
                 tokens.nextIsnt(Sym.ListClose) &&
-                tokens.nextIsnt(Sym.Code) &&
-                !tokens.nextHasMoreThanOneLineBreak()
+                tokens.nextIsnt(Sym.Code)
                     ? parseExpression(tokens)
                     : undefined;
             values.push(new Spread(dots, value));
@@ -497,8 +488,7 @@ function parseSetOrMap(tokens: Tokens): MapLiteral | SetLiteral {
     while (
         tokens.hasNext() &&
         tokens.nextIsnt(Sym.SetClose) &&
-        tokens.nextIsnt(Sym.Code) &&
-        !tokens.nextHasMoreThanOneLineBreak()
+        tokens.nextIsnt(Sym.Code)
     ) {
         const key = parseExpression(tokens);
         if (tokens.nextIs(Sym.Bind)) {
@@ -531,11 +521,7 @@ function parseSetOrMapAccess(left: Expression, tokens: Tokens): Expression {
         // But wait, is it a function evaluation?
         if (nextIsEvaluate(tokens) && tokens.nextLacksPrecedingSpace())
             left = parseEvaluate(left, tokens);
-    } while (
-        tokens.hasNext() &&
-        tokens.nextIs(Sym.SetOpen) &&
-        !tokens.nextHasMoreThanOneLineBreak()
-    );
+    } while (tokens.hasNext() && tokens.nextIs(Sym.SetOpen));
 
     // Return the series of accesses and evaluations we created.
     return left;
@@ -622,11 +608,11 @@ function parseDelete(table: Expression, tokens: Tokens): Delete {
 /** STREAM :: EXPRESSION … EXPRESSION */
 function parseReaction(initial: Expression, tokens: Tokens): Reaction {
     const dots = tokens.read(Sym.Stream);
-    const condition = parseExpression(tokens, false, false);
+    const condition = parseExpression(tokens, false);
     const nextdots = tokens.nextIs(Sym.Stream)
         ? tokens.read(Sym.Stream)
         : undefined;
-    const next = parseExpression(tokens, false, false);
+    const next = parseExpression(tokens, false);
     return new Reaction(initial, dots, condition, nextdots, next);
 }
 
@@ -757,8 +743,7 @@ function parseEvaluate(left: Expression, tokens: Tokens): Evaluate {
     while (
         tokens.hasNext() &&
         tokens.nextIsnt(Sym.Code) &&
-        tokens.nextIsnt(Sym.EvalClose) &&
-        !tokens.nextHasMoreThanOneLineBreak()
+        tokens.nextIsnt(Sym.EvalClose)
     )
         inputs.push(
             nextIsBind(tokens, true)
