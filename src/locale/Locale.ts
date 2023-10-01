@@ -19,6 +19,7 @@ import FunctionDefinition from '../nodes/FunctionDefinition';
 import parseDoc from '../parser/parseDoc';
 import { toTokens } from '../parser/toTokens';
 import { DOCS_SYMBOL } from '../parser/Symbols';
+import type { FlagDescriptions } from '../models/Moderation';
 
 /** A list of locales that are in progress but not supported yet. Only added when developing locally. */
 const EventuallySupportedLocales = ['zh-CN'];
@@ -64,12 +65,7 @@ export type Locale = {
     /** User interface strings */
     ui: UITexts;
     /** Content moderation rules that creators promise to follow. See en-US.json for ground truth language. */
-    rules: {
-        /** The rule that bans any content that incites, encourages, or celebrates violence or harm */
-        violence: Template;
-        /** The rule that bans any content that treats any individual or group of people as less than human */
-        dehumanization: Template;
-    };
+    rules: FlagDescriptions;
 };
 
 export default Locale;

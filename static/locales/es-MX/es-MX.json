@@ -2585,6 +2585,8 @@
     },
     "rules": {
         "violence": "$?",
-        "dehumanization": "$?"
+        "dehumanization": "$?",
+        "disclosure": "$?",
+        "misinformation": "$?"
     }
 }

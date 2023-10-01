@@ -1,6 +1,6 @@
 import { derived, get, writable, type Writable } from 'svelte/store';
 import type Locale from '../locale/Locale';
-import { Database, DefaultLocale } from './Database';
+import type { Database } from './Database';
 import { getLanguageDirection } from '../locale/LanguageCode';
 import {
     SupportedLocales,
@@ -13,6 +13,7 @@ import type Setting from './Setting';
 import type LanguageCode from '../locale/LanguageCode';
 import type { RegionCode } from '../locale/Regions';
 import type Tutorial from '../tutorial/Tutorial';
+import DefaultLocale from '../locale/DefaultLocale';
 
 /** A cache of locales loaded */
 export default class LocalesDatabase {

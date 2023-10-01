@@ -7,8 +7,8 @@ import UnparsableType from '@nodes/UnparsableType';
 import UnparsableExpression from '@nodes/UnparsableExpression';
 import Project from '../models/Project';
 import Example from '../nodes/Example';
-import { DefaultLocale } from '../db/Database';
 import { Basis } from './Basis';
+import DefaultLocale from '../locale/DefaultLocale';
 
 const basis = Basis.getLocalizedBasis(DefaultLocale);
 

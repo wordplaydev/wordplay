@@ -4259,7 +4259,9 @@
         }
     },
     "rules": {
-        "violence": "No speech that incites, encourages, or celebrates violence, harm, or self harm.",
-        "dehumanization": "No speech that dehumanizes individuals or groups based on their race, ethnicity, national origin, caste, sexual orientation, gender, religion, age, ability, or appearance."
+        "violence": "Incites, encourages, or celebrates violence, harm, or self harm.",
+        "dehumanization": "Dehumanizes individuals or groups based on their race, ethnicity, national origin, caste, sexual orientation, gender, religion, age, ability, or appearance.",
+        "disclosure": "Reveals private information about other people such as names, contact information, or physical addresses",
+        "misinformation": "Contains false, misleading, deceptive, or manipulative information"
     }
 }
