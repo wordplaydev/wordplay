@@ -16,12 +16,12 @@
               action: (project: Project) => void;
           }
         | false;
-    export let remove:
+    export let remove: (project: Project) =>
         | {
               description: string;
               prompt: string;
               label: string;
-              action: (project: Project) => void;
+              action: () => void;
           }
         | false;
 
@@ -34,6 +34,7 @@
 
 <div class="projects">
     {#each sortProjects(set).filter((p) => p.listed) as project (project.id)}
+        {@const removeMeta = remove(project)}
         <ProjectPreview
             {project}
             action={() => {
@@ -41,18 +42,18 @@
                 goto(getProjectLink(project, true));
             }}
             delay={Math.random() * set.length * 50}
-            >{#if remove}<div class="controls">
+            >{#if removeMeta}<div class="controls">
                     {#if edit}<Button
                             tip={edit.description}
                             action={() =>
                                 edit ? edit.action(project) : undefined}
                             >{edit.label}</Button
                         >{/if}<ConfirmButton
-                        prompt={remove.prompt}
-                        tip={remove.description}
+                        prompt={removeMeta.prompt}
+                        tip={removeMeta.description}
                         action={() =>
-                            remove ? remove.action(project) : undefined}
-                        >{remove.label}</ConfirmButton
+                            removeMeta ? removeMeta.action() : undefined}
+                        >{removeMeta.label}</ConfirmButton
                     ></div
                 >{/if}<slot /></ProjectPreview
         >

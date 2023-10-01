@@ -69,11 +69,14 @@
             action: (project) => goto(getProjectLink(project, false)),
             label: EDIT_SYMBOL,
         }}
-        remove={{
-            prompt: $locale.ui.page.projects.confirm.archive.prompt,
-            description: $locale.ui.page.projects.confirm.archive.description,
-            action: (project) => Projects.archiveProject(project.id, true),
-            label: '🗑️',
+        remove={(project) => {
+            return {
+                prompt: $locale.ui.page.projects.confirm.archive.prompt,
+                description:
+                    $locale.ui.page.projects.confirm.archive.description,
+                action: () => Projects.archiveProject(project.id, true),
+                label: '🗑️',
+            };
         }}
     />
     <!-- If there are any archived projects, make an archived section. -->
@@ -93,23 +96,26 @@
                 action: (project) => Projects.archiveProject(project.id, false),
                 label: '👆🏻',
             }}
-            remove={$user
-                ? {
-                      prompt: $locale.ui.page.projects.confirm.delete.prompt,
-                      description:
-                          $locale.ui.page.projects.confirm.delete.description,
-                      action: (project) => {
-                          deleteError = false;
-                          try {
-                              Projects.deleteProject(project.id);
-                          } catch (error) {
-                              deleteError = true;
-                              console.error(error);
-                          }
-                      },
-                      label: '⨉',
-                  }
-                : false}
+            remove={(project) =>
+                $user && project.owner === $user.uid
+                    ? {
+                          prompt: $locale.ui.page.projects.confirm.delete
+                              .prompt,
+                          description:
+                              $locale.ui.page.projects.confirm.delete
+                                  .description,
+                          action: () => {
+                              deleteError = false;
+                              try {
+                                  Projects.deleteProject(project.id);
+                              } catch (error) {
+                                  deleteError = true;
+                                  console.error(error);
+                              }
+                          },
+                          label: '⨉',
+                      }
+                    : false}
         />
     {/if}
 

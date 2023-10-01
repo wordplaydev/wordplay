@@ -138,15 +138,19 @@
                                 goto(getProjectLink(project, false)),
                             label: EDIT_SYMBOL,
                         }}
-                        remove={{
-                            prompt: $locale.ui.gallery.confirm.remove.prompt,
-                            description:
-                                $locale.ui.gallery.confirm.remove.description,
-                            action: (project) =>
-                                gallery
-                                    ? Galleries.removeProject(project)
-                                    : undefined,
-                            label: '⨉',
+                        remove={(project) => {
+                            return {
+                                prompt: $locale.ui.gallery.confirm.remove
+                                    .prompt,
+                                description:
+                                    $locale.ui.gallery.confirm.remove
+                                        .description,
+                                action: () =>
+                                    gallery
+                                        ? Galleries.removeProject(project)
+                                        : undefined,
+                                label: '⨉',
+                            };
                         }}
                     />
                 {/if}
