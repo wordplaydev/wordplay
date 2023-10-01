@@ -1,4 +1,6 @@
+import type { User } from 'firebase/auth';
 import type { Locale, Template } from '../locale/Locale';
+import type Project from './Project';
 
 /** Ways the platform can respond to a content moderation flag */
 export enum Remedy {
@@ -97,4 +99,13 @@ export function getUnmoderated(flags: Moderation, locale: Locale) {
 
 export function isFlagged(flags: Moderation) {
     return Object.values(flags).some((state) => state === true);
+}
+
+export function isAudience(user: User | null, project: Project): boolean {
+    return (
+        project.public &&
+        (user === null ||
+            (project.owner !== user.uid &&
+                !project.collaborators.includes(user.uid)))
+    );
 }

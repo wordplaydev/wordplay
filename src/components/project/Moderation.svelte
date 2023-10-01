@@ -7,6 +7,7 @@
         getWarnings,
         getBlocks,
         getUnmoderated,
+        isAudience,
     } from '../../models/Moderation';
     import MarkupHtmlView from '../concepts/MarkupHTMLView.svelte';
 
@@ -16,11 +17,7 @@
     const user = getUser();
 
     /** See if this is a public project being viewed by someone who isn't a creator or collaborator */
-    $: audience =
-        project.public &&
-        ($user === null ||
-            (project.owner !== $user.uid &&
-                !project.collaborators.includes($user.uid)));
+    $: audience = isAudience($user, project);
     $: warnings = getWarnings(project.flags, $locale);
     $: blocks = getBlocks(project.flags, $locale);
     $: unmoderated = getUnmoderated(project.flags, $locale);
