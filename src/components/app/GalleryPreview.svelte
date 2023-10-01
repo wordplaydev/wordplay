@@ -8,6 +8,7 @@
     import Subheader from './Subheader.svelte';
     import getProjectLink from './getProjectLink';
     import { browser } from '$app/environment';
+    import MarkupHtmlView from '../concepts/MarkupHTMLView.svelte';
 
     export let gallery: Gallery;
 
@@ -22,6 +23,9 @@
     <Link to={`gallery/${gallery.getID()}`}
         ><Subheader>{gallery.getName($locale)}</Subheader></Link
     >
+    <MarkupHtmlView
+        markup={gallery.getDescription($locale).split('\n').join('\n\n')}
+    />
     <!-- We have to guard this since we haven't structured the project database to run server side fetches, so SvelteKit builds fail. -->
     {#if browser}
         <div class="previews">
@@ -61,5 +65,6 @@
         align-items: center;
         gap: var(--wordplay-spacing);
         row-gap: var(--wordplay-spacing);
+        margin-block-start: calc(2 * var(--wordplay-spacing));
     }
 </style>
