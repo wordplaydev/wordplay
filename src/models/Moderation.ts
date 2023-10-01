@@ -94,3 +94,7 @@ export function getUnmoderated(flags: Moderation, locale: Locale) {
         .filter(([, state]) => state === null)
         .map(([flag]) => locale.moderation.flags[flag as Flag]);
 }
+
+export function isFlagged(flags: Moderation) {
+    return Object.values(flags).some((state) => state === true);
+}

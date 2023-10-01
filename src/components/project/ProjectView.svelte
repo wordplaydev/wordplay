@@ -118,6 +118,7 @@
     import Spinning from '../app/Spinning.svelte';
     import CreatorView from '../app/CreatorView.svelte';
     import Moderation from './Moderation.svelte';
+    import { isFlagged } from '../../models/Moderation';
 
     export let project: Project;
     export let original: Project | undefined = undefined;
@@ -1371,9 +1372,10 @@
                     action={() =>
                         (showCollaboratorsDialog = !showCollaboratorsDialog)}
                     ><Warning>
-                        {#if project.public}🌐 {$locale.ui.dialog.share.mode
-                                .public.modes[1]}{:else}🤫 {$locale.ui.dialog
-                                .share.mode.public.modes[0]}{/if}</Warning
+                        {#if project.public}{#if isFlagged(project.flags)}‼️{:else}🌐{/if}
+                            {$locale.ui.dialog.share.mode.public
+                                .modes[1]}{:else}🤫 {$locale.ui.dialog.share
+                                .mode.public.modes[0]}{/if}</Warning
                     ></Button
                 >
                 <Button
