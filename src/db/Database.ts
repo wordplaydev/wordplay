@@ -132,8 +132,7 @@ export class Database {
 
         // Delete if the user changed if a different account was logged in, or logged out.
         const remove =
-            user === null ||
-            (this.user !== null && user !== null && user.uid !== this.user.uid);
+            this.user !== null && (user === null || user.uid !== this.user.uid);
 
         // Update the user ID
         this.user = user;
