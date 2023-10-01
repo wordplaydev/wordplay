@@ -204,7 +204,8 @@ export default class ProjectsDatabase {
             }
         );
 
-        // If we have a user, save the current database to the cloud
+        // If we have a user, save the current database to the cloud, in case there
+        // were any local edits.
         this.saveSoon();
     }
 
@@ -402,8 +403,16 @@ export default class ProjectsDatabase {
         // For now, we don't actually delete projects, we just mark them archived.
         // This prevents accidental data loss.
         const history = this.projectHistories.get(id);
-        if (history)
-            this.edit(history.getCurrent().asArchived(archive), false, true);
+        if (history) {
+            const current = history.getCurrent();
+
+            // If the project is in a gallery, remove it.
+            if (current.gallery)
+                await this.database.Galleries.removeProject(current);
+
+            // Mark the project archived after its removed from the gallery.
+            this.edit(current.asArchived(archive), false, true);
+        }
     }
 
     async deleteOwnedProjects() {

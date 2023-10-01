@@ -1,11 +1,15 @@
 import { onRequest, onCall } from 'firebase-functions/v2/https';
+import { onSchedule } from 'firebase-functions/v2/scheduler';
 import admin from 'firebase-admin';
 import { initializeApp } from 'firebase-admin/app';
 import * as https from 'https';
 import * as http from 'http';
 import { UserIdentifier } from 'firebase-admin/auth';
+import { getFirestore } from 'firebase-admin/firestore';
+import { PromisePool } from '@supercharge/promise-pool';
 
 initializeApp();
+const db = getFirestore();
 
 type UserMatch = { uid: string; email: string | null; name: string | null };
 
@@ -85,3 +89,30 @@ export const getWebpage = onRequest(
         }
     }
 );
+
+const PurgeDayDelay = 30;
+const MillisecondsPerDay = 24 * 60 * 60 * 1000;
+
+/** Every day, delete projects that were archived more than 30 days ago. */
+export const purgeArchivedProjects = onSchedule('every day 00:00', async () => {
+    // Fetch all archived projects that were last modified more than 30 days ago
+    const projectsRef = db.collection('projects');
+    const purgeable = await projectsRef
+        .where('archived', '==', true)
+        .where(
+            'timestamp',
+            '<',
+            Date.now() - PurgeDayDelay * MillisecondsPerDay
+        )
+        .get();
+
+    const projectIDs: string[] = [];
+    purgeable.forEach((doc) => projectIDs.push(doc.id));
+
+    // Don't delete all at once; we'll hit a request limit on large purges.
+    await PromisePool.for(projectIDs)
+        .withConcurrency(3)
+        .process(async (id) => {
+            projectsRef.doc(id).delete();
+        });
+});
