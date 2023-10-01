@@ -21,10 +21,6 @@
             goto('/');
         }
     }
-
-    function getBackLabel(): string {
-        return $page.route.id === '/' ? '' : '🏠';
-    }
 </script>
 
 <svelte:window on:keydown={handleKey} />
@@ -38,7 +34,7 @@
             tip={$locale.ui.widget.back}
             active={$page.route.id !== '/'}
             action={() => (isLoginLink ? goto('/') : history.back())}
-            ><span class="back">⏴ {getBackLabel()}</span></Button
+            ><span class="back">⏴</span></Button
         >
         <Settings />
     </footer>
