@@ -76,12 +76,29 @@
     {#if galleries === undefined}
         <Spinning label="" />
     {:else}
-        {#each galleries as gallery}
-            <GalleryPreview {gallery} />
-        {/each}
+        <div class="previews">
+            {#each galleries as gallery}
+                <div class="preview">
+                    <GalleryPreview {gallery} />
+                </div>
+            {/each}
+        </div>
     {/if}
 
     {#if lastBatch}
         <Button background tip="more" action={nextBatch}>more!</Button>
     {/if}
 </Writing>
+
+<style>
+    .previews {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 2em;
+    }
+
+    .preview {
+        min-width: 40%;
+    }
+</style>

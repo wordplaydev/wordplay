@@ -55,7 +55,7 @@
     .gallery {
         padding: var(--wordplay-spacing);
         border-radius: var(--wordplay-border-radius);
-        margin-block-end: 4em;
+        margin-block-end: 2em;
     }
 
     .previews {

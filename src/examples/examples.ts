@@ -94,16 +94,16 @@ export const ExampleGalleries: Gallery[] = [
         'RainingKitties',
         'RotatingBinary',
     ]),
-    createGallery('Physics', 'Demonstrations of physics', [
+    createGallery('Physics', 'Demonstrations of physics.', [
         'Hira',
         'Layers',
         'Pounce',
     ]),
-    createGallery('Sound', 'Demonstrations of audio and video input', [
+    createGallery('Sound', 'Demonstrations of audio and video input.', [
         'Listen',
         'Talk',
         'RainingLetters',
         'Video',
     ]),
-    createGallery('Tools', 'Simple utilities', ['Timer', 'Headlines']),
+    createGallery('Tools', 'Simple utilities.', ['Timer', 'Headlines']),
 ];
