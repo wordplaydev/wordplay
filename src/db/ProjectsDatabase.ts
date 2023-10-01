@@ -173,8 +173,10 @@ export default class ProjectsDatabase {
             async (snapshot) => {
                 const serialized: SerializedProject[] = [];
                 const deleted: string[] = [];
+                const projectIDs: Set<string> = new Set();
                 snapshot.docChanges().forEach((change) => {
                     const project = change.doc.data() as SerializedProject;
+                    projectIDs.add(project.id);
                     // Removed? Delete the local cache of the project.
                     if (change.type === 'removed') {
                         deleted.push(project.id);
@@ -188,6 +190,10 @@ export default class ProjectsDatabase {
                 // Deserialize the projects and track them, if they're not already tracked
                 for (const project of await this.deserializeAll(serialized))
                     this.track(project, true, PersistenceType.Online, true);
+
+                // Find all projects known locally that didn't appear in the query
+                for (const projectID of this.projectHistories.keys())
+                    if (!projectIDs.has(projectID)) deleted.push(projectID);
 
                 // Delete the deleted
                 for (const id of deleted) await this.deleteLocalProject(id);
@@ -234,7 +240,7 @@ export default class ProjectsDatabase {
                 this.refreshEditableProjects();
 
                 // Defer a save.
-                if (persist) this.saveSoon();
+                // if (persist === PersistenceType.Online) this.saveSoon();
 
                 // Return the history
                 return history;
