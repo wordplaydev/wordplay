@@ -1,4 +1,14 @@
 {
-  "indexes": [],
-  "fieldOverrides": []
+    "indexes": [
+        {
+            "collectionGroup": "galleries",
+            "queryScope": "COLLECTION",
+            "fields": [
+                { "fieldPath": "public", "order": "ASCENDING" },
+                { "fieldPath": "featured", "order": "ASCENDING" },
+                { "fieldPath": "id", "order": "ASCENDING" }
+            ]
+        }
+    ],
+    "fieldOverrides": []
 }
