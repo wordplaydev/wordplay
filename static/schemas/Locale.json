@@ -9773,10 +9773,6 @@
               "additionalProperties": false,
               "description": "Generic reusable widgets and their generic labels.",
               "properties": {
-                "back": {
-                  "description": "The page back button description",
-                  "type": "string"
-                },
                 "confirm": {
                   "additionalProperties": false,
                   "description": "A confirm button",
@@ -9805,6 +9801,10 @@
                   ],
                   "type": "object"
                 },
+                "home": {
+                  "description": "The go home button description",
+                  "type": "string"
+                },
                 "loading": {
                   "additionalProperties": false,
                   "description": "The page loading widget, before content is shown",
@@ -9824,7 +9824,7 @@
                 "confirm",
                 "dialog",
                 "loading",
-                "back"
+                "home"
               ],
               "type": "object"
             }

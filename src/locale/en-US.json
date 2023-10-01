@@ -3693,7 +3693,7 @@
             "loading": {
                 "message": "Loading font faces and text, thanks for waiting!"
             },
-            "back": "back to previous page"
+            "home": "go to home page"
         },
         "tile": {
             "toggle": {

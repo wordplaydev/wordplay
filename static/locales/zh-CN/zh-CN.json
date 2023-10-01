@@ -2053,7 +2053,7 @@
             "loading": {
                 "message": "$?"
             },
-            "back": "$?"
+            "home": "$?"
         },
         "tile": {
             "toggle": {
