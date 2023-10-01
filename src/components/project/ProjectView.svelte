@@ -98,6 +98,7 @@
     } from '../../parser/Symbols';
     import type Value from '../../values/Value';
     import {
+        Restart,
         ShowKeyboardHelp,
         ToggleBlocks as ToggleBlocks,
         VisibleModifyCommands,
@@ -1234,7 +1235,9 @@
                                 {/if}
                             </svelte:fragment>
                             <svelte:fragment slot="extra">
+                                <!-- Put some extra buttons in the output toolbar -->
                                 {#if tile.kind === TileKind.Output}
+                                    <CommandButton command={Restart} />
                                     {#if playing && editable}<Button
                                             uiid="editProject"
                                             tip={$locale.ui.page.projects.button
