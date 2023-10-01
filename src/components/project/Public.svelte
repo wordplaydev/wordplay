@@ -16,6 +16,7 @@
         .map((promise) => `• ${promise}`)
         .join('\n\n')}
 />
+<MarkupHtmlView markup={$locale.ui.page.rights.consequences} />
 <p>
     <Mode
         descriptions={$locale.ui.dialog.share.mode.public}
@@ -27,7 +28,6 @@
         ]}
     /></p
 >
-<MarkupHtmlView markup={$locale.ui.page.rights.consequences} />
 
 <style>
     p {

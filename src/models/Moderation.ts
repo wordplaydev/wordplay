@@ -1,4 +1,4 @@
-import type { Template } from '../locale/Locale';
+import type { Locale, Template } from '../locale/Locale';
 
 /** Ways the platform can respond to a content moderation flag */
 export enum Remedy {
@@ -66,4 +66,31 @@ export function unknownFlags(): Moderation {
     const newFlags: Record<string, FlagState> = {};
     for (const flag of Object.keys(Flags)) newFlags[flag] = null;
     return newFlags as Moderation;
+}
+
+/** Get descriptions of all true warning flags */
+export function getWarnings(flags: Moderation, locale: Locale) {
+    return Object.entries(flags)
+        .filter(
+            ([flag, state]) =>
+                state === true && Flags[flag as Flag] === Remedy.Warn
+        )
+        .map(([flag]) => locale.moderation.flags[flag as Flag]);
+}
+
+/** Get descriptions of all true block flags */
+export function getBlocks(flags: Moderation, locale: Locale) {
+    return Object.entries(flags)
+        .filter(
+            ([flag, state]) =>
+                state === true && Flags[flag as Flag] === Remedy.Block
+        )
+        .map(([flag]) => locale.moderation.flags[flag as Flag]);
+}
+
+/** True if one of the flags is true and is a flagged that's warned  */
+export function getUnmoderated(flags: Moderation, locale: Locale) {
+    return Object.entries(flags)
+        .filter(([, state]) => state === null)
+        .map(([flag]) => locale.moderation.flags[flag as Flag]);
 }

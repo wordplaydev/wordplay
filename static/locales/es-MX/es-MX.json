@@ -2584,9 +2584,9 @@
         }
     },
     "moderation": {
-        "warning": "$?",
-        "blocked": "$?",
-        "unmoderated": "$?",
+        "warning": { "header": "$?", "explanation": "$?" },
+        "blocked": { "header": "$?", "explanation": "$?" },
+        "unmoderated": { "header": "$?", "explanation": "$?" },
         "flags": {
             "violence": "$?",
             "dehumanization": "$?",

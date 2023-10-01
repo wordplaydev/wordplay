@@ -20,6 +20,7 @@ import parseDoc from '../parser/parseDoc';
 import { toTokens } from '../parser/toTokens';
 import { DOCS_SYMBOL } from '../parser/Symbols';
 import type { FlagDescriptions } from '../models/Moderation';
+import type { DialogText } from './UITexts';
 
 /** A list of locales that are in progress but not supported yet. Only added when developing locally. */
 const EventuallySupportedLocales = ['zh-CN'];
@@ -67,11 +68,11 @@ export type Locale = {
     /** Text related to content moderation */
     moderation: {
         /** What to say to warn viewers before showing content with warnings. */
-        warning: Template;
+        warning: DialogText;
         /** What to say when content is blocked */
-        blocked: Template;
+        blocked: DialogText;
         /** What to sa when content has not yet been moderated */
-        unmoderated: Template;
+        unmoderated: DialogText;
         /** Content moderation rules that creators promise to follow. See en-US.json for ground truth language. */
         flags: FlagDescriptions;
     };

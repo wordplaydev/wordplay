@@ -117,6 +117,7 @@
     import Warning from '../widgets/Warning.svelte';
     import Spinning from '../app/Spinning.svelte';
     import CreatorView from '../app/CreatorView.svelte';
+    import Moderation from './Moderation.svelte';
 
     export let project: Project;
     export let original: Project | undefined = undefined;
@@ -1156,6 +1157,7 @@
 
 <Collaborators bind:show={showCollaboratorsDialog} {project} />
 <Help bind:show={showHelpDialog} />
+<Moderation show={true} {project} />
 <!-- Render the app header and the current project, if there is one. -->
 <main class="project" bind:this={view}>
     <div

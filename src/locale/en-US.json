@@ -3941,7 +3941,7 @@
                     },
                     "public": {
                         "header": "Public/Private",
-                        "explanation": "Public projects and galleries can be seen by anyone in the world. By making a project or gallery public, you promise that it does not:"
+                        "explanation": "Public projects and galleries can be seen by anyone in the world. Our goal is for this content to bring affirmation and joy, and publicly sharing is a way to do that. But it also means following some rules. You promise that your project does not:"
                     }
                 },
                 "field": {
@@ -4234,7 +4234,7 @@
                     "But making a project *public*, or including it in a public gallery, is a privilege. This is a platform made for love, affirmation, respect, and dignity. Therefore, we expect all of your *public* content to follow these rules:"
                 ],
                 "consequences": [
-                    "If we find a project or gallery that violates these rules, we will mark it as private and prevent them from making any projects public in the future. You can help us enforce these rules by reporting any content that you believe violates them."
+                    "If we find a project or gallery that violates these rules, we will warn creators before they view it, or block it from being viewed. If you repeatedly violate these rules, you'll lose the privilege of posting publicly."
                 ]
             }
         },
@@ -4259,9 +4259,18 @@
         }
     },
     "moderation": {
-        "warning": "*Warning*: a moderator judged that this content may:",
-        "blocked": "*Blocked*: a moderator judged that this content may:",
-        "unmoderated": "*Note*: this content hasn't been moderated yet.",
+        "warning": {
+            "header": "Warning",
+            "explanation": "A moderator judged that this content may:"
+        },
+        "blocked": {
+            "header": "Blocked",
+            "explanation": "A moderator judged that this content may:"
+        },
+        "unmoderated": {
+            "header": "Note",
+            "explanation": "This content hasn't been moderated yet. It may:"
+        },
         "flags": {
             "violence": "Incite, encourage, or celebrate violence, harm, or self harm to anyone.",
             "dehumanization": "Dehumanize individuals or groups based on their race, ethnicity, national origin, caste, sexual orientation, gender, religion, age, ability, or appearance.",
