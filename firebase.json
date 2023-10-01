@@ -27,8 +27,8 @@
         "rewrites": [
             {
                 "source": "/function/getWebpage",
-                "function": {
-                    "functionId": "getwebpage",
+                "run": {
+                    "serviceId": "getwebpage",
                     "region": "us-central1",
                     "pinTag": true
                 }
