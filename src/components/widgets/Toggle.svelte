@@ -61,6 +61,8 @@
         border-radius: var(--wordplay-border-radius);
         background: var(--wordplay-background);
         color: var(--wordplay-foreground);
+        stroke: var(--wordplay-background);
+        fill: var(--wordplay-background);
         padding: calc(var(--wordplay-spacing) / 2);
         cursor: pointer;
         width: fit-content;
@@ -70,14 +72,16 @@
     }
 
     button.on {
-        background-color: var(--wordplay-alternating-color);
+        background-color: var(--wordplay-foreground);
+        color: var(--wordplay-background);
+        stroke: var(--wordplay-background);
+        fill: var(--wordplay-background);
         box-shadow: inset 0px 1px var(--wordplay-chrome);
         transform: scale(0.9);
     }
 
     button:hover {
         transform: scale(1.1);
-        background-color: var(--wordplay-alternating-color);
     }
 
     [aria-disabled='true'] {
