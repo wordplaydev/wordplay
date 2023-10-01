@@ -27,8 +27,11 @@
         "rewrites": [
             {
                 "source": "/function/getWebpage",
-                "function": "getWebpage",
-                "region": "us-central1"
+                "function": {
+                    "functionId": "getwebpage",
+                    "region": "us-central1",
+                    "pinTag": true
+                }
             },
             {
                 "source": "**",
