@@ -401,7 +401,8 @@ function getRelativeFieldEdits(
             fieldValue === undefined ||
             fieldValue instanceof ExpressionPlaceholder ||
             (fieldValue instanceof UnparsableExpression &&
-                fieldValue.isEmpty());
+                fieldValue.isEmpty()) ||
+            (fieldValue instanceof Unit && fieldValue.isUnitless());
 
         // If the field is a list, and it's not a block, or we're on an empty line in a block, get possible insertions for all allowable node kinds.
         if (

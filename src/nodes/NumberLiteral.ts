@@ -29,7 +29,7 @@ export default class NumberLiteral extends Literal {
         super();
 
         this.number = number;
-        this.unit = unit?.isUnitless() ? undefined : unit;
+        this.unit = unit;
 
         this.computeChildren();
     }
