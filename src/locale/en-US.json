@@ -3941,7 +3941,7 @@
                     },
                     "public": {
                         "header": "Public/Private",
-                        "explanation": "Public projects and galleries can be seen by anyone in the world. By making a project or gallery public, you promise:"
+                        "explanation": "Public projects and galleries can be seen by anyone in the world. By making a project or gallery public, you promise that it does not:"
                     }
                 },
                 "field": {
@@ -4258,10 +4258,15 @@
             "unparsable": "Unparsable template: $1"
         }
     },
-    "rules": {
-        "violence": "Incites, encourages, or celebrates violence, harm, or self harm.",
-        "dehumanization": "Dehumanizes individuals or groups based on their race, ethnicity, national origin, caste, sexual orientation, gender, religion, age, ability, or appearance.",
-        "disclosure": "Reveals private information about other people such as names, contact information, or physical addresses",
-        "misinformation": "Contains false, misleading, deceptive, or manipulative information"
+    "moderation": {
+        "warning": "*Warning*: a moderator judged that this content may:",
+        "blocked": "*Blocked*: a moderator judged that this content may:",
+        "unmoderated": "*Note*: this content hasn't been moderated yet.",
+        "flags": {
+            "violence": "Incite, encourage, or celebrate violence, harm, or self harm to anyone.",
+            "dehumanization": "Dehumanize individuals or groups based on their race, ethnicity, national origin, caste, sexual orientation, gender, religion, age, ability, or appearance.",
+            "disclosure": "Reveal private information about other people such as names, contact information, or physical addresses",
+            "misinformation": "Contain false, misleading, deceptive, or manipulative information"
+        }
     }
 }

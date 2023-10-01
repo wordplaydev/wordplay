@@ -39,3 +39,31 @@ export type FlagState = boolean | null;
 export type Moderation = {
     [key in Flag]: FlagState;
 };
+
+export function withFlag(
+    flags: Moderation,
+    flag: Flag,
+    state: FlagState
+): Moderation {
+    const newFlags = cloneFlags(flags);
+    newFlags[flag] = state;
+    return newFlags;
+}
+
+export function cloneFlags(flags: Moderation): Moderation {
+    return Object.assign({}, flags);
+}
+
+/** Return a moderation state with all flags false */
+export function moderatedFlags(): Moderation {
+    const newFlags: Record<string, FlagState> = {};
+    for (const flag of Object.keys(Flags)) newFlags[flag] = false;
+    return newFlags as Moderation;
+}
+
+/** Return a moderation state with all flags null */
+export function unknownFlags(): Moderation {
+    const newFlags: Record<string, FlagState> = {};
+    for (const flag of Object.keys(Flags)) newFlags[flag] = null;
+    return newFlags as Moderation;
+}

@@ -12,7 +12,7 @@
 <MarkupHtmlView markup={$locale.ui.dialog.share.subheader.public.explanation} />
 
 <MarkupHtmlView
-    markup={Object.values($locale.rules)
+    markup={Object.values($locale.moderation.flags)
         .map((promise) => `• ${promise}`)
         .join('\n\n')}
 />

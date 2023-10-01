@@ -2583,10 +2583,15 @@
             "unparsable": "$?"
         }
     },
-    "rules": {
-        "violence": "$?",
-        "dehumanization": "$?",
-        "disclosure": "$?",
-        "misinformation": "$?"
+    "moderation": {
+        "warning": "$?",
+        "blocked": "$?",
+        "unmoderated": "$?",
+        "flags": {
+            "violence": "$?",
+            "dehumanization": "$?",
+            "disclosure": "$?",
+            "misinformation": "$?"
+        }
     }
 }

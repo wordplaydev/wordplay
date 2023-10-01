@@ -33,6 +33,7 @@
     import type Markup from '../../nodes/Markup';
     import Header from './Header.svelte';
     import { PersistenceType } from '../../db/ProjectHistory';
+    import { moderatedFlags } from '../../models/Moderation';
 
     export let progress: Progress;
     export let navigate: (progress: Progress) => void;
@@ -137,7 +138,10 @@
             [],
             false,
             undefined,
-            false
+            false,
+            false,
+            null,
+            moderatedFlags()
         );
 
     // Every time the progress changes, see if there's a revision to the project stored in the database,

@@ -64,8 +64,17 @@ export type Locale = {
     output: OutputTexts;
     /** User interface strings */
     ui: UITexts;
-    /** Content moderation rules that creators promise to follow. See en-US.json for ground truth language. */
-    rules: FlagDescriptions;
+    /** Text related to content moderation */
+    moderation: {
+        /** What to say to warn viewers before showing content with warnings. */
+        warning: Template;
+        /** What to say when content is blocked */
+        blocked: Template;
+        /** What to sa when content has not yet been moderated */
+        unmoderated: Template;
+        /** Content moderation rules that creators promise to follow. See en-US.json for ground truth language. */
+        flags: FlagDescriptions;
+    };
 };
 
 export default Locale;

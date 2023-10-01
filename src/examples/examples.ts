@@ -2,6 +2,7 @@ import type { SerializedProject } from '../models/Project';
 import { parseNames } from '../parser/parseBind';
 import { toTokens } from '../parser/toTokens';
 import Gallery from '../models/Gallery';
+import { moderatedFlags } from '../models/Moderation';
 
 /** This mirrors the static path to examples, but also helps distinguish project IDs from example project names. */
 export const ExamplePrefix = 'example-';
@@ -45,6 +46,7 @@ export function parseSerializedProject(
         archived: false,
         timestamp: Date.now(),
         gallery: null,
+        flags: moderatedFlags(),
     };
 }
 
