@@ -4,6 +4,7 @@
     import Button from '../widgets/Button.svelte';
     import Settings from '../settings/Settings.svelte';
     import { locale } from '../../db/Database';
+    import Link from './Link.svelte';
 
     export let fullscreen = false;
 
@@ -30,6 +31,9 @@
             active={$page.route.id !== '/'}
             action={() => goto('/')}>🏠</Button
         >
+        <Link to="/learn">{$locale.ui.page.learn.header}</Link>
+        <Link to="/projects">{$locale.ui.page.projects.header}</Link>
+        <Link to="/galleries">{$locale.ui.page.galleries.header}</Link>
         <Settings />
     </footer>
 </div>
