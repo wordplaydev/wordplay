@@ -24,6 +24,7 @@
     "plugins": ["@typescript-eslint", "compat"],
     "root": true,
     "env": {
-        "browser": true
+        "browser": true,
+        "node": true
     }
 }
