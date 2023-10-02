@@ -6,9 +6,9 @@ import type Locale from './Locale';
 import { getLocaleNames } from './getInputLocales';
 import { parseLocaleDoc } from '@locale/Locale';
 import type Doc from '../nodes/Doc';
-import en from '../locale/en-US.json';
 import Name from '../nodes/Name';
 import Language from '../nodes/Language';
+import DefaultLocale from './DefaultLocale';
 
 export function getBind(
     locales: Locale[],
@@ -20,7 +20,7 @@ export function getBind(
         (locale) => locale.language === 'en' && locale.region === 'US'
     )
         ? undefined
-        : select(en as Locale).names;
+        : select(DefaultLocale).names;
     const symbolic = enNames
         ? Name.make(
               (Array.isArray(enNames) ? enNames : [enNames])[0],

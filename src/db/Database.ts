@@ -9,7 +9,6 @@ import {
     type User,
 } from 'firebase/auth';
 import type Locale from '../locale/Locale';
-import en from '../locale/en-US.json';
 import {
     type SupportedLocale,
     getBestSupportedLocales,
@@ -19,6 +18,7 @@ import LocalesDatabase from './LocalesDatabase';
 import SettingsDatabase from './SettingsDatabase';
 import GalleryDatabase from './GalleryDatabase';
 import CreatorDatabase from './CreatorDatabase';
+import DefaultLocale from '../locale/DefaultLocale';
 
 export enum SaveStatus {
     Saved = 'saved',
@@ -194,8 +194,6 @@ export class Database {
         }
     }
 }
-
-export const DefaultLocale = en as Locale;
 
 const BrowserLanguages =
     typeof navigator !== 'undefined' ? navigator.languages : [];

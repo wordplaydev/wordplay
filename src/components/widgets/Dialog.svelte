@@ -9,6 +9,7 @@
     export let show: boolean;
     export let description: DialogText;
     export let width: string | undefined = undefined;
+    export let closeable = true;
 
     $: {
         if (dialog) {
@@ -26,8 +27,10 @@
     }
 
     onMount(() => {
-        document.addEventListener('pointerdown', outclick);
-        return () => document.removeEventListener('pointerdown', outclick);
+        if (closeable) {
+            document.addEventListener('pointerdown', outclick);
+            return () => document.removeEventListener('pointerdown', outclick);
+        }
     });
 </script>
 
@@ -36,19 +39,22 @@
     bind:this={dialog}
     style:width
     tabindex="-1"
-    on:keydown={(event) =>
-        event.key === 'Escape' ? (show = false) : undefined}
+    on:keydown={closeable
+        ? (event) => (event.key === 'Escape' ? (show = false) : undefined)
+        : undefined}
 >
     <div class="content">
         <Header>{description.header}</Header>
         <p>{description.explanation}</p>
         <slot />
-        <div class="close">
-            <Button
-                tip={$locale.ui.widget.dialog.close}
-                action={() => (show = false)}>❌</Button
-            >
-        </div>
+        {#if closeable}
+            <div class="close">
+                <Button
+                    tip={$locale.ui.widget.dialog.close}
+                    action={() => (show = false)}>❌</Button
+                >
+            </div>
+        {/if}
     </div>
 </dialog>
 

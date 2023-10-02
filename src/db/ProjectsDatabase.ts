@@ -23,6 +23,7 @@ import { firestore } from './firebase';
 import type Node from '../nodes/Node';
 import Source from '../nodes/Source';
 import { ExamplePrefix, getExample } from '../examples/examples';
+import { unknownFlags } from '../models/Moderation';
 
 export class ProjectsDexie extends Dexie {
     projects!: Table<SerializedProject>;
@@ -301,7 +302,9 @@ export default class ProjectsDatabase {
             // Not archived
             false,
             // Optional gallery ID
-            galleryID ?? null
+            galleryID ?? null,
+            // Unknown moderation state
+            unknownFlags()
         );
 
         // Track the new project, and request that it be persisted.

@@ -4,8 +4,8 @@ import { test, expect } from 'vitest';
 import Source from './Source';
 import Project from '../models/Project';
 import Bind from './Bind';
-import { DefaultLocale } from '../db/Database';
 import evaluateCode from '../runtime/evaluate';
+import DefaultLocale from '../locale/DefaultLocale';
 
 test('Test scoping', () => {
     const code = `

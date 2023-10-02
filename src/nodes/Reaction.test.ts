@@ -9,7 +9,8 @@ import Evaluator from '@runtime/Evaluator';
 import { testConflict } from '../conflicts/TestUtilities';
 import Reaction from './Reaction';
 import ExpectedStream from '../conflicts/ExpectedStream';
-import { DefaultLocale, DB } from '../db/Database';
+import { DB } from '../db/Database';
+import DefaultLocale from '../locale/DefaultLocale';
 
 const makeOne = (creator: Expression) => Time.make(creator, 1);
 
