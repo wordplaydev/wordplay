@@ -47,12 +47,14 @@ export type SerializedProject = {
     collaborators: string[];
     /** Whether this project can be viewed by anyone */
     public: boolean;
-    /** True if the project is listed in a creator's performance */
+    /** True if the project is listed in a creator's list of projects */
     listed: boolean;
     /** True if the project is archived */
     archived: boolean;
-    /** When this was created */
+    /** When this was lasted edited, as a unix time in milliseconds */
     timestamp: number;
+    /** Whether this project has ever been saved to the cloud. Needed for syncing. */
+    persisted: boolean;
     /** An optional gallery ID, indicating which gallery this project is in. */
     gallery: string | null;
     /** Moderation state */
@@ -140,6 +142,9 @@ export default class Project {
     /** The time when this project version created. */
     readonly timestamp: number;
 
+    /** Whether this project has ever been saved in the cloud */
+    readonly persisted: boolean;
+
     /** Conflicts. */
     analyzed: 'unanalyzed' | 'analyzing' | 'analyzed' = 'unanalyzed';
     analysis: Analysis = {
@@ -162,6 +167,7 @@ export default class Project {
         carets: SerializedCarets | undefined = undefined,
         listed = true,
         archived = false,
+        persisted = false,
         gallery: string | null = null,
         moderation: Moderation = moderatedFlags(),
         // This is last; omitting it updates the time.
@@ -174,6 +180,7 @@ export default class Project {
         );
         this.public = pub;
         this.timestamp = timestamp ?? Date.now();
+        this.persisted = persisted;
         this.gallery = gallery;
 
         this.flags = moderation;
@@ -227,6 +234,7 @@ export default class Project {
             this.carets.slice(),
             this.listed,
             this.archived,
+            this.persisted,
             this.gallery,
             cloneFlags(this.flags)
         );
@@ -562,6 +570,7 @@ export default class Project {
             this.carets,
             this.listed,
             this.archived,
+            this.persisted,
             this.gallery,
             cloneFlags(this.flags)
         );
@@ -580,6 +589,7 @@ export default class Project {
             this.carets,
             this.listed,
             this.archived,
+            this.persisted,
             this.gallery,
             cloneFlags(this.flags)
         );
@@ -603,6 +613,7 @@ export default class Project {
             this.carets,
             this.listed,
             this.archived,
+            this.persisted,
             this.gallery,
             cloneFlags(this.flags)
         );
@@ -631,6 +642,7 @@ export default class Project {
             ),
             this.listed,
             this.archived,
+            this.persisted,
             this.gallery,
             cloneFlags(this.flags)
         );
@@ -649,6 +661,7 @@ export default class Project {
             this.carets.filter((c) => c.source !== source),
             this.listed,
             this.archived,
+            this.persisted,
             this.gallery,
             cloneFlags(this.flags)
         );
@@ -687,6 +700,7 @@ export default class Project {
             }),
             this.listed,
             this.archived,
+            this.persisted,
             this.gallery,
             cloneFlags(this.flags)
         );
@@ -755,6 +769,7 @@ export default class Project {
             [...this.carets, { source: newSource, caret: 0 }],
             this.listed,
             this.archived,
+            this.persisted,
             this.gallery,
             cloneFlags(this.flags)
         );
@@ -773,6 +788,7 @@ export default class Project {
             this.carets,
             this.listed,
             this.archived,
+            this.persisted,
             this.gallery,
             cloneFlags(this.flags)
         );
@@ -797,6 +813,7 @@ export default class Project {
                   this.carets,
                   this.listed,
                   this.archived,
+                  this.persisted,
                   this.gallery,
                   cloneFlags(this.flags)
               );
@@ -817,6 +834,7 @@ export default class Project {
                   this.carets,
                   this.listed,
                   this.archived,
+                  this.persisted,
                   this.gallery,
                   cloneFlags(this.flags)
               );
@@ -835,6 +853,7 @@ export default class Project {
             this.carets,
             this.listed,
             this.archived,
+            this.persisted,
             this.gallery,
             cloneFlags(this.flags)
         );
@@ -953,6 +972,7 @@ export default class Project {
             }),
             project.listed,
             project.archived,
+            project.persisted,
             project.gallery,
             cloneFlags(project.flags),
             project.timestamp
@@ -993,7 +1013,27 @@ export default class Project {
             this.public,
             this.carets,
             this.listed,
+            this.persisted,
             archived,
+            this.gallery,
+            cloneFlags(this.flags)
+        );
+    }
+
+    asPersisted() {
+        return new Project(
+            this.id,
+            this.name,
+            this.main,
+            this.supplements,
+            this.locales,
+            this.owner,
+            this.collaborators,
+            this.public,
+            this.carets,
+            this.listed,
+            this.persisted,
+            true,
             this.gallery,
             cloneFlags(this.flags)
         );
@@ -1012,6 +1052,7 @@ export default class Project {
             this.carets,
             this.listed,
             this.archived,
+            this.persisted,
             id,
             cloneFlags(this.flags)
         );
@@ -1030,6 +1071,7 @@ export default class Project {
             this.carets,
             this.listed,
             this.archived,
+            this.persisted,
             this.gallery,
             cloneFlags(flags)
         );
@@ -1054,6 +1096,7 @@ export default class Project {
             listed: this.listed,
             public: this.public,
             archived: this.archived,
+            persisted: this.persisted,
             timestamp: this.timestamp,
             gallery: this.gallery,
             flags: cloneFlags(this.flags),

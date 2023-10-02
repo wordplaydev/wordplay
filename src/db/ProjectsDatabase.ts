@@ -193,8 +193,16 @@ export default class ProjectsDatabase {
                     this.track(project, true, PersistenceType.Online, true);
 
                 // Find all projects known locally that didn't appear in the query
-                for (const projectID of this.projectHistories.keys())
-                    if (!projectIDs.has(projectID)) deleted.push(projectID);
+                // and were previously persisted.
+                for (const [
+                    projectID,
+                    history,
+                ] of this.projectHistories.entries())
+                    if (
+                        history.getCurrent().persisted &&
+                        !projectIDs.has(projectID)
+                    )
+                        deleted.push(projectID);
 
                 // Delete the deleted
                 for (const id of deleted) await this.deleteLocalProject(id);
@@ -300,6 +308,8 @@ export default class ProjectsDatabase {
             // Yes listed
             true,
             // Not archived
+            false,
+            // Not yet persisted
             false,
             // Optional gallery ID
             galleryID ?? null,
@@ -506,10 +516,15 @@ export default class ProjectsDatabase {
                     const current = history.getCurrent();
                     // If the project has no owner, make this user owner, since it was stored locally.
                     return (
-                        current.owner === null
-                            ? current.withOwner(userID)
-                            : current
-                    ).serialize();
+                        (
+                            current.owner === null
+                                ? current.withOwner(userID)
+                                : current
+                        )
+                            // Mark it as persisted, since we're about to save it that way.
+                            .asPersisted()
+                            .serialize()
+                    );
                 }))
                     batch.set(doc(firestore, 'projects', project.id), project);
                 await batch.commit();

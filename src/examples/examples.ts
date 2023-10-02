@@ -44,6 +44,7 @@ export function parseSerializedProject(
         public: true,
         listed: true,
         archived: false,
+        persisted: false,
         timestamp: Date.now(),
         gallery: null,
         flags: moderatedFlags(),
