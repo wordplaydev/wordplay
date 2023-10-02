@@ -63,6 +63,7 @@
     <Public
         isPublic={project.public}
         set={(choice) => Projects.reviseProject(project.asPublic(choice === 1))}
+        flags={project.flags}
     />
 </Dialog>
 

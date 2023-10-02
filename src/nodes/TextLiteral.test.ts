@@ -1,8 +1,8 @@
 import { test, expect } from 'vitest';
 import evaluateCode from '../runtime/evaluate';
-import { DefaultLocale } from '../db/Database';
 import type Locale from '../locale/Locale';
 import { readFileSync } from 'fs';
+import DefaultLocale from '../locale/DefaultLocale';
 
 /** Load a few locales for testing. */
 const en = DefaultLocale;

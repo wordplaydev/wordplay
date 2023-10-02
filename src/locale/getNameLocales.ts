@@ -3,7 +3,7 @@ import Names from '@nodes/Names';
 import type { NameText } from './Locale';
 import type Locale from './Locale';
 import { localeToLanguage } from './localeToLanguage';
-import en from '../locale/en-US.json';
+import DefaultLocale from './DefaultLocale';
 
 export function getNameLocales(
     locales: Locale[],
@@ -21,15 +21,15 @@ export function getNameLocales(
     // If the given locales don't include, the default locale, include the symbolic name from the default locale first.
     if (
         nameText instanceof Function &&
-        locales.find((locale) => locale === en) === undefined
+        locales.find((locale) => locale === DefaultLocale) === undefined
     ) {
-        const defaultNameTexts = nameText(en as Locale);
+        const defaultNameTexts = nameText(DefaultLocale);
         const symbolic = (
             Array.isArray(defaultNameTexts)
                 ? defaultNameTexts
                 : [defaultNameTexts]
         )
-            .map((n) => Name.make(n, localeToLanguage(en as Locale)))
+            .map((n) => Name.make(n, localeToLanguage(DefaultLocale)))
             .find((name) => name.isSymbolic());
         if (symbolic) names = [symbolic, ...names];
     }

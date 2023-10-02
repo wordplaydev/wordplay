@@ -25,6 +25,7 @@ import type Locale from '../locale/Locale';
 import { getBestSupportedLocales, toLocaleString } from '../locale/Locale';
 import { toTokens } from '../parser/toTokens';
 import type LocalesDatabase from '../db/LocalesDatabase';
+import { cloneFlags, moderatedFlags, type Moderation } from './Moderation';
 
 export type SerializedSource = {
     names: string;
@@ -54,6 +55,8 @@ export type SerializedProject = {
     timestamp: number;
     /** An optional gallery ID, indicating which gallery this project is in. */
     gallery: string | null;
+    /** Moderation state */
+    flags: Moderation;
 };
 
 type Analysis = {
@@ -131,6 +134,9 @@ export default class Project {
     /** The localized basis bindings */
     readonly basis: Basis;
 
+    /** The moderation state of the project */
+    readonly flags: Moderation;
+
     /** The time when this project version created. */
     readonly timestamp: number;
 
@@ -157,6 +163,7 @@ export default class Project {
         listed = true,
         archived = false,
         gallery: string | null = null,
+        moderation: Moderation = moderatedFlags(),
         // This is last; omitting it updates the time.
         timestamp: number | undefined = undefined
     ) {
@@ -168,6 +175,8 @@ export default class Project {
         this.public = pub;
         this.timestamp = timestamp ?? Date.now();
         this.gallery = gallery;
+
+        this.flags = moderation;
 
         // Remember the name and source.
         this.name = name;
@@ -210,15 +219,16 @@ export default class Project {
             null,
             this.name,
             this.main,
-            this.supplements,
-            this.locales,
+            this.supplements.slice(),
+            this.locales.slice(),
             this.owner,
-            this.collaborators,
+            this.collaborators.slice(),
             this.public,
-            this.carets,
+            this.carets.slice(),
             this.listed,
             this.archived,
-            this.gallery
+            this.gallery,
+            cloneFlags(this.flags)
         );
     }
 
@@ -552,7 +562,8 @@ export default class Project {
             this.carets,
             this.listed,
             this.archived,
-            this.gallery
+            this.gallery,
+            cloneFlags(this.flags)
         );
     }
 
@@ -569,7 +580,8 @@ export default class Project {
             this.carets,
             this.listed,
             this.archived,
-            this.gallery
+            this.gallery,
+            cloneFlags(this.flags)
         );
     }
 
@@ -591,7 +603,8 @@ export default class Project {
             this.carets,
             this.listed,
             this.archived,
-            this.gallery
+            this.gallery,
+            cloneFlags(this.flags)
         );
     }
 
@@ -618,7 +631,8 @@ export default class Project {
             ),
             this.listed,
             this.archived,
-            this.gallery
+            this.gallery,
+            cloneFlags(this.flags)
         );
     }
 
@@ -635,7 +649,8 @@ export default class Project {
             this.carets.filter((c) => c.source !== source),
             this.listed,
             this.archived,
-            this.gallery
+            this.gallery,
+            cloneFlags(this.flags)
         );
     }
 
@@ -672,7 +687,8 @@ export default class Project {
             }),
             this.listed,
             this.archived,
-            this.gallery
+            this.gallery,
+            cloneFlags(this.flags)
         );
     }
 
@@ -739,7 +755,8 @@ export default class Project {
             [...this.carets, { source: newSource, caret: 0 }],
             this.listed,
             this.archived,
-            this.gallery
+            this.gallery,
+            cloneFlags(this.flags)
         );
     }
 
@@ -756,7 +773,8 @@ export default class Project {
             this.carets,
             this.listed,
             this.archived,
-            this.gallery
+            this.gallery,
+            cloneFlags(this.flags)
         );
     }
 
@@ -779,7 +797,8 @@ export default class Project {
                   this.carets,
                   this.listed,
                   this.archived,
-                  this.gallery
+                  this.gallery,
+                  cloneFlags(this.flags)
               );
     }
 
@@ -798,7 +817,8 @@ export default class Project {
                   this.carets,
                   this.listed,
                   this.archived,
-                  this.gallery
+                  this.gallery,
+                  cloneFlags(this.flags)
               );
     }
 
@@ -815,7 +835,8 @@ export default class Project {
             this.carets,
             this.listed,
             this.archived,
-            this.gallery
+            this.gallery,
+            cloneFlags(this.flags)
         );
     }
 
@@ -933,6 +954,7 @@ export default class Project {
             project.listed,
             project.archived,
             project.gallery,
+            cloneFlags(project.flags),
             project.timestamp
         );
     }
@@ -972,7 +994,8 @@ export default class Project {
             this.carets,
             this.listed,
             archived,
-            this.gallery
+            this.gallery,
+            cloneFlags(this.flags)
         );
     }
 
@@ -989,7 +1012,26 @@ export default class Project {
             this.carets,
             this.listed,
             this.archived,
-            id
+            id,
+            cloneFlags(this.flags)
+        );
+    }
+
+    withFlags(flags: Moderation) {
+        return new Project(
+            this.id,
+            this.name,
+            this.main,
+            this.supplements,
+            this.locales,
+            this.owner,
+            this.collaborators,
+            this.public,
+            this.carets,
+            this.listed,
+            this.archived,
+            this.gallery,
+            cloneFlags(flags)
         );
     }
 
@@ -1014,6 +1056,7 @@ export default class Project {
             archived: this.archived,
             timestamp: this.timestamp,
             gallery: this.gallery,
+            flags: cloneFlags(this.flags),
         };
     }
 

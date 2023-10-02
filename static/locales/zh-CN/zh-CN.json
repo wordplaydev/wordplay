@@ -2563,8 +2563,29 @@
             "unparsable": "$?"
         }
     },
-    "rules": {
-        "violence": "$?",
-        "dehumanization": "$?"
+    "moderation": {
+        "warning": { "header": "$?", "explanation": "$?" },
+        "blocked": { "header": "$?", "explanation": "$?" },
+        "unmoderated": { "header": "$?", "explanation": "$?" },
+        "moderate": {
+            "header": "$?",
+            "explanation": "$?"
+        },
+        "flags": {
+            "violence": "$?",
+            "dehumanization": "$?",
+            "disclosure": "$?",
+            "misinformation": "$?"
+        },
+        "button": {
+            "submit": {
+                "tip": "$?",
+                "label": "$?"
+            },
+            "skip": {
+                "tip": "$?",
+                "label": "$?"
+            }
+        }
     }
 }

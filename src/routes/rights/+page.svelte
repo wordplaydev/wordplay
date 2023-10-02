@@ -10,7 +10,7 @@
 
     <MarkupHtmlView markup={$locale.ui.page.rights.content} />
     <MarkupHtmlView
-        markup={Object.values($locale.rules)
+        markup={Object.values($locale.moderation.flags)
             .map((promise) => `• ${promise}`)
             .join('\n\n')}
     />

@@ -1,4 +1,5 @@
-import { DefaultLocale, DB } from '../db/Database';
+import { DB } from '../db/Database';
+import DefaultLocale from '../locale/DefaultLocale';
 import type Locale from '../locale/Locale';
 import Project from '../models/Project';
 import Source from '../nodes/Source';

@@ -9,8 +9,8 @@ import Replace from './Replace';
 import NumberLiteral from '../nodes/NumberLiteral';
 import Append from './Append';
 import Reference from '../nodes/Reference';
-import { DefaultLocale } from '../db/Database';
 import type Revision from './Revision';
+import DefaultLocale from '../locale/DefaultLocale';
 
 test.each([
     ['blank program suggestions', '**', undefined, Append, '0'],

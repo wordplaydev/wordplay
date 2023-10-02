@@ -4,7 +4,8 @@ import NumberValue from '@values/NumberValue';
 import Source from './Source';
 import Project from '../models/Project';
 import type Value from '../values/Value';
-import { DefaultLocale, DB } from '../db/Database';
+import { DB } from '../db/Database';
+import DefaultLocale from '../locale/DefaultLocale';
 
 test.each([
     // A single source with 1 should evaluate to 1

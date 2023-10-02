@@ -7,6 +7,8 @@
     import { onMount } from 'svelte';
     import { fade } from 'svelte/transition';
     import getProjectLink from './getProjectLink';
+    import { isAudience, isFlagged } from '../../models/Moderation';
+    import { getUser } from '../project/Contexts';
 
     export let project: Project;
     export let action: (() => void) | undefined = undefined;
@@ -30,6 +32,11 @@
     // Don't show the output view immediately.
     let visible = false;
     onMount(() => setTimeout(() => (visible = true), delay));
+
+    const user = getUser();
+
+    /** See if this is a public project being viewed by someone who isn't a creator or collaborator */
+    $: audience = isAudience($user, project);
 </script>
 
 <div class="project" class:named={name}>
@@ -44,7 +51,12 @@
                 : undefined}
     >
         {#if visible}
-            <div class="output" in:fade role="presentation">
+            <div
+                class="output"
+                in:fade
+                role="presentation"
+                class:blurred={audience && isFlagged(project.flags)}
+            >
                 <OutputView
                     {project}
                     {evaluator}
@@ -110,5 +122,9 @@
         overflow: hidden;
         border: var(--wordplay-border-color) solid var(--wordplay-border-width);
         border-radius: var(--wordplay-border-radius);
+    }
+
+    .blurred {
+        filter: blur(10px);
     }
 </style>

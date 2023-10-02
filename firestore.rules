@@ -18,19 +18,22 @@ service cloud.firestore {
       // 1) They are public
       // 2) The requestor is the owner or a collaborator
       // 3) The requestor is a curator or creator of the gallery that the project is in, so all gallery projects are readable.
-      allow read: 
-        if  resource.data.public || 
-            (request.auth != null && 
-              ( resource.data.owner == request.auth.uid || 
-                request.auth.uid in resource.data.collaborators || 
-                (resource.data.gallery != null && isInPublicGalleryOrIsCreator(request.auth.uid, resource.data.gallery))
-              )
-            );
+      allow read: if 
+        ('public' in resource.data && resource.data.public) || 
+        (request.auth != null && 
+          ( 
+            request.auth.token.mod ||
+            ('owner' in resource.data && resource.data.owner == request.auth.uid) || 
+            ('collaborators' in resource.data && request.auth.uid in resource.data.collaborators) || 
+            ('gallery' in resource.data && resource.data.gallery != null && isInPublicGalleryOrIsCreator(request.auth.uid, resource.data.gallery))
+          )
+        );
       allow update: 
         if request.auth != null && 
           (
             resource.data.owner == request.auth.uid || 
             request.auth.uid in resource.data.collaborators || 
+            request.auth.token.mod ||
             (resource.data.gallery != null && isCuratorOfProjectInGallery(request.auth.uid, resource.data.gallery))
           );
       allow delete: if request.auth != null && resource.data.owner == request.auth.uid;
