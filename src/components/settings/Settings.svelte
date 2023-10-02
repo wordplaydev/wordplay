@@ -61,6 +61,7 @@
     <Status />
     <Link to="/login">
         <CreatorView
+            anonymize={false}
             creator={$user
                 ? {
                       email: $user.email,

@@ -3,7 +3,7 @@
     import { locale } from '../../db/Database';
 
     export let creator: Creator | null;
-    export let anonymize = false;
+    export let anonymize = true;
 </script>
 
 <div class="creator"
@@ -15,7 +15,7 @@
         ? creator.email === null
             ? '—'
             : anonymize
-            ? creator.email.split('@')[0]
+            ? creator.email.split('@')[0].substring(0, 4)
             : creator.email
         : $locale.ui.page.login.anonymous}</div
 >
