@@ -1,9 +1,15 @@
 <script lang="ts">
+    import { page } from '$app/stores';
+
     export let to: string;
+    export let tip: string | undefined = undefined;
     export let external = false;
 </script>
 
-<a href={to} target={external ? '_blank' : null}><slot /></a>
+{#if to === '/' ? $page.route.id === '/' : $page.route.id?.startsWith(to)}
+    <slot />
+{:else}<a title={tip} href={to} target={external ? '_blank' : null}><slot /></a>
+{/if}
 
 <style>
     a {
