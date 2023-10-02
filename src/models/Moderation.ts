@@ -44,11 +44,12 @@ export type Moderation = {
 
 export function withFlag(
     flags: Moderation,
-    flag: Flag,
+    flag: string,
     state: FlagState
 ): Moderation {
+    if (!(flag in Flags)) return flags;
     const newFlags = cloneFlags(flags);
-    newFlags[flag] = state;
+    newFlags[flag as Flag] = state;
     return newFlags;
 }
 
@@ -108,4 +109,23 @@ export function isAudience(user: User | null, project: Project): boolean {
             (project.owner !== user.uid &&
                 !project.collaborators.includes(user.uid)))
     );
+}
+
+export function getFlagDescription(
+    flag: string,
+    locale: Locale
+): string | undefined {
+    return locale.moderation.flags[flag as Flag];
+}
+
+export async function isModerator(user: User) {
+    return user
+        .getIdTokenResult()
+        .then((idTokenResult) => {
+            // Confirm the user is an Admin.
+            return idTokenResult.claims.mod === true;
+        })
+        .catch(() => {
+            return false;
+        });
 }

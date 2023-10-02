@@ -4271,11 +4271,25 @@
             "header": "Note",
             "explanation": "This content hasn't been moderated yet. It may:"
         },
+        "moderate": {
+            "header": "Moderate",
+            "explanation": "Review this project and decide if it's content does any of the following. If it does, content will be warned or blocked. You can skip if you're unsure."
+        },
         "flags": {
             "violence": "Incite, encourage, or celebrate violence, harm, or self harm to anyone.",
             "dehumanization": "Dehumanize individuals or groups based on their race, ethnicity, national origin, caste, sexual orientation, gender, religion, age, ability, or appearance.",
             "disclosure": "Reveal private information about other people such as names, contact information, or physical addresses",
             "misinformation": "Contain false, misleading, deceptive, or manipulative information"
+        },
+        "button": {
+            "submit": {
+                "tip": "Save these moderation settings",
+                "label": "save"
+            },
+            "skip": {
+                "tip": "Skip this project",
+                "label": "skip"
+            }
         }
     }
 }

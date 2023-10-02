@@ -22,6 +22,8 @@
         border: solid var(--wordplay-border-color) var(--wordplay-border-width);
         width: 1rem;
         height: 1rem;
+        min-width: 1rem;
+        min-height: 1rem;
         cursor: pointer;
     }
 
@@ -31,6 +33,6 @@
     }
 
     [type='checkbox']:checked {
-        background: var(--wordplay-inactive-color);
+        background: var(--wordplay-foreground);
     }
 </style>

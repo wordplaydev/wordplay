@@ -134,6 +134,8 @@
     export let showHelp = true;
     /** True if the project was overwritten by another instance of Wordplay */
     export let overwritten = false;
+    /** True if the moderation warnings should show */
+    export let warn = true;
 
     // The HTMLElement that represents this element
     let view: HTMLElement | undefined = undefined;
@@ -482,7 +484,7 @@
         else searchParams.delete(PROJECT_PARAM_PLAY);
 
         // Set the URL to reflect the latest concept selected.
-        if ($path.length > 0) {
+        if ($path && $path.length > 0) {
             const concept = $path[$path.length - 1];
             const name = concept.getName($locale, false);
             const ownerName = $index
@@ -562,7 +564,7 @@
     function restoreConcept() {
         const id = $page.url.searchParams.get(PROJECT_PARAM_CONCEPT);
         const concept = id ? resolveConcept(id) : undefined;
-        if (concept) path.set([concept]);
+        if (concept && path) path.set([concept]);
     }
 
     let latestProject: Project | undefined;
@@ -583,13 +585,14 @@
         index.set(newIndex);
 
         // Map the old path to the new one using concept equality.
-        path.set(
-            $index
-                ? $path
-                      .map((concept) => $index?.getEquivalent(concept))
-                      .filter((c): c is Concept => c !== undefined)
-                : []
-        );
+        if (path)
+            path.set(
+                $index && $path
+                    ? $path
+                          .map((concept) => $index?.getEquivalent(concept))
+                          .filter((c): c is Concept => c !== undefined)
+                    : []
+            );
 
         // Ensure the selected source index is in bounds.
         selectedSourceIndex = Math.min(
@@ -599,19 +602,20 @@
     }
 
     // When the path changes, show the docs and mirror the concept in the URL.
-    let latestPath: Concept[] = $path;
+    let latestPath: Concept[] = $path ?? [];
     $: {
         if (
-            $path.length !== latestPath.length ||
-            !$path.every((concept, index) =>
-                concept.isEqualTo(latestPath[index])
-            )
+            $path &&
+            ($path.length !== latestPath.length ||
+                !$path.every((concept, index) =>
+                    concept.isEqualTo(latestPath[index])
+                ))
         ) {
             const docs = layout.getDocs();
             if (docs) setMode(docs, Mode.Expanded);
         }
         // Update the latest path.
-        latestPath = $path;
+        latestPath = $path ?? [];
     }
 
     /** Build a list of visible conflicts of interest based on what tiles are expanded. */
@@ -1158,7 +1162,7 @@
 
 <Collaborators bind:show={showCollaboratorsDialog} {project} />
 <Help bind:show={showHelpDialog} />
-<Moderation show={true} {project} />
+<Moderation show={warn} {project} />
 <!-- Render the app header and the current project, if there is one. -->
 <main class="project" bind:this={view}>
     <div

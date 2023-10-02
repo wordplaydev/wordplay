@@ -24,7 +24,7 @@
 </script>
 
 <!-- If this is an audience member and one of the flags are active -->
-{#if audience && warnings.length + blocks.length + unmoderated.length > 0}
+{#if show && audience && warnings.length + blocks.length + unmoderated.length > 0}
     <Dialog
         bind:show
         description={blocks.length > 0

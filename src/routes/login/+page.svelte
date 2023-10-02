@@ -21,6 +21,7 @@
     import Link from '../../components/app/Link.svelte';
     import { logEvent } from 'firebase/analytics';
     import EmojiChooser from '../../components/widgets/EmojiChooser.svelte';
+    import { isModerator } from '../../models/Moderation';
 
     let user = getUser();
     let email: string;
@@ -42,6 +43,10 @@
         'auth/invalid-argument': $locale.ui.page.login.error.invalid,
         'auth/invalid-email': $locale.ui.page.login.error.email,
     };
+
+    let moderator = false;
+    $: if ($user) isModerator($user).then((mod) => (moderator = mod));
+    else moderator = false;
 
     function communicateLoginFailure(err: unknown) {
         if (err instanceof FirebaseError) {
@@ -289,6 +294,13 @@
                         {/if}
                     {/if}
                 </div>
+                {#if moderator}
+                    <div class="action">
+                        You're a moderator. Go <Link to="/moderate"
+                            >moderate</Link
+                        >?
+                    </div>
+                {/if}
             </div>
         {:else}
             <Header>{$locale.ui.page.login.header}</Header>

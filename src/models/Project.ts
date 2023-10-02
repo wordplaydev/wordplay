@@ -1017,6 +1017,24 @@ export default class Project {
         );
     }
 
+    withFlags(flags: Moderation) {
+        return new Project(
+            this.id,
+            this.name,
+            this.main,
+            this.supplements,
+            this.locales,
+            this.owner,
+            this.collaborators,
+            this.public,
+            this.carets,
+            this.listed,
+            this.archived,
+            this.gallery,
+            cloneFlags(flags)
+        );
+    }
+
     serialize(): SerializedProject {
         return {
             id: this.id,

@@ -2,7 +2,7 @@
 
 <style>
     h2 {
-        font-size: min(6vw, 40pt);
+        font-size: min(6vw, 20pt);
         font-family: var(--wordplay-app-font);
         color: var(--wordplay-header);
         font-weight: bold;
