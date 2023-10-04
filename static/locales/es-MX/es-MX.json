@@ -2225,7 +2225,7 @@
             },
             "field": {
                 "key": {
-                    "label": "escuchando las pulsaciones de teclas",
+                    "description": "escuchando las pulsaciones de teclas",
                     "placeholder": "mensaje"
                 }
             },
@@ -2353,39 +2353,39 @@
                 }
             },
             "locale": {
-                "header": "$?",
-                "explanation": "$?",
+                "header": "Idioma",
+                "explanation": "Elija su idioma y regiones.",
                 "subheader": {
-                    "selected": "$?",
-                    "supported": "$?",
-                    "help": "$?"
+                    "selected": "Seleccionada",
+                    "supported": "Disponible",
+                    "help": "Ayúdanos a traducir …"
                 },
                 "button": {
-                    "show": "$?",
-                    "add": "$?",
-                    "remove": "$?"
+                    "show": "cambiar idiomas",
+                    "add": "agregar idiomas",
+                    "remove": "quitar idiomas"
                 }
             },
             "help": {
-                "header": "$?",
-                "explanation": "$?",
+                "header": "Atajos",
+                "explanation": "Utilice estos comandos de teclado para una edición más eficiente.",
                 "subheader": {
-                    "moveCursor": "$?",
-                    "editCode": "$?",
-                    "insertCode": "$?",
-                    "debug": "$?"
+                    "moveCursor": "Mover",
+                    "editCode": "Editar",
+                    "insertCode": "Insertar",
+                    "debug": "Depurar"
                 }
             }
         },
         "palette": {
-            "label": "$?",
+            "label": "paleta",
             "labels": {
-                "mixed": "$?",
-                "computed": "$?",
-                "default": "$?",
-                "inherited": "$?",
-                "notSequence": "$?",
-                "notContent": "$?"
+                "mixed": "mezclada",
+                "computed": "calculada",
+                "default": "por defecto",
+                "inherited": "heredada",
+                "notSequence": "no una secuencia",
+                "notContent": "no una lista de contenido"
             },
             "button": {
                 "revert": "$?",
@@ -2405,55 +2405,57 @@
                 "createStage": "$?"
             },
             "prompt": {
-                "offerPhrase": "$?",
-                "offerGroup": "$?",
-                "offerStage": "$?",
-                "pauseToEdit": "$?",
-                "editing": "¡edítame!"
+                "offerPhrase": "¡Qué valor tan magnífico hiciste! ¿Lo muestro en @Stage?",
+                "offerGroup": "Qué maravillosa @Phrase hiciste. ¿Quieres reunirlos en un @Group para organizarlos?",
+                "offerStage": "MUY BUEN @Program. AGRÉGAME PARA CONTROLAR ILUMINACIÓN. COLORES. MARCOS.",
+                "pauseToEdit": "¡Si ⏸️ el escenario, puedes seleccionar un 💬, 🔳 o 🎭 para editar!",
+                "editing": "¡Edítame!"
             },
             "field": {
-                "coordinate": "$?",
-                "text": "$?"
+                "coordinate": "editar coordenadas",
+                "text": "editar texto"
             },
             "sequence": {
                 "button": {
-                    "add": "$?",
-                    "remove": "$?",
-                    "up": "$?",
-                    "down": "$?"
+                    "add": "agregar pose",
+                    "remove": "quitar pose",
+                    "up": "mover la pose hacia arriba",
+                    "down": "mover la pose hacia abajo"
                 },
                 "field": {
-                    "percent": "$?"
+                    "percent": "editar porcentaje"
                 }
             }
         },
         "save": {
-            "saving": "$?",
-            "saved": "$?",
-            "local": "$?",
-            "unsaved": "$?"
+            "saving": "guardando",
+            "saved": "guardado",
+            "local": "guardado localmente",
+            "unsaved": "no guardado"
         },
         "page": {
             "unknown": {
-                "header": "$?",
-                "message": "$?"
+                "header": "¡Uy!",
+                "message": "¿Dónde está este lugar? ¿Podemos ir a casa?"
             },
             "landing": {
-                "call": ["$?"],
+                "call": [
+                    "Oh, ¡hola! ¿Eres una persona? ¿Te quedarás y darás vida a las palabras con nosotros? 🥹 /Por favooooor/?"
+                ],
                 "link": {
-                    "about": "$?",
-                    "learn": "$?",
-                    "projects": "$?",
-                    "galleries": "$?",
-                    "rights": "$?"
+                    "about": "¿Por qué existe este lugar?",
+                    "learn": "¿Qué es este lugar?",
+                    "projects": "Crear y compartir actuaciones",
+                    "galleries": "Experimentar las actuaciones de otros",
+                    "rights": "Responsabilidades, las nuestras y las tuyas"
                 }
             },
             "learn": {
-                "header": "$?",
-                "error": "$?",
+                "header": "Aprender",
+                "error": "No pudimos encontrar un tutorial para este idioma.",
                 "button": {
-                    "next": "$?",
-                    "previous": "$?"
+                    "next": "próxima pausa en el diálogo",
+                    "previous": "pausa anterior en el diálogo"
                 }
             },
             "projects": {
@@ -2488,17 +2490,26 @@
                 }
             },
             "galleries": {
-                "header": "$?",
-                "prompt": "$?",
-                "examples": "ejemplos"
+                "header": "Galerías",
+                "prompt": "Estas son actuaciones que otras personas han creado. Experiméntalas, estúdialas o adáptalas a tu propia declaración.",
+                "examples": "Ejemplos"
             },
             "about": {
-                "header": "$?",
-                "content": ["$?"]
+                "header": "Acerca de",
+                "content": [
+                    "¿Alguna vez has sentido que la programación era solo para occidentales sin discapacidades que hablan inglés y están obsesionados con las computadoras?",
+                    "Sí, nosotras también.",
+                    "Esto no es casualidad. Desde los inicios de la computación, los lenguajes de programación han sido diseñados y construidos principalmente por el mismo grupo de personas: hombres blancos, cisgénero, de habla inglesa, en el ámbito académico e industrial de Estados Unidos y Europa, y algunas mujeres matemáticas increíbles. Hicieron su trabajo en una época poscolonial en la que el ganador se llevaba todo el poder, y los lenguajes de programación fueron una herramienta clave para asegurar ese poder.",
+                    "Ya sea intencional o no, esta historia ha llevado a una visión de la computación que se centra principalmente en la velocidad, la lógica, la ganancia y la dominación.",
+                    "Esto es una injusticia. Porque la computación, para bien y para mal, ahora sustenta la vida diaria de formas visibles e invisibles, y las personas que tienen acceso para crear con ella son las que más se parecen a sus creadores. El resto de la humanidad sigue siendo dependiente de este poder, porque imaginar algo diferente requiere acceso, obstaculizado por barreras de idioma, barreras de accesibilidad, barreras económicas y desigualdades en la educación pública.",
+                    "*Wordplay* aspira a ser algo diferente. Una plataforma de programación diseñada para ser global, que admita /todos/ los idiomas del mundo, pero también que sea /sobre/ los idiomas del mundo. Una plataforma en la que todas puedan crear, con las habilidades que tengan, para compartir contenido interactivo que cualquiera pueda experimentar, con cualquier habilidad que tenga. Para jóvenes y adultas jóvenes que deseen expresarse de manera *juguetona*, *artística* e *interactiva*. No con el objetivo de aprovechar el poder, sino de crear una comunidad diversa que reconozca la increíble fuerza que proviene de nuestras hermosas diferencias.",
+                    "Somos una comunidad de diseñadoras, educadoras y desarrolladoras que intentan dar vida a esta visión. Somos personas de color, somos transgénero, somos queer, somos discapacitadas y venimos de todo el mundo. Estamos centradas en la <University of Washington@https://washington.edu> <Information School@https://ischool.uw.edu/> en Seattle, Washington, USA, un lugar que aspira a dar la bienvenida a todas y deshacer los estragos del colonialismo que continúan hoy. Crear este lenguaje de programación y plataforma es parte de esa misión.",
+                    "Consulta nuestros <milestones@https://github.com/amyjko/wordplay/milestones> para ver en qué estamos trabajando, y si deseas ayudar, aprende <cómo contribuir@https://github.com/amyjko/wordplay/blob/main/CONTRIBUTING.md>. O escribe a nuestra organizadora comunitaria <Amy@https://amyjko.phd> con preguntas."
+                ]
             },
             "login": {
-                "header": "$?",
-                "anonymous": "$?",
+                "header": "",
+                "anonymous": "anónima",
                 "prompt": {
                     "login": "$?",
                     "enter": "$?",
@@ -2513,13 +2524,13 @@
                     "name": "$?"
                 },
                 "error": {
-                    "expired": "$?",
-                    "invalid": "$?",
-                    "email": "$?",
-                    "offline": "$?",
-                    "failure": "$?",
-                    "unchanged": "$?",
-                    "delete": "$?"
+                    "expired": "Este enlace ha expirado",
+                    "invalid": "Este enlace no es válido.",
+                    "email": "Este correo electrónico no era válido.",
+                    "offline": "Parece que estás desconectada.",
+                    "failure": "No es posible iniciar sesión :(",
+                    "unchanged": "No pudimos cambiar tu dirección de correo electrónico, pero no sabemos por qué.",
+                    "delete": "No pudimos borrar tu cuenta, pero no sabemos por qué."
                 },
                 "feedback": {
                     "changing": "$?",
