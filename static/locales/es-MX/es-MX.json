@@ -18,7 +18,7 @@
         "scene": "escena",
         "phrase": "frase",
         "group": "grupo",
-        "stage": "$!verso",
+        "stage": "escenario",
         "type": "tipo",
         "start": "comenzar",
         "entered": "ingresó",
@@ -117,12 +117,12 @@
         "Dimension": {
             "name": "dimensión",
             "description": "dimensión",
-            "emotion": "serio",
+            "emotion": "serious",
             "doc": [
                 "¡Soy un /unidad de medida/!",
                 "Yo puedo ser cualquier unidad estandarizada, come \\1m\\, \\10s\\, \\100g\\, o cualquier unidid cientifica. Estoy feliz ser cualqueir unidad que quieres inventar tu también, como \\17manzana\\.",
                 "Puedo combinar con \\/\\ para formar unidades de proporción, como \\17manzanas/día\\ y con \\^\\ para formar unidades exponenciales como \\9.8m/s^2\\.",
-                "Siempre debo ir después de @Number. Si no lo hago, podrían confudirme con @Refrence, ¡lo cual sería bastantate embarazoso!",
+                "Siempre debo ir después de @Number. Si no lo hago, podrían confudirme con @Reference, ¡lo cual sería bastantate embarazoso!",
                 "También soy bastante bueno para encontrar inconsistencies entre unidades. Por ejemplo, !\\1gato + 1perro\\ no tiene ningún sentido!",
                 "Si alguna vez deseas convertir entre diferentes valores de unidades, hable con @Convert."
             ]
@@ -2065,168 +2065,140 @@
         },
         "widget": {
             "confirm": {
-                "cancel": "$?"
+                "cancel": "cancelar"
             },
             "dialog": {
-                "close": "$?"
+                "close": "cerrar"
             },
             "loading": {
-                "message": "$?"
-            },
-            "home": "$?"
+                "message": "Cargando fuentes y texto, ¡gracias por esperar! "
+            }
         },
         "tile": {
             "toggle": {
                 "fullscreen": {
-                    "on": "$?",
-                    "off": "$?"
+                    "on": "salir de pantalla completa",
+                    "off": "exapandir teja a pantalla completa"
                 },
                 "show": {
-                    "on": "$?",
-                    "off": "$?"
+                    "on": "esconder esta teja",
+                    "off": "mostrar esta teja"
                 }
             },
             "button": {
-                "collapse": "$?"
+                "collapse": "colapsar esta ventana"
             }
         },
         "project": {
             "error": {
-                "unknown": "$?"
+                "unknown": "Esta actuación no existe o no es pública."
             },
             "button": {
-                "showCollaborators": "$?",
-                "removeCollaborator": "$?",
-                "copy": "$?",
-                "addSource": "$?",
-                "duplicate": "$?",
-                "revert": "$?",
-                "focusOutput": "$?",
-                "focusSource": "$?",
-                "focusDocs": "$?",
-                "focusPalette": "$?",
-                "focusCycle": "$?"
+                "showCollaborators": "mostrar a los colaboradores el diálogo",
+                "removeCollaborator": "quitar colaboradora",
+                "copy": "copiar proyecto como texto",
+                "addSource": "crear una nueva $source",
+                "duplicate": "copia este proyecto",
+                "revert": "volver al código original ",
+                "focusOutput": "enfoque el teclado en el escenario",
+                "focusSource": "enfoque en la siguiente fuente ",
+                "focusDocs": "enfoque en la documentación",
+                "focusPalette": "enfoque en la paleta",
+                "focusCycle": "enfoque en la siguiente teja "
+            },
+            "toggle": {
+                "public": {
+                    "on": "cambiar a privado",
+                    "off": "cambiar a publico"
+                }
             },
             "field": {
                 "name": {
-                    "description": "$?",
-                    "placeholder": "$?"
+                    "description": "editar el nobmre del proyecto",
+                    "placeholder": "nombre"
                 }
             },
-            "help": "$?"
-        },
-        "gallery": {
-            "untitled": "$?",
-            "subheader": {
-                "curators": {
-                    "header": "$?",
-                    "explanation": "$?"
-                },
-                "creators": {
-                    "header": "$?",
-                    "explanation": "$?"
-                },
-                "delete": {
-                    "header": "$?",
-                    "explanation": "$?"
-                }
-            },
-            "confirm": {
-                "delete": {
-                    "description": "$?",
-                    "prompt": "$?"
-                },
-                "remove": {
-                    "description": "$?",
-                    "prompt": "$?"
-                }
-            },
-            "error": {
-                "unknown": "$?"
-            },
-            "field": {
-                "name": {
-                    "description": "$?",
-                    "placeholder": "$?"
-                },
-                "description": {
-                    "description": "$?",
-                    "placeholder": "$?"
-                }
-            }
+            "help": "mostrar atajos de teclado"
         },
         "source": {
-            "label": "$?",
-            "empty": "$?",
-            "overwritten": "$?",
+            "label": "editora de programas",
+            "empty": [
+                "¡Empecemos! Puedes …",
+                "• Abre 📕 y arrástranos 🖱️ a este programa.",
+                "• Escribe $1 y elígenos del menú.",
+                "• Si nos conoces bien, empieza a escribir.",
+                "• Explora la galería en busca de inspiración.",
+                "Si estas atascada, <aprende más@://learn>."
+            ],
+            "overwritten": "¡Recibí una versión más reciente!",
             "confirm": {
                 "delete": {
-                    "description": "$?",
-                    "prompt": "$?"
+                    "description": "borra esta $source",
+                    "prompt": "borrar"
                 }
             },
             "toggle": {
                 "blocks": {
-                    "on": "$?",
-                    "off": "$?"
+                    "on": "esconder los fondos de los bloques",
+                    "off": "mostrar los fondos de los bloques"
                 },
                 "glyphs": {
-                    "on": "$?",
-                    "off": "$?"
+                    "on": "colapsar los glifos coincidentes",
+                    "off": "expandir los glifos coincidentes"
                 }
             },
             "button": {
-                "selectOutput": "$?",
-                "expandSequence": "$?"
+                "selectOutput": "mostrar este resultado en el escenario",
+                "expandSequence": "expandir este código colapsado"
             },
             "field": {
                 "name": {
-                    "description": "$?",
-                    "placeholder": "$?"
+                    "description": "editar nombre de fuente",
+                    "placeholder": "nombre"
                 }
             },
             "menu": {
-                "label": "$?",
-                "show": "$?",
-                "back": "$?"
+                "label": "menú de autocompletar",
+                "show": "mostrar menú de autocompletar",
+                "back": "salir del submenú"
             },
             "cursor": {
-                "priorLine": "$?",
-                "nextLine": "$?",
-                "priorInline": "$?",
-                "nextInline": "$?",
-                "lineStart": "$?",
-                "lineEnd": "$?",
-                "priorNode": "$?",
-                "nextNode": "$?",
-                "parent": "$?",
-                "selectAll": "$?",
-                "incrementLiteral": "$?",
-                "decrementLiteral": "$?",
-                "insertSymbol": "$?",
-                "insertTrue": "$?",
-                "insertFalse": "$?",
-                "insertNone": "$?",
-                "insertNotEqual": "$?",
-                "insertProduct": "$?",
-                "insertQuotient": "$?",
-                "insertDegree": "$?",
-                "insertFunction": "$?",
-                "insertLessOrEqual": "$?",
-                "insertGreaterOrEqual": "$?",
-                "insertStream": "$?",
-                "insertConvert": "$?",
-                "insertPrevious": "$?",
-                "insertType": "$?",
-                "insertTable": "$?",
-                "insertLine": "$?",
-                "backspace": "$?",
-                "cut": "$?",
-                "copy": "$?",
-                "paste": "$?",
-                "parenthesize": "$?",
-                "enumerate": "$?",
-                "type": "$?",
+                "priorLine": "mover el cursor a la línea anterior",
+                "nextLine": "mover el cursor a la línea después",
+                "priorInline": "mover el cursor a la posición anterior",
+                "nextInline": "mover el cursor a la posición después",
+                "lineStart": "mover el cursor al inicio de la línea",
+                "lineEnd": "mover el cursor al final de la línea",
+                "priorNode": "seleccionar vecina antes",
+                "nextNode": "seleccionar vecina después",
+                "parent": "seleccionar contenedor",
+                "selectAll": "seleccionar programa",
+                "incrementLiteral": "aumentar número, texto o booleano",
+                "decrementLiteral": "disminuir número, texto o booleano",
+                "insertSymbol": "inserte $1",
+                "insertTrue": "insertar verdadera",
+                "insertFalse": "insertar falsa",
+                "insertNone": "insertar ningún símbolo",
+                "insertNotEqual": "insertar no igual",
+                "insertProduct": "insertar símbolo de multiplicación",
+                "insertQuotient": "insertar símbolo de cociente",
+                "insertDegree": "insertar símbolo de grado",
+                "insertFunction": "insertar una función",
+                "insertLessOrEqual": "insertar inferior o igual a",
+                "insertGreaterOrEqual": "insertar superior o igual a",
+                "insertStream": "insertar símbolo de arroyo",
+                "insertConvert": "insertar símbolo de conversión",
+                "insertPrevious": "insertar símbolo de anterior",
+                "insertType": "insertar símbolo de tipo",
+                "insertTable": "insertar símbolo de tabla",
+                "insertLine": "insertar salto de línea",
+                "backspace": "borrar selección o carácter anterior",
+                "cut": "corte lo que esté seleccionado",
+                "copy": "copiar lo que esté  seleccionado",
+                "paste": "pegar el contenido del teclado",
+                "parenthesize": "poner entre paréntesis lo que esté seleccionado",
+                "enumerate": "enumerar selección",
+                "type": "escribir caracteres",
                 "undo": "$?",
                 "redo": "$?",
                 "search": "$?"
