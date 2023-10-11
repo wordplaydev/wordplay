@@ -1547,9 +1547,9 @@
                 { "names": "maximo", "doc": "$?" }
             ]
         },
-        "Choice": { "doc": ["/click y tap!/", "/@DefinicionDeFuncion aqui, yo te la explicare./", "Piensa de @Selección como un rio de @Frame/nombre que es selecionanda por su audiencia. Si alguien hace click, tap or seleciona con su teclado, presionando /Enter/ en una @Frase con un nombre -- @Selección tendra un nuevo valor, emparejanda con su nombre.", "La mejor manera de users los creando una actuaccion con una Selección nombrada, "], "names": ["Selección", "Elección"] },
+        "Choice": { "doc": ["/click y tap!/", "/@DefinicionDeFuncion aqui, yo te la explicare./", "Piensa de @Selección como un rio de @Frame/nombre que es selecionanda por su audiencia. Si alguien hace click, tap or seleciona con su teclado, presionando /Enter/ en una @Frase con un nombre -- @Selección tendra un nuevo valor, emparejanda con su nombre.", "La mejor manera de usarlos es creando una actuaccion con una frases de selección nombradas, despues usa @Reaccion para decidir que hacer con el nombre elejido", "Este es un ejempli simple.", "\\Grupo(\nPila() \n[\nFrase('uno' seleccion:T nombre: '1'1) \nFrase('dos' seleccion:T nombre: '2') \nFrase(Elección())\n]\n)\\", "Copea esto en tu editor, despues selecciona una de las dos @Frase. Podras ver que la tercera @Phrase muestra el nombe que fue seleccionado"], "names": ["Selección", "Elección"] },
         "Button": {
-            "doc": "$?",
+            "doc": ["/has click click/", "/@DefinicionDeFuncion aqui, yo te lo explicare"],
             "names": "Botón",
             "down": { "names": "abajo", "doc": "$?" }
         },
