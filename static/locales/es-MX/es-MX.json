@@ -2072,7 +2072,8 @@
             },
             "loading": {
                 "message": "Cargando fuentes y texto, ¡gracias por esperar! "
-            }
+            },
+            "home": "ir a la página de inicio"
         },
         "tile": {
             "toggle": {
@@ -2106,12 +2107,6 @@
                 "focusPalette": "enfoque en la paleta",
                 "focusCycle": "enfoque en la siguiente teja "
             },
-            "toggle": {
-                "public": {
-                    "on": "cambiar a privado",
-                    "off": "cambiar a publico"
-                }
-            },
             "field": {
                 "name": {
                     "description": "editar el nobmre del proyecto",
@@ -2119,6 +2114,46 @@
                 }
             },
             "help": "mostrar atajos de teclado"
+        },
+        "gallery": {
+            "untitled": "Intitulada",
+            "subheader": {
+                "curators": {
+                    "header": "Curadoras",
+                    "explanation": "Creadoras que gestionan esta galería."
+                },
+                "creators": {
+                    "header": "Creadoras",
+                    "explanation": "Creadoras que contribuyen a esta galería."
+                },
+                "delete": {
+                    "header": "Borrar",
+                    "explanation": "Borrar esta galería no borrará sus proyectos. La galería se borrará para siempre."
+                }
+            },
+            "confirm": {
+                "delete": {
+                    "description": "borrar galería",
+                    "prompt": "borrar"
+                },
+                "remove": {
+                    "description": "quitar proyecto de la galería",
+                    "prompt": "quitar"
+                }
+            },
+            "error": {
+                "unknown": "Esta galería no existe o no es pública"
+            },
+            "field": {
+                "name": {
+                    "description": "Nombre de la galería",
+                    "placeholder": "nombre"
+                },
+                "description": {
+                    "description": "Descripción de la galería",
+                    "placeholder": "Describe tu galería. ¿Cuál es su tema, objetivos o comunidad?"
+                }
+            }
         },
         "source": {
             "label": "editora de programas",
@@ -2186,7 +2221,7 @@
                 "insertFunction": "insertar una función",
                 "insertLessOrEqual": "insertar inferior o igual a",
                 "insertGreaterOrEqual": "insertar superior o igual a",
-                "insertStream": "insertar símbolo de arroyo",
+                "insertStream": "insertar símbolo de flujo",
                 "insertConvert": "insertar símbolo de conversión",
                 "insertPrevious": "insertar símbolo de anterior",
                 "insertType": "insertar símbolo de tipo",
@@ -2199,8 +2234,8 @@
                 "parenthesize": "poner entre paréntesis lo que esté seleccionado",
                 "enumerate": "enumerar selección",
                 "type": "escribir caracteres",
-                "undo": "deshacer la última edición",
-                "redo": "rehacer la deschaca de la última edición",
+                "undo": "deshacer edición anterior",
+                "redo": "rehacer edición deshecha",
                 "search": "buscar caracteres especiales para insertar"
             }
         },
@@ -2211,21 +2246,21 @@
             "label": "salida del programa",
             "toggle": {
                 "grid": {
-                    "on": "ocultar líneas de cuadrícula",
+                    "on": "esconder líneas de cuadrícula ",
                     "off": "mostrar líneas de cuadrícula"
                 },
                 "fit": {
-                    "on": "controlar el zoom manualmente",
-                    "off": "ajustar el zoom al contenido"
+                    "on": "controlar zoom manualmente",
+                    "off": "ajustar zoom al contenido"
                 },
                 "paint": {
                     "off": "colocar salida",
-                    "on": "salida de pintura"
+                    "on": "pintar salida"
                 }
             },
             "field": {
                 "key": {
-                    "description": "escuchando las pulsaciones de teclas",
+                    "description": "escuchando pulsaciones de teclas",
                     "placeholder": "mensaje"
                 }
             },
@@ -2235,17 +2270,17 @@
         },
         "timeline": {
             "label": "línea de tiempo",
-            "slider": "control deslizante de línea de tiempo",
+            "slider": "deslizador de tiempo",
             "button": {
                 "play": "evaluar el programa hasta el final, respondiendo a las entradas en tiempo real",
-                "pause": "pausar el programa, permitiendo avanzar y retroceder",
-                "backStep": "retroceder una vez",
+                "pause": "pausar el programa, permitiendo avanzar y retroceder paso a paso",
+                "backStep": "retroceder uno",
                 "backNode": "retroceder a la evaluación del nodo anterior",
-                "backInput": "retroceder a la entrada anterior",
+                "backInput": "retroceder una entrada",
                 "out": "salir de esta función",
-                "forwardStep": "da un paso adelante",
-                "forwardNode": "avance a la siguiente evaluación del nodo",
-                "forwardInput": "avance a la siguiente entrada de flujo",
+                "forwardStep": "avanzar uno",
+                "forwardNode": "avanzar a la siguiente evaluación del nodo",
+                "forwardInput": "avanzar a la siguiente entrada del flujo",
                 "present": "al presente",
                 "start": "al principio",
                 "reset": "reiniciar la actuación"
@@ -2253,12 +2288,12 @@
         },
         "docs": {
             "label": "navegador de documentación",
-            "link": "mostrar concepto $1 en documentación",
-            "learn": "aprende más …",
-            "nodoc": "¿Quién soy? ¿Qué soy yo? ¿Cuál es mi propósito?",
+            "link": "mostrar concepto $1 en la documentación",
+            "learn": "saber más …",
+            "nodoc": "¿Quién soy? ¿Qué soy? ¿Cuál es mi propósito?",
             "button": {
-                "home": "volver al inicio",
-                "back": "volver al anterior"
+                "home": "volver a casa",
+                "back": "regresar al anterior"
             },
             "field": {
                 "search": "buscar conceptos con palabras"
@@ -2277,61 +2312,56 @@
                 "explanation": "Controla quién puede editar y ver este proyecto.",
                 "subheader": {
                     "collaborators": {
-                        "header": "Colaboradoras",
-                        "explanation": "Los colaboradores pueden ver y editar este proyecto. Agregarlas o quitarlas por correo electrónico."
+                        "header": "Colaboradores",
+                        "explanation": "Los colaboradores pueden ver y editar este proyecto. Agrégales o retírales acceso por correo electrónico."
                     },
                     "gallery": {
-                        "header": "$?",
-                        "explanation": "$?"
+                        "header": "Galería",
+                        "explanation": "Agrega este proyecto a una galería junto con otros creadores, o crea una galería en tu página de <projects@://projects>. Si añades un proyecto a una galería pública, tu proyecto se volverá público."
                     },
                     "public": {
-                        "header": "Pública / Privada",
-                        "explanation": "Los proyectos públicos pueden ser vistos por cualquier persona en el mundo. Al realizar un proyecto, prometes:"
+                        "header": "Público/Privado",
+                        "explanation": "Proyectos y galerías públicas pueden ser vistos por cualquier persona en el mundo. Nuestra meta es que este contenido traiga afirmación y alegría, y compartir públicamente es una manera de lograrlo. Pero también implica seguir algunas reglas. Prometes que tu proyecto no:"
                     }
                 },
                 "field": {
                     "email": {
                         "placeholder": "correo electrónico",
-                        "description": "la dirección de correo electrónico de la persona a la que desea otorgarle acceso de edición."
+                        "description": "la dirección de correo electrónico de la persona a la que deseas otorgar acceso de edición."
                     }
                 },
                 "mode": {
                     "public": {
                         "label": "visibilidad",
-                        "modes": ["privada", "pública"]
+                        "modes": ["privado", "público"]
                     }
                 },
                 "error": {
-                    "unknown": "No conocemos a ningún creador con este correo electrónico."
+                    "unknown": "No conocemos a una creadora con este correo electrónico."
                 },
                 "button": {
-                    "submit": "Comparte el proyecto con esta dirección de correo electrónico"
+                    "submit": "Compartir el proyecto con esta dirección de correo electrónico"
                 }
             },
             "settings": {
-                "header": "Ajustes",
-                "explanation": "Cambie los ajustes de disposición, aparato y tema.",
+                "header": "Configuración",
+                "explanation": "Cambia la configuración de diseño, dispositivo y tema.",
                 "button": {
-                    "show": "mostrar diálogo de ajustes"
+                    "show": "mostrar cuadro de diálogo de configuración"
                 },
                 "mode": {
                     "layout": {
-                        "label": "disposición",
-                        "modes": [
-                            "automática",
-                            "horizontal", 
-                            "vertical", 
-                            "libre"
-                        ]
+                        "label": "diseño",
+                        "modes": ["automático", "horizontal", "vertical", "libre"]
                     },
                     "animate": {
                         "label": "animaciones",
                         "modes": [
-                            "apagada", 
-                            "prendida ", 
-                            "velocidad media", 
-                            "velocidad tercera ", 
-                            "velocidad a quarto"
+                            "apagadas", 
+                            "encendidas", 
+                            "a la mitad de velocidad", 
+                            "a un tercio de velocidad", 
+                            "a un cuarto de velocidad"
                         ]
                     },
                     "dark": {
@@ -2339,11 +2369,11 @@
                         "modes": [
                             "colores claros", 
                             "colores oscuros", 
-                            "usar el ajuste del aparato"
+                            "usar configuración del dispositivo"
                         ]
                     },
                     "writing": {
-                        "label": "disposición de escritura",
+                        "label": "diseño de escritura",
                         "modes": [
                             "horizontal, de izquierda a derecha", 
                             "vertical, de derecha a izquierda", 
@@ -2354,21 +2384,21 @@
             },
             "locale": {
                 "header": "Idioma",
-                "explanation": "Elija su idioma y regiones.",
+                "explanation": "Elige tus idiomas y regiones.",
                 "subheader": {
-                    "selected": "Seleccionada",
+                    "selected": "Seleccionado",
                     "supported": "Disponible",
                     "help": "Ayúdanos a traducir …"
                 },
                 "button": {
                     "show": "cambiar idiomas",
-                    "add": "agregar idiomas",
-                    "remove": "quitar idiomas"
+                    "add": "añadir idioma",
+                    "remove": "quitar idioma"
                 }
             },
             "help": {
                 "header": "Atajos",
-                "explanation": "Utilice estos comandos de teclado para una edición más eficiente.",
+                "explanation": "Utiliza estos comandos de teclado para una edición más eficiente.",
                 "subheader": {
                     "moveCursor": "Mover",
                     "editCode": "Editar",
@@ -2380,47 +2410,47 @@
         "palette": {
             "label": "paleta",
             "labels": {
-                "mixed": "mezclada",
-                "computed": "calculada",
+                "mixed": "mezclado",
+                "computed": "calculado",
                 "default": "por defecto",
-                "inherited": "heredada",
-                "notSequence": "no una secuencia",
-                "notContent": "no una lista de contenido"
+                "inherited": "heredado",
+                "notSequence": "no es una secuencia",
+                "notContent": "no es una lista de contenido"
             },
             "button": {
-                "revert": "$?",
-                "set": "$?",
-                "addPhrase": "$?",
-                "addGroup": "$?",
-                "addShape": "$?",
-                "addMotion": "$?",
-                "addPlacement": "$?",
-                "remove": "$?",
-                "up": "$?",
-                "down": "$?",
-                "edit": "$?",
-                "sequence": "$?",
-                "createPhrase": "$?",
-                "createGroup": "$?",
-                "createStage": "$?"
+                "revert": "volver a por defecto",
+                "set": "editar esta propiedad",
+                "addPhrase": "añadir una frase después de esta",
+                "addGroup": "añadir un grupo después de esta",
+                "addShape": "añadir una forma después de esta",
+                "addMotion": "establecer lugar en flujo de Movimiento",
+                "addPlacement": "establecer lugar en flujo de Colocación",
+                "remove": "quitar este contenido",
+                "up": "mover este contenido hacia arriba",
+                "down": "mover este contenido hacia abajo",
+                "edit": "editar este contenido",
+                "sequence": "convertir en una secuencia",
+                "createPhrase": "crear una Frase, mostrando el valor existente como texto",
+                "createGroup": "crear un Grupo, envolviendo cualquier Frase existente",
+                "createStage": "crear un Escenario, envolviendo cualquier Grupo o Frase existente"
             },
             "prompt": {
-                "offerPhrase": "¡Qué valor tan magnífico hiciste! ¿Lo muestro en @Stage?",
-                "offerGroup": "Qué maravillosa @Phrase hiciste. ¿Quieres reunirlos en un @Group para organizarlos?",
-                "offerStage": "MUY BUEN @Program. AGRÉGAME PARA CONTROLAR ILUMINACIÓN. COLORES. MARCOS.",
-                "pauseToEdit": "¡Si ⏸️ el escenario, puedes seleccionar un 💬, 🔳 o 🎭 para editar!",
+                "offerPhrase": "¡Qué valor tan hermoso has creado! ¿Debería mostrarlo en @Stage?",
+                "offerGroup": "¡Qué maravillosa @Phrase has creado! ¿Quieres juntarlas en un @Group para organizarlas?",
+                "offerStage": "MUY BIEN @Program. AGRÉGAME PARA CONTROLAR ILUMINACIÓN. COLORES. CUADROS.",
+                "pauseToEdit": "Si ⏸️ el escenario, puedes seleccionar una 💬, 🔳 o 🎭 para editar.",
                 "editing": "¡Edítame!"
             },
             "field": {
-                "coordinate": "editar coordenadas",
+                "coordinate": "editar coordenada",
                 "text": "editar texto"
             },
             "sequence": {
                 "button": {
-                    "add": "agregar pose",
+                    "add": "añadir pose",
                     "remove": "quitar pose",
-                    "up": "mover la pose hacia arriba",
-                    "down": "mover la pose hacia abajo"
+                    "up": "mover pose hacia arriba",
+                    "down": "mover pose hacia abajo"
                 },
                 "field": {
                     "percent": "editar porcentaje"
@@ -2429,24 +2459,24 @@
         },
         "save": {
             "saving": "guardando",
-            "saved": "guardado",
+            "saved": "guardado en línea",
             "local": "guardado localmente",
             "unsaved": "no guardado"
         },
         "page": {
             "unknown": {
-                "header": "¡Uy!",
-                "message": "¿Dónde está este lugar? ¿Podemos ir a casa?"
+                "header": "¡Ups!",
+                "message": "¿Dónde estamos? ¿Podemos ir a casa?"
             },
             "landing": {
                 "call": [
-                    "Oh, ¡hola! ¿Eres una persona? ¿Te quedarás y darás vida a las palabras con nosotros? 🥹 /Por favooooor/?"
+                    "¡Hola! ¿Te quedarás y darás vida a las palabras con nosotros? 🥹"
                 ],
                 "link": {
                     "about": "¿Por qué existe este lugar?",
                     "learn": "¿Qué es este lugar?",
-                    "projects": "Crear y compartir actuaciones",
-                    "galleries": "Experimentar las actuaciones de otros",
+                    "projects": "Crea y comparte actuaciones",
+                    "galleries": "Experimenta actuaciones de otros",
                     "rights": "Responsabilidades, las nuestras y las tuyas"
                 }
             },
@@ -2454,159 +2484,190 @@
                 "header": "Aprender",
                 "error": "No pudimos encontrar un tutorial para este idioma.",
                 "button": {
-                    "next": "próxima pausa en el diálogo",
-                    "previous": "pausa anterior en el diálogo"
+                    "next": "siguiente pausa en el diálogo",
+                    "previous": "anterior pausa en el diálogo"
                 }
             },
             "projects": {
-                "header": "$?",
-                "projectprompt": "$?",
-                "archiveheader": "$?",
-                "archiveprompt": "$?",
-                "galleriesheader": "$?",
-                "galleryprompt": "$?",
+                "header": "Proyectos",
+                "projectprompt": "¿Listo para decir algo? Crea un proyecto o trabaja en uno. Si te quedas atascado, sigue <learning@://learn>.",
+                "archiveheader": "Archivados",
+                "archiveprompt": "Estos son proyectos que has archivado. Solo los propietarios pueden eliminarlos permanentemente o desarchivarlos. Los proyectos archivados se eliminarán permanentemente 30 días después de su última edición.",
+                "galleriesheader": "Galerías",
+                "galleryprompt": "Crea y cura galerías para compartir una colección de proyectos con otros.",
                 "button": {
-                    "newproject": "$?",
-                    "editproject": "$?",
-                    "newgallery": "$?",
-                    "unarchive": "$?"
+                    "newproject": "nuevo proyecto",
+                    "editproject": "editar este proyecto",
+                    "newgallery": "nueva galería",
+                    "unarchive": "desarchivar este proyecto"
                 },
                 "confirm": {
                     "archive": {
-                        "description": "$?",
-                        "prompt": "$?"
+                        "description": "archivar esta actuación",
+                        "prompt": "archivar"
                     },
                     "delete": {
-                        "description": "$?",
-                        "prompt": "$?"
+                        "description": "eliminar permanentemente esta actuación",
+                        "prompt": "eliminar para siempre"
                     }
                 },
                 "error": {
-                    "noaccess": "$?",
-                    "nogalleryedits": "$?",
-                    "newgallery": "$?",
-                    "nodeletes": "$?",
-                    "delete": "$?"
+                    "noaccess": "No pudimos conectarnos a internet.",
+                    "nogalleryedits": "Debes iniciar sesión para crear y cambiar galerías.",
+                    "newgallery": "No pudimos crear una nueva galería.",
+                    "nodeletes": "Debes iniciar sesión para eliminar proyectos archivados.",
+                    "delete": "Oops, no pudimos eliminar el proyecto."
                 }
             },
             "galleries": {
                 "header": "Galerías",
-                "prompt": "Estas son actuaciones que otras personas han creado. Experiméntalas, estúdialas o adáptalas a tu propia declaración.",
+                "prompt": "Estas son actuaciones que otros han creado. Exprímentalas, estúdialas o adáptalas para hacer tu propia declaración.",
                 "examples": "Ejemplos"
             },
             "about": {
                 "header": "Acerca de",
                 "content": [
-                    "¿Alguna vez has sentido que la programación era solo para occidentales sin discapacidades que hablan inglés y están obsesionados con las computadoras?",
-                    "Sí, nosotras también.",
+                    "¿Alguna vez has sentido que la programación era sólo para occidentales sin discapacidades que hablan inglés y que esten obsesionados con las computadoras?",
+                    "Sí, nosotros también.",
                     "Esto no es casualidad. Desde los inicios de la computación, los lenguajes de programación han sido diseñados y construidos principalmente por el mismo grupo de personas: hombres blancos, cisgénero, de habla inglesa, en el ámbito académico e industrial de Estados Unidos y Europa, y algunas mujeres matemáticas increíbles. Hicieron su trabajo en una época poscolonial en la que el ganador se llevaba todo el poder, y los lenguajes de programación fueron una herramienta clave para asegurar ese poder.",
                     "Ya sea intencional o no, esta historia ha llevado a una visión de la computación que se centra principalmente en la velocidad, la lógica, la ganancia y la dominación.",
-                    "Esto es una injusticia. Porque la computación, para bien y para mal, ahora sustenta la vida diaria de formas visibles e invisibles, y las personas que tienen acceso para crear con ella son las que más se parecen a sus creadores. El resto de la humanidad sigue siendo dependiente de este poder, porque imaginar algo diferente requiere acceso, obstaculizado por barreras de idioma, barreras de accesibilidad, barreras económicas y desigualdades en la educación pública.",
+                    "Esto es una injusticia. Porque la computación, para bien y para mal, ahora sustenta la vida diaria de formas visibles e invisibles, y las personas que tienen acceso para crear con ella son las que más se parecen a sus creadores. El resto de la humanidad sigue siendo endeudado de este poder, porque imaginar algo diferente requiere acceso, obstaculizado por barreras de idioma, barreras de accesibilidad, barreras económicas y desigualdades en la educación pública.",
                     "*Wordplay* aspira a ser algo diferente. Una plataforma de programación diseñada para ser global, que admita /todos/ los idiomas del mundo, pero también que sea /sobre/ los idiomas del mundo. Una plataforma en la que todas puedan crear, con las habilidades que tengan, para compartir contenido interactivo que cualquiera pueda experimentar, con cualquier habilidad que tenga. Para jóvenes y adultas jóvenes que deseen expresarse de manera *juguetona*, *artística* e *interactiva*. No con el objetivo de aprovechar el poder, sino de crear una comunidad diversa que reconozca la increíble fuerza que proviene de nuestras hermosas diferencias.",
                     "Somos una comunidad de diseñadoras, educadoras y desarrolladoras que intentan dar vida a esta visión. Somos personas de color, somos transgénero, somos queer, somos discapacitadas y venimos de todo el mundo. Estamos centradas en la <University of Washington@https://washington.edu> <Information School@https://ischool.uw.edu/> en Seattle, Washington, USA, un lugar que aspira a dar la bienvenida a todas y deshacer los estragos del colonialismo que continúan hoy. Crear este lenguaje de programación y plataforma es parte de esa misión.",
                     "Consulta nuestros <milestones@https://github.com/amyjko/wordplay/milestones> para ver en qué estamos trabajando, y si deseas ayudar, aprende <cómo contribuir@https://github.com/amyjko/wordplay/blob/main/CONTRIBUTING.md>. O escribe a nuestra organizadora comunitaria <Amy@https://amyjko.phd> con preguntas."
                 ]
             },
             "login": {
-                "header": "",
-                "anonymous": "anónima",
+                "header": "Iniciar sesión",
+                "anonymous": "iniciar sesión",
                 "prompt": {
-                    "login": "$?",
-                    "enter": "$?",
-                    "play": "$?",
-                    "change": "$?",
-                    "logout": "$?",
-                    "sent": "$?",
-                    "success": "$?",
-                    "confirm": "$?",
-                    "delete": "$?",
-                    "reallyDelete": "$?",
-                    "name": "$?"
+                    "login": "Tus actuaciones se están guardando en este dispositivo en vez de en línea. Para guardarlas en línea, envía tu correo electrónico para obtener un enlace de inicio de sesión.",
+                    "enter": "Parece que tu enlace de inicio de sesión vino de un navegador o dispositivo diferente. ¿Puedes ingresar tu correo electrónico nuevamente, solo para estar seguros de que eres tú?",
+                    "play": "Estás conectado, ¡podemos guardar tus proyectos en línea ahora! ¿Quieres crear algo?",
+                    "change": "¿Quieres cambiar tu correo electrónico? Envía uno nuevo y te enviaremos una confirmación al antiguo.",
+                    "sent": "Revisa tu correo electrónico para encontrar un enlace de inicio de sesión.",
+                    "logout": "¿Estás saliendo de un dispositivo compartido y quieres mantener tus proyectos privados? Cierra la sesión y borraremos tus proyectos de este dispositivo. Todavía se almacenarán en línea.",
+                    "success": "¡Cuenta creada!",
+                    "confirm": "Revisa tu antigua dirección de correo electrónico para confirmar tu nueva dirección.",
+                    "delete": "¿Quieres que olvidemos todo lo que has creado aquí? Esto no se puede deshacer.",
+                    "reallyDelete": "¿Estás seguro? Tu cuenta y configuraciones se eliminarán inmediatamente y tus proyectos se programarán para su eliminación. Los colaboradores en tus proyectos perderán inmediatamente el acceso a ellos. Escribe tu correo electrónico para confirmar que esto es lo que deseas.",
+                    "name": "Elige un emoji para representarte a ti mismo ante los demás."
                 },
                 "error": {
-                    "expired": "Este enlace ha expirado",
+                    "expired": "Este enlace ha expirado.",
                     "invalid": "Este enlace no es válido.",
                     "email": "Este correo electrónico no era válido.",
-                    "offline": "Parece que estás desconectada.",
-                    "failure": "No es posible iniciar sesión :(",
+                    "failure": "No se puede iniciar sesión :(",
+                    "offline": "Pareces estar desconectada.",
                     "unchanged": "No pudimos cambiar tu dirección de correo electrónico, pero no sabemos por qué.",
                     "delete": "No pudimos borrar tu cuenta, pero no sabemos por qué."
                 },
                 "feedback": {
-                    "changing": "$?",
-                    "deleting": "$?"
+                    "changing": "Enviando nuevo correo electrónico...",
+                    "deleting": "Vale, borrando tus proyectos y configuraciones..."
                 },
                 "field": {
                     "email": {
-                        "description": "$?",
-                        "placeholder": "$?"
+                        "description": "editar correo electrónico de inicio de sesión",
+                        "placeholder": "correo electrónico"
                     }
                 },
                 "button": {
                     "logout": {
-                        "tip": "$?",
-                        "label": "$?"
+                        "tip": "cerrar sesión de tu cuenta",
+                        "label": "cerrar sesión"
                     },
-                    "login": "$?",
-                    "update": "$?",
+                    "login": "iniciar sesión con este correo electrónico, enviando un enlace de inicio de sesión",
+                    "update": "cambiar tu correo electrónico",
                     "delete": {
-                        "tip": "$?",
-                        "label": "$?"
+                        "tip": "borrar tu cuenta",
+                        "label": "borrar mis datos…"
                     },
                     "reallyDelete": {
-                        "tip": "$?",
-                        "label": "$?"
+                        "tip": "borrar tu cuenta para siempre",
+                        "label": "¡¡¡bórralo!!!"
                     }
                 }
             },
             "rights": {
-                "header": "$?",
-                "content": ["$?"],
-                "consequences": ["$?"]
+                "header": "Derechos",
+                "content": [
+                    "Aquí establecemos algunas expectativas sobre tus derechos y los nuestros (también en vista de políticas como el <COPPA@https://www.ecfr.gov/current/title-16/chapter-I/subchapter-C/part-312> y <GDPR@https://gdpr.eu/compliance-checklist-us-companies/>)",
+                    "Lo primero que debes saber es que no somos una entidad comercial. Somos un proyecto de investigación basado en la comunidad alojado en una universidad sin fines de lucro. Nuestro objetivo es crear una plataforma que te brinde alegría y nos ayude a hacer descubrimientos sobre un mundo de computación más equitativo y justo. No tenemos interés en ganar dinero con esta plataforma; cualquier dinero que recolectemos (generalmente a través de financiamiento público) se utiliza para sostener la plataforma, no para enriquecer a nadie que trabaje en ella (o contribuya a ella).",
+                    "Como no buscamos obtener ganancias, esto también significa que no podemos hacer ninguna promesa sobre la confiabilidad, disponibilidad o longevidad de esta plataforma. Dicho esto, <Amy@https://amyjko.phd> está comprometida a largo plazo con su sostenibilidad, y como profesora titular, tiene un trabajo bastante estable.",
+                    "Eso nos lleva a *datos*. Esto es lo que recopilamos y almacenamos en la nube:",
+                    "• Tu *dirección de correo electrónico*. Usamos esto para asegurarnos de que solo tú y quienes compartas puedan acceder a tus proyectos y configuraciones.",
+                    "• Tus *proyectos*. Almacenamos cualquier proyecto que contribuyas. Esto incluye cualquier información personal identificable que pongas en tus proyectos (¡que podría ser cualquier cosa, ya que todo es texto!)",
+                    "• Tus *configuraciones*. Esto incluye los idiomas que elijas, tus preferencias de animación y el progreso en los tutoriales. Todo lo demás se almacena en tu dispositivo.",
+                    "• *Tráfico*. Usamos <Google Analytics@https://en.wikipedia.org/wiki/Google_Analytics> básico para recopilar datos agregados y anónimos sobre qué páginas y proyectos visita la gente y cuántas veces. Usamos esto para ayudar a recaudar fondos para sostener la plataforma.",
+                    "No almacenamos nada más. Ninguna 'cookie' que no sea la utilizada por Google Analytics, ningún identificador de seguimiento, ninguna grabación de entrada de cámara o micrófono. Nuestro <código fuente@https://github.com/amyjko/wordplay/tree/main/src> es público, así que puedes verificar esto en cualquier momento si lo deseas.",
+                    "*Tú* eres dueño de tus datos, no nosotros. Eso significa:",
+                    "• Tú controlas quién puede acceder a tus proyectos. Son privados por defecto, pero puedes compartirlos con individuos, grupos o hacerlos completamente públicos.",
+                    "• Puedes eliminar completamente cualquier proyecto o tu propia cuenta en cualquier momento.",
+                    "• Puedes obtener una exportación de cualquier proyecto o de toda tu cuenta en cualquier momento.",
+                    "Así es como usaremos y no usaremos tus datos:",
+                    "• No compartiremos tus datos con nadie, a menos que la ley lo requiera explícitamente. Siempre es posible que tus datos se tomen sin nuestro permiso (una 'violación de datos'). Si descubrimos que esto ha sucedido, te notificaremos que esto ha sucedido mediante el correo electrónico que has compartido con nosotros.",
+                    "• No te contactaremos a través de tu dirección de correo electrónico a menos que 1) realices un cambio en la cuenta que lo requiera, 2) nos des consentimiento explícito para comunicarnos, o 3) en el caso de la violación de datos anterior.",
+                    "• Podemos analizar proyectos en la plataforma para entender qué están haciendo todos y cómo lo están haciendo. Podemos compartir estas ideas agregadas y anonimizadas en publicaciones académicas. Solo haremos esto bajo la supervisión de una junta de revisión institucional, según lo exige la ley federal de EE. UU.",
+                    "Finalmente, una nota sobre el discurso. Puedes decir lo que quieras en esta plataforma en *privado*. Los proyectos son privados por defecto, y si los compartes con direcciones de correo electrónico específicas, aún se consideran privados. No moderaremos nada en proyectos privados.",
+                    "Pero hacer un proyecto *público*, o incluirlo en una galería pública, es un privilegio. Esta es una plataforma hecha por amor, afirmación, respeto y dignidad. Por lo tanto, esperamos que todo tu contenido *público* siga estas reglas:"
+                ],
+                "consequences": [
+                    "Si encontramos un proyecto o galería que viola estas reglas, advertiremos a los creadores antes de que lo vean o bloquearemos su visualización. Si violas repetidamente estas reglas, perderás el privilegio de publicar públicamente."
+                ]
             }
         },
         "edit": {
-            "node": "$?",
-            "before": "antes de $1",
+            "node": "$1$2[, tipo $2|]",
+            "before": "antes de $1[$1|final]",
             "inside": "dentro de $1",
-            "between": "$?",
-            "line": "$?",
-            "conflicts": "$?",
-            "assign": "$?",
-            "append": "$?",
-            "remove": "$?",
-            "replace": "$?",
-            "wrap": "envolver",
+            "between": "entre $1 y $2",
+            "line": "línea vacía entre $1[$1|inicio] y $2[$2|final]",
+            "conflicts": "$1 conflictos",
+            "assign": "/$2[Con ganas de unirse|Considera irse]…/",
+            "append": "/Con ganas de insertar…/",
+            "remove": "/Considera irse…/",
+            "replace": "/Quiere intervenir…/",
+            "wrap": "poner paréntesis",
             "unwrap": "desenvolver",
-            "bind": "nombra esta expresión"
+            "bind": "nombrar esta expresión"
         },
         "template": {
-            "unwritten": "no escrito",
-            "unparsable": "$?"
+            "unwritten": "Por determinar",
+            "unparsable": "Plantilla no analizable: $1"
         }
     },
     "moderation": {
-        "warning": { "header": "$?", "explanation": "$?" },
-        "blocked": { "header": "$?", "explanation": "$?" },
-        "unmoderated": { "header": "$?", "explanation": "$?" },
+        "warning": {
+            "header": "Advertencia",
+            "explanation": "Un moderador determinó que este contenido podría:"
+        },
+        "blocked": {
+            "header": "Bloqueado",
+            "explanation": "Un moderador determinó que este contenido podría:"
+        },
+        "unmoderated": {
+            "header": "Nota",
+            "explanation": "Este contenido aún no ha sido moderado. Podría:"
+        },
         "moderate": {
-            "header": "$?",
-            "explanation": "$?"
+            "header": "Moderar",
+            "explanation": "Revisa este proyecto y decide si su contenido hace alguna de las siguientes cosas. Si lo hace, el contenido será advertido o bloqueado. Puedes omitirlo si no estás seguro."
         },
         "flags": {
-            "violence": "$?",
-            "dehumanization": "$?",
-            "disclosure": "$?",
-            "misinformation": "$?"
+            "violence": "Incitar, fomentar o celebrar violencia, daño o autolesiones hacia cualquier persona.",
+            "dehumanization": "Deshumanizar a individuos o grupos basándose en su raza, etnia, origen nacional, casta, orientación sexual, género, religión, edad, habilidad o apariencia.",
+            "disclosure": "Revelar información privada sobre otras personas, como nombres, información de contacto o direcciones físicas",
+            "misinformation": "Contener información falsa, engañosa, manipuladora o manipulativa"
         },
         "button": {
             "submit": {
-                "tip": "$?",
-                "label": "$?"
+                "tip": "Guardar estas configuraciones de moderación",
+                "label": "guardar"
             },
             "skip": {
-                "tip": "$?",
-                "label": "$?"
+                "tip": "Omitir este proyecto",
+                "label": "omitir"
             }
         }
     }
