@@ -25,7 +25,7 @@ If applicable, add screenshots to help explain your problem.
 
 ## Environment
 
-What platform, OS, browser, and version are you using?
+What platform, OS, browser, and version are you using? Please be exact with version numbers, as different versions can result in a defect happening or not.
 
 Desktop
 
