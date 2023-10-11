@@ -1783,8 +1783,8 @@
     },
     "output": {
         "Output": {
-            "names": "$? Output",
-            "doc": "$?"
+            "names": "输出 Output",
+            "doc": "我不是你真正可以制作的@结构定义。但我是一个非常重要的人，因为我激发了我们舞蹈中最重要的元素：@短语、@组和@舞台。去见见他们，去了解更多关于如何使用它们的信息。"
         },
         "Stage": {
             "names": "$?",
@@ -1835,113 +1835,129 @@
             "gravity": { "doc": "$?", "names": "$? gravity" }
         },
         "Group": {
-            "names": "$?",
-            "doc": "$?",
-            "description": "$?",
-            "content": { "doc": "$?", "names": "$?" },
-            "layout": { "doc": "$?", "names": "$?" },
+            "names": "组",
+            "doc": "哦你好，你过的怎么样？当有其他人在身边时，我总是很愉快，所以能和你在一起真是太好了！\n 我将@短语和@组组合在一起放在@舞台上，并将它们放在@整理中，这样它们的位置就有了一些秩序。\n 要使我工作，你需要给我一个@整理，然后是一个@输出的@列表以进行安排。\n 例如，在这里我用了一个@堆栈排列和一些垂直堆叠的@短语：\n \\组(堆栈() [短语('第一个') 短语('第二个')])\\ \n 我如何安排事物取决于你给我的@整理。" ,
+            "description": "$1[$1|] $2 $3",
+            "content": { 
+                "doc": "安排的@输出列表。", 
+                "names": "内容" },
+            "layout": { 
+                "doc": "将@输出放置在其位置的安排方式。", 
+                "names": "布局" },
             "matter": {
-                "doc": "$?",
-                "names": "$? matter"
+                "doc": "如果我不小心碰到其他物体，我应该如何反应。",
+                "names": "物体 matter"
             },
-            "size": { "doc": "$?", "names": "$?" },
-            "face": { "doc": "$?", "names": "$?" },
-            "place": { "doc": "$?", "names": "$?" },
-            "name": { "doc": "$?", "names": "$?" },
-            "selectable": { "doc": "$?", "names": "$?" },
+            "size": { 
+                "doc": "我内心里美好的内容应该有多高，除非它们有自己的尺寸！", 
+                "names": "尺寸" },
+            "face": { 
+                "doc": "我内部的字体名称内容应该有，除非他们有自己的字体可以使用。", 
+                "names": "表面" },
+            "place": { 
+                "doc": "舞台上我应该在的位置。 我内部的内容会相对于那里进行排列。", 
+                "names": "位置" },
+            "name": { "doc": "与@短语/名称相同！", "names": "名称" },
+            "selectable": { "doc": "与@短语/可选择的相同! ", "names": "可选择的" },
             "color": {
-                "doc": "$?",
-                "names": "$? color"
+                "doc": "我内部的内容应该是@颜色，除非它们有自己的颜色。",
+                "names": "颜色 color"
             },
-            "background": { "doc": "$?", "names": "$? background" },
+            "background": { "doc": "投影在我背后的@颜色。", "names": "背景 background" },
             "opacity": {
-                "doc": "$?",
-                "names": "$? opacity"
+                "doc": "我体内的一切在 \\0\\ 和 \\1\\ 之间应该是多么透明，除非被不同的@姿势覆盖。",
+                "names": "透明 opacity"
             },
             "offset": {
-                "doc": "$?",
-                "names": "$? offset"
+                "doc": "一个 @位置 指示它与我的正常 @位置 的偏移量，除非被不同的 @姿势 覆盖。 有助于就地摆动。",
+                "names": "抵消 offset"
             },
             "rotation": {
-                "doc": "$?",
-                "names": "$? rotation"
+                "doc": "我应该围绕我的中心倾斜多少，我的@姿势有不同的倾斜。",
+                "names": "自转 rotation"
             },
             "scale": {
-                "doc": "$?",
-                "names": "$? scale"
+                "doc": "相对于我原来的尺寸我应该有多大。",
+                "names": "比例 scale"
             },
             "flipx": {
-                "doc": "$?",
-                "names": "$? flipx"
+                "doc": "与@短语/水平翻转相同！",
+                "names": "水平翻转 flipx"
             },
             "flipy": {
-                "doc": "$?",
-                "names": "$? flipy"
+                "doc": "与@短语/垂直翻转相同！",
+                "names": "垂直翻转flipy"
             },
-            "entering": { "doc": "$?", "names": "$?" },
-            "resting": { "doc": "$?", "names": "$?" },
-            "moving": { "doc": "$?", "names": "$?" },
-            "exiting": { "doc": "$?", "names": "$?" },
-            "duration": { "doc": "$?", "names": ["$?"] },
-            "style": { "doc": "$?", "names": "$?" }
+            "entering": { "doc": "与@短语/进入相同！", "names": "进入" },
+            "resting": { "doc": "与@短语/休息相同！", "names": "休息" },
+            "moving": { "doc": "与@短语/移动相同！", "names": "移动" },
+            "exiting": { "doc": "与@短语/退出相同！", "names": "退出" },
+            "duration": { "doc": "与@短语/持续时间相同！", "names": ["持续时间"] },
+            "style": { "doc": "与@短语/风格相同！", "names": "风格" }
         },
         "Phrase": {
             "names": ["💬", "Frase"],
-            "doc": "$?",
-            "text": { "doc": "$?", "names": "$?" },
-            "description": "$?",
-            "size": { "doc": "$?", "names": "$?" },
-            "face": { "doc": "$?", "names": "$?" },
-            "place": { "doc": "$?", "names": "$?" },
+            "doc": "你好，你好！还记得我吗？怎么会有人忘记/我/。没错，我就是伟大的@短语，准备好在@舞台上表达最可爱的@文字。\n 只要让我这样，我就会出现在@舞台：\n \\短语('太棒了！')\\ \n 显然，我需要一些 @文字，但除此之外，我可以做任何@输出可以做的所有事情，包括更改我的大小、字体、旋转，以及使用@姿势和@顺序进行所有令人难以置信的舞蹈。 \n 你也可以在@舞台上选择我，然后在隔壁的调色板上编辑我。",
+            "text": { "doc": "在@舞台上展示的角色。", "names": "文字" },
+            "description": "$3[$3 米 |]短语 $1 $2[命名 $2|] $4[$4|] $5",
+            "size": { "doc": "我应该多高，以米为单位！", "names": "尺寸" },
+            "face": { "doc": "我应该使用的字体名称。", "names": "表面" },
+            "place": { "doc": "舞台上我应该在的地方。", "names": "位置" },
             "wrap": {
-                "doc": "$?",
-                "names": "$? wrap"
+                "doc": "我应该包裹符号的边缘，或者 \\ø\\ 如果我不应该包裹它们。",
+                "names": "包裹 wrap"
             },
             "alignment": {
-                "doc": "$?",
-                "names": "$? alignment"
+                "doc": "如果有@舞台/包裹的边界集，我是否应该将符号与边缘的开始、中心或结束对齐。",
+                "names": "对齐 alignment"
             },
             "matter": {
-                "doc": "$?",
-                "names": "$? matter"
+                "doc": "碰到东西时可以使用的属性！",
+                "names": "物体 matter"
             },
-            "name": { "doc": "$?", "names": "$?" },
-            "selectable": { "doc": "$?", "names": "$?" },
+            "name": { 
+                "doc": "你给我起一个名字！这对很多事情都有帮助。\n 首先，如果我有名字，我会用它在屏幕阅读器描述中描述自己。\n 第二，在制作动画时，您可能有多个不同的表达式，这些表达式应该在舞台上表示相同的内容；给它们相同的名称，它们就会作为一个动画。 \n 最后，我对 @选择很有帮助：你给我的名字出现在该信息流中。 \n 如果有帮助的话，您可以给我许多不同的名称，每个名称都采用不同的语言。我将始终在第一个选定的区域设置中使用该名称", 
+                "names": "名字" },
+            "selectable": { "doc": "如果是\\⊤\\，则表示我可以通过指针或键盘选择。", "names": "可选择的" },
             "color": {
-                "doc": "$?",
-                "names": "$? color"
+                "doc": "@颜色应该是默认的，除非被不同的@姿势覆盖。",
+                "names": "颜色 color"
             },
-            "background": { "doc": "$?", "names": "$? background" },
+            "background": { "doc": "投射在我身后的@颜色", "names": "背景 background" },
             "opacity": {
-                "doc": "$?",
-                "names": "$? opacity"
+                "doc": "默认情况下我应该有多透明，在 \\0\\ 和 \\1\\ 之间，除非被不同的@姿势覆盖。有助于淡入和淡出。",
+                "names": "透明 opacity"
             },
             "offset": {
-                "doc": "$?",
-                "names": "$? offset"
+                "doc": "一个@位置指示它与我的@位置的偏移量，除非被不同的@姿势覆盖。 有助于就地摆动。",
+                "names": "抵消 offset"
             },
             "rotation": {
-                "doc": "$?",
-                "names": "$? rotation"
+                "doc": "我应围绕其中心旋转的度数，除非被不同的@姿势覆盖。",
+                "names": "自转 rotation"
             },
             "scale": {
-                "doc": "$?",
-                "names": "$? scale"
+                "doc": "我应该相对于其原始大小放大多少，除非被不同的@姿势覆盖。",
+                "names": "比例 scale"
             },
             "flipx": {
-                "doc": "$?",
-                "names": "$? flipx"
+                "doc": "我是否应该在x轴上镜像，除非被不同的@姿势覆盖。",
+                "names": "水平翻转 flipx"
             },
             "flipy": {
-                "doc": "$?",
-                "names": "$? flipy"
+                "doc": "我是否应该在y轴上镜像，除非被不同的@姿势覆盖。",
+                "names": "垂直翻转 flipy"
             },
-            "entering": { "doc": "$?", "names": "$?" },
-            "resting": { "doc": "$?", "names": "$?" },
-            "moving": { "doc": "$?", "names": "$?" },
-            "exiting": { "doc": "$?", "names": "$?" },
-            "duration": { "doc": "$?", "names": ["$?"] },
-            "style": { "doc": "$?", "names": "$?" }
+            "entering": { "doc": "上台时我应该做的@姿势或@顺序", "names": "进入" },
+            "resting": { 
+                "doc": "我应该在进入舞台之后、退出之前以及我的@位置没有改变的情况下执行@姿势或@顺序。 如果您不给我，我将使用默认值。", 
+                "names": "休息" },
+            "moving": { 
+                "doc": "在舞台上移动位置时我应该执行的@姿势或@顺序，而不是我的默认设置。", 
+                "names": "移动" },
+            "exiting": { "doc": "@姿势或@顺序应该在退出阶段之前执行。", "names": "退出" },
+            "duration": { "doc": "移动到舞台上不同位置时适用的持续时间。", "names": ["持续时间"] },
+            "style": { "doc": "移动到舞台上不同位置时使用的动画风格。", "names": "风格" }
         },
         "Arrangement": { "names": ["Arrangement"], "doc": "$?" },
         "Row": {
