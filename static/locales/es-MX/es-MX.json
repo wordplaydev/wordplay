@@ -19,6 +19,7 @@
         "phrase": "frase",
         "group": "grupo",
         "stage": "escenario",
+        "stage": "escenario",
         "type": "tipo",
         "start": "comenzar",
         "entered": "ingresó",
@@ -118,10 +119,12 @@
             "name": "dimensión",
             "description": "dimensión",
             "emotion": "serious",
+            "emotion": "serious",
             "doc": [
                 "¡Soy un /unidad de medida/!",
                 "Yo puedo ser cualquier unidad estandarizada, come \\1m\\, \\10s\\, \\100g\\, o cualquier unidid cientifica. Estoy feliz ser cualqueir unidad que quieres inventar tu también, como \\17manzana\\.",
                 "Puedo combinar con \\/\\ para formar unidades de proporción, como \\17manzanas/día\\ y con \\^\\ para formar unidades exponenciales como \\9.8m/s^2\\.",
+                "Siempre debo ir después de @Number. Si no lo hago, podrían confudirme con @Reference, ¡lo cual sería bastantate embarazoso!",
                 "Siempre debo ir después de @Number. Si no lo hago, podrían confudirme con @Reference, ¡lo cual sería bastantate embarazoso!",
                 "También soy bastante bueno para encontrar inconsistencies entre unidades. Por ejemplo, !\\1gato + 1perro\\ no tiene ningún sentido!",
                 "Si alguna vez deseas convertir entre diferentes valores de unidades, hable con @Convert."
@@ -2066,8 +2069,10 @@
         "widget": {
             "confirm": {
                 "cancel": "cancelar"
+                "cancel": "cancelar"
             },
             "dialog": {
+                "close": "cerrar"
                 "close": "cerrar"
             },
             "loading": {
@@ -2080,18 +2085,24 @@
                 "fullscreen": {
                     "on": "salir de pantalla completa",
                     "off": "exapandir teja a pantalla completa"
+                    "on": "salir de pantalla completa",
+                    "off": "exapandir teja a pantalla completa"
                 },
                 "show": {
+                    "on": "esconder esta teja",
+                    "off": "mostrar esta teja"
                     "on": "esconder esta teja",
                     "off": "mostrar esta teja"
                 }
             },
             "button": {
                 "collapse": "colapsar esta ventana"
+                "collapse": "colapsar esta ventana"
             }
         },
         "project": {
             "error": {
+                "unknown": "Esta actuación no existe o no es pública."
                 "unknown": "Esta actuación no existe o no es pública."
             },
             "button": {
@@ -2109,6 +2120,8 @@
             },
             "field": {
                 "name": {
+                    "description": "editar el nobmre del proyecto",
+                    "placeholder": "nombre"
                     "description": "editar el nobmre del proyecto",
                     "placeholder": "nombre"
                 }
@@ -2166,8 +2179,20 @@
                 "Si estas atascada, <aprende más@://learn>."
             ],
             "overwritten": "¡Recibí una versión más reciente!",
+            "label": "editora de programas",
+            "empty": [
+                "¡Empecemos! Puedes …",
+                "• Abre 📕 y arrástranos 🖱️ a este programa.",
+                "• Escribe $1 y elígenos del menú.",
+                "• Si nos conoces bien, empieza a escribir.",
+                "• Explora la galería en busca de inspiración.",
+                "Si estas atascada, <aprende más@://learn>."
+            ],
+            "overwritten": "¡Recibí una versión más reciente!",
             "confirm": {
                 "delete": {
+                    "description": "borra esta $source",
+                    "prompt": "borrar"
                     "description": "borra esta $source",
                     "prompt": "borrar"
                 }
@@ -2176,8 +2201,12 @@
                 "blocks": {
                     "on": "esconder los fondos de los bloques",
                     "off": "mostrar los fondos de los bloques"
+                    "on": "esconder los fondos de los bloques",
+                    "off": "mostrar los fondos de los bloques"
                 },
                 "glyphs": {
+                    "on": "colapsar los glifos coincidentes",
+                    "off": "expandir los glifos coincidentes"
                     "on": "colapsar los glifos coincidentes",
                     "off": "expandir los glifos coincidentes"
                 }
@@ -2185,14 +2214,21 @@
             "button": {
                 "selectOutput": "mostrar este resultado en el escenario",
                 "expandSequence": "expandir este código colapsado"
+                "selectOutput": "mostrar este resultado en el escenario",
+                "expandSequence": "expandir este código colapsado"
             },
             "field": {
                 "name": {
                     "description": "editar nombre de fuente",
                     "placeholder": "nombre"
+                    "description": "editar nombre de fuente",
+                    "placeholder": "nombre"
                 }
             },
             "menu": {
+                "label": "menú de autocompletar",
+                "show": "mostrar menú de autocompletar",
+                "back": "salir del submenú"
                 "label": "menú de autocompletar",
                 "show": "mostrar menú de autocompletar",
                 "back": "salir del submenú"
@@ -2241,8 +2277,10 @@
         },
         "conflicts": {
             "label": "conflictos"
+            "label": "conflictos"
         },
         "output": {
+            "label": "salida del programa",
             "label": "salida del programa",
             "toggle": {
                 "grid": {
@@ -2265,6 +2303,7 @@
                 }
             },
             "button": {
+                "submit": "enviar este mensaje de chat"
                 "submit": "enviar este mensaje de chat"
             }
         },
@@ -2297,8 +2336,14 @@
             },
             "field": {
                 "search": "buscar conceptos con palabras"
+                "search": "buscar conceptos con palabras"
             },
             "header": {
+                "inputs": "Entradas",
+                "interfaces": "Interfaces",
+                "properties": "Propiedades",
+                "functions": "Funciones",
+                "conversions": "Conversiones"
                 "inputs": "Entradas",
                 "interfaces": "Interfaces",
                 "properties": "Propiedades",
@@ -2308,6 +2353,8 @@
         },
         "dialog": {
             "share": {
+                "header": "Compartir",
+                "explanation": "Controla quién puede editar y ver este proyecto.",
                 "header": "Compartir",
                 "explanation": "Controla quién puede editar y ver este proyecto.",
                 "subheader": {
