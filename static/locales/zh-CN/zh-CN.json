@@ -2096,37 +2096,37 @@
                 }
             },
             "locale": {
-                "header": "$?",
-                "explanation": "$?",
+                "header": "语言",
+                "explanation": "选择您的语言和地区",
                 "subheader": {
-                    "selected": "$?",
-                    "supported": "$?",
-                    "help": "$?"
+                    "selected": "选择",
+                    "supported": "可用的",
+                    "help": "帮我们翻译 。。。"
                 },
                 "button": {
-                    "show": "$?",
-                    "add": "$?",
-                    "remove": "$?"
+                    "show": "切换语言",
+                    "add": "添加语言",
+                    "remove": "删除语言"
                 }
             },
             "help": {
-                "header": "$?",
+                "header": "快捷键",
                 "explanation": "$?",
                 "subheader": {
-                    "moveCursor": "$?",
-                    "editCode": "$?",
-                    "insertCode": "$?",
-                    "debug": "$?"
+                    "moveCursor": "移动",
+                    "editCode": "编辑",
+                    "insertCode": "插入",
+                    "debug": "调试"
                 }
             }
         },
         "palette": {
-            "label": "$?",
+            "label": "调色板",
             "labels": {
-                "mixed": "$?",
-                "computed": "$?",
-                "default": "$?",
-                "inherited": "$?",
+                "mixed": "混合的",
+                "computed": "计算的",
+                "default": "默认",
+                "inherited": "继任",
                 "notSequence": "$?",
                 "notContent": "$?"
             },
