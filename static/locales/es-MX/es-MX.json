@@ -1555,32 +1555,89 @@
         },
         "Pointer": { "doc": "$?", "names": ["Puntero"] },
         "Key": {
-            "doc": "$?",
+            "doc": [
+                "/clickety/",
+                "/@FunctionDefintion aquí, yo to le explicarè./",
+                "Los teclados tiene muchas teclas, ¿no? @Key te va a decir cual es la que alguien esta presionando y soltando.",
+                "Prueba esto",
+                "\\Key()\\",
+                "Mira como cuando presionas una tecla, aparece en el @Stage? Cada ves que se presiona una tecla, se agrega un nuevo texto a la secuencia, describiendo la tecla que que se presionó.",
+                "Para una tecla que representa un personaje, el valor va ser el personaje en @Text.",
+                "Para teclas especiales, como la tecla de /Escapar/, va ser @Text que describe la tecla, usando un <pre-defined name@https://developer.mozilla.org/en-US/docs/Web/API/UI_Events/Keyboard_event_key_values>, lamentablemente solo disponible en ingles",
+                "Si quieres saber de una tecla en particular, puedes proporcionarlo:",
+                "\\Key('a')\\",
+                "Y si solo quieres saber cuando una @Key esta soltada, puedes proporcionarlo usando @Boolean:",
+                "\\Key('a' ⊥)\\"
+            ],
             "names": "Teclado",
-            "key": { "names": "tecla", "doc": "$?" },
-            "down": { "names": "abajo", "doc": "$?" }
+            "key": { "names": "tecla", 
+            "doc": "Si @None, entonces se proporcionan todas las teclas. Si es una @Text specifica, entonces solo esa tecla esta proporcionada."
+         },
+            "down": { "names": "abajo", 
+            "doc": "Si @None, entonces la tecla presionada genera aporte. Si \\T\\, entonces solo teclas presionadas estan proporcionadas, y si \\⊥\\, entonces solo teclas soltadas estan proporcionadas." }
         },
         "Time": {
-            "doc": "$?",
+            "doc": [
+                "/tick tick tick/",
+                "@FunctionDefinition aquí, yo te explicarè @Tiempo porque no puede hablar.",
+                "Tiempo es una secuencia que avanza con una cierta frecuencia.",
+                "Cada ves que avanza, @Program reevalúa con el nuevo valor del tiempo.",
+                "Por ejemplo:",
+                "\\Tiempo()\\",
+                "Si proporcionas un @Tiempo/frecuencia, va avanzar a ese ritmo. Por ejemplo:",
+                "\\Tiempo(1000ms)\\",
+                "Sin embargo, la frecuencia tiene limites a lo pequeño que puede ser porque @Program necesita timepo para evaluar antes que pueda avanzar.", 
+                "Lo mas pequeño que puede ser es alrededor de \\20ms\\."
+            ],
             "names": "Tiempo",
-            "frequency": { "names": ["frecuencia"], "doc": "$?" }
+            "frequency": { "names": ["frecuencia"], 
+            "doc": "Esta es la frecuencia con que el tiempo avanza. Por defecto es \\33ms\\, que es acerca de 30 veces por segundo." }
         },
         "Volume": {
-            "doc": "$?",
+            "doc": [
+                "/bzzzzzzz",
+            "@FunctionDefinition aqui, yo tomaré el micrófono.",
+            "Esta secuencia es una seria de volumen entre 0 y 1, muestreado a la frecuencia de tu elección. Por defecto, la frecuencia es \\30hz\\, o 30 veces por segundo, pero tu puedes cambiar lo a algo menos.",
+            "\\Volume()\\",
+            "Esto es ideal para escuchar que tan fuerte esta la audencia!"
+            ],
             "names": "$? Volume",
-            "frequency": { "names": ["frecuencia"], "doc": "$?" }
+            "frequency": { "names": ["frecuencia"], 
+            "doc": "El tiempo entre muestreos." }
         },
         "Pitch": {
-            "doc": "$?",
+            "doc": [
+                "/hummmmm/",
+                "@FunctionDefinition aqui, hablemos de tonos!",
+                "Esta secuencia es una seria de tonos en hertz, indicando el tono del sonido, muestreado a la frecuencia de tu elección. Encontramos que la voces de los humanos es entre 20Hz y 5000Hz, entonces planea en numeros entre esa rango.",
+                "\\Pitch()\\",
+                "Esto es ideal para escuchar el tono que alguien habla o canta."
+            ],
             "names": "$? Pitch",
-            "frequency": { "names": ["frecuencia"], "doc": "$?" }
+            "frequency": { "names": ["frecuencia"],
+            "doc": "El tiempo entre muestreos." }
         },
         "Camera": {
-            "doc": "$?",
+            "doc": [
+                "/bzzzzzzz/",
+                "@FunctionDefinition aqui, yo puedo explicar @Cámara!",
+                "@Cámara proporciona una @List de @Color de tu mundo. Esa lista esencialmente representa una imagen, pero tu eres el que decides que hacer con el.",
+                "Tu puedes intentar a representar la imagen con un montón de @Phrase, que se vería muy bien bonito! Intenta copiar esto...",
+                "\\colors: Camera(32px 24px 33ms)\n\nStage(\ncolors.combine(\n[] \nƒ(phrases•[Phrase] row•[Color] y•#) \nphrases.append(\nrow.translate(\nƒ(color•Color x•#)\nPhrase('o' place: Place((x - 1) · 0.5m y · -0.5m) color: color duration: 0s\n)\n)\n)\n)\n)\\",
+                "Pero también puedes analizar los colores para decidir si una luz estava encendida o apagada, o si un color en particular era común, dejando que la audencia influya la actuación con los colors que muestran."
+            ],
             "names": ["Cámara"],
-            "width": { "names": ["ancho"], "doc": "$?" },
-            "height": { "names": ["altura"], "doc": "$?" },
-            "frequency": { "names": ["frecuencia"], "doc": "$?" }
+            "width": { 
+                "names": ["ancho"], 
+                "doc": "El numero de @Color para muestrar en una fila" 
+            },
+            "height": { 
+                "names": ["altura"], 
+                "doc": "El numero de @Color para muestrar en una columna." 
+            },
+            "frequency": { 
+                "names": ["frecuencia"], 
+                "doc": "El tiempo entre @Color muestras." }
         },
         "Motion": {
             "names": "movimiento",
