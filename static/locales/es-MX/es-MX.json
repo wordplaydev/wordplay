@@ -1547,7 +1547,7 @@
                 { "names": "maximo", "doc": "$?" }
             ]
         },
-        "Choice": { "doc": "$?", "names": ["Selección", "Elección"] },
+        "Choice": { "doc": ["/click y tap!/", "/@DefinicionDeFuncion aqui, yo te la explicare./", "Piensa de @Selección como un rio de @Frame/nombre que es selecionanda por su audiencia. Si alguien hace click, tap or seleciona con su teclado, presionando /Enter/ en una @Frase con un nombre -- @Selección tendra un nuevo valor, emparejanda con su nombre.", "La mejor manera de users los creando una actuaccion con una Selección nombrada, "], "names": ["Selección", "Elección"] },
         "Button": {
             "doc": "$?",
             "names": "Botón",
