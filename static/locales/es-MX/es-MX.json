@@ -1540,20 +1540,20 @@
     },
     "input": {
         "Random": {
-            "doc": "$?",
+            "doc": ["23!", "/DeficionDeFuncion aqui, yo te lo explicare./", "@Azar es una función curiosa que crea numeros al azar. Es curiosa porque cada ves que la evaluas, crea algo diferente,", "Esto creo un caos maravilloso que bien con algo impredecible.", "Por defecto, te da un valores de @Numero entre \\0\\ y \\1\\:", "\\Azar()\\", "Pero tambien le pues pasar un valor, y te generara valores entre \\0\\ y el valor:", "\\Azar(20)\\", "Y si le pasas dos valores, te generara valores entre y incluyendo los dos valores:", "\\Azar(=20 20)\\", "Si los numeros tienen unidades, las unidades seran preservadas (y si no son pares, la unidad del valor minimo ser usada):", "\\Azar(-20m 20m\\", "Y si le pasas numeros con una cantidad particular de digitos significativos despues del decimal, esa precision sera preservada.", "\\Azar(2.00, 20.00)\\"],
             "names": ["Azar"],
             "inputs": [
-                { "names": "mínima", "doc": "$?" },
-                { "names": "maximo", "doc": "$?" }
+                { "names": "mínimo", "doc": "El valor mínimo que sera creado, si no mayor a 0, entonces sera el valor maximo. Si @Nada es proveido, entonces el mínimo es \\0\\ " },
+                { "names": "maximo", "doc": "El valor maximo que sera creado, o si es menor al minimo proveido, este sera el minimo. Si @Nada es proveido, entonces el valor maximo es \\1\\" }
             ]
         },
         "Choice": { "doc": ["/click y tap!/", "/@DefinicionDeFuncion aqui, yo te la explicare./", "Piensa de @Selección como un rio de @Frame/nombre que es selecionanda por su audiencia. Si alguien hace click, tap or seleciona con su teclado, presionando /Enter/ en una @Frase con un nombre -- @Selección tendra un nuevo valor, emparejanda con su nombre.", "La mejor manera de usarlos es creando una actuaccion con una frases de selección nombradas, despues usa @Reaccion para decidir que hacer con el nombre elejido", "Este es un ejempli simple.", "\\Grupo(\nPila() \n[\nFrase('uno' seleccion:T nombre: '1'1) \nFrase('dos' seleccion:T nombre: '2') \nFrase(Elección())\n]\n)\\", "Copea esto en tu editor, despues selecciona una de las dos @Frase. Podras ver que la tercera @Phrase muestra el nombe que fue seleccionado"], "names": ["Selección", "Elección"] },
         "Button": {
-            "doc": ["/has click click/", "/@DefinicionDeFuncion aqui, yo te lo explicare"],
+            "doc": ["/has click click/", "/@DefinicionDeFuncion aqui, yo te lo explicare./"],
             "names": "Botón",
-            "down": { "names": "abajo", "doc": "$?" }
+            "down": { "names": "abajo", "doc": "Si es @None, la sequencia va a preveer los dos valors de arriba y abajo. Si es @Booleano, so va a proveer el valor del @Booleano" }
         },
-        "Pointer": { "doc": "$?", "names": ["Puntero"] },
+        "Pointer": { "doc": ["/aquii/", "/@DeficionDeFuncion aqui, yo te la explicare./", "¿Tu conozes sobre ratones, paneles tactiles, y pantallas tactiles? hay veces tu quieres saber en donde tu punter de la audencia esta. Esta es la funcionalida de @Puntero", "Por supuesto, esta no es una opcion accesible: not todo el mundo puede ver or apuntar facilmente, asegurate de que no este excluyendo a nadie usando este stream.", "Si estas seguro de que nadie va a hacer excluido, usar @Puntero es tan simple como hacer un stream:", "\\Pointer()\\", "El @Lugar que provee va a corresponder en donde el punter en el @Escenario es apuntando"], "names": ["Puntero"] },
         "Key": {
             "doc": [
                 "/clickety/",
@@ -1561,7 +1561,7 @@
                 "Los teclados tiene muchas teclas, ¿no? @Key te va a decir cual es la que alguien esta presionando y soltando.",
                 "Prueba esto",
                 "\\Key()\\",
-                "Mira como cuando presionas una tecla, aparece en el @Stage? Cada ves que se presiona una tecla, se agrega un nuevo texto a la secuencia, describiendo la tecla que que se presionó.",
+                "Mira como cuando presionas una tecla, aparece en el @Stage? Cada ves que se presiona una tecla, se agrega un nuevo texto a la secuencia, describiendo la tecla que se presionó.",
                 "Para una tecla que representa un personaje, el valor va ser el personaje en @Text.",
                 "Para teclas especiales, como la tecla de /Escapar/, va ser @Text que describe la tecla, usando un <pre-defined name@https://developer.mozilla.org/en-US/docs/Web/API/UI_Events/Keyboard_event_key_values>, lamentablemente solo disponible en ingles",
                 "Si quieres saber de una tecla en particular, puedes proporcionarlo:",
