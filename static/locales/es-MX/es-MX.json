@@ -19,7 +19,6 @@
         "phrase": "frase",
         "group": "grupo",
         "stage": "escenario",
-        "stage": "escenario",
         "type": "tipo",
         "start": "comenzar",
         "entered": "ingresó",
@@ -118,7 +117,6 @@
         "Dimension": {
             "name": "dimensión",
             "description": "dimensión",
-            "emotion": "serious",
             "emotion": "serious",
             "doc": [
                 "¡Soy un /unidad de medida/!",
@@ -2069,10 +2067,8 @@
         "widget": {
             "confirm": {
                 "cancel": "cancelar"
-                "cancel": "cancelar"
             },
             "dialog": {
-                "close": "cerrar"
                 "close": "cerrar"
             },
             "loading": {
@@ -2085,24 +2081,18 @@
                 "fullscreen": {
                     "on": "salir de pantalla completa",
                     "off": "exapandir teja a pantalla completa"
-                    "on": "salir de pantalla completa",
-                    "off": "exapandir teja a pantalla completa"
                 },
                 "show": {
-                    "on": "esconder esta teja",
-                    "off": "mostrar esta teja"
                     "on": "esconder esta teja",
                     "off": "mostrar esta teja"
                 }
             },
             "button": {
                 "collapse": "colapsar esta ventana"
-                "collapse": "colapsar esta ventana"
             }
         },
         "project": {
             "error": {
-                "unknown": "Esta actuación no existe o no es pública."
                 "unknown": "Esta actuación no existe o no es pública."
             },
             "button": {
@@ -2120,8 +2110,6 @@
             },
             "field": {
                 "name": {
-                    "description": "editar el nobmre del proyecto",
-                    "placeholder": "nombre"
                     "description": "editar el nobmre del proyecto",
                     "placeholder": "nombre"
                 }
@@ -2179,20 +2167,8 @@
                 "Si estas atascada, <aprende más@://learn>."
             ],
             "overwritten": "¡Recibí una versión más reciente!",
-            "label": "editora de programas",
-            "empty": [
-                "¡Empecemos! Puedes …",
-                "• Abre 📕 y arrástranos 🖱️ a este programa.",
-                "• Escribe $1 y elígenos del menú.",
-                "• Si nos conoces bien, empieza a escribir.",
-                "• Explora la galería en busca de inspiración.",
-                "Si estas atascada, <aprende más@://learn>."
-            ],
-            "overwritten": "¡Recibí una versión más reciente!",
             "confirm": {
                 "delete": {
-                    "description": "borra esta $source",
-                    "prompt": "borrar"
                     "description": "borra esta $source",
                     "prompt": "borrar"
                 }
@@ -2201,12 +2177,8 @@
                 "blocks": {
                     "on": "esconder los fondos de los bloques",
                     "off": "mostrar los fondos de los bloques"
-                    "on": "esconder los fondos de los bloques",
-                    "off": "mostrar los fondos de los bloques"
                 },
                 "glyphs": {
-                    "on": "colapsar los glifos coincidentes",
-                    "off": "expandir los glifos coincidentes"
                     "on": "colapsar los glifos coincidentes",
                     "off": "expandir los glifos coincidentes"
                 }
@@ -2214,21 +2186,14 @@
             "button": {
                 "selectOutput": "mostrar este resultado en el escenario",
                 "expandSequence": "expandir este código colapsado"
-                "selectOutput": "mostrar este resultado en el escenario",
-                "expandSequence": "expandir este código colapsado"
             },
             "field": {
                 "name": {
                     "description": "editar nombre de fuente",
                     "placeholder": "nombre"
-                    "description": "editar nombre de fuente",
-                    "placeholder": "nombre"
                 }
             },
             "menu": {
-                "label": "menú de autocompletar",
-                "show": "mostrar menú de autocompletar",
-                "back": "salir del submenú"
                 "label": "menú de autocompletar",
                 "show": "mostrar menú de autocompletar",
                 "back": "salir del submenú"
@@ -2277,10 +2242,9 @@
         },
         "conflicts": {
             "label": "conflictos"
-            "label": "conflictos"
+
         },
         "output": {
-            "label": "salida del programa",
             "label": "salida del programa",
             "toggle": {
                 "grid": {
@@ -2303,7 +2267,6 @@
                 }
             },
             "button": {
-                "submit": "enviar este mensaje de chat"
                 "submit": "enviar este mensaje de chat"
             }
         },
@@ -2336,14 +2299,8 @@
             },
             "field": {
                 "search": "buscar conceptos con palabras"
-                "search": "buscar conceptos con palabras"
             },
             "header": {
-                "inputs": "Entradas",
-                "interfaces": "Interfaces",
-                "properties": "Propiedades",
-                "functions": "Funciones",
-                "conversions": "Conversiones"
                 "inputs": "Entradas",
                 "interfaces": "Interfaces",
                 "properties": "Propiedades",
@@ -2353,8 +2310,6 @@
         },
         "dialog": {
             "share": {
-                "header": "Compartir",
-                "explanation": "Controla quién puede editar y ver este proyecto.",
                 "header": "Compartir",
                 "explanation": "Controla quién puede editar y ver este proyecto.",
                 "subheader": {

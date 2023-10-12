@@ -3748,7 +3748,7 @@
                 },
                 "delete": {
                     "header": "Delete",
-                    "explanation": "Deleting this callery will not delete its projects. The gallery will be deleted forever."
+                    "explanation": "Deleting this gallery will not delete its projects. The gallery will be deleted forever."
                 }
             },
             "confirm": {
