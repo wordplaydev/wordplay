@@ -32,8 +32,9 @@
     </div>
     {#if PUBLIC_CONTEXT === 'prod'}
         <p
-            >Coming Fall 2023. Write <Link external to="https://amyjko.com"
-                >Amy</Link
+            >Public beta coming October 31st, 2023. Write <Link
+                external
+                to="https://amyjko.com">Amy</Link
             > for details, or see our <Link
                 external
                 to="https://github.com/wordplaydev/wordplay/milestone/1"
