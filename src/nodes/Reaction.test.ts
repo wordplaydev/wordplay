@@ -49,7 +49,7 @@ test.each([
     ) => {
         // Make the project
         const source = new Source('test', code);
-        const project = new Project(null, 'test', source, [], DefaultLocale);
+        const project = Project.make(null, 'test', source, [], DefaultLocale);
         const evaluator = new Evaluator(project, DB, [DefaultLocale]);
 
         evaluator.start();

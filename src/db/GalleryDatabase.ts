@@ -248,17 +248,17 @@ export default class GalleryDatabase {
         const galleries = get(this.creatorGalleries);
         for (const store of galleries.values()) {
             const gallery = get(store);
-            if (gallery.hasProject(project.id))
-                this.edit(gallery.withoutProject(project.id));
+            if (gallery.hasProject(project.getID()))
+                this.edit(gallery.withoutProject(project.getID()));
         }
 
         // Add the project ID to the gallery.
-        this.edit(gallery.withProject(project.id));
+        this.edit(gallery.withProject(project.getID()));
     }
 
     // Remove the project from the gallery that it's in.
     async removeProject(project: Project) {
-        const galleryID = project.gallery;
+        const galleryID = project.getGallery();
         if (galleryID === null) return;
 
         // Find the gallery.
@@ -271,7 +271,7 @@ export default class GalleryDatabase {
         this.database.Projects.edit(project.withGallery(null), false, true);
 
         // Revise the gallery with a project ID.
-        this.edit(gallery.withoutProject(project.id));
+        this.edit(gallery.withoutProject(project.getID()));
     }
 
     // Remove the given creator from the gallery, and all of their projects.
@@ -295,7 +295,7 @@ export default class GalleryDatabase {
         const projectsToKeep: string[] = [];
         for (const projectID of gallery.getProjects()) {
             const project = await this.database.Projects.get(projectID);
-            if (project === undefined || project.owner !== uid)
+            if (project === undefined || project.getOwner() !== uid)
                 projectsToKeep.push(projectID);
             else {
                 this.database.Projects.edit(

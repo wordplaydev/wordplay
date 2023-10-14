@@ -17,7 +17,7 @@ test.each([
     ['{1|2:2|3}', '{#:#}'],
 ])('expect %s', (given: string, expected) => {
     const source = new Source('untitled', '');
-    const project = new Project(null, 'untitled', source, [], DefaultLocale);
+    const project = Project.make(null, 'untitled', source, [], DefaultLocale);
     const context = project.getContext(source);
 
     const type = parseType(toTokens(given));

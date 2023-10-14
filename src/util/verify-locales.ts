@@ -385,7 +385,7 @@ function verifyTutorial(locale: Locale, tutorial: Tutorial) {
         } else code = list.join('\n');
 
         if (code) {
-            const project = new Project(
+            const project = Project.make(
                 null,
                 'test',
                 new Source('start', code),

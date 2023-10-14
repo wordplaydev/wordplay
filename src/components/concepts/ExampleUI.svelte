@@ -19,7 +19,7 @@
     export let evaluated: boolean;
     export let inline: boolean;
 
-    $: project = new Project(
+    $: project = Project.make(
         null,
         'example',
         new Source('example', [example.program, spaces]),
@@ -43,7 +43,7 @@
 
     function update() {
         if (evaluator) {
-            value = evaluator.getLatestSourceValue(project.main);
+            value = evaluator.getLatestSourceValue(project.getMain());
             stage = value
                 ? toStage(evaluator, value, new NameGenerator())
                 : undefined;

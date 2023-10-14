@@ -58,7 +58,10 @@ export default class ConceptIndex {
 
     // Make a concept index with a project and some preferreed languages.
     static make(project: Project, locales: Locale[]) {
-        const projectStructures = [project.main, ...project.supplements]
+        const main = project.getMain();
+        const sources = project.getSources();
+
+        const projectStructures = sources
             .map((source) =>
                 source.expression
                     .nodes(
@@ -80,7 +83,7 @@ export default class ConceptIndex {
             )
             .flat();
 
-        const projectFunctions = [project.main, ...project.supplements]
+        const projectFunctions = sources
             .map((source) =>
                 source.expression.expression.statements
                     .filter(
@@ -101,7 +104,7 @@ export default class ConceptIndex {
             )
             .flat();
 
-        const projectBinds = [project.main, ...project.supplements]
+        const projectBinds = sources
             .map((source) =>
                 source.expression.expression.statements
                     .filter((n): n is Bind => n instanceof Bind)
@@ -118,11 +121,7 @@ export default class ConceptIndex {
             .flat();
 
         function makeStreamConcept(stream: StreamDefinition) {
-            return new StreamConcept(
-                stream,
-                locales,
-                project.getContext(project.main)
-            );
+            return new StreamConcept(stream, locales, project.getContext(main));
         }
 
         const streams = Object.values(project.shares.input).map((def) =>
@@ -134,22 +133,19 @@ export default class ConceptIndex {
                       def,
                       undefined,
                       locales,
-                      project.getContext(project.main)
+                      project.getContext(main)
                   )
         );
 
-        const constructs = getNodeConcepts(project.getContext(project.main));
+        const constructs = getNodeConcepts(project.getContext(main));
 
         const basis = getBasisConcepts(
             project.basis,
             locales,
-            project.getContext(project.main)
+            project.getContext(main)
         );
 
-        const output = getOutputConcepts(
-            locales,
-            project.getContext(project.main)
-        );
+        const output = getOutputConcepts(locales, project.getContext(main));
 
         return new ConceptIndex(
             project,

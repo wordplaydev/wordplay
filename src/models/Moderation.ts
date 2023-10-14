@@ -48,13 +48,9 @@ export function withFlag(
     state: FlagState
 ): Moderation {
     if (!(flag in Flags)) return flags;
-    const newFlags = cloneFlags(flags);
+    const newFlags = { ...flags };
     newFlags[flag as Flag] = state;
     return newFlags;
-}
-
-export function cloneFlags(flags: Moderation): Moderation {
-    return Object.assign({}, flags);
 }
 
 /** Return a moderation state with all flags false */
@@ -104,10 +100,10 @@ export function isFlagged(flags: Moderation) {
 
 export function isAudience(user: User | null, project: Project): boolean {
     return (
-        project.public &&
+        project.isPublic() &&
         (user === null ||
-            (project.owner !== user.uid &&
-                !project.collaborators.includes(user.uid)))
+            (project.getOwner() !== user.uid &&
+                !project.hasCollaborator(user.uid)))
     );
 }
 

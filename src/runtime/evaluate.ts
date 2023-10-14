@@ -16,7 +16,7 @@ export default function evaluateCode(
     locale?: Locale | Locale[]
 ): Value | undefined {
     const source = new Source('test', main);
-    const project = new Project(
+    const project = Project.make(
         null,
         'test',
         source,

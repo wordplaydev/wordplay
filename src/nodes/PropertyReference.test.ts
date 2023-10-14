@@ -17,7 +17,7 @@ test('Test scoping', () => {
         `;
 
     const source = new Source('test', code);
-    const project = new Project(null, 'test', source, [], DefaultLocale);
+    const project = Project.make(null, 'test', source, [], DefaultLocale);
     const context = project.getContext(source);
 
     const prop = source

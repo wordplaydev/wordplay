@@ -201,7 +201,7 @@ export default class ProjectsDatabase {
                     history,
                 ] of this.projectHistories.entries())
                     if (
-                        history.getCurrent().persisted &&
+                        history.getCurrent().isPersisted() &&
                         !projectIDs.has(projectID)
                     )
                         deleted.push(projectID);
@@ -242,10 +242,10 @@ export default class ProjectsDatabase {
     ): ProjectHistory | undefined {
         if (editable) {
             // If we're not tracking this yet, create a history and store the version given.
-            let history = this.projectHistories.get(project.id);
+            let history = this.projectHistories.get(project.getID());
             if (history === undefined) {
                 history = new ProjectHistory(project, persist, saved);
-                this.projectHistories.set(project.id, history);
+                this.projectHistories.set(project.getID(), history);
 
                 // Update the editable projects
                 this.refreshEditableProjects();
@@ -260,14 +260,14 @@ export default class ProjectsDatabase {
                 // Otherwise, if the given one has the later timestamp, overwrite. This is naive strategy that
                 // assumes that all systems have valid clocks, and it also fails to acccount
                 // for non-conflicting edits.
-                if (project.timestamp > current.timestamp) {
+                if (project.getTimestamp() > current.getTimestamp()) {
                     history.edit(project, true, true);
                 }
             }
 
             this.refreshEditableProjects();
         } else {
-            this.readonlyProjects.set(project.id, project);
+            this.readonlyProjects.set(project.getID(), project);
         }
     }
 
@@ -289,7 +289,7 @@ export default class ProjectsDatabase {
     create(locales: Locale[], code = '', galleryID?: string) {
         const userID = this.database.getUserID();
         // Make the new project
-        const newProject = new Project(
+        const newProject = Project.make(
             null,
             '',
             new Source(locales[0].term.start, code),
@@ -320,7 +320,7 @@ export default class ProjectsDatabase {
         this.track(newProject, true, PersistenceType.Online, false);
 
         // Return it's new ID
-        return newProject.id;
+        return newProject.getID();
     }
 
     /** Returns the current version of the project with the given ID, if it exists. */
@@ -398,7 +398,7 @@ export default class ProjectsDatabase {
      * */
     edit(project: Project, remember: boolean, persist: boolean) {
         // Update or create a history for this project.
-        const history = this.projectHistories.get(project.id);
+        const history = this.projectHistories.get(project.getID());
         if (history) {
             history.edit(project, remember);
 
@@ -412,7 +412,10 @@ export default class ProjectsDatabase {
         // This is likely an edit by a curator of a gallery, e.g., removing a project from
         // a collection.
         else if (firestore && persist) {
-            setDoc(doc(firestore, 'projects', project.id), project.serialize());
+            setDoc(
+                doc(firestore, 'projects', project.getID()),
+                project.serialize()
+            );
         }
     }
 
@@ -425,7 +428,7 @@ export default class ProjectsDatabase {
             const current = history.getCurrent();
 
             // If the project is in a gallery, remove it.
-            if (current.gallery)
+            if (current.getGallery())
                 await this.database.Galleries.removeProject(current);
 
             // Mark the project archived after its removed from the gallery.
@@ -437,7 +440,7 @@ export default class ProjectsDatabase {
         // Delete all projects that this user owns.
         const ownerID = this.database.getUserID();
         for (const history of this.projectHistories.values())
-            if (history.getCurrent().owner === ownerID)
+            if (history.getCurrent().getOwner() === ownerID)
                 await this.deleteProject(history.id);
         await this.deleteLocal();
     }
@@ -516,7 +519,7 @@ export default class ProjectsDatabase {
                     // If the project has no owner, make this user owner, since it was stored locally.
                     return (
                         (
-                            current.owner === null
+                            current.getOwner() === null
                                 ? current.withOwner(userID)
                                 : current
                         )

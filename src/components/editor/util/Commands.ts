@@ -907,10 +907,12 @@ const Commands: Command[] = [
         key: 'KeyZ',
         keySymbol: 'Z',
         active: ({ database, evaluator }) =>
-            database.Projects.getHistory(evaluator.project.id)?.isUndoable() ===
-            true,
+            database.Projects.getHistory(
+                evaluator.project.getID()
+            )?.isUndoable() === true,
         execute: ({ database, evaluator }) =>
-            database.Projects.undoRedo(evaluator.project.id, -1) !== undefined,
+            database.Projects.undoRedo(evaluator.project.getID(), -1) !==
+            undefined,
     },
     {
         symbol: '⟳',
@@ -923,10 +925,12 @@ const Commands: Command[] = [
         key: 'KeyZ',
         keySymbol: 'Z',
         active: ({ evaluator, database }) =>
-            database.Projects.getHistory(evaluator.project.id)?.isRedoable() ===
-            true,
+            database.Projects.getHistory(
+                evaluator.project.getID()
+            )?.isRedoable() === true,
         execute: ({ database, evaluator }) =>
-            database.Projects.undoRedo(evaluator.project.id, 1) !== undefined,
+            database.Projects.undoRedo(evaluator.project.getID(), 1) !==
+            undefined,
     },
     ToggleBlocks,
     {

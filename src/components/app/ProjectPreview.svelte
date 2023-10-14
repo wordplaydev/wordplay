@@ -55,7 +55,7 @@
                 class="output"
                 in:fade
                 role="presentation"
-                class:blurred={audience && isFlagged(project.flags)}
+                class:blurred={audience && isFlagged(project.getFlags())}
             >
                 <OutputView
                     {project}
@@ -71,9 +71,10 @@
     </a>
     {#if name}
         <div class="name"
-            >{#if project.name.length === 0}<em class="untitled">&mdash;</em
+            >{#if project.getName().length === 0}<em class="untitled"
+                    >&mdash;</em
                 >{:else}
-                {project.name}{/if}<slot /></div
+                {project.getName()}{/if}<slot /></div
         >{/if}
 </div>
 

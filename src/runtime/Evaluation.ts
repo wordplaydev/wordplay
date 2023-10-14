@@ -115,7 +115,7 @@ export default class Evaluation {
         // Derive some state
         this.#source = evaluator.project.getSourceOf(definition);
         this.#context = evaluator.project.getContext(
-            this.#source ?? evaluator.project.main
+            this.#source ?? evaluator.project.getMain()
         );
 
         // Ask the evaluator to compile (and optionally cache) steps for this definition.

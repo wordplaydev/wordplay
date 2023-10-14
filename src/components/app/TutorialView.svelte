@@ -126,9 +126,9 @@
     let initialProject: Project;
     $: if (
         initialProject === undefined ||
-        progress.getProjectID() !== initialProject.id
+        progress.getProjectID() !== initialProject.getID()
     )
-        initialProject = new Project(
+        initialProject = Project.make(
             progress.getProjectID(),
             scene ? scene.title : act ? act.title : $locale.wordplay,
             new Source($locale.term.start, source),
@@ -173,7 +173,7 @@
 
     // When the project changes to something other than the initial project, start persisting it.
     $: if ($projectStore !== undefined && !$projectStore.equals(initialProject))
-        Projects.getHistory($projectStore.id)?.setPersist(
+        Projects.getHistory($projectStore.getID())?.setPersist(
             PersistenceType.Local
         );
 

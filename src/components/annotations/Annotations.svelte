@@ -100,7 +100,7 @@
                                                   primary.node
                                               ) ??
                                                   project.getContext(
-                                                      project.main
+                                                      project.getMain()
                                                   )
                                           )
                                       ),

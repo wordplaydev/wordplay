@@ -59,7 +59,7 @@
 
     // Set a context that stores a project context for nodes in the palette to use.
     // Keep it up to date as the project changes.
-    $: setContext('context', project.getContext(project.main));
+    $: setContext('context', project.getContext(project.getMain()));
 
     async function scrollToTop() {
         // Wait for everything to render

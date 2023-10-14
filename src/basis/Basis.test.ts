@@ -13,7 +13,7 @@ import DefaultLocale from '../locale/DefaultLocale';
 const basis = Basis.getLocalizedBasis(DefaultLocale);
 
 const source = new Source('basis', '');
-const project = new Project(null, 'test', source, [], DefaultLocale);
+const project = Project.make(null, 'test', source, [], DefaultLocale);
 const context = new Context(project, source);
 
 function checkBasisNodes(nodes: Node[]) {

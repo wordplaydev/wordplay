@@ -25,13 +25,16 @@ import type Locale from '../locale/Locale';
 import { getBestSupportedLocales, toLocaleString } from '../locale/Locale';
 import { toTokens } from '../parser/toTokens';
 import type LocalesDatabase from '../db/LocalesDatabase';
-import { cloneFlags, moderatedFlags, type Moderation } from './Moderation';
+import { moderatedFlags, type Moderation } from './Moderation';
 
+/** How we store sources as JSON in databases */
 export type SerializedSource = {
     names: string;
     code: string;
     caret: SerializedCaret;
 };
+
+/** How we store projects as JSON in databases */
 export type SerializedProject = {
     /** A very likely unique uuid4 string */
     id: string;
@@ -61,6 +64,26 @@ export type SerializedProject = {
     flags: Moderation;
 };
 
+/**
+ * How we store projects in memory, mirroring the data in the deserialized form.
+ * We store them in an object literal like this for less error prone immutable modifications.
+ * Without this we'd have to pass all fields into a constructor for every kind of change,
+ * which means every time we add or change a field, it requires modification everywhere.
+ * This pattern allows us to do a simple object spread with a new value.
+ */
+export type ProjectData = Omit<SerializedProject, 'sources' | 'locales'> & {
+    /** The main source file that starts evaluation */
+    main: Source;
+    /** All source files in the project, and their evaluators */
+    supplements: Source[];
+    /**
+     * The locales on which this project relies.
+     * Not an indicator of what locales are currently selected; a locale may be selected that this project does not use. */
+    locales: Locale[];
+    /** Serialized caret positions for each source file */
+    carets: SerializedCarets;
+};
+
 type Analysis = {
     conflicts: Conflict[];
     primary: Map<Node, Conflict[]>;
@@ -83,35 +106,8 @@ type SerializedCarets = SerializedSourceCaret[];
  * A project with a name, some source files, and evaluators for each source file.
  **/
 export default class Project {
-    /** The unique ID of the project */
-    readonly id: string;
-
-    /** The name of the project */
-    readonly name: string;
-
-    /** The main source file that starts evaluation */
-    readonly main: Source;
-
-    /** All source files in the project, and their evaluators */
-    readonly supplements: Source[];
-
-    /** Serialized caret positions for each source file */
-    readonly carets: SerializedCarets;
-
-    /** The Firestore user ID that owns this project */
-    readonly owner: string | null;
-
-    /** A list of uids that have write access to this project. */
-    readonly collaborators: string[];
-
-    /** True if it should be listed in the projects list. Allows tutorial projects not to be listed. */
-    readonly listed: boolean;
-
-    /** True if this project should be viewable by anyone */
-    readonly public: boolean;
-
-    /** True if has been archived */
-    readonly archived: boolean;
+    /** The immutable data for the project */
+    private readonly data: ProjectData;
 
     /** A cache of source contexts */
     readonly sourceContext: Map<Source, Context> = new Map();
@@ -125,25 +121,8 @@ export default class Project {
     /** Default shares */
     readonly shares: ReturnType<typeof createDefaultShares>;
 
-    /** Gallery */
-    readonly gallery: string | null;
-
-    /**
-     * The locales on which this project relies.
-     * Not an indicator of what locales are currently selected; a locale may be selected that this project does not use. */
-    private locales: Locale[];
-
     /** The localized basis bindings */
     readonly basis: Basis;
-
-    /** The moderation state of the project */
-    readonly flags: Moderation;
-
-    /** The time when this project version created. */
-    readonly timestamp: number;
-
-    /** Whether this project has ever been saved in the cloud */
-    readonly persisted: boolean;
 
     /** Conflicts. */
     analyzed: 'unanalyzed' | 'analyzing' | 'analyzed' = 'unanalyzed';
@@ -155,7 +134,25 @@ export default class Project {
         dependencies: new Map(),
     };
 
-    constructor(
+    constructor(data: ProjectData) {
+        // Copy to prevent external modification
+        this.data = { ...data };
+
+        // Get a Basis for the requested locales.
+        this.basis = Basis.getLocalizedBasis(this.data.locales);
+
+        // Initialize default shares
+        this.shares = this.basis.shares;
+
+        // Initialize roots for all definitions that can be referenced.
+        this.roots = [
+            ...this.getSources().map((source) => source.root),
+            ...this.basis.roots,
+            ...this.shares.all.map((share) => new Root(share)),
+        ];
+    }
+
+    static make(
         id: string | null,
         name: string,
         main: Source,
@@ -169,87 +166,51 @@ export default class Project {
         archived = false,
         persisted = false,
         gallery: string | null = null,
-        moderation: Moderation = moderatedFlags(),
+        flags: Moderation = moderatedFlags(),
         // This is last; omitting it updates the time.
         timestamp: number | undefined = undefined
     ) {
-        this.id = id ?? uuidv4();
-        this.owner = owner;
-        this.collaborators = Array.from(
-            new Set(collaborators.filter((uid) => uid.length > 0))
-        );
-        this.public = pub;
-        this.timestamp = timestamp ?? Date.now();
-        this.persisted = persisted;
-        this.gallery = gallery;
-
-        this.flags = moderation;
-
-        // Remember the name and source.
-        this.name = name;
-        this.main = main;
-        this.supplements = supplements.slice();
-
-        // Remember the locale dependencies
-        this.locales = Array.isArray(locales) ? locales : [locales];
-
-        // Get a Basis for the requested locales.
-        this.basis = Basis.getLocalizedBasis(this.locales);
-
-        // Initialize default shares
-        this.shares = this.basis.shares;
-
-        // Remember the carets
-        this.carets =
-            carets === undefined
-                ? this.getSources().map((source) => {
-                      return { source, caret: 0 };
-                  })
-                : carets;
-
-        // Remember whether this project should be listed as a project. (Used to not list tutorial projects).
-        this.listed = listed;
-
-        // Remember whether this is archived.
-        this.archived = archived;
-
-        // Initialize roots for all definitions that can be referenced.
-        this.roots = [
-            ...this.getSources().map((source) => source.root),
-            ...this.basis.roots,
-            ...this.shares.all.map((share) => new Root(share)),
-        ];
+        return new Project({
+            id: id ?? uuidv4(),
+            name,
+            main,
+            supplements,
+            locales: Array.isArray(locales) ? locales : [locales],
+            owner,
+            collaborators,
+            public: pub,
+            carets:
+                carets ??
+                [main, ...supplements].map((source) => {
+                    return { source, caret: 0 };
+                }),
+            listed,
+            archived,
+            persisted,
+            gallery,
+            flags,
+            timestamp: timestamp ?? Date.now(),
+        });
     }
 
     copy() {
-        return new Project(
-            null,
-            this.name,
-            this.main,
-            this.supplements.slice(),
-            this.locales.slice(),
-            this.owner,
-            this.collaborators.slice(),
-            this.public,
-            this.carets.slice(),
-            this.listed,
-            this.archived,
-            this.persisted,
-            this.gallery,
-            cloneFlags(this.flags)
-        );
+        return new Project({ ...this.data, id: uuidv4() });
     }
 
     equals(project: Project) {
         return (
-            this.id === project.id &&
-            this.name === project.name &&
+            this.getID() === project.getID() &&
+            this.getName() === project.getName() &&
             this.getSources().every((source1) =>
                 project
                     .getSources()
                     .some((source2) => source1.isEqualTo(source2))
             )
         );
+    }
+
+    getID() {
+        return this.data.id;
     }
 
     getNodeByID(id: number): Node | undefined {
@@ -281,7 +242,7 @@ export default class Project {
     }
 
     getSources() {
-        return [this.main, ...this.supplements];
+        return [this.getMain(), ...this.data.supplements];
     }
 
     getSourceWithName(name: string) {
@@ -311,7 +272,7 @@ export default class Project {
 
     getNodeContext(node: Node) {
         const source = this.getSourceOf(node);
-        return this.getContext(source ?? this.main);
+        return this.getContext(source ?? this.getMain());
     }
 
     getSourceOf(node: Node) {
@@ -319,11 +280,11 @@ export default class Project {
     }
 
     getSourcesExcept(source: Source) {
-        return [this.main, ...this.supplements].filter((s) => s !== source);
+        return this.getSources().filter((s) => s !== source);
     }
 
     getName() {
-        return this.name;
+        return this.data.name;
     }
 
     getSourceWithProgram(program: Program) {
@@ -500,7 +461,7 @@ export default class Project {
     /** Get supplements not referenced by main */
     getUnusedSupplements(): Source[] {
         // Return all supplements for which no source's borrows borrow it.
-        return this.supplements.filter(
+        return this.data.supplements.filter(
             (supplement) =>
                 !this.getSources().some((source) =>
                     source.expression.borrows.some(
@@ -557,42 +518,16 @@ export default class Project {
         return refs;
     }
 
-    clone() {
-        return new Project(
-            this.id,
-            this.name,
-            this.main,
-            this.supplements,
-            this.locales,
-            this.owner,
-            this.collaborators,
-            this.public,
-            this.carets,
-            this.listed,
-            this.archived,
-            this.persisted,
-            this.gallery,
-            cloneFlags(this.flags)
-        );
+    withName(name: string) {
+        return new Project({ ...this.data, name });
     }
 
-    withName(name: string) {
-        return new Project(
-            this.id,
-            name,
-            this.main,
-            this.supplements,
-            this.locales,
-            this.owner,
-            this.collaborators,
-            this.public,
-            this.carets,
-            this.listed,
-            this.archived,
-            this.persisted,
-            this.gallery,
-            cloneFlags(this.flags)
-        );
+    getMain() {
+        return this.data.main;
+    }
+
+    getSupplements() {
+        return [...this.data.supplements];
     }
 
     withSource(oldSource: Source, newSource: Source) {
@@ -601,35 +536,16 @@ export default class Project {
 
     /** Copies this project, but with the new locale added if it's not already included. */
     withLocales(locales: Locale[]) {
-        return new Project(
-            this.id,
-            this.name,
-            this.main,
-            this.supplements,
-            Array.from(new Set([...this.locales, ...locales])),
-            this.owner,
-            this.collaborators,
-            this.public,
-            this.carets,
-            this.listed,
-            this.archived,
-            this.persisted,
-            this.gallery,
-            cloneFlags(this.flags)
-        );
+        return new Project({
+            ...this.data,
+            locales: Array.from(new Set([...this.data.locales, ...locales])),
+        });
     }
 
     withCaret(source: Source, caret: CaretPosition) {
-        return new Project(
-            this.id,
-            this.name,
-            this.main,
-            this.supplements,
-            this.locales,
-            this.owner,
-            this.collaborators,
-            this.public,
-            this.carets.map((sourceCaret) =>
+        return new Project({
+            ...this.data,
+            carets: this.data.carets.map((sourceCaret) =>
                 sourceCaret.source === source
                     ? {
                           source,
@@ -640,39 +556,23 @@ export default class Project {
                       }
                     : sourceCaret
             ),
-            this.listed,
-            this.archived,
-            this.persisted,
-            this.gallery,
-            cloneFlags(this.flags)
-        );
+        });
     }
 
     withoutSource(source: Source) {
-        return new Project(
-            this.id,
-            this.name,
-            this.main,
-            this.supplements.filter((s) => s !== source),
-            this.locales,
-            this.owner,
-            this.collaborators,
-            this.public,
-            this.carets.filter((c) => c.source !== source),
-            this.listed,
-            this.archived,
-            this.persisted,
-            this.gallery,
-            cloneFlags(this.flags)
-        );
+        return new Project({
+            ...this.data,
+            supplements: this.data.supplements.filter((s) => s !== source),
+            carets: this.data.carets.filter((c) => c.source !== source),
+        });
     }
 
     withSources(replacements: [Source, Source][]) {
         const mainReplacement = replacements.find(
-            (replacement) => replacement[0] === this.main
+            (replacement) => replacement[0] === this.getMain()
         );
-        const newMain = mainReplacement ? mainReplacement[1] : this.main;
-        const newSupplements = this.supplements.map((supplement) => {
+        const newMain = mainReplacement ? mainReplacement[1] : this.getMain();
+        const newSupplements = this.data.supplements.map((supplement) => {
             const supplementReplacement = replacements.find(
                 (replacement) => replacement[0] === supplement
             );
@@ -680,30 +580,23 @@ export default class Project {
                 ? supplementReplacement[1]
                 : supplement;
         });
-        return new Project(
-            this.id,
-            this.name,
-            newMain,
-            newSupplements,
-            this.locales,
-            this.owner,
-            this.collaborators,
-            this.public,
-            this.carets.map((caret) => {
-                // See if the caret's source was replaced.
-                const replacement = replacements.find(
-                    ([original]) => original === caret.source
-                );
-                return replacement !== undefined
-                    ? { source: replacement[1], caret: caret.caret }
-                    : caret;
-            }),
-            this.listed,
-            this.archived,
-            this.persisted,
-            this.gallery,
-            cloneFlags(this.flags)
-        );
+
+        const newCarets = this.data.carets.map((caret) => {
+            // See if the caret's source was replaced.
+            const replacement = replacements.find(
+                ([original]) => original === caret.source
+            );
+            return replacement !== undefined
+                ? { source: replacement[1], caret: caret.caret }
+                : caret;
+        });
+
+        return new Project({
+            ...this.data,
+            main: newMain,
+            supplements: newSupplements,
+            carets: newCarets,
+        });
     }
 
     withRevisedNodes(nodes: [Node, Node | undefined][]) {
@@ -757,110 +650,63 @@ export default class Project {
 
     withNewSource(name: string) {
         const newSource = new Source(name, '');
-        return new Project(
-            this.id,
-            this.name,
-            this.main,
-            [...this.supplements, newSource],
-            this.locales,
-            this.owner,
-            this.collaborators,
-            this.public,
-            [...this.carets, { source: newSource, caret: 0 }],
-            this.listed,
-            this.archived,
-            this.persisted,
-            this.gallery,
-            cloneFlags(this.flags)
-        );
+        return new Project({
+            ...this.data,
+            supplements: [...this.data.supplements, newSource],
+            carets: [...this.data.carets, { source: newSource, caret: 0 }],
+        });
+    }
+
+    hasOwner() {
+        return this.data.owner !== null;
+    }
+
+    getOwner() {
+        return this.data.owner;
     }
 
     withOwner(owner: string) {
-        return new Project(
-            this.id,
-            this.name,
-            this.main,
-            this.supplements,
-            this.locales,
-            owner,
-            this.collaborators,
-            this.public,
-            this.carets,
-            this.listed,
-            this.archived,
-            this.persisted,
-            this.gallery,
-            cloneFlags(this.flags)
-        );
+        return new Project({ ...this.data, owner });
+    }
+
+    getCollaborators() {
+        return [...this.data.collaborators];
     }
 
     hasCollaborator(uid: string) {
-        return this.collaborators.includes(uid);
-    }
-
-    withCollaborator(uid: string) {
-        return this.collaborators.some((user) => user === uid)
-            ? this
-            : new Project(
-                  this.id,
-                  this.name,
-                  this.main,
-                  this.supplements,
-                  this.locales,
-                  this.owner,
-                  [...this.collaborators, uid],
-                  this.public,
-                  this.carets,
-                  this.listed,
-                  this.archived,
-                  this.persisted,
-                  this.gallery,
-                  cloneFlags(this.flags)
-              );
-    }
-
-    withoutCollaborator(uid: string) {
-        return !this.collaborators.some((user) => user === uid)
-            ? this
-            : new Project(
-                  this.id,
-                  this.name,
-                  this.main,
-                  this.supplements,
-                  this.locales,
-                  this.owner,
-                  this.collaborators.filter((id) => id !== uid),
-                  this.public,
-                  this.carets,
-                  this.listed,
-                  this.archived,
-                  this.persisted,
-                  this.gallery,
-                  cloneFlags(this.flags)
-              );
-    }
-
-    asPublic(pub = true) {
-        return new Project(
-            this.id,
-            this.name,
-            this.main,
-            this.supplements,
-            this.locales,
-            this.owner,
-            this.collaborators,
-            pub,
-            this.carets,
-            this.listed,
-            this.archived,
-            this.persisted,
-            this.gallery,
-            cloneFlags(this.flags)
-        );
+        return this.data.collaborators.includes(uid);
     }
 
     isReadOnly(uid: string) {
-        return !this.collaborators.includes(uid);
+        return !this.data.collaborators.includes(uid);
+    }
+
+    withCollaborator(uid: string) {
+        return this.data.collaborators.some((user) => user === uid)
+            ? this
+            : new Project({
+                  ...this.data,
+                  collaborators: [...this.data.collaborators, uid],
+              });
+    }
+
+    withoutCollaborator(uid: string) {
+        return !this.data.collaborators.some((user) => user === uid)
+            ? this
+            : new Project({
+                  ...this.data,
+                  collaborators: this.data.collaborators.filter(
+                      (id) => id !== uid
+                  ),
+              });
+    }
+
+    isPublic() {
+        return this.data.public;
+    }
+
+    asPublic(pub = true) {
+        return new Project({ ...this.data, public: pub });
     }
 
     getBindReplacements(
@@ -900,7 +746,7 @@ export default class Project {
     }
 
     getOutput() {
-        const evaluates = this.main
+        const evaluates = this.getMain()
             .nodes()
             .filter((node): node is Evaluate => node instanceof Evaluate);
         return [
@@ -926,7 +772,7 @@ export default class Project {
     }
 
     getCaretPosition(source: Source): CaretPosition | undefined {
-        const position: SerializedCaret | undefined = this.carets.find(
+        const position: SerializedCaret | undefined = this.data.carets.find(
             (c) => c.source === source
         )?.caret;
 
@@ -958,25 +804,25 @@ export default class Project {
             new Set([...dependentLocales, ...localesDB.getLocales()])
         );
 
-        return new Project(
-            project.id,
-            project.name,
-            sources[0],
-            sources.slice(1),
+        return new Project({
+            id: project.id,
+            name: project.name,
+            main: sources[0],
+            supplements: sources.slice(1),
             locales,
-            project.owner,
-            project.collaborators,
-            project.public,
-            project.sources.map((s, index) => {
+            owner: project.owner,
+            collaborators: project.collaborators,
+            public: project.public,
+            carets: project.sources.map((s, index) => {
                 return { source: sources[index], caret: s.caret };
             }),
-            project.listed,
-            project.archived,
-            project.persisted,
-            project.gallery,
-            cloneFlags(project.flags),
-            project.timestamp
-        );
+            listed: project.listed,
+            archived: project.archived,
+            persisted: project.persisted,
+            gallery: project.gallery,
+            flags: { ...project.flags },
+            timestamp: project.timestamp,
+        });
     }
 
     getLanguagesUsed(): LanguageCode[] {
@@ -989,127 +835,83 @@ export default class Project {
         );
 
         return Array.from(
-            new Set([...this.locales.map((l) => l.language), ...used])
+            new Set([...this.data.locales.map((l) => l.language), ...used])
         );
     }
 
     isListed() {
-        return this.listed;
+        return this.data.listed;
     }
 
     isArchived() {
-        return this.archived;
+        return this.data.archived;
     }
 
     asArchived(archived: boolean) {
-        return new Project(
-            this.id,
-            this.name,
-            this.main,
-            this.supplements,
-            this.locales,
-            this.owner,
-            this.collaborators,
-            this.public,
-            this.carets,
-            this.listed,
-            this.persisted,
-            archived,
-            this.gallery,
-            cloneFlags(this.flags)
-        );
+        return new Project({ ...this.data, archived });
     }
 
     asPersisted() {
-        return new Project(
-            this.id,
-            this.name,
-            this.main,
-            this.supplements,
-            this.locales,
-            this.owner,
-            this.collaborators,
-            this.public,
-            this.carets,
-            this.listed,
-            this.persisted,
-            true,
-            this.gallery,
-            cloneFlags(this.flags)
-        );
+        return new Project({ ...this.data, persisted: true });
+    }
+
+    isPersisted() {
+        return this.data.persisted;
+    }
+
+    getGallery() {
+        return this.data.gallery;
     }
 
     withGallery(id: string | null) {
-        return new Project(
-            this.id,
-            this.name,
-            this.main,
-            this.supplements,
-            this.locales,
-            this.owner,
-            this.collaborators,
-            this.public,
-            this.carets,
-            this.listed,
-            this.archived,
-            this.persisted,
-            id,
-            cloneFlags(this.flags)
-        );
+        return new Project({ ...this.data, gallery: id });
+    }
+
+    getFlags() {
+        return { ...this.data.flags };
     }
 
     withFlags(flags: Moderation) {
-        return new Project(
-            this.id,
-            this.name,
-            this.main,
-            this.supplements,
-            this.locales,
-            this.owner,
-            this.collaborators,
-            this.public,
-            this.carets,
-            this.listed,
-            this.archived,
-            this.persisted,
-            this.gallery,
-            cloneFlags(flags)
-        );
+        return new Project({ ...this.data, flags: { ...flags } });
+    }
+
+    getTimestamp() {
+        return this.data.timestamp;
     }
 
     serialize(): SerializedProject {
         return {
-            id: this.id,
-            name: this.name,
+            id: this.getID(),
+            name: this.getName(),
             sources: this.getSources().map((source) => {
                 return {
                     names: source.names.toWordplay(),
                     code: source.code.toString(),
                     caret:
-                        this.carets.find((c) => c.source === source)?.caret ??
-                        0,
+                        this.data.carets.find((c) => c.source === source)
+                            ?.caret ?? 0,
                 };
             }),
-            locales: this.locales.map((l) => toLocaleString(l)),
-            owner: this.owner,
-            collaborators: this.collaborators,
-            listed: this.listed,
-            public: this.public,
-            archived: this.archived,
-            persisted: this.persisted,
-            timestamp: this.timestamp,
-            gallery: this.gallery,
-            flags: cloneFlags(this.flags),
+            locales: this.getLocales().map((l) => toLocaleString(l)),
+            owner: this.data.owner,
+            collaborators: this.data.collaborators,
+            listed: this.isListed(),
+            public: this.data.public,
+            archived: this.isArchived(),
+            persisted: this.isPersisted(),
+            timestamp: this.data.timestamp,
+            gallery: this.data.gallery,
+            flags: { ...this.data.flags },
         };
     }
 
     isTutorial() {
-        return this.id.startsWith('tutorial-');
+        return this.getID().startsWith('tutorial-');
     }
 
     toWordplay() {
         return (
-            `${this.name}\n` +
+            `${this.getName()}\n` +
             this.getSources()
                 .map(
                     (source) =>

@@ -126,7 +126,7 @@
     $: if (project) restoredPosition = undefined;
     // When the project is undone or redone, if we haven't restored the position, restore it, then remember the restored position.
     $: if (
-        Projects.getHistory(project.id)?.wasRestored() &&
+        Projects.getHistory(project.getID())?.wasRestored() &&
         restoredPosition === undefined
     ) {
         const position = project.getCaretPosition(source);
@@ -1445,7 +1445,7 @@
     {#if source.isEmpty() && showHelp}
         <EditorHelp />
     {/if}
-    {#if project.supplements.length > 0}
+    {#if project.getSupplements().length > 0}
         <div class="output-preview-container">
             <Button
                 tip={$locale.ui.source.button.selectOutput}

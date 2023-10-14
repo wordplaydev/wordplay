@@ -306,7 +306,7 @@ export function addSoloPhrase(db: Database, project: Project) {
     if (phrase) return;
 
     // If there's not, find the last non-bind value of the program.
-    const block = project.main.expression.expression;
+    const block = project.getMain().expression.expression;
     const statements = block.statements.filter(
         (node) => !(node instanceof Bind)
     );
@@ -367,7 +367,7 @@ export function addStage(
     ]);
 
     // Find the block to insert
-    const block = project.main.expression.expression;
+    const block = project.getMain().expression.expression;
 
     // Replace the phrase with the group.
     db.Projects.reviseProject(

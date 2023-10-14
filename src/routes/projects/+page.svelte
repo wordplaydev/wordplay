@@ -74,7 +74,7 @@
                 prompt: $locale.ui.page.projects.confirm.archive.prompt,
                 description:
                     $locale.ui.page.projects.confirm.archive.description,
-                action: () => Projects.archiveProject(project.id, true),
+                action: () => Projects.archiveProject(project.getID(), true),
                 label: '🗑️',
             };
         }}
@@ -93,11 +93,12 @@
             set={$archivedProjects}
             edit={{
                 description: $locale.ui.page.projects.button.unarchive,
-                action: (project) => Projects.archiveProject(project.id, false),
+                action: (project) =>
+                    Projects.archiveProject(project.getID(), false),
                 label: '↑🗑️',
             }}
             remove={(project) =>
-                $user && project.owner === $user.uid
+                $user && project.getOwner() === $user.uid
                     ? {
                           prompt: $locale.ui.page.projects.confirm.delete
                               .prompt,
@@ -107,7 +108,7 @@
                           action: () => {
                               deleteError = false;
                               try {
-                                  Projects.deleteProject(project.id);
+                                  Projects.deleteProject(project.getID());
                               } catch (error) {
                                   deleteError = true;
                                   console.error(error);

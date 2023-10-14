@@ -30,7 +30,7 @@ test.each([...projects])(
         const project = await Project.deserializeProject(Locales, example);
         project.analyze();
         project.getAnalysis();
-        const context = project.getContext(project.main);
+        const context = project.getContext(project.getMain());
         for (const conflict of Array.from(
             project.getPrimaryConflicts().values()
         ).flat()) {

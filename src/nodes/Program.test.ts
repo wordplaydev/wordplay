@@ -15,7 +15,7 @@ test.each([
 ])(
     'Expect program value',
     (code: string[], valueType: new (...params: never[]) => Value) => {
-        const project = new Project(
+        const project = Project.make(
             null,
             'test',
             new Source('test', code[0]),

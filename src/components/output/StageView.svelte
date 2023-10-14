@@ -286,7 +286,7 @@
     <section
         class="output stage {interactive && !editing
             ? 'live'
-            : 'inert'} {project.main.names.getNames()[0]}"
+            : 'inert'} {project.getMain().names.getNames()[0]}"
         class:interactive
         class:changed
         class:editing={$evaluation?.playing === false && !painting}

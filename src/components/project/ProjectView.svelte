@@ -415,7 +415,7 @@
     }
 
     function initializedLayout() {
-        const persistedLayout = Settings.getProjectLayout(project.id);
+        const persistedLayout = Settings.getProjectLayout(project.getID());
         return persistedLayout === null
             ? null
             : persistedLayout.withTiles(syncTiles(persistedLayout.tiles));
@@ -425,11 +425,11 @@
     let layout: Layout;
     $: {
         layout =
-            (!layoutInitialized || layout.projectID !== project.id
+            (!layoutInitialized || layout.projectID !== project.getID()
                 ? initializedLayout()
                 : null) ??
             new Layout(
-                project.id,
+                project.getID(),
                 layout
                     ? syncTiles(layout.tiles)
                     : // Create a layout in reading order.
@@ -483,7 +483,7 @@
     }
 
     /** Persist the layout when it changes */
-    $: Settings.setProjectLayout(project.id, layout);
+    $: Settings.setProjectLayout(project.getID(), layout);
 
     /** When the layout or path changes, add or remove query params based on state */
     $: {
@@ -607,7 +607,7 @@
         // Ensure the selected source index is in bounds.
         selectedSourceIndex = Math.min(
             selectedSourceIndex,
-            project.supplements.length
+            project.getSupplements().length
         );
     }
 
@@ -1119,11 +1119,11 @@
 
     function addSource() {
         const newProject = project.withNewSource(
-            `${$locale.term.source}${project.supplements.length + 1}`
+            `${$locale.term.source}${project.getSupplements().length + 1}`
         );
 
         // Remember this new source so when we compute the new layout, we can remember to expand it initially.
-        newSource = newProject.supplements.at(-1);
+        newSource = newProject.getSupplements().at(-1);
 
         // This will propogate back to a new project here, updating the UI.
         Projects.reviseProject(newProject);
@@ -1162,7 +1162,7 @@
     }
 </script>
 
-<svelte:head><title>Wordplay - {project.name}</title></svelte:head>
+<svelte:head><title>Wordplay - {project.getName()}</title></svelte:head>
 
 <svelte:window
     on:keydown={handleKey}
@@ -1241,7 +1241,7 @@
                                 {#if tile.isSource()}
                                     {@const source = getSourceByID(tile.id)}
                                     <!-- Can't delete main. -->
-                                    {#if editable && source !== project.main}
+                                    {#if editable && source !== project.getMain()}
                                         <ConfirmButton
                                             tip={$locale.ui.source.confirm
                                                 .delete.description}
@@ -1323,7 +1323,7 @@
                                             autofocus={autofocus &&
                                                 tile.isExpanded() &&
                                                 getSourceByID(tile.id) ===
-                                                    project.main}
+                                                    project.getMain()}
                                             {showHelp}
                                             bind:menu
                                             on:conflicts={(event) =>
@@ -1374,8 +1374,9 @@
                 <Button tip={$locale.ui.project.button.duplicate} action={copy}
                     ><span class="copy">✐+</span></Button
                 >
-                {#if project.owner}
-                    {#await Creators.getCreator(project.owner)}
+                {@const owner = project.getOwner()}
+                {#if owner}
+                    {#await Creators.getCreator(owner)}
                         <Spinning label="" />
                     {:then creator}
                         <CreatorView {creator} />
@@ -1387,7 +1388,7 @@
                     action={() =>
                         (showCollaboratorsDialog = !showCollaboratorsDialog)}
                     ><Warning>
-                        {#if project.public}{#if isFlagged(project.flags)}‼️{:else}🌐{/if}
+                        {#if project.isPublic()}{#if isFlagged(project.getFlags())}‼️{:else}🌐{/if}
                             {$locale.ui.dialog.share.mode.public
                                 .modes[1]}{:else}🤫 {$locale.ui.dialog.share
                                 .mode.public.modes[0]}{/if}</Warning
@@ -1400,12 +1401,12 @@
             {/if}
 
             {#if editable}<TextField
-                    text={project.name}
+                    text={project.getName()}
                     description={$locale.ui.project.field.name.description}
                     placeholder={$locale.ui.project.field.name.placeholder}
                     changed={(name) =>
                         Projects.reviseProject(project.withName(name))}
-                />{:else}{project.name}{/if}
+                />{:else}{project.getName()}{/if}
             {#each layout.getNonSources() as tile}
                 <NonSourceTileToggle
                     {tile}

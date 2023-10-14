@@ -27,8 +27,8 @@
 
     <CreatorList
         anonymize={false}
-        uids={project.collaborators}
-        editable={$user !== null && project.owner === $user.uid}
+        uids={project.getCollaborators()}
+        editable={$user !== null && project.getOwner() === $user.uid}
         add={(userID) =>
             Projects.reviseProject(project.withCollaborator(userID))}
         remove={(userID) =>
@@ -43,7 +43,7 @@
 
     <Options
         id="gallerychooser"
-        value={project.gallery ?? undefined}
+        value={project.getGallery() ?? undefined}
         options={[
             { value: undefined, label: '—' },
             ...Array.from($creatorGalleries.values()).map((gallery) => {
@@ -61,8 +61,8 @@
     />
 
     <Public
-        isPublic={project.public}
+        isPublic={project.isPublic()}
         set={(choice) => Projects.reviseProject(project.asPublic(choice === 1))}
-        flags={project.flags}
+        flags={project.getFlags()}
     />
 </Dialog>

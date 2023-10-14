@@ -33,7 +33,7 @@
 </script>
 
 <div class="projects">
-    {#each sortProjects(set).filter((p) => p.listed) as project (project.id)}
+    {#each sortProjects(set).filter( (p) => p.isListed() ) as project (project.getID())}
         {@const removeMeta = remove(project)}
         <ProjectPreview
             {project}

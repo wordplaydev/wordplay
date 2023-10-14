@@ -51,7 +51,7 @@ export class ProjectHistory {
     private overwrite = false;
 
     constructor(project: Project, persist: PersistenceType, saved: boolean) {
-        this.id = project.id;
+        this.id = project.getID();
         this.current = writable(project);
         this.history.push(project);
         this.index = 0;

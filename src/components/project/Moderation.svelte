@@ -18,9 +18,9 @@
 
     /** See if this is a public project being viewed by someone who isn't a creator or collaborator */
     $: audience = isAudience($user, project);
-    $: warnings = getWarnings(project.flags, $locale);
-    $: blocks = getBlocks(project.flags, $locale);
-    $: unmoderated = getUnmoderated(project.flags, $locale);
+    $: warnings = getWarnings(project.getFlags(), $locale);
+    $: blocks = getBlocks(project.getFlags(), $locale);
+    $: unmoderated = getUnmoderated(project.getFlags(), $locale);
 </script>
 
 <!-- If this is an audience member and one of the flags are active -->

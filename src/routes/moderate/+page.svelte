@@ -24,7 +24,6 @@
     import { firestore } from '../../db/firebase';
     import {
         Flags,
-        cloneFlags,
         getFlagDescription,
         isModerator,
         withFlag,
@@ -93,7 +92,7 @@
                 snap.data() as SerializedProject
             )
         )[0];
-        if (project) newFlags = cloneFlags(project.flags);
+        if (project) newFlags = project.getFlags();
     }
 
     function save() {
@@ -130,7 +129,7 @@
                 <MarkupHtmlView
                     markup={$locale.moderation.moderate.explanation}
                 />
-                {#each Object.entries(project.flags) as [flag, state]}
+                {#each Object.entries(project.getFlags()) as [flag, state]}
                     <div class="flag">
                         <Checkbox
                             on={state === null ? undefined : state}

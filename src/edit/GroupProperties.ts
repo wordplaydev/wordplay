@@ -20,7 +20,7 @@ export default function getGroupProperties(
                     .filter((type) =>
                         type.implements(
                             project.shares.output.Arrangement,
-                            project.getContext(project.main)
+                            project.getContext(project.getMain())
                         )
                     )
                     .map((type) => `${type.names.getNames()[0]}`),

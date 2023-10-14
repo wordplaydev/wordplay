@@ -63,7 +63,7 @@
                                 project = proj;
                                 overwritten =
                                     Projects.getHistory(
-                                        proj.id
+                                        proj.getID()
                                     )?.wasOverwritten() ?? false;
                             });
                         }
@@ -77,16 +77,17 @@
 </script>
 
 <svelte:head>
-    <title>{project ? project.name : '…'}</title>
+    <title>{project ? project.getName() : '…'}</title>
 </svelte:head>
 
 {#if project}
     <Page
-        fullscreen={Settings.getProjectLayout(project.id)?.isFullscreen() ??
-            false}
+        fullscreen={Settings.getProjectLayout(
+            project.getID()
+        )?.isFullscreen() ?? false}
     >
         <!-- When the project ID changes, create a new project. -->
-        {#key project.id}
+        {#key project.getID()}
             <ProjectView {project} {editable} {overwritten} />
         {/key}
     </Page>

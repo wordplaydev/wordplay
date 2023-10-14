@@ -272,7 +272,7 @@ export default class Evaluator {
         supplements?: string[]
     ): Value | undefined {
         const source = new Source('test', main);
-        const project = new Project(
+        const project = Project.make(
             null,
             'test',
             source,
@@ -374,7 +374,7 @@ export default class Evaluator {
     // GETTERS
 
     getMain(): Source {
-        return this.project.main;
+        return this.project.getMain();
     }
 
     getMode(): Mode {
@@ -413,7 +413,7 @@ export default class Evaluator {
     getCurrentContext() {
         return (
             this.getCurrentEvaluation()?.getContext() ??
-            new Context(this.project, this.project.main)
+            new Context(this.project, this.project.getMain())
         );
     }
 
@@ -454,7 +454,7 @@ export default class Evaluator {
             else {
                 const context =
                     this.project.getNodeContext(expression) ??
-                    new Context(this.project, this.project.main);
+                    new Context(this.project, this.project.getMain());
                 steps = expression.compile(this, context);
             }
             this.steps.set(evaluation, steps);
@@ -643,7 +643,7 @@ export default class Evaluator {
         this.setMode(Mode.Play);
         this.start();
         this.pause();
-        return this.getLatestSourceValue(this.project.main);
+        return this.getLatestSourceValue(this.project.getMain());
     }
 
     /** Evaluate until we're done */
@@ -842,19 +842,22 @@ export default class Evaluator {
             this.evaluations.length > MAX_CALL_STACK_DEPTH
                 ? new EvaluationLimitException(
                       this,
-                      this.project.main.expression,
+                      this.project.getMain().expression,
                       this.evaluations.map((e) => e.getDefinition())
                   )
                 : // If it seems like we're evaluating something very time consuming, halt.
                 this.#totalStepCount > MAX_STEP_COUNT
-                ? new StepLimitException(this, this.project.main.expression)
+                ? new StepLimitException(
+                      this,
+                      this.project.getMain().expression
+                  )
                 : // Otherwise, step the current evaluation and get it's value
                   evaluation.step(this);
 
         // If it's an exception on main, halt execution by returning the exception value.
         if (
             value instanceof ExceptionValue &&
-            this.evaluations[0].getSource() === this.project.main
+            this.evaluations[0].getSource() === this.project.getMain()
         )
             this.end(value);
         // If it's another kind of value, pop the evaluation off the stack and add the value to the
