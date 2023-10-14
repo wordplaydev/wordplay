@@ -94,7 +94,7 @@
             edit={{
                 description: $locale.ui.page.projects.button.unarchive,
                 action: (project) => Projects.archiveProject(project.id, false),
-                label: '👆🏻',
+                label: '↑🗑️',
             }}
             remove={(project) =>
                 $user && project.owner === $user.uid

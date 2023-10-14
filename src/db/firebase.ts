@@ -37,11 +37,13 @@ if (typeof process === 'undefined') {
             measurementId: PUBLIC_FIREBASE_MEASUREMENT_ID,
         };
 
+        const uninitialized = getApps().length === 0;
+
         // Initialize Firebase
-        const app =
-            getApps().length === 0 ? initializeApp(firebaseConfig) : getApp();
+        const app = uninitialized ? initializeApp(firebaseConfig) : getApp();
 
         auth = getAuth(app);
+
         firestore = getFirestore(app);
         functions = getFunctions(app);
         analytics = getAnalytics(app);
@@ -53,8 +55,8 @@ if (typeof process === 'undefined') {
             connectFunctionsEmulator(functions, 'localhost', 5001);
         }
     } catch (err) {
-        console.log('*** NO ACCESS TO FIREBASE ***');
-        console.log(err);
+        console.error('*** NO ACCESS TO FIREBASE ***');
+        console.error(err);
     }
 }
 

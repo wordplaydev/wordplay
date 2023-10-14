@@ -42,20 +42,19 @@
                 goto(getProjectLink(project, true));
             }}
             delay={Math.random() * set.length * 50}
-            >{#if removeMeta}<div class="controls">
-                    {#if edit}<Button
-                            tip={edit.description}
-                            action={() =>
-                                edit ? edit.action(project) : undefined}
-                            >{edit.label}</Button
-                        >{/if}<ConfirmButton
+            ><div class="controls">
+                {#if edit}<Button
+                        tip={edit.description}
+                        action={() => (edit ? edit.action(project) : undefined)}
+                        >{edit.label}</Button
+                    >{/if}{#if removeMeta}<ConfirmButton
                         prompt={removeMeta.prompt}
                         tip={removeMeta.description}
                         action={() =>
                             removeMeta ? removeMeta.action() : undefined}
                         >{removeMeta.label}</ConfirmButton
-                    ></div
-                >{/if}<slot /></ProjectPreview
+                    >{/if}</div
+            ><slot /></ProjectPreview
         >
     {/each}
 </div>

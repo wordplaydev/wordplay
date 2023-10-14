@@ -175,25 +175,27 @@ export default class ProjectsDatabase {
                 const serialized: SerializedProject[] = [];
                 const deleted: string[] = [];
                 const projectIDs: Set<string> = new Set();
-                snapshot.docChanges().forEach((change) => {
-                    const project = change.doc.data() as SerializedProject;
+
+                // First, go through the entire set, gathering the latest versions and remembering what project IDs we know
+                // so we can delete ones that are gone from the server.
+                snapshot.forEach((doc) => {
+                    const project = doc.data() as SerializedProject;
+                    serialized.push(project);
                     projectIDs.add(project.id);
+                });
+
+                // Next, go through the changes and see if any were explicitly removed, and if so, delete them.
+                snapshot.docChanges().forEach((change) => {
                     // Removed? Delete the local cache of the project.
-                    if (change.type === 'removed') {
-                        deleted.push(project.id);
-                    }
-                    // Add the project to the list of projects to track.
-                    else {
-                        serialized.push(project);
-                    }
+                    if (change.type === 'removed') deleted.push(change.doc.id);
                 });
 
                 // Deserialize the projects and track them, if they're not already tracked
                 for (const project of await this.deserializeAll(serialized))
                     this.track(project, true, PersistenceType.Online, true);
 
-                // Find all projects known locally that didn't appear in the query
-                // and were previously persisted.
+                // Find all projects 1) known locally, 2) that didn't appear in latest update
+                // 3) were previously marked as cloud persisted, and 4) aren't pending
                 for (const [
                     projectID,
                     history,
@@ -204,8 +206,9 @@ export default class ProjectsDatabase {
                     )
                         deleted.push(projectID);
 
-                // Delete the deleted
-                for (const id of deleted) await this.deleteLocalProject(id);
+                // Delete the deleted if the data was from the server.
+                if (!snapshot.metadata.fromCache)
+                    for (const id of deleted) await this.deleteLocalProject(id);
 
                 // Refresh stores after everything is added and deleted.
                 this.refreshEditableProjects();
@@ -239,7 +242,6 @@ export default class ProjectsDatabase {
     ): ProjectHistory | undefined {
         if (editable) {
             // If we're not tracking this yet, create a history and store the version given.
-            // If persisted, request a save.
             let history = this.projectHistories.get(project.id);
             if (history === undefined) {
                 history = new ProjectHistory(project, persist, saved);
@@ -247,9 +249,6 @@ export default class ProjectsDatabase {
 
                 // Update the editable projects
                 this.refreshEditableProjects();
-
-                // Defer a save.
-                // if (persist === PersistenceType.Online) this.saveSoon();
 
                 // Return the history
                 return history;
