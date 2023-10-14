@@ -27,7 +27,7 @@
             const result = action();
             if (result instanceof Promise) {
                 loading = true;
-                result.then(() => (loading = false));
+                result.finally(() => (loading = false));
             }
             event?.stopPropagation();
         }
