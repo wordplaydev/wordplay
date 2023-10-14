@@ -122,9 +122,15 @@ export default class Evaluator {
      * can have multiple streams associated with it.
      */
     #inputs: (null | {
+        /** The index of the source from which the stream originated */
+        source: number;
+        /** The path to the node in the source */
         path: Path;
+        /** The count of the stream created */
         number: number;
+        /** Exactly when the input occurred */
         stepIndex: number;
+        /** The raw data of the event */
         raw: unknown;
         silent: boolean;
     })[] = [];
@@ -308,7 +314,10 @@ export default class Evaluator {
                 // See if we can find the corresponding stream.
                 else {
                     // Resolve the node from the path.
-                    const evaluate = this.project.resolvePath(input.path);
+                    const evaluate = this.project.resolvePath(
+                        input.source,
+                        input.path
+                    );
 
                     // Couldn't find the node, or it's not an evaluate? Stop here.
                     if (evaluate === undefined) {
@@ -1230,7 +1239,11 @@ export default class Evaluator {
                         "Warning: Couldn't find the stream associated with an evaluate."
                     );
                 else {
+                    const source = this.project
+                        .getSources()
+                        .findIndex((source) => source.root === root);
                     this.#inputs.push({
+                        source,
                         path: root.getPath(evaluate),
                         number,
                         stepIndex: this.#stepIndex,

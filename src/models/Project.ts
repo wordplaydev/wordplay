@@ -226,14 +226,10 @@ export default class Project {
     }
 
     /** Given a path, try to resolve a corresponding node in one of the sources. */
-    resolvePath(path: Path) {
-        // Resolve the node from the path.
-        let evaluate: Node | undefined = undefined;
-        for (const root of this.roots) {
-            evaluate = root.resolvePath(path);
-            if (evaluate !== undefined) break;
-        }
-        return evaluate;
+    resolvePath(sourceNumber: number, path: Path) {
+        const source = this.getSources()[sourceNumber];
+        if (source === undefined) return undefined;
+        else return source.root.resolvePath(path);
     }
 
     /** True if one of the project's contains the given node. */
