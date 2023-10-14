@@ -215,7 +215,7 @@
     on:pointerdown|stopPropagation|preventDefault={() => nextButton?.focus()}
 >
     <div class="header">
-        <Header>Learn</Header>
+        <Header block={false}>Learn</Header>
         <nav>
             <Button
                 tip={$locale.ui.page.learn.button.previous}

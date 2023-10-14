@@ -12,7 +12,7 @@
     .writing {
         padding-inline-start: 20%;
         width: 80%;
-        max-width: 60em;
+        max-width: 50em;
         text-align: start;
         margin-block-start: 4em;
         margin-block-end: 4em;
