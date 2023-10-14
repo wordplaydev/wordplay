@@ -171,8 +171,15 @@ export default class Layout {
         return this.replace(tile, tile.withMode(mode));
     }
 
+    /** Set the fullscreen tile to the given tile ID and ensure that it's expanded. */
     withFullscreen(tileID: string) {
-        return new Layout(this.projectID, this.tiles, tileID);
+        return new Layout(
+            this.projectID,
+            this.tiles.map((tile) =>
+                tile.id === tileID ? tile.withMode(Mode.Expanded) : tile
+            ),
+            tileID
+        );
     }
 
     withoutFullscreen() {

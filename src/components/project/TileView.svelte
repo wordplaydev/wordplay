@@ -247,7 +247,7 @@
                 <Button
                     tip={$locale.ui.tile.button.collapse}
                     action={() => dispatch('mode', { mode: Mode.Collapsed })}
-                    active={!layout.isFullscreen()}>⨉</Button
+                    active={!layout.isFullscreen()}>–</Button
                 >
             </div>
         </div>

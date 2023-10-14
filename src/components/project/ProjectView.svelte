@@ -124,7 +124,7 @@
     export let original: Project | undefined = undefined;
     /** If false, then all things editable are deactivated */
     export let editable = true;
-    /** If set to false, only the output is shown initially. */
+    /** If true, only the output is shown initially. */
     export let playing = false;
     /** True if the output should be fit to content */
     export let fit = true;
@@ -358,7 +358,17 @@
         // If we don't find it, remove the tile.
         for (const tile of tiles) {
             if (tile.kind !== TileKind.Source) {
-                newTiles.push(tile);
+                newTiles.push(
+                    // Playing? Expand output, collapse everything else
+                    playing
+                        ? tile.withMode(
+                              tile.kind === TileKind.Output
+                                  ? Mode.Expanded
+                                  : Mode.Collapsed
+                          )
+                        : // Not playing? Whatever it's current mode is.
+                          tile
+                );
             } else {
                 const source = project
                     .getSources()
