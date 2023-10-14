@@ -1167,6 +1167,7 @@
 <main class="project" bind:this={view}>
     <div
         class="canvas"
+        class:free={$arrangement === Arrangement.Free}
         on:pointerdown|stopImmediatePropagation|stopPropagation={handlePointerDown}
         on:pointerup={handlePointerUp}
         on:pointermove={handlePointerMove}
@@ -1494,6 +1495,10 @@
 
     .canvas {
         flex: 1;
+    }
+
+    /** If in free layout mode, allow scrolling of content */
+    .canvas.free {
         overflow: auto;
     }
 
