@@ -3,6 +3,8 @@
     export let changed: undefined | ((value: boolean | undefined) => void) =
         undefined;
     export let editable = true;
+    /** Mandatory id for label */
+    export let id: string | null;
 
     function handleInput() {
         if (changed) changed(on);
@@ -11,6 +13,7 @@
 
 <input
     type="checkbox"
+    {id}
     disabled={!editable}
     bind:checked={on}
     on:change={handleInput}
@@ -25,11 +28,6 @@
         min-width: 1rem;
         min-height: 1rem;
         cursor: pointer;
-    }
-
-    input:focus {
-        outline: none;
-        border-color: var(--wordplay-highlight-color);
     }
 
     [type='checkbox']:checked {

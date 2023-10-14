@@ -28,4 +28,9 @@
     }
 </script>
 
-<Checkbox on={values.getBool()} changed={handleChange} {editable} />
+<Checkbox
+    on={values.getBool()}
+    changed={handleChange}
+    {editable}
+    id={property.getName()}
+/>

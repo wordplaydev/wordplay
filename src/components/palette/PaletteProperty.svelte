@@ -169,6 +169,7 @@
         align-items: baseline;
         gap: var(--wordplay-spacing);
         row-gap: var(--wordplay-spacing);
+        user-select: none;
     }
 
     .name {

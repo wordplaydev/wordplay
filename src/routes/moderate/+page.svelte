@@ -56,6 +56,7 @@
         try {
             await nextBatch();
         } catch (_) {
+            lastBatch = undefined;
             moderator = false;
         }
     });
@@ -64,7 +65,10 @@
     setContext(ConceptPathSymbol, writable([]));
 
     async function nextBatch() {
-        if (firestore === undefined) return firestore;
+        if (firestore === undefined) {
+            lastBatch = undefined;
+            return firestore;
+        }
         const unmoderated = query(
             collection(firestore, 'projects'),
             // Construct a query for each flag to find any project that has a null flag.
@@ -133,6 +137,7 @@
                     <div class="flag">
                         <Checkbox
                             on={state === null ? undefined : state}
+                            id={flag}
                             changed={(value) =>
                                 (newFlags = withFlag(
                                     newFlags,
@@ -140,9 +145,11 @@
                                     value === true
                                 ))}
                         />
-                        <MarkupHtmlView
-                            markup={getFlagDescription(flag, $locale) ?? ''}
-                        />
+                        <label for={flag}>
+                            <MarkupHtmlView
+                                markup={getFlagDescription(flag, $locale) ?? ''}
+                            /></label
+                        >
                     </div>
                 {/each}
                 <div class="controls">
@@ -196,11 +203,12 @@
         overflow-x: hidden;
         overflow-y: auto;
     }
+
     .flag {
         display: flex;
         flex-direction: row;
         gap: var(--wordplay-spacing);
-        align-items: center;
+        align-items: normal;
         font-size: medium;
     }
 
