@@ -1200,7 +1200,7 @@
         {#key tileIDSequence}
             <!-- Are all the tiles collapsed? Show a bit of feedback suggesting navigating down. -->
             {#if layout.tiles.every((tile) => tile.isCollapsed())}
-                <div class="empty">⬇️</div>
+                <div class="empty">⬇</div>
             {:else}
                 <!-- Lay out each of the tiles according to its specification, in order if in free layout, but in layout order if not. -->
                 {#each $arrangement === Arrangement.Free ? layout.tiles : layout.getTilesInReadingOrder() as tile (tile.id)}
