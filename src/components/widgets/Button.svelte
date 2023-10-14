@@ -25,7 +25,10 @@
     async function doAction(event: Event) {
         if (active) {
             const result = action();
-            if (result instanceof Promise) loading = true;
+            if (result instanceof Promise) {
+                loading = true;
+                result.then(() => (loading = false));
+            }
             event?.stopPropagation();
         }
     }
