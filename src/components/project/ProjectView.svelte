@@ -1529,10 +1529,6 @@
         pointer-events: none;
     }
 
-    /* .drag-container :global(.token-view) {
-        color: var(--wordplay-background);
-    } */
-
     .empty {
         width: 100%;
         height: 100%;
