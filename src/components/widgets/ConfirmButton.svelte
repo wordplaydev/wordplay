@@ -1,9 +1,9 @@
 <script lang="ts">
     import { locale } from '../../db/Database';
-    import Button from './Button.svelte';
+    import Button, { type Action } from './Button.svelte';
 
     export let tip: string;
-    export let action: () => any;
+    export let action: Action;
     export let enabled = true;
     export let prompt: string;
     export let background = false;

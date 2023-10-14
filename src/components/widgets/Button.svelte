@@ -1,10 +1,15 @@
 <svelte:options immutable={true} />
 
+<script context="module" lang="ts">
+    export type ActionReturn = void | boolean | undefined;
+    export type Action = () => Promise<ActionReturn> | ActionReturn;
+</script>
+
 <script lang="ts">
     import Spinning from '../app/Spinning.svelte';
 
     export let tip: string;
-    export let action: () => any;
+    export let action: Action;
     export let active = true;
     export let stretch = false;
     export let submit = false;
