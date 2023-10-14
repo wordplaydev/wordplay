@@ -66,6 +66,3 @@
         flags={project.flags}
     />
 </Dialog>
-
-<style>
-</style>

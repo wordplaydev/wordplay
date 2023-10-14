@@ -3,7 +3,7 @@
     import Button from './Button.svelte';
 
     export let tip: string;
-    export let action: () => void;
+    export let action: () => any;
     export let enabled = true;
     export let prompt: string;
     export let background = false;

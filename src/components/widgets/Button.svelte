@@ -1,8 +1,10 @@
 <svelte:options immutable={true} />
 
 <script lang="ts">
+    import Spinning from '../app/Spinning.svelte';
+
     export let tip: string;
-    export let action: () => void;
+    export let action: () => any;
     export let active = true;
     export let stretch = false;
     export let submit = false;
@@ -13,9 +15,12 @@
     export let large = false;
     export let background = false;
 
+    let loading = false;
+
     async function doAction(event: Event) {
         if (active) {
-            action();
+            const result = action();
+            if (result instanceof Promise) loading = true;
             event?.stopPropagation();
         }
     }
@@ -36,19 +41,22 @@
     aria-disabled={!active}
     bind:this={view}
     on:dblclick|stopPropagation
-    on:pointerdown={(event) =>
-        event.button === 0 && active ? doAction(event) : undefined}
-    on:keydown={(event) =>
-        (event.key === 'Enter' || event.key === ' ') &&
-        // Only activate with no modifiers down. Enter is used for other shortcuts.
-        !event.shiftKey &&
-        !event.ctrlKey &&
-        !event.altKey &&
-        !event.metaKey
-            ? doAction(event)
-            : undefined}
->
-    <slot />
+    on:pointerdown={loading
+        ? null
+        : (event) =>
+              event.button === 0 && active ? doAction(event) : undefined}
+    on:keydown={loading
+        ? null
+        : (event) =>
+              (event.key === 'Enter' || event.key === ' ') &&
+              // Only activate with no modifiers down. Enter is used for other shortcuts.
+              !event.shiftKey &&
+              !event.ctrlKey &&
+              !event.altKey &&
+              !event.metaKey
+                  ? doAction(event)
+                  : undefined}
+    >{#if loading}<Spinning />{:else}<slot />{/if}
 </button>
 
 <style>

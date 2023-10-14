@@ -1,5 +1,7 @@
 <script lang="ts">
-    export let label: string;
+    import { locale } from '@db/Database';
+
+    export let label = $locale.ui.widget.loading.message;
     export let large = false;
 </script>
 
