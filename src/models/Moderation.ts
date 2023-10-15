@@ -13,7 +13,6 @@ export enum Remedy {
 /**
  * These are the internal names that define categories of content moderation violations.
  * They're used as property names in moderation state in projects and galleries.
- * T
  */
 export const Flags = {
     /** Content that treats any individual or group of people as less than human */

@@ -2,7 +2,7 @@ import Dexie, { liveQuery, type Observable, type Table } from 'dexie';
 import type { SerializedProject } from '../models/Project';
 import { PersistenceType, ProjectHistory } from './ProjectHistory';
 import { writable, type Writable } from 'svelte/store';
-import Project from '../models/Project';
+import Project, { ProjectSchema } from '../models/Project';
 import type { Locale } from '../locale/Locale';
 import { SaveStatus, type Database } from './Database';
 import {
@@ -127,11 +127,11 @@ export default class ProjectsDatabase {
             );
     }
 
-    async deserializeAll(serialized: SerializedProject[]) {
+    async deserializeAll(serialized: unknown[]) {
         // Load all of the projects and their locale dependencies.
         return (
             await Promise.all(
-                serialized.map((project) => this.deserialize(project))
+                serialized.map((project) => this.parseProject(project))
             )
         ).filter((project): project is Project => project !== undefined);
     }
@@ -172,14 +172,14 @@ export default class ProjectsDatabase {
                 )
             ),
             async (snapshot) => {
-                const serialized: SerializedProject[] = [];
+                const serialized: unknown[] = [];
                 const deleted: string[] = [];
                 const projectIDs: Set<string> = new Set();
 
                 // First, go through the entire set, gathering the latest versions and remembering what project IDs we know
                 // so we can delete ones that are gone from the server.
                 snapshot.forEach((doc) => {
-                    const project = doc.data() as SerializedProject;
+                    const project = doc.data();
                     serialized.push(project);
                     projectIDs.add(project.id);
                 });
@@ -370,9 +370,7 @@ export default class ProjectsDatabase {
             try {
                 const projectDoc = await getDoc(doc(firestore, 'projects', id));
                 if (projectDoc.exists()) {
-                    const project = await this.deserialize(
-                        projectDoc.data() as SerializedProject
-                    );
+                    const project = await this.parseProject(projectDoc.data());
                     if (project !== undefined)
                         this.track(
                             project,
@@ -605,5 +603,16 @@ export default class ProjectsDatabase {
     /** Deletes the local database (usually on logout, for privacy) */
     async deleteLocal() {
         this.localDB.delete();
+    }
+
+    /** Attempt to parse a seralized project into a project. */
+    async parseProject(data: unknown): Promise<Project | undefined> {
+        // If the project data doesn't parse, then return nothing, since it's not valid.
+        try {
+            const project = ProjectSchema.parse(data);
+            return await this.deserialize(project);
+        } catch (_) {
+            return undefined;
+        }
     }
 }

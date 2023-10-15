@@ -26,43 +26,61 @@ import { getBestSupportedLocales, toLocaleString } from '../locale/Locale';
 import { toTokens } from '../parser/toTokens';
 import type LocalesDatabase from '../db/LocalesDatabase';
 import { moderatedFlags, type Moderation } from './Moderation';
+import { z } from 'zod';
+
+const PathSchema = z.array(
+    z.object({ type: z.string(), index: z.number().min(0) })
+);
+const CaretSchema = z.union([z.number().min(0), PathSchema]);
+
+type SerializedCaret = z.infer<typeof CaretSchema>;
+
+const SourceSchema = z.object({
+    names: z.string(),
+    code: z.string(),
+    caret: CaretSchema,
+});
 
 /** How we store sources as JSON in databases */
-export type SerializedSource = {
-    names: string;
-    code: string;
-    caret: SerializedCaret;
-};
+export type SerializedSource = z.infer<typeof SourceSchema>;
+
+/** Define the schema for projects */
+export const ProjectSchema = z.object({
+    /** A very likely unique uuid4 string */
+    id: z.string().uuid(),
+    /** A single Translation, serialized */
+    name: z.string(),
+    /** The source files in the project */
+    sources: z.array(SourceSchema),
+    /** A list of locales on which this project is dependent. All ISO 639-1 languaage codes, followed by a -, followed by ISO 3166-2 region code: https://en.wikipedia.org/wiki/ISO_3166-2 */
+    locales: z.array(z.string()),
+    /** The Firestore user ID owner of this project */
+    owner: z.nullable(z.string()),
+    /** A list of Firestore user IDs that have privileges to edit this project */
+    collaborators: z.array(z.string().uuid()),
+    /** Whether this project can be viewed by anyone */
+    public: z.boolean(),
+    /** True if the project is listed in a creator's list of projects */
+    listed: z.boolean(),
+    /** True if the project is archived */
+    archived: z.boolean(),
+    /** When this was lasted edited, as a unix time in milliseconds */
+    timestamp: z.number(),
+    /** Whether this project has ever been saved to the cloud. Needed for syncing. */
+    persisted: z.boolean(),
+    /** An optional gallery ID, indicating which gallery this project is in. */
+    gallery: z.nullable(z.string().uuid()),
+    /** Moderation state */
+    flags: z.object({
+        dehumanization: z.nullable(z.boolean()),
+        violence: z.nullable(z.boolean()),
+        disclosure: z.nullable(z.boolean()),
+        misinformation: z.nullable(z.boolean()),
+    }),
+});
 
 /** How we store projects as JSON in databases */
-export type SerializedProject = {
-    /** A very likely unique uuid4 string */
-    id: string;
-    /** A single Translation, serialized */
-    name: string;
-    /** The source files in the project */
-    sources: SerializedSource[];
-    /** A list of locales on which this project is dependent. All ISO 639-1 languaage codes, followed by a -, followed by ISO 3166-2 region code: https://en.wikipedia.org/wiki/ISO_3166-2 */
-    locales: string[];
-    /** The Firestore user ID owner of this project */
-    owner: string | null;
-    /** A list of Firestore user IDs that have privileges to edit this project */
-    collaborators: string[];
-    /** Whether this project can be viewed by anyone */
-    public: boolean;
-    /** True if the project is listed in a creator's list of projects */
-    listed: boolean;
-    /** True if the project is archived */
-    archived: boolean;
-    /** When this was lasted edited, as a unix time in milliseconds */
-    timestamp: number;
-    /** Whether this project has ever been saved to the cloud. Needed for syncing. */
-    persisted: boolean;
-    /** An optional gallery ID, indicating which gallery this project is in. */
-    gallery: string | null;
-    /** Moderation state */
-    flags: Moderation;
-};
+export type SerializedProject = z.infer<typeof ProjectSchema>;
 
 /**
  * How we store projects in memory, mirroring the data in the deserialized form.
@@ -98,7 +116,6 @@ type Analysis = {
     dependencies: Map<Expression, Set<Expression>>;
 };
 
-type SerializedCaret = number | Path;
 type SerializedSourceCaret = { source: Source; caret: SerializedCaret };
 type SerializedCarets = SerializedSourceCaret[];
 

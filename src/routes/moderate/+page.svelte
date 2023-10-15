@@ -28,8 +28,8 @@
         isModerator,
         withFlag,
     } from '../../models/Moderation';
-    import Project, { type SerializedProject } from '../../models/Project';
-    import { Locales, Projects } from '../../db/Database';
+    import type Project from '../../models/Project';
+    import { Projects } from '../../db/Database';
     import { writable } from 'svelte/store';
     import { locale } from '../../db/Database';
     import MarkupHtmlView from '@components/concepts/MarkupHTMLView.svelte';
@@ -90,12 +90,10 @@
         lastBatch = documentSnapshots.docs[documentSnapshots.docs.length - 1];
 
         // Convert the docs to galleries
-        project = await documentSnapshots.docs.map((snap) =>
-            Project.deserializeProject(
-                Locales,
-                snap.data() as SerializedProject
-            )
-        )[0];
+        const doc = documentSnapshots.docs.map((snap) => snap.data())[0];
+
+        project = await Projects.parseProject(doc);
+
         if (project) newFlags = project.getFlags();
     }
 
