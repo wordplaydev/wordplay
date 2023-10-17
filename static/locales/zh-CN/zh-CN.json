@@ -2473,7 +2473,7 @@
             },
             "help": {
                 "header": "快捷键",
-                "explanation": "$?",
+                "explanation": "使用这些键盘命令进行更高效的编辑。",
                 "subheader": {
                     "moveCursor": "移动",
                     "editCode": "编辑",
@@ -2489,25 +2489,25 @@
                 "computed": "计算的",
                 "default": "默认",
                 "inherited": "继任",
-                "notSequence": "$?",
-                "notContent": "$?"
+                "notSequence": "不是一个序列",
+                "notContent": "不是内容列表"
             },
             "button": {
-                "revert": "$?",
-                "set": "$?",
-                "addPhrase": "$?",
-                "addGroup": "$?",
-                "addShape": "$?",
-                "addMotion": "$?",
-                "addPlacement": "$?",
-                "remove": "$?",
-                "up": "$?",
-                "down": "$?",
-                "edit": "$?",
-                "sequence": "$?",
-                "createPhrase": "$?",
-                "createGroup": "$?",
-                "createStage": "$?"
+                "revert": "回复默认设置",
+                "set": "编辑此属性",
+                "addPhrase": "在此之后添加一个短语",
+                "addGroup": "在此之后添加一个群组",
+                "addShape": "在此之后添加一个形状",
+                "addMotion": "将位置设置为运动流",
+                "addPlacement": "将位置设置为放置流",
+                "remove": "移除这个内容",
+                "up": "将此内容上移",
+                "down": "将此内容下移",
+                "edit": "编辑这个内容",
+                "sequence": "转换为序列",
+                "createPhrase": "创建一个短语，显示现有值为文本",
+                "createGroup": "创建一个群组，将任何现有的短语包裹起来",
+                "createStage": "创建一个舞台，将任何现有的群组或短语包裹起来"
             },
             "prompt": {
                 "offerPhrase": "$?",
@@ -2517,48 +2517,48 @@
                 "editing": "$?"
             },
             "field": {
-                "coordinate": "$?",
-                "text": "$?"
+                "coordinate": "编辑坐标",
+                "text": "编辑文本"
             },
             "sequence": {
                 "button": {
-                    "add": "$?",
-                    "remove": "$?",
-                    "up": "$?",
-                    "down": "$?"
+                    "add": "添加姿势",
+                    "remove": "移除姿势",
+                    "up": "姿势往上移",
+                    "down": "姿势往下移"
                 },
                 "field": {
-                    "percent": "$?"
+                    "percent": "编辑百分比"
                 }
             }
         },
         "save": {
-            "saving": "$?",
-            "saved": "$?",
-            "local": "$?",
-            "unsaved": "$?"
+            "saving": "保存",
+            "saved": "在线保存",
+            "local": "本地保存",
+            "unsaved": "未保存"
         },
         "page": {
             "unknown": {
-                "header": "$?",
-                "message": "$?"
+                "header": "哎呀！",
+                "message": "这是什么地方？我们能回家吗？"
             },
             "landing": {
                 "call": ["$?"],
                 "link": {
-                    "about": "$?",
-                    "learn": "$?",
-                    "projects": "$?",
-                    "galleries": "$?",
-                    "rights": "$?"
+                    "about": "这个地方为什么存在？",
+                    "learn": "这是什么地方？",
+                    "projects": "创建并分享表演",
+                    "galleries": "体验他人的表演",
+                    "rights": "责任，我们的和你们的"
                 }
             },
             "learn": {
-                "header": "$?",
-                "error": "$?",
+                "header": "学习",
+                "error": "我们无法找到这种语言的教程。",
                 "button": {
-                    "next": "$?",
-                    "previous": "$?"
+                    "next": "对话中的下一个暂停",
+                    "previous": "对话中的前一个暂停"
                 }
             },
             "projects": {
@@ -2671,7 +2671,7 @@
         }
     },
     "rules": {
-        "violence": "$?",
-        "dehumanization": "$?"
+        "violence": "不得发表煽动、鼓励或庆祝暴力、伤害或自残的言论。",
+        "dehumanization": "不得以种族、族裔、国籍、种姓、性取向、性别、宗教、年龄、能力或外貌为基础，对个人或群体进行非人化的言辞。"
     }
 }
