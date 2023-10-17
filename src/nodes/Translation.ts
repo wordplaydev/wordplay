@@ -2,13 +2,13 @@ import Token from './Token';
 import Language from './Language';
 import Sym from './Sym';
 import { node, type Grammar, type Replacement, optional, list } from './Node';
-import type Locale from '@locale/Locale';
 import Emotion from '../lore/Emotion';
 import { TextCloseByTextOpen, TextDelimiters } from '../parser/Tokenizer';
 import Purpose from '../concepts/Purpose';
 import { LanguageTagged } from './LanguageTagged';
 import Example from './Example';
 import type Program from './Program';
+import type Locales from '../locale/Locales';
 
 export const ESCAPE_REGEX = /\\(.)/g;
 
@@ -82,8 +82,8 @@ export default class Translation extends LanguageTagged {
             .join('');
     }
 
-    getNodeLocale(translation: Locale) {
-        return translation.node.Translation;
+    getNodeLocale(locales: Locales) {
+        return locales.get((l) => l.node.Translation);
     }
 
     getExpressions(): Program[] {

@@ -8,7 +8,6 @@ import UnionType from '@nodes/UnionType';
 import NoneType from '@nodes/NoneType';
 import StreamType from '@nodes/StreamType';
 import createStreamEvaluator from './createStreamEvaluator';
-import type Locale from '../locale/Locale';
 import NoneLiteral from '../nodes/NoneLiteral';
 import type StructureValue from '../values/StructureValue';
 import TextType from '../nodes/TextType';
@@ -18,6 +17,7 @@ import NoneValue from '../values/NoneValue';
 import TextValue from '../values/TextValue';
 import { createReboundStructure } from '../output/Rebound';
 import { PX_PER_METER } from '../output/outputToCSS';
+import type Locales from '../locale/Locales';
 
 export type ReboundEvent =
     | {
@@ -126,7 +126,7 @@ export default class Collision extends StreamValue<
 }
 
 export function createCollisionDefinition(
-    locales: Locale[],
+    locales: Locales,
     ReboundType: StructureDefinition
 ) {
     const NameBind = Bind.make(

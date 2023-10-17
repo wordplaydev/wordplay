@@ -7,10 +7,10 @@ import Sym from './Sym';
 import Type from './Type';
 import type TypeSet from './TypeSet';
 import { node, type Grammar, type Replacement, optional } from './Node';
-import type Locale from '@locale/Locale';
 import Glyphs from '../lore/Glyphs';
 import NodeRef from '../locale/NodeRef';
 import type Node from './Node';
+import type Locales from '../locale/Locales';
 
 export default class ListType extends BasisType {
     readonly open: Token;
@@ -103,17 +103,17 @@ export default class ListType extends BasisType {
             : undefined;
     }
 
-    getNodeLocale(translation: Locale) {
-        return translation.node.ListType;
+    getNodeLocale(locales: Locales) {
+        return locales.get((l) => l.node.ListType);
     }
 
     getGlyphs() {
         return Glyphs.List;
     }
 
-    getDescriptionInputs(locale: Locale, context: Context) {
+    getDescriptionInputs(locales: Locales, context: Context) {
         return [
-            this.type ? new NodeRef(this.type, locale, context) : undefined,
+            this.type ? new NodeRef(this.type, locales, context) : undefined,
         ];
     }
 }

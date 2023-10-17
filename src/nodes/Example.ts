@@ -1,5 +1,4 @@
 import type Conflict from '@conflicts/Conflict';
-import type Locale from '@locale/Locale';
 import { node, type Replacement, type Grammar } from './Node';
 import Program from './Program';
 import Token from './Token';
@@ -8,6 +7,7 @@ import Purpose from '../concepts/Purpose';
 import Sym from './Sym';
 import { CODE_SYMBOL } from '../parser/Symbols';
 import Content from './Content';
+import type Locales from '../locale/Locales';
 
 export default class Example extends Content {
     readonly open: Token;
@@ -58,8 +58,8 @@ export default class Example extends Content {
         return Purpose.Document;
     }
 
-    getNodeLocale(translation: Locale) {
-        return translation.node.Example;
+    getNodeLocale(locales: Locales) {
+        return locales.get((l) => l.node.Example);
     }
 
     getGlyphs() {

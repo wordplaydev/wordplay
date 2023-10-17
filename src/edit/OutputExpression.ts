@@ -12,7 +12,7 @@ import getStageProperties from './StageProperties';
 import getGroupProperties from './GroupProperties';
 import getPhraseProperties from './PhraseProperties';
 import getShapeProperties from './getShapeProperties';
-import type Locale from '../locale/Locale';
+import type Locales from '../locale/Locales';
 
 /**
  * Represents the value of a property. If given is true, it means its set explicitly.
@@ -41,9 +41,9 @@ export default class OutputExpression {
     readonly node: Evaluate;
 
     /** The locales currently active */
-    readonly locales: Locale[];
+    readonly locales: Locales;
 
-    constructor(project: Project, evaluate: Evaluate, locales: Locale[]) {
+    constructor(project: Project, evaluate: Evaluate, locales: Locales) {
         this.project = project;
         this.node = evaluate;
         this.locales = locales;
@@ -77,7 +77,7 @@ export default class OutputExpression {
 
         // What type of output is this?
         const type = this.getType();
-        const locale = this.project.basis.locales[0];
+        const locales = this.project.basis.locales;
 
         // We handle pose types differently, so we return an empty list here.
         return type === this.project.shares.output.Pose
@@ -86,13 +86,13 @@ export default class OutputExpression {
               [
                   // Add output type specific properties first
                   ...(type === this.project.shares.output.Phrase
-                      ? getPhraseProperties(this.project, locale)
+                      ? getPhraseProperties(this.project, locales)
                       : type === this.project.shares.output.Group
-                      ? getGroupProperties(this.project, locale)
+                      ? getGroupProperties(this.project, locales)
                       : type === this.project.shares.output.Stage
-                      ? getStageProperties(this.project, locale)
+                      ? getStageProperties(this.project, locales)
                       : type === this.project.shares.output.Shape
-                      ? getShapeProperties(this.project, locale)
+                      ? getShapeProperties(this.project, locales)
                       : []),
               ];
     }

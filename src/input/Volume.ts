@@ -10,8 +10,8 @@ import NoneType from '../nodes/NoneType';
 import NumberLiteral from '../nodes/NumberLiteral';
 import NumberValue from '@values/NumberValue';
 import createStreamEvaluator from './createStreamEvaluator';
-import type Locale from '../locale/Locale';
 import AudioStream, { DEFAULT_FREQUENCY } from './AudioStream';
+import type Locales from '../locale/Locales';
 
 const FFT_SIZE = 32;
 
@@ -58,7 +58,7 @@ export default class Volume extends AudioStream {
     }
 }
 
-export function createVolumeDefinition(locales: Locale[]) {
+export function createVolumeDefinition(locales: Locales) {
     const FrequencyBind = Bind.make(
         getDocLocales(locales, (locale) => locale.input.Volume.frequency.doc),
         getNameLocales(

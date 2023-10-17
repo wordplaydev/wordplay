@@ -4,19 +4,19 @@ import NumberLiteral from '../nodes/NumberLiteral';
 import Reference from '../nodes/Reference';
 import Unit from '../nodes/Unit';
 import { createColorLiteral } from '../output/Color';
-import type Locale from '../locale/Locale';
 import OutputProperty from './OutputProperty';
 import OutputPropertyRange from './OutputPropertyRange';
 import type Project from '../models/Project';
+import type Locales from '../locale/Locales';
 
 export default function getPoseProperties(
     project: Project,
-    locale: Locale,
+    locales: Locales,
     background: boolean
 ): OutputProperty[] {
     return [
         new OutputProperty(
-            locale.output.Pose.color,
+            locales.get((l) => l.output.Pose.color),
             'color',
             false,
             true,
@@ -26,7 +26,7 @@ export default function getPoseProperties(
             (locales) => createColorLiteral(project, locales, 0.5, 100, 180)
         ),
         new OutputProperty(
-            locale.output.Pose.opacity,
+            locales.get((l) => l.output.Pose.opacity),
             new OutputPropertyRange(0, 1, 0.01, '%', 0),
             false,
             false,
@@ -36,7 +36,7 @@ export default function getPoseProperties(
         ...(background
             ? [
                   new OutputProperty(
-                      locale.output.Phrase.background,
+                      locales.get((l) => l.output.Phrase.background),
                       'color' as const,
                       false,
                       false,
@@ -49,7 +49,7 @@ export default function getPoseProperties(
               ]
             : []),
         new OutputProperty(
-            locale.output.Pose.scale,
+            locales.get((l) => l.output.Pose.scale),
             new OutputPropertyRange(0, 10, 0.25, '', 2),
             false,
             false,
@@ -57,7 +57,7 @@ export default function getPoseProperties(
             () => NumberLiteral.make(1)
         ),
         new OutputProperty(
-            locale.output.Pose.rotation,
+            locales.get((l) => l.output.Pose.rotation),
             new OutputPropertyRange(0, 360, 1, '°'),
             false,
             false,
@@ -65,7 +65,7 @@ export default function getPoseProperties(
             () => NumberLiteral.make(0, Unit.create(['°']))
         ),
         new OutputProperty(
-            locale.output.Pose.offset,
+            locales.get((l) => l.output.Pose.offset),
             'place',
             false,
             false,
@@ -75,9 +75,7 @@ export default function getPoseProperties(
             (locales) =>
                 Evaluate.make(
                     Reference.make(
-                        project.shares.output.Place.names.getPreferredNameString(
-                            locales
-                        ),
+                        locales.getName(project.shares.output.Place.names),
                         project.shares.output.Place
                     ),
                     [
@@ -88,7 +86,7 @@ export default function getPoseProperties(
                 )
         ),
         new OutputProperty(
-            locale.output.Pose.flipx,
+            locales.get((l) => l.output.Pose.flipx),
             'bool',
             false,
             false,
@@ -96,7 +94,7 @@ export default function getPoseProperties(
             () => BooleanLiteral.make(false)
         ),
         new OutputProperty(
-            locale.output.Pose.flipy,
+            locales.get((l) => l.output.Pose.flipy),
             'bool',
             false,
             false,

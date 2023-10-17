@@ -1,8 +1,8 @@
 import type Expression from '@nodes/Expression';
 import Conflict from './Conflict';
-import type Locale from '@locale/Locale';
 import type Block from '../nodes/Block';
 import concretize from '../locale/concretize';
+import type Locales from '../locale/Locales';
 
 export class IgnoredExpression extends Conflict {
     readonly block: Block;
@@ -18,18 +18,25 @@ export class IgnoredExpression extends Conflict {
         return {
             primary: {
                 node: this.block,
-                explanation: (locale: Locale) =>
+                explanation: (locales: Locales) =>
                     concretize(
-                        locale,
-                        locale.node.Block.conflict.IgnoredExpression.primary
+                        locales,
+                        locales.get(
+                            (l) =>
+                                l.node.Block.conflict.IgnoredExpression.primary
+                        )
                     ),
             },
             secondary: {
                 node: this.expr,
-                explanation: (locale: Locale) =>
+                explanation: (locales: Locales) =>
                     concretize(
-                        locale,
-                        locale.node.Block.conflict.IgnoredExpression.secondary
+                        locales,
+                        locales.get(
+                            (l) =>
+                                l.node.Block.conflict.IgnoredExpression
+                                    .secondary
+                        )
                     ),
             },
         };

@@ -27,6 +27,8 @@ import { toTokens } from '../parser/toTokens';
 import type LocalesDatabase from '../db/LocalesDatabase';
 import { moderatedFlags, type Moderation } from './Moderation';
 import { z } from 'zod';
+import DefaultLocale from '../locale/DefaultLocale';
+import Locales from '../locale/Locales';
 
 const PathSchema = z.array(
     z.object({ type: z.string(), index: z.number().min(0) })
@@ -156,7 +158,9 @@ export default class Project {
         this.data = { ...data };
 
         // Get a Basis for the requested locales.
-        this.basis = Basis.getLocalizedBasis(this.data.locales);
+        this.basis = Basis.getLocalizedBasis(
+            new Locales(this.data.locales, DefaultLocale)
+        );
 
         // Initialize default shares
         this.shares = this.basis.shares;
@@ -905,7 +909,9 @@ export default class Project {
                             ?.caret ?? 0,
                 };
             }),
-            locales: this.getLocales().map((l) => toLocaleString(l)),
+            locales: this.getLocales()
+                .getLocales()
+                .map((l) => toLocaleString(l)),
             owner: this.data.owner,
             collaborators: this.data.collaborators,
             listed: this.isListed(),

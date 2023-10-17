@@ -17,7 +17,6 @@ import UnionType from './UnionType';
 import TypeSet from './TypeSet';
 import Start from '@runtime/Start';
 import { node, type Grammar, type Replacement } from './Node';
-import type Locale from '@locale/Locale';
 import NodeRef from '@locale/NodeRef';
 import Glyphs from '../lore/Glyphs';
 import Sym from './Sym';
@@ -27,6 +26,7 @@ import concretize from '../locale/concretize';
 import ExpressionPlaceholder from './ExpressionPlaceholder';
 import TypePlaceholder from './TypePlaceholder';
 import type Node from './Node';
+import type Locales from '../locale/Locales';
 
 export default class Is extends Expression {
     readonly expression: Expression;
@@ -164,29 +164,29 @@ export default class Is extends Expression {
         return this.type;
     }
 
-    getNodeLocale(translation: Locale) {
-        return translation.node.Is;
+    getNodeLocale(locales: Locales) {
+        return locales.get((l) => l.node.Is);
     }
 
-    getStartExplanations(locale: Locale, context: Context) {
+    getStartExplanations(locales: Locales, context: Context) {
         return concretize(
-            locale,
-            locale.node.Is.start,
-            new NodeRef(this.expression, locale, context)
+            locales,
+            locales.get((l) => l.node.Is.start),
+            new NodeRef(this.expression, locales, context)
         );
     }
 
     getFinishExplanations(
-        locale: Locale,
+        locales: Locales,
         context: Context,
         evaluator: Evaluator
     ) {
         const result = evaluator.peekValue();
         return concretize(
-            locale,
-            locale.node.Is.finish,
+            locales,
+            locales.get((l) => l.node.Is.finish),
             result instanceof BoolValue && result.bool,
-            new NodeRef(this.type, locale, context)
+            new NodeRef(this.type, locales, context)
         );
     }
 
@@ -194,7 +194,7 @@ export default class Is extends Expression {
         return Glyphs.Type;
     }
 
-    getDescriptionInputs(locale: Locale, context: Context) {
-        return [new NodeRef(this.type, locale, context)];
+    getDescriptionInputs(locales: Locales, context: Context) {
+        return [new NodeRef(this.type, locales, context)];
     }
 }

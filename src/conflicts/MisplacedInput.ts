@@ -3,9 +3,9 @@ import Conflict from './Conflict';
 import type Bind from '@nodes/Bind';
 import type FunctionDefinition from '@nodes/FunctionDefinition';
 import type StructureDefinition from '@nodes/StructureDefinition';
-import type Locale from '@locale/Locale';
 import type StreamDefinition from '../nodes/StreamDefinition';
 import concretize from '../locale/concretize';
+import type Locales from '../locale/Locales';
 
 export default class MisplacedInput extends Conflict {
     readonly func: FunctionDefinition | StructureDefinition | StreamDefinition;
@@ -31,10 +31,12 @@ export default class MisplacedInput extends Conflict {
         return {
             primary: {
                 node: this.evaluate,
-                explanation: (locale: Locale) =>
+                explanation: (locales: Locales) =>
                     concretize(
-                        locale,
-                        locale.node.Evaluate.conflict.MisplacedInput
+                        locales,
+                        locales.get(
+                            (l) => l.node.Evaluate.conflict.MisplacedInput
+                        )
                     ),
             },
         };

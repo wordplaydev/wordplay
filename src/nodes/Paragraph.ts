@@ -1,5 +1,4 @@
 import type Conflict from '@conflicts/Conflict';
-import type Locale from '@locale/Locale';
 import ConceptLink from './ConceptLink';
 import Example from './Example';
 import WebLink from './WebLink';
@@ -17,6 +16,7 @@ import Branch from './Branch';
 import { unescapeMarkupSymbols } from '../parser/Tokenizer';
 import Node, { list, node } from '@nodes/Node';
 import Sym from './Sym';
+import type Locales from '../locale/Locales';
 
 export type NodeSegment =
     | Token
@@ -79,8 +79,8 @@ export default class Paragraph extends Content {
         return Purpose.Document;
     }
 
-    getNodeLocale(translation: Locale) {
-        return translation.node.Paragraph;
+    getNodeLocale(locales: Locales) {
+        return locales.get((l) => l.node.Paragraph);
     }
 
     getGlyphs() {
@@ -88,7 +88,7 @@ export default class Paragraph extends Content {
     }
 
     concretize(
-        locale: Locale,
+        locales: Locales,
         inputs: TemplateInput[],
         replacements: [Node, Node][]
     ): Paragraph | undefined {
@@ -104,7 +104,7 @@ export default class Paragraph extends Content {
                     replacements.push([content, replacement]);
                     return replacement;
                 } else return content;
-            } else return content.concretize(locale, inputs, replacements);
+            } else return content.concretize(locales, inputs, replacements);
         });
         return concreteSegments.some((s) => s === undefined)
             ? undefined

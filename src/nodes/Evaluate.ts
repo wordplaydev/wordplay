@@ -39,7 +39,6 @@ import UnexpectedTypeInput from '@conflicts/UnexpectedTypeInput';
 import PropertyReference from './PropertyReference';
 import NeverType from './NeverType';
 import { node, type Grammar, type Replacement, any, none, list } from './Node';
-import type Locale from '@locale/Locale';
 import type Node from './Node';
 import StartEvaluation from '@runtime/StartEvaluation';
 import UnimplementedException from '@values/UnimplementedException';
@@ -58,6 +57,7 @@ import TypeException from '../values/TypeException';
 import TypeVariable from './TypeVariable';
 import NameType from './NameType';
 import { NonFunctionType } from './NonFunctionType';
+import type Locales from '../locale/Locales';
 
 type Mapping = {
     expected: Bind;
@@ -204,20 +204,20 @@ export default class Evaluate extends Expression {
                         ),
                         new AnyType()
                     ),
-                label: (translation: Locale) =>
-                    translation.node.Evaluate.function,
+                label: (locales: Locales) =>
+                    locales.get((l) => l.node.Evaluate.function),
             },
             { name: 'types', kind: any(node(TypeInputs), none()) },
             { name: 'open', kind: node(Sym.EvalOpen) },
             {
                 name: 'inputs',
                 kind: list(true, node(Expression)),
-                label: (locale: Locale, child: Node, context: Context) => {
+                label: (locales: Locales, child: Node, context: Context) => {
                     // Get the function called
                     const fun = this.getFunction(context);
                     // Didn't find it? Default label.
                     if (fun === undefined || !(child instanceof Expression))
-                        return locale.node.Evaluate.input;
+                        return locales.get((l) => l.node.Evaluate.input);
                     // Get the mapping from inputs to binds
                     const mapping = this.getInputMapping(context);
                     // Find the bind to which this child was mapped and get its translation of this language.
@@ -229,8 +229,8 @@ export default class Evaluate extends Expression {
                                     m.given.includes(child)))
                     );
                     return bind === undefined
-                        ? locale.node.Evaluate.input
-                        : bind.expected.names.getPreferredNameString(locale);
+                        ? locales.get((l) => l.node.Evaluate.input)
+                        : locales.getName(bind.expected.names);
                 },
                 space: true,
                 indent: true,
@@ -921,34 +921,33 @@ export default class Evaluate extends Expression {
         return this.close ?? this.fun;
     }
 
-    getNodeLocale(translation: Locale) {
-        return translation.node.Evaluate;
+    getNodeLocale(locales: Locales) {
+        return locales.get((l) => l.node.Evaluate);
     }
 
-    getStartExplanations(locale: Locale) {
+    getStartExplanations(locales: Locales) {
         return concretize(
-            locale,
-            locale.node.Evaluate.start,
+            locales,
+            locales.get((l) => l.node.Evaluate.start),
             this.inputs.length > 0
         );
     }
 
     getFinishExplanations(
-        locale: Locale,
+        locales: Locales,
         context: Context,
         evaluator: Evaluator
     ) {
         return concretize(
-            locale,
-            locale.node.Evaluate.finish,
-            this.getValueIfDefined(locale, context, evaluator)
+            locales,
+            locales.get((l) => l.node.Evaluate.finish),
+            this.getValueIfDefined(locales, context, evaluator)
         );
     }
 
-    getDescriptionInputs(locale: Locale, context: Context) {
-        return [
-            this.getFunction(context)?.names.getPreferredNameString(locale),
-        ];
+    getDescriptionInputs(locales: Locales, context: Context) {
+        const names = this.getFunction(context)?.names;
+        return [names ? locales.getName(names) : undefined];
     }
 
     getGlyphs() {

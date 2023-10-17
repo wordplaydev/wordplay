@@ -2,7 +2,6 @@ import Language from './Language';
 import { node, optional } from './Node';
 import type { Grammar, Replacement } from './Node';
 import Token from './Token';
-import type Locale from '@locale/Locale';
 import { DOCS_SYMBOL } from '@parser/Symbols';
 import Sym from './Sym';
 import type Paragraph from './Paragraph';
@@ -11,6 +10,7 @@ import Glyphs from '../lore/Glyphs';
 import Purpose from '../concepts/Purpose';
 import Markup from './Markup';
 import { LanguageTagged } from './LanguageTagged';
+import type Locales from '../locale/Locales';
 
 export default class Doc extends LanguageTagged {
     readonly open: Token;
@@ -87,8 +87,8 @@ export default class Doc extends LanguageTagged {
         return;
     }
 
-    getNodeLocale(translation: Locale) {
-        return translation.node.Doc;
+    getNodeLocale(locales: Locales) {
+        return locales.get((l) => l.node.Doc);
     }
 
     getGlyphs() {

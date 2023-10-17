@@ -13,10 +13,11 @@ import type Expression from '../nodes/Expression';
 import type Locale from '../locale/Locale';
 import type { FunctionText, NameAndDoc } from '../locale/Locale';
 import TextType from '../nodes/TextType';
+import type Locales from '../locale/Locales';
 
-export default function bootstrapNone(locales: Locale[]) {
+export default function bootstrapNone(locales: Locales) {
     function createNoneFunction(
-        locales: Locale[],
+        locales: Locales,
         text: (locale: Locale) => FunctionText<NameAndDoc[]>,
         expression: (
             requestor: Expression,

@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { locale } from '../../db/Database';
+    import { locales } from '@db/Database';
     import { toShortcut, type Command } from '../editor/util/Commands';
 
     export let command: Command;
@@ -8,7 +8,7 @@
 <tr class="command">
     <td class="symbol">{command.symbol}</td>
     <td class="shortcut"><em>{toShortcut(command)}</em></td>
-    <td class="description">{command.description($locale)}</td>
+    <td class="description">{$locales.get(command.description)}</td>
 </tr>
 
 <style>

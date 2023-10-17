@@ -6,9 +6,9 @@ import Valued from './Valued';
 import type RenderContext from './RenderContext';
 import type Place from './Place';
 import type Output from './Output';
-import type Locale from '../locale/Locale';
+import type Locales from '../locale/Locales';
 
-export function createArrangementType(locales: Locale[]) {
+export function createArrangementType(locales: Locales) {
     return toStructure(`
     ${getBind(locales, (locale) => locale.output.Arrangement, TYPE_SYMBOL)}()
 `);
@@ -35,6 +35,6 @@ export default abstract class Arrangement extends Valued {
 
     abstract getDescription(
         output: (Output | null)[],
-        locales: Locale[]
+        locales: Locales
     ): string;
 }

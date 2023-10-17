@@ -1,4 +1,4 @@
-import type Locale from '../locale/Locale';
+import type Locales from '../locale/Locales';
 import type NodeRef from '../locale/NodeRef';
 import type ValueRef from '../locale/ValueRef';
 import type { TemplateInput } from '../locale/concretize';
@@ -12,7 +12,7 @@ export default abstract class Content extends Node {
     }
 
     abstract concretize(
-        locale: Locale,
+        locales: Locales,
         inputs: TemplateInput[],
         /** A mutable list of token replacements, to preserve preceding space after modifications */
         replacements: [Node, Node][]

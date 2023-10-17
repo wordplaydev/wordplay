@@ -17,7 +17,6 @@ import { CHANGE_SYMBOL } from '@parser/Symbols';
 import Start from '@runtime/Start';
 import BoolValue from '@values/BoolValue';
 import { node, type Grammar, type Replacement } from './Node';
-import type Locale from '@locale/Locale';
 import SimpleExpression from './SimpleExpression';
 import NodeRef from '@locale/NodeRef';
 import BooleanType from './BooleanType';
@@ -27,6 +26,7 @@ import type { BasisTypeName } from '../basis/BasisConstants';
 import IncompatibleInput from '../conflicts/IncompatibleInput';
 import concretize from '../locale/concretize';
 import ExpressionPlaceholder from './ExpressionPlaceholder';
+import type Locales from '../locale/Locales';
 
 export default class Changed extends SimpleExpression {
     readonly change: Token;
@@ -143,15 +143,15 @@ export default class Changed extends SimpleExpression {
         return this.change;
     }
 
-    getNodeLocale(translation: Locale) {
-        return translation.node.Changed;
+    getNodeLocale(locales: Locales) {
+        return locales.get((l) => l.node.Changed);
     }
 
-    getStartExplanations(locale: Locale, context: Context) {
+    getStartExplanations(locales: Locales, context: Context) {
         return concretize(
-            locale,
-            locale.node.Changed.start,
-            new NodeRef(this.stream, locale, context)
+            locales,
+            locales.get((l) => l.node.Changed.start),
+            new NodeRef(this.stream, locales, context)
         );
     }
 

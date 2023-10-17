@@ -25,8 +25,9 @@ import type Locale from '../locale/Locale';
 import type { FunctionText, NameAndDoc } from '../locale/Locale';
 import ListType from '../nodes/ListType';
 import AnyType from '../nodes/AnyType';
+import type Locales from '../locale/Locales';
 
-export default function bootstrapNumber(locales: Locale[]) {
+export default function bootstrapNumber(locales: Locales) {
     const subtractNames = getNameLocales(
         locales,
         (locale) => locale.basis.Number.function.subtract.inputs[0].names

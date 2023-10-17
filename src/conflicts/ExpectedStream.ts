@@ -1,9 +1,9 @@
 import Conflict from './Conflict';
-import type Locale from '@locale/Locale';
 import NodeRef from '@locale/NodeRef';
 import type Context from '@nodes/Context';
 import concretize from '../locale/concretize';
 import type Reaction from '../nodes/Reaction';
+import type Locales from '../locale/Locales';
 
 export default class ExpectedStream extends Conflict {
     readonly reaction: Reaction;
@@ -18,11 +18,13 @@ export default class ExpectedStream extends Conflict {
         return {
             primary: {
                 node: this.reaction.condition,
-                explanation: (locale: Locale, context: Context) =>
+                explanation: (locales: Locales, context: Context) =>
                     concretize(
-                        locale,
-                        locale.node.Reaction.conflict.ExpectedStream,
-                        new NodeRef(this.reaction.condition, locale, context)
+                        locales,
+                        locales.get(
+                            (l) => l.node.Reaction.conflict.ExpectedStream
+                        ),
+                        new NodeRef(this.reaction.condition, locales, context)
                     ),
             },
         };

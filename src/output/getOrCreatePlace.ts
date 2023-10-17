@@ -1,4 +1,4 @@
-import type Locale from '../locale/Locale';
+import type Locales from '../locale/Locales';
 import type Project from '../models/Project';
 import type Context from '../nodes/Context';
 import Evaluate from '../nodes/Evaluate';
@@ -18,7 +18,7 @@ export function getPlaceExpression(
 
 export function getOrCreatePlace(
     project: Project,
-    locale: Locale,
+    locales: Locales,
     evaluate: Evaluate,
     context: Context
 ) {
@@ -28,7 +28,7 @@ export function getOrCreatePlace(
         if (
             place.is(project.shares.output.Place, project.getNodeContext(place))
         )
-            return toPlace(evaluateCode(place.toWordplay(), [], locale));
+            return toPlace(evaluateCode(place.toWordplay(), [], locales));
         else return undefined;
     } else
         return toPlace(

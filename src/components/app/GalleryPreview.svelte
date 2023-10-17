@@ -1,6 +1,6 @@
 <script lang="ts">
     import { goto } from '$app/navigation';
-    import { Projects, locale } from '../../db/Database';
+    import { Projects, locales } from '@db/Database';
     import type Gallery from '../../models/Gallery';
     import Link from './Link.svelte';
     import ProjectPreview from './ProjectPreview.svelte';
@@ -21,10 +21,13 @@
 
 <div class="gallery">
     <Link to={`gallery/${gallery.getID()}`}
-        ><Subheader>{gallery.getName($locale)}</Subheader></Link
+        ><Subheader>{gallery.getName($locales.getLocale())}</Subheader></Link
     >
     <MarkupHtmlView
-        markup={gallery.getDescription($locale).split('\n').join('\n\n')}
+        markup={gallery
+            .getDescription($locales.getLocale())
+            .split('\n')
+            .join('\n\n')}
     />
     <!-- We have to guard this since we haven't structured the project database to run server side fetches, so SvelteKit builds fail. -->
     {#if browser}
@@ -32,7 +35,11 @@
             {#each highlights as projectID, index}
                 <div class="highlight">
                     {#await Projects.get(projectID)}
-                        <Spinning label={$locale.ui.widget.loading.message} />
+                        <Spinning
+                            label={$locales.get(
+                                (l) => l.ui.widget.loading.message
+                            )}
+                        />
                     {:then project}
                         {#if project}
                             <ProjectPreview

@@ -22,6 +22,7 @@ import type Evaluator from '@runtime/Evaluator';
 import Token from './Token';
 import Sym from './Sym';
 import TextValue from '../values/TextValue';
+import type Locales from '../locale/Locales';
 
 export default class FormattedLiteral extends Literal {
     readonly texts: FormattedTranslation[];
@@ -119,16 +120,16 @@ export default class FormattedLiteral extends Literal {
         return getPreferred(locales, this.texts);
     }
 
-    getNodeLocale(locale: Locale) {
-        return locale.node.FormattedLiteral;
+    getNodeLocale(locales: Locales) {
+        return locales.get((l) => l.node.FormattedLiteral);
     }
 
     getGlyphs() {
         return Glyphs.Formatted;
     }
 
-    getValue(locales: Locale[]): Value {
-        const preferred = this.getPreferredText(locales);
+    getValue(locales: Locales): Value {
+        const preferred = this.getPreferredText(locales.getLocales());
         return new MarkupValue(this, preferred.markup);
     }
 
@@ -148,7 +149,10 @@ export default class FormattedLiteral extends Literal {
         throw this.texts[this.texts.length - 1];
     }
 
-    getStartExplanations(locale: Locale) {
-        return concretize(locale, locale.node.FormattedLiteral.start);
+    getStartExplanations(locales: Locales) {
+        return concretize(
+            locales,
+            locales.get((l) => l.node.FormattedLiteral.start)
+        );
     }
 }

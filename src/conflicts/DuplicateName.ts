@@ -1,10 +1,10 @@
 import Conflict from './Conflict';
 import type Name from '@nodes/Name';
-import type Locale from '@locale/Locale';
 import NodeRef from '@locale/NodeRef';
 import type Context from '@nodes/Context';
 import concretize from '../locale/concretize';
 import type Bind from '../nodes/Bind';
+import type Locales from '../locale/Locales';
 
 export default class DuplicateName extends Conflict {
     readonly bind: Bind;
@@ -21,13 +21,15 @@ export default class DuplicateName extends Conflict {
         return {
             primary: {
                 node: this.bind,
-                explanation: (locale: Locale, context: Context) =>
+                explanation: (locales: Locales, context: Context) =>
                     concretize(
-                        locale,
-                        locale.node.Bind.conflict.DuplicateName.primary,
+                        locales,
+                        locales.get(
+                            (l) => l.node.Bind.conflict.DuplicateName.primary
+                        ),
                         new NodeRef(
                             this.duplicate,
-                            locale,
+                            locales,
                             context,
                             this.duplicate.getName()
                         )
@@ -35,13 +37,15 @@ export default class DuplicateName extends Conflict {
             },
             secondary: {
                 node: this.duplicate,
-                explanation: (locale: Locale, context: Context) =>
+                explanation: (locales: Locales, context: Context) =>
                     concretize(
-                        locale,
-                        locale.node.Bind.conflict.DuplicateName.secondary,
+                        locales,
+                        locales.get(
+                            (l) => l.node.Bind.conflict.DuplicateName.secondary
+                        ),
                         new NodeRef(
                             this.bind,
-                            locale,
+                            locales,
                             context,
                             this.duplicate.getName()
                         )

@@ -18,13 +18,13 @@ import Finish from '@runtime/Finish';
 import type Evaluator from '@runtime/Evaluator';
 import type Value from '@values/Value';
 import { node, type Grammar, type Replacement } from './Node';
-import type Locale from '@locale/Locale';
 import NodeRef from '@locale/NodeRef';
 import Glyphs from '../lore/Glyphs';
 import Purpose from '../concepts/Purpose';
 import concretize from '../locale/concretize';
 import ExpressionPlaceholder from './ExpressionPlaceholder';
 import type Node from './Node';
+import type Locales from '../locale/Locales';
 
 export default class Conditional extends Expression {
     readonly condition: Expression;
@@ -85,8 +85,8 @@ export default class Conditional extends Expression {
             {
                 name: 'condition',
                 kind: node(Expression),
-                label: (translation: Locale) =>
-                    translation.node.Conditional.condition,
+                label: (locales: Locales) =>
+                    locales.get((l) => l.node.Conditional.condition),
                 // Must be boolean typed
                 getType: () => BooleanType.make(),
             },
@@ -98,15 +98,16 @@ export default class Conditional extends Expression {
             {
                 name: 'yes',
                 kind: node(Expression),
-                label: (translation: Locale) =>
-                    translation.node.Conditional.yes,
+                label: (locales: Locales) =>
+                    locales.get((l) => l.node.Conditional.yes),
                 space: true,
                 indent: true,
             },
             {
                 name: 'no',
                 kind: node(Expression),
-                label: (translation: Locale) => translation.node.Conditional.no,
+                label: (locales: Locales) =>
+                    locales.get((l) => l.node.Conditional.no),
                 space: true,
                 indent: true,
             },
@@ -212,27 +213,27 @@ export default class Conditional extends Expression {
         return this.question;
     }
 
-    getNodeLocale(translation: Locale) {
-        return translation.node.Conditional;
+    getNodeLocale(locales: Locales) {
+        return locales.get((l) => l.node.Conditional);
     }
 
-    getStartExplanations(locale: Locale, context: Context) {
+    getStartExplanations(locales: Locales, context: Context) {
         return concretize(
-            locale,
-            locale.node.Conditional.start,
-            new NodeRef(this.condition, locale, context)
+            locales,
+            locales.get((l) => l.node.Conditional.start),
+            new NodeRef(this.condition, locales, context)
         );
     }
 
     getFinishExplanations(
-        locale: Locale,
+        locales: Locales,
         context: Context,
         evaluator: Evaluator
     ) {
         return concretize(
-            locale,
-            locale.node.Conditional.finish,
-            this.getValueIfDefined(locale, context, evaluator)
+            locales,
+            locales.get((l) => l.node.Conditional.finish),
+            this.getValueIfDefined(locales, context, evaluator)
         );
     }
 

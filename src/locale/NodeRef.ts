@@ -1,17 +1,17 @@
 import type Context from '@nodes/Context';
-import type Locale from './Locale';
 import type Node from '@nodes/Node';
 import concretize from './concretize';
+import type Locales from './Locales';
 
 export default class NodeRef {
     readonly node: Node;
-    readonly locale: Locale;
+    readonly locale: Locales;
     readonly context: Context;
     readonly description: string | undefined;
 
     constructor(
         node: Node,
-        locale: Locale,
+        locale: Locales,
         context: Context,
         description?: string
     ) {

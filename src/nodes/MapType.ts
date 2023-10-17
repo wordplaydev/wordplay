@@ -10,12 +10,12 @@ import UnclosedDelimiter from '@conflicts/UnclosedDelimiter';
 import type Conflict from '@conflicts/Conflict';
 import type TypeSet from './TypeSet';
 import { node, type Grammar, type Replacement, any, none } from './Node';
-import type Locale from '@locale/Locale';
 import Glyphs from '../lore/Glyphs';
 import NodeRef from '../locale/NodeRef';
 import Sym from './Sym';
 import TypePlaceholder from './TypePlaceholder';
 import type Node from './Node';
+import type Locales from '../locale/Locales';
 
 export default class MapType extends BasisType {
     readonly open: Token;
@@ -135,18 +135,18 @@ export default class MapType extends BasisType {
             : undefined;
     }
 
-    getNodeLocale(translation: Locale) {
-        return translation.node.MapType;
+    getNodeLocale(locales: Locales) {
+        return locales.get((l) => l.node.MapType);
     }
 
     getGlyphs() {
         return Glyphs.Map;
     }
 
-    getDescriptionInputs(locale: Locale, context: Context) {
+    getDescriptionInputs(locales: Locales, context: Context) {
         return [
-            this.key ? new NodeRef(this.key, locale, context) : undefined,
-            this.value ? new NodeRef(this.value, locale, context) : undefined,
+            this.key ? new NodeRef(this.key, locales, context) : undefined,
+            this.value ? new NodeRef(this.value, locales, context) : undefined,
         ];
     }
 }

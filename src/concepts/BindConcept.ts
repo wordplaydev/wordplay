@@ -3,11 +3,11 @@ import type Context from '@nodes/Context';
 import type Node from '@nodes/Node';
 import Reference from '@nodes/Reference';
 import Concept from './Concept';
-import type Locale from '@locale/Locale';
 import type Purpose from './Purpose';
 import Emotion from '../lore/Emotion';
 import type Markup from '../nodes/Markup';
 import type { Character } from '../tutorial/Tutorial';
+import type Locales from '../locale/Locales';
 
 export default class BindConcept extends Concept {
     /** The type this concept represents. */
@@ -19,21 +19,21 @@ export default class BindConcept extends Concept {
     constructor(
         purpose: Purpose,
         bind: Bind,
-        locales: Locale[],
+        locales: Locales,
         context: Context
     ) {
         super(purpose, undefined, context);
 
         this.bind = bind;
         this.reference = Reference.make(
-            this.bind.names.getPreferredNameString(locales),
+            locales.getName(this.bind.names),
             this.bind
         );
     }
 
-    getGlyphs(locale: Locale[]) {
+    getGlyphs(locales: Locales) {
         return {
-            symbols: this.bind.names.getPreferredNameString(locale),
+            symbols: locales.getName(this.bind.names),
         };
     }
 
@@ -49,13 +49,13 @@ export default class BindConcept extends Concept {
         return this.bind.hasName(name);
     }
 
-    getDocs(locale: Locale): Markup | undefined {
-        const doc = this.bind.docs?.getPreferredLocale(locale);
-        return doc?.markup?.concretize(locale, []);
+    getDocs(locales: Locales): Markup | undefined {
+        const doc = this.bind.docs?.getPreferredLocale(locales);
+        return doc?.markup?.concretize(locales, []);
     }
 
-    getName(locale: Locale, symbolic: boolean) {
-        return this.bind.names.getPreferredNameString([locale], symbolic);
+    getName(locales: Locales, symbolic: boolean) {
+        return locales.getName(this.bind.names, symbolic);
     }
 
     getRepresentation() {

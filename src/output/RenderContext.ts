@@ -1,18 +1,18 @@
 import type { SupportedFace } from '../basis/Fonts';
-import type Locale from '../locale/Locale';
+import type Locales from '../locale/Locales';
 
 export default class RenderContext {
     /** A single typeface name with no text delimiters */
     readonly face: SupportedFace;
     readonly size: number;
-    readonly locales: Locale[];
+    readonly locales: Locales;
     readonly fonts: Set<SupportedFace>;
     readonly animationFactor: number;
 
     constructor(
         face: SupportedFace,
         size: number,
-        locales: Locale[],
+        locales: Locales,
         fonts: Set<SupportedFace>,
         animationFactor: number
     ) {

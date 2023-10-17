@@ -20,7 +20,7 @@
     import type Markup from '../../nodes/Markup';
     import concretize from '../../locale/concretize';
     import type Source from '../../nodes/Source';
-    import { locale, locales } from '../../db/Database';
+    import { locales } from '../../db/Database';
 
     export let project: Project;
     export let evaluator: Evaluator;
@@ -55,23 +55,25 @@
                     {
                         node: node,
                         element: view,
-                        messages: $evaluation?.step
-                            ? $locales.map((locale) =>
-                                  ($evaluation?.step as Step).getExplanations(
-                                      locale,
+                        messages: [
+                            $evaluation?.step
+                                ? ($evaluation?.step as Step).getExplanations(
+                                      $locales,
                                       evaluator
                                   )
-                              )
-                            : evaluator.steppedToNode() && evaluator.isDone()
-                            ? $locales.map((locale) =>
-                                  concretize(
-                                      locale,
-                                      locale.node.Program.unevaluated
+                                : evaluator.steppedToNode() &&
+                                  evaluator.isDone()
+                                ? concretize(
+                                      $locales,
+                                      $locales.get(
+                                          (l) => l.node.Program.unevaluated
+                                      )
                                   )
-                              )
-                            : $locales.map((locale) =>
-                                  concretize(locale, locale.node.Program.done)
-                              ),
+                                : concretize(
+                                      $locales,
+                                      $locales.get((l) => l.node.Program.done)
+                                  ),
+                        ],
                         kind: 'step',
                     },
                 ];
@@ -93,17 +95,17 @@
                                   {
                                       node: primary.node,
                                       element: getNodeView(primary.node),
-                                      messages: $locales.map((locale) =>
+                                      messages: [
                                           primary.explanation(
-                                              locale,
+                                              $locales,
                                               project.getNodeContext(
                                                   primary.node
                                               ) ??
                                                   project.getContext(
                                                       project.getMain()
                                                   )
-                                          )
-                                      ),
+                                          ),
+                                      ],
                                       kind: conflict.isMinor()
                                           ? ('minor' as const)
                                           : ('primary' as const),
@@ -116,14 +118,14 @@
                                   {
                                       node: secondary.node,
                                       element: getNodeView(secondary.node),
-                                      messages: $locales.map((locale) =>
+                                      messages: [
                                           secondary.explanation(
-                                              locale,
+                                              $locales,
                                               project.getNodeContext(
                                                   secondary.node
                                               )
-                                          )
-                                      ),
+                                          ),
+                                      ],
                                       kind: 'secondary' as const,
                                   },
                               ]
@@ -188,7 +190,7 @@
 </script>
 
 <!-- Render annotations by node -->
-<section aria-label={$locale.ui.conflicts.label}>
+<section aria-label={$locales.get((l) => l.ui.conflicts.label)}>
     {#each Array.from(annotationsByNode.values()) as annotations, index}
         <Annotation id={index} {annotations} />
     {/each}

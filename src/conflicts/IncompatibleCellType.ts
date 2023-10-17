@@ -3,9 +3,9 @@ import type Expression from '@nodes/Expression';
 import type TableType from '@nodes/TableType';
 import type Type from '@nodes/Type';
 import NodeRef from '@locale/NodeRef';
-import type Locale from '@locale/Locale';
 import Conflict from './Conflict';
 import concretize from '../locale/concretize';
+import type Locales from '../locale/Locales';
 
 export default class IncompatibleCellType extends Conflict {
     readonly type: TableType;
@@ -31,22 +31,28 @@ export default class IncompatibleCellType extends Conflict {
         return {
             primary: {
                 node: this.cell,
-                explanation: (locale: Locale, context: Context) =>
+                explanation: (locales: Locales, context: Context) =>
                     concretize(
-                        locale,
-                        locale.node.Update.conflict.IncompatibleCellType
-                            .primary,
-                        new NodeRef(this.expected, locale, context)
+                        locales,
+                        locales.get(
+                            (l) =>
+                                l.node.Update.conflict.IncompatibleCellType
+                                    .primary
+                        ),
+                        new NodeRef(this.expected, locales, context)
                     ),
             },
             secondary: {
                 node: this.type,
-                explanation: (locale: Locale, context: Context) =>
+                explanation: (locales: Locales, context: Context) =>
                     concretize(
-                        locale,
-                        locale.node.Update.conflict.IncompatibleCellType
-                            .secondary,
-                        new NodeRef(this.received, locale, context)
+                        locales,
+                        locales.get(
+                            (l) =>
+                                l.node.Update.conflict.IncompatibleCellType
+                                    .secondary
+                        ),
+                        new NodeRef(this.received, locales, context)
                     ),
             },
         };

@@ -4,12 +4,7 @@
     import CodeView from './CodeView.svelte';
     import MarkupHTMLView from './MarkupHTMLView.svelte';
     import Speech from '../lore/Speech.svelte';
-    import {
-        Locales,
-        animationDuration,
-        locale,
-        locales,
-    } from '../../db/Database';
+    import { Locales, animationDuration, locales } from '../../db/Database';
     import type Type from '../../nodes/Type';
     import concretize from '../../locale/concretize';
     import type TypeVariables from '../../nodes/TypeVariables';
@@ -27,10 +22,10 @@
 
     /** See if the concept corresponds to a character name, and find that character name in the locale's tutorial. */
     let tutorialURL: string | undefined = undefined;
-    $: getConceptURL($locale).then((url) => (tutorialURL = url));
+    $: getConceptURL($locales.getLocale()).then((url) => (tutorialURL = url));
 
     async function getConceptURL(locale: Locale) {
-        const character = concept.getCharacter(locale);
+        const character = concept.getCharacter($locales);
         if (character) {
             const tutorial = await Locales.getTutorial(
                 locale.language,
@@ -60,25 +55,29 @@
     {#if header}
         <CodeView {concept} {type} {node} describe={false} />
         {#if tutorialURL}
-            <Link external to={tutorialURL}>{$locale.ui.docs.learn}</Link>
+            <Link external to={tutorialURL}
+                >{$locales.get((l) => l.ui.docs.learn)}</Link
+            >
         {/if}
     {/if}
 
     <Speech glyph={concept.getGlyphs($locales)} below={header}>
         <svelte:fragment slot="content">
-            {@const markup = concept.getDocs($locale)}
+            {@const markup = concept.getDocs($locales)}
             {#if markup}
                 <MarkupHTMLView {markup} />
             {:else}
-                {concretize($locale, $locale.ui.docs.nodoc)}
+                {concretize(
+                    $locales,
+                    $locales.get((l) => l.ui.docs.nodoc)
+                )}
             {/if}
         </svelte:fragment>
         <svelte:fragment slot="aside"
             >{#if variables}{#each variables.variables as variable, index}{#if index > 0},
-                    {/if}{@const name =
-                        variable.names.getPreferredName(
-                            $locale
-                        )}{#if name}<RootView
+                    {/if}{@const name = variable.names.getPreferredName(
+                        $locales.getLocales()
+                    )}{#if name}<RootView
                             localized
                             node={name.withoutLanguage()}
                         />{/if}{/each}{/if}</svelte:fragment

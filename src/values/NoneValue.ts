@@ -3,9 +3,9 @@ import { NONE_SYMBOL } from '@parser/Symbols';
 import type Value from '../values/Value';
 import type { BasisTypeName } from '../basis/BasisConstants';
 import SimpleValue from './SimpleValue';
-import type Locale from '@locale/Locale';
 import type Expression from '../nodes/Expression';
 import type Concretizer from '../nodes/Concretizer';
+import type Locales from '../locale/Locales';
 
 export default class NoneValue extends SimpleValue {
     constructor(creator: Expression) {
@@ -28,8 +28,11 @@ export default class NoneValue extends SimpleValue {
         return NONE_SYMBOL;
     }
 
-    getDescription(concretize: Concretizer, locale: Locale) {
-        return concretize(locale, locale.term.none);
+    getDescription(concretize: Concretizer, locales: Locales) {
+        return concretize(
+            locales,
+            locales.get((l) => l.term.none)
+        );
     }
 
     getSize() {

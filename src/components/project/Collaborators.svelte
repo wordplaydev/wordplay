@@ -1,6 +1,6 @@
 <script lang="ts">
     import { get } from 'svelte/store';
-    import { Galleries, Projects, locale } from '../../db/Database';
+    import { Galleries, Projects, locales } from '../../db/Database';
     import type Project from '../../models/Project';
     import Subheader from '../app/Subheader.svelte';
     import MarkupHtmlView from '../concepts/MarkupHTMLView.svelte';
@@ -17,12 +17,16 @@
     const creatorGalleries = Galleries.creatorGalleries;
 </script>
 
-<Dialog bind:show description={$locale.ui.dialog.share}>
+<Dialog bind:show description={$locales.get((l) => l.ui.dialog.share)}>
     <Subheader
-        >{$locale.ui.dialog.share.subheader.collaborators.header}</Subheader
+        >{$locales.get(
+            (l) => l.ui.dialog.share.subheader.collaborators.header
+        )}</Subheader
     >
     <MarkupHtmlView
-        markup={$locale.ui.dialog.share.subheader.collaborators.explanation}
+        markup={$locales.get(
+            (l) => l.ui.dialog.share.subheader.collaborators.explanation
+        )}
     />
 
     <CreatorList
@@ -36,9 +40,15 @@
         removable={() => true}
     />
 
-    <Subheader>{$locale.ui.dialog.share.subheader.gallery.header}</Subheader>
+    <Subheader
+        >{$locales.get(
+            (l) => l.ui.dialog.share.subheader.gallery.header
+        )}</Subheader
+    >
     <MarkupHtmlView
-        markup={$locale.ui.dialog.share.subheader.gallery.explanation}
+        markup={$locales.get(
+            (l) => l.ui.dialog.share.subheader.gallery.explanation
+        )}
     />
 
     <Options
@@ -49,7 +59,7 @@
             ...Array.from($creatorGalleries.values()).map((gallery) => {
                 return {
                     value: get(gallery).getID(),
-                    label: get(gallery).getName($locale),
+                    label: get(gallery).getName($locales.getLocale()),
                 };
             }),
         ]}

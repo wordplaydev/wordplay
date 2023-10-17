@@ -32,7 +32,6 @@ import {
     any,
     optional,
 } from './Node';
-import type Locale from '@locale/Locale';
 import SimpleExpression from './SimpleExpression';
 import UnimplementedException from '@values/UnimplementedException';
 import NodeRef from '@locale/NodeRef';
@@ -42,6 +41,7 @@ import Glyphs from '../lore/Glyphs';
 import concretize from '../locale/concretize';
 import Purpose from '../concepts/Purpose';
 import Reference from './Reference';
+import type Locales from '../locale/Locales';
 
 export type SharedDefinition =
     | Source
@@ -82,18 +82,21 @@ export default class Borrow extends SimpleExpression {
                 name: 'source',
                 kind: any(node(Reference), none()),
                 space: true,
-                label: (locale: Locale) => locale.node.Borrow.source,
+                label: (locales: Locales) =>
+                    locales.get((l) => l.node.Borrow.source),
             },
             { name: 'dot', kind: optional(node(Sym.Access)) },
             {
                 name: 'name',
                 kind: optional(node(Reference)),
-                label: (locale: Locale) => locale.node.Borrow.name,
+                label: (locales: Locales) =>
+                    locales.get((l) => l.node.Borrow.name),
             },
             {
                 name: 'version',
                 kind: optional(node(Sym.Number)),
-                label: (locale: Locale) => locale.node.Borrow.version,
+                label: (locales: Locales) =>
+                    locales.get((l) => l.node.Borrow.version),
             },
         ];
     }
@@ -265,24 +268,24 @@ export default class Borrow extends SimpleExpression {
         return this.source ?? this.borrow;
     }
 
-    getNodeLocale(translation: Locale) {
-        return translation.node.Borrow;
+    getNodeLocale(locales: Locales) {
+        return locales.get((l) => l.node.Borrow);
     }
 
-    getStartExplanations(locale: Locale, context: Context) {
+    getStartExplanations(locales: Locales, context: Context) {
         return concretize(
-            locale,
-            locale.node.Borrow.start,
+            locales,
+            locales.get((l) => l.node.Borrow.start),
             this.source
                 ? new NodeRef(
                       this.source,
-                      locale,
+                      locales,
                       context,
                       this.source.getName()
                   )
                 : undefined,
             this.name
-                ? new NodeRef(this.name, locale, context, this.name.getName())
+                ? new NodeRef(this.name, locales, context, this.name.getName())
                 : undefined
         );
     }

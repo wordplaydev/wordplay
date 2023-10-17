@@ -19,7 +19,7 @@
     import type Layout from './Layout';
     import TextField from '../widgets/TextField.svelte';
     import { isName } from '../../parser/Tokenizer';
-    import { locale } from '../../db/Database';
+    import { locales } from '../../db/Database';
     import { onMount } from 'svelte';
     import Arrangement from '../../db/Arrangement';
     import Glyphs from '../../lore/Glyphs';
@@ -203,8 +203,12 @@
                     {Glyphs.Program.symbols}
                     <TextField
                         text={tile.name}
-                        description={$locale.ui.source.field.name.description}
-                        placeholder={$locale.ui.source.field.name.placeholder}
+                        description={$locales.get(
+                            (l) => l.ui.source.field.name.description
+                        )}
+                        placeholder={$locales.get(
+                            (l) => l.ui.source.field.name.placeholder
+                        )}
                         validator={(text) => isName(text)}
                         changed={handleRename}
                     />
@@ -216,7 +220,7 @@
             <div class="toolbar">
                 <slot name="extra" />
                 <Toggle
-                    tips={$locale.ui.tile.toggle.fullscreen}
+                    tips={$locales.get((l) => l.ui.tile.toggle.fullscreen)}
                     on={fullscreen}
                     command={fullscreen ? ExitFullscreen : EnterFullscreen}
                     toggle={() =>
@@ -245,7 +249,7 @@
                     >
                 </Toggle>
                 <Button
-                    tip={$locale.ui.tile.button.collapse}
+                    tip={$locales.get((l) => l.ui.tile.button.collapse)}
                     action={() => dispatch('mode', { mode: Mode.Collapsed })}
                     active={!layout.isFullscreen()}>–</Button
                 >

@@ -1,11 +1,11 @@
 import type Node from '@nodes/Node';
 import type Context from '@nodes/Context';
-import type Locale from '@locale/Locale';
 import type Markup from '../nodes/Markup';
+import type Locales from '../locale/Locales';
 
 type ConflictingNode = {
     node: Node;
-    explanation: (translation: Locale, context: Context) => Markup;
+    explanation: (locales: Locales, context: Context) => Markup;
 };
 
 export default abstract class Conflict {

@@ -5,11 +5,11 @@ import { EXPONENT_SYMBOL } from '@parser/Symbols';
 import { PRODUCT_SYMBOL } from '@parser/Symbols';
 import Sym from './Sym';
 import NameToken from './NameToken';
-import type Locale from '@locale/Locale';
 import Glyphs from '../lore/Glyphs';
 import Purpose from '../concepts/Purpose';
 import Markup from './Markup';
 import type Type from './Type';
+import type Locales from '../locale/Locales';
 
 export default class Dimension extends Node {
     readonly product: Token | undefined;
@@ -136,11 +136,11 @@ export default class Dimension extends Node {
         return;
     }
 
-    getNodeLocale(translation: Locale) {
-        return translation.node.Dimension;
+    getNodeLocale(locales: Locales) {
+        return locales.get((l) => l.node.Dimension);
     }
 
-    getDescription(_: Concretizer, locale: Locale) {
+    getDescription(_: Concretizer, locales: Locales) {
         const dim = this.getName();
 
         return Markup.words(
@@ -174,7 +174,7 @@ export default class Dimension extends Node {
                       oz: 'ounces',
                       lb: 'pounds',
                       pt: 'font size',
-                  }[dim] ?? locale.node.Dimension.description
+                  }[dim] ?? locales.get((l) => l.node.Dimension.description)
         );
     }
 

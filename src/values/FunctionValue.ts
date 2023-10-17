@@ -4,8 +4,8 @@ import type FunctionDefinition from '@nodes/FunctionDefinition';
 import { FUNCTION_SYMBOL } from '@parser/Symbols';
 import type Evaluation from '@runtime/Evaluation';
 import Value from '@values/Value';
-import type Locale from '@locale/Locale';
 import type Concretizer from '../nodes/Concretizer';
+import type Locales from '../locale/Locales';
 
 // We could have just called this Function, but Javascript claims that globally.
 export default class FunctionValue extends Value {
@@ -39,10 +39,12 @@ export default class FunctionValue extends Value {
         return undefined;
     }
 
-    toWordplay(locales: Locale[]) {
-        return `${FUNCTION_SYMBOL} ${this.definition.names.getPreferredNameString(
+    toWordplay(locales: Locales) {
+        return `${FUNCTION_SYMBOL} ${
             locales
-        )}()`;
+                ? locales.getName(this.definition.names)
+                : this.definition.names.getNames()[0]
+        }()`;
     }
 
     isEqualTo(value: Value): boolean {
@@ -52,8 +54,11 @@ export default class FunctionValue extends Value {
         );
     }
 
-    getDescription(concretize: Concretizer, locale: Locale) {
-        return concretize(locale, locale.term.function);
+    getDescription(concretize: Concretizer, locales: Locales) {
+        return concretize(
+            locales,
+            locales.get((l) => l.term.function)
+        );
     }
 
     getSize() {

@@ -2,11 +2,11 @@
     import Header from '../../components/app/Header.svelte';
     import Writing from '../../components/app/Writing.svelte';
     import MarkupHtmlView from '../../components/concepts/MarkupHTMLView.svelte';
-    import { locale } from '../../db/Database';
+    import { locales } from '../../db/Database';
 </script>
 
 <Writing>
-    <Header>{$locale.ui.page.about.header}</Header>
+    <Header>{$locales.get((l) => l.ui.page.about.header)}</Header>
 
-    <MarkupHtmlView markup={$locale.ui.page.about.content} />
+    <MarkupHtmlView markup={$locales.get((l) => l.ui.page.about.content)} />
 </Writing>

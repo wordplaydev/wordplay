@@ -12,17 +12,17 @@ import Output, { DefaultStyle } from './Output';
 import { getTypeStyle, toArrangement, toOutputList } from './toOutput';
 import { TYPE_SYMBOL } from '../parser/Symbols';
 import type { NameGenerator } from './Stage';
-import type Locale from '../locale/Locale';
 import type { DefinitePose } from './Pose';
 import StructureValue from '@values/StructureValue';
 import { getOutputInput } from './Valued';
 import concretize from '../locale/concretize';
 import { SupportedFontsFamiliesType, type SupportedFace } from '../basis/Fonts';
-import { getFirstName } from '../locale/Locale';
 import Matter, { toMatter } from './Matter';
 import type Evaluator from '../runtime/Evaluator';
+import type Locales from '../locale/Locales';
+import { getFirstName } from '../locale/Locale';
 
-export function createGroupType(locales: Locale[]) {
+export function createGroupType(locales: Locales) {
     return toStructure(`
     ${getBind(locales, (locale) => locale.output.Group, TYPE_SYMBOL)} Output(
         ${getBind(locales, (locale) => locale.output.Group.layout)}•Arrangement
@@ -52,6 +52,7 @@ export function createGroupType(locales: Locale[]) {
     ${getBind(locales, (locale) => locale.output.Group.exiting)}•ø|🤪|💃: ø
     ${getBind(locales, (locale) => locale.output.Group.duration)}•#s: 0.25s
     ${getBind(locales, (locale) => locale.output.Group.style)}•${locales
+        .getLocales()
         .map((locale) =>
             Object.values(locale.output.Easing).map((id) => `"${id}"`)
         )
@@ -142,17 +143,17 @@ export default class Group extends Output {
         throw new Error('Method not implemented.');
     }
 
-    getShortDescription(locales: Locale[]) {
+    getShortDescription(locales: Locales) {
         return this.name instanceof TextLang
             ? this.name.text
-            : getFirstName(locales[0].output.Group.names);
+            : locales.get((l) => getFirstName(l.output.Group.names));
     }
 
-    getDescription(locales: Locale[]) {
+    getDescription(locales: Locales) {
         if (this._description === undefined) {
             this._description = concretize(
-                locales[0],
-                locales[0].output.Group.description,
+                locales,
+                locales.get((l) => l.output.Group.description),
                 this.name instanceof TextLang ? this.name.text : undefined,
                 this.layout.getDescription(this.content, locales),
                 this.pose.getDescription(locales)

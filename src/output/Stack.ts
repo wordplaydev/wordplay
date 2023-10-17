@@ -10,12 +10,12 @@ import NumberValue from '@values/NumberValue';
 import Phrase from './Phrase';
 import Group from './Group';
 import concretize from '../locale/concretize';
-import type Locale from '../locale/Locale';
 import { getOutputInput } from './Valued';
 import StructureValue from '../values/StructureValue';
 import Decimal from 'decimal.js';
+import type Locales from '../locale/Locales';
 
-export function createStackType(locales: Locale[]) {
+export function createStackType(locales: Locales) {
     return toStructure(`
     ${getBind(locales, (locale) => locale.output.Stack, '•')} Arrangement(
         ${getBind(locales, (locale) => locale.output.Stack.alignment)}•-1|0|1: 0
@@ -118,10 +118,10 @@ export class Stack extends Arrangement {
         return undefined;
     }
 
-    getDescription(output: Output[], locales: Locale[]) {
+    getDescription(output: Output[], locales: Locales) {
         return concretize(
-            locales[0],
-            locales[0].output.Stack.description,
+            locales,
+            locales.get((l) => l.output.Stack.description),
             output.length,
             output.filter((o) => o instanceof Phrase).length,
             output.filter((o) => o instanceof Group).length

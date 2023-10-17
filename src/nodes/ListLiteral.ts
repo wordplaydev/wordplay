@@ -17,7 +17,6 @@ import type Conflict from '@conflicts/Conflict';
 import ListOpenToken from './ListOpenToken';
 import ListCloseToken from './ListCloseToken';
 import { node, type Grammar, type Replacement, list } from './Node';
-import type Locale from '@locale/Locale';
 import Glyphs from '../lore/Glyphs';
 import Purpose from '../concepts/Purpose';
 import type { BasisTypeName } from '../basis/BasisConstants';
@@ -26,6 +25,7 @@ import Sym from './Sym';
 import AnyType from './AnyType';
 import Spread from './Spread';
 import TypeException from '../values/TypeException';
+import type Locales from '../locale/Locales';
 
 export default class ListLiteral extends Expression {
     readonly open: Token;
@@ -60,8 +60,8 @@ export default class ListLiteral extends Expression {
             {
                 name: 'values',
                 kind: list(true, node(Expression), node(Spread)),
-                label: (translation: Locale) =>
-                    translation.node.ListLiteral.item,
+                label: (locales: Locales) =>
+                    locales.get((l) => l.node.ListLiteral.item),
                 // Only allow types to be inserted that are of the list's type, if provided.
                 getType: (context) =>
                     this.getItemType(context)?.generalize(context) ??
@@ -198,23 +198,26 @@ export default class ListLiteral extends Expression {
         return this.close ?? this.values[this.values.length - 1] ?? this.open;
     }
 
-    getNodeLocale(translation: Locale) {
-        return translation.node.ListLiteral;
+    getNodeLocale(locales: Locales) {
+        return locales.get((l) => l.node.ListLiteral);
     }
 
-    getStartExplanations(locale: Locale) {
-        return concretize(locale, locale.node.ListLiteral.start);
+    getStartExplanations(locales: Locales) {
+        return concretize(
+            locales,
+            locales.get((l) => l.node.ListLiteral.start)
+        );
     }
 
     getFinishExplanations(
-        locale: Locale,
+        locales: Locales,
         context: Context,
         evaluator: Evaluator
     ) {
         return concretize(
-            locale,
-            locale.node.ListLiteral.finish,
-            this.getValueIfDefined(locale, context, evaluator)
+            locales,
+            locales.get((l) => l.node.ListLiteral.finish),
+            this.getValueIfDefined(locales, context, evaluator)
         );
     }
 

@@ -1,5 +1,4 @@
 import type Conflict from '@conflicts/Conflict';
-import type Locale from '@locale/Locale';
 import Purpose from '../concepts/Purpose';
 import Glyphs from '../lore/Glyphs';
 import { node, type Grammar, type Replacement, any, none, list } from './Node';
@@ -19,6 +18,7 @@ import Node from './Node';
 import type { FontWeight } from '../basis/Fonts';
 import Mention from './Mention';
 import Branch from './Branch';
+import type Locales from '../locale/Locales';
 
 export type Format = 'italic' | 'underline' | 'light' | 'bold' | 'extra';
 
@@ -103,8 +103,8 @@ export default class Words extends Content {
         return Purpose.Document;
     }
 
-    getNodeLocale(translation: Locale) {
-        return translation.node.Words;
+    getNodeLocale(locales: Locales) {
+        return locales.get((l) => l.node.Words);
     }
 
     getFormat(): Format | undefined {
@@ -144,7 +144,7 @@ export default class Words extends Content {
     }
 
     concretize(
-        locale: Locale,
+        locales: Locales,
         inputs: TemplateInput[],
         replacements: [Node, Node][]
     ): Words | undefined {
@@ -160,7 +160,7 @@ export default class Words extends Content {
                     replacements.push([content, replacement]);
                     return replacement;
                 } else return content;
-            } else return content.concretize(locale, inputs, replacements);
+            } else return content.concretize(locales, inputs, replacements);
         });
         return concrete.some((s) => s === undefined)
             ? undefined

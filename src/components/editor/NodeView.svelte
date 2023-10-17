@@ -7,7 +7,6 @@
         getHidden,
         getInsertionPoint,
         getSpace,
-        getLocales,
     } from '../project/Contexts';
     import getNodeView from './util/nodeToView';
     import Expression, { ExpressionKind } from '@nodes/Expression';
@@ -16,20 +15,19 @@
     import Space from './Space.svelte';
     import Token from '../../nodes/Token';
     import concretize from '../../locale/concretize';
-    import { blocks } from '../../db/Database';
+    import { blocks, locales } from '../../db/Database';
 
     export let node: Node | undefined;
     export let small = false;
 
     const evaluation = getEvaluation();
-    const locales = getLocales();
 
     $: description =
-        node && $evaluation && locales && locales.length > 0
+        node && $evaluation
             ? node
                   .getDescription(
                       concretize,
-                      locales[0],
+                      $locales,
                       $evaluation.evaluator.project.getNodeContext(node)
                   )
                   .toText()

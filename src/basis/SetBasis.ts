@@ -15,7 +15,6 @@ import { getDocLocales } from '@locale/getDocLocales';
 import { getNameLocales } from '@locale/getNameLocales';
 import TypeVariable from '@nodes/TypeVariable';
 import type Expression from '../nodes/Expression';
-import type Locale from '../locale/Locale';
 import { createBind, createFunction, createInputs } from '../locale/Locale';
 import { Iteration } from './Iteration';
 import NumberType from '../nodes/NumberType';
@@ -23,8 +22,9 @@ import NumberValue from '@values/NumberValue';
 import ListType from '../nodes/ListType';
 import TextType from '../nodes/TextType';
 import AnyType from '../nodes/AnyType';
+import type Locales from '../locale/Locales';
 
-export default function bootstrapSet(locales: Locale[]) {
+export default function bootstrapSet(locales: Locales) {
     const SetTypeVariableNames = getNameLocales(
         locales,
         (locale) => locale.basis.Set.kind

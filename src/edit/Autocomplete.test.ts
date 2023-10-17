@@ -10,7 +10,7 @@ import NumberLiteral from '../nodes/NumberLiteral';
 import Append from './Append';
 import Reference from '../nodes/Reference';
 import type Revision from './Revision';
-import DefaultLocale from '../locale/DefaultLocale';
+import DefaultLocale, { DefaultLocales } from '../locale/DefaultLocale';
 
 test.each([
     ['blank program suggestions', '**', undefined, Append, '0'],
@@ -119,12 +119,12 @@ test.each([
                 undefined,
                 undefined
             );
-            const transforms = getEditsAt(project, caret);
+            const transforms = getEditsAt(project, caret, DefaultLocales);
 
             const match = transforms.find(
                 (transform) =>
                     transform instanceof kind &&
-                    transform.getNewNode([])?.toWordplay() === edit
+                    transform.getNewNode(DefaultLocales)?.toWordplay() === edit
             );
             if (match === undefined) {
                 console.error(
@@ -132,14 +132,14 @@ test.each([
                         .map(
                             (t) =>
                                 `${t.constructor.name}\t${t
-                                    .getNewNode([])
+                                    .getNewNode(DefaultLocales)
                                     ?.toWordplay()}`
                         )
                         .join('\n')
                 );
             }
 
-            expect(match?.getNewNode([])?.toWordplay()).toBe(edit);
+            expect(match?.getNewNode(DefaultLocales)?.toWordplay()).toBe(edit);
         }
     }
 );

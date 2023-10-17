@@ -5,8 +5,8 @@ import SimpleValue from './SimpleValue';
 import type Value from '@values/Value';
 import { TYPE_SYMBOL } from '@parser/Symbols';
 import type { BasisTypeName } from '../basis/BasisConstants';
-import type Locale from '@locale/Locale';
 import type Concretizer from '../nodes/Concretizer';
+import type Locales from '../locale/Locales';
 
 export default class StructureDefinitionValue extends SimpleValue {
     /** The definition from the AST. */
@@ -30,10 +30,12 @@ export default class StructureDefinitionValue extends SimpleValue {
         return 'structure';
     }
 
-    toWordplay(locales: Locale[]) {
-        return `${TYPE_SYMBOL}${this.definition.names.getPreferredNameString(
+    toWordplay(locales?: Locales) {
+        return `${TYPE_SYMBOL}${
             locales
-        )}`;
+                ? locales.getName(this.definition.names)
+                : this.definition.getNames()[0]
+        }`;
     }
 
     isEqualTo(value: Value): boolean {
@@ -44,8 +46,11 @@ export default class StructureDefinitionValue extends SimpleValue {
         );
     }
 
-    getDescription(concretize: Concretizer, translation: Locale) {
-        return concretize(translation, translation.term.function);
+    getDescription(concretize: Concretizer, locales: Locales) {
+        return concretize(
+            locales,
+            locales.get((l) => l.term.function)
+        );
     }
 
     getSize() {

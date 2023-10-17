@@ -3,19 +3,19 @@ import MapLiteral from '../nodes/MapLiteral';
 import NumberLiteral from '../nodes/NumberLiteral';
 import Unit from '../nodes/Unit';
 import { createPoseLiteral } from '../output/Pose';
-import type Locale from '../locale/Locale';
 import OutputProperty from './OutputProperty';
 import OutputPropertyRange from './OutputPropertyRange';
 import { getDurationProperty, getStyleProperty } from './OutputProperties';
 import type Project from '../models/Project';
+import type Locales from '../locale/Locales';
 
 export default function getSequenceProperties(
     project: Project,
-    locale: Locale
+    locales: Locales
 ): OutputProperty[] {
     return [
         new OutputProperty(
-            locale.output.Sequence.poses,
+            locales.get((l) => l.output.Sequence.poses),
             'poses',
             true,
             false,
@@ -32,10 +32,10 @@ export default function getSequenceProperties(
                     ),
                 ])
         ),
-        getDurationProperty(locale),
-        getStyleProperty(locale),
+        getDurationProperty(locales),
+        getStyleProperty(locales),
         new OutputProperty(
-            locale.output.Sequence.count,
+            locales.get((l) => l.output.Sequence.count),
             new OutputPropertyRange(1, 5, 1, 'x', 0),
             false,
             false,

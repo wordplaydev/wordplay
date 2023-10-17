@@ -10,7 +10,6 @@ import UnaryEvaluate from '../../nodes/UnaryEvaluate';
 import Decimal from 'decimal.js';
 import TextLiteral from '../../nodes/TextLiteral';
 import ListLiteral from '../../nodes/ListLiteral';
-import type Locale from '../../locale/Locale';
 import FormattedLiteral from '../../nodes/FormattedLiteral';
 import Convert from '../../nodes/Convert';
 import TextType from '../../nodes/TextType';
@@ -22,6 +21,7 @@ import {
 import { toExpression } from '../../parser/parseExpression';
 import { getPlaceExpression } from '../../output/getOrCreatePlace';
 import type Spread from '../../nodes/Spread';
+import type Locales from '../../locale/Locales';
 
 export function getNumber(given: Expression): number | undefined {
     const measurement =
@@ -44,7 +44,7 @@ export default function moveOutput(
     db: Database,
     project: Project,
     evaluates: Evaluate[],
-    locales: Locale[],
+    locales: Locales,
     horizontal: number,
     vertical: number,
     relative: boolean
@@ -93,9 +93,7 @@ export default function moveOutput(
                           bind,
                           Evaluate.make(
                               Reference.make(
-                                  PlaceType.names.getPreferredNameString(
-                                      locales
-                                  ),
+                                  locales.getName(PlaceType.names),
                                   PlaceType
                               ),
                               [
@@ -135,12 +133,11 @@ export default function moveOutput(
     );
 }
 
-export function createPlaceholderPhrase(project: Project, locales: Locale[]) {
+export function createPlaceholderPhrase(project: Project, locales: Locales) {
     const PhraseType = project.shares.output.Phrase;
-    return Evaluate.make(
-        Reference.make(PhraseType.names.getPreferredNameString(locales)),
-        [TextLiteral.make(locales[0].ui.phrases.welcome)]
-    );
+    return Evaluate.make(Reference.make(locales.getName(PhraseType.names)), [
+        TextLiteral.make(locales.get((l) => l.ui.phrases.welcome)),
+    ]);
 }
 
 export function addContent(
@@ -152,7 +149,7 @@ export function addContent(
 ) {
     const GroupType = project.shares.output.Group;
     const RowType = project.shares.output.Row;
-    const locales = database.Locales.getLocales();
+    const locales = database.Locales.getLocaleSet();
     reviseContent(database, project, list, [
         ...list.values.slice(0, index + 1),
         kind === 'phrase'
@@ -244,7 +241,10 @@ export function addStageContent(
     }
 
     if (content === undefined)
-        content = createPlaceholderPhrase(project, database.getLocales());
+        content = createPlaceholderPhrase(
+            project,
+            database.Locales.getLocaleSet()
+        );
 
     if (stage) {
         const context = project.getNodeContext(stage);
@@ -362,7 +362,8 @@ export function addStage(
     // Build a new stage, wrapping the phrase.
     stage = Evaluate.make(Reference.make(STAGE_SYMBOL), [
         ListLiteral.make([
-            existing ?? createPlaceholderPhrase(project, db.getLocales()),
+            existing ??
+                createPlaceholderPhrase(project, db.Locales.getLocaleSet()),
         ]),
     ]);
 

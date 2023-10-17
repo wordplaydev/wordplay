@@ -1,10 +1,10 @@
 import type Context from '@nodes/Context';
 import type Expression from '@nodes/Expression';
 import NodeRef from '@locale/NodeRef';
-import type Locale from '@locale/Locale';
 import Conflict from './Conflict';
 import concretize from '../locale/concretize';
 import type Select from '../nodes/Select';
+import type Locales from '../locale/Locales';
 
 export default class ExpectedSelectName extends Conflict {
     readonly select: Select;
@@ -21,11 +21,13 @@ export default class ExpectedSelectName extends Conflict {
         return {
             primary: {
                 node: this.select,
-                explanation: (locale: Locale, context: Context) =>
+                explanation: (locales: Locales, context: Context) =>
                     concretize(
-                        locale,
-                        locale.node.Select.conflict.ExpectedSelectName,
-                        new NodeRef(this.cell, locale, context)
+                        locales,
+                        locales.get(
+                            (l) => l.node.Select.conflict.ExpectedSelectName
+                        ),
+                        new NodeRef(this.cell, locales, context)
                     ),
             },
         };

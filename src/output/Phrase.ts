@@ -18,7 +18,6 @@ import type Sequence from './Sequence';
 import { PX_PER_METER, sizeToPx } from './outputToCSS';
 import { getBind } from '@locale/getBind';
 import { CSSFallbackFaces, toNumber, type NameGenerator } from './Stage';
-import type Locale from '../locale/Locale';
 import type Project from '../models/Project';
 import type { DefinitePose } from './Pose';
 import StructureValue from '../values/StructureValue';
@@ -30,8 +29,9 @@ import type Markup from '../nodes/Markup';
 import segmentWraps from './segmentWraps';
 import type Matter from './Matter';
 import { toMatter } from './Matter';
+import type Locales from '../locale/Locales';
 
-export function createPhraseType(locales: Locale[]) {
+export function createPhraseType(locales: Locales) {
     return toStructure(`
     ${getBind(locales, (locale) => locale.output.Phrase, '•')} Output(
         ${getBind(locales, (locale) => locale.output.Phrase.text)}•""|[""]|\`…\`
@@ -69,6 +69,7 @@ export function createPhraseType(locales: Locale[]) {
         ${getBind(locales, (locale) => locale.output.Phrase.exiting)}•ø|🤪|💃: ø
         ${getBind(locales, (locale) => locale.output.Phrase.duration)}•#s: 0.25s
         ${getBind(locales, (locale) => locale.output.Phrase.style)}•${locales
+        .getLocales()
         .map((locale) =>
             Object.values(locale.output.Easing).map((id) => `"${id}"`)
         )
@@ -294,7 +295,7 @@ export default class Phrase extends Output {
         return undefined;
     }
 
-    getLocalizedTextOrDoc(locales: Locale[]): TextLang | Markup {
+    getLocalizedTextOrDoc(locales: Locales): TextLang | Markup {
         // Get the list of text lang and doc and find the one with the best matching language.
         if (Array.isArray(this.text)) {
             const options = this.text;
@@ -302,6 +303,7 @@ export default class Phrase extends Output {
             // first match. If no match, default to the first text.
             return (
                 locales
+                    .getLocales()
                     .map((locale) =>
                         options.find((text) => locale.language === text.lang)
                     )
@@ -312,20 +314,20 @@ export default class Phrase extends Output {
         } else return this.text.markup;
     }
 
-    getShortDescription(locales: Locale[]) {
+    getShortDescription(locales: Locales) {
         const textOrDoc = this.getLocalizedTextOrDoc(locales);
         return textOrDoc instanceof TextLang
             ? textOrDoc.text
             : textOrDoc?.toText() ?? '';
     }
 
-    getDescription(locales: Locale[]) {
+    getDescription(locales: Locales) {
         if (this._description === undefined) {
             const text = this.getShortDescription(locales);
 
             this._description = concretize(
-                locales[0],
-                locales[0].output.Phrase.description,
+                locales,
+                locales.get((l) => l.output.Phrase.description),
                 text,
                 this.name instanceof TextLang ? this.name.text : undefined,
                 this.size,

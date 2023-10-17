@@ -10,11 +10,11 @@ import type Expression from './Expression';
 import Node, { node, type Grammar, type Replacement, list } from './Node';
 import type TypeSet from './TypeSet';
 import UnparsableType from './UnparsableType';
-import type Locale from '@locale/Locale';
 import SimpleExpression from './SimpleExpression';
 import Glyphs from '../lore/Glyphs';
 import concretize from '../locale/concretize';
 import Purpose from '../concepts/Purpose';
+import type Locales from '../locale/Locales';
 
 export default class UnparsableExpression extends SimpleExpression {
     readonly unparsables: Node[];
@@ -77,14 +77,14 @@ export default class UnparsableExpression extends SimpleExpression {
         return this;
     }
 
-    getNodeLocale(translation: Locale) {
-        return translation.node.UnparsableExpression;
+    getNodeLocale(locales: Locales) {
+        return locales.get((l) => l.node.UnparsableExpression);
     }
 
-    getStartExplanations(translation: Locale) {
+    getStartExplanations(locales: Locales) {
         return concretize(
-            translation,
-            translation.node.UnparsableExpression.start
+            locales,
+            locales.get((l) => l.node.UnparsableExpression.start)
         );
     }
 

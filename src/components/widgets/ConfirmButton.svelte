@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { locale } from '../../db/Database';
+    import { locales } from '@db/Database';
     import Button, { type Action } from './Button.svelte';
 
     export let tip: string;
@@ -14,7 +14,7 @@
 <div class="prompt" class:confirming>
     <Button
         {background}
-        tip={confirming ? $locale.ui.widget.confirm.cancel : tip}
+        tip={confirming ? $locales.get((l) => l.ui.widget.confirm.cancel) : tip}
         action={() => (confirming = !confirming)}
         active={enabled}
         >{#if confirming}⨉{:else}<slot />{/if}</Button

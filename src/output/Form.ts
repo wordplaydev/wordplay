@@ -1,5 +1,5 @@
-import type Locale from '../locale/Locale';
 import { getFirstName } from '../locale/Locale';
+import type Locales from '../locale/Locales';
 import StructureValue from '../values/StructureValue';
 import type Value from '../values/Value';
 import { toNumber } from './Stage';
@@ -15,9 +15,9 @@ export abstract class Form extends Valued {
     abstract getZ(): number;
     abstract getWidth(): number;
     abstract getHeight(): number;
-    abstract getDescription(locales: Locale[]): string;
+    abstract getDescription(locales: Locales): string;
 
-    getShortDescription(locales: Locale[]) {
+    getShortDescription(locales: Locales) {
         return this.getDescription(locales);
     }
 
@@ -100,8 +100,8 @@ export class Rectangle extends Form {
         } L ${right - minX} ${bottom - minY} L ${right - minX} ${top - minY} Z`;
     }
 
-    getDescription(locales: Locale[]): string {
-        return getFirstName(locales[0].output.Rectangle.names);
+    getDescription(locales: Locales): string {
+        return locales.get((l) => getFirstName(l.output.Rectangle.names));
     }
 }
 

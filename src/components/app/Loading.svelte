@@ -1,12 +1,12 @@
 <script lang="ts">
     import { fade } from 'svelte/transition';
     import Spinning from './Spinning.svelte';
-    import { locale } from '@db/Database';
+    import { locales } from '@db/Database';
 </script>
 
 <div class="container" out:fade>
-    <Spinning label={$locale.ui.widget.loading.message} large />
-    <p>{$locale.ui.widget.loading.message}</p>
+    <Spinning label={$locales.get((l) => l.ui.widget.loading.message)} large />
+    <p>{$locales.get((l) => l.ui.widget.loading.message)}</p>
 </div>
 
 <style>

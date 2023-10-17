@@ -1,5 +1,4 @@
 import Purpose from '../concepts/Purpose';
-import type Locale from '../locale/Locale';
 import type { TemplateInput } from '../locale/concretize';
 import type Glyph from '../lore/Glyph';
 import Glyphs from '../lore/Glyphs';
@@ -10,6 +9,7 @@ import Token from './Token';
 import Sym from './Sym';
 import Words from './Words';
 import type Node from './Node';
+import type Locales from '../locale/Locales';
 
 /**
  * To conditionally select a string, use ??, followed by an input that is either a boolean or possibly undefined value,
@@ -73,8 +73,8 @@ export default class Branch extends Content {
     getPurpose() {
         return Purpose.Document;
     }
-    getNodeLocale(locale: Locale) {
-        return locale.node.Branch;
+    getNodeLocale(locales: Locales) {
+        return locales.get((l) => l.node.Branch);
     }
 
     getGlyphs(): Glyph {
@@ -82,16 +82,16 @@ export default class Branch extends Content {
     }
 
     concretize(
-        locale: Locale,
+        locales: Locales,
         inputs: TemplateInput[],
         replacements: [Node, Node][]
     ): Words | undefined {
-        const value = this.mention.concretize(locale, inputs, replacements);
+        const value = this.mention.concretize(locales, inputs, replacements);
         const replacement =
             value === undefined ||
             (value instanceof Token && value.getText() === 'false')
-                ? this.no.concretize(locale, inputs, replacements)
-                : this.yes.concretize(locale, inputs, replacements);
+                ? this.no.concretize(locales, inputs, replacements)
+                : this.yes.concretize(locales, inputs, replacements);
 
         if (replacement) replacements.push([this, replacement]);
         return replacement;

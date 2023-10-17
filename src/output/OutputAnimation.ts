@@ -10,6 +10,7 @@ import Stage from './Stage';
 import type RenderContext from './RenderContext';
 import Phrase from './Phrase';
 import type Locale from '../locale/Locale';
+import type Locales from '../locale/Locales';
 
 enum State {
     Entering = 'entering',
@@ -569,12 +570,12 @@ const StyleToCSSMapping = {
 // A cache of values to keys for each locale.
 const styleValueToKeyByLocale: Map<Locale, Map<string, string>> = new Map();
 
-function styleToCSSEasing(locales: Locale[], name: string | undefined) {
+function styleToCSSEasing(locales: Locales, name: string | undefined) {
     // No name given? Default to ease out.
     if (name === undefined) return 'ease-out';
 
     // Get the Easing dictionary from each locale, flatten into a list of key value pairs, and find the name with the matching value.
-    for (const locale of locales) {
+    for (const locale of locales.getLocales()) {
         const key = getStyleValueToKey(locale).get(name);
         if (key)
             return StyleToCSSMapping[key as keyof typeof StyleToCSSMapping];

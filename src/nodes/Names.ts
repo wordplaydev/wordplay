@@ -11,6 +11,7 @@ import Purpose from '../concepts/Purpose';
 import Emotion from '../lore/Emotion';
 import Node, { list, node } from './Node';
 import { getPreferred as getPreferredName } from './LanguageTagged';
+import type Locales from '../locale/Locales';
 
 export default class Names extends Node {
     readonly names: Name[];
@@ -151,8 +152,8 @@ export default class Names extends Node {
         return this.names.find((name) => name.startsWith(prefix));
     }
 
-    getNodeLocale(locale: Locale) {
-        return locale.node.Names;
+    getNodeLocale(locales: Locales) {
+        return locales.get((l) => l.node.Names);
     }
 
     withName(name: string, language: LanguageCode) {

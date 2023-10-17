@@ -2,9 +2,9 @@ import type Context from '@nodes/Context';
 import type Convert from '@nodes/Convert';
 import type Type from '@nodes/Type';
 import NodeRef from '@locale/NodeRef';
-import type Locale from '@locale/Locale';
 import Conflict from './Conflict';
 import concretize from '../locale/concretize';
+import type Locales from '../locale/Locales';
 
 export class UnknownConversion extends Conflict {
     readonly convert: Convert;
@@ -20,12 +20,14 @@ export class UnknownConversion extends Conflict {
         return {
             primary: {
                 node: this.convert,
-                explanation: (locale: Locale, context: Context) =>
+                explanation: (locales: Locales, context: Context) =>
                     concretize(
-                        locale,
-                        locale.node.Convert.conflict.UnknownConversion,
-                        new NodeRef(this.expectedType, locale, context),
-                        new NodeRef(this.convert.type, locale, context)
+                        locales,
+                        locales.get(
+                            (l) => l.node.Convert.conflict.UnknownConversion
+                        ),
+                        new NodeRef(this.expectedType, locales, context),
+                        new NodeRef(this.convert.type, locales, context)
                     ),
             },
         };

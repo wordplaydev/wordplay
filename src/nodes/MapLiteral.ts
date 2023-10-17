@@ -21,13 +21,13 @@ import SetOpenToken from './SetOpenToken';
 import SetCloseToken from './SetCloseToken';
 import UnclosedDelimiter from '@conflicts/UnclosedDelimiter';
 import { node, type Grammar, type Replacement, optional, list } from './Node';
-import type Locale from '@locale/Locale';
 import Glyphs from '../lore/Glyphs';
 import Purpose from '../concepts/Purpose';
 import type { BasisTypeName } from '../basis/BasisConstants';
 import concretize from '../locale/concretize';
 import ValueException from '../values/ValueException';
 import Sym from './Sym';
+import type Locales from '../locale/Locales';
 
 export default class MapLiteral extends Expression {
     readonly open: Token;
@@ -205,23 +205,26 @@ export default class MapLiteral extends Expression {
         );
     }
 
-    getNodeLocale(translation: Locale) {
-        return translation.node.MapLiteral;
+    getNodeLocale(locales: Locales) {
+        return locales.get((l) => l.node.MapLiteral);
     }
 
-    getStartExplanations(locale: Locale) {
-        return concretize(locale, locale.node.MapLiteral.start);
+    getStartExplanations(locales: Locales) {
+        return concretize(
+            locales,
+            locales.get((l) => l.node.MapLiteral.start)
+        );
     }
 
     getFinishExplanations(
-        locale: Locale,
+        locales: Locales,
         context: Context,
         evaluator: Evaluator
     ) {
         return concretize(
-            locale,
-            locale.node.MapLiteral.finish,
-            this.getValueIfDefined(locale, context, evaluator)
+            locales,
+            locales.get((l) => l.node.MapLiteral.finish),
+            this.getValueIfDefined(locales, context, evaluator)
         );
     }
 

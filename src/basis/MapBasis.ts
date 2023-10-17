@@ -16,7 +16,6 @@ import TypeVariable from '@nodes/TypeVariable';
 import type Evaluation from '@runtime/Evaluation';
 import type Value from '@values/Value';
 import type Expression from '../nodes/Expression';
-import type Locale from '../locale/Locale';
 import { createFunction, createInputs } from '../locale/Locale';
 import { Iteration } from './Iteration';
 import NumberType from '../nodes/NumberType';
@@ -25,8 +24,9 @@ import TextType from '../nodes/TextType';
 import SetType from '../nodes/SetType';
 import ListType from '../nodes/ListType';
 import AnyType from '../nodes/AnyType';
+import type Locales from '../locale/Locales';
 
-export default function bootstrapMap(locales: Locale[]) {
+export default function bootstrapMap(locales: Locales) {
     const KeyTypeVariableNames = getNameLocales(
         locales,
         (locale) => locale.basis.Map.key

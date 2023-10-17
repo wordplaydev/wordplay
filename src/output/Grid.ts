@@ -9,11 +9,11 @@ import NumberValue from '@values/NumberValue';
 import Place from './Place';
 import NoneValue from '@values/NoneValue';
 import concretize from '../locale/concretize';
-import type Locale from '../locale/Locale';
 import { getOutputInputs } from './Valued';
 import StructureValue from '../values/StructureValue';
+import type Locales from '../locale/Locales';
 
-export function createGridType(locales: Locale[]) {
+export function createGridType(locales: Locales) {
     return toStructure(`
     ${getBind(locales, (locale) => locale.output.Grid, '•')} Arrangement(
         ${getBind(locales, (locale) => locale.output.Grid.rows)}•#|ø:ø
@@ -184,10 +184,10 @@ export class Grid extends Arrangement {
         return undefined;
     }
 
-    getDescription(_: Output[], locales: Locale[]) {
+    getDescription(_: Output[], locales: Locales) {
         return concretize(
-            locales[0],
-            locales[0].output.Grid.description,
+            locales,
+            locales.get((l) => l.output.Grid.description),
             this.rows,
             this.columns
         ).toText();

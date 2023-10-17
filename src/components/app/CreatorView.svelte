@@ -1,6 +1,6 @@
 <script lang="ts">
-    import type { Creator } from '../../db/CreatorDatabase';
-    import { locale } from '../../db/Database';
+    import type { Creator } from '@db/CreatorDatabase';
+    import { locales } from '@db/Database';
 
     export let creator: Creator | null;
     export let anonymize = true;
@@ -17,7 +17,7 @@
             : anonymize
             ? creator.email.split('@')[0].substring(0, 4)
             : creator.email
-        : $locale.ui.page.login.anonymous}</div
+        : $locales.get((l) => l.ui.page.login.anonymous)}</div
 >
 
 <style>

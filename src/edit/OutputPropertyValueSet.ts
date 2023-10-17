@@ -16,6 +16,7 @@ import MarkupValue from '@values/MarkupValue';
 import type Locale from '../locale/Locale';
 import type StructureDefinition from '../nodes/StructureDefinition';
 import type StreamDefinition from '../nodes/StreamDefinition';
+import type Locales from '../locale/Locales';
 
 /**
  * Represents one or more equivalent inputs to an output expression.
@@ -88,7 +89,7 @@ export default class OutputPropertyValueSet {
 
     getOutputExpressions(
         project: Project,
-        locales: Locale[]
+        locales: Locales
     ): OutputExpression[] {
         return this.values
             .filter(
@@ -144,10 +145,6 @@ export default class OutputPropertyValueSet {
             : undefined;
     }
 
-    getName() {
-        return this.property.name;
-    }
-
     getExpressions(): Evaluate[] {
         return this.values.map((value) => value.evaluate);
     }
@@ -164,12 +161,12 @@ export default class OutputPropertyValueSet {
         return this.values.some((val) => val.given);
     }
 
-    getDocs(locales: Locale[]) {
+    getDocs(locales: Locales) {
         return this.values[0]?.bind.docs?.getPreferredLocale(locales);
     }
 
     /** Given a project, unsets this property on expressions on which it is set. */
-    unset(projects: Database, project: Project, locales: Locale[]) {
+    unset(projects: Database, project: Project, locales: Locales) {
         // Find all the values that are given, then map them to [ Evaluate, Evaluate ] pairs
         // that represent the original Evaluate and the replacement without the given value.
         // If the property is required, replace with a default value.
@@ -188,7 +185,7 @@ export default class OutputPropertyValueSet {
     }
 
     /** Given a project, set this property to a reasonable starting value */
-    set(db: Database, project: Project, locales: Locale[]) {
+    set(db: Database, project: Project, locales: Locales) {
         db.Projects.revise(
             project,
             project.getBindReplacements(

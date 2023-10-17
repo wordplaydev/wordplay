@@ -24,7 +24,6 @@ import NeverType from './NeverType';
 import type Definition from './Definition';
 import NumberType from './NumberType';
 import { node, type Grammar, type Replacement } from './Node';
-import type Locale from '@locale/Locale';
 import type { Template } from '@locale/Locale';
 import StartEvaluation from '@runtime/StartEvaluation';
 import NodeRef from '@locale/NodeRef';
@@ -37,6 +36,7 @@ import concretize from '../locale/concretize';
 import Reference from './Reference';
 import ValueException from '../values/ValueException';
 import Purpose from '../concepts/Purpose';
+import type Locales from '../locale/Locales';
 
 export default class BinaryEvaluate extends Expression {
     readonly left: Expression;
@@ -65,10 +65,10 @@ export default class BinaryEvaluate extends Expression {
                 kind: node(Expression),
                 // The label comes from the type of left, or the default label from the translation.
                 label: (
-                    translation: Locale,
+                    locales: Locales,
                     _: Node,
                     context: Context
-                ): Template => this.left.getType(context).getLabel(translation),
+                ): Template => this.left.getType(context).getLabel(locales),
             },
             {
                 name: 'fun',
@@ -88,15 +88,14 @@ export default class BinaryEvaluate extends Expression {
                 kind: node(Expression),
                 // The name of the input from the function, or the translation default
                 label: (
-                    locale: Locale,
+                    locales: Locales,
                     _: Node,
                     context: Context
                 ): Template => {
                     const fun = this.getFunction(context);
-                    return (
-                        fun?.inputs[0].names.getPreferredNameString([locale]) ??
-                        locale.node.BinaryEvaluate.right
-                    );
+                    return fun
+                        ? locales.getName(fun.inputs[0].names)
+                        : locales.get((l) => l.node.BinaryEvaluate.right);
                 },
                 space: true,
                 indent: true,
@@ -372,8 +371,8 @@ export default class BinaryEvaluate extends Expression {
         }
     }
 
-    getNodeLocale(translation: Locale) {
-        return translation.node.BinaryEvaluate;
+    getNodeLocale(locales: Locales) {
+        return locales.get((l) => l.node.BinaryEvaluate);
     }
 
     getStart() {
@@ -383,23 +382,23 @@ export default class BinaryEvaluate extends Expression {
         return this.fun;
     }
 
-    getStartExplanations(locale: Locale, context: Context) {
+    getStartExplanations(locales: Locales, context: Context) {
         return concretize(
-            locale,
-            locale.node.BinaryEvaluate.start,
-            new NodeRef(this.left, locale, context)
+            locales,
+            locales.get((l) => l.node.BinaryEvaluate.start),
+            new NodeRef(this.left, locales, context)
         );
     }
 
     getFinishExplanations(
-        translation: Locale,
+        locales: Locales,
         context: Context,
         evaluator: Evaluator
     ) {
         return concretize(
-            translation,
-            translation.node.BinaryEvaluate.finish,
-            this.getValueIfDefined(translation, context, evaluator)
+            locales,
+            locales.get((l) => l.node.BinaryEvaluate.finish),
+            this.getValueIfDefined(locales, context, evaluator)
         );
     }
 
@@ -410,7 +409,7 @@ export default class BinaryEvaluate extends Expression {
         };
     }
 
-    getDescriptionInputs(locale: Locale, context: Context) {
+    getDescriptionInputs(locale: Locales, context: Context) {
         return [new NodeRef(this.fun, locale, context)];
     }
 }

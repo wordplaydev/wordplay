@@ -12,7 +12,7 @@
     import type Expression from '@nodes/Expression';
     import Button from '../widgets/Button.svelte';
     import Note from '../widgets/Note.svelte';
-    import { Projects, locale, locales } from '../../db/Database';
+    import { Projects, locales } from '@db/Database';
 
     export let project: Project;
     export let map: MapLiteral | undefined;
@@ -93,8 +93,9 @@
                     <div class="percent"
                         ><TextField
                             text={pair.key.toWordplay()}
-                            description={$locale.ui.palette.sequence.field
-                                .percent}
+                            description={$locales.get(
+                                (l) => l.ui.palette.sequence.field
+                            ).percent}
                             placeholder="%"
                             validator={(value) => {
                                 const number = parseInt(value.replace('%', ''));
@@ -125,24 +126,32 @@
                             {editable}
                         />
                         <Button
-                            tip={$locale.ui.palette.sequence.button.add}
+                            tip={$locales.get(
+                                (l) => l.ui.palette.sequence.button.add
+                            )}
                             active={editable}
                             action={() => addPose(index)}>+</Button
                         >
                         <Button
-                            tip={$locale.ui.palette.sequence.button.remove}
+                            tip={$locales.get(
+                                (l) => l.ui.palette.sequence.button.remove
+                            )}
                             action={() => removePose(index)}
                             active={editable &&
                                 map !== undefined &&
                                 map.values.length > 1}>⨉</Button
                         >
                         <Button
-                            tip={$locale.ui.palette.sequence.button.up}
+                            tip={$locales.get(
+                                (l) => l.ui.palette.sequence.button.up
+                            )}
                             action={() => movePose(index, -1)}
                             active={editable && index > 0}>↑</Button
                         >
                         <Button
-                            tip={$locale.ui.palette.sequence.button.down}
+                            tip={$locales.get(
+                                (l) => l.ui.palette.sequence.button.down
+                            )}
                             action={() => movePose(index, 1)}
                             active={editable && index < map.values.length - 1}
                             >↓</Button
@@ -166,7 +175,7 @@
             {/if}
         {/each}
     {:else}
-        <Note>{$locale.ui.palette.labels.notSequence}</Note>
+        <Note>{$locales.get((l) => l.ui.palette.labels.notSequence)}</Note>
     {/if}
 </div>
 

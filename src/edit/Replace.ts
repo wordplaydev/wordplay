@@ -8,6 +8,7 @@ import type Locale from '@locale/Locale';
 import concretize from '../locale/concretize';
 import Markup from '../nodes/Markup';
 import Reference from '../nodes/Reference';
+import type Locales from '../locale/Locales';
 
 export default class Replace<NodeType extends Node> extends Revision {
     readonly parent: Node;
@@ -40,7 +41,7 @@ export default class Replace<NodeType extends Node> extends Revision {
     }
 
     /** True if the replacement node has a reference prefixed by a reference in the original node */
-    isCompletion(): boolean {
+    isCompletion(locales: Locales): boolean {
         if (this.replacement === undefined) return false;
         const original = this.node
             .nodes()
@@ -48,7 +49,7 @@ export default class Replace<NodeType extends Node> extends Revision {
         const replacement = (
             this.replacement instanceof Node
                 ? this.replacement
-                : this.replacement.getNode([])
+                : this.replacement.getNode(locales)
         )
             .nodes()
             .filter((node): node is Reference => node instanceof Reference);
@@ -61,7 +62,7 @@ export default class Replace<NodeType extends Node> extends Revision {
         );
     }
 
-    getEdit(locales: Locale[]): Edit | undefined {
+    getEdit(locales: Locales): Edit | undefined {
         const [replacement, newParent] = this.getEditedNode(locales);
 
         // Get the position of the node we're replacing.
@@ -110,29 +111,30 @@ export default class Replace<NodeType extends Node> extends Revision {
         ];
     }
 
-    getEditedNode(locales: Locale[]): [Node, Node] {
+    getEditedNode(locales: Locales): [Node, Node] {
         // Get or create the replacement with the original node's space.
         const replacement = this.getNewNode(locales);
         const newParent = this.parent.replace(this.node, replacement);
         return [replacement ?? newParent, newParent];
     }
 
-    getNewNode(locales: Locale[]) {
+    getNewNode(locales: Locales) {
         if (this.replacement instanceof Node) return this.replacement;
 
         return this.replacement?.getNode(locales);
     }
 
-    getDescription(locale: Locale) {
-        if (this.description) return Markup.words(this.description(locale));
+    getDescription(locales: Locales) {
+        if (this.description)
+            return Markup.words(locales.get(this.description));
         const node =
             this.replacement instanceof Refer
-                ? this.replacement.getNode([locale])
-                : this.getNewNode([locale]);
+                ? this.replacement.getNode(locales)
+                : this.getNewNode(locales);
         return concretize(
-            locale,
-            locale.ui.edit.replace,
-            node?.getLabel(locale)
+            locales,
+            locales.get((l) => l.ui.edit.replace),
+            node?.getLabel(locales)
         );
     }
 

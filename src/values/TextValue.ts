@@ -4,12 +4,12 @@ import NumberValue from '@values/NumberValue';
 import SimpleValue from './SimpleValue';
 import type Value from '@values/Value';
 import type { BasisTypeName } from '../basis/BasisConstants';
-import type Locale from '@locale/Locale';
 import type Expression from '../nodes/Expression';
 import ListValue from '@values/ListValue';
 import BoolValue from '@values/BoolValue';
 import UnicodeString from '../models/UnicodeString';
 import type Concretizer from '../nodes/Concretizer';
+import type Locales from '../locale/Locales';
 
 export default class TextValue extends SimpleValue {
     readonly text: string;
@@ -98,8 +98,11 @@ export default class TextValue extends SimpleValue {
         return new NumberValue(requestor, sum);
     }
 
-    getDescription(concretizer: Concretizer, locale: Locale) {
-        return concretizer(locale, locale.term.text);
+    getDescription(concretizer: Concretizer, locales: Locales) {
+        return concretizer(
+            locales,
+            locales.get((l) => l.term.text)
+        );
     }
 
     getSize() {

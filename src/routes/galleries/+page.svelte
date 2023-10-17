@@ -1,7 +1,7 @@
 <script lang="ts">
     import Header from '@components/app/Header.svelte';
     import Writing from '@components/app/Writing.svelte';
-    import { locale } from '@db/Database';
+    import { locales } from '@db/Database';
     import MarkupHtmlView from '../../components/concepts/MarkupHTMLView.svelte';
     import { onMount } from 'svelte';
     import {
@@ -66,12 +66,12 @@
 </script>
 
 <svelte:head>
-    <title>{$locale.ui.page.galleries.header}</title>
+    <title>{$locales.get((l) => l.ui.page.galleries.header)}</title>
 </svelte:head>
 
 <Writing>
-    <Header>{$locale.ui.page.galleries.header}</Header>
-    <MarkupHtmlView markup={$locale.ui.page.galleries.prompt} />
+    <Header>{$locales.get((l) => l.ui.page.galleries.header)}</Header>
+    <MarkupHtmlView markup={$locales.get((l) => l.ui.page.galleries.prompt)} />
 
     {#if galleries === undefined}
         <Spinning label="" />

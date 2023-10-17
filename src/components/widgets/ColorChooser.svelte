@@ -54,9 +54,9 @@
 </script>
 
 <script lang="ts">
-    import { locale } from '../../db/Database';
-    import { getFirstName } from '../../locale/Locale';
+    import { locales } from '../../db/Database';
     import Button from './Button.svelte';
+    import { getFirstName } from '../../locale/Locale';
 
     /** a degree (any number remainder 360) */
     export let hue: number;
@@ -138,7 +138,9 @@
             min={0}
             max={1}
             increment={0.01}
-            tip={getFirstName($locale.output.Color.lightness.names)}
+            tip={$locales.get((l) =>
+                getFirstName(l.output.Color.lightness.names)
+            )}
             unit={'%'}
             precision={0}
             change={(value) => {
@@ -153,7 +155,7 @@
             max={150}
             increment={1}
             unit=""
-            tip={getFirstName($locale.output.Color.chroma.names)}
+            tip={$locales.get((l) => getFirstName(l.output.Color.chroma.names))}
             change={(value) => {
                 chroma = value.round().toNumber();
                 broadcast();
@@ -166,7 +168,7 @@
             max={360}
             increment={1}
             unit={'°'}
-            tip={getFirstName($locale.output.Color.hue.names)}
+            tip={$locales.get((l) => getFirstName(l.output.Color.hue.names))}
             change={(value) => {
                 hue = value.round().toNumber();
                 broadcast();

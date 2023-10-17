@@ -1,7 +1,7 @@
 import type Bind from '@nodes/Bind';
 import Conflict from './Conflict';
-import type Locale from '@locale/Locale';
 import concretize from '../locale/concretize';
+import type Locales from '../locale/Locales';
 
 export default class UnusedBind extends Conflict {
     readonly bind: Bind;
@@ -16,8 +16,11 @@ export default class UnusedBind extends Conflict {
         return {
             primary: {
                 node: this.bind,
-                explanation: (locale: Locale) =>
-                    concretize(locale, locale.node.Bind.conflict.UnusedBind),
+                explanation: (locales: Locales) =>
+                    concretize(
+                        locales,
+                        locales.get((l) => l.node.Bind.conflict.UnusedBind)
+                    ),
             },
         };
     }

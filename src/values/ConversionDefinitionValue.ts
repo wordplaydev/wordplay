@@ -5,8 +5,8 @@ import SimpleValue from './SimpleValue';
 import Value from '../values/Value';
 import { CONVERT_SYMBOL } from '@parser/Symbols';
 import type { BasisTypeName } from '../basis/BasisConstants';
-import type Locale from '@locale/Locale';
 import type Concretizer from '../nodes/Concretizer';
+import type Locales from '../locale/Locales';
 
 export default class ConversionDefinitionValue extends SimpleValue {
     /** The definition from the AST. */
@@ -44,8 +44,11 @@ export default class ConversionDefinitionValue extends SimpleValue {
         );
     }
 
-    getDescription(concretize: Concretizer, locale: Locale) {
-        return concretize(locale, locale.term.function);
+    getDescription(concretize: Concretizer, locales: Locales) {
+        return concretize(
+            locales,
+            locales.get((l) => l.term.function)
+        );
     }
 
     getSize() {

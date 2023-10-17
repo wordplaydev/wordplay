@@ -24,7 +24,7 @@
         'example',
         new Source('example', [example.program, spaces]),
         [],
-        $locales
+        $locales.getLocales()
     );
     let value: Value | undefined = undefined;
     let stage: Stage | undefined = undefined;

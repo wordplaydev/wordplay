@@ -4,7 +4,7 @@
     import { getUser } from '../project/Contexts';
     import {
         animationFactor,
-        locale,
+        locales,
         arrangement,
         camera,
         mic,
@@ -72,10 +72,16 @@
         />
     </Link>
     <LanguageChooser />
-    <Dialog bind:show width="50vw" description={$locale.ui.dialog.settings}>
+    <Dialog
+        bind:show
+        width="50vw"
+        description={$locales.get((l) => l.ui.dialog.settings)}
+    >
         <p
             ><Mode
-                descriptions={$locale.ui.dialog.settings.mode.layout}
+                descriptions={$locales.get(
+                    (l) => l.ui.dialog.settings.mode.layout
+                )}
                 choice={$arrangement === Arrangement.Responsive
                     ? 0
                     : $arrangement === Arrangement.Horizontal
@@ -98,7 +104,9 @@
         >
         <p
             ><Mode
-                descriptions={$locale.ui.dialog.settings.mode.animate}
+                descriptions={$locales.get(
+                    (l) => l.ui.dialog.settings.mode.animate
+                )}
                 choice={$animationFactor}
                 select={(choice) => Settings.setAnimationFactor(choice)}
                 modes={['🧘🏽‍♀️', '🏃‍♀️', '½', '⅓', '¼']}
@@ -106,7 +114,9 @@
         >
         <p
             ><Mode
-                descriptions={$locale.ui.dialog.settings.mode.writing}
+                descriptions={$locales.get(
+                    (l) => l.ui.dialog.settings.mode.writing
+                )}
                 choice={$writingLayout === 'horizontal-tb'
                     ? 0
                     : $writingLayout === 'vertical-rl'
@@ -176,7 +186,9 @@
         {/if}
         <p
             ><Mode
-                descriptions={$locale.ui.dialog.settings.mode.dark}
+                descriptions={$locales.get(
+                    (l) => l.ui.dialog.settings.mode.dark
+                )}
                 choice={$dark === false ? 0 : $dark === true ? 1 : 2}
                 select={(choice) =>
                     Settings.setDark(
@@ -187,7 +199,7 @@
         </p>
     </Dialog>
     <Button
-        tip={$locale.ui.dialog.settings.button.show}
+        tip={$locales.get((l) => l.ui.dialog.settings.button.show)}
         action={() => (show = !show)}>⚙</Button
     >
 </div>

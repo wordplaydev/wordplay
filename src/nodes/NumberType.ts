@@ -13,9 +13,9 @@ import Evaluate from './Evaluate';
 import PropertyReference from './PropertyReference';
 import type TypeSet from './TypeSet';
 import { node, type Grammar, type Replacement } from './Node';
-import type Locale from '@locale/Locale';
 import Glyphs from '../lore/Glyphs';
 import NodeRef from '../locale/NodeRef';
+import type Locales from '../locale/Locales';
 
 type UnitDeriver = (
     left: Unit,
@@ -207,18 +207,18 @@ export default class NumberType extends BasisType {
         return 'measurement';
     }
 
-    getNodeLocale(translation: Locale) {
-        return translation.node.NumberType;
+    getNodeLocale(locales: Locales) {
+        return locales.get((l) => l.node.NumberType);
     }
 
     getGlyphs() {
         return Glyphs.Number;
     }
 
-    getDescriptionInputs(locale: Locale, context: Context) {
+    getDescriptionInputs(locales: Locales, context: Context) {
         return [
             this.unit instanceof Unit
-                ? new NodeRef(this.unit, locale, context)
+                ? new NodeRef(this.unit, locales, context)
                 : undefined,
         ];
     }

@@ -1,7 +1,7 @@
 import type Reference from '@nodes/Reference';
-import type Locale from '@locale/Locale';
 import Conflict from './Conflict';
 import concretize from '../locale/concretize';
+import type Locales from '../locale/Locales';
 
 export class UnexpectedTypeVariable extends Conflict {
     readonly name: Reference;
@@ -15,10 +15,13 @@ export class UnexpectedTypeVariable extends Conflict {
         return {
             primary: {
                 node: this.name,
-                explanation: (locale: Locale) =>
+                explanation: (locales: Locales) =>
                     concretize(
-                        locale,
-                        locale.node.Reference.conflict.UnexpectedTypeVariable
+                        locales,
+                        locales.get(
+                            (l) =>
+                                l.node.Reference.conflict.UnexpectedTypeVariable
+                        )
                     ),
             },
         };

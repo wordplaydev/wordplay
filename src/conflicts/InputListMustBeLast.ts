@@ -1,7 +1,7 @@
 import Conflict from './Conflict';
 import type Bind from '@nodes/Bind';
-import type Locale from '@locale/Locale';
 import concretize from '../locale/concretize';
+import type Locales from '../locale/Locales';
 
 export default class InputListMustBeLast extends Conflict {
     readonly bind: Bind;
@@ -16,10 +16,12 @@ export default class InputListMustBeLast extends Conflict {
         return {
             primary: {
                 node: this.bind,
-                explanation: (locale: Locale) =>
+                explanation: (locales: Locales) =>
                     concretize(
-                        locale,
-                        locale.node.Evaluate.conflict.InputListMustBeLast
+                        locales,
+                        locales.get(
+                            (l) => l.node.Evaluate.conflict.InputListMustBeLast
+                        )
                     ),
             },
         };

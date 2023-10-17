@@ -8,7 +8,7 @@
     import Note from '../widgets/Note.svelte';
     import { getNumber } from './editOutput';
     import Expression from '../../nodes/Expression';
-    import { Projects, locale, locales } from '../../db/Database';
+    import { Projects, locales } from '../../db/Database';
     import { tick } from 'svelte';
     import type Bind from '../../nodes/Bind';
 
@@ -69,7 +69,9 @@
                     validator={valid}
                     {editable}
                     placeholder={dimension.names.getNames()[0]}
-                    description={$locale.ui.palette.field.coordinate}
+                    description={$locales.get(
+                        (l) => l.ui.palette.field.coordinate
+                    )}
                     changed={(value) => handleChange(dimension, index, value)}
                     bind:view={views[index]}
                 />
@@ -78,7 +80,7 @@
                 >
             {:else}
                 <Note
-                    >{$locales.map(
+                    >{$locales.get(
                         (locale) => locale.ui.palette.labels.computed
                     )}</Note
                 >

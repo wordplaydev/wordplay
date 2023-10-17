@@ -18,7 +18,6 @@ import Halt from '@runtime/Halt';
 import ExceptionValue from '@values/ExceptionValue';
 import TypeException from '@values/TypeException';
 import { node, type Grammar, type Replacement } from './Node';
-import type Locale from '@locale/Locale';
 import UnimplementedException from '@values/UnimplementedException';
 import NodeRef from '@locale/NodeRef';
 import Glyphs from '../lore/Glyphs';
@@ -34,6 +33,7 @@ import Token from './Token';
 import { INSERT_SYMBOL, TABLE_CLOSE_SYMBOL } from '../parser/Symbols';
 import Sym from './Sym';
 import ExpressionPlaceholder from './ExpressionPlaceholder';
+import type Locales from '../locale/Locales';
 
 export default class Insert extends Expression {
     readonly table: Expression;
@@ -64,12 +64,12 @@ export default class Insert extends Expression {
             {
                 name: 'table',
                 kind: node(Expression),
-                label: (translation: Locale) => translation.term.table,
+                label: (locales: Locales) => locales.get((l) => l.term.table),
             },
             {
                 name: 'row',
                 kind: node(Row),
-                label: (translation: Locale) => translation.term.row,
+                label: (locales: Locales) => locales.get((l) => l.term.row),
                 space: true,
             },
         ];
@@ -308,27 +308,27 @@ export default class Insert extends Expression {
         return this.row.close ?? this.row.open;
     }
 
-    getNodeLocale(translation: Locale) {
-        return translation.node.Insert;
+    getNodeLocale(locales: Locales) {
+        return locales.get((l) => l.node.Insert);
     }
 
-    getStartExplanations(locale: Locale, context: Context) {
+    getStartExplanations(locales: Locales, context: Context) {
         return concretize(
-            locale,
-            locale.node.Insert.start,
-            new NodeRef(this.table, locale, context)
+            locales,
+            locales.get((l) => l.node.Insert.start),
+            new NodeRef(this.table, locales, context)
         );
     }
 
     getFinishExplanations(
-        locale: Locale,
+        locales: Locales,
         context: Context,
         evaluator: Evaluator
     ) {
         return concretize(
-            locale,
-            locale.node.Insert.finish,
-            this.getValueIfDefined(locale, context, evaluator)
+            locales,
+            locales.get((l) => l.node.Insert.finish),
+            this.getValueIfDefined(locales, context, evaluator)
         );
     }
 

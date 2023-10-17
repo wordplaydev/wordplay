@@ -19,7 +19,6 @@ import type Type from './Type';
 import type TypeSet from './TypeSet';
 import type Value from '@values/Value';
 import { node, type Grammar, type Replacement, optional, list } from './Node';
-import type Locale from '@locale/Locale';
 import type LanguageCode from '@locale/LanguageCode';
 import Sym from './Sym';
 import Glyphs from '../lore/Glyphs';
@@ -27,6 +26,7 @@ import BlankException from '@values/BlankException';
 import concretize from '../locale/concretize';
 import Purpose from '../concepts/Purpose';
 import ValueRef from '../locale/ValueRef';
+import type Locales from '../locale/Locales';
 
 export default class Program extends Expression {
     readonly docs?: Docs;
@@ -183,12 +183,12 @@ export default class Program extends Expression {
         return this.end ?? this.expression;
     }
 
-    getNodeLocale(translation: Locale) {
-        return translation.node.Program;
+    getNodeLocale(locales: Locales) {
+        return locales.get((l) => l.node.Program);
     }
 
     getStartExplanations(
-        locale: Locale,
+        locales: Locales,
         context: Context,
         evaluator: Evaluator
     ) {
@@ -196,26 +196,26 @@ export default class Program extends Expression {
         const change = reaction && reaction.changes.length > 0;
 
         return concretize(
-            locale,
-            locale.node.Program.start,
+            locales,
+            locales.get((l) => l.node.Program.start),
             change
-                ? new ValueRef(reaction.changes[0].stream, locale, context)
+                ? new ValueRef(reaction.changes[0].stream, locales, context)
                 : undefined,
             change
-                ? new ValueRef(reaction.changes[0].value, locale, context)
+                ? new ValueRef(reaction.changes[0].value, locales, context)
                 : undefined
         );
     }
 
     getFinishExplanations(
-        locale: Locale,
+        locales: Locales,
         context: Context,
         evaluator: Evaluator
     ) {
         return concretize(
-            locale,
-            locale.node.Program.finish,
-            this.getValueIfDefined(locale, context, evaluator)
+            locales,
+            locales.get((l) => l.node.Program.finish),
+            this.getValueIfDefined(locales, context, evaluator)
         );
     }
 

@@ -5,7 +5,7 @@ import { Locales } from '../db/Database';
 import { readdirSync, readFileSync } from 'fs';
 import path from 'path';
 import { parseSerializedProject } from './examples';
-import DefaultLocale from '../locale/DefaultLocale';
+import { DefaultLocales } from '../locale/DefaultLocale';
 
 const projects: SerializedProject[] = [];
 readdirSync(path.join('static', 'examples'), { withFileTypes: true }).forEach(
@@ -36,7 +36,7 @@ test.each([...projects])(
         ).flat()) {
             const conflictingNodes = conflict.getConflictingNodes();
             console.error(
-                conflictingNodes.primary.explanation(DefaultLocale, context)
+                conflictingNodes.primary.explanation(DefaultLocales, context)
             );
         }
         expect(project.getPrimaryConflicts()).toHaveLength(0);

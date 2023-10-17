@@ -1,4 +1,3 @@
-import type Locale from '../locale/Locale';
 import type Project from '../models/Project';
 import Evaluate from '../nodes/Evaluate';
 import type Expression from '../nodes/Expression';
@@ -7,14 +6,15 @@ import Reference from '../nodes/Reference';
 import OutputProperty from './OutputProperty';
 import OutputPropertyOptions from './OutputPropertyOptions';
 import { getTypeOutputProperties } from './OutputProperties';
+import type Locales from '../locale/Locales';
 
 export default function getGroupProperties(
     project: Project,
-    locale: Locale
+    locales: Locales
 ): OutputProperty[] {
     return [
         new OutputProperty(
-            locale.output.Group.layout,
+            locales.get((l) => l.output.Group.layout),
             new OutputPropertyOptions(
                 Object.values(project.shares.output)
                     .filter((type) =>
@@ -34,25 +34,23 @@ export default function getGroupProperties(
             true,
             false,
             () => true,
-            (languages) =>
+            (locales) =>
                 Evaluate.make(
                     Reference.make(
-                        project.shares.output.Stack.names.getPreferredNameString(
-                            languages
-                        ),
+                        locales.getName(project.shares.output.Stack.names),
                         project.shares.output.Stack
                     ),
                     []
                 )
         ),
         new OutputProperty(
-            locale.output.Group.content,
+            locales.get((l) => l.output.Group.content),
             'content',
             true,
             false,
             (expr) => expr instanceof ListLiteral,
             () => ListLiteral.make([])
         ),
-        ...getTypeOutputProperties(project, locale),
+        ...getTypeOutputProperties(project, locales),
     ];
 }

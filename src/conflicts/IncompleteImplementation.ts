@@ -1,7 +1,7 @@
 import type StructureDefinition from '@nodes/StructureDefinition';
-import type Locale from '@locale/Locale';
 import Conflict from './Conflict';
 import concretize from '../locale/concretize';
+import type Locales from '../locale/Locales';
 
 export class IncompleteImplementation extends Conflict {
     readonly structure: StructureDefinition;
@@ -15,11 +15,14 @@ export class IncompleteImplementation extends Conflict {
         return {
             primary: {
                 node: this.structure,
-                explanation: (locale: Locale) =>
+                explanation: (locales: Locales) =>
                     concretize(
-                        locale,
-                        locale.node.StructureDefinition.conflict
-                            .IncompleteImplementation
+                        locales,
+                        locales.get(
+                            (l) =>
+                                l.node.StructureDefinition.conflict
+                                    .IncompleteImplementation
+                        )
                     ),
             },
         };

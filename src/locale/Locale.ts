@@ -21,6 +21,7 @@ import { toTokens } from '../parser/toTokens';
 import { DOCS_SYMBOL } from '../parser/Symbols';
 import type { FlagDescriptions } from '../models/Moderation';
 import type { ButtonText, DialogText } from './UITexts';
+import type Locales from './Locales';
 
 /** A list of locales that are in progress but not supported yet. Only added when developing locally. */
 const EventuallySupportedLocales = ['zh-CN'];
@@ -180,7 +181,7 @@ export function getBestSupportedLocales(locales: string[]) {
 }
 
 export function createBind(
-    locales: Locale[],
+    locales: Locales,
     nameAndDoc: (locale: Locale) => NameAndDoc,
     type?: Type,
     value?: Expression
@@ -194,7 +195,7 @@ export function createBind(
 }
 
 export function createInputs(
-    locales: Locale[],
+    locales: Locales,
     fun: (locale: Locale) => NameAndDoc[],
     types: (Type | [Type, Expression])[]
 ) {
@@ -209,7 +210,7 @@ export function createInputs(
 }
 
 export function createFunction(
-    locales: Locale[],
+    locales: Locales,
     nameAndDoc: (locale: Locale) => NameAndDoc,
     typeVars: TypeVariables | undefined,
     inputs: Bind[],

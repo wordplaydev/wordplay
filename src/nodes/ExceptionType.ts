@@ -1,10 +1,10 @@
 import type { BasisTypeName } from '../basis/BasisConstants';
 import type ExceptionValue from '@values/ExceptionValue';
-import type Locale from '@locale/Locale';
 import Type from './Type';
 import type TypeSet from './TypeSet';
 import { EXCEPTION_SYMBOL } from '../parser/Symbols';
 import Glyphs from '../lore/Glyphs';
+import type Locales from '../locale/Locales';
 
 export default class ExceptionType extends Type {
     readonly exception: ExceptionValue;
@@ -49,8 +49,8 @@ export default class ExceptionType extends Type {
         return new ExceptionType(this.exception) as this;
     }
 
-    getNodeLocale(translation: Locale) {
-        return translation.node.ExceptionType;
+    getNodeLocale(locales: Locales) {
+        return locales.get((l) => l.node.ExceptionType);
     }
 
     getGlyphs() {

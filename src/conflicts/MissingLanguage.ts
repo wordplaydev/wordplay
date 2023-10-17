@@ -1,8 +1,8 @@
 import type Language from '@nodes/Language';
 import type Token from '@nodes/Token';
-import type Locale from '@locale/Locale';
 import Conflict from './Conflict';
 import concretize from '../locale/concretize';
+import type Locales from '../locale/Locales';
 
 export default class MissingLanguage extends Conflict {
     readonly language: Language;
@@ -18,10 +18,12 @@ export default class MissingLanguage extends Conflict {
         return {
             primary: {
                 node: this.language,
-                explanation: (locale: Locale) =>
+                explanation: (locales: Locales) =>
                     concretize(
-                        locale,
-                        locale.node.Language.conflict.MissingLanguage
+                        locales,
+                        locales.get(
+                            (l) => l.node.Language.conflict.MissingLanguage
+                        )
                     ),
             },
         };

@@ -2,7 +2,7 @@ import Step from './Step';
 import type Evaluator from '@runtime/Evaluator';
 import type Value from '../values/Value';
 import type Expression from '@nodes/Expression';
-import type Locale from '@locale/Locale';
+import type Locales from '../locale/Locales';
 
 type Action = (evalutor: Evaluator) => Value | undefined;
 
@@ -19,9 +19,9 @@ export default class Start extends Step {
         return this.action === undefined ? value : this.action(evaluator);
     }
 
-    getExplanations(translation: Locale, evaluator: Evaluator) {
+    getExplanations(locales: Locales, evaluator: Evaluator) {
         return this.node.getStartExplanations(
-            translation,
+            locales,
             evaluator.project.getNodeContext(this.node),
             evaluator
         );

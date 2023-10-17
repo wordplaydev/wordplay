@@ -13,7 +13,7 @@ import TextValue from '../values/TextValue';
 import BoolValue from '@values/BoolValue';
 import StreamType from '../nodes/StreamType';
 import createStreamEvaluator from './createStreamEvaluator';
-import type Locale from '../locale/Locale';
+import type Locales from '../locale/Locales';
 
 export default class Key extends StreamValue<
     TextValue,
@@ -65,7 +65,7 @@ export default class Key extends StreamValue<
     }
 }
 
-export function createKeyDefinition(locales: Locale[]) {
+export function createKeyDefinition(locales: Locales) {
     const keyBind = Bind.make(
         getDocLocales(locales, (locale) => locale.input.Key.key.doc),
         getNameLocales(locales, (locale) => locale.input.Key.key.names),

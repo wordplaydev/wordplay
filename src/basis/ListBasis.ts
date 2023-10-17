@@ -20,7 +20,6 @@ import { getDocLocales } from '@locale/getDocLocales';
 import { getNameLocales } from '@locale/getNameLocales';
 import TypeVariable from '@nodes/TypeVariable';
 import type Expression from '../nodes/Expression';
-import type Locale from '../locale/Locale';
 import NoneLiteral from '../nodes/NoneLiteral';
 import NoneValue from '@values/NoneValue';
 import { Iteration } from './Iteration';
@@ -34,8 +33,9 @@ import InternalExpression from './InternalExpression';
 import ConversionException from '@values/ConversionException';
 import ExceptionValue from '@values/ExceptionValue';
 import SetType from '../nodes/SetType';
+import type Locales from '../locale/Locales';
 
-export default function bootstrapList(locales: Locale[]) {
+export default function bootstrapList(locales: Locales) {
     const ListTypeVarNames = getNameLocales(
         locales,
         (locale) => locale.basis.List.kind

@@ -17,8 +17,9 @@ import type Locale from '../locale/Locale';
 import type { FunctionText, NameAndDoc } from '../locale/Locale';
 import ListType from '../nodes/ListType';
 import AnyType from '../nodes/AnyType';
+import type Locales from '../locale/Locales';
 
-export default function bootstrapText(locales: Locale[]) {
+export default function bootstrapText(locales: Locales) {
     function createBinaryTextFunction<OutputType extends Value>(
         functionText: (locale: Locale) => FunctionText<NameAndDoc[]>,
         fun: (

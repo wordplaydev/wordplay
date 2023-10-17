@@ -4,8 +4,8 @@ import Node from '@nodes/Node';
 import Refer from './Refer';
 import Caret from './Caret';
 import type Context from '@nodes/Context';
-import type Locale from '@locale/Locale';
 import concretize from '../locale/concretize';
+import type Locales from '../locale/Locales';
 
 /** Set a field on a child */
 export default class Assign<NodeType extends Node> extends Revision {
@@ -41,7 +41,7 @@ export default class Assign<NodeType extends Node> extends Revision {
         return false;
     }
 
-    getNewNode(locales: Locale[]) {
+    getNewNode(locales: Locales) {
         return this.child === undefined
             ? undefined
             : this.child instanceof Node
@@ -49,13 +49,13 @@ export default class Assign<NodeType extends Node> extends Revision {
             : this.child.getNode(locales);
     }
 
-    getEditedNode(locales: Locale[]): [Node, Node] {
+    getEditedNode(locales: Locales): [Node, Node] {
         const newNode = this.getNewNode(locales);
         const newParent = this.parent.replace(this.field, newNode);
         return [newNode ?? newParent, newParent];
     }
 
-    getEdit(locale: Locale[]): Edit | undefined {
+    getEdit(locale: Locales): Edit | undefined {
         const [newNode, newParent] = this.getEditedNode(locale);
 
         const existingChild = this.parent.getField(this.field);
@@ -112,16 +112,16 @@ export default class Assign<NodeType extends Node> extends Revision {
               ];
     }
 
-    getDescription(locale: Locale) {
+    getDescription(locales: Locales) {
         const node =
             this.child instanceof Refer
-                ? this.child.getNode([locale])
-                : this.getNewNode([locale]);
+                ? this.child.getNode(locales)
+                : this.getNewNode(locales);
         return concretize(
-            locale,
-            locale.ui.edit.assign,
+            locales,
+            locales.get((l) => l.ui.edit.assign),
             this.field,
-            node?.getLabel(locale)
+            node?.getLabel(locales)
         );
     }
 

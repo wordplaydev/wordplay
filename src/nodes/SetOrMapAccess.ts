@@ -22,7 +22,6 @@ import SetOpenToken from './SetOpenToken';
 import SetCloseToken from './SetCloseToken';
 import UnclosedDelimiter from '@conflicts/UnclosedDelimiter';
 import { node, type Grammar, type Replacement } from './Node';
-import type Locale from '@locale/Locale';
 import NodeRef from '@locale/NodeRef';
 import Glyphs from '../lore/Glyphs';
 import type { BasisTypeName } from '../basis/BasisConstants';
@@ -31,6 +30,7 @@ import IncompatibleInput from '../conflicts/IncompatibleInput';
 import { NotAType } from './NotAType';
 import concretize from '../locale/concretize';
 import Sym from './Sym';
+import type Locales from '../locale/Locales';
 
 export default class SetOrMapAccess extends Expression {
     readonly setOrMap: Expression;
@@ -68,7 +68,7 @@ export default class SetOrMapAccess extends Expression {
             {
                 name: 'setOrMap',
                 kind: node(Expression),
-                label: (translation: Locale) => translation.term.set,
+                label: (locales: Locales) => locales.get((l) => l.term.set),
                 // Must be a number
                 getType: () => UnionType.make(SetType.make(), MapType.make()),
             },
@@ -76,7 +76,7 @@ export default class SetOrMapAccess extends Expression {
             {
                 name: 'key',
                 kind: node(Expression),
-                label: (translation: Locale) => translation.term.key,
+                label: (locales: Locales) => locales.get((l) => l.term.key),
             },
             { name: 'close', kind: node(Sym.SetClose) },
         ];
@@ -196,27 +196,27 @@ export default class SetOrMapAccess extends Expression {
         return this.close ?? this.key;
     }
 
-    getNodeLocale(translation: Locale) {
-        return translation.node.SetOrMapAccess;
+    getNodeLocale(locales: Locales) {
+        return locales.get((l) => l.node.SetOrMapAccess);
     }
 
-    getStartExplanations(locale: Locale, context: Context) {
+    getStartExplanations(locales: Locales, context: Context) {
         return concretize(
-            locale,
-            locale.node.SetOrMapAccess.start,
-            new NodeRef(this.setOrMap, locale, context)
+            locales,
+            locales.get((l) => l.node.SetOrMapAccess.start),
+            new NodeRef(this.setOrMap, locales, context)
         );
     }
 
     getFinishExplanations(
-        locale: Locale,
+        locales: Locales,
         context: Context,
         evaluator: Evaluator
     ) {
         return concretize(
-            locale,
-            locale.node.SetOrMapAccess.finish,
-            this.getValueIfDefined(locale, context, evaluator)
+            locales,
+            locales.get((l) => l.node.SetOrMapAccess.finish),
+            this.getValueIfDefined(locales, context, evaluator)
         );
     }
 

@@ -3,7 +3,6 @@ import type ConversionDefinition from '@nodes/ConversionDefinition';
 import Convert from '@nodes/Convert';
 import ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
 import type Node from '@nodes/Node';
-import type Locale from '@locale/Locale';
 import Emotion from '../lore/Emotion';
 import Glyphs from '../lore/Glyphs';
 import Concept from './Concept';
@@ -12,6 +11,7 @@ import type StructureConcept from './StructureConcept';
 import concretize from '../locale/concretize';
 import type Markup from '../nodes/Markup';
 import type { Character } from '../tutorial/Tutorial';
+import type Locales from '../locale/Locales';
 
 export default class ConversionConcept extends Concept {
     /** The function this concept represents. */
@@ -51,14 +51,14 @@ export default class ConversionConcept extends Concept {
         return false;
     }
 
-    getDocs(locale: Locale): Markup | undefined {
-        const doc = this.definition.docs?.getPreferredLocale(locale);
-        return doc?.markup?.concretize(locale, []);
+    getDocs(locales: Locales): Markup | undefined {
+        const doc = this.definition.docs?.getPreferredLocale(locales);
+        return doc?.markup?.concretize(locales, []);
     }
 
-    getName(locale: Locale) {
+    getName(locales: Locales) {
         return this.definition
-            .getDescription(concretize, locale, this.context)
+            .getDescription(concretize, locales, this.context)
             .toText();
     }
 

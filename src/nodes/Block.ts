@@ -23,12 +23,12 @@ import EvalOpenToken from './EvalOpenToken';
 import UnclosedDelimiter from '@conflicts/UnclosedDelimiter';
 import NoExpressionType from './NoExpressionType';
 import { none, type Grammar, type Replacement, node, list, any } from './Node';
-import type Locale from '@locale/Locale';
 import Glyphs from '../lore/Glyphs';
 import concretize from '../locale/concretize';
 import Sym from './Sym';
 import Purpose from '../concepts/Purpose';
 import DefinitionExpression from './DefinitionExpression';
+import type Locales from '../locale/Locales';
 
 export enum BlockKind {
     Root = 'root',
@@ -101,8 +101,8 @@ export default class Block extends Expression {
             {
                 name: 'statements',
                 kind: list(true, node(Expression), node(Bind)),
-                label: (translation: Locale) =>
-                    translation.node.Block.statement,
+                label: (locales: Locales) =>
+                    locales.get((l) => l.node.Block.statement),
                 space: true,
                 indent: !this.isRoot(),
                 newline: this.isRoot() || this.isStructure(),
@@ -320,23 +320,26 @@ export default class Block extends Expression {
             : current;
     }
 
-    getNodeLocale(translation: Locale) {
-        return translation.node.Block;
+    getNodeLocale(locales: Locales) {
+        return locales.get((l) => l.node.Block);
     }
 
-    getStartExplanations(locale: Locale) {
-        return concretize(locale, locale.node.Block.start);
+    getStartExplanations(locales: Locales) {
+        return concretize(
+            locales,
+            locales.get((l) => l.node.Block.start)
+        );
     }
 
     getFinishExplanations(
-        locale: Locale,
+        locales: Locales,
         context: Context,
         evaluator: Evaluator
     ) {
         return concretize(
-            locale,
-            locale.node.Block.finish,
-            this.getValueIfDefined(locale, context, evaluator)
+            locales,
+            locales.get((l) => l.node.Block.finish),
+            this.getValueIfDefined(locales, context, evaluator)
         );
     }
 

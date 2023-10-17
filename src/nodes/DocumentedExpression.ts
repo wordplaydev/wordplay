@@ -8,11 +8,11 @@ import type TypeSet from './TypeSet';
 import type Evaluator from '@runtime/Evaluator';
 import Docs from './Docs';
 import { node, type Grammar, type Replacement } from './Node';
-import type Locale from '@locale/Locale';
 import SimpleExpression from './SimpleExpression';
 import Glyphs from '../lore/Glyphs';
 import concretize from '../locale/concretize';
 import Purpose from '../concepts/Purpose';
+import type Locales from '../locale/Locales';
 
 export default class DocumentedExpression extends SimpleExpression {
     readonly docs: Docs;
@@ -85,12 +85,15 @@ export default class DocumentedExpression extends SimpleExpression {
         return this.expression;
     }
 
-    getNodeLocale(translation: Locale) {
-        return translation.node.DocumentedExpression;
+    getNodeLocale(locales: Locales) {
+        return locales.get((l) => l.node.DocumentedExpression);
     }
 
-    getStartExplanations(locale: Locale) {
-        return concretize(locale, locale.node.DocumentedExpression.start);
+    getStartExplanations(locales: Locales) {
+        return concretize(
+            locales,
+            locales.get((l) => l.node.DocumentedExpression.start)
+        );
     }
 
     getGlyphs() {

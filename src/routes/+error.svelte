@@ -1,6 +1,6 @@
 <script lang="ts">
     import Header from '../components/app/Header.svelte';
-    import { locale } from '../db/Database';
+    import { locales } from '../db/Database';
     import Link from '../components/app/Link.svelte';
     import Speech from '../components/lore/Speech.svelte';
     import Glyphs from '../lore/Glyphs';
@@ -8,10 +8,10 @@
 </script>
 
 <Writing>
-    <Header>{$locale.ui.page.unknown.header}</Header>
+    <Header>{$locales.get((l) => l.ui.page.unknown.header)}</Header>
     <Speech glyph={Glyphs.Function}
         ><p slot="content">
-            {$locale.ui.page.unknown.message}
+            {$locales.get((l) => l.ui.page.unknown.message)}
             <Link to="/">🏠</Link></p
         ></Speech
     >

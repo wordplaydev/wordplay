@@ -16,7 +16,7 @@
     import PlayView from './PlayView.svelte';
     import Button from '../widgets/Button.svelte';
     import Source from '../../nodes/Source';
-    import { locale, locales, Projects } from '../../db/Database';
+    import { locales, Projects } from '@db/Database';
     import type Spaces from '../../parser/Spaces';
     import { toMarkup } from '../../parser/toMarkup';
     import MarkupHTMLView from '../concepts/MarkupHTMLView.svelte';
@@ -130,10 +130,17 @@
     )
         initialProject = Project.make(
             progress.getProjectID(),
-            scene ? scene.title : act ? act.title : $locale.wordplay,
-            new Source($locale.term.start, source),
+            scene
+                ? scene.title
+                : act
+                ? act.title
+                : $locales.getLocale().wordplay,
+            new Source(
+                $locales.get((l) => l.term.start),
+                source
+            ),
             [],
-            $locales,
+            $locales.getLocales(),
             $user?.uid ?? null,
             [],
             false,
@@ -218,13 +225,13 @@
         <Header block={false}>Learn</Header>
         <nav>
             <Button
-                tip={$locale.ui.page.learn.button.previous}
+                tip={$locales.get((l) => l.ui.page.learn.button.previous)}
                 action={() => navigate(progress.previousPause() ?? progress)}
                 active={progress.previousPause() !== undefined}
                 bind:view={previousButton}>⇦</Button
             >
             <Button
-                tip={$locale.ui.page.learn.button.next}
+                tip={$locales.get((l) => l.ui.page.learn.button.next)}
                 action={() => navigate(progress.nextPause() ?? progress)}
                 active={progress.nextPause() !== undefined}
                 bind:view={nextButton}>⇨</Button
@@ -270,15 +277,17 @@
         <div role="article" class="dialog">
             <div class="turns" aria-live="assertive">
                 {#if act === undefined}
-                    <div class="title play">{$locale.wordplay}</div>
+                    <div class="title play"
+                        >{$locales.get((l) => l.wordplay)}</div
+                    >
                 {:else if scene === undefined}
                     <div class="title act"
-                        >{$locale.term.act}
+                        >{$locales.get((l) => l.term.act)}
                         {progress.act}<p><em>{act.title}</em></p></div
                     >
                 {:else if dialog === undefined}
                     <div class="title scene"
-                        >{$locale.term.scene}
+                        >{$locales.get((l) => l.term.scene)}
                         {progress.scene}<p><em>{scene.title}</em></p
                         >{#if scene.subtitle}<em>{scene.subtitle}</em>{/if}</div
                     >

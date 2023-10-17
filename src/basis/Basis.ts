@@ -33,9 +33,10 @@ import { getNameLocales } from '../locale/getNameLocales';
 import bootstrapStructure from './StructureBasis';
 import { toTokens } from '../parser/toTokens';
 import parseType from '../parser/paresType';
+import type Locales from '../locale/Locales';
 
 export class Basis {
-    readonly locales: Locale[];
+    readonly locales: Locales;
     readonly languages: LanguageCode[];
     readonly shares: ReturnType<typeof createDefaultShares>;
 
@@ -45,9 +46,9 @@ export class Basis {
      */
     static readonly Bases: Map<string, Basis> = new Map();
 
-    constructor(locales: Locale[]) {
+    constructor(locales: Locales) {
         this.locales = locales;
-        this.languages = locales.map((locale) => locale.language);
+        this.languages = locales.getLanguages();
 
         this.addStructure('none', bootstrapNone(locales));
         this.addStructure('boolean', bootstrapBool(locales));
@@ -62,9 +63,8 @@ export class Basis {
         this.shares = createDefaultShares(locales);
     }
 
-    static getLocalizedBasis(locales: Locale | Locale[]) {
-        locales = Array.isArray(locales) ? locales : [locales];
-        const languages = locales.map((locale) => locale.language);
+    static getLocalizedBasis(locales: Locales) {
+        const languages = locales.getLanguages();
         const key = languages.join(',');
         const basis = Basis.Bases.get(key) ?? new Basis(locales);
         Basis.Bases.set(key, basis);
@@ -160,7 +160,7 @@ export class Basis {
 }
 
 export function createBasisFunction(
-    locales: Locale[],
+    locales: Locales,
     text: (locale: Locale) => FunctionText<NameAndDoc[]>,
     typeVars: TypeVariables | undefined,
     types: (Type | [Type, Expression])[],

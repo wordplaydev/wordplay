@@ -2,9 +2,9 @@ import type Context from '@nodes/Context';
 import type FunctionDefinition from '@nodes/FunctionDefinition';
 import type StructureDefinition from '@nodes/StructureDefinition';
 import NodeRef from '@locale/NodeRef';
-import type Locale from '@locale/Locale';
 import Conflict from './Conflict';
 import concretize from '../locale/concretize';
+import type Locales from '../locale/Locales';
 
 export class UnimplementedInterface extends Conflict {
     readonly structure: StructureDefinition;
@@ -26,24 +26,25 @@ export class UnimplementedInterface extends Conflict {
         return {
             primary: {
                 node: this.structure,
-                explanation: (locale: Locale, context: Context) =>
+                explanation: (locales: Locales, context: Context) =>
                     concretize(
-                        locale,
-                        locale.node.StructureDefinition.conflict
-                            .UnimplementedInterface,
+                        locales,
+                        locales.get(
+                            (l) =>
+                                l.node.StructureDefinition.conflict
+                                    .UnimplementedInterface
+                        ),
                         new NodeRef(
                             this.interfaceStructure,
-                            locale,
+                            locales,
                             context,
-                            this.interfaceStructure.names.getPreferredNameString(
-                                [locale]
-                            )
+                            locales.getName(this.interfaceStructure.names)
                         ),
                         new NodeRef(
                             this.fun,
-                            locale,
+                            locales,
                             context,
-                            this.fun.names.getPreferredNameString([locale])
+                            locales.getName(this.fun.names)
                         )
                     ),
             },

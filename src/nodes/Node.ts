@@ -18,6 +18,7 @@ import type { TemplateInput } from '../locale/concretize';
 import type Markup from './Markup';
 import type Sym from './Sym';
 import type Concretizer from './Concretizer';
+import type Locales from '../locale/Locales';
 
 /* A global ID for nodes, for helping index them */
 let NODE_ID_COUNTER = 0;
@@ -641,8 +642,8 @@ export default abstract class Node {
     /**
      * Given a locale, get the node's static label
      * */
-    getLabel(locale: Locale): string {
-        return this.getNodeLocale(locale).name;
+    getLabel(locales: Locales): string {
+        return this.getNodeLocale(locales).name;
     }
 
     /**
@@ -650,29 +651,29 @@ export default abstract class Node {
      * */
     getDescription(
         concretizer: Concretizer,
-        locale: Locale,
+        locales: Locales,
         context: Context
     ): Markup {
-        const text = this.getNodeLocale(locale);
+        const text = this.getNodeLocale(locales);
         return concretizer(
-            locale,
+            locales,
             // Is there a description? Use that. Otherwise just use the name.
             'description' in text
                 ? (text as DescriptiveNodeText).description
                 : text.name,
-            ...this.getDescriptionInputs(locale, context)
+            ...this.getDescriptionInputs(locales, context)
         );
     }
 
     /**
      * Get the list of inputs to give to concretize the description.
      */
-    getDescriptionInputs(_: Locale, __: Context): TemplateInput[] {
+    getDescriptionInputs(_: Locales, __: Context): TemplateInput[] {
         return [];
     }
 
-    getDoc(locale: Locale): DocText {
-        return this.getNodeLocale(locale).doc;
+    getDoc(locales: Locales): DocText {
+        return this.getNodeLocale(locales).doc;
     }
 
     /**
@@ -684,17 +685,17 @@ export default abstract class Node {
         return undefined;
     }
 
-    abstract getNodeLocale(locale: Locale): NodeText | DescriptiveNodeText;
+    abstract getNodeLocale(locales: Locales): NodeText | DescriptiveNodeText;
 
     /** Provide localized labels for any child that can be a placeholder. */
     getChildPlaceholderLabel(
         child: Node,
-        translation: Locale,
+        locales: Locales,
         context: Context,
         root: Root
     ): Template | undefined {
         const label = this.getFieldOfChild(child)?.label;
-        return label ? label(translation, child, context, root) : undefined;
+        return label ? label(locales, child, context, root) : undefined;
     }
 
     /** Translates the node back into Wordplay text, using spaces if provided and . */
@@ -732,7 +733,7 @@ export type Field = {
     kind: Any | Empty | ListOf | IsA;
     /** A description of the field for the UI */
     label?: (
-        locale: Locale,
+        locales: Locales,
         child: Node,
         context: Context,
         root: Root

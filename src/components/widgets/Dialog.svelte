@@ -1,6 +1,6 @@
 <script lang="ts">
     import { onMount, tick } from 'svelte';
-    import { locale } from '../../db/Database';
+    import { locales } from '../../db/Database';
     import Button from './Button.svelte';
     import type { DialogText } from '../../locale/UITexts';
     import Header from '../app/Header.svelte';
@@ -50,7 +50,7 @@
         {#if closeable}
             <div class="close">
                 <Button
-                    tip={$locale.ui.widget.dialog.close}
+                    tip={$locales.get((l) => l.ui.widget.dialog.close)}
                     action={() => (show = false)}>❌</Button
                 >
             </div>

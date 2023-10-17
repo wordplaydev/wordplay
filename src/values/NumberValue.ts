@@ -8,9 +8,9 @@ import SimpleValue from './SimpleValue';
 import NumberType from '@nodes/NumberType';
 import type Value from '../values/Value';
 import type { BasisTypeName } from '../basis/BasisConstants';
-import type Locale from '@locale/Locale';
 import type Expression from '../nodes/Expression';
 import type Concretizer from '../nodes/Concretizer';
+import type Locales from '../locale/Locales';
 
 export type NumberAndPrecision = [Decimal, number | undefined];
 
@@ -253,8 +253,11 @@ export default class NumberValue extends SimpleValue {
         }${this.unit.toString()}`;
     }
 
-    getDescription(concretize: Concretizer, locale: Locale) {
-        return concretize(locale, locale.term.number);
+    getDescription(concretize: Concretizer, locales: Locales) {
+        return concretize(
+            locales,
+            locales.get((l) => l.term.number)
+        );
     }
 
     getSize() {

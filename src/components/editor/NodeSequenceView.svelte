@@ -9,7 +9,7 @@
     import { getCaret } from '../project/Contexts';
     import NodeView from './NodeView.svelte';
     import Button from '../widgets/Button.svelte';
-    import { locale } from '../../db/Database';
+    import { locales } from '../../db/Database';
 
     export let nodes: Node[];
     export let elide = false;
@@ -77,13 +77,13 @@
 
 {#if hiddenBefore > 0}
     <Button
-        tip={$locale.ui.source.button.expandSequence}
+        tip={$locales.get((l) => l.ui.source.button.expandSequence)}
         action={() => (elide = false)}
         ><span class="count">… {hiddenBefore}</span></Button
     >{/if}{#each visible as node}<NodeView
         {node}
     />{/each}{#if hiddenAfter > 0}<Button
-        tip={$locale.ui.source.button.expandSequence}
+        tip={$locales.get((l) => l.ui.source.button.expandSequence)}
         action={() => (elide = false)}
         ><span class="count">… {hiddenAfter}</span></Button
     >{/if}

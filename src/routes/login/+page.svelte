@@ -13,7 +13,7 @@
     import { FirebaseError } from 'firebase/app';
     import { analytics, auth, firestore } from '@db/firebase';
     import { onMount } from 'svelte';
-    import { DB, locale } from '../../db/Database';
+    import { DB, locales } from '../../db/Database';
     import Feedback from '../../components/app/Feedback.svelte';
     import Writing from '../../components/app/Writing.svelte';
     import validateEmail from '../../db/validEmail';
@@ -38,10 +38,16 @@
 
     let Errors: Record<string, string>;
     $: Errors = {
-        'auth/id-token-expired': $locale.ui.page.login.error.expired,
-        'auth/id-token-revoked': $locale.ui.page.login.error.invalid,
-        'auth/invalid-argument': $locale.ui.page.login.error.invalid,
-        'auth/invalid-email': $locale.ui.page.login.error.email,
+        'auth/id-token-expired': $locales.get(
+            (l) => l.ui.page.login.error.expired
+        ),
+        'auth/id-token-revoked': $locales.get(
+            (l) => l.ui.page.login.error.invalid
+        ),
+        'auth/invalid-argument': $locales.get(
+            (l) => l.ui.page.login.error.invalid
+        ),
+        'auth/invalid-email': $locales.get((l) => l.ui.page.login.error.email),
     };
 
     let moderator = false;
@@ -53,10 +59,11 @@
             console.error(err.code);
             console.error(err.message);
             loginFeedback =
-                Errors[err.code] ?? $locale.ui.page.login.error.failure;
+                Errors[err.code] ??
+                $locales.get((l) => l.ui.page.login.error.failure);
         } else {
             console.error(err);
-            loginFeedback = $locale.ui.page.login.error.failure;
+            loginFeedback = $locales.get((l) => l.ui.page.login.error.failure);
         }
         success = false;
     }
@@ -124,7 +131,9 @@
         changeSubmitted = true;
         try {
             await updateEmail(user, email);
-            changeFeedback = $locale.ui.page.login.prompt.confirm;
+            changeFeedback = $locales.get(
+                (l) => l.ui.page.login.prompt.confirm
+            );
         } catch (error) {
             if (
                 error !== null &&
@@ -137,7 +146,8 @@
                 console.error(error.code);
                 console.error(error.message);
                 changeFeedback =
-                    Errors[error.code] ?? $locale.ui.page.login.error.unchanged;
+                    Errors[error.code] ??
+                    $locales.get((l) => l.ui.page.login.error.unchanged);
             }
         } finally {
             changeSubmitted = false;
@@ -185,49 +195,61 @@
 
             <div class="actions">
                 <div class="action">
-                    <p>{$locale.ui.page.login.prompt.play}</p>
+                    <p>{$locales.get((l) => l.ui.page.login.prompt.play)}</p>
                     <p
                         ><Link to="/projects"
-                            >{$locale.ui.page.projects.header}</Link
+                            >{$locales.get(
+                                (l) => l.ui.page.projects.header
+                            )}</Link
                         ></p
                     >
                 </div>
                 <div class="action">
-                    <p>{$locale.ui.page.login.prompt.name}</p>
+                    <p>{$locales.get((l) => l.ui.page.login.prompt.name)}</p>
                     <EmojiChooser
                         pick={(name) => rename(name)}
                         emoji={$user?.displayName ?? ''}
                     />
                 </div>
                 <div class="action">
-                    <p>{$locale.ui.page.login.prompt.logout}</p>
+                    <p>{$locales.get((l) => l.ui.page.login.prompt.logout)}</p>
                     <p
                         ><Button
                             background
-                            tip={$locale.ui.page.login.button.logout.tip}
+                            tip={$locales.get(
+                                (l) => l.ui.page.login.button.logout.tip
+                            )}
                             action={logout}
-                            >{$locale.ui.page.login.button.logout.label}</Button
+                            >{$locales.get(
+                                (l) => l.ui.page.login.button.logout.label
+                            )}</Button
                         ></p
                     >
                 </div>
                 <div class="action">
-                    <p>{$locale.ui.page.login.prompt.change}</p>
+                    <p>{$locales.get((l) => l.ui.page.login.prompt.change)}</p>
                     <form on:submit={update}>
                         <TextField
-                            description={$locale.ui.page.login.field.email
-                                .description}
-                            placeholder={$locale.ui.page.login.field.email
-                                .placeholder}
+                            description={$locales.get(
+                                (l) => l.ui.page.login.field.email.description
+                            )}
+                            placeholder={$locales.get(
+                                (l) => l.ui.page.login.field.email.placeholder
+                            )}
                             bind:text={email}
                             editable={!changeSubmitted}
                         /><Button
                             submit
-                            tip={$locale.ui.page.login.button.update}
+                            tip={$locales.get(
+                                (l) => l.ui.page.login.button.update
+                            )}
                             active={validateEmail(email)}
                             action={() => undefined}>&gt;</Button
                         >
                         {#if changeSubmitted}<Spinning
-                                label={$locale.ui.page.login.feedback.changing}
+                                label={$locales.get(
+                                    (l) => l.ui.page.login.feedback.changing
+                                )}
                             />
                         {:else if changeFeedback}<Feedback inline
                                 >{changeFeedback}</Feedback
@@ -236,21 +258,30 @@
                 </div>
                 <div class="action"
                     >{#if !deleteSubmitted}
-                        <p>{$locale.ui.page.login.prompt.delete}</p>
+                        <p
+                            >{$locales.get(
+                                (l) => l.ui.page.login.prompt.delete
+                            )}</p
+                        >
                         <p
                             ><Button
                                 background
-                                tip={$locale.ui.page.login.button.delete.tip}
+                                tip={$locales.get(
+                                    (l) => l.ui.page.login.button.delete.tip
+                                )}
                                 action={() =>
                                     (deleteRequested = !deleteRequested)}
                                 active={!deleteRequested}
-                                >{$locale.ui.page.login.button.delete
-                                    .label}</Button
+                                >{$locales.get(
+                                    (l) => l.ui.page.login.button.delete.label
+                                )}</Button
                             >
                         </p>
                         {#if deleteRequested}
                             <p aria-live="assertive">
-                                {$locale.ui.page.login.prompt.reallyDelete}
+                                {$locales.get(
+                                    (l) => l.ui.page.login.prompt.reallyDelete
+                                )}
                             </p>
 
                             <form
@@ -260,36 +291,55 @@
                                         : undefined}
                             >
                                 <TextField
-                                    description={$locale.ui.page.login.field
-                                        .email.description}
-                                    placeholder={$locale.ui.page.login.field
-                                        .email.placeholder}
+                                    description={$locales.get(
+                                        (l) =>
+                                            l.ui.page.login.field.email
+                                                .description
+                                    )}
+                                    placeholder={$locales.get(
+                                        (l) =>
+                                            l.ui.page.login.field.email
+                                                .placeholder
+                                    )}
                                     fill={true}
                                     bind:text={confirmEmail}
                                 />
                                 <Button
                                     background
                                     submit
-                                    tip={$locale.ui.page.login.button
-                                        .reallyDelete.tip}
+                                    tip={$locales.get(
+                                        (l) =>
+                                            l.ui.page.login.button.reallyDelete
+                                                .tip
+                                    )}
                                     active={readyToDeleteAccount(confirmEmail)}
                                     action={deleteAccount}
-                                    >{$locale.ui.page.login.button.reallyDelete
-                                        .label}</Button
+                                    >{$locales.get(
+                                        (l) =>
+                                            l.ui.page.login.button.reallyDelete
+                                                .label
+                                    )}</Button
                                 >
                             </form>
                         {/if}
                     {:else}
                         {#if successfullyDeleted === undefined}
-                            <p>{$locale.ui.page.login.feedback.deleting}</p>
+                            <p
+                                >{$locales.get(
+                                    (l) => l.ui.page.login.feedback.deleting
+                                )}</p
+                            >
                             <p
                                 ><Spinning
-                                    label={$locale.ui.page.login.feedback
-                                        .deleting}
+                                    label={$locales.get(
+                                        (l) => l.ui.page.login.feedback.deleting
+                                    )}
                                 /></p
                             >{:else if successfullyDeleted === false}
                             <p aria-live="assertive"
-                                >{$locale.ui.page.login.error.delete}</p
+                                >{$locales.get(
+                                    (l) => l.ui.page.login.error.delete
+                                )}</p
                             >
                         {/if}
                     {/if}
@@ -303,38 +353,51 @@
                 {/if}
             </div>
         {:else}
-            <Header>{$locale.ui.page.login.header}</Header>
+            <Header>{$locales.get((l) => l.ui.page.login.header)}</Header>
             <p>
                 {#if missingEmail}
-                    {$locale.ui.page.login.prompt.enter}
+                    {$locales.get((l) => l.ui.page.login.prompt.enter)}
                 {:else if $user === null}
-                    {$locale.ui.page.login.prompt.login}
+                    {$locales.get((l) => l.ui.page.login.prompt.login)}
                 {/if}
             </p>
             <form on:submit={startLogin}>
                 <TextField
-                    description={$locale.ui.page.login.field.email.description}
-                    placeholder={$locale.ui.page.login.field.email.placeholder}
+                    description={$locales.get(
+                        (l) => l.ui.page.login.field.email.description
+                    )}
+                    placeholder={$locales.get(
+                        (l) => l.ui.page.login.field.email.placeholder
+                    )}
                     bind:text={email}
                 /><Button
                     submit
-                    tip={$locale.ui.page.login.button.login}
+                    tip={$locales.get((l) => l.ui.page.login.button.login)}
                     active={validateEmail(email)}
                     action={() => undefined}>&gt;</Button
                 >
             </form>
             <p>
                 {#if sent === true}
-                    <Feedback>{$locale.ui.page.login.prompt.sent}</Feedback>
+                    <Feedback
+                        >{$locales.get(
+                            (l) => l.ui.page.login.prompt.sent
+                        )}</Feedback
+                    >
                 {:else if success === true}
-                    <Feedback>{$locale.ui.page.login.prompt.success}</Feedback>
+                    <Feedback
+                        >{$locales.get(
+                            (l) => l.ui.page.login.prompt.success
+                        )}</Feedback
+                    >
                 {:else if success === false}
                     <Feedback>{loginFeedback}</Feedback>
                 {/if}
             </p>
         {/if}
     {:else}
-        <Feedback>{$locale.ui.page.login.error.offline}</Feedback>
+        <Feedback>{$locales.get((l) => l.ui.page.login.error.offline)}</Feedback
+        >
     {/if}
 </Writing>
 

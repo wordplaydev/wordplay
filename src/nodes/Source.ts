@@ -30,6 +30,7 @@ import Markup from './Markup';
 import Purpose from '../concepts/Purpose';
 import Tokens from '../parser/Tokens';
 import type Definition from './Definition';
+import type Locales from '../locale/Locales';
 
 /** A document representing executable Wordplay code and it's various metadata, such as conflicts, tokens, and evaulator. */
 export default class Source extends Expression {
@@ -918,8 +919,8 @@ export default class Source extends Expression {
         return this;
     }
 
-    getNodeLocale(translation: Locale) {
-        return translation.node.Source;
+    getNodeLocale(locales: Locales) {
+        return locales.get((l) => l.node.Source);
     }
 
     getStartExplanations() {

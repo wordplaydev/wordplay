@@ -20,7 +20,6 @@ import Names from './Names';
 import type Evaluator from '@runtime/Evaluator';
 import type Value from '@values/Value';
 import { node, type Grammar, type Replacement } from './Node';
-import type Locale from '@locale/Locale';
 import StartConversion from '@runtime/StartConversion';
 import NodeRef from '@locale/NodeRef';
 import Glyphs from '../lore/Glyphs';
@@ -35,6 +34,7 @@ import type Node from './Node';
 import Purpose from '../concepts/Purpose';
 import NameType from './NameType';
 import { getConcreteConversionTypeVariable } from './Generics';
+import type Locales from '../locale/Locales';
 
 export default class Convert extends Expression {
     readonly expression: Expression;
@@ -263,27 +263,27 @@ export default class Convert extends Expression {
         return this.convert;
     }
 
-    getNodeLocale(translation: Locale) {
-        return translation.node.Convert;
+    getNodeLocale(locales: Locales) {
+        return locales.get((l) => l.node.Convert);
     }
 
-    getStartExplanations(locale: Locale, context: Context) {
+    getStartExplanations(locales: Locales, context: Context) {
         return concretize(
-            locale,
-            locale.node.Convert.start,
-            new NodeRef(this.expression, locale, context)
+            locales,
+            locales.get((l) => l.node.Convert.start),
+            new NodeRef(this.expression, locales, context)
         );
     }
 
     getFinishExplanations(
-        locale: Locale,
+        locales: Locales,
         context: Context,
         evaluator: Evaluator
     ) {
         return concretize(
-            locale,
-            locale.node.Convert.finish,
-            this.getValueIfDefined(locale, context, evaluator)
+            locales,
+            locales.get((l) => l.node.Convert.finish),
+            this.getValueIfDefined(locales, context, evaluator)
         );
     }
 

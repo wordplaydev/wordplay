@@ -5,9 +5,9 @@ import type NameType from '@nodes/NameType';
 import type StructureDefinition from '@nodes/StructureDefinition';
 import type Type from '@nodes/Type';
 import NodeRef from '@locale/NodeRef';
-import type Locale from '@locale/Locale';
 import Conflict from './Conflict';
 import concretize from '../locale/concretize';
+import type Locales from '../locale/Locales';
 
 export default class UnexpectedTypeInput extends Conflict {
     readonly evaluate: NameType | Evaluate;
@@ -29,29 +29,33 @@ export default class UnexpectedTypeInput extends Conflict {
         return {
             primary: {
                 node: this.type,
-                explanation: (locale: Locale, context: Context) =>
+                explanation: (locales: Locales, context: Context) =>
                     concretize(
-                        locale,
-                        locale.node.Evaluate.conflict.UnexpectedTypeInput
-                            .primary,
+                        locales,
+                        locales.get(
+                            (l) =>
+                                l.node.Evaluate.conflict.UnexpectedTypeInput
+                                    .primary
+                        ),
                         new NodeRef(
                             this.definition.names,
-                            locale,
+                            locales,
                             context,
-                            this.definition.names.getPreferredNameString([
-                                locale,
-                            ])
+                            locales.getName(this.definition.names)
                         )
                     ),
             },
             secondary: {
                 node: this.definition.names,
-                explanation: (locale: Locale, context: Context) =>
+                explanation: (locales: Locales, context: Context) =>
                     concretize(
-                        locale,
-                        locale.node.Evaluate.conflict.UnexpectedTypeInput
-                            .secondary,
-                        new NodeRef(this.type, locale, context)
+                        locales,
+                        locales.get(
+                            (l) =>
+                                l.node.Evaluate.conflict.UnexpectedTypeInput
+                                    .secondary
+                        ),
+                        new NodeRef(this.type, locales, context)
                     ),
             },
         };

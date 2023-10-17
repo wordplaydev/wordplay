@@ -9,7 +9,6 @@ import { getNameLocales } from '@locale/getNameLocales';
 import createStreamEvaluator from './createStreamEvaluator';
 import UnionType from '../nodes/UnionType';
 import NoneLiteral from '../nodes/NoneLiteral';
-import type Locale from '../locale/Locale';
 import type StructureDefinition from '../nodes/StructureDefinition';
 import type Value from '../values/Value';
 import type Context from '../nodes/Context';
@@ -19,6 +18,7 @@ import type { OutputBody } from '../output/Physics';
 import type Velocity from '../output/Velocity';
 import { toVelocity } from '../output/Velocity';
 import NoneValue from '../values/NoneValue';
+import type Locales from '../locale/Locales';
 
 export default class Motion extends TemporalStreamValue<Value, number> {
     private initialPlace: Place | undefined;
@@ -154,7 +154,7 @@ export default class Motion extends TemporalStreamValue<Value, number> {
 }
 
 export function createMotionDefinition(
-    locales: Locale[],
+    locales: Locales,
     placeType: StructureDefinition,
     velocityType: StructureDefinition
 ) {

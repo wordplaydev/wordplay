@@ -21,7 +21,6 @@ import NameToken from './NameToken';
 import StartFinish from '@runtime/StartFinish';
 import UnknownNameType from './UnknownNameType';
 import { node, type Grammar, type Replacement, ListOf } from './Node';
-import type Locale from '@locale/Locale';
 import SimpleExpression from './SimpleExpression';
 import NameException from '@values/NameException';
 import NodeRef from '@locale/NodeRef';
@@ -35,6 +34,7 @@ import StructureDefinition from './StructureDefinition';
 import FunctionDefinition from './FunctionDefinition';
 import StreamDefinition from './StreamDefinition';
 import FunctionType from './FunctionType';
+import type Locales from '../locale/Locales';
 
 /**
  * A reference to some Definition. Can optionally take the definition which it refers,
@@ -166,7 +166,8 @@ export default class Reference extends SimpleExpression {
                 name: 'name',
                 kind: node(Sym.Name),
                 uncompletable: true,
-                label: (translation: Locale) => translation.node.Reference.name,
+                label: (locales: Locales) =>
+                    locales.get((l) => l.node.Reference.name),
                 // The valid definitions of the name are anything in scope, except for the current name.
                 getDefinitions: (context: Context) =>
                     this.getDefinitionsInScope(context).filter(
@@ -354,15 +355,15 @@ export default class Reference extends SimpleExpression {
         return this.name;
     }
 
-    getNodeLocale(translation: Locale) {
-        return translation.node.Reference;
+    getNodeLocale(locales: Locales) {
+        return locales.get((l) => l.node.Reference);
     }
 
-    getStartExplanations(locale: Locale, context: Context) {
+    getStartExplanations(locales: Locales, context: Context) {
         return concretize(
-            locale,
-            locale.node.Reference.start,
-            new NodeRef(this.name, locale, context)
+            locales,
+            locales.get((l) => l.node.Reference.start),
+            new NodeRef(this.name, locales, context)
         );
     }
 

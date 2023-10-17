@@ -75,9 +75,7 @@
         Projects,
         animationFactor,
         blocks,
-        locale,
         locales,
-        writingDirection,
         writingLayout,
     } from '../../db/Database';
     import Button from '../widgets/Button.svelte';
@@ -457,12 +455,7 @@
     }
 
     // Update the highlights when any of these stores values change
-    $: if (
-        $nodeConflicts &&
-        $evaluation &&
-        $writingLayout &&
-        $writingDirection
-    ) {
+    $: if ($nodeConflicts && $evaluation && $writingLayout && $locales) {
         tick().then(() =>
             highlights.set(
                 getHighlights(
@@ -484,7 +477,7 @@
     $: outlines = updateOutlines(
         $highlights,
         $writingLayout === 'horizontal-tb',
-        $writingDirection === 'rtl' || $writingLayout === 'vertical-rl',
+        $locales.getDirection() === 'rtl' || $writingLayout === 'vertical-rl',
         getNodeView
     );
 
@@ -493,7 +486,8 @@
         updateOutlines(
             $highlights,
             $writingLayout === 'horizontal-tb',
-            $writingDirection === 'rtl' || $writingLayout === 'vertical-rl',
+            $locales.getDirection() === 'rtl' ||
+                $writingLayout === 'vertical-rl',
             getNodeView
         );
 
@@ -887,7 +881,7 @@
                 ? Math.round(
                       Math.abs(
                           event.clientX -
-                              ($writingDirection === 'ltr'
+                              ($locales.getDirection() === 'ltr'
                                   ? spaceBounds.left
                                   : spaceBounds.right)
                       ) / spaceWidth
@@ -1064,7 +1058,11 @@
         const position = node ?? $caret.position;
 
         // Get the unique valid edits at the caret.
-        const revisions = getEditsAt(project, $caret.withPosition(position));
+        const revisions = getEditsAt(
+            project,
+            $caret.withPosition(position),
+            $locales
+        );
 
         // Set the menu.
         if ($concepts)
@@ -1342,10 +1340,10 @@
     class:dragging={dragCandidate !== undefined || $dragged !== undefined}
     data-uiid="editor"
     role="application"
-    aria-label={`${$locale.ui.source.label} ${source.getPreferredName(
-        $locales
+    aria-label={`${$locales.get((l) => l.ui.source.label)} ${$locales.getName(
+        source.names
     )}`}
-    style:direction={$writingDirection}
+    style:direction={$locales.getDirection()}
     style:writing-mode={$writingLayout}
     data-id={source.id}
     bind:this={editor}
@@ -1434,10 +1432,10 @@
                     />{/if}
                 <!-- Show the node's label and type -->
                 {$caret.position.getLabel(
-                    $locale
+                    $locales
                 )}{#if caretExpressionType}&nbsp;{TYPE_SYMBOL}&nbsp;{caretExpressionType.toWordplay(
                         undefined,
-                        $locale
+                        $locales.getLocale()
                     )}{/if}
                 <PlaceholderView position={$caret.position} />{/if}</div
         >
@@ -1448,7 +1446,7 @@
     {#if project.getSupplements().length > 0}
         <div class="output-preview-container">
             <Button
-                tip={$locale.ui.source.button.selectOutput}
+                tip={$locales.get((l) => l.ui.source.button.selectOutput)}
                 active={!selected}
                 action={() => dispatch('preview')}
                 scale={false}

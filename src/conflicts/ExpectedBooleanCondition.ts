@@ -2,10 +2,10 @@ import Conditional from '@nodes/Conditional';
 import type Context from '@nodes/Context';
 import type Type from '@nodes/Type';
 import NodeRef from '@locale/NodeRef';
-import type Locale from '@locale/Locale';
 import type Reaction from '../nodes/Reaction';
 import Conflict from './Conflict';
 import concretize from '../locale/concretize';
+import type Locales from '../locale/Locales';
 
 export default class ExpectedBooleanCondition extends Conflict {
     readonly conditional: Conditional | Reaction;
@@ -25,22 +25,28 @@ export default class ExpectedBooleanCondition extends Conflict {
                     this.conditional instanceof Conditional
                         ? this.conditional.question
                         : this.conditional.dots,
-                explanation: (locale: Locale, context: Context) =>
+                explanation: (locales: Locales, context: Context) =>
                     concretize(
-                        locale,
-                        locale.node.Conditional.conflict
-                            .ExpectedBooleanCondition.primary,
-                        new NodeRef(this.type, locale, context)
+                        locales,
+                        locales.get(
+                            (l) =>
+                                l.node.Conditional.conflict
+                                    .ExpectedBooleanCondition.primary
+                        ),
+                        new NodeRef(this.type, locales, context)
                     ),
             },
             secondary: {
                 node: this.conditional.condition,
-                explanation: (locale: Locale, context: Context) =>
+                explanation: (locales: Locales, context: Context) =>
                     concretize(
-                        locale,
-                        locale.node.Conditional.conflict
-                            .ExpectedBooleanCondition.secondary,
-                        new NodeRef(this.type, locale, context)
+                        locales,
+                        locales.get(
+                            (l) =>
+                                l.node.Conditional.conflict
+                                    .ExpectedBooleanCondition.secondary
+                        ),
+                        new NodeRef(this.type, locales, context)
                     ),
             },
         };

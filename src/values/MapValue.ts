@@ -11,9 +11,9 @@ import {
     SET_OPEN_SYMBOL,
 } from '@parser/Symbols';
 import type { BasisTypeName } from '../basis/BasisConstants';
-import type Locale from '@locale/Locale';
 import type Expression from '../nodes/Expression';
 import type Concretizer from '../nodes/Concretizer';
+import type Locales from '../locale/Locales';
 
 export default class MapValue extends SimpleValue {
     readonly values: [Value, Value][];
@@ -111,7 +111,7 @@ export default class MapValue extends SimpleValue {
         return 'map';
     }
 
-    toWordplay(locales: Locale[]): string {
+    toWordplay(locales: Locales): string {
         return `${SET_OPEN_SYMBOL}${this.values
             .map(
                 ([key, value]) =>
@@ -122,8 +122,11 @@ export default class MapValue extends SimpleValue {
             .join(' ')}${SET_CLOSE_SYMBOL}`;
     }
 
-    getDescription(concretize: Concretizer, locale: Locale) {
-        return concretize(locale, locale.term.map);
+    getDescription(concretize: Concretizer, locales: Locales) {
+        return concretize(
+            locales,
+            locales.get((l) => l.term.map)
+        );
     }
 
     getSize() {

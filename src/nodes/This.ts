@@ -20,7 +20,6 @@ import Reaction from './Reaction';
 import ValueException from '@values/ValueException';
 import { node, type Grammar, type Replacement } from './Node';
 import SimpleExpression from './SimpleExpression';
-import type Locale from '@locale/Locale';
 import { UnenclosedType } from './UnenclosedType';
 import Glyphs from '../lore/Glyphs';
 import { PROPERTY_SYMBOL } from '../parser/Symbols';
@@ -28,6 +27,7 @@ import Sym from './Sym';
 import concretize from '../locale/concretize';
 import type Node from './Node';
 import Purpose from '../concepts/Purpose';
+import type Locales from '../locale/Locales';
 
 type ThisStructure = StructureDefinition | ConversionDefinition | Reaction;
 
@@ -168,19 +168,19 @@ export default class This extends SimpleExpression {
         return this.dis;
     }
 
-    getNodeLocale(translation: Locale) {
-        return translation.node.This;
+    getNodeLocale(locales: Locales) {
+        return locales.get((l) => l.node.This);
     }
 
     getStartExplanations(
-        translation: Locale,
+        locales: Locales,
         context: Context,
         evaluator: Evaluator
     ) {
         return concretize(
-            translation,
-            translation.node.This.start,
-            this.getValueIfDefined(translation, context, evaluator)
+            locales,
+            locales.get((l) => l.node.This.start),
+            this.getValueIfDefined(locales, context, evaluator)
         );
     }
 

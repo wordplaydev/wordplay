@@ -7,6 +7,7 @@ import { LINK_SYMBOL } from '../parser/Symbols';
 import Symbol from './Sym';
 import Purpose from '../concepts/Purpose';
 import Content from './Content';
+import type Locales from '../locale/Locales';
 
 export default class ConceptLink extends Content {
     readonly concept: Token;
@@ -71,8 +72,8 @@ export default class ConceptLink extends Content {
         return [];
     }
 
-    getNodeLocale(translation: Locale) {
-        return translation.node.ConceptLink;
+    getNodeLocale(locales: Locales) {
+        return locales.get((l) => l.node.ConceptLink);
     }
 
     getGlyphs() {

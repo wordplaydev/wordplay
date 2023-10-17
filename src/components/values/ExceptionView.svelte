@@ -2,7 +2,7 @@
 
 <script lang="ts">
     import type ExceptionValue from '@values/ExceptionValue';
-    import { locale } from '../../db/Database';
+    import { locales } from '../../db/Database';
     import concretize from '../../locale/concretize';
 
     export let value: ExceptionValue;
@@ -10,5 +10,5 @@
 </script>
 
 {#if inline || !inline}
-    ! {value.getDescription(concretize, $locale).toText()}
+    ! {value.getDescription(concretize, $locales).toText()}
 {/if}

@@ -76,16 +76,13 @@
     import type PaintingConfiguration from '../output/PaintingConfiguration';
     import {
         DB,
-        locale,
         locales,
         arrangement,
-        languages,
         camera,
         mic,
         Settings,
         Projects,
         writingLayout,
-        writingDirection,
         blocks,
         Creators,
     } from '../../db/Database';
@@ -376,9 +373,7 @@
                 if (source)
                     newTiles.push(
                         tile
-                            .withName(
-                                source.names.getPreferredNameString($locales)
-                            )
+                            .withName($locales.getName(source.names))
                             // If playing, keep the source files collapsed
                             .withMode(playing ? Mode.Collapsed : tile.mode)
                     );
@@ -406,7 +401,7 @@
 
         return new Tile(
             Layout.getSourceID(index),
-            source.names.getPreferredNameString($locales),
+            $locales.getName(source.names),
             TileKind.Source,
             index === 0 || expandNewTile ? Mode.Expanded : Mode.Collapsed,
             undefined,
@@ -496,10 +491,10 @@
         // Set the URL to reflect the latest concept selected.
         if ($path && $path.length > 0) {
             const concept = $path[$path.length - 1];
-            const name = concept.getName($locale, false);
+            const name = concept.getName($locales, false);
             const ownerName = $index
                 ?.getConceptOwner(concept)
-                ?.getName($locale, false);
+                ?.getName($locales, false);
 
             searchParams.set(
                 PROJECT_PARAM_CONCEPT,
@@ -544,7 +539,7 @@
     let paintingConfig: PaintingConfiguration = {
         characters: 'a',
         size: 1,
-        font: $locale.ui.font.app,
+        font: $locales.get((l) => l.ui.font.app),
     };
 
     /** Set up project wide concept index and path context */
@@ -696,7 +691,7 @@
     /** When the program steps language changes, get the latest value of the program's evaluation. */
     $: {
         $evaluation;
-        $languages;
+        $locales;
         // We don't use the source we compute in the reaction above because we want this to be based only
         // on the current evaluator. This is because we sometimes evaluate some time after updating the project
         // for typing responsiveness.
@@ -739,6 +734,7 @@
     $: menuPosition = menu ? getMenuPosition(menu.getCaret()) : undefined;
 
     afterUpdate(() => {
+        const direction = $locales.getDirection();
         /** After each update, measure an outline of the node view in the drag container. */
         const nodeView = dragContainer?.querySelector('.node-view');
         if (nodeView instanceof HTMLElement && $blocks === false)
@@ -746,15 +742,13 @@
                 types: ['dragging'],
                 outline: getOutlineOf(
                     nodeView,
-                    $writingDirection === 'rtl' ||
-                        $writingLayout === 'vertical-rl',
-                    $writingDirection === 'rtl'
+                    direction === 'rtl' || $writingLayout === 'vertical-rl',
+                    direction === 'rtl'
                 ),
                 underline: getUnderlineOf(
                     nodeView,
-                    $writingDirection === 'rtl' ||
-                        $writingLayout === 'vertical-rl',
-                    $writingDirection === 'rtl'
+                    direction === 'rtl' || $writingLayout === 'vertical-rl',
+                    direction === 'rtl'
                 ),
             };
     });
@@ -1119,7 +1113,9 @@
 
     function addSource() {
         const newProject = project.withNewSource(
-            `${$locale.term.source}${project.getSupplements().length + 1}`
+            `${$locales.get((l) => l.term.source)}${
+                project.getSupplements().length + 1
+            }`
         );
 
         // Remember this new source so when we compute the new layout, we can remember to expand it initially.
@@ -1137,7 +1133,10 @@
         if (!isName(name)) return;
         const source = getSourceByID(id);
         Projects.reviseProject(
-            project.withSource(source, source.withName(name, $locales[0]))
+            project.withSource(
+                source,
+                source.withName(name, $locales.getLocales()[0])
+            )
         );
     }
 
@@ -1243,11 +1242,17 @@
                                     <!-- Can't delete main. -->
                                     {#if editable && source !== project.getMain()}
                                         <ConfirmButton
-                                            tip={$locale.ui.source.confirm
-                                                .delete.description}
+                                            tip={$locales.get(
+                                                (l) =>
+                                                    l.ui.source.confirm.delete
+                                                        .description
+                                            )}
                                             action={() => removeSource(source)}
-                                            prompt={$locale.ui.source.confirm
-                                                .delete.prompt}>⨉</ConfirmButton
+                                            prompt={$locales.get(
+                                                (l) =>
+                                                    l.ui.source.confirm.delete
+                                                        .prompt
+                                            )}>⨉</ConfirmButton
                                         >
                                     {/if}
                                 {/if}
@@ -1258,8 +1263,11 @@
                                     <CommandButton command={Restart} />
                                     {#if playing && editable}<Button
                                             uiid="editProject"
-                                            tip={$locale.ui.page.projects.button
-                                                .editproject}
+                                            tip={$locales.get(
+                                                (l) =>
+                                                    l.ui.page.projects.button
+                                                        .editproject
+                                            )}
                                             action={() => stopPlaying()}
                                             >{EDIT_SYMBOL}</Button
                                         >{/if}
@@ -1268,18 +1276,24 @@
                                             bind:painting
                                         />{/if} -->
                                     <Toggle
-                                        tips={$locale.ui.output.toggle.grid}
+                                        tips={$locales.get(
+                                            (l) => l.ui.output.toggle.grid
+                                        )}
                                         on={grid}
                                         toggle={() => (grid = !grid)}>▦</Toggle
                                     ><Toggle
-                                        tips={$locale.ui.output.toggle.fit}
+                                        tips={$locales.get(
+                                            (l) => l.ui.output.toggle.fit
+                                        )}
                                         on={fit}
                                         toggle={() => (fit = !fit)}
                                         >{#if fit}🔒{:else}🔓{/if}</Toggle
                                     >
                                 {:else if tile.isSource()}
                                     <Toggle
-                                        tips={$locale.ui.source.toggle.blocks}
+                                        tips={$locales.get(
+                                            (l) => l.ui.source.toggle.blocks
+                                        )}
                                         on={$blocks}
                                         command={ToggleBlocks}
                                         toggle={toggleBlocks}
@@ -1366,13 +1380,14 @@
         <nav class="footer">
             {#if original}<Button
                     uiid="revertProject"
-                    tip={$locale.ui.project.button.revert}
+                    tip={$locales.get((l) => l.ui.project.button.revert)}
                     active={!project.equals(original)}
                     action={() => revert()}>↺</Button
                 >{/if}
             {#if !editable}
-                <Button tip={$locale.ui.project.button.duplicate} action={copy}
-                    ><span class="copy">✐+</span></Button
+                <Button
+                    tip={$locales.get((l) => l.ui.project.button.duplicate)}
+                    action={copy}><span class="copy">✐+</span></Button
                 >
                 {@const owner = project.getOwner()}
                 {#if owner}
@@ -1384,26 +1399,33 @@
                 {/if}
             {:else}
                 <Button
-                    tip={$locale.ui.project.button.showCollaborators}
+                    tip={$locales.get(
+                        (l) => l.ui.project.button.showCollaborators
+                    )}
                     action={() =>
                         (showCollaboratorsDialog = !showCollaboratorsDialog)}
                     ><Warning>
                         {#if project.isPublic()}{#if isFlagged(project.getFlags())}‼️{:else}🌐{/if}
-                            {$locale.ui.dialog.share.mode.public
-                                .modes[1]}{:else}🤫 {$locale.ui.dialog.share
-                                .mode.public.modes[0]}{/if}</Warning
+                            {$locales.get((l) => l.ui.dialog.share.mode.public)
+                                .modes[1]}{:else}🤫 {$locales.get(
+                                (l) => l.ui.dialog.share
+                            ).mode.public.modes[0]}{/if}</Warning
                     ></Button
                 >
                 <Button
-                    tip={$locale.ui.project.button.copy}
+                    tip={$locales.get((l) => l.ui.project.button.copy)}
                     action={() => toClipboard(project.toWordplay())}>📚</Button
                 >
             {/if}
 
             {#if editable}<TextField
                     text={project.getName()}
-                    description={$locale.ui.project.field.name.description}
-                    placeholder={$locale.ui.project.field.name.placeholder}
+                    description={$locales.get(
+                        (l) => l.ui.project.field.name.description
+                    )}
+                    placeholder={$locales.get(
+                        (l) => l.ui.project.field.name.placeholder
+                    )}
                     changed={(name) =>
                         Projects.reviseProject(project.withName(name))}
                 />{:else}{project.getName()}{/if}
@@ -1427,16 +1449,18 @@
             {#if editable}
                 <Button
                     uiid="addSource"
-                    tip={$locale.ui.project.button.addSource}
+                    tip={$locales.get((l) => l.ui.project.button.addSource)}
                     action={addSource}>+</Button
                 >{/if}
             {#if overwritten}
-                <span class="overwritten">{$locale.ui.source.overwritten}</span>
+                <span class="overwritten"
+                    >{$locales.get((l) => l.ui.source.overwritten)}</span
+                >
             {/if}
             <span class="help">
                 <ProjectLanguages {project} />
                 <Button
-                    tip={ShowKeyboardHelp.description($locale)}
+                    tip={$locales.get(ShowKeyboardHelp.description)}
                     action={() => (showHelpDialog = true)}
                     >{ShowKeyboardHelp.symbol}</Button
                 ></span

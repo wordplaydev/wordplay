@@ -3,11 +3,11 @@ import TableType from '@nodes/TableType';
 import { TABLE_CLOSE_SYMBOL, TABLE_OPEN_SYMBOL } from '@parser/Symbols';
 import type ExceptionValue from '@values/ExceptionValue';
 import type Value from '@values/Value';
-import type Locale from '@locale/Locale';
 import SimpleValue from './SimpleValue';
 import type StructureValue from '@values/StructureValue';
 import type Expression from '../nodes/Expression';
 import type Concretizer from '../nodes/Concretizer';
+import type Locales from '../locale/Locales';
 
 export default class TableValue extends SimpleValue {
     readonly type: TableType;
@@ -45,7 +45,7 @@ export default class TableValue extends SimpleValue {
         );
     }
 
-    toWordplay(locales: Locale[]): string {
+    toWordplay(locales?: Locales): string {
         const columns = this.type.columns;
         let text = '';
         for (const row of this.rows) {
@@ -57,8 +57,11 @@ export default class TableValue extends SimpleValue {
         return text.trim();
     }
 
-    getDescription(concretize: Concretizer, locale: Locale) {
-        return concretize(locale, locale.term.table);
+    getDescription(concretize: Concretizer, locales: Locales) {
+        return concretize(
+            locales,
+            locales.get((l) => l.term.table)
+        );
     }
 
     getSize() {

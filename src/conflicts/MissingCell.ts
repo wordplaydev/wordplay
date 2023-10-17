@@ -3,9 +3,9 @@ import type Context from '@nodes/Context';
 import type Row from '@nodes/Row';
 import type TableType from '@nodes/TableType';
 import NodeRef from '@locale/NodeRef';
-import type Locale from '@locale/Locale';
 import Conflict from './Conflict';
 import concretize from '../locale/concretize';
+import type Locales from '../locale/Locales';
 
 export default class MissingCell extends Conflict {
     readonly row: Row;
@@ -24,25 +24,29 @@ export default class MissingCell extends Conflict {
         return {
             primary: {
                 node: this.row,
-                explanation: (locale: Locale, context: Context) =>
+                explanation: (locales: Locales, context: Context) =>
                     concretize(
-                        locale,
-                        locale.node.Row.conflict.MissingCell.primary,
+                        locales,
+                        locales.get(
+                            (l) => l.node.Row.conflict.MissingCell.primary
+                        ),
                         new NodeRef(
                             this.column,
-                            locale,
+                            locales,
                             context,
-                            this.column.names.getPreferredNameString([locale])
+                            locales.getName(this.column.names)
                         )
                     ),
             },
             secondary: {
                 node: this.column,
-                explanation: (locale: Locale, context: Context) =>
+                explanation: (locales: Locales, context: Context) =>
                     concretize(
-                        locale,
-                        locale.node.Row.conflict.MissingCell.secondary,
-                        new NodeRef(this.row, locale, context)
+                        locales,
+                        locales.get(
+                            (l) => l.node.Row.conflict.MissingCell.secondary
+                        ),
+                        new NodeRef(this.row, locales, context)
                     ),
             },
         };

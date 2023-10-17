@@ -2,7 +2,7 @@
     import { goto } from '$app/navigation';
     import { page } from '$app/stores';
     import Settings from '../settings/Settings.svelte';
-    import { locale } from '../../db/Database';
+    import { locales } from '../../db/Database';
     import Link from './Link.svelte';
 
     export let fullscreen = false;
@@ -25,10 +25,14 @@
         <slot />
     </main>
     <footer class:fullscreen>
-        <Link tip={$locale.ui.widget.home} to="/">🏠</Link>
-        <Link to="/learn">{$locale.ui.page.learn.header}</Link>
-        <Link to="/projects">{$locale.ui.page.projects.header}</Link>
-        <Link to="/galleries">{$locale.ui.page.galleries.header}</Link>
+        <Link tip={$locales.get((l) => l.ui.widget.home)} to="/">🏠</Link>
+        <Link to="/learn">{$locales.get((l) => l.ui.page.learn.header)}</Link>
+        <Link to="/projects"
+            >{$locales.get((l) => l.ui.page.projects.header)}</Link
+        >
+        <Link to="/galleries"
+            >{$locales.get((l) => l.ui.page.galleries.header)}</Link
+        >
         <Settings />
     </footer>
 </div>

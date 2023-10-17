@@ -20,7 +20,6 @@ import ListOpenToken from './ListOpenToken';
 import ListCloseToken from './ListCloseToken';
 import NumberLiteral from './NumberLiteral';
 import { node, type Grammar, type Replacement } from './Node';
-import type Locale from '@locale/Locale';
 import { NotAType } from './NotAType';
 import NodeRef from '@locale/NodeRef';
 import Glyphs from '../lore/Glyphs';
@@ -31,6 +30,7 @@ import IncompatibleInput from '../conflicts/IncompatibleInput';
 import concretize from '../locale/concretize';
 import Sym from './Sym';
 import ExpressionPlaceholder from './ExpressionPlaceholder';
+import type Locales from '../locale/Locales';
 
 export default class ListAccess extends Expression {
     readonly list: Expression;
@@ -77,7 +77,7 @@ export default class ListAccess extends Expression {
             {
                 name: 'list',
                 kind: node(Expression),
-                label: (translation: Locale) => translation.term.list,
+                label: (locales: Locales) => locales.get((l) => l.term.list),
                 // Must be a list
                 getType: () => ListType.make(),
             },
@@ -85,7 +85,7 @@ export default class ListAccess extends Expression {
             {
                 name: 'index',
                 kind: node(Expression),
-                label: (translation: Locale) => translation.term.index,
+                label: (locales: Locales) => locales.get((l) => l.term.index),
                 // Must be a number
                 getType: () => NumberType.make(),
             },
@@ -198,27 +198,27 @@ export default class ListAccess extends Expression {
         return current;
     }
 
-    getNodeLocale(translation: Locale) {
-        return translation.node.ListAccess;
+    getNodeLocale(locales: Locales) {
+        return locales.get((l) => l.node.ListAccess);
     }
 
-    getStartExplanations(locale: Locale, context: Context) {
+    getStartExplanations(locales: Locales, context: Context) {
         return concretize(
-            locale,
-            locale.node.ListAccess.start,
-            new NodeRef(this.list, locale, context)
+            locales,
+            locales.get((l) => l.node.ListAccess.start),
+            new NodeRef(this.list, locales, context)
         );
     }
 
     getFinishExplanations(
-        locale: Locale,
+        locales: Locales,
         context: Context,
         evaluator: Evaluator
     ) {
         return concretize(
-            locale,
-            locale.node.ListAccess.finish,
-            this.getValueIfDefined(locale, context, evaluator)
+            locales,
+            locales.get((l) => l.node.ListAccess.finish),
+            this.getValueIfDefined(locales, context, evaluator)
         );
     }
 

@@ -12,7 +12,6 @@ import type TypeSet from './TypeSet';
 import NameException from '@values/NameException';
 import type Value from '@values/Value';
 import { node, type Grammar, type Replacement } from './Node';
-import type Locale from '@locale/Locale';
 import BindToken from './BindToken';
 import StructureValue from '../values/StructureValue';
 import ValueException from '../values/ValueException';
@@ -26,6 +25,7 @@ import Sym from './Sym';
 import ExpressionPlaceholder from './ExpressionPlaceholder';
 import Reference from './Reference';
 import type Node from './Node';
+import type Locales from '../locale/Locales';
 
 export default class PropertyBind extends Expression {
     readonly reference: PropertyReference;
@@ -166,26 +166,29 @@ export default class PropertyBind extends Expression {
         return this.bind;
     }
 
-    getNodeLocale(translation: Locale) {
-        return translation.node.PropertyBind;
+    getNodeLocale(locales: Locales) {
+        return locales.get((l) => l.node.PropertyBind);
     }
 
-    getStartExplanations(locale: Locale) {
-        return concretize(locale, locale.node.PropertyBind.start);
+    getStartExplanations(locales: Locales) {
+        return concretize(
+            locales,
+            locales.get((l) => l.node.PropertyBind.start)
+        );
     }
 
     getFinishExplanations(
-        locale: Locale,
+        locales: Locales,
         context: Context,
         evaluator: Evaluator
     ) {
         return concretize(
-            locale,
-            locale.node.PropertyBind.finish,
+            locales,
+            locales.get((l) => l.node.PropertyBind.finish),
             this.reference.name
-                ? new NodeRef(this.reference.name, locale, context)
+                ? new NodeRef(this.reference.name, locales, context)
                 : undefined,
-            this.getValueIfDefined(locale, context, evaluator)
+            this.getValueIfDefined(locales, context, evaluator)
         );
     }
 
@@ -193,10 +196,10 @@ export default class PropertyBind extends Expression {
         return Glyphs.Bind;
     }
 
-    getDescriptionInputs(locale: Locale, context: Context) {
+    getDescriptionInputs(locales: Locales, context: Context) {
         return [
             this.reference.name
-                ? new NodeRef(this.reference.name, locale, context)
+                ? new NodeRef(this.reference.name, locales, context)
                 : undefined,
         ];
     }

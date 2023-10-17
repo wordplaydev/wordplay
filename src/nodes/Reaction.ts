@@ -14,7 +14,6 @@ import UnionType from './UnionType';
 import type TypeSet from './TypeSet';
 import ExceptionValue from '@values/ExceptionValue';
 import { node, type Grammar, type Replacement } from './Node';
-import type Locale from '@locale/Locale';
 import BooleanType from './BooleanType';
 import ExpectedBooleanCondition from '../conflicts/ExpectedBooleanCondition';
 import Check from '@runtime/Check';
@@ -31,6 +30,7 @@ import Sym from './Sym';
 import ExpressionPlaceholder from './ExpressionPlaceholder';
 import type Node from './Node';
 import UnknownType from './UnknownType';
+import type Locales from '../locale/Locales';
 
 export default class Reaction extends Expression {
     readonly initial: Expression;
@@ -92,16 +92,16 @@ export default class Reaction extends Expression {
             {
                 name: 'initial',
                 kind: node(Expression),
-                label: (translation: Locale) =>
-                    translation.node.Reaction.initial,
+                label: (locales: Locales) =>
+                    locales.get((l) => l.node.Reaction.initial),
             },
             { name: 'dots', kind: node(Sym.Stream), space: true },
             {
                 name: 'condition',
                 kind: node(Expression),
                 space: true,
-                label: (translation: Locale) =>
-                    translation.node.Reaction.condition,
+                label: (locales: Locales) =>
+                    locales.get((l) => l.node.Reaction.condition),
                 getType: () => BooleanType.make(),
             },
             {
@@ -113,7 +113,8 @@ export default class Reaction extends Expression {
             {
                 name: 'next',
                 kind: node(Expression),
-                label: (translation: Locale) => translation.node.Reaction.next,
+                label: (locales: Locales) =>
+                    locales.get((l) => l.node.Reaction.next),
                 space: true,
                 indent: true,
             },
@@ -300,23 +301,26 @@ export default class Reaction extends Expression {
         return this.dots;
     }
 
-    getNodeLocale(translation: Locale) {
-        return translation.node.Reaction;
+    getNodeLocale(locales: Locales) {
+        return locales.get((l) => l.node.Reaction);
     }
 
-    getStartExplanations(locale: Locale) {
-        return concretize(locale, locale.node.Reaction.start);
+    getStartExplanations(locales: Locales) {
+        return concretize(
+            locales,
+            locales.get((l) => l.node.Reaction.start)
+        );
     }
 
     getFinishExplanations(
-        locale: Locale,
+        locales: Locales,
         context: Context,
         evaluator: Evaluator
     ) {
         return concretize(
-            locale,
-            locale.node.Reaction.finish,
-            this.getValueIfDefined(locale, context, evaluator)
+            locales,
+            locales.get((l) => l.node.Reaction.finish),
+            this.getValueIfDefined(locales, context, evaluator)
         );
     }
 

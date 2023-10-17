@@ -8,7 +8,6 @@ import BooleanType from '../nodes/BooleanType';
 import BoolValue from '@values/BoolValue';
 import StreamType from '../nodes/StreamType';
 import createStreamEvaluator from './createStreamEvaluator';
-import type Locale from '../locale/Locale';
 import StructureValue from '../values/StructureValue';
 import NumberValue from '../values/NumberValue';
 import { createInputs, getFirstName } from '../locale/Locale';
@@ -24,6 +23,7 @@ import type Context from '../nodes/Context';
 import type Type from '../nodes/Type';
 import StructureType from '../nodes/StructureType';
 import type StructureDefinition from '../nodes/StructureDefinition';
+import type Locales from '../locale/Locales';
 
 type Direction = -1 | 0 | 1;
 type PlacementEvent = { x: Direction; y: Direction; z: Direction };
@@ -110,10 +110,10 @@ export default class Placement extends StreamValue<
 }
 
 export function createPlacementDefinition(
-    locales: Locale[],
+    locales: Locales,
     placeType: StructureDefinition
 ) {
-    const PlaceName = getFirstName(locales[0].output.Place.names);
+    const PlaceName = locales.get((l) => getFirstName(l.output.Place.names));
     const inputs = createInputs(locales, (l) => l.input.Placement.inputs, [
         [
             NameType.make(PlaceName),

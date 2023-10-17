@@ -3,6 +3,7 @@ import evaluateCode from '../runtime/evaluate';
 import type Locale from '../locale/Locale';
 import { readFileSync } from 'fs';
 import DefaultLocale from '../locale/DefaultLocale';
+import Locales from '../locale/Locales';
 
 /** Load a few locales for testing. */
 const en = DefaultLocale;
@@ -22,6 +23,9 @@ test.each([
     ['`hola`/es`hello`/en', 'hola', [es, en]],
     ['`hola`/es`hello`/en', 'hello', [en]],
 ])('%s -> %s', async (code, value, locales: Locale[]) => {
-    locales = locales.length === 0 ? [en] : locales;
-    expect(evaluateCode(code, [], locales)?.toWordplay(locales)).toBe(value);
+    const loc = new Locales(
+        locales.length === 0 ? [en] : locales,
+        DefaultLocale
+    );
+    expect(evaluateCode(code, [], loc)?.toWordplay(loc)).toBe(value);
 });

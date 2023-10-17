@@ -17,7 +17,6 @@ import type TypeSet from './TypeSet';
 import Docs from './Docs';
 import StartFinish from '@runtime/StartFinish';
 import { node, none, type Grammar, type Replacement, any } from './Node';
-import type Locale from '@locale/Locale';
 import InternalException from '@values/InternalException';
 import Glyphs from '../lore/Glyphs';
 import Purpose from '../concepts/Purpose';
@@ -29,6 +28,7 @@ import ExpressionPlaceholder from './ExpressionPlaceholder';
 import { toTokens } from '../parser/toTokens';
 import parseType from '../parser/paresType';
 import DefinitionExpression from './DefinitionExpression';
+import type Locales from '../locale/Locales';
 
 export default class ConversionDefinition extends DefinitionExpression {
     readonly docs: Docs | undefined;
@@ -190,14 +190,14 @@ export default class ConversionDefinition extends DefinitionExpression {
         return this.arrow;
     }
 
-    getNodeLocale(translation: Locale) {
-        return translation.node.ConversionDefinition;
+    getNodeLocale(locales: Locales) {
+        return locales.get((l) => l.node.ConversionDefinition);
     }
 
-    getStartExplanations(translation: Locale) {
+    getStartExplanations(locales: Locales) {
         return concretize(
-            translation,
-            translation.node.ConversionDefinition.start
+            locales,
+            locales.get((l) => l.node.ConversionDefinition.start)
         );
     }
 
@@ -205,10 +205,10 @@ export default class ConversionDefinition extends DefinitionExpression {
         return Glyphs.Conversion;
     }
 
-    getDescriptionInputs(locale: Locale, context: Context) {
+    getDescriptionInputs(locales: Locales, context: Context) {
         return [
-            new NodeRef(this.input, locale, context),
-            new NodeRef(this.output, locale, context),
+            new NodeRef(this.input, locales, context),
+            new NodeRef(this.output, locales, context),
         ];
     }
 }

@@ -1,9 +1,9 @@
 import Conflict from './Conflict';
 import type TypeVariable from '@nodes/TypeVariable';
-import type Locale from '@locale/Locale';
 import NodeRef from '@locale/NodeRef';
 import type Context from '@nodes/Context';
 import concretize from '../locale/concretize';
+import type Locales from '../locale/Locales';
 
 export default class DuplicateTypeVariable extends Conflict {
     readonly typeVar: TypeVariable;
@@ -20,31 +20,37 @@ export default class DuplicateTypeVariable extends Conflict {
         return {
             primary: {
                 node: this.typeVar,
-                explanation: (locale: Locale, context: Context) =>
+                explanation: (locales: Locales, context: Context) =>
                     concretize(
-                        locale,
-                        locale.node.TypeVariable.conflict.DuplicateTypeVariable
-                            .primary,
+                        locales,
+                        locales.get(
+                            (l) =>
+                                l.node.TypeVariable.conflict
+                                    .DuplicateTypeVariable
+                        ).primary,
                         new NodeRef(
                             this.duplicate,
-                            locale,
+                            locales,
                             context,
-                            this.duplicate.getPreferredName(locale)
+                            locales.getName(this.duplicate.names)
                         )
                     ),
             },
             secondary: {
                 node: this.duplicate,
-                explanation: (locale: Locale, context: Context) =>
+                explanation: (locales: Locales, context: Context) =>
                     concretize(
-                        locale,
-                        locale.node.TypeVariable.conflict.DuplicateTypeVariable
-                            .secondary,
+                        locales,
+                        locales.get(
+                            (l) =>
+                                l.node.TypeVariable.conflict
+                                    .DuplicateTypeVariable
+                        ).secondary,
                         new NodeRef(
                             this.typeVar,
-                            locale,
+                            locales,
                             context,
-                            this.typeVar.getPreferredName(locale)
+                            locales.getName(this.typeVar.names)
                         )
                     ),
             },

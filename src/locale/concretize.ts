@@ -1,6 +1,6 @@
 import Markup from '../nodes/Markup';
 import { toMarkup } from '../parser/toMarkup';
-import type Locale from './Locale';
+import type Locales from './Locales';
 import type NodeRef from './NodeRef';
 import type ValueRef from './ValueRef';
 
@@ -49,25 +49,30 @@ const TemplateToMarkupCache: Map<string, Markup> = new Map();
  *      "||"
  */
 export default function concretize(
-    locale: Locale,
+    /** The locales, in case we need to generate errors */
+    locales: Locales,
+    /** The string to localize */
     template: string,
+    /** The inputs to use to concretize */
     ...inputs: TemplateInput[]
 ): Markup {
     return (
-        concretizeOrUndefined(locale, template, ...inputs) ??
+        concretizeOrUndefined(locales, template, ...inputs) ??
         // Create a representation of a template that couldn't be concretized.
-        Markup.words(`${locale.ui.template.unparsable}: ${template}`)
+        Markup.words(
+            `${locales.get((l) => l.ui.template.unparsable)}: ${template}`
+        )
     );
 }
 
 export function concretizeOrUndefined(
-    locale: Locale,
+    locales: Locales,
     template: string,
     ...inputs: TemplateInput[]
 ): Markup | undefined {
     // Not written? Return the TBD string.
     if (template === '' || template === '$?')
-        return Markup.words(locale.ui.template.unwritten);
+        return Markup.words(locales.get((l) => l.ui.template.unwritten));
 
     // See if we've cached this template.
     let markup = TemplateToMarkupCache.get(template);
@@ -77,5 +82,5 @@ export function concretizeOrUndefined(
     }
 
     // Now concretize the markup with the given inputs.
-    return markup.concretize(locale, inputs);
+    return markup.concretize(locales, inputs);
 }

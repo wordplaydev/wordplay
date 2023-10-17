@@ -1,8 +1,8 @@
 import Conflict from './Conflict';
 import type UnparsableType from '@nodes/UnparsableType';
 import UnparsableExpression from '@nodes/UnparsableExpression';
-import type Locale from '@locale/Locale';
 import concretize from '../locale/concretize';
+import type Locales from '../locale/Locales';
 
 export class UnparsableConflict extends Conflict {
     readonly unparsable: UnparsableType | UnparsableExpression;
@@ -16,11 +16,14 @@ export class UnparsableConflict extends Conflict {
         return {
             primary: {
                 node: this.unparsable,
-                explanation: (translation: Locale) =>
+                explanation: (locales: Locales) =>
                     concretize(
-                        translation,
-                        translation.node.UnparsableExpression.conflict
-                            .UnparsableConflict,
+                        locales,
+                        locales.get(
+                            (l) =>
+                                l.node.UnparsableExpression.conflict
+                                    .UnparsableConflict
+                        ),
                         this.unparsable instanceof UnparsableExpression
                     ),
             },

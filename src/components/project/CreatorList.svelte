@@ -1,7 +1,7 @@
 <!-- A modifiable list of creators -->
 <script lang="ts">
     import type { Creator } from '../../db/CreatorDatabase';
-    import { DB, locale } from '../../db/Database';
+    import { DB, locales } from '../../db/Database';
     import validateEmail from '../../db/validEmail';
     import CreatorView from '../app/CreatorView.svelte';
     import Feedback from '../app/Feedback.svelte';
@@ -50,18 +50,26 @@
     <form class="form" on:submit={addCreator}>
         <TextField
             bind:text={email}
-            placeholder={$locale.ui.dialog.share.field.email.placeholder}
-            description={$locale.ui.dialog.share.field.email.description}
+            placeholder={$locales.get(
+                (l) => l.ui.dialog.share.field.email.placeholder
+            )}
+            description={$locales.get(
+                (l) => l.ui.dialog.share.field.email.description
+            )}
             validator={validateEmail}
         />
         <Button
-            tip={$locale.ui.dialog.share.button.submit}
+            tip={$locales.get((l) => l.ui.dialog.share.button.submit)}
             active={validCollaborator(email)}
             action={() => undefined}>&gt;</Button
         >
         {#if adding}<Spinning label="" />{/if}
         {#if unknown}
-            <Feedback>{$locale.ui.dialog.share.error.unknown}</Feedback>{/if}
+            <Feedback
+                >{$locales.get(
+                    (l) => l.ui.dialog.share.error.unknown
+                )}</Feedback
+            >{/if}
     </form>
 {/if}
 
@@ -72,7 +80,9 @@
                     {anonymize}
                     {creator}
                 />{:else}?{/if}{#if editable}<Button
-                    tip={$locale.ui.project.button.removeCollaborator}
+                    tip={$locales.get(
+                        (l) => l.ui.project.button.removeCollaborator
+                    )}
                     active={removable(uid)}
                     action={() => remove(uid)}>⨉</Button
                 >{/if}</div

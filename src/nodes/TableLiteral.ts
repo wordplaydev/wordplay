@@ -13,7 +13,6 @@ import Start from '@runtime/Start';
 import type Context from './Context';
 import type TypeSet from './TypeSet';
 import { node, type Grammar, type Replacement, list } from './Node';
-import type Locale from '@locale/Locale';
 import Glyphs from '../lore/Glyphs';
 import Purpose from '../concepts/Purpose';
 import concretize from '../locale/concretize';
@@ -23,6 +22,7 @@ import IncompatibleCellType from '../conflicts/IncompatibleCellType';
 import ExtraCell from '../conflicts/ExtraCell';
 import UnexpectedColumnBind from '../conflicts/UnexpectedColumnBind';
 import type Type from './Type';
+import type Locales from '../locale/Locales';
 
 export default class TableLiteral extends Expression {
     readonly type: TableType;
@@ -46,7 +46,7 @@ export default class TableLiteral extends Expression {
             {
                 name: 'type',
                 kind: node(TableType),
-                label: (translation: Locale) => translation.term.table,
+                label: (locales: Locales) => locales.get((l) => l.term.table),
             },
             { name: 'rows', kind: list(true, node(Row)) },
         ];
@@ -192,23 +192,26 @@ export default class TableLiteral extends Expression {
         return this.rows[this.rows.length - 1] ?? this.type;
     }
 
-    getNodeLocale(translation: Locale) {
-        return translation.node.TableLiteral;
+    getNodeLocale(locales: Locales) {
+        return locales.get((l) => l.node.TableLiteral);
     }
 
-    getStartExplanations(locale: Locale) {
-        return concretize(locale, locale.node.TableLiteral.start);
+    getStartExplanations(locales: Locales) {
+        return concretize(
+            locales,
+            locales.get((l) => l.node.TableLiteral.start)
+        );
     }
 
     getFinishExplanations(
-        locale: Locale,
+        locales: Locales,
         context: Context,
         evaluator: Evaluator
     ) {
         return concretize(
-            locale,
-            locale.node.TableLiteral.finish,
-            this.getValueIfDefined(locale, context, evaluator)
+            locales,
+            locales.get((l) => l.node.TableLiteral.finish),
+            this.getValueIfDefined(locales, context, evaluator)
         );
     }
 

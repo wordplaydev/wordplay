@@ -1,4 +1,3 @@
-import type Locale from '../locale/Locale';
 import type { NodeText, DescriptiveNodeText } from '../locale/NodeTexts';
 import type Glyph from '../lore/Glyph';
 import type { BasisTypeName } from '../basis/BasisConstants';
@@ -9,6 +8,7 @@ import Sym from './Sym';
 import Token from './Token';
 import Glyphs from '../lore/Glyphs';
 import { DOCS_SYMBOL } from '../parser/Symbols';
+import type Locales from '../locale/Locales';
 
 export default class FormattedType extends BasisType {
     readonly tick: Token;
@@ -49,7 +49,7 @@ export default class FormattedType extends BasisType {
         return Glyphs.Formatted;
     }
 
-    getNodeLocale(locale: Locale): NodeText | DescriptiveNodeText {
-        return locale.node.FormattedType;
+    getNodeLocale(locales: Locales): NodeText | DescriptiveNodeText {
+        return locales.get((l) => l.node.FormattedType);
     }
 }

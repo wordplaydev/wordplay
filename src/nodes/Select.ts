@@ -19,7 +19,6 @@ import type TypeSet from './TypeSet';
 import type Evaluator from '@runtime/Evaluator';
 import UnknownNameType from './UnknownNameType';
 import { node, type Grammar, type Replacement } from './Node';
-import type Locale from '@locale/Locale';
 import NodeRef from '@locale/NodeRef';
 import Glyphs from '../lore/Glyphs';
 import IncompatibleInput from '../conflicts/IncompatibleInput';
@@ -37,6 +36,7 @@ import { SELECT_SYMBOL, TABLE_CLOSE_SYMBOL } from '../parser/Symbols';
 import Sym from './Sym';
 import Token from './Token';
 import ExpressionPlaceholder from './ExpressionPlaceholder';
+import type Locales from '../locale/Locales';
 
 type SelectState = {
     table: TableValue;
@@ -76,18 +76,18 @@ export default class Select extends Expression {
             {
                 name: 'table',
                 kind: node(Expression),
-                label: (locale: Locale) => locale.term.table,
+                label: (locales: Locales) => locales.get((l) => l.term.table),
             },
             {
                 name: 'row',
                 kind: node(Row),
-                label: (locale: Locale) => locale.term.row,
+                label: (locales: Locales) => locales.get((l) => l.term.row),
                 space: true,
             },
             {
                 name: 'query',
                 kind: node(Expression),
-                label: (locale: Locale) => locale.term.query,
+                label: (locales: Locales) => locales.get((l) => l.term.query),
                 space: true,
             },
         ];
@@ -322,27 +322,27 @@ export default class Select extends Expression {
         return this.row.close ?? this.row.open;
     }
 
-    getNodeLocale(translation: Locale) {
-        return translation.node.Select;
+    getNodeLocale(locales: Locales) {
+        return locales.get((l) => l.node.Select);
     }
 
-    getStartExplanations(locale: Locale, context: Context) {
+    getStartExplanations(locales: Locales, context: Context) {
         return concretize(
-            locale,
-            locale.node.Select.start,
-            new NodeRef(this.table, locale, context)
+            locales,
+            locales.get((l) => l.node.Select.start),
+            new NodeRef(this.table, locales, context)
         );
     }
 
     getFinishExplanations(
-        locale: Locale,
+        locales: Locales,
         context: Context,
         evaluator: Evaluator
     ) {
         return concretize(
-            locale,
-            locale.node.Select.finish,
-            this.getValueIfDefined(locale, context, evaluator)
+            locales,
+            locales.get((l) => l.node.Select.finish),
+            this.getValueIfDefined(locales, context, evaluator)
         );
     }
 

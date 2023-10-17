@@ -9,7 +9,7 @@
         PX_PER_METER,
     } from '@output/outputToCSS';
     import type RenderContext from '@output/RenderContext';
-    import { locale, locales } from '../../db/Database';
+    import { locales } from '../../db/Database';
     import type Shape from '../../output/Shape';
     import { Rectangle } from '../../output/Form';
 
@@ -36,7 +36,9 @@
         role={selectable ? 'button' : 'presentation'}
         aria-disabled={!selectable}
         aria-label={still ? shape.getDescription($locales) : null}
-        aria-roledescription={!selectable ? $locale.term.phrase : null}
+        aria-roledescription={!selectable
+            ? $locales.get((l) => l.term.phrase)
+            : null}
         class="output shape {shape.form instanceof Rectangle
             ? 'rectangle'
             : ''}"

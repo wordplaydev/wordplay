@@ -2,8 +2,8 @@ import Step from './Step';
 import type Evaluator from '@runtime/Evaluator';
 import type Value from '../values/Value';
 import type Expression from '@nodes/Expression';
-import type Locale from '@locale/Locale';
 import concretize from '../locale/concretize';
+import type Locales from '../locale/Locales';
 
 export default class Next extends Step {
     action?: (evaluator: Evaluator) => Value | undefined;
@@ -20,7 +20,10 @@ export default class Next extends Step {
         return this.action?.call(undefined, evaluator);
     }
 
-    getExplanations(locale: Locale) {
-        return concretize(locale, locale.node.Iteration.next);
+    getExplanations(locales: Locales) {
+        return concretize(
+            locales,
+            locales.get((l) => l.node.Iteration.next)
+        );
     }
 }

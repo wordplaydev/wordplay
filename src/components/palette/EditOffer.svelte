@@ -1,12 +1,13 @@
 <script lang="ts">
-    import type { Locale, Template } from '../../locale/Locale';
+    import type { Template } from '../../locale/Locale';
+    import type Locales from '../../locale/Locales';
     import concretize from '../../locale/concretize';
     import MarkupHtmlView from '../concepts/MarkupHTMLView.svelte';
     import Speech from '../lore/Speech.svelte';
     import Button from '../widgets/Button.svelte';
 
     export let symbols: string;
-    export let locale: Locale;
+    export let locales: Locales;
     export let message: Template;
     export let tip: string;
     export let action: () => void;
@@ -16,7 +17,7 @@
 <div class="offer">
     <Speech glyph={{ symbols }}>
         <svelte:fragment slot="content">
-            <MarkupHtmlView markup={concretize(locale, message)} />
+            <MarkupHtmlView markup={concretize(locales, message)} />
         </svelte:fragment>
     </Speech>
     <Button large {tip} {action}>{command}</Button>

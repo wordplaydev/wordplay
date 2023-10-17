@@ -25,7 +25,6 @@ import Reference from './Reference';
 import NameType from './NameType';
 import UnknownNameType from './UnknownNameType';
 import { node, type Grammar, type Replacement } from './Node';
-import type Locale from '@locale/Locale';
 import NodeRef from '@locale/NodeRef';
 import Glyphs from '../lore/Glyphs';
 import UnimplementedException from '../values/UnimplementedException';
@@ -36,6 +35,7 @@ import ExpressionPlaceholder from './ExpressionPlaceholder';
 import Refer from '../edit/Refer';
 import FunctionDefinition from './FunctionDefinition';
 import BasisType from './BasisType';
+import type Locales from '../locale/Locales';
 
 export default class PropertyReference extends Expression {
     readonly structure: Expression;
@@ -141,8 +141,8 @@ export default class PropertyReference extends Expression {
                 name: 'name',
                 kind: node(Reference),
                 // The label is
-                label: (translation: Locale) =>
-                    translation.node.PropertyReference.property,
+                label: (locales: Locales) =>
+                    locales.get((l) => l.node.PropertyReference.property),
                 // The valid definitions of the name are based on the referenced structure type, prefix filtered by whatever name is already provided.
                 getDefinitions: (context: Context) => {
                     let defs = this.getDefinitions(this, context);
@@ -358,26 +358,29 @@ export default class PropertyReference extends Expression {
         return this.name ?? this.dot;
     }
 
-    getNodeLocale(translation: Locale) {
-        return translation.node.PropertyReference;
+    getNodeLocale(locales: Locales) {
+        return locales.get((l) => l.node.PropertyReference);
     }
 
-    getStartExplanations(locale: Locale) {
-        return concretize(locale, locale.node.PropertyReference.start);
+    getStartExplanations(locales: Locales) {
+        return concretize(
+            locales,
+            locales.get((l) => l.node.PropertyReference.start)
+        );
     }
 
     getFinishExplanations(
-        locale: Locale,
+        locales: Locales,
         context: Context,
         evaluator: Evaluator
     ) {
         return concretize(
-            locale,
-            locale.node.PropertyReference.finish,
+            locales,
+            locales.get((l) => l.node.PropertyReference.finish),
             this.name
-                ? new NodeRef(this.name, locale, context, this.name?.getName())
+                ? new NodeRef(this.name, locales, context, this.name?.getName())
                 : undefined,
-            this.getValueIfDefined(locale, context, evaluator)
+            this.getValueIfDefined(locales, context, evaluator)
         );
     }
 
@@ -385,9 +388,9 @@ export default class PropertyReference extends Expression {
         return Glyphs.Reference;
     }
 
-    getDescriptionInputs(locale: Locale, context: Context) {
+    getDescriptionInputs(locales: Locales, context: Context) {
         return [
-            this.name ? new NodeRef(this.name, locale, context) : undefined,
+            this.name ? new NodeRef(this.name, locales, context) : undefined,
         ];
     }
 }

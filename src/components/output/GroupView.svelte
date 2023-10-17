@@ -16,7 +16,7 @@
     import Evaluate from '@nodes/Evaluate';
     import { getSelectedOutput } from '../project/Contexts';
     import type Stage from '../../output/Stage';
-    import { locale, locales } from '../../db/Database';
+    import { locales } from '../../db/Database';
     import type { Form } from '../../output/Form';
     import Shape from '../../output/Shape';
     import ShapeView from './ShapeView.svelte';
@@ -61,8 +61,8 @@
     role={!group.selectable ? 'presentation' : 'group'}
     aria-label={still ? group.getDescription($locales) : null}
     aria-roledescription={group instanceof Group
-        ? $locale.term.group
-        : $locale.term.stage}
+        ? $locales.get((l) => l.term.group)
+        : $locales.get((l) => l.term.stage)}
     aria-hidden={empty ? 'true' : null}
     class="output group {group.constructor.name}"
     class:selected={selected && !root}

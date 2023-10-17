@@ -11,9 +11,9 @@ import { getNameLocales } from '@locale/getNameLocales';
 import StructureType from '@nodes/StructureType';
 import StreamType from '@nodes/StreamType';
 import createStreamEvaluator from './createStreamEvaluator';
-import type Locale from '../locale/Locale';
 import type Type from '../nodes/Type';
 import type StructureDefinition from '../nodes/StructureDefinition';
+import type Locales from '../locale/Locales';
 
 function position(evaluator: Evaluator, x: number, y: number) {
     const PlaceType = evaluator.project.shares.output.Place;
@@ -74,7 +74,7 @@ export default class Pointer extends StreamValue<
 }
 
 export function createPointerDefinition(
-    locales: Locale[],
+    locales: Locales,
     PlaceType: StructureDefinition
 ) {
     return StreamDefinition.make(

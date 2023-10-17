@@ -4,7 +4,7 @@ import type { Edit } from './Commands';
 import type Purpose from '@concepts/Purpose';
 import type ConceptIndex from '@concepts/ConceptIndex';
 import Literal from '@nodes/Literal';
-import type Locale from '../../../locale/Locale';
+import type Locales from '@locale/Locales';
 
 export type MenuSelection = [number, number | undefined];
 export type MenuOrganization = (Revision | RevisionSet)[];
@@ -76,8 +76,9 @@ export default class Menu {
             // RevisionSets are organized alphabetically by locale.
             const priority = this.revisions.filter(
                 (revision) =>
-                    revision.isCompletion() ||
-                    revision.getNewNode([]) instanceof Literal
+                    revision.isCompletion(this.concepts.locales) ||
+                    revision.getNewNode(this.concepts.locales) instanceof
+                        Literal
             );
             const removals = this.revisions.filter((revision) =>
                 revision.isRemoval()
@@ -88,7 +89,7 @@ export default class Menu {
             );
             const kinds: Map<Purpose, Revision[]> = new Map();
             for (const other of others) {
-                const node = other.getNewNode([]);
+                const node = other.getNewNode(this.concepts.locales);
                 const purpose =
                     node === undefined
                         ? undefined
@@ -276,7 +277,7 @@ export default class Menu {
             : this;
     }
 
-    doEdit(locales: Locale[], revision: Revision | RevisionSet | undefined) {
+    doEdit(locales: Locales, revision: Revision | RevisionSet | undefined) {
         if (revision === undefined) return this.action(undefined);
         return revision
             ? this.action(

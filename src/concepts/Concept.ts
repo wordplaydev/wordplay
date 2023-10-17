@@ -1,12 +1,12 @@
 import type Context from '@nodes/Context';
 import type Node from '@nodes/Node';
-import type Locale from '@locale/Locale';
 import type Purpose from './Purpose';
 import type StructureDefinition from '@nodes/StructureDefinition';
 import type Glyph from '../lore/Glyph';
 import type Emotion from '../lore/Emotion';
 import type Markup from '../nodes/Markup';
 import type { Character } from '../tutorial/Tutorial';
+import type Locales from '../locale/Locales';
 
 /**
  * Represents some part of the Wordplay language, API, or example ecosystem.
@@ -40,15 +40,15 @@ export default abstract class Concept {
     /**
      * Returns the glyph that represents the concept.
      */
-    abstract getGlyphs(locales: Locale[]): Glyph;
+    abstract getGlyphs(locales: Locales): Glyph;
 
     /** Returns the emotions for the glyphs */
-    abstract getEmotion(locale: Locale): Emotion;
+    abstract getEmotion(locales: Locales): Emotion;
 
     /**
      * Returns true if the concept has the given name or id.
      */
-    abstract hasName(name: string, translation: Locale): boolean;
+    abstract hasName(name: string, locales: Locales): boolean;
 
     /**
      * Return a node to represent the concept. Usually an example or template.
@@ -59,12 +59,12 @@ export default abstract class Concept {
      * Returns a localized creator-facing name or description to represent the concept.
      * Returns a symbolic name if asked and available.
      */
-    abstract getName(translation: Locale, symbolic: boolean): string;
+    abstract getName(locales: Locales, symbolic: boolean): string;
 
     /**
      * Returns, if available, documentation for the concept.
      */
-    abstract getDocs(translation: Locale): Markup | undefined;
+    abstract getDocs(locales: Locales): Markup | undefined;
 
     /**
      * Provides a set of Nodes that could be rendered in the UI.
@@ -90,18 +90,18 @@ export default abstract class Concept {
      * Should return true if anything about the concept matches the query text.
      */
     getTextMatching(
-        locale: Locale,
+        locales: Locales,
         query: string
     ): [string, number, number] | undefined {
-        const name = this.getName(locale, false);
-        const lowerDescription = name.toLocaleLowerCase(locale.language);
+        const name = this.getName(locales, false);
+        const lowerDescription = name.toLocaleLowerCase(locales.getLanguages());
         const index = lowerDescription.indexOf(query);
         // Return name match at priority 1
         if (index >= 0) return [name, index, 1];
-        const markup = this.getDocs(locale);
+        const markup = this.getDocs(locales);
         // If the name doesn't match, see if a doc does
         if (markup) {
-            const [match, index] = markup.getMatchingText(query, [locale]) ?? [
+            const [match, index] = markup.getMatchingText(query, locales) ?? [
                 undefined,
                 undefined,
             ];
@@ -136,7 +136,7 @@ export default abstract class Concept {
         return concepts;
     }
 
-    abstract getCharacter(locale: Locale): Character | undefined;
+    abstract getCharacter(locales: Locales): Character | undefined;
 
     abstract isEqualTo(concept: Concept): boolean;
 }

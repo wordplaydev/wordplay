@@ -1,7 +1,7 @@
 <script lang="ts">
     import { toShortcut, type Command } from '../editor/util/Commands';
     import Button from './Button.svelte';
-    import { locale } from '../../db/Database';
+    import { locales } from '../../db/Database';
     import {
         IdleKind,
         getEditors,
@@ -36,7 +36,7 @@
 </script>
 
 <Button
-    tip={command.description($locale) + ` (${toShortcut(command)})`}
+    tip={$locales.get(command.description) + ` (${toShortcut(command)})`}
     bind:view
     uiid={command.uiid}
     {active}

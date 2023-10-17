@@ -23,10 +23,8 @@
     import {
         animationFactor,
         DB,
-        locale,
         locales,
         Projects,
-        writingDirection,
         writingLayout,
     } from '../../db/Database';
     import type Color from '../../output/Color';
@@ -124,10 +122,10 @@
     $: if ($announce && value && (exception || stageValue === undefined))
         $announce(
             'value',
-            $locale.language,
+            $locales.getLanguages()[0],
             exception
-                ? exception.getExplanation($locale).toText()
-                : value.getDescription(concretize, $locale).toText()
+                ? exception.getExplanation($locales).toText()
+                : value.getDescription(concretize, $locales).toText()
         );
 
     /** When creator's preferred animation factor changes, update evaluator */
@@ -288,7 +286,8 @@
                 .map((stream) => stream.react({ key: event.key, down: true }));
 
             // Announce the key pressed
-            if ($announce) $announce('keyinput', $locale.language, event.key);
+            if ($announce)
+                $announce('keyinput', $locales.getLanguages()[0], event.key);
 
             // Map keys onto axes of change for any Placement streams.
             if (
@@ -448,7 +447,7 @@
                     $selectedOutput && $selectedOutput.length > 0
                     ? getOrCreatePlace(
                           project,
-                          $locale,
+                          $locales,
                           $selectedOutput[0],
                           evaluator.project.getNodeContext($selectedOutput[0])
                       )
@@ -852,7 +851,7 @@
     class="output"
     data-uuid="stage"
     role="application"
-    aria-label={$locale.ui.output.label}
+    aria-label={$locales.get((l) => l.ui.output.label)}
     class:mini
     class:editing={$evaluation?.playing === false && !painting}
     class:selected={stageValue &&
@@ -860,7 +859,7 @@
         stageValue.value.creator instanceof Evaluate &&
         $selectedOutput &&
         $selectedOutput.includes(stageValue.value.creator)}
-    style:direction={$writingDirection}
+    style:direction={$locales.getDirection()}
     style:writing-mode={$writingLayout}
 >
     <div
@@ -885,11 +884,13 @@
                     type="text"
                     class="keyboard-input"
                     placeholder={chats
-                        ? $locale.ui.output.field.key.placeholder
+                        ? $locales.get((l) => l.ui.output.field.key.placeholder)
                         : null}
                     data-defaultfocus
                     aria-autocomplete="none"
-                    aria-label={$locale.ui.output.field.key.description}
+                    aria-label={$locales.get(
+                        (l) => l.ui.output.field.key.description
+                    )}
                     autocomplete={chats ? 'on' : 'off'}
                     autocorrect={chats ? 'on' : 'off'}
                     on:keydown={(event) =>
@@ -904,7 +905,7 @@
                 />
                 {#if chats}
                     <ButtonUI
-                        tip={$locale.ui.output.button.submit}
+                        tip={$locales.get((l) => l.ui.output.button.submit)}
                         action={submitChat}>↑</ButtonUI
                     >
                 {/if}
@@ -920,12 +921,10 @@
                         invert
                     >
                         <svelte:fragment slot="content">
-                            {#each $locales as locale}
-                                <MarkupHTMLView
-                                    markup={exception.getExplanation(locale)}
-                                />
-                            {/each}</svelte:fragment
-                        ></Speech
+                            <MarkupHTMLView
+                                markup={exception.getExplanation($locales)}
+                            />
+                        </svelte:fragment></Speech
                     >
                 {/if}
             </div>
@@ -939,7 +938,7 @@
                     <ValueView {value} interactive={false} />
                 {:else}
                     {@const description = value
-                        .getDescription(concretize, $locale)
+                        .getDescription(concretize, $locales)
                         .toText()}
                     <h2>{description}</h2>
                     <ValueView {value} inline={false} />

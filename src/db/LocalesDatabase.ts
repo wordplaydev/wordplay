@@ -1,7 +1,6 @@
-import { derived, get, writable, type Writable } from 'svelte/store';
+import { get, writable, type Writable } from 'svelte/store';
 import type Locale from '../locale/Locale';
 import type { Database } from './Database';
-import { getLanguageDirection } from '../locale/LanguageCode';
 import {
     SupportedLocales,
     type SupportedLocale,
@@ -13,7 +12,8 @@ import type Setting from './Setting';
 import type LanguageCode from '../locale/LanguageCode';
 import type { RegionCode } from '../locale/Regions';
 import type Tutorial from '../tutorial/Tutorial';
-import DefaultLocale from '../locale/DefaultLocale';
+import DefaultLocale, { DefaultLocales } from '../locale/DefaultLocale';
+import Locales from '../locale/Locales';
 
 /** A cache of locales loaded */
 export default class LocalesDatabase {
@@ -23,15 +23,8 @@ export default class LocalesDatabase {
     /** The default locale */
     private readonly defaultLocale: Locale;
 
-    /** Derived stores based on selected locales. */
-    readonly locales: Writable<Locale[]> = writable([DefaultLocale]);
-    readonly locale = derived(this.locales, ($locales) => $locales[0]);
-    readonly languages = derived(this.locales, ($locales) =>
-        $locales.map((locale) => locale.language)
-    );
-    readonly writingDirection = derived(this.locales, ($locales) =>
-        getLanguageDirection($locales[0].language)
-    );
+    /** A reactive store of preferred locales based on the selected languages. */
+    readonly locales: Writable<Locales> = writable(DefaultLocales);
 
     /** The locales loaded, loading, or failed to load. */
     private localesLoaded: Record<
@@ -87,7 +80,7 @@ export default class LocalesDatabase {
         Fonts.loadLocales(locales);
 
         // Update the locales stores
-        this.locales.set(this.computeLocales());
+        this.locales.set(new Locales(this.computeLocales(), DefaultLocale));
 
         return locales;
     }
@@ -135,9 +128,12 @@ export default class LocalesDatabase {
         } else return current;
     }
 
-    getLocales(): Locale[] {
-        // Map preferred languages into locales, filtering out missing locales and unloaded locales.
+    getLocaleSet() {
         return get(this.locales);
+    }
+
+    getLocales(): Locale[] {
+        return get(this.locales).getLocales();
     }
 
     getLocale(): Locale {
@@ -158,7 +154,7 @@ export default class LocalesDatabase {
     }
 
     getLocaleBasis(): Basis {
-        return Basis.getLocalizedBasis(this.getLocales());
+        return Basis.getLocalizedBasis(this.getLocaleSet());
     }
 
     getLanguages(): LanguageCode[] {
@@ -166,7 +162,7 @@ export default class LocalesDatabase {
     }
 
     getWritingDirection() {
-        return get(this.writingDirection);
+        return get(this.locales).getDirection();
     }
 
     /** Set the languages, load all locales if they aren't loaded, revise all projects to include any new locales, and save the new configuration. */

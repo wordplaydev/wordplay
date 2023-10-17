@@ -1,8 +1,8 @@
 import ExceptionValue from '@values/ExceptionValue';
 import type Evaluator from '@runtime/Evaluator';
-import type Locale from '@locale/Locale';
 import concretize from '../locale/concretize';
 import type Program from '../nodes/Program';
+import type Locales from '../locale/Locales';
 
 export default class StepLimitException extends ExceptionValue {
     readonly program: Program;
@@ -11,11 +11,11 @@ export default class StepLimitException extends ExceptionValue {
         this.program = program;
     }
 
-    getExceptionText(locale: Locale) {
-        return locale.node.Program.exception.StepLimitException;
+    getExceptionText(locales: Locales) {
+        return locales.get((l) => l.node.Program.exception.StepLimitException);
     }
 
-    getExplanation(locale: Locale) {
-        return concretize(locale, this.getExceptionText(locale).explanation);
+    getExplanation(locales: Locales) {
+        return concretize(locales, this.getExceptionText(locales).explanation);
     }
 }

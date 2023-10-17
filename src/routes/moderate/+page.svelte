@@ -31,7 +31,7 @@
     import type Project from '../../models/Project';
     import { Projects } from '../../db/Database';
     import { writable } from 'svelte/store';
-    import { locale } from '../../db/Database';
+    import { locales } from '../../db/Database';
     import MarkupHtmlView from '@components/concepts/MarkupHTMLView.svelte';
     import Checkbox from '@components/widgets/Checkbox.svelte';
     import Button from '../../components/widgets/Button.svelte';
@@ -115,7 +115,7 @@
 <Page>
     <div class="moderate">
         <div class="flags">
-            <Header>{$locale.moderation.moderate.header}</Header>
+            <Header>{$locales.get((l) => l.moderation.moderate.header)}</Header>
             {#if lastBatch === null}
                 <Spinning label="" />
             {:else if moderator === false}
@@ -129,7 +129,9 @@
                 <Spinning label="" />
             {:else}
                 <MarkupHtmlView
-                    markup={$locale.moderation.moderate.explanation}
+                    markup={$locales.get(
+                        (l) => l.moderation.moderate.explanation
+                    )}
                 />
                 {#each Object.entries(project.getFlags()) as [flag, state]}
                     <div class="flag">
@@ -145,7 +147,8 @@
                         />
                         <label for={flag}>
                             <MarkupHtmlView
-                                markup={getFlagDescription(flag, $locale) ?? ''}
+                                markup={getFlagDescription(flag, $locales) ??
+                                    ''}
                             /></label
                         >
                     </div>
@@ -153,15 +156,21 @@
                 <div class="controls">
                     <Button
                         background
-                        tip={$locale.moderation.button.submit.tip}
+                        tip={$locales.get(
+                            (l) => l.moderation.button.submit.tip
+                        )}
                         action={save}
-                        >{$locale.moderation.button.submit.label}</Button
+                        >{$locales.get(
+                            (l) => l.moderation.button.submit.label
+                        )}</Button
                     >
                     <Button
                         background
-                        tip={$locale.moderation.button.skip.tip}
+                        tip={$locales.get((l) => l.moderation.button.skip.tip)}
                         action={skip}
-                        >{$locale.moderation.button.skip.label}</Button
+                        >{$locales.get(
+                            (l) => l.moderation.button.skip.label
+                        )}</Button
                     >
                 </div>
             {/if}

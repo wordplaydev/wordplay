@@ -4,12 +4,12 @@ import type Evaluate from '@nodes/Evaluate';
 import type Token from '@nodes/Token';
 import type UnaryEvaluate from '@nodes/UnaryEvaluate';
 import NodeRef from '@locale/NodeRef';
-import type Locale from '@locale/Locale';
 import type Evaluator from '@runtime/Evaluator';
 import ExceptionValue from '@values/ExceptionValue';
 import type Value from '../values/Value';
 import concretize from '../locale/concretize';
 import type Expression from '../nodes/Expression';
+import type Locales from '../locale/Locales';
 
 export default class FunctionException extends ExceptionValue {
     readonly subject: Value | undefined;
@@ -29,18 +29,18 @@ export default class FunctionException extends ExceptionValue {
         this.verb = verb;
     }
 
-    getExceptionText(locale: Locale) {
-        return locale.node.Evaluate.exception.FunctionException;
+    getExceptionText(locales: Locales) {
+        return locales.get((l) => l.node.Evaluate.exception.FunctionException);
     }
 
-    getExplanation(locale: Locale) {
+    getExplanation(locales: Locales) {
         return concretize(
-            locale,
-            this.getExceptionText(locale).explanation,
+            locales,
+            this.getExceptionText(locales).explanation,
             // Wrap the node containing the name in a link
             new NodeRef(
                 this.verb,
-                locale,
+                locales,
                 this.evaluator.project.getNodeContext(this.node)
             ),
             // Wrap the type, if there is one
@@ -52,7 +52,7 @@ export default class FunctionException extends ExceptionValue {
                               this.subject.creator
                           )
                       ),
-                      locale,
+                      locales,
                       this.evaluator.project.getNodeContext(
                           this.subject.creator
                       )

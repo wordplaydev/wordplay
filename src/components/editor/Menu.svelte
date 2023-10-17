@@ -5,7 +5,7 @@
     import type Menu from './util/Menu';
     import { getConceptIndex } from '../project/Contexts';
     import Speech from '../lore/Speech.svelte';
-    import { locale, locales } from '../../db/Database';
+    import { locales } from '../../db/Database';
     import MarkupHTMLView from '../concepts/MarkupHTMLView.svelte';
     import Glyphs from '../../lore/Glyphs';
     import { RevisionSet } from './util/Menu';
@@ -61,7 +61,7 @@
         $index && newParent && newNode
             ? $index.getRelevantConcept(evaluateBind ?? newNode)
             : undefined;
-    $: selectedDocs = selectedConcept?.getDocs($locale);
+    $: selectedDocs = selectedConcept?.getDocs($locales);
 
     /* When the selection changes, scroll it's corresponding view and focus it. */
     let revisionViews: HTMLElement[] = [];
@@ -110,7 +110,9 @@
                                   node instanceof Token &&
                                   node.getText().startsWith(event.key)
                           )
-                    : $locale.term[revision.purpose].startsWith(event.key)
+                    : $locales
+                          .get((l) => l.term[revision.purpose])
+                          .startsWith(event.key)
             );
             if (match)
                 menu = menu.inSubmenu()
@@ -132,7 +134,7 @@
         role="menu"
         tabindex="-1"
         aria-orientation="vertical"
-        aria-label={$locale.ui.source.menu.label}
+        aria-label={$locales.get((l) => l.ui.source.menu.label)}
         aria-activedescendant="menuitem-{menu.inSubmenu()
             ? menu.getSelectionIndex()[1]
             : menu.getSelectionIndex()[0]}"
@@ -144,7 +146,7 @@
                 class="revision"
                 tabindex="-1"
                 id="menuitem--1"
-                aria-label={$locale.ui.source.menu.back}
+                aria-label={$locales.get((l) => l.ui.source.menu.back)}
                 class:selected={menu.onBack()}
                 bind:this={revisionViews[-1]}
                 on:pointerdown|stopPropagation={() =>
@@ -159,9 +161,9 @@
                 aria-label={entry instanceof Revision
                     ? entry
                           .getEditedNode($locales)[0]
-                          .getDescription(concretize, $locale, entry.context)
+                          .getDescription(concretize, $locales, entry.context)
                           .toText()
-                    : $locale.term[entry.purpose]}
+                    : $locales.getLocale().term[entry.purpose]}
                 class={`revision ${
                     itemIndex === menu.getSelectionID() ? 'selected' : ''
                 } ${entry instanceof RevisionSet ? 'submenu' : ''}`}
@@ -182,14 +184,18 @@
                         {/if}
                     {:else}
                         <MarkupHTMLView
-                            markup={revision.getDescription($locale)}
+                            markup={revision.getDescription($locales)}
                         />
                     {/if}
                 {:else if entry instanceof RevisionSet}
                     <MarkupHTMLView
                         markup={concretize(
-                            $locale,
-                            `/${$locale.term[entry.purpose]}…/`
+                            $locales,
+                            `/${$locales.get((l) =>
+                                entry instanceof RevisionSet
+                                    ? l.term[entry.purpose]
+                                    : ''
+                            )}…/`
                         )}
                     />
                 {/if}
@@ -204,7 +210,7 @@
             <Speech glyph={selectedConcept ?? Glyphs.Program} below>
                 <svelte:fragment slot="content">
                     <MarkupHTMLView
-                        markup={selectedRevision.getDescription($locale)}
+                        markup={selectedRevision.getDescription($locales)}
                     />
                     {#if selectedDocs}
                         <MarkupHTMLView markup={selectedDocs} />

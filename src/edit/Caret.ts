@@ -1383,14 +1383,14 @@ export default class Caret {
         conflicts: Conflict[],
         context: Context
     ): string {
-        const locale = context.getBasis().locales[0];
+        const locales = context.getBasis().locales;
 
         /** Get description of conflicts */
         const conflictDescription =
             conflicts.length > 0
                 ? concretize(
-                      locale,
-                      locale.ui.edit.conflicts,
+                      locales,
+                      locales.get((l) => l.ui.edit.conflicts),
                       conflicts.length
                   ).toText()
                 : undefined;
@@ -1401,15 +1401,15 @@ export default class Caret {
     }
 
     getPositionDescription(type: Type | undefined, context: Context) {
-        const locale = context.getBasis().locales[0];
+        const locales = context.getBasis().locales;
 
         /** If the caret is a node, describe the node. */
         if (this.position instanceof Node) {
             return concretize(
-                locale,
-                locale.ui.edit.node,
-                new NodeRef(this.position, locale, context),
-                type ? new NodeRef(type, locale, context) : undefined
+                locales,
+                locales.get((l) => l.ui.edit.node),
+                new NodeRef(this.position, locales, context),
+                type ? new NodeRef(type, locales, context) : undefined
             ).toText();
         }
 
@@ -1419,37 +1419,37 @@ export default class Caret {
 
         if (this.tokenExcludingSpace && this.isInsideText()) {
             return concretize(
-                locale,
-                locale.ui.edit.inside,
-                new NodeRef(this.tokenExcludingSpace, locale, context)
+                locales,
+                locales.get((l) => l.ui.edit.inside),
+                new NodeRef(this.tokenExcludingSpace, locales, context)
             ).toText();
         } else if (this.isEmptyLine()) {
             return concretize(
-                locale,
-                locale.ui.edit.line,
+                locales,
+                locales.get((l) => l.ui.edit.line),
                 beforeNode
-                    ? new NodeRef(beforeNode, locale, context)
+                    ? new NodeRef(beforeNode, locales, context)
                     : undefined,
-                afterNode ? new NodeRef(afterNode, locale, context) : undefined
+                afterNode ? new NodeRef(afterNode, locales, context) : undefined
             ).toText();
         } else if (this.tokenIncludingSpace) {
             if (this.tokenPrior && this.tokenPrior !== this.tokenIncludingSpace)
                 return concretize(
-                    locale,
-                    locale.ui.edit.between,
+                    locales,
+                    locales.get((l) => l.ui.edit.between),
                     beforeNode
-                        ? new NodeRef(beforeNode, locale, context)
+                        ? new NodeRef(beforeNode, locales, context)
                         : undefined,
                     afterNode
-                        ? new NodeRef(afterNode, locale, context)
+                        ? new NodeRef(afterNode, locales, context)
                         : undefined
                 ).toText();
             else
                 return concretize(
-                    locale,
-                    locale.ui.edit.before,
+                    locales,
+                    locales.get((l) => l.ui.edit.before),
                     afterNode
-                        ? new NodeRef(afterNode, locale, context)
+                        ? new NodeRef(afterNode, locales, context)
                         : undefined
                 ).toText();
         }

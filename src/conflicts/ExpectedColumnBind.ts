@@ -1,10 +1,10 @@
 import type Context from '@nodes/Context';
 import type Expression from '@nodes/Expression';
 import NodeRef from '@locale/NodeRef';
-import type Locale from '@locale/Locale';
 import Conflict from './Conflict';
 import concretize from '../locale/concretize';
 import type Update from '../nodes/Update';
+import type Locales from '../locale/Locales';
 
 export default class ExpectedColumnBind extends Conflict {
     readonly update: Update;
@@ -20,11 +20,13 @@ export default class ExpectedColumnBind extends Conflict {
         return {
             primary: {
                 node: this.update,
-                explanation: (locale: Locale, context: Context) =>
+                explanation: (locales: Locales, context: Context) =>
                     concretize(
-                        locale,
-                        locale.node.Update.conflict.ExpectedColumnBind,
-                        new NodeRef(this.cell, locale, context)
+                        locales,
+                        locales.get(
+                            (l) => l.node.Update.conflict.ExpectedColumnBind
+                        ),
+                        new NodeRef(this.cell, locales, context)
                     ),
             },
         };

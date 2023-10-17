@@ -8,7 +8,7 @@
     import Note from '../widgets/Note.svelte';
     import { getNumber } from './editOutput';
     import Expression from '../../nodes/Expression';
-    import { Projects, locale, locales } from '../../db/Database';
+    import { Projects, locales } from '../../db/Database';
     import { tick } from 'svelte';
     import Button from '../widgets/Button.svelte';
     import type Bind from '../../nodes/Bind';
@@ -84,14 +84,16 @@
                     validator={valid}
                     {editable}
                     placeholder={dimension.names.getNames()[0]}
-                    description={$locale.ui.palette.field.coordinate}
+                    description={$locales.get(
+                        (l) => l.ui.palette.field.coordinate
+                    )}
                     changed={(value) => handleChange(dimension, value)}
                     bind:view={views[index]}
                 />
                 <Note>{getUnit(dimension)?.toWordplay() ?? ''}</Note>
             {:else}
                 <Note
-                    >{$locales.map(
+                    >{$locales.get(
                         (locale) => locale.ui.palette.labels.computed
                     )}</Note
                 >
@@ -101,7 +103,7 @@
 </div>
 {#if convertable}
     <Button
-        tip={$locale.ui.palette.button.addMotion}
+        tip={$locales.get((l) => l.ui.palette.button.addMotion)}
         active={editable}
         action={() =>
             Projects.revise(project, [
@@ -136,7 +138,7 @@
             ])}>→{project.shares.input.Motion.getNames()[0]}</Button
     >
     <Button
-        tip={$locale.ui.palette.button.addPlacement}
+        tip={$locales.get((l) => l.ui.palette.button.addPlacement)}
         active={editable}
         action={() =>
             Projects.revise(project, [

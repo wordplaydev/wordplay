@@ -1,5 +1,4 @@
 import type { BasisTypeName } from '../basis/BasisConstants';
-import type Locale from '@locale/Locale';
 import type Context from './Context';
 import type Node from './Node';
 import Type from './Type';
@@ -11,6 +10,7 @@ import type Concretizer from './Concretizer';
 import Paragraph, { type Segment } from './Paragraph';
 import Token from './Token';
 import Sym from './Sym';
+import type Locales from '../locale/Locales';
 
 export default abstract class UnknownType<
     ExpressionType extends Node
@@ -60,23 +60,26 @@ export default abstract class UnknownType<
 
     getDescription(
         concretizer: Concretizer,
-        locale: Locale,
+        locales: Locales,
         context: Context
     ): Markup {
         const reasons = this.getReasons().map((reason) =>
-            reason.getReason(concretizer, locale, context)
+            reason.getReason(concretizer, locales, context)
         );
         let spaces = undefined;
         let segments: Segment[] = [
             // Get the unknown type description
-            ...super.getDescription(concretizer, locale, context).paragraphs[0]
+            ...super.getDescription(concretizer, locales, context).paragraphs[0]
                 .segments,
         ];
         // Get all the reasons for the unknown types.
         for (const reason of reasons) {
             segments = [
                 ...segments,
-                new Token(locale.node.UnknownType.connector, Sym.Words),
+                new Token(
+                    locales.get((l) => l.node.UnknownType.connector),
+                    Sym.Words
+                ),
                 ...reason.paragraphs[0].segments,
             ];
             spaces =
@@ -91,13 +94,13 @@ export default abstract class UnknownType<
         return new Markup([new Paragraph(segments)], spaces);
     }
 
-    getNodeLocale(locale: Locale) {
-        return locale.node.UnknownType;
+    getNodeLocale(locales: Locales) {
+        return locales.get((l) => l.node.UnknownType);
     }
 
     abstract getReason(
         concretizer: Concretizer,
-        locale: Locale,
+        locales: Locales,
         context: Context
     ): Markup;
 

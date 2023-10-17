@@ -7,7 +7,7 @@ import TextType from '../nodes/TextType';
 import TextValue from '../values/TextValue';
 import StreamType from '../nodes/StreamType';
 import createStreamEvaluator from './createStreamEvaluator';
-import type Locale from '../locale/Locale';
+import type Locales from '../locale/Locales';
 
 /** A series of selected output, chosen by mouse or keyboard, allowing for programs that work for both mouse and keyboard. */
 export default class Choice extends StreamValue<TextValue, string> {
@@ -48,7 +48,7 @@ export default class Choice extends StreamValue<TextValue, string> {
     }
 }
 
-export function createChoiceDefinition(locales: Locale[]) {
+export function createChoiceDefinition(locales: Locales) {
     return StreamDefinition.make(
         getDocLocales(locales, (locale) => locale.input.Choice.doc),
         getNameLocales(locales, (locale) => locale.input.Choice.names),

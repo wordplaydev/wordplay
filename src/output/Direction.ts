@@ -7,9 +7,9 @@ import NumberValue from '@values/NumberValue';
 import type { EvaluationNode } from '@runtime/Evaluation';
 import StructureValue from '../values/StructureValue';
 import Unit from '../nodes/Unit';
-import type Locale from '../locale/Locale';
+import type Locales from '../locale/Locales';
 
-export function createDirectionType(locales: Locale[]) {
+export function createDirectionType(locales: Locales) {
     return toStructure(`
     ${getBind(locales, (locale) => locale.input.Direction, '•')}(
         ${getBind(locales, (locale) => locale.input.Direction.x)}•#m

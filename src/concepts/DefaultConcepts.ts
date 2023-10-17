@@ -74,7 +74,6 @@ import SetCloseToken from '../nodes/SetCloseToken';
 import SetOrMapAccess from '../nodes/SetOrMapAccess';
 import Source from '../nodes/Source';
 import NameType from '../nodes/NameType';
-import type Locale from '../locale/Locale';
 import FormattedLiteral from '../nodes/FormattedLiteral';
 import FormattedTranslation from '../nodes/FormattedTranslation';
 import IsLocale from '../nodes/IsLocale';
@@ -85,6 +84,7 @@ import Select from '../nodes/Select';
 import Update from '../nodes/Update';
 import Delete from '../nodes/Delete';
 import Translation from '../nodes/Translation';
+import type Locales from '../locale/Locales';
 
 /** These are ordered by appearance in the docs. */
 const templates: Node[] = [
@@ -258,7 +258,7 @@ export function getNodeConcepts(context: Context): NodeConcept[] {
 
 export function getBasisConcepts(
     basis: Basis,
-    locales: Locale[],
+    locales: Locales,
     context: Context
 ): StructureConcept[] {
     return [
@@ -345,7 +345,7 @@ export function getStructureOrFunctionConcept(
     def: StructureDefinition | FunctionDefinition,
     purpose: Purpose,
     affiliation: StructureDefinition | undefined,
-    locales: Locale[],
+    locales: Locales,
     context: Context
 ) {
     return def instanceof StructureDefinition
@@ -369,7 +369,7 @@ export function getStructureOrFunctionConcept(
 }
 
 export function getOutputConcepts(
-    locales: Locale[],
+    locales: Locales,
     context: Context
 ): Concept[] {
     return [

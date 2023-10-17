@@ -1,8 +1,8 @@
 import Conflict from './Conflict';
 import type Type from '@nodes/Type';
 import type Is from '@nodes/Is';
-import type Locale from '@locale/Locale';
 import concretize from '../locale/concretize';
+import type Locales from '../locale/Locales';
 
 export class ImpossibleType extends Conflict {
     readonly is: Is;
@@ -18,8 +18,11 @@ export class ImpossibleType extends Conflict {
         return {
             primary: {
                 node: this.is,
-                explanation: (locale: Locale) =>
-                    concretize(locale, locale.node.Is.conflict.ImpossibleType),
+                explanation: (locales: Locales) =>
+                    concretize(
+                        locales,
+                        locales.get((l) => l.node.Is.conflict.ImpossibleType)
+                    ),
             },
         };
     }

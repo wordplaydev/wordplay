@@ -22,12 +22,12 @@
 <!-- Inline structures show the name and binds -->
 {#if inline}
     <SymbolView
-        symbol={value.type.names.getPreferredNameString($locales)}
+        symbol={$locales.getName(value.type.names)}
         type={Sym.Name}
     /><SymbolView symbol={EVAL_OPEN_SYMBOL} type={Sym.EvalOpen} /><Expandable
         ><svelte:fragment slot="expanded">
             {#each value.type.inputs as input, index}<SymbolView
-                    symbol={input.names.getPreferredNameString($locales)}
+                    symbol={$locales.getName(input.names)}
                     type={Sym.Name}
                 /><SymbolView symbol={BIND_SYMBOL} type={Sym.Bind} /><ValueView
                     value={value.resolve(input.getNames()[0]) ??
@@ -52,7 +52,7 @@
         <tr
             ><th colspan={color ? 1 : 2}
                 ><SymbolView
-                    symbol={value.type.names.getPreferredNameString($locales)}
+                    symbol={$locales.getName(value.type.names)}
                     type={Sym.Name}
                 /></th
             >{#if color}
@@ -67,7 +67,7 @@
         {#each value.type.inputs as input}<tr
                 ><td
                     ><SymbolView
-                        symbol={input.names.getPreferredNameString($locales)}
+                        symbol={$locales.getName(input.names)}
                         type={Sym.Name}
                     /></td
                 ><td

@@ -40,6 +40,7 @@ import concretize from '../locale/concretize';
 import Evaluate from './Evaluate';
 import ExpressionPlaceholder from './ExpressionPlaceholder';
 import DefinitionExpression from './DefinitionExpression';
+import type Locales from '../locale/Locales';
 
 export default class StructureDefinition extends DefinitionExpression {
     readonly docs: Docs | undefined;
@@ -195,12 +196,12 @@ export default class StructureDefinition extends DefinitionExpression {
         return true;
     }
 
-    getEvaluateTemplate(nameOrLocales: Locale[] | string) {
+    getEvaluateTemplate(nameOrLocales: Locales | string) {
         return Evaluate.make(
             Reference.make(
                 typeof nameOrLocales === 'string'
                     ? nameOrLocales
-                    : this.names.getPreferredNameString(nameOrLocales),
+                    : nameOrLocales.getName(this.names),
                 this
             ),
             this.inputs
@@ -240,11 +241,8 @@ export default class StructureDefinition extends DefinitionExpression {
         return new NameType(this.getNames()[0], undefined, this);
     }
 
-    getReference(locales: Locale[] = []): Reference {
-        return Reference.make(
-            this.names.getPreferredNameString(locales, true),
-            this
-        );
+    getReference(locales: Locales): Reference {
+        return Reference.make(locales.getName(this.names), this);
     }
 
     getAbstractFunctions(): FunctionDefinition[] {
@@ -478,16 +476,19 @@ export default class StructureDefinition extends DefinitionExpression {
         return definition === this;
     }
 
-    getNodeLocale(locale: Locale) {
-        return locale.node.StructureDefinition;
+    getNodeLocale(locales: Locales) {
+        return locales.get((l) => l.node.StructureDefinition);
     }
 
-    getStartExplanations(locale: Locale) {
-        return concretize(locale, locale.node.StructureDefinition.start);
+    getStartExplanations(locales: Locales) {
+        return concretize(
+            locales,
+            locales.get((l) => l.node.StructureDefinition.start)
+        );
     }
 
-    getDescriptionInputs(locale: Locale) {
-        return [this.names.getPreferredNameString([locale])];
+    getDescriptionInputs(locales: Locales) {
+        return [locales.getName(this.names)];
     }
 
     getGlyphs() {

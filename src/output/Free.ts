@@ -8,9 +8,9 @@ import { getBind } from '@locale/getBind';
 import Arrangement from './Arrangement';
 import Phrase from './Phrase';
 import concretize from '../locale/concretize';
-import type Locale from '../locale/Locale';
+import type Locales from '../locale/Locales';
 
-export function createFreeType(locales: Locale[]) {
+export function createFreeType(locales: Locales) {
     return toStructure(`
     ${getBind(locales, (locale) => locale.output.Free, '•')} Arrangement()
 `);
@@ -62,10 +62,10 @@ export class Free extends Arrangement {
         return undefined;
     }
 
-    getDescription(output: Output[], locales: Locale[]) {
+    getDescription(output: Output[], locales: Locales) {
         return concretize(
-            locales[0],
-            locales[0].output.Free.description,
+            locales,
+            locales.get((l) => l.output.Free.description),
             output.length
         ).toText();
     }

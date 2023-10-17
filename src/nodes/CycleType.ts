@@ -1,8 +1,8 @@
 import type Node from './Node';
 import UnknownType from './UnknownType';
 import type Expression from './Expression';
-import type Locale from '@locale/Locale';
 import type Concretizer from './Concretizer';
+import type Locales from '../locale/Locales';
 
 export default class CycleType extends UnknownType<Expression> {
     readonly cycle: Node[];
@@ -12,7 +12,10 @@ export default class CycleType extends UnknownType<Expression> {
         this.cycle = cycle;
     }
 
-    getReason(concretize: Concretizer, locale: Locale) {
-        return concretize(locale, locale.node.CycleType.description);
+    getReason(concretize: Concretizer, locales: Locales) {
+        return concretize(
+            locales,
+            locales.get((l) => l.node.CycleType.description)
+        );
     }
 }

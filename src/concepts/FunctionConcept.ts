@@ -4,12 +4,12 @@ import type Node from '@nodes/Node';
 import BindConcept from './BindConcept';
 import Concept from './Concept';
 import type StructureConcept from './StructureConcept';
-import type Locale from '@locale/Locale';
 import type Purpose from './Purpose';
 import type StructureDefinition from '@nodes/StructureDefinition';
 import Emotion from '../lore/Emotion';
 import type Markup from '../nodes/Markup';
 import type { Character } from '../tutorial/Tutorial';
+import type Locales from '../locale/Locales';
 
 export default class FunctionConcept extends Concept {
     /** The function this concept represents. */
@@ -29,7 +29,7 @@ export default class FunctionConcept extends Concept {
         affiliation: StructureDefinition | undefined,
         definition: FunctionDefinition,
         structure: StructureConcept | undefined,
-        locales: Locale[],
+        locales: Locales,
         context: Context
     ) {
         super(purpose, affiliation, context);
@@ -48,9 +48,9 @@ export default class FunctionConcept extends Concept {
         );
     }
 
-    getGlyphs(locales: Locale[]) {
+    getGlyphs(locales: Locales) {
         return {
-            symbols: this.definition.names.getPreferredNameString(locales),
+            symbols: locales.getName(this.definition.names),
         };
     }
 
@@ -62,13 +62,13 @@ export default class FunctionConcept extends Concept {
         return this.definition.names.hasName(name);
     }
 
-    getDocs(locale: Locale): Markup | undefined {
-        const doc = this.definition.docs?.getPreferredLocale(locale);
-        return doc?.markup?.concretize(locale, []);
+    getDocs(locales: Locales): Markup | undefined {
+        const doc = this.definition.docs?.getPreferredLocale(locales);
+        return doc?.markup?.concretize(locales, []);
     }
 
-    getName(locale: Locale) {
-        return this.definition.names.getPreferredNameString([locale], false);
+    getName(locales: Locales) {
+        return locales.getName(this.definition.names, false);
     }
 
     getRepresentation() {

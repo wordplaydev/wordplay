@@ -1,8 +1,8 @@
 import type Bind from '@nodes/Bind';
 import type Token from '@nodes/Token';
-import type Locale from '@locale/Locale';
 import Conflict from './Conflict';
 import concretize from '../locale/concretize';
+import type Locales from '../locale/Locales';
 
 export default class UnexpectedEtc extends Conflict {
     readonly etc: Token;
@@ -17,8 +17,11 @@ export default class UnexpectedEtc extends Conflict {
         return {
             primary: {
                 node: this.bind,
-                explanation: (locale: Locale) =>
-                    concretize(locale, locale.node.Bind.conflict.UnexpectedEtc),
+                explanation: (locales: Locales) =>
+                    concretize(
+                        locales,
+                        locales.get((l) => l.node.Bind.conflict.UnexpectedEtc)
+                    ),
             },
         };
     }

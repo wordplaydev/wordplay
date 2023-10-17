@@ -2,10 +2,10 @@ import type Context from '@nodes/Context';
 import type Type from '@nodes/Type';
 import type Evaluator from '@runtime/Evaluator';
 import type { BasisTypeName } from '../basis/BasisConstants';
-import type Locale from '@locale/Locale';
 import type Expression from '../nodes/Expression';
 import type Markup from '../nodes/Markup';
 import type Concretizer from '@nodes/Concretizer';
+import type Locales from '../locale/Locales';
 
 /** Used to uniquely distinguish values. */
 let VALUE_ID = 0;
@@ -20,10 +20,10 @@ export default abstract class Value {
 
     /** Returns a Wordplay sytnax representation of the value. */
     toString(): string {
-        return this.toWordplay([]);
+        return this.toWordplay();
     }
 
-    abstract toWordplay(locales: Locale[]): string;
+    abstract toWordplay(locales?: Locales): string;
 
     /** Returns the Structure defining this value's interface. */
     abstract getType(context: Context): Type;
@@ -35,7 +35,7 @@ export default abstract class Value {
 
     abstract isEqualTo(value: Value): boolean;
 
-    abstract getDescription(concretizer: Concretizer, locale: Locale): Markup;
+    abstract getDescription(concretizer: Concretizer, locales: Locales): Markup;
 
     /**
      * Should returns a rough estimate of how much memory this value uses.

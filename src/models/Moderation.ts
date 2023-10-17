@@ -1,6 +1,7 @@
 import type { User } from 'firebase/auth';
 import type { Locale, Template } from '../locale/Locale';
 import type Project from './Project';
+import type Locales from '../locale/Locales';
 
 /** Ways the platform can respond to a content moderation flag */
 export enum Remedy {
@@ -108,9 +109,9 @@ export function isAudience(user: User | null, project: Project): boolean {
 
 export function getFlagDescription(
     flag: string,
-    locale: Locale
+    locales: Locales
 ): string | undefined {
-    return locale.moderation.flags[flag as Flag];
+    return locales.get((l) => l.moderation.flags)[flag as Flag];
 }
 
 export async function isModerator(user: User) {

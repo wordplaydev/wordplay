@@ -3,7 +3,6 @@ import Token from './Token';
 import type Conflict from '@conflicts/Conflict';
 import Language from './Language';
 import NameToken from './NameToken';
-import type Locale from '@locale/Locale';
 import { COMMA_SYMBOL } from '@parser/Symbols';
 import Sym from './Sym';
 import Emotion from '../lore/Emotion';
@@ -14,6 +13,7 @@ import Evaluate from './Evaluate';
 import ReservedSymbols from '../parser/ReservedSymbols';
 import Node, { node, optional } from './Node';
 import { LanguageTagged } from './LanguageTagged';
+import type Locales from '../locale/Locales';
 
 export default class Name extends LanguageTagged {
     readonly separator: Token | undefined;
@@ -144,8 +144,8 @@ export default class Name extends LanguageTagged {
         );
     }
 
-    getNodeLocale(translation: Locale) {
-        return translation.node.Name;
+    getNodeLocale(locales: Locales) {
+        return locales.get((l) => l.node.Name);
     }
 
     getDescriptionInputs() {

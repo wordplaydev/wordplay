@@ -1,7 +1,7 @@
 <script lang="ts">
     import type BindConcept from '@concepts/BindConcept';
     import Speech from '../lore/Speech.svelte';
-    import { locales } from '../../db/Database';
+    import { locales } from '@db/Database';
     import MarkupHTMLView from './MarkupHTMLView.svelte';
     import RootView from '../project/RootView.svelte';
 
@@ -10,14 +10,12 @@
 
 <Speech glyph={concept.getGlyphs($locales)} below={true}>
     <svelte:fragment slot="content">
-        {#each $locales as trans}
-            {@const markup = concept.getDocs(trans)}
-            {#if markup}
-                <MarkupHTMLView {markup} />
-            {:else}
-                {trans.ui.docs.nodoc}
-            {/if}
-        {/each}
+        {@const markup = concept.getDocs($locales)}
+        {#if markup}
+            <MarkupHTMLView {markup} />
+        {:else}
+            {$locales.get((l) => l.ui.docs.nodoc)}
+        {/if}
     </svelte:fragment>
     <svelte:fragment slot="aside"
         >{#if concept.bind.type}• <RootView

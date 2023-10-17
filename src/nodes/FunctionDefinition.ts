@@ -42,6 +42,7 @@ import PropertyReference from './PropertyReference';
 import Reference from './Reference';
 import Purpose from '../concepts/Purpose';
 import DefinitionExpression from './DefinitionExpression';
+import type Locales from '../locale/Locales';
 
 export default class FunctionDefinition extends DefinitionExpression {
     readonly docs?: Docs;
@@ -125,7 +126,7 @@ export default class FunctionDefinition extends DefinitionExpression {
 
     /** Create an expression that evaluates this function with typed placeholders for its inputs. */
     getEvaluateTemplate(
-        nameOrLocales: Locale[] | string,
+        nameOrLocales: Locales | string,
         context: Context,
         structureType: Expression | Type | undefined
     ) {
@@ -139,7 +140,7 @@ export default class FunctionDefinition extends DefinitionExpression {
         const reference = Reference.make(
             typeof nameOrLocales === 'string'
                 ? nameOrLocales
-                : this.names.getPreferredNameString(nameOrLocales),
+                : nameOrLocales.getName(this.names),
             this
         );
         return this.isOperator() && this.inputs.length === 0
@@ -431,16 +432,19 @@ export default class FunctionDefinition extends DefinitionExpression {
         return current;
     }
 
-    getNodeLocale(translation: Locale) {
-        return translation.node.FunctionDefinition;
+    getNodeLocale(locales: Locales) {
+        return locales.get((l) => l.node.FunctionDefinition);
     }
 
-    getStartExplanations(locale: Locale) {
-        return concretize(locale, locale.node.FunctionDefinition.start);
+    getStartExplanations(locales: Locales) {
+        return concretize(
+            locales,
+            locales.get((l) => l.node.FunctionDefinition.start)
+        );
     }
 
-    getDescriptionInputs(locale: Locale) {
-        return [this.names.getPreferredNameString([locale])];
+    getDescriptionInputs(locales: Locales) {
+        return [locales.getName(this.names)];
     }
 
     getGlyphs() {

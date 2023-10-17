@@ -27,7 +27,7 @@
         getSelectedOutput,
         getSelectedPhrase,
     } from '../project/Contexts';
-    import { DB, Projects, locale, locales } from '../../db/Database';
+    import { DB, Projects, locales } from '../../db/Database';
     import TextLang from '../../output/TextLang';
     import MarkupHtmlView from '../concepts/MarkupHTMLView.svelte';
     import Markup from '../../nodes/Markup';
@@ -194,7 +194,9 @@
         aria-hidden={empty ? 'true' : null}
         aria-disabled={!selectable}
         aria-label={still ? phrase.getDescription($locales) : null}
-        aria-roledescription={!selectable ? $locale.term.phrase : null}
+        aria-roledescription={!selectable
+            ? $locales.get((l) => l.term.phrase)
+            : null}
         class="output phrase"
         class:selected
         tabIndex={interactive && ((!empty && selectable) || editing) ? 0 : null}

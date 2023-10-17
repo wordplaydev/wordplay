@@ -2,7 +2,6 @@ import toStructure from '../basis/toStructure';
 import { TYPE_SYMBOL } from '../parser/Symbols';
 import StructureValue from '../values/StructureValue';
 import { getBind } from '../locale/getBind';
-import type Locale from '../locale/Locale';
 import type Color from './Color';
 import Output, { DefaultStyle } from './Output';
 import type TextLang from './TextLang';
@@ -16,8 +15,9 @@ import type { NameGenerator } from './Stage';
 import { getOutputInput } from './Valued';
 import { getStyle } from './toOutput';
 import Place from './Place';
+import type Locales from '../locale/Locales';
 
-export function createShapeType(locales: Locale[]) {
+export function createShapeType(locales: Locales) {
     return toStructure(`
     ${getBind(locales, (locale) => locale.output.Shape, TYPE_SYMBOL)} Output(
         ${getBind(locales, (locale) => locale.output.Shape.form)}•Rectangle
@@ -43,6 +43,7 @@ export function createShapeType(locales: Locale[]) {
         ${getBind(locales, (locale) => locale.output.Shape.exiting)}•ø|🤪|💃: ø
         ${getBind(locales, (locale) => locale.output.Shape.duration)}•#s: 0.25s
         ${getBind(locales, (locale) => locale.output.Shape.style)}•${locales
+        .getLocales()
         .map((locale) =>
             Object.values(locale.output.Easing).map((id) => `"${id}"`)
         )
@@ -52,7 +53,7 @@ export function createShapeType(locales: Locale[]) {
 `);
 }
 
-export function createRectangleType(locales: Locale[]) {
+export function createRectangleType(locales: Locales) {
     return toStructure(`
     ${getBind(locales, (locale) => locale.output.Rectangle, TYPE_SYMBOL)}(
         ${getBind(locales, (locale) => locale.output.Rectangle.left)}•#m
@@ -139,11 +140,11 @@ export default class Shape extends Output {
         return this.background;
     }
 
-    getShortDescription(locales: Locale[]) {
+    getShortDescription(locales: Locales) {
         return this.getDescription(locales);
     }
 
-    getDescription(locales: Locale[]) {
+    getDescription(locales: Locales) {
         return this.form.getDescription(locales);
     }
 

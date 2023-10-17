@@ -5,9 +5,9 @@ import Type from './Type';
 import PlaceholderToken from './PlaceholderToken';
 import type { BasisTypeName } from '../basis/BasisConstants';
 import { node, type Grammar, type Replacement } from './Node';
-import type Locale from '@locale/Locale';
 import Glyphs from '../lore/Glyphs';
 import Sym from './Sym';
+import type Locales from '../locale/Locales';
 
 export default class TypePlaceholder extends Type {
     readonly placeholder: Token;
@@ -33,7 +33,7 @@ export default class TypePlaceholder extends Type {
             {
                 name: 'placeholder',
                 kind: node(Sym.Placeholder),
-                label: (translation: Locale) => translation.term.type,
+                label: (locales: Locales) => locales.get((l) => l.term.type),
             },
         ];
     }
@@ -60,8 +60,8 @@ export default class TypePlaceholder extends Type {
         return true;
     }
 
-    getNodeLocale(translation: Locale) {
-        return translation.node.TypePlaceholder;
+    getNodeLocale(locales: Locales) {
+        return locales.get((l) => l.node.TypePlaceholder);
     }
 
     getGlyphs() {

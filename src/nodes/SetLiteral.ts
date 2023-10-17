@@ -15,7 +15,6 @@ import type Bind from './Bind';
 import { SET_CLOSE_SYMBOL, SET_OPEN_SYMBOL } from '@parser/Symbols';
 import Sym from './Sym';
 import { node, type Grammar, type Replacement, list } from './Node';
-import type Locale from '@locale/Locale';
 import Glyphs from '../lore/Glyphs';
 import type { BasisTypeName } from '../basis/BasisConstants';
 import Purpose from '../concepts/Purpose';
@@ -24,6 +23,7 @@ import SetCloseToken from './SetCloseToken';
 import type Conflict from '../conflicts/Conflict';
 import concretize from '../locale/concretize';
 import AnyType from './AnyType';
+import type Locales from '../locale/Locales';
 
 export default class SetLiteral extends Expression {
     readonly open: Token;
@@ -155,23 +155,26 @@ export default class SetLiteral extends Expression {
         return this.close ?? this.values[this.values.length - 1] ?? this.open;
     }
 
-    getNodeLocale(translation: Locale) {
-        return translation.node.SetLiteral;
+    getNodeLocale(locales: Locales) {
+        return locales.get((l) => l.node.SetLiteral);
     }
 
-    getStartExplanations(locale: Locale) {
-        return concretize(locale, locale.node.SetLiteral.start);
+    getStartExplanations(locales: Locales) {
+        return concretize(
+            locales,
+            locales.get((l) => l.node.SetLiteral.start)
+        );
     }
 
     getFinishExplanations(
-        locale: Locale,
+        locales: Locales,
         context: Context,
         evaluator: Evaluator
     ) {
         return concretize(
-            locale,
-            locale.node.SetLiteral.finish,
-            this.getValueIfDefined(locale, context, evaluator)
+            locales,
+            locales.get((l) => l.node.SetLiteral.finish),
+            this.getValueIfDefined(locales, context, evaluator)
         );
     }
 

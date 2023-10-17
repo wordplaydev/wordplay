@@ -20,12 +20,10 @@
     import type Source from '@nodes/Source';
     import Node from '@nodes/Node';
     import Token from '../../nodes/Token';
-    import { getLanguageDirection } from '../../locale/LanguageCode';
     import {
         animationDuration,
         blocks,
-        locale,
-        writingDirection,
+        locales,
         writingLayout,
     } from '../../db/Database';
     import type Caret from '../../edit/Caret';
@@ -45,7 +43,7 @@
     // The current token we're on.
     $: token = caret?.getToken();
 
-    $: leftToRight = getLanguageDirection($locale.language) === 'ltr';
+    $: leftToRight = $locales.getDirection() === 'ltr';
 
     // The index we should render
     let caretIndex: number | undefined = undefined;
@@ -65,7 +63,7 @@
         if (
             token !== undefined &&
             caret !== undefined &&
-            $writingDirection &&
+            $locales.getDirection() &&
             $writingLayout
         ) {
             // Get some of the token's metadata

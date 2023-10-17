@@ -8,9 +8,9 @@ import UnparsableExpression from '@nodes/UnparsableExpression';
 import Project from '../models/Project';
 import Example from '../nodes/Example';
 import { Basis } from './Basis';
-import DefaultLocale from '../locale/DefaultLocale';
+import DefaultLocale, { DefaultLocales } from '../locale/DefaultLocale';
 
-const basis = Basis.getLocalizedBasis(DefaultLocale);
+const basis = Basis.getLocalizedBasis(DefaultLocales);
 
 const source = new Source('basis', '');
 const project = Project.make(null, 'test', source, [], DefaultLocale);
@@ -66,7 +66,7 @@ function checkBasisNodes(nodes: Node[]) {
                             )}\nPrimary node: ${conflictingNodes.primary.node.toWordplay()}\n\t${
                             conflict.constructor.name
                         }\n${conflictingNodes.primary.explanation(
-                            basis.locales[0],
+                            basis.locales,
                             context
                         )}`
                     );

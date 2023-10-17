@@ -5,11 +5,11 @@ import NumberType from '../nodes/NumberType';
 import Unit from '../nodes/Unit';
 import { getDocLocales } from '../locale/getDocLocales';
 import { getNameLocales } from '../locale/getNameLocales';
-import type Locale from '../locale/Locale';
 import { toTokens } from '../parser/toTokens';
 import parseExpression from '../parser/parseExpression';
+import type Locales from '../locale/Locales';
 
-export function createSway(locales: Locale[]) {
+export function createSway(locales: Locales) {
     return FunctionDefinition.make(
         getDocLocales(locales, (locale) => locale.output.sequence.sway.doc),
         getNameLocales(locales, (locale) => locale.output.sequence.sway.names),
@@ -38,7 +38,7 @@ export function createSway(locales: Locale[]) {
     );
 }
 
-export function createBounce(locales: Locale[]) {
+export function createBounce(locales: Locales) {
     return FunctionDefinition.make(
         getDocLocales(locales, (locale) => locale.output.sequence.bounce.doc),
         getNameLocales(
@@ -74,7 +74,7 @@ export function createBounce(locales: Locale[]) {
     );
 }
 
-export function createSpin(locales: Locale[]) {
+export function createSpin(locales: Locales) {
     return FunctionDefinition.make(
         getDocLocales(locales, (locale) => locale.output.sequence.spin.doc),
         getNameLocales(locales, (locale) => locale.output.sequence.spin.names),
@@ -89,7 +89,7 @@ export function createSpin(locales: Locale[]) {
     );
 }
 
-export function createFadeIn(locales: Locale[]) {
+export function createFadeIn(locales: Locales) {
     return FunctionDefinition.make(
         getDocLocales(locales, (locale) => locale.output.sequence.fadein.doc),
         getNameLocales(
@@ -107,7 +107,7 @@ export function createFadeIn(locales: Locale[]) {
     );
 }
 
-export function createPopup(locales: Locale[]) {
+export function createPopup(locales: Locales) {
     return FunctionDefinition.make(
         getDocLocales(locales, (locale) => locale.output.sequence.popup.doc),
         getNameLocales(locales, (locale) => locale.output.sequence.popup.names),
@@ -124,7 +124,7 @@ export function createPopup(locales: Locale[]) {
     );
 }
 
-export function createShake(locales: Locale[]) {
+export function createShake(locales: Locales) {
     return FunctionDefinition.make(
         getDocLocales(locales, (locale) => locale.output.sequence.shake.doc),
         getNameLocales(locales, (locale) => locale.output.sequence.shake.names),
@@ -142,7 +142,7 @@ export function createShake(locales: Locale[]) {
     );
 }
 
-export function getDefaultSequences(locales: Locale[]) {
+export function getDefaultSequences(locales: Locales) {
     return {
         sway: createSway(locales),
         bounce: createBounce(locales),

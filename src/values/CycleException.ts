@@ -1,9 +1,9 @@
 import type Borrow from '@nodes/Borrow';
 import NodeRef from '@locale/NodeRef';
-import type Locale from '@locale/Locale';
 import type Evaluator from '@runtime/Evaluator';
 import ExceptionValue from '@values/ExceptionValue';
 import concretize from '../locale/concretize';
+import type Locales from '../locale/Locales';
 
 export default class CycleException extends ExceptionValue {
     readonly borrow: Borrow;
@@ -14,17 +14,17 @@ export default class CycleException extends ExceptionValue {
         this.borrow = borrow;
     }
 
-    getExceptionText(locale: Locale) {
-        return locale.node.Borrow.exception.CycleException;
+    getExceptionText(locales: Locales) {
+        return locales.get((l) => l.node.Borrow.exception.CycleException);
     }
 
-    getExplanation(locale: Locale) {
+    getExplanation(locales: Locales) {
         return concretize(
-            locale,
-            this.getExceptionText(locale).explanation,
+            locales,
+            this.getExceptionText(locales).explanation,
             new NodeRef(
                 this.borrow,
-                locale,
+                locales,
                 this.evaluator.project.getNodeContext(this.borrow),
                 this.borrow.source?.getName()
             )

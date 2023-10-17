@@ -9,7 +9,7 @@
     import ExceptionValue from '@values/ExceptionValue';
     import { getEvaluation } from '../project/Contexts';
     import Controls from './Controls.svelte';
-    import { animationDuration, locale } from '../../db/Database';
+    import { animationDuration, locales } from '../../db/Database';
     import StructureValue from '@values/StructureValue';
 
     export let evaluator: Evaluator;
@@ -174,7 +174,7 @@
 
 <section
     class="evaluation"
-    aria-label={$locale.ui.timeline.label}
+    aria-label={$locales.get((l) => l.ui.timeline.label)}
     class:stepping={$evaluation?.playing === false}
 >
     <Controls {evaluator} />
@@ -184,12 +184,12 @@
         class="timeline"
         tabindex={0}
         data-uiid="timeline"
-        aria-label={$locale.ui.timeline.slider}
+        aria-label={$locales.get((l) => l.ui.timeline.slider)}
         aria-valuemin={0}
         aria-valuemax={$evaluation.evaluator.getStepCount()}
         aria-valuenow={$evaluation.stepIndex}
         aria-valuetext={$evaluation.step
-            ? $evaluation.step.getExplanations($locale, evaluator).toText()
+            ? $evaluation.step.getExplanations($locales, evaluator).toText()
             : $evaluation.stepIndex + ''}
         aria-orientation="horizontal"
         class:stepping={$evaluation.playing === false}

@@ -1,10 +1,10 @@
 import type Bind from '@nodes/Bind';
 import type Context from '@nodes/Context';
 import NodeRef from '@locale/NodeRef';
-import type Locale from '@locale/Locale';
 import Conflict from './Conflict';
 import concretize from '../locale/concretize';
 import type TableType from '../nodes/TableType';
+import type Locales from '../locale/Locales';
 
 export default class ExpectedColumnType extends Conflict {
     readonly table: TableType;
@@ -20,11 +20,13 @@ export default class ExpectedColumnType extends Conflict {
         return {
             primary: {
                 node: this.table,
-                explanation: (locale: Locale, context: Context) =>
+                explanation: (locales: Locales, context: Context) =>
                     concretize(
-                        locale,
-                        locale.node.TableType.conflict.ExpectedColumnType,
-                        new NodeRef(this.column, locale, context)
+                        locales,
+                        locales.get(
+                            (l) => l.node.TableType.conflict.ExpectedColumnType
+                        ),
+                        new NodeRef(this.column, locales, context)
                     ),
             },
         };

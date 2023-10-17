@@ -1,10 +1,10 @@
 import type Conflict from '@conflicts/Conflict';
 import { UnparsableConflict } from '@conflicts/UnparsableConflict';
 import type { BasisTypeName } from '../basis/BasisConstants';
-import type Locale from '@locale/Locale';
 import Node, { list, type Grammar, type Replacement, node } from './Node';
 import Type from './Type';
 import Glyphs from '../lore/Glyphs';
+import type Locales from '../locale/Locales';
 
 export default class UnparsableType extends Type {
     readonly unparsables: Node[];
@@ -37,8 +37,8 @@ export default class UnparsableType extends Type {
         ) as this;
     }
 
-    getNodeLocale(translation: Locale) {
-        return translation.node.UnparsableType;
+    getNodeLocale(locales: Locales) {
+        return locales.get((l) => l.node.UnparsableType);
     }
 
     getGlyphs() {

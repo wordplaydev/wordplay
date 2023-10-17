@@ -1,8 +1,8 @@
 import ExceptionValue from '@values/ExceptionValue';
 import type Evaluator from '@runtime/Evaluator';
-import type Locale from '@locale/Locale';
 import type Expression from '@nodes/Expression';
 import concretize from '../locale/concretize';
+import type Locales from '../locale/Locales';
 
 export default class ValueException extends ExceptionValue {
     readonly expression: Expression;
@@ -11,11 +11,11 @@ export default class ValueException extends ExceptionValue {
         this.expression = expression;
     }
 
-    getExceptionText(locale: Locale) {
-        return locale.node.Program.exception.ValueException;
+    getExceptionText(locales: Locales) {
+        return locales.get((l) => l.node.Program.exception.ValueException);
     }
 
-    getExplanation(locale: Locale) {
-        return concretize(locale, this.getExceptionText(locale).explanation);
+    getExplanation(locales: Locales) {
+        return concretize(locales, this.getExceptionText(locales).explanation);
     }
 }

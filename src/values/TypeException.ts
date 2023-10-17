@@ -1,12 +1,12 @@
 import type Type from '@nodes/Type';
 import NodeRef from '@locale/NodeRef';
-import type Locale from '@locale/Locale';
 import ValueRef from '@locale/ValueRef';
 import type Evaluator from '@runtime/Evaluator';
 import ExceptionValue from '@values/ExceptionValue';
 import type Value from '@values/Value';
 import concretize from '../locale/concretize';
 import type Expression from '../nodes/Expression';
+import type Locales from '../locale/Locales';
 
 export default class TypeException extends ExceptionValue {
     readonly expected: Type;
@@ -24,22 +24,22 @@ export default class TypeException extends ExceptionValue {
         this.received = received;
     }
 
-    getExceptionText(locale: Locale) {
-        return locale.node.Is.exception.TypeException;
+    getExceptionText(locales: Locales) {
+        return locales.get((l) => l.node.Is.exception.TypeException);
     }
 
-    getExplanation(locale: Locale) {
+    getExplanation(locales: Locales) {
         return concretize(
-            locale,
-            this.getExceptionText(locale).explanation,
+            locales,
+            this.getExceptionText(locales).explanation,
             new NodeRef(
                 this.expected,
-                locale,
+                locales,
                 this.getNodeContext(this.expected)
             ),
             new ValueRef(
                 this.received,
-                locale,
+                locales,
                 this.getNodeContext(this.received.creator)
             )
         );

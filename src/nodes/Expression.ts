@@ -6,9 +6,9 @@ import type Type from './Type';
 import type Step from '@runtime/Step';
 import type Bind from './Bind';
 import type TypeSet from './TypeSet';
-import type Locale from '@locale/Locale';
 import ValueRef from '@locale/ValueRef';
 import type Markup from './Markup';
+import type Locales from '../locale/Locales';
 
 export enum ExpressionKind {
     Simple = 'simple',
@@ -87,25 +87,25 @@ export default abstract class Expression extends Node {
     abstract getFinish(): Node;
 
     abstract getStartExplanations(
-        locale: Locale,
+        locales: Locales,
         context: Context,
         evaluator: Evaluator
     ): Markup;
 
     abstract getFinishExplanations(
-        locale: Locale,
+        locales: Locales,
         context: Context,
         evaluator: Evaluator
     ): Markup;
 
     /** Utility function for getting an optional result   */
     getValueIfDefined(
-        translation: Locale,
+        locales: Locales,
         context: Context,
         evaluator: Evaluator
     ) {
         const value = evaluator.peekValue();
-        return value ? new ValueRef(value, translation, context) : undefined;
+        return value ? new ValueRef(value, locales, context) : undefined;
     }
 
     /** Get the kind of node, for highlighting or other purposes */

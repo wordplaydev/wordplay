@@ -4,12 +4,12 @@ import { getBind } from '@locale/getBind';
 import Valued, { getOutputInputs } from './Valued';
 import { toBoolean, toNumber } from './Stage';
 import StructureValue from '../values/StructureValue';
-import type Locale from '../locale/Locale';
 import { TRUE_SYMBOL } from '../parser/Symbols';
+import type Locales from '../locale/Locales';
 
 export const DefaultBounciness = 0.5;
 
-export function createMatterType(locales: Locale[]) {
+export function createMatterType(locales: Locales) {
     return toStructure(`
     ${getBind(locales, (locale) => locale.output.Matter, '•')}(
         ${getBind(locales, (locale) => locale.output.Matter.mass)}•#kg: 1kg

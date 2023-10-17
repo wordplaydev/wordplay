@@ -16,7 +16,6 @@ import PlaceholderToken from './PlaceholderToken';
 import UnimplementedType from './UnimplementedType';
 import TypeToken from './TypeToken';
 import { node, type Grammar, type Replacement, none, any } from './Node';
-import type Locale from '@locale/Locale';
 import SimpleExpression from './SimpleExpression';
 import type { Template } from '@locale/Locale';
 import Glyphs from '../lore/Glyphs';
@@ -29,6 +28,7 @@ import BinaryEvaluate from './BinaryEvaluate';
 import FunctionDefinition from './FunctionDefinition';
 import Sym from './Sym';
 import Purpose from '../concepts/Purpose';
+import type Locales from '../locale/Locales';
 
 export default class ExpressionPlaceholder extends SimpleExpression {
     readonly placeholder: Token | undefined;
@@ -69,7 +69,7 @@ export default class ExpressionPlaceholder extends SimpleExpression {
                 name: 'placeholder',
                 kind: node(Sym.Placeholder),
                 label: (
-                    translation: Locale,
+                    locales: Locales,
                     _: Node,
                     context: Context,
                     root: Root
@@ -79,10 +79,13 @@ export default class ExpressionPlaceholder extends SimpleExpression {
                     return (
                         parent?.getChildPlaceholderLabel(
                             this,
-                            translation,
+                            locales,
                             context,
                             root
-                        ) ?? translation.node.ExpressionPlaceholder.placeholder
+                        ) ??
+                        locales.get(
+                            (l) => l.node.ExpressionPlaceholder.placeholder
+                        )
                     );
                 },
             },
@@ -182,18 +185,21 @@ export default class ExpressionPlaceholder extends SimpleExpression {
         return this.placeholder ?? this;
     }
 
-    getNodeLocale(translation: Locale) {
-        return translation.node.ExpressionPlaceholder;
+    getNodeLocale(locales: Locales) {
+        return locales.get((l) => l.node.ExpressionPlaceholder);
     }
 
-    getDescriptionInput(locale: Locale, context: Context) {
+    getDescriptionInput(locales: Locales, context: Context) {
         return [
-            this.type ? new NodeRef(this.type, locale, context) : undefined,
+            this.type ? new NodeRef(this.type, locales, context) : undefined,
         ];
     }
 
-    getStartExplanations(locale: Locale) {
-        return concretize(locale, locale.node.ExpressionPlaceholder.start);
+    getStartExplanations(locales: Locales) {
+        return concretize(
+            locales,
+            locales.get((l) => l.node.ExpressionPlaceholder.start)
+        );
     }
 
     getGlyphs() {

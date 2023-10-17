@@ -9,10 +9,10 @@ import NumberValue from '@values/NumberValue';
 import Evaluation from '@runtime/Evaluation';
 import StructureValue from '../values/StructureValue';
 import Unit from '../nodes/Unit';
-import type Locale from '../locale/Locale';
 import NoneValue from '../values/NoneValue';
+import type Locales from '../locale/Locales';
 
-export function createPlaceType(locales: Locale[]) {
+export function createPlaceType(locales: Locales) {
     return toStructure(`
     ${getBind(locales, (locale) => locale.output.Place, '•')}(
         ${getBind(locales, (locale) => locale.output.Place.x)}•#m: 0m

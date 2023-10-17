@@ -3,22 +3,17 @@
 <script lang="ts">
     import type ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
     import NodeView from './NodeView.svelte';
-    import {
-        getCaret,
-        getLocales,
-        getProject,
-        getRoot,
-    } from '../project/Contexts';
+    import { getCaret, getProject, getRoot } from '../project/Contexts';
     import RootView from '../project/RootView.svelte';
     import UnknownType from '../../nodes/UnknownType';
     import PlaceholderView from './PlaceholderView.svelte';
+    import { locales } from '../../db/Database';
 
     export let node: ExpressionPlaceholder;
 
     const project = getProject();
     const root = getRoot();
     const caret = getCaret();
-    const locale = getLocales();
 
     $: inferredType = $project
         ? node.getType($project.getNodeContext(node))
@@ -33,7 +28,7 @@
             if (parent)
                 placeholder = parent.getChildPlaceholderLabel(
                     node,
-                    locale[0],
+                    $locales,
                     context,
                     $root
                 );

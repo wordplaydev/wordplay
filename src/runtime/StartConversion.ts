@@ -1,10 +1,10 @@
 import Step from './Step';
 import type Evaluator from '@runtime/Evaluator';
 import type Value from '../values/Value';
-import type Locale from '@locale/Locale';
 import type ConversionDefinition from '@nodes/ConversionDefinition';
 import type Convert from '@nodes/Convert';
 import concretize from '../locale/concretize';
+import type Locales from '../locale/Locales';
 
 export default class StartConversion extends Step {
     readonly convert: Convert;
@@ -20,7 +20,10 @@ export default class StartConversion extends Step {
         return this.convert.startEvaluation(evaluator, this.conversion);
     }
 
-    getExplanations(locale: Locale) {
-        return concretize(locale, locale.node.Evaluate.evaluate);
+    getExplanations(locales: Locales) {
+        return concretize(
+            locales,
+            locales.get((l) => l.node.Evaluate.evaluate)
+        );
     }
 }

@@ -5,6 +5,7 @@ import ExpectedSelectName from '@conflicts/ExpectedSelectName';
 import Select from './Select';
 import IncompatibleInput from '../conflicts/IncompatibleInput';
 import evaluateCode from '../runtime/evaluate';
+import { DefaultLocales } from '../locale/DefaultLocale';
 
 test.each([
     [
@@ -45,5 +46,5 @@ test.each([
     ['⎡a•# b•#⎦⎡1 2⎦ ⎡3 4⎦ ⎡? b ⎦ a < 2', '⎡ 2 ⎦'],
     ['⎡a•# b•#⎦⎡1 2⎦ ⎡3 4⎦ ⎡? b a⎦ a < 2', '⎡ 2 1 ⎦'],
 ])('%s = %s', (code: string, value: string) => {
-    expect(evaluateCode(code)?.toWordplay([])).toBe(value);
+    expect(evaluateCode(code)?.toWordplay(DefaultLocales)).toBe(value);
 });

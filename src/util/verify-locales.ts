@@ -17,6 +17,7 @@ import type Node from '../nodes/Node';
 import { DOCS_SYMBOL } from '../parser/Symbols';
 import Project from '../models/Project';
 import { tokenize } from '../parser/Tokenizer';
+import { DefaultLocales } from '../locale/DefaultLocale';
 
 // Read in and compile the two schema
 const localeSchema = JSON.parse(
@@ -269,7 +270,7 @@ function verifyLocale(locale: Locale, warnUnwritten: boolean) {
         // If we can't, complain.
         else {
             const description = concretizeOrUndefined(
-                locale,
+                DefaultLocales,
                 value,
                 'test',
                 'test',

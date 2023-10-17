@@ -6,7 +6,7 @@
     import {
         Locales,
         Settings,
-        locale,
+        locales,
         tutorialProgress,
     } from '../../db/Database';
     import { onMount } from 'svelte';
@@ -22,15 +22,18 @@
     let tutorial: Tutorial | undefined | null = undefined;
 
     onMount(async () => {
-        tutorial = await Locales.getTutorial($locale.language, $locale.region);
+        tutorial = await Locales.getTutorial(
+            $locales.get((l) => l.language),
+            $locales.get((l) => l.region)
+        );
     });
 
     // If hot module reloading, and there's a locale update, refresh the tutorial.
     if (import.meta.hot) {
         import.meta.hot.on('locales-update', async () => {
             tutorial = await Locales.getTutorial(
-                $locale.language,
-                $locale.region
+                $locales.get((l) => l.language),
+                $locales.get((l) => l.region)
             );
         });
     }
@@ -59,7 +62,7 @@
         <Header>:(</Header>
         <Speech glyph={Glyphs.Function}
             ><p slot="content">
-                {$locale.ui.page.learn.error}
+                {$locales.get((l) => l.ui.page.learn.error)}
                 <Link to="/">🏠</Link></p
             ></Speech
         ></Writing

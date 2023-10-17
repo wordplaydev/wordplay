@@ -15,6 +15,7 @@ import {
 import type Definition from './Definition';
 import type Context from './Context';
 import type { TemplateInput } from '../locale/concretize';
+import type Locales from '../locale/Locales';
 
 export default class Token extends Node {
     /** The one or more types of token this might represent. This is narrowed during parsing to one.*/
@@ -55,8 +56,8 @@ export default class Token extends Node {
         return;
     }
 
-    getNodeLocale(translation: Locale) {
-        return translation.node.Token;
+    getNodeLocale(locales: Locales) {
+        return locales.get((l) => l.node.Token);
     }
 
     getPurpose() {
@@ -127,25 +128,25 @@ export default class Token extends Node {
     /**
      * Override node's
      * */
-    getLabel(translation: Locale): string {
-        return getTokenLabel(this, translation);
+    getLabel(locales: Locales): string {
+        return getTokenLabel(this, locales);
     }
 
     /** If this is a placeholder, determine a label for it. */
     getPlaceholder(
         root: Root,
         context: Context,
-        locale: Locale
+        locales: Locales
     ): Template | undefined {
         if (!this.isSymbol(Sym.Placeholder)) return undefined;
         const parent = root.getParent(this);
         return parent === undefined
             ? undefined
-            : parent.getChildPlaceholderLabel(this, locale, context, root);
+            : parent.getChildPlaceholderLabel(this, locales, context, root);
     }
 
-    getDescriptionInputs(locale: Locale): TemplateInput[] {
-        return [getTokenLabel(this, locale), this.getText()];
+    getDescriptionInputs(locales: Locales): TemplateInput[] {
+        return [getTokenLabel(this, locales), this.getText()];
     }
 
     localized(name: boolean, locales: Locale[], root: Root, context: Context) {
@@ -232,14 +233,14 @@ export default class Token extends Node {
     }
 }
 
-export function getTokenLabel(token: Node, translation: Locale): string {
-    if (!(token instanceof Token)) return token.getLabel(translation);
+export function getTokenLabel(token: Node, locales: Locales): string {
+    if (!(token instanceof Token)) return token.getLabel(locales);
 
     const tokenType = Object.entries(Sym).find(
         ([, val]) => val === token.types[0]
     );
     const tokenLabel = tokenType
-        ? translation.token[tokenType[0] as keyof typeof Sym]
+        ? locales.getLocale().token[tokenType[0] as keyof typeof Sym]
         : '';
     return tokenLabel;
 }

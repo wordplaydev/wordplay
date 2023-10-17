@@ -2,8 +2,8 @@ import Node from '@nodes/Node';
 import type Evaluator from '@runtime/Evaluator';
 import type Value from '../values/Value';
 import type Expression from '@nodes/Expression';
-import type Locale from '@locale/Locale';
 import type Markup from '../nodes/Markup';
+import type Locales from '../locale/Locales';
 
 /** Represents one step a compiled program's execution. */
 export default abstract class Step {
@@ -16,7 +16,7 @@ export default abstract class Step {
 
     abstract evaluate(evaluator: Evaluator): Value | undefined;
 
-    abstract getExplanations(translation: Locale, evaluator: Evaluator): Markup;
+    abstract getExplanations(locales: Locales, evaluator: Evaluator): Markup;
 
     toString() {
         return `${this.constructor.name} (${this.node.constructor.name}) ${

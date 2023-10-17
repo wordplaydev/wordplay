@@ -1,4 +1,3 @@
-import type Locale from '@locale/Locale';
 import Paragraph from './Paragraph';
 import Glyphs from '../lore/Glyphs';
 import Purpose from '../concepts/Purpose';
@@ -13,6 +12,7 @@ import type Node from './Node';
 import Words from './Words';
 import type { FormattedText } from '../output/Phrase';
 import type { FontWeight } from '../basis/Fonts';
+import type Locales from '../locale/Locales';
 
 /**
  * To refer to an input, use a $, followed by the number of the input desired,
@@ -68,8 +68,8 @@ export default class Markup extends Content {
         return;
     }
 
-    getNodeLocale(translation: Locale) {
-        return translation.node.Markup;
+    getNodeLocale(locales: Locales) {
+        return locales.get((l) => l.node.Markup);
     }
 
     getGlyphs() {
@@ -80,11 +80,11 @@ export default class Markup extends Content {
         return [this.paragraphs.length];
     }
 
-    concretize(locale: Locale, inputs: TemplateInput[]): Markup | undefined {
+    concretize(locales: Locales, inputs: TemplateInput[]): Markup | undefined {
         // Create an empty list of replacements which we'll recursively fill and then update space with.
         const replacements: [Node, Node][] = [];
         const concrete = this.paragraphs.map((p) =>
-            p.concretize(locale, inputs, replacements)
+            p.concretize(locales, inputs, replacements)
         );
 
         let newSpaces = this.spaces;
@@ -99,7 +99,7 @@ export default class Markup extends Content {
 
     getMatchingText(
         text: string,
-        locale: Locale[]
+        locales: Locales
     ): [string, number] | undefined {
         const wordsWithText = this.paragraphs
             .map((p) => p.nodes())
@@ -115,7 +115,7 @@ export default class Markup extends Content {
                   wordsWithText[0].getText(),
                   wordsWithText[0]
                       .getText()
-                      .toLocaleLowerCase(locale.map((l) => l.language))
+                      .toLocaleLowerCase(locales.getLanguages())
                       .indexOf(text),
               ];
     }

@@ -7,9 +7,9 @@ import SimpleValue from './SimpleValue';
 import type Value from '@values/Value';
 import { SET_CLOSE_SYMBOL, SET_OPEN_SYMBOL } from '@parser/Symbols';
 import type { BasisTypeName } from '../basis/BasisConstants';
-import type Locale from '@locale/Locale';
 import type Expression from '../nodes/Expression';
 import type Concretizer from '../nodes/Concretizer';
+import type Locales from '../locale/Locales';
 
 export default class SetValue extends SimpleValue {
     readonly values: Value[];
@@ -97,14 +97,17 @@ export default class SetValue extends SimpleValue {
         return 'set';
     }
 
-    toWordplay(locales: Locale[]): string {
+    toWordplay(locales: Locales): string {
         return `${SET_OPEN_SYMBOL}${Array.from(this.values)
             .map((value) => value.toWordplay(locales))
             .join(' ')}${SET_CLOSE_SYMBOL}`;
     }
 
-    getDescription(concretize: Concretizer, locale: Locale) {
-        return concretize(locale, locale.term.set);
+    getDescription(concretize: Concretizer, locales: Locales) {
+        return concretize(
+            locales,
+            locales.get((l) => l.term.set)
+        );
     }
 
     getSize() {

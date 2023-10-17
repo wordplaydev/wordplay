@@ -12,7 +12,7 @@
     import Loading from '@components/app/Loading.svelte';
     import { setContext } from 'svelte';
     import { browser } from '$app/environment';
-    import { Projects, locale } from '@db/Database';
+    import { Projects, locales } from '@db/Database';
     import Page from '@components/app/Page.svelte';
     import { Settings } from '@db/Database';
     import Writing from '../../../components/app/Writing.svelte';
@@ -94,5 +94,8 @@
 {:else if loading}
     <Loading />
 {:else if $page.params.projectid || error}
-    <Writing><Feedback>{$locale.ui.project.error.unknown}</Feedback></Writing>
+    <Writing
+        ><Feedback>{$locales.get((l) => l.ui.project.error.unknown)}</Feedback
+        ></Writing
+    >
 {/if}

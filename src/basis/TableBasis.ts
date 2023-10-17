@@ -10,7 +10,6 @@ import type Names from '@nodes/Names';
 import { getInputLocales as getInputLocales } from '@locale/getInputLocales';
 import { getDocLocales } from '@locale/getDocLocales';
 import { getNameLocales } from '@locale/getNameLocales';
-import type Locale from '../locale/Locale';
 import type Type from '../nodes/Type';
 import TableType from '../nodes/TableType';
 import TableValue from '../values/TableValue';
@@ -25,8 +24,9 @@ import TextValue from '../values/TextValue';
 import TypeVariables from '../nodes/TypeVariables';
 import TypeVariable from '../nodes/TypeVariable';
 import AnyType from '../nodes/AnyType';
+import type Locales from '../locale/Locales';
 
-export default function bootstrapTable(locales: Locale[]) {
+export default function bootstrapTable(locales: Locales) {
     /** This type variable represents the StructureDefinition of a row. */
     const RowTypeVariable = new TypeVariable(
         getNameLocales(locales, (locale) => locale.basis.Table.row)
@@ -135,7 +135,7 @@ export default function bootstrapTable(locales: Locale[]) {
                     TableType.make(),
                     TextType.make(),
                     (requestor: Expression, table: TableValue) =>
-                        new TextValue(requestor, table.toWordplay([]))
+                        new TextValue(requestor, table.toWordplay(locales))
                 ),
             ],
             BlockKind.Structure

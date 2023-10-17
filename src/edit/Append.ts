@@ -4,9 +4,9 @@ import type { Edit } from '../components/editor/util/Commands';
 import Refer from './Refer';
 import Caret from './Caret';
 import type Context from '@nodes/Context';
-import type Locale from '@locale/Locale';
 import concretize from '../locale/concretize';
 import Bind from '../nodes/Bind';
+import type Locales from '../locale/Locales';
 
 export default class Append<NodeType extends Node> extends Revision {
     readonly parent: Node;
@@ -49,7 +49,7 @@ export default class Append<NodeType extends Node> extends Revision {
         );
     }
 
-    getEdit(locales: Locale[]): Edit | undefined {
+    getEdit(locales: Locales): Edit | undefined {
         const [newChild, newParent] = this.getEditedNode(locales);
 
         // Find the space before the insertion by finding the token that contains the index.
@@ -95,7 +95,7 @@ export default class Append<NodeType extends Node> extends Revision {
         ];
     }
 
-    getEditedNode(locales: Locale[]): [Node, Node] {
+    getEditedNode(locales: Locales): [Node, Node] {
         // Get the node to insert.
         const newChild = this.getNewNode(locales);
 
@@ -113,15 +113,19 @@ export default class Append<NodeType extends Node> extends Revision {
         return [newChild, newParent];
     }
 
-    getDescription(locale: Locale) {
+    getDescription(locales: Locales) {
         const node =
             this.insertion instanceof Refer
-                ? this.insertion.getNode([locale])
-                : this.getNewNode([locale]);
-        return concretize(locale, locale.ui.edit.append, node.getLabel(locale));
+                ? this.insertion.getNode(locales)
+                : this.getNewNode(locales);
+        return concretize(
+            locales,
+            locales.get((l) => l.ui.edit.append),
+            node.getLabel(locales)
+        );
     }
 
-    getNewNode(locales: Locale[]): Node {
+    getNewNode(locales: Locales): Node {
         if (this.insertion instanceof Node) return this.insertion;
         else return this.insertion.getNode(locales);
     }

@@ -38,6 +38,7 @@ import Evaluate from './Evaluate';
 import Reference from './Reference';
 import ExpressionPlaceholder from './ExpressionPlaceholder';
 import DefinitionExpression from './DefinitionExpression';
+import type Locales from '../locale/Locales';
 
 export default class StreamDefinition extends DefinitionExpression {
     readonly docs?: Docs;
@@ -177,8 +178,8 @@ export default class StreamDefinition extends DefinitionExpression {
         return this.names.getPreferredNameString(locales);
     }
 
-    getReference(locales: Locale[] = []): Reference {
-        return Reference.make(this.getPreferredName(locales), this);
+    getReference(locales: Locales): Reference {
+        return Reference.make(locales.getName(this.names), this);
     }
 
     /**
@@ -250,12 +251,15 @@ export default class StreamDefinition extends DefinitionExpression {
         return definition === this;
     }
 
-    getNodeLocale(translation: Locale) {
-        return translation.node.StreamDefinition;
+    getNodeLocale(locales: Locales) {
+        return locales.get((l) => l.node.StreamDefinition);
     }
 
-    getStartExplanations(locale: Locale) {
-        return concretize(locale, locale.node.StreamDefinition.start);
+    getStartExplanations(locales: Locales) {
+        return concretize(
+            locales,
+            locales.get((l) => l.node.StreamDefinition.start)
+        );
     }
 
     getGlyphs() {

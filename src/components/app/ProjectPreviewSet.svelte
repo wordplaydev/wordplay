@@ -1,7 +1,7 @@
 <script lang="ts">
     import type Project from '../../models/Project';
     import ProjectPreview from './ProjectPreview.svelte';
-    import { languages } from '../../db/Database';
+    import { locales } from '../../db/Database';
     import getProjectLink from './getProjectLink';
     import Button from '../widgets/Button.svelte';
     import ConfirmButton from '../widgets/ConfirmButton.svelte';
@@ -27,7 +27,7 @@
 
     function sortProjects(projects: Project[]): Project[] {
         return projects.sort((a, b) =>
-            a.getName().localeCompare(b.getName(), $languages)
+            a.getName().localeCompare(b.getName(), $locales.getLanguages())
         );
     }
 </script>

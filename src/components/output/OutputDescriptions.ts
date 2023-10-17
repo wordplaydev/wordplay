@@ -1,4 +1,4 @@
-import type Locale from '../../locale/Locale';
+import type Locales from '../../locale/Locales';
 import Evaluate from '../../nodes/Evaluate';
 import Reference from '../../nodes/Reference';
 import Phrase from '../../output/Phrase';
@@ -7,11 +7,11 @@ import Sequence from '../../output/Sequence';
 
 /** A description of phrases that have entered the scene, computed after still. */
 export function describeEnteredOutput(
-    locales: Locale[],
+    locales: Locales,
     entered: OutputsByName
 ) {
     return entered.size > 0
-        ? locales[0].term.entered +
+        ? locales.get((l) => l.term.entered) +
               ' ' +
               Array.from(entered.values())
                   .filter(
@@ -24,7 +24,7 @@ export function describeEnteredOutput(
 
 /** A description of non-entering phrases that changed text, computed after still. */
 export function describedChangedOutput(
-    locales: Locale[],
+    locales: Locales,
     entered: OutputsByName,
     present: OutputsByName,
     previouslyPresent: OutputsByName | undefined
@@ -71,12 +71,15 @@ export function describedChangedOutput(
     return changed;
 }
 
-export function describeMovedOutput(locales: Locale[], moved: Moved) {
+export function describeMovedOutput(locales: Locales, moved: Moved) {
     const descriptions: string[] = [];
     for (const { output } of moved.values()) {
         descriptions.push(output.getShortDescription(locales));
     }
 
     if (descriptions.length === 0) return '';
-    else return locales[0].term.moved + ', ' + descriptions.join(', ');
+    else
+        return (
+            locales.get((l) => l.term.moved) + ', ' + descriptions.join(', ')
+        );
 }

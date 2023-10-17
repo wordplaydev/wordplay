@@ -1,10 +1,10 @@
 import type { Grammar, Replacement } from './Node';
 import Doc from './Doc';
-import type Locale from '@locale/Locale';
 import Glyphs from '../lore/Glyphs';
 import Purpose from '../concepts/Purpose';
 import Node, { list, node } from './Node';
 import { getPreferred } from './LanguageTagged';
+import type Locales from '../locale/Locales';
 
 export default class Docs extends Node {
     readonly docs: Doc[];
@@ -43,15 +43,15 @@ export default class Docs extends Node {
         return this.docs;
     }
 
-    getPreferredLocale(preferred: Locale | Locale[]): Doc {
+    getPreferredLocale(preferred: Locales): Doc {
         // Build the list of preferred languages
-        const locales = Array.isArray(preferred) ? preferred : [preferred];
+        const locales = preferred.getLocales();
 
         return getPreferred(locales, this.docs);
     }
 
-    getNodeLocale(locale: Locale) {
-        return locale.node.Docs;
+    getNodeLocale(locales: Locales) {
+        return locales.get((l) => l.node.Docs);
     }
 
     getGlyphs() {

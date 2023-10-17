@@ -2,7 +2,6 @@ import Language from './Language';
 import { node, optional } from './Node';
 import type { Grammar, Replacement } from './Node';
 import Token from './Token';
-import type Locale from '@locale/Locale';
 import { FORMATTED_SYMBOL } from '@parser/Symbols';
 import Sym from './Sym';
 import type Paragraph from './Paragraph';
@@ -12,6 +11,7 @@ import Purpose from '../concepts/Purpose';
 import Markup from './Markup';
 import { LanguageTagged } from './LanguageTagged';
 import Example from './Example';
+import type Locales from '../locale/Locales';
 
 export default class FormattedTranslation extends LanguageTagged {
     readonly open: Token;
@@ -101,8 +101,8 @@ export default class FormattedTranslation extends LanguageTagged {
         return;
     }
 
-    getNodeLocale(translation: Locale) {
-        return translation.node.FormattedTranslation;
+    getNodeLocale(locales: Locales) {
+        return locales.get((l) => l.node.FormattedTranslation);
     }
 
     getGlyphs() {

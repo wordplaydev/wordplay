@@ -17,7 +17,6 @@ import {
     optional as optional,
     list,
 } from './Node';
-import type Locale from '@locale/Locale';
 import Glyphs from '../lore/Glyphs';
 import FunctionDefinition from './FunctionDefinition';
 import Names from './Names';
@@ -25,6 +24,7 @@ import ExpressionPlaceholder from './ExpressionPlaceholder';
 import TypePlaceholder from './TypePlaceholder';
 import type { TemplateInput } from '../locale/concretize';
 import NodeRef from '../locale/NodeRef';
+import type Locales from '../locale/Locales';
 
 export default class FunctionType extends Type {
     readonly fun: Token;
@@ -180,12 +180,12 @@ export default class FunctionType extends Type {
         return getEvaluationInputConflicts(this.inputs);
     }
 
-    getDescriptionInputs(locale: Locale, context: Context): TemplateInput[] {
-        return [this.inputs.length, new NodeRef(this.output, locale, context)];
+    getDescriptionInputs(locales: Locales, context: Context): TemplateInput[] {
+        return [this.inputs.length, new NodeRef(this.output, locales, context)];
     }
 
-    getNodeLocale(translation: Locale) {
-        return translation.node.FunctionType;
+    getNodeLocale(locales: Locales) {
+        return locales.get((l) => l.node.FunctionType);
     }
 
     getGlyphs() {

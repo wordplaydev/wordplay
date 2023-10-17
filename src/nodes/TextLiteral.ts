@@ -23,6 +23,7 @@ import Start from '@runtime/Start';
 import Finish from '@runtime/Finish';
 import type Evaluator from '@runtime/Evaluator';
 import type Value from '../values/Value';
+import type Locales from '../locale/Locales';
 
 export default class TextLiteral extends Literal {
     /** The raw token in the program */
@@ -159,9 +160,9 @@ export default class TextLiteral extends Literal {
             : getPreferred(locales, this.texts);
     }
 
-    getValue(locales: Locale[]): TextValue {
+    getValue(locales: Locales): TextValue {
         // Get the alternatives
-        const best = this.getLocaleText(locales);
+        const best = this.getLocaleText(locales.getLocales());
         return new TextValue(
             this,
             best.getText(),
@@ -195,12 +196,15 @@ export default class TextLiteral extends Literal {
         return this.texts[0];
     }
 
-    getNodeLocale(translation: Locale) {
-        return translation.node.TextLiteral;
+    getNodeLocale(locales: Locales) {
+        return locales.get((l) => l.node.TextLiteral);
     }
 
-    getStartExplanations(translation: Locale) {
-        return concretize(translation, translation.node.TextLiteral.start);
+    getStartExplanations(locales: Locales) {
+        return concretize(
+            locales,
+            locales.get((l) => l.node.TextLiteral.start)
+        );
     }
 
     getGlyphs() {

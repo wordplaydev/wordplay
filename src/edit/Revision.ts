@@ -3,8 +3,8 @@ import type Node from '@nodes/Node';
 import type Context from '@nodes/Context';
 import type Source from '@nodes/Source';
 import type Spaces from '@parser/Spaces';
-import type Locale from '@locale/Locale';
 import type Markup from '../nodes/Markup';
+import type Locales from '../locale/Locales';
 
 export default abstract class Revision {
     readonly context: Context;
@@ -20,18 +20,18 @@ export default abstract class Revision {
     abstract isRemoval(): boolean;
 
     /** True if the revision is a completion */
-    abstract isCompletion(): boolean;
+    abstract isCompletion(locales: Locales): boolean;
 
     /** Create the edit to be processed by Editor. */
-    abstract getEdit(locales: Locale[]): Edit | undefined;
+    abstract getEdit(locales: Locales): Edit | undefined;
 
-    abstract getDescription(locale: Locale): Markup;
+    abstract getDescription(locales: Locales): Markup;
 
     /** Gets the node to be added, removed, inserted, etc. */
-    abstract getNewNode(locales: Locale[]): Node | undefined;
+    abstract getNewNode(locales: Locales): Node | undefined;
 
     /** Gets the added or removed node, and the revised node, which incorporates the new node. May be the same node. Used for the actual edit, but also for previews. */
-    abstract getEditedNode(locales: Locale[]): [Node, Node];
+    abstract getEditedNode(locales: Locales): [Node, Node];
 
     abstract equals(transform: Revision): boolean;
 

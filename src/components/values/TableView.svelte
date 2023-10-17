@@ -24,7 +24,7 @@
         symbol={TABLE_OPEN_SYMBOL}
         type={Sym.TableOpen}
     />{#each value.type.columns as col}{' '}<SymbolView
-            symbol={col ? col.names.getPreferredNameString($locales) : ''}
+            symbol={col ? $locales.getName(col.names) : ''}
             type={Sym.Name}
         />{/each}{' '}<SymbolView
         symbol={TABLE_CLOSE_SYMBOL}
@@ -63,9 +63,7 @@
         <tr>
             {#each value.type.columns as col}{' '}<td
                     ><SymbolView
-                        symbol={col
-                            ? col.names.getPreferredNameString($locales)
-                            : ''}
+                        symbol={col ? $locales.getName(col.names) : ''}
                         type={Sym.Name}
                     /></td
                 >{/each}

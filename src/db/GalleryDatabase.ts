@@ -17,10 +17,10 @@ import { firestore } from './firebase';
 import type { SerializedGallery } from '../models/Gallery';
 import { FirebaseError } from 'firebase/app';
 import { get, writable, type Writable } from 'svelte/store';
-import type Locale from '../locale/Locale';
 import type Project from '../models/Project';
 import { toLocaleString } from '../locale/Locale';
 import { ExampleGalleries } from '../examples/examples';
+import type Locales from '../locale/Locales';
 
 export default class GalleryDatabase {
     /** The main database that manages this gallery database */
@@ -132,7 +132,7 @@ export default class GalleryDatabase {
     }
 
     /** Create a new gallery with this user as its curator. */
-    async create(locale: Locale): Promise<string | undefined> {
+    async create(locales: Locales): Promise<string | undefined> {
         const user = this.database.getUser();
         if (user === null) return undefined;
 
@@ -140,9 +140,11 @@ export default class GalleryDatabase {
 
         const id = uuidv4();
         const name: Record<string, string> = {};
-        name[toLocaleString(locale)] = locale.ui.gallery.untitled;
+        name[toLocaleString(locales.getLocales()[0])] = locales.get(
+            (l) => l.ui.gallery.untitled
+        );
         const description: Record<string, string> = {};
-        description[toLocaleString(locale)] = '';
+        description[toLocaleString(locales.getLocales()[0])] = '';
         const gallery: SerializedGallery = {
             id,
             path: null,

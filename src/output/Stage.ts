@@ -15,20 +15,20 @@ import TextLang from './TextLang';
 import Pose, { DefinitePose } from './Pose';
 import type Sequence from './Sequence';
 import concretize from '../locale/concretize';
-import type Locale from '../locale/Locale';
 import { getOutputInput } from './Valued';
 import { SupportedFontsFamiliesType, type SupportedFace } from '../basis/Fonts';
-import { getFirstName } from '../locale/Locale';
 import { toRectangle, type Rectangle } from './Form';
 import Shape from './Shape';
 import type Evaluator from '../runtime/Evaluator';
+import type Locales from '../locale/Locales';
+import { getFirstName } from '../locale/Locale';
 
 export const DefaultGravity = 9.8;
 
 export const CSSFallbackFaces = `"Noto Color Emoji"`;
 export const DefaultSize = 1;
 
-export function createStageType(locales: Locale[]) {
+export function createStageType(locales: Locales) {
     return toStructure(`
     ${getBind(locales, (locale) => locale.output.Stage, '•')} Output(
     ${getBind(locales, (locale) => locale.output.Stage.content)}•[Output]
@@ -37,7 +37,7 @@ export function createStageType(locales: Locale[]) {
     ${getBind(
         locales,
         (locale) => locale.output.Stage.face
-    )}•${SupportedFontsFamiliesType}: "${locales[0].ui.font.app}"
+    )}•${SupportedFontsFamiliesType}: "${locales.getLocales()[0].ui.font.app}"
     ${getBind(locales, (locale) => locale.output.Stage.place)}•📍|ø: ø
     ${getBind(locales, (locale) => locale.output.Stage.name)}•""|ø: ø
     ${getBind(locales, (locale) => locale.output.Stage.selectable)}•?: ⊥
@@ -61,6 +61,7 @@ export function createStageType(locales: Locale[]) {
     ${getBind(locales, (locale) => locale.output.Stage.exiting)}•ø|🤪|💃: ø
     ${getBind(locales, (locale) => locale.output.Stage.duration)}•#s: 0.25s
     ${getBind(locales, (locale) => locale.output.Stage.style)}•${locales
+        .getLocales()
         .map((locale) =>
             Object.values(locale.output.Easing).map((id) => `"${id}"`)
         )
@@ -199,17 +200,17 @@ export default class Stage extends Output {
         return undefined;
     }
 
-    getShortDescription(locales: Locale[]) {
+    getShortDescription(locales: Locales) {
         return this.name instanceof TextLang
             ? this.name.text
-            : getFirstName(locales[0].output.Group.names);
+            : locales.get((l) => getFirstName(l.output.Group.names));
     }
 
-    getDescription(locales: Locale[]) {
+    getDescription(locales: Locales) {
         if (this._description === undefined) {
             this._description = concretize(
-                locales[0],
-                locales[0].output.Stage.description,
+                locales,
+                locales.get((l) => l.output.Stage.description),
                 this.content.length,
                 this.name instanceof TextLang ? this.name.text : undefined,
                 this.frame?.getDescription(locales),

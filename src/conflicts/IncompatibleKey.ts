@@ -2,9 +2,9 @@ import type Context from '@nodes/Context';
 import type SetOrMapAccess from '@nodes/SetOrMapAccess';
 import type Type from '@nodes/Type';
 import NodeRef from '@locale/NodeRef';
-import type Locale from '@locale/Locale';
 import Conflict from './Conflict';
 import concretize from '../locale/concretize';
+import type Locales from '../locale/Locales';
 
 export class IncompatibleKey extends Conflict {
     readonly access: SetOrMapAccess;
@@ -22,23 +22,29 @@ export class IncompatibleKey extends Conflict {
         return {
             primary: {
                 node: this.access,
-                explanation: (locale: Locale, context: Context) =>
+                explanation: (locales: Locales, context: Context) =>
                     concretize(
-                        locale,
-                        locale.node.SetOrMapAccess.conflict.IncompatibleKey
-                            .primary,
-                        new NodeRef(this.expected, locale, context)
+                        locales,
+                        locales.get(
+                            (l) =>
+                                l.node.SetOrMapAccess.conflict.IncompatibleKey
+                                    .primary
+                        ),
+                        new NodeRef(this.expected, locales, context)
                     ),
             },
             secondary: {
                 node: this.access.setOrMap,
-                explanation: (locale: Locale, context: Context) =>
+                explanation: (locales: Locales, context: Context) =>
                     concretize(
-                        locale,
-                        locale.node.SetOrMapAccess.conflict.IncompatibleKey
-                            .secondary,
-                        new NodeRef(this.received, locale, context),
-                        new NodeRef(this.expected, locale, context)
+                        locales,
+                        locales.get(
+                            (l) =>
+                                l.node.SetOrMapAccess.conflict.IncompatibleKey
+                                    .secondary
+                        ),
+                        new NodeRef(this.received, locales, context),
+                        new NodeRef(this.expected, locales, context)
                     ),
             },
         };

@@ -2,10 +2,9 @@
     import { createEventDispatcher } from 'svelte';
     import type Source from '@nodes/Source';
     import { getConflicts } from './Contexts';
-    import { locales } from '../../db/Database';
     import Glyphs from '../../lore/Glyphs';
     import Toggle from '../widgets/Toggle.svelte';
-    import { locale } from '../../db/Database';
+    import { locales } from '../../db/Database';
 
     export let source: Source;
     export let expanded: boolean;
@@ -37,7 +36,7 @@
 </script>
 
 <Toggle
-    tips={$locale.ui.tile.toggle.show}
+    tips={$locales.get((l) => l.ui.tile.toggle.show)}
     on={expanded}
     toggle={() => dispatch('toggle')}
 >
@@ -46,7 +45,7 @@
         >{/if}
     {#if primaryCount === 0 && secondaryCount === 0}{Glyphs.Program
             .symbols}{/if}
-    {source.names.getPreferredNameString($locales)}
+    {$locales.getName(source.names)}
 </Toggle>
 
 <style>

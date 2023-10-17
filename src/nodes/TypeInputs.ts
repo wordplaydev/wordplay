@@ -1,4 +1,3 @@
-import type Locale from '@locale/Locale';
 import Purpose from '../concepts/Purpose';
 import Glyphs from '../lore/Glyphs';
 import { TYPE_CLOSE_SYMBOL, TYPE_OPEN_SYMBOL } from '../parser/Symbols';
@@ -7,6 +6,7 @@ import Token from './Token';
 import Sym from './Sym';
 import Type from './Type';
 import Node, { list, node, optional } from './Node';
+import type Locales from '../locale/Locales';
 
 export default class TypeInputs extends Node {
     readonly open: Token;
@@ -59,8 +59,8 @@ export default class TypeInputs extends Node {
         return;
     }
 
-    getNodeLocale(translation: Locale) {
-        return translation.node.TypeInputs;
+    getNodeLocale(locales: Locales) {
+        return locales.get((l) => l.node.TypeInputs);
     }
 
     getGlyphs() {

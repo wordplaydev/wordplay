@@ -10,12 +10,12 @@ import type TypeSet from './TypeSet';
 import NeverType from './NeverType';
 import type { BasisTypeName } from '../basis/BasisConstants';
 import { node, type Grammar, type Replacement } from './Node';
-import type Locale from '@locale/Locale';
 import NoneType from './NoneType';
 import Glyphs from '../lore/Glyphs';
 import NodeRef from '../locale/NodeRef';
 import TypePlaceholder from './TypePlaceholder';
 import type Definition from './Definition';
+import type Locales from '../locale/Locales';
 
 export default class UnionType extends Type {
     readonly left: Type;
@@ -190,8 +190,8 @@ export default class UnionType extends Type {
               );
     }
 
-    getNodeLocale(translation: Locale) {
-        return translation.node.UnionType;
+    getNodeLocale(locales: Locales) {
+        return locales.get((l) => l.node.UnionType);
     }
 
     /**
@@ -233,10 +233,10 @@ export default class UnionType extends Type {
         return Glyphs.Union;
     }
 
-    getDescriptionInputs(locale: Locale, context: Context) {
+    getDescriptionInputs(locales: Locales, context: Context) {
         return [
-            new NodeRef(this.left, locale, context),
-            new NodeRef(this.right, locale, context),
+            new NodeRef(this.left, locales, context),
+            new NodeRef(this.right, locales, context),
         ];
     }
 

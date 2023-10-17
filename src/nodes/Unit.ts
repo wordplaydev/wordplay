@@ -9,7 +9,6 @@ import type { BasisTypeName } from '../basis/BasisConstants';
 import LanguageToken from './LanguageToken';
 import Sym from './Sym';
 import { node, type Grammar, type Replacement, list, optional } from './Node';
-import type Locale from '@locale/Locale';
 import Emotion from '../lore/Emotion';
 import type Context from './Context';
 import {
@@ -17,6 +16,7 @@ import {
     getPossibleUnits,
 } from '../edit/getPossibleUnits';
 import type Node from './Node';
+import type Locales from '../locale/Locales';
 
 export default class Unit extends Type {
     /** In case this was parsed, we keep the original tokens around. */
@@ -369,8 +369,8 @@ export default class Unit extends Type {
         return Unit.get(newExponents);
     }
 
-    getNodeLocale(translation: Locale) {
-        return translation.node.Unit;
+    getNodeLocale(locales: Locales) {
+        return locales.get((l) => l.node.Unit);
     }
 
     getGlyphs() {
@@ -380,10 +380,10 @@ export default class Unit extends Type {
         };
     }
 
-    getDescriptionInputs(locale: Locale) {
+    getDescriptionInputs(locales: Locales) {
         return [
             this.exponents.size === 0
-                ? locale.basis.Number.name[0]
+                ? locales.get((l) => l.basis.Number.name[0])
                 : this.toWordplay(),
         ];
     }

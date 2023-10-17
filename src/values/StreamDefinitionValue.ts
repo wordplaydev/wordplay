@@ -2,10 +2,10 @@ import SimpleValue from './SimpleValue';
 import type Value from '@values/Value';
 import { STREAM_SYMBOL } from '@parser/Symbols';
 import type { BasisTypeName } from '../basis/BasisConstants';
-import type Locale from '@locale/Locale';
 import type StreamDefinition from '../nodes/StreamDefinition';
 import StreamType from '../nodes/StreamType';
 import type Concretizer from '../nodes/Concretizer';
+import type Locales from '../locale/Locales';
 
 export default class StreamDefinitionValue extends SimpleValue {
     /** The definition from the AST. */
@@ -25,10 +25,12 @@ export default class StreamDefinitionValue extends SimpleValue {
         return 'streamdefinition';
     }
 
-    toWordplay(locales: Locale[]) {
-        return `${STREAM_SYMBOL}${this.definition.names.getPreferredNameString(
+    toWordplay(locales?: Locales) {
+        return `${STREAM_SYMBOL}${
             locales
-        )}`;
+                ? locales.getName(this.definition.names)
+                : this.definition.names.getNames()[0]
+        }`;
     }
 
     isEqualTo(value: Value): boolean {
@@ -38,8 +40,11 @@ export default class StreamDefinitionValue extends SimpleValue {
         );
     }
 
-    getDescription(concretize: Concretizer, locale: Locale) {
-        return concretize(locale, locale.term.function);
+    getDescription(concretize: Concretizer, locales: Locales) {
+        return concretize(
+            locales,
+            locales.get((l) => l.term.function)
+        );
     }
 
     getSize() {

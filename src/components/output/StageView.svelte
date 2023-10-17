@@ -35,7 +35,7 @@
     } from '../project/Contexts';
     import type Evaluator from '@runtime/Evaluator';
     import type Output from '../../output/Output';
-    import { animationFactor, locale, locales } from '../../db/Database';
+    import { animationFactor, locales } from '../../db/Database';
     import {
         describeEnteredOutput,
         describeMovedOutput,
@@ -100,7 +100,7 @@
 
     // Announce changes on stage.
     $: if ($announcer) {
-        const language = $locales[0].language;
+        const language = $locales.getLocale().language;
         if (entered.size > 0)
             $announcer(
                 'entered',
@@ -218,7 +218,7 @@
     }
 
     $: context = new RenderContext(
-        stage.face ?? $locale.ui.font.app,
+        stage.face ?? $locales.getLocale().ui.font.app,
         stage.size ?? DefaultSize,
         $locales,
         $loadedFonts,

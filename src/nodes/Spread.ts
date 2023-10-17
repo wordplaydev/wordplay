@@ -1,7 +1,6 @@
 import Expression from './Expression';
 import type { Grammar, Replacement } from './Node';
 import Token from './Token';
-import type Locale from '@locale/Locale';
 import Glyphs from '../lore/Glyphs';
 import Purpose from '../concepts/Purpose';
 import type { BasisTypeName } from '../basis/BasisConstants';
@@ -10,6 +9,7 @@ import Sym from './Sym';
 import { BIND_SYMBOL } from '../parser/Symbols';
 import AnyType from './AnyType';
 import ListType from './ListType';
+import type Locales from '../locale/Locales';
 
 /** Inside a list literal, flattens values of a list value into a new list */
 export default class Spread extends Node {
@@ -43,7 +43,7 @@ export default class Spread extends Node {
                 name: 'list',
                 kind: optional(node(Expression)),
                 getType: () => ListType.make(new AnyType()),
-                label: (translation: Locale) => translation.term.list,
+                label: (locales: Locales) => locales.get((l) => l.term.list),
             },
         ];
     }
@@ -67,8 +67,8 @@ export default class Spread extends Node {
         return;
     }
 
-    getNodeLocale(locale: Locale) {
-        return locale.node.Spread;
+    getNodeLocale(locales: Locales) {
+        return locales.get((l) => l.node.Spread);
     }
 
     getGlyphs() {

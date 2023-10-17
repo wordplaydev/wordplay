@@ -1,12 +1,12 @@
 import ExceptionValue from '@values/ExceptionValue';
 import type Evaluator from '@runtime/Evaluator';
-import type Locale from '@locale/Locale';
 import type Token from '@nodes/Token';
 import Value from '../values/Value';
 import NodeRef from '@locale/NodeRef';
 import ValueRef from '@locale/ValueRef';
 import concretize from '../locale/concretize';
 import type Expression from '../nodes/Expression';
+import type Locales from '../locale/Locales';
 
 export default class NameException extends ExceptionValue {
     readonly name: Token | undefined;
@@ -24,18 +24,18 @@ export default class NameException extends ExceptionValue {
         this.scope = scope;
     }
 
-    getExceptionText(locale: Locale) {
-        return locale.node.Reference.exception.NameException;
+    getExceptionText(locales: Locales) {
+        return locales.get((l) => l.node.Reference.exception.NameException);
     }
 
-    getExplanation(locale: Locale) {
+    getExplanation(locales: Locales) {
         return concretize(
-            locale,
-            this.getExceptionText(locale).explanation,
+            locales,
+            this.getExceptionText(locales).explanation,
             this.name
                 ? new NodeRef(
                       this.name,
-                      locale,
+                      locales,
                       this.getNodeContext(this.name),
                       this.name.getText()
                   )
@@ -43,7 +43,7 @@ export default class NameException extends ExceptionValue {
             this.scope instanceof Value
                 ? new ValueRef(
                       this.scope,
-                      locale,
+                      locales,
                       this.getNodeContext(this.scope.creator)
                   )
                 : undefined

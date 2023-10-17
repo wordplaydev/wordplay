@@ -3,13 +3,13 @@ import UnionType from '@nodes/UnionType';
 import NoneType from '@nodes/NoneType';
 import NoneLiteral from '@nodes/NoneLiteral';
 import NumberValue from '@values/NumberValue';
-import type Locale from '../locale/Locale';
 import { createBasisFunction } from '../basis/Basis';
 import type Evaluation from '../runtime/Evaluation';
 import type Expression from '../nodes/Expression';
 import NoneValue from '../values/NoneValue';
 import TypeVariables from '../nodes/TypeVariables';
 import TypeVariable from '../nodes/TypeVariable';
+import type Locales from '../locale/Locales';
 
 function getRandomInRange(
     random: number,
@@ -66,7 +66,7 @@ function toPrecisionRange(
     return pow ? Math.round(scaled * pow) / pow : scaled;
 }
 
-export function createRandomFunction(locales: Locale[]) {
+export function createRandomFunction(locales: Locales) {
     /** The type variable can be any number type, but nothing else */
     const NumberTypeVariable = TypeVariable.make(['Number'], NumberType.make());
 

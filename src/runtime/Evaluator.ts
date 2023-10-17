@@ -37,6 +37,8 @@ import NumberGenerator from 'recoverable-random';
 import type { Database } from '../db/Database';
 import ReactionStream from '../values/ReactionStream';
 import type Scene from '../output/Scene';
+import Locales from '../locale/Locales';
+import DefaultLocale from '../locale/DefaultLocale';
 
 /** Anything that wants to listen to changes in the state of this evaluator */
 export type EvaluationObserver = () => void;
@@ -66,7 +68,7 @@ export default class Evaluator {
     readonly project: Project;
 
     /** The preferred locales for evaluation. */
-    readonly locales: Locale[];
+    readonly locales: Locales;
 
     /** The database that contains settings for evaluation */
     readonly database: Database;
@@ -233,7 +235,7 @@ export default class Evaluator {
     constructor(
         project: Project,
         database: Database,
-        locales: Locale[],
+        locales: Locales,
         reactive = true,
         prior: Evaluator | undefined = undefined
     ) {
@@ -287,7 +289,11 @@ export default class Evaluator {
             ),
             locale
         );
-        return new Evaluator(project, database, [locale]).getInitialValue();
+        return new Evaluator(
+            project,
+            database,
+            new Locales([locale], DefaultLocale)
+        ).getInitialValue();
     }
 
     /** Mirror the given evaluator's stream history and state, but with the new source. */
@@ -404,7 +410,7 @@ export default class Evaluator {
 
     /** Get the currently selected locales from the database */
     getLocales() {
-        return this.locales;
+        return this.locales.getLocales();
     }
 
     getCurrentEvaluation() {

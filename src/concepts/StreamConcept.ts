@@ -3,7 +3,6 @@ import type Node from '@nodes/Node';
 import Reference from '@nodes/Reference';
 import Concept from './Concept';
 import type ConceptIndex from './ConceptIndex';
-import type Locale from '@locale/Locale';
 import Purpose from './Purpose';
 import type StreamDefinition from '../nodes/StreamDefinition';
 import Emotion from '../lore/Emotion';
@@ -13,6 +12,7 @@ import Evaluate from '../nodes/Evaluate';
 import ExpressionPlaceholder from '../nodes/ExpressionPlaceholder';
 import type Markup from '../nodes/Markup';
 import type { Character } from '../tutorial/Tutorial';
+import type Locales from '../locale/Locales';
 
 export default class StreamConcept extends Concept {
     /** The type this concept represents. */
@@ -24,15 +24,12 @@ export default class StreamConcept extends Concept {
     /** Bind concepts */
     readonly inputs: BindConcept[];
 
-    constructor(stream: StreamDefinition, locales: Locale[], context: Context) {
+    constructor(stream: StreamDefinition, locales: Locales, context: Context) {
         super(Purpose.Input, undefined, context);
 
         this.definition = stream;
         this.reference = Evaluate.make(
-            Reference.make(
-                stream.names.getPreferredNameString(locales),
-                this.definition
-            ),
+            Reference.make(locales.getName(stream.names), this.definition),
             this.definition.inputs
                 // .filter((input) => !input.hasDefault())
                 .map((input) => ExpressionPlaceholder.make(input.type))
@@ -43,12 +40,9 @@ export default class StreamConcept extends Concept {
         );
     }
 
-    getGlyphs(locales: Locale[]) {
+    getGlyphs(locales: Locales) {
         return {
-            symbols: this.definition.names.getPreferredNameString(
-                locales,
-                true
-            ),
+            symbols: locales.getName(this.definition.names),
         };
     }
 
@@ -60,13 +54,13 @@ export default class StreamConcept extends Concept {
         return this.definition.names.hasName(name);
     }
 
-    getDocs(locale: Locale): Markup | undefined {
-        const doc = this.definition.docs?.getPreferredLocale(locale);
-        return doc?.markup.concretize(locale, []);
+    getDocs(locales: Locales): Markup | undefined {
+        const doc = this.definition.docs?.getPreferredLocale(locales);
+        return doc?.markup.concretize(locales, []);
     }
 
-    getName(locale: Locale, symbolic: boolean) {
-        return this.definition.names.getPreferredNameString([locale], symbolic);
+    getName(locales: Locales, symbolic: boolean) {
+        return locales.getName(this.definition.names, symbolic);
     }
 
     getTypeConcept(index: ConceptIndex): StructureConcept | undefined {
@@ -90,16 +84,18 @@ export default class StreamConcept extends Concept {
         return new Set(this.inputs);
     }
 
-    getCharacter(locale: Locale): Character | undefined {
-        const name = this.definition.names.getNonSymbolicName();
-        if (name === undefined) return undefined;
-        for (const [key, text] of Object.entries(locale.input))
-            if (
-                'names' in text &&
-                ((typeof text.names === 'string' && text.names === name) ||
-                    text.names.includes(name))
-            )
-                return key as Character;
+    getCharacter(locales: Locales): Character | undefined {
+        for (const locale of locales.getLocales()) {
+            const name = this.definition.names.getNonSymbolicName();
+            if (name === undefined) return undefined;
+            for (const [key, text] of Object.entries(locale.input))
+                if (
+                    'names' in text &&
+                    ((typeof text.names === 'string' && text.names === name) ||
+                        text.names.includes(name))
+                )
+                    return key as Character;
+        }
         return undefined;
     }
 

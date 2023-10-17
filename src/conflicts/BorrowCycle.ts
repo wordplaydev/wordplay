@@ -2,10 +2,10 @@ import type Source from '@nodes/Source';
 import type Borrow from '@nodes/Borrow';
 import type Program from '@nodes/Program';
 import Conflict from './Conflict';
-import type Locale from '@locale/Locale';
 import type Context from '@nodes/Context';
 import NodeRef from '@locale/NodeRef';
 import concretize from '../locale/concretize';
+import type Locales from '../locale/Locales';
 
 export class BorrowCycle extends Conflict {
     readonly program: Program;
@@ -23,15 +23,15 @@ export class BorrowCycle extends Conflict {
         return {
             primary: {
                 node: this.borrow,
-                explanation: (locale: Locale, context: Context) =>
+                explanation: (locales: Locales, context: Context) =>
                     concretize(
-                        locale,
-                        locale.node.Borrow.conflict.BorrowCycle,
+                        locales,
+                        locales.get((l) => l.node.Borrow.conflict.BorrowCycle),
                         new NodeRef(
                             this.borrow,
-                            locale,
+                            locales,
                             context,
-                            this.cycle[0].names.getPreferredNameString([locale])
+                            locales.getName(this.cycle[0].names)
                         )
                     ),
             },

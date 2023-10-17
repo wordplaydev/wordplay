@@ -1,5 +1,4 @@
 import Purpose from '../concepts/Purpose';
-import type Locale from '../locale/Locale';
 import concretize from '../locale/concretize';
 import Glyphs from '../lore/Glyphs';
 import AnyType from '../nodes/AnyType';
@@ -23,6 +22,7 @@ import Next from '@runtime/Next';
 import Start from '@runtime/Start';
 import type Step from '@runtime/Step';
 import Value from '../values/Value';
+import type Locales from '../locale/Locales';
 
 const IterationState = 'state';
 
@@ -218,23 +218,26 @@ export class Iteration<State = any> extends Expression {
         return this;
     }
 
-    getNodeLocale(translation: Locale) {
-        return translation.node.Iteration;
+    getNodeLocale(locales: Locales) {
+        return locales.get((l) => l.node.Iteration);
     }
 
-    getStartExplanations(locale: Locale) {
-        return concretize(locale, locale.node.Iteration.start);
+    getStartExplanations(locales: Locales) {
+        return concretize(
+            locales,
+            locales.get((l) => l.node.Iteration.start)
+        );
     }
 
     getFinishExplanations(
-        locale: Locale,
+        locales: Locales,
         context: Context,
         evaluator: Evaluator
     ) {
         return concretize(
-            locale,
-            locale.node.Iteration.finish,
-            this.getValueIfDefined(locale, context, evaluator)
+            locales,
+            locales.get((l) => l.node.Iteration.finish),
+            this.getValueIfDefined(locales, context, evaluator)
         );
     }
 

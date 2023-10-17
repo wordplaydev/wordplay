@@ -1,5 +1,4 @@
 import type Conflict from '@conflicts/Conflict';
-import type Locale from '@locale/Locale';
 import Purpose from '../concepts/Purpose';
 import Glyphs from '../lore/Glyphs';
 import {
@@ -12,6 +11,7 @@ import Token from './Token';
 import Sym from './Sym';
 import type { TemplateInput } from '../locale/concretize';
 import Content from './Content';
+import type Locales from '../locale/Locales';
 
 export default class WebLink extends Content {
     readonly open: Token;
@@ -78,8 +78,8 @@ export default class WebLink extends Content {
         return Purpose.Document;
     }
 
-    getNodeLocale(translation: Locale) {
-        return translation.node.WebLink;
+    getNodeLocale(locales: Locales) {
+        return locales.get((l) => l.node.WebLink);
     }
 
     getGlyphs() {

@@ -48,6 +48,7 @@ import type Node from './Node';
 import ExpressionPlaceholder from './ExpressionPlaceholder';
 import Refer from '../edit/Refer';
 import UnknownType from './UnknownType';
+import type Locales from '../locale/Locales';
 
 export default class Bind extends Expression {
     readonly docs?: Docs;
@@ -192,12 +193,13 @@ export default class Bind extends Expression {
                 indent: true,
                 // The bind field should be whatever type is expected.
                 getType: (context: Context) => this.getExpectedType(context),
-                label: (locale: Locale, child: Node, context: Context) =>
-                    (child === this.value
-                        ? this.getCorrespondingBindDefinition(
-                              context
-                          )?.names.getPreferredNameString(locale)
-                        : undefined) ?? '_',
+                label: (locales: Locales, child: Node, context: Context) => {
+                    if (child === this.value) {
+                        const bind =
+                            this.getCorrespondingBindDefinition(context);
+                        return bind ? locales.getName(bind.names) : '_';
+                    } else return '_';
+                },
             },
         ];
     }
@@ -637,40 +639,40 @@ export default class Bind extends Expression {
         );
     }
 
-    getNodeLocale(translation: Locale) {
-        return translation.node.Bind;
+    getNodeLocale(locales: Locales) {
+        return locales.get((l) => l.node.Bind);
     }
 
-    getStartExplanations(translation: Locale, context: Context) {
+    getStartExplanations(locales: Locales, context: Context) {
         return concretize(
-            translation,
-            translation.node.Bind.start,
+            locales,
+            locales.get((l) => l.node.Bind.start),
             this.value === undefined
                 ? undefined
-                : new NodeRef(this.value, translation, context)
+                : new NodeRef(this.value, locales, context)
         );
     }
 
     getFinishExplanations(
-        locale: Locale,
+        locales: Locales,
         context: Context,
         evaluator: Evaluator
     ) {
         return concretize(
-            locale,
-            locale.node.Bind.finish,
-            this.getValueIfDefined(locale, context, evaluator),
+            locales,
+            locales.get((l) => l.node.Bind.finish),
+            this.getValueIfDefined(locales, context, evaluator),
             new NodeRef(
                 this.names,
-                locale,
+                locales,
                 context,
-                this.names.getPreferredNameString(locale)
+                locales.getName(this.names)
             )
         );
     }
 
-    getDescriptionInputs(locale: Locale) {
-        return [this.names.getPreferredName(locale)?.getName()];
+    getDescriptionInputs(locales: Locales) {
+        return [locales.getName(this.names)];
     }
 
     getGlyphs() {

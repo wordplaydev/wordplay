@@ -7,9 +7,9 @@ import type Evaluator from '@runtime/Evaluator';
 import FunctionException from './FunctionException';
 import SimpleValue from './SimpleValue';
 import type Value from '../values/Value';
-import type Locale from '@locale/Locale';
 import type Expression from '../nodes/Expression';
 import type Concretizer from '../nodes/Concretizer';
+import type Locales from '../locale/Locales';
 
 export default class BoolValue extends SimpleValue {
     readonly bool: boolean;
@@ -60,8 +60,11 @@ export default class BoolValue extends SimpleValue {
         return val instanceof BoolValue && this.bool === val.bool;
     }
 
-    getDescription(concretize: Concretizer, locale: Locale) {
-        return concretize(locale, locale.term.boolean);
+    getDescription(concretize: Concretizer, locales: Locales) {
+        return concretize(
+            locales,
+            locales.get((l) => l.term.boolean)
+        );
     }
 
     getSize() {

@@ -3,8 +3,8 @@ import Revision from './Revision';
 import type Node from '@nodes/Node';
 import Caret from './Caret';
 import type Context from '@nodes/Context';
-import type Locale from '@locale/Locale';
 import concretize from '../locale/concretize';
+import type Locales from '../locale/Locales';
 
 /**
  * Remove one or more nodes from sequence of nodes in a parent.
@@ -108,11 +108,11 @@ export default class Remove extends Revision {
         return parent;
     }
 
-    getDescription(locale: Locale) {
+    getDescription(locales: Locales) {
         return concretize(
-            locale,
-            locale.ui.edit.remove,
-            this.getNewNode().getLabel(locale)
+            locales,
+            locales.get((l) => l.ui.edit.remove),
+            this.getNewNode().getLabel(locales)
         );
     }
 

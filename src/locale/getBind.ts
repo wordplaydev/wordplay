@@ -9,16 +9,17 @@ import type Doc from '../nodes/Doc';
 import Name from '../nodes/Name';
 import Language from '../nodes/Language';
 import DefaultLocale from './DefaultLocale';
+import type Locales from './Locales';
 
 export function getBind(
-    locales: Locale[],
+    locales: Locales,
     select: (locale: Locale) => NameAndDoc,
     separator = ' '
 ): string {
     // Get the symbolic names from English (US), which we always include.
-    const enNames = locales.some(
-        (locale) => locale.language === 'en' && locale.region === 'US'
-    )
+    const enNames = locales
+        .getLocales()
+        .some((locale) => locale.language === 'en' && locale.region === 'US')
         ? undefined
         : select(DefaultLocale).names;
     const symbolic = enNames
@@ -28,7 +29,9 @@ export function getBind(
           )
         : undefined;
 
-    const names = locales.map((locale) => [locale, select(locale)] as const);
+    const names = locales
+        .getLocales()
+        .map((locale) => [locale, select(locale)] as const);
     return (
         new Docs(
             names.map(([locale, input]) =>

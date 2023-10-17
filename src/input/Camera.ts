@@ -17,10 +17,10 @@ import ListType from '../nodes/ListType';
 import type Expression from '../nodes/Expression';
 import ColorJS from 'colorjs.io';
 import StructureValue, { createStructure } from '../values/StructureValue';
-import type Locale from '../locale/Locale';
 import type StructureDefinition from '../nodes/StructureDefinition';
 import type Names from '../nodes/Names';
 import type Value from '../values/Value';
+import type Locales from '../locale/Locales';
 
 type CameraConfig = {
     stream: MediaStream;
@@ -299,7 +299,7 @@ const DEFAULT_WIDTH = 32;
 const DEFAULT_HEIGHT = 32;
 
 export function createCameraDefinition(
-    locales: Locale[],
+    locales: Locales,
     ColorType: StructureDefinition
 ) {
     const frameType = ListType.make(

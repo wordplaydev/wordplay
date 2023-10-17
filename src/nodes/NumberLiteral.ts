@@ -10,13 +10,13 @@ import type Context from './Context';
 import type TypeSet from './TypeSet';
 import Sym from './Sym';
 import Node, { node, type Grammar, type Replacement, optional } from './Node';
-import type Locale from '@locale/Locale';
 import NodeRef from '@locale/NodeRef';
 import Literal from './Literal';
 import Glyphs from '../lore/Glyphs';
 import type { BasisTypeName } from '../basis/BasisConstants';
 import type Decimal from 'decimal.js';
 import concretize, { type TemplateInput } from '../locale/concretize';
+import type Locales from '../locale/Locales';
 
 export default class NumberLiteral extends Literal {
     readonly number: Token;
@@ -152,15 +152,15 @@ export default class NumberLiteral extends Literal {
         return this.number;
     }
 
-    getNodeLocale(translation: Locale) {
-        return translation.node.NumberLiteral;
+    getNodeLocale(locales: Locales) {
+        return locales.get((l) => l.node.NumberLiteral);
     }
 
-    getStartExplanations(locale: Locale, context: Context) {
+    getStartExplanations(locales: Locales, context: Context) {
         return concretize(
-            locale,
-            locale.node.NumberLiteral.start,
-            new NodeRef(this.number, locale, context)
+            locales,
+            locales.get((l) => l.node.NumberLiteral.start),
+            new NodeRef(this.number, locales, context)
         );
     }
 
@@ -168,10 +168,10 @@ export default class NumberLiteral extends Literal {
         return Glyphs.Number;
     }
 
-    getDescriptionInputs(locale: Locale, context: Context): TemplateInput[] {
+    getDescriptionInputs(locales: Locales, context: Context): TemplateInput[] {
         return [
             this.number.getText(),
-            this.unit ? new NodeRef(this.unit, locale, context) : undefined,
+            this.unit ? new NodeRef(this.unit, locales, context) : undefined,
         ];
     }
 

@@ -8,12 +8,12 @@ import type Context from './Context';
 import type TypeSet from './TypeSet';
 import Sym from './Sym';
 import { node, type Grammar, type Replacement } from './Node';
-import type Locale from '@locale/Locale';
 import NodeRef from '@locale/NodeRef';
 import Literal from './Literal';
 import Glyphs from '../lore/Glyphs';
 import type { BasisTypeName } from '../basis/BasisConstants';
 import concretize from '../locale/concretize';
+import type Locales from '../locale/Locales';
 
 export default class BooleanLiteral extends Literal {
     readonly value: Token;
@@ -91,15 +91,15 @@ export default class BooleanLiteral extends Literal {
         return this.value;
     }
 
-    getNodeLocale(translation: Locale) {
-        return translation.node.BooleanLiteral;
+    getNodeLocale(locales: Locales) {
+        return locales.get((l) => l.node.BooleanLiteral);
     }
 
-    getStartExplanations(locale: Locale, context: Context) {
+    getStartExplanations(locales: Locales, context: Context) {
         return concretize(
-            locale,
-            locale.node.BooleanLiteral.start,
-            new NodeRef(this.value, locale, context, this.value.getText())
+            locales,
+            locales.get((l) => l.node.BooleanLiteral.start),
+            new NodeRef(this.value, locales, context, this.value.getText())
         );
     }
 

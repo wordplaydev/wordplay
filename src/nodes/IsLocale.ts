@@ -7,7 +7,6 @@ import Sym from './Sym';
 import { GLOBE1_SYMBOL } from '@parser/Symbols';
 import BoolValue from '@values/BoolValue';
 import { node, type Grammar, type Replacement, optional } from './Node';
-import type Locale from '@locale/Locale';
 import SimpleExpression from './SimpleExpression';
 import BooleanType from './BooleanType';
 import Glyphs from '../lore/Glyphs';
@@ -19,6 +18,7 @@ import type Bind from './Bind';
 import type Expression from './Expression';
 import type TypeSet from './TypeSet';
 import type Node from './Node';
+import type Locales from '../locale/Locales';
 
 export default class IsLocale extends SimpleExpression {
     readonly globe: Token;
@@ -113,14 +113,14 @@ export default class IsLocale extends SimpleExpression {
         return this.locale ?? this.globe;
     }
 
-    getNodeLocale(translation: Locale) {
-        return translation.node.IsLocale;
+    getNodeLocale(locales: Locales) {
+        return locales.get((l) => l.node.IsLocale);
     }
 
-    getStartExplanations(locale: Locale) {
+    getStartExplanations(locales: Locales) {
         return concretize(
-            locale,
-            locale.node.IsLocale.start,
+            locales,
+            locales.get((l) => l.node.IsLocale.start),
             this.locale?.toWordplay() ?? '-'
         );
     }

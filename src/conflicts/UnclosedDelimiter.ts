@@ -1,10 +1,10 @@
 import Conflict from './Conflict';
 import type Node from '@nodes/Node';
 import type Token from '@nodes/Token';
-import type Locale from '@locale/Locale';
 import NodeRef from '@locale/NodeRef';
 import type Context from '@nodes/Context';
 import concretize from '../locale/concretize';
+import type Locales from '../locale/Locales';
 
 export default class UnclosedDelimiter extends Conflict {
     readonly open: Token;
@@ -23,20 +23,23 @@ export default class UnclosedDelimiter extends Conflict {
         return {
             primary: {
                 node: this.open,
-                explanation: (locale: Locale, context: Context) =>
+                explanation: (locales: Locales, context: Context) =>
                     concretize(
-                        locale,
-                        locale.node.UnparsableExpression.conflict
-                            .UnclosedDelimiter,
+                        locales,
+                        locales.get(
+                            (l) =>
+                                l.node.UnparsableExpression.conflict
+                                    .UnclosedDelimiter
+                        ),
                         new NodeRef(
                             this.open,
-                            locale,
+                            locales,
                             context,
                             this.open.getText()
                         ),
                         new NodeRef(
                             this.expected,
-                            locale,
+                            locales,
                             context,
                             this.expected.getText()
                         )

@@ -15,7 +15,6 @@ import type Definition from './Definition';
 import type TypeSet from './TypeSet';
 import type Evaluator from '@runtime/Evaluator';
 import { node, type Grammar, type Replacement } from './Node';
-import type Locale from '@locale/Locale';
 import NodeRef from '@locale/NodeRef';
 import Glyphs from '../lore/Glyphs';
 import IncompatibleInput from '../conflicts/IncompatibleInput';
@@ -31,6 +30,7 @@ import BoolValue from '@values/BoolValue';
 import { getIteration, getIterationResult } from '../basis/Iteration';
 import { DELETE_SYMBOL } from '../parser/Symbols';
 import ExpressionPlaceholder from './ExpressionPlaceholder';
+import type Locales from '../locale/Locales';
 
 type DeleteState = { index: number; list: StructureValue[]; table: TableValue };
 
@@ -58,13 +58,13 @@ export default class Delete extends Expression {
             {
                 name: 'table',
                 kind: node(Expression),
-                label: (translation: Locale) => translation.term.table,
+                label: (locales: Locales) => locales.get((l) => l.term.table),
             },
             { name: 'del', kind: node(Sym.Delete), space: true },
             {
                 name: 'query',
                 kind: node(Expression),
-                label: (translation: Locale) => translation.term.query,
+                label: (locales: Locales) => locales.get((l) => l.term.query),
                 // Must be a boolean
                 getType: () => BooleanType.make(),
                 space: true,
@@ -238,27 +238,27 @@ export default class Delete extends Expression {
         return this.del;
     }
 
-    getNodeLocale(translation: Locale) {
-        return translation.node.Delete;
+    getNodeLocale(locales: Locales) {
+        return locales.get((l) => l.node.Delete);
     }
 
-    getStartExplanations(locale: Locale, context: Context) {
+    getStartExplanations(locales: Locales, context: Context) {
         return concretize(
-            locale,
-            locale.node.Delete.start,
-            new NodeRef(this.table, locale, context)
+            locales,
+            locales.get((l) => l.node.Delete.start),
+            new NodeRef(this.table, locales, context)
         );
     }
 
     getFinishExplanations(
-        locale: Locale,
+        locales: Locales,
         context: Context,
         evaluator: Evaluator
     ) {
         return concretize(
-            locale,
-            locale.node.Delete.finish,
-            this.getValueIfDefined(locale, context, evaluator)
+            locales,
+            locales.get((l) => l.node.Delete.finish),
+            this.getValueIfDefined(locales, context, evaluator)
         );
     }
 

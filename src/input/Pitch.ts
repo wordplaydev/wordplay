@@ -10,9 +10,9 @@ import NoneType from '../nodes/NoneType';
 import NumberLiteral from '../nodes/NumberLiteral';
 import NumberValue from '@values/NumberValue';
 import createStreamEvaluator from './createStreamEvaluator';
-import type Locale from '../locale/Locale';
 import AudioStream from './AudioStream';
 import { PitchDetector } from 'pitchy';
+import type Locales from '../locale/Locales';
 
 /** We want more deail in the frequency domain and less in the amplitude domain, but we also want to minimize how much data we analyze. */
 const FFT_SIZE = 1024;
@@ -55,7 +55,7 @@ export default class Pitch extends AudioStream {
     }
 }
 
-export function createPitchDefinition(locales: Locale[]) {
+export function createPitchDefinition(locales: Locales) {
     const FrequencyBind = Bind.make(
         getDocLocales(locales, (locale) => locale.input.Pitch.frequency.doc),
         getNameLocales(locales, (locale) => locale.input.Pitch.frequency.names),

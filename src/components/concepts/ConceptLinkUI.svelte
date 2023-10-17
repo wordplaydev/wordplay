@@ -2,7 +2,7 @@
     import { getConceptIndex, getConceptPath } from '../project/Contexts';
     import ConceptLink from '@nodes/ConceptLink';
     import Concept from '@concepts/Concept';
-    import { locale } from '../../db/Database';
+    import { locales } from '../../db/Database';
     import TutorialHighlight from '../app/TutorialHighlight.svelte';
     import type ConceptRef from '../../locale/ConceptRef';
     import Button from '../widgets/Button.svelte';
@@ -41,7 +41,7 @@
                 if (concept && names.length > 1) {
                     const subConcept = Array.from(
                         concept.getSubConcepts()
-                    ).find((sub) => sub.hasName(names[1], $locale));
+                    ).find((sub) => sub.hasName(names[1], $locales));
                     if (subConcept !== undefined) concept = subConcept;
                     else if (concept.affiliation !== undefined) {
                         const structure = $index.getStructureConcept(
@@ -50,7 +50,7 @@
                         if (structure) {
                             const subConcept = Array.from(
                                 structure.getSubConcepts()
-                            ).find((sub) => sub.hasName(names[1], $locale));
+                            ).find((sub) => sub.hasName(names[1], $locales));
                             if (subConcept) {
                                 container = concept;
                                 concept = subConcept;
@@ -66,8 +66,8 @@
     let symbolicName: string;
     $: {
         if (concept) {
-            symbolicName = concept.getName($locale, true);
-            longName = concept.getName($locale, false);
+            symbolicName = concept.getName($locales, true);
+            longName = concept.getName($locales, false);
         }
     }
 
@@ -88,7 +88,11 @@
 
 {#if concept}<Button
         action={navigate}
-        tip={concretize($locale, $locale.ui.docs.link, longName).toText()}
+        tip={concretize(
+            $locales,
+            $locales.get((l) => l.ui.docs.link),
+            longName
+        ).toText()}
         ><span class="conceptlink interactive"
             >{#if label}{label}{:else}<span class="long">{longName}</span
                 >{#if symbolicName !== longName && symbolic}<sub
@@ -98,7 +102,7 @@
     >{:else if ui}<TutorialHighlight
     />{:else if link instanceof ConceptLink}<span
         >{#if container}{container.getName(
-                $locale,
+                $locales,
                 false
             )}{/if}{link.concept.getText()}</span
     >{/if}

@@ -4,7 +4,7 @@
 <script lang="ts">
     import concretize from '../../locale/concretize';
     import { getProject, getRoot } from '../project/Contexts';
-    import { locale } from '../../db/Database';
+    import { locales } from '@db/Database';
     import MarkupHtmlView from '../concepts/MarkupHTMLView.svelte';
     import type Type from '../../nodes/Type';
 
@@ -21,7 +21,7 @@
 
 <span class="TypeView"
     >{#if context}<MarkupHtmlView
-            markup={node.getDescription(concretize, $locale, context)}
+            markup={node.getDescription(concretize, $locales, context)}
         />{:else}{node.toWordplay()}{/if}</span
 >
 

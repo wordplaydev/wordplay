@@ -6,6 +6,7 @@ import MissingCell from '@conflicts/MissingCell';
 import InvalidRow from '@conflicts/InvalidRow';
 import IncompatibleInput from '../conflicts/IncompatibleInput';
 import evaluateCode from '../runtime/evaluate';
+import { DefaultLocales } from '../locale/DefaultLocale';
 
 test.each([
     [
@@ -43,5 +44,5 @@ test.each([
     ['⎡a•# b•#⎦⎡1 2⎦ ⎡+ 2 3⎦', '⎡ 1 2 ⎦\n⎡ 2 3 ⎦'],
     ['⎡a•# b•#⎦⎡1 2⎦ ⎡+ 2 3⎦ ⎡+ 3 4⎦', '⎡ 1 2 ⎦\n⎡ 2 3 ⎦\n⎡ 3 4 ⎦'],
 ])('%s = %s', (code: string, value: string) => {
-    expect(evaluateCode(code)?.toWordplay([])).toBe(value);
+    expect(evaluateCode(code)?.toWordplay(DefaultLocales)).toBe(value);
 });

@@ -9,11 +9,11 @@ import UnclosedDelimiter from '@conflicts/UnclosedDelimiter';
 import type Conflict from '@conflicts/Conflict';
 import type TypeSet from './TypeSet';
 import { node, type Grammar, type Replacement, optional } from './Node';
-import type Locale from '@locale/Locale';
 import Glyphs from '../lore/Glyphs';
 import NodeRef from '../locale/NodeRef';
 import Sym from './Sym';
 import type Node from './Node';
+import type Locales from '../locale/Locales';
 
 export default class SetType extends BasisType {
     readonly open: Token;
@@ -100,15 +100,15 @@ export default class SetType extends BasisType {
             : undefined;
     }
 
-    getNodeLocale(translation: Locale) {
-        return translation.node.SetType;
+    getNodeLocale(locales: Locales) {
+        return locales.get((l) => l.node.SetType);
     }
 
     getGlyphs() {
         return Glyphs.Set;
     }
 
-    getDescriptionInputs(locale: Locale, context: Context) {
-        return [this.key ? new NodeRef(this.key, locale, context) : undefined];
+    getDescriptionInputs(locales: Locales, context: Context) {
+        return [this.key ? new NodeRef(this.key, locales, context) : undefined];
     }
 }

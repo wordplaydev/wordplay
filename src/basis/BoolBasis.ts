@@ -13,8 +13,9 @@ import type Locale from '../locale/Locale';
 import type { FunctionText, NameAndDoc } from '../locale/Locale';
 import type Type from '../nodes/Type';
 import AnyType from '../nodes/AnyType';
+import type Locales from '../locale/Locales';
 
-export default function bootstrapBool(locales: Locale[]) {
+export default function bootstrapBool(locales: Locales) {
     function createBooleanFunction(
         text: (locale: Locale) => FunctionText<NameAndDoc[]>,
         inputs: Type[],

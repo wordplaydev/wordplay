@@ -15,6 +15,6 @@
         symbol={STREAM_SYMBOL}
         type={Sym.Stream}
     /><SymbolView
-        symbol={value.definition.names.getPreferredNameString($locales)}
+        symbol={$locales.getName(value.definition.names)}
         type={Sym.Name}
     />{/if}

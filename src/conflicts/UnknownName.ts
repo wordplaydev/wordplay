@@ -2,11 +2,11 @@ import type Context from '@nodes/Context';
 import Token from '@nodes/Token';
 import type Type from '@nodes/Type';
 import NodeRef from '@locale/NodeRef';
-import type Locale from '@locale/Locale';
 import Conflict from './Conflict';
 import concretize from '../locale/concretize';
 import type NameType from '../nodes/NameType';
 import type Reference from '../nodes/Reference';
+import type Locales from '../locale/Locales';
 
 export class UnknownName extends Conflict {
     readonly name: Reference | NameType | Token;
@@ -22,15 +22,17 @@ export class UnknownName extends Conflict {
         return {
             primary: {
                 node: this.name,
-                explanation: (locale: Locale, context: Context) =>
+                explanation: (locales: Locales, context: Context) =>
                     concretize(
-                        locale,
-                        locale.node.Reference.conflict.UnknownName,
+                        locales,
+                        locales.get(
+                            (l) => l.node.Reference.conflict.UnknownName
+                        ),
                         this.name instanceof Token
                             ? undefined
-                            : new NodeRef(this.name, locale, context),
+                            : new NodeRef(this.name, locales, context),
                         this.type
-                            ? new NodeRef(this.type, locale, context)
+                            ? new NodeRef(this.type, locales, context)
                             : undefined
                     ),
             },

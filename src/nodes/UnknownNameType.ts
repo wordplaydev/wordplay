@@ -2,9 +2,9 @@ import UnknownType from './UnknownType';
 import type Token from './Token';
 import type Node from './Node';
 import type Type from './Type';
-import type Locale from '@locale/Locale';
 import type { TemplateInput } from '../locale/concretize';
 import type Concretizer from './Concretizer';
+import type Locales from '../locale/Locales';
 
 export default class UnknownNameType extends UnknownType<Node> {
     readonly name: Token | undefined;
@@ -19,10 +19,10 @@ export default class UnknownNameType extends UnknownType<Node> {
         this.name = name;
     }
 
-    getReason(concretize: Concretizer, locale: Locale) {
+    getReason(concretize: Concretizer, locales: Locales) {
         return concretize(
-            locale,
-            locale.node.UnknownNameType.description,
+            locales,
+            locales.get((l) => l.node.UnknownNameType.description),
             ...this.getDescriptionInputs()
         );
     }

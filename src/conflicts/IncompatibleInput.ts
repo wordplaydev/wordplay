@@ -1,10 +1,10 @@
 import Conflict from './Conflict';
 import type Type from '@nodes/Type';
-import type Locale from '@locale/Locale';
 import NodeRef from '@locale/NodeRef';
 import type Context from '@nodes/Context';
 import type Node from '../nodes/Node';
 import concretize from '../locale/concretize';
+import type Locales from '../locale/Locales';
 
 export default class IncompatibleInput extends Conflict {
     readonly givenNode: Node;
@@ -22,37 +22,44 @@ export default class IncompatibleInput extends Conflict {
         return {
             primary: {
                 node: this.givenNode,
-                explanation: (locale: Locale, context: Context) =>
+                explanation: (locales: Locales, context: Context) =>
                     concretize(
-                        locale,
-                        locale.node.Evaluate.conflict.IncompatibleInput.primary,
+                        locales,
+                        locales.get(
+                            (l) =>
+                                l.node.Evaluate.conflict.IncompatibleInput
+                                    .primary
+                        ),
                         new NodeRef(
                             this.expectedType.simplify(context),
-                            locale,
+                            locales,
                             context
                         ),
                         new NodeRef(
                             this.givenType.simplify(context),
-                            locale,
+                            locales,
                             context
                         )
                     ),
             },
             secondary: {
                 node: this.expectedType,
-                explanation: (locale: Locale, context: Context) =>
+                explanation: (locales: Locales, context: Context) =>
                     concretize(
-                        locale,
-                        locale.node.Evaluate.conflict.IncompatibleInput
-                            .secondary,
+                        locales,
+                        locales.get(
+                            (l) =>
+                                l.node.Evaluate.conflict.IncompatibleInput
+                                    .secondary
+                        ),
                         new NodeRef(
                             this.expectedType.simplify(context),
-                            locale,
+                            locales,
                             context
                         ),
                         new NodeRef(
                             this.givenType.simplify(context),
-                            locale,
+                            locales,
                             context
                         )
                     ),

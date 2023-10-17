@@ -12,6 +12,7 @@ import Glyphs from '../lore/Glyphs';
 import type { Grammar } from './Node';
 import BasisType from './BasisType';
 import type Spaces from '../parser/Spaces';
+import type Locales from '../locale/Locales';
 
 export const STRUCTURE_NATIVE_TYPE_NAME = 'structure';
 
@@ -128,15 +129,15 @@ export default class StructureType extends BasisType {
         return this.structure.getPreferredName(locale ? [locale] : []);
     }
 
-    getNodeLocale(translation: Locale) {
-        return translation.node.StructureType;
+    getNodeLocale(locales: Locales) {
+        return locales.get((l) => l.node.StructureType);
     }
 
     getGlyphs() {
         return Glyphs.Type;
     }
 
-    getDescriptionInputs(locale: Locale) {
-        return [this.structure.names.getPreferredNameString(locale)];
+    getDescriptionInputs(locales: Locales) {
+        return [locales.getName(this.structure.names)];
     }
 }

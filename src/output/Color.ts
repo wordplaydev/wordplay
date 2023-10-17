@@ -10,11 +10,11 @@ import Evaluate from '../nodes/Evaluate';
 import NumberLiteral from '../nodes/NumberLiteral';
 import Reference from '../nodes/Reference';
 import Unit from '../nodes/Unit';
-import type Locale from '../locale/Locale';
 import type Project from '../models/Project';
 import StructureValue from '../values/StructureValue';
+import type Locales from '../locale/Locales';
 
-export function createColorType(locales: Locale[]) {
+export function createColorType(locales: Locales) {
     return toStructure(`
     ${getBind(locales, (locale) => locale.output.Color, TYPE_SYMBOL)}(
         ${getBind(locales, (locale) => locale.output.Color.lightness)}•%
@@ -76,17 +76,14 @@ export default class Color extends Valued {
 
 export function createColorLiteral(
     project: Project,
-    locales: Locale[],
+    locales: Locales,
     lightness: number,
     chroma: number,
     hue: number
 ) {
     const ColorType = project.shares.output.Color;
     return Evaluate.make(
-        Reference.make(
-            ColorType.names.getPreferredNameString(locales),
-            ColorType
-        ),
+        Reference.make(locales.getName(ColorType.names), ColorType),
         [
             NumberLiteral.make(lightness),
             NumberLiteral.make(chroma),

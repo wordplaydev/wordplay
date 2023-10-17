@@ -5,7 +5,7 @@
     import Button from '../widgets/Button.svelte';
     import TextField from '../widgets/TextField.svelte';
     import TokenView from './TokenView.svelte';
-    import { locale } from '../../db/Database';
+    import { locales } from '../../db/Database';
     import Commands, { Category } from './util/Commands';
     import CommandButton from '../widgets/CommandButton.svelte';
     import concretize from '../../locale/concretize';
@@ -45,7 +45,7 @@
 <section class:expanded class="directory" data-uiid="directory">
     <TextField
         placeholder="🔍"
-        description={$locale.ui.source.cursor.search}
+        description={$locales.get((l) => l.ui.source.cursor.search)}
         bind:text={query}
     />
     <div class="matches">
@@ -59,8 +59,8 @@
         {:else}
             {#each results as glyph}<Button
                     tip={concretize(
-                        $locale,
-                        $locale.ui.source.cursor.insertSymbol,
+                        $locales,
+                        $locales.get((l) => l.ui.source.cursor.insertSymbol),
                         glyph
                     ).toText()}
                     action={() => insert(glyph)}
@@ -69,7 +69,7 @@
         {/if}
     </div>
     <Toggle
-        tips={$locale.ui.source.toggle.glyphs}
+        tips={$locales.get((l) => l.ui.source.toggle.glyphs)}
         on={expanded}
         toggle={() => (expanded = !expanded)}>{expanded ? '–' : '+'}</Toggle
     >

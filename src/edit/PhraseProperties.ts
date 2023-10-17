@@ -1,5 +1,4 @@
 import TextLiteral from '@nodes/TextLiteral';
-import type Locale from '../locale/Locale';
 import OutputProperty from './OutputProperty';
 import OutputPropertyText from './OutputPropertyText';
 import Language from '../nodes/Language';
@@ -10,23 +9,24 @@ import Unit from '../nodes/Unit';
 import OutputPropertyOptions from './OutputPropertyOptions';
 import { getTypeOutputProperties } from './OutputProperties';
 import type Project from '../models/Project';
+import type Locales from '../locale/Locales';
 
 export default function getPhraseProperties(
     project: Project,
-    locale: Locale
+    locales: Locales
 ): OutputProperty[] {
     return [
         new OutputProperty(
-            locale.output.Phrase.text,
+            locales.get((l) => l.output.Phrase.text),
             new OutputPropertyText(() => true),
             true,
             false,
             (expr) => expr instanceof TextLiteral || expr instanceof Docs,
             (locales) =>
-                TextLiteral.make('', Language.make(locales[0].language))
+                TextLiteral.make('', Language.make(locales.getLanguages()[0]))
         ),
         new OutputProperty(
-            locale.output.Phrase.wrap,
+            locales.get((l) => l.output.Phrase.wrap),
             new OutputPropertyRange(1, 30, 1, 'm'),
             false,
             false,
@@ -34,7 +34,7 @@ export default function getPhraseProperties(
             () => NumberLiteral.make('10', Unit.meters())
         ),
         new OutputProperty(
-            locale.output.Phrase.alignment,
+            locales.get((l) => l.output.Phrase.alignment),
             new OutputPropertyOptions(
                 ['<', '|', '>'],
                 true,
@@ -47,6 +47,6 @@ export default function getPhraseProperties(
             (expr) => expr instanceof TextLiteral,
             () => TextLiteral.make('|')
         ),
-        ...getTypeOutputProperties(project, locale),
+        ...getTypeOutputProperties(project, locales),
     ];
 }

@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { SaveStatus, locale } from '../../db/Database';
+    import { SaveStatus, locales } from '../../db/Database';
     import { status } from '../../db/Database';
     import { getUser } from '../project/Contexts';
 
@@ -8,10 +8,14 @@
 
 <div class="status {$status}">
     {$status === SaveStatus.Saved
-        ? `${$user === null ? $locale.ui.save.local : $locale.ui.save.saved} ✔`
+        ? `${
+              $user === null
+                  ? $locales.get((l) => l.ui.save.local)
+                  : $locales.get((l) => l.ui.save.saved)
+          } ✔`
         : $status === SaveStatus.Saving
-        ? `${$locale.ui.save.saving} …`
-        : `${$locale.ui.save.unsaved} ⨉`}
+        ? `${$locales.get((l) => l.ui.save.saving)} …`
+        : `${$locales.get((l) => l.ui.save.unsaved)} ⨉`}
 </div>
 
 <style>

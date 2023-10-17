@@ -13,6 +13,7 @@ import Purpose from '../concepts/Purpose';
 import Sym from './Sym';
 import type Type from './Type';
 import type LanguageCode from '@locale/LanguageCode';
+import type Locales from '../locale/Locales';
 
 export default class Language extends Node {
     readonly slash: Token;
@@ -125,8 +126,8 @@ export default class Language extends Node {
         );
     }
 
-    getNodeLocale(translation: Locale) {
-        return translation.node.Language;
+    getNodeLocale(locales: Locales) {
+        return locales.get((l) => l.node.Language);
     }
 
     getDescriptionInputs() {

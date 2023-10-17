@@ -4,7 +4,7 @@
     import TextField from '../widgets/TextField.svelte';
     import type OutputProperty from '@edit/OutputProperty';
     import { getProject } from '../project/Contexts';
-    import { locale, locales, languages, Projects } from '@db/Database';
+    import { locales, Projects } from '@db/Database';
     import { tick } from 'svelte';
     import Language from '@nodes/Language';
     import { FORMATTED_SYMBOL } from '@parser/Symbols';
@@ -29,7 +29,10 @@
                 property.getName(),
                 newValue.startsWith(FORMATTED_SYMBOL)
                     ? parseFormattedLiteral(toTokens(newValue))
-                    : TextLiteral.make(newValue, Language.make($languages[0]))
+                    : TextLiteral.make(
+                          newValue,
+                          Language.make($locales.getLanguages()[0])
+                      )
             )
         );
 
@@ -40,10 +43,10 @@
 
 <TextField
     text={values.getText()}
-    description={$locale.ui.palette.field.text}
+    description={$locales.get((l) => l.ui.palette.field.text)}
     placeholder={values.isEmpty()
         ? ''
-        : values.values[0].bind.names.getPreferredNameString($locales)}
+        : $locales.getName(values.values[0].bind.names)}
     {validator}
     changed={handleChange}
     bind:view

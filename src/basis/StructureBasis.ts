@@ -2,7 +2,6 @@ import StructureDefinition from '@nodes/StructureDefinition';
 import Block, { BlockKind } from '@nodes/Block';
 import { getDocLocales } from '@locale/getDocLocales';
 import { getNameLocales } from '@locale/getNameLocales';
-import type Locale from '../locale/Locale';
 import { createBasisConversion, createBasisFunction } from './Basis';
 import BoolValue from '@values/BoolValue';
 import BooleanType from '../nodes/BooleanType';
@@ -13,8 +12,9 @@ import Value from '../values/Value';
 import type StructureValue from '../values/StructureValue';
 import TextType from '../nodes/TextType';
 import TextValue from '../values/TextValue';
+import type Locales from '../locale/Locales';
 
-export default function bootstrapStructure(locales: Locale[]) {
+export default function bootstrapStructure(locales: Locales) {
     return StructureDefinition.make(
         getDocLocales(locales, (locale) => locale.basis.Structure.doc),
         getNameLocales(locales, (locale) => locale.basis.Structure.name),

@@ -4,9 +4,9 @@ import { getBind } from '@locale/getBind';
 import Valued, { getOutputInputs } from './Valued';
 import { toNumber } from './Stage';
 import StructureValue from '../values/StructureValue';
-import type Locale from '../locale/Locale';
+import type Locales from '../locale/Locales';
 
-export function createVelocityType(locales: Locale[]) {
+export function createVelocityType(locales: Locales) {
     return toStructure(`
     ${getBind(locales, (locale) => locale.output.Velocity, '•')}(
         ${getBind(locales, (locale) => locale.output.Velocity.x)}•#m/s|ø: ø
