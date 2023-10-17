@@ -55,7 +55,11 @@ export function getInputLocales(
 export function getLocaleNames(nameAndDoc: NameAndDoc, locale: Locale) {
     return (
         Array.isArray(nameAndDoc.names) ? nameAndDoc.names : [nameAndDoc.names]
-    ).map((name) =>
-        Name.make(nameWithoutMentions(name), localeToLanguage(locale))
-    );
+    )
+        .map((name) => {
+            const stripped = nameWithoutMentions(name);
+            if (stripped === '') return undefined;
+            return Name.make(stripped, localeToLanguage(locale));
+        })
+        .filter((name): name is Name => name !== undefined);
 }
