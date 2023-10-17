@@ -55,8 +55,10 @@ export default class LocalesDatabase {
 
         this.setting = setting;
 
-        // Load the requested locales.
-        this.loadLocales(locales);
+        // Load the requested locales, combining those given (from the browser) and those from the local storage settings.
+        this.loadLocales(
+            Array.from(new Set([...locales, ...this.setting.get()]))
+        );
     }
 
     async refreshLocales() {
@@ -79,10 +81,15 @@ export default class LocalesDatabase {
         // Ask fonts to load the locale's preferred fonts.
         Fonts.loadLocales(locales);
 
-        // Update the locales stores
-        this.locales.set(new Locales(this.computeLocales(), DefaultLocale));
+        // Update locales
+        this.syncLocales();
 
         return locales;
+    }
+
+    syncLocales() {
+        // Update the locales stores
+        this.locales.set(new Locales(this.computeLocales(), DefaultLocale));
     }
 
     async loadLocale(
@@ -120,6 +127,7 @@ export default class LocalesDatabase {
                 this.localesLoaded[lang] = promise;
                 const locale = await promise;
                 this.localesLoaded[lang] = locale;
+
                 return locale;
             } catch (_) {
                 this.localesLoaded[lang] = undefined;

@@ -5,7 +5,6 @@ export const LocalesSetting = new Setting<SupportedLocale[]>(
     'locales',
     false,
     ['en-US'],
-
     (value) =>
         Array.isArray(value) &&
         value.every(
