@@ -2562,39 +2562,39 @@
                 }
             },
             "projects": {
-                "header": "$?",
-                "projectprompt": "$?",
-                "galleriesheader": "$?",
-                "galleryprompt": "$?",
+                "header": "项目",
+                "projectprompt": "准备好说些什么了吗？您可以开始创建一个新项目，或者继续在现有项目上工作。如果您遇到困难，继续学习 <learning@://learn>",
+                "galleriesheader": "画廊",
+                "galleryprompt": "创建和策划画廊，与他人分享项目集合",
                 "button": {
-                    "newproject": "$?",
-                    "editproject": "$?",
-                    "newgallery": "$?"
+                    "newproject": "新项目",
+                    "editproject": "编辑这个项目",
+                    "newgallery": "新画廊"
                 },
                 "confirm": {
                     "archive": {
-                        "description": "$?",
-                        "prompt": "$?"
+                        "description": "存档这个表演",
+                        "prompt": "存档"
                     }
                 },
                 "error": {
-                    "noaccess": "$?",
-                    "loggedout": "$?",
-                    "newgallery": "$?"
+                    "noaccess": "无法连接网络。",
+                    "loggedout": "您必须登录才能创建和更改画廊。",
+                    "newgallery": "我们无法创建新的画廊。"
                 }
             },
             "galleries": {
-                "header": "$?",
-                "prompt": "$?",
-                "examples": "ejemplos"
+                "header": "画廊",
+                "prompt": "这些是其他人创作的表演作品。体验它们，学习它们，或者将它们改编成您自己的作品陈述。",
+                "examples": "例子"
             },
             "about": {
-                "header": "$?",
+                "header": "关于",
                 "content": ["$?"]
             },
             "login": {
-                "header": "$?",
-                "anonymous": "$?",
+                "header": "登录",
+                "anonymous": "匿名",
                 "prompt": {
                     "login": "$?",
                     "enter": "$?",
@@ -2623,14 +2623,14 @@
                 },
                 "field": {
                     "email": {
-                        "description": "$?",
-                        "placeholder": "$?"
+                        "description": "编辑登录邮件",
+                        "placeholder": "邮件"
                     }
                 },
                 "button": {
                     "logout": {
-                        "tip": "$?",
-                        "label": "$?"
+                        "tip": "登出你的账号",
+                        "label": "登出"
                     },
                     "login": "$?",
                     "update": "$?",
@@ -2645,7 +2645,7 @@
                 }
             },
             "rights": {
-                "header": "$?",
+                "header": "权利",
                 "content": ["$?"],
                 "consequences": ["$?"]
             }
@@ -2666,7 +2666,7 @@
             "bind": "$?"
         },
         "template": {
-            "unwritten": "$?",
+            "unwritten": "待定",
             "unparsable": "$?"
         }
     },
