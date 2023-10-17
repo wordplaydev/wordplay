@@ -1540,20 +1540,69 @@
     },
     "input": {
         "Random": {
-            "doc": ["23!", "/DeficionDeFuncion aqui, yo te lo explicare./", "@Azar es una función curiosa que crea numeros al azar. Es curiosa porque cada ves que la evaluas, crea algo diferente,", "Esto creo un caos maravilloso que bien con algo impredecible.", "Por defecto, te da un valores de @Numero entre \\0\\ y \\1\\:", "\\Azar()\\", "Pero tambien le pues pasar un valor, y te generara valores entre \\0\\ y el valor:", "\\Azar(20)\\", "Y si le pasas dos valores, te generara valores entre y incluyendo los dos valores:", "\\Azar(=20 20)\\", "Si los numeros tienen unidades, las unidades seran preservadas (y si no son pares, la unidad del valor minimo ser usada):", "\\Azar(-20m 20m\\", "Y si le pasas numeros con una cantidad particular de digitos significativos despues del decimal, esa precision sera preservada.", "\\Azar(2.00, 20.00)\\"],
+            "doc": [
+                "23!",
+                "/DeficionDeFuncion aqui, yo te lo explicare./",
+                "@Azar es una función curiosa que crea numeros al azar. Es curiosa porque cada ves que la evaluas, crea algo diferente,",
+                "Esto creo un caos maravilloso que bien con algo impredecible.",
+                "Por defecto, te da un valores de @Numero entre \\0\\ y \\1\\:",
+                "\\Azar()\\",
+                "Pero tambien le pues pasar un valor, y te generara valores entre \\0\\ y el valor:",
+                "\\Azar(20)\\",
+                "Y si le pasas dos valores, te generara valores entre y incluyendo los dos valores:",
+                "\\Azar(=20 20)\\",
+                "Si los numeros tienen unidades, las unidades seran preservadas (y si no son pares, la unidad del valor minimo ser usada):",
+                "\\Azar(-20m 20m\\",
+                "Y si le pasas numeros con una cantidad particular de digitos significativos despues del decimal, esa precision sera preservada.",
+                "\\Azar(2.00, 20.00)\\"
+            ],
             "names": ["Azar"],
             "inputs": [
-                { "names": "mínimo", "doc": "El valor mínimo que sera creado, si no mayor a 0, entonces sera el valor maximo. Si @Nada es proveido, entonces el mínimo es \\0\\ " },
-                { "names": "maximo", "doc": "El valor maximo que sera creado, o si es menor al minimo proveido, este sera el minimo. Si @Nada es proveido, entonces el valor maximo es \\1\\" }
+                {
+                    "names": "mínimo",
+                    "doc": "El valor mínimo que sera creado, si no mayor a 0, entonces sera el valor maximo. Si @Nada es proveido, entonces el mínimo es \\0\\ "
+                },
+                {
+                    "names": "maximo",
+                    "doc": "El valor maximo que sera creado, o si es menor al minimo proveido, este sera el minimo. Si @Nada es proveido, entonces el valor maximo es \\1\\"
+                }
             ]
         },
-        "Choice": { "doc": ["/click y tap!/", "/@DefinicionDeFuncion aqui, yo te la explicare./", "Piensa de @Selección como un rio de @Frame/nombre que es selecionanda por su audiencia. Si alguien hace click, tap or seleciona con su teclado, presionando /Enter/ en una @Frase con un nombre -- @Selección tendra un nuevo valor, emparejanda con su nombre.", "La mejor manera de usarlos es creando una actuaccion con una frases de selección nombradas, despues usa @Reaccion para decidir que hacer con el nombre elejido", "Este es un ejempli simple.", "\\Grupo(\nPila() \n[\nFrase('uno' seleccion:T nombre: '1'1) \nFrase('dos' seleccion:T nombre: '2') \nFrase(Elección())\n]\n)\\", "Copea esto en tu editor, despues selecciona una de las dos @Frase. Podras ver que la tercera @Phrase muestra el nombe que fue seleccionado"], "names": ["Selección", "Elección"] },
-        "Button": {
-            "doc": ["/has click click/", "/@DefinicionDeFuncion aqui, yo te lo explicare./"],
-            "names": "Botón",
-            "down": { "names": "abajo", "doc": "Si es @None, la sequencia va a preveer los dos valors de arriba y abajo. Si es @Booleano, so va a proveer el valor del @Booleano" }
+        "Choice": {
+            "doc": [
+                "/click y tap!/",
+                "/@DefinicionDeFuncion aqui, yo te la explicare./",
+                "Piensa de @Selección como un rio de @Frame/nombre que es selecionanda por su audiencia. Si alguien hace click, tap or seleciona con su teclado, presionando /Enter/ en una @Frase con un nombre -- @Selección tendra un nuevo valor, emparejanda con su nombre.",
+                "La mejor manera de usarlos es creando una actuaccion con una frases de selección nombradas, despues usa @Reaccion para decidir que hacer con el nombre elejido",
+                "Este es un ejempli simple.",
+                "\\Grupo(\nPila() \n[\nFrase('uno' seleccion:T nombre: '1'1) \nFrase('dos' seleccion:T nombre: '2') \nFrase(Elección())\n]\n)\\",
+                "Copea esto en tu editor, despues selecciona una de las dos @Frase. Podras ver que la tercera @Phrase muestra el nombe que fue seleccionado"
+            ],
+            "names": ["Selección", "Elección"]
         },
-        "Pointer": { "doc": ["/aquii/", "/@DeficionDeFuncion aqui, yo te la explicare./", "¿Tu conozes sobre ratones, paneles tactiles, y pantallas tactiles? hay veces tu quieres saber en donde tu punter de la audencia esta. Esta es la funcionalida de @Puntero", "Por supuesto, esta no es una opcion accesible: not todo el mundo puede ver or apuntar facilmente, asegurate de que no este excluyendo a nadie usando este stream.", "Si estas seguro de que nadie va a hacer excluido, usar @Puntero es tan simple como hacer un stream:", "\\Pointer()\\", "El @Lugar que provee va a corresponder en donde el punter en el @Escenario es apuntando"], "names": ["Puntero"] },
+        "Button": {
+            "doc": [
+                "/has click click/",
+                "/@DefinicionDeFuncion aqui, yo te lo explicare./"
+            ],
+            "names": "Botón",
+            "down": {
+                "names": "abajo",
+                "doc": "Si es @None, la sequencia va a preveer los dos valors de arriba y abajo. Si es @Booleano, so va a proveer el valor del @Booleano"
+            }
+        },
+        "Pointer": {
+            "doc": [
+                "/aquii/",
+                "/@DeficionDeFuncion aqui, yo te la explicare./",
+                "¿Tu conozes sobre ratones, paneles tactiles, y pantallas tactiles? hay veces tu quieres saber en donde tu punter de la audencia esta. Esta es la funcionalida de @Puntero",
+                "Por supuesto, esta no es una opcion accesible: not todo el mundo puede ver or apuntar facilmente, asegurate de que no este excluyendo a nadie usando este stream.",
+                "Si estas seguro de que nadie va a hacer excluido, usar @Puntero es tan simple como hacer un stream:",
+                "\\Pointer()\\",
+                "El @Lugar que provee va a corresponder en donde el punter en el @Escenario es apuntando"
+            ],
+            "names": ["Puntero"]
+        },
         "Key": {
             "doc": [
                 "/clickety/",
@@ -1570,11 +1619,14 @@
                 "\\Key('a' ⊥)\\"
             ],
             "names": "Teclado",
-            "key": { "names": "tecla", 
-            "doc": "Si @None, entonces se proporcionan todas las teclas. Si es una @Text specifica, entonces solo esa tecla esta proporcionada."
-         },
-            "down": { "names": "abajo", 
-            "doc": "Si @None, entonces la tecla presionada genera aporte. Si \\T\\, entonces solo teclas presionadas estan proporcionadas, y si \\⊥\\, entonces solo teclas soltadas estan proporcionadas." }
+            "key": {
+                "names": "tecla",
+                "doc": "Si @None, entonces se proporcionan todas las teclas. Si es una @Text specifica, entonces solo esa tecla esta proporcionada."
+            },
+            "down": {
+                "names": "abajo",
+                "doc": "Si @None, entonces la tecla presionada genera aporte. Si \\T\\, entonces solo teclas presionadas estan proporcionadas, y si \\⊥\\, entonces solo teclas soltadas estan proporcionadas."
+            }
         },
         "Time": {
             "doc": [
@@ -1586,24 +1638,28 @@
                 "\\Tiempo()\\",
                 "Si proporcionas un @Tiempo/frecuencia, va avanzar a ese ritmo. Por ejemplo:",
                 "\\Tiempo(1000ms)\\",
-                "Sin embargo, la frecuencia tiene limites a lo pequeño que puede ser porque @Program necesita timepo para evaluar antes que pueda avanzar.", 
+                "Sin embargo, la frecuencia tiene limites a lo pequeño que puede ser porque @Program necesita timepo para evaluar antes que pueda avanzar.",
                 "Lo mas pequeño que puede ser es alrededor de \\20ms\\."
             ],
             "names": "Tiempo",
-            "frequency": { "names": ["frecuencia"], 
-            "doc": "Esta es la frecuencia con que el tiempo avanza. Por defecto es \\33ms\\, que es acerca de 30 veces por segundo." }
+            "frequency": {
+                "names": ["frecuencia"],
+                "doc": "Esta es la frecuencia con que el tiempo avanza. Por defecto es \\33ms\\, que es acerca de 30 veces por segundo."
+            }
         },
         "Volume": {
             "doc": [
                 "/bzzzzzzz",
-            "@FunctionDefinition aqui, yo tomaré el micrófono.",
-            "Esta secuencia es una seria de volumen entre 0 y 1, muestreado a la frecuencia de tu elección. Por defecto, la frecuencia es \\30hz\\, o 30 veces por segundo, pero tu puedes cambiar lo a algo menos.",
-            "\\Volume()\\",
-            "Esto es ideal para escuchar que tan fuerte esta la audencia!"
+                "@FunctionDefinition aqui, yo tomaré el micrófono.",
+                "Esta secuencia es una seria de volumen entre 0 y 1, muestreado a la frecuencia de tu elección. Por defecto, la frecuencia es \\30hz\\, o 30 veces por segundo, pero tu puedes cambiar lo a algo menos.",
+                "\\Volume()\\",
+                "Esto es ideal para escuchar que tan fuerte esta la audencia!"
             ],
             "names": "$? Volume",
-            "frequency": { "names": ["frecuencia"], 
-            "doc": "El tiempo entre muestreos." }
+            "frequency": {
+                "names": ["frecuencia"],
+                "doc": "El tiempo entre muestreos."
+            }
         },
         "Pitch": {
             "doc": [
@@ -1614,8 +1670,10 @@
                 "Esto es ideal para escuchar el tono que alguien habla o canta."
             ],
             "names": "$? Pitch",
-            "frequency": { "names": ["frecuencia"],
-            "doc": "El tiempo entre muestreos." }
+            "frequency": {
+                "names": ["frecuencia"],
+                "doc": "El tiempo entre muestreos."
+            }
         },
         "Camera": {
             "doc": [
@@ -1627,42 +1685,102 @@
                 "Pero también puedes analizar los colores para decidir si una luz estava encendida o apagada, o si un color en particular era común, dejando que la audencia influya la actuación con los colors que muestran."
             ],
             "names": ["Cámara"],
-            "width": { 
-                "names": ["ancho"], 
-                "doc": "El numero de @Color para muestrar en una fila" 
+            "width": {
+                "names": ["ancho"],
+                "doc": "El numero de @Color para muestrar en una fila"
             },
-            "height": { 
-                "names": ["altura"], 
-                "doc": "El numero de @Color para muestrar en una columna." 
+            "height": {
+                "names": ["altura"],
+                "doc": "El numero de @Color para muestrar en una columna."
             },
-            "frequency": { 
-                "names": ["frecuencia"], 
-                "doc": "El tiempo entre @Color muestras." }
+            "frequency": {
+                "names": ["frecuencia"],
+                "doc": "El tiempo entre @Color muestras."
+            }
         },
         "Motion": {
             "names": "movimiento",
-            "doc": ["/Hey! @DefinicionDeFuncion aqui. Que tal si te explico @Movimiento?", "Basicamente, @Movimiento es un stream de @Frase. Le pasas un @Frase inicial, y depues la refina a un nuevo lugar y rotacion basado en la gravedad.", "Esto te deja hace cosas simples como crear un emoji rebotando:", "\\Movimiento(Phrase('o') comienzo: Lugar(0m 10m))\\", "Ves como rebota? En la primera evaluacion, le damos una posición alta en el @Escenario, pero depues, recive @Nada, lo cual deja que el @Movimiento pueda cambiar a cualquier posición en que la gravedad la puede poner", "Mira otras maneras the configurarlo abajo."],
-            "type": { "doc": "La @Frase para refinar la nueva @Frase/descancado en lugars y rotaciones.", "names": "tipo" },
-            "startplace": { "doc": "El lugar inical para la @Frase", "names": "lugarInicial" },
-            "startvx": { "doc": "La velocidad inicial sobre el eje x en la que la @Frase deberia de moverse ", "names": "vxinicial" },
-            "startvy": { "doc": "La velocidad incial sobre el eje y, en la que la @Frase deberia de moverse, si anula la gravedad", "names": "vyinicial" },
-            "startvz": { "doc": "La velocidad inicial sobre el eje z, en la que la @Frase bederia moverse", "names": "vzinicia" },
-            "startvangle": { "doc": "La velocidad rotacional incia en la que la @Frase deberia de rotar", "names": "angulavinicial" },
-            "vx": { "doc": "La velocidad sobre el eje x, en la cual la @Frase deberia de moverse, independientemente de la fisica.", "names": "vx" },
-            "vy": { "doc": "La velocidad sobre el eje y, en la cual la @Frase deberia de moverse, independientemente de la fisica", "names": "vy" },
-            "vz": { "doc": "La velocidad sobre el eje z, en la cual la @Frase deberia de moverse, independientement de la fisica", "names": "vz" },
-            "vangle": { "doc": "La velocidad rotacional, en la cual la @Frase deberia de rotar, independientemente de la fisica", "names": "angulov" },
-            "mass": { "doc": "La cantidad de masa de una @Frase, que puede afectar colisiones.", "names": "masa" },
-            "bounciness": { "doc": "La fraccion entre 0 y 1 que determina cuanto la velocidad sera amortiguada cuando una @Frase choca", "names": "rebote" },
-            "gravity": { "doc": "La gravedad para aplicar a @Movimientio/vy", "names": "gravedad" }
+            "doc": [
+                "/Hey! @DefinicionDeFuncion aqui. Que tal si te explico @Movimiento?",
+                "Basicamente, @Movimiento es un stream de @Frase. Le pasas un @Frase inicial, y depues la refina a un nuevo lugar y rotacion basado en la gravedad.",
+                "Esto te deja hace cosas simples como crear un emoji rebotando:",
+                "\\Movimiento(Phrase('o') comienzo: Lugar(0m 10m))\\",
+                "Ves como rebota? En la primera evaluacion, le damos una posición alta en el @Escenario, pero depues, recive @Nada, lo cual deja que el @Movimiento pueda cambiar a cualquier posición en que la gravedad la puede poner",
+                "Mira otras maneras the configurarlo abajo."
+            ],
+            "type": {
+                "doc": "La @Frase para refinar la nueva @Frase/descancado en lugars y rotaciones.",
+                "names": "tipo"
+            },
+            "startplace": {
+                "doc": "El lugar inical para la @Frase",
+                "names": "lugarInicial"
+            },
+            "startvx": {
+                "doc": "La velocidad inicial sobre el eje x en la que la @Frase deberia de moverse ",
+                "names": "vxinicial"
+            },
+            "startvy": {
+                "doc": "La velocidad incial sobre el eje y, en la que la @Frase deberia de moverse, si anula la gravedad",
+                "names": "vyinicial"
+            },
+            "startvz": {
+                "doc": "La velocidad inicial sobre el eje z, en la que la @Frase bederia moverse",
+                "names": "vzinicia"
+            },
+            "startvangle": {
+                "doc": "La velocidad rotacional incia en la que la @Frase deberia de rotar",
+                "names": "angulavinicial"
+            },
+            "vx": {
+                "doc": "La velocidad sobre el eje x, en la cual la @Frase deberia de moverse, independientemente de la fisica.",
+                "names": "vx"
+            },
+            "vy": {
+                "doc": "La velocidad sobre el eje y, en la cual la @Frase deberia de moverse, independientemente de la fisica",
+                "names": "vy"
+            },
+            "vz": {
+                "doc": "La velocidad sobre el eje z, en la cual la @Frase deberia de moverse, independientement de la fisica",
+                "names": "vz"
+            },
+            "vangle": {
+                "doc": "La velocidad rotacional, en la cual la @Frase deberia de rotar, independientemente de la fisica",
+                "names": "angulov"
+            },
+            "mass": {
+                "doc": "La cantidad de masa de una @Frase, que puede afectar colisiones.",
+                "names": "masa"
+            },
+            "bounciness": {
+                "doc": "La fraccion entre 0 y 1 que determina cuanto la velocidad sera amortiguada cuando una @Frase choca",
+                "names": "rebote"
+            },
+            "gravity": {
+                "doc": "La gravedad para aplicar a @Movimientio/vy",
+                "names": "gravedad"
+            }
         },
         "Chat": {
-            "doc": ["$?"],
-            "names": "$?"
+            "doc": [
+                "/Hola! @DeficionDeFuncion aqui. Entonces quieres charlar?",
+                "La idea basica de el stream de charla, esque la audencia escribe un mensaje, y el program le responde.",
+                "Por ejemplo, ese simple programa, chequea si el mensaje es 'hola', y si es asi, el programa lo evalua a 'hey!'. De no ser asi, se evaluara a 'que?'",
+                "\\Charla().tiene('hola') ? 'hey! 'que?'\\",
+                "Asi de facil! Tu puedes hacer todo tipo de actuacciones con esto, con bots para chatear, aventuras de texto, o esquemas de control basados en texto para otro tipo de actuacciones"
+            ],
+            "names": "Charla"
         },
         "Placement": {
-            "doc": ["$?"],
-            "names": "$? Placement",
+            "doc": ["colocación"],
+            "names": [
+                "/Hola, @DefinicionDeFuncion aqui. Vamos a hablar sobre como hacer que nos movamos!/",
+                "Hay muchas maneras de colocarnos en un @Escenario. Nos puedes dar un @Lugar explicito. Tambien puedes usar @Movimientio, y deja que la gravedad haga su trabajo. Tambien nos puedes poner en un @Grupo y deja que nos arreglen en una manera particular.",
+                "Pero hay veces tu le quieres dar a la /audiencia/ el control sobre en donde estamos en el @Escenario. Para eso el @Colocacion.",
+                "Asi es como funciona: simplemente crea una @Colocacion y pasaselo a nuestro @Lugar:",
+                "\\Frase('hola' lugar:Colocacion())\\",
+                "Entonces, cada ves que la audencia use una tecla de flecha or haga click o tap en el escenario, la @Colocacion "
+            ],
             "inputs": [
                 {
                     "doc": "$?",
@@ -2223,34 +2341,34 @@
                         "label": "disposición",
                         "modes": [
                             "automática",
-                            "horizontal", 
-                            "vertical", 
+                            "horizontal",
+                            "vertical",
                             "libre"
                         ]
                     },
                     "animate": {
                         "label": "animaciones",
                         "modes": [
-                            "apagada", 
-                            "prendida ", 
-                            "velocidad media", 
-                            "velocidad tercera ", 
+                            "apagada",
+                            "prendida ",
+                            "velocidad media",
+                            "velocidad tercera ",
                             "velocidad a quarto"
                         ]
                     },
                     "dark": {
                         "label": "tema",
                         "modes": [
-                            "colores claros", 
-                            "colores oscuros", 
+                            "colores claros",
+                            "colores oscuros",
                             "usar el ajuste del aparato"
                         ]
                     },
                     "writing": {
                         "label": "disposición de escritura",
                         "modes": [
-                            "horizontal, de izquierda a derecha", 
-                            "vertical, de derecha a izquierda", 
+                            "horizontal, de izquierda a derecha",
+                            "vertical, de derecha a izquierda",
                             "vertical, de izquierda a derecha"
                         ]
                     }
