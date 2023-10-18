@@ -2632,15 +2632,15 @@
                         "tip": "登出你的账号",
                         "label": "登出"
                     },
-                    "login": "$?",
-                    "update": "$?",
+                    "login": "用这个邮件登录，发送一个登录链接",
+                    "update": "修改邮件",
                     "delete": {
-                        "tip": "$?",
-                        "label": "$?"
+                        "tip": "注销我的账号",
+                        "label": "删除我的用户信息。。。"
                     },
                     "reallyDelete": {
-                        "tip": "$?",
-                        "label": "$?"
+                        "tip": "永远注销账号",
+                        "label": "注销！！！"
                     }
                 }
             },
@@ -2663,7 +2663,7 @@
             "replace": "$?",
             "wrap": "$?",
             "unwrap": "$?",
-            "bind": "$?"
+            "bind": "给这个表达命名"
         },
         "template": {
             "unwritten": "待定",
