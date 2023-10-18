@@ -113,6 +113,7 @@ export default class Phrase extends Output {
     readonly alignment: string | undefined;
     readonly direction: WritingLayoutSymbol;
     readonly matter: Matter | undefined;
+    readonly shadow: Pose | undefined;
 
     private _metrics: Metrics | undefined = undefined;
 
@@ -158,7 +159,7 @@ export default class Phrase extends Output {
             style
         );
 
-        console.log(this);
+        this.shadow = shadow;
         this.text = text;
         this.wrap = wrap === undefined ? undefined : Math.max(1, wrap);
         this.alignment = alignment;
