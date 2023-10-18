@@ -5,6 +5,7 @@ import type Value from '../values/Value';
 import { toNumber } from './Stage';
 import Valued, { getOutputInputs } from './Valued';
 import { PX_PER_METER } from './outputToCSS';
+import Color from './Color'
 
 export abstract class Form extends Valued {
     /** Should return a valid CSS clip-path value */
@@ -102,6 +103,82 @@ export class Rectangle extends Form {
 
     getDescription(locales: Locales): string {
         return locales.get((l) => getFirstName(l.output.Rectangle.names));
+    }
+}
+
+export class Line extends Form {
+    readonly x1: number;
+    readonly y1: number;
+    readonly x2: number;
+    readonly y2: number;
+    readonly color: Color;
+    
+    // Calculate the rectangle coordinates that enclose the line
+    constructor(
+        value: Value,
+        x1: number,
+        y1: number,
+        x2: number,
+        y2: number,
+        color: Color
+    ) {
+        super(value);
+
+        this.x1 = x1;
+        this.y1 = y1;
+        this.x2 = x2;
+        this.y2 = y2;
+        this.color = color;
+    }
+
+    getLeft() {
+        return Math.min(this.left, this.right);
+    }
+
+    getTop() {
+        return Math.max(this.top, this.bottom);
+    }
+
+    getZ() {
+        return this.z;
+    }
+
+    getWidth() {
+        return Math.abs(this.left - this.right);
+    }
+
+    getHeight() {
+        return Math.abs(this.bottom - this.top);
+    }
+
+    getPoints() {
+        const left = this.getLeft() * PX_PER_METER;
+        const top = -this.getTop() * PX_PER_METER;
+        const right = (this.getLeft() + this.getWidth()) * PX_PER_METER;
+        const bottom = -(this.getTop() - this.getHeight()) * PX_PER_METER;
+        return { left, top, right, bottom };
+    }
+
+    toCSSClip() {
+        const { left, top, right, bottom } = this.getPoints();
+        return `polygon(${left}px ${top}px, ${left}px ${bottom}px, ${right}px ${bottom}px, ${right}px ${top}px)`;
+    }
+
+    toSVGPath() {
+        const { left, top, right, bottom } = this.getPoints();
+        const minX = Math.min(left, right);
+        const minY = Math.min(top, bottom);
+        return `M ${left - minX} ${top - minY} L ${left - minX} ${
+            bottom - minY
+        } L ${right - minX} ${bottom - minY} L ${right - minX} ${top - minY} Z`;
+    }
+
+    getLength() {
+        return Math.sqrt(Math.pow(this.x2 - this.x1, 2) + Math.pow(this.y2 - this.y1, 2));
+    }
+
+    getDescription(locales: Locales): string {
+        return locales.get((l) => getFirstName(l.output.Line.names));
     }
 }
 
