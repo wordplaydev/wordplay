@@ -6621,6 +6621,10 @@
                   "$ref": "#/definitions/NameAndDoc",
                   "description": "The background color behind a phrase, group, or stage"
                 },
+                "blur": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "The shadow blur property (testing)"
+                },
                 "color": {
                   "$ref": "#/definitions/NameAndDoc",
                   "description": "The color of glyphs in a phrase, group, or stage"
@@ -6720,6 +6724,7 @@
               },
               "required": [
                 "background",
+                "blur",
                 "color",
                 "content",
                 "description",
@@ -6811,6 +6816,10 @@
                 "background": {
                   "$ref": "#/definitions/NameAndDoc",
                   "description": "The background color behind a phrase, group, or stage"
+                },
+                "blur": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "The shadow blur property (testing)"
                 },
                 "color": {
                   "$ref": "#/definitions/NameAndDoc",
@@ -6916,6 +6925,7 @@
               "required": [
                 "alignment",
                 "background",
+                "blur",
                 "color",
                 "description",
                 "direction",
@@ -6987,6 +6997,10 @@
               "additionalProperties": false,
               "description": "A pose, for use in overriding an output's defaults for entering, resting, moving, or existing states",
               "properties": {
+                "blur": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "The shadow property (testing)"
+                },
                 "color": {
                   "$ref": "#/definitions/NameAndDoc"
                 },
@@ -7028,6 +7042,7 @@
                 }
               },
               "required": [
+                "blur",
                 "color",
                 "description",
                 "doc",
@@ -7168,6 +7183,10 @@
                   "$ref": "#/definitions/NameAndDoc",
                   "description": "The background color behind a phrase, group, or stage"
                 },
+                "blur": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "The shadow property (testing)"
+                },
                 "color": {
                   "$ref": "#/definitions/NameAndDoc",
                   "description": "The color of glyphs in a phrase, group, or stage"
@@ -7243,6 +7262,7 @@
               },
               "required": [
                 "background",
+                "blur",
                 "color",
                 "doc",
                 "duration",
@@ -7305,6 +7325,10 @@
                 "background": {
                   "$ref": "#/definitions/NameAndDoc",
                   "description": "The background color behind a phrase, group, or stage"
+                },
+                "blur": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "The shadow blur property (testing)"
                 },
                 "color": {
                   "$ref": "#/definitions/NameAndDoc",
@@ -7405,6 +7429,7 @@
               },
               "required": [
                 "background",
+                "blur",
                 "color",
                 "content",
                 "description",

@@ -92,6 +92,7 @@ export function createPhraseType(locales: Locales) {
             (locale) => locale.output.Phrase.direction,
         )}•'${HorizontalLayout}'|'${VerticalRightLeftLayout}'|'${VerticalLeftRightLayout}': '${HorizontalLayout}'
         ${getBind(locales, (locale) => locale.output.Phrase.matter)}•Matter|ø: ø
+        ${getBind(locales, (locale) => locale.output.Phrase.shadow)}•ø|🤪: ø
     )`);
 }
 
@@ -137,6 +138,7 @@ export default class Phrase extends Output {
         alignment: string | undefined,
         direction: WritingLayoutSymbol,
         matter: Matter | undefined,
+        shadow: Pose | undefined = undefined,
     ) {
         super(
             value,
@@ -153,6 +155,7 @@ export default class Phrase extends Output {
             exiting,
             duration,
             style,
+            shadow,
         );
 
         this.text = text;
@@ -409,6 +412,7 @@ export function toPhrase(
         exiting: exit,
         duration,
         style,
+        shadow,
     } = getTypeStyle(project, value, 1);
 
     const wrap = toNumber(getOutputInput(value, 20));
@@ -442,6 +446,7 @@ export function toPhrase(
               alignment?.text,
               direction.text as WritingLayoutSymbol,
               matter,
+              shadow,
           )
         : undefined;
 }

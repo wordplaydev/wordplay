@@ -63,7 +63,6 @@
             ? withVariationSelector(text.replaceAll(' ', '\xa0'))
             : text.replaceAll(' ', '\xa0');
 </script>
-
 <span
     class="token-view token-category-{TokenCategories.get(
         Array.isArray(node.types) ? node.types[0] ?? 'default' : node.types

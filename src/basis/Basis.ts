@@ -121,11 +121,11 @@ export class Basis {
         kind: string,
         context: Context,
         input: Type,
-        output: Type
+        output: Type,
     ): ConversionDefinition | undefined {
         if (!(kind in this.conversionsByType)) return undefined;
         return this.conversionsByType[kind].find((c) =>
-            c.convertsTypeTo(input, output, context)
+            c.convertsTypeTo(input, output, context),
         );
     }
 
@@ -136,20 +136,20 @@ export class Basis {
                 ...all,
                 ...next,
             ],
-            []
+            [],
         );
     }
 
     getFunction(
         kind: BasisTypeName,
-        name: string
+        name: string,
     ): FunctionDefinition | undefined {
         if (!(kind in this.functionsByType)) return undefined;
         return this.functionsByType[kind][name];
     }
 
     getStructureDefinition(
-        kind: BasisTypeName
+        kind: BasisTypeName,
     ): StructureDefinition | undefined {
         return this.structureDefinitionsByName[kind];
     }
@@ -169,7 +169,7 @@ export function createBasisFunction(
     typeVars: TypeVariables | undefined,
     types: (Type | [Type, Expression])[],
     output: Type,
-    evaluator: (requestor: Expression, evaluator: Evaluation) => Value
+    evaluator: (requestor: Expression, evaluator: Evaluation) => Value,
 ) {
     return FunctionDefinition.make(
         getDocLocales(locales, (l) => text(l).doc),
@@ -177,14 +177,14 @@ export function createBasisFunction(
         typeVars,
         createInputs(locales, (l) => text(l).inputs, types),
         new InternalExpression(output, [], evaluator),
-        output
+        output,
     );
 }
 
 export function createEqualsFunction(
     locales: Locales,
     text: (locale: Locale) => FunctionText<NameAndDoc[]>,
-    equal: boolean
+    equal: boolean,
 ) {
     return createBasisFunction(
         locales,
@@ -201,7 +201,7 @@ export function createEqualsFunction(
             if (!(right instanceof Value))
                 return new ValueException(evaluation.getEvaluator(), requestor);
             return new BoolValue(requestor, left.isEqualTo(right) === equal);
-        }
+        },
     );
 }
 
@@ -209,7 +209,7 @@ export function createBasisConversion<ValueType extends Value>(
     docs: Docs,
     input: Type | string,
     output: Type | string,
-    convert: (requestor: Expression, value: ValueType) => Value
+    convert: (requestor: Expression, value: ValueType) => Value,
 ) {
     // Parse the expected type.
     const inputType =
@@ -227,7 +227,7 @@ export function createBasisConversion<ValueType extends Value>(
                 val instanceof Value &&
                 inputType.accepts(
                     val.getType(evaluation.getContext()),
-                    evaluation.getContext()
+                    evaluation.getContext(),
                 )
             )
                 return convert(requestor, val as ValueType);
@@ -235,8 +235,8 @@ export function createBasisConversion<ValueType extends Value>(
                 return evaluation.getValueOrTypeException(
                     requestor,
                     inputType,
-                    val
+                    val,
                 );
-        })
+        }),
     );
 }
