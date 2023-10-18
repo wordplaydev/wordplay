@@ -42,6 +42,7 @@ export type TypeTexts = {
     /** The shadow blur property (testing) */
     blur: NameAndDoc;
     /** The shadow prop*/
+    shadow: NameAndDoc;
 };
 
 type OutputTexts = {
@@ -68,6 +69,8 @@ type OutputTexts = {
         alignment: NameAndDoc;
         /** The matter properties for the phrase */
         matter: NameAndDoc;
+        /** The shadow properties for the phrase */
+        shadow: NameAndDoc
         /** A description of the phrase for screen readers. 1$: non-optional text, $2: optional name, $3: optional size, $4: optional font, $5: then non-optional pose */
         description: Template;
     } & TypeTexts;
@@ -121,6 +124,7 @@ type OutputTexts = {
         style: NameAndDoc;
         /** The shadow property (testing) */
         blur: NameAndDoc;
+        shadow: NameAndDoc;
     };
     /** A rectangle shape, for Stage.frame */
     Rectangle: NameAndDoc & {

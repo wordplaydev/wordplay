@@ -3433,7 +3433,7 @@
                 "doc": "How blurry a @Output's shadow should be",
                 "names": "blur"
             },
-            "description": "$1[transparent $1|] $2[rotated $2 degrees|] $3[scaled $3|] $4[flipped horizontally|] $5[flipped vertically|] $6[offset $6 pixels]"
+            "description": "$1[transparent $1|] $2[rotated $2 degrees|] $3[scaled $3|] $4[flipped horizontally|] $5[flipped vertically|] $6[shadow blurred $6 pixels]"
         },
         "Color": {
             "doc": [
