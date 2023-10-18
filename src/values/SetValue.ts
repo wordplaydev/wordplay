@@ -97,7 +97,7 @@ export default class SetValue extends SimpleValue {
         return 'set';
     }
 
-    toWordplay(locales: Locales): string {
+    toWordplay(locales?: Locales): string {
         return `${SET_OPEN_SYMBOL}${Array.from(this.values)
             .map((value) => value.toWordplay(locales))
             .join(' ')}${SET_CLOSE_SYMBOL}`;

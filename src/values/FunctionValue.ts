@@ -39,7 +39,7 @@ export default class FunctionValue extends Value {
         return undefined;
     }
 
-    toWordplay(locales: Locales) {
+    toWordplay(locales?: Locales) {
         return `${FUNCTION_SYMBOL} ${
             locales
                 ? locales.getName(this.definition.names)

@@ -152,7 +152,7 @@ export default class ListValue extends SimpleValue {
         return 'list';
     }
 
-    toWordplay(locales: Locales): string {
+    toWordplay(locales?: Locales): string {
         return `${LIST_OPEN_SYMBOL}${Array.from(this.values)
             .map((value) => value.toWordplay(locales))
             .join(' ')}${LIST_CLOSE_SYMBOL}`;

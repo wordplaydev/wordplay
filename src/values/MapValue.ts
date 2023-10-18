@@ -111,7 +111,7 @@ export default class MapValue extends SimpleValue {
         return 'map';
     }
 
-    toWordplay(locales: Locales): string {
+    toWordplay(locales?: Locales): string {
         return `${SET_OPEN_SYMBOL}${this.values
             .map(
                 ([key, value]) =>
