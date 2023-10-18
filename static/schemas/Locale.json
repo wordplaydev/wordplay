@@ -6713,6 +6713,10 @@
                   "$ref": "#/definitions/NameAndDoc",
                   "description": "Whether a phrase, group, or stage is selectable by Choice"
                 },
+                "shadow": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "The shadow prop"
+                },
                 "size": {
                   "$ref": "#/definitions/NameAndDoc",
                   "description": "How tall glyphs in a phrase, group, or stage should be"
@@ -6747,6 +6751,7 @@
                 "rotation",
                 "scale",
                 "selectable",
+                "shadow",
                 "size",
                 "style"
               ],
@@ -6905,6 +6910,10 @@
                   "$ref": "#/definitions/NameAndDoc",
                   "description": "Whether a phrase, group, or stage is selectable by Choice"
                 },
+                "shadow": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "The shadow properties for the phrase"
+                },
                 "size": {
                   "$ref": "#/definitions/NameAndDoc",
                   "description": "How tall glyphs in a phrase, group, or stage should be"
@@ -6947,6 +6956,7 @@
                 "rotation",
                 "scale",
                 "selectable",
+                "shadow",
                 "size",
                 "style",
                 "text",
@@ -7255,6 +7265,9 @@
                   "$ref": "#/definitions/NameAndDoc",
                   "description": "Whether a phrase, group, or stage is selectable by Choice"
                 },
+                "shadow": {
+                  "$ref": "#/definitions/NameAndDoc"
+                },
                 "style": {
                   "$ref": "#/definitions/NameAndDoc",
                   "description": "The transition style of transitions"
@@ -7280,6 +7293,7 @@
                 "rotation",
                 "scale",
                 "selectable",
+                "shadow",
                 "style"
               ],
               "type": "object"
@@ -7418,6 +7432,10 @@
                   "$ref": "#/definitions/NameAndDoc",
                   "description": "Whether a phrase, group, or stage is selectable by Choice"
                 },
+                "shadow": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "The shadow prop"
+                },
                 "size": {
                   "$ref": "#/definitions/NameAndDoc",
                   "description": "How tall glyphs in a phrase, group, or stage should be"
@@ -7452,6 +7470,7 @@
                 "rotation",
                 "scale",
                 "selectable",
+                "shadow",
                 "size",
                 "style"
               ],

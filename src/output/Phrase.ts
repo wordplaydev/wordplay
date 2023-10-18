@@ -154,10 +154,11 @@ export default class Phrase extends Output {
             moving,
             exiting,
             duration,
-            style,
             shadow,
+            style
         );
 
+        console.log(this);
         this.text = text;
         this.wrap = wrap === undefined ? undefined : Math.max(1, wrap);
         this.alignment = alignment;
@@ -411,7 +412,7 @@ export function toPhrase(
         moving: move,
         exiting: exit,
         duration,
-        style,
+        style
         shadow,
     } = getTypeStyle(project, value, 1);
 

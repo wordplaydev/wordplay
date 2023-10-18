@@ -151,6 +151,7 @@ export function getStyle(
         exitVal,
         durationVal,
         styleVal,
+        blurVal
     ] = getOutputInputs(value, index);
 
     const name = toText(nameVal);
@@ -163,6 +164,7 @@ export function getStyle(
     const scale = toNumber(scaleVal);
     const flipx = toBoolean(flipxVal);
     const flipy = toBoolean(flipyVal);
+    const blur = toNumber(blurVal);
 
     const pose = new DefinitePose(
         value,
@@ -173,7 +175,8 @@ export function getStyle(
         place?.rotation ?? rotation,
         scale,
         flipx,
-        flipy
+        flipy,
+        blur
     );
 
     const rest = toPose(project, restVal) ?? toSequence(project, restVal);
