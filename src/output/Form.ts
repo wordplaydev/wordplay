@@ -5,7 +5,7 @@ import type Value from '../values/Value';
 import { toNumber } from './Stage';
 import Valued, { getOutputInputs } from './Valued';
 import { PX_PER_METER } from './outputToCSS';
-import Color from './Color'
+import type Color from './Color';
 
 /** This is a wrapper class for a Form value, which represents some kind of shape that's used as a collision boundary. */
 export abstract class Form extends Valued {
@@ -113,6 +113,7 @@ export class Line extends Form {
     readonly y1: number;
     readonly x2: number;
     readonly y2: number;
+    readonly z: number;
     readonly color: Color;
     
     constructor(
@@ -129,15 +130,16 @@ export class Line extends Form {
         this.y1 = y1;
         this.x2 = x2;
         this.y2 = y2;
+        this.z = 0;
         this.color = color;
     }
 
-    getX1() {
-        return Math.min(this.left, this.right);
+    getLeft() {
+        return Math.min(this.x1, this.x2);
     }
 
     getTop() {
-        return Math.max(this.top, this.bottom);
+        return Math.max(this.y1, this.y2);
     }
 
     getZ() {
@@ -145,11 +147,11 @@ export class Line extends Form {
     }
 
     getWidth() {
-        return Math.abs(this.left - this.right);
+        return Math.abs(this.x1 - this.x2);
     }
 
     getHeight() {
-        return Math.abs(this.bottom - this.top);
+        return Math.abs(this.y1 - this.y2);
     }
 
     getPoints() {
