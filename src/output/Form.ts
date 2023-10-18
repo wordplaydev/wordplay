@@ -113,7 +113,6 @@ export class Line extends Form {
     readonly y2: number;
     readonly color: Color;
     
-    // Calculate the rectangle coordinates that enclose the line
     constructor(
         value: Value,
         x1: number,
@@ -131,7 +130,7 @@ export class Line extends Form {
         this.color = color;
     }
 
-    getLeft() {
+    getX1() {
         return Math.min(this.left, this.right);
     }
 
