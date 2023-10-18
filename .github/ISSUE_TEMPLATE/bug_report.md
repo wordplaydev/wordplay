@@ -2,7 +2,7 @@
 name: Bug report
 about: Tell us about something that seems broken
 title: ''
-labels: defect
+labels: ['defect', 'needs triage']
 assignees: ''
 ---
 
