@@ -15,6 +15,7 @@ import type Project from '../models/Project';
 import concretize from '../locale/concretize';
 
 export function createPoseType(locales: Locale[]) {
+    console.log(getBind(locales, (locale) => locale.output.Pose.blur));
     return toStructure(`
     ${getBind(locales, (locale) => locale.output.Pose, '•')}(
         ${getBind(locales, (locale) => locale.output.Pose.color)}•Color|ø: ø
@@ -24,6 +25,7 @@ export function createPoseType(locales: Locale[]) {
         ${getBind(locales, (locale) => locale.output.Pose.scale)}•#|ø: ø
         ${getBind(locales, (locale) => locale.output.Pose.flipx)}•?|ø: ø
         ${getBind(locales, (locale) => locale.output.Pose.flipy)}•?|ø: ø
+        ${getBind(locales, (locale) => locale.output.Pose.blur)}•?|ø: ø
     )
 `);
 }
@@ -36,6 +38,7 @@ export default class Pose extends Valued {
     readonly scale?: number;
     readonly flipx?: boolean;
     readonly flipy?: boolean;
+    readonly blur?: number;
 
     private _description: string | undefined = undefined;
 
@@ -47,7 +50,8 @@ export default class Pose extends Valued {
         rotation?: number,
         scale?: number,
         flipx?: boolean,
-        flipy?: boolean
+        flipy?: boolean,
+        blur?: number
     ) {
         super(value);
 
@@ -58,6 +62,7 @@ export default class Pose extends Valued {
         this.scale = scale;
         this.flipx = flipx;
         this.flipy = flipy;
+        this.blur = blur;
     }
 
     /** Override non-empty values with the values in the given pose */
@@ -70,7 +75,8 @@ export default class Pose extends Valued {
             pose.rotation ?? this.rotation,
             pose.scale ?? this.scale,
             pose.flipx ?? this.flipx,
-            pose.flipy ?? this.flipy
+            pose.flipy ?? this.flipy,
+            pose.blur ?? this.blur
         );
     }
 
@@ -110,7 +116,8 @@ export default class Pose extends Valued {
             this.rotation === pose.rotation &&
             this.scale === pose.scale &&
             this.flipx === pose.flipx &&
-            this.flipy === pose.flipy
+            this.flipy === pose.flipy &&
+            this.blur === pose.blur
         );
     }
 }
@@ -124,9 +131,10 @@ export class DefinitePose extends Pose {
         rotation: number | undefined,
         scale: number | undefined,
         flipx: boolean | undefined,
-        flipy: boolean | undefined
+        flipy: boolean | undefined,
+        blur: number | undefined,
     ) {
-        super(value, color, opacity, offset, rotation, scale, flipx, flipy);
+        super(value, color, opacity, offset, rotation, scale, flipx, flipy, blur);
     }
 }
 
@@ -142,7 +150,7 @@ export function toPose(
     )
         return undefined;
 
-    const [color, opacity, offset, tilt, scale, flipx, flipy] =
+    const [color, opacity, offset, tilt, scale, flipx, flipy, blur] =
         getOutputInputs(value);
 
     return new Pose(
@@ -153,7 +161,8 @@ export function toPose(
         toNumber(tilt),
         toNumber(scale),
         toBoolean(flipx),
-        toBoolean(flipy)
+        toBoolean(flipy),
+        toNumber(blur)
     );
 }
 

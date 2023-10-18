@@ -32,6 +32,7 @@ import type Matter from './Matter';
 import { toMatter } from './Matter';
 
 export function createPhraseType(locales: Locale[]) {
+    console.log(locales)
     return toStructure(`
     ${getBind(locales, (locale) => locale.output.Phrase, '•')} Output(
         ${getBind(locales, (locale) => locale.output.Phrase.text)}•""|[""]|\`…\`
@@ -80,6 +81,7 @@ export function createPhraseType(locales: Locale[]) {
             (locale) => locale.output.Phrase.alignment
         )}•'<'|'|'|'>': '|'
         ${getBind(locales, (locale) => locale.output.Phrase.matter)}•Matter|ø: ø
+        ${getBind(locales, (locale) => locale.output.Phrase.shadow)}•ø|🤪: ø
     )`);
 }
 
@@ -122,7 +124,8 @@ export default class Phrase extends Output {
         style: string,
         wrap: number | undefined,
         alignment: string | undefined,
-        matter: Matter | undefined
+        matter: Matter | undefined,
+        shadow: Pose | undefined = undefined
     ) {
         super(
             value,
@@ -138,7 +141,8 @@ export default class Phrase extends Output {
             moving,
             exiting,
             duration,
-            style
+            style,
+            shadow
         );
 
         this.text = text;
@@ -374,6 +378,7 @@ export function toPhrase(
         exiting: exit,
         duration,
         style,
+        shadow
     } = getTypeStyle(project, value, 1);
 
     const wrap = toNumber(getOutputInput(value, 20));
@@ -403,7 +408,8 @@ export function toPhrase(
               style,
               wrap,
               alignment?.text,
-              matter
+              matter,
+              shadow
           )
         : undefined;
 }

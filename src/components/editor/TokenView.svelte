@@ -55,7 +55,6 @@
     let hidden = getHidden();
     $: hide = node ? $hidden?.has(node) : false;
 </script>
-
 <span
     class="token-view token-category-{TokenCategories.get(
         Array.isArray(node.types) ? node.types[0] ?? 'default' : node.types

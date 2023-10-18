@@ -39,6 +39,9 @@ export type TypeTexts = {
     duration: NameAndDoc;
     /** The transition style of transitions */
     style: NameAndDoc;
+    /** The shadow blur property (testing) */
+    blur: NameAndDoc;
+    /** The shadow prop*/
 };
 
 type OutputTexts = {
@@ -116,6 +119,8 @@ type OutputTexts = {
         duration: NameAndDoc;
         /** The transition style of transitions */
         style: NameAndDoc;
+        /** The shadow property (testing) */
+        blur: NameAndDoc;
     };
     /** A rectangle shape, for Stage.frame */
     Rectangle: NameAndDoc & {
@@ -141,6 +146,8 @@ type OutputTexts = {
         scale: NameAndDoc;
         flipx: NameAndDoc;
         flipy: NameAndDoc;
+        /** The shadow property (testing) */
+        blur: NameAndDoc;
         /** all optional inputs: opacity, rotation, scale, flipx, flipy */
         description: Template;
     };

@@ -6671,6 +6671,10 @@
                 "wrap": {
                   "$ref": "#/definitions/NameAndDoc",
                   "description": "The boundary at which to wrap glyphs to another line"
+                },
+                "shadow": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "The text shadow"
                 }
               },
               "required": [
@@ -6695,11 +6699,13 @@
                 "resting",
                 "rotation",
                 "scale",
+                "blur",
                 "selectable",
                 "size",
                 "style",
                 "text",
-                "wrap"
+                "wrap",
+                "shadow"
               ],
               "type": "object"
             },
@@ -6784,6 +6790,9 @@
                 },
                 "style": {
                   "$ref": "#/definitions/NameAndDoc"
+                },
+                "blur": {
+                  "$ref": "#/definitions/NameAndDoc"
                 }
               },
               "required": [
@@ -6798,6 +6807,7 @@
                 "opacity",
                 "rotation",
                 "scale",
+                "blur",
                 "style"
               ],
               "type": "object"
@@ -6990,6 +7000,10 @@
                 "scale": {
                   "$ref": "#/definitions/NameAndDoc",
                   "description": "The scale of phrase, group, or stage"
+                },
+                "blur": {
+                  "$ref": "#definitions/NameAndDoc",
+                  "description": "The blurriness of a shadow"
                 },
                 "selectable": {
                   "$ref": "#/definitions/NameAndDoc",
