@@ -37,9 +37,14 @@ export default class NodeConcept extends Concept {
      */
     hasName(name: string, locales: Locales): boolean {
         const nodeLocale = this.template.getNodeLocale(locales);
-        const match = Object.entries(locales.getLocales()[0].node).find(
-            ([, value]) => value === nodeLocale
-        );
+        const match = locales
+            .getLocales()
+            .map((locale) =>
+                Object.entries(locale.node).find(
+                    ([, value]) => value === nodeLocale
+                )
+            )
+            .find((node) => node !== undefined);
         return match ? match[0] === name || match[1].name === name : false;
     }
 
@@ -74,9 +79,10 @@ export default class NodeConcept extends Concept {
 
     getCharacter(locales: Locales): Character | undefined {
         const text = this.template.getNodeLocale(locales);
-        const match = Object.entries(locales.getLocales()[0].node).find(
-            ([, t]) => t === text
-        );
+        const match = locales
+            .getLocales()
+            .map((l) => Object.entries(l.node).find(([, t]) => t === text))
+            .find((n) => n !== undefined);
         return match ? (match[0] as Character) : undefined;
     }
 

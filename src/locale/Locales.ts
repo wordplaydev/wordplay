@@ -22,7 +22,14 @@ export default class Locales {
 
     /** Get all preferred locales */
     getLocales() {
-        return this.locales;
+        return [
+            ...this.locales.filter((l) => l !== this.fallback),
+            this.fallback,
+        ];
+    }
+
+    getPreferredLocales() {
+        return [...this.locales];
     }
 
     /** Get the language codes for the preferred locales */

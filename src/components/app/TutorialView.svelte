@@ -37,6 +37,7 @@
 
     export let progress: Progress;
     export let navigate: (progress: Progress) => void;
+    export let fallback: boolean;
 
     // Get the concept index and path from the project view and put it in
     // a store, and the store in a context so that ContextViewUI can access the index.
@@ -222,7 +223,11 @@
     on:pointerdown|stopPropagation|preventDefault={() => nextButton?.focus()}
 >
     <div class="header">
-        <Header block={false}>Learn</Header>
+        <Header block={false}
+            >{#if fallback}🚧{/if}{$locales.get(
+                (l) => l.ui.page.learn.header
+            )}</Header
+        >
         <nav>
             <Button
                 tip={$locales.get((l) => l.ui.page.learn.button.previous)}

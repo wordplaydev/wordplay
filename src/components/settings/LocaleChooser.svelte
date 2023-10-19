@@ -20,7 +20,7 @@
     let show: boolean;
 
     $: selectedLocales = $locales
-        .getLocales()
+        .getPreferredLocales()
         .map((locale) => toLocaleString(locale)) as SupportedLocale[];
 
     function select(locale: SupportedLocale) {

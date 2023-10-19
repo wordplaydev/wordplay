@@ -187,6 +187,10 @@ export default class LocalesDatabase {
         return locales;
     }
 
+    getTutorialURL(locale: string) {
+        return `/locales/${locale}/${locale}-tutorial.json`;
+    }
+
     async getTutorial(
         language: LanguageCode,
         region: RegionCode
@@ -199,13 +203,11 @@ export default class LocalesDatabase {
         let tutorial: Tutorial | undefined;
         try {
             // Load the locale's tutorial, if it exists.
-            const response = await fetch(
-                `/locales/${localeString}/${localeString}-tutorial.json`
-            );
+            const response = await fetch(this.getTutorialURL(localeString));
             tutorial = await response.json();
         } catch (err) {
-            // Couldn't load it? Show an error.
-            tutorial = undefined;
+            // Couldn't load it? Fallback to english.
+            tutorial = await (await fetch(this.getTutorialURL('en-US'))).json();
         }
 
         this.tutorialsLoaded[localeString] = tutorial;

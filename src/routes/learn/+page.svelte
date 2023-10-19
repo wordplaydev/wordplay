@@ -20,12 +20,17 @@
     import type Tutorial from '../../tutorial/Tutorial';
 
     let tutorial: Tutorial | undefined | null = undefined;
+    let fallback = false;
 
     onMount(async () => {
         tutorial = await Locales.getTutorial(
             $locales.get((l) => l.language),
             $locales.get((l) => l.region)
         );
+        fallback =
+            $locales
+                .getLanguages()
+                .some((lang) => tutorial?.language === lang) === false;
     });
 
     // If hot module reloading, and there's a locale update, refresh the tutorial.
@@ -77,6 +82,7 @@
                 $tutorialProgress.line
             )}
             {navigate}
+            {fallback}
         />
     </Page>
 {/if}
