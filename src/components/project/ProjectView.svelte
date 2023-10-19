@@ -471,7 +471,10 @@
             $page.url.searchParams.get(PROJECT_PARAM_PLAY) !== null
         ) {
             const output = layout.getOutput();
-            if (output) setFullscreen(output, true);
+            if (output) {
+                setFullscreen(output, true);
+                tick().then(() => focusTile(layout.fullscreenID));
+            }
         }
 
         layoutInitialized = true;
