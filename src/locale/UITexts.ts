@@ -1,4 +1,5 @@
 import type { SupportedFace } from '../basis/Fonts';
+import type { TileKind } from '../components/project/Tile';
 import type EditTexts from './EditTexts';
 import type { DocText, Template } from './Locale';
 
@@ -81,6 +82,8 @@ type UITexts = {
             /** Collapse the tile window */
             collapse: string;
         };
+        /** Tile labels appearing in the project footer tile toggles, except for source files. */
+        label: { [ID in TileKind]: string };
         toggle: {
             /** Enter and exit tile fullscreen mode */
             fullscreen: ToggleText;

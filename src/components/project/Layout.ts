@@ -3,22 +3,17 @@ import type Bounds from './Bounds';
 import { TileKind, Mode } from './Tile';
 import Tile from './Tile';
 
-export type TileID = string;
-
-export const OutputID = 'output';
-export const PaletteID = 'palette';
-export const DocsID = 'docs';
+export type SerializedTile = {
+    id: TileKind | string;
+    expanded: boolean;
+    bounds: Bounds | null;
+    position: Bounds;
+    kind: TileKind;
+};
 
 export type SerializedLayout = {
     fullscreen: string | null;
-    tiles: {
-        id: TileID;
-        expanded: boolean;
-        bounds: Bounds | null;
-        position: Bounds;
-        name: string;
-        kind: TileKind;
-    }[];
+    tiles: SerializedTile[];
 };
 
 export default class Layout {
@@ -43,7 +38,6 @@ export default class Layout {
                 return {
                     id: tile.id,
                     kind: tile.kind,
-                    name: tile.name,
                     bounds: tile.bounds ?? null,
                     expanded: tile.mode === Mode.Expanded,
                     position: tile.position,
@@ -61,7 +55,6 @@ export default class Layout {
                       (tile) =>
                           new Tile(
                               tile.id,
-                              tile.name,
                               tile.kind,
                               tile.expanded ? Mode.Expanded : Mode.Collapsed,
                               tile.bounds ?? undefined,
@@ -104,15 +97,15 @@ export default class Layout {
     }
 
     getPalette() {
-        return this.getTileWithID(PaletteID);
+        return this.getTileWithID(TileKind.Palette);
     }
 
     getOutput() {
-        return this.getTileWithID(OutputID);
+        return this.getTileWithID(TileKind.Output);
     }
 
     getDocs() {
-        return this.getTileWithID(DocsID);
+        return this.getTileWithID(TileKind.Documentation);
     }
 
     getSources() {
@@ -215,10 +208,12 @@ export default class Layout {
         );
         const expanded = this.expanded();
 
-        const output = expanded.find((tile) => tile.id === OutputID);
-        const palette = expanded.find((tile) => tile.id === PaletteID);
+        const output = expanded.find((tile) => tile.id === TileKind.Output);
+        const palette = expanded.find((tile) => tile.id === TileKind.Palette);
         const sources = expanded.filter((tile) => tile.id.startsWith('source'));
-        const docs = expanded.find((tile) => tile.id === DocsID);
+        const docs = expanded.find(
+            (tile) => tile.id === TileKind.Documentation
+        );
 
         let top = 0;
         const tileHeight =
@@ -296,10 +291,12 @@ export default class Layout {
         );
         const expanded = this.expanded();
 
-        const output = expanded.find((tile) => tile.id === OutputID);
-        const palette = expanded.find((tile) => tile.id === PaletteID);
+        const output = expanded.find((tile) => tile.id === TileKind.Output);
+        const palette = expanded.find((tile) => tile.id === TileKind.Palette);
         const sources = expanded.filter((tile) => tile.id.startsWith('source'));
-        const docs = expanded.find((tile) => tile.id === DocsID);
+        const docs = expanded.find(
+            (tile) => tile.id === TileKind.Documentation
+        );
 
         let left = 0;
         const tileWidth =

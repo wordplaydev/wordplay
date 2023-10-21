@@ -9722,6 +9722,31 @@
                   ],
                   "type": "object"
                 },
+                "label": {
+                  "additionalProperties": false,
+                  "description": "Tile labels appearing in the project footer tile toggles, except for source files.",
+                  "properties": {
+                    "docs": {
+                      "type": "string"
+                    },
+                    "output": {
+                      "type": "string"
+                    },
+                    "palette": {
+                      "type": "string"
+                    },
+                    "source": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "output",
+                    "docs",
+                    "source",
+                    "palette"
+                  ],
+                  "type": "object"
+                },
                 "toggle": {
                   "additionalProperties": false,
                   "properties": {
@@ -9743,6 +9768,7 @@
               },
               "required": [
                 "button",
+                "label",
                 "toggle"
               ],
               "type": "object"

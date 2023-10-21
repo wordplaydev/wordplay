@@ -51,7 +51,7 @@
     import Tile, { TileKind, Mode } from './Tile';
     import OutputView from '../output/OutputView.svelte';
     import Editor from '../editor/Editor.svelte';
-    import Layout, { DocsID, OutputID, PaletteID } from './Layout';
+    import Layout from './Layout';
     import NonSourceTileToggle from './NonSourceTileToggle.svelte';
     import Button from '../widgets/Button.svelte';
     import Palette from '../palette/Palette.svelte';
@@ -87,12 +87,7 @@
         Creators,
     } from '../../db/Database';
     import Arrangement from '../../db/Arrangement';
-    import {
-        DOCUMENTATION_SYMBOL,
-        EDIT_SYMBOL,
-        PALETTE_SYMBOL,
-        STAGE_SYMBOL,
-    } from '../../parser/Symbols';
+    import { EDIT_SYMBOL } from '../../parser/Symbols';
     import type Value from '../../values/Value';
     import {
         Restart,
@@ -364,13 +359,10 @@
                           tile
                 );
             } else {
-                const source = project
-                    .getSources()
-                    .find((_, index) => Layout.getSourceID(index) === tile.id);
+                const source = tile.getSource(project);
                 if (source)
                     newTiles.push(
                         tile
-                            .withName($locales.getName(source.names))
                             // If playing, keep the source files collapsed
                             .withMode(playing ? Mode.Collapsed : tile.mode)
                     );
@@ -398,7 +390,6 @@
 
         return new Tile(
             Layout.getSourceID(index),
-            $locales.getName(source.names),
             TileKind.Source,
             index === 0 || expandNewTile ? Mode.Expanded : Mode.Collapsed,
             undefined,
@@ -427,24 +418,21 @@
                     : // Create a layout in reading order.
                       [
                           new Tile(
-                              PaletteID,
-                              PALETTE_SYMBOL,
+                              TileKind.Palette,
                               TileKind.Palette,
                               Mode.Collapsed,
                               undefined,
                               Tile.randomPosition(1024, 768)
                           ),
                           new Tile(
-                              OutputID,
-                              STAGE_SYMBOL,
+                              TileKind.Output,
                               TileKind.Output,
                               Mode.Expanded,
                               undefined,
                               Tile.randomPosition(1024, 768)
                           ),
                           new Tile(
-                              DocsID,
-                              DOCUMENTATION_SYMBOL,
+                              TileKind.Documentation,
                               TileKind.Documentation,
                               Mode.Collapsed,
                               undefined,
@@ -1026,7 +1014,7 @@
         if (on) {
             layout = layout.isFullscreen()
                 ? layout.withoutFullscreen()
-                : layout.withFullscreen(OutputID);
+                : layout.withFullscreen(TileKind.Output);
             view?.focus();
         } else {
             layout = layout.withoutFullscreen();
@@ -1205,6 +1193,7 @@
                 {#each $arrangement === Arrangement.Free ? layout.tiles : layout.getTilesInReadingOrder() as tile (tile.id)}
                     {#if tile.isExpanded() && (layout.fullscreenID === undefined || layout.fullscreenID === tile.id)}
                         <TileView
+                            {project}
                             {tile}
                             {layout}
                             {editable}
@@ -1435,6 +1424,7 @@
                 />{:else}{project.getName()}{/if}
             {#each layout.getNonSources() as tile}
                 <NonSourceTileToggle
+                    {project}
                     {tile}
                     on:toggle={() => toggleTile(tile)}
                 />

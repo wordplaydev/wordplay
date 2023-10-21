@@ -26,7 +26,9 @@
     import Color from '../../output/Color';
     import Toggle from '../widgets/Toggle.svelte';
     import { EnterFullscreen, ExitFullscreen } from '../editor/util/Commands';
+    import type Project from '../../models/Project';
 
+    export let project: Project;
     export let tile: Tile;
     export let layout: Layout;
     export let arrangement: Arrangement;
@@ -202,7 +204,9 @@
                 {#if editable && tile.isSource()}
                     {Glyphs.Program.symbols}
                     <TextField
-                        text={tile.name}
+                        text={tile
+                            .getSource(project)
+                            ?.getPreferredName($locales.getLocales())}
                         description={$locales.get(
                             (l) => l.ui.source.field.name.description
                         )}
@@ -213,7 +217,7 @@
                         changed={handleRename}
                     />
                 {:else}
-                    {tile.name}
+                    {tile.getName(project, $locales)}
                 {/if}
                 <slot name="name" />
             </div>

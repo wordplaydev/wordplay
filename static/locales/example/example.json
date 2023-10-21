@@ -2066,6 +2066,12 @@
                     "off": "$?"
                 }
             },
+            "label": {
+                "output": "$?",
+                "palette": "$?",
+                "docs": "$?",
+                "source": "$?"
+            },
             "button": {
                 "collapse": "$?"
             }

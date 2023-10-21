@@ -2087,6 +2087,12 @@
                     "off": "mostrar esta teja"
                 }
             },
+            "label": {
+                "output": "$?",
+                "palette": "$?",
+                "docs": "$?",
+                "source": "$?"
+            },
             "button": {
                 "collapse": "colapsar esta ventana"
             }

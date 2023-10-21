@@ -3702,9 +3702,15 @@
                     "off": "expand tile to full screen"
                 },
                 "show": {
-                    "on": "hide this tile",
-                    "off": "show this tile"
+                    "on": "hide",
+                    "off": "show"
                 }
+            },
+            "label": {
+                "output": "stage",
+                "palette": "palette",
+                "docs": "guide",
+                "source": "source"
             },
             "button": {
                 "collapse": "collapse window"
