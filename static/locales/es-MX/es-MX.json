@@ -2404,6 +2404,7 @@
                 },
                 "button": {
                     "show": "cambiar idiomas",
+                    "replace": "reemplazar idomas",
                     "add": "añadir idioma",
                     "remove": "quitar idioma"
                 }

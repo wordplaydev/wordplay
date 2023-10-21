@@ -7885,6 +7885,10 @@
                           "description": "Remove a locale",
                           "type": "string"
                         },
+                        "replace": {
+                          "description": "Replace locale",
+                          "type": "string"
+                        },
                         "show": {
                           "description": "Show the locale chooser dialog",
                           "type": "string"
@@ -7893,6 +7897,7 @@
                       "required": [
                         "show",
                         "add",
+                        "replace",
                         "remove"
                       ],
                       "type": "object"

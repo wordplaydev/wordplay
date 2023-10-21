@@ -520,6 +520,8 @@ type UITexts = {
                 show: string;
                 /** Add a locale */
                 add: string;
+                /** Replace locale */
+                replace: string;
                 /** Remove a locale */
                 remove: string;
             };

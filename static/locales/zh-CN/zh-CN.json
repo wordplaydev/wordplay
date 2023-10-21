@@ -2357,6 +2357,7 @@
                 },
                 "button": {
                     "show": "$?",
+                    "replace": "$?",
                     "add": "$?",
                     "remove": "$?"
                 }

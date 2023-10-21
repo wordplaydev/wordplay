@@ -4017,9 +4017,10 @@
                     "help": "Help us translate …"
                 },
                 "button": {
-                    "show": "change languages",
-                    "add": "add language",
-                    "remove": "remove language"
+                    "show": "change locale",
+                    "replace": "replace with this locale",
+                    "add": "add this locale",
+                    "remove": "remove this locale"
                 }
             },
             "help": {
