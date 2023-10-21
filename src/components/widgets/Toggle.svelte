@@ -3,6 +3,7 @@
 <script lang="ts">
     import type { ToggleText } from '../../locale/UITexts';
     import { toShortcut, type Command } from '../editor/util/Commands';
+    import CommandHint from './CommandHint.svelte';
 
     export let tips: ToggleText;
     export let on: boolean;
@@ -46,6 +47,7 @@
             ? doToggle(event)
             : undefined}
 >
+    {#if command}<CommandHint {command} />{/if}
     <slot />
 </button>
 
@@ -68,7 +70,11 @@
         width: fit-content;
         white-space: nowrap;
         transition: transform calc(var(--animation-factor) * 200ms);
-        line-height: 1em;
+        line-height: 1;
+
+        /** Allows for command hint layout */
+        position: relative;
+        overflow: visible;
     }
 
     button.on {

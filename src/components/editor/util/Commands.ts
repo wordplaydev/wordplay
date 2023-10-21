@@ -105,13 +105,18 @@ export enum Category {
     Help = 'help',
 }
 
-export function toShortcut(command: Command) {
+export function toShortcut(
+    command: Command,
+    hideControl = false,
+    hideShift = false,
+    hideAlt = false
+) {
     const mac =
         typeof navigator !== 'undefined' &&
         navigator.userAgent.indexOf('Mac') !== -1;
-    return `${command.control ? (mac ? '⌘ ' : 'Ctrl + ') : ''}${
-        command.alt ? (mac ? '⎇ ' : 'Alt + ') : ''
-    }${command.shift ? (mac ? '⇧ ' : 'Shift + ') : ''}${
+    return `${command.control && !hideControl ? (mac ? '⌘ ' : 'Ctrl + ') : ''}${
+        command.alt && !hideAlt ? (mac ? '⎇ ' : 'Alt + ') : ''
+    }${command.shift && !hideShift ? (mac ? '⇧ ' : 'Shift + ') : ''}${
         command.keySymbol ?? command.key ?? '-'
     }`;
 }

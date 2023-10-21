@@ -37,6 +37,8 @@
         ProjectCommandContextSymbol,
         AnnouncerSymbol,
         type Announce,
+        type KeyModifierState,
+        KeyModfifierSymbol,
     } from './Contexts';
     import type Project from '@models/Project';
     import Documentation from '@components/concepts/Documentation.svelte';
@@ -182,6 +184,14 @@
     const keyboardEditIdle = writable<IdleKind>(IdleKind.Idle);
     setContext(KeyboardEditIdleSymbol, keyboardEditIdle);
     let keyboardIdleTimeout: NodeJS.Timeout | undefined = undefined;
+
+    /** Keep a project global store indicating modifier key state, so that controls can highlight themselves */
+    const keyModifiers = writable<KeyModifierState>({
+        control: false,
+        alt: false,
+        shift: false,
+    });
+    setContext(KeyModfifierSymbol, keyModifiers);
 
     // When keyboard edit idle changes to true, set a timeout
     // to reset it to false after a delay.
@@ -1047,17 +1057,38 @@
     setContext(ProjectCommandContextSymbol, commandContextStore);
 
     function handleKey(event: KeyboardEvent) {
+        syncKeyModifiers(event);
+
         if ($dragged !== undefined && event.key === 'Escape')
             dragged.set(undefined);
 
         // See if there's a command that matches...
         const [, result, matched] = handleKeyCommand(event, commandContext);
 
-        // If something handled it, consume the event.
+        // If something handled it, consume the event, and reset the modifier state.
         if (result !== false || matched) {
             event.stopPropagation();
             event.preventDefault();
+
+            // Reset the key modifiers since a command was consumed.
+            resetKeyModifiers();
         }
+    }
+
+    function resetKeyModifiers() {
+        keyModifiers.set({ control: false, alt: false, shift: false });
+    }
+
+    function handleKeyUp(event: KeyboardEvent) {
+        syncKeyModifiers(event);
+    }
+
+    function syncKeyModifiers(event: KeyboardEvent) {
+        keyModifiers.set({
+            control: event.metaKey || event.ctrlKey,
+            shift: event.shiftKey,
+            alt: event.altKey,
+        });
     }
 
     function getMenuPosition(caret: Caret) {
@@ -1153,8 +1184,10 @@
 
 <svelte:window
     on:keydown={handleKey}
+    on:keyup={handleKeyUp}
     on:pointermove={handlePointerMove}
     on:pointerup={handlePointerUp}
+    on:blur={resetKeyModifiers}
 />
 
 {#if warn}
@@ -1451,8 +1484,8 @@
                     >{$locales.get((l) => l.ui.source.overwritten)}</span
                 >
             {/if}
+            <ProjectLanguages {project} />
             <span class="help">
-                <ProjectLanguages {project} />
                 <Dialog
                     description={$locales.get((l) => l.ui.dialog.help)}
                     button={{

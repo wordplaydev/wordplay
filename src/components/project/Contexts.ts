@@ -62,6 +62,18 @@ export function getKeyboardEditIdle() {
     return getContext<KeyboardEditIdleContext>(KeyboardEditIdleSymbol);
 }
 
+export type KeyModifierState = {
+    control: boolean;
+    alt: boolean;
+    shift: boolean;
+};
+export const KeyModfifierSymbol = Symbol('modifiers');
+export function getKeyboardModifiers() {
+    return getContext<Writable<KeyModifierState> | undefined>(
+        KeyModfifierSymbol
+    );
+}
+
 export type ProjectCommandContext = Writable<CommandContext>;
 export const ProjectCommandContextSymbol = Symbol('projectcommand');
 export function getProjectCommandContext() {

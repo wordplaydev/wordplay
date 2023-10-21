@@ -10,6 +10,7 @@
     import { tokenize } from '../../parser/Tokenizer';
     import TokenView from '../editor/TokenView.svelte';
     import { tick } from 'svelte';
+    import CommandHint from './CommandHint.svelte';
 
     /** If source ID isn't provided, then the one with focus is used. */
     export let sourceID: string | undefined = undefined;
@@ -18,14 +19,13 @@
     export let focusAfter = false;
 
     const editors = getEditors();
+    const context = getProjectCommandContext();
 
     let view: HTMLButtonElement | undefined = undefined;
 
     $: editor = sourceID
         ? $editors?.get(sourceID)
         : Array.from($editors.values()).find((editor) => editor.focused);
-
-    const context = getProjectCommandContext();
 
     $: active =
         command.active === undefined
@@ -68,7 +68,7 @@
             view?.focus();
         }
     }}
-    >{#if token}<TokenView
+    ><CommandHint {command} />{#if token}<TokenView
             node={tokenize(command.symbol).getTokens()[0]}
         />{:else}{command.symbol}{/if}</Button
 >
