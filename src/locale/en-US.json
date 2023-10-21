@@ -3907,7 +3907,7 @@
                 "forwardStep": "step forward one",
                 "forwardNode": "step forward to next node evaluation",
                 "forwardInput": "step forward to next stream input",
-                "present": "to the present",
+                "present": "to the end",
                 "start": "to the beginning",
                 "reset": "restart performance"
             }
