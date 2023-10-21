@@ -1187,6 +1187,7 @@
     on:keyup={handleKeyUp}
     on:pointermove={handlePointerMove}
     on:pointerup={handlePointerUp}
+    on:focus={resetKeyModifiers}
     on:blur={resetKeyModifiers}
 />
 
