@@ -83,8 +83,6 @@
         cursor: pointer;
         width: fit-content;
         height: fit-content;
-        /* Needs to be clickable */
-        min-width: 1em;
         white-space: nowrap;
         transition: transform calc(var(--animation-factor) * 200ms);
         /* This allows command hints to be visible */
