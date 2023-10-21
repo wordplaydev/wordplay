@@ -22,6 +22,8 @@
     .languages {
         display: flex;
         flex-direction: row;
+        flex-wrap: nowrap;
+        white-space: nowrap;
         gap: var(--wordplay-spacing);
         font-size: medium;
         color: var(--wordplay-inactive-color);
