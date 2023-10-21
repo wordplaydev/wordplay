@@ -42,14 +42,16 @@ if (typeof process === 'undefined') {
         // Initialize Firebase
         const app = uninitialized ? initializeApp(firebaseConfig) : getApp();
 
+        const emulating = PUBLIC_CONTEXT === 'local';
+
         auth = getAuth(app);
 
         firestore = getFirestore(app);
         functions = getFunctions(app);
-        analytics = getAnalytics(app);
+        analytics = emulating ? undefined : getAnalytics(app);
 
         // Initialize emulator if environment is local.
-        if (PUBLIC_CONTEXT === 'local') {
+        if (emulating) {
             connectFirestoreEmulator(firestore, 'localhost', 8080);
             connectAuthEmulator(auth, 'http://localhost:9099');
             connectFunctionsEmulator(functions, 'localhost', 5001);

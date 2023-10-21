@@ -2555,7 +2555,7 @@
                 "header": "Iniciar sesión",
                 "anonymous": "iniciar sesión",
                 "prompt": {
-                    "login": "Tus actuaciones se están guardando en este dispositivo en vez de en línea. Para guardarlas en línea, envía tu correo electrónico para obtener un enlace de inicio de sesión.",
+                    "login": "$! Tus actuaciones se están guardando en este dispositivo en vez de en línea. Para guardarlas en línea, envía tu correo electrónico para obtener un enlace de inicio de sesión.",
                     "enter": "Parece que tu enlace de inicio de sesión vino de un navegador o dispositivo diferente. ¿Puedes ingresar tu correo electrónico nuevamente, solo para estar seguros de que eres tú?",
                     "play": "Estás conectado, ¡podemos guardar tus proyectos en línea ahora! ¿Quieres crear algo?",
                     "change": "¿Quieres cambiar tu correo electrónico? Envía uno nuevo y te enviaremos una confirmación al antiguo.",
