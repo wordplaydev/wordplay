@@ -57,6 +57,10 @@
         position: relative;
     }
 
+    [disabled] {
+        color: var(--wordplay-inactive-color);
+    }
+
     input {
         width: auto;
         height: 100%;

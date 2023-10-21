@@ -8,7 +8,7 @@
     import { auth } from '../../db/firebase';
     import TextField from '../../components/widgets/TextField.svelte';
     import Spinning from '../../components/app/Spinning.svelte';
-    import validateEmail from '../../db/validEmail';
+    import validEmail from '../../db/validEmail';
     import Feedback from '../../components/app/Feedback.svelte';
     import { isModerator } from '../../models/Moderation';
     import { getLoginErrorDescription } from './login';
@@ -75,7 +75,7 @@
     }
 
     function readyToDeleteAccount(email: string) {
-        return validateEmail(email) && email === user.email;
+        return validEmail(email) && email === user.email;
     }
 </script>
 
@@ -128,7 +128,7 @@
             /><Button
                 submit
                 tip={$locales.get((l) => l.ui.page.login.button.update)}
-                active={validateEmail(newEmail)}
+                active={validEmail(newEmail)}
                 action={() => undefined}>&gt;</Button
             >
             {#if changeSubmitted}<Spinning

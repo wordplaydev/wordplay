@@ -2,7 +2,7 @@
 <script lang="ts">
     import type { Creator } from '../../db/CreatorDatabase';
     import { DB, locales } from '../../db/Database';
-    import validateEmail from '../../db/validEmail';
+    import validEmail from '../../db/validEmail';
     import CreatorView from '../app/CreatorView.svelte';
     import Feedback from '../app/Feedback.svelte';
     import Spinning from '../app/Spinning.svelte';
@@ -27,7 +27,7 @@
 
     function validCollaborator(email: string) {
         // Don't add self
-        return validateEmail(email) && email !== DB.getUserEmail();
+        return validEmail(email) && email !== DB.getUserEmail();
     }
 
     async function addCreator() {
@@ -56,7 +56,7 @@
             description={$locales.get(
                 (l) => l.ui.dialog.share.field.email.description
             )}
-            validator={validateEmail}
+            validator={validEmail}
         />
         <Button
             tip={$locales.get((l) => l.ui.dialog.share.button.submit)}

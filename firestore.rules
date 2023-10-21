@@ -22,7 +22,7 @@ service cloud.firestore {
         ('public' in resource.data && resource.data.public) || 
         (request.auth != null && 
           ( 
-            request.auth.token.mod ||
+            ("mod" in request.auth.token && request.auth.token.mod) ||
             ('owner' in resource.data && resource.data.owner == request.auth.uid) || 
             ('collaborators' in resource.data && request.auth.uid in resource.data.collaborators) || 
             ('gallery' in resource.data && resource.data.gallery != null && isInPublicGalleryOrIsCreator(request.auth.uid, resource.data.gallery))
@@ -43,7 +43,7 @@ service cloud.firestore {
     }
     match /galleries/{gallery} {
       allow create: if request.auth != null;
-      allow read: if resource.data.public || (request.auth != null && (request.auth.uid in resource.data.curators || request.auth.uid in resource.data.creators));
+      allow read: if ("public" in resource.data && resource.data.public) || (request.auth != null && (request.auth.uid in resource.data.curators || request.auth.uid in resource.data.creators));
       
       allow update: 
         if request.auth != null && 

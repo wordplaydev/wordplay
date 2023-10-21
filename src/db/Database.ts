@@ -140,6 +140,9 @@ export class Database {
         // Tell the projects cache.
         this.Projects.syncUser(remove);
 
+        // Tell the gallery about the new user
+        this.Galleries.clean();
+
         // Tell the settings cache.
         this.Settings.syncUser();
     }

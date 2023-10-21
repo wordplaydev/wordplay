@@ -128,7 +128,6 @@ export default class GalleryDatabase {
                 }
             }
         );
-        3;
     }
 
     /** Create a new gallery with this user as its curator. */

@@ -1,3 +1,3 @@
-const validateEmail = (text: string) => /^.+@.+\..+$/.test(text);
+const validEmail = (text: string) => /^.+@.+\..+$/.test(text);
 
-export default validateEmail;
+export default validEmail;

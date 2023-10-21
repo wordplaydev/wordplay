@@ -149,9 +149,6 @@ export default class ProjectsDatabase {
 
         const user = this.database.getUser();
 
-        // If there's no more user, do nothing.
-        if (user === null) return;
-
         // If there's no firestore access, do nothing.
         if (firestore === undefined) return;
 
@@ -160,6 +157,9 @@ export default class ProjectsDatabase {
             this.projectsQueryUnsubscribe();
             this.projectsQueryUnsubscribe = undefined;
         }
+
+        // If there's no more user, stop le, do nothing.
+        if (user === null) return;
 
         // Set up the realtime projects query for the user, tracking any projects from the cloud,
         // and deleting any tracked locally that didn't appear in the snapshot.

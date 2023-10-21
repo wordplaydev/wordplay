@@ -9,13 +9,14 @@
     import { getUser } from '../../components/project/Contexts';
     import { analytics, auth } from '../../db/firebase';
     import Button from '../../components/widgets/Button.svelte';
-    import validateEmail from '../../db/validEmail';
+    import validEmail from '../../db/validEmail';
     import Feedback from '../../components/app/Feedback.svelte';
     import { onMount } from 'svelte';
     import { signInWithEmailLink } from 'firebase/auth';
     import { logEvent } from 'firebase/analytics';
     import { FirebaseError } from 'firebase/app';
     import { getLoginErrorDescription } from './login';
+    import { goto } from '$app/navigation';
 
     let user = getUser();
     let success: boolean | undefined = undefined;
@@ -25,8 +26,10 @@
     let sent = false;
     let loginFeedback = '';
 
+    $: submittable = !sent && validEmail(email);
+
     async function startLogin() {
-        if (auth) {
+        if (auth && submittable) {
             try {
                 if (isSignInWithEmailLink(auth, window.location.href))
                     finishLogin();
@@ -65,11 +68,17 @@
                         window.location.href
                     )
                         .then(() => {
+                            // Remove the email we might have stored.
                             window.localStorage.removeItem('email');
+
+                            // Mark success to show feedback.
                             success = true;
 
-                            // Log login
+                            // Log login event
                             if (analytics) logEvent(analytics, 'login');
+
+                            // Remove the query on the URL so there's no attempt to login on refresh.
+                            goto('/login');
                         })
                         .catch((err) => communicateLoginFailure(err));
                 }
@@ -118,21 +127,18 @@
             (l) => l.ui.page.login.field.email.placeholder
         )}
         bind:text={email}
+        editable={!sent}
     /><Button
         submit
         tip={$locales.get((l) => l.ui.page.login.button.login)}
-        active={validateEmail(email)}
+        active={submittable}
         action={() => undefined}>&gt;</Button
     >
 </form>
-<p>
-    {#if sent === true}
-        <Feedback>{$locales.get((l) => l.ui.page.login.prompt.sent)}</Feedback>
-    {:else if success === true}
-        <Feedback
-            >{$locales.get((l) => l.ui.page.login.prompt.success)}</Feedback
-        >
-    {:else if success === false}
-        <Feedback>{loginFeedback}</Feedback>
-    {/if}
-</p>
+{#if sent === true}
+    <Feedback>{$locales.get((l) => l.ui.page.login.prompt.sent)}</Feedback>
+{:else if success === true}
+    <Feedback>{$locales.get((l) => l.ui.page.login.prompt.success)}</Feedback>
+{:else if success === false}
+    <Feedback>{loginFeedback}</Feedback>
+{/if}
