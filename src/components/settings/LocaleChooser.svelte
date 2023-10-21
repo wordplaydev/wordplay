@@ -8,6 +8,7 @@
         SupportedLocales,
         getLocaleLanguage,
         type SupportedLocale,
+        getLocaleLanguageName,
     } from '../../locale/Locale';
     import Link from '../app/Link.svelte';
     import concretize from '../../locale/concretize';
@@ -16,8 +17,6 @@
     import type LanguageCode from '@locale/LanguageCode';
     import LocaleName from './LocaleName.svelte';
     import { Settings } from '../../db/Database';
-
-    let show: boolean;
 
     $: selectedLocales = $locales
         .getPreferredLocales()
@@ -52,7 +51,13 @@
     }
 </script>
 
-<Dialog bind:show description={$locales.get((l) => l.ui.dialog.locale)}>
+<Dialog
+    description={$locales.get((l) => l.ui.dialog.locale)}
+    button={{
+        tip: $locales.get((l) => l.ui.dialog.locale.button.show),
+        label: selectedLocales.map((l) => getLocaleLanguageName(l)).join(' + '),
+    }}
+>
     <h2
         >{concretize(
             $locales,
@@ -103,27 +108,8 @@
         {/each}
     </div>
 </Dialog>
-<Button
-    tip={$locales.get((l) => l.ui.dialog.locale.button.show)}
-    action={() => (show = true)}
->
-    <span class="chosen">
-        {#each selectedLocales as locale, index}{#if index > 0}+{/if}<LocaleName
-                {locale}
-                supported
-            />{/each}
-    </span>
-</Button>
 
 <style>
-    .chosen {
-        display: flex;
-        flex-direction: row;
-        flex-wrap: nowrap;
-        align-items: baseline;
-        gap: var(--wordplay-spacing);
-    }
-
     .languages {
         display: flex;
         flex-direction: row;

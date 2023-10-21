@@ -333,6 +333,7 @@
                         {fit}
                         autofocus={false}
                         showHelp={false}
+                        warn={false}
                     /></div
                 >{:else}<PlayView
                     project={$projectStore ?? initialProject}

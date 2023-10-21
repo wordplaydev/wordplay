@@ -1,5 +1,4 @@
 <script lang="ts">
-    import Button from '../widgets/Button.svelte';
     import LanguageChooser from './LocaleChooser.svelte';
     import { getUser } from '../project/Contexts';
     import {
@@ -20,8 +19,7 @@
     import Mode from '../widgets/Mode.svelte';
     import Dialog from '../widgets/Dialog.svelte';
     import CreatorView from '../app/CreatorView.svelte';
-
-    let show = false;
+    import Beta from '../../routes/Beta.svelte';
 
     let user = getUser();
 
@@ -53,11 +51,15 @@
 </script>
 
 <div class="settings">
-    <div class="beta"
-        ><Link external to="https://github.com/amyjko/wordplay/milestone/1"
-            >beta</Link
-        ></div
+    <Dialog
+        button={{ tip: 'Show dialog to what beta means', label: 'beta' }}
+        width="50vw"
+        description={{
+            header: 'Beta?',
+            explanation: '',
+        }}><Beta /></Dialog
     >
+
     <Status />
     <Link to="/login">
         <CreatorView
@@ -73,8 +75,11 @@
     </Link>
     <LanguageChooser />
     <Dialog
-        bind:show
         width="50vw"
+        button={{
+            tip: $locales.get((l) => l.ui.dialog.settings.button.show),
+            label: '⚙',
+        }}
         description={$locales.get((l) => l.ui.dialog.settings)}
     >
         <p
@@ -198,10 +203,6 @@
             />
         </p>
     </Dialog>
-    <Button
-        tip={$locales.get((l) => l.ui.dialog.settings.button.show)}
-        action={() => (show = !show)}>⚙</Button
-    >
 </div>
 
 <style>
@@ -215,9 +216,5 @@
 
     label {
         white-space: nowrap;
-    }
-
-    .beta {
-        font-style: italic;
     }
 </style>

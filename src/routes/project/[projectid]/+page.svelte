@@ -88,7 +88,7 @@
     >
         <!-- When the project ID changes, create a new project. -->
         {#key project.getID()}
-            <ProjectView {project} {editable} {overwritten} />
+            <ProjectView {project} {editable} {overwritten} warn={true} />
         {/key}
     </Page>
 {:else if loading}

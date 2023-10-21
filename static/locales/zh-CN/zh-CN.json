@@ -2429,6 +2429,7 @@
             },
             "landing": {
                 "call": ["$?"],
+                "beta": ["$?"],
                 "link": {
                     "about": "$?",
                     "learn": "$?",

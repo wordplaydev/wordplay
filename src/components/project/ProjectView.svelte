@@ -102,7 +102,7 @@
         handleKeyCommand,
     } from '../editor/util/Commands';
     import CommandButton from '../widgets/CommandButton.svelte';
-    import Help from './Help.svelte';
+    import Help from './Shortcuts.svelte';
     import type Color from '../../output/Color';
     import ProjectLanguages from './ProjectLanguages.svelte';
     import getProjectLink from '../app/getProjectLink';
@@ -111,11 +111,11 @@
     import Announcer from './Announcer.svelte';
     import { toClipboard } from '../editor/util/Clipboard';
     import { PersistenceType } from '../../db/ProjectHistory';
-    import Warning from '../widgets/Warning.svelte';
     import Spinning from '../app/Spinning.svelte';
     import CreatorView from '../app/CreatorView.svelte';
     import Moderation from './Moderation.svelte';
     import { isFlagged } from '../../models/Moderation';
+    import Dialog from '../widgets/Dialog.svelte';
 
     export let project: Project;
     export let original: Project | undefined = undefined;
@@ -158,9 +158,6 @@
 
     /** Whether to show the keyboard help dialog */
     let showHelpDialog = false;
-
-    /** Whether to show the collaborators dialog */
-    let showCollaboratorsDialog = false;
 
     /** The current canvas dimensions */
     let canvasWidth = 1024;
@@ -1172,9 +1169,9 @@
     on:pointerup={handlePointerUp}
 />
 
-<Collaborators bind:show={showCollaboratorsDialog} {project} />
-<Help bind:show={showHelpDialog} />
-<Moderation show={warn} {project} />
+{#if warn}
+    <Moderation {project} />
+{/if}
 <!-- Render the app header and the current project, if there is one. -->
 <main class="project" bind:this={view}>
     <div
@@ -1401,20 +1398,24 @@
                     {/await}
                 {/if}
             {:else}
-                <Button
-                    tip={$locales.get(
-                        (l) => l.ui.project.button.showCollaborators
-                    )}
-                    action={() =>
-                        (showCollaboratorsDialog = !showCollaboratorsDialog)}
-                    ><Warning>
-                        {#if project.isPublic()}{#if isFlagged(project.getFlags())}‼️{:else}🌐{/if}
-                            {$locales.get((l) => l.ui.dialog.share.mode.public)
-                                .modes[1]}{:else}🤫 {$locales.get(
-                                (l) => l.ui.dialog.share
-                            ).mode.public.modes[0]}{/if}</Warning
-                    ></Button
+                <Dialog
+                    description={$locales.get((l) => l.ui.dialog.share)}
+                    button={{
+                        tip: $locales.get(
+                            (l) => l.ui.project.button.showCollaborators
+                        ),
+                        label: project.isPublic()
+                            ? (isFlagged(project.getFlags()) ? '‼️' : '🌐') +
+                              ' ' +
+                              $locales.get((l) => l.ui.dialog.share.mode.public)
+                                  .modes[1]
+                            : '🤫 ' +
+                              $locales.get((l) => l.ui.dialog.share).mode.public
+                                  .modes[0],
+                    }}
                 >
+                    <Collaborators {project} />
+                </Dialog>
                 <Button
                     tip={$locales.get((l) => l.ui.project.button.copy)}
                     action={() => toClipboard(project.toWordplay())}>📚</Button
@@ -1462,12 +1463,14 @@
             {/if}
             <span class="help">
                 <ProjectLanguages {project} />
-                <Button
-                    tip={$locales.get(ShowKeyboardHelp.description)}
-                    action={() => (showHelpDialog = true)}
-                    >{ShowKeyboardHelp.symbol}</Button
-                ></span
-            >
+                <Dialog
+                    description={$locales.get((l) => l.ui.dialog.help)}
+                    button={{
+                        tip: $locales.get(ShowKeyboardHelp.description),
+                        label: ShowKeyboardHelp.symbol,
+                    }}><Help /></Dialog
+                >
+            </span>
         </nav>
 
         <!-- Render the menu on top of the annotations -->

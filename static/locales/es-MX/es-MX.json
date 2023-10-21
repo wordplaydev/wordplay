@@ -2242,7 +2242,6 @@
         },
         "conflicts": {
             "label": "conflictos"
-
         },
         "output": {
             "label": "salida del programa",
@@ -2354,31 +2353,36 @@
                 "mode": {
                     "layout": {
                         "label": "diseño",
-                        "modes": ["automático", "horizontal", "vertical", "libre"]
+                        "modes": [
+                            "automático",
+                            "horizontal",
+                            "vertical",
+                            "libre"
+                        ]
                     },
                     "animate": {
                         "label": "animaciones",
                         "modes": [
-                            "apagadas", 
-                            "encendidas", 
-                            "a la mitad de velocidad", 
-                            "a un tercio de velocidad", 
+                            "apagadas",
+                            "encendidas",
+                            "a la mitad de velocidad",
+                            "a un tercio de velocidad",
                             "a un cuarto de velocidad"
                         ]
                     },
                     "dark": {
                         "label": "tema",
                         "modes": [
-                            "colores claros", 
-                            "colores oscuros", 
+                            "colores claros",
+                            "colores oscuros",
                             "usar configuración del dispositivo"
                         ]
                     },
                     "writing": {
                         "label": "diseño de escritura",
                         "modes": [
-                            "horizontal, de izquierda a derecha", 
-                            "vertical, de derecha a izquierda", 
+                            "horizontal, de izquierda a derecha",
+                            "vertical, de derecha a izquierda",
                             "vertical, de izquierda a derecha"
                         ]
                     }
@@ -2474,6 +2478,7 @@
                 "call": [
                     "¡Hola! ¿Te quedarás y darás vida a las palabras con nosotros? 🥹"
                 ],
+                "beta": ["$?"],
                 "link": {
                     "about": "¿Por qué existe este lugar?",
                     "learn": "¿Qué es este lugar?",

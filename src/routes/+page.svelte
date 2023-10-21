@@ -10,6 +10,7 @@
     import Emotion from '../lore/Emotion';
     import MarkupHtmlView from '../components/concepts/MarkupHTMLView.svelte';
     import Link from '../components/app/Link.svelte';
+    import Beta from './Beta.svelte';
 </script>
 
 <svelte:head>
@@ -30,6 +31,7 @@
             ></Speech
         >
     </div>
+    <div class="beta"> <Beta /></div>
     {#if PUBLIC_CONTEXT === 'prod'}
         <p
             >Public beta coming October 31st, 2023. Write <Link
@@ -80,5 +82,13 @@
         margin-top: 2em;
         margin-bottom: 2em;
         width: 50%;
+    }
+
+    .beta {
+        border: var(--wordplay-focus-width) solid var(--wordplay-error);
+        border-radius: var(--wordplay-border-radius);
+        background: var(--wordplay-background);
+        margin-block-end: 2em;
+        padding: var(--wordplay-spacing);
     }
 </style>
