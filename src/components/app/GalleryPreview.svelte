@@ -12,7 +12,7 @@
 
     export let gallery: Gallery;
 
-    const Count = 3;
+    const Count = 4;
 
     /** Projects in the gallery to highlight */
     $: highlights = gallery.getProjects().slice(0, Count);
