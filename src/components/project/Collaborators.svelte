@@ -55,7 +55,7 @@
         ...Array.from($creatorGalleries.values()).map((gallery) => {
             return {
                 value: get(gallery).getID(),
-                label: get(gallery).getName($locales.getLocale()),
+                label: get(gallery).getName($locales),
             };
         }),
     ]}

@@ -4321,5 +4321,27 @@
                 "label": "skip"
             }
         }
+    },
+    "gallery": {
+        "games": {
+            "name": "Games",
+            "description": "Interactive games with words and symbols."
+        },
+        "visualizations": {
+            "name": "Visualizations",
+            "description": "Visualizations of and via text."
+        },
+        "motion": {
+            "name": "Motion",
+            "description": "Examples of movement and collisions."
+        },
+        "av": {
+            "name": "Audio/Video",
+            "description": "Using volume, pitch, and video as input."
+        },
+        "tools": {
+            "name": "Tools",
+            "description": "Simple utilities and applications."
+        }
     }
 }

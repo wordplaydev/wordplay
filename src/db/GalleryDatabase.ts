@@ -19,7 +19,7 @@ import { FirebaseError } from 'firebase/app';
 import { get, writable, type Writable } from 'svelte/store';
 import type Project from '../models/Project';
 import { toLocaleString } from '../locale/Locale';
-import { ExampleGalleries } from '../examples/examples';
+import { getExampleGalleries } from '../examples/examples';
 import type Locales from '../locale/Locales';
 
 export default class GalleryDatabase {
@@ -39,6 +39,9 @@ export default class GalleryDatabase {
     readonly status: Writable<'loading' | 'noaccess' | 'loggedout' | 'loaded'> =
         writable('loading');
 
+    /** Example hard coded galleries */
+    readonly exampleGalleries: Writable<Gallery[]> = writable([]);
+
     /** Public galleries that have been loaded individually. */
     readonly publicGalleries: Map<string, Writable<Gallery>> = new Map();
 
@@ -49,9 +52,20 @@ export default class GalleryDatabase {
         this.database = database;
 
         // Add the example galleries to the database.
-        for (const gallery of ExampleGalleries) {
+        const examples = getExampleGalleries(database.Locales.getLocaleSet());
+        for (const gallery of examples)
             this.publicGalleries.set(gallery.getID(), writable(gallery));
-        }
+        this.exampleGalleries.set(examples);
+
+        // When the list of locales change, recreate the galleries with the new locales.
+        database.Locales.locales.subscribe((locales) => {
+            // Udpate each gallery store with the new localized gallery.
+            const localizedExamples = getExampleGalleries(locales);
+            for (const gallery of localizedExamples)
+                this.publicGalleries.get(gallery.getID())?.set(gallery);
+            // Update the list of example galleries.
+            this.exampleGalleries.set(localizedExamples);
+        });
 
         this.listen();
     }

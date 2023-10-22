@@ -22,6 +22,7 @@ import { DOCS_SYMBOL } from '../parser/Symbols';
 import type { FlagDescriptions } from '../models/Moderation';
 import type { ButtonText, DialogText } from './UITexts';
 import type Locales from './Locales';
+import type { GalleryTexts } from './GalleryTexts';
 
 /** A list of locales that are in progress but not supported yet. Only added when developing locally. */
 const EventuallySupportedLocales = ['zh-CN'];
@@ -66,6 +67,8 @@ export type Locale = {
     output: OutputTexts;
     /** User interface strings */
     ui: UITexts;
+    /** Default gallery text  */
+    gallery: GalleryTexts;
     /** Text related to content moderation */
     moderation: {
         /** What to say to warn viewers before showing content with warnings. */

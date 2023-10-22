@@ -2705,5 +2705,27 @@
                 "label": "omitir"
             }
         }
+    },
+    "gallery": {
+        "games": {
+            "name": "$?",
+            "description": "$?"
+        },
+        "visualizations": {
+            "name": "$?",
+            "description": "$?"
+        },
+        "motion": {
+            "name": "$?",
+            "description": "$?"
+        },
+        "av": {
+            "name": "$?",
+            "description": "$?"
+        },
+        "tools": {
+            "name": "$?",
+            "description": "$?"
+        }
     }
 }

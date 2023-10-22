@@ -52,8 +52,8 @@
 
     onDestroy(() => pageUnsubscribe());
 
-    $: name = gallery?.getName($locales.getLocale());
-    $: description = gallery?.getDescription($locales.getLocale());
+    $: name = gallery?.getName($locales);
+    $: description = gallery?.getDescription($locales);
     $: editable = gallery
         ? $user !== null && gallery.getCurators().includes($user.uid)
         : false;

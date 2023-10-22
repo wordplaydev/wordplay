@@ -23,6 +23,7 @@
     import Subheader from '../../components/app/Subheader.svelte';
     import MarkupHtmlView from '../../components/concepts/MarkupHTMLView.svelte';
     import Note from '../../components/widgets/Note.svelte';
+    import { HiddenUsernameEmailDomain } from '../../db/Creator';
 
     let user = getUser();
     let success: boolean | undefined = undefined;
@@ -102,12 +103,12 @@
     }
 
     async function startUsernameLogin() {
-        const emailUsername = `${username}@wordplay.dev`;
+        const emailUsername = `${username}${HiddenUsernameEmailDomain}`;
         if (auth && usernameSubmittable) {
             try {
                 await signInWithEmailAndPassword(
                     auth,
-                    `${username}@wordplay.dev`,
+                    `${username}${HiddenUsernameEmailDomain}`,
                     password
                 );
             } catch (error) {

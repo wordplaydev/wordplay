@@ -1,7 +1,7 @@
 <script lang="ts">
     import Header from '@components/app/Header.svelte';
     import Writing from '@components/app/Writing.svelte';
-    import { locales } from '@db/Database';
+    import { Galleries, locales } from '@db/Database';
     import MarkupHtmlView from '../../components/concepts/MarkupHTMLView.svelte';
     import { onMount } from 'svelte';
     import {
@@ -21,12 +21,13 @@
     import GalleryPreview from '../../components/app/GalleryPreview.svelte';
     import Spinning from '../../components/app/Spinning.svelte';
     import Button from '../../components/widgets/Button.svelte';
-    import { ExampleGalleries } from '../../examples/examples';
 
     let lastBatch: QueryDocumentSnapshot<DocumentData>;
 
+    const examples = Galleries.exampleGalleries;
+
     /** Start the list of galleries with the example galleries. */
-    let galleries: Gallery[] = ExampleGalleries.slice();
+    let loadedGalleries: Gallery[] = [];
 
     onMount(async () => {
         nextBatch();
@@ -56,13 +57,15 @@
         lastBatch = documentSnapshots.docs[documentSnapshots.docs.length - 1];
 
         // Convert the docs to galleries
-        galleries = [
-            ...(galleries ?? []),
+        loadedGalleries = [
+            ...(loadedGalleries ?? []),
             ...documentSnapshots.docs.map(
                 (snap) => new Gallery(snap.data() as SerializedGallery)
             ),
         ];
     }
+
+    $: galleries = [...$examples, ...loadedGalleries];
 </script>
 
 <svelte:head>

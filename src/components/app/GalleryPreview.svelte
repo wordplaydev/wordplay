@@ -21,13 +21,10 @@
 
 <div class="gallery">
     <Link to={`gallery/${gallery.getID()}`}
-        ><Subheader>{gallery.getName($locales.getLocale())}</Subheader></Link
+        ><Subheader>{gallery.getName($locales)}</Subheader></Link
     >
     <MarkupHtmlView
-        markup={gallery
-            .getDescription($locales.getLocale())
-            .split('\n')
-            .join('\n\n')}
+        markup={gallery.getDescription($locales).split('\n').join('\n\n')}
     />
     <!-- We have to guard this since we haven't structured the project database to run server side fetches, so SvelteKit builds fail. -->
     {#if browser}
