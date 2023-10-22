@@ -10,14 +10,14 @@ assignees: ''
 
 What are you trying to do? Is there a problem you're encountering or a wish you have?
 
-## What's the idea?
+## What's the design idea?
 
-How would we address the problem with a new or changed feature?
+How would we address the problem with a new or changed feature? Provide as much detail about the idea as you currently have, but no need to provide an exact design specificaiton if you don't have one.
 
 ## Who benefits?
 
 Is this something you think only you would benefit from? Are there others that would benefit? Are there others that might be harmed by supporting this?
 
-## Design ideas
+## Design specification
 
-A clear and concise description of designs you've considered. If you don't have a concrete idea, that's okay. We'll revise this issue with designs later.
+(This section should be included after a design proposal is ready and approved, and the `buildable` tag is added. This text can remain until then. Designers should add their proposal here, not in a comment).
