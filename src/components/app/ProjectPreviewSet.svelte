@@ -33,7 +33,7 @@
 </script>
 
 <div class="projects">
-    {#each sortProjects(set).filter( (p) => p.isListed() ) as project (project.getID())}
+    {#each sortProjects(set).filter( (p) => p.isListed() ) as project, index (project.getID())}
         {@const removeMeta = remove(project)}
         <ProjectPreview
             {project}
@@ -41,7 +41,7 @@
                 if (beforePlay) beforePlay(project);
                 goto(getProjectLink(project, true));
             }}
-            delay={Math.random() * set.length * 50}
+            delay={index * 50}
             ><div class="controls">
                 {#if edit}<Button
                         tip={edit.description}

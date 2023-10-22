@@ -109,6 +109,7 @@
     .preview {
         transition: transform ease-out;
         transition-duration: calc(var(--animation-factor) * 200ms);
+        background: var(--wordplay-inactive-color);
     }
 
     .project .preview:hover,
