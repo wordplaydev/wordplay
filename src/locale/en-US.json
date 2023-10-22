@@ -609,7 +609,7 @@
                 "MisplacedInput": "this input is out of order.",
                 "MissingInput": {
                     "primary": "I'm missing $1, can you add it?",
-                    "secondary": "this input is required, but $2 didn't provide it"
+                    "secondary": "this input is required, but $1 didn't provide it"
                 },
                 "NotInstantiable": "I can't make this @StructureDefinition, it has unimplemented functions.",
                 "UnexpectedInput": {
