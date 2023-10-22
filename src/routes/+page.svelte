@@ -69,6 +69,11 @@
             subtitle={$locales.get((l) => l.ui.page.landing.link.rights)}
             >{$locales.get((l) => l.ui.page.rights.header)}</BigLink
         >
+        <BigLink
+            to="/donate"
+            subtitle={$locales.get((l) => l.ui.page.donate.prompt)}
+            >{$locales.get((l) => l.ui.page.donate.header)}</BigLink
+        >
     {/if}
 </Writing>
 

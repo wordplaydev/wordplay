@@ -4,6 +4,7 @@
     import Button from './Button.svelte';
     import type { DialogText } from '../../locale/UITexts';
     import Header from '../app/Header.svelte';
+    import MarkupHtmlView from '../concepts/MarkupHTMLView.svelte';
 
     export let show = false;
     export let description: DialogText;
@@ -51,7 +52,7 @@
 >
     <div class="content">
         <Header>{description.header}</Header>
-        <p>{description.explanation}</p>
+        <MarkupHtmlView markup={description.explanation} />
         <slot />
         {#if closeable}
             <div class="close">

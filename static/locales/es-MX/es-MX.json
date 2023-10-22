@@ -2650,6 +2650,11 @@
                 "consequences": [
                     "Si encontramos un proyecto o galería que viola estas reglas, advertiremos a los creadores antes de que lo vean o bloquearemos su visualización. Si violas repetidamente estas reglas, perderás el privilegio de publicar públicamente."
                 ]
+            },
+            "donate": {
+                "header": "$?",
+                "prompt": "$?",
+                "content": ["$?"]
             }
         },
         "edit": {

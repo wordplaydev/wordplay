@@ -28,7 +28,7 @@ export type DialogText = {
     /** The header to be shown at the top of the dialog */
     header: string;
     /** The explanation text just below the header. */
-    explanation: Template;
+    explanation: Template | Template[];
 };
 
 export type ConfirmText = {
@@ -738,6 +738,15 @@ type UITexts = {
             content: Template[];
             /** The consequences of violating a promise. */
             consequences: Template[];
+        };
+        /** Giving related text */
+        donate: {
+            /** The label for the link and header */
+            header: Template;
+            /** The explanation of the link */
+            prompt: Template;
+            /** The content of the page */
+            content: Template[];
         };
     };
     /** Descriptions of cursor positions and code transformations */

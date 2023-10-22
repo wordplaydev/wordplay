@@ -33,6 +33,7 @@
         <Link to="/galleries"
             >{$locales.get((l) => l.ui.page.galleries.header)}</Link
         >
+        <Link to="/donate">{$locales.get((l) => l.ui.page.donate.header)}</Link>
         <Settings />
     </footer>
 </div>

@@ -110,7 +110,17 @@
       "additionalProperties": false,
       "properties": {
         "explanation": {
-          "$ref": "#/definitions/Template",
+          "anyOf": [
+            {
+              "$ref": "#/definitions/Template"
+            },
+            {
+              "items": {
+                "$ref": "#/definitions/Template"
+              },
+              "type": "array"
+            }
+          ],
           "description": "The explanation text just below the header."
         },
         "header": {
@@ -280,88 +290,39 @@
       ],
       "type": "object"
     },
+    "GalleryText": {
+      "additionalProperties": false,
+      "properties": {
+        "description": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "name",
+        "description"
+      ],
+      "type": "object"
+    },
     "GalleryTexts": {
       "additionalProperties": false,
       "properties": {
         "av": {
-          "additionalProperties": false,
-          "properties": {
-            "description": {
-              "type": "string"
-            },
-            "name": {
-              "type": "string"
-            }
-          },
-          "required": [
-            "name",
-            "description"
-          ],
-          "type": "object"
+          "$ref": "#/definitions/GalleryText"
         },
         "games": {
-          "additionalProperties": false,
-          "properties": {
-            "description": {
-              "type": "string"
-            },
-            "name": {
-              "type": "string"
-            }
-          },
-          "required": [
-            "name",
-            "description"
-          ],
-          "type": "object"
+          "$ref": "#/definitions/GalleryText"
         },
         "motion": {
-          "additionalProperties": false,
-          "properties": {
-            "description": {
-              "type": "string"
-            },
-            "name": {
-              "type": "string"
-            }
-          },
-          "required": [
-            "name",
-            "description"
-          ],
-          "type": "object"
+          "$ref": "#/definitions/GalleryText"
         },
         "tools": {
-          "additionalProperties": false,
-          "properties": {
-            "description": {
-              "type": "string"
-            },
-            "name": {
-              "type": "string"
-            }
-          },
-          "required": [
-            "name",
-            "description"
-          ],
-          "type": "object"
+          "$ref": "#/definitions/GalleryText"
         },
         "visualizations": {
-          "additionalProperties": false,
-          "properties": {
-            "description": {
-              "type": "string"
-            },
-            "name": {
-              "type": "string"
-            }
-          },
-          "required": [
-            "name",
-            "description"
-          ],
-          "type": "object"
+          "$ref": "#/definitions/GalleryText"
         }
       },
       "required": [
@@ -7937,7 +7898,17 @@
                   "description": "The keyboard shortcut reference dialog",
                   "properties": {
                     "explanation": {
-                      "$ref": "#/definitions/Template",
+                      "anyOf": [
+                        {
+                          "$ref": "#/definitions/Template"
+                        },
+                        {
+                          "items": {
+                            "$ref": "#/definitions/Template"
+                          },
+                          "type": "array"
+                        }
+                      ],
                       "description": "The explanation text just below the header."
                     },
                     "header": {
@@ -8010,7 +7981,17 @@
                       "type": "object"
                     },
                     "explanation": {
-                      "$ref": "#/definitions/Template",
+                      "anyOf": [
+                        {
+                          "$ref": "#/definitions/Template"
+                        },
+                        {
+                          "items": {
+                            "$ref": "#/definitions/Template"
+                          },
+                          "type": "array"
+                        }
+                      ],
                       "description": "The explanation text just below the header."
                     },
                     "header": {
@@ -8068,7 +8049,17 @@
                       "type": "object"
                     },
                     "explanation": {
-                      "$ref": "#/definitions/Template",
+                      "anyOf": [
+                        {
+                          "$ref": "#/definitions/Template"
+                        },
+                        {
+                          "items": {
+                            "$ref": "#/definitions/Template"
+                          },
+                          "type": "array"
+                        }
+                      ],
                       "description": "The explanation text just below the header."
                     },
                     "header": {
@@ -8145,7 +8136,17 @@
                       "type": "object"
                     },
                     "explanation": {
-                      "$ref": "#/definitions/Template",
+                      "anyOf": [
+                        {
+                          "$ref": "#/definitions/Template"
+                        },
+                        {
+                          "items": {
+                            "$ref": "#/definitions/Template"
+                          },
+                          "type": "array"
+                        }
+                      ],
                       "description": "The explanation text just below the header."
                     },
                     "field": {
@@ -8588,6 +8589,33 @@
                   },
                   "required": [
                     "header",
+                    "content"
+                  ],
+                  "type": "object"
+                },
+                "donate": {
+                  "additionalProperties": false,
+                  "description": "Giving related text",
+                  "properties": {
+                    "content": {
+                      "description": "The content of the page",
+                      "items": {
+                        "$ref": "#/definitions/Template"
+                      },
+                      "type": "array"
+                    },
+                    "header": {
+                      "$ref": "#/definitions/Template",
+                      "description": "The label for the link and header"
+                    },
+                    "prompt": {
+                      "$ref": "#/definitions/Template",
+                      "description": "The explanation of the link"
+                    }
+                  },
+                  "required": [
+                    "header",
+                    "prompt",
                     "content"
                   ],
                   "type": "object"
@@ -9134,7 +9162,8 @@
                 "galleries",
                 "about",
                 "login",
-                "rights"
+                "rights",
+                "donate"
               ],
               "type": "object"
             },

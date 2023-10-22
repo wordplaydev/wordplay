@@ -51,11 +51,6 @@
 </script>
 
 <div class="settings">
-    <Link external to="https://discord.gg/Jh2Qq9husy"
-        >{$locales.get((l) => l.term.help)}/{$locales.get(
-            (l) => l.term.feedback
-        )}</Link
-    >
     <Dialog
         button={{ tip: 'Show dialog to what beta means', label: 'beta' }}
         width="50vw"
@@ -64,7 +59,11 @@
             explanation: '',
         }}><Beta /></Dialog
     >
-
+    <Link external to="https://discord.gg/Jh2Qq9husy"
+        >{$locales.get((l) => l.term.help)}/{$locales.get(
+            (l) => l.term.feedback
+        )}</Link
+    >
     <Status />
     <Link to="/login">
         <CreatorView

@@ -2570,6 +2570,11 @@
                 "header": "$?",
                 "content": ["$?"],
                 "consequences": ["$?"]
+            },
+            "donate": {
+                "header": "$?",
+                "prompt": "$?",
+                "content": ["$?"]
             }
         },
         "edit": {
