@@ -2625,7 +2625,7 @@
             "rights": {
                 "header": "Derechos",
                 "content": [
-                    "Aquí establecemos algunas expectativas sobre tus derechos y los nuestros (también en vista de políticas como el <COPPA@https://www.ecfr.gov/current/title-16/chapter-I/subchapter-C/part-312> y <GDPR@https://gdpr.eu/compliance-checklist-us-companies/>)",
+                    "$! Aquí establecemos algunas expectativas sobre tus derechos y los nuestros (también en vista de políticas como el <COPPA@https://www.ecfr.gov/current/title-16/chapter-I/subchapter-C/part-312> y <GDPR@https://gdpr.eu/compliance-checklist-us-companies/>)",
                     "Lo primero que debes saber es que no somos una entidad comercial. Somos un proyecto de investigación basado en la comunidad alojado en una universidad sin fines de lucro. Nuestro objetivo es crear una plataforma que te brinde alegría y nos ayude a hacer descubrimientos sobre un mundo de computación más equitativo y justo. No tenemos interés en ganar dinero con esta plataforma; cualquier dinero que recolectemos (generalmente a través de financiamiento público) se utiliza para sostener la plataforma, no para enriquecer a nadie que trabaje en ella (o contribuya a ella).",
                     "Como no buscamos obtener ganancias, esto también significa que no podemos hacer ninguna promesa sobre la confiabilidad, disponibilidad o longevidad de esta plataforma. Dicho esto, <Amy@https://amyjko.phd> está comprometida a largo plazo con su sostenibilidad, y como profesora titular, tiene un trabajo bastante estable.",
                     "Eso nos lleva a *datos*. Esto es lo que recopilamos y almacenamos en la nube:",
