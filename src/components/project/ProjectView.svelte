@@ -113,6 +113,7 @@
     import Moderation from './Moderation.svelte';
     import { isFlagged } from '../../models/Moderation';
     import Dialog from '../widgets/Dialog.svelte';
+    import Separator from './Separator.svelte';
 
     export let project: Project;
     export let original: Project | undefined = undefined;
@@ -1456,13 +1457,7 @@
                     changed={(name) =>
                         Projects.reviseProject(project.withName(name))}
                 />{:else}{project.getName()}{/if}
-            {#each layout.getNonSources() as tile}
-                <NonSourceTileToggle
-                    {project}
-                    {tile}
-                    on:toggle={() => toggleTile(tile)}
-                />
-            {/each}
+            <Separator />
             {#each project.getSources() as source, index}
                 {@const tile = layout.getTileWithID(Layout.getSourceID(index))}
                 {#if tile}
@@ -1485,6 +1480,14 @@
                     >{$locales.get((l) => l.ui.source.overwritten)}</span
                 >
             {/if}
+            <Separator />
+            {#each layout.getNonSources() as tile}
+                <NonSourceTileToggle
+                    {project}
+                    {tile}
+                    on:toggle={() => toggleTile(tile)}
+                />
+            {/each}
             <ProjectLanguages {project} />
             <span class="help">
                 <Dialog
@@ -1618,7 +1621,6 @@
     }
 
     .help {
-        margin-left: auto;
         display: flex;
         flex-direction: row;
         flex-wrap: nowrap;

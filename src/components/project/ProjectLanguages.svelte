@@ -26,6 +26,7 @@
         white-space: nowrap;
         gap: var(--wordplay-spacing);
         font-size: medium;
+        margin-inline-start: auto;
         color: var(--wordplay-inactive-color);
     }
 </style>
