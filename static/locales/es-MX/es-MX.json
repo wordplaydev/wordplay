@@ -41,7 +41,9 @@
         "query": "pregunta",
         "row": "fila",
         "set": "set",
-        "key": "clave"
+        "key": "clave",
+        "help": "$?",
+        "feedback": "$?"
     },
     "token": {
         "EvalOpen": "evaluación abierta",

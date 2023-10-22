@@ -7376,11 +7376,19 @@
               "description": "What to call an exception value",
               "type": "string"
             },
+            "feedback": {
+              "description": "What to call feedback in help/feedback links",
+              "type": "string"
+            },
             "function": {
               "description": "What to call a function value",
               "type": "string"
             },
             "group": {
+              "type": "string"
+            },
+            "help": {
+              "description": "What to call help in help/feedback links",
               "type": "string"
             },
             "index": {
@@ -7519,7 +7527,9 @@
             "stream",
             "index",
             "query",
-            "key"
+            "key",
+            "help",
+            "feedback"
           ],
           "type": "object"
         },

@@ -41,7 +41,9 @@
         "query": "query",
         "row": "row",
         "set": "set",
-        "key": "key"
+        "key": "key",
+        "help": "help",
+        "feedback": "feedback"
     },
     "token": {
         "EvalOpen": "evaluation open",
@@ -4099,7 +4101,7 @@
                 "call": ["Oh, hi! Want to bring words to life with us? 😊"],
                 "beta": [
                     "Wordplay is in *beta*. That means that functionality might change or not work as intended.",
-                    "If you find problems, or have ideas for improvements, share them in our <Discord #feedback channel@https://discord.gg/urx2VRTp9a>. See our <progress toward 1.0@https://github.com/wordplaydev/wordplay/milestones/1.0>, and <help@https://github.com/wordplaydev/wordplay/wiki/contribute> if you like!"
+                    "If you find problems, or have ideas for improvements, share them in <Discord@https://discord.gg/Jh2Qq9husy>. See our <1.0 plans@https://github.com/wordplaydev/wordplay/milestones/1.0> and <contribute@https://github.com/wordplaydev/wordplay/wiki/contribute> if you can!"
                 ],
                 "link": {
                     "learn": "What is this place?",

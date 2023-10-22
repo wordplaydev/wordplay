@@ -70,6 +70,10 @@ type TermTexts = {
     query: string;
     /** What to call a key in a map */
     key: string;
+    /** What to call help in help/feedback links */
+    help: string;
+    /** What to call feedback in help/feedback links  */
+    feedback: string;
 };
 
 export default TermTexts;

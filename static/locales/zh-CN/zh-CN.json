@@ -41,7 +41,9 @@
         "query": "询问",
         "row": "排",
         "set": "组",
-        "key": "钥匙"
+        "key": "钥匙",
+        "help": "$?",
+        "feedback": "$?"
     },
     "token": {
         "EvalOpen": "评估开放",

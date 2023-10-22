@@ -51,6 +51,11 @@
 </script>
 
 <div class="settings">
+    <Link external to="https://discord.gg/Jh2Qq9husy"
+        >{$locales.get((l) => l.term.help)}/{$locales.get(
+            (l) => l.term.feedback
+        )}</Link
+    >
     <Dialog
         button={{ tip: 'Show dialog to what beta means', label: 'beta' }}
         width="50vw"
@@ -211,7 +216,7 @@
         flex-direction: row;
         align-items: center;
         gap: var(--wordplay-spacing);
-        margin-left: auto;
+        margin-inline-start: auto;
     }
 
     label {

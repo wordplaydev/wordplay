@@ -41,7 +41,9 @@
         "query": "$?",
         "row": "$?",
         "set": "$?",
-        "key": "$?"
+        "key": "$?",
+        "help": "$?",
+        "feedback": "$?"
     },
     "token": {
         "EvalOpen": "$?",
