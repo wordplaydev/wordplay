@@ -25,17 +25,17 @@ If applicable, add screenshots to help explain your problem.
 
 ## Environment
 
-What platform, OS, browser, and version are you using? Please be exact with version numbers, as different versions can result in a defect happening or not.
+What platform, OS, browser, and version are you using? Please be exact with version numbers, as different versions can result in a defect happening or not. Don't skip these; cross-browser issues are a common cause of problems.
 
 Desktop
 
--   OS: [e.g. iOS]
--   Browser [e.g. chrome, safari]
--   Version [e.g. 22]
+-   OS + version: [e.g. mac OS 14.0]
+-   Browser + version [e.g. Chrome 118]
 
 Smartphone
 
 -   Device: [e.g. iPhone6]
--   OS: [e.g. iOS8.1]
--   Browser [e.g. stock browser, safari]
--   Version [e.g. 22]
+-   OS + version: [e.g. iOS 17.1]
+-   Browser + version [e.g. Safari]
+
+If you're not reporting an issue on the production site, also describe the environment you are running in (vite dev server, vite build, whether the Firebase emulator is running, whether you're authenticated using the emulator and how.)
