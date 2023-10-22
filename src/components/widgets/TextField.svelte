@@ -13,7 +13,7 @@
     export let right = false;
     export let defaultFocus = false;
     export let editable = true;
-    export let email = false;
+    export let kind: 'email' | 'password' | undefined = undefined;
 
     let width = 0;
 
@@ -23,7 +23,8 @@
     }
 
     onMount(() => {
-        if (email && view) view.type = 'email';
+        if (kind === 'email' && view) view.type = 'email';
+        else if (kind === 'password' && view) view.type = 'password';
     });
 </script>
 
@@ -47,7 +48,11 @@
         on:blur={() => (done ? done(text) : undefined)}
     />
     <span class="measurer" bind:clientWidth={width}
-        >{text.length === 0 ? placeholder : text}</span
+        >{text.length === 0
+            ? placeholder
+            : kind === 'password'
+            ? '•'.repeat(text.length)
+            : text}</span
     >
 </div>
 

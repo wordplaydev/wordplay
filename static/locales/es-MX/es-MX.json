@@ -2554,10 +2554,20 @@
             "login": {
                 "header": "Iniciar sesión",
                 "anonymous": "iniciar sesión",
+                "subheader": {
+                    "email": "$?",
+                    "username": "$?"
+                },
                 "prompt": {
                     "login": "$! Tus actuaciones se están guardando en este dispositivo en vez de en línea. Para guardarlas en línea, envía tu correo electrónico para obtener un enlace de inicio de sesión.",
+                    "age": {
+                        "label": "$?",
+                        "modes": ["$?", "$?"]
+                    },
                     "enter": "Parece que tu enlace de inicio de sesión vino de un navegador o dispositivo diferente. ¿Puedes ingresar tu correo electrónico nuevamente, solo para estar seguros de que eres tú?",
                     "play": "Estás conectado, ¡podemos guardar tus proyectos en línea ahora! ¿Quieres crear algo?",
+                    "emailrules": "$?",
+                    "usernamerules": "$?",
                     "change": "¿Quieres cambiar tu correo electrónico? Envía uno nuevo y te enviaremos una confirmación al antiguo.",
                     "sent": "Revisa tu correo electrónico para encontrar un enlace de inicio de sesión.",
                     "logout": "¿Estás saliendo de un dispositivo compartido y quieres mantener tus proyectos privados? Cierra la sesión y borraremos tus proyectos de este dispositivo. Todavía se almacenarán en línea.",
@@ -2574,7 +2584,8 @@
                     "failure": "No se puede iniciar sesión :(",
                     "offline": "Pareces estar desconectada.",
                     "unchanged": "No pudimos cambiar tu dirección de correo electrónico, pero no sabemos por qué.",
-                    "delete": "No pudimos borrar tu cuenta, pero no sabemos por qué."
+                    "delete": "No pudimos borrar tu cuenta, pero no sabemos por qué.",
+                    "wrongPassword": "$?"
                 },
                 "feedback": {
                     "changing": "Enviando nuevo correo electrónico...",
@@ -2584,6 +2595,14 @@
                     "email": {
                         "description": "editar correo electrónico de inicio de sesión",
                         "placeholder": "correo electrónico"
+                    },
+                    "username": {
+                        "description": "$?",
+                        "placeholder": "$?"
+                    },
+                    "password": {
+                        "description": "$?",
+                        "placeholder": "$?"
                     }
                 },
                 "button": {

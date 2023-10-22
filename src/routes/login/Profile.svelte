@@ -15,6 +15,8 @@
 
     export let user: User;
 
+    $: username = user.email?.endsWith('@wordplay.dev');
+
     let newEmail: string;
 
     let changeSubmitted = false;
@@ -75,13 +77,16 @@
     }
 
     function readyToDeleteAccount(email: string) {
-        return validEmail(email) && email === user.email;
+        const finalEmail = username
+            ? `${confirmEmail}@wordplay.dev`
+            : confirmEmail;
+        return validEmail(finalEmail) && finalEmail === user.email;
     }
 </script>
 
 <Header
     ><span style:font-family="Noto Color Emoji">{user.displayName ?? '😃'}</span
-    >{user.email}</Header
+    >{user.email?.replace('@wordplay.dev', '')}</Header
 >
 
 <div class="actions">
@@ -113,33 +118,36 @@
             ></p
         >
     </div>
-    <div class="action">
-        <p>{$locales.get((l) => l.ui.page.login.prompt.change)}</p>
-        <form on:submit={update}>
-            <TextField
-                description={$locales.get(
-                    (l) => l.ui.page.login.field.email.description
-                )}
-                placeholder={$locales.get(
-                    (l) => l.ui.page.login.field.email.placeholder
-                )}
-                bind:text={newEmail}
-                editable={!changeSubmitted}
-            /><Button
-                submit
-                tip={$locales.get((l) => l.ui.page.login.button.update)}
-                active={validEmail(newEmail)}
-                action={() => undefined}>&gt;</Button
-            >
-            {#if changeSubmitted}<Spinning
-                    label={$locales.get(
-                        (l) => l.ui.page.login.feedback.changing
+    {#if user && !username}
+        <div class="action">
+            <p>{$locales.get((l) => l.ui.page.login.prompt.change)}</p>
+            <form on:submit={update}>
+                <TextField
+                    description={$locales.get(
+                        (l) => l.ui.page.login.field.email.description
                     )}
-                />
-            {:else if changeFeedback}<Feedback inline>{changeFeedback}</Feedback
-                >{/if}
-        </form>
-    </div>
+                    placeholder={$locales.get(
+                        (l) => l.ui.page.login.field.email.placeholder
+                    )}
+                    bind:text={newEmail}
+                    editable={!changeSubmitted}
+                /><Button
+                    submit
+                    tip={$locales.get((l) => l.ui.page.login.button.update)}
+                    active={validEmail(newEmail)}
+                    action={() => undefined}>&gt;</Button
+                >
+                {#if changeSubmitted}<Spinning
+                        label={$locales.get(
+                            (l) => l.ui.page.login.feedback.changing
+                        )}
+                    />
+                {:else if changeFeedback}<Feedback inline
+                        >{changeFeedback}</Feedback
+                    >{/if}
+            </form>
+        </div>
+    {/if}
     <div class="action"
         >{#if !deleteSubmitted}
             <p>{$locales.get((l) => l.ui.page.login.prompt.delete)}</p>
@@ -166,13 +174,18 @@
                             : undefined}
                 >
                     <TextField
-                        description={$locales.get(
-                            (l) => l.ui.page.login.field.email.description
+                        description={$locales.get((l) =>
+                            username
+                                ? l.ui.page.login.field.username.description
+                                : l.ui.page.login.field.email.description
                         )}
-                        placeholder={$locales.get(
-                            (l) => l.ui.page.login.field.email.placeholder
+                        placeholder={$locales.get((l) =>
+                            username
+                                ? l.ui.page.login.field.username.placeholder
+                                : l.ui.page.login.field.email.placeholder
                         )}
                         fill={true}
+                        kind={username ? undefined : 'email'}
                         bind:text={confirmEmail}
                     />
                     <Button

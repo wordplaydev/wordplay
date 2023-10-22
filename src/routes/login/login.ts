@@ -15,5 +15,8 @@ export function getLoginErrorDescription(
             (l) => l.ui.page.login.error.invalid
         ),
         'auth/invalid-email': locales.get((l) => l.ui.page.login.error.email),
+        'auth/wrong-password': locales.get(
+            (l) => l.ui.page.login.error.wrongPassword
+        ),
     }[code];
 }

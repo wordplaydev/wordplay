@@ -647,6 +647,12 @@ type UITexts = {
         login: {
             /** Header for the login page when not logged in */
             header: string;
+            subheader: {
+                /** Header for logging in via email */
+                email: string;
+                /** Header for logging in via username and password */
+                username: string;
+            };
             prompt: {
                 /** Prompts creator to login to save their work */
                 login: string;
@@ -658,6 +664,10 @@ type UITexts = {
                 enter: string;
                 /** Encouragement to go create after logging in. */
                 play: string;
+                /** Gives rules for emails above the login form */
+                emailrules: string;
+                /** Gives rules for usernames and passwords above the login form */
+                usernamerules: string;
                 /** Offers to log out the creator. */
                 logout: string;
                 /** Shown briefly before page redirects to projects */
@@ -670,12 +680,18 @@ type UITexts = {
                 reallyDelete: string;
                 /** Pick an emoji as a name */
                 name: string;
+                /** Text for age prompt */
+                age: ModeText<[string, string]>;
             };
             /** Shown in the footer a creator is not logged in. */
             anonymous: string;
             field: {
                 /** The login email */
                 email: FieldText;
+                /** The login username */
+                username: FieldText;
+                /** The login password */
+                password: FieldText;
             };
             feedback: {
                 /** Change email pending */
@@ -694,10 +710,12 @@ type UITexts = {
                 failure: string;
                 /** When there's no connection to Firebase */
                 offline: string;
-                /** When the email addres couldn't be changed for unknown reasons. */
+                /** When the email address couldn't be changed for unknown reasons. */
                 unchanged: string;
                 /** When account deletion failed */
                 delete: string;
+                /** When a password is wrong */
+                wrongPassword: string;
             };
             button: {
                 /** Log out of the account */

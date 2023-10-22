@@ -4168,11 +4168,21 @@
             },
             "login": {
                 "header": "Login",
+                "subheader": {
+                    "email": "email link",
+                    "username": "username + password"
+                },
                 "anonymous": "login",
                 "prompt": {
                     "login": "Your performances are saving on this device, but not online. If this is your device, that's okay! If it's not, others may see or delete your projects. To save them online and keep them private, log in.",
+                    "age": {
+                        "label": "What's your age?",
+                        "modes": ["12 or younger", "13 or older"]
+                    },
                     "enter": "It looks like your login link came from a different browser or device. Can you enter your email again, just so we're sure it's you?",
                     "play": "You're logged in, we can save your projects online now! Want to create something?",
+                    "emailrules": "Don't provide your email if you are 12 or younger.",
+                    "usernamerules": "Usernames should not contain identiable information. Passwords must be at least 10 characters long.",
                     "change": "Want to change your email? Submit a new one and we'll send a confirmation to the old one.",
                     "sent": "Check your email for a login link.",
                     "logout": "Leaving a shared device and want to keep your projects private? Logout and we'll remove your projects from this device. They will still be stored online.",
@@ -4189,7 +4199,8 @@
                     "failure": "Unable to login :(",
                     "offline": "You appear to be offline.",
                     "unchanged": "We couldn't change your email address, but we don't know why.",
-                    "delete": "We couldn't delete your account, but we don't know why."
+                    "delete": "We couldn't delete your account, but we don't know why.",
+                    "wrongPassword": "Not a valid username and password"
                 },
                 "feedback": {
                     "changing": "Submitting new email...",
@@ -4199,6 +4210,14 @@
                     "email": {
                         "description": "edit login email",
                         "placeholder": "email"
+                    },
+                    "username": {
+                        "description": "login username, don't use personally identifiable information",
+                        "placeholder": "username"
+                    },
+                    "password": {
+                        "description": "login password, at least 10 character",
+                        "placeholder": "password"
                     }
                 },
                 "button": {
@@ -4226,11 +4245,11 @@
                     "The first thing to know is that we are not a commercial entity. We are a community-based research project housed at a not-for-profit university. Our goal is to create a platform that brings you joy and helps us make discoveries about a more equitable and just world of computing. We have no interest in making money on this platform; any money we gather (usually through public funding) is used to sustain the platform, not to enrich anyone who works on it (or contributes to it).",
                     "Because we are not seeking profit, this also means that we can't make any promises about the reliability, availability, or longevity of this platform. That said, <Amy@https://amyjko.phd> is committed long term to sustaining it, and as a tenured professor, she's got a pretty stable gig.",
                     "That brings is to *data*. Here's what we gather and store in the cloud:",
-                    "• Your *email address*. We use this to ensure that only you and anyone you share with can access your projects and settings.",
-                    "• Your *projects*. We store any projects you contribute. This includes any personally identifiable information you put in your projects (which could be anything, since it's all text!)",
+                    "• If you are 13 or older, your *email address*. We use this to ensure that only you and anyone you share with can access your projects and settings. If you are younger than 13, then we only store the username you choose, which you should ensure doesn't contain any personally identiable information.",
+                    "• Your *projects*. We store any projects you contribute.",
                     "• Your *settings*. This includes the locales you choose, your animation preferences, and your tutorial progress. Everything else is stored on your device.",
-                    "• *Traffic*. We use basic <Google Analytics@https://en.wikipedia.org/wiki/Google_Analytics> to gather aggregate, anonymous data about which pages people and projects people are visiting and how many times. We use this to help raise funding to sustain the platform.",
-                    "We don't store anything else. No 'cookies' other than those used by Google Analytics, no tracking identifiers, no recordings of camera or microphone input. Our <source@https://github.com/amyjko/wordplay/tree/main/src> is public, so you can verify this if you wish at any time.",
+                    "• Your anonymized *activity*. We track the projects you view, the size of your screen, when you leave the site, when you read to the end of a page, and when you login.  We use this to help prioritize engineering work, and to help raise funding by reporting how much the platform is being used in the aggregate. None of these events are in linked to you, and we do not track you across websites.",
+                    "We don't store anything else. No 'cookies', no IP tracking, no recordings of any camera or microphone input. Our <source@https://github.com/amyjko/wordplay/tree/main/src> is public, so anyone can verify this, and report any unintended tracking.",
                     "*You* own your data, not us. That means:",
                     "• You control who can access your projects. They are private by default, but you can share them with individuals, groups, or make them entirely public.",
                     "• You can fully delete any project or your own account at any time.",

@@ -1,7 +1,9 @@
 <script lang="ts">
     import {
+        createUserWithEmailAndPassword,
         isSignInWithEmailLink,
         sendSignInLinkToEmail,
+        signInWithEmailAndPassword,
     } from 'firebase/auth';
     import Header from '../../components/app/Header.svelte';
     import TextField from '../../components/widgets/TextField.svelte';
@@ -17,6 +19,10 @@
     import { FirebaseError } from 'firebase/app';
     import { getLoginErrorDescription } from './login';
     import { goto } from '$app/navigation';
+    import Mode from '../../components/widgets/Mode.svelte';
+    import Subheader from '../../components/app/Subheader.svelte';
+    import MarkupHtmlView from '../../components/concepts/MarkupHTMLView.svelte';
+    import Note from '../../components/widgets/Note.svelte';
 
     let user = getUser();
     let success: boolean | undefined = undefined;
@@ -25,11 +31,17 @@
     let email: string;
     let sent = false;
     let loginFeedback = '';
+    let younger = true;
+    let username = '';
+    let password = '';
 
-    $: submittable = !sent && validEmail(email);
+    $: emailSubmittable = !sent && validEmail(email);
 
-    async function startLogin() {
-        if (auth && submittable) {
+    $: usernameSubmittable =
+        !sent && username.length > 4 && password.length >= 10;
+
+    async function startEmailLogin() {
+        if (auth && emailSubmittable) {
             try {
                 if (isSignInWithEmailLink(auth, window.location.href))
                     finishLogin();
@@ -45,7 +57,7 @@
                     sent = true;
                 }
             } catch (err) {
-                communicateLoginFailure(err);
+                communicateError(err);
             }
         }
     }
@@ -80,16 +92,47 @@
                             // Remove the query on the URL so there's no attempt to login on refresh.
                             goto('/login');
                         })
-                        .catch((err) => communicateLoginFailure(err));
+                        .catch((err) => communicateError(err));
                 }
             } catch (err) {
-                communicateLoginFailure(err);
+                communicateError(err);
             }
         }
         return undefined;
     }
 
-    function communicateLoginFailure(err: unknown): string | undefined {
+    async function startUsernameLogin() {
+        const emailUsername = `${username}@wordplay.dev`;
+        if (auth && usernameSubmittable) {
+            try {
+                await signInWithEmailAndPassword(
+                    auth,
+                    `${username}@wordplay.dev`,
+                    password
+                );
+            } catch (error) {
+                // If not found, then we create the user.
+                if (
+                    error instanceof FirebaseError &&
+                    error.code === 'auth/user-not-found'
+                ) {
+                    try {
+                        await createUserWithEmailAndPassword(
+                            auth,
+                            emailUsername,
+                            password
+                        );
+                    } catch (error) {
+                        communicateError(error);
+                    }
+                }
+                // Otherwise, communicate the error.
+                else communicateError(error);
+            }
+        }
+    }
+
+    function communicateError(err: unknown): string | undefined {
         if (err instanceof FirebaseError) {
             console.error(err.code);
             console.error(err.message);
@@ -118,23 +161,83 @@
         {$locales.get((l) => l.ui.page.login.prompt.login)}
     {/if}
 </p>
-<form on:submit={startLogin}>
+
+<Mode
+    modes={$locales.get((l) => l.ui.page.login.prompt.age.modes)}
+    choice={0}
+    select={(choice) => (younger = choice === 0)}
+    descriptions={$locales.get((l) => l.ui.page.login.prompt.age)}
+/>
+
+{#if missingEmail || !younger}
+    <Subheader>{$locales.get((l) => l.ui.page.login.subheader.email)}</Subheader
+    >
+    <form class="login-form" on:submit={startEmailLogin}>
+        <Note
+            ><MarkupHtmlView
+                inline
+                markup={$locales.get((l) => l.ui.page.login.prompt.emailrules)}
+            /></Note
+        >
+        <div>
+            <TextField
+                kind="email"
+                description={$locales.get(
+                    (l) => l.ui.page.login.field.email.description
+                )}
+                placeholder={$locales.get(
+                    (l) => l.ui.page.login.field.email.placeholder
+                )}
+                bind:text={email}
+                editable={!sent}
+            />
+            <Button
+                submit
+                tip={$locales.get((l) => l.ui.page.login.button.login)}
+                active={emailSubmittable}
+                action={() => undefined}>&gt;</Button
+            >
+        </div>
+    </form>
+{/if}
+<Subheader>{$locales.get((l) => l.ui.page.login.subheader.username)}</Subheader>
+<form class="login-form" on:submit={startUsernameLogin}>
+    <Note
+        ><MarkupHtmlView
+            markup={$locales.get((l) => l.ui.page.login.prompt.usernamerules)}
+        /></Note
+    >
     <TextField
         description={$locales.get(
-            (l) => l.ui.page.login.field.email.description
+            (l) => l.ui.page.login.field.username.description
         )}
         placeholder={$locales.get(
-            (l) => l.ui.page.login.field.email.placeholder
+            (l) => l.ui.page.login.field.username.placeholder
         )}
-        bind:text={email}
+        bind:text={username}
         editable={!sent}
-    /><Button
-        submit
-        tip={$locales.get((l) => l.ui.page.login.button.login)}
-        active={submittable}
-        action={() => undefined}>&gt;</Button
+    />
+    <div>
+        <TextField
+            kind="password"
+            description={$locales.get(
+                (l) => l.ui.page.login.field.password.description
+            )}
+            placeholder={$locales.get(
+                (l) => l.ui.page.login.field.password.placeholder
+            )}
+            bind:text={password}
+            editable={!sent}
+        />
+        <Button
+            submit
+            tip={$locales.get((l) => l.ui.page.login.button.login)}
+            active={usernameSubmittable}
+            action={() => undefined}>&gt;</Button
+        ></div
     >
 </form>
+
 {#if sent === true}
     <Feedback>{$locales.get((l) => l.ui.page.login.prompt.sent)}</Feedback>
 {:else if success === true}
@@ -142,3 +245,14 @@
 {:else if success === false}
     <Feedback>{loginFeedback}</Feedback>
 {/if}
+
+<style>
+    .login-form {
+        display: flex;
+        flex-direction: column;
+        gap: var(--wordplay-spacing);
+        padding: var(--wordplay-spacing);
+        border: var(--wordplay-border-width) solid var(--wordplay-border-color);
+        border-radius: var(--wordplay-border-radius);
+    }
+</style>

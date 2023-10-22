@@ -8673,7 +8673,11 @@
                           "type": "string"
                         },
                         "unchanged": {
-                          "description": "When the email addres couldn't be changed for unknown reasons.",
+                          "description": "When the email address couldn't be changed for unknown reasons.",
+                          "type": "string"
+                        },
+                        "wrongPassword": {
+                          "description": "When a password is wrong",
                           "type": "string"
                         }
                       },
@@ -8684,7 +8688,8 @@
                         "failure",
                         "offline",
                         "unchanged",
-                        "delete"
+                        "delete",
+                        "wrongPassword"
                       ],
                       "type": "object"
                     },
@@ -8712,10 +8717,20 @@
                         "email": {
                           "$ref": "#/definitions/FieldText",
                           "description": "The login email"
+                        },
+                        "password": {
+                          "$ref": "#/definitions/FieldText",
+                          "description": "The login password"
+                        },
+                        "username": {
+                          "$ref": "#/definitions/FieldText",
+                          "description": "The login username"
                         }
                       },
                       "required": [
-                        "email"
+                        "email",
+                        "username",
+                        "password"
                       ],
                       "type": "object"
                     },
@@ -8726,6 +8741,10 @@
                     "prompt": {
                       "additionalProperties": false,
                       "properties": {
+                        "age": {
+                          "$ref": "#/definitions/ModeText%3C%5Bstring%2Cstring%5D%3E",
+                          "description": "Text for age prompt"
+                        },
                         "change": {
                           "description": "Tells the creator that they can change their email address.",
                           "type": "string"
@@ -8736,6 +8755,10 @@
                         },
                         "delete": {
                           "description": "Offers to delete account",
+                          "type": "string"
+                        },
+                        "emailrules": {
+                          "description": "Gives rules for emails above the login form",
                           "type": "string"
                         },
                         "enter": {
@@ -8769,6 +8792,10 @@
                         "success": {
                           "description": "Shown briefly before page redirects to projects",
                           "type": "string"
+                        },
+                        "usernamerules": {
+                          "description": "Gives rules for usernames and passwords above the login form",
+                          "type": "string"
                         }
                       },
                       "required": [
@@ -8777,18 +8804,40 @@
                         "change",
                         "enter",
                         "play",
+                        "emailrules",
+                        "usernamerules",
                         "logout",
                         "success",
                         "confirm",
                         "delete",
                         "reallyDelete",
-                        "name"
+                        "name",
+                        "age"
+                      ],
+                      "type": "object"
+                    },
+                    "subheader": {
+                      "additionalProperties": false,
+                      "properties": {
+                        "email": {
+                          "description": "Header for logging in via email",
+                          "type": "string"
+                        },
+                        "username": {
+                          "description": "Header for logging in via username and password",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "email",
+                        "username"
                       ],
                       "type": "object"
                     }
                   },
                   "required": [
                     "header",
+                    "subheader",
                     "prompt",
                     "anonymous",
                     "field",

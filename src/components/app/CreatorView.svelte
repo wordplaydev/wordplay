@@ -14,7 +14,7 @@
         >{/if}{creator
         ? creator.email === null
             ? '—'
-            : anonymize
+            : anonymize || creator.email.endsWith('@wordplay.dev')
             ? creator.email.split('@')[0].substring(0, 4)
             : creator.email
         : $locales.get((l) => l.ui.page.login.anonymous)}</div

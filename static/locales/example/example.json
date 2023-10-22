@@ -2495,10 +2495,20 @@
             },
             "login": {
                 "header": "$?",
+                "subheader": {
+                    "email": "$?",
+                    "username": "$?"
+                },
                 "anonymous": "$?",
                 "prompt": {
                     "login": "$?",
+                    "age": {
+                        "label": "$?",
+                        "modes": ["$?", "$?"]
+                    },
                     "enter": "$?",
+                    "emailrules": "$?",
+                    "usernamerules": "$?",
                     "play": "$?",
                     "change": "$?",
                     "logout": "$?",
@@ -2516,7 +2526,8 @@
                     "offline": "$?",
                     "failure": "$?",
                     "unchanged": "$?",
-                    "delete": "$?"
+                    "delete": "$?",
+                    "wrongPassword": "$?"
                 },
                 "feedback": {
                     "changing": "$?",
@@ -2524,6 +2535,14 @@
                 },
                 "field": {
                     "email": {
+                        "description": "$?",
+                        "placeholder": "$?"
+                    },
+                    "username": {
+                        "description": "$?",
+                        "placeholder": "$?"
+                    },
+                    "password": {
                         "description": "$?",
                         "placeholder": "$?"
                     }
