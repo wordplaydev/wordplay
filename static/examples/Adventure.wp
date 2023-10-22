@@ -1,26 +1,28 @@
 Adventure
 === start/en
-•State(action•"" description•[""] options•[State])
+•State(action•"" description•[""] options•[State] won•?)
 
-stand: State('stand up' ["You can't stand, you're tied down."] [])
-cut: State('cut yourself free' [ "You've cut yourself free."] [])
-throw: State('throw' [ "You threw the knife"] [stand])
-pickup: State('pickup' ['You have a knife.'] [ cut throw ])
-roll: State('roll over' ['There is a knife next to you.'] [ pickup stand ])
-start: State("start" ["You awaken in a dark, cold room that smells of mold."] [ roll stand ])
+stand: State('stand up' ["You can't stand, you're tied down."] [] ⊥)
+cut: State('cut yourself free' [ "You've cut yourself free."] [] ⊤)
+throw: State('throw' [ "You threw the knife"] [stand] ⊥)
+pickup: State('pickup' ['You have a knife.'] [ cut throw ] ⊥)
+roll: State('roll over' ['There is a knife next to you.'] [ pickup stand ] ⊥)
+start: State("start" ["You awaken in a dark, cold room that smells of mold."] [ roll stand ] ⊥)
 
 key: Key()
 
 ``start at the state state, and if the key changes, either go to start if there are no options, stay if the key isn't valid, or choose the option.`` 
 state•State: 
   start … ∆ key …
-  state.options.length() = 0 ? start 
+    state.won ? start
+  		state.options.length() = 0 ? start 
   ~((key = '1') | (key = '2')) ? state 
-  state.options[key → #]
+state.options[key → #]
 
-options: (state.options.length() > 0) ? 
+options: 
+  state.won ? [ Phrase(`*You're free!*`) ] 
+  (state.options.length() = 0) ? [ Phrase(`*start over*`) ] 
     state.options.translate(ƒ(option•State index•#) Phrase(`\index\. *\option.action\*` size: 2m name: option.action duration: 1s entering: Pose(opacity: 0%)))
-    [ Phrase(`*GAME OVER*`) ]
 
 
 Stage(
@@ -33,7 +35,7 @@ Stage(
       ]
     )
   ] 
-  background: Color(0 0 0%°) 
+  background: Color(0 0 0°) 
   color: Color(100% 0 0°)
   face: "Permanent Marker"
 )
