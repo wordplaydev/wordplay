@@ -193,6 +193,7 @@
             />
             <Button
                 submit
+                background
                 tip={$locales.get((l) => l.ui.page.login.button.login)}
                 active={emailSubmittable}
                 action={() => undefined}>&gt;</Button
@@ -231,6 +232,7 @@
         />
         <Button
             submit
+            background
             tip={$locales.get((l) => l.ui.page.login.button.login)}
             active={usernameSubmittable}
             action={() => undefined}>&gt;</Button
@@ -251,7 +253,7 @@
         display: flex;
         flex-direction: column;
         gap: var(--wordplay-spacing);
-        padding: var(--wordplay-spacing);
+        padding: 1em;
         border: var(--wordplay-border-width) solid var(--wordplay-border-color);
         border-radius: var(--wordplay-border-radius);
     }
