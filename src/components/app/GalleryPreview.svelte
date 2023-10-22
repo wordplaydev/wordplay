@@ -41,7 +41,7 @@
                         {#if project}
                             <ProjectPreview
                                 {project}
-                                name={false}
+                                name={true}
                                 action={() =>
                                     goto(getProjectLink(project, true))}
                                 delay={index * 300}
