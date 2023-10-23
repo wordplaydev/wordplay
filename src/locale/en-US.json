@@ -4269,7 +4269,7 @@
             },
             "donate": {
                 "header": "Donate",
-                "prompt": "Enable more accessible, global programming.",
+                "prompt": "Enable more accessible, global programming",
                 "content": [
                     "Wordplay is a free, community-based project supported by the <University of Washington@https://washington.edu>. We rely on gifts from people who believe in our mission of accessible, language-inclusive, educational programming languages.",
                     "Here are our current costs:",
