@@ -25,7 +25,7 @@
         <slot />
     </main>
     <footer class:fullscreen>
-        <Link tip={$locales.get((l) => l.ui.widget.home)} to="/">🏠</Link>
+        <Link tip={$locales.get((l) => l.ui.widget.home)} to="/">💬</Link>
         <Link to="/learn">{$locales.get((l) => l.ui.page.learn.header)}</Link>
         <Link to="/projects"
             >{$locales.get((l) => l.ui.page.projects.header)}</Link
