@@ -282,6 +282,8 @@ export default class Reference extends SimpleExpression {
                 ?.filter(
                     (a): a is Conditional =>
                         a instanceof Conditional &&
+                        // Don't include conditionals whose condition contain this; that would create a cycle
+                        !a.condition.contains(this) &&
                         a.condition.nodes(
                             (n): n is Reference =>
                                 (context.source.root.getParent(n) instanceof

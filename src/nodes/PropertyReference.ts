@@ -262,6 +262,8 @@ export default class PropertyReference extends Expression {
                         (a): a is Conditional =>
                             // Guards must be conditionals
                             a instanceof Conditional &&
+                            // Don't include conditionals whose condition contain this; that would create a cycle
+                            !a.condition.contains(this) &&
                             // Guards must have references to this same property in a type check
                             a.condition.nodes(
                                 (n): n is PropertyReference =>
