@@ -19,7 +19,7 @@ import {
     getFunctions,
     type Functions,
 } from 'firebase/functions';
-import { getAnalytics, type Analytics } from 'firebase/analytics';
+import { getAnalytics, type Analytics, setConsent } from 'firebase/analytics';
 
 let auth: Auth | undefined = undefined;
 let firestore: Firestore | undefined = undefined;
@@ -49,6 +49,13 @@ if (typeof process === 'undefined') {
         firestore = getFirestore(app);
         functions = getFunctions(app);
         analytics = emulating ? undefined : getAnalytics(app);
+
+        // Deny consent for analytics, ad tracking, and personalization tracking.
+        setConsent({
+            analytics_storage: 'denied',
+            ad_storage: 'denied',
+            personalization_storage: 'denied',
+        });
 
         // Initialize emulator if environment is local.
         if (emulating) {
