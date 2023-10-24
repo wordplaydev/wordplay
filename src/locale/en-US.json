@@ -413,7 +413,7 @@
                     "secondary": "I have has the same name as $1"
                 },
                 "IncompatibleType": {
-                    "primary": "I'm supposed to be $2, but I'm $1",
+                    "primary": "I'm supposed to be a $2, but I'm a $1",
                     "secondary": "Oh… sorry, a $1, really?"
                 },
                 "MisplacedShare": "I can only share things at the @Program level, not inside anything!",
