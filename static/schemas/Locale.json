@@ -6477,6 +6477,55 @@
               "$ref": "#/definitions/NameAndDoc",
               "description": "The base interface for arrangement types"
             },
+            "Aura": {
+              "additionalProperties": false,
+              "description": "A shadow",
+              "properties": {
+                "blur": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "The blurriness of the shadow"
+                },
+                "color": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "The shadow's color"
+                },
+                "doc": {
+                  "$ref": "#/definitions/DocText",
+                  "description": "Documentation for this definition, to appear in the documentation browser."
+                },
+                "names": {
+                  "$ref": "#/definitions/NameText",
+                  "description": "One or more names for this definition. Be careful not to introduce duplicates."
+                },
+                "offsetX": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "The horizontal offset of the shadow"
+                },
+                "offsetY": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "The vertical offset of the shadow"
+                },
+                "opacity": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "How transparent the shadow should be"
+                },
+                "spread": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "How far the shadow should spread"
+                }
+              },
+              "required": [
+                "blur",
+                "color",
+                "doc",
+                "names",
+                "offsetX",
+                "offsetY",
+                "opacity",
+                "spread"
+              ],
+              "type": "object"
+            },
             "Color": {
               "additionalProperties": false,
               "description": "A color in LCH spaces",
@@ -7593,6 +7642,7 @@
           "required": [
             "Output",
             "Group",
+            "Aura",
             "Phrase",
             "Stage",
             "Shape",

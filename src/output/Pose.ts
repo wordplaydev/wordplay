@@ -24,7 +24,6 @@ export function createPoseType(locales: Locales) {
         ${getBind(locales, (locale) => locale.output.Pose.scale)}•#|ø: ø
         ${getBind(locales, (locale) => locale.output.Pose.flipx)}•?|ø: ø
         ${getBind(locales, (locale) => locale.output.Pose.flipy)}•?|ø: ø
-        ${getBind(locales, (locale) => locale.output.Pose.blur)}•?|ø: ø
     )
 `);
 }
@@ -61,7 +60,6 @@ export default class Pose extends Valued {
         this.scale = scale;
         this.flipx = flipx;
         this.flipy = flipy;
-        this.blur = blur;
     }
 
     /** Override non-empty values with the values in the given pose */
@@ -115,8 +113,7 @@ export default class Pose extends Valued {
             this.rotation === pose.rotation &&
             this.scale === pose.scale &&
             this.flipx === pose.flipx &&
-            this.flipy === pose.flipy &&
-            this.blur === pose.blur
+            this.flipy === pose.flipy
         );
     }
 }
@@ -131,7 +128,6 @@ export class DefinitePose extends Pose {
         scale: number | undefined,
         flipx: boolean | undefined,
         flipy: boolean | undefined,
-        blur: number | undefined,
     ) {
         super(
             value,

@@ -34,6 +34,7 @@ import { createCollisionDefinition } from '../input/Collision';
 import type Locales from '../locale/Locales';
 import { createReactionDefinition } from '../values/ReactionStream';
 import { createSceneDefinition } from '@input/Scene';
+import { createAuraType } from '@output/Aura';
 
 export default function createDefaultShares(locales: Locales) {
     const TypeType = createOutputType(locales);
@@ -66,6 +67,8 @@ export default function createDefaultShares(locales: Locales) {
         Row: createRowType(locales),
         Grid: createGridType(locales),
         Free: createFreeType(locales),
+        // TODO : AURA - M.W
+        Aura: createAuraType(locales),
     };
 
     const InputTypes = {
