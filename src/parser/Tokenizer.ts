@@ -387,8 +387,7 @@ export function tokenize(source: string): TokenList {
         }
         // If we're not in a doc, then slurp preceding space before the next token.
         else {
-            const spaceMatch = source.match(/^[ \t\n]+/);
-            space = spaceMatch === null ? '' : spaceMatch[0];
+            space = getNextSpace(source);
         }
 
         // Trim the space we found.
@@ -396,7 +395,15 @@ export function tokenize(source: string): TokenList {
 
         // Tokenize the next token. We tokenize in documentation mode if we're inside a doc and the eval depth
         // has not changed since we've entered.
-        const nextToken = getNextToken(source, context);
+        const stuff = getNextToken(source, context);
+
+        // Did the next token pull out some unexpected space? Override the space
+        const nextToken = Array.isArray(stuff) ? stuff[0] : stuff;
+        if (Array.isArray(stuff) && stuff[1] !== undefined) {
+            const extraSpace = stuff[1];
+            source = source.substring(extraSpace.length);
+            space = extraSpace;
+        }
 
         // Add the new token to the list
         tokens.push(nextToken);
@@ -457,9 +464,15 @@ export function tokenize(source: string): TokenList {
     return new TokenList(tokens, spaces);
 }
 
-function getNextToken(source: string, context: Token[]): Token {
+function getNextToken(
+    source: string,
+    context: Token[]
+): Token | [Token, string | undefined] {
     // If there's nothing left after trimming source, return an end of file token.
     if (source.length === 0) return new Token('', Sym.End);
+
+    // Any extra space we find a long the way, primarily if we end an unclosed text literal.
+    let space: string | undefined = undefined;
 
     if (context.length > 0) {
         const container = context[0];
@@ -482,8 +495,7 @@ function getNextToken(source: string, context: Token[]): Token {
             // If we ended this text with a newline, then shift out of the context.
             if (stopIndex === lineIndex) context.shift();
 
-            // If we found more than one words characters, make a word.
-            // Otherwise, tokenize whatever comes next.
+            // If we found more than one words characters, make a word token for the text.
             if (stopIndex > 0)
                 return new Token(
                     source.substring(
@@ -494,6 +506,12 @@ function getNextToken(source: string, context: Token[]): Token {
                     ),
                     Sym.Words
                 );
+            // Otherwise, read any preceding space for the next token, and tokenize whatever comes next.
+            else {
+                space = getNextSpace(source);
+                source = source.substring(space.length);
+                if (source.length === 0) return [new Token('', Sym.End), space];
+            }
         }
         // If we're in a doc, special case a few token types that only appear in docs (URL, WORDS)
         else if (
@@ -522,21 +540,23 @@ function getNextToken(source: string, context: Token[]): Token {
             typeof pattern.pattern === 'string' &&
             source.startsWith(pattern.pattern)
         )
-            return new Token(pattern.pattern, pattern.types);
+            return [new Token(pattern.pattern, pattern.types), space];
         else if (pattern.pattern instanceof RegExp) {
             const match = source.match(pattern.pattern);
             // If we found a match, return it if
             // 1) It's _not_ a text close, or
             // 2) It is, but there are either no open templates (syntax error!), or
             // 3) There is an open template and it's the closing delimiter matches the current open text delimiter.
-            if (match !== null) return new Token(match[0], pattern.types);
+            if (match !== null)
+                return [new Token(match[0], pattern.types), space];
         }
     }
 
     // Otherwise, we fail and return an error token that contains all of the text until the next recognizable token.
     // This is a recursive call: it tries to tokenize the next character, skipping this one, going all the way to the
     // end of the source if necessary, but stopping at the nearest recognizable token.
-    const next = getNextToken(source.substring(1), context);
+    const stuff = getNextToken(source.substring(1), context);
+    const next = Array.isArray(stuff) ? stuff[0] : stuff;
     return new Token(
         source.substring(
             0,
@@ -546,4 +566,9 @@ function getNextToken(source: string, context: Token[]): Token {
         ),
         Sym.Unknown
     );
+}
+
+function getNextSpace(source: string) {
+    const spaceMatch = source.match(/^[ \t\n]+/);
+    return spaceMatch === null ? '' : spaceMatch[0];
 }

@@ -34,12 +34,12 @@ export default class Token extends Node {
             text instanceof UnicodeString ? text : new UnicodeString(text);
 
         // No token is allowed to be empty except the end token.
-        if (
-            this.text.isEmpty() &&
-            !this.isSymbol(Sym.End) &&
-            !this.isSymbol(Sym.Words)
-        )
-            throw Error('This token has no text');
+        // if (
+        //     this.text.isEmpty() &&
+        //     !this.isSymbol(Sym.End) &&
+        //     !this.isSymbol(Sym.Words)
+        // )
+        //     throw Error('This token has no text');
     }
 
     // NODE CONTRACT
