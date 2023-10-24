@@ -187,6 +187,8 @@ export default class ListLiteral extends Expression {
         this.values.forEach((val) => {
             if (val instanceof Expression)
                 val.evaluateTypeSet(bind, original, current, context);
+            else if (val.list)
+                val.list.evaluateTypeSet(bind, original, current, context);
         });
         return current;
     }
