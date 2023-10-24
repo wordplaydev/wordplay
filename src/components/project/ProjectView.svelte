@@ -89,7 +89,6 @@
         Creators,
     } from '../../db/Database';
     import Arrangement from '../../db/Arrangement';
-    import { EDIT_SYMBOL } from '../../parser/Symbols';
     import type Value from '../../values/Value';
     import {
         Restart,
@@ -205,6 +204,9 @@
             );
         }
     }
+
+    $: if ($page.url.searchParams.get(PROJECT_PARAM_PLAY) !== null)
+        playing = true;
 
     onDestroy(() => {
         if (keyboardIdleTimeout) clearTimeout(keyboardIdleTimeout);
@@ -462,10 +464,7 @@
                 layout ? layout.fullscreenID : undefined
             );
 
-        if (
-            !layoutInitialized &&
-            $page.url.searchParams.get(PROJECT_PARAM_PLAY) !== null
-        ) {
+        if (!layoutInitialized && playing) {
             const output = layout.getOutput();
             if (output) {
                 setFullscreen(output, true);
@@ -485,7 +484,9 @@
 
         if (layout.fullscreenID === TileKind.Output)
             searchParams.set(PROJECT_PARAM_PLAY, '');
-        else searchParams.delete(PROJECT_PARAM_PLAY);
+        else {
+            searchParams.delete(PROJECT_PARAM_PLAY);
+        }
 
         // Set the URL to reflect the latest concept selected.
         if ($path && $path.length > 0) {
@@ -874,6 +875,11 @@
             .resized($arrangement, canvasWidth, canvasHeight);
     }
 
+    function exitFullscreen() {
+        stopPlaying();
+        layout = layout.withoutFullscreen();
+    }
+
     async function setFullscreen(tile: Tile, fullscreen: boolean) {
         layout = fullscreen
             ? layout.withFullscreen(tile.id)
@@ -1021,17 +1027,6 @@
         return project.getSources()[getSourceIndexByID(id)];
     }
 
-    function fullscreen(on: boolean) {
-        if (on) {
-            layout = layout.isFullscreen()
-                ? layout.withoutFullscreen()
-                : layout.withFullscreen(TileKind.Output);
-            view?.focus();
-        } else {
-            layout = layout.withoutFullscreen();
-        }
-    }
-
     /**
      * This reactive block creates a ProjectView wide context for commands to do their work,
      * particularly CommandButtons.
@@ -1047,7 +1042,7 @@
         evaluator: $evaluation.evaluator,
         dragging: $dragged !== undefined,
         database: DB,
-        fullscreen,
+        exitFullscreen,
         focusOrCycleTile,
         resetInputs,
         toggleBlocks,
@@ -1257,8 +1252,14 @@
                                     event.detail.id,
                                     event.detail.name
                                 )}
-                            on:fullscreen={(event) =>
-                                setFullscreen(tile, event.detail.fullscreen)}
+                            on:fullscreen={(event) => {
+                                if (
+                                    layout.isFullscreen() &&
+                                    tile.kind === TileKind.Output
+                                )
+                                    stopPlaying();
+                                setFullscreen(tile, event.detail.fullscreen);
+                            }}
                         >
                             <svelte:fragment slot="name">
                                 {#if tile.isSource()}
@@ -1285,7 +1286,7 @@
                                 <!-- Put some extra buttons in the output toolbar -->
                                 {#if tile.kind === TileKind.Output}
                                     <CommandButton command={Restart} />
-                                    {#if playing && editable}<Button
+                                    {#if playing}<Button
                                             uiid="editProject"
                                             tip={$locales.get(
                                                 (l) =>
@@ -1293,7 +1294,7 @@
                                                         .editproject
                                             )}
                                             action={() => stopPlaying()}
-                                            >{EDIT_SYMBOL}</Button
+                                            >🔎</Button
                                         >{/if}
                                     <!-- {#if !$evaluation.evaluator.isPlaying()}
                                     <Painting

@@ -252,11 +252,14 @@
                         ></svg
                     >
                 </Toggle>
-                <Button
-                    tip={$locales.get((l) => l.ui.tile.button.collapse)}
-                    action={() => dispatch('mode', { mode: Mode.Collapsed })}
-                    active={!layout.isFullscreen()}>–</Button
-                >
+                {#if !layout.isFullscreen()}
+                    <Button
+                        tip={$locales.get((l) => l.ui.tile.button.collapse)}
+                        action={() =>
+                            dispatch('mode', { mode: Mode.Collapsed })}
+                        >–</Button
+                    >
+                {/if}
             </div>
         </div>
         <!-- Render the content -->

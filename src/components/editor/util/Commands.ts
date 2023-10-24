@@ -82,7 +82,7 @@ export type CommandContext = {
     dragging: boolean;
     toggleMenu?: () => void;
     toggleBlocks?: () => void;
-    fullscreen?: (on: boolean) => void;
+    exitFullscreen?: (on: boolean) => void;
     focusOrCycleTile?: (content?: TileKind) => void;
     resetInputs?: () => void;
     help?: () => void;
@@ -407,7 +407,7 @@ export const EnterFullscreen: Command = {
     control: true,
     key: 'Enter',
     execute: (context) =>
-        context.fullscreen ? context.fullscreen(true) : false,
+        context.exitFullscreen ? context.exitFullscreen(true) : false,
 };
 
 export const ExitFullscreen: Command = {
@@ -419,7 +419,7 @@ export const ExitFullscreen: Command = {
     alt: false,
     control: false,
     key: 'Escape',
-    execute: ({ fullscreen, dragging }) =>
+    execute: ({ exitFullscreen: fullscreen, dragging }) =>
         dragging ? false : fullscreen ? fullscreen(false) : false,
 };
 
