@@ -262,7 +262,7 @@ export const StepForwardInput: Command = {
 };
 
 export const StepBackNode: Command = {
-    symbol: '⏴',
+    symbol: '•←',
     description: (l) => l.ui.timeline.button.backNode,
     visible: Visibility.Visible,
     category: Category.Evaluate,
@@ -271,15 +271,15 @@ export const StepBackNode: Command = {
     control: true,
     key: 'ArrowLeft',
     keySymbol: '←',
-    active: ({ caret }) => caret?.isNode() ?? false,
-    execute: (context) =>
-        context.caret?.position instanceof Node
-            ? context.evaluator.stepBackToNode(context.caret.position)
-            : undefined,
+    active: ({ caret }) => caret !== undefined,
+    execute: ({ caret, evaluator }) => {
+        const target = caret?.getExpressionAt();
+        if (target) evaluator.stepBackToNode(target);
+    },
 };
 
 export const StepForwardNode: Command = {
-    symbol: '⏵',
+    symbol: '⇢•',
     description: (l) => l.ui.timeline.button.forwardNode,
     visible: Visibility.Visible,
     category: Category.Evaluate,
@@ -288,11 +288,11 @@ export const StepForwardNode: Command = {
     shift: true,
     alt: true,
     control: true,
-    active: (context) => context.caret?.isNode() ?? false,
-    execute: (context) =>
-        context.caret?.position instanceof Node
-            ? context.evaluator.stepToNode(context.caret.position)
-            : undefined,
+    active: ({ caret }) => caret !== undefined,
+    execute: ({ caret, evaluator }) => {
+        const target = caret?.getExpressionAt();
+        if (target) evaluator.stepToNode(target);
+    },
 };
 
 export const Restart: Command = {

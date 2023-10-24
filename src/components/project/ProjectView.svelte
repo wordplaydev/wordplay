@@ -1036,7 +1036,7 @@
         caret: layout.isFullscreenNonSource()
             ? undefined
             : Array.from($editors.values()).find((editor) => editor.focused)
-                  ?.caret,
+                  ?.caret ?? Array.from($editors.values())[0]?.caret,
         project,
         /** We intentionally depend on the evaluation store because it updates when the evaluator's state changes */
         evaluator: $evaluation.evaluator,
@@ -1048,6 +1048,11 @@
         toggleBlocks,
         help: () => (showHelpDialog = !showHelpDialog),
     };
+
+    $: console.log(
+        Array.from($editors.values()).find((editor) => editor.focused)?.caret
+    );
+
     const commandContextStore = writable(commandContext);
     $: commandContextStore.set(commandContext);
     setContext(ProjectCommandContextSymbol, commandContextStore);

@@ -104,6 +104,17 @@ export default class Caret {
                 : undefined;
     }
 
+    getExpressionAt() {
+        const start =
+            this.position instanceof Node
+                ? this.position
+                : this.tokenExcludingSpace;
+        if (start === undefined) return undefined;
+        return this.source.root
+            .getAncestors(start)
+            .find((n): n is Expression => n instanceof Expression);
+    }
+
     getNodeInside() {
         return typeof this.position === 'number'
             ? this.insideToken()
