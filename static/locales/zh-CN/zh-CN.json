@@ -2159,57 +2159,59 @@
             "code": "Noto Mono"
         },
         "phrases": {
-            "welcome": "$?"
+            "welcome": "你好"
         },
         "widget": {
-            "confirm": { "cancel": "$?" },
+            "confirm": {
+                "cancel": "取消"
+            },
             "dialog": {
-                "close": "$?"
+                "close": "关闭"
             },
             "loading": {
-                "message": "$?"
+                "message": "正在加载字体和文本，请稍候！"
             },
-            "back": "$?"
+            "back": "返回上一页"
         },
         "tile": {
             "toggle": {
                 "fullscreen": {
-                    "on": "$?",
-                    "off": "$?"
+                    "on": "退出全屏",
+                    "off": "扩展到全屏"
                 },
                 "show": {
-                    "on": "$?",
-                    "off": "$?"
+                    "on": "隐藏此瓷砖",
+                    "off": "显示此瓷砖"
                 }
             },
             "button": {
-                "collapse": "$?"
+                "collapse": "折叠窗口"
             }
         },
         "project": {
             "error": {
-                "unknown": "$?"
+                "unknown": "该演出不存在或未公开"
             },
             "button": {
-                "showCollaborators": "$?",
-                "removeCollaborator": "$?",
-                "copy": "$?",
-                "addSource": "$?",
-                "duplicate": "$?",
-                "revert": "$?",
-                "focusOutput": "$?",
-                "focusSource": "$?",
-                "focusDocs": "$?",
-                "focusPalette": "$?",
-                "focusCycle": "$?"
+                "showCollaborators": "显示合作者对话框",
+                "removeCollaborator": "移除合作者",
+                "copy": "将项目复制为文本",
+                "addSource": "创建新的$source",
+                "duplicate": "复制这个项目",
+                "revert": "恢复到原始代码",
+                "focusOutput": "聚焦舞台上的键盘乐器",
+                "focusSource": "聚焦到下一个源",
+                "focusDocs": "聚焦文档",
+                "focusPalette": "聚焦调色板",
+                "focusCycle": "聚焦到下一个瓷砖"
             },
             "field": {
                 "name": {
-                    "description": "$?",
-                    "placeholder": "$?"
+                    "description": "编辑项目名称",
+                    "placeholder": "名称"
                 }
             },
-            "help": "$?"
+            "help": "显示键盘快捷键"
         },
         "gallery": {
             "untitled": "$?",
@@ -2238,7 +2240,7 @@
                 }
             },
             "error": {
-                "unknown": "$?"
+                "unknown": "此画廊不存在或不是公开的。"
             },
             "field": {
                 "name": {
