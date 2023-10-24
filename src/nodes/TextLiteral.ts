@@ -172,7 +172,7 @@ export default class TextLiteral extends Literal {
         );
     }
 
-    evaluateTypeSet(
+    evaluateTypeGuards(
         bind: Bind,
         original: TypeSet,
         current: TypeSet,

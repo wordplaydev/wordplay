@@ -13,7 +13,6 @@ import type Definition from './Definition';
 import Bind from './Bind';
 import ReferenceCycle from '@conflicts/ReferenceCycle';
 import Reaction from './Reaction';
-import Conditional from './Conditional';
 import UnionType from './UnionType';
 import type TypeSet from './TypeSet';
 import Is from './Is';
@@ -36,6 +35,7 @@ import StreamDefinition from './StreamDefinition';
 import FunctionType from './FunctionType';
 import type Locales from '../locale/Locales';
 import BinaryEvaluate from './BinaryEvaluate';
+import getGuards from './getGuards';
 
 /**
  * A reference to some Definition. Can optionally take the definition which it refers,
@@ -277,30 +277,22 @@ export default class Reference extends SimpleExpression {
         ) {
             // Find any conditionals with type checks that refer to the value bound to this name.
             // Reverse them so they are in furthest to nearest ancestor, so we narrow types in execution order.
-            const guards = context.source.root
-                .getAncestors(this)
-                ?.filter(
-                    (a): a is Conditional =>
-                        a instanceof Conditional &&
-                        // Don't include conditionals whose condition contain this; that would create a cycle
-                        !a.condition.contains(this) &&
-                        a.condition.nodes(
-                            (n): n is Reference =>
-                                (context.source.root.getParent(n) instanceof
-                                    Is ||
-                                    context.source.root.getParent(n) instanceof
-                                        BinaryEvaluate) &&
-                                n instanceof Reference &&
-                                definition === n.resolve(context)
-                        ).length > 0
-                )
-                .reverse();
+            const guards = getGuards(
+                this,
+                context,
+                (node) =>
+                    (context.source.root.getParent(node) instanceof Is ||
+                        context.source.root.getParent(node) instanceof
+                            BinaryEvaluate) &&
+                    node instanceof Reference &&
+                    definition === node.resolve(context)
+            );
 
             // Grab the furthest ancestor and evaluate possible types from there.
             const root = guards[0];
             if (root !== undefined) {
                 const possibleTypes = type.getTypeSet(context);
-                root.evaluateTypeSet(
+                root.evaluateTypeGuards(
                     definition,
                     possibleTypes,
                     possibleTypes,
@@ -312,7 +304,7 @@ export default class Reference extends SimpleExpression {
         return context.getReferenceType(this) ?? type;
     }
 
-    evaluateTypeSet(
+    evaluateTypeGuards(
         bind: Bind,
         _: TypeSet,
         current: TypeSet,

@@ -155,7 +155,7 @@ export default class PropertyBind extends Expression {
         return newStructure;
     }
 
-    evaluateTypeSet(_: Bind, __: TypeSet, current: TypeSet) {
+    evaluateTypeGuards(_: Bind, __: TypeSet, current: TypeSet) {
         return current;
     }
 

@@ -73,7 +73,7 @@ export default abstract class Expression extends Node {
      * Used to determine what types are possible for a given after evaluating this expression, implementing type guards.
      * Most expressions do not manipulate possible types at all; primarily is just logical operators and type checks.
      * */
-    abstract evaluateTypeSet(
+    abstract evaluateTypeGuards(
         bind: Bind,
         original: TypeSet,
         current: TypeSet,

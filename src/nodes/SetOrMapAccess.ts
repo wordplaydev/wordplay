@@ -176,16 +176,16 @@ export default class SetOrMapAccess extends Expression {
         else return setOrMap.has(this, key);
     }
 
-    evaluateTypeSet(
+    evaluateTypeGuards(
         bind: Bind,
         original: TypeSet,
         current: TypeSet,
         context: Context
     ) {
         if (this.setOrMap instanceof Expression)
-            this.setOrMap.evaluateTypeSet(bind, original, current, context);
+            this.setOrMap.evaluateTypeGuards(bind, original, current, context);
         if (this.key instanceof Expression)
-            this.key.evaluateTypeSet(bind, original, current, context);
+            this.key.evaluateTypeGuards(bind, original, current, context);
         return current;
     }
 

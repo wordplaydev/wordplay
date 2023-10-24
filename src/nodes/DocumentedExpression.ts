@@ -65,7 +65,7 @@ export default class DocumentedExpression extends SimpleExpression {
         ) as this;
     }
 
-    evaluateTypeSet(
+    evaluateTypeGuards(
         bind: Bind,
         original: TypeSet,
         current: TypeSet,

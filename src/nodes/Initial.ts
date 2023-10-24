@@ -85,7 +85,7 @@ export default class Initial extends SimpleExpression {
         return new BoolValue(this, evaluator.isInitialEvaluation());
     }
 
-    evaluateTypeSet(_: Bind, __: TypeSet, current: TypeSet) {
+    evaluateTypeGuards(_: Bind, __: TypeSet, current: TypeSet) {
         return current;
     }
 

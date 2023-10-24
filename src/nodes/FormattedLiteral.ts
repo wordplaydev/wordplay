@@ -137,7 +137,7 @@ export default class FormattedLiteral extends Literal {
         return FormattedType.make();
     }
 
-    evaluateTypeSet(_: Bind, __: TypeSet, current: TypeSet): TypeSet {
+    evaluateTypeGuards(_: Bind, __: TypeSet, current: TypeSet): TypeSet {
         return current;
     }
 

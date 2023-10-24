@@ -896,7 +896,7 @@ export default class Source extends Expression {
     getDependencies(): Expression[] {
         return [this.expression];
     }
-    evaluateTypeSet(_: Bind, __: TypeSet, current: TypeSet): TypeSet {
+    evaluateTypeGuards(_: Bind, __: TypeSet, current: TypeSet): TypeSet {
         return current;
     }
 

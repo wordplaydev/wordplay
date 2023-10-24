@@ -86,7 +86,7 @@ export default class InternalExpression extends SimpleExpression {
         return this;
     }
 
-    evaluateTypeSet(
+    evaluateTypeGuards(
         bind: Bind,
         original: TypeSet,
         current: TypeSet,

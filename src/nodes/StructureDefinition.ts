@@ -452,14 +452,19 @@ export default class StructureDefinition extends DefinitionExpression {
             );
     }
 
-    evaluateTypeSet(
+    evaluateTypeGuards(
         bind: Bind,
         original: TypeSet,
         current: TypeSet,
         context: Context
     ) {
         if (this.expression instanceof Expression)
-            this.expression.evaluateTypeSet(bind, original, current, context);
+            this.expression.evaluateTypeGuards(
+                bind,
+                original,
+                current,
+                context
+            );
         return current;
     }
 

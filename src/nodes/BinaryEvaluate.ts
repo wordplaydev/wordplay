@@ -334,7 +334,7 @@ export default class BinaryEvaluate extends Expression {
     /**
      * Type checks narrow the set to the specified type, if contained in the set and if the check is on the same bind.
      * */
-    evaluateTypeSet(
+    evaluateTypeGuards(
         bind: Bind,
         original: TypeSet,
         current: TypeSet,
@@ -343,13 +343,13 @@ export default class BinaryEvaluate extends Expression {
         // If conjunction, then we compute the intersection of the left and right's possible types.
         // Note that we pass the left's possible types because we don't evaluate the right if the left isn't true.
         if (this.getOperator() === AND_SYMBOL) {
-            const left = this.left.evaluateTypeSet(
+            const left = this.left.evaluateTypeGuards(
                 bind,
                 original,
                 current,
                 context
             );
-            const right = this.right.evaluateTypeSet(
+            const right = this.right.evaluateTypeGuards(
                 bind,
                 original,
                 left,
@@ -360,13 +360,13 @@ export default class BinaryEvaluate extends Expression {
         // If disjunction of type checks, then we return the union.
         // Note that we pass the left's possible types because we don't evaluate the right if the left is true.
         else if (this.getOperator() === OR_SYMBOL) {
-            const left = this.left.evaluateTypeSet(
+            const left = this.left.evaluateTypeGuards(
                 bind,
                 original,
                 current,
                 context
             );
-            const right = this.right.evaluateTypeSet(
+            const right = this.right.evaluateTypeGuards(
                 bind,
                 original,
                 left,
@@ -433,8 +433,8 @@ export default class BinaryEvaluate extends Expression {
         }
 
         // Otherwise, just pass the types down and return the original types.
-        this.left.evaluateTypeSet(bind, original, current, context);
-        this.right.evaluateTypeSet(bind, original, current, context);
+        this.left.evaluateTypeGuards(bind, original, current, context);
+        this.right.evaluateTypeGuards(bind, original, current, context);
         return current;
     }
 

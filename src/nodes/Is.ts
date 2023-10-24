@@ -124,7 +124,7 @@ export default class Is extends Expression {
     /**
      * Type checks narrow the set to the specified type, if contained in the set and if the check is on the same bind.
      * */
-    evaluateTypeSet(
+    evaluateTypeGuards(
         bind: Bind,
         _: TypeSet,
         current: TypeSet,

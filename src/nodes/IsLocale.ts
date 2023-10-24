@@ -101,7 +101,11 @@ export default class IsLocale extends SimpleExpression {
     getDependencies(): Expression[] {
         return [];
     }
-    evaluateTypeSet(bind: Bind, original: TypeSet, current: TypeSet): TypeSet {
+    evaluateTypeGuards(
+        bind: Bind,
+        original: TypeSet,
+        current: TypeSet
+    ): TypeSet {
         return current;
     }
 

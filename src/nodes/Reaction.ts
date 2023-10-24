@@ -280,16 +280,16 @@ export default class Reaction extends Expression {
         return streamValue;
     }
 
-    evaluateTypeSet(
+    evaluateTypeGuards(
         bind: Bind,
         original: TypeSet,
         current: TypeSet,
         context: Context
     ) {
         if (this.initial instanceof Expression)
-            this.initial.evaluateTypeSet(bind, original, current, context);
+            this.initial.evaluateTypeGuards(bind, original, current, context);
         if (this.next instanceof Expression)
-            this.next.evaluateTypeSet(bind, original, current, context);
+            this.next.evaluateTypeGuards(bind, original, current, context);
         return current;
     }
 

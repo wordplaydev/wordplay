@@ -185,16 +185,16 @@ export default class ListAccess extends Expression {
         return list.get(index);
     }
 
-    evaluateTypeSet(
+    evaluateTypeGuards(
         bind: Bind,
         original: TypeSet,
         current: TypeSet,
         context: Context
     ) {
         if (this.list instanceof Expression)
-            this.list.evaluateTypeSet(bind, original, current, context);
+            this.list.evaluateTypeGuards(bind, original, current, context);
         if (this.index instanceof Expression)
-            this.index.evaluateTypeSet(bind, original, current, context);
+            this.index.evaluateTypeGuards(bind, original, current, context);
         return current;
     }
 

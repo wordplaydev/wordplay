@@ -288,16 +288,16 @@ export default class Insert extends Expression {
         return row instanceof StructureValue ? table.insert(this, row) : row;
     }
 
-    evaluateTypeSet(
+    evaluateTypeGuards(
         bind: Bind,
         original: TypeSet,
         current: TypeSet,
         context: Context
     ) {
         if (this.table instanceof Expression)
-            this.table.evaluateTypeSet(bind, original, current, context);
+            this.table.evaluateTypeGuards(bind, original, current, context);
         if (this.row instanceof Expression)
-            this.row.evaluateTypeSet(bind, original, current, context);
+            this.row.evaluateTypeGuards(bind, original, current, context);
         return current;
     }
 

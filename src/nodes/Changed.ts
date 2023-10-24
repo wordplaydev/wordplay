@@ -125,14 +125,14 @@ export default class Changed extends SimpleExpression {
         return new BoolValue(this, evaluator.didStreamCauseReaction(stream));
     }
 
-    evaluateTypeSet(
+    evaluateTypeGuards(
         bind: Bind,
         original: TypeSet,
         current: TypeSet,
         context: Context
     ) {
         if (this.stream instanceof Expression)
-            this.stream.evaluateTypeSet(bind, original, current, context);
+            this.stream.evaluateTypeGuards(bind, original, current, context);
         return current;
     }
 

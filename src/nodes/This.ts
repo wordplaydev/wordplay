@@ -148,7 +148,7 @@ export default class This extends SimpleExpression {
         );
     }
 
-    evaluateTypeSet(
+    evaluateTypeGuards(
         bind: Bind,
         original: TypeSet,
         current: TypeSet,

@@ -102,7 +102,7 @@ export default class Program extends Expression {
         return this.expression.getType(context);
     }
 
-    evaluateTypeSet(_: Bind, __: TypeSet, current: TypeSet): TypeSet {
+    evaluateTypeGuards(_: Bind, __: TypeSet, current: TypeSet): TypeSet {
         return current;
     }
 

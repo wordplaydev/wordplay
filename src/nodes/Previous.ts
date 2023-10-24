@@ -190,16 +190,16 @@ export default class Previous extends Expression {
             : stream.range(this, num);
     }
 
-    evaluateTypeSet(
+    evaluateTypeGuards(
         bind: Bind,
         original: TypeSet,
         current: TypeSet,
         context: Context
     ) {
         if (this.stream instanceof Expression)
-            this.stream.evaluateTypeSet(bind, original, current, context);
+            this.stream.evaluateTypeGuards(bind, original, current, context);
         if (this.number instanceof Expression)
-            this.number.evaluateTypeSet(bind, original, current, context);
+            this.number.evaluateTypeGuards(bind, original, current, context);
         return current;
     }
 

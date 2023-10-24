@@ -134,7 +134,7 @@ export default class SetLiteral extends Expression {
         return new SetValue(this, values);
     }
 
-    evaluateTypeSet(
+    evaluateTypeGuards(
         bind: Bind,
         original: TypeSet,
         current: TypeSet,
@@ -142,7 +142,7 @@ export default class SetLiteral extends Expression {
     ) {
         this.values.forEach((val) => {
             if (val instanceof Expression)
-                val.evaluateTypeSet(bind, original, current, context);
+                val.evaluateTypeGuards(bind, original, current, context);
         });
         return current;
     }

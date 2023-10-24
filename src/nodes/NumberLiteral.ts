@@ -133,7 +133,7 @@ export default class NumberLiteral extends Literal {
         }
     }
 
-    evaluateTypeSet(
+    evaluateTypeGuards(
         bind: Bind,
         original: TypeSet,
         current: TypeSet,

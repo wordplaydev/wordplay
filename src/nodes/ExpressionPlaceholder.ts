@@ -166,7 +166,7 @@ export default class ExpressionPlaceholder extends SimpleExpression {
         return new UnimplementedException(evaluator, this);
     }
 
-    evaluateTypeSet(
+    evaluateTypeGuards(
         bind: Bind,
         original: TypeSet,
         current: TypeSet,

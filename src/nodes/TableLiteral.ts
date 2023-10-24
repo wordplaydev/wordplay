@@ -171,7 +171,7 @@ export default class TableLiteral extends Expression {
             : this.getParent(context);
     }
 
-    evaluateTypeSet(
+    evaluateTypeGuards(
         bind: Bind,
         original: TypeSet,
         current: TypeSet,
@@ -179,7 +179,7 @@ export default class TableLiteral extends Expression {
     ) {
         this.rows.forEach((row) => {
             if (row instanceof Expression)
-                row.evaluateTypeSet(bind, original, current, context);
+                row.evaluateTypeGuards(bind, original, current, context);
         });
         return current;
     }

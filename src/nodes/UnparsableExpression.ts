@@ -47,7 +47,7 @@ export default class UnparsableExpression extends SimpleExpression {
         return new UnparsableType(this.unparsables);
     }
 
-    evaluateTypeSet(_: Bind, __: TypeSet, current: TypeSet) {
+    evaluateTypeGuards(_: Bind, __: TypeSet, current: TypeSet) {
         return current;
     }
 
