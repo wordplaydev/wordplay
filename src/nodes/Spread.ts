@@ -72,7 +72,7 @@ export default class Spread extends Node {
             if (!(type instanceof ListType))
                 return [
                     new IncompatibleType(
-                        this,
+                        this.list,
                         ListType.make(),
                         this.list,
                         type
