@@ -2159,301 +2159,325 @@
             "code": "Noto Mono"
         },
         "phrases": {
-            "welcome": "$?"
+            "welcome": "你好"
         },
         "widget": {
-            "confirm": { "cancel": "$?" },
+            "confirm": {
+                "cancel": "取消"
+            },
             "dialog": {
-                "close": "$?"
+                "close": "关闭"
             },
             "loading": {
-                "message": "$?"
+                "message": "正在加载字体和文本，请稍候！"
             },
-            "back": "$?"
+            "back": "返回上一页"
         },
         "tile": {
             "toggle": {
                 "fullscreen": {
-                    "on": "$?",
-                    "off": "$?"
+                    "on": "退出全屏",
+                    "off": "扩展到全屏"
                 },
                 "show": {
-                    "on": "$?",
-                    "off": "$?"
+                    "on": "隐藏此瓷砖",
+                    "off": "显示此瓷砖"
                 }
             },
             "button": {
-                "collapse": "$?"
+                "collapse": "折叠窗口"
             }
         },
         "project": {
             "error": {
-                "unknown": "$?"
+                "unknown": "该演出不存在或未公开"
             },
             "button": {
-                "showCollaborators": "$?",
-                "removeCollaborator": "$?",
-                "copy": "$?",
-                "addSource": "$?",
-                "duplicate": "$?",
-                "revert": "$?",
-                "focusOutput": "$?",
-                "focusSource": "$?",
-                "focusDocs": "$?",
-                "focusPalette": "$?",
-                "focusCycle": "$?"
+                "showCollaborators": "显示合作者对话框",
+                "removeCollaborator": "移除合作者",
+                "copy": "将项目复制为文本",
+                "addSource": "创建新的$source",
+                "duplicate": "复制这个项目",
+                "revert": "恢复到原始代码",
+                "focusOutput": "聚焦舞台上的键盘乐器",
+                "focusSource": "聚焦到下一个源",
+                "focusDocs": "聚焦文档",
+                "focusPalette": "聚焦调色板",
+                "focusCycle": "聚焦到下一个瓷砖"
             },
             "field": {
                 "name": {
-                    "description": "$?",
-                    "placeholder": "$?"
+                    "description": "编辑项目名称",
+                    "placeholder": "名称"
                 }
             },
-            "help": "$?"
+            "help": "显示键盘快捷键"
         },
         "gallery": {
-            "untitled": "$?",
+            "untitled": "未命名",
             "subheader": {
                 "curators": {
-                    "header": "$?",
-                    "explanation": "$?"
+                    "header": "策展人",
+                    "explanation": "管理此画廊的创作者。"
                 },
                 "creators": {
-                    "header": "$?",
-                    "explanation": "$?"
+                    "header": "创作者",
+                    "explanation": "为此画廊做出贡献的创作者。"
                 },
                 "delete": {
-                    "header": "$?",
-                    "explanation": "$?"
+                    "header": "删除",
+                    "explanation": "删除该图库不会删除其项目。图库将被永久删除。"
                 }
             },
             "confirm": {
                 "delete": {
-                    "description": "$?",
-                    "prompt": "$?"
+                    "description": "删除画廊",
+                    "prompt": "删除"
                 },
                 "remove": {
-                    "description": "$?",
-                    "prompt": "$?"
+                    "description": "从画廊中删除项目",
+                    "prompt": "删除"
                 }
             },
             "error": {
-                "unknown": "$?"
+                "unknown": "此画廊不存在或不是公开的。"
             },
             "field": {
                 "name": {
-                    "description": "$?",
-                    "placeholder": "$?"
+                    "description": "画廊名称",
+                    "placeholder": "名称"
                 },
                 "description": {
-                    "description": "$?",
-                    "placeholder": "$?"
+                    "description": "画廊描述",
+                    "placeholder": "描述您的画廊。它的主题、目标或社区是什么？"
                 }
             }
         },
         "source": {
-            "label": "$?",
-            "empty": "$?",
-            "overwritten": "$?",
+            "label": "程序编辑器",
+            "empty": [
+                "让我们开始吧！您可以...",
+                "• 打开 📕 并将 🖱️ 拖到此程序中。",
+                "• 输入 $1 并从菜单中选择我们。",
+                "• 如果您熟悉我们，可以开始输入。",
+                "• 浏览画廊以获取灵感。",
+                "如果遇到困难，请参阅 <learn more@://learn>。"
+            ],
+            "overwritten": "收到了更新版本！",
             "confirm": {
                 "delete": {
-                    "description": "$?",
-                    "prompt": "$?"
+                    "description": "删除此$source",
+                    "prompt": "删除"
                 }
             },
             "toggle": {
                 "blocks": {
-                    "on": "$?",
-                    "off": "$?"
+                    "on": "隐藏块背景",
+                    "off": "显示块背景"
                 },
                 "glyphs": {
-                    "on": "$?",
-                    "off": "$?"
+                    "on": "折叠匹配的字形",
+                    "off": "展开匹配的字形"
                 }
             },
             "button": {
-                "selectOutput": "$?",
-                "expandSequence": "$?"
+                "selectOutput": "在舞台上显示此输出",
+                "expandSequence": "展开此折叠的代码"
             },
             "field": {
                 "name": {
-                    "description": "$?",
-                    "placeholder": "$?"
+                    "description": "编辑源名称",
+                    "placeholder": "名称"
                 }
             },
             "menu": {
-                "label": "$?",
-                "show": "$?",
-                "back": "$?"
+                "label": "自动完成菜单",
+                "show": "显示自动完成菜单",
+                "back": "退出子菜单"
             },
             "cursor": {
-                "priorLine": "$?",
-                "nextLine": "$?",
-                "priorInline": "$?",
-                "nextInline": "$?",
-                "lineStart": "$?",
-                "lineEnd": "$?",
-                "priorNode": "$?",
-                "nextNode": "$?",
-                "parent": "$?",
-                "selectAll": "$?",
-                "incrementLiteral": "$?",
-                "decrementLiteral": "$?",
-                "insertSymbol": "$?",
-                "insertTrue": "$?",
-                "insertFalse": "$?",
-                "insertNone": "$?",
-                "insertNotEqual": "$?",
-                "insertProduct": "$?",
-                "insertQuotient": "$?",
-                "insertDegree": "$?",
-                "insertFunction": "$?",
-                "insertLessOrEqual": "$?",
-                "insertGreaterOrEqual": "$?",
-                "insertStream": "$?",
-                "insertConvert": "$?",
-                "insertPrevious": "$?",
-                "insertType": "$?",
-                "insertTable": "$?",
-                "insertLine": "$?",
-                "backspace": "$?",
-                "cut": "$?",
-                "copy": "$?",
-                "paste": "$?",
-                "parenthesize": "$?",
-                "enumerate": "$?",
-                "type": "$?",
-                "undo": "$?",
-                "redo": "$?",
-                "search": "$?"
+                "priorLine": "将光标移至前一行",
+                "nextLine": "将光标移至后一行",
+                "priorInline": "将光标移到前一个位置",
+                "nextInline": "将光标移到后一个位置",
+                "lineStart": "将光标移到行的开头",
+                "lineEnd": "将光标移到行的末尾",
+                "priorNode": "选择前一个邻居",
+                "nextNode": "选择后一个邻居",
+                "parent": "选择容器",
+                "selectAll": "选择程序",
+                "incrementLiteral": "增加数字、文本或布尔值",
+                "decrementLiteral": "减少数字、文本或布尔值",
+                "insertSymbol": "插入$1",
+                "insertTrue": "插入 true",
+                "insertFalse": "插入 false",
+                "insertNone": "插入无符号",
+                "insertNotEqual": "插入不等号",
+                "insertProduct": "插入乘号",
+                "insertQuotient": "插入除号",
+                "insertDegree": "插入度符号",
+                "insertFunction": "插入函数",
+                "insertLessOrEqual": "插入小于或等于",
+                "insertGreaterOrEqual": "插入大于或等于",
+                "insertType": "插入类型符号",
+                "insertStream": "插入流符号",
+                "insertConvert": "插入转换符号",
+                "insertPrevious": "插入前一个符号",
+                "insertTable": "插入表符号",
+                "insertLine": "插入换行符",
+                "backspace": "删除选择或前一个字符",
+                "cut": "剪切选择",
+                "copy": "复制选择",
+                "paste": "粘贴键盘内容",
+                "parenthesize": "括号化选择",
+                "enumerate": "枚举选择",
+                "type": "键入字符",
+                "undo": "类型字符",
+                "redo": "撤销上次编辑",
+                "search": "查找要插入的特殊字符"
+                //until here
             }
         },
         "conflicts": {
-            "label": "$?"
+            "label": "冲突"
         },
         "output": {
-            "label": "$?",
+            "label": "程序输出",
             "toggle": {
                 "grid": {
-                    "on": "$?",
-                    "off": "$?"
+                    "on": "隐藏网格线",
+                    "off": "显示网格线"
                 },
                 "fit": {
-                    "on": "$?",
-                    "off": "$?"
+                    "on": "手动控制缩放",
+                    "off": "适应内容缩放"
                 },
                 "paint": {
-                    "on": "$?",
-                    "off": "$?"
+                    "on": "场所输出",
+                    "off": "放置输出"
                 }
             },
             "field": {
                 "key": {
-                    "description": "$?",
-                    "placeholder": "$?"
+                    "description": "聆听按键",
+                    "placeholder": "消息"
                 }
             },
             "button": {
-                "submit": "$?"
+                "submit": "提交此聊天消息"
             }
         },
         "timeline": {
-            "label": "$?",
-            "slider": "$?",
+            "label": "时间轴",
+            "slider": "时间轴滑块",
             "button": {
-                "play": "$?",
-                "pause": "$?",
-                "backStep": "$?",
-                "backNode": "$?",
-                "backInput": "$?",
-                "out": "$?",
-                "forwardStep": "$?",
-                "forwardNode": "$?",
-                "forwardInput": "$?",
-                "present": "$?",
-                "start": "$?",
-                "reset": "$?"
+                "play": "对程序进行实时输入响应的评估",
+                "pause": "暂停程序，允许前进和后退",
+                "backStep": "后退一步",
+                "backNode": "后退到上一个节点评估",
+                "backInput": "后退一个输入",
+                "out": "退出此功能",
+                "forwardStep": "前进一步",
+                "forwardNode": "前进到下一个节点评估",
+                "forwardInput": "前进到下一个流输入",
+                "present": "到现在",
+                "start": "返回开头",
+                "reset": "重新启动性能"
             }
         },
         "docs": {
-            "label": "$?",
-            "link": "$?",
-            "learn": "$?",
-            "nodoc": "$?",
+            "label": "文档浏览器",
+            "link": "在文档中显示概念 $1",
+            "learn": "了解更多...",
+            "nodoc": "我是谁？我是什么？我的目的是什么？",
             "button": {
-                "home": "$?",
-                "back": "$?"
+                "home": "返回主页",
+                "back": "返回上一页"
             },
             "field": {
-                "search": "$?"
+                "search": "使用关键词搜索概念"
             },
             "header": {
-                "inputs": "$?",
-                "interfaces": "$?",
-                "properties": "$?",
-                "functions": "$?",
-                "conversions": "$?"
+                "inputs": "投入",
+                "interfaces": "接口",
+                "properties": "属性",
+                "functions": "函数",
+                "conversions": "转换"
             }
         },
         "dialog": {
             "share": {
-                "header": "$?",
-                "explanation": "$?",
+                "header": "分享",
+                "explanation": "控制谁可以编辑和查看此项目。",
                 "subheader": {
                     "collaborators": {
-                        "header": "$?",
-                        "explanation": "$?"
+                        "header": "合作者",
+                        "explanation": "合作者可以查看和编辑此项目。通过电子邮件添加或删除他们。"
                     },
                     "gallery": {
-                        "header": "$?",
-                        "explanation": "$?"
+                        "header": "画廊",
+                        "explanation": "将此项目添加到画廊中，与其他创作者并列，或在您的 <projects@://projects> 页面上创建一个画廊。如果您将项目添加到公开画廊，您的项目将变为公开。"
                     },
                     "public": {
-                        "header": "$?",
-                        "explanation": "$?"
+                        "header": "公开/私有",
+                        "explanation": "公开项目和画廊可以被世界上任何人看到。通过将项目或画廊设为公开，您承诺："
                     }
                 },
                 "field": {
                     "email": {
-                        "placeholder": "$?",
-                        "description": "$?"
+                        "placeholder": "电子邮件",
+                        "description": "您希望授予编辑权限的人的电子邮件地址。"
                     }
                 },
                 "mode": {
                     "public": {
-                        "label": "$?",
-                        "modes": ["$?", "$?"]
+                        "label": "可见性",
+                        "modes": ["私有", "公开"]
                     }
                 },
                 "error": {
-                    "unknown": "$?"
+                    "unknown": "我们不知道这封邮件的创建者是谁。"
                 },
                 "button": {
-                    "submit": "$?"
+                    "submit": "通过此电子邮件地址分享项目"
                 }
             },
             "settings": {
-                "header": "$?",
-                "explanation": "$?",
+                "header": "设置",
+                "explanation": "更改布局、设备和主题设置。",
                 "button": {
-                    "show": "$?"
+                    "show": "显示设置对话框"
                 },
                 "mode": {
                     "layout": {
-                        "label": "$?",
-                        "modes": ["$?", "$?", "$?", "$?"]
+                        "label": "布局",
+                        "modes": ["自动", "水平", "垂直", "自由"]
                     },
                     "animate": {
-                        "label": "$?",
-                        "modes": ["$?", "$?", "$?", "$?", "$?"]
+                        "label": "动画",
+                        "modes": [
+                            "关闭",
+                            "开启",
+                            "半速",
+                            "三分之一速度",
+                            "四分之一速度"
+                        ]
                     },
                     "dark": {
-                        "label": "$?",
-                        "modes": ["$?", "$?", "$?"]
+                        "label": "主题",
+                        "modes": [
+                            "浅色",
+                            "深色",
+                            "使用设备设置"
+                        ]
                     },
                     "writing": {
-                        "label": "$?",
-                        "modes": ["$?", "$?", "$?"]
+                        "label": "写作布局",
+                        "modes": [
+                            "水平，从左到右",
+                            "垂直，从右到左",
+                            "垂直，从左到右"
+                        ]
                     }
                 }
             },
