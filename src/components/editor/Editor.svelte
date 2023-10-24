@@ -136,10 +136,7 @@
 
     $: caretExpressionType =
         $caret.position instanceof Expression
-            ? $caret.position
-                  .getType(context)
-                  .simplify(context)
-                  .generalize(context)
+            ? $caret.position.getType(context).simplify(context)
             : undefined;
 
     // A menu of potential transformations based on the caret position.
