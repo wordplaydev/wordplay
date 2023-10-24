@@ -39,7 +39,15 @@
     $: emailSubmittable = !sent && validEmail(email);
 
     $: usernameSubmittable =
-        !sent && username.length > 4 && password.length >= 10;
+        !sent && isValidUsername(username) && isValidPassword(password);
+
+    function isValidUsername(username: string) {
+        return !validEmail(username) && username.length >= 5;
+    }
+
+    function isValidPassword(pass: string) {
+        return pass.length >= 10;
+    }
 
     async function startEmailLogin() {
         if (auth && emailSubmittable) {
@@ -204,11 +212,6 @@
 {/if}
 <Subheader>{$locales.get((l) => l.ui.page.login.subheader.username)}</Subheader>
 <form class="login-form" on:submit={startUsernameLogin}>
-    <Note
-        ><MarkupHtmlView
-            markup={$locales.get((l) => l.ui.page.login.prompt.usernamerules)}
-        /></Note
-    >
     <TextField
         description={$locales.get(
             (l) => l.ui.page.login.field.username.description
@@ -218,6 +221,7 @@
         )}
         bind:text={username}
         editable={!sent}
+        validator={(name) => isValidUsername(name)}
     />
     <div>
         <TextField
@@ -230,6 +234,7 @@
             )}
             bind:text={password}
             editable={!sent}
+            validator={(pass) => isValidPassword(pass)}
         />
         <Button
             submit
@@ -239,6 +244,9 @@
             action={() => undefined}>&gt;</Button
         ></div
     >
+    <MarkupHtmlView
+        markup={$locales.get((l) => l.ui.page.login.prompt.usernamerules)}
+    />
 </form>
 
 {#if sent === true}

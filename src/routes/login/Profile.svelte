@@ -79,8 +79,8 @@
 
     function readyToDeleteAccount(email: string) {
         const finalEmail = username
-            ? `${confirmEmail}${HiddenUsernameEmailDomain}`
-            : confirmEmail;
+            ? `${email}${HiddenUsernameEmailDomain}`
+            : email;
         return validEmail(finalEmail) && finalEmail === user.email;
     }
 </script>
