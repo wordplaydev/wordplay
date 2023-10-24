@@ -1821,242 +1821,506 @@
     "output": {
         "Type": {
             "names": "tipo",
-            "doc": "$?"
+            "doc": [
+                "Yo no soy un @StructureDefinition que puedes hacer. Pero soy una bien importante, que yo inspiro todos los elementos mas importantes de nuestro baile: @Phrase, @Group, y @Stage.",
+                "Ve a conocerlos para aprender mas de ellos y como usarlos."
+            ]
         },
         "Stage": {
-            "names": "Verso",
-            "doc": "$?",
-            "description": "$?",
-            "content": { "doc": "$?", "names": "contenido" },
-            "frame": { "doc": "$?", "names": "marco" },
-            "size": { "doc": "$?", "names": "tamaño" },
-            "face": { "doc": "$?", "names": "fuente" },
-            "place": { "doc": "$?", "names": "place" },
-            "name": { "doc": "$?", "names": "nombre" },
-            "selectable": { "doc": "$?", "names": "seleccionable" },
-            "color": {
-                "doc": "$?",
-                "names": "$? color"
+            "names": "escenario",
+            "doc": [
+                "HOLA. ESCENARIO AQUÍ. DIME QUE MOSTRAR Y LO MUESTRO",
+                "\\Escenario([Frase('cosasssss')]\\",
+                "SI QUIERES DAME UN @Color PARA EL FONDO Y ILUMINARÉ EL ESCENARIO",
+                "\\Escenario([Frase('cosasssss')] Color(0% 0 0°) color: Color(100% 0 0°))\\",
+                "TAMBIÉN PUEDES DARME UN BORDE DE MARCO Y LO RECORTARÉ.",
+                "\\Escenario([Frase('cosasssss')] Color(0% 0 0°) Rectángulo(-1m -1m 1m 1m) color: Color(100% 0 0°))\\"
+            ],
+            "description": "escenario $1[$1|] of $2 frases $3[$3 marco|] $4",
+            "content": {
+                "doc": "La lista de @Tipo para mostrar en el escenario.",
+                "names": "contenido"
             },
-            "background": { "doc": "$?", "names": "fondo" },
+            "frame": {
+                "doc": "La forma y tamaño del marco a colocar alrededor del escenario, ocultando todo lo que hay fuera de él.",
+                "names": "marco"
+            },
+            "size": {
+                "doc": "COMO @Grupo/tamaño",
+                "names": "tamaño"
+            },
+            "face": {
+                "doc": "COMO @Grupo/fuente",
+                "names": "fuente"
+            },
+            "place": {
+                "doc": "SI FUERA UNA CÁMARA, AQUÍ ESTOY MIRANDO",
+                "names": "lugar"
+            },
+            "name": {
+                "doc": ["IGUAL QUE @Frase/nombre"],
+                "names": "nombre"
+            },
+            "selectable": {
+                "doc": "IGUAL QUE @Frase/seleccionable",
+                "names": "seleccionable"
+            },
+            "color": {
+                "doc": "IGUAL QUE @Grupo/color",
+                "names": "color"
+            },
+            "background": {
+                "doc": "IGUAL QUE @Grupo/fondo",
+                "names": "fondo"
+            },
             "opacity": {
-                "doc": "$?",
-                "names": "$? opacity"
+                "doc": "IGUAL QUE @Grupo/opacidad",
+                "names": "opacidad"
             },
             "offset": {
-                "doc": "$?",
-                "names": "$? offset"
+                "doc": "IGUAL QUE @Grupo/compensar",
+                "names": "compensar"
             },
             "rotation": {
-                "doc": "$?",
-                "names": "$? rotation"
+                "doc": "IGUAL QUE @Grupo/rotación",
+                "names": "rotación"
             },
             "scale": {
-                "doc": "$?",
-                "names": "$? scale"
+                "doc": "IGUAL QUE @Grupo/escala ",
+                "names": "escala"
             },
             "flipx": {
-                "doc": "$?",
-                "names": "$? flipx"
+                "doc": "IGUAL QUE @Grupo/voltearx",
+                "names": "voltearx"
             },
             "flipy": {
-                "doc": "$?",
-                "names": "$? flipy"
+                "doc": "IGUAL QUE @Grupo/volteary",
+                "names": "volteary"
             },
-            "entering": { "doc": "$?", "names": "$! ingresar" },
-            "resting": { "doc": "$?", "names": "$! descansar" },
-            "moving": { "doc": "$?", "names": "$! mover" },
-            "exiting": { "doc": "$?", "names": "$! salida" },
-            "duration": { "doc": "$?", "names": "duración" },
-            "style": { "doc": "$?", "names": "estilo" }
+            "entering": {
+                "doc": "IGUAL QUE @Grupo/entrando",
+                "names": "entrando"
+            },
+            "resting": {
+                "doc": "IGUAL QUE @Grupo/descandando",
+                "names": "descansando"
+            },
+            "moving": {
+                "doc": "IGUAL QUE @Grupo/moviendo",
+                "names": "moviendo"
+            },
+            "exiting": {
+                "doc": "IGUAL QUE @Grupo/saliendo",
+                "names": "saliendo"
+            },
+            "duration": {
+                "doc": "IGUAL QUE @Frase/duración",
+                "names": "duración"
+            },
+            "style": {
+                "doc": "IGUAL QUE @Frase/estilo",
+                "names": "estilo"
+            }
         },
         "Group": {
             "names": "Group",
-            "doc": "$?",
-            "description": "$?",
-            "content": { "doc": "$?", "names": "content" },
-            "layout": { "doc": "$?", "names": "layout" },
-            "size": { "doc": "$?", "names": "tamaño" },
-            "face": { "doc": "$?", "names": "fuente" },
-            "place": { "doc": "$?", "names": "place" },
-            "name": { "doc": "$?", "names": "nombre" },
-            "selectable": { "doc": "$?", "names": "seleccionable" },
-            "color": {
-                "doc": "$?",
-                "names": "$? color"
+            "doc": [
+                "¿Oh hola como estas? Yo siempre estoy bien cunado hay otros cerca, así que es maravilloso de verte!",
+                "Yo agrupo @Frase y @Grupo en el @Escenario y los pongo en un @Arreglo para que haya cierto orden en el lugar donde se colocan.",
+                "Para trabajar necesito que me des un @Arreglo y despues una @Lista de @Tipo para arreglar.",
+                "Por ejemplo, aqui estoy con una @Pila arreglo y unas @Frases para colocar verticalmente:",
+                "\\Grupo(Pila() [Frase('primera') Frase('segunda')])\\",
+                "Cómo los organizo depende del @Arreglo que tu me das."
+            ],
+            "description": "$1[$1|] $2 $3",
+            "content": {
+                "doc": "La lista de @Tipo para arreglar",
+                "names": "content"
             },
-            "background": { "doc": "$?", "names": "fondo" },
+            "layout": {
+                "doc": "El arreglo para poner @Tipo en su lugar",
+                "names": "layout"
+            },
+            "size": {
+                "doc": "Que tan alto debe ser el maravilloso contenido dentro de mí, a menos que ya tiene un su tamaño propio!",
+                "names": "tamaño"
+            },
+            "face": {
+                "doc": "El nombre de la fuente que el contenido debe tener dentro de mí, a menos que tengan su cara propia.",
+                "names": "fuente"
+            },
+            "place": {
+                "doc": "El lugar que debo de estar. El contenido dentro de mí se organizará en relación con allí.",
+                "names": "place"
+            },
+            "name": {
+                "doc": ["Lo mismo que @Frase/nombre"],
+                "names": "nombre"
+            },
+            "selectable": {
+                "doc": "Lo mismo que @Frase/seleccionable",
+                "names": "seleccionable"
+            },
+            "color": {
+                "doc": "El @Color que el contenido debe tener dentro de mí, a menos que tengan su color propio.",
+                "names": "color"
+            },
+            "background": {
+                "doc": "El @Color para proyectar detrás de mí ",
+                "names": "fondo"
+            },
             "opacity": {
-                "doc": "$?",
-                "names": "$? opacity"
+                "doc": "Que tan transparent debe ser el contenido dentro de mí, entre \\0\\ y \\1\\, a menos que fuera anulado por una @Pose diferente.",
+                "names": "opacidad"
             },
             "offset": {
-                "doc": "$?",
-                "names": "$? offset"
+                "doc": "Un @Lugar que indica qué tan alejado debe estar de mi @Lugar normal, a menos que lo anule un @Pose diferente. Útil para moverse en su lugar.",
+                "names": "compensar"
             },
             "rotation": {
-                "doc": "$?",
-                "names": "$? rotation"
+                "doc": "Que tan inclinado debería estar alrededor de mi centro, mi @Pose tiene uno diferente.",
+                "names": "rotación"
             },
             "scale": {
-                "doc": "$?",
-                "names": "$? scale"
+                "doc": "Que tan grande debería ser en relación con mi tamaño original.",
+                "names": "escala"
             },
             "flipx": {
-                "doc": "$?",
-                "names": "$? flipx"
+                "doc": "¡Igual que @Frase/voltearx!",
+                "names": "voltearx"
             },
             "flipy": {
-                "doc": "$?",
-                "names": "$? flipy"
+                "doc": "¡Igual que @Frase/volteary!",
+                "names": "volteary"
             },
-            "entering": { "doc": "$?", "names": "$! ingresar" },
-            "resting": { "doc": "$?", "names": "$! descansar" },
-            "moving": { "doc": "$?", "names": "$! mover" },
-            "exiting": { "doc": "$?", "names": "$! salida" },
-            "duration": { "doc": "$?", "names": "duración" },
-            "style": { "doc": "$?", "names": "estilo" }
+            "entering": {
+                "doc": "¡Igual que @Grupo/entrando",
+                "names": "entrando"
+            },
+            "resting": {
+                "doc": "¡Igual que @Grupo/descandando",
+                "names": "descansando"
+            },
+            "moving": {
+                "doc": "¡Igual que @Grupo/moviendo",
+                "names": "moviendo"
+            },
+            "exiting": {
+                "doc": "¡Igual que @Grupo/saliendo",
+                "names": "saliendo"
+            },
+            "duration": {
+                "doc": "¡Igual que @Frase/duración",
+                "names": "duración"
+            },
+            "style": {
+                "doc": "¡Igual queE @Frase/estilo",
+                "names": "estilo"
+            }
         },
         "Phrase": {
             "names": "Frase",
-            "doc": "$?",
-            "description": "$?",
-            "text": { "doc": "$?", "names": "texto" },
-            "size": { "doc": "$?", "names": "tamaño" },
-            "face": { "doc": "$?", "names": "fuente" },
-            "place": { "doc": "$?", "names": "place" },
+            "doc": [
+                "¡Hola, hola! ¿Me recuerdas? ¿Cómo podría alguien olvidarse de /mí/? Eso es correcto, yo soy la frase maravillosa, lista para representar el @Texto hermoso en el @Esenario.",
+                "Solo hazme así, y aparecerá en el @Escenario:",
+                "\\Frase('¡magnífico!')\\",
+                "Necesito @Texto obviamente, pero de otro modo, yo puedo aser todo que un @Tipo puedo hacer, incluyendo cambiando mi tamaño, fuente, rotacion, y todo los bailes con @Pose y @Sequencia.",
+                "Tambien puedes seleccionarme en el @Escenario y editarme con la paleta cerca de la puerta."
+            ],
+            "description": "$3[$3 metro |]frase $1 $2[llamdo $2|] $4[$4|] $5",
+            "text": {
+                "doc": "Los personajes a mostrar en el @Escenario",
+                "names": "texto"
+            },
+            "size": {
+                "doc": "Que tan alto debo ser en metros!",
+                "names": "tamaño"
+            },
+            "face": {
+                "doc": "El nombre de la fuenete que yo debo ponerme.",
+                "names": "fuente"
+            },
+            "place": {
+                "doc": "El lugar en el escenario que debo estar.",
+                "names": "lugar"
+            },
             "wrap": {
-                "doc": "$?",
-                "names": "$? wrap"
+                "doc": "La orilla que debo envolver simbolos o \\ø\\ si no debo de envolverlos.",
+                "names": "envolver"
             },
             "alignment": {
-                "doc": "$?",
-                "names": "$? alignment"
+                "doc": "Si hay una límite de @Frase/orilla límite establecido, si debo de alinear los simbolos al principo, en medio, or al final.",
+                "names": "alineación"
             },
-            "name": { "doc": "$?", "names": "nombre" },
-            "selectable": { "doc": "$?", "names": "seleccionable" },
+            "name": {
+                "doc": [
+                    "Un nombre que me das! Esto es muy útil para muchas cosas.",
+                    "Primero, si tengo un nombre, yo lo usare para describirme en descripciones de lectoras de pantalla.",
+                    "Segundo, cuando animas, puedes tener muchas expresiones que representan el mismo contenido en el escenario; darles el mismo nombre y ellos animarán como uno.",
+                    "Finalmente, yo soy útil con @Elección: los nombres que me das aparecen en esa sequencia.",
+                    "Puedes darme mucho nombres diferentes, cada uno en una idioma diferente, si es útil. Yo siempre usara el nombre en la idioma seleccionada primero."
+                ],
+                "names": "nombre"
+            },
+            "selectable": {
+                "doc": "Si \\T\\, indica que yo puedo hacer seleccionabo usando un puntero o tecla",
+                "names": "seleccionable"
+            },
             "color": {
-                "doc": "$?",
-                "names": "$? color"
+                "doc": "El @Color que debo hacer por defecto, a menos que sea anulado por una @Pose diferente.",
+                "names": "color"
             },
-            "background": { "doc": "$?", "names": "fondo" },
+            "background": {
+                "doc": "El @Color que va proyecte detras de mi",
+                "names": "fondo"
+            },
             "opacity": {
-                "doc": "$?",
-                "names": "$? opacity"
+                "doc": "Que tan transparente deberia ser por defecto, entre \\0\\ and \\1\\, a menos que fuera anulado por una @Pose diferente.",
+                "names": "opacidad"
             },
             "offset": {
-                "doc": "$?",
-                "names": "$? offset"
+                "doc": "Un @Lugar indicando qué tan compensado debe estar de mi @Lugar, a menos que fuera anulado por una @Pose diferente.",
+                "names": "compensar"
             },
             "rotation": {
-                "doc": "$?",
-                "names": "$? rotation"
+                "doc": "La cantidad en grados que debo rotar alrededor del centro, a menos que fuera anulado por una @Pose diferente.",
+                "names": "rotación"
             },
             "scale": {
-                "doc": "$?",
-                "names": "$? scale"
+                "doc": "Que magnificado debo ser en relación a el tamaño original, a menos que fuera anulado por una @Pose diferente.",
+                "names": "escala"
             },
             "flipx": {
-                "doc": "$?",
-                "names": "$? flipx"
+                "doc": "Si debería reflejarme en el eje x, a menos que fuera anulado por una @Pose diferente. ",
+                "names": "voltearx"
             },
             "flipy": {
-                "doc": "$?",
-                "names": "$? flipy"
+                "doc": "Si debería reflejarme en el eje y, a menos que fuera anulado por una @Pose diferente.",
+                "names": "volteary"
             },
-            "entering": { "doc": "$?", "names": "$! ingresar" },
-            "resting": { "doc": "$?", "names": "$! descansar" },
-            "moving": { "doc": "$?", "names": "$! mover" },
-            "exiting": { "doc": "$?", "names": "$! salida" },
-            "duration": { "doc": "$?", "names": "duración" },
-            "style": { "doc": "$?", "names": "estilo" }
+            "entering": {
+                "doc": "La @Pose o @Sequencia que debo de hacer cuando entro el escenario",
+                "names": "entrando"
+            },
+            "resting": {
+                "doc": "La @Pose o @Sequencia que debo de hacer después que entro en el escenario, antes que salgo, y cuando mi @Lugar no esta cambiando. Si no me quieres dar uno, usaré el predeterminado.",
+                "names": "descansando"
+            },
+            "moving": {
+                "doc": "La @Pose o @Sequencia que debo de hacer cuando cambio de lugar en el escenario en lugar de mi defecto.",
+                "names": "moviendo"
+            },
+            "exiting": {
+                "doc": "La @Pose o @Sequencia que debo de hacer antes de salir del escenario",
+                "names": "saliendo"
+            },
+            "duration": {
+                "doc": "La duración que applicar cuando se mueve a otro lugar en el escenario.",
+                "names": "duración"
+            },
+            "style": {
+                "doc": "El estilo de animación que applicar cuando se mueve a otro lugar en el escenario.",
+                "names": "estilo"
+            }
         },
-        "Arrangement": { "names": ["Arrangement"], "doc": "$?" },
+        "Arrangement": {
+            "names": ["Arreglo"],
+            "doc": "Soy una inspiración para muchos otros tipos de arreglos en Verse, incluidos @Fila, @Pila, @Cuadrícula y @Suelto. Trabajo estrechamente con @Grupo."
+        },
         "Row": {
             "names": ["Fila"],
-            "doc": "$?",
-            "description": "$?",
+            "doc": "Soy @Fila, un @Arreglo horizontal de @Tipo, con relleno opcional. Has conocido a mi gemelo @Pila?",
+            "description": "fila de $1 frases y grupos",
             "alignment": {
-                "doc": "$?",
-                "names": "$? alignment"
+                "doc": "Si alinear el texto al inicio, al centro o al final de cada columna.",
+                "names": "alineación"
             },
-            "padding": { "doc": "$?", "names": "relleno" }
+            "padding": {
+                "doc": "La cantidad de relleno que se colocará entre la salida.",
+                "names": "relleno"
+            }
         },
         "Stack": {
             "names": "Pila",
-            "doc": "$?",
-            "description": "$?",
+            "doc": "Soy @Pila, un @Arreglo vertical de @Tipo, con relleno opcional. Has conocido a mi gemelo @Fila",
+            "description": "pila de $1 frases y grupos",
             "alignment": {
-                "doc": "$?",
-                "names": "$? alignment"
+                "doc": "Si alinear el texto al inicio, al centro o al final de cada columna.",
+                "names": "alineación"
             },
-            "padding": { "doc": "$?", "names": "relleno" }
+            "padding": {
+                "doc": "La cantidad de relleno que se colocará entre la salida.",
+                "names": "relleno"
+            }
         },
         "Grid": {
             "names": "cuadrícula",
-            "doc": "$?",
+            "doc": "Soy cuadrícula de @Tipo. Dame un recuento de filas y columnas y haré un arreglo ordenado con relleno y tamaños de celda opcionales. ",
             "description": "cuadrícula de $1 fila, $2 columnas",
-            "rows": { "doc": "$?", "names": "fila" },
-            "columns": { "doc": "$?", "names": "columnas" },
-            "padding": { "doc": "$?", "names": "relleno" },
-            "cellWidth": { "doc": "$?", "names": "anchodecelda" },
-            "cellHeight": { "doc": "$?", "names": "alturadecelda" }
+            "rows": {
+                "doc": "Cuantas filas hacer en la cuadrícula.",
+                "names": "fila"
+            },
+            "columns": {
+                "doc": "Cuantas columnas para hacer en la cuadrícula.",
+                "names": "columnas"
+            },
+            "padding": {
+                "doc": "Cuanto relleno en medio de las celdas",
+                "names": "relleno"
+            },
+            "cellWidth": {
+                "doc": "Que tan ancho son las celdas",
+                "names": "anchodecelda"
+            },
+            "cellHeight": {
+                "doc": "Que tan alto son las celdas",
+                "names": "alturadecelda"
+            }
         },
         "Free": {
             "names": "Suelto",
-            "doc": "$?",
+            "doc": [
+                "Soy como lo que sea. Sientate donde quieras. Simplemente sientate! Asegúrate que todos los @Tipo que me das tiene un @Lugar, si no no van a saber a donde ir.",
+                "Oh, y recuerda que el @Lugar que le das a cada @Tipo es relativo all @Grupo's @Lugar! Entonces, si te preguntas por qué las cosas no estan apareciendo donde deben, intenta darle al @Grupo un lugar tambien."
+            ],
             "description": "forma libre, $1 producción"
         },
-        "Shape": { "names": "forma", "doc": "$?" },
+        "Shape": {
+            "names": "forma",
+            "doc": "Yo soy la inspiración para todos las formas. Soy útil para decirle al @Escenario que forma debe ser."
+        },
         "Rectangle": {
             "names": "Rectángulo",
-            "doc": "$?",
-            "left": { "doc": "$?", "names": "izquierda" },
-            "top": { "doc": "$?", "names": "masalta" },
-            "right": { "doc": "$?", "names": "derecha" },
-            "bottom": { "doc": "$?", "names": "abajo" }
+            "doc": "Soy un @Rectángulo, útil para hacer un border de tu elección para el @Escenario.",
+            "left": {
+                "doc": "Soy la orilla izquierda del escenario en el eje x.",
+                "names": "izquierda"
+            },
+            "top": {
+                "doc": "Soy la orilla masalta del escenario en el eje y.",
+                "names": "masalta"
+            },
+            "right": {
+                "doc": "Soy la orilla derecha del escenario en el eje x.",
+                "names": "derecha"
+            },
+            "bottom": {
+                "doc": "Soy la orilla abajo del escenarion en el eje y.",
+                "names": "abajo"
+            }
         },
         "Pose": {
             "names": "Pose",
-            "doc": "$?",
-            "duration": { "doc": "$?", "names": "duración" },
-            "style": { "doc": "$?", "names": "estilo" },
-            "color": { "doc": "$?", "names": "color" },
-            "opacity": { "doc": "$?", "names": "opacidad" },
-            "offset": { "doc": "$?", "names": "offset" },
-            "rotation": { "doc": "$?", "names": "inclinación" },
-            "scale": { "doc": "$?", "names": "escala" },
-            "flipx": { "doc": "$?", "names": "voltearx" },
-            "flipy": { "doc": "$?", "names": "volteary" },
-            "description": "$?"
+            "doc": [
+                "Sabes cuando alguien adopta la forma más maravilloso de pararse, hace una pausa y todos miran? Ese soy yo. Capturo una pose para @Tipo y soy el componente básico de sus movimientos.",
+                "Muchas cosas entran en una pose. ¡Mira mis muchas aportaciones para ver qué tipo de poses puedes hacer!"
+            ],
+            "duration": {
+                "doc": "Cuánto tiempo debería tomar esta pose para entrar desde una pose anterior.",
+                "names": "duración"
+            },
+            "style": {
+                "doc": "El estilo de animación que se utilizará al pasar a esta pose.",
+                "names": "estilo"
+            },
+            "color": {
+                "doc": "El @Color un @Tipo debe de hacer en esta pose, en lugar de la pose predeterminada.",
+                "names": "color"
+            },
+            "opacity": {
+                "doc": "Qué tan transparente debe ser un @Tipo, entre \\0\\ y \\1\\, en lugar de su valor predeterminado. Útil para desvanecerse y desaparecer.",
+                "names": "opacidad"
+            },
+            "offset": {
+                "doc": "Un @Lugar que indica qué tan alejado debe estar del lugar de un @Tipo, en lugar de su valor predeterminado. Útil para moverse en su lugar.",
+                "names": "offset"
+            },
+            "rotation": {
+                "doc": "Qué tan girado debe estar un @Tipo, en lugar de su valor predeterminado.",
+                "names": "rotación"
+            },
+            "scale": {
+                "doc": "Qué tan ampliado debe estar un @Tipo en relación con su tamaño original, en lugar de su tamaño predeterminado.",
+                "names": "escala"
+            },
+            "flipx": {
+                "doc": "Si un @Tipo debe reflejarse en el eje x, en lugar de su valor predeterminado.",
+                "names": "voltearx"
+            },
+            "flipy": {
+                "doc": "Si un @Type debe reflejarse en el eje y, en lugar de su valor predeterminado.",
+                "names": "volteary"
+            },
+            "description": "$1[transparente $1|] $2[girado $2 degrees|] $3[magnificado $3|] $4[volteado horizontally|] $5[volteado vertically|]"
         },
         "Color": {
             "names": "Color",
-            "doc": "$?",
-            "lightness": { "doc": "$?", "names": ["luminosidad"] },
-            "chroma": { "doc": "$?", "names": ["croma"] },
-            "hue": { "doc": "$?", "names": ["matiz"] }
+            "doc": [
+                "Soy un color visible, hecho de tres dimensiones esenciales.",
+                "Aqui hay algunos colores comunes en la rueda de colores, con brillo medio y croma alta:",
+                "\\Color(50% 100 0°)\\",
+                "\\Color(50% 100 30°)\\",
+                "\\Color(50% 100 60°)\\",
+                "\\Color(50% 100 90°)\\",
+                "\\Color(50% 100 120°)\\",
+                "\\Color(50% 100 150°)\\",
+                "\\Color(50% 100 180°)\\",
+                "\\Color(50% 100 210°)\\",
+                "\\Color(50% 100 240°)\\",
+                "\\Color(50% 100 270°)\\",
+                "\\Color(50% 100 300°)\\",
+                "\\Color(50% 100 330°)\\"
+            ],
+            "lightness": {
+                "doc": "Qué tan claro debería ser de \\0\\ a \\1\\, de negro en \\0\\, a gris en \\0.5\\, a blanco en \\1\\.",
+                "names": ["luminosidad"]
+            },
+            "chroma": {
+                "doc": "Cuánto color debería tener, de \\0\\ a \\∞\\. Ningún color significa gris, los números más altos significan más color.",
+                "names": ["croma"]
+            },
+            "hue": {
+                "doc": "De qué color debería ser, en una rueda de colores, desde msgenta \\0\\, rojo \\30\\, verde \\120\\, hasta azul \\270\\.",
+                "names": ["matiz"]
+            }
         },
         "Sequence": {
             "names": "Secuencia",
-            "doc": "$?",
-            "poses": { "doc": "$?", "names": "poses" },
+            "doc": [
+                "Director, te miras espectacular hoy! Quieres bailar? Es bien facil.",
+                "Solamente necesitas darme una @Mapa donde cada llave representa que porcentaje hemos terminado en el baile, y cada valor de una llave es una @Pose.",
+                "¡Hay muchas formas diferentes de animar con esto! Por ejemplo, aquí tienes uno sencillo:",
+                "\\Frase('hola' descancado:Sequencia({0%: Pose(rotation: 360°) 100%: Pose(rotation: 0°)})\\",
+                "Esto dice, /al principio (0%), comienza en la inclinación 360 y termina en la inclinación 0/. ¡Eso nos hará girar en círculos para siempre, ya que estoy configurado como la pose de descanso de @Frase!",
+                "Prueba tus propios bailes creativos jugando con otras entradas."
+            ],
+            "poses": {
+                "doc": "Una @Mapa de porcentajes entre 0% y 100%, cada uno emparejado con un @Pose. No es necesario que proporcione todos los porcentajes; Moveré suavemente un @Tipo entre los que me des.",
+                "names": "poses"
+            },
             "duration": {
-                "doc": "$?",
-                "names": "$? duration"
+                "doc": "¿Cuánto tiempo debo hacer este baile? Si tengo que repetirlo, no agregaré ningún tiempo a la duración, simplemente bailaré más rápido.",
+                "names": "duration"
             },
             "style": {
-                "doc": "$?",
-                "names": "$? style"
+                "doc": "El estilo que debo de usar para el baile",
+                "names": "estilo"
             },
-            "count": { "doc": "$?", "names": "count" }
+            "count": {
+                "doc": "Cuántas veces se debe repetir la secuencia antes de finalizar. Esto es realmente útil cuando entro al escenario, me muevo o salgo del escenario, pero cuando es para una secuencia de descanso, se ignora, ya que puedo descansar para siempre.",
+                "names": "cuenta"
+            }
         },
         "Place": {
             "names": ["Posición"],
-            "doc": "$?",
-            "x": { "doc": "$?", "names": "x" },
-            "y": { "doc": "$?", "names": "y" },
-            "z": { "doc": "$?", "names": "z" }
+            "doc": "Soy una ubicación en @Stage. Todas mis entradas son opcionales, porque estoy en el centro por defecto.",
+            "x": { "doc": "Un lugar en el eje x", "names": "x"
+            },
+            "y": {"doc": "Un lugar en el eje y", "names": "y"
+            },
+            "z": { "doc": "Un lugar en el eje x", "names": "z"
+            }
         },
         "Easing": {
             "straight": "lineal",
@@ -2066,19 +2330,37 @@
         },
         "sequence": {
             "sway": {
-                "doc": "$?",
+                "doc": "Creo una @Sequencia que se balancea hacia adelante y hacia atrás alrededor del centro de un @Tipo.",
                 "names": ["vaivén"],
-                "angle": { "doc": "$?", "names": ["ángulo"] }
+                "angle": {
+                    "doc": "Cuánta inclinación en el vaivén.",
+                    "names": ["ángulo"]
+                }
             },
             "bounce": {
-                "doc": "$?",
+                "doc": "Creo una @Sequencia que rebota @Tipo a una altura determinada.",
                 "names": ["rebotar"],
-                "height": { "doc": "$?", "names": ["altura"] }
+                "height": {
+                    "doc": "Que tan alto rebota",
+                    "names": ["altura"]
+                }
             },
-            "spin": { "doc": "$?", "names": ["girar"] },
-            "fadein": { "doc": "$?", "names": ["revelar"] },
-            "popup": { "doc": "$?", "names": ["surgir"] },
-            "shake": { "doc": "$?", "names": ["agitar"] }
+            "spin": {
+                "doc": "Creo una @Sequencia que gira @Tipo alrededor de su centro.",
+                "names": ["girar"]
+            },
+            "fadein": {
+                "doc": "Creo una @Sequencia que desvanece @Tipo de invisible a visible.",
+                "names": ["revelar"]
+            },
+            "popup": {
+                "doc": "Creo una @Sequencia que hace que @Tipo escale rápidamente en lugar de reducirse a su tamaño normal.",
+                "names": ["surgir"]
+            },
+            "shake": {
+                "doc": "Creo una @Sequencia que hace que parezca que un @Tipo está asustado.",
+                "names": ["agitar"]
+            }
         }
     },
     "ui": {
