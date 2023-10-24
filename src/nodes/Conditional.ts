@@ -188,16 +188,20 @@ export default class Conditional extends Expression {
             context
         );
 
+        // The condition did some guarding if the intersection of the revised and current sets is smaller than the current set
+        const guarded =
+            current.intersection(revisedTypes, context).size() < current.size();
+
         // Evaluate the yes branch with the revised types.
         if (this.yes instanceof Expression)
             this.yes.evaluateTypeSet(bind, original, revisedTypes, context);
 
-        // Evaluate the no branch with the complement of the revised types.
+        // Evaluate the no branch with the complement of the revised types, unless they weren't guarded, in which case we pass through the current types.
         if (this.no instanceof Expression) {
             this.no.evaluateTypeSet(
                 bind,
                 original,
-                current.difference(revisedTypes, context),
+                guarded ? current.difference(revisedTypes, context) : current,
                 context
             );
         }
