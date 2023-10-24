@@ -24,7 +24,6 @@ import type Expression from '../nodes/Expression';
 import type Locale from '../locale/Locale';
 import type { FunctionText, NameAndDoc } from '../locale/Locale';
 import ListType from '../nodes/ListType';
-import AnyType from '../nodes/AnyType';
 import type Locales from '../locale/Locales';
 
 export default function bootstrapNumber(locales: Locales) {
@@ -372,14 +371,14 @@ export default function bootstrapNumber(locales: Locales) {
                 createBinaryOp(
                     (locale) => locale.basis.Number.function.equal,
                     NumberType.make((unit) => unit),
-                    new AnyType(),
+                    BooleanType.make(),
                     (requestor, left, right) =>
                         new BoolValue(requestor, left.isEqualTo(right))
                 ),
                 createBinaryOp(
                     (locale) => locale.basis.Number.function.notequal,
                     NumberType.make((unit) => unit),
-                    new AnyType(),
+                    BooleanType.make(),
                     (requestor, left, right) =>
                         new BoolValue(requestor, !left.isEqualTo(right))
                 ),
