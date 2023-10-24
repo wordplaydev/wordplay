@@ -15,7 +15,6 @@ import type Project from '../models/Project';
 import concretize from '../locale/concretize';
 
 export function createPoseType(locales: Locale[]) {
-    console.log(getBind(locales, (locale) => locale.output.Pose.blur));
     return toStructure(`
     ${getBind(locales, (locale) => locale.output.Pose, '•')}(
         ${getBind(locales, (locale) => locale.output.Pose.color)}•Color|ø: ø
@@ -25,7 +24,6 @@ export function createPoseType(locales: Locale[]) {
         ${getBind(locales, (locale) => locale.output.Pose.scale)}•#|ø: ø
         ${getBind(locales, (locale) => locale.output.Pose.flipx)}•?|ø: ø
         ${getBind(locales, (locale) => locale.output.Pose.flipy)}•?|ø: ø
-        ${getBind(locales, (locale) => locale.output.Pose.blur)}•?|ø: ø
     )
 `);
 }
@@ -51,7 +49,6 @@ export default class Pose extends Valued {
         scale?: number,
         flipx?: boolean,
         flipy?: boolean,
-        blur?: number
     ) {
         super(value);
 
@@ -61,8 +58,7 @@ export default class Pose extends Valued {
         this.rotation = rotation;
         this.scale = scale;
         this.flipx = flipx;
-        this.flipy = flipy;
-        this.blur = blur;
+        this.flipy = flipy
     }
 
     /** Override non-empty values with the values in the given pose */
@@ -75,8 +71,7 @@ export default class Pose extends Valued {
             pose.rotation ?? this.rotation,
             pose.scale ?? this.scale,
             pose.flipx ?? this.flipx,
-            pose.flipy ?? this.flipy,
-            pose.blur ?? this.blur
+            pose.flipy ?? this.flipy
         );
     }
 
@@ -116,8 +111,7 @@ export default class Pose extends Valued {
             this.rotation === pose.rotation &&
             this.scale === pose.scale &&
             this.flipx === pose.flipx &&
-            this.flipy === pose.flipy &&
-            this.blur === pose.blur
+            this.flipy === pose.flipy
         );
     }
 }
@@ -131,10 +125,9 @@ export class DefinitePose extends Pose {
         rotation: number | undefined,
         scale: number | undefined,
         flipx: boolean | undefined,
-        flipy: boolean | undefined,
-        blur: number | undefined,
+        flipy: boolean | undefined
     ) {
-        super(value, color, opacity, offset, rotation, scale, flipx, flipy, blur);
+        super(value, color, opacity, offset, rotation, scale, flipx, flipy);
     }
 }
 
@@ -161,8 +154,7 @@ export function toPose(
         toNumber(tilt),
         toNumber(scale),
         toBoolean(flipx),
-        toBoolean(flipy),
-        toNumber(blur)
+        toBoolean(flipy)
     );
 }
 

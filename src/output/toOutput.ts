@@ -102,6 +102,7 @@ export function getTypeStyle(
     exiting: Pose | Sequence | undefined;
     duration: number | undefined;
     style: string | undefined;
+    shadow: Pose | undefined;
 } {
     const [sizeVal, faceVal, placeVal] = getOutputInputs(value, index);
 
@@ -125,6 +126,7 @@ export function getTypeStyle(
         exiting: style.exiting,
         duration: style.duration,
         style: style.style,
+        shadow: style.shadow
     };
 }
 
@@ -151,7 +153,7 @@ export function getStyle(
         exitVal,
         durationVal,
         styleVal,
-        blurVal
+        shadowVal
     ] = getOutputInputs(value, index);
 
     const name = toText(nameVal);
@@ -164,7 +166,6 @@ export function getStyle(
     const scale = toNumber(scaleVal);
     const flipx = toBoolean(flipxVal);
     const flipy = toBoolean(flipyVal);
-    const blur = toNumber(blurVal);
 
     const pose = new DefinitePose(
         value,
@@ -175,8 +176,7 @@ export function getStyle(
         place?.rotation ?? rotation,
         scale,
         flipx,
-        flipy,
-        blur
+        flipy
     );
 
     const rest = toPose(project, restVal) ?? toSequence(project, restVal);
@@ -184,6 +184,8 @@ export function getStyle(
     const move = toPose(project, moveVal) ?? toSequence(project, moveVal);
     const exit = toPose(project, exitVal) ?? toSequence(project, exitVal);
     const duration = toNumber(durationVal);
+    
+    const shadow = toPose(project, shadowVal);
 
     return {
         name,
@@ -196,5 +198,6 @@ export function getStyle(
         exiting: exit,
         duration,
         style: styleVal instanceof TextValue ? styleVal.text : undefined,
+        shadow: shadow
     };
 }

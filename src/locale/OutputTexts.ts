@@ -59,6 +59,21 @@ type OutputTexts = {
         /** $1 = Layout description, $2 = pose description */
         description: Template;
     } & TypeTexts;
+    /** A shadow */
+    Aura: NameAndDoc & {
+        /** The shadow's color */
+        color: NameAndDoc;
+        /** The horizontal offset of the shadow */
+        offsetX: NameAndDoc;
+        /** The vertical offset of the shadow */
+        offsetY: NameAndDoc;
+        /** The blurriness of the shadow */
+        blur: NameAndDoc;
+        /** How far the shadow should spread */
+        spread: NameAndDoc;
+        /** How transparent the shadow should be */
+        opacity: NameAndDoc;
+    }
     /** A sequence of glyphs */
     Phrase: NameAndDoc & {
         /** The glyphs to render */

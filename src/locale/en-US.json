@@ -3387,6 +3387,36 @@
                 "names": "z"
             }
         },
+        "Aura": {
+            "doc": [
+                "I am an AURA"
+            ],
+            "names": ["🔮", "Aura"],
+            "color": {
+                "doc": "The color the @Aura should be",
+                "names": "color"
+            },
+            "blur": {
+                "doc": "How blurry the @Aura should be",
+                "names": "blur"
+            },
+            "offsetX": {
+                "doc": "How far right the @Aura should go",
+                "names": "offsetX"
+            },
+            "offsetY": {
+                "doc": "How far down the @Aura should go",
+                "names": "offsetY"
+            },
+            "spread": {
+                "doc": "The strength of the @Aura",
+                "names": "spread"
+            },
+            "opacity": {
+                "doc": "How transparent the @Aura should be",
+                "names": "opacity"
+            }
+        },
         "Pose": {
             "doc": [
                 "You know when someone strikes the most amazing way of standing, a pauses, and everyone looks? That's me. I capture a pose for @Output to be in, and am the building block of their movements.",

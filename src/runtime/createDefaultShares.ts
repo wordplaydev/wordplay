@@ -32,6 +32,7 @@ import { createVelocityType } from '../output/Velocity';
 import { createDirectionType } from '../output/Direction';
 import { createReboundType } from '../output/Rebound';
 import { createCollisionDefinition } from '../input/Collision';
+import { createAuraType } from '../output/Aura';
 
 export default function createDefaultShares(locales: Locale[]) {
     const PlaceType = createPlaceType(locales);
@@ -61,6 +62,8 @@ export default function createDefaultShares(locales: Locale[]) {
         Row: createRowType(locales),
         Grid: createGridType(locales),
         Free: createFreeType(locales),
+        // TODO : AURA - M.W
+        Aura: createAuraType(locales)
     };
 
     const InputTypes = {
