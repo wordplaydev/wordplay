@@ -35,6 +35,7 @@ import FunctionDefinition from './FunctionDefinition';
 import StreamDefinition from './StreamDefinition';
 import FunctionType from './FunctionType';
 import type Locales from '../locale/Locales';
+import BinaryEvaluate from './BinaryEvaluate';
 
 /**
  * A reference to some Definition. Can optionally take the definition which it refers,
@@ -283,8 +284,10 @@ export default class Reference extends SimpleExpression {
                         a instanceof Conditional &&
                         a.condition.nodes(
                             (n): n is Reference =>
-                                context.source.root.getParent(n) instanceof
-                                    Is &&
+                                (context.source.root.getParent(n) instanceof
+                                    Is ||
+                                    context.source.root.getParent(n) instanceof
+                                        BinaryEvaluate) &&
                                 n instanceof Reference &&
                                 definition === n.resolve(context)
                         ).length > 0

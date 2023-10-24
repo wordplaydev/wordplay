@@ -26,7 +26,7 @@ import type Value from '../values/Value';
 import type Locales from '../locale/Locales';
 
 export default class TextLiteral extends Literal {
-    /** The raw token in the program */
+    /** The list of translations for the text literal */
     readonly texts: Translation[];
 
     constructor(text: Translation[]) {

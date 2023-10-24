@@ -36,6 +36,7 @@ import Refer from '../edit/Refer';
 import FunctionDefinition from './FunctionDefinition';
 import BasisType from './BasisType';
 import type Locales from '../locale/Locales';
+import BinaryEvaluate from './BinaryEvaluate';
 
 export default class PropertyReference extends Expression {
     readonly structure: Expression;
@@ -265,8 +266,11 @@ export default class PropertyReference extends Expression {
                             a.condition.nodes(
                                 (n): n is PropertyReference =>
                                     this.name !== undefined &&
-                                    context.source.root.getParent(n) instanceof
-                                        Is &&
+                                    (context.source.root.getParent(n) instanceof
+                                        Is ||
+                                        context.source.root.getParent(
+                                            n
+                                        ) instanceof BinaryEvaluate) &&
                                     n instanceof PropertyReference &&
                                     n.getSubjectType(context) instanceof
                                         StructureType &&

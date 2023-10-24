@@ -45,6 +45,8 @@ export const ETC_SYMBOL = '…';
 export const CODE_SYMBOL = '\\';
 export const BASE_SYMBOL = ';';
 export const EXPONENT_SYMBOL = '^';
+export const EQUALS_SYMBOL = '=';
+export const NOT_EQUALS_SYMBOL = '≠';
 export const NEGATE_SYMBOL = '-';
 export const AND_SYMBOL = '&';
 export const OR_SYMBOL = '|';

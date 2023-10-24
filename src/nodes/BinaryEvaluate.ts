@@ -7,10 +7,15 @@ import Finish from '@runtime/Finish';
 import Start from '@runtime/Start';
 import type Context from './Context';
 import type Node from './Node';
-import { AND_SYMBOL, OR_SYMBOL } from '@parser/Symbols';
+import {
+    AND_SYMBOL,
+    EQUALS_SYMBOL,
+    NOT_EQUALS_SYMBOL,
+    OR_SYMBOL,
+} from '@parser/Symbols';
 import OrderOfOperations from '@conflicts/OrderOfOperations';
 import Bind from './Bind';
-import type TypeSet from './TypeSet';
+import TypeSet from './TypeSet';
 import FunctionException from '@values/FunctionException';
 import FunctionDefinition from './FunctionDefinition';
 import UnexpectedInputs from '@conflicts/UnexpectedInput';
@@ -37,6 +42,12 @@ import Reference from './Reference';
 import ValueException from '../values/ValueException';
 import Purpose from '../concepts/Purpose';
 import type Locales from '../locale/Locales';
+import TextLiteral from './TextLiteral';
+import Token from './Token';
+import TextType from './TextType';
+import NoneLiteral from './NoneLiteral';
+import NoneType from './NoneType';
+import NumberLiteral from './NumberLiteral';
 
 export default class BinaryEvaluate extends Expression {
     readonly left: Expression;
@@ -363,12 +374,68 @@ export default class BinaryEvaluate extends Expression {
             );
             return left.union(right, context);
         }
-        // Otherwise, just pass the types down and return the original types.
-        else {
-            this.left.evaluateTypeSet(bind, original, current, context);
-            this.right.evaluateTypeSet(bind, original, current, context);
-            return current;
+        // If it's an equals check and one side is a number, text, or none literal, then reduce to the set to the literal checked
+        else if (
+            this.getOperator() === EQUALS_SYMBOL ||
+            this.getOperator() === NOT_EQUALS_SYMBOL
+        ) {
+            const equals = this.getOperator() === EQUALS_SYMBOL;
+            let set: TypeSet | undefined = undefined;
+
+            const textLiteral =
+                this.left instanceof TextLiteral
+                    ? this.left
+                    : this.right instanceof TextLiteral
+                    ? this.right
+                    : undefined;
+            if (textLiteral) {
+                // Find all of the single token translations, turn them into literal text types, and find the intersection between them and the current set.
+                const types: TextType[] = [];
+                for (const translation of textLiteral.texts)
+                    if (
+                        translation.segments.length === 1 &&
+                        translation.segments[0] instanceof Token
+                    )
+                        types.push(
+                            TextType.make(translation.segments[0].getText())
+                        );
+                set = new TypeSet(types, context);
+            }
+
+            // Is one of them a check for a none literal?
+            const noneLiteral =
+                this.left instanceof NoneLiteral
+                    ? this.left
+                    : this.right instanceof NoneLiteral
+                    ? this.right
+                    : undefined;
+            if (noneLiteral) {
+                set = new TypeSet([NoneType.make()], context);
+            }
+
+            // Is one of them a check for a number?
+            const numberLiteral =
+                this.left instanceof NumberLiteral
+                    ? this.left
+                    : this.right instanceof NumberLiteral
+                    ? this.right
+                    : undefined;
+            if (numberLiteral)
+                set = new TypeSet(
+                    [new NumberType(numberLiteral.number, numberLiteral.unit)],
+                    context
+                );
+
+            if (set)
+                return equals
+                    ? current.intersection(set, context)
+                    : current.difference(set, context);
         }
+
+        // Otherwise, just pass the types down and return the original types.
+        this.left.evaluateTypeSet(bind, original, current, context);
+        this.right.evaluateTypeSet(bind, original, current, context);
+        return current;
     }
 
     getNodeLocale(locales: Locales) {
