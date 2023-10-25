@@ -2175,49 +2175,117 @@
             "bottom": { "doc": "$?", "names": "$?" },
             "z": { "doc": "$?", "names": "$? z" }
         },
-        "Pose": {
-            "names": "$?",
-            "doc": "$?",
-            "duration": { "doc": "$?", "names": "$?" },
-            "style": { "doc": "$?", "names": "$?" },
-            "color": { "doc": "$?", "names": "$?" },
-            "opacity": { "doc": "$?", "names": "$?" },
-            "offset": { "doc": "$?", "names": "$?" },
-            "rotation": { "doc": "$?", "names": "$?" },
-            "scale": { "doc": "$?", "names": "$?" },
-            "flipx": { "doc": "$?", "names": "$?" },
-            "flipy": { "doc": "$?", "names": "$?" },
-            "description": "$?"
+        "Pose": { 
+        "doc": ["想象一下，某某一下子摆了个最精彩的姿势，一停顿，每个人的目光都聚集在了他身上。所说的姿势就是我，我为 @Output 勾勒姿势，而他们的动作都是以我组成的。", 
+                "别小瞧我！自个看一看我的许多的$input，你会创造出什么样的姿势呢？" 
+        ],
+    
+        "names": ["🤪", "姿势"], 
+        "duration": {  
+            "doc": "这个姿势需要多长时间从前一个姿势进入", 
+            "names": "时长" 
+        }, 
+        "style": {  
+            "doc": "进入这个姿势时应该用的动画风格", 
+            "names": "风格" 
+        }, 
+        "color": { 
+            "doc": "@Output 在这姿势时应该用的 @Color，代替默认值", 
+            "names": "色彩" 
+        }, 
+        "opacity": { 
+            "doc": "@Output 的不透明度，介于 \\0\\ 和 \\1\\ 之间，代替默认值。有助于淡入和淡出。", 
+            "names": "不透明度" 
+        }, 
+        "offset": { 
+            "doc": "一个 @Place 指示它应该与 @Output 位置偏移多少，代替默认值。有助于扭扭动动。", 
+            "names": "偏移" 
+        }, 
+        "rotation": { 
+            "doc": "@Output 应该旋转多少，代替默认值。", 
+            "names": "旋转" 
+        }, 
+        "scale": { 
+            "doc": "@Output 应该相对于原始大小放大多少，代替默认值。", 
+            "names": "缩放" }, 
+        "flipx": { 
+            "doc": "@Output 是否应该x轴对称，代替默认值。", 
+            "names": "x翻" 
+        }, 
+        "flipy": { "doc": "@Output 是否应该y轴对称，代替默认值。", 
+        "names": "y翻" 
+        }, 
+        "description": "$1[transparent $1|] $2[rotated $2 degrees|] $3[scaled $3|] $4[flipped horizontally|] $5[flipped vertically|]" 
+    }, 
+    "Color": { 
+        "doc": [ 
+            "我是一种可见的颜色，由三个维度构成。", 
+            "一下是一些色轮上常见的颜色，用中等亮度和高色度显示。", 
+            "\\Color(50% 100 0°)\\", 
+            "\\Color(50% 100 30°)\\", 
+            "\\Color(50% 100 60°)\\", 
+            "\\Color(50% 100 90°)\\", 
+            "\\Color(50% 100 120°)\\", 
+            "\\Color(50% 100 150°)\\", 
+            "\\Color(50% 100 180°)\\", 
+            "\\Color(50% 100 210°)\\", 
+            "\\Color(50% 100 240°)\\", 
+            "\\Color(50% 100 270°)\\", 
+            "\\Color(50% 100 300°)\\", 
+            "\\Color(50% 100 330°)\\" 
+        ], 
+        "names": ["🌈", "色彩"], 
+        "lightness": { 
+            "doc": "我应该有多亮，从 \\0\\ 到 \\1\\。\\0\\ 是黑色， \\0.5\\ 灰色，\\1\\ 白色。", 
+            "names": ["明度"," l"] 
         },
-        "Color": {
-            "names": "$?",
-            "doc": "$?",
-            "lightness": { "doc": "$?", "names": ["luminosidad"] },
-            "chroma": { "doc": "$?", "names": ["croma"] },
-            "hue": { "doc": "$?", "names": ["matiz"] }
-        },
-        "Sequence": {
-            "names": "$?",
-            "doc": "$?",
-            "poses": { "doc": "$?", "names": "$?" },
-            "duration": {
-                "doc": "$?",
-                "names": "$? duration"
-            },
-            "style": {
-                "doc": "$?",
-                "names": "$? style"
-            },
-            "count": { "doc": "$?", "names": "$? count" }
-        },
-        "Place": {
-            "names": ["Posición"],
-            "doc": "$?",
-            "x": { "doc": "$?", "names": "$? x" },
-            "y": { "doc": "$?", "names": "$? y" },
-            "z": { "doc": "$?", "names": "$? z" },
-            "rotation": { "doc": "$?", "names": "$? rotation" }
-        },
+        "chroma": { 
+            "doc": "我应该有多少色彩，从 \\0\\ 到 \\∞\\。没有色彩表示是灰色，数字越大色彩就越足。", 
+            "names": ["色度", "c"] 
+        }, 
+        "hue": { 
+            "doc": "我应该是色轮上的什么颜色，从品红色 \\0\\，红色 \\30\\，绿色 \\120\\，到蓝色 \\270\\。", 
+            "names": ["色调", "h"] 
+        } 
+    }, 
+    "Sequence": { 
+        "doc": [ 
+            "哦。哦。哇！导演，你今天精神看起来棒极了！你想跟我一起跳舞吗？这很容易。", 
+            "你只要给我一个 @Map。每个$key表示我们跳的过程完成了百分之多少，每个$key的值都应该有个 @Pose。", 
+            "有好多不同的方式用这个功能制作动画。给你一个比较简单的例子：", 
+            "\\Phrase('hi' resting:Sequence({0%: Pose(rotation: 360°) 100%: Pose(rotation: 0°)})\\", 
+            "这个意思是，/开头是 0%，以 360 倾斜度开始。最后以 0 倾斜度结束/。因为我把 @Phrase 的休息姿势设成了这个，我们就会永远转圈子！", 
+            "现在你自己试一试，用其他的@input创造一些独特的舞蹈。" 
+        ], 
+        "names": ["💃", "排序"], 
+        "poses": { 
+            "doc": "一个由百分比组成的@Map介于 0% 到 100%，每个百分比都分配一个@Pose。你不用提供每个百分比，我会基于你给我的百分比无缝隙的把@Output从一个移到下一个。", 
+            "names": "一列姿势" 
+        }, 
+        "duration": { 
+            "doc": "我应该跳这个舞跳多长时间啊？如果要重复的跳，我不会延长时间，我只会跳的更快。", 
+            "names": ["⏳", "时长"] 
+        }, 
+        "style": { 
+            "doc": "我跳舞时应该用的风格。", 
+            "names": "风格" 
+        }, 
+        "count": {  
+            "doc": "该序列在完成之前应该重复多少遍。助于我上$stage、在$stage上移动或退出$stage。但在休息序列时，它就会被忽略，因为我可以永远休息。", 
+            "names": "计数" 
+        } 
+    }, 
+    "Place": { 
+        "doc": "我是 @Stage 上的一个定位。我的所有输入都是可有可无的，因为我的默认值就是定位在中央。", 
+        "names": ["📍", "位置"], 
+        "x": { "doc": "x 轴上的位子", "names": "x" }, 
+        "y": { "doc": "y 轴上的位子", "names": "y" }, 
+        "z": { "doc": "z 轴上的位子", "names": "z" }, 
+        "rotation": { 
+            "doc": "在此位置的旋转", 
+            "names": ["📐", "旋转"] 
+        }
+    },
         "Velocity": {
             "doc": "$?",
             "names": "$? Velocity",
