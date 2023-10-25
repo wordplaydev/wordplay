@@ -78,12 +78,14 @@
     onDestroy(() => queryResetUnsub());
 
     // When the path changes to a non-bind concept, scroll to top.
+    let previousPath: Concept[] = [];
     $: {
         if (
-            $path.length > 0 &&
-            !($path[$path.length - 1] instanceof BindConcept)
+            previousPath.map((c) => c.getName($locales, false)).join() !==
+            $path.map((c) => c.getName($locales, false)).join()
         )
             scrollToTop();
+        previousPath = $path.slice();
     }
 
     // If the query changes to non-empty, compute results
