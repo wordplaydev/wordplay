@@ -27,6 +27,7 @@ import type { SupportedFace } from '../basis/Fonts';
 import { toShape } from './Shape';
 import type Evaluator from '../runtime/Evaluator';
 import type Aura from './Aura';
+import { toAura } from './Aura';
 
 export function toOutput(
     evaluator: Evaluator,
@@ -186,7 +187,7 @@ export function getStyle(
     const exit = toPose(project, exitVal) ?? toSequence(project, exitVal);
     const duration = toNumber(durationVal);
     
-    const shadow = toPose(project, shadowVal);
+    const shadow = toAura(project, shadowVal);
 
     return {
         name,
