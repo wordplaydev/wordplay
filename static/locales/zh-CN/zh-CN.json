@@ -2335,7 +2335,6 @@
                 "undo": "类型字符",
                 "redo": "撤销上次编辑",
                 "search": "查找要插入的特殊字符"
-                //until here
             }
         },
         "conflicts": {
