@@ -19,13 +19,13 @@
     let selectedOutput = getSelectedOutput();
 
     $: lightness = $project
-        ? getColorValue($project.shares.output.Color.inputs[0]) ?? 0
+        ? getColorValue($project.shares.output.Color.inputs[0], values) ?? 0
         : 0;
     $: chroma = $project
-        ? getColorValue($project.shares.output.Color.inputs[1]) ?? 0
+        ? getColorValue($project.shares.output.Color.inputs[1], values) ?? 0
         : 0;
     $: hue = $project
-        ? getColorValue($project.shares.output.Color.inputs[2]) ?? 0
+        ? getColorValue($project.shares.output.Color.inputs[2], values) ?? 0
         : 0;
 
     // Whenever the slider value changes, revise the Evaluates to match the new value.
@@ -48,6 +48,10 @@
             ]
         );
 
+        lightness = l;
+        chroma = c;
+        hue = h;
+
         Projects.revise(
             $project,
             $project.getBindReplacements(
@@ -58,10 +62,10 @@
         );
     }
 
-    function getColorValue(bind: Bind) {
+    function getColorValue(bind: Bind, vals: OutputPropertyValueSet) {
         if ($project === undefined) return undefined;
         // The value of this facet on every value selected.
-        const facets = values.values.map((val) => {
+        const facets = vals.values.map((val) => {
             if ($project && val.expression instanceof Evaluate) {
                 const mapping = val.expression.getMappingFor(
                     bind,

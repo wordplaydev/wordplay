@@ -68,7 +68,11 @@
     export let change: (l: number, c: number, h: number) => void;
     export let editable = true;
 
-    $: color = new ColorJS(ColorJS.spaces.lch, [lightness, chroma, hue], 1);
+    $: color = new ColorJS(
+        ColorJS.spaces.lch,
+        [lightness * 100, chroma, hue],
+        1
+    );
 
     let hueWidth: number | undefined = undefined;
     let hueHeight: number | undefined = undefined;
@@ -103,7 +107,7 @@
                 class="band"
                 style:height="{100 / Bands.length}%"
                 style:background="linear-gradient(to right, {getColors(
-                    lightness,
+                    lightness * 100,
                     val
                 ).join(', ')})"
             />
@@ -116,18 +120,19 @@
         />
     </div>
     <div class="primary">
-        {#each Primary as color}<Button
+        {#each Primary as primary}<Button
                 tip="color"
                 action={() => {
-                    [lightness, chroma, hue] = color;
-                    lightness /= 100;
+                    lightness = primary[0] / 100;
+                    chroma = primary[1];
+                    hue = primary[2];
                     broadcast();
                 }}
                 ><div
                     class="color"
                     style:background={new ColorJS(
                         ColorJS.spaces.lch,
-                        color
+                        primary
                     ).display()}
                 /></Button
             >{/each}
