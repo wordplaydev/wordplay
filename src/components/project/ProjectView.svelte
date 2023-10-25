@@ -118,8 +118,8 @@
     export let original: Project | undefined = undefined;
     /** If false, then all things editable are deactivated */
     export let editable = true;
-    /** If true, only the output is shown initially. */
-    export let playing = false;
+    /** If true, only the output is shown in the initial layout. */
+    export let showOutput = false;
     /** True if the output should be fit to content */
     export let fit = true;
     /** True if the project should focus the main editor source on mount */
@@ -130,6 +130,9 @@
     export let overwritten = false;
     /** True if the moderation warnings should show */
     export let warn = true;
+
+    // Whether the project is in 'play' mode, dictated soley by a URL query parameter.
+    let play = $page.url.searchParams.get(PROJECT_PARAM_PLAY) !== null;
 
     // The HTMLElement that represents this element
     let view: HTMLElement | undefined = undefined;
@@ -204,9 +207,6 @@
             );
         }
     }
-
-    $: if ($page.url.searchParams.get(PROJECT_PARAM_PLAY) !== null)
-        playing = true;
 
     onDestroy(() => {
         if (keyboardIdleTimeout) clearTimeout(keyboardIdleTimeout);
@@ -362,7 +362,7 @@
             if (tile.kind !== TileKind.Source) {
                 newTiles.push(
                     // Playing? Expand output, collapse everything else
-                    playing
+                    play
                         ? tile.withMode(
                               tile.kind === TileKind.Output
                                   ? Mode.Expanded
@@ -377,7 +377,7 @@
                     newTiles.push(
                         tile
                             // If playing, keep the source files collapsed
-                            .withMode(playing ? Mode.Collapsed : tile.mode)
+                            .withMode(play ? Mode.Collapsed : tile.mode)
                     );
             }
         }
@@ -452,19 +452,20 @@
                               Tile.randomPosition(1024, 768)
                           ),
                           ...project.getSources().map((source, index) =>
-                              // If playing, collapse the source initially.
+                              // If starting with output only, collapse the source initially too.
                               createSourceTile(source, index).withMode(
-                                  playing &&
-                                      (index === 0 || source === newSource)
+                                  showOutput
                                       ? Mode.Collapsed
-                                      : Mode.Expanded
+                                      : index === 0 || source === newSource
+                                      ? Mode.Expanded
+                                      : Mode.Collapsed
                               )
                           ),
                       ],
                 layout ? layout.fullscreenID : undefined
             );
 
-        if (!layoutInitialized && playing) {
+        if (!layoutInitialized && play) {
             const output = layout.getOutput();
             if (output) {
                 setFullscreen(output, true);
@@ -482,11 +483,7 @@
     $: {
         const searchParams = new URLSearchParams($page.url.searchParams);
 
-        if (layout.fullscreenID === TileKind.Output)
-            searchParams.set(PROJECT_PARAM_PLAY, '');
-        else {
-            searchParams.delete(PROJECT_PARAM_PLAY);
-        }
+        if (!play) searchParams.delete(PROJECT_PARAM_PLAY);
 
         // Set the URL to reflect the latest concept selected.
         if ($path && $path.length > 0) {
@@ -1159,7 +1156,7 @@
     function stopPlaying() {
         const main = layout.getTileWithID(Layout.getSourceID(0));
         if (main) {
-            playing = false;
+            play = false;
             setMode(main, Mode.Expanded);
             layout = layout.withoutFullscreen();
         }
@@ -1287,7 +1284,7 @@
                                 <!-- Put some extra buttons in the output toolbar -->
                                 {#if tile.kind === TileKind.Output}
                                     <CommandButton command={Restart} />
-                                    {#if playing}<Button
+                                    {#if play}<Button
                                             uiid="editProject"
                                             tip={$locales.get(
                                                 (l) =>
@@ -1390,7 +1387,7 @@
                                         stepping={$evaluation.playing === false}
                                     /><GlyphChooser
                                         sourceID={tile.id}
-                                    />{:else if tile.kind === TileKind.Output && layout.fullscreenID !== tile.id && !playing}
+                                    />{:else if tile.kind === TileKind.Output && layout.fullscreenID !== tile.id && !play && !showOutput}
                                     <Timeline
                                         evaluator={$evaluator}
                                     />{/if}</svelte:fragment
@@ -1402,7 +1399,7 @@
         {/key}
     </div>
 
-    {#if !layout.isFullscreen() && !playing}
+    {#if !layout.isFullscreen() && !play}
         <nav class="footer">
             {#if original}<Button
                     uiid="revertProject"

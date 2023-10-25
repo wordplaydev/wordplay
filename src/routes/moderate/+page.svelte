@@ -181,7 +181,6 @@
         {:else}
             <ProjectView
                 {project}
-                playing={false}
                 autofocus={false}
                 editable={false}
                 warn={false}
