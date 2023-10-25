@@ -1646,138 +1646,261 @@
     },
     "input": {
         "Random": {
-            "doc": "$?",
-            "names": ["Azar"],
+            "doc": [
+                "17!",
+                "/@方法的定义在这路, 我会解释这个./",
+                "所以 @随机 是一个充满好奇心的生成随机数的方法 他很好奇，因为每次你评估它时，它都会创造出不同的东西。",
+                "这造成了一种奇妙的混乱，并伴随着不可预测性。",
+                "在默认情况下, 他会给出 @数字类型 在 \\0\\ 和 \\1\\之间的值:",
+                "\\随机()\\",
+                "但是你可以给他输入一个参数, 他就会生成一个在\\0\\ 和那个参数之间的值：",
+                "\\随机(10)\\",
+                "如果你给他输入两个参数，那他就会生成两个参数之间的值:",
+                "\\随机(-10 10)\\",
+                "如果你的区间有单位的话，单位会被保存 (如果单位不统一，最小的单位会被采用):",
+                "\\随机(-10m 10m)\\",
+                "如果您给出的数字在小数点后具有特定数量的有效数字，则将保留该精度。",
+                "\\随机(1.00 10.00)\\"
+            ],
+            "names": ["🎲","随机"],
             "inputs": [
-                { "names": "$?", "doc": "$?" },
-                { "names": "$?", "doc": "$?" }
+                { "names": "最小值", "doc": "最小的可能值" },
+                { "names": "最大值", "doc": "最大的可能值" }
             ]
         },
-        "Choice": { "doc": "$?", "names": ["Selección", "Elección"] },
+        "Choice": { "doc": [
+            "/clickety tap!/",
+            "/@这是方法定义, 我来解释下这个吧！/",
+            "将 @Choice 视为由受众选择的 @Phrase/name 流。如果有人在带有名称的 @Phrase 上单击、敲击或按 /Enter/ 进行键盘选择，@Choice 将有一个与名称匹配的新值。",
+            "因此，使用它的最佳方法是使用命名的可选短语@Phrase 创建一个表演，然后使用@Reaction 来决定选择该名称时要执行的操作。",
+            "这里有一个简单的例子：",
+            "\\Group(\nStack() \n[\nPhrase('一个'可选:⊤名称:'1') \nPhrase('两个'可选:⊤名称:'2') \nPhrase(Choice())\n ]\n)\\",
+            "将其复制到编辑器中，然后选择两个 @Phrase 之一。您将看到第三个 @Phrase 显示所选的名称。"
+        ], 
+        "names": ["🔘", "选择"] },
         "Button": {
-            "doc": "$?",
-            "names": ["Botón"],
-            "down": { "names": "$?", "doc": "$?" }
+            "doc": [
+                "/click click click/",
+                "/@FunctionDefinition 这里，我解释一下这个。/",
+                "@Button 是监听鼠标或触控板的好方法。当然，鼠标或触控板并不是聆听观众讲话的理想选择，因为并非每个人都可以使用。更容易访问的选择是@Choice。",
+                "但如果您/确实/需要监听鼠标按钮，这就是实现的方法。它将提供一个 @Boolean 流，表示主按钮是向上 \\⊥\\ 还是向下 \\⊤\\。",
+                "这是一个简单的例子：",
+                "\\短语(按钮() → '')\\",
+                "这只是创建一个@Phrase，它是流的文本值。如果将其复制到编辑器中并单击，您将看到它在 \\⊥\\ 和 \\⊤\\ 之间来回切换。"
+            ],
+            "names": ["按钮"],
+            "down": { "names": "按下", "doc": "如果@None，流将提供向上和向下值。如果@Boolean，它只会提供给定@Boolean值的值。" }
         },
-        "Pointer": { "doc": "$?", "names": ["Puntero"] },
+        "Pointer": { "doc": [
+            "/嗡嗡嗡/",
+            "/@FunctionDefinition 这里，我解释一下这个。/",
+            "您了解鼠标、触控板和触摸屏吗？有时您想知道观众指向哪里。这就是 @Pointer 提供的。",
+            "当然，这不是一个易于访问的选择：并非每个人都可以看到或轻松指出，因此请务必确保您不会排除某人通过使用此流参与。",
+            "如果您确定没有人被排除在外，那么使用 @Pointer 就像创建一个流一样简单：",
+            "\\Pointer()\\",
+            "它提供的@Place将对应于@Stage上指针所指向的位置。"
+        ],
+        "names": ["⛓", "链接"] },
         "Key": {
-            "doc": "$?",
-            "names": ["Teclado"],
-            "key": { "names": "$?", "doc": "$?" },
-            "down": { "names": "$?", "doc": "$?" }
+            "doc": [
+                "/咔嗒！/",
+                "/@FunctionDefinition在这里，我来解释一下",
+                "键盘有很多键，不是吗?@Key会告诉你哪个人在按哪个键。",
+                "试试这个吧！",
+                "\\Key()\\",
+                "看到了吗，当你输入一个键时，它会出现在@Stage上?每次按下一个键时，一个新的@Text将被添加到流中，描述按下的键。",
+                "对于表示字符的键，其值将是字符@Text。",
+                "对于特殊的键，如/Escape/键，将使用@Text描述键，使用<预定义名称@https://developer.mozilla.org/en-US/docs/Web/API/UI_Events/Keyboard_event_key_values>，不幸的是只有英文版本。",
+                "如果你只想知道一个特定的密钥，你可以提供它:",
+                "\\Key('a')\\",
+                "如果你只想知道@Key什么时候被释放而不是按下，你可以提供一个@布尔值:",
+                "\\Key('a' ⊥)\\"
+            ],
+            "names": ["⌨️", "钥匙"],
+            "key": { "names": "钥匙", "doc": "如果是@None，则提供所有键。如果是特定的@Text，则只提供该键" },
+            "down": { "names": "下", "doc": "如果@None，则按下键生成输入。如果\\⊥\\，那么只提供向下的输入，如果\\⊥\\，那么只提供释放的输入。" }
         },
         "Time": {
-            "doc": "$?",
-            "names": ["Tiempo"],
-            "frequency": { "names": ["frecuencia"], "doc": "$?" }
+            "doc": [
+                "/嘀嗒嘀嗒嘀嗒～/",
+                "@FunctionDefinition在这里，我将解释@Time，因为它没有说话。",
+                "时间是一条以一定频率滴答作响的溪流。",
+                "每次执行时，@Program用新的时间值重新求值。",
+                "比如说：",
+                "\\Time()\\",
+                "如果您为时间提供@Time/frequency，它将以该速率滴答。例如:",
+                "\\Time(1000ms)\\",
+                "然而，它可以有多小是有限的，因为@Program需要时间来评估，然后才能响应下一个tick。",
+                "最小的可能在\\20ms\\左右."
+            ],
+            "names": ["🕕", "时间"],
+            "frequency": { "names": ["频率"],
+             "doc": "这是时间应该滴答作响的频率。它的默认值是\\33ms\\，大约每秒30次。" }
         },
         "Volume": {
-            "doc": "$?",
-            "names": "$? Volume",
-            "frequency": { "names": ["frecuencia"], "doc": "$?" }
+            "doc":[
+                "/滋滋滋～/",
+                "@FunctionDefinition，我来拿麦克风吧。",
+                "该流是一系列介于0和1之间的音量，以您选择的频率采样。默认情况下，频率为30hz，即每秒30次，但您可以将其更改为更低的频率。",
+                "\\Volume()\\",
+                "这对于倾听听众的声音是很好的!"
+            ],
+            "names": ["🔊", "音量"],
+            "frequency": { "names": ["频率"], "doc": "采样间隔时间" }
         },
         "Pitch": {
-            "doc": "$?",
-            "names": "$? Pitch",
-            "frequency": { "names": ["frecuencia"], "doc": "$?" }
+            "doc": [
+                "/嗡嗡嗡/",
+                "@FunctionDefinition在这里，让我们来谈谈pitch!",
+                "这个流是一系列以赫兹为单位的频率，表示声音的音高，以你选择的频率采样。我们发现人类的声音在20Hz到5000Hz之间，所以计划在这个范围内的数字。",
+                "\\Pitch()\\",
+                "这对听别人说话或唱歌的语气很有帮助。"
+            ],
+            "names": ["🎵", "音调"],
+            "frequency": { "names": ["频率"], "doc": "采样间隔时间" }
         },
         "Camera": {
-            "doc": "$?",
-            "names": ["Cámara"],
-            "width": { "names": ["ancho"], "doc": "$?" },
-            "height": { "names": ["altura"], "doc": "$?" },
-            "frequency": { "names": ["frecuencia"], "doc": "$?" }
+            "doc": [
+                "/嗡嗡嗡～/",
+                "@FunctionDefinition在这里，我可以解释@Camera!",
+                "所以@Camera提供了一个来自你的世界的@Color的@List。该列表本质上代表一个图像，但如何处理它取决于您",
+                "您可以尝试使用一堆@Phrase来表示图像，这看起来非常酷!试着复制这个…",
+                "\\colors: Camera(32px 24px 33ms)\n\nStage(\ncolors.combine(\n[] \nƒ(phrases•[Phrase] row•[Color] y•#) \nphrases.append(\nrow.translate(\nƒ(color•Color x•#)\nPhrase('o' place: Place((x - 1) · 0.5m y · -0.5m) color: color duration: 0s\n)\n)\n)\n)\n)\\",
+                "但是你也可以通过分析颜色来决定一盏灯是开着还是关着，或者一种特定的颜色是否常见，让观众用他们展示的颜色来影响表演。"
+            ],
+            "names": ["🎥", "相机"],
+            "width": { "names": ["宽度"], "doc": "要在一行中采样的@Color的数量。" },
+            "height": { "names": ["高度"], "doc": "列中要采样的@Color的个数。" },
+            "frequency": { "names": ["频率"], "doc": "@Color样本之间的时间间隔。" }
         },
         "Motion": {
-            "names": "movimiento",
-            "doc": "$?",
-            "place": { "doc": "$?", "names": "$? place" },
-            "velocity": { "doc": "$?", "names": "$? velocity" },
-            "nextplace": { "doc": "$?", "names": "$? nextplace" },
-            "nextvelocity": { "doc": "$?", "names": "$? nextvelocity" }
+            "names":  ["⚽️", "运动"],
+            "doc": [
+                "/砰！砰！砰！/",
+                "/嗨！@FunctionDefinition这里。我来解释一下@Motion怎么样?",
+                "基本上，@Motion是@Phrase的流。你给它一个起始的@Phrase，然后它会根据重力用一个新的位置和旋转来改进它。",
+                "它可以让你做一些非常简单的事情，比如创建弹跳的表情符号:",
+                "\\运动(短语('o') startplace: Place(0m 10m))\\",
+                "看到0是如何反弹的了吗?在第一次评估时，我们给它一个@Stage的高位置，但之后，它得到@None，这允许@Motion将其更改为重力将其放置的任何位置。",
+                "查看下面配置它的许多其他方法"
+            ],
+            "place": { "doc": "开始点", "names": " place" },
+            "velocity": { "doc": "初始速度", "names": " velocity" },
+            "nextplace": { "doc": "下一地点，无视物理", "names": " nextplace" },
+            "nextvelocity": { "doc": "下一地点，无视速度", "names": " nextvelocity" }
         },
         "Chat": {
-            "doc": ["$?"],
-            "names": "$?"
+            "doc": [
+                "/你好!@FunctionDefinition这里。你想聊聊吗?",
+                "聊天流的基本思想是受众输入消息，然后程序对其进行响应。",
+                "例如，这个简单的程序检查消息是否为“hello”，如果是，程序计算为“hi”。否则，它的求值为 \"huh\" ?",
+                "\\Chat().has('hello') ? 'hi!' 'huh?'\\",
+                "就是这样!你可以用它制作各种各样的表演，比如聊天机器人、文本冒险或其他表演的基于文本的控制方案。"
+            ],
+            "names": ["🗣️", "聊天"]
         },
         "Placement": {
-            "doc": ["$?"],
-            "names": "$? Placement",
+            "doc":[
+                "/嘿，这里是@FunctionDefinition。我们来谈谈如何让我们行动起来!/",
+                "所以有很多方法可以把我们放在@Stage上。你可以给我们一个显式的@Place。你可以使用@Motion，让重力发挥作用。你也可以把我们放在一个@Group里，让他们按照特定的方式安排我们。",
+                "但有时你想让观众控制我们在舞台上的位置。这就是@Placement的作用。",
+                "它的工作原理是这样的:你只需要创建一个@Placement并把它赋给我们的@Place:",
+                "\\Phrase('hi' place: Placement())\\",
+                "然后，每当观众使用箭头键或在舞台上点击或轻敲时，@Placement将创建一个新的@Place，该@Place将朝着所需的方向移动。",
+                "试着把这个复制到你的程序中，然后用指针或键盘移动箭头。",
+                "您可以自定义@Place，在某些维度上启用和禁用移动，更改@Place移动的距离，以及流开始的初始@Place。"
+            ],
+            "names": ["✥", "摆放"],
             "inputs": [
                 {
-                    "doc": "$?",
-                    "names": "$? start"
+                    "doc": "开始的初始位置。",
+                    "names": "初始"
                 },
                 {
-                    "doc": "$?",
-                    "names": "$? distance"
+                    "doc": "当观众要求移动时，场地应该移动多少米。",
+                    "names": "距离"
                 },
                 {
-                    "doc": "$?",
-                    "names": "$? horizontal"
+                    "doc": "如果为true，则允许在水平轴上移动。默认为开启。",
+                    "names": "水平的"
                 },
                 {
-                    "doc": "$?",
-                    "names": "$? vertical"
+                    "doc": "如果为true，则允许在垂直轴上移动。默认为开启。",
+                    "names": "竖直的"
                 },
                 {
-                    "doc": "$?",
-                    "names": "$? depth"
+                    "doc": "如果为true，则允许使用and -键在z轴上移动。",
+                    "names": "深度"
                 }
             ]
         },
         "Webpage": {
-            "doc": ["$?"],
-            "names": "$? webpage",
-            "url": { "doc": "$?", "names": "$? url" },
-            "query": { "doc": "$?", "names": "$? query" },
-            "frequency": { "doc": "$?", "names": "$? frequency" },
+            "doc": [
+                "/嘿，这里是@FunctionDefinition。让我们来谈谈如何从互联网上获得网页!/",
+                "当我们第一次听说你们的互联网时，我们觉得它很迷人。一个充满了相互连接的计算机共享文档的世界?那太神奇了!",
+                "所以我们制作了一条与之相连的流。你给我们一个URL，我们会得到所有的文本。是这样的:",
+                "\\Webpage('https://wordplay.dev')\\",
+                "而且显然有一种东西叫做 <CSS@https://developer.mozilla.org/en-US/docs/Learn/CSS/First_steps/What_is_CSS>, 它想让你在网页上查询东西?给我们一个CSS选择查询，我们将只获得与该查询匹配的文本。就像这个例子，它获得一级标头",
+                "\\Webpage('https://wordplay.dev' 'h1')\\",
+                "这款手机可能会出很多问题。如果你失去了互联网连接，或者URL不能解析任何东西，或者URL不是公开的，或者URL不是HTML页面……所有这些都可能导致异常。如果你找到一个合适的页面，你会得到一个@数字，表示完成百分比，然后是一个@页面上的单词列表。"
+            ],
+            "names": ["🔗", "网页"],
+            "url": { "doc": "要获取的HTML网页URL。", "names": " url" },
+            "query": { "doc": "要在HTML上计算的CSS查询", "names": "请求" },
+            "frequency": { "doc": "在再次获取该页之前应该经过的分钟数", "names": "频率" },
             "error": {
-                "invalid": "$?",
-                "unvailable": "$?",
-                "notHTML": "$?",
-                "noConnection": "$?",
-                "limit": "$?"
+                "invalid": "这不是一个有效的URL",
+                "unvailable": "这个URL无法访问",
+                "notHTML": "这个回应不是HTML",
+                "noConnection": "无法连接到双关语",
+                "limit": "对该域的请求太多"
             }
         },
         "Collision": {
-            "names": "$? Collision",
-            "doc": "$?",
+            "names": "撞击",
+            "doc": [
+                "/你好!@FunctionDefinition这里。看看这个很酷的输入/",
+                "它可以帮助您发现@Output何时相互碰撞!当我们相互碰撞时，这是一种很好的方式，而不是像@Output那样相互反弹。",
+                "只要给我一个@Output的名字，当它碰到另一个名字时，我将创建一个新的@Rebound值。@Rebound有关于碰撞的名字和它们碰撞的方向的信息。",
+                "如果你给了我两个名字，我只会在两个名字相遇的时候创建一个新值。",
+                "在我创建一个新值之后，我将创建一个\\ø\\，因为碰撞是在它发生之后完成的。这表明不会再发生碰撞。",
+                ""
+            ],
             "subject": {
-                "names": "$? name",
-                "doc": "$?"
+                "names": "主题",
+                "doc": "我应该查找碰撞的@Output的名称。"
             },
             "object": {
-                "names": "$? other",
-                "doc": "$?"
+                "names": "其他",
+                "doc": "我应该查找碰撞的另一个@Output的名称。"
             }
         },
         "Rebound": {
-            "names": "$? Rebound",
-            "doc": "$?",
+            "names": "回弹Rebound",
+            "doc": "我来自@Collision，代表谁被碰撞了，碰撞发生在哪个方向。用我来决定是否以某种特殊的方式对碰撞做出反应，而不是普通的物理反应。",
             "direction": {
                 "names": "$? direction",
-                "doc": "$?"
+                "doc": "碰撞的方向和大小，相对于碰撞的主体"
             },
             "subject": {
-                "names": "$? subject",
-                "doc": "$?"
+                "names": "主观subject",
+                "doc": "主观所命中的输出的名称"
             },
             "object": {
-                "names": "$? object",
-                "doc": "$?"
+                "names": "客观object",
+                "doc": "击中主题的输出的名称"
             }
         },
         "Direction": {
-            "names": "$? Direction",
-            "doc": "$?",
+            "names": "方向",
+            "doc": "我是方向和大小，沿着x轴和y轴。",
             "x": {
-                "names": "$? x",
-                "doc": "$?"
+                "names": "x",
+                "doc": "沿着x轴方向的方向和大小。"
             },
             "y": {
-                "names": "$? y",
-                "doc": "$?"
+                "names": "y",
+                "doc": "沿y轴方向的方向和大小。"
             }
         }
     },
