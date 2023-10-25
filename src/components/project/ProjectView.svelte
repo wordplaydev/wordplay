@@ -1049,10 +1049,6 @@
         help: () => (showHelpDialog = !showHelpDialog),
     };
 
-    $: console.log(
-        Array.from($editors.values()).find((editor) => editor.focused)?.caret
-    );
-
     const commandContextStore = writable(commandContext);
     $: commandContextStore.set(commandContext);
     setContext(ProjectCommandContextSymbol, commandContextStore);
