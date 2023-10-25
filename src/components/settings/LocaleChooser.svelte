@@ -102,7 +102,7 @@
     <h2
         ><Link
             external
-            to="https://github.com/amyjko/wordplay/blob/main/CONTRIBUTING.md#localization"
+            to="https://github.com/wordplaydev/wordplay/wiki/localize"
             >{concretize(
                 $locales,
                 $locales.get((l) => l.ui.dialog.locale.subheader.help)
