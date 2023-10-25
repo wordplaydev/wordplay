@@ -128,7 +128,7 @@ export default class Phrase extends Output {
         wrap: number | undefined,
         alignment: string | undefined,
         matter: Matter | undefined,
-        shadow: DefinitePose
+        shadow: Pose | undefined = undefined
     ) {
         super(
             value,

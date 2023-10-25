@@ -143,7 +143,7 @@ export function toPose(
     )
         return undefined;
 
-    const [color, opacity, offset, tilt, scale, flipx, flipy, blur] =
+    const [color, opacity, offset, tilt, scale, flipx, flipy] =
         getOutputInputs(value);
 
     return new Pose(
