@@ -83,7 +83,7 @@ export function createPhraseType(locales: Locale[]) {
             (locale) => locale.output.Phrase.alignment
         )}•'<'|'|'|'>': '|'
         ${getBind(locales, (locale) => locale.output.Phrase.matter)}•Matter|ø: ø
-        ${getBind(locales, (locale) => locale.output.Phrase.shadow)}•🤪: ø
+        ${getBind(locales, (locale) => locale.output.Phrase.shadow)}•🔮: ø
     )`);
 }
 
@@ -103,7 +103,7 @@ export default class Phrase extends Output {
     readonly wrap: number | undefined;
     readonly alignment: string | undefined;
     readonly matter: Matter | undefined;
-    readonly shadow: Pose | undefined;
+    readonly aura: Aura | undefined;
 
     private _metrics: Metrics | undefined = undefined;
 
@@ -128,7 +128,7 @@ export default class Phrase extends Output {
         wrap: number | undefined,
         alignment: string | undefined,
         matter: Matter | undefined,
-        shadow: Pose | undefined = undefined
+        aura: Aura | undefined = undefined
     ) {
         super(
             value,
@@ -147,7 +147,7 @@ export default class Phrase extends Output {
             style
         );
 
-        this.shadow = shadow;
+        this.aura = aura;
         this.text = text;
         this.wrap = wrap === undefined ? undefined : Math.max(1, wrap);
         this.alignment = alignment;
