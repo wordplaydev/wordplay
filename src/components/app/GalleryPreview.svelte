@@ -12,7 +12,7 @@
 
     export let gallery: Gallery;
 
-    const Count = 4;
+    const Count = 5;
 
     /** Projects in the gallery to highlight */
     $: highlights = gallery.getProjects().slice(0, Count);
@@ -50,7 +50,9 @@
                     {/await}
                 </div>
             {/each}
-            {#if hidden > 0}{'•'.repeat(hidden)}{/if}
+            {#if hidden > 0}<Link to={`gallery/${gallery.getID()}`}
+                    ><span class="dots">{'•'.repeat(hidden)}</span></Link
+                >{/if}
         </div>
     {/if}
 </div>
@@ -60,6 +62,11 @@
         padding: var(--wordplay-spacing);
         border-radius: var(--wordplay-border-radius);
         margin-block-end: 2em;
+    }
+
+    .dots {
+        color: var(--wordplay-foreground);
+        font-size: xx-large;
     }
 
     .previews {
