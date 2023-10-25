@@ -141,7 +141,7 @@ export default class Phrase extends Output {
         alignment: string | undefined,
         direction: WritingLayoutSymbol,
         matter: Matter | undefined,
-        shadow: DefinitePose
+        shadow: Pose | undefined = undefined
     ) {
         super(
             value,
