@@ -14,7 +14,6 @@
     import { browser } from '$app/environment';
     import { Projects, locales } from '@db/Database';
     import Page from '@components/app/Page.svelte';
-    import { Settings } from '@db/Database';
     import Writing from '../../../components/app/Writing.svelte';
 
     /** True if we're async loading the project, as opposed to getting it from the browser cache. */
@@ -81,11 +80,7 @@
 </svelte:head>
 
 {#if project}
-    <Page
-        fullscreen={Settings.getProjectLayout(
-            project.getID()
-        )?.isFullscreen() ?? false}
-    >
+    <Page>
         <!-- When the project ID changes, create a new project. -->
         {#key project.getID()}
             <ProjectView {project} {editable} {overwritten} warn={true} />

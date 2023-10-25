@@ -6,7 +6,7 @@
 </script>
 
 <script lang="ts">
-    import { onDestroy, setContext, tick } from 'svelte';
+    import { getContext, onDestroy, setContext, tick } from 'svelte';
     import { derived, writable, type Writable } from 'svelte/store';
     import {
         type DraggedContext,
@@ -175,6 +175,11 @@
     /** Keep a source select, to decide what value is shown on stage */
     let selectedSourceIndex = 0;
     $: selectedSource = project.getSources()[selectedSourceIndex];
+
+    /** The fullscreen context of the page that this is in. */
+    const pageFullscreen = getContext<Writable<boolean> | undefined>(
+        'fullscreen'
+    );
 
     /** The conflicts present in the current project. **/
     const conflicts: ConflictsContext = writable([]);
@@ -881,6 +886,8 @@
         layout = fullscreen
             ? layout.withFullscreen(tile.id)
             : layout.withoutFullscreen();
+
+        if (pageFullscreen) pageFullscreen.set(layout.isFullscreen());
     }
 
     async function positionTile(tile: Tile, position: Bounds) {

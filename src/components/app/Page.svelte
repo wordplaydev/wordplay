@@ -4,8 +4,14 @@
     import Settings from '../settings/Settings.svelte';
     import { locales } from '../../db/Database';
     import Link from './Link.svelte';
+    import { writable } from 'svelte/store';
+    import { setContext } from 'svelte';
 
-    export let fullscreen = false;
+    // Set a fullscreen flag to indicate whether footer should hide or not.
+    // It's the responsibility of children componets to set this based on their state.
+    // It's primarily ProjectView that does this.
+    let fullscreen = writable(false);
+    setContext('fullscreen', fullscreen);
 
     function handleKey(event: KeyboardEvent) {
         if (
@@ -24,7 +30,7 @@
     <main>
         <slot />
     </main>
-    <footer class:fullscreen>
+    <footer class:fullscreen={$fullscreen}>
         <Link tip={$locales.get((l) => l.ui.widget.home)} to="/">💬</Link>
         <Link to="/learn">{$locales.get((l) => l.ui.page.learn.header)}</Link>
         <Link to="/projects"
