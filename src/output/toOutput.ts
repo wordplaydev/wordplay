@@ -26,6 +26,7 @@ import TextValue from '../values/TextValue';
 import type { SupportedFace } from '../basis/Fonts';
 import { toShape } from './Shape';
 import type Evaluator from '../runtime/Evaluator';
+import type Aura from './Aura';
 
 export function toOutput(
     evaluator: Evaluator,
@@ -102,7 +103,7 @@ export function getTypeStyle(
     exiting: Pose | Sequence | undefined;
     duration: number | undefined;
     style: string | undefined;
-    shadow: Pose | undefined;
+    shadow: Aura | undefined;
 } {
     const [sizeVal, faceVal, placeVal] = getOutputInputs(value, index);
 

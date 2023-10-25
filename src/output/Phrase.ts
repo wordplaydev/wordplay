@@ -94,7 +94,7 @@ export function createPhraseType(locales: Locales) {
             (locale) => locale.output.Phrase.direction,
         )}•'${HorizontalLayout}'|'${VerticalRightLeftLayout}'|'${VerticalLeftRightLayout}': '${HorizontalLayout}'
         ${getBind(locales, (locale) => locale.output.Phrase.matter)}•Matter|ø: ø
-        ${getBind(locales, (locale) => locale.output.Phrase.shadow)}•🤪: ø
+        ${getBind(locales, (locale) => locale.output.Phrase.shadow)}•🔮: ø
     )`);
 }
 
@@ -115,7 +115,7 @@ export default class Phrase extends Output {
     readonly alignment: string | undefined;
     readonly direction: WritingLayoutSymbol;
     readonly matter: Matter | undefined;
-    readonly shadow: Pose | undefined;
+    readonly aura: Aura | undefined;
 
     private _metrics: Metrics | undefined = undefined;
 
@@ -141,7 +141,7 @@ export default class Phrase extends Output {
         alignment: string | undefined,
         direction: WritingLayoutSymbol,
         matter: Matter | undefined,
-        shadow: Pose | undefined = undefined
+        aura: Aura | undefined = undefined
     ) {
         super(
             value,
@@ -161,7 +161,7 @@ export default class Phrase extends Output {
             style
         );
 
-        this.shadow = shadow;
+        this.aura = aura;
         this.text = text;
         this.wrap = wrap === undefined ? undefined : Math.max(1, wrap);
         this.alignment = alignment;
