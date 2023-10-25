@@ -17,6 +17,7 @@
     a {
         color: var(--wordplay-highlight-color);
         text-decoration: none;
+        white-space: nowrap;
     }
 
     a:focus,
