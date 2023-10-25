@@ -1,0 +1,20 @@
+Pumpkin
+=== start
+time: Time(1000ms)
+place: Place(0m 0m) … ∆ time … Place(Random(-4m 4m) Random(-4m 4m) Random(-4m 0m))
+opacity: 1 … ∆ time … Random(0.25 1)
+show:  ⊤ … ∆ time … ~show
+pumpkin: Phrase(
+    '🎃' 
+    opacity: opacity 
+    place: place 
+    entering: Sequence({
+        0%: Pose(scale: 1.25 rotation: -21°) 
+        20%: Pose(scale: 0.75 rotation: 13°) 
+        40%: Pose(scale: 1 rotation: -7°) 
+        60%: Pose(scale: 1.25 rotation: 19°) 
+        100%: Pose()
+    } 0.5s count: 3x)
+)
+
+Stage(show ? [pumpkin] [] background: Color(0% 0 0°))

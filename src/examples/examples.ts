@@ -116,6 +116,7 @@ export function getExampleGalleries(locales: Locales): Gallery[] {
                 'RainingKitties',
                 'RotatingBinary',
                 'FontMachine',
+                'Pumpkin',
             ]
         ),
         createGallery(
