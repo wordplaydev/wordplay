@@ -34,6 +34,7 @@ TokenCategories.set(Sym.Doc, TokenCategoryDocs);
 TokenCategories.set(Sym.Words, TokenCategoryDocs);
 TokenCategories.set(Sym.None, TokenCategoryLiteral);
 TokenCategories.set(Sym.Type, TokenCategoryRelation);
+TokenCategories.set(Sym.Literal, TokenCategoryRelation);
 TokenCategories.set(Sym.Separator, TokenCategoryDelimiter);
 TokenCategories.set(Sym.Language, TokenCategoryDelimiter);
 TokenCategories.set(Sym.BooleanType, TokenCategoryLiteral);

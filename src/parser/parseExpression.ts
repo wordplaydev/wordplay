@@ -450,7 +450,9 @@ function parseList(tokens: Tokens): ListLiteral {
 
     const close = tokens.readIf(Sym.ListClose);
 
-    return new ListLiteral(open, values, close);
+    const literal = tokens.readIf(Sym.Literal);
+
+    return new ListLiteral(open, values, close, literal);
 }
 
 /** LIST_ACCESS :: EXPRESSION ([ EXPRESSION ])+ */
@@ -497,10 +499,12 @@ function parseSetOrMap(tokens: Tokens): MapLiteral | SetLiteral {
 
     const close = tokens.readIf(Sym.SetClose);
 
+    const literal = tokens.readIf(Sym.Literal);
+
     // Make a map
     return values.some((v): v is KeyValue => v instanceof KeyValue)
-        ? new MapLiteral(open, values, undefined, close)
-        : new SetLiteral(open, values as Expression[], close);
+        ? new MapLiteral(open, values, undefined, close, literal)
+        : new SetLiteral(open, values as Expression[], close, literal);
 }
 
 /** SET_ACCESS :: EXPRESSION ([ EXPRESSION ])+ */

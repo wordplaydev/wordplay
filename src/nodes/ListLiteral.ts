@@ -31,13 +31,20 @@ export default class ListLiteral extends Expression {
     readonly open: Token;
     readonly values: (Spread | Expression)[];
     readonly close?: Token;
+    readonly literal?: Token;
 
-    constructor(open: Token, values: (Spread | Expression)[], close?: Token) {
+    constructor(
+        open: Token,
+        values: (Spread | Expression)[],
+        close?: Token,
+        literal?: Token
+    ) {
         super();
 
         this.open = open;
         this.values = values;
         this.close = close;
+        this.literal = literal;
 
         this.computeChildren();
     }
@@ -70,6 +77,7 @@ export default class ListLiteral extends Expression {
                 indent: true,
             },
             { name: 'close', kind: node(Sym.ListClose) },
+            { name: 'literal', kind: node(Sym.Literal) },
         ];
     }
 
@@ -77,7 +85,8 @@ export default class ListLiteral extends Expression {
         return new ListLiteral(
             this.replaceChild('open', this.open, replace),
             this.replaceChild('values', this.values, replace),
-            this.replaceChild('close', this.close, replace)
+            this.replaceChild('close', this.close, replace),
+            this.replaceChild('literal', this.literal, replace)
         ) as this;
     }
 
@@ -103,10 +112,13 @@ export default class ListLiteral extends Expression {
 
     computeType(context: Context): Type {
         // Strip away any concrete types in the item types.
-        return ListType.make(
+        const union = ListType.make(
             this.getItemType(context),
             this.values.length
-        ).generalize(context);
+        );
+
+        // If a literal type, keep it, otherwise generalize the type.
+        return this.literal ? union : union.generalize(context);
     }
 
     computeConflicts(): Conflict[] {

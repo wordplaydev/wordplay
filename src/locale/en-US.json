@@ -1927,7 +1927,9 @@
                 "\\['apple' 'banana' 'mango'][2]\\",
                 "I can have anything in me. Look at this list, with @Text, @Number, and @Time!",
                 "\\['apple' 10 + 10 Time()]\\",
-                "I can do call kinds of exiting things with my @FunctionDefinition!"
+                "When you give me a list of many things, I'll generalize them if they have a type in common. But sometimes you might literally mean those specific things. If you do, just put a ! after me, and I'll make sure that I represent a list of specifically only those values.",
+                "\\['apple' 'banana' 'mango']!\\",
+                "That's kind of it. But I can do call kinds of exciting things with my @FunctionDefinition!"
             ],
             "name": ["[]", "List"],
             "kind": "Kind",
@@ -2341,7 +2343,12 @@
                 "\\{1 1 2 2 3 3}\\",
                 "I evaluate it to just \\{1 2 3}\\.",
                 "If you want to see if I have a value in me, @SetOrMapAccess can help:",
-                "\\{'jar' 'bottle' 'glass'}{'cup'}\\"
+                "\\{'jar' 'bottle' 'glass'}{'cup'}\\",
+                "Usually, if you give me a bunch of values that are of a common type, I'll assume they're a list of that type. Like this set is \\{''}\\, because it's all @Text.",
+                "\\{'hey' 'hi' 'hello'}\\",
+                "But you might want to indicate that I'm a set of /only/ those values, so I can tell you when you're trying to use one that's not allowed. If so, just add a ! at the end of me.",
+                "\\{'hey' 'hi' 'hello'}!{'yo'}\\",
+                "Is there something else you want to do with me? Check out all the neat @FunctionDefinition I have!"
             ],
             "name": ["{}", "Set"],
             "kind": "Kind",
@@ -2493,6 +2500,10 @@
                 "\\{'amy': 6points 'tony':3points 'shiela': 8points}{'jen'}\\",
                 "You can also make an empty map like this:",
                 "\\{:}\\",
+                "Usually, I'll see whatever kinds of keys and values you give me and just come up with a type to represent all of them. Like this is a map from numbers to numbers:",
+                "\\{1:1 2:2 3:3}\\",
+                "But say you wanted to ensure it was specifically only those values; just add ! at the end of me, and I won't generalize. That'll help you know if you're trying to get a value you didn't intend.",
+                "\\{1:1 2:2 3:3}!{4}\\",
                 "I know how to many wonderful things with my pairings."
             ],
             "name": ["{:}", "Map"],

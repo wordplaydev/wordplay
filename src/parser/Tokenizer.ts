@@ -36,6 +36,7 @@ import {
     TYPE_CLOSE_SYMBOL,
     TYPE_OPEN_SYMBOL,
     TYPE_SYMBOL,
+    LITERAL_SYMBOL,
     INITIAL_SYMBOL,
     SUM_SYMBOL,
     DIFFERENCE_SYMBOL,
@@ -169,6 +170,7 @@ const patterns = [
     { pattern: CONVERT_SYMBOL3, types: [Sym.Convert] },
     { pattern: NONE_SYMBOL, types: [Sym.None, Sym.None] },
     { pattern: TYPE_SYMBOL, types: [Sym.Type, Sym.TypeOperator] },
+    { pattern: LITERAL_SYMBOL, types: [Sym.Literal] },
     {
         pattern: OR_SYMBOL,
         types: [Sym.Operator, Sym.Union],
