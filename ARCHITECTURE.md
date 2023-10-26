@@ -135,9 +135,9 @@ Most documentation is written in `Locale`, as all of it needs to be localized. B
 
 ## Immutability
 
-Wherever possible, Wordplay uses immutable data structures and pure functions. That means that we generally do not define state and mutate it in place, but rather take existing state, and clone and modify it. This drastically reduces the number of places where state lives, simplifying debugging, reducing defects, and making testing easier.
+Wherever possible, Wordplay uses immutable data structures and pure functions. That means that we generally do not define state and mutate it in place, but rather take existing state, and make a clone with modified values. This drastically reduces the number of places where state lives, simplifying debugging, reducing defects, and making testing easier.
 
-One major exception to this is Svelete components, which often have much internal state, and dependencies on global state. These external dependencies are explicitly defined in component initialization as Svelte `context`.
+One major exception to this is Svelte components, which often have much internal state, and dependencies on global state. These external dependencies are explicitly defined in component initialization as Svelte `context`.
 
 Another major exception is `Evaluator`, since it has to manage substantial state to evaluate programs.
 
