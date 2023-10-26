@@ -7697,6 +7697,9 @@
             "ListOpen": {
               "type": "string"
             },
+            "Literal": {
+              "type": "string"
+            },
             "Locale": {
               "type": "string"
             },
@@ -7831,6 +7834,7 @@
             "Branch",
             "None",
             "Type",
+            "Literal",
             "TypeOperator",
             "TypeOpen",
             "TypeClose",
