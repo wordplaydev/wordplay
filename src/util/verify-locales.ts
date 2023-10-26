@@ -400,7 +400,15 @@ function verifyTutorial(locale: Locale, tutorial: Tutorial) {
                 !conflictsIntentional &&
                 project.getPrimaryConflicts().size > 0
             ) {
-                bad(2, `Uh oh, there's a conflict in...\n\n${code}`);
+                bad(
+                    2,
+                    `Uh oh, there's a conflict in...\n\n${code}, ${Array.from(
+                        project.getPrimaryConflicts().values()
+                    )
+                        .flat()
+                        .map((c) => c.toString())
+                        .join(',')}`
+                );
             }
         }
     }
