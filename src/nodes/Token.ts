@@ -7,7 +7,7 @@ import Emotion from '../lore/Emotion';
 import Purpose from '../concepts/Purpose';
 import type { Template } from '../locale/Locale';
 import type Root from './Root';
-import { TextOpenByTextClose, TextCloseByTextOpen } from '../parser/Tokenizer';
+import { TextCloseByTextOpen } from '../parser/Tokenizer';
 import {
     getLanguageQuote,
     getLanguageSecondaryQuote,
@@ -156,25 +156,39 @@ export default class Token extends Node {
         // Is this text? Localize delimiters.
         const isText = this.isSymbol(Sym.Text);
         if (isText) {
-            // Is there a closing delimiter? If not, we don't replace it.
-            const lastChar = text.at(-1);
-            const last =
-                text.length > 1 &&
-                lastChar !== undefined &&
-                lastChar in TextOpenByTextClose;
-            const preferredQuote = getLanguageQuote(locales[0].language);
-            const preferredSecondaryQuote = getLanguageSecondaryQuote(
-                locales[0].language
-            );
-            if (
-                text.charAt(0) !== preferredQuote &&
-                text.charAt(0) !== preferredSecondaryQuote
-            ) {
-                const preferredClosing = TextCloseByTextOpen[preferredQuote];
-                text =
-                    preferredQuote +
-                    text.substring(1, text.length - (last ? 1 : 0)) +
-                    (last ? preferredClosing : '');
+            // Find the parent.
+            const parent = root.getParent(this);
+            if (parent) {
+                const leaves = parent.leaves();
+
+                const open =
+                    leaves[0] instanceof Token && leaves[0].isSymbol(Sym.Text)
+                        ? leaves[0]
+                        : undefined;
+                const close =
+                    leaves.at(-1) instanceof Token &&
+                    leaves.at(-1)?.isSymbol(Sym.Text)
+                        ? leaves.at(-1)
+                        : undefined;
+                if (open) {
+                    const preferredQuote = getLanguageQuote(
+                        locales[0].language
+                    );
+                    const preferredSecondaryQuote = getLanguageSecondaryQuote(
+                        locales[0].language
+                    );
+                    const preferredOpen =
+                        open.getText() === preferredQuote
+                            ? preferredQuote
+                            : open.getText() === preferredSecondaryQuote
+                            ? preferredSecondaryQuote
+                            : preferredQuote;
+                    // Is this the open and its not the preferred quote? Make it the preferred one.
+                    if (open === this) text = preferredOpen;
+                    // Is this the close and the close isn't the preferred?
+                    if (close === this)
+                        text = TextCloseByTextOpen[preferredOpen];
+                }
             }
         }
 
