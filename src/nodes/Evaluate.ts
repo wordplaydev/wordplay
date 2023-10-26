@@ -498,7 +498,12 @@ export default class Evaluate extends Expression {
                 // Figure out what type this expected input is. Resolve any type variables to concrete values.
                 if (given instanceof Expression) {
                     const givenType = given.getType(context);
-                    if (!expectedType.accepts(givenType, context, given))
+                    if (
+                        !expectedType.accepts(givenType, context, given) &&
+                        !expectedType
+                            .generalize(context)
+                            .accepts(givenType, context, given)
+                    )
                         conflicts.push(
                             new IncompatibleInput(
                                 given,

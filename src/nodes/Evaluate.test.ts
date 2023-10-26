@@ -13,7 +13,6 @@ import UnexpectedTypeInput from '@conflicts/UnexpectedTypeInput';
 import type Node from './Node';
 import type Conflict from '../conflicts/Conflict';
 import evaluateCode from '../runtime/evaluate';
-import UnionType from './UnionType';
 
 test.each([
     [
@@ -144,7 +143,7 @@ test('Test generics', () => {
     // Infer the type from an input.
     testTypes('ƒ test⸨T⸩(a•T) a\ntest(1)', NumberType);
     // Infer from lists
-    testTypes('[ 1 2 3 ].random()', UnionType);
+    testTypes('[ 1 2 3 ].random()', NumberType);
     // Infer from sets
     testTypes('{ 1 2 3 }.remove(1)', SetType);
     // Infer from map higher order function

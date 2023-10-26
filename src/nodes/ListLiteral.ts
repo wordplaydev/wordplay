@@ -103,7 +103,10 @@ export default class ListLiteral extends Expression {
 
     computeType(context: Context): Type {
         // Strip away any concrete types in the item types.
-        return ListType.make(this.getItemType(context), this.values.length);
+        return ListType.make(
+            this.getItemType(context),
+            this.values.length
+        ).generalize(context);
     }
 
     computeConflicts(): Conflict[] {
