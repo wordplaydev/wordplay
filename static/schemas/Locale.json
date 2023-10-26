@@ -9745,6 +9745,10 @@
                       "description": "Select the whole program",
                       "type": "string"
                     },
+                    "tidy": {
+                      "description": "Tidy spacing",
+                      "type": "string"
+                    },
                     "type": {
                       "description": "Insert a symbol",
                       "type": "string"
@@ -9793,7 +9797,8 @@
                     "type",
                     "undo",
                     "redo",
-                    "search"
+                    "search",
+                    "tidy"
                   ],
                   "type": "object"
                 },

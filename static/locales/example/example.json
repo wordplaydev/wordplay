@@ -2217,7 +2217,8 @@
                 "type": "$?",
                 "undo": "$?",
                 "redo": "$?",
-                "search": "$?"
+                "search": "$?",
+                "tidy": "$?"
             }
         },
         "conflicts": {

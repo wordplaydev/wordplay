@@ -49,6 +49,7 @@ export default class KeyValue extends Node {
             {
                 name: 'value',
                 kind: node(Expression),
+                space: true,
                 label: (locales: Locales) => locales.get((l) => l.term.value),
             },
         ];

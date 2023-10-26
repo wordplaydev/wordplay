@@ -594,7 +594,7 @@ export default class Caret {
                     return index + last.getTextLength() + offset;
             }
             return undefined;
-        } else return undefined;
+        } else return this.position;
     }
 
     getPlaceholderAtPosition(position: number): Node | undefined {

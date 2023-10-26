@@ -1068,6 +1068,32 @@ const Commands: Command[] = [
     FocusPalette,
     FocusCycle,
 
+    {
+        symbol: '🧹',
+        description: (l) => l.ui.source.cursor.tidy,
+        visible: Visibility.Visible,
+        category: Category.Modify,
+        control: true,
+        shift: false,
+        alt: false,
+        key: 's',
+        execute: ({ caret }) => {
+            if (caret) {
+                const length = caret.source.code.getLength();
+                const position = caret.getTextPosition(true) ?? 0;
+                const tidySource = caret.source.withPreferredSpace();
+                return [
+                    tidySource,
+                    caret
+                        .withSource(tidySource)
+                        .withPosition(
+                            position + (tidySource.code.getLength() - length)
+                        ),
+                ];
+            } else return;
+        },
+    },
+
     // The catch all
     InsertSymbol,
 ];

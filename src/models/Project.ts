@@ -934,7 +934,9 @@ export default class Project {
             this.getSources()
                 .map(
                     (source) =>
-                        `=== ${source.names.toWordplay()}\n${source.code.toString()}`
+                        `=== ${source.names.toWordplay()}\n${source
+                            .withPreferredSpace()
+                            .code.toString()}`
                 )
                 .join('\n')
         );

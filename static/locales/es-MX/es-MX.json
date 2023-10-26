@@ -2245,7 +2245,8 @@
                 "type": "escribir caracteres",
                 "undo": "deshacer edición anterior",
                 "redo": "rehacer edición deshecha",
-                "search": "buscar caracteres especiales para insertar"
+                "search": "buscar caracteres especiales para insertar",
+                "tidy": "$?"
             }
         },
         "conflicts": {

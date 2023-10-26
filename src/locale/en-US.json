@@ -3864,7 +3864,8 @@
                 "type": "type characters",
                 "undo": "undo previous edit",
                 "redo": "redo undone edit",
-                "search": "search for special characters to insert"
+                "search": "search for special characters to insert",
+                "tidy": "tidy spacing"
             }
         },
         "conflicts": {

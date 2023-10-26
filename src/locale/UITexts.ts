@@ -272,6 +272,8 @@ type UITexts = {
             redo: string;
             /** Search for glyph */
             search: string;
+            /** Tidy spacing */
+            tidy: string;
         };
     };
     /** The conflicts area at the bottom of the editor. */
