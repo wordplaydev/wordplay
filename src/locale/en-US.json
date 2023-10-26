@@ -76,6 +76,7 @@
         "Branch": "branch",
         "None": "nothing",
         "Type": "type",
+        "Literal": "literal",
         "TypeOperator": "is",
         "TypeOpen": "type input open",
         "TypeClose": "type input close",

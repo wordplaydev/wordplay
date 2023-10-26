@@ -77,6 +77,7 @@
         "Branch": "分支",
         "None": "空的",
         "Type": "类型",
+        "Literal": "$?",
         "TypeOperator": "类型运算符",
         "TypeOpen": "类型打开",
         "TypeClose": "类型关闭",
