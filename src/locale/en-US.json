@@ -4102,7 +4102,7 @@
         "save": {
             "saving": "saving",
             "saved": "saved online",
-            "local": "saved locally",
+            "local": "saved on this device",
             "unsaved": "unsaved"
         },
         "page": {
@@ -4208,7 +4208,7 @@
                     "passwordreminder": "It looks like you're creating an account. Check your password, make sure you stored it safely and correctly, then submit again to create your account.",
                     "change": "Want to change your email? Submit a new one and we'll send a confirmation to the old one.",
                     "sent": "Check your email for a login link. Patience, email can be slow!",
-                    "logout": "Leaving a shared device and want to keep your projects private? Logout and we'll remove your projects from this device. They will still be stored online.",
+                    "logout": "Are you using a shared device and want to keep your projects private? Logout and we'll *delete your projects* from this device, but they will be saved online.",
                     "success": "Account created!",
                     "confirm": "Check your old email address to confirm you new address.",
                     "delete": "Want us to forget everything you've made here? This can't be undone.",

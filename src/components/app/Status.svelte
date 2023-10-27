@@ -4,12 +4,13 @@
     import { getUser } from '../project/Contexts';
 
     const user = getUser();
+    $: device = $user === null;
 </script>
 
-<div class="status {$status}">
+<div class="status {$status}" class:device>
     {$status === SaveStatus.Saved
         ? `${
-              $user === null
+              device
                   ? $locales.get((l) => l.ui.save.local)
                   : $locales.get((l) => l.ui.save.saved)
           } ✔`
@@ -35,6 +36,11 @@
         background: var(--wordplay-error);
         color: var(--wordplay-background);
         animation: shake 1s infinite;
+    }
+
+    .status.device {
+        background: var(--wordplay-warning);
+        color: var(--wordplay-background);
     }
 
     @keyframes shake {

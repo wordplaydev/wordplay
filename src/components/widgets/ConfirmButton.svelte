@@ -11,7 +11,7 @@
     let confirming = false;
 </script>
 
-<div class="prompt" class:confirming>
+<div class="prompt" class:confirming class:background>
     <Button
         {background}
         tip={confirming ? $locales.get((l) => l.ui.widget.confirm.cancel) : tip}
@@ -20,7 +20,9 @@
         >{#if confirming}⨉{:else}<slot />{/if}</Button
     >
     {#if confirming}
-        <Button stretch {tip} action={() => action()}>{prompt}</Button>
+        <Button {background} stretch {tip} action={() => action()}
+            >{prompt}</Button
+        >
     {/if}
 </div>
 
@@ -35,5 +37,9 @@
         align-items: baseline;
         outline: var(--wordplay-border-color) solid var(--wordplay-border-width);
         border-radius: var(--wordplay-border-radius);
+    }
+
+    .prompt.background {
+        outline: none;
     }
 </style>

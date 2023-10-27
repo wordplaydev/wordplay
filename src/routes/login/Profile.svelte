@@ -1,7 +1,7 @@
 <script lang="ts">
     import { updateEmail, updateProfile, type User } from 'firebase/auth';
     import Header from '../../components/app/Header.svelte';
-    import { DB, locales } from '../../db/Database';
+    import { DB, locales, SaveStatus } from '../../db/Database';
     import Link from '../../components/app/Link.svelte';
     import EmojiChooser from '../../components/widgets/EmojiChooser.svelte';
     import Button from '../../components/widgets/Button.svelte';
@@ -13,6 +13,9 @@
     import { isModerator } from '../../models/Moderation';
     import getLoginErrorDescription from './getAuthErrorDescription';
     import { Creator } from '../../db/CreatorDatabase';
+    import ConfirmButton from '../../components/widgets/ConfirmButton.svelte';
+    import MarkupHtmlView from '../../components/concepts/MarkupHTMLView.svelte';
+    import { status } from '../../db/Database';
 
     export let user: User;
 
@@ -94,15 +97,21 @@
         />
     </div>
     <div class="action">
-        <p>{$locales.get((l) => l.ui.page.login.prompt.logout)}</p>
+        <MarkupHtmlView
+            markup={$locales.get((l) => l.ui.page.login.prompt.logout)}
+        />
         <p
-            ><Button
+            ><ConfirmButton
                 background
                 tip={$locales.get((l) => l.ui.page.login.button.logout.tip)}
                 action={logout}
+                enabled={$status === SaveStatus.Saved}
+                prompt={`🗑️ ${$locales.get(
+                    (l) => l.ui.page.login.button.logout.label
+                )}`}
                 >{$locales.get(
                     (l) => l.ui.page.login.button.logout.label
-                )}</Button
+                )}…</ConfirmButton
             ></p
         >
     </div>
