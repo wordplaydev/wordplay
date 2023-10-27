@@ -50,11 +50,15 @@
 
     const evaluation = getEvaluation();
 
-    // Whenever blocks changes, compute position after animation.
+    // Whenever blocks, evaluation, or caret changes, compute position after animation delay.
     $: {
         $blocks;
         $evaluation;
-        setTimeout(() => (location = computeLocation()), $animationDuration);
+        caret;
+        setTimeout(
+            () => (location = computeLocation()),
+            $animationDuration + 25
+        );
     }
 
     // Whenever the caret changes, update the index we should render and scroll to it.
