@@ -73,8 +73,8 @@
 </script>
 
 <Header
-    ><span style:font-family="Noto Color Emoji">{user.displayName ?? '😃'}</span
-    >{creator.getUsername(false)}</Header
+    ><span class="emoji">{user.displayName ?? '😃'}</span>
+    {creator.getUsername(false)}</Header
 >
 
 <div class="actions">
@@ -232,9 +232,14 @@
 
     .action {
         min-width: 15em;
-        width: 40%;
+        width: calc(50% - var(--wordplay-spacing));
         padding: var(--wordplay-spacing);
         border: var(--wordplay-border-color) solid var(--wordplay-border-width);
         border-radius: var(--wordplay-border-radius);
+    }
+
+    .emoji {
+        display: inline-block;
+        font-family: 'Noto Color Emoji';
     }
 </style>
