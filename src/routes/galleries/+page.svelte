@@ -12,7 +12,7 @@
         query,
         where,
         type DocumentData,
-        QueryDocumentSnapshot,
+        type QueryDocumentSnapshot,
         startAfter,
     } from 'firebase/firestore';
     import { firestore } from '../../db/firebase';
