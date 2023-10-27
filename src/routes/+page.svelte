@@ -33,7 +33,7 @@
     </div>
     {#if ALPHA}
         <div class="beta">
-            >Public beta coming October 31st, 2023. Write <Link
+            Public beta coming October 31st, 2023. Write <Link
                 external
                 to="https://amyjko.com">Amy</Link
             > for details, or see our <Link
