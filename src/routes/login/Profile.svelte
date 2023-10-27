@@ -12,11 +12,11 @@
     import Feedback from '../../components/app/Feedback.svelte';
     import { isModerator } from '../../models/Moderation';
     import { getLoginErrorDescription } from './login';
-    import { HiddenUsernameEmailDomain } from '../../db/Creator';
+    import { CreatorUsernameEmailDomain } from '../../db/CreatorDatabase';
 
     export let user: User;
 
-    $: username = user.email?.endsWith(HiddenUsernameEmailDomain);
+    $: username = user.email?.endsWith(CreatorUsernameEmailDomain);
 
     let newEmail: string;
 
@@ -79,7 +79,7 @@
 
     function readyToDeleteAccount(email: string) {
         const finalEmail = username
-            ? `${email}${HiddenUsernameEmailDomain}`
+            ? `${email}${CreatorUsernameEmailDomain}`
             : email;
         return validEmail(finalEmail) && finalEmail === user.email;
     }
@@ -87,7 +87,7 @@
 
 <Header
     ><span style:font-family="Noto Color Emoji">{user.displayName ?? '😃'}</span
-    >{user.email?.replace(HiddenUsernameEmailDomain, '')}</Header
+    >{user.email?.replace(CreatorUsernameEmailDomain, '')}</Header
 >
 
 <div class="actions">

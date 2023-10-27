@@ -23,7 +23,7 @@
     import Subheader from '../../components/app/Subheader.svelte';
     import MarkupHtmlView from '../../components/concepts/MarkupHTMLView.svelte';
     import Note from '../../components/widgets/Note.svelte';
-    import { HiddenUsernameEmailDomain } from '../../db/Creator';
+    import { CreatorUsernameEmailDomain } from '../../db/CreatorDatabase';
 
     let user = getUser();
     let success: boolean | undefined = undefined;
@@ -111,12 +111,12 @@
     }
 
     async function startUsernameLogin() {
-        const emailUsername = `${username}${HiddenUsernameEmailDomain}`;
+        const emailUsername = `${username}${CreatorUsernameEmailDomain}`;
         if (auth && usernameSubmittable) {
             try {
                 await signInWithEmailAndPassword(
                     auth,
-                    `${username}${HiddenUsernameEmailDomain}`,
+                    `${username}${CreatorUsernameEmailDomain}`,
                     password
                 );
             } catch (error) {

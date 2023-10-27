@@ -38,7 +38,7 @@ service cloud.firestore {
           );
       allow delete: if request.auth != null && resource.data.owner == request.auth.uid;
     }
-    match /users/{uid} {
+    match /creators/{uid} {
       allow read, write: if request.auth != null && request.auth.uid == uid;
     }
     match /galleries/{gallery} {

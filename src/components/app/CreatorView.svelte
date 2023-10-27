@@ -1,7 +1,7 @@
 <script lang="ts">
     import type { Creator } from '@db/CreatorDatabase';
     import { locales } from '@db/Database';
-    import { HiddenUsernameEmailDomain } from '../../db/Creator';
+    import { CreatorUsernameEmailDomain } from '../../db/CreatorDatabase';
 
     export let creator: Creator | null;
     export let anonymize = true;
@@ -17,8 +17,8 @@
             ? '—'
             : anonymize
             ? `${creator.email.split('@')[0].substring(0, 4)}...`
-            : creator.email.endsWith(HiddenUsernameEmailDomain)
-            ? creator.email.replace(HiddenUsernameEmailDomain, '')
+            : creator.email.endsWith(CreatorUsernameEmailDomain)
+            ? creator.email.replace(CreatorUsernameEmailDomain, '')
             : creator.email
         : $locales.get((l) => l.ui.page.login.anonymous)}</div
 >
