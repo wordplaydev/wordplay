@@ -1,7 +1,6 @@
 <script lang="ts">
     import type { Creator } from '@db/CreatorDatabase';
     import { locales } from '@db/Database';
-    import { CreatorUsernameEmailDomain } from '../../db/CreatorDatabase';
 
     export let creator: Creator | null;
     export let anonymize = true;
@@ -11,15 +10,9 @@
     >{#if creator}<span
             class="name"
             style:animation-delay={`${Math.random() * 1000}ms`}
-            >{creator.name ?? '😃'}</span
+            >{creator.getName() ?? '😃'}</span
         >{/if}{creator
-        ? creator.email === null
-            ? '—'
-            : anonymize
-            ? `${creator.email.split('@')[0].substring(0, 4)}...`
-            : creator.email.endsWith(CreatorUsernameEmailDomain)
-            ? creator.email.replace(CreatorUsernameEmailDomain, '')
-            : creator.email
+        ? creator.getUsername(anonymize)
         : $locales.get((l) => l.ui.page.login.anonymous)}</div
 >
 

@@ -22,7 +22,7 @@
     import Mode from '../../components/widgets/Mode.svelte';
     import Subheader from '../../components/app/Subheader.svelte';
     import MarkupHtmlView from '../../components/concepts/MarkupHTMLView.svelte';
-    import { CreatorUsernameEmailDomain } from '../../db/CreatorDatabase';
+    import CreatorDatabase from '../../db/CreatorDatabase';
 
     let user = getUser();
     let success: boolean | undefined = undefined;
@@ -37,7 +37,7 @@
     let password = '';
     let reveal = false;
 
-    $: emailUsername = `${username}${CreatorUsernameEmailDomain}`;
+    $: emailUsername = CreatorDatabase.getUsernameEmail(username);
 
     /** True if we tried to log in and there's no account. */
     let noAccount = false;

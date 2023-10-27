@@ -20,6 +20,7 @@
     import Dialog from '../widgets/Dialog.svelte';
     import CreatorView from '../app/CreatorView.svelte';
     import Beta from '../../routes/Beta.svelte';
+    import { Creator } from '../../db/CreatorDatabase';
 
     let user = getUser();
 
@@ -68,13 +69,7 @@
     <Link to="/login">
         <CreatorView
             anonymize={false}
-            creator={$user
-                ? {
-                      email: $user.email,
-                      uid: $user.uid,
-                      name: $user.displayName ?? null,
-                  }
-                : null}
+            creator={$user ? Creator.from($user) : null}
         />
     </Link>
     <LanguageChooser />

@@ -2,16 +2,70 @@ import { httpsCallable } from 'firebase/functions';
 import type { Database } from './Database';
 import { functions } from './firebase';
 import type { UserIdentifier } from 'firebase-admin/auth';
+import type { User } from 'firebase/auth';
 
 export const CreatorCollection = 'creators';
-export const CreatorUsernameEmailDomain = '@wordplay.dev';
 
 /** The type for a record returned by our cloud functions */
-export type Creator = {
+export type CreatorSchema = {
     uid: string;
     name: string | null;
     email: string | null;
 };
+
+export class Creator {
+    /** This is the domain we append to work around the lack of Firebase support for raw usernames. */
+    static CreatorUsernameEmailDomain = '@wordplay.dev';
+    readonly data: CreatorSchema;
+    constructor(data: CreatorSchema) {
+        this.data = data;
+    }
+
+    static from(user: User) {
+        return new Creator({
+            uid: user.uid,
+            name: user.displayName,
+            email: user.email,
+        });
+    }
+
+    static usernameEmail(username: string) {
+        return `${username}${Creator.CreatorUsernameEmailDomain}`;
+    }
+
+    static isUsername(email: string) {
+        return email.endsWith(Creator.CreatorUsernameEmailDomain);
+    }
+
+    getName() {
+        return this.data.name;
+    }
+
+    getEmail() {
+        return this.data.email;
+    }
+
+    isUsername() {
+        return (
+            this.data.email &&
+            this.data.email.endsWith(Creator.CreatorUsernameEmailDomain)
+        );
+    }
+
+    getUsername(anonymous: boolean) {
+        return this.data.email === null
+            ? '—'
+            : anonymous
+            ? `${this.data.email.split('@')[0].substring(0, 4)}...`
+            : this.isUsername()
+            ? this.data.email.replace(Creator.CreatorUsernameEmailDomain, '')
+            : this.data.email;
+    }
+
+    getUID() {
+        return this.data.uid;
+    }
+}
 
 export default class CreatorDatabase {
     /** The main database that manages this gallery database */
@@ -26,6 +80,10 @@ export default class CreatorDatabase {
 
     constructor(database: Database) {
         this.database = database;
+    }
+
+    static getUsernameEmail(username: string) {
+        return Creator.usernameEmail(username);
     }
 
     async getCreators(
@@ -50,7 +108,7 @@ export default class CreatorDatabase {
         if (functions === undefined) return creators;
 
         // Get missing info.
-        const getCreators = httpsCallable<UserIdentifier[], Creator[]>(
+        const getCreators = httpsCallable<UserIdentifier[], CreatorSchema[]>(
             functions,
             'getCreators'
         );
@@ -59,14 +117,15 @@ export default class CreatorDatabase {
             await getCreators(
                 missing.map((id) => (email ? { email: id } : { uid: id }))
             )
-        ).data as Creator[];
+        ).data as CreatorSchema[];
 
         // Add the missing creators
-        for (const creator of missingCreators) {
-            if (creator.email) this.creatorsByEmail.set(creator.email, creator);
-            this.creatorsByUID.set(creator.uid, creator);
+        for (const schema of missingCreators) {
+            const creator = new Creator(schema);
+            if (schema.email) this.creatorsByEmail.set(schema.email, creator);
+            this.creatorsByUID.set(schema.uid, creator);
             missing = missing.filter(
-                (id) => id !== (email ? creator.email : creator.uid)
+                (id) => id !== (email ? schema.email : schema.uid)
             );
             creators.push(creator);
         }
@@ -96,7 +155,7 @@ export default class CreatorDatabase {
         await this.getCreators([email], 'email');
 
         // Then return what we've got.
-        return this.creatorsByEmail.get(email)?.uid ?? null;
+        return this.creatorsByEmail.get(email)?.getUID() ?? null;
     }
 
     async getCreator(uid: string): Promise<Creator | null> {

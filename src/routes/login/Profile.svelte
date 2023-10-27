@@ -12,11 +12,11 @@
     import Feedback from '../../components/app/Feedback.svelte';
     import { isModerator } from '../../models/Moderation';
     import { getLoginErrorDescription } from './login';
-    import { CreatorUsernameEmailDomain } from '../../db/CreatorDatabase';
+    import { Creator } from '../../db/CreatorDatabase';
 
     export let user: User;
 
-    $: username = user.email?.endsWith(CreatorUsernameEmailDomain);
+    $: creator = Creator.from(user);
 
     let newEmail: string;
 
@@ -78,8 +78,8 @@
     }
 
     function readyToDeleteAccount(email: string) {
-        const finalEmail = username
-            ? `${email}${CreatorUsernameEmailDomain}`
+        const finalEmail = creator.isUsername()
+            ? Creator.usernameEmail(email)
             : email;
         return validEmail(finalEmail) && finalEmail === user.email;
     }
@@ -87,7 +87,7 @@
 
 <Header
     ><span style:font-family="Noto Color Emoji">{user.displayName ?? '😃'}</span
-    >{user.email?.replace(CreatorUsernameEmailDomain, '')}</Header
+    >{creator.getUsername(false)}</Header
 >
 
 <div class="actions">
@@ -119,7 +119,7 @@
             ></p
         >
     </div>
-    {#if user && !username}
+    {#if !creator.isUsername()}
         <div class="action">
             <p>{$locales.get((l) => l.ui.page.login.prompt.change)}</p>
             <form on:submit={update}>
@@ -134,6 +134,7 @@
                     editable={!changeSubmitted}
                 /><Button
                     submit
+                    background
                     tip={$locales.get((l) => l.ui.page.login.button.update)}
                     active={validEmail(newEmail)}
                     action={() => undefined}>&gt;</Button
@@ -176,17 +177,17 @@
                 >
                     <TextField
                         description={$locales.get((l) =>
-                            username
+                            creator.isUsername()
                                 ? l.ui.page.login.field.username.description
                                 : l.ui.page.login.field.email.description
                         )}
                         placeholder={$locales.get((l) =>
-                            username
+                            creator.isUsername()
                                 ? l.ui.page.login.field.username.placeholder
                                 : l.ui.page.login.field.email.placeholder
                         )}
                         fill={true}
-                        kind={username ? undefined : 'email'}
+                        kind={creator.isUsername() ? undefined : 'email'}
                         bind:text={confirmEmail}
                     />
                     <Button
