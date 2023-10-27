@@ -4196,8 +4196,16 @@
                     },
                     "enter": "It looks like your login link came from a different browser or device. Can you enter your email again, just so we're sure it's you?",
                     "play": "You're logged in, we can save your projects online now! Want to create something?",
-                    "emailrules": "Don't provide your email if you are 12 or younger.",
-                    "usernamerules": "If you're creating an account, *usernames* should not contain identiable information (e.g., names), cannot be an email addresses, and should be at least 5 characters long. *Passwords* must be at least 10 characters long; if you're not using a password manager, choose three long words you'll remember.",
+                    "emailrules": [
+                        "• Don't provide your email if you are *12 or younger*.",
+                        "• If you *lose access* to your email account, you won't be able to update your email address."
+                    ],
+                    "usernamerules": [
+                        "• *Usernames* should not contain identiable information (e.g., names), cannot be an email addresses, and should be at least 5 characters long",
+                        "• *Passwords* must be at least 10 characters long; if you're not using a password manager, choose three long words you'll remember.",
+                        "• *If you forget your password*, you can't recover your account, since we have no other way to know it's you. Store your password somewhere safe, like a password manager"
+                    ],
+                    "passwordreminder": "It looks like you're creating an account. Reveal it above, and make sure you wrote it down correctly, then submit again to create your account.",
                     "change": "Want to change your email? Submit a new one and we'll send a confirmation to the old one.",
                     "sent": "Check your email for a login link. Patience, email can be slow!",
                     "logout": "Leaving a shared device and want to keep your projects private? Logout and we'll remove your projects from this device. They will still be stored online.",
@@ -4215,7 +4223,7 @@
                     "offline": "You appear to be offline.",
                     "unchanged": "We couldn't change your email address, but we don't know why.",
                     "delete": "We couldn't delete your account, but we don't know why.",
-                    "wrongPassword": "Not a valid username and password"
+                    "wrongPassword": "Not a valid username and password. Either your password is wrong, or someone else has this username."
                 },
                 "feedback": {
                     "changing": "Submitting new email...",

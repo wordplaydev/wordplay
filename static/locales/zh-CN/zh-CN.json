@@ -2511,8 +2511,9 @@
                         "modes": ["$?", "$?"]
                     },
                     "enter": "$?",
-                    "emailrules": "$?",
-                    "usernamerules": "$?",
+                    "emailrules": ["$?"],
+                    "usernamerules": ["$?"],
+                    "passwordreminder": "$?",
                     "play": "$?",
                     "change": "$?",
                     "logout": "$?",

@@ -22,7 +22,6 @@
     import Mode from '../../components/widgets/Mode.svelte';
     import Subheader from '../../components/app/Subheader.svelte';
     import MarkupHtmlView from '../../components/concepts/MarkupHTMLView.svelte';
-    import Note from '../../components/widgets/Note.svelte';
     import { CreatorUsernameEmailDomain } from '../../db/CreatorDatabase';
 
     let user = getUser();
@@ -36,11 +35,17 @@
     let younger = true;
     let username = '';
     let password = '';
+    let reveal = false;
+
+    $: emailUsername = `${username}${CreatorUsernameEmailDomain}`;
+
+    /** True if we tried to log in and there's no account. */
+    let noAccount = false;
 
     $: emailSubmittable = !sent && validEmail(email);
 
-    $: usernameSubmittable =
-        !sent && isValidUsername(username) && isValidPassword(password);
+    $: userNameValid = isValidUsername(username) && isValidPassword(password);
+    $: usernameIsCheckable = !noAccount && userNameValid;
 
     function isValidUsername(username: string) {
         return !validEmail(username) && username.length >= 5;
@@ -114,33 +119,33 @@
         return undefined;
     }
 
-    async function startUsernameLogin() {
-        const emailUsername = `${username}${CreatorUsernameEmailDomain}`;
-        if (auth && usernameSubmittable) {
+    async function tryUsernameLogin() {
+        if (auth && usernameIsCheckable) {
             try {
-                await signInWithEmailAndPassword(
-                    auth,
-                    `${username}${CreatorUsernameEmailDomain}`,
-                    password
-                );
+                await signInWithEmailAndPassword(auth, emailUsername, password);
             } catch (error) {
-                // If not found, then we create the user.
                 if (
                     error instanceof FirebaseError &&
                     error.code === 'auth/user-not-found'
                 ) {
-                    try {
-                        await createUserWithEmailAndPassword(
-                            auth,
-                            emailUsername,
-                            password
-                        );
-                    } catch (error) {
-                        usernameLoginFeedback = communicateError(error);
-                    }
+                    noAccount = true;
+                } else {
+                    usernameLoginFeedback = communicateError(error);
                 }
-                // Otherwise, communicate the error.
-                else usernameLoginFeedback = communicateError(error);
+            }
+        }
+    }
+
+    async function createUsernameLogin() {
+        if (auth && reveal) {
+            try {
+                await createUserWithEmailAndPassword(
+                    auth,
+                    emailUsername,
+                    password
+                );
+            } catch (error) {
+                usernameLoginFeedback = communicateError(error);
             }
         }
     }
@@ -187,12 +192,6 @@
     <Subheader>{$locales.get((l) => l.ui.page.login.subheader.email)}</Subheader
     >
     <form class="login-form" on:submit={startEmailLogin}>
-        <Note
-            ><MarkupHtmlView
-                inline
-                markup={$locales.get((l) => l.ui.page.login.prompt.emailrules)}
-            /></Note
-        >
         <div>
             <TextField
                 kind="email"
@@ -213,6 +212,9 @@
                 action={() => undefined}>&gt;</Button
             >
         </div>
+        <MarkupHtmlView
+            markup={$locales.get((l) => l.ui.page.login.prompt.emailrules)}
+        />
     </form>
 {/if}
 
@@ -225,39 +227,59 @@
 {/if}
 
 <Subheader>{$locales.get((l) => l.ui.page.login.subheader.username)}</Subheader>
-<form class="login-form" on:submit={startUsernameLogin}>
-    <TextField
-        description={$locales.get(
-            (l) => l.ui.page.login.field.username.description
-        )}
-        placeholder={$locales.get(
-            (l) => l.ui.page.login.field.username.placeholder
-        )}
-        bind:text={username}
-        editable={!sent}
-        validator={(name) => isValidUsername(name)}
-    />
+<form
+    class="login-form"
+    on:submit={noAccount ? createUsernameLogin : tryUsernameLogin}
+>
     <div>
         <TextField
-            kind="password"
             description={$locales.get(
-                (l) => l.ui.page.login.field.password.description
+                (l) => l.ui.page.login.field.username.description
             )}
             placeholder={$locales.get(
-                (l) => l.ui.page.login.field.password.placeholder
+                (l) => l.ui.page.login.field.username.placeholder
             )}
-            bind:text={password}
+            bind:text={username}
             editable={!sent}
-            validator={(pass) => isValidPassword(pass)}
+            validator={(name) => isValidUsername(name)}
         />
+        {#if noAccount}
+            {#if reveal}{password}{:else}<Button
+                    tip={$locales.get(
+                        (l) => l.ui.page.login.prompt.passwordreminder
+                    )}
+                    action={() => (reveal = true)}
+                    >🔍{'•'.repeat(password.length)}</Button
+                >{/if}
+        {:else}
+            <TextField
+                kind={noAccount ? undefined : 'password'}
+                description={$locales.get(
+                    (l) => l.ui.page.login.field.password.description
+                )}
+                placeholder={$locales.get(
+                    (l) => l.ui.page.login.field.password.placeholder
+                )}
+                bind:text={password}
+                validator={(pass) => isValidPassword(pass)}
+            />
+        {/if}
         <Button
             submit
             background
             tip={$locales.get((l) => l.ui.page.login.button.login)}
-            active={usernameSubmittable}
-            action={() => undefined}>&gt;</Button
-        ></div
-    >
+            active={usernameIsCheckable || reveal}
+            action={() => undefined}
+            >{#if noAccount}&gt;&gt;{:else}&gt;{/if}</Button
+        >
+    </div>
+    {#if noAccount}
+        <Feedback
+            >{$locales.get(
+                (l) => l.ui.page.login.prompt.passwordreminder
+            )}</Feedback
+        >
+    {/if}
     <MarkupHtmlView
         markup={$locales.get((l) => l.ui.page.login.prompt.usernamerules)}
     />

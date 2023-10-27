@@ -667,9 +667,11 @@ type UITexts = {
                 /** Encouragement to go create after logging in. */
                 play: string;
                 /** Gives rules for emails above the login form */
-                emailrules: string;
+                emailrules: string[];
                 /** Gives rules for usernames and passwords above the login form */
-                usernamerules: string;
+                usernamerules: string[];
+                /** Reminder to write down password */
+                passwordreminder: string;
                 /** Offers to log out the creator. */
                 logout: string;
                 /** Shown briefly before page redirects to projects */

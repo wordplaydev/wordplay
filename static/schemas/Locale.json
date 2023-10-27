@@ -8898,7 +8898,10 @@
                         },
                         "emailrules": {
                           "description": "Gives rules for emails above the login form",
-                          "type": "string"
+                          "items": {
+                            "type": "string"
+                          },
+                          "type": "array"
                         },
                         "enter": {
                           "description": "Asks the creator to enter their email if they opened the email link in a different browser.",
@@ -8914,6 +8917,10 @@
                         },
                         "name": {
                           "description": "Pick an emoji as a name",
+                          "type": "string"
+                        },
+                        "passwordreminder": {
+                          "description": "Reminder to write down password",
                           "type": "string"
                         },
                         "play": {
@@ -8934,7 +8941,10 @@
                         },
                         "usernamerules": {
                           "description": "Gives rules for usernames and passwords above the login form",
-                          "type": "string"
+                          "items": {
+                            "type": "string"
+                          },
+                          "type": "array"
                         }
                       },
                       "required": [
@@ -8945,6 +8955,7 @@
                         "play",
                         "emailrules",
                         "usernamerules",
+                        "passwordreminder",
                         "logout",
                         "success",
                         "confirm",
