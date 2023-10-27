@@ -8,9 +8,9 @@
     import { locales, DB, animationFactor, dark } from '../db/Database';
     import { browser } from '$app/environment';
     import { goto } from '$app/navigation';
-    import { PUBLIC_CONTEXT } from '$env/static/public';
     import { page } from '$app/stores';
     import { getLanguageDirection } from '../locale/LanguageCode';
+    import ALPHA from './alpha';
 
     /** Expose the translations as context, updating them as necessary */
     $: setContext(LocalesSymbol, $locales);
@@ -52,7 +52,7 @@
     });
 
     // Are we pre-beta in prod? Always go back to the beginning.
-    $: if (browser && $page && PUBLIC_CONTEXT === 'prod') goto('/');
+    $: if (browser && $page && ALPHA) goto('/');
 
     function prefersDark() {
         return (

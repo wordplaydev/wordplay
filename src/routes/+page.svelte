@@ -1,5 +1,4 @@
 <script lang="ts">
-    import { PUBLIC_CONTEXT } from '$env/static/public';
     import Header from '@components/app/Header.svelte';
     import BigLink from '../components/app/BigLink.svelte';
     import Background from '../components/app/Background.svelte';
@@ -11,6 +10,7 @@
     import MarkupHtmlView from '../components/concepts/MarkupHTMLView.svelte';
     import Link from '../components/app/Link.svelte';
     import Beta from './Beta.svelte';
+    import ALPHA from './alpha';
 </script>
 
 <svelte:head>
@@ -31,9 +31,8 @@
             ></Speech
         >
     </div>
-    <div class="beta"> <Beta /></div>
-    {#if PUBLIC_CONTEXT === 'prod'}
-        <p
+    {#if ALPHA}
+        <div class="beta">
             >Public beta coming October 31st, 2023. Write <Link
                 external
                 to="https://amyjko.com">Amy</Link
@@ -41,9 +40,10 @@
                 external
                 to="https://github.com/wordplaydev/wordplay/milestone/1"
                 >progress toward beta</Link
-            >.</p
+            >.</div
         >
     {:else}
+        <div class="beta"><Beta /></div>
         <BigLink
             to="/learn"
             subtitle={$locales.get((l) => l.ui.page.landing.link.learn)}
