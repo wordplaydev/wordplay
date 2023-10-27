@@ -11,7 +11,7 @@
     import validEmail from '../../db/validEmail';
     import Feedback from '../../components/app/Feedback.svelte';
     import { isModerator } from '../../models/Moderation';
-    import { getLoginErrorDescription } from './login';
+    import getLoginErrorDescription from './getAuthErrorDescription';
     import { Creator } from '../../db/CreatorDatabase';
 
     export let user: User;
@@ -52,20 +52,7 @@
                 (l) => l.ui.page.login.prompt.confirm
             );
         } catch (error) {
-            if (
-                error !== null &&
-                typeof error === 'object' &&
-                'code' in error &&
-                typeof error.code === 'string' &&
-                'message' in error &&
-                typeof error.message === 'string'
-            ) {
-                console.error(error.code);
-                console.error(error.message);
-                changeFeedback =
-                    getLoginErrorDescription(error.code, $locales) ??
-                    $locales.get((l) => l.ui.page.login.error.unchanged);
-            }
+            changeFeedback = getLoginErrorDescription($locales, error);
         } finally {
             changeSubmitted = false;
         }

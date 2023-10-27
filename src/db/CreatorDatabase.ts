@@ -7,7 +7,7 @@ import type { User } from 'firebase/auth';
 export const CreatorCollection = 'creators';
 
 /** The type for a record returned by our cloud functions */
-export type CreatorSchema = {
+type CreatorSchema = {
     uid: string;
     name: string | null;
     email: string | null;
@@ -15,7 +15,7 @@ export type CreatorSchema = {
 
 export class Creator {
     /** This is the domain we append to work around the lack of Firebase support for raw usernames. */
-    static CreatorUsernameEmailDomain = '@wordplay.dev';
+    static CreatorUsernameEmailDomain = '@u.wordplay.dev';
     readonly data: CreatorSchema;
     constructor(data: CreatorSchema) {
         this.data = data;

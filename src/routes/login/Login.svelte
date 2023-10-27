@@ -1,186 +1,31 @@
 <script lang="ts">
-    import {
-        createUserWithEmailAndPassword,
-        isSignInWithEmailLink,
-        sendSignInLinkToEmail,
-        signInWithEmailAndPassword,
-    } from 'firebase/auth';
+    import { isSignInWithEmailLink } from 'firebase/auth';
     import Header from '../../components/app/Header.svelte';
-    import TextField from '../../components/widgets/TextField.svelte';
     import { locales } from '../../db/Database';
-    import { getUser } from '../../components/project/Contexts';
-    import { analytics, auth } from '../../db/firebase';
-    import Button from '../../components/widgets/Button.svelte';
-    import validEmail from '../../db/validEmail';
-    import Feedback from '../../components/app/Feedback.svelte';
+    import { auth } from '../../db/firebase';
     import { onMount } from 'svelte';
-    import { signInWithEmailLink } from 'firebase/auth';
-    import { logEvent } from 'firebase/analytics';
-    import { FirebaseError } from 'firebase/app';
-    import { getLoginErrorDescription } from './login';
-    import { goto } from '$app/navigation';
     import Mode from '../../components/widgets/Mode.svelte';
-    import Subheader from '../../components/app/Subheader.svelte';
-    import MarkupHtmlView from '../../components/concepts/MarkupHTMLView.svelte';
-    import CreatorDatabase from '../../db/CreatorDatabase';
+    import UsernameLogin from './UsernameLogin.svelte';
+    import EmailLogin from './EmailLogin.svelte';
 
-    let user = getUser();
-    let success: boolean | undefined = undefined;
-
-    let missingEmail = false;
-    let email: string;
-    let sent = false;
-    let emailLoginFeedback: string | undefined = undefined;
-    let usernameLoginFeedback: string | undefined = undefined;
     let younger = true;
-    let username = '';
-    let password = '';
-    let reveal = false;
-
-    $: emailUsername = CreatorDatabase.getUsernameEmail(username);
-
-    /** True if we tried to log in and there's no account. */
-    let noAccount = false;
-
-    $: emailSubmittable = !sent && validEmail(email);
-
-    $: userNameValid = isValidUsername(username) && isValidPassword(password);
-    $: usernameIsCheckable = !noAccount && userNameValid;
-
-    function isValidUsername(username: string) {
-        return !validEmail(username) && username.length >= 5;
-    }
-
-    function isValidPassword(pass: string) {
-        return pass.length >= 10;
-    }
-
-    async function startEmailLogin() {
-        if (auth && emailSubmittable) {
-            try {
-                if (isSignInWithEmailLink(auth, window.location.href))
-                    finishLogin();
-                else {
-                    // Ask Firebase to send an email.
-                    await sendSignInLinkToEmail(auth, email, {
-                        url: `${location.origin}/login`,
-                        handleCodeInApp: true,
-                    });
-                    // Remember the email in local storage so we don't have to ask for it again
-                    // after returning to the link above.
-                    window.localStorage.setItem('email', email);
-                    sent = true;
-                }
-            } catch (err) {
-                emailLoginFeedback = communicateError(err);
-            }
-        }
-    }
-
-    function finishLogin(): string | undefined {
-        if (auth) {
-            try {
-                // If this is on the same device and browser, then the email should be in local storage.
-                const storedEmail = window.localStorage.getItem('email');
-
-                // If there's no email, prompt for one.
-                if (storedEmail === null && email === '') {
-                    missingEmail = true;
-                }
-                // If no user, create an account with the email.
-                else if ($user === null) {
-                    signInWithEmailLink(
-                        auth,
-                        storedEmail ?? email,
-                        window.location.href
-                    )
-                        .then(() => {
-                            // Remove the email we might have stored.
-                            window.localStorage.removeItem('email');
-
-                            // Mark success to show feedback.
-                            success = true;
-
-                            // Log login event
-                            if (analytics) logEvent(analytics, 'login');
-
-                            // Remove the query on the URL so there's no attempt to login on refresh.
-                            goto('/login');
-                        })
-                        .catch(
-                            (err) =>
-                                (emailLoginFeedback = communicateError(err))
-                        );
-                }
-            } catch (err) {
-                emailLoginFeedback = communicateError(err);
-            }
-        }
-        return undefined;
-    }
-
-    async function tryUsernameLogin() {
-        if (auth && usernameIsCheckable) {
-            try {
-                await signInWithEmailAndPassword(auth, emailUsername, password);
-            } catch (error) {
-                if (
-                    error instanceof FirebaseError &&
-                    error.code === 'auth/user-not-found'
-                ) {
-                    noAccount = true;
-                } else {
-                    usernameLoginFeedback = communicateError(error);
-                }
-            }
-        }
-    }
-
-    async function createUsernameLogin() {
-        if (auth && reveal) {
-            try {
-                await createUserWithEmailAndPassword(
-                    auth,
-                    emailUsername,
-                    password
-                );
-            } catch (error) {
-                usernameLoginFeedback = communicateError(error);
-            }
-        }
-    }
-
-    function communicateError(err: unknown) {
-        success = false;
-        if (err instanceof FirebaseError) {
-            console.error(err.code);
-            console.error(err.message);
-            return (
-                getLoginErrorDescription(err.code, $locales) ??
-                $locales.get((l) => l.ui.page.login.error.failure)
-            );
-        } else {
-            console.error(err);
-            return $locales.get((l) => l.ui.page.login.error.failure);
-        }
-    }
+    let isEmailSignInLink = false;
 
     // If it's a sign in, finish signing in once authenticated.
     onMount(() => {
         if (auth && isSignInWithEmailLink(auth, window.location.href))
-            finishLogin();
+            isEmailSignInLink = true;
     });
 </script>
 
+<!-- Provide some reasons to log in -->
 <Header>{$locales.get((l) => l.ui.page.login.header)}</Header>
+
 <p>
-    {#if missingEmail}
-        {$locales.get((l) => l.ui.page.login.prompt.enter)}
-    {:else if $user === null}
-        {$locales.get((l) => l.ui.page.login.prompt.login)}
-    {/if}
+    {$locales.get((l) => l.ui.page.login.prompt.login)}
 </p>
 
+<!-- Ask (but do not store) for the user's age, so we can decide what options to show -->
 <Mode
     modes={$locales.get((l) => l.ui.page.login.prompt.age.modes)}
     choice={0}
@@ -188,114 +33,8 @@
     descriptions={$locales.get((l) => l.ui.page.login.prompt.age)}
 />
 
-{#if missingEmail || !younger}
-    <Subheader>{$locales.get((l) => l.ui.page.login.subheader.email)}</Subheader
-    >
-    <form class="login-form" on:submit={startEmailLogin}>
-        <div>
-            <TextField
-                kind="email"
-                description={$locales.get(
-                    (l) => l.ui.page.login.field.email.description
-                )}
-                placeholder={$locales.get(
-                    (l) => l.ui.page.login.field.email.placeholder
-                )}
-                bind:text={email}
-                editable={!sent}
-            />
-            <Button
-                submit
-                background
-                tip={$locales.get((l) => l.ui.page.login.button.login)}
-                active={emailSubmittable}
-                action={() => undefined}>&gt;</Button
-            >
-        </div>
-        <MarkupHtmlView
-            markup={$locales.get((l) => l.ui.page.login.prompt.emailrules)}
-        />
-    </form>
+{#if isEmailSignInLink || !younger}
+    <EmailLogin />
 {/if}
 
-{#if sent === true}
-    <Feedback>{$locales.get((l) => l.ui.page.login.prompt.sent)}</Feedback>
-{:else if success === true}
-    <Feedback>{$locales.get((l) => l.ui.page.login.prompt.success)}</Feedback>
-{:else if emailLoginFeedback !== undefined}
-    <Feedback>{emailLoginFeedback}</Feedback>
-{/if}
-
-<Subheader>{$locales.get((l) => l.ui.page.login.subheader.username)}</Subheader>
-<form
-    class="login-form"
-    on:submit={noAccount ? createUsernameLogin : tryUsernameLogin}
->
-    <div>
-        <TextField
-            description={$locales.get(
-                (l) => l.ui.page.login.field.username.description
-            )}
-            placeholder={$locales.get(
-                (l) => l.ui.page.login.field.username.placeholder
-            )}
-            bind:text={username}
-            editable={!sent}
-            validator={(name) => isValidUsername(name)}
-        />
-        {#if noAccount}
-            {#if reveal}{password}{:else}<Button
-                    tip={$locales.get(
-                        (l) => l.ui.page.login.prompt.passwordreminder
-                    )}
-                    action={() => (reveal = true)}
-                    >🔍{'•'.repeat(password.length)}</Button
-                >{/if}
-        {:else}
-            <TextField
-                kind={noAccount ? undefined : 'password'}
-                description={$locales.get(
-                    (l) => l.ui.page.login.field.password.description
-                )}
-                placeholder={$locales.get(
-                    (l) => l.ui.page.login.field.password.placeholder
-                )}
-                bind:text={password}
-                validator={(pass) => isValidPassword(pass)}
-            />
-        {/if}
-        <Button
-            submit
-            background
-            tip={$locales.get((l) => l.ui.page.login.button.login)}
-            active={usernameIsCheckable || reveal}
-            action={() => undefined}
-            >{#if noAccount}&gt;&gt;{:else}&gt;{/if}</Button
-        >
-    </div>
-    {#if noAccount}
-        <Feedback
-            >{$locales.get(
-                (l) => l.ui.page.login.prompt.passwordreminder
-            )}</Feedback
-        >
-    {/if}
-    <MarkupHtmlView
-        markup={$locales.get((l) => l.ui.page.login.prompt.usernamerules)}
-    />
-</form>
-
-{#if usernameLoginFeedback !== undefined}
-    <Feedback>{usernameLoginFeedback}</Feedback>
-{/if}
-
-<style>
-    .login-form {
-        display: flex;
-        flex-direction: column;
-        gap: var(--wordplay-spacing);
-        padding: 1em;
-        border: var(--wordplay-border-width) solid var(--wordplay-border-color);
-        border-radius: var(--wordplay-border-radius);
-    }
-</style>
+<UsernameLogin />
