@@ -17,7 +17,7 @@ import ProjectsDatabase from './ProjectsDatabase';
 import LocalesDatabase from './LocalesDatabase';
 import SettingsDatabase from './SettingsDatabase';
 import GalleryDatabase from './GalleryDatabase';
-import CreatorDatabase from './CreatorDatabase';
+import CreatorDatabase, { CreatorCollection } from './CreatorDatabase';
 import DefaultLocale from '../locale/DefaultLocale';
 
 export enum SaveStatus {
@@ -95,7 +95,7 @@ export class Database {
             if (firestore && this.user) {
                 // Save in firestore
                 setDoc(
-                    doc(firestore, 'users', this.user.uid),
+                    doc(firestore, CreatorCollection, this.user.uid),
                     this.Settings.toObject()
                 );
             }
@@ -173,7 +173,7 @@ export class Database {
 
         // Archiving was successful, delete the user's settings and then the user.
         try {
-            await deleteDoc(doc(firestore, 'users', user.uid));
+            await deleteDoc(doc(firestore, CreatorCollection, user.uid));
             await deleteUser(user);
         } catch (err) {
             console.error(err);

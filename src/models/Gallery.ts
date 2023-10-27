@@ -2,8 +2,12 @@ import type Locale from '../locale/Locale';
 import { toLocaleString } from '../locale/Locale';
 import type Locales from '../locale/Locales';
 
+export const GallerySchemaLatestVersion = 1;
+
 /** The schema for a gallery */
-export type SerializedGallery = {
+type SerializedGalleryV1 = {
+    /** Version of the gallery schema, so we can upgrade them. */
+    v: 1;
     /** Unique Firestore id */
     id: string;
     /** A vanity URL name, globally unique, must be valid URL path */
@@ -29,6 +33,27 @@ export type SerializedGallery = {
     featured: boolean;
 };
 
+type SerializedGalleryUnknownVersion = SerializedGalleryV1;
+
+export function upgradeGallery(
+    gallery: SerializedGalleryUnknownVersion
+): SerializedGallery {
+    switch (gallery.v) {
+        case GallerySchemaLatestVersion:
+            return gallery;
+        default:
+            throw new Error('unknown gallery version: ' + gallery.v) as never;
+    }
+}
+
+export type SerializedGallery = SerializedGalleryV1;
+
+export function deserializeGallery(gallery: unknown): Gallery {
+    return new Gallery(
+        upgradeGallery(gallery as SerializedGalleryUnknownVersion)
+    );
+}
+
 /**
  * A wrapper to represent a Gallery document from the database. It helps enforce
  * rules and semantics about galleries client-side.
@@ -36,6 +61,8 @@ export type SerializedGallery = {
 export default class Gallery {
     readonly data: SerializedGallery;
     constructor(data: SerializedGallery) {
+        data = upgradeGallery(data);
+
         this.data = { ...data };
 
         // Guarantee no duplicates.

@@ -11,10 +11,12 @@ import {
     deleteDoc,
 } from 'firebase/firestore';
 import { v4 as uuidv4 } from 'uuid';
-import Gallery from '../models/Gallery';
+import Gallery, {
+    deserializeGallery,
+    type SerializedGallery,
+} from '../models/Gallery';
 import type { Database } from './Database';
 import { firestore } from './firebase';
-import type { SerializedGallery } from '../models/Gallery';
 import { FirebaseError } from 'firebase/app';
 import { get, writable, type Writable } from 'svelte/store';
 import type Project from '../models/Project';
@@ -22,6 +24,10 @@ import { toLocaleString } from '../locale/Locale';
 import { getExampleGalleries } from '../examples/examples';
 import type Locales from '../locale/Locales';
 
+/** The name of the galleries collection in Firebase */
+export const GalleriesCollection = 'galleries';
+
+/** The in-memory representation of a Gallery, for type safe manipulation and analysis. */
 export default class GalleryDatabase {
     /** The main database that manages this gallery database */
     readonly database: Database;
@@ -90,7 +96,7 @@ export default class GalleryDatabase {
         this.galleriesQueryUnsubscribe = onSnapshot(
             // Listen for any changes to galleries for which this user is a curator or creator.
             query(
-                collection(firestore, 'galleries'),
+                collection(firestore, GalleriesCollection),
                 or(
                     where('curators', 'array-contains', user.uid),
                     where('creators', 'array-contains', user.uid)
@@ -106,11 +112,8 @@ export default class GalleryDatabase {
 
                 // Go through all of the galleries and update them.
                 snapshot.forEach((galleryDoc) => {
-                    // Get the gallery data from the Firestore document
-                    const data = galleryDoc.data() as SerializedGallery;
-
                     // Wrap it in a gallery.
-                    const gallery = new Gallery(data);
+                    const gallery = deserializeGallery(galleryDoc.data());
 
                     // Get the store for the gallery, or make one if we don't have one yet, and update the map.
                     // Also check the public galleries, in case we loaded it there first, so we reuse the same store.
@@ -159,6 +162,7 @@ export default class GalleryDatabase {
         const description: Record<string, string> = {};
         description[toLocaleString(locales.getLocales()[0])] = '';
         const gallery: SerializedGallery = {
+            v: 1,
             id,
             path: null,
             name,
@@ -192,11 +196,11 @@ export default class GalleryDatabase {
         // Didn't find it locally? See if we get read it from the database.
         if (firestore) {
             try {
-                const galDoc = await getDoc(doc(firestore, 'galleries', id));
+                const galDoc = await getDoc(
+                    doc(firestore, GalleriesCollection, id)
+                );
                 if (galDoc.exists()) {
-                    const gallery = new Gallery(
-                        galDoc.data() as SerializedGallery
-                    );
+                    const gallery = deserializeGallery(galDoc.data());
                     const store =
                         this.publicGalleries.get(id) ??
                         writable<Gallery>(gallery);
@@ -223,7 +227,7 @@ export default class GalleryDatabase {
     async edit(gallery: Gallery) {
         if (firestore === undefined) return undefined;
         await setDoc(
-            doc(firestore, 'galleries', gallery.getID()),
+            doc(firestore, GalleriesCollection, gallery.getID()),
             gallery.data
         );
 
@@ -237,7 +241,7 @@ export default class GalleryDatabase {
 
     async delete(gallery: Gallery) {
         if (firestore === undefined) return undefined;
-        await deleteDoc(doc(firestore, 'galleries', gallery.getID()));
+        await deleteDoc(doc(firestore, GalleriesCollection, gallery.getID()));
 
         // The realtime query will remove it.
     }

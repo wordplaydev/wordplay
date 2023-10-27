@@ -1,11 +1,11 @@
 import { test, expect } from 'vitest';
-import type { SerializedProject } from '../models/Project';
 import Project from '../models/Project';
 import { Locales } from '../db/Database';
 import { readdirSync, readFileSync } from 'fs';
 import path from 'path';
 import { parseSerializedProject } from './examples';
 import { DefaultLocales } from '../locale/DefaultLocale';
+import type { SerializedProject } from '../models/ProjectSchemas';
 
 const projects: SerializedProject[] = [];
 readdirSync(path.join('static', 'examples'), { withFileTypes: true }).forEach(

@@ -19,6 +19,7 @@ import { DarkSetting } from './DarkSetting';
 import { doc, getDoc } from 'firebase/firestore';
 import { firestore } from './firebase';
 import type Setting from './Setting';
+import { CreatorCollection } from './CreatorDatabase';
 
 /** Enscapsulates settings stored in localStorage. */
 export default class SettingsDatabase {
@@ -58,7 +59,9 @@ export default class SettingsDatabase {
         if (user === null) return;
 
         // Get the config from the database
-        const config = await getDoc(doc(firestore, 'users', user.uid));
+        const config = await getDoc(
+            doc(firestore, CreatorCollection, user.uid)
+        );
         if (config.exists()) {
             const data = config.data();
             // Copy each key/value pair from the database to memory and the local store.

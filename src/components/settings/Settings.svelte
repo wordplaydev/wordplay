@@ -70,6 +70,7 @@
             anonymize={false}
             creator={$user
                 ? {
+                      v: 1,
                       email: $user.email,
                       uid: $user.uid,
                       name: $user.displayName ?? null,

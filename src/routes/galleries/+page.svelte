@@ -17,10 +17,11 @@
     } from 'firebase/firestore';
     import { firestore } from '../../db/firebase';
     import type { SerializedGallery } from '../../models/Gallery';
-    import Gallery from '../../models/Gallery';
+    import Gallery, { upgradeGallery } from '../../models/Gallery';
     import GalleryPreview from '../../components/app/GalleryPreview.svelte';
     import Spinning from '../../components/app/Spinning.svelte';
     import Button from '../../components/widgets/Button.svelte';
+    import { GalleriesCollection } from '../../db/GalleryDatabase';
 
     let lastBatch: QueryDocumentSnapshot<DocumentData>;
 
@@ -37,7 +38,7 @@
         if (firestore === undefined) return firestore;
         const first = lastBatch
             ? query(
-                  collection(firestore, 'galleries'),
+                  collection(firestore, GalleriesCollection),
                   where('public', '==', true),
                   orderBy('featured'),
                   orderBy('id'),
@@ -45,7 +46,7 @@
                   limit(5)
               )
             : query(
-                  collection(firestore, 'galleries'),
+                  collection(firestore, GalleriesCollection),
                   where('public', '==', true),
                   orderBy('featured'),
                   orderBy('id'),
@@ -60,7 +61,10 @@
         loadedGalleries = [
             ...(loadedGalleries ?? []),
             ...documentSnapshots.docs.map(
-                (snap) => new Gallery(snap.data() as SerializedGallery)
+                (snap) =>
+                    new Gallery(
+                        upgradeGallery(snap.data() as SerializedGallery)
+                    )
             ),
         ];
     }

@@ -1,8 +1,7 @@
 import Dexie, { liveQuery, type Observable, type Table } from 'dexie';
-import type { SerializedProject } from '../models/Project';
 import { PersistenceType, ProjectHistory } from './ProjectHistory';
 import { writable, type Writable } from 'svelte/store';
-import Project, { ProjectSchema } from '../models/Project';
+import Project from '../models/Project';
 import type { Locale } from '../locale/Locale';
 import { SaveStatus, type Database } from './Database';
 import {
@@ -24,18 +23,31 @@ import type Node from '../nodes/Node';
 import Source from '../nodes/Source';
 import { ExamplePrefix, getExample } from '../examples/examples';
 import { unknownFlags } from '../models/Moderation';
+import {
+    ProjectSchemaLatestVersion,
+    upgradeProject,
+    type SerializedProject,
+    type SerializedProjectUnknownVersion,
+    ProjectSchema,
+} from '../models/ProjectSchemas';
 
+/** The name of the projects collection in Firebase */
+export const ProjectsCollection = 'projects';
+
+/** The schema of the IndexedDB cache of projects. */
 export class ProjectsDexie extends Dexie {
     projects!: Table<SerializedProject>;
 
     constructor() {
         super('wordplay');
-        this.version(1).stores({
+        this.version(ProjectSchemaLatestVersion).stores({
             projects: '++id, name, locales, owner, collabators',
         });
     }
 
-    async getProject(id: string): Promise<SerializedProject | undefined> {
+    async getProject(
+        id: string
+    ): Promise<SerializedProjectUnknownVersion | undefined> {
         const project = await this.projects.where('id').equals(id).toArray();
         return project[0];
     }
@@ -137,7 +149,7 @@ export default class ProjectsDatabase {
     }
 
     async deserialize(
-        project: SerializedProject
+        project: SerializedProjectUnknownVersion
     ): Promise<Project | undefined> {
         return Project.deserializeProject(this.database.Locales, project);
     }
@@ -165,7 +177,7 @@ export default class ProjectsDatabase {
         // and deleting any tracked locally that didn't appear in the snapshot.
         this.projectsQueryUnsubscribe = onSnapshot(
             query(
-                collection(firestore, 'projects'),
+                collection(firestore, ProjectsCollection),
                 or(
                     where('owner', '==', user.uid),
                     where('collaborators', 'array-contains', user.uid)
@@ -368,7 +380,9 @@ export default class ProjectsDatabase {
         // Not there? See if Firebase has it.
         if (firestore) {
             try {
-                const projectDoc = await getDoc(doc(firestore, 'projects', id));
+                const projectDoc = await getDoc(
+                    doc(firestore, ProjectsCollection, id)
+                );
                 if (projectDoc.exists()) {
                     const project = await this.parseProject(projectDoc.data());
                     if (project !== undefined)
@@ -411,7 +425,7 @@ export default class ProjectsDatabase {
         // a collection.
         else if (firestore && persist) {
             setDoc(
-                doc(firestore, 'projects', project.getID()),
+                doc(firestore, ProjectsCollection, project.getID()),
                 project.serialize()
             );
         }
@@ -456,7 +470,7 @@ export default class ProjectsDatabase {
         await this.database.Galleries.removeProject(project);
 
         // Delete the project doc
-        await deleteDoc(doc(firestore, 'projects', id));
+        await deleteDoc(doc(firestore, ProjectsCollection, id));
 
         // Delete from the local cache.
         this.deleteLocalProject(id);
@@ -526,7 +540,10 @@ export default class ProjectsDatabase {
                             .serialize()
                     );
                 }))
-                    batch.set(doc(firestore, 'projects', project.id), project);
+                    batch.set(
+                        doc(firestore, ProjectsCollection, project.id),
+                        project
+                    );
                 await batch.commit();
 
                 // Mark all projects saved to the cloud if successful.
@@ -609,7 +626,13 @@ export default class ProjectsDatabase {
     async parseProject(data: unknown): Promise<Project | undefined> {
         // If the project data doesn't parse, then return nothing, since it's not valid.
         try {
-            const project = ProjectSchema.parse(data);
+            // Assume it's a project of an unknown version and upgrade it.
+            const serialized = upgradeProject(
+                data as SerializedProjectUnknownVersion
+            );
+            // Now parse it with Zod, verifying it complies with the schema.
+            const project = ProjectSchema.parse(serialized);
+            // Now convert it to an in-memory project so we can manipulate it more easily.
             return await this.deserialize(project);
         } catch (_) {
             return undefined;

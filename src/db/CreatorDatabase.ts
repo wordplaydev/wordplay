@@ -3,12 +3,32 @@ import type { Database } from './Database';
 import { functions } from './firebase';
 import type { UserIdentifier } from 'firebase-admin/auth';
 
+export const CreatorCollection = 'creators';
+
 /** The type for a record returned by our cloud functions */
-export type Creator = {
+type CreatorSchemaV1 = {
+    /** A version of the creator record */
+    v: 1;
     uid: string;
     name: string | null;
     email: string | null;
 };
+
+export type Creator = CreatorSchemaV1;
+
+type CreatorSchemaUnknownVersion = CreatorSchemaV1;
+
+/** Upgrades old versions of the creator schema. */
+export function upgradeCreator(creator: CreatorSchemaUnknownVersion): Creator {
+    switch (creator.v) {
+        case 1:
+            return creator;
+        default:
+            throw new Error(
+                `Unknown creator schema version ${creator.v}`
+            ) as never;
+    }
+}
 
 export default class CreatorDatabase {
     /** The main database that manages this gallery database */
