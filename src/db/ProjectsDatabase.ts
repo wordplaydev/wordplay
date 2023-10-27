@@ -617,9 +617,11 @@ export default class ProjectsDatabase {
         this.timer = setTimeout(() => this.persist(), 1000);
     }
 
-    /** Deletes the local database (usually on logout, for privacy) */
+    /** Deletes the local database (usually on logout, for privacy), and removes any projects from memory. */
     async deleteLocal() {
         this.localDB.delete();
+        this.projectHistories.clear();
+        this.refreshEditableProjects();
     }
 
     /** Attempt to parse a seralized project into a project. */
