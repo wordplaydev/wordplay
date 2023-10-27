@@ -473,7 +473,7 @@
         if (!layoutInitialized && play) {
             const output = layout.getOutput();
             if (output) {
-                setFullscreen(output, true);
+                setFullscreen(output);
                 tick().then(() => focusTile(layout.fullscreenID));
             }
         }
@@ -879,11 +879,11 @@
 
     function exitFullscreen() {
         stopPlaying();
-        layout = layout.withoutFullscreen();
+        setFullscreen(undefined);
     }
 
-    async function setFullscreen(tile: Tile, fullscreen: boolean) {
-        layout = fullscreen
+    async function setFullscreen(tile: Tile | undefined) {
+        layout = tile
             ? layout.withFullscreen(tile.id)
             : layout.withoutFullscreen();
 
@@ -1263,7 +1263,9 @@
                                     tile.kind === TileKind.Output
                                 )
                                     stopPlaying();
-                                setFullscreen(tile, event.detail.fullscreen);
+                                setFullscreen(
+                                    event.detail.fullscreen ? tile : undefined
+                                );
                             }}
                         >
                             <svelte:fragment slot="name">
