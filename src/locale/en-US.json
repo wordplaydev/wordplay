@@ -4157,7 +4157,7 @@
                 },
                 "error": {
                     "noaccess": "We couldn't reach the internet.",
-                    "nogalleryedits": "You must be logged to create and change galleries.",
+                    "nogalleryedits": "You must be logged in to create and change galleries.",
                     "newgallery": "We couldn't create a new gallery.",
                     "nodeletes": "You must be logged in to delete archived projects.",
                     "delete": "Oops, we couldn't delete the project!"
