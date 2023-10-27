@@ -4199,7 +4199,7 @@
                     "emailrules": "Don't provide your email if you are 12 or younger.",
                     "usernamerules": "If you're creating an account, *usernames* should not contain identiable information (e.g., names), cannot be an email addresses, and should be at least 5 characters long. *Passwords* must be at least 10 characters long; if you're not using a password manager, choose three long words you'll remember.",
                     "change": "Want to change your email? Submit a new one and we'll send a confirmation to the old one.",
-                    "sent": "Check your email for a login link.",
+                    "sent": "Check your email for a login link. Patience, email can be slow!",
                     "logout": "Leaving a shared device and want to keep your projects private? Logout and we'll remove your projects from this device. They will still be stored online.",
                     "success": "Account created!",
                     "confirm": "Check your old email address to confirm you new address.",

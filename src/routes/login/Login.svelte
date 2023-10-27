@@ -31,7 +31,8 @@
     let missingEmail = false;
     let email: string;
     let sent = false;
-    let loginFeedback = '';
+    let emailLoginFeedback: string | undefined = undefined;
+    let usernameLoginFeedback: string | undefined = undefined;
     let younger = true;
     let username = '';
     let password = '';
@@ -66,7 +67,7 @@
                     sent = true;
                 }
             } catch (err) {
-                communicateError(err);
+                emailLoginFeedback = communicateError(err);
             }
         }
     }
@@ -101,10 +102,13 @@
                             // Remove the query on the URL so there's no attempt to login on refresh.
                             goto('/login');
                         })
-                        .catch((err) => communicateError(err));
+                        .catch(
+                            (err) =>
+                                (emailLoginFeedback = communicateError(err))
+                        );
                 }
             } catch (err) {
-                communicateError(err);
+                emailLoginFeedback = communicateError(err);
             }
         }
         return undefined;
@@ -132,27 +136,28 @@
                             password
                         );
                     } catch (error) {
-                        communicateError(error);
+                        usernameLoginFeedback = communicateError(error);
                     }
                 }
                 // Otherwise, communicate the error.
-                else communicateError(error);
+                else usernameLoginFeedback = communicateError(error);
             }
         }
     }
 
-    function communicateError(err: unknown): string | undefined {
+    function communicateError(err: unknown) {
+        success = false;
         if (err instanceof FirebaseError) {
             console.error(err.code);
             console.error(err.message);
-            loginFeedback =
+            return (
                 getLoginErrorDescription(err.code, $locales) ??
-                $locales.get((l) => l.ui.page.login.error.failure);
+                $locales.get((l) => l.ui.page.login.error.failure)
+            );
         } else {
             console.error(err);
             return $locales.get((l) => l.ui.page.login.error.failure);
         }
-        success = false;
     }
 
     // If it's a sign in, finish signing in once authenticated.
@@ -210,6 +215,15 @@
         </div>
     </form>
 {/if}
+
+{#if sent === true}
+    <Feedback>{$locales.get((l) => l.ui.page.login.prompt.sent)}</Feedback>
+{:else if success === true}
+    <Feedback>{$locales.get((l) => l.ui.page.login.prompt.success)}</Feedback>
+{:else if emailLoginFeedback !== undefined}
+    <Feedback>{emailLoginFeedback}</Feedback>
+{/if}
+
 <Subheader>{$locales.get((l) => l.ui.page.login.subheader.username)}</Subheader>
 <form class="login-form" on:submit={startUsernameLogin}>
     <TextField
@@ -249,12 +263,8 @@
     />
 </form>
 
-{#if sent === true}
-    <Feedback>{$locales.get((l) => l.ui.page.login.prompt.sent)}</Feedback>
-{:else if success === true}
-    <Feedback>{$locales.get((l) => l.ui.page.login.prompt.success)}</Feedback>
-{:else if success === false}
-    <Feedback>{loginFeedback}</Feedback>
+{#if usernameLoginFeedback !== undefined}
+    <Feedback>{usernameLoginFeedback}</Feedback>
 {/if}
 
 <style>
