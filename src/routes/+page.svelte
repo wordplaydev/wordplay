@@ -33,6 +33,8 @@
     </div>
     {#if ALPHA}
         <div class="beta">
+            Wordplay is a new educational, accessible, and language-inclusive
+            programming language for creating interactive typography with code.
             Public beta coming October 31st, 2023. Write <Link
                 external
                 to="https://amyjko.com">Amy</Link
