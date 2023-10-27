@@ -9,7 +9,7 @@
 {#if to === '/' ? $page.route.id === '/' : $page.route.id?.startsWith(to)}
     <slot />
 {:else}<a title={tip} href={to} target={external ? '_blank' : null}
-        ><slot />{#if external}<span class="external">🔗</span>{/if}</a
+        ><slot />{#if external}<span class="external">↗️</span>{/if}</a
     >
 {/if}
 
@@ -30,5 +30,7 @@
 
     .external {
         font-size: calc(var(--wordplay-font-size) - 6pt);
+        display: inline-block;
+        margin-inline-start: 0.25em;
     }
 </style>
