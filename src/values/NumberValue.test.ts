@@ -167,6 +167,7 @@ test.each([
     ['1m→#Mm', '0.000001Mm'],
     ['1m→#Gm', '1e-9Gm'],
     ['1m→#Tm', '1e-12Tm'],
+    ['1m→#ft', '3.2808398950131233596ft'],
 
     // Transitive conversions
     ['1km→#cm', '100000cm'],

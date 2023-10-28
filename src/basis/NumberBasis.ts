@@ -1068,12 +1068,12 @@ export default function bootstrapNumber(locales: Locales) {
                     '#m',
                     '#ft',
                     (requestor: Expression, val: NumberValue) =>
-                        val.multiply(
+                        val.divide(
                             requestor,
                             new NumberValue(
                                 requestor,
                                 0.3048,
-                                Unit.reuse(['ft'], ['km'])
+                                Unit.reuse(['m'], ['ft'])
                             )
                         )
                 ),
@@ -1085,12 +1085,12 @@ export default function bootstrapNumber(locales: Locales) {
                     '#ft',
                     '#m',
                     (requestor: Expression, val: NumberValue) =>
-                        val.divide(
+                        val.multiply(
                             requestor,
                             new NumberValue(
                                 requestor,
                                 0.3048,
-                                Unit.reuse(['ft'], ['km'])
+                                Unit.reuse(['m'], ['ft'])
                             )
                         )
                 ),
