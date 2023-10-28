@@ -50,7 +50,6 @@ export default class Row extends Node {
                     node(Sym.Delete),
                     node(Sym.Update)
                 ),
-                newline: true,
             },
             { name: 'cells', kind: list(true, node(Expression)), space: true },
             { name: 'close', kind: node(Sym.TableClose) },
