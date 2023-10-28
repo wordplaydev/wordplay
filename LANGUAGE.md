@@ -110,7 +110,7 @@ The language uses a placeholder token extensively to allow for unifinished synta
 
 Some tokens are associated with names:
 
-> nameseparator → `,`  
+> alias → `,`  
 > bind → `:`
 
 Some are associated with localization:
@@ -555,37 +555,270 @@ This tiny bit of space-sensitive parsing aligns with mathematical syntax, but al
 
 ### Conditional
 
+> CONDITIONAL → EXPRESSION ? EXPRESSION EXPRESSION
+
+Conditions are a special kind of evaluation that evaluates to one of two expressions depending on a Boolean condition's value. This is much like an `if` statement in other languages, but functional, and like the tertiary conditional operators found in many imperative languages.
+
+```
+1 > 0 ? 'math works!' 'math broke'
+```
+
+Conditionals have operator precedence over all other expressions. Unlike all other evaluations, only one of the two expressions is evaluated at runtime, depending on the value of the condition. It's best to think of it like a special function on Boolean values.
+
+Note that there's no separator between the true anf false cases in this synatax (e.g., `:` in JavaScript, for example). This was partly to reduce overloading of other symbols, but also to encourage use of new lines to convey structure.
+
 ### Convert
 
-## Named Values
+> CONVERT → EXPRESSION convert TYPE  
+> CONVERSION → DOCS convert TYPE TYPE EXPRESSION
+
+A final kind of evaluate is conversions, already mentioned earlier in examples. Conversions take a type declaration (described later) and attempt to find a series of one or more conversions that would convert the value to a type.
+
+For example, one can convert text into a list of graphemes like this:
+
+```
+'hello' → []
+```
+
+But one can also convert text to a set of unique characters like this:
+
+```
+'hello' → {}
+```
+
+Internally, it found the conversion to `[]`, and then it found the conversion from `[]` to `{}`
+
+The same works for numbers with units, as numerous conversion functions are defined for numbers with different units:
+
+```
+1km → #m
+```
+
+Conversions can be extended with conversion definitions. Thi defines a global conversion from kitty counts to cat counts, where the `.` refers to the input value:
+
+```
+→ #kitty #cat . ÷ 2
+```
+
+## Names
+
+There are numerous ways that names are used in Wordplay, some of which have already been mentioned (function names, unit names, column names).
 
 ### Bind
 
-### Reference
+> BIND → DOCS? share? NAMES reaction? (•TYPE)? (:EXPRESSION)?  
+> NAMES → NAME(alias NAME)\*
+> NAME → (name | operator | placeholder) LANUGAGE?
+> REFERENCE → name | operator
+
+Bindings are used throughout the language to declare names for things like values, table colums, function inputs, and more. They all use the same syntax, and can have a things like documentation, language tags, aliases, type declarations, and optional values. These are all syntatically valid bindings:
+
+```
+sum
+sum: 1
+sum•#: 1
+sum/en
+sum/en-US
+sum/en-US,suma/es
+sum/en-US,suma/es-MX
+``Sum of values``/en sum/en-US,suma/es-MX
+``Sum of values``/en sum/en-US,suma/es-MX: 1
+```
+
+All of those examples define a name `sum`; some of them specify its type, some provide a value, some provide documentation, some have multiple language tagged aliases to enable localization of the program. Context determines whether these are semantically valid; for example, table columns require binds to specify a type; bindings in blocks (described below) have to have values.
+
+Scoping of names is static and lexical, and duplicates and shadowing are not allowed.
+
+Referring to beindings is a simple matter of using one of their names. Here we define sum to `1`, then refer to it, and get back `1`:
+
+```
+sum: 1
+sum
+```
+
+Bindings declare all provided names in scope, so they can be referred to by any of their aliases, without using a matching language tag.
 
 ### Block
 
-### Definitions
+> BLOCK → DOCS? evalopen (BIND|EXPRESSION)+ evalclose
 
-There are two kinds of definitions that allow creators to define their own functions and data types: functions and structures.
+Blocks are a sequence of zero or more bindings, followed by an expression, and evaluate to the expression's value. They serve two purposes: to help define evaluation order for infix expressions as we saw earlier, and to help break up complex computation into named substeps, as in this example:
+
+```
+base: 2
+1 + (
+        score: base + 5
+        weight: 18
+        score · weight
+    )
+```
+
+Blocks that have intermediate non-bind expressions ignore the values of those expressions and generate a conflict.
+
+Programs are also blocks, but with required open and close parentheses.
 
 ### Functions
 
+> FUNCTION → DOCS? share? function NAMES TYPEVARIABLES? evalopen BIND* evalclose (type TYPE)? EXPRESSION  
+> TYPEVARIABLES → typevariableopen NAME* typevariableclose
+
+Function definitions, like binds, can have zero or more names, optional documentation, and take a series of binds specifying their inputs, and an expression defining its outputs. Binds can optionally specify types, default values, and an optional evaluation type can be provided as well. If they're not, types are inferred, if possible. Functions are values, like everything else.
+
+Here are some example function definitions:
+
+```
+ƒ () 'secret'
+ƒ sum(a•# b•#) a + b
+ƒ sum(a•#:0 b•#:0) a + b
+ƒ sum(a•#:0 b•#:0)•# a + b
+``Add some numbers`` ƒ sum(a•# b•#) a + b
+ƒ kind(num•#) (
+    odd: (num % 2) = 1
+    odd ? 'odd' 'even'
+)
+ƒ accumulate(numbers…•#) numbers.combine(1 ƒ(sum num) sum + num)
+```
+
 ### Structures
 
-### Property Bind
+> STRUCTURE → DOCS? share? type NAMES NAME+ TYPEVARIABLES? evalopen BIND\* evalclose BLOCK
+> PROPERTY → EXPRESSION access NAME
+> PROPERTYBIND → EXPRESSION
 
-### Property Reference
+Structure definitions are how to declare new types of values. Structures can have properties, functions, and conversions, just like the built-in value types. For example, here's a new data type:
 
-### Conversions
+```
+•Kitty(name•'' breed•'' sound•'' activity•#) (
+  ƒ meow() sound · activity
+)
+```
 
-## Reactions
+Structures are essentially like functions that retain a closure on their block scope. To create a structure, we just evaluate the Structure function. We can evaluate functions on it immediately, or bind it and evaluate functions on it later.
+
+```
+Kitty('boomy' 'tuxie' 'moo' 3).meow()
+```
+
+This produces `moomoomoo`.
+
+Accessing properties and functions uses a dot notation:
+
+```
+boomy: Kitty('boomy' 'tuxie' 'moo' 3)
+boomy.name
+boomy.meow()
+```
+
+Because all values are immutable, Wordplay also offers a special syntax for creating copies of values with updated properties:
+
+```
+boomy: Kitty('boomy' 'tuxie' 'moo' 3)
+moomy: boomy.name:'mooooomy'
+```
+
+This creates a new `Kitty` value with the new name and the old other properties (but does not modify the previous value, and binds it to a new name).
+
+## Streams
+
+As noted earlier, Wordplay has special values that are streams of values that change over time.
+
+### Built-In
+
+These are created by evaluating their pre-defined stream definitions. Some streams tick continuously based on time:
+
+```
+Volume()
+Pitch()
+Camera()
+Motion()
+Time()
+```
+
+Some streams evaluate based on events from user activity:
+
+```
+Button()
+Chat()
+Choice()
+Key()
+Placement()
+Pointer()
+```
+
+Some are events from the physics engine:
+
+```
+Collision()
+```
+
+And some are events from network activity
+
+```
+Webpage()
+```
+
+All of these essentially boil down to stream definitions define names, a sequence of binds defining initialization inputs to the stream, a value type, an expression that updates a stream upon each evaluation. The update expressions, defined internally, essentially update configuration details, allowing for stream behavior to change over time.
+
+Streams are treated like any other values, except that they all have a starting value, and a sequence of later values. Referring to a stream value always evaluates to its latest value (unless time travel debugging, in which caes it evaluates to its value at the current time).
+
+### Reaction
+
+> REACTION → EXPRESSION reaction condition reaction EXPRESSION
+> CHANGE → change EXPRESSION
+
+It's possible to derive new streams from existing streams. For example, here we take `Time()` and convert it to stream of even and odd values:
+
+```
+time: Time()
+'-' … ∆ time … time > 2000ms ? 'dingdingding' '-'
+```
+
+This can be read "start as a dash, and when time changes, if time is greater than 2 seconds, be 'dingdingding', otherwise stay a dash.
+
+This uses a change expression, which evaluates to ⊤ when the stream referred to was the one of the streams that caused the current evaluation.
+
+Reactions can be bound, and their names can be referred to in order to create recurrence relations. For example, here we increment a number every time a mouse button is clicked:
+
+```
+clicks: 1 … ∆ Button() clicks + 1
+```
+
+This looks like a circular definition of `clicks`, but it's not: the clicks in the reaction's next expression refers to the previous value in the reaction's value stream.
+
+Reactions don't have to be named to refer to their previous values. We can use `.` to refer to the reaction's value, just like we use it to refer to a value in a conversion definition.
+
+```
+1 … ∆ Button() … . + 1
+```
+
+Reactions are the standard way to do event-driven programming declaratively and functionally: they're how programs respond to changes in input.
 
 ### Initial
 
+> INITIAL → initial
+
+The initial predict is a single token that evaluates to `⊤` if the program is evaluating for the first time. This is helpful to only do something once in a program, and never again, such as during stream initialization. For example, in this program, time ticks continuously, but evaluates to `'first'` on the first tick, then `'next'` for all others.
+
+```
+Time()
+◆ ? 'first' 'next'
+```
+
 ### Previous
 
-### Reaction
+> PREVIOUS → previous previous? number EXPRESSION
+
+It's also sometimes helpful to get previous values in a stream, to build programs that have some window back into time. Previous expressions can get a previous value a particular number of evaluations ago, as here, where we get the previous time:
+
+```
+← 1 Time()
+```
+
+Or it can get a list of values looking back a particular number evaluations, as here, where we get the last 10 times:
+
+```
+←← 10 Time()
+```
 
 ### This
 
