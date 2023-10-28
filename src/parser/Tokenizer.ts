@@ -361,6 +361,9 @@ export function tokens(source: string): Token[] {
 }
 
 export function tokenize(source: string): TokenList {
+    // First, strip any carriage returns. We only work with line feeds.
+    source = source.replaceAll('\r', '');
+
     // Start with an empty list
     const tokens: Token[] = [];
 
