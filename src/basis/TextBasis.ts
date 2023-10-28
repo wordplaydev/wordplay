@@ -4,7 +4,11 @@ import TextType from '@nodes/TextType';
 import type Type from '@nodes/Type';
 import BoolValue from '@values/BoolValue';
 import type Value from '@values/Value';
-import { createBasisConversion, createBasisFunction } from './Basis';
+import {
+    createBasisConversion,
+    createBasisFunction,
+    createEqualsFunction,
+} from './Basis';
 import TextValue from '@values/TextValue';
 import StructureDefinition from '@nodes/StructureDefinition';
 import NumberValue from '@values/NumberValue';
@@ -16,7 +20,6 @@ import type Expression from '@nodes/Expression';
 import type Locale from '../locale/Locale';
 import type { FunctionText, NameAndDoc } from '../locale/Locale';
 import ListType from '../nodes/ListType';
-import AnyType from '../nodes/AnyType';
 import type Locales from '../locale/Locales';
 
 export default function bootstrapText(locales: Locales) {
@@ -96,41 +99,15 @@ export default function bootstrapText(locales: Locales) {
                         );
                     }
                 ),
-                createBasisFunction(
+                createEqualsFunction(
                     locales,
                     (locale) => locale.basis.Text.function.equals,
-                    undefined,
-                    [new AnyType()],
-                    BooleanType.make(),
-                    (requestor, evaluation) => {
-                        const text = evaluation.getClosure() as TextValue;
-                        const input = evaluation.getInput(0);
-                        if (input === undefined)
-                            return evaluation.getValueOrTypeException(
-                                requestor,
-                                TextType.make(),
-                                input
-                            );
-                        return new BoolValue(requestor, text.isEqualTo(input));
-                    }
+                    true
                 ),
-                createBasisFunction(
+                createEqualsFunction(
                     locales,
                     (locale) => locale.basis.Text.function.notequals,
-                    undefined,
-                    [new AnyType()],
-                    BooleanType.make(),
-                    (requestor, evaluation) => {
-                        const text = evaluation.getClosure() as TextValue;
-                        const input = evaluation.getInput(0);
-                        if (input === undefined)
-                            return evaluation.getValueOrTypeException(
-                                requestor,
-                                TextType.make(),
-                                input
-                            );
-                        return new BoolValue(requestor, !text.isEqualTo(input));
-                    }
+                    false
                 ),
                 createBinaryTextFunction(
                     (locale) => locale.basis.Text.function.notequals,

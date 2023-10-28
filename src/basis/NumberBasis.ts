@@ -14,7 +14,11 @@ import NumberValue from '@values/NumberValue';
 import TextValue from '@values/TextValue';
 import TypeException from '@values/TypeException';
 import type Value from '@values/Value';
-import { createBasisConversion, createBasisFunction } from './Basis';
+import {
+    createBasisConversion,
+    createBasisFunction,
+    createEqualsFunction,
+} from './Basis';
 import InternalExpression from './InternalExpression';
 import type Evaluation from '@runtime/Evaluation';
 import ListValue from '@values/ListValue';
@@ -368,21 +372,16 @@ export default function bootstrapNumber(locales: Locales) {
                                 left.isEqualTo(right)
                         )
                 ),
-                createBinaryOp(
+                createEqualsFunction(
+                    locales,
                     (locale) => locale.basis.Number.function.equal,
-                    NumberType.make((unit) => unit),
-                    BooleanType.make(),
-                    (requestor, left, right) =>
-                        new BoolValue(requestor, left.isEqualTo(right))
+                    true
                 ),
-                createBinaryOp(
+                createEqualsFunction(
+                    locales,
                     (locale) => locale.basis.Number.function.notequal,
-                    NumberType.make((unit) => unit),
-                    BooleanType.make(),
-                    (requestor, left, right) =>
-                        new BoolValue(requestor, !left.isEqualTo(right))
+                    false
                 ),
-
                 // Trigonometry
                 createUnaryOp(
                     (locale) => locale.basis.Number.function.cos,
