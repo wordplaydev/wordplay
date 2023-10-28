@@ -48,7 +48,7 @@ import IsLocale from '../nodes/IsLocale';
 import parseLanguage from './parseLanguage';
 import StructureDefinition from '../nodes/StructureDefinition';
 import type Type from '../nodes/Type';
-import parseType, { parseTableType } from './paresType';
+import parseType, { parseTableType } from './parseType';
 import Translation, { type TranslationSegment } from '../nodes/Translation';
 import parseMarkup, { parseExample } from './parseMarkup';
 import { EXPONENT_SYMBOL, PRODUCT_SYMBOL } from './Symbols';

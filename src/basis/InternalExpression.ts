@@ -16,7 +16,7 @@ import Purpose from '../concepts/Purpose';
 import Start from '@runtime/Start';
 import Finish from '@runtime/Finish';
 import { toTokens } from '../parser/toTokens';
-import parseType from '../parser/paresType';
+import parseType from '../parser/parseType';
 import type Locales from '../locale/Locales';
 
 export default class InternalExpression extends SimpleExpression {

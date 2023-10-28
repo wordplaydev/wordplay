@@ -26,7 +26,7 @@ import NodeRef from '../locale/NodeRef';
 import TypePlaceholder from './TypePlaceholder';
 import ExpressionPlaceholder from './ExpressionPlaceholder';
 import { toTokens } from '../parser/toTokens';
-import parseType from '../parser/paresType';
+import parseType from '../parser/parseType';
 import DefinitionExpression from './DefinitionExpression';
 import type Locales from '../locale/Locales';
 

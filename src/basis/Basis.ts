@@ -32,7 +32,7 @@ import { getDocLocales } from '../locale/getDocLocales';
 import { getNameLocales } from '../locale/getNameLocales';
 import bootstrapStructure from './StructureBasis';
 import { toTokens } from '../parser/toTokens';
-import parseType from '../parser/paresType';
+import parseType from '../parser/parseType';
 import type Locales from '../locale/Locales';
 import AnyType from '../nodes/AnyType';
 import BooleanType from '../nodes/BooleanType';

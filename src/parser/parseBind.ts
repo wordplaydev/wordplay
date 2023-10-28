@@ -4,7 +4,7 @@ import Names from '../nodes/Names';
 import Sym from '../nodes/Sym';
 import { PairedCloseDelimiters } from './Tokenizer';
 import type Tokens from './Tokens';
-import parseType from './paresType';
+import parseType from './parseType';
 import parseExpression, { parseDocs } from './parseExpression';
 import parseLanguage from './parseLanguage';
 
