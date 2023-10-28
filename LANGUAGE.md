@@ -39,7 +39,16 @@ Wordplay's design is inspired by aspects of Smalltalk, Lisp, APL, TypeScript, an
 -   It's **object oriented** in that all values are like objects that contain functions and conversions, and when creator-defined, can also contain named values.
 -   It's **localized**. This means that bindings and text values can have an arbitrary number of language-tagged aliases. Text values are selected based on selected locales in the environment.
 
-These will all be clearer with examples, so let's start with the basics.
+## Terminology
+
+There are a few key terms in this guide:
+
+-   _Value_ an immutable in memory representation of some data
+-   _Expression_ some syntactically valid bit of code that evaluates to a value
+-   _Evaluation_ following the rules of each expression to compute a value
+-   _Conflict_ a discrepancy between two or more parts of an expression detected statically that prevents evaluation
+-   _Exception_ a discrepany detected during evaluation that requires halting; most correspond to a conflict.
+-   _Evaluator_ the comopnent that manages evaluation of programs
 
 ## Lexical design
 
@@ -432,6 +441,10 @@ Set membership can be checked by following a set with a value as a key. For exam
 {1 2 3}{4}
 ```
 
+### _conflicts_
+
+-   A set contains a key/value pair
+
 #### _evaluation_
 
 Sets first evaluate all of their value expressions, in reading order, and then construct a set from those values, removing any duplicates.
@@ -458,6 +471,10 @@ Values can be retrieved via keys with the same syntax as sets; this evaluates to
 ```
 {'amy': 43 'ellen': 21}{'amy'}
 ```
+
+### _conflicts_
+
+-   A map contains a value that is not bound to a key
 
 #### _evaluation_
 
@@ -521,6 +538,11 @@ points ⎡- name = 'amy'
 
 Tables can be converted to lists of data structures, where each row name is a property. (More on structures later).
 
+### _conflicts_
+
+-   A table is given rows that do not conform to it's table type
+-   A table type is given a bind with no type declaration
+
 #### _evaluation_
 
 Tables evaluate their rows in reading order, and rows evaluate their columns in reading order. Then, a table is constructed with the completed rows.
@@ -552,6 +574,12 @@ laugh()
 ```
 
 Inputs must conform to the types defined in a function's definition. (We'll talk more about how to define functions later).
+
+### _conflicts_
+
+-   The function expression given is not a function type
+-   The function type resolved does not match the inputs given (missing required values, extra values, values of the wrong type)
+-   The function expression could resolve to many different functions that take different inputs
 
 #### _evaluation_
 
@@ -587,6 +615,10 @@ To avoid confusion, the language warns when multiple distinct operators are bein
 
 Because binary evaluations are just syntactic sugar on regular evaluation, it's important to note that the left side of a binary evaluate is always the value on which the operator name is searched for a function definition.
 
+### _conflicts_
+
+-   Same as evaluate
+
 #### _evaluation_
 
 Binary evaluations first evaluate their left input, and then resolve the operator name on the left value. If a function is not found, it evaluates to a function exception, which halts the program. If one is found, then the right expression is evaluated. If the function expected anything other than one input, then it an exception value is generated and the program halts. Otherwise, the single value is provided to the function, and its result is given as the binary evaluate's value.
@@ -614,6 +646,10 @@ For it to be interpreted as infix, space is required
 
 This tiny bit of space-sensitive parsing aligns with mathematical syntax, but also imposes some consistency in formatting.
 
+### _conflicts_
+
+-   Same as evaluate
+
 #### _evaluation_
 
 Unary evaluates evaluate their input value, and then resolve the operator name on that value. If a function could not be found, it evaluates to a function exception, which halts the program. If it could, but the function excepted inputs, then a value exception is generated, and the program halts. Otherwise, the function is evaluated on the value, and the unary evaluate evaluates to the result of the function evaluation.
@@ -631,6 +667,10 @@ Conditions are a special kind of evaluation that evaluates to one of two express
 Conditionals have operator precedence over all other expressions. Unlike all other evaluations, only one of the two expressions is evaluated at runtime, depending on the value of the condition. It's best to think of it like a special function on Boolean values.
 
 Note that there's no separator between the true anf false cases in this synatax (e.g., `:` in JavaScript, for example). This was partly to reduce overloading of other symbols, but also to encourage use of new lines to convey structure.
+
+### _conflicts_
+
+-   The condition is not boolean typed
 
 #### _evaluation_
 
@@ -668,6 +708,10 @@ Conversions can be extended with conversion definitions. Thi defines a global co
 ```
 → #kitty #cat . ÷ 2
 ```
+
+### _conflicts_
+
+-   There is no conversion in scope that matches the request
 
 #### _evaluation_
 
@@ -711,6 +755,12 @@ sum
 
 Bindings declare all provided names in scope, so they can be referred to by any of their aliases, without using a matching language tag.
 
+### _conflicts_
+
+-   The type of the value expression is incompatible with the declared type
+-   There are duplicate names
+-   A name is already defined in scope
+
 #### _evaluation_
 
 Binds evaluate in 1) blocks, 2) when offering a default value for a function evaluation, 3) when offering a default evaluation for a table row. In all of these cases, they evaluate their value expression, bind it in scope using all of the bind's names, and then evaluate to the value.
@@ -733,6 +783,11 @@ base: 2
 Blocks that have intermediate non-bind expressions ignore the values of those expressions and generate a conflict.
 
 Programs are also blocks, but with required open and close parentheses.
+
+#### \_conflicts
+
+-   An expression's value will be discard
+-   There are no expressions
 
 #### _evaluation_
 
@@ -759,6 +814,12 @@ Here are some example function definitions:
 )
 ƒ accumulate(numbers…•#) numbers.combine(1 ƒ(sum num) sum + num)
 ```
+
+#### \_conflicts
+
+-   The type of the expression is not compatible with the declared type
+-   Inputs have duplicate names
+-   The function names are already defined elsewhere
 
 #### _evaluation_
 
@@ -802,6 +863,11 @@ moomy: boomy.name:'mooooomy'
 ```
 
 This creates a new `Kitty` value with the new name and the old other properties (but does not modify the previous value, and binds it to a new name).
+
+#### \_conflicts
+
+-   The inputs have duplicate names
+-   One of the structure's names is already defined in scope
 
 #### _evaluation_
 
@@ -888,6 +954,10 @@ Reactions are the standard way to do event-driven programming declaratively and 
 
 Reactions also have precedence, like conditionals.
 
+#### \_conflicts
+
+-   The condition does not refer to a stream, and so will always or never be true
+
 #### _evaluation_
 
 Reactions are evaluated in the same way as built-in stream evaluations. When created, their initial value is created, the stream is initialized with the initial value, and then the value is evaluated to. When the reaction exists already, its conditional is evaluated. If true, its next expression is evaluated, added to the stream, and then evaluated to. If false, the the reaction evaluates to the reaction stream's current value.
@@ -944,6 +1014,10 @@ The combined set of all of the expressions above mean that most of Wordplay is e
 
 If any sequences of tokens cannot be parsed according to this grammar, all of the tokens on the line are converted into an `UNPARSABLE` node.
 
+#### \_conflicts
+
+-   There are no expressions to evaluate.
+
 #### _evaluation_
 
 Programs create an evaluation scope, evaluate their binds and expressions in reading order, and then evaluate to their final expressions value, discarding all others.
@@ -973,10 +1047,10 @@ Documented expressions simply evaluate to their expression's value.
 ## Types
 
 > TYPE → placeholder | BOOLEANTYPE | NUMBERTYPE | TEXTTYPE | NONETYPE | LISTTYPE | SETTYPE | MAPTYPE | TABLETYPE | NAMETYPE | FUNCTIONTYPE | STREAMTYPE | FORMATTEDTYPE | CONVERSIONTYPE | UNION  
-> BOOLEANTYPE → question  
-> NUMBERTYPE → numbertype UNIT?
-> TEXTTYPE → textopen textclose LANGUAGE?  
-> NONETYPE → none  
+> BOOLEANTYPE → question
+> NUMBERTYPE → (numbertype UNIT?) | number
+> TEXTTYPE → (textopen textclose LANGUAGE?) | TEXT
+> NONETYPE → none
 > LISTTYPE → listopen TYPE listclose  
 > SETTYPE → setopen TYPE setclose  
 > MAPTYPE → setopen TYPE bind TYPE setclose  
@@ -990,7 +1064,9 @@ The final part of the language is type declarations. These mostly mirror the syn
 ```
 bool•?
 num•#m
+num•1
 text•''
+text•'hello'
 none•ø
 list•[#]
 set•{''}
@@ -999,6 +1075,7 @@ stream•…#
 conversion•#m→#mi
 name•Kitty
 function•ƒ(message•'')•#
+union•#|''
 ```
 
 Types are also used in "is" expressions:
@@ -1010,6 +1087,22 @@ For example, this expression checks whether `1` is a number, and it is, so it ev
 ```
 1•#
 ```
+
+Type compatibility is defined as follows:
+
+-   Boolean types are only compatible with other boolean types
+-   Number types are compatible if they are a concrete number and the other number type is the same concrete number, or they have equivalent units
+-   Text types are compatible if they are concrete text and the other text type is the same text and language, or they are both generic text with the same language
+-   List types are only compatible if their element types are compatible
+-   Set types are only compatible if their element types are compatible
+-   Map types are only compatible if their key types are compatible and their value types are compatible
+-   Stream types are only compatible if their element types are compatible
+-   Conversions are only compatible if their respective input and output types are compatible
+-   Name types are only compatible if they resolve to the same structure definition
+-   Function types are only compatible if they have the compatible corresponding inputs and compatible output types
+-   Union types are only compatible if all of the possible types given are compatible with at least one of the union's types
+
+Any violation of the rules above is a type error.
 
 ## Evaluation
 
