@@ -784,7 +784,7 @@ Blocks that have intermediate non-bind expressions ignore the values of those ex
 
 Programs are also blocks, but with required open and close parentheses.
 
-#### \_conflicts
+#### _conflicts_
 
 -   An expression's value will be discard
 -   There are no expressions
@@ -815,7 +815,7 @@ Here are some example function definitions:
 ƒ accumulate(numbers…•#) numbers.combine(1 ƒ(sum num) sum + num)
 ```
 
-#### \_conflicts
+#### _conflicts_
 
 -   The type of the expression is not compatible with the declared type
 -   Inputs have duplicate names
@@ -864,7 +864,7 @@ moomy: boomy.name:'mooooomy'
 
 This creates a new `Kitty` value with the new name and the old other properties (but does not modify the previous value, and binds it to a new name).
 
-#### \_conflicts
+#### _conflicts_
 
 -   The inputs have duplicate names
 -   One of the structure's names is already defined in scope
@@ -954,7 +954,7 @@ Reactions are the standard way to do event-driven programming declaratively and 
 
 Reactions also have precedence, like conditionals.
 
-#### \_conflicts
+#### _conflicts_
 
 -   The condition does not refer to a stream, and so will always or never be true
 
@@ -1014,7 +1014,7 @@ The combined set of all of the expressions above mean that most of Wordplay is e
 
 If any sequences of tokens cannot be parsed according to this grammar, all of the tokens on the line are converted into an `UNPARSABLE` node.
 
-#### \_conflicts
+#### _conflicts_
 
 -   There are no expressions to evaluate.
 
