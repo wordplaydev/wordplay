@@ -32,7 +32,7 @@ export default class ListValue extends SimpleValue {
             num === 0
                 ? undefined
                 : this.values.at(
-                      num > 0 ? (num - 1) % this.values.length : num
+                      (num > 0 ? num - 1 : num) % this.values.length
                   );
         return value === undefined ? new NoneValue(this.creator) : value;
     }
