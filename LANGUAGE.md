@@ -178,6 +178,12 @@ But this program?
 
 You guessed it, `'ø'`.
 
+#### _evaluation_
+
+None immediately evaluates to a none value, with no intermediate steps.
+
+#### _equality_
+
 None is only equal to itself.
 
 ### Booleans
@@ -210,7 +216,13 @@ As mentioned above, all values are objects with functions inside, and so these l
 
 We'll discuss more on the differences between those to function evaluations later; for now just know that they're equivalent.
 
-⊤ is only equal to itself; ⊥ is only equal to itself.
+#### _evaluation_
+
+Boolean literals evaluate to to boolean values without any intermediate steps.
+
+#### _equality_
+
+`⊤` is only equal to itself; `⊥` is only equal to itself.
 
 ### Numbers
 
@@ -242,6 +254,12 @@ But this is a type error, because the units aren't compatible:
 ```
 
 The unit type system is not arbitrarily sophisticated: when mathematical operators go beyond the semantics of products, sums, and powers, units are dropped.
+
+#### _evaluation_
+
+Number literals evaluate to a number value that stores an immutable [decimal.js](https://mikemcl.github.io/decimal.js/) value and immutable unit.
+
+#### _equality_
 
 Numbers are only equal to other numbers that have identical decimal values and equivalent units. Units are only equivalent when the set of dimensions specified on each unit are equivalent and the power of each dimension specified is equivalent.
 
@@ -277,6 +295,12 @@ It's possible to check whether an environment has a particular locale selected w
 
 This will return `⊤` if the locale is in the preferred list, and, `⊥` otherwise.
 
+#### _evaluation_
+
+Text literals first get the environment's list of preferred locales and then select the first translation in the list of translations that match the exact language and region, and if there isn't one, then the first translation that matches the language, and if there isn't one, then the first translation.
+
+#### _equality_
+
 Text is equal to other text with an identical sequence of graphemes and equivalent locale.
 
 Two text values with different text delimiters are considered equivalent:
@@ -310,6 +334,12 @@ The final basic value is markup, which behaves identically to text values aside 
 ```
 
 These three values are 1) a link, 2) a hello world with underscores, italics, and extra bold, and 3) a sentence with an embedded code example.
+
+#### _evaluation_
+
+Formatted literals first get the environment's list of preferred locales and then select the first translation in the list of translations that match the exact language and region, and if there isn't one, then the first translation that matches the language, and if there isn't one, then the first translation.
+
+#### _equality_
 
 Markup values follow the same equality rules as text: but also must have the exact same markup structure.
 
@@ -366,6 +396,12 @@ Lists have a wide range of higher order functions. For example, `translate` can 
 [1 2 3 4 5 6 7 8].combine(1 ƒ(num sum) num + sum)
 ```
 
+#### _evaluation_
+
+Lists first evaluate all of their value expressions, in reading order, and then construct a list from those values.
+
+#### _equality_
+
 List are equalivent to other lists when they have the same number of values and each pair of corresponding values in the sequence are equal.
 
 Because all values in Wordplay are immutable, all of these operations produce new lists.
@@ -383,8 +419,6 @@ Sets are non-ordered collections of unique values, where unique is defined by va
 {1 ø ['pony' 'horse' 'dog]}
 ```
 
-Sets are equal when they have the same size and equivalent values.
-
 Because sets do not have duplicates, these two sets are equivalent.
 
 ```
@@ -397,6 +431,14 @@ Set membership can be checked by following a set with a value as a key. For exam
 ```
 {1 2 3}{4}
 ```
+
+#### _evaluation_
+
+Sets first evaluate all of their value expressions, in reading order, and then construct a set from those values, removing any duplicates.
+
+#### _equality_
+
+Sets are equal when they have the same size and equivalent values.
 
 ### Map
 
@@ -416,6 +458,12 @@ Values can be retrieved via keys with the same syntax as sets; this evaluates to
 ```
 {'amy': 43 'ellen': 21}{'amy'}
 ```
+
+#### _evaluation_
+
+Maps evaluate each key/value pair in reading order, and keys, then values, then the next pair. After, all of the pairs are converted into a map storing the pairs. Later duplicate keys override earlier keys.
+
+#### _equality_
 
 Maps are equivalent when they are the same size, and every key/value pair that occurs in one has a corresponding equivalent key value pair in the other.
 
@@ -471,9 +519,15 @@ And here we delete a row:
 points ⎡- name = 'amy'
 ```
 
-Tables are equivalent when they have the same number of rows, and each row in one table corresponds to an equivalent row in the other table. Rows are equivalent if all of their column values are equvalient.
-
 Tables can be converted to lists of data structures, where each row name is a property. (More on structures later).
+
+#### _evaluation_
+
+Tables evaluate their rows in reading order, and rows evaluate their columns in reading order. Then, a table is constructed with the completed rows.
+
+#### _equality_
+
+Tables are equivalent when they have the same number of rows, and each row in one table corresponds to an equivalent row in the other table. Rows are equivalent if all of their column values are equvalient.
 
 ## Evaluations
 
@@ -498,6 +552,10 @@ laugh()
 ```
 
 Inputs must conform to the types defined in a function's definition. (We'll talk more about how to define functions later).
+
+#### _evaluation_
+
+Evaluation expressions first evaluate their function value, and if one was not found, then generate a value exception, halting the program. Next, they evaluate their inputs, in reading order. If required inputs were not provided, a value exception is generated and the program halts. If an input is not of the required type, then a type exception is generated and the program halts. Otherwise, a new evaluation is added to the evaluator's evaluation stack, the inputs are bound to all of the names given in the function's binds, and the function's expression is evaluated in the context of the new evaluation scope. After the function's expression is done evaluating, then the evaluation finishes evaluating, evaluating to the value of the evaluated function.
 
 ### Binary Evaluate
 
@@ -529,6 +587,10 @@ To avoid confusion, the language warns when multiple distinct operators are bein
 
 Because binary evaluations are just syntactic sugar on regular evaluation, it's important to note that the left side of a binary evaluate is always the value on which the operator name is searched for a function definition.
 
+#### _evaluation_
+
+Binary evaluations first evaluate their left input, and then resolve the operator name on the left value. If a function is not found, it evaluates to a function exception, which halts the program. If one is found, then the right expression is evaluated. If the function expected anything other than one input, then it an exception value is generated and the program halts. Otherwise, the single value is provided to the function, and its result is given as the binary evaluate's value.
+
 ### Unary Operator
 
 Finally, there is a third prefix unary operator syntax, allowing for expressions like:
@@ -547,10 +609,14 @@ The way that Wordplay distinguishes between unary and binary evaluations is _spa
 For it to be interpreted as infix, space is required
 
 ```
-1-+2
+1-+2df
 ```
 
 This tiny bit of space-sensitive parsing aligns with mathematical syntax, but also imposes some consistency in formatting.
+
+#### _evaluation_
+
+Unary evaluates evaluate their input value, and then resolve the operator name on that value. If a function could not be found, it evaluates to a function exception, which halts the program. If it could, but the function excepted inputs, then a value exception is generated, and the program halts. Otherwise, the function is evaluated on the value, and the unary evaluate evaluates to the result of the function evaluation.
 
 ### Conditional
 
@@ -565,6 +631,10 @@ Conditions are a special kind of evaluation that evaluates to one of two express
 Conditionals have operator precedence over all other expressions. Unlike all other evaluations, only one of the two expressions is evaluated at runtime, depending on the value of the condition. It's best to think of it like a special function on Boolean values.
 
 Note that there's no separator between the true anf false cases in this synatax (e.g., `:` in JavaScript, for example). This was partly to reduce overloading of other symbols, but also to encourage use of new lines to convey structure.
+
+#### _evaluation_
+
+Conditions first evaluate their condition. If the condition does not evaluate to a boolean value, a type exception is generated, and the program halts. If the condition was true, it evaluates the true expression, otherwise it evaluates the false expression. The conditional then evaluates to the result.
 
 ### Convert
 
@@ -598,6 +668,10 @@ Conversions can be extended with conversion definitions. Thi defines a global co
 ```
 → #kitty #cat . ÷ 2
 ```
+
+#### _evaluation_
+
+Conversions first evaluate their input value. Then, all conversions in scope are retrieved, including all of the conversions defined on the input value, and any defined external to the value. Finally, a graph is built of all of the conversion paths, the shortest path is found betwen the input and output types. If no path is found, a conversion exception is generated, halting the program. Otherwise, the conversion function is evaluated on the input, and its result is provided as the convert's value.
 
 ## Names
 
@@ -637,6 +711,10 @@ sum
 
 Bindings declare all provided names in scope, so they can be referred to by any of their aliases, without using a matching language tag.
 
+#### _evaluation_
+
+Binds evaluate in 1) blocks, 2) when offering a default value for a function evaluation, 3) when offering a default evaluation for a table row. In all of these cases, they evaluate their value expression, bind it in scope using all of the bind's names, and then evaluate to the value.
+
 ### Block
 
 > BLOCK → DOCS? evalopen (BIND|EXPRESSION)+ evalclose
@@ -655,6 +733,10 @@ base: 2
 Blocks that have intermediate non-bind expressions ignore the values of those expressions and generate a conflict.
 
 Programs are also blocks, but with required open and close parentheses.
+
+#### _evaluation_
+
+Blocks create a scope in which to bind names, then evaluate each of their statements in reading order, and the evaluate to their final expression's value, discarding all other values, and their scope.
 
 ### Functions
 
@@ -677,6 +759,10 @@ Here are some example function definitions:
 )
 ƒ accumulate(numbers…•#) numbers.combine(1 ƒ(sum num) sum + num)
 ```
+
+#### _evaluation_
+
+Functions evaluate to a function value that has a reference to the definition.
 
 ### Structures
 
@@ -716,6 +802,10 @@ moomy: boomy.name:'mooooomy'
 ```
 
 This creates a new `Kitty` value with the new name and the old other properties (but does not modify the previous value, and binds it to a new name).
+
+#### _evaluation_
+
+Structures evaluate to a structure value that has a reference to the definition.
 
 ## Streams
 
@@ -760,6 +850,10 @@ All of these essentially boil down to stream definitions define names, a sequenc
 
 Streams are treated like any other values, except that they all have a starting value, and a sequence of later values. Referring to a stream value always evaluates to its latest value (unless time travel debugging, in which caes it evaluates to its value at the current time).
 
+#### _evaluation_
+
+When a built in stream definition is evaluated, the evaluator keeps track of which stream creation expressions have evaluated, and how many times they have evaluated in this evaluation of the program. If the particular expression has not been evaluated this number of times yet, a new stream is created and indicated by its expression and evaluation count. If it has been created in the past, then the existing stream is retrieved. Finally, the stream creation expression evaluates to the current value of the stream.
+
 ### Reaction
 
 > REACTION → EXPRESSION reaction question reaction EXPRESSION
@@ -794,6 +888,10 @@ Reactions are the standard way to do event-driven programming declaratively and 
 
 Reactions also have precedence, like conditionals.
 
+#### _evaluation_
+
+Reactions are evaluated in the same way as built-in stream evaluations. When created, their initial value is created, the stream is initialized with the initial value, and then the value is evaluated to. When the reaction exists already, its conditional is evaluated. If true, its next expression is evaluated, added to the stream, and then evaluated to. If false, the the reaction evaluates to the reaction stream's current value.
+
 ### Initial
 
 > INITIAL → initial
@@ -804,6 +902,10 @@ The initial predict is a single token that evaluates to `⊤` if the program is 
 Time()
 ◆ ? 'first' 'next'
 ```
+
+#### _evaluation_
+
+Immediately evaluates to true if the evaluation is the program's first.
 
 ### Previous
 
@@ -821,11 +923,15 @@ Or it can get a list of values looking back a particular number evaluations, as 
 ←← 10 Time()
 ```
 
+#### _evaluation_
+
+Evaluates the stream value, and finds the stream that contains the value. If an previous, evaluates to the value at the index in the stream. If a range, evaluates to a list of values in the requested range.
+
 ## Programs
 
 The combined set of all of the expressions above mean that most of Wordplay is expressions:
 
-> PROGRAM → BORROW* BIND* EXPRESSION  
+> PROGRAM → BORROW* (BIND | EXPRESSION)*
 > BORROW → borrow name (access name)? number?  
 > EXPRESSION → CONDITIONAL | REACTION | BINARYEVALUATE | ATOMIC  
 > ATOMIC → LITERAL | REF | PLACEHOLDER | EVAL | DEFINITION | PROPERTYBIND | CONVERT | CHECK | QUERY | DOCUMENTED
@@ -837,6 +943,10 @@ The combined set of all of the expressions above mean that most of Wordplay is e
 > QUERY → INSERT | UPDATE | SELECT | DELETE
 
 If any sequences of tokens cannot be parsed according to this grammar, all of the tokens on the line are converted into an `UNPARSABLE` node.
+
+#### _evaluation_
+
+Programs create an evaluation scope, evaluate their binds and expressions in reading order, and then evaluate to their final expressions value, discarding all others.
 
 ## Documentation
 
@@ -855,6 +965,10 @@ There are three places that comments can appear in code: just before programs, j
 ```
 
 Documentation is part of the grammar, not just discarded text in parsing. This allows for unambiguous association between text and documentation.
+
+#### _evaluation_
+
+Documented expressions simply evaluate to their expression's value.
 
 ## Types
 
@@ -898,3 +1012,27 @@ For example, this expression checks whether `1` is a number, and it is, so it ev
 ```
 
 ## Evaluation
+
+While we've generally alluded to how Wordplay programs evaluate through examples, and provided detailed rules for how each kind of expression is evaluated in sections above, here we provide a step by step explanation of how programs are evaluated in response to input and in exceptional circumstancs.
+
+-   Each type of expression defines its own evaluation order, as we specified in the sections above.
+-   A program is evaluated first by:
+    -   Evaluating any borrowed source and binding the borrowed names, blocking until borrowed source is evaluated using this same procedure, and the borrowed names are imported into the program's scope.
+    -   Evaluating the Program node
+    -   Returning the resulting value to the environment for display
+-   Each function creates a new name scope. Closures are supported: scopes are linked to function and structure definitions.
+-   Each `Block` defines a new name scope within a function, creating a stack of scopes.
+-   When a stream value changes values due to an external event
+    -   If the stream is temporal, it is pooled with other temporal changes, allowing the program to reevaluate once per frame. The frame frequency is determined by the system evaluating the program, but on the web, is run by the [requestAnimationFrame](https://developer.mozilla.org/en-US/docs/Web/API/window/requestAnimationFrame) callback, which is usually linked to 60hz operating system display refresh rates.
+    -   Otherwise, the program is evaluated immediately.
+-   Evaluation can halt with an exception value for any of these reasons:
+    -   The program had no expressions
+    -   A value is expected by an expression but not given
+    -   A value of a particular type is expected, but an incompatible type was given
+    -   A placeholder expression is evaluated
+    -   A requested conversion between types couldn't be found
+    -   A function couldn't be found
+    -   A name couldn't be resolved
+    -   An unparsable sequence of tokens was found
+    -   The evaluator evaluated too many steps within a single function
+    -   The evaluator evaluated too many functions (stack overflow)
