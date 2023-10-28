@@ -2,7 +2,7 @@ Hiragana
 === start
 count: 32
 
-gravity•#m/s^2:  15m/s^2 … ∆ Button(⊤) … -gravity
+gravity•#m/s^2:  15m/s^2 … ∆ Button() … -gravity
 
 hiragana: "ぁあぃいぅうぇえぉおかがきぎくぐけげこごさざしじすずせぜそぞただちぢっつづてでとどなにぬねのはばぱひびぴふぶぷへべぺほぼぽまみむめもゃやゅゆょよらりるれろゎわゐゑをんゔゕゖ"→['']
 
