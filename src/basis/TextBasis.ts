@@ -2,7 +2,7 @@ import BooleanType from '@nodes/BooleanType';
 import NumberType from '@nodes/NumberType';
 import TextType from '@nodes/TextType';
 import type Type from '@nodes/Type';
-import BoolValue from '@values/BoolValue';
+import type BoolValue from '@values/BoolValue';
 import type Value from '@values/Value';
 import {
     createBasisConversion,
