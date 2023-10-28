@@ -47,61 +47,61 @@ Wordplay's lexical grammar contains no keywords, in order to avoid privileging a
 
 Some tokens are associated with basic values:
 
-> none → `ø`
-> true → `⊤`
+> none → `ø`  
+> true → `⊤`  
 > false → `⊥`
 
 Numbers can be:
 
-> arabic → `/-?[0-9]+([.,][0-9]+)?%?/`
-> arabicbase → `/-?([2-9]|1[0-6]);[0-9A-F]+([.,][0-9A-F]+)?%?/`
-> roman → `/(ⅠⅡⅢⅣⅤⅥⅦⅧⅨⅩⅪⅫⅬⅭⅮⅯ)+/`
-> japanese → `/-?[0-9]*[一二三四五六七八九十百千万]+(・[一二三四五六七八九分厘毛糸忽]+)?/`
-> pi → `π`
-> infinity → `∞`
+> arabic → `/-?[0-9]+([.,][0-9]+)?%?/`  
+> arabicbase → `/-?([2-9]|1[0-6]);[0-9A-F]+([.,][0-9A-F]+)?%?/`  
+> roman → `/(ⅠⅡⅢⅣⅤⅥⅦⅧⅨⅩⅪⅫⅬⅭⅮⅯ)+/`  
+> japanese → `/-?[0-9]*[一二三四五六七八九十百千万]+(・[一二三四五六七八九分厘毛糸忽]+)?/`  
+> pi → `π`  
+> infinity → `∞`  
 > number → arabic | arabicbase | roman | japanese | pi | infinity
 
 We hope to add other numerals as we localize other languages.
 
 Text literals can be opened and closed with numerous delimiters:
 
-> textopen → `"` | `“` | `„` | `'` | `‘` | `‹` | `«` | `「` | `『`
-> textclose → `"` | `„` | `'` | `”` | `„` | `’` | `›` | `»`,, `」`, `』`
-> markup → `\`
+> textopen → `"` | `“` | `„` | `'` | `‘` | `‹` | `«` | `「` | `『`  
+> textclose → `"` | `„` | `'` | `”` | `„` | `’` | `›` | `»`,, `」`, `』`  
+> markup → `\`  
 > text → _any sequence of characters between open/close delimiters_
 
 Wordplay has a secondary notation for markup, entered with `\`\``, in which these tokens are valid:
 
-> linkopen → `<`
-> linkclose → `>`
-> italics → language
-> code → `\`
-> light → `~`
-> underscore → `_`
-> bold → `*`
-> extrabold → `^`
-> link → `@`
-> concept → `/@(?!(https?)?://)[a-zA-Z/]*`
+> linkopen → `<`  
+> linkclose → `>`  
+> italics → language  
+> code → `\`  
+> light → `~`  
+> underscore → `_`  
+> bold → `*`  
+> extrabold → `^`  
+> link → `@`  
+> concept → `/@(?!(https?)?://)[a-zA-Z/]*`  
 > words → _any sequence of characters between `markup` that aren't markup delimeters above_
 
 Compound data structures have several delimiters:
 
-> listopen → `[`
-> listclose → `]`
-> setmapopen → `{`
-> setmapclose → `}`
-> tableopen → `⎡`
-> tableclose → `⎦`
-> select → `⎡?`
-> insert → `⎡+`
-> delete → `⎡-`
+> listopen → `[`  
+> listclose → `]`  
+> setmapopen → `{`  
+> setmapclose → `}`  
+> tableopen → `⎡`  
+> tableclose → `⎦`  
+> select → `⎡?`  
+> insert → `⎡+`  
+> delete → `⎡-`  
 > update → `⎡:`
 
 Some are associated with reactive values:
 
-> reaction → `…` | `...`
-> initial → `◆`
-> change → `∆`
+> reaction → `…` | `...`  
+> initial → `◆`  
+> change → `∆`  
 > previous → `←`
 
 The language uses a placeholder token extensively to allow for unifinished syntactially valid code.
@@ -110,26 +110,26 @@ The language uses a placeholder token extensively to allow for unifinished synta
 
 Some tokens are associated with names:
 
-> nameseparator → `,`
+> nameseparator → `,`  
 > bind → `:`
 
 Some are associated with localization:
 
-> language-italic → `/`
-> region → `-`
-> locale → ``🌎` | `🌍` | `🌏`
+> language-italic → `/`  
+> region → `-`  
+> locale → `🌎` | `🌍` | `🌏`
 
 Some are associated with declarations:
 
-> function → `ƒ`
+> function → `ƒ`  
 > type → `•`
 
 Some are associated with particular types of expressions:
 
-> evalopen → `(`
-> evalclose → `)`
-> condition → `?` | `¿`
-> conversion → `→` | `->` | `=>`
+> evalopen → `(`  
+> evalclose → `)`  
+> condition → `?` | `¿`  
+> conversion → `→` | `->` | `=>`  
 > access → `.`
 
 Some are operators, including arithetmic, inequalities, logical, and unicode math, supplemental, and arrows:
@@ -138,17 +138,17 @@ Some are operators, including arithetmic, inequalities, logical, and unicode mat
 
 Some are associated with type declarations:
 
-> numbertype → `#`
-> booleantype → condition
-> or → `|`
-> markuptype → `\…\`, `\...\`
-> literaltype → `!`
-> typevariableopen → `⸨`
+> numbertype → `#`  
+> booleantype → condition  
+> or → `|`  
+> markuptype → `\…\`, `\...\`  
+> literaltype → `!`  
+> typevariableopen → `⸨`  
 > typevariableclose → `⸩`
 
 Some are associated with importing and exporting values from source:
 
-> borrow → `↓`
+> borrow → `↓`  
 > share → `↑`
 
 Every other possible sequence of Unicode glyphs is interpreted as a `name`, separated by space or one of the tokens above.
@@ -211,8 +211,8 @@ We'll discuss more on the differences between those to function evaluations late
 
 ### Numbers
 
-> NUMBER → number UNIT?
-> UNIT → DIMENSION (·DIMENSION)_ (/ DIMENSION (·DIMENSION_))?
+> NUMBER → number UNIT?  
+> UNIT → DIMENSION (·DIMENSION)_ (/ DIMENSION (·DIMENSION_))?  
 > DIMENSION → name (^arabic)?
 
 Numbers are arbitrary precision decimals with optional units, where units are just products and quotients of names:
@@ -242,8 +242,8 @@ The unit type system is not arbitrarily sophisticated: when mathematical operato
 
 ### Text
 
-> TEXT → TRANSLATION\*
-> TRANSLATION → textopen text textclose LANGUAGE
+> TEXT → TRANSLATION\*  
+> TRANSLATION → textopen text textclose LANGUAGE  
 > LANGUAGE → language name
 
 Text values, unlike in other programming languages, are not a single sequence of Unicode code points. Rather, they are unique in two ways:
@@ -286,12 +286,12 @@ This will return `⊤` if the locale is in the preferred list, and, `⊥` otherw
 
 ### Markup
 
-> MARKUP → FORMATTED\*
-> FORMATTED → markup CONTENT markup LANGUAGE
-> CONTENT → PARAGRAPH*
-> PARAGRAPH → SEGMENT*
-> SEGMENT → words | LINK | concept | CODE | MENTION
-> LINK → linkopen words link words linkclose
+> MARKUP → FORMATTED\*  
+> FORMATTED → markup CONTENT markup LANGUAGE  
+> CONTENT → PARAGRAPH*  
+> PARAGRAPH → SEGMENT*  
+> SEGMENT → words | LINK | concept | CODE | MENTION  
+> LINK → linkopen words link words linkclose  
 > CODE → code PROGRAM code
 
 The final basic value is markup, which behaves identically to text values aside from their delimiters, and the meaning of the delimiters internal to text:
