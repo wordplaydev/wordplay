@@ -110,12 +110,6 @@ export default function bootstrapText(locales: Locales) {
                     false
                 ),
                 createBinaryTextFunction(
-                    (locale) => locale.basis.Text.function.notequals,
-                    (requestor, text, input) =>
-                        new BoolValue(requestor, !text.isEqualTo(input)),
-                    BooleanType.make()
-                ),
-                createBinaryTextFunction(
                     (locale) => locale.basis.Text.function.segment,
                     (requestor, text, input) => text.segment(requestor, input),
                     ListType.make(TextType.make())
