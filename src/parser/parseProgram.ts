@@ -10,7 +10,6 @@ export function toProgram(code: string): Program {
     return parseProgram(toTokens(code));
 }
 
-// PROGRAM :: BORROW* BLOCK
 export default function parseProgram(tokens: Tokens, doc = false): Program {
     // If a borrow is next or there's no whitespace, parse a docs.
     const docs = tokens.nextIs(Sym.Doc) ? parseDocs(tokens) : undefined;
@@ -28,7 +27,6 @@ export default function parseProgram(tokens: Tokens, doc = false): Program {
     return new Program(docs, borrows, block, end);
 }
 
-// BORROW :: ↓ name number?
 export function parseBorrow(tokens: Tokens): Borrow {
     const borrow = tokens.read(Sym.Borrow);
     const source = tokens.nextIs(Sym.Name) ? parseReference(tokens) : undefined;

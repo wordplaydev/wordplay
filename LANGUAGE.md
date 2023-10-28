@@ -128,7 +128,7 @@ Some are associated with particular types of expressions:
 
 > evalopen → `(`  
 > evalclose → `)`  
-> condition → `?` | `¿`  
+> question → `?` | `¿`  
 > conversion → `→` | `->` | `=>`  
 > access → `.`
 
@@ -139,7 +139,6 @@ Some are operators, including arithetmic, inequalities, logical, and unicode mat
 Some are associated with type declarations:
 
 > numbertype → `#`  
-> booleantype → condition  
 > or → `|`  
 > markuptype → `\…\`, `\...\`  
 > literaltype → `!`  
@@ -502,7 +501,7 @@ Inputs must conform to the types defined in a function's definition. (We'll talk
 
 ### Binary Evaluate
 
-> BINARYEVALUATE → EXPRESSION operator EXPRESSION
+> BINARYEVALUATE → ATOMIC (operator ATOMIC)\*
 
 While the evaluate syntax is fine, when using them with function names that are operator tokens, they can look kind of funny:
 
@@ -763,7 +762,7 @@ Streams are treated like any other values, except that they all have a starting 
 
 ### Reaction
 
-> REACTION → EXPRESSION reaction condition reaction EXPRESSION
+> REACTION → EXPRESSION reaction question reaction EXPRESSION
 > CHANGE → change EXPRESSION
 
 It's possible to derive new streams from existing streams. For example, here we take `Time()` and convert it to stream of even and odd values:
@@ -793,6 +792,8 @@ Reactions don't have to be named to refer to their previous values. We can use `
 
 Reactions are the standard way to do event-driven programming declaratively and functionally: they're how programs respond to changes in input.
 
+Reactions also have precedence, like conditionals.
+
 ### Initial
 
 > INITIAL → initial
@@ -820,18 +821,80 @@ Or it can get a list of values looking back a particular number evaluations, as 
 ←← 10 Time()
 ```
 
-### This
+## Programs
+
+The combined set of all of the expressions above mean that most of Wordplay is expressions:
+
+> PROGRAM → BORROW* BIND* EXPRESSION  
+> BORROW → borrow name (access name)? number?  
+> EXPRESSION → CONDITIONAL | REACTION | BINARYEVALUATE | ATOMIC  
+> ATOMIC → LITERAL | REF | PLACEHOLDER | EVAL | DEFINITION | PROPERTYBIND | CONVERT | CHECK | QUERY | DOCUMENTED
+> LITERAL → NONE | NUMBER | BOOLEAN | LIST | SET | MAP | TABLE  
+> REF → REFERENCE | PROPERTY | this  
+> EVAL → EVALUATE | UNARYEVALUATE | BLOCK  
+> DEFINITION → FUNCTION | STRUCTURE | CONVERSION  
+> CHECK → CHANGE | IS  
+> QUERY → INSERT | UPDATE | SELECT | DELETE
+
+If any sequences of tokens cannot be parsed according to this grammar, all of the tokens on the line are converted into an `UNPARSABLE` node.
 
 ## Documentation
 
-### Placeholder
+> DOC → markup markup words markup markup
+> DOCS → DOC\*
+> DOCUMENTED → DOCS EXPRESSION
 
-### Documented
+There are three places that comments can appear in code: just before programs, just before definitions of functions, structures, and conversions, and before expressions:
+
+```
+``hi bind``a: 1
+``hi function`` ƒ hello() 'hi'
+``hi structure`` •food(calories•#cal)
+``hi conversion`` → #cal #kcal . · 0.001kcal/cal
+``hi expression``1 + 1
+```
+
+Documentation is part of the grammar, not just discarded text in parsing. This allows for unambiguous association between text and documentation.
 
 ## Types
 
-Boolean, Formatted, Text, Function, List, Map, Number, Name, None, Set, Stream, Table, Text, Placeholder, Union
+> TYPE → placeholder | BOOLEANTYPE | NUMBERTYPE | TEXTTYPE | NONETYPE | LISTTYPE | SETTYPE | MAPTYPE | TABLETYPE | NAMETYPE | FUNCTIONTYPE | STREAMTYPE | FORMATTEDTYPE | CONVERSIONTYPE | UNION  
+> BOOLEANTYPE → question  
+> NUMBERTYPE → numbertype UNIT?
+> TEXTTYPE → textopen textclose LANGUAGE?  
+> NONETYPE → none  
+> LISTTYPE → listopen TYPE listclose  
+> SETTYPE → setopen TYPE setclose  
+> MAPTYPE → setopen TYPE bind TYPE setclose  
+> STREAMTYPE → stream TYPE  
+> CONVERSIONTYPE → TYPE → TYPE  
+> NAMETYPE → name  
+> FUNCTIONTYPE → function TYPEVARIABLES? evalopen BIND\* evalclose TYPE
 
-### Is
+The final part of the language is type declarations. These mostly mirror the syntax of the rest of the langauge, with the exception of numbers. Here are binds with type declarations demonstrating all of the above:
+
+```
+bool•?
+num•#m
+text•''
+none•ø
+list•[#]
+set•{''}
+map•{'':#}
+stream•…#
+conversion•#m→#mi
+name•Kitty
+function•ƒ(message•'')•#
+```
+
+Types are also used in "is" expressions:
+
+> IS → EXPRESSION type TYPE
+
+For example, this expression checks whether `1` is a number, and it is, so it evaluates to `⊤`.
+
+```
+1•#
+```
 
 ## Evaluation

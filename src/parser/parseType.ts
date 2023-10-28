@@ -26,7 +26,6 @@ import {
 } from './parseExpression';
 import parseLanguage from './parseLanguage';
 
-/** TYPE :: (? | name | MEASUREMENT_TYPE | TEXT_TYPE | NONE_TYPE | LIST_TYPE | SET_TYPE | FUNCTION_TYPE | STREAM_TYPE) (| TYPE)* */
 export default function parseType(tokens: Tokens, isExpression = false): Type {
     let left: Type = tokens.nextIs(Sym.Placeholder)
         ? new TypePlaceholder(tokens.read(Sym.Placeholder))
@@ -86,7 +85,6 @@ function parseTextType(tokens: Tokens): TextType {
     return new TextType(open, words, close, format);
 }
 
-/** NUMBER_TYPE :: #NAME? */
 function parseNumberType(tokens: Tokens): NumberType {
     if (tokens.nextIs(Sym.Operator, '%'))
         return new NumberType(tokens.read(Sym.Operator));
@@ -102,20 +100,17 @@ function parseNumberType(tokens: Tokens): NumberType {
     return new NumberType(number, unit);
 }
 
-/** NONE_TYPE :: !NAME? */
 function parseNoneType(tokens: Tokens): NoneType {
     const none = tokens.read(Sym.None);
     return new NoneType(none);
 }
 
-/** STREAM_TYPE :: … TYPE */
 function parseStreamType(tokens: Tokens): StreamType {
     const stream = tokens.read(Sym.Stream);
     const type = parseType(tokens);
     return new StreamType(stream, type);
 }
 
-/** LIST_TYPE :: [ TYPE ] */
 function parseListType(tokens: Tokens): ListType {
     const open = tokens.read(Sym.ListOpen);
     const type = tokens.nextIsnt(Sym.ListClose) ? parseType(tokens) : undefined;
@@ -125,7 +120,6 @@ function parseListType(tokens: Tokens): ListType {
     return new ListType(open, type, close);
 }
 
-/** SET_TYPE :: { TYPE } | { TYPE:TYPE } */
 function parseSetOrMapType(tokens: Tokens): SetType | MapType {
     const open = tokens.read(Sym.SetOpen);
     let key = undefined;
@@ -145,7 +139,6 @@ function parseSetOrMapType(tokens: Tokens): SetType | MapType {
         : new MapType(open, key, bind, value, close);
 }
 
-/** TABLE_TYPE :: (| BIND)+ | */
 export function parseTableType(tokens: Tokens): TableType {
     const open = tokens.read(Sym.TableOpen);
 
@@ -163,7 +156,6 @@ export function parseTableType(tokens: Tokens): TableType {
     return new TableType(open, columns, close);
 }
 
-/** FUNCTION_TYPE :: ƒ( BIND* ) TYPE */
 function parseFunctionType(tokens: Tokens): FunctionType {
     const fun = tokens.read(Sym.Function);
 
@@ -189,7 +181,6 @@ function parseFunctionType(tokens: Tokens): FunctionType {
     return new FunctionType(fun, typeVars, open, inputs, close, output);
 }
 
-/** CONVERSION_TYPE :: TYPE → TYPE */
 function parseConversionType(left: Type, tokens: Tokens): ConversionType {
     const convert = tokens.read(Sym.Convert);
     const to = parseType(tokens);
