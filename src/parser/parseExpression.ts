@@ -399,7 +399,11 @@ function parseDimension(tokens: Tokens): Dimension {
     return new Dimension(product, name, caret, exponent);
 }
 
-/** TEXT :: text name? TEXT? */
+/** 
+TEXT → TRANSLATION*
+TRANSLATION → textopen text textclose LANGUAGE
+LANGUAGE → language name
+ */
 function parseText(tokens: Tokens): TextLiteral {
     const texts: Translation[] = [];
 

@@ -1,14 +1,7 @@
 # Wordplay
 
-Hi! Wordplay is a web-based programming language, IDE, and platform for creaing accessible, interactive typography.
+Hi! Wordplay is a web-based programming language, IDE, and platform for creaing accessible, interactive typography, build at the University of Washington, organized by [Amy J. Ko](https://amyjko.phd/).
 
-# Contributing
+The best way to learn about language and project is to visit [Wordplay.dev](https://wordplay.dev/) and read its [about](https://wordplay.dev/about) page and [tutorial](https://wordplay.dev/learn). But since you're here on GitHub, you might also be interested in reading our (always evolving) language specification in [LANGUAGE.md](https://github.com/wordplaydev/wordplay/blob/main/LANGUAGE.md).
 
-Wordplay is looking for people to help.
-Review our [guide](https://github.com/wordplaydev/wordplay/wiki/contribute) to get started.
-
-# History
-
-Back in 2022 when Amy was preparing for sabbatical, she started writing a [specification](https://docs.google.com/document/d/1pTAuU0qyfp09SifNUaZ_tbQXbSgunSLfZLBRkeWf_Fo/edit#heading=h.l2lzf5ih38l1).
-It contains most of the major ideas for the platform and was a guide for its design and development.
-Of course, ideas drift, so it's not exactly what she built, but it is pretty close.
+Review our [contributor guide](https://github.com/wordplaydev/wordplay/wiki/contribute) if you'd like to help!
