@@ -88,8 +88,8 @@ Compound data structures have several delimiters:
 
 > listopen → `[`  
 > listclose → `]`  
-> setmapopen → `{`  
-> setmapclose → `}`  
+> setopen → `{`  
+> setclose → `}`  
 > tableopen → `⎡`  
 > tableclose → `⎦`  
 > select → `⎡?`  
@@ -179,6 +179,8 @@ But this program?
 
 You guessed it, `'ø'`.
 
+None is only equal to itself.
+
 ### Booleans
 
 > BOOLEAN_LITERAL → true | false
@@ -208,6 +210,8 @@ As mentioned above, all values are objects with functions inside, and so these l
 ```
 
 We'll discuss more on the differences between those to function evaluations later; for now just know that they're equivalent.
+
+⊤ is only equal to itself; ⊥ is only equal to itself.
 
 ### Numbers
 
@@ -240,6 +244,8 @@ But this is a type error, because the units aren't compatible:
 
 The unit type system is not arbitrarily sophisticated: when mathematical operators go beyond the semantics of products, sums, and powers, units are dropped.
 
+Numbers are only equal to other numbers that have identical decimal values and equivalent units. Units are only equivalent when the set of dimensions specified on each unit are equivalent and the power of each dimension specified is equivalent.
+
 ### Text
 
 > TEXT → TRANSLATION\*  
@@ -264,6 +270,16 @@ For example, these are all valid text values:
 
 If `en-US` were the preferred locale, they would all evaluate to `'hi'`. But in the latter case, if Spanish or Japanese were selected, they would evaluate to `'hola'` or `『こんにちは』`'
 
+It's possible to check whether an environment has a particular locale selected with the locale predicate:
+
+```
+🌎/en
+```
+
+This will return `⊤` if the locale is in the preferred list, and, `⊥` otherwise.
+
+Text is equal to other text with an identical sequence of graphemes and equivalent locale.
+
 Two text values with different text delimiters are considered equivalent:
 
 ```
@@ -275,14 +291,6 @@ Two text values with different language declarations, however, are not equivalen
 ```
 'hi'/en = 『hi』/ja
 ```
-
-It's possible to check whether an environment has a particular locale selected with the locale predicate:
-
-```
-🌎/en
-```
-
-This will return `⊤` if the locale is in the preferred list, and, `⊥` otherwise.
 
 ### Markup
 
@@ -304,11 +312,16 @@ The final basic value is markup, which behaves identically to text values aside 
 
 These three values are 1) a link, 2) a hello world with underscores, italics, and extra bold, and 3) a sentence with an embedded code example.
 
+Markup values follow the same equality rules as text: but also must have the exact same markup structure.
+
 ## Compound Values
 
-Okay, those were the basic values. Now let's talk about the four built-in compound values (and how to get values out of them).
+Now let's talk about the four built-in compound values (and how to get values out of them).
 
 ### List
+
+> LIST → listopen (EXPRESSION | SPREAD)\* listclose  
+> SPREAD → : EXPRESSION
 
 Lists are sequences of values:
 
@@ -345,23 +358,123 @@ And this is also `1`:
 [1 2 3 4 5][-5]
 ```
 
-The only index that doesn't result in one of the list's values is 0; that evaluates to `ø`. (For convenience, however, this possibility isn't included in a list access's type, as it would require pervasive, and mostly unhelpful checking for `ø`).
+The only index that doesn't result in one of the list's values is 0; that evaluates to `ø`. For convenience, however, this possibility isn't included in a list access's type, as it would require pervasive, and mostly unhelpful checking for `ø`. This does let type errors slip through as runtime errors, but was chosen to avoid imposing type gymnastics on learners.
+
+Lists have a wide range of higher order functions. For example, `translate` can map a list's values to different values, and `combine` can reduce a list of values into some value:
+
+```
+[1 2 3 4 5 6 7 8].translate(ƒ(num) 2.power(num))
+[1 2 3 4 5 6 7 8].combine(1 ƒ(num sum) num + sum)
+```
+
+List are equalivent to other lists when they have the same number of values and each pair of corresponding values in the sequence are equal.
+
+Because all values in Wordplay are immutable, all of these operations produce new lists.
 
 ### Set
 
-### Set/Map Access
+> SET → setopen EXPRESSION\* setclose  
+> SETCHECK → EXPRESSION{EXPRESSION}
+
+Sets are non-ordered collections of unique values, where unique is defined by value equality. Here's are some examples of sets:
+
+```
+{}
+{'hi'}
+{1 ø ['pony' 'horse' 'dog]}
+```
+
+Sets are equal when they have the same size and equivalent values.
+
+Because sets do not have duplicates, these two sets are equivalent.
+
+```
+{1 2 3 4}
+{1 1 2 2 3 3 4 4}
+```
+
+Set membership can be checked by following a set with a value as a key. For example, this evaluates to ⊥.
+
+```
+{1 2 3}{4}
+```
 
 ### Map
 
+> MAP → setopen (bind | KEYVALUE\*) setopen  
+> KEYVALUE → EXPRESSION bind VALUE
+
+Maps create a mapping between values and other values. They're like sets in that they only contain unique keys, but values can reoccur. Here are some valid maps literals:
+
+```
+{:}
+{'amy': 43 'ellen': 21}
+{1: [1 2 3] 2: [-1 -2 -3]}
+```
+
+Values can be retrieved via keys with the same syntax as sets; this evaluates to `43`:
+
+```
+{'amy': 43 'ellen': 21}{'amy'}
+```
+
+Maps are equivalent when they are the same size, and every key/value pair that occurs in one has a corresponding equivalent key value pair in the other.
+
 ### Table
 
-### Select
+> TABLE → TABLETYPE ROWS*  
+> TABLETYPE → tableopen BIND* tableclose  
+> ROW → tableopen (BIND|EXPRESSION)\* tableclose  
+> SELECT → EXPRESSION select ROW EXPRESSION  
+> INSERT → EXPRESSION insert ROW  
+> UPDATE → EXPRESSION update ROW EXPRESSION  
+> DELETE → EXPRESSION delete EXPRESSION
 
-### Update
+Tables are like relational tables, with a series of named columns with type declarations, and zero or more unordered rows indicating values for each of those columns. However, they are immutable in that every operation on a table produces a new table to reflect the value. They don't aspire to be space efficient, just a simple interface for expressing and updating tabular data.
 
-### Insert
+Here's an example table:
 
-### Delete
+```
+⎡name•'' score#point⎦
+⎡'amy'   20point⎦
+⎡'ellen' 72point⎦
+⎡'tony'  11point⎦
+⎡'jen'   1234point⎦
+```
+
+This is a two column table, with one text column and one number column with a `point` unit.
+
+There are four basic table operations. Imagine we've named the table above `points`. Here we select some data from the table above:
+
+```
+points ⎡?⎦ score > 50point
+```
+
+This results in a table with just the score column rows with score more than 50.
+
+Here we insert a row:
+
+```
+points ⎡+ 'joe' 17point⎦
+```
+
+This evaluates to a table with five rows.
+
+Here we update a row:
+
+```
+points ⎡: score: 22point⎦ name = 'amy'
+```
+
+And here we delete a row:
+
+```
+points ⎡- name = 'amy'
+```
+
+Tables are equivalent when they have the same number of rows, and each row in one table corresponds to an equivalent row in the other table. Rows are equivalent if all of their column values are equvalient.
+
+Tables can be converted to lists of data structures, where each row name is a property. (More on structures later).
 
 ## Evaluations
 
