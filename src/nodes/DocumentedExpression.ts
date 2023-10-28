@@ -71,10 +71,12 @@ export default class DocumentedExpression extends SimpleExpression {
         current: TypeSet,
         context: Context
     ) {
-        bind;
-        original;
-        context;
-        return current;
+        return this.expression.evaluateTypeGuards(
+            bind,
+            original,
+            current,
+            context
+        );
     }
 
     getStart() {

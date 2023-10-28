@@ -438,6 +438,10 @@ export default class BinaryEvaluate extends Expression {
         return current;
     }
 
+    guardsTypes() {
+        return true;
+    }
+
     getNodeLocale(locales: Locales) {
         return locales.get((l) => l.node.BinaryEvaluate);
     }

@@ -80,6 +80,11 @@ export default abstract class Expression extends Node {
         context: Context
     ): TypeSet;
 
+    /** Used to decide whether to consider an expression as filtering types based on the behavior of evaluateTypeGuards() */
+    guardsTypes() {
+        return false;
+    }
+
     abstract compile(evaluator: Evaluator, context: Context): Step[];
     abstract evaluate(evaluator: Evaluator, prior: Value | undefined): Value;
 

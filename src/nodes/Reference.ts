@@ -15,7 +15,6 @@ import ReferenceCycle from '@conflicts/ReferenceCycle';
 import Reaction from './Reaction';
 import UnionType from './UnionType';
 import type TypeSet from './TypeSet';
-import Is from './Is';
 import NameToken from './NameToken';
 import StartFinish from '@runtime/StartFinish';
 import UnknownNameType from './UnknownNameType';
@@ -34,7 +33,6 @@ import FunctionDefinition from './FunctionDefinition';
 import StreamDefinition from './StreamDefinition';
 import FunctionType from './FunctionType';
 import type Locales from '../locale/Locales';
-import BinaryEvaluate from './BinaryEvaluate';
 import getGuards from './getGuards';
 
 /**
@@ -277,16 +275,17 @@ export default class Reference extends SimpleExpression {
         ) {
             // Find any conditionals with type checks that refer to the value bound to this name.
             // Reverse them so they are in furthest to nearest ancestor, so we narrow types in execution order.
-            const guards = getGuards(
-                this,
-                context,
-                (node) =>
-                    (context.source.root.getParent(node) instanceof Is ||
-                        context.source.root.getParent(node) instanceof
-                            BinaryEvaluate) &&
+            const guards = getGuards(this, context, (node) => {
+                // Node is a reference
+                if (
                     node instanceof Reference &&
+                    // And a reference to the same definition as this reference
                     definition === node.resolve(context)
-            );
+                ) {
+                    const parent = context.source.root.getParent(node);
+                    return parent instanceof Expression && parent.guardsTypes();
+                } else return false;
+            });
 
             // Grab the furthest ancestor and evaluate possible types from there.
             const root = guards[0];

@@ -19,7 +19,7 @@ export default function getGuards(
                     a instanceof Conditional &&
                     // Don't include conditionals whose condition contain this; that would create a cycle
                     !a.condition.contains(reference) &&
-                    // Guards must have references to this same property in a type check
+                    // Some node in the condition must satisfy the given check
                     a.condition.nodes().some((node) => conditionCheck(node))
             )
             .reverse() ?? []

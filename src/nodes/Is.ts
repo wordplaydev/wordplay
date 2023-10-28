@@ -157,6 +157,10 @@ export default class Is extends Expression {
         return current;
     }
 
+    guardsTypes() {
+        return true;
+    }
+
     getStart() {
         return this.operator;
     }
