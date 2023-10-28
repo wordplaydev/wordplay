@@ -3801,8 +3801,8 @@
                 "Let's get started! You can …",
                 "• Open 📕 and drag 🖱️ us to this program.",
                 "• Type $1 and choose us from the menu.",
-                "• If you know us well, start typing.",
-                "• Browse the gallery for inspiration.",
+                "• Type us with the ⌨️.",
+                "• Browse the <galleries@://galleries> for inspiration.",
                 "If you're stuck, <learn more@://learn>."
             ],
             "overwritten": "Received a more recent version!",
