@@ -31,6 +31,7 @@ import { NotAType } from './NotAType';
 import concretize from '../locale/concretize';
 import Sym from './Sym';
 import type Locales from '../locale/Locales';
+import NoneType from './NoneType';
 
 export default class SetOrMapAccess extends Expression {
     readonly setOrMap: Expression;
@@ -136,7 +137,7 @@ export default class SetOrMapAccess extends Expression {
             setOrMapType instanceof MapType &&
             setOrMapType.value instanceof Type
         )
-            return setOrMapType.value;
+            return UnionType.make(setOrMapType.value, NoneType.make());
         else if (setOrMapType instanceof SetType) return BooleanType.make();
         else
             return new NotAType(

@@ -22,7 +22,9 @@ test.each([
 
 test.each([
     ['{1 2 3}{2}', '⊤'],
+    ['{1 2 3}{5}', '⊥'],
     ["{1:'a' 2:'b' 3:'c'}{2}", '"b"'],
+    ["{1:'a' 2:'b' 3:'c'}{4}", 'ø'],
 ])('Expect %s to be %s', (code, value) => {
     expect(evaluateCode(code)?.toString()).toBe(value);
 });
