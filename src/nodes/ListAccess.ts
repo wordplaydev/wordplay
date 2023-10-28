@@ -3,7 +3,7 @@ import Expression from './Expression';
 import ListType from './ListType';
 import NumberType from './NumberType';
 import type Token from './Token';
-import Type from './Type';
+import type Type from './Type';
 import type Evaluator from '@runtime/Evaluator';
 import type Value from '@values/Value';
 import ListValue from '@values/ListValue';
@@ -18,7 +18,6 @@ import type Bind from './Bind';
 import UnclosedDelimiter from '@conflicts/UnclosedDelimiter';
 import ListOpenToken from './ListOpenToken';
 import ListCloseToken from './ListCloseToken';
-import NumberLiteral from './NumberLiteral';
 import { node, type Grammar, type Replacement } from './Node';
 import { NotAType } from './NotAType';
 import NodeRef from '@locale/NodeRef';
@@ -31,6 +30,7 @@ import concretize from '../locale/concretize';
 import Sym from './Sym';
 import ExpressionPlaceholder from './ExpressionPlaceholder';
 import type Locales from '../locale/Locales';
+import AnyType from './AnyType';
 
 export default class ListAccess extends Expression {
     readonly list: Expression;
@@ -138,16 +138,15 @@ export default class ListAccess extends Expression {
     }
 
     computeType(context: Context): Type {
+        // Non-number index?
+        const indexType = this.index.getType(context);
+        if (!(indexType instanceof NumberType))
+            return new NotAType(this, indexType, NumberType.make());
+
         // The type is the list's value type, or unknown otherwise.
         const listType = this.list.getType(context);
-        if (listType instanceof ListType && listType.type instanceof Type) {
-            if (
-                listType.length !== undefined &&
-                this.index instanceof NumberLiteral &&
-                this.index.getValue().num.greaterThanOrEqualTo(1) &&
-                this.index.getValue().num.lessThanOrEqualTo(listType.length)
-            )
-                return listType.type;
+        if (listType instanceof ListType) {
+            if (listType.type === undefined) return new AnyType();
             else return listType.type;
         } else return new NotAType(this, listType, ListType.make());
     }
