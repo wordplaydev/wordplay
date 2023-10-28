@@ -478,11 +478,80 @@ Tables can be converted to lists of data structures, where each row name is a pr
 
 ## Evaluations
 
-### Unary Operator
-
-### Binary Operators
+There three different syntaxes for evaluating functions on values.
 
 ### Evaluate
+
+> EVALUTE → EXPRESSION evalopen EXPRESSION evalclose
+
+The standard way is to provide a function value, and then parentheses delimited sequence of values:
+
+```
+1.add(1)
+```
+
+This evaluation, for example, provides the `add` function defined on `1` and gives it a single input, `1`, then evaluates to their sum, `2`.
+
+Not all functions are defined on values. For example, if a function was named `laugh`, we could evaluate it with:
+
+```
+laugh()
+```
+
+Inputs must conform to the types defined in a function's definition. (We'll talk more about how to define functions later).
+
+### Binary Evaluate
+
+> BINARYEVALUATE → EXPRESSION operator EXPRESSION
+
+While the evaluate syntax is fine, when using them with function names that are operator tokens, they can look kind of funny:
+
+```
+1.+(1)
+```
+
+Not only is that a bit cluttered, but it deviates strongly from conventions in mathematics. Binary evaluate syntax addresses this, allowing for infix format for any function definition that has an `operator` name:
+
+```
+1 + 1
+```
+
+Parsing order for binary evaluate expressions is strictly inline start to inline end (left to right in a left to right language), and so this expression, which in PEMDAS operator precedence would be `2.5`, actually evaluates to `2.25`:
+
+```
+1 + 2 · 3 ÷ 4
+```
+
+To avoid confusion, the language warns when multiple distinct operators are being used without specifying evaluation order, and suggests using `()` to clarify, like this:
+
+```
+1 + ((2 · 3) ÷ 4)
+```
+
+Because binary evaluations are just syntactic sugar on regular evaluation, it's important to note that the left side of a binary evaluate is always the value on which the operator name is searched for a function definition.
+
+### Unary Operator
+
+Finally, there is a third prefix unary operator syntax, allowing for expressions like:
+
+```
+-(1 + 2)
+~(puzzle & mystery)
+```
+
+The way that Wordplay distinguishes between unary and binary evaluations is _space sensitive_ if the token following the operator has no space, then it is unary. This convention means that this expression is parsed as a single number `1`, followed by an entirely separate `+` unary evaluation on another unary evaluation of `-`:
+
+```
+1-+2
+```
+
+For it to be interpreted as infix, space is required
+
+```
+1-+2
+```
+
+This tiny bit of space-sensitive parsing aligns with mathematical syntax, but also imposes some consistency in formatting.
 
 ### Conditional
 
