@@ -880,6 +880,21 @@ const Commands: Command[] = [
             return caret.insert(TABLE_OPEN_SYMBOL) ?? false;
         },
     },
+    {
+        symbol: TABLE_CLOSE_SYMBOL,
+        description: (l) => l.ui.source.cursor.insertTable,
+        visible: Visibility.Visible,
+        category: Category.Insert,
+        alt: true,
+        shift: true,
+        control: false,
+        key: 'KeyT',
+        keySymbol: 't',
+        execute: ({ caret }) => {
+            if (caret === undefined) return false;
+            return caret.insert(TABLE_CLOSE_SYMBOL) ?? false;
+        },
+    },
 
     // EVALUATE
     StepBackNode,

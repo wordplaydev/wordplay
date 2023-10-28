@@ -2236,6 +2236,7 @@
                 "insertPrevious": "insertar símbolo de anterior",
                 "insertType": "insertar símbolo de tipo",
                 "insertTable": "insertar símbolo de tabla",
+                "insertTableClose": "$?",
                 "insertLine": "insertar salto de línea",
                 "backspace": "borrar selección o carácter anterior",
                 "cut": "corte lo que esté seleccionado",

@@ -9696,6 +9696,10 @@
                       "description": "Insert table symbol",
                       "type": "string"
                     },
+                    "insertTableClose": {
+                      "description": "Insert table close symbol",
+                      "type": "string"
+                    },
                     "insertTrue": {
                       "description": "Insert true symbol",
                       "type": "string"
@@ -9802,6 +9806,7 @@
                     "insertPrevious",
                     "insertConvert",
                     "insertTable",
+                    "insertTableClose",
                     "insertLine",
                     "backspace",
                     "copy",

@@ -250,6 +250,8 @@ type UITexts = {
             insertConvert: string;
             /** Insert table symbol */
             insertTable: string;
+            /** Insert table close symbol */
+            insertTableClose: string;
             /** Insert new line */
             insertLine: string;
             /** Delete previous symbol */

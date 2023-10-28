@@ -2208,6 +2208,7 @@
                 "insertPrevious": "$?",
                 "insertType": "$?",
                 "insertTable": "$?",
+                "insertTableClose": "$?",
                 "insertLine": "$?",
                 "backspace": "$?",
                 "cut": "$?",
