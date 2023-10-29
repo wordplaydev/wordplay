@@ -14,7 +14,7 @@
     }
 </script>
 
-<div class="group">
+<div class="concept-group">
     {#each concepts as concept, index}
         {#if expanded || index < 3}
             <span
@@ -43,12 +43,13 @@
 {/if}
 
 <style>
-    .group {
+    .concept-group {
         margin: var(--wordplay-spacing);
         margin-left: 0;
         display: flex;
         flex-wrap: wrap;
         gap: calc(2 * var(--wordplay-spacing));
+        align-items: baseline;
     }
 
     .expander {
