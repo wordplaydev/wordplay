@@ -841,10 +841,7 @@ export function parseFormattedLiteral(tokens: Tokens): FormattedLiteral {
     const translations: FormattedTranslation[] = [];
     do {
         translations.push(parseFormattedTranslation(tokens));
-    } while (
-        tokens.nextIs(Sym.Formatted) &&
-        !tokens.nextHasMoreThanOneLineBreak()
-    );
+    } while (tokens.nextIs(Sym.Formatted) && tokens.nextLacksPrecedingSpace());
     return new FormattedLiteral(translations);
 }
 
