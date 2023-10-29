@@ -1019,7 +1019,7 @@
         max-height: 100%;
         width: 100%;
         padding: var(--wordplay-spacing);
-        font-size: 48pt;
+        font-size: 24pt;
         transform-origin: center;
         align-items: center;
         margin: auto;
