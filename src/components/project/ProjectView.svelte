@@ -877,12 +877,9 @@
             .resized($arrangement, canvasWidth, canvasHeight);
     }
 
-    function exitFullscreen() {
-        stopPlaying();
-        setFullscreen(undefined);
-    }
-
     async function setFullscreen(tile: Tile | undefined) {
+        if (tile === undefined) stopPlaying();
+
         layout = tile
             ? layout.withFullscreen(tile.id)
             : layout.withoutFullscreen();
@@ -1042,11 +1039,13 @@
             : Array.from($editors.values()).find((editor) => editor.focused)
                   ?.caret ?? Array.from($editors.values())[0]?.caret,
         project,
+        editor: false,
         /** We intentionally depend on the evaluation store because it updates when the evaluator's state changes */
         evaluator: $evaluation.evaluator,
         dragging: $dragged !== undefined,
         database: DB,
-        exitFullscreen,
+        setFullscreen: (on: boolean) =>
+            setFullscreen(on ? layout.getOutput() : undefined),
         focusOrCycleTile,
         resetInputs,
         toggleBlocks,
@@ -1064,10 +1063,10 @@
             dragged.set(undefined);
 
         // See if there's a command that matches...
-        const [, result, matched] = handleKeyCommand(event, commandContext);
+        const [, result] = handleKeyCommand(event, commandContext);
 
         // If something handled it, consume the event, and reset the modifier state.
-        if (result !== false || matched) {
+        if (result !== false) {
             event.stopPropagation();
             event.preventDefault();
 

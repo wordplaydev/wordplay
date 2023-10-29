@@ -137,7 +137,9 @@
         if (event.key === 'Tab') return;
 
         // Reset the value if there's not a chat.
-        if (!chats && keyboardInputView) keyboardInputView.value = '';
+        if (!chats && keyboardInputView) {
+            keyboardInputView.value = '';
+        }
 
         // Is the program evaluating?
         if (evaluator.isPlaying()) {
@@ -905,6 +907,7 @@
                 />
                 {#if chats}
                     <ButtonUI
+                        background
                         tip={$locales.get((l) => l.ui.output.button.submit)}
                         action={submitChat}>↑</ButtonUI
                     >

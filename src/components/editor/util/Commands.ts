@@ -31,10 +31,10 @@ import ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
 import Names from '@nodes/Names';
 import type { Database } from '@db/Database';
 import type Locale from '@locale/Locale';
-import { TileKind } from '../../project/Tile';
 import Sym from '../../../nodes/Sym';
 import type Project from '../../../models/Project';
 import interpret from './interpret';
+import { TileKind } from '../../project/Tile';
 
 export type Command = {
     /** The iconographic text symbol to use */
@@ -65,27 +65,32 @@ export type Command = {
     execute: (context: CommandContext, key: string) => CommandResult;
 };
 
+/** Different responses that commands can produce. */
 type CommandResult =
+    // An edit to a source file
     | Edit
-    // Revise a whole project
+    // An edit to a whole project
     | ProjectRevision
-    // Wait and process this edit
+    // An eventual edit to a source file or project
     | Promise<Edit | ProjectRevision | undefined>
-    // Handled
-    | boolean
+    // Handled, but no side effect
+    | true
     // Not handled
-    | undefined
-    | void;
+    | false;
 
 export type CommandContext = {
+    /** The caret for the focused editor */
     caret: Caret | undefined;
+    /** Whether an editor is handling this event */
+    editor: boolean;
+    /** The project we're editing */
     project: Project;
     evaluator: Evaluator;
     database: Database;
     dragging: boolean;
     toggleMenu?: () => void;
     toggleBlocks?: () => void;
-    exitFullscreen?: (on: boolean) => void;
+    setFullscreen?: (on: boolean) => void;
     focusOrCycleTile?: (content?: TileKind) => void;
     resetInputs?: () => void;
     help?: () => void;
@@ -174,7 +179,12 @@ export const ShowKeyboardHelp: Command = {
     control: true,
     key: 'Slash',
     keySymbol: '?',
-    execute: (context) => (context.help ? context.help() : false),
+    execute: ({ help }) => {
+        if (help) {
+            help();
+            return true;
+        } else return false;
+    },
 };
 
 export const IncrementLiteral: Command = {
@@ -216,7 +226,10 @@ export const StepBack: Command = {
     key: 'ArrowLeft',
     keySymbol: '←',
     active: (context) => !context.evaluator.isAtBeginning(),
-    execute: (context) => context.evaluator.stepBackWithinProgram(),
+    execute: (context) => {
+        context.evaluator.stepBackWithinProgram();
+        return true;
+    },
 };
 
 export const StepForward: Command = {
@@ -277,7 +290,11 @@ export const StepBackNode: Command = {
     active: ({ caret }) => caret !== undefined,
     execute: ({ caret, evaluator }) => {
         const target = caret?.getExpressionAt();
-        if (target) evaluator.stepBackToNode(target);
+        if (target) {
+            evaluator.stepBackToNode(target);
+            return true;
+        }
+        return false;
     },
 };
 
@@ -294,7 +311,10 @@ export const StepForwardNode: Command = {
     active: ({ caret }) => caret !== undefined,
     execute: ({ caret, evaluator }) => {
         const target = caret?.getExpressionAt();
-        if (target) evaluator.stepToNode(target);
+        if (target) {
+            evaluator.stepToNode(target);
+            return true;
+        } else return false;
     },
 };
 
@@ -313,7 +333,7 @@ export const Restart: Command = {
         if (resetInputs === undefined) return false;
         // Reset the project's inputs.
         resetInputs();
-        return undefined;
+        return true;
     },
 };
 
@@ -327,7 +347,10 @@ export const StepToStart: Command = {
     control: true,
     key: 'Home',
     active: (context) => !context.evaluator.isAtBeginning(),
-    execute: (context) => context.evaluator.stepTo(0),
+    execute: (context) => {
+        context.evaluator.stepTo(0);
+        return true;
+    },
 };
 
 export const StepToPresent: Command = {
@@ -340,7 +363,10 @@ export const StepToPresent: Command = {
     control: true,
     key: 'End',
     active: (context) => context.evaluator.isInPast(),
-    execute: (context) => context.evaluator.stepToEnd(),
+    execute: (context) => {
+        context.evaluator.stepToEnd();
+        return true;
+    },
 };
 
 export const StepOut: Command = {
@@ -357,7 +383,10 @@ export const StepOut: Command = {
         context.evaluator.isPlaying() &&
         context.evaluator.getCurrentStep() !== undefined &&
         context.evaluator.getCurrentEvaluation() !== undefined,
-    execute: (context) => context.evaluator.stepOut(),
+    execute: (context) => {
+        context.evaluator.stepOut();
+        return true;
+    },
 };
 
 export const Play: Command = {
@@ -370,7 +399,10 @@ export const Play: Command = {
     control: true,
     key: 'Enter',
     active: (context) => !context.evaluator.isPlaying(),
-    execute: (context) => context.evaluator.play(),
+    execute: (context) => {
+        context.evaluator.play();
+        return true;
+    },
 };
 
 export const Pause: Command = {
@@ -383,7 +415,10 @@ export const Pause: Command = {
     control: true,
     key: 'Enter',
     active: (context) => context.evaluator.isPlaying(),
-    execute: (context) => context.evaluator.pause(),
+    execute: (context) => {
+        context.evaluator.pause();
+        return true;
+    },
 };
 
 export const ShowMenu: Command = {
@@ -396,8 +431,12 @@ export const ShowMenu: Command = {
     control: true,
     key: 'ArrowDown',
     keySymbol: '↓',
-    execute: (context) =>
-        context.toggleMenu ? context.toggleMenu() : undefined,
+    execute: ({ toggleMenu }) => {
+        if (toggleMenu) {
+            toggleMenu();
+            return true;
+        } else return false;
+    },
 };
 
 export const EnterFullscreen: Command = {
@@ -409,8 +448,12 @@ export const EnterFullscreen: Command = {
     alt: true,
     control: true,
     key: 'Enter',
-    execute: (context) =>
-        context.exitFullscreen ? context.exitFullscreen(true) : false,
+    execute: ({ setFullscreen }) => {
+        if (setFullscreen) {
+            setFullscreen(true);
+            return true;
+        } else return false;
+    },
 };
 
 export const ExitFullscreen: Command = {
@@ -422,8 +465,13 @@ export const ExitFullscreen: Command = {
     alt: false,
     control: false,
     key: 'Escape',
-    execute: ({ exitFullscreen: fullscreen, dragging }) =>
-        dragging ? false : fullscreen ? fullscreen(false) : false,
+    execute: ({ setFullscreen, dragging }) => {
+        if (dragging || setFullscreen === undefined) return false;
+        else {
+            setFullscreen(false);
+            return true;
+        }
+    },
 };
 
 export const FocusOutput: Command = {
@@ -435,10 +483,12 @@ export const FocusOutput: Command = {
     alt: true,
     control: true,
     key: 'Digit1',
-    execute: (context) =>
-        context.focusOrCycleTile
-            ? context.focusOrCycleTile(TileKind.Output)
-            : false,
+    execute: ({ focusOrCycleTile }) => {
+        if (focusOrCycleTile) {
+            focusOrCycleTile(TileKind.Output);
+            return true;
+        } else return false;
+    },
 };
 
 export const FocusSource: Command = {
@@ -450,10 +500,13 @@ export const FocusSource: Command = {
     alt: true,
     control: true,
     key: 'Digit2',
-    execute: (context) =>
-        context.focusOrCycleTile
-            ? context.focusOrCycleTile(TileKind.Source)
-            : false,
+    execute: ({ focusOrCycleTile }) => {
+        if (focusOrCycleTile) {
+            focusOrCycleTile(TileKind.Source);
+            return true;
+        }
+        return false;
+    },
 };
 
 export const FocusDocs: Command = {
@@ -465,10 +518,13 @@ export const FocusDocs: Command = {
     alt: true,
     control: true,
     key: 'Digit3',
-    execute: (context) =>
-        context.focusOrCycleTile
-            ? context.focusOrCycleTile(TileKind.Documentation)
-            : false,
+    execute: ({ focusOrCycleTile }) => {
+        if (focusOrCycleTile) {
+            focusOrCycleTile(TileKind.Documentation);
+            return true;
+        }
+        return false;
+    },
 };
 
 export const FocusPalette: Command = {
@@ -480,10 +536,13 @@ export const FocusPalette: Command = {
     alt: true,
     control: true,
     key: 'Digit4',
-    execute: (context) =>
-        context.focusOrCycleTile
-            ? context.focusOrCycleTile(TileKind.Palette)
-            : false,
+    execute: ({ focusOrCycleTile }) => {
+        if (focusOrCycleTile) {
+            focusOrCycleTile(TileKind.Palette);
+            return true;
+        }
+        return false;
+    },
 };
 
 export const FocusCycle: Command = {
@@ -495,8 +554,13 @@ export const FocusCycle: Command = {
     alt: true,
     control: true,
     key: 'Digit0',
-    execute: (context) =>
-        context.focusOrCycleTile ? context.focusOrCycleTile() : false,
+    execute: ({ focusOrCycleTile }) => {
+        if (focusOrCycleTile) {
+            focusOrCycleTile();
+            return true;
+        }
+        return false;
+    },
 };
 
 export const ToggleBlocks: Command = {
@@ -508,7 +572,13 @@ export const ToggleBlocks: Command = {
     alt: true,
     control: true,
     key: 'Enter',
-    execute: ({ toggleBlocks }) => (toggleBlocks ? toggleBlocks() : false),
+    execute: ({ toggleBlocks }) => {
+        if (toggleBlocks) {
+            toggleBlocks();
+            return true;
+        }
+        return false;
+    },
 };
 
 /** The command to rule them all... inserts things */
@@ -521,8 +591,11 @@ export const InsertSymbol: Command = {
     shift: undefined,
     alt: false,
     typing: true,
-    execute: ({ caret, project }, key) =>
-        caret && key.length === 1 ? caret.insert(key, project) : false,
+    execute: ({ caret, project, editor }, key) => {
+        if (editor && caret && key.length === 1)
+            return caret.insert(key, project) ?? false;
+        else return false;
+    },
 };
 
 const Commands: Command[] = [
@@ -548,7 +621,7 @@ const Commands: Command[] = [
         shift: false,
         key: 'ArrowDown',
         keySymbol: '↓',
-        execute: ({ caret }) => caret?.moveVertical(1),
+        execute: ({ caret }) => caret?.moveVertical(1) ?? false,
     },
     {
         symbol: '←',
@@ -676,8 +749,8 @@ const Commands: Command[] = [
         control: true,
         key: 'KeyA',
         keySymbol: 'A',
-        execute: ({ caret }) =>
-            caret?.withPosition(caret.getProgram()) ?? false,
+        execute: ({ editor, caret }) =>
+            editor && caret ? caret.withPosition(caret.getProgram()) : false,
     },
     {
         symbol: TRUE_SYMBOL,
@@ -877,7 +950,7 @@ const Commands: Command[] = [
                 for (let i = tokensPrior.length - 1; i >= 0; i--) {
                     if (tokensPrior[i].isSymbol(Sym.TableClose)) break;
                     else if (tokensPrior[i].isSymbol(Sym.TableOpen))
-                        return caret.insert(TABLE_CLOSE_SYMBOL);
+                        return caret.insert(TABLE_CLOSE_SYMBOL) ?? true;
                 }
 
             return caret.insert(TABLE_OPEN_SYMBOL) ?? false;
@@ -999,7 +1072,7 @@ const Commands: Command[] = [
                 ? false
                 : caret.isNode()
                 ? caret.enter()
-                : caret.insert('\n'),
+                : caret.insert('\n') ?? true,
     },
     {
         symbol: '⌫',
@@ -1012,7 +1085,8 @@ const Commands: Command[] = [
         control: false,
         alt: false,
         typing: true,
-        execute: ({ caret, project }) => caret?.backspace(project) ?? false,
+        execute: ({ caret, project, editor }) =>
+            editor && caret ? caret.backspace(project) ?? true : false,
     },
     {
         symbol: '✂️',
@@ -1032,7 +1106,7 @@ const Commands: Command[] = [
                     context.caret.source
                 )
             );
-            return context.caret.backspace(context.project);
+            return context.caret.backspace(context.project) ?? true;
         },
     },
     {
@@ -1047,11 +1121,13 @@ const Commands: Command[] = [
         keySymbol: 'C',
         execute: (context) => {
             if (!(context.caret?.position instanceof Node)) return false;
-            return copyNode(
-                context.caret.position,
-                context.caret.source.spaces.withPreferredSpace(
-                    context.caret.source
-                )
+            return (
+                copyNode(
+                    context.caret.position,
+                    context.caret.source.spaces.withPreferredSpace(
+                        context.caret.source
+                    )
+                ) ?? false
             );
         },
     },
@@ -1093,7 +1169,7 @@ const Commands: Command[] = [
         alt: undefined,
         key: '(',
         active: ({ caret }) => caret?.isNode() ?? false,
-        execute: ({ caret }) => caret?.wrap('('),
+        execute: ({ caret }) => caret?.wrap('(') ?? false,
     },
     {
         symbol: '[ ]',
@@ -1105,7 +1181,7 @@ const Commands: Command[] = [
         alt: false,
         key: '[',
         active: ({ caret }) => caret?.isNode() ?? false,
-        execute: ({ caret }) => caret?.wrap('['),
+        execute: ({ caret }) => caret?.wrap('[') ?? false,
     },
     IncrementLiteral,
     DecrementLiteral,
@@ -1138,7 +1214,7 @@ const Commands: Command[] = [
                             position + (tidySource.code.getLength() - length)
                         ),
                 ];
-            } else return;
+            } else return false;
         },
     },
 

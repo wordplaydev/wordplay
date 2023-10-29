@@ -1288,6 +1288,7 @@
         const [command, result] = handleKeyCommand(event, {
             caret: $caret,
             project,
+            editor: true,
             evaluator,
             dragging: $dragged !== undefined,
             database: DB,

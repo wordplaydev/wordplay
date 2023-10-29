@@ -781,7 +781,7 @@ export default class Evaluator {
                         this.stepTo(previousStepIndex);
                         this.stepWithinProgram();
                         this.broadcast();
-                        return;
+                        return true;
                     }
                 }
             }
@@ -792,6 +792,7 @@ export default class Evaluator {
         }
 
         this.broadcast();
+        return true;
     }
 
     /** Keep evaluating steps in this project until out of the current evaluation. */
@@ -983,7 +984,7 @@ export default class Evaluator {
         this.broadcast();
     }
 
-    stepToInput() {
+    stepToInput(): boolean {
         // Find the input after the current index.
         const change = this.reactions.find(
             (change) => change.stepIndex > this.getStepIndex()
@@ -1001,9 +1002,10 @@ export default class Evaluator {
 
         // Notify listeners that we reached the step.
         this.broadcast();
+        return true;
     }
 
-    stepBackToInput() {
+    stepBackToInput(): boolean {
         // Find the changed stream just before the current step index and step back to it.
         let latestChange;
         for (const change of this.reactions) {
@@ -1014,12 +1016,12 @@ export default class Evaluator {
         if (latestChange) {
             this.stepTo(latestChange.stepIndex);
             this.broadcast();
-            return true;
         }
         // Otherwise, step to beginning.
         else {
             this.stepTo(0);
         }
+        return true;
     }
 
     stepTo(stepIndex: StepNumber) {
