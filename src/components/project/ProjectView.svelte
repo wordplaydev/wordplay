@@ -1530,7 +1530,7 @@
             </div>
             <div
                 class="drag-container dragging"
-                style="left: {pointerX}px; top:{pointerY}px;"
+                style="left: {pointerX - 5}px; top:{pointerY - 5}px;"
                 bind:this={dragContainer}
             >
                 <RootView
@@ -1616,6 +1616,7 @@
         top: -1.5rem;
         left: -1.5rem;
         font-family: 'Noto Emoji';
+        z-index: 2;
     }
 
     .empty {
