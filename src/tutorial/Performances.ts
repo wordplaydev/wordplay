@@ -390,7 +390,7 @@ Group(
       size: 3m
       rotation: char.rotation
       place: char.place
-      color: Color(Volume() Volume() 0°)
+      color: Color(Volume().max(.25) 100 0°)
       moving:Pose()
       duration: 0.5s
     )
