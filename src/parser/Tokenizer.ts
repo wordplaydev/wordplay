@@ -145,16 +145,28 @@ function escapeRegexCharacter(c: string) {
     return /[\\/()[\]{}]/.test(c) ? '\\' + c : c;
 }
 
-const patterns = [
-    { pattern: LIST_OPEN_SYMBOL, types: [Sym.ListOpen] },
-    { pattern: LIST_CLOSE_SYMBOL, types: [Sym.ListClose] },
+type TokenPattern = {
+    pattern: string | RegExp;
+    types: Sym[];
+};
+
+const CodePattern = { pattern: CODE_SYMBOL, types: [Sym.Code] };
+const FormattedPattern = { pattern: FORMATTED_SYMBOL, types: [Sym.Formatted] };
+const DocPattern = { pattern: DOCS_SYMBOL, types: [Sym.Doc] };
+const ListOpenPattern = { pattern: LIST_OPEN_SYMBOL, types: [Sym.ListOpen] };
+const ListClosePattern = { pattern: LIST_CLOSE_SYMBOL, types: [Sym.ListClose] };
+
+/** Valid tokens inside of code. */
+const CodeTokenPatterns: TokenPattern[] = [
+    ListOpenPattern,
+    ListClosePattern,
     { pattern: SET_OPEN_SYMBOL, types: [Sym.SetOpen] },
     { pattern: SET_CLOSE_SYMBOL, types: [Sym.SetClose] },
     {
         pattern: COMMA_SYMBOL,
         types: [Sym.Separator],
     },
-    { pattern: LANGUAGE_SYMBOL, types: [Sym.Language, Sym.Italic] },
+    { pattern: LANGUAGE_SYMBOL, types: [Sym.Language] },
     { pattern: SELECT_SYMBOL, types: [Sym.Select] },
     { pattern: INSERT_SYMBOL, types: [Sym.Insert] },
     { pattern: DELETE_SYMBOL, types: [Sym.Delete] },
@@ -178,14 +190,6 @@ const patterns = [
     { pattern: TYPE_OPEN_SYMBOL, types: [Sym.TypeOpen] },
     { pattern: TYPE_CLOSE_SYMBOL, types: [Sym.TypeClose] },
     {
-        pattern: TAG_OPEN_SYMBOL,
-        types: [Sym.Operator, Sym.TagOpen],
-    },
-    {
-        pattern: TAG_CLOSE_SYMBOL,
-        types: [Sym.Operator, Sym.TagClose],
-    },
-    {
         pattern: STREAM_SYMBOL,
         types: [Sym.Stream, Sym.Etc],
     },
@@ -193,14 +197,13 @@ const patterns = [
         pattern: STREAM_SYMBOL2,
         types: [Sym.Stream, Sym.Etc],
     },
-    {
-        pattern: /^\$[a-zA-Z0-9?]+/,
-        types: [Sym.Mention],
-    },
     { pattern: INITIAL_SYMBOL, types: [Sym.Initial] },
     { pattern: CHANGE_SYMBOL, types: [Sym.Change] },
     { pattern: PREVIOUS_SYMBOL, types: [Sym.Previous] },
-    { pattern: PLACEHOLDER_SYMBOL, types: [Sym.Placeholder] },
+    {
+        pattern: PLACEHOLDER_SYMBOL,
+        types: [Sym.Placeholder, Sym.Underline, Sym.Operator],
+    },
     // Roman numerals
     {
         pattern: /^-?[ⅠⅡⅢⅣⅤⅥⅦⅧⅨⅩⅪⅫⅬⅭⅮⅯ]+/,
@@ -249,7 +252,7 @@ const patterns = [
     { pattern: '『', types: [Sym.Text] },
     { pattern: '』', types: [Sym.Text] },
     // Match code open/close markers
-    { pattern: CODE_SYMBOL, types: [Sym.Code] },
+    CodePattern,
     // Finally, catch any leftover single open or close parentheses.
     { pattern: EVAL_OPEN_SYMBOL, types: [Sym.EvalOpen] },
     { pattern: EVAL_CLOSE_SYMBOL, types: [Sym.EvalClose] },
@@ -260,23 +263,6 @@ const patterns = [
         types: [Sym.BooleanType, Sym.Conditional],
     },
     { pattern: '¿', types: [Sym.BooleanType, Sym.Conditional] },
-    // Tokenize formatting symbols before binary ops
-    {
-        pattern: LIGHT_SYMBOL,
-        types: [Sym.Light, Sym.Operator],
-    },
-    {
-        pattern: UNDERSCORE_SYMBOL,
-        types: [Sym.Underline, Sym.Operator],
-    },
-    {
-        pattern: BOLD_SYMBOL,
-        types: [Sym.Bold, Sym.Operator],
-    },
-    {
-        pattern: EXTRA_SYMBOL,
-        types: [Sym.Extra, Sym.Operator],
-    },
     { pattern: '-', types: [Sym.Operator, Sym.Region] },
     { pattern: GLOBE1_SYMBOL, types: [Sym.Locale] },
     { pattern: GLOBE2_SYMBOL, types: [Sym.Locale] },
@@ -290,19 +276,59 @@ const patterns = [
     { pattern: OperatorRegEx, types: [Sym.Operator] },
     { pattern: FORMATTED_TYPE_SYMBOL, types: [Sym.FormattedType] },
     { pattern: '`...`', types: [Sym.FormattedType] },
-    { pattern: DOCS_SYMBOL, types: [Sym.Doc] },
+    DocPattern,
     // Must be after docs
-    { pattern: FORMATTED_SYMBOL, types: [Sym.Formatted] },
-    {
-        pattern: new RegExp(`^${ConceptRegEx}`),
-        types: [Sym.Concept],
-    },
-    { pattern: LINK_SYMBOL, types: [Sym.Link] },
+    FormattedPattern,
 
     // All other tokens are names, which are sequences of Unicode glyphs that are not one of the reserved symbols above or whitespace.
     {
         pattern: NameRegEx,
         types: [Sym.Name],
+    },
+];
+
+/** Valid tokens inside of markup. */
+const MarkupTokenPatterns = [
+    DocPattern,
+    FormattedPattern,
+    CodePattern,
+    {
+        pattern: new RegExp(`^${ConceptRegEx}`),
+        types: [Sym.Concept],
+    },
+    { pattern: LINK_SYMBOL, types: [Sym.Link] },
+    { pattern: LANGUAGE_SYMBOL, types: [Sym.Italic] },
+    {
+        pattern: LIGHT_SYMBOL,
+        types: [Sym.Light],
+    },
+    {
+        pattern: UNDERSCORE_SYMBOL,
+        types: [Sym.Underline],
+    },
+    {
+        pattern: BOLD_SYMBOL,
+        types: [Sym.Bold],
+    },
+    {
+        pattern: EXTRA_SYMBOL,
+        types: [Sym.Extra],
+    },
+    {
+        pattern: /^\$[a-zA-Z0-9?]+/,
+        types: [Sym.Mention],
+    },
+    {
+        pattern: TAG_OPEN_SYMBOL,
+        types: [Sym.TagOpen],
+    },
+    {
+        pattern: TAG_CLOSE_SYMBOL,
+        types: [Sym.TagClose],
+    },
+    {
+        pattern: OR_SYMBOL,
+        types: [Sym.Union],
     },
 ];
 
@@ -404,6 +430,7 @@ export function tokenize(source: string): TokenList {
 
         // Did the next token pull out some unexpected space? Override the space
         const nextToken = Array.isArray(stuff) ? stuff[0] : stuff;
+
         if (Array.isArray(stuff) && stuff[1] !== undefined) {
             const extraSpace = stuff[1];
             source = source.substring(extraSpace.length);
@@ -479,6 +506,8 @@ function getNextToken(
     // Any extra space we find a long the way, primarily if we end an unclosed text literal.
     let space: string | undefined = undefined;
 
+    let inMarkup = false;
+
     if (context.length > 0) {
         const container = context[0];
         // If we're in text, keep reading until the next code open, text close, end of line, or end of source,
@@ -523,6 +552,9 @@ function getNextToken(
             container.isSymbol(Sym.Doc) ||
             container.isSymbol(Sym.Formatted)
         ) {
+            // We're in markup. We'll save this for later if we don't find one of the below.
+            inMarkup = true;
+
             // Check URLs first, since the word regex will match URLs.
             const urlMatch = source.match(URLRegEx);
             if (urlMatch !== null) return new Token(urlMatch[0], Sym.URL);
@@ -536,6 +568,9 @@ function getNextToken(
             }
         }
     }
+
+    // Choose a set of patterns to tokenize.
+    const patterns = inMarkup ? MarkupTokenPatterns : CodeTokenPatterns;
 
     // See if one of the global token patterns matches.
     for (let i = 0; i < patterns.length; i++) {
