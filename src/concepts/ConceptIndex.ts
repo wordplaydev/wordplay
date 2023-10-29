@@ -154,9 +154,10 @@ export default class ConceptIndex {
                 ...projectStructures,
                 ...projectFunctions,
                 ...projectBinds,
+                // Inputs have higher priority than language constructs so Previous appears last.
+                ...streams,
                 ...constructs,
                 ...output,
-                ...streams,
             ],
             locales
         );
