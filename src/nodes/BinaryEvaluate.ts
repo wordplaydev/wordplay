@@ -379,7 +379,7 @@ export default class BinaryEvaluate extends Expression {
             const right = this.right.evaluateTypeGuards(
                 bind,
                 original,
-                left,
+                current,
                 context
             );
             return left.union(right, context);

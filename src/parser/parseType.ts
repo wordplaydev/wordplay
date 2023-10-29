@@ -58,7 +58,7 @@ export default function parseType(tokens: Tokens, isExpression = false): Type {
     if (!isExpression && tokens.nextIs(Sym.Convert))
         left = parseConversionType(left, tokens);
 
-    while (tokens.nextIs(Sym.Union)) {
+    while (tokens.nextIs(Sym.Union) && tokens.nextLacksPrecedingSpace()) {
         const or = tokens.read(Sym.Union);
         left = new UnionType(left, or, parseType(tokens));
     }
