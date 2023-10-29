@@ -334,6 +334,7 @@
                         autofocus={false}
                         showHelp={false}
                         warn={false}
+                        shareable={false}
                     /></div
                 >{:else}<PlayView
                     project={$projectStore ?? initialProject}

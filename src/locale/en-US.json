@@ -3737,7 +3737,7 @@
             "button": {
                 "showCollaborators": "show collaborators dialog",
                 "removeCollaborator": "remove collaborator",
-                "copy": "copy project as text",
+                "copy": "copy project to clipboard as text",
                 "addSource": "create a new $source",
                 "duplicate": "copy this project",
                 "revert": "revert to original code",

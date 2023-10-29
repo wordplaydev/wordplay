@@ -130,6 +130,8 @@
     export let overwritten = false;
     /** True if the moderation warnings should show */
     export let warn = true;
+    /** True if public dialog should show */
+    export let shareable = true;
 
     // Whether the project is in 'play' mode, dictated soley by a URL query parameter.
     let play = $page.url.searchParams.get(PROJECT_PARAM_PLAY) !== null;
@@ -1429,27 +1431,32 @@
                     {/await}
                 {/if}
             {:else}
-                <Dialog
-                    description={$locales.get((l) => l.ui.dialog.share)}
-                    button={{
-                        tip: $locales.get(
-                            (l) => l.ui.project.button.showCollaborators
-                        ),
-                        label: project.isPublic()
-                            ? (isFlagged(project.getFlags()) ? '‼️' : '🌐') +
-                              ' ' +
-                              $locales.get((l) => l.ui.dialog.share.mode.public)
-                                  .modes[1]
-                            : '🤫 ' +
-                              $locales.get((l) => l.ui.dialog.share).mode.public
-                                  .modes[0],
-                    }}
-                >
-                    <Collaborators {project} />
-                </Dialog>
+                {#if shareable}
+                    <Dialog
+                        description={$locales.get((l) => l.ui.dialog.share)}
+                        button={{
+                            tip: $locales.get(
+                                (l) => l.ui.project.button.showCollaborators
+                            ),
+                            label: project.isPublic()
+                                ? (isFlagged(project.getFlags())
+                                      ? '‼️'
+                                      : '🌐') +
+                                  ' ' +
+                                  $locales.get(
+                                      (l) => l.ui.dialog.share.mode.public
+                                  ).modes[1]
+                                : '🤫 ' +
+                                  $locales.get((l) => l.ui.dialog.share).mode
+                                      .public.modes[0],
+                        }}
+                    >
+                        <Collaborators {project} />
+                    </Dialog>
+                {/if}
                 <Button
                     tip={$locales.get((l) => l.ui.project.button.copy)}
-                    action={() => toClipboard(project.toWordplay())}>📚</Button
+                    action={() => toClipboard(project.toWordplay())}>📋</Button
                 >
             {/if}
 
