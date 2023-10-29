@@ -965,11 +965,11 @@
 
     function exceededDragThreshold(event: PointerEvent) {
         return (
-            dragPoint === undefined ||
+            dragPoint !== undefined &&
             Math.sqrt(
                 Math.pow(event.clientX - dragPoint.x, 2) +
                     Math.pow(event.clientY - dragPoint.y, 2)
-            ) >= 5
+            ) >= 0
         );
     }
 
@@ -1335,7 +1335,9 @@
         : 'stepping'}"
     class:readonly={!editable}
     class:focused
-    class:dragging={dragCandidate !== undefined || $dragged !== undefined}
+    class:dragging={dragCandidate !== undefined ||
+        $dragged !== undefined ||
+        dragPoint !== undefined}
     data-uiid="editor"
     role="application"
     aria-label={`${$locales.get((l) => l.ui.source.label)} ${$locales.getName(
@@ -1486,6 +1488,7 @@
 
     .editor.dragging {
         touch-action: none;
+        cursor: grabbing;
     }
 
     .keyboard-input {

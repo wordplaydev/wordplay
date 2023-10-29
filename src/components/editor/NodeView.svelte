@@ -115,6 +115,7 @@
 
         /** This allows us to style things up the the tree. */
         text-decoration: inherit;
+        cursor: grab;
     }
 
     .block {
@@ -128,7 +129,6 @@
         border-end-start-radius: 0;
         padding: calc(var(--wordplay-spacing) / 2);
         box-shadow: var(--color-shadow) 1px 1px 4px;
-        cursor: default;
     }
 
     :global(.editor:not(.dragging))
@@ -148,10 +148,6 @@
             var(--wordplay-highlight-color);
     }
 
-    .node-view.hovered {
-        cursor: pointer;
-    }
-
     /* When beginning dragged in an editor, hide the node view contents to create a sense of spatial integrity. */
     .dragged :global(.token-view) {
         opacity: 0.25;
@@ -160,6 +156,7 @@
     .dragged,
     .dragged :global(.node-view) {
         border: none;
+        cursor: grabbing;
     }
 
     .dragged :global(.node-view) {

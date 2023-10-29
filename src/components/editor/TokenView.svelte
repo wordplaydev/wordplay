@@ -106,6 +106,10 @@
         cursor: text;
     }
 
+    :global(.dragging) .token-view.editable {
+        cursor: grabbing;
+    }
+
     .token-category-delimiter {
         color: var(--color-dark-grey);
     }

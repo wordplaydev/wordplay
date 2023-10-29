@@ -77,6 +77,7 @@
         border: none;
         outline: none;
         min-width: 4em;
+        cursor: text;
     }
 
     .measurer {

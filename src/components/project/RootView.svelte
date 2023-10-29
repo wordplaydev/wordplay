@@ -179,8 +179,6 @@
 
         /** This allows us to style things up the the tree. */
         text-decoration: inherit;
-        cursor: grab;
-        pointer-events: all;
     }
 
     :global(.dragging) .root {

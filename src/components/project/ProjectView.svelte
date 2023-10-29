@@ -1566,6 +1566,10 @@
         touch-action: none;
     }
 
+    .project.dragging > * {
+        cursor: grabbing !important;
+    }
+
     .project:focus:after {
         width: 100%;
         height: 100%;
