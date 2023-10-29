@@ -156,7 +156,7 @@
     .placeholder {
         font-family: var(--wordplay-app-font);
         font-style: italic;
-        font-size: small;
+        font-size: var(--wordplay-font-size);
         text-decoration: underline;
     }
 </style>
