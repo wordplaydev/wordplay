@@ -78,8 +78,8 @@
     }
 
     button.on {
-        background-color: var(--wordplay-foreground);
-        color: var(--wordplay-background);
+        background-color: var(--wordplay-alternating-color);
+        color: var(--wordplay-foreground);
         stroke: var(--wordplay-background);
         fill: var(--wordplay-background);
         box-shadow: inset 0px 1px var(--wordplay-chrome);
