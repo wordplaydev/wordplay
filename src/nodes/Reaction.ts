@@ -136,7 +136,7 @@ export default class Reaction extends Expression {
     }
 
     getPurpose() {
-        return Purpose.Decide;
+        return Purpose.Input;
     }
 
     getAffiliatedType(): BasisTypeName | undefined {
