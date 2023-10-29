@@ -50,6 +50,12 @@
         flex-wrap: wrap;
         gap: calc(2 * var(--wordplay-spacing));
         align-items: baseline;
+        border-top: var(--wordplay-border-color) dotted
+            var(--wordplay-border-width);
+        border-bottom: var(--wordplay-border-color) dotted
+            var(--wordplay-border-width);
+        padding-top: var(--wordplay-spacing);
+        padding-bottom: var(--wordplay-spacing);
     }
 
     .expander {
