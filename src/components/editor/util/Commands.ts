@@ -32,6 +32,7 @@ import type Locale from '@locale/Locale';
 import { TileKind } from '../../project/Tile';
 import Sym from '../../../nodes/Sym';
 import type Project from '../../../models/Project';
+import interpret from './interpret';
 
 export type Command = {
     /** The iconographic text symbol to use */
@@ -1043,7 +1044,7 @@ const Commands: Command[] = [
                     if (type === 'text/plain') {
                         const blob = await item.getType(type);
                         const text = await blob.text();
-                        return caret.insert(text);
+                        return caret.insert(interpret(text));
                     }
                 }
             }

@@ -31,10 +31,10 @@ export default class Row extends Node {
         this.computeChildren();
     }
 
-    static make() {
+    static make(cells: Expression[] = []) {
         return new Row(
             new Token(TABLE_OPEN_SYMBOL, Sym.TableOpen),
-            [],
+            cells,
             new Token(TABLE_CLOSE_SYMBOL, Sym.TableClose)
         );
     }
