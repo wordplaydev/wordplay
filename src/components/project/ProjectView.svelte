@@ -741,7 +741,7 @@
         const direction = $locales.getDirection();
         /** After each update, measure an outline of the node view in the drag container. */
         const nodeView = dragContainer?.querySelector('.node-view');
-        if (nodeView instanceof HTMLElement && $blocks === false)
+        if (nodeView instanceof HTMLElement)
             outline = {
                 types: ['dragging'],
                 outline: getOutlineOf(
@@ -1197,7 +1197,7 @@
     <Moderation {project} />
 {/if}
 <!-- Render the app header and the current project, if there is one. -->
-<main class="project" bind:this={view}>
+<main class="project" class:dragging={$dragged !== undefined} bind:this={view}>
     <div
         class="canvas"
         class:free={$arrangement === Arrangement.Free}
@@ -1523,7 +1523,10 @@
         {#if $dragged !== undefined}
             <!-- Render the highlight underneath the code -->
             <div class="drag-outline">
-                {#if outline}<Highlight {...outline} above={false} />{/if}
+                {#if outline && !$blocks}<Highlight
+                        {...outline}
+                        above={false}
+                    />{/if}
             </div>
             <div
                 class="drag-container dragging"
@@ -1597,11 +1600,11 @@
 
     .drag-outline {
         z-index: 2;
+        pointer-events: none;
     }
 
     .drag-container {
         position: absolute;
-        cursor: none;
         pointer-events: none;
         z-index: 2;
     }
@@ -1613,7 +1616,6 @@
         top: -1.5rem;
         left: -1.5rem;
         font-family: 'Noto Emoji';
-        pointer-events: none;
     }
 
     .empty {
