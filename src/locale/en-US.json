@@ -1142,7 +1142,7 @@
             "doc": "I represent any any possible type. Sometimes I show up because I don't know what kind of value something is, so it could be anything."
         },
         "BooleanType": {
-            "name": "boolean",
+            "name": "boolean type",
             "emotion": "kind",
             "doc": [
                 "I work with @Bind to declare that a name is a @Boolean value. Like this:",
@@ -1151,7 +1151,7 @@
             ]
         },
         "ConversionType": {
-            "name": "conversion",
+            "name": "conversion type",
             "emotion": "serious",
             "doc": [
                 "I work with @Bind to indicate that a name is a @ConversionDefinition. You probably don't need to use me, because not a lot of people pass me around as a value, but if you did, I would look like this:",
@@ -1159,7 +1159,7 @@
             ]
         },
         "FormattedType": {
-            "name": "formatted",
+            "name": "formatted type",
             "emotion": "serious",
             "doc": [
                 "I work with @Bind to note that a name is a @FormattedLiteral value. Like this:",
@@ -1168,7 +1168,7 @@
             ]
         },
         "ExceptionType": {
-            "name": "exception",
+            "name": "exception type",
             "emotion": "neutral",
             "doc": "I represent an exception. There's no way to tell bind that I am one, because exceptions only ever halt @Program, so you can't use them as values."
         },
