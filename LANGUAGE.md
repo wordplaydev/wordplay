@@ -613,7 +613,7 @@ To avoid confusion, the language warns when multiple distinct operators are bein
 1 + ((2 · 3) ÷ 4)
 ```
 
-Because binary evaluations are just syntactic sugar on regular evaluation, it's important to note that the left side of a binary evaluate is always the value on which the operator name is searched for a function definition.
+While binary evaluations are mostly just syntactic sugar on regular evaluation, there is one exception: Boolean `&` and `|` ooperators are short circuited, meaning they do not evaluate the right expression if the left is true in the case of `&` or false in the case of `|`. These two special cases act more like conditional shorthands.
 
 ### _conflicts_
 

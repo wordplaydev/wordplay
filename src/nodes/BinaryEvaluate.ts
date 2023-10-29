@@ -48,6 +48,8 @@ import TextType from './TextType';
 import NoneLiteral from './NoneLiteral';
 import NoneType from './NoneType';
 import NumberLiteral from './NumberLiteral';
+import JumpIf from '../runtime/JumpIf';
+import BooleanType from './BooleanType';
 
 export default class BinaryEvaluate extends Expression {
     readonly left: Expression;
@@ -251,36 +253,45 @@ export default class BinaryEvaluate extends Expression {
         ];
     }
 
+    isLogicalOperator(context: Context) {
+        return (
+            this.left.getType(context) instanceof BooleanType &&
+            (this.fun.name.getText() === AND_SYMBOL ||
+                this.fun.name.getText() === OR_SYMBOL)
+        );
+    }
+
     compile(evaluator: Evaluator, context: Context): Step[] {
         const left = this.left.compile(evaluator, context);
         const right = this.right.compile(evaluator, context);
 
-        // NOTE: We removed short circuting because Reactions need to evaluate all conditionns to
-        // get stream dependencies.
         // Logical and is short circuited: if the left is false, we do not evaluate the right.
-        // if (this.operator.getText() === AND_SYMBOL) {
-        //     return [
-        //         new Start(this),
-        //         ...left,
-        //         // Jump past the right's instructions if false and just push a false on the stack.
-        //         new JumpIf(right.length + 1, true, false, this),
-        //         ...right,
-        //         new StartEvaluation(this),
-        //         new Finish(this),
-        //     ];
-        // }
-        // Logical OR is short circuited: if the left is true, we do not evaluate the right.
-        // else if (this.operator.getText() === OR_SYMBOL) {
-        //     return [
-        //         new Start(this),
-        //         ...left,
-        //         // Jump past the right's instructions if true and just push a true on the stack.
-        //         new JumpIf(right.length + 1, true, true, this),
-        //         ...right,
-        //         new StartEvaluation(this),
-        //         new Finish(this),
-        //     ];
-        // } else {
+        if (this.isLogicalOperator(context)) {
+            if (this.fun.name.getText() === AND_SYMBOL) {
+                return [
+                    new Start(this),
+                    ...left,
+                    // Jump past the right's instructions if false and just push a false on the stack.
+                    new JumpIf(right.length + 1, true, false, this),
+                    ...right,
+                    new StartEvaluation(this),
+                    new Finish(this),
+                ];
+            }
+            // Logical OR is short circuited: if the left is true, we do not evaluate the right.
+            else if (this.fun.name.getText() === OR_SYMBOL) {
+                return [
+                    new Start(this),
+                    ...left,
+                    // Jump past the right's instructions if true and just push a true on the stack.
+                    new JumpIf(right.length + 1, true, true, this),
+                    ...right,
+                    new StartEvaluation(this),
+                    new Finish(this),
+                ];
+            }
+        }
+
         return [
             new Start(this),
             ...left,
@@ -288,7 +299,6 @@ export default class BinaryEvaluate extends Expression {
             new StartEvaluation(this),
             new Finish(this),
         ];
-        // }
     }
 
     startEvaluation(evaluator: Evaluator) {
