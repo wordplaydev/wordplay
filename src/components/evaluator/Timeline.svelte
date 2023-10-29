@@ -120,7 +120,6 @@
             .elementFromPoint(event.clientX, timeline.offsetTop)
             ?.closest('.event');
         if (view instanceof HTMLElement) {
-            console.log(view);
             // Is this a stream input? Get it's index and step to it.
             if (view.dataset.inputindex !== undefined) {
                 const index = parseInt(view.dataset.inputindex);
@@ -143,7 +142,6 @@
                 const end = parseInt(view.dataset.endindex);
                 const percent =
                     (event.offsetX - view.offsetLeft) / view.offsetWidth;
-                console.log(event.offsetX, timeline.offsetWidth, percent);
                 const step = Math.min(
                     end,
                     Math.max(0, Math.round(percent * (end - start) + start))
