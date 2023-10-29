@@ -182,8 +182,6 @@ export default class Tokens {
     /** Used to read the remainder of a line, and at least one token, unless there are no more tokens. */
     readLine() {
         const nodes: Node[] = [];
-        // Stop reading if we hit the end of a code exmaple.
-        if (this.nextIs(Sym.Code)) return nodes;
 
         if (!this.hasNext()) return nodes;
         // Read at least one token, then keep going until we reach a token with a line break.
