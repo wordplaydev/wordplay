@@ -2547,7 +2547,7 @@
                             "excited",
                             "Using a @Button stream is one way to advance through stages of a performance, or to trigger some change in a performance. This little program lists to button presses, and starts off showing sad, but when the @Button stream changes to true, @Conditional evaluates to \\'happy'\\ instead."
                         ],
-                        ["edit", "Phrase(Button(⊥) ? 'sad' 'happy')"]
+                        ["edit", "Phrase(Button(ø) ? 'sad' 'happy')"]
                     ]
                 },
                 {
