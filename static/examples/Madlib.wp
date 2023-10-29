@@ -1,0 +1,55 @@
+Madlib
+=== start
+``This keeps track of the kinds of words we need, and their counts``
+•PartOfSpeech(label•"" count•#)
+
+``These are the words we need for the madlib below.``
+turns: [
+		PartOfSpeech('adjectives' 4)
+		PartOfSpeech('nouns' 3)
+		PartOfSpeech('verbs, past tense' 3)
+		PartOfSpeech('adverbs' 4)
+	]
+
+chat: Chat()
+``Every time a chat is submitted, step to the next part of speech``
+turn: 1 … ∆ chat … turn + 1
+``Every time a chat is submitted, split the chat by spaces and add to the responses``
+responses•[['']]: [] … ∆ chat … [:responses chat ÷ ' ']
+
+``We give these indices numbers to make the madlib easier to read``
+adjectives: 1
+nouns: 2
+adverbs: 4
+verbs: 3
+
+ask: responses.length() < 4
+
+Stage([
+		``Before we have the responses, ask for responses``
+		ask ? 
+			Group(Stack(0 0.25m) [
+					Phrase(`\turns[turn].count\ \turns[turn].label\ please!`)
+					Phrase('(separated by spaces)' 0.5m)
+				])
+			``After we have the responses, show the madlib``
+			(
+				``Make a list of sentences with the responses``
+				sentences: [
+						`Today I went to the zoo.`
+						`I saw a(n) *\responses[nouns][1]\* *\responses[adverbs][1]\* jumping up and down in its tree.`
+						`He *\responses[verbs][1]\* *\responses[adverbs][2]\* through the large tunnel that led to its *\responses[adjectives][2]\* *\responses[nouns][2]\*.`
+						`I got some peanuts and passed them through the cage to a gigantic gray *\responses[nouns][3]\* towering above my head.`
+						`Feeding that animal made me hungry.`
+						`I went to get a *\responses[adjectives][3]\* scoop of ice cream.`
+						`It filled my stomach.`
+						`Afterwards I *\responses[verbs][2]\* *\responses[adverbs][2]\* to catch our bus.`
+						`When I got home I *\responses[verbs][3]\* my mom for a *\responses[adjectives][4]\* day at the zoo.`
+					]
+				``Translate them into phrases``
+				Group(Stack(-1) sentences.translate(ƒ (sentence) Phrase(sentence)))
+			)
+	] 
+	face : 'Phudu' 
+	``Move the camera back so the madlib fits``
+	place: Place(0m 0m ask ? -5m -25m))
