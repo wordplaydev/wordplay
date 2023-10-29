@@ -2813,7 +2813,10 @@
                     "title": "Say what?",
                     "subtitle": "Webpage",
                     "concept": "Webpage",
-                    "performance": ["fix", "Webpage('https://wordplay.dev')"],
+                    "performance": [
+                        "fix",
+                        "Webpage('https://www.nytimes.com')"
+                    ],
                     "lines": [
                         ["edit", "Phrase('🛜')"],
                         [
@@ -2823,29 +2826,29 @@
                             "Well we thought it would be really cool to bring words from the internet /here/, so you can play with them."
                         ],
                         null,
-                        ["edit", "Webpage('https://wordplay.dev')"],
+                        ["edit", "Webpage('https://www.nytimes.com')"],
                         [
                             "FunctionDefinition",
                             "kind",
                             "Here's how it works: you just give what I think is called a 'URL' to us, and if its an HTML page, we'll pull all the phrases out of it and give it you you in a @List.",
-                            "Like here, these are the phrases on the site you visited to get here."
+                            "Like here, these are some news phrases."
                         ],
                         null,
-                        ["edit", "Webpage('https://wordplay.dev' 'a')"],
+                        ["edit", "Webpage('https://www.nytimes.com' 'h2')"],
                         [
                             "FunctionDefinition",
                             "kind",
-                            "You can also filter the words with something I think you call a 'CSS' query? Like we heard that 'a' means 'anchor tag', so here are all the phrases in anchor tags on the page."
+                            "You can also filter the words with something I think you call a 'CSS' query? Like we heard that 'h3' means 'level 3 header', so here are all the phrases in headers on the page."
                         ],
                         null,
                         [
                             "edit",
-                            "words: Webpage('https://wordplay.dev' 'a')\nwords•[''] ? Group(Stack() words.translate(ƒ(word) Phrase(word resting: Sequence(spin())))) ø"
+                            "words: Webpage('https://www.nytimes.com' 'h2')\n\nwords•[''] ? Group(Stack() words.subsequence(1 5).translate(ƒ(word) Phrase(word resting: Sequence(spin() 1s)))) ø"
                         ],
                         [
                             "FunctionDefinition",
                             "kind",
-                            "Once you have a list of words, you can do anything with them!"
+                            "Once you have a list of words, you can do anything with them! Like grab the first five and turn them into spinning phrases, of course."
                         ]
                     ]
                 },
