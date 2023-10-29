@@ -278,7 +278,7 @@ Numbers are only equal to other numbers that have identical decimal values and e
 > TRANSLATION → textopen text textclose LANGUAGE  
 > LANGUAGE → language name
 
-Text values, unlike in other programming languages, are not a single sequence of Unicode code points. Rather, they are unique in two ways:
+Text values, unlike in other programming languages, are not a single sequence of Unicode code points. Rather, they are unique in a few ways:
 
 -   They are interpreted as a sequence of graphemes, using a grapheme segmentation algorithm. That means that emojis comprised of multiple Unicode code points are treated as a single symbol when indexing text.
 -   They can be language tagged, indicating what language and optional region they are written in
@@ -303,6 +303,15 @@ It's possible to check whether an environment has a particular locale selected w
 ```
 
 This will return `⊤` if the locale is in the preferred list, and, `⊥` otherwise.
+
+Text can also be templates, with aribtrary expressions that are automatically converted to text:
+
+```
+'hi number \8 + 8\'
+'what will you be? \choose(name)\'en
+```
+
+These are similar to string templates in other languages, just with a slightly simpler syntax.
 
 #### _evaluation_
 
