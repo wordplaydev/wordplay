@@ -998,6 +998,9 @@
         transition: ease-in-out background-color, filter, ease-in,
             height ease-in;
         transition-duration: calc(var(--animation-factor) * 200ms);
+
+        /** Query the container size */
+        container-type: inline-size;
     }
 
     .value.typing {
@@ -1019,11 +1022,12 @@
         max-height: 100%;
         width: 100%;
         padding: var(--wordplay-spacing);
-        font-size: 24pt;
         transform-origin: center;
         align-items: center;
         margin: auto;
         overflow: auto;
+        font-size: 5cqw;
+        padding-block-start: 2em;
     }
 
     .message.mini {

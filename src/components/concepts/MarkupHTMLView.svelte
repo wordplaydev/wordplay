@@ -95,7 +95,7 @@
 
     p {
         margin-inline-start: 0;
-        line-height: 1.5;
+        line-height: 1.4;
     }
 
     p:last-of-type {
