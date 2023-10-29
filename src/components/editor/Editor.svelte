@@ -969,7 +969,7 @@
             Math.sqrt(
                 Math.pow(event.clientX - dragPoint.x, 2) +
                     Math.pow(event.clientY - dragPoint.y, 2)
-            ) >= 0
+            ) >= 5
         );
     }
 
