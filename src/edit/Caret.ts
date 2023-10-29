@@ -515,6 +515,8 @@ export default class Caret {
                 this.position - 1,
                 false
             );
+
+            // If we found a token and we're moving next and we're at the token's start, choose the token or its parent if it's an only child or a child of a placeholder
             if (
                 token &&
                 direction > 0 &&
@@ -525,6 +527,7 @@ export default class Caret {
                     this.column,
                     entry
                 );
+            // If we found a token before and we're moving before and we're at the token's end, choose the token or its parent if it's an only child or a child of a placeholder
             else if (
                 tokenBefore &&
                 direction < 0 &&
@@ -912,13 +915,6 @@ export default class Caret {
 
     isPlaceholderNode() {
         return this.position instanceof Node && this.position.isPlaceholder();
-    }
-
-    isPlaceholderToken() {
-        return (
-            this.position instanceof Token &&
-            this.position.isSymbol(Sym.Placeholder)
-        );
     }
 
     /** If the caret is a node, set the position to its first index */

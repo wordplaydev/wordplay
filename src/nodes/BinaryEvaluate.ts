@@ -82,6 +82,7 @@ export default class BinaryEvaluate extends Expression {
                     _: Node,
                     context: Context
                 ): Template => this.left.getType(context).getLabel(locales),
+                getType: (context) => this.left.getType(context),
             },
             {
                 name: 'fun',
