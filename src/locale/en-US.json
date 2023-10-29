@@ -3867,6 +3867,8 @@
                 "insertPrevious": "insert previous symbol",
                 "insertTable": "insert table open symbol",
                 "insertTableClose": "insert table close symbol",
+                "insertBorrow": "insert borrow",
+                "insertShare": "insert share",
                 "insertLine": "insert line break",
                 "backspace": "delete selection or prior character",
                 "cut": "cut selection",

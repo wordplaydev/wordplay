@@ -9636,6 +9636,10 @@
                       "description": "Increment the literal at the cursor",
                       "type": "string"
                     },
+                    "insertBorrow": {
+                      "description": "Insert borrow symbol",
+                      "type": "string"
+                    },
                     "insertConvert": {
                       "description": "Insert → symbol",
                       "type": "string"
@@ -9682,6 +9686,10 @@
                     },
                     "insertQuotient": {
                       "description": "Insert ÷ symbol",
+                      "type": "string"
+                    },
+                    "insertShare": {
+                      "description": "Insert share symbol",
                       "type": "string"
                     },
                     "insertStream": {
@@ -9807,6 +9815,8 @@
                     "insertConvert",
                     "insertTable",
                     "insertTableClose",
+                    "insertBorrow",
+                    "insertShare",
                     "insertLine",
                     "backspace",
                     "copy",

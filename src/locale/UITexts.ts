@@ -252,6 +252,10 @@ type UITexts = {
             insertTable: string;
             /** Insert table close symbol */
             insertTableClose: string;
+            /** Insert borrow symbol */
+            insertBorrow: string;
+            /** Insert share symbol */
+            insertShare: string;
             /** Insert new line */
             insertLine: string;
             /** Delete previous symbol */

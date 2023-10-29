@@ -19,6 +19,8 @@ import {
     TABLE_OPEN_SYMBOL,
     TABLE_CLOSE_SYMBOL,
     EDIT_SYMBOL,
+    BORROW_SYMBOL,
+    SHARE_SYMBOL,
 } from '@parser/Symbols';
 
 import Source from '@nodes/Source';
@@ -894,6 +896,36 @@ const Commands: Command[] = [
         execute: ({ caret }) => {
             if (caret === undefined) return false;
             return caret.insert(TABLE_CLOSE_SYMBOL) ?? false;
+        },
+    },
+    {
+        symbol: BORROW_SYMBOL,
+        description: (l) => l.ui.source.cursor.insertBorrow,
+        visible: Visibility.Visible,
+        category: Category.Insert,
+        alt: true,
+        shift: false,
+        control: true,
+        key: 'ArrowDown',
+        keySymbol: '↓',
+        execute: ({ caret }) => {
+            if (caret === undefined) return false;
+            return caret.insert(BORROW_SYMBOL) ?? false;
+        },
+    },
+    {
+        symbol: SHARE_SYMBOL,
+        description: (l) => l.ui.source.cursor.insertShare,
+        visible: Visibility.Visible,
+        category: Category.Insert,
+        alt: true,
+        shift: false,
+        control: true,
+        key: 'ArrowUp',
+        keySymbol: '↑',
+        execute: ({ caret }) => {
+            if (caret === undefined) return false;
+            return caret.insert(SHARE_SYMBOL) ?? false;
         },
     },
 

@@ -2209,6 +2209,8 @@
                 "insertType": "$?",
                 "insertTable": "$?",
                 "insertTableClose": "$?",
+                "insertBorrow": "$?",
+                "insertShare": "$?",
                 "insertLine": "$?",
                 "backspace": "$?",
                 "cut": "$?",
