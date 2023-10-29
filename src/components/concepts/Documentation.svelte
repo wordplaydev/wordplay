@@ -374,7 +374,6 @@
     }
 
     .result {
-        font-style: italic;
         margin-top: var(--wordplay-spacing);
     }
 
