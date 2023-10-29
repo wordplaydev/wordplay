@@ -75,7 +75,8 @@
         // If we have a concept and the last concept isn't it, navigate
         if (concept) {
             // Already at this concept? Make a new path anyway to ensure that tile is shown if collapsed.
-            if ($path[$path.length - 1] !== concept)
+            const alreadyHere = $path.at(-1) === concept;
+            if (alreadyHere)
                 path.set([...$path.slice(0, $path.length - 1), concept]);
             // If the concept before the last is the concept, just go back
             else if ($path.length >= 2 && $path[$path.length - 2] === concept)
