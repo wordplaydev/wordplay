@@ -131,12 +131,11 @@ export default class FunctionDefinition extends DefinitionExpression {
         structureType: Expression | Type | undefined
     ) {
         const possibleStructure = context.getRoot(this)?.getParent(this);
-        const structure =
-            structureType instanceof Expression
-                ? structureType
-                : possibleStructure instanceof StructureDefinition
-                ? possibleStructure
-                : undefined;
+        const structure = structureType
+            ? structureType
+            : possibleStructure instanceof StructureDefinition
+            ? possibleStructure
+            : undefined;
         const reference = Reference.make(
             typeof nameOrLocales === 'string'
                 ? nameOrLocales
