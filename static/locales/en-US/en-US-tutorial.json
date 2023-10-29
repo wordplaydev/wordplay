@@ -4845,9 +4845,9 @@
                             "Maybe this stores the plane's height?``",
                             "•Plane()",
                             "``We need some kind of reaction to listen to the microphone…``",
-                            "sound: _",
+                            "sound: 1m",
                             "``We know there's a plane, but what else?``",
-                            "Phrase(“✈️”)"
+                            "Phrase(“✈️” sound)"
                         ],
                         null,
                         ["use", "fit", "Symbol", "✈️🫦"],
