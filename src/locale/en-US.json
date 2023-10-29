@@ -1137,12 +1137,12 @@
             }
         },
         "AnyType": {
-            "name": "any type",
+            "name": "any",
             "emotion": "curious",
             "doc": "I represent any any possible type. Sometimes I show up because I don't know what kind of value something is, so it could be anything."
         },
         "BooleanType": {
-            "name": "boolean type",
+            "name": "boolean",
             "emotion": "kind",
             "doc": [
                 "I work with @Bind to declare that a name is a @Boolean value. Like this:",
@@ -1151,7 +1151,7 @@
             ]
         },
         "ConversionType": {
-            "name": "conversion type",
+            "name": "conversion",
             "emotion": "serious",
             "doc": [
                 "I work with @Bind to indicate that a name is a @ConversionDefinition. You probably don't need to use me, because not a lot of people pass me around as a value, but if you did, I would look like this:",
@@ -1159,7 +1159,7 @@
             ]
         },
         "FormattedType": {
-            "name": "formatted type",
+            "name": "formatted",
             "emotion": "serious",
             "doc": [
                 "I work with @Bind to note that a name is a @FormattedLiteral value. Like this:",
@@ -1168,12 +1168,12 @@
             ]
         },
         "ExceptionType": {
-            "name": "exception type",
+            "name": "exception",
             "emotion": "neutral",
             "doc": "I represent an exception. There's no way to tell bind that I am one, because exceptions only ever halt @Program, so you can't use them as values."
         },
         "FunctionType": {
-            "name": "function type",
+            "name": "function",
             "description": "function with $1 inputs, $2 output",
             "emotion": "curious",
             "doc": [
@@ -1182,7 +1182,7 @@
             ]
         },
         "ListType": {
-            "name": "list type",
+            "name": "list",
             "description": "$1[list of $1|list]",
             "emotion": "cheerful",
             "doc": [
@@ -1191,7 +1191,7 @@
             ]
         },
         "MapType": {
-            "name": "map type",
+            "name": "map ",
             "description": "map from $1[$1|any] to $2[$2|any]",
             "emotion": "kind",
             "doc": [
@@ -1200,7 +1200,7 @@
             ]
         },
         "NumberType": {
-            "name": "number type",
+            "name": "number",
             "description": "$1[$1 | number]",
             "emotion": "precise",
             "doc": [
@@ -1209,7 +1209,7 @@
             ]
         },
         "NameType": {
-            "name": "name type",
+            "name": "structure",
             "description": "$1 type",
             "emotion": "curious",
             "doc": [
@@ -1221,12 +1221,12 @@
             }
         },
         "NeverType": {
-            "name": "never type",
+            "name": "never",
             "emotion": "curious",
             "doc": "I represent a type that is impossible. Like when you ask @Is if something is a @Number, but it can never be a number."
         },
         "NoneType": {
-            "name": "none type",
+            "name": "none",
             "emotion": "neutral",
             "doc": [
                 "@None is the best nothing there is, and I am their faithful representative.",
@@ -1234,8 +1234,8 @@
             ]
         },
         "SetType": {
-            "name": "set type",
-            "description": "$1[$1 set|set] type",
+            "name": "set",
+            "description": "$1[$1 set|set]",
             "emotion": "kind",
             "doc": [
                 "@Set is the BEST, like seriously. I'm telling @Bind all the time, make things a set of something!",
@@ -1243,12 +1243,12 @@
             ]
         },
         "StreamDefinitionType": {
-            "name": "stream definition type",
+            "name": "stream definition",
             "emotion": "angry",
             "doc": "I represent a stream you have defined, which isn't possible, so why are you even reading this?"
         },
         "StreamType": {
-            "name": "stream type",
+            "name": "stream",
             "emotion": "curious",
             "doc": [
                 "I celebrate the beauty and meaning of streams… by telling @Bind to store them:",
@@ -1256,19 +1256,19 @@
             ]
         },
         "StructureType": {
-            "name": "structure type",
+            "name": "structure",
             "description": "$1",
             "emotion": "kind",
             "doc": "I am an internal type to represent the type of default value types."
         },
         "UnknownType": {
-            "name": "unknown type",
+            "name": "unknown",
             "connector": ", because ",
             "emotion": "curious",
             "doc": "Umm... I don't know what I represent, but I really am curious. Do you know? It seems like we should know. You might need to tell us if we can't figure it out."
         },
         "TableType": {
-            "name": "table type",
+            "name": "table",
             "emotion": "angry",
             "doc": "I represent a Table.",
             "conflict": {
@@ -1276,7 +1276,7 @@
             }
         },
         "TextType": {
-            "name": "text type",
+            "name": "text",
             "description": "$1[$1|text]",
             "emotion": "happy",
             "doc": [
@@ -1285,12 +1285,12 @@
             ]
         },
         "TypePlaceholder": {
-            "name": "placeholder type",
+            "name": "placeholder",
             "emotion": "eager",
             "doc": "I hope to represent a type some day, kind of like my bestie @ExpressionPlaceholder represents an expression! Will you help me decide what kind?"
         },
         "UnionType": {
-            "name": "option type",
+            "name": "option",
             "description": "$1 | $2",
             "emotion": "curious",
             "doc": [
@@ -1309,7 +1309,7 @@
             ]
         },
         "UnparsableType": {
-            "name": "unparsable type",
+            "name": "unparsable",
             "emotion": "curious",
             "doc": "I represent the type of an unknown expression. I show up when you try to use that expression for something."
         },
@@ -1319,24 +1319,24 @@
             "doc": "Do you know @TypeVariable, and how they represent some unknown kind of value? I represent them in all negotiations between values."
         },
         "CycleType": {
-            "name": "cycle type",
+            "name": "cycle",
             "description": "depends on itself",
             "emotion": "curious",
             "doc": "Sometimes values depend on themselves, and so we don't know what kind of value they are. I represent that situation."
         },
         "UnknownVariableType": {
-            "name": "unknown variable type",
+            "name": "unknown variable",
             "emotion": "curious",
             "doc": "Sometimes we try to guess what kind of value something is; I show up when we don't know."
         },
         "NotAType": {
-            "name": "unexpected type",
+            "name": "unexpected",
             "description": "not a $1",
             "emotion": "curious",
             "doc": "Sometimes we know what kind of value something should be. Like @ListAccess needs a @Number. If we don't get it, I represent that something is a type other than what we expected."
         },
         "NoExpressionType": {
-            "name": "no expression type",
+            "name": "no expression",
             "emotion": "angry",
             "doc": "You know how @Block needs at least one expression? I'm what you get when you don't give one. So give one!"
         },
