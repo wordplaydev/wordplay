@@ -317,6 +317,10 @@
                     Purpose.Document
                 )}
             />
+            <ConceptsView
+                category={$locales.get((l) => l.term.source)}
+                concepts={$index.getPrimaryConceptsWithPurpose(Purpose.Source)}
+            />
         {/if}
     </div>
     {#key highlights}

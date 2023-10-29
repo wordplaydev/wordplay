@@ -30,7 +30,7 @@ export default class UnparsableExpression extends SimpleExpression {
     }
 
     getPurpose() {
-        return Purpose.Evaluate;
+        return Purpose.Source;
     }
 
     computeConflicts(): void | Conflict[] {

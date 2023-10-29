@@ -93,7 +93,7 @@ export default class SetOrMapAccess extends Expression {
     }
 
     getPurpose(): Purpose {
-        return Purpose.Value;
+        return Purpose.Evaluate;
     }
 
     getAffiliatedType(): BasisTypeName | undefined {

@@ -85,6 +85,7 @@ import Update from '../nodes/Update';
 import Delete from '../nodes/Delete';
 import Translation from '../nodes/Translation';
 import type Locales from '../locale/Locales';
+import Borrow from '../nodes/Borrow';
 
 /** These are ordered by appearance in the docs. */
 const templates: Node[] = [
@@ -104,6 +105,7 @@ const templates: Node[] = [
     ),
     new UnaryEvaluate(Reference.make('-'), ExpressionPlaceholder.make()),
     Block.make([ExpressionPlaceholder.make()]),
+    ExpressionPlaceholder.make(),
     Convert.make(ExpressionPlaceholder.make(), TypePlaceholder.make()),
     ConversionDefinition.make(
         undefined,
@@ -111,8 +113,14 @@ const templates: Node[] = [
         new TypePlaceholder(),
         ExpressionPlaceholder.make()
     ),
-    ExpressionPlaceholder.make(),
-    Convert.make(ExpressionPlaceholder.make(), TypePlaceholder.make()),
+    ListAccess.make(
+        ExpressionPlaceholder.make(ListType.make()),
+        ExpressionPlaceholder.make()
+    ),
+    SetOrMapAccess.make(
+        ExpressionPlaceholder.make(SetType.make()),
+        ExpressionPlaceholder.make()
+    ),
     Insert.make(ExpressionPlaceholder.make(TableType.make())),
     Select.make(
         ExpressionPlaceholder.make(TableType.make()),
@@ -130,6 +138,7 @@ const templates: Node[] = [
     // Project
     Program.make([ExpressionPlaceholder.make()]),
     new Source('?', '_'),
+    new Borrow(),
 
     // Decisions
     Conditional.make(
@@ -158,6 +167,8 @@ const templates: Node[] = [
         undefined,
         ExpressionPlaceholder.make()
     ),
+    Name.make('a'),
+    Names.make(['a', 'b']),
     Reference.make('_'),
     StructureDefinition.make(
         undefined,
@@ -178,8 +189,7 @@ const templates: Node[] = [
         ),
         ExpressionPlaceholder.make()
     ),
-    Name.make('a'),
-    Names.make(['a', 'b']),
+    This.make(),
 
     // Types
     BooleanType.make(),
@@ -202,25 +212,18 @@ const templates: Node[] = [
     TableType.make(),
 
     // Values
-    BooleanLiteral.make(true),
-    NumberLiteral.make(0),
+    KeyValue.make(ExpressionPlaceholder.make(), ExpressionPlaceholder.make()),
+    new FormattedLiteral([FormattedTranslation.make([])]),
     TextLiteral.make(''),
+    NumberLiteral.make(0),
+    BooleanLiteral.make(true),
     NoneLiteral.make(),
+    ListLiteral.make(),
+    SetLiteral.make(),
+    MapLiteral.make(),
+    TableLiteral.make(),
     Translation.make(),
     FormattedTranslation.make([]),
-    new FormattedLiteral([FormattedTranslation.make([])]),
-    ListAccess.make(
-        ExpressionPlaceholder.make(ListType.make()),
-        ExpressionPlaceholder.make()
-    ),
-    KeyValue.make(ExpressionPlaceholder.make(), ExpressionPlaceholder.make()),
-    SetOrMapAccess.make(
-        ExpressionPlaceholder.make(SetType.make()),
-        ExpressionPlaceholder.make()
-    ),
-    TableLiteral.make(),
-
-    This.make(),
 
     // Documentation
     Doc.make([new Paragraph([Words.make()])]),

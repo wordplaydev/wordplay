@@ -102,7 +102,7 @@ export default class Borrow extends SimpleExpression {
     }
 
     getPurpose() {
-        return Purpose.Project;
+        return Purpose.Source;
     }
 
     clone(replace?: Replacement) {

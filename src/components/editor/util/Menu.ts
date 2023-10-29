@@ -22,6 +22,7 @@ const PurposeRelevance: Record<Purpose, number> = {
     bind: 7,
     type: 8,
     document: 9,
+    source: 10,
 };
 
 /** An immutable container for menu state. */

@@ -455,7 +455,7 @@
             }
         },
         "BooleanLiteral": {
-            "name": "specific boolean",
+            "name": "boolean literal",
             "description": "$1[true|false]",
             "emotion": "precise",
             "doc": "I am either \\⊤\\ or \\⊥\\. See @Boolean to learn more about our beautiful logic.",
@@ -760,7 +760,7 @@
             "finish": "the item is $2!"
         },
         "ListLiteral": {
-            "name": "specific list",
+            "name": "list literal",
             "description": "$1 item list",
             "emotion": "eager",
             "doc": "I'm a specific @List of values! See @List to learn more about what you can do with me.",
@@ -791,7 +791,7 @@
             }
         },
         "NumberLiteral": {
-            "name": "specific number",
+            "name": "number literal",
             "description": "$1 $2[$2|]",
             "emotion": "excited",
             "doc": "I'm a specific @Number. You can write me with any kinds of digits from any kind of language. See @Number for everything I can do.",
@@ -807,7 +807,7 @@
             "start": "secret expression"
         },
         "NoneLiteral": {
-            "name": "just none",
+            "name": "none literal",
             "emotion": "neutral",
             "doc": "/@FunctionDefinition here. This is just @None. They are one of a kind! See @None to learn more about them.",
             "start": "… ø"
@@ -949,7 +949,7 @@
             }
         },
         "SetLiteral": {
-            "name": "specific set",
+            "name": "set literal",
             "description": "$1 items",
             "emotion": "eager",
             "doc": "I'm a specifc @Set of specific values. See @Set to learn more about how to work with me.",
@@ -1014,7 +1014,7 @@
             }
         },
         "TableLiteral": {
-            "name": "specific table",
+            "name": "table literal",
             "description": "$1 row table",
             "emotion": "angry",
             "doc": "I am a specific table with specific rows. See @Table about how I can help.",
@@ -1022,7 +1022,7 @@
             "finish": "evaluated to new table $1"
         },
         "TextLiteral": {
-            "name": "specific text",
+            "name": "text literal",
             "description": "text $1",
             "emotion": "serious",
             "doc": "I represent one or more specific @Translation of text. See @Text to learn more about what I can do!",
@@ -1035,14 +1035,14 @@
             "doc": "I represent some text, with a @Language tag. See @Text to learn more!"
         },
         "FormattedLiteral": {
-            "name": "formatted text",
+            "name": "formatted",
             "description": "text $1",
             "emotion": "serious",
             "doc": "I represent many different @FormattedTranslation of formatted text. When I evaluate, I'll pick the best match based on the audience's selected languages.",
             "start": "let's make text in the current locale"
         },
         "FormattedTranslation": {
-            "name": "formatted text",
+            "name": "formatted translation",
             "description": "text $1",
             "emotion": "serious",
             "doc": [
