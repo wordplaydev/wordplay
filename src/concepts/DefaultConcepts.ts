@@ -178,7 +178,7 @@ const templates: Node[] = [
         ),
         ExpressionPlaceholder.make()
     ),
-    Name.make('@'),
+    Name.make('a'),
     Names.make(['a', 'b']),
 
     // Types
