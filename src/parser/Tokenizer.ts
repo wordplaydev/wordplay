@@ -559,18 +559,13 @@ function getNextToken(
 
     // Otherwise, we fail and return an error token that contains all of the text until the next recognizable token.
     // This is a recursive call: it tries to tokenize the next character, skipping this one, going all the way to the
-    // end of the source if necessary, but stopping at the nearest recognizable token.
+    // end of the source if necessary, but stopping at the nearest recognizable token. Consume at least one symbol.
     const stuff = getNextToken(source.substring(1), context);
     const next = Array.isArray(stuff) ? stuff[0] : stuff;
-    return new Token(
-        source.substring(
-            0,
-            next.isSymbol(Sym.End)
-                ? source.length
-                : source.indexOf(next.getText())
-        ),
-        Sym.Unknown
-    );
+    const end = next.isSymbol(Sym.End)
+        ? source.length
+        : source.indexOf(next.getText());
+    return new Token(source.substring(0, Math.max(end, 1)), Sym.Unknown);
 }
 
 function getNextSpace(source: string) {
