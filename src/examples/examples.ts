@@ -122,6 +122,7 @@ export function getExampleGalleries(locales: Locales): Gallery[] {
                 'RotatingBinary',
                 'FontMachine',
                 'Pumpkin',
+                'Size',
             ]
         ),
         createGallery(
