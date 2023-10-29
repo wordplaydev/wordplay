@@ -292,6 +292,8 @@ const MarkupTokenPatterns = [
     DocPattern,
     FormattedPattern,
     CodePattern,
+    ListOpenPattern,
+    ListClosePattern,
     {
         pattern: new RegExp(`^${ConceptRegEx}`),
         types: [Sym.Concept],
