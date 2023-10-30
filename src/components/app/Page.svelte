@@ -6,12 +6,29 @@
     import Link from './Link.svelte';
     import { writable } from 'svelte/store';
     import { setContext } from 'svelte';
+    import Color from '../../output/Color';
 
     // Set a fullscreen flag to indicate whether footer should hide or not.
     // It's the responsibility of children componets to set this based on their state.
     // It's primarily ProjectView that does this.
-    let fullscreen = writable(false);
+    let fullscreen = writable<{
+        on: boolean;
+        background: Color | string | null;
+    }>({ on: false, background: null });
     setContext('fullscreen', fullscreen);
+
+    $: if ($fullscreen) {
+        document.body.style.background = $fullscreen.on
+            ? $fullscreen.background instanceof Color
+                ? $fullscreen.background.toCSS()
+                : $fullscreen.background ?? ''
+            : '';
+        document.body.style.color = $fullscreen.on
+            ? $fullscreen.background instanceof Color
+                ? $fullscreen.background.complement().toCSS()
+                : ''
+            : '';
+    }
 
     function handleKey(event: KeyboardEvent) {
         if (
@@ -30,7 +47,7 @@
     <main>
         <slot />
     </main>
-    <footer class:fullscreen={$fullscreen}>
+    <footer class:fullscreen={$fullscreen.on}>
         <Link tip={$locales.get((l) => l.ui.widget.home)} to="/">💬</Link>
         <Link to="/learn">{$locales.get((l) => l.ui.page.learn.header)}</Link>
         <Link to="/projects"
@@ -80,12 +97,12 @@
         border-radius: var(--wordplay-border-radius);
         border-top: var(--wordplay-border-color) solid
             var(--wordplay-border-width);
-        background: var(--wordplay-background);
         z-index: 1;
         gap: var(--wordplay-spacing);
     }
 
     .fullscreen:not(:hover) {
         opacity: 0.2;
+        border: none;
     }
 </style>

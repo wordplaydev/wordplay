@@ -288,6 +288,10 @@
         touch-action: none;
     }
 
+    .tile.fullscreen {
+        border: none !important;
+    }
+
     .tile.responsive,
     .tile.vertical {
         border-bottom: var(--wordplay-border-width) solid

@@ -179,9 +179,14 @@
     $: selectedSource = project.getSources()[selectedSourceIndex];
 
     /** The fullscreen context of the page that this is in. */
-    const pageFullscreen = getContext<Writable<boolean> | undefined>(
-        'fullscreen'
-    );
+    const pageFullscreen = getContext<
+        Writable<{ on: boolean; background: Color | string | null }> | undefined
+    >('fullscreen');
+
+    $: pageFullscreen?.set({
+        on: layout.isFullscreen(),
+        background: outputBackground,
+    });
 
     /** The conflicts present in the current project. **/
     const conflicts: ConflictsContext = writable([]);
@@ -885,8 +890,6 @@
         layout = tile
             ? layout.withFullscreen(tile.id)
             : layout.withoutFullscreen();
-
-        if (pageFullscreen) pageFullscreen.set(layout.isFullscreen());
     }
 
     async function positionTile(tile: Tile, position: Bounds) {
