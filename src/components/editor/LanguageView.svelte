@@ -2,14 +2,13 @@
 
 <script lang="ts">
     import type Language from '@nodes/Language';
-    import { getCaret } from '../project/Contexts';
+    import { getHidden } from '../project/Contexts';
     import NodeView from './NodeView.svelte';
 
     export let node: Language;
 
-    let caret = getCaret();
-    $: parent = $caret?.source.root.getParent(node);
-    $: show = $caret === undefined || (parent && $caret.isIn(parent, true));
+    let hidden = getHidden();
+    $: show = !$hidden?.has(node);
 </script>
 
 {#if show}<em

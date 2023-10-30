@@ -115,7 +115,7 @@ export function getCaret() {
     return getContext<CaretContext>(CaretSymbol);
 }
 
-type EditHandler = (
+export type EditHandler = (
     edit: Edit | ProjectRevision | undefined,
     idle: IdleKind,
     focus: boolean
@@ -134,9 +134,9 @@ export function getEditors() {
     return getContext<EditorsContext>(EditorsSymbol);
 }
 
-export type EditorContext = Writable<EditHandler>;
+export type EditorContext = Writable<EditorState>;
 export const EditorSymbol = Symbol('editor');
-export function getEditor() {
+export function getEditor(): EditorContext | undefined {
     return getContext<EditorContext>(EditorSymbol);
 }
 

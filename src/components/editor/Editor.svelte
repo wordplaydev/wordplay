@@ -39,6 +39,7 @@
         getConceptIndex,
         getEditors,
         getAnnounce,
+        type EditorState,
     } from '../project/Contexts';
     import {
         type Highlights,
@@ -184,10 +185,6 @@
     const menuNode = writable<CaretPosition | undefined>(undefined);
     setContext(MenuNodeSymbol, menuNode);
 
-    // A store of the handle edit function
-    const editHandler = writable<typeof handleEdit>(handleEdit);
-    setContext(EditorSymbol, editHandler);
-
     // When the menu node changes, show the menu.
     const unsubscribe = menuNode.subscribe((position) => {
         if (position !== undefined) {
@@ -246,14 +243,25 @@
 
     // Keep the project-level editors store in sync with this editor's state.
     $: if (editors) {
-        $editors.set(sourceID, {
+        const state = {
             caret: $caret,
             edit: handleEdit,
             focused,
             toggleMenu,
-        });
+        };
+        $editors.set(sourceID, state);
         editors.set($editors);
+        editHandler.set(state);
     }
+
+    // A store of the handle edit function
+    const editHandler = writable<EditorState>({
+        edit: handleEdit,
+        caret: $caret,
+        focused: false,
+        toggleMenu,
+    });
+    setContext(EditorSymbol, editHandler);
 
     // True if the last keyboard input was not handled by a command.
     let lastKeyDownIgnored = false;
