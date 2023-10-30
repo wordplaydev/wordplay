@@ -23,9 +23,9 @@ keeperObj/en,porteroObjeto/es: Phrase('🚶🏻‍♂️' 2m
 		name: 'keeper')
 
 Stage([
-		ballObj/en,bolaObjeto/es
-		footObj/en,pieObjeto/es
-		keeperObj/en,porteroObjeto/es
+		ballObj
+		footObj
+		keeperObj
 
 		Shape(Rectangle(-2m 0m 40m -1m))
 		Shape(Rectangle(-2m 8m -1m 0m))
