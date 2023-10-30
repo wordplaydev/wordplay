@@ -390,7 +390,7 @@ export const StepOut: Command = {
 };
 
 export const Play: Command = {
-    symbol: '▶️',
+    symbol: '▶',
     description: (l) => l.ui.timeline.button.play,
     visible: Visibility.Visible,
     category: Category.Evaluate,
@@ -1089,7 +1089,7 @@ const Commands: Command[] = [
             editor && caret ? caret.backspace(project) ?? true : false,
     },
     {
-        symbol: '✂️',
+        symbol: '✄',
         description: (l) => l.ui.source.cursor.cut,
         visible: Visibility.Visible,
         category: Category.Modify,
