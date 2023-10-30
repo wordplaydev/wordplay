@@ -306,7 +306,7 @@ function verifyLocale(locale: Locale, warnUnwritten: boolean) {
     if (outofdate.length > 0)
         bad(
             2,
-            `Locale has ${outofdate.length} potentially out of date strings ("$1"). Compare them against the English translation.`
+            `Locale has ${outofdate.length} potentially out of date strings ("$!"). Compare them against the English translation.`
         );
 }
 
