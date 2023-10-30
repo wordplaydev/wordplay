@@ -1822,8 +1822,8 @@
         "Type": {
             "names": "tipo",
             "doc": [
-                "Yo no soy un @StructureDefinition que puedes hacer. Pero soy una bien importante, que yo inspiro todos los elementos mas importantes de nuestro baile: @Phrase, @Group, y @Stage.",
-                "Ve a conocerlos para aprender mas de ellos y como usarlos."
+                "No soy un @StructureDefinition que realmente puedas creaer. Pero soy una bien importante, que yo inspiro todos los elementos más importantes de nuestro baile: @Phrase, @Group, y @Stage.",
+                "Ve a conocerlos para aprender más de ellos y cómo usarlos."
             ]
         },
         "Stage": {
@@ -1925,7 +1925,7 @@
         "Group": {
             "names": "Group",
             "doc": [
-                "¿Oh hola como estas? Yo siempre estoy bien cunado hay otros cerca, así que es maravilloso de verte!",
+                "Ah hola ¿como estas? Yo siempre estoy bien cunado hay otros cerca, ¡así que es maravilloso de verte!",
                 "Yo agrupo @Frase y @Grupo en el @Escenario y los pongo en un @Arreglo para que haya cierto orden en el lugar donde se colocan.",
                 "Para trabajar necesito que me des un @Arreglo y despues una @Lista de @Tipo para arreglar.",
                 "Por ejemplo, aqui estoy con una @Pila arreglo y unas @Frases para colocar verticalmente:",
@@ -1942,7 +1942,7 @@
                 "names": "layout"
             },
             "size": {
-                "doc": "Que tan alto debe ser el maravilloso contenido dentro de mí, a menos que ya tiene un su tamaño propio!",
+                "doc": "Qué tan alto debe ser el maravilloso contenido dentro de mí, a menos que ya tiene un su tamaño propio!",
                 "names": "tamaño"
             },
             "face": {
@@ -1970,7 +1970,7 @@
                 "names": "fondo"
             },
             "opacity": {
-                "doc": "Que tan transparent debe ser el contenido dentro de mí, entre \\0\\ y \\1\\, a menos que fuera anulado por una @Pose diferente.",
+                "doc": "Qué tan transparent debe ser el contenido dentro de mí, entre \\0\\ y \\1\\, a menos que fuera anulado por una @Pose diferente.",
                 "names": "opacidad"
             },
             "offset": {
@@ -1978,11 +1978,11 @@
                 "names": "compensar"
             },
             "rotation": {
-                "doc": "Que tan inclinado debería estar alrededor de mi centro, mi @Pose tiene uno diferente.",
+                "doc": "Qué tan inclinado debería estar alrededor de mi centro, mi @Pose tiene uno diferente.",
                 "names": "rotación"
             },
             "scale": {
-                "doc": "Que tan grande debería ser en relación con mi tamaño original.",
+                "doc": "Qué tan grande debería ser en relación con mi tamaño original.",
                 "names": "escala"
             },
             "flipx": {
@@ -1994,27 +1994,27 @@
                 "names": "volteary"
             },
             "entering": {
-                "doc": "¡Igual que @Grupo/entrando",
+                "doc": "¡Igual que @Grupo/entrando!",
                 "names": "entrando"
             },
             "resting": {
-                "doc": "¡Igual que @Grupo/descandando",
+                "doc": "¡Igual que @Grupo/descandando!",
                 "names": "descansando"
             },
             "moving": {
-                "doc": "¡Igual que @Grupo/moviendo",
+                "doc": "¡Igual que @Grupo/moviendo!",
                 "names": "moviendo"
             },
             "exiting": {
-                "doc": "¡Igual que @Grupo/saliendo",
+                "doc": "¡Igual que @Grupo/saliendo!",
                 "names": "saliendo"
             },
             "duration": {
-                "doc": "¡Igual que @Frase/duración",
+                "doc": "¡Igual que @Frase/duración!",
                 "names": "duración"
             },
             "style": {
-                "doc": "¡Igual queE @Frase/estilo",
+                "doc": "¡Igual queE @Frase/estilo!",
                 "names": "estilo"
             }
         },
@@ -2033,7 +2033,7 @@
                 "names": "texto"
             },
             "size": {
-                "doc": "Que tan alto debo ser en metros!",
+                "doc": "¡Qué tan alto debo ser en metros!",
                 "names": "tamaño"
             },
             "face": {
@@ -2054,7 +2054,7 @@
             },
             "name": {
                 "doc": [
-                    "Un nombre que me das! Esto es muy útil para muchas cosas.",
+                    "¡Un nombre que me das! Esto es muy útil para muchas cosas.",
                     "Primero, si tengo un nombre, yo lo usare para describirme en descripciones de lectoras de pantalla.",
                     "Segundo, cuando animas, puedes tener muchas expresiones que representan el mismo contenido en el escenario; darles el mismo nombre y ellos animarán como uno.",
                     "Finalmente, yo soy útil con @Elección: los nombres que me das aparecen en esa sequencia.",
@@ -2075,7 +2075,7 @@
                 "names": "fondo"
             },
             "opacity": {
-                "doc": "Que tan transparente deberia ser por defecto, entre \\0\\ and \\1\\, a menos que fuera anulado por una @Pose diferente.",
+                "doc": "Qué tan transparente deberia ser por defecto, entre \\0\\ and \\1\\, a menos que fuera anulado por una @Pose diferente.",
                 "names": "opacidad"
             },
             "offset": {
@@ -2087,7 +2087,7 @@
                 "names": "rotación"
             },
             "scale": {
-                "doc": "Que magnificado debo ser en relación a el tamaño original, a menos que fuera anulado por una @Pose diferente.",
+                "doc": "Qué magnificado debo ser en relación a el tamaño original, a menos que fuera anulado por una @Pose diferente.",
                 "names": "escala"
             },
             "flipx": {
@@ -2170,19 +2170,19 @@
                 "names": "relleno"
             },
             "cellWidth": {
-                "doc": "Que tan ancho son las celdas",
+                "doc": "Qué tan ancho son las celdas",
                 "names": "anchodecelda"
             },
             "cellHeight": {
-                "doc": "Que tan alto son las celdas",
+                "doc": "Qué tan alto son las celdas",
                 "names": "alturadecelda"
             }
         },
         "Free": {
             "names": "Suelto",
             "doc": [
-                "Soy como lo que sea. Sientate donde quieras. Simplemente sientate! Asegúrate que todos los @Tipo que me das tiene un @Lugar, si no no van a saber a donde ir.",
-                "Oh, y recuerda que el @Lugar que le das a cada @Tipo es relativo all @Grupo's @Lugar! Entonces, si te preguntas por qué las cosas no estan apareciendo donde deben, intenta darle al @Grupo un lugar tambien."
+                "Soy como lo que sea. Sientate donde quieras. ¡Simplemente sientate! Asegúrate que todos los @Tipo que me das tiene un @Lugar, si no no van a saber a donde ir.",
+                "Oh, ¡y recuerda que el @Lugar que le das a cada @Tipo es relativo all @Grupo's @Lugar! Entonces, si te preguntas por qué las cosas no estan apareciendo donde deben, intenta darle al @Grupo un lugar tambien."
             ],
             "description": "forma libre, $1 producción"
         },
@@ -2288,11 +2288,11 @@
         "Sequence": {
             "names": "Secuencia",
             "doc": [
-                "Director, te miras espectacular hoy! Quieres bailar? Es bien facil.",
+                "Director, ¡te miras espectacular hoy! Quieres bailar? Es bien facil.",
                 "Solamente necesitas darme una @Mapa donde cada llave representa que porcentaje hemos terminado en el baile, y cada valor de una llave es una @Pose.",
                 "¡Hay muchas formas diferentes de animar con esto! Por ejemplo, aquí tienes uno sencillo:",
                 "\\Frase('hola' descancado:Sequencia({0%: Pose(rotation: 360°) 100%: Pose(rotation: 0°)})\\",
-                "Esto dice, /al principio (0%), comienza en la inclinación 360 y termina en la inclinación 0/. ¡Eso nos hará girar en círculos para siempre, ya que estoy configurado como la pose de descanso de @Frase!",
+                "Esto dice, /al principio (0%), comienza en la inclinación 360 y termina en la inclinación 0/. ¡Eso nos hará girar en círculos para siempre, ¡ya que estoy configurado como la pose de descanso de @Frase!",
                 "Prueba tus propios bailes creativos jugando con otras entradas."
             ],
             "poses": {
@@ -2341,7 +2341,7 @@
                 "doc": "Creo una @Sequencia que rebota @Tipo a una altura determinada.",
                 "names": ["rebotar"],
                 "height": {
-                    "doc": "Que tan alto rebota",
+                    "doc": "Qué tan alto rebota",
                     "names": ["altura"]
                 }
             },
