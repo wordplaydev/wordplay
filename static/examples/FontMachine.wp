@@ -1,7 +1,7 @@
 Font Machine
 === start
 fonts: ["Arvo" "Modak" "Poor Story" "Tangerine" "Monoton" "Quicksand"]!
-symbols: 'typography' ÷ ''
+symbols: 'typography'/en'tipografía'/es ÷ ''
 
 ƒ randomize() 
     symbols.translate(
