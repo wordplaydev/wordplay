@@ -14,6 +14,7 @@
         handleKeyCommand,
         type Edit,
         type ProjectRevision,
+        InsertSymbol,
     } from './util/Commands';
     import type Source from '@nodes/Source';
     import { writable } from 'svelte/store';
@@ -1192,6 +1193,7 @@
     /** True if the last symbol was a dead key*/
     let keyWasDead = false;
     let replacePreviousWithNext = false;
+    let composing = false;
 
     function handleTextInput(event: Event) {
         setIgnored(false);
@@ -1250,7 +1252,7 @@
                 }
             }
             // Otherwise, just insert the grapheme and limit the input field to the last character.
-            else {
+            else if (!composing) {
                 const char = lastChar.toString();
 
                 // Insert the character that was added last.
@@ -1268,7 +1270,7 @@
         }
 
         // Prevent the OS from doing anything with this input.
-        event.preventDefault();
+        if (!composing) event.preventDefault();
 
         // Did we make an update?
         if (edit) handleEdit(edit, IdleKind.Typing, true);
@@ -1303,6 +1305,9 @@
             toggleMenu,
         });
 
+        // Don't insert symbols if composing.
+        if (composing && command === InsertSymbol) return;
+
         // If it produced a new caret and optionally a new project, update the stores.
         const idle =
             command?.typing === true ? IdleKind.Typing : IdleKind.Typed;
@@ -1321,6 +1326,25 @@
         // Give feedback that we didn't execute a command.
         else if (!/^(Shift|Control|Alt|Meta|Tab)$/.test(event.key))
             setIgnored(true);
+    }
+
+    function handleCompositionStart() {
+        composing = true;
+
+        // Backspace over the character just inserted
+        const edit = $caret.backspace(project);
+        if (edit) handleEdit(edit, IdleKind.Typing, false);
+    }
+
+    function handleCompositionEnd() {
+        composing = false;
+
+        if (input) {
+            // Insert the character that was added last.
+            const edit = $caret.insert(input.value, project, !keyWasDead);
+            if (edit) handleEdit(edit, IdleKind.Typing, true);
+            input.value = '';
+        }
     }
 
     function getInputID() {
@@ -1389,11 +1413,14 @@
         autocorrect="off"
         autocapitalize="none"
         class="keyboard-input"
+        class:composing
         style:left={caretLocation ? `${caretLocation.left}px` : null}
         style:top={caretLocation ? `${caretLocation.top}px` : null}
         bind:this={input}
         on:input={handleTextInput}
         on:keydown={handleKeyDown}
+        on:compositionstart={handleCompositionStart}
+        on:compositionend={handleCompositionEnd}
         on:focusin={() => (focused = true)}
         on:focusout={() => (focused = false)}
     />
@@ -1512,6 +1539,11 @@
         /* outline: 1px solid red;
         opacity: 1;
         width: 10px; */
+    }
+
+    .keyboard-input.composing {
+        opacity: 1;
+        width: auto;
     }
 
     .caret-description {
