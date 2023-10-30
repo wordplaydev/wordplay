@@ -2,7 +2,7 @@
     "$schema": "../../schemas/Locale.json",
     "language": "es",
     "region": "MX",
-    "wordplay": "Juego de Palabras",
+    "wordplay": "Wordplay",
     "newProject": "$?",
     "term": {
         "evaluate": "evaluar",
@@ -42,8 +42,8 @@
         "row": "fila",
         "set": "set",
         "key": "clave",
-        "help": "$?",
-        "feedback": "$?"
+        "help": "ayuda",
+        "feedback": "feedback"
     },
     "token": {
         "EvalOpen": "evaluación abierta",
@@ -132,819 +132,1236 @@
             ]
         },
         "Doc": {
-            "name": "documentación",
-            "emotion": "neutral",
-            "doc": "$?"
+            "name": "explicación",
+            "emotion": "serious",
+            "doc": [
+                "Formateo ricamente las cosas con @Markup, como explicaciones de algunos de tus @Programas, o incluso las palabras que pones en el escenario con @Phrase.",
+                "Por ejemplo, puedo ir antes de cualquier expresión:",
+                "\\``¿Se supone que esto realmente es 7?``\n7\\",
+                "Por ejemplo, puedes ponerme antes de @Bind:",
+                "\\``Mido la altura de alguien``\naltura: 5m\\",
+                "O antes de una @FunctionDefinition:",
+                "\\``Sumo dos números``\nƒ suma(a•# b•#) a + b\\",
+                "O antes de una @StructureDefinition:",
+                "\\``Recuerdo el nombre y la fruta favorita de las personas``\n•Persona(nombre•'' fruta•'')\\",
+                "También puedes ponerme al principio de @Programa para decir de qué trata toda la actuación",
+                "\\``Este programa saluda``\n\n'¡hola!'\\",
+                "Puedes darme un @Language para ayudar a otros a saber en qué idioma estoy escrito:",
+                "\\``Soy un documento en inglés``/en\nduración: 5s\\",
+                "¿Sabías que puedes hacer una lista de mí? Ve a hablar con @Docs."
+            ]
         },
         "Docs": {
-            "name": "lista de documentación",
-            "emotion": "neutral",
-            "doc": "$?",
-            "start": "$?"
+            "name": "lista de explicaciones",
+            "emotion": "serious",
+            "doc": [
+                "Soy una lista de @Doc, útil cuando tienes múltiples traducciones de @Doc en diferentes idiomas.",
+                "No tienes que hacer nada especial para hacer una lista. Solo pon un montón de @Doc uno al lado del otro, así:",
+                "\\``Hola``/es\n``Hello``/en\nsaludo: '…'\\"
+            ],
+            "start": "¡Creando el valor de los documentos!"
         },
         "KeyValue": {
-            "name": "par clave/valor",
-            "emotion": "neutral",
-            "doc": "$?"
+            "name": "mapeo",
+            "emotion": "kind",
+            "doc": [
+                "Soy un mapeo de una *clave* a un *valor*, siempre en un @Map.",
+                "Puedes mapear cualquier tipo de valor a cualquier otro. Por ejemplo, aquí tienes un mapeo de números:",
+                "\\{1:1}\\",
+                "O un mapeo de texto a números:",
+                "\\{'conejo':1}\\"
+            ]
         },
         "Language": {
-            "name": "lengua",
-            "description": "$?",
-            "emotion": "neutral",
-            "doc": "$?",
+            "name": "idioma",
+            "description": "idioma $1[$1|desconocido]",
+            "emotion": "eager",
+            "doc": [
+                "¡Soy una etiqueta de idioma y trabajo con @Name y @Doc!",
+                "Soy realmente bueno para dejar *muy claro* en qué idioma está escrito algo.",
+                "Eso es lo que hago. Solo una pequeña barra inclinada, y un par de letras, y nadie volverá a confundirse sobre en qué idioma está algún texto.",
+                "Por ejemplo, digamos que quieres decir mi $name, pero dejar claro que estoy en inglés:",
+                "\\\"Idioma\"/en\\",
+                "O supongamos que quieres hacer esto para un @Name.",
+                "\\sonido/en: 'miau'\\",
+                "¡O incluso para @Doc!",
+                "\\``Onomatopeya``/en\nsonido/en: \"miau\"\\",
+                "Hay muchos <códigos de idioma de 2 letras@https://es.wikipedia.org/wiki/ISO_639-1> que entiendo. Si no usas uno de esos, te lo haré saber."
+            ],
             "conflict": {
-                "UnknownLanguage": "$?",
-                "MissingLanguage": "$?"
+                "UnknownLanguage": "No conozco este idioma",
+                "MissingLanguage": "Me falta un idioma. ¿Puedes añadir uno?"
             }
         },
         "Name": {
             "name": "nombre",
-            "description": "$?",
-            "emotion": "neutral",
-            "doc": "$?"
+            "description": "$1[$1 | sin nombre]",
+            "emotion": "kind",
+            "doc": [
+                "Identifico un valor y soy una forma útil de darle una etiqueta abreviada a algo que fue difícil de evaluar o que no quieres tener que evaluar una y otra vez.",
+                "@Bind me da mi nombre de esta manera:",
+                "\\hola: 5\\",
+                "Solo represento un valor y, una vez que lo tengo, no puedo cambiarlo. Por ejemplo, si intentaras hacer esto con @Bind, nos quejaríamos.",
+                "\\hola: 5\nhola: 3\\",
+                "Todo lo que tienes que hacer para obtener mi valor es tener @Reference o @PropertyReference usar mi nombre. Aquí, @Bind me nombra y luego @Reference obtiene el valor que me dieron.",
+                "\\hola: 5\nhola\\",
+                "Porque @Bind puede aparecer en tantos lugares, yo también puedo aparecer en muchos lugares. Estuve en un @Block arriba, pero puedo estar en un @FunctionDefinition. Aquí estoy nombrando un mensaje temporalmente:",
+                "\\ƒ decir(mensaje•'') mensaje\\",
+                "Me definen dentro de @FunctionDefinition y, tan pronto como la función termina de evaluarse, desaparezco.",
+                "Puedes usar @Language para indicar en qué idioma está mi nombre. Esto es útil al compartir tu actuación con otros, por si quieren leer tu programa."
+            ]
         },
         "Names": {
             "name": "lista de nombres",
-            "emotion": "neutral",
-            "doc": "$?"
+            "emotion": "kind",
+            "doc": [
+                "Soy una lista de @Name, útil cuando quieres darle varios nombres a un valor, muchas veces con diferentes @Language.",
+                "Los nombres están separados por símbolos \\,\\ . Por ejemplo, aquí está @Bind dando un valor a varios @Name",
+                "\\hi/en,hello/en,hola/es: 'bienvenido'\\"
+            ]
         },
         "Row": {
-            "name": "la hilera",
-            "emotion": "neutral",
-            "doc": "$?",
+            "name": "fila",
+            "emotion": "shy",
+            "doc": "Represento una fila en una @Table. Probablemente sea mejor hablar con @Table, ellos saben todo sobre mí. Solo estoy por aquí y mantengo los valores en línea :(",
             "conflict": {
-                "InvalidRow": "$?",
-                "MissingCell": { "primary": "$?", "secondary": "$?" },
-                "UnknownColumn": "$?",
-                "ExtraCell": {
-                    "primary": "$?",
-                    "secondary": "$?"
+                "InvalidRow": "Las filas deben ser todas valores o todas @Bind.",
+                "MissingCell": {
+                    "primary": "Me falta la columna $1",
+                    "secondary": "Soy obligatoria, pero $1 no la proporcionó"
                 },
+                "ExtraCell": {
+                    "primary": "¿Se supone que debo estar aquí?",
+                    "secondary": "¡Oye $1, no eres parte de esta @Table!"
+                },
+                "UnknownColumn": "No conozco una columna con este nombre",
                 "UnexpectedColumnBind": {
-                    "primary": "$?",
-                    "secondary": "$?"
+                    "primary": "¿Se supone que debo ser un @Bind?",
+                    "secondary": "Oye, soy una @Table, necesito valores, no @Bind."
                 }
             }
         },
         "Token": {
             "name": "token",
-            "description": "$?",
+            "description": "$1 $2",
             "emotion": "neutral",
-            "doc": "$?"
+            "doc": [
+                "¿Cómo me encontraste?",
+                "Soy la parte más pequeña de una actuación. Soy el sustrato del cual se hacen todos los caracteres en el Verso. Soy la partícula atómica de nuestra coreografía."
+            ]
         },
         "Markup": {
-            "name": "$?",
-            "description": "$?",
-            "emotion": "$?",
-            "doc": "$?"
+            "name": "marcado",
+            "description": "$1 párrafos",
+            "emotion": "serious",
+            "doc": [
+                "Soy una lista de párrafos, utilizando los diversos tipos de marcado disponibles en explicaciones, como @Words, @WebLink, @ConceptLink y @Example."
+            ]
         },
         "Paragraph": {
             "name": "párrafo",
-            "emotion": "neutral",
-            "doc": "$?"
+            "emotion": "serious",
+            "doc": [
+                "Soy una serie de @Words, @ConceptLink, @WebLink y @Example, separados por una línea en blanco, y dentro de @Doc.",
+                "Todo lo que necesitas hacer para escribirme es escribir un montón de palabras en un @Doc:",
+                "\\``Soy un párrafo en un documento.``'un párrafo'\\",
+                "Si quieres varios párrafos, solo pon líneas en blanco.",
+                "\\``Párrafo 1.\n\nPárrafo 2.\n\nPárrafo 3.``'tres párrafos'\\"
+            ]
         },
         "WebLink": {
             "name": "enlace",
-            "description": "$?",
-            "emotion": "neutral",
-            "doc": "$?"
+            "description": "enlace $1",
+            "emotion": "serious",
+            "doc": [
+                "Soy un enlace a algo en el internet. Solo necesito una descripción y una URL:",
+                "\\``Soy un <enlace@https://wordplay.dev> en un documento.``\n'enlace de ejemplo'\\",
+                "Si alguien me selecciona, se abrirá una nueva ventana con la URL."
+            ]
         },
         "ConceptLink": {
             "name": "concepto",
-            "description": "$?",
-            "emotion": "neutral",
-            "doc": "$?"
+            "description": "concepto $1",
+            "emotion": "serious",
+            "doc": [
+                "Soy un enlace a un personaje del Verso. Soy útil cuando quieres escribir un @Doc y referirte a alguno de nosotros.",
+                "Por ejemplo, digamos que quieres hablar sobre @Evaluate y lo increíble que es. Podrías escribir:",
+                "\\``Sabes, @Evaluate es bastante increíble.``\n'mira, ¡un enlace de concepto!'\\",
+                "Cuando aparezca el @Doc que escribiste aquí, mostrará un enlace al concepto."
+            ]
         },
         "Words": {
             "name": "palabras",
-            "emotion": "neutral",
-            "doc": "$?"
+            "emotion": "serious",
+            "doc": [
+                "Soy cualquier palabra que desees en un @Doc. Por ejemplo:",
+                "\\``Que la Fuerza te acompañe.``\n'solo algunas palabras'\\",
+                "Sin embargo, a veces puedes querer usar los caracteres especiales que @Doc usa /como/ palabras. Por ejemplo:",
+                "\\``Mis amigas usan @@, //, **, || y otros símbolos.``\n'usando caracteres especiales'\\",
+                "Si simplemente repites esos caracteres especiales, obtendrás el carácter en lugar de su significado especial."
+            ]
         },
         "Example": {
             "name": "ejemplo",
-            "emotion": "neutral",
-            "doc": "$?"
+            "emotion": "serious",
+            "doc": [
+                "Soy un rendimiento de ejemplo, ¡útil para escribir @Doc que explique cómo usar algo!",
+                "\\``Aquí tienes un ejemplo de suma: \\1 + 1\\``'código de ejemplo'\\",
+                "Si me pones en un párrafo completamente solo, apareceré en una caja elegante y mostraré el resultado de evaluarme.",
+                "\\``Aquí tienes un ejemplo de suma:\n\n\\1 + 1\\``\\"
+            ]
         },
         "Mention": {
-            "name": "$?",
-            "description": "$?",
-            "emotion": "$?",
-            "doc": "$?"
+            "name": "mención",
+            "description": "mención $1",
+            "emotion": "serious",
+            "doc": [
+                "Soy una referencia a la terminología \\$programa\\ o una entrada dinámica \\$1\\.",
+                "Sin embargo, esto es principalmente una función interna, así que no deberías necesitar conocerla."
+            ]
         },
         "Branch": {
-            "name": "$?",
+            "name": "rama",
             "emotion": "serious",
-            "doc": "$?"
+            "doc": [
+                "Soy una forma de elegir entre dos segmentos de explicación basados en si un valor de entrada de explicación está definido o verdadero.",
+                "Esto es principalmente una característica interna, así que no deberías necesitar conocerla."
+            ]
         },
         "BinaryEvaluate": {
-            "name": "operación binaria",
-            "description": "operación $1",
-            "emotion": "neutral",
-            "doc": "$?",
-            "right": "input",
-            "start": "$?",
-            "finish": "$?",
+            "name": "evaluación binaria",
+            "description": "$1 operación",
+            "emotion": "insecure",
+            "doc": [
+                "Soy @Evaluate, pero en una forma más simple, útil cuando quieres usar un @FunctionDefinition que toma dos entradas.",
+                "Por ejemplo, así es como podrías usar @Evaluate para sumar dos números:",
+                "\\1.+(1)\\",
+                "¿No se ve un poco raro? No está mal: simplemente dice obtén la función de suma en 1 y luego evalúala.",
+                "Pero es mucho más fácil usar @BinaryEvaluate:",
+                "\\1 + 1\\",
+                "Esto hace que todo sea un poco más ordenado, aunque es básicamente lo mismo.",
+                "Solo hay una cosa a tener en cuenta: cuando estoy en esta forma, evalúo de izquierda a derecha. Eso podría ser confuso si estás acostumbrado a cosas como el orden de las operaciones en matemáticas.",
+                "Significa que esto se evalúa de una manera que quizás no esperes:",
+                "\\1 + 2 · 3 + 4\\",
+                "En matemáticas, la multiplicación vendría primero y luego la adición, y así el resultado sería \\11\\. Pero como evalúo en el orden de lectura, el resultado es \\13\\."
+            ],
+            "right": "entrada",
+            "start": "vamos a evaluar primero $1",
+            "finish": "mira, ¡hice $1!",
             "conflict": {
-                "OrderOfOperations": "$?"
+                "OrderOfOperations": "Evalúo en orden de lectura, no en el orden de operaciones matemáticas. ¿Quieres usar @Block para especificar el orden en el que debería evaluar?"
             }
         },
         "Bind": {
-            "name": "nombrar",
-            "description": "$?",
-            "emotion": "neutral",
-            "doc": "$?",
-            "start": "$?",
-            "finish": "$?",
+            "name": "unir",
+            "description": "vincula $1",
+            "emotion": "excited",
+            "doc": [
+                "Yo doy *nombres*.",
+                "¡Así es!",
+                "\\pi: 3.1415926\\",
+                "Doy nombres a las entradas de @FunctionDefinition y @StructureDefinition, nombro valores en @Block. ¡Nombro todo!",
+                "Pero, ¿sabías que puedes darle a un valor *muchos nombres*?",
+                "¡Estoy emocionado por contarte esto! Un valor, muchos @Names. Por ejemplo:",
+                "\\joe,tess,amy: 5\\",
+                "¿Ves lo que hice allí?",
+                "Un valor, tres nombres.",
+                "Puedes referirte a ese cinco con *cualquiera* de esos nombres.",
+                "Esto es especialmente útil cuando quieres dar nombres en muchos idiomas:",
+                "\\joe/en,aimee/fr,明/zh: 5\\",
+                "¿Ves lo que hice allí? ¡Tres nombres para un valor, solo en diferentes idiomas!",
+                "Ok, tengo un último secreto.",
+                "¿Sabías que puedo trabajar con @Is para decirme qué tipo de valor debería tener un nombre? ¿Y si no lo tiene, te lo diré?",
+                "Así:",
+                "\\bignumber•#: \"un trillón\"\\",
+                "Ves, dije que \\bignumber\\ debería ser un número, pero es texto, y eso no es compatible, ¡así que BOOM!",
+                "Te lo haré saber si no están de acuerdo.",
+                "A veces, es posible que *tengas* que decirme qué tipo de datos tiene algo más porque no puedo entenderlo yo mismo. Eso suele pasar en @FunctionDefinition.",
+                "Por ejemplo, aquí, @FunctionDefinition no sabe qué tipo de valores tienen \\a\\ y \\b\\, porque no se los dije.",
+                "\\ƒ sum(a b) a + b\\",
+                "Pero podemos cambiar esto para agregar el @Is, y ahora @FunctionDefinition sabe que son números:",
+                "\\ƒ sum(a•# b•#) a + b\\"
+            ],
+            "start": "¡Veamos qué valor obtenemos de $1!",
+            "finish": "¡Oh bien, obtuve $1! Vamos a llamarlo $2",
             "conflict": {
-                "DuplicateName": { "primary": "$?", "secondary": "$?" },
-                "DuplicateShare": { "primary": "$?", "secondary": "$?" },
-                "IncompatibleType": { "primary": "$?", "secondary": "$?" },
-                "MisplacedShare": "$?",
-                "MissingShareLanguages": "$?",
-                "RequiredAfterOptional": "$?",
-                "UnexpectedEtc": "$?",
-                "UnusedBind": "$?"
+                "DuplicateName": {
+                    "primary": "alguien tiene el nombre $1, así que no puedo tener este nombre.",
+                    "secondary": "eh, $1 es mi nombre"
+                },
+                "DuplicateShare": {
+                    "primary": "tengo el mismo nombre que $1, lo que hace que lo compartido sea ambiguo",
+                    "secondary": "tengo el mismo nombre que $1"
+                },
+                "IncompatibleType": {
+                    "primary": "se supone que soy un $2, pero soy un $1",
+                    "secondary": "Oh... lo siento, ¿un $1, en serio?"
+                },
+                "MisplacedShare": "Solo puedo compartir cosas a nivel de @Program, ¡no dentro de nada!",
+                "MissingShareLanguages": "si quieres compartir esto, debes decir en qué idioma está, para que los demás sepan si pueden leerlo!",
+                "RequiredAfterOptional": "No puedo estar aquí, hay un @Bind opcional antes que yo",
+                "UnexpectedEtc": "Solo puedo tener una longitud variable en un @FunctionDefinition",
+                "UnusedBind": "oye, le puse nombre a este valor, ¡pero nadie lo está usando!"
             }
         },
         "Block": {
-            "name": "block",
-            "description": "$?",
-            "emotion": "neutral",
-            "doc": "$?",
-            "statement": "$?",
-            "start": "$?",
-            "finish": "$?",
+            "name": "bloque",
+            "description": "$1 declaraciones",
+            "emotion": "shy",
+            "doc": [
+                "Hola. Creo un pequeño espacio tranquilo y privado para evaluar cosas.",
+                "Como esto:",
+                "\\(1 - 1) + 2\\",
+                "Eso ayuda a aclarar el orden de la evaluación.",
+                "@Bind también ayuda.",
+                "\\(count: 10 count ^ count)\\",
+                "¿Ves cómo @Bind hizo \\count\\? Solo está nombrado dentro de mí. Así que esto no funcionará:",
+                "\\(count: 10 count ^ count) + count\\",
+                "Porque count solo fue nombrado dentro de mí.",
+                "Puedes poner tantas expresiones como quieras en mí. Pero solo me importa la última:",
+                "\\(1 2 3 4 5)\\",
+                "Así que normalmente soy solo un montón de @Bind y luego una expresión al final.",
+                "\\(\n  a: 1\n  b: 2\n  c: 3\n  d: 4\n  a + b + c + d\n)\\"
+            ],
+            "statement": "declaración",
+            "start": "primera expresión",
+            "finish": "listo, obtuve $1",
             "conflict": {
-                "ExpectedEndingExpression": "$?",
-                "IgnoredExpression": { "primary": "$?", "secondary": "$?" }
+                "ExpectedEndingExpression": "Necesito una expresión.",
+                "IgnoredExpression": {
+                    "primary": "Voy a ignorar lo anterior.",
+                    "secondary": "@Block, ¡no me ignores a mí!"
+                }
             }
         },
         "BooleanLiteral": {
-            "name": "boolean",
-            "description": "$?",
-            "emotion": "neutral",
-            "doc": "$?",
-            "start": "$?"
+            "name": "booleano específico",
+            "description": "$1[verdadero|falso]",
+            "emotion": "precise",
+            "doc": "Soy o \\⊤\\ o \\⊥\\. Consulta @Boolean para aprender más sobre nuestra hermosa lógica.",
+            "start": "¡$1!"
         },
         "Borrow": {
             "name": "pedir prestado",
-            "description": "$?",
-            "emotion": "neutral",
-            "doc": "$?",
-            "start": "$?",
-            "source": "$?",
-            "bind": "$?",
-            "version": "$?",
+            "description": "pedir prestado $1[$1|nombre faltante]",
+            "emotion": "excited",
+            "doc": "Si creas una actuación con múltiples @Source, puedes usarme para pedir prestados @Bind que se comparten en esas otras @Source. Simplemente usa su nombre y traeré su nombre y valor.",
+            "start": "préstamo $2 de $1",
+            "source": "$fuente",
+            "bind": "nombre",
+            "version": "versión",
             "conflict": {
-                "UnknownBorrow": "$?",
-                "BorrowCycle": "$?"
+                "UnknownBorrow": "No conozco una $fuente con este nombre",
+                "BorrowCycle": "esto depende de $1, que depende de esta $fuente, por lo que el programa no se puede evaluar"
             },
             "exception": {
                 "CycleException": {
-                    "description": "$?",
-                    "explanation": "$?"
+                    "description": "ciclo de préstamo",
+                    "explanation": "$1 depende de sí mismo"
                 }
             }
         },
         "Changed": {
-            "name": "Cambiada",
-            "emotion": "neutral",
-            "doc": "$?",
-            "start": "$?"
+            "name": "cambiado",
+            "emotion": "serious",
+            "doc": [
+                "Verifico si un flujo causó que @Program se revaluara y creo un @Boolean. Así:",
+                "\\∆ Tiempo()\\",
+                "Soy realmente útil cuando quieres que algo cambie solo si cambia un flujo.",
+                "Eso es todo."
+            ],
+            "start": "veamos si $1 cambió…"
         },
         "Conditional": {
             "name": "condicional",
-            "emotion": "neutral",
+            "emotion": "curious",
             "doc": [
-                "¿Alguna vez pensaste en cómo decidimos?",
-                "Pienso mucho en eso.",
-                "Tantas decisiones en la vida pueden ser tan complicadas.",
-                "A veces siento mucha presión para decidir, ya que soy el único en este mundo que puede decidir.",
-                "Me siento abrumado, así que he tratado de simplificar las cosas.",
-                "Primero, solo considero dos opciones: \\⊤\\ y \\⊥\\.",
-                "Si es \\⊤\\, entonces evalúo mi código *sí*. Si es \\⊥\\, entonces evalúo mi código *no*.",
-                "Sé que las decisiones rara vez son tan simples, pero dividir el mundo en estos binarios me facilita las cosas.",
-                "Sí, no, si, si no, esto, aquello.",
-                "Es mi pequeña forma de mantener las cosas organizadas, incluso ante tanta complejidad."
+                "Creo que se supone que tomo decisiones. ¿Así?",
+                "\\número: -100\nnúmero < 0 ? 'negativo' 'positivo'\\",
+                "Pero ¿alguna vez has pensado en cómo decidimos?",
+                "¿No parece que las decisiones deberían ser más matizadas que simplemente sí o no? ¿Decidir entre \\⊤\\ y \\⊥\\ es todo lo que hay?",
+                "¿No te preocupa que si estos son el único tipo de decisiones que podemos tomar, estaremos perdiendo algún contexto importante sobre el mundo?"
             ],
-            "start": "$?",
-            "afterthen": "$?",
-            "else": "$?",
-            "finish": "$?",
-            "condition": "$?",
-            "yes": "$?",
-            "no": "$?",
+            "start": "veamos si $1 es verdadero",
+            "else": "$1[saltando sobre código | no saltando sobre código]",
+            "afterthen": "terminado con sí, ¿saltemos el no?",
+            "finish": "Supongo que es $1?",
+            "condition": "condición",
+            "yes": "sí",
+            "no": "no",
             "conflict": {
                 "ExpectedBooleanCondition": {
-                    "primary": "$?",
-                    "secondary": "$?"
+                    "primary": "¿Cómo puedo elegir sí y no con un $1? No en serio, ¿cómo?",
+                    "secondary": "Creo que @Conditional quería que fuera un @Boolean, pero soy un $1."
                 }
             }
         },
         "ConversionDefinition": {
-            "name": "conversión",
+            "name": "definición de conversión",
             "description": "$1 → $2",
-            "emotion": "neutral",
-            "doc": "$?",
-            "start": "$?",
+            "emotion": "excited",
+            "doc": [
+                "Amigo, ¡defino conversiones de un tipo a otro! Voy en un @Block, algo así:",
+                "\\→ #gatito #gato . ÷ 2\n6gatito→#gato\\",
+                "¿Ves cómo convertí gatitos en gatos? ¡Increíble!",
+                "Quizás te estés preguntando qué hace ese \\.\\ allí. Eso representa el valor que se está convirtiendo. Lo uso porque el valor no tiene nombre de lo contrario."
+            ],
+            "start": "¡increíble, una nueva conversión!",
             "conflict": {
-                "MisplacedConversion": "$?"
+                "MisplacedConversion": "¡guau, no puedo estar aquí, solo en @Block!"
             }
         },
         "Convert": {
             "name": "convertir",
-            "emotion": "neutral",
-            "doc": "$?",
-            "start": "$?",
-            "finish": "$?",
+            "emotion": "cheerful",
+            "doc": [
+                "Hola. Convierto valores de un tipo a otro. Échale un vistazo:",
+                "\\1 → \"\"\\",
+                "\\5s → #ms\\",
+                "\\\"hola\" → []\\",
+                "Incluso puedes encadenar estos:",
+                "\\\"hola\" → [] → {}\\",
+                "Los valores tienen un conjunto de @ConversionDefinition que están predefinidos, pero si haces una @DefiniciónDeEstructura para un nuevo tipo de valor, puedes definir el tuyo con @DefiniciónDeConversión."
+            ],
+            "start": "¡obtén ese valor de $1!",
+            "finish": "Increíble, hice $1",
             "conflict": {
-                "UnknownConversion": "$?"
+                "UnknownConversion": "Vaya, no hay forma de hacer que $1 sea $2"
             },
             "exception": {
                 "ConversionException": {
-                    "description": "$?",
-                    "explanation": "$?"
+                    "description": "conversión imposible",
+                    "explanation": "No sé cómo convertir de $1 a $2"
                 }
             }
         },
         "Delete": {
-            "name": "delete row",
-            "emotion": "neutral",
-            "doc": "$?",
-            "start": "$?",
-            "finish": "$?"
+            "name": "eliminar",
+            "emotion": "angry",
+            "doc": [
+                "A veces tienes una tabla y ¡TIENE DEMASIADO EN ELLA!",
+                "Como si tuvieras algunos jugadores en un juego y uno se fue y solo querías decir ¡FUERA JUGADOR, SAL DE MI TABLA!",
+                "\\jugadores: ⎡nombre•'' equipo•'' puntos•#⎦\n⎡'jen' 'rojo' 8⎦\n⎡'juan' 'azul' 11⎦\n⎡'javier' 'rojo' 9⎦\n⎡'juanita' 'azul' 7⎦\njugadores ⎡- nombre = 'javier'\\",
+                "Uf, Javier se fue. ADIÓS Javier. Solo recuerda que no cambio la tabla original, hago una nueva, sin Javier. Tú decides a dónde va."
+            ],
+            "start": "vamos a obtener primero la tabla",
+            "finish": "¡Hice una nueva tabla sin las filas coincidentes!"
         },
         "DocumentedExpression": {
-            "name": "expresión documentada",
-            "emotion": "neutral",
-            "doc": "$?",
-            "start": "$?"
+            "name": "expresión explicada",
+            "emotion": "eager",
+            "doc": [
+                "Soy cualquier expresión, ¡pero con un @Doc!",
+                "Para hacerme, simplemente coloca un @Doc antes de una expresión, y obtendrás esto:",
+                "\\dobleplus: 1\n(2 · dobleplus) + \n``Hagámoslo un poco más grande``\n1\\",
+                "Soy útil para hacer un comentario sobre alguna parte de un programa."
+            ],
+            "start": "evaluemos la expresión"
         },
         "Evaluate": {
             "name": "evaluar",
-            "description": "$?",
-            "emotion": "neutral",
-            "doc": "$?",
-            "start": "$?",
-            "evaluate": "$?",
-            "finish": "$?",
-            "function": "$?",
-            "input": "$?",
+            "description": "evaluar $1[$1|anónimo]",
+            "emotion": "shy",
+            "doc": [
+                "Hola. Evalúo a mi querida @FunctionDefinition. Así:",
+                "\\ƒ saludo(mensaje•'')\nsaludo('gatito')\\",
+                "Las funciones pueden venir de cualquier lugar. Por ejemplo, @Text tiene funciones. Como esto:",
+                "\\'gatito'.longitud()\\",
+                "Si una función tiene un nombre de símbolo único, puedes escribirme como un @BinaryEvaluate.",
+                "\\'gatito' ⊆ 'itty'\\",
+                "Eso hace lo mismo que esto:",
+                "\\'gatito'.⊆('itty')\\",
+                "Por supuesto, no soy nada sin @FunctionDefinition. Todo lo que hago es darles inputs y luego seguir sus pasos."
+            ],
+            "start": "evaluemos los inputs primero",
+            "evaluate": "vamos a evaluar la función ahora",
+            "finish": "Evalué a $1",
+            "function": "función",
+            "input": "input",
             "conflict": {
-                "IncompatibleInput": { "primary": "$?", "secondary": "$?" },
-                "UnexpectedTypeInput": { "primary": "$?", "secondary": "$?" },
-                "MisplacedInput": "$?",
-                "MissingInput": { "primary": "$?", "secondary": "$?" },
-                "NotInstantiable": "$?",
-                "UnexpectedInput": { "primary": "$?", "secondary": "$?" },
-                "UnknownInput": { "primary": "$?", "secondary": "$?" },
-                "InputListMustBeLast": "$?"
+                "IncompatibleInput": {
+                    "primary": "Se supone que debo ser un $1, pero soy un $2",
+                    "secondary": "Mmm, obtuve un $2 en lugar de un $1"
+                },
+                "UnexpectedTypeInput": {
+                    "primary": "No esperaba este tipo de input",
+                    "secondary": "oh, ¿no debería estar aquí?"
+                },
+                "MisplacedInput": "este input está fuera de lugar.",
+                "MissingInput": {
+                    "primary": "Me falta $1, ¿puedes agregarlo?",
+                    "secondary": "este input es necesario, pero $1 no lo proporcionó"
+                },
+                "NotInstantiable": "No puedo hacer esta @StructureDefinition, tiene funciones no implementadas.",
+                "UnexpectedInput": {
+                    "primary": "No esperaba este input $1",
+                    "secondary": "Oh, ¿no debería estar aquí?"
+                },
+                "UnknownInput": {
+                    "primary": "No conozco un input con este nombre",
+                    "secondary": "No creo que pertenezca aquí"
+                },
+                "InputListMustBeLast": "la lista de inputs debe ir al final"
             },
             "exception": {
                 "FunctionException": {
-                    "description": "$?",
-                    "explanation": "$?"
+                    "description": "función desconocida",
+                    "explanation": "oh no, $1 no es una función en $2[$2|este @Block!"
                 }
             }
         },
         "ExpressionPlaceholder": {
             "name": "marcador de posición",
-            "description": "$?",
-            "emotion": "neutral",
-            "doc": "$?",
-            "start": "$?",
-            "placeholder": "$?",
+            "description": "$1[$1|marcador de posición]",
+            "emotion": "scared",
+            "doc": [
+                "Soy una *expresión*, pero no una real... solo ocupo su lugar.",
+                "Soy útil si aún no sabes qué escribir. Como esto:",
+                "\\1 + _\\",
+                "¿Qué estamos sumando? No lo sé. Tú me dices.",
+                "O si alguien estuviera evaluando una función con @Evaluate, podría representar a la función",
+                "\\_(1 2 3)\\",
+                "¡No me gusta estar en @Stage!"
+            ],
+            "start": "¡ay!, no sé qué hacer",
+            "placeholder": "expresión",
             "conflict": {
-                "Placeholder": "$?"
+                "Placeholder": "¿alguien puede ocupar mi lugar?"
             },
             "exception": {
                 "UnimplementedException": {
-                    "description": "$?",
-                    "explanation": "$?"
+                    "description": "sin implementar",
+                    "explanation": "¡No sé qué hacer!"
                 }
             }
         },
         "FunctionDefinition": {
             "name": "función",
-            "description": "$?",
-            "emotion": "neutral",
-            "doc": "$?",
-            "start": "$?",
+            "description": "función $1",
+            "emotion": "kind",
+            "doc": [
+                "¡Hola de nuevo! Tomo algunos inputs, luego evalúo una expresión usando esos inputs, y produzco un output.",
+                "Aquí tienes un ejemplo simple:",
+                "\\ƒ repetir(mensaje•'') mensaje · 5\nrepetir('hola')\\",
+                "Esa función toma un input, \\message\\, y usa la función @Text/repeat para repetir el mensaje cinco veces.",
+                "¡Soy realmente útil si quieres evaluar algo una y otra vez, pero con diferentes inputs!",
+                "Tengo muchos otros trucos. Por ejemplo, no necesito tener un nombre. Aquí, voy directamente a @Evaluate como un valor.",
+                "\\(ƒ(mensaje•'') mensaje · 5)('hola')\\",
+                "O, aquí hay una función que toma cualquier cantidad de inputs, usando el carácter \\…\\ después del nombre del input.",
+                "\\ƒ si(mensajes…•'') mensajes.sans('no')\nsi('sí' 'sí' 'no' 'sí' 'no')\\",
+                "¿Ves cómo tomó todos los 'no' y se deshizo de ellos? Eso es porque messages es un @List, y así pudimos usar @List/sansAll.",
+                "A veces es posible que desees dejar claro qué tipo de valor produzco. Para hacer eso, agrega un @Is después de la lista de inputs:",
+                "\\ƒ a(x•# y•#)•'' x + y\\",
+                "Puede que notes un problema con este: dice que se evalúa como @Text, pero toma dos @Number. ¡Puedo decirte cuando las cosas son inconsistentes!",
+                "Por supuesto, no soy realmente útil en absoluto sin @Evaluate; ellos me dan vida."
+            ],
+            "start": "¡vamos a crear esta función!",
             "conflict": {
-                "NoExpression": "$?"
+                "NoExpression": "Necesito una expresión para evaluar, ¿puedes agregar una?"
             }
         },
         "Iteration": {
             "name": "función de orden superior",
-            "emotion": "neutral",
-            "doc": "$?",
-            "start": "$?",
-            "initialize": "$?",
-            "next": "$?",
-            "check": "$?",
-            "finish": "$?"
+            "emotion": "kind",
+            "doc": "Soy un tipo muy especial de @FunctionDefinition que opera en listas de cosas. No necesitas saber nada sobre mí, excepto que hago funciones como @List/translate posibles.",
+            "start": "evaluando la función dada",
+            "initialize": "preparándome para recorrer los elementos",
+            "next": "pasando al siguiente elemento",
+            "check": "decidiendo si continuar",
+            "finish": "Me evalué como $1"
         },
         "Initial": {
-            "name": "evaluación inicial",
-            "emotion": "neutral",
-            "doc": "$?"
+            "name": "inicio",
+            "emotion": "curious",
+            "doc": [
+                "Te digo si la evaluación actual de @Program es la primera, dando como resultado un @Boolean. Por ejemplo:",
+                "\\◆ ? Tiempo() 'hola'\\",
+                "No lo viste, pero la primera evaluación fue una hora, pero luego todas las futuras marcas de tiempo fueron \\⊥\\, así que @Conditional hizo \\⊤\\.",
+                "¡Soy realmente útil si estás trabajando con un flujo y solo quieres hacer algo la primera vez, o nunca en la primera vez!"
+            ]
         },
         "Insert": {
             "name": "insertar",
-            "emotion": "neutral",
-            "doc": "$?",
-            "start": "$?",
-            "finish": "$?"
+            "emotion": "kind",
+            "doc": [
+                "¿Sabes cuándo tienes una @Table y sientes que le falta algo? ¡Yo puedo agregarlo!",
+                "Imagina que tenías una tabla de jugadores en un juego y querías agregar uno nuevo:",
+                "\\jugadores: ⎡nombre•'' equipo•'' puntos•#⎦\n⎡'jen' 'rojo' 1⎦\n⎡'juan' 'azul' 0⎦\n⎡'javier' 'rojo' 3⎦\n⎡'juanita' 'azul' 2⎦\njugadores ⎡+ 'jasón' 'red' 0⎦\\",
+                "Solo recuerda, como todo en el Verso, no cambio una tabla, la reviso. Así que debes decidir dónde quieres poner la tabla revisada que haces. Lo más probable es que quieras revisar una tabla en una @Reaction a algún input y almacenarla en un @Bind."
+            ],
+            "start": "encontremos la tabla a actualizar",
+            "finish": "¡Hice una nueva tabla con filas revisadas!"
         },
         "Is": {
             "name": "es",
-            "description": "$?",
-            "emotion": "neutral",
-            "doc": "$?",
-            "start": "$?",
-            "finish": "$?",
+            "description": "es",
+            "emotion": "curious",
+            "doc": [
+                "¿Sabes qué? Hay tantos tipos de valores que significan tantas cosas diferentes. Ayudo a descifrar qué son.",
+                "Por ejemplo, supongamos que tenías un valor misterioso. Puedo decirte si es un @Number, dándote un @Boolean:",
+                "\\misterio: 'secreto!'\nmisterio•#\\",
+                "No es un número, así que hice \\⊥\\. Pero, ¿y si verificamos si es @TextType?",
+                "\\misterio: 'secreto!'\nmisterio•''\\",
+                "¡Obtenemos \\⊤\\!",
+                "Soy realmente útil cuando necesitas saber si algún @Name tiene un valor de un tipo particular."
+            ],
+            "start": "vamos a obtener el valor de $1 primero",
+            "finish": "$1[el valor es $2|el valor no es $2]",
             "conflict": {
-                "ImpossibleType": "$?"
+                "ImpossibleType": "esto no puede ser nunca de este tipo"
             },
             "exception": {
                 "TypeException": {
-                    "description": "$?",
-                    "explanation": "$?"
+                    "description": "valores incompatibles",
+                    "explanation": "Esperaba un $1 pero recibí un $2"
                 }
             }
         },
         "IsLocale": {
-            "name": "$?",
-            "description": "$?",
-            "emotion": "$?",
-            "doc": "$?",
-            "start": "$?"
+            "name": "es localización",
+            "description": "es localización",
+            "emotion": "kind",
+            "doc": [
+                "Te ayudaré a verificar si la audiencia ha seleccionado un idioma o región en particular:",
+                "\\🌍/en\\",
+                "\\🌍/es-MX\\",
+                "Esto es útil si deseas cambiar tu actuación según el idioma elegido."
+            ],
+            "start": "¿es el idioma $1?"
         },
         "ListAccess": {
-            "name": "acceso a la lista",
-            "emotion": "neutral",
-            "doc": "$?",
-            "start": "$?",
-            "finish": "$?"
+            "name": "acceso a lista",
+            "emotion": "cheerful",
+            "doc": [
+                "Trabajo en estrecha colaboración con @List para ayudarles a obtener valores en una posición particular. Así que, por ejemplo, si tuvieras una lista y quisieras su segundo elemento, escribirías:",
+                "\\lista: ['pájaro' 'pato' 'pez' 'serpiente']\nlista[2]\\"
+            ],
+            "start": "vamos a obtener la lista $1 primero",
+            "finish": "¡el elemento es $2!"
         },
         "ListLiteral": {
-            "name": "lista",
-            "description": "$?",
-            "emotion": "neutral",
-            "doc": "$?",
-            "start": "$?",
-            "finish": "$?",
-            "item": "$?"
+            "name": "lista específica",
+            "description": "lista de $1 elementos",
+            "emotion": "eager",
+            "doc": "Soy una @List específica de valores. Consulta @List para aprender más sobre lo que puedes hacer conmigo.",
+            "start": "evaluemos primero los elementos",
+            "finish": "¡Creé una lista! $1",
+            "item": "elemento"
         },
         "Spread": {
-            "name": "$?",
+            "name": "expansión de lista",
             "emotion": "serious",
-            "doc": "$?"
+            "doc": [
+                "Te ayudo a crear listas con los valores de otras listas. Como esto:",
+                "\\lista1: [1 2 3]\nlista2: [4 5 6]\nfinal: [lista1… lista2…]"
+            ]
         },
         "MapLiteral": {
-            "name": "índice",
-            "description": "$?",
-            "emotion": "neutral",
-            "doc": "$?",
-            "start": "$?",
-            "finish": "$?",
+            "name": "mapa",
+            "description": "mapa de $1 pares",
+            "emotion": "kind",
+            "doc": "Soy un @Map específico entre claves y valores. Consulta @Map para aprender más sobre cómo soy útil.",
+            "start": "evaluemos primero las claves y los valores",
+            "finish": "Conecté a todos, $1",
             "conflict": {
-                "NotAKeyValue": { "primary": "$?", "secondary": "$?" }
+                "NotAKeyValue": {
+                    "primary": "una de mis claves no tiene un valor",
+                    "secondary": "ups, ¿dónde está mi valor?"
+                }
             }
         },
         "NumberLiteral": {
-            "name": "número",
-            "description": "$?",
-            "emotion": "neutral",
-            "doc": "$?",
-            "start": "$?",
+            "name": "número específico",
+            "description": "$1 $2[$2|]",
+            "emotion": "excited",
+            "doc": "Soy un @Number específico. Puedes escribirme con cualquier tipo de dígitos de cualquier idioma. Consulta @Number para conocer todo lo que puedo hacer.",
+            "start": "¡$1!",
             "conflict": {
-                "NotANumber": "$?"
+                "NotANumber": "Pensé que conocía todos los números, pero no conozco este"
             }
         },
         "InternalExpression": {
-            "name": "$! expresión incorporada",
+            "name": "expresión interna",
             "emotion": "neutral",
-            "doc": "$?",
-            "start": "$?"
+            "doc": "¿Cómo me encontraste? Soy una expresión que solo los creadores originales utilizan. Para obtener más información sobre mí, tendrás que hablar con ellos.",
+            "start": "expresión secreta"
         },
         "NoneLiteral": {
-            "name": "nada",
+            "name": "simplemente ninguna",
             "emotion": "neutral",
-            "doc": "$?",
-            "start": "$?"
+            "doc": "/@FunctionDefinition aquí. Esto es simplemente @None. ¡Son únicos en su tipo! Consulta @None para aprender más sobre ellos.",
+            "start": "… ø"
         },
         "Previous": {
-            "name": "previa",
-            "emotion": "neutral",
-            "doc": "$?",
-            "start": "$?",
-            "finish": "$?"
+            "name": "anterior",
+            "emotion": "serious",
+            "doc": [
+                "¿Alguna vez has querido recordar el pasado?",
+                "Soy el archivista oficial del Universo. Dame un stream y un número para mirar hacia atrás y te diré cuál fue el valor de ese stream en la historia.",
+                "Por ejemplo, esto es lo que era @Time hace cinco ticks:",
+                "\\← 5 Tiempo(1000ms)\\",
+                "¿Ves cómo es @None durante 5 segundos, y luego de repente un tiempo anterior?",
+                "Si quieres los últimos varios valores, dame dos flechas, e interpretaré el número como un recuento:",
+                "\\←← 5 Tiempo(1000ms)\\",
+                "¿Ves cómo son los cinco tiempos anteriores, en lugar de solo uno?",
+                "Soy útil cuando quieres crear actuaciones que dependen del pasado."
+            ],
+            "start": "primero obtener $1",
+            "finish": "evaluado al valor del stream $1"
         },
         "Program": {
             "name": "programa",
-            "emotion": "neutral",
-            "doc": "$?",
-            "unevaluated": "el nodo seleccionado no evaluó",
-            "start": "$?",
-            "halt": "$?",
-            "finish": "$?",
-            "done": "terminado de evaluar",
+            "emotion": "serious",
+            "doc": [
+                "Soy donde comienza y termina una actuación, conteniendo a todos los demás personajes que coreografían un espectáculo.",
+                "¿Sabes cómo @Block evalúa una lista de expresiones y se evalúa como la última en su lista?",
+                "Soy lo mismo, pero en lugar de dar mi valor a cualquier expresión en la que esté, pongo el valor en @Stage.",
+                "El valor puede ser cualquier cosa: un @Number, @Text o @Boolean, un @List, @Set, @Map, o incluso algo más complejo, como un @Phrase, @Group o @Stage.",
+                "Si no me das un valor para mostrar en el escenario, te preguntaré por uno.",
+                "Si hay un problema durante una actuación, mostraré ese problema.",
+                "Y si tu actuación depende de un *flujo*, lo reevaluaré cada vez que ese flujo cambie."
+            ],
+            "unevaluated": "el nodo que elegiste no se evaluó",
+            "start": "$1[$1 el flujo cambió a $2|es mi primera evaluación]",
+            "halt": "se encontró una excepción, deteniéndose",
+            "finish": "todo listo, me evalué como $1",
+            "done": "no hay nada evaluando",
             "exception": {
                 "BlankException": {
-                    "description": "$?",
-                    "explanation": "¡Estoy tan emocionada de montar un espectáculo contigo! ¿Por dónde deberíamos empezar?"
+                    "description": "programa vacío",
+                    "explanation": "¡Vamos a hacer un espectáculo! ¿Dónde deberíamos comenzar?"
                 },
                 "EvaluationLimitException": {
-                    "description": "$?",
-                    "explanation": "$?"
+                    "description": "límite de evaluación",
+                    "explanation": "@Evaluate y yo estamos cansados de evaluar, especialmente $1.\n\n¿Es posible que $1 se esté evaluando a sí mismo para siempre, sin detenerse nunca?"
                 },
                 "StepLimitException": {
-                    "description": "$?",
-                    "explanation": "$?"
+                    "description": "límite de pasos",
+                    "explanation": "hay tantos. pasos. -- ¡demasiados para terminar! ¿Puedes hacer que la actuación sea más sencilla?"
                 },
                 "ValueException": {
-                    "description": "$?",
-                    "explanation": "$?"
+                    "description": "valor faltante",
+                    "explanation": "¡Esperaba un valor pero no obtuve ninguno!"
                 }
             }
         },
         "PropertyBind": {
-            "name": "refinar",
-            "description": "$?",
-            "emotion": "neutral",
-            "doc": "$?",
-            "start": "$?",
-            "finish": "$?"
+            "name": "ajustar",
+            "description": "ajustar $1[$1|nombre faltante]",
+            "emotion": "kind",
+            "doc": [
+                "A veces, cuando haces una @StructureDefinition, quieres cambiar la cosa más pequeña al respecto, sin tener que hacer una nueva con todos los mismos valores.",
+                "Por ejemplo, ¿qué pasa si estás llevando un registro de gatos, pero luego quieres crear una copia de un gato con un pasatiempo diferente? Puedo ayudarte a cambiarlo:",
+                "\\•Gato(nombre•'' color•'' pasatiempo•'')\n\ngatito: Gato('sprinkles' 'naranja' 'lamiendo')\ngatito.pasatiempo:'ronroneando'\\",
+                "¡Eso es mucho más fácil que hacer un nuevo \\Gato\\ con los mismos valores excepto por el pasatiempo, ¿verdad?"
+            ],
+            "start": "primero obtengamos el valor",
+            "finish": "Copié la estructura, pero con $1 como $2"
         },
         "PropertyReference": {
-            "name": "acceso a la propiedad",
-            "description": "$?",
-            "emotion": "neutral",
-            "doc": "$?",
-            "start": "$?",
-            "finish": "$?",
+            "name": "propiedad",
+            "description": "propiedad $1[$1|nombre faltante]",
+            "emotion": "kind",
+            "doc": [
+                "Cuando haces una @StructureDefinition, ¿cómo obtienes uno de sus inputs? Soy cómo",
+                "Como si tuvieras una estructura sobre ciudades, podrías obtener sus valores conmigo así:",
+                "\\•Ciudad(nombre•'' población•#personas)\n\nportland: Ciudad('Portland' 800000personas)\n\nportland.población\\"
+            ],
+            "start": "primero obtengamos el valor",
+            "finish": "se encontró la propiedad $1, es $2",
             "property": "propiedad"
         },
         "Reaction": {
             "name": "reacción",
-            "emotion": "neutral",
-            "doc": "$?",
-            "start": "$?",
-            "finish": "$?",
+            "emotion": "excited",
+            "doc": [
+                "¡Los streams son increíbles! Puedo crear nuevos basados en cuando cambian, ¡lo cual es súper genial!",
+                "Como, si quisieras que @Time avanzara, pero para mostrar palabras en lugar de números, podrías hacer algo así:",
+                "\\tiempo: Tiempo(1000ms)\n'inicio' … ∆ tiempo … ((tiempo % 2) = 0ms) ? 'par' 'impar'\\",
+                "Eso es como decir \"/comienza con la palabra 'inicio' y luego si el tiempo cambia, cambia a 'par' o 'impar', según el tiempo./\"",
+                "Entonces, soy como un stream, pero uno basado en otros streams. ¿Increíble, verdad?"
+            ],
+            "start": "veamos si debemos actualizar el stream",
+            "finish": "el nuevo valor del stream es $1",
             "initial": "inicial",
             "condition": "condición",
-            "next": "próxima",
+            "next": "siguiente",
             "conflict": {
-                "ExpectedStream": "$?"
+                "ExpectedStream": "$1 no referencia un stream, ¡así que nunca reaccionaré!"
             }
         },
         "Reference": {
             "name": "referencia",
-            "description": "$?",
-            "emotion": "neutral",
-            "doc": "$?",
-            "start": "$?",
+            "description": "$1",
+            "emotion": "shy",
+            "doc": [
+                "¿Sabes cómo @Bind le da a las cosas @Name? Soy cómo te refieres a ellas. Verifico si algún @Bind tiene ese nombre, si es así, te doy su valor. Como esto:",
+                "\\loro: 'polly'\nloro\\",
+                "Si no encuentro el nombre, entonces no sé qué hacer.",
+                "\\loro: 'polly'\nperry\\"
+            ],
+            "start": "¿qué valor tiene $1?",
             "conflict": {
-                "UnknownName": "$?",
-                "ReferenceCycle": "$?",
-                "UnexpectedTypeVariable": "$?"
+                "UnknownName": "$1[No conozco a nadie llamado $1 en $2[$2|este @Block]|¿Puedes darme un nombre?]",
+                "ReferenceCycle": "um, el valor de $1 depende de sí mismo, ¿cómo sé qué valor darle?",
+                "UnexpectedTypeVariable": "No sé qué hacer con estos inputs de tipo"
             },
             "exception": {
                 "NameException": {
-                    "description": "$?",
-                    "explanation": "$?"
+                    "description": "nombre desconocido",
+                    "explanation": "$1[No conozco a nadie llamado $1 en $2[$2|este @Block]…|¡Ay, sin nombre!]"
                 }
             }
         },
         "Select": {
             "name": "seleccionar",
-            "emotion": "neutral",
-            "doc": "$?",
-            "start": "$?",
-            "finish": "$?",
+            "emotion": "excited",
+            "doc": [
+                "A veces tienes una tabla y solo quieres parte de ella. ¡Puedo conseguirlo para ti!",
+                "Como, ¿y si tuvieras una tabla de jugadores en un juego y quisieras encontrar a los que tienen 10 o más puntos para ver quién ganó:",
+                "\\jugadores: ⎡nombre•'' equipo•'' puntos•#⎦\n⎡'jen' 'rojo' 8⎦\n⎡'javier' 'azul' 11⎦\n⎡'juan' 'rojo' 9⎦\n⎡'juanita' 'azul' 7⎦\njugadores ⎡? nombre ⎦ puntos ≥ 10\\",
+                "Así, de esa manera, ¡obtuve una lista de filas de ganadores! Solo recuerda que no cambio la tabla, hago una nueva. Tendrás que decidir dónde guardarla."
+            ],
+            "start": "primero obtengamos la tabla",
+            "finish": "¡Hice una nueva tabla solo con las filas y columnas seleccionadas!",
             "conflict": {
-                "ExpectedSelectName": "$?"
+                "ExpectedSelectName": "Necesito al menos un nombre de columna."
             }
         },
         "SetLiteral": {
-            "name": "recopilación",
-            "description": "$?",
-            "emotion": "neutral",
-            "doc": "$?",
-            "start": "$?",
-            "finish": "$?"
+            "name": "conjunto específico",
+            "description": "$1 elementos",
+            "emotion": "eager",
+            "doc": "Soy un @Set específico de valores específicos. Mira @Set para aprender más sobre cómo trabajar conmigo.",
+            "start": "¡evaluemos los valores primero!",
+            "finish": "¡Hice un conjunto $1!"
         },
         "SetOrMapAccess": {
-            "name": "acceso al conjunto/mapa",
-            "emotion": "neutral",
-            "doc": "$?",
-            "start": "$?",
-            "finish": "$?",
+            "name": "acceso a conjunto/mapa",
+            "emotion": "kind",
+            "doc": [
+                "Puedo ver si un @Set o @Map tiene un valor o clave.",
+                "No es tan difícil. Como esto:",
+                "\\favoritos: {'pato' 'ganso' 'mono'}\nfavoritos{'ratón'}\\",
+                "O esto, con un @Map:",
+                "\\favoritos: {'macarrones con queso': 5estrellas 'cereal': 2estrellas 'gachas': 1estrella}\nfavoritos{'gachas'}\\"
+            ],
+            "start": "¿cuál es el conjunto o mapa?",
+            "finish": "el valor es $1",
             "conflict": {
-                "IncompatibleKey": { "primary": "$?", "secondary": "$?" }
+                "IncompatibleKey": {
+                    "primary": "Esperaba una clave $1",
+                    "secondary": "Obtuve un $1 en lugar de un $2"
+                }
             }
         },
         "Source": {
-            "name": "documento",
-            "emotion": "neutral",
-            "doc": "$?"
+            "name": "fuente",
+            "emotion": "curious",
+            "doc": [
+                "¡Oh, conoces @Program? Te ayudo a nombrarlos. Piensa en mí como la ventana alrededor de un @Program y el nombre que les das.",
+                "También puedes hacer otros @Source @UI/addSource, con otros @Program, y @Borrow cosas de esos otros @Program para usar en otro programa.",
+                "Esto puede ser una buena manera de organizar una gran actuación en documentos separados."
+            ]
         },
         "StreamDefinition": {
-            "name": "arroyo",
-            "emotion": "neutral",
-            "doc": "defines a stream of values.",
-            "start": "define this stream type"
+            "name": "stream",
+            "emotion": "curious",
+            "doc": "Creo que se supone que debo hacer nuevos streams. Pero realmente no sé cómo hacer eso. Por ahora, supongo que solo usa los streams que existen, ¿eh?",
+            "start": "crea este nuevo tipo de stream"
         },
         "StructureDefinition": {
             "name": "estructura",
-            "description": "$?",
-            "emotion": "neutral",
-            "doc": "$?",
-            "start": "define this structure type",
+            "description": "estructura $1",
+            "emotion": "kind",
+            "doc": [
+                "Hola, ¿cómo estás? ¿Yo? Estoy genial. Me encanta definir estructuras que almacenan valores y funciones, así que mientras pueda hacer eso todo el día, soy feliz.",
+                "Trabajo así:",
+                "\\•Pizza(\ningredientes•['']\ntamaño•#in\n) (\n\tƒ costo() tamaño · 10dólares/pulgada\n)\n\nPizza(['pepperoni' 'pimientos'] 12pulg).costo()\\",
+                "¿Ves cómo funciona? Definí \\Pizza\\, que tiene dos entradas, \\ingredientes\\ (una lista de @Text) y \\tamaño\\ (un número en pulgadas).",
+                "Dentro, @FunctionDefinition creó una función que evalúa el costo de una pizza, asumiendo $$10 por pulgada.",
+                "No necesito tener @FunctionDefinition en mí. Puedo ser solo entradas.",
+                "\\•Pizza(\ningredientes•['']\ntamaño•#in\n)\\",
+                "También puedo tener @Bind dentro, así que podríamos evaluar el costo de antemano.",
+                "\\•Pizza(\ningredientes•['']\ntamaño•#in\n) (\n\tcosto: tamaño · 10dólares/pulgada\n)\n\nPizza(['pepperoni' 'pimientos'] 12pulg).costo\\"
+            ],
+            "start": "definamos esta encantadora estructura",
             "conflict": {
-                "DisallowedInputs": "$?",
-                "IncompleteImplementation": "$?",
-                "NotAnInterface": "$?",
-                "UnimplementedInterface": "$?"
+                "DisallowedInputs": "No puedo tener entradas porque una o más de mis funciones de interfaz no están implementadas",
+                "IncompleteImplementation": "mis funciones deben estar todas implementadas o ninguna. ¡Nada de mezclas confusas!",
+                "NotAnInterface": "No soy una interfaz; una estructura solo puede implementar interfaces, no otras estructuras",
+                "UnimplementedInterface": "Implemento $1 pero no he implementado $2"
             }
         },
         "TableLiteral": {
-            "name": "tabla",
-            "description": "$?",
-            "emotion": "neutral",
-            "doc": "$?",
-            "start": "first evaluate the rows",
-            "finish": "$?"
+            "name": "tabla específica",
+            "description": "tabla de $1 filas",
+            "emotion": "angry",
+            "doc": "Soy una tabla específica con filas específicas. Mira @Table para saber cómo puedo ayudar.",
+            "start": "primero evalúa las filas",
+            "finish": "evaluado como nueva tabla $1"
         },
         "TextLiteral": {
-            "name": "texto",
-            "description": "$?",
-            "emotion": "neutral",
-            "doc": "$?",
-            "start": "$?"
+            "name": "texto específico",
+            "description": "texto $1",
+            "emotion": "serious",
+            "doc": "Represento una o más traducciones específicas de texto. ¡Consulta @Text para aprender más sobre lo que puedo hacer!",
+            "start": "creemos texto en el idioma actual"
         },
         "Translation": {
-            "name": "$?",
-            "description": "$?",
-            "emotion": "$?",
-            "doc": "$?"
+            "name": "traducción",
+            "description": "traducción $1",
+            "emotion": "serious",
+            "doc": "Represento algún texto, con una etiqueta @Language. ¡Consulta @Text para aprender más!"
         },
         "FormattedLiteral": {
-            "name": "$?",
-            "description": "$?",
-            "emotion": "$?",
-            "doc": "$?",
-            "start": "$?"
+            "name": "texto formateado",
+            "description": "texto $1",
+            "emotion": "serious",
+            "doc": "Represento muchas @FormattedTranslation diferentes de texto formateado. Cuando evalúo, elegiré la mejor coincidencia según los idiomas seleccionados por la audiencia.",
+            "start": "creemos texto en el idioma actual"
         },
         "FormattedTranslation": {
-            "name": "$?",
-            "description": "$?",
-            "emotion": "$?",
-            "doc": "$?"
+            "name": "texto formateado",
+            "description": "texto $1",
+            "emotion": "serious",
+            "doc": [
+                "Represento algún texto formateado, con una etiqueta @Language.",
+                "Puedo ser:",
+                "\\`/cursiva/`\\",
+                "\\`*negrita*`\\",
+                "\\`^extra negrita^`\\",
+                "\\`_subrayado_`\\",
+                "\\`<enlace@https://wordplay.dev>`\\",
+                "\\`\\'código'\\`\\",
+                "Trabajo muy bien con @Phrase para poner texto hermoso en @Stage."
+            ]
         },
         "This": {
-            "name": "esta",
-            "emotion": "neutral",
-            "doc": "$?",
-            "start": "$?",
+            "name": "esto",
+            "emotion": "serious",
+            "doc": [
+                "A veces, es útil referirse a un valor implícitamente, en lugar de tener que nombrarlo.",
+                "Por ejemplo, supongamos que quieres crear una nueva @ConversionDefinition, que no nombra el valor que se está convirtiendo. Puedes referirte a él conmigo:",
+                "\\→ #arcoiris #alegrías . · 1000000alegrías\n2arcoiris → #alegrías\\",
+                "¿Me ves ahí, representando la cantidad de arcoíris?",
+                "O supongamos que quieres hacer una @Reaction, pero no quieres nombrar el valor más reciente:",
+                "\\2 … ∆ Tiempo(1000ms) … . · 2\\",
+                "Échame un vistazo, representando el valor de reacción anterior.",
+                "No aparezco a menudo, pero cuando lo hago, ¡puedo ayudar realmente a un valor a salir de un @Bind!"
+            ],
+            "start": "evaluado como $1",
             "conflict": {
-                "MisplacedThis": "$?"
+                "MisplacedThis": "Solo se me permite en una estructura, conversión o reacción."
             }
         },
         "UnaryEvaluate": {
-            "name": "operación unaria",
-            "description": "$?",
-            "emotion": "neutral",
-            "doc": "$?",
-            "start": "$?",
-            "finish": "$?"
+            "name": "evaluación unaria",
+            "description": "$1",
+            "emotion": "kind",
+            "doc": [
+                "¿Sabías que cuando estoy evaluando un @FunctionDefinition con solo un valor, y el nombre del @FunctionDefinition es solo un símbolo, puedes poner el nombre antes de la entrada?",
+                "Así:",
+                "\\-(1 + 1)\\",
+                "O así:",
+                "\\~⊥\\",
+                "Esos son mucho más fáciles de leer que \\(1 + 1).negate()\\ o \\⊥.no()\\, ¿verdad?",
+                "No tienes que escribirme de esa manera, pero podría ser más fácil en general.",
+                "Solo hay una regla: no puedes poner ningún espacio entre el nombre y el valor. De lo contrario, podrías estar creando un @Reference o @BinaryEvaluate."
+            ],
+            "start": "¿cuál es el valor?",
+            "finish": "Lo hice $1"
         },
         "UnparsableExpression": {
-            "name": "no analizable",
-            "emotion": "neutral",
-            "doc": "$?",
-            "start": "$?",
+            "name": "no parsable",
+            "emotion": "excited",
+            "doc": [
+                "/Hola @FunctionDefinition aquí. Estoy traduciendo para @UnparsableExpression, ya que a menudo son difíciles de interpretar./",
+                "jkwel fjiwojvioao jjiweo jrfe",
+                "/No todas las expresiones tienen sentido en el escenario./",
+                "s w ieorjwei iojwi jfkdlsfdsk",
+                "/De hecho, hay todo tipo de cosas que puedes decir que no tienen sentido en absoluto./",
+                "dsk sdlk jdkfiewipapweiurb,v kdsfdsf",
+                "/Cuando lo haces, aparezco, porque no sé lo que quisiste decir./",
+                "Eres el director después de todo, así que solo tú sabes lo que podrías haber querido decir."
+            ],
+            "start": "???",
             "conflict": {
-                "UnparsableConflict": "$?",
-                "UnclosedDelimiter": "$?"
+                "UnparsableConflict": "@FunctionDefinition aquí, @UnparsableExpression no sabe qué tipo de $1[ expresión | tipo ] es esto/",
+                "UnclosedDelimiter": "Esperaba $2 en algún momento después de $1"
             },
             "exception": {
                 "UnparsableException": {
-                    "description": "$?",
-                    "explanation": "$?"
+                    "description": "???",
+                    "explanation": "/¡Hola, @FunctionDefinition aquí! Tuvimos que detener la actuación porque no sabíamos qué tipo de instrucción es esta./"
                 }
             }
         },
         "Update": {
-            "name": "update rows",
-            "emotion": "neutral",
-            "doc": "$?",
-            "start": "$?",
-            "finish": "$?",
+            "name": "actualización",
+            "emotion": "kind",
+            "doc": [
+                "Ayudo a revisar una @Table, encontrando las filas que coinciden con una condición y luego creando filas revisadas con nuevos valores.",
+                "Entonces, por ejemplo, si tuvieras una tabla de personajes y puntos, y quisieras darle un punto a cada personaje de un equipo, podrías hacer esto:",
+                "\\jugadores: ⎡nombre•'' equipo'' puntos#⎦\n⎡'jen' 'rojo' 1⎦\n⎡'javier' 'azul' 0⎦\n⎡'juan' 'rojo' 3⎦\n⎡'juanita' 'azul' 2⎦\njugadores ⎡: puntos: puntos + 1 ⎦ equipo = 'azul'\\",
+                "Puedes usar un @Bind para decir qué columnas cambiar, y puedes usar cualquiera de los nombres de columna u otros nombres en el ámbito en la condición."
+            ],
+            "start": "vamos a obtener la tabla primero",
+            "finish": "¡evaluado como una nueva tabla con filas revisadas!",
             "conflict": {
-                "ExpectedColumnBind": "$?",
-                "IncompatibleCellType": { "primary": "$?", "secondary": "$?" }
+                "ExpectedColumnBind": "Necesito un valor para cada columna",
+                "IncompatibleCellType": {
+                    "primary": "Necesitaba un $1, pero obtuve un $2",
+                    "secondary": "Obtuve un $2"
+                }
             }
         },
         "AnyType": {
-            "name": "tipo de cualquier",
-            "emotion": "neutral",
-            "doc": "$?"
+            "name": "cualquier tipo",
+            "emotion": "curious",
+            "doc": "Represento cualquier tipo posible. A veces aparezco porque no sé qué tipo de valor es algo, así que podría ser cualquier cosa."
         },
         "BooleanType": {
-            "name": "tipo de booleano",
-            "emotion": "neutral",
-            "doc": "$?"
+            "name": "booleano",
+            "emotion": "kind",
+            "doc": [
+                "Trabajo con @Bind para declarar que un nombre es un valor @Booleano. Como esto:",
+                "\\hambriento•?: 'gelatina'\\",
+                "Si quieres estar seguro de que algo es @Booleano, úsame y ¡lo comprobaré!"
+            ]
         },
         "ConversionType": {
-            "name": "tipo de conversión",
-            "emotion": "neutral",
-            "doc": "$?"
+            "name": "conversión",
+            "emotion": "serious",
+            "doc": [
+                "Trabajo con @Bind para indicar que un nombre es una @ConversionDefinition. Probablemente no necesites usarme, porque no mucha gente me pasa como un valor, pero si lo hicieras, se vería así:",
+                "\\magia•?→'': → ? '' . ? 'sí' 'no'\\"
+            ]
         },
         "FormattedType": {
-            "name": "$?",
-            "emotion": "$?",
-            "doc": "$?"
+            "name": "formateado",
+            "emotion": "serious",
+            "doc": [
+                "Trabajo con @Bind para indicar que un nombre es un valor @FormattedLiteral. Como esto:",
+                "\\hambriento•`…`: `¡Soy tan /elegante/!`\\",
+                "¿Quieres asegurarte de que algo sea un valor @FormattedLiteral? Así es como te aseguras."
+            ]
         },
         "ExceptionType": {
-            "name": "tipo de excepción",
+            "name": "excepción",
             "emotion": "neutral",
-            "doc": "$?"
+            "doc": "Represento una excepción. No hay forma de decirle a @Bind que soy una, porque las excepciones solo detienen @Program, así que no puedes usarlas como valores."
         },
         "FunctionType": {
             "name": "tipo de función",
-            "description": "$?",
-            "emotion": "neutral",
-            "doc": "$?"
+            "description": "función con $1 entradas, $2 salida",
+            "emotion": "curious",
+            "doc": [
+                "Represento una @FunctionDefinition. ¡Soy realmente útil si quieres decir qué tipo de función tiene un @Bind! Como esto:",
+                "\\math•ƒ (# # # #) #: ƒ interesante(a•# b•# c•# d•#) a + b + c + d\\"
+            ]
         },
         "ListType": {
             "name": "tipo de lista",
-            "description": "$?",
-            "emotion": "neutral",
-            "doc": "$?"
+            "description": "$1[lista de $1|lista]",
+            "emotion": "cheerful",
+            "doc": [
+                "¡Soy /tan/ fan de @List! ¡Puedo decirle a @Bind qué tipo de lista son! Como esto, estoy diciendo que es una lista de @Number:",
+                "\\cosas•[#]: [ 1 2 3 4 5 ]\\"
+            ]
         },
         "MapType": {
-            "name": "tipo de índice",
-            "description": "$?",
-            "emotion": "neutral",
-            "doc": "$?"
+            "name": "tipo de mapa",
+            "description": "mapa de $1[$1|cualquier] a $2[$2|cualquier]",
+            "emotion": "kind",
+            "doc": [
+                "¿Sabes lo increíble que es @Map? Muy increíble. Le digo a @Bind qué tipo de mapa son todo el tiempo, como este mapa de números a listas:",
+                "\\cosas•{'':[]}: {}\\"
+            ]
         },
         "NumberType": {
             "name": "tipo de número",
-            "description": "$1 ?? [$1 | number]",
-            "emotion": "neutral",
-            "doc": "$?"
+            "description": "$1[$1 | número]",
+            "emotion": "precise",
+            "doc": [
+                "¿Sabes qué debería ser @Bind? Un @Number. Porque los números son lo mejor.",
+                "\\conteo•#: 17\\"
+            ]
         },
         "NameType": {
             "name": "tipo de nombre",
-            "description": "$?",
-            "emotion": "neutral",
-            "doc": "$?",
+            "description": "$1 tipo",
+            "emotion": "curious",
+            "doc": [
+                "Represento una @StructureDefinition por su nombre. Entonces, si tuvieras una estructura como esta, podrías hacer un @Bind que almacene los valores que crea.",
+                "\\•Amigo(nombre•'')\nmejorAmigo•Amigo: Amigo('Jonah')\\"
+            ],
             "conflict": {
-                "UnknownTypeName": "$?"
+                "UnknownTypeName": "los nombres de tipo solo pueden referirse a estructuras o variables de tipo, pero esto se refiere a un $1"
             }
         },
         "NeverType": {
-            "name": "tipo de nunca",
-            "emotion": "neutral",
-            "doc": "$?"
+            "name": "tipo nunca",
+            "emotion": "curious",
+            "doc": "Represento un tipo que es imposible. Como cuando preguntas a @Is si algo es un @Number, pero nunca puede ser un número."
         },
         "NoneType": {
-            "name": "tipo de nada",
+            "name": "tipo nulo",
             "emotion": "neutral",
-            "doc": "$?"
+            "doc": [
+                "@None es el mejor nada que hay, y yo soy su fiel representante.",
+                "\\espacio•ø: ø\\"
+            ]
         },
         "SetType": {
-            "name": "tipo de recopilación",
-            "description": "$?",
-            "emotion": "neutral",
-            "doc": "$?"
+            "name": "tipo de conjunto",
+            "description": "$1[tipo de conjunto|$1 set]",
+            "emotion": "kind",
+            "doc": [
+                "@Set es lo MEJOR, en serio. ¡Le digo a @Bind todo el tiempo, haz cosas un conjunto de algo!",
+                "\\único•{''}: {'algo' 'cualquier cosa' 'alguien'}\\"
+            ]
         },
         "StreamDefinitionType": {
-            "name": "streamtipo de arroyo",
-            "emotion": "neutral",
-            "doc": "$?"
+            "name": "tipo de definición de flujo",
+            "emotion": "angry",
+            "doc": "Represento un flujo que has definido, lo cual no es posible, así que ¿por qué incluso estás leyendo esto?"
         },
         "StreamType": {
-            "name": "streamtipo de arroyo",
-            "emotion": "neutral",
-            "doc": "$?"
+            "name": "tipo de flujo",
+            "emotion": "curious",
+            "doc": [
+                "Celebro la belleza y el significado de los flujos... diciéndole a @Bind que los almacene:",
+                "\\tiempo•…#ms: Tiempo()\\"
+            ]
         },
         "StructureType": {
             "name": "tipo de estructura",
             "description": "$1",
-            "emotion": "neutral",
-            "doc": "$?"
+            "emotion": "kind",
+            "doc": "Soy un tipo interno para representar el tipo de tipos de valores predeterminados."
         },
         "UnknownType": {
-            "name": "desconocida",
-            "connector": "$?",
-            "emotion": "neutral",
-            "doc": "$?"
+            "name": "tipo desconocido",
+            "connector": ", porque ",
+            "emotion": "curious",
+            "doc": "Mmm... no sé qué represento, pero realmente tengo curiosidad. ¿Tú sabes? Parece que deberíamos saberlo. Es posible que necesites decirnos si no podemos entenderlo."
         },
         "TableType": {
             "name": "tipo de tabla",
-            "emotion": "neutral",
-            "doc": "$?",
+            "emotion": "angry",
+            "doc": "Represento una tabla.",
             "conflict": {
-                "ExpectedColumnType": "$?"
+                "ExpectedColumnType": "Necesito un tipo de columna"
             }
         },
         "TextType": {
             "name": "tipo de texto",
-            "description": "$?",
-            "emotion": "neutral",
-            "doc": "$?"
+            "description": "$1[$1|texto]",
+            "emotion": "happy",
+            "doc": [
+                "Fabulosamente represento el tipo más fabuloso de valor que existe, @Text.",
+                "\\historia•'': 'Érase una vez...'\\"
+            ]
         },
         "TypePlaceholder": {
             "name": "tipo de marcador de posición",
-            "emotion": "neutral",
-            "doc": "$?"
+            "emotion": "eager",
+            "doc": "Espero representar un tipo algún día, ¡algo así como mi mejor amigo @ExpressionPlaceholder representa una expresión! ¿Me ayudarás a decidir qué tipo ser?"
         },
         "UnionType": {
             "name": "tipo de opción",
-            "description": "$?",
-            "emotion": "neutral",
-            "doc": "$?"
+            "description": "$1 | $2",
+            "emotion": "curious",
+            "doc": [
+                "¿A quién debería representar, A o B o algo más? ¡Nunca puedo decidir!",
+                "\\indecisión•''|#|{ø}: \"¡No lo sé!\"\\"
+            ]
         },
         "Unit": {
-            "name": "unidad de medida",
+            "name": "unidad",
             "description": "$1",
-            "emotion": "neutral",
-            "doc": "$?"
+            "emotion": "precise",
+            "doc": [
+                "Represento cualquier unidad que pueda tener un @Number, incluida la ausencia de unidad, hasta la unidad más complicada que puedas imaginar. Como la gravedad, por ejemplo:",
+                "\\gravedad•m/s^2: 9.8m/s^2\\",
+                "Aparezco en @Bind, pero también justo después de @Number. Ayudo a asegurarme de que los números sean del mismo tipo y definitivamente te diré si no lo son, ¡en caso de que sea un error!"
+            ]
         },
         "TypeInputs": {
-            "name": "lista de variable de tipo",
-            "emotion": "neutral",
-            "doc": "$?"
+            "name": "entradas de tipo",
+            "emotion": "curious",
+            "doc": "Soy una lista de tipos que ocupan el lugar de @TypeVariables en una @StructureDefinition o @FunctionDefinition. Ayudo a todos a saber qué tipo de entradas recibirán."
         },
         "TypeVariable": {
             "name": "variable de tipo",
-            "emotion": "neutral",
-            "doc": "$?",
+            "emotion": "curious",
+            "doc": "Soy un tipo misterioso en @FunctionDefinition o @StructureDefinition, proporcionado por @TypeInputs cuando se evalúa cualquiera de ellos. @Set, @List y @Map me utilizan.",
             "conflict": {
-                "DuplicateTypeVariable": { "primary": "$?", "secondary": "$?" }
+                "DuplicateTypeVariable": {
+                    "primary": "Tengo el mismo nombre que $1",
+                    "secondary": "Tengo el mismo nombre que $1"
+                }
             }
         },
         "TypeVariables": {
-            "name": "lista de variable de tipo",
-            "emotion": "neutral",
-            "doc": "$?"
+            "name": "variables de tipo",
+            "emotion": "curious",
+            "doc": "Soy una lista de @TypeVariable."
         },
         "UnparsableType": {
-            "name": "tipo no analizable",
-            "emotion": "neutral",
-            "doc": "$?"
+            "name": "tipo no interpretable",
+            "emotion": "curious",
+            "doc": "Represento el tipo de una expresión desconocida. Aparezco cuando intentas usar esa expresión para algo."
         },
         "VariableType": {
-            "name": "tipo variable",
-            "emotion": "neutral",
-            "doc": "$?"
+            "name": "tipo de variable",
+            "emotion": "curious",
+            "doc": "¿Conoces a @TypeVariable y cómo representan algún tipo desconocido de valor? Los represento en todas las negociaciones entre valores."
         },
         "CycleType": {
             "name": "tipo de ciclo",
-            "description": "$?",
-            "emotion": "neutral",
-            "doc": "$?"
+            "description": "depende de sí mismo",
+            "emotion": "curious",
+            "doc": "A veces los valores dependen de sí mismos, y así no sabemos qué tipo de valor son. Represento esa situación."
         },
         "UnknownVariableType": {
-            "name": "tipo de variable desconocido",
-            "emotion": "neutral",
-            "doc": "$?"
+            "name": "tipo de variable desconocida",
+            "emotion": "curious",
+            "doc": "A veces intentamos adivinar qué tipo de valor es algo; aparezco cuando no lo sabemos."
         },
         "NotAType": {
-            "name": "tipo sin lista",
-            "description": "$?",
-            "emotion": "neutral",
-            "doc": "$?"
+            "name": "tipo inesperado",
+            "description": "no es un $1",
+            "emotion": "curious",
+            "doc": "A veces sabemos qué tipo de valor debería ser algo. Como @ListAccess necesita un @Number. Si no lo obtenemos, represento que algo es un tipo diferente al esperado."
         },
         "NoExpressionType": {
             "name": "tipo sin expresión",
-            "emotion": "neutral",
-            "doc": "$?"
+            "emotion": "angry",
+            "doc": "¿Sabes cómo @Block necesita al menos una expresión? Soy lo que obtienes cuando no das una. ¡Así que da una!"
         },
         "NotEnclosedType": {
-            "name": "no en estructura, conversión o reacción",
-            "emotion": "neutral",
-            "doc": "$?"
+            "name": "fuera de estructura, conversión o reacción",
+            "emotion": "curious",
+            "doc": "@This, por geniales que sean, solo pertenecen a lugares particulares. Aparezco cuando se pierden, y así nadie sabe qué valor representan."
         },
         "NotImplementedType": {
-            "name": "typo sin implementado",
-            "emotion": "neutral",
-            "doc": "$?"
+            "name": "no implementado",
+            "emotion": "curious",
+            "doc": "Cuando usas @ExpressionPlaceholder, pero no dices de qué tipo son, soy el tipo que obtienes. ¡Lídia con ello!"
         },
         "UnknownNameType": {
-            "name": "tipo de nombre desconocido",
-            "description": "$?",
-            "emotion": "neutral",
-            "doc": "$?"
+            "name": "nombre desconocido",
+            "description": "$1[$1 no está definido | no se dio un nombre]",
+            "emotion": "curious",
+            "doc": "¿Sabes cómo a veces @Reference y @PropertyReference no conocen el nombre del que estás hablando? Estoy presente cuando eso sucede, para representar que no sabemos de quién estás hablando."
         },
         "NonFunctionType": {
-            "name": "$?",
-            "description": "$?",
-            "emotion": "$?",
-            "doc": "$?"
+            "name": "no es una función",
+            "description": "no es una función",
+            "emotion": "confused",
+            "doc": "Algunos de nosotros esperábamos funciones; aparezco cuando no obtenemos una."
         }
     },
     "basis": {
@@ -955,26 +1372,52 @@
                 "and": {
                     "doc": "$?",
                     "names": "y",
-                    "inputs": [{ "doc": "$?", "names": "value" }]
+                    "inputs": [
+                        {
+                            "doc": "$?",
+                            "names": "value"
+                        }
+                    ]
                 },
                 "or": {
                     "doc": "$?",
                     "names": "o",
-                    "inputs": [{ "doc": "$?", "names": "value" }]
+                    "inputs": [
+                        {
+                            "doc": "$?",
+                            "names": "value"
+                        }
+                    ]
                 },
-                "not": { "doc": "$?", "names": "no", "inputs": [] },
+                "not": {
+                    "doc": "$?",
+                    "names": "no",
+                    "inputs": []
+                },
                 "equals": {
                     "doc": "$?",
                     "names": "igual",
-                    "inputs": [{ "doc": "$?", "names": "value" }]
+                    "inputs": [
+                        {
+                            "doc": "$?",
+                            "names": "value"
+                        }
+                    ]
                 },
                 "notequal": {
                     "doc": "$?",
                     "names": "noIgual",
-                    "inputs": [{ "doc": "$?", "names": "value" }]
+                    "inputs": [
+                        {
+                            "doc": "$?",
+                            "names": "value"
+                        }
+                    ]
                 }
             },
-            "conversion": { "text": "$?" }
+            "conversion": {
+                "text": "$?"
+            }
         },
         "None": {
             "doc": "$?",
@@ -982,64 +1425,137 @@
             "function": {
                 "equals": {
                     "doc": "$?",
-                    "names": ["=", "equals"],
-                    "inputs": [{ "doc": "$?", "names": "value" }]
+                    "names": [
+                        "=",
+                        "equals"
+                    ],
+                    "inputs": [
+                        {
+                            "doc": "$?",
+                            "names": "value"
+                        }
+                    ]
                 },
                 "notequals": {
                     "doc": "$?",
                     "names": "≠",
-                    "inputs": [{ "doc": "$?", "names": "value" }]
+                    "inputs": [
+                        {
+                            "doc": "$?",
+                            "names": "value"
+                        }
+                    ]
                 }
             },
-            "conversion": { "text": "$?" }
+            "conversion": {
+                "text": "$?"
+            }
         },
         "Text": {
             "doc": "$?",
             "name": "text",
             "function": {
-                "length": { "doc": "$?", "names": "length", "inputs": [] },
+                "length": {
+                    "doc": "$?",
+                    "names": "length",
+                    "inputs": []
+                },
                 "equals": {
                     "doc": "$?",
-                    "names": ["=", "equals"],
-                    "inputs": [{ "doc": "$?", "names": "value" }]
+                    "names": [
+                        "=",
+                        "equals"
+                    ],
+                    "inputs": [
+                        {
+                            "doc": "$?",
+                            "names": "value"
+                        }
+                    ]
                 },
                 "notequals": {
                     "doc": "$?",
                     "names": "≠",
-                    "inputs": [{ "doc": "$?", "names": "value" }]
+                    "inputs": [
+                        {
+                            "doc": "$?",
+                            "names": "value"
+                        }
+                    ]
                 },
                 "repeat": {
                     "doc": "$?",
                     "names": "repetir",
-                    "inputs": [{ "doc": "$?", "names": "contar" }]
+                    "inputs": [
+                        {
+                            "doc": "$?",
+                            "names": "contar"
+                        }
+                    ]
                 },
                 "segment": {
                     "doc": "$?",
-                    "names": ["segmentar"],
-                    "inputs": [{ "doc": "$?", "names": "delimitador" }]
+                    "names": [
+                        "segmentar"
+                    ],
+                    "inputs": [
+                        {
+                            "doc": "$?",
+                            "names": "delimitador"
+                        }
+                    ]
                 },
                 "has": {
                     "doc": "$?",
-                    "names": ["tiene"],
-                    "inputs": [{ "doc": "$?", "names": "texto" }]
+                    "names": [
+                        "tiene"
+                    ],
+                    "inputs": [
+                        {
+                            "doc": "$?",
+                            "names": "texto"
+                        }
+                    ]
                 },
                 "starts": {
                     "doc": "$?",
-                    "names": ["$? starts"],
-                    "inputs": [{ "doc": "$?", "names": "texto" }]
+                    "names": [
+                        "$? starts"
+                    ],
+                    "inputs": [
+                        {
+                            "doc": "$?",
+                            "names": "texto"
+                        }
+                    ]
                 },
                 "ends": {
                     "doc": "$?",
-                    "names": ["$? ends"],
-                    "inputs": [{ "doc": "$?", "names": "texto" }]
+                    "names": [
+                        "$? ends"
+                    ],
+                    "inputs": [
+                        {
+                            "doc": "$?",
+                            "names": "texto"
+                        }
+                    ]
                 },
                 "combine": {
                     "doc": "$?",
                     "names": "combinar",
-                    "inputs": [{ "doc": "$?", "names": "texto" }]
+                    "inputs": [
+                        {
+                            "doc": "$?",
+                            "names": "texto"
+                        }
+                    ]
                 }
             },
-            "conversion": { "list": "$?", "number": "$?" }
+            "conversion": {
+                "list": "$?",
+                "number": "$?"
+            }
         },
         "Number": {
             "doc": "$?",
@@ -1048,94 +1564,198 @@
                 "add": {
                     "doc": "$?",
                     "names": "add",
-                    "inputs": [{ "doc": "$?", "names": "number" }]
+                    "inputs": [
+                        {
+                            "doc": "$?",
+                            "names": "number"
+                        }
+                    ]
                 },
                 "subtract": {
                     "doc": "$?",
                     "names": "subtract",
-                    "inputs": [{ "doc": "$?", "names": "number" }]
+                    "inputs": [
+                        {
+                            "doc": "$?",
+                            "names": "number"
+                        }
+                    ]
                 },
                 "multiply": {
                     "doc": "$?",
                     "names": "multiplicar",
-                    "inputs": [{ "doc": "$?", "names": "number" }]
+                    "inputs": [
+                        {
+                            "doc": "$?",
+                            "names": "number"
+                        }
+                    ]
                 },
                 "divide": {
                     "doc": "$?",
-                    "names": ["÷", "divide"],
-                    "inputs": [{ "doc": "$?", "names": "number" }]
+                    "names": [
+                        "÷",
+                        "divide"
+                    ],
+                    "inputs": [
+                        {
+                            "doc": "$?",
+                            "names": "number"
+                        }
+                    ]
                 },
                 "remainder": {
                     "doc": "$?",
                     "names": "remainder",
-                    "inputs": [{ "doc": "$?", "names": "number" }]
+                    "inputs": [
+                        {
+                            "doc": "$?",
+                            "names": "number"
+                        }
+                    ]
                 },
                 "positive": {
                     "doc": "$?",
-                    "names": ["positive"],
+                    "names": [
+                        "positive"
+                    ],
                     "inputs": []
                 },
                 "round": {
                     "doc": "$?",
-                    "names": ["round"],
+                    "names": [
+                        "round"
+                    ],
                     "inputs": []
                 },
                 "roundDown": {
                     "doc": "$?",
-                    "names": ["$? down"],
+                    "names": [
+                        "$? down"
+                    ],
                     "inputs": []
                 },
                 "roundUp": {
                     "doc": "$?",
-                    "names": ["$? up"],
+                    "names": [
+                        "$? up"
+                    ],
                     "inputs": []
                 },
                 "power": {
                     "doc": "$?",
-                    "names": ["^", "power"],
-                    "inputs": [{ "doc": "$?", "names": "number" }]
+                    "names": [
+                        "^",
+                        "power"
+                    ],
+                    "inputs": [
+                        {
+                            "doc": "$?",
+                            "names": "number"
+                        }
+                    ]
                 },
                 "root": {
                     "doc": "$?",
-                    "names": ["√", "root"],
-                    "inputs": [{ "doc": "$?", "names": "number" }]
+                    "names": [
+                        "√",
+                        "root"
+                    ],
+                    "inputs": [
+                        {
+                            "doc": "$?",
+                            "names": "number"
+                        }
+                    ]
                 },
                 "lessThan": {
                     "doc": "$?",
-                    "names": ["<", "lessthan"],
-                    "inputs": [{ "doc": "$?", "names": "number" }]
+                    "names": [
+                        "<",
+                        "lessthan"
+                    ],
+                    "inputs": [
+                        {
+                            "doc": "$?",
+                            "names": "number"
+                        }
+                    ]
                 },
                 "lessOrEqual": {
                     "doc": "$?",
-                    "names": ["≤", "lessorequal"],
-                    "inputs": [{ "doc": "$?", "names": "number" }]
+                    "names": [
+                        "≤",
+                        "lessorequal"
+                    ],
+                    "inputs": [
+                        {
+                            "doc": "$?",
+                            "names": "number"
+                        }
+                    ]
                 },
                 "greaterThan": {
                     "doc": "$?",
-                    "names": [">", "greaterthan"],
-                    "inputs": [{ "doc": "$?", "names": "number" }]
+                    "names": [
+                        ">",
+                        "greaterthan"
+                    ],
+                    "inputs": [
+                        {
+                            "doc": "$?",
+                            "names": "number"
+                        }
+                    ]
                 },
                 "greaterOrEqual": {
                     "doc": "$?",
-                    "names": ["≥", "greaterorequal"],
-                    "inputs": [{ "doc": "$?", "names": "number" }]
+                    "names": [
+                        "≥",
+                        "greaterorequal"
+                    ],
+                    "inputs": [
+                        {
+                            "doc": "$?",
+                            "names": "number"
+                        }
+                    ]
                 },
                 "equal": {
                     "doc": "$?",
                     "names": "equal",
-                    "inputs": [{ "doc": "$?", "names": "number" }]
+                    "inputs": [
+                        {
+                            "doc": "$?",
+                            "names": "number"
+                        }
+                    ]
                 },
                 "notequal": {
                     "doc": "$?",
                     "names": "≠",
-                    "inputs": [{ "doc": "$?", "names": "number" }]
+                    "inputs": [
+                        {
+                            "doc": "$?",
+                            "names": "number"
+                        }
+                    ]
                 },
                 "cos": {
                     "doc": "$?",
-                    "names": ["cos", "cosine"],
+                    "names": [
+                        "cos",
+                        "cosine"
+                    ],
                     "inputs": []
                 },
-                "sin": { "doc": "$?", "names": ["sin", "sine"], "inputs": [] },
+                "sin": {
+                    "doc": "$?",
+                    "names": [
+                        "sin",
+                        "sine"
+                    ],
+                    "inputs": []
+                },
                 "min": {
                     "doc": "$?",
                     "names": "$? min",
@@ -1218,34 +1838,78 @@
                 "add": {
                     "doc": "$?",
                     "names": "agregar",
-                    "inputs": [{ "doc": "$?", "names": "item" }]
+                    "inputs": [
+                        {
+                            "doc": "$?",
+                            "names": "item"
+                        }
+                    ]
                 },
                 "append": {
                     "doc": "$?",
                     "names": "adjuntar",
-                    "inputs": [{ "doc": "$?", "names": "list" }]
+                    "inputs": [
+                        {
+                            "doc": "$?",
+                            "names": "list"
+                        }
+                    ]
                 },
                 "replace": {
                     "doc": "$?",
-                    "names": ["reemplazar"],
+                    "names": [
+                        "reemplazar"
+                    ],
                     "inputs": [
-                        { "doc": "$?", "names": "index" },
-                        { "doc": "$?", "names": "value" }
+                        {
+                            "doc": "$?",
+                            "names": "index"
+                        },
+                        {
+                            "doc": "$?",
+                            "names": "value"
+                        }
                     ]
                 },
-                "length": { "doc": "$?", "names": "longitud", "inputs": [] },
-                "random": { "doc": "$?", "names": "azar", "inputs": [] },
-                "first": { "doc": "$?", "names": "primera", "inputs": [] },
-                "last": { "doc": "$?", "names": "última", "inputs": [] },
+                "length": {
+                    "doc": "$?",
+                    "names": "longitud",
+                    "inputs": []
+                },
+                "random": {
+                    "doc": "$?",
+                    "names": "azar",
+                    "inputs": []
+                },
+                "first": {
+                    "doc": "$?",
+                    "names": "primera",
+                    "inputs": []
+                },
+                "last": {
+                    "doc": "$?",
+                    "names": "última",
+                    "inputs": []
+                },
                 "has": {
                     "doc": "$?",
                     "names": "tiene",
-                    "inputs": [{ "doc": "$?", "names": "item" }]
+                    "inputs": [
+                        {
+                            "doc": "$?",
+                            "names": "item"
+                        }
+                    ]
                 },
                 "join": {
                     "doc": "$?",
                     "names": "unirse",
-                    "inputs": [{ "doc": "$?", "names": "separator" }]
+                    "inputs": [
+                        {
+                            "doc": "$?",
+                            "names": "separator"
+                        }
+                    ]
                 },
                 "subsequence": {
                     "doc": "$?",
@@ -1266,35 +1930,77 @@
                     "names": "sinPrimero",
                     "inputs": []
                 },
-                "sansLast": { "doc": "$?", "names": "sinÚltima", "inputs": [] },
+                "sansLast": {
+                    "doc": "$?",
+                    "names": "sinÚltima",
+                    "inputs": []
+                },
                 "sans": {
                     "doc": "$?",
                     "names": "sans",
-                    "inputs": [{ "doc": "$?", "names": "$? value" }]
+                    "inputs": [
+                        {
+                            "doc": "$?",
+                            "names": "$? value"
+                        }
+                    ]
                 },
                 "sansAll": {
                     "doc": "$?",
                     "names": "sinTodo",
-                    "inputs": [{ "doc": "$?", "names": "$? value" }]
+                    "inputs": [
+                        {
+                            "doc": "$?",
+                            "names": "$? value"
+                        }
+                    ]
                 },
-                "reverse": { "doc": "$?", "names": "inversa", "inputs": [] },
+                "reverse": {
+                    "doc": "$?",
+                    "names": "inversa",
+                    "inputs": []
+                },
                 "equals": {
                     "doc": "$?",
-                    "names": ["=", "equals"],
-                    "inputs": [{ "doc": "$?", "names": "$? list" }]
+                    "names": [
+                        "=",
+                        "equals"
+                    ],
+                    "inputs": [
+                        {
+                            "doc": "$?",
+                            "names": "$? list"
+                        }
+                    ]
                 },
                 "notequals": {
                     "doc": "$?",
                     "names": "≠",
-                    "inputs": [{ "doc": "$?", "names": "$? list" }]
+                    "inputs": [
+                        {
+                            "doc": "$?",
+                            "names": "$? list"
+                        }
+                    ]
                 },
                 "translate": {
                     "doc": "$?",
                     "names": "traducir",
-                    "inputs": [{ "doc": "$?", "names": " ranslator" }],
+                    "inputs": [
+                        {
+                            "doc": "$?",
+                            "names": " ranslator"
+                        }
+                    ],
                     "translator": [
-                        { "doc": "$?", "names": "$? item" },
-                        { "doc": "$?", "names": "$? index" },
+                        {
+                            "doc": "$?",
+                            "names": "$? item"
+                        },
+                        {
+                            "doc": "$?",
+                            "names": "$? index"
+                        },
                         {
                             "doc": "$?",
                             "names": "$?"
@@ -1304,10 +2010,21 @@
                 "filter": {
                     "doc": "$?",
                     "names": "filtrar",
-                    "inputs": [{ "doc": "$?", "names": "$? checker" }],
+                    "inputs": [
+                        {
+                            "doc": "$?",
+                            "names": "$? checker"
+                        }
+                    ],
                     "checker": [
-                        { "doc": "$?", "names": "$? item" },
-                        { "doc": "$?", "names": "$? index" },
+                        {
+                            "doc": "$?",
+                            "names": "$? item"
+                        },
+                        {
+                            "doc": "$?",
+                            "names": "$? index"
+                        },
                         {
                             "doc": "$?",
                             "names": "$?"
@@ -1317,10 +2034,21 @@
                 "all": {
                     "doc": "$?",
                     "names": "todos",
-                    "inputs": [{ "doc": "$?", "names": "checker" }],
+                    "inputs": [
+                        {
+                            "doc": "$?",
+                            "names": "checker"
+                        }
+                    ],
                     "checker": [
-                        { "doc": "$?", "names": "item" },
-                        { "doc": "$?", "names": "$? index" },
+                        {
+                            "doc": "$?",
+                            "names": "item"
+                        },
+                        {
+                            "doc": "$?",
+                            "names": "$? index"
+                        },
                         {
                             "doc": "$?",
                             "names": "$?"
@@ -1330,10 +2058,21 @@
                 "until": {
                     "doc": "$?",
                     "names": "hasta",
-                    "inputs": [{ "doc": "$?", "names": "checker" }],
+                    "inputs": [
+                        {
+                            "doc": "$?",
+                            "names": "checker"
+                        }
+                    ],
                     "checker": [
-                        { "doc": "$?", "names": "item" },
-                        { "doc": "$?", "names": "$? index" },
+                        {
+                            "doc": "$?",
+                            "names": "item"
+                        },
+                        {
+                            "doc": "$?",
+                            "names": "$? index"
+                        },
                         {
                             "doc": "$?",
                             "names": "$?"
@@ -1343,10 +2082,21 @@
                 "find": {
                     "doc": "$?",
                     "names": "encontrar",
-                    "inputs": [{ "doc": "$?", "names": "checker" }],
+                    "inputs": [
+                        {
+                            "doc": "$?",
+                            "names": "checker"
+                        }
+                    ],
                     "checker": [
-                        { "doc": "$?", "names": "item" },
-                        { "doc": "$?", "names": "$? index" },
+                        {
+                            "doc": "$?",
+                            "names": "item"
+                        },
+                        {
+                            "doc": "$?",
+                            "names": "$? index"
+                        },
                         {
                             "doc": "$?",
                             "names": "$?"
@@ -1357,13 +2107,28 @@
                     "doc": "$?",
                     "names": "combinar",
                     "inputs": [
-                        { "doc": "$?", "names": "inicial" },
-                        { "doc": "$?", "names": "combinador" }
+                        {
+                            "doc": "$?",
+                            "names": "inicial"
+                        },
+                        {
+                            "doc": "$?",
+                            "names": "combinador"
+                        }
                     ],
                     "combiner": [
-                        { "doc": "$?", "names": "combinación" },
-                        { "doc": "$?", "names": "próxima" },
-                        { "doc": "$?", "names": "índice" },
+                        {
+                            "doc": "$?",
+                            "names": "combinación"
+                        },
+                        {
+                            "doc": "$?",
+                            "names": "próxima"
+                        },
+                        {
+                            "doc": "$?",
+                            "names": "índice"
+                        },
                         {
                             "doc": "$?",
                             "names": "$?"
@@ -1373,11 +2138,24 @@
                 "sorted": {
                     "doc": "$?",
                     "names": "$? sorted",
-                    "inputs": [{ "doc": "$", "names": "$? sequencer" }],
-                    "sequencer": [{ "doc": "$?", "names": "$? value" }]
+                    "inputs": [
+                        {
+                            "doc": "$",
+                            "names": "$? sequencer"
+                        }
+                    ],
+                    "sequencer": [
+                        {
+                            "doc": "$?",
+                            "names": "$? value"
+                        }
+                    ]
                 }
             },
-            "conversion": { "text": "$?", "set": "$?" }
+            "conversion": {
+                "text": "$?",
+                "set": "$?"
+            }
         },
         "Set": {
             "doc": "$?",
@@ -1392,45 +2170,102 @@
                 },
                 "equals": {
                     "doc": "$?",
-                    "names": ["=", "equals"],
-                    "inputs": [{ "doc": "$?", "names": "set" }]
+                    "names": [
+                        "=",
+                        "equals"
+                    ],
+                    "inputs": [
+                        {
+                            "doc": "$?",
+                            "names": "set"
+                        }
+                    ]
                 },
                 "notequals": {
                     "doc": "$?",
                     "names": "≠",
-                    "inputs": [{ "doc": "$?", "names": "set" }]
+                    "inputs": [
+                        {
+                            "doc": "$?",
+                            "names": "set"
+                        }
+                    ]
                 },
                 "add": {
                     "doc": "$?",
-                    "names": ["add", "+"],
-                    "inputs": [{ "doc": "$?", "names": "set" }]
+                    "names": [
+                        "add",
+                        "+"
+                    ],
+                    "inputs": [
+                        {
+                            "doc": "$?",
+                            "names": "set"
+                        }
+                    ]
                 },
                 "remove": {
                     "doc": "$?",
-                    "names": ["remove", "-"],
-                    "inputs": [{ "doc": "$?", "names": "set" }]
+                    "names": [
+                        "remove",
+                        "-"
+                    ],
+                    "inputs": [
+                        {
+                            "doc": "$?",
+                            "names": "set"
+                        }
+                    ]
                 },
                 "union": {
                     "doc": "$?",
-                    "names": ["union", "∪"],
-                    "inputs": [{ "doc": "$?", "names": "set" }]
+                    "names": [
+                        "union",
+                        "∪"
+                    ],
+                    "inputs": [
+                        {
+                            "doc": "$?",
+                            "names": "set"
+                        }
+                    ]
                 },
                 "intersection": {
                     "doc": "$?",
-                    "names": ["$? intersection"],
-                    "inputs": [{ "doc": "$?", "names": "set" }]
+                    "names": [
+                        "$? intersection"
+                    ],
+                    "inputs": [
+                        {
+                            "doc": "$?",
+                            "names": "set"
+                        }
+                    ]
                 },
                 "difference": {
                     "doc": "$?",
                     "names": "$? difference",
-                    "inputs": [{ "doc": "$?", "names": "set" }]
+                    "inputs": [
+                        {
+                            "doc": "$?",
+                            "names": "set"
+                        }
+                    ]
                 },
                 "filter": {
                     "doc": "$?",
                     "names": "$? filter",
-                    "inputs": [{ "doc": "$?", "names": "$? checker" }],
+                    "inputs": [
+                        {
+                            "doc": "$?",
+                            "names": "$? checker"
+                        }
+                    ],
                     "checker": [
-                        { "doc": "$?", "names": "$? value" },
+                        {
+                            "doc": "$?",
+                            "names": "$? value"
+                        },
                         {
                             "doc": "$?",
                             "names": "$? set"
@@ -1440,9 +2275,17 @@
                 "translate": {
                     "doc": "$?",
                     "names": "translate",
-                    "inputs": [{ "doc": "$?", "names": "$? translator" }],
+                    "inputs": [
+                        {
+                            "doc": "$?",
+                            "names": "$? translator"
+                        }
+                    ],
                     "translator": [
-                        { "doc": "$?", "names": "$? value" },
+                        {
+                            "doc": "$?",
+                            "names": "$? value"
+                        },
                         {
                             "doc": "$?",
                             "names": "$? set"
@@ -1450,7 +2293,10 @@
                     ]
                 }
             },
-            "conversion": { "text": "$?", "list": "$?" }
+            "conversion": {
+                "text": "$?",
+                "list": "$?"
+            }
         },
         "Map": {
             "doc": "$?",
@@ -1466,54 +2312,115 @@
                 },
                 "equals": {
                     "doc": "$?",
-                    "names": ["=", "equals"],
-                    "inputs": [{ "doc": "$?", "names": "value" }]
+                    "names": [
+                        "=",
+                        "equals"
+                    ],
+                    "inputs": [
+                        {
+                            "doc": "$?",
+                            "names": "value"
+                        }
+                    ]
                 },
                 "notequals": {
                     "doc": "$?",
                     "names": "≠",
-                    "inputs": [{ "doc": "$?", "names": "value" }]
+                    "inputs": [
+                        {
+                            "doc": "$?",
+                            "names": "value"
+                        }
+                    ]
                 },
                 "set": {
                     "doc": "$?",
                     "names": "set",
                     "inputs": [
-                        { "doc": "$?", "names": "key" },
-                        { "doc": "$?", "names": "value" }
+                        {
+                            "doc": "$?",
+                            "names": "key"
+                        },
+                        {
+                            "doc": "$?",
+                            "names": "value"
+                        }
                     ]
                 },
                 "unset": {
                     "doc": "$?",
                     "names": "unset",
-                    "inputs": [{ "doc": "$?", "names": "key" }]
+                    "inputs": [
+                        {
+                            "doc": "$?",
+                            "names": "key"
+                        }
+                    ]
                 },
                 "remove": {
                     "doc": "$?",
                     "names": "remove",
-                    "inputs": [{ "doc": "$?", "names": "value" }]
+                    "inputs": [
+                        {
+                            "doc": "$?",
+                            "names": "value"
+                        }
+                    ]
                 },
                 "filter": {
                     "doc": "$?",
                     "names": "filter",
-                    "inputs": [{ "doc": "$?", "names": "$? checker" }],
+                    "inputs": [
+                        {
+                            "doc": "$?",
+                            "names": "$? checker"
+                        }
+                    ],
                     "checker": [
-                        { "doc": "$?", "names": "$? key" },
-                        { "doc": "$?", "names": "$? value" },
-                        { "doc": "$?", "names": "$?" }
+                        {
+                            "doc": "$?",
+                            "names": "$? key"
+                        },
+                        {
+                            "doc": "$?",
+                            "names": "$? value"
+                        },
+                        {
+                            "doc": "$?",
+                            "names": "$?"
+                        }
                     ]
                 },
                 "translate": {
                     "doc": "$?",
                     "names": "translate",
-                    "inputs": [{ "doc": "$?", "names": "$? translator" }],
+                    "inputs": [
+                        {
+                            "doc": "$?",
+                            "names": "$? translator"
+                        }
+                    ],
                     "translator": [
-                        { "doc": "$?", "names": "$? key" },
-                        { "doc": "$?", "names": "$? value" },
-                        { "doc": "$?", "names": "$?" }
+                        {
+                            "doc": "$?",
+                            "names": "$? key"
+                        },
+                        {
+                            "doc": "$?",
+                            "names": "$? value"
+                        },
+                        {
+                            "doc": "$?",
+                            "names": "$?"
+                        }
                     ]
                 }
             },
-            "conversion": { "text": "$?", "set": "$?", "list": "$?" }
+            "conversion": {
+                "text": "$?",
+                "set": "$?",
+                "list": "$?"
+            }
         },
         "Table": {
             "doc": "$?",
@@ -1523,12 +2430,22 @@
                 "equals": {
                     "doc": "$?",
                     "names": "$? equals",
-                    "inputs": [{ "doc": "$?", "names": "$? value" }]
+                    "inputs": [
+                        {
+                            "doc": "$?",
+                            "names": "$? value"
+                        }
+                    ]
                 },
                 "notequal": {
                     "doc": "$?",
                     "names": "$?",
-                    "inputs": [{ "doc": "$?", "names": "$? value" }]
+                    "inputs": [
+                        {
+                            "doc": "$?",
+                            "names": "$? value"
+                        }
+                    ]
                 }
             },
             "conversion": {
@@ -1569,61 +2486,137 @@
     "input": {
         "Random": {
             "doc": "$?",
-            "names": ["Azar"],
+            "names": [
+                "Azar"
+            ],
             "inputs": [
-                { "names": "mínima", "doc": "$?" },
-                { "names": "maximo", "doc": "$?" }
+                {
+                    "names": "mínima",
+                    "doc": "$?"
+                },
+                {
+                    "names": "maximo",
+                    "doc": "$?"
+                }
             ]
         },
-        "Choice": { "doc": "$?", "names": ["Selección", "Elección"] },
+        "Choice": {
+            "doc": "$?",
+            "names": [
+                "Selección",
+                "Elección"
+            ]
+        },
         "Button": {
             "doc": "$?",
             "names": "Botón",
-            "down": { "names": "abajo", "doc": "$?" }
+            "down": {
+                "names": "abajo",
+                "doc": "$?"
+            }
         },
-        "Pointer": { "doc": "$?", "names": ["Puntero"] },
+        "Pointer": {
+            "doc": "$?",
+            "names": [
+                "Puntero"
+            ]
+        },
         "Key": {
             "doc": "$?",
             "names": "Teclado",
-            "key": { "names": "tecla", "doc": "$?" },
-            "down": { "names": "abajo", "doc": "$?" }
+            "key": {
+                "names": "tecla",
+                "doc": "$?"
+            },
+            "down": {
+                "names": "abajo",
+                "doc": "$?"
+            }
         },
         "Time": {
             "doc": "$?",
             "names": "Tiempo",
-            "frequency": { "names": ["frecuencia"], "doc": "$?" }
+            "frequency": {
+                "names": [
+                    "frecuencia"
+                ],
+                "doc": "$?"
+            }
         },
         "Volume": {
             "doc": "$?",
             "names": "$? Volume",
-            "frequency": { "names": ["frecuencia"], "doc": "$?" }
+            "frequency": {
+                "names": [
+                    "frecuencia"
+                ],
+                "doc": "$?"
+            }
         },
         "Pitch": {
             "doc": "$?",
             "names": "$? Pitch",
-            "frequency": { "names": ["frecuencia"], "doc": "$?" }
+            "frequency": {
+                "names": [
+                    "frecuencia"
+                ],
+                "doc": "$?"
+            }
         },
         "Camera": {
             "doc": "$?",
-            "names": ["Cámara"],
-            "width": { "names": ["ancho"], "doc": "$?" },
-            "height": { "names": ["altura"], "doc": "$?" },
-            "frequency": { "names": ["frecuencia"], "doc": "$?" }
+            "names": [
+                "Cámara"
+            ],
+            "width": {
+                "names": [
+                    "ancho"
+                ],
+                "doc": "$?"
+            },
+            "height": {
+                "names": [
+                    "altura"
+                ],
+                "doc": "$?"
+            },
+            "frequency": {
+                "names": [
+                    "frecuencia"
+                ],
+                "doc": "$?"
+            }
         },
         "Motion": {
             "names": "movimiento",
             "doc": "$?",
-            "place": { "doc": "$?", "names": "$? place" },
-            "velocity": { "doc": "$?", "names": "$? velocity" },
-            "nextplace": { "doc": "$?", "names": "$? nextplace" },
-            "nextvelocity": { "doc": "$?", "names": "$? nextvelocity'" }
+            "place": {
+                "doc": "$?",
+                "names": "$? place"
+            },
+            "velocity": {
+                "doc": "$?",
+                "names": "$? velocity"
+            },
+            "nextplace": {
+                "doc": "$?",
+                "names": "$? nextplace"
+            },
+            "nextvelocity": {
+                "doc": "$?",
+                "names": "$? nextvelocity'"
+            }
         },
         "Chat": {
-            "doc": ["$?"],
+            "doc": [
+                "$?"
+            ],
             "names": "$?"
         },
         "Placement": {
-            "doc": ["$?"],
+            "doc": [
+                "$?"
+            ],
             "names": "$? Placement",
             "inputs": [
                 {
@@ -1649,11 +2642,22 @@
             ]
         },
         "Webpage": {
-            "doc": ["$?"],
+            "doc": [
+                "$?"
+            ],
             "names": "$? webpage",
-            "url": { "doc": "$?", "names": "$? url" },
-            "query": { "doc": "$?", "names": "$? query" },
-            "frequency": { "doc": "$?", "names": "$? frequency" },
+            "url": {
+                "doc": "$?",
+                "names": "$? url"
+            },
+            "query": {
+                "doc": "$?",
+                "names": "$? query"
+            },
+            "frequency": {
+                "doc": "$?",
+                "names": "$? frequency"
+            },
             "error": {
                 "invalid": "$?",
                 "unvailable": "$?",
@@ -1712,18 +2716,42 @@
             "names": "Verso",
             "doc": "$?",
             "description": "$?",
-            "content": { "doc": "$?", "names": "contenido" },
-            "frame": { "doc": "$?", "names": "marco" },
-            "size": { "doc": "$?", "names": "tamaño" },
-            "face": { "doc": "$?", "names": "fuente" },
-            "place": { "doc": "$?", "names": "place" },
-            "name": { "doc": "$?", "names": "nombre" },
-            "selectable": { "doc": "$?", "names": "seleccionable" },
+            "content": {
+                "doc": "$?",
+                "names": "contenido"
+            },
+            "frame": {
+                "doc": "$?",
+                "names": "marco"
+            },
+            "size": {
+                "doc": "$?",
+                "names": "tamaño"
+            },
+            "face": {
+                "doc": "$?",
+                "names": "fuente"
+            },
+            "place": {
+                "doc": "$?",
+                "names": "place"
+            },
+            "name": {
+                "doc": "$?",
+                "names": "nombre"
+            },
+            "selectable": {
+                "doc": "$?",
+                "names": "seleccionable"
+            },
             "color": {
                 "doc": "$?",
                 "names": "$? color"
             },
-            "background": { "doc": "$?", "names": "fondo" },
+            "background": {
+                "doc": "$?",
+                "names": "fondo"
+            },
             "opacity": {
                 "doc": "$?",
                 "names": "$? opacity"
@@ -1748,34 +2776,79 @@
                 "doc": "$?",
                 "names": "$? flipy"
             },
-            "entering": { "doc": "$?", "names": "$! ingresar" },
-            "resting": { "doc": "$?", "names": "$! descansar" },
-            "moving": { "doc": "$?", "names": "$! mover" },
-            "exiting": { "doc": "$?", "names": "$! salida" },
-            "duration": { "doc": "$?", "names": "duración" },
-            "style": { "doc": "$?", "names": "estilo" },
-            "gravity": { "doc": "$?", "names": "gravedad" }
+            "entering": {
+                "doc": "$?",
+                "names": "$! ingresar"
+            },
+            "resting": {
+                "doc": "$?",
+                "names": "$! descansar"
+            },
+            "moving": {
+                "doc": "$?",
+                "names": "$! mover"
+            },
+            "exiting": {
+                "doc": "$?",
+                "names": "$! salida"
+            },
+            "duration": {
+                "doc": "$?",
+                "names": "duración"
+            },
+            "style": {
+                "doc": "$?",
+                "names": "estilo"
+            },
+            "gravity": {
+                "doc": "$?",
+                "names": "gravedad"
+            }
         },
         "Group": {
             "names": "Group",
             "doc": "$?",
             "description": "$?",
-            "content": { "doc": "$?", "names": "content" },
-            "layout": { "doc": "$?", "names": "layout" },
+            "content": {
+                "doc": "$?",
+                "names": "content"
+            },
+            "layout": {
+                "doc": "$?",
+                "names": "layout"
+            },
             "matter": {
                 "doc": "$?",
                 "names": "$? matter"
             },
-            "size": { "doc": "$?", "names": "tamaño" },
-            "face": { "doc": "$?", "names": "fuente" },
-            "place": { "doc": "$?", "names": "place" },
-            "name": { "doc": "$?", "names": "nombre" },
-            "selectable": { "doc": "$?", "names": "seleccionable" },
+            "size": {
+                "doc": "$?",
+                "names": "tamaño"
+            },
+            "face": {
+                "doc": "$?",
+                "names": "fuente"
+            },
+            "place": {
+                "doc": "$?",
+                "names": "place"
+            },
+            "name": {
+                "doc": "$?",
+                "names": "nombre"
+            },
+            "selectable": {
+                "doc": "$?",
+                "names": "seleccionable"
+            },
             "color": {
                 "doc": "$?",
                 "names": "$? color"
             },
-            "background": { "doc": "$?", "names": "fondo" },
+            "background": {
+                "doc": "$?",
+                "names": "fondo"
+            },
             "opacity": {
                 "doc": "$?",
                 "names": "$? opacity"
@@ -1800,21 +2873,51 @@
                 "doc": "$?",
                 "names": "$? flipy"
             },
-            "entering": { "doc": "$?", "names": "$! ingresar" },
-            "resting": { "doc": "$?", "names": "$! descansar" },
-            "moving": { "doc": "$?", "names": "$! mover" },
-            "exiting": { "doc": "$?", "names": "$! salida" },
-            "duration": { "doc": "$?", "names": "duración" },
-            "style": { "doc": "$?", "names": "estilo" }
+            "entering": {
+                "doc": "$?",
+                "names": "$! ingresar"
+            },
+            "resting": {
+                "doc": "$?",
+                "names": "$! descansar"
+            },
+            "moving": {
+                "doc": "$?",
+                "names": "$! mover"
+            },
+            "exiting": {
+                "doc": "$?",
+                "names": "$! salida"
+            },
+            "duration": {
+                "doc": "$?",
+                "names": "duración"
+            },
+            "style": {
+                "doc": "$?",
+                "names": "estilo"
+            }
         },
         "Phrase": {
             "names": "Frase",
             "doc": "$?",
             "description": "$?",
-            "text": { "doc": "$?", "names": "texto" },
-            "size": { "doc": "$?", "names": "tamaño" },
-            "face": { "doc": "$?", "names": "fuente" },
-            "place": { "doc": "$?", "names": "place" },
+            "text": {
+                "doc": "$?",
+                "names": "texto"
+            },
+            "size": {
+                "doc": "$?",
+                "names": "tamaño"
+            },
+            "face": {
+                "doc": "$?",
+                "names": "fuente"
+            },
+            "place": {
+                "doc": "$?",
+                "names": "place"
+            },
             "wrap": {
                 "doc": "$?",
                 "names": "$? wrap"
@@ -1827,13 +2930,22 @@
                 "doc": "$?",
                 "names": "$? matter"
             },
-            "name": { "doc": "$?", "names": "nombre" },
-            "selectable": { "doc": "$?", "names": "seleccionable" },
+            "name": {
+                "doc": "$?",
+                "names": "nombre"
+            },
+            "selectable": {
+                "doc": "$?",
+                "names": "seleccionable"
+            },
             "color": {
                 "doc": "$?",
                 "names": "$? color"
             },
-            "background": { "doc": "$?", "names": "fondo" },
+            "background": {
+                "doc": "$?",
+                "names": "fondo"
+            },
             "opacity": {
                 "doc": "$?",
                 "names": "$? opacity"
@@ -1858,23 +2970,51 @@
                 "doc": "$?",
                 "names": "$? flipy"
             },
-            "entering": { "doc": "$?", "names": "$! ingresar" },
-            "resting": { "doc": "$?", "names": "$! descansar" },
-            "moving": { "doc": "$?", "names": "$! mover" },
-            "exiting": { "doc": "$?", "names": "$! salida" },
-            "duration": { "doc": "$?", "names": "duración" },
-            "style": { "doc": "$?", "names": "estilo" }
+            "entering": {
+                "doc": "$?",
+                "names": "$! ingresar"
+            },
+            "resting": {
+                "doc": "$?",
+                "names": "$! descansar"
+            },
+            "moving": {
+                "doc": "$?",
+                "names": "$! mover"
+            },
+            "exiting": {
+                "doc": "$?",
+                "names": "$! salida"
+            },
+            "duration": {
+                "doc": "$?",
+                "names": "duración"
+            },
+            "style": {
+                "doc": "$?",
+                "names": "estilo"
+            }
         },
-        "Arrangement": { "names": ["Arrangement"], "doc": "$?" },
+        "Arrangement": {
+            "names": [
+                "Arrangement"
+            ],
+            "doc": "$?"
+        },
         "Row": {
-            "names": ["Fila"],
+            "names": [
+                "Fila"
+            ],
             "doc": "$?",
             "description": "$?",
             "alignment": {
                 "doc": "$?",
                 "names": "$? alignment"
             },
-            "padding": { "doc": "$?", "names": "relleno" }
+            "padding": {
+                "doc": "$?",
+                "names": "relleno"
+            }
         },
         "Stack": {
             "names": "Pila",
@@ -1884,17 +3024,35 @@
                 "doc": "$?",
                 "names": "$? alignment"
             },
-            "padding": { "doc": "$?", "names": "relleno" }
+            "padding": {
+                "doc": "$?",
+                "names": "relleno"
+            }
         },
         "Grid": {
             "names": "cuadrícula",
             "doc": "$?",
             "description": "cuadrícula de $1 fila, $2 columnas",
-            "rows": { "doc": "$?", "names": "fila" },
-            "columns": { "doc": "$?", "names": "columnas" },
-            "padding": { "doc": "$?", "names": "relleno" },
-            "cellWidth": { "doc": "$?", "names": "anchodecelda" },
-            "cellHeight": { "doc": "$?", "names": "alturadecelda" }
+            "rows": {
+                "doc": "$?",
+                "names": "fila"
+            },
+            "columns": {
+                "doc": "$?",
+                "names": "columnas"
+            },
+            "padding": {
+                "doc": "$?",
+                "names": "relleno"
+            },
+            "cellWidth": {
+                "doc": "$?",
+                "names": "anchodecelda"
+            },
+            "cellHeight": {
+                "doc": "$?",
+                "names": "alturadecelda"
+            }
         },
         "Free": {
             "names": "Suelto",
@@ -1904,14 +3062,26 @@
         "Shape": {
             "names": "forma",
             "doc": "$?",
-            "form": { "doc": "$?", "names": "$? form" },
-            "name": { "doc": "$?", "names": "$? name" },
-            "selectable": { "doc": "$?", "names": "$? selectable" },
+            "form": {
+                "doc": "$?",
+                "names": "$? form"
+            },
+            "name": {
+                "doc": "$?",
+                "names": "$? name"
+            },
+            "selectable": {
+                "doc": "$?",
+                "names": "$? selectable"
+            },
             "color": {
                 "doc": "$?",
                 "names": "$? color"
             },
-            "background": { "doc": "$?", "names": "$? background" },
+            "background": {
+                "doc": "$?",
+                "names": "$? background"
+            },
             "opacity": {
                 "doc": "$?",
                 "names": "$? opacity"
@@ -1936,47 +3106,127 @@
                 "doc": "$?",
                 "names": "$? flipy"
             },
-            "entering": { "doc": "$?", "names": "$? entering" },
-            "resting": { "doc": "$?", "names": "$? resting" },
-            "moving": { "doc": "$?", "names": "$? moving" },
-            "exiting": { "doc": "$?", "names": "$? exiting" },
-            "duration": { "doc": "$?", "names": ["$? duration"] },
-            "style": { "doc": "$?", "names": "$? style" }
+            "entering": {
+                "doc": "$?",
+                "names": "$? entering"
+            },
+            "resting": {
+                "doc": "$?",
+                "names": "$? resting"
+            },
+            "moving": {
+                "doc": "$?",
+                "names": "$? moving"
+            },
+            "exiting": {
+                "doc": "$?",
+                "names": "$? exiting"
+            },
+            "duration": {
+                "doc": "$?",
+                "names": [
+                    "$? duration"
+                ]
+            },
+            "style": {
+                "doc": "$?",
+                "names": "$? style"
+            }
         },
         "Rectangle": {
             "names": "Rectángulo",
             "doc": "$?",
-            "left": { "doc": "$?", "names": "izquierda" },
-            "top": { "doc": "$?", "names": "masalta" },
-            "right": { "doc": "$?", "names": "derecha" },
-            "bottom": { "doc": "$?", "names": "abajo" },
-            "z": { "doc": "$?", "names": "$? z" }
+            "left": {
+                "doc": "$?",
+                "names": "izquierda"
+            },
+            "top": {
+                "doc": "$?",
+                "names": "masalta"
+            },
+            "right": {
+                "doc": "$?",
+                "names": "derecha"
+            },
+            "bottom": {
+                "doc": "$?",
+                "names": "abajo"
+            },
+            "z": {
+                "doc": "$?",
+                "names": "$? z"
+            }
         },
         "Pose": {
             "names": "Pose",
             "doc": "$?",
-            "duration": { "doc": "$?", "names": "duración" },
-            "style": { "doc": "$?", "names": "estilo" },
-            "color": { "doc": "$?", "names": "color" },
-            "opacity": { "doc": "$?", "names": "opacidad" },
-            "offset": { "doc": "$?", "names": "offset" },
-            "rotation": { "doc": "$?", "names": "inclinación" },
-            "scale": { "doc": "$?", "names": "escala" },
-            "flipx": { "doc": "$?", "names": "voltearx" },
-            "flipy": { "doc": "$?", "names": "volteary" },
+            "duration": {
+                "doc": "$?",
+                "names": "duración"
+            },
+            "style": {
+                "doc": "$?",
+                "names": "estilo"
+            },
+            "color": {
+                "doc": "$?",
+                "names": "color"
+            },
+            "opacity": {
+                "doc": "$?",
+                "names": "opacidad"
+            },
+            "offset": {
+                "doc": "$?",
+                "names": "offset"
+            },
+            "rotation": {
+                "doc": "$?",
+                "names": "inclinación"
+            },
+            "scale": {
+                "doc": "$?",
+                "names": "escala"
+            },
+            "flipx": {
+                "doc": "$?",
+                "names": "voltearx"
+            },
+            "flipy": {
+                "doc": "$?",
+                "names": "volteary"
+            },
             "description": "$?"
         },
         "Color": {
             "names": "Color",
             "doc": "$?",
-            "lightness": { "doc": "$?", "names": ["luminosidad"] },
-            "chroma": { "doc": "$?", "names": ["croma"] },
-            "hue": { "doc": "$?", "names": ["matiz"] }
+            "lightness": {
+                "doc": "$?",
+                "names": [
+                    "luminosidad"
+                ]
+            },
+            "chroma": {
+                "doc": "$?",
+                "names": [
+                    "croma"
+                ]
+            },
+            "hue": {
+                "doc": "$?",
+                "names": [
+                    "matiz"
+                ]
+            }
         },
         "Sequence": {
             "names": "Secuencia",
             "doc": "$?",
-            "poses": { "doc": "$?", "names": "poses" },
+            "poses": {
+                "doc": "$?",
+                "names": "poses"
+            },
             "duration": {
                 "doc": "$?",
                 "names": "$? duration"
@@ -1985,15 +3235,32 @@
                 "doc": "$?",
                 "names": "$? style"
             },
-            "count": { "doc": "$?", "names": "count" }
+            "count": {
+                "doc": "$?",
+                "names": "count"
+            }
         },
         "Place": {
-            "names": ["Posición"],
+            "names": [
+                "Posición"
+            ],
             "doc": "$?",
-            "x": { "doc": "$?", "names": "$? x" },
-            "y": { "doc": "$?", "names": "$? y" },
-            "z": { "doc": "$?", "names": "$? z" },
-            "rotation": { "doc": "$?", "names": "$? rotation" }
+            "x": {
+                "doc": "$?",
+                "names": "$? x"
+            },
+            "y": {
+                "doc": "$?",
+                "names": "$? y"
+            },
+            "z": {
+                "doc": "$?",
+                "names": "$? z"
+            },
+            "rotation": {
+                "doc": "$?",
+                "names": "$? rotation"
+            }
         },
         "Velocity": {
             "doc": "$?",
@@ -2014,7 +3281,10 @@
         "Matter": {
             "doc": "$?",
             "names": "$? Matter",
-            "mass": { "doc": "$?", "names": "$? mass" },
+            "mass": {
+                "doc": "$?",
+                "names": "$? mass"
+            },
             "bounciness": {
                 "doc": "$?",
                 "names": "$? bounciness"
@@ -2045,18 +3315,52 @@
         "sequence": {
             "sway": {
                 "doc": "$?",
-                "names": ["vaivén"],
-                "angle": { "doc": "$?", "names": ["ángulo"] }
+                "names": [
+                    "vaivén"
+                ],
+                "angle": {
+                    "doc": "$?",
+                    "names": [
+                        "ángulo"
+                    ]
+                }
             },
             "bounce": {
                 "doc": "$?",
-                "names": ["rebotar"],
-                "height": { "doc": "$?", "names": ["altura"] }
+                "names": [
+                    "rebotar"
+                ],
+                "height": {
+                    "doc": "$?",
+                    "names": [
+                        "altura"
+                    ]
+                }
             },
-            "spin": { "doc": "$?", "names": ["girar"] },
-            "fadein": { "doc": "$?", "names": ["revelar"] },
-            "popup": { "doc": "$?", "names": ["surgir"] },
-            "shake": { "doc": "$?", "names": ["agitar"] }
+            "spin": {
+                "doc": "$?",
+                "names": [
+                    "girar"
+                ]
+            },
+            "fadein": {
+                "doc": "$?",
+                "names": [
+                    "revelar"
+                ]
+            },
+            "popup": {
+                "doc": "$?",
+                "names": [
+                    "surgir"
+                ]
+            },
+            "shake": {
+                "doc": "$?",
+                "names": [
+                    "agitar"
+                ]
+            }
         }
     },
     "ui": {
@@ -2347,7 +3651,10 @@
                 "mode": {
                     "public": {
                         "label": "visibilidad",
-                        "modes": ["privado", "público"]
+                        "modes": [
+                            "privado",
+                            "público"
+                        ]
                     }
                 },
                 "error": {
@@ -2492,7 +3799,9 @@
                 "call": [
                     "¡Hola! ¿Te quedarás y darás vida a las palabras con nosotros? 🥹"
                 ],
-                "beta": ["$?"],
+                "beta": [
+                    "$?"
+                ],
                 "link": {
                     "about": "¿Por qué existe este lugar?",
                     "learn": "¿Qué es este lugar?",
@@ -2560,21 +3869,31 @@
             },
             "login": {
                 "header": "Iniciar sesión",
-                "anonymous": "iniciar sesión",
                 "subheader": {
-                    "email": "$?",
-                    "username": "$?"
+                    "email": "enlace de correo electrónico",
+                    "username": "nombre de usuario + contraseña"
                 },
+                "anonymous": "iniciar sesión",
                 "prompt": {
-                    "login": "$! Tus actuaciones se están guardando en este dispositivo en vez de en línea. Para guardarlas en línea, envía tu correo electrónico para obtener un enlace de inicio de sesión.",
+                    "login": "Tus actuaciones se están guardando en este dispositivo, pero no en línea. ¡Si este es tu dispositivo, está bien! Si no lo es, otros pueden ver o eliminar tus proyectos. Para guardarlos en línea y mantenerlos privados, inicia sesión.",
                     "age": {
-                        "label": "$?",
-                        "modes": ["$?", "$?"]
+                        "label": "¿Cuál es tu edad?",
+                        "modes": [
+                            "12 años o menos",
+                            "13 años o más"
+                        ]
                     },
                     "enter": "Parece que tu enlace de inicio de sesión vino de un navegador o dispositivo diferente. ¿Puedes ingresar tu correo electrónico nuevamente, solo para estar seguros de que eres tú?",
                     "play": "Estás conectado, ¡podemos guardar tus proyectos en línea ahora! ¿Quieres crear algo?",
-                    "emailrules": ["$?"],
-                    "usernamerules": ["$?"],
+                    "emailrules": [
+                        "• No proporciones tu correo electrónico si tienes *12 años o menos*.",
+                        "• Si *pierdes acceso* a tu cuenta de correo electrónico, no podrás iniciar sesión ni actualizar tu dirección de correo electrónico."
+                    ],
+                    "usernamerules": [
+                        "• *Los nombres de usuario* no deben contener información identificable (por ejemplo, nombres), no pueden ser direcciones de correo electrónico y deben tener al menos 5 caracteres de longitud.",
+                        "• *Las contraseñas* deben tener al menos 10 caracteres de longitud; si no estás utilizando un administrador de contraseñas, elige tres palabras largas que recuerdes.",
+                        "• *Si olvidas tu contraseña*, no podrás recuperar tu cuenta, ya que no tenemos otra forma de saber que eres tú. Guarda tu contraseña en un lugar seguro, como un administrador de contraseñas."
+                    ],
                     "passwordreminder": "$?",
                     "change": "¿Quieres cambiar tu correo electrónico? Envía uno nuevo y te enviaremos una confirmación al antiguo.",
                     "sent": "Revisa tu correo electrónico para encontrar un enlace de inicio de sesión.",
@@ -2660,7 +3979,9 @@
             "donate": {
                 "header": "$?",
                 "prompt": "$?",
-                "content": ["$?"]
+                "content": [
+                    "$?"
+                ]
             }
         },
         "edit": {
@@ -2719,24 +4040,24 @@
     },
     "gallery": {
         "games": {
-            "name": "$?",
-            "description": "$?"
+            "name": "Juegos",
+            "description": "Juegos interactivos con palabras y símbolos."
         },
         "visualizations": {
-            "name": "$?",
-            "description": "$?"
+            "name": "Visualizaciones",
+            "description": "Visualizaciones de y a través de texto."
         },
         "motion": {
-            "name": "$?",
-            "description": "$?"
+            "name": "Movimiento",
+            "description": "Ejemplos de movimiento y colisiones."
         },
         "av": {
-            "name": "$?",
-            "description": "$?"
+            "name": "Audio/Video",
+            "description": "Uso de volumen, tono y video como entrada."
         },
         "tools": {
-            "name": "$?",
-            "description": "$?"
+            "name": "Herramientas",
+            "description": "Utilidades y aplicaciones simples."
         }
     }
 }
