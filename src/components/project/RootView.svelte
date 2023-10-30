@@ -80,7 +80,6 @@
     }
 
     let editor = getEditor();
-    $: console.log($editor?.focused);
 
     // A set of hidden nodes, such as hidden translations.
     let hidden = writable<Set<Node>>(new Set());
