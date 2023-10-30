@@ -1194,6 +1194,7 @@
     let keyWasDead = false;
     let replacePreviousWithNext = false;
     let composing = false;
+    let composingJustEnded = false;
 
     function handleTextInput(event: Event) {
         setIgnored(false);
@@ -1278,6 +1279,13 @@
     }
 
     function handleKeyDown(event: KeyboardEvent) {
+        // Ignore key down events that come just after composing. They're usually part of selecting the phrase in Safari.
+        if (composingJustEnded) {
+            composingJustEnded = false;
+            return;
+        }
+        // If we're in the middle of composing, ignore the key events.
+        if (composing || event.isComposing) return;
         if (evaluator === undefined) return;
         if (editor === null) return;
 
@@ -1306,7 +1314,7 @@
         });
 
         // Don't insert symbols if composing.
-        if (composing && command === InsertSymbol) return;
+        if (command === InsertSymbol) return;
 
         // If it produced a new caret and optionally a new project, update the stores.
         const idle =
@@ -1330,17 +1338,15 @@
 
     function handleCompositionStart() {
         composing = true;
-
-        // Backspace over the character just inserted
-        const edit = $caret.backspace(project);
-        if (edit) handleEdit(edit, IdleKind.Typing, false);
     }
 
     function handleCompositionEnd() {
         composing = false;
+        /** We have to remember this because safari sends key down events that were part of the composition. */
+        composingJustEnded = true;
 
         if (input) {
-            // Insert the character that was added last.
+            // Insert the symbols that were composed.
             const edit = $caret.insert(input.value, project, !keyWasDead);
             if (edit) handleEdit(edit, IdleKind.Typing, true);
             input.value = '';
