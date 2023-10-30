@@ -17,7 +17,7 @@
     }>({ on: false, background: null });
     setContext('fullscreen', fullscreen);
 
-    $: if ($fullscreen) {
+    $: if (typeof document !== 'undefined' && $fullscreen) {
         document.body.style.background = $fullscreen.on
             ? $fullscreen.background instanceof Color
                 ? $fullscreen.background.toCSS()
