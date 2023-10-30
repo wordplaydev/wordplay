@@ -135,7 +135,7 @@
             "name": "explicación",
             "emotion": "serious",
             "doc": [
-                "Formateo ricamente las cosas con @Markup, como explicaciones de algunos de tus @Programas, o incluso las palabras que pones en el escenario con @Phrase.",
+                "Formateo ricamente las cosas con @Markup, como explicaciones de algunos de tus @Program, o incluso las palabras que pones en el escenario con @Phrase.",
                 "Por ejemplo, puedo ir antes de cualquier expresión:",
                 "\\``¿Se supone que esto realmente es 7?``\n7\\",
                 "Por ejemplo, puedes ponerme antes de @Bind:",
@@ -144,7 +144,7 @@
                 "\\``Sumo dos números``\nƒ suma(a•# b•#) a + b\\",
                 "O antes de una @StructureDefinition:",
                 "\\``Recuerdo el nombre y la fruta favorita de las personas``\n•Persona(nombre•'' fruta•'')\\",
-                "También puedes ponerme al principio de @Programa para decir de qué trata toda la actuación",
+                "También puedes ponerme al principio de @Program para decir de qué trata toda la actuación",
                 "\\``Este programa saluda``\n\n'¡hola!'\\",
                 "Puedes darme un @Language para ayudar a otros a saber en qué idioma estoy escrito:",
                 "\\``Soy un documento en inglés``/en\nduración: 5s\\",
@@ -447,12 +447,12 @@
             "emotion": "excited",
             "doc": "Si creas una actuación con múltiples @Source, puedes usarme para pedir prestados @Bind que se comparten en esas otras @Source. Simplemente usa su nombre y traeré su nombre y valor.",
             "start": "préstamo $2 de $1",
-            "source": "$fuente",
+            "source": "$source",
             "bind": "nombre",
             "version": "versión",
             "conflict": {
-                "UnknownBorrow": "No conozco una $fuente con este nombre",
-                "BorrowCycle": "esto depende de $1, que depende de esta $fuente, por lo que el programa no se puede evaluar"
+                "UnknownBorrow": "No conozco una $source con este nombre",
+                "BorrowCycle": "esto depende de $1, que depende de esta $source, por lo que el programa no se puede evaluar"
             },
             "exception": {
                 "CycleException": {
@@ -521,7 +521,7 @@
                 "\\\"hola\" → []\\",
                 "Incluso puedes encadenar estos:",
                 "\\\"hola\" → [] → {}\\",
-                "Los valores tienen un conjunto de @ConversionDefinition que están predefinidos, pero si haces una @DefiniciónDeEstructura para un nuevo tipo de valor, puedes definir el tuyo con @DefiniciónDeConversión."
+                "Los valores tienen un conjunto de @ConversionDefinition que están predefinidos, pero si haces una @StructureDefinition para un nuevo tipo de valor, puedes definir el tuyo con @ConversionDefinition."
             ],
             "start": "¡obtén ese valor de $1!",
             "finish": "Increíble, hice $1",
@@ -1125,9 +1125,9 @@
             "name": "booleano",
             "emotion": "kind",
             "doc": [
-                "Trabajo con @Bind para declarar que un nombre es un valor @Booleano. Como esto:",
+                "Trabajo con @Bind para declarar que un nombre es un valor @Boolean. Como esto:",
                 "\\hambriento•?: 'gelatina'\\",
-                "Si quieres estar seguro de que algo es @Booleano, úsame y ¡lo comprobaré!"
+                "Si quieres estar seguro de que algo es @Boolean, úsame y ¡lo comprobaré!"
             ]
         },
         "ConversionType": {
@@ -1425,10 +1425,7 @@
             "function": {
                 "equals": {
                     "doc": "$?",
-                    "names": [
-                        "=",
-                        "equals"
-                    ],
+                    "names": ["=", "equals"],
                     "inputs": [
                         {
                             "doc": "$?",
@@ -1462,10 +1459,7 @@
                 },
                 "equals": {
                     "doc": "$?",
-                    "names": [
-                        "=",
-                        "equals"
-                    ],
+                    "names": ["=", "equals"],
                     "inputs": [
                         {
                             "doc": "$?",
@@ -1495,9 +1489,7 @@
                 },
                 "segment": {
                     "doc": "$?",
-                    "names": [
-                        "segmentar"
-                    ],
+                    "names": ["segmentar"],
                     "inputs": [
                         {
                             "doc": "$?",
@@ -1507,9 +1499,7 @@
                 },
                 "has": {
                     "doc": "$?",
-                    "names": [
-                        "tiene"
-                    ],
+                    "names": ["tiene"],
                     "inputs": [
                         {
                             "doc": "$?",
@@ -1519,9 +1509,7 @@
                 },
                 "starts": {
                     "doc": "$?",
-                    "names": [
-                        "$? starts"
-                    ],
+                    "names": ["$? starts"],
                     "inputs": [
                         {
                             "doc": "$?",
@@ -1531,9 +1519,7 @@
                 },
                 "ends": {
                     "doc": "$?",
-                    "names": [
-                        "$? ends"
-                    ],
+                    "names": ["$? ends"],
                     "inputs": [
                         {
                             "doc": "$?",
@@ -1593,10 +1579,7 @@
                 },
                 "divide": {
                     "doc": "$?",
-                    "names": [
-                        "÷",
-                        "divide"
-                    ],
+                    "names": ["÷", "divide"],
                     "inputs": [
                         {
                             "doc": "$?",
@@ -1616,38 +1599,27 @@
                 },
                 "positive": {
                     "doc": "$?",
-                    "names": [
-                        "positive"
-                    ],
+                    "names": ["positive"],
                     "inputs": []
                 },
                 "round": {
                     "doc": "$?",
-                    "names": [
-                        "round"
-                    ],
+                    "names": ["round"],
                     "inputs": []
                 },
                 "roundDown": {
                     "doc": "$?",
-                    "names": [
-                        "$? down"
-                    ],
+                    "names": ["$? down"],
                     "inputs": []
                 },
                 "roundUp": {
                     "doc": "$?",
-                    "names": [
-                        "$? up"
-                    ],
+                    "names": ["$? up"],
                     "inputs": []
                 },
                 "power": {
                     "doc": "$?",
-                    "names": [
-                        "^",
-                        "power"
-                    ],
+                    "names": ["^", "power"],
                     "inputs": [
                         {
                             "doc": "$?",
@@ -1657,10 +1629,7 @@
                 },
                 "root": {
                     "doc": "$?",
-                    "names": [
-                        "√",
-                        "root"
-                    ],
+                    "names": ["√", "root"],
                     "inputs": [
                         {
                             "doc": "$?",
@@ -1670,10 +1639,7 @@
                 },
                 "lessThan": {
                     "doc": "$?",
-                    "names": [
-                        "<",
-                        "lessthan"
-                    ],
+                    "names": ["<", "lessthan"],
                     "inputs": [
                         {
                             "doc": "$?",
@@ -1683,10 +1649,7 @@
                 },
                 "lessOrEqual": {
                     "doc": "$?",
-                    "names": [
-                        "≤",
-                        "lessorequal"
-                    ],
+                    "names": ["≤", "lessorequal"],
                     "inputs": [
                         {
                             "doc": "$?",
@@ -1696,10 +1659,7 @@
                 },
                 "greaterThan": {
                     "doc": "$?",
-                    "names": [
-                        ">",
-                        "greaterthan"
-                    ],
+                    "names": [">", "greaterthan"],
                     "inputs": [
                         {
                             "doc": "$?",
@@ -1709,10 +1669,7 @@
                 },
                 "greaterOrEqual": {
                     "doc": "$?",
-                    "names": [
-                        "≥",
-                        "greaterorequal"
-                    ],
+                    "names": ["≥", "greaterorequal"],
                     "inputs": [
                         {
                             "doc": "$?",
@@ -1742,18 +1699,12 @@
                 },
                 "cos": {
                     "doc": "$?",
-                    "names": [
-                        "cos",
-                        "cosine"
-                    ],
+                    "names": ["cos", "cosine"],
                     "inputs": []
                 },
                 "sin": {
                     "doc": "$?",
-                    "names": [
-                        "sin",
-                        "sine"
-                    ],
+                    "names": ["sin", "sine"],
                     "inputs": []
                 },
                 "min": {
@@ -1857,9 +1808,7 @@
                 },
                 "replace": {
                     "doc": "$?",
-                    "names": [
-                        "reemplazar"
-                    ],
+                    "names": ["reemplazar"],
                     "inputs": [
                         {
                             "doc": "$?",
@@ -1962,10 +1911,7 @@
                 },
                 "equals": {
                     "doc": "$?",
-                    "names": [
-                        "=",
-                        "equals"
-                    ],
+                    "names": ["=", "equals"],
                     "inputs": [
                         {
                             "doc": "$?",
@@ -2170,10 +2116,7 @@
                 },
                 "equals": {
                     "doc": "$?",
-                    "names": [
-                        "=",
-                        "equals"
-                    ],
+                    "names": ["=", "equals"],
                     "inputs": [
                         {
                             "doc": "$?",
@@ -2193,10 +2136,7 @@
                 },
                 "add": {
                     "doc": "$?",
-                    "names": [
-                        "add",
-                        "+"
-                    ],
+                    "names": ["add", "+"],
                     "inputs": [
                         {
                             "doc": "$?",
@@ -2206,10 +2146,7 @@
                 },
                 "remove": {
                     "doc": "$?",
-                    "names": [
-                        "remove",
-                        "-"
-                    ],
+                    "names": ["remove", "-"],
                     "inputs": [
                         {
                             "doc": "$?",
@@ -2219,10 +2156,7 @@
                 },
                 "union": {
                     "doc": "$?",
-                    "names": [
-                        "union",
-                        "∪"
-                    ],
+                    "names": ["union", "∪"],
                     "inputs": [
                         {
                             "doc": "$?",
@@ -2232,9 +2166,7 @@
                 },
                 "intersection": {
                     "doc": "$?",
-                    "names": [
-                        "$? intersection"
-                    ],
+                    "names": ["$? intersection"],
                     "inputs": [
                         {
                             "doc": "$?",
@@ -2312,10 +2244,7 @@
                 },
                 "equals": {
                     "doc": "$?",
-                    "names": [
-                        "=",
-                        "equals"
-                    ],
+                    "names": ["=", "equals"],
                     "inputs": [
                         {
                             "doc": "$?",
@@ -2486,9 +2415,7 @@
     "input": {
         "Random": {
             "doc": "$?",
-            "names": [
-                "Azar"
-            ],
+            "names": ["Azar"],
             "inputs": [
                 {
                     "names": "mínima",
@@ -2502,10 +2429,7 @@
         },
         "Choice": {
             "doc": "$?",
-            "names": [
-                "Selección",
-                "Elección"
-            ]
+            "names": ["Selección", "Elección"]
         },
         "Button": {
             "doc": "$?",
@@ -2517,9 +2441,7 @@
         },
         "Pointer": {
             "doc": "$?",
-            "names": [
-                "Puntero"
-            ]
+            "names": ["Puntero"]
         },
         "Key": {
             "doc": "$?",
@@ -2537,9 +2459,7 @@
             "doc": "$?",
             "names": "Tiempo",
             "frequency": {
-                "names": [
-                    "frecuencia"
-                ],
+                "names": ["frecuencia"],
                 "doc": "$?"
             }
         },
@@ -2547,9 +2467,7 @@
             "doc": "$?",
             "names": "$? Volume",
             "frequency": {
-                "names": [
-                    "frecuencia"
-                ],
+                "names": ["frecuencia"],
                 "doc": "$?"
             }
         },
@@ -2557,33 +2475,23 @@
             "doc": "$?",
             "names": "$? Pitch",
             "frequency": {
-                "names": [
-                    "frecuencia"
-                ],
+                "names": ["frecuencia"],
                 "doc": "$?"
             }
         },
         "Camera": {
             "doc": "$?",
-            "names": [
-                "Cámara"
-            ],
+            "names": ["Cámara"],
             "width": {
-                "names": [
-                    "ancho"
-                ],
+                "names": ["ancho"],
                 "doc": "$?"
             },
             "height": {
-                "names": [
-                    "altura"
-                ],
+                "names": ["altura"],
                 "doc": "$?"
             },
             "frequency": {
-                "names": [
-                    "frecuencia"
-                ],
+                "names": ["frecuencia"],
                 "doc": "$?"
             }
         },
@@ -2608,15 +2516,11 @@
             }
         },
         "Chat": {
-            "doc": [
-                "$?"
-            ],
+            "doc": ["$?"],
             "names": "$?"
         },
         "Placement": {
-            "doc": [
-                "$?"
-            ],
+            "doc": ["$?"],
             "names": "$? Placement",
             "inputs": [
                 {
@@ -2642,9 +2546,7 @@
             ]
         },
         "Webpage": {
-            "doc": [
-                "$?"
-            ],
+            "doc": ["$?"],
             "names": "$? webpage",
             "url": {
                 "doc": "$?",
@@ -2996,15 +2898,11 @@
             }
         },
         "Arrangement": {
-            "names": [
-                "Arrangement"
-            ],
+            "names": ["Arrangement"],
             "doc": "$?"
         },
         "Row": {
-            "names": [
-                "Fila"
-            ],
+            "names": ["Fila"],
             "doc": "$?",
             "description": "$?",
             "alignment": {
@@ -3124,9 +3022,7 @@
             },
             "duration": {
                 "doc": "$?",
-                "names": [
-                    "$? duration"
-                ]
+                "names": ["$? duration"]
             },
             "style": {
                 "doc": "$?",
@@ -3203,21 +3099,15 @@
             "doc": "$?",
             "lightness": {
                 "doc": "$?",
-                "names": [
-                    "luminosidad"
-                ]
+                "names": ["luminosidad"]
             },
             "chroma": {
                 "doc": "$?",
-                "names": [
-                    "croma"
-                ]
+                "names": ["croma"]
             },
             "hue": {
                 "doc": "$?",
-                "names": [
-                    "matiz"
-                ]
+                "names": ["matiz"]
             }
         },
         "Sequence": {
@@ -3241,9 +3131,7 @@
             }
         },
         "Place": {
-            "names": [
-                "Posición"
-            ],
+            "names": ["Posición"],
             "doc": "$?",
             "x": {
                 "doc": "$?",
@@ -3315,51 +3203,35 @@
         "sequence": {
             "sway": {
                 "doc": "$?",
-                "names": [
-                    "vaivén"
-                ],
+                "names": ["vaivén"],
                 "angle": {
                     "doc": "$?",
-                    "names": [
-                        "ángulo"
-                    ]
+                    "names": ["ángulo"]
                 }
             },
             "bounce": {
                 "doc": "$?",
-                "names": [
-                    "rebotar"
-                ],
+                "names": ["rebotar"],
                 "height": {
                     "doc": "$?",
-                    "names": [
-                        "altura"
-                    ]
+                    "names": ["altura"]
                 }
             },
             "spin": {
                 "doc": "$?",
-                "names": [
-                    "girar"
-                ]
+                "names": ["girar"]
             },
             "fadein": {
                 "doc": "$?",
-                "names": [
-                    "revelar"
-                ]
+                "names": ["revelar"]
             },
             "popup": {
                 "doc": "$?",
-                "names": [
-                    "surgir"
-                ]
+                "names": ["surgir"]
             },
             "shake": {
                 "doc": "$?",
-                "names": [
-                    "agitar"
-                ]
+                "names": ["agitar"]
             }
         }
     },
@@ -3651,10 +3523,7 @@
                 "mode": {
                     "public": {
                         "label": "visibilidad",
-                        "modes": [
-                            "privado",
-                            "público"
-                        ]
+                        "modes": ["privado", "público"]
                     }
                 },
                 "error": {
@@ -3799,9 +3668,7 @@
                 "call": [
                     "¡Hola! ¿Te quedarás y darás vida a las palabras con nosotros? 🥹"
                 ],
-                "beta": [
-                    "$?"
-                ],
+                "beta": ["$?"],
                 "link": {
                     "about": "¿Por qué existe este lugar?",
                     "learn": "¿Qué es este lugar?",
@@ -3878,10 +3745,7 @@
                     "login": "Tus actuaciones se están guardando en este dispositivo, pero no en línea. ¡Si este es tu dispositivo, está bien! Si no lo es, otros pueden ver o eliminar tus proyectos. Para guardarlos en línea y mantenerlos privados, inicia sesión.",
                     "age": {
                         "label": "¿Cuál es tu edad?",
-                        "modes": [
-                            "12 años o menos",
-                            "13 años o más"
-                        ]
+                        "modes": ["12 años o menos", "13 años o más"]
                     },
                     "enter": "Parece que tu enlace de inicio de sesión vino de un navegador o dispositivo diferente. ¿Puedes ingresar tu correo electrónico nuevamente, solo para estar seguros de que eres tú?",
                     "play": "Estás conectado, ¡podemos guardar tus proyectos en línea ahora! ¿Quieres crear algo?",
@@ -3979,9 +3843,7 @@
             "donate": {
                 "header": "$?",
                 "prompt": "$?",
-                "content": [
-                    "$?"
-                ]
+                "content": ["$?"]
             }
         },
         "edit": {
