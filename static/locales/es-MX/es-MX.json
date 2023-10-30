@@ -1541,11 +1541,11 @@
     "input": {
         "Random": {
             "doc": [
-                "23!",
-                "/DeficionDeFuncion aqui, yo te lo explicare./",
-                "@Azar es una función curiosa que crea numeros al azar. Es curiosa porque cada ves que la evaluas, crea algo diferente,",
+                "!17!",
+                "/@FunctionDefinition aqui, yo te lo explicare./",
+                "@Random es una función curiosa que crea numeros al azar. Es curiosa porque cada ves que la evaluas, crea algo diferente,",
                 "Esto creo un caos maravilloso que bien con algo impredecible.",
-                "Por defecto, te da un valores de @Numero entre \\0\\ y \\1\\:",
+                "Por defecto, te da un valores de @Number entre \\0\\ y \\1\\:",
                 "\\Azar()\\",
                 "Pero tambien le pues pasar un valor, y te generara valores entre \\0\\ y el valor:",
                 "\\Azar(20)\\",
@@ -1560,11 +1560,11 @@
             "inputs": [
                 {
                     "names": "mínimo",
-                    "doc": "El valor mínimo que sera creado, si no mayor a 0, entonces sera el valor maximo. Si @Nada es proveido, entonces el mínimo es \\0\\ "
+                    "doc": "El valor mínimo que sera creado, si no mayor a 0, entonces sera el valor maximo. Si @None es proveido, entonces el mínimo es \\0\\ "
                 },
                 {
                     "names": "maximo",
-                    "doc": "El valor maximo que sera creado, o si es menor al minimo proveido, este sera el minimo. Si @Nada es proveido, entonces el valor maximo es \\1\\"
+                    "doc": "El valor maximo que sera creado, o si es menor al minimo proveido, este sera el minimo. Si @None es proveido, entonces el valor maximo es \\1\\"
                 }
             ]
         },
@@ -1572,11 +1572,11 @@
             "doc": [
                 "/click y tap!/",
                 "/@DefinicionDeFuncion aqui, yo te la explicare./",
-                "Piensa de @Selección como un rio de @Frame/nombre que es selecionanda por su audiencia. Si alguien hace click, tap or seleciona con su teclado, presionando /Enter/ en una @Frase con un nombre -- @Selección tendra un nuevo valor, emparejanda con su nombre.",
-                "La mejor manera de usarlos es creando una actuaccion con una frases de selección nombradas, despues usa @Reaccion para decidir que hacer con el nombre elejido",
+                "Piensa de @Selection como un rio de @Frame/nombre que es selecionanda por su audiencia. Si alguien hace click, tap or seleciona con su teclado, presionando /Enter/ en una @Phrase con un nombre -- @Selection tendra un nuevo valor, emparejanda con su nombre.",
+                "La mejor manera de usarlos es creando una actuaccion con una frases de selección nombradas, despues usa @Reaction para decidir que hacer con el nombre elejido",
                 "Este es un ejempli simple.",
                 "\\Grupo(\nPila() \n[\nFrase('uno' seleccion:T nombre: '1'1) \nFrase('dos' seleccion:T nombre: '2') \nFrase(Elección())\n]\n)\\",
-                "Copea esto en tu editor, despues selecciona una de las dos @Frase. Podras ver que la tercera @Phrase muestra el nombe que fue seleccionado"
+                "Copea esto en tu editor, despues selecciona una de las dos @Phrase. Podras ver que la tercera @Phrase muestra el nombe que fue seleccionado"
             ],
             "names": ["Selección", "Elección"]
         },
@@ -1588,18 +1588,18 @@
             "names": "Botón",
             "down": {
                 "names": "abajo",
-                "doc": "Si es @None, la sequencia va a preveer los dos valors de arriba y abajo. Si es @Booleano, so va a proveer el valor del @Booleano"
+                "doc": "Si es @None, la sequencia va a preveer los dos valors de arriba y abajo. Si es @Boolean, so va a proveer el valor del @Boolean"
             }
         },
         "Pointer": {
             "doc": [
                 "/aquii/",
-                "/@DeficionDeFuncion aqui, yo te la explicare./",
+                "/@FunctionDefinition aqui, yo te la explicare./",
                 "¿Tu conozes sobre ratones, paneles tactiles, y pantallas tactiles? hay veces tu quieres saber en donde tu punter de la audencia esta. Esta es la funcionalida de @Puntero",
                 "Por supuesto, esta no es una opcion accesible: not todo el mundo puede ver or apuntar facilmente, asegurate de que no este excluyendo a nadie usando este stream.",
                 "Si estas seguro de que nadie va a hacer excluido, usar @Puntero es tan simple como hacer un stream:",
                 "\\Pointer()\\",
-                "El @Lugar que provee va a corresponder en donde el punter en el @Escenario es apuntando"
+                "El @Place que provee va a corresponder en donde el punter en el @Stage es apuntando"
             ],
             "names": ["Puntero"]
         },
@@ -1678,8 +1678,8 @@
         "Camera": {
             "doc": [
                 "/bzzzzzzz/",
-                "@FunctionDefinition aqui, yo puedo explicar @Cámara!",
-                "@Cámara proporciona una @List de @Color de tu mundo. Esa lista esencialmente representa una imagen, pero tu eres el que decides que hacer con el.",
+                "@FunctionDefinition aqui, yo puedo explicar @Camera!",
+                "@Camera proporciona una @List de @Color de tu mundo. Esa lista esencialmente representa una imagen, pero tu eres el que decides que hacer con el.",
                 "Tu puedes intentar a representar la imagen con un montón de @Phrase, que se vería muy bien bonito! Intenta copiar esto...",
                 "\\colors: Camera(32px 24px 33ms)\n\nStage(\ncolors.combine(\n[] \nƒ(phrases•[Phrase] row•[Color] y•#) \nphrases.append(\nrow.translate(\nƒ(color•Color x•#)\nPhrase('o' place: Place((x - 1) · 0.5m y · -0.5m) color: color duration: 0s\n)\n)\n)\n)\n)\\",
                 "Pero también puedes analizar los colores para decidir si una luz estava encendida o apagada, o si un color en particular era común, dejando que la audencia influya la actuación con los colors que muestran."
@@ -1701,69 +1701,69 @@
         "Motion": {
             "names": "movimiento",
             "doc": [
-                "/Hey! @DefinicionDeFuncion aqui. Que tal si te explico @Movimiento?",
-                "Basicamente, @Movimiento es un stream de @Frase. Le pasas un @Frase inicial, y depues la refina a un nuevo lugar y rotacion basado en la gravedad.",
+                "/Hey! @DefinicionDeFuncion aqui. Que tal si te explico @Movement?",
+                "Basicamente, @Movement es un stream de @Phrase. Le pasas un @Phrase inicial, y depues la refina a un nuevo lugar y rotacion basado en la gravedad.",
                 "Esto te deja hace cosas simples como crear un emoji rebotando:",
                 "\\Movimiento(Phrase('o') comienzo: Lugar(0m 10m))\\",
-                "Ves como rebota? En la primera evaluacion, le damos una posición alta en el @Escenario, pero depues, recive @Nada, lo cual deja que el @Movimiento pueda cambiar a cualquier posición en que la gravedad la puede poner",
+                "Ves como rebota? En la primera evaluacion, le damos una posición alta en el @Stage, pero depues, recive @None, lo cual deja que el @Movement pueda cambiar a cualquier posición en que la gravedad la puede poner",
                 "Mira otras maneras the configurarlo abajo."
             ],
             "type": {
-                "doc": "La @Frase para refinar la nueva @Frase/descancado en lugars y rotaciones.",
+                "doc": "La @Phrase para refinar la nueva @Phrase/descancado en lugars y rotaciones.",
                 "names": "tipo"
             },
             "startplace": {
-                "doc": "El lugar inical para la @Frase",
+                "doc": "El lugar inical para la @Phrase",
                 "names": "lugarInicial"
             },
             "startvx": {
-                "doc": "La velocidad inicial sobre el eje x en la que la @Frase deberia de moverse ",
+                "doc": "La velocidad inicial sobre el eje x en la que la @Phrase deberia de moverse ",
                 "names": "vxinicial"
             },
             "startvy": {
-                "doc": "La velocidad incial sobre el eje y, en la que la @Frase deberia de moverse, si anula la gravedad",
+                "doc": "La velocidad incial sobre el eje y, en la que la @Phrase deberia de moverse, si anula la gravedad",
                 "names": "vyinicial"
             },
             "startvz": {
-                "doc": "La velocidad inicial sobre el eje z, en la que la @Frase bederia moverse",
+                "doc": "La velocidad inicial sobre el eje z, en la que la @Phrase bederia moverse",
                 "names": "vzinicia"
             },
             "startvangle": {
-                "doc": "La velocidad rotacional incia en la que la @Frase deberia de rotar",
+                "doc": "La velocidad rotacional incia en la que la @Phrase deberia de rotar",
                 "names": "angulavinicial"
             },
             "vx": {
-                "doc": "La velocidad sobre el eje x, en la cual la @Frase deberia de moverse, independientemente de la fisica.",
+                "doc": "La velocidad sobre el eje x, en la cual la @Phrase deberia de moverse, independientemente de la fisica.",
                 "names": "vx"
             },
             "vy": {
-                "doc": "La velocidad sobre el eje y, en la cual la @Frase deberia de moverse, independientemente de la fisica",
+                "doc": "La velocidad sobre el eje y, en la cual la @Phrase deberia de moverse, independientemente de la fisica",
                 "names": "vy"
             },
             "vz": {
-                "doc": "La velocidad sobre el eje z, en la cual la @Frase deberia de moverse, independientement de la fisica",
+                "doc": "La velocidad sobre el eje z, en la cual la @Phrase deberia de moverse, independientement de la fisica",
                 "names": "vz"
             },
             "vangle": {
-                "doc": "La velocidad rotacional, en la cual la @Frase deberia de rotar, independientemente de la fisica",
+                "doc": "La velocidad rotacional, en la cual la @Phrase deberia de rotar, independientemente de la fisica",
                 "names": "angulov"
             },
             "mass": {
-                "doc": "La cantidad de masa de una @Frase, que puede afectar colisiones.",
+                "doc": "La cantidad de masa de una @Phrase, que puede afectar colisiones.",
                 "names": "masa"
             },
             "bounciness": {
-                "doc": "La fraccion entre 0 y 1 que determina cuanto la velocidad sera amortiguada cuando una @Frase choca",
+                "doc": "La fraccion entre 0 y 1 que determina cuanto la velocidad sera amortiguada cuando una @Phrase choca",
                 "names": "rebote"
             },
             "gravity": {
-                "doc": "La gravedad para aplicar a @Movimientio/vy",
+                "doc": "La gravedad para aplicar a @Movement/vy",
                 "names": "gravedad"
             }
         },
         "Chat": {
             "doc": [
-                "/Hola! @DeficionDeFuncion aqui. Entonces quieres charlar?",
+                "/Hola! @FunctionDefinition aqui. Entonces quieres charlar?",
                 "La idea basica de el stream de charla, esque la audencia escribe un mensaje, y el program le responde.",
                 "Por ejemplo, ese simple programa, chequea si el mensaje es 'hola', y si es asi, el programa lo evalua a 'hey!'. De no ser asi, se evaluara a 'que?'",
                 "\\Charla().tiene('hola') ? 'hey! 'que?'\\",
@@ -1774,10 +1774,10 @@
         "Placement": {
             "doc": ["colocación"],
             "names": [
-                "/Hola, @DefinicionDeFuncion aqui. Vamos a hablar sobre como hacer que nos movamos!/",
-                "Hay muchas maneras de colocarnos en un @Escenario. Nos puedes dar un @Lugar explicito. Tambien puedes usar @Movimientio, y deja que la gravedad haga su trabajo. Tambien nos puedes poner en un @Grupo y deja que nos arreglen en una manera particular.",
-                "Pero hay veces tu le quieres dar a la /audiencia/ el control sobre en donde estamos en el @Escenario. Para eso el @Colocacion.",
-                "Asi es como funciona: simplemente crea una @Colocacion y pasaselo a nuestro @Lugar:",
+                "/Hola, @FunctionDefinition aqui. Vamos a hablar sobre como hacer que nos movamos!/",
+                "Hay muchas maneras de colocarnos en un @Stage. Nos puedes dar un @Place explicito. Tambien puedes usar @Motion, y deja que la gravedad haga su trabajo. Tambien nos puedes poner en un @Group y deja que nos arreglen en una manera particular.",
+                "Pero hay veces tu le quieres dar a la /audiencia/ el control sobre en donde estamos en el @Stage. Para eso el @Colocacion.",
+                "Asi es como funciona: simplemente crea una @Colocacion y pasaselo a nuestro @Place:",
                 "\\Frase('hola' lugar:Colocacion())\\",
                 "Entonces, cada ves que la audencia use una tecla de flecha or haga click o tap en el escenario, la @Colocacion "
             ],
@@ -1838,7 +1838,7 @@
             ],
             "description": "escenario $1[$1|] of $2 frases $3[$3 marco|] $4",
             "content": {
-                "doc": "La lista de @Tipo para mostrar en el escenario.",
+                "doc": "La lista de @Output para mostrar en el escenario.",
                 "names": "contenido"
             },
             "frame": {
@@ -1846,11 +1846,11 @@
                 "names": "marco"
             },
             "size": {
-                "doc": "COMO @Grupo/tamaño",
+                "doc": "COMO @Group/tamaño",
                 "names": "tamaño"
             },
             "face": {
-                "doc": "COMO @Grupo/fuente",
+                "doc": "COMO @Group/fuente",
                 "names": "fuente"
             },
             "place": {
@@ -1858,67 +1858,67 @@
                 "names": "lugar"
             },
             "name": {
-                "doc": ["IGUAL QUE @Frase/nombre"],
+                "doc": ["IGUAL QUE @Phrase/nombre"],
                 "names": "nombre"
             },
             "selectable": {
-                "doc": "IGUAL QUE @Frase/seleccionable",
+                "doc": "IGUAL QUE @Phrase/seleccionable",
                 "names": "seleccionable"
             },
             "color": {
-                "doc": "IGUAL QUE @Grupo/color",
+                "doc": "IGUAL QUE @Group/color",
                 "names": "color"
             },
             "background": {
-                "doc": "IGUAL QUE @Grupo/fondo",
+                "doc": "IGUAL QUE @Group/fondo",
                 "names": "fondo"
             },
             "opacity": {
-                "doc": "IGUAL QUE @Grupo/opacidad",
+                "doc": "IGUAL QUE @Group/opacidad",
                 "names": "opacidad"
             },
             "offset": {
-                "doc": "IGUAL QUE @Grupo/compensar",
+                "doc": "IGUAL QUE @Group/compensar",
                 "names": "compensar"
             },
             "rotation": {
-                "doc": "IGUAL QUE @Grupo/rotación",
+                "doc": "IGUAL QUE @Group/rotación",
                 "names": "rotación"
             },
             "scale": {
-                "doc": "IGUAL QUE @Grupo/escala ",
+                "doc": "IGUAL QUE @Group/escala ",
                 "names": "escala"
             },
             "flipx": {
-                "doc": "IGUAL QUE @Grupo/voltearx",
+                "doc": "IGUAL QUE @Group/voltearx",
                 "names": "voltearx"
             },
             "flipy": {
-                "doc": "IGUAL QUE @Grupo/volteary",
+                "doc": "IGUAL QUE @Group/volteary",
                 "names": "volteary"
             },
             "entering": {
-                "doc": "IGUAL QUE @Grupo/entrando",
+                "doc": "IGUAL QUE @Group/entrando",
                 "names": "entrando"
             },
             "resting": {
-                "doc": "IGUAL QUE @Grupo/descandando",
+                "doc": "IGUAL QUE @Group/descandando",
                 "names": "descansando"
             },
             "moving": {
-                "doc": "IGUAL QUE @Grupo/moviendo",
+                "doc": "IGUAL QUE @Group/moviendo",
                 "names": "moviendo"
             },
             "exiting": {
-                "doc": "IGUAL QUE @Grupo/saliendo",
+                "doc": "IGUAL QUE @Group/saliendo",
                 "names": "saliendo"
             },
             "duration": {
-                "doc": "IGUAL QUE @Frase/duración",
+                "doc": "IGUAL QUE @Phrase/duración",
                 "names": "duración"
             },
             "style": {
-                "doc": "IGUAL QUE @Frase/estilo",
+                "doc": "IGUAL QUE @Phrase/estilo",
                 "names": "estilo"
             }
         },
@@ -1926,19 +1926,19 @@
             "names": "Group",
             "doc": [
                 "Ah hola ¿como estas? Yo siempre estoy bien cunado hay otros cerca, ¡así que es maravilloso de verte!",
-                "Yo agrupo @Frase y @Grupo en el @Escenario y los pongo en un @Arreglo para que haya cierto orden en el lugar donde se colocan.",
-                "Para trabajar necesito que me des un @Arreglo y despues una @Lista de @Tipo para arreglar.",
-                "Por ejemplo, aqui estoy con una @Pila arreglo y unas @Frases para colocar verticalmente:",
+                "Yo agrupo @Phrase y @Group en el @Stage y los pongo en un @Arrangement para que haya cierto orden en el lugar donde se colocan.",
+                "Para trabajar necesito que me des un @Arrangement y despues una @List de @Output para arreglar.",
+                "Por ejemplo, aqui estoy con una @Stack arreglo y unas @Phrases para colocar verticalmente:",
                 "\\Grupo(Pila() [Frase('primera') Frase('segunda')])\\",
-                "Cómo los organizo depende del @Arreglo que tu me das."
+                "Cómo los organizo depende del @Arrangement que tu me das."
             ],
             "description": "$1[$1|] $2 $3",
             "content": {
-                "doc": "La lista de @Tipo para arreglar",
+                "doc": "La lista de @Output para arreglar",
                 "names": "content"
             },
             "layout": {
-                "doc": "El arreglo para poner @Tipo en su lugar",
+                "doc": "El arreglo para poner @Output en su lugar",
                 "names": "layout"
             },
             "size": {
@@ -1954,11 +1954,11 @@
                 "names": "place"
             },
             "name": {
-                "doc": ["Lo mismo que @Frase/nombre"],
+                "doc": ["Lo mismo que @Phrase/nombre"],
                 "names": "nombre"
             },
             "selectable": {
-                "doc": "Lo mismo que @Frase/seleccionable",
+                "doc": "Lo mismo que @Phrase/seleccionable",
                 "names": "seleccionable"
             },
             "color": {
@@ -1974,7 +1974,7 @@
                 "names": "opacidad"
             },
             "offset": {
-                "doc": "Un @Lugar que indica qué tan alejado debe estar de mi @Lugar normal, a menos que lo anule un @Pose diferente. Útil para moverse en su lugar.",
+                "doc": "Un @Place que indica qué tan alejado debe estar de mi @Place normal, a menos que lo anule un @Pose diferente. Útil para moverse en su lugar.",
                 "names": "compensar"
             },
             "rotation": {
@@ -1986,50 +1986,50 @@
                 "names": "escala"
             },
             "flipx": {
-                "doc": "¡Igual que @Frase/voltearx!",
+                "doc": "¡Igual que @Phrase/voltearx!",
                 "names": "voltearx"
             },
             "flipy": {
-                "doc": "¡Igual que @Frase/volteary!",
+                "doc": "¡Igual que @Phrase/volteary!",
                 "names": "volteary"
             },
             "entering": {
-                "doc": "¡Igual que @Grupo/entrando!",
+                "doc": "¡Igual que @Group/entrando!",
                 "names": "entrando"
             },
             "resting": {
-                "doc": "¡Igual que @Grupo/descandando!",
+                "doc": "¡Igual que @Group/descandando!",
                 "names": "descansando"
             },
             "moving": {
-                "doc": "¡Igual que @Grupo/moviendo!",
+                "doc": "¡Igual que @Group/moviendo!",
                 "names": "moviendo"
             },
             "exiting": {
-                "doc": "¡Igual que @Grupo/saliendo!",
+                "doc": "¡Igual que @Group/saliendo!",
                 "names": "saliendo"
             },
             "duration": {
-                "doc": "¡Igual que @Frase/duración!",
+                "doc": "¡Igual que @Phrase/duración!",
                 "names": "duración"
             },
             "style": {
-                "doc": "¡Igual queE @Frase/estilo!",
+                "doc": "¡Igual queE @Phrase/estilo!",
                 "names": "estilo"
             }
         },
         "Phrase": {
             "names": "Frase",
             "doc": [
-                "¡Hola, hola! ¿Me recuerdas? ¿Cómo podría alguien olvidarse de /mí/? Eso es correcto, yo soy la frase maravillosa, lista para representar el @Texto hermoso en el @Esenario.",
-                "Solo hazme así, y aparecerá en el @Escenario:",
+                "¡Hola, hola! ¿Me recuerdas? ¿Cómo podría alguien olvidarse de /mí/? Eso es correcto, yo soy la frase maravillosa, lista para representar el @Text hermoso en el @Stage.",
+                "Solo hazme así, y aparecerá en el @Stage:",
                 "\\Frase('¡magnífico!')\\",
-                "Necesito @Texto obviamente, pero de otro modo, yo puedo aser todo que un @Tipo puedo hacer, incluyendo cambiando mi tamaño, fuente, rotacion, y todo los bailes con @Pose y @Sequencia.",
-                "Tambien puedes seleccionarme en el @Escenario y editarme con la paleta cerca de la puerta."
+                "Necesito @Text obviamente, pero de otro modo, yo puedo aser todo que un @Output puedo hacer, incluyendo cambiando mi tamaño, fuente, rotacion, y todo los bailes con @Pose y @Sequence.",
+                "Tambien puedes seleccionarme en el @Stage y editarme con la paleta cerca de la puerta."
             ],
             "description": "$3[$3 metro |]frase $1 $2[llamdo $2|] $4[$4|] $5",
             "text": {
-                "doc": "Los personajes a mostrar en el @Escenario",
+                "doc": "Los personajes a mostrar en el @Stage",
                 "names": "texto"
             },
             "size": {
@@ -2049,7 +2049,7 @@
                 "names": "envolver"
             },
             "alignment": {
-                "doc": "Si hay una límite de @Frase/orilla límite establecido, si debo de alinear los simbolos al principo, en medio, or al final.",
+                "doc": "Si hay una límite de @Phrase/orilla límite establecido, si debo de alinear los simbolos al principo, en medio, or al final.",
                 "names": "alineación"
             },
             "name": {
@@ -2057,7 +2057,7 @@
                     "¡Un nombre que me das! Esto es muy útil para muchas cosas.",
                     "Primero, si tengo un nombre, yo lo usare para describirme en descripciones de lectoras de pantalla.",
                     "Segundo, cuando animas, puedes tener muchas expresiones que representan el mismo contenido en el escenario; darles el mismo nombre y ellos animarán como uno.",
-                    "Finalmente, yo soy útil con @Elección: los nombres que me das aparecen en esa sequencia.",
+                    "Finalmente, yo soy útil con @Choice: los nombres que me das aparecen en esa sequencia.",
                     "Puedes darme mucho nombres diferentes, cada uno en una idioma diferente, si es útil. Yo siempre usara el nombre en la idioma seleccionada primero."
                 ],
                 "names": "nombre"
@@ -2079,7 +2079,7 @@
                 "names": "opacidad"
             },
             "offset": {
-                "doc": "Un @Lugar indicando qué tan compensado debe estar de mi @Lugar, a menos que fuera anulado por una @Pose diferente.",
+                "doc": "Un @Place indicando qué tan compensado debe estar de mi @Place, a menos que fuera anulado por una @Pose diferente.",
                 "names": "compensar"
             },
             "rotation": {
@@ -2099,19 +2099,19 @@
                 "names": "volteary"
             },
             "entering": {
-                "doc": "La @Pose o @Sequencia que debo de hacer cuando entro el escenario",
+                "doc": "La @Pose o @Sequence que debo de hacer cuando entro el escenario",
                 "names": "entrando"
             },
             "resting": {
-                "doc": "La @Pose o @Sequencia que debo de hacer después que entro en el escenario, antes que salgo, y cuando mi @Lugar no esta cambiando. Si no me quieres dar uno, usaré el predeterminado.",
+                "doc": "La @Pose o @Sequence que debo de hacer después que entro en el escenario, antes que salgo, y cuando mi @Place no esta cambiando. Si no me quieres dar uno, usaré el predeterminado.",
                 "names": "descansando"
             },
             "moving": {
-                "doc": "La @Pose o @Sequencia que debo de hacer cuando cambio de lugar en el escenario en lugar de mi defecto.",
+                "doc": "La @Pose o @Sequence que debo de hacer cuando cambio de lugar en el escenario en lugar de mi defecto.",
                 "names": "moviendo"
             },
             "exiting": {
-                "doc": "La @Pose o @Sequencia que debo de hacer antes de salir del escenario",
+                "doc": "La @Pose o @Sequence que debo de hacer antes de salir del escenario",
                 "names": "saliendo"
             },
             "duration": {
@@ -2125,11 +2125,11 @@
         },
         "Arrangement": {
             "names": ["Arreglo"],
-            "doc": "Soy una inspiración para muchos otros tipos de arreglos en Verse, incluidos @Fila, @Pila, @Cuadrícula y @Suelto. Trabajo estrechamente con @Grupo."
+            "doc": "Soy una inspiración para muchos otros tipos de arreglos en Verse, incluidos @Row, @Stack, @Grid y @Free. Trabajo estrechamente con @Group."
         },
         "Row": {
             "names": ["Fila"],
-            "doc": "Soy @Fila, un @Arreglo horizontal de @Tipo, con relleno opcional. Has conocido a mi gemelo @Pila?",
+            "doc": "Soy @Row, un @Arrangement horizontal de @Output, con relleno opcional. Has conocido a mi gemelo @Stack?",
             "description": "fila de $1 frases y grupos",
             "alignment": {
                 "doc": "Si alinear el texto al inicio, al centro o al final de cada columna.",
@@ -2142,7 +2142,7 @@
         },
         "Stack": {
             "names": "Pila",
-            "doc": "Soy @Pila, un @Arreglo vertical de @Tipo, con relleno opcional. Has conocido a mi gemelo @Fila",
+            "doc": "Soy @Stack, un @Arrangement vertical de @Output, con relleno opcional. Has conocido a mi gemelo @Row",
             "description": "pila de $1 frases y grupos",
             "alignment": {
                 "doc": "Si alinear el texto al inicio, al centro o al final de cada columna.",
@@ -2155,7 +2155,7 @@
         },
         "Grid": {
             "names": "cuadrícula",
-            "doc": "Soy cuadrícula de @Tipo. Dame un recuento de filas y columnas y haré un arreglo ordenado con relleno y tamaños de celda opcionales. ",
+            "doc": "Soy cuadrícula de @Output. Dame un recuento de filas y columnas y haré un arreglo ordenado con relleno y tamaños de celda opcionales. ",
             "description": "cuadrícula de $1 fila, $2 columnas",
             "rows": {
                 "doc": "Cuantas filas hacer en la cuadrícula.",
@@ -2181,18 +2181,18 @@
         "Free": {
             "names": "Suelto",
             "doc": [
-                "Soy como lo que sea. Sientate donde quieras. ¡Simplemente sientate! Asegúrate que todos los @Tipo que me das tiene un @Lugar, si no no van a saber a donde ir.",
-                "Oh, ¡y recuerda que el @Lugar que le das a cada @Tipo es relativo all @Grupo's @Lugar! Entonces, si te preguntas por qué las cosas no estan apareciendo donde deben, intenta darle al @Grupo un lugar tambien."
+                "Soy como lo que sea. Sientate donde quieras. ¡Simplemente sientate! Asegúrate que todos los @Output que me das tiene un @Place, si no no van a saber a donde ir.",
+                "Oh, ¡y recuerda que el @Place que le das a cada @Output es relativo all @Group's @Place! Entonces, si te preguntas por qué las cosas no estan apareciendo donde deben, intenta darle al @Group un lugar tambien."
             ],
             "description": "forma libre, $1 producción"
         },
         "Shape": {
             "names": "forma",
-            "doc": "Yo soy la inspiración para todos las formas. Soy útil para decirle al @Escenario que forma debe ser."
+            "doc": "Yo soy la inspiración para todos las formas. Soy útil para decirle al @Stage que forma debe ser."
         },
         "Rectangle": {
             "names": "Rectángulo",
-            "doc": "Soy un @Rectángulo, útil para hacer un border de tu elección para el @Escenario.",
+            "doc": "Soy un @Rectángulo, útil para hacer un border de tu elección para el @Stage.",
             "left": {
                 "doc": "Soy la orilla izquierda del escenario en el eje x.",
                 "names": "izquierda"
@@ -2213,7 +2213,7 @@
         "Pose": {
             "names": "Pose",
             "doc": [
-                "Sabes cuando alguien adopta la forma más maravilloso de pararse, hace una pausa y todos miran? Ese soy yo. Capturo una pose para @Tipo y soy el componente básico de sus movimientos.",
+                "Sabes cuando alguien adopta la forma más maravilloso de pararse, hace una pausa y todos miran? Ese soy yo. Capturo una pose para @Output y soy el componente básico de sus movimientos.",
                 "Muchas cosas entran en una pose. ¡Mira mis muchas aportaciones para ver qué tipo de poses puedes hacer!"
             ],
             "duration": {
@@ -2225,31 +2225,31 @@
                 "names": "estilo"
             },
             "color": {
-                "doc": "El @Color un @Tipo debe de hacer en esta pose, en lugar de la pose predeterminada.",
+                "doc": "El @Color un @Output debe de hacer en esta pose, en lugar de la pose predeterminada.",
                 "names": "color"
             },
             "opacity": {
-                "doc": "Qué tan transparente debe ser un @Tipo, entre \\0\\ y \\1\\, en lugar de su valor predeterminado. Útil para desvanecerse y desaparecer.",
+                "doc": "Qué tan transparente debe ser un @Output, entre \\0\\ y \\1\\, en lugar de su valor predeterminado. Útil para desvanecerse y desaparecer.",
                 "names": "opacidad"
             },
             "offset": {
-                "doc": "Un @Lugar que indica qué tan alejado debe estar del lugar de un @Tipo, en lugar de su valor predeterminado. Útil para moverse en su lugar.",
+                "doc": "Un @Place que indica qué tan alejado debe estar del lugar de un @Output, en lugar de su valor predeterminado. Útil para moverse en su lugar.",
                 "names": "offset"
             },
             "rotation": {
-                "doc": "Qué tan girado debe estar un @Tipo, en lugar de su valor predeterminado.",
+                "doc": "Qué tan girado debe estar un @Output, en lugar de su valor predeterminado.",
                 "names": "rotación"
             },
             "scale": {
-                "doc": "Qué tan ampliado debe estar un @Tipo en relación con su tamaño original, en lugar de su tamaño predeterminado.",
+                "doc": "Qué tan ampliado debe estar un @Output en relación con su tamaño original, en lugar de su tamaño predeterminado.",
                 "names": "escala"
             },
             "flipx": {
-                "doc": "Si un @Tipo debe reflejarse en el eje x, en lugar de su valor predeterminado.",
+                "doc": "Si un @Output debe reflejarse en el eje x, en lugar de su valor predeterminado.",
                 "names": "voltearx"
             },
             "flipy": {
-                "doc": "Si un @Type debe reflejarse en el eje y, en lugar de su valor predeterminado.",
+                "doc": "Si un @Output debe reflejarse en el eje y, en lugar de su valor predeterminado.",
                 "names": "volteary"
             },
             "description": "$1[transparente $1|] $2[girado $2 degrees|] $3[magnificado $3|] $4[volteado horizontally|] $5[volteado vertically|]"
@@ -2289,14 +2289,14 @@
             "names": "Secuencia",
             "doc": [
                 "Director, ¡te miras espectacular hoy! Quieres bailar? Es bien facil.",
-                "Solamente necesitas darme una @Mapa donde cada llave representa que porcentaje hemos terminado en el baile, y cada valor de una llave es una @Pose.",
+                "Solamente necesitas darme una @Map donde cada llave representa que porcentaje hemos terminado en el baile, y cada valor de una llave es una @Pose.",
                 "¡Hay muchas formas diferentes de animar con esto! Por ejemplo, aquí tienes uno sencillo:",
                 "\\Frase('hola' descancado:Sequencia({0%: Pose(rotation: 360°) 100%: Pose(rotation: 0°)})\\",
-                "Esto dice, /al principio (0%), comienza en la inclinación 360 y termina en la inclinación 0/. ¡Eso nos hará girar en círculos para siempre, ¡ya que estoy configurado como la pose de descanso de @Frase!",
+                "Esto dice, /al principio (0%), comienza en la inclinación 360 y termina en la inclinación 0/. ¡Eso nos hará girar en círculos para siempre, ¡ya que estoy configurado como la pose de descanso de @Phrase!",
                 "Prueba tus propios bailes creativos jugando con otras entradas."
             ],
             "poses": {
-                "doc": "Una @Mapa de porcentajes entre 0% y 100%, cada uno emparejado con un @Pose. No es necesario que proporcione todos los porcentajes; Moveré suavemente un @Tipo entre los que me des.",
+                "doc": "Una @Map de porcentajes entre 0% y 100%, cada uno emparejado con un @Pose. No es necesario que proporcione todos los porcentajes; Moveré suavemente un @Output entre los que me des.",
                 "names": "poses"
             },
             "duration": {
@@ -2330,7 +2330,7 @@
         },
         "sequence": {
             "sway": {
-                "doc": "Creo una @Sequencia que se balancea hacia adelante y hacia atrás alrededor del centro de un @Tipo.",
+                "doc": "Creo una @Sequence que se balancea hacia adelante y hacia atrás alrededor del centro de un @Output.",
                 "names": ["vaivén"],
                 "angle": {
                     "doc": "Cuánta inclinación en el vaivén.",
@@ -2338,7 +2338,7 @@
                 }
             },
             "bounce": {
-                "doc": "Creo una @Sequencia que rebota @Tipo a una altura determinada.",
+                "doc": "Creo una @Sequence que rebota @Output a una altura determinada.",
                 "names": ["rebotar"],
                 "height": {
                     "doc": "Qué tan alto rebota",
@@ -2346,19 +2346,19 @@
                 }
             },
             "spin": {
-                "doc": "Creo una @Sequencia que gira @Tipo alrededor de su centro.",
+                "doc": "Creo una @Sequence que gira @Output alrededor de su centro.",
                 "names": ["girar"]
             },
             "fadein": {
-                "doc": "Creo una @Sequencia que desvanece @Tipo de invisible a visible.",
+                "doc": "Creo una @Sequence que desvanece @Output de invisible a visible.",
                 "names": ["revelar"]
             },
             "popup": {
-                "doc": "Creo una @Sequencia que hace que @Tipo escale rápidamente en lugar de reducirse a su tamaño normal.",
+                "doc": "Creo una @Sequence que hace que @Output escale rápidamente en lugar de reducirse a su tamaño normal.",
                 "names": ["surgir"]
             },
             "shake": {
-                "doc": "Creo una @Sequencia que hace que parezca que un @Tipo está asustado.",
+                "doc": "Creo una @Sequence que hace que parezca que un @Output está asustado.",
                 "names": ["agitar"]
             }
         }
