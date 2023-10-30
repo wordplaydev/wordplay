@@ -1,6 +1,6 @@
 Font Machine
 === start
-fonts: ["Arvo" "Modak" "Poor Story" "Tangerine" "Monoton" "Quicksand"]
+fonts: ["Arvo" "Modak" "Poor Story" "Tangerine" "Monoton" "Quicksand"]!
 symbols: 'typography' ÷ ''
 
 ƒ randomize() 

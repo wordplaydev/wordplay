@@ -743,6 +743,7 @@ export default class Evaluate extends Expression {
                                         TypeVariable
                             ) ||
                         expectedType.accepts(given.getType(context), context);
+
                     return [
                         ...given.compile(evaluator, context),
                         // Evaluate, but if the type was not acceptable, halt
